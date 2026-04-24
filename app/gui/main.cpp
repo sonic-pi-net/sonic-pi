@@ -69,6 +69,13 @@ int main(int argc, char* argv[])
 
     QApplication app(argc, argv);
 
+#if defined(Q_OS_DARWIN)
+    // Request mic access from the foreground GUI process — requesting from
+    // a background helper (like supersonic) gets auto-denied by macOS.
+    // Permission granted here applies to all child processes.
+    SonicPi::requestMicrophoneAccess();
+#endif
+
     QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
     QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
     QFontDatabase::addApplicationFont(":/fonts/Hack-Bold.ttf");

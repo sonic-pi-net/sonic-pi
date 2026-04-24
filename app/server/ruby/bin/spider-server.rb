@@ -198,7 +198,7 @@ rescue Exception => e
     STDOUT.puts e.backtrace.inspect
     STDOUT.puts e.backtrace
     STDOUT.flush
-    gui.send("/exited-with-boot-error", "Failed to open server port " + server_port.to_s + ", is scsynth already running?")
+    gui.send("/exited-with-boot-error", "Failed to open server port " + server_port.to_s + ", is another instance already running?")
   rescue Errno::EPIPE => e
     STDOUT.puts "GUI not listening, exit anyway."
     STDOUT.flush
@@ -257,7 +257,12 @@ rescue Exception => e
   STDOUT.puts "Spider - Failed to start server: " + e.message
   STDOUT.puts e.backtrace.join("\n")
   STDOUT.flush
-  gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}\n #{e.backtrace}")
+  begin
+    gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}\n #{e.backtrace}")
+  rescue Errno::EPIPE
+    STDOUT.puts "Spider - GUI not listening, exit anyway."
+    STDOUT.flush
+  end
   exit
 end
 
@@ -273,6 +278,8 @@ at_exit do
   STDOUT.flush
 end
 
+
+spider_boot_complete = false
 
 register_api = lambda do |server|
   STDOUT.puts "Spider - Registering incoming Spider Server API endpoints"
@@ -726,6 +733,57 @@ register_api = lambda do |server|
       STDOUT.flush
     end
   end
+
+  # Debounce /supersonic/setup bursts — reinit once after 1s quiet
+  last_setup_time = nil
+  setup_mutex = Mutex.new
+  setup_cv = ConditionVariable.new
+  setup_thread = nil
+
+  server.add_method("/supersonic/setup") do |args|
+    unless spider_boot_complete
+      STDOUT.puts "Spider - received /supersonic/setup (boot) - skipping"
+      STDOUT.flush
+      next
+    end
+
+    STDOUT.puts "Spider - received /supersonic/setup"
+    STDOUT.flush
+    setup_mutex.synchronize do
+      last_setup_time = Time.now
+      setup_cv.broadcast
+    end
+
+    unless setup_thread&.alive?
+      setup_thread = Thread.new do
+        loop do
+          # Wait for 1s quiet — CV broadcast on each event pushes the wait out
+          setup_mutex.synchronize do
+            loop do
+              remaining = 1.0 - (Time.now - last_setup_time)
+              break if remaining <= 0
+              setup_cv.wait(setup_mutex, remaining)
+            end
+          end
+
+          reinit_started_at = Time.now
+          STDOUT.puts "Spider - setup settled, reinitialising..."
+          STDOUT.flush
+          begin
+            sp.cold_swap_reinit!
+          rescue Exception => e
+            STDOUT.puts "Spider - cold swap reinit error: #{e.message}"
+            STDOUT.puts e.backtrace.first(5).join("\n")
+            STDOUT.flush
+          end
+
+          # Loop if an event arrived mid-reinit so it gets its own pass
+          new_event_during_reinit = setup_mutex.synchronize { last_setup_time > reinit_started_at }
+          break unless new_event_during_reinit
+        end
+      end
+    end
+  end
 end
 
 register_api.call(osc_server)
@@ -765,12 +823,23 @@ out_t = Thread.new do
           desc = message[:val] || ""
           linenum = message[:linenum] || -1
           error_line = message[:error_line] || ""
+          # Log BEFORE escaping so the server log stays readable.
+          STDOUT.puts "[ruby-error] SyntaxError job=#{message[:jobid]} line=#{linenum}: #{desc}"
+          STDOUT.puts "[ruby-error]   #{error_line}" unless error_line.to_s.strip.empty?
+          STDOUT.flush
           desc = CGI.escapeHTML(desc)
           gui.send("/syntax_error", message[:jobid], desc, error_line, linenum, linenum.to_s)
         when :error
           desc = message[:val] || ""
           linenum = message[:linenum] || -1
-          trace = message[:backtrace].join("\n")
+          raw_trace = message[:backtrace] || []
+          trace = raw_trace.join("\n")
+          # Log before escaping — without this, user errors only hit the
+          # GUI error pane and never land in spider.log
+          STDOUT.puts "[ruby-error] Exception job=#{message[:jobid]} line=#{linenum}: #{desc}"
+          raw_trace.first(20).each { |f| STDOUT.puts "[ruby-error]   #{f}" }
+          STDOUT.puts "[ruby-error]   (#{raw_trace.size - 20} more frames)" if raw_trace.size > 20
+          STDOUT.flush
           # TODO: Move this escaping to the Qt Client
           desc = CGI.escapeHTML(desc)
           trace = CGI.escapeHTML(trace)
@@ -836,6 +905,9 @@ end
 puts "Spider - Booted Successfully."
 puts "Spider - #{sp.__current_version}, OS #{os}, on Ruby  #{RUBY_VERSION} | #{RbConfig::CONFIG['ruby_version']}."
 puts "Spider - ------------------------------------------"
+
+gui.send("/spider/ready")
+spider_boot_complete = true
 
 
 STDOUT.flush

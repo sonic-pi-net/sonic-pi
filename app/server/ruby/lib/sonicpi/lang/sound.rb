@@ -154,6 +154,28 @@ module SonicPi
         end
       end
 
+      # Wipe job-side scsynth refs on cold swap — the nodes are already dead
+      def nuke_job_scsynth_state!
+        STDOUT.puts "Spider - nuking job scsynth state"
+        STDOUT.flush
+        @job_group_mutex.synchronize { @job_groups.clear }
+        @job_mixers_mutex.synchronize { @job_mixers.clear }
+        @job_busses_mutex.synchronize { @job_busses.clear }
+        STDOUT.puts "Spider - job scsynth state nuked"
+        STDOUT.flush
+      end
+
+      # Stop jobs, then rebuild Studio after SuperSonic cold swap
+      def cold_swap_reinit!
+        STDOUT.puts "Spider - cold swap reinit starting"
+        STDOUT.flush
+        __stop_jobs
+        nuke_job_scsynth_state!
+        @mod_sound_studio.cold_swap_reinit!
+        STDOUT.puts "Spider - cold swap reinit complete"
+        STDOUT.flush
+      end
+
       def live_audio(*params)
         args, opts = split_params_and_merge_opts_array(params)
 

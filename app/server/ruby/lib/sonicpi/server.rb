@@ -206,6 +206,23 @@ module SonicPi
       STDOUT.flush
     end
 
+    # Nuclear reset after a cold-swap world rebuild — no callbacks fired
+    def nuke_scsynth_state!
+      STDOUT.puts "scsynth - nuking scsynth state"
+      STDOUT.flush
+      @osc_events.reset!
+      @CURRENT_NODE_ID.reset!
+      @CURRENT_SYNC_ID.reset!
+      @AUDIO_BUS_ALLOCATOR.reset!
+      @CONTROL_BUS_ALLOCATOR.reset!
+      @BUFFER_ALLOCATOR.reset!
+      @live_synths_mut.synchronize { @live_synths.clear }
+      # World rebuild wipes the notification list
+      request_notifications
+      STDOUT.puts "scsynth - scsynth state nuked"
+      STDOUT.flush
+    end
+
     def group_clear(id, now=false)
       message "grp f #{'%05d' % id} - Clear #{id.inspect}" if @debug_mode
       id = id.to_i
@@ -254,7 +271,8 @@ module SonicPi
         g = Group.new id, self, name
         osc @osc_path_g_new, id, pos_code, target_id
         message "grp n #{'%05d' % id} - Create [#{name}:#{id}] #{position} #{target.inspect}" if @debug_mode
-        g.wait_until_started
+        g.wait_until_started(10)
+        g
       else
         m = "unable to create a node with position: #{position} and target #{target.inspect}"
         message "nde e      - #{m}" if @debug_mode
@@ -289,35 +307,26 @@ module SonicPi
         args_h.each do |k,v|
           normalised_args << k.to_s << v.to_f
         end
-        initial_trigger = false
-        synth_node = nil
 
-        # Try and retrieve a cached synth node (will be here if previously triggered)
+        initial_trigger = false
         synth_node = @live_synths[name_id]
         unless synth_node
           initial_trigger = true
-          # No synth node found in cache - trigger one and cache the result
           node_id = @CURRENT_NODE_ID.next
           synth_node = SynthNode.new(node_id, group_id, self, s_name, args_h, info)
-          # Call on init block if given  - this only happens the first time the synth is initiated
-
-          # cache result
           @live_synths[name_id] = synth_node
         end
-
 
         log synth_node.stats
 
         orig_synth_node_group = synth_node.group
-
-        # Call reset on synth node - this doesn't do anything if the synth
-        # isn't yet in the destroyed state
+        was_destroyed         = synth_node.destroyed?
         synth_node.reset!
 
-        if initial_trigger || (group_id != orig_synth_node_group)
+        # Retrigger on first call, group change, or after cold swap
+        if initial_trigger || was_destroyed || (group_id != orig_synth_node_group)
           pre_trig_blk.call(synth_node) if pre_trig_blk
           on_move_blk.call(synth_node) if on_move_blk
-
 
           synth_node.set_group!(group_id)
 
@@ -624,7 +633,7 @@ module SonicPi
       end
       res = block.yield
       osc @osc_path_sync, id
-      prom.get
+      prom.get(10)
       res
     end
 

@@ -249,7 +249,7 @@ module SonicPi
 
     def mixer_invert_stereo(invert)
       check_for_server_rebooting!(:mixer_invert_stereo)
-      # invert should be true or false
+      @mixer_invert_stereo = invert
       invert_i = invert ? 1 : 0
       @server.node_ctl @mixer, {"invert_stereo" => invert_i}, true
     end
@@ -276,11 +276,13 @@ module SonicPi
 
     def mixer_stereo_mode
       check_for_server_rebooting!(:mixer_stereo_mode)
+      @mixer_force_mono = false
       @server.node_ctl @mixer, {"force_mono" => 0}, true
     end
 
     def mixer_mono_mode
       check_for_server_rebooting!(:mixer_mono_mode)
+      @mixer_force_mono = true
       @server.node_ctl @mixer, {"force_mono" => 1}, true
     end
 
@@ -391,6 +393,136 @@ module SonicPi
       end
     end
 
+    # Nuke scsynth state on cold swap — all node/bus/buffer refs are stale.
+    def nuke_scsynth_state!
+      log_message "Nuking studio scsynth state"
+      @recording_mutex.synchronize do
+        @recorders.each do |bus, (bs, s)|
+          begin
+            bs.free if bs
+          rescue
+          end
+        end
+        @recorders = {}
+      end
+      @buffers = {}
+      @samples = {}
+      @control_busses = {}
+      @amp_synth = nil
+      @mixer = nil
+      @scope = nil
+      @synth_group = nil
+      @fx_group = nil
+      @mixer_group = nil
+      @monitor_group = nil
+      @mixer_bus = nil
+      log_message "Studio scsynth state nuked"
+    end
+
+    # Rebuild everything after a cold swap. Force-replaces @reboot_mutex
+    # after 15s if a previous reinit is stuck — safe only because the
+    # mutex is private to this method.
+    def cold_swap_reinit!
+      start = Time.now
+      acquired = false
+      deadline = Time.now + 15
+      while Time.now < deadline
+        if @reboot_mutex.try_lock
+          acquired = true
+          break
+        end
+        sleep 0.1
+      end
+
+      unless acquired
+        STDOUT.puts "WARNING: previous reinit stuck, forcing new mutex"
+        STDOUT.flush
+        @reboot_mutex = Mutex.new
+        @reboot_mutex.lock
+      end
+
+      begin
+        @rebooting = true
+        message "Reinitialising after device change..."
+
+        # Phase-failure logging with backtrace — `message` alone loses context
+        log_phase_err = lambda do |label, e|
+          STDOUT.puts "[ruby-error] Studio #{label}: #{e.class}: #{e.message}"
+          (e.backtrace || []).first(15).each { |f| STDOUT.puts "[ruby-error]   #{f}" }
+          STDOUT.flush
+          message "Error #{label}: #{e.message}"
+        end
+
+        begin
+          @server.nuke_scsynth_state!
+          nuke_scsynth_state!
+          STDOUT.puts "Studio - Phase 1: Nuke (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          log_phase_err.call("nuking state", e)
+        end
+
+        # Rebuild needs Studio methods to work — open the gate
+        @rebooting = false
+
+        # Phase 2: Rebuild groups and busses
+        begin
+          reset_and_setup_groups_and_busses
+          STDOUT.puts "Studio - Phase 2: Groups (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          log_phase_err.call("resetting groups", e)
+        end
+
+        # Phase 3: Load synthdefs
+        begin
+          @server.load_synthdefs(Paths.synthdef_path)
+          STDOUT.puts "Studio - Phase 3: Synthdefs (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          log_phase_err.call("loading synthdefs", e)
+        end
+
+        # Phase 4: Start mixer and reapply GUI settings (firing from
+        # updateAudioDeviceConfig targets the dead pre-swap node)
+        begin
+          start_mixer
+          set_volume(@volume, true, true) if @volume
+          mixer_invert_stereo(@mixer_invert_stereo) if @mixer_invert_stereo
+          if @mixer_force_mono
+            mixer_mono_mode
+          end
+          STDOUT.puts "Studio - Phase 4: Mixer (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          log_phase_err.call("starting mixer", e)
+        end
+
+        # Phase 5: Start scope
+        begin
+          start_scope
+          STDOUT.puts "Studio - Phase 5: Scope (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          log_phase_err.call("starting scope", e)
+        end
+
+        # Phase 6: Init studio (synthdefs, samples, rand buffer)
+        begin
+          init_studio
+          STDOUT.puts "Studio - Phase 6: Init (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          log_phase_err.call("in init_studio", e)
+        end
+
+        message "Reinitialisation complete (#{(Time.now - start).round(2)}s)"
+      ensure
+        @rebooting = false
+        @reboot_mutex.unlock if @reboot_mutex.owned?
+      end
+    end
+
     def pause(silent=true)
       @recording_mutex.synchronize do
         unless recording? || @paused
@@ -487,7 +619,14 @@ module SonicPi
       # set_mixer! :default
       log_message "Starting mixer"
       mixer_synth = "sonic-pi-mixer"
-      @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth, {"in_bus" => @mixer_bus.to_i, amp: 6}, nil, true)
+      # Pre-apply user's pre_amp — otherwise amp=6 * default pre_amp=1.0
+      # bursts at full blast for ~100ms before set_volume kicks in
+      initial_pre_amp = @volume ? @volume * 0.2 : 0.2
+      @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth,
+                                      {"in_bus" => @mixer_bus.to_i,
+                                       "amp" => 6,
+                                       "pre_amp" => initial_pre_amp},
+                                      nil, true)
     end
 
     def start_scope

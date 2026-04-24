@@ -17,14 +17,19 @@ cd build
 @REM explicitly, but as we also pass it in here it will be used by the cmake
 @REM build files for app/external
 
-set "VCPKG_TRIPLET=x64-windows-static-md"
+if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
+    set "VCPKG_TRIPLET=arm64-windows-static-md"
+    set "CMAKE_ARCH=ARM64"
+) else (
+    set "VCPKG_TRIPLET=x64-windows-static-md"
+    set "CMAKE_ARCH=x64"
+)
 set "VCPKG_ROOT=%SCRIPT_DIR%vcpkg"
 set "SNDFILE_DIR=%VCPKG_ROOT%\installed\%VCPKG_TRIPLET%\share\libsndfile"
 set "VCPKG_TOOLCHAIN=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake"
-set "VCPKG_TRIPLET=x64-windows-static-md"
 set "VCPKG_FORCE_SYSTEM_BINARIES=1"
 
-cmake -G "Visual Studio 17 2022" -A x64 ^
+cmake -G "Visual Studio 17 2022" -A %CMAKE_ARCH% ^
       -DCMAKE_BUILD_TYPE=%CONFIG% ^
       -DCMAKE_TOOLCHAIN_FILE="%VCPKG_TOOLCHAIN%" ^
       -DVCPKG_TARGET_TRIPLET=%VCPKG_TRIPLET% ^

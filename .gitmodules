@@ -1,0 +1,3 @@
+[submodule "app/external/supersonic"]
+	path = app/external/supersonic
+	url = https://github.com/samaaron/supersonic

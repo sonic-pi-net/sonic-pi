@@ -17,6 +17,12 @@ public:
     bool enable_external_synths;
     bool enable_scsynth_inputs;
 
+    QString audio_driver;
+    QString audio_output_device;   // device name or "__system__"
+    QString audio_input_device;    // device name, "__none__" or "__disabled__"
+    int     audio_sample_rate = 0;
+    int     audio_buffer_size = 0;
+
     // IOSettings
     bool osc_server_enabled;
     bool osc_public;

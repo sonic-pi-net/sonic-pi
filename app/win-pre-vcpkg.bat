@@ -19,8 +19,14 @@ if not exist "vcpkg\vcpkg.exe" (
     cd %~dp0
 )
 
+if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
+    set "VCPKG_TRIPLET=arm64-windows-static-md"
+) else (
+    set "VCPKG_TRIPLET=x64-windows-static-md"
+)
+
 cd vcpkg
-@echo Installing Libraries
-vcpkg install libsndfile[core,external-libs] --triplet x64-windows-static-md --recurse
+@echo Installing Libraries (%VCPKG_TRIPLET%)
+vcpkg install libsndfile[core,external-libs] --triplet %VCPKG_TRIPLET% --recurse
 
 cd %WORKING_DIR%

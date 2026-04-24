@@ -264,6 +264,9 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
         requestVersion();
         changeSystemPreAmp(piSettings->main_volume, 1);
 
+        // Register GUI with SuperSonic for push notifications and get device info
+        m_spAPI->RequestAudioDevices();
+
         QTimer* timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
         timer->start(1000);
@@ -475,9 +478,25 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(clearOutputOnRunChanged()), this, SLOT(changeClearOutputOnRun()));
     connect(settingsWidget, SIGNAL(autoIndentOnRunChanged()), this, SLOT(changeAutoIndentOnRun()));
 
+    connect(settingsWidget, SIGNAL(driverChanged(QString)), this, SLOT(switchAudioDriver(QString)));
+    connect(settingsWidget, SIGNAL(audioOutputDeviceChanged(QString)), this, SLOT(switchAudioDevice(QString)));
+    connect(settingsWidget, SIGNAL(audioInputDeviceChangedSignal(QString)), this, SLOT(switchAudioInputDevice(QString)));
+    connect(settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(changeSampleRate(int)));
+    connect(settingsWidget, SIGNAL(bufferSizeChanged(int)), this, SLOT(changeBufferSize(int)));
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 
     scopeWindow = new ScopeWindow(m_spClient, m_spAPI, this);
+
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioDevicesReceived,
+            this, &MainWindow::updateAudioDevices);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioInputDevicesReceived,
+            this, &MainWindow::updateAudioInputDevices);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioDeviceConfigReceived,
+            this, &MainWindow::updateAudioDeviceConfig);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::SupersonicSetupReceived,
+            this, &MainWindow::onSupersonicSetup);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::SpiderReadyReceived,
+            this, &MainWindow::onSpiderReady);
 
     scopeWindow->Pause();
     scopeWindow->setObjectName("scopes");
@@ -1426,13 +1445,20 @@ void MainWindow::changeEnableScsynthInputs()
     QSignalBlocker blocker(enableScsynthInputsAct);
     enableScsynthInputsAct->setChecked(piSettings->enable_scsynth_inputs);
 
+    // Send live input channel change to SuperSonic (triggers cold swap)
+    // -1 = enable (SuperSonic resolves to boot value or default), 0 = disable.
+    int inputChannels = piSettings->enable_scsynth_inputs ? -1 : 0;
+    Message msg("/supersonic/inputs/enable");
+    msg.pushInt32(inputChannels);
+    m_spAPI->SupersonicSendOSC(msg);
+
     if (piSettings->enable_scsynth_inputs)
     {
-        statusBar()->showMessage(tr("Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect..."), 2000);
+        statusBar()->showMessage(tr("Enabling Audio Inputs..."), 2000);
     }
     else
     {
-        statusBar()->showMessage(tr("Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect..."), 2000);
+        statusBar()->showMessage(tr("Disabling Audio Inputs..."), 2000);
     }
 }
 
@@ -4295,6 +4321,11 @@ void MainWindow::readSettings()
     piSettings->mixer_force_mono = gui_settings->value("prefs/mixer-force-mono", false).toBool();
     piSettings->mixer_invert_stereo = gui_settings->value("prefs/mixer-invert-stereo", false).toBool();
     piSettings->enable_scsynth_inputs = gui_settings->value("/prefs/enable-scsynth-inputs", false).toBool();
+    piSettings->audio_driver        = gui_settings->value("prefs/audio-driver", "").toString();
+    piSettings->audio_output_device = gui_settings->value("prefs/audio-output-device", "").toString();
+    piSettings->audio_input_device  = gui_settings->value("prefs/audio-input-device", "").toString();
+    piSettings->audio_sample_rate   = gui_settings->value("prefs/audio-sample-rate", 0).toInt();
+    piSettings->audio_buffer_size   = gui_settings->value("prefs/audio-buffer-size", 0).toInt();
     piSettings->check_updates = gui_settings->value("prefs/rp/check-updates", true).toBool();
     piSettings->auto_indent_on_run = gui_settings->value("prefs/auto-indent-on-run", true).toBool();
     piSettings->gui_transparency = gui_settings->value("prefs/gui_transparency", 0).toInt();
@@ -4358,6 +4389,11 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);
     gui_settings->setValue("prefs/mixer-invert-stereo", piSettings->mixer_invert_stereo);
     gui_settings->setValue("prefs/enable-scsynth-inputs", piSettings->enable_scsynth_inputs);
+    gui_settings->setValue("prefs/audio-driver",        piSettings->audio_driver);
+    gui_settings->setValue("prefs/audio-output-device", piSettings->audio_output_device);
+    gui_settings->setValue("prefs/audio-input-device",  piSettings->audio_input_device);
+    gui_settings->setValue("prefs/audio-sample-rate",   piSettings->audio_sample_rate);
+    gui_settings->setValue("prefs/audio-buffer-size",   piSettings->audio_buffer_size);
     gui_settings->setValue("prefs/system-vol", piSettings->main_volume);
     gui_settings->setValue("prefs/rp/check-updates", piSettings->check_updates);
     gui_settings->setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
@@ -5183,6 +5219,187 @@ SonicPiEditor* MainWindow::getCurrentEditor()
 void MainWindow::updateScsynthInfo(QString description)
 {
     settingsWidget->updateScsynthInfo(description);
+}
+
+void MainWindow::updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo)
+{
+    m_lastAudioDevices = devicesInfo;
+    m_audioDevicesSeen = true;
+    settingsWidget->updateAudioDevices(devicesInfo);
+    maybeRestoreAudioIntent();
+}
+
+void MainWindow::updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo)
+{
+    m_lastAudioInputDevices = devicesInfo;
+    m_audioInputDevicesSeen = true;
+    settingsWidget->updateAudioInputDevices(devicesInfo);
+    maybeRestoreAudioIntent();
+}
+
+void MainWindow::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo)
+{
+    m_lastAudioDeviceConfig = configInfo;
+    m_audioDeviceConfigSeen = true;
+    settingsWidget->updateAudioDeviceConfig(configInfo);
+
+    // Don't re-push mixer settings here — Spider's cold_swap_reinit!
+    // does that in Phase 4 once the new mixer node exists
+    maybeRestoreAudioIntent();
+}
+
+void MainWindow::maybeRestoreAudioIntent()
+{
+    // Wait for SuperSonic's full initial state before diffing against intent
+    if (m_audioIntentRestored) return;
+    if (!m_audioDevicesSeen || !m_audioInputDevicesSeen || !m_audioDeviceConfigSeen) return;
+    m_audioIntentRestored = true;
+
+    // Driver first — a switch cascades a device re-open, so leave
+    // device/rate/buffer for the next broadcast to settle
+    const QString currentDriver = QString::fromStdString(m_lastAudioDeviceConfig.currentDriver);
+    if (!piSettings->audio_driver.isEmpty() && piSettings->audio_driver != currentDriver) {
+        qInfo().noquote() << "[gui-audio] restore: driver '"
+                          << currentDriver << "' -> '" << piSettings->audio_driver << "'";
+        switchAudioDriver(piSettings->audio_driver);
+        return;
+    }
+
+    // One atomic switch for output/input/rate/buffer — separate calls
+    // race inside SuperSonic's 500ms debounce buffer
+    QString currentOutput;
+    if (m_lastAudioDevices.mode.empty() || m_lastAudioDevices.mode == "system") {
+        currentOutput = QString("__system__");
+    } else {
+        currentOutput = QString::fromStdString(m_lastAudioDevices.currentDevice);
+    }
+    const QString currentInput = QString::fromStdString(m_lastAudioInputDevices.currentDevice);
+
+    const bool needOutput = !piSettings->audio_output_device.isEmpty()
+                         && piSettings->audio_output_device != currentOutput;
+    const bool needInput  = !piSettings->audio_input_device.isEmpty()
+                         && piSettings->audio_input_device != "__disabled__"
+                         && piSettings->audio_input_device != currentInput;
+    const bool needRate   = piSettings->audio_sample_rate > 0
+                         && piSettings->audio_sample_rate != m_lastAudioDeviceConfig.sampleRate;
+    const bool needBuffer = piSettings->audio_buffer_size > 0
+                         && piSettings->audio_buffer_size != m_lastAudioDeviceConfig.bufferSize;
+
+    if (needOutput || needInput || needRate || needBuffer) {
+        const QString device = needOutput ? piSettings->audio_output_device : QString();
+        const QString input  = needInput  ? piSettings->audio_input_device  : QString();
+        const int     rate   = needRate   ? piSettings->audio_sample_rate   : 0;
+        const int     buffer = needBuffer ? piSettings->audio_buffer_size   : 0;
+        qInfo().noquote() << "[gui-audio] restore: atomic switch device='"
+                          << device << "' input='" << input
+                          << "' rate=" << rate << " buffer=" << buffer;
+        sendDeviceSwitch(device, rate, buffer, input);
+    }
+}
+
+void MainWindow::sendDeviceSwitch(QString device, int sampleRate, int bufferSize,
+                                  QString inputDevice)
+{
+    qInfo().noquote() << "[gui-audio] OSC sendDeviceSwitch: device='" << device
+                      << "' sr=" << sampleRate << " buf=" << bufferSize
+                      << " input='" << inputDevice << "'";
+    Message msg("/daemon/audio/switch-device");
+    msg.pushInt32(m_spAPI->GetToken());
+    msg.pushStr(device.toStdString());
+    msg.pushFloat(static_cast<float>(sampleRate));
+    msg.pushInt32(bufferSize);
+    // Fifth arg: input device (empty = leave unchanged)
+    msg.pushStr(inputDevice.toStdString());
+    m_spAPI->SendDaemonOSC(msg);
+}
+
+void MainWindow::switchAudioDriver(QString driver)
+{
+    piSettings->audio_driver = driver;
+    gui_settings->setValue("prefs/audio-driver", driver);
+    Message msg("/daemon/audio/switch-driver");
+    msg.pushInt32(m_spAPI->GetToken());
+    msg.pushStr(driver.toStdString());
+    m_spAPI->SendDaemonOSC(msg);
+}
+
+void MainWindow::switchAudioDevice(QString device)
+{
+    piSettings->audio_output_device = device;
+    gui_settings->setValue("prefs/audio-output-device", device);
+    sendDeviceSwitch(device, 0, 0);
+}
+
+void MainWindow::switchAudioInputDevice(QString device)
+{
+    piSettings->audio_input_device = device;
+    gui_settings->setValue("prefs/audio-input-device", device);
+
+    // "-- DISABLED --" carries __disabled__ as item data (from the greyed-
+    // out dropdown when the Enable Inputs checkbox is off).
+    if (device == "__disabled__" || device == tr("-- DISABLED --")) {
+        // Disable audio inputs
+        Message msg("/daemon/audio/switch-device");
+        msg.pushInt32(m_spAPI->GetToken());
+        msg.pushStr("");           // keep current output device
+        msg.pushFloat(0);          // keep current sample rate
+        msg.pushInt32(0);          // keep current buffer size
+        msg.pushStr("__none__");   // sentinel: disable inputs
+        m_spAPI->SendDaemonOSC(msg);
+        return;
+    }
+
+    // "-- None --" means "no input device connected" — SuperSonic runs
+    // without input but the dropdown stays active so the user can pick
+    // a device later. Same command as disable, different GUI state.
+    if (device == tr("-- None --")) {
+        Message msg("/daemon/audio/switch-device");
+        msg.pushInt32(m_spAPI->GetToken());
+        msg.pushStr("");           // keep current output device
+        msg.pushFloat(0);          // keep current sample rate
+        msg.pushInt32(0);          // keep current buffer size
+        msg.pushStr("__none__");   // sentinel: no input
+        m_spAPI->SendDaemonOSC(msg);
+        return;
+    }
+
+    Message msg("/daemon/audio/switch-device");
+    msg.pushInt32(m_spAPI->GetToken());
+    msg.pushStr("");           // keep current output device
+    msg.pushFloat(0);          // keep current sample rate
+    msg.pushInt32(0);          // keep current buffer size
+    msg.pushStr(device.toStdString());
+    m_spAPI->SendDaemonOSC(msg);
+}
+
+void MainWindow::changeSampleRate(int rate)
+{
+    piSettings->audio_sample_rate = rate;
+    gui_settings->setValue("prefs/audio-sample-rate", rate);
+    sendDeviceSwitch("", rate, 0);
+}
+
+void MainWindow::changeBufferSize(int size)
+{
+    piSettings->audio_buffer_size = size;
+    gui_settings->setValue("prefs/audio-buffer-size", size);
+    sendDeviceSwitch("", 0, size);
+}
+
+void MainWindow::onSupersonicSetup(int sampleRate, int bufferSize)
+{
+    m_spAPI->RequestAudioDevices();
+}
+
+void MainWindow::onSpiderReady()
+{
+    honourPrefs();
+    changeSystemPreAmp(piSettings->main_volume, 1);
+    // Force the audio processor to reconnect to the scope shared memory.
+    // After a cold swap, the scsynth World is rebuilt and the scope buffer
+    // pool is reinitialised — our reader's pointer is stale until it
+    // re-attaches. Without this, the scope widget shows a flat line.
+    m_spAPI->AudioProcessor_ResetConnection();
 }
 
 void MainWindow::scsynthBootError()

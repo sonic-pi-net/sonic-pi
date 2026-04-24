@@ -241,7 +241,7 @@ if (APPLE)
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     RESOURCE "images/app.icns"
-    LINK_FLAGS "-framework AppKit"
+    LINK_FLAGS "-framework AppKit -framework AVFoundation"
     OUTPUT_NAME ${MACOS_APP_NAME}
     )
   file(
@@ -284,6 +284,18 @@ if (APPLE)
     TARGET ${APP_NAME}
     POST_BUILD
     COMMAND plutil -replace NSMicrophoneUsageDescription -string "Sonic Pi needs microphone access for its live audio input features." ${MACOS_APP_NAME}.app/Contents/Info.plist
+  )
+  # Re-sign the whole bundle after the plutil edits above, otherwise the
+  # Info.plist is no longer bound to the signature (codesign -dv reports
+  # "Info.plist=not bound"). macOS silently ignores the TCC usage-
+  # description keys in an unbound Info.plist, so NSMicrophoneUsageDescription
+  # is present but the mic prompt never fires — live audio then delivers
+  # zero-filled buffers forever. An ad-hoc deep re-sign rebinds the plist.
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND codesign --force --deep --sign - ${MACOS_APP_NAME}.app
+    COMMENT "Re-signing bundle so Info.plist edits are bound to the signature (required for TCC)"
   )
 endif()
 

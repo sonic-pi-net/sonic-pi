@@ -3,7 +3,11 @@ set(APP_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
 # Different triplet for windows
 if (WIN32)
-    set(VCPKG_TARGET_TRIPLET x64-windows-static-md CACHE STRING "triplet")
+    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
+        set(VCPKG_TARGET_TRIPLET arm64-windows-static-md CACHE STRING "triplet")
+    else()
+        set(VCPKG_TARGET_TRIPLET x64-windows-static-md CACHE STRING "triplet")
+    endif()
 endif()
 
 # vcpkg toolchain - Must be declared before project

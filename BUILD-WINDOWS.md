@@ -26,11 +26,14 @@ and to run
 
 ### Notes
 
+* **ARM64 Windows** (e.g. Qualcomm Snapdragon / Surface Laptop): See
+  [BUILD-WINDOWS-ARM64.md](BUILD-WINDOWS-ARM64.md) for dedicated ARM64
+  native build instructions. The instructions below are for x86-64.
 * If you have any issues building Sonic Pi on Windows please open up an
   issue on GitHub and we'll try our best to assist you:
   https://github.com/sonic-pi-net/sonic-pi/issues
 * The current build on Windows is assumed to be a 64 bit build done with
-  Visual Studio 2019 (Community edition is fine).
+  Visual Studio 2022 (Community edition is fine).
 * If you're attempting to build 32 bit binaries, there are equivalent
   32-bit build scripts, but these are currently largely untested.
 

@@ -63,6 +63,25 @@ class APIClient : public IAPIClient
         std::cout << scsynthInfo.text;
     }
 
+    virtual void AudioDevices(const AudioDevicesInfo& devicesInfo) override
+    {
+    }
+
+    virtual void AudioInputDevices(const AudioInputDevicesInfo& devicesInfo) override
+    {
+    }
+
+    virtual void AudioDeviceConfig(const AudioDeviceConfigInfo& configInfo) override
+    {
+    }
+
+    virtual void SupersonicSetup(int sampleRate, int bufferSize) override
+    {
+    }
+
+    virtual void SpiderReady() override
+    {
+    }
 
 };
 
