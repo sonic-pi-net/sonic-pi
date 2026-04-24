@@ -23,6 +23,9 @@ fi
 
 cd "${SCRIPT_DIR}"
 
+echo "Fetching submodules (app/external/supersonic)..."
+git -C "${SCRIPT_DIR}/.." submodule update --init --recursive
+
 "${SCRIPT_DIR}"/mac-pre-vcpkg.sh "$@"
 
 echo "Compiling native ruby extensions..."

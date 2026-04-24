@@ -29,6 +29,9 @@ done
 
 cd "${SCRIPT_DIR}"
 
+echo "Fetching submodules (app/external/supersonic)..."
+git -C "${SCRIPT_DIR}/.." submodule update --init --recursive
+
 echo "Compiling native ruby extensions..."
 ruby "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 

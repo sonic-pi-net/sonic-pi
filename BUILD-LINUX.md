@@ -92,8 +92,13 @@ The easiest way of getting this is likely to be cloning from GitHub
 into a folder on your hard drive such as `~/Development/sonic-pi`:
 
 ```
-git clone https://github.com/sonic-pi-net/sonic-pi.git ~/Development/sonic-pi
+git clone --recurse-submodules https://github.com/sonic-pi-net/sonic-pi.git ~/Development/sonic-pi
 ```
+
+(The `--recurse-submodules` flag fetches the SuperSonic audio engine at
+`app/external/supersonic`. If you forget it, the `linux-prebuild.sh`
+script will run `git submodule update --init --recursive` for you on
+first run.)
 
 If you don't have Git installed you should be able to download a `.zip`
 file of the latest commit or specific release (v3.3+) you'd like to

@@ -9,7 +9,7 @@ If you're already familiar with the terminal and running shell scripts,
 etc., you can fetch, build and start Sonic Pi with the following:
 
 ```
-git clone https://github.com/sonic-pi-net/sonic-pi.git
+git clone --recurse-submodules https://github.com/sonic-pi-net/sonic-pi.git
 cd sonic-pi/app
 ./pi-setup.sh
 ./pi-build-all.sh
@@ -59,8 +59,12 @@ The easiest way of getting this is to clone from GitHub
 into a local folder such as `~/Development/sonic-pi`:
 
 ```
-git clone https://github.com/sonic-pi-net/sonic-pi.git ~/Development/sonic-pi
+git clone --recurse-submodules https://github.com/sonic-pi-net/sonic-pi.git ~/Development/sonic-pi
 ```
+
+(The `--recurse-submodules` flag fetches the SuperSonic audio engine at
+`app/external/supersonic`. If you forget it, the prebuild step will
+run `git submodule update --init --recursive` for you on first run.)
 
 By default this will check out the `dev` branch which contains all the
 most recent development work. If you'd like the latest stable release
