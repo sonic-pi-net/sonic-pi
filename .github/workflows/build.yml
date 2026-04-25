@@ -180,16 +180,20 @@ jobs:
         if: matrix.os == 'macos-latest'
 
       # Prebuild on Windows
-      # Note that we 'hide' the msys folders on windows to stop conflicts when building
-      # Flac
+      # Hide both system msys64 and the msys64 bundled inside setup-ruby's
+      # install — vcpkg's libflac build picks up whichever cmake.exe it
+      # finds first on PATH, and the mingw cmake from msys64 can't build
+      # an MSVC triplet.
       - name: Prebuild Windows
         working-directory: ${{github.workspace}}/app
         shell: cmd
         env:
           CC: ${{ matrix.cc }}
           QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+          RUBY_PREFIX: ${{steps.ruby-inst.outputs.ruby-prefix}}
         run: |
-          mv c:/msys64 c:/__msys64
+          if exist "c:\msys64" mv c:/msys64 c:/__msys64
+          if exist "%RUBY_PREFIX%\msys64" mv "%RUBY_PREFIX%\msys64" "%RUBY_PREFIX%\__msys64"
           win-prebuild.bat
         if: matrix.os == 'windows-2022'
 
