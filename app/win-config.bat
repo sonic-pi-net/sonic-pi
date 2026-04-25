@@ -25,7 +25,6 @@ if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
     set "CMAKE_ARCH=x64"
 )
 set "VCPKG_ROOT=%SCRIPT_DIR%vcpkg"
-set "SNDFILE_DIR=%VCPKG_ROOT%\installed\%VCPKG_TRIPLET%\share\libsndfile"
 set "VCPKG_TOOLCHAIN=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake"
 set "VCPKG_FORCE_SYSTEM_BINARIES=1"
 
@@ -34,7 +33,6 @@ cmake -G "Visual Studio 17 2022" -A %CMAKE_ARCH% ^
       -DCMAKE_TOOLCHAIN_FILE="%VCPKG_TOOLCHAIN%" ^
       -DVCPKG_TARGET_TRIPLET=%VCPKG_TRIPLET% ^
       -DKISSFFT_TOOLS=OFF -DKISSFFT_PKGCONFIG=OFF ^
-      -DSndFile_DIR="%SNDFILE_DIR%" ^
       ..\
 
 if %ERRORLEVEL% neq 0 (
