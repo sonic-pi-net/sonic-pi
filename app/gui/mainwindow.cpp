@@ -130,7 +130,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     show_rec_icon_a = false;
     restoreDocPane = false;
     focusMode = false;
-    version = "4.6.0";
+    version = SONIC_PI_VERSION;
     latest_version = "";
     version_num = 0;
     latest_version_num = 0;
@@ -670,7 +670,16 @@ void MainWindow::setupWindowStructure()
     docPane->setStyle(new BorderlessLinksProxyStyle);
     connect(docPane, SIGNAL(anchorClicked(const QUrl&)), this, SLOT(docLinkClicked(const QUrl&)));
 
-    docPane->setSource(QUrl("qrc:///html/doc.html"));
+    {
+        // Load via QFile + setHtml (not setSource) so we can substitute the
+        // version placeholder. doc.html only references absolute :/images
+        // resources, so no baseUrl is needed.
+        QFile doc_file(":/html/doc.html");
+        doc_file.open(QFile::ReadOnly | QFile::Text);
+        QString doc_src = QTextStream(&doc_file).readAll();
+        doc_src = doc_src.replace("__SONIC_PI_VERSION__", SONIC_PI_VERSION);
+        docPane->setHtml(doc_src);
+    }
 
     addUniversalCopyShortcuts(docPane);
 
@@ -4140,6 +4149,7 @@ void MainWindow::createInfoPane()
         source = source.replace("413dx", QString("%1").arg(ScaleHeightForDPI(413)));
         source = source.replace("268dx", QString("%1").arg(ScaleHeightForDPI(268)));
         source = source.replace("328dx", QString("%1").arg(ScaleHeightForDPI(328)));
+        source = source.replace("__SONIC_PI_VERSION__", SONIC_PI_VERSION);
         pane->setHtml(source);
         infoTabs->addTab(pane, tabs[t]);
     }

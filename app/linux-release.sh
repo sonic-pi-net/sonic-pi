@@ -18,6 +18,7 @@ mkdir -p build/linux_dist
 
 # Copy distributable files
 cp -r ../{bin,etc} build/linux_dist/
+cp ../VERSION build/linux_dist/
 
 # Copy example configs
 mkdir -p build/linux_dist/app

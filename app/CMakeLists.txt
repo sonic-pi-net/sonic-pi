@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.13)
 set(APP_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
+# Read canonical version from /VERSION (one repo-root file, also read by
+# Ruby runtime). Strip any dev/RC suffix so PROJECT_VERSION stays X.Y.Z
+# for CMake/macOS bundle plumbing; the full string goes to config.h.
+file(READ "${APP_ROOT}/../VERSION" SONIC_PI_VERSION)
+string(STRIP "${SONIC_PI_VERSION}" SONIC_PI_VERSION)
+string(REGEX MATCH "^[0-9]+\\.[0-9]+\\.[0-9]+" SONIC_PI_VERSION_NUMERIC "${SONIC_PI_VERSION}")
+
 # Different triplet for windows
 if (WIN32)
     if(CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")

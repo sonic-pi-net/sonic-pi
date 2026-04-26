@@ -9,7 +9,7 @@ endif()
 project("Sonic Pi"
   LANGUAGES CXX C
   DESCRIPTION "A code-based music creation and performance tool"
-  VERSION 5.0.0
+  VERSION ${SONIC_PI_VERSION_NUMERIC}
   HOMEPAGE_URL "https://sonic-pi.net"
 )
 

@@ -1431,9 +1431,7 @@ module SonicPi
       gh_short = @git_hash ? "- #{@git_hash[0, 7]}" : ""
       @settings = Config::Settings.new(Paths.system_cache_store_path)
 
-      # Temporarily fix beta version:
-      # @version = Version.new(5, 0, 0, "Dev #{gh_short}")
-      @version = Version.new(4, 6, 0)
+      @version = Version.init_from_string(File.read(File.expand_path('../../../../../VERSION', __dir__)).strip)
 
       @server_version = __server_version
       @life_hooks = LifeCycleHooks.new
