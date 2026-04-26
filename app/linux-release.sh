@@ -20,6 +20,9 @@ mkdir -p build/linux_dist
 cp -r ../{bin,etc} build/linux_dist/
 cp ../VERSION build/linux_dist/
 
+# Wavetables (~70MB) — not currently used by Sonic Pi, skip from packaging.
+rm -rf build/linux_dist/etc/wavetables
+
 # Copy example configs
 mkdir -p build/linux_dist/app
 cp -r config build/linux_dist/app/
