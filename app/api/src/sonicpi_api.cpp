@@ -268,21 +268,17 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
     }
 
     std::string input_str(buffer, buffer + bytes_read);
-      input_str = string_trim(input_str);
+    input_str = string_trim(input_str);
 
-    if(input_str.find("SuperCollider Audio Server Boot Error") == 0) {
-      LOG(ERR, "SuperCollider Audio Server boot error detected");
-      return BootDaemonInitResult::ScsynthBootError;
-    } else {
-      auto daemon_stdout = string_split(input_str, " ");
-      std::transform(daemon_stdout.begin(), daemon_stdout.end(), daemon_stdout.begin(), [](std::string& val) { return string_trim(val); });
+    auto daemon_stdout = string_split(input_str, " ");
+    std::transform(daemon_stdout.begin(), daemon_stdout.end(), daemon_stdout.begin(), [](std::string& val) { return string_trim(val); });
 
     for(int i = 0 ; i < daemon_stdout.size() ; i ++) {
       LOG(INFO, "daemon_stdout: " + daemon_stdout[i]);
     }
 
-    if(daemon_stdout.size() != 8) {
-      LOG(ERR, "\nError. Was expecting 7 port numbers and a token from the Daemon Booter. Got: " + input_str + "\n");
+    if(daemon_stdout.size() != 7) {
+      LOG(ERR, "\nError. Was expecting 6 port numbers and a token from the Daemon Booter. Got: " + input_str + "\n");
       return BootDaemonInitResult::TerminalError;
     }
 
@@ -292,8 +288,7 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
     m_ports[SonicPiPortId::scsynth] = std::stoi(daemon_stdout[3]);
     m_ports[SonicPiPortId::tau_osc_cues] = std::stoi(daemon_stdout[4]);
     m_ports[SonicPiPortId::tau] = std::stoi(daemon_stdout[5]);
-    m_ports[SonicPiPortId::phx_http] = std::stoi(daemon_stdout[6]);
-    m_token = std::stoi(daemon_stdout[7]);
+    m_token = std::stoi(daemon_stdout[6]);
 
     LOG(INFO, "Setting up OSC sender to Spider on port " << m_ports[SonicPiPortId::gui_send_to_spider]);
     m_spOscSpiderSender    = std::make_shared<OscSender>(m_ports[SonicPiPortId::gui_send_to_spider]);
@@ -321,8 +316,7 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
     });
 
     m_startServerTime = timer_start();
-      return BootDaemonInitResult::Successful;
-    }
+    return BootDaemonInitResult::Successful;
 }
 
 SonicPiAPI::~SonicPiAPI()
@@ -760,11 +754,7 @@ APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
     {
         LOG(INFO, "Attempting to start Boot Daemon failed....";)
         m_osc_mtx.unlock();
-        if (boot_daemon_res == BootDaemonInitResult::ScsynthBootError) {
-            return APIBootResult::ScsynthBootError;
-        } else {
-            return APIBootResult::TerminalError;
-        }
+        return APIBootResult::TerminalError;
     }
 
     // Start the OSC Server
@@ -913,25 +903,6 @@ const fs::path& SonicPiAPI::GetPath(SonicPiPath piPath)
 const int& SonicPiAPI::GetPort(SonicPiPortId port)
 {
     return m_ports[port];
-}
-
-std::string SonicPiAPI::GetScsynthLog()
-{
-    auto logs = std::vector<fs::path>{GetPath(SonicPiPath::SCSynthLogPath)};
-
-    std::ostringstream str;
-    for (auto& log : logs)
-    {
-        if (fs::exists(log))
-        {
-            auto contents = string_trim(file_read(log));
-            if (!contents.empty())
-            {
-              str << contents;
-            }
-        }
-    }
-    return str.str();
 }
 
 std::string SonicPiAPI::GetLogs()

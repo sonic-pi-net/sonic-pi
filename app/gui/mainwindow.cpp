@@ -60,10 +60,6 @@
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
 
-#ifdef WITH_WEBENGINE
-#include "widgets/phxwidget.h"
-#endif
-
 #include "utils/sonicpi_i18n.h"
 
 #include "utils/borderlesslinksproxystyle.h"
@@ -165,11 +161,6 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     {
         std::cout << "[GUI] - API Boot successful" << std::endl;
     }
-    else if (boot_success == APIBootResult::ScsynthBootError)
-    {
-        std::cout << "[GUI] - API Scsynth Boot Failed" << std::endl;
-        scsynthBootError();
-    }
     else
     {
         std::cout << "[GUI] - API Boot failed" << std::endl;
@@ -234,15 +225,6 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     if (startupOK)
     {
         // We have a connection! Finish up loading app...
-
-#ifdef WITH_WEBENGINE
-        QUrl phxUrl;
-        phxUrl.setUrl("http://localhost");
-        phxUrl.setPort(m_spAPI->GetPort(SonicPiPortId::phx_http));
-        std::cout << "[GUI] - loading up web view with URL: " << phxUrl.toString().toStdString() << std::endl;
-        // load phoenix webview
-        phxWidget->connectToTauPhx(phxUrl);
-#endif
 
         scopeWindow->Booted();
         std::cout << "[GUI] - restore windows" << std::endl;
@@ -678,9 +660,6 @@ void MainWindow::setupWindowStructure()
     QShortcut* right = new QShortcut(Qt::Key_Right, docsNavTabs);
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
-#ifdef WITH_WEBENGINE
-    phxWidget = new PhxWidget(this);
-#endif
     docPane = new QTextBrowser;
     QSizePolicy policy = docPane->sizePolicy();
     policy.setHorizontalStretch(QSizePolicy::Maximum);
@@ -705,10 +684,6 @@ void MainWindow::setupWindowStructure()
     southTabs->setMovable(false);
     southTabs->addTab(docsplit, "Docs");
     southTabs->setAttribute(Qt::WA_StyledBackground, true);
-
-#ifdef WITH_WEBENGINE
-    southTabs->addTab(phxWidget, "Tau");
-#endif
 
     docWidget = new QDockWidget(tr("Help"), this);
     docWidget->setFocusPolicy(Qt::NoFocus);
@@ -2452,9 +2427,6 @@ void MainWindow::updateColourTheme()
     scopeWindow->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
     metroPane->updateColourTheme();
-#ifdef WITH_WEBENGINE
-    phxWidget->setTheme(theme);
-#endif
 }
 
 void MainWindow::showLineNumbersMenuChanged()
@@ -4527,14 +4499,6 @@ void MainWindow::onExitCleanup()
         scopeWindow->ShutDown();
     }
 
-#ifdef WITH_WEBENGINE
-    if (phxWidget)
-    {
-        std::cout << "[GUI] - shutting down PhX view..." << std::endl;
-        phxWidget->deleteLater();
-    }
-#endif
-
     if (m_spClient)
     {
         if (loaded_workspaces)
@@ -5400,85 +5364,6 @@ void MainWindow::onSpiderReady()
     // pool is reinitialised — our reader's pointer is stale until it
     // re-attaches. Without this, the scope widget shows a flat line.
     m_spAPI->AudioProcessor_ResetConnection();
-}
-
-void MainWindow::scsynthBootError()
-{
-    splashClose();
-    setMessageBoxStyle();
-
-    QDialog* pDialog = new QDialog(this, Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
-
-    QVBoxLayout* pLayout = new QVBoxLayout(this);
-    pDialog->setLayout(pLayout);
-
-    pDialog->setWindowTitle(tr("Sonic Pi - Audio Server Boot Error"));
-
-    QString text;
-    QTextStream str(&text);
-    str << "<html><body>"
-        << "<h1>" << tr("Sorry, the Audio Server failed to start...") << "</h1>\n\n"
-        << "<h2><i>" << tr("Please try changing your default OS audio input & outputs.") << "</i></h2>\n\n"
-        << "<h3>" << tr("Note, the audio rate of the inputs & outputs must be the same.") << "</h3>\n\n"
-        << "<small><i>"
-        << "<p>" << tr("For the curious among you, Sonic Pi uses the SuperCollider Audio Server to generate its sounds. By default it will connect to your default system audio input and outputs.") << "</p>"
-        << "<p>" << tr("Unfortunately SuperCollider is having problems starting correctly. You can read the full error log below which should explain why.") << "</p>"
-        << "<p>" << tr("To fix this you can try changing your default operating system audio inputs and outputs (ensuring they have the same audio rate).") << "</p>"
-        << "<p style=\"color: deeppink;\"><b>" << tr("Advanced Users") << "</b> - "
-        << tr("you may manually override this and further configure how SuperCollider boots by editing the file:") << " " << QString::fromStdString(m_spAPI->GetPath(SonicPiPath::AudioSettingsConfigPath))
-        << "</i></small>\n\n"
-        << "<h3>" << tr("SuperCollider Log") << "</h3>"
-        << "<small style=\"color: dodgerblue;\"><pre>" << QString::fromStdString(m_spAPI->GetScsynthLog()) << "</pre></small>"
-        << "</body></html>";
-
-    // The text area for the message.  Allows the user to scroll/view it.
-    auto pTextArea = new QTextEdit();
-
-    auto text_hsv_value = palette().color(QPalette::WindowText).value();
-    auto bg_hsv_value = palette().color(QPalette::Window).value();
-    bool dark_theme_found = text_hsv_value > bg_hsv_value;
-    QString styles;
-
-    if (dark_theme_found)
-    {
-        styles = ScalePxInStyleSheet(readFile(":/theme/dark/doc-styles.css"));
-    }
-    else
-    {
-        styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
-    }
-
-    pTextArea->document()->setDefaultStyleSheet(styles);
-    pTextArea->setHtml(text);
-    pTextArea->setReadOnly(true);
-    pLayout->addWidget(pTextArea);
-
-    // Add a dialog style OK button
-    QDialogButtonBox* pButtons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
-    pLayout->addWidget(pButtons);
-
-    auto finished = [&]() {
-        std::cout << "[GUI] - Aborting. Sorry about this." << std::endl;
-        QApplication::exit(-1);
-        exit(EXIT_FAILURE);
-    };
-
-    // When the user hits OK, quit
-    connect(pButtons, &QDialogButtonBox::accepted, this, [=]() {
-        std::cout << "[GUI] - Error dialog OK button clicked" << std::endl;
-        finished();
-    });
-
-    // When the dialog is done, quit
-    connect(pDialog, &QDialog::finished, this, [=]() {
-        std::cout << "[GUI] - Error dialog finished" << std::endl;
-        finished();
-    });
-
-    // Make a sensible size, but then allow resizing
-    pDialog->setFixedSize(QSize(ScaleHeightForDPI(750), ScaleHeightForDPI(800)));
-    pDialog->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-    pDialog->exec();
 }
 
 void MainWindow::homeDirWriteError()

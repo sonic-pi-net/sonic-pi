@@ -80,10 +80,6 @@ class SonicPiSettings;
 class SonicPiContext;
 class SonicPiMetro;
 
-#ifdef WITH_WEBENGINE
-class PhxWidget;
-#endif
-
 struct help_page
 {
     QString title = "";
@@ -122,7 +118,6 @@ public:
     void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
     void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
     void updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo);
-    void scsynthBootError();
     void homeDirWriteError();
     void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
     void runBufferIdx(int idx);
@@ -469,10 +464,6 @@ private:
     QWidget* blankWidgetDoc;
     QWidget* blankWidgetMetro;
     QTextBrowser* docPane;
-
-#ifdef WITH_WEBENGINE
-    PhxWidget* phxWidget;
-#endif
 
     //  QTextBrowser *hudPane;
     QWidget* mainWidget;

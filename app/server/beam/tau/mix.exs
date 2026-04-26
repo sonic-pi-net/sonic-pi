@@ -18,7 +18,7 @@ defmodule Tau.MixProject do
     if Mix.env() == :dev do
       [
         mod: {Tau.Application, []},
-        extra_applications: [:logger, :runtime_tools, :file_system, :os_mon]
+        extra_applications: [:logger, :runtime_tools, :os_mon]
       ]
     else
       [mod: {Tau.Application, []}, extra_applications: [:logger, :runtime_tools]]
@@ -31,66 +31,31 @@ defmodule Tau.MixProject do
 
   # Specifies your project dependencies.
   #
-
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7"},
-      {:phoenix_html, "~> 3.0"},
-      {:phoenix_live_reload, "~> 1.4", only: :dev},
-      {:phoenix_live_view, "~> 0.19"},
-      {:heroicons, "~> 0.5"},
-      {:floki, ">= 0.30.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.8"},
-      {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
+      {:jason, "~> 1.4"},
+      {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.20"},
-      {:jason, "~> 1.4"},
-      {:plug_cowboy, "~> 2.6"},
-      {:petal_components, "~> 1.2"},
-      {:exsync, "~> 0.2", runtime: Mix.env() == :dev, only: :dev},
       {:logger_file_backend, "~> 0.0.13"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
-  # For example, to install project dependencies and perform other setup tasks, run:
-  #
-  #     $ mix setup
-  #
-  # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
       setup: ["deps.get"],
-      "assets.deploy.dev": [
-        "phx.digest.clean --all",
-        "tailwind default",
-        "esbuild default --sourcemap=inline"
-      ],
-      "assets.deploy.prod": [
-        "phx.digest.clean --all",
-        "tailwind default --minify",
-        "esbuild default --minify",
-        "phx.digest"
-      ],
       "setup.dev": [
         "local.hex --force",
         "local.rebar --force",
-        "deps.get",
-        "tailwind.install --if-missing",
-        "esbuild.install --if-missing",
-        "assets.deploy.dev"
+        "deps.get"
       ],
       "setup.prod": [
         "local.hex --force",
         "local.rebar --force",
-        "deps.get",
-        "tailwind.install --if-missing",
-        "esbuild.install --if-missing",
-        "assets.deploy.prod"
+        "deps.get"
       ],
       "tau.release": [
         "setup.prod",

@@ -50,14 +50,12 @@ enum class APIBootResult
 {
     Successful,
     TerminalError,
-    ScsynthBootError,
 };
 
 enum class BootDaemonInitResult
 {
     Successful,
-    TerminalError,
-    ScsynthBootError
+    TerminalError
 };
 
 enum class SonicPiPath
@@ -89,8 +87,7 @@ enum class SonicPiPortId
     gui_send_to_spider,
     scsynth,
     tau_osc_cues,
-    tau,
-    phx_http
+    tau
 };
 
 // Log output of the API to the log files or the console?
@@ -371,7 +368,6 @@ public:
     virtual void AudioProcessor_ConsumedAudio();
 
     std::string GetLogs();
-    std::string GetScsynthLog();
 
     const int GetGuid() const;
 

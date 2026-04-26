@@ -24,7 +24,6 @@ then
   # mix setup.dev
 
   export MIX_ENV=dev
-  mix assets.deploy.dev
   mix run --no-halt > $TAU_BOOT_LOG_PATH 2>&1
 elif [ "$TAU_ENV" = "test" ]
 then

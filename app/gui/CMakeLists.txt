@@ -46,10 +46,7 @@ set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
 
 find_package(Qt6)
 
-if(Qt6_FOUND AND WITH_QT_GUI_WEBENGINE)
-  find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg LinguistTools WebEngineWidgets REQUIRED)
-  add_compile_definitions(WITH_WEBENGINE)
-elseif(Qt6_FOUND)
+if(Qt6_FOUND)
   find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg LinguistTools REQUIRED)
 endif()
 
@@ -120,18 +117,6 @@ set(SOURCES
     ${QTAPP_ROOT}/model/settings.h
     )
 
-  if(WITH_QT_GUI_WEBENGINE)
-    set(SOURCES
-      ${SOURCES}
-      ${QTAPP_ROOT}/widgets/phxwebview.h
-      ${QTAPP_ROOT}/widgets/phxwebview.cpp
-      ${QTAPP_ROOT}/widgets/phxwidget.h
-      ${QTAPP_ROOT}/widgets/phxwidget.cpp
-      ${QTAPP_ROOT}/widgets/phxurlinterceptor.h
-      ${QTAPP_ROOT}/widgets/phxurlinterceptor.cpp
-
-      )
-  endif()
 
 SET(RESOURCES
     ${QTAPP_ROOT}/SonicPi.qrc
@@ -305,8 +290,6 @@ set_property(TARGET ${APP_NAME} PROPERTY POSITION_INDEPENDENT_CODE ON) # Qt requ
 target_include_directories(${APP_NAME}
     PRIVATE
     ${QTAPP_ROOT}
-    ${APP_ROOT}/external/scsynth-boost-1.74.0
-    ${APP_ROOT}/external/TLSF-2.4.6/src
     ${APP_ROOT}/external
     ${QTAPP_ROOT}/osc
     ${QTAPP_ROOT}/model
@@ -332,13 +315,6 @@ target_link_libraries(${APP_NAME}
     Qt::Concurrent
     Qt::Network
     Qt::OpenGLWidgets)
-
-
-if(WITH_QT_GUI_WEBENGINE)
-    target_link_libraries(${APP_NAME}
-    PRIVATE
-    Qt::WebEngineWidgets)
-endif()
 
 
 # Compile options and OS specific libraries

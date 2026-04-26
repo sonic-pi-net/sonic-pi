@@ -28,7 +28,6 @@ IF /I "%TAU_ENV%" == "dev" (
   rem SET MIX_ENV=dev
   rem mix setup.dev
 
-  mix assets.deploy.dev
   mix run --no-halt > log\tau_stdout.log 2>&1
   goto Exit
 )

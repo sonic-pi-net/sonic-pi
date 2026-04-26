@@ -97,7 +97,7 @@ Thread::abort_on_exception = true
 # The current allocations of these external port numbers are printed to
 # STDOUT in the following order:
 #
-# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues tau-api tau-phx token
+# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues tau-api token
 #
 #
 # Stdout Parameter Descriptions
@@ -121,9 +121,6 @@ Thread::abort_on_exception = true
 #
 # tau-api:              UDP port used to send OSC messages to trigger the
 #                       Tau API
-#
-# tau-phx:              HTTP port used by Tau's Phoenix web server
-#
 #
 # token:                32 bit signed integer used as a token to authenticate
 #                       OSC messages.  All OSC messages sent from the GUI
@@ -290,7 +287,7 @@ module SonicPi
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
-        puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@ports["tau"]} #{@tau_booter.phx_port} #{@daemon_token}"
+        puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@ports["tau"]} #{@daemon_token}"
         STDOUT.flush
 
         Util.log "Blocking main thread until exit signal received..."
@@ -687,8 +684,6 @@ module SonicPi
 
 
     class TauBooter < ProcessBooter
-      attr_reader :phx_port
-
       def initialize(ports, kill_switch, token)
         @tau_pid = Promise.new
 
@@ -720,8 +715,6 @@ module SonicPi
           unified_opts = {}
         end
 
-        @phx_port = unified_opts[:phx_port] || ports["phx"]
-
         Util.log "Daemon listening to info from Tau"
 
         ENV["TAU_CUES_ON"]                        = "true"
@@ -734,11 +727,9 @@ module SonicPi
         ENV["TAU_DAEMON_PORT"]                    = "#{ports["daemon"]}"
         ENV["TAU_MIDI_ENABLED"]                   = "true"
         ENV["TAU_LINK_ENABLED"]                   = "true"
-        ENV["SECRET_KEY_BASE"]                    = "#{SecureRandom.base64(64)}"
         ENV["TAU_DAEMON_TOKEN"]                   = "#{token}"
         ENV["TAU_ENV"]                            = "#{ENV["SONIC_PI_ENV"] || unified_opts[:env] || "prod"}"
         ENV["MIX_ENV"]                            = ENV["TAU_ENV"]
-        ENV["TAU_PHX_PORT"]                       = "#{@phx_port}"
         ENV["TAU_LOG_PATH"]                       = "#{Paths.tau_log_path}"
         ENV["TAU_BOOT_LOG_PATH"]                  = "#{Paths.tau_boot_log_path}"
 
@@ -789,14 +780,6 @@ module SonicPi
           unified_opts[:env] = "dev"
         when "prod"
           unified_opts[:env] = "prod"
-        end
-
-        # phx_port should be a positive integer
-        begin
-          phx_port = opts[:phx_port].to_i
-          unified_opts[:phx_port] = phx_port if phx_port > 0
-        rescue
-          # do nothing
         end
 
         unified_opts.freeze
@@ -1062,10 +1045,7 @@ module SonicPi
         "spider" => :dynamic,
 
         "daemon-listen-to-tau" => :dynamic,
-        "spider-listen-to-tau" => :dynamic,
-
-        # Port which the Phoenix webserver runs on
-        "phx" => :dynamic
+        "spider-listen-to-tau" => :dynamic
       }.freeze
 
       def initialize(safe_exit)
@@ -1090,7 +1070,6 @@ module SonicPi
           "osc-cues",
           "tau",
           "spider",
-          "phx",
           "daemon",
           "spider-listen-to-tau"].inject({}) do |res, port_name|
 

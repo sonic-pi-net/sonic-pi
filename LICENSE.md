@@ -6,7 +6,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2012 - 2023 Samuel Aaron and contributors (sam@sonic-pi.net)
+Copyright (c) 2012 - 2026 Samuel Aaron and contributors (sam@sonic-pi.net)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -95,12 +95,10 @@ relevant licenses:
 ### Unlinked software
 
 - [Ruby](http://ruby-lang.org) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
-- [SuperCollider](http://supercollider.sourceforge.net) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
+- [SuperSonic](https://github.com/sonic-pi-net/supersonic) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
 - [Erlang](http://erlang.org) - [Erlang Public License](https://www.erlang.org/EPLICENSE)
 - [Elixir](http://elixir-lang.org/) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 - [Aubio](http://aubio.org) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
-- [esbuild](https://esbuild.github.io/) - [MIT License](http://opensource.org/licenses/MIT)
-- [tailwind](https://tailwindcss.com/) - [MIT License](http://opensource.org/licenses/MIT)
 
 ### Dynamically Linked Libraries for GUI
 
@@ -112,8 +110,12 @@ relevant licenses:
 - [ghc_filesystem](https://github.com/gulrak/filesystem) - [MIT License](http://opensource.org/licenses/MIT)
 - [kissnet](https://github.com/Ybalrid/kissnet) - [MIT License](http://opensource.org/licenses/MIT)
 - [liblo](https://github.com/radarsat1/liblo) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
-- [boost (subset used by SuperCollider's scsynth)](https://www.boost.org) - [Boost Software License 1.0 (BSL-1.0)](https://opensource.org/licenses/BSL-1.0)
 - [TLSF](http://www.gii.upv.es/tlsf/) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
+
+### Dynamically Linked Libraries for SuperSonic
+
+- [JUCE](https://juce.com) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
+- [boost (subset)](https://www.boost.org) - [Boost Software License 1.0 (BSL-1.0)](https://opensource.org/licenses/BSL-1.0)
 
 ### Dynamically Linked Libraries for Aubio
 
@@ -158,51 +160,8 @@ relevant licenses:
 
 (contents of app/server/beam/tau/deps/):
 
-- [Bunt](https://github.com/rrrene/bunt) - [MIT License](http://opensource.org/licenses/MIT)
-- [castore](https://github.com/elixir-mint/castore) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [cowboy](https://github.com/ninenines/cowboy) - [ISC License](https://opensource.org/licenses/ISC)
-- [cowboy_telemetry](https://github.com/beam-telemetry/cowboy_telemetry) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [cowlib](https://github.com/ninenines/cowlib) - [ISC License](https://opensource.org/licenses/ISC)
-- [credo](https://github.com/rrrene/credo) - [MIT License](http://opensource.org/licenses/MIT)
-- [decimal](https://github.com/ericmj/decimal) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [decimal](https://github.com/ericmj/decimal) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [ecto](https://github.com/elixir-ecto/ecto) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [esbuild](https://github.com/phoenixframework/esbuild) - [MIT License](http://opensource.org/licenses/MIT)
-- [expo](https://github.com/elixir-gettext/expo) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [exsync](https://github.com/falood/exsync) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
-- [file_system](https://github.com/falood/file_system) - [WTFPL](http://www.wtfpl.net/)
-- [floki](https://github.com/philss/floki) - [MIT License](http://opensource.org/licenses/MIT)
-- [gettext](https://github.com/elixir-gettext/gettext) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [heroicons](https://github.com/mveytsman/heroicons_elixir) - [MIT License](http://opensource.org/licenses/MIT)
 - [jason](https://github.com/michalmuskala/jason) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 - [logger_file_backend](https://github.com/onkel-dirtus/logger_file_backend) - [MIT License](http://opensource.org/licenses/MIT)
-- [mime](https://github.com/elixir-plug/mime) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [petal_components](https://github.com/petalframework/petal_components) - [MIT License](http://opensource.org/licenses/MIT)
-- [phoenix](https://github.com/phoenixframework/phoenix) - [MIT License](http://opensource.org/licenses/MIT)
-- [phoenix_ecto](https://github.com/phoenixframework/phoenix_ecto) - [MIT License](http://opensource.org/licenses/MIT)
-- [phoenix_html](https://github.com/phoenixframework/phoenix_html) - [MIT License](http://opensource.org/licenses/MIT)
-- [phoenix_live_dashboard](https://github.com/phoenixframework/phoenix_live_dashboard) - [MIT License](http://opensource.org/licenses/MIT)
-- [phoenix_live_reload](https://github.com/phoenixframework/phoenix_live_reload) - [MIT License](http://opensource.org/licenses/MIT)
-- [phoenix_live_view](https://github.com/phoenixframework/phoenix_live_view) - [MIT License](http://opensource.org/licenses/MIT)
-- [phoenix_pubsub](https://github.com/phoenixframework/phoenix_pubsub) - [MIT License](http://opensource.org/licenses/MIT)
-- [phoenix_template](https://github.com/phoenixframework/phoenix_template) - [MIT License](http://opensource.org/licenses/MIT)
-- [plug](https://github.com/elixir-plug/plug) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [plug_cowboy](https://github.com/elixir-plug/plug_cowboy) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [plug_crypto](https://github.com/elixir-plug/plug_crypto) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [ranch](https://github.com/ninenines/ranch) - [ISC License](https://opensource.org/licenses/ISC)
-- [tailwind](https://github.com/phoenixframework/tailwind) - [MIT License](http://opensource.org/licenses/MIT)
 - [telemetry](https://github.com/beam-telemetry/telemetry) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 - [telemetry_metrics](https://github.com/beam-telemetry/telemetry_metrics) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 - [telemetry_poller](https://github.com/beam-telemetry/telemetry_poller) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [websock](https://github.com/phoenixframework/websock) - [MIT License](http://opensource.org/licenses/MIT)
-- [websock_adapter](https://github.com/phoenixframework/websock_adapter) - [MIT License](http://opensource.org/licenses/MIT)
-
-### Included Javascript Libraries for Tau IO Server
-
-(contents of [app/server/beam/tau/assets/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/beam/tau/assets/vendor)):
-
-- [Alpine.js](https://github.com/alpinejs/alpine) - [MIT License](http://opensource.org/licenses/MIT)
-- [topbar](http://buunguyen.github.io/topbar) - [MIT License](http://opensource.org/licenses/MIT)
-- [Hydra Synth](https://github.com/hydra-synth/hydra-synth) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
-- [P5.js](https://github.com/processing/p5.js) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
-- [tone.js](https://tonejs.github.io) - [MIT License](http://opensource.org/licenses/MIT)
