@@ -349,9 +349,23 @@ module SonicPi
       return false if @recorders[bus]
       @recording_mutex.synchronize do
         return false if @recorders[bus]
-        bs = @server.buffer_stream_open(path, 65536, 2, "wav", @sample_format)
-        s = @server.trigger_synth :head, @monitor_group, "sonic-pi-recorder", {"out-buf" => bs.to_i, "in_bus" => bus.to_i}, true
-        @recorders[bus] = [bs, s]
+        # Use SuperSonic's JUCE-side recording (taps the main audio
+        # output before it leaves the engine, written via JUCE's
+        # TimeSliceThread). The previous scsynth-internal recorder
+        # used the `sonic-pi-recorder` synthdef which depends on the
+        # DiskOut UGen — that isn't ported into SuperSonic, so the
+        # synthdef fails to load and the synth never starts.
+        #
+        # The bus argument is preserved for API compatibility but
+        # ignored by the JUCE tap, which always records bus 0 (the
+        # main output mix). Non-zero bus recording was rarely used
+        # and is no worse than the previous scsynth-internal path,
+        # which was also broken without DiskOut.
+        if bus != 0
+          message "recording: bus=#{bus} ignored — only main output (bus 0) is recorded"
+        end
+        @server.osc "/supersonic/record/start", path, "wav", 24
+        @recorders[bus] = [path]
         true
       end
     end
@@ -365,17 +379,7 @@ module SonicPi
       return false unless @recorders[bus]
       @recording_mutex.synchronize do
         return false unless @recorders[bus]
-        bs, s = @recorders[bus]
-        p = Promise.new
-        s.on_destroyed do
-          p.deliver! :completed
-        end
-        s.kill
-
-        # Ensure we wait for the recording synth to have completed
-        # before continuing
-        p.get(5)
-        bs.free
+        @server.osc "/supersonic/record/stop"
         @recorders.delete bus
 
         # ensure nodes are all paused if we are in a paused state
@@ -397,12 +401,10 @@ module SonicPi
     def nuke_scsynth_state!
       log_message "Nuking studio scsynth state"
       @recording_mutex.synchronize do
-        @recorders.each do |bus, (bs, s)|
-          begin
-            bs.free if bs
-          rescue
-          end
-        end
+        # JUCE-side recording writes to a temp path; on cold swap the
+        # supersonic engine itself stops the recording as part of its
+        # device teardown, so we just drop the bookkeeping. (Previously
+        # this freed scsynth-side buffer-stream handles.)
         @recorders = {}
       end
       @buffers = {}
