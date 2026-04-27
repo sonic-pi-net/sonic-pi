@@ -18,7 +18,7 @@
 #include <libproc.h>
 #include <unistd.h>
 #include <cstdio>
-#include <QDebug>
+#include <iostream>
 
 extern "C" pid_t responsibility_get_pid_responsible_for_pid(pid_t);
 
@@ -61,23 +61,22 @@ std::string requestMicrophoneAccess()
     pid_t respPid = responsibility_get_pid_responsible_for_pid(self);
     char respPath[PROC_PIDPATHINFO_MAXSIZE] = {0};
     if (respPid > 0) proc_pidpath(respPid, respPath, sizeof(respPath));
-    // Use qInfo so the lines land in gui.log via Qt's message handler.
-    // fprintf(stderr, ...) at this point in main() runs before Qt's
-    // redirection is installed, so stderr writes get lost.
-    qInfo().noquote() << "[gui-mic] self.pid=" << self
-                      << " self.path=" << selfPath;
-    qInfo().noquote() << "[gui-mic] self.bundleID=" << (bundleID ? bundleID : "(nil)");
-    qInfo().noquote() << "[gui-mic] responsible.pid=" << respPid
-                      << " responsible.path="
-                      << (respPath[0] ? respPath : "(unknown)");
-    qInfo().noquote() << "[gui-mic] authorization status: " << statusStr;
+    // std::cout is rewired into ~/.sonic-pi/log/gui.log by SonicPiAPI::Boot()
+    // — these diagnostics land there for inclusion in user bug reports.
+    std::cout << "[gui-mic] self.pid=" << self
+              << " self.path=" << selfPath << std::endl;
+    std::cout << "[gui-mic] self.bundleID=" << (bundleID ? bundleID : "(nil)") << std::endl;
+    std::cout << "[gui-mic] responsible.pid=" << respPid
+              << " responsible.path="
+              << (respPath[0] ? respPath : "(unknown)") << std::endl;
+    std::cout << "[gui-mic] authorization status: " << statusStr << std::endl;
 
     if (s == AVAuthorizationStatusNotDetermined) {
-        qInfo().noquote() << "[gui-mic] requesting access (user should see prompt)";
+        std::cout << "[gui-mic] requesting access (user should see prompt)" << std::endl;
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio
                                  completionHandler:^(BOOL granted) {
-            qInfo().noquote() << "[gui-mic] request result:"
-                              << (granted ? "GRANTED" : "DENIED");
+            std::cout << "[gui-mic] request result: "
+                      << (granted ? "GRANTED" : "DENIED") << std::endl;
         }];
     }
 

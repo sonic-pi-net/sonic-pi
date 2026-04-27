@@ -885,11 +885,9 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
     }
     m_lastAudioDevicesInfo = devicesInfo;
 
-    qInfo().noquote() << "[gui-audio] updateAudioDevices: mode='"
-                      << QString::fromStdString(devicesInfo.mode)
-                      << "' currentDevice='"
-                      << QString::fromStdString(devicesInfo.currentDevice)
-                      << "' numDevices=" << devicesInfo.devices.size();
+    std::cout << "[gui-audio] updateAudioDevices: mode='" << devicesInfo.mode
+              << "' currentDevice='" << devicesInfo.currentDevice
+              << "' numDevices=" << devicesInfo.devices.size() << std::endl;
     QSignalBlocker blocker(audio_output_combo);
 
     audio_output_combo->clear();
@@ -1031,7 +1029,7 @@ void SettingsWidget::updateMicPermissionStatus() {
     std::string status = SonicPi::microphonePermissionStatus();
     if (status == m_lastMicPermissionStatus) return;  // no-op change
     m_lastMicPermissionStatus = status;
-    qInfo().noquote() << "[gui-mic] status now:" << QString::fromStdString(status);
+    std::cout << "[gui-mic] status now: " << status << std::endl;
 
     if (status == "authorized") {
         mic_permission_label->setVisible(false);
@@ -1061,10 +1059,10 @@ void SettingsWidget::audioDeviceChanged(int index) {
     // they fall through to currentText() as before.
     QString data = audio_output_combo->currentData().toString();
     QString emitted = data.isEmpty() ? audio_output_combo->currentText() : data;
-    qInfo().noquote() << "[gui-audio] output dropdown changed: index=" << index
-                      << " text='" << audio_output_combo->currentText()
-                      << "' data='" << data
-                      << "' emitting='" << emitted << "'";
+    std::cout << "[gui-audio] output dropdown changed: index=" << index
+              << " text='" << audio_output_combo->currentText().toUtf8().constData()
+              << "' data='" << data.toUtf8().constData()
+              << "' emitting='" << emitted.toUtf8().constData() << "'" << std::endl;
     emit audioOutputDeviceChanged(emitted);
 }
 
@@ -1072,26 +1070,26 @@ void SettingsWidget::audioInputDeviceChanged(int index) {
     if (index < 0) return;
     QString data = audio_input_combo->currentData().toString();
     QString emitted = data.isEmpty() ? audio_input_combo->currentText() : data;
-    qInfo().noquote() << "[gui-audio] input dropdown changed: index=" << index
-                      << " text='" << audio_input_combo->currentText()
-                      << "' data='" << data
-                      << "' emitting='" << emitted << "'";
+    std::cout << "[gui-audio] input dropdown changed: index=" << index
+              << " text='" << audio_input_combo->currentText().toUtf8().constData()
+              << "' data='" << data.toUtf8().constData()
+              << "' emitting='" << emitted.toUtf8().constData() << "'" << std::endl;
     emit audioInputDeviceChangedSignal(emitted);
 }
 
 void SettingsWidget::audioSampleRateChanged(int index) {
     if (index < 0) return;
     int rate = audio_sample_rate_combo->currentData().toInt();
-    qInfo().noquote() << "[gui-audio] sample-rate dropdown changed: index=" << index
-                      << " rate=" << rate;
+    std::cout << "[gui-audio] sample-rate dropdown changed: index=" << index
+              << " rate=" << rate << std::endl;
     emit sampleRateChanged(rate);
 }
 
 void SettingsWidget::audioBufferSizeChanged(int index) {
     if (index < 0) return;
     int bs = audio_buffer_size_combo->currentData().toInt();
-    qInfo().noquote() << "[gui-audio] buffer-size dropdown changed: index=" << index
-                      << " bs=" << bs;
+    std::cout << "[gui-audio] buffer-size dropdown changed: index=" << index
+              << " bs=" << bs << std::endl;
     emit bufferSizeChanged(bs);
 }
 

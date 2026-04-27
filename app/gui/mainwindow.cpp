@@ -5233,8 +5233,9 @@ void MainWindow::maybeRestoreAudioIntent()
     // device/rate/buffer for the next broadcast to settle
     const QString currentDriver = QString::fromStdString(m_lastAudioDeviceConfig.currentDriver);
     if (!piSettings->audio_driver.isEmpty() && piSettings->audio_driver != currentDriver) {
-        qInfo().noquote() << "[gui-audio] restore: driver '"
-                          << currentDriver << "' -> '" << piSettings->audio_driver << "'";
+        std::cout << "[gui-audio] restore: driver '"
+                  << currentDriver.toUtf8().constData() << "' -> '"
+                  << piSettings->audio_driver.toUtf8().constData() << "'" << std::endl;
         switchAudioDriver(piSettings->audio_driver);
         return;
     }
@@ -5264,9 +5265,10 @@ void MainWindow::maybeRestoreAudioIntent()
         const QString input  = needInput  ? piSettings->audio_input_device  : QString();
         const int     rate   = needRate   ? piSettings->audio_sample_rate   : 0;
         const int     buffer = needBuffer ? piSettings->audio_buffer_size   : 0;
-        qInfo().noquote() << "[gui-audio] restore: atomic switch device='"
-                          << device << "' input='" << input
-                          << "' rate=" << rate << " buffer=" << buffer;
+        std::cout << "[gui-audio] restore: atomic switch device='"
+                  << device.toUtf8().constData()
+                  << "' input='" << input.toUtf8().constData()
+                  << "' rate=" << rate << " buffer=" << buffer << std::endl;
         sendDeviceSwitch(device, rate, buffer, input);
     }
 }
@@ -5274,9 +5276,10 @@ void MainWindow::maybeRestoreAudioIntent()
 void MainWindow::sendDeviceSwitch(QString device, int sampleRate, int bufferSize,
                                   QString inputDevice)
 {
-    qInfo().noquote() << "[gui-audio] OSC sendDeviceSwitch: device='" << device
-                      << "' sr=" << sampleRate << " buf=" << bufferSize
-                      << " input='" << inputDevice << "'";
+    std::cout << "[gui-audio] OSC sendDeviceSwitch: device='"
+              << device.toUtf8().constData()
+              << "' sr=" << sampleRate << " buf=" << bufferSize
+              << " input='" << inputDevice.toUtf8().constData() << "'" << std::endl;
     Message msg("/daemon/audio/switch-device");
     msg.pushInt32(m_spAPI->GetToken());
     msg.pushStr(device.toStdString());
