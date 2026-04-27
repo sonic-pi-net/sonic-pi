@@ -5276,6 +5276,17 @@ void MainWindow::maybeRestoreAudioIntent()
 void MainWindow::sendDeviceSwitch(QString device, int sampleRate, int bufferSize,
                                   QString inputDevice)
 {
+    // Normalise dropdown display strings to SuperSonic's sentinel form.
+    // Display strings get persisted in gui-settings.ini and read back by
+    // the restore-from-settings path; if we forward them raw, JUCE rejects
+    // the swap with "No such device: -- None --" and the rollback can
+    // leave the engine in a half-broken state. Keep the mapping right
+    // next to the wire format so any caller of sendDeviceSwitch is safe.
+    if (inputDevice == tr("-- None --")
+        || inputDevice == tr("-- DISABLED --")
+        || inputDevice == "__disabled__") {
+        inputDevice = "__none__";
+    }
     std::cout << "[gui-audio] OSC sendDeviceSwitch: device='"
               << device.toUtf8().constData()
               << "' sr=" << sampleRate << " buf=" << bufferSize
