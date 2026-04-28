@@ -1,4 +1,5 @@
 # History
+- [v5.0.0 'SuperSonic'](#v5.0.0), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -33,6 +34,29 @@
 - [v2.1 'Core'](#v2.1), 21st Nov, 2014
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v5.0.0"></a>
+
+## Version 5.0.0 'SuperSonic' BETA-1
+
+This new release includes one of the biggest architectural changes Sonic Pi has ever undergone. Since its very inception Sonic Pi has used the incredibly powerful SuperCollider scsynth audio engine to produce sound. This power has come at quite a significant ergonomic cost as scynth isn't famous for being easy to configure and use. Its main use is in sophisticated audio synthesis research - not beginner-friendly education software. This has meant that Sonic Pi has to do a lot of hidden work to try and make things work more smoothly. This mostly works but there are still some very obious issues - like not being able to plug headphones into a Mac without needing to restart.
+
+For the past 10 months Sam Aaron has been working on [SuperSonic](https://sonic-pi.net/supersonic/demo.html) - a friendly port of scsynth designed to solve these issues. v5 of Sonic Pi sees a major milestone in this work as scsynth is now fully replaced by SuperSonic. The main benefit being the ability to change audio settings directly in the GUI - including hot-swapping your input device, output device, sample rate or buffer size on the fly without rebooting Sonic Pi or losing your running music. So go ahead, plug those headphones in mid-jam!
+
+Note that this is a BETA release - so please do report any issues you have to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### GUI
+* New Audio Hardware config options. Change audio input, output, buffer size and audio rate live, without restarting.
+* The default keyboard shortcut mode now follows the host operating system on first launch. New users on macOS get the Mac shortcut mode, new users on Windows get the Windows shortcut mode, and Linux continues to default to the original Emacs Live mode. You can still change this at any time in Preferences.
+* Improved Windows shortcuts. Jump-to-document-start and jump-to-document-end are now `Ctrl+Home` and `Ctrl+End` to match the standard Windows conventions. Thanks to Henri Vilminko for the suggestion.
+
+### Synths
+* Fixed `:tech_saws` which was incorrectly outputting four channels of audio. It now correctly outputs stereo as originally intended.
+
+### Translations
+* New: complete Spanish GUI translation.
+* Improvements to the French and Irish translations.
+
 
 <a name="v4.6.0"></a>
 
