@@ -134,3 +134,20 @@ add_custom_target(copy_supersonic ALL
     DEPENDS supersonic
 )
 
+# Refresh the bundled MSVC runtime DLLs alongside supersonic.exe on every build.
+# app/server/native/ is gitignored and persists across builds, so when the
+# developer's MSVC toolchain updates (e.g. 14.29 -> 14.44) the freshly compiled
+# binary picks up the new headers while stale bundled DLLs remain. Since the
+# EXE directory wins DLL search order, supersonic loads the old MSVCP140.dll
+# and crashes inside std::mutex::lock (mtx_do_lock AV) on first thread spawn.
+if(WIN32)
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP TRUE)
+    include(InstallRequiredSystemLibraries)
+    add_custom_command(TARGET copy_supersonic POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
+        COMMENT "Refreshing bundled MSVC runtime DLLs"
+        VERBATIM)
+endif()
+
