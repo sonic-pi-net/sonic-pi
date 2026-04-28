@@ -271,7 +271,12 @@ module SonicPi
         g = Group.new id, self, name
         osc @osc_path_g_new, id, pos_code, target_id
         message "grp n #{'%05d' % id} - Create [#{name}:#{id}] #{position} #{target.inspect}" if @debug_mode
-        g.wait_until_started(10)
+        # 3s is plenty for /g_new -> /n_go on a healthy server (typically
+        # sub-100ms). A longer timeout only stretches recovery when /n_go
+        # genuinely won't arrive — e.g. if the World was rebuilt after our
+        # /notify subscription registered, wiping the subscriber list, and
+        # spider's debounce thread is already queueing another reinit pass.
+        g.wait_until_started(3)
         g
       else
         m = "unable to create a node with position: #{position} and target #{target.inspect}"

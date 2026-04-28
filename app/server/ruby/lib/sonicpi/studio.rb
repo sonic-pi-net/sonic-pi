@@ -485,37 +485,52 @@ module SonicPi
           log_phase_err.call("loading synthdefs", e)
         end
 
-        # Phase 4: Start mixer and reapply GUI settings (firing from
-        # updateAudioDeviceConfig targets the dead pre-swap node)
-        begin
-          start_mixer
-          set_volume(@volume, true, true) if @volume
-          mixer_invert_stereo(@mixer_invert_stereo) if @mixer_invert_stereo
-          if @mixer_force_mono
-            mixer_mono_mode
+        # Phases 4-6 all need the mixer group from Phase 2. If Phase 2
+        # didn't complete (typically because a second /supersonic/setup
+        # arrived mid-Phase-2 — the new World wiped the /notify subscribers
+        # list, so wait_until_started for /n_go hit its timeout and raised
+        # before @mixer_group was assigned), running them anyway just
+        # produces noisy `nil.subnode_add` NoMethodErrors. Skip cleanly;
+        # the debounce thread in spider-server.rb will queue another pass
+        # that runs against the settled World and succeeds.
+        if @mixer_group.nil?
+          STDOUT.puts "Studio - Phase 2 incomplete (mixer group nil) — " \
+                      "skipping mixer/scope/init; debouncer will retry"
+          STDOUT.flush
+          message "Reinitialisation aborted (will retry on next swap settle)"
+        else
+          # Phase 4: Start mixer and reapply GUI settings (firing from
+          # updateAudioDeviceConfig targets the dead pre-swap node)
+          begin
+            start_mixer
+            set_volume(@volume, true, true) if @volume
+            mixer_invert_stereo(@mixer_invert_stereo) if @mixer_invert_stereo
+            if @mixer_force_mono
+              mixer_mono_mode
+            end
+            STDOUT.puts "Studio - Phase 4: Mixer (#{(Time.now - start).round(2)}s)"
+            STDOUT.flush
+          rescue Exception => e
+            log_phase_err.call("starting mixer", e)
           end
-          STDOUT.puts "Studio - Phase 4: Mixer (#{(Time.now - start).round(2)}s)"
-          STDOUT.flush
-        rescue Exception => e
-          log_phase_err.call("starting mixer", e)
-        end
 
-        # Phase 5: Start scope
-        begin
-          start_scope
-          STDOUT.puts "Studio - Phase 5: Scope (#{(Time.now - start).round(2)}s)"
-          STDOUT.flush
-        rescue Exception => e
-          log_phase_err.call("starting scope", e)
-        end
+          # Phase 5: Start scope
+          begin
+            start_scope
+            STDOUT.puts "Studio - Phase 5: Scope (#{(Time.now - start).round(2)}s)"
+            STDOUT.flush
+          rescue Exception => e
+            log_phase_err.call("starting scope", e)
+          end
 
-        # Phase 6: Init studio (synthdefs, samples, rand buffer)
-        begin
-          init_studio
-          STDOUT.puts "Studio - Phase 6: Init (#{(Time.now - start).round(2)}s)"
-          STDOUT.flush
-        rescue Exception => e
-          log_phase_err.call("in init_studio", e)
+          # Phase 6: Init studio (synthdefs, samples, rand buffer)
+          begin
+            init_studio
+            STDOUT.puts "Studio - Phase 6: Init (#{(Time.now - start).round(2)}s)"
+            STDOUT.flush
+          rescue Exception => e
+            log_phase_err.call("in init_studio", e)
+          end
         end
 
         message "Reinitialisation complete (#{(Time.now - start).round(2)}s)"
