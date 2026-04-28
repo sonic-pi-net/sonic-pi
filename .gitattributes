@@ -1,0 +1,8 @@
+# Windows batch and command scripts must be checked out with CRLF line
+# endings. cmd.exe's parser uses absolute file offsets and re-seeks across
+# line boundaries; LF-only .bat files containing multi-line if/for blocks
+# can send it into an infinite loop reading partial tokens (e.g. `setlocal`
+# becoming `ocal` after the first re-seek). Enforce CRLF here regardless
+# of each contributor's local core.autocrlf setting.
+*.bat text eol=crlf
+*.cmd text eol=crlf

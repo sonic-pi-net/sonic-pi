@@ -98,7 +98,7 @@ jobs:
         id: ruby-inst
         with:
           ruby-version: 3.4.4
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
       - name: Set up CMake
         uses: lukka/get-cmake@v4.0.2
@@ -109,7 +109,7 @@ jobs:
         run: |
           gem install rugged
           gem install test-unit
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
       # Install gems Linux - needs sudo
       - name: Setup Ruby Gems
@@ -124,7 +124,7 @@ jobs:
         working-directory: ${{github.workspace}}/app/server/native
         run: |
           ln -s ${{steps.ruby-inst.outputs.ruby-prefix}} ruby
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
         # Get Qt
       - name: Install Qt 6
@@ -147,7 +147,7 @@ jobs:
         with:
           otp-version: "27"
           elixir-version: "1.18"
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
         # Install Elixir on MacOS
       - name: Mac Elixir
@@ -195,7 +195,7 @@ jobs:
           if exist "c:\msys64" mv c:/msys64 c:/__msys64
           if exist "%RUBY_PREFIX%\msys64" mv "%RUBY_PREFIX%\msys64" "%RUBY_PREFIX%\__msys64"
           win-prebuild.bat
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
         #- name: Setup tmate session
         # uses: mxschmitt/action-tmate@v3
@@ -229,7 +229,7 @@ jobs:
           QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
         run: |
           win-config.bat ${{ matrix.build_type }}
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
       # Finally: Build
       - name: Build Linux
@@ -246,7 +246,7 @@ jobs:
         working-directory: ${{github.workspace}}/app
         shell: cmd
         run: win-build-gui.bat  ${{ matrix.build_type }}
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
       # Build Tau server
       - name: Build Tau Server (Linux)
@@ -263,7 +263,7 @@ jobs:
         working-directory: ${{github.workspace}}/app
         shell: cmd
         run: win-post-tau-prod-release.bat
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
       - name: BEAM Tests Windows
         shell: cmd
@@ -272,7 +272,7 @@ jobs:
         env:
           TAU_ENV: test
           TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
       - name: BEAM Tests (Linux)
         working-directory: ${{github.workspace}}/app/server/beam/tau
@@ -324,7 +324,7 @@ jobs:
           ) else (
             echo "Directory %GITHUB_WORKSPACE%\app\build\api-tests exists."
           )
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
       # --- Windows API tests step ---
       - name: API Tests - Windows
@@ -333,7 +333,7 @@ jobs:
         env:
           SONIC_PI_ENV: test
         run: ctest --verbose
-        if: matrix.os == 'windows-2022'
+        if: startsWith(matrix.os, 'windows')
 
 
       - name: Archive Logs

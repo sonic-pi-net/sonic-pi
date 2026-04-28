@@ -1,101 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xmlns:firewall="http://schemas.microsoft.com/wix/FirewallExtension">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui"
+     xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
 
-    <Product Id="*" Name="Sonic Pi" Language="1033" Version="4.6.0" Manufacturer="Sonic Pi" UpgradeCode="ECA5D03B-CEBD-4672-A0A2-176CBCBA4429">
-        <Package Description="Sonic Pi Installer" Comments="Sonic Pi Installer" Platform="x64" InstallScope="perMachine" InstallerVersion="301" Compressed="yes" />
-        <Property Id="REINSTALLMODE" Value="amus"/>
+    <!-- ================================================================== -->
+    <!-- Release vs Beta — pass -d IsBeta=true to build a beta installer    -->
+    <!-- ================================================================== -->
+    <?ifdef IsBeta ?>
+        <?define ProductName    = "Sonic Pi BETA" ?>
+        <?define UpgradeCode    = "ECA5D03B-CEBD-4672-BE1A-176CBCBA4429" ?>
+        <?define InstallDirName = "Sonic Pi BETA" ?>
+    <?else ?>
+        <?define ProductName    = "Sonic Pi" ?>
+        <?define UpgradeCode    = "ECA5D03B-CEBD-4672-A0A2-176CBCBA4429" ?>
+        <?define InstallDirName = "Sonic Pi" ?>
+    <?endif ?>
+
+    <!-- Version is passed from build-msi.bat via -d Version=X.Y.Z -->
+
+    <Package Name="$(var.ProductName)"
+             Version="$(var.Version)"
+             Manufacturer="Sonic Pi"
+             UpgradeCode="$(var.UpgradeCode)"
+             Language="1033"
+             InstallerVersion="500"
+             Compressed="yes"
+             Scope="perMachine">
+
+        <SummaryInformation Description="$(var.ProductName) Installer"
+                            Manufacturer="Sonic Pi" />
+
+        <Property Id="REINSTALLMODE" Value="amus" />
         <Property Id="MSIFASTINSTALL" Value="1" />
-        <MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallInitialize"/>
-        <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
+        <MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallInitialize" />
+        <MediaTemplate EmbedCab="yes" />
 
+        <!-- Branding -->
         <WixVariable Id="WixUILicenseRtf" Value="wix\LICENSE.rtf" />
         <WixVariable Id="WixUIBannerBmp" Value="wix\wix_ui_banner.bmp" />
         <WixVariable Id="WixUIDialogBmp" Value="wix\wix_ui_dialog.bmp" />
-        <Property Id='ARPCONTACT'>https://in-thread.sonic-pi.net</Property>
-        <Property Id='ARPHELPLINK'>https://in-thread.sonic-pi.net</Property>
-        <Property Id='ARPURLINFOABOUT'>https://sonic-pi.net</Property>
-        <Property Id='ARPPRODUCTICON'>StartMenuIcon.exe</Property>
 
-        <!-- Visual C++ Redistributable Detection -->
-        <Property Id="VCREDIST2019_INSTALLED">
+        <Property Id="ARPCONTACT"       Value="https://in-thread.sonic-pi.net" />
+        <Property Id="ARPHELPLINK"      Value="https://in-thread.sonic-pi.net" />
+        <Property Id="ARPURLINFOABOUT"  Value="https://sonic-pi.net" />
+        <Property Id="ARPPRODUCTICON"   Value="StartMenuIcon.exe" />
+
+        <!-- ============================================================== -->
+        <!-- Visual C++ Redistributable — architecture-correct via          -->
+        <!-- $(sys.BUILDARCH) which resolves to x64 or arm64                -->
+        <!-- ============================================================== -->
+        <Property Id="VCREDIST_INSTALLED">
             <DirectorySearch Id="VCRedistSystem64" Path="[System64Folder]">
-                <FileSearch Name="vcruntime140.dll" MinVersion="14.20.27508.1"/>
+                <FileSearch Name="vcruntime140.dll" MinVersion="14.20.27508.1" />
             </DirectorySearch>
         </Property>
 
-        <!-- Bundle the vcredist installer -->
-        <Binary Id="vcredist_x64" SourceFile="vcredist_x64.exe" />
+        <Binary Id="vcredist" SourceFile="vcredist_$(sys.BUILDARCH).exe" />
 
         <CustomAction Id="InstallVCRedist"
-            BinaryKey="vcredist_x64"
-            ExeCommand="/quiet /norestart"
-            Execute="immediate"
-            Return="check" />
+                      BinaryRef="vcredist"
+                      ExeCommand="/quiet /norestart"
+                      Execute="immediate"
+                      Return="check" />
 
-        <CustomAction Id="VCRedistFailure"
-            Error="Failed to install Visual C++ Redistributable. Please install it manually from https://aka.ms/vs/17/release/vc_redist.x64.exe and then run this installer again." />
-
-        <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="ProgramFiles64Folder" Name="PFiles">
-                <Directory Id="SonicPi" Name="Sonic Pi">
-                    <Directory Id="AppDir" Name="app">
-                        <Directory Id="GUI" Name="gui">
-                            <Directory Id="BUILD" Name="build">
-                                <Directory Id="RELEASE" Name="Release">
-                                    <Component Id="SONIC_PI.EXE" DiskId="1" Guid="BA4C72F9-C198-436A-B1E2-B2DF8EC65960">
-                                        <File Id="SONIC_PI.EXE" Name="sonic-pi.exe" Source="SourceDir\app\gui\build\Release\sonic-pi.exe" />
-                                    </Component>
-                                </Directory>
-                            </Directory>
+        <!-- ============================================================== -->
+        <!-- Directory layout                                               -->
+        <!-- ============================================================== -->
+        <StandardDirectory Id="ProgramFiles64Folder">
+            <Directory Id="SonicPiDir" Name="$(var.InstallDirName)">
+                <Directory Id="AppDir" Name="app">
+                    <Directory Id="GuiDir" Name="gui">
+                        <Directory Id="BuildDir" Name="build">
+                            <Directory Id="ReleaseDir" Name="Release" />
                         </Directory>
                     </Directory>
                 </Directory>
             </Directory>
-            <Directory Id="ProgramMenuFolder">
-                <Directory Id="ProgramMenuDir" Name="Sonic Pi">
-                    <Component Id="StartMenuShortcuts" Guid="BBD1AB47-BC24-437D-86E4-6B8D59CBB12F">
-                        <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
-                        <RegistryValue Root="HKCU" Key="Software\[ProductName]" Type="string" Value="" />
-                        <util:InternetShortcut Id="WebsiteShortcut" Name="Sonic Pi Support" Target="https://in-thread.sonic-pi.net" />
-                        <Shortcut Id="SonicPi" Name="Sonic Pi" Target="[#SONIC_PI.EXE]" />
-                    </Component>
-                </Directory>
-            </Directory>
-        </Directory>
+        </StandardDirectory>
 
+        <StandardDirectory Id="ProgramMenuFolder">
+            <Directory Id="ProgramMenuDir" Name="$(var.ProductName)">
+                <Component Id="StartMenuShortcuts" Guid="BBD1AB47-BC24-437D-86E4-6B8D59CBB12F">
+                    <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+                    <RegistryValue Root="HKCU" Key="Software\[ProductName]"
+                                   Type="string" Value="" KeyPath="yes" />
+                    <util:InternetShortcut Id="WebsiteShortcut"
+                                           Name="Sonic Pi Support"
+                                           Target="https://in-thread.sonic-pi.net" />
+                    <Shortcut Id="SonicPi"
+                              Name="$(var.ProductName)"
+                              Target="[#SONIC_PI.EXE]" />
+                </Component>
+            </Directory>
+        </StandardDirectory>
+
+        <!-- ============================================================== -->
+        <!-- Explicit component for sonic-pi.exe (stable GUID for upgrades) -->
+        <!-- ============================================================== -->
+        <Component Id="SonicPiExe" Directory="ReleaseDir"
+                   Guid="BA4C72F9-C198-436A-B1E2-B2DF8EC65960">
+            <File Id="SONIC_PI.EXE" Name="sonic-pi.exe"
+                  Source="app\gui\build\Release\sonic-pi.exe" />
+        </Component>
+
+        <!-- ============================================================== -->
+        <!-- Harvested files — replaces heat.exe + filter.xslt              -->
+        <!-- sonic-pi.exe is excluded since it has its own component above  -->
+        <!-- ============================================================== -->
+        <ComponentGroup Id="AllFiles" Directory="SonicPiDir">
+            <Files Subdirectory="app" Include="..\app\**">
+                <Exclude Files="..\app\gui\build\Release\sonic-pi.exe" />
+            </Files>
+            <Files Subdirectory="etc" Include="..\etc\**" />
+            <Files Include="..\VERSION" />
+        </ComponentGroup>
+
+        <!-- ============================================================== -->
+        <!-- Features                                                       -->
+        <!-- ============================================================== -->
         <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
-            <ComponentGroupRef Id="ETC"/>
-            <ComponentGroupRef Id="GUI"/>
-            <ComponentGroupRef Id="SERVER"/>
-            <ComponentGroupRef Id="CONFIG"/>
-            <ComponentRef Id="SONIC_PI.EXE" />
+            <ComponentGroupRef Id="AllFiles" />
+            <ComponentRef Id="SonicPiExe" />
             <ComponentRef Id="StartMenuShortcuts" />
         </Feature>
 
-        <!-- Install sequence for vcredist - only run if not already installed -->
+        <!-- ============================================================== -->
+        <!-- Install VCRedist if not already present                        -->
+        <!-- ============================================================== -->
         <InstallUISequence>
-            <Custom Action="InstallVCRedist" After="CostFinalize">
-                <![CDATA[NOT VCREDIST2019_INSTALLED]]>
-            </Custom>
+            <Custom Action="InstallVCRedist" After="CostFinalize"
+                    Condition="NOT VCREDIST_INSTALLED" />
         </InstallUISequence>
 
-        <UI Id="UserInterface">
-            <UIRef Id="WixUI_Minimal" />
-            <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
-            <DialogRef Id="ProgressDlg" />
-            <DialogRef Id="ErrorDlg" />
-            <DialogRef Id="FilesInUse" />
-            <DialogRef Id="FatalError" />
-            <DialogRef Id="UserExit" />
-            <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication" Order="999">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
-            <Publish Dialog="WelcomeDlg" Control="Next" Event="EndDialog" Value="Return" Order="2"></Publish>
+        <!-- ============================================================== -->
+        <!-- UI                                                             -->
+        <!-- ============================================================== -->
+        <ui:WixUI Id="WixUI_Minimal" />
+
+        <UI>
+            <Publish Dialog="ExitDialog" Control="Finish"
+                     Event="DoAction" Value="LaunchApplication" Order="999"
+                     Condition="WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed" />
+            <Publish Dialog="WelcomeDlg" Control="Next"
+                     Event="EndDialog" Value="Return" Order="2" />
         </UI>
 
-        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Sonic Pi" />
-        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
-        <Property Id="WixShellExecTarget" Value="[#SONIC_PI.EXE]" />
-        <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT"
+                  Value="Launch $(var.ProductName)" />
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
+        <CustomAction Id="LaunchApplication"
+                      Directory="ReleaseDir"
+                      ExeCommand="[#SONIC_PI.EXE]"
+                      Execute="immediate"
+                      Return="asyncNoWait"
+                      Impersonate="yes" />
 
-        <Icon Id="StartMenuIcon.exe" SourceFile="../../app/gui/build/Release/sonic-pi.exe" />
-    </Product>
+        <Icon Id="StartMenuIcon.exe"
+              SourceFile="app\gui\build\Release\sonic-pi.exe" />
+    </Package>
 </Wix>
