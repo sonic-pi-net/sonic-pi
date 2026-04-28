@@ -1,129 +1,119 @@
 #!/bin/bash
-set -eux # Quit script on error
+# mac-release.sh — orchestrator for the macOS release pipeline.
+#
+# Stages run in order, each is also runnable standalone:
+#   00-stage          stage the .app from build/gui/ into build/macOS_Release/
+#   01-prune          prune vendor docs/tests, dSYM, headers; flatten symlinks
+#   02-bundle-dylibs  copy /opt/* deps into Frameworks/, rewrite to @rpath
+#   03-info-plist     set version, copyright, LSMinimumSystemVersion, etc.
+#   04-codesign       deep-sign every binary with hardened runtime + entitlements
+#   05-package-dmg    build a UDZO dmg with /Applications symlink, sign it
+#   06-notarize       submit dmg to Apple, wait, staple
+#   07-verify         codesign --verify, spctl --assess, stapler validate
+#
+# Usage:
+#   ./mac-release.sh                        # run all stages
+#   ./mac-release.sh all                    # same
+#   ./mac-release.sh 02-bundle-dylibs       # just one stage
+#   ./mac-release.sh 02 03 04               # range of stages by number prefix
+#   ./mac-release.sh --skip-notarize        # all but notarize/staple (offline)
+#   ./mac-release.sh --help
+#
+# Env overrides:
+#   SONIC_PI_RELEASE_IDENTITY    full quoted "Developer ID Application: ..."
+#   SONIC_PI_RELEASE_ADHOC=1     ad-hoc sign instead (no real signing/notary)
+#   SONIC_PI_NOTARY_PROFILE      keychain profile name (default sonic-pi-notary)
+#   SONIC_PI_RELEASE_VERBOSE=1   log every external command
+
+set -euo pipefail
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKING_DIR="$(pwd)"
+trap 'cd "${WORKING_DIR}"' EXIT
 
-cleanup_function() {
-    # Restore working directory as it was prior to this script running on exit
-    cd "${WORKING_DIR}"
-}
-trap cleanup_function EXIT
+source "${SCRIPT_DIR}/mac-release-common.sh"
 
-cd "${SCRIPT_DIR}/build/"
-mkdir -p macOS_Release
-rm -rf macOS_Release
-mkdir -p macOS_Release
+require_macos
 
-cp -R 'gui/Sonic Pi.app' macOS_Release/
+ALL_STAGES=(
+    "00-stage"
+    "01-prune"
+    "02-bundle-dylibs"
+    "03-info-plist"
+    "04-codesign"
+    "05-package-dmg"
+    "06-notarize"
+    "07-verify"
+)
 
-cd "macOS_Release/Sonic Pi.app/Contents/Resources"
-
-rm app etc server
-mkdir app
-cp -R ../../../../../../app/server app/server
-cp -R ../../../../../../app/config app/config
-cp -R ../../../../../../etc .
-ln -s app/server .
-
-mkdir -p app/gui/
-cp -R ../../../../../../app/gui/theme app/gui/
-cp -R ../../../../../../app/gui/lang app/gui/lang
-
-../../../../../../app/gui/prune.rb app/server/ruby/vendor
-
-
-rm -rf app/server/beam/tau/.elixir_ls
-
-# Now need to fix some things. Firstly, the crypto library found within Elixir releases appears
-# to be linked ot the OpenSSL library found on the build machine. This is a problem as the OpenSSL
-# library on the build machine may not be available on the target machine. To fix this, we copy the
-# OpenSSL library into the release and then update the crypto library to link to the local copy.
-
-cd "${SCRIPT_DIR}"/build/macOS_Release/Sonic\ Pi.app/Contents/Resources/server/beam/tau/_build/prod/rel/tau/lib/crypto-*/priv/lib
-
-# Use otool to list linked libraries and grep for OpenSSL, then extract the first path
-openssl_lib=$(otool -L crypto.so | grep -E '/openssl.*/libcrypto.*\.dylib' | awk '{print $1}')
-
-# Check if the OpenSSL library was found
-if [ -n "$openssl_lib" ]; then
-    set -x
-    echo "OpenSSL library found: $openssl_lib"
-    cp "$openssl_lib" .
-    filename_with_ext=$(basename "$openssl_lib")
-    install_name_tool -change "$openssl_lib" "@loader_path/$filename_with_ext" crypto.so
-    install_name_tool -change "$openssl_lib" "@loader_path/$filename_with_ext" otp_test_engine.so
-    set +x
-else
-    echo "No OpenSSL library found in $file"
-fi
-
-# Next we need to remove all symlinks in the _build release directory and replace them with the
-# actual content (or delete the symlinks if the content is missing)
-replace_symlink() {
-    local symlink="$1"
-    local target=$(readlink "$symlink")
-
-    # Resolve the absolute path of the symlink's target
-    local absolute_target
-    if [[ "$target" = /* ]]; then
-        # Absolute path
-        absolute_target="$target"
-    else
-        # Relative path
-        local symlink_dir
-        symlink_dir="$(cd "$(dirname "$symlink")" && pwd)"
-        absolute_target="$symlink_dir/$target"
-    fi
-    absolute_target="$(cd "$(dirname "$absolute_target")" && pwd)/$(basename "$absolute_target")"
-
-    if [ -e "$absolute_target" ]; then
-        echo "Found symlink: $symlink -> $absolute_target"
-
-        # Preserve permissions of the original symlink
-        local permissions
-        permissions=$(stat -f "%Lp" "$symlink")
-
-        # Create a temporary location to copy the content
-        local tmp_copy="${symlink}.tmp"
-
-        # Check if the symlink points to a file or directory
-        if [ -d "$absolute_target" ]; then
-            echo "Copying directory $absolute_target to temporary location $tmp_copy"
-            cp -R "$absolute_target" "$tmp_copy"
-        else
-            echo "Copying file $absolute_target to temporary location $tmp_copy"
-            cp "$absolute_target" "$tmp_copy"
-        fi
-
-        # Remove the symlink and move the copied content to the original location
-        echo "Removing symlink $symlink"
-        rm "$symlink"
-
-        echo "Renaming $tmp_copy to $symlink"
-        mv "$tmp_copy" "$symlink"
-
-        # Restore original permissions
-        chmod "$permissions" "$symlink"
-
-        echo "Replaced symlink with actual content and restored permissions."
-    else
-        # If the target doesn't exist, the symlink is broken
-        echo "Warning: Broken symlink detected. Removing $symlink (points to $target)"
-        rm "$symlink"
-    fi
+usage() {
+    sed -n '2,/^$/p' "$0" | sed 's/^# \{0,1\}//' >&2
+    exit "${1:-0}"
 }
 
-
-cd "${SCRIPT_DIR}/build/macOS_Release/Sonic Pi.app/Contents/Resources/server/beam/tau/_build"
-
-find . -type l | while IFS= read -r symlink; do
-    replace_symlink "$symlink"
+# Parse args
+SKIP_NOTARIZE=0
+REQUESTED=()
+for arg in "$@"; do
+    case "$arg" in
+        -h|--help)
+            usage 0 ;;
+        --skip-notarize)
+            SKIP_NOTARIZE=1 ;;
+        all|"")
+            REQUESTED=("${ALL_STAGES[@]}") ;;
+        *)
+            REQUESTED+=("$arg") ;;
+    esac
 done
 
+# If no positional stages given, default to all
+if [ ${#REQUESTED[@]} -eq 0 ]; then
+    REQUESTED=("${ALL_STAGES[@]}")
+fi
 
-echo "
+# Resolve each requested token to a full stage name (allow "02" -> "02-bundle-dylibs")
+resolve_stage() {
+    local token="$1"
+    for s in "${ALL_STAGES[@]}"; do
+        if [ "$s" = "$token" ]; then
+            printf '%s' "$s"; return 0
+        fi
+    done
+    for s in "${ALL_STAGES[@]}"; do
+        if [[ "$s" == "$token"* ]]; then
+            printf '%s' "$s"; return 0
+        fi
+    done
+    return 1
+}
 
-app/build/macOS_Release/Sonic Pi.app is now ready for signing, notarising and releasing...
+RESOLVED=()
+for token in "${REQUESTED[@]}"; do
+    s="$(resolve_stage "$token")" || die "Unknown stage: $token (known: ${ALL_STAGES[*]})"
+    RESOLVED+=("$s")
+done
 
-"
+if [ "$SKIP_NOTARIZE" = "1" ]; then
+    FILTERED=()
+    for s in "${RESOLVED[@]}"; do
+        case "$s" in 06-notarize) ;; *) FILTERED+=("$s") ;; esac
+    done
+    RESOLVED=("${FILTERED[@]}")
+fi
+
+log_step "Sonic Pi macOS release — stages: ${RESOLVED[*]}"
+log_info "Version:    $(release_version)"
+log_info "Identity:   $(release_identity)"
+log_info "Team ID:    $(release_team_id)"
+log_info "Bundle ID:  ${RELEASE_BUNDLE_ID}"
+log_info "Output:     ${RELEASE_BUILD_DIR}"
+
+for s in "${RESOLVED[@]}"; do
+    stage_script="${SCRIPT_DIR}/mac-release-${s}.sh"
+    [ -x "$stage_script" ] || die "Missing or not executable: $stage_script"
+    log_step "stage ${s}"
+    "$stage_script"
+done
+
+log_ok "release pipeline finished"
