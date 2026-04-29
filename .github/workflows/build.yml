@@ -385,6 +385,13 @@ jobs:
 
       - uses: actions/checkout@v4
 
+      # The container runs as root but the runner-mounted workspace is
+      # owned by a different uid; without this, every `git` call inside
+      # the build scripts (e.g. linux-prebuild.sh's submodule update)
+      # fails with "fatal: detected dubious ownership in repository".
+      - name: Trust workspace for git
+        run: git config --global --add safe.directory '*'
+
       # Cache the bundled Ruby tree across runs — recompiling MRI takes ~3-5min.
       - name: Restore bundled Ruby cache
         id: ruby-cache
