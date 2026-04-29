@@ -392,6 +392,9 @@ jobs:
 
       - name: Build Ruby ${{env.RUBY_VERSION}} (--enable-load-relative)
         if: steps.ruby-cache.outputs.cache-hit != 'true'
+        # Force bash so set -o pipefail and ${VAR%.*} work — the
+        # ubuntu:22.04 container's default /bin/sh is dash.
+        shell: bash
         run: |
           set -euo pipefail
           cd /tmp
