@@ -1,7 +1,14 @@
 #!/bin/bash
-set -euo pipefail
+set -e # Quit script on error
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+WORKING_DIR="$(pwd)"
 
-# ──────────────────────────────────────────────────────────────────────────────
+cleanup_function() {
+    # Restore working directory as it was prior to this script running on exit
+    cd "${WORKING_DIR}"
+}
+trap cleanup_function EXIT
+
 # Build a Sonic Pi AppImage from app/build/linux_dist (produced by
 # linux-release.sh). Auto-downloads linuxdeploy + linuxdeploy-plugin-qt +
 # appimagetool into a cache dir on first run.
@@ -9,41 +16,31 @@ set -euo pipefail
 # Usage:
 #   ./linux-appimage.sh                  build AppImage from existing linux_dist
 #   ./linux-appimage.sh --rebuild-dist   rerun linux-release.sh first
-#   VERSION=4.6.0 ./linux-appimage.sh    override version (else parsed from
-#                                         server/ruby/lib/sonicpi/runtime.rb)
-# ──────────────────────────────────────────────────────────────────────────────
+#   VERSION=4.6.0 ./linux-appimage.sh    override version (else read from
+#                                         the repo-root VERSION file)
 
-readonly SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-readonly DIST_DIR="${SCRIPT_DIR}/build/linux_dist"
-readonly APPDIR="${SCRIPT_DIR}/build/Sonic_Pi.AppDir"
-readonly TOOLS_DIR="${SCRIPT_DIR}/build/_appimage_tools"
-readonly ICON_SRC="${SCRIPT_DIR}/gui/images/icon.png"
-readonly ICON_SIZE=256
-readonly ARCH="$(uname -m)"
+DIST_DIR="${SCRIPT_DIR}/build/linux_dist"
+APPDIR="${SCRIPT_DIR}/build/Sonic_Pi.AppDir"
+TOOLS_DIR="${SCRIPT_DIR}/build/_appimage_tools"
+ICON_SRC="${SCRIPT_DIR}/gui/images/icon.png"
+ICON_SIZE=256
+ARCH="$(uname -m)"
 
 # Pure-video codec libs aubio_onset transitively pulls in via libavcodec but
 # Sonic Pi never decodes video — safe to omit, saves ~40MB.
-readonly EXCLUDED_LIBS=(libx265 libaom libSvtAv1Enc libcodec2 librsvg-2)
-
-# Saved at script entry so the EXIT trap can restore it.
-readonly WORKING_DIR="$(pwd)"
+EXCLUDED_LIBS=(libx265 libaom libSvtAv1Enc libcodec2 librsvg-2)
 
 usage() {
-    sed -n '/^# ─*$/,/^# ─*$/p' "$0" | sed 's/^# \?//' | head -n -1 | tail -n +2
+    cat <<EOF
+Build a Sonic Pi AppImage from app/build/linux_dist (produced by linux-release.sh).
+
+Usage:
+  ./linux-appimage.sh                  build AppImage from existing linux_dist
+  ./linux-appimage.sh --rebuild-dist   rerun linux-release.sh first
+  VERSION=4.6.0 ./linux-appimage.sh    override version (else read from VERSION file)
+EOF
     exit "${1:-0}"
 }
-
-cleanup() {
-    local rc=$?
-    cd "${WORKING_DIR}"
-    # Leave a half-built AppDir behind only in interactive runs; in CI/scripts
-    # the next run will rm it anyway, but a clean failure is friendlier.
-    if [ $rc -ne 0 ] && [ -d "$APPDIR" ] && [ -z "${KEEP_APPDIR_ON_FAIL:-}" ]; then
-        echo "Cleaning up partial AppDir (set KEEP_APPDIR_ON_FAIL=1 to retain)..." >&2
-        rm -rf "$APPDIR"
-    fi
-}
-trap cleanup EXIT
 
 parse_args() {
     REBUILD_DIST=false
@@ -59,16 +56,16 @@ parse_args() {
 
 resolve_version() {
     if [ -n "${VERSION:-}" ]; then return; fi
-    # Source of truth is the active @version assignment in runtime.rb.
-    # The line directly above is a commented-out dev version; the leading
-    # `#` stops it matching ^\s*@version.
-    local runtime_rb="${SCRIPT_DIR}/server/ruby/lib/sonicpi/runtime.rb"
-    VERSION="$(grep -E '^[[:space:]]*@version[[:space:]]*=[[:space:]]*Version\.new' "$runtime_rb" \
-        | head -n1 \
-        | grep -oE '[0-9]+,[[:space:]]*[0-9]+,[[:space:]]*[0-9]+' \
-        | tr -d ' ' | tr ',' '.')"
+    # Repo-root VERSION file is the single source of truth (also read by
+    # runtime.rb at boot via Version.init_from_string).
+    local version_file="${SCRIPT_DIR}/../VERSION"
+    if [ ! -f "$version_file" ]; then
+        echo "ERROR: VERSION file not found at $version_file — pass VERSION=x.y.z" >&2
+        exit 1
+    fi
+    VERSION="$(tr -d '[:space:]' < "$version_file")"
     if [ -z "$VERSION" ]; then
-        echo "ERROR: could not parse @version from $runtime_rb — pass VERSION=x.y.z" >&2
+        echo "ERROR: VERSION file empty — pass VERSION=x.y.z" >&2
         exit 1
     fi
 }
@@ -142,6 +139,24 @@ stage_appdir() {
              "$APPDIR/usr/share/sonic-pi"
     cp -a "${DIST_DIR}/." "$APPDIR/usr/share/sonic-pi/"
 
+    # The AppImage ships no compiled Ruby C extensions: target Rubies vary across
+    # user systems so prebuilt .so files would mismatch ABI. Strip rb-native/ and
+    # the rugged vendor tree so gitsave.rb's LoadError fallback engages cleanly.
+    local ruby_root="$APPDIR/usr/share/sonic-pi/app/server/ruby"
+    rm -rf "$ruby_root/rb-native" "$ruby_root/vendor/rugged-"*
+
+    if [ -n "${BUNDLED_RUBY_DIR:-}" ]; then
+        if [ ! -x "${BUNDLED_RUBY_DIR}/bin/ruby" ]; then
+            echo "ERROR: BUNDLED_RUBY_DIR=${BUNDLED_RUBY_DIR} has no bin/ruby" >&2
+            exit 1
+        fi
+        echo "    bundling Ruby from ${BUNDLED_RUBY_DIR}"
+        mkdir -p "$APPDIR/usr/ruby"
+        cp -a "${BUNDLED_RUBY_DIR}/." "$APPDIR/usr/ruby/"
+    else
+        echo "    BUNDLED_RUBY_DIR unset — AppImage will require system Ruby 3.x"
+    fi
+
     # linuxdeploy inspects executables it's told about; symlinking the GUI binary
     # into usr/bin gives it a stable target with a relative path.
     ln -sf "../share/sonic-pi/app/build/gui/sonic-pi" "$APPDIR/usr/bin/sonic-pi"
@@ -184,7 +199,15 @@ write_apprun() {
 #!/bin/bash
 HERE="$(dirname "$(readlink -f "$0")")"
 
-if ! command -v ruby >/dev/null 2>&1; then
+# Bundled Ruby (configure --enable-load-relative) finds its stdlib relative to
+# the bin/ruby that's invoked. Falling back to the system ruby is the legacy
+# path for AppImages built without BUNDLED_RUBY_DIR set.
+if [ -x "$HERE/usr/ruby/bin/ruby" ]; then
+    export PATH="$HERE/usr/ruby/bin:$PATH"
+    export LD_LIBRARY_PATH="$HERE/usr/lib:$HERE/usr/ruby/lib:${LD_LIBRARY_PATH:-}"
+elif command -v ruby >/dev/null 2>&1; then
+    export LD_LIBRARY_PATH="$HERE/usr/lib:${LD_LIBRARY_PATH:-}"
+else
     msg="Sonic Pi requires Ruby 3.x to run.
 
 Please install via your distro:
@@ -199,7 +222,6 @@ Please install via your distro:
     exit 1
 fi
 
-export LD_LIBRARY_PATH="$HERE/usr/lib:${LD_LIBRARY_PATH:-}"
 export QT_PLUGIN_PATH="$HERE/usr/plugins:${QT_PLUGIN_PATH:-}"
 export QML2_IMPORT_PATH="$HERE/usr/qml:${QML2_IMPORT_PATH:-}"
 exec "$HERE/usr/share/sonic-pi/app/build/gui/sonic-pi" "$@"
@@ -223,12 +245,27 @@ bundle_deps() {
         exclude_args+=(--exclude-library "${lib}*")
     done
 
+    # Tell linuxdeploy about every native binary that runs at user time so its
+    # transitive .so deps land in usr/lib. The Tau Erlang prod release brings
+    # its own erts/ tree; beam.smp is the emulator and pulls in libcrypto etc.
+    local extra_exes=()
+    if [ -n "${BUNDLED_RUBY_DIR:-}" ] && [ -x "$APPDIR/usr/ruby/bin/ruby" ]; then
+        extra_exes+=(--executable "$APPDIR/usr/ruby/bin/ruby")
+    fi
+    local beam_smp
+    beam_smp=$(find "$APPDIR/usr/share/sonic-pi/app/server/beam/tau" \
+                    -path '*/erts-*/bin/beam.smp' -type f 2>/dev/null | head -n1)
+    if [ -n "$beam_smp" ]; then
+        extra_exes+=(--executable "$beam_smp")
+    fi
+
     "$LINUXDEPLOY" \
         --appdir "$APPDIR" \
         --plugin qt \
         --executable "$APPDIR/usr/bin/sonic-pi" \
         --executable "$APPDIR/usr/share/sonic-pi/app/server/native/supersonic" \
         --executable "$APPDIR/usr/share/sonic-pi/app/server/native/aubio_onset" \
+        "${extra_exes[@]}" \
         "${exclude_args[@]}" \
         --desktop-file "$APPDIR/sonic-pi.desktop" \
         --icon-file "$APPDIR/sonic-pi.png"

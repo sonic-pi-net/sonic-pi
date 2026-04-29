@@ -32,7 +32,12 @@ cd "${SCRIPT_DIR}"
 echo "Fetching submodules (app/external/supersonic)..."
 git -C "${SCRIPT_DIR}/.." submodule update --init --recursive
 
-echo "Compiling native ruby extensions..."
-ruby "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
+if [ -n "${SP_SKIP_RUBY_EXTS:-}" ]; then
+    echo "SP_SKIP_RUBY_EXTS set — skipping native ruby extension compile."
+    rm -rf "${SCRIPT_DIR}"/server/ruby/rb-native
+else
+    echo "Compiling native ruby extensions..."
+    ruby "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
+fi
 
 "${SCRIPT_DIR}"/linux-pre-translations.sh "${args[@]}"
