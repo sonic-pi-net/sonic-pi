@@ -47,7 +47,21 @@ for /f "tokens=1 delims=-" %%V in ("%FULL_VERSION%") do set VERSION=%%V
 REM --- Parse arguments ---
 set ARCH=%~1
 set VARIANT=%~2
-if "%VARIANT%"=="" set VARIANT=release
+
+REM --- Auto-detect variant from VERSION when not specified ---
+REM Any pre-release suffix (5.0.0-dev, 5.0.0-beta1, 5.0.0-rc1, ...) builds
+REM as BETA so it installs alongside a stable release with its own
+REM ProductName, install dir, and UpgradeCode. Pass `release` explicitly
+REM to override (e.g. tagging an RC for final release without re-versioning).
+if "%VARIANT%"=="" (
+    echo %FULL_VERSION% | findstr /C:"-" >nul
+    if errorlevel 1 (
+        set VARIANT=release
+    ) else (
+        set VARIANT=beta
+        echo Auto-detected BETA variant from VERSION suffix
+    )
+)
 
 REM --- Auto-detect host architecture ---
 if "%ARCH%"=="" (

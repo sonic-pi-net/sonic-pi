@@ -26,15 +26,23 @@ build-msi.bat [arch] [variant]
 | Argument | Values | Default |
 |----------|--------|---------|
 | `arch` | `x64`, `arm64` | auto-detected from host |
-| `variant` | `release`, `beta` | `release` |
+| `variant` | `release`, `beta` | inferred from `VERSION` — pure semver (e.g. `5.0.0`) → `release`, anything with a pre-release suffix (e.g. `5.0.0-beta1`, `5.0.0-rc1`, `5.0.0-dev`) → `beta` |
+
+The variant default matters because `release` and `beta` MSIs use distinct
+`UpgradeCode`s, install dirs (`Sonic Pi` vs `Sonic Pi BETA`), and product
+names — so a user can have a stable release and a pre-release installed
+side-by-side. Auto-inferring from the VERSION suffix means tagging
+`5.0.0-beta1` is enough; you don't have to remember to also pass `beta`.
+Pass `release` explicitly to override (e.g. promoting an `-rc1` build to
+final without re-versioning).
 
 ### Examples
 
 ```batch
-build-msi.bat                   REM auto-detect arch, release
-build-msi.bat arm64             REM ARM64 release
-build-msi.bat x64               REM x64 release
-build-msi.bat arm64 beta        REM ARM64 beta
+build-msi.bat                   REM auto arch, variant from VERSION
+build-msi.bat arm64             REM ARM64, variant from VERSION
+build-msi.bat x64 release       REM force release identity
+build-msi.bat arm64 beta        REM force beta identity
 ```
 
 ## What the script does
