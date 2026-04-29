@@ -423,6 +423,13 @@ jobs:
 
       - name: Install Erlang/Elixir
         uses: erlef/setup-beam@v1
+        # Custom containers don't expose the runner's ImageOS env var, so
+        # set it explicitly. Must match the container `image:` above — we
+        # use an older Ubuntu (22.04) for the lower glibc floor so the
+        # resulting AppImage runs on more distros; setup-beam needs to
+        # fetch a BEAM built for that same older Ubuntu.
+        env:
+          ImageOS: ubuntu22
         with:
           otp-version: "27"
           elixir-version: "1.18"
