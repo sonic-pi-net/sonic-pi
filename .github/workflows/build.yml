@@ -366,21 +366,24 @@ jobs:
       - name: Install base build deps
         run: |
           apt-get update
-          apt-get install -y --no-install-recommends \
-            build-essential ca-certificates curl git pkg-config m4 \
-            autoconf automake libtool-bin gettext file imagemagick fuse libfuse2 \
-            libssl-dev libyaml-dev libffi-dev libreadline-dev zlib1g-dev libgdbm-dev libgmp-dev \
-            cmake ninja-build \
-            libasound2-dev libjack-jackd2-dev pulseaudio-module-jack \
-            libaubio-dev librtmidi-dev libpng-dev libboost-all-dev \
+          # Existing-CI Linux apt list (verbatim) plus extras the bare
+          # ubuntu:22.04 container needs (build tools, archive tools), the
+          # AppImage tooling needs (file/imagemagick/fuse), and the
+          # source-build of Ruby needs (lib*-dev for ./configure).
+          apt-get install -y \
+            pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server \
+            alsa-base alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev \
+            librtmidi-dev pulseaudio-module-jack autoconf automake libtool-bin gettext \
+            pkg-config m4 libaubio-dev libpng-dev libboost-all-dev \
             libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev \
             libfreetype6-dev libfontconfig1-dev libwebkit2gtk-4.1-dev \
             libcurl4-openssl-dev libgtk-3-dev libglu1-mesa-dev \
-            sudo
+            build-essential ca-certificates curl git sudo \
+            unzip xz-utils p7zip-full \
+            file imagemagick fuse libfuse2 \
+            libyaml-dev libffi-dev libreadline-dev zlib1g-dev libgdbm-dev libgmp-dev
 
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       # Cache the bundled Ruby tree across runs — recompiling MRI takes ~3-5min.
       - name: Restore bundled Ruby cache
@@ -428,10 +431,11 @@ jobs:
         run: |
           echo "${GITHUB_WORKSPACE}/_bundled_ruby/bin" >> "$GITHUB_PATH"
 
-      - name: Install build-time gems
+      - name: Setup Ruby Gems
         working-directory: ${{github.workspace}}/app
         run: |
-          gem install --no-document test-unit
+          gem install rugged
+          gem install test-unit
 
       - name: Prebuild
         working-directory: ${{github.workspace}}/app
