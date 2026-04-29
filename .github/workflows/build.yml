@@ -128,10 +128,11 @@ jobs:
 
         # Get Qt
       - name: Install Qt 6
+        id: qt-inst
         uses: jurplel/install-qt-action@v4
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.9.0"
+          version: "6.11.0"
 
         # Install Elixir on Ubuntu
       - name: Linux Elixir
@@ -163,7 +164,7 @@ jobs:
         working-directory: ${{github.workspace}}/app
         env:
           CC: ${{ matrix.cc }}
-          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+          QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: |
           sudo apt install -y pulseaudio dbus-x11 libssl-dev ruby-dev supercollider-server sc3-plugins-server alsa-base alsa-utils jackd2 libjack-jackd2-dev libjack-jackd2-0 libasound2-dev librtmidi-dev pulseaudio-module-jack autoconf automake libtool-bin gettext pkg-config m4 libaubio-dev libpng-dev libboost-all-dev libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev libfreetype6-dev libfontconfig1-dev libwebkit2gtk-4.1-dev libcurl4-openssl-dev libgtk-3-dev libglu1-mesa-dev
           ./linux-prebuild.sh
@@ -174,26 +175,33 @@ jobs:
         working-directory: ${{github.workspace}}/app
         env:
           CC: ${{ matrix.cc }}
-          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+          QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: |
           ./mac-prebuild.sh
         if: matrix.os == 'macos-latest'
 
-      # Prebuild on Windows
-      # Hide both system msys64 and the msys64 bundled inside setup-ruby's
-      # install — vcpkg's libflac build picks up whichever cmake.exe it
-      # finds first on PATH, and the mingw cmake from msys64 can't build
-      # an MSVC triplet.
+      # Hide every msys64 dir (system root + the one bundled in setup-ruby's
+      # tool-cache install) before vcpkg runs. Otherwise vcpkg's libflac port
+      # picks up the mingw cmake.exe from msys64 and the MSVC-triplet build
+      # blows up. Done in bash so we can find them all reliably regardless
+      # of where the Ruby tool-cache lives.
+      - name: Hide msys64 from PATH (Windows)
+        shell: bash
+        run: |
+          set -x
+          [ -d /c/msys64 ] && mv /c/msys64 /c/__msys64 || true
+          find /c/hostedtoolcache -maxdepth 5 -type d -name msys64 -print0 2>/dev/null \
+            | xargs -0 -I{} mv {} {}.__hidden || true
+          where cmake || true
+        if: startsWith(matrix.os, 'windows')
+
       - name: Prebuild Windows
         working-directory: ${{github.workspace}}/app
         shell: cmd
         env:
           CC: ${{ matrix.cc }}
-          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
-          RUBY_PREFIX: ${{steps.ruby-inst.outputs.ruby-prefix}}
+          QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: |
-          if exist "c:\msys64" mv c:/msys64 c:/__msys64
-          if exist "%RUBY_PREFIX%\msys64" mv "%RUBY_PREFIX%\msys64" "%RUBY_PREFIX%\__msys64"
           win-prebuild.bat
         if: startsWith(matrix.os, 'windows')
 
@@ -205,7 +213,7 @@ jobs:
         working-directory: ${{github.workspace}}/app
         env:
           CC: ${{ matrix.cc }}
-          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+          QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: |
           ./linux-config.sh --config ${{ matrix.build_type }}
         if: matrix.os == 'ubuntu-latest'
@@ -215,7 +223,7 @@ jobs:
         working-directory: ${{github.workspace}}/app
         env:
           CC: ${{ matrix.cc }}
-          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+          QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: |
           ./mac-config.sh --config ${{ matrix.build_type }}
         if: matrix.os == 'macos-latest'
@@ -226,7 +234,7 @@ jobs:
         shell: cmd
         env:
           CC: ${{ matrix.cc }}
-          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+          QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: |
           win-config.bat ${{ matrix.build_type }}
         if: startsWith(matrix.os, 'windows')
@@ -423,10 +431,11 @@ jobs:
         uses: lukka/get-cmake@v4.0.2
 
       - name: Install Qt 6
+        id: qt-inst
         uses: jurplel/install-qt-action@v4
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.9.0"
+          version: "6.11.0"
 
       - name: Install Erlang/Elixir
         uses: erlef/setup-beam@v1
@@ -454,13 +463,13 @@ jobs:
       - name: Prebuild
         working-directory: ${{github.workspace}}/app
         env:
-          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+          QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: ./linux-prebuild.sh
 
       - name: Configure
         working-directory: ${{github.workspace}}/app
         env:
-          QT_INSTALL_LOCATION: ${{env.Qt6_DIR}}
+          QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: ./linux-config.sh --config Release
 
       - name: Build GUI
