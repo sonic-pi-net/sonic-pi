@@ -60,7 +60,8 @@
         <CustomAction Id="InstallVCRedist"
                       BinaryRef="vcredist"
                       ExeCommand="/quiet /norestart"
-                      Execute="immediate"
+                      Execute="deferred"
+                      Impersonate="no"
                       Return="check" />
 
         <!-- ============================================================== -->
@@ -125,12 +126,17 @@
         </Feature>
 
         <!-- ============================================================== -->
-        <!-- Install VCRedist if not already present                        -->
+        <!-- Install VCRedist if not already present.                       -->
+        <!-- Scheduled in InstallExecuteSequence as a deferred action so    -->
+        <!-- the system-modifying vcredist runs in the elevated install     -->
+        <!-- phase (not the planning / UI phase). The `NOT Installed`       -->
+        <!-- guard skips it on repair/uninstall — it only fires on a fresh  -->
+        <!-- or upgrading install.                                          -->
         <!-- ============================================================== -->
-        <InstallUISequence>
-            <Custom Action="InstallVCRedist" After="CostFinalize"
-                    Condition="NOT VCREDIST_INSTALLED" />
-        </InstallUISequence>
+        <InstallExecuteSequence>
+            <Custom Action="InstallVCRedist" Before="InstallFinalize"
+                    Condition="NOT VCREDIST_INSTALLED AND NOT Installed" />
+        </InstallExecuteSequence>
 
         <!-- ============================================================== -->
         <!-- UI                                                             -->
