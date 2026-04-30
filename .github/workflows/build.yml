@@ -353,19 +353,34 @@ jobs:
             ~/.sonic-pi/log/*.log
 
   # Build distributable AppImages for Linux x86_64 and aarch64.
-  # Pinned to ubuntu:22.04 (glibc 2.35) so the resulting AppImage runs on
-  # Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+, and current Arch.
+  #
+  # Each arch builds in the *oldest* container its Qt prebuilds tolerate,
+  # because that container's glibc is the AppImage's runtime floor.
+  #   x86_64  → ubuntu:22.04 (glibc 2.35) + Qt 6.5.3 LTS
+  #             Runs on Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+, Arch.
+  #   aarch64 → ubuntu:24.04 (glibc 2.39) + Qt 6.9.0
+  #             aqtinstall has no Linux ARM64 prebuilds before Qt 6.7, and
+  #             those need glibc ≥ 2.38, so 22.04 isn't an option here.
+  #             Runs on Ubuntu 24.04+, Debian 13+, Fedora 40+, Mint 22+, Arch.
   package-linux:
     name: "AppImage (${{matrix.arch}})"
     runs-on: ${{matrix.runner}}
     container:
-      image: ubuntu:22.04
+      image: ${{matrix.container}}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { arch: x86_64,  runner: ubuntu-22.04 }
-          - { arch: aarch64, runner: ubuntu-22.04-arm }
+          - arch: x86_64
+            runner: ubuntu-22.04
+            container: ubuntu:22.04
+            qt_version: "6.5.3"
+            image_os: ubuntu22
+          - arch: aarch64
+            runner: ubuntu-22.04-arm
+            container: ubuntu:24.04
+            qt_version: "6.9.0"
+            image_os: ubuntu24
     env:
       RUBY_VERSION: 3.4.4
       DEBIAN_FRONTEND: noninteractive
@@ -406,7 +421,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{github.workspace}}/_bundled_ruby
-          key: bundled-ruby-${{matrix.arch}}-${{env.RUBY_VERSION}}-glibc235
+          key: bundled-ruby-${{matrix.arch}}-${{env.RUBY_VERSION}}-${{matrix.image_os}}
 
       - name: Build Ruby ${{env.RUBY_VERSION}} (--enable-load-relative)
         if: steps.ruby-cache.outputs.cache-hit != 'true'
@@ -433,25 +448,19 @@ jobs:
       - name: Install Qt 6
         id: qt-inst
         uses: jurplel/install-qt-action@v4
-        # Older than the rest of the matrix on purpose: aqtinstall's
-        # newer Qt prebuilts are linked against glibc ≥ 2.38, but our
-        # ubuntu:22.04 container runs glibc 2.35 (the AppImage's
-        # compatibility floor). Qt 6.5 LTS prebuilds were built on
-        # an Ubuntu 20.04 base, so they load fine here. Move this
-        # version up only if/when the container's glibc moves up too.
+        # Per-arch Qt version, locked to what the container's glibc
+        # supports (see the comment on `package-linux:` above).
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.5.3"
+          version: "${{matrix.qt_version}}"
 
       - name: Install Erlang/Elixir
         uses: erlef/setup-beam@v1
         # Custom containers don't expose the runner's ImageOS env var, so
-        # set it explicitly. Must match the container `image:` above — we
-        # use an older Ubuntu (22.04) for the lower glibc floor so the
-        # resulting AppImage runs on more distros; setup-beam needs to
-        # fetch a BEAM built for that same older Ubuntu.
+        # set it explicitly. Locked to the container's matrix entry so
+        # setup-beam fetches a BEAM built for the same Ubuntu base.
         env:
-          ImageOS: ubuntu22
+          ImageOS: ${{matrix.image_os}}
         with:
           otp-version: "27"
           elixir-version: "1.18"
