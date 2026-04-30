@@ -433,9 +433,15 @@ jobs:
       - name: Install Qt 6
         id: qt-inst
         uses: jurplel/install-qt-action@v4
+        # Older than the rest of the matrix on purpose: aqtinstall's
+        # newer Qt prebuilts are linked against glibc ≥ 2.38, but our
+        # ubuntu:22.04 container runs glibc 2.35 (the AppImage's
+        # compatibility floor). Qt 6.5 LTS prebuilds were built on
+        # an Ubuntu 20.04 base, so they load fine here. Move this
+        # version up only if/when the container's glibc moves up too.
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.9.0"
+          version: "6.5.3"
 
       - name: Install Erlang/Elixir
         uses: erlef/setup-beam@v1
