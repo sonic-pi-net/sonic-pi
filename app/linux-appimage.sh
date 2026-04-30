@@ -112,9 +112,15 @@ ensure_tools() {
         "appimagetool-${ARCH}.AppImage" \
         "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-${ARCH}.AppImage")"
 
-    # linuxdeploy looks plugins up by short name on PATH (e.g. `qt` → `linuxdeploy-plugin-qt`).
-    ln -sf "$qt_plugin" "${TOOLS_DIR}/linuxdeploy-plugin-qt"
-    export PATH="${TOOLS_DIR}:${PATH}"
+    # linuxdeploy searches PATH for `linuxdeploy-plugin-qt*` to load the
+    # `--plugin qt` argument. Put the symlink to the AppRun in a clean
+    # bin/ dir that ONLY contains it — if the dir also held the raw
+    # `.AppImage` file (which it would if we just put TOOLS_DIR on PATH),
+    # linuxdeploy's glob would match the .AppImage first and try to run
+    # it as an AppImage — fatal in containers without FUSE.
+    mkdir -p "${TOOLS_DIR}/bin"
+    ln -sf "$qt_plugin" "${TOOLS_DIR}/bin/linuxdeploy-plugin-qt"
+    export PATH="${TOOLS_DIR}/bin:${PATH}"
 }
 
 # ── AppDir staging ───────────────────────────────────────────────────────────
