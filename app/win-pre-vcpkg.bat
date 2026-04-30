@@ -17,7 +17,7 @@ set VCPKG_FORCE_SYSTEM_BINARIES=
 if not exist "vcpkg\vcpkg.exe" (
     cd vcpkg
     echo Building vcpkg
-    call bootstrap-vcpkg.bat -disableMetrics
+    call .\bootstrap-vcpkg.bat -disableMetrics
     cd %~dp0
 )
 
@@ -29,7 +29,12 @@ if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
 
 cd vcpkg
 @echo Installing Libraries (%VCPKG_TRIPLET%)
-vcpkg install libsndfile[core,external-libs] --triplet %VCPKG_TRIPLET% --recurse
+.\vcpkg install libsndfile[core,external-libs] --triplet %VCPKG_TRIPLET% --recurse
+if errorlevel 1 (
+    @echo vcpkg install failed with errorlevel %errorlevel%
+    cd %WORKING_DIR%
+    exit /b %errorlevel%
+)
 
 REM Diagnostic: list what libsndfile actually installed under share/.
 REM If find_package(SndFile) fails downstream, this output makes it

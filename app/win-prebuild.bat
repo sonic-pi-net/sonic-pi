@@ -33,7 +33,7 @@ where cmake.exe
 echo Fetching submodules (app/external/supersonic)...
 git -C .. submodule update --init --recursive
 
-call win-pre-vcpkg.bat
-call win-pre-translations.bat
+call "%~dp0win-pre-vcpkg.bat"
+call "%~dp0win-pre-translations.bat"
 
 cd %WORKING_DIR%
