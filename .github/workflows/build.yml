@@ -180,17 +180,18 @@ jobs:
           ./mac-prebuild.sh
         if: matrix.os == 'macos-latest'
 
-      # Hide every msys64 dir (system root + the one bundled in setup-ruby's
+      # Hide every msys64 dir (system root + any bundled in setup-ruby's
       # tool-cache install) before vcpkg runs. Otherwise vcpkg's libflac port
       # picks up the mingw cmake.exe from msys64 and the MSVC-triplet build
-      # blows up. Done in bash so we can find them all reliably regardless
-      # of where the Ruby tool-cache lives.
+      # blows up. The Ruby-tool-cache copy lives at e.g.
+      #   /c/hostedtoolcache/windows/Ruby/3.4.4/x64/msys64
+      # so the find walks the full hostedtoolcache tree (no depth limit).
       - name: Hide msys64 from PATH (Windows)
         shell: bash
         run: |
           set -x
           [ -d /c/msys64 ] && mv /c/msys64 /c/__msys64 || true
-          find /c/hostedtoolcache -maxdepth 5 -type d -name msys64 -print0 2>/dev/null \
+          find /c/hostedtoolcache -type d -name msys64 -print0 2>/dev/null \
             | xargs -0 -I{} mv {} {}.__hidden || true
           where cmake || true
         if: startsWith(matrix.os, 'windows')
