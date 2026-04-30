@@ -163,6 +163,11 @@ etc/synthdefs/designs/overtone/sonic-pi/native
 app/.cache/clangd/index
 sonic-pi.desktop
 
+.claude/
+app/build-log.txt
+install/windows/msi-build-log.txt
+install/windows/VERSION
+
 # vc_redist.<arch>.exe is sourced from the local Visual Studio install
 # at build time (see install/windows/build-msi.bat) — never committed.
 install/windows/vcredist_*.exe
