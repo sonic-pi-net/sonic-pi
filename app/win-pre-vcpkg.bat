@@ -31,4 +31,13 @@ cd vcpkg
 @echo Installing Libraries (%VCPKG_TRIPLET%)
 vcpkg install libsndfile[core,external-libs] --triplet %VCPKG_TRIPLET% --recurse
 
+REM Diagnostic: list what libsndfile actually installed under share/.
+REM If find_package(SndFile) fails downstream, this output makes it
+REM obvious whether the CMake config was installed and where.
+@echo === installed\%VCPKG_TRIPLET%\share (sndfile-related) ===
+if exist "installed\%VCPKG_TRIPLET%\share" (
+    dir /b /s "installed\%VCPKG_TRIPLET%\share" 2>nul | findstr /i sndfile
+)
+@echo === end of share listing ===
+
 cd %WORKING_DIR%

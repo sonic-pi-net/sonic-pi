@@ -48,7 +48,10 @@ ExternalProject_Add(sp_link
     )
 
 if (WIN32 OR APPLE)
-    find_package(SndFile CONFIG REQUIRED)
+    # vcpkg's libsndfile port has shipped CMake config under both
+    # share/SndFile/SndFileConfig.cmake and share/sndfile/sndfile-config.cmake
+    # at different times; NAMES makes the lookup tolerant of either casing.
+    find_package(SndFile NAMES SndFile sndfile CONFIG REQUIRED)
 
     ExternalProject_Add(aubio-project
         PREFIX aubio-prefix
