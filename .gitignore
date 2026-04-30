@@ -166,3 +166,8 @@ sonic-pi.desktop
 # vc_redist.<arch>.exe is sourced from the local Visual Studio install
 # at build time (see install/windows/build-msi.bat) — never committed.
 install/windows/vcredist_*.exe
+
+# OpenSSL is built from source by mac-build-openssl.sh into a private
+# prefix so we control the macOS deployment target. Build output and
+# source tarball cache live here; not tracked.
+app/external/openssl-build/

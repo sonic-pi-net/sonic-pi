@@ -96,6 +96,21 @@ otool_deps() {
     '
 }
 
+# Look up an alternative source for a given dylib basename. Used to redirect
+# libssl.* and libcrypto.* away from Homebrew's bottle (which has the wrong
+# minos) and toward our private OpenSSL build (which honours
+# MACOSX_DEPLOYMENT_TARGET). Returns the override path if it exists, empty
+# otherwise.
+private_source_for() {
+    local base="$1"
+    case "$base" in
+        libssl.*.dylib|libcrypto.*.dylib)
+            local p="${APP_DIR}/external/openssl-build/install/lib/${base}"
+            [ -f "$p" ] && printf '%s' "$p"
+            ;;
+    esac
+}
+
 bundle_deps_of() {
     local binary="$1"
     chmod u+w "$binary" 2>/dev/null || true
@@ -104,7 +119,7 @@ bundle_deps_of() {
     deps_text="$(otool_deps "$binary")"
 
     local needs_rpath=0
-    local dep base target
+    local dep base target src
     while IFS= read -r dep; do
         [ -n "$dep" ] || continue
         if is_external_dep "$dep"; then
@@ -113,12 +128,18 @@ bundle_deps_of() {
 
             if ! seen "$base"; then
                 SEEN+=("$base")
-                if [ ! -f "$dep" ]; then
-                    log_warn "  ${binary##${RELEASE_APP}/}: dep not found on disk: ${dep}"
+                # Prefer our private build over the binary's recorded path
+                # for libraries we know need a controlled deployment target.
+                src="$(private_source_for "$base")"
+                if [ -z "$src" ]; then
+                    src="$dep"
+                fi
+                if [ ! -f "$src" ]; then
+                    log_warn "  ${binary##${RELEASE_APP}/}: dep not found on disk: ${src}"
                     continue
                 fi
-                log_info "  + ${base}  (from ${dep})"
-                cp "$dep" "$target"
+                log_info "  + ${base}  (from ${src})"
+                cp "$src" "$target"
                 chmod u+w "$target"
                 unsign "$target"
                 # Set the dylib's own LC_ID_DYLIB so other binaries' references

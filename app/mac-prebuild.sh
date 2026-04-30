@@ -28,6 +28,14 @@ git -C "${SCRIPT_DIR}/.." submodule update --init --recursive
 
 "${SCRIPT_DIR}"/mac-pre-vcpkg.sh "$@"
 
+# Build OpenSSL ourselves with the correct deployment target. Homebrew's
+# bottles (and even `--build-from-source`) bake the host SDK's macOS
+# version into LC_BUILD_VERSION minos, which dyld then refuses to load on
+# older macOS. Building OpenSSL ourselves into a private prefix is the
+# only way to ship a libssl/libcrypto whose minos honours
+# MACOSX_DEPLOYMENT_TARGET. Idempotent — skips on subsequent builds.
+"${SCRIPT_DIR}"/mac-build-openssl.sh
+
 echo "Compiling native ruby extensions..."
 "$RUBY" "${SCRIPT_DIR}"/server/ruby/bin/compile-extensions.rb
 
