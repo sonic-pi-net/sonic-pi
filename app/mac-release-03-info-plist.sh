@@ -28,7 +28,7 @@ COPYRIGHT="© 2013–$(date +%Y) Sam Aaron and the Sonic Pi contributors. Sonic 
 log_step "patch Info.plist"
 log_info "  CFBundleVersion              ${VERSION_FULL}"
 log_info "  CFBundleShortVersionString   ${VERSION_SHORT}"
-log_info "  LSMinimumSystemVersion       13"
+log_info "  LSMinimumSystemVersion       14"
 log_info "  LSApplicationCategoryType    public.app-category.music"
 log_info "  NSMicrophoneUsageDescription \"To code live audio\""
 log_info "  NSRequiresAquaSystemAppearance  false  (chrome follows macOS dark/light)"
@@ -49,7 +49,7 @@ plutil -replace CFBundleDevelopmentRegion     -string  "en"                     
 plutil -replace CFBundleExecutable            -string  "${RELEASE_APP_NAME}"            "$plist"
 plutil -replace CFBundleIconFile              -string  "app.icns"                       "$plist"
 
-plutil -replace LSMinimumSystemVersion        -string  "13"                             "$plist"
+plutil -replace LSMinimumSystemVersion        -string  "14"                             "$plist"
 plutil -replace LSApplicationCategoryType     -string  "public.app-category.music"      "$plist"
 
 plutil -replace NSHighResolutionCapable       -bool    true                             "$plist"

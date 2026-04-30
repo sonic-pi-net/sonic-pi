@@ -41,7 +41,11 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
 if(APPLE)
-  set(CMAKE_OSX_DEPLOYMENT_TARGET "12")
+  # Must stay in sync with LSMinimumSystemVersion in mac-release-03-info-plist.sh
+  # and the MACOSX_DEPLOYMENT_TARGET export in mac-build-all.sh. The release
+  # pipeline's stage 08 compat audit fails if any bundled Mach-O's minos
+  # exceeds this floor.
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "14")
 endif()
 
 

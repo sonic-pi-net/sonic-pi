@@ -10,6 +10,7 @@
 #   05-package-dmg    build a UDZO dmg with /Applications symlink, sign it
 #   06-notarize       submit dmg to Apple, wait, staple
 #   07-verify         codesign --verify, spctl --assess, stapler validate
+#   08-compat-audit   verify every Mach-O honours LSMinimumSystemVersion
 #
 # Usage:
 #   ./mac-release.sh                        # run all stages
@@ -44,6 +45,7 @@ ALL_STAGES=(
     "05-package-dmg"
     "06-notarize"
     "07-verify"
+    "08-compat-audit"
 )
 
 usage() {
