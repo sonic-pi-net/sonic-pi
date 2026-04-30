@@ -2,10 +2,12 @@ set WORKING_DIR=%CD%
 
 cd %~dp0
 
-REM Build vcpkg
+REM Build vcpkg — pinned to the same release tag as mac-pre-vcpkg.sh.
+REM "git clone HEAD" let vcpkg's main branch drift past the libsndfile
+REM revision the Sonic Pi CMake config expects, breaking find_package.
 if not exist "vcpkg\" (
     echo Cloning vcpkg
-    git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+    git clone --depth 1 --branch 2026.04.27 https://github.com/microsoft/vcpkg.git vcpkg
 )
 
 set VCPKG_ROOT=%~dp0/vcpkg
