@@ -132,7 +132,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.11.0"
+          version: "6.9.0"
 
         # Install Elixir on Ubuntu
       - name: Linux Elixir
@@ -435,7 +435,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.11.0"
+          version: "6.9.0"
 
       - name: Install Erlang/Elixir
         uses: erlef/setup-beam@v1
