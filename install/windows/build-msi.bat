@@ -188,6 +188,17 @@ rmdir /S /Q app\server\ruby\vendor\ruby-aubio-prerelease 2>nul
 ruby prune.rb app/server/ruby/vendor
 
 REM ======================================================================
+REM Regenerate the EULA RTF from LICENSE.md so the installer never
+REM ships an out-of-date licence panel after a LICENSE.md edit.
+REM ======================================================================
+echo Regenerating wix\LICENSE.rtf from LICENSE.md...
+ruby wix\generate_license_rtf.rb
+if errorlevel 1 (
+    echo ERROR: Failed to regenerate wix\LICENSE.rtf
+    exit /b 1
+)
+
+REM ======================================================================
 REM Build MSI with WiX v6
 REM ======================================================================
 echo.
