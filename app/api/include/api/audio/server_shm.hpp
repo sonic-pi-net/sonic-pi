@@ -144,15 +144,30 @@ inline void shm_remove(const string& name) {
 
 // ──── Fixed-layout shared memory header ─────────────────────────────────
 //
-// Segment layout:
+// Segment layout (must mirror canonical SuperSonic
+// src/scsynth/common/server_shm.hpp — supersonic's MAGIC bump enforces
+// this; an out-of-date reader sees a stranger's segment and refuses):
 //
-//   scope_shm_header                         (16 bytes, 16-aligned)
-//   scope_buffer[MAX_SCOPE_BUFFERS]           (128 scope slots)
-//   float[control_bus_count]                  (control bus values)
-//   char[remaining]                           (TLSF pool for scope data)
+//   scope_shm_header                          (16 bytes, 16-aligned)
+//   scope_buffer[MAX_SCOPE_BUFFERS]            (128 scope slots)
+//   float[control_bus_count]                   (control bus values)
+//   PerformanceMetrics                         (engine perf metrics)
+//   NodeTreeHeader + NodeEntry[NODE_TREE_MIRROR_MAX_NODES]
+//   char[remaining]                            (TLSF pool for scope data)
+//
+// Sonic Pi's reader path only needs scope buffers and (potentially) the
+// pool base — it does not interpret metrics or the node tree. We mirror
+// their sizes here purely to compute pool_base_ at the right offset.
+
+// Sizes copied from supersonic/src/shared_memory.h. Keep these in sync
+// when the supersonic side changes — the MAGIC value will catch any drift.
+static constexpr size_t METRICS_SIZE              = 184;
+static constexpr size_t NODE_TREE_HEADER_SIZE     = 16;
+static constexpr size_t NODE_TREE_ENTRY_SIZE      = 72;
+static constexpr size_t NODE_TREE_MIRROR_MAX_NODES = 1024;
 
 struct scope_shm_header {
-    static constexpr uint32_t MAGIC = 0x5C09E001;
+    static constexpr uint32_t MAGIC = 0x5C09E002;
 
     uint32_t magic;
     uint32_t num_scope_buffers;
@@ -181,8 +196,21 @@ public:
         off = (off + 15) & ~size_t(15);
         control_busses_ = reinterpret_cast<float*>(base + off);
 
-        // TLSF pool after control busses (16-aligned)
+        // PerformanceMetrics after control busses (16-aligned). Sonic Pi
+        // doesn't read the metrics struct itself; we only need the size to
+        // place pool_base_ correctly.
         off += static_cast<size_t>(control_busses) * sizeof(float);
+        off = (off + 15) & ~size_t(15);
+        off += METRICS_SIZE;
+
+        // NodeTreeHeader + NodeEntry[NODE_TREE_MIRROR_MAX_NODES] after
+        // metrics (16-aligned for the header, then 8-aligned entries —
+        // 8-alignment is naturally satisfied inside a 16-aligned region).
+        off = (off + 15) & ~size_t(15);
+        off += NODE_TREE_HEADER_SIZE;
+        off += NODE_TREE_MIRROR_MAX_NODES * NODE_TREE_ENTRY_SIZE;
+
+        // TLSF pool follows (16-aligned).
         off = (off + 15) & ~size_t(15);
         pool_base_ = base + off;
         pool_size_ = SEGMENT_SIZE - off;
