@@ -111,6 +111,7 @@ relevant licenses:
 - [kissnet](https://github.com/Ybalrid/kissnet) - [MIT License](http://opensource.org/licenses/MIT)
 - [liblo](https://github.com/radarsat1/liblo) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 - [TLSF](http://www.gii.upv.es/tlsf/) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
+- [Syphon](https://github.com/Syphon/Syphon-Framework) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause) (macOS only)
 
 ### Dynamically Linked Libraries for SuperSonic
 

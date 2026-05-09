@@ -188,6 +188,33 @@ if(WIN32)
 elseif(APPLE)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.mm)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.h)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/syphon_publisher.mm)
+
+  # Syphon-Framework — vendored, server-side Metal subset only (no GL,
+  # no client). Compiled into the app binary as ARC Objective-C.
+  set(SYPHON_DIR ${APP_ROOT}/external/Syphon-Framework)
+  set(SYPHON_SOURCES
+    ${SYPHON_DIR}/SyphonServerBase.m
+    ${SYPHON_DIR}/SyphonMetalServer.m
+    ${SYPHON_DIR}/SyphonServerConnectionManager.m
+    ${SYPHON_DIR}/SyphonServerDirectory.m
+    ${SYPHON_DIR}/SyphonServerRendererMetal.m
+    ${SYPHON_DIR}/SyphonMessaging.m
+    ${SYPHON_DIR}/SyphonMessageQueue.m
+    ${SYPHON_DIR}/SyphonMessageReceiver.m
+    ${SYPHON_DIR}/SyphonMessageSender.m
+    ${SYPHON_DIR}/SyphonCFMessageReceiver.m
+    ${SYPHON_DIR}/SyphonCFMessageSender.m
+    ${SYPHON_DIR}/SyphonDispatch.c
+    ${SYPHON_DIR}/SyphonPrivate.m
+  )
+  SET (SOURCES ${SOURCES} ${SYPHON_SOURCES})
+
+  # Syphon sources expect Syphon_Prefix.pch; we substitute syphon_prefix.h.
+  set_source_files_properties(${SYPHON_SOURCES}
+    PROPERTIES COMPILE_FLAGS "-fobjc-arc -include ${QTAPP_ROOT}/platform/syphon_prefix.h")
+  set_source_files_properties(${QTAPP_ROOT}/platform/syphon_publisher.mm
+    PROPERTIES COMPILE_FLAGS "-fobjc-arc")
 endif()
 
 set(ALL_SOURCES ${QT_SOURCES} ${SOURCES} ${EDITOR_SOURCES} ${OLD_API_SOURCES} ${NEW_API_SOURCES})
@@ -228,7 +255,7 @@ if (APPLE)
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     RESOURCE "images/app.icns"
-    LINK_FLAGS "-framework AppKit -framework AVFoundation"
+    LINK_FLAGS "-framework AppKit -framework AVFoundation -framework ScreenCaptureKit -framework Metal -framework IOSurface -framework CoreMedia -framework CoreVideo -framework OpenGL"
     OUTPUT_NAME ${MACOS_APP_NAME}
     )
   file(
@@ -272,6 +299,49 @@ if (APPLE)
     POST_BUILD
     COMMAND plutil -replace NSMicrophoneUsageDescription -string "Sonic Pi needs microphone access for its live audio input features." ${MACOS_APP_NAME}.app/Contents/Info.plist
   )
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND plutil -replace NSScreenCaptureUsageDescription -string "Sonic Pi captures its own window when you publish it as a Syphon video feed for VJ apps like Resolume Avenue." ${MACOS_APP_NAME}.app/Contents/Info.plist
+  )
+
+  # Compile Syphon's Metal shader at build time and embed the resulting
+  # default.metallib in the bundle Resources. Upstream Syphon resolves it
+  # via [NSBundle bundleForClass:[SyphonServerRendererMetal class]], which
+  # — because the Syphon source is statically linked into Sonic Pi — is
+  # the main app bundle. So Resources/default.metallib is the right path.
+  #
+  # Requires the Metal Toolchain. On Xcode 15+ it's a downloadable
+  # component, free from Apple:
+  #     xcodebuild -downloadComponent MetalToolchain
+  set(SYPHON_METALLIB_AIR ${CMAKE_CURRENT_BINARY_DIR}/SyphonMetalShaders.air)
+  set(SYPHON_METALLIB     ${CMAKE_CURRENT_BINARY_DIR}/default.metallib)
+  add_custom_command(
+    OUTPUT  ${SYPHON_METALLIB_AIR}
+    COMMAND xcrun -sdk macosx metal -c
+            ${SYPHON_DIR}/SyphonMetalShaders.metal
+            -I ${SYPHON_DIR}
+            -o ${SYPHON_METALLIB_AIR}
+    DEPENDS ${SYPHON_DIR}/SyphonMetalShaders.metal
+            ${SYPHON_DIR}/SyphonServerMetalTypes.h
+    COMMENT "Compiling SyphonMetalShaders.metal -> .air"
+  )
+  add_custom_command(
+    OUTPUT  ${SYPHON_METALLIB}
+    COMMAND xcrun -sdk macosx metallib ${SYPHON_METALLIB_AIR}
+            -o ${SYPHON_METALLIB}
+    DEPENDS ${SYPHON_METALLIB_AIR}
+    COMMENT "Linking default.metallib"
+  )
+  add_custom_target(syphon_metallib DEPENDS ${SYPHON_METALLIB})
+  add_dependencies(${APP_NAME} syphon_metallib)
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${SYPHON_METALLIB}
+            ${MACOS_APP_NAME}.app/Contents/Resources/default.metallib
+    COMMENT "Embedding Syphon default.metallib in app bundle"
+  )
   # Re-sign the whole bundle after the plutil edits above, otherwise the
   # Info.plist is no longer bound to the signature (codesign -dv reports
   # "Info.plist=not bound"). macOS silently ignores the TCC usage-
@@ -300,6 +370,33 @@ target_include_directories(${APP_NAME}
     ${QTAPP_ROOT}/Utils
     ${CMAKE_BINARY_DIR}
     include)
+
+if(APPLE)
+    # Syphon's own headers use two import styles:
+    #   - "Foo.h"          — quote form, resolves against the source dir.
+    #   - <Syphon/Foo.h>   — angle form, expects a Syphon/ directory on the
+    #                        include path. In Xcode's framework build path
+    #                        this is satisfied implicitly by the .framework
+    #                        bundle structure; for our static-vendor build
+    #                        we synthesise it: a build-tree directory
+    #                        containing a Syphon -> ../../external/Syphon-Framework
+    #                        symlink, which we then put on the include path.
+    # The vendored source tree itself stays byte-identical to upstream.
+    set(SYPHON_FRAMEWORK_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/syphon-framework-include)
+    add_custom_command(
+        OUTPUT ${SYPHON_FRAMEWORK_INCLUDE_DIR}/Syphon
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${SYPHON_FRAMEWORK_INCLUDE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E create_symlink ${APP_ROOT}/external/Syphon-Framework
+                                                  ${SYPHON_FRAMEWORK_INCLUDE_DIR}/Syphon
+        COMMENT "Synthesising <Syphon/...> include path for in-tree build"
+    )
+    add_custom_target(syphon_include_shim
+        DEPENDS ${SYPHON_FRAMEWORK_INCLUDE_DIR}/Syphon)
+    add_dependencies(${APP_NAME} syphon_include_shim)
+    target_include_directories(${APP_NAME} PRIVATE
+        ${APP_ROOT}/external/Syphon-Framework
+        ${SYPHON_FRAMEWORK_INCLUDE_DIR})
+endif()
 
 target_link_libraries(${APP_NAME}
     PRIVATE

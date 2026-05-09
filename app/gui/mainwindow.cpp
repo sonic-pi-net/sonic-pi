@@ -96,6 +96,10 @@ using namespace oscpkt; // OSC specific stuff
 #include <QWindow>
 #endif
 
+#ifdef Q_OS_MAC
+#include "platform/macos.h"
+#endif
+
 using namespace std::chrono;
 
 using namespace SonicPi;
@@ -969,6 +973,35 @@ void MainWindow::showMetroChanged()
     emit settingsChanged();
     updateMetroVisibility();
 }
+
+#ifdef Q_OS_MAC
+void MainWindow::syphonPublishMenuChanged()
+{
+    const bool wantOn = syphonPublishAct->isChecked();
+    if (wantOn) {
+        // winId() is an NSView* on macOS; the publisher walks to NSWindow.
+        WId wid = this->winId();
+        bool started = SonicPi::startWindowSyphonPublishing(
+            reinterpret_cast<void*>(wid), "Sonic Pi",
+            piSettings->syphon_show_cursor);
+        if (!started) {
+            QSignalBlocker blocker(syphonPublishAct);
+            syphonPublishAct->setChecked(false);
+        }
+        // Menu stays optimistically checked while the async setup
+        // negotiates permission; live state is in isSyphonPublishing().
+    } else {
+        SonicPi::stopWindowSyphonPublishing();
+    }
+}
+
+void MainWindow::syphonShowCursorMenuChanged()
+{
+    piSettings->syphon_show_cursor = syphonShowCursorAct->isChecked();
+    emit settingsChanged();
+    SonicPi::setSyphonShowCursor(piSettings->syphon_show_cursor);
+}
+#endif
 
 void MainWindow::showLogMenuChanged()
 {
@@ -3938,6 +3971,18 @@ void MainWindow::createToolBar()
     showMetroAct->setChecked(piSettings->show_metro);
     connect(showMetroAct, SIGNAL(triggered()), this, SLOT(showMetroChanged()));
 
+#ifdef Q_OS_MAC
+    syphonPublishAct = new QAction(tr("Publish Window via Syphon"), this);
+    syphonPublishAct->setCheckable(true);
+    syphonPublishAct->setChecked(false);
+    connect(syphonPublishAct, SIGNAL(triggered()), this, SLOT(syphonPublishMenuChanged()));
+
+    syphonShowCursorAct = new QAction(tr("Include Mouse Cursor in Syphon Feed"), this);
+    syphonShowCursorAct->setCheckable(true);
+    syphonShowCursorAct->setChecked(piSettings->syphon_show_cursor);
+    connect(syphonShowCursorAct, SIGNAL(triggered()), this, SLOT(syphonShowCursorMenuChanged()));
+#endif
+
     showButtonsAct = new QAction(tr("Show Buttons"), this);
     showButtonsAct->setCheckable(true);
     showButtonsAct->setChecked(piSettings->show_buttons);
@@ -3989,6 +4034,11 @@ void MainWindow::createToolBar()
     viewMenu->addAction(helpAct);
     viewMenu->addAction(prefsAct);
     viewMenu->addAction(showMetroAct);
+#ifdef Q_OS_MAC
+    viewMenu->addSeparator();
+    viewMenu->addAction(syphonPublishAct);
+    viewMenu->addAction(syphonShowCursorAct);
+#endif
     viewMenu->addSeparator();
 
     focusMenu = menuBar()->addMenu(tr("Focus"));
@@ -4315,6 +4365,7 @@ void MainWindow::readSettings()
     piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
     piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
     piSettings->show_metro = gui_settings->value("prefs/show_metro", true).toBool();
+    piSettings->syphon_show_cursor = gui_settings->value("prefs/syphon_show_cursor", false).toBool();
     piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
     piSettings->hide_menubar_in_fullscreen = gui_settings->value("prefs/hide-menubar-in-fullscreen", false).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
@@ -4386,6 +4437,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/hide-menubar-in-fullscreen", piSettings->hide_menubar_in_fullscreen);
     gui_settings->setValue("prefs/show_cues", piSettings->show_cues);
     gui_settings->setValue("prefs/show_metro", piSettings->show_metro);
+    gui_settings->setValue("prefs/syphon_show_cursor", piSettings->syphon_show_cursor);
     gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     gui_settings->setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
