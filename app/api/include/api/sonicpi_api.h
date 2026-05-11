@@ -72,6 +72,7 @@ enum class SonicPiPath
     BootDaemonLogPath,   // Log file for Boot Daemon output
     TauLogPath,          // Log file for Tau IO Server output
     SCSynthLogPath,      // Log file for SuperCollider scsynth's output
+    SuperSonicLogPath,   // Log file for SuperSonic audio engine
     GUILogPath,          // Log file for GUI
     ClearLogsPath,       // Path to Ruby script for clearing log dir
     ConfigPath,          // Base config folder
@@ -273,6 +274,12 @@ enum class APIProtocol
     TCP = 1
 };
 
+struct LogSource
+{
+    std::string name;
+    fs::path path;
+};
+
 struct APISettings
 {
     bool logSynths = true;
@@ -367,6 +374,7 @@ public:
     // Client has used last audio data
     virtual void AudioProcessor_ConsumedAudio();
 
+    std::vector<LogSource> GetLogSources();
     std::string GetLogs();
 
     const int GetGuid() const;

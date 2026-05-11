@@ -813,6 +813,7 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
     m_paths[SonicPiPath::BootDaemonLogPath]   = m_paths[SonicPiPath::LogPath] / "daemon.log";
     m_paths[SonicPiPath::TauLogPath]          = m_paths[SonicPiPath::LogPath] / "tau.log";
     m_paths[SonicPiPath::SCSynthLogPath]      = m_paths[SonicPiPath::LogPath] / "scsynth.log";
+    m_paths[SonicPiPath::SuperSonicLogPath]   = m_paths[SonicPiPath::LogPath] / "supersonic.log";
     m_paths[SonicPiPath::GUILogPath]          = m_paths[SonicPiPath::LogPath] / "gui.log";
 
     // Set built-in samples path
@@ -905,23 +906,28 @@ const int& SonicPiAPI::GetPort(SonicPiPortId port)
     return m_ports[port];
 }
 
+std::vector<LogSource> SonicPiAPI::GetLogSources()
+{
+    return {
+        { "GUI",        GetPath(SonicPiPath::GUILogPath) },
+        { "Spider",     GetPath(SonicPiPath::SpiderServerLogPath) },
+        { "Daemon",     GetPath(SonicPiPath::BootDaemonLogPath) },
+        { "Tau",        GetPath(SonicPiPath::TauLogPath) },
+        { "SuperSonic", GetPath(SonicPiPath::SuperSonicLogPath) }
+    };
+}
+
 std::string SonicPiAPI::GetLogs()
 {
-    auto logs = std::vector<fs::path>{ GetPath(SonicPiPath::SpiderServerLogPath),
-        GetPath(SonicPiPath::BootDaemonLogPath),
-        GetPath(SonicPiPath::TauLogPath),
-        GetPath(SonicPiPath::SCSynthLogPath),
-        GetPath(SonicPiPath::GUILogPath) };
-
     std::ostringstream str;
-    for (auto& log : logs)
+    for (const auto& src : GetLogSources())
     {
-        if (fs::exists(log))
+        if (fs::exists(src.path))
         {
-            auto contents = file_read(log);
+            auto contents = file_read(src.path);
             if (!contents.empty())
             {
-                str << "**" << string_trim(log.filename(), "\"") << "**\n\n```\n"
+                str << "**" << string_trim(src.path.filename(), "\"") << "**\n\n```\n"
                     << contents
                     << "\n```\n\n";
             }

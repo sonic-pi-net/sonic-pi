@@ -88,6 +88,7 @@ private slots:
     void logSynths();
     void clearOutputOnRun();
     void autoIndentOnRun();
+    void showDebugLogPanel();
 signals:
     void driverChanged(QString driver);
     void audioOutputDeviceChanged(QString device);
@@ -129,6 +130,7 @@ signals:
     void logSynthsChanged();
     void clearOutputOnRunChanged();
     void autoIndentOnRunChanged();
+    void showDebugLogPanelChanged();
 
 private:
     SonicPiSettings* piSettings;
@@ -144,6 +146,7 @@ private:
     QCheckBox *mixer_force_mono;
     QCheckBox *enable_scsynth_inputs;
     QCheckBox *log_synths;
+    QCheckBox *show_debug_log_panel;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
     QCheckBox *log_cues;

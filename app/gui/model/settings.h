@@ -49,6 +49,7 @@ public:
     int gui_transparency;
     bool show_autocompletion;
     bool show_context;
+    bool show_debug_log_panel;
     SonicPiTheme::Style themeStyle;
 
     // UpdateSettings;

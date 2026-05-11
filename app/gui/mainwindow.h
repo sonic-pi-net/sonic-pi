@@ -79,6 +79,7 @@ class SonicPiLexer;
 class SonicPiSettings;
 class SonicPiContext;
 class SonicPiMetro;
+class LogPanel;
 
 struct help_page
 {
@@ -324,6 +325,7 @@ private slots:
     void toggleScopePaused();
     void updateLogVisibility();
     void updateCuesVisibility();
+    void updateDebugLogPanelVisibility();
     void toggleLogVisibility();
     void toggleCuesVisibility();
     void updateTabsVisibility();
@@ -461,6 +463,7 @@ private:
     QDockWidget* hudWidget;
     QDockWidget* docWidget;
     QDockWidget* metroWidget;
+    LogPanel* debugLogPanel = nullptr;
 
     QWidget* blankWidgetOutput;
     QWidget* blankWidgetIncoming;

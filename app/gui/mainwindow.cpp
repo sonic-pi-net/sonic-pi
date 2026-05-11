@@ -75,6 +75,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/sonicpieditor.h"
 #include "widgets/sonicpilog.h"
 #include "widgets/sonicpimetro.h"
+#include "widgets/logpanel.h"
 
 #include "utils/ruby_help.h"
 
@@ -213,6 +214,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     updateButtonVisibility();
     updateLogVisibility();
     updateCuesVisibility();
+    updateDebugLogPanelVisibility();
 
     // The implementation of this method is dynamically generated and can
     // be found in ruby_help.h:
@@ -463,6 +465,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(logSynthsChanged()), this, SLOT(changeLogSynths()));
     connect(settingsWidget, SIGNAL(clearOutputOnRunChanged()), this, SLOT(changeClearOutputOnRun()));
     connect(settingsWidget, SIGNAL(autoIndentOnRunChanged()), this, SLOT(changeAutoIndentOnRun()));
+    connect(settingsWidget, SIGNAL(showDebugLogPanelChanged()), this, SLOT(updateDebugLogPanelVisibility()));
 
     connect(settingsWidget, SIGNAL(driverChanged(QString)), this, SLOT(switchAudioDriver(QString)));
     connect(settingsWidget, SIGNAL(audioOutputDeviceChanged(QString)), this, SLOT(switchAudioDevice(QString)));
@@ -1022,6 +1025,36 @@ void MainWindow::updateCuesVisibility()
     else
     {
         incomingWidget->hide();
+    }
+}
+
+void MainWindow::updateDebugLogPanelVisibility()
+{
+    if (piSettings->show_debug_log_panel)
+    {
+        if (!debugLogPanel)
+        {
+            QVector<LogPanel::Source> sources;
+            for (const auto& src : m_spAPI->GetLogSources())
+            {
+                sources.append({ QString::fromStdString(src.name),
+                                 QString::fromStdString(src.path.string()) });
+            }
+            debugLogPanel = new LogPanel(sources, this);
+            debugLogPanel->applyTheme(theme->color("LogForeground"),
+                                      theme->color("MarginBackground"),
+                                      theme->color("MarginForeground"));
+            southTabs->addTab(debugLogPanel, tr("Debug"));
+            int idx = southTabs->indexOf(debugLogPanel);
+            if (idx >= 0) southTabs->setCurrentIndex(idx);
+        }
+    }
+    else if (debugLogPanel)
+    {
+        int idx = southTabs->indexOf(debugLogPanel);
+        if (idx >= 0) southTabs->removeTab(idx);
+        debugLogPanel->deleteLater();
+        debugLogPanel = nullptr;
     }
 }
 
@@ -2469,6 +2502,13 @@ void MainWindow::updateColourTheme()
     scopeWindow->SetColor2(theme->color("Scope_2"));
     lexer->unhighlightAll();
     metroPane->updateColourTheme();
+
+    if (debugLogPanel)
+    {
+        debugLogPanel->applyTheme(theme->color("LogForeground"),
+                                  theme->color("MarginBackground"),
+                                  theme->color("MarginForeground"));
+    }
 }
 
 void MainWindow::showLineNumbersMenuChanged()
@@ -4345,6 +4385,7 @@ void MainWindow::readSettings()
     piSettings->clear_output_on_run = gui_settings->value("prefs/clear-output-on-run", true).toBool();
     piSettings->log_cues = gui_settings->value("prefs/log-cues", false).toBool();
     piSettings->log_auto_scroll = gui_settings->value("prefs/log-auto-scroll", true).toBool();
+    piSettings->show_debug_log_panel = gui_settings->value("prefs/show-debug-log-panel", false).toBool();
     piSettings->show_line_numbers = gui_settings->value("prefs/show-line-numbers", true).toBool();
     piSettings->enable_external_synths = gui_settings->value("prefs/enable-external-synths", false).toBool();
     piSettings->synth_trigger_timing_guarantees = gui_settings->value("prefs/synth-trigger-timing-guarantees", false).toBool();
@@ -4416,6 +4457,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/clear-output-on-run", piSettings->clear_output_on_run);
     gui_settings->setValue("prefs/log-cues", piSettings->log_cues);
     gui_settings->setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);
+    gui_settings->setValue("prefs/show-debug-log-panel", piSettings->show_debug_log_panel);
     gui_settings->setValue("prefs/show-line-numbers", piSettings->show_line_numbers);
     gui_settings->setValue("prefs/enable-external-synths", piSettings->enable_external_synths);
     gui_settings->setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);

@@ -96,6 +96,8 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/model/sonicpitheme.h
     ${QTAPP_ROOT}/widgets/infowidget.h
     ${QTAPP_ROOT}/widgets/settingswidget.h
+    ${QTAPP_ROOT}/widgets/logpanel.cpp
+    ${QTAPP_ROOT}/widgets/logpanel.h
     )
 
 set(SOURCES
