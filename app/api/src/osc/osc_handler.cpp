@@ -508,9 +508,17 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             LOG(ERR, "Unhandled OSC msg /link-bpm");
           }
         }
+        else if (msg->partialMatch("/n_").isOk()
+              || msg->partialMatch("/done").isOk()
+              || msg->partialMatch("/fail").isOk()
+              || msg->partialMatch("/synced").isOk())
+        {
+            // scsynth-protocol broadcasts that reach the GUI as a side
+            // effect of /notify subscription; Spider consumes these.
+        }
         else
         {
-            LOG(ERR, "Unhandled OSC message: " << msg->addressPattern());
+            LOG(DBG, "Unhandled OSC message: " << msg->addressPattern());
         }
     }
     std::cout << std::flush;
