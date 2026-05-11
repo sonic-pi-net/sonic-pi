@@ -336,12 +336,12 @@ live_audio :foo, :stop     #=> stop playing audio from input 1
       end
       doc name:           :scsynth_info,
           introduced:     Version.new(2,11,0),
-          summary:        "Return information about the internal SuperCollider sound server",
+          summary:        "Return information about the internal SuperSonic sound server",
           args:           [],
           returns:        :SPMap,
           opts:           nil,
           accepts_block:  false,
-          doc:            "Create a map of information about the running audio synthesiser SuperCollider. ",
+          doc:            "Create a map of information about the running audio synthesiser SuperSonic. ",
           examples:       [
         "puts scsynth_info  #=>  (map sample_rate: 44100.0,
                             #         sample_dur: 2.2675736545352265e-05,

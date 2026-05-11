@@ -167,9 +167,9 @@ module SonicPi
         @supersonic_booter = nil
 
         if @no_scsynth_inputs
-          Util.log "SuperCollider inputs disabled by GUI"
+          Util.log "SuperSonic inputs disabled by GUI"
         else
-          Util.log "SuperCollider inputs enabled by GUI"
+          Util.log "SuperSonic inputs enabled by GUI"
         end
 
         #start compton to handle transparency (needs to be after Util.open_log)
@@ -235,7 +235,7 @@ module SonicPi
           Util.log "Sent /supersonic/notify to SuperSonic, registering daemon on port #{@ports["daemon"]}"
         else
           Util.log "sending ERROR to gui"
-          puts "SuperCollider Audio Server Boot Error\nSuperSonic failed to boot"
+          puts "SuperSonic Audio Server Boot Error\nSuperSonic failed to boot"
           STDOUT.flush
           @safe_exit.exit
         end
