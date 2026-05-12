@@ -3553,7 +3553,8 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def trigger_sampler(path, args_h, group=current_group)
-        __ensure_audio_studio_ready!
+        # Studio-ready check is delegated to the trigger_synth call at
+        # the end of this method so an on:false sample is a fast no-op.
         args_h = args_h.to_h
         case path
         when Buffer
@@ -3625,7 +3626,8 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def trigger_chord(synth_name, notes, args_a_or_h, group=current_group)
-        __ensure_audio_studio_ready!
+        # Studio-ready check is delegated to the per-note trigger_synth
+        # below so an entirely on:false chord never blocks on reinit.
         sn = synth_name.to_sym
         info = Synths::SynthInfo.get_info(sn)
         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
@@ -3691,7 +3693,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
       # Function that actually triggers synths now that all args are resolved
       def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false, pos=:tail)
-        __ensure_audio_studio_ready!
         add_out_bus_and_rand_buf!(args_h, out_bus, info)
 
         synth_name = info ? info.scsynth_name : synth_name
@@ -3699,6 +3700,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         validate_if_necessary! info, args_h
         return BlankNode.new(args_h) unless should_trigger?(args_h)
 
+        __ensure_audio_studio_ready!
         ensure_good_timing!
 
         __no_kill_block do
@@ -3733,7 +3735,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
 
       def trigger_live_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false, pos=:tail, live_id=nil)
-        __ensure_audio_studio_ready!
         add_out_bus_and_rand_buf!(args_h, out_bus, info)
 
         synth_name = info ? info.scsynth_name : synth_name
@@ -3741,6 +3742,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         validate_if_necessary! info, args_h
         return BlankNode.new(args_h) unless should_trigger?(args_h)
 
+        __ensure_audio_studio_ready!
         ensure_good_timing!
 
         fx_tracker = __system_thread_locals.get(:sonic_pi_local_mod_fx_tracker)
