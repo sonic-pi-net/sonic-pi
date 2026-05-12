@@ -5,6 +5,10 @@ set(API_ROOT "${CMAKE_CURRENT_LIST_DIR}")
 set(VENDOR_DIR "${API_ROOT}/vendor")
 
 set(KISSFFT_TEST OFF CACHE BOOL "Disable kissfft tests" FORCE)
+# Tools (fft, fastconv, psdpng) — Sonic Pi only links the library.
+# psdpng pulls a pkg_check_modules(libpng) call which CMake 4.x makes
+# a hard error when pkg-config isn't installed (Windows default).
+set(KISSFFT_TOOLS OFF CACHE BOOL "Disable kissfft tools" FORCE)
 set(REPROC++ ON CACHE BOOL "Build reproc++" FORCE)
 
 # Update these if vendored versions change.
@@ -16,8 +20,10 @@ set(GHC_FILESYSTEM_VERSION "ghc_filesystem" CACHE INTERNAL "Version string for g
 set(TLSF_VERSION "TLSF-2.4.6" CACHE INTERNAL "Version string for TLSF")
 
 if(WIN32)
-    # Define the KissFFT dll path for Windows
-    set(API_VENDORED_KISSFFT_DLL "${CMAKE_SOURCE_DIR}/build/${KISSFFT_VERSION}/${CMAKE_BUILD_TYPE}/kissfft-float.dll" PARENT_SCOPE)
+    # KissFFT DLL path. $<CONFIG> is resolved at build time, so this
+    # works correctly under multi-config generators (Visual Studio)
+    # where CMAKE_BUILD_TYPE is empty at configure time.
+    set(API_VENDORED_KISSFFT_DLL "${CMAKE_SOURCE_DIR}/build/${KISSFFT_VERSION}/$<CONFIG>/kissfft-float.dll" PARENT_SCOPE)
 endif()
 
 # Specify unique binary directories for each vendored project.
