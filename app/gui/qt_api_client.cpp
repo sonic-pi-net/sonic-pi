@@ -17,6 +17,7 @@ QtAPIClient::QtAPIClient(MainWindow* pMainWindow)
     qRegisterMetaType<SonicPi::AudioDevicesInfo>("SonicPi::AudioDevicesInfo");
     qRegisterMetaType<SonicPi::AudioInputDevicesInfo>("SonicPi::AudioInputDevicesInfo");
     qRegisterMetaType<SonicPi::AudioDeviceConfigInfo>("SonicPi::AudioDeviceConfigInfo");
+    qRegisterMetaType<SonicPi::AudioSwitchOutcome>("SonicPi::AudioSwitchOutcome");
 }
 
 QtAPIClient::~QtAPIClient()
@@ -284,6 +285,11 @@ void QtAPIClient::SupersonicSetup(int sampleRate, int bufferSize)
 void QtAPIClient::SpiderReady()
 {
   emit SpiderReadyReceived();
+}
+
+void QtAPIClient::AudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
+{
+  emit AudioSwitchDoneReceived(outcome);
 }
 
 } // namespace SonicPi

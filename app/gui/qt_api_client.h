@@ -21,6 +21,11 @@ Q_DECLARE_METATYPE(SonicPi::ScsynthInfo);
 Q_DECLARE_METATYPE(SonicPi::AudioDevicesInfo);
 Q_DECLARE_METATYPE(SonicPi::AudioInputDevicesInfo);
 Q_DECLARE_METATYPE(SonicPi::AudioDeviceConfigInfo);
+// Qt 6 auto-registers metatypes for signal parameter types; an explicit
+// Q_DECLARE_METATYPE for SonicPi::AudioSwitchOutcome causes a double-
+// specialization compile error. The qRegisterMetaType call in
+// qt_api_client.cpp's constructor is sufficient for queued-connection
+// support.
 
 namespace SonicPi
 {
@@ -50,6 +55,7 @@ public:
     virtual void AudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo) override;
     virtual void SupersonicSetup(int sampleRate, int bufferSize) override;
     virtual void SpiderReady() override;
+    virtual void AudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome) override;
 
 signals:
     void ConsumeAudioData(const SonicPi::ProcessedAudio& audio);
@@ -60,6 +66,7 @@ signals:
     void AudioDeviceConfigReceived(const SonicPi::AudioDeviceConfigInfo& configInfo);
     void SupersonicSetupReceived(int sampleRate, int bufferSize);
     void SpiderReadyReceived();
+    void AudioSwitchDoneReceived(const SonicPi::AudioSwitchOutcome& outcome);
 
 public slots:
     virtual void ReportGui(const SonicPi::MessageInfo& message);

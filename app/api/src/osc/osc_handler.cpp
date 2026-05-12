@@ -312,28 +312,44 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         }
         else if (msg->match("/supersonic/devices"))
         {
-            // Format: mode(str), current(str), device1(str), ..., sampleRate(int32)
+            // Wire format:
+            //   mode(str), current(str),
+            //   name1(str), ..., nameN(str),
+            //   sampleRate(int32),
+            //   compat1(int32), ..., compatN(int32),
+            //   type1(str), ..., typeN(str)   [trailing per-device drivers]
             AudioDevicesInfo devicesInfo;
             oscpkt::Message::ArgReader ar = msg->arg();
 
             ar.popStr(devicesInfo.mode);
             ar.popStr(devicesInfo.currentDevice);
 
-            // Read device name strings until popStr fails (hits an int or end)
+            // Read device name strings until popStr fails (hits an int).
             std::string s;
             while (ar.popStr(s).isOk())
             {
                 devicesInfo.devices.push_back(s);
             }
 
-            // popStr failure sets err in ArgReader, blocking further pops.
-            // Re-create and skip past the strings to read the trailing int.
+            // Re-create and skip past the strings to read the trailing
+            // ints (sampleRate + per-device rate-compat flags), then
+            // resume reading per-device driver type strings.
             ar = msg->arg();
             ar.popStr(s); // mode
             ar.popStr(s); // current
             for (size_t i = 0; i < devicesInfo.devices.size(); i++)
                 ar.popStr(s);
             ar.popInt32(devicesInfo.sampleRate);
+            // Skip the N rate-compat ints — we don't need them here.
+            int dummy = 0;
+            for (size_t i = 0; i < devicesInfo.devices.size(); i++)
+                ar.popInt32(dummy);
+            // Then per-device driver types.
+            for (size_t i = 0; i < devicesInfo.devices.size(); i++) {
+                std::string t;
+                if (!ar.popStr(t).isOk()) break;
+                devicesInfo.deviceTypes.push_back(t);
+            }
 
             LOG(INFO, "/supersonic/devices: " << devicesInfo.devices.size()
                 << " devices, mode=" << devicesInfo.mode
@@ -342,7 +358,10 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         }
         else if (msg->match("/supersonic/input-devices"))
         {
-            // Format: currentInput(str), numDevices(int32), device1(str), ..., deviceN(str)
+            // Wire format:
+            //   currentInput(str), numDevices(int32),
+            //   name1(str), ..., nameN(str),
+            //   type1(str), ..., typeN(str)
             AudioInputDevicesInfo info;
             oscpkt::Message::ArgReader ar = msg->arg();
 
@@ -355,6 +374,12 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 std::string s;
                 ar.popStr(s);
                 info.devices.push_back(s);
+            }
+            // Per-device driver types.
+            for (int i = 0; i < numDevices; i++) {
+                std::string t;
+                if (!ar.popStr(t).isOk()) break;
+                info.deviceTypes.push_back(t);
             }
 
             LOG(INFO, "/supersonic/input-devices: " << info.devices.size()
@@ -399,6 +424,33 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                       << " device='" << deviceName << "'"
                       << " sr=" << sampleRate << " bs=" << bufferSize
                       << (error.empty() ? "" : (" error='" + error + "'")));
+        }
+        else if (msg->match("/supersonic/devices/switch.done"))
+        {
+            // Wire format (see OscUdpServer::sendSwitchDone):
+            //   success(int32),
+            //   requestedOutput(str), requestedInput(str),
+            //   actualOutput(str),    actualInput(str),
+            //   error(str),
+            //   inputUnavailable(int32), inputUnavailableReason(str)
+            AudioSwitchOutcome outcome;
+            int success = 0, inputUnavailable = 0;
+            msg->arg().popInt32(success)
+                      .popStr(outcome.requestedOutput)
+                      .popStr(outcome.requestedInput)
+                      .popStr(outcome.actualOutput)
+                      .popStr(outcome.actualInput)
+                      .popStr(outcome.error)
+                      .popInt32(inputUnavailable)
+                      .popStr(outcome.inputUnavailableReason);
+            outcome.success          = (success != 0);
+            outcome.inputUnavailable = (inputUnavailable != 0);
+            LOG(INFO, "/supersonic/devices/switch.done: success=" << success
+                      << " out req='" << outcome.requestedOutput << "' actual='" << outcome.actualOutput << "'"
+                      << " in req='"  << outcome.requestedInput  << "' actual='" << outcome.actualInput  << "'"
+                      << (outcome.error.empty() ? "" : (" error='" + outcome.error + "'"))
+                      << (outcome.inputUnavailable ? (" inputUnavailable reason='" + outcome.inputUnavailableReason + "'") : ""));
+            m_pClient->AudioSwitchDone(outcome);
         }
         else if (msg->match("/spider/ready"))
         {

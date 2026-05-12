@@ -134,6 +134,7 @@ public slots:
     void changeSampleRate(int rate);
     void onSupersonicSetup(int sampleRate, int bufferSize);
     void onSpiderReady();
+    void onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome);
     void changeBufferSize(int size);
 
 private:

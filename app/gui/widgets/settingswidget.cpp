@@ -133,6 +133,11 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     enable_scsynth_inputs = new QCheckBox(tr("Enable Audio Inputs"));
     enable_scsynth_inputs->setToolTip(tr("Toggle to enable or disable audio inputs."));
+    asio_input_note = new QLabel(
+        tr("ASIO uses one device for both input and output."));
+    asio_input_note->setWordWrap(true);
+    asio_input_note->setStyleSheet("font-size: 10px; color: gray; margin-left: 18px;");
+    asio_input_note->setVisible(false);
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
     mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and vice versa."));
     mixer_force_mono = new QCheckBox(tr("Force mono"));
@@ -150,6 +155,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     QGroupBox *audioGroup = new QGroupBox(tr("Audio"));
     QVBoxLayout *audioGroupLayout = new QVBoxLayout;
     audioGroupLayout->addWidget(enable_scsynth_inputs);
+    audioGroupLayout->addWidget(asio_input_note);
     audioGroupLayout->addWidget(mixer_invert_stereo);
     audioGroupLayout->addWidget(mixer_force_mono);
     audioGroup->setLayout(audioGroupLayout);
@@ -898,31 +904,61 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
 
     // System Default with resolved device as suffix — "__system__" sentinel
     // in itemData is what gets sent to SuperSonic
-    QString systemDefaultLabel = tr("System Default");
+    // ASIO has no OS-level "default device" concept \u2014 each ASIO driver IS
+    // its single device. Substitute "-- None --" (sentinel `__none__`,
+    // NO OSC fired when picked) so the user explicitly chooses an ASIO
+    // device. Other drivers keep the System Default behaviour.
+    QString selectedDriver = audio_driver_combo->currentText();
+    bool isAsio = (selectedDriver == "ASIO");
     bool inSystemMode = (devicesInfo.mode.empty() || devicesInfo.mode == "system");
-    if (inSystemMode && !devicesInfo.currentDevice.empty()) {
-        systemDefaultLabel = tr("System Default (\u2192 %1)")
-            .arg(QString::fromStdString(devicesInfo.currentDevice));
+    if (isAsio) {
+        audio_output_combo->addItem(tr("-- None --"), QString("__none__"));
+    } else {
+        QString systemDefaultLabel = tr("System Default");
+        if (inSystemMode && !devicesInfo.currentDevice.empty()) {
+            systemDefaultLabel = tr("System Default (\u2192 %1)")
+                .arg(QString::fromStdString(devicesInfo.currentDevice));
+        }
+        audio_output_combo->addItem(systemDefaultLabel, QString("__system__"));
     }
-    audio_output_combo->addItem(systemDefaultLabel, QString("__system__"));
 
-    for (const auto& dev : devicesInfo.devices) {
+    // Filter by selected driver. ASIO selection lists only ASIO
+    // devices; non-ASIO selections hide ASIO devices (the engine has
+    // already deduped Windows-Audio / DirectSound entries by name).
+    bool haveTypes = devicesInfo.deviceTypes.size() == devicesInfo.devices.size();
+    for (size_t i = 0; i < devicesInfo.devices.size(); ++i) {
+        const auto& dev = devicesInfo.devices[i];
+        if (haveTypes && !selectedDriver.isEmpty()) {
+            QString qt = QString::fromStdString(devicesInfo.deviceTypes[i]);
+            if (isAsio) {
+                if (qt != "ASIO") continue;
+            } else {
+                if (qt == "ASIO") continue;
+            }
+        }
         audio_output_combo->addItem(QString::fromStdString(dev));
     }
 
-    // Prefer the mode field: if SuperSonic reports "system"/"" then select
-    // the "System Default" sentinel entry regardless of what concrete
-    // device it's currently routed to. Otherwise match the concrete
-    // device name.
+    // Selection priority:
+    //   non-ASIO + mode==system → System Default sentinel
+    //   non-ASIO                → concrete device name
+    //   ASIO, engine on ASIO    → concrete device name
+    //   ASIO, engine not on ASIO yet → leave on "-- None --"
+    //     (currentDevice reflects whichever non-ASIO driver JUCE is
+    //      still on, displaying it as the ASIO output would be wrong)
     bool selectedBySystem = false;
-    if (inSystemMode) {
+    bool engineIsOnAsio   = (m_engineActualDriver == "ASIO");
+    if (!isAsio && inSystemMode) {
         int idx = audio_output_combo->findData(QString("__system__"));
         if (idx >= 0) {
             audio_output_combo->setCurrentIndex(idx);
             selectedBySystem = true;
         }
     }
-    if (!selectedBySystem && !devicesInfo.currentDevice.empty()) {
+    bool selectByCurrent = !selectedBySystem
+                        && !devicesInfo.currentDevice.empty()
+                        && (!isAsio || engineIsOnAsio);
+    if (selectByCurrent) {
         int idx = audio_output_combo->findText(QString::fromStdString(devicesInfo.currentDevice));
         if (idx >= 0) {
             audio_output_combo->setCurrentIndex(idx);
@@ -933,6 +969,7 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
 void SettingsWidget::updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo) {
     // No change-detection guard — the enable checkbox needs repopulation
     // even when the device list is unchanged
+    m_lastAudioInputDevicesInfo = devicesInfo;
     QSignalBlocker blocker(audio_input_combo);
 
     QString previousSelection = audio_input_combo->currentText();
@@ -951,7 +988,19 @@ void SettingsWidget::updateAudioInputDevices(const SonicPi::AudioInputDevicesInf
     // same as DISABLED which the checkbox owns
     audio_input_combo->setEnabled(true);
     audio_input_combo->addItem(tr("-- None --"));
-    for (const auto& dev : devicesInfo.devices) {
+    QString selDriver = audio_driver_combo->currentText();
+    bool isAsioDr = (selDriver == "ASIO");
+    bool haveTypesIn = devicesInfo.deviceTypes.size() == devicesInfo.devices.size();
+    for (size_t i = 0; i < devicesInfo.devices.size(); ++i) {
+        const auto& dev = devicesInfo.devices[i];
+        if (haveTypesIn && !selDriver.isEmpty()) {
+            QString qt = QString::fromStdString(devicesInfo.deviceTypes[i]);
+            if (isAsioDr) {
+                if (qt != "ASIO") continue;
+            } else {
+                if (qt == "ASIO") continue;
+            }
+        }
         audio_input_combo->addItem(QString::fromStdString(dev));
     }
 
@@ -992,16 +1041,41 @@ void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInf
         }
     }
 
+    // Driver dropdown is local UX state — don't override the user's
+    // current selection from configInfo.currentDriver. Picking
+    // Driver=ASIO is a pending intent that's only committed when an
+    // Output device is also picked; overriding to whatever JUCE
+    // happens to have open would make ASIO un-pickable. Auto-sync
+    // only on:
+    //   (a) first population (dropdown was empty)
+    //   (b) user's selection no longer in the list (driver disappeared)
+    QString userSelection = audio_driver_combo->currentText();
+    bool wasEmpty = audio_driver_combo->count() == 0;
     audio_driver_combo->clear();
     for (const auto& driver : configInfo.availableDrivers) {
         audio_driver_combo->addItem(QString::fromStdString(driver));
     }
-    if (!configInfo.currentDriver.empty()) {
+    int restoreIdx = -1;
+    if (!wasEmpty && !userSelection.isEmpty()) {
+        restoreIdx = audio_driver_combo->findText(userSelection);
+    }
+    if (restoreIdx >= 0) {
+        audio_driver_combo->setCurrentIndex(restoreIdx);
+    } else if (!configInfo.currentDriver.empty()) {
         int idx = audio_driver_combo->findText(QString::fromStdString(configInfo.currentDriver));
         if (idx >= 0) {
             audio_driver_combo->setCurrentIndex(idx);
         }
     }
+
+    // Cache the engine's actual driver. updateAudioDevices uses it to
+    // distinguish the user-picked-ASIO-engine-on-ASIO case (select the
+    // concrete device) from user-picked-ASIO-engine-still-elsewhere
+    // (default Output to "-- None --" instead of the stale driver's
+    // device).
+    m_engineActualDriver = QString::fromStdString(configInfo.currentDriver);
+    m_engineCurrentSampleRate = configInfo.sampleRate;
+    m_engineCurrentBufferSize = configInfo.bufferSize;
 
     // Update SuperSonic summary with live config (matches SuperSonic's own format)
     QString versionText = QString("%1 Hz | buffer %2 | out %3 | in %4")
@@ -1021,11 +1095,115 @@ void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInf
     audio_sample_rate_combo->setEnabled(true);
     audio_buffer_size_combo->setEnabled(true);
     audio_driver_combo->setEnabled(true);
+
+    // ASIO-driver constraints may have changed (e.g. driver swapped).
+    // Re-apply so the input checkbox + dropdown reflect the new driver.
+    applyAsioInputConstraints();
+
+    // Force a re-render of the device dropdowns. activated(int) only
+    // fires on user-interaction — programmatic setCurrentIndex above
+    // doesn't trigger audioDriverChanged, so without a manual re-run
+    // any /supersonic/devices message that arrived before the driver
+    // combo was populated would have been processed with an empty
+    // selectedDriver and bypassed the driver filter.
+    {
+        SonicPi::AudioDevicesInfo cached = m_lastAudioDevicesInfo;
+        m_lastAudioDevicesInfo = SonicPi::AudioDevicesInfo{};
+        if (!cached.devices.empty()) updateAudioDevices(cached);
+        if (!m_lastAudioInputDevicesInfo.devices.empty()
+            || !m_lastAudioInputDevicesInfo.currentDevice.empty()) {
+            SonicPi::AudioInputDevicesInfo cachedIn = m_lastAudioInputDevicesInfo;
+            m_lastAudioInputDevicesInfo = SonicPi::AudioInputDevicesInfo{};
+            updateAudioInputDevices(cachedIn);
+        }
+    }
 }
 
 void SettingsWidget::audioDriverChanged(int index) {
     if (index < 0) return;
+    // Re-render the output and input dropdowns with the new driver's
+    // filter. Both populate functions read audio_driver_combo->currentText()
+    // when filtering, so just calling them with the cached info applies
+    // the new filter. updateAudioDevices has a change-detection guard
+    // that short-circuits if the snapshot is identical — clear it first
+    // so the re-render actually runs.
+    SonicPi::AudioDevicesInfo cached = m_lastAudioDevicesInfo;
+    m_lastAudioDevicesInfo = SonicPi::AudioDevicesInfo{};
+    if (!cached.devices.empty()) updateAudioDevices(cached);
+    if (!m_lastAudioInputDevicesInfo.devices.empty()
+        || !m_lastAudioInputDevicesInfo.currentDevice.empty()) {
+        updateAudioInputDevices(m_lastAudioInputDevicesInfo);
+    }
+    applyAsioInputConstraints();
     emit driverChanged(audio_driver_combo->currentText());
+}
+
+void SettingsWidget::applyAsioInputConstraints() {
+    QString driver = audio_driver_combo->currentText();
+    bool isAsio = (driver == "ASIO");
+
+    if (isAsio && !asio_constraint_applied) {
+        // Entering ASIO: remember the user's previous checkbox state so
+        // we can restore it on exit, then force-tick + grey out the
+        // checkbox. ASIO is full-duplex by spec; users who want truly
+        // input-free output need to switch to Windows Audio / DirectSound.
+        asio_saved_input_checked = enable_scsynth_inputs->isChecked();
+        asio_saved_input_tooltip = enable_scsynth_inputs->toolTip();
+        asio_constraint_applied  = true;
+    }
+
+    if (isAsio) {
+        QSignalBlocker b(enable_scsynth_inputs);
+        enable_scsynth_inputs->setChecked(true);
+        enable_scsynth_inputs->setEnabled(false);
+        // Style label AND indicator. Sonic Pi's theme keeps the
+        // indicator vivid when setEnabled(false), so the label
+        // greying alone doesn't read as non-interactive.
+        enable_scsynth_inputs->setStyleSheet(
+            "QCheckBox { color: gray; font-style: italic; }"
+            "QCheckBox::indicator {"
+            " background-color: rgba(128, 128, 128, 80);"
+            " border: 1px solid rgba(128, 128, 128, 140);"
+            "}");
+        enable_scsynth_inputs->setToolTip(
+            tr("ASIO devices have linked input/output."));
+        asio_input_note->setVisible(true);
+
+        // Input dropdown on ASIO mirrors the Output selection (ASIO is a
+        // single device on both directions). When the user hasn't yet
+        // picked a valid ASIO output device, the Output dropdown is on
+        // its "-- None --" entry — mirror that into the Input dropdown
+        // instead of leaving stale Windows Audio inputs visible.
+        QString outName     = audio_output_combo->currentText();
+        QString outData     = audio_output_combo->currentData().toString();
+        bool noOutputPicked = outName.isEmpty()
+                              || outData == "__none__"
+                              || outData == "__system__"
+                              || outName.startsWith(tr("System Default"));
+        QSignalBlocker ib(audio_input_combo);
+        if (noOutputPicked) {
+            int idx = audio_input_combo->findText(tr("-- None --"));
+            if (idx >= 0) audio_input_combo->setCurrentIndex(idx);
+        } else {
+            int idx = audio_input_combo->findText(outName);
+            if (idx >= 0) audio_input_combo->setCurrentIndex(idx);
+        }
+        audio_input_combo->setEnabled(false);
+        audio_input_combo->setToolTip(tr("Mirrors Output (ASIO is full-duplex)."));
+    } else if (asio_constraint_applied) {
+        // Leaving ASIO: restore prior state.
+        QSignalBlocker b(enable_scsynth_inputs);
+        enable_scsynth_inputs->setChecked(asio_saved_input_checked);
+        enable_scsynth_inputs->setEnabled(true);
+        enable_scsynth_inputs->setStyleSheet(QString());
+        enable_scsynth_inputs->setToolTip(asio_saved_input_tooltip.isEmpty()
+            ? tr("Toggle to enable or disable audio inputs.")
+            : asio_saved_input_tooltip);
+        asio_input_note->setVisible(false);
+        audio_input_combo->setEnabled(true);
+        audio_input_combo->setToolTip(QString());
+        asio_constraint_applied = false;
+    }
 }
 
 void SettingsWidget::updateMicPermissionStatus() {
@@ -1062,12 +1240,24 @@ void SettingsWidget::audioDeviceChanged(int index) {
     // the user-visible text. Regular device entries have no itemData so
     // they fall through to currentText() as before.
     QString data = audio_output_combo->currentData().toString();
+    // "-- None --" entry (ASIO mode) carries `__none__` data and means
+    // "do nothing": the user is on ASIO but hasn't picked an ASIO
+    // device yet. Don't fire any OSC — keep the engine on whatever
+    // device it was already on.
+    if (data == "__none__") {
+        std::cout << "[gui-audio] output dropdown picked -- None -- (ASIO no-op)" << std::endl;
+        applyAsioInputConstraints();
+        return;
+    }
     QString emitted = data.isEmpty() ? audio_output_combo->currentText() : data;
     std::cout << "[gui-audio] output dropdown changed: index=" << index
               << " text='" << audio_output_combo->currentText().toUtf8().constData()
               << "' data='" << data.toUtf8().constData()
               << "' emitting='" << emitted.toUtf8().constData() << "'" << std::endl;
     emit audioOutputDeviceChanged(emitted);
+    // On ASIO, the input combo mirrors the output. Re-apply so the input
+    // dropdown stays in sync with the just-picked output device.
+    applyAsioInputConstraints();
 }
 
 void SettingsWidget::audioInputDeviceChanged(int index) {

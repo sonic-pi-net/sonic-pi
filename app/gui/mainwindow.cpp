@@ -486,6 +486,8 @@ void MainWindow::setupWindowStructure()
             this, &MainWindow::onSupersonicSetup);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::SpiderReadyReceived,
             this, &MainWindow::onSpiderReady);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioSwitchDoneReceived,
+            this, &MainWindow::onAudioSwitchDone);
 
     scopeWindow->Pause();
     scopeWindow->setObjectName("scopes");
@@ -5482,6 +5484,39 @@ void MainWindow::onSpiderReady()
     // pool is reinitialised — our reader's pointer is stale until it
     // re-attaches. Without this, the scope widget shows a flat line.
     m_spAPI->AudioProcessor_ResetConnection();
+}
+
+void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
+{
+    // Two failure shapes from the engine. Surface both as a modal
+    // carrying the verbatim engine/JUCE error — no diagnosis, no
+    // enrichment. Revert the affected dropdown.
+    if (outcome.success && !outcome.inputUnavailable) return;  // nothing to surface
+
+    if (!outcome.success) {
+        QString device = QString::fromStdString(
+            outcome.requestedOutput.empty()
+                ? outcome.requestedInput
+                : outcome.requestedOutput);
+        QString error  = QString::fromStdString(outcome.error);
+        QMessageBox::warning(
+            this,
+            tr("Audio device switch failed"),
+            tr("Could not switch to:\n\n  %1\n\n%2").arg(device, error));
+        // Engine has rolled back to whatever it was on; the next
+        // /supersonic/devices push refreshes the dropdowns to match.
+        return;
+    }
+
+    // success == true && inputUnavailable: output opened, input fell back.
+    QString inputName = QString::fromStdString(outcome.requestedInput);
+    QString reason    = QString::fromStdString(outcome.inputUnavailableReason);
+    QMessageBox::warning(
+        this,
+        tr("Audio input device unavailable"),
+        tr("Could not open the audio input device:\n\n  %1\n\n%2").arg(inputName, reason));
+    // Settings widget reverts the input dropdown when the next
+    // /supersonic/input-devices push arrives carrying currentInput="".
 }
 
 void MainWindow::homeDirWriteError()

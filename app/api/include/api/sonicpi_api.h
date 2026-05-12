@@ -163,6 +163,10 @@ struct MessageInfo : MessageData
 
 struct AudioDevicesInfo {
     std::vector<std::string> devices;
+    // Driver type (e.g. "ASIO", "Windows Audio", "DirectSound") for each
+    // device, parallel to `devices`. Same length when present. Used by
+    // the GUI to filter the Output dropdown by selected driver.
+    std::vector<std::string> deviceTypes;
     std::string currentDevice;
     std::string mode;
     int sampleRate = 0;
@@ -170,6 +174,8 @@ struct AudioDevicesInfo {
 
 struct AudioInputDevicesInfo {
     std::vector<std::string> devices;
+    // Parallel driver-type array, see AudioDevicesInfo::deviceTypes.
+    std::vector<std::string> deviceTypes;
     std::string currentDevice;
 };
 
@@ -182,6 +188,30 @@ struct AudioDeviceConfigInfo {
     std::vector<int> availableBufferSizes;
     std::vector<std::string> availableDrivers;
     std::string currentDriver;
+};
+
+// Carries the truthful outcome of a debounced /supersonic/devices/switch
+// from the engine. Two failure shapes are surfaced separately:
+//   - success == false: the entire switch failed (no device opened, or
+//     the engine rolled back). `error` carries the engine/JUCE message
+//     verbatim. `actualOutput` and `actualInput` reflect whatever the
+//     engine fell back to.
+//   - success == true with inputUnavailable == true: the output opened
+//     fine but the requested input couldn't be opened — the engine
+//     fell back to output-only. `inputUnavailableReason` carries
+//     JUCE's verbatim error for the input open. `actualInput` is empty.
+// The GUI shows a modal carrying the verbatim JUCE message and reverts
+// the affected dropdown. Engine does not enrich, translate, or
+// speculate about cause.
+struct AudioSwitchOutcome {
+    bool        success            = false;
+    std::string requestedOutput;
+    std::string requestedInput;
+    std::string actualOutput;
+    std::string actualInput;
+    std::string error;                  // top-level swap error
+    bool        inputUnavailable   = false;
+    std::string inputUnavailableReason; // JUCE's verbatim input-open error
 };
 
 enum class MidiType
@@ -265,6 +295,10 @@ struct IAPIClient
     virtual void AudioDeviceConfig(const AudioDeviceConfigInfo& configInfo) = 0;
     virtual void SupersonicSetup(int sampleRate, int bufferSize) = 0;
     virtual void SpiderReady() = 0;
+    // Truthful outcome of a debounced device-switch — see
+    // AudioSwitchOutcome. Default no-op so non-GUI consumers don't
+    // need to react.
+    virtual void AudioSwitchDone(const AudioSwitchOutcome& /*outcome*/) {}
 };
 
 // Always UDP

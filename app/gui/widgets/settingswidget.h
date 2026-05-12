@@ -38,6 +38,14 @@ public:
     void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
     void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
     void updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo);
+    // Apply (or remove) ASIO-specific input constraints based on the
+    // currently-selected driver. Called whenever the driver dropdown
+    // changes or the device config refreshes. ASIO drivers are full-
+    // duplex single-device by spec — input cannot be disabled or named
+    // separately from output. So when on ASIO we force-tick + grey out
+    // the "Enable Audio Inputs" checkbox, mirror the input dropdown to
+    // the output selection, and show an explanatory side note.
+    void applyAsioInputConstraints();
     void updateScopeNames(std::vector<QString>);
     void updateSelectedUILanguage(QString lang);
 
@@ -145,6 +153,33 @@ private:
     QCheckBox *mixer_invert_stereo;
     QCheckBox *mixer_force_mono;
     QCheckBox *enable_scsynth_inputs;
+    // Side-note shown next to enable_scsynth_inputs ONLY when an ASIO
+    // driver is selected. Explains that ASIO is full-duplex by spec —
+    // input cannot be disabled separately from output without a
+    // driver-level reconfigure that crashes many ASIO drivers.
+    QLabel    *asio_input_note;
+    // Original tooltip and Qt::Checked state of enable_scsynth_inputs
+    // remembered before we override them for ASIO, so they restore
+    // intact when leaving ASIO.
+    QString    asio_saved_input_tooltip;
+    bool       asio_saved_input_checked = false;
+    bool       asio_constraint_applied  = false;
+    // The driver the engine actually has open right now (last reported
+    // by /supersonic/info → updateAudioDeviceConfig). Used by
+    // updateAudioDevices to detect "user picked Driver=ASIO but engine
+    // hasn't actually moved there yet" — in which case the Output
+    // dropdown shows -- None -- instead of the current device name
+    // (which would be on a non-ASIO driver and thus misleading).
+    QString    m_engineActualDriver;
+    // Engine's last-reported sample rate / buffer size. Used by the
+    // sample-rate / buffer-size dropdown handlers to suppress no-op
+    // switchDevice calls when the user re-picks the already-active
+    // value — Qt's `activated(int)` fires on every click whether the
+    // selection changed or not, and the engine's setAudioDeviceSetup
+    // close-and-reopens the device even on identical params (audible
+    // glitch).
+    int        m_engineCurrentSampleRate = 0;
+    int        m_engineCurrentBufferSize = 0;
     QCheckBox *log_synths;
     QCheckBox *show_debug_log_panel;
     QCheckBox *check_args;
@@ -206,6 +241,10 @@ private:
     QComboBox *audio_sample_rate_combo;
     QComboBox *audio_buffer_size_combo;
     SonicPi::AudioDevicesInfo m_lastAudioDevicesInfo;
+    // Cached input-devices payload, used by audioDriverChanged to
+    // re-render the input combo with the new driver's filter without
+    // waiting for another /supersonic/input-devices push.
+    SonicPi::AudioInputDevicesInfo m_lastAudioInputDevicesInfo;
     QLabel *mic_permission_label;
     QPushButton *mic_permission_settings_button;
     QTimer *m_micPermissionTimer = nullptr;
