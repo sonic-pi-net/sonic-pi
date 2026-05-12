@@ -192,7 +192,9 @@ module SonicPi
       when :quit
         @continue = false
       when :reset
-        @event_queue.clear
+        # Clear handlers only. reset! has emptied @event_queue on
+        # the main thread already; touching it again here races
+        # events enqueued by other threads in the meantime.
         @handlers = {}
       end
     end
