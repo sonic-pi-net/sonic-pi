@@ -104,6 +104,10 @@ using namespace oscpkt; // OSC specific stuff
 #include "platform/macos.h"
 #endif
 
+#ifdef Q_OS_WIN
+#include "platform/windows.h"
+#endif
+
 using namespace std::chrono;
 
 using namespace SonicPi;
@@ -1086,6 +1090,33 @@ void MainWindow::recordShowCursorMenuChanged()
     piSettings->record_show_cursor = recordShowCursorAct->isChecked();
     emit settingsChanged();
     SonicPi::setRecordShowCursor(piSettings->record_show_cursor);
+}
+#endif
+
+#ifdef Q_OS_WIN
+void MainWindow::spoutPublishMenuChanged()
+{
+    const bool wantOn = spoutPublishAct->isChecked();
+    if (wantOn) {
+        // winId() is the HWND on Windows.
+        WId wid = this->winId();
+        bool started = SonicPi::startWindowSpoutPublishing(
+            reinterpret_cast<void*>(wid), "Sonic Pi",
+            piSettings->spout_show_cursor);
+        if (!started) {
+            QSignalBlocker blocker(spoutPublishAct);
+            spoutPublishAct->setChecked(false);
+        }
+    } else {
+        SonicPi::stopWindowSpoutPublishing();
+    }
+}
+
+void MainWindow::spoutShowCursorMenuChanged()
+{
+    piSettings->spout_show_cursor = spoutShowCursorAct->isChecked();
+    emit settingsChanged();
+    SonicPi::setSpoutShowCursor(piSettings->spout_show_cursor);
 }
 #endif
 
@@ -4116,6 +4147,18 @@ void MainWindow::createToolBar()
     connect(recordShowCursorAct, SIGNAL(triggered()), this, SLOT(recordShowCursorMenuChanged()));
 #endif
 
+#ifdef Q_OS_WIN
+    spoutPublishAct = new QAction(tr("Publish Window via Spout"), this);
+    spoutPublishAct->setCheckable(true);
+    spoutPublishAct->setChecked(false);
+    connect(spoutPublishAct, SIGNAL(triggered()), this, SLOT(spoutPublishMenuChanged()));
+
+    spoutShowCursorAct = new QAction(tr("Include Mouse Cursor in Spout Feed"), this);
+    spoutShowCursorAct->setCheckable(true);
+    spoutShowCursorAct->setChecked(piSettings->spout_show_cursor);
+    connect(spoutShowCursorAct, SIGNAL(triggered()), this, SLOT(spoutShowCursorMenuChanged()));
+#endif
+
     showButtonsAct = new QAction(tr("Show Buttons"), this);
     showButtonsAct->setCheckable(true);
     showButtonsAct->setChecked(piSettings->show_buttons);
@@ -4173,6 +4216,11 @@ void MainWindow::createToolBar()
     viewMenu->addAction(syphonShowCursorAct);
     viewMenu->addAction(recordSessionAct);
     viewMenu->addAction(recordShowCursorAct);
+#endif
+#ifdef Q_OS_WIN
+    viewMenu->addSeparator();
+    viewMenu->addAction(spoutPublishAct);
+    viewMenu->addAction(spoutShowCursorAct);
 #endif
     viewMenu->addSeparator();
 
@@ -4503,6 +4551,7 @@ void MainWindow::readSettings()
     piSettings->show_metro = gui_settings->value("prefs/show_metro", true).toBool();
     piSettings->syphon_show_cursor = gui_settings->value("prefs/syphon_show_cursor", false).toBool();
     piSettings->record_show_cursor = gui_settings->value("prefs/record_show_cursor", true).toBool();
+    piSettings->spout_show_cursor = gui_settings->value("prefs/spout_show_cursor", false).toBool();
     piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
     piSettings->hide_menubar_in_fullscreen = gui_settings->value("prefs/hide-menubar-in-fullscreen", false).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
@@ -4577,6 +4626,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show_metro", piSettings->show_metro);
     gui_settings->setValue("prefs/syphon_show_cursor", piSettings->syphon_show_cursor);
     gui_settings->setValue("prefs/record_show_cursor", piSettings->record_show_cursor);
+    gui_settings->setValue("prefs/spout_show_cursor", piSettings->spout_show_cursor);
     gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     gui_settings->setValue("prefs/show-autocompletion", piSettings->show_autocompletion);

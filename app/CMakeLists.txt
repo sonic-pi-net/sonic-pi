@@ -60,6 +60,15 @@ include(cmake/common.cmake)
 configure_file(${APP_ROOT}/cmake/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
 add_subdirectory(external)
+# Vendored Spout2 — Windows-only sibling to external/Syphon-Framework.
+if(WIN32)
+    add_subdirectory(external/Spout2)
+endif()
 add_subdirectory(api)
 add_subdirectory(api-tests)
 add_subdirectory(gui)
+
+option(BUILD_SPOUT_SMOKETEST "Build tools/spout-receiver smoke-test (Windows)" OFF)
+if(WIN32 AND BUILD_SPOUT_SMOKETEST)
+    add_subdirectory(tools/spout-receiver)
+endif()

@@ -323,6 +323,10 @@ private slots:
     void recordSessionMenuChanged();
     void recordShowCursorMenuChanged();
 #endif
+#ifdef Q_OS_WIN
+    void spoutPublishMenuChanged();
+    void spoutShowCursorMenuChanged();
+#endif
     void updateFocusMode();
     void toggleFocusMode();
     void toggleScopePaused();
@@ -495,6 +499,10 @@ private:
     QAction *syphonShowCursorAct;
     QAction *recordSessionAct;
     QAction *recordShowCursorAct;
+#endif
+#ifdef Q_OS_WIN
+    QAction *spoutPublishAct;
+    QAction *spoutShowCursorAct;
 #endif
     QShortcut *textLeftSc, *escapeSc, *escape2Sc, *toggleFocusModeSc, *toggleScopePausedSc, *reloadServerCodeSc;
     QActionGroup* langActionGroup;

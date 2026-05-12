@@ -22,18 +22,25 @@ set(QTAPP_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
 list(APPEND CMAKE_MODULE_PATH ${QTAPP_ROOT}/cmake)
 
-# Set cmake prefix path so it can find the Qt libraries
+# Append Qt's install location to CMAKE_PREFIX_PATH for find_package(Qt6).
+# Use list(APPEND), not bare set() — set() clobbers the vcpkg toolchain's
+# prefix-path additions and breaks find_package for any vcpkg dep
+# referenced later in this file.
+set(QT_INSTALL_PREFIX "")
 if((${BUILD_32BIT}) AND (DEFINED ENV{QT_INSTALL_LOCATION32}))
   message(STATUS "Setting up a 32 bit Qt Build")
   message(STATUS "Setting prefix to user-defined Qt (32-bit) install location: $ENV{QT_INSTALL_LOCATION32}")
-  set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION32})
+  set(QT_INSTALL_PREFIX $ENV{QT_INSTALL_LOCATION32})
 elseif(DEFINED ENV{QT_INSTALL_LOCATION})
   message(STATUS "Setting prefix to user-defined Qt install location: $ENV{QT_INSTALL_LOCATION}")
-  set(CMAKE_PREFIX_PATH $ENV{QT_INSTALL_LOCATION})
+  set(QT_INSTALL_PREFIX $ENV{QT_INSTALL_LOCATION})
 elseif(APPLE AND EXISTS /opt/homebrew/opt/qt@6)
   # Homebrew installs Qt to /opt/homebrew/opt/qt@6
   message(STATUS "Setting prefix to Homebrew's Qt install location: /opt/homebrew/opt/qt@6")
-  set(CMAKE_PREFIX_PATH /opt/homebrew/opt/qt@6)
+  set(QT_INSTALL_PREFIX /opt/homebrew/opt/qt@6)
+endif()
+if(QT_INSTALL_PREFIX)
+  list(APPEND CMAKE_PREFIX_PATH ${QT_INSTALL_PREFIX})
 endif()
 
 # Qt Setup
@@ -41,7 +48,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(QT_TOOLS_DIR ${CMAKE_PREFIX_PATH}/bin)
+set(QT_TOOLS_DIR ${QT_INSTALL_PREFIX}/bin)
 
 set_property(GLOBAL PROPERTY AUTOMOC_FOLDER Automoc)
 set_property(GLOBAL PROPERTY AUTOGEN_TARGETS_FOLDER Automoc)
@@ -186,7 +193,8 @@ SET(TS_FILES
 )
 
 if(WIN32)
-  # do nothing
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/windows.h)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/spout_publisher.cpp)
 elseif(APPLE)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.mm)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.h)
@@ -444,6 +452,14 @@ if(APPLE)
         ${SYPHON_FRAMEWORK_INCLUDE_DIR})
 endif()
 
+if(WIN32)
+    # windowsapp.lib: WinRT runtime for Windows.Graphics.Capture interop.
+    # D3D11 / DXGI / IPC libs come in transitively via spout_vendored.
+    target_link_libraries(${APP_NAME} PRIVATE
+        spout_vendored
+        windowsapp)
+endif()
+
 target_link_libraries(${APP_NAME}
     PRIVATE
     SonicPi::API
@@ -486,7 +502,7 @@ if(WIN32)
 
     # Run winddeployqt if it can be found, to ensure installed dependencies
     add_custom_command(TARGET ${APP_NAME} POST_BUILD
-        COMMAND ${CMAKE_PREFIX_PATH}/bin/windeployqt $<TARGET_FILE:${APP_NAME}>)
+        COMMAND ${QT_INSTALL_PREFIX}/bin/windeployqt $<TARGET_FILE:${APP_NAME}>)
 endif() # Win32
 
 # Make convenient source groups in the IDE
