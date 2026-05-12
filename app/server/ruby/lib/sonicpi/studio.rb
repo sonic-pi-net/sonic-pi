@@ -8,6 +8,7 @@ require_relative "util"
 require_relative "server"
 require_relative "note"
 require_relative "samplebuffer"
+require_relative "studio_ready_gate"
 
 require 'set'
 require 'fileutils'
@@ -15,10 +16,14 @@ require 'fileutils'
 module SonicPi
   class Studio
 
-    class StudioCurrentlyRebootingError < StandardError ; end
+    # StudioCurrentlyRebootingError now lives in studio_ready_gate.rb
+    # so the gate primitive can raise it. Aliased here so any external
+    # rescue clauses written as `rescue Studio::StudioCurrentlyRebootingError`
+    # keep working.
+    StudioCurrentlyRebootingError = ::SonicPi::StudioCurrentlyRebootingError
     include Util
 
-    attr_reader :synth_group, :fx_group, :mixer_group, :monitor_group, :mixer_id, :mixer_bus, :mixer, :rand_buf_id, :amp, :rebooting
+    attr_reader :synth_group, :fx_group, :mixer_group, :monitor_group, :mixer_id, :mixer_bus, :mixer, :rand_buf_id, :amp, :rebooting, :last_cold_swap_completed_at
 
     attr_accessor :cent_tuning
 
@@ -36,6 +41,32 @@ module SonicPi
       @sample_sem = Mutex.new
       @reboot_mutex = Mutex.new
       @rebooting = false
+      # Wall-clock timestamp of the most-recent successful
+      # cold_swap_reinit. Read by lang/core.rb's sleep to grant a
+      # grace window for "thread too far behind time" errors caused
+      # by the cold-swap pause itself (the gate blocks all trigger
+      # threads for the duration of the reinit, which the timing
+      # safety check would otherwise treat as the thread running
+      # behind and kill the live_loop).
+      @last_cold_swap_completed_at = nil
+      # Reader-writer gate. Studio-touching methods (trigger_synth,
+      # new_group, allocate_buffer, etc.) hold the read lock for the
+      # duration of their work; cold_swap_reinit holds the write lock
+      # around its phases, draining readers first. Guarantees user
+      # code that's mid-trigger can't see a partially-nilled studio.
+      # Reentrant per-thread so trigger_fx → trigger_synth doesn't
+      # self-deadlock and cold_swap_reinit's own phases can call
+      # studio methods.
+      @studio_ready_gate = StudioReadyGate.new
+      # Stays true across all six phases of cold_swap_reinit. @rebooting
+      # is cleared after Phase 1 so the Studio's own methods (called by
+      # Phases 2-6) can run; this separate flag is what user-eval
+      # threads block on at __spider_eval entry — without it they would
+      # touch mid-rebuild refs (mixer_group becomes nil mid-Phase-2) and
+      # crash with NoMethodError on ChainNode#initialize.
+      @cold_swap_reinit_in_progress = false
+      @reboot_done_cv = ConditionVariable.new
+      @reboot_done_mutex = Mutex.new
       @cent_tuning = 0
       @sample_format = "int16"
       @paused = false
@@ -443,7 +474,16 @@ module SonicPi
         @reboot_mutex.lock
       end
 
+      # Acquire the WRITER lock for the entire reinit. Blocks until
+      # all in-flight studio methods (trigger_synth, new_group, etc.)
+      # finish — guarantees they don't see partially-nilled studio
+      # state. The gate is reentrant on this thread so the phase code
+      # below (which calls studio methods like start_mixer) can still
+      # acquire the read lock without deadlocking.
+      @studio_ready_gate.with_studio_writer do
       begin
+        @cold_swap_reinit_in_progress = true
+        @cold_swap_reinit_thread = Thread.current
         @rebooting = true
         message "Reinitialising after device change..."
 
@@ -466,6 +506,22 @@ module SonicPi
 
         # Rebuild needs Studio methods to work — open the gate
         @rebooting = false
+
+        # Phase 1.5: Re-register Spider as a /supersonic/notify target.
+        # supersonic builds a fresh World on driver-switch / cold-swap, and
+        # the new World's notify-subscribers list is empty. If we skip this,
+        # Phase 2's /sync (in clear_scsynth!) and Phase 3's /d_loadDir send
+        # fine but the /synced + /done replies are silently dropped — both
+        # promises hit their 10s/5s timeouts, mixer_group stays nil, and
+        # studio is unrecoverable until a relaunch. This is what blocks
+        # ASIO from producing sound after a driver switch.
+        begin
+          ok = @server.register_for_notifications!(timeout: 5.0)
+          STDOUT.puts "Studio - Phase 1.5: Notify re-register #{ok ? 'OK' : 'TIMEOUT'} (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          log_phase_err.call("re-registering notify target", e)
+        end
 
         # Phase 2: Rebuild groups and busses
         begin
@@ -536,8 +592,43 @@ module SonicPi
         message "Reinitialisation complete (#{(Time.now - start).round(2)}s)"
       ensure
         @rebooting = false
+        @cold_swap_reinit_in_progress = false
+        @cold_swap_reinit_thread = nil
+        # Stamp completion time BEFORE releasing the writer lock so
+        # the first reader that's been waiting at the gate sees the
+        # fresh timestamp on its next sleep timing-check and gets the
+        # grace window. (Trigger thread wakes up → does its work →
+        # next sleep call checks last_cold_swap_completed_at — must
+        # be already set.)
+        @last_cold_swap_completed_at = Time.now.to_f
         @reboot_mutex.unlock if @reboot_mutex.owned?
+        # Wake any threads parked on `wait_for_reboot_complete`.
+        @reboot_done_mutex.synchronize { @reboot_done_cv.broadcast }
       end
+      end  # with_studio_writer — end of writer-locked block
+    end
+
+    # Block the calling thread until any in-flight cold-swap reinit
+    # finishes (or the timeout elapses). Returns true if the studio is
+    # ready (or no reinit is in progress), false if the timeout fired
+    # first.
+    #
+    # Same-thread bypass: cold_swap_reinit's own phases call back into
+    # Studio methods (e.g. start_mixer → trigger_synth). Those calls
+    # must NOT wait or they'd deadlock. Detected via Thread.current ==
+    # @cold_swap_reinit_thread and short-circuited.
+    def wait_for_reboot_complete(timeout=20)
+      return true if Thread.current == @cold_swap_reinit_thread
+      return true unless @cold_swap_reinit_in_progress
+      @reboot_done_mutex.synchronize do
+        deadline = Time.now + timeout
+        while @cold_swap_reinit_in_progress
+          remaining = deadline - Time.now
+          return false if remaining <= 0
+          @reboot_done_cv.wait(@reboot_done_mutex, remaining)
+        end
+      end
+      true
     end
 
     def pause(silent=true)
@@ -587,13 +678,29 @@ module SonicPi
       @server.set_global_timewarp!(time)
     end
 
+    # Block until studio is ready, then yield. Replaces the old
+    # check-then-raise gate (`check_for_server_rebooting!`) — the old
+    # one raised mid-trigger if a cold-swap fired AFTER the check
+    # passed but BEFORE the trigger finished, killing live loops with
+    # a backtrace and producing nil node references that crashed
+    # FXNode#initialize. Now the gate is held for the duration of the
+    # caller's work, so cold_swap_reinit can't start until all in-
+    # flight triggers finish, and it blocks new triggers from
+    # starting until the swap is done. Reentrant per-thread.
+    def with_studio_ready(op_name=nil, &block)
+      @studio_ready_gate.with_studio_ready(op_name || :anonymous, &block)
+    end
+
     private
 
+    # Legacy shim: every studio method that used to call this now
+    # wraps its body in `with_studio_ready` instead. Kept as a no-op
+    # so any straggling call sites don't break, but the real work is
+    # done by the gate.
     def check_for_server_rebooting!(msg=nil)
-      if @rebooting
-        log_message "Oops, already rebooting: #{msg}"
-        raise StudioCurrentlyRebootingError if @rebooting
-      end
+      # The new gate handles this — see with_studio_ready / @studio_ready_gate.
+      # Intentionally a no-op now; the wrapper that calls this method
+      # is the one that holds the read lock.
     end
 
     def log_message(s)
@@ -684,6 +791,48 @@ module SonicPi
       end
     end
 
+    # ── Studio gate wiring ───────────────────────────────────────────────
+    #
+    # Every public studio method that touches scsynth (used to call
+    # check_for_server_rebooting!(:foo) at the top) is now wrapped to
+    # acquire the read lock for its full duration. cold_swap_reinit
+    # holds the write lock around its phases and waits for in-flight
+    # readers to drain before Phase 1's nuke runs.
+    #
+    # We use Module#prepend rather than rewriting each method body —
+    # the wrapper is uniform (5 lines) and the list of gated methods
+    # lives in one place where it's easy to audit. The prepended
+    # `super` call invokes the original method body, which still
+    # contains a `check_for_server_rebooting!(:foo)` call — that call
+    # is a NO-OP now (kept as a shim) and the real gating happens here.
+    #
+    # cold_swap_reinit holds the write lock; reentrant gate means its
+    # OWN calls into these methods (start_mixer, etc.) succeed.
+    GATED_STUDIO_METHODS = %i[
+      allocate_buffer free_buffer
+      load_synthdefs load_synthdef
+      load_sample free_sample free_all_samples
+      start_amp_monitor
+      kill_live_synth trigger_live_synth trigger_synth
+      set_volume mixer_invert_stereo mixer_control mixer_reset
+      mixer_stereo_mode mixer_mono_mode
+      status stop
+      new_group new_synth_group new_fx_group new_fx_bus
+      recording_start recording_stop
+      control_bus
+    ].freeze
+
+    _gate_module = Module.new
+    GATED_STUDIO_METHODS.each do |m|
+      _gate_module.module_eval do
+        define_method(m) do |*args, **kwargs, &blk|
+          @studio_ready_gate.with_studio_ready(m) do
+            super(*args, **kwargs, &blk)
+          end
+        end
+      end
+    end
+    prepend(_gate_module)
 
   end
 end

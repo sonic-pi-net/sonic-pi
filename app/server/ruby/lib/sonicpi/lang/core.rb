@@ -4392,14 +4392,31 @@ puts current_sched_ahead_time # Prints 0.5"]
         new_vt = __get_spider_time.to_f
         now = Time.now.to_f
 
+        # Cold-swap grace: trigger threads were blocked at the studio
+        # gate for the swap duration (~0.3s), so the next sleep check
+        # sees Spider's virtual time "behind" wall clock and would
+        # raise TimingError. Skip the timing check for 5s after a
+        # recent swap so live_loops blip and resume. Don't advance
+        # spider time — that would desync the logical clock across
+        # threads.
+        recent_swap = false
+        last_swap = @mod_sound_studio.last_cold_swap_completed_at rescue nil
+        if last_swap && (Time.now.to_f - last_swap) < 5.0
+          recent_swap = true
+        end
+
         if (now - (sat + 1)) > new_vt
-          __delayed_serious_warning "Serious timing error. Too far behind time..."
-          raise TimingError, "Timing Exception: thread got too far behind time"
+          if recent_swap
+            __delayed_warning "Cold-swap drift: skipping TimingError because audio engine recently rebuilt"
+          else
+            __delayed_serious_warning "Serious timing error. Too far behind time..."
+            raise TimingError, "Timing Exception: thread got too far behind time"
+          end
         elsif (now - sat) > new_vt
-          __delayed_serious_warning "Timing error: can't keep up..."
+          __delayed_serious_warning "Timing error: can't keep up..." unless recent_swap
         elsif now > new_vt
           unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent) || in_time_warp
-            __delayed_warning "Timing warning: running slightly behind..."
+            __delayed_warning "Timing warning: running slightly behind..." unless recent_swap
           end
         end
         sleep_t = (new_vt - now).to_f - 0.2

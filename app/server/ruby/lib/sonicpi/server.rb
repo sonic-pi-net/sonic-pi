@@ -147,9 +147,60 @@ module SonicPi
       log "SRV #{s}"
     end
 
+    # Re-register Spider against supersonic's process-level
+    # /supersonic/notify list (handled by OscUdpServer, survives World
+    # rebuilds — separate from scsynth's per-World /notify list managed
+    # by request_notifications below). Used by Studio#cold_swap_reinit!
+    # as Phase 1.5 to keep device-event push notifications flowing after
+    # a driver switch.
+    def register_for_notifications!(timeout: 5.0)
+      @scsynth.register_for_notifications!(timeout: timeout)
+    end
+
     def request_notifications
+      # Synchronous: wait for scsynth to confirm Spider is in its
+      # notify list before returning. Accepts either `/done /notify`
+      # (success) or `/fail /notify "already registered"` (Spider
+      # was still in mUsers from a prior call) — both satisfy the
+      # postcondition. Callers like nuke_scsynth_state! invoked
+      # from Studio#cold_swap_reinit! depend on this guarantee
+      # before firing /sync or /d_loadDir against the new World.
       info "Requesting notifications" if @debug_mode
+
+      prom = Promise.new
+      done_handle = @osc_events.gensym("/sonicpi/notify-done")
+      fail_handle = @osc_events.gensym("/sonicpi/notify-fail")
+
+      @osc_events.add_handler("/done", done_handle) do |pl|
+        if pl.to_a[0] == @osc_path_notify
+          prom.deliver! :ok rescue nil
+          [:remove_handlers, [done_handle, fail_handle]]
+        end
+      end
+
+      @osc_events.add_handler("/fail", fail_handle) do |pl|
+        pla = pl.to_a
+        if pla[0] == @osc_path_notify
+          # "already registered" is the only /fail we treat as success.
+          # Anything else (e.g. "too many users") propagates as a timeout
+          # so the caller notices.
+          msg = pla[1].to_s
+          if msg.include?("already registered")
+            prom.deliver! :already rescue nil
+            [:remove_handlers, [done_handle, fail_handle]]
+          end
+        end
+      end
+
       osc @osc_path_notify, 1
+
+      begin
+        prom.get(5)
+      rescue
+        STDOUT.puts "[notify] request_notifications timed out (no /done or 'already registered' /fail in 5s)"
+        STDOUT.flush
+        nil
+      end
     end
 
     def load_synthdefs(path)

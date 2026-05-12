@@ -13,6 +13,11 @@
 require 'tmpdir'
 require 'fileutils'
 require 'thread'
+
+# Ensure Concurrent::AtomicFixnum is available for @cold_swap_generation.
+# studio_ready_gate.rb already sets up the load path; require it here
+# rather than depending on file-load order.
+require_relative '../studio_ready_gate'
 require 'net/http'
 require_relative "../blanknode"
 require_relative "../chainnode"
@@ -86,6 +91,15 @@ module SonicPi
             @job_mixers_mutex = Mutex.new
             @job_busses = {}
             @job_busses_mutex = Mutex.new
+            # Generation counter — bumped on every cold-swap reinit.
+            # current_group / current_out_bus compare it against the
+            # per-thread cached gen and refetch if stale. Clearing
+            # @job_groups / @job_busses only invalidates the shared
+            # hash; each live_loop thread also caches the group in
+            # its thread-locals, and those need the gen check to
+            # detect the dead-World refs. Atomic Integer
+            # (concurrent-ruby) — lock-free read on every trigger.
+            @cold_swap_generation = Concurrent::AtomicFixnum.new(0)
             current_spider_time_lambda = lambda { __get_spider_time }
             @mod_sound_studio = Studio.new(ports, msg_queue, @system_state, @register_cue_event_lambda, current_spider_time_lambda)
 
@@ -161,7 +175,11 @@ module SonicPi
         @job_group_mutex.synchronize { @job_groups.clear }
         @job_mixers_mutex.synchronize { @job_mixers.clear }
         @job_busses_mutex.synchronize { @job_busses.clear }
-        STDOUT.puts "Spider - job scsynth state nuked"
+        # Bump generation so per-thread group/bus caches refetch on
+        # their next access. The clears above only invalidate the
+        # shared hashes, not the thread-locals.
+        @cold_swap_generation.increment
+        STDOUT.puts "Spider - job scsynth state nuked (gen=#{@cold_swap_generation.value})"
         STDOUT.flush
       end
 
@@ -1868,9 +1886,22 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         orig_subthreads = __system_thread_locals.get(:sonic_pi_local_spider_subthreads).to_a.clone
         orig_out_bus = current_out_bus
         orig_synth_group = current_group
+        # Capture the gen these refs were valid for. If a cold-swap
+        # fires during the block, orig_synth_group/orig_out_bus go
+        # stale; restoring them with their original gen makes
+        # current_group/out_bus's next read correctly detect stale
+        # and refetch rather than blindly using the dead ref.
+        orig_gen = @cold_swap_generation.value
 
+        # Set the gen alongside the cached refs so current_group /
+        # current_out_bus accept them as live (else the just-set
+        # values would be tagged with whatever stale gen was there
+        # before, and the next read would treat them as invalidated).
+        cur_gen = @cold_swap_generation.value
         __system_thread_locals.set(:sonic_pi_mod_sound_job_group, fx_synth_group)
+        __system_thread_locals.set(:sonic_pi_mod_sound_job_group_gen, cur_gen)
         __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, new_bus)
+        __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus_gen, cur_gen)
         __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, tracker)
 
         begin
@@ -1888,9 +1919,13 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         ensure
           subthreads = __system_thread_locals.get(:sonic_pi_local_spider_subthreads).to_a - orig_subthreads
           fx_t_completed.deliver! subthreads
-          ## Reset out bus to value prior to this with_fx block
+          ## Reset out bus to value prior to this with_fx block.
+          # Restore the ORIGINAL gen so current_group/out_bus correctly
+          # detect stale-ness if a cold-swap fired during the block.
           __system_thread_locals.set(:sonic_pi_mod_sound_job_group, orig_synth_group)
+          __system_thread_locals.set(:sonic_pi_mod_sound_job_group_gen, orig_gen)
           __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus, orig_out_bus)
+          __system_thread_locals.set(:sonic_pi_mod_sound_synth_out_bus_gen, orig_gen)
           __system_thread_locals.set_local(:sonic_pi_local_mod_fx_tracker, orig_tracker)
         end
 
@@ -3503,7 +3538,22 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         @mod_sound_studio.save_buffer!(buffer, path)
       end
 
+      # Block the calling thread until the studio is past any in-flight
+      # cold-swap reinit. User code that lands here while reinit is mid-
+      # rebuild (e.g. user just changed audio device and pressed Run)
+      # would otherwise touch nil mixer_group / missing synthdefs and
+      # crash inside ChainNode#initialize ('undefined method args for
+      # nil'). Reinit normally takes ~0.25s; the 20s ceiling is a sanity
+      # bound, only fires if reinit itself is wedged.
+      def __ensure_audio_studio_ready!
+        return unless @mod_sound_studio
+        unless @mod_sound_studio.wait_for_reboot_complete(20)
+          raise "Audio reinitialisation did not complete within 20 seconds — aborting trigger"
+        end
+      end
+
       def trigger_sampler(path, args_h, group=current_group)
+        __ensure_audio_studio_ready!
         args_h = args_h.to_h
         case path
         when Buffer
@@ -3575,6 +3625,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def trigger_chord(synth_name, notes, args_a_or_h, group=current_group)
+        __ensure_audio_studio_ready!
         sn = synth_name.to_sym
         info = Synths::SynthInfo.get_info(sn)
         args_h = resolve_synth_opts_hash_or_array(args_a_or_h)
@@ -3616,16 +3667,31 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def trigger_fx(synth_name, args_h, info, in_bus, group=current_group, now=false, t_minus_delta=false)
+        __ensure_audio_studio_ready!
         args_h = normalise_and_resolve_synth_args(args_h, info, false)
         add_arg_slide_times!(args_h, info)
         out_bus = current_out_bus
         n = trigger_synth(synth_name, args_h, group, info, now, out_bus, t_minus_delta, :tail)
+        # Defensive: if trigger_synth returned nil (e.g. /g_new failed
+        # silently because `group` is a stale-World reference captured
+        # by with_fx before a cold-swap), don't crash the live_loop
+        # with NoMethodError on nil.args inside ChainNode#initialize.
+        # Return a BlankNode (no scsynth-side effect, no audible
+        # output for this iteration). Live_loop survives; next
+        # iteration re-enters with_fx and gets fresh refs.
+        unless n
+          STDOUT.puts "[trigger_fx] trigger_synth returned nil for '#{synth_name}' " \
+                      "(likely cold-swap mid-with_fx — group=#{group.inspect}); " \
+                      "returning BlankNode to keep live_loop alive"
+          STDOUT.flush
+          return BlankNode.new(args_h)
+        end
         FXNode.new(n, in_bus, out_bus)
       end
 
       # Function that actually triggers synths now that all args are resolved
       def trigger_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false, pos=:tail)
-
+        __ensure_audio_studio_ready!
         add_out_bus_and_rand_buf!(args_h, out_bus, info)
 
         synth_name = info ? info.scsynth_name : synth_name
@@ -3667,7 +3733,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
 
       def trigger_live_synth(synth_name, args_h, group, info, now=false, out_bus=nil, t_minus_delta=false, pos=:tail, live_id=nil)
-
+        __ensure_audio_studio_ready!
         add_out_bus_and_rand_buf!(args_h, out_bus, info)
 
         synth_name = info ? info.scsynth_name : synth_name
@@ -3886,13 +3952,21 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
 
       def current_group
-        if g = __system_thread_locals.get(:sonic_pi_mod_sound_job_group)
-          return g
-        else
-          g = default_job_synth_group(current_job_id)
-          __system_thread_locals.set :sonic_pi_mod_sound_job_group, g
+        # Generation check: if a cold-swap fired since we cached, the
+        # cached group ref points at a dead-World scsynth node and
+        # using it would silently drop /g_new on the floor. Refetch
+        # from default_job_synth_group which now sees the cleared
+        # @job_groups (post-nuke) and creates a fresh group in the
+        # new World.
+        cur_gen = @cold_swap_generation.value
+        cached_gen = __system_thread_locals.get(:sonic_pi_mod_sound_job_group_gen)
+        if cached_gen == cur_gen && (g = __system_thread_locals.get(:sonic_pi_mod_sound_job_group))
           return g
         end
+        g = default_job_synth_group(current_job_id)
+        __system_thread_locals.set :sonic_pi_mod_sound_job_group, g
+        __system_thread_locals.set :sonic_pi_mod_sound_job_group_gen, cur_gen
+        g
       end
 
       def default_job_synth_group(job_id)
@@ -3907,8 +3981,26 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       end
 
       def current_out_bus
+        # The thread-local is set externally (by with_fx, line ~1873)
+        # to redirect output to an FX's input bus. We don't set it
+        # here — if absent, fall back to the job's main bus (which
+        # goes via @job_busses, cleared by nuke_job_scsynth_state! on
+        # cold swap so it auto-reallocates fresh).
+        #
+        # BUT: if a with_fx-set thread-local IS present and was set
+        # BEFORE the most recent cold swap, the bus ID it points at
+        # is dead. Treat as if not set so we fall through to
+        # current_job_bus and get a fresh allocation in the new
+        # World.
         current_bus = __system_thread_locals.get(:sonic_pi_mod_sound_synth_out_bus)
-        current_bus || current_job_bus
+        if current_bus
+          cached_gen = __system_thread_locals.get(:sonic_pi_mod_sound_synth_out_bus_gen)
+          if cached_gen == @cold_swap_generation.value
+            return current_bus
+          end
+          # Stale — fall through to current_job_bus
+        end
+        current_job_bus
       end
 
       def current_job_bus

@@ -133,8 +133,28 @@ module SonicPi
 
       wait_for_boot
 
-      # Register as a notify target before Server.new sends /d_loadDir —
-      # /done goes to registered targets only
+      # Initial notify registration so /done, /synced, /n_go etc. flow
+      # back to Spider. MUST happen before Server.new sends /d_loadDir.
+      register_for_notifications!(timeout: 5.0)
+
+      true
+    end
+
+    # Register Spider as a /supersonic/notify target. Safe to call any
+    # number of times — needed at boot AND after every driver-switch /
+    # cold-swap because supersonic builds a fresh World whose subscribers
+    # list is empty. Without this, /sync, /done and /n_go replies are
+    # silently dropped and cold_swap_reinit's Phase 2 (/sync in
+    # clear_scsynth!) and Phase 3 (/d_loadDir) hit their promise
+    # timeouts. Returns true on confirmed re-registration, false on
+    # timeout. Idempotent (re-binds the handler closure each call).
+    #
+    # Public: called by SonicPi::Server#register_for_notifications!
+    # delegator from Studio#cold_swap_reinit!. (Targeted `public`
+    # directive at end of body keeps subsequent methods private.)
+    def register_for_notifications!(timeout: 5.0)
+      return false unless @osc_server
+
       registered = Promise.new
       @osc_server.add_method("/supersonic/notify.reply") do |args|
         puts "Spider OSC: /supersonic/notify.reply confirmed"
@@ -150,13 +170,14 @@ module SonicPi
       end
 
       begin
-        registered.get(5)
+        registered.get(timeout)
+        true
       rescue
-        puts "Warning: /supersonic/notify registration timed out"
+        puts "Warning: /supersonic/notify registration timed out (#{timeout}s)"
+        false
       end
-
-      true
     end
+    public :register_for_notifications!
 
     def raspberry?
       os == :raspberry

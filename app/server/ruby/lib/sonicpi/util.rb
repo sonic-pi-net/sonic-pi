@@ -441,6 +441,13 @@ module SonicPi
         begin
           r = block.call
         rescue Exception => e
+          # Always log to STDOUT (visible in spider.log). log_exception
+          # below only writes to debug.log when debug_mode is on (off
+          # in production), so without this the swallowed exception
+          # leaves no trace and the caller gets nil with no signal.
+          STDOUT.puts "[no-kill-block] swallowed #{e.class}: #{e.message}"
+          (e.backtrace || []).first(10).each { |line| STDOUT.puts "[no-kill-block]   #{line}" }
+          STDOUT.flush
           log_exception e, "in no kill block"
         ensure
           __system_thread_locals(t).set_local(:sonic_pi_local_spider_in_no_kill_block, false)
