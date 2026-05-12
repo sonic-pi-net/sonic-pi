@@ -56,7 +56,7 @@ private:
 
 private:
     std::unique_ptr<server_shared_memory_client> m_shmClient;
-    scope_buffer_reader m_shmReader;
+    shm_scope_buffer_reader m_shmReader;
 
     unsigned int m_emptyFrames = 0;
     int m_scSynthPort = 0;

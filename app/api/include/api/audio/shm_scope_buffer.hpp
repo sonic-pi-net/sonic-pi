@@ -33,10 +33,10 @@ namespace detail_server_shm {
 
 using std::atomic;
 
-class scope_buffer_writer;
-class scope_buffer_reader;
+class shm_scope_buffer_writer;
+class shm_scope_buffer_reader;
 
-class scope_buffer_pool {
+class shm_scope_buffer_pool {
 public:
     void init(void* pool, size_t size_of_pool) {
         pool_ = (char*)pool;
@@ -52,9 +52,9 @@ private:
     char* pool_;
 };
 
-class scope_buffer {
-    friend class scope_buffer_writer;
-    friend class scope_buffer_reader;
+class shm_scope_buffer {
+    friend class shm_scope_buffer_writer;
+    friend class shm_scope_buffer_reader;
 
     typedef relative_ptr<float> sh_float_ptr;
 
@@ -94,12 +94,12 @@ class scope_buffer {
     } _state[3];
 
 public:
-    scope_buffer(): _status(free), _stage(0), _in(1), _out(2) {}
+    shm_scope_buffer(): _status(free), _stage(0), _in(1), _out(2) {}
 
 private:
     // writer interface
 
-    bool allocate(scope_buffer_pool& pool, unsigned int channels, unsigned int size) {
+    bool allocate(shm_scope_buffer_pool& pool, unsigned int channels, unsigned int size) {
         bool available = _status.load(std::memory_order_relaxed) == free;
         if (!available)
             return false;
@@ -121,7 +121,7 @@ private:
         return true;
     }
 
-    void release(scope_buffer_pool& pool) {
+    void release(shm_scope_buffer_pool& pool) {
         bool allocated = _status.load(std::memory_order_relaxed) != free;
         if (!allocated)
             return;
@@ -158,13 +158,13 @@ private:
     }
 };
 
-class scope_buffer_writer {
+class shm_scope_buffer_writer {
 public:
-    scope_buffer* buffer;
+    shm_scope_buffer* buffer;
 
-    scope_buffer_writer(scope_buffer* buffer = 0): buffer(buffer) {}
+    shm_scope_buffer_writer(shm_scope_buffer* buffer = 0): buffer(buffer) {}
 
-    scope_buffer_writer(scope_buffer* buf, scope_buffer_pool& pool, unsigned int channels, unsigned int size):
+    shm_scope_buffer_writer(shm_scope_buffer* buf, shm_scope_buffer_pool& pool, unsigned int channels, unsigned int size):
         buffer(buf) {
         if (!buffer->allocate(pool, channels, size))
             buffer = 0;
@@ -178,17 +178,17 @@ public:
 
     void push(unsigned int frames) { buffer->push(frames); }
 
-    void release(scope_buffer_pool& pool) { buffer->release(pool); }
+    void release(shm_scope_buffer_pool& pool) { buffer->release(pool); }
 };
 
-// FIXME: how do we ensure that scope_buffer data members used in the reader
+// FIXME: how do we ensure that shm_scope_buffer data members used in the reader
 // are consistent among themselves at all times???
 
-class scope_buffer_reader {
-    scope_buffer* buffer;
+class shm_scope_buffer_reader {
+    shm_scope_buffer* buffer;
 
 public:
-    scope_buffer_reader(scope_buffer* buffer_ = 0): buffer(buffer_) {}
+    shm_scope_buffer_reader(shm_scope_buffer* buffer_ = 0): buffer(buffer_) {}
 
     bool valid() {
         // places an acquire memory ordering fence

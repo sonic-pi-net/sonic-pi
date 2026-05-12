@@ -274,7 +274,7 @@ void AudioProcessor::ResetConnection()
     {
         LOG(ERR, "Shared memory connection failed: " << e.what());
         m_shmClient.reset();
-        m_shmReader = scope_buffer_reader();
+        m_shmReader = shm_scope_buffer_reader();
     }
 }
 

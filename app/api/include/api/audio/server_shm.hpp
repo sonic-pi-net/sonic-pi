@@ -9,11 +9,13 @@
 
 #pragma once
 
-#include "scope_buffer.hpp"
+#include "shm_audio_buffer.hpp"
+#include "shm_scope_buffer.hpp"
 
 #include <string>
 #include <cstring>
 #include <stdexcept>
+#include <atomic>
 
 #ifdef _WIN32
 #  ifndef WIN32_LEAN_AND_MEAN
@@ -34,8 +36,10 @@ namespace detail_server_shm {
 
 using std::string;
 
-static constexpr int    MAX_SCOPE_BUFFERS = 128;
-static constexpr size_t SEGMENT_SIZE      = 8192 * 1024;  // 8 MB
+static constexpr int    MAX_SHM_SCOPE_BUFFERS = 128;
+// 8 MB base + audio-buffer region (scales with SUPERSONIC_SHM_AUDIO_SECONDS).
+static constexpr size_t SEGMENT_SIZE          =
+    8192 * 1024 + SHM_AUDIO_TOTAL_SIZE;
 
 static inline string make_shmem_name(unsigned int port_number) {
     return string("SuperSonic_") + std::to_string(port_number);
@@ -144,35 +148,40 @@ inline void shm_remove(const string& name) {
 
 // ──── Fixed-layout shared memory header ─────────────────────────────────
 //
-// Segment layout (must mirror canonical SuperSonic
-// src/scsynth/common/server_shm.hpp — supersonic's MAGIC bump enforces
-// this; an out-of-date reader sees a stranger's segment and refuses):
+// Segment layout (mirror of supersonic/src/scsynth/common/server_shm.hpp;
+// MAGIC enforces sync — an out-of-date reader refuses to connect):
 //
-//   scope_shm_header                          (16 bytes, 16-aligned)
-//   scope_buffer[MAX_SCOPE_BUFFERS]            (128 scope slots)
-//   float[control_bus_count]                   (control bus values)
-//   PerformanceMetrics                         (engine perf metrics)
+//   shm_segment_header                              (16 bytes, 16-aligned)
+//   shm_scope_buffer[MAX_SHM_SCOPE_BUFFERS]         (128 scope slots)
+//   float[control_bus_count]                        (control bus values)
+//   PerformanceMetrics                              (engine perf metrics)
 //   NodeTreeHeader + NodeEntry[NODE_TREE_MIRROR_MAX_NODES]
-//   char[remaining]                            (TLSF pool for scope data)
+//   shm_audio_buffer[MAX_SHM_AUDIO_BUFFERS]         (PCM tap ring slots)
+//   char[remaining]                                 (TLSF pool for scope
+//                                                    buffer dynamic alloc)
 //
-// Sonic Pi's reader path only needs scope buffers and (potentially) the
-// pool base — it does not interpret metrics or the node tree. We mirror
-// their sizes here purely to compute pool_base_ at the right offset.
+// Sonic Pi's reader path interprets scope_buffers, control_busses, and
+// the audio_buffer slots. Metrics and the node tree are opaque here —
+// their sizes are mirrored only to compute later offsets correctly.
 
-// Sizes copied from supersonic/src/shared_memory.h. Keep these in sync
-// when the supersonic side changes — the MAGIC value will catch any drift.
+// Sizes copied from supersonic/src/shared_memory.h. Keep in sync when
+// the supersonic side changes — the MAGIC value will catch any drift.
 static constexpr size_t METRICS_SIZE              = 184;
 static constexpr size_t NODE_TREE_HEADER_SIZE     = 16;
 static constexpr size_t NODE_TREE_ENTRY_SIZE      = 72;
 static constexpr size_t NODE_TREE_MIRROR_MAX_NODES = 1024;
 
-struct scope_shm_header {
-    static constexpr uint32_t MAGIC = 0x5C09E002;
+// Publication: writer stores MAGIC last with a release fence preceding
+// it; reader places an acquire fence after observing MAGIC. Sighting
+// MAGIC implies the whole header is visible — no torn-init race even
+// when the OSC ready handshake is bypassed.
+struct shm_segment_header {
+    static constexpr uint32_t MAGIC = 0x5C09E003;
 
     uint32_t magic;
-    uint32_t num_scope_buffers;
+    uint32_t num_shm_scope_buffers;
     uint32_t control_bus_count;
-    uint32_t _reserved;
+    uint32_t num_audio_buffers;
 };
 
 // ──── server_shared_memory ──────────────────────────────────────────────
@@ -185,30 +194,35 @@ public:
     server_shared_memory(void* segment_base, int control_busses, bool init) {
         char* base = static_cast<char*>(segment_base);
 
-        header_ = reinterpret_cast<scope_shm_header*>(base);
+        header_ = reinterpret_cast<shm_segment_header*>(base);
 
         // Scope buffers after header (16-aligned)
-        size_t off = (sizeof(scope_shm_header) + 15) & ~size_t(15);
-        scope_buffers_ = reinterpret_cast<scope_buffer*>(base + off);
+        size_t off = (sizeof(shm_segment_header) + 15) & ~size_t(15);
+        scope_buffers_ = reinterpret_cast<shm_scope_buffer*>(base + off);
 
         // Control busses after scope buffers (16-aligned)
-        off += MAX_SCOPE_BUFFERS * sizeof(scope_buffer);
+        off += MAX_SHM_SCOPE_BUFFERS * sizeof(shm_scope_buffer);
         off = (off + 15) & ~size_t(15);
         control_busses_ = reinterpret_cast<float*>(base + off);
 
-        // PerformanceMetrics after control busses (16-aligned). Sonic Pi
-        // doesn't read the metrics struct itself; we only need the size to
-        // place pool_base_ correctly.
+        // PerformanceMetrics after control busses (16-aligned). Opaque
+        // on this side — size only, no struct definition.
         off += static_cast<size_t>(control_busses) * sizeof(float);
         off = (off + 15) & ~size_t(15);
         off += METRICS_SIZE;
 
         // NodeTreeHeader + NodeEntry[NODE_TREE_MIRROR_MAX_NODES] after
-        // metrics (16-aligned for the header, then 8-aligned entries —
-        // 8-alignment is naturally satisfied inside a 16-aligned region).
+        // metrics (16-aligned for the header, 8-aligned entries — naturally
+        // satisfied inside a 16-aligned region). Opaque here as well.
         off = (off + 15) & ~size_t(15);
         off += NODE_TREE_HEADER_SIZE;
         off += NODE_TREE_MIRROR_MAX_NODES * NODE_TREE_ENTRY_SIZE;
+
+        // Audio buffer slot array (16-aligned). Self-contained: header +
+        // inline data ring per slot, no TLSF involvement.
+        off = (off + 15) & ~size_t(15);
+        audio_buffers_ = reinterpret_cast<shm_audio_buffer*>(base + off);
+        off += MAX_SHM_AUDIO_BUFFERS * sizeof(shm_audio_buffer);
 
         // TLSF pool follows (16-aligned).
         off = (off + 15) & ~size_t(15);
@@ -216,23 +230,38 @@ public:
         pool_size_ = SEGMENT_SIZE - off;
 
         if (init) {
-            header_->magic = scope_shm_header::MAGIC;
-            header_->num_scope_buffers = MAX_SCOPE_BUFFERS;
+            header_->num_shm_scope_buffers = MAX_SHM_SCOPE_BUFFERS;
             header_->control_bus_count = static_cast<uint32_t>(control_busses);
+            header_->num_audio_buffers = MAX_SHM_AUDIO_BUFFERS;
 
             memset(control_busses_, 0,
                    static_cast<size_t>(control_busses) * sizeof(float));
 
-            for (int i = 0; i < MAX_SCOPE_BUFFERS; ++i)
-                new (&scope_buffers_[i]) scope_buffer();
+            for (int i = 0; i < MAX_SHM_SCOPE_BUFFERS; ++i)
+                new (&scope_buffers_[i]) shm_scope_buffer();
+
+            memset(static_cast<void*>(audio_buffers_), 0,
+                   MAX_SHM_AUDIO_BUFFERS * sizeof(shm_audio_buffer));
+
+            // Release fence pairs with the reader's acquire after the
+            // MAGIC load. Aligned 32-bit store is atomic on every
+            // supported platform — no atomic<uint32_t> on the field.
+            std::atomic_thread_fence(std::memory_order_release);
+            header_->magic = shm_segment_header::MAGIC;
         }
     }
 
     float* get_control_busses() { return control_busses_; }
 
-    scope_buffer* get_scope_buffer(unsigned int index) {
-        if (index < MAX_SCOPE_BUFFERS)
+    shm_scope_buffer* get_scope_buffer(unsigned int index) {
+        if (index < MAX_SHM_SCOPE_BUFFERS)
             return &scope_buffers_[index];
+        return nullptr;
+    }
+
+    shm_audio_buffer* get_audio_buffer(unsigned int index) {
+        if (index < MAX_SHM_AUDIO_BUFFERS)
+            return &audio_buffers_[index];
         return nullptr;
     }
 
@@ -240,11 +269,12 @@ public:
     size_t pool_size() const { return pool_size_; }
 
 private:
-    scope_shm_header* header_;
-    scope_buffer*     scope_buffers_;
-    float*            control_busses_;
-    void*             pool_base_;
-    size_t            pool_size_;
+    shm_segment_header* header_;
+    shm_scope_buffer*   scope_buffers_;
+    float*              control_busses_;
+    shm_audio_buffer*   audio_buffers_;
+    void*               pool_base_;
+    size_t              pool_size_;
 };
 
 // ──── Creator (audio engine side) ───────────────────────────────────────
@@ -283,16 +313,16 @@ public:
 
     float* get_control_busses() { return shm->get_control_busses(); }
 
-    scope_buffer_writer get_scope_buffer_writer(
+    shm_scope_buffer_writer get_scope_buffer_writer(
             unsigned int index, unsigned int channels, unsigned int size) {
-        scope_buffer* buf = shm->get_scope_buffer(index);
+        shm_scope_buffer* buf = shm->get_scope_buffer(index);
         if (buf)
-            return scope_buffer_writer(buf, scope_pool, channels, size);
+            return shm_scope_buffer_writer(buf, scope_pool, channels, size);
         else
-            return scope_buffer_writer();
+            return shm_scope_buffer_writer();
     }
 
-    void release_scope_buffer_writer(scope_buffer_writer& writer) {
+    void release_scope_buffer_writer(shm_scope_buffer_writer& writer) {
         writer.release(scope_pool);
     }
 
@@ -300,7 +330,7 @@ private:
     string                shmem_name;
     shm_handle            handle;
     server_shared_memory* shm = nullptr;
-    scope_buffer_pool     scope_pool;
+    shm_scope_buffer_pool scope_pool;
 };
 
 
@@ -315,10 +345,16 @@ public:
         shmem_name(make_shmem_name(port_number)),
         handle(shm_open_existing(shmem_name))
     {
-        auto* header = static_cast<scope_shm_header*>(handle.ptr);
-        if (header->magic != scope_shm_header::MAGIC)
+        auto* header = static_cast<shm_segment_header*>(handle.ptr);
+        if (header->magic != shm_segment_header::MAGIC)
             throw std::runtime_error(
                 "Invalid shared memory magic — is the audio engine running?");
+
+        // Acquire pairs with the writer's release before the MAGIC
+        // store. control_bus_count is read just below — without the
+        // fence the reader could observe MAGIC while still seeing a
+        // zeroed control_bus_count.
+        std::atomic_thread_fence(std::memory_order_acquire);
 
         shm = new server_shared_memory(
             handle.ptr,
@@ -333,9 +369,9 @@ public:
 
     float* get_control_busses() { return shm->get_control_busses(); }
 
-    scope_buffer_reader get_scope_buffer_reader(unsigned int index) {
-        scope_buffer* buf = shm->get_scope_buffer(index);
-        return scope_buffer_reader(buf);
+    shm_scope_buffer_reader get_scope_buffer_reader(unsigned int index) {
+        shm_scope_buffer* buf = shm->get_scope_buffer(index);
+        return shm_scope_buffer_reader(buf);
     }
 
 private:
@@ -346,8 +382,8 @@ private:
 
 } /* namespace detail_server_shm */
 
-using detail_server_shm::scope_buffer;
-using detail_server_shm::scope_buffer_reader;
-using detail_server_shm::scope_buffer_writer;
+using detail_server_shm::shm_scope_buffer;
+using detail_server_shm::shm_scope_buffer_reader;
+using detail_server_shm::shm_scope_buffer_writer;
 using detail_server_shm::server_shared_memory_client;
 using detail_server_shm::server_shared_memory_creator;

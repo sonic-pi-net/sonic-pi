@@ -62,7 +62,8 @@ set(OSC_SRC
 set(BUFFER_SRC
     ${API_ROOT}/src/audio/audio_processor.cpp
     ${API_ROOT}/include/api/audio/audio_processor.h
-    ${API_ROOT}/include/api/audio/scope_buffer.hpp
+    ${API_ROOT}/include/api/audio/shm_audio_buffer.hpp
+    ${API_ROOT}/include/api/audio/shm_scope_buffer.hpp
     ${API_ROOT}/include/api/audio/server_shm.hpp
     ${API_ROOT}/include/api/audio/relative_ptr.hpp
 )
