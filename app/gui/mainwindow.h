@@ -320,6 +320,8 @@ private slots:
 #ifdef Q_OS_MAC
     void syphonPublishMenuChanged();
     void syphonShowCursorMenuChanged();
+    void recordSessionMenuChanged();
+    void recordShowCursorMenuChanged();
 #endif
     void updateFocusMode();
     void toggleFocusMode();
@@ -491,6 +493,8 @@ private:
 #ifdef Q_OS_MAC
     QAction *syphonPublishAct;
     QAction *syphonShowCursorAct;
+    QAction *recordSessionAct;
+    QAction *recordShowCursorAct;
 #endif
     QShortcut *textLeftSc, *escapeSc, *escape2Sc, *toggleFocusModeSc, *toggleScopePausedSc, *reloadServerCodeSc;
     QActionGroup* langActionGroup;

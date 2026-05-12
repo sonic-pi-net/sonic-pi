@@ -253,6 +253,12 @@ void AudioProcessor::CalculateFFT(ProcessedAudio& audio)
     }
 }
 
+shm_audio_buffer* AudioProcessor::GetAudioBufferSlot(unsigned int slot)
+{
+    if (!m_shmClient) return nullptr;
+    return m_shmClient->get_audio_buffer(slot);
+}
+
 void AudioProcessor::ResetConnection()
 {
     try

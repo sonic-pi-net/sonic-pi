@@ -374,6 +374,14 @@ public:
         return shm_scope_buffer_reader(buf);
     }
 
+    // Raw slot pointer for callers that construct their own reader (e.g.
+    // the session recorder when it spins up its capture thread). Slot 0
+    // is the master output, slots 1..N are user AudioOut2 UGens.
+    // Returns nullptr for out-of-range indices.
+    shm_audio_buffer* get_audio_buffer(unsigned int index) {
+        return shm ? shm->get_audio_buffer(index) : nullptr;
+    }
+
 private:
     string                shmem_name;
     shm_handle            handle;

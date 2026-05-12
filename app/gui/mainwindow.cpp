@@ -24,7 +24,10 @@
 #include <QDesktopServices>
 #include <QDialogButtonBox>
 #include <QDockWidget>
+#include <QDateTime>
+#include <QDir>
 #include <QFileDialog>
+#include <QStandardPaths>
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
@@ -1005,6 +1008,84 @@ void MainWindow::syphonShowCursorMenuChanged()
     piSettings->syphon_show_cursor = syphonShowCursorAct->isChecked();
     emit settingsChanged();
     SonicPi::setSyphonShowCursor(piSettings->syphon_show_cursor);
+}
+
+// Fixed scsynth node id for the supersonic-audio-out synth that feeds
+// the screen recorder's audio track. Chosen high enough to be outside
+// the range Sonic Pi normally allocates for user code.
+static constexpr int32_t kRecordAudioOutNodeId = 999100;
+
+void MainWindow::recordSessionMenuChanged()
+{
+    const bool wantOn = recordSessionAct->isChecked();
+    if (wantOn) {
+        // Default save location: ~/Movies/Sonic Pi/Sonic Pi <timestamp>.mov
+        QString moviesDir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+        QDir(moviesDir).mkpath("Sonic Pi");
+        QString defaultDir = moviesDir + "/Sonic Pi";
+        QString defaultName = "Sonic Pi " + QDateTime::currentDateTime().toString("yyyy-MM-dd HHmmss") + ".mov";
+        QString fileName = QFileDialog::getSaveFileName(this,
+            tr("Save Session Recording"),
+            defaultDir + "/" + defaultName,
+            tr("QuickTime Movie (*.mov)"));
+        if (fileName.isEmpty()) {
+            QSignalBlocker blocker(recordSessionAct);
+            recordSessionAct->setChecked(false);
+            return;
+        }
+
+        // Spawn the supersonic-audio-out synth at the tail of the root
+        // group. Sonic Pi's mixer sits at root-tail, so adding TAIL here
+        // places the audio-out synth after the mixer — it reads bus 0
+        // (master output) once the mixer has written this cycle's mix.
+        shm_audio_buffer* audioSlot = m_spAPI
+            ? m_spAPI->AudioProcessor_GetAudioBufferSlot(SHM_AUDIO_MASTER_SLOT)
+            : nullptr;
+        if (audioSlot && m_spAPI) {
+            Message snew("/s_new");
+            snew.pushStr("supersonic-audio-out");
+            snew.pushInt32(kRecordAudioOutNodeId);
+            snew.pushInt32(1);  // addAction = TAIL of target group
+            snew.pushInt32(0);  // targetGroup = root group
+            m_spAPI->SupersonicSendOSC(snew);
+        } else {
+            std::cout << "[GUI] - Session recording: no audio slot available — recording video-only" << std::endl;
+        }
+
+        WId wid = this->winId();
+        bool started = SonicPi::startSessionRecording(
+            reinterpret_cast<void*>(wid),
+            fileName.toStdString(),
+            piSettings->record_show_cursor,
+            audioSlot);
+        if (!started) {
+            // Roll back the synth spawn we just kicked off.
+            if (audioSlot && m_spAPI) {
+                Message nfree("/n_free");
+                nfree.pushInt32(kRecordAudioOutNodeId);
+                m_spAPI->SupersonicSendOSC(nfree);
+            }
+            QSignalBlocker blocker(recordSessionAct);
+            recordSessionAct->setChecked(false);
+            return;
+        }
+        recordSessionAct->setText(tr("Stop Session Recording"));
+    } else {
+        SonicPi::stopSessionRecording();
+        if (m_spAPI) {
+            Message nfree("/n_free");
+            nfree.pushInt32(kRecordAudioOutNodeId);
+            m_spAPI->SupersonicSendOSC(nfree);
+        }
+        recordSessionAct->setText(tr("Record Session…"));
+    }
+}
+
+void MainWindow::recordShowCursorMenuChanged()
+{
+    piSettings->record_show_cursor = recordShowCursorAct->isChecked();
+    emit settingsChanged();
+    SonicPi::setRecordShowCursor(piSettings->record_show_cursor);
 }
 #endif
 
@@ -4023,6 +4104,16 @@ void MainWindow::createToolBar()
     syphonShowCursorAct->setCheckable(true);
     syphonShowCursorAct->setChecked(piSettings->syphon_show_cursor);
     connect(syphonShowCursorAct, SIGNAL(triggered()), this, SLOT(syphonShowCursorMenuChanged()));
+
+    recordSessionAct = new QAction(tr("Record Session…"), this);
+    recordSessionAct->setCheckable(true);
+    recordSessionAct->setChecked(false);
+    connect(recordSessionAct, SIGNAL(triggered()), this, SLOT(recordSessionMenuChanged()));
+
+    recordShowCursorAct = new QAction(tr("Include Mouse Cursor in Session Recording"), this);
+    recordShowCursorAct->setCheckable(true);
+    recordShowCursorAct->setChecked(piSettings->record_show_cursor);
+    connect(recordShowCursorAct, SIGNAL(triggered()), this, SLOT(recordShowCursorMenuChanged()));
 #endif
 
     showButtonsAct = new QAction(tr("Show Buttons"), this);
@@ -4080,6 +4171,8 @@ void MainWindow::createToolBar()
     viewMenu->addSeparator();
     viewMenu->addAction(syphonPublishAct);
     viewMenu->addAction(syphonShowCursorAct);
+    viewMenu->addAction(recordSessionAct);
+    viewMenu->addAction(recordShowCursorAct);
 #endif
     viewMenu->addSeparator();
 
@@ -4409,6 +4502,7 @@ void MainWindow::readSettings()
     piSettings->show_cues = gui_settings->value("prefs/show_cues", true).toBool();
     piSettings->show_metro = gui_settings->value("prefs/show_metro", true).toBool();
     piSettings->syphon_show_cursor = gui_settings->value("prefs/syphon_show_cursor", false).toBool();
+    piSettings->record_show_cursor = gui_settings->value("prefs/record_show_cursor", true).toBool();
     piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
     piSettings->hide_menubar_in_fullscreen = gui_settings->value("prefs/hide-menubar-in-fullscreen", false).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
@@ -4482,6 +4576,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show_cues", piSettings->show_cues);
     gui_settings->setValue("prefs/show_metro", piSettings->show_metro);
     gui_settings->setValue("prefs/syphon_show_cursor", piSettings->syphon_show_cursor);
+    gui_settings->setValue("prefs/record_show_cursor", piSettings->record_show_cursor);
     gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     gui_settings->setValue("prefs/show-autocompletion", piSettings->show_autocompletion);

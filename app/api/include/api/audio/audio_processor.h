@@ -48,6 +48,14 @@ public:
     // invoke after a cold-swap device change to refresh the stale reader.
     void ResetConnection();
 
+    // Direct pointer to a slot in the shm_audio_buffer array. Slot 0 is
+    // the master output (driven by a supersonic-audio-out AudioOut2
+    // instance); slots 1..N-1 are written by user AudioOut2 UGens.
+    // Returns nullptr if the shm client is not initialised. The pointer
+    // is into supersonic's shm mapping, so callers must keep the owning
+    // AudioProcessor alive for its lifetime.
+    shm_audio_buffer* GetAudioBufferSlot(unsigned int slot);
+
 private:
     void GenLogSpace(uint32_t limit, uint32_t n);
     void GenLinSpace(uint32_t limit, uint32_t n);

@@ -191,6 +191,7 @@ elseif(APPLE)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.mm)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.h)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/syphon_publisher.mm)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/recorder.mm)
 
   # Syphon-Framework — vendored, server-side Metal subset only (no GL,
   # no client). Compiled into the app binary as ARC Objective-C.
@@ -216,6 +217,8 @@ elseif(APPLE)
   set_source_files_properties(${SYPHON_SOURCES}
     PROPERTIES COMPILE_FLAGS "-fobjc-arc -include ${QTAPP_ROOT}/platform/syphon_prefix.h")
   set_source_files_properties(${QTAPP_ROOT}/platform/syphon_publisher.mm
+    PROPERTIES COMPILE_FLAGS "-fobjc-arc")
+  set_source_files_properties(${QTAPP_ROOT}/platform/recorder.mm
     PROPERTIES COMPILE_FLAGS "-fobjc-arc")
 endif()
 
@@ -244,6 +247,43 @@ endif()
 
 
 if (APPLE)
+  # ─── Codesign identity detection ─────────────────────────────────────────
+  # Auto-detect a "Developer ID Application" identity from the user's
+  # login keychain. Falls back to ad-hoc ("-") if none is installed.
+  # Override with -DSONIC_PI_CODESIGN_IDENTITY="..." on the cmake command line.
+  #
+  # WHY: ad-hoc signatures have a cdhash that depends on binary contents,
+  # so every rebuild produces a new TCC identity → macOS keeps re-prompting
+  # for screen-recording / mic permissions. Dev-ID signatures bind TCC to
+  # the team identity, which is stable across rebuilds — permissions stick.
+  # Cached so reconfigures skip the `security` spawn. Pass
+  # -DSONIC_PI_CODESIGN_IDENTITY=... to override, or remove the cache entry
+  # (e.g. delete build/CMakeCache.txt) to re-detect after installing a new
+  # Developer ID cert.
+  if (NOT DEFINED CACHE{SONIC_PI_CODESIGN_IDENTITY})
+    execute_process(
+      COMMAND security find-identity -v -p codesigning
+      OUTPUT_VARIABLE _sonic_pi_codesign_identities
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+    # Match the 40-char SHA-1 cert hash from a "Developer ID Application"
+    # line — passing the hash to codesign avoids the shell-quoting nightmare
+    # the full quoted identity string would create (it contains spaces
+    # and parens that mangle through CMake → make → /bin/sh).
+    string(REGEX MATCH "[0-9]+\\) ([A-F0-9]+) \"Developer ID Application:"
+      _sonic_pi_dev_id_match "${_sonic_pi_codesign_identities}")
+    if (CMAKE_MATCH_1)
+      set(SONIC_PI_CODESIGN_IDENTITY "${CMAKE_MATCH_1}" CACHE STRING
+          "Codesign identity (Developer ID cert SHA-1 hash, or '-' for ad-hoc)")
+      message(STATUS "Codesign identity: ${SONIC_PI_CODESIGN_IDENTITY} (Developer ID)")
+    else()
+      set(SONIC_PI_CODESIGN_IDENTITY "-" CACHE STRING
+          "Codesign identity (Developer ID cert SHA-1 hash, or '-' for ad-hoc)")
+      message(STATUS "Codesign identity: ad-hoc (no 'Developer ID Application' in keychain — TCC permissions WILL reset on every rebuild)")
+    endif()
+  endif()
+
   set_target_properties(
     ${APP_NAME} PROPERTIES
     OUTPUT_NAME "Sonic Pi"
@@ -257,7 +297,7 @@ if (APPLE)
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     RESOURCE "images/app.icns"
-    LINK_FLAGS "-framework AppKit -framework AVFoundation -framework ScreenCaptureKit -framework Metal -framework IOSurface -framework CoreMedia -framework CoreVideo -framework OpenGL"
+    LINK_FLAGS "-framework AppKit -framework AVFoundation -framework ScreenCaptureKit -framework Metal -framework IOSurface -framework CoreMedia -framework CoreVideo -framework OpenGL -framework VideoToolbox"
     OUTPUT_NAME ${MACOS_APP_NAME}
     )
   file(
@@ -349,12 +389,16 @@ if (APPLE)
   # "Info.plist=not bound"). macOS silently ignores the TCC usage-
   # description keys in an unbound Info.plist, so NSMicrophoneUsageDescription
   # is present but the mic prompt never fires — live audio then delivers
-  # zero-filled buffers forever. An ad-hoc deep re-sign rebinds the plist.
+  # zero-filled buffers forever. A deep re-sign rebinds the plist.
+  #
+  # Uses SONIC_PI_CODESIGN_IDENTITY (detected above) — a Developer ID
+  # if available so TCC permissions persist across rebuilds, otherwise
+  # ad-hoc with the unfortunate consequence that grants reset each build.
   add_custom_command(
     TARGET ${APP_NAME}
     POST_BUILD
-    COMMAND codesign --force --deep --sign - ${MACOS_APP_NAME}.app
-    COMMENT "Re-signing bundle so Info.plist edits are bound to the signature (required for TCC)"
+    COMMAND codesign --force --deep --sign "${SONIC_PI_CODESIGN_IDENTITY}" ${MACOS_APP_NAME}.app
+    COMMENT "Re-signing bundle (${SONIC_PI_CODESIGN_IDENTITY}) so Info.plist edits are bound to the signature (required for TCC)"
   )
 endif()
 

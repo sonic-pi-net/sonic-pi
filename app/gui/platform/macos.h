@@ -14,6 +14,9 @@
 #pragma once
 
 #include <string>
+// shm_audio_buffer pointer is part of the screen-recording extern below,
+// so the recorder can pull master-mix frames into the .mov's audio track.
+#include "api/audio/shm_audio_buffer.hpp"
 
 namespace SonicPi {
 
@@ -56,5 +59,35 @@ bool isSyphonPublishing();
 // frames. Takes effect on the next frame; safe to call while publishing
 // or while idle.
 void setSyphonShowCursor(bool showCursor);
+
+// Session recording — capture the window backing nsViewPtr (cast from
+// QWidget::winId()) plus the app's audio output, mux to a single .mov
+// at filePath via ScreenCaptureKit + AVAssetWriter. Returns true on
+// successful start kick-off; false if the window can't be located or
+// the writer can't be created. Same Screen Recording TCC permission as
+// Syphon — first call may prompt.
+//
+// audioSlot points at the shm_audio_buffer slot the recorder should
+// read for the .mov's audio track (slot 0 = master output). The caller
+// is responsible for /s_new'ing a `supersonic-audio-out` synth that
+// feeds this slot before calling startSessionRecording, and /n_free'ing
+// it after stopSessionRecording. Pass nullptr for video-only.
+//
+// API is intentionally platform-neutral (void* window handle, std::string
+// path) — Windows / Linux implementations would land in sibling files.
+bool startSessionRecording(void* nsViewPtr, const std::string& filePath,
+                           bool showCursor,
+                           shm_audio_buffer* audioSlot);
+
+// Stop and finalise the recording. Asynchronous — the file isn't valid
+// until AVAssetWriter's finishWriting completion fires. Safe to call
+// when not recording.
+void stopSessionRecording();
+
+// True while a recording session is active.
+bool isSessionRecording();
+
+// Update cursor overlay on the active recording. No-op if not recording.
+void setRecordShowCursor(bool showCursor);
 
 }

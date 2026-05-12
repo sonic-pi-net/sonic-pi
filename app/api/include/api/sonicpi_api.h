@@ -31,6 +31,12 @@ namespace reproc
 class process;
 }
 
+// shm_audio_buffer is exposed in the global namespace via using-declarations
+// inside the header; include it here so SonicPiAPI's accessor signature has
+// the full type. (A forward declaration would create a distinct global type
+// that wouldn't match the namespaced original.)
+#include "api/audio/shm_audio_buffer.hpp"
+
 namespace SonicPi
 {
 
@@ -409,6 +415,13 @@ public:
     virtual void AudioProcessor_ConsumedAudio();
 
     std::vector<LogSource> GetLogSources();
+
+    // Direct pointer to a slot in the cross-process shm_audio_buffer
+    // array. Used by the session recorder to read the master output mix
+    // (slot 0) while a supersonic-audio-out synth is feeding it. Returns
+    // nullptr if the audio processor hasn't been initialised.
+    virtual shm_audio_buffer* AudioProcessor_GetAudioBufferSlot(unsigned int slot);
+
     std::string GetLogs();
 
     const int GetGuid() const;

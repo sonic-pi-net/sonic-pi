@@ -977,6 +977,15 @@ void SonicPiAPI::AudioProcessor_ConsumedAudio()
     }
 }
 
+shm_audio_buffer* SonicPiAPI::AudioProcessor_GetAudioBufferSlot(unsigned int slot)
+{
+    if (m_spAudioProcessor)
+    {
+        return m_spAudioProcessor->GetAudioBufferSlot(slot);
+    }
+    return nullptr;
+}
+
 
 const int SonicPiAPI::GetGuid() const
 {
