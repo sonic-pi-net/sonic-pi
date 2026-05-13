@@ -29,8 +29,8 @@ message(STATUS "CMakeLists: Sonic Pi")
 
 
 
-# Sonic Pi Requires a C++ 17 Compiler to build it
-set(CMAKE_CXX_STANDARD 17)
+# Sonic Pi Requires a C++ 20 Compiler to build it
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
