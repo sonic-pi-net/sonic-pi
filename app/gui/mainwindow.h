@@ -320,12 +320,16 @@ private slots:
 #ifdef Q_OS_MAC
     void syphonPublishMenuChanged();
     void syphonShowCursorMenuChanged();
-    void recordSessionMenuChanged();
-    void recordShowCursorMenuChanged();
 #endif
 #ifdef Q_OS_WIN
     void spoutPublishMenuChanged();
     void spoutShowCursorMenuChanged();
+#endif
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    void recordShowCursorMenuChanged();
+    void recordFlashIconMenuChanged();
+    void showRecordingModeMenu(const QPoint& pos);
+    void setRecordingMode(int mode);
 #endif
     void updateFocusMode();
     void toggleFocusMode();
@@ -392,6 +396,17 @@ private:
 
     void blankTitleBars();
     void namedTitleBars();
+
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // A+V session-recorder branch of toggleRecording. Write to a temp
+    // file; rename or delete it once the user picks a save location.
+    void startSessionRecordingFlow();
+    void stopSessionRecordingFlow();
+    // Spawn / free the supersonic-audio-out synth that feeds the
+    // session recorder's audio track.
+    void spawnRecordAudioOutSynth();
+    void freeRecordAudioOutSynth();
+#endif
 
     void clearOutputPanels();
     void createToolBar();
@@ -497,12 +512,20 @@ private:
 #ifdef Q_OS_MAC
     QAction *syphonPublishAct;
     QAction *syphonShowCursorAct;
-    QAction *recordSessionAct;
-    QAction *recordShowCursorAct;
 #endif
 #ifdef Q_OS_WIN
     QAction *spoutPublishAct;
     QAction *spoutShowCursorAct;
+#endif
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    QAction *recordShowCursorAct;
+    QAction *recordFlashIconAct;
+    // Shared by the IO menubar submenu, the rec-button right-click
+    // menu, and (via setRecordingMode) the Preferences radios.
+    QAction *recAudioModeAct;
+    QAction *recAudioVideoModeAct;
+    // Per-recording temp file; renamed or removed on stop.
+    QString m_videoTempPath;
 #endif
     QShortcut *textLeftSc, *escapeSc, *escape2Sc, *toggleFocusModeSc, *toggleScopePausedSc, *reloadServerCodeSc;
     QActionGroup* langActionGroup;

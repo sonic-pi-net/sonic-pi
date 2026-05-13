@@ -15,6 +15,7 @@ class QGroupBox;
 class QComboBox;
 class QCheckBox;
 class QPushButton;
+class QRadioButton;
 class QLabel;
 class QLineEdit;
 class QButtonGroup;
@@ -97,6 +98,9 @@ private slots:
     void clearOutputOnRun();
     void autoIndentOnRun();
     void showDebugLogPanel();
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    void recordingTypeChanged(int index);
+#endif
 signals:
     void driverChanged(QString driver);
     void audioOutputDeviceChanged(QString device);
@@ -139,6 +143,11 @@ signals:
     void clearOutputOnRunChanged();
     void autoIndentOnRunChanged();
     void showDebugLogPanelChanged();
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // Recording → Type radio toggled. MainWindow::setRecordingMode
+    // owns persistence and cross-view sync.
+    void recordingModeChangedFromPrefs(int mode);
+#endif
 
 private:
     SonicPiSettings* piSettings;
@@ -240,6 +249,11 @@ private:
     QComboBox *audio_input_combo;
     QComboBox *audio_sample_rate_combo;
     QComboBox *audio_buffer_size_combo;
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    QRadioButton *recording_type_audio_radio;
+    QRadioButton *recording_type_av_radio;
+    QButtonGroup *recording_type_group;
+#endif
     SonicPi::AudioDevicesInfo m_lastAudioDevicesInfo;
     // Cached input-devices payload, used by audioDriverChanged to
     // re-render the input combo with the new driver's filter without

@@ -12,20 +12,9 @@
 //++
 
 #include "windows.h"
+#include "wgc_d3d_interop.h"
 
-#include <Windows.h>
-#include <d3d11.h>
-#include <dxgi1_2.h>
-#include <inspectable.h>
-#include <windows.graphics.directx.direct3d11.interop.h>
 #include <windows.graphics.capture.interop.h>
-
-#include <winrt/base.h>
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.Graphics.h>
-#include <winrt/Windows.Graphics.Capture.h>
-#include <winrt/Windows.Graphics.DirectX.h>
-#include <winrt/Windows.Graphics.DirectX.Direct3D11.h>
 
 #include "SpoutDX.h"
 
@@ -35,14 +24,6 @@
 #include <mutex>
 #include <sstream>
 #include <string>
-
-namespace winrt {
-    using namespace ::winrt::Windows::Foundation;
-    using namespace ::winrt::Windows::Graphics;
-    using namespace ::winrt::Windows::Graphics::Capture;
-    using namespace ::winrt::Windows::Graphics::DirectX;
-    using namespace ::winrt::Windows::Graphics::DirectX::Direct3D11;
-}
 
 // stderr reaches gui.log (Qt's std::cerr is captured there); also
 // OutputDebugString so DebugView and the Visual Studio Output pane
@@ -55,22 +36,8 @@ namespace winrt {
 
 namespace {
 
-winrt::IDirect3DDevice CreateDirect3DDevice(ID3D11Device* d3dDevice)
-{
-    winrt::com_ptr<IDXGIDevice> dxgiDevice;
-    winrt::check_hresult(d3dDevice->QueryInterface(__uuidof(IDXGIDevice), dxgiDevice.put_void()));
-    winrt::com_ptr<::IInspectable> inspectable;
-    winrt::check_hresult(CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice.get(), inspectable.put()));
-    return inspectable.as<winrt::IDirect3DDevice>();
-}
-
-winrt::com_ptr<ID3D11Texture2D> GetFrameTexture(const winrt::Direct3D11CaptureFrame& frame)
-{
-    auto access = frame.Surface().as<::Windows::Graphics::DirectX::Direct3D11::IDirect3DDxgiInterfaceAccess>();
-    winrt::com_ptr<ID3D11Texture2D> tex;
-    winrt::check_hresult(access->GetInterface(__uuidof(ID3D11Texture2D), tex.put_void()));
-    return tex;
-}
+using SonicPi::wgc::CreateDirect3DDevice;
+using SonicPi::wgc::GetFrameTexture;
 
 class SonicPiSpoutPublisher
 {
@@ -118,10 +85,12 @@ public:
             size);
         m_session = m_framePool.CreateCaptureSession(m_item);
 
-        // Both optional — Win10 < 2004 lacks IsCursorCaptureEnabled,
-        // Win11 < 22H2 lacks IsBorderRequired. Best-effort, swallow errors.
+        // Win10 < 2004 lacks IsCursorCaptureEnabled, Win11 < 22H2 lacks
+        // IsBorderRequired, Win11 < 24H2 lacks IncludeSecondaryWindows.
+        // Best-effort, swallow errors on older SDKs.
         try { m_session.IsCursorCaptureEnabled(m_showCursor); } catch (...) {}
         try { m_session.IsBorderRequired(false); } catch (...) {}
+        try { m_session.IncludeSecondaryWindows(false); } catch (...) {}
 
         if (!m_spout.OpenDirectX11(m_d3dDevice.get())) {
             SPOUTPUB_LOG("SpoutDX::OpenDirectX11 failed");
@@ -231,23 +200,6 @@ private:
 std::unique_ptr<SonicPiSpoutPublisher> g_publisher;
 std::mutex                              g_publisherMutex;
 
-void EnsureApartment()
-{
-    // Qt's main thread initialises COM as STA via OleInitialize. Calling
-    // init_apartment(single_threaded) on the same thread is idempotent
-    // (apartment refcount++). Swallow RPC_E_CHANGED_MODE if the host is
-    // already MTA — WinRT activation works in either apartment. Log any
-    // other COM init failure so it doesn't disappear silently.
-    try {
-        winrt::init_apartment(winrt::apartment_type::single_threaded);
-    } catch (const winrt::hresult_error& e) {
-        if (e.code() != RPC_E_CHANGED_MODE) {
-            SPOUTPUB_LOG("init_apartment failed: 0x" << std::hex << e.code()
-                         << " " << winrt::to_string(e.message()));
-        }
-    }
-}
-
 } // namespace
 
 namespace SonicPi {
@@ -260,7 +212,7 @@ bool startWindowSpoutPublishing(void* hwndPtr, const std::string& serverName, bo
     }
     HWND hwnd = static_cast<HWND>(hwndPtr);
 
-    EnsureApartment();
+    SonicPi::wgc::EnsureApartment();
     if (!winrt::GraphicsCaptureSession::IsSupported()) {
         SPOUTPUB_LOG("Windows.Graphics.Capture not supported (requires Windows 10 1903+)");
         return false;

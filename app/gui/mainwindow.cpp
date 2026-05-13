@@ -26,8 +26,10 @@
 #include <QDockWidget>
 #include <QDateTime>
 #include <QDir>
+#include <QFile>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QUuid>
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
@@ -480,6 +482,10 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(changeSampleRate(int)));
     connect(settingsWidget, SIGNAL(bufferSizeChanged(int)), this, SLOT(changeBufferSize(int)));
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    connect(settingsWidget, SIGNAL(recordingModeChangedFromPrefs(int)),
+            this, SLOT(setRecordingMode(int)));
+#endif
 
     scopeWindow = new ScopeWindow(m_spClient, m_spAPI, this);
 
@@ -1013,84 +1019,6 @@ void MainWindow::syphonShowCursorMenuChanged()
     emit settingsChanged();
     SonicPi::setSyphonShowCursor(piSettings->syphon_show_cursor);
 }
-
-// Fixed scsynth node id for the supersonic-audio-out synth that feeds
-// the screen recorder's audio track. Chosen high enough to be outside
-// the range Sonic Pi normally allocates for user code.
-static constexpr int32_t kRecordAudioOutNodeId = 999100;
-
-void MainWindow::recordSessionMenuChanged()
-{
-    const bool wantOn = recordSessionAct->isChecked();
-    if (wantOn) {
-        // Default save location: ~/Movies/Sonic Pi/Sonic Pi <timestamp>.mov
-        QString moviesDir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
-        QDir(moviesDir).mkpath("Sonic Pi");
-        QString defaultDir = moviesDir + "/Sonic Pi";
-        QString defaultName = "Sonic Pi " + QDateTime::currentDateTime().toString("yyyy-MM-dd HHmmss") + ".mov";
-        QString fileName = QFileDialog::getSaveFileName(this,
-            tr("Save Session Recording"),
-            defaultDir + "/" + defaultName,
-            tr("QuickTime Movie (*.mov)"));
-        if (fileName.isEmpty()) {
-            QSignalBlocker blocker(recordSessionAct);
-            recordSessionAct->setChecked(false);
-            return;
-        }
-
-        // Spawn the supersonic-audio-out synth at the tail of the root
-        // group. Sonic Pi's mixer sits at root-tail, so adding TAIL here
-        // places the audio-out synth after the mixer — it reads bus 0
-        // (master output) once the mixer has written this cycle's mix.
-        shm_audio_buffer* audioSlot = m_spAPI
-            ? m_spAPI->AudioProcessor_GetAudioBufferSlot(SHM_AUDIO_MASTER_SLOT)
-            : nullptr;
-        if (audioSlot && m_spAPI) {
-            Message snew("/s_new");
-            snew.pushStr("supersonic-audio-out");
-            snew.pushInt32(kRecordAudioOutNodeId);
-            snew.pushInt32(1);  // addAction = TAIL of target group
-            snew.pushInt32(0);  // targetGroup = root group
-            m_spAPI->SupersonicSendOSC(snew);
-        } else {
-            std::cout << "[GUI] - Session recording: no audio slot available — recording video-only" << std::endl;
-        }
-
-        WId wid = this->winId();
-        bool started = SonicPi::startSessionRecording(
-            reinterpret_cast<void*>(wid),
-            fileName.toStdString(),
-            piSettings->record_show_cursor,
-            audioSlot);
-        if (!started) {
-            // Roll back the synth spawn we just kicked off.
-            if (audioSlot && m_spAPI) {
-                Message nfree("/n_free");
-                nfree.pushInt32(kRecordAudioOutNodeId);
-                m_spAPI->SupersonicSendOSC(nfree);
-            }
-            QSignalBlocker blocker(recordSessionAct);
-            recordSessionAct->setChecked(false);
-            return;
-        }
-        recordSessionAct->setText(tr("Stop Session Recording"));
-    } else {
-        SonicPi::stopSessionRecording();
-        if (m_spAPI) {
-            Message nfree("/n_free");
-            nfree.pushInt32(kRecordAudioOutNodeId);
-            m_spAPI->SupersonicSendOSC(nfree);
-        }
-        recordSessionAct->setText(tr("Record Session…"));
-    }
-}
-
-void MainWindow::recordShowCursorMenuChanged()
-{
-    piSettings->record_show_cursor = recordShowCursorAct->isChecked();
-    emit settingsChanged();
-    SonicPi::setRecordShowCursor(piSettings->record_show_cursor);
-}
 #endif
 
 #ifdef Q_OS_WIN
@@ -1117,6 +1045,90 @@ void MainWindow::spoutShowCursorMenuChanged()
     piSettings->spout_show_cursor = spoutShowCursorAct->isChecked();
     emit settingsChanged();
     SonicPi::setSpoutShowCursor(piSettings->spout_show_cursor);
+}
+#endif
+
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+// Fixed scsynth node id for the supersonic-audio-out synth that feeds
+// the screen recorder's audio track. Chosen high enough to be outside
+// the range Sonic Pi normally allocates for user code.
+static constexpr int32_t kRecordAudioOutNodeId = 999100;
+
+// /s_new + /n_free for the supersonic-audio-out synth that feeds the
+// session recorder's audio track. Called from the start/rollback paths
+// in toggleRecording, the stop path, and onExitCleanup.
+void MainWindow::spawnRecordAudioOutSynth()
+{
+    if (!m_spAPI) return;
+    Message snew("/s_new");
+    snew.pushStr("supersonic-audio-out");
+    snew.pushInt32(kRecordAudioOutNodeId);
+    snew.pushInt32(1);  // addAction = TAIL
+    snew.pushInt32(0);  // targetGroup = root — reads bus 0 after the
+                        // mixer has written this cycle's mix.
+    m_spAPI->SupersonicSendOSC(snew);
+}
+
+void MainWindow::freeRecordAudioOutSynth()
+{
+    if (!m_spAPI) return;
+    Message nfree("/n_free");
+    nfree.pushInt32(kRecordAudioOutNodeId);
+    m_spAPI->SupersonicSendOSC(nfree);
+}
+
+// Pops the IO → Recording Mode actions as a context menu, reusing the
+// same QActions (and QActionGroup) so the right-click and the menubar
+// stay in lock-step.
+void MainWindow::showRecordingModeMenu(const QPoint& pos)
+{
+    QWidget* anchor = qobject_cast<QWidget*>(sender());
+    if (!anchor || !recAudioModeAct || !recAudioVideoModeAct) return;
+    QMenu menu(this);
+    menu.addAction(recAudioModeAct);
+    menu.addAction(recAudioVideoModeAct);
+    menu.exec(anchor->mapToGlobal(pos));
+}
+
+// Single funnel for mode changes from the menubar, right-click, or
+// Preferences. An in-flight recording is unaffected — toggleRecording
+// uses m_videoTempPath, not the live setting, on the stop side.
+void MainWindow::setRecordingMode(int mode)
+{
+    const auto newMode = static_cast<SonicPiSettings::RecordingType>(mode);
+    if (newMode == piSettings->recording_type) return;
+    piSettings->recording_type = newMode;
+    if (recAudioModeAct && recAudioVideoModeAct) {
+        if (newMode == SonicPiSettings::AudioAndVideo) {
+            recAudioVideoModeAct->setChecked(true);
+        } else {
+            recAudioModeAct->setChecked(true);
+        }
+    }
+    emit settingsChanged();
+}
+
+void MainWindow::recordFlashIconMenuChanged()
+{
+    piSettings->record_flash_icon = recordFlashIconAct->isChecked();
+    emit settingsChanged();
+    // Snap an in-flight indicator to the appropriate state — stopping
+    // the timer mid-blink could leave it on the "off" frame.
+    if (is_recording) {
+        if (piSettings->record_flash_icon) {
+            rec_flash_timer->start(500);
+        } else {
+            rec_flash_timer->stop();
+            recAct->setIcon(theme->getRecIcon(true, true));
+        }
+    }
+}
+
+void MainWindow::recordShowCursorMenuChanged()
+{
+    piSettings->record_show_cursor = recordShowCursorAct->isChecked();
+    emit settingsChanged();
+    SonicPi::setRecordShowCursor(piSettings->record_show_cursor);
 }
 #endif
 
@@ -3491,6 +3503,35 @@ void MainWindow::createToolBar()
     recAct = new QAction(theme->getRecIcon(false, false), tr("Start Recording"), this);
     connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // Mode-selection actions shared by the IO menubar, the rec-button
+    // right-click menu, and the Preferences radio buttons.
+    {
+        QActionGroup* recModeGrp = new QActionGroup(this);
+        recModeGrp->setExclusive(true);
+
+        recAudioModeAct = new QAction(tr("Record Audio Only"), this);
+        recAudioModeAct->setCheckable(true);
+        recModeGrp->addAction(recAudioModeAct);
+        connect(recAudioModeAct, &QAction::triggered, this, [this]() {
+            setRecordingMode(static_cast<int>(SonicPiSettings::Audio));
+        });
+
+        recAudioVideoModeAct = new QAction(tr("Record Audio + Video"), this);
+        recAudioVideoModeAct->setCheckable(true);
+        recModeGrp->addAction(recAudioVideoModeAct);
+        connect(recAudioVideoModeAct, &QAction::triggered, this, [this]() {
+            setRecordingMode(static_cast<int>(SonicPiSettings::AudioAndVideo));
+        });
+
+        if (piSettings->recording_type == SonicPiSettings::AudioAndVideo) {
+            recAudioVideoModeAct->setChecked(true);
+        } else {
+            recAudioModeAct->setChecked(true);
+        }
+    }
+#endif
+
     // Save
     saveAsAct = new QAction(theme->getSaveAsIcon(), tr("Save"), this);
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
@@ -3683,6 +3724,15 @@ void MainWindow::createToolBar()
     toolBar->addAction(runAct);
     toolBar->addAction(stopAct);
     toolBar->addAction(recAct);
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // Right-click on the rec button surfaces the mode-switch menu as
+    // a shortcut to the IO menubar / Preferences setting.
+    if (QWidget* recWidget = toolBar->widgetForAction(recAct)) {
+        recWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(recWidget, &QWidget::customContextMenuRequested,
+                this, &MainWindow::showRecordingModeMenu);
+    }
+#endif
     toolBar->addAction(saveAsAct);
     toolBar->addAction(loadFileAct);
 
@@ -4065,6 +4115,8 @@ void MainWindow::createToolBar()
 
     QMenu* incomingOSCPortMenu = ioMenu->addMenu(tr("Incoming OSC Port"));
     incomingOSCPortMenu->addAction(QString::number(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues)));
+    // Recording + publishing entries are appended further down, once
+    // the syphon/spout/record QActions exist.
 
     viewMenu = menuBar()->addMenu(tr("View"));
 
@@ -4135,16 +4187,6 @@ void MainWindow::createToolBar()
     syphonShowCursorAct->setCheckable(true);
     syphonShowCursorAct->setChecked(piSettings->syphon_show_cursor);
     connect(syphonShowCursorAct, SIGNAL(triggered()), this, SLOT(syphonShowCursorMenuChanged()));
-
-    recordSessionAct = new QAction(tr("Record Session…"), this);
-    recordSessionAct->setCheckable(true);
-    recordSessionAct->setChecked(false);
-    connect(recordSessionAct, SIGNAL(triggered()), this, SLOT(recordSessionMenuChanged()));
-
-    recordShowCursorAct = new QAction(tr("Include Mouse Cursor in Session Recording"), this);
-    recordShowCursorAct->setCheckable(true);
-    recordShowCursorAct->setChecked(piSettings->record_show_cursor);
-    connect(recordShowCursorAct, SIGNAL(triggered()), this, SLOT(recordShowCursorMenuChanged()));
 #endif
 
 #ifdef Q_OS_WIN
@@ -4157,6 +4199,36 @@ void MainWindow::createToolBar()
     spoutShowCursorAct->setCheckable(true);
     spoutShowCursorAct->setChecked(piSettings->spout_show_cursor);
     connect(spoutShowCursorAct, SIGNAL(triggered()), this, SLOT(spoutShowCursorMenuChanged()));
+#endif
+
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    recordShowCursorAct = new QAction(tr("Include Mouse Cursor in Session Recording"), this);
+    recordShowCursorAct->setCheckable(true);
+    recordShowCursorAct->setChecked(piSettings->record_show_cursor);
+    connect(recordShowCursorAct, SIGNAL(triggered()), this, SLOT(recordShowCursorMenuChanged()));
+
+    recordFlashIconAct = new QAction(tr("Flash Recording Icon"), this);
+    recordFlashIconAct->setCheckable(true);
+    recordFlashIconAct->setChecked(piSettings->record_flash_icon);
+    connect(recordFlashIconAct, SIGNAL(triggered()), this, SLOT(recordFlashIconMenuChanged()));
+
+    // IO menu recording / publishing tail — appended here so the
+    // QActions exist.
+    ioMenu->addSeparator();
+    QMenu* recModeSubmenu = ioMenu->addMenu(tr("Recording Mode"));
+    recModeSubmenu->addAction(recAudioModeAct);
+    recModeSubmenu->addAction(recAudioVideoModeAct);
+    ioMenu->addAction(recordShowCursorAct);
+    ioMenu->addAction(recordFlashIconAct);
+    ioMenu->addSeparator();
+#endif
+#ifdef Q_OS_MAC
+    ioMenu->addAction(syphonPublishAct);
+    ioMenu->addAction(syphonShowCursorAct);
+#endif
+#ifdef Q_OS_WIN
+    ioMenu->addAction(spoutPublishAct);
+    ioMenu->addAction(spoutShowCursorAct);
 #endif
 
     showButtonsAct = new QAction(tr("Show Buttons"), this);
@@ -4210,18 +4282,6 @@ void MainWindow::createToolBar()
     viewMenu->addAction(helpAct);
     viewMenu->addAction(prefsAct);
     viewMenu->addAction(showMetroAct);
-#ifdef Q_OS_MAC
-    viewMenu->addSeparator();
-    viewMenu->addAction(syphonPublishAct);
-    viewMenu->addAction(syphonShowCursorAct);
-    viewMenu->addAction(recordSessionAct);
-    viewMenu->addAction(recordShowCursorAct);
-#endif
-#ifdef Q_OS_WIN
-    viewMenu->addSeparator();
-    viewMenu->addAction(spoutPublishAct);
-    viewMenu->addAction(spoutShowCursorAct);
-#endif
     viewMenu->addSeparator();
 
     focusMenu = menuBar()->addMenu(tr("Focus"));
@@ -4422,13 +4482,25 @@ void MainWindow::toggleRecordingOnIcon()
 void MainWindow::toggleRecording()
 {
     is_recording = !is_recording;
+
+    // Mode is read on start only; m_videoTempPath discriminates the
+    // stop path so flipping mode mid-recording is safe.
     if (is_recording)
     {
-        // updateAction(recAct, recSc, tr("Stop Recording"), tr("Stop Recording"));
-        // recAct->setStatusTip(tr("Stop Recording"));
-        // recAct->setToolTip(tr("Stop Recording"));
-        // recAct->setText(tr("Stop Recording"));
-        rec_flash_timer->start(500);
+        if (piSettings->record_flash_icon) {
+            rec_flash_timer->start(500);
+        } else {
+            // Static "lit" frame — same icon the flash animation
+            // toggles through, so still distinct from idle.
+            recAct->setIcon(theme->getRecIcon(true, true));
+        }
+
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+        if (piSettings->recording_type == SonicPiSettings::AudioAndVideo) {
+            startSessionRecordingFlow();
+            return;
+        }
+#endif
         Message msg("/start-recording");
         msg.pushInt32(guiID);
         sendOSC(msg);
@@ -4436,9 +4508,14 @@ void MainWindow::toggleRecording()
     else
     {
         rec_flash_timer->stop();
-        // updateAction(recAct, recSc, tr("Start Recording"), tr("Start Recording"));
-        recAct->setIcon(theme->getRecIcon(is_recording, false));
+        recAct->setIcon(theme->getRecIcon(false, false));
 
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+        if (!m_videoTempPath.isEmpty()) {
+            stopSessionRecordingFlow();
+            return;
+        }
+#endif
         Message msg("/stop-recording");
         msg.pushInt32(guiID);
         sendOSC(msg);
@@ -4460,6 +4537,83 @@ void MainWindow::toggleRecording()
         }
     }
 }
+
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+// Session-recording (audio + video) flow. Mirrors the audio path's
+// "record now, prompt on stop" UX: write to a temp file, then rename
+// (or delete) it once the user picks a save location.
+void MainWindow::startSessionRecordingFlow()
+{
+#if defined(Q_OS_MAC)
+    const QString ext = "mov";
+#else
+    const QString ext = "mp4";
+#endif
+    const QString tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    m_videoTempPath = QString("%1/sonic-pi-session-%2.%3")
+        .arg(tempDir,
+             QUuid::createUuid().toString(QUuid::WithoutBraces),
+             ext);
+
+    shm_audio_buffer* audioSlot = m_spAPI
+        ? m_spAPI->AudioProcessor_GetAudioBufferSlot(SHM_AUDIO_MASTER_SLOT)
+        : nullptr;
+    if (audioSlot) {
+        spawnRecordAudioOutSynth();
+    } else {
+        std::cout << "[GUI] - Session recording: no audio slot available — recording video-only" << std::endl;
+    }
+
+    WId wid = this->winId();
+    const bool started = SonicPi::startSessionRecording(
+        reinterpret_cast<void*>(wid),
+        m_videoTempPath.toStdString(),
+        piSettings->record_show_cursor,
+        audioSlot);
+    if (!started) {
+        if (audioSlot) freeRecordAudioOutSynth();
+        is_recording = false;
+        rec_flash_timer->stop();
+        recAct->setIcon(theme->getRecIcon(false, false));
+        m_videoTempPath.clear();
+    }
+}
+
+void MainWindow::stopSessionRecordingFlow()
+{
+    SonicPi::stopSessionRecording();
+    freeRecordAudioOutSynth();
+
+#if defined(Q_OS_MAC)
+    const QString ext    = "mov";
+    const QString filter = tr("QuickTime Movie (*.mov)");
+#else
+    const QString ext    = "mp4";
+    const QString filter = tr("MP4 Video (*.mp4)");
+#endif
+    // MoviesLocation → ~/Movies on macOS, ~/Videos on Windows.
+    const QString moviesDir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+    QDir(moviesDir).mkpath("Sonic Pi");
+    const QString defaultDir  = moviesDir + "/Sonic Pi";
+    const QString defaultName = "Sonic Pi " + QDateTime::currentDateTime().toString("yyyy-MM-dd HHmmss") + "." + ext;
+    const QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save Session Recording"),
+        defaultDir + "/" + defaultName,
+        filter);
+
+    if (!fileName.isEmpty()) {
+        if (QFile::exists(fileName)) QFile::remove(fileName);
+        if (!QFile::rename(m_videoTempPath, fileName)) {
+            std::cout << "[GUI] - Session recording: rename to "
+                      << fileName.toStdString() << " failed; temp file left at "
+                      << m_videoTempPath.toStdString() << std::endl;
+        }
+    } else {
+        QFile::remove(m_videoTempPath);
+    }
+    m_videoTempPath.clear();
+}
+#endif
 
 void MainWindow::createStatusBar()
 {
@@ -4551,6 +4705,10 @@ void MainWindow::readSettings()
     piSettings->show_metro = gui_settings->value("prefs/show_metro", true).toBool();
     piSettings->syphon_show_cursor = gui_settings->value("prefs/syphon_show_cursor", false).toBool();
     piSettings->record_show_cursor = gui_settings->value("prefs/record_show_cursor", true).toBool();
+    piSettings->record_flash_icon  = gui_settings->value("prefs/record_flash_icon", true).toBool();
+    piSettings->recording_type = static_cast<SonicPiSettings::RecordingType>(
+        gui_settings->value("prefs/recording_type",
+                            static_cast<int>(SonicPiSettings::Audio)).toInt());
     piSettings->spout_show_cursor = gui_settings->value("prefs/spout_show_cursor", false).toBool();
     piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
     piSettings->hide_menubar_in_fullscreen = gui_settings->value("prefs/hide-menubar-in-fullscreen", false).toBool();
@@ -4626,6 +4784,8 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show_metro", piSettings->show_metro);
     gui_settings->setValue("prefs/syphon_show_cursor", piSettings->syphon_show_cursor);
     gui_settings->setValue("prefs/record_show_cursor", piSettings->record_show_cursor);
+    gui_settings->setValue("prefs/record_flash_icon", piSettings->record_flash_icon);
+    gui_settings->setValue("prefs/recording_type", static_cast<int>(piSettings->recording_type));
     gui_settings->setValue("prefs/spout_show_cursor", piSettings->spout_show_cursor);
     gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
@@ -4743,6 +4903,18 @@ void MainWindow::onExitCleanup()
 {
     hide();
     std::cout << "[GUI] - initiating Shutdown..." << std::endl;
+
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // Finalise any in-progress session recording before supersonic
+    // shuts down — the audio shm slot disappears with supersonic, and
+    // the file's moov atom isn't written until stopSessionRecording
+    // returns. Synchronous on purpose.
+    if (SonicPi::isSessionRecording()) {
+        std::cout << "[GUI] - finalising in-progress session recording..." << std::endl;
+        SonicPi::stopSessionRecording();
+        freeRecordAudioOutSynth();
+    }
+#endif
 
     if (scopeWindow)
     {
@@ -5618,16 +5790,18 @@ void MainWindow::changeBufferSize(int size)
 void MainWindow::onSupersonicSetup(int sampleRate, int bufferSize)
 {
     m_spAPI->RequestAudioDevices();
+    // Cold-swap re-attach. /supersonic/setup fires on cold swaps but
+    // not initial boot (SupersonicEngine gates the emit on mWorldRebuilt);
+    // first-boot attach is handled by onSpiderReady.
+    m_spAPI->AudioProcessor_ResetConnection();
 }
 
 void MainWindow::onSpiderReady()
 {
     honourPrefs();
     changeSystemPreAmp(piSettings->main_volume, 1);
-    // Force the audio processor to reconnect to the scope shared memory.
-    // After a cold swap, the scsynth World is rebuilt and the scope buffer
-    // pool is reinitialised — our reader's pointer is stale until it
-    // re-attaches. Without this, the scope widget shows a flat line.
+    // First-boot scope-reader attach. /supersonic/setup covers
+    // subsequent cold-swap re-attaches; the two handlers are disjoint.
     m_spAPI->AudioProcessor_ResetConnection();
 }
 

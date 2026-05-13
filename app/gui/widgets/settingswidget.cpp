@@ -6,6 +6,7 @@
 
 #include <QSettings>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QButtonGroup>
@@ -13,6 +14,7 @@
 #include <QDesktopServices>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QRadioButton>
 #include <QDial>
 #include <QTimer>
 #include <QPainter>
@@ -412,10 +414,47 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_ports_box->setLayout(midi_ports_box_layout);
     midi_config_box->setLayout(midi_config_box_layout);
 
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // Recording mode — same setting is reachable from the IO menubar
+    // submenu and the rec-button right-click menu.
+    QGroupBox *recordingGroup = new QGroupBox(tr("Recording"));
+    QVBoxLayout *recordingGroupLayout = new QVBoxLayout;
+
+    recording_type_audio_radio = new QRadioButton(tr("Audio Only"));
+    recording_type_audio_radio->setToolTip(tr(
+        "supersonic writes a .wav of the master mix"));
+
+    recording_type_av_radio = new QRadioButton(tr("Audio + Video"));
+    recording_type_av_radio->setToolTip(tr(
+        "captures the Sonic Pi window plus master mix into a .mov\n"
+        "(macOS) or .mp4 (Windows) using GPU-accelerated screen capture"));
+
+    // Button IDs are the enum values so the idClicked(int) signal
+    // delivers the chosen mode directly. idClicked only fires on user
+    // clicks, so programmatic setChecked from settingsChanged() doesn't
+    // echo back.
+    recording_type_group = new QButtonGroup(this);
+    recording_type_group->setExclusive(true);
+    recording_type_group->addButton(recording_type_audio_radio,
+        static_cast<int>(SonicPiSettings::Audio));
+    recording_type_group->addButton(recording_type_av_radio,
+        static_cast<int>(SonicPiSettings::AudioAndVideo));
+
+    recordingGroupLayout->addWidget(recording_type_audio_radio);
+    recordingGroupLayout->addWidget(recording_type_av_radio);
+    recordingGroup->setLayout(recordingGroupLayout);
+
+    connect(recording_type_group, SIGNAL(idClicked(int)),
+            this, SLOT(recordingTypeChanged(int)));
+#endif
+
     QGridLayout *io_tab_layout = new QGridLayout();
     io_tab_layout->addWidget(midi_ports_box, 0, 0, 0, 1);
     io_tab_layout->addWidget(midi_config_box, 0, 1);
     io_tab_layout->addWidget(network_box, 1, 1);
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    io_tab_layout->addWidget(recordingGroup, 2, 1);
+#endif
 
     ioTab->setLayout(io_tab_layout);
     return ioTab;
@@ -1287,6 +1326,15 @@ void SettingsWidget::audioBufferSizeChanged(int index) {
     emit bufferSizeChanged(bs);
 }
 
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+void SettingsWidget::recordingTypeChanged(int mode) {
+    if (mode < 0) return;  // no button checked
+    // mode is the enum value (button IDs were set to it directly).
+    // Persistence + sync is owned by MainWindow::setRecordingMode.
+    emit recordingModeChangedFromPrefs(mode);
+}
+#endif
+
 void SettingsWidget::changeMainVolume(int vol) {
     emit volumeChanged(vol);
 }
@@ -1532,6 +1580,15 @@ void SettingsWidget::settingsChanged() {
     check_updates->setChecked(piSettings->check_updates);
     show_autocompletion->setChecked(piSettings->show_autocompletion);
     show_context->setChecked(piSettings->show_context);
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // setChecked emits toggled, not idClicked, so this doesn't echo
+    // back to recordingTypeChanged.
+    if (piSettings->recording_type == SonicPiSettings::AudioAndVideo) {
+        recording_type_av_radio->setChecked(true);
+    } else {
+        recording_type_audio_radio->setChecked(true);
+    }
+#endif
     updateScopeKindVisibility();
 }
 

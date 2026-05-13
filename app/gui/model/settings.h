@@ -6,7 +6,13 @@
 #include "sonicpitheme.h"
 class SonicPiSettings {
 public:
-
+    // What the toolbar rec button records. Audio goes via supersonic's
+    // WAV recorder; AudioAndVideo goes via the session recorder
+    // (.mov on macOS, .mp4 on Windows). Linux is pinned to Audio.
+    enum RecordingType {
+        Audio = 0,
+        AudioAndVideo = 1
+    };
 
     // Audio Settings
     int main_volume;
@@ -41,6 +47,8 @@ public:
     bool show_metro;
     bool syphon_show_cursor;
     bool record_show_cursor;
+    bool record_flash_icon;
+    RecordingType recording_type;
     bool spout_show_cursor;
     bool full_screen;
     bool goto_buffer_shortcuts;

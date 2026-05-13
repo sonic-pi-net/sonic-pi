@@ -23,6 +23,7 @@
 #import <CoreMedia/CoreMedia.h>
 #import <CoreAudio/CoreAudioTypes.h>
 #import <ScreenCaptureKit/ScreenCaptureKit.h>
+#import <IOKit/pwr_mgt/IOPMLib.h>
 
 #include <atomic>
 #include <sstream>
@@ -46,6 +47,8 @@
     CMAudioFormatDescriptionRef _audioFormat;
     NSWindow *_window;
     NSURL *_fileURL;
+    // Held for the recording's lifetime to block display dim / sleep.
+    IOPMAssertionID _powerAssertion;
     BOOL _showCursor;
     std::atomic<bool> _running;
     // Tri-state writer init flag (Idle → Starting → Started | Failed). See
@@ -86,6 +89,7 @@
     _audioReader = shm_audio_buffer_reader(audioSlot);
     _audioAnchorPTS = kCMTimeInvalid;
     _audioAnchorFrame = 0;
+    _powerAssertion = kIOPMNullAssertionID;
     static constexpr uint32_t kPullFrames = 1024;
     _audioPullBuf.resize((size_t)kPullFrames * SHM_AUDIO_CHANNELS);
     return self;
@@ -113,6 +117,10 @@
                      << [[err localizedDescription] UTF8String]);
         return NO;
     }
+
+    // 1-second fragmented .mov so an interrupted recording stays
+    // playable up to the last flushed fragment.
+    _writer.movieFragmentInterval = CMTimeMake(1, 1);
 
     NSDictionary *videoSettings = @{
         AVVideoCodecKey: AVVideoCodecTypeH264,
@@ -377,6 +385,16 @@
                          << " to " << [[self->_fileURL path] UTF8String]
                          << " (" << width << "x" << height << ")");
 
+            // PreventUserIdleDisplaySleep blocks both display dim and
+            // system idle sleep. Released in stopWithCompletion. Lid
+            // close on aggressive profiles can still force sleep —
+            // fragmented .mov is the backstop.
+            IOPMAssertionCreateWithName(
+                kIOPMAssertionTypePreventUserIdleDisplaySleep,
+                kIOPMAssertionLevelOn,
+                CFSTR("Sonic Pi session recording"),
+                &self->_powerAssertion);
+
             // Snap the audio reader to "live now" so we only capture
             // frames the supersonic-audio-out synth produces from this
             // moment onward — any pre-roll the synth may have written
@@ -406,6 +424,13 @@
 - (void)stopWithCompletion:(void (^)(NSError * _Nullable))completion
 {
     _running = false;
+
+    // Release the power-management assertion immediately so the OS
+    // can sleep/dim again, even if Finalize takes a moment.
+    if (_powerAssertion != kIOPMNullAssertionID) {
+        IOPMAssertionRelease(_powerAssertion);
+        _powerAssertion = kIOPMNullAssertionID;
+    }
 
     // Stop the audio pump first so no more samples land after finalise.
     // The cancel handler is synchronous-on-queue, so a final drain pump

@@ -14,6 +14,8 @@
 #pragma once
 
 #include <string>
+// For shm_audio_buffer in the session-recording API below.
+#include "api/audio/shm_audio_buffer.hpp"
 
 namespace SonicPi {
 
@@ -36,5 +38,28 @@ void stopWindowSpoutPublishing();
 // frames. Takes effect on the next WGC frame; safe to call while
 // publishing or while idle.
 void setSpoutShowCursor(bool showCursor);
+
+// Capture the window backing hwndPtr plus the app's audio output, mux
+// to a single .mp4 at filePath (H.264 + AAC, fragmented MP4 sink).
+// Returns true on successful start kick-off; false if WGC is
+// unavailable, the D3D11/MF stack can't be brought up, or the window
+// can't be located.
+//
+// audioSlot points at the shm_audio_buffer slot to read for the audio
+// track (slot 0 = master output). The caller /s_new's a
+// `supersonic-audio-out` synth feeding this slot before calling, and
+// /n_free's it after stopSessionRecording. Pass nullptr for video-only.
+bool startSessionRecording(void* hwndPtr, const std::string& filePath,
+                           bool showCursor,
+                           shm_audio_buffer* audioSlot);
+
+// Stop and finalise the recording. Blocks until IMFSinkWriter::Finalize
+// completes so the file is closed by the time this returns.
+void stopSessionRecording();
+
+bool isSessionRecording();
+
+// Update cursor overlay on the active recording. No-op if not recording.
+void setRecordShowCursor(bool showCursor);
 
 }

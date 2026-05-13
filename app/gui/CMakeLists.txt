@@ -195,6 +195,7 @@ SET(TS_FILES
 if(WIN32)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/windows.h)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/spout_publisher.cpp)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/recorder_win.cpp)
 elseif(APPLE)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.mm)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.h)
@@ -305,7 +306,7 @@ if (APPLE)
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     RESOURCE "images/app.icns"
-    LINK_FLAGS "-framework AppKit -framework AVFoundation -framework ScreenCaptureKit -framework Metal -framework IOSurface -framework CoreMedia -framework CoreVideo -framework OpenGL -framework VideoToolbox"
+    LINK_FLAGS "-framework AppKit -framework AVFoundation -framework ScreenCaptureKit -framework Metal -framework IOSurface -framework CoreMedia -framework CoreVideo -framework OpenGL -framework VideoToolbox -framework IOKit"
     OUTPUT_NAME ${MACOS_APP_NAME}
     )
   file(
@@ -455,9 +456,15 @@ endif()
 if(WIN32)
     # windowsapp.lib: WinRT runtime for Windows.Graphics.Capture interop.
     # D3D11 / DXGI / IPC libs come in transitively via spout_vendored.
+    # mf*: Media Foundation libs used by the session recorder
+    # (recorder_win.cpp) to mux H.264 + AAC into .mp4 via IMFSinkWriter.
     target_link_libraries(${APP_NAME} PRIVATE
         spout_vendored
-        windowsapp)
+        windowsapp
+        mf
+        mfplat
+        mfreadwrite
+        mfuuid)
 endif()
 
 target_link_libraries(${APP_NAME}
