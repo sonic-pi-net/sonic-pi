@@ -259,124 +259,118 @@ shm_audio_buffer* AudioProcessor::GetAudioBufferSlot(unsigned int slot)
     return m_shmClient->get_audio_buffer(slot);
 }
 
+// Re-opens the shm segment and re-binds the scope reader. The segment
+// is owned by supersonic and survives cold swaps; re-opening by name
+// covers both in-place cold swap and supersonic-restart. Validity
+// transitions are logged from Run() (see m_shmReaderLastValid).
 void AudioProcessor::ResetConnection()
 {
     try
     {
         m_shmClient.reset(new server_shared_memory_client(m_scSynthPort));
         m_shmReader = m_shmClient->get_scope_buffer_reader(0);
-
-        if (m_shmReader.valid())
-        {
-            LOG(DBG, "Connected to shared audio memory");
-            SetConsumed(true);
-        }
-        else
-        {
-            LOG(ERR, "Failed to connect to shared audio memory");
-        }
     }
-    catch (const std::exception& e)
+    catch (const std::exception&)
     {
-        LOG(ERR, "Shared memory connection failed: " << e.what());
+        // Segment not yet created by supersonic — expected at boot races.
         m_shmClient.reset();
         m_shmReader = shm_scope_buffer_reader();
     }
+
+    // Clear any stale consumed=false left from a prior torn-down session.
+    SetConsumed(true);
 }
 
+// Consumer-side loop. ResetConnection is called externally from the GUI
+// lifecycle (onSpiderReady / onSupersonicSetup); pull() returns 0 frames
+// gracefully whether the scope buffer is mid-reallocation or supersonic
+// is simply silent.
 void AudioProcessor::Run()
 {
     for (;;)
     {
-        // We are done
-        if (m_quit.load())
-        {
-            break;
-        }
+        if (m_quit.load()) break;
 
         auto startTime = std::chrono::high_resolution_clock::now();
         auto nextTime = startTime + std::chrono::milliseconds(int(1000.0f / AudioProcessorRefreshRate));
 
+        // Log validity transitions once per change. The buffer the
+        // reader points at transitions free → initialized asynchronously
+        // when spider's Phase 5 runs. Above the m_running gate so the
+        // status is logged whether or not the scope window is open.
+        const bool nowValid = m_shmReader.valid();
+        if (nowValid != m_shmReaderLastValid)
+        {
+            if (nowValid)
+            {
+                LOG(INFO, "Scope reader attached (scope buffer ready)");
+            }
+            else
+            {
+                LOG(INFO, "Scope reader unavailable "
+                          "(scope buffer not initialised — studio "
+                          "booting, mid-cold-swap, or wedged)");
+            }
+            m_shmReaderLastValid = nowValid;
+        }
+
         if (!m_running.load())
         {
-            // Sleep for a second and try again
             std::this_thread::sleep_for(std::chrono::seconds(1));
             continue;
         }
 
-        if (!m_shmReader.valid())
+        if (!nowValid)
         {
-            ResetConnection();
-            if (!m_shmReader.valid())
-            {
-                // Not getting a connection, sleep for a second before trying again
-                std::this_thread::sleep_for(std::chrono::seconds(1));
-            }
+            std::this_thread::sleep_until(nextTime);
             continue;
         }
 
-        // If the GUI hasn't processed the last of our outputs, then yield our threads remaining slice.
-        // We want to try again pretty soon, but we don't want to spin while the UI is doing its thing
+        // If the GUI hasn't consumed the previous frame yet, yield the
+        // rest of this slice. Avoids spinning while the UI is busy.
         if (!m_consumed.load())
         {
             std::this_thread::sleep_until(nextTime);
             continue;
         }
 
+        unsigned int frames;
+        if (m_shmReader.pull(frames))
         {
-            unsigned int frames;
-            if (m_shmReader.pull(frames))
+            float* data = m_shmReader.data();
+            for (unsigned int j = 0; j < 2; ++j)
             {
+                unsigned int offset = m_shmReader.max_frames() * j;
+                for (unsigned int i = 0; i < FrameSamples - frames; ++i)
                 {
-                    m_emptyFrames = 0;
-                    float* data = m_shmReader.data();
-                    for (unsigned int j = 0; j < 2; ++j)
+                    m_processedAudio.m_samples[j][i] = m_processedAudio.m_samples[j][i + frames];
+                    if (j == 0)
                     {
-                        unsigned int offset = m_shmReader.max_frames() * j;
-                        for (unsigned int i = 0; i < FrameSamples - frames; ++i)
-                        {
-                            m_processedAudio.m_samples[j][i] = m_processedAudio.m_samples[j][i + frames];
-                            if (j == 0)
-                            {
-                                m_processedAudio.m_monoSamples[i] = m_processedAudio.m_monoSamples[i + frames];
-                            }
-                        }
-
-                        for (unsigned int i = 0; i < frames; ++i)
-                        {
-                            m_processedAudio.m_samples[j][FrameSamples - frames + i] = data[i + offset];
-                            auto d = data[i + offset] + 1.0;
-                            if (j == 0)
-                            {
-                                m_processedAudio.m_monoSamples[FrameSamples - frames + i] = float(d * d);
-                            }
-                            else
-                            {
-                                m_processedAudio.m_monoSamples[FrameSamples - frames + i] += float(d * d);
-                                m_processedAudio.m_monoSamples[FrameSamples - frames + i] /= 2.0f;
-                                m_processedAudio.m_monoSamples[FrameSamples - frames + i] = sqrt(m_processedAudio.m_monoSamples[FrameSamples - frames + i]) - 1.0f;
-                            }
-                        }
+                        m_processedAudio.m_monoSamples[i] = m_processedAudio.m_monoSamples[i + frames];
                     }
                 }
 
-                CalculateFFT(m_processedAudio);
-
-                // Tell the UI to update
-                m_pClient->AudioDataAvailable(m_processedAudio);
-            }
-            else
-            {
-                ++m_emptyFrames;
-                if (m_emptyFrames > 10)
+                for (unsigned int i = 0; i < frames; ++i)
                 {
-                    ResetConnection();
-                    m_emptyFrames = 0;
+                    m_processedAudio.m_samples[j][FrameSamples - frames + i] = data[i + offset];
+                    auto d = data[i + offset] + 1.0;
+                    if (j == 0)
+                    {
+                        m_processedAudio.m_monoSamples[FrameSamples - frames + i] = float(d * d);
+                    }
+                    else
+                    {
+                        m_processedAudio.m_monoSamples[FrameSamples - frames + i] += float(d * d);
+                        m_processedAudio.m_monoSamples[FrameSamples - frames + i] /= 2.0f;
+                        m_processedAudio.m_monoSamples[FrameSamples - frames + i] = sqrt(m_processedAudio.m_monoSamples[FrameSamples - frames + i]) - 1.0f;
+                    }
                 }
             }
+
+            CalculateFFT(m_processedAudio);
+            m_pClient->AudioDataAvailable(m_processedAudio);
         }
 
-        // Sleep until means we will still use the same frequency of update, regardless of how much time we took to do the processing
         std::this_thread::sleep_until(nextTime);
     }
 

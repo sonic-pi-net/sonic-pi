@@ -66,7 +66,9 @@ private:
     std::unique_ptr<server_shared_memory_client> m_shmClient;
     shm_scope_buffer_reader m_shmReader;
 
-    unsigned int m_emptyFrames = 0;
+    // Previous validity for transition-only logging in Run().
+    bool m_shmReaderLastValid = false;
+
     int m_scSynthPort = 0;
 
     std::atomic<bool> m_calculateFFT = { false };
