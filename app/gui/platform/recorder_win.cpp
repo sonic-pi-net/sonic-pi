@@ -18,6 +18,7 @@
 
 #include "windows.h"
 #include "wgc_d3d_interop.h"
+#include "mp4_soft_remux.h"
 
 #include <d3d11_4.h>
 #include <windows.graphics.capture.interop.h>
@@ -91,9 +92,10 @@ public:
     bool Start(HWND hwnd, const std::wstring& filePath, bool showCursor,
                shm_audio_buffer* audioSlot)
     {
-        m_filePath   = filePath;
-        m_showCursor = showCursor;
-        m_audioReader = shm_audio_buffer_reader(audioSlot);
+        m_filePath        = filePath;
+        m_fragmentedPath  = filePath + L".frag";
+        m_showCursor      = showCursor;
+        m_audioReader     = shm_audio_buffer_reader(audioSlot);
 
         // MFStartup is refcounted; balanced by MFShutdown in Stop().
         HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_LITE);
@@ -177,17 +179,34 @@ public:
         if (m_framePool) { m_framePool.Close(); m_framePool = nullptr; }
         m_item = nullptr;
 
-        // Finalize is synchronous in sync-mode sink writer. Blocks until
-        // the moov atom is written and the file is closed. Stop() callers
-        // get a fully-valid .mp4 by the time we return.
+        // Finalize the fragmented sink. Blocks until the last fragment
+        // is flushed.
+        bool finalizedOk = false;
         if (m_writer && m_writerState.load() == kStarted) {
             std::lock_guard<std::mutex> lk(m_writerMutex);
             HRESULT hr = m_writer->Finalize();
             if (FAILED(hr)) {
                 RECORDER_LOG("Finalize failed: 0x" << std::hex << hr);
+            } else {
+                finalizedOk = true;
             }
         }
         m_writer = nullptr;
+
+        // Soft-remux the fragmented intermediate to a standard MP4 at
+        // the user-facing path. On failure, fall back to renaming the
+        // fragmented file in place — VLC and modern players still open
+        // it, just not legacy WMP.
+        if (finalizedOk && !m_fragmentedPath.empty()) {
+            if (SonicPi::remuxToStandardMp4(m_fragmentedPath, m_filePath)) {
+                DeleteFileW(m_fragmentedPath.c_str());
+            } else {
+                RECORDER_LOG("remux failed — keeping fragmented file at "
+                             << WideToUtf8(m_filePath));
+                MoveFileExW(m_fragmentedPath.c_str(), m_filePath.c_str(),
+                            MOVEFILE_REPLACE_EXISTING);
+            }
+        }
 
         m_dxgiManager = nullptr;
         m_winrtDevice = nullptr;
@@ -356,15 +375,44 @@ private:
         return true;
     }
 
-    // Standard (non-fragmented) MP4 sink writer + AddStream pattern.
-    // Uses MFCreateSinkWriterFromURL — the .mp4 extension drives the
-    // sink type, producing a "moov at end" MP4 that every Windows
-    // player handles. Trades the fragmented sink's crash-resilience
-    // for universal compatibility and a cleaner encoder type-
-    // negotiation path (the AAC encoder MFT and the FMPEG4 sink don't
-    // always agree on which attributes are required).
+    // Fragmented MP4 sink during recording — each moof+mdat is
+    // self-contained, so an interrupted recording stays valid up to
+    // the last fragment. On Stop we soft-remux the intermediate
+    // .frag file (at m_fragmentedPath) into a standard moov-at-end
+    // MP4 at m_filePath. Streams are auto-discovered from the sink:
+    // video = stream 0, audio = stream 1 (if present).
     bool CreateSinkWriterAndStreams()
     {
+        winrt::com_ptr<IMFMediaType> videoOut;
+        if (!BuildVideoOutputType(videoOut)) return false;
+
+        winrt::com_ptr<IMFMediaType> audioOut;
+        if (m_audioReader.valid()) {
+            if (!BuildAudioOutputType(audioOut)) {
+                RECORDER_LOG("audio output type build failed — video-only");
+                audioOut = nullptr;
+            }
+        }
+
+        winrt::com_ptr<IMFByteStream> byteStream;
+        HRESULT hr = MFCreateFile(
+            MF_ACCESSMODE_WRITE, MF_OPENMODE_DELETE_IF_EXIST,
+            MF_FILEFLAGS_NONE, m_fragmentedPath.c_str(), byteStream.put());
+        if (FAILED(hr)) {
+            RECORDER_LOG("MFCreateFile failed: 0x" << std::hex << hr);
+            return false;
+        }
+
+        winrt::com_ptr<IMFMediaSink> sink;
+        hr = MFCreateFMPEG4MediaSink(byteStream.get(),
+                                      videoOut.get(), audioOut.get(),
+                                      sink.put());
+        if (FAILED(hr)) {
+            RECORDER_LOG("MFCreateFMPEG4MediaSink failed: 0x"
+                         << std::hex << hr);
+            return false;
+        }
+
         winrt::com_ptr<IMFAttributes> writerAttrs;
         if (FAILED(MFCreateAttributes(writerAttrs.put(), 4))) return false;
         writerAttrs->SetUnknown(MF_SINK_WRITER_D3D_MANAGER,
@@ -373,35 +421,19 @@ private:
         writerAttrs->SetUINT32(MF_LOW_LATENCY, FALSE);
         writerAttrs->SetUINT32(MF_SINK_WRITER_DISABLE_THROTTLING, TRUE);
 
-        HRESULT hr = MFCreateSinkWriterFromURL(
-            m_filePath.c_str(), nullptr, writerAttrs.get(), m_writer.put());
+        hr = MFCreateSinkWriterFromMediaSink(sink.get(),
+                                              writerAttrs.get(),
+                                              m_writer.put());
         if (FAILED(hr)) {
-            RECORDER_LOG("MFCreateSinkWriterFromURL failed: 0x"
+            RECORDER_LOG("MFCreateSinkWriterFromMediaSink failed: 0x"
                          << std::hex << hr);
             return false;
         }
 
-        winrt::com_ptr<IMFMediaType> videoOut;
-        if (!BuildVideoOutputType(videoOut)) return false;
-        hr = m_writer->AddStream(videoOut.get(), &m_videoStreamIdx);
-        if (FAILED(hr)) {
-            RECORDER_LOG("AddStream(video) failed: 0x" << std::hex << hr);
-            return false;
-        }
-
-        if (m_audioReader.valid()) {
-            winrt::com_ptr<IMFMediaType> audioOut;
-            if (BuildAudioOutputType(audioOut)) {
-                hr = m_writer->AddStream(audioOut.get(), &m_audioStreamIdx);
-                if (FAILED(hr)) {
-                    RECORDER_LOG("AddStream(audio) failed: 0x"
-                                 << std::hex << hr << " — video-only");
-                } else {
-                    m_hasAudioStream = true;
-                }
-            } else {
-                RECORDER_LOG("audio output type build failed — video-only");
-            }
+        m_videoStreamIdx = 0;
+        if (audioOut) {
+            m_audioStreamIdx = 1;
+            m_hasAudioStream = true;
         }
         return true;
     }
@@ -512,9 +544,21 @@ private:
         if (!AllocFrameTexture(size, ownedTex)) return;
         m_d3dContext->CopyResource(ownedTex.get(), wgcTex.get());
 
-        const LONGLONG now = NowIn100ns();
-        if (!MaybeStartSessionAt(now)) return;
-        const LONGLONG pts = now - m_sessionStart100ns;
+        // QPC delivery time. We deliberately avoid frame.SystemRelativeTime
+        // here — measured empirically it's ~27ms *ahead* of QPC at the
+        // callback, which means it lives in a different time domain
+        // (presentation time, or a different epoch). Mixing it with
+        // the audio anchor (which uses NowIn100ns / QPC) silently
+        // injects a constant offset into AV sync.
+        const LONGLONG nowQpc = NowIn100ns();
+        if (!MaybeStartSessionAt(nowQpc)) return;
+        if (!m_videoFirstPtsLogged) {
+            RECORDER_LOG("video first frame: nowQpc=" << nowQpc
+                         << " sessionStart=" << m_sessionStart100ns
+                         << " ptsMs=" << (nowQpc - m_sessionStart100ns) / 10000);
+            m_videoFirstPtsLogged = true;
+        }
+        const LONGLONG pts = nowQpc - m_sessionStart100ns;
         // 60fps fixed-cadence duration (~16.67ms).
         constexpr LONGLONG kFrameDuration100ns = 10000000LL / 60LL;
 
@@ -639,9 +683,51 @@ private:
             }
             if (!MaybeStartSessionAt(m_audioAnchor100ns)) return;
 
-            // PTS = (audioAnchor - sessionStart) + frameOffset / sampleRate
             const uint64_t startFrame = readerPos - got;
             const LONGLONG anchorRel = m_audioAnchor100ns - m_sessionStart100ns;
+
+            if (!m_audioFirstPtsLogged) {
+                RECORDER_LOG("audio first pull: anchorQpc="
+                             << m_audioAnchor100ns
+                             << " sessionStart=" << m_sessionStart100ns
+                             << " anchorRelMs=" << (anchorRel / 10000)
+                             << " firstGot=" << got);
+                m_audioFirstPtsLogged = true;
+            }
+
+            // The fMP4 sink normalises each stream's first written sample
+            // to PTS 0, collapsing any anchor offset (the ~1s delay
+            // between recorder start and supersonic-audio-out actually
+            // producing audio). To preserve the offset we explicitly
+            // pre-fill the audio stream with silence from PTS 0 to
+            // PTS anchorRel — the first sample is then at 0 and the
+            // sink has nothing to collapse.
+            if (!m_audioPrerollWritten) {
+                m_audioPrerollWritten = true;
+                if (anchorRel > 0) {
+                    std::vector<float> silence(
+                        kAudioPullFrames * SHM_AUDIO_CHANNELS, 0.0f);
+                    constexpr LONGLONG kChunk100ns =
+                        (LONGLONG)kAudioPullFrames * 10000000LL
+                        / SHM_AUDIO_SAMPLE_RATE;
+                    LONGLONG silencePts = 0;
+                    while (silencePts + kChunk100ns <= anchorRel) {
+                        WriteAudioSample(silence.data(), kAudioPullFrames,
+                                          silencePts, kChunk100ns);
+                        silencePts += kChunk100ns;
+                    }
+                    const LONGLONG remaining = anchorRel - silencePts;
+                    if (remaining > 0) {
+                        const uint32_t framesLast = (uint32_t)(
+                            remaining * SHM_AUDIO_SAMPLE_RATE / 10000000LL);
+                        if (framesLast > 0) {
+                            WriteAudioSample(silence.data(), framesLast,
+                                              silencePts, remaining);
+                        }
+                    }
+                }
+            }
+
             const LONGLONG frameOffset = (LONGLONG)(startFrame - m_audioAnchorFrame);
             const LONGLONG pts = anchorRel
                 + (frameOffset * 10000000LL) / SHM_AUDIO_SAMPLE_RATE;
@@ -723,9 +809,13 @@ private:
     std::mutex                             m_writerMutex;   // sink writer
     std::mutex                             m_callbackMutex; // WGC re-entrancy
 
-    std::wstring                           m_filePath;
+    std::wstring                           m_filePath;        // final, user-facing
+    std::wstring                           m_fragmentedPath;  // intermediate .frag, soft-remuxed on Stop
     bool                                   m_showCursor{ false };
     bool                                   m_powerStateSet{ false };
+    bool                                   m_videoFirstPtsLogged{ false };
+    bool                                   m_audioFirstPtsLogged{ false };
+    bool                                   m_audioPrerollWritten{ false };
 };
 
 std::unique_ptr<SonicPiSessionRecorder> g_recorder;
