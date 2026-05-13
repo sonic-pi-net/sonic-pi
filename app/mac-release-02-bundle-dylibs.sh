@@ -115,6 +115,19 @@ bundle_deps_of() {
     local binary="$1"
     chmod u+w "$binary" 2>/dev/null || true
 
+    # If this binary is a dylib whose own LC_ID_DYLIB still points to an
+    # external path (e.g. a copy that was vendored into the bundle pre-staged,
+    # like Ruby's libyaml under server/native/ruby/...), rewrite the id to
+    # @rpath/<base>. install_name_tool -change handles LC_LOAD_DYLIB only, so
+    # the install name has to be fixed separately or the verify step trips.
+    local own_id
+    own_id="$(otool -D "$binary" 2>/dev/null | sed -n '2p')"
+    if [ -n "$own_id" ] && is_external_dep "$own_id"; then
+        unsign "$binary"
+        install_name_tool -id "@rpath/$(basename "$own_id")" "$binary" 2>/dev/null \
+            || log_warn "  could not rewrite id of ${binary##${RELEASE_APP}/}"
+    fi
+
     local deps_text
     deps_text="$(otool_deps "$binary")"
 
