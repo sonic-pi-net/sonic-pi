@@ -33,7 +33,7 @@ set "VCPKG_ROOT=%SCRIPT_DIR%vcpkg"
 set "VCPKG_TOOLCHAIN=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake"
 set "VCPKG_FORCE_SYSTEM_BINARIES=1"
 
-cmake -G "Visual Studio 17 2022" -A %CMAKE_ARCH% ^
+cmake -G "Visual Studio 18 2026" -A %CMAKE_ARCH% ^
       -DCMAKE_BUILD_TYPE=%CONFIG% ^
       -DCMAKE_TOOLCHAIN_FILE="%VCPKG_TOOLCHAIN%" ^
       -DVCPKG_TARGET_TRIPLET=%VCPKG_TRIPLET% ^

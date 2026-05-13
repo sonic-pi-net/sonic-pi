@@ -54,7 +54,7 @@ if /I "%ARCH%" == "arm64" (
 ) else (
     set VCPKG_TRIPLET=x64-windows-static-md
 )
-cmake -G "Visual Studio 17 2022" -A %ARCH% ...
+cmake -G "Visual Studio 18 2026" -A %ARCH% ...
 ```
 
 Usage: `win-config.bat Release arm64`
@@ -269,7 +269,7 @@ ARM64 build (as of February 2026):
 | ~~SuperCollider~~ | ~~server/plugins/BinaryOpUGens.cpp~~ | ~~`#pragma optimize("", off)` around div functions~~ — **REMOVED**: not a compiler bug, original hang was transient |
 | SuperCollider | server/scsynth/SC_TimeDLL.hpp | Sleep/wake discontinuity detection (>0.5s error → DLL reset) |
 | SuperCollider | server/scsynth/SC_PortAudio.cpp | WASAPI stream recovery via `PaWasapi_SetStreamStateHandler` (hibernate/resume) |
-| Erlang/OTP | SetupWSLcross.bat | Add `Program Files (x86)` VS2022 search path |
+| Erlang/OTP | SetupWSLcross.bat | Add `Program Files (x86)` VS 2026 search path |
 | Erlang/OTP | zstd/common/compiler.h | Add MSVC ARM64 prefetch no-op |
 | Sonic Pi | app/CMakeLists.txt | Change triplet to `arm64-windows-static-md` |
 | Sonic Pi | app/external/CMakeLists.txt | Add ARM64 prebuilt path detection |

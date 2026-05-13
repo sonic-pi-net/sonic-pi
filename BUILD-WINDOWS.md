@@ -33,7 +33,7 @@ and to run
   issue on GitHub and we'll try our best to assist you:
   https://github.com/sonic-pi-net/sonic-pi/issues
 * The current build on Windows is assumed to be a 64 bit build done with
-  Visual Studio 2022 (Community edition is fine).
+  Visual Studio 2026 (Community edition is fine).
 * If you're attempting to build 32 bit binaries, there are equivalent
   32-bit build scripts, but these are currently largely untested.
 
@@ -43,7 +43,7 @@ and to run
 In order to build Sonic Pi's various components, we need to install a few
 dependencies:
 
-1. Visual Studio 2022
+1. Visual Studio 2026
 2. Qt (6.8+)
 3. CMake (3.29+)
 4. Ruby (3.4.2+)
@@ -52,7 +52,7 @@ dependencies:
 Let's look at each in turn.
 
 
-### 1.1 Install - Visual Studio 2022
+### 1.1 Install - Visual Studio 2026
 
 If you don't already have VS installed, head over to the downloads page
 and grab a copy of the *free* Community edition:

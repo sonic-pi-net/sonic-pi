@@ -35,10 +35,10 @@ Sonic Pi requires these components, all of which must be ARM64 native:
 
 ## Prerequisites
 
-### 1. Visual Studio 2022 Build Tools with ARM64 C++ tools
+### 1. Visual Studio 2026 Build Tools with ARM64 C++ tools
 
 ```
-winget install Microsoft.VisualStudio.2022.BuildTools
+winget install Microsoft.VisualStudio.2026.BuildTools
 ```
 
 Then run the VS Installer and enable:
@@ -139,7 +139,7 @@ vcpkg install libsndfile fftw3 --triplet arm64-windows
 Replace `<VCPKG_ROOT>` with the path to your vcpkg installation:
 ```
 mkdir build && cd build
-cmake -G "Visual Studio 17 2022" -A ARM64 ^
+cmake -G "Visual Studio 18 2026" -A ARM64 ^
     -DSC_QT=OFF -DSC_IDE=OFF ^
     -DCMAKE_TOOLCHAIN_FILE=<VCPKG_ROOT>\scripts\buildsystems\vcpkg.cmake ^
     -DVCPKG_TARGET_TRIPLET=arm64-windows ^
@@ -189,7 +189,7 @@ will fail.
 git clone --recurse-submodules https://github.com/supercollider/sc3-plugins.git
 cd sc3-plugins
 mkdir build && cd build
-cmake -G "Visual Studio 17 2022" -A ARM64 ^
+cmake -G "Visual Studio 18 2026" -A ARM64 ^
     -DSC_PATH=<PATH_TO_SUPERCOLLIDER> ^
     -DFFTW3F_INCLUDE_DIR=<VCPKG_ROOT>\installed\arm64-windows\include ^
     -DFFTW3F_LIBRARY=<VCPKG_ROOT>\installed\arm64-windows\lib\fftw3f.lib ^
@@ -233,11 +233,11 @@ git clone https://github.com/erlang/otp.git erlang-otp
 cd erlang-otp
 ```
 
-**Patch 1** — `erts/etc/win32/wsl_tools/SetupWSLcross.bat`: Add VS2022
+**Patch 1** — `erts/etc/win32/wsl_tools/SetupWSLcross.bat`: Add VS 2026
 paths under `C:\Program Files (x86)\` (ARM64 Windows installs VS there):
 ```batch
-IF EXIST "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat". (
-   call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" %~1 > nul
+IF EXIST "C:\Program Files (x86)\Microsoft Visual Studio\2026\BuildTools\VC\Auxiliary\Build\vcvarsall.bat". (
+   call "C:\Program Files (x86)\Microsoft Visual Studio\2026\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" %~1 > nul
    goto continue
 )
 ```
@@ -380,7 +380,7 @@ and FX work normally.
 
 ## Known Issues and Workarounds
 
-### VS2022 installs to Program Files (x86) on ARM64
+### VS installs to Program Files (x86) on ARM64
 
 ARM64 Windows puts VS Build Tools under `C:\Program Files (x86)\` not
 `C:\Program Files\`. Any script that searches for `vcvarsall.bat` needs
