@@ -34,6 +34,16 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 OPENSSL_VERSION="${OPENSSL_VERSION:-3.5.2}"
 TARGET_MINOS="${MACOSX_DEPLOYMENT_TARGET:-14.0}"
 
+# Match the host arch — x64 release host produces x64 libssl, arm64 host
+# produces arm64. mac-release-02-bundle-dylibs.sh copies these into the
+# .app, so a mismatch produces a bundle that dyld refuses to load.
+HOST_ARCH="$(uname -m)"
+case "${HOST_ARCH}" in
+    arm64)  OPENSSL_TARGET="darwin64-arm64-cc" ;;
+    x86_64) OPENSSL_TARGET="darwin64-x86_64-cc" ;;
+    *) echo "Unsupported host arch: ${HOST_ARCH}" >&2; exit 1 ;;
+esac
+
 BUILD_ROOT="${SCRIPT_DIR}/external/openssl-build"
 PREFIX="${BUILD_ROOT}/install"
 SRC_DIR="${BUILD_ROOT}/src/openssl-${OPENSSL_VERSION}"
@@ -48,18 +58,20 @@ if [ -f "${LIBSSL}" ]; then
         | awk '/^[[:space:]]*minos[[:space:]]/{print $2; exit}')"
     actual_version="$("${PREFIX}/bin/openssl" version 2>/dev/null \
         | awk '{print $2; exit}')" || actual_version=""
+    actual_arch="$(lipo -archs "${LIBSSL}" 2>/dev/null)"
 
     # Match either "14" or "14.0" against requested target.
     target_short="${TARGET_MINOS%%.*}"
     minos_short="${actual_minos%%.*}"
 
     if [ "${actual_version}" = "${OPENSSL_VERSION}" ] \
-       && [ "${minos_short}" = "${target_short}" ]; then
-        echo "openssl ${OPENSSL_VERSION} already built at minos ${actual_minos} in ${PREFIX}"
+       && [ "${minos_short}" = "${target_short}" ] \
+       && [ "${actual_arch}" = "${HOST_ARCH}" ]; then
+        echo "openssl ${OPENSSL_VERSION} already built at minos ${actual_minos} arch ${actual_arch} in ${PREFIX}"
         exit 0
     fi
-    echo "openssl in ${PREFIX} is ${actual_version:-?} minos ${actual_minos:-?};" \
-         "rebuilding at ${OPENSSL_VERSION} minos ${TARGET_MINOS}"
+    echo "openssl in ${PREFIX} is ${actual_version:-?} minos ${actual_minos:-?} arch ${actual_arch:-?};" \
+         "rebuilding at ${OPENSSL_VERSION} minos ${TARGET_MINOS} arch ${HOST_ARCH}"
 fi
 
 # ---------------------------------------------------------------------------
@@ -84,13 +96,12 @@ tar xzf "${TARBALL}" -C "$(dirname "${SRC_DIR}")"
 # ---------------------------------------------------------------------------
 # Configure + build + install
 # ---------------------------------------------------------------------------
-# `darwin64-arm64-cc` is OpenSSL's canonical Apple Silicon target.
 # `--openssldir` controls the runtime config search path; we keep it inside
 # our private prefix so we don't accidentally pick up system /etc/ssl/ certs
 # at runtime — Ruby supplies its own cert store anyway.
 cd "${SRC_DIR}"
-echo "Configuring openssl-${OPENSSL_VERSION} for minos ${TARGET_MINOS}..."
-./Configure darwin64-arm64-cc \
+echo "Configuring openssl-${OPENSSL_VERSION} for ${OPENSSL_TARGET} minos ${TARGET_MINOS}..."
+./Configure "${OPENSSL_TARGET}" \
     --prefix="${PREFIX}" \
     --openssldir="${PREFIX}/etc/ssl" \
     no-tests no-docs >/dev/null
