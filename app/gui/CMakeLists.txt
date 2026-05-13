@@ -310,9 +310,19 @@ if (APPLE)
     LINK_FLAGS "-framework AppKit -framework AVFoundation -framework ScreenCaptureKit -framework Metal -framework IOSurface -framework CoreMedia -framework CoreVideo -framework OpenGL -framework VideoToolbox -framework IOKit"
     OUTPUT_NAME ${MACOS_APP_NAME}
     )
+  # Locate macdeployqt. Prefer the Qt6 install we configured against
+  # (QT_INSTALL_PREFIX), then fall back to whatever is on PATH (which historically
+  # found qt@5 from Homebrew). Hard-coding /usr/local/opt/qt@5/bin breaks
+  # builds against a stand-alone Qt6 install where macdeployqt isn't on PATH.
+  if(QT_INSTALL_PREFIX AND EXISTS "${QT_INSTALL_PREFIX}/bin/macdeployqt")
+    set(MACDEPLOYQT_BIN "${QT_INSTALL_PREFIX}/bin/macdeployqt")
+  else()
+    set(MACDEPLOYQT_BIN "macdeployqt")
+  endif()
+  message(STATUS "macdeployqt: ${MACDEPLOYQT_BIN}")
   file(
     GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/run-macdeployqt.sh"
-    CONTENT "PATH=$PATH:/usr/local/opt/qt@5/bin macdeployqt \"$1\""
+    CONTENT "PATH=$PATH:/usr/local/opt/qt@5/bin \"${MACDEPLOYQT_BIN}\" \"$1\""
     )
 
   add_custom_command(
@@ -366,6 +376,25 @@ if (APPLE)
   # Requires the Metal Toolchain. On Xcode 15+ it's a downloadable
   # component, free from Apple:
   #     xcodebuild -downloadComponent MetalToolchain
+  #
+  # `xcrun -f metal` returns 0 with a path even when the toolchain is
+  # missing (the binary is a stub wrapper). Actually invoking it is the
+  # only reliable probe — without the toolchain it exits non-zero with
+  # the install hint. Fail at configure rather than 73% through the build.
+  execute_process(
+    COMMAND xcrun -sdk macosx metal --version
+    RESULT_VARIABLE _metal_probe_result
+    OUTPUT_QUIET ERROR_QUIET
+  )
+  if(NOT _metal_probe_result EQUAL 0)
+    message(FATAL_ERROR
+      "Metal Toolchain is required to compile Syphon's Metal shader but "
+      "is not installed. On Xcode 15+ it is a separate downloadable "
+      "component, free from Apple:\n"
+      "    xcodebuild -downloadComponent MetalToolchain\n"
+      "Then re-run CMake.")
+  endif()
+
   set(SYPHON_METALLIB_AIR ${CMAKE_CURRENT_BINARY_DIR}/SyphonMetalShaders.air)
   set(SYPHON_METALLIB     ${CMAKE_CURRENT_BINARY_DIR}/default.metallib)
   add_custom_command(
