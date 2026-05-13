@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic'](#v5.0.0), To be released...
+- [v5.0.0 'SuperSonic' BETA-2](#v5.0.0-beta2), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,7 +35,21 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0"></a>
+<a name="v5.0.0-beta2"></a>
+
+## Version 5.0.0 'SuperSonic' BETA-2
+
+The second beta of v5 adds session recording and external GUI streaming on both macOS and Windows, ASIO support in the Windows audio preferences, and several stability fixes around live audio device hot-swapping.
+
+Note that this is still a BETA release — please do report any issues you have to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### GUI
+* New: session recording for macOS and Windows. Capture the Sonic Pi window plus the master audio mix to a single video file.
+* New: GUI streaming for macOS and Windows. Stream the Sonic Pi window via Syphon/Spout to other Syphon/Spout-aware applications (Resolume, VDMX, OBS, etc.) without going through screen capture. Note Syphon is for macOS and Spout for Windows.
+* ASIO-aware audio preferences on Windows. Audio device selection exposes ASIO-specific options when an ASIO driver is present.
+* New debug log panel. Tail the running session's server / scsynth / GUI log files live from inside Sonic Pi, with one tab per log.
+
+<a name="v5.0.0-beta1"></a>
 
 ## Version 5.0.0 'SuperSonic' BETA-1
 
