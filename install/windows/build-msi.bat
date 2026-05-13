@@ -44,6 +44,13 @@ if "%FULL_VERSION%"=="" (
 )
 for /f "tokens=1 delims=-" %%V in ("%FULL_VERSION%") do set VERSION=%%V
 
+REM Distribution version — insert a hyphen between an alpha pre-release
+REM tag and its trailing number (e.g. 5.0.0-beta2 -> 5.0.0-beta-2) so the
+REM MSI filename matches the macOS DMG shape:
+REM     Sonic-Pi-for-Win-x64-v5.0.0-beta-2.msi
+for /f "usebackq delims=" %%V in (`powershell -NoProfile -Command "'%FULL_VERSION%' -replace '-([a-z]+)([0-9]+)$','-$1-$2'"`) do set DIST_VERSION=%%V
+if "%DIST_VERSION%"=="" set DIST_VERSION=%FULL_VERSION%
+
 REM --- Parse arguments ---
 set ARCH=%~1
 set VARIANT=%~2
@@ -213,10 +220,8 @@ set WIX_ARGS=%WIX_ARGS% -b .
 
 if /I "%VARIANT%"=="beta" (
     set WIX_ARGS=!WIX_ARGS! -d IsBeta=true
-    set MSI_NAME=Sonic-Pi-BETA-%FULL_VERSION%-%ARCH%.msi
-) else (
-    set MSI_NAME=Sonic-Pi-%FULL_VERSION%-%ARCH%.msi
 )
+set MSI_NAME=Sonic-Pi-for-Win-%ARCH%-v%DIST_VERSION%.msi
 
 echo wix build %WIX_ARGS% -o "%MSI_NAME%"
 wix build %WIX_ARGS% -o "%MSI_NAME%"

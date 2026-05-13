@@ -18,8 +18,7 @@ source "${SCRIPT_DIR}/mac-release-common.sh"
 
 require_cmd xcrun
 
-VERSION_FULL="$(release_version)"
-DMG_PATH="${RELEASE_BUILD_DIR}/${RELEASE_DMG_NAME}-${VERSION_FULL}.dmg"
+DMG_PATH="${RELEASE_BUILD_DIR}/$(release_dmg_basename).dmg"
 [ -f "${DMG_PATH}" ] || die "DMG missing: ${DMG_PATH} — run stage 05 first"
 [ -d "${RELEASE_APP}" ] || die "Bundle missing: ${RELEASE_APP}"
 

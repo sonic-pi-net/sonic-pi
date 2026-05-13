@@ -5,6 +5,9 @@
 #   /Volumes/Sonic Pi/
 #       Sonic Pi.app
 #       Applications -> /Applications        (drag-to-install affordance)
+#       LICENSE.rtf                          (project licence, RTF rendering
+#                                             of LICENSE.md — same file the
+#                                             Windows EULA panel uses)
 #
 # UDZO is the standard read-only zlib-compressed format used by virtually
 # every distributed macOS app dmg. The dmg itself gets codesigned (also a
@@ -16,11 +19,12 @@ source "${SCRIPT_DIR}/mac-release-common.sh"
 
 [ -d "${RELEASE_APP}" ] || die "Bundle not staged yet — run 00-stage first"
 
-VERSION_FULL="$(release_version)"
-DMG_NAME="${RELEASE_DMG_NAME}-${VERSION_FULL}.dmg"
+DMG_NAME="$(release_dmg_basename).dmg"
 DMG_PATH="${RELEASE_BUILD_DIR}/${DMG_NAME}"
 STAGING="${RELEASE_BUILD_DIR}/dmg-staging"
 VOLUME_NAME="${RELEASE_APP_NAME}"
+LICENSE_RTF_GEN="${REPO_DIR}/install/windows/wix/generate_license_rtf.rb"
+LICENSE_RTF="${REPO_DIR}/install/windows/wix/LICENSE.rtf"
 
 IDENTITY="$(release_identity)"
 
@@ -33,6 +37,15 @@ log_info "  copy ${RELEASE_APP_NAME}.app"
 cp -R "${RELEASE_APP}" "${STAGING}/"
 log_info "  add /Applications symlink"
 ln -s /Applications "${STAGING}/Applications"
+
+# Regenerate LICENSE.rtf from LICENSE.md and ship it alongside the .app
+# — same RTF the Windows EULA dialog uses, so both installers stay in
+# step with any LICENSE.md edits without a separate hand-maintained file.
+log_info "  regenerate LICENSE.rtf from LICENSE.md"
+[ -f "${LICENSE_RTF_GEN}" ] || die "RTF generator missing at ${LICENSE_RTF_GEN}"
+ruby "${LICENSE_RTF_GEN}" >/dev/null
+[ -f "${LICENSE_RTF}" ] || die "LICENSE.rtf was not generated at ${LICENSE_RTF}"
+cp "${LICENSE_RTF}" "${STAGING}/LICENSE.rtf"
 
 log_step "create dmg: ${DMG_NAME}"
 rm -f "${DMG_PATH}"

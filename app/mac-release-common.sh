@@ -20,7 +20,8 @@ REPO_DIR="$( cd "${APP_DIR}/.." && pwd )"
 RELEASE_BUILD_DIR="${APP_DIR}/build/macOS_Release"
 RELEASE_APP_NAME="Sonic Pi"
 RELEASE_APP="${RELEASE_BUILD_DIR}/${RELEASE_APP_NAME}.app"
-RELEASE_DMG_NAME="sonic-pi"
+# Distribution stem — combined with arch + version by release_dmg_basename().
+RELEASE_DMG_NAME="Sonic-Pi-for-Mac"
 RELEASE_BUNDLE_ID="net.sonic-pi.app"
 RELEASE_ENTITLEMENTS="${APP_DIR}/mac-release-entitlements.plist"
 
@@ -65,6 +66,21 @@ release_version() {
 # Strip "-dev", "-rc1" etc. from a version string for CFBundleShortVersionString
 release_version_short() {
     release_version | sed -E 's/-.*$//'
+}
+
+# Insert a hyphen between an alpha pre-release tag and its trailing number
+# so VERSION="5.0.0-beta2" → "5.0.0-beta-2". Used in distribution filenames.
+release_version_dist() {
+    release_version | sed -E 's/-([a-z]+)([0-9]+)$/-\1-\2/'
+}
+
+# DMG basename without the .dmg extension:
+#   Sonic-Pi-for-Mac-arm64-v5.0.0-beta-2
+release_dmg_basename() {
+    printf '%s-%s-v%s' \
+        "${RELEASE_DMG_NAME}" \
+        "$(uname -m)" \
+        "$(release_version_dist)"
 }
 
 # ----------------------------------------------------------------------------

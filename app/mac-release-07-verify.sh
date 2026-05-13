@@ -14,7 +14,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${SCRIPT_DIR}/mac-release-common.sh"
 
 VERSION_FULL="$(release_version)"
-DMG_PATH="${RELEASE_BUILD_DIR}/${RELEASE_DMG_NAME}-${VERSION_FULL}.dmg"
+DMG_PATH="${RELEASE_BUILD_DIR}/$(release_dmg_basename).dmg"
 
 [ -d "${RELEASE_APP}" ] || die "Bundle missing: ${RELEASE_APP}"
 

@@ -50,7 +50,8 @@ build-msi.bat arm64 beta        REM force beta identity
 1. Stages build output from the source tree into a local `app/` and `etc/` directory
 2. Runs `prune.rb` to remove non-essential vendor gem subdirectories
 3. Calls `wix build` with the appropriate `-arch`, version define, and extensions
-4. Outputs a named MSI: `Sonic-Pi-<VERSION>-<ARCH>.msi` (or `Sonic-Pi-BETA-...`)
+4. Outputs a named MSI: `Sonic-Pi-for-Win-<ARCH>-v<VERSION>.msi`
+   (e.g. `Sonic-Pi-for-Win-x64-v5.0.0-beta-2.msi`)
 
 ## Updating the version
 
