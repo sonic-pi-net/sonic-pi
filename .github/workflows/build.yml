@@ -502,9 +502,16 @@ jobs:
           BUNDLED_RUBY_DIR: ${{github.workspace}}/_bundled_ruby
         run: ./linux-appimage.sh
 
+      - name: Capture AppImage basename
+        id: img
+        shell: bash
+        run: |
+          f=$(ls "$GITHUB_WORKSPACE"/app/build/Sonic-Pi-*.AppImage | head -n1)
+          echo "name=$(basename "$f" .AppImage)" >> "$GITHUB_OUTPUT"
+
       - name: Upload AppImage
         uses: actions/upload-artifact@v4
         with:
-          name: Sonic-Pi-AppImage-${{matrix.arch}}
+          name: ${{ steps.img.outputs.name }}
           path: ${{github.workspace}}/app/build/Sonic-Pi-*.AppImage
           if-no-files-found: error

@@ -26,6 +26,15 @@ ICON_SRC="${SCRIPT_DIR}/gui/images/icon.png"
 ICON_SIZE=256
 ARCH="$(uname -m)"
 
+# Display arch for the output filename — matches MSI/DMG conventions
+# (x64/arm64). appimagetool still gets the canonical ARCH ($ARCH) so its
+# runtime header is correct.
+case "$ARCH" in
+    x86_64)  ARCH_DISPLAY="x64"   ;;
+    aarch64) ARCH_DISPLAY="arm64" ;;
+    *)       ARCH_DISPLAY="$ARCH" ;;
+esac
+
 # Pure-video codec libs aubio_onset transitively pulls in via libavcodec but
 # Sonic Pi never decodes video — safe to omit, saves ~40MB.
 EXCLUDED_LIBS=(libx265 libaom libSvtAv1Enc libcodec2 librsvg-2)
@@ -303,7 +312,7 @@ package_appimage() {
 main() {
     parse_args "$@"
     resolve_version
-    OUTPUT="${SCRIPT_DIR}/build/Sonic-Pi-${VERSION}-${ARCH}.AppImage"
+    OUTPUT="${SCRIPT_DIR}/build/Sonic-Pi-${VERSION}-${ARCH_DISPLAY}.AppImage"
 
     cd "${SCRIPT_DIR}"
 

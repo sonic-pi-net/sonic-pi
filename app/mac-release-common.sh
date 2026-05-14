@@ -75,11 +75,17 @@ release_version_dist() {
 }
 
 # DMG basename without the .dmg extension:
+#   Sonic-Pi-for-Mac-x64-v5.0.0-beta-2
 #   Sonic-Pi-for-Mac-arm64-v5.0.0-beta-2
 release_dmg_basename() {
+    local arch
+    case "$(uname -m)" in
+        x86_64) arch="x64" ;;
+        *)      arch="$(uname -m)" ;;
+    esac
     printf '%s-%s-v%s' \
         "${RELEASE_DMG_NAME}" \
-        "$(uname -m)" \
+        "$arch" \
         "$(release_version_dist)"
 }
 
