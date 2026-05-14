@@ -6,6 +6,8 @@
 
 require_relative "setup_test"
 require_relative "../lib/sonicpi/studio_ready_gate"
+require 'concurrent/atomic/cyclic_barrier'
+require 'concurrent/atomic/atomic_fixnum'
 
 # Sonic Pi's pre-existing test infrastructure (rake test / minitest
 # autorun) is broken in this environment — minitest 6.0 from system
@@ -57,20 +59,27 @@ module SonicPi
     end
 
     def test_concurrent_readers_do_not_block_each_other
-      # Four reader threads each "do work" for 100ms. If the gate were
-      # exclusive (mutex-style serialization), total time would be
-      # ~400ms. With proper RW semantics, all four overlap and total is
-      # ~100ms.
-      start = Time.now
+      # Prove parallelism deterministically. Each reader thread
+      # acquires the read lock then rendezvous at a barrier requiring
+      # all 4. If the gate allows concurrent readers, all 4 are inside
+      # the block at once, the barrier trips, and `reached` hits 4. If
+      # readers are serialized, only one thread is ever inside — the
+      # 4th arrival never happens, the barrier times out, and
+      # `reached` stays low. Independent of wall-clock noise.
+      barrier = Concurrent::CyclicBarrier.new(4)
+      reached = Concurrent::AtomicFixnum.new(0)
+
       threads = 4.times.map do
         Thread.new do
-          @gate.with_studio_ready(:test_op) { sleep 0.1 }
+          @gate.with_studio_ready(:test_op) do
+            reached.increment if barrier.wait(1.0)
+          end
         end
       end
       threads.each(&:join)
-      elapsed = Time.now - start
-      assert elapsed < 0.25,
-             "Readers serialized (took #{elapsed}s, expected ~0.1s for parallel)"
+
+      assert_equal 4, reached.value,
+        "Readers serialized — only #{reached.value}/4 entered the read block concurrently"
     end
 
     def test_writer_blocks_new_readers_until_release
