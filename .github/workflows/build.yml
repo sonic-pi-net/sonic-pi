@@ -48,15 +48,15 @@ jobs:
             }
           - {
               title: "Windows",
-              os: "windows-latest",
-              cc: "msvc",
+              os: "windows-2022",
+              cc: "vs2022",
               arch: "x64",
               build_type: "Release",
             }
           - {
               title: "Windows",
-              os: "windows-latest",
-              cc: "msvc",
+              os: "windows-2022",
+              cc: "vs2022",
               arch: "x64",
               build_type: "Debug",
             }
