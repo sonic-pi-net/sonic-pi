@@ -33,7 +33,9 @@ set "VCPKG_ROOT=%SCRIPT_DIR%vcpkg"
 set "VCPKG_TOOLCHAIN=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake"
 set "VCPKG_FORCE_SYSTEM_BINARIES=1"
 
-cmake -G "Visual Studio 18 2026" -A %CMAKE_ARCH% ^
+@REM No -G: cmake honours %CMAKE_GENERATOR% if set, otherwise picks the
+@REM newest installed Visual Studio. CI can pin via env on the workflow.
+cmake -A %CMAKE_ARCH% ^
       -DCMAKE_BUILD_TYPE=%CONFIG% ^
       -DCMAKE_TOOLCHAIN_FILE="%VCPKG_TOOLCHAIN%" ^
       -DVCPKG_TARGET_TRIPLET=%VCPKG_TRIPLET% ^
