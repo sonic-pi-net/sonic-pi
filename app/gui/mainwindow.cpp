@@ -572,6 +572,8 @@ void MainWindow::setupWindowStructure()
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
     }
 
+    connect(editorTabWidget, SIGNAL(currentChanged(int)), this, SLOT(focusEditor()));
+
     connect(signalMapper, SIGNAL(mappedInt(int)), this, SLOT(changeTab(int)));
 
     QFont font("Hack", 10);
