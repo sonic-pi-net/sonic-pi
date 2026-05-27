@@ -3260,8 +3260,8 @@ void MainWindow::loadMacShortcuts()
     shortcutMap["Align"] = resolveShortcut("Meta+M");
     shortcutMap["Comment"] = resolveShortcut("Meta+/");
     shortcutMap["Transpose"] = resolveShortcut("Ctrl+T");
-    shortcutMap["ShiftUp"] = resolveShortcut("CtrlMeta+P");
-    shortcutMap["ShiftDown"] = resolveShortcut("CtrlMeta+N");
+    shortcutMap["ShiftUp"] = resolveShortcut("Alt+Up");
+    shortcutMap["ShiftDown"] = resolveShortcut("Alt+Down");
     shortcutMap["ContextualDocs"] = resolveShortcut("Shift+F1");
     shortcutMap["TextZoomIn"] = resolveShortcut("Meta+=");
     shortcutMap["TextZoomOut"] = resolveShortcut("Meta+-");
@@ -3322,8 +3322,8 @@ void MainWindow::loadMacShortcuts()
     shortcutMap["Undo"] = resolveShortcut("Meta+z");
     shortcutMap["Redo"] = resolveShortcut("ShiftMeta+z");
     shortcutMap["SelectAll"] = resolveShortcut("Meta+a");
-    shortcutMap["DeleteWordRight"] = resolveShortcut("Meta+d");
-    shortcutMap["DeleteWordLeft"] = resolveShortcut("Meta+Backspace");
+    shortcutMap["DeleteWordRight"] = resolveShortcut("ShiftAlt+Backspace");
+    shortcutMap["DeleteWordLeft"] = resolveShortcut("Alt+Backspace");
     shortcutMap["UpcaseWord"] = resolveShortcut("Meta+u");
     shortcutMap["DowncaseWord"] = resolveShortcut("Meta+l");
     shortcutMap["FullScreen"] = resolveShortcut("ShiftMeta+f");
