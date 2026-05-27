@@ -173,7 +173,6 @@ private slots:
     QString sonicPiConfigPath();
     void updateLogAutoScroll();
     bool eventFilter(QObject* obj, QEvent* evt) override;
-    void changeTab(int id);
     QString asciiArtLogo();
     void printAsciiArtLogo();
     void runCode();
@@ -392,7 +391,6 @@ private:
     void initPaths();
     QString osDescription();
     QString cpuDescription();
-    QSignalMapper* signalMapper;
 
     void blankTitleBars();
     void namedTitleBars();
