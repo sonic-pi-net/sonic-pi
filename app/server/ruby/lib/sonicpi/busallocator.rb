@@ -18,8 +18,8 @@ module SonicPi
     def initialize(max_bus_id, idx_offset=0)
       # allocate busses in pairs
       @allocation_size = allocation_size
-      @idx_offset = idx_offset
-      @max_id = ((max_bus_id - idx_offset) / allocation_size) - 1
+      @idx_offset = idx_offset.to_i
+      @max_id = ((max_bus_id.to_i - @idx_offset) / allocation_size) - 1
       @allocator = Allocator.new(@max_id)
     end
 

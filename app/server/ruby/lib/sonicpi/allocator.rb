@@ -16,7 +16,7 @@ module SonicPi
   class Allocator
     attr_reader :max_id
     def initialize(max_id)
-      @max_id = max_id
+      @max_id = max_id.to_i
       @mut = Mutex.new
       @last_used_idx = 0
       reset!
