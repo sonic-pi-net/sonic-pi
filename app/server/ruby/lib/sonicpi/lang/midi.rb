@@ -293,7 +293,6 @@ current_midi_defaults #=> Prints {channel: 1, port: \"foo\"}"]
             # Do nothing
           when Proc
             raise "MIDI Port Filter Proc accepts 1 argument only. Found #{block.arity}" unless f.arity == 1
-            found_proc = true
             candidates = f.call(candidates)
             candidates = [candidates] unless is_list_like?(candidates)
           else
@@ -845,7 +844,7 @@ Non-number values will be automatically turned into numbers prior to sending the
 
 
       def midi_sound_off(*args)
-        params, opts = split_params_and_merge_opts_array(args)
+        _params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
@@ -941,7 +940,7 @@ All controller values are reset to their defaults.
 
 
       def midi_local_control_off(*args)
-        params, opts = split_params_and_merge_opts_array(args)
+        _params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
@@ -988,7 +987,7 @@ All devices on a given channel will respond only to data received over MIDI. Pla
 
 
       def midi_local_control_on(*args)
-        params, opts = split_params_and_merge_opts_array(args)
+        _params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
@@ -1132,7 +1131,7 @@ Note that this fn also includes the behaviour of `midi_all_notes_off`.
 
 
       def midi_all_notes_off(*args)
-        params, opts = split_params_and_merge_opts_array(args)
+        _params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
 
@@ -1178,7 +1177,7 @@ When an All Notes Off event is received, all oscillators will turn off.
 
 
       def midi_clock_tick(*args)
-        params, opts = split_params_and_merge_opts_array(args)
+        _params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
         ports        = __resolve_midi_ports(opts)
@@ -1217,7 +1216,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
 
 
       def midi_start(*args)
-        params, opts = split_params_and_merge_opts_array(args)
+        _params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
         ports        = __resolve_midi_ports(opts)
@@ -1254,7 +1253,7 @@ Start the current sequence playing. (This message should be followed with calls 
 
 
       def midi_stop(*args)
-        params, opts = split_params_and_merge_opts_array(args)
+        _params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
         ports        = __resolve_midi_ports(opts)
@@ -1291,7 +1290,7 @@ Stops the current sequence.
 
 
       def midi_continue(*args)
-        params, opts = split_params_and_merge_opts_array(args)
+        _params, opts = split_params_and_merge_opts_array(args)
         opts         = current_midi_defaults.merge(opts)
         on_val       = opts.fetch(:on, 1)
         ports        = __resolve_midi_ports(opts)

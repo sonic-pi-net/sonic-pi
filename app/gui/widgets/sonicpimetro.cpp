@@ -78,12 +78,12 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
 
   timeWarpLineEdit->setToolTip(tr("Global Time Warp.\n\nAdjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nEdit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds."));
 
-  connect(timeWarpSlider, &QSlider::valueChanged, [=](int value) {
+  connect(timeWarpSlider, &QSlider::valueChanged, [this](int value) {
     QSignalBlocker blocker(timeWarpLineEdit);
     timeWarpLineEdit->setDisplayAndWarpToTime(value);
   });
 
-  connect(timeWarpLineEdit, &QLineEdit::textChanged, [=](QString text) {
+  connect(timeWarpLineEdit, &QLineEdit::textChanged, [this](QString text) {
     QSignalBlocker blocker(timeWarpSlider);
     timeWarpSlider->setValue(timeWarpLineEdit->getTimeWarpValue());
   });
@@ -137,15 +137,15 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
     updateLinkButtonDisplay();
   }
 
-  connect(enableLinkButton, &QPushButton::clicked, [=]() {
+  connect(enableLinkButton, &QPushButton::clicked, [this]() {
     this->toggleLink();
   });
 
-  connect(linkStreamsButton, &QPushButton::clicked, [=]() {
+  connect(linkStreamsButton, &QPushButton::clicked, [this]() {
     this->toggleLinkAudioStreams();
   });
 
-  connect(tapButton, &QPushButton::clicked, [=]() {
+  connect(tapButton, &QPushButton::clicked, [this]() {
     this->tapTempo(100);
   });
 
@@ -287,7 +287,7 @@ void SonicPiMetro::tapTempo(int flashDelay)
     tapButton->update();
   };
   setFlashing(true);
-  QTimer::singleShot(flashDelay, this, [=]() { setFlashing(false); });
+  QTimer::singleShot(flashDelay, this, [this]() { setFlashing(false); });
 
   numTaps = numTaps + 1;
 

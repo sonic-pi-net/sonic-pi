@@ -4009,7 +4009,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
     end
 
-     class SC808TomLo < SonicPiSynth
+    class SC808TomLo < SonicPiSynth
       def name
         "SC-808 Tom Low"
       end

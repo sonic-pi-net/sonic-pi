@@ -1433,7 +1433,6 @@ module SonicPi
       @user_methods = user_methods
 
       @git_hash = __extract_git_hash
-      gh_short = @git_hash ? "- #{@git_hash[0, 7]}" : ""
       @settings = Config::Settings.new(Paths.system_cache_store_path)
 
       @version = Version.init_from_string(File.read(File.expand_path('../../../../../VERSION', __dir__)).strip)

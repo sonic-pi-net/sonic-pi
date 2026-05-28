@@ -557,7 +557,7 @@ void LinkAudioStreamsWidget::renderPeersTable()
             : QStringLiteral("—");
 
         // Bold active subscriptions to reinforce the connected-at-top sort.
-        auto set = [&](int col, const QString& text, int align = Qt::AlignLeft | Qt::AlignVCenter) {
+        auto set = [&](int col, const QString& text, Qt::Alignment align = Qt::AlignLeft | Qt::AlignVCenter) {
             auto* it = new QTableWidgetItem(text);
             it->setFlags(it->flags() & ~Qt::ItemIsEditable);
             it->setTextAlignment(align);
