@@ -29,6 +29,7 @@ require_relative "preparser"
 require_relative "event_history"
 require_relative "thread_id"
 require_relative "tau_api"
+require_relative "link_api"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -125,7 +126,7 @@ module SonicPi
 
     def __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum)
       safety_t = 0.5
-      beat, time = @tau_api.link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t)
+      beat, time = @link_api.link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t)
       __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
       __change_spider_time_and_beat!(time - __current_sched_ahead_time, beat)
     end
@@ -159,14 +160,14 @@ module SonicPi
 
 
     def __get_link_beat_at_clock_time(clock_time)
-      @tau_api.link_get_beat_at_clock_time(clock_time)
+      @link_api.link_get_beat_at_clock_time(clock_time)
     end
 
     def __change_spider_beat_and_time_by_beat_delta!(beat_delta)
       new_beat = __get_spider_beat + (beat_delta / __get_spider_time_density)
 
       if __in_link_bpm_mode
-        new_time = @tau_api.link_get_clock_time_at_beat(new_beat)
+        new_time = @link_api.link_get_clock_time_at_beat(new_beat)
         new_time -=  __current_sched_ahead_time
         __change_spider_time_and_beat!(new_time, new_beat)
       else
@@ -200,7 +201,7 @@ module SonicPi
     def __get_spider_bpm
       # take into account density
       if __in_link_bpm_mode
-        @tau_api.link_tempo * __get_spider_time_density
+        @link_api.link_tempo * __get_spider_time_density
       else
         __system_thread_locals.get(:sonic_pi_spider_bpm) * __get_spider_time_density
       end
@@ -551,6 +552,10 @@ module SonicPi
       @user_jobs.each_id do |id|
         __stop_job id
       end
+      # Link Audio streams self-teardown: each link_audio synth's /n_end
+      # fires on_destroyed which drops its SuperSonic subscription. Cold
+      # swap is the exception (nuke_scsynth_state! fires no callbacks).
+
       # Flush OSC messages on Erlang scheduler
       __osc_flush!
 
@@ -1523,10 +1528,16 @@ module SonicPi
                               external_osc_cue: external_osc_cue_handler,
                               internal_cue: internal_cue_handler,
                               updated_midi_ins: updated_midi_ins_handler,
-                              updated_midi_outs: updated_midi_outs_handler,
-                              updated_link_num_peers: updated_link_num_peers_handler,
-                              updated_link_bpm: updated_link_bpm_handler
+                              updated_midi_outs: updated_midi_outs_handler
                             })
+
+      scsynth_send_port = ports[:scsynth_send_port] || ports[:scsynth_port]
+      @link_api = LinkAPI.new("127.0.0.1", scsynth_send_port,
+                              {
+                                internal_cue: internal_cue_handler,
+                                updated_link_num_peers: updated_link_num_peers_handler,
+                                updated_link_bpm: updated_link_bpm_handler
+                              })
 
       begin
         @gitsave = GitSave.new(Paths.project_path)

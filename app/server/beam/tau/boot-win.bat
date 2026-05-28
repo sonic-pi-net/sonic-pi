@@ -37,7 +37,6 @@ IF /I "%TAU_ENV%" == "test" (
   set MIX_ENV=test
 
   set TAU_MIDI_ENABLED=false
-  set TAU_LINK_ENABLED=false
   mix run --no-halt > log\tau_stdout.log 2>&1
   goto Exit
 )

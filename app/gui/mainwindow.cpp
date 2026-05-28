@@ -42,6 +42,7 @@
 #include <QScrollBar>
 #include <QShortcut>
 #include <QSplashScreen>
+#include <QTimer>
 #include <QSplitter>
 #include <QStatusBar>
 #include <QStyle>
@@ -80,6 +81,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/sonicpieditor.h"
 #include "widgets/sonicpilog.h"
 #include "widgets/sonicpimetro.h"
+#include "widgets/linkaudiostreamswidget.h"
 #include "widgets/logpanel.h"
 
 #include "utils/ruby_help.h"
@@ -446,6 +448,16 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
     connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
     connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
+    // Slider drives only the Link mesh reach; Tau's OSC bind scope stays
+    // on the prefs IO checkboxes.
+    if (auto* lasw = metroPane->findChild<LinkAudioStreamsWidget*>()) {
+        connect(lasw, &LinkAudioStreamsWidget::requestNetworkVisibilityChange,
+                this, [this](int mode) {
+                    if (mode != 1 && mode != 2) return;
+                    gui_settings->setValue("supersonic/networkVisibility", mode);
+                    metroPane->onSupersonicNetworkVisibilityChanged(mode);
+                });
+    }
     connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
     connect(settingsWidget, SIGNAL(showAutoCompletionChanged()), this, SLOT(changeShowAutoCompletion()));
     connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
@@ -656,6 +668,12 @@ void MainWindow::setupWindowStructure()
     metroWidget->setAllowedAreas(Qt::RightDockWidgetArea);
     metroWidget->setMaximumHeight(ScaleHeightForDPI(110));
     metroWidget->setWidget(metroPane);
+    // Let the dock grow when the streams panel expands, shrink on collapse.
+    connect(metroPane, &SonicPiMetro::linkAudioStreamsExpandedChanged, this,
+            [this](bool expanded) {
+                metroWidget->setMaximumHeight(
+                    expanded ? QWIDGETSIZE_MAX : ScaleHeightForDPI(110));
+            });
 
     addDockWidget(Qt::RightDockWidgetArea, outputWidget);
     addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
@@ -1537,6 +1555,17 @@ QString MainWindow::rootPath()
 
 void MainWindow::splashClose()
 {
+    if (!splash) return;
+    // Minimum visible duration so the splash doesn't flash by on fast boots.
+    constexpr qint64 kMinSplashMs = 1500;
+    const qint64 shownAt = splash->property("shownAtMs").toLongLong();
+    const qint64 elapsed = QDateTime::currentMSecsSinceEpoch() - shownAt;
+    if (shownAt > 0 && elapsed < kMinSplashMs) {
+        QTimer::singleShot(kMinSplashMs - elapsed, this, [this]() {
+            if (splash) splash->finish(this);
+        });
+        return;
+    }
     splash->finish(this);
 }
 

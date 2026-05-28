@@ -45,11 +45,9 @@ if config_env() != :test do
   config :tau,
     midi_on: extract_env.("TAU_MIDI_ON", :bool, false),
     midi_enabled: extract_env.("TAU_MIDI_ENABLED", :bool, false),
-    link_enabled: extract_env.("TAU_LINK_ENABLED", :bool, false),
     cues_on: extract_env.("TAU_CUES_ON", :bool, false),
     osc_in_udp_loopback_restricted:
       extract_env.("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true),
-    link_on: extract_env.("TAU_LINK_ON", :bool, false),
     osc_in_udp_port: extract_env.("TAU_OSC_IN_UDP_PORT", :int, 5000),
     api_port: extract_env.("TAU_API_PORT", :int, 5001),
     spider_port: extract_env.("TAU_SPIDER_PORT", :int, 5002),
@@ -60,11 +58,9 @@ else
   config :tau,
     midi_on: extract_env.("TAU_MIDI_ON", :bool, false),
     midi_enabled: extract_env.("TAU_MIDI_ENABLED", :bool, false),
-    link_enabled: extract_env.("TAU_LINK_ENABLED", :bool, false),
     cues_on: extract_env.("TAU_CUES_ON", :bool, true),
     osc_in_udp_loopback_restricted:
       extract_env.("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true),
-    link_on: extract_env.("TAU_LINK_ON", :bool, false),
     osc_in_udp_port: extract_env.("TAU_OSC_IN_UDP_PORT", :int, Enum.random(30000..65535)),
     api_port: extract_env.("TAU_API_PORT", :int, Enum.random(30000..65535)),
     spider_port: extract_env.("TAU_SPIDER_PORT", :int, Enum.random(30000..65535)),

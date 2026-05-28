@@ -29,7 +29,6 @@ elif [ "$TAU_ENV" = "test" ]
 then
   export MIX_ENV=test
   export TAU_MIDI_ENABLED=false
-  export TAU_LINK_ENABLED=false
   mix run --no-halt > $TAU_BOOT_LOG_PATH 2>&1
 else
   echo "Unknown TAU_ENV ${TAU_ENV} - expecting one of prod, dev or test."

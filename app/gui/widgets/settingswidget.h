@@ -113,6 +113,8 @@ signals:
     void enableScsynthInputsChanged();
     void oscSettingsChanged();
     void midiSettingsChanged();
+    // SuperSonic-wide network visibility: 0=Off, 1=Loopback, 2=Network.
+    void supersonicNetworkVisibilityChanged(int mode);
     void resetMidi();
     void volumeChanged(int vol);
     void showLineNumbersChanged();
@@ -215,6 +217,7 @@ private:
     QCheckBox *midi_enable_check;
     QCheckBox *osc_public_check;
     QCheckBox *osc_server_enabled_check;
+
 
     QButtonGroup *colourModeButtonGroup;
     QCheckBox *lightModeCheck;

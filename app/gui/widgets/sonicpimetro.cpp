@@ -12,8 +12,12 @@
 //++
 
 #include "sonicpimetro.h"
+#include <QStyle>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QSettings>
 #include "qt_api_client.h"
+#include "linkaudiostreamswidget.h"
 #include <QStyleOption>
 #include <QPainter>
 #include <QSpacerItem>
@@ -28,6 +32,9 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   this->theme = theme;
   bool setPosAvailable = isSetPosAvailable();
   mutex = new QMutex;
+
+  // Gated by network visibility (Off/Local/Net) in Preferences > IO:
+  // greyed out when Off.
   enableLinkButton = new QPushButton(tr("Link"));
   enableLinkButton->setAutoFillBackground(true);
   enableLinkButton->setObjectName("enableLinkButton");
@@ -35,10 +42,14 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   enableLinkButton->setFlat(true);
   #ifdef Q_OS_MAC
   QString link_shortcut = QKeySequence("Ctrl+t").toString(QKeySequence::NativeText);
-#else
+  #else
   QString link_shortcut = QKeySequence("alt+t").toString(QKeySequence::NativeText);
-#endif
-  enableLinkButton->setToolTip(tr("Enable/Disable network sync.\n\nThis controls whether the Link metronome will synchronise with other Link metronomes on the local WiFi/ethernet network.\nWhen enabled, BPM changes to this metronome will also change all other Link metronomes on the network\nand changes to any other Link metronome will affect this metronome.") + "\n(" + link_shortcut + ")");
+  #endif
+  enableLinkButton->setToolTip(tr(
+      "Enable / disable Ableton Link tempo sync.\n\n"
+      "Scope (Off / Local / Net) is set under Preferences ▶ IO ▶ "
+      "SuperSonic network. Greyed out when the master scope is Off.")
+      + "\n(" + link_shortcut + ")");
 
   tapButton = new QPushButton(tr("Tap"));
   tapButton->setAutoFillBackground(true);
@@ -82,20 +93,56 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   bpmScrubWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   bpmScrubWidget->setToolTip(tr("Current Link Tempo in BPM (Beats Per Minute).\n\nEdit, drag or scroll to modify. Double click to reset to 60."));
 
-  QHBoxLayout* metro_layout  = new QHBoxLayout;
-  metro_layout->addWidget(enableLinkButton);
-  metro_layout->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Maximum, QSizePolicy::Fixed));
-  metro_layout->addWidget(tapButton);
-  metro_layout->addWidget(bpmScrubWidget);
-  metro_layout->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Maximum, QSizePolicy::Fixed));
-  metro_layout->addWidget(timeWarpSlider);
-  metro_layout->addWidget(timeWarpLineEdit);
-  metro_layout->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+  // Expand/collapse the inline Link Audio Streams panel. Up-arrow when
+  // collapsed, down-arrow when expanded.
+  linkStreamsButton = new QPushButton(QString::fromUtf8("\xe2\x86\x91"));  // ↑
+  linkStreamsButton->setObjectName("linkStreamsButton");
+  linkStreamsButton->setCheckable(true);
+  linkStreamsButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  linkStreamsButton->setFlat(true);
+  linkStreamsButton->setToolTip(tr("Show / hide the Link Audio streams panel."));
 
+  QHBoxLayout* metro_row = new QHBoxLayout;
+  metro_row->addWidget(enableLinkButton);
+  metro_row->addWidget(linkStreamsButton);
+  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Maximum, QSizePolicy::Fixed));
+  metro_row->addWidget(tapButton);
+  metro_row->addWidget(bpmScrubWidget);
+  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Maximum, QSizePolicy::Fixed));
+  metro_row->addWidget(timeWarpSlider);
+  metro_row->addWidget(timeWarpLineEdit);
+  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+
+  // Hidden by default; toggled by linkStreamsButton.
+  linkStreamsWidget = new LinkAudioStreamsWidget(m_spAPI, this);
+  linkStreamsWidget->setVisible(false);
+
+  // Streams panel sits just above the anchored metro row.
+  QVBoxLayout* metro_layout = new QVBoxLayout;
+  metro_layout->addStretch(1);
+  metro_layout->addWidget(linkStreamsWidget);
+  metro_layout->addLayout(metro_row);
   setLayout(metro_layout);
+
+  // Restore visibility scope from QSettings (Local default). Link enable
+  // is not persisted: joining a mesh is a per-session opt-in.
+  {
+    QSettings s;
+    const int savedNet = s.value("supersonic/networkVisibility", 1).toInt();
+    if (savedNet == 1 || savedNet == 2) {
+      m_networkMode = static_cast<SonicPi::SonicPiAPI::LinkVisibility>(savedNet);
+    }
+    m_linkEnabled = false;
+    pushLinkConfigToServer();
+    updateLinkButtonDisplay();
+  }
 
   connect(enableLinkButton, &QPushButton::clicked, [=]() {
     this->toggleLink();
+  });
+
+  connect(linkStreamsButton, &QPushButton::clicked, [=]() {
+    this->toggleLinkAudioStreams();
   });
 
   connect(tapButton, &QPushButton::clicked, [=]() {
@@ -122,51 +169,60 @@ bool SonicPiMetro::isSetPosAvailable()
   return available;
 }
 
+void SonicPiMetro::onSupersonicNetworkVisibilityChanged(int mode)
+{
+  if (mode != 1 && mode != 2) return;
+  mutex->lock();
+  m_networkMode = static_cast<SonicPi::SonicPiAPI::LinkVisibility>(mode);
+  pushLinkConfigToServer();
+  updateLinkButtonDisplay();
+  mutex->unlock();
+  // Keep the streams widget's header/empty-state/slider in sync.
+  if (linkStreamsWidget) linkStreamsWidget->applyMasterVisibility(mode);
+}
+
 void SonicPiMetro::linkEnable()
 {
   mutex->lock();
-
-  if(!m_linkEnabled) {
-    m_spAPI.get()->LinkEnable();
+  if (!m_linkEnabled) {
     m_linkEnabled = true;
+    pushLinkConfigToServer();
+    emit linkEnabled();
   }
-
-  emit linkEnabled();
   updateLinkButtonDisplay();
+  if (linkStreamsWidget) linkStreamsWidget->applyLinkEnabled(true);
   mutex->unlock();
 }
 
 void SonicPiMetro::linkDisable()
 {
-
   mutex->lock();
-
-  if(m_linkEnabled) {
-    m_spAPI.get()->LinkDisable();
+  if (m_linkEnabled) {
     m_linkEnabled = false;
+    pushLinkConfigToServer();
+    emit linkDisabled();
   }
-
-  emit linkDisabled();
   updateLinkButtonDisplay();
+  if (linkStreamsWidget) linkStreamsWidget->applyLinkEnabled(false);
   mutex->unlock();
 }
 
 void SonicPiMetro::toggleLink()
 {
-  mutex->lock();
-  m_linkEnabled = !m_linkEnabled;
+  if (m_linkEnabled) linkDisable(); else linkEnable();
+}
 
-  if(m_linkEnabled) {
-    m_spAPI.get()->LinkEnable();
-    emit linkEnabled();
-  }
-  else {
-    m_spAPI.get()->LinkDisable();
-    emit linkDisabled();
-  }
-
-  updateLinkButtonDisplay();
-  mutex->unlock();
+void SonicPiMetro::pushLinkConfigToServer()
+{
+  if (!m_spAPI) return;
+  // Peer-name first so peers see it. Idempotent on SuperSonic.
+  const QString name = QSettings().value("link/peerName", QStringLiteral("Sonic Pi")).toString();
+  m_spAPI->SetLinkPeerName(name.toStdString());
+  // Link button gates Link; master scope forces Off when Link is disabled.
+  const auto effective = m_linkEnabled
+      ? m_networkMode
+      : SonicPi::SonicPiAPI::LinkVisibility::Off;
+  m_spAPI->SetLinkVisibility(effective);
 }
 
 void SonicPiMetro::updateActiveLinkCount(int count)
@@ -177,29 +233,26 @@ void SonicPiMetro::updateActiveLinkCount(int count)
 
 void SonicPiMetro::updateActiveLinkText()
 {
-  if(numActiveLinks == 1) {
-    enableLinkButton->setText("1 Link");
+  if (!m_linkEnabled) {
+    enableLinkButton->setText(tr("Link"));
+  } else if (numActiveLinks == 1) {
+    enableLinkButton->setText(tr("1 Link"));
   } else {
-    enableLinkButton->setText(QString("%1 Links").arg(numActiveLinks));
+    enableLinkButton->setText(tr("%1 Links").arg(numActiveLinks));
   }
 }
 
 void SonicPiMetro::updateLinkButtonDisplay()
 {
-  QString qss;
-  if(m_linkEnabled) {
-    updateActiveLinkText();
-    qss = QString("\nQPushButton {\nbackground-color: %1;}\nQPushButton::hover:!pressed {\nbackground-color: %2}\n").arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
-    enableLinkButton->setStyleSheet(theme->getAppStylesheet() + qss);
-    tapButton->setStyleSheet(theme->getAppStylesheet());
-    bpmScrubWidget->setLinkEnabled();
+  updateActiveLinkText();
+  // Active look driven by the linkOn dynamic property (see app.qss).
+  enableLinkButton->setProperty("linkOn", m_linkEnabled);
+  enableLinkButton->style()->unpolish(enableLinkButton);
+  enableLinkButton->style()->polish(enableLinkButton);
+  enableLinkButton->update();
 
-  } else {
-    enableLinkButton->setText("Link");
-    enableLinkButton->setStyleSheet(theme->getAppStylesheet());
-    tapButton->setStyleSheet(theme->getAppStylesheet());
-    bpmScrubWidget->setLinkDisabled();
-  }
+  if (m_linkEnabled) bpmScrubWidget->setLinkEnabled();
+  else bpmScrubWidget->setLinkDisabled();
 }
 
 void SonicPiMetro::setBPM(double bpm)
@@ -209,9 +262,9 @@ void SonicPiMetro::setBPM(double bpm)
 
 void SonicPiMetro::updateColourTheme()
 {
+  // Qt re-applies the app-wide stylesheet itself; just re-evaluate
+  // state-dependent styling.
   updateLinkButtonDisplay();
-  timeWarpSlider->setStyleSheet(theme->getAppStylesheet());
-  timeWarpLineEdit->setStyleSheet(theme->getAppStylesheet());
 }
 
  void SonicPiMetro::paintEvent(QPaintEvent *)
@@ -226,12 +279,15 @@ void SonicPiMetro::tapTempo(int flashDelay)
 {
   qint64 timeStamp = QDateTime::currentMSecsSinceEpoch();
 
-  QString qss = QString("\nQPushButton#tapButton\n {\nborder-color: %1;\nbackground-color: %2;\ncolor: %3;\n}\n").arg(theme->color("Pane").name()).arg(theme->color("PressedButton").name()).arg(theme->color("ButtonText").name());
-  tapButton->setStyleSheet(theme->getAppStylesheet() + qss);
-
-  QTimer::singleShot(flashDelay, this, [=]() {
-    tapButton->setStyleSheet(theme->getAppStylesheet());
-  });
+  // Flash driven by the flashing dynamic property (see app.qss).
+  auto setFlashing = [this](bool on) {
+    tapButton->setProperty("flashing", on);
+    tapButton->style()->unpolish(tapButton);
+    tapButton->style()->polish(tapButton);
+    tapButton->update();
+  };
+  setFlashing(true);
+  QTimer::singleShot(flashDelay, this, [=]() { setFlashing(false); });
 
   numTaps = numTaps + 1;
 
@@ -284,4 +340,17 @@ void SonicPiMetro::setFocusTimeWarpScrubber()
   timeWarpLineEdit->setFocus();
   timeWarpLineEdit->raise();
   timeWarpLineEdit->setVisible(true);
+}
+
+void SonicPiMetro::toggleLinkAudioStreams()
+{
+  if (!linkStreamsWidget) return;
+  const bool nowVisible = !linkStreamsWidget->isVisible();
+  linkStreamsWidget->setVisible(nowVisible);
+  linkStreamsButton->setChecked(nowVisible);
+  // ↓ when expanded, ↑ when collapsed.
+  linkStreamsButton->setText(nowVisible
+      ? QString::fromUtf8("\xe2\x86\x93")
+      : QString::fromUtf8("\xe2\x86\x91"));
+  emit linkAudioStreamsExpandedChanged(nowVisible);
 }

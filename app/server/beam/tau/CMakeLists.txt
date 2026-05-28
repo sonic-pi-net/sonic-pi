@@ -28,13 +28,3 @@ ExternalProject_Add(sp_midi
         -DUSE_SYSTEM_RTMIDI=${USE_SYSTEM_LIBS}
     BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
     )
-
-ExternalProject_Add(sp_link
-    PREFIX sp_link-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../../external/sp_link
-    INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/priv
-    CMAKE_ARGS
-        -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/priv
-        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
-    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
-    )

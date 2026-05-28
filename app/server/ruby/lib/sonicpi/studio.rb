@@ -49,6 +49,13 @@ module SonicPi
       # safety check would otherwise treat as the thread running
       # behind and kill the live_loop).
       @last_cold_swap_completed_at = nil
+      # [peer, channel] tuple => AudioBus subscribed via Link Audio. Each
+      # tuple is a separate stream, kept across :stop / re-trigger so the
+      # same identity always lands on the same bus. Cleared on reboot /
+      # cold-swap by reset_and_setup_groups_and_busses (@server.reset!
+      # wipes the bus allocator, so these references would dangle).
+      @link_audio_subs = {}
+      @link_audio_mut  = Mutex.new
       # Reader-writer gate. Studio-touching methods (trigger_synth,
       # new_group, allocate_buffer, etc.) hold the read lock for the
       # duration of their work; cold_swap_reinit holds the write lock
@@ -263,6 +270,56 @@ module SonicPi
     def trigger_live_synth(name_id, synth_name, group, args, info, now=false, t_minus_delta=false, pos=:tail, pre_trig, on_move_blk)
       check_for_server_rebooting!(:trigger_live_synth)
       @server.trigger_live_synth(name_id, pos, group, synth_name, args, info, now, t_minus_delta, pre_trig, on_move_blk)
+    end
+
+    # Ensure a Link Audio subscription is active for (peer, channel) and
+    # return its audio bus index. Each tuple gets its own bus pair,
+    # allocated lazily and kept across :stop / re-trigger so a user FX
+    # chain pointing at it keeps working.
+    def ensure_link_audio_input(peer, channel, link_api)
+      check_for_server_rebooting!(:ensure_link_audio_input)
+      key = [peer, channel]
+      @link_audio_mut.synchronize do
+        bus = @link_audio_subs[key] ||= @server.allocate_audio_bus
+        # Idempotent on (peer, channel); re-issuing keeps the receive
+        # buffer alive. Stream is rendered stereo into (bus, bus+1).
+        link_api.link_audio_input_set!(peer, channel, bus.to_i)
+        bus.to_i
+      end
+    end
+
+    # Stop one (peer, channel) Link Audio stream, or every stream for the
+    # peer when channel is nil.
+    def kill_link_audio(peer, channel, link_api)
+      check_for_server_rebooting!(:kill_link_audio)
+      @link_audio_mut.synchronize do
+        keys = if channel
+                 @link_audio_subs.key?([peer, channel]) ? [[peer, channel]] : []
+               else
+                 @link_audio_subs.keys.select { |k| k.first == peer }
+               end
+        # Kill the live synth(s); each on_destroyed fires
+        # link_audio_input_gone, which drops the SuperSonic subscription.
+        # Bus records stay so a re-trigger reuses the bus pair.
+        keys.each { |k| @server.kill_live_synth(k) }
+      end
+    end
+
+    # Called from a link_audio synth's on_destroyed; drops just that
+    # SuperSonic subscription. Bus record stays for a re-trigger.
+    def link_audio_input_gone(peer, channel, link_api)
+      link_api.link_audio_input_remove!(peer, channel) if link_api
+    end
+
+    # Drop every SuperSonic Link Audio subscription at once. Cold-swap only:
+    # the World rebuild fires no node callbacks, so the per-synth
+    # on_destroyed teardown never runs; engine subs survive but point at
+    # stale busses.
+    def kill_all_link_audio(link_api)
+      return unless link_api
+      @link_audio_mut.synchronize do
+        link_api.link_audio_inputs_clear! unless @link_audio_subs.empty?
+      end
     end
 
     def trigger_synth(synth_name, group, args, info, now=false, t_minus_delta=false, pos=:tail )
@@ -719,6 +776,9 @@ module SonicPi
     def reset_and_setup_groups_and_busses
       log_message "Reset and setup groups and busses"
       log_message "Clearing scsynth"
+      # AudioBus allocator is about to be wiped; drop subscription records
+      # so a post-reset link_audio call allocates fresh.
+      @link_audio_mut.synchronize { @link_audio_subs.clear }
       @server.reset!
       log_message "Allocating audio bus"
       @mixer_bus = @server.allocate_audio_bus

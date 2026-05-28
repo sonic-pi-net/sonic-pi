@@ -44,9 +44,7 @@ start_link() ->
 init(_Args) ->
     CueServer = tau_server_cue:server_name(),
     MIDIServer = tau_server_midi:server_name(),
-    LinkServer = tau_server_link:server_name(),
     MIDIEnabled = application:get_env(?APPLICATION, midi_enabled, false),
-    LinkEnabled = application:get_env(?APPLICATION, link_enabled, false),
 
     %% Use rest_for_one since the api server requires the cue server.
     %% Try to keep going even if we restart up to 50 times per 30 seconds.
@@ -60,7 +58,7 @@ init(_Args) ->
                     start => {tau_server_cue, start_link, []}
                    },
                   #{id => tau_server_api,
-                    start => {tau_server_api, start_link, [CueServer, MIDIServer, LinkServer]}
+                    start => {tau_server_api, start_link, [CueServer, MIDIServer]}
                    }
 
                  ],
@@ -78,17 +76,4 @@ init(_Args) ->
 
                      end,
 
-    LinkChildSpecs = case LinkEnabled of
-                         true ->
-                             logger:info("Starting with Link server enabled"),
-                             [#{id    => tau_server_link,
-                                start => {tau_server_link,
-                                          start_link,
-                                          [CueServer]}} | MIDIChildSpecs];
-                         _ ->
-                             logger:info("Starting with Link server disabled"),
-                             MIDIChildSpecs
-
-                     end,
-
-    {ok, {SupFlags, LinkChildSpecs}}.
+    {ok, {SupFlags, MIDIChildSpecs}}.

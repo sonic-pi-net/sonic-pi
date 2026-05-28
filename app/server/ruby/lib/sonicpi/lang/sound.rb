@@ -188,11 +188,112 @@ module SonicPi
         STDOUT.puts "Spider - cold swap reinit starting"
         STDOUT.flush
         __stop_jobs
+        # nuke_job_scsynth_state! fires no node callbacks, so the per-synth
+        # on_destroyed teardown won't run; engine subs survive but point at
+        # stale busses. Clear them explicitly.
+        @mod_sound_studio.kill_all_link_audio(@link_api)
         nuke_job_scsynth_state!
         @mod_sound_studio.cold_swap_reinit!
         STDOUT.puts "Spider - cold swap reinit complete"
         STDOUT.flush
       end
+
+      def link_audio(*params)
+        args, opts = split_params_and_merge_opts_array(params)
+        raise "link_audio requires a peer name, e.g. link_audio \"Live\"" if args.empty?
+
+        peer = args[0].to_s
+        raise "link_audio peer name must be a non-empty String" if peer.empty?
+
+        second = args[1]
+        third  = args[2]
+
+        # `link_audio "Live", :stop` stops all of the peer's streams (no
+        # channel given); `link_audio "Live", "Main", :stop` stops just one.
+        if args.length > 1 && (second.nil? || second == :stop)
+          return @mod_sound_studio.kill_link_audio(peer, nil, @link_api)
+        end
+
+        channel = case second
+                  when nil       then "Main"
+                  when String    then (second.empty? ? "Main" : second)
+                  when Symbol    then second.to_s
+                  else raise "link_audio channel must be a String (e.g. \"Main\") or :stop, got #{second.inspect}"
+                  end
+
+        if third == :stop
+          return @mod_sound_studio.kill_link_audio(peer, channel, @link_api)
+        end
+
+        synth_name = "sonic-pi-link_audio_stereo"
+        sn_sym     = synth_name.to_sym
+        info       = Synths::SynthInfo.get_info(sn_sym)
+        synth_name = info ? info.scsynth_name : synth_name
+
+        # `on: false` yields a BlankNode; only open the SuperSonic input
+        # when actually triggering.
+        will_trigger = !opts.key?(:on) || truthy?(opts[:on])
+        if will_trigger
+          in_bus = @mod_sound_studio.ensure_link_audio_input(peer, channel, @link_api)
+          opts   = opts.merge(in_bus: in_bus)
+        end
+
+        unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
+          __delayed_message "link_audio #{peer.inspect}, #{channel.inspect}#{opts.empty? ? "" : ", #{arg_h_pp(opts)}"}"
+        end
+
+        # Live-synth id is the (peer, channel) tuple, so each channel is an
+        # independent stream with its own SynthNode.
+        sn = trigger_live_synth(synth_name, opts, current_group, info, false, current_out_bus, false, :tail, [peer, channel])
+
+        # Drop the Link input when the synth is freed (mirrors live_audio).
+        # A hot-swap migrates the node, so on_destroyed doesn't fire then.
+        # Keyed so a re-trigger replaces the callback rather than stacking.
+        if will_trigger && sn.respond_to?(:on_destroyed)
+          sn.on_destroyed(:sonic_pi_link_audio_finish) do
+            @mod_sound_studio.link_audio_input_gone(peer, channel, @link_api)
+          end
+        end
+        sn
+      end
+      doc name:           :link_audio,
+          introduced:     Version.new(7, 0, 0),
+          summary:        "A named audio stream live from an Ableton Link peer",
+          args:           [[:peer, :string], [:channel, :string]],
+          returns:        :SynthNode,
+          opts:           {amp:  "Amplitude.",
+                           pan:  "Stereo panning. -1 hard left, 0 centre, 1 hard right.",
+                           cutoff: "MIDI note for the low-pass filter cutoff. 130 ≈ open."},
+          accepts_block:  false,
+          args_size:      0,
+          doc:            "Subscribe to a remote Ableton Link Audio channel and stream it into Sonic Pi as a named live audio source. Mirrors `live_audio` but the source is another Link peer's published channel (Main, Drums, etc.) rather than a local soundcard input.
+The first argument is the **peer** name as it appears in the Link Audio Streams panel (e.g. \"Live\" for Ableton Live). The second argument is the **channel** name and defaults to \"Main\".
+Each `(peer, channel)` pair is its own independent stream — re-triggering the same pair replaces it in place (and moves it into the current FX context), while different peers or channels run concurrently. So `with_fx :reverb do; link_audio \"Live\"; end` adds reverb to that stream just as it would to a soundcard input, and `link_audio \"Live\", \"Drums\"` can play alongside `link_audio \"Live\", \"Main\"`.
+Stop a single stream with `link_audio \"Live\", :stop` (all channels for that peer) or `link_audio \"Live\", \"Drums\", :stop` (just that channel).
+",
+      examples:       [
+"
+# Stream the \"Main\" channel from a peer called \"Live\":
+link_audio \"Live\"
+",
+"
+# Pick a specific channel:
+link_audio \"Live\", \"Drums\"
+",
+"
+# Add FX live, then peel them away — same as live_audio:
+link_audio \"Live\"           # straight pass-through
+sleep 4
+with_fx :reverb do
+  link_audio \"Live\"         # now flowing through reverb
+end
+sleep 4
+link_audio \"Live\"           # back to dry
+",
+"
+# Stop the stream:
+link_audio \"Live\", :stop
+"]
 
       def live_audio(*params)
         args, opts = split_params_and_merge_opts_array(params)

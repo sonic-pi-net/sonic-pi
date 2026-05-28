@@ -11,20 +11,12 @@ defmodule Tau.Application do
     Logger.info("All systems booting....")
 
     midi_enabled = Application.get_env(:tau, :midi_enabled, false)
-    link_enabled = Application.get_env(:tau, :link_enabled, false)
 
     if midi_enabled do
       Logger.info("Initialising MIDI native interface")
       :sp_midi.init()
     else
       Logger.info("Starting without MIDI native interface")
-    end
-
-    if link_enabled do
-      Logger.info("Initialising Link native interface")
-      :sp_link.init()
-    else
-      Logger.info("Starting without Link native interface")
     end
 
     children = [

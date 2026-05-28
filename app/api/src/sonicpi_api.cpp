@@ -338,36 +338,46 @@ void SonicPiAPI::RestartTau()
 
 bool SonicPiAPI::LinkEnable()
 {
-    Message msg("/link-enable");
-    bool res = TauSendOSC(msg);
-    if (!res)
-    {
-        return false;
-    }
-    return true;
+    // visibility 2 = NetworkWide (peer discovery + Link Audio).
+    Message msg("/link/visibility");
+    msg.pushInt32(2);
+    return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkBPM(double bpm)
 {
-    Message msg("/link-set-tempo");
+    Message msg("/link/tempo/set");
     msg.pushFloat((float) bpm);
-    bool res = TauSendOSC(msg);
-    if (!res)
-    {
-        return false;
-    }
-    return true;
+    return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::LinkDisable()
 {
-    Message msg("/link-disable");
-    bool res = TauSendOSC(msg);
-    if (!res)
-    {
-        return false;
-    }
-    return true;
+    // visibility 0 = Off.
+    Message msg("/link/visibility");
+    msg.pushInt32(0);
+    return SupersonicSendOSC(msg);
+}
+
+bool SonicPiAPI::SetLinkVisibility(LinkVisibility mode)
+{
+    Message msg("/link/visibility");
+    msg.pushInt32(static_cast<int32_t>(mode));
+    return SupersonicSendOSC(msg);
+}
+
+bool SonicPiAPI::SetLinkAudioPublish(bool enabled)
+{
+    Message msg("/link/audio/publish/set");
+    msg.pushInt32(enabled ? 1 : 0);
+    return SupersonicSendOSC(msg);
+}
+
+bool SonicPiAPI::SetLinkPeerName(const std::string& name)
+{
+    Message msg("/link/peer_name/set");
+    msg.pushStr(name);
+    return SupersonicSendOSC(msg);
 }
 
 void SonicPiAPI::Shutdown()

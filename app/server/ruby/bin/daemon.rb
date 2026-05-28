@@ -720,13 +720,11 @@ module SonicPi
         ENV["TAU_CUES_ON"]                        = "true"
         ENV["TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED"] = "true"
         ENV["TAU_MIDI_ON"]                        = "true"
-        ENV["TAU_LINK_ON"]                        = "true"
         ENV["TAU_OSC_IN_UDP_PORT"]                = "#{ports["osc-cues"]}"
         ENV["TAU_API_PORT"]                       = "#{ports["tau"]}"
         ENV["TAU_SPIDER_PORT"]                    = "#{ports["spider-listen-to-tau"]}"
         ENV["TAU_DAEMON_PORT"]                    = "#{ports["daemon"]}"
         ENV["TAU_MIDI_ENABLED"]                   = "true"
-        ENV["TAU_LINK_ENABLED"]                   = "true"
         ENV["TAU_DAEMON_TOKEN"]                   = "#{token}"
         ENV["TAU_ENV"]                            = "#{ENV["SONIC_PI_ENV"] || unified_opts[:env] || "prod"}"
         ENV["MIX_ENV"]                            = ENV["TAU_ENV"]

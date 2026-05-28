@@ -14,10 +14,10 @@
 
 -module(tau_server_api).
 
--export([start_link/3]).
+-export([start_link/2]).
 
 %% internal
--export([init/4, loop/1]).
+-export([init/3, loop/1]).
 
 %% sys module callbacks
 -export([system_continue/3, system_terminate/4, system_code_change/4,
@@ -66,12 +66,12 @@
 
 
 %% supervisor compliant start function
-start_link(CueServer, MIDIServer, LinkServer) ->
+start_link(CueServer, MIDIServer) ->
     %% synchronous start of the child process
-    proc_lib:start_link(?MODULE, init, [self(), CueServer, MIDIServer, LinkServer]).
+    proc_lib:start_link(?MODULE, init, [self(), CueServer, MIDIServer]).
 
 
-init(Parent, CueServer, MIDIServer, LinkServer) ->
+init(Parent, CueServer, MIDIServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     DaemonToken = application:get_env(?APPLICATION, daemon_token, undefined),
@@ -105,7 +105,6 @@ init(Parent, CueServer, MIDIServer, LinkServer) ->
               api_socket => APISocket,
               cue_server => CueServer,
               midi_server => MIDIServer,
-              link_server => LinkServer,
               tag_map => #{}
              },
     send_to_cue({tau_ready}, State),
@@ -189,97 +188,6 @@ loop(State) ->
             send_to_cue({midi_on, Flag}, State),
             ?MODULE:loop(State);
 
-        %% Link API
-
-        {cmd, ["/api-rpc", UUID, "/link-is-on"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, is_on}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/link-disable"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_disable}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/link-enable"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_enable}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/link-reset"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_reset}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-start-stop-sync-enabled"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_start_stop_sync_enabled}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/link-set-start-stop-sync-enabled", Enabled]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_set_start_stop_sync_enabled, Enabled}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-num-peers"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_num_peers}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-tempo"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_tempo}, State),
-            ?MODULE:loop(State);
-
-        %% link_set_tempo can also be within an a timestamped OSC bundle
-
-        {cmd, ["/link-set-tempo", Tempo]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_set_tempo, Tempo}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-beat-at-time", Time, Quantum]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_beat_at_time, Time, Quantum}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-phase-at-time", Time, Quantum]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_phase_at_time, Time, Quantum}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-phase-and-beat-at-time", Time, Quantum]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_phase_and_beat_at_time, Time, Quantum}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-time-at-beat", Beat, Quantum]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_time_at_beat, Beat, Quantum}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-next-beat-and-time-at-phase", Phase, Quantum, SafetyT]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_next_beat_and_time_at_phase, Phase, Quantum, SafetyT}, State),
-            ?MODULE:loop(State);
-
-        %% link_set_is_playing needs to be within an a timestamped OSC bundle
-
-        {cmd, ["/api-rpc", UUID, "/link-get-is-playing"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_is_playing}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-time-for-is-playing"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_time_for_is_playing}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/api-rpc", UUID, "/link-get-current-time"]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_link({link_rpc, UUID, get_current_time}, State),
-            ?MODULE:loop(State);
-
         {cmd, Cmd} ->
             logger:error("Unknown OSC command:: ~p", [Cmd]),
             ?MODULE:loop(State);
@@ -293,12 +201,6 @@ loop(State) ->
             logger:error("API Server got unexpected message: ~p", [Any]),
             ?MODULE:loop(State)
     end.
-
-send_to_link(Message, State) ->
-    LinkServer = maps:get(link_server, State),
-    LinkServer ! Message,
-    ok.
-
 
 send_to_cue(Message, State) ->
     CueServer = maps:get(cue_server, State),
@@ -320,14 +222,6 @@ do_bundle(Time, Args, State) ->
                 schedule_midi(Time, "default", State, {send_midi, MIDI});
             ["/midi-at-tagged", Tag, MIDI] ->
                 schedule_midi(Time, Tag, State, {send_midi, MIDI});
-            ["/link-set-tempo", Tempo] ->
-                schedule_link(Time, "default", State, {link_set_tempo, Tempo});
-            ["/link-set-tempo-tagged", Tag, Tempo] ->
-                schedule_link(Time, Tag, State, {link_set_tempo, Tempo});
-            ["/link-set-is-playing", Enabled] ->
-                schedule_link(Time, "default", State, {link_set_is_playing, Enabled});
-            ["/link-set-is-playing-tagged", Tag, Enabled] ->
-                schedule_link(Time, Tag, State, {link_set_is_playing, Enabled});
             Other ->
                 logger:error("Unexpected bundle content:~p", Other),
                 State
@@ -352,10 +246,6 @@ schedule_internal_call(Time, Tag, State, Server, Msg) ->
     end,
     NewState.
 
-
-schedule_link(Time, Tag, State, Msg) ->
-    LinkServer = maps:get(link_server, State),
-    schedule_internal_call(Time, Tag, State, LinkServer, Msg).
 
 schedule_midi(Time, Tag, State, Msg) ->
     MIDIServer = maps:get(midi_server, State),

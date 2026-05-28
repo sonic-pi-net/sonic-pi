@@ -153,8 +153,7 @@ relevant licenses:
 ### Dynamically Linked Libraries for Tau IO Server NIFs
 
 - [sp_midi](https://github.com/sonic-pi-net/sp_midi) - [MIT License](http://opensource.org/licenses/MIT)
-- [sp_link](https://github.com/sonic-pi-net/sp_link) - [MIT License](http://opensource.org/licenses/MIT)
-- [Ableton Link](https://github.com/Ableton/link) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
+- [Ableton Link](https://github.com/Ableton/link) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html) (linked statically by SuperSonic)
 - [RtMidi](https://github.com/thestk/rtmidi) - [MIT License + sharing request](https://github.com/thestk/rtmidi/blob/master/LICENSE)
 
 ### Included Elixir Libraries for Tau IO Server

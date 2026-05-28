@@ -3673,7 +3673,7 @@ You can see the 'buckets' that the numbers between 0 and 1 fall into with the fo
   "]
 
       def link_sync(*args)
-        sync "/link/start" unless @tau_api.link_is_playing?
+        sync "/link/start" unless @link_api.link_is_playing?
         link(*args)
       end
       doc name:          :link_sync,
@@ -3752,7 +3752,7 @@ link 7, 2 # wait for the 2nd beat of the next bar
       def set_link_bpm!(bpm)
         raise ArgumentError, "use_bpm's BPM should be a positive value or :link. You tried to use: #{bpm}" unless bpm == :link || (bpm.is_a?(Numeric) && bpm > 0)
         raise ArgumentError, "set_link_bpm! requires a number for the bpm argument in the range 20 -> 999. You tried to use: #{bpm}" unless bpm.is_a?(Numeric) && bpm >= 20 && bpm <= 999
-        @tau_api.link_set_bpm_at_clock_time!(bpm.to_f, __get_spider_time)
+        @link_api.link_set_bpm!(bpm.to_f)
       end
       doc name:      :set_link_bpm!,
       introduced:    Version.new(4,0,0),
@@ -4423,7 +4423,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         return if sleep_t < 0.2
 
         if __in_link_bpm_mode
-          @tau_api.link_sleep(sleep_t) do
+          @link_api.link_sleep(sleep_t) do
             # this code runs if the sleep was short-circuited
             __change_spider_beat_and_time_by_beat_delta!(0)
           end

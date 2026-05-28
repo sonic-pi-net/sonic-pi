@@ -15,6 +15,7 @@
 
 #include <QApplication>
 #include <QBitmap>
+#include <QDateTime>
 #include <QLabel>
 #include <QLibraryInfo>
 #include <QPixmap>
@@ -69,6 +70,14 @@ int main(int argc, char* argv[])
 
     QApplication app(argc, argv);
 
+    // Splash up before any other init. shownAtMs is read by
+    // MainWindow::splashClose to enforce a minimum visible duration.
+    QPixmap pixmap(":/images/splash@2x.png");
+    QSplashScreen* splash = new QSplashScreen(pixmap);
+    splash->setProperty("shownAtMs", QDateTime::currentMSecsSinceEpoch());
+    splash->show();
+    app.processEvents();
+
 #if defined(Q_OS_DARWIN)
     // Request mic access from the foreground GUI process — requesting from
     // a background helper (like supersonic) gets auto-denied by macOS.
@@ -86,12 +95,6 @@ int main(int argc, char* argv[])
     app.setApplicationName(QObject::tr("Sonic Pi"));
 
     app.setStyle("fusion");
-
-    QPixmap pixmap(":/images/splash@2x.png");
-
-    QSplashScreen* splash = new QSplashScreen(pixmap);
-    splash->show();
-    app.processEvents();
 
     MainWindow mainWin(app, splash);
 

@@ -377,6 +377,19 @@ public:
     virtual bool LinkEnable();
     virtual bool LinkDisable();
 
+    // SuperSonic network visibility: 0=Off, 1=LoopbackOnly, 2=NetworkWide.
+    // Master gate for Link mesh + (when publish is on) Link Audio.
+    enum class LinkVisibility { Off = 0, LoopbackOnly = 1, NetworkWide = 2 };
+    virtual bool SetLinkVisibility(LinkVisibility mode);
+
+    // Link Audio publish opt-in. Default off; channels aren't advertised
+    // or sent until the user enables this.
+    virtual bool SetLinkAudioPublish(bool enabled);
+
+    // Identifier broadcast to other Link peers (default "SuperSonic";
+    // Sonic Pi sets it to "Sonic Pi" on boot).
+    virtual bool SetLinkPeerName(const std::string& name);
+
     virtual bool SetLinkBPM(double bpm);
     virtual void SetGlobalTimeWarp(double time);
 
