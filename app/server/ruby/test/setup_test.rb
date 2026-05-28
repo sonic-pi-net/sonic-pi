@@ -54,6 +54,19 @@ module SonicPi
 
   end
 
+  class MockLinkAPI
+    def link_tempo(*); 60.0; end
+    def link_is_playing?; false; end
+    def link_set_bpm!(*); end
+    def link_sleep(*); end
+    def link_get_beat_at_clock_time(*); 0.0; end
+    def link_get_clock_time_at_beat(*); Time.now.to_f; end
+    def link_get_next_beat_and_clock_time_at_phase(*); [0.0, Time.now.to_f]; end
+    def link_audio_input_set!(*); end
+    def link_audio_input_remove!(*); end
+    def link_audio_inputs_clear!(*); end
+  end
+
   class MockLang
     attr_accessor :mod_sound_studio, :sample_loader, :msg_queue, :event_history
     include SonicPi::RuntimeMethods
@@ -157,6 +170,7 @@ module SonicPi
       #                       })
 
       @tau_api = MockTauAPI.new
+      @link_api = MockLinkAPI.new
 
       begin
         @gitsave = GitSave.new(Paths.project_path)
