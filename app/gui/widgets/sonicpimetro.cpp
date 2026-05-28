@@ -287,7 +287,7 @@ void SonicPiMetro::tapTempo(int flashDelay)
     tapButton->update();
   };
   setFlashing(true);
-  QTimer::singleShot(flashDelay, this, [this]() { setFlashing(false); });
+  QTimer::singleShot(flashDelay, this, [=]() { setFlashing(false); });
 
   numTaps = numTaps + 1;
 
