@@ -432,7 +432,6 @@ void MainWindow::setupWindowStructure()
 
     // create workspaces and add them to the tabs
     // workspace shortcuts
-    signalMapper = new QSignalMapper(this);
     QVBoxLayout* prefsLayout = new QVBoxLayout;
     prefsWidget = new QWidget;
     prefsWidget->setParent(this);
@@ -584,7 +583,7 @@ void MainWindow::setupWindowStructure()
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
     }
 
-    connect(signalMapper, SIGNAL(mappedInt(int)), this, SLOT(changeTab(int)));
+    connect(editorTabWidget, SIGNAL(currentChanged(int)), this, SLOT(focusEditor()));
 
     QFont font("Hack", 10);
     font.setStyleHint(QFont::Monospace);
@@ -812,11 +811,6 @@ void MainWindow::escapeWorkspaces()
     }
 
     getCurrentWorkspace()->setFocus();
-}
-
-void MainWindow::changeTab(int id)
-{
-    editorTabWidget->setCurrentIndex(id);
 }
 
 void MainWindow::toggleFullScreenMode()
