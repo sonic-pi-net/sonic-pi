@@ -1470,6 +1470,7 @@ void SettingsWidget::updateEnableScsynthInputs() {
         audio_input_combo->setEnabled(true);
     }
     emit enableScsynthInputsChanged();
+    updateMicPermissionStatus(); // show/hide the mic notice to match the toggle
 }
 
 void SettingsWidget::update_mixer_invert_stereo() {
@@ -1838,6 +1839,15 @@ void SettingsWidget::applyAsioInputConstraints() {
 
 void SettingsWidget::updateMicPermissionStatus() {
 #if defined(Q_OS_DARWIN)
+    // The microphone only feeds live_audio / :sound_in, so this notice is only
+    // relevant when audio inputs are enabled. With inputs off, stay hidden.
+    if (!enable_scsynth_inputs->isChecked()) {
+        mic_permission_label->setVisible(false);
+        mic_permission_settings_button->setVisible(false);
+        m_lastMicPermissionStatus.clear(); // re-evaluate when inputs are re-enabled
+        return;
+    }
+
     std::string status = SonicPi::microphonePermissionStatus();
     if (status == m_lastMicPermissionStatus) return;  // no-op change
     m_lastMicPermissionStatus = status;
@@ -1849,9 +1859,9 @@ void SettingsWidget::updateMicPermissionStatus() {
     } else {
         QString msg;
         if (status == "denied")
-            msg = tr("⚠ Microphone access DENIED — live_audio / :sound_in will be silent.");
+            msg = tr("Sonic Pi doesn't have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.");
         else if (status == "restricted")
-            msg = tr("⚠ Microphone access is restricted by system policy.");
+            msg = tr("Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.");
         else  // notDetermined
             msg = tr("Microphone access not yet granted — click below to open System Settings.");
         mic_permission_label->setText(msg);
