@@ -411,6 +411,9 @@ private:
 
     SonicPiScintilla* getCurrentWorkspace();
     SonicPiEditor* getCurrentEditor();
+    // The synth in effect at the cursor (last use_synth/with_synth before it),
+    // defaulting to "beep". Drives synth-aware `play` autocompletion.
+    QString currentSynthForCompletion();
     void resizeEvent(QResizeEvent* e) override;
     void movePrefsWidget();
     void slidePrefsWidgetIn();

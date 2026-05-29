@@ -16,6 +16,7 @@
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QSet>
+#include <QStringList>
 #include <QTableWidgetItem>
 #include <algorithm>
 #include <QHBoxLayout>
@@ -451,7 +452,19 @@ void LinkAudioStreamsWidget::readPendingDatagrams()
         if (!peek.readStr(addr)) continue;
 
         if (addr == "/link/audio/channels.reply") {
-            m_channels = parseChannelsReply(buf);
+            QVector<PeerChannel> incoming = parseChannelsReply(buf);
+            if (incoming != m_channels) {
+                m_channels = incoming;
+                // Surface deduped peer / channel names to the editor autocompletion.
+                QStringList peers, channels;
+                for (const PeerChannel& pc : m_channels) {
+                    const QString p = QStringLiteral("\"%1\"").arg(pc.peerName);
+                    const QString c = QStringLiteral("\"%1\"").arg(pc.channelName);
+                    if (!peers.contains(p)) peers << p;
+                    if (!channels.contains(c)) channels << c;
+                }
+                emit linkAudioStreamsChanged(peers, channels);
+            }
             renderPeersTable();
         } else if (addr == "/link/audio/inputs.reply") {
             m_inputs = parseInputsReply(buf);

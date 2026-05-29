@@ -37,6 +37,9 @@ public:
     struct PeerChannel {
         QString peerName;
         QString channelName;
+        bool operator==(const PeerChannel& o) const {
+            return peerName == o.peerName && channelName == o.channelName;
+        }
     };
 
     // Mirrors SuperClock::LinkAudioConnectionState.
@@ -69,6 +72,10 @@ signals:
     // In-panel visibility toggle changed; MainWindow handles it via the
     // same path as the prefs radios (persist + propagate to SuperSonic + Tau).
     void requestNetworkVisibilityChange(int mode);
+
+    // Announced peers / channels changed; MainWindow feeds these to the editor
+    // autocompletion so link_audio can complete peer and channel names.
+    void linkAudioStreamsChanged(const QStringList& peers, const QStringList& channels);
 
 private slots:
     void refresh();

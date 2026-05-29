@@ -103,6 +103,8 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     setAutoCompletionThreshold(1);
     setAutoCompletionSource(SonicPiScintilla::AcsAPIs);
     setAutoCompletionCaseSensitivity(false);
+    SendScintilla(SCI_AUTOCSETMAXHEIGHT, 14);
+    SendScintilla(SCI_AUTOCSETMAXWIDTH, 0);
 
     setSelectionBackgroundColor(theme->color("SelectionBackground"));
     setSelectionForegroundColor(theme->color("SelectionForeground"));

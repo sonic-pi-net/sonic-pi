@@ -30,9 +30,9 @@ ScintillaAPI::ScintillaAPI(QsciLexer *lexer)
   keywords[Scale] << ":diatonic" << ":ionian" << ":major" << ":dorian" << ":phrygian" << ":lydian" << ":mixolydian" << ":aeolian" << ":minor" << ":locrian" << ":hex_major6" << ":hex_dorian" << ":hex_phrygian" << ":hex_major7" << ":hex_sus" << ":hex_aeolian" << ":minor_pentatonic" << ":yu" << ":major_pentatonic" << ":gong" << ":egyptian" << ":shang" << ":jiao" << ":zhi" << ":ritusen" << ":whole_tone" << ":whole" << ":chromatic" << ":harmonic_minor" << ":melodic_minor_asc" << ":hungarian_minor" << ":octatonic" << ":messiaen1" << ":messiaen2" << ":messiaen3" << ":messiaen4" << ":messiaen5" << ":messiaen6" << ":messiaen7" << ":super_locrian" << ":hirajoshi" << ":kumoi" << ":neapolitan_major" << ":bartok" << ":bhairav" << ":locrian_major" << ":ahirbhairav" << ":enigmatic" << ":neapolitan_minor" << ":pelog" << ":augmented2" << ":scriabin" << ":harmonic_major" << ":melodic_minor_desc" << ":romanian_minor" << ":hindu" << ":iwato" << ":melodic_minor" << ":diminished2" << ":marva" << ":melodic_major" << ":indian" << ":spanish" << ":prometheus" << ":diminished" << ":todi" << ":leading_whole" << ":augmented" << ":purvi" << ":chinese" << ":lydian_minor" << ":blues_major" << ":blues_minor" << ":cargah" << ":buselik" << ":buselik_2" << ":kurdi" << ":rast" << ":acemli_rast" << ":ussak" << ":bayati" << ":bayati_2" << ":isfahan" << ":isfahan_2" << ":hicaz_humayun" << ":hicaz_humayun_2" << ":hicaz" << ":hicaz_2" << ":uzzal" << ":uzzal_2" << ":zirguleli_hicaz" << ":zirguleli_hicaz_2" << ":huseyni" << ":huseyni_2" << ":muhayyer" << ":gulizar" << ":neva" << ":neva_2" << ":tahir" << ":tahir_2" << ":karcigar" << ":suznak" << ":suznak_2" << ":mahur" << ":acem_asiran" << ":nihavend" << ":nihavend_2" << ":sultani_yegah" << ":sultani_yegah_2" << ":kurdili_hicazkar" << ":kurdili_hicazkar_2" << ":kurdili_hicazkar_3" << ":kurdili_hicazkar_4" << ":kurdili_hicazkar_5" << ":zirguleli_suznak" << ":zirguleli_suznak_2" << ":zirguleli_suznak_3" << ":hicazkar" << ":hicazkar_2" << ":evcara" << ":evcara_2" << ":evcara_3" << ":evcara_4" << ":suzidil" << ":suzidil_2" << ":sedaraban" << ":sedaraban_2" << ":segah" << ":segah_2" << ":huzzam" << ":huzzam_2" << ":bayati_araban" << ":acem_kurdi" << ":sehnaz" << ":sehnaz_2" << ":sehnaz_3" << ":sehnaz_4" << ":saba" << ":dugah" << ":dugah_2" << ":evic" << ":evic_2" << ":bestenigar" << ":ferahnak" << ":sevkefza" << ":sevkefza_2" << ":sevkefza_3" << ":ferahfeza" << ":ferahfeza_2" << ":yegah" << ":yegah_2";
 
 
-  keywords[PlayParam] << "amp:" << "attack:" << "release:" << "sustain:" << "decay:" << "env_curve:" << "sustain_level:" << "pan:" << "attack_level:" << "decay_level:" << "on:" << "slide:" << "pitch:";
-
-  keywords[SampleParam] << "amp:" << "pan:" << "attack:" << "decay:" << "sustain:" << "release:" << "attack_level:" << "decay_level:" << "sustain_level:" << "env_curve:" << "rate:" << "beat_stretch:" << "start:" << "finish:" << "slice:" << "num_slices:" << "onset:" << "on:" << "res:" << "lpf:" << "lpf_min:" << "lpf_attack:" << "lpf_decay:" << "lpf_sustain:" << "lpf_release:" << "lpf_init_level:" << "lpf_attack_level:" << "lpf_decay_level:" << "lpf_sustain_level:" << "lpf_release_level" << "lpf_env_curve:" << "hpf:" << "hpf_max:" <<"hpf_attack:" << "hpf_decay:" << "hpf_sustain:" << "hpf_release:" << "hpf_init_level:" << "hpf_attack_level:" << "hpf_decay_level:" << "hpf_sustain_level:" <<  "hpf_release_level:" << "hpf_env_curve:" << "norm:" << "rpitch:" << "pitch:" << "pitch_stretch:" << "window_size:" << "pitch_dis:" << "time_dis:" << "compress:" << "threshold:" << "clamp_time:" << "slope_above:" << "slope_below:" << "relax_time:" << "pre_amp:" << "cutoff:" << "cutoff_slide:" << "cutoff_slide_curve:" << "cutoff_slide_shape:";
+  // PlayParam and SampleParam are filled from synthinfo.rb at runtime via
+  // setPlayArgs()/setSampleArgs() (generated into initDocsWindow), so they
+  // stay in sync with the actual synthdefs rather than drifting here.
 
   keywords[Examples] << ":haunted" << ":ambient_experiment" << ":chord_inversions" << ":filtered_dnb" << ":fm_noise" << ":jungle" << ":ocean" << ":reich_phase" << ":acid" << ":ambient" << ":compus_beats" << ":echo_drama" << ":idm_breakbeat" << ":tron_bike" << ":wob_rhyth" << ":bach" << ":driving_pulse" << ":monday_blues" << ":rerezzed" << ":square_skit" << ":blimp_zones" << ":blip_rhythm" << ":shufflit" << ":tilburg_2" << ":time_machine" << ":sonic_dreams" << ":blockgame" << ":cloud_beat" << ":lorezzed";
 
@@ -74,7 +74,10 @@ void ScintillaAPI::addSynthArgs(QString fx, QStringList args) {
 }
 
 void ScintillaAPI::addCuePath(QString path) {
-  keywords[CuePath] << path;
+  // Cues arrive repeatedly during a session; only keep one entry per path so
+  // the sync/cue/get/set completion list doesn't fill with duplicates.
+  if (!keywords[CuePath].contains(path))
+    keywords[CuePath] << path;
 }
 
 void ScintillaAPI::updateMidiOuts(QString port_info) {
@@ -85,6 +88,24 @@ void ScintillaAPI::updateMidiOuts(QString port_info) {
     {
       keywords[MidiOuts] << QString("\"%1\"").arg(i);
     }
+}
+
+void ScintillaAPI::updateLinkAudioStreams(const QStringList& peers, const QStringList& channels) {
+  // Quoted peer / channel names announced on the network, for link_audio.
+  keywords[LinkAudioPeer] = peers;
+  keywords[LinkAudioChannel] = channels;
+}
+
+void ScintillaAPI::setPlayArgs(const QStringList& args) {
+  keywords[PlayParam] = args;
+}
+
+void ScintillaAPI::setSampleArgs(const QStringList& args) {
+  keywords[SampleParam] = args;
+}
+
+void ScintillaAPI::setSynthResolver(std::function<QString()> resolver) {
+  synthResolver = resolver;
 }
 
 void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
@@ -155,9 +176,19 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
       return;
     }
 
-  // Play params
+  // Play params — only the opts for the synth currently in effect (set by
+  // use_synth, resolved live from the editor; defaults to :beep). Falls back to
+  // the generic PlayParam list only if that synth's args aren't known.
   } else if (words.length() >= 2 && first == "play") {
     if (last.endsWith(':')) return; // don't try to complete parameters
+    QString synth = synthResolver ? synthResolver() : QString();
+    if (!synth.isEmpty()) {
+      QString key = synth.startsWith(':') ? synth : (":" + synth);
+      if (synthArgs.contains(key)) {
+        list = synthArgs[key];
+        return;
+      }
+    }
     ctx = PlayParam;
 
   // Sample params
@@ -172,6 +203,13 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
   }  else if (words.length() >= 2 && first == "midi") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = MidiParam;
+
+  // link_audio: peer name as the first arg, channel name as the second
+  } else if (last == "link_audio") {
+    ctx = LinkAudioPeer;
+  } else if (words.length() >= 2 && first == "link_audio") {
+    if (last.endsWith(':')) return; // don't try to complete opts
+    ctx = LinkAudioChannel;
   } else if (context.length() > 1) {
     if (partial.length() <= 2) {
       // don't attempt to autocomplete other words on the same line

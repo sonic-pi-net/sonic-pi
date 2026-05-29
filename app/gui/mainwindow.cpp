@@ -26,6 +26,7 @@
 #include <QDockWidget>
 #include <QDateTime>
 #include <QDir>
+#include <QRegularExpression>
 #include <QFile>
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -458,6 +459,10 @@ void MainWindow::setupWindowStructure()
                     gui_settings->setValue("supersonic/networkVisibility", mode);
                     metroPane->onSupersonicNetworkVisibilityChanged(mode);
                 });
+        connect(lasw, &LinkAudioStreamsWidget::linkAudioStreamsChanged,
+                this, [this](const QStringList& peers, const QStringList& channels) {
+                    if (autocomplete) autocomplete->updateLinkAudioStreams(peers, channels);
+                });
     }
     connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
     connect(settingsWidget, SIGNAL(showAutoCompletionChanged()), this, SLOT(changeShowAutoCompletion()));
@@ -596,6 +601,9 @@ void MainWindow::setupWindowStructure()
     lexer->setDefaultFont(font);
 
     autocomplete = new ScintillaAPI(lexer);
+    // Let `play` completion show only the active synth's opts by resolving the
+    // in-effect use_synth from the focused buffer at completion time.
+    autocomplete->setSynthResolver([this]() { return currentSynthForCompletion(); });
     // adding universal shortcuts to outputpane seems to
     // steal events from doc system!?
     // addUniversalCopyShortcuts(outputPane);
@@ -5493,6 +5501,28 @@ SonicPiScintilla* MainWindow::getCurrentWorkspace()
 SonicPiEditor* MainWindow::getCurrentEditor()
 {
     return (SonicPiEditor*)editorTabWidget->currentWidget();
+}
+
+QString MainWindow::currentSynthForCompletion()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    if (!ws) return "beep";
+    int line = 0, index = 0;
+    ws->getCursorPosition(&line, &index);
+    // Text from the start of the buffer up to (and including) the cursor line.
+    QString preceding;
+    for (int i = 0; i <= line; ++i)
+        preceding += ws->text(i);
+    // The last literal use_synth / with_synth before the cursor wins. Dynamic
+    // forms (variables, expressions) can't be resolved statically, so we fall
+    // back to the default synth, :beep.
+    static const QRegularExpression re(
+        QStringLiteral("(?:use_synth|with_synth)\\s+:([A-Za-z0-9_]+)"));
+    QString synth = QStringLiteral("beep");
+    auto it = re.globalMatch(preceding);
+    while (it.hasNext())
+        synth = it.next().captured(1);
+    return synth;
 }
 
 void MainWindow::updateScsynthInfo(QString description)

@@ -13,11 +13,12 @@
 
 #include <Qsci/qsciabstractapis.h>
 #include <QHash>
+#include <functional>
 
 class ScintillaAPI : public QsciAbstractAPIs
 {
  public:
-  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam, Tuning, Examples, MidiParam, MidiOuts, CuePath, RandomSource, NContext};
+  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam, Tuning, Examples, MidiParam, MidiOuts, CuePath, RandomSource, LinkAudioPeer, LinkAudioChannel, NContext};
 
   ScintillaAPI(QsciLexer *lexer);
 
@@ -28,6 +29,12 @@ class ScintillaAPI : public QsciAbstractAPIs
   void addCuePath(QString path);
   void loadSamples(QString sample_path);
   void updateMidiOuts(QString port_info);
+  void updateLinkAudioStreams(const QStringList& peers, const QStringList& channels);
+  void setPlayArgs(const QStringList& args);
+  void setSampleArgs(const QStringList& args);
+  // Resolver returning the synth in effect at the cursor (e.g. "dsaw" set by
+  // use_synth), so `play` completes only that synth's opts. Empty = unknown.
+  void setSynthResolver(std::function<QString()> resolver);
 
 
   //! \reimp
@@ -43,4 +50,5 @@ class ScintillaAPI : public QsciAbstractAPIs
   QStringList keywords[NContext];
   QHash<QString, QStringList> fxArgs;
   QHash<QString, QStringList> synthArgs;
+  std::function<QString()> synthResolver;
 };

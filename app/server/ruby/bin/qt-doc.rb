@@ -310,6 +310,25 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n\n"
 end
 
+# play completes the opts of whichever synth use_synth selected (resolved live
+# in the GUI). This list is only the fallback when that synth is unknown, so we
+# use the default synth (:beep). sample opts come from the stereo sample player.
+docs << "  // play opts fallback (default synth :beep)\n"
+docs << "  fxtmp.clear(); fxtmp "
+SonicPi::Synths::SynthInfo.get_all[:beep].arg_info.each do |ak, av|
+  docs << "<< \"#{ak}:\" ";
+end
+docs << ";\n"
+docs << "  autocomplete->setPlayArgs(fxtmp);\n\n"
+
+docs << "  // sample opts (:stereo_player)\n"
+docs << "  fxtmp.clear(); fxtmp "
+SonicPi::Synths::SynthInfo.get_all[:stereo_player].arg_info.each do |ak, av|
+  docs << "<< \"#{ak}:\" ";
+end
+docs << ";\n"
+docs << "  autocomplete->setSampleArgs(fxtmp);\n\n"
+
 def generate_ui_lang_names
   # Define the language list map -----
   ui_languages = @lang_names.keys
