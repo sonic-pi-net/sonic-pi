@@ -3,7 +3,7 @@ B.2 Shortcut Cheatsheet
 # Shortcut Cheatsheet
 
 The following is a summary of the main Emacs Live shortcuts available within Sonic
-Pi. The Mac and Windows | Linux modes differ - switch between them in `IO ->
+Pi. The Mac and Windows \| Linux modes differ - switch between them in `IO ->
 Shortcut Mode`, or open `Preferences -> Shortcuts` to view every binding and
 build your own. Please see Section B.1 for motivation and background.
 

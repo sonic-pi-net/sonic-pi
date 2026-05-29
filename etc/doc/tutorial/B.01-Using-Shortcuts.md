@@ -26,7 +26,7 @@ all makes to have similar controls and fingerings. If they didn't, you'd
 have a tough time switching between different clarinets and you'd be
 stuck to using just one make.
 
-Unfortunately there are a number of standards for shortcuts with macOS and Windows being two of the major styles and other more esoteric editors such as Emacs offering other approaches. You can choose between these three styles - *Mac*, *Windows | Linux* and *Emacs Live* - using the menu `IO -> Shortcut Mode`. You can therefore switch between a Windows and a macOS machine and keep your shortcuts consistent.
+Unfortunately there are a number of standards for shortcuts with macOS and Windows being two of the major styles and other more esoteric editors such as Emacs offering other approaches. You can choose between these three styles - *Mac*, *Windows \| Linux* and *Emacs Live* - using the menu `IO -> Shortcut Mode`. You can therefore switch between a Windows and a macOS machine and keep your shortcuts consistent.
 
 ## Customising your Shortcuts
 
