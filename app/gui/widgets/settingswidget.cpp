@@ -422,11 +422,11 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     recording_type_audio_radio = new QRadioButton(tr("Audio Only"));
     recording_type_audio_radio->setToolTip(tr(
-        "supersonic writes a .wav of the master mix"));
+        "SuperSonic writes a .wav of the master mix"));
 
     recording_type_av_radio = new QRadioButton(tr("Audio + Video"));
     recording_type_av_radio->setToolTip(tr(
-        "captures the Sonic Pi window plus master mix into a .mov\n"
+        "Captures the Sonic Pi window plus master mix into a .mov\n"
         "(macOS) or .mp4 (Windows) using GPU-accelerated screen capture"));
 
     // Button IDs are the enum values so the idClicked(int) signal
