@@ -437,10 +437,12 @@ void MainWindow::setupWindowStructure()
     prefsWidget->setParent(this);
     prefsWidget->hide();
 
-    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, this);
+    settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, shortcutsConfigPath(), this);
     settingsWidget->setObjectName("settings");
     settingsWidget->setAttribute(Qt::WA_StyledBackground, true);
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
+    connect(settingsWidget, &SettingsWidget::shortcutsApplyRequested, this, &MainWindow::applyUserShortcuts);
+    connect(settingsWidget, &SettingsWidget::shortcutSchemeChanged, this, &MainWindow::shortcutModeMenuChanged);
     connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
     connect(settingsWidget, SIGNAL(enableScsynthInputsChanged()), this, SLOT(changeEnableScsynthInputs()));
@@ -1451,6 +1453,42 @@ void MainWindow::wordLeftInCurrentWorkspace()
 {
     SonicPiScintilla* ws = getCurrentWorkspace();
     ws->wordLeft();
+}
+
+void MainWindow::selectLineStartInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->selectLineStart();
+}
+
+void MainWindow::selectLineEndInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->selectLineEnd();
+}
+
+void MainWindow::selectWordRightInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->selectWordRight();
+}
+
+void MainWindow::selectWordLeftInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->selectWordLeft();
+}
+
+void MainWindow::selectDocStartInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->selectDocStart();
+}
+
+void MainWindow::selectDocEndInCurrentWorkspace()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->selectDocEnd();
 }
 
 void MainWindow::centerCaretInCurrentWorkspace()
@@ -2954,15 +2992,6 @@ QKeySequence MainWindow::metaKey(const QString& key)
 #endif
 }
 
-Qt::Modifier MainWindow::metaKeyModifier()
-{
-#ifdef Q_OS_MAC
-    return Qt::CTRL;
-#else
-    return Qt::ALT;
-#endif
-}
-
 QKeySequence MainWindow::shiftMetaKey(const QString& key)
 {
 #ifdef Q_OS_MAC
@@ -2978,15 +3007,6 @@ QKeySequence MainWindow::ctrlMetaKey(const QString& key)
     return QKeySequence(QString("Ctrl+Meta+%1").arg(key));
 #else
     return QKeySequence(QString("Ctrl+alt+%1").arg(key));
-#endif
-}
-
-QKeySequence MainWindow::ctrlShiftMetaKey(const QString& key)
-{
-#ifdef Q_OS_MAC
-    return QKeySequence(QString("Shift+Ctrl+Meta+%1").arg(key));
-#else
-    return QKeySequence(QString("Shift+Ctrl+alt+%1").arg(key));
 #endif
 }
 
@@ -3057,12 +3077,6 @@ QKeySequence MainWindow::resolveShortcut(QString keySequence)
     else if (keySequence.startsWith("shiftctrl+"))
     {
         return ctrlShiftKey(keySequence.mid(10));
-        // } else if (keySequence.startsWith("altshift")) {
-        //     QChar key = keySequence.mid(9, 1).at(0);
-        //     return shiftAltKey(key.toLatin1());
-        // } else if (keySequence.startsWith("shiftalt")) {
-        //     QChar key = keySequence.mid(9, 1).at(0);
-        //     return shiftAltKey(key.toLatin1());
     }
     else if (keySequence.startsWith("meta+"))
     {
@@ -3094,12 +3108,105 @@ void MainWindow::resetShortcuts()
 
 void MainWindow::loadUserShortcut(const QString& id, QSettings& shortcut_settings)
 {
-    shortcutMap[id] = resolveShortcut(shortcut_settings.value(id, "").toString());
+    // Custom mode is a base preset plus diffs: only overlay the ids the user
+    // actually overrode, leaving the base value for everything else.
+    if (shortcut_settings.contains(id))
+    {
+        shortcutMap[id] = resolveShortcut(shortcut_settings.value(id).toString());
+    }
+}
+
+const QList<ShortcutDef>& MainWindow::shortcutDefs()
+{
+    static const QList<ShortcutDef> defs = {
+    { "Run", QT_TR_NOOP("Run the code in the current buffer"), "Meta+R", "Meta+R", "Meta+R", "Live", &MainWindow::runAct },
+    { "Stop", QT_TR_NOOP("Stop all running code"), "Meta+S", "Meta+S", "Meta+S", "Live", &MainWindow::stopAct },
+    { "Record", QT_TR_NOOP("Start recording to a WAV audio file"), "ShiftMeta+R", "ShiftMeta+R", "ShiftMeta+R", "Live", &MainWindow::recAct },
+    { "Save", QT_TR_NOOP("Save current buffer as an external file"), "ShiftMeta+S", "CtrlShift+S", "ShiftMeta+S", "Live", &MainWindow::saveAsAct },
+    { "Load", QT_TR_NOOP("Load an external file in the current buffer"), "Ctrl+O", "Ctrl+O", "ShiftMeta+O", "Live", &MainWindow::loadFileAct },
+    { "Align", QT_TR_NOOP("Align code to improve readability"), "Meta+M", "Meta+M", "Meta+M", "Code", &MainWindow::textAlignAct },
+    { "Comment", QT_TR_NOOP("Comment/Uncomment code"), "Meta+/", "Meta+/", "Meta+/", "Code", &MainWindow::textCommentAct },
+    { "Transpose", QT_TR_NOOP("Transpose Characters"), "Ctrl+T", "Ctrl+T", "Ctrl+T", "Code", &MainWindow::textTransposeAct },
+    { "ShiftUp", QT_TR_NOOP("Shift Line or Selection Up"), "Alt+Up", "CtrlMeta+P", "CtrlMeta+P", "Code", &MainWindow::textShiftLineUpAct },
+    { "ShiftDown", QT_TR_NOOP("Shift Line or Selection Down"), "Alt+Down", "CtrlMeta+N", "CtrlMeta+N", "Code", &MainWindow::textShiftLineDownAct },
+    { "ContextualDocs", QT_TR_NOOP("Look up documentation for the current word"), "Shift+F1", "Shift+F1", "Ctrl+I", "Focus", &MainWindow::contextHelpAct },
+    { "TextZoomIn", QT_TR_NOOP("Increase Text Size"), "Meta+=", "Ctrl++", "Meta+=", "View", &MainWindow::textIncAct },
+    { "TextZoomOut", QT_TR_NOOP("Decrease Text Size"), "Meta+-", "Ctrl+-", "Meta+-", "View", &MainWindow::textDecAct },
+    { "Scope", QT_TR_NOOP("Toggle visibility of audio oscilloscope"), "Meta+O", "Meta+O", "Meta+O", "Visuals", &MainWindow::scopeAct },
+    { "CycleThemes", QT_TR_NOOP("Cycle through the available colour themes"), "ShiftMeta+M", "ShiftMeta+M", "ShiftMeta+M", "Visuals", &MainWindow::cycleThemesAct },
+    { "Info", QT_TR_NOOP("Toggle information about Sonic Pi"), "Meta+n", "Meta+1", "Meta+1", "View", &MainWindow::infoAct },
+    { "Help", QT_TR_NOOP("Toggle the visibility of the help pane"), "F1", "F1", "Meta+i", "View", &MainWindow::helpAct },
+    { "Prefs", QT_TR_NOOP("Toggle the visibility of the preferences pane"), "Meta+p", "Meta+p", "Meta+p", "View", &MainWindow::prefsAct },
+    { "TabPrev", QT_TR_NOOP("Switch to the previous tab"), "ShiftMeta+[", "ShiftMeta+[", "ShiftMeta+[", "Focus", &MainWindow::tabPrevAct },
+    { "TabNext", QT_TR_NOOP("Switch to the next tab"), "ShiftMeta+]", "ShiftMeta+]", "ShiftMeta+]", "Focus", &MainWindow::tabNextAct },
+    { "Tab1", QT_TR_NOOP("Switch to tab 1"), "Meta+1", "ShiftMeta+1", "ShiftMeta+1", "Focus", &MainWindow::tab1Act },
+    { "Tab2", QT_TR_NOOP("Switch to tab 2"), "Meta+2", "ShiftMeta+2", "ShiftMeta+2", "Focus", &MainWindow::tab2Act },
+    { "Tab3", QT_TR_NOOP("Switch to tab 3"), "Meta+3", "ShiftMeta+3", "ShiftMeta+3", "Focus", &MainWindow::tab3Act },
+    { "Tab4", QT_TR_NOOP("Switch to tab 4"), "Meta+4", "ShiftMeta+4", "ShiftMeta+4", "Focus", &MainWindow::tab4Act },
+    { "Tab5", QT_TR_NOOP("Switch to tab 5"), "Meta+5", "ShiftMeta+5", "ShiftMeta+5", "Focus", &MainWindow::tab5Act },
+    { "Tab6", QT_TR_NOOP("Switch to tab 6"), "Meta+6", "ShiftMeta+6", "ShiftMeta+6", "Focus", &MainWindow::tab6Act },
+    { "Tab7", QT_TR_NOOP("Switch to tab 7"), "Meta+7", "ShiftMeta+7", "ShiftMeta+7", "Focus", &MainWindow::tab7Act },
+    { "Tab8", QT_TR_NOOP("Switch to tab 8"), "Meta+8", "ShiftMeta+8", "ShiftMeta+8", "Focus", &MainWindow::tab8Act },
+    { "Tab9", QT_TR_NOOP("Switch to tab 9"), "Meta+9", "ShiftMeta+9", "ShiftMeta+9", "Focus", &MainWindow::tab9Act },
+    { "Tab0", QT_TR_NOOP("Switch to tab 0"), "Meta+0", "ShiftMeta+0", "ShiftMeta+0", "Focus", &MainWindow::tab0Act },
+    { "Link", QT_TR_NOOP("Connect or disconnect the Link Metronome from the network"), "Meta+t", "Meta+t", "Meta+t", "Audio", &MainWindow::enableLinkAct },
+    { "TapTempo", QT_TR_NOOP("Click Link Tap Tempo"), "Shift+Return", "Shift+Return", "Shift+Return", "Audio", &MainWindow::linkTapTempoAct },
+    { "FocusEditor", QT_TR_NOOP("Place focus on the code editor"), "CtrlShift+e", "CtrlShift+e", "CtrlShift+e", "Focus", &MainWindow::focusEditorAct },
+    { "FocusLogs", QT_TR_NOOP("Place focus on the logs"), "CtrlShift+l", "CtrlShift+l", "CtrlShift+l", "Focus", &MainWindow::focusLogsAct },
+    { "FocusContext", QT_TR_NOOP("Place focus on the context pane"), "CtrlShift+t", "CtrlShift+t", "CtrlShift+t", "Focus", &MainWindow::focusContextAct },
+    { "FocusCues", QT_TR_NOOP("Place focus on the cue event pane"), "CtrlShift+c", "CtrlShift+c", "CtrlShift+c", "Focus", &MainWindow::focusCuesAct },
+    { "FocusPrefs", QT_TR_NOOP("Place focus on preferences"), "Meta+,", "Meta+,", "CtrlShift+p", "Focus", &MainWindow::focusPreferencesAct },
+    { "FocusHelpListing", QT_TR_NOOP("Place focus on help listing"), "CtrlShift+h", "CtrlShift+h", "CtrlShift+h", "Focus", &MainWindow::focusHelpListingAct },
+    { "FocusHelpDetails", QT_TR_NOOP("Place focus on help details"), "CtrlShift+d", "CtrlShift+d", "CtrlShift+d", "Focus", &MainWindow::focusHelpDetailsAct },
+    { "FocusErrors", QT_TR_NOOP("Place focus on errors"), "CtrlShift+R", "CtrlShift+R", "CtrlShift+R", "Focus", &MainWindow::focusErrorsAct },
+    { "FocusBPMScrubber", QT_TR_NOOP("Place focus on BPM Scrubber"), "CtrlShift+b", "CtrlShift+b", "CtrlShift+b", "Focus", &MainWindow::focusBPMScrubberAct },
+    { "FocusTimeWarpScrubber", QT_TR_NOOP("Place focus on TimeWarp Scrubber"), "CtrlShift+w", "CtrlShift+w", "CtrlShift+w", "Focus", &MainWindow::focusTimeWarpScrubberAct },
+    { "ShowButtons", QT_TR_NOOP("Show or hide the buttons"), "ShiftMeta+b", "ShiftMeta+b", "ShiftMeta+b", "View", &MainWindow::showButtonsAct },
+    { "ShowCueLog", QT_TR_NOOP("Show or hide the cue log"), "ShiftMeta+c", "ShiftMeta+c", "ShiftMeta+c", "View", &MainWindow::showCuesAct },
+    { "ShowLog", QT_TR_NOOP("Show or hide the log"), "ShiftMeta+l", "ShiftMeta+l", "ShiftMeta+l", "View", &MainWindow::showLogAct },
+    { "SetMark", QT_TR_NOOP("Set a mark in the text"), "Ctrl+Space", "Ctrl+Space", "Ctrl+Space", "Code", &MainWindow::textSetMarkAct },
+    { "LogZoomIn", QT_TR_NOOP("Zoom in the log"), "Ctrl+=", "Ctrl+=", "Ctrl+=", "View", &MainWindow::logZoomInAct },
+    { "LogZoomOut", QT_TR_NOOP("Zoom out the log"), "Ctrl+-", "Ctrl+-", "Ctrl+-", "View", &MainWindow::logZoomOutAct },
+    { "Down", QT_TR_NOOP("Move Cursor Down"), "Ctrl+n", "Ctrl+n", "Ctrl+n", "Code", &MainWindow::textDownAct },
+    { "Up", QT_TR_NOOP("Move Cursor Up"), "Ctrl+p", "Ctrl+p", "Ctrl+p", "Code", &MainWindow::textUpAct },
+    { "UpTen", QT_TR_NOOP("Move Cursor Up 10 Lines"), "Meta+up", "PgUp", "ShiftMeta+u", "Code", &MainWindow::textUpTenAct },
+    { "DownTen", QT_TR_NOOP("Move Cursor Down 10 Lines"), "Meta+down", "PgDown", "ShiftMeta+d", "Code", &MainWindow::textDownTenAct },
+    { "CutToEnd", QT_TR_NOOP("Cut to the end of the line"), "Ctrl+k", "Ctrl+k", "Ctrl+k", "Code", &MainWindow::textCutToEndOfLineAct },
+    { "Copy", QT_TR_NOOP("Copy the current selection"), "Meta+c", "Ctrl+c", "Meta+]", "Code", &MainWindow::textCopyAct },
+    { "Cut", QT_TR_NOOP("Cut the current selection"), "Meta+x", "Ctrl+x", "Ctrl+]", "Code", &MainWindow::textCutAct },
+    { "Paste", QT_TR_NOOP("Paste the current selection"), "Meta+v", "Ctrl+v", "Ctrl+y", "Code", &MainWindow::textPasteAct },
+    { "Right", QT_TR_NOOP("Move Cursor Right"), "Ctrl+f", "Ctrl+f", "Ctrl+f", "Code", &MainWindow::textRightAct },
+    { "Left", QT_TR_NOOP("Move Cursor Left"), "Ctrl+b", "Ctrl+b", "Ctrl+b", "Code", &MainWindow::textLeftAct },
+    { "DeleteForward", QT_TR_NOOP("Delete Right"), "Ctrl+d", "Ctrl+d", "Ctrl+d", "Code", &MainWindow::textDeleteForwardAct },
+    { "DeleteBackward", QT_TR_NOOP("Delete Left"), "Ctrl+h", "Ctrl+h", "Ctrl+h", "Code", &MainWindow::textDeleteBackAct },
+    { "LineStart", QT_TR_NOOP("Move Cursor to Start of Line"), "Meta+Left", "Home", "Ctrl+a", "Code", &MainWindow::textLineStartAct },
+    { "LineEnd", QT_TR_NOOP("Move Cursor to End of Line"), "Meta+Right", "End", "Ctrl+e", "Code", &MainWindow::textLineEndAct },
+    { "DocStart", QT_TR_NOOP("Move Cursor to Start of Document"), "MetaShift+,", "Ctrl+Home", "MetaShift+,", "Code", &MainWindow::textDocStartAct },
+    { "DocEnd", QT_TR_NOOP("Move Cursor to End of Document"), "MetaShift+.", "Ctrl+End", "MetaShift+.", "Code", &MainWindow::textDocEndAct },
+    { "WordRight", QT_TR_NOOP("Move Cursor Right by Word"), "Alt+Right", "Ctrl+Right", "Meta+f", "Code", &MainWindow::textWordRightAct },
+    { "WordLeft", QT_TR_NOOP("Move Cursor Left by Word"), "Alt+Left", "Ctrl+Left", "Meta+b", "Code", &MainWindow::textWordLeftAct },
+    { "SelectLineStart", QT_TR_NOOP("Select to Start of Line"), "ShiftMeta+Left", "Shift+Home", "CtrlShift+a", "Code", &MainWindow::textSelectLineStartAct },
+    { "SelectLineEnd", QT_TR_NOOP("Select to End of Line"), "ShiftMeta+Right", "Shift+End", "CtrlShift+e", "Code", &MainWindow::textSelectLineEndAct },
+    { "SelectWordRight", QT_TR_NOOP("Select Word Right"), "Alt+Shift+Right", "CtrlShift+Right", "CtrlShift+Right", "Code", &MainWindow::textSelectWordRightAct },
+    { "SelectWordLeft", QT_TR_NOOP("Select Word Left"), "Alt+Shift+Left", "CtrlShift+Left", "CtrlShift+Left", "Code", &MainWindow::textSelectWordLeftAct },
+    { "SelectDocStart", QT_TR_NOOP("Select to Start of Document"), "CtrlShift+Home", "CtrlShift+Home", "CtrlShift+Home", "Code", &MainWindow::textSelectDocStartAct },
+    { "SelectDocEnd", QT_TR_NOOP("Select to End of Document"), "CtrlShift+End", "CtrlShift+End", "CtrlShift+End", "Code", &MainWindow::textSelectDocEndAct },
+    { "CenterVertically", QT_TR_NOOP("Vertically center the caret in the editor"), "Ctrl+l", "Ctrl+l", "Ctrl+l", "Code", &MainWindow::textCenterCaretAct },
+    { "Undo", QT_TR_NOOP("Undo the last action"), "Meta+z", "Ctrl+z", "Meta+z", "Code", &MainWindow::textUndoAct },
+    { "Redo", QT_TR_NOOP("Redo the last undo"), "ShiftMeta+z", "ShiftCtrl+z", "ShiftMeta+z", "Code", &MainWindow::textRedoAct },
+    { "SelectAll", QT_TR_NOOP("Select all text"), "Meta+a", "Ctrl+a", "Meta+a", "Code", &MainWindow::textSelectAllAct },
+    { "DeleteWordRight", QT_TR_NOOP("Delete word to the right"), "Alt+Shift+Backspace", "Meta+d", "Meta+d", "Code", &MainWindow::textDeleteWordRightAct },
+    { "DeleteWordLeft", QT_TR_NOOP("Delete word to the left"), "Alt+Backspace", "Meta+Backspace", "Meta+Backspace", "Code", &MainWindow::textDeleteWordLeftAct },
+    { "UpcaseWord", QT_TR_NOOP("Uppercase word or selection"), "Meta+u", "Meta+u", "Meta+u", "Code", &MainWindow::textUpcaseWordAct },
+    { "DowncaseWord", QT_TR_NOOP("Lowercase word or selection"), "Meta+l", "Meta+l", "Meta+l", "Code", &MainWindow::textDowncaseWordAct },
+    { "FullScreen", QT_TR_NOOP("Toggle fullscreen mode"), "ShiftMeta+f", "F11", "ShiftMeta+f", "View", &MainWindow::fullScreenAct },
+    };
+    return defs;
 }
 
 void MainWindow::loadUserShortcuts()
 {
-    QString shortcuts_path = sonicPiConfigPath() + QDir::separator() + "keyboard-shortcuts.ini";
+    QString shortcuts_path = shortcutsConfigPath();
     QFile shortcutFile(shortcuts_path);
     QString base = "none";
 
@@ -3118,44 +3225,56 @@ void MainWindow::loadUserShortcuts()
         shortcut_settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, "defaultOrganization", "defaultApplication");
     }
 
-    // Determine which shortcuts to load based on the 'base' value
-    if (base == "none")
+    // Determine which preset to base the custom shortcuts on. An unset/unknown
+    // base falls back to the platform default so Custom mode is never empty.
+    if (base == "win")
     {
-        // don't load any shortcuts
+        loadWinShortcuts();
+    }
+    else if (base == "emacs")
+    {
+        loadEmacsShortcuts();
     }
     else if (base == "mac")
     {
         loadMacShortcuts();
     }
-    else if (base == "win")
-    {
-        loadWinShortcuts();
-    }
     else
     {
-        // default
+#if defined(Q_OS_WIN)
+        loadWinShortcuts();
+#elif defined(Q_OS_MAC)
+        loadMacShortcuts();
+#else
         loadEmacsShortcuts();
+#endif
     }
 
-    // List of shortcut IDs
-    QStringList ids = { "Run", "Stop", "Record", "Save", "Load", "Align", "Comment", "Transpose", "ShiftUp", "ShiftDown",
-        "ContextualDocs", "TextZoomIn", "TextZoomOut", "Scope", "CycleThemes", "Info", "Help", "Prefs",
-        "TabPrev", "TabNext", "Tab1", "Tab2", "Tab3", "Tab4", "Tab5", "Tab6", "Tab7", "Tab8", "Tab9", "Tab0",
-        "Link", "TapTempo", "FocusEditor", "FocusLogs", "FocusContext", "FocusCues", "FocusPrefs", "FocusHelpListing",
-        "FocusHelpDetails", "FocusErrors", "FocusBPMScrubber", "FocusTimeWarpScrubber", "ShowButtons", "ShowCueLog",
-        "ShowLog", "SetMark", "logZoomIn", "logZoomOut", "Down", "Up", "UpTen", "DownTen", "CutToEnd", "Copy", "Cut",
-        "Paste", "Right", "Left", "DeleteForward", "DeleteBackward", "LineStart", "LineEnd", "DocStart", "DocEnd",
-        "WordRight", "WordLeft", "CenterVertically", "Undo", "Redo", "SelectAll", "DeleteWordRight", "DeleteWordLeft",
-        "UpcaseWord", "DowncaseWord" };
-
-    // Load user shortcuts
-    for (const QString& id : ids)
+    // Overlay the user's shortcuts from the .ini over the base
+    for (const ShortcutDef& d : shortcutDefs())
     {
-        loadUserShortcut(id, *shortcut_settings); // Dereference the pointer to pass QSettings object
+        loadUserShortcut(d.id, *shortcut_settings);
     }
 
     // Clean up the dynamically allocated QSettings object
     delete shortcut_settings;
+}
+
+void MainWindow::applyUserShortcuts(const QString& base, const QMap<QString, QString>& keys)
+{
+    QString shortcuts_path = shortcutsConfigPath();
+    QSettings shortcut_settings(shortcuts_path, QSettings::IniFormat);
+    shortcut_settings.clear();
+    shortcut_settings.setValue("base", base);
+    for (auto it = keys.constBegin(); it != keys.constEnd(); ++it)
+    {
+        shortcut_settings.setValue(it.key(), it.value());
+    }
+    shortcut_settings.sync();
+
+    piSettings->shortcut_mode = 4;
+    gui_settings->setValue("prefs/shortcut-mode", piSettings->shortcut_mode);
+    updateShortcuts();
 }
 
 void MainWindow::updateShortcuts()
@@ -3193,319 +3312,39 @@ void MainWindow::updateShortcuts()
         loadEmacsShortcuts();
     }
 
-    updateShortcut("Run", runAct, tr("Run the code in the current buffer"));
-    updateShortcut("Stop", stopAct, tr("Stop all running code"));
-    updateShortcut("Record", recAct, tr("Start recording to a WAV audio file"));
-    updateShortcut("Save", saveAsAct, tr("Save current buffer as an external file"));
-    updateShortcut("Load", loadFileAct, tr("Load an external file in the current buffer"));
-    updateShortcut("Align", textAlignAct, tr("Align code to improve readability"));
-    updateShortcut("Comment", textCommentAct, tr("Comment/Uncomment code"));
-    updateShortcut("Transpose", textTransposeAct, tr("Transpose Characters"));
-    updateShortcut("ShiftUp", textShiftLineUpAct, tr("Shift Line or Selection Up"));
-    updateShortcut("ShiftDown", textShiftLineDownAct, tr("Shift Line or Selection Down"));
-    updateShortcut("Down", textDownAct, tr("Move Cursor Down"));
-    updateShortcut("Up", textUpAct, tr("Move Cursor Up"));
-    updateShortcut("DownTen", textDownTenAct, tr("Move Cursor Down 10 Lines"));
-    updateShortcut("UpTen", textUpTenAct, tr("Move Cursor Up 10 Lines"));
-    updateShortcut("CutToEnd", textCutToEndOfLineAct, tr("Cut to the end of the line"));
-    updateShortcut("Copy", textCopyAct, tr("Copy the current selection"));
-    updateShortcut("Cut", textCutAct, tr("Cut the current selection"));
-    updateShortcut("Paste", textPasteAct, tr("Paste the current selection"));
-    updateShortcut("Right", textRightAct, tr("Move Cursor Right"));
-    updateShortcut("Left", textLeftAct, tr("Move Cursor Left"));
-    updateShortcut("DeleteForward", textDeleteForwardAct, tr("Delete Right"));
-    updateShortcut("DeleteBackward", textDeleteBackAct, tr("Delete Left"));
-    updateShortcut("LineStart", textLineStartAct, tr("Move Cursor to Start of Line"));
-    updateShortcut("LineEnd", textLineEndAct, tr("Move Cursor to End of Line"));
-    updateShortcut("DocStart", textDocStartAct, tr("Move Cursor to Start of Document"));
-    updateShortcut("DocEnd", textDocEndAct, tr("Move Cursor to End of Document"));
-    updateShortcut("WordRight", textWordRightAct, tr("Move Cursor Right by Word"));
-    updateShortcut("WordLeft", textWordLeftAct, tr("Move Cursor Left by Word"));
-    updateShortcut("CenterVertically", textCenterCaretAct, tr("Vertically center the caret in the editor"));
-    updateShortcut("Undo", textUndoAct, tr("Undo the last action"));
-    updateShortcut("Redo", textRedoAct, tr("Redo the last undo"));
-    updateShortcut("SelectAll", textSelectAllAct, tr("Select all text"));
-    updateShortcut("DeleteWordRight", textDeleteWordRightAct, tr("Delete word to the right"));
-    updateShortcut("DeleteWordLeft", textDeleteWordLeftAct, tr("Delete word to the left"));
-    updateShortcut("UpcaseWord", textUpcaseWordAct, tr("Uppercase word or selection"));
-    updateShortcut("DowncaseWord", textDowncaseWordAct, tr("Lowercase word or selection"));
-
-    updateShortcut("SetMark", textSetMarkAct, tr("Set a mark in the text"));
-
-    updateShortcut("ContextualDocs", contextHelpAct, tr("Look up documentation for the current word"));
-    updateShortcut("TextZoomIn", textIncAct, tr("Increase Text Size"));
-    updateShortcut("TextZoomOut", textDecAct, tr("Decrease Text Size"));
-    updateShortcut("Scope", scopeAct, tr("Toggle visibility of audio oscilloscope"));
-    updateShortcut("CycleThemes", cycleThemesAct, tr("Cycle through the available colour themes"));
-    updateShortcut("Info", infoAct, tr("Toggle information about Sonic Pi"));
-    updateShortcut("Help", helpAct, tr("Toggle the visibility of the help pane"));
-    updateShortcut("Prefs", prefsAct, tr("Toggle the visibility of the preferences pane"));
-    updateShortcut("TabPrev", tabPrevAct, tr("Switch to the previous tab"));
-    updateShortcut("TabNext", tabNextAct, tr("Switch to the next tab"));
-    updateShortcut("Tab1", tab1Act, tr("Switch to tab 1"));
-    updateShortcut("Tab2", tab2Act, tr("Switch to tab 2"));
-    updateShortcut("Tab3", tab3Act, tr("Switch to tab 3"));
-    updateShortcut("Tab4", tab4Act, tr("Switch to tab 4"));
-    updateShortcut("Tab5", tab5Act, tr("Switch to tab 5"));
-    updateShortcut("Tab6", tab6Act, tr("Switch to tab 6"));
-    updateShortcut("Tab7", tab7Act, tr("Switch to tab 7"));
-    updateShortcut("Tab8", tab8Act, tr("Switch to tab 8"));
-    updateShortcut("Tab9", tab9Act, tr("Switch to tab 9"));
-    updateShortcut("Tab0", tab0Act, tr("Switch to tab 0"));
-    updateShortcut("Link", enableLinkAct, tr("Connect or disconnect the Link Metronome from the network"));
-    updateShortcut("TapTempo", linkTapTempoAct, tr("Click Link Tap Tempo"));
-    updateShortcut("FocusEditor", focusEditorAct, tr("Place focus on the code editor"));
-    updateShortcut("FocusLogs", focusLogsAct, tr("Place focus on the logs"));
-    updateShortcut("FocusContext", focusContextAct, tr("Place focus on the context pane"));
-    updateShortcut("FocusCues", focusCuesAct, tr("Place focus on the cue event pane"));
-    updateShortcut("FocusPrefs", focusPreferencesAct, tr("Place focus on preferences"));
-    updateShortcut("FocusHelpListing", focusHelpListingAct, tr("Place focus on help listing"));
-    updateShortcut("FocusHelpDetails", focusHelpDetailsAct, tr("Place focus on help details"));
-    updateShortcut("FocusErrors", focusErrorsAct, tr("Place focus on errors"));
-    updateShortcut("FocusBPMScrubber", focusBPMScrubberAct, tr("Place focus on BPM Scrubber"));
-    updateShortcut("FocusTimeWarpScrubber", focusTimeWarpScrubberAct, tr("Place focus on TimeWarp Scrubber"));
-    updateShortcut("ShowButtons", showButtonsAct, tr("Show or hide the buttons"));
-    updateShortcut("ShowCueLog", showCuesAct, tr("Show or hide the cue log"));
-    updateShortcut("ShowLog", showLogAct, tr("Show or hide the log"));
-    updateShortcut("LogZoomIn", logZoomInAct, tr("Zoom in the log"));
-    updateShortcut("LogZoomOut", logZoomOutAct, tr("Zoom out the log"));
-    updateShortcut("FullScreen", fullScreenAct, tr("Toggle fullscreen mode"));
+    for (const ShortcutDef& d : shortcutDefs())
+    {
+        if (QAction* act = this->*(d.act))
+        {
+            updateShortcut(d.id, act, tr(d.desc));
+        }
+    }
     // show code context
     // show metronome
 }
 
 void MainWindow::loadMacShortcuts()
 {
-    shortcutMap["Run"] = resolveShortcut("Meta+R");
-    shortcutMap["Stop"] = resolveShortcut("Meta+S");
-    shortcutMap["Record"] = resolveShortcut("ShiftMeta+R");
-    shortcutMap["Load"] = resolveShortcut("Ctrl+O");
-    shortcutMap["Align"] = resolveShortcut("Meta+M");
-    shortcutMap["Comment"] = resolveShortcut("Meta+/");
-    shortcutMap["Transpose"] = resolveShortcut("Ctrl+T");
-    shortcutMap["ShiftUp"] = resolveShortcut("CtrlMeta+P");
-    shortcutMap["ShiftDown"] = resolveShortcut("CtrlMeta+N");
-    shortcutMap["ContextualDocs"] = resolveShortcut("Shift+F1");
-    shortcutMap["TextZoomIn"] = resolveShortcut("Meta+=");
-    shortcutMap["TextZoomOut"] = resolveShortcut("Meta+-");
-    shortcutMap["Scope"] = resolveShortcut("Meta+O");
-    shortcutMap["CycleThemes"] = resolveShortcut("ShiftMeta+M");
-    shortcutMap["Info"] = resolveShortcut("Meta+1");
-    shortcutMap["Help"] = resolveShortcut("F1");
-    shortcutMap["Prefs"] = resolveShortcut("Meta+p");
-    shortcutMap["TabPrev"] = resolveShortcut("ShiftMeta+[");
-    shortcutMap["TabNext"] = resolveShortcut("ShiftMeta+]");
-    shortcutMap["Tab1"] = resolveShortcut("ShiftMeta+1");
-    shortcutMap["Tab2"] = resolveShortcut("ShiftMeta+2");
-    shortcutMap["Tab3"] = resolveShortcut("ShiftMeta+3");
-    shortcutMap["Tab4"] = resolveShortcut("ShiftMeta+4");
-    shortcutMap["Tab5"] = resolveShortcut("ShiftMeta+5");
-    shortcutMap["Tab6"] = resolveShortcut("ShiftMeta+6");
-    shortcutMap["Tab7"] = resolveShortcut("ShiftMeta+7");
-    shortcutMap["Tab8"] = resolveShortcut("ShiftMeta+8");
-    shortcutMap["Tab9"] = resolveShortcut("ShiftMeta+9");
-    shortcutMap["Tab0"] = resolveShortcut("ShiftMeta+0");
-    shortcutMap["Link"] = resolveShortcut("Meta+t");
-    shortcutMap["TapTempo"] = resolveShortcut("Shift+Return");
-    shortcutMap["FocusEditor"] = resolveShortcut("CtrlShift+e");
-    shortcutMap["FocusLogs"] = resolveShortcut("CtrlShift+l");
-    shortcutMap["FocusContext"] = resolveShortcut("CtrlShift+t");
-    shortcutMap["FocusCues"] = resolveShortcut("CtrlShift+c");
-    shortcutMap["FocusPrefs"] = resolveShortcut("Meta+,");
-    shortcutMap["FocusHelpListing"] = resolveShortcut("CtrlShift+h");
-    shortcutMap["FocusHelpDetails"] = resolveShortcut("CtrlShift+d");
-    shortcutMap["FocusErrors"] = resolveShortcut("CtrlShift+R");
-    shortcutMap["FocusBPMScrubber"] = resolveShortcut("CtrlShift+b");
-    shortcutMap["FocusTimeWarpScrubber"] = resolveShortcut("CtrlShift+w");
-    shortcutMap["ShowButtons"] = resolveShortcut("ShiftMeta+b");
-    shortcutMap["ShowCueLog"] = resolveShortcut("ShiftMeta+c");
-    shortcutMap["ShowLog"] = resolveShortcut("ShiftMeta+l");
-    shortcutMap["SetMark"] = resolveShortcut("Ctrl+Space");
-    shortcutMap["LogZoomIn"] = resolveShortcut("Ctrl+=");
-    shortcutMap["LogZoomOut"] = resolveShortcut("Ctrl+-");
-    shortcutMap["Down"] = resolveShortcut("Ctrl+n");
-    shortcutMap["Up"] = resolveShortcut("Ctrl+p");
-    shortcutMap["UpTen"] = resolveShortcut("Meta+up");
-    shortcutMap["DownTen"] = resolveShortcut("Meta+down");
-    shortcutMap["CutToEnd"] = resolveShortcut("Ctrl+k");
-    shortcutMap["Copy"] = resolveShortcut("Meta+c");
-    shortcutMap["Cut"] = resolveShortcut("Meta+x");
-    shortcutMap["Paste"] = resolveShortcut("Meta+v");
-    shortcutMap["Right"] = resolveShortcut("Ctrl+f");
-    shortcutMap["Left"] = resolveShortcut("Ctrl+b");
-    shortcutMap["DeleteForward"] = resolveShortcut("Ctrl+d");
-    shortcutMap["DeleteBackward"] = resolveShortcut("Ctrl+h");
-    shortcutMap["LineStart"] = resolveShortcut("Meta+Left");
-    shortcutMap["LineEnd"] = resolveShortcut("Meta+Right");
-    shortcutMap["DocStart"] = resolveShortcut("MetaShift+,");
-    shortcutMap["DocEnd"] = resolveShortcut("MetaShift+.");
-    shortcutMap["WordRight"] = resolveShortcut("Alt+Right");
-    shortcutMap["WordLeft"] = resolveShortcut("Alt+Left");
-    shortcutMap["CenterVertically"] = resolveShortcut("Ctrl+l");
-    shortcutMap["Undo"] = resolveShortcut("Meta+z");
-    shortcutMap["Redo"] = resolveShortcut("ShiftMeta+z");
-    shortcutMap["SelectAll"] = resolveShortcut("Meta+a");
-    shortcutMap["DeleteWordRight"] = resolveShortcut("Meta+d");
-    shortcutMap["DeleteWordLeft"] = resolveShortcut("Meta+Backspace");
-    shortcutMap["UpcaseWord"] = resolveShortcut("Meta+u");
-    shortcutMap["DowncaseWord"] = resolveShortcut("Meta+l");
-    shortcutMap["FullScreen"] = resolveShortcut("ShiftMeta+f");
+    for (const ShortcutDef& d : shortcutDefs())
+    {
+        shortcutMap[d.id] = resolveShortcut(d.mac);
+    }
 }
 
 void MainWindow::loadWinShortcuts()
 {
-    shortcutMap["Run"] = resolveShortcut("Meta+R");
-    shortcutMap["Stop"] = resolveShortcut("Meta+S");
-    shortcutMap["Record"] = resolveShortcut("ShiftMeta+R");
-    shortcutMap["Load"] = resolveShortcut("Ctrl+O");
-    shortcutMap["Align"] = resolveShortcut("Meta+M");
-    shortcutMap["Comment"] = resolveShortcut("Meta+/");
-    shortcutMap["Transpose"] = resolveShortcut("Ctrl+T");
-    shortcutMap["ShiftUp"] = resolveShortcut("CtrlMeta+P");
-    shortcutMap["ShiftDown"] = resolveShortcut("CtrlMeta+N");
-    shortcutMap["ContextualDocs"] = resolveShortcut("Shift+F1");
-    shortcutMap["TextZoomIn"] = resolveShortcut("Ctrl++");
-    shortcutMap["TextZoomOut"] = resolveShortcut("Ctrl+-");
-    shortcutMap["Scope"] = resolveShortcut("Meta+O");
-    shortcutMap["CycleThemes"] = resolveShortcut("ShiftMeta+M");
-    shortcutMap["Info"] = resolveShortcut("Meta+1");
-    shortcutMap["Help"] = resolveShortcut("F1");
-    shortcutMap["Prefs"] = resolveShortcut("Meta+p");
-    shortcutMap["TabPrev"] = resolveShortcut("ShiftMeta+[");
-    shortcutMap["TabNext"] = resolveShortcut("ShiftMeta+]");
-    shortcutMap["Tab1"] = resolveShortcut("ShiftMeta+1");
-    shortcutMap["Tab2"] = resolveShortcut("ShiftMeta+2");
-    shortcutMap["Tab3"] = resolveShortcut("ShiftMeta+3");
-    shortcutMap["Tab4"] = resolveShortcut("ShiftMeta+4");
-    shortcutMap["Tab5"] = resolveShortcut("ShiftMeta+5");
-    shortcutMap["Tab6"] = resolveShortcut("ShiftMeta+6");
-    shortcutMap["Tab7"] = resolveShortcut("ShiftMeta+7");
-    shortcutMap["Tab8"] = resolveShortcut("ShiftMeta+8");
-    shortcutMap["Tab9"] = resolveShortcut("ShiftMeta+9");
-    shortcutMap["Tab0"] = resolveShortcut("ShiftMeta+0");
-    shortcutMap["Link"] = resolveShortcut("Meta+t");
-    shortcutMap["TapTempo"] = resolveShortcut("Shift+Return");
-    shortcutMap["FocusEditor"] = resolveShortcut("CtrlShift+e");
-    shortcutMap["FocusLogs"] = resolveShortcut("CtrlShift+l");
-    shortcutMap["FocusContext"] = resolveShortcut("CtrlShift+t");
-    shortcutMap["FocusCues"] = resolveShortcut("CtrlShift+c");
-    shortcutMap["FocusPrefs"] = resolveShortcut("Meta+,");
-    shortcutMap["FocusHelpListing"] = resolveShortcut("CtrlShift+h");
-    shortcutMap["FocusHelpDetails"] = resolveShortcut("CtrlShift+d");
-    shortcutMap["FocusErrors"] = resolveShortcut("CtrlShift+R");
-    shortcutMap["FocusBPMScrubber"] = resolveShortcut("CtrlShift+b");
-    shortcutMap["FocusTimeWarpScrubber"] = resolveShortcut("CtrlShift+w");
-    shortcutMap["ShowButtons"] = resolveShortcut("ShiftMeta+b");
-    shortcutMap["ShowCueLog"] = resolveShortcut("ShiftMeta+c");
-    shortcutMap["ShowLog"] = resolveShortcut("ShiftMeta+l");
-    shortcutMap["SetMark"] = resolveShortcut("Ctrl+Space");
-    shortcutMap["LogZoomIn"] = resolveShortcut("Ctrl+=");
-    shortcutMap["LogZoomOut"] = resolveShortcut("Ctrl+-");
-    shortcutMap["Down"] = resolveShortcut("Ctrl+n");
-    shortcutMap["Up"] = resolveShortcut("Ctrl+p");
-    shortcutMap["UpTen"] = resolveShortcut("PgUp");
-    shortcutMap["DownTen"] = resolveShortcut("PgDown");
-    shortcutMap["CutToEnd"] = resolveShortcut("Ctrl+k");
-    shortcutMap["Copy"] = resolveShortcut("Ctrl+c");
-    shortcutMap["Cut"] = resolveShortcut("Ctrl+x");
-    shortcutMap["Paste"] = resolveShortcut("Ctrl+v");
-    shortcutMap["Right"] = resolveShortcut("Ctrl+f");
-    shortcutMap["Left"] = resolveShortcut("Ctrl+b");
-    shortcutMap["DeleteForward"] = resolveShortcut("Ctrl+d");
-    shortcutMap["DeleteBackward"] = resolveShortcut("Ctrl+h");
-    shortcutMap["LineStart"] = resolveShortcut("Home");
-    shortcutMap["LineEnd"] = resolveShortcut("End");
-    shortcutMap["DocStart"] = resolveShortcut("Ctrl+Home");
-    shortcutMap["DocEnd"] = resolveShortcut("Ctrl+End");
-    shortcutMap["WordRight"] = resolveShortcut("Ctrl+Right");
-    shortcutMap["WordLeft"] = resolveShortcut("Ctrl+Left");
-    shortcutMap["CenterVertically"] = resolveShortcut("Ctrl+l");
-    shortcutMap["Undo"] = resolveShortcut("Ctrl+z");
-    shortcutMap["Redo"] = resolveShortcut("ShiftCtrl+z");
-    shortcutMap["SelectAll"] = resolveShortcut("Ctrl+a");
-    shortcutMap["DeleteWordRight"] = resolveShortcut("Meta+d");
-    shortcutMap["DeleteWordLeft"] = resolveShortcut("Meta+Backspace");
-    shortcutMap["UpcaseWord"] = resolveShortcut("Meta+u");
-    shortcutMap["DowncaseWord"] = resolveShortcut("Meta+l");
-    shortcutMap["FullScreen"] = resolveShortcut("F11");
+    for (const ShortcutDef& d : shortcutDefs())
+    {
+        shortcutMap[d.id] = resolveShortcut(d.win);
+    }
 }
 
 void MainWindow::loadEmacsShortcuts()
 {
-    shortcutMap["Run"] = resolveShortcut("Meta+R");
-    shortcutMap["Stop"] = resolveShortcut("Meta+S");
-    shortcutMap["Record"] = resolveShortcut("ShiftMeta+R");
-    shortcutMap["Load"] = resolveShortcut("ShiftMeta+O");
-    shortcutMap["Align"] = resolveShortcut("Meta+M");
-    shortcutMap["Comment"] = resolveShortcut("Meta+/");
-    shortcutMap["Transpose"] = resolveShortcut("Ctrl+T");
-    shortcutMap["ShiftUp"] = resolveShortcut("CtrlMeta+P");
-    shortcutMap["ShiftDown"] = resolveShortcut("CtrlMeta+N");
-    shortcutMap["ContextualDocs"] = resolveShortcut("Ctrl+I");
-    shortcutMap["TextZoomIn"] = resolveShortcut("Meta+=");
-    shortcutMap["TextZoomOut"] = resolveShortcut("Meta+-");
-    shortcutMap["Scope"] = resolveShortcut("Meta+O");
-    shortcutMap["CycleThemes"] = resolveShortcut("ShiftMeta+M");
-    shortcutMap["Info"] = resolveShortcut("Meta+1");
-    shortcutMap["Help"] = resolveShortcut("Meta+i");
-    shortcutMap["Prefs"] = resolveShortcut("Meta+p");
-    shortcutMap["TabPrev"] = resolveShortcut("ShiftMeta+[");
-    shortcutMap["TabNext"] = resolveShortcut("ShiftMeta+]");
-    shortcutMap["Tab1"] = resolveShortcut("ShiftMeta+1");
-    shortcutMap["Tab2"] = resolveShortcut("ShiftMeta+2");
-    shortcutMap["Tab3"] = resolveShortcut("ShiftMeta+3");
-    shortcutMap["Tab4"] = resolveShortcut("ShiftMeta+4");
-    shortcutMap["Tab5"] = resolveShortcut("ShiftMeta+5");
-    shortcutMap["Tab6"] = resolveShortcut("ShiftMeta+6");
-    shortcutMap["Tab7"] = resolveShortcut("ShiftMeta+7");
-    shortcutMap["Tab8"] = resolveShortcut("ShiftMeta+8");
-    shortcutMap["Tab9"] = resolveShortcut("ShiftMeta+9");
-    shortcutMap["Tab0"] = resolveShortcut("ShiftMeta+0");
-    shortcutMap["Link"] = resolveShortcut("Meta+t");
-    shortcutMap["TapTempo"] = resolveShortcut("Shift+Return");
-    shortcutMap["FocusEditor"] = resolveShortcut("CtrlShift+e");
-    shortcutMap["FocusLogs"] = resolveShortcut("CtrlShift+l");
-    shortcutMap["FocusContext"] = resolveShortcut("CtrlShift+t");
-    shortcutMap["FocusCues"] = resolveShortcut("CtrlShift+c");
-    shortcutMap["FocusPrefs"] = resolveShortcut("CtrlShift+p");
-    shortcutMap["FocusHelpListing"] = resolveShortcut("CtrlShift+h");
-    shortcutMap["FocusHelpDetails"] = resolveShortcut("CtrlShift+d");
-    shortcutMap["FocusErrors"] = resolveShortcut("CtrlShift+R");
-    shortcutMap["FocusBPMScrubber"] = resolveShortcut("CtrlShift+b");
-    shortcutMap["FocusTimeWarpScrubber"] = resolveShortcut("CtrlShift+w");
-    shortcutMap["ShowButtons"] = resolveShortcut("ShiftMeta+b");
-    shortcutMap["ShowCueLog"] = resolveShortcut("ShiftMeta+c");
-    shortcutMap["ShowLog"] = resolveShortcut("ShiftMeta+l");
-    shortcutMap["SetMark"] = resolveShortcut("Ctrl+Space");
-    shortcutMap["logZoomIn"] = resolveShortcut("Ctrl+=");
-    shortcutMap["logZoomOut"] = resolveShortcut("Ctrl+-");
-    shortcutMap["Down"] = resolveShortcut("Ctrl+n");
-    shortcutMap["Up"] = resolveShortcut("Ctrl+p");
-    shortcutMap["UpTen"] = resolveShortcut("ShiftMeta+u");
-    shortcutMap["DownTen"] = resolveShortcut("ShiftMeta+d");
-    shortcutMap["CutToEnd"] = resolveShortcut("Ctrl+k");
-    shortcutMap["Copy"] = resolveShortcut("Meta+]");
-    shortcutMap["Cut"] = resolveShortcut("Ctrl+]");
-    shortcutMap["Paste"] = resolveShortcut("Ctrl+y");
-    shortcutMap["Right"] = resolveShortcut("Ctrl+f");
-    shortcutMap["Left"] = resolveShortcut("Ctrl+b");
-    shortcutMap["DeleteForward"] = resolveShortcut("Ctrl+d");
-    shortcutMap["DeleteBackward"] = resolveShortcut("Ctrl+h");
-    shortcutMap["LineStart"] = resolveShortcut("Ctrl+a");
-    shortcutMap["LineEnd"] = resolveShortcut("Ctrl+e");
-    shortcutMap["DocStart"] = resolveShortcut("MetaShift+,");
-    shortcutMap["DocEnd"] = resolveShortcut("MetaShift+.");
-    shortcutMap["WordRight"] = resolveShortcut("Meta+f");
-    shortcutMap["WordLeft"] = resolveShortcut("Meta+b");
-    shortcutMap["CenterVertically"] = resolveShortcut("Ctrl+l");
-    shortcutMap["Undo"] = resolveShortcut("Meta+z");
-    shortcutMap["Redo"] = resolveShortcut("ShiftMeta+z");
-    shortcutMap["SelectAll"] = resolveShortcut("Meta+a");
-    shortcutMap["DeleteWordRight"] = resolveShortcut("Meta+d");
-    shortcutMap["DeleteWordLeft"] = resolveShortcut("Meta+Backspace");
-    shortcutMap["UpcaseWord"] = resolveShortcut("Meta+u");
-    shortcutMap["DowncaseWord"] = resolveShortcut("Meta+l");
-    shortcutMap["FullScreen"] = resolveShortcut("ShiftMeta+f");
+    for (const ShortcutDef& d : shortcutDefs())
+    {
+        shortcutMap[d.id] = resolveShortcut(d.emacs);
+    }
 }
 
 void MainWindow::createToolBar()
@@ -3636,6 +3475,24 @@ void MainWindow::createToolBar()
 
     textWordLeftAct = new QAction(tr("Move Left One Word"), this);
     connect(textWordLeftAct, SIGNAL(triggered()), this, SLOT(wordLeftInCurrentWorkspace()));
+
+    textSelectLineStartAct = new QAction(tr("Select to Start of Line"), this);
+    connect(textSelectLineStartAct, SIGNAL(triggered()), this, SLOT(selectLineStartInCurrentWorkspace()));
+
+    textSelectLineEndAct = new QAction(tr("Select to End of Line"), this);
+    connect(textSelectLineEndAct, SIGNAL(triggered()), this, SLOT(selectLineEndInCurrentWorkspace()));
+
+    textSelectWordRightAct = new QAction(tr("Select Word Right"), this);
+    connect(textSelectWordRightAct, SIGNAL(triggered()), this, SLOT(selectWordRightInCurrentWorkspace()));
+
+    textSelectWordLeftAct = new QAction(tr("Select Word Left"), this);
+    connect(textSelectWordLeftAct, SIGNAL(triggered()), this, SLOT(selectWordLeftInCurrentWorkspace()));
+
+    textSelectDocStartAct = new QAction(tr("Select to Start of Document"), this);
+    connect(textSelectDocStartAct, SIGNAL(triggered()), this, SLOT(selectDocStartInCurrentWorkspace()));
+
+    textSelectDocEndAct = new QAction(tr("Select to End of Document"), this);
+    connect(textSelectDocEndAct, SIGNAL(triggered()), this, SLOT(selectDocEndInCurrentWorkspace()));
 
     textCenterCaretAct = new QAction(tr("Center Cursor Vertically"), this);
     connect(textCenterCaretAct, SIGNAL(triggered()), this, SLOT(centerCaretInCurrentWorkspace()));
@@ -3913,6 +3770,13 @@ void MainWindow::createToolBar()
     codeMenu->addAction(textLineEndAct);
     codeMenu->addAction(textDocStartAct);
     codeMenu->addAction(textDocEndAct);
+    codeMenu->addSeparator();
+    codeMenu->addAction(textSelectLineStartAct);
+    codeMenu->addAction(textSelectLineEndAct);
+    codeMenu->addAction(textSelectWordLeftAct);
+    codeMenu->addAction(textSelectWordRightAct);
+    codeMenu->addAction(textSelectDocStartAct);
+    codeMenu->addAction(textSelectDocEndAct);
     codeMenu->addAction(textCenterCaretAct);
     codeMenu->addSeparator();
     codeMenu->addAction(textTransposeAct);
@@ -3982,7 +3846,7 @@ void MainWindow::createToolBar()
     emacsShortcutModeAct->setChecked(false);
     connect(emacsShortcutModeAct, &QAction::triggered, [this]() { shortcutModeMenuChanged(1); });
 
-    winShortcutModeAct = new QAction(tr("Windows Shortcut Mode"), this);
+    winShortcutModeAct = new QAction(tr("Windows | Linux Shortcut Mode"), this);
     winShortcutModeAct->setCheckable(true);
     winShortcutModeAct->setChecked(false);
     connect(winShortcutModeAct, &QAction::triggered, [this]() { shortcutModeMenuChanged(2); });
@@ -3992,7 +3856,7 @@ void MainWindow::createToolBar()
     macShortcutModeAct->setChecked(false);
     connect(macShortcutModeAct, &QAction::triggered, [this]() { shortcutModeMenuChanged(3); });
 
-    userShortcutModeAct = new QAction(tr("User Shortcut Mode"), this);
+    userShortcutModeAct = new QAction(tr("Custom Shortcut Mode"), this);
     userShortcutModeAct->setCheckable(true);
     userShortcutModeAct->setChecked(false);
     connect(userShortcutModeAct, &QAction::triggered, [this]() { shortcutModeMenuChanged(4); });
@@ -4021,10 +3885,10 @@ void MainWindow::createToolBar()
 
     ioMenu = menuBar()->addMenu(tr("IO"));
     shortcutMenu = ioMenu->addMenu(tr("Shortcut Mode"));
-    shortcutMenu->addAction(emacsShortcutModeAct);
     shortcutMenu->addAction(macShortcutModeAct);
     shortcutMenu->addAction(winShortcutModeAct);
-    // shortcutMenu->addAction(userShortcutModeAct);
+    shortcutMenu->addAction(emacsShortcutModeAct);
+    shortcutMenu->addAction(userShortcutModeAct);
     ioMenu->addSeparator();
     ioMenu->addAction(midiEnabledAct);
     ioMidiInMenu = ioMenu->addMenu(tr("MIDI Inputs"));
@@ -5366,6 +5230,11 @@ QString MainWindow::sonicPiHomePath()
 QString MainWindow::sonicPiConfigPath()
 {
     return QString::fromStdString(m_spAPI->GetPath(SonicPiPath::ConfigPath));
+}
+
+QString MainWindow::shortcutsConfigPath()
+{
+    return sonicPiConfigPath() + QDir::separator() + "keyboard-shortcuts.ini";
 }
 
 void MainWindow::zoomInLogs()

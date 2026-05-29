@@ -88,6 +88,12 @@ public slots:
     void documentEnd();
     void wordRight();
     void wordLeft();
+    void selectLineStart();
+    void selectLineEnd();
+    void selectWordRight();
+    void selectWordLeft();
+    void selectDocStart();
+    void selectDocEnd();
     void centerCaret();
     void undo();
     void redo();

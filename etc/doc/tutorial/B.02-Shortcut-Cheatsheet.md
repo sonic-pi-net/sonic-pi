@@ -3,7 +3,9 @@ B.2 Shortcut Cheatsheet
 # Shortcut Cheatsheet
 
 The following is a summary of the main Emacs Live shortcuts available within Sonic
-Pi. Please see Section B.1 for motivation and background.
+Pi. The Mac and Windows | Linux modes differ - switch between them in `IO ->
+Shortcut Mode`, or open `Preferences -> Shortcuts` to view every binding and
+build your own. Please see Section B.1 for motivation and background.
 
 ## Conventions
 
@@ -14,6 +16,7 @@ Windows/Linux or *Cmd* on Mac):
 * `M-r`   means hold the *Meta* key and then press the *r* key whilst holding them both at the same time, then releasing.
 * `S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* key all at the same time, then releasing.
 * `C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* key all at the same time, then releasing.
+* `S-C-a` means hold the *Shift* key, then the *Control* key, then finally the *a* key all at the same time, then releasing.
 
 ## Main Application Manipulation
 
@@ -33,15 +36,21 @@ Windows/Linux or *Cmd* on Mac):
 
 ## Selection/Copy/Paste
 
-* `M-a`     - Select all
-* `M-c`     - Copy selection to paste buffer
-* `M-]`     - Copy selection to paste buffer
-* `M-x`     - Cut selection to paste buffer
-* `C-]`     - Cut selection to paste buffer
-* `C-k`     - Cut to the end of the line
-* `M-v`     - Paste from paste buffer to editor
-* `C-y`     - Paste from paste buffer to editor
-* `C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `C-g` to escape.
+* `M-a`       - Select all
+* `M-c`       - Copy selection to paste buffer
+* `M-]`       - Copy selection to paste buffer
+* `M-x`       - Cut selection to paste buffer
+* `C-]`       - Cut selection to paste buffer
+* `C-k`       - Cut to the end of the line
+* `M-v`       - Paste from paste buffer to editor
+* `C-y`       - Paste from paste buffer to editor
+* `C-SPACE`   - Set mark. Navigation will now manipulate highlighted region. Use `C-g` to escape.
+* `S-C-a`     - Select to beginning of line
+* `S-C-e`     - Select to end of line
+* `S-C-Left`  - Select word to the left
+* `S-C-Right` - Select word to the right
+* `S-C-Home`  - Select to beginning of buffer
+* `S-C-End`   - Select to end of buffer
 
 ## Text Manipulation
 

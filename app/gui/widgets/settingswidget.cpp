@@ -1,5 +1,17 @@
 #include "settingswidget.h"
+#include "mainwindow.h"
 #include "utils/sonicpi_i18n.h"
+#include "dpi.h"
+#include <QTreeWidget>
+#include <QHeaderView>
+#include <QRadioButton>
+#include <QFileDialog>
+#include <QDialog>
+#include <QStyledItemDelegate>
+#include <QLineEdit>
+#include <QKeyEvent>
+#include <QScopedValueRollback>
+#include <memory>
 #if defined(Q_OS_DARWIN)
 #include "platform/macos.h"
 #endif
@@ -64,10 +76,11 @@ protected:
 /**
  * Default Constructor
  */
-SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent) {
+SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, const QString& shortcutConfigPath, QWidget *parent) {
     this->piSettings = piSettings;
     this->i18n = i18n;
     this->sonicPii18n = sonicPii18n;
+    this->shortcutConfigPath = shortcutConfigPath;
     this->available_languages = sonicPii18n->getAvailableLanguages();
     this->tau_osc_cues_port = tau_osc_cues_port;
 
@@ -108,6 +121,9 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
 
     QGroupBox *language_prefs_box = createLanguagePrefsTab();
     prefTabs->addTab(language_prefs_box, tr("Language"));
+
+    QGroupBox *shortcuts_prefs_box = createKeyboardShortcutsTab();
+    prefTabs->addTab(shortcuts_prefs_box, tr("Shortcuts"));
 
 
     settingsChanged();
@@ -754,6 +770,581 @@ QGroupBox* SettingsWidget::createLanguagePrefsTab() {
     language_prefs_box->setLayout(language_prefs_box_layout);
     return language_prefs_box;
 }
+
+// Default key string for a command under a given base preset.
+static QString baseKeyFor(const ShortcutDef& d, const QString& base) {
+    if (base == "win") return QString(d.win);
+    if (base == "emacs") return QString(d.emacs);
+    return QString(d.mac);
+}
+
+// Read a shortcut .ini: its "base" preset (left at the caller's default if the
+// file omits it) plus the per-command overrides it stores.
+static void readShortcutIni(const QString& path, QString& base, QMap<QString, QString>& overrides) {
+    QSettings cfg(path, QSettings::IniFormat);
+    base = cfg.value("base", base).toString();
+    overrides.clear();
+    for (const ShortcutDef& d : MainWindow::shortcutDefs()) {
+        if (cfg.contains(d.id)) overrides.insert(d.id, cfg.value(d.id).toString());
+    }
+}
+
+// Normalise a shortcut string to a comparable form so equivalent chords written
+// differently (e.g. "MetaShift+." vs "ShiftMeta+.") compare equal. Returns
+// "<sorted-modifiers>|<key>"; empty for an unset binding.
+static QString canonicalChord(const QString& raw) {
+    QString s = raw.trimmed().toLower();
+    if (s.isEmpty()) return QString();
+    QStringList parts = s.split('+', Qt::SkipEmptyParts);
+    if (parts.isEmpty()) return QString();
+    QString key = parts.takeLast();
+    QString modBlob = parts.join("");
+    QStringList mods;
+    for (const QString& m : { QStringLiteral("ctrl"), QStringLiteral("shift"),
+                              QStringLiteral("alt"), QStringLiteral("meta") }) {
+        if (modBlob.contains(m)) mods << m;
+    }
+    mods.sort();
+    return mods.join("+") + "|" + key;
+}
+
+// Delegate that restricts editing to the Shortcut column of a command row.
+// Base key text (no modifiers), e.g. "R", "Left", "F1", ",".
+static QString shortcutKeyName(int key) {
+    if (key == 0 || key == Qt::Key_unknown) return QString();
+    return QKeySequence(key).toString(QKeySequence::PortableText);
+}
+
+// Convert a captured key chord into Sonic Pi shortcut notation that
+// resolveShortcut() maps back to the identical QKeySequence. Each leading
+// prefix (Meta/Ctrl/ShiftMeta/CtrlMeta/CtrlShift) consumes its modifier; the
+// remainder is parsed by QKeySequence, so it must only carry Qt-native tokens.
+static QString chordToSonicPiNotation(int key, Qt::KeyboardModifiers mods) {
+    QString k = shortcutKeyName(key);
+    if (k.isEmpty()) return QString();
+
+#ifdef Q_OS_MAC
+    const bool cmd   = mods & Qt::ControlModifier; // Cmd  -> "Meta"
+    const bool ctrl  = mods & Qt::MetaModifier;    // ctrl -> "Ctrl"
+    const bool alt   = mods & Qt::AltModifier;     // Option
+    const bool shift = mods & Qt::ShiftModifier;
+
+    QString prefix;
+    bool shiftConsumed = false;
+    if (cmd && ctrl)        prefix = "CtrlMeta";
+    else if (cmd && shift)  { prefix = "ShiftMeta"; shiftConsumed = true; }
+    else if (cmd)           prefix = "Meta";
+    else if (ctrl && shift) { prefix = "CtrlShift"; shiftConsumed = true; }
+    else if (ctrl)          prefix = "Ctrl";
+
+    QStringList rest;
+    if (alt) rest << "Alt";
+    if (shift && !shiftConsumed) rest << "Shift";
+    rest << k;
+    QString tail = rest.join("+");
+    return prefix.isEmpty() ? tail : prefix + "+" + tail;
+#else
+    // Non-mac: "Meta" maps to Alt, "Ctrl" to Ctrl (see metaKey()/ctrlKey()).
+    const bool ctrl    = mods & Qt::ControlModifier;
+    const bool metaTok = mods & Qt::AltModifier; // Alt -> "Meta"
+    const bool shift   = mods & Qt::ShiftModifier;
+
+    QString prefix;
+    bool shiftConsumed = false;
+    if (ctrl && metaTok)        prefix = "CtrlMeta";
+    else if (metaTok && shift)  { prefix = "ShiftMeta"; shiftConsumed = true; }
+    else if (metaTok)           prefix = "Meta";
+    else if (ctrl && shift)     { prefix = "CtrlShift"; shiftConsumed = true; }
+    else if (ctrl)              prefix = "Ctrl";
+
+    QStringList rest;
+    if (shift && !shiftConsumed) rest << "Shift";
+    rest << k;
+    QString tail = rest.join("+");
+    return prefix.isEmpty() ? tail : prefix + "+" + tail;
+#endif
+}
+
+// In-place editor that captures a pressed key chord rather than typed text.
+class ShortcutRecorder : public QLineEdit {
+public:
+    explicit ShortcutRecorder(QWidget* parent = nullptr) : QLineEdit(parent) {
+        setReadOnly(true);
+        setAlignment(Qt::AlignCenter);
+        setPlaceholderText(QObject::tr("Type shortcut…"));
+        // Prominent "listening" look so it's obvious the cell is recording.
+        setStyleSheet(
+            "QLineEdit { background: palette(highlight); color: palette(highlighted-text);"
+            " font-weight: bold; border: 2px solid palette(highlight); }");
+    }
+    bool captured() const { return m_captured; }
+protected:
+    // While recording, claim every chord so application/editor QAction
+    // shortcuts don't swallow it before keyPressEvent() runs.
+    bool event(QEvent* e) override {
+        if (e->type() == QEvent::ShortcutOverride) {
+            e->accept();
+            return true;
+        }
+        return QLineEdit::event(e);
+    }
+    void keyPressEvent(QKeyEvent* e) override {
+        switch (e->key()) {
+        case Qt::Key_Shift: case Qt::Key_Control: case Qt::Key_Alt:
+        case Qt::Key_Meta: case Qt::Key_AltGr: case Qt::Key_CapsLock:
+        case Qt::Key_unknown:
+            e->ignore();
+            return;
+        case Qt::Key_Escape:
+            QLineEdit::keyPressEvent(e); // let the view cancel the edit
+            return;
+        case Qt::Key_Backspace: case Qt::Key_Delete:
+            m_captured = true;
+            setText(QString()); // clear the binding
+            emit editingFinished();
+            e->accept();
+            return;
+        default:
+            break;
+        }
+        QString notation = chordToSonicPiNotation(e->key(), e->modifiers());
+        if (!notation.isEmpty()) {
+            m_captured = true;
+            setText(notation);
+            emit editingFinished();
+        }
+        e->accept();
+    }
+private:
+    bool m_captured = false;
+};
+
+// Delegate: only the Shortcut column of a command row is editable, via the
+// key recorder.
+class ShortcutKeyDelegate : public QStyledItemDelegate {
+public:
+    using QStyledItemDelegate::QStyledItemDelegate;
+    QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem&,
+                          const QModelIndex& index) const override {
+        if (index.column() != 1 || !index.parent().isValid()) return nullptr;
+        ShortcutRecorder* rec = new ShortcutRecorder(parent);
+        ShortcutKeyDelegate* self = const_cast<ShortcutKeyDelegate*>(this);
+        // Commit exactly once, and only if a chord was actually recorded.
+        // editingFinished can re-fire on focus-out (e.g. when the conflict
+        // dialog opens); committing twice on the same live editor crashes.
+        auto done = std::make_shared<bool>(false);
+        QObject::connect(rec, &QLineEdit::editingFinished, self, [self, rec, done]() {
+            if (*done) return;
+            *done = true;
+            if (rec->captured()) emit self->commitData(rec);
+            emit self->closeEditor(rec);
+        });
+        return rec;
+    }
+    void setEditorData(QWidget* editor, const QModelIndex&) const override {
+        // Start empty so the "Type shortcut…" prompt shows it is listening.
+        static_cast<ShortcutRecorder*>(editor)->setText(QString());
+    }
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const override {
+        model->setData(index, static_cast<ShortcutRecorder*>(editor)->text(), Qt::EditRole);
+    }
+};
+
+QGroupBox* SettingsWidget::createKeyboardShortcutsTab() {
+    QGroupBox *shortcuts_box = new QGroupBox();
+
+    // Segmented "pill" toggle: a subtle track with the active mode filled in
+    // the accent colour. More visible than a dropdown, same row height.
+    auto makeSeg = [](const QString& text) {
+        QPushButton* b = new QPushButton(text);
+        b->setCheckable(true);
+        b->setCursor(Qt::PointingHandCursor);
+        return b;
+    };
+    QPushButton* macBtn = makeSeg(tr("Mac"));
+    QPushButton* winBtn = makeSeg(tr("Windows | Linux"));
+    QPushButton* emacsBtn = makeSeg(tr("Emacs Live"));
+    QPushButton* customBtn = makeSeg(tr("Custom"));
+    shortcutSchemeGroup = new QButtonGroup(this);
+    shortcutSchemeGroup->addButton(macBtn, 3);
+    shortcutSchemeGroup->addButton(winBtn, 2);
+    shortcutSchemeGroup->addButton(emacsBtn, 1);
+    shortcutSchemeGroup->addButton(customBtn, 4);
+
+    QWidget* segControl = new QWidget();
+    segControl->setObjectName("segControl");
+    segControl->setStyleSheet(
+        "#segControl { background: rgba(127,127,127,70); border-radius: 7px; }"
+        "#segControl QPushButton { border: none; padding: 6px 16px; border-radius: 5px;"
+        " background: transparent; }"
+        "#segControl QPushButton:hover:!checked { background: rgba(127,127,127,70); }"
+        "#segControl QPushButton:checked { background: palette(highlight);"
+        " color: palette(highlighted-text); }");
+    QHBoxLayout* segLayout = new QHBoxLayout(segControl);
+    segLayout->setContentsMargins(3, 3, 3, 3);
+    segLayout->setSpacing(3);
+    segLayout->addWidget(macBtn);
+    segLayout->addWidget(winBtn);
+    segLayout->addWidget(emacsBtn);
+    segLayout->addWidget(customBtn);
+
+    QHBoxLayout *schemeRow = new QHBoxLayout;
+    schemeRow->addStretch();
+    schemeRow->addWidget(new QLabel(tr("Mode:")));
+    schemeRow->addWidget(segControl);
+    schemeRow->addStretch();
+
+    // Custom-only controls: base preset, manage buttons, and the edit hint.
+    shortcutCustomControls = new QWidget();
+    shortcutBaseCombo = new QComboBox();
+    shortcutBaseCombo->addItem(tr("Mac"), "mac");
+    shortcutBaseCombo->addItem(tr("Windows | Linux"), "win");
+    shortcutBaseCombo->addItem(tr("Emacs Live"), "emacs");
+    shortcutEditRowButton = new QPushButton(tr("Edit Shortcut"));
+    shortcutEditRowButton->setEnabled(false);
+    QPushButton *resetButton = new QPushButton(tr("Reset"));
+    resetButton->setStyleSheet(
+        "QPushButton { background: palette(highlight); color: palette(highlighted-text); }");
+    QPushButton *importButton = new QPushButton(tr("Import…"));
+    QPushButton *exportButton = new QPushButton(tr("Export…"));
+
+    shortcutModifiedLabel = new QLabel();
+    shortcutModifiedLabel->setStyleSheet("QLabel { font-style: italic; }");
+
+    QHBoxLayout *ccTop = new QHBoxLayout;
+    ccTop->setContentsMargins(0, 0, 0, 0);
+    ccTop->addWidget(new QLabel(tr("Base:")));
+    ccTop->addWidget(shortcutBaseCombo);
+    ccTop->addWidget(shortcutEditRowButton);
+    ccTop->addStretch();
+    ccTop->addWidget(shortcutModifiedLabel);
+    ccTop->addWidget(importButton);
+    ccTop->addWidget(exportButton);
+    ccTop->addWidget(resetButton);
+
+    shortcutCustomControls->setLayout(ccTop);
+
+    shortcutTree = new QTreeWidget();
+    shortcutTree->setColumnCount(2);
+    shortcutTree->setHeaderLabels({ tr("Command"), tr("Shortcut") });
+    shortcutTree->setSelectionMode(QAbstractItemView::SingleSelection);
+    shortcutTree->setAlternatingRowColors(true);
+    shortcutTree->setStyleSheet("QTreeView { alternate-background-color: rgba(127,127,127,26); }");
+    shortcutTree->setItemDelegate(new ShortcutKeyDelegate(shortcutTree));
+    shortcutTree->setEditTriggers(QAbstractItemView::DoubleClicked
+        | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);
+    shortcutTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+    shortcutTree->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addLayout(schemeRow);
+    layout->addWidget(shortcutTree, 1);
+    layout->addWidget(shortcutCustomControls);
+    shortcuts_box->setLayout(layout);
+
+    int mode = piSettings->shortcut_mode;
+    if (QAbstractButton* active = shortcutSchemeGroup->button(mode)) active->setChecked(true);
+    shortcutCustomControls->setVisible(mode == 4);
+    reloadShortcutTree();
+
+    connect(shortcutSchemeGroup, &QButtonGroup::idToggled, this,
+        [this](int, bool checked) { if (checked) onShortcutSchemeToggled(); });
+    connect(shortcutBaseCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+        [this](int) {
+            QString newBase = shortcutBaseCombo->currentData().toString();
+            // Keep the user's edits (diffs from the old base) as a layer over the new base.
+            QMap<QString, QString> overrides = collectDiffsAgainst(shortcutEditBase);
+            fillShortcutTree(shortcutTree, newBase, overrides, true);
+            shortcutEditBase = newBase;
+            applyShortcuts();
+        });
+    connect(shortcutTree, &QTreeWidget::itemChanged, this, &SettingsWidget::onShortcutItemChanged);
+    // Enable Edit only when a command row (not a group header) is selected.
+    connect(shortcutTree, &QTreeWidget::itemSelectionChanged, this, [this]() {
+        QTreeWidgetItem* it = shortcutTree->currentItem();
+        shortcutEditRowButton->setEnabled(it && it->parent() != nullptr
+            && (it->flags() & Qt::ItemIsEditable));
+    });
+    // Edit / double-click both start recording the selected row's shortcut.
+    connect(shortcutEditRowButton, &QPushButton::clicked, this, [this]() {
+        QTreeWidgetItem* it = shortcutTree->currentItem();
+        if (it && it->parent()) shortcutTree->editItem(it, 1);
+    });
+    connect(resetButton, &QPushButton::clicked, this, [this]() { resetShortcutsToBase(); });
+    connect(importButton, &QPushButton::clicked, this, [this]() { importShortcuts(); });
+    connect(exportButton, &QPushButton::clicked, this, [this]() { exportShortcuts(); });
+
+    return shortcuts_box;
+}
+
+// Resolve the base preset + user overrides for the currently-active scheme.
+void SettingsWidget::currentBaseAndOverrides(QString& base, QMap<QString, QString>& overrides) const {
+    int mode = piSettings->shortcut_mode;
+    base = (mode == 2) ? "win" : (mode == 1) ? "emacs" : "mac";
+    overrides.clear();
+    if (mode == 4 && !shortcutConfigPath.isEmpty() && QFile::exists(shortcutConfigPath)) {
+        readShortcutIni(shortcutConfigPath, base, overrides);
+    }
+}
+
+// Fill a tree grouped by menu category. editable=true marks command rows
+// editable (the delegate confines editing to the Shortcut column).
+void SettingsWidget::fillShortcutTree(QTreeWidget* tree, const QString& base,
+                                      const QMap<QString, QString>& overrides, bool editable) {
+    QSignalBlocker blocker(tree);
+    tree->clear();
+    QMap<QString, QTreeWidgetItem*> groups;
+    for (const ShortcutDef& d : MainWindow::shortcutDefs()) {
+        QString grp(d.group);
+        QTreeWidgetItem* parent = groups.value(grp, nullptr);
+        if (!parent) {
+            parent = new QTreeWidgetItem(tree, QStringList{ grp });
+            parent->setFlags(Qt::ItemIsEnabled);
+            parent->setFirstColumnSpanned(true);
+            QFont gf = parent->font(0);
+            gf.setBold(true);
+            gf.setPointSizeF(gf.pointSizeF() * 1.1);
+            parent->setFont(0, gf);
+            parent->setBackground(0, QColor(127, 127, 127, 120));
+            parent->setExpanded(true);
+            groups.insert(grp, parent);
+        }
+        QString baseKey = baseKeyFor(d, base);
+        QString key = overrides.value(d.id, baseKey);
+        QTreeWidgetItem* item = new QTreeWidgetItem(parent);
+        item->setText(0, QCoreApplication::translate("MainWindow", d.desc));
+        item->setText(1, key);
+        item->setData(0, Qt::UserRole, QString(d.id));
+        item->setData(1, Qt::UserRole, key); // last-applied value, for revert-on-cancel
+        if (editable) item->setFlags(item->flags() | Qt::ItemIsEditable);
+    }
+    restyleShortcutTree(tree, base);
+}
+
+// Colour + weight every command row: red for a binding shared by 2+ commands
+// (a conflict), accent + bold for one changed from the base preset, default
+// otherwise. Tooltips explain each.
+void SettingsWidget::restyleShortcutTree(QTreeWidget* tree, const QString& base) {
+    QMap<QString, QString> baseOf;
+    for (const ShortcutDef& d : MainWindow::shortcutDefs()) baseOf.insert(d.id, baseKeyFor(d, base));
+
+    QMap<QString, QList<QTreeWidgetItem*>> byVal;
+    for (int g = 0; g < tree->topLevelItemCount(); ++g) {
+        QTreeWidgetItem* p = tree->topLevelItem(g);
+        for (int i = 0; i < p->childCount(); ++i) {
+            QString c = canonicalChord(p->child(i)->text(1));
+            if (!c.isEmpty()) byVal[c].append(p->child(i));
+        }
+    }
+
+    int modifiedCount = 0;
+    QSignalBlocker b(tree);
+    for (int g = 0; g < tree->topLevelItemCount(); ++g) {
+        QTreeWidgetItem* p = tree->topLevelItem(g);
+        for (int i = 0; i < p->childCount(); ++i) {
+            QTreeWidgetItem* it = p->child(i);
+            QString id = it->data(0, Qt::UserRole).toString();
+            QString v = it->text(1).trimmed();
+            const QList<QTreeWidgetItem*>& sharing = byVal.value(canonicalChord(v));
+            bool conflict = !v.isEmpty() && sharing.size() > 1;
+            bool modified = baseOf.contains(id) && v != baseOf.value(id);
+            if (modified) ++modifiedCount;
+
+            QFont f = it->font(1);
+            f.setBold(false);
+            f.setItalic(modified);
+            it->setFont(1, f);
+
+            if (conflict) {
+                QStringList others;
+                for (QTreeWidgetItem* o : sharing) if (o != it) others << o->text(0);
+                it->setForeground(1, QColor(0xE0, 0x52, 0x52));
+                it->setToolTip(1, tr("Also assigned to: %1").arg(others.join(", ")));
+            } else if (modified) {
+                QString def = baseOf.value(id);
+                it->setForeground(1, tree->palette().color(QPalette::Highlight));
+                it->setToolTip(1, tr("Changed from default (%1)").arg(def.isEmpty() ? tr("unset") : def));
+            } else {
+                it->setData(1, Qt::ForegroundRole, QVariant());
+                it->setToolTip(1, QString());
+            }
+        }
+    }
+
+    if (shortcutModifiedLabel) {
+        shortcutModifiedLabel->setText(modifiedCount == 0
+            ? tr("(no changes)")
+            : tr("(%1 changed)").arg(modifiedCount));
+    }
+}
+
+// Rebuild the single tree for the active scheme; editable only for Custom.
+void SettingsWidget::reloadShortcutTree() {
+    if (!shortcutTree) return;
+    int mode = piSettings->shortcut_mode;
+    bool editable = (mode == 4);
+    // Presets are read-only: no selection / focus, so nothing looks interactive.
+    shortcutTree->setSelectionMode(editable ? QAbstractItemView::SingleSelection
+                                            : QAbstractItemView::NoSelection);
+    shortcutTree->setFocusPolicy(editable ? Qt::StrongFocus : Qt::NoFocus);
+    if (shortcutEditRowButton) shortcutEditRowButton->setEnabled(false);
+
+    QString base;
+    QMap<QString, QString> overrides;
+    currentBaseAndOverrides(base, overrides);
+    {
+        QSignalBlocker b(shortcutBaseCombo);
+        int i = shortcutBaseCombo->findData(base);
+        if (i >= 0) shortcutBaseCombo->setCurrentIndex(i);
+    }
+    shortcutEditBase = base;
+    fillShortcutTree(shortcutTree, base, overrides, editable);
+}
+
+// Gather the command rows whose current binding differs from the given base.
+QMap<QString, QString> SettingsWidget::collectDiffsAgainst(const QString& base) const {
+    QMap<QString, QString> current;
+    for (int g = 0; g < shortcutTree->topLevelItemCount(); ++g) {
+        QTreeWidgetItem* parent = shortcutTree->topLevelItem(g);
+        for (int i = 0; i < parent->childCount(); ++i) {
+            QTreeWidgetItem* it = parent->child(i);
+            current.insert(it->data(0, Qt::UserRole).toString(), it->text(1).trimmed());
+        }
+    }
+    QMap<QString, QString> diffs;
+    for (const ShortcutDef& d : MainWindow::shortcutDefs()) {
+        QString id(d.id);
+        if (current.contains(id) && current.value(id) != baseKeyFor(d, base)) {
+            diffs.insert(id, current.value(id));
+        }
+    }
+    return diffs;
+}
+
+// Gather only the command rows that differ from the chosen base preset.
+QMap<QString, QString> SettingsWidget::collectShortcutDiffs(QString* outBase) const {
+    QString base = shortcutBaseCombo->currentData().toString();
+    if (outBase) *outBase = base;
+    return collectDiffsAgainst(base);
+}
+
+void SettingsWidget::onShortcutSchemeToggled() {
+    int mode = shortcutSchemeGroup->checkedId();
+    shortcutCustomControls->setVisible(mode == 4);
+    emit shortcutSchemeChanged(mode); // MainWindow sets the mode + reapplies
+    reloadShortcutTree();             // reflect the new mode (editable iff Custom)
+}
+
+void SettingsWidget::applyShortcuts() {
+    QString base;
+    QMap<QString, QString> diffs = collectShortcutDiffs(&base);
+    emit shortcutsApplyRequested(base, diffs);
+}
+
+void SettingsWidget::onShortcutItemChanged(QTreeWidgetItem* item, int column) {
+    if (column != 1 || !item->parent()) return;
+    if (m_inShortcutChange) return; // editor focus-out can re-fire; ignore re-entry
+    QScopedValueRollback<bool> guard(m_inShortcutChange, true);
+
+    QString base = shortcutBaseCombo->currentData().toString();
+    QString newVal = item->text(1).trimmed();
+    QString prevVal = item->data(1, Qt::UserRole).toString();
+
+    if (!newVal.isEmpty()) {
+        QString canon = canonicalChord(newVal);
+        QList<QTreeWidgetItem*> clashes;
+        for (int g = 0; g < shortcutTree->topLevelItemCount(); ++g) {
+            QTreeWidgetItem* p = shortcutTree->topLevelItem(g);
+            for (int i = 0; i < p->childCount(); ++i) {
+                QTreeWidgetItem* o = p->child(i);
+                if (o != item && canonicalChord(o->text(1)) == canon) clashes.append(o);
+            }
+        }
+        if (!clashes.isEmpty()) {
+            QStringList names;
+            for (QTreeWidgetItem* o : clashes) names << o->text(0);
+            QMessageBox box(this);
+            box.setIcon(QMessageBox::Warning);
+            box.setWindowTitle(tr("Shortcut already in use"));
+            box.setText(tr("\"%1\" is already assigned to: %2.").arg(newVal, names.join(", ")));
+            box.setInformativeText(tr("What would you like to do?"));
+            QPushButton* reassign = box.addButton(tr("Reassign to this"), QMessageBox::AcceptRole);
+            box.addButton(tr("Keep both"), QMessageBox::ActionRole);
+            QPushButton* cancel = box.addButton(QMessageBox::Cancel);
+            box.exec();
+            if (box.clickedButton() == cancel) {
+                {
+                    QSignalBlocker b(shortcutTree);
+                    item->setText(1, prevVal);
+                }
+                restyleShortcutTree(shortcutTree, base);
+                return; // nothing applied
+            }
+            if (box.clickedButton() == reassign) {
+                QSignalBlocker b(shortcutTree);
+                for (QTreeWidgetItem* o : clashes) {
+                    o->setText(1, QString());
+                    o->setData(1, Qt::UserRole, QString());
+                }
+            }
+            // "Keep both" leaves the clash; restyle will flag it red.
+        }
+    }
+
+    item->setData(1, Qt::UserRole, newVal);
+    restyleShortcutTree(shortcutTree, base);
+    applyShortcuts();
+}
+
+void SettingsWidget::resetShortcutsToBase() {
+    if (QMessageBox::warning(this, tr("Reset shortcuts?"),
+            tr("This discards all your custom changes and restores the base preset. Continue?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) {
+        return;
+    }
+    fillShortcutTree(shortcutTree, shortcutBaseCombo->currentData().toString(), {}, true);
+    applyShortcuts();
+}
+
+void SettingsWidget::exportShortcuts() {
+    QString path = QFileDialog::getSaveFileName(this, tr("Export Shortcuts"),
+        "sonic-pi-shortcuts.ini", tr("Shortcut files (*.ini)"));
+    if (path.isEmpty()) return;
+    QString base;
+    QMap<QString, QString> diffs = collectShortcutDiffs(&base);
+    QSettings cfg(path, QSettings::IniFormat);
+    cfg.clear();
+    cfg.setValue("base", base);
+    for (auto it = diffs.constBegin(); it != diffs.constEnd(); ++it) {
+        cfg.setValue(it.key(), it.value());
+    }
+    cfg.sync();
+}
+
+void SettingsWidget::importShortcuts() {
+    QString path = QFileDialog::getOpenFileName(this, tr("Import Shortcuts"),
+        QString(), tr("Shortcut files (*.ini)"));
+    if (path.isEmpty()) return;
+    QString base = "mac";
+    QMap<QString, QString> overrides;
+    readShortcutIni(path, base, overrides);
+    {
+        QSignalBlocker b(shortcutSchemeGroup);
+        if (QAbstractButton* customBtn = shortcutSchemeGroup->button(4)) customBtn->setChecked(true);
+    }
+    shortcutCustomControls->setVisible(true);
+    {
+        QSignalBlocker b(shortcutBaseCombo);
+        int baseIdx = shortcutBaseCombo->findData(base);
+        if (baseIdx >= 0) shortcutBaseCombo->setCurrentIndex(baseIdx);
+    }
+    fillShortcutTree(shortcutTree, base, overrides, true);
+    shortcutEditBase = base;
+    emit shortcutSchemeChanged(4);
+    applyShortcuts();
+}
+
 
 // TODO utils?
 QString SettingsWidget::tooltipStrShiftMeta(char key, QString str) {

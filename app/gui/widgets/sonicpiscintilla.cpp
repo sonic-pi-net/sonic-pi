@@ -62,29 +62,15 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     addKeyBinding(settings, QsciCommand::LineUpExtend, Qt::Key_Up | Qt::SHIFT);
     addOtherKeyBinding(settings, QsciCommand::CharRight, Qt::Key_Right);
     addKeyBinding(settings, QsciCommand::CharRightExtend, Qt::Key_Right | Qt::SHIFT);
-    addOtherKeyBinding(settings, QsciCommand::WordRight, Qt::Key_Right | SPi_CTRL);
-    addKeyBinding(settings, QsciCommand::WordRightExtend, Qt::Key_Right | SPi_CTRL | Qt::SHIFT);
     addOtherKeyBinding(settings, QsciCommand::CharLeft, Qt::Key_Left);
     addKeyBinding(settings, QsciCommand::CharLeftExtend, Qt::Key_Left | Qt::SHIFT);
-    addOtherKeyBinding(settings, QsciCommand::WordLeft, Qt::Key_Left | SPi_CTRL);
-    addKeyBinding(settings, QsciCommand::WordLeftExtend, Qt::Key_Left | SPi_CTRL | Qt::SHIFT);
     addOtherKeyBinding(settings, QsciCommand::Delete, Qt::Key_Delete);
     addOtherKeyBinding(settings, QsciCommand::DeleteBack, Qt::Key_Backspace);
     addKeyBinding(settings, QsciCommand::VCHome, Qt::Key_Home);
     addKeyBinding(settings, QsciCommand::VCHomeExtend, Qt::Key_Home | Qt::SHIFT);
     addOtherKeyBinding(settings, QsciCommand::LineEnd, Qt::Key_End);
     addKeyBinding(settings, QsciCommand::LineEndExtend, Qt::Key_End | Qt::SHIFT);
-    addKeyBinding(settings, QsciCommand::DocumentEndExtend, Qt::Key_End | SPi_CTRL | Qt::SHIFT);
     addKeyBinding(settings, QsciCommand::Backtab, Qt::Key_Tab | Qt::SHIFT);
-
-    // copy paste
-    addKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_META);
-    addKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_META);
-    addOtherKeyBinding(settings, QsciCommand::Paste, Qt::Key_V | SPi_CTRL);
-    addOtherKeyBinding(settings, QsciCommand::SelectionCopy, Qt::Key_C | SPi_CTRL);
-    addKeyBinding(settings, QsciCommand::SelectionCut, Qt::Key_X | SPi_META);
-
-    // delete word left and right
 
     standardCommands()->readSettings(settings);
 
@@ -798,6 +784,48 @@ void SonicPiScintilla::wordLeft()
 {
     mutex->lock();
     SendScintilla(QsciCommand::WordLeft);
+    mutex->unlock();
+}
+
+void SonicPiScintilla::selectLineStart()
+{
+    mutex->lock();
+    SendScintilla(QsciCommand::HomeExtend);
+    mutex->unlock();
+}
+
+void SonicPiScintilla::selectLineEnd()
+{
+    mutex->lock();
+    SendScintilla(QsciCommand::LineEndExtend);
+    mutex->unlock();
+}
+
+void SonicPiScintilla::selectWordRight()
+{
+    mutex->lock();
+    SendScintilla(QsciCommand::WordRightExtend);
+    mutex->unlock();
+}
+
+void SonicPiScintilla::selectWordLeft()
+{
+    mutex->lock();
+    SendScintilla(QsciCommand::WordLeftExtend);
+    mutex->unlock();
+}
+
+void SonicPiScintilla::selectDocStart()
+{
+    mutex->lock();
+    SendScintilla(QsciCommand::DocumentStartExtend);
+    mutex->unlock();
+}
+
+void SonicPiScintilla::selectDocEnd()
+{
+    mutex->lock();
+    SendScintilla(QsciCommand::DocumentEndExtend);
     mutex->unlock();
 }
 

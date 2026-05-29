@@ -26,7 +26,11 @@ all makes to have similar controls and fingerings. If they didn't, you'd
 have a tough time switching between different clarinets and you'd be
 stuck to using just one make.
 
-Unfortunately there are a number of standards for shortcuts with macOS and Windows being two of the major styles and other more esoteric editors such as Emacs offering other approaches. You can currently choose between one of these three styles using the menu `IO -> Shortcut Mode`. You can therefore switch between a Windows and a macOS machine and keep your shortcuts consistent.
+Unfortunately there are a number of standards for shortcuts with macOS and Windows being two of the major styles and other more esoteric editors such as Emacs offering other approaches. You can choose between these three styles - *Mac*, *Windows | Linux* and *Emacs Live* - using the menu `IO -> Shortcut Mode`. You can therefore switch between a Windows and a macOS machine and keep your shortcuts consistent.
+
+## Customising your Shortcuts
+
+If none of the presets quite fit your fingers, you can build your own. Open `Preferences -> Shortcuts` and choose the *Custom* mode. Pick one of the presets as a starting point, then double-click any command and press the key combination you'd like to use - Sonic Pi records it on the spot. Bindings you've changed are marked, and if a combination clashes with another command it's highlighted so you can decide what to do. You can also import and export your custom set, which is handy for sharing it or moving it between machines.
 
 ## Control and Meta
 

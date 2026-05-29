@@ -6,10 +6,14 @@
 #include <api/sonicpi_api.h>
 
 #include <QWidget>
+#include <QMap>
 
 class QSlider;
 class QDial;
 class QTabWidget;
+class QTreeWidget;
+class QTreeWidgetItem;
+class QDialog;
 class QBoxLayout;
 class QGroupBox;
 class QComboBox;
@@ -29,7 +33,7 @@ class SettingsWidget : public QWidget
     Q_OBJECT
 
 public:
-    SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, QWidget *parent = nullptr);
+    SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, const QString& shortcutConfigPath, QWidget *parent = nullptr);
     ~SettingsWidget();
 
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
@@ -150,6 +154,13 @@ signals:
     // owns persistence and cross-view sync.
     void recordingModeChangedFromPrefs(int mode);
 #endif
+
+    // Keyboard Shortcuts tab. schemeChanged switches the active scheme
+    // (1=Emacs, 2=Win, 3=Mac, 4=Custom). applyRequested carries the custom
+    // base preset + only the diffs from it; MainWindow owns the write to
+    // keyboard-shortcuts.ini + reapply.
+    void shortcutSchemeChanged(int mode);
+    void shortcutsApplyRequested(QString base, QMap<QString, QString> diffs);
 
 private:
     SonicPiSettings* piSettings;
@@ -273,6 +284,16 @@ private:
     QLabel *language_details_label;
     QLabel *language_info_label;
 
+    QTreeWidget *shortcutTree = nullptr;
+    QComboBox *shortcutBaseCombo = nullptr;
+    QButtonGroup *shortcutSchemeGroup = nullptr;
+    QWidget *shortcutCustomControls = nullptr;
+    QPushButton *shortcutEditRowButton = nullptr;
+    QLabel *shortcutModifiedLabel = nullptr;
+    QString shortcutConfigPath;
+    QString shortcutEditBase; // base preset the edit tree is currently built on
+    bool m_inShortcutChange = false; // reentrancy guard for the conflict prompt
+
     // TODO
     QGroupBox* createAudioPrefsTab();
     QGroupBox* createIoPrefsTab();
@@ -280,6 +301,19 @@ private:
     QGroupBox* createVisualizationPrefsTab();
     QGroupBox* createUpdatePrefsTab();
     QGroupBox* createLanguagePrefsTab();
+    QGroupBox* createKeyboardShortcutsTab();
+    void reloadShortcutTree();
+    void fillShortcutTree(QTreeWidget* tree, const QString& base, const QMap<QString, QString>& overrides, bool editable);
+    void currentBaseAndOverrides(QString& base, QMap<QString, QString>& overrides) const;
+    void onShortcutItemChanged(QTreeWidgetItem* item, int column);
+    void restyleShortcutTree(QTreeWidget* tree, const QString& base);
+    void onShortcutSchemeToggled();
+    void applyShortcuts();
+    void resetShortcutsToBase();
+    void importShortcuts();
+    void exportShortcuts();
+    QMap<QString, QString> collectShortcutDiffs(QString* outBase) const;
+    QMap<QString, QString> collectDiffsAgainst(const QString& base) const;
 
     void add_language_combo_box_entries(QComboBox* combo);
 
