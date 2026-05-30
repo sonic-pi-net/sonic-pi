@@ -94,6 +94,7 @@ using namespace oscpkt; // OSC specific stuff
 #include <QtConcurrent/QtConcurrentRun>
 #elif defined(Q_OS_MAC)
 #include <QtConcurrent/QtConcurrentRun>
+#include "platform/macos.h"
 #else
 // assuming Raspberry Pi
 #include <QtConcurrentRun>
@@ -256,6 +257,9 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
         std::cout << "[GUI] - full screen" << std::endl;
 
         updateFullScreenMode();
+#ifdef Q_OS_MAC
+        updatePreventSleep((int)piSettings->prevent_sleep);
+#endif
 
         updateColourTheme();
         std::cout << "[GUI] - load workspaces" << std::endl;
@@ -471,6 +475,9 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(showMetroChanged()), this, SLOT(updateMetroVisibility()));
     connect(settingsWidget, SIGNAL(showButtonsChanged()), this, SLOT(updateButtonVisibility()));
     connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
+#ifdef Q_OS_MAC
+    connect(settingsWidget, SIGNAL(preventSleepChanged(int)), this, SLOT(updatePreventSleep(int)));
+#endif
     connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
     connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
     connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
@@ -926,6 +933,26 @@ void MainWindow::updateFullScreenMode()
     this->show();
 }
 
+#ifdef Q_OS_MAC
+void MainWindow::updatePreventSleep(int setting)
+{
+    piSettings->prevent_sleep = static_cast<SonicPiSettings::PreventSleepSetting>(setting);
+
+    if (piSettings->prevent_sleep == SonicPiSettings::PreventSleepDisabled)
+    {
+        SonicPi::preventMacosDisplaySleep(false);
+    }
+    else if (piSettings->prevent_sleep == SonicPiSettings::PreventSleepAlways)
+    {
+        SonicPi::preventMacosDisplaySleep(true);
+    }
+    else
+    {
+        SonicPi::preventMacosDisplaySleep(isRunningCode);
+    }
+}
+#endif
+
 void MainWindow::toggleFocusMode()
 {
     focusMode = !focusMode;
@@ -969,6 +996,14 @@ void MainWindow::allJobsCompleted()
     // re-enable log text selection
     incomingPane->setTextInteractionFlags(Qt::TextSelectableByMouse);
     outputPane->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+    isRunningCode = false;
+#ifdef Q_OS_MAC
+    if (piSettings->prevent_sleep == SonicPiSettings::PreventSleepWhilePlaying)
+    {
+        SonicPi::preventMacosDisplaySleep(false);
+    }
+#endif
 }
 
 void MainWindow::toggleLogVisibility()
@@ -2117,6 +2152,14 @@ void MainWindow::runCode()
         showBufferCapacityError();
         return;
     }
+
+    isRunningCode = true;
+#ifdef Q_OS_MAC
+    if (piSettings->prevent_sleep == SonicPiSettings::PreventSleepWhilePlaying)
+    {
+        SonicPi::preventMacosDisplaySleep(true);
+    }
+#endif
 
     statusBar()->showMessage(tr("Running Code..."), 1000);
 }
@@ -4593,6 +4636,11 @@ void MainWindow::readSettings()
     piSettings->audio_buffer_size   = gui_settings->value("prefs/audio-buffer-size", 0).toInt();
     piSettings->check_updates = gui_settings->value("prefs/rp/check-updates", true).toBool();
     piSettings->auto_indent_on_run = gui_settings->value("prefs/auto-indent-on-run", true).toBool();
+#ifdef Q_OS_MAC
+    piSettings->prevent_sleep = static_cast<SonicPiSettings::PreventSleepSetting>(
+        gui_settings->value("prefs/prevent-sleep",
+                            static_cast<int>(SonicPiSettings::PreventSleepDisabled)).toInt());
+#endif
     piSettings->gui_transparency = gui_settings->value("prefs/gui_transparency", 0).toInt();
     piSettings->show_scopes = gui_settings->value("prefs/scope/show-scopes", true).toBool();
     piSettings->show_scope_labels = gui_settings->value("prefs/scope/show-labels", false).toBool();
@@ -4670,6 +4718,9 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/system-vol", piSettings->main_volume);
     gui_settings->setValue("prefs/rp/check-updates", piSettings->check_updates);
     gui_settings->setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
+#ifdef Q_OS_MAC
+    gui_settings->setValue("prefs/prevent-sleep", static_cast<int>(piSettings->prevent_sleep));
+#endif
     gui_settings->setValue("prefs/gui_transparency", piSettings->gui_transparency);
     gui_settings->setValue("prefs/scope/show-labels", piSettings->show_scope_labels);
     gui_settings->setValue("prefs/scope/show-scopes", piSettings->show_scopes);

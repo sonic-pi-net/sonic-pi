@@ -493,6 +493,25 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     auto_indent_on_run = new QCheckBox(tr("Auto-align"));
     auto_indent_on_run->setToolTip(tr("Automatically align code on Enter or Run "));
 
+#ifdef Q_OS_MAC
+    prevent_sleep_combo = new QComboBox();
+    prevent_sleep_combo->addItem(tr("Disabled"));
+    prevent_sleep_combo->addItem(tr("Always"));
+    prevent_sleep_combo->addItem(tr("When playing"));
+    prevent_sleep_combo->setMinimumContentsLength(2);
+    prevent_sleep_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    prevent_sleep_combo->setToolTip(tr("Prevent the computer from sleeping"));
+
+    QLabel *prevent_sleep_label = new QLabel;
+    prevent_sleep_label->setText(tr("Prevent sleep"));
+    prevent_sleep_label->setToolTip(tr("Prevent the computer from sleeping"));
+
+    QGridLayout *prevent_sleep_layout = new QGridLayout();
+
+    prevent_sleep_layout->addWidget(prevent_sleep_label, 0, 0);
+    prevent_sleep_layout->addWidget(prevent_sleep_combo, 0, 1);
+#endif
+
     show_line_numbers = new QCheckBox(tr("Show line numbers"));
     show_line_numbers->setToolTip(tr("Toggle line number visibility."));
 
@@ -578,6 +597,9 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     automation_box_layout->addWidget(auto_indent_on_run);
     automation_box_layout->addWidget(full_screen);
+#ifdef Q_OS_MAC
+    automation_box_layout->addLayout(prevent_sleep_layout);
+#endif
 
     automation_box->setLayout(automation_box_layout);
 
@@ -1390,6 +1412,12 @@ void SettingsWidget::toggleScope( QObject* qo ) {
   emit scopeChanged(name);
 }
 
+#ifdef Q_OS_MAC
+void SettingsWidget::changePreventSleep(int index) {
+  emit preventSleepChanged(index);
+}
+#endif
+
 
 
 // TODO: Implement real-time language switching
@@ -2102,6 +2130,10 @@ void SettingsWidget::updateSettings() {
     piSettings->show_buttons = show_buttons->isChecked();
     piSettings->show_tabs = show_tabs->isChecked();
     piSettings->full_screen = full_screen->isChecked();
+#ifdef Q_OS_MAC
+    piSettings->prevent_sleep = static_cast<SonicPiSettings::PreventSleepSetting>(
+        prevent_sleep_combo->currentIndex());
+#endif
     piSettings->log_synths = log_synths->isChecked();
     piSettings->clear_output_on_run = clear_output_on_run->isChecked();
     piSettings->log_cues = log_cues->isChecked();
@@ -2161,6 +2193,9 @@ void SettingsWidget::settingsChanged() {
     show_buttons->setChecked(piSettings->show_buttons);
     show_tabs->setChecked(piSettings->show_tabs);
     full_screen->setChecked(piSettings->full_screen);
+#ifdef Q_OS_MAC
+    prevent_sleep_combo->setCurrentIndex(static_cast<int>(piSettings->prevent_sleep));
+#endif
     log_synths->setChecked(piSettings->log_synths);
     clear_output_on_run->setChecked(piSettings->clear_output_on_run);
     log_cues->setChecked(piSettings->log_cues);
@@ -2224,6 +2259,9 @@ void SettingsWidget::connectAll() {
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
+#ifdef Q_OS_MAC
+    connect(prevent_sleep_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(changePreventSleep(int)));
+#endif
     connect(log_synths, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(log_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));

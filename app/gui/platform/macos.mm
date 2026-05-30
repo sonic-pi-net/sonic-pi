@@ -15,6 +15,7 @@
 #import <AppKit/NSWindow.h>
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
+#import <IOKit/pwr_mgt/IOPMLib.h>
 #include <libproc.h>
 #include <unistd.h>
 #include <cstdio>
@@ -39,6 +40,43 @@ void removeMacosSpecificMenuItems()
   // menu
 
   [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"NSFullScreenMenuItemEverywhere"];
+}
+
+void preventMacosDisplaySleep(bool prevent)
+{
+    static IOPMAssertionID assertionID = kIOPMNullAssertionID;
+
+    if (prevent)
+    {
+        if (assertionID != kIOPMNullAssertionID) return;  // Nothing to do
+
+        IOReturn ret = IOPMAssertionCreateWithName(
+                          kIOPMAssertionTypeNoDisplaySleep,
+                          kIOPMAssertionLevelOn,
+                          CFSTR("SonicPi is active"),
+                          &assertionID);
+
+        if (ret != kIOReturnSuccess)
+        {
+            assertionID = kIOPMNullAssertionID;
+            NSLog(@"error creating power assertion: %x", ret);
+        }
+    }
+    else
+    {
+        if (assertionID == kIOPMNullAssertionID) return;  // Nothing to do
+
+        IOReturn ret = IOPMAssertionRelease(assertionID);
+        if (ret != kIOReturnSuccess)
+        {
+            NSLog(@"error releasing power assertion: %x", ret);
+        }
+
+        // It's very unlikely that the release would fail. We may as well null
+        // out the ID unconditionally so the next attempt to create an assertion
+        // will go through.
+        assertionID = kIOPMNullAssertionID;
+    }
 }
 
 std::string requestMicrophoneAccess()
