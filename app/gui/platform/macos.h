@@ -22,6 +22,9 @@ namespace SonicPi {
 
 void removeMacosSpecificMenuItems();
 
+// Prevent (or stop preventing) the display from going to sleep.
+void preventMacosDisplaySleep(bool prevent);
+
 // Request microphone access via AVCaptureDevice. Must be called from the
 // GUI/foreground app (not a background helper) or macOS will auto-deny.
 // Returns the current status string ("notDetermined" / "authorized" /

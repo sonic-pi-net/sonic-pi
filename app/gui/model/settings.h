@@ -14,6 +14,15 @@ public:
         AudioAndVideo = 1
     };
 
+#ifdef Q_OS_MAC
+    enum PreventSleepSetting
+    {
+        PreventSleepDisabled = 0,
+        PreventSleepAlways = 1,
+        PreventSleepWhilePlaying = 2
+    };
+#endif
+
     // Audio Settings
     int main_volume;
     bool mixer_invert_stereo;
@@ -51,6 +60,9 @@ public:
     RecordingType recording_type;
     bool spout_show_cursor;
     bool full_screen;
+#ifdef Q_OS_MAC
+    PreventSleepSetting prevent_sleep;
+#endif
     bool goto_buffer_shortcuts;
     bool log_synths;
     bool clear_output_on_run;

@@ -101,6 +101,9 @@ private slots:
     void logSynths();
     void clearOutputOnRun();
     void autoIndentOnRun();
+#ifdef Q_OS_MAC
+    void changePreventSleep(int index);
+#endif
     void showDebugLogPanel();
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     void recordingTypeChanged(int index);
@@ -148,6 +151,9 @@ signals:
     void logSynthsChanged();
     void clearOutputOnRunChanged();
     void autoIndentOnRunChanged();
+#ifdef Q_OS_MAC
+    void preventSleepChanged(int setting);
+#endif
     void showDebugLogPanelChanged();
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // Recording → Type radio toggled. MainWindow::setRecordingMode
@@ -213,6 +219,9 @@ private:
     QCheckBox *show_line_numbers;
     QCheckBox *auto_indent_on_run;
     QCheckBox *full_screen;
+#ifdef Q_OS_MAC
+    QComboBox *prevent_sleep_combo;
+#endif
     QCheckBox* goto_buffer_shortcuts;
     QCheckBox *show_log;
     QCheckBox *show_cues;

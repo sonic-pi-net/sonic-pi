@@ -371,6 +371,9 @@ private slots:
     void updateButtonVisibility();
     void showButtonsMenuChanged();
     void toggleButtonVisibility();
+#ifdef Q_OS_MAC
+    void updatePreventSleep(int setting);
+#endif
 
     void requestVersion();
     void heartbeatOSC();
@@ -491,6 +494,8 @@ private:
     bool is_recording;
     bool show_rec_icon_a;
     QTimer* rec_flash_timer;
+
+    bool isRunningCode = false;
 
     QSplashScreen* splash;
 
