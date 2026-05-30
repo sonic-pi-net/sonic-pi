@@ -90,6 +90,7 @@ would like to thank everyone who has supported Sonic Pi in this way -
 especially the following individuals who have been remarkably generous:
 
 * Adam Renklint
+* Aditya Dhara
 * Alan Boulton
 * Alan O'Donnell
 * [Alexandre Enkerli](https://twitter.com/enkerli)
@@ -104,14 +105,18 @@ especially the following individuals who have been remarkably generous:
 * [Boris Bokowski](https://twitter.com/bokowski)
 * [Brandon Weaver](https://twitter.com/keystonelemur)
 * Bruce
+* Bruce Williams
 * Bryce Young
 * Cecily Morrison
 * [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
 * [Christoffer Krakou](http://www.krakou.dk/)
+* Christopher Kyburg
 * Cobey Smith
 * Dallas Kidd
 * Dago Sondervan
+* Damian Maclennan
 * [Darin Wilson](https://twitter.com/darinwilson/)
+* Dave Thomas
 * David Dickey
 * [Dean Wampler](https://twitter.com/deanwampler)
 * desmosthenes
@@ -122,14 +127,20 @@ especially the following individuals who have been remarkably generous:
 * Fergal Byrne
 * Florent Biville
 * [Florian Gilcher](https://twitter.com/Argorak)
+* Francesco Cesarini
 * [Gabe Jackson](https://github.com/gj)
 * Gerriet Selent
 * Gert Sylvest
 * [Godigital Media Group](godigitalmg.com)
 * Isu Portu
+* Jafar Guliyev
+* James
 * [James Abley](https://twitter.com/jabley)
 * Jaroslav Lichtblau
+* Jean-Luc Geering
 * jer
+* Joek van Montfort
+* Joshua Lotz
 * [Joshua Thomas](instagram.com/tig3rbabu)
 * [Justin Balthrop](http://ninjudd.com)
 * [Justin Worrall](https://twitter.com/juzbo)
@@ -143,11 +154,15 @@ especially the following individuals who have been remarkably generous:
 * [Markku Rontu](https://twitter.com/zorcam)
 * [Marmaduke Woodman](https://github.com/maedoc)
 * [Martin Butz](https://github.com/mbutz)
+* Martin Kleppmann
 * [Martin McDermott](https://twitter.com/marv_mcd)
+* Martin Wöginger
 * Matt Jones
 * Matt Koscica
 * [Matthew Gilliard](https://twitter.com/MaximumGilliard)
 * Mat Schaffer
+* matthew
+* Max Jackson
 * Mayur Dave
 * [Michael Hunger](https://twitter.com/mesirii)
 * [Nada Amin](http://namin.net)
@@ -157,11 +172,14 @@ especially the following individuals who have been remarkably generous:
 * [Oladapo Fadeyi](https://twitter.com/erfadda)
 * [Ole Friis Østergaard](https://github.com/olefriis)
 * [Paul Williams](https://pcwilliams.design)
+* Phoomparin Mano
 * [Pit Noack](http://www.maschinennah.de/)
+* Rainer Enzo Schilder
 * Ramsés Morales
 * Rand Fitzpatrick
 * [Richard Buckley](https://burgundycomputing.com)
 * [Richard Bullington-McGuire](https://www.obscure.org/~rbulling/)
+* Rick Coates
 * Robert Giacinto
 * [Robin Newman](https://twitter.com/rbnman)
 * [Roxanne Harris](https://instagram.com/alsoknownasrox)
@@ -171,9 +189,11 @@ especially the following individuals who have been remarkably generous:
 * [Sean Raser](https://twitter.com/sraser88)
 * Sci.Phi
 * [Scott Fleckenstein](http://nullstyle.com))
+* Scott Hanes
 * [Scott Turner](https://twitter.com/scottturneruon)
 * [Sébastien Rannou](https://mxs.sbrk.org/)
 * [Simon Woodman](https://twitter.com/sjwoodman)
+* Srinivas
 * Terry Wisniewski
 * [thattommyhall](https://twitter.com/thattommyhall)
 * Tim Regan
