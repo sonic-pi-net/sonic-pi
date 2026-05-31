@@ -9,4 +9,10 @@ cd build
 @REM As passing in during the config step isn't honoured
 cmake --build . --config %CONFIG%
 
+if %ERRORLEVEL% neq 0 (
+    cd %WORKING_DIR%
+    exit /b %ERRORLEVEL%
+)
+
 cd %WORKING_DIR%
+exit /b 0
