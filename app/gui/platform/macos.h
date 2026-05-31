@@ -22,6 +22,14 @@ namespace SonicPi {
 
 void removeMacosSpecificMenuItems();
 
+// Drop the window backing nsViewPtr (cast from QWidget::winId()) to the
+// floating window level. A frameless always-on-top popup uses Qt::ToolTip,
+// which macOS places above everything — including the Cmd-Tab application
+// switcher, which then renders *behind* the popup. Floating level keeps the
+// popup above the editor but below the switcher. Call after each show();
+// no-op if the view has no NSWindow yet.
+void setPopupBelowSwitcher(void* nsViewPtr);
+
 // Request microphone access via AVCaptureDevice. Must be called from the
 // GUI/foreground app (not a background helper) or macOS will auto-deny.
 // Returns the current status string ("notDetermined" / "authorized" /

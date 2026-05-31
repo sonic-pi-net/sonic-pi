@@ -58,6 +58,7 @@ public:
     bool log_auto_scroll;
     int gui_transparency;
     bool show_autocompletion;
+    bool show_completion_help;
     bool show_context;
     bool show_debug_log_panel;
     SonicPiTheme::Style themeStyle;

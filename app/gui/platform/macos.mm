@@ -13,6 +13,7 @@
 
 #include "macos.h"
 #import <AppKit/NSWindow.h>
+#import <AppKit/NSView.h>
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 #include <libproc.h>
@@ -39,6 +40,14 @@ void removeMacosSpecificMenuItems()
   // menu
 
   [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"NSFullScreenMenuItemEverywhere"];
+}
+
+void setPopupBelowSwitcher(void* nsViewPtr)
+{
+    if (!nsViewPtr) return;
+    NSView* view = (NSView*)nsViewPtr;
+    NSWindow* win = [view window];
+    if (win) [win setLevel:NSFloatingWindowLevel];
 }
 
 std::string requestMicrophoneAccess()

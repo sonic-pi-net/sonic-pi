@@ -14,10 +14,81 @@
 
 #include <QDir>
 #include <iostream>
+#include <cmath>
 #include <QRegularExpression>
 #include "scintilla_api.h"
 
 using namespace std;
+
+namespace {
+// The word immediately before the partial being typed (skips empty tokens).
+QString lastWordBeforePartial(const QStringList& context) {
+    for (int i = context.size() - 2; i >= 0; --i)
+        if (!context[i].isEmpty()) return context[i];
+    return QString();
+}
+
+// True when the cursor is in a note slot: the first argument of play / scale /
+// chord (their tonic), or a note: opt value (e.g. `synth :saw, note: `).
+bool isNoteContext(const QStringList& context) {
+    const QString lw = lastWordBeforePartial(context);
+    return lw == "play" || lw == "scale" || lw == "chord" || lw == "note:";
+}
+
+// Note completions. MIDI NUMBERS come first — no music theory needed to pick a
+// pitch — each annotated with its note name and frequency. Then named spellings
+// (naturals, sharps, flats: :c4, :cs4, :db4, :eb1, :cb3) for those who think in
+// notes. Sonic Pi uses C4 = 60, A4 = 69 = 440 Hz.
+// The list is a compile-time constant, so build it once and reuse it (this runs
+// on the per-keystroke completion path).
+const QList<CompletionItem>& noteCompletions() {
+    static const QList<CompletionItem> items = [] {
+        // Idiomatic spellings: sharps for C#/F#, flats for Eb/Ab/Bb (the common
+        // mix — e.g. "Bb" reads more naturally than "As").
+        static const char* kCanon[12] =
+            {"c", "cs", "d", "eb", "e", "f", "fs", "g", "ab", "a", "bb", "b"};
+        QList<CompletionItem> out;
+
+        // 1) Numbers (priority); the dimmed summary shows the note name.
+        for (int midi = 36; midi <= 96; ++midi) {
+            CompletionItem it;
+            it.text = QString::number(midi);
+            it.kind = "note";
+            it.summary = QString(":%1%2").arg(kCanon[midi % 12]).arg(midi / 12 - 1);
+            it.note = midi;
+            out.append(it);
+        }
+
+        // 2) Named spellings.
+        struct Spelling { const char* name; int offset; };
+        static const Spelling kSpellings[] = {
+            {"c", 0},  {"cs", 1},  {"db", 1},
+            {"d", 2},  {"ds", 3},  {"eb", 3},
+            {"e", 4},
+            {"f", 5},  {"fs", 6},  {"gb", 6},
+            {"g", 7},  {"gs", 8},  {"ab", 8},
+            {"a", 9},  {"as", 10}, {"bb", 10},
+            {"b", 11},
+            {"cb", -1}, {"es", 5}, {"fb", 4}, {"bs", 12}, // rarer enharmonics
+        };
+        for (int oct = 2; oct <= 7; ++oct) {
+            const int base = (oct + 1) * 12;
+            for (const Spelling& sp : kSpellings) {
+                const int midi = base + sp.offset;
+                if (midi < 36 || midi > 96) continue;   // stay within the keyboard range
+                CompletionItem it;
+                it.text = QString(":%1%2").arg(sp.name).arg(oct);
+                it.kind = "note";
+                it.summary = QString::number(midi);
+                it.note = midi;
+                out.append(it);
+            }
+        }
+        return out;
+    }();
+    return items;
+}
+} // namespace
 
 // The ctor.
 ScintillaAPI::ScintillaAPI(QsciLexer *lexer)
@@ -108,9 +179,79 @@ void ScintillaAPI::setSynthResolver(std::function<QString()> resolver) {
   synthResolver = resolver;
 }
 
+void ScintillaAPI::setSummary(const QString& name, const QString& summary) {
+  summaries.insert(name, summary);
+}
+
+void ScintillaAPI::setDoc(const QString& name, const QString& doc) {
+  docs.insert(name, doc);
+}
+
+void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double def) {
+  optRanges.insert(name, {lo, hi, def});
+}
+
+QString ScintillaAPI::kindForContext(int ctx) {
+  switch (ctx) {
+    case FX:              return "fx";
+    case Synth:           return "synth";
+    case Sample:          return "sample";
+    case Chord:           return "chord";
+    case Scale:           return "scale";
+    case Tuning:          return "tuning";
+    case Examples:        return "example";
+    case MidiOuts:        return "port";
+    case CuePath:         return "cue";
+    case LinkAudioPeer:   return "peer";
+    case LinkAudioChannel:return "channel";
+    case PlayParam:
+    case SampleParam:
+    case MidiParam:
+    case RandomSource:    return "opt";
+    default:              return "fn";
+  }
+}
+
+QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context) {
+  if (isNoteContext(context)) {
+    return noteCompletions();
+  }
+  // Opt value slot for a bounded opt (e.g. `pan: `) → a single slider item.
+  const QString optBefore = lastWordBeforePartial(context);
+  if (optRanges.contains(optBefore)) {
+    const OptRange r = optRanges.value(optBefore);
+    CompletionItem it;
+    it.kind = "range";
+    it.slider = true;
+    it.rmin = r.lo;
+    it.rmax = r.hi;
+    // Start at the value already typed (if numeric), else the opt's default.
+    bool ok = false;
+    const double typed = context.isEmpty() ? 0.0 : context.last().toDouble(&ok);
+    it.rdefault = ok ? typed : r.def;
+    it.text = optBefore;     // e.g. "pan:" — for context/labelling
+    return { it };
+  }
+  QStringList names;
+  updateAutoCompletionList(context, names);
+  QList<CompletionItem> items;
+  items.reserve(names.size());
+  for (const QString& n : names) {
+    CompletionItem item;
+    item.text = n;
+    item.kind = lastKind;
+    item.summary = summaries.value(n);
+    item.doc = docs.value(n);
+    items.append(item);
+  }
+  return items;
+}
+
 void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
 					   QStringList &list) {
   if (context.isEmpty()) return;
+
+  lastKind.clear();
 
   // default
   int ctx = Func;
@@ -164,6 +305,7 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
              (first == "with_fx")) {
     if (last.endsWith(':')) return; // don't try to complete parameters
     if (fxArgs.contains(second)) {
+      lastKind = "opt";
       list = fxArgs[second];
       return;
     }
@@ -172,6 +314,7 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
   } else if (words.length() >= 2 && first == "synth") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     if (synthArgs.contains(second)) {
+      lastKind = "opt";
       list = synthArgs[second];
       return;
     }
@@ -185,6 +328,7 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
     if (!synth.isEmpty()) {
       QString key = synth.startsWith(':') ? synth : (":" + synth);
       if (synthArgs.contains(key)) {
+        lastKind = "opt";
         list = synthArgs[key];
         return;
       }
@@ -218,15 +362,12 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
     }
   }
 
-  if (partial == "") {
-    list << keywords[ctx];
-  } else {
-    foreach (const QString &str, keywords[ctx]) {
-      if (str.startsWith(partial)) {
-	list << str;
-      }
-    }
-  }
+  lastKind = kindForContext(ctx);
+
+  // Return the FULL candidate list — the caller (completionsFor → the editor's
+  // fuzzy matcher) does the filtering/ranking, so typing "b" can still match
+  // ":beep". (Prefix-filtering here would defeat fuzzy matching.)
+  list << keywords[ctx];
 }
 
 QStringList ScintillaAPI::callTips(const QStringList &context, int commas, QsciScintilla::CallTipsStyle style, QList<int> &shifts) {

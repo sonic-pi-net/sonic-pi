@@ -283,6 +283,61 @@ make_tab.call("fx", SonicPi::Synths::SynthInfo.fx_doc_html_map, :titleize, true,
 make_tab.call("samples", SonicPi::Synths::SynthInfo.samples_doc_html_map, false, true, false, true)
 make_tab.call("lang", SonicPi::Lang::Core.docs_html_map.merge(SonicPi::Lang::Sound.docs_html_map).merge(ruby_html_map), false, true, true, false)
 
+# One-line, C++-string-safe summary text for the completion popup.
+summary_clean = lambda do |s|
+  t = s.to_s.gsub(/\s+/, ' ').strip
+  t = t[0, 90]
+  t.gsub(/[\\"]/) { |m| "\\" + m }
+end
+# Full docstring escaped for a C++ string literal, preserving newlines (so
+# markdown renders) and capped to a sane length.
+doc_escape = lambda do |s|
+  s.to_s.gsub(/[\\"]/) { |m| "\\" + m }.gsub("\r", "").gsub("\n", "\\n")[0, 30000]
+end
+# opt name -> short doc, collected across all synths/fx (first one wins).
+opt_summaries = {}
+
+# An opt's default value as a bare display string, or nil when there's no
+# meaningful one (consumers wrap it in backticks as needed).
+fmt_default = lambda do |d|
+  if d.is_a?(Numeric) || d == true || d == false
+    d.to_s
+  elsif d.is_a?(Symbol)
+    d.inspect
+  elsif d.is_a?(String) && !d.empty?
+    d
+  end
+end
+
+# Minimal inline HTML for an opt docstring: escape <,>,& and turn `code` spans
+# into <code> (opt docs are otherwise plain prose).
+opt_doc_html = lambda do |s|
+  s.to_s.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+   .gsub(/`([^`]+)`/, '<code>\1</code>')
+end
+
+# The "Opts" section appended to a synth/fx docstring, as HTML (so opt names can
+# be coloured): a compact names+defaults summary grid to scan, then a description
+# per opt — each its own block (name heading + doc), separated by a rule.
+opts_html = lambda do |arg_info|
+  return "" if arg_info.empty?
+  # Summary: a small-font grid, 2 opts per row (a name cell + a value cell each).
+  cells = arg_info.map do |ak, info|
+    ds = fmt_default.call(info[:default])
+    # opt name links to its description block below (anchor named after the opt).
+    "<td><a href=\"##{ak}\"><code>#{ak}:</code></a></td><td>#{ds ? opt_doc_html.call(ds) : ''}</td>"
+  end
+  rows = cells.each_slice(2).map { |s| "<tr>#{s.join}</tr>" }.join
+  table = "<table cellspacing=\"0\" cellpadding=\"4\" style=\"font-size:small\">#{rows}</table>"
+  blocks = arg_info.map do |ak, info|
+    head = "<a name=\"#{ak}\"></a><b><code>#{ak}:</code></b>"
+    head += " <i>(slidable)</i>" if info[:slidable]
+    body = info[:doc].to_s.strip
+    body.empty? ? "<p>#{head}</p>" : "<p>#{head}</p><p>#{opt_doc_html.call(body)}</p>"
+  end.join("<hr/>")
+  "<p><b>Opts</b></p>#{table}<p>&nbsp;</p>#{blocks}"
+end
+
 docs << "  // FX arguments for autocompletion\n"
 docs << "  QStringList fxtmp;\n"
 SonicPi::Synths::SynthInfo.get_all.each do |k, v|
@@ -293,9 +348,13 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   docs << "  fxtmp.clear(); fxtmp "
   v.arg_info.each do |ak, av|
     docs << "<< \"#{ak}:\" ";
+    opt_summaries[ak] ||= av if av[:doc]
   end
   docs << ";\n"
-  docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n\n"
+  docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n"
+  docs << "  autocomplete->setSummary(\":#{safe_k}\", QString::fromUtf8(\"#{summary_clean.call(v.name)}\"));\n"
+  fx_doc = Kramdown::Document.new(v.doc.to_s.strip).to_html + opts_html.call(v.arg_info)
+  docs << "  autocomplete->setDoc(\":#{safe_k}\", QString::fromUtf8(\"#{doc_escape.call(fx_doc)}\"));\n\n"
 end
 
 
@@ -305,10 +364,55 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   docs << "  fxtmp.clear(); fxtmp "
   v.arg_info.each do |ak, av|
     docs << "<< \"#{ak}:\" ";
+    opt_summaries[ak] ||= av if av[:doc]
   end
   docs << ";\n"
-  docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n\n"
+  docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n"
+  docs << "  autocomplete->setSummary(\":#{k}\", QString::fromUtf8(\"#{summary_clean.call(v.name)}\"));\n"
+  synth_doc = Kramdown::Document.new(v.doc.to_s.strip).to_html + opts_html.call(v.arg_info)
+  docs << "  autocomplete->setDoc(\":#{k}\", QString::fromUtf8(\"#{doc_escape.call(synth_doc)}\"));\n\n"
 end
+
+docs << "  // opt headings (the opt name) + default/slidable + full docstrings\n"
+opt_summaries.each do |ak, info|
+  # HTML, like the synth/fx docs, for consistent block spacing.
+  meta = []
+  ds = fmt_default.call(info[:default])
+  meta << "Default: <code>#{ds}</code>" if ds
+  meta << "<i>slidable</i>" if info[:slidable]
+  body = ""
+  body += "<p>#{meta.join(' · ')}</p>" unless meta.empty?
+  d = info[:doc].to_s.strip
+  body += "<p>#{opt_doc_html.call(d)}</p>" unless d.empty?
+  docs << "  autocomplete->setSummary(\"#{ak}:\", QString::fromUtf8(\"#{ak}:\"));\n"
+  docs << "  autocomplete->setDoc(\"#{ak}:\", QString::fromUtf8(\"#{doc_escape.call(body)}\"));\n"
+  # Bounded opt (inferred from its :type) → a value-picker slider in the GUI.
+  if (r = info[:range])
+    dv = info[:default].is_a?(Numeric) ? info[:default] : ((r[0] + r[1]) / 2.0)
+    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{r[0].to_f}, #{r[1].to_f}, #{dv.to_f});\n"
+  end
+end
+docs << "\n"
+
+# Function summaries + full docstrings for the completion detail pane.
+docs << "  // function summaries + docstrings\n"
+fn_info = {}
+[SonicPi::Lang::Core, SonicPi::Lang::Sound].each do |mod|
+  next unless mod.respond_to?(:docs)
+  mod.docs.each do |name, info|
+    next if info[:hide]
+    fn_info[name.to_s] ||= info
+  end
+end
+fn_info.each do |name, info|
+  esc = name.gsub(/[\\"]/) { |m| "\\" + m }
+  s = (info[:summary] || info[:name]).to_s
+  docs << "  autocomplete->setSummary(\"#{esc}\", QString::fromUtf8(\"#{summary_clean.call(s)}\"));\n" unless s.empty?
+  d = info[:doc].to_s.strip
+  # HTML, like the synth/opt docs, for consistent block spacing.
+  docs << "  autocomplete->setDoc(\"#{esc}\", QString::fromUtf8(\"#{doc_escape.call(Kramdown::Document.new(d).to_html)}\"));\n" unless d.empty?
+end
+docs << "\n"
 
 # play completes the opts of whichever synth use_synth selected (resolved live
 # in the GUI). This list is only the fallback when that synth is unknown, so we

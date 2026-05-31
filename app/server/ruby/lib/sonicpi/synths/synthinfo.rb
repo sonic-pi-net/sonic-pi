@@ -19,6 +19,14 @@ module SonicPi
       include Util
       attr_reader :scsynth_name, :info
 
+      # Semantic opt types → the numeric range they imply, used by tools (e.g. the
+      # GUI shows a slider for a ranged opt). Opts with no :type are plain floats
+      # (free numbers, no range/slider).
+      OPT_TYPE_RANGES = {
+        :pan  => [-1.0, 1.0],   # left .. right
+        :unit => [0.0, 1.0],    # normalised level / mix
+      }
+
       def initialize
         @cached_arg_info = nil
         @scsynth_name = "#{prefix}#{synth_name}"
@@ -229,6 +237,11 @@ module SonicPi
             new_info[:bpm_scale] = default_info[:bpm_scale]
             new_info[:constraints] = constraints
             new_info[:modulatable] = default_info[:modulatable]
+            # Semantic type (default :float) and the range it infers, if any.
+            new_info[:type] = default_info[:type] || :float
+            if r = OPT_TYPE_RANGES[new_info[:type]]
+              new_info[:range] = r
+            end
             res[arg] = new_info
           end
         end
@@ -377,7 +390,8 @@ module SonicPi
 
             :doc => "Position of sound in stereo. With headphones on, this means how much of the sound is in the left ear, and how much is in the right ear. With a value of -1, the sound is completely in the left ear, a value of 0 puts the sound equally in both ears and a value of 1 puts the sound in the right ear. Values in between -1 and 1 move the sound accordingly.",
             :validations => [v_between_inclusive(:pan, -1, 1)],
-            :modulatable => true
+            :modulatable => true,
+            :type => :pan
           },
 
           :pan_slide =>

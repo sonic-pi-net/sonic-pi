@@ -466,6 +466,7 @@ void MainWindow::setupWindowStructure()
     }
     connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
     connect(settingsWidget, SIGNAL(showAutoCompletionChanged()), this, SLOT(changeShowAutoCompletion()));
+    connect(settingsWidget, SIGNAL(showCompletionHelpChanged()), this, SLOT(changeShowCompletionHelp()));
     connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
     connect(settingsWidget, SIGNAL(showCuesChanged()), this, SLOT(updateCuesVisibility()));
     connect(settingsWidget, SIGNAL(showMetroChanged()), this, SLOT(updateMetroVisibility()));
@@ -536,6 +537,8 @@ void MainWindow::setupWindowStructure()
     QHBoxLayout* prefsButtonLayout = new QHBoxLayout;
     QPushButton* prefsHidePushButton = new QPushButton(tr("Close"));
     prefsHidePushButton->setObjectName("prefsHideButton");
+    prefsHidePushButton->setStyleSheet("#prefsHideButton { padding: 5px 18px; }");
+    prefsButtonLayout->setContentsMargins(0, ScaleHeightForDPI(6), ScaleWidthForDPI(10), ScaleHeightForDPI(8));
     prefsButtonLayout->addStretch(1);
     prefsButtonLayout->addWidget(prefsHidePushButton);
     prefsLayout->addLayout(prefsButtonLayout);
@@ -588,6 +591,8 @@ void MainWindow::setupWindowStructure()
         editorTabWidget->addTab(editor, w);
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
+        connect(workspace, &SonicPiScintilla::docsRequested, this,
+                [this](const QString& name) { showHelpForKeyword(name); });
     }
 
     connect(editorTabWidget, SIGNAL(currentChanged(int)), this, SLOT(focusEditor()));
@@ -1284,7 +1289,11 @@ void MainWindow::updateButtonVisibility()
 void MainWindow::completeSnippetListOrIndentLine(QObject* ws)
 {
     SonicPiScintilla* spws = ((SonicPiScintilla*)ws);
-    if (spws->isListActive())
+    if (spws->completionActive())
+    {
+        spws->acceptCompletionPopup();
+    }
+    else if (spws->isListActive())
     {
         spws->tabCompleteifList();
     }
@@ -1769,6 +1778,7 @@ void MainWindow::honourPrefs()
     toggleIcons();
     scope();
     changeShowAutoCompletion();
+    changeShowCompletionHelp();
     changeShowContext();
     changeAudioSafeMode();
     changeEnableExternalSynths();
@@ -2347,8 +2357,6 @@ void MainWindow::help()
 
 void MainWindow::helpContext()
 {
-    if (!docWidget->isVisible())
-        docWidget->show();
     SonicPiScintilla* ws = getCurrentWorkspace();
     QString selection = ws->selectedText();
     if (selection == "")
@@ -2358,8 +2366,15 @@ void MainWindow::helpContext()
         QString text = ws->text(line);
         selection = ws->wordAtLineIndex(line, pos);
     }
+    showHelpForKeyword(selection);
+}
+
+void MainWindow::showHelpForKeyword(QString selection)
+{
+    if (!docWidget->isVisible())
+        docWidget->show();
     selection = selection.toLower();
-    if (selection[0] == ':')
+    if (!selection.isEmpty() && selection[0] == ':')
         selection = selection.mid(1);
 
     if (helpKeywords.contains(selection))
@@ -2720,6 +2735,13 @@ void MainWindow::showAutoCompletionMenuChanged()
     changeShowAutoCompletion();
 }
 
+void MainWindow::showCompletionHelpMenuChanged()
+{
+    piSettings->show_completion_help = showCompletionHelpAct->isChecked();
+    emit settingsChanged();
+    changeShowCompletionHelp();
+}
+
 void MainWindow::showContextMenuChanged()
 {
     piSettings->show_context = showContextAct->isChecked();
@@ -2902,6 +2924,19 @@ void MainWindow::changeShowAutoCompletion()
 
     QSignalBlocker blocker(showAutoCompletionAct);
     showAutoCompletionAct->setChecked(piSettings->show_autocompletion);
+}
+
+void MainWindow::changeShowCompletionHelp()
+{
+    bool show = piSettings->show_completion_help;
+    for (int i = 0; i < editorTabWidget->count(); i++)
+    {
+        SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
+        ws->setCompletionHelp(show);
+    }
+
+    QSignalBlocker blocker(showCompletionHelpAct);
+    showCompletionHelpAct->setChecked(piSettings->show_completion_help);
 }
 
 void MainWindow::changeShowContext()
@@ -3642,6 +3677,11 @@ void MainWindow::createToolBar()
     showAutoCompletionAct->setChecked(piSettings->show_autocompletion);
     connect(showAutoCompletionAct, SIGNAL(triggered()), this, SLOT(showAutoCompletionMenuChanged()));
 
+    showCompletionHelpAct = new QAction(tr("Show Code Completion Help"), this);
+    showCompletionHelpAct->setCheckable(true);
+    showCompletionHelpAct->setChecked(piSettings->show_completion_help);
+    connect(showCompletionHelpAct, SIGNAL(triggered()), this, SLOT(showCompletionHelpMenuChanged()));
+
     showContextAct = new QAction(tr("Show Code Context"), this);
     showContextAct->setCheckable(true);
     showContextAct->setChecked(piSettings->show_context);
@@ -4165,6 +4205,7 @@ void MainWindow::createToolBar()
     viewMenu->addSeparator();
     viewMenu->addAction(showLineNumbersAct);
     viewMenu->addAction(showAutoCompletionAct);
+    viewMenu->addAction(showCompletionHelpAct);
     viewMenu->addAction(autoIndentOnRunAct);
 #ifndef Q_OS_MAC
     // Don't enable this on Mac as macOS autohides the menubar on
@@ -4611,6 +4652,7 @@ void MainWindow::readSettings()
 
     piSettings->themeStyle = theme->themeNameToStyle(styleName);
     piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
+    piSettings->show_completion_help = gui_settings->value("prefs/show-completion-help", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
 #if defined(Q_OS_WIN)
     int os_shortcut_mode = 2;
@@ -4685,6 +4727,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
 
     gui_settings->setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
+    gui_settings->setValue("prefs/show-completion-help", piSettings->show_completion_help);
 
     gui_settings->setValue("prefs/show-buttons", piSettings->show_buttons);
     gui_settings->setValue("prefs/show-tabs", piSettings->show_tabs);

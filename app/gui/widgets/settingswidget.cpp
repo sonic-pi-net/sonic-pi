@@ -499,6 +499,9 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_autocompletion = new QCheckBox(tr("Show code completion"));
     show_autocompletion->setToolTip(tr("When enabled, Sonic Pi's editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible."));
 
+    show_completion_help = new QCheckBox(tr("Show code completion help"));
+    show_completion_help->setToolTip(tr("When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions."));
+
     show_context = new QCheckBox(tr("Show code context"));
     show_context->setToolTip(tr("When enabled, Sonic Pi's editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor."));
 
@@ -556,6 +559,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     editor_display_box_layout->addWidget(show_line_numbers);
     editor_display_box_layout->addWidget(show_autocompletion);
+    editor_display_box_layout->addWidget(show_completion_help);
     editor_display_box_layout->addWidget(show_buttons);
     editor_display_box_layout->addWidget(show_tabs);
     editor_display_box_layout->addWidget(show_titles);
@@ -949,6 +953,14 @@ public:
                       const QModelIndex& index) const override {
         model->setData(index, static_cast<ShortcutRecorder*>(editor)->text(), Qt::EditRole);
     }
+    // Render the stored "Meta+R" notation as the platform-native chord (⌘R),
+    // matching the menu bar. The underlying value stays in Sonic Pi notation.
+    QString displayText(const QVariant& value, const QLocale&) const override {
+        const QString s = value.toString().trimmed();
+        if (s.isEmpty()) return s;
+        const QString native = MainWindow::resolveShortcut(s).toString(QKeySequence::NativeText);
+        return native.isEmpty() ? s : native;
+    }
 };
 
 QGroupBox* SettingsWidget::createKeyboardShortcutsTab() {
@@ -1027,11 +1039,13 @@ QGroupBox* SettingsWidget::createKeyboardShortcutsTab() {
 
     shortcutTree = new QTreeWidget();
     shortcutTree->setColumnCount(2);
-    shortcutTree->setHeaderLabels({ tr("Command"), tr("Shortcut") });
+    shortcutTree->setHeaderHidden(true);
     shortcutTree->setSelectionMode(QAbstractItemView::SingleSelection);
     shortcutTree->setAlternatingRowColors(true);
     shortcutTree->setStyleSheet("QTreeView { alternate-background-color: rgba(127,127,127,26); }");
-    shortcutTree->setItemDelegate(new ShortcutKeyDelegate(shortcutTree));
+    // Delegate only on the Shortcut column: it both records new chords and
+    // renders the binding natively (⌘R) instead of the raw "Meta+R" notation.
+    shortcutTree->setItemDelegateForColumn(1, new ShortcutKeyDelegate(shortcutTree));
     shortcutTree->setEditTriggers(QAbstractItemView::DoubleClicked
         | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);
     shortcutTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -1948,6 +1962,10 @@ void SettingsWidget::showAutoCompletion() {
   emit showAutoCompletionChanged();
 }
 
+void SettingsWidget::showCompletionHelp() {
+  emit showCompletionHelpChanged();
+}
+
 void SettingsWidget::showContext() {
   emit showContextChanged();
 }
@@ -2095,6 +2113,7 @@ void SettingsWidget::updateSettings() {
     piSettings->auto_indent_on_run = auto_indent_on_run->isChecked();
     piSettings->show_line_numbers = show_line_numbers->isChecked();
     piSettings->show_autocompletion = show_autocompletion->isChecked();
+    piSettings->show_completion_help = show_completion_help->isChecked();
     piSettings->show_context = show_context->isChecked();
     piSettings->show_log = show_log->isChecked();
     piSettings->show_cues = show_cues->isChecked();
@@ -2180,6 +2199,7 @@ void SettingsWidget::settingsChanged() {
 
     check_updates->setChecked(piSettings->check_updates);
     show_autocompletion->setChecked(piSettings->show_autocompletion);
+    show_completion_help->setChecked(piSettings->show_completion_help);
     show_context->setChecked(piSettings->show_context);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // setChecked emits toggled, not idClicked, so this doesn't echo
@@ -2236,6 +2256,7 @@ void SettingsWidget::connectAll() {
     connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
 
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_completion_help, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_context, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_debug_log_panel, SIGNAL(clicked()), this, SLOT(updateSettings()));
 
@@ -2269,6 +2290,7 @@ void SettingsWidget::connectAll() {
     connect(check_updates_now, SIGNAL(clicked()), this, SLOT(checkForUpdatesNow()));
 
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(showAutoCompletion()));
+    connect(show_completion_help, SIGNAL(clicked()), this, SLOT(showCompletionHelp()));
     connect(show_context, SIGNAL(clicked()), this, SLOT(showContext()));
     connect(check_args, SIGNAL(clicked()), this, SLOT(checkArgs()));
     connect(synth_trigger_timing_guarantees_cb, SIGNAL(clicked()), this, SLOT(synthTriggerTimingGuarantees()));

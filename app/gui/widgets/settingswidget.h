@@ -73,6 +73,7 @@ private slots:
     void changeMainVolume(int);
     void toggleLineNumbers();
     void showAutoCompletion();
+    void showCompletionHelp();
     void toggleLog();
     void toggleCuesLog();
     void toggleMetro();
@@ -123,6 +124,7 @@ signals:
     void volumeChanged(int vol);
     void showLineNumbersChanged();
     void showAutoCompletionChanged();
+    void showCompletionHelpChanged();
     void showLogChanged();
     void showCuesChanged();
     void showMetroChanged();
@@ -222,6 +224,7 @@ private:
     QCheckBox *check_updates;
     QCheckBox *studio_mode;
     QCheckBox *show_autocompletion;
+    QCheckBox *show_completion_help;
     QCheckBox *show_context;
 
     QComboBox *midi_default_channel_combo;
