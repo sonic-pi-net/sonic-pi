@@ -543,9 +543,16 @@ if(WIN32)
             ${API_VENDORED_KISSFFT_DLL}
             $<TARGET_FILE_DIR:${APP_NAME}>)
 
-    # Run winddeployqt if it can be found, to ensure installed dependencies
+    # Locate windeployqt: prefer the Qt we configured against (QT_INSTALL_PREFIX),
+    # else fall back to PATH — same resolution as macdeployqt above.
+    if(QT_INSTALL_PREFIX AND EXISTS "${QT_INSTALL_PREFIX}/bin/windeployqt.exe")
+        set(WINDEPLOYQT_BIN "${QT_INSTALL_PREFIX}/bin/windeployqt")
+    else()
+        set(WINDEPLOYQT_BIN "windeployqt")
+    endif()
+    message(STATUS "windeployqt: ${WINDEPLOYQT_BIN}")
     add_custom_command(TARGET ${APP_NAME} POST_BUILD
-        COMMAND ${QT_INSTALL_PREFIX}/bin/windeployqt $<TARGET_FILE:${APP_NAME}>)
+        COMMAND ${WINDEPLOYQT_BIN} $<TARGET_FILE:${APP_NAME}>)
 endif() # Win32
 
 # Make convenient source groups in the IDE
