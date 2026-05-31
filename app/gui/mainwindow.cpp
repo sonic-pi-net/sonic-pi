@@ -5378,14 +5378,18 @@ void MainWindow::revealDocsTab()
 
 void MainWindow::announce(const QString& message, bool assertive)
 {
-    // Only do anything when a screen reader is actually connected, so this is a
-    // pure no-op for sighted users.
+    // No-op unless a screen reader is connected.
     if (message.isEmpty() || !QAccessible::isActive())
         return;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    // QAccessibleAnnouncementEvent arrived in Qt 6.8; on older Qt this is a no-op.
     QAccessibleAnnouncementEvent ev(this, message);
     ev.setPoliteness(assertive ? QAccessible::AnnouncementPoliteness::Assertive
                                : QAccessible::AnnouncementPoliteness::Polite);
     QAccessible::updateAccessibility(&ev);
+#else
+    Q_UNUSED(assertive);
+#endif
 }
 
 void MainWindow::focusContext()
