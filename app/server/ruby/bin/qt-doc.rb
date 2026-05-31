@@ -294,6 +294,34 @@ end
 doc_escape = lambda do |s|
   s.to_s.gsub(/[\\"]/) { |m| "\\" + m }.gsub("\r", "").gsub("\n", "\\n")[0, 30000]
 end
+# Emit a QString::fromUtf8(...) expression for a doc body, splitting the escaped
+# text into adjacent string literals so no single literal exceeds MSVC's
+# ~16 KB-per-literal limit (error C2026). The compiler concatenates adjacent
+# literals, and doc_escape's cap keeps the combined size well under MSVC's 64 KB
+# concatenation limit. We budget by *byte* length and only cut between
+# characters (never mid multi-byte UTF-8) and never in the middle of a
+# \\-escape, so the literals stay valid.
+LITERAL_MAX_BYTES = 8000
+qutf8_doc = lambda do |raw|
+  esc = doc_escape.call(raw)
+  literals = []
+  cur = +""
+  cur_bytes = 0
+  pending_escape = false
+  esc.each_char do |ch|
+    if cur_bytes >= LITERAL_MAX_BYTES && !pending_escape
+      literals << cur
+      cur = +""
+      cur_bytes = 0
+    end
+    cur << ch
+    cur_bytes += ch.bytesize
+    pending_escape = (ch == "\\") ? !pending_escape : false
+  end
+  literals << cur unless cur.empty? && !literals.empty?
+  literals << "" if literals.empty?
+  "QString::fromUtf8(" + literals.map { |c| "\"#{c}\"" }.join("\n    ") + ")"
+end
 # opt name -> short doc, collected across all synths/fx (first one wins).
 opt_summaries = {}
 
@@ -354,7 +382,7 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n"
   docs << "  autocomplete->setSummary(\":#{safe_k}\", QString::fromUtf8(\"#{summary_clean.call(v.name)}\"));\n"
   fx_doc = Kramdown::Document.new(v.doc.to_s.strip).to_html + opts_html.call(v.arg_info)
-  docs << "  autocomplete->setDoc(\":#{safe_k}\", QString::fromUtf8(\"#{doc_escape.call(fx_doc)}\"));\n\n"
+  docs << "  autocomplete->setDoc(\":#{safe_k}\", #{qutf8_doc.call(fx_doc)});\n\n"
 end
 
 
@@ -370,7 +398,7 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n"
   docs << "  autocomplete->setSummary(\":#{k}\", QString::fromUtf8(\"#{summary_clean.call(v.name)}\"));\n"
   synth_doc = Kramdown::Document.new(v.doc.to_s.strip).to_html + opts_html.call(v.arg_info)
-  docs << "  autocomplete->setDoc(\":#{k}\", QString::fromUtf8(\"#{doc_escape.call(synth_doc)}\"));\n\n"
+  docs << "  autocomplete->setDoc(\":#{k}\", #{qutf8_doc.call(synth_doc)});\n\n"
 end
 
 docs << "  // opt headings (the opt name) + default/slidable + full docstrings\n"
@@ -385,7 +413,7 @@ opt_summaries.each do |ak, info|
   d = info[:doc].to_s.strip
   body += "<p>#{opt_doc_html.call(d)}</p>" unless d.empty?
   docs << "  autocomplete->setSummary(\"#{ak}:\", QString::fromUtf8(\"#{ak}:\"));\n"
-  docs << "  autocomplete->setDoc(\"#{ak}:\", QString::fromUtf8(\"#{doc_escape.call(body)}\"));\n"
+  docs << "  autocomplete->setDoc(\"#{ak}:\", #{qutf8_doc.call(body)});\n"
   # Bounded opt (inferred from its :type) → a value-picker slider in the GUI.
   if (r = info[:range])
     dv = info[:default].is_a?(Numeric) ? info[:default] : ((r[0] + r[1]) / 2.0)
@@ -410,7 +438,7 @@ fn_info.each do |name, info|
   docs << "  autocomplete->setSummary(\"#{esc}\", QString::fromUtf8(\"#{summary_clean.call(s)}\"));\n" unless s.empty?
   d = info[:doc].to_s.strip
   # HTML, like the synth/opt docs, for consistent block spacing.
-  docs << "  autocomplete->setDoc(\"#{esc}\", QString::fromUtf8(\"#{doc_escape.call(Kramdown::Document.new(d).to_html)}\"));\n" unless d.empty?
+  docs << "  autocomplete->setDoc(\"#{esc}\", #{qutf8_doc.call(Kramdown::Document.new(d).to_html)});\n" unless d.empty?
 end
 docs << "\n"
 
