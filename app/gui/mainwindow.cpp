@@ -20,6 +20,7 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QApplication>
+#include <QAccessible>
 #include <QBoxLayout>
 #include <QDesktopServices>
 #include <QDialogButtonBox>
@@ -414,8 +415,11 @@ void MainWindow::setupWindowStructure()
     // Setup output and error panes
 
     outputPane = new SonicPiLog;
+    outputPane->setAccessibleName(tr("Log"));
     incomingPane = new SonicPiLog;
+    incomingPane->setAccessibleName(tr("Cues"));
     errorPane = new QTextBrowser;
+    errorPane->setAccessibleName(tr("Errors"));
     metroPane = new SonicPiMetro(m_spClient, m_spAPI, theme, this);
 
     connect(metroPane, SIGNAL(linkEnabled()), this, SLOT(checkEnableLinkMenu()));
@@ -439,6 +443,7 @@ void MainWindow::setupWindowStructure()
     prefsWidget->hide();
 
     settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, shortcutsConfigPath(), this);
+    settingsWidget->setAccessibleName(tr("Preferences"));
     settingsWidget->setObjectName("settings");
     settingsWidget->setAttribute(Qt::WA_StyledBackground, true);
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
@@ -587,7 +592,9 @@ void MainWindow::setupWindowStructure()
 
         QString w = QString(tr("| %1 |")).arg(QString::number(ws));
         workspaces[ws] = workspace;
+        workspace->setAccessibleName(tr("Code Editor"));
         SonicPiEditor* editor = new SonicPiEditor(workspace, theme, this);
+        editor->getContext()->setAccessibleName(tr("Run Context"));
         editorTabWidget->addTab(editor, w);
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
@@ -715,6 +722,7 @@ void MainWindow::setupWindowStructure()
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
     docPane = new QTextBrowser;
+    docPane->setAccessibleName(tr("Documentation"));
     QSizePolicy policy = docPane->sizePolicy();
     policy.setHorizontalStretch(QSizePolicy::Maximum);
     docPane->setSizePolicy(policy);
@@ -972,8 +980,10 @@ void MainWindow::allJobsCompleted()
     scopeWindow->Pause();
 
     // re-enable log text selection
-    incomingPane->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    outputPane->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    // Keyboard-selectable too, so a screen reader can move a caret through the
+    // log and read it (mouse-only selection isn't navigable by keyboard).
+    incomingPane->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
+    outputPane->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
 }
 
 void MainWindow::toggleLogVisibility()
@@ -2049,15 +2059,18 @@ void MainWindow::showBufferCapacityError()
 void MainWindow::runCode()
 {
     scopeWindow->Resume();
+    announce(tr("Run started"));
 
-    // move log cursors to end of log files
-    // and disable user input
-    incomingPane->setTextInteractionFlags(Qt::NoTextInteraction);
+    // move log cursors to the end of the logs. Keep them read-only but
+    // keyboard-selectable so a screen reader can still navigate/read the output
+    // (NoTextInteraction would make the logs unreadable after a run).
+    const Qt::TextInteractionFlags logFlags = Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard;
+    incomingPane->setTextInteractionFlags(logFlags);
     QTextCursor newIncomingCursor = incomingPane->textCursor();
     newIncomingCursor.movePosition(QTextCursor::End);
     incomingPane->setTextCursor(newIncomingCursor);
 
-    outputPane->setTextInteractionFlags(Qt::NoTextInteraction);
+    outputPane->setTextInteractionFlags(logFlags);
     QTextCursor newOutputCursor = outputPane->textCursor();
     newOutputCursor.movePosition(QTextCursor::End);
     outputPane->setTextCursor(newOutputCursor);
@@ -2273,6 +2286,7 @@ void MainWindow::stopCode()
 {
     stopRunningSynths();
     statusBar()->showMessage(tr("Stopping..."), 2000);
+    announce(tr("Stopped"));
 }
 
 void MainWindow::scopeVisibilityChanged()
@@ -2371,8 +2385,9 @@ void MainWindow::helpContext()
 
 void MainWindow::showHelpForKeyword(QString selection)
 {
-    if (!docWidget->isVisible())
-        docWidget->show();
+    // Reveal the docs (the user may be on the Debug tab) — a docs lookup from
+    // C-i, the completion popup's Docs button, etc. should surface the docs.
+    revealDocsTab();
     selection = selection.toLower();
     if (!selection.isEmpty() && selection[0] == ':')
         selection = selection.mid(1);
@@ -4966,6 +4981,7 @@ void MainWindow::addHelpPage(QListWidget* nameList,
 QListWidget* MainWindow::createHelpTab(QString name)
 {
     QListWidget* nameList = new QListWidget;
+    nameList->setAccessibleName(tr("Help Topics"));
     connect(nameList,
         SIGNAL(itemPressed(QListWidgetItem*)),
         this, SLOT(updateDocPane(QListWidgetItem*)));
@@ -5343,46 +5359,55 @@ void MainWindow::updateMIDIOutPorts(QString port_info)
     }
 }
 
+void MainWindow::focusPane(QWidget* pane)
+{
+    if (!pane) return;
+    pane->setFocusPolicy(Qt::StrongFocus);
+    pane->setVisible(true);
+    pane->raise();
+    pane->setFocus(Qt::OtherFocusReason);
+    pane->activateWindow();
+}
+
+void MainWindow::revealDocsTab()
+{
+    docWidget->show();
+    southTabs->setCurrentWidget(docsplit);   // may currently be on Debug or another tab
+    updatePrefsIcon();
+}
+
+void MainWindow::announce(const QString& message, bool assertive)
+{
+    // Only do anything when a screen reader is actually connected, so this is a
+    // pure no-op for sighted users.
+    if (message.isEmpty() || !QAccessible::isActive())
+        return;
+    QAccessibleAnnouncementEvent ev(this, message);
+    ev.setPoliteness(assertive ? QAccessible::AnnouncementPoliteness::Assertive
+                               : QAccessible::AnnouncementPoliteness::Polite);
+    QAccessible::updateAccessibility(&ev);
+}
+
 void MainWindow::focusContext()
 {
-    SonicPiContext* contextPane = getCurrentEditor()->getContext();
-    contextPane->showNormal();
-    contextPane->setFocusPolicy(Qt::StrongFocus);
-    contextPane->setFocus();
-    contextPane->raise();
-    contextPane->setVisible(true);
-    contextPane->activateWindow();
+    focusPane(getCurrentEditor()->getContext());
 }
 
 void MainWindow::focusLogs()
 {
-    outputPane->showNormal();
-    outputPane->setFocusPolicy(Qt::StrongFocus);
-    outputPane->setFocus();
-    outputPane->raise();
-    outputPane->setVisible(true);
-    outputPane->activateWindow();
+    outputWidget->show();
+    focusPane(outputPane);
 }
 
 void MainWindow::focusEditor()
 {
-    SonicPiScintilla* ws = getCurrentWorkspace();
-    ws->showNormal();
-    ws->setFocusPolicy(Qt::StrongFocus);
-    ws->setFocus();
-    ws->raise();
-    ws->setVisible(true);
-    ws->activateWindow();
+    focusPane(getCurrentWorkspace());
 }
 
 void MainWindow::focusCues()
 {
-    incomingPane->showNormal();
-    incomingPane->setFocusPolicy(Qt::StrongFocus);
-    incomingPane->setFocus();
-    incomingPane->raise();
-    incomingPane->setVisible(true);
-    incomingPane->activateWindow();
+    incomingWidget->show();
+    focusPane(incomingPane);
 }
 
 void MainWindow::focusPreferences()
@@ -5390,66 +5415,40 @@ void MainWindow::focusPreferences()
     prefsWidget->show();
     prefsWidget->raise();
     updatePrefsIcon();
-    prefsWidget->showNormal();
-    settingsWidget->setFocusPolicy(Qt::StrongFocus);
-    settingsWidget->setFocus();
-    settingsWidget->raise();
-    settingsWidget->setVisible(true);
-    settingsWidget->activateWindow();
+    focusPane(settingsWidget);
 }
 
 void MainWindow::focusHelpListing()
 {
-    docWidget->show();
-    updatePrefsIcon();
-    docsNavTabs->showNormal();
-    docsNavTabs->currentWidget()->setFocus();
-    docsNavTabs->raise();
-    docsNavTabs->setVisible(true);
-    docsNavTabs->activateWindow();
+    revealDocsTab();
+    const int i = docsNavTabs->currentIndex();
+    focusPane((i >= 0 && i < helpLists.size()) ? (QWidget*)helpLists[i] : (QWidget*)docsNavTabs);
 }
 
 void MainWindow::focusHelpDetails()
 {
-    docWidget->show();
-    updatePrefsIcon();
-    docPane->showNormal();
-    docPane->setFocusPolicy(Qt::StrongFocus);
-    docPane->setFocus();
-    docPane->raise();
-    docPane->setVisible(true);
-    docPane->activateWindow();
+    revealDocsTab();
+    focusPane(docPane);
 }
 
 void MainWindow::focusErrors()
 {
-    errorPane->showNormal();
-    errorPane->setFocusPolicy(Qt::StrongFocus);
-    errorPane->setFocus();
-    errorPane->raise();
-    errorPane->setVisible(true);
-    errorPane->activateWindow();
+    focusPane(errorPane);
 }
 
 void MainWindow::focusBPMScrubber()
 {
-    docWidget->show();
-    updatePrefsIcon();
-    metroPane->showNormal();
-    metroPane->raise();
+    metroWidget->show();        // the metronome dock — not the Help dock
     metroPane->setVisible(true);
-    metroPane->activateWindow();
+    updatePrefsIcon();
     metroPane->setFocusBPMScrubber();
 }
 
 void MainWindow::focusTimeWarpScrubber()
 {
-    docWidget->show();
-    updatePrefsIcon();
-    metroPane->showNormal();
-    metroPane->raise();
+    metroWidget->show();
     metroPane->setVisible(true);
-    metroPane->activateWindow();
+    updatePrefsIcon();
     metroPane->setFocusTimeWarpScrubber();
 }
 

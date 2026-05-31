@@ -340,6 +340,13 @@ private slots:
     void tabGoto(int index);
     void helpContext();
     void showHelpForKeyword(QString keyword);
+    // Move keyboard focus to `pane` so a screen reader follows it; caller first
+    // reveals the pane's host (setFocus is ignored on a hidden widget).
+    void focusPane(QWidget* pane);
+    // Speak a short message via the screen reader; a no-op when none is active.
+    void announce(const QString& message, bool assertive = false);
+    // Reveal the Help dock and bring its tab strip to the Docs tab.
+    void revealDocsTab();
     void resetErrorPane();
     void helpScrollUp();
     void helpScrollDown();

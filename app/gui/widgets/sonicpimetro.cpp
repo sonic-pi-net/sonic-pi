@@ -327,6 +327,7 @@ void SonicPiMetro::tapTempo(int flashDelay)
 
 void SonicPiMetro::setFocusBPMScrubber()
 {
+  bpmScrubWidget->setAccessibleName(tr("BPM Scrubber"));
   bpmScrubWidget->setFocusPolicy(Qt::StrongFocus);
   bpmScrubWidget->setFocus();
   bpmScrubWidget->raise();
@@ -336,6 +337,7 @@ void SonicPiMetro::setFocusBPMScrubber()
 
 void SonicPiMetro::setFocusTimeWarpScrubber()
 {
+  timeWarpLineEdit->setAccessibleName(tr("Time Warp Scrubber"));
   timeWarpLineEdit->setFocusPolicy(Qt::StrongFocus);
   timeWarpLineEdit->setFocus();
   timeWarpLineEdit->raise();
