@@ -11,6 +11,7 @@ class QFileSystemWatcher;
 class QPlainTextEdit;
 class QShowEvent;
 class QHideEvent;
+class QTimer;
 
 class LogTailer : public QObject
 {
@@ -33,6 +34,7 @@ private:
     QString m_path;
     QPlainTextEdit* m_edit;
     QFileSystemWatcher* m_watcher = nullptr;
+    QTimer* m_pollTimer = nullptr;   // reliable live updates (the watcher misses appends)
     qint64 m_offset = 0;
 };
 

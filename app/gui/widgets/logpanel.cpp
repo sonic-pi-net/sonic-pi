@@ -11,6 +11,7 @@
 #include <QShortcut>
 #include <QTabBar>
 #include <QTextStream>
+#include <QTimer>
 
 static const int kMaxBlocks = 5000;
 static const qint64 kInitialTailBytes = 256 * 1024;
@@ -37,10 +38,20 @@ void LogTailer::start()
     seekToTail();
     rewatch();
     readFromOffset();
+
+    // QFileSystemWatcher misses most log appends (especially on macOS), so poll
+    // for new content too — readFromOffset only reads the bytes past m_offset.
+    if (!m_pollTimer) {
+        m_pollTimer = new QTimer(this);
+        m_pollTimer->setInterval(200);
+        connect(m_pollTimer, &QTimer::timeout, this, &LogTailer::readFromOffset);
+    }
+    m_pollTimer->start();
 }
 
 void LogTailer::stop()
 {
+    if (m_pollTimer) m_pollTimer->stop();
     if (!m_watcher) return;
     m_watcher->deleteLater();
     m_watcher = nullptr;
