@@ -353,7 +353,7 @@ if (APPLE)
   add_custom_command(
     TARGET ${APP_NAME}
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ../../../../../etc etc
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ../../../../../../etc etc
     POST_BUILD
     WORKING_DIRECTORY ${MACOS_APP_NAME}.app/Contents/Resources
     )
