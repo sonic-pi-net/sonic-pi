@@ -1,4 +1,5 @@
 //--
+
 // This file is part of Sonic Pi: http://sonic-pi.net
 // Full project source: https://github.com/samaaron/sonic-pi
 // License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
@@ -55,7 +56,7 @@ QColor kindColor(const QString& kind) {
     if (kind == "cue" || kind == "peer" || kind == "channel" || kind == "port")
                            return QColor(0x16, 0xA0, 0x85); // teal
     if (kind == "chord" || kind == "scale" || kind == "tuning")
-                           return QColor(0xC0, 0x39, 0x2B); // red
+                           return QColor(0xE0, 0xA8, 0x00); // amber
     return QColor(0x27, 0xAE, 0x60); // green (fn / default)
 }
 
@@ -185,17 +186,23 @@ public:
 
     void setNote(int midi) {
         if (midi != m_note || m_startWhite < 0) {
+            m_chordNotes.clear();
             m_note = midi;
-            if (midi >= 0) {
-                const double w = whitesBelow(midi);
-                const int view = viewWhites();
-                if (m_startWhite < 0) {                  // first show: snap, centred
-                    m_targetWhite = clampStart(w - view / 2.0);
-                    m_startWhite = m_targetWhite;
-                } else if (w < m_targetWhite + 1 || w > m_targetWhite + view - 1) {
-                    slideTo(clampStart(w - view / 2.0));  // out of view → recentre
-                }
-            }
+            if (midi >= 0) centreOn(whitesBelow(midi));
+        }
+        update();
+    }
+
+    // Light up a whole chord/scale (its resolved MIDI notes), centred so the
+    // span is visible. The keyboard becomes a read-only preview.
+    void setChordNotes(const QList<int>& notes) {
+        m_inList.clear();   // no dropdown-match wash in chord/scale mode
+        m_chordNotes = QSet<int>(notes.begin(), notes.end());
+        m_note = notes.isEmpty() ? -1 : notes.first();
+        if (!notes.isEmpty()) {
+            int lo = 127, hi = 0;
+            for (int n : notes) { lo = qMin(lo, n); hi = qMax(hi, n); }
+            centreOn((whitesBelow(lo) + whitesBelow(hi)) / 2.0);
         }
         update();
     }
@@ -224,6 +231,10 @@ protected:
         // black keys lighten toward it.
         const QColor inWhite(mix(m_accent, QColor(250, 250, 250), 32));
         const QColor inBlack(mix(m_accent, QColor(30, 30, 30), 55));
+        // Chord/scale degrees other than the root are lit in a lighter accent so
+        // the root stands out and a full scale reads as a shape, not a block.
+        const QColor toneWhite(mix(m_accent, QColor(250, 250, 250), 55));
+        const QColor toneBlack(mix(m_accent, QColor(30, 30, 30), 72));
 
         p.setClipRect(kb);
         // White keys (cull off-screen). Selected = accent fill + darker accent edge
@@ -232,10 +243,13 @@ protected:
             if (!isWhite(m)) continue;
             const double x = xOf(m);
             if (x + wW < kb.left() || x > kb.right()) continue;
-            const bool sel = (m == m_note);
+            const bool root = (m == m_note);
+            const bool tone = m_chordNotes.contains(m);
             QRectF r(x + 0.5, kb.top(), wW - 1.5, kb.height());
-            p.setPen(QPen(sel ? m_accent.darker(150) : QColor(176, 176, 176), 1));
-            p.setBrush(sel ? m_accent : (m_inList.contains(m) ? inWhite : QColor(250, 250, 250)));
+            p.setPen(QPen((root || tone) ? m_accent.darker(150) : QColor(176, 176, 176), 1));
+            p.setBrush(root ? m_accent
+                            : tone ? toneWhite
+                                   : (m_inList.contains(m) ? inWhite : QColor(250, 250, 250)));
             p.drawRoundedRect(r, rad, rad);
         }
         // Black keys sit on the boundary between their neighbouring white keys.
@@ -243,10 +257,13 @@ protected:
             if (isWhite(m)) continue;
             const double cx = xOf(m);
             if (cx + bW < kb.left() || cx - bW > kb.right()) continue;
-            const bool sel = (m == m_note);
+            const bool root = (m == m_note);
+            const bool tone = m_chordNotes.contains(m);
             QRectF r(cx - bW / 2, kb.top(), bW, bH);
             p.setPen(Qt::NoPen);
-            p.setBrush(sel ? m_accent : (m_inList.contains(m) ? inBlack : QColor(30, 30, 30)));
+            p.setBrush(root ? m_accent
+                            : tone ? toneBlack
+                                   : (m_inList.contains(m) ? inBlack : QColor(30, 30, 30)));
             p.drawRoundedRect(r, rad, rad);
         }
         p.setClipping(false);
@@ -321,6 +338,17 @@ private:
         const double hi = whitesBelow(m_maxMidi) + 1 - viewWhites();
         return qBound(lo, s, qMax(lo, hi));
     }
+    // Centre the window on a white-key position: snap on first show, otherwise
+    // only slide when it's drifted to/past the visible edge (keeps it steady).
+    void centreOn(double whitePos) {
+        const int view = viewWhites();
+        if (m_startWhite < 0) {
+            m_targetWhite = clampStart(whitePos - view / 2.0);
+            m_startWhite = m_targetWhite;
+        } else if (whitePos < m_targetWhite + 1 || whitePos > m_targetWhite + view - 1) {
+            slideTo(clampStart(whitePos - view / 2.0));
+        }
+    }
     bool canScroll(int dir) const {
         return dir < 0 ? m_targetWhite > clampStart(m_targetWhite - 1) + 0.01
                        : m_targetWhite < clampStart(m_targetWhite + 1) - 0.01;
@@ -376,6 +404,7 @@ private:
     int m_note = -1;
     int m_minMidi = 36, m_maxMidi = 96;   // the full, fixed keyboard (C2–C7)
     QSet<int> m_inList;          // notes present in the current dropdown (washed)
+    QSet<int> m_chordNotes;      // all notes of the previewed chord/scale (accent-lit)
     double m_startWhite = -1;   // animated render position (white-key units)
     double m_targetWhite = 0;   // logical window position
     int m_hoverMidi = -2;
@@ -584,9 +613,11 @@ CompletionPopup::CompletionPopup(QWidget* parent)
 
     // Hover a piano key → highlight the matching completion; click → insert it.
     // A key with no list entry is still clickable: it inserts that MIDI note
-    // directly (the keyboard covers more notes than any filtered list).
-    m_piano->setOnHover([this](int midi) { selectNote(midi); });
+    // directly (the keyboard covers more notes than any filtered list). In
+    // chord/scale mode the keyboard is a read-only preview, so clicks are inert.
+    m_piano->setOnHover([this](int midi) { if (!m_chordMode) selectNote(midi); });
     m_piano->setOnClick([this](int midi) {
+        if (m_chordMode) return;
         if (!selectNote(midi)) m_noteOverride = QString::number(midi);
         emit accepted();
     });
@@ -696,18 +727,21 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
     // sizing session; within a session the width only grows, so it stays steady.
     const bool wasVisible = isVisible();
     const bool wasNote = m_noteMode;
+    const bool wasChord = m_chordMode;
     const bool wasDetail = m_hasDetail;
     m_noteOverride.clear();
 
+    const QString kind0 = items.isEmpty() ? QString() : items.first().kind;
     m_sliderMode = m_showHelp && items.size() == 1 && items.first().slider;
-    m_noteMode = m_showHelp && !m_sliderMode && !items.isEmpty() && items.first().kind == "note";
+    m_noteMode = m_showHelp && !m_sliderMode && kind0 == "note";
+    m_chordMode = m_showHelp && !m_sliderMode && (kind0 == "chord" || kind0 == "scale");
     m_hasDetail = false;
-    if (m_showHelp && !m_noteMode && !m_sliderMode) {
+    if (m_showHelp && !m_noteMode && !m_chordMode && !m_sliderMode) {
         for (const CompletionItem& it : items) {
             if (!it.doc.isEmpty() || !it.summary.isEmpty()) { m_hasDetail = true; break; }
         }
     }
-    if (!wasVisible || wasNote != m_noteMode || wasDetail != m_hasDetail)
+    if (!wasVisible || wasNote != m_noteMode || wasChord != m_chordMode || wasDetail != m_hasDetail)
         m_sessionListW = 0;
 
     if (m_noteMode) {
@@ -732,6 +766,7 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
         row->setData(it.text, InsertRole);
         row->setData(it.note, NoteRole);
         row->setData(it.doc, DocRole);
+        row->setData(QVariant::fromValue(it.intervals), IntervalsRole);
         row->setEditable(false);
         m_model->appendRow(row);
     }
@@ -801,10 +836,27 @@ void CompletionPopup::updateDetail()
     const QString doc = idx.isValid() ? idx.data(DocRole).toString() : QString();
     const int note = idx.isValid() ? idx.data(NoteRole).toInt() : -1;
 
-    if (m_noteMode && note >= 0) {
-        // Tangible pitch: a mini keyboard highlighting the selected note.
+    if (m_chordMode) {
+        // Plot the chord/scale's notes (tonic + offsets) on the keyboard.
         m_detailPane->setVisible(false);
-        m_piano->setNote(note);
+        const QList<int> offs = idx.data(IntervalsRole).value<QList<int>>();
+        QList<int> notes;
+        if (note >= 0) for (int o : offs) notes.append(note + o);
+        m_piano->setChordNotes(notes);
+        m_piano->setVisible(true);
+    } else if (m_noteMode && note >= 0) {
+        // Tangible pitch: a mini keyboard highlighting the selected note. If a
+        // chord/scale name follows on the line, the note carries its intervals,
+        // so preview the whole chord/scale built on this root.
+        m_detailPane->setVisible(false);
+        const QList<int> offs = idx.data(IntervalsRole).value<QList<int>>();
+        if (!offs.isEmpty()) {
+            QList<int> notes;
+            for (int o : offs) notes.append(note + o);
+            m_piano->setChordNotes(notes);
+        } else {
+            m_piano->setNote(note);
+        }
         m_piano->setVisible(true);
     } else if (m_hasDetail) {
         // The pane stays reserved for the whole session (stable width); each row
@@ -902,9 +954,9 @@ void CompletionPopup::resizeToContents()
         m_view->setGeometry(0, 0, stickyW, h);
         m_detailPane->setGeometry(stickyW, 0, kDetailW, h);
         setPopupSize(stickyW + kDetailW, h);
-    } else if (m_noteMode) {
-        // The note list is naturally narrow with fixed content; use its own width
-        // (not the grow-only session width, which can carry over from a wider
+    } else if (m_noteMode || m_chordMode) {
+        // Note / chord / scale lists are narrow with fixed content; use their own
+        // width (not the grow-only session width, which can carry over from a wider
         // function list) and only widen enough to keep the keyboard usable. A
         // shorter list + a taller keyboard makes the piano the focus, not filler.
         const int w = qBound(300, naturalW, 380);

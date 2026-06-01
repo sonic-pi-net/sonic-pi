@@ -38,8 +38,9 @@ public:
         KindRole = Qt::UserRole + 1,
         SummaryRole,
         InsertRole,
-        NoteRole,      // MIDI note number for kind=="note", else -1
-        DocRole        // full docstring (markdown)
+        NoteRole,      // MIDI note for kind=="note", or the tonic for chord/scale
+        DocRole,       // full docstring (markdown)
+        IntervalsRole  // chord/scale semitone offsets from the tonic (QList<int>)
     };
 
     explicit CompletionPopup(QWidget* parent = nullptr);
@@ -106,6 +107,7 @@ private:
     // Per-session layout state, so width doesn't jitter while filtering/navigating.
     bool m_hasDetail = false;   // this list has docstrings → reserve the detail pane
     bool m_noteMode = false;    // this list is notes → show the piano
+    bool m_chordMode = false;   // this list is chords/scales → piano shows their notes
     bool m_sliderMode = false;  // this is a bounded opt → show the value slider
     bool m_showHelp = true;     // show the docstring/piano/slider helper panes
     int m_sessionListW = 0;     // grow-only list width for the current session

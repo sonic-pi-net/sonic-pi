@@ -23,6 +23,9 @@ require_relative "../lib/sonicpi/runtime"
 require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/lang/sound"
 require_relative "../lib/sonicpi/lang/midi"
+require_relative "../lib/sonicpi/note"
+require_relative "../lib/sonicpi/chord"
+require_relative "../lib/sonicpi/scale"
 
 
 include SonicPi::Util
@@ -419,6 +422,30 @@ opt_summaries.each do |ak, info|
     dv = info[:default].is_a?(Numeric) ? info[:default] : ((r[0] + r[1]) / 2.0)
     docs << "  autocomplete->setOptRange(\"#{ak}:\", #{r[0].to_f}, #{r[1].to_f}, #{dv.to_f});\n"
   end
+end
+docs << "\n"
+
+# Chord/scale semitone offsets from the tonic, keyed by bare name, so the
+# completion popup can light up a chord/scale's notes on the keyboard.
+docs << "  // chord + scale intervals for the keyboard preview\n"
+chord_seen = {}
+SonicPi::Chord::CHORD_LOOKUP.keys.each do |k|
+  name = k.to_s
+  next if chord_seen[name]
+  chord_seen[name] = true
+  offs = (SonicPi::Chord.new(0, k).to_a rescue nil)
+  next unless offs && !offs.empty?
+  # Round to nearest semitone — a few scales/chords are microtonal; the keyboard preview is 12-TET.
+  docs << "  autocomplete->setChordIntervals(\"#{name}\", QList<int>{#{offs.map { |o| o.round }.join(',')}});\n"
+end
+scale_seen = {}
+SonicPi::Scale::SCALE.keys.each do |k|
+  name = k.to_s
+  next if scale_seen[name]
+  scale_seen[name] = true
+  offs = (SonicPi::Scale.new(0, k).to_a rescue nil)
+  next unless offs && !offs.empty?
+  docs << "  autocomplete->setScaleIntervals(\"#{name}\", QList<int>{#{offs.map { |o| o.round }.join(',')}});\n"
 end
 docs << "\n"
 

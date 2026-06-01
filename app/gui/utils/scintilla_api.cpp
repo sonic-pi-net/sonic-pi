@@ -191,6 +191,49 @@ void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double
   optRanges.insert(name, {lo, hi, def});
 }
 
+void ScintillaAPI::setChordIntervals(const QString& name, const QList<int>& semis) {
+  chordIntervals.insert(name, semis);
+}
+
+void ScintillaAPI::setScaleIntervals(const QString& name, const QList<int>& semis) {
+  scaleIntervals.insert(name, semis);
+}
+
+namespace {
+// A chord/scale completion entry like ":minor7", "'m7b5'" or ":major" → the bare
+// name ("minor7", "m7b5", "major") used to key the interval tables.
+QString bareName(const QString& s) {
+  QString t = s.trimmed();
+  if (t.startsWith(':')) t = t.mid(1);
+  if (t.startsWith('\'') && t.endsWith('\'') && t.size() >= 2) t = t.mid(1, t.size() - 2);
+  return t;
+}
+
+// The next argument token in `after` (line text past the caret): ", :minor7)"
+// → ":minor7", ", '7')" → "'7'". Empty when there's no following argument.
+QString nextArgToken(const QString& after) {
+  static const QRegularExpression re(QStringLiteral("^[\\s,(]*([:'][^\\s,)\\]]*)"));
+  const QRegularExpressionMatch m = re.match(after);
+  return m.hasMatch() ? m.captured(1) : QString();
+}
+
+// Resolve a tonic token (":e3", "Eb4", "60") to a MIDI note, or -1. Reuses the
+// note-completion table for names; falls back to a bare integer.
+int tonicToMidi(const QString& tok) {
+  static const QHash<QString, int> byName = [] {
+    QHash<QString, int> m;
+    for (const CompletionItem& it : noteCompletions())
+      if (it.note >= 0) m.insert(it.text.toLower(), it.note);
+    return m;
+  }();
+  const QString t = tok.trimmed().toLower();
+  if (byName.contains(t)) return byName.value(t);
+  bool ok = false;
+  const int n = t.toInt(&ok);
+  return ok ? n : -1;
+}
+} // namespace
+
 QString ScintillaAPI::kindForContext(int ctx) {
   switch (ctx) {
     case FX:              return "fx";
@@ -212,8 +255,22 @@ QString ScintillaAPI::kindForContext(int ctx) {
   }
 }
 
-QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context) {
+QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
+                                                   const QString& afterCursor) {
   if (isNoteContext(context)) {
+    // Completing the root of a chord/scale and the name argument already follows
+    // the caret? Attach its intervals so the keyboard previews the whole chord
+    // at each candidate root (the mirror of name-completion knowing the root).
+    const QString lw = lastWordBeforePartial(context);
+    if (lw == "chord" || lw == "scale") {
+      const QList<int>& iv = (lw == "scale" ? scaleIntervals : chordIntervals)
+                                 .value(bareName(nextArgToken(afterCursor)));
+      if (!iv.isEmpty()) {
+        QList<CompletionItem> out = noteCompletions();
+        for (CompletionItem& it : out) it.intervals = iv;
+        return out;
+      }
+    }
     return noteCompletions();
   }
   // Opt value slot for a bounded opt (e.g. `pan: `) → a single slider item.
@@ -234,6 +291,23 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context) {
   }
   QStringList names;
   updateAutoCompletionList(context, names);
+
+  // For chord/scale name completion, resolve the tonic (the arg before the name)
+  // so the popup can plot the actual notes on the keyboard.
+  const bool isChord = (lastKind == "chord");
+  const bool isScale = (lastKind == "scale");
+  int tonic = 60;   // default to middle C when the tonic can't be resolved
+  if (isChord || isScale) {
+    const int fnIdx = context.lastIndexOf(isChord ? QStringLiteral("chord")
+                                                   : QStringLiteral("scale"));
+    for (int i = fnIdx + 1; fnIdx >= 0 && i < context.size() - 1; ++i) {
+      if (context[i].isEmpty()) continue;
+      const int m = tonicToMidi(context[i]);
+      if (m >= 0) { tonic = m; }
+      break;   // the first arg after the function name is the tonic
+    }
+  }
+
   QList<CompletionItem> items;
   items.reserve(names.size());
   for (const QString& n : names) {
@@ -242,6 +316,10 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context) {
     item.kind = lastKind;
     item.summary = summaries.value(n);
     item.doc = docs.value(n);
+    if (isChord || isScale) {
+      const QList<int>& table = (isChord ? chordIntervals : scaleIntervals).value(bareName(n));
+      if (!table.isEmpty()) { item.intervals = table; item.note = tonic; }
+    }
     items.append(item);
   }
   return items;

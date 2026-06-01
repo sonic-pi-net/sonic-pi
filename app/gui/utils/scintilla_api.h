@@ -27,7 +27,8 @@ struct CompletionItem
     QString kind;
     QString summary;          // one-line summary (header)
     QString doc;              // full docstring (markdown), for the detail pane
-    int note = -1;            // MIDI note number for kind=="note", else -1
+    int note = -1;            // MIDI note for kind=="note", or the tonic for chord/scale
+    QList<int> intervals;     // chord/scale semitone offsets from `note` (the tonic)
     // For kind=="range": a slider value-picker over [rmin, rmax] (e.g. pan: -1..1).
     bool slider = false;
     double rmin = 0, rmax = 0, rdefault = 0;
@@ -62,10 +63,17 @@ class ScintillaAPI : public QsciAbstractAPIs
   // Register a numeric range for a bounded opt (e.g. "pan:", -1, 1, 0) so its
   // value position offers a slider instead of a list.
   void setOptRange(const QString& name, double lo, double hi, double def);
+  // Register a chord/scale's semitone offsets from the tonic (keyed by the bare
+  // name, e.g. "minor7"), so the popup can light up its notes on the keyboard.
+  void setChordIntervals(const QString& name, const QList<int>& semis);
+  void setScaleIntervals(const QString& name, const QList<int>& semis);
 
   // Richer query for the custom popup: same context logic as
   // updateAutoCompletionList, but each candidate carries its kind + summary.
-  QList<CompletionItem> completionsFor(const QStringList& context);
+  // `afterCursor` is the remaining line text after the caret; used so a chord/
+  // scale root completion can look ahead to the name argument that follows.
+  QList<CompletionItem> completionsFor(const QStringList& context,
+                                       const QString& afterCursor = QString());
 
 
   //! \reimp
@@ -89,6 +97,8 @@ class ScintillaAPI : public QsciAbstractAPIs
   QHash<QString, QString> docs;
   struct OptRange { double lo, hi, def; };
   QHash<QString, OptRange> optRanges;
+  QHash<QString, QList<int>> chordIntervals;   // bare name -> semitone offsets
+  QHash<QString, QList<int>> scaleIntervals;
   std::function<QString()> synthResolver;
   QString lastKind; // kind resolved by the most recent updateAutoCompletionList
 };

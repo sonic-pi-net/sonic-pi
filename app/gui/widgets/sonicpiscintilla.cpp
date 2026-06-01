@@ -883,7 +883,13 @@ void SonicPiScintilla::updateCompletion()
         return;
     }
 
-    QList<CompletionItem> items = api->completionsFor(context);
+    // Remaining text on the line after the caret, so a chord/scale root
+    // completion can look ahead to the name argument that follows it.
+    int curLine, curCol;
+    getCursorPosition(&curLine, &curCol);
+    const QString afterCursor = text(curLine).mid(curCol);
+
+    QList<CompletionItem> items = api->completionsFor(context, afterCursor);
 
     // With no partial typed yet (e.g. just after a space), only pop up in a
     // "value" position — args/opts, synth/fx/sample/cue names — so `play :e3, `
