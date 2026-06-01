@@ -1042,7 +1042,9 @@ QGroupBox* SettingsWidget::createKeyboardShortcutsTab() {
     shortcutTree->setHeaderHidden(true);
     shortcutTree->setSelectionMode(QAbstractItemView::SingleSelection);
     shortcutTree->setAlternatingRowColors(true);
-    shortcutTree->setStyleSheet("QTreeView { alternate-background-color: rgba(127,127,127,26); }");
+    shortcutTree->setStyleSheet(
+        "QTreeView { alternate-background-color: rgba(127,127,127,26); }"
+        "QTreeView::item { padding-top: 4px; padding-bottom: 4px; }");
     // Delegate only on the Shortcut column: it both records new chords and
     // renders the binding natively (⌘R) instead of the raw "Meta+R" notation.
     shortcutTree->setItemDelegateForColumn(1, new ShortcutKeyDelegate(shortcutTree));
