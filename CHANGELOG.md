@@ -1,4 +1,5 @@
 # History
+- [v5.0.0 'SuperSonic' BETA-3](#v5.0.0-beta3), To be released...
 - [v5.0.0 'SuperSonic' BETA-2](#v5.0.0-beta2), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
@@ -34,6 +35,27 @@
 - [v2.1 'Core'](#v2.1), 21st Nov, 2014
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v5.0.0-beta3"></a>
+
+## Version 5.0.0 'SuperSonic' BETA-3
+
+The headline of the third beta of v5 is **Link Audio** — Sonic Pi can now stream live audio straight from other Ableton Link peers on your network. Pull Ableton Live's Main or Drums channel (or any Link Audio source) directly into your code with the new `link_audio` function and treat it exactly like `live_audio`: add FX, pan it, layer several streams at once.
+
+Note that this is still a BETA release — please do report any issues you have to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### Audio
+* New: `link_audio` streams live audio from another Ableton Link peer straight into Sonic Pi. Subscribe to a remote peer's published channel — for example Ableton Live's "Main" or "Drums" — as a named live audio source and use it just like `live_audio`: add FX, pan it, and run several streams side by side. Each `(peer, channel)` pair is its own independent stream.
+* New: a Link Audio Streams panel showing the peers and channels currently published on the network, so you can see what is available to stream.
+* Session recording is now capped to stereo to match the master mix.
+
+### GUI
+* New: a redesigned code completion popup. Suggestions now come with inline documentation, a mini note keyboard for choosing pitches, and value sliders for ranged options such as `pan:`. The highlighted suggestion is previewed live in your code as you move through the list, and you can accept it with `Tab`, `Return` or `Space`. A new "Show Code Completion Help" toggle — in the View menu and the editor preferences — switches between a plain list of suggestions and these richer helper panes.
+* The code editor now autocompletes Link Audio peer and channel names for `link_audio`, the same way it completes MIDI ports and cue names.
+* New: a Keyboard Shortcuts preferences tab. See every shortcut in one place, switch between the Mac, Windows \| Linux and Emacs Live presets, or choose Custom to record your own bindings. Clashing shortcuts are flagged as you edit, and you can import and export your custom set to share it or carry it between machines.
+* Friendlier microphone-permission notice on macOS. The message is clearer, and it now only appears when audio inputs are enabled.
+* Editor tabs now take keyboard focus when you switch to them.
+* Fixed shift-based text selection so holding Shift with the navigation shortcuts once again selects text, including `Shift`+`Cmd`+`Left`/`Right` and `Shift`+`Option`+`Left`/`Right` on macOS. (Fixes #3537 and #955)
 
 <a name="v5.0.0-beta2"></a>
 

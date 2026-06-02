@@ -56,6 +56,22 @@ public:
     // AudioProcessor alive for its lifetime.
     shm_audio_buffer* GetAudioBufferSlot(unsigned int slot);
 
+    // Flat pointer to the PerformanceMetrics region in supersonic's shm
+    // mapping (METRICS_FIELD_COUNT contiguous uint32 fields), or nullptr
+    // if the shm client is not connected. Same lifetime caveat as
+    // GetAudioBufferSlot — the pointer is owned by this AudioProcessor.
+    const std::atomic<uint32_t>* GetMetrics();
+
+    // Passive views onto the OSC/debug transport rings and the node-tree
+    // mirror, for the SuperSonic observability panel. Empty (null bases) when
+    // the shm client is not connected. Call on the GUI thread (same thread as
+    // ResetConnection); the views point into the shm mapping.
+    ring_view GetInRing();      // OSC host→engine (what Sonic Pi sent)
+    ring_view GetOutRing();     // OSC engine→host (replies)
+    ring_view GetDebugRing();   // engine debug/log text
+    node_tree_view GetNodeTree();
+    native_stats GetNativeStats();  // synthdef count, allocated buffers + bytes
+
 private:
     void GenLogSpace(uint32_t limit, uint32_t n);
     void GenLinSpace(uint32_t limit, uint32_t n);

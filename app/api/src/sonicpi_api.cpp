@@ -923,7 +923,7 @@ std::vector<LogSource> SonicPiAPI::GetLogSources()
         { "Spider",     GetPath(SonicPiPath::SpiderServerLogPath) },
         { "Daemon",     GetPath(SonicPiPath::BootDaemonLogPath) },
         { "Tau",        GetPath(SonicPiPath::TauLogPath) },
-        { "SuperSonic", GetPath(SonicPiPath::SuperSonicLogPath) }
+        { "SuperSonic", GetPath(SonicPiPath::SuperSonicLogPath), true }
     };
 }
 
@@ -994,6 +994,40 @@ shm_audio_buffer* SonicPiAPI::AudioProcessor_GetAudioBufferSlot(unsigned int slo
         return m_spAudioProcessor->GetAudioBufferSlot(slot);
     }
     return nullptr;
+}
+
+const std::atomic<uint32_t>* SonicPiAPI::AudioProcessor_GetMetrics()
+{
+    if (m_spAudioProcessor)
+    {
+        return m_spAudioProcessor->GetMetrics();
+    }
+    return nullptr;
+}
+
+ring_view SonicPiAPI::AudioProcessor_GetInRing()
+{
+    return m_spAudioProcessor ? m_spAudioProcessor->GetInRing() : ring_view{};
+}
+
+ring_view SonicPiAPI::AudioProcessor_GetOutRing()
+{
+    return m_spAudioProcessor ? m_spAudioProcessor->GetOutRing() : ring_view{};
+}
+
+ring_view SonicPiAPI::AudioProcessor_GetDebugRing()
+{
+    return m_spAudioProcessor ? m_spAudioProcessor->GetDebugRing() : ring_view{};
+}
+
+node_tree_view SonicPiAPI::AudioProcessor_GetNodeTree()
+{
+    return m_spAudioProcessor ? m_spAudioProcessor->GetNodeTree() : node_tree_view{};
+}
+
+native_stats SonicPiAPI::AudioProcessor_GetNativeStats()
+{
+    return m_spAudioProcessor ? m_spAudioProcessor->GetNativeStats() : native_stats{};
 }
 
 

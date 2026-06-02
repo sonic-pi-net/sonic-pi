@@ -36,6 +36,10 @@ class process;
 // the full type. (A forward declaration would create a distinct global type
 // that wouldn't match the namespaced original.)
 #include "api/audio/shm_audio_buffer.hpp"
+// server_shm.hpp exposes ring_view / node_tree_view (used by the SuperSonic
+// observability accessors below). It does not depend on this header, so the
+// include is acyclic.
+#include "api/audio/server_shm.hpp"
 
 namespace SonicPi
 {
@@ -318,6 +322,7 @@ struct LogSource
 {
     std::string name;
     fs::path path;
+    bool hasLivePanel = false;
 };
 
 struct APISettings
@@ -434,6 +439,20 @@ public:
     // (slot 0) while a supersonic-audio-out synth is feeding it. Returns
     // nullptr if the audio processor hasn't been initialised.
     virtual shm_audio_buffer* AudioProcessor_GetAudioBufferSlot(unsigned int slot);
+
+    // Flat pointer to the engine's PerformanceMetrics region (a block of
+    // contiguous uint32 fields) in the cross-process shm mapping, or
+    // nullptr if the audio processor hasn't connected yet. Consumed by
+    // the GUI metrics panel, which reads the fields by index each tick.
+    virtual const std::atomic<uint32_t>* AudioProcessor_GetMetrics();
+
+    // Passive views onto the engine's OSC/debug rings and node-tree mirror,
+    // for the SuperSonic observability panel. Empty when not connected.
+    virtual ring_view AudioProcessor_GetInRing();
+    virtual ring_view AudioProcessor_GetOutRing();
+    virtual ring_view AudioProcessor_GetDebugRing();
+    virtual node_tree_view AudioProcessor_GetNodeTree();
+    virtual native_stats AudioProcessor_GetNativeStats();
 
     std::string GetLogs();
 

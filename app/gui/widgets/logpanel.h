@@ -48,6 +48,10 @@ public:
 
     void applyTheme(const QColor& textColor, const QColor& bgColor, const QColor& borderColor);
 
+    // Add a non-log tab (e.g. the live metrics panel). It is not backed by a
+    // LogTailer, so it is ignored by the tailer start/stop logic.
+    void addExtraTab(QWidget* w, const QString& name);
+
 protected:
     void showEvent(QShowEvent* e) override;
     void hideEvent(QHideEvent* e) override;

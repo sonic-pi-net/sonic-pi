@@ -259,6 +259,42 @@ shm_audio_buffer* AudioProcessor::GetAudioBufferSlot(unsigned int slot)
     return m_shmClient->get_audio_buffer(slot);
 }
 
+const std::atomic<uint32_t>* AudioProcessor::GetMetrics()
+{
+    if (!m_shmClient) return nullptr;
+    return m_shmClient->get_metrics();
+}
+
+ring_view AudioProcessor::GetInRing()
+{
+    if (!m_shmClient) return ring_view{};
+    return m_shmClient->get_in_ring();
+}
+
+ring_view AudioProcessor::GetOutRing()
+{
+    if (!m_shmClient) return ring_view{};
+    return m_shmClient->get_out_ring();
+}
+
+ring_view AudioProcessor::GetDebugRing()
+{
+    if (!m_shmClient) return ring_view{};
+    return m_shmClient->get_debug_ring();
+}
+
+node_tree_view AudioProcessor::GetNodeTree()
+{
+    if (!m_shmClient) return node_tree_view{};
+    return m_shmClient->get_node_tree();
+}
+
+native_stats AudioProcessor::GetNativeStats()
+{
+    if (!m_shmClient) return native_stats{};
+    return m_shmClient->get_native_stats();
+}
+
 // Re-opens the shm segment and re-binds the scope reader. The segment
 // is owned by supersonic and survives cold swaps; re-opening by name
 // covers both in-place cold swap and supersonic-restart. Validity

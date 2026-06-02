@@ -176,6 +176,15 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
     connect(this, &QTabWidget::currentChanged, this, &LogPanel::onCurrentChanged);
 }
 
+void LogPanel::addExtraTab(QWidget* w, const QString& name)
+{
+    // Inserted as the first tab and made current. No LogTailer is registered,
+    // so onCurrentChanged (which maps tailers by widget) stops all tailers
+    // while it is shown.
+    insertTab(0, w, name);
+    setCurrentIndex(0);
+}
+
 void LogPanel::applyTheme(const QColor& textColor, const QColor& bgColor, const QColor& borderColor)
 {
     const QString css = QString(
@@ -191,8 +200,11 @@ void LogPanel::applyTheme(const QColor& textColor, const QColor& bgColor, const 
 void LogPanel::onCurrentChanged(int idx)
 {
     if (!isVisible()) return;
+    // Map by widget, not index, so an extra tab inserted at the front doesn't
+    // shift the mapping: tail the current log tab, stop the rest.
+    QWidget* cur = widget(idx);
     for (int i = 0; i < m_tailers.size(); ++i) {
-        if (i == idx) m_tailers[i]->start();
+        if (m_edits[i] == cur) m_tailers[i]->start();
         else m_tailers[i]->stop();
     }
 }

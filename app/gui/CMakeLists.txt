@@ -111,6 +111,10 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/settingswidget.h
     ${QTAPP_ROOT}/widgets/logpanel.cpp
     ${QTAPP_ROOT}/widgets/logpanel.h
+    ${QTAPP_ROOT}/widgets/metricspanel.cpp
+    ${QTAPP_ROOT}/widgets/metricspanel.h
+    ${QTAPP_ROOT}/widgets/nodetreegraph.cpp
+    ${QTAPP_ROOT}/widgets/nodetreegraph.h
     )
 
 set(SOURCES

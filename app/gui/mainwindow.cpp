@@ -85,6 +85,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/sonicpimetro.h"
 #include "widgets/linkaudiostreamswidget.h"
 #include "widgets/logpanel.h"
+#include "widgets/metricspanel.h"
 
 #include "utils/ruby_help.h"
 
@@ -1197,9 +1198,12 @@ void MainWindow::updateDebugLogPanelVisibility()
     {
         if (!debugLogPanel)
         {
+            // Sources with a live panel (SuperSonic) are omitted from the
+            // file-tail tabs — the live panel below supersedes the log tail.
             QVector<LogPanel::Source> sources;
             for (const auto& src : m_spAPI->GetLogSources())
             {
+                if (src.hasLivePanel) continue;
                 sources.append({ QString::fromStdString(src.name),
                                  QString::fromStdString(src.path.string()) });
             }
@@ -1207,6 +1211,14 @@ void MainWindow::updateDebugLogPanelVisibility()
             debugLogPanel->applyTheme(theme->color("LogForeground"),
                                       theme->color("MarginBackground"),
                                       theme->color("MarginForeground"));
+
+            // Live SuperSonic panel (metrics + OSC in/out + debug + node tree),
+            // read from the engine's shared segment. Reparented into
+            // debugLogPanel by addExtraTab, so it is torn down with it.
+            metricsPanel = new MetricsPanel(m_spAPI, this);
+            metricsPanel->applyTheme(theme);
+            debugLogPanel->addExtraTab(metricsPanel, tr("SuperSonic"));
+
             southTabs->addTab(debugLogPanel, tr("Debug"));
             int idx = southTabs->indexOf(debugLogPanel);
             if (idx >= 0) southTabs->setCurrentIndex(idx);
@@ -1218,6 +1230,7 @@ void MainWindow::updateDebugLogPanelVisibility()
         if (idx >= 0) southTabs->removeTab(idx);
         debugLogPanel->deleteLater();
         debugLogPanel = nullptr;
+        metricsPanel = nullptr; // child of debugLogPanel — deleted with it
     }
 }
 
@@ -2733,6 +2746,11 @@ void MainWindow::updateColourTheme()
         debugLogPanel->applyTheme(theme->color("LogForeground"),
                                   theme->color("MarginBackground"),
                                   theme->color("MarginForeground"));
+    }
+
+    if (metricsPanel)
+    {
+        metricsPanel->applyTheme(theme);
     }
 }
 
@@ -4611,6 +4629,14 @@ void MainWindow::restoreWindows()
 
     resize(size);
     move(pos);
+
+    // Clamp a restored Help/Debug dock that takes too much of the window height.
+    if (docWidget && docWidget->isVisible())
+    {
+        const int winH = size.height();
+        if (winH > 0 && docWidget->height() > (winH * 2) / 5)
+            resizeDocks({ docWidget }, { winH / 3 }, Qt::Vertical);
+    }
 }
 
 /**

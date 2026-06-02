@@ -80,6 +80,7 @@ class SonicPiSettings;
 class SonicPiContext;
 class SonicPiMetro;
 class LogPanel;
+class MetricsPanel;
 
 struct help_page
 {
@@ -525,6 +526,7 @@ private:
     QDockWidget* docWidget;
     QDockWidget* metroWidget;
     LogPanel* debugLogPanel = nullptr;
+    MetricsPanel* metricsPanel = nullptr;
 
     QWidget* blankWidgetOutput;
     QWidget* blankWidgetIncoming;
