@@ -480,13 +480,27 @@ end
 docs << ";\n"
 docs << "  autocomplete->setPlayArgs(fxtmp);\n\n"
 
-docs << "  // sample opts (:stereo_player)\n"
+# sample opts = the :stereo_player synth args PLUS the documented `sample` opts.
+# The latter (beat_stretch:, pitch_stretch:, …) aren't synth args — they're munged
+# into rate:/pitch: at runtime — so arg_info alone misses them.
+docs << "  // sample opts (:stereo_player synth args + documented `sample` opts)\n"
 docs << "  fxtmp.clear(); fxtmp "
-SonicPi::Synths::SynthInfo.get_all[:stereo_player].arg_info.each do |ak, av|
+sample_doc_opts = (SonicPi::Lang::Sound.docs[:sample][:opts] rescue {}) || {}
+sample_opts = SonicPi::Synths::SynthInfo.get_all[:stereo_player].arg_info.keys
+(sample_opts + sample_doc_opts.keys).uniq.each do |ak|
   docs << "<< \"#{ak}:\" ";
 end
 docs << ";\n"
 docs << "  autocomplete->setSampleArgs(fxtmp);\n\n"
+
+# Summaries/docs for documented sample opts not already registered from a synth/fx
+# arg_info (e.g. beat_stretch, pitch_stretch), reusing the opt_summaries helpers.
+sample_doc_opts.each do |ak, d|
+  next if opt_summaries.key?(ak)
+  d = d.to_s.strip
+  docs << "  autocomplete->setSummary(\"#{ak}:\", QString::fromUtf8(\"#{ak}:\"));\n"
+  docs << "  autocomplete->setDoc(\"#{ak}:\", #{qutf8_doc.call("<p>#{opt_doc_html.call(d)}</p>")});\n" unless d.empty?
+end
 
 def generate_ui_lang_names
   # Define the language list map -----
