@@ -52,13 +52,13 @@
 
 namespace
 {
-constexpr int kMetricCount = 46; // PerformanceMetrics field count (METRICS_SIZE / 4)
+constexpr int kMetricCount = 58; // PerformanceMetrics field count (METRICS_SIZE / 4)
 // Native-only live stats appended after the struct fields in the panel's value
 // array (sourced from AudioProcessor_GetNativeStats, not the metrics struct).
-constexpr int kFieldSynthDefs   = 46;
-constexpr int kFieldBuffers     = 47;
-constexpr int kFieldBufferBytes = 48;
-constexpr int kPanelFieldCount  = 49;
+constexpr int kFieldSynthDefs   = 58;
+constexpr int kFieldBuffers     = 59;
+constexpr int kFieldBufferBytes = 60;
+constexpr int kPanelFieldCount  = 61;
 
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
@@ -74,7 +74,9 @@ enum Fmt
     F_Plain,
     F_Bytes,
     F_Signed,
-    F_Headroom
+    F_Headroom,
+    F_MilliBpm,   // raw is milli-BPM (bpm * 1000) → "X.X"
+    F_Centi       // raw is value * 100 → "X.XX"
 };
 
 enum Kind
@@ -180,6 +182,18 @@ const std::vector<PanelDef>& panelLayout()
           { ValRow("imm", { V(39, K_Muted) }),
             ValRow("near", { V(40, K_Muted) }),
             ValRow("late", { V(41, K_Muted) }) } },
+        { "Link",
+          { ValRow("peers", { V(46, K_Green) }),
+            ValRow("tempo", { V(47, K_Normal, F_MilliBpm), T(" bpm") }),
+            ValRow("beat", { V(48, K_Dim, F_Centi) }),
+            ValRow("phase", { V(49, K_Dim, F_Centi) }),
+            ValRow("playing", { V(50, K_Muted) }) } },
+        { "Link Audio",
+          { ValRow("in", { V(51), T(" ch @ "), V(52, K_Muted), T(" Hz") }),
+            ValRow("underruns", { V(53, K_Error) }),
+            ValRow("buffered", { V(54, K_Dim), T(" ms") }),
+            ValRow("drift", { V(55, K_Dim, F_Signed), T(" ppm") }),
+            ValRow("publish", { V(56, K_Green), T(" | "), V(57, K_Muted), T(" sinks") }) } },
     };
     return panels;
 }
@@ -207,6 +221,10 @@ QString formatField(uint32_t raw, Fmt fmt)
         return QString::number(static_cast<int32_t>(raw));
     case F_Headroom:
         return raw == 0xFFFFFFFFu ? QStringLiteral("-") : QString::number(raw);
+    case F_MilliBpm:
+        return QString::number(raw / 1000.0, 'f', 1);
+    case F_Centi:
+        return QString::number(raw / 100.0, 'f', 2);
     case F_Plain:
     default:
         return QString::number(raw);

@@ -109,8 +109,9 @@ inline void shm_close(shm_handle& h) {
 // MAGIC 0x5C09E005: unified layout (segment == shared_memory.h arena blob;
 // rings in-segment; scope fixed-inline). All offsets are relative to the
 // arena blob base (segment + blob_offset).
+// MAGIC 0x5C09E006: + Link metric fields (METRICS_SIZE 184→232).
 struct shm_segment_header {
-    static constexpr uint32_t MAGIC = 0x5C09E005;
+    static constexpr uint32_t MAGIC = 0x5C09E006;
 
     uint32_t magic;
     uint32_t blob_offset;
@@ -148,7 +149,7 @@ struct shm_segment_header {
 };
 
 // Convenience: the metrics field count for callers that want a constant.
-static constexpr size_t METRICS_FIELD_COUNT = 46;
+static constexpr size_t METRICS_FIELD_COUNT = 58;
 
 // ──── Fixed-inline scope reader ─────────────────────────────────────────
 //
