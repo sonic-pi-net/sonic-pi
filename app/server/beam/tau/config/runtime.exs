@@ -30,6 +30,18 @@ extract_env = fn name, kind, default ->
   end
 end
 
+# Ask the OS for a free, bindable UDP port on loopback (open port 0, read back
+# the assigned port, release it). Used for the :test defaults below so we never
+# hand the servers a port they can't bind. A blind Enum.random/1 pick can land
+# on a Windows OS "excluded port range" (Hyper-V/WSL reserve chunks of the high
+# range, varying per boot) and fail the bind with eacces.
+free_port = fn ->
+  {:ok, socket} = :gen_udp.open(0, [{:ip, :loopback}])
+  {:ok, port} = :inet.port(socket)
+  :ok = :gen_udp.close(socket)
+  port
+end
+
 config :tau,
   handle_otp_reports: true,
   handle_sasl_reports: true
@@ -61,9 +73,9 @@ else
     cues_on: extract_env.("TAU_CUES_ON", :bool, true),
     osc_in_udp_loopback_restricted:
       extract_env.("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true),
-    osc_in_udp_port: extract_env.("TAU_OSC_IN_UDP_PORT", :int, Enum.random(30000..65535)),
-    api_port: extract_env.("TAU_API_PORT", :int, Enum.random(30000..65535)),
-    spider_port: extract_env.("TAU_SPIDER_PORT", :int, Enum.random(30000..65535)),
+    osc_in_udp_port: extract_env.("TAU_OSC_IN_UDP_PORT", :int, free_port.()),
+    api_port: extract_env.("TAU_API_PORT", :int, free_port.()),
+    spider_port: extract_env.("TAU_SPIDER_PORT", :int, free_port.()),
     daemon_port: extract_env.("TAU_DAEMON_PORT", :int, -1),
     daemon_token: extract_env.("TAU_DAEMON_TOKEN", :int, -1),
     daemon_host: {127, 0, 0, 1}
