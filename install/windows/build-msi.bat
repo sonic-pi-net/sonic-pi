@@ -206,6 +206,28 @@ if errorlevel 1 (
 )
 
 REM ======================================================================
+REM Code-sign every payload PE binary BEFORE building the MSI.
+REM
+REM Smart App Control (SAC) evaluates each PE image that runs or is loaded
+REM (.exe/.dll/.scx/.so) independently — signing the MSI alone is not
+REM enough, so the installer must embed already-signed payloads.
+REM
+REM The signing identity is taken from the SP_SIGN_CERT_NAME env var and
+REM resolved against the Windows cert store (no credentials in-tree). If
+REM that var is unset, sign-payload.ps1 skips signing and the build
+REM proceeds unsigned. See sign-payload.ps1 for the full policy.
+REM
+REM All payload PE files live under the staged app\ tree; etc\ has none.
+REM ======================================================================
+echo.
+echo Signing payload binaries...
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0sign-payload.ps1" -Path app -Description "Sonic Pi v%FULL_VERSION%"
+if errorlevel 1 (
+    echo ERROR: Payload signing failed.
+    exit /b 1
+)
+
+REM ======================================================================
 REM Build MSI with WiX v6
 REM ======================================================================
 echo.
@@ -229,6 +251,17 @@ wix build %WIX_ARGS% -o "%MSI_NAME%"
 if errorlevel 1 (
     echo.
     echo ERROR: WiX build failed!
+    exit /b 1
+)
+
+REM ======================================================================
+REM Sign the finished MSI (same identity/timestamp policy as the payload).
+REM ======================================================================
+echo.
+echo Signing MSI...
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0sign-payload.ps1" -Path "%MSI_NAME%" -Description "Sonic Pi v%FULL_VERSION%"
+if errorlevel 1 (
+    echo ERROR: MSI signing failed.
     exit /b 1
 )
 
