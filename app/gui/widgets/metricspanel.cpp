@@ -46,19 +46,33 @@
 //
 // Transcribed from the canonical SuperSonic web schema
 // (external/supersonic/js/supersonic.js getMetricsSchema). Field indices
-// 0-45 are the PerformanceMetrics struct (see external/supersonic/src/
-// shared_memory.h). Cells whose source has no native writer are marked
-// `na` and always render "-".
+// 0-68 are the PerformanceMetrics struct (see external/supersonic/src/
+// shared_memory.h): 0-45 core, 46-57 Link, 58-64 version/audio config,
+// 65-68 SuperClock readouts. Cells whose source has no native writer are
+// marked `na` and always render "-". Requires the supersonic submodule at a
+// commit that includes the 58-68 fields (METRICS_SIZE = 276).
 
 namespace
 {
-constexpr int kMetricCount = 58; // PerformanceMetrics field count (METRICS_SIZE / 4)
+constexpr int kMetricCount = 69; // meaningful PerformanceMetrics fields read (0-68; slot 69 is alignment padding)
+// Cross-platform system-info fields, written into the struct by shared C++.
+constexpr int kFieldVersionMajor   = 58;
+constexpr int kFieldVersionMinor   = 59;
+constexpr int kFieldVersionPatch   = 60;
+constexpr int kFieldSampleRate     = 61;
+constexpr int kFieldBlockSize      = 62;
+constexpr int kFieldOutputChannels = 63;
+constexpr int kFieldInputChannels  = 64;
+constexpr int kFieldClockTempo     = 65; // milli-BPM
+constexpr int kFieldClockBeat      = 66; // beat * 100
+constexpr int kFieldClockPhase     = 67; // phase * 100
+constexpr int kFieldClockPlaying   = 68;
 // Native-only live stats appended after the struct fields in the panel's value
 // array (sourced from AudioProcessor_GetNativeStats, not the metrics struct).
-constexpr int kFieldSynthDefs   = 58;
-constexpr int kFieldBuffers     = 59;
-constexpr int kFieldBufferBytes = 60;
-constexpr int kPanelFieldCount  = 61;
+constexpr int kFieldSynthDefs   = 69;
+constexpr int kFieldBuffers     = 70;
+constexpr int kFieldBufferBytes = 71;
+constexpr int kPanelFieldCount  = 72;
 
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
@@ -194,6 +208,16 @@ const std::vector<PanelDef>& panelLayout()
             ValRow("buffered", { V(54, K_Dim), T(" ms") }),
             ValRow("drift", { V(55, K_Dim, F_Signed), T(" ppm") }),
             ValRow("publish", { V(56, K_Green), T(" | "), V(57, K_Muted), T(" sinks") }) } },
+        { "Engine",
+          { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) }),
+            ValRow("rate", { V(kFieldSampleRate), T(" Hz") }),
+            ValRow("block", { V(kFieldBlockSize), T(" frames") }),
+            ValRow("channels", { V(kFieldOutputChannels), T(" | "), V(kFieldInputChannels, K_Muted) }) } },
+        { "Clock",
+          { ValRow("tempo", { V(kFieldClockTempo, K_Normal, F_MilliBpm), T(" bpm") }),
+            ValRow("beat", { V(kFieldClockBeat, K_Dim, F_Centi) }),
+            ValRow("phase", { V(kFieldClockPhase, K_Dim, F_Centi) }),
+            ValRow("playing", { V(kFieldClockPlaying, K_Muted) }) } },
     };
     return panels;
 }
