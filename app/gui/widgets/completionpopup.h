@@ -54,7 +54,7 @@ public:
     // height; the popup sits just below that line (or above if there's no room).
     // Returns false (and hides) if there is nothing to show.
     bool showItems(const QList<CompletionItem>& items, const QPoint& caretTopLeft,
-                   int lineHeight);
+                   int lineHeight, int preferNote = -1);
 
     // Match the editor's current (zoomed) code font.
     void setItemFont(const QFont& font);

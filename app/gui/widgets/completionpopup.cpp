@@ -121,11 +121,11 @@ public:
             QRect badge(opt.rect.left() + kRowHPad, cy - bh / 2, bw, bh);
             QColor c = kindColor(kind);
             p->setPen(Qt::NoPen);
-            p->setBrush(selected ? QColor(c.red(), c.green(), c.blue(), 235)
+            p->setBrush(selected ? QColor(0, 0, 0, 90)
                                  : QColor(c.red(), c.green(), c.blue(), 70));
             p->drawRoundedRect(badge, 3, 3);
             p->setFont(badgeFont);
-            p->setPen(selected ? QColor(Qt::white) : c.lighter(125));
+            p->setPen(selected ? c.lighter(135) : c.lighter(125));
             p->drawText(badge, Qt::AlignCenter, kind);
         }
 
@@ -206,9 +206,19 @@ public:
         }
         update();
     }
-    void setColors(const QColor& fg, const QColor& accent) {
+    void setColors(const QColor& fg, const QColor& accent, const QColor& bg) {
         m_fg = fg;
         m_accent = accent;
+        // Invert the keys in dark mode so they sit in the theme rather than glaring.
+        if (bg.lightnessF() < 0.5) {
+            m_white = QColor(30, 30, 30);
+            m_black = QColor(225, 225, 225);
+            m_edge  = QColor(79, 79, 79);
+        } else {
+            m_white = QColor(250, 250, 250);
+            m_black = QColor(30, 30, 30);
+            m_edge  = QColor(176, 176, 176);
+        }
         update();
     }
     void setOnClick(std::function<void(int)> cb) { m_onClick = std::move(cb); }
@@ -229,12 +239,12 @@ protected:
         // A soft accent wash marks the keys present in the dropdown (without the
         // strong accent of the selected key): white keys tint toward the accent,
         // black keys lighten toward it.
-        const QColor inWhite(mix(m_accent, QColor(250, 250, 250), 32));
-        const QColor inBlack(mix(m_accent, QColor(30, 30, 30), 55));
+        const QColor inWhite(mix(m_accent, m_white, 32));
+        const QColor inBlack(mix(m_accent, m_black, 55));
         // Chord/scale degrees other than the root are lit in a lighter accent so
         // the root stands out and a full scale reads as a shape, not a block.
-        const QColor toneWhite(mix(m_accent, QColor(250, 250, 250), 55));
-        const QColor toneBlack(mix(m_accent, QColor(30, 30, 30), 72));
+        const QColor toneWhite(mix(m_accent, m_white, 55));
+        const QColor toneBlack(mix(m_accent, m_black, 72));
 
         p.setClipRect(kb);
         // White keys (cull off-screen). Selected = accent fill + darker accent edge
@@ -246,10 +256,10 @@ protected:
             const bool root = (m == m_note);
             const bool tone = m_chordNotes.contains(m);
             QRectF r(x + 0.5, kb.top(), wW - 1.5, kb.height());
-            p.setPen(QPen((root || tone) ? m_accent.darker(150) : QColor(176, 176, 176), 1));
+            p.setPen(QPen((root || tone) ? m_accent.darker(150) : m_edge, 1));
             p.setBrush(root ? m_accent
                             : tone ? toneWhite
-                                   : (m_inList.contains(m) ? inWhite : QColor(250, 250, 250)));
+                                   : (m_inList.contains(m) ? inWhite : m_white));
             p.drawRoundedRect(r, rad, rad);
         }
         // Black keys sit on the boundary between their neighbouring white keys.
@@ -263,7 +273,7 @@ protected:
             p.setPen(Qt::NoPen);
             p.setBrush(root ? m_accent
                             : tone ? toneBlack
-                                   : (m_inList.contains(m) ? inBlack : QColor(30, 30, 30)));
+                                   : (m_inList.contains(m) ? inBlack : m_black));
             p.drawRoundedRect(r, rad, rad);
         }
         p.setClipping(false);
@@ -410,6 +420,9 @@ private:
     int m_hoverMidi = -2;
     QColor m_fg = QColor(220, 220, 220);
     QColor m_accent = QColor(0x9B, 0x59, 0xB6);
+    QColor m_white = QColor(250, 250, 250);   // white-key body (inverted in dark mode)
+    QColor m_black = QColor(30, 30, 30);       // black-key body (inverted in dark mode)
+    QColor m_edge = QColor(176, 176, 176);     // white-key outline
     QVariantAnimation* m_slide = nullptr;
     std::function<void(int)> m_onClick;
     std::function<void(int)> m_onHover;
@@ -699,7 +712,7 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
         "table { border-collapse: collapse; }"
         "td { border: 1px solid %3; }")
         .arg(fg.name(), selBg.name(), grid.name()));
-    if (m_piano) m_piano->setColors(fg, selBg);
+    if (m_piano) m_piano->setColors(fg, selBg, bg);
     if (m_rangeSlider) m_rangeSlider->setColors(fg, selBg);
     update();
 }
@@ -720,7 +733,8 @@ void CompletionPopup::setItemFont(const QFont& font)
 }
 
 bool CompletionPopup::showItems(const QList<CompletionItem>& items,
-                                const QPoint& caretTopLeft, int lineHeight)
+                                const QPoint& caretTopLeft, int lineHeight,
+                                int preferNote)
 {
     // A fresh completion (popup hidden) or a change of mode (e.g. a function list
     // becoming a note list as the caret moves into an argument) starts a new
@@ -775,12 +789,14 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
         return false;
     }
 
-    // Notes default to ~middle C (MIDI 60) rather than the lowest entry.
+    // Notes select the typed number (preferNote) if given, else default to ~middle
+    // C (MIDI 60) rather than the lowest entry.
     int defaultRow = 0;
     if (!items.isEmpty() && items.first().kind == "note") {
+        const int target = preferNote >= 0 ? preferNote : 60;
         int bestDist = 1000;
         for (int i = 0; i < m_model->rowCount(); ++i) {
-            const int d = qAbs(m_model->index(i, 0).data(NoteRole).toInt() - 60);
+            const int d = qAbs(m_model->index(i, 0).data(NoteRole).toInt() - target);
             if (d < bestDist) { bestDist = d; defaultRow = i; }
         }
     }

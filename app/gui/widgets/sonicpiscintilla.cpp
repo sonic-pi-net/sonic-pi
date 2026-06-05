@@ -902,14 +902,45 @@ void SonicPiScintilla::updateCompletion()
         return;
     }
 
-    // Notes: with nothing typed, show only the numbers (consistent number→name
-    // rows). The named spellings (:c4 …) surface once a letter is typed — the
-    // boundary-anchored fuzzy match then keeps numbers and names from mixing.
-    if (partial.isEmpty() && !items.isEmpty() && items.first().kind == "note")
+    // Notes are an ordered instrument, never fuzzy-matched. Digits pick a number
+    // directly; a note-name partial (c, cs, e3 …) resolves to the matching pitch
+    // nearest middle C. Either way we show the full numeric list, ordered low→high,
+    // and navigate it a semitone at a time — never a spray of name matches.
+    const bool noteMode = !items.isEmpty() && items.first().kind == "note";
+    bool useNumbers = noteMode;   // the numeric instrument, unless a name partial resolves nothing
+    int preferNote = -1;
+    if (noteMode && !partial.isEmpty())
+    {
+        const bool allDigits = std::all_of(partial.begin(), partial.end(),
+                                           [](QChar c) { return c.isDigit(); });
+        if (allDigits)
+            preferNote = partial.toInt();
+        else
+        {
+            // Resolve the typed note name to the matching pitch nearest middle C.
+            int bestDist = 1000;
+            for (const CompletionItem& it : items)
+            {
+                if (it.note < 0) continue;
+                QString name = it.text.startsWith(':') ? it.text.mid(1) : it.text;
+                if (name.startsWith(partial, Qt::CaseInsensitive))
+                {
+                    const int d = qAbs(it.note - 60);
+                    if (d < bestDist) { bestDist = d; preferNote = it.note; }
+                }
+            }
+            useNumbers = (preferNote >= 0);   // unresolved name → fall back to fuzzy
+        }
+    }
+    if (useNumbers)
     {
         QList<CompletionItem> nums;
         for (const CompletionItem& it : items)
             if (!it.text.isEmpty() && it.text[0].isDigit()) nums.append(it);
+        std::stable_sort(nums.begin(), nums.end(),
+                         [](const CompletionItem& a, const CompletionItem& b) {
+                             return a.note < b.note;
+                         });
         items = nums;
     }
 
@@ -918,6 +949,11 @@ void SonicPiScintilla::updateCompletion()
     {
         // A bounded opt offers a single slider value-picker — show it directly;
         // the partial (if any) is the value being typed and is replaced on accept.
+        filtered = items;
+    }
+    else if (useNumbers)
+    {
+        // No fuzzy filtering — the full instrument stays, Up/Down walk it.
         filtered = items;
     }
     else
@@ -948,8 +984,8 @@ void SonicPiScintilla::updateCompletion()
     // Track the editor's code font + live zoom, but noticeably smaller (popups
     // sit below the editor text size).
     QFont codeFont = lexer() ? lexer()->defaultFont() : font();
-    const double sized = (codeFont.pointSize() + SendScintilla(SCI_GETZOOM)) * 0.72;
-    codeFont.setPointSizeF(qBound(7.0, sized, 13.0));
+    const double sized = (codeFont.pointSize() + SendScintilla(SCI_GETZOOM)) * 0.82;
+    codeFont.setPointSizeF(qBound(8.0, sized, 15.0));
     m_completion->setItemFont(codeFont);
 
     int wordStart = pos - partial.length();
@@ -960,7 +996,7 @@ void SonicPiScintilla::updateCompletion()
     // SCI coords are viewport-relative → map to global for the top-level popup.
     QPoint globalTop = viewport() ? viewport()->mapToGlobal(QPoint(x, y))
                                   : mapToGlobal(QPoint(x, y));
-    m_completion->showItems(filtered, globalTop, lh);
+    m_completion->showItems(filtered, globalTop, lh, preferNote);
 
     // Arm the live preview but don't write anything yet: the buffer keeps the
     // user's typed text until they choose an entry (nav/click/drag), at which
