@@ -911,11 +911,14 @@ void SonicPiScintilla::updateCompletion()
     int preferNote = -1;
     if (noteMode && !partial.isEmpty())
     {
-        const bool allDigits = std::all_of(partial.begin(), partial.end(),
-                                           [](QChar c) { return c.isDigit(); });
+        // Note symbols carry a leading ':' (":c4"); match on the bare token so a
+        // typed ":c" resolves the same as "c".
+        const QString pat = partial.startsWith(':') ? partial.mid(1) : partial;
+        const bool allDigits = !pat.isEmpty() &&
+            std::all_of(pat.begin(), pat.end(), [](QChar c) { return c.isDigit(); });
         if (allDigits)
-            preferNote = partial.toInt();
-        else
+            preferNote = pat.toInt();
+        else if (!pat.isEmpty())
         {
             // Resolve the typed note name to the matching pitch nearest middle C.
             int bestDist = 1000;
@@ -923,7 +926,7 @@ void SonicPiScintilla::updateCompletion()
             {
                 if (it.note < 0) continue;
                 QString name = it.text.startsWith(':') ? it.text.mid(1) : it.text;
-                if (name.startsWith(partial, Qt::CaseInsensitive))
+                if (name.startsWith(pat, Qt::CaseInsensitive))
                 {
                     const int d = qAbs(it.note - 60);
                     if (d < bestDist) { bestDist = d; preferNote = it.note; }
