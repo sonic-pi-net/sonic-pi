@@ -540,7 +540,16 @@ QStringList SonicPiScintilla::apiContext(int pos, int& context_start,
         else if ((c == ')' || c == ']' || c == '}') && !open.isEmpty()) open.removeLast();
     }
     if (!open.isEmpty()) innermost = open.last();
-    if (innermost >= 0) line = line.mid(innermost + 1);
+    if (innermost >= 0) {
+        // Keep the function name when '(' is its call paren (`scale(60,` — an
+        // identifier flush against the bracket), so the args still read as
+        // scale/chord/note. A space before '(' marks a grouping paren — drop it.
+        int s = innermost;
+        while (s > 0 && (line[s - 1].isLetterOrNumber() || line[s - 1] == '_')) --s;
+        const QString fn = line.mid(s, innermost - s);
+        line = line.mid(innermost + 1);
+        if (!fn.isEmpty()) line = fn + " " + line;
+    }
 
     context = line.split(QRegularExpression("[ ,(){}]+"));
 
@@ -1027,16 +1036,31 @@ QString SonicPiScintilla::argSeparatorBefore(const QStringList& context,
                                              int wordStart, int& replaceStart)
 {
     replaceStart = wordStart;
-    int wordsBefore = 0;
+
+    // Locate the current call's argument run: skip a leading `lvalue =` (or any
+    // operator token), then the function name. Tokens after that are existing
+    // arguments — only then does a freshly-chosen one need a ", " to join them
+    // (so `a = scale` completes the function, not `a =, scale`).
+    QStringList words;
     for (int i = 0; i < context.size() - 1; ++i)
-        if (!context[i].isEmpty()) ++wordsBefore;
+        if (!context[i].isEmpty()) words << context[i];
+    int fnIdx = 0;
+    for (int i = 0; i < words.size(); ++i) {
+        const QChar c0 = words[i][0];
+        const bool valueLike = c0.isLetterOrNumber() || c0 == ':' || c0 == '_'
+                               || c0 == '\'' || c0 == '"';
+        if (!valueLike) fnIdx = i + 1;   // an operator/assignment resets the call
+    }
+    if (words.size() - (fnIdx + 1) < 1)   // completing the function or its first arg
+        return QString();
+
     int j = wordStart - 1;
     while (j >= 0) {
         const char c = (char)SendScintilla(SCI_GETCHARAT, j);
         if (c == ' ' || c == '\t') { --j; continue; }
         break;
     }
-    if (wordsBefore >= 2 && j >= 0) {
+    if (j >= 0) {
         const char c = (char)SendScintilla(SCI_GETCHARAT, j);
         // ':' = the value belongs to a preceding opt (`note: 60`), not a new arg.
         if (c != ',' && c != '(' && c != '[' && c != '{' && c != ':') {
@@ -1125,7 +1149,7 @@ void SonicPiScintilla::endPreview()
     m_pvOriginal.clear();
 }
 
-void SonicPiScintilla::popValuePickerOnClick()
+void SonicPiScintilla::popCompletionOnClick()
 {
     if (!m_completion || !m_completionEnabled || m_completion->isShowing()) return;
     auto* api = dynamic_cast<ScintillaAPI*>(lexer() ? lexer()->apis() : nullptr);
@@ -1133,21 +1157,24 @@ void SonicPiScintilla::popValuePickerOnClick()
     int pos = SendScintilla(SCI_GETCURRENTPOS);
     int cs, lws;
     QStringList context = apiContext(pos, cs, lws);
-    // Cheap pre-filter: a value picker only follows an `opt:` token.
-    QString prev;
-    for (int i = context.size() - 2; i >= 0; --i)
-        if (!context[i].isEmpty()) { prev = context[i]; break; }
-    if (!prev.endsWith(':')) return;
+    if (context.isEmpty()) return;
 
     QList<CompletionItem> items = api->completionsFor(context);
-    if (items.size() == 1 && items.first().slider)
+    if (items.isEmpty()) return;
+
+    // Only pop where the click lands in a tangible value slot — a note/chord/scale
+    // (keyboard preview) or a bounded opt (`pan: 0.5` slider). Never the plain
+    // function list, which would be intrusive on every click.
+    const QString k = items.first().kind;
+    const bool slider = (items.size() == 1 && items.first().slider);
+    if (slider || k == "note" || k == "chord" || k == "scale" || k == "tuning")
         updateCompletion();
 }
 
 void SonicPiScintilla::mouseReleaseEvent(QMouseEvent* e)
 {
     QsciScintilla::mouseReleaseEvent(e);
-    popValuePickerOnClick();   // clicking onto a `pan: 0.5` value opens its slider
+    popCompletionOnClick();   // clicking onto a note/chord/scale or `pan: 0.5` value opens its preview
 }
 
 void SonicPiScintilla::dropEvent(QDropEvent* dropEvent)

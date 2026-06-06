@@ -133,7 +133,7 @@ private:
     void restoreOriginal();                  // restore m_pvOriginal (Escape)
     void endPreview();                       // deactivate (leave buffer as-is)
     void replacePreviewSpan(const QString& text);  // guarded edit of the previewed span
-    void popValuePickerOnClick();            // open a slider when clicking onto its value
+    void popCompletionOnClick();             // open the keyboard/slider when clicking onto a note/chord/scale/opt value
     // The ", " separator (or "") a freshly-chosen argument needs from the
     // preceding one; sets `replaceStart` to where the replacement begins
     // (eating intervening whitespace when a separator is added).
