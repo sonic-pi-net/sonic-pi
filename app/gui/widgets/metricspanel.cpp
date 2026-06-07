@@ -38,6 +38,7 @@
 #include <QSizePolicy>
 #include <QSplitter>
 #include <QTextEdit>
+#include <QTime>
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QHash>
@@ -45,43 +46,43 @@
 // ─── Static layout model ────────────────────────────────────────────────
 //
 // Transcribed from the canonical SuperSonic web schema
-// (external/supersonic/js/supersonic.js getMetricsSchema). Field indices
-// 0-68 are the PerformanceMetrics struct (see external/supersonic/src/
-// shared_memory.h): 0-45 core, 46-57 Link, 58-64 version/audio config,
-// 65-68 SuperClock readouts. Cells whose source has no native writer are
-// marked `na` and always render "-". Requires the supersonic submodule at a
-// commit that includes the 58-68 fields (METRICS_SIZE = 276).
+// (external/supersonic/js/lib/metrics_offsets.js). Field indices 0-49 are
+// the PerformanceMetrics struct (see external/supersonic/src/shared_memory.h):
+// 0-8 scsynth, 9-10 OSC out, 11-14 OSC in, 15-16 debug, 17-22 ring usage/peak,
+// 23-25 late timing, 26 direct-write fails, 27-38 Link, 39-45 version/audio
+// config, 46-49 SuperClock readouts. Cells whose source has no native writer
+// are marked `na` and always render "-".
 
 namespace
 {
-constexpr int kMetricCount = 69; // meaningful PerformanceMetrics fields read (0-68; slot 69 is alignment padding)
+constexpr int kMetricCount = 50; // meaningful PerformanceMetrics fields read (0-49; 50-51 are padding)
 // Cross-platform system-info fields, written into the struct by shared C++.
-constexpr int kFieldVersionMajor   = 58;
-constexpr int kFieldVersionMinor   = 59;
-constexpr int kFieldVersionPatch   = 60;
-constexpr int kFieldSampleRate     = 61;
-constexpr int kFieldBlockSize      = 62;
-constexpr int kFieldOutputChannels = 63;
-constexpr int kFieldInputChannels  = 64;
-constexpr int kFieldClockTempo     = 65; // milli-BPM
-constexpr int kFieldClockBeat      = 66; // beat * 100
-constexpr int kFieldClockPhase     = 67; // phase * 100
-constexpr int kFieldClockPlaying   = 68;
+constexpr int kFieldVersionMajor   = 39;
+constexpr int kFieldVersionMinor   = 40;
+constexpr int kFieldVersionPatch   = 41;
+constexpr int kFieldSampleRate     = 42;
+constexpr int kFieldBlockSize      = 43;
+constexpr int kFieldOutputChannels = 44;
+constexpr int kFieldInputChannels  = 45;
+constexpr int kFieldClockTempo     = 46; // milli-BPM
+constexpr int kFieldClockBeat      = 47; // beat * 100
+constexpr int kFieldClockPhase     = 48; // phase * 100
+constexpr int kFieldClockPlaying   = 49;
 // Native-only live stats appended after the struct fields in the panel's value
 // array (sourced from AudioProcessor_GetNativeStats, not the metrics struct).
-constexpr int kFieldSynthDefs   = 69;
-constexpr int kFieldBuffers     = 70;
-constexpr int kFieldBufferBytes = 71;
-constexpr int kPanelFieldCount  = 72;
+constexpr int kFieldSynthDefs   = 50;
+constexpr int kFieldBuffers     = 51;
+constexpr int kFieldBufferBytes = 52;
+constexpr int kPanelFieldCount  = 53;
 
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
 
-// Ring capacities, mirrored from external/supersonic/src/shared_memory.h
-// (IN/OUT/DEBUG_BUFFER_SIZE); used to scale the level bars.
+// Ring capacities, mirrored from external/supersonic/src/memory_profile.h
+// (IN/OUT/NRT_OUT_BUFFER_SIZE); used to scale the level bars.
 constexpr uint32_t kInBufferCap = 786432;  // 768 KB
 constexpr uint32_t kOutBufferCap = 131072; // 128 KB
-constexpr uint32_t kDebugBufferCap = 65536; // 64 KB
+constexpr uint32_t kNrtOutBufferCap = 65536; // 64 KB
 
 enum Fmt
 {
@@ -113,7 +114,7 @@ struct Seg
 {
     bool isText;       // literal separator/suffix vs a metric value
     const char* text;  // literal text when isText
-    int field;         // metric index 0-45, or -1
+    int field;         // metric index 0-49, or -1
     Fmt fmt;
     Kind kind;
     bool na;           // force "-" (no native writer)
@@ -151,63 +152,49 @@ RowDef BarRow(const char* label, int used, int peak, uint32_t cap, BarColor c)
 }
 
 // Field indices match the struct order in shared_memory.h; late-ms fields
-// (23, 42, 43) are int32 so they use F_Signed. Browser-only metrics are
-// omitted (no native writer).
+// (23, 24) and Link-audio drift (36) are int32 so they use F_Signed.
+// Browser-only metrics (7 wasm_errors, 13 osc_in_dropped, 26 direct-write
+// fails) are omitted (no native writer).
 const std::vector<PanelDef>& panelLayout()
 {
     static const std::vector<PanelDef> panels = {
-        { "OSC In",
-          { ValRow("received", { V(26) }),
-            ValRow("bytes", { V(27, K_Muted, F_Bytes) }),
-            ValRow("corrupted", { V(29, K_Error) }) } },
-        { "Prescheduler",
-          { ValRow("pending", { V(9), T(" | "), V(10, K_Muted) }),
-            ValRow("scheduled", { V(11) }),
-            ValRow("dispatched", { V(12, K_Dim) }),
-            ValRow("min slack", { V(14, K_Dim, F_Headroom), T(" ms") }) } },
-        { "Presched Health",
-          { ValRow("lates", { V(15, K_Error), T(" ("), V(23, K_Dim, F_Signed), T(" ms max)") }),
-            ValRow("cancelled", { V(13, K_Error) }),
-            ValRow("retried", { V(20, K_Dim), T(" | "), V(16, K_Green), T(" | "), V(17, K_Error) }),
-            ValRow("retry queue", { V(18), T(" | "), V(19, K_Muted) }) } },
+        { "scsynth",
+          { ValRow("ticks", { V(0, K_Dim), T(" | "), V(1, K_Muted), T(" msgs") }),
+            ValRow("dropped", { V(2, K_Error) }),
+            ValRow("seq gaps", { V(6, K_Error) }),
+            ValRow("debug", { V(15, K_Muted), T(" ("), V(16, K_Muted, F_Bytes), T(")") }) } },
         { "scsynth Queue",
           { ValRow("queue", { V(3), T(" | "), V(4, K_Muted) }),
             ValRow("dropped", { V(5, K_Error) }),
             ValRow("lates", { V(8, K_Error) }),
-            ValRow("max | last", { V(42, K_Error, F_Signed), T(" | "), V(43, K_Dim, F_Signed), T(" ms") }) } },
-        { "scsynth",
-          { ValRow("ticks", { V(0, K_Dim), T(" | "), V(1, K_Muted), T(" msgs") }),
-            ValRow("dropped", { V(2, K_Error) }),
-            ValRow("debug", { V(30, K_Muted), T(" ("), V(31, K_Muted, F_Bytes), T(")") }) } },
+            ValRow("max | last", { V(23, K_Error, F_Signed), T(" | "), V(24, K_Dim, F_Signed), T(" ms") }) } },
+        { "OSC In",
+          { ValRow("received", { V(11) }),
+            ValRow("bytes", { V(12, K_Muted, F_Bytes) }),
+            ValRow("corrupted", { V(14, K_Error) }) } },
+        { "OSC Out",
+          { ValRow("sent", { V(9) }),
+            ValRow("bytes", { V(10, K_Muted, F_Bytes) }) } },
+        { "Ring Level",
+          { BarRow("in", 17, 20, kInBufferCap, BC_Blue),
+            BarRow("out", 18, 21, kOutBufferCap, BC_Green),
+            BarRow("nrt", 19, 22, kNrtOutBufferCap, BC_Purple) } },
         { "Buffers",
           { ValRow("synthdefs", { V(kFieldSynthDefs) }),
             ValRow("buffers", { V(kFieldBuffers, K_Green) }),
             ValRow("buf bytes", { V(kFieldBufferBytes, K_Muted, F_Bytes) }) } },
-        { "Ring Level",
-          { BarRow("in", 32, 35, kInBufferCap, BC_Blue),
-            BarRow("out", 33, 36, kOutBufferCap, BC_Green),
-            BarRow("dbg", 34, 37, kDebugBufferCap, BC_Purple) } },
-        { "OSC Out",
-          { ValRow("sent", { V(24) }),
-            ValRow("bytes", { V(25, K_Muted, F_Bytes) }),
-            ValRow("bypass", { V(22, K_Green) }),
-            ValRow("lost", { V(6, K_Error) }) } },
-        { "Bypass",
-          { ValRow("imm", { V(39, K_Muted) }),
-            ValRow("near", { V(40, K_Muted) }),
-            ValRow("late", { V(41, K_Muted) }) } },
         { "Link",
-          { ValRow("peers", { V(46, K_Green) }),
-            ValRow("tempo", { V(47, K_Normal, F_MilliBpm), T(" bpm") }),
-            ValRow("beat", { V(48, K_Dim, F_Centi) }),
-            ValRow("phase", { V(49, K_Dim, F_Centi) }),
-            ValRow("playing", { V(50, K_Muted) }) } },
+          { ValRow("peers", { V(27, K_Green) }),
+            ValRow("tempo", { V(28, K_Normal, F_MilliBpm), T(" bpm") }),
+            ValRow("beat", { V(29, K_Dim, F_Centi) }),
+            ValRow("phase", { V(30, K_Dim, F_Centi) }),
+            ValRow("playing", { V(31, K_Muted) }) } },
         { "Link Audio",
-          { ValRow("in", { V(51), T(" ch @ "), V(52, K_Muted), T(" Hz") }),
-            ValRow("underruns", { V(53, K_Error) }),
-            ValRow("buffered", { V(54, K_Dim), T(" ms") }),
-            ValRow("drift", { V(55, K_Dim, F_Signed), T(" ppm") }),
-            ValRow("publish", { V(56, K_Green), T(" | "), V(57, K_Muted), T(" sinks") }) } },
+          { ValRow("in", { V(32), T(" ch @ "), V(33, K_Muted), T(" Hz") }),
+            ValRow("underruns", { V(34, K_Error) }),
+            ValRow("buffered", { V(35, K_Dim), T(" ms") }),
+            ValRow("drift", { V(36, K_Dim, F_Signed), T(" ppm") }),
+            ValRow("publish", { V(37, K_Green), T(" | "), V(38, K_Muted), T(" sinks") }) } },
         { "Engine",
           { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) }),
             ValRow("rate", { V(kFieldSampleRate), T(" Hz") }),
@@ -642,15 +629,36 @@ void MetricsPanel::drainOscRing(bool outgoing)
         });
 }
 
-void MetricsPanel::drainDebugRing()
+// Drain one engine→host ring, splitting by type: /supersonic/debug → Debug pane
+// (text + local timestamp), everything else → From-SuperSonic pane (formatted
+// OSC). Parse as OSC; never dump raw bytes.
+void MetricsPanel::drainEgressRing(bool nrt)
 {
-    if (!m_api || !m_debugView) return;
-    ring_view rv = m_api->AudioProcessor_GetDebugRing();
-    walkRing(rv, m_debugCursor, m_scratch,
-        [&](uint32_t, uint32_t, const uint8_t* payload, uint32_t n) {
-            QString text = QString::fromUtf8(reinterpret_cast<const char*>(payload), static_cast<int>(n));
-            while (text.endsWith('\n') || text.endsWith('\r')) text.chop(1);
-            if (!text.isEmpty()) m_debugView->append(text);
+    if (!m_api) return;
+    ring_view   rv  = nrt ? m_api->AudioProcessor_GetDebugRing()
+                          : m_api->AudioProcessor_GetOutRing();
+    RingCursor& cur = nrt ? m_debugCursor : m_outCursor;
+    const QString cMuted = m_theme ? m_theme->color("CommentForeground").name() : kindColor(K_Muted).name();
+    walkRing(rv, cur, m_scratch,
+        [&](uint32_t seq, uint32_t src, const uint8_t* payload, uint32_t n) {
+            oscpkt::PacketReader pr(payload, n);
+            oscpkt::Message* msg = pr.isOk() ? pr.popMessage() : nullptr;
+            if (msg && msg->addressPattern() == "/supersonic/debug") {
+                oscpkt::Message::ArgReader ar = msg->arg();
+                if (ar.isStr() && m_debugView) {
+                    std::string s; ar.popStr(s);
+                    QString text = QString::fromStdString(s);
+                    while (text.endsWith('\n') || text.endsWith('\r')) text.chop(1);
+                    if (!text.isEmpty()) {
+                        const QString ts = QTime::currentTime().toString(QStringLiteral("HH:mm:ss.zzz"));
+                        m_debugView->append(QStringLiteral("<span style=\"color:%1\">[%2]</span> %3")
+                                                .arg(cMuted, ts, text.toHtmlEscaped()));
+                    }
+                    return;
+                }
+            }
+            if (m_oscInView)
+                m_oscInView->append(formatOscHtml(payload, n, seq, src, /*outgoing=*/false));
         });
 }
 
@@ -824,9 +832,9 @@ void MetricsPanel::refresh()
     }
 
     // Tail the rings + node tree.
-    drainOscRing(/*outgoing=*/true);   // IN ring  → OSC Out (what Sonic Pi sent)
-    drainOscRing(/*outgoing=*/false);  // OUT ring → OSC In  (engine replies)
-    drainDebugRing();
+    drainOscRing(/*outgoing=*/true);   // IN ring     → To SuperSonic (what Sonic Pi sent)
+    drainEgressRing(/*nrt=*/false);    // OUT ring     → /supersonic/debug → Debug, rest → From SuperSonic
+    drainEgressRing(/*nrt=*/true);     // NRT-out ring → /supersonic/debug → Debug, rest → From SuperSonic
     updateNodeTree();
 }
 

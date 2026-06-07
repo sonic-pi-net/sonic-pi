@@ -46,7 +46,7 @@ public:
     enum ConnState { CS_NotSubscribed = 0, CS_Connecting = 1,
                      CS_Connected = 2, CS_Dropout = 3 };
 
-    // One active Link Audio subscription, as reported by /link/audio/inputs.reply.
+    // One active Link Audio subscription, as reported by /clock/audio/inputs.reply.
     struct InputStatus {
         QString peerName;
         QString channelName;
@@ -102,7 +102,7 @@ private:
     bool          m_linkEnabled = false;
 
     QVector<PeerChannel> m_channels;
-    // Active subscriptions, refreshed each poll from /link/audio/inputs.reply.
+    // Active subscriptions, refreshed each poll from /clock/audio/inputs.reply.
     QVector<InputStatus> m_inputs;
 
     void renderPeersTable();

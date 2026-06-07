@@ -339,14 +339,14 @@ void SonicPiAPI::RestartTau()
 bool SonicPiAPI::LinkEnable()
 {
     // visibility 2 = NetworkWide (peer discovery + Link Audio).
-    Message msg("/link/visibility");
+    Message msg("/clock/visibility");
     msg.pushInt32(2);
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkBPM(double bpm)
 {
-    Message msg("/link/tempo/set");
+    Message msg("/clock/tempo/set");
     msg.pushFloat((float) bpm);
     return SupersonicSendOSC(msg);
 }
@@ -354,28 +354,28 @@ bool SonicPiAPI::SetLinkBPM(double bpm)
 bool SonicPiAPI::LinkDisable()
 {
     // visibility 0 = Off.
-    Message msg("/link/visibility");
+    Message msg("/clock/visibility");
     msg.pushInt32(0);
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkVisibility(LinkVisibility mode)
 {
-    Message msg("/link/visibility");
+    Message msg("/clock/visibility");
     msg.pushInt32(static_cast<int32_t>(mode));
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkAudioPublish(bool enabled)
 {
-    Message msg("/link/audio/publish/set");
+    Message msg("/clock/audio/publish/set");
     msg.pushInt32(enabled ? 1 : 0);
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkPeerName(const std::string& name)
 {
-    Message msg("/link/peer_name/set");
+    Message msg("/clock/peer_name/set");
     msg.pushStr(name);
     return SupersonicSendOSC(msg);
 }

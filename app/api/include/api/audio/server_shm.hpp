@@ -121,7 +121,7 @@ struct shm_segment_header {
     uint32_t in_ring_size;
     uint32_t out_ring_offset;
     uint32_t out_ring_size;
-    uint32_t debug_ring_offset;
+    uint32_t debug_ring_offset;    // upstream nrt_out_ring: NRT egress (replies, notifications, debug)
     uint32_t debug_ring_size;
     uint32_t control_offset;
 
@@ -149,7 +149,7 @@ struct shm_segment_header {
 };
 
 // Convenience: the metrics field count for callers that want a constant.
-static constexpr size_t METRICS_FIELD_COUNT = 58;
+static constexpr size_t METRICS_FIELD_COUNT = 52;
 
 // ──── Fixed-inline scope reader ─────────────────────────────────────────
 //

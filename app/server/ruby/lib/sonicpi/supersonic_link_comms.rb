@@ -15,10 +15,10 @@ require_relative "promise"
 require_relative "osc/udp_server"
 
 module SonicPi
-  # OSC client for SuperSonic's Link API, over the /link/* address space.
+  # OSC client for SuperSonic's Link API, over the /clock/* address space.
   # send is fire-and-forget; rpc blocks for a reply at the expect-address
   # and returns its args (nil on timeout). subscribe_to_notifications!
-  # must run once after the /link/notify/* add_method handlers are wired.
+  # must run once after the /clock/notify/* add_method handlers are wired.
   class SupersonicLinkComms
     def initialize(supersonic_host, supersonic_port)
       @host = supersonic_host.freeze
@@ -26,7 +26,7 @@ module SonicPi
       @udp_server = SonicPi::OSC::UDPServer.new(0,
                                                 name: "SuperSonic Link Comms")
       # FIFO queue of outstanding promises per expect-address. SuperSonic
-      # replies to /link/rpc/* in request order, so the next reply belongs
+      # replies to /clock/rpc/* in request order, so the next reply belongs
       # to the head promise even when live_loops race the same RPC.
       @reply_mut = Mutex.new
       @reply_queues = Hash.new { |h, k| h[k] = [] }
@@ -67,11 +67,11 @@ module SonicPi
     end
 
     def subscribe_to_notifications!
-      send("/link/notify/subscribe")
+      send("/clock/notify/subscribe")
     end
 
     def unsubscribe_from_notifications!
-      send("/link/notify/unsubscribe")
+      send("/clock/notify/unsubscribe")
     end
   end
 end

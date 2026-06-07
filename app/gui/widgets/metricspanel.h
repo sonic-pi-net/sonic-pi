@@ -96,7 +96,7 @@ private:
     void buildNodeColumn(QSplitter* topRow);  // node-tree graph (right)
     void buildLogs(QSplitter* vsplit);        // tabbed OSC in/out + debug (bottom)
     void drainOscRing(bool outgoing);   // outgoing = IN ring (sent), else OUT ring (replies)
-    void drainDebugRing();
+    void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /supersonic/debug → Debug pane, rest → From-SuperSonic
     void updateNodeTree();
     QString formatOscHtml(const uint8_t* data, uint32_t size,
                           uint32_t sequence, uint32_t sourceId, bool outgoing);

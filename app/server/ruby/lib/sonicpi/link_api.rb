@@ -17,8 +17,9 @@ require_relative "supersonic_link_comms"
 module SonicPi
   # Spider-side Ableton Link API over SupersonicLinkComms: tempo,
   # beat/clock conversions, transport, peer count, Link Audio I/O.
-  # The /link/* OSC surface lives in SuperSonic's
-  # OscUdpServer.cpp::handleLinkCommand.
+  # The /clock/* OSC surface lives in SuperSonic's
+  # EngineControl.cpp::handleLinkCommand (native control) and
+  # EngineClock.cpp::handleClockCoreOsc (cross-platform clock core).
   class LinkAPI
 
     def initialize(supersonic_host, supersonic_port, handlers)
@@ -46,55 +47,55 @@ module SonicPi
     end
 
     def link_is_on?
-      res = @link_comms.rpc("/link/enabled/get",
-                            expect: "/link/enabled.reply")
+      res = @link_comms.rpc("/clock/enabled/get",
+                            expect: "/clock/enabled.reply")
       res ? (res[0].to_i != 0) : false
     end
 
     def link_disable
-      @link_comms.send("/link/visibility", 0)
+      @link_comms.send("/clock/visibility", 0)
     end
 
     def link_enable
-      # 2 = NetworkWide; use /link/visibility 1 for loopback-only.
-      @link_comms.send("/link/visibility", 2)
+      # 2 = NetworkWide; use /clock/visibility 1 for loopback-only.
+      @link_comms.send("/clock/visibility", 2)
     end
 
     def link_reset
-      @link_comms.send("/link/reset")
+      @link_comms.send("/clock/reset")
     end
 
     # Visibility shortcut: 0 = Off, 1 = LoopbackOnly, 2 = NetworkWide.
     def link_set_visibility!(mode)
-      @link_comms.send("/link/visibility", mode.to_i)
+      @link_comms.send("/clock/visibility", mode.to_i)
     end
 
     def link_get_visibility
-      res = @link_comms.rpc("/link/visibility/get",
-                            expect: "/link/visibility.reply")
+      res = @link_comms.rpc("/clock/visibility/get",
+                            expect: "/clock/visibility.reply")
       res ? res[0].to_i : 0
     end
 
     # Link Audio publish gate; defaults off in SuperSonic, opt-in. While
     # off, channels aren't advertised even with the Link mesh up.
     def link_audio_publish_set!(enabled)
-      @link_comms.send("/link/audio/publish/set", enabled ? 1 : 0)
+      @link_comms.send("/clock/audio/publish/set", enabled ? 1 : 0)
     end
 
     def link_audio_publish_get
-      res = @link_comms.rpc("/link/audio/publish/get",
-                            expect: "/link/audio/publish.reply")
+      res = @link_comms.rpc("/clock/audio/publish/get",
+                            expect: "/clock/audio/publish.reply")
       res ? (res[0].to_i != 0) : false
     end
 
     # Peer name advertised to other Link apps (Sonic Pi sets it on boot).
     def link_peer_name_set!(name)
-      @link_comms.send("/link/peer_name/set", name.to_s)
+      @link_comms.send("/clock/peer_name/set", name.to_s)
     end
 
     def link_peer_name_get
-      res = @link_comms.rpc("/link/peer_name/get",
-                            expect: "/link/peer_name.reply")
+      res = @link_comms.rpc("/clock/peer_name/get",
+                            expect: "/clock/peer_name.reply")
       res ? res[0].to_s : ""
     end
 
@@ -102,52 +103,52 @@ module SonicPi
     # stereo into bus and bus+1. Idempotent per (peer, channel): re-issuing
     # remaps the bus. Subscriptions are concurrent, each into its own pair.
     def link_audio_input_set!(peer, channel, bus)
-      @link_comms.send("/link/audio/input/add",
+      @link_comms.send("/clock/audio/input/add",
                        peer.to_s, channel.to_s, bus.to_i)
     end
 
     def link_audio_input_remove!(peer, channel)
-      @link_comms.send("/link/audio/input/remove",
+      @link_comms.send("/clock/audio/input/remove",
                        peer.to_s, channel.to_s)
     end
 
     def link_audio_inputs_clear!
-      @link_comms.send("/link/audio/input/clear")
+      @link_comms.send("/clock/audio/input/clear")
     end
 
     # Per-input receive latency in seconds (0-2 s typical). The GUI's
     # latency slider sets this for every active input.
     def link_audio_input_latency_set!(peer, channel, seconds)
-      @link_comms.send("/link/audio/input/latency/set",
+      @link_comms.send("/clock/audio/input/latency/set",
                        peer.to_s, channel.to_s, seconds.to_f)
     end
 
     def link_get_start_stop_sync_enabled
-      res = @link_comms.rpc("/link/start_stop_sync/get",
-                            expect: "/link/start_stop_sync.reply")
+      res = @link_comms.rpc("/clock/start_stop_sync/get",
+                            expect: "/clock/start_stop_sync.reply")
       res ? (res[0].to_i != 0) : false
     end
 
     def link_set_start_stop_sync_enabled!(enabled)
-      @link_comms.send("/link/start_stop_sync/set", enabled ? 1 : 0)
+      @link_comms.send("/clock/start_stop_sync/set", enabled ? 1 : 0)
     end
 
     def link_num_peers
-      res = @link_comms.rpc("/link/peers/count/get",
-                            expect: "/link/peers/count.reply")
+      res = @link_comms.rpc("/clock/peers/count/get",
+                            expect: "/clock/peers/count.reply")
       res ? res[0].to_i : 0
     end
 
     def link_tempo(force_api_call=false)
       return @tempo if @tempo && !force_api_call
-      res = @link_comms.rpc("/link/tempo/get",
-                            expect: "/link/tempo.reply")
+      res = @link_comms.rpc("/clock/tempo/get",
+                            expect: "/clock/tempo.reply")
       # On RPC failure keep the prior @tempo rather than caching 60.0.
       @tempo = res ? res[0].to_f : (@tempo || 60.0)
     end
 
     def link_set_bpm!(bpm)
-      @link_comms.send("/link/tempo/set", bpm.to_f)
+      @link_comms.send("/clock/tempo/set", bpm.to_f)
       # Wait up to 100ms for the notify-push.
       @incoming_tempo_change_mut.synchronize do
         @incoming_tempo_change_cv.wait(@incoming_tempo_change_mut, 0.1)
@@ -155,23 +156,23 @@ module SonicPi
     end
 
     def link_get_beat_at_time(time, quantum = 4)
-      res = @link_comms.rpc("/link/rpc/beat_at_time",
+      res = @link_comms.rpc("/clock/rpc/beat_at_time",
                             SonicPi::OSC::Int64.new(time), quantum.to_f,
-                            expect: "/link/rpc/beat_at_time.reply")
+                            expect: "/clock/rpc/beat_at_time.reply")
       res ? res[0].to_f : 0.0
     end
 
     def link_get_phase_at_time(time, quantum = 4)
-      res = @link_comms.rpc("/link/rpc/phase_at_time",
+      res = @link_comms.rpc("/clock/rpc/phase_at_time",
                             SonicPi::OSC::Int64.new(time), quantum.to_f,
-                            expect: "/link/rpc/phase_at_time.reply")
+                            expect: "/clock/rpc/phase_at_time.reply")
       res ? res[0].to_f : 0.0
     end
 
     def link_get_time_at_beat(beat, quantum = 4)
-      res = @link_comms.rpc("/link/rpc/time_at_beat",
+      res = @link_comms.rpc("/clock/rpc/time_at_beat",
                             beat.to_f, quantum.to_f,
-                            expect: "/link/rpc/time_at_beat.reply")
+                            expect: "/clock/rpc/time_at_beat.reply")
       res ? res[0].to_i : 0
     end
 
@@ -218,24 +219,24 @@ module SonicPi
     end
 
     def link_set_is_playing!(enabled)
-      @link_comms.send("/link/transport/set", enabled ? 1 : 0)
+      @link_comms.send("/clock/transport/set", enabled ? 1 : 0)
     end
 
     def link_is_playing?
-      res = @link_comms.rpc("/link/transport/get",
-                            expect: "/link/transport.reply")
+      res = @link_comms.rpc("/clock/transport/get",
+                            expect: "/clock/transport.reply")
       res ? (res[0].to_i != 0) : false
     end
 
     def link_get_time_for_is_playing
-      res = @link_comms.rpc("/link/transport/time/get",
-                            expect: "/link/transport/time.reply")
+      res = @link_comms.rpc("/clock/transport/time/get",
+                            expect: "/clock/transport/time.reply")
       res ? res[0].to_i : 0
     end
 
     def link_current_time
-      res = @link_comms.rpc("/link/time/now/get",
-                            expect: "/link/time/now.reply")
+      res = @link_comms.rpc("/clock/time/now/get",
+                            expect: "/clock/time/now.reply")
       res ? res[0].to_i : 0
     end
 
@@ -283,7 +284,7 @@ module SonicPi
 
     def add_supersonic_link_handlers!
       # Session tempo changed (locally or by a peer).
-      @link_comms.add_method("/link/notify/tempo") do |args|
+      @link_comms.add_method("/clock/notify/tempo") do |args|
         tempo = args[0].to_f
         @tempo = tempo
         @updated_link_bpm_handler.call(tempo) if @updated_link_bpm_handler
@@ -292,7 +293,7 @@ module SonicPi
       end
 
       # Visible peer count changed.
-      @link_comms.add_method("/link/notify/peers") do |args|
+      @link_comms.add_method("/clock/notify/peers") do |args|
         n = args[0].to_i
         @updated_link_num_peers_handler.call(n) if @updated_link_num_peers_handler
         @internal_cue_handler.call("/link/num-peers", [n]) if @internal_cue_handler
@@ -307,7 +308,7 @@ module SonicPi
       end
 
       # Transport state changed. Args: <int> playing, <int64> at-link-micros.
-      @link_comms.add_method("/link/notify/transport") do |args|
+      @link_comms.add_method("/clock/notify/transport") do |args|
         playing = args[0].to_i != 0
         cue = playing ? "/link/start" : "/link/stop"
         @internal_cue_handler.call(cue, []) if @internal_cue_handler
@@ -320,7 +321,7 @@ module SonicPi
 
       # Sonic Pi defaults to 60 BPM; SuperSonic's Link defaults to 120, so
       # push ours on boot. Joining a Link session overrides it as normal.
-      @link_comms.send("/link/tempo/set", 60.0)
+      @link_comms.send("/clock/tempo/set", 60.0)
     end
   end
 end

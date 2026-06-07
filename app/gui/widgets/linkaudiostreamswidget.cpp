@@ -65,7 +65,7 @@ QByteArray buildOscInt32Request(const char* addr, int32_t value) {
     return pkt;
 }
 
-// /link/audio/input/latency/set <peer:str> <chan:str> <seconds:float>
+// /clock/audio/input/latency/set <peer:str> <chan:str> <seconds:float>
 QByteArray buildOscInputLatencyRequest(const char* addr, const QString& peer,
                                        const QString& chan, float seconds) {
     QByteArray pkt;
@@ -107,14 +107,14 @@ struct OscReader {
     }
 };
 
-// /link/audio/channels.reply <count> [channelId channelName peerId peerName]*
+// /clock/audio/channels.reply <count> [channelId channelName peerId peerName]*
 // One (peerName, channelName) per channel; Live publishes several per peer.
 QVector<LinkAudioStreamsWidget::PeerChannel>
 parseChannelsReply(const QByteArray& data) {
     QVector<LinkAudioStreamsWidget::PeerChannel> out;
     OscReader r{data};
     QString addr, typetag;
-    if (!r.readStr(addr) || addr != "/link/audio/channels.reply") return out;
+    if (!r.readStr(addr) || addr != "/clock/audio/channels.reply") return out;
     if (!r.readStr(typetag) || typetag.isEmpty() || typetag[0] != ',') return out;
     int32_t count = 0;
     if (!r.readInt32(count)) return out;
@@ -135,7 +135,7 @@ parseChannelsReply(const QByteArray& data) {
     return out;
 }
 
-// /link/audio/inputs.reply <count>
+// /clock/audio/inputs.reply <count>
 //   [peerName:s channelName:s busIdx:i sampleRate:i sourceNumChannels:i
 //    bufferedMs:f connectionState:i droppedSourceBuffers:i
 //    networkGapBuffers:i totalSourceBufferCalls:i duplicateCountCalls:i
@@ -146,7 +146,7 @@ parseInputsReply(const QByteArray& data) {
     QVector<LinkAudioStreamsWidget::InputStatus> out;
     OscReader r{data};
     QString addr, typetag;
-    if (!r.readStr(addr) || addr != "/link/audio/inputs.reply") return out;
+    if (!r.readStr(addr) || addr != "/clock/audio/inputs.reply") return out;
     if (!r.readStr(typetag) || typetag.isEmpty() || typetag[0] != ',') return out;
     int32_t count = 0;
     if (!r.readInt32(count)) return out;
@@ -433,9 +433,9 @@ void LinkAudioStreamsWidget::refresh()
     }
     // Two queries per poll: announced channel list, and active
     // subscriptions (carries per-input status + latency).
-    m_socket->writeDatagram(buildOscRequest("/link/audio/channels/get"),
+    m_socket->writeDatagram(buildOscRequest("/clock/audio/channels/get"),
                             QHostAddress::LocalHost, static_cast<quint16>(port));
-    m_socket->writeDatagram(buildOscRequest("/link/audio/inputs/get"),
+    m_socket->writeDatagram(buildOscRequest("/clock/audio/inputs/get"),
                             QHostAddress::LocalHost, static_cast<quint16>(port));
 }
 
@@ -451,7 +451,7 @@ void LinkAudioStreamsWidget::readPendingDatagrams()
         QString addr;
         if (!peek.readStr(addr)) continue;
 
-        if (addr == "/link/audio/channels.reply") {
+        if (addr == "/clock/audio/channels.reply") {
             QVector<PeerChannel> incoming = parseChannelsReply(buf);
             if (incoming != m_channels) {
                 m_channels = incoming;
@@ -466,7 +466,7 @@ void LinkAudioStreamsWidget::readPendingDatagrams()
                 emit linkAudioStreamsChanged(peers, channels);
             }
             renderPeersTable();
-        } else if (addr == "/link/audio/inputs.reply") {
+        } else if (addr == "/clock/audio/inputs.reply") {
             m_inputs = parseInputsReply(buf);
             // Slider is the source of truth; pull any drifted input back
             // (e.g. a stream added by Ruby at SuperSonic's default).
@@ -496,7 +496,7 @@ void LinkAudioStreamsWidget::enforceEngineLatency()
         // ~1 ms deadband; avoids float round-trips re-pushing every poll.
         if (std::fabs(in.latencySeconds - target) > 0.001f) {
             m_socket->writeDatagram(
-                buildOscInputLatencyRequest("/link/audio/input/latency/set",
+                buildOscInputLatencyRequest("/clock/audio/input/latency/set",
                                             in.peerName, in.channelName, target),
                 QHostAddress::LocalHost, static_cast<quint16>(port));
         }
