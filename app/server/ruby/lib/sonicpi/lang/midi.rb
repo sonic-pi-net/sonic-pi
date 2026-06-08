@@ -1523,27 +1523,27 @@ end"
 
       def __midi_send_timed(path, port)
         t = __get_spider_schedule_time
-         @tau_api.send_midi_at(t, path, port)
+         @midi_api.midi_send_at(t, path, port)
       end
 
       def __midi_send_timed_param_2(path, a, b)
         t = __get_spider_schedule_time
-        @tau_api.send_midi_at(t, path, a, b)
+        @midi_api.midi_send_at(t, path, a, b)
       end
 
       def __midi_send_timed_param_3(path, a, b, c)
         t = __get_spider_schedule_time
-        @tau_api.send_midi_at(t, path, a, b, c)
+        @midi_api.midi_send_at(t, path, a, b, c)
       end
 
       def __midi_send_timed_param_4(path, a, b, c, d)
         t = __get_spider_schedule_time
-        @tau_api.send_midi_at(t, path, a, b, c, d)
+        @midi_api.midi_send_at(t, path, a, b, c, d)
       end
 
       def __midi_send_timed_param_n(path, *args)
         t = __get_spider_schedule_time
-        @tau_api.send_midi_at(t, path, *args)
+        @midi_api.midi_send_at(t, path, *args)
       end
 
       def __midi_message(m)

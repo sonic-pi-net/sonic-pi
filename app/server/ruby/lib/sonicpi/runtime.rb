@@ -30,6 +30,7 @@ require_relative "event_history"
 require_relative "thread_id"
 require_relative "tau_api"
 require_relative "link_api"
+require_relative "midi_api"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -559,7 +560,7 @@ module SonicPi
       # Flush OSC messages on Erlang scheduler
       __osc_flush!
 
-      # Flush MIDI messages within sp_midi nif
+      # Flush pending MIDI (handled by SuperSonic's MIDI subsystem)
       __midi_flush!
 
       # Force a GC collection now everything has stopped
@@ -568,19 +569,19 @@ module SonicPi
     end
 
     def __midi_flush!
-      @tau_api.midi_flush!
+      @midi_api.midi_flush!
     end
 
     def __midi_system_start(silent=false)
       __info "Enabling incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
-      @tau_api.midi_system_start!
+      @midi_api.midi_system_start!
     end
 
     def __midi_system_stop(silent=false)
       __info "Stopping incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
-      @tau_api.midi_system_stop!
+      @midi_api.midi_system_stop!
     end
 
     def __set_global_timewarp!(time)
@@ -588,6 +589,7 @@ module SonicPi
       __schedule_delayed_blocks_and_messages!
       set_mixer_global_timewarp!(time)
       @tau_api.set_global_timewarp!(time)
+      @midi_api.set_global_timewarp!(time)
     end
 
     def __update_midi_ins(ins)
@@ -1524,10 +1526,7 @@ module SonicPi
 
       @tau_api = TauAPI.new(ports,
                             {
-                              external_osc_cue: external_osc_cue_handler,
-                              internal_cue: internal_cue_handler,
-                              updated_midi_ins: updated_midi_ins_handler,
-                              updated_midi_outs: updated_midi_outs_handler
+                              external_osc_cue: external_osc_cue_handler
                             })
 
       scsynth_send_port = ports[:scsynth_send_port] || ports[:scsynth_port]
@@ -1536,6 +1535,15 @@ module SonicPi
                                 internal_cue: internal_cue_handler,
                                 updated_link_num_peers: updated_link_num_peers_handler,
                                 updated_link_bpm: updated_link_bpm_handler
+                              })
+
+      # MIDI now lives in SuperSonic too (replacing sp_midi + the Tau MIDI layer),
+      # reached over the same OSC port as Link.
+      @midi_api = MidiAPI.new("127.0.0.1", scsynth_send_port,
+                              {
+                                internal_cue: internal_cue_handler,
+                                updated_midi_ins: updated_midi_ins_handler,
+                                updated_midi_outs: updated_midi_outs_handler
                               })
 
       begin

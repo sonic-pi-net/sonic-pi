@@ -40,7 +40,6 @@ init(Parent) ->
     register(?SERVER, self()),
     OSCInUDPLoopbackRestricted = application:get_env(?APPLICATION, osc_in_udp_loopback_restricted, true),
     CuesOn                     = application:get_env(?APPLICATION, cues_on,                        true),
-    MIDIOn                     = application:get_env(?APPLICATION, midi_on,                        true),
     OSCInUDPPort               = application:get_env(?APPLICATION, osc_in_udp_port,                undefined),
     CuePort                    = application:get_env(?APPLICATION, spider_port,                    undefined),
     CueHost                    = {127,0,0,1},
@@ -71,7 +70,6 @@ init(Parent) ->
           [try erlang:port_info(InSocket) catch _:_ -> undefined end]),
     State = #{parent => Parent,
               cues_on => CuesOn,
-              midi_on => MIDIOn,
               cue_host => CueHost,
               cue_port => CuePort,
               osc_in_udp_loopback_restricted => OSCInUDPLoopbackRestricted,
@@ -83,29 +81,8 @@ init(Parent) ->
 
 loop(State) ->
     receive
-        {midi_in, Path, Args} ->
-            case State of
-                #{midi_on := true} ->
-                    CueHost = maps:get(cue_host, State),
-                    CuePort = maps:get(cue_port, State),
-                    InSocket = maps:get(in_socket, State),
-                    forward_internal_cue(CueHost, CuePort, InSocket, Path, Args),
-                    ?MODULE:loop(State);
-                #{midi_on := false} ->
-                    logger:debug("MIDI cue forwarding disabled - ignored: ~p", [{Path, Args}]),
-                    ?MODULE:loop(State)
-            end;
-
         {api_reply, UUID, Response} ->
             send_api_reply(State, UUID, Response),
-            ?MODULE:loop(State);
-
-        {update_midi_ports, Ins, Outs} ->
-            CueHost = maps:get(cue_host, State),
-            CuePort = maps:get(cue_port, State),
-            InSocket = maps:get(in_socket, State),
-            update_midi_in_ports(CueHost, CuePort, InSocket, Ins),
-            update_midi_out_ports(CueHost, CuePort, InSocket, Outs),
             ?MODULE:loop(State);
 
         {udp, InSocket, Ip, Port, Bin} ->
@@ -166,14 +143,6 @@ loop(State) ->
         {cues_on, false} ->
             logger:info("Disabling cue forwarding "),
             ?MODULE:loop(State#{cues_on := false});
-
-        {midi_on, true} ->
-            logger:info("Enabling midi cue forwarding "),
-            ?MODULE:loop(State#{midi_on := true});
-
-        {midi_on, false} ->
-            logger:info("Disabling midi cue forwarding "),
-            ?MODULE:loop(State#{midi_on := false});
 
         {send_osc, Host, Port, OSC} ->
             send_udp(maps:get(in_socket, State), Host, Port, OSC),
@@ -240,18 +209,6 @@ send_udp(Socket, Host, Port, Bin)
 	Error -> logger:error("Unable to send UDP - bad socket (~p): ~p", [Error, Host])
     end.
 
-update_midi_in_ports(CueHost, CuePort, InSocket, Args) ->
-    Bin = osc:encode(["/midi-ins", "erlang" | Args]),
-    send_udp(InSocket, CueHost, CuePort, Bin),
-    logger:debug("forwarded new MIDI ins to ~p:~p", [CueHost, CuePort]),
-    ok.
-
-update_midi_out_ports(CueHost, CuePort, InSocket, Args) ->
-    Bin = osc:encode(["/midi-outs", "erlang" | Args]),
-    send_udp(InSocket, CueHost, CuePort, Bin),
-    logger:debug("forwarded new MIDI outs to ~p:~p", [CueHost, CuePort]),
-    ok.
-
 send_api_reply(State, UUID, Args) ->
     CueHost = maps:get(cue_host, State),
     CuePort = maps:get(cue_port, State),
@@ -259,12 +216,6 @@ send_api_reply(State, UUID, Args) ->
     Bin = osc:encode(["/tau-api-reply", "erlang", UUID | Args]),
     %% logger:debug("send api reply ~p:~p", ToEncode),
     send_udp(InSocket, CueHost, CuePort, Bin),
-    ok.
-
-forward_internal_cue(CueHost, CuePort, InSocket, Path, Args) ->
-    Bin = osc:encode(["/internal-cue", "erlang", Path | Args]),
-    send_udp(InSocket, CueHost, CuePort, Bin),
-    logger:debug("forwarded internal OSC cue to ~p:~p", [CueHost, CuePort]),
     ok.
 
 forward_cue(CueHost, CuePort, InSocket, Ip, Port, Cmd) ->

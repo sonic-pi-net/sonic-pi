@@ -641,7 +641,14 @@ void MetricsPanel::drainEgressRing(bool nrt)
     const QString cMuted = m_theme ? m_theme->color("CommentForeground").name() : kindColor(K_Muted).name();
     walkRing(rv, cur, m_scratch,
         [&](uint32_t seq, uint32_t src, const uint8_t* payload, uint32_t n) {
-            oscpkt::PacketReader pr(payload, n);
+            // NRT-out frames carry a leading [route:u32] word (OUT too once
+            // unified). OSC addresses start with '/', a route word doesn't, so
+            // skip 4 bytes when the first byte isn't '/'.
+            const uint8_t* osc  = payload;
+            uint32_t       oscN = n;
+            if (n >= 4 && payload[0] != '/') { osc += 4; oscN -= 4; }
+
+            oscpkt::PacketReader pr(osc, oscN);
             oscpkt::Message* msg = pr.isOk() ? pr.popMessage() : nullptr;
             if (msg && msg->addressPattern() == "/supersonic/debug") {
                 oscpkt::Message::ArgReader ar = msg->arg();
@@ -658,7 +665,7 @@ void MetricsPanel::drainEgressRing(bool nrt)
                 }
             }
             if (m_oscInView)
-                m_oscInView->append(formatOscHtml(payload, n, seq, src, /*outgoing=*/false));
+                m_oscInView->append(formatOscHtml(osc, oscN, seq, src, /*outgoing=*/false));
         });
 }
 

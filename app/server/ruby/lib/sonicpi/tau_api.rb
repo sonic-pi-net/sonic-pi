@@ -30,9 +30,7 @@ module SonicPi
                                          ports[:tau_port],
                                          ports[:listen_to_tau_port])
       @external_osc_cue_handler = handlers[:external_osc_cue]
-      @internal_cue_handler = handlers[:internal_cue]
-      @updated_midi_ins_handler = handlers[:updated_midi_ins]
-      @updated_midi_outs_handler = handlers[:updated_midi_outs]
+      # MIDI moved to SuperSonic (see midi_api.rb); Tau no longer carries it.
 
       add_incoming_api_handlers!
 
@@ -51,29 +49,12 @@ module SonicPi
       api_send_at(t + @global_timewarp, "/send-after", host, port, SonicPi::OSC::Blob.new(m))
     end
 
-    def send_midi_at(t, path, *args)
-      b = OSC::Blob.new(@tau_comms.encoder.encode_single_message(path, args))
-      api_send_at(t + @global_timewarp, "/midi-at", b)
-    end
-
-    def midi_system_start!
-      @tau_comms.send("/stop-start-midi-cues", true)
-    end
-
-    def midi_system_stop!
-      @tau_comms.send("/stop-start-midi-cues", false)
-    end
-
     def start_stop_cue_server!(stop)
       @tau_comms.send("/stop-start-cue-server", !stop)
     end
 
     def cue_server_internal!(internal)
       @tau_comms.send("/osc-in-udp-loopback-restricted", !!internal)
-    end
-
-    def midi_flush!
-      @tau_comms.send("/midi-flush")
     end
 
     def osc_flush!
@@ -87,30 +68,11 @@ module SonicPi
     private
 
     def add_incoming_api_handlers!
-      @tau_comms.add_method("/midi-ins") do |args|
-        _gui_id = args[0]
-        ins = args[1..-1]
-        @updated_midi_ins_handler.call(ins)
-      end
-
-      @tau_comms.add_method("/midi-outs") do |args|
-        _gui_id = args[0]
-        outs = args[1..-1]
-        @updated_midi_outs_handler.call(outs)
-      end
-
       @tau_comms.add_method("/tau-api-reply") do |args|
         _gui_id = args[0]
         key = args[1]
         payload = args[2..-1]
         @tau_api_events.async_event(key, payload)
-      end
-
-      @tau_comms.add_method("/internal-cue") do |args|
-        _gui_id = args[0]
-        path = args[1]
-        args = args[2..-1]
-        @internal_cue_handler.call(path, args)
       end
 
       @tau_comms.add_method("/external-osc-cue") do |args|

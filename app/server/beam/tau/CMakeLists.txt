@@ -17,14 +17,5 @@ include(ExternalProject)
 
 set(CMAKE_OSX_DEPLOYMENT_TARGET '10.15')
 
-# sp_midi
-ExternalProject_Add(sp_midi
-    PREFIX sp_midi-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../../external/sp_midi
-    INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/priv
-    CMAKE_ARGS
-        -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR}/priv
-        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
-        -DUSE_SYSTEM_RTMIDI=${USE_SYSTEM_LIBS}
-    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
-    )
+# MIDI moved to SuperSonic (Rust/midir; see app/server/ruby midi_api.rb): the
+# sp_midi NIF has been removed and there are no external NIFs left to build here.

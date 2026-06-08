@@ -10,14 +10,7 @@ defmodule Tau.Application do
   def start(_type, _args) do
     Logger.info("All systems booting....")
 
-    midi_enabled = Application.get_env(:tau, :midi_enabled, false)
-
-    if midi_enabled do
-      Logger.info("Initialising MIDI native interface")
-      :sp_midi.init()
-    else
-      Logger.info("Starting without MIDI native interface")
-    end
+    # MIDI moved to SuperSonic (Rust/midir); the sp_midi NIF has been removed.
 
     children = [
       :tau_server_sup

@@ -43,8 +43,6 @@ start_link() ->
 
 init(_Args) ->
     CueServer = tau_server_cue:server_name(),
-    MIDIServer = tau_server_midi:server_name(),
-    MIDIEnabled = application:get_env(?APPLICATION, midi_enabled, false),
 
     %% Use rest_for_one since the api server requires the cue server.
     %% Try to keep going even if we restart up to 50 times per 30 seconds.
@@ -52,28 +50,15 @@ init(_Args) ->
                  intensity => 50,
                  period => 30000},
 
-    %% Specifies the worker processes to run under the supervisor
+    %% MIDI now lives in SuperSonic (see app/server/ruby midi_api.rb); the Tau
+    %% MIDI server and the sp_midi NIF have been removed.
     ChildSpecs = [
                   #{id => tau_server_cue,
                     start => {tau_server_cue, start_link, []}
                    },
                   #{id => tau_server_api,
-                    start => {tau_server_api, start_link, [CueServer, MIDIServer]}
+                    start => {tau_server_api, start_link, [CueServer]}
                    }
-
                  ],
 
-    MIDIChildSpecs = case MIDIEnabled of
-                         true ->
-                             logger:info("Starting with MIDI server enabled"),
-                             [#{id    => tau_server_midi,
-                                start => {tau_server_midi,
-                                          start_link,
-                                          [CueServer]}} | ChildSpecs];
-                         _ ->
-                             logger:info("Starting with MIDI server disabled"),
-                             ChildSpecs
-
-                     end,
-
-    {ok, {SupFlags, MIDIChildSpecs}}.
+    {ok, {SupFlags, ChildSpecs}}.

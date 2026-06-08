@@ -14,10 +14,10 @@
 
 -module(tau_server_api).
 
--export([start_link/2]).
+-export([start_link/1]).
 
 %% internal
--export([init/3, loop/1]).
+-export([init/2, loop/1]).
 
 %% sys module callbacks
 -export([system_continue/3, system_terminate/4, system_code_change/4,
@@ -66,12 +66,12 @@
 
 
 %% supervisor compliant start function
-start_link(CueServer, MIDIServer) ->
+start_link(CueServer) ->
     %% synchronous start of the child process
-    proc_lib:start_link(?MODULE, init, [self(), CueServer, MIDIServer]).
+    proc_lib:start_link(?MODULE, init, [self(), CueServer]).
 
 
-init(Parent, CueServer, MIDIServer) ->
+init(Parent, CueServer) ->
     register(?SERVER, self()),
     APIPort = application:get_env(?APPLICATION, api_port, undefined),
     DaemonToken = application:get_env(?APPLICATION, daemon_token, undefined),
@@ -104,7 +104,6 @@ init(Parent, CueServer, MIDIServer) ->
               daemon_host => DaemonHost,
               api_socket => APISocket,
               cue_server => CueServer,
-              midi_server => MIDIServer,
               tag_map => #{}
              },
     send_to_cue({tau_ready}, State),
@@ -155,18 +154,6 @@ loop(State) ->
             ok = gen_udp:send(APISocket, DaemonHost, DaemonPort, PidBin),
             ?MODULE:loop(State);
 
-        {cmd, ["/midi", OSC]=Cmd} ->
-            debug_cmd(Cmd),
-            MIDIServer = maps:get(midi_server, State),
-            MIDIServer ! {send_midi, OSC},
-            ?MODULE:loop(State);
-
-        {cmd, ["/midi-flush"]=Cmd} ->
-            debug_cmd(Cmd),
-            MIDIServer = maps:get(midi_server, State),
-            MIDIServer ! {flush},
-            ?MODULE:loop(State);
-
         {cmd, ["/flush", Tag]=Cmd} ->
             debug_cmd(Cmd),
             {Tracker, NewState} = tracker_pid(Tag, State),
@@ -181,11 +168,6 @@ loop(State) ->
         {cmd, ["/stop-start-cue-server", Flag]=Cmd} ->
             debug_cmd(Cmd),
             send_to_cue({cues_on, Flag}, State),
-            ?MODULE:loop(State);
-
-        {cmd, ["/stop-start-midi-cues", Flag]=Cmd} ->
-            debug_cmd(Cmd),
-            send_to_cue({midi_on, Flag}, State),
             ?MODULE:loop(State);
 
         {cmd, Cmd} ->
@@ -218,10 +200,6 @@ do_bundle(Time, Args, State) ->
                 schedule_cmd(Time, "default", State, {send_osc, Host, Port, OSC});
             ["/send-after-tagged", Tag, Host, Port, OSC] ->
                 schedule_cmd(Time, Tag, State, {send_osc, Host, Port, OSC});
-            ["/midi-at", MIDI] ->
-                schedule_midi(Time, "default", State, {send_midi, MIDI});
-            ["/midi-at-tagged", Tag, MIDI] ->
-                schedule_midi(Time, Tag, State, {send_midi, MIDI});
             Other ->
                 logger:error("Unexpected bundle content:~p", Other),
                 State
@@ -246,10 +224,6 @@ schedule_internal_call(Time, Tag, State, Server, Msg) ->
     end,
     NewState.
 
-
-schedule_midi(Time, Tag, State, Msg) ->
-    MIDIServer = maps:get(midi_server, State),
-    schedule_internal_call(Time, Tag, State, MIDIServer, Msg).
 
 schedule_cmd(Time, Tag, State, Msg) ->
     CueServer = maps:get(cue_server, State),

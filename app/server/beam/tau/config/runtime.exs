@@ -55,8 +55,6 @@ config :logger, :tau_file_log,
 
 if config_env() != :test do
   config :tau,
-    midi_on: extract_env.("TAU_MIDI_ON", :bool, false),
-    midi_enabled: extract_env.("TAU_MIDI_ENABLED", :bool, false),
     cues_on: extract_env.("TAU_CUES_ON", :bool, false),
     osc_in_udp_loopback_restricted:
       extract_env.("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true),
@@ -68,8 +66,6 @@ if config_env() != :test do
     daemon_host: {127, 0, 0, 1}
 else
   config :tau,
-    midi_on: extract_env.("TAU_MIDI_ON", :bool, false),
-    midi_enabled: extract_env.("TAU_MIDI_ENABLED", :bool, false),
     cues_on: extract_env.("TAU_CUES_ON", :bool, true),
     osc_in_udp_loopback_restricted:
       extract_env.("TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED", :bool, true),
