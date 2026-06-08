@@ -446,6 +446,13 @@ jobs:
       - name: Set up CMake
         uses: lukka/get-cmake@v4.0.2
 
+      # The bare ubuntu containers ship no Rust; supersonic's native MIDI
+      # subsystem (SUPERSONIC_ENABLE_MIDI) is a cargo-built staticlib, so
+      # its CMake configure needs cargo on PATH. Hosted runners (the build
+      # matrix) already have it pre-installed.
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
       - name: Install Qt 6
         id: qt-inst
         uses: jurplel/install-qt-action@v4
