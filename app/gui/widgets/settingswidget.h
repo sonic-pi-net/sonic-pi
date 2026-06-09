@@ -234,11 +234,12 @@ private:
 
 
     QButtonGroup *colourModeButtonGroup;
-    QCheckBox *lightModeCheck;
-    QCheckBox *darkModeCheck;
-    QCheckBox *lightProModeCheck;
-    QCheckBox *darkProModeCheck;
-    QCheckBox *highContrastModeCheck;
+    // Segmented control buttons (checkable, exclusive via the group).
+    QPushButton *lightModeCheck;
+    QPushButton *darkModeCheck;
+    QPushButton *lightProModeCheck;
+    QPushButton *darkProModeCheck;
+    QPushButton *highContrastModeCheck;
 
     QSignalMapper *scopeSignalMap;
     QCheckBox *show_scope_labels;
@@ -267,8 +268,9 @@ private:
     QComboBox *audio_sample_rate_combo;
     QComboBox *audio_buffer_size_combo;
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    QRadioButton *recording_type_audio_radio;
-    QRadioButton *recording_type_av_radio;
+    // Segmented control buttons (checkable, exclusive via the group).
+    QPushButton *recording_type_audio_radio;
+    QPushButton *recording_type_av_radio;
     QButtonGroup *recording_type_group;
 #endif
     SonicPi::AudioDevicesInfo m_lastAudioDevicesInfo;

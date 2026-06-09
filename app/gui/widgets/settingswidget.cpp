@@ -10,6 +10,7 @@
 #include <QStyledItemDelegate>
 #include <QLineEdit>
 #include <QKeyEvent>
+#include <QMouseEvent>
 #include <QScopedValueRollback>
 #include <memory>
 #if defined(Q_OS_DARWIN)
@@ -44,8 +45,44 @@
 
 class ArcDial : public QDial {
 public:
-    using QDial::QDial;
+    explicit ArcDial(QWidget* parent = nullptr) : QDial(parent) {
+        setCursor(Qt::SizeVerCursor);
+    }
 protected:
+    // DAW-style rotary behaviour: drag vertically to change the value,
+    // relative to where it was — no jump-to-clicked-angle, no circular
+    // dragging. Shift = fine control. Scroll wheel and arrow keys are
+    // inherited from QDial.
+    void mousePressEvent(QMouseEvent* e) override {
+        if (e->button() == Qt::LeftButton) {
+            m_dragStartY = e->position().y();
+            m_dragStartValue = value();
+            setSliderDown(true);
+            e->accept();
+            return;
+        }
+        QDial::mousePressEvent(e);
+    }
+    void mouseMoveEvent(QMouseEvent* e) override {
+        if (isSliderDown()) {
+            double pixelsForFullRange =
+                (e->modifiers() & Qt::ShiftModifier) ? 800.0 : 200.0;
+            double delta = (m_dragStartY - e->position().y())
+                * (maximum() - minimum()) / pixelsForFullRange;
+            setValue(m_dragStartValue + static_cast<int>(delta));
+            e->accept();
+            return;
+        }
+        QDial::mouseMoveEvent(e);
+    }
+    void mouseReleaseEvent(QMouseEvent* e) override {
+        if (e->button() == Qt::LeftButton && isSliderDown()) {
+            setSliderDown(false);
+            e->accept();
+            return;
+        }
+        QDial::mouseReleaseEvent(e);
+    }
     void paintEvent(QPaintEvent*) override {
         QPainter p(this);
         p.setRenderHint(QPainter::Antialiasing);
@@ -54,23 +91,31 @@ protected:
         int margin = 8;
         QRectF arc(margin, margin, side - 2 * margin, side - 2 * margin);
 
+        // Palette-driven so all five themes render correctly (the old
+        // hardcoded track assumed a dark background).
+        QColor track(127, 127, 127, 70);
+        QColor accent = palette().color(QPalette::Highlight);
+
         // Background track
-        p.setPen(QPen(QColor(60, 60, 80), 6, Qt::SolidLine, Qt::RoundCap));
+        p.setPen(QPen(track, 6, Qt::SolidLine, Qt::RoundCap));
         p.drawArc(arc, 225 * 16, -270 * 16);
 
-        // Value arc (Sonic Pi pink)
+        // Value arc
         double frac = 0.0;
         if (maximum() > minimum())
             frac = double(value() - minimum()) / double(maximum() - minimum());
         int span = -static_cast<int>(frac * 270 * 16);
-        p.setPen(QPen(QColor(0xE8, 0x43, 0x93), 6, Qt::SolidLine, Qt::RoundCap));
+        p.setPen(QPen(accent, 6, Qt::SolidLine, Qt::RoundCap));
         p.drawArc(arc, 225 * 16, span);
 
         // Value text
-        p.setPen(QColor(0xE8, 0x43, 0x93));
+        p.setPen(accent);
         p.setFont(QFont("Hack", 14, QFont::Bold));
         p.drawText(rect(), Qt::AlignCenter, QString::number(value()));
     }
+private:
+    double m_dragStartY = 0.0;
+    int m_dragStartValue = 0;
 };
 
 /**
@@ -116,14 +161,15 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
     QGroupBox *visualizationTab = createVisualizationPrefsTab();
     prefTabs->addTab(visualizationTab, tr("Visuals"));
 
-    QGroupBox *update_prefs_box = createUpdatePrefsTab();
-    prefTabs->addTab(update_prefs_box, tr("Updates"));
+    QGroupBox *shortcuts_prefs_box = createKeyboardShortcutsTab();
+    prefTabs->addTab(shortcuts_prefs_box, tr("Shortcuts"));
 
     QGroupBox *language_prefs_box = createLanguagePrefsTab();
     prefTabs->addTab(language_prefs_box, tr("Language"));
 
-    QGroupBox *shortcuts_prefs_box = createKeyboardShortcutsTab();
-    prefTabs->addTab(shortcuts_prefs_box, tr("Shortcuts"));
+    // Updates last — it's the least-visited tab.
+    QGroupBox *update_prefs_box = createUpdatePrefsTab();
+    prefTabs->addTab(update_prefs_box, tr("Updates"));
 
 
     settingsChanged();
@@ -242,8 +288,66 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     connect(audio_sample_rate_combo, SIGNAL(activated(int)), this, SLOT(audioSampleRateChanged(int)));
     connect(audio_buffer_size_combo, SIGNAL(activated(int)), this, SLOT(audioBufferSizeChanged(int)));
 
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // --- Recording mode — same setting is reachable from the IO menubar
+    // submenu and the rec-button right-click menu. Segmented pill toggle
+    // in the same style as the Shortcuts tab's mode control. ---
+    QGroupBox *recordingGroup = new QGroupBox(tr("Recording"));
+    recordingGroup->setToolTip(tr("Choose what the rec button captures."));
+
+    recording_type_audio_radio = new QPushButton(tr("Audio Only"));
+    recording_type_audio_radio->setToolTip(tr(
+        "SuperSonic writes a .wav of the master mix"));
+
+    recording_type_av_radio = new QPushButton(tr("Audio + Video"));
+    recording_type_av_radio->setToolTip(tr(
+        "Captures the Sonic Pi window plus master mix into a .mov\n"
+        "(macOS) or .mp4 (Windows) using GPU-accelerated screen capture"));
+
+    QWidget* recSegControl = new QWidget();
+    recSegControl->setObjectName("recSegControl");
+    recSegControl->setStyleSheet(
+        "#recSegControl { background: rgba(127,127,127,70); border-radius: 7px; }"
+        "#recSegControl QPushButton { border: none; padding: 6px 16px; border-radius: 5px;"
+        " background: transparent; color: palette(window-text); }"
+        "#recSegControl QPushButton:hover:!checked { background: rgba(127,127,127,70); }"
+        "#recSegControl QPushButton:checked { background: palette(highlight);"
+        " color: palette(highlighted-text); }");
+    QHBoxLayout* recSegLayout = new QHBoxLayout(recSegControl);
+    recSegLayout->setContentsMargins(3, 3, 3, 3);
+    recSegLayout->setSpacing(3);
+
+    // Button IDs are the enum values so the idClicked(int) signal
+    // delivers the chosen mode directly. idClicked only fires on user
+    // clicks, so programmatic setChecked from settingsChanged() doesn't
+    // echo back.
+    recording_type_group = new QButtonGroup(this);
+    recording_type_group->setExclusive(true);
+    for (QPushButton* b : { recording_type_audio_radio, recording_type_av_radio }) {
+        b->setCheckable(true);
+        b->setCursor(Qt::PointingHandCursor);
+        recSegLayout->addWidget(b);
+    }
+    recording_type_group->addButton(recording_type_audio_radio,
+        static_cast<int>(SonicPiSettings::Audio));
+    recording_type_group->addButton(recording_type_av_radio,
+        static_cast<int>(SonicPiSettings::AudioAndVideo));
+
+    QHBoxLayout *recordingGroupLayout = new QHBoxLayout;
+    recordingGroupLayout->addStretch(1);
+    recordingGroupLayout->addWidget(recSegControl);
+    recordingGroupLayout->addStretch(1);
+    recordingGroup->setLayout(recordingGroupLayout);
+
+    connect(recording_type_group, SIGNAL(idClicked(int)),
+            this, SLOT(recordingTypeChanged(int)));
+#endif
+
     // --- SuperSonic info panel (ASCII art + version, tooltip = detailed info) ---
     supersonicBox = new QGroupBox();
+    QLabel *powered_by_label = new QLabel(tr("Powered by"));
+    powered_by_label->setAlignment(Qt::AlignCenter);
+    powered_by_label->setStyleSheet("font-size: 10px; color: gray;");
     supersonic_ascii_label = new QLabel(
         QString::fromUtf8(
             "\u2591\u2588\u2580\u2580\u2591\u2588\u2591\u2588\u2591\u2588\u2580\u2588\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2584\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2588\u2591\u2588\u2580\u2588\u2591\u2580\u2588\u2580\u2591\u2588\u2580\u2580\n"
@@ -274,6 +378,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     QVBoxLayout *supersonic_layout = new QVBoxLayout;
     supersonic_layout->addStretch();
+    supersonic_layout->addWidget(powered_by_label);
+    supersonic_layout->addSpacing(ScaleHeightForDPI(8));
     supersonic_layout->addWidget(supersonic_ascii_label);
     supersonic_layout->addWidget(supersonic_version_label);
     supersonic_layout->addWidget(mic_permission_label);
@@ -294,14 +400,17 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 #endif
 
     // --- Assemble grid layout ---
-    // Col 0: Volume knob + all checkboxes (spans both rows)
-    // Col 1: Audio Device, SuperSonic panel
+    // Col 0: Volume knob + all checkboxes (spans all rows)
+    // Col 1: Audio Device, Recording (mac/win), SuperSonic panel
     QGroupBox *audio_prefs_box = new QGroupBox();
     QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
-    audio_prefs_box_layout->addWidget(volBox, 0, 0, 2, 1);
+    audio_prefs_box_layout->addWidget(volBox, 0, 0, 3, 1);
     audio_prefs_box_layout->addWidget(audioDeviceBox, 0, 1);
-    audio_prefs_box_layout->addWidget(supersonicBox, 1, 1);
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    audio_prefs_box_layout->addWidget(recordingGroup, 1, 1);
+#endif
+    audio_prefs_box_layout->addWidget(supersonicBox, 2, 1);
     audio_prefs_box->setLayout(audio_prefs_box_layout);
     return audio_prefs_box;
 }
@@ -370,23 +479,9 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     midi_default_channel_combo = new QComboBox();
     midi_default_channel_combo->addItem("* (" + tr("all") + ")");
-    // TODO Loop
-    midi_default_channel_combo->addItem("1");
-    midi_default_channel_combo->addItem("2");
-    midi_default_channel_combo->addItem("3");
-    midi_default_channel_combo->addItem("4");
-    midi_default_channel_combo->addItem("5");
-    midi_default_channel_combo->addItem("6");
-    midi_default_channel_combo->addItem("7");
-    midi_default_channel_combo->addItem("8");
-    midi_default_channel_combo->addItem("9");
-    midi_default_channel_combo->addItem("10");
-    midi_default_channel_combo->addItem("11");
-    midi_default_channel_combo->addItem("12");
-    midi_default_channel_combo->addItem("13");
-    midi_default_channel_combo->addItem("14");
-    midi_default_channel_combo->addItem("15");
-    midi_default_channel_combo->addItem("16");
+    for (int ch = 1; ch <= 16; ++ch) {
+        midi_default_channel_combo->addItem(QString::number(ch));
+    }
     midi_default_channel_combo->setMaxVisibleItems(17);
     midi_default_channel_combo->setMinimumContentsLength(2);
     midi_default_channel_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon) ;
@@ -420,57 +515,17 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     midi_ports_box_layout->addWidget(midi_in_ports_label);
     midi_ports_box_layout->addWidget(midi_out_ports_label);
-
-
-    //midi_ports_box_layout->addWidget(midi_reset_button);
-
+    midi_ports_box_layout->addWidget(midi_reset_button, 0, Qt::AlignLeft);
 
     connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(forceMidiReset()));
 
     midi_ports_box->setLayout(midi_ports_box_layout);
     midi_config_box->setLayout(midi_config_box_layout);
 
-#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    // Recording mode — same setting is reachable from the IO menubar
-    // submenu and the rec-button right-click menu.
-    QGroupBox *recordingGroup = new QGroupBox(tr("Recording"));
-    QVBoxLayout *recordingGroupLayout = new QVBoxLayout;
-
-    recording_type_audio_radio = new QRadioButton(tr("Audio Only"));
-    recording_type_audio_radio->setToolTip(tr(
-        "SuperSonic writes a .wav of the master mix"));
-
-    recording_type_av_radio = new QRadioButton(tr("Audio + Video"));
-    recording_type_av_radio->setToolTip(tr(
-        "Captures the Sonic Pi window plus master mix into a .mov\n"
-        "(macOS) or .mp4 (Windows) using GPU-accelerated screen capture"));
-
-    // Button IDs are the enum values so the idClicked(int) signal
-    // delivers the chosen mode directly. idClicked only fires on user
-    // clicks, so programmatic setChecked from settingsChanged() doesn't
-    // echo back.
-    recording_type_group = new QButtonGroup(this);
-    recording_type_group->setExclusive(true);
-    recording_type_group->addButton(recording_type_audio_radio,
-        static_cast<int>(SonicPiSettings::Audio));
-    recording_type_group->addButton(recording_type_av_radio,
-        static_cast<int>(SonicPiSettings::AudioAndVideo));
-
-    recordingGroupLayout->addWidget(recording_type_audio_radio);
-    recordingGroupLayout->addWidget(recording_type_av_radio);
-    recordingGroup->setLayout(recordingGroupLayout);
-
-    connect(recording_type_group, SIGNAL(idClicked(int)),
-            this, SLOT(recordingTypeChanged(int)));
-#endif
-
     QGridLayout *io_tab_layout = new QGridLayout();
     io_tab_layout->addWidget(midi_ports_box, 0, 0, 0, 1);
     io_tab_layout->addWidget(midi_config_box, 0, 1);
     io_tab_layout->addWidget(network_box, 1, 1);
-#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    io_tab_layout->addWidget(recordingGroup, 2, 1);
-#endif
 
     ioTab->setLayout(io_tab_layout);
     return ioTab;
@@ -534,17 +589,40 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     hide_menubar_in_fullscreen->setToolTip(tr("Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode."));
     hide_menubar_in_fullscreen->setChecked(false);
 
+    // Theme picker — vertical segmented pill list (one-of-N, same idiom
+    // as the Shortcuts mode and Recording controls).
     colourModeButtonGroup = new QButtonGroup(this);
-    lightModeCheck = new QCheckBox(tr("Light"));
-    darkModeCheck = new QCheckBox(tr("Dark"));
-    lightProModeCheck = new QCheckBox(tr("Pro Light"));
-    darkProModeCheck = new QCheckBox(tr("Pro Dark"));
-    highContrastModeCheck = new QCheckBox(tr("High Contrast"));
+    lightModeCheck = new QPushButton(tr("Light"));
+    darkModeCheck = new QPushButton(tr("Dark"));
+    lightProModeCheck = new QPushButton(tr("Pro Light"));
+    darkProModeCheck = new QPushButton(tr("Pro Dark"));
+    highContrastModeCheck = new QPushButton(tr("High Contrast"));
     colourModeButtonGroup->addButton(lightModeCheck, 0);
     colourModeButtonGroup->addButton(darkModeCheck, 1);
     colourModeButtonGroup->addButton(lightProModeCheck, 2);
     colourModeButtonGroup->addButton(darkProModeCheck, 3);
     colourModeButtonGroup->addButton(highContrastModeCheck, 4);
+
+    QWidget* themeSegControl = new QWidget();
+    themeSegControl->setObjectName("themeSegControl");
+    themeSegControl->setStyleSheet(
+        "#themeSegControl { background: rgba(127,127,127,70); border-radius: 7px; }"
+        // color: explicit — the global QPushButton rule uses buttonTextColor,
+        // which is white-on-light for the Light / High Contrast themes.
+        "#themeSegControl QPushButton { border: none; padding: 6px 16px; border-radius: 5px;"
+        " background: transparent; color: palette(window-text); text-align: left; }"
+        "#themeSegControl QPushButton:hover:!checked { background: rgba(127,127,127,70); }"
+        "#themeSegControl QPushButton:checked { background: palette(highlight);"
+        " color: palette(highlighted-text); }");
+    QVBoxLayout* themeSegLayout = new QVBoxLayout(themeSegControl);
+    themeSegLayout->setContentsMargins(3, 3, 3, 3);
+    themeSegLayout->setSpacing(3);
+    for (QPushButton* b : { lightModeCheck, darkModeCheck, lightProModeCheck,
+                            darkProModeCheck, highContrastModeCheck }) {
+        b->setCheckable(true);
+        b->setCursor(Qt::PointingHandCursor);
+        themeSegLayout->addWidget(b);
+    }
 
     QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
     QVBoxLayout *editor_show_panels_box_layout = new QVBoxLayout;
@@ -569,11 +647,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_display_box_layout->addWidget(hide_menubar_in_fullscreen);
 #endif
 
-    editor_box_look_feel_layout->addWidget(lightModeCheck);
-    editor_box_look_feel_layout->addWidget(darkModeCheck);
-    editor_box_look_feel_layout->addWidget(lightProModeCheck);
-    editor_box_look_feel_layout->addWidget(darkProModeCheck);
-    editor_box_look_feel_layout->addWidget(highContrastModeCheck);
+    editor_box_look_feel_layout->addWidget(themeSegControl);
 
     editor_show_panels_box->setLayout(editor_show_panels_box_layout);
     editor_display_box->setLayout(editor_display_box_layout);
@@ -658,7 +732,15 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
     QGridLayout *transparency_box_layout = new QGridLayout;
     gui_transparency_slider = new QSlider(this);
-    transparency_box_layout->addWidget(gui_transparency_slider);
+    QLabel *transparency_value_label = new QLabel();
+    transparency_value_label->setAlignment(Qt::AlignHCenter);
+    connect(gui_transparency_slider, &QSlider::valueChanged, transparency_value_label,
+        [transparency_value_label](int v) {
+            transparency_value_label->setText(QString("%1%").arg(v));
+        });
+    transparency_value_label->setText(QString("%1%").arg(gui_transparency_slider->value()));
+    transparency_box_layout->addWidget(gui_transparency_slider, 0, 0, Qt::AlignHCenter);
+    transparency_box_layout->addWidget(transparency_value_label, 1, 0);
     transparency_box->setLayout(transparency_box_layout);
 
 //#if defined(Q_OS_LINUX)
@@ -989,7 +1071,7 @@ QGroupBox* SettingsWidget::createKeyboardShortcutsTab() {
     segControl->setStyleSheet(
         "#segControl { background: rgba(127,127,127,70); border-radius: 7px; }"
         "#segControl QPushButton { border: none; padding: 6px 16px; border-radius: 5px;"
-        " background: transparent; }"
+        " background: transparent; color: palette(window-text); }"
         "#segControl QPushButton:hover:!checked { background: rgba(127,127,127,70); }"
         "#segControl QPushButton:checked { background: palette(highlight);"
         " color: palette(highlighted-text); }");

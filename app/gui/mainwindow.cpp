@@ -37,6 +37,7 @@
 #include <QListWidget>
 #include <QMenu>
 #include <QMenuBar>
+#include <QPropertyAnimation>
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QPlainTextEdit>
@@ -5519,44 +5520,49 @@ void MainWindow::movePrefsWidget()
     prefsWidget->move(w, h);
 }
 
+// Stop any in-flight prefs slide so rapid toggling doesn't fight itself.
+static void cancelPrefsSlide(QWidget* prefsWidget)
+{
+    for (auto* a : prefsWidget->findChildren<QPropertyAnimation*>()) {
+        a->stop();
+        a->deleteLater();
+    }
+}
+
 void MainWindow::slidePrefsWidgetIn()
 {
     int h = toolBar->size().height() + 20;
     int full_width = this->size().width();
-    int prefs_width = prefsWidget->size().width();
-    int w = full_width - prefs_width;
-    int delta = prefs_width / 10;
+    int w = full_width - prefsWidget->size().width();
 
+    cancelPrefsSlide(prefsWidget);
     prefsWidget->move(full_width, h);
     prefsWidget->show();
     prefsWidget->raise();
 
-    for (int i = full_width; i > w; i = i - delta)
-    {
-        QCoreApplication::processEvents();
-        prefsWidget->move(i, h);
-        QThread::msleep(2);
-    }
-
-    movePrefsWidget();
+    QPropertyAnimation* anim = new QPropertyAnimation(prefsWidget, "pos", prefsWidget);
+    anim->setDuration(220);
+    anim->setEasingCurve(QEasingCurve::OutCubic);
+    anim->setStartValue(QPoint(full_width, h));
+    anim->setEndValue(QPoint(w, h));
+    connect(anim, &QPropertyAnimation::finished, this, [this]() { movePrefsWidget(); });
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void MainWindow::slidePrefsWidgetOut()
 {
     int h = toolBar->size().height() + 20;
     int full_width = this->size().width();
-    int prefs_width = prefsWidget->size().width();
-    int w = full_width - prefs_width;
-    int delta = prefs_width / 10;
 
-    for (int i = w; i < full_width; i = i + delta)
-    {
-        QCoreApplication::processEvents();
-        prefsWidget->move(i, h);
-        QThread::msleep(2);
-    }
+    cancelPrefsSlide(prefsWidget);
 
-    prefsWidget->hide();
+    QPropertyAnimation* anim = new QPropertyAnimation(prefsWidget, "pos", prefsWidget);
+    anim->setDuration(180);
+    anim->setEasingCurve(QEasingCurve::InCubic);
+    anim->setStartValue(prefsWidget->pos());
+    anim->setEndValue(QPoint(full_width, h));
+    connect(anim, &QPropertyAnimation::finished, prefsWidget, &QWidget::hide);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void MainWindow::resizeEvent(QResizeEvent* e)
