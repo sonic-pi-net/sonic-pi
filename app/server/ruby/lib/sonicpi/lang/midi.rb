@@ -1408,6 +1408,61 @@ end"
       ]
 
 
+      def midi_clock_out(*args)
+        params, opts = split_params_and_merge_opts_array(args)
+        opts         = current_midi_defaults.merge(opts)
+        opts         = opts.merge(port: params[0]) if params[0]
+        ports        = __resolve_midi_ports(opts).map { |p| p.to_s.freeze }
+        port         = pp_el_or_list(ports)
+        off          = truthy?(opts[:off]) || !truthy?(opts.fetch(:on, 1))
+
+        bound = __system_thread_locals.get(:sonic_pi_midi_clock_out_ports) || []
+        if off
+          ports.each { |p| @midi_api.midi_clock_out_off(p) }
+          new_bound = bound - ports
+          __midi_rest_message "midi_clock_out off, port: #{port}"
+        else
+          ports.each { |p| __midi_clock_out_push(p) }
+          new_bound = bound | ports
+          __midi_message "midi_clock_out port: #{port}"
+        end
+        # set_local: the binding belongs to THIS thread only — child threads
+        # don't inherit it, so their use_bpm calls never re-push our ports.
+        __system_thread_locals.set_local(:sonic_pi_midi_clock_out_ports, new_bound.freeze)
+        nil
+      end
+      doc name:           :midi_clock_out,
+          introduced:     Version.new(5,0,0),
+          summary:        "Send a continuous MIDI clock locked to this thread's tempo",
+          args:           [[:port, :string]],
+          returns:        :nil,
+          opts:           {
+                          port: "MIDI port(s) to send the clock to (defaults to all). A name, list of names, or \"*\".",
+                          off:  "If true, stop sending the clock to the given port(s)."},
+          accepts_block:  false,
+          doc:            "Starts a continuous 24-PPQN MIDI clock on the given port(s), generated entirely by the engine and locked to the current thread's tempo. Unlike `midi_clock_beat` (which you must re-trigger every beat from a `live_loop`), this is *set-and-forget*: call it once and the engine emits every tick itself, sample-locked to the audio, with the spider's timing never touching the tick stream.
+
+The clock tracks whatever this thread's `use_bpm` is set to:
+
+* a fixed bpm (`use_bpm 120`) — the clock follows it, and tracks any later `use_bpm` change in this thread,
+* `use_bpm :link` — the clock follows the Ableton Link session tempo (a Link → MIDI clock bridge),
+* `use_bpm :midi` / `use_bpm :midi, \"port\"` — the clock re-broadcasts a followed external MIDI clock (a clean, beat-locked regenerator).
+
+This is **idempotent** — calling it repeatedly (e.g. on every Run, or inside a `live_loop`) is harmless: it never restarts or glitches a running clock. The binding is **per-thread**: only the thread that called `midi_clock_out` drives the port's tempo — threads it spawns (e.g. `live_loop`s) don't affect it. It sends *only* the clock; use `midi_start` / `midi_stop` for transport. Call `midi_clock_out port: \"x\", off: true` to stop.",
+          examples:       [
+        "use_bpm 120
+midi_clock_out \"moog\"   #=> the moog now receives a steady 120 BPM MIDI clock, no loop needed",
+
+        "use_bpm 120
+midi_clock_out \"moog\"
+sleep 8
+use_bpm 90               #=> the moog's clock smoothly follows to 90",
+
+        "use_bpm :link
+midi_clock_out \"drums\"  #=> bridge the Ableton Link tempo out as MIDI clock",
+
+        "midi_clock_out \"moog\", off: true #=> stop sending clock to the moog"
+      ]
 
 
       def midi(*args)

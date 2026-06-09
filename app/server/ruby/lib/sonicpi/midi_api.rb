@@ -103,6 +103,21 @@ module SonicPi
       @global_timewarp = time.to_f / 1000.0
     end
 
+    # Continuous engine-side clock OUT (idempotent state, not a timed event):
+    # the engine generates every tick off SuperClock. Fixed tempo, or follow a
+    # timeline ("link" | "midi:<port>"), or stop.
+    def midi_clock_out_bpm(port, bpm)
+      @midi_comms.send("/midi/clock/out/bpm", port.to_s, bpm.to_f)
+    end
+
+    def midi_clock_out_follow(port, timeline)
+      @midi_comms.send("/midi/clock/out/follow", port.to_s, timeline.to_s)
+    end
+
+    def midi_clock_out_off(port)
+      @midi_comms.send("/midi/clock/out/off", port.to_s)
+    end
+
     private
 
     def send_one(t, ss_addr, args)
