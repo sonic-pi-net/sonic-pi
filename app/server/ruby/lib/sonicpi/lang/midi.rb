@@ -22,6 +22,39 @@ module SonicPi
       end
 
 
+      def midi_clock_sources
+        @link_api.clock_timelines
+          .select { |t| t[:name].start_with?("midi:") }
+          .map do |t|
+            { port:     t[:name].sub(/\Amidi:/, ""),
+              name:     t[:raw],
+              bpm:      t[:bpm],
+              clocking: t[:clocking],
+              stale:    t[:stale],
+              primary:  t[:primary] }
+          end
+      end
+      doc name:          :midi_clock_sources,
+          introduced:    Version.new(4,6,0),
+          summary:       "List incoming MIDI clock sources",
+          doc:           "Returns a list of the external MIDI ports currently sending (or recently sent) MIDI clock, as seen by SuperClock. Each entry is a Hash with: `:port` (the normalised handle you pass to `use_bpm :midi, port`), `:name` (the friendly OS device name), `:bpm` (the latest estimated tempo), `:clocking` (true while pulses are arriving), `:stale` (true if the source stopped clocking and its tempo is frozen), and `:primary` (true for the source `use_bpm :midi` follows by default).
+
+  Use this to discover which port handle to pass to `use_bpm :midi, port`.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+  midi_clock_sources #=> [{port: \"launchpad\", name: \"Launchpad Pro\", bpm: 128.0, clocking: true, stale: false, primary: true}]
+",
+  "
+  # Follow whichever external clock is currently primary
+  use_bpm :midi
+  live_loop :synced do
+    play :e3
+    sleep 1
+  end"]
+
+
       def use_midi_logging(v, &block)
         raise DeprecationError, "use_midi_logging does not work with a do/end block. Perhaps you meant with_midi_logging" if block
         __thread_locals.set(:sonic_pi_suppress_midi_logging, !v)

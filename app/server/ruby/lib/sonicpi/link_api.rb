@@ -31,7 +31,9 @@ module SonicPi
       @updated_link_num_peers_handler = handlers[:updated_link_num_peers]
       @updated_link_bpm_handler = handlers[:updated_link_bpm]
 
-      @tempo = nil
+      # Per-timeline tempo cache (name => bpm), refreshed by the /clock/notify
+      # pushes so reads are cheap + stable. "link" is just another key.
+      @timeline_tempos = {}
       @link_time_delta_micros = 0
 
       add_supersonic_link_handlers!
@@ -139,12 +141,23 @@ module SonicPi
       res ? res[0].to_i : 0
     end
 
-    def link_tempo(force_api_call=false)
-      return @tempo if @tempo && !force_api_call
-      res = @link_comms.rpc("/clock/tempo/get",
-                            expect: "/clock/tempo.reply")
-      # On RPC failure keep the prior @tempo rather than caching 60.0.
-      @tempo = res ? res[0].to_f : (@tempo || 60.0)
+    # Build a /clock/<tl>/<verb> address. tl == "link" omits the segment for
+    # wire back-compat (the engine treats omitted == link). <verb> may be a
+    # request ("tempo/get") or a reply suffix ("tempo.reply").
+    def clock_addr(verb, tl)
+      tl == "link" ? "/clock/#{verb}" : "/clock/#{tl}/#{verb}"
+    end
+
+    # tl: "link" (default), "midi" (engine resolves to the primary midi
+    # timeline), or "midi:<handle>" for a specific port. Every timeline's tempo
+    # is cached in @timeline_tempos (kept fresh by the /clock/notify pushes); on
+    # a miss we read live and, on RPC failure, keep the prior value over 60.0.
+    def link_tempo(force_api_call=false, tl: "link")
+      cached = @timeline_tempos[tl]
+      return cached if cached && !force_api_call
+      res = @link_comms.rpc(clock_addr("tempo/get", tl),
+                            expect: clock_addr("tempo.reply", tl))
+      @timeline_tempos[tl] = res ? res[0].to_f : (cached || 60.0)
     end
 
     def link_set_bpm!(bpm)
@@ -155,24 +168,24 @@ module SonicPi
       end
     end
 
-    def link_get_beat_at_time(time, quantum = 4)
-      res = @link_comms.rpc("/clock/rpc/beat_at_time",
+    def link_get_beat_at_time(time, quantum = 4, tl: "link")
+      res = @link_comms.rpc(clock_addr("rpc/beat_at_time", tl),
                             SonicPi::OSC::Int64.new(time), quantum.to_f,
-                            expect: "/clock/rpc/beat_at_time.reply")
+                            expect: clock_addr("rpc/beat_at_time.reply", tl))
       res ? res[0].to_f : 0.0
     end
 
-    def link_get_phase_at_time(time, quantum = 4)
-      res = @link_comms.rpc("/clock/rpc/phase_at_time",
+    def link_get_phase_at_time(time, quantum = 4, tl: "link")
+      res = @link_comms.rpc(clock_addr("rpc/phase_at_time", tl),
                             SonicPi::OSC::Int64.new(time), quantum.to_f,
-                            expect: "/clock/rpc/phase_at_time.reply")
+                            expect: clock_addr("rpc/phase_at_time.reply", tl))
       res ? res[0].to_f : 0.0
     end
 
-    def link_get_time_at_beat(beat, quantum = 4)
-      res = @link_comms.rpc("/clock/rpc/time_at_beat",
+    def link_get_time_at_beat(beat, quantum = 4, tl: "link")
+      res = @link_comms.rpc(clock_addr("rpc/time_at_beat", tl),
                             beat.to_f, quantum.to_f,
-                            expect: "/clock/rpc/time_at_beat.reply")
+                            expect: clock_addr("rpc/time_at_beat.reply", tl))
       res ? res[0].to_i : 0
     end
 
@@ -199,16 +212,16 @@ module SonicPi
       [beat, link_micros_to_clock_time(link_time)]
     end
 
-    def link_get_clock_time_at_beat(beat, quantum = 4)
-      link_micros_to_clock_time(link_get_time_at_beat(beat, quantum))
+    def link_get_clock_time_at_beat(beat, quantum = 4, tl: "link")
+      link_micros_to_clock_time(link_get_time_at_beat(beat, quantum, tl: tl))
     end
 
-    def link_get_beat_at_clock_time(clock_time, quantum = 4)
-      link_get_beat_at_time(clock_time_to_link_micros(clock_time))
+    def link_get_beat_at_clock_time(clock_time, quantum = 4, tl: "link")
+      link_get_beat_at_time(clock_time_to_link_micros(clock_time), quantum, tl: tl)
     end
 
-    def link_get_phase_at_clock_time(clock_time, quantum = 4)
-      link_get_phase_at_time(clock_time_to_link_micros(clock_time))
+    def link_get_phase_at_clock_time(clock_time, quantum = 4, tl: "link")
+      link_get_phase_at_time(clock_time_to_link_micros(clock_time), quantum, tl: tl)
     end
 
     def link_get_phase_and_beat_at_clock_time(clock_time, quantum = 4)
@@ -222,10 +235,24 @@ module SonicPi
       @link_comms.send("/clock/transport/set", enabled ? 1 : 0)
     end
 
-    def link_is_playing?
-      res = @link_comms.rpc("/clock/transport/get",
-                            expect: "/clock/transport.reply")
+    def link_is_playing?(tl: "link")
+      res = @link_comms.rpc(clock_addr("transport/get", tl),
+                            expect: clock_addr("transport.reply", tl))
       res ? (res[0].to_i != 0) : false
+    end
+
+    # Enumerate all timelines the engine knows: the Link timeline plus any
+    # active midi:<port> follower. One hash per row; `name` is the wire id
+    # ("link" / "midi:<handle>"), `raw` the friendly OS device name.
+    def clock_timelines
+      res = @link_comms.rpc("/clock/timelines/get",
+                            expect: "/clock/timelines.reply")
+      return [] unless res
+      res.each_slice(6).map do |name, raw, bpm, clocking, stale, primary|
+        { name: name.to_s, raw: raw.to_s, bpm: bpm.to_f,
+          clocking: clocking.to_i != 0, stale: stale.to_i != 0,
+          primary: primary.to_i != 0 }
+      end
     end
 
     def link_get_time_for_is_playing
@@ -286,7 +313,7 @@ module SonicPi
       # Session tempo changed (locally or by a peer).
       @link_comms.add_method("/clock/notify/tempo") do |args|
         tempo = args[0].to_f
-        @tempo = tempo
+        @timeline_tempos["link"] = tempo
         @updated_link_bpm_handler.call(tempo) if @updated_link_bpm_handler
         @incoming_tempo_change_cv.broadcast
         @internal_cue_handler.call("/link/tempo-change", [tempo]) if @internal_cue_handler
@@ -305,6 +332,19 @@ module SonicPi
           @internal_cue_handler.call("/link/disconnected", []) if @internal_cue_handler
         end
         @prev_link_num_peers = n
+      end
+
+      # A timeline set/tempo changed (add/remove/stale/primary or a midi tempo
+      # crossing the engine's notify threshold). Args repeat per timeline:
+      # name(s) raw(s) bpm(f) clocking(i) stale(i) primary(i). Refresh the
+      # per-timeline tempo cache and wake clock-mode sleeps so midi riders
+      # re-anchor immediately — the midi analog of /clock/notify/tempo.
+      @link_comms.add_method("/clock/timelines") do |args|
+        args.each_slice(6) do |name, _raw, bpm, _clocking, _stale, _primary|
+          @timeline_tempos[name.to_s] = bpm.to_f if name
+        end
+        @incoming_tempo_change_cv.broadcast
+        @internal_cue_handler.call("/midi/clock-change", []) if @internal_cue_handler
       end
 
       # Transport state changed. Args: <int> playing, <int64> at-link-micros.

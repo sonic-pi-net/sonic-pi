@@ -114,6 +114,25 @@ module SonicPi
       __system_thread_locals.get(:sonic_pi_spider_bpm) == :link
     end
 
+    def __in_midi_bpm_mode
+      m = __system_thread_locals.get(:sonic_pi_spider_bpm)
+      m.is_a?(Array) && m[0] == :midi
+    end
+
+    # True when tempo + beat come from a SuperClock timeline (Link or midi)
+    # via RPC, rather than from a local numeric bpm.
+    def __in_clock_bpm_mode
+      __in_link_bpm_mode || __in_midi_bpm_mode
+    end
+
+    # Resolve a bpm mode to its /clock/<tl> timeline name. Pure string — the
+    # engine resolves bare "midi" to the primary midi timeline, so Ruby never
+    # picks (containment). No timeline math here.
+    def __spider_timeline_name(mode = __system_thread_locals.get(:sonic_pi_spider_bpm))
+      return "link" unless mode.is_a?(Array) && mode[0] == :midi
+      mode[1] ? "midi:#{mode[1]}" : "midi"
+    end
+
     def __change_spider_time_and_beat!(new_time = nil, new_beat = nil)
       __system_thread_locals.set :sonic_pi_spider_time, new_time.to_r
       __system_thread_locals.set :sonic_pi_spider_beat, new_beat.to_f
@@ -132,28 +151,57 @@ module SonicPi
       __change_spider_time_and_beat!(time - __current_sched_ahead_time, beat)
     end
 
+    # Validate + normalise a bpm argument (shared by use_bpm / with_bpm / sync
+    # restore). Returns :link, a positive Float, or [:midi, port|nil].
+    def __resolve_bpm_arg(bpm, port = nil)
+      case bpm
+      when :link
+        raise ArgumentError, "use_bpm :link does not take a port" if port
+        :link
+      when :midi
+        # Frozen so it can live in an (immutable-only) thread-local.
+        if port.nil?
+          [:midi, nil].freeze
+        else
+          raise ArgumentError, "MIDI clock port must be a non-empty String, got: #{port.inspect}" unless port.is_a?(String) && !port.empty?
+          [:midi, port.dup.freeze].freeze
+        end
+      when Array
+        # Already-normalised [:midi, port|nil] (e.g. restored by with_bpm/sync).
+        unless bpm.length == 2 && bpm[0] == :midi && (bpm[1].nil? || bpm[1].is_a?(String))
+          raise ArgumentError, "Invalid bpm mode: #{bpm.inspect}"
+        end
+        [:midi, (bpm[1] && bpm[1].dup.freeze)].freeze
+      when Numeric
+        raise ArgumentError, "bpm should be a positive value. You tried to use: #{bpm}" unless bpm > 0
+        bpm.to_f
+      else
+        raise ArgumentError, "bpm should be a positive value, :link, :midi, or :midi with a port string. You tried to use: #{bpm.inspect}"
+      end
+    end
+
     def __change_spider_bpm_time_and_beat!(bpm, time, beat)
 
-      # Need to be careful here about how to switch bpm modes.
-      # We have 4 main cases:
-      # 1. link -> link
-      # 2. std  -> link
-      # 3. link -> std
-      # 4. std  -> std
+      # Switching bpm modes. A "clock" mode is :link or [:midi, port|nil] —
+      # tempo+beat come from a SuperClock timeline. The other mode is a numeric
+      # bpm. Cases:
+      # 1. same clock timeline    -> keep the passed beat
+      # 2. * -> a (different) clock timeline -> re-anchor beat from the timeline
+      # 3. * -> numeric           -> use the passed beat
 
-      if bpm == :link
-        if __in_link_bpm_mode
-          # 1. link -> link
+      if bpm == :link || (bpm.is_a?(Array) && bpm[0] == :midi)
+        tl = __spider_timeline_name(bpm)
+        if __in_clock_bpm_mode && __spider_timeline_name == tl
+          # 1. same timeline
           __change_spider_time_and_beat!(time, beat)
         else
-          # 2. std -> link
-          __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
-          link_beat = __get_link_beat_at_clock_time(time + __current_sched_ahead_time)
-          __change_spider_time_and_beat!(time, link_beat)
+          # 2. entering / switching clock timeline — anchor beat to it
+          __system_thread_locals.set(:sonic_pi_spider_bpm, bpm)
+          clock_beat = @link_api.link_get_beat_at_clock_time(time + __current_sched_ahead_time, tl: tl)
+          __change_spider_time_and_beat!(time, clock_beat)
         end
       else
-        # 3. link -> std
-        # 4. std  -> std
+        # 3. numeric bpm
         __system_thread_locals.set(:sonic_pi_spider_bpm, bpm.to_f)
         __change_spider_time_and_beat!(time, beat)
       end
@@ -167,8 +215,8 @@ module SonicPi
     def __change_spider_beat_and_time_by_beat_delta!(beat_delta)
       new_beat = __get_spider_beat + (beat_delta / __get_spider_time_density)
 
-      if __in_link_bpm_mode
-        new_time = @link_api.link_get_clock_time_at_beat(new_beat)
+      if __in_clock_bpm_mode
+        new_time = @link_api.link_get_clock_time_at_beat(new_beat, tl: __spider_timeline_name)
         new_time -=  __current_sched_ahead_time
         __change_spider_time_and_beat!(new_time, new_beat)
       else
@@ -201,16 +249,17 @@ module SonicPi
 
     def __get_spider_bpm
       # take into account density
-      if __in_link_bpm_mode
-        @link_api.link_tempo * __get_spider_time_density
+      if __in_clock_bpm_mode
+        @link_api.link_tempo(tl: __spider_timeline_name) * __get_spider_time_density
       else
         __system_thread_locals.get(:sonic_pi_spider_bpm) * __get_spider_time_density
       end
     end
 
     def __get_spider_bpm_mode
-      if __in_link_bpm_mode
-        :link
+      if __in_clock_bpm_mode
+        # :link or [:midi, port|nil]
+        __system_thread_locals.get(:sonic_pi_spider_bpm)
       else
         __get_spider_bpm
       end

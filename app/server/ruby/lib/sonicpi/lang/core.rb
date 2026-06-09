@@ -3782,15 +3782,17 @@ set_link_bpm! 30                              # Change Link BPM to 30
 end
 "]
 
-      def use_bpm(bpm, &block)
+      def use_bpm(bpm, port=nil, &block)
         raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
-        raise ArgumentError, "use_bpm's BPM should be a positive value or :link. You tried to use: #{bpm}" unless bpm == :link || (bpm.is_a?(Numeric) && bpm > 0)
+        bpm = __resolve_bpm_arg(bpm, port)
         __change_spider_bpm_time_and_beat!(bpm, __get_spider_time, __get_spider_beat)
       end
       doc name:           :use_bpm,
           introduced:     Version.new(2,0,0),
           summary:        "Set the tempo",
           doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. Affects all subsequent calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. If you wish to bypass scaling in calls to sleep, see the fn `rt`. Also, if you wish to bypass time scaling in synth args see `use_arg_bpm_scaling`. See also `with_bpm` for a block scoped version of `use_bpm`.
+
+  As well as a positive number, the bpm may be `:link` to follow the Ableton Link session tempo, or `:midi` to follow an incoming external MIDI clock. With `:midi` and no port the primary (first-clocking) MIDI source is followed; pass a port handle as a second argument — `use_bpm :midi, \"my_device\"` — to follow a specific port. Use `midi_clock_sources` to discover which ports are sending clock.
 
   For dance music here's a rough guide for which BPM to aim for depending on your genre:
 
@@ -3801,7 +3803,7 @@ end
   * Techno/trance: 120-140 bpm
   * Dubstep: 135-145 bpm
   * Drum and bass: 160-180 bpm",
-          args:           [[:bpm, :number]],
+          args:           [[:bpm, :number_or_symbol]],
           opts:           nil,
           accepts_block:  false,
           intro_fn:       true,
@@ -3830,14 +3832,28 @@ end
     sleep 1 # actually sleeps for 0.25 seconds
   end
 
-  "]
+  ",
+  "
+  # Follow an external MIDI clock
+  use_bpm :midi          # follow the primary incoming MIDI clock
+  live_loop :midi_synced do
+    play :e3
+    sleep 0.25           # timing now tracks the external MIDI tempo
+  end",
+  "
+  # Follow a specific MIDI clock port
+  use_bpm :midi, \"launchpad\"   # follow the named port (see midi_clock_sources)
+  live_loop :clk do
+    sample :drum_heavy_kick
+    sleep 1
+  end"]
 
 
 
 
-      def with_bpm(bpm, &block)
+      def with_bpm(bpm, port=nil, &block)
         raise ArgumentError, "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
-        raise ArgumentError, "with_bpm's BPM should be a positive value. You tried to use: #{bpm}" unless bpm > 0
+        bpm = __resolve_bpm_arg(bpm, port)
         current_bpm = __get_spider_bpm_mode
         use_bpm bpm
         res = block.call
@@ -4092,9 +4108,9 @@ puts rand # => 0.54010009765625
       doc name:          :current_bpm_mode,
           introduced:    Version.new(4,0,0),
           summary:       "Get current tempo mode",
-          doc:           "Returns the current tempo mode - either a bpm value or :link.
+          doc:           "Returns the current tempo mode - either a bpm value, `:link`, or `[:midi, port]` (with `port` being `nil` for the primary MIDI clock or the port handle for a specific source).
 
-To know the current BPM value when this thread is in :link mode see `current_bpm`.
+To know the current BPM value when this thread is following an external clock (`:link` or `:midi`) see `current_bpm`.
 
 This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sample_bpm`.",
           args:          [],
@@ -4106,7 +4122,11 @@ This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sa
   use_bpm 70
   puts current_bpm_mode    # => 70
   use_bpm :link
-  puts current_bpm_mode    # => :link"]
+  puts current_bpm_mode    # => :link
+  use_bpm :midi
+  puts current_bpm_mode    # => [:midi, nil]
+  use_bpm :midi, \"launchpad\"
+  puts current_bpm_mode    # => [:midi, \"launchpad\"]"]
 
 
 
@@ -4422,7 +4442,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         sleep_t = (new_vt - now).to_f - 0.2
         return if sleep_t < 0.2
 
-        if __in_link_bpm_mode
+        if __in_clock_bpm_mode
           @link_api.link_sleep(sleep_t) do
             # this code runs if the sleep was short-circuited
             __change_spider_beat_and_time_by_beat_delta!(0)
@@ -4572,9 +4592,9 @@ puts current_sched_ahead_time # Prints 0.5"]
 
         __system_thread_locals.set(:sonic_pi_spider_synced, true)
         bpm_mode = current_bpm_mode
-        __change_spider_bpm_time_and_beat!(60, se.time, se.beat) if __in_link_bpm_mode
+        __change_spider_bpm_time_and_beat!(60, se.time, se.beat) if __in_clock_bpm_mode
         if bpm_sync
-          raise StandardError, "Incorrect bpm value. Expecting either :link or a number such as 120" unless ((se.bpm == :link) || se.bpm.is_a?(Numeric))
+          raise StandardError, "Incorrect bpm value. Expecting :link, :midi, [:midi, port], or a number such as 120" unless ((se.bpm == :link) || (se.bpm.is_a?(Array) && se.bpm[0] == :midi) || se.bpm.is_a?(Numeric))
           __change_spider_bpm_time_and_beat!(se.bpm, se.time, se.beat)
         else
           __change_spider_bpm_time_and_beat!(bpm_mode, se.time, se.beat)

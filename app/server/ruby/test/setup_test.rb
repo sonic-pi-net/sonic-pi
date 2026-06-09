@@ -1,6 +1,7 @@
 require_relative "../core"
 require_relative "../lib/sonicpi/runtime"
 require_relative "../lib/sonicpi/lang/core"
+require_relative "../lib/sonicpi/lang/midi"
 require_relative "../lib/sonicpi/event_history"
 require_relative "../lib/sonicpi/thread_id"
 require_relative "../lib/sonicpi/lang/western_theory"
@@ -73,6 +74,7 @@ module SonicPi
     include SonicPi::Lang::Core
     include SonicPi::Lang::WesternTheory
     include SonicPi::Lang::Sound
+    include SonicPi::Lang::Midi
 
     def initialize
       @mod_sound_studio = MockStudio.new
