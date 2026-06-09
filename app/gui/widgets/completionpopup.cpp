@@ -624,6 +624,10 @@ CompletionPopup::CompletionPopup(QWidget* parent)
                 if (!m_sliderMode) emit previewChanged(currentText());
             });
 
+    connect(m_view, &QListView::clicked, this, [this](const QModelIndex& idx) {
+        if (idx.isValid()) { m_view->setCurrentIndex(idx); emit accepted(); }
+    });
+
     // Hover a piano key → highlight the matching completion; click → insert it.
     // A key with no list entry is still clickable: it inserts that MIDI note
     // directly (the keyboard covers more notes than any filtered list). In
