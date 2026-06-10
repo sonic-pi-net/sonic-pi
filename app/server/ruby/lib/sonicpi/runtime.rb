@@ -31,6 +31,7 @@ require_relative "thread_id"
 require_relative "tau_api"
 require_relative "link_api"
 require_relative "midi_api"
+require_relative "gamepad_api"
 
 #require_relative "oscevent"
 #require_relative "stream"
@@ -656,6 +657,18 @@ module SonicPi
       __info "Stopping incoming MIDI cues..." unless silent
       __schedule_delayed_blocks_and_messages!
       @midi_api.midi_system_stop!
+    end
+
+    def __gamepad_system_start(silent=false)
+      __info "Enabling incoming gamepad cues..." unless silent
+      __schedule_delayed_blocks_and_messages!
+      @gamepad_api.gamepad_system_start!
+    end
+
+    def __gamepad_system_stop(silent=false)
+      __info "Stopping incoming gamepad cues..." unless silent
+      __schedule_delayed_blocks_and_messages!
+      @gamepad_api.gamepad_system_stop!
     end
 
     def __set_global_timewarp!(time)
@@ -1590,6 +1603,14 @@ module SonicPi
         __msg_queue.push({:type => :midi_out_ports, :val => desc})
       end
 
+      last_gamepads = []
+      updated_gamepads_handler = lambda do |pads|
+        next if pads == last_gamepads
+        last_gamepads = pads
+        desc = pads.empty? ? "No game controllers connected" : "Connected game controllers: #{pads.join(", ")}"
+        __msg_queue.push({:type => :info, :val => desc})
+      end
+
       updated_link_num_peers_handler = lambda do |num|
         __msg_queue.push({:type => :link_num_peers, :val => num})
       end
@@ -1619,6 +1640,12 @@ module SonicPi
                                 updated_midi_ins: updated_midi_ins_handler,
                                 updated_midi_outs: updated_midi_outs_handler
                               })
+
+      @gamepad_api = GamepadAPI.new("127.0.0.1", scsynth_send_port,
+                                    {
+                                      internal_cue: internal_cue_handler,
+                                      updated_gamepads: updated_gamepads_handler
+                                    })
 
       begin
         @gitsave = GitSave.new(Paths.project_path)

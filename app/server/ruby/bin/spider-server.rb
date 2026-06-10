@@ -683,6 +683,28 @@ register_api = lambda do |server|
     end
   end
 
+  server.add_method("/gamepad-start") do |args|
+    incoming_token = args[0]
+    if incoming_token == token
+      silent = args[1] == 1
+      sp.__gamepad_system_start(silent)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /gamepad-start call"
+      STDOUT.flush
+    end
+  end
+
+  server.add_method("/gamepad-stop") do |args|
+    incoming_token = args[0]
+    if incoming_token == token
+      silent = args[1] == 1
+      sp.__gamepad_system_stop(silent)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /gamepad-stop call"
+      STDOUT.flush
+    end
+  end
+
   server.add_method("/cue-port-external") do |args|
     incoming_token = args[0]
     if incoming_token == token

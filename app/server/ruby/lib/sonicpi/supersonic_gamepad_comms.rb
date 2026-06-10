@@ -14,20 +14,14 @@
 require_relative "supersonic_comms"
 
 module SonicPi
-  # OSC client for SuperSonic's MIDI subsystem, over the /midi/* address
-  # space: subscribe_to_notifications! registers this client for /midi/in/* +
-  # /midi/ports pushes.
-  class SupersonicMidiComms < SupersonicComms
+  # OSC client for SuperSonic's gamepad subsystem, over the /gamepad/* address
+  # space: subscribe_to_notifications! registers this client for
+  # /gamepad/in/* + /gamepad/devices pushes.
+  class SupersonicGamepadComms < SupersonicComms
     def initialize(supersonic_host, supersonic_port)
       super(supersonic_host, supersonic_port,
-            address_space: "/midi",
-            name: "SuperSonic MIDI Comms")
-    end
-
-    # The shared OSC encoder, used to build the inner /midi/out blob carried by
-    # /midi/at.
-    def encoder
-      @udp_server.encoder
+            address_space: "/gamepad",
+            name: "SuperSonic Gamepad Comms")
     end
   end
 end
