@@ -12,7 +12,7 @@ class MainWindow;
 
 Q_DECLARE_METATYPE(SonicPi::MessageInfo);
 Q_DECLARE_METATYPE(SonicPi::CueInfo);
-Q_DECLARE_METATYPE(SonicPi::ProcessedAudio);
+Q_DECLARE_METATYPE(SonicPi::ProcessedAudioPtr);
 Q_DECLARE_METATYPE(SonicPi::StatusInfo);
 Q_DECLARE_METATYPE(SonicPi::MidiInfo);
 Q_DECLARE_METATYPE(SonicPi::VersionInfo);
@@ -42,7 +42,7 @@ public:
     // equivalents below, which are then on the Gui thread.
     virtual void Report(const SonicPi::MessageInfo& message) override;
     virtual void Cue(const SonicPi::CueInfo& info) override;
-    virtual void AudioDataAvailable(const SonicPi::ProcessedAudio& audio) override;
+    virtual void AudioDataAvailable(SonicPi::ProcessedAudioPtr audio) override;
     virtual void Status(const SonicPi::StatusInfo& info) override;
     virtual void Midi(const SonicPi::MidiInfo& info) override;
     virtual void Version(const SonicPi::VersionInfo& info) override;
@@ -58,7 +58,7 @@ public:
     virtual void AudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome) override;
 
 signals:
-    void ConsumeAudioData(const SonicPi::ProcessedAudio& audio);
+    void ConsumeAudioData(SonicPi::ProcessedAudioPtr audio);
     void UpdateNumActiveLinks(const int numLinks);
     void UpdateBPM(const double bpm);
     void AudioDevicesReceived(const SonicPi::AudioDevicesInfo& devicesInfo);

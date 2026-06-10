@@ -954,6 +954,14 @@ void SonicPiAPI::AudioProcessor_SetMaxFFTBuckets(uint32_t buckets)
     }
 }
 
+void SonicPiAPI::AudioProcessor_SetSampleRate(int sampleRate)
+{
+    if (m_spAudioProcessor)
+    {
+        m_spAudioProcessor->SetSampleRate(sampleRate);
+    }
+}
+
 void SonicPiAPI::AudioProcessor_Enable(bool enable)
 {
     if (m_spAudioProcessor)

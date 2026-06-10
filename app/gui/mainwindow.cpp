@@ -979,7 +979,9 @@ void MainWindow::toggleScopePaused()
 
 void MainWindow::allJobsCompleted()
 {
-    scopeWindow->Pause();
+    // Deferred: the scope keeps drawing until tails ring out and the
+    // spectrum decays, then pauses itself (no idle CPU while silent).
+    scopeWindow->PauseWhenSilent();
 
     // re-enable log text selection
     // Keyboard-selectable too, so a screen reader can move a caret through the
@@ -5629,6 +5631,8 @@ void MainWindow::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& c
     m_lastAudioDeviceConfig = configInfo;
     m_audioDeviceConfigSeen = true;
     settingsWidget->updateAudioDeviceConfig(configInfo);
+    // Spectrum bucket frequencies depend on the engine sample rate
+    m_spAPI->AudioProcessor_SetSampleRate(configInfo.sampleRate);
 
     // Don't re-push mixer settings here — Spider's cold_swap_reinit!
     // does that in Phase 4 once the new mixer node exists

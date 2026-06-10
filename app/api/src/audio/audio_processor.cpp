@@ -23,9 +23,20 @@ namespace
 {
 const int FrameSamples = 4096;
 const float FFTDecibelRange = 70.0f;
-const float AudioProcessorRefreshRate = 50.0f;
+// 60 to match typical display refresh; 50 beat against 60Hz vsync,
+// double-presenting then skipping frames (visible judder).
+const float AudioProcessorRefreshRate = 60.0f;
 
-/// Creates a Hamming Window for FFT
+// Spectrum display range and ballistics. Values are normalized 0..1 over
+// FFTDecibelRange, so release/fall rates convert from dB/s via
+// (dB/s) / FFTDecibelRange / AudioProcessorRefreshRate.
+const float SpectrumFreqMin = 30.0f;
+const float SpectrumFreqMaxLimit = 20000.0f;
+const float SpectrumReleasePerFrame = 60.0f / FFTDecibelRange / AudioProcessorRefreshRate;
+const float SpectrumPeakFallPerFrame = 45.0f / FFTDecibelRange / AudioProcessorRefreshRate;
+const int SpectrumPeakHoldFrames = int(AudioProcessorRefreshRate / 2); // ~0.5s
+
+/// Creates a Hann Window for FFT
 /// FFT requires a window function to get smooth results
 inline std::vector<float> createWindow(uint32_t size)
 {
@@ -56,6 +67,7 @@ AudioProcessor::AudioProcessor(SonicPi::IAPIClient* pClient, int synthPort)
 AudioProcessor::~AudioProcessor()
 {
     Quit();
+    kiss_fftr_free(m_cfg);
 }
 
 ProcessedAudio& AudioProcessor::GetCurrentProcessedAudio()
@@ -79,17 +91,21 @@ void AudioProcessor::SetMaxBuckets(int maxBuckets)
     m_maxBuckets.store(maxBuckets);
 }
 
+void AudioProcessor::SetSampleRate(int sampleRate)
+{
+    if (sampleRate > 0)
+    {
+        m_sampleRate.store(sampleRate);
+    }
+}
+
 void AudioProcessor::SetupFFT()
 {
     m_processedAudio.m_samples[0].resize(FrameSamples, 0.0);
     m_processedAudio.m_samples[1].resize(FrameSamples, 0.0);
     m_processedAudio.m_monoSamples.resize(FrameSamples, 0.0);
 
-    // FFT output is half the size of the input
-    m_processedAudio.m_spectrum[0].resize(FrameSamples / 2, (0));
-    m_processedAudio.m_spectrum[1].resize(FrameSamples / 2, (0));
-
-    // Hamming window
+    // Hann window
     m_window = createWindow(FrameSamples);
     m_totalWin = 0.0;
     for (auto& win : m_window)
@@ -97,61 +113,42 @@ void AudioProcessor::SetupFFT()
         m_totalWin += win;
     }
 
-    // Imaginary part of audio input always 0.
+    // Real-input FFT: N real samples in, N/2+1 complex bins out.
     for (int i = 0; i < 2; i++)
     {
-        m_fftIn[i].resize(FrameSamples, std::complex<float>{ 0.0, 0.0 });
-        m_fftOut[i].resize(FrameSamples);
-        m_fftMag[i].resize(FrameSamples);
+        m_fftIn[i].resize(FrameSamples, 0.0f);
+        m_fftOut[i].resize(FrameSamples / 2 + 1);
+        m_fftPower[i].resize(FrameSamples / 2 + 1);
     }
 
-    m_cfg = kiss_fft_alloc(FrameSamples, 0, 0, 0);
+    m_cfg = kiss_fftr_alloc(FrameSamples, 0, 0, 0);
 }
 
-// Generate a sequentially increasing space of numbers.
-// The idea here is to generate partitions of the frequency spectrum that cover the whole
-// range of values, but concentrate the results on the 'interesting' frequencies at the bottom end
-// This code ported from the python below:
-// https://stackoverflow.com/questions/12418234/logarithmically-spaced-integers
-void AudioProcessor::GenLogSpace(uint32_t limit, uint32_t n)
+// Bucket edges (bin indices) log-spaced in frequency between
+// SpectrumFreqMin and the Nyquist-clamped SpectrumFreqMaxLimit, so every
+// octave gets equal display width.
+void AudioProcessor::GenFreqPartitions(uint32_t buckets, int sampleRate)
 {
-    if (m_lastSpectrumPartitions == std::make_pair(limit, n) && !m_spectrumPartitions.empty())
+    if (m_lastSpectrumPartitions == std::make_pair(buckets, uint32_t(sampleRate))
+        && !m_spectrumPartitions.empty())
     {
         return;
     }
+    m_lastSpectrumPartitions = std::make_pair(buckets, uint32_t(sampleRate));
 
-    // Remember what we did last
-    m_lastSpectrumPartitions = std::make_pair(limit, n);
+    const float fHi = std::min(SpectrumFreqMaxLimit, sampleRate * 0.5f);
+    const uint32_t maxBin = FrameSamples / 2;
 
-    m_spectrumPartitions.clear();
-
-    // Generate buckets using a power factor, with each bucket advancing on the last
-    uint32_t lastValue = 0;
-    for (float fVal = 0.0f; fVal <= 1.0f; fVal += 1.0f / float(n))
+    m_spectrumPartitions.resize(buckets + 1);
+    uint32_t lastBin = 0;
+    for (uint32_t k = 0; k <= buckets; k++)
     {
-        const float curveSharpness = 8.0f;
-        auto step = uint32_t(limit * std::pow(fVal, curveSharpness));
-        step = std::max(step, lastValue + 1);
-        lastValue = step;
-        m_spectrumPartitions.push_back(float(step));
-    }
-}
-
-// This is a simple linear partitioning of the frequencies
-void AudioProcessor::GenLinSpace(uint32_t limit, uint32_t n)
-{
-    if (m_lastSpectrumPartitions == std::make_pair(limit, n) && !m_spectrumPartitions.empty())
-    {
-        return;
-    }
-
-    // Remember what we did last
-    m_lastSpectrumPartitions = std::make_pair(limit, n);
-
-    m_spectrumPartitions.resize(n);
-    for (uint32_t i = 0; i < n; i++)
-    {
-        m_spectrumPartitions[i] = float(n) / (float(limit));
+        float f = SpectrumFreqMin * std::pow(fHi / SpectrumFreqMin, k / float(buckets));
+        uint32_t bin = uint32_t(f * FrameSamples / float(sampleRate));
+        bin = std::max(bin, lastBin + 1);
+        bin = std::min(bin, maxBin);
+        m_spectrumPartitions[k] = bin;
+        lastBin = bin;
     }
 }
 
@@ -162,93 +159,93 @@ void AudioProcessor::CalculateFFT(ProcessedAudio& audio)
         return;
     }
 
-    // Magnitude
-    const float ref = 1.0f; // Source reference value, but we are +/1.0f
-
     if (m_fftOut[0].size() == 0)
     {
         return;
     }
 
+    const uint32_t spectrumSamples = FrameSamples / 2;
+    const int sampleRate = m_sampleRate.load();
+
+    // Make less buckets on a big window, but at least 4
+    uint32_t buckets = std::min(spectrumSamples / 8, uint32_t(m_maxBuckets.load()));
+    buckets = std::max(buckets, uint32_t(4));
+
+    GenFreqPartitions(buckets, sampleRate);
+
+    audio.m_spectrumFreqMin = SpectrumFreqMin;
+    audio.m_spectrumFreqMax = std::min(SpectrumFreqMaxLimit, sampleRate * 0.5f);
+
     for (int channel = 0; channel < 2; channel++)
     {
         for (uint32_t i = 0; i < FrameSamples; i++)
         {
-            // Hamming window * audio
-            m_fftIn[channel][i] = std::complex<float>(audio.m_samples[channel][i] * m_window[i], 0.0f);
+            // Hann window * audio
+            m_fftIn[channel][i] = audio.m_samples[channel][i] * m_window[i];
         }
 
         // Do the FFT
-        kiss_fft(m_cfg, (const kiss_fft_cpx*)&m_fftIn[channel][0], (kiss_fft_cpx*)&m_fftOut[channel][0]);
+        kiss_fftr(m_cfg, &m_fftIn[channel][0], (kiss_fft_cpx*)&m_fftOut[channel][0]);
 
         // Sample 0 is the all frequency component
         m_fftOut[channel][0] = std::complex<float>(0.0f, 0.0f);
 
-        for (uint32_t i = 0; i < FrameSamples / 2; i++)
+        for (uint32_t i = 0; i < spectrumSamples; i++)
         {
-            // Magnitude
-            m_fftMag[channel][i] = std::abs(m_fftOut[channel][i]);
-
-            audio.m_spectrum[channel][i] = m_fftMag[channel][i] * 2.0f / m_totalWin;
-            audio.m_spectrum[channel][i] = std::max(audio.m_spectrum[channel][i], std::numeric_limits<float>::min());
-
-            // Log based on a reference value of 1
-            audio.m_spectrum[channel][i] = 20 * std::log10(audio.m_spectrum[channel][i] / ref);
-
-            // Normalize by moving up and dividing
-            // Decibels are now positive from 0->1;
-            audio.m_spectrum[channel][i] += FFTDecibelRange;
-            audio.m_spectrum[channel][i] /= FFTDecibelRange;
-            audio.m_spectrum[channel][i] = std::max(0.0f, audio.m_spectrum[channel][i]);
-            audio.m_spectrum[channel][i] = std::min(1.0f, audio.m_spectrum[channel][i]);
+            // Amplitude-corrected power per bin; bucket averaging happens
+            // in the power domain so narrow peaks read truthfully
+            float amp = std::abs(m_fftOut[channel][i]) * 2.0f / m_totalWin;
+            m_fftPower[channel][i] = amp * amp;
         }
 
-        // Quantize into bigger buckets; filtering helps smooth the graph, and gives a more pleasant effect
-        uint32_t SpectrumSamples = uint32_t(audio.m_spectrum[channel].size());
-
-        // Make less buckets on a big window, but at least 4
-        uint32_t buckets = std::min(SpectrumSamples / 8, uint32_t(m_maxBuckets.load()));
-        buckets = std::max(buckets, uint32_t(4));
-
-        // Linear space shows lower frequencies, log space shows all freqencies but focused
-        // on the lower buckets more
-//#define LINEAR_SPACE
-#ifdef LINEAR_SPACE
-        GenLinSpace(SpectrumSamples / 4, buckets);
-#else
-        GenLogSpace(SpectrumSamples, buckets);
-#endif
-        auto itrPartition = m_spectrumPartitions.begin();
-
-        if (buckets > 0)
+        // Reset ballistics state when the bucket count changes
+        if (m_bucketSmoothed[channel].size() != buckets)
         {
-            float countPerBucket = (float)SpectrumSamples / (float)buckets;
-            uint32_t currentBucket = 0;
+            m_bucketSmoothed[channel].assign(buckets, 0.0f);
+            m_bucketPeak[channel].assign(buckets, 0.0f);
+            m_bucketPeakAge[channel].assign(buckets, 0);
+        }
 
-            float av = 0.0f;
-            uint32_t averageCount = 0;
+        audio.m_spectrumQuantized[channel].resize(buckets);
+        audio.m_spectrumPeaks[channel].resize(buckets);
 
-            audio.m_spectrumQuantized[channel].resize(buckets);
+        for (uint32_t k = 0; k < buckets; k++)
+        {
+            uint32_t b0 = m_spectrumPartitions[k];
+            uint32_t b1 = std::max(b0 + 1, m_spectrumPartitions[k + 1]);
+            b1 = std::min(b1, spectrumSamples);
+            b0 = std::min(b0, b1 - 1);
 
-            // Ignore the first spectrum sample
-            for (uint32_t i = 1; i < SpectrumSamples; i++)
+            float power = 0.0f;
+            for (uint32_t i = b0; i < b1; i++)
             {
-                av += audio.m_spectrum[channel][i];
-                averageCount++;
-
-                if (i >= *itrPartition)
-                {
-                    audio.m_spectrumQuantized[channel][currentBucket++] = av / (float)averageCount;
-                    av = 0.0f; // reset sum for next average
-                    averageCount = 0;
-                    itrPartition++;
-                }
-
-                // Sanity
-                if (itrPartition == m_spectrumPartitions.end()
-                    || currentBucket >= buckets)
-                    break;
+                power += m_fftPower[channel][i];
             }
+            power /= float(b1 - b0);
+            power = std::max(power, std::numeric_limits<float>::min());
+
+            // dB (power domain), normalized to 0..1 over FFTDecibelRange
+            float v = 10.0f * std::log10(power);
+            v = (v + FFTDecibelRange) / FFTDecibelRange;
+            v = std::min(1.0f, std::max(0.0f, v));
+
+            // Instant attack, timed release
+            float smoothed = std::max(v, m_bucketSmoothed[channel][k] - SpectrumReleasePerFrame);
+            m_bucketSmoothed[channel][k] = smoothed;
+            audio.m_spectrumQuantized[channel][k] = smoothed;
+
+            // Peak-hold: sit at the recent maximum, then fall slowly
+            if (v >= m_bucketPeak[channel][k])
+            {
+                m_bucketPeak[channel][k] = v;
+                m_bucketPeakAge[channel][k] = 0;
+            }
+            else if (++m_bucketPeakAge[channel][k] > SpectrumPeakHoldFrames)
+            {
+                m_bucketPeak[channel][k] = std::max(smoothed,
+                    m_bucketPeak[channel][k] - SpectrumPeakFallPerFrame);
+            }
+            audio.m_spectrumPeaks[channel][k] = m_bucketPeak[channel][k];
         }
     }
 }
@@ -404,7 +401,10 @@ void AudioProcessor::Run()
             }
 
             CalculateFFT(m_processedAudio);
-            m_pClient->AudioDataAvailable(m_processedAudio);
+            // One copy, made on this thread; the GUI shares the snapshot
+            // instead of copying it again through the queued connection.
+            m_pClient->AudioDataAvailable(
+                std::make_shared<const ProcessedAudio>(m_processedAudio));
         }
 
         std::this_thread::sleep_until(nextTime);

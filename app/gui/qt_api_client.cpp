@@ -207,7 +207,7 @@ void QtAPIClient::Cue(const CueInfo& cue)
     QMetaObject::invokeMethod(this, "CueGui", Qt::QueuedConnection, Q_ARG(SonicPi::CueInfo, cue));
 }
 
-void QtAPIClient::AudioDataAvailable(const ProcessedAudio& audio)
+void QtAPIClient::AudioDataAvailable(ProcessedAudioPtr audio)
 {
     emit ConsumeAudioData(audio);
 }

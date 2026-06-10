@@ -3,6 +3,7 @@
 #include <atomic>
 #include <fstream>
 #include <map>
+#include <memory>
 #include <string>
 #include <thread>
 #include <vector>
@@ -123,11 +124,20 @@ struct CueInfo
 // This is the processed audio data from the thread
 struct ProcessedAudio
 {
-    std::vector<float> m_spectrum[2];
+    // Per-bucket display values (ballistics applied: instant attack,
+    // timed release) and slowly-falling peak-hold markers. Buckets are
+    // log-spaced in frequency between m_spectrumFreqMin/Max.
     std::vector<float> m_spectrumQuantized[2];
+    std::vector<float> m_spectrumPeaks[2];
+    float m_spectrumFreqMin = 30.0f;
+    float m_spectrumFreqMax = 20000.0f;
     std::vector<float> m_samples[2];
     std::vector<float> m_monoSamples;
 };
+
+// Immutable per-frame snapshot shared between the audio-processor thread
+// and the GUI without further copying.
+using ProcessedAudioPtr = std::shared_ptr<const ProcessedAudio>;
 
 enum class MessageType
 {
@@ -295,7 +305,7 @@ struct IAPIClient
     virtual void Cue(const CueInfo& info) = 0;
     virtual void Midi(const MidiInfo& info) = 0;
     virtual void Version(const VersionInfo& info) = 0;
-    virtual void AudioDataAvailable(const ProcessedAudio& audio) = 0;
+    virtual void AudioDataAvailable(ProcessedAudioPtr audio) = 0;
     virtual void Buffer(const BufferInfo& info) = 0;
     virtual void ActiveLinks(const int numLinks) = 0;
     virtual void BPM(const double bpm) = 0;
@@ -423,6 +433,10 @@ public:
 
     // Set Max FFT buckets to generate
     virtual void AudioProcessor_SetMaxFFTBuckets(uint32_t buckets);
+
+    // Engine sample rate — used to map FFT bins to frequencies for the
+    // log-spaced spectrum buckets
+    virtual void AudioProcessor_SetSampleRate(int sampleRate);
 
     // Force the audio processor to reconnect to the scope shared memory.
     // Call after a cold-swap device change so the scope picks up the

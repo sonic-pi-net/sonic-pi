@@ -41,7 +41,6 @@ namespace
 const int LissajousSamples = 1024;
 const int PenWidth = 1;
 const float FFTDecibelRange = 70.0f;
-const float ScopeWindowRefreshRate = 50.0f;
 } // namespace
 
 ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<SonicPiAPI> spAPI, QWidget* parent)
@@ -54,13 +53,15 @@ ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<
     setLayout(layout);
 
     // Force the audio to contain at least one sample; since the panels currently expect it!
+    auto seed = std::make_shared<ProcessedAudio>();
     for (int i = 0; i < 2; i++)
     {
-        m_audio.m_monoSamples.push_back(0);
-        m_audio.m_samples[i].push_back(0);
-        m_audio.m_spectrum[i].push_back(0);
-        m_audio.m_spectrumQuantized[i].push_back(0);
+        seed->m_monoSamples.push_back(0);
+        seed->m_samples[i].push_back(0);
+        seed->m_spectrumQuantized[i].push_back(0);
+        seed->m_spectrumPeaks[i].push_back(0);
     }
+    m_audio = seed;
 
     m_panels.push_back({ "Lissajous", tr("Lissajous"), ScopeWindowType::Lissajous });
     m_panels.push_back({ "Stereo", tr("Left"), ScopeWindowType::Left });
@@ -80,7 +81,7 @@ ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<
         scope.pen2.setWidth(PenWidth);
     }
 
-    qRegisterMetaType<ProcessedAudio>("ProcessedAudio");
+    qRegisterMetaType<ProcessedAudioPtr>("SonicPi::ProcessedAudioPtr");
     connect(m_spClient.get(), &QtAPIClient::ConsumeAudioData, this, &ScopeWindow::OnConsumeAudioData);
 
     Layout();
@@ -108,13 +109,14 @@ void ScopeWindow::DrawSpectrumAnalysis(const ProcessedAudio& audio, QPainter& pa
     if (audio.m_spectrumQuantized[0].empty() || audio.m_spectrumQuantized[1].empty())
         return;
 
+    uint32_t buckets = uint32_t(audio.m_spectrumQuantized[0].size());
     int centerY = panel.rcGraph.center().y();
     float sampleScale = panel.rcGraph.height() / 2.0f;
 
-    panel.waveRects.resize(audio.m_spectrumQuantized[0].size() * 2);
+    panel.waveRects.resize(buckets * 2);
 
     // Make a pixel margin between the buckets for a cleaner view
-    float stepPerRect = std::ceil(panel.rcGraph.width() / float(audio.m_spectrumQuantized[0].size()));
+    float stepPerRect = std::ceil(panel.rcGraph.width() / float(buckets));
     int margin = ScaleWidthForDPI(1);
 
     // ... but discard it if we have to
@@ -127,7 +129,7 @@ void ScopeWindow::DrawSpectrumAnalysis(const ProcessedAudio& audio, QPainter& pa
 
     // Stereo
     int rightIndex = int(panel.waveRects.size() / 2);
-    for (uint32_t index = 0; index < audio.m_spectrumQuantized[0].size(); index++)
+    for (uint32_t index = 0; index < buckets; index++)
     {
         int x1 = index * stepPerRect;
 
@@ -140,67 +142,127 @@ void ScopeWindow::DrawSpectrumAnalysis(const ProcessedAudio& audio, QPainter& pa
         panel.waveRects[index + rightIndex] = QRect(x1 + margin, centerY + 1, stepPerRect - margin * 2, size2);
     }
 
-    // Batch by brush
-    for (uint32_t index = 0; index < uint32_t(panel.waveRects.size() / 2); index++)
+    // Live bars at full accent; peak-hold markers ghosted behind them
+    for (uint32_t index = 0; index < buckets; index++)
     {
         painter.fillRect(panel.waveRects[index], panel.brush);
     }
 
-    for (uint32_t index = 0; index < uint32_t(panel.waveRects.size() / 2); index++)
+    for (uint32_t index = 0; index < buckets; index++)
     {
         painter.fillRect(panel.waveRects[rightIndex + index], panel.brush2);
+    }
+
+    // Peak-hold markers: a thin dim line at each bucket's recent maximum
+    if (audio.m_spectrumPeaks[0].size() == buckets
+        && audio.m_spectrumPeaks[1].size() == buckets)
+    {
+        QColor cTopDim = panel.brush.color();
+        cTopDim.setAlphaF(0.4f);
+        QColor cBotDim = panel.brush2.color();
+        cBotDim.setAlphaF(0.4f);
+        int peakH = std::max(1, ScaleHeightForDPI(2));
+        for (uint32_t index = 0; index < buckets; index++)
+        {
+            int x1 = index * stepPerRect;
+            int w = int(stepPerRect) - margin * 2;
+            int peakTop = int(audio.m_spectrumPeaks[0][index] * sampleScale);
+            int peakBot = int(audio.m_spectrumPeaks[1][index] * sampleScale);
+            if (peakTop > 1)
+            {
+                painter.fillRect(QRect(x1 + margin, centerY - 1 - peakTop, w, peakH), cTopDim);
+            }
+            if (peakBot > 1)
+            {
+                painter.fillRect(QRect(x1 + margin, centerY + 1 + peakBot - peakH, w, peakH), cBotDim);
+            }
+        }
+    }
+
+    // Frequency ticks on the centre line (only with labels enabled).
+    // Bucket k spans equal log-frequency width, so freq -> x is the same
+    // log mapping the buckets use.
+    if (panel.titleVisible && audio.m_spectrumFreqMax > audio.m_spectrumFreqMin)
+    {
+        const struct { float freq; const char* text; } ticks[] = {
+            { 100.0f, "100" }, { 1000.0f, "1k" }, { 10000.0f, "10k" }
+        };
+        float logSpan = std::log(audio.m_spectrumFreqMax / audio.m_spectrumFreqMin);
+        QColor tickColor = QWidget::palette().color(QWidget::foregroundRole());
+        tickColor.setAlphaF(0.6f);
+        painter.save();
+        painter.setPen(tickColor);
+        QFont tickFont = painter.font();
+        tickFont.setPointSizeF(tickFont.pointSizeF() * 0.75);
+        painter.setFont(tickFont);
+        int w = ScaleWidthForDPI(40);
+        int h = ScaleHeightForDPI(14);
+        for (const auto& tick : ticks)
+        {
+            float frac = std::log(tick.freq / audio.m_spectrumFreqMin) / logSpan;
+            if (frac <= 0.0f || frac >= 1.0f)
+                continue;
+            int x = panel.rcGraph.left() + int(frac * panel.rcGraph.width());
+            painter.drawText(QRect(x - w / 2, centerY - h / 2, w, h),
+                             Qt::AlignCenter, tick.text);
+        }
+        painter.restore();
     }
 }
 
 // Draw a Simple Stereo representation with a mirror of right/left stereo
 void ScopeWindow::DrawMirrorStereo(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel)
 {
-    // Just sample the data at intervals; we should probably filter it too
-    double step = m_audioFrameSamples / double(panel.rcGraph.width());
+    int width = panel.rcGraph.width();
+    if (width <= 0 || m_audioFrameSamples == 0)
+    {
+        return;
+    }
 
-    // Make a list of points; it's better to gather them and submit in a batch
-    // Here we are just drawing in pixel space
-    // Note: resize will be a no-op when it doesn't change ;)
+    // Peak envelope per pixel column: every sample in the column's bin is
+    // inspected, so transients can't alias away as they did when we
+    // point-sampled one-in-N.
+    double step = m_audioFrameSamples / double(width);
 
-    // We have a 4 points for 2 lines on every row of the display
-    panel.wavePoints.resize(panel.rcGraph.width() * 4, QPoint(0, 0));
+    // One vertical line per column per channel
+    panel.waveLines.resize(width * 2);
 
     float yScale = float(panel.rcGraph.height() / 2.0f);
     int y = panel.rcGraph.center().y();
-
-    int rightIndex = int(panel.wavePoints.size()) / 2;
     int left = panel.rcGraph.left();
-    for (int x = 0; x < panel.rcGraph.width(); x++)
-    {
-        auto sampleLeft = int(std::abs(audio.m_samples[0][int(double(x) * step)]) * yScale + y + 1);
-        auto sampleRight = int(std::abs(audio.m_samples[1][int(double(x) * step)]) * -yScale + y - 1);
 
-        int index = x * 2;
+    for (int x = 0; x < width; x++)
+    {
+        uint32_t start = uint32_t(double(x) * step);
+        uint32_t end = std::max(start + 1, uint32_t(double(x + 1) * step));
+        end = std::min(end, m_audioFrameSamples);
+
+        float peakLeft = 0.0f;
+        float peakRight = 0.0f;
+        for (uint32_t i = start; i < end; i++)
+        {
+            peakLeft = std::max(peakLeft, std::abs(audio.m_samples[0][i]));
+            peakRight = std::max(peakRight, std::abs(audio.m_samples[1][i]));
+        }
+
         int xCoord = left + x;
-        panel.wavePoints[index] = QPoint(xCoord, sampleLeft);
-        panel.wavePoints[index + 1] = QPoint(xCoord, y);
-        panel.wavePoints[rightIndex + index] = QPoint(xCoord, y);
-        panel.wavePoints[rightIndex + index + 1] = QPoint(xCoord, sampleRight);
+        panel.waveLines[x] = QLine(xCoord, y, xCoord, int(peakLeft * yScale + y + 1));
+        panel.waveLines[width + x] = QLine(xCoord, y, xCoord, int(-peakRight * yScale + y - 1));
     }
     painter.setPen(panel.pen2);
-    painter.drawLines(&panel.wavePoints[0], rightIndex / 2);
+    painter.drawLines(&panel.waveLines[0], width);
     painter.setPen(panel.pen);
-    painter.drawLines(&panel.wavePoints[rightIndex], rightIndex / 2);
+    painter.drawLines(&panel.waveLines[width], width);
 }
 
 // Draw a Simple Wave
 void ScopeWindow::DrawWave(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel)
 {
-    // Just sample the data at intervals; we should probably filter it too
-    double step = m_audioFrameSamples / double(panel.rcGraph.width());
-
-    // Make a list of points; it's better to gather them and submit in a batch
-    // Here we are just drawing in pixel space
-    // Note: resize will be a no-op when it doesn't change ;)
-    panel.wavePoints.resize(panel.rcGraph.width());
-
-    float yScale = float(panel.rcGraph.height() / 2.0f);
-    int y = panel.rcGraph.center().y();
+    int width = panel.rcGraph.width();
+    if (width <= 0 || m_audioFrameSamples == 0)
+    {
+        return;
+    }
 
     const float* pSamples = nullptr;
     switch (panel.type)
@@ -223,35 +285,58 @@ void ScopeWindow::DrawWave(const ProcessedAudio& audio, QPainter& painter, Scope
         return;
     }
 
-    for (int x = 0; x < panel.rcGraph.width(); x++)
+    // Min/max envelope per pixel column (the classic scope/wave-editor
+    // rendering): stable image, no aliasing of fast transients.
+    double step = m_audioFrameSamples / double(width);
+    panel.waveLines.resize(width);
+
+    float yScale = float(panel.rcGraph.height() / 2.0f);
+    int y = panel.rcGraph.center().y();
+    int left = panel.rcGraph.left();
+
+    for (int x = 0; x < width; x++)
     {
-        auto sample = pSamples[int(double(x) * step)];
-        panel.wavePoints[x] = QPoint(x + panel.rcGraph.left(), sample * yScale + y);
+        uint32_t start = uint32_t(double(x) * step);
+        uint32_t end = std::max(start + 1, uint32_t(double(x + 1) * step));
+        end = std::min(end, m_audioFrameSamples);
+
+        float lo = pSamples[start];
+        float hi = lo;
+        for (uint32_t i = start + 1; i < end; i++)
+        {
+            lo = std::min(lo, pSamples[i]);
+            hi = std::max(hi, pSamples[i]);
+        }
+        panel.waveLines[x] = QLine(left + x, int(lo * yScale + y),
+                                   left + x, int(hi * yScale + y) + 1);
     }
     painter.setPen(panel.pen);
-    painter.drawPolyline(&panel.wavePoints[0], int(panel.wavePoints.size()));
+    painter.drawLines(&panel.waveLines[0], width);
 }
 
 void ScopeWindow::DrawLissajous(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel)
 {
     float yScale = float(panel.rcGraph.height() / 2.0f);
-    int y = panel.rcGraph.center().y();
-
     float xScale = float(panel.rcGraph.width() / 2.0f);
-    float scale = std::min(xScale, yScale);
 
     QPoint center = panel.rcGraph.center();
 
+    // Use the newest tail of the rolling window, not the oldest — the
+    // figure tracks the live sound instead of lagging ~64ms behind.
     auto samples = std::min(LissajousSamples, int(m_audioFrameSamples));
+    int offset = int(m_audioFrameSamples) - samples;
     panel.wavePoints.resize(samples);
     for (int sample = 0; sample < samples; sample++)
     {
-        auto left = audio.m_samples[0][sample];
-        auto right = audio.m_samples[1][sample];
+        auto left = audio.m_samples[0][offset + sample];
+        auto right = audio.m_samples[1][offset + sample];
         panel.wavePoints[sample] = center + QPoint(left * xScale, right * yScale);
     }
+    // The only diagonal-line panel; AA is cheap here and removes the jaggies.
+    painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(panel.pen);
     painter.drawPolyline(&panel.wavePoints[0], int(panel.wavePoints.size()));
+    painter.setRenderHint(QPainter::Antialiasing, false);
 }
 
 void ScopeWindow::paintEvent(QPaintEvent* pEv)
@@ -264,8 +349,8 @@ void ScopeWindow::paintEvent(QPaintEvent* pEv)
 
     painter.fillRect(rect(), backColor);
 
-    std::scoped_lock lock(m_dataMutex);
-    auto& processedAudio = m_audio;
+    // m_audio is an immutable snapshot; slot + paint share the GUI thread.
+    const ProcessedAudio& processedAudio = *m_audio;
 
     // If we have new data, we have used it here
     if (m_audioAvailable)
@@ -286,7 +371,7 @@ void ScopeWindow::paintEvent(QPaintEvent* pEv)
         if (panel.titleVisible)
         {
             painter.setPen(textColor);
-            painter.drawText(panel.rcTitle, Qt::AlignCenter, tr(panel.name.toUtf8().data()));
+            painter.drawText(panel.rcTitle, Qt::AlignCenter, panel.name);
         }
 
         if (panel.type == ScopeWindowType::Lissajous)
@@ -303,7 +388,7 @@ void ScopeWindow::paintEvent(QPaintEvent* pEv)
         }
         else if (panel.type == ScopeWindowType::SpectrumAnalysis)
         {
-            if (!m_audio.m_spectrum[0].empty())
+            if (!processedAudio.m_spectrumQuantized[0].empty())
             {
                 DrawSpectrumAnalysis(processedAudio, painter, panel);
             }
@@ -347,7 +432,7 @@ void ScopeWindow::Layout()
 
     m_spAPI->AudioProcessor_SetMaxFFTBuckets(panelSize.width() / 4);
 
-    repaint();
+    update();
 }
 
 std::vector<QString> ScopeWindow::GetScopeCategories() const
@@ -404,25 +489,84 @@ void ScopeWindow::Booted()
 
 void ScopeWindow::TogglePause()
 {
+    m_pendingPause = false;
     m_paused = !m_paused;
     m_spAPI->AudioProcessor_Enable(!m_paused);
 }
 
 void ScopeWindow::Pause()
 {
+    m_pendingPause = false;
     m_paused = true;
     m_spAPI->AudioProcessor_Enable(!m_paused);
 }
 
+void ScopeWindow::PauseWhenSilent()
+{
+    if (!m_paused)
+    {
+        m_pendingPause = true;
+    }
+}
+
 void ScopeWindow::Resume()
 {
+    m_pendingPause = false;
     m_paused = false;
     m_spAPI->AudioProcessor_Enable(!m_paused);
 }
 
+// True when the sample window is (audibly) silent and, if a spectrum
+// panel is showing, its bars and peak markers have fully decayed.
+bool ScopeWindow::SnapshotSilent(const ProcessedAudio& audio) const
+{
+    const float sampleEps = 1e-4f; // ~-80dB
+    for (int ch = 0; ch < 2; ch++)
+    {
+        for (float s : audio.m_samples[ch])
+        {
+            if (std::abs(s) > sampleEps)
+            {
+                return false;
+            }
+        }
+    }
+
+    bool fftVisible = false;
+    for (const auto& panel : m_panels)
+    {
+        if (panel.visible && panel.requireFFT)
+        {
+            fftVisible = true;
+        }
+    }
+    if (fftVisible)
+    {
+        const float displayEps = 0.005f;
+        for (int ch = 0; ch < 2; ch++)
+        {
+            for (float v : audio.m_spectrumQuantized[ch])
+            {
+                if (v > displayEps)
+                {
+                    return false;
+                }
+            }
+            for (float v : audio.m_spectrumPeaks[ch])
+            {
+                if (v > displayEps)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 void ScopeWindow::Refresh()
 {
-    repaint();
+    update();
 }
 
 void ScopeWindow::SetColor(QColor c)
@@ -443,13 +587,11 @@ void ScopeWindow::SetColor2(QColor c)
     }
 }
 
-void ScopeWindow::OnConsumeAudioData(const ProcessedAudio& audio)
+void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
 {
     if (!m_paused && isVisible())
     {
-        std::scoped_lock lk(m_dataMutex);
-
-        if (!audio.m_samples[0].empty())
+        if (audio && !audio->m_samples[0].empty())
         {
             m_audio = audio;
         }
@@ -457,6 +599,12 @@ void ScopeWindow::OnConsumeAudioData(const ProcessedAudio& audio)
         m_audioAvailable = true;
 
         update();
+
+        // Deferred pause once everything has visually run down
+        if (m_pendingPause && audio && SnapshotSilent(*audio))
+        {
+            Pause();
+        }
     }
 }
 

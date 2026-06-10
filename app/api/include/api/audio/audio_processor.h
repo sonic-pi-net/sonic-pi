@@ -21,7 +21,7 @@
 #include <vector>
 #include "server_shm.hpp"
 
-#include "kiss_fft.h"
+#include "kiss_fftr.h"
 
 #include "api/sonicpi_api.h"
 
@@ -43,6 +43,7 @@ public:
     void Enable(bool start);
     void SetConsumed(bool consumed);
     void SetMaxBuckets(int maxBuckets);
+    void SetSampleRate(int sampleRate);
     void Quit();
     // Force re-attach to the scope shared memory — public so callers can
     // invoke after a cold-swap device change to refresh the stale reader.
@@ -73,8 +74,7 @@ public:
     native_stats GetNativeStats();  // synthdef count, allocated buffers + bytes
 
 private:
-    void GenLogSpace(uint32_t limit, uint32_t n);
-    void GenLinSpace(uint32_t limit, uint32_t n);
+    void GenFreqPartitions(uint32_t buckets, int sampleRate);
     void SetupFFT();
     void CalculateFFT(ProcessedAudio& audio);
 
@@ -92,15 +92,25 @@ private:
     std::atomic<int> m_maxBuckets = { 0 };
     std::atomic<bool> m_quit = { false };
     std::atomic<bool> m_consumed = { false };
+    std::atomic<int> m_sampleRate = { 48000 };
 
-    // FFT
-    kiss_fft_cfg m_cfg;
-    std::vector<std::complex<float>> m_fftIn[2];
+    // FFT (real-input: N real samples in, N/2+1 complex bins out)
+    kiss_fftr_cfg m_cfg;
+    std::vector<kiss_fft_scalar> m_fftIn[2];
     std::vector<std::complex<float>> m_fftOut[2];
-    std::vector<float> m_fftMag[2];
+    // Per-bin power (|X|^2 amplitude-corrected), bucket-averaged in the
+    // power domain before conversion to dB
+    std::vector<float> m_fftPower[2];
     std::vector<float> m_window;
-    std::vector<float> m_spectrumPartitions;
+    // Bucket edges in bin space (buckets+1 entries), log-spaced in frequency
+    std::vector<uint32_t> m_spectrumPartitions;
     std::pair<uint32_t, uint32_t> m_lastSpectrumPartitions = { 0, 0 };
+
+    // Display ballistics: instant attack / timed release per bucket, plus
+    // slowly-falling peak-hold markers
+    std::vector<float> m_bucketSmoothed[2];
+    std::vector<float> m_bucketPeak[2];
+    std::vector<int> m_bucketPeakAge[2];
 
     // Output data, double buffered
     ProcessedAudio m_processedAudio;

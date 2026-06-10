@@ -15,11 +15,11 @@
 #include <QWidget>
 #include <QOpenGLWidget>
 #include <QPen>
+#include <QLine>
 #include <QThread>
 
 #include <memory>
 #include <string>
-#include <mutex>
 
 #include <qt_api_client.h>
 
@@ -65,6 +65,7 @@ struct ScopeWindowPanel
     bool requireFFT = false;
 
     std::vector<QPoint> wavePoints;
+    std::vector<QLine> waveLines;
     std::vector<QRect> waveRects;
     QLinearGradient redBlueGradient;
 };
@@ -82,6 +83,10 @@ public:
     bool SetScopeLabels(bool on);
     void TogglePause();
     void Pause();
+    // Deferred pause: keep consuming until the audio is silent and the
+    // spectrum ballistics have decayed, then Pause(). Lets tails ring
+    // out visually instead of freezing the scope mid-image.
+    void PauseWhenSilent();
     void Resume();
     void SetColor(QColor c);
     void SetColor2(QColor c);
@@ -95,7 +100,7 @@ public:
     void ShutDown();
 
 private slots:
-    void OnConsumeAudioData(const ProcessedAudio& audio);
+    void OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio);
 
 public slots :
     void Refresh();
@@ -106,6 +111,7 @@ protected:
 
 private:
     void Layout();
+    bool SnapshotSilent(const ProcessedAudio& audio) const;
 
 
 private:
@@ -113,8 +119,11 @@ private:
     std::shared_ptr<QtAPIClient> m_spClient;
     std::vector<ScopeWindowPanel> m_panels;
     bool m_paused = false;
-    ProcessedAudio m_audio;
-    std::mutex m_dataMutex;
+    bool m_pendingPause = false;
+    // Latest snapshot from the audio processor; never null after the
+    // constructor seeds it. Slot and paintEvent both run on the GUI
+    // thread, so no lock is needed.
+    ProcessedAudioPtr m_audio;
     uint32_t m_audioFrameSamples = 0;
     std::atomic<bool> m_audioAvailable = false;
 };

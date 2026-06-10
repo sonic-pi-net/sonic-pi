@@ -24,7 +24,7 @@ class APIClient : public IAPIClient
     {
         std::cout << "[TestClient] : " << info.time << " " << info.id << " " << info.address << " " << info.args << std::endl;
     }
-    virtual void AudioDataAvailable(const ProcessedAudio& audio) override
+    virtual void AudioDataAvailable(ProcessedAudioPtr audio) override
     {
         //std::cout << "[TestClient] : Audio Data" ;
     }
