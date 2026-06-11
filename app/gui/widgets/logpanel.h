@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QObject>
 #include <QString>
+#include <QSyntaxHighlighter>
 #include <QTabWidget>
 #include <QVector>
 
@@ -13,6 +14,24 @@ class QPlainTextEdit;
 class QShowEvent;
 class QHideEvent;
 class QTimer;
+
+// Mutes the leading "[HH:MM:SS.mmm]" stamp on each log line so the
+// message itself stands out.
+class LogTimestampHighlighter : public QSyntaxHighlighter
+{
+    Q_OBJECT
+public:
+    explicit LogTimestampHighlighter(QTextDocument* doc)
+        : QSyntaxHighlighter(doc) {}
+
+    void setColor(const QColor& c);
+
+protected:
+    void highlightBlock(const QString& text) override;
+
+private:
+    QColor m_color{ Qt::gray };
+};
 
 class LogTailer : public QObject
 {
@@ -67,6 +86,7 @@ private:
     QVector<QLabel*> m_labels;
     QVector<QPlainTextEdit*> m_edits;
     QVector<LogTailer*> m_tailers;
+    QVector<LogTimestampHighlighter*> m_highlighters;
 };
 
 #endif

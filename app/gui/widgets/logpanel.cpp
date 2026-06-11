@@ -8,9 +8,11 @@
 #include <QKeySequence>
 #include <QLabel>
 #include <QPlainTextEdit>
+#include <QRegularExpression>
 #include <QScrollBar>
 #include <QShortcut>
 #include <QSplitter>
+#include <QTextCharFormat>
 #include <QTabBar>
 #include <QTextStream>
 #include <QTimer>
@@ -18,6 +20,24 @@
 
 static const int kMaxBlocks = 5000;
 static const qint64 kInitialTailBytes = 256 * 1024;
+
+void LogTimestampHighlighter::setColor(const QColor& c)
+{
+    m_color = c;
+    rehighlight();
+}
+
+void LogTimestampHighlighter::highlightBlock(const QString& text)
+{
+    static const QRegularExpression re(
+        QStringLiteral("^\\[\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\]"));
+    const auto m = re.match(text);
+    if (m.hasMatch()) {
+        QTextCharFormat f;
+        f.setForeground(m_color);
+        setFormat(0, static_cast<int>(m.capturedLength()), f);
+    }
+}
 
 LogTailer::LogTailer(const QString& path, QPlainTextEdit* edit, QObject* parent)
     : QObject(parent)
@@ -195,6 +215,7 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
         m_labels.append(label);
         m_edits.append(edit);
         m_tailers.append(new LogTailer(src.path, edit, this));
+        m_highlighters.append(new LogTimestampHighlighter(edit->document()));
     }
 
     addTab(m_logsTab, tr("Logs"));
@@ -241,6 +262,13 @@ void LogPanel::applyTheme(const QColor& textColor, const QColor& bgColor)
             "QWidget { background-color: %1; }"
             "QSplitter::handle { background-color: %1; }").arg(bgColor.name()));
     }
+
+    // Timestamps sit halfway between text and background — readable but
+    // clearly secondary to the message.
+    const QColor muted((textColor.red() + bgColor.red()) / 2,
+                       (textColor.green() + bgColor.green()) / 2,
+                       (textColor.blue() + bgColor.blue()) / 2);
+    for (LogTimestampHighlighter* h : m_highlighters) h->setColor(muted);
 }
 
 void LogPanel::onCurrentChanged(int idx)
