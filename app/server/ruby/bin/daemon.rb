@@ -372,8 +372,11 @@ module SonicPi
         @@log_file.close if @@log_file
       end
 
+      # Unified log line format across gui/spider/daemon/supersonic logs:
+      # [HH:MM:SS.mmm] [tag] message. Logs are per-session (archived on each
+      # boot) so the date is omitted; millis matter when debugging timing.
       def self.timestamp_for_log
-        "[#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}]"
+        "[#{Time.now.strftime("%H:%M:%S.%3N")}]"
       end
 
       def self.log(msg)
@@ -574,7 +577,9 @@ module SonicPi
             @stdout_and_err.each do |line|
               begin
                 line = line.force_encoding("UTF-8")
-                @log_file << line
+                # Stamp here rather than in each child process so every
+                # per-process log file shares the unified line format.
+                @log_file << "#{Util.timestamp_for_log} #{line}"
                 @log_file.flush
                 @log << line if @record_log
                 Util.log "[#{File.basename(@cmd, ".*")}] #{line}"

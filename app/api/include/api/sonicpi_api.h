@@ -521,6 +521,8 @@ private:
     bool m_homeDirWriteable = false;
     std::streambuf* m_coutbuf = nullptr;
     std::ofstream m_stdlog;
+    // Line-stamping wrapper around m_stdlog's buffer (see TimestampLineBuf)
+    std::unique_ptr<std::streambuf> m_stampbuf;
 
     std::shared_ptr<reproc::process> m_bootDaemonProcess;
 

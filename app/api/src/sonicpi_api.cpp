@@ -1,8 +1,12 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <chrono>
+#include <cstdio>
+#include <ctime>
 #include <iomanip>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <future>
 #include <mutex>
@@ -62,6 +66,58 @@ std::map<T, T> vector_convert_to_pairs(const std::vector<T>& vals)
     };
     return pairs;
 }
+
+// Prefixes every line with "[HH:MM:SS.mmm] " so gui.log shares the unified
+// format of the daemon/spider/supersonic logs (which are stamped by the
+// daemon's ProcessBooter). Wraps the gui.log filebuf in the cout redirect.
+class TimestampLineBuf : public std::streambuf
+{
+public:
+    explicit TimestampLineBuf(std::streambuf* dest)
+        : m_dest(dest)
+    {
+    }
+
+protected:
+    int overflow(int ch) override
+    {
+        if (ch == traits_type::eof())
+            return m_dest->pubsync();
+        if (m_atLineStart && ch != '\n')
+            writeStamp();
+        m_atLineStart = (ch == '\n');
+        return m_dest->sputc(static_cast<char>(ch));
+    }
+
+    int sync() override
+    {
+        return m_dest->pubsync();
+    }
+
+private:
+    void writeStamp()
+    {
+        using namespace std::chrono;
+        const auto now = system_clock::now();
+        const auto ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
+        const std::time_t t = system_clock::to_time_t(now);
+        std::tm tmBuf;
+#ifdef WIN32
+        localtime_s(&tmBuf, &t);
+#else
+        localtime_r(&t, &tmBuf);
+#endif
+        char buf[24];
+        const int len = snprintf(buf, sizeof(buf), "[%02d:%02d:%02d.%03d] ",
+                                 tmBuf.tm_hour, tmBuf.tm_min, tmBuf.tm_sec,
+                                 static_cast<int>(ms.count()));
+        if (len > 0)
+            m_dest->sputn(buf, len);
+    }
+
+    std::streambuf* m_dest;
+    bool m_atLineStart = true;
+};
 
 } // namespace
 
@@ -452,6 +508,7 @@ void SonicPiAPI::Shutdown()
     {
         std::cout.rdbuf(m_coutbuf); // reset to stdout before exiting
         m_coutbuf = nullptr;
+        m_stampbuf.reset();
     }
 }
 
@@ -736,7 +793,8 @@ APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
     {
         m_coutbuf = std::cout.rdbuf();
         m_stdlog.open(m_paths[SonicPiPath::GUILogPath].string().c_str());
-        std::cout.rdbuf(m_stdlog.rdbuf());
+        m_stampbuf = std::make_unique<TimestampLineBuf>(m_stdlog.rdbuf());
+        std::cout.rdbuf(m_stampbuf.get());
     }
 
     StartClearLogsScript();
