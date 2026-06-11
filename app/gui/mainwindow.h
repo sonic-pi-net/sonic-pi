@@ -177,6 +177,18 @@ private:
     SonicPi::AudioDeviceConfigInfo m_lastAudioDeviceConfig;
     void maybeRestoreAudioIntent();
 
+    // Audio device/rate/buffer intent awaiting engine confirmation.
+    // Prefs are persisted in onAudioSwitchDone once the engine reports
+    // the switch actually succeeded — never at request time.
+    struct PendingAudioPrefs
+    {
+        QString output;
+        QString input;
+        int sampleRate = 0;
+        int bufferSize = 0;
+    };
+    PendingAudioPrefs m_pendingAudioPrefs;
+
 protected:
     void closeEvent(QCloseEvent* event) override;
     void wheelEvent(QWheelEvent* event) override;

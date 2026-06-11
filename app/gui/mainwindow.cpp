@@ -5667,6 +5667,7 @@ void MainWindow::maybeRestoreAudioIntent()
                          && piSettings->audio_output_device != currentOutput;
     const bool needInput  = !piSettings->audio_input_device.isEmpty()
                          && piSettings->audio_input_device != "__disabled__"
+                         && piSettings->audio_input_device != "__none__"
                          && piSettings->audio_input_device != currentInput;
     const bool needRate   = piSettings->audio_sample_rate > 0
                          && piSettings->audio_sample_rate != m_lastAudioDeviceConfig.sampleRate;
@@ -5726,19 +5727,16 @@ void MainWindow::switchAudioDriver(QString driver)
 
 void MainWindow::switchAudioDevice(QString device)
 {
-    piSettings->audio_output_device = device;
-    gui_settings->setValue("prefs/audio-output-device", device);
+    m_pendingAudioPrefs.output = device;
     sendDeviceSwitch(device, 0, 0);
 }
 
 void MainWindow::switchAudioInputDevice(QString device)
 {
-    piSettings->audio_input_device = device;
-    gui_settings->setValue("prefs/audio-input-device", device);
-
     // "-- DISABLED --" carries __disabled__ as item data (from the greyed-
     // out dropdown when the Enable Inputs checkbox is off).
     if (device == "__disabled__" || device == tr("-- DISABLED --")) {
+        m_pendingAudioPrefs.input = "__disabled__";
         // Disable audio inputs
         Message msg("/daemon/audio/switch-device");
         msg.pushInt32(m_spAPI->GetToken());
@@ -5754,6 +5752,7 @@ void MainWindow::switchAudioInputDevice(QString device)
     // without input but the dropdown stays active so the user can pick
     // a device later. Same command as disable, different GUI state.
     if (device == tr("-- None --")) {
+        m_pendingAudioPrefs.input = "__none__";
         Message msg("/daemon/audio/switch-device");
         msg.pushInt32(m_spAPI->GetToken());
         msg.pushStr("");           // keep current output device
@@ -5764,6 +5763,7 @@ void MainWindow::switchAudioInputDevice(QString device)
         return;
     }
 
+    m_pendingAudioPrefs.input = device;
     Message msg("/daemon/audio/switch-device");
     msg.pushInt32(m_spAPI->GetToken());
     msg.pushStr("");           // keep current output device
@@ -5775,15 +5775,13 @@ void MainWindow::switchAudioInputDevice(QString device)
 
 void MainWindow::changeSampleRate(int rate)
 {
-    piSettings->audio_sample_rate = rate;
-    gui_settings->setValue("prefs/audio-sample-rate", rate);
+    m_pendingAudioPrefs.sampleRate = rate;
     sendDeviceSwitch("", rate, 0);
 }
 
 void MainWindow::changeBufferSize(int size)
 {
-    piSettings->audio_buffer_size = size;
-    gui_settings->setValue("prefs/audio-buffer-size", size);
+    m_pendingAudioPrefs.bufferSize = size;
     sendDeviceSwitch("", 0, size);
 }
 
@@ -5807,12 +5805,51 @@ void MainWindow::onSpiderReady()
 
 void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
 {
+    // Prefs are committed here — once the engine reports the switch
+    // actually happened — not at request time. Persisting intent meant a
+    // failed switch (e.g. a device that no longer exists) was saved
+    // anyway, replayed by maybeRestoreAudioIntent on the next boot, and
+    // failed identically forever.
+    const PendingAudioPrefs pending = m_pendingAudioPrefs;
+    m_pendingAudioPrefs = PendingAudioPrefs();
+
+    if (outcome.success) {
+        if (!pending.output.isEmpty()) {
+            piSettings->audio_output_device = pending.output;
+            gui_settings->setValue("prefs/audio-output-device", pending.output);
+        }
+        if (!pending.input.isEmpty() && !outcome.inputUnavailable) {
+            piSettings->audio_input_device = pending.input;
+            gui_settings->setValue("prefs/audio-input-device", pending.input);
+        }
+        if (pending.sampleRate > 0) {
+            piSettings->audio_sample_rate = pending.sampleRate;
+            gui_settings->setValue("prefs/audio-sample-rate", pending.sampleRate);
+        }
+        if (pending.bufferSize > 0) {
+            piSettings->audio_buffer_size = pending.bufferSize;
+            gui_settings->setValue("prefs/audio-buffer-size", pending.bufferSize);
+        }
+    }
+
     // Two failure shapes from the engine. Surface both as a modal
     // carrying the verbatim engine/JUCE error — no diagnosis, no
     // enrichment. Revert the affected dropdown.
     if (outcome.success && !outcome.inputUnavailable) return;  // nothing to surface
 
     if (!outcome.success) {
+        // Drop the saved pref for whatever was requested. This also
+        // self-heals stale prefs replayed by maybeRestoreAudioIntent
+        // (requested* echoes the request even when nothing is pending).
+        if (!outcome.requestedOutput.empty()) {
+            piSettings->audio_output_device = "";
+            gui_settings->setValue("prefs/audio-output-device", "");
+        }
+        if (!outcome.requestedInput.empty()) {
+            piSettings->audio_input_device = "";
+            gui_settings->setValue("prefs/audio-input-device", "");
+        }
+
         QString device = QString::fromStdString(
             outcome.requestedOutput.empty()
                 ? outcome.requestedInput
@@ -5828,6 +5865,10 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
     }
 
     // success == true && inputUnavailable: output opened, input fell back.
+    // Don't keep a pref that asks for the unavailable input on every boot.
+    piSettings->audio_input_device = "";
+    gui_settings->setValue("prefs/audio-input-device", "");
+
     QString inputName = QString::fromStdString(outcome.requestedInput);
     QString reason    = QString::fromStdString(outcome.inputUnavailableReason);
     QMessageBox::warning(
