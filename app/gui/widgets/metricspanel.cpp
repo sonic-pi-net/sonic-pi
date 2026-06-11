@@ -569,6 +569,14 @@ void MetricsPanel::buildLogs(QSplitter* col)
         return view;
     };
     m_debugView  = addLogCard(tr("Debug"));
+
+    // Seed with the engine's own boot banner so the pane doesn't start
+    // empty (matches what SuperSonic prints to its log on boot).
+    m_debugView->setPlainText(
+        QStringLiteral("░█▀▀░█░█░█▀█░█▀▀░█▀▄░█▀▀░█▀█░█▀█░▀█▀░█▀▀\n")
+      + QStringLiteral("░▀▀█░█░█░█▀▀░█▀▀░█▀▄░▀▀█░█░█░█░█░░█░░█░░\n")
+      + QStringLiteral("░▀▀▀░▀▀▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀"));
+
     m_oscOutView = addLogCard(tr("To SuperSonic"));    // host → engine (what Sonic Pi sent)
     m_oscInView  = addLogCard(tr("From SuperSonic"));  // engine → host (replies)
 }
