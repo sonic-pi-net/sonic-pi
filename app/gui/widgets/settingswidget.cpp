@@ -300,9 +300,15 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
         "SuperSonic writes a .wav of the master mix"));
 
     recording_type_av_radio = new QPushButton(tr("Audio + Video"));
+#if defined(Q_OS_MAC)
     recording_type_av_radio->setToolTip(tr(
         "Captures the Sonic Pi window plus master mix into a .mov\n"
-        "(macOS) or .mp4 (Windows) using GPU-accelerated screen capture"));
+        "using GPU-accelerated screen capture"));
+#else
+    recording_type_av_radio->setToolTip(tr(
+        "Captures the Sonic Pi window plus master mix into an .mp4\n"
+        "using GPU-accelerated screen capture"));
+#endif
 
     QWidget* recSegControl = new QWidget();
     recSegControl->setObjectName("recSegControl");
