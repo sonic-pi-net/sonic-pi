@@ -6,12 +6,15 @@
 #include <QFileSystemWatcher>
 #include <QFont>
 #include <QKeySequence>
+#include <QLabel>
 #include <QPlainTextEdit>
 #include <QScrollBar>
 #include <QShortcut>
+#include <QSplitter>
 #include <QTabBar>
 #include <QTextStream>
 #include <QTimer>
+#include <QVBoxLayout>
 
 static const int kMaxBlocks = 5000;
 static const qint64 kInitialTailBytes = 256 * 1024;
@@ -147,7 +150,7 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
     tabBar()->setExpanding(false);
     setStyleSheet("QTabWidget::tab-bar { alignment: center; }");
 
-    QFont mono("Hack", 9, -1, false);
+    QFont mono("Hack", 7, -1, false);
     mono.setStyleHint(QFont::Monospace);
     mono.setFixedPitch(true);
 
@@ -157,55 +160,98 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
         connect(s, &QShortcut::activated, edit, slot);
     };
 
+    m_logsTab = new QWidget(this);
+    QVBoxLayout* tabLayout = new QVBoxLayout(m_logsTab);
+    tabLayout->setContentsMargins(0, 0, 0, 0);
+    tabLayout->setSpacing(0);
+
+    QSplitter* splitter = new QSplitter(Qt::Horizontal, m_logsTab);
+    splitter->setChildrenCollapsible(false);
+    splitter->setHandleWidth(4);
+    tabLayout->addWidget(splitter);
+
     for (const Source& src : sources) {
-        QPlainTextEdit* edit = new QPlainTextEdit(this);
+        QWidget* pane = new QWidget(splitter);
+        QVBoxLayout* paneLayout = new QVBoxLayout(pane);
+        paneLayout->setContentsMargins(0, 0, 0, 0);
+        paneLayout->setSpacing(0);
+
+        QLabel* label = new QLabel(src.name, pane);
+        label->setAlignment(Qt::AlignCenter);
+        paneLayout->addWidget(label);
+
+        QPlainTextEdit* edit = new QPlainTextEdit(pane);
         edit->setReadOnly(true);
         edit->setMaximumBlockCount(kMaxBlocks);
         edit->setLineWrapMode(QPlainTextEdit::NoWrap);
         edit->setFont(mono);
         edit->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
+        paneLayout->addWidget(edit);
 
         bindShortcut(edit, QKeySequence::Copy, &QPlainTextEdit::copy);
         bindShortcut(edit, QKeySequence::SelectAll, &QPlainTextEdit::selectAll);
 
-        addTab(edit, src.name);
+        splitter->addWidget(pane);
+        m_labels.append(label);
         m_edits.append(edit);
         m_tailers.append(new LogTailer(src.path, edit, this));
     }
+
+    addTab(m_logsTab, tr("Logs"));
 
     connect(this, &QTabWidget::currentChanged, this, &LogPanel::onCurrentChanged);
 }
 
 void LogPanel::addExtraTab(QWidget* w, const QString& name)
 {
-    // Inserted as the first tab and made current. No LogTailer is registered,
-    // so onCurrentChanged (which maps tailers by widget) stops all tailers
-    // while it is shown.
+    // Inserted as the first tab and made current. No LogTailers are
+    // registered for it, so onCurrentChanged stops all tailers while it
+    // is shown.
     insertTab(0, w, name);
     setCurrentIndex(0);
 }
 
-void LogPanel::applyTheme(const QColor& textColor, const QColor& bgColor, const QColor& borderColor)
+void LogPanel::applyTheme(const QColor& textColor, const QColor& bgColor)
 {
-    const QString css = QString(
+    const QString editCss = QString(
         "QPlainTextEdit {"
         "  color: %1;"
         "  background-color: %2;"
-        "  border: 1px solid %3;"
+        "  border: none;"
         "  padding: 6px;"
-        "}").arg(textColor.name(), bgColor.name(), borderColor.name());
-    for (QPlainTextEdit* edit : m_edits) edit->setStyleSheet(css);
+        "}").arg(textColor.name(), bgColor.name());
+    for (QPlainTextEdit* edit : m_edits) edit->setStyleSheet(editCss);
+
+    // Translucent strip over the log background — readable on any theme
+    // (light, dark, high contrast) without hard borders.
+    const QString labelCss = QString(
+        "QLabel {"
+        "  color: %1;"
+        "  background-color: rgba(127, 127, 127, 50);"
+        "  font-weight: bold;"
+        "  padding: 2px;"
+        "}").arg(textColor.name());
+    for (QLabel* label : m_labels) label->setStyleSheet(labelCss);
+
+    // Panes and splitter handles blend into the log background; the
+    // header strips are the only visual separators. Per-widget styles
+    // above override this cascade.
+    if (m_logsTab) {
+        m_logsTab->setStyleSheet(QString(
+            "QWidget { background-color: %1; }"
+            "QSplitter::handle { background-color: %1; }").arg(bgColor.name()));
+    }
 }
 
 void LogPanel::onCurrentChanged(int idx)
 {
     if (!isVisible()) return;
-    // Map by widget, not index, so an extra tab inserted at the front doesn't
-    // shift the mapping: tail the current log tab, stop the rest.
-    QWidget* cur = widget(idx);
-    for (int i = 0; i < m_tailers.size(); ++i) {
-        if (m_edits[i] == cur) m_tailers[i]->start();
-        else m_tailers[i]->stop();
+    // All log files live on the single Logs tab and tail together while
+    // it is the current tab.
+    bool logsShown = (widget(idx) == m_logsTab);
+    for (LogTailer* t : m_tailers) {
+        if (logsShown) t->start();
+        else t->stop();
     }
 }
 

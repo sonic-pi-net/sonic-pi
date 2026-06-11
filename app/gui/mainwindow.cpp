@@ -1201,19 +1201,16 @@ void MainWindow::updateDebugLogPanelVisibility()
     {
         if (!debugLogPanel)
         {
-            // Sources with a live panel (SuperSonic) are omitted from the
-            // file-tail tabs — the live panel below supersedes the log tail.
             QVector<LogPanel::Source> sources;
             for (const auto& src : m_spAPI->GetLogSources())
             {
-                if (src.hasLivePanel) continue;
+                if (src.name == "Tau") continue;
                 sources.append({ QString::fromStdString(src.name),
                                  QString::fromStdString(src.path.string()) });
             }
             debugLogPanel = new LogPanel(sources, this);
             debugLogPanel->applyTheme(theme->color("LogForeground"),
-                                      theme->color("MarginBackground"),
-                                      theme->color("MarginForeground"));
+                                      theme->color("LogBackground"));
 
             // Live SuperSonic panel (metrics + OSC in/out + debug + node tree),
             // read from the engine's shared segment. Reparented into
@@ -2747,8 +2744,7 @@ void MainWindow::updateColourTheme()
     if (debugLogPanel)
     {
         debugLogPanel->applyTheme(theme->color("LogForeground"),
-                                  theme->color("MarginBackground"),
-                                  theme->color("MarginForeground"));
+                                  theme->color("LogBackground"));
     }
 
     if (metricsPanel)

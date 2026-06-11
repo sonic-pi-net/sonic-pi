@@ -8,6 +8,7 @@
 #include <QVector>
 
 class QFileSystemWatcher;
+class QLabel;
 class QPlainTextEdit;
 class QShowEvent;
 class QHideEvent;
@@ -44,12 +45,14 @@ class LogPanel : public QTabWidget
 public:
     struct Source { QString name; QString path; };
 
+    // All sources share a single "Logs" tab, shown side by side in a
+    // splitter and tailed concurrently while that tab is visible.
     LogPanel(const QVector<Source>& sources, QWidget* parent = nullptr);
 
-    void applyTheme(const QColor& textColor, const QColor& bgColor, const QColor& borderColor);
+    void applyTheme(const QColor& textColor, const QColor& bgColor);
 
-    // Add a non-log tab (e.g. the live metrics panel). It is not backed by a
-    // LogTailer, so it is ignored by the tailer start/stop logic.
+    // Add a non-log tab (e.g. the live metrics panel). It is not backed by
+    // LogTailers, so all tailers are stopped while it is shown.
     void addExtraTab(QWidget* w, const QString& name);
 
 protected:
@@ -60,6 +63,8 @@ private slots:
     void onCurrentChanged(int idx);
 
 private:
+    QWidget* m_logsTab = nullptr;
+    QVector<QLabel*> m_labels;
     QVector<QPlainTextEdit*> m_edits;
     QVector<LogTailer*> m_tailers;
 };
