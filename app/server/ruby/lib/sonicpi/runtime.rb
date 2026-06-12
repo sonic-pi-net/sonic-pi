@@ -153,26 +153,31 @@ module SonicPi
     end
 
     # Validate + normalise a bpm argument (shared by use_bpm / with_bpm / sync
-    # restore). Returns :link, a positive Float, or [:midi, port|nil].
-    def __resolve_bpm_arg(bpm, port = nil)
+    # restore). Returns :link, a positive Float, or [:midi, port|nil, quantum].
+    def __resolve_bpm_arg(bpm, port = nil, quantum = nil)
+      if quantum && bpm != :midi && !(bpm.is_a?(Array) && bpm[0] == :midi)
+        raise ArgumentError, "quantum only applies to :midi bpm mode"
+      end
       case bpm
       when :link
         raise ArgumentError, "use_bpm :link does not take a port" if port
         :link
       when :midi
+        quantum ||= 4
+        raise ArgumentError, "quantum must be a positive number, got: #{quantum.inspect}" unless quantum.is_a?(Numeric) && quantum > 0
         # Frozen so it can live in an (immutable-only) thread-local.
         if port.nil?
-          [:midi, nil].freeze
+          [:midi, nil, quantum.to_f].freeze
         else
           raise ArgumentError, "MIDI clock port must be a non-empty String, got: #{port.inspect}" unless port.is_a?(String) && !port.empty?
-          [:midi, port.dup.freeze].freeze
+          [:midi, port.dup.freeze, quantum.to_f].freeze
         end
       when Array
-        # Already-normalised [:midi, port|nil] (e.g. restored by with_bpm/sync).
-        unless bpm.length == 2 && bpm[0] == :midi && (bpm[1].nil? || bpm[1].is_a?(String))
+        # Already-normalised [:midi, port|nil, quantum] (e.g. restored by with_bpm/sync).
+        unless (2..3).include?(bpm.length) && bpm[0] == :midi && (bpm[1].nil? || bpm[1].is_a?(String)) && (bpm[2].nil? || (bpm[2].is_a?(Numeric) && bpm[2] > 0))
           raise ArgumentError, "Invalid bpm mode: #{bpm.inspect}"
         end
-        [:midi, (bpm[1] && bpm[1].dup.freeze)].freeze
+        [:midi, (bpm[1] && bpm[1].dup.freeze), (quantum || bpm[2] || 4).to_f].freeze
       when Numeric
         raise ArgumentError, "bpm should be a positive value. You tried to use: #{bpm}" unless bpm > 0
         bpm.to_f
@@ -198,8 +203,19 @@ module SonicPi
         else
           # 2. entering / switching clock timeline — anchor beat to it
           __system_thread_locals.set(:sonic_pi_spider_bpm, bpm)
-          clock_beat = @link_api.link_get_beat_at_clock_time(time + __current_sched_ahead_time, tl: tl)
-          __change_spider_time_and_beat!(time, clock_beat)
+          sat = __current_sched_ahead_time
+          clock_beat = @link_api.link_get_beat_at_clock_time(time + sat, tl: tl)
+          if bpm.is_a?(Array)
+            # midi timeline beats are the device's quarter notes, counted from
+            # its last START (= bar 1 downbeat) — anchor on the next quantum
+            # boundary so sleeps stay on the device's bar grid
+            quantum = bpm[2] || 4.0
+            target_beat = (clock_beat / quantum).ceil * quantum
+            target_time = @link_api.link_get_clock_time_at_beat(target_beat, tl: tl)
+            __change_spider_time_and_beat!(target_time - sat, target_beat)
+          else
+            __change_spider_time_and_beat!(time, clock_beat)
+          end
         end
       else
         # 3. numeric bpm
@@ -242,8 +258,23 @@ module SonicPi
       new_beat = __get_spider_beat + (beat_delta / __get_spider_time_density)
 
       if __in_clock_bpm_mode
-        new_time = @link_api.link_get_clock_time_at_beat(new_beat, tl: __spider_timeline_name)
+        tl = __spider_timeline_name
+        new_time = @link_api.link_get_clock_time_at_beat(new_beat, tl: tl)
         new_time -=  __current_sched_ahead_time
+        mode = __system_thread_locals.get(:sonic_pi_spider_bpm)
+        if mode.is_a?(Array)
+          # an external START/SPP rebases the midi timeline's beat numbers
+          # under running threads — when our beat's time veers way off the
+          # expected schedule, rejoin on the new grid's next quantum boundary
+          expected_time = __get_spider_time + (beat_delta * __get_spider_sleep_mul)
+          if (new_time - expected_time).abs > (4 * __get_spider_sleep_mul)
+            quantum = mode[2] || 4.0
+            sat = __current_sched_ahead_time
+            clock_beat = @link_api.link_get_beat_at_clock_time(Time.now.to_f + sat, tl: tl)
+            new_beat = (clock_beat / quantum).ceil * quantum
+            new_time = @link_api.link_get_clock_time_at_beat(new_beat, tl: tl) - sat
+          end
+        end
         __change_spider_time_and_beat!(new_time, new_beat)
       else
         sleep_mul = __get_spider_sleep_mul

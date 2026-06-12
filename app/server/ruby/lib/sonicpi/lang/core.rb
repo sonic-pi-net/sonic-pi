@@ -3782,9 +3782,10 @@ set_link_bpm! 30                              # Change Link BPM to 30
 end
 "]
 
-      def use_bpm(bpm, port=nil, &block)
+      def use_bpm(bpm, port=nil, opts={}, &block)
         raise ArgumentError, "use_bpm does not work with a block. Perhaps you meant with_bpm" if block
-        bpm = __resolve_bpm_arg(bpm, port)
+        port, opts = nil, port if port.is_a?(Hash) && opts.empty?
+        bpm = __resolve_bpm_arg(bpm, port, opts[:quantum])
         __change_spider_bpm_time_and_beat!(bpm, __get_spider_time, __get_spider_beat)
       end
       doc name:           :use_bpm,
@@ -3792,7 +3793,7 @@ end
           summary:        "Set the tempo",
           doc:            "Sets the tempo in bpm (beats per minute) for everything afterwards. Affects all subsequent calls to `sleep` and all temporal synth arguments which will be scaled to match the new bpm. If you wish to bypass scaling in calls to sleep, see the fn `rt`. Also, if you wish to bypass time scaling in synth args see `use_arg_bpm_scaling`. See also `with_bpm` for a block scoped version of `use_bpm`.
 
-  As well as a positive number, the bpm may be `:link` to follow the Ableton Link session tempo, or `:midi` to follow an incoming external MIDI clock. With `:midi` and no port the primary (first-clocking) MIDI source is followed; pass a port handle as a second argument — `use_bpm :midi, \"my_device\"` — to follow a specific port. Use `midi_clock_sources` to discover which ports are sending clock.
+  As well as a positive number, the bpm may be `:link` to follow the Ableton Link session tempo, or `:midi` to follow an incoming external MIDI clock. With `:midi` and no port the primary (first-clocking) MIDI source is followed; pass a port handle as a second argument — `use_bpm :midi, \"my_device\"` — to follow a specific port. Use `midi_clock_sources` to discover which ports are sending clock. Joining a MIDI clock aligns the thread to the next bar of the external grid (the device's START message marks the bar 1 downbeat); set `quantum:` to change the bar length in beats — `use_bpm :midi, \"my_device\", quantum: 8` — or use `quantum: 1` to align to the next beat only.
 
   For dance music here's a rough guide for which BPM to aim for depending on your genre:
 
@@ -3804,7 +3805,7 @@ end
   * Dubstep: 135-145 bpm
   * Drum and bass: 160-180 bpm",
           args:           [[:bpm, :number_or_symbol]],
-          opts:           nil,
+          opts:           {quantum: "Bar length in beats for joining an external MIDI clock grid (default 4). Only valid with :midi."},
           accepts_block:  false,
           intro_fn:       true,
           examples:       ["
@@ -3851,9 +3852,10 @@ end
 
 
 
-      def with_bpm(bpm, port=nil, &block)
+      def with_bpm(bpm, port=nil, opts={}, &block)
         raise ArgumentError, "with_bpm must be called with a do/end block. Perhaps you meant use_bpm" unless block
-        bpm = __resolve_bpm_arg(bpm, port)
+        port, opts = nil, port if port.is_a?(Hash) && opts.empty?
+        bpm = __resolve_bpm_arg(bpm, port, opts[:quantum])
         current_bpm = __get_spider_bpm_mode
         use_bpm bpm
         res = block.call
