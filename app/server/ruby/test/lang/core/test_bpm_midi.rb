@@ -66,10 +66,36 @@ module SonicPi
         use_bpm :link;          modes[:link]      = current_bpm_mode
         use_bpm 90;             modes[:num]       = current_bpm_mode
       end
-      assert_equal([:midi, nil],     modes[:midi_nil])
-      assert_equal([:midi, "portA"], modes[:midi_port])
+      assert_equal([:midi, nil, 4.0],     modes[:midi_nil])
+      assert_equal([:midi, "portA", 4.0], modes[:midi_port])
       assert_equal(:link,            modes[:link])
       assert_equal(90.0,             modes[:num])
+    end
+
+    def test_quantum_opt_round_trips
+      modes = {}
+      @lang.run do
+        use_bpm :midi, "portA", quantum: 8; modes[:port_q] = current_bpm_mode
+        use_bpm :midi, quantum: 1;          modes[:bare_q] = current_bpm_mode
+      end
+      assert_equal([:midi, "portA", 8.0], modes[:port_q])
+      assert_equal([:midi, nil, 1.0],     modes[:bare_q])
+    end
+
+    def test_quantum_rejected_outside_midi_mode
+      results = {}
+      probes = { link: [:link, nil, { quantum: 4 }], num: [90, nil, { quantum: 4 }], zero: [:midi, nil, { quantum: 0 }] }
+      @lang.run do
+        probes.each do |key, args|
+          begin
+            use_bpm(*args)
+            results[key] = :no_raise
+          rescue ArgumentError
+            results[key] = :raised
+          end
+        end
+      end
+      probes.each_key { |k| assert_equal(:raised, results[k], "use_bpm #{probes[k].inspect} should raise ArgumentError") }
     end
 
     def test_current_bpm_follows_named_midi_timeline
@@ -118,7 +144,7 @@ module SonicPi
         end
         after = current_bpm_mode
       end
-      assert_equal([:midi, "portA"], inside)
+      assert_equal([:midi, "portA", 4.0], inside)
       assert_equal(90.0, after)
     end
 
