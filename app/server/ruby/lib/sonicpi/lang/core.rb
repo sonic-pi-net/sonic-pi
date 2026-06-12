@@ -3702,10 +3702,17 @@ See link for further details and usage.",
 
         __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum)
 
-        new_vt = __get_spider_time.to_f
-        now = Time.now.to_f
-        t = (new_vt - now).to_f - 0.2
-        Kernel.sleep t if t > 0.2
+        # Wait via link_sleep, not Kernel.sleep: a tempo-change broadcast wakes
+        # the wait early and the block re-derives the wall time of the (fixed)
+        # target beat from the live timeline, so the boundary tracks tempo
+        # changes that land mid-wait. The 0.2s tail is absorbed by sched-ahead,
+        # as with sleep. (`while`, not `loop` — in this context `loop` is the
+        # lang's zero-time-guarded version.)
+        while ((__get_spider_time.to_f - Time.now.to_f) - 0.2) > 0.2
+          @link_api.link_sleep((__get_spider_time.to_f - Time.now.to_f) - 0.2) do
+            __change_spider_beat_and_time_by_beat_delta!(0)
+          end
+        end
         __system_thread_locals.set(:sonic_pi_spider_slept, true)
 
         ## reset control deltas now that time has advanced
