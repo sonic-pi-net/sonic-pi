@@ -617,7 +617,7 @@ QScrollBar::handle:hover {
 QPushButton
 {
     font-size: medium;
-    background-color: TabColor;
+    background-color: tabColor;
     color: buttonTextColor;
     padding: 5dx;
     border-radius: 3dx;
