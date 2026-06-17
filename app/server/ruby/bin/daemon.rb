@@ -42,13 +42,12 @@ Thread::abort_on_exception = true
 # The Daemon launches and watches over the following long-living
 # processes (necessary for Sonic Pi to work):
 #
-#   +--> Tau     - the Erlang IO server
 #   +--> Scsynth - the SuperCollider audio engine
 #   +--> Spider  - the Ruby Runtime server
 #
 # The Daemon does all the work necessary to figure out the correct
 # process paths and flags - even considering config files such as
-# `audio-settings.toml and tau-settings.toml`
+# `audio-settings.toml`
 #
 #
 # Zombie Kill Switch
@@ -64,7 +63,7 @@ Thread::abort_on_exception = true
 # continually receiving keep_alive messages. If these messages stop
 # being received (for example, if the GUI process exited normally or
 # even crashed) then the Daemon will ensure all the processes it spawned
-# (Spider, Tau and Scsynth) are terminated.
+# (Spider and Scsynth) are terminated.
 #
 # The port number of this kill switch UDP connection is printed to
 # STDOUT. A external process (such as the GUI) must connect promptly and
@@ -97,7 +96,7 @@ Thread::abort_on_exception = true
 # The current allocations of these external port numbers are printed to
 # STDOUT in the following order:
 #
-# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues tau-api token
+# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues token
 #
 #
 # Stdout Parameter Descriptions
@@ -119,9 +118,6 @@ Thread::abort_on_exception = true
 # osc-cues:             UDP port used to receive OSC cue messages from external
 #                       processes.
 #
-# tau-api:              UDP port used to send OSC messages to trigger the
-#                       Tau API
-#
 # token:                32 bit signed integer used as a token to authenticate
 #                       OSC messages.  All OSC messages sent from the GUI
 #                       must include this token as the first argument
@@ -135,8 +131,6 @@ module SonicPi
         @no_scsynth_inputs = opts[:no_scsynth_inputs]
 
         @exit_prom = Promise.new
-        @restart_tau_mut = Mutex.new
-        @booting_tau = false
         # use a value within the valid range for a 32 bit signed complement integer
         @daemon_token =  rand(-2147483647..2147483647)
 
@@ -161,7 +155,6 @@ module SonicPi
 
         # This is where the Daemon begins and ends.
 
-        @tau_booter        = nil
         @spider_booter     = nil
         @compton_booter    = nil
         @supersonic_booter = nil
@@ -206,21 +199,6 @@ module SonicPi
             @safe_exit.exit
           else
             Util.log "Kill switch for port #{@ports["daemon"]} received incorrect token. Ignoring #{args[0]}"
-          end
-        end
-
-        @api_server.add_method("/daemon/restart-tau") do |args|
-          if args[0] && args[0] == @daemon_token
-            Util.log "Restarting Tau"
-            restart_tau!
-          end
-        end
-
-        @api_server.add_method("/tau/pid") do |args|
-          Util.log "Daemon received Pid from Tau"
-          # Util.log "token: #{@daemon_token}"
-          if args[0] && args[0] == @daemon_token
-            @tau_booter.update_pid!(args[1]) if @tau_booter
           end
         end
 
@@ -279,15 +257,13 @@ module SonicPi
           end
         end
 
-        boot_tau!(false)
-
         Util.log "Booting Spider Server"
         @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
 
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
         # STDOUT.
-        puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@ports["tau"]} #{@daemon_token}"
+        puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@daemon_token}"
         STDOUT.flush
 
         Util.log "Blocking main thread until exit signal received..."
@@ -300,18 +276,6 @@ module SonicPi
 
       end
 
-      def boot_tau!(wait_for_pid = true)
-        # Tau/BEAM is retired: OSC in/out moved into SuperSonic (OscControl), and
-        # MIDI/Link migrated earlier — the Erlang server has no remaining job.
-        # Kept as an inert no-op so the boot sequence and any restart path stay
-        # harmless without ripping out the booter wiring yet.
-        Util.log "Tau/BEAM disabled — OSC now handled by SuperSonic; not booting Tau"
-      end
-
-      def restart_tau!
-        Util.log "Tau/BEAM disabled — ignoring restart-tau request"
-      end
-
       def cleanup_any_running_processes
         if @supersonic_sender && @supersonic_booter && @supersonic_booter.process_running?
           begin
@@ -322,7 +286,7 @@ module SonicPi
           end
         end
 
-        [@spider_booter, @supersonic_booter, @tau_booter,  @compton_booter].map do |p|
+        [@spider_booter, @supersonic_booter, @compton_booter].map do |p|
           Thread.new do
             begin
               p.kill if p
@@ -658,8 +622,6 @@ module SonicPi
           ports["scsynth"],
           ports["scsynth-send"],
           ports["osc-cues"],
-          ports["tau"],
-          ports["spider-listen-to-tau"],
           token
         ]
 
@@ -667,118 +629,6 @@ module SonicPi
       end
     end
 
-
-    class TauBooter < ProcessBooter
-      def initialize(ports, kill_switch, token)
-        @tau_pid = Promise.new
-
-        @pid_requester = SonicPi::OSC::UDPClient.new('localhost', ports["tau"])
-
-        @pid_updater_thread = Thread.new do
-          while !@tau_pid.delivered?
-            Util.log "Requesting tau send us its pid. Sending /send-pid-to-daemon"
-            begin
-              @pid_requester.send("/send-pid-to-daemon", token)
-            rescue Errno::ECONNREFUSED
-              Util.log "Error talking to Tau - connection refused (perhaps Tau is still booting?)"
-            rescue StandardError => e
-              Util.log "Error talking to Tau"
-              Util.log_error(e)
-            end
-            Kernel.sleep 1
-          end
-        end
-
-
-        begin
-          Util.log "Fetching Tau toml opts..."
-          toml_opts_hash = Tomlrb.load_file(Paths.user_tau_settings_path, symbolize_keys: true).freeze
-          Util.log "Got Tau toml opts: #{toml_opts_hash}"
-          unified_opts = unify_tau_toml_opts(toml_opts_hash)
-          Util.log "Unified Tau toml opts: #{unified_opts}"
-        rescue StandardError
-          unified_opts = {}
-        end
-
-        Util.log "Daemon listening to info from Tau"
-
-        ENV["TAU_CUES_ON"]                        = "true"
-        ENV["TAU_OSC_IN_UDP_LOOPBACK_RESTRICTED"] = "true"
-        ENV["TAU_MIDI_ON"]                        = "true"
-        ENV["TAU_OSC_IN_UDP_PORT"]                = "#{ports["osc-cues"]}"
-        ENV["TAU_API_PORT"]                       = "#{ports["tau"]}"
-        ENV["TAU_SPIDER_PORT"]                    = "#{ports["spider-listen-to-tau"]}"
-        ENV["TAU_DAEMON_PORT"]                    = "#{ports["daemon"]}"
-        ENV["TAU_MIDI_ENABLED"]                   = "true"
-        ENV["TAU_DAEMON_TOKEN"]                   = "#{token}"
-        ENV["TAU_ENV"]                            = "#{ENV["SONIC_PI_ENV"] || unified_opts[:env] || "prod"}"
-        ENV["MIX_ENV"]                            = ENV["TAU_ENV"]
-        ENV["TAU_LOG_PATH"]                       = "#{Paths.tau_log_path}"
-        ENV["TAU_BOOT_LOG_PATH"]                  = "#{Paths.tau_boot_log_path}"
-
-        if Util.os == :windows
-          if ENV["TAU_ENV"] == "prod"
-            ENV["RELEASE_SYS_CONFIG"] = "#{Paths.tau_release_sys_config_path}"
-            ENV["RELEASE_ROOT"]       = "#{Paths.tau_release_root}"
-
-            cmd = "#{Paths.tau_release_erl_bin_path}".gsub('/', '\\')
-            args = ["-config",                  "#{Paths.tau_release_sys_path}".gsub('/', "\\"),
-                    "-boot",                    "#{Paths.tau_release_start_path}".gsub('/', "\\"),
-                    "-boot_var", "RELEASE_LIB", "#{Paths.tau_release_lib_path}".gsub('/', "\\"),
-                    "-args_file",               "#{Paths.tau_release_vm_args_path}".gsub('/', "\\"),
-                    "-noshell",
-                    "-s", "elixir", "start_cli",
-                    "-mode",    "embedded",
-              "-extra",   "--no-halt"]
-          else
-            cmd = Paths.tau_boot_path
-            args = []
-          end
-        else
-          cmd = "sh"
-          args = [Paths.tau_boot_path]
-        end
-
-        super(cmd, args, Paths.tau_boot_log_path)
-      end
-
-      def restart!
-        @tau_pid = Promise.new
-      end
-
-      def update_pid!(pid)
-        @tau_pid.deliver!(pid, false)
-      end
-
-      def wait_for_pid!()
-        @tau_pid.get(30)
-      end
-
-      def unify_tau_toml_opts(opts)
-        unified_opts = {}
-
-        # env should be either "dev" or "prod"
-        case opts[:env].to_s.downcase.strip
-        when "dev"
-          unified_opts[:env] = "dev"
-        when "prod"
-          unified_opts[:env] = "prod"
-        end
-
-        unified_opts.freeze
-      end
-
-      def kill
-        begin
-          @pid = @tau_pid.get(30)
-          Util.log "Killing Tau with pid #{@pid.inspect}"
-        rescue SonicPi::PromiseTimeoutError
-          @pid = nil
-          Util.log "Didn't receive Tau's Pid after waiting for 30s..."
-        end
-        super
-      end
-    end
 
     class JackBooter < ProcessBooter
       def initialize
@@ -1021,14 +871,7 @@ module SonicPi
         # will automatically be converted to cue events:
         "osc-cues" => 4560,
 
-        # Port which the Tau listens to.
-        "tau" => :dynamic,
-
-        # Port which the Ruby server listens to messages back from the Tau server
-        "spider" => :dynamic,
-
-        "daemon-listen-to-tau" => :dynamic,
-        "spider-listen-to-tau" => :dynamic
+        "spider" => :dynamic
       }.freeze
 
       def initialize(safe_exit)
@@ -1051,10 +894,8 @@ module SonicPi
           ["scsynth-send", "scsynth"],
 
           "osc-cues",
-          "tau",
           "spider",
-          "daemon",
-          "spider-listen-to-tau"].inject({}) do |res, port_name|
+          "daemon"].inject({}) do |res, port_name|
 
           default = nil
           case port_name

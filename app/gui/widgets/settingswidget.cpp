@@ -682,7 +682,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the bottom after every new message is displayed."));
 
     show_debug_log_panel = new QCheckBox(tr("Show debug log panel"));
-    show_debug_log_panel->setToolTip(tr("Show a dockable panel with live tails of the\nGUI, Spider, Daemon, Tau and SuperSonic log files.\nNo CPU is used while the panel is hidden."));
+    show_debug_log_panel->setToolTip(tr("Show a dockable panel with live tails of the\nGUI, Spider, Daemon and SuperSonic log files.\nNo CPU is used while the panel is hidden."));
 
     QVBoxLayout *debug_box_layout = new QVBoxLayout;
     debug_box_layout->addWidget(log_synths);

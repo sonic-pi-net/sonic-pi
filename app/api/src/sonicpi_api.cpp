@@ -333,8 +333,8 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
       LOG(INFO, "daemon_stdout: " + daemon_stdout[i]);
     }
 
-    if(daemon_stdout.size() != 7) {
-      LOG(ERR, "\nError. Was expecting 6 port numbers and a token from the Daemon Booter. Got: " + input_str + "\n");
+    if(daemon_stdout.size() != 6) {
+      LOG(ERR, "\nError. Was expecting 5 port numbers and a token from the Daemon Booter. Got: " + input_str + "\n");
       return BootDaemonInitResult::TerminalError;
     }
 
@@ -343,17 +343,13 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
     m_ports[SonicPiPortId::gui_send_to_spider] = std::stoi(daemon_stdout[2]);
     m_ports[SonicPiPortId::scsynth] = std::stoi(daemon_stdout[3]);
     m_ports[SonicPiPortId::tau_osc_cues] = std::stoi(daemon_stdout[4]);
-    m_ports[SonicPiPortId::tau] = std::stoi(daemon_stdout[5]);
-    m_token = std::stoi(daemon_stdout[6]);
+    m_token = std::stoi(daemon_stdout[5]);
 
     LOG(INFO, "Setting up OSC sender to Spider on port " << m_ports[SonicPiPortId::gui_send_to_spider]);
     m_spOscSpiderSender    = std::make_shared<OscSender>(m_ports[SonicPiPortId::gui_send_to_spider]);
 
     LOG(INFO, "Setting up OSC sender to Daemon on port " << m_ports[SonicPiPortId::daemon]);
     m_spOscDaemonSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon]);
-
-    LOG(INFO, "Setting up OSC sender to Tau on port " << m_ports[SonicPiPortId::tau]);
-    m_spOscTauSender       = std::make_shared<OscSender>(m_ports[SonicPiPortId::tau]);
 
     LOG(INFO, "Setting up OSC sender to SuperSonic on port " << m_ports[SonicPiPortId::scsynth]);
     m_spOscSupersonicSender   = std::make_shared<OscSender>(m_ports[SonicPiPortId::scsynth]);
@@ -380,17 +376,6 @@ SonicPiAPI::~SonicPiAPI()
     LOG(INFO, "API deconstructor initiating shutdown... ");
     Shutdown();
 }
-
-void SonicPiAPI::RestartTau()
-{
-
-    LOG(INFO, "Asking Daemon to restart Tau ");
-    Message msg("/daemon/restart-tau");
-    msg.pushInt32(m_token);
-    m_spOscDaemonSender->sendOSC(msg);
-    return;
-}
-
 
 bool SonicPiAPI::LinkEnable()
 {
@@ -552,23 +537,6 @@ bool SonicPiAPI::SendOSC(Message m)
         if (!res)
         {
             LOG(ERR, "Could Not Send OSC to Spider");
-            return false;
-        }
-        return true;
-    }
-
-    return false;
-}
-
-bool SonicPiAPI::TauSendOSC(Message m)
-{
-
-    if (WaitUntilReady())
-    {
-        bool res = m_spOscTauSender->sendOSC(m);
-        if (!res)
-        {
-            LOG(ERR, "Could Not Send OSC to Tau");
             return false;
         }
         return true;
@@ -879,7 +847,6 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
     m_paths[SonicPiPath::LogPath] = m_paths[SonicPiPath::UserPath] / "log";
     m_paths[SonicPiPath::SpiderServerLogPath] = m_paths[SonicPiPath::LogPath] / "spider.log";
     m_paths[SonicPiPath::BootDaemonLogPath]   = m_paths[SonicPiPath::LogPath] / "daemon.log";
-    m_paths[SonicPiPath::TauLogPath]          = m_paths[SonicPiPath::LogPath] / "tau.log";
     m_paths[SonicPiPath::SCSynthLogPath]      = m_paths[SonicPiPath::LogPath] / "scsynth.log";
     m_paths[SonicPiPath::SuperSonicLogPath]   = m_paths[SonicPiPath::LogPath] / "supersonic.log";
     m_paths[SonicPiPath::GUILogPath]          = m_paths[SonicPiPath::LogPath] / "gui.log";
@@ -980,7 +947,6 @@ std::vector<LogSource> SonicPiAPI::GetLogSources()
         { "GUI",        GetPath(SonicPiPath::GUILogPath) },
         { "Spider",     GetPath(SonicPiPath::SpiderServerLogPath) },
         { "Daemon",     GetPath(SonicPiPath::BootDaemonLogPath) },
-        { "Tau",        GetPath(SonicPiPath::TauLogPath) },
         { "SuperSonic", GetPath(SonicPiPath::SuperSonicLogPath), true }
     };
 }

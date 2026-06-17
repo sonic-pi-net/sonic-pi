@@ -81,7 +81,6 @@ enum class SonicPiPath
     LogPath,             // Base log folder
     SpiderServerLogPath, // Log file for Spider Server output
     BootDaemonLogPath,   // Log file for Boot Daemon output
-    TauLogPath,          // Log file for Tau IO Server output
     SCSynthLogPath,      // Log file for SuperCollider scsynth's output
     SuperSonicLogPath,   // Log file for SuperSonic audio engine
     GUILogPath,          // Log file for GUI
@@ -98,8 +97,7 @@ enum class SonicPiPortId
     gui_listen_to_spider,
     gui_send_to_spider,
     scsynth,
-    tau_osc_cues,
-    tau
+    tau_osc_cues
 };
 
 // Log output of the API to the log files or the console?
@@ -387,8 +385,6 @@ public:
 
     virtual void StartClearLogsScript();
 
-    virtual void RestartTau();
-
     virtual bool LinkEnable();
     virtual bool LinkDisable();
 
@@ -481,7 +477,6 @@ public:
     virtual const int& GetPort(SonicPiPortId port);
 
     virtual bool SendOSC(oscpkt::Message m);
-    virtual bool TauSendOSC(oscpkt::Message m);
     virtual bool SendDaemonOSC(oscpkt::Message m);
     virtual bool SupersonicSendOSC(oscpkt::Message m);
     virtual void RequestAudioDevices();
@@ -539,7 +534,6 @@ private:
     std::shared_ptr<OscServer> m_spOscSpiderServer;
     std::shared_ptr<OscSender> m_spOscSpiderSender;
     std::shared_ptr<OscSender> m_spOscDaemonSender;
-    std::shared_ptr<OscSender> m_spOscTauSender;
     std::shared_ptr<OscSender> m_spOscSupersonicSender;
     std::shared_ptr<AudioProcessor> m_spAudioProcessor;
     int m_token;

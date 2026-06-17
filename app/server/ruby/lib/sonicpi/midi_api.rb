@@ -16,15 +16,15 @@ require_relative "supersonic_midi_comms"
 require_relative "osc/timetag"
 
 module SonicPi
-  # Spider-side MIDI API over SupersonicMidiComms. Replaces sp_midi + the Tau
-  # MIDI layer (tau_server_midi*.erl): outgoing MIDI is scheduled in SuperSonic's
-  # deferred-event scheduler via /schedule (timetagged in SuperClock's domain, so
-  # it stays locked to scsynth audio); incoming MIDI arrives as /midi/in/* and is
-  # re-emitted as the same /midi:<port>:<chan>/<event> cues Sonic Pi already uses.
-  # The /midi/* OSC surface lives in SuperSonic (MidiControl + the Rust subsystem).
+  # Spider-side MIDI API over SupersonicMidiComms. Outgoing MIDI is scheduled in
+  # SuperSonic's deferred-event scheduler via /schedule (timetagged in
+  # SuperClock's domain, so it stays locked to scsynth audio); incoming MIDI
+  # arrives as /midi/in/* and is re-emitted as the /midi:<port>:<chan>/<event>
+  # cues Sonic Pi already uses. The /midi/* OSC surface lives in SuperSonic
+  # (MidiControl + the Rust subsystem).
   class MidiAPI
 
-    # Tau out-path → SuperSonic /midi/* address.
+    # Lang MIDI out-path → SuperSonic /midi/* address.
     OUT_MAP = {
       "/note_on"         => "/midi/out/note_on",
       "/note_off"        => "/midi/out/note_off",
@@ -63,13 +63,13 @@ module SonicPi
       @midi_comms.send("/midi/ports/list")   # prime the device lists
     end
 
-    # Schedule outgoing MIDI at spider time `t` (seconds). Mirrors the old
-    # TauAPI#send_midi_at signature so lang/midi.rb is a one-line repoint.
-    def midi_send_at(t, tau_path, *args)
-      ss_addr = OUT_MAP[tau_path]
+    # Schedule outgoing MIDI at spider time `t` (seconds). `midi_path` is the
+    # lang-side MIDI path (e.g. "/note_on"), mapped to its SuperSonic address.
+    def midi_send_at(t, midi_path, *args)
+      ss_addr = OUT_MAP[midi_path]
       return unless ss_addr
 
-      if CHANNEL_VOICE.include?(tau_path) && args[1] == -1
+      if CHANNEL_VOICE.include?(midi_path) && args[1] == -1
         (1..16).each do |ch|
           a = args.dup
           a[1] = ch
@@ -130,7 +130,7 @@ module SonicPi
                        SonicPi::OSC::Blob.new(inner))
     end
 
-    # Re-emit a /midi/in/* push as the Sonic Pi cue Tau used to produce:
+    # Re-emit a /midi/in/* push as a Sonic Pi cue:
     #   /midi:<port>:<chan>/<event>  (channel events)
     #   /midi:<port>/<event>         (system events)
     def cue(port, chan, event, args)
@@ -156,7 +156,7 @@ module SonicPi
         end
       end
 
-      # System events: args = [port, data…], no channel. Cue names match Tau's.
+      # System events: args = [port, data…], no channel.
       {
         "/midi/in/start"         => :start,
         "/midi/in/continue"      => :continue,
@@ -173,7 +173,7 @@ module SonicPi
         end
       end
 
-      # Derived tempo from an external MIDI clock (a SuperSonic bonus over Tau).
+      # Derived tempo from an external MIDI clock.
       @midi_comms.add_method("/midi/in/clock_bpm") do |args|
         cue(args[0], nil, "clock_bpm", args[1..-1])
       end

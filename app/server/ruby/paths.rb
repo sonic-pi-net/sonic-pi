@@ -242,14 +242,6 @@ module SonicPi
       File.absolute_path("#{log_path}/supersonic.log")
     end
 
-    def self.tau_log_path
-      File.absolute_path("#{log_path}/tau.log")
-    end
-
-    def self.tau_boot_log_path
-      File.absolute_path("#{log_path}/tau_stdouterr.log")
-    end
-
     def self.jackd_log_path
       File.absolute_path("#{log_path}/jackd.log")
     end
@@ -290,76 +282,8 @@ module SonicPi
       File.absolute_path("#{server_path}/ruby/bin/daemon.rb")
     end
 
-
-    def self.tau_boot_path
-      case os
-      when :windows
-        File.absolute_path("#{server_path}/beam/tau/boot-win.bat")
-      when :macos
-        File.absolute_path("#{server_path}/beam/tau/boot-mac.sh")
-      else
-        File.absolute_path("#{server_path}/beam/tau/boot-lin.sh")
-      end
-    end
-
-    def self.tau_base_path
-      File.absolute_path("#{server_path}/beam/tau")
-    end
-
-    def self.tau_release_path
-      File.absolute_path("#{tau_base_path}/_build/prod/rel/tau/releases/0.1.0")
-    end
-
-    def self.tau_release_root
-      File.absolute_path("#{tau_base_path}/_build/prod/rel/tau")
-    end
-
-    def self.tau_release_erl_bin_path
-      case os
-      when :windows
-        base = File.absolute_path("#{tau_base_path}/_build/prod/rel/tau")
-        erts_dir = Dir["#{base}/erts-*"][0]
-        path = File.absolute_path("#{erts_dir}/bin/erl.exe")
-
-        raise "Unable to find erl.exe. Did the Elixir build release work correctly? I looked here: #{path.inspect}" unless File.exist?(path)
-        path
-      when :macos
-
-      else
-
-      end
-    end
-
-    def self.tau_release_sys_config_path
-      File.absolute_path("#{tau_release_path}/sys")
-    end
-
-    def self.tau_release_sys_path
-      File.absolute_path("#{tau_release_path}/sys")
-    end
-
-    def self.tau_release_start_path
-      File.absolute_path("#{tau_release_path}/start")
-    end
-
-    def self.tau_release_vm_args_path
-      File.absolute_path("#{tau_release_path}/vm.args")
-    end
-
-    def self.tau_release_lib_path
-      File.absolute_path("#{tau_base_path}/_build/prod/rel/tau/lib")
-    end
-
-    def self.tau_app_path
-      File.absolute_path("#{tau_base_path}/ebin")
-    end
-
     def self.user_audio_settings_path
       File.absolute_path("#{config_path}/audio-settings.toml")
-    end
-
-    def self.user_tau_settings_path
-      File.absolute_path("#{config_path}/tau-settings.toml")
     end
 
     def self.system_cache_store_path

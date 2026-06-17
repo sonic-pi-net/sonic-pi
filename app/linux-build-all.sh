@@ -13,6 +13,5 @@ trap cleanup_function EXIT
 "${SCRIPT_DIR}"/linux-prebuild.sh "$@"
 "${SCRIPT_DIR}"/linux-config.sh "$@"
 "${SCRIPT_DIR}"/linux-build-gui.sh "$@"
-"${SCRIPT_DIR}"/linux-post-tau-prod-release.sh "$@"
 
 

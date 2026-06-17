@@ -9,8 +9,8 @@
 #
 # Replaces the hand-rolled libcrypto.3.dylib fix in the old mac-release.sh
 # with a generic walker that catches every offender — Ruby's openssl/psych
-# bundles, Erlang's crypto NIF, and anything else that compiled against
-# Homebrew on the build machine.
+# bundles and anything else that compiled against Homebrew on the build
+# machine.
 #
 # What we leave alone:
 #   - /usr/lib/* and /System/* (Apple-shipped, present on every Mac)

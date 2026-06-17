@@ -13,48 +13,6 @@ module SonicPi
 
   end
 
-  class MockTauAPI
-    def tau_ready?
-      true
-    end
-
-    def block_until_tau_ready!
-    end
-
-    def link_current_time
-      Time.now.to_i
-    end
-
-    def link_current_time_and_beat(quantise_beat=true)
-      [Time.now.to_i, 0]
-    end
-
-    def link_tempo
-      60.0
-    end
-
-    def link_is_on?
-      true
-    end
-
-    def link_num_peers
-      0
-    end
-
-    def link_get_beat_at_time(time, quantum = 4)
-      0.0
-    end
-
-    def link_get_clock_time_at_beat(beat, quantum = 4)
-      Time.now.to_f
-    end
-
-    def link_get_beat_at_clock_time(clock_time, quantum = 4)
-      0.0
-    end
-
-  end
-
   class MockLinkAPI
     def link_tempo(*); 60.0; end
     def link_is_playing?(*); false; end
@@ -191,7 +149,6 @@ module SonicPi
       #                         updated_midi_outs: updated_midi_outs_handler
       #                       })
 
-      @tau_api = MockTauAPI.new
       @link_api = MockLinkAPI.new
       @osc_api = MockOscAPI.new
       @midi_api = MockMidiAPI.new

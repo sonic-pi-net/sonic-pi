@@ -41,9 +41,7 @@ module SonicPi
       gui_send_to_spider_port = daemon_info[2]
       scsynth_port = daemon_info[3]
       osc_cues_port = daemon_info[4]
-      tau_port = daemon_info[5]
-      tau_booter_port = daemon_info[6]
-      daemon_token = daemon_info[7]
+      daemon_token = daemon_info[5]
 
       force_puts "-- OSC Cues port: #{osc_cues_port}"
 

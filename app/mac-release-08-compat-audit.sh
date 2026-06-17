@@ -9,9 +9,9 @@
 # the app is up, every spawned helper / loaded dylib is independently
 # version-checked by dyld. If a single binary's `minos` is higher than
 # what we declared, dyld refuses to load it on older macOS and the app
-# half-boots then dies. We learned this the hard way with `beam.smp` and
-# Homebrew's `libssl`/`libcrypto` (built on the host's macOS, so they
-# silently inherit a high `minos`).
+# half-boots then dies. We learned this the hard way with Homebrew's
+# `libssl`/`libcrypto` (built on the host's macOS, so they silently
+# inherit a high `minos`).
 #
 # Run by the orchestrator after the bundle is fully assembled. No
 # observable side effects — just exits non-zero with a list of offenders.

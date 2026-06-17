@@ -8,11 +8,6 @@
 #   - app/server/native/ruby/lib/libruby.3.4-static.a (~27 MB)
 #   - All *.dSYM directories (debug symbols)
 #   - app/server/native/supersonic.known-good-* (backup binaries)
-#   - app/server/beam/tau/{deps, lib, priv, src, test, config, rel, ebin, log,
-#     mix.exs, mix.lock, CMakeLists.txt, README.md, .elixir_ls,
-#     boot-lin.sh, boot-win.bat, _build/dev, _build/test}
-#     — runtime is entirely under _build/prod/rel/tau/.
-#   - app/server/beam/README.md
 #
 # Symlinks: every symlink in the bundle that isn't inside a .framework/ is
 # replaced with a copy of its target content (or removed if broken). Apple's
@@ -27,7 +22,6 @@ source "${SCRIPT_DIR}/mac-release-common.sh"
 
 resources="${RELEASE_APP}/Contents/Resources"
 ruby_native="${resources}/app/server/native/ruby"
-tau_dir="${resources}/app/server/beam/tau"
 
 # ---------------------------------------------------------------------------
 # Ruby vendor: keep only lib/ in each gem (drop docs, tests, Rakefiles)
@@ -60,28 +54,6 @@ log_info "  removed ${dsym_count} .dSYM directories"
 # ---------------------------------------------------------------------------
 log_step "prune supersonic backups"
 rm -f "${resources}/app/server/native/"supersonic.known-good-*
-
-# ---------------------------------------------------------------------------
-# Tau: keep only the compiled prod release + boot-mac.sh
-# ---------------------------------------------------------------------------
-log_step "prune tau build artefacts (keep _build/prod + boot-mac.sh)"
-rm -rf "${tau_dir}/deps"
-rm -rf "${tau_dir}/lib"
-rm -rf "${tau_dir}/priv"
-rm -rf "${tau_dir}/src"
-rm -rf "${tau_dir}/test"
-rm -rf "${tau_dir}/config"
-rm -rf "${tau_dir}/rel"
-rm -rf "${tau_dir}/ebin"
-rm -rf "${tau_dir}/log"
-rm -rf "${tau_dir}/.elixir_ls"
-rm -rf "${tau_dir}/_build/dev"
-rm -rf "${tau_dir}/_build/test"
-rm -f  "${tau_dir}/mix.exs" "${tau_dir}/mix.lock"
-rm -f  "${tau_dir}/CMakeLists.txt"
-rm -f  "${tau_dir}/README.md"
-rm -f  "${tau_dir}/boot-lin.sh" "${tau_dir}/boot-win.bat"
-rm -f  "${resources}/app/server/beam/README.md"
 
 # ---------------------------------------------------------------------------
 # Flatten symlinks (skip anything inside .framework/Versions/)

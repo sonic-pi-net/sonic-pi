@@ -690,7 +690,7 @@ module SonicPi
       # fires on_destroyed which drops its SuperSonic subscription. Cold
       # swap is the exception (nuke_scsynth_state! fires no callbacks).
 
-      # Flush OSC messages on Erlang scheduler
+      # Flush pending scheduled OSC (handled by SuperSonic's scheduler)
       __osc_flush!
 
       # Flush pending MIDI (handled by SuperSonic's MIDI subsystem)
@@ -1680,9 +1680,8 @@ module SonicPi
 
       scsynth_send_port = ports[:scsynth_send_port] || ports[:scsynth_port]
 
-      # OSC in/out now lives in SuperSonic too (replacing the Tau/BEAM OSC
-      # server), reached over the same OSC port as Link/MIDI. The cue server
-      # binds the external OSC port.
+      # OSC in/out lives in SuperSonic, reached over the same OSC port as
+      # Link/MIDI. The cue server binds the external OSC port.
       @osc_api = OscAPI.new("127.0.0.1", scsynth_send_port, ports[:osc_cues_port],
                             {
                               external_osc_cue: external_osc_cue_handler
@@ -1695,8 +1694,7 @@ module SonicPi
                                 updated_link_bpm: updated_link_bpm_handler
                               })
 
-      # MIDI now lives in SuperSonic too (replacing sp_midi + the Tau MIDI layer),
-      # reached over the same OSC port as Link.
+      # MIDI lives in SuperSonic, reached over the same OSC port as Link.
       @midi_api = MidiAPI.new("127.0.0.1", scsynth_send_port,
                               {
                                 internal_cue: internal_cue_handler,

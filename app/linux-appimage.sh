@@ -261,17 +261,10 @@ bundle_deps() {
     done
 
     # Tell linuxdeploy about every native binary that runs at user time so its
-    # transitive .so deps land in usr/lib. The Tau Erlang prod release brings
-    # its own erts/ tree; beam.smp is the emulator and pulls in libcrypto etc.
+    # transitive .so deps land in usr/lib.
     local extra_exes=()
     if [ -n "${BUNDLED_RUBY_DIR:-}" ] && [ -x "$APPDIR/usr/ruby/bin/ruby" ]; then
         extra_exes+=(--executable "$APPDIR/usr/ruby/bin/ruby")
-    fi
-    local beam_smp
-    beam_smp=$(find "$APPDIR/usr/share/sonic-pi/app/server/beam/tau" \
-                    -path '*/erts-*/bin/beam.smp' -type f 2>/dev/null | head -n1)
-    if [ -n "$beam_smp" ]; then
-        extra_exes+=(--executable "$beam_smp")
     fi
 
     "$LINUXDEPLOY" \

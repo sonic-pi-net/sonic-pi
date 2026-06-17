@@ -68,25 +68,16 @@ done
 shopt -u nullglob
 
 # ---------------------------------------------------------------------------
-# 3. Mach-O files under Resources/ (Ruby bundles, BEAM NIFs, native bins)
+# 3. Mach-O files under Resources/ (Ruby bundles, native bins)
 #
-# JIT-capable runtimes (Erlang's beam.smp, Ruby with YJIT) are themselves
-# spawned as their own processes — hardened-runtime entitlements DO NOT
-# inherit from the parent. Without this, BEAM aborts at startup with
-# "jit: Failed to allocate executable+writable memory" and Sonic Pi never
-# finishes booting Tau.
-#
-# We sign these specific binaries with the full entitlements file. Other
-# helpers (erl_child_setup, etc.) get the same treatment defensively since
-# they live in the BEAM-execution path.
+# JIT-capable runtimes (Ruby with YJIT) are spawned as their own processes —
+# hardened-runtime entitlements DO NOT inherit from the parent. Without this,
+# the runtime aborts at startup with "jit: Failed to allocate executable+
+# writable memory" and Sonic Pi never finishes booting. We sign these specific
+# binaries with the full entitlements file.
 # ---------------------------------------------------------------------------
 needs_jit_entitlements() {
     case "$1" in
-        */erts-*/bin/beam.smp)         return 0 ;;
-        */erts-*/bin/beam.smp.dyn)     return 0 ;;
-        */erts-*/bin/erl_child_setup)  return 0 ;;
-        */erts-*/bin/dyn_erl)          return 0 ;;
-        */erts-*/bin/erlexec)          return 0 ;;
         */ruby/bin/ruby)               return 0 ;;
         *)                             return 1 ;;
     esac
@@ -104,7 +95,7 @@ while IFS= read -r -d '' f; do
     fi
     count=$((count + 1))
 done < <(list_macho_files "${RELEASE_APP}/Contents/Resources")
-log_info "  ${count} files (${jit_count} with JIT entitlements: beam.smp / ruby / etc.)"
+log_info "  ${count} files (${jit_count} with JIT entitlements: ruby)"
 
 # ---------------------------------------------------------------------------
 # 4. Mach-O files under PlugIns/ (Qt platform plugins)

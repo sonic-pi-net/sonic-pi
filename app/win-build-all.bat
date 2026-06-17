@@ -8,8 +8,6 @@ call "%~dp0win-config.bat" %CONFIG%
 if errorlevel 1 goto :build_failed
 call "%~dp0win-build-gui.bat" %CONFIG%
 if errorlevel 1 goto :build_failed
-call "%~dp0win-post-tau-prod-release.bat"
-if errorlevel 1 goto :build_failed
 
 cd %WORKING_DIR%
 exit /b 0

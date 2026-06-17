@@ -29,8 +29,7 @@ expected_logs = [
   "debug.log",
   "gui.log",
   "scsynth.log",
-  "spider.log",
-  "tau.log"]
+  "spider.log"]
 
 # Windows doesn't allow certain chars in file paths
 # which are present in the default Time.now string format.

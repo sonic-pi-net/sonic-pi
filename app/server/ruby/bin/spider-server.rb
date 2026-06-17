@@ -132,13 +132,7 @@ scsynth_send_port = ARGV[4] ? ARGV[4].to_i : scsynth_port
 # server-osc-cues
 osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4560
 
-# Port which the Erlang scheduler/router listens to.
-# erlang-router
-tau_port = ARGV[6] ? ARGV[6].to_i : 4561
-
-listen_to_tau_port = ARGV[7] ? ARGV[7].to_i : 4562
-
-token = ARGV[8] ? ARGV[8].to_i : 0
+token = ARGV[6] ? ARGV[6].to_i : 0
 
 # Create a frozen map of the ports so that this can
 # essentially be treated as a global constant to the
@@ -148,9 +142,7 @@ sonic_pi_ports = {
   gui_port: gui_port,
   scsynth_port: scsynth_port,
   scsynth_send_port: scsynth_send_port,
-  osc_cues_port: osc_cues_port,
-  tau_port: tau_port,
-  listen_to_tau_port: listen_to_tau_port}.freeze
+  osc_cues_port: osc_cues_port}.freeze
 
 # Uncomment for debugging purposes:
 # STDOUT.puts "Ports: #{sonic_pi_ports.inspect}"

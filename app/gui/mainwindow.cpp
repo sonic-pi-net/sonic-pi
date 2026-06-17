@@ -457,7 +457,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
     connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
     connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
-    // Slider drives only the Link mesh reach; Tau's OSC bind scope stays
+    // Slider drives only the Link mesh reach; the OSC bind scope stays
     // on the prefs IO checkboxes.
     if (auto* lasw = metroPane->findChild<LinkAudioStreamsWidget*>()) {
         connect(lasw, &LinkAudioStreamsWidget::requestNetworkVisibilityChange,
@@ -1204,7 +1204,6 @@ void MainWindow::updateDebugLogPanelVisibility()
             QVector<LogPanel::Source> sources;
             for (const auto& src : m_spAPI->GetLogSources())
             {
-                if (src.name == "Tau") continue;
                 sources.append({ QString::fromStdString(src.name),
                                  QString::fromStdString(src.path.string()) });
             }
@@ -2198,7 +2197,6 @@ bool MainWindow::sendOSC(Message m)
 
 void MainWindow::reloadServerCode()
 {
-    m_spAPI->RestartTau();
     statusBar()->showMessage(tr("Reloading..."), 2000);
     Message msg("/reload");
     msg.pushInt32(guiID);
