@@ -57,7 +57,8 @@ module SonicPi
 
   class MockLinkAPI
     def link_tempo(*); 60.0; end
-    def link_is_playing?; false; end
+    def link_is_playing?(*); false; end
+    def link_transport_state(*); { playing: false, anchored: false }; end
     def link_set_bpm!(*); end
     def link_sleep(*); end
     def link_get_beat_at_clock_time(*); 0.0; end
@@ -66,6 +67,25 @@ module SonicPi
     def link_audio_input_set!(*); end
     def link_audio_input_remove!(*); end
     def link_audio_inputs_clear!(*); end
+  end
+
+  class MockOscAPI
+    def send_osc_at(*); end
+    def osc_flush!(*); end
+    def start_stop_cue_server!(*); end
+    def cue_server_internal!(*); end
+    def set_global_timewarp!(*); end
+  end
+
+  class MockMidiAPI
+    def midi_send_at(*); end
+    def midi_flush!(*); end
+    def midi_system_start!(*); end
+    def midi_system_stop!(*); end
+    def midi_clock_out_bpm(*); end
+    def midi_clock_out_follow(*); end
+    def midi_clock_out_off(*); end
+    def set_global_timewarp!(*); end
   end
 
   class MockLang
@@ -173,6 +193,8 @@ module SonicPi
 
       @tau_api = MockTauAPI.new
       @link_api = MockLinkAPI.new
+      @osc_api = MockOscAPI.new
+      @midi_api = MockMidiAPI.new
 
       begin
         @gitsave = GitSave.new(Paths.project_path)
@@ -206,8 +228,6 @@ module SonicPi
       __info "Welcome to Sonic Pi #{version}", 1
 
       __info "Running on Ruby v#{RUBY_VERSION}"
-
-      __info "Initialised Erlang OSC Scheduler"
 
       if safe_mode?
         __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{Paths.home_dir_path} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1

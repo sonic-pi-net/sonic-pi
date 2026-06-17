@@ -104,7 +104,7 @@ module SonicPi
 
     def init_scsynth
       @server = Server.new(@scsynth_port, @msg_queue, @state, @register_cue_event_lambda, @current_spider_time_lambda)
-      message "Initialised SuperSonic Audio Server #{@server.version}"
+      message "Initialised SuperSonic #{@server.version}"
     end
 
     def init_studio

@@ -220,7 +220,7 @@ module SonicPi
           Util.log "Daemon received Pid from Tau"
           # Util.log "token: #{@daemon_token}"
           if args[0] && args[0] == @daemon_token
-            @tau_booter.update_pid!(args[1])
+            @tau_booter.update_pid!(args[1]) if @tau_booter
           end
         end
 
@@ -301,35 +301,15 @@ module SonicPi
       end
 
       def boot_tau!(wait_for_pid = true)
-        @booting_tau = true
-        Util.log "Booting Tau..."
-        begin
-          @tau_booter = TauBooter.new(@ports, @kill_switch, @daemon_token)
-          @tau_booter.wait_for_pid! if wait_for_pid
-          @booting_tau = false
-        rescue StandardError => e
-          Util.log "Oh no, something went wrong booting Tau"
-          Util.log_error(e)
-          puts "Oh no, something went wrong booting Tau"
-          puts "Error Class: #{e.class}"
-          puts "Error Message: #{e.message}"
-          puts "Error Backtrace: #{e.backtrace.join("\n")}"
-          STDOUT.flush
-          @safe_exit.exit
-        end
+        # Tau/BEAM is retired: OSC in/out moved into SuperSonic (OscControl), and
+        # MIDI/Link migrated earlier — the Erlang server has no remaining job.
+        # Kept as an inert no-op so the boot sequence and any restart path stay
+        # harmless without ripping out the booter wiring yet.
+        Util.log "Tau/BEAM disabled — OSC now handled by SuperSonic; not booting Tau"
       end
 
       def restart_tau!
-        return if @booting_tau
-        Thread.new do
-          @restart_tau_mut.synchronize do
-            return if @booting_tau
-            @booting_tau = true
-            Util.log "Restarting Tau..."
-            @tau_booter.kill
-            boot_tau!
-          end
-        end
+        Util.log "Tau/BEAM disabled — ignoring restart-tau request"
       end
 
       def cleanup_any_running_processes

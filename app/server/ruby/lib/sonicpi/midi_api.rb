@@ -13,20 +13,16 @@
 
 require_relative "util"
 require_relative "supersonic_midi_comms"
+require_relative "osc/timetag"
 
 module SonicPi
   # Spider-side MIDI API over SupersonicMidiComms. Replaces sp_midi + the Tau
   # MIDI layer (tau_server_midi*.erl): outgoing MIDI is scheduled in SuperSonic's
-  # deferred-event scheduler via /midi/at (timetagged in SuperClock's domain, so
+  # deferred-event scheduler via /schedule (timetagged in SuperClock's domain, so
   # it stays locked to scsynth audio); incoming MIDI arrives as /midi/in/* and is
   # re-emitted as the same /midi:<port>:<chan>/<event> cues Sonic Pi already uses.
   # The /midi/* OSC surface lives in SuperSonic (MidiControl + the Rust subsystem).
   class MidiAPI
-
-    # NTP epoch (seconds 1900→1970) — matches OscEncode#time_encoded and the
-    # engine's ntp_to_osc_timetag, so a MIDI event timetagged here lands on the
-    # same clock as a scsynth bundle scheduled for the same time.
-    NTP_OFFSET = 2208988800
 
     # Tau out-path → SuperSonic /midi/* address.
     OUT_MAP = {
@@ -92,8 +88,12 @@ module SonicPi
       @midi_comms.unsubscribe_from_notifications!
     end
 
-    # No queued-send backlog to flush (events live in the engine scheduler).
-    def midi_flush!; end
+    # Cancel pending scheduled MIDI on run stop. The events live in SuperSonic's
+    # deferred-event scheduler, so flush there (the same scheduler-level /sched/
+    # flush the OSC path uses; tag "default" matches scheduled MIDI + OSC).
+    def midi_flush!
+      @midi_comms.send("/sched/flush", "default")
+    end
 
     def midi_refresh_devices!
       @midi_comms.send("/midi/refresh")
@@ -122,16 +122,12 @@ module SonicPi
 
     def send_one(t, ss_addr, args)
       inner = @midi_comms.encoder.encode_single_message(ss_addr, args)
-      tt = osc_timetag(t + @global_timewarp)
-      @midi_comms.send("/midi/at",
+      tt = SonicPi::OSC.osc_timetag(t + @global_timewarp)
+      # /schedule <timetag> <inner /midi/* blob>: the scheduler re-ingests the
+      # inner message on time through the same dispatch an immediate one hits.
+      @midi_comms.send("/schedule",
                        SonicPi::OSC::Int64.new(tt),
                        SonicPi::OSC::Blob.new(inner))
-    end
-
-    # Seconds (spider/SuperClock domain) → 64-bit OSC timetag.
-    def osc_timetag(t)
-      secs, frac = (t.to_f + NTP_OFFSET).divmod(1)
-      (secs.to_i << 32) | (frac * 4294967296.0).to_i
     end
 
     # Re-emit a /midi/in/* push as the Sonic Pi cue Tau used to produce:

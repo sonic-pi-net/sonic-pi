@@ -646,9 +646,38 @@ eval_file \"~/path/to/sonic-pi-code.rb\" #=> will run the contents of this file"
 
 
 
+      # Build the stored "host:port" client string, bracketing IPv6 literals as
+      # [::1]:4560 so they survive the split in `osc` (a bare IPv6 literal is all
+      # colons). A host that already contains a single ':' is treated as an
+      # explicit host:port (back-compat with use_osc "host:9000").
+      def __osc_host_and_port(host, port)
+        if host.start_with?("[")
+          host.include?("]:") ? host : "#{host}:#{port}"   # [::1] or [::1]:port
+        elsif host.count(":") > 1
+          "[#{host}]:#{port}"                              # bare IPv6 literal
+        elsif host.include?(":")
+          host                                            # already host:port
+        else
+          "#{host}:#{port}"
+        end
+      end
+
+      # Split a stored client string back into [host, port], handling the
+      # bracketed IPv6 form. Returns a plain (unbracketed) host.
+      def __osc_split_host_port(host_and_port)
+        if host_and_port.start_with?("[") && (close = host_and_port.index("]"))
+          host = host_and_port[1...close]                          # inside the brackets
+          port = host_and_port[(close + 1)..].to_s.delete_prefix(":").to_i  # after "]"
+          [host, port]
+        else
+          h, _, p = host_and_port.rpartition(":")
+          [h, p.to_i]
+        end
+      end
+
       def use_osc(host, port=4560)
         host = host.to_s.strip
-        host_and_port = (host.include? ":") ? host : (host + ":" + port.to_s)
+        host_and_port = __osc_host_and_port(host, port)
 
         __thread_locals.set :sonic_pi_osc_client, host_and_port.freeze
       end
@@ -771,8 +800,9 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
 
       def osc_send(host, port, path, *args)
         host = host.to_s.strip
+        host = host[1..-2] if host.start_with?("[") && host.end_with?("]")  # accept a bracketed IPv6 literal
         t = __get_spider_schedule_time
-        @tau_api.send_osc_at(t, host, port, path, *args)
+        @osc_api.send_osc_at(t, host, port, path, *args)
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc_send,
@@ -803,10 +833,9 @@ osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000
         host_and_port = __thread_locals.get :sonic_pi_osc_client
         raise ArgumentError, "Please specify a destination with use_osc or with_osc" unless host_and_port
         path = "/#{path}" if path.is_a? Symbol
-        host, port = host_and_port.split ":"
-        port = port.to_i
+        host, port = __osc_split_host_port(host_and_port)
         t = __get_spider_schedule_time
-        @tau_api.send_osc_at(t, host, port, path, *args)
+        @osc_api.send_osc_at(t, host, port, path, *args)
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc,
@@ -3693,30 +3722,7 @@ See link for further details and usage.",
         params, opts = split_params_and_merge_opts_array(args)
         quantum = params[0] || opts.fetch(:quantum, 4)
         phase = params[1] || opts.fetch(:phase, 0)
-
-        # Schedule messages
-        __schedule_delayed_blocks_and_messages!
-
-        __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
-        __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
-
-        __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum)
-
-        # Wait via link_sleep, not Kernel.sleep: a tempo-change broadcast wakes
-        # the wait early and the block re-derives the wall time of the (fixed)
-        # target beat from the live timeline, so the boundary tracks tempo
-        # changes that land mid-wait. The 0.2s tail is absorbed by sched-ahead,
-        # as with sleep. (`while`, not `loop` — in this context `loop` is the
-        # lang's zero-time-guarded version.)
-        while ((__get_spider_time.to_f - Time.now.to_f) - 0.2) > 0.2
-          @link_api.link_sleep((__get_spider_time.to_f - Time.now.to_f) - 0.2) do
-            __change_spider_beat_and_time_by_beat_delta!(0)
-          end
-        end
-        __system_thread_locals.set(:sonic_pi_spider_slept, true)
-
-        ## reset control deltas now that time has advanced
-        __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
+        __phase_sync_to_clock_timeline(:link, quantum, phase)
       end
       doc name:          :link,
           introduced:    Version.new(4,0,0),
@@ -3753,6 +3759,47 @@ link 8 # wait for the start of the next bar
         "
 link 7, 2 # wait for the 2nd beat of the next bar
           # (where each bar has 7 beats)
+"      ]
+
+
+      def midi_sync(quantum=4, phase=0, port: nil)
+        mode = __resolve_bpm_arg(:midi, port, quantum)
+        tl   = __spider_timeline_name(mode)
+        port = mode[1]
+        start_cue = port ? "/midi:#{port}*/start" : "/midi:*/start"
+        # Engine transport state is ground truth: only join once the timeline is
+        # anchored (a START/SPP set the bar origin) and running. The /start cue
+        # is just a wake signal, so re-check the engine after each.
+        until (s = @link_api.link_transport_state(tl: tl)) && s[:anchored] && s[:playing]
+          sync start_cue
+        end
+        __phase_sync_to_clock_timeline(mode, quantum, phase)
+      end
+      doc name:          :midi_sync,
+          introduced:    Version.new(4,0,0),
+          summary:       "Sync to an external MIDI clock with automatic transport and phase syncing.",
+          doc:           "Wait until an external MIDI clock is running and continue at the start of its next bar. Similar to `link` but for an incoming MIDI clock: if the clock's transport isn't yet anchored (no START/Song Position Pointer has defined where the bar is) `midi_sync` first waits for it to start, then sleeps until the next bar boundary before continuing.
+
+With no port the primary (first-clocking) MIDI source is followed; pass a `port:` to follow a specific port (see `midi_clock_sources`). The quantum sets how many beats are in a bar (default 4) and the phase chooses which beat of the bar to wake on (default 0, the downbeat).
+
+Also switches BPM to `:midi` mode (as `use_bpm :midi`), so the time and beat track the external clock.
+
+See use_bpm :midi for following a MIDI clock without waiting for the bar boundary.",
+          args:          [[:quantum, :number],
+                          [:phase, :number]],
+          opts:          {port: "MIDI clock port handle to follow (default: the primary incoming clock)."},
+          accepts_block: false,
+          requires_block: false,
+          examples:      ["
+midi_sync                 # wait for an incoming MIDI clock to start, then
+                          # continue at the top of its next bar (4 beats)
+puts current_bpm_mode     #=> [:midi, nil, 4.0]
+  ",
+        "
+midi_sync 8, port: \"launchpad\"  # follow the named port, 8 beats per bar
+",
+        "
+midi_sync 4, 2            # wake on the 3rd beat of the next bar
 "      ]
 
 

@@ -28,7 +28,7 @@ require_relative "config/settings"
 require_relative "preparser"
 require_relative "event_history"
 require_relative "thread_id"
-require_relative "tau_api"
+require_relative "osc_api"
 require_relative "link_api"
 require_relative "midi_api"
 require_relative "gamepad_api"
@@ -145,11 +145,38 @@ module SonicPi
       __change_spider_bpm_time_and_beat!(:link, t, 0)
     end
 
-    def __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum)
+    def __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum, mode = :link)
       safety_t = 0.5
-      beat, time = @link_api.link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t)
-      __system_thread_locals.set(:sonic_pi_spider_bpm, :link)
+      tl = __spider_timeline_name(mode)
+      beat, time = @link_api.link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t, tl: tl)
+      __system_thread_locals.set(:sonic_pi_spider_bpm, mode)
       __change_spider_time_and_beat!(time - __current_sched_ahead_time, beat)
+    end
+
+    # Shared body of the phase-sync verbs (link / midi_sync): switch the thread
+    # to the clock timeline `mode`, anchor its beat at the next quantum
+    # boundary (+ phase) and wait for it. The wait goes via link_sleep — a
+    # tempo-change broadcast wakes it and the block re-derives the (fixed)
+    # target beat's wall time from the live timeline, so the boundary tracks
+    # tempo changes that land mid-wait. The 0.2s tail is absorbed by
+    # sched-ahead, as with sleep.
+    def __phase_sync_to_clock_timeline(mode, quantum, phase)
+      __schedule_delayed_blocks_and_messages!
+
+      __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
+      __system_thread_locals.set_local(:sonic_pi_local_last_sync, nil)
+
+      __change_spider_bpm_time_and_beat_to_next_link_phase(phase, quantum, mode)
+
+      while ((__get_spider_time.to_f - Time.now.to_f) - 0.2) > 0.2
+        @link_api.link_sleep((__get_spider_time.to_f - Time.now.to_f) - 0.2) do
+          __change_spider_beat_and_time_by_beat_delta!(0)
+        end
+      end
+      __system_thread_locals.set(:sonic_pi_spider_slept, true)
+
+      ## reset control deltas now that time has advanced
+      __system_thread_locals.set_local :sonic_pi_local_control_deltas, {}
     end
 
     # Validate + normalise a bpm argument (shared by use_bpm / with_bpm / sync
@@ -634,11 +661,11 @@ module SonicPi
     end
 
     def __stop_start_cue_server!(stop)
-      @tau_api.start_stop_cue_server!(stop)
+      @osc_api.start_stop_cue_server!(stop)
     end
 
     def __cue_server_internal!(internal)
-      @tau_api.cue_server_internal!(internal)
+      @osc_api.cue_server_internal!(internal)
     end
 
     def __stop_job(j)
@@ -706,7 +733,7 @@ module SonicPi
       __info "Setting global timewarp to #{time}"
       __schedule_delayed_blocks_and_messages!
       set_mixer_global_timewarp!(time)
-      @tau_api.set_global_timewarp!(time)
+      @osc_api.set_global_timewarp!(time)
       @midi_api.set_global_timewarp!(time)
     end
 
@@ -718,7 +745,7 @@ module SonicPi
     end
 
     def __osc_flush!
-      @tau_api.osc_flush!
+      @osc_api.osc_flush!
     end
 
     def __stop_other_jobs
@@ -1608,7 +1635,8 @@ module SonicPi
 
       external_osc_cue_handler = lambda do |time, ip, port, address, args|
         address = "/#{address}" unless address.start_with?("/")
-        address = "/osc:#{ip}:#{port}#{address}"
+        ip_str = ip.to_s.include?(":") ? "[#{ip}]" : ip.to_s   # bracket IPv6 senders
+        address = "/osc:#{ip_str}:#{port}#{address}"
         p = 0
         d = 0
         b = 0
@@ -1650,12 +1678,16 @@ module SonicPi
         __msg_queue.push({:type => :link_bpm, :val => num})
       end
 
-      @tau_api = TauAPI.new(ports,
+      scsynth_send_port = ports[:scsynth_send_port] || ports[:scsynth_port]
+
+      # OSC in/out now lives in SuperSonic too (replacing the Tau/BEAM OSC
+      # server), reached over the same OSC port as Link/MIDI. The cue server
+      # binds the external OSC port.
+      @osc_api = OscAPI.new("127.0.0.1", scsynth_send_port, ports[:osc_cues_port],
                             {
                               external_osc_cue: external_osc_cue_handler
                             })
 
-      scsynth_send_port = ports[:scsynth_send_port] || ports[:scsynth_port]
       @link_api = LinkAPI.new("127.0.0.1", scsynth_send_port,
                               {
                                 internal_cue: internal_cue_handler,
@@ -1710,8 +1742,6 @@ module SonicPi
       __info "Welcome to Sonic Pi #{version}", 1
 
       __info "Running on Ruby v#{RUBY_VERSION}"
-
-      __info "Initialised Erlang OSC Scheduler"
 
       if safe_mode?
         __info "!!WARNING!! - file permissions issue:\n   Unable to write to folder #{Paths.home_dir_path} \n   Booting in SAFE MODE.\n   Buffer auto-saving is disabled, please save your work manually.", 1

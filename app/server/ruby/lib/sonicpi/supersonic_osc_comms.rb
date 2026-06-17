@@ -14,18 +14,18 @@
 require_relative "supersonic_comms"
 
 module SonicPi
-  # OSC client for SuperSonic's MIDI subsystem, over the /midi/* address
-  # space: subscribe_to_notifications! registers this client for /midi/in/* +
-  # /midi/ports pushes.
-  class SupersonicMidiComms < SupersonicComms
+  # OSC client for SuperSonic's OSC subsystem, over the /osc/* address space:
+  # subscribe_to_notifications! registers this client for /external-osc-cue
+  # pushes (external OSC arriving on the cue server).
+  class SupersonicOscComms < SupersonicComms
     def initialize(supersonic_host, supersonic_port)
       super(supersonic_host, supersonic_port,
-            address_space: "/midi",
-            name: "SuperSonic MIDI Comms")
+            address_space: "/osc",
+            name: "SuperSonic OSC Comms")
     end
 
-    # The shared OSC encoder, used to build the inner /midi/out blob scheduled via
-    # /schedule.
+    # The shared OSC encoder, used to build the inner user message wrapped in a
+    # /osc/send blob and scheduled via /schedule.
     def encoder
       @udp_server.encoder
     end

@@ -189,26 +189,26 @@ module SonicPi
       res ? res[0].to_i : 0
     end
 
-    def link_get_next_beat_and_time_at_phase(phase, quantum, safety_t)
+    def link_get_next_beat_and_time_at_phase(phase, quantum, safety_t, tl: "link")
       safety_micros = safety_t * 1_000_000.0
       fq = quantum.to_f
       t_now = link_current_time
-      t_now_phase = link_get_phase_at_time(t_now, fq)
-      t_now_beat = link_get_beat_at_time(t_now, fq)
+      t_now_phase = link_get_phase_at_time(t_now, fq, tl: tl)
+      t_now_beat = link_get_beat_at_time(t_now, fq, tl: tl)
 
       next_whole_quantum = (t_now_beat - t_now_phase) + quantum
       next_beat = next_whole_quantum + phase
-      next_time = link_get_time_at_beat(next_beat, fq)
+      next_time = link_get_time_at_beat(next_beat, fq, tl: tl)
 
       if (next_time - t_now) < safety_micros
         next_beat += quantum
-        next_time = link_get_time_at_beat(next_beat, fq)
+        next_time = link_get_time_at_beat(next_beat, fq, tl: tl)
       end
       [next_beat, next_time]
     end
 
-    def link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t)
-      beat, link_time = link_get_next_beat_and_time_at_phase(phase, quantum, safety_t)
+    def link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t, tl: "link")
+      beat, link_time = link_get_next_beat_and_time_at_phase(phase, quantum, safety_t, tl: tl)
       [beat, link_micros_to_clock_time(link_time)]
     end
 
@@ -236,9 +236,18 @@ module SonicPi
     end
 
     def link_is_playing?(tl: "link")
+      link_transport_state(tl: tl)[:playing]
+    end
+
+    # Transport state for any timeline. anchored = a transport event (START or
+    # SPP) has defined the timeline's beat origin — always true for link, whose
+    # session grid exists independent of transport. midi_sync gates on both
+    # flags. An unclaimed timeline (no clock seen yet) reports false/false.
+    def link_transport_state(tl: "link")
       res = @link_comms.rpc(clock_addr("transport/get", tl),
                             expect: clock_addr("transport.reply", tl))
-      res ? (res[0].to_i != 0) : false
+      { playing:  res ? (res[0].to_i != 0) : false,
+        anchored: res ? (res[1].to_i != 0) : false }
     end
 
     # Enumerate all timelines the engine knows: the Link timeline plus any

@@ -43,7 +43,7 @@ module SonicPi
       end
 
       # `link` targets beat 4: 4s away at the initial 60 BPM.
-      def link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t)
+      def link_get_next_beat_and_clock_time_at_phase(phase, quantum, safety_t, tl: "link")
         [4.0, link_get_clock_time_at_beat(4.0)]
       end
 
