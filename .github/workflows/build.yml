@@ -134,31 +134,6 @@ jobs:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
           version: "6.9.0"
 
-        # Install Elixir on Ubuntu
-      - name: Linux Elixir
-        uses: erlef/setup-beam@v1
-        with:
-          otp-version: "27"
-          elixir-version: "1.18"
-        if: matrix.os == 'ubuntu-latest'
-
-        # Install Elixir on Windows
-      - name: Win Elixir
-        uses: erlef/setup-beam@v1
-        with:
-          otp-version: "27"
-          elixir-version: "1.18"
-        if: startsWith(matrix.os, 'windows')
-
-        # Install Elixir on MacOS
-      - name: Mac Elixir
-        continue-on-error: true
-        run: |
-          export HOMEBREW_NO_INSTALL_CLEANUP=1
-          brew update
-          brew install elixir
-        if: matrix.os == 'macos-latest'
-
         # Prebuild on Ubuntu
       - name: Prebuild Linux
         working-directory: ${{github.workspace}}/app
@@ -256,48 +231,6 @@ jobs:
         shell: cmd
         run: win-build-gui.bat  ${{ matrix.build_type }}
         if: startsWith(matrix.os, 'windows')
-
-      # Build Tau server
-      - name: Build Tau Server (Linux)
-        working-directory: ${{github.workspace}}/app
-        run: ./linux-post-tau-prod-release.sh
-        if: matrix.os == 'ubuntu-latest'
-
-      - name: Build Tau Server (Mac)
-        working-directory: ${{github.workspace}}/app
-        run: ./mac-post-tau-prod-release.sh
-        if: matrix.os == 'macos-latest'
-
-      - name: Build Tau Server (Windows)
-        working-directory: ${{github.workspace}}/app
-        shell: cmd
-        run: win-post-tau-prod-release.bat
-        if: startsWith(matrix.os, 'windows')
-
-      - name: BEAM Tests Windows
-        shell: cmd
-        working-directory: ${{github.workspace}}/app/server/beam/tau
-        run: mix test
-        env:
-          TAU_ENV: test
-          TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-        if: startsWith(matrix.os, 'windows')
-
-      - name: BEAM Tests (Linux)
-        working-directory: ${{github.workspace}}/app/server/beam/tau
-        run: mix test
-        env:
-          TAU_ENV: test
-          TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-        if: matrix.os == 'ubuntu-latest'
-
-      - name: BEAM Tests (macOS)
-        working-directory: ${{github.workspace}}/app/server/beam/tau
-        run: mix test
-        env:
-          TAU_ENV: test
-          TAU_LOG_PATH: ${{github.workspace}}/tau_log.txt
-        if: matrix.os == 'macos-latest'
 
       - name: Ruby Tests (Mac/Linux)
         working-directory: ${{github.workspace}}/app/server/ruby
@@ -462,17 +395,6 @@ jobs:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
           version: "${{matrix.qt_version}}"
 
-      - name: Install Erlang/Elixir
-        uses: erlef/setup-beam@v1
-        # Custom containers don't expose the runner's ImageOS env var, so
-        # set it explicitly. Locked to the container's matrix entry so
-        # setup-beam fetches a BEAM built for the same Ubuntu base.
-        env:
-          ImageOS: ${{matrix.image_os}}
-        with:
-          otp-version: "27"
-          elixir-version: "1.18"
-
       - name: Put bundled Ruby first on PATH
         run: |
           echo "${GITHUB_WORKSPACE}/_bundled_ruby/bin" >> "$GITHUB_PATH"
@@ -498,10 +420,6 @@ jobs:
       - name: Build GUI
         working-directory: ${{github.workspace}}/app
         run: ./linux-build-gui.sh
-
-      - name: Build Tau prod release
-        working-directory: ${{github.workspace}}/app
-        run: ./linux-post-tau-prod-release.sh
 
       - name: Package AppImage
         working-directory: ${{github.workspace}}/app

@@ -23,9 +23,6 @@
 *.la
 *.a
 
-# Compiled Erlang files
-*.beam
-
 # Library files
 *.lib
 
