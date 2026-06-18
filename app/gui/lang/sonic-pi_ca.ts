@@ -141,7 +141,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="626"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>Metrònom Link i Time Warp Global</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1712"/>
@@ -475,22 +475,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3035"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>Connecta o desconnecta el metrònom Link de la xarxa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3537"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Marque el tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3036"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Feu clic per marcar tempo Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3004"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Centreu verticalment el cursor a l’editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3540"/>
@@ -834,55 +834,56 @@
     <message>
         <location filename="../mainwindow.cpp" line="3921"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfoqueu el lliscador de BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3045"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Poseu el focus en el lliscador de BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3925"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfoqueu el lliscador TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3046"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation>Poseu el focus en el lliscador TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1546"/>
         <source>Apologies, unable to start...
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Disculpes, incapaç d&apos;arrencar...
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1548"/>
         <source>Sorry, Sonic Pi is having issues booting:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ho sentim, Sonic Pi té problemes d&apos;arrencada:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2557"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode d&apos;indentació automàtica habilitat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2561"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode d&apos;indentació automàtica deshabilitat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2982"/>
         <location filename="../mainwindow.cpp" line="3322"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation>Comentar/Descomentar codi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2983"/>
         <location filename="../mainwindow.cpp" line="3326"/>
         <source>Transpose Characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Transposeu Caràcters</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2984"/>

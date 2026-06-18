@@ -794,7 +794,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3040"/>
         <source>Place focus on the cue event pane</source>
-        <translation>Cuir fócas ar an bpána imeachta CUE</translation>
+        <translation>Cuir fócas ar an bpána imeachta leid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3905"/>

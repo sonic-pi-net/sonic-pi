@@ -164,7 +164,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4804"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation>启用 MIDI &lt;输入&gt;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4832"/>
@@ -234,17 +234,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>音频输入已启用。重新启动 Sonic Pi 以使此设置生效...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>音频输入已禁用。重新启动 Sonic Pi 以使此设置生效...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1542"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonic Pi 启动错误</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1871"/>
@@ -310,12 +310,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2048"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>隐藏关于窗口…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2054"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation>显示关于窗口…</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2073"/>
@@ -350,12 +350,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2646"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation>显示上下文开启</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2654"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation>显示上下文关闭</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2670"/>
@@ -370,7 +370,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3293"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>退出</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2978"/>
@@ -390,7 +390,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3020"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation>切换有关 Sonic Pi 的信息</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3444"/>

@@ -88,7 +88,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4812"/>
         <source>Disabling MIDI input...</source>
-        <translation>غیر فعال کردن ورودی MIDI</translation>
+        <translation>غیرفعال‌سازی ورودی MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4830"/>
@@ -108,17 +108,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="4859"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>غیرفعال‌سازی درگاه نشانه‌ی OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4873"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>فعال‌سازی درگاه نشانه‌ی OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4887"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation>فعال‌سازی درگاه داخلی نشانه‌ی OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4941"/>
@@ -141,7 +141,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="626"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation>اتصال مترونوم و اعوجاج زمانی جهانی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1712"/>
@@ -174,7 +174,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2319"/>
         <source>Log Auto Scroll off...</source>
-        <translation></translation>
+        <translation>غیرفعال‌سازی پیمایش خودکار گزارش...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2976"/>
@@ -199,12 +199,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3420"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation>افزایش اندازه‌ی کد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3424"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation>کاهش اندازه‌ی کد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3428"/>
@@ -219,7 +219,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4214"/>
         <source>Wavefile (*.wav)</source>
-        <translation></translation>
+        <translation>فایل ویو (*.wav)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4832"/>
@@ -254,27 +254,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="816"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>پنهان‌سازی عنوان پن‌ها...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="826"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایان‌سازی عنوان پن‌ها...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1440"/>
         <source>Audio Inputs Enabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>ورودی‌های صوتی فعال شدند. برای اعمال این تنظیم، Sonic Pi را دوباره راه‌اندازی کنید...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1444"/>
         <source>Audio Inputs Disabled. Restart Sonic Pi for this setting to take effect...</source>
-        <translation type="unfinished"></translation>
+        <translation>ورودی‌های صوتی غیرفعال شدند. برای اعمال این تنظیم، Sonic Pi را دوباره راه‌اندازی کنید...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1542"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>خطای راه‌اندازی Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1864"/>
@@ -305,13 +305,13 @@
         <location filename="../mainwindow.cpp" line="1953"/>
         <source>Enabling Mixer LPF...</source>
         <oldsource>Enabling Mixer LPF....</oldsource>
-        <translation></translation>
+        <translation>فعال‌سازی میکسر LPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1962"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation></translation>
+        <translation>فعال‌سازی میکسر LPF...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1970"/>
@@ -360,7 +360,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Showing help...</source>
-        <translation type="unfinished">در حال نمایش کمک ...</translation>
+        <translation>در حال نمایش کمک...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2142"/>
@@ -370,7 +370,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2384"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished">تم رنگ: </translation>
+        <translation>تم رنگی: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2624"/>
@@ -460,37 +460,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="3522"/>
         <source>Show Code Context</source>
-        <translation>نمایش Context کد</translation>
+        <translation>نمایش زمینه‌ی کد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3527"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>فعال‌سازی ورودی‌های صوتی</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3532"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>اتصال لینک</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3035"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation>اتصال یا قطع اتصال لینک مترونوم از شبکه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3537"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>ضرب‌آهنگ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3036"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>کلیک برای اتصال ضرب‌آهنگ با ضربه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3004"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation>مرکز‌چین کردن عمودی نشانگر در ویرایشگر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3540"/>
@@ -525,12 +525,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3570"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation>اجازه دادن به دریافت پیام‌های OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3575"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation>اجازه دادن به دریافت پیام‌های OSC از رایانه‌های دیگر</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3580"/>
@@ -550,7 +550,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3600"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation>پیمایش خودکار لاگ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3613"/>
@@ -585,12 +585,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3692"/>
         <source>Pro Light</source>
-        <translation>Pro Light</translation>
+        <translation>لایت حرفه ای</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3697"/>
         <source>Pro Dark</source>
-        <translation>Pro Dark</translation>
+        <translation>دارک حرفه‌ای</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3702"/>
@@ -605,12 +605,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3712"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش عنوان‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3717"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>پنهان‌سازی نوار منو در حالت تمام‌صفحه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3742"/>
@@ -620,46 +620,46 @@
     <message>
         <location filename="../mainwindow.cpp" line="3753"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش انواع دامنه‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3764"/>
         <source>IO</source>
-        <translation type="unfinished"></translation>
+        <translation>IO</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3772"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>ورودی‌های MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3773"/>
         <location filename="../mainwindow.cpp" line="4828"/>
         <location filename="../mainwindow.cpp" line="4947"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>بدون ورودی‌های متصل‌شده</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3774"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>خروجی‌های MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3775"/>
         <location filename="../mainwindow.cpp" line="4826"/>
         <location filename="../mainwindow.cpp" line="4969"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>بدون خروجی‌های متصل‌شده</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3777"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>کانال پیش‌فرض خروجی MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3779"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>تمام کانال‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3784"/>
@@ -784,52 +784,52 @@
     <message>
         <location filename="../mainwindow.cpp" line="3901"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation>تمرکز روی نشانه‌ها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3040"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation>قرار دادن تمرکز روی پن رویداد نشانه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3905"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>تنظیمات تمرکز</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3041"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>قرار دادن تمرکز روی تنظیمات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3909"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation>فهرست راهنمای تمرکز</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3042"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation>قرار دادن تمرکز روی فهرست راهنما</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3913"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation>جزئیات راهنمای تمرکز</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3043"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation>قرار دادن تمرکز روی جزئیات راهنما</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3917"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>خطاهای تمرکز</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3044"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation>قرار دادن تمرکز روی خطاها</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3921"/>
@@ -1453,7 +1453,8 @@
         <location filename="../mainwindow.cpp" line="4762"/>
         <source>Sonic Pi checks for updates
 every two weeks.</source>
-        <translation>Sonic Pi به روزرسانی ها هر دو هفته را بررسی می کند.</translation>
+        <translation>Sonic Pi به‌روزرسانی‌ها را
+هر دو هفته یک‌بار بررسی می‌کند.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4764"/>
@@ -1638,7 +1639,7 @@ Sonic Pi٪ 1 را دریافت کنید</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4124"/>
         <source>Community</source>
-        <translation></translation>
+        <translation>جامعه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="343"/>
@@ -1673,12 +1674,12 @@ Sonic Pi٪ 1 را دریافت کنید</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4127"/>
         <source>License</source>
-        <translation></translation>
+        <translation>لایسنس</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4128"/>
         <source>History</source>
-        <translation></translation>
+        <translation>تاریخچه</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4167"/>
@@ -1688,19 +1689,21 @@ Sonic Pi٪ 1 را دریافت کنید</translation>
     <message>
         <location filename="../mainwindow.cpp" line="4214"/>
         <source>Save Recording</source>
-        <translation></translation>
+        <translation>ذخیره‌سازی ضبط</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4412"/>
         <source>Cannot read file %1:
 %2.</source>
-        <translation></translation>
+        <translation>نمی‌توان فایل %1 را خواند:
+%2.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4440"/>
         <source>Cannot write file %1:
 %2.</source>
-        <translation></translation>
+        <translation>نمی‌توان فایل %1 را نوشت:
+%2.</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="113"/>
@@ -1777,7 +1780,7 @@ Sonic Pi٪ 1 را دریافت کنید</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="40"/>
         <source>Audio</source>
-        <translation type="unfinished">صوتی</translation>
+        <translation>صوت</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="43"/>
@@ -1792,13 +1795,13 @@ Sonic Pi٪ 1 را دریافت کنید</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="49"/>
         <source>Visuals</source>
-        <translation type="unfinished">تصویری</translation>
+        <translation>تصاویر</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="52"/>
         <location filename="../widgets/settingswidget.cpp" line="470"/>
         <source>Updates</source>
-        <translation type="unfinished">بروزرسانی‌ها</translation>
+        <translation>به‌روزرسانی‌ها</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="55"/>
@@ -1809,7 +1812,7 @@ Sonic Pi٪ 1 را دریافت کنید</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="77"/>
         <source>Use this slider to change the system volume.</source>
-        <translation type="unfinished">این لغزنده برای تغییر حجم‌صدای دستگاه به کارببرید.</translation>
+        <translation>از این لغزنده برای تغییر میزان صدای سیستم استفاده کنید.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="91"/>
@@ -1820,12 +1823,13 @@ Sonic Pi٪ 1 را دریافت کنید</translation>
         <location filename="../widgets/settingswidget.cpp" line="92"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished">تنظیمات صوتی پیشرفته برای کارکردن با دستگاه‌های PA هنگام اجرا با سونیک‌پای.</translation>
+        <translation>تنظیمات پیشرفته صدا برای کار با
+سیستم‌های صوتی خارجی هنگام اجرا با Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="93"/>
         <source>Invert stereo</source>
-        <translation type="unfinished">معکوس‌کردن استریو</translation>
+        <translation>معکوس‌کردن استریو</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="94"/>
@@ -1837,7 +1841,7 @@ be routed to the right speaker and vice versa.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
         <source>Force mono</source>
-        <translation type="unfinished">مجبورکردن به مونو</translation>
+        <translation>اجبار به مونو</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="96"/>
@@ -1846,37 +1850,40 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished">تغییر‌وضعیت مونو.
-اگر فعال شود صدای راست و چپ ترکیب شده و همان سیگنال به هر دو بلندگو ارسال میشود.
-هنگامی با سیستم های خارجی کار می‌کنید که فقط توان کار با صدای مونو را دارند کاربرد دارد.</translation>
+        <translation>فعال‌سازی حالت مونو.
+اگر فعال شود، صدای چپ و راست ترکیب شده
+و سیگنال یکسانی به هر دو بلندگو ارسال می‌شود.
+مفید برای سیستم‌های خارجی
+که فقط حالت مونو را پشتیبانی می‌کنند.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="105"/>
         <source>Synths and FX</source>
-        <translation type="unfinished">ترکیب‌کننده‌ها و توابع</translation>
+        <translation>سینت‌ها و افکت‌ها</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="106"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished">تغییر رفتار ترکیب‌کننده‌ها و توابع</translation>
+        <translation>تغییر رفتار سینت‌ها و افکت‌ها</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
         <source>Safe mode</source>
-        <translation type="unfinished">حالت امن</translation>
+        <translation>حالت امن</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="109"/>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">تغییروضعیت توابع بررسی‌کننده آرگومان‌های ترکیب‌کننده(Synth).
-اگر غیرفعال باشد، مقادیر برخی گزینه(آپشن) های ترکیب‌کننده شاید اصوات به طور غیرمنتظره‌ای بلند یا ناراحت‌کننده‌ای تولید کنند.</translation>
+        <translation>فعال‌سازی بررسی آرگومان‌های سینت
+اگر غیرفعال شود، برخی مقادیر تنظیمی سینت ممکن است
+صداهایی غیرمنتظره، بلند یا ناخوشایند ایجاد کنند.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="111"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished">اجرای تضمین های زمان بندی</translation>
+        <translation>اعمال تضمین‌های زمانی</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="112"/>
@@ -1887,8 +1894,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished">وقتی فعال است، سونیک‌پای تشخیص ترکیب‌کننده‌ها و توابع را اگر برای انجام آن دیر باشد رد میکند
-وقتی غیرفعال است، سونیک‌پای همواره تلاش میکند ترکیب‌کننده‌ها و توابع را تشخیص دهد حتی اگر کمی دیر باشد.</translation>
+        <translation>وقتی فعال باشد، Sonic Pi از فعال‌سازی
+سینت‌ها و افکت‌ها خودداری می‌کند
+اگر زمان آن گذشته باشد.
+
+وقتی غیرفعال باشد، Sonic Pi همیشه
+تلاش می‌کند سینت‌ها و افکت‌ها را فعال کند
+حتی اگر کمی دیر شده باشد.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="115"/>
@@ -1899,25 +1911,27 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished">When enabled, Sonic Pi will allow
-synths and FX loaded via load_synthdefs
-to be triggered.
+        <translation>وقتی فعال باشد، Sonic Pi اجازه می‌دهد
+سینت‌ها و افکت‌هایی که از طریق load_synthdefs
+بارگذاری شده‌اند، اجرا شوند.
 
-When disabled, Sonic Pi will complain
-when you attempt to use a synth or FX
-which isn&apos;t recognised.</translation>
+وقتی غیرفعال باشد، Sonic Pi هنگام تلاش
+برای استفاده از سینت یا افکتی
+که شناخته نشده است، خطا می‌دهد.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="151"/>
         <source>Networked OSC</source>
-        <translation type="unfinished">OSC شبکه‌ای</translation>
+        <translation>OSC شبکه‌ای</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="152"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">سونیک‌پای میتواند پیام‌های پروتکل &quot;کنترل صدای باز&quot;(OSC) را به/از دیگر برنامه‌ها یا کامپیوترها توسط شبکه متصل درحال‌حاضر ارسال/دریافت کند.</translation>
+        <translation>قابلیت ارسال و دریافت پیام‌های OSC به
+برنامه‌ها یا رایانه‌های دیگر از طریق
+شبکه‌ی متصل‌شده توسط Sonic Pi فراهم است.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
@@ -1927,7 +1941,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Unavailable</source>
-        <translation type="unfinished">غیرقابل‌دسترس</translation>
+        <translation>غیرقابل دسترس</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="181"/>
@@ -1969,58 +1983,59 @@ to and from other programs or computers
         <location filename="../widgets/settingswidget.cpp" line="185"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished">وقتی تیک‌خورده، سونیک‌پای به پیام‌های OSC گوش خواهد داد.
-وقتی تیک‌نخورده پیام OSC نخواهد رسید.</translation>
+        <translation>وقتی علامت‌گذاری شود، Sonic Pi به پیام‌های OSC گوش خواهد داد.
+وقتی علامت‌گذاری نشود، هیچ پیام OSC دریافت نخواهد شد.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished">پیکربندی MIDI</translation>
+        <translation>پیکربندی MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished">پیکربندی رفتار MIDI</translation>
+        <translation>پیکربندی رفتار MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="196"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">درگاه‌های MIDI</translation>
+        <translation>درگاه‌های MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="197"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">لیست تمام درگاه‌های MIDI متصل</translation>
+        <translation>فهرست تمام درگاه‌های متصل MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="202"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished">تنظیم مجدد MIDI</translation>
+        <translation>ریست MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="204"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished">تنظیم مجدد زیرسامانه‌های MIDI
-(نیاز به تشخیص تغییرات دستگاه در macOS)</translation>
+        <translation>بازنشانی زیرسیستم‌های MIDI
+(برای شناسایی تغییرات دستگاه در macOS مورد نیاز است)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="247"/>
         <source>No connected input devices</source>
-        <translation type="unfinished">هیچ دستگاه ورودی متصل نیست</translation>
+        <translation>هیچ دستگاه ورودی متصل نیست</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="248"/>
         <source>No connected output devices</source>
-        <translation type="unfinished">هیچ دستگاه خروجی متصل نیست</translation>
+        <translation>هیچ دستگاه خروجی متصل نیست</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="249"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">دستگاه‌های ورودی MIDI پیام‌ها را مستقیما به سونیک‌پای میفرستند و به عنوان رویدادهای ردیف دریافت میشوند
-(شبیه به پیام‌های OSC ورودی و ردیف‌های داخلی)</translation>
+        <translation>دستگاه‌های ورودی MIDI پیام‌های MIDI را مستقیماً به Sonic Pi ارسال می‌کنند
+و این پیام‌ها به‌صورت رویدادهای نشانه دریافت می‌شوند
+(مشابه پیام‌های ورودی OSC و نشانه‌های داخلی)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="250"/>
@@ -2031,17 +2046,17 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show and Hide</source>
-        <translation type="unfinished">نمایش و کتمان</translation>
+        <translation>نمایش و پنهان‌سازی</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished">پیکربندی گزینه‌(آپشن)های نمایش ویرایشگر.</translation>
+        <translation>پیکربندی گزینه‌های نمایش ویرایشگر.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished">پیکربندی نما و حس ویرایشگر.</translation>
+        <translation>پیکربندی ظاهر و حس و حال ویرایشگر.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="74"/>
@@ -2141,17 +2156,17 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Auto-align</source>
-        <translation type="unfinished">تراز خودکار</translation>
+        <translation>تراز خودکار</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show line numbers</source>
-        <translation type="unfinished">نمایش شماره خطوط</translation>
+        <translation>نمایش شماره خطوط</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished">تغییروضعیت نمایش شماره خطوط.</translation>
+        <translation>تغییر وضعیت نمایش شماره خطوط.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
@@ -2251,77 +2266,79 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="334"/>
         <source>Light</source>
-        <translation type="unfinished">روشن</translation>
+        <translation>روشن</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="335"/>
         <source>Dark</source>
-        <translation type="unfinished">تیره</translation>
+        <translation>تیره</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="336"/>
         <source>Pro Light</source>
-        <translation type="unfinished">Pro Light</translation>
+        <translation>لایت حرفه ای</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="337"/>
         <source>Pro Dark</source>
-        <translation type="unfinished">Pro Dark</translation>
+        <translation>تاریکی حرفه‌ای</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="338"/>
         <source>High Contrast</source>
-        <translation type="unfinished">کنتراست بالا</translation>
+        <translation>کنتراست بالا</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="383"/>
         <source>Logging</source>
-        <translation type="unfinished">گزارش‌کردن‌وقایع</translation>
+        <translation>ثبت گزارش‌ها</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="384"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished">پیکربندی رفتار اشکال‌زدایی</translation>
+        <translation>پیکربندی رفتار اشکال‌زدایی</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="386"/>
         <source>Log synths</source>
-        <translation type="unfinished">گزارش‌وقایع ترکیب‌کننده‌ها</translation>
+        <translation>ثبت گزارش سینت‌ها</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="387"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">تغییر‌وضعیت پیامهای گزارش‌وقایع (لاگ).
-اگر غیرفعال باشد، فعالیتهایی مثل ترکیب‌کننده(Synth) و مدل(Sample) به طور پیشفرض در گزارش‌وقایع نوشته نخواهند شد.</translation>
+        <translation>فعال‌سازی پیام‌های گزارش.
+اگر غیرفعال شود، فعالیت‌هایی مانند فعال‌سازی سینت و
+نمونه‌ها به‌طور پیش‌فرض در گزارش چاپ نخواهند شد.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="389"/>
         <source>Clear log on run</source>
-        <translation type="unfinished">پاک کردن لاگ در زمان اجرا</translation>
+        <translation>پاکسازی گزارش در هنگام اجرا</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="390"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished">تغییر‌وضعیت پاک‌کردن گزارش‌وقایع(لاگ) در اجرا.
-اگر فعال باشد، گزارش‌وقایع با هربار فشردن دکمه اجرا پاک خواهد شد.</translation>
+        <translation>فعال‌سازی پاک‌سازی گزارش هنگام اجرا.
+اگر فعال شود، گزارش هر بار
+با فشردن دکمه اجرا پاک می‌شود.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="392"/>
         <source>Log cues</source>
-        <translation type="unfinished">گزارش‌وقایع ردیف‌ها</translation>
+        <translation>گزارش ردیف‌ها</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="393"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished">فعال یا غیرفعال‌کردن گزارش‌وقایع(لاگ) ردیف‌ها.
-اگر غیرفعال باشد، ردیف‌ها همچنان شناسایی خواهند شد.
-به هر حال، آنها در گزارشات‌وقایع نمایان نخواهند بود.</translation>
+        <translation>فعال‌سازی یا غیرفعال‌سازی ثبت گزارش نشانه‌ها.
+اگر غیرفعال شود، نشانه‌ها همچنان اجرا خواهند شد.
+اما در گزارش‌ها قابل مشاهده نخواهند بود.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
@@ -2332,8 +2349,8 @@ However, they will not be visible in the logs.</source>
         <location filename="../widgets/settingswidget.cpp" line="396"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">تغییروضعیت اسکرول خودکار گزارش‌وقایع(لاگ).
-اگر فعال باشد گزارش‌وقایع به آخر آن اسکرول میشود اگر و تنها اگر پیام جدیدی نمایش یابد.</translation>
+        <translation>تغییر وضعیت پیمایش خودکار گزارش.
+اگر فعال باشد، گزارش پس از نمایش هر پیام جدید به پایین پیمایش می‌شود.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="422"/>
@@ -2500,41 +2517,41 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="449"/>
         <source>Transparency</source>
-        <translation type="unfinished">شفافیت</translation>
+        <translation>شفافیت</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="472"/>
         <source>Check for updates</source>
-        <translation type="unfinished">بررسی برای بروزرسانی‌ها</translation>
+        <translation>بررسی برای به‌روزرسانی‌ها</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="473"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">تغییروضعیت بررسی خودکار بروزرسانی.
-این بررسی شامل ارسال اطلاعات ناشناس درباره سکو(پلتفرم) و نسخه شماست.</translation>
+        <translation>تغییر وضعیت بررسی خودکار به‌روزرسانی‌ها.
+این بررسی شامل ارسال اطلاعات ناشناس درباره پلتفرم و نسخه شما می‌شود.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="474"/>
         <source>Check now</source>
-        <translation type="unfinished">الان بررسی کنید</translation>
+        <translation>الان بررسی کن</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="477"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">اجبار به بررسی بروزرسانی الان.
-این بررسی شامل ارسال اطلاعات ناشناس درباره سکو(پلتفرم) و نسخه شماست.</translation>
+        <translation>اکنون بررسی برای به‌روزرسانی‌ها را به‌صورت اجباری انجام دهید.
+این بررسی شامل ارسال اطلاعات ناشناس درباره پلتفرم و نسخه شما می‌باشد.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Get update</source>
-        <translation type="unfinished">گرفتن بروزرسانی</translation>
+        <translation>دریافت به‌روزرسانی</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="480"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished">از http://sonic-pi.net برای بارگیری نسخه جدید بازدید کنید</translation>
+        <translation>از http://sonic-pi.net برای دانلود نسخه جدید بازدید کنید</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="485"/>
@@ -2544,7 +2561,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="488"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished">اطلاعات بروزرسانی سونیک‌پای</translation>
+        <translation>اطلاعات بروزرسانی Sonic Pi</translation>
     </message>
 </context>
 </TS>
