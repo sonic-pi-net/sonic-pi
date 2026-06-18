@@ -328,12 +328,17 @@ void MainWindow::checkForStudioMode()
     QStringList studioHashList = QStringList();
 
     std::cout << "[GUI] - Fetching Studio hashes" << std::endl;
-    QProcess* fetchStudioHashes = new QProcess();
+    QProcess fetchStudioHashes;
     QStringList fetch_studio_hashes_send_args;
     fetch_studio_hashes_send_args << QString::fromStdString(m_spAPI->GetPath(SonicPiPath::FetchUrlPath)) << "http://sonic-pi.net/static/info/studio-hashes.txt";
-    fetchStudioHashes->start(QString::fromStdString(m_spAPI->GetPath(SonicPiPath::RubyPath)), fetch_studio_hashes_send_args);
-    fetchStudioHashes->waitForFinished();
-    QTextStream stream(fetchStudioHashes->readAllStandardOutput().trimmed());
+    fetchStudioHashes.start(QString::fromStdString(m_spAPI->GetPath(SonicPiPath::RubyPath)), fetch_studio_hashes_send_args);
+    // Bounded wait so a slow/unreachable network can't freeze the GUI at startup.
+    if (!fetchStudioHashes.waitForFinished(5000))
+    {
+        fetchStudioHashes.kill();
+        fetchStudioHashes.waitForFinished(1000);
+    }
+    QTextStream stream(fetchStudioHashes.readAllStandardOutput().trimmed());
     QString line = stream.readLine();
     while (!line.isNull())
     {
@@ -962,6 +967,7 @@ void MainWindow::updateFocusMode()
         piSettings->full_screen = false;
         piSettings->show_tabs = true;
         piSettings->show_buttons = true;
+        piSettings->show_log = true;
         piSettings->show_cues = true;
     }
     emit settingsChanged();
@@ -1268,6 +1274,8 @@ void MainWindow::updateTabsVisibility()
     showTabsAct->setChecked(piSettings->show_tabs);
 
     QTabBar* tabBar = editorTabWidget->findChild<QTabBar*>();
+    if (!tabBar)
+        return;
 
     if (piSettings->show_tabs)
     {
@@ -1830,8 +1838,7 @@ void MainWindow::startupError(QString msg)
 
     QDialog* pDialog = new QDialog(this, Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
 
-    QVBoxLayout* pLayout = new QVBoxLayout(this);
-    pDialog->setLayout(pLayout);
+    QVBoxLayout* pLayout = new QVBoxLayout(pDialog);
 
     pDialog->setWindowTitle(tr("Sonic Pi Boot Error"));
 
@@ -3777,12 +3784,12 @@ void MainWindow::createToolBar()
 
     logSynthsAct = new QAction(tr("Log Synths"), this);
     logSynthsAct->setCheckable(true);
-    logSynthsAct->setChecked(piSettings->log_cues);
+    logSynthsAct->setChecked(piSettings->log_synths);
     connect(logSynthsAct, SIGNAL(triggered()), this, SLOT(logSynthsMenuChanged()));
 
     clearOutputOnRunAct = new QAction(tr("Clear Logs on Run"), this);
     clearOutputOnRunAct->setCheckable(true);
-    clearOutputOnRunAct->setChecked(piSettings->log_cues);
+    clearOutputOnRunAct->setChecked(piSettings->clear_output_on_run);
     connect(clearOutputOnRunAct, SIGNAL(triggered()), this, SLOT(clearOutputOnRunMenuChanged()));
 
     autoIndentOnRunAct = new QAction(tr("Auto Indent Code Buffer"), this);
@@ -4664,7 +4671,7 @@ void MainWindow::readSettings()
     piSettings->main_volume = gui_settings->value("prefs/system-vol", 80).toInt();
     piSettings->mixer_force_mono = gui_settings->value("prefs/mixer-force-mono", false).toBool();
     piSettings->mixer_invert_stereo = gui_settings->value("prefs/mixer-invert-stereo", false).toBool();
-    piSettings->enable_scsynth_inputs = gui_settings->value("/prefs/enable-scsynth-inputs", false).toBool();
+    piSettings->enable_scsynth_inputs = gui_settings->value("prefs/enable-scsynth-inputs", false).toBool();
     piSettings->audio_driver        = gui_settings->value("prefs/audio-driver", "").toString();
     piSettings->audio_output_device = gui_settings->value("prefs/audio-output-device", "").toString();
     piSettings->audio_input_device  = gui_settings->value("prefs/audio-input-device", "").toString();
@@ -4918,7 +4925,6 @@ void MainWindow::onExitCleanup()
 
 void MainWindow::restartApp()
 {
-    QApplication* app = dynamic_cast<QApplication*>(parent());
     statusBar()->showMessage(tr("Restarting Sonic Pi..."), 10000);
 
     qputenv("SONIC_PI_RESTART", "1");
@@ -4943,7 +4949,7 @@ void MainWindow::restartApp()
     }
 
     // Quit
-    app->exit(0);
+    qApp->exit(0);
     exit(0);
 }
 
@@ -5884,8 +5890,7 @@ void MainWindow::homeDirWriteError()
 
     QDialog* pDialog = new QDialog(this, Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
 
-    QVBoxLayout* pLayout = new QVBoxLayout(this);
-    pDialog->setLayout(pLayout);
+    QVBoxLayout* pLayout = new QVBoxLayout(pDialog);
 
     pDialog->setWindowTitle(tr("Sonic Pi - Unable to Write to Home Directory"));
 
