@@ -599,7 +599,7 @@ void MainWindow::setupWindowStructure()
 
         QString w = QString(tr("| %1 |")).arg(QString::number(ws));
         workspaces[ws] = workspace;
-        workspace->setAccessibleName(tr("Code Editor"));
+        workspace->setAccessibleName(tr("Code Editor Buffer %1").arg(ws));
         SonicPiEditor* editor = new SonicPiEditor(workspace, theme, this);
         editor->getContext()->setAccessibleName(tr("Run Context"));
         editorTabWidget->addTab(editor, w);
@@ -2059,15 +2059,13 @@ void MainWindow::runBufferIdx(int idx)
 
 void MainWindow::showError(QString msg)
 {
-    QString style_sheet = "qrc:///html/styles.css";
-    if (piSettings->themeStyle == SonicPiTheme::DarkMode || piSettings->themeStyle == SonicPiTheme::DarkProMode)
-    {
-        style_sheet = "qrc:///html/dark_styles.css";
-    }
     errorPane->clear();
     errorPane->setHtml("<html><head></head><body>" + msg + "</body></html>");
     errorPane->show();
     focusErrors();
+    // Errors are the most important feedback event — announce assertively so
+    // screen-reader users hear them (parallels the Run started / Stopped cues).
+    announce(tr("Error: %1").arg(errorPane->toPlainText().simplified()), true);
 }
 
 void MainWindow::showBufferCapacityError()
