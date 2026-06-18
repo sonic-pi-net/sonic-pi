@@ -123,17 +123,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">جارٍ تعطيل منفذ إشارات OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">جارٍ تفعيل منفذ إشارات OSC الخارجي...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3686"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">جارٍ تفعيل منفذ إشارات OSC الداخلي...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3745"/>
@@ -213,7 +213,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2545"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ضبط إزاحة الشيفرة في المخزن</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2551"/>
@@ -310,19 +310,19 @@ Apologies, a critical error occurred during startup</source>
         <location filename="../mainwindow.cpp" line="1787"/>
         <source>Disabling Mixer LPF...</source>
         <oldsource>Disabling Mixer LPF....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">جارٍ تعطيل مرشح الترددات المنخفضة للخلّاط...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1795"/>
         <source>Enabling Inverted Stereo...</source>
         <oldsource>Enabling Inverted Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">جارٍ تفعيل الاستريو المعكوس...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1803"/>
         <source>Enabling Standard Stereo...</source>
         <oldsource>Enabling Standard Stereo....</oldsource>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">جارٍ تفعيل الاستريو القياسي...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1811"/>
@@ -469,7 +469,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2634"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فرض ضمانات التوقيت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2639"/>
@@ -494,37 +494,37 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2659"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">السماح بـ OSC الوارد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2664"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">السماح بـ OSC من حواسيب أخرى</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2669"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تسجيل الإشارات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2674"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تسجيل المُركّبات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2679"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">مسح السجلات عند التشغيل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2684"/>
         <source>Auto Indent Code Buffer on Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ضبط إزاحة الشيفرة في المخزن تلقائيًا عند التشغيل</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2689"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تمرير السجل تلقائيًا</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2699"/>
@@ -574,7 +574,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2761"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار تسميات راسم الإشارة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2766"/>
@@ -584,7 +584,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2775"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار أنواع راسم الإشارة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2786"/>
@@ -733,7 +733,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2912"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التركيز على السجلات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2914"/>
@@ -743,22 +743,22 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2917"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التركيز على السياق</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2919"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">وضع التركيز على لوحة السياق</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2923"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التركيز على الإشارات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2925"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">وضع التركيز على لوحة أحداث الإشارات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2929"/>
@@ -773,32 +773,32 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2935"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التركيز على قائمة المساعدة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2937"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">وضع التركيز على قائمة المساعدة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2941"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التركيز على تفاصيل المساعدة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2943"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">وضع التركيز على تفاصيل المساعدة</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التركيز على الأخطاء</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2949"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">وضع التركيز على الأخطاء</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2952"/>
@@ -808,7 +808,7 @@ Apologies, a critical error occurred during startup</source>
     <message>
         <location filename="../mainwindow.cpp" line="2957"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار سجل الإشارات</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2962"/>
@@ -872,7 +872,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3864"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">السطر: %1،  الموضع: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2515"/>
@@ -953,7 +953,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="431"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">لم يُعثر على بصمة Studio مطابقة...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="696"/>
@@ -968,7 +968,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="2567"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل إظهار راسم إشارة الصوت</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3031"/>
@@ -1069,7 +1069,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../utils/ruby_help.h" line="3628"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">اللغة</translation>
     </message>
 </context>
 <context>
@@ -1155,24 +1155,27 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="94"/>
         <source>Advanced audio settings for working with
 external PA systems when performing with Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إعدادات صوت متقدمة للعمل مع
+أنظمة تضخيم الصوت الخارجية عند الأداء بـ Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="95"/>
         <source>Invert stereo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عكس الاستريو</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="96"/>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل عكس الاستريو.
+عند التفعيل، يُوجَّه الصوت المُرسَل إلى مكبّر الصوت الأيسر
+إلى مكبّر الصوت الأيمن والعكس صحيح.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="97"/>
         <source>Force mono</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فرض الأحادي</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="98"/>
@@ -1181,17 +1184,21 @@ If enabled both right and left audio is mixed and
 the same signal is sent to both speakers.
 Useful when working with external systems that
 can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل الوضع الأحادي.
+عند التفعيل، يُمزَج صوت القناتين اليمنى واليسرى
+وتُرسَل الإشارة نفسها إلى كلا مكبّري الصوت.
+مفيد عند العمل مع الأنظمة الخارجية التي
+لا تدعم سوى الوضع الأحادي.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="107"/>
         <source>Synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">المُركّبات والمؤثرات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="108"/>
         <source>Modify behaviour of synths and FX</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تعديل سلوك المُركّبات والمؤثرات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="110"/>
@@ -1203,12 +1210,14 @@ can only handle mono.</source>
         <source>Toggle synth argument checking functions.
 If disabled, certain synth opt values may
 create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل دوال التحقق من معاملات المُركّب.
+عند التعطيل، قد تُنتِج بعض قيم خيارات المُركّب
+أصواتًا عالية أو غير مريحة على نحو غير متوقع.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="113"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فرض ضمانات التوقيت</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="114"/>
@@ -1219,7 +1228,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عند التفعيل، سيرفض Sonic Pi
+تشغيل المُركّبات والمؤثرات إذا
+فات أوان ذلك
+
+وعند التعطيل، سيحاول Sonic Pi دائمًا
+تشغيل المُركّبات والمؤثرات
+حتى عند التأخر قليلًا.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="117"/>
@@ -1230,19 +1245,27 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عند التفعيل، سيسمح Sonic Pi
+بتشغيل المُركّبات والمؤثرات المُحمَّلة
+عبر load_synthdefs.
+
+وعند التعطيل، سيعترض Sonic Pi
+عند محاولتك استخدام مُركّب أو مؤثر
+غير معروف.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="141"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC عبر الشبكة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="142"/>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">يستطيع Sonic Pi إرسال واستقبال رسائل Open Sound Control
+من وإلى برامج أو حواسيب أخرى
+ عبر الشبكة المتصلة حاليًا.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="145"/>
@@ -1257,355 +1280,368 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">السماح بـ OSC من حواسيب أخرى</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عند التحديد، سيتيح لك Sonic Pi إرسال واستقبال رسائل OSC من وإلى الأجهزة البعيدة.
+ وعند إلغاء التحديد، سيُفعَّل الإرسال والاستقبال من الجهاز المحلي فقط.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="174"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">السماح بـ OSC الوارد</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="285"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار إكمال الشيفرة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="397"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار تسميات راسم الإشارة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عند التحديد، سيستمع Sonic Pi إلى رسائل OSC.
+ وعند إلغاء التحديد، لن تُستقبَل أي رسائل OSC.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="183"/>
         <source>MIDI Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إعدادات MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="184"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تهيئة سلوك MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="186"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">منافذ MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="187"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عرض جميع منافذ MIDI المتصلة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="192"/>
         <source>Reset MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إعادة تعيين MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="194"/>
         <source>Reset MIDI subsystems 
 (Required to detect device changes on macOS)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إعادة تعيين أنظمة MIDI الفرعية 
+(مطلوبة لاكتشاف تغييرات الأجهزة على macOS)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
         <source>No connected input devices</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">لا توجد أجهزة إدخال متصلة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="237"/>
         <source>No connected output devices</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">لا توجد أجهزة إخراج متصلة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="238"/>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ترسل أجهزة إدخال MIDI رسائل MIDI مباشرةً إلى
+Sonic Pi وتُستقبَل كأحداث إشارات
+(على غرار رسائل OSC الواردة والإشارات الداخلية)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="239"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تستقبل أجهزة إخراج MIDI رسائل MIDI مباشرةً من
+Sonic Pi والتي يمكن إرسالها عبر دوال midi_*</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="272"/>
         <source>Show and Hide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار وإخفاء</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Configure editor display options.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تهيئة خيارات عرض المحرر.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="274"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">المظهر والإحساس</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Configure editor look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تهيئة مظهر المحرر وإحساسه.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="86"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">مستوى الصوت الرئيسي</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="116"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تفعيل المُركّبات/المؤثرات الخارجية</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="146"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">منفذ OSC الوارد</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="189"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تفعيل إشارات MIDI الواردة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="190"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تفعيل أو تعطيل التحويل التلقائي لرسائل MIDI الواردة إلى أحداث إشارات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="220"/>
         <source>Default MIDI channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">قناة MIDI الافتراضية</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="221"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">قناة MIDI الافتراضية لإرسال الرسائل إليها (* تعني الكل)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="225"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">قناة MIDI الافتراضية لإرسال الرسائل إليها  (* تعني الكل)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="276"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">الأتمتة / متفرقات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="277"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تهيئة الأتمتة وميزات أخرى.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="279"/>
         <source>Auto-align</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">محاذاة تلقائية</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="280"/>
         <source>Automatically align code on Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">محاذاة الشيفرة تلقائيًا عند التشغيل</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="282"/>
         <source>Show line numbers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار أرقام الأسطر</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Toggle line number visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل إظهار أرقام الأسطر.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="286"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عند التفعيل، سيحاول محرر Sonic Pi إكمال شيفرتك تلقائيًا بالاقتراحات. وعند التعطيل، لن تظهر هذه الاقتراحات.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="288"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار سياق الشيفرة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="289"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عند التفعيل، سيُظهِر محرر Sonic Pi لوحة تعرض معلومات خاصة بسياق الشيفرة مثل السطر الحالي وموضع المؤشر.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
         <source>Show log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار السجل</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="292"/>
         <source>Toggle visibility of the log.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل إظهار السجل.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار سجل الإشارات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل إظهار سجل الإشارات الذي يعرض الإشارات الداخلية ورسائل OSC/MIDI الواردة.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>Show buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار الأزرار</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="300"/>
         <source>Toggle visibility of the control buttons.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل إظهار أزرار التحكم.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Show tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار علامات التبويب</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Toggle visibility of the buffer selection tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل إظهار علامات تبويب اختيار المخزن.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="305"/>
         <source>Full screen</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ملء الشاشة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="306"/>
         <source>Toggle full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل وضع ملء الشاشة.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="309"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فاتح</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="310"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">داكن</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="311"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فاتح احترافي</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="312"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">داكن احترافي</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="313"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تباين عالٍ</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="346"/>
         <source>Logging</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التسجيل</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="347"/>
         <source>Configure debug behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تهيئة سلوك التنقيح</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="349"/>
         <source>Log synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تسجيل المُركّبات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="350"/>
         <source>Toggle log messages.
 If disabled, activity such as synth and sample
 triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل رسائل السجل.
+عند التعطيل، لن تُطبَع الأنشطة مثل تشغيل المُركّبات
+والعيّنات في السجل افتراضيًا.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="352"/>
         <source>Clear log on run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">مسح السجل عند التشغيل</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="353"/>
         <source>Toggle log clearing on run.
 If enabled, the log is cleared each
 time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل مسح السجل عند التشغيل.
+عند التفعيل، يُمسَح السجل في كل
+مرة يُضغَط فيها زر التشغيل.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="355"/>
         <source>Log cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تسجيل الإشارات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="356"/>
         <source>Enable or disable logging of cues.
 If disabled, cues will still trigger.
 However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تفعيل أو تعطيل تسجيل الإشارات.
+عند التعطيل، ستظل الإشارات تُشغَّل.
+لكنها لن تظهر في السجلات.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="358"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تمرير السجل تلقائيًا</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="359"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل التمرير التلقائي للسجل.
+عند التفعيل، يُمرَّر السجل إلى الأسفل بعد عرض كل رسالة جديدة.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="382"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إعدادات مفيدة للأداء بـ Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="386"/>
         <source>Show and Hide Scope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار وإخفاء راسم الإشارة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="387"/>
         <source>Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">أنواع راسم الإشارة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="395"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">إظهار رواسم الإشارة</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="396"/>
         <source>Toggle the visibility of the audio oscilloscopes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل إظهار رواسم إشارة الصوت.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="398"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل إظهار تسميات رواسم إشارة الصوت</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="401"/>
@@ -1617,54 +1653,63 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">يأتي راسم إشارة الصوت بعدة أنماط يمكن
+عرضها بشكل مستقل أو مجتمعة معًا:
+
+Lissajous - يوضّح علاقة الطور بين القناتين اليسرى واليمنى
+Mirror Stereo - موجة مركّبة بسيطة لليسار/اليمين، اليسار في الأعلى واليمين في الأسفل
+Mono - يعرض رؤية مدمجة للقناتين اليسرى واليمنى (باستخدام RMS)
+Spectrum - يعرض ترددات الصوت كطيف، من الترددات المنخفضة إلى العالية
+Stereo - يعرض راسمَي إشارة مستقلَّين للقناتين اليسرى واليمنى</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="408"/>
         <source>Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">الشفافية</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="431"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التحقق من التحديثات</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="433"/>
         <source>Toggle automatic update checking.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تبديل التحقق التلقائي من التحديثات.
+يتضمن هذا التحقق إرسال معلومات مجهولة المصدر عن نظامك الأساسي وإصدارك.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="434"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تحقق الآن</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
         <source>Force a check for updates now.
 This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فرض التحقق من التحديثات الآن.
+يتضمن هذا التحقق إرسال معلومات مجهولة المصدر عن نظامك الأساسي وإصدارك.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="437"/>
         <source>Get update</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">الحصول على التحديث</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="438"/>
         <source>Visit http://sonic-pi.net to download new version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تفضّل بزيارة http://sonic-pi.net لتنزيل الإصدار الجديد</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="441"/>
         <source>Update Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">معلومات التحديث</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="444"/>
         <source>Sonic Pi update info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">معلومات تحديث Sonic Pi</translation>
     </message>
 </context>
 <context>
@@ -1672,7 +1717,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../osc/sonic_pi_udp_osc_server.cpp" line="38"/>
         <source>Is Sonic Pi already running?  Can&apos;t open UDP port.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">هل Sonic Pi قيد التشغيل بالفعل؟  تعذّر فتح منفذ UDP.</translation>
     </message>
 </context>
 </TS>

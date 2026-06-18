@@ -91,7 +91,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5214"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dezactivare intrare MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5232"/>
@@ -111,17 +111,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5261"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dezactivare port semnale OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5275"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activare port extern semnale OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5289"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activare port intern semnale OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5348"/>
@@ -144,7 +144,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="693"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Metronom Link și Global Time Warp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2013"/>
@@ -197,17 +197,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3484"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indentează bufferul de cod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3604"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mărește dimensiunea codului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3608"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Micșorează dimensiunea codului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3612"/>
@@ -217,7 +217,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3622"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată informații</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4494"/>
@@ -247,27 +247,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Osciloscop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Redare sample...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ascundere titluri panouri...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afișare titluri panouri...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1843"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eroare la pornirea Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2166"/>
@@ -338,22 +338,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2350"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ascundere fereastră informații...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2356"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afișare fereastră informații...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2375"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ascundere ajutor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2381"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afișare ajutor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2450"/>
@@ -363,52 +363,52 @@
     <message>
         <location filename="../mainwindow.cpp" line="2692"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Temă de culoare: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afișare autocompletare activată</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2951"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afișare autocompletare dezactivată</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2982"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afișare context activată</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2990"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afișare context dezactivată</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3006"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ascundere preferințe...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3012"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afișare preferințe...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3430"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ieșire</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3202"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Începe înregistrarea într-un fișier audio WAV</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3476"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvează</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3203"/>
@@ -418,12 +418,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3215"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută informațiile despre Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3628"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată ajutorul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3216"/>
@@ -433,7 +433,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3634"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată preferințele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3217"/>
@@ -443,117 +443,117 @@
     <message>
         <location filename="../mainwindow.cpp" line="3705"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată numerele de linie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3710"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată completarea codului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3720"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată contextul codului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3725"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activează intrările audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3730"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conectare Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3230"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conectează sau deconectează metronomul Link de la rețea</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3735"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tap Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3231"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Apasă Link Tap Tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3272"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Centrează vertical cursorul în editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3738"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod audio sigur</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3743"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Impune garanțiile de sincronizare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3748"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activează synth-uri externe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3753"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inversează stereo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3758"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Forțează mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3763"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activează semnalele MIDI de intrare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3768"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Permite OSC de intrare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3773"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Permite OSC de la alte computere</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3778"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Înregistrează semnalele (cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3783"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Înregistrează synth-urile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3788"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Șterge jurnalele la rulare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3798"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Derulare automată a jurnalului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3811"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">În direct</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3826"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3874"/>
@@ -568,62 +568,62 @@
     <message>
         <location filename="../mainwindow.cpp" line="3887"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deschis</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3892"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Întunecat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3897"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro deschis</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3902"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro întunecat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3907"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Contrast ridicat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3912"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată etichetele osciloscopului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3917"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată titlurile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3922"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ascunde bara de meniu în modul ecran complet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod scurtături Windows | Linux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod scurtături personalizat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Temă de culoare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată tipurile de osciloscop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3969"/>
@@ -633,852 +633,853 @@
     <message>
         <location filename="../mainwindow.cpp" line="3977"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Intrări MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3978"/>
         <location filename="../mainwindow.cpp" line="5230"/>
         <location filename="../mainwindow.cpp" line="5354"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nicio intrare conectată</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3979"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ieșiri MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3980"/>
         <location filename="../mainwindow.cpp" line="5228"/>
         <location filename="../mainwindow.cpp" line="5376"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nicio ieșire conectată</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3982"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Canal MIDI de ieșire implicit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3984"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toate canalele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3989"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3994"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3999"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4004"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4009"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4014"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4019"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4024"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4029"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4034"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4039"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4044"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4049"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4054"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4059"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4064"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4072"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Adrese IP locale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4086"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Port OSC de intrare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4091"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vizualizare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4096"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează editorul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe editorul de cod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4100"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează jurnalele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4104"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează contextul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe panoul de context</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4108"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează semnalele (cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe panoul de evenimente cue</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4112"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează preferințele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3236"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe preferințe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4116"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează lista de ajutor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3237"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe lista de ajutor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4120"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează detaliile de ajutor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3238"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe detaliile de ajutor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4124"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează erorile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3239"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe erori</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4128"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează BPM Scrubber</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3240"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe BPM Scrubber</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4132"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează TimeWarp Scrubber</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3241"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe TimeWarp Scrubber</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Apologies, unable to start...
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ne pare rău, pornirea nu este posibilă...
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Sorry, Sonic Pi is having issues booting:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ne pare rău, Sonic Pi are probleme la pornire:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2880"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod indentare automată activat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod indentare automată dezactivat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3206"/>
         <location filename="../mainwindow.cpp" line="3488"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comentează/Decomentează codul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3207"/>
         <location filename="../mainwindow.cpp" line="3492"/>
         <source>Transpose Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Transpune caracterele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3208"/>
         <source>Shift Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută linia sau selecția în sus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3209"/>
         <source>Shift Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută linia sau selecția în jos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3248"/>
         <source>Move Cursor Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul în jos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3249"/>
         <source>Move Cursor Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul în sus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3251"/>
         <source>Move Cursor Down 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul în jos cu 10 linii</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3250"/>
         <source>Move Cursor Up 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul în sus cu 10 linii</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3252"/>
         <source>Cut to the end of the line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Taie până la sfârșitul liniei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Copy the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copiază selecția curentă</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3254"/>
         <source>Cut the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Taie selecția curentă</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3255"/>
         <source>Paste the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lipește selecția curentă</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3256"/>
         <source>Move Cursor Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul la dreapta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>Move Cursor Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul la stânga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3258"/>
         <source>Delete Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Șterge la dreapta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3259"/>
         <source>Delete Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Șterge la stânga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3260"/>
         <source>Move Cursor to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul la începutul liniei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3261"/>
         <source>Move Cursor to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul la sfârșitul liniei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3262"/>
         <source>Move Cursor to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul la începutul documentului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Move Cursor to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul la sfârșitul documentului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>Move Cursor Right by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul la dreapta cu un cuvânt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Move Cursor Left by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută cursorul la stânga cu un cuvânt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3273"/>
         <source>Undo the last action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anulează ultima acțiune</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3274"/>
         <source>Redo the last undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Refă ultima anulare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3275"/>
         <source>Select all text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectează tot textul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3276"/>
         <source>Delete word to the right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Șterge cuvântul de la dreapta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3277"/>
         <source>Delete word to the left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Șterge cuvântul de la stânga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Uppercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cuvânt sau selecție cu majuscule</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3279"/>
         <source>Lowercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cuvânt sau selecție cu minuscule</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3245"/>
         <source>Set a mark in the text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Setează un marcaj în text</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erori</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="602"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buffer editor de cod %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="604"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Context de rulare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="732"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Documentație</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Depanare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1741"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activare intrări audio...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dezactivare intrări audio...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2068"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eroare: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rulare începută</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oprit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3210"/>
         <source>Look up documentation for the current word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Caută documentația pentru cuvântul curent</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Cycle through the available colour themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Parcurge temele de culoare disponibile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3218"/>
         <source>Switch to the previous tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila precedentă</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3219"/>
         <source>Switch to the next tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila următoare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3220"/>
         <source>Switch to tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Switch to tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Switch to tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3223"/>
         <source>Switch to tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3224"/>
         <source>Switch to tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3225"/>
         <source>Switch to tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Switch to tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>Switch to tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3228"/>
         <source>Switch to tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3229"/>
         <source>Switch to tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută la fila 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3233"/>
         <source>Place focus on the logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pune focalizarea pe jurnale</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3242"/>
         <source>Show or hide the buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată sau ascunde butoanele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3243"/>
         <source>Show or hide the cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată sau ascunde jurnalul de semnale (cue)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Show or hide the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată sau ascunde jurnalul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3246"/>
         <source>Zoom in the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mărește jurnalul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>Zoom out the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Micșorează jurnalul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3266"/>
         <location filename="../mainwindow.cpp" line="3557"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectează până la începutul liniei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <location filename="../mainwindow.cpp" line="3560"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectează până la sfârșitul liniei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <location filename="../mainwindow.cpp" line="3563"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectează cuvântul de la dreapta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <location filename="../mainwindow.cpp" line="3566"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectează cuvântul de la stânga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <location filename="../mainwindow.cpp" line="3569"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectează până la începutul documentului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3271"/>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectează până la sfârșitul documentului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3280"/>
         <source>Toggle fullscreen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută modul ecran complet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3453"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Înregistrează doar audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3460"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Înregistrează audio + video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3496"/>
         <source>Move Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută linia sau selecția în sus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3500"/>
         <source>Move Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută linia sau selecția în jos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3503"/>
         <source>Move Down One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Coboară cu o linie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3506"/>
         <source>Move Up One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Urcă cu o linie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3509"/>
         <source>Move Down Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Coboară cu zece linii</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3512"/>
         <source>Move Up Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Urcă cu zece linii</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3515"/>
         <source>Cut to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Taie până la sfârșitul liniei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3518"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copiază</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Taie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3524"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lipește</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3527"/>
         <source>Move Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută la dreapta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3530"/>
         <source>Move Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută la stânga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3533"/>
         <source>Delete Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Șterge înainte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3536"/>
         <source>Delete Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Șterge înapoi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3539"/>
         <source>Move to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută la începutul liniei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3542"/>
         <source>Move to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută la sfârșitul liniei</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3545"/>
         <source>Move to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută la începutul documentului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3548"/>
         <source>Move to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută la sfârșitul documentului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3551"/>
         <source>Move Right One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută la dreapta cu un cuvânt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3554"/>
         <source>Move Left One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mută la stânga cu un cuvânt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3575"/>
         <source>Center Cursor Vertically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Centrează cursorul vertical</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anulează</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3581"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Refă</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3584"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectează tot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3587"/>
         <source>Delete Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Șterge cuvântul de la stânga</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3590"/>
         <source>Delete Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Șterge cuvântul de la dreapta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3593"/>
         <source>Upcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Majuscule pentru cuvânt sau selecție</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3596"/>
         <source>Downcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Minuscule pentru cuvânt sau selecție</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3600"/>
         <source>Show Docs for Current Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată documentația pentru cuvântul curent</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Cycle Themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Parcurge temele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
         <source>Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fila precedentă</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3644"/>
         <source>Next Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fila următoare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>Focus Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3650"/>
         <source>Focus Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3653"/>
         <source>Focus Tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3656"/>
         <source>Focus Tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3659"/>
         <source>Focus Tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Focus Tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3665"/>
         <source>Focus Tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3668"/>
         <source>Focus Tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3671"/>
         <source>Focus Tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Focus Tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizează fila 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3715"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată ajutorul pentru completarea codului</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3793"/>
         <source>Auto Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indentare automată a bufferului de cod</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3803"/>
         <source>Set Mark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Setează marcaj</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3927"/>
         <source>Emacs Live Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod scurtături Emacs Live</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5701"/>
         <location filename="../mainwindow.cpp" line="5756"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Niciuna --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5702"/>
         <location filename="../mainwindow.cpp" line="5740"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- DEZACTIVAT --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5862"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comutarea dispozitivului audio a eșuat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5863"/>
@@ -1487,12 +1488,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nu s-a putut comuta la:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5878"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dispozitiv de intrare audio indisponibil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5879"/>
@@ -1501,117 +1506,121 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nu s-a putut deschide dispozitivul de intrare audio:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3937"/>
         <source>Mac Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod scurtături Mac</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3970"/>
         <source>Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod scurtături</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4135"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată jurnalul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4140"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată jurnalul de semnale (cue)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată metronomul</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4151"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publică fereastra prin Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4156"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Include cursorul mouse-ului în fluxul Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4163"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publică fereastra prin Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Include cursorul mouse-ului în fluxul Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4175"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Include cursorul mouse-ului în înregistrarea sesiunii</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fă să clipească pictograma de înregistrare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4188"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod de înregistrare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4204"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată butoanele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4209"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată filele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4214"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod ecran complet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4219"/>
         <source>Zoom In Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mărește jurnalele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4222"/>
         <source>Zoom Out Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Micșorează jurnalele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4258"/>
         <source>Focus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focalizare</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4286"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Limbă</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4560"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Film QuickTime (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4563"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video MP4 (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4571"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvează înregistrarea sesiunii</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4594"/>
@@ -1631,12 +1640,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4926"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Repornire Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5011"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Subiecte de ajutor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
@@ -1670,55 +1679,55 @@ Descarca Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activare MIDI &lt;input&gt;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5497"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Linie: %1,  Poziție: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5893"/>
         <source>Sonic Pi - Unable to Write to Home Directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi - Nu se poate scrie în directorul Home</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5900"/>
         <source>Boot Error - Home Dir not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eroare la pornire - Directorul Home nu este inscriptibil:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5902"/>
         <location filename="../mainwindow.cpp" line="5916"/>
         <source>Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Soluție rapidă: setați variabila de mediu SONIC_PI_HOME la un director în care aveți permisiunea de a scrie.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5906"/>
         <location filename="../mainwindow.cpp" line="5920"/>
         <source>For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pentru cei curioși dintre voi, Sonic Pi stochează automat conținutul bufferelor de cod, fișierele de configurare și jurnalele într-un folder numit .sonic-pi, care se află de obicei în directorul vostru Home.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5907"/>
         <source>Unfortunately you don&apos;t appear to have permission to write to your home directory:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Din păcate, se pare că nu aveți permisiunea de a scrie în directorul vostru Home:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5908"/>
         <location filename="../mainwindow.cpp" line="5922"/>
         <source>To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pentru a remedia acest lucru, puteți seta variabila de mediu SONIC_PI_HOME la orice director în care aveți acces de scriere, iar Sonic Pi va plasa directorul său .sonic-pi în interiorul acestuia.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5914"/>
         <source>Boot Error - SONIC_PI_HOME not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eroare la pornire - SONIC_PI_HOME nu este inscriptibil:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5921"/>
         <source>Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don&apos;t have permission to write to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Din păcate, se pare că ați setat variabila de mediu SONIC_PI_HOME la un director în care nu aveți permisiunea de a scrie:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3435"/>
@@ -1788,32 +1797,32 @@ Descarca Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="354"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod Studio activat. Vă mulțumim pentru sprijinul acordat Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="360"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nu s-a găsit niciun hash Studio corespunzător...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="550"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Închide</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="600"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3205"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aliniază codul pentru a îmbunătăți lizibilitatea</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3213"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută vizibilitatea osciloscopului audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4389"/>
@@ -1883,32 +1892,32 @@ Descarca Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tutorial</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exemple</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3165"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Synth-uri</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3214"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fx</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3239"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sample-uri</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3481"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Limbă</translation>
     </message>
 </context>
 <context>
@@ -1921,7 +1930,7 @@ Descarca Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="967"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tastați scurtătura…</translation>
     </message>
 </context>
 <context>
@@ -1957,7 +1966,7 @@ Descarca Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <location filename="../widgets/settingswidget.cpp" line="812"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Limbă</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="205"/>
@@ -1969,7 +1978,9 @@ Descarca Sonic Pi %1</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută inversiunea stereo.
+Dacă este activată, audio trimis către difuzorul din stânga
+va fi direcționat către difuzorul din dreapta și invers.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="207"/>
@@ -2053,84 +2064,86 @@ sintetizator sau efect care nu este recunoscut.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="241"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dispozitiv audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configurează driverul audio, dispozitivul, rata de eșantionare și dimensiunea bufferului.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Driver</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="252"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ieșire</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="259"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Intrare</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rată de eșantionare</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dimensiune buffer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Înregistrare</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alegeți ce capturează butonul de înregistrare.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Doar audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic scrie un fișier .wav al mixului master</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio + video</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Capturează fereastra Sonic Pi plus mixul master într-un fișier .mov
+folosind captura de ecran accelerată prin GPU</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Capturează fereastra Sonic Pi plus mixul master într-un fișier .mp4
+folosind captura de ecran accelerată prin GPU</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="354"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Propulsat de</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Se așteaptă SuperSonic...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="373"/>
@@ -2140,7 +2153,7 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deschide setările de sistem</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
@@ -2169,38 +2182,39 @@ la/de la alte programe sau calculatoare din retea.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="460"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Permite OSC de la alte computere</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="461"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Când este bifat, Sonic Pi vă va permite să trimiteți și să primiți mesaje OSC către și de la mașini de la distanță.
+ Când nu este bifat, vor fi activate doar trimiterea și primirea de la mașina locală.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="463"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Permite OSC de intrare</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="487"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">toate</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="496"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Canal MIDI de ieșire implicit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="555"/>
         <source>Automatically align code on Enter or Run </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aliniază automat codul la Enter sau Run </translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="560"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată completarea codului</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="464"/>
@@ -2279,79 +2293,80 @@ de la Sonic Pi care le poate trimite prin functiile midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="192"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volum principal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="198"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activează intrările audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="199"/>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută pentru a activa sau dezactiva intrările audio.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="216"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activează synth-uri/FX externe</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Port OSC de intrare</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activează semnalele MIDI de intrare</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="479"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Activează sau dezactivează conversia automată a mesajelor MIDI de intrare în evenimente cue</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="483"/>
         <source>Reset MIDI subsystems
 (Required to detect device changes on some platforms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Resetează subsistemele MIDI
+(Necesar pentru a detecta schimbările de dispozitiv pe unele platforme)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="497"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Canal MIDI implicit către care se trimit mesajele (* înseamnă toate)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="501"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Canal MIDI implicit către care se trimit mesajele  (* înseamnă toate)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="545"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată panourile</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="546"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată și ascunde panourile de informații, cum ar fi osciloscopul și jurnalul.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="549"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Temă</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="551"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automatizare / Diverse</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="552"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configurează automatizarea și alte funcții.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="554"/>
@@ -2371,27 +2386,27 @@ de la Sonic Pi care le poate trimite prin functiile midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="561"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Când este activată, editorul Sonic Pi va încerca să autocompleteze codul cu sugestii. Când este dezactivată, aceste sugestii nu vor fi vizibile.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="563"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată ajutorul pentru completarea codului</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="564"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Când este activată, fereastra pop-up de completare a codului include panouri auxiliare - documentație, o tastatură de note și glisoare de valori. Când este dezactivată, afișează doar lista de sugestii.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="566"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată contextul codului</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="567"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Când este activată, editorul Sonic Pi va afișa un panou care va prezenta informații specifice contextului pentru cod, cum ar fi linia curentă și poziția cursorului.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="569"/>
@@ -2416,12 +2431,12 @@ de la Sonic Pi care le poate trimite prin functiile midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="577"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată controalele metronomului Link</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="578"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută vizibilitatea controalelor metronomului Link.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
@@ -2456,47 +2471,47 @@ de la Sonic Pi care le poate trimite prin functiile midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="590"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată titlurile</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="591"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută vizibilitatea titlurilor pentru osciloscop, jurnal, cue și alte panouri de informații</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="594"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ascunde bara de meniu în modul ecran complet</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="595"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ascunde automat bara de meniu când aplicația este în modul ecran complet. Rețineți că bara de meniu este întotdeauna vizibilă când nu este în modul ecran complet.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="601"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deschis</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="602"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Întunecat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="603"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro deschis</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="604"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro întunecat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="605"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Contrast ridicat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="669"/>
@@ -2565,14 +2580,16 @@ Cand este activata, jurnalul este derulat pana jos dupa fiecare mesaj nou.</tran
     <message>
         <location filename="../widgets/settingswidget.cpp" line="684"/>
         <source>Show debug log panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată panoul jurnalului de depanare</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Show a dockable panel with live tails of the
 GUI, Spider, Daemon and SuperSonic log files.
 No CPU is used while the panel is hidden.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată un panou andocabil cu vizualizarea în timp real a
+fișierelor de jurnal GUI, Spider, Daemon și SuperSonic.
+Nu se folosește CPU cât timp panoul este ascuns.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="712"/>
@@ -2592,293 +2609,296 @@ No CPU is used while the panel is hidden.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="725"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată osciloscoapele</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arată etichetele osciloscopului</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="813"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configurează setările de limbă</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="818"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Limba interfeței și a tutorialului (Necesită o repornire pentru a avea efect)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="819"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schimbă limba interfeței și a tutorialului (Necesită o repornire pentru a avea efect)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="823"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schimbă limba interfeței și a tutorialului</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="830"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Traducerile au fost oferite cu generozitate de voluntari 
+pe https://hosted.weblate.org/projects/sonic-pi/. Mulțumim! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1066"/>
         <location filename="../widgets/settingswidget.cpp" line="1102"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1067"/>
         <location filename="../widgets/settingswidget.cpp" line="1103"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1068"/>
         <location filename="../widgets/settingswidget.cpp" line="1104"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1069"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Personalizat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1095"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1105"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Editează scurtătura</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1107"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Resetează</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1110"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importă…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1111"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportă…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1118"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bază:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1268"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atribuit și la: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Modificat față de valoarea implicită (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">neatribuit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1282"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(nicio modificare)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1283"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(%1 modificate)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1374"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scurtătura este deja în uz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1375"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">„%1” este deja atribuită la: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1376"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ce ați dori să faceți?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1377"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Reatribuie la aceasta</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Păstrează ambele</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1406"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Resetați scurtăturile?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1407"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aceasta înlătură toate modificările personalizate și restaurează presetarea de bază. Continuați?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1416"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportă scurtăturile</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1417"/>
         <location filename="../widgets/settingswidget.cpp" line="1432"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fișiere de scurtături (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1431"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importă scurtăturile</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1512"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ați selectat o limbă nouă: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1514"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Doriți să aplicați această limbă?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1516"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Noua limbă va fi aplicată la următoarea pornire a Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1522"/>
         <source>System language found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Limbă de sistem găsită: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1570"/>
         <location filename="../widgets/settingswidget.cpp" line="1717"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- DEZACTIVAT --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1613"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comutare dispozitiv audio...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1651"/>
         <location filename="../widgets/settingswidget.cpp" line="1726"/>
         <location filename="../widgets/settingswidget.cpp" line="1921"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Niciuna --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1653"/>
         <location filename="../widgets/settingswidget.cpp" line="1918"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Implicit de sistem</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1655"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Implicit de sistem (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1905"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dispozitivele ASIO au intrarea/ieșirea legate.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1928"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Reflectă ieșirea (ASIO este full-duplex).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1967"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi nu are încă acces la microfon, așa că live_audio și :sound_in vor fi silențioase. Faceți clic mai jos pentru a acorda accesul în setările de sistem.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1969"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Accesul la microfon este restricționat de politica de sistem, așa că live_audio și :sound_in vor fi silențioase.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1971"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Acces la microfon încă neacordat — faceți clic mai jos pentru a deschide setările de sistem.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2242"/>
         <source>System language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Limbă de sistem: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1526"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aplică</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1527"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anulează</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1538"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Noua limbă va fi aplicată la următoarea pornire a Sonic Pi.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1539"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Limba curentă a interfeței: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1543"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Reporniți Sonic Pi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1544"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Doriți să reporniți Sonic Pi acum? Aceasta va opri orice rulări și înregistrări curente.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1545"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Repornește</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1546"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Respinge</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2408"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Folosește limba de sistem</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
@@ -2888,27 +2908,27 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="137"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Timpul de comutare a dispozitivului a expirat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scurtături</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Folosiți acest buton rotativ pentru a schimba volumul de sistem.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="201"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO folosește un singur dispozitiv atât pentru intrare, cât și pentru ieșire.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comută vizibilitatea etichetelor pentru osciloscoapele audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="732"/>
@@ -2920,7 +2940,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Osciloscopul audio vine în mai multe variante care pot fi
+vizualizate independent sau toate împreună:
+
+Lissajous - ilustrează relația de fază dintre canalele stânga și dreapta
+Mirror Stereo - undă compozită simplă stânga/dreapta, cu stânga sus, dreapta jos
+Mono - arată o vizualizare combinată a canalelor stânga și dreapta (folosind RMS)
+Spectrum - arată frecvențele sonore ca un spectru, de la frecvențe joase la înalte
+Stereo - arată două osciloscoape independente pentru canalele stânga și dreapta</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="739"/>

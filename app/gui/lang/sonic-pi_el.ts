@@ -93,7 +93,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="693"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Μετρονόμος &amp; Καθολική Χρονική Στρέβλωση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2013"/>
@@ -146,7 +146,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3484"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Στοίχιση κώδικα στον buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3205"/>
@@ -166,7 +166,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εισόδου MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5234"/>
@@ -222,22 +222,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αναπαραγωγή δείγματος...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Απόκρυψη τίτλων παραθύρων...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση τίτλων παραθύρων...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1843"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σφάλμα εκκίνησης Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2173"/>
@@ -303,22 +303,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2350"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Απόκρυψη παραθύρου πληροφοριών...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2356"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση παραθύρου πληροφοριών...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2375"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Απόκρυψη βοήθειας...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2381"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση βοήθειας...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2450"/>
@@ -333,37 +333,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση αυτόματης συμπλήρωσης ενεργή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2951"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση αυτόματης συμπλήρωσης ανενεργή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2982"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση πλαισίου ενεργή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2990"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση πλαισίου ανενεργή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3006"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Απόκρυψη προτιμήσεων...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3012"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση προτιμήσεων...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3430"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Έξοδος</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3202"/>
@@ -383,12 +383,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3215"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εναλλαγή πληροφοριών για το Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3628"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση βοήθειας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3216"/>
@@ -398,7 +398,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3634"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση προτιμήσεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3217"/>
@@ -408,117 +408,117 @@
     <message>
         <location filename="../mainwindow.cpp" line="3705"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση αριθμών γραμμών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3710"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση αυτόματης συμπλήρωσης κώδικα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3720"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση πλαισίου κώδικα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3725"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εισόδων ήχου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3730"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σύνδεση Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3230"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σύνδεση ή αποσύνδεση του Link Μετρονόμου από το δίκτυο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3735"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμός με Πάτημα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3231"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πάτημα ρυθμού Link με κλικ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3272"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κατακόρυφη κεντράρισμα του δρομέα στον επεξεργαστή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3738"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ασφαλής λειτουργία ήχου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3743"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιβολή εγγυήσεων χρονισμού</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3748"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εξωτερικών synths</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3753"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αντιστροφή στέρεο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3758"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εξαναγκασμός μονοφωνικού</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3763"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εισερχόμενων ενδείξεων MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3768"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Να επιτρέπεται εισερχόμενο OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3773"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Να επιτρέπεται OSC από άλλους υπολογιστές</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3778"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καταγραφή ενδείξεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3783"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καταγραφή synths</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3788"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καθαρισμός καταγραφών κατά την εκτέλεση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3798"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτόματη κύλιση καταγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3811"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Live</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3826"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κώδικας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3874"/>
@@ -558,37 +558,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="3912"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση ετικετών παλμογράφου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3917"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση τίτλων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3922"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Απόκρυψη γραμμής μενού σε λειτουργία πλήρους οθόνης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λειτουργία συντομεύσεων Windows | Linux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προσαρμοσμένη λειτουργία συντομεύσεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Θέμα χρωμάτων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση τύπων παλμογράφου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3969"/>
@@ -598,852 +598,853 @@
     <message>
         <location filename="../mainwindow.cpp" line="3977"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Είσοδοι MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3978"/>
         <location filename="../mainwindow.cpp" line="5230"/>
         <location filename="../mainwindow.cpp" line="5354"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καμία συνδεδεμένη είσοδος</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3979"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Έξοδοι MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3980"/>
         <location filename="../mainwindow.cpp" line="5228"/>
         <location filename="../mainwindow.cpp" line="5376"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καμία συνδεδεμένη έξοδος</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3982"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προεπιλεγμένο κανάλι εξόδου MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3984"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Όλα τα κανάλια</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3989"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3994"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3999"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4004"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4009"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4014"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4019"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4024"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4029"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4034"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4039"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4044"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4049"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4054"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4059"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4064"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4072"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοπικές διευθύνσεις IP</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4086"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Θύρα εισερχόμενου OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4091"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προβολή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4096"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στον επεξεργαστή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στον επεξεργαστή κώδικα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4100"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στις καταγραφές</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4104"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στο πλαίσιο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στο παράθυρο πλαισίου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4108"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στις ενδείξεις</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στο παράθυρο συμβάντων ένδειξης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4112"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στις προτιμήσεις</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3236"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στις προτιμήσεις</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4116"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στη λίστα βοήθειας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3237"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στη λίστα βοήθειας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4120"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στις λεπτομέρειες βοήθειας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3238"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στις λεπτομέρειες βοήθειας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4124"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στα σφάλματα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3239"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στα σφάλματα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4128"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στον ρυθμιστή BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3240"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στον ρυθμιστή BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4132"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στον ρυθμιστή TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3241"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στον ρυθμιστή TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Apologies, unable to start...
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συγγνώμη, δεν είναι δυνατή η εκκίνηση...
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Sorry, Sonic Pi is having issues booting:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λυπούμαστε, το Sonic Pi αντιμετωπίζει προβλήματα κατά την εκκίνηση:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2880"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λειτουργία αυτόματης στοίχισης ενεργοποιήθηκε</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λειτουργία αυτόματης στοίχισης απενεργοποιήθηκε</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3206"/>
         <location filename="../mainwindow.cpp" line="3488"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σχολιασμός/αποσχολιασμός κώδικα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3207"/>
         <location filename="../mainwindow.cpp" line="3492"/>
         <source>Transpose Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αντιμετάθεση χαρακτήρων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3208"/>
         <source>Shift Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετατόπιση γραμμής ή επιλογής επάνω</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3209"/>
         <source>Shift Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετατόπιση γραμμής ή επιλογής κάτω</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3248"/>
         <source>Move Cursor Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα κάτω</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3249"/>
         <source>Move Cursor Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα επάνω</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3251"/>
         <source>Move Cursor Down 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα κάτω 10 γραμμές</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3250"/>
         <source>Move Cursor Up 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα επάνω 10 γραμμές</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3252"/>
         <source>Cut to the end of the line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αποκοπή έως το τέλος της γραμμής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Copy the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αντιγραφή της τρέχουσας επιλογής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3254"/>
         <source>Cut the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αποκοπή της τρέχουσας επιλογής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3255"/>
         <source>Paste the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επικόλληση της τρέχουσας επιλογής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3256"/>
         <source>Move Cursor Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα δεξιά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>Move Cursor Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα αριστερά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3258"/>
         <source>Delete Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή δεξιά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3259"/>
         <source>Delete Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή αριστερά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3260"/>
         <source>Move Cursor to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα στην αρχή της γραμμής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3261"/>
         <source>Move Cursor to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα στο τέλος της γραμμής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3262"/>
         <source>Move Cursor to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα στην αρχή του εγγράφου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Move Cursor to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα στο τέλος του εγγράφου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>Move Cursor Right by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα δεξιά κατά λέξη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Move Cursor Left by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δρομέα αριστερά κατά λέξη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3273"/>
         <source>Undo the last action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αναίρεση της τελευταίας ενέργειας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3274"/>
         <source>Redo the last undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ακύρωση της τελευταίας αναίρεσης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3275"/>
         <source>Select all text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή όλου του κειμένου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3276"/>
         <source>Delete word to the right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή λέξης προς τα δεξιά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3277"/>
         <source>Delete word to the left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή λέξης προς τα αριστερά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Uppercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετατροπή λέξης ή επιλογής σε κεφαλαία</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3279"/>
         <source>Lowercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετατροπή λέξης ή επιλογής σε πεζά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3245"/>
         <source>Set a mark in the text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ορισμός σημαδιού στο κείμενο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σφάλματα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="602"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buffer επεξεργαστή κώδικα %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="604"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πλαίσιο εκτέλεσης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="732"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τεκμηρίωση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αποσφαλμάτωση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1741"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εισόδων ήχου...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Απενεργοποίηση εισόδων ήχου...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2068"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σφάλμα: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η εκτέλεση ξεκίνησε</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διακόπηκε</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3210"/>
         <source>Look up documentation for the current word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αναζήτηση τεκμηρίωσης για την τρέχουσα λέξη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Cycle through the available colour themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εναλλαγή μεταξύ των διαθέσιμων θεμάτων χρωμάτων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3218"/>
         <source>Switch to the previous tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην προηγούμενη καρτέλα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3219"/>
         <source>Switch to the next tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην επόμενη καρτέλα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3220"/>
         <source>Switch to tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Switch to tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Switch to tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3223"/>
         <source>Switch to tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3224"/>
         <source>Switch to tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3225"/>
         <source>Switch to tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Switch to tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>Switch to tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3228"/>
         <source>Switch to tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3229"/>
         <source>Switch to tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση στην καρτέλα 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3233"/>
         <source>Place focus on the logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τοποθέτηση εστίασης στις καταγραφές</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3242"/>
         <source>Show or hide the buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση ή απόκρυψη των κουμπιών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3243"/>
         <source>Show or hide the cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση ή απόκρυψη της καταγραφής ενδείξεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Show or hide the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση ή απόκρυψη της καταγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3246"/>
         <source>Zoom in the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μεγέθυνση της καταγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>Zoom out the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σμίκρυνση της καταγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3266"/>
         <location filename="../mainwindow.cpp" line="3557"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή έως την αρχή της γραμμής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <location filename="../mainwindow.cpp" line="3560"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή έως το τέλος της γραμμής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <location filename="../mainwindow.cpp" line="3563"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή λέξης δεξιά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <location filename="../mainwindow.cpp" line="3566"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή λέξης αριστερά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <location filename="../mainwindow.cpp" line="3569"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή έως την αρχή του εγγράφου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3271"/>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή έως το τέλος του εγγράφου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3280"/>
         <source>Toggle fullscreen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εναλλαγή λειτουργίας πλήρους οθόνης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3453"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εγγραφή μόνο ήχου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3460"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εγγραφή ήχου + βίντεο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3496"/>
         <source>Move Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση γραμμής ή επιλογής επάνω</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3500"/>
         <source>Move Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση γραμμής ή επιλογής κάτω</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3503"/>
         <source>Move Down One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση κάτω μία γραμμή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3506"/>
         <source>Move Up One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση επάνω μία γραμμή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3509"/>
         <source>Move Down Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση κάτω δέκα γραμμές</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3512"/>
         <source>Move Up Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση επάνω δέκα γραμμές</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3515"/>
         <source>Cut to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αποκοπή έως το τέλος της γραμμής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3518"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αντιγραφή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αποκοπή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3524"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επικόλληση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3527"/>
         <source>Move Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δεξιά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3530"/>
         <source>Move Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση αριστερά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3533"/>
         <source>Delete Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή εμπρός</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3536"/>
         <source>Delete Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή πίσω</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3539"/>
         <source>Move to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση στην αρχή της γραμμής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3542"/>
         <source>Move to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση στο τέλος της γραμμής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3545"/>
         <source>Move to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση στην αρχή του εγγράφου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3548"/>
         <source>Move to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση στο τέλος του εγγράφου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3551"/>
         <source>Move Right One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση δεξιά κατά μία λέξη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3554"/>
         <source>Move Left One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση αριστερά κατά μία λέξη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3575"/>
         <source>Center Cursor Vertically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κατακόρυφο κεντράρισμα δρομέα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αναίρεση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3581"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ακύρωση αναίρεσης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3584"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή όλων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3587"/>
         <source>Delete Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή λέξης αριστερά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3590"/>
         <source>Delete Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή λέξης δεξιά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3593"/>
         <source>Upcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λέξη ή επιλογή σε κεφαλαία</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3596"/>
         <source>Downcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λέξη ή επιλογή σε πεζά</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3600"/>
         <source>Show Docs for Current Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση τεκμηρίωσης για την τρέχουσα λέξη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Cycle Themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εναλλαγή θεμάτων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
         <source>Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προηγούμενη καρτέλα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3644"/>
         <source>Next Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επόμενη καρτέλα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>Focus Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3650"/>
         <source>Focus Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3653"/>
         <source>Focus Tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3656"/>
         <source>Focus Tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3659"/>
         <source>Focus Tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Focus Tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3665"/>
         <source>Focus Tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3668"/>
         <source>Focus Tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3671"/>
         <source>Focus Tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Focus Tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση στην καρτέλα 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3715"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση βοήθειας αυτόματης συμπλήρωσης κώδικα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3793"/>
         <source>Auto Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτόματη στοίχιση κώδικα στον buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3803"/>
         <source>Set Mark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ορισμός σημαδιού</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3927"/>
         <source>Emacs Live Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λειτουργία συντομεύσεων Emacs Live</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5701"/>
         <location filename="../mainwindow.cpp" line="5756"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Καμία --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5702"/>
         <location filename="../mainwindow.cpp" line="5740"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ΑΠΕΝΕΡΓΟΠΟΙΗΜΕΝΟ --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5862"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η αλλαγή συσκευής ήχου απέτυχε</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5863"/>
@@ -1452,12 +1453,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δεν ήταν δυνατή η εναλλαγή σε:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5878"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η συσκευή εισόδου ήχου δεν είναι διαθέσιμη</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5879"/>
@@ -1466,117 +1471,121 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δεν ήταν δυνατό το άνοιγμα της συσκευής εισόδου ήχου:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3937"/>
         <source>Mac Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λειτουργία συντομεύσεων Mac</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3970"/>
         <source>Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λειτουργία συντομεύσεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4135"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση καταγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4140"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση καταγραφής ενδείξεων</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση μετρονόμου</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4151"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δημοσίευση παραθύρου μέσω Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4156"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συμπερίληψη δρομέα ποντικιού στη ροή Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4163"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δημοσίευση παραθύρου μέσω Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συμπερίληψη δρομέα ποντικιού στη ροή Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4175"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συμπερίληψη δρομέα ποντικιού στην εγγραφή συνεδρίας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αναβόσβημα εικονιδίου εγγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4188"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λειτουργία εγγραφής</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4204"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση κουμπιών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4209"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση καρτελών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4214"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λειτουργία πλήρους οθόνης</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4219"/>
         <source>Zoom In Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μεγέθυνση καταγραφών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4222"/>
         <source>Zoom Out Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σμίκρυνση καταγραφών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4258"/>
         <source>Focus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εστίαση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4286"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Γλώσσα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4560"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ταινία QuickTime (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4563"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Βίντεο MP4 (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4571"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αποθήκευση εγγραφής συνεδρίας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4594"/>
@@ -1596,12 +1605,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4926"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επανεκκίνηση Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5011"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Θέματα βοήθειας</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
@@ -1635,22 +1644,22 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="5214"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Απενεργοποίηση εισόδου MIDI...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5261"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Απενεργοποίηση θύρας ενδείξεων OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5275"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εξωτερικής θύρας ενδείξεων OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5289"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εσωτερικής θύρας ενδείξεων OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5348"/>
@@ -1665,50 +1674,50 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="5497"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Γραμμή: %1,  Θέση: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5893"/>
         <source>Sonic Pi - Unable to Write to Home Directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi - Δεν είναι δυνατή η εγγραφή στον αρχικό κατάλογο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5900"/>
         <source>Boot Error - Home Dir not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σφάλμα εκκίνησης - Δεν είναι εγγράψιμος ο αρχικός κατάλογος:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5902"/>
         <location filename="../mainwindow.cpp" line="5916"/>
         <source>Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Γρήγορη λύση: ορίστε τη μεταβλητή περιβάλλοντος SONIC_PI_HOME σε έναν κατάλογο στον οποίο έχετε δικαίωμα εγγραφής.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5906"/>
         <location filename="../mainwindow.cpp" line="5920"/>
         <source>For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Για τους περίεργους ανάμεσά σας, το Sonic Pi αποθηκεύει αυτόματα το περιεχόμενο των buffer κώδικα, των αρχείων ρυθμίσεων και των καταγραφών σε έναν φάκελο με το όνομα .sonic-pi που συνήθως βρίσκεται στον αρχικό σας κατάλογο.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5907"/>
         <source>Unfortunately you don&apos;t appear to have permission to write to your home directory:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δυστυχώς φαίνεται ότι δεν έχετε δικαίωμα εγγραφής στον αρχικό σας κατάλογο:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5908"/>
         <location filename="../mainwindow.cpp" line="5922"/>
         <source>To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Για να το διορθώσετε, μπορείτε να ορίσετε τη μεταβλητή περιβάλλοντος SONIC_PI_HOME σε οποιονδήποτε κατάλογο στον οποίο έχετε δικαίωμα εγγραφής και το Sonic Pi θα τοποθετήσει τον κατάλογό του .sonic-pi μέσα σε αυτόν.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5914"/>
         <source>Boot Error - SONIC_PI_HOME not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σφάλμα εκκίνησης - Δεν είναι εγγράψιμο το SONIC_PI_HOME:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5921"/>
         <source>Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don&apos;t have permission to write to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δυστυχώς φαίνεται ότι έχετε ορίσει τη μεταβλητή περιβάλλοντος SONIC_PI_HOME σε έναν κατάλογο στον οποίο δεν έχετε δικαίωμα εγγραφής:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3435"/>
@@ -1783,12 +1792,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="360"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δεν βρέθηκε αντίστοιχο Studio Hash...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="550"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κλείσιμο</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="600"/>
@@ -1798,12 +1807,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3604"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μεγέθυνση κώδικα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3608"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σμίκρυνση κώδικα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3612"/>
@@ -1813,7 +1822,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="3622"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση πληροφοριών</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4389"/>
@@ -1883,32 +1892,32 @@ Get Sonic Pi %1</source>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Οδηγός</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Παραδείγματα</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3165"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Synths</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3214"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fx</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3239"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δείγματα</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3481"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Γλώσσα</translation>
     </message>
 </context>
 <context>
@@ -1921,7 +1930,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="967"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πληκτρολογήστε συντόμευση…</translation>
     </message>
 </context>
 <context>
@@ -1957,7 +1966,7 @@ Get Sonic Pi %1</source>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <location filename="../widgets/settingswidget.cpp" line="812"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Γλώσσα</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="205"/>
@@ -2051,84 +2060,86 @@ which isn&apos;t recognised.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="241"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συσκευή ήχου</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμίστε το πρόγραμμα οδήγησης ήχου, τη συσκευή, τον ρυθμό δειγματοληψίας και το μέγεθος buffer.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πρόγραμμα οδήγησης</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="252"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Έξοδος</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="259"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Είσοδος</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμός δειγματοληψίας</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μέγεθος buffer</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εγγραφή</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλέξτε τι καταγράφει το κουμπί εγγραφής.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μόνο ήχος</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Το SuperSonic γράφει ένα .wav της κύριας μίξης</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ήχος + βίντεο</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καταγράφει το παράθυρο του Sonic Pi μαζί με την κύρια μίξη σε ένα .mov
+με χρήση καταγραφής οθόνης με επιτάχυνση GPU</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καταγράφει το παράθυρο του Sonic Pi μαζί με την κύρια μίξη σε ένα .mp4
+με χρήση καταγραφής οθόνης με επιτάχυνση GPU</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="354"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Με την υποστήριξη του</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αναμονή για το SuperSonic...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="373"/>
@@ -2138,7 +2149,7 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Άνοιγμα ρυθμίσεων συστήματος</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
@@ -2167,7 +2178,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="460"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Να επιτρέπεται OSC από άλλους υπολογιστές</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="461"/>
@@ -2179,27 +2190,27 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="463"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Να επιτρέπεται εισερχόμενο OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="487"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">όλα</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="496"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προεπιλεγμένο κανάλι εξόδου MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="555"/>
         <source>Automatically align code on Enter or Run </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτόματη στοίχιση κώδικα κατά το Enter ή την εκτέλεση </translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="560"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση αυτόματης συμπλήρωσης κώδικα</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="464"/>
@@ -2277,79 +2288,80 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="192"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κύρια ένταση</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="198"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εισόδων ήχου</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="199"/>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εναλλαγή για ενεργοποίηση ή απενεργοποίηση των εισόδων ήχου.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="216"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εξωτερικών synths/FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Θύρα εισερχόμενου OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση εισερχόμενων ενδείξεων MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="479"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενεργοποίηση ή απενεργοποίηση της αυτόματης μετατροπής των εισερχόμενων μηνυμάτων MIDI σε συμβάντα ένδειξης</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="483"/>
         <source>Reset MIDI subsystems
 (Required to detect device changes on some platforms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επαναφορά υποσυστημάτων MIDI
+(Απαιτείται για τον εντοπισμό αλλαγών συσκευών σε ορισμένες πλατφόρμες)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="497"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προεπιλεγμένο κανάλι MIDI για αποστολή μηνυμάτων (* σημαίνει όλα)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="501"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προεπιλεγμένο κανάλι MIDI για αποστολή μηνυμάτων  (* σημαίνει όλα)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="545"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση πάνελ</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="546"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση και απόκρυψη παραθύρων πληροφοριών όπως ο παλμογράφος και η καταγραφή.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="549"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Θέμα</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="551"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτοματισμός / Διάφορα</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="552"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμίστε τον αυτοματισμό και άλλες λειτουργίες.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="554"/>
@@ -2369,27 +2381,27 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="561"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Όταν είναι ενεργοποιημένο, ο επεξεργαστής του Sonic Pi θα προσπαθεί να συμπληρώσει αυτόματα τον κώδικά σας με προτάσεις. Όταν είναι απενεργοποιημένο, αυτές οι προτάσεις δεν θα είναι ορατές.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="563"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση βοήθειας αυτόματης συμπλήρωσης κώδικα</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="564"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Όταν είναι ενεργοποιημένο, το αναδυόμενο παράθυρο αυτόματης συμπλήρωσης κώδικα περιλαμβάνει βοηθητικά παράθυρα - τεκμηρίωση, ένα πληκτρολόγιο νότων και ρυθμιστικά τιμών. Όταν είναι απενεργοποιημένο, εμφανίζει μόνο τη λίστα προτάσεων.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="566"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση πλαισίου κώδικα</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="567"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Όταν είναι ενεργοποιημένο, ο επεξεργαστής του Sonic Pi θα εμφανίζει ένα παράθυρο που θα δείχνει πληροφορίες σχετικές με το πλαίσιο του κώδικα, όπως η τρέχουσα γραμμή και η θέση του δρομέα.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="569"/>
@@ -2414,12 +2426,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="577"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση χειριστηρίων μετρονόμου Link</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="578"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εναλλαγή ορατότητας των χειριστηρίων μετρονόμου Link.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
@@ -2454,22 +2466,22 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="590"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση τίτλων</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="591"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εναλλαγή της ορατότητας των τίτλων για τον παλμογράφο, την καταγραφή, τις ενδείξεις και άλλα παράθυρα πληροφοριών</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="594"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Απόκρυψη γραμμής μενού σε λειτουργία πλήρους οθόνης</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="595"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτόματη απόκρυψη της γραμμής μενού όταν η εφαρμογή είναι σε λειτουργία πλήρους οθόνης. Σημειώστε ότι η γραμμή μενού είναι πάντα ορατή όταν δεν βρίσκεται σε λειτουργία πλήρους οθόνης.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="601"/>
@@ -2563,14 +2575,16 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="684"/>
         <source>Show debug log panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση πάνελ καταγραφής αποσφαλμάτωσης</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Show a dockable panel with live tails of the
 GUI, Spider, Daemon and SuperSonic log files.
 No CPU is used while the panel is hidden.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση ενός αγκυρώσιμου πάνελ με ζωντανή παρακολούθηση των
+αρχείων καταγραφής του GUI, του Spider, του Daemon και του SuperSonic.
+Δεν χρησιμοποιείται CPU όσο το πάνελ είναι κρυμμένο.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="712"/>
@@ -2590,293 +2604,296 @@ No CPU is used while the panel is hidden.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="725"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση παλμογράφων</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση ετικετών παλμογράφου</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="813"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμίστε τις ρυθμίσεις γλώσσας</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="818"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Γλώσσα διεπαφής &amp; οδηγού (Απαιτείται επανεκκίνηση για να τεθεί σε ισχύ)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="819"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αλλάξτε τη γλώσσα της διεπαφής &amp; του οδηγού (Απαιτείται επανεκκίνηση για να τεθεί σε ισχύ)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="823"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αλλάξτε τη γλώσσα της διεπαφής &amp; του οδηγού</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="830"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Οι μεταφράσεις παρασχέθηκαν γενναιόδωρα από εθελοντές 
+στο https://hosted.weblate.org/projects/sonic-pi/. Σας ευχαριστούμε! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1066"/>
         <location filename="../widgets/settingswidget.cpp" line="1102"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1067"/>
         <location filename="../widgets/settingswidget.cpp" line="1103"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1068"/>
         <location filename="../widgets/settingswidget.cpp" line="1104"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1069"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προσαρμοσμένο</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1095"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λειτουργία:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1105"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξεργασία συντόμευσης</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1107"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επαναφορά</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1110"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εισαγωγή…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1111"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εξαγωγή…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1118"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Βάση:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1268"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Έχει επίσης ανατεθεί σε: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Άλλαξε από την προεπιλογή (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">μη ορισμένο</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1282"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(καμία αλλαγή)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1283"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(%1 άλλαξε)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1374"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η συντόμευση χρησιμοποιείται ήδη</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1375"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Το &quot;%1&quot; έχει ήδη ανατεθεί σε: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1376"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τι θα θέλατε να κάνετε;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1377"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ανάθεση σε αυτό</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διατήρηση και των δύο</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1406"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επαναφορά συντομεύσεων;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1407"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτό απορρίπτει όλες τις προσαρμοσμένες αλλαγές σας και επαναφέρει το βασικό προκαθορισμένο σχήμα. Συνέχεια;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1416"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εξαγωγή συντομεύσεων</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1417"/>
         <location filename="../widgets/settingswidget.cpp" line="1432"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αρχεία συντομεύσεων (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1431"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εισαγωγή συντομεύσεων</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1512"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλέξατε μια νέα γλώσσα: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1514"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Θέλετε να εφαρμόσετε αυτή τη γλώσσα;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1516"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η νέα γλώσσα θα εφαρμοστεί την επόμενη φορά που θα εκκινήσετε το Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1522"/>
         <source>System language found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Βρέθηκε γλώσσα συστήματος: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1570"/>
         <location filename="../widgets/settingswidget.cpp" line="1717"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ΑΠΕΝΕΡΓΟΠΟΙΗΜΕΝΟ --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1613"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εναλλαγή συσκευής ήχου...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1651"/>
         <location filename="../widgets/settingswidget.cpp" line="1726"/>
         <location filename="../widgets/settingswidget.cpp" line="1921"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Καμία --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1653"/>
         <location filename="../widgets/settingswidget.cpp" line="1918"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προεπιλογή συστήματος</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1655"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Προεπιλογή συστήματος (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1905"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Οι συσκευές ASIO έχουν συνδεδεμένη είσοδο/έξοδο.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1928"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αντικατοπτρίζει την έξοδο (το ASIO είναι αμφίδρομο).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1967"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Το Sonic Pi δεν έχει ακόμη πρόσβαση στο μικρόφωνο, επομένως το live_audio και το :sound_in θα είναι σιωπηλά. Κάντε κλικ παρακάτω για να παραχωρήσετε πρόσβαση στις ρυθμίσεις συστήματος.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1969"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η πρόσβαση στο μικρόφωνο περιορίζεται από την πολιτική του συστήματος, επομένως το live_audio και το :sound_in θα είναι σιωπηλά.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1971"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η πρόσβαση στο μικρόφωνο δεν έχει παραχωρηθεί ακόμη — κάντε κλικ παρακάτω για να ανοίξετε τις ρυθμίσεις συστήματος.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2242"/>
         <source>System language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Γλώσσα συστήματος: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1526"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εφαρμογή</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1527"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Άκυρο</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1538"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Η νέα γλώσσα θα εφαρμοστεί την επόμενη φορά που θα εκκινήσετε το Sonic Pi.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1539"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τρέχουσα γλώσσα διεπαφής: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1543"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επανεκκίνηση Sonic Pi;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1544"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Θέλετε να επανεκκινήσετε το Sonic Pi τώρα; Αυτό θα διακόψει τυχόν τρέχουσες εκτελέσεις &amp; εγγραφές.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1545"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επανεκκίνηση</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1546"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Παράβλεψη</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2408"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Χρήση γλώσσας συστήματος</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
@@ -2886,27 +2903,27 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="137"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Λήξη χρονικού ορίου αλλαγής συσκευής</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συντομεύσεις</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Χρησιμοποιήστε αυτό το ρυθμιστικό για να αλλάξετε την ένταση του συστήματος.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="201"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Το ASIO χρησιμοποιεί μία συσκευή τόσο για είσοδο όσο και για έξοδο.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εναλλαγή της ορατότητας των ετικετών για τους παλμογράφους ήχου</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="732"/>
@@ -2918,7 +2935,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ο παλμογράφος ήχου διατίθεται σε διάφορες μορφές που μπορούν να
+προβληθούν ανεξάρτητα ή όλες μαζί:
+
+Lissajous - απεικονίζει τη σχέση φάσης μεταξύ του αριστερού και του δεξιού καναλιού
+Mirror Stereo - απλό σύνθετο κύμα αριστερού/δεξιού, με το αριστερό επάνω και το δεξί κάτω
+Mono - δείχνει μια συνδυασμένη προβολή του αριστερού και του δεξιού καναλιού (με χρήση RMS)
+Spectrum - δείχνει τις συχνότητες του ήχου ως φάσμα, από τις χαμηλές προς τις υψηλές συχνότητες
+Stereo - δείχνει δύο ανεξάρτητους παλμογράφους για το αριστερό και το δεξί κανάλι</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="739"/>

@@ -66,7 +66,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="693"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Метроном &amp; Глобальное Искажение Времени</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1601"/>
@@ -107,12 +107,13 @@
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Apologies, unable to start...
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Извините, не удалось запуститься...
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Sorry, Sonic Pi is having issues booting:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Извините, у Sonic Pi возникли проблемы при загрузке:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1853"/>
@@ -283,12 +284,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2880"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Режим автоотступа включён</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Режим автоотступа выключен</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
@@ -324,258 +325,258 @@
         <location filename="../mainwindow.cpp" line="3206"/>
         <location filename="../mainwindow.cpp" line="3488"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(Рас)комментировать код</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3207"/>
         <location filename="../mainwindow.cpp" line="3492"/>
         <source>Transpose Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Поменять символы местами</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3208"/>
         <source>Shift Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сдвинуть строку или выделение вверх</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3209"/>
         <source>Shift Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сдвинуть строку или выделение вниз</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3248"/>
         <source>Move Cursor Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор вниз</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3249"/>
         <source>Move Cursor Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор вверх</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3251"/>
         <source>Move Cursor Down 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор вниз на 10 строк</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3250"/>
         <source>Move Cursor Up 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор вверх на 10 строк</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3252"/>
         <source>Cut to the end of the line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вырезать до конца строки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Copy the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Копировать текущее выделение</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3254"/>
         <source>Cut the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вырезать текущее выделение</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3255"/>
         <source>Paste the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вставить из буфера обмена</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3256"/>
         <source>Move Cursor Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор вправо</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>Move Cursor Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор влево</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3258"/>
         <source>Delete Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить справа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3259"/>
         <source>Delete Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить слева</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3260"/>
         <source>Move Cursor to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор в начало строки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3261"/>
         <source>Move Cursor to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор в конец строки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3262"/>
         <source>Move Cursor to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор в начало документа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Move Cursor to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор в конец документа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>Move Cursor Right by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор вправо на слово</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Move Cursor Left by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить курсор влево на слово</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3273"/>
         <source>Undo the last action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отменить последнее действие</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3274"/>
         <source>Redo the last undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Повторить последнюю отмену</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3275"/>
         <source>Select all text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выделить весь текст</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3276"/>
         <source>Delete word to the right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить слово справа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3277"/>
         <source>Delete word to the left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить слово слева</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Uppercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести слово или выделение в верхний регистр</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3279"/>
         <source>Lowercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести слово или выделение в нижний регистр</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3245"/>
         <source>Set a mark in the text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Установить метку в тексте</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3210"/>
         <source>Look up documentation for the current word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Найти документацию для текущего слова</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Cycle through the available colour themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться между доступными цветовыми темами</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3218"/>
         <source>Switch to the previous tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на предыдущую вкладку</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3219"/>
         <source>Switch to the next tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на следующую вкладку</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3220"/>
         <source>Switch to tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Switch to tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Switch to tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3223"/>
         <source>Switch to tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3224"/>
         <source>Switch to tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3225"/>
         <source>Switch to tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Switch to tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>Switch to tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3228"/>
         <source>Switch to tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3229"/>
         <source>Switch to tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключиться на вкладку 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3233"/>
         <source>Place focus on the logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на журнал</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3242"/>
         <source>Show or hide the buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать или скрыть кнопки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3243"/>
         <source>Show or hide the cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать или скрыть журнал сигналов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Show or hide the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать или скрыть журнал</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3246"/>
         <source>Zoom in the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Увеличить масштаб журнала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>Zoom out the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Уменьшить масштаб журнала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3280"/>
         <source>Toggle fullscreen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключить полноэкранный режим</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3430"/>
@@ -590,74 +591,74 @@
     <message>
         <location filename="../mainwindow.cpp" line="4151"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Публиковать окно через Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4156"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включать курсор мыши в поток Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4163"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Публиковать окно через Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включать курсор мыши в поток Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4175"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включать курсор мыши в запись сессии</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Мигать значком записи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4188"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Режим записи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4560"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Видео QuickTime (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4563"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Видео MP4 (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4571"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сохранить запись сессии</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5011"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Разделы справки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5701"/>
         <location filename="../mainwindow.cpp" line="5756"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Нет --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5702"/>
         <location filename="../mainwindow.cpp" line="5740"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ОТКЛЮЧЕНО --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5862"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Не удалось переключить аудиоустройство</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5863"/>
@@ -666,12 +667,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Не удалось переключиться на:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5878"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Устройство аудиовхода недоступно</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5879"/>
@@ -680,50 +685,54 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Не удалось открыть устройство аудиовхода:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5893"/>
         <source>Sonic Pi - Unable to Write to Home Directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi - Не удаётся записать в домашний каталог</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5900"/>
         <source>Boot Error - Home Dir not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ошибка загрузки - Домашний каталог недоступен для записи:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5902"/>
         <location filename="../mainwindow.cpp" line="5916"/>
         <source>Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Быстрое решение: установите переменную окружения SONIC_PI_HOME на каталог, в который у вас есть разрешение на запись.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5906"/>
         <location filename="../mainwindow.cpp" line="5920"/>
         <source>For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Для самых любознательных: Sonic Pi автоматически сохраняет содержимое буферов кода, файлы конфигурации и журналы в папку .sonic-pi, которая обычно находится в вашем домашнем каталоге.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5907"/>
         <source>Unfortunately you don&apos;t appear to have permission to write to your home directory:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">К сожалению, у вас нет разрешения на запись в ваш домашний каталог:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5908"/>
         <location filename="../mainwindow.cpp" line="5922"/>
         <source>To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Чтобы это исправить, установите переменную окружения SONIC_PI_HOME на любой каталог, в который у вас есть доступ на запись, и Sonic Pi разместит в нём свою папку .sonic-pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5914"/>
         <source>Boot Error - SONIC_PI_HOME not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ошибка загрузки - SONIC_PI_HOME недоступен для записи:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5921"/>
         <source>Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don&apos;t have permission to write to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">К сожалению, вы установили переменную окружения SONIC_PI_HOME на каталог, в который у вас нет разрешения на запись:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3200"/>
@@ -758,12 +767,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3484"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выровнять код в буфере</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3604"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Увеличить размер кода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3608"/>
@@ -813,7 +822,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3730"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Подключение Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3230"/>
@@ -823,118 +832,118 @@
     <message>
         <location filename="../mainwindow.cpp" line="3735"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отстукать Темп</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3231"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Нажмите Link Отстукать Темп</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ошибки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="602"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Буфер редактора кода %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="604"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Контекст запуска</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="732"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Документация</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отладка</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1741"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включение аудиовходов...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отключение аудиовходов...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2068"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ошибка: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Запуск начат</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Остановлено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3266"/>
         <location filename="../mainwindow.cpp" line="3557"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выделить до начала строки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <location filename="../mainwindow.cpp" line="3560"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выделить до конца строки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <location filename="../mainwindow.cpp" line="3563"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выделить слово справа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <location filename="../mainwindow.cpp" line="3566"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выделить слово слева</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <location filename="../mainwindow.cpp" line="3569"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выделить до начала документа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3271"/>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выделить до конца документа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3453"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Записывать только аудио</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3460"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Записывать аудио + видео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3715"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показывать справку автодополнения кода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3738"/>
@@ -944,7 +953,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3743"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Соблюдать Гарантии Таймингов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3748"/>
@@ -959,47 +968,47 @@
     <message>
         <location filename="../mainwindow.cpp" line="3758"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Принудительное Моно</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3763"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включить Входящие MIDI-Сигналы</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3768"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Разрешить Входящие OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3773"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Разрешить OSC с Других Компьютеров</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3778"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Журнал Сигналов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3783"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Журнал Синтезаторов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3788"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Очищать Журнал при Выполнении</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3798"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Автопрокрутка Журнала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3811"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Живое Выступление</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3826"/>
@@ -1044,7 +1053,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3912"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать Метки Осциллографа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3917"/>
@@ -1059,22 +1068,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Режим горячих клавиш Windows | Linux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Пользовательский режим горячих клавиш</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
         <source>Colour Theme</source>
-        <translation type="unfinished">Цветная тема</translation>
+        <translation type="unfinished">Цветовая Тема</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать Виды Осциллографов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3969"/>
@@ -1091,7 +1100,7 @@
         <location filename="../mainwindow.cpp" line="5230"/>
         <location filename="../mainwindow.cpp" line="5354"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished">Нет подсоединенных входов</translation>
+        <translation type="unfinished">Нет подсоединённых входов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3979"/>
@@ -1103,7 +1112,7 @@
         <location filename="../mainwindow.cpp" line="5228"/>
         <location filename="../mainwindow.cpp" line="5376"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished">Нет Присоединенных Выходов</translation>
+        <translation type="unfinished">Нет подсоединённых выходов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3982"/>
@@ -1203,7 +1212,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4086"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Входящий Порт OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4091"/>
@@ -1213,272 +1222,272 @@
     <message>
         <location filename="../mainwindow.cpp" line="4104"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Контексте</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на панель контекста</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4128"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Регуляторе BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3240"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на регулятор BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4132"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Регуляторе TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3241"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на регулятор TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3272"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вертикально центрировать курсор в редакторе</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3496"/>
         <source>Move Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить строку или выделение вверх</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3500"/>
         <source>Move Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместить строку или выделение вниз</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3503"/>
         <source>Move Down One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместиться вниз на одну строку</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3506"/>
         <source>Move Up One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместиться вверх на одну строку</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3509"/>
         <source>Move Down Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместиться вниз на десять строк</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3512"/>
         <source>Move Up Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместиться вверх на десять строк</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3515"/>
         <source>Cut to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вырезать до конца строки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3518"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Копировать</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вырезать</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3524"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вставить</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3527"/>
         <source>Move Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместиться вправо</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3530"/>
         <source>Move Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместиться влево</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3533"/>
         <source>Delete Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить вперёд</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3536"/>
         <source>Delete Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить назад</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3539"/>
         <source>Move to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перейти в начало строки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3542"/>
         <source>Move to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перейти в конец строки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3545"/>
         <source>Move to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перейти в начало документа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3548"/>
         <source>Move to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перейти в конец документа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3551"/>
         <source>Move Right One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместиться вправо на одно слово</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3554"/>
         <source>Move Left One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переместиться влево на одно слово</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3575"/>
         <source>Center Cursor Vertically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Центрировать курсор по вертикали</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отменить</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3581"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Повторить</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3584"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выделить всё</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3587"/>
         <source>Delete Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить слово слева</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3590"/>
         <source>Delete Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Удалить слово справа</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3593"/>
         <source>Upcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Верхний регистр слова или выделения</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3596"/>
         <source>Downcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Нижний регистр слова или выделения</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3600"/>
         <source>Show Docs for Current Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать документацию для текущего слова</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Cycle Themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сменить тему</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
         <source>Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Предыдущая вкладка</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3644"/>
         <source>Next Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Следующая вкладка</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>Focus Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3650"/>
         <source>Focus Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3653"/>
         <source>Focus Tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3656"/>
         <source>Focus Tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3659"/>
         <source>Focus Tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Focus Tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3665"/>
         <source>Focus Tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3668"/>
         <source>Focus Tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3671"/>
         <source>Focus Tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Focus Tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на вкладку 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3793"/>
         <source>Auto Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Автоотступ буфера кода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3803"/>
         <source>Set Mark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Установить метку</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3927"/>
         <source>Emacs Live Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Режим горячих клавиш Emacs Live</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3937"/>
         <source>Mac Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Режим горячих клавиш Mac</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3970"/>
         <source>Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Режим горячих клавиш</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4135"/>
@@ -1488,7 +1497,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4140"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать Журнал Сигналов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4145"/>
@@ -1513,17 +1522,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="4219"/>
         <source>Zoom In Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Увеличить масштаб журнала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4222"/>
         <source>Zoom Out Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Уменьшить масштаб журнала</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4258"/>
         <source>Focus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4286"/>
@@ -1538,22 +1547,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включение MIDI &lt;input&gt;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5261"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отключение порта сигналов OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5275"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включение внешнего порта сигналов OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5289"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включение внутреннего порта сигналов OSC...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5348"/>
@@ -1678,67 +1687,67 @@
     <message>
         <location filename="../mainwindow.cpp" line="4096"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Редакторе</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на редактор кода</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4100"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Журнале</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4108"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Сигналах</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на панель сигналов</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4112"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Настройках</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3236"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на настройки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4116"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Списке Помощи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3237"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на список помощи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4120"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Деталях Помощи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3238"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на детали помощи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4124"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Фокус на Ошибках</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3239"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перевести фокус на ошибки</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4389"/>
@@ -1872,7 +1881,7 @@ Get Sonic Pi %1</source>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished">Руководство Использования</translation>
+        <translation type="unfinished">Руководство</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
@@ -1882,22 +1891,22 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../utils/ruby_help.h" line="3165"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Синтезаторы</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3214"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Эффекты</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3239"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сэмплы</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3481"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Язык</translation>
     </message>
 </context>
 <context>
@@ -1910,7 +1919,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="967"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Введите сочетание…</translation>
     </message>
 </context>
 <context>
@@ -2041,84 +2050,86 @@ which isn&apos;t recognised.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="241"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Аудиоустройство</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Настройка аудиодрайвера, устройства, частоты дискретизации и размера буфера.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Драйвер</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="252"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выход</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="259"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вход</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Частота дискретизации</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Размер буфера</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Запись</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выберите, что записывает кнопка записи.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Только аудио</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic записывает .wav общего микса</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Аудио + видео</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Записывает окно Sonic Pi и общий микс в .mov
+с помощью захвата экрана с GPU-ускорением</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Записывает окно Sonic Pi и общий микс в .mp4
+с помощью захвата экрана с GPU-ускорением</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="354"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Работает на</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ожидание SuperSonic...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="373"/>
@@ -2128,7 +2139,7 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Открыть системные настройки</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
@@ -2140,9 +2151,9 @@ using GPU-accelerated screen capture</source>
         <source>Sonic Pi can send and receive Open Sound Control messages
 to and from other programs or computers
  via the currently connected network.</source>
-        <translation type="unfinished">Sonic Pi может отправлять и получать сообщения управления открытым звуком
+        <translation type="unfinished">Sonic Pi может отправлять и получать сообщения Open Sound Control
 от других программ или компьютеров
-через подключенную в данный момент сеть.</translation>
+ через подключённую в данный момент сеть.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="434"/>
@@ -2157,7 +2168,7 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="460"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Разрешить OSC с других компьютеров</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="461"/>
@@ -2169,34 +2180,34 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="463"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Разрешить входящие OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="487"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">все</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="496"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-канал вывода по умолчанию</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="555"/>
         <source>Automatically align code on Enter or Run </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Автоматически выравнивать код при Enter или Выполнении </translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="560"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать автодополнение кода</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="464"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
         <translation type="unfinished">Когда включено, Sonic Pi будет принимать сообщения OSC.
-Когда выключено, сообщения OSC приниматься не будут.</translation>
+ Когда выключено, сообщения OSC приниматься не будут.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="472"/>
@@ -2211,12 +2222,12 @@ to and from other programs or computers
     <message>
         <location filename="../widgets/settingswidget.cpp" line="475"/>
         <source>MIDI Ports</source>
-        <translation type="unfinished">MIDI-порт</translation>
+        <translation type="unfinished">MIDI-порты</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="476"/>
         <source>List all connected MIDI Ports</source>
-        <translation type="unfinished">Список всех подключенных портов MIDI</translation>
+        <translation type="unfinished">Список всех подключённых портов MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="481"/>
@@ -2238,16 +2249,16 @@ to and from other programs or computers
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished">Входные устройства передачи MIDI-Сообщений MIDI непосредственно
-Sonic Pi и принимаются как события метки
+        <translation type="unfinished">Устройства ввода MIDI отправляют MIDI-сообщения напрямую в
+Sonic Pi и принимаются как события сигналов
 (аналогично входящим сообщениям OSC и внутренним сигналам)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished">Выход MIDI-устройств принимать MIDI-сообщения непосредственно с
-Sonic Pi, которые могут быть отправлены через midi_* fns</translation>
+        <translation type="unfinished">Устройства вывода MIDI получают MIDI-сообщения напрямую от
+Sonic Pi, которые можно отправить через функции midi_*</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="547"/>
@@ -2267,7 +2278,7 @@ Sonic Pi, которые могут быть отправлены через mid
     <message>
         <location filename="../widgets/settingswidget.cpp" line="192"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Основная громкость</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="198"/>
@@ -2278,68 +2289,69 @@ Sonic Pi, которые могут быть отправлены через mid
         <location filename="../widgets/settingswidget.cpp" line="199"/>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включить или выключить аудиовходы.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="216"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включить внешние синтезаторы/FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Входящий порт OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включить входящие MIDI-сигналы</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="479"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Включить или выключить автоматическое преобразование входящих MIDI-сообщений в события сигналов</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="483"/>
         <source>Reset MIDI subsystems
 (Required to detect device changes on some platforms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сбросить подсистемы MIDI
+(Необходимо для обнаружения изменений устройств на некоторых платформах)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="497"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-канал по умолчанию для отправки сообщений (* означает все)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="501"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-канал по умолчанию для отправки сообщений  (* означает все)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="545"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать панели</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="546"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать и скрыть информационные панели, такие как осциллограф и журнал.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="549"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Тема</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="551"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Автоматизация / Разное</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="552"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Настроить автоматизацию и другие функции.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="554"/>
@@ -2359,27 +2371,27 @@ Sonic Pi, которые могут быть отправлены через mid
     <message>
         <location filename="../widgets/settingswidget.cpp" line="561"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Когда включено, редактор Sonic Pi будет пытаться автодополнять твой код подсказками. Когда выключено, эти подсказки не будут отображаться.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="563"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показывать справку автодополнения кода</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="564"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Если включено, всплывающее окно автодополнения кода содержит вспомогательные панели — документацию, нотную клавиатуру и ползунки значений. Если отключено, отображается только список предложений.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="566"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать контекст кода</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="567"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Когда включено, редактор Sonic Pi покажет панель с контекстной информацией о коде, такой как текущая строка и позиция курсора.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="569"/>
@@ -2399,17 +2411,17 @@ Sonic Pi, которые могут быть отправлены через mid
     <message>
         <location filename="../widgets/settingswidget.cpp" line="574"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished">Показать/скрыть журнал сигналов, в котором показаны внутренние сигналы и входящие сообщения OSC/MIDI.</translation>
+        <translation type="unfinished">Показать/скрыть журнал сигналов, в котором показаны внутренние сигналы &amp; входящие сообщения OSC/MIDI.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="577"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать элементы управления метрономом Link</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="578"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать/скрыть элементы управления метрономом Link.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
@@ -2444,22 +2456,22 @@ Sonic Pi, которые могут быть отправлены через mid
     <message>
         <location filename="../widgets/settingswidget.cpp" line="590"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать заголовки</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="591"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать/скрыть заголовки для осциллографа, журнала, сигналов и других информационных панелей</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="594"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Скрыть панель меню в полноэкранном режиме</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="595"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Автоматически скрывать панель меню, когда приложение в полноэкранном режиме. Панель меню всегда видна вне полноэкранного режима.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="601"/>
@@ -2547,25 +2559,27 @@ However, they will not be visible in the logs.</source>
         <location filename="../widgets/settingswidget.cpp" line="682"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Включить/выключить прокручивание журнала автоматически.
-Если включено, журнал прокручивается в самый конец после каждого нового сообщения.</translation>
+        <translation type="unfinished">Включить/выключить автопрокрутку журнала.
+Если включено, журнал прокручивается в конец после каждого нового сообщения.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="684"/>
         <source>Show debug log panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показывать панель журнала отладки</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Show a dockable panel with live tails of the
 GUI, Spider, Daemon and SuperSonic log files.
 No CPU is used while the panel is hidden.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показывать прикрепляемую панель с обновляющимися в реальном времени
+журналами GUI, Spider, Daemon и SuperSonic.
+Пока панель скрыта, ресурсы процессора не используются.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="712"/>
         <source>Settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished">Параметры необходимые для выступления с Sonic Pi</translation>
+        <translation type="unfinished">Параметры, полезные для выступлений с Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="716"/>
@@ -2580,293 +2594,296 @@ No CPU is used while the panel is hidden.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="725"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать осциллографы</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать метки осциллографа</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="813"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Настроить языковые параметры</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="818"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Язык интерфейса &amp; руководства (требуется перезапуск)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="819"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сменить язык интерфейса &amp; руководства (требуется перезапуск)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="823"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сменить язык интерфейса &amp; руководства</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="830"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переводы были щедро предоставлены волонтёрами 
+на https://hosted.weblate.org/projects/sonic-pi/. Спасибо! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1066"/>
         <location filename="../widgets/settingswidget.cpp" line="1102"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1067"/>
         <location filename="../widgets/settingswidget.cpp" line="1103"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1068"/>
         <location filename="../widgets/settingswidget.cpp" line="1104"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1069"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Пользовательский</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1095"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Режим:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1105"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Изменить сочетание</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1107"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сбросить</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1110"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Импорт…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1111"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Экспорт…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1118"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Основа:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1268"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Также назначено на: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Изменено относительно значения по умолчанию (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">не задано</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1282"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(без изменений)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1283"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(изменено: %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1374"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сочетание уже используется</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1375"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">«%1» уже назначено на: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1376"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Что вы хотите сделать?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1377"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переназначить на это</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сохранить оба</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1406"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сбросить сочетания клавиш?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1407"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Это отменит все ваши пользовательские изменения и восстановит базовый набор. Продолжить?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1416"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Экспорт сочетаний клавиш</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1417"/>
         <location filename="../widgets/settingswidget.cpp" line="1432"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Файлы сочетаний клавиш (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1431"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Импорт сочетаний клавиш</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1512"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вы выбрали новый язык: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1514"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Хотите применить этот язык?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1516"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Новый язык будет применён при следующем запуске Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1522"/>
         <source>System language found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Обнаружен системный язык: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1570"/>
         <location filename="../widgets/settingswidget.cpp" line="1717"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ОТКЛЮЧЕНО --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1613"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Переключение аудиоустройства...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1651"/>
         <location filename="../widgets/settingswidget.cpp" line="1726"/>
         <location filename="../widgets/settingswidget.cpp" line="1921"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Нет --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1653"/>
         <location filename="../widgets/settingswidget.cpp" line="1918"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Системное по умолчанию</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1655"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Системное по умолчанию (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1905"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">У устройств ASIO вход и выход связаны.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1928"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Повторяет выход (ASIO работает в полнодуплексном режиме).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1967"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">У Sonic Pi пока нет доступа к микрофону, поэтому live_audio и :sound_in будут беззвучными. Нажмите ниже, чтобы предоставить доступ в системных настройках.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1969"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Доступ к микрофону ограничен системной политикой, поэтому live_audio и :sound_in будут беззвучными.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1971"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Доступ к микрофону ещё не предоставлен — нажмите ниже, чтобы открыть системные настройки.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2242"/>
         <source>System language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Системный язык: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1526"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Применить</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1527"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отмена</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1538"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Новый язык будет применён при следующем запуске Sonic Pi.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1539"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Текущий язык интерфейса: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1543"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перезапустить Sonic Pi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1544"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Хотите перезапустить Sonic Pi сейчас? Это остановит все текущие запуски &amp; записи.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1545"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Перезапустить</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1546"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Отклонить</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2408"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Использовать системный язык</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
@@ -2876,27 +2893,27 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="137"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Истекло время ожидания переключения устройства</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сочетания клавиш</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Используйте этот регулятор для изменения системной громкости.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="201"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO использует одно устройство как для входа, так и для выхода.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать/скрыть метки аудио осциллографов</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="732"/>
@@ -2908,7 +2925,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Аудио осциллограф имеет несколько видов, которые можно
+просматривать отдельно или все вместе:
+
+Lissajous - показывает фазовое соотношение между левым и правым каналами
+Mirror Stereo - простая составная волна левого/правого каналов, левый сверху, правый снизу
+Mono - показывает объединённый вид левого и правого каналов (используя RMS)
+Spectrum - показывает звуковые частоты в виде спектра, от низких к высоким
+Stereo - показывает два независимых осциллографа для левого и правого каналов</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="739"/>
@@ -2942,7 +2966,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/settingswidget.cpp" line="776"/>
         <source>Get update</source>
-        <translation type="unfinished">Получить обновления</translation>
+        <translation type="unfinished">Получить обновление</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="778"/>

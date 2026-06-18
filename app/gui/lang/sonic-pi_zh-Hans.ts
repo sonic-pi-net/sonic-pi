@@ -589,74 +589,74 @@
     <message>
         <location filename="../mainwindow.cpp" line="4151"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">通过 Syphon 发布窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4156"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在 Syphon 输出中包含鼠标指针</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4163"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">通过 Spout 发布窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在 Spout 输出中包含鼠标指针</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4175"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在会话录制中包含鼠标指针</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">闪烁录制图标</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4188"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">录制模式</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4560"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QuickTime 影片 (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4563"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MP4 视频 (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4571"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存会话录制</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5011"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">帮助主题</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5701"/>
         <location filename="../mainwindow.cpp" line="5756"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- 无 --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5702"/>
         <location filename="../mainwindow.cpp" line="5740"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- 已禁用 --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5862"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频设备切换失败</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5863"/>
@@ -665,12 +665,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法切换到：
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5878"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频输入设备不可用</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5879"/>
@@ -679,7 +683,11 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法打开音频输入设备：
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5893"/>
@@ -832,108 +840,108 @@
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">错误</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="602"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">代码编辑器缓冲区 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="604"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">运行上下文</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="732"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">文档</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">调试</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1741"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">正在启用音频输入...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">正在禁用音频输入...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2068"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">错误：%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">运行已开始</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">已停止</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3266"/>
         <location filename="../mainwindow.cpp" line="3557"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择至行首</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <location filename="../mainwindow.cpp" line="3560"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择至行尾</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <location filename="../mainwindow.cpp" line="3563"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">向右选择单词</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <location filename="../mainwindow.cpp" line="3566"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">向左选择单词</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <location filename="../mainwindow.cpp" line="3569"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择至文档开头</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3271"/>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择至文档末尾</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3453"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅录制音频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3460"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">录制音频 + 视频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3715"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示代码补全帮助</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3738"/>
@@ -1058,12 +1066,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux 快捷键模式</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自定义快捷键模式</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
@@ -1911,7 +1919,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="967"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">键入快捷键…</translation>
     </message>
 </context>
 <context>
@@ -2042,84 +2050,86 @@ which isn&apos;t recognised.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="241"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频设备</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">配置音频驱动、设备、采样率和缓冲区大小。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">驱动</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="252"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">输出</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="259"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">输入</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">采样率</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">缓冲区大小</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">录制</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">选择录制按钮所捕获的内容。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅音频</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic 将主混音写入 .wav 文件</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频 + 视频</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">使用 GPU 加速的屏幕捕获，将 Sonic Pi 窗口连同主混音
+捕获至 .mov 文件</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">使用 GPU 加速的屏幕捕获，将 Sonic Pi 窗口连同主混音
+捕获至 .mp4 文件</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="354"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">技术支持</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">正在等待 SuperSonic...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="373"/>
@@ -2129,7 +2139,7 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">打开系统设置</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
@@ -2175,13 +2185,14 @@ Open Sound Control 消息。</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="479"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">启用或禁用将传入的 MIDI 消息自动转换为提示事件</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="483"/>
         <source>Reset MIDI subsystems
 (Required to detect device changes on some platforms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重置 MIDI 子系统
+（在某些平台上检测设备变更时需要）</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="487"/>
@@ -2196,27 +2207,27 @@ Open Sound Control 消息。</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="497"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">发送消息的默认 MIDI 通道（* 表示全部）</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="501"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">发送消息的默认 MIDI 通道（* 表示全部）</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="545"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示面板</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="546"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示和隐藏示波器、日志等信息面板。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="549"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">主题</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="555"/>
@@ -2365,12 +2376,12 @@ Sonic Pi接收以midi_*fns形式发送的MIDI消息</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="563"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示代码补全帮助</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="564"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">启用时，代码补全弹窗会包含辅助面板——文档、音符键盘和数值滑块。禁用时，仅显示建议列表。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="566"/>
@@ -2554,14 +2565,16 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="684"/>
         <source>Show debug log panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示调试日志面板</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Show a dockable panel with live tails of the
 GUI, Spider, Daemon and SuperSonic log files.
 No CPU is used while the panel is hidden.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示一个可停靠面板，实时跟踪
+GUI、Spider、Daemon 和 SuperSonic 的日志文件。
+面板隐藏时不占用 CPU。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="712"/>
@@ -2601,207 +2614,209 @@ No CPU is used while the panel is hidden.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="819"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">更改界面与教程的语言（需要重启后生效）</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="830"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">翻译由志愿者在 https://hosted.weblate.org/projects/sonic-pi/ 
+上慷慨提供。感谢你们！:)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1066"/>
         <location filename="../widgets/settingswidget.cpp" line="1102"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1067"/>
         <location filename="../widgets/settingswidget.cpp" line="1103"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1068"/>
         <location filename="../widgets/settingswidget.cpp" line="1104"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1069"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">自定义</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1095"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">模式：</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1105"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">编辑快捷键</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1107"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重置</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1110"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">导入…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1111"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">导出…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1118"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">基础：</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1268"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">也已分配给：%1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">已从默认值更改 (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未设置</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1282"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">（无更改）</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1283"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">（已更改 %1 项）</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1374"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">快捷键已被使用</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1375"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">“%1”已分配给：%2。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1376"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">你想要怎么做？</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1377"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重新分配给此项</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">两者都保留</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1406"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重置快捷键？</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1407"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">这将放弃你所有的自定义更改并恢复基础预设。是否继续？</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1416"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">导出快捷键</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1417"/>
         <location filename="../widgets/settingswidget.cpp" line="1432"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">快捷键文件 (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1431"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">导入快捷键</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1522"/>
         <source>System language found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">检测到系统语言：%1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1570"/>
         <location filename="../widgets/settingswidget.cpp" line="1717"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- 已禁用 --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1613"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">正在切换音频设备...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1651"/>
         <location filename="../widgets/settingswidget.cpp" line="1726"/>
         <location filename="../widgets/settingswidget.cpp" line="1921"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- 无 --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1653"/>
         <location filename="../widgets/settingswidget.cpp" line="1918"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">系统默认</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1655"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">系统默认 (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1905"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO 设备的输入/输出是联动的。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1928"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">镜像输出（ASIO 为全双工）。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1967"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi 尚未获得麦克风访问权限，因此 live_audio 和 :sound_in 将无声。点击下方以在系统设置中授予访问权限。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1969"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">麦克风访问受系统策略限制，因此 live_audio 和 :sound_in 将无声。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1971"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">尚未授予麦克风访问权限——点击下方以打开系统设置。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2242"/>
         <source>System language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">系统语言：%1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="823"/>
@@ -2878,22 +2893,22 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="137"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">设备切换超时</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">快捷键</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">使用此旋钮调整系统音量。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="201"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO 使用同一设备进行输入和输出。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>

@@ -20,7 +20,7 @@
         <location filename="../mainwindow.cpp" line="4809"/>
         <location filename="../mainwindow.cpp" line="4837"/>
         <source>Sonic Pi</source>
-        <translation></translation>
+        <translation type="unfinished">Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2161"/>
@@ -608,12 +608,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מצב קיצורי דרך של Windows | Linux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מצב קיצורי דרך מותאם אישית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
@@ -842,601 +842,602 @@
     <message>
         <location filename="../mainwindow.cpp" line="3240"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">העברת המיקוד לבקר ה-BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4132"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בבקר TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3241"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">העברת המיקוד לבקר TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Apologies, unable to start...
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מצטערים, לא ניתן להפעיל...
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Sorry, Sonic Pi is having issues booting:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מצטערים, ל-Sonic Pi יש בעיות באתחול:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2880"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מצב הזחה אוטומטית הופעל</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מצב הזחה אוטומטית בוטל</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3206"/>
         <location filename="../mainwindow.cpp" line="3488"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הוספת/הסרת הערה מהקוד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3207"/>
         <location filename="../mainwindow.cpp" line="3492"/>
         <source>Transpose Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">החלפת תווים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3208"/>
         <source>Shift Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת שורה או בחירה למעלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3209"/>
         <source>Shift Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת שורה או בחירה למטה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3248"/>
         <source>Move Cursor Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן למטה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3249"/>
         <source>Move Cursor Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן למעלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3251"/>
         <source>Move Cursor Down 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן 10 שורות למטה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3250"/>
         <source>Move Cursor Up 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן 10 שורות למעלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3252"/>
         <source>Cut to the end of the line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">גזירה עד סוף השורה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Copy the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">העתקת הבחירה הנוכחית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3254"/>
         <source>Cut the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">גזירת הבחירה הנוכחית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3255"/>
         <source>Paste the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הדבקת הבחירה הנוכחית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3256"/>
         <source>Move Cursor Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן ימינה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>Move Cursor Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן שמאלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3258"/>
         <source>Delete Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מחיקה ימינה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3259"/>
         <source>Delete Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מחיקה שמאלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3260"/>
         <source>Move Cursor to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן לתחילת השורה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3261"/>
         <source>Move Cursor to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן לסוף השורה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3262"/>
         <source>Move Cursor to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן לתחילת המסמך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Move Cursor to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן לסוף המסמך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>Move Cursor Right by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן מילה אחת ימינה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Move Cursor Left by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת הסמן מילה אחת שמאלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3273"/>
         <source>Undo the last action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ביטול הפעולה האחרונה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3274"/>
         <source>Redo the last undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ביצוע מחדש של הביטול האחרון</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3275"/>
         <source>Select all text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בחירת כל הטקסט</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3276"/>
         <source>Delete word to the right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מחיקת המילה מימין</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3277"/>
         <source>Delete word to the left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מחיקת המילה משמאל</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Uppercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">המרת מילה או בחירה לאותיות גדולות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3279"/>
         <source>Lowercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">המרת מילה או בחירה לאותיות קטנות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3245"/>
         <source>Set a mark in the text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הגדרת סימן בטקסט</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">שגיאות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="602"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מאגר עורך הקוד %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="604"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הקשר ההרצה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="732"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">תיעוד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ניפוי באגים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1741"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מפעיל כניסות שמע...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מבטל כניסות שמע...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2068"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">שגיאה: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ההרצה החלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">נעצר</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3210"/>
         <source>Look up documentation for the current word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">חיפוש תיעוד עבור המילה הנוכחית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Cycle through the available colour themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר בין ערכות הצבעים הזמינות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3218"/>
         <source>Switch to the previous tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית הקודמת</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3219"/>
         <source>Switch to the next tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית הבאה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3220"/>
         <source>Switch to tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Switch to tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Switch to tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3223"/>
         <source>Switch to tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3224"/>
         <source>Switch to tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3225"/>
         <source>Switch to tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Switch to tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>Switch to tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3228"/>
         <source>Switch to tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3229"/>
         <source>Switch to tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר ללשונית 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3233"/>
         <source>Place focus on the logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">העברת המיקוד ליומנים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3242"/>
         <source>Show or hide the buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הצגה או הסתרה של הכפתורים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3243"/>
         <source>Show or hide the cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הצגה או הסתרה של יומן הרמזים</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Show or hide the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הצגה או הסתרה של היומן</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3246"/>
         <source>Zoom in the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הגדלת היומן</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>Zoom out the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הקטנת היומן</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3266"/>
         <location filename="../mainwindow.cpp" line="3557"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בחירה עד תחילת השורה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <location filename="../mainwindow.cpp" line="3560"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בחירה עד סוף השורה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <location filename="../mainwindow.cpp" line="3563"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בחירת המילה מימין</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <location filename="../mainwindow.cpp" line="3566"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בחירת המילה משמאל</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <location filename="../mainwindow.cpp" line="3569"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בחירה עד תחילת המסמך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3271"/>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בחירה עד סוף המסמך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3280"/>
         <source>Toggle fullscreen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">החלפת מצב מסך מלא</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3453"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הקלטת שמע בלבד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3460"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הקלטת שמע + וידאו</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3496"/>
         <source>Move Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת שורה או בחירה למעלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3500"/>
         <source>Move Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזת שורה או בחירה למטה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3503"/>
         <source>Move Down One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר שורה אחת למטה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3506"/>
         <source>Move Up One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר שורה אחת למעלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3509"/>
         <source>Move Down Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר עשר שורות למטה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3512"/>
         <source>Move Up Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר עשר שורות למעלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3515"/>
         <source>Cut to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">גזירה עד סוף השורה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3518"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">העתקה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">גזירה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3524"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הדבקה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3527"/>
         <source>Move Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזה ימינה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3530"/>
         <source>Move Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזזה שמאלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3533"/>
         <source>Delete Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מחיקה קדימה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3536"/>
         <source>Delete Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מחיקה אחורה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3539"/>
         <source>Move to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר לתחילת השורה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3542"/>
         <source>Move to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר לסוף השורה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3545"/>
         <source>Move to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר לתחילת המסמך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3548"/>
         <source>Move to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר לסוף המסמך</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3551"/>
         <source>Move Right One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר מילה אחת ימינה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3554"/>
         <source>Move Left One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר מילה אחת שמאלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3575"/>
         <source>Center Cursor Vertically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מרכוז הסמן אנכית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ביטול</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3581"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ביצוע מחדש</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3584"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בחירת הכול</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3587"/>
         <source>Delete Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מחיקת המילה משמאל</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3590"/>
         <source>Delete Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מחיקת המילה מימין</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3593"/>
         <source>Upcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">המרת מילה או בחירה לאותיות גדולות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3596"/>
         <source>Downcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">המרת מילה או בחירה לאותיות קטנות</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3600"/>
         <source>Show Docs for Current Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הצגת תיעוד עבור המילה הנוכחית</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Cycle Themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מעבר בין ערכות נושא</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
         <source>Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הלשונית הקודמת</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3644"/>
         <source>Next Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הלשונית הבאה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>Focus Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בלשונית 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3650"/>
         <source>Focus Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בלשונית 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3653"/>
         <source>Focus Tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בלשונית 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3656"/>
         <source>Focus Tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בלשונית 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3659"/>
         <source>Focus Tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בלשונית 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Focus Tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בלשונית 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3665"/>
         <source>Focus Tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בלשונית 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3668"/>
         <source>Focus Tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בלשונית 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3671"/>
         <source>Focus Tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מיקוד בלשונית 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
@@ -1446,12 +1447,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3715"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הצגת עזרה להשלמת קוד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3793"/>
         <source>Auto Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הזחה אוטומטית של מאגר הקוד</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3803"/>
@@ -1461,24 +1462,24 @@
     <message>
         <location filename="../mainwindow.cpp" line="3927"/>
         <source>Emacs Live Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מצב קיצורי דרך של Emacs Live</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5701"/>
         <location filename="../mainwindow.cpp" line="5756"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ללא --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5702"/>
         <location filename="../mainwindow.cpp" line="5740"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- מושבת --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5862"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">החלפת התקן השמע נכשלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5863"/>
@@ -1487,12 +1488,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">לא ניתן היה לעבור אל:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5878"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">התקן כניסת השמע אינו זמין</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5879"/>
@@ -1501,7 +1506,11 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">לא ניתן היה לפתוח את התקן כניסת השמע:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3937"/>
@@ -1531,37 +1540,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="4151"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">פרסום החלון באמצעות Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4156"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">כלילת סמן העכבר בהזנת Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4163"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">פרסום החלון באמצעות Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">כלילת סמן העכבר בהזנת Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4175"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">כלילת סמן העכבר בהקלטת ההפעלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הבהוב סמל ההקלטה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4188"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מצב הקלטה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4204"/>
@@ -1601,17 +1610,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="4560"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">סרט QuickTime (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4563"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">וידאו MP4 (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4571"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">שמירת הקלטת ההפעלה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4594"/>
@@ -1636,7 +1645,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5011"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">נושאי עזרה</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
@@ -1670,7 +1679,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מפעיל MIDI &lt;input&gt;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5497"/>
@@ -1685,19 +1694,19 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="5900"/>
         <source>Boot Error - Home Dir not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">שגיאת אתחול - אין הרשאת כתיבה לתיקיית הבית:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5902"/>
         <location filename="../mainwindow.cpp" line="5916"/>
         <source>Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">פתרון מהיר: הגדר את משתנה הסביבה SONIC_PI_HOME לתיקייה שיש לך הרשאת כתיבה אליה.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5906"/>
         <location filename="../mainwindow.cpp" line="5920"/>
         <source>For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">לסקרנים שביניכם, Sonic Pi שומר אוטומטית את תוכן מאגרי הקוד, קובצי התצורה והיומנים בתיקייה בשם ‎.sonic-pi הנמצאת בדרך כלל בתיקיית הבית שלכם.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5907"/>
@@ -1708,7 +1717,7 @@ Get Sonic Pi %1</source>
         <location filename="../mainwindow.cpp" line="5908"/>
         <location filename="../mainwindow.cpp" line="5922"/>
         <source>To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">כדי לתקן זאת תוכל להגדיר את משתנה הסביבה SONIC_PI_HOME לכל תיקייה שיש לך הרשאת כתיבה אליה, ו-Sonic Pi ימקם בתוכה את תיקיית ‎.sonic-pi שלו.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5914"/>
@@ -1916,12 +1925,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../main.cpp" line="95"/>
         <source>Sonic Pi</source>
-        <translation></translation>
+        <translation type="unfinished">Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="967"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הקלד קיצור דרך…</translation>
     </message>
 </context>
 <context>
@@ -2052,84 +2061,86 @@ Sonic Pi בעת ניסיון להשתמש בצליל
     <message>
         <location filename="../widgets/settingswidget.cpp" line="241"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">התקן שמע</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הגדרת מנהל ההתקן של השמע, ההתקן, קצב הדגימה וגודל המאגר.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מנהל התקן</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="252"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">יציאה</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="259"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">כניסה</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">קצב דגימה</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">גודל מאגר</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הקלטה</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בחר מה כפתור ההקלטה לוכד.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">שמע בלבד</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic כותב קובץ ‎.wav של המיקס הראשי</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">שמע + וידאו</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">לוכד את חלון Sonic Pi יחד עם המיקס הראשי לקובץ ‎.mov
+באמצעות לכידת מסך בהאצת GPU</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">לוכד את חלון Sonic Pi יחד עם המיקס הראשי לקובץ ‎.mp4
+באמצעות לכידת מסך בהאצת GPU</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="354"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מופעל על ידי</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ממתין ל-SuperSonic...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="373"/>
@@ -2139,7 +2150,7 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">פתיחת הגדרות המערכת</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
@@ -2315,7 +2326,8 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../widgets/settingswidget.cpp" line="483"/>
         <source>Reset MIDI subsystems
 (Required to detect device changes on some platforms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">איפוס מערכות המשנה של MIDI
+(נדרש לזיהוי שינויי התקנים בפלטפורמות מסוימות)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="497"/>
@@ -2375,12 +2387,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="563"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הצגת עזרה להשלמת קוד</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="564"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">כשהאפשרות מופעלת, חלון השלמת הקוד הקופץ כולל חלוניות עזר - תיעוד, מקלדת תווים ומחווני ערכים. כשהיא מושבתת, הוא מציג רק את רשימת ההצעות.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="566"/>
@@ -2564,14 +2576,16 @@ If enabled the log is scrolled to the bottom after every new message is displaye
     <message>
         <location filename="../widgets/settingswidget.cpp" line="684"/>
         <source>Show debug log panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הצגת חלונית יומן ניפוי הבאגים</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Show a dockable panel with live tails of the
 GUI, Spider, Daemon and SuperSonic log files.
 No CPU is used while the panel is hidden.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הצגת חלונית עגינה עם מעקב חי אחר
+קובצי היומן של GUI, Spider, Daemon ו-SuperSonic.
+לא נעשה שימוש במעבד כשהחלונית מוסתרת.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="712"/>
@@ -2629,130 +2643,130 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
         <location filename="../widgets/settingswidget.cpp" line="1066"/>
         <location filename="../widgets/settingswidget.cpp" line="1102"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1067"/>
         <location filename="../widgets/settingswidget.cpp" line="1103"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1068"/>
         <location filename="../widgets/settingswidget.cpp" line="1104"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1069"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מותאם אישית</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1095"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מצב:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1105"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">עריכת קיצור דרך</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1107"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">איפוס</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1110"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ייבוא…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1111"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ייצוא…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1118"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">בסיס:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1268"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מוקצה גם ל: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">שונה מברירת המחדל (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">לא מוגדר</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1282"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(אין שינויים)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1283"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(%1 שונו)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1374"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">קיצור הדרך כבר בשימוש</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1375"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&quot;%1&quot; כבר מוקצה ל: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1376"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מה ברצונך לעשות?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1377"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הקצאה מחדש לזה</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">שמירת שניהם</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1406"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">לאפס את קיצורי הדרך?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1407"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">פעולה זו מבטלת את כל השינויים המותאמים אישית שלך ומשחזרת את ההגדרה הקבועה הבסיסית. להמשיך?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1416"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ייצוא קיצורי דרך</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1417"/>
         <location filename="../widgets/settingswidget.cpp" line="1432"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">קובצי קיצורי דרך (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1431"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ייבוא קיצורי דרך</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1512"/>
@@ -2778,55 +2792,55 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
         <location filename="../widgets/settingswidget.cpp" line="1570"/>
         <location filename="../widgets/settingswidget.cpp" line="1717"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- מושבת --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1613"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">מחליף התקן שמע...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1651"/>
         <location filename="../widgets/settingswidget.cpp" line="1726"/>
         <location filename="../widgets/settingswidget.cpp" line="1921"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ללא --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1653"/>
         <location filename="../widgets/settingswidget.cpp" line="1918"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ברירת המחדל של המערכת</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1655"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ברירת המחדל של המערכת (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1905"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">להתקני ASIO יש כניסה/יציאה מקושרות.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1928"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">משקף את היציאה (ASIO הוא דו-כיווני מלא).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1967"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ל-Sonic Pi אין עדיין גישה למיקרופון, ולכן live_audio ו-:sound_in יהיו שקטים. לחץ למטה כדי להעניק גישה בהגדרות המערכת.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1969"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הגישה למיקרופון מוגבלת על ידי מדיניות המערכת, ולכן live_audio ו-:sound_in יהיו שקטים.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1971"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">הגישה למיקרופון טרם הוענקה — לחץ למטה כדי לפתוח את הגדרות המערכת.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2242"/>
@@ -2890,22 +2904,22 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="137"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">זמן החלפת ההתקן פג</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">קיצורי דרך</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">השתמש בחוגה זו כדי לשנות את עוצמת הקול של המערכת.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="201"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO משתמש בהתקן אחד הן לכניסה והן ליציאה.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>

@@ -573,12 +573,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux Kısayol Modu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Özel Kısayol Modu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
@@ -812,638 +812,639 @@
     <message>
         <location filename="../mainwindow.cpp" line="4132"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">TimeWarp Sürgüsüne Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3241"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">TimeWarp Sürgüsüne odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Apologies, unable to start...
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Üzgünüz, başlatılamıyor...
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Sorry, Sonic Pi is having issues booting:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Üzgünüz, Sonic Pi başlatılırken sorun yaşıyor:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2880"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otomatik Girinti modu etkinleştirildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otomatik Girinti modu devre dışı bırakıldı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3206"/>
         <location filename="../mainwindow.cpp" line="3488"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kodu Yorum Yap/Yorumu Kaldır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3207"/>
         <location filename="../mainwindow.cpp" line="3492"/>
         <source>Transpose Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Karakterleri Yer Değiştir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3208"/>
         <source>Shift Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satırı veya Seçimi Yukarı Kaydır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3209"/>
         <source>Shift Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satırı veya Seçimi Aşağı Kaydır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3248"/>
         <source>Move Cursor Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Aşağı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3249"/>
         <source>Move Cursor Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Yukarı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3251"/>
         <source>Move Cursor Down 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci 10 Satır Aşağı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3250"/>
         <source>Move Cursor Up 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci 10 Satır Yukarı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3252"/>
         <source>Cut to the end of the line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satırın sonuna kadar kes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Copy the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geçerli seçimi kopyala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3254"/>
         <source>Cut the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geçerli seçimi kes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3255"/>
         <source>Paste the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geçerli seçimi yapıştır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3256"/>
         <source>Move Cursor Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Sağa Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>Move Cursor Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Sola Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3258"/>
         <source>Delete Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sağı Sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3259"/>
         <source>Delete Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Solu Sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3260"/>
         <source>Move Cursor to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Satır Başına Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3261"/>
         <source>Move Cursor to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Satır Sonuna Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3262"/>
         <source>Move Cursor to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Belge Başına Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Move Cursor to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Belge Sonuna Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>Move Cursor Right by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Kelime Kelime Sağa Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Move Cursor Left by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Kelime Kelime Sola Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3273"/>
         <source>Undo the last action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Son işlemi geri al</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3274"/>
         <source>Redo the last undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Son geri almayı yinele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3275"/>
         <source>Select all text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tüm metni seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3276"/>
         <source>Delete word to the right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sağdaki kelimeyi sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3277"/>
         <source>Delete word to the left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Soldaki kelimeyi sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Uppercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kelimeyi veya seçimi büyük harfe çevir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3279"/>
         <source>Lowercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kelimeyi veya seçimi küçük harfe çevir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3245"/>
         <source>Set a mark in the text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Metinde bir işaret koy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hatalar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="602"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kod Düzenleyici Arabelleği %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="604"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Çalıştırma Bağlamı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="732"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Belgelendirme</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hata Ayıklama</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1741"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses Girişleri Etkinleştiriliyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses Girişleri Devre Dışı Bırakılıyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2068"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hata: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Çalıştırma başladı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Durduruldu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3210"/>
         <source>Look up documentation for the current word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geçerli kelime için belgelendirmeye bak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Cycle through the available colour themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kullanılabilir renk temaları arasında geçiş yap</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3218"/>
         <source>Switch to the previous tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Önceki sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3219"/>
         <source>Switch to the next tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonraki sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3220"/>
         <source>Switch to tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Switch to tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">2. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Switch to tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">3. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3223"/>
         <source>Switch to tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">4. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3224"/>
         <source>Switch to tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">5. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3225"/>
         <source>Switch to tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">6. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Switch to tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">7. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>Switch to tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">8. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3228"/>
         <source>Switch to tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">9. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3229"/>
         <source>Switch to tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">0. sekmeye geç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3233"/>
         <source>Place focus on the logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Günlüklere odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3242"/>
         <source>Show or hide the buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Düğmeleri göster veya gizle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3243"/>
         <source>Show or hide the cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İşaret günlüğünü göster veya gizle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Show or hide the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Günlüğü göster veya gizle</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3246"/>
         <source>Zoom in the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Günlüğü yakınlaştır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>Zoom out the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Günlüğü uzaklaştır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3266"/>
         <location filename="../mainwindow.cpp" line="3557"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satır Başına Kadar Seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <location filename="../mainwindow.cpp" line="3560"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satır Sonuna Kadar Seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <location filename="../mainwindow.cpp" line="3563"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sağdaki Kelimeyi Seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <location filename="../mainwindow.cpp" line="3566"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Soldaki Kelimeyi Seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <location filename="../mainwindow.cpp" line="3569"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Belge Başına Kadar Seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3271"/>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Belge Sonuna Kadar Seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3280"/>
         <source>Toggle fullscreen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tam ekran modunu aç/kapat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3453"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Yalnızca Ses Kaydet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3460"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses + Video Kaydet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3496"/>
         <source>Move Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satırı veya Seçimi Yukarı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3500"/>
         <source>Move Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satırı veya Seçimi Aşağı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3503"/>
         <source>Move Down One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bir Satır Aşağı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3506"/>
         <source>Move Up One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bir Satır Yukarı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3509"/>
         <source>Move Down Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">On Satır Aşağı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3512"/>
         <source>Move Up Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">On Satır Yukarı Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3515"/>
         <source>Cut to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satır Sonuna Kadar Kes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3518"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopyala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3524"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Yapıştır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3527"/>
         <source>Move Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sağa Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3530"/>
         <source>Move Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sola Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3533"/>
         <source>Delete Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İleri Sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3536"/>
         <source>Delete Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geri Sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3539"/>
         <source>Move to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satır Başına Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3542"/>
         <source>Move to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Satır Sonuna Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3545"/>
         <source>Move to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Belge Başına Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3548"/>
         <source>Move to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Belge Sonuna Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3551"/>
         <source>Move Right One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bir Kelime Sağa Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3554"/>
         <source>Move Left One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bir Kelime Sola Taşı</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3575"/>
         <source>Center Cursor Vertically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İmleci Dikey Olarak Ortala</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geri Al</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3581"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Yinele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3584"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tümünü Seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3587"/>
         <source>Delete Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Soldaki Kelimeyi Sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3590"/>
         <source>Delete Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sağdaki Kelimeyi Sil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3593"/>
         <source>Upcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kelimeyi veya Seçimi Büyük Harfe Çevir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3596"/>
         <source>Downcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kelimeyi veya Seçimi Küçük Harfe Çevir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3600"/>
         <source>Show Docs for Current Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geçerli Kelimenin Belgelerini Göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Cycle Themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Temalar Arasında Geçiş Yap</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
         <source>Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Önceki Sekme</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3644"/>
         <source>Next Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonraki Sekme</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>Focus Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3650"/>
         <source>Focus Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">2. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3653"/>
         <source>Focus Tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">3. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3656"/>
         <source>Focus Tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">4. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3659"/>
         <source>Focus Tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">5. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Focus Tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">6. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3665"/>
         <source>Focus Tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">7. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3668"/>
         <source>Focus Tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">8. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3671"/>
         <source>Focus Tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">9. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Focus Tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">0. Sekmeye Odaklan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3715"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kod Tamamlama Yardımını Göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3793"/>
         <source>Auto Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kod Arabelleğini Otomatik Girintile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3803"/>
         <source>Set Mark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İşaret Koy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3927"/>
         <source>Emacs Live Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live Kısayol Modu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5701"/>
         <location filename="../mainwindow.cpp" line="5756"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Yok --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5702"/>
         <location filename="../mainwindow.cpp" line="5740"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- DEVRE DIŞI --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5862"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses aygıtı değiştirme başarısız oldu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5863"/>
@@ -1452,12 +1453,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Şuna geçilemedi:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5878"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses giriş aygıtı kullanılamıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5879"/>
@@ -1466,17 +1471,21 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses giriş aygıtı açılamadı:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3937"/>
         <source>Mac Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac Kısayol Modu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3970"/>
         <source>Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kısayol Modu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4135"/>
@@ -1491,42 +1500,42 @@
     <message>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Metronomu Göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4151"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pencereyi Syphon ile Yayınla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4156"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Syphon Akışına Fare İmlecini Dahil Et</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4163"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pencereyi Spout ile Yayınla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spout Akışına Fare İmlecini Dahil Et</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4175"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oturum Kaydına Fare İmlecini Dahil Et</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kayıt Simgesini Yanıp Söndür</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4188"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kayıt Modu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4204"/>
@@ -1546,37 +1555,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="4219"/>
         <source>Zoom In Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Günlükleri Yakınlaştır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4222"/>
         <source>Zoom Out Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Günlükleri Uzaklaştır</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4258"/>
         <source>Focus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Odak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4286"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4560"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QuickTime Filmi (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4563"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MP4 Video (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4571"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oturum Kaydını Kaydet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4594"/>
@@ -1596,12 +1605,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4926"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi Yeniden Başlatılıyor...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5011"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Yardım Konuları</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
@@ -1670,45 +1679,45 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5893"/>
         <source>Sonic Pi - Unable to Write to Home Directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi - Ev Dizinine Yazılamıyor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5900"/>
         <source>Boot Error - Home Dir not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Başlatma Hatası - Ev dizini yazılabilir değil:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5902"/>
         <location filename="../mainwindow.cpp" line="5916"/>
         <source>Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hızlı Çözüm: SONIC_PI_HOME ortam değişkenini, yazma izniniz olan bir dizine ayarlayın.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5906"/>
         <location filename="../mainwindow.cpp" line="5920"/>
         <source>For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Merak edenler için, Sonic Pi kod arabelleklerinin içeriğini, yapılandırma dosyalarını ve günlükleri otomatik olarak, genellikle ev dizininizde bulunan .sonic-pi adlı bir klasörde saklar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5907"/>
         <source>Unfortunately you don&apos;t appear to have permission to write to your home directory:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ne yazık ki ev dizininize yazma izniniz yok gibi görünüyor:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5908"/>
         <location filename="../mainwindow.cpp" line="5922"/>
         <source>To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bunu düzeltmek için SONIC_PI_HOME ortam değişkenini yazma erişiminiz olan herhangi bir dizine ayarlayabilirsiniz; Sonic Pi de .sonic-pi dizinini bunun içine yerleştirecektir.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5914"/>
         <source>Boot Error - SONIC_PI_HOME not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Başlatma Hatası - SONIC_PI_HOME yazılabilir değil:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5921"/>
         <source>Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don&apos;t have permission to write to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ne yazık ki SONIC_PI_HOME ortam değişkenini, yazma izniniz olmayan bir dizine ayarlamış görünüyorsunuz:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3435"/>
@@ -1788,7 +1797,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../mainwindow.cpp" line="550"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kapat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="600"/>
@@ -1921,7 +1930,7 @@ Sonic Pi %1 i Al</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="967"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kısayol yazın…</translation>
     </message>
 </context>
 <context>
@@ -1957,7 +1966,7 @@ Sonic Pi %1 i Al</translation>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <location filename="../widgets/settingswidget.cpp" line="812"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dil</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="205"/>
@@ -2052,84 +2061,86 @@ bir synth veya FX kullanmaya çalıştığınızda
     <message>
         <location filename="../widgets/settingswidget.cpp" line="241"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses Aygıtı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses sürücüsünü, aygıtı, örnekleme hızını ve arabellek boyutunu yapılandırın.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sürücü</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="252"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Çıkış</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="259"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Giriş</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Örnekleme Hızı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arabellek Boyutu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kayıt</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kayıt düğmesinin neyi yakalayacağını seçin.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Yalnızca Ses</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic, ana miksin bir .wav dosyasını yazar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses + Video</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GPU hızlandırmalı ekran yakalama kullanarak Sonic Pi penceresini ve ana miksi
+bir .mov dosyasına yakalar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GPU hızlandırmalı ekran yakalama kullanarak Sonic Pi penceresini ve ana miksi
+bir .mp4 dosyasına yakalar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="354"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sağlayan:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic bekleniyor...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="373"/>
@@ -2139,7 +2150,7 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistem Ayarlarını Aç</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
@@ -2185,17 +2196,17 @@ gönderip alabilir.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="487"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">tümü</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="496"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Varsayılan MIDI çıkış kanalı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="555"/>
         <source>Automatically align code on Enter or Run </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enter veya Çalıştır&apos;da kodu otomatik olarak hizala </translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="560"/>
@@ -2289,7 +2300,7 @@ doğrudan Sonic Pi&apos;den MIDI mesajları alır</translation>
         <location filename="../widgets/settingswidget.cpp" line="199"/>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses girişlerini etkinleştirmek veya devre dışı bırakmak için aç/kapat.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="216"/>
@@ -2315,7 +2326,8 @@ doğrudan Sonic Pi&apos;den MIDI mesajları alır</translation>
         <location filename="../widgets/settingswidget.cpp" line="483"/>
         <source>Reset MIDI subsystems
 (Required to detect device changes on some platforms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI alt sistemlerini sıfırla
+(Bazı platformlarda aygıt değişikliklerini algılamak için gereklidir)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="497"/>
@@ -2330,17 +2342,17 @@ doğrudan Sonic Pi&apos;den MIDI mesajları alır</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="545"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Panelleri Göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="546"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Osiloskop ve günlük gibi bilgi panellerini göster ve gizle.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="549"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="551"/>
@@ -2375,12 +2387,12 @@ doğrudan Sonic Pi&apos;den MIDI mesajları alır</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="563"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kod tamamlama yardımını göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="564"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Etkinleştirildiğinde, kod tamamlama açılır penceresi yardımcı paneller içerir - belgelendirme, bir nota klavyesi ve değer sürgüleri. Devre dışı bırakıldığında, yalnızca öneri listesini gösterir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="566"/>
@@ -2415,12 +2427,12 @@ doğrudan Sonic Pi&apos;den MIDI mesajları alır</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="577"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link metronom denetimlerini göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="578"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link metronom denetimlerinin görünürlüğünü aç/kapat.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
@@ -2455,22 +2467,22 @@ doğrudan Sonic Pi&apos;den MIDI mesajları alır</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="590"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Başlıkları göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="591"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Osiloskop, günlük, işaret ve diğer bilgi panellerinin başlık görünürlüğünü aç/kapat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="594"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tam Ekran Modunda Menü Çubuğunu Gizle</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="595"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uygulama tam ekran modundayken menü çubuğunu otomatik olarak gizle. Menü çubuğunun tam ekran modunda olmadığında her zaman görünür olduğunu unutmayın.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="601"/>
@@ -2564,14 +2576,16 @@ Etkinleştirilirse, her yeni mesaj görüntülendikten sonra günlük en alta ka
     <message>
         <location filename="../widgets/settingswidget.cpp" line="684"/>
         <source>Show debug log panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hata ayıklama günlüğü panelini göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Show a dockable panel with live tails of the
 GUI, Spider, Daemon and SuperSonic log files.
 No CPU is used while the panel is hidden.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GUI, Spider, Daemon ve SuperSonic günlük dosyalarının canlı akışını
+gösteren yerleştirilebilir bir panel göster.
+Panel gizliyken hiç CPU kullanılmaz.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="712"/>
@@ -2591,293 +2605,296 @@ No CPU is used while the panel is hidden.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="725"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Osiloskopları göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Osiloskop etiketlerini göster</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="813"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dil ayarlarını yapılandır</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="818"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arayüz ve Eğitim Dili (Etkili olması için yeniden başlatma gerekir)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="819"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arayüz ve Eğitim dilini değiştir (Etkili olması için yeniden başlatma gerekir)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="823"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arayüz ve Eğitim dilini değiştir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="830"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Çeviriler, https://hosted.weblate.org/projects/sonic-pi/ adresindeki gönüllüler tarafından 
+cömertçe sağlanmıştır. Teşekkürler! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1066"/>
         <location filename="../widgets/settingswidget.cpp" line="1102"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1067"/>
         <location filename="../widgets/settingswidget.cpp" line="1103"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1068"/>
         <location filename="../widgets/settingswidget.cpp" line="1104"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1069"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Özel</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1095"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mod:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1105"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kısayolu Düzenle</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1107"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sıfırla</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1110"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İçe Aktar…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1111"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dışa Aktar…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1118"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Temel:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1268"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Şuna da atanmış: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Varsayılandan değiştirildi (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ayarlanmamış</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1282"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(değişiklik yok)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1283"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(%1 değiştirildi)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1374"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kısayol zaten kullanımda</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1375"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&quot;%1&quot; zaten şuna atanmış: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1376"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ne yapmak istersiniz?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1377"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buna yeniden ata</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İkisini de tut</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1406"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kısayollar sıfırlansın mı?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1407"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bu, tüm özel değişikliklerinizi atar ve temel ön ayarı geri yükler. Devam edilsin mi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1416"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kısayolları Dışa Aktar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1417"/>
         <location filename="../widgets/settingswidget.cpp" line="1432"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kısayol dosyaları (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1431"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kısayolları İçe Aktar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1512"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Yeni bir dil seçtiniz: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1514"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bu dili uygulamak ister misiniz?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1516"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Yeni dil, Sonic Pi&apos;yi bir sonraki başlatışınızda uygulanacak.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1522"/>
         <source>System language found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistem dili bulundu: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1570"/>
         <location filename="../widgets/settingswidget.cpp" line="1717"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- DEVRE DIŞI --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1613"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ses aygıtı değiştiriliyor...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1651"/>
         <location filename="../widgets/settingswidget.cpp" line="1726"/>
         <location filename="../widgets/settingswidget.cpp" line="1921"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Yok --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1653"/>
         <location filename="../widgets/settingswidget.cpp" line="1918"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistem Varsayılanı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1655"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistem Varsayılanı (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1905"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO aygıtlarının girişi/çıkışı birbirine bağlıdır.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1928"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Çıkışı Yansıtır (ASIO tam çift yönlüdür).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1967"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi&apos;nin henüz mikrofon erişimi yok, bu nedenle live_audio ve :sound_in sessiz olacak. Sistem Ayarları&apos;nda erişim vermek için aşağıya tıklayın.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1969"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mikrofon erişimi sistem politikasıyla kısıtlanmış, bu nedenle live_audio ve :sound_in sessiz olacak.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1971"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mikrofon erişimi henüz verilmedi — Sistem Ayarları&apos;nı açmak için aşağıya tıklayın.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2242"/>
         <source>System language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistem dili: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1526"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uygula</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1527"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">İptal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1538"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Yeni dil, Sonic Pi&apos;yi bir sonraki başlatışınızda uygulanacak.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1539"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geçerli arayüz dili: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1543"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi yeniden başlatılsın mı?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1544"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi&apos;yi şimdi yeniden başlatmak istiyor musunuz? Bu, mevcut tüm çalıştırmaları ve kayıtları durduracak.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1545"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Yeniden Başlat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1546"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kapat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2408"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistem dilini kullan</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
@@ -2887,22 +2904,22 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="137"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aygıt değiştirme zaman aşımına uğradı</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kısayollar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistem ses düzeyini değiştirmek için bu kadranı kullanın.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="201"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO, hem giriş hem de çıkış için tek bir aygıt kullanır.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>

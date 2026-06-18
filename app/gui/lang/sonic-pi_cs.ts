@@ -20,7 +20,7 @@
         <location filename="../mainwindow.cpp" line="4809"/>
         <location filename="../mainwindow.cpp" line="4837"/>
         <source>Sonic Pi</source>
-        <translation></translation>
+        <translation type="unfinished">Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2161"/>
@@ -93,7 +93,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="693"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Metronom &amp; Globální Time Warp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2013"/>
@@ -146,17 +146,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3484"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Odsadit kód v bufferu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3205"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zarovnat kód pro lepší čitelnost</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3213"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout viditelnost audio osciloskopu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4494"/>
@@ -166,7 +166,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolování MIDI &lt;input&gt;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5234"/>
@@ -217,27 +217,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Osciloskop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přehrávání samplu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skrývání názvů panelů...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazování názvů panelů...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1843"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chyba spuštění Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2173"/>
@@ -303,22 +303,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="2350"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skrývání okna O programu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2356"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazování okna O programu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2375"/>
         <source>Hiding help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skrývání nápovědy...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2381"/>
         <source>Showing help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazování nápovědy...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2450"/>
@@ -328,52 +328,52 @@
     <message>
         <location filename="../mainwindow.cpp" line="2692"/>
         <source>Colour Theme: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Barevné téma: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
         <source>Show autocompletion on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit našeptávání</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2951"/>
         <source>Show autocompletion off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skrýt našeptávání</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2982"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit kontext</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2990"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skrýt kontext</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3006"/>
         <source>Hiding preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skrývání předvoleb...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3012"/>
         <source>Showing preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazování předvoleb...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3430"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Konec</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3202"/>
         <source>Start recording to a WAV audio file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spustit nahrávání do WAV audio souboru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3476"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uložit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3203"/>
@@ -383,12 +383,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3215"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout informace o Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3628"/>
         <source>Show Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit nápovědu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3216"/>
@@ -398,7 +398,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3634"/>
         <source>Show Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit předvolby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3217"/>
@@ -408,117 +408,117 @@
     <message>
         <location filename="../mainwindow.cpp" line="3705"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit čísla řádků</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3710"/>
         <source>Show Code Completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit dokončování kódu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3720"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit kontext kódu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3725"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit audio vstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3730"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Připojení Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3230"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Připojit nebo odpojit Link Metronom od sítě</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3735"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vyťukat tempo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3231"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klikněte pro vyťukání tempa Link</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3272"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vertikálně vycentrovat kurzor v editoru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3738"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bezpečný audio režim</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3743"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vynutit záruky časování</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3748"/>
         <source>Enable External Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit externí syntezátory</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3753"/>
         <source>Invert Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invertovat stereo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3758"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vynutit mono</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3763"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit příchozí MIDI signály</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3768"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit příchozí OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3773"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit OSC z jiných počítačů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3778"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaznamenávat signály</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3783"/>
         <source>Log Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaznamenávat syntezátory</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3788"/>
         <source>Clear Logs on Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vymazat protokoly při spuštění</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3798"/>
         <source>Auto-Scroll Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automaticky posouvat protokol</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3811"/>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Naživo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3826"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3874"/>
@@ -533,62 +533,62 @@
     <message>
         <location filename="../mainwindow.cpp" line="3887"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Světlé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3892"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tmavé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3897"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro světlé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3902"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro tmavé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3907"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vysoký kontrast</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3912"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit popisky osciloskopu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3917"/>
         <source>Show Titles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit názvy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3922"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skrýt panel nabídek v režimu celé obrazovky</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režim zkratek Windows | Linux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vlastní režim zkratek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
         <source>Colour Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Barevné téma</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit druhy osciloskopu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3969"/>
@@ -598,852 +598,853 @@
     <message>
         <location filename="../mainwindow.cpp" line="3977"/>
         <source>MIDI Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI vstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3978"/>
         <location filename="../mainwindow.cpp" line="5230"/>
         <location filename="../mainwindow.cpp" line="5354"/>
         <source>No Connected Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Žádné připojené vstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3979"/>
         <source>MIDI Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI výstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3980"/>
         <location filename="../mainwindow.cpp" line="5228"/>
         <location filename="../mainwindow.cpp" line="5376"/>
         <source>No Connected Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Žádné připojené výstupy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3982"/>
         <source>Default MIDI Out Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Výchozí MIDI výstupní kanál</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3984"/>
         <source>All Channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Všechny kanály</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3989"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3994"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3999"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4004"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4009"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4014"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4019"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4024"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4029"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4034"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">10</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4039"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">11</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4044"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">12</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4049"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">13</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4054"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">14</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4059"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">15</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4064"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">16</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4072"/>
         <source>Local IP Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Místní IP adresy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4086"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Příchozí OSC port</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4091"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazení</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4096"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na editor kódu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4100"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit protokoly</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4104"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kontext</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na panel kontextu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4108"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit signály</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na panel událostí signálů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4112"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit předvolby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3236"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na předvolby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4116"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit seznam nápovědy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3237"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na seznam nápovědy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4120"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit podrobnosti nápovědy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3238"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na podrobnosti nápovědy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4124"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit chyby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3239"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na chyby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4128"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit posuvník BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3240"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na posuvník BPM</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4132"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit posuvník TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3241"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na posuvník TimeWarp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Apologies, unable to start...
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Omlouváme se, spuštění se nezdařilo...
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Sorry, Sonic Pi is having issues booting:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bohužel má Sonic Pi problémy se spuštěním:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2880"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režim automatického odsazení zapnut</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režim automatického odsazení vypnut</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3206"/>
         <location filename="../mainwindow.cpp" line="3488"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zakomentovat/Odkomentovat kód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3207"/>
         <location filename="../mainwindow.cpp" line="3492"/>
         <source>Transpose Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Prohodit znaky</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3208"/>
         <source>Shift Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout řádek nebo výběr nahoru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3209"/>
         <source>Shift Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout řádek nebo výběr dolů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3248"/>
         <source>Move Cursor Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor dolů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3249"/>
         <source>Move Cursor Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor nahoru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3251"/>
         <source>Move Cursor Down 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor o 10 řádků dolů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3250"/>
         <source>Move Cursor Up 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor o 10 řádků nahoru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3252"/>
         <source>Cut to the end of the line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vyjmout do konce řádku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Copy the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopírovat aktuální výběr</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3254"/>
         <source>Cut the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vyjmout aktuální výběr</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3255"/>
         <source>Paste the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vložit aktuální výběr</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3256"/>
         <source>Move Cursor Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor doprava</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>Move Cursor Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor doleva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3258"/>
         <source>Delete Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smazat vpravo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3259"/>
         <source>Delete Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smazat vlevo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3260"/>
         <source>Move Cursor to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor na začátek řádku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3261"/>
         <source>Move Cursor to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor na konec řádku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3262"/>
         <source>Move Cursor to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor na začátek dokumentu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Move Cursor to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor na konec dokumentu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>Move Cursor Right by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor o slovo doprava</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Move Cursor Left by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout kurzor o slovo doleva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3273"/>
         <source>Undo the last action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vrátit poslední akci</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3274"/>
         <source>Redo the last undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Znovu provést poslední vrácení</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3275"/>
         <source>Select all text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrat celý text</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3276"/>
         <source>Delete word to the right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smazat slovo vpravo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3277"/>
         <source>Delete word to the left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smazat slovo vlevo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Uppercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slovo nebo výběr velkými písmeny</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3279"/>
         <source>Lowercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slovo nebo výběr malými písmeny</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3245"/>
         <source>Set a mark in the text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavit značku v textu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chyby</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="602"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buffer editoru kódu %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="604"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spustit kontext</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="732"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentace</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ladění</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1741"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolování audio vstupů...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zakazování audio vstupů...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2068"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chyba: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spuštění zahájeno</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zastaveno</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3210"/>
         <source>Look up documentation for the current word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vyhledat dokumentaci pro aktuální slovo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Cycle through the available colour themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Procházet dostupná barevná témata</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3218"/>
         <source>Switch to the previous tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na předchozí kartu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3219"/>
         <source>Switch to the next tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na následující kartu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3220"/>
         <source>Switch to tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Switch to tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Switch to tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3223"/>
         <source>Switch to tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3224"/>
         <source>Switch to tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3225"/>
         <source>Switch to tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Switch to tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>Switch to tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3228"/>
         <source>Switch to tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3229"/>
         <source>Switch to tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout na kartu 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3233"/>
         <source>Place focus on the logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout fokus na protokoly</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3242"/>
         <source>Show or hide the buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit nebo skrýt tlačítka</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3243"/>
         <source>Show or hide the cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit nebo skrýt protokol signálů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Show or hide the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit nebo skrýt protokol</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3246"/>
         <source>Zoom in the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přiblížit protokol</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>Zoom out the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oddálit protokol</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3266"/>
         <location filename="../mainwindow.cpp" line="3557"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrat do začátku řádku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <location filename="../mainwindow.cpp" line="3560"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrat do konce řádku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <location filename="../mainwindow.cpp" line="3563"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrat slovo vpravo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <location filename="../mainwindow.cpp" line="3566"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrat slovo vlevo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <location filename="../mainwindow.cpp" line="3569"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrat do začátku dokumentu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3271"/>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrat do konce dokumentu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3280"/>
         <source>Toggle fullscreen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout režim celé obrazovky</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3453"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nahrávat pouze zvuk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3460"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nahrávat zvuk + video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3496"/>
         <source>Move Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout řádek nebo výběr nahoru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3500"/>
         <source>Move Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přesunout řádek nebo výběr dolů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3503"/>
         <source>Move Down One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout o řádek dolů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3506"/>
         <source>Move Up One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout o řádek nahoru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3509"/>
         <source>Move Down Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout o deset řádků dolů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3512"/>
         <source>Move Up Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout o deset řádků nahoru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3515"/>
         <source>Cut to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vyjmout do konce řádku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3518"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopírovat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vyjmout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3524"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vložit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3527"/>
         <source>Move Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout doprava</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3530"/>
         <source>Move Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout doleva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3533"/>
         <source>Delete Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smazat vpřed</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3536"/>
         <source>Delete Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smazat zpět</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3539"/>
         <source>Move to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přejít na začátek řádku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3542"/>
         <source>Move to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přejít na konec řádku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3545"/>
         <source>Move to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přejít na začátek dokumentu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3548"/>
         <source>Move to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přejít na konec dokumentu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3551"/>
         <source>Move Right One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout o slovo doprava</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3554"/>
         <source>Move Left One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Posunout o slovo doleva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3575"/>
         <source>Center Cursor Vertically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vycentrovat kurzor vertikálně</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zpět</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3581"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Znovu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3584"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrat vše</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3587"/>
         <source>Delete Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smazat slovo vlevo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3590"/>
         <source>Delete Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smazat slovo vpravo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3593"/>
         <source>Upcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slovo nebo výběr velkými písmeny</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3596"/>
         <source>Downcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slovo nebo výběr malými písmeny</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3600"/>
         <source>Show Docs for Current Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit dokumentaci pro aktuální slovo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Cycle Themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepínat témata</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
         <source>Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Předchozí karta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3644"/>
         <source>Next Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Následující karta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>Focus Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3650"/>
         <source>Focus Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3653"/>
         <source>Focus Tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3656"/>
         <source>Focus Tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3659"/>
         <source>Focus Tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Focus Tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3665"/>
         <source>Focus Tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3668"/>
         <source>Focus Tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3671"/>
         <source>Focus Tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Focus Tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zaměřit kartu 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3715"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit nápovědu k dokončování kódu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3793"/>
         <source>Auto Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automaticky odsadit kód v bufferu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3803"/>
         <source>Set Mark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavit značku</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3927"/>
         <source>Emacs Live Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režim zkratek Emacs Live</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5701"/>
         <location filename="../mainwindow.cpp" line="5756"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Žádné --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5702"/>
         <location filename="../mainwindow.cpp" line="5740"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ZAKÁZÁNO --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5862"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnutí audio zařízení selhalo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5863"/>
@@ -1452,12 +1453,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nepodařilo se přepnout na:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5878"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vstupní audio zařízení není dostupné</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5879"/>
@@ -1466,117 +1471,121 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nepodařilo se otevřít vstupní audio zařízení:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3937"/>
         <source>Mac Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režim zkratek Mac</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3970"/>
         <source>Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režim zkratek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4135"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit protokol</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4140"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit protokol signálů</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4145"/>
         <source>Show Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit metronom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4151"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publikovat okno přes Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4156"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zahrnout kurzor myši do Syphon přenosu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4163"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publikovat okno přes Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zahrnout kurzor myši do Spout přenosu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4175"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zahrnout kurzor myši do nahrávky relace</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Blikat ikonou nahrávání</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4188"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režim nahrávání</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4204"/>
         <source>Show Buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit tlačítka</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4209"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit karty</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4214"/>
         <source>Full Screen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režim celé obrazovky</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4219"/>
         <source>Zoom In Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přiblížit protokoly</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4222"/>
         <source>Zoom Out Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oddálit protokoly</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4258"/>
         <source>Focus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4286"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jazyk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4560"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Film QuickTime (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4563"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video MP4 (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4571"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uložit nahrávku relace</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4594"/>
@@ -1596,12 +1605,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4926"/>
         <source>Restarting Sonic Pi...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Restartování Sonic Pi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5011"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Témata nápovědy</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
@@ -1635,22 +1644,22 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5214"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zakazování MIDI vstupu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5261"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zakazování OSC portu pro signály...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5275"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolování externího OSC portu pro signály...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5289"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolování interního OSC portu pro signály...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5348"/>
@@ -1665,50 +1674,50 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5497"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Řádek: %1,  Pozice: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5893"/>
         <source>Sonic Pi - Unable to Write to Home Directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi – Nelze zapisovat do domovského adresáře</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5900"/>
         <source>Boot Error - Home Dir not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chyba spuštění – Domovský adresář není zapisovatelný:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5902"/>
         <location filename="../mainwindow.cpp" line="5916"/>
         <source>Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rychlé řešení: nastavte proměnnou prostředí SONIC_PI_HOME na adresář, do kterého máte oprávnění zapisovat.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5906"/>
         <location filename="../mainwindow.cpp" line="5920"/>
         <source>For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro zvědavce: Sonic Pi automaticky ukládá obsah bufferů kódu, konfigurační soubory a protokoly do složky s názvem .sonic-pi, která se obvykle nachází ve vašem domovském adresáři.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5907"/>
         <source>Unfortunately you don&apos;t appear to have permission to write to your home directory:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bohužel se zdá, že nemáte oprávnění zapisovat do svého domovského adresáře:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5908"/>
         <location filename="../mainwindow.cpp" line="5922"/>
         <source>To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chcete-li to opravit, můžete nastavit proměnnou prostředí SONIC_PI_HOME na libovolný adresář, do kterého máte přístup pro zápis, a Sonic Pi v něm vytvoří svůj adresář .sonic-pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5914"/>
         <source>Boot Error - SONIC_PI_HOME not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chyba spuštění – SONIC_PI_HOME není zapisovatelný:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5921"/>
         <source>Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don&apos;t have permission to write to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bohužel se zdá, že jste nastavili proměnnou prostředí SONIC_PI_HOME na adresář, do kterého nemáte oprávnění zapisovat:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3435"/>
@@ -1778,32 +1787,32 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="354"/>
         <source>Studio Mode Enabled. Thank-you for supporting Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Studiový režim povolen. Děkujeme za podporu Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="360"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nebyl nalezen odpovídající studiový hash...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="550"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zavřít</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="600"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3604"/>
         <source>Code Size Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zvětšit kód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3608"/>
         <source>Code Size Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zmenšit kód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3612"/>
@@ -1813,7 +1822,7 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="3622"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit informace</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4389"/>
@@ -1883,32 +1892,32 @@ Získejte Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tutoriál</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
         <source>Examples</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Příklady</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3165"/>
         <source>Synths</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Syntezátory</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3214"/>
         <source>Fx</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Efekty</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3239"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Samply</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3481"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jazyk</translation>
     </message>
 </context>
 <context>
@@ -1916,12 +1925,12 @@ Získejte Sonic Pi %1</translation>
     <message>
         <location filename="../main.cpp" line="95"/>
         <source>Sonic Pi</source>
-        <translation></translation>
+        <translation type="unfinished">Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="967"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zadejte zkratku…</translation>
     </message>
 </context>
 <context>
@@ -1957,7 +1966,7 @@ Získejte Sonic Pi %1</translation>
         <location filename="../widgets/settingswidget.cpp" line="168"/>
         <location filename="../widgets/settingswidget.cpp" line="812"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jazyk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="205"/>
@@ -1969,7 +1978,9 @@ Získejte Sonic Pi %1</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout inverzi sterea.
+Pokud je povoleno, zvuk posílaný do levého reproduktoru bude
+směrován do pravého reproduktoru a naopak.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="207"/>
@@ -2050,84 +2061,86 @@ který není rozpoznán.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="241"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio zařízení</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavte audio ovladač, zařízení, vzorkovací frekvenci a velikost bufferu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ovladač</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="252"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Výstup</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="259"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vstup</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vzorkovací frekvence</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Velikost bufferu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nahrávání</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zvolte, co zachycuje tlačítko nahrávání.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pouze zvuk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic zapisuje .wav hlavního mixu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zvuk + video</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zachytí okno Sonic Pi spolu s hlavním mixem do .mov
+pomocí GPU akcelerovaného záznamu obrazovky</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zachytí okno Sonic Pi spolu s hlavním mixem do .mp4
+pomocí GPU akcelerovaného záznamu obrazovky</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="354"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Poháněno</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Čekání na SuperSonic...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="373"/>
@@ -2137,7 +2150,7 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otevřít systémová nastavení</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
@@ -2166,38 +2179,39 @@ prostřednictvím aktuálně připojené sítě.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="460"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit OSC z jiných počítačů</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="461"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokud je zaškrtnuto, Sonic Pi vám umožní odesílat a přijímat OSC zprávy na vzdálené počítače a z nich.
+ Pokud není zaškrtnuto, bude povoleno pouze odesílání a přijímání z místního počítače.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="463"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit příchozí OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="487"/>
         <source>all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">všechny</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="496"/>
         <source>Default MIDI out channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Výchozí MIDI výstupní kanál</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="555"/>
         <source>Automatically align code on Enter or Run </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automaticky zarovnat kód při Enter nebo Spuštění </translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="560"/>
         <source>Show code completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit dokončování kódu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="464"/>
@@ -2275,79 +2289,80 @@ které lze odeslat prostřednictvím funkcí midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="192"/>
         <source>Main Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hlavní hlasitost</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="198"/>
         <source>Enable Audio Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit audio vstupy</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="199"/>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnutím povolíte nebo zakážete audio vstupy.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="216"/>
         <source>Enable external synths/FX</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit externí syntezátory/FX</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Příchozí OSC port</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit příchozí MIDI signály</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="479"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Povolit nebo zakázat automatický převod příchozích MIDI zpráv na události signálů</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="483"/>
         <source>Reset MIDI subsystems
 (Required to detect device changes on some platforms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Resetovat MIDI subsystémy
+(Vyžadováno k detekci změn zařízení na některých platformách)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="497"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Výchozí MIDI kanál pro odesílání zpráv (* znamená všechny)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="501"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Výchozí MIDI kanál pro odesílání zpráv  (* znamená všechny)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="545"/>
         <source>Show Panels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit panely</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="546"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit a skrýt informační panely, jako je osciloskop a protokol.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="549"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Téma</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="551"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automatizace / Různé</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="552"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavte automatizaci a další funkce.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="554"/>
@@ -2367,27 +2382,27 @@ které lze odeslat prostřednictvím funkcí midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="561"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokud je povoleno, editor Sonic Pi se bude pokoušet automaticky dokončovat váš kód pomocí návrhů. Pokud je zakázáno, tyto návrhy nebudou viditelné.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="563"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit nápovědu k dokončování kódu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="564"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokud je povoleno, vyskakovací okno dokončování kódu obsahuje pomocné panely – dokumentaci, notovou klávesnici a posuvníky hodnot. Pokud je zakázáno, zobrazuje pouze seznam návrhů.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="566"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit kontext kódu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="567"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pokud je povoleno, editor Sonic Pi zobrazí panel s kontextovými informacemi o kódu, jako je aktuální řádek a pozice kurzoru.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="569"/>
@@ -2412,12 +2427,12 @@ které lze odeslat prostřednictvím funkcí midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="577"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit ovládací prvky Link metronomu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="578"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout viditelnost ovládacích prvků Link metronomu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
@@ -2452,47 +2467,47 @@ které lze odeslat prostřednictvím funkcí midi_*</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="590"/>
         <source>Show titles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit názvy</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="591"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout viditelnost názvů u osciloskopu, protokolu, signálů a dalších informačních panelů</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="594"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skrýt panel nabídek v režimu celé obrazovky</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="595"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automaticky skrýt panel nabídek, když je aplikace v režimu celé obrazovky. Pamatujte, že panel nabídek je vždy viditelný, když nejste v režimu celé obrazovky.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="601"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Světlé</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="602"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tmavé</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="603"/>
         <source>Pro Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro světlé</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="604"/>
         <source>Pro Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro tmavé</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="605"/>
         <source>High Contrast</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vysoký kontrast</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="669"/>
@@ -2561,14 +2576,16 @@ Pokud zapnuto, s každou novou zprávou se protokol posune dolů.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="684"/>
         <source>Show debug log panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit panel ladicího protokolu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Show a dockable panel with live tails of the
 GUI, Spider, Daemon and SuperSonic log files.
 No CPU is used while the panel is hidden.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazí ukotvitelný panel s živým výpisem
+protokolů GUI, Spider, Daemon a SuperSonic.
+Když je panel skrytý, nevyužívá se žádný procesor.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="712"/>
@@ -2588,293 +2605,296 @@ No CPU is used while the panel is hidden.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="725"/>
         <source>Show scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit osciloskopy</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zobrazit popisky osciloskopu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="813"/>
         <source>Configure language settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nastavit jazykové předvolby</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="818"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jazyk rozhraní a tutoriálu (Změna se projeví po restartu)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="819"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Změnit jazyk rozhraní a tutoriálu (Změna se projeví po restartu)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="823"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Změnit jazyk rozhraní a tutoriálu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="830"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Překlady velkoryse poskytli dobrovolníci 
+na https://hosted.weblate.org/projects/sonic-pi/. Děkujeme! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1066"/>
         <location filename="../widgets/settingswidget.cpp" line="1102"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1067"/>
         <location filename="../widgets/settingswidget.cpp" line="1103"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1068"/>
         <location filename="../widgets/settingswidget.cpp" line="1104"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1069"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vlastní</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1095"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režim:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1105"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Upravit zkratku</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1107"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Resetovat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1110"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importovat…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1111"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportovat…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1118"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Základ:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1268"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Také přiřazeno k: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Změněno oproti výchozímu (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">nenastaveno</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1282"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(žádné změny)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1283"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(%1 změněno)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1374"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zkratka se již používá</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1375"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">„%1“ je již přiřazeno k: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1376"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Co chcete udělat?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1377"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Znovu přiřadit tomuto</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ponechat oba</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1406"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Resetovat zkratky?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1407"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tím se zahodí všechny vaše vlastní změny a obnoví se základní přednastavení. Pokračovat?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1416"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportovat zkratky</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1417"/>
         <location filename="../widgets/settingswidget.cpp" line="1432"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Soubory zkratek (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1431"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importovat zkratky</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1512"/>
         <source>You&apos;ve selected a new language: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vybrali jste nový jazyk: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1514"/>
         <source>Do you want to apply this language?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chcete tento jazyk použít?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1516"/>
         <source>The new language will be applied when you next start Sonic Pi.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nový jazyk se použije při příštím spuštění Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1522"/>
         <source>System language found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nalezen jazyk systému: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1570"/>
         <location filename="../widgets/settingswidget.cpp" line="1717"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ZAKÁZÁNO --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1613"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepínání audio zařízení...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1651"/>
         <location filename="../widgets/settingswidget.cpp" line="1726"/>
         <location filename="../widgets/settingswidget.cpp" line="1921"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Žádné --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1653"/>
         <location filename="../widgets/settingswidget.cpp" line="1918"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Výchozí nastavení systému</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1655"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Výchozí nastavení systému (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1905"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zařízení ASIO mají propojený vstup/výstup.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1928"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrcadlí výstup (ASIO je plně duplexní).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1967"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi zatím nemá přístup k mikrofonu, takže live_audio a :sound_in budou tiché. Kliknutím níže udělíte přístup v systémových nastaveních.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1969"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přístup k mikrofonu je omezen systémovými zásadami, takže live_audio a :sound_in budou tiché.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1971"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přístup k mikrofonu zatím nebyl udělen — kliknutím níže otevřete systémová nastavení.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2242"/>
         <source>System language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jazyk systému: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1526"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Použít</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1527"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zrušit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1538"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Nový jazyk se použije při příštím spuštění Sonic Pi.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1539"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktuální jazyk rozhraní: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1543"/>
         <source>Restart Sonic Pi?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Restartovat Sonic Pi?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1544"/>
         <source>Do you want to restart Sonic Pi now? This will stop any current runs &amp; recordings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chcete nyní restartovat Sonic Pi? Tím se zastaví všechna probíhající spuštění a nahrávání.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1545"/>
         <source>Restart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Restartovat</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1546"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zavřít</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2408"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Použít jazyk systému</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
@@ -2884,27 +2904,27 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="137"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vypršel časový limit přepnutí zařízení</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zkratky</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tímto otočným ovladačem změníte hlasitost systému.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="201"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO používá jedno zařízení pro vstup i výstup.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Přepnout viditelnost popisků audio osciloskopů</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="732"/>
@@ -2916,7 +2936,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio osciloskop je k dispozici v několika variantách, které
+lze zobrazit samostatně nebo všechny najednou:
+
+Lissajous – znázorňuje fázový vztah mezi levým a pravým kanálem
+Mirror Stereo – jednoduchá složená vlna levý/pravý, vlevo nahoře, vpravo dole
+Mono – zobrazuje kombinovaný pohled na levý a pravý kanál (pomocí RMS)
+Spektrum – zobrazuje zvukové frekvence jako spektrum, od nízkých po vysoké
+Stereo – zobrazuje dva nezávislé osciloskopy pro levý a pravý kanál</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="739"/>

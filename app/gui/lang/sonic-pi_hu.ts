@@ -55,7 +55,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1601"/>
         <source>Toggle line comment...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sorváltó megjegyzés be/ki...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5178"/>
@@ -76,12 +76,12 @@
         <location filename="../mainwindow.cpp" line="427"/>
         <location filename="../mainwindow.cpp" line="687"/>
         <source>Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jelzések (Cues)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5214"/>
         <source>Disabling MIDI input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-bemenet letiltása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5232"/>
@@ -96,27 +96,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="670"/>
         <source>Scope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oszcilloszkóp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>Playing Sample...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sample lejátszása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="887"/>
         <source>Hiding pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Panelcímek elrejtése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="897"/>
         <source>Showing pane titles...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Panelcímek megjelenítése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1843"/>
         <source>Sonic Pi Boot Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi indítási hiba</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2011"/>
@@ -242,12 +242,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2350"/>
         <source>Hiding about window...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A névjegyablak elrejtése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2356"/>
         <source>Showing about window...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A névjegyablak megjelenítése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2375"/>
@@ -282,12 +282,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2880"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automatikus behúzás bekapcsolva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2884"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automatikus behúzás kikapcsolva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2947"/>
@@ -302,12 +302,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="2982"/>
         <source>Show context on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kontextus megjelenítése be</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2990"/>
         <source>Show context off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kontextus megjelenítése ki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3006"/>
@@ -323,258 +323,258 @@
         <location filename="../mainwindow.cpp" line="3206"/>
         <location filename="../mainwindow.cpp" line="3488"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kód megjegyzésbe tétele / kivétele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3207"/>
         <location filename="../mainwindow.cpp" line="3492"/>
         <source>Transpose Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Karakterek felcserélése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3208"/>
         <source>Shift Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sor vagy kijelölés feljebb mozgatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3209"/>
         <source>Shift Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sor vagy kijelölés lejjebb mozgatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3248"/>
         <source>Move Cursor Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása lefelé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3249"/>
         <source>Move Cursor Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása felfelé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3251"/>
         <source>Move Cursor Down 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása 10 sorral lejjebb</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3250"/>
         <source>Move Cursor Up 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása 10 sorral feljebb</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3252"/>
         <source>Cut to the end of the line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kivágás a sor végéig</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Copy the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktuális kijelölés másolása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3254"/>
         <source>Cut the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktuális kijelölés kivágása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3255"/>
         <source>Paste the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktuális kijelölés beillesztése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3256"/>
         <source>Move Cursor Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása jobbra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>Move Cursor Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása balra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3258"/>
         <source>Delete Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Törlés jobbra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3259"/>
         <source>Delete Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Törlés balra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3260"/>
         <source>Move Cursor to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása a sor elejére</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3261"/>
         <source>Move Cursor to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása a sor végére</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3262"/>
         <source>Move Cursor to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása a dokumentum elejére</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Move Cursor to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása a dokumentum végére</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3264"/>
         <source>Move Cursor Right by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása egy szóval jobbra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3265"/>
         <source>Move Cursor Left by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor mozgatása egy szóval balra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3273"/>
         <source>Undo the last action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Utolsó művelet visszavonása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3274"/>
         <source>Redo the last undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Utolsó visszavonás megismétlése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3275"/>
         <source>Select all text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Összes szöveg kijelölése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3276"/>
         <source>Delete word to the right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó törlése jobbra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3277"/>
         <source>Delete word to the left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó törlése balra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3278"/>
         <source>Uppercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó vagy kijelölés nagybetűssé alakítása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3279"/>
         <source>Lowercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó vagy kijelölés kisbetűssé alakítása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3245"/>
         <source>Set a mark in the text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jelölő elhelyezése a szövegben</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3210"/>
         <source>Look up documentation for the current word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentáció keresése az aktuális szóhoz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Cycle through the available colour themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás az elérhető színsémák között</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3218"/>
         <source>Switch to the previous tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás az előző lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3219"/>
         <source>Switch to the next tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás a következő lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3220"/>
         <source>Switch to tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás az 1. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3221"/>
         <source>Switch to tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás a 2. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Switch to tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás a 3. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3223"/>
         <source>Switch to tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás a 4. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3224"/>
         <source>Switch to tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás az 5. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3225"/>
         <source>Switch to tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás a 6. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3226"/>
         <source>Switch to tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás a 7. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3227"/>
         <source>Switch to tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás a 8. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3228"/>
         <source>Switch to tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás a 9. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3229"/>
         <source>Switch to tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Váltás a 0. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3233"/>
         <source>Place focus on the logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a naplókra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3242"/>
         <source>Show or hide the buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gombok megjelenítése vagy elrejtése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3243"/>
         <source>Show or hide the cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jelzésnapló megjelenítése vagy elrejtése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3244"/>
         <source>Show or hide the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Napló megjelenítése vagy elrejtése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3246"/>
         <source>Zoom in the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nagyítás a naplóban</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>Zoom out the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kicsinyítés a naplóban</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3280"/>
         <source>Toggle fullscreen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Teljes képernyős mód be/ki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3430"/>
@@ -594,74 +594,74 @@
     <message>
         <location filename="../mainwindow.cpp" line="4151"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ablak közzététele Syphon segítségével</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4156"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egérmutató belefoglalása a Syphon-feedbe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4163"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ablak közzététele Spout segítségével</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4168"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egérmutató belefoglalása a Spout-feedbe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4175"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egérmutató belefoglalása a munkamenet felvételébe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Felvétel ikon villogtatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4188"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Felvételi mód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4560"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QuickTime film (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4563"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MP4 videó (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4571"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Munkamenet felvételének mentése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5011"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Súgótémakörök</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5701"/>
         <location filename="../mainwindow.cpp" line="5756"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Nincs --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5702"/>
         <location filename="../mainwindow.cpp" line="5740"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- LETILTVA --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5862"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az audioeszköz váltása sikertelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5863"/>
@@ -670,12 +670,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nem sikerült átváltani erre:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5878"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az audiobemeneti eszköz nem érhető el</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5879"/>
@@ -684,50 +688,54 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nem sikerült megnyitni az audiobemeneti eszközt:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5893"/>
         <source>Sonic Pi - Unable to Write to Home Directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi - Nem lehet írni a kezdőkönyvtárba</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5900"/>
         <source>Boot Error - Home Dir not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indítási hiba - A kezdőkönyvtár nem írható:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5902"/>
         <location filename="../mainwindow.cpp" line="5916"/>
         <source>Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gyors megoldás: állítsd a SONIC_PI_HOME környezeti változót egy olyan könyvtárra, amelybe van írási jogosultságod.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5906"/>
         <location filename="../mainwindow.cpp" line="5920"/>
         <source>For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az érdeklődők kedvéért: a Sonic Pi automatikusan a kódpufferek tartalmát, a konfigurációs fájlokat és a naplókat egy .sonic-pi nevű mappában tárolja, amely jellemzően a kezdőkönyvtáradban található.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5907"/>
         <source>Unfortunately you don&apos;t appear to have permission to write to your home directory:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sajnos úgy tűnik, nincs írási jogosultságod a kezdőkönyvtáradhoz:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5908"/>
         <location filename="../mainwindow.cpp" line="5922"/>
         <source>To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ennek javításához a SONIC_PI_HOME környezeti változót beállíthatod bármely olyan könyvtárra, amelyhez van írási jogosultságod, és a Sonic Pi oda fogja létrehozni a .sonic-pi könyvtárát.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5914"/>
         <source>Boot Error - SONIC_PI_HOME not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indítási hiba - A SONIC_PI_HOME nem írható:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5921"/>
         <source>Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don&apos;t have permission to write to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sajnos úgy tűnik, a SONIC_PI_HOME környezeti változót egy olyan könyvtárra állítottad be, amelybe nincs írási jogosultságod:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3201"/>
@@ -752,7 +760,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3484"/>
         <source>Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kódpuffer behúzása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3604"/>
@@ -767,7 +775,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3612"/>
         <source>Show Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oszcilloszkópok megjelenítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3622"/>
@@ -797,7 +805,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3720"/>
         <source>Show Code Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kódkontextus megjelenítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3725"/>
@@ -807,138 +815,138 @@
     <message>
         <location filename="../mainwindow.cpp" line="3730"/>
         <source>Link Connect</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link csatlakozás</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3230"/>
         <source>Connect or disconnect the Link Metronome from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A Link metronóm csatlakoztatása a hálózathoz vagy leválasztása róla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3735"/>
         <source>Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tempókoppintás</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3231"/>
         <source>Click Link Tap Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link tempókoppintás</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="429"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hibák</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="602"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kódszerkesztő puffer %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="604"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Futtatási kontextus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="732"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentáció</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1225"/>
         <source>SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1227"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hibakeresés</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1741"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audiobemenetek engedélyezése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1745"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audiobemenetek letiltása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2068"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hiba: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2079"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Futtatás elindult</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Leállítva</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3266"/>
         <location filename="../mainwindow.cpp" line="3557"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kijelölés a sor elejéig</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3267"/>
         <location filename="../mainwindow.cpp" line="3560"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kijelölés a sor végéig</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3268"/>
         <location filename="../mainwindow.cpp" line="3563"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó kijelölése jobbra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <location filename="../mainwindow.cpp" line="3566"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó kijelölése balra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3270"/>
         <location filename="../mainwindow.cpp" line="3569"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kijelölés a dokumentum elejéig</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3271"/>
         <location filename="../mainwindow.cpp" line="3572"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kijelölés a dokumentum végéig</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3453"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Csak hang felvétele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3460"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hang + videó felvétele</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3715"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kódkiegészítési súgó megjelenítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3738"/>
         <source>Safe Audio Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Biztonságos audiomód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3743"/>
         <source>Enforce Timing Guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Időzítési garanciák kikényszerítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3748"/>
@@ -953,27 +961,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="3758"/>
         <source>Force Mono</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mono kikényszerítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3763"/>
         <source>Enable Incoming MIDI Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bejövő MIDI-jelzések engedélyezése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3768"/>
         <source>Allow Incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bejövő OSC engedélyezése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3773"/>
         <source>Allow OSC From Other Computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC engedélyezése más számítógépekről</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3778"/>
         <source>Log Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jelzések naplózása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3783"/>
@@ -1008,7 +1016,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3885"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vizuális elemek</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3887"/>
@@ -1038,7 +1046,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3912"/>
         <source>Show Scope Labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oszcilloszkóp címkék megjelenítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3917"/>
@@ -1048,17 +1056,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="3922"/>
         <source>Hide Menu Bar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Menüsor elrejtése teljes képernyős módban</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3932"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux gyorsbillentyű mód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3942"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egyéni gyorsbillentyű mód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
@@ -1068,7 +1076,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3958"/>
         <source>Show Scope Kinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oszcilloszkóp típusok megjelenítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3969"/>
@@ -1197,293 +1205,294 @@
     <message>
         <location filename="../mainwindow.cpp" line="4086"/>
         <source>Incoming OSC Port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bejövő OSC-port</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4091"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nézet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4104"/>
         <source>Focus Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a kontextusra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3234"/>
         <source>Place focus on the context pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a kontextuspanelre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4128"/>
         <source>Focus BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a BPM-szabályzóra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3240"/>
         <source>Place focus on BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a BPM-szabályzóra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4132"/>
         <source>Focus TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a TimeWarp-szabályzóra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3241"/>
         <source>Place focus on TimeWarp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a TimeWarp-szabályzóra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1847"/>
         <source>Apologies, unable to start...
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elnézést, nem sikerült elindulni...
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1849"/>
         <source>Sorry, Sonic Pi is having issues booting:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sajnáljuk, a Sonic Pi nem tud elindulni:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3272"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A kurzor függőleges középre igazítása a szerkesztőben</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3496"/>
         <source>Move Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sor vagy kijelölés feljebb helyezése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3500"/>
         <source>Move Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sor vagy kijelölés lejjebb helyezése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3503"/>
         <source>Move Down One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egy sorral lejjebb</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3506"/>
         <source>Move Up One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egy sorral feljebb</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3509"/>
         <source>Move Down Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tíz sorral lejjebb</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3512"/>
         <source>Move Up Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tíz sorral feljebb</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3515"/>
         <source>Cut to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kivágás a sor végéig</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3518"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Másolás</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kivágás</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3524"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beillesztés</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3527"/>
         <source>Move Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mozgatás jobbra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3530"/>
         <source>Move Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mozgatás balra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3533"/>
         <source>Delete Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Törlés előre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3536"/>
         <source>Delete Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Törlés hátra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3539"/>
         <source>Move to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mozgatás a sor elejére</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3542"/>
         <source>Move to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mozgatás a sor végére</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3545"/>
         <source>Move to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mozgatás a dokumentum elejére</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3548"/>
         <source>Move to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mozgatás a dokumentum végére</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3551"/>
         <source>Move Right One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egy szóval jobbra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3554"/>
         <source>Move Left One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egy szóval balra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3575"/>
         <source>Center Cursor Vertically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kurzor függőleges középre igazítása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3578"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visszavonás</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3581"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mégis</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3584"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Összes kijelölése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3587"/>
         <source>Delete Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó törlése balra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3590"/>
         <source>Delete Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó törlése jobbra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3593"/>
         <source>Upcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó vagy kijelölés nagybetűssé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3596"/>
         <source>Downcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Szó vagy kijelölés kisbetűssé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3600"/>
         <source>Show Docs for Current Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentáció megjelenítése az aktuális szóhoz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3618"/>
         <source>Cycle Themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Színsémák váltogatása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3640"/>
         <source>Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Előző lap</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3644"/>
         <source>Next Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Következő lap</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3647"/>
         <source>Focus Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz az 1. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3650"/>
         <source>Focus Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a 2. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3653"/>
         <source>Focus Tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a 3. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3656"/>
         <source>Focus Tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a 4. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3659"/>
         <source>Focus Tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz az 5. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3662"/>
         <source>Focus Tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a 6. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3665"/>
         <source>Focus Tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a 7. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3668"/>
         <source>Focus Tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a 8. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3671"/>
         <source>Focus Tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a 9. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3674"/>
         <source>Focus Tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a 0. lapra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3793"/>
         <source>Auto Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kódpuffer automatikus behúzása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3803"/>
         <source>Set Mark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jelölő beállítása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3927"/>
         <source>Emacs Live Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live gyorsbillentyű mód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3937"/>
         <source>Mac Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac gyorsbillentyű mód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3970"/>
         <source>Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gyorsbillentyű mód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4135"/>
@@ -1493,7 +1502,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4140"/>
         <source>Show Cue Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jelzésnapló megjelenítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4145"/>
@@ -1508,7 +1517,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4209"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lapok megjelenítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4214"/>
@@ -1518,17 +1527,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="4219"/>
         <source>Zoom In Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Naplók nagyítása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4222"/>
         <source>Zoom Out Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Naplók kicsinyítése</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4258"/>
         <source>Focus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4286"/>
@@ -1543,22 +1552,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI &lt;input&gt; engedélyezése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5261"/>
         <source>Disabling OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC-jelzésport letiltása...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5275"/>
         <source>Enabling external OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Külső OSC-jelzésport engedélyezése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5289"/>
         <source>Enabling internal OSC cue port...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Belső OSC-jelzésport engedélyezése...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5348"/>
@@ -1573,7 +1582,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5497"/>
         <source>Line: %1,  Position: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sor: %1,  Pozíció: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3443"/>
@@ -1633,17 +1642,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="360"/>
         <source>No Matching Studio Hash Found...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nem található megfelelő Studio Hash...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="550"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bezárás</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="600"/>
         <source>| %1 |</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">| %1 |</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3202"/>
@@ -1658,77 +1667,77 @@
     <message>
         <location filename="../mainwindow.cpp" line="3205"/>
         <source>Align code to improve readability</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kód igazítása az olvashatóság javításához</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3213"/>
         <source>Toggle visibility of audio oscilloscope</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az audio-oszcilloszkóp láthatóságának váltása</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4096"/>
         <source>Focus Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a szerkesztőre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3232"/>
         <source>Place focus on the code editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a kódszerkesztőre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4100"/>
         <source>Focus Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a naplókra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4108"/>
         <source>Focus Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a jelzésekre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3235"/>
         <source>Place focus on the cue event pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a jelzéseseménypanelre</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4112"/>
         <source>Focus Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a beállításokra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3236"/>
         <source>Place focus on preferences</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a beállításokra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4116"/>
         <source>Focus Help Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a súgólistára</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3237"/>
         <source>Place focus on help listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a súgólistára</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4120"/>
         <source>Focus Help Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a súgó részleteire</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3238"/>
         <source>Place focus on help details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a súgó részleteire</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4124"/>
         <source>Focus Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a hibákra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3239"/>
         <source>Place focus on errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fókusz a hibákra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4389"/>
@@ -1787,12 +1796,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="3215"/>
         <source>Toggle information about Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A Sonic Piról szóló információk be/ki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="693"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link metronóm és globális Time Warp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
@@ -1872,7 +1881,7 @@ Szerezd be: Sonic Pi %1</translation>
         <location filename="../utils/ruby_help.h" line="2960"/>
         <location filename="../utils/ruby_help.h" line="3055"/>
         <source>Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oktatóanyag</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3092"/>
@@ -1892,12 +1901,12 @@ Szerezd be: Sonic Pi %1</translation>
     <message>
         <location filename="../utils/ruby_help.h" line="3239"/>
         <source>Samples</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Samplek</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3481"/>
         <source>Lang</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nyelv</translation>
     </message>
 </context>
 <context>
@@ -1910,7 +1919,7 @@ Szerezd be: Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="967"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gyorsbillentyű beírása…</translation>
     </message>
 </context>
 <context>
@@ -1934,7 +1943,7 @@ Szerezd be: Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="162"/>
         <source>Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vizuális elemek</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="172"/>
@@ -1958,7 +1967,9 @@ Szerezd be: Sonic Pi %1</translation>
         <source>Toggle stereo inversion.
 If enabled, audio sent to the left speaker will
 be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sztereó megfordítás be/ki.
+Ha engedélyezve van, a bal hangszóróra küldött hang
+a jobb hangszóróra kerül, és fordítva.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="207"/>
@@ -2000,7 +2011,7 @@ váratlanul hangos és kellemetlen hangokat alkothatnak.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="213"/>
         <source>Enforce timing guarantees</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Időzítési garanciák kikényszerítése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="214"/>
@@ -2011,7 +2022,13 @@ it is too late to do so
 When disabled, Sonic Pi will always
 attempt to trigger synths and FX
 even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ha engedélyezve van, a Sonic Pi nem indít el
+szintetizátorokat és effekteket, ha
+már túl késő hozzá
+
+Ha le van tiltva, a Sonic Pi mindig
+megpróbálja elindítani a szintetizátorokat és effekteket,
+még akkor is, ha egy kicsit késő.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="217"/>
@@ -2022,89 +2039,97 @@ to be triggered.
 When disabled, Sonic Pi will complain
 when you attempt to use a synth or FX
 which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ha engedélyezve van, a Sonic Pi lehetővé teszi a
+load_synthdefs segítségével betöltött szintetizátorok és effektek
+elindítását.
+
+Ha le van tiltva, a Sonic Pi hibát jelez,
+amikor olyan szintetizátort vagy effektet próbálsz használni,
+amelyet nem ismer fel.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="241"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audioeszköz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az audioillesztő, az eszköz, a mintavételezési frekvencia és a puffer méretének beállítása.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Illesztőprogram</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="252"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kimenet</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="259"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bemenet</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="266"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mintavételezési frekvencia</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="273"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Puffer mérete</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="295"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Felvétel</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="296"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Válaszd ki, mit rögzítsen a felvétel gomb.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="298"/>
         <source>Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Csak hang</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A SuperSonic egy .wav fájlt ír a master mixről</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="302"/>
         <source>Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hang + videó</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="304"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rögzíti a Sonic Pi ablakát és a master mixet egy .mov fájlba
+GPU-gyorsított képernyőfelvétellel</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="308"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rögzíti a Sonic Pi ablakát és a master mixet egy .mp4 fájlba
+GPU-gyorsított képernyőfelvétellel</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="354"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Működteti:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Várakozás a SuperSonicra...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="373"/>
@@ -2114,12 +2139,12 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="377"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rendszerbeállítások megnyitása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
         <source>Networked OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hálózati OSC</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="431"/>
@@ -2143,18 +2168,19 @@ a jelenleg aktív hálózaton keresztül.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="460"/>
         <source>Allow OSC from other computers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC engedélyezése más számítógépekről</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="461"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.
  When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ha be van jelölve, a Sonic Pi lehetővé teszi OSC-üzenetek küldését és fogadását távoli gépekkel.
+ Ha nincs bejelölve, csak a helyi géppel való küldés és fogadás lesz engedélyezve.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="463"/>
         <source>Allow incoming OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bejövő OSC engedélyezése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="487"/>
@@ -2169,7 +2195,7 @@ a jelenleg aktív hálózaton keresztül.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="555"/>
         <source>Automatically align code on Enter or Run </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kód automatikus igazítása Enterre vagy futtatáskor </translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="560"/>
@@ -2180,7 +2206,8 @@ a jelenleg aktív hálózaton keresztül.</translation>
         <location filename="../widgets/settingswidget.cpp" line="464"/>
         <source>When checked, Sonic Pi will listen for OSC messages.
  When unchecked no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ha be van jelölve, a Sonic Pi figyeli az OSC-üzeneteket.
+ Ha nincs bejelölve, nem érkeznek OSC-üzenetek.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="472"/>
@@ -2190,7 +2217,7 @@ a jelenleg aktív hálózaton keresztül.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="473"/>
         <source>Configure MIDI behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-viselkedés beállítása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="475"/>
@@ -2222,13 +2249,16 @@ a jelenleg aktív hálózaton keresztül.</translation>
         <source>MIDI input devices send MIDI messages directly to
 Sonic Pi and are received as cue events
 (similar to incoming OSC messages and internal cues)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A MIDI-bemeneti eszközök közvetlenül a Sonic Pinek küldenek
+MIDI-üzeneteket, amelyeket jelzéseseményként fogad
+(hasonlóan a bejövő OSC-üzenetekhez és a belső jelzésekhez)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="515"/>
         <source>MIDI output devices receive MIDI messages directly from
 Sonic Pi which can be sent via the midi_* fns</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A MIDI-kimeneti eszközök közvetlenül a Sonic Pitől kapnak
+MIDI-üzeneteket, amelyek a midi_* függvényekkel küldhetők</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="547"/>
@@ -2259,7 +2289,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
         <location filename="../widgets/settingswidget.cpp" line="199"/>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
         <source>Toggle to enable or disable audio inputs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kapcsold be vagy ki az audiobemenetek engedélyezéséhez vagy letiltásához.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="216"/>
@@ -2269,33 +2299,34 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="435"/>
         <source>Incoming OSC port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bejövő OSC-port</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="478"/>
         <source>Enable incoming MIDI cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bejövő MIDI-jelzések engedélyezése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="479"/>
         <source>Enable or disable automatic conversion of incoming MIDI messages to cue events</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A bejövő MIDI-üzenetek jelzéseseményekké való automatikus átalakításának engedélyezése vagy letiltása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="483"/>
         <source>Reset MIDI subsystems
 (Required to detect device changes on some platforms)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-alrendszerek visszaállítása
+(Egyes platformokon szükséges az eszközváltozások észleléséhez)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="497"/>
         <source>Default MIDI Channel to send messages to (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alapértelmezett MIDI-csatorna az üzenetek küldéséhez (* jelentése: mind)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="501"/>
         <source>Default MIDI Channel to send messages to  (* means all)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alapértelmezett MIDI-csatorna az üzenetek küldéséhez  (* jelentése: mind)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="545"/>
@@ -2305,7 +2336,7 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="546"/>
         <source>Show and hide information panes such as the scope and log.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Olyan információs panelek megjelenítése és elrejtése, mint az oszcilloszkóp és a napló.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="549"/>
@@ -2315,12 +2346,12 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="551"/>
         <source>Automation / Misc</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automatizálás / Egyéb</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="552"/>
         <source>Configure automation and other features.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automatizálás és egyéb funkciók beállítása.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="554"/>
@@ -2340,27 +2371,27 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="561"/>
         <source>When enabled, Sonic Pi&apos;s editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ha engedélyezve van, a Sonic Pi szerkesztője javaslatokkal próbálja automatikusan kiegészíteni a kódodat. Ha le van tiltva, ezek a javaslatok nem jelennek meg.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="563"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kódkiegészítési súgó megjelenítése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="564"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ha engedélyezve van, a kódkiegészítési felugró ablak segédpaneleket tartalmaz – dokumentációt, hangbillentyűzetet és értékcsúszkákat. Ha le van tiltva, csak a javaslatok listáját jeleníti meg.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="566"/>
         <source>Show code context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kódkontextus megjelenítése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="567"/>
         <source>When enabled, Sonic Pi&apos;s editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ha engedélyezve van, a Sonic Pi szerkesztője megjelenít egy panelt, amely a kódra vonatkozó kontextusfüggő információkat mutat, például az aktuális sort és a kurzor pozícióját.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="569"/>
@@ -2375,22 +2406,22 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="573"/>
         <source>Show cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jelzésnapló megjelenítése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="574"/>
         <source>Toggle visibility of cue log which displays internal cues &amp; incoming OSC/MIDI messages.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A jelzésnapló láthatóságának váltása, amely a belső jelzéseket és a bejövő OSC-/MIDI-üzeneteket jeleníti meg.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="577"/>
         <source>Show Link metronome controls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link metronómvezérlők megjelenítése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="578"/>
         <source>Toggle visibility of the Link metronome controls.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A Link metronómvezérlők láthatóságának váltása.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
@@ -2430,17 +2461,17 @@ Sonic Pi which can be sent via the midi_* fns</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="591"/>
         <source>Toggle the title visibility for the scope, log, cue and other information panes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A cím láthatóságának váltása az oszcilloszkóp, a napló, a jelzések és más információs panelek esetében</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="594"/>
         <source>Hide Menubar in Fullscreen Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Menüsor elrejtése teljes képernyős módban</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="595"/>
         <source>Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A menüsor automatikus elrejtése, amikor az alkalmazás teljes képernyős módban van. Vedd figyelembe, hogy a menüsor mindig látható, ha nem teljes képernyős módban vagy.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="601"/>
@@ -2522,25 +2553,28 @@ megfelelő eseményt, de nem lesznek láthatóak a naplóban.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="681"/>
         <source>Auto-scroll log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Napló automatikus görgetése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="682"/>
         <source>Toggle log auto scrolling.
 If enabled the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A napló automatikus görgetésének váltása.
+Ha engedélyezve van, a napló minden új üzenet megjelenítése után a végére görget.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="684"/>
         <source>Show debug log panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hibakeresési naplópanel megjelenítése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="685"/>
         <source>Show a dockable panel with live tails of the
 GUI, Spider, Daemon and SuperSonic log files.
 No CPU is used while the panel is hidden.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egy dokkolható panel megjelenítése a
+GUI, a Spider, a Daemon és a SuperSonic naplófájljainak élő követésével.
+Nem használ processzort, amíg a panel rejtve van.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="712"/>
@@ -2565,7 +2599,7 @@ No CPU is used while the panel is hidden.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Show scope labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oszcilloszkóp címkék megjelenítése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="813"/>
@@ -2575,152 +2609,153 @@ No CPU is used while the panel is hidden.</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="818"/>
         <source>UI &amp; Tutorial Language (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A kezelőfelület és az oktatóanyag nyelve (Az életbe lépéshez újraindítás szükséges)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="819"/>
         <source>Change the language of the UI &amp; Tutorial (Requires a restart to take effect)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A kezelőfelület és az oktatóanyag nyelvének módosítása (Az életbe lépéshez újraindítás szükséges)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="823"/>
         <source>Change the language of the UI &amp; Tutorial</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A kezelőfelület és az oktatóanyag nyelvének módosítása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="830"/>
         <source>Translations have been generously provided by volunteers 
 on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A fordításokat önkéntesek bocsátották rendelkezésre nagylelkűen
+a https://hosted.weblate.org/projects/sonic-pi/ oldalon. Köszönjük! :)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1066"/>
         <location filename="../widgets/settingswidget.cpp" line="1102"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1067"/>
         <location filename="../widgets/settingswidget.cpp" line="1103"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1068"/>
         <location filename="../widgets/settingswidget.cpp" line="1104"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1069"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egyéni</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1095"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mód:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1105"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gyorsbillentyű szerkesztése</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1107"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visszaállítás</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1110"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importálás…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1111"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportálás…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1118"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alap:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1268"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ehhez is hozzá van rendelve: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Módosítva az alapértelmezetthez képest (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1272"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">nincs beállítva</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1282"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(nincs változás)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1283"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(%1 megváltozott)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1374"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A gyorsbillentyű már használatban van</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1375"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A(z) &quot;%1&quot; már hozzá van rendelve ehhez: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1376"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mit szeretnél tenni?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1377"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hozzárendelés ehhez</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mindkettő megtartása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1406"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visszaállítod a gyorsbillentyűket?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1407"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ezzel eldobod az összes egyéni módosításodat, és visszaállítod az alap-előbeállítást. Folytatod?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1416"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gyorsbillentyűk exportálása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1417"/>
         <location filename="../widgets/settingswidget.cpp" line="1432"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gyorsbillentyűfájlok (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1431"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gyorsbillentyűk importálása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1512"/>
@@ -2740,67 +2775,68 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1522"/>
         <source>System language found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rendszernyelv megtalálva: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1570"/>
         <location filename="../widgets/settingswidget.cpp" line="1717"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- LETILTVA --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1613"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audioeszköz váltása...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1651"/>
         <location filename="../widgets/settingswidget.cpp" line="1726"/>
         <location filename="../widgets/settingswidget.cpp" line="1921"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Nincs --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1653"/>
         <location filename="../widgets/settingswidget.cpp" line="1918"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rendszer alapértelmezett</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1655"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rendszer alapértelmezett (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1905"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az ASIO-eszközöknél a bemenet/kimenet össze van kapcsolva.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1928"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tükrözi a kimenetet (az ASIO full-duplex).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1967"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A Sonic Pinek még nincs hozzáférése a mikrofonhoz, ezért a live_audio és a :sound_in néma lesz. Kattints alább a hozzáférés megadásához a Rendszerbeállításokban.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1969"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A mikrofon-hozzáférést a rendszer házirendje korlátozza, ezért a live_audio és a :sound_in néma lesz.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1971"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A mikrofon-hozzáférés még nincs megadva — kattints alább a Rendszerbeállítások megnyitásához.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2242"/>
         <source>System language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rendszernyelv: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1526"/>
@@ -2810,18 +2846,19 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1527"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mégse</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1538"/>
         <source>&lt;b&gt;The new language will be applied when you next start Sonic Pi.&lt;/b&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Az új nyelv a Sonic Pi következő indításakor lép életbe.&lt;/b&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1539"/>
         <source>Current UI language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jelenlegi kezelőfelület-nyelv: %1
+</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1543"/>
@@ -2841,12 +2878,12 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1546"/>
         <source>Dismiss</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elvetés</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2408"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rendszernyelv használata</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
@@ -2856,27 +2893,27 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="137"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az eszközváltás időtúllépést okozott</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="165"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gyorsbillentyűk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="193"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ezzel a tárcsával módosíthatod a rendszer hangerejét.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="201"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az ASIO egyetlen eszközt használ a bemenethez és a kimenethez is.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>
         <source>Toggle the visibility of the labels for the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az audio-oszcilloszkópok címkéi láthatóságának váltása</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="732"/>
@@ -2888,7 +2925,14 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Az audio-oszcilloszkóp több változatban érhető el, amelyek
+külön-külön vagy együtt is megtekinthetők:
+
+Lissajous - a bal és a jobb csatorna közötti fáziskapcsolatot mutatja
+Mirror Stereo - egyszerű bal/jobb összetett hullám, fent a bal, lent a jobb
+Mono - a bal és a jobb csatorna kombinált nézetét mutatja (RMS-t használva)
+Spectrum - a hangfrekvenciákat spektrumként mutatja, az alacsonytól a magas frekvenciákig
+Stereo - két független oszcilloszkópot mutat a bal és a jobb csatornához</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="739"/>
