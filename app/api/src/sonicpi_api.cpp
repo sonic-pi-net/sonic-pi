@@ -684,7 +684,7 @@ bool SonicPiAPI::PingUntilServerCreated()
 APIInitResult SonicPiAPI::Init(const fs::path& root)
 {
     m_token = -1;
-    m_osc_mtx.lock();
+    std::lock_guard<std::mutex> lg(m_osc_mtx);
 
     if (m_state == State::Created)
     {
@@ -695,7 +695,6 @@ APIInitResult SonicPiAPI::Init(const fs::path& root)
         m_pClient->Report(message);
         LOG(ERR, "Call shutdown before init!");
         m_state = State::Error;
-        m_osc_mtx.unlock();
         return APIInitResult::TerminalError;
     }
 
@@ -707,14 +706,12 @@ APIInitResult SonicPiAPI::Init(const fs::path& root)
 
         m_pClient->Report(message);
         m_state = State::Error;
-        m_osc_mtx.unlock();
         return APIInitResult::TerminalError;
     }
 
     if (!InitializePaths(root))
     {
       // oh no, something went wrong :-(
-      m_osc_mtx.unlock();
       return APIInitResult::TerminalError;
     }
 
@@ -739,21 +736,18 @@ APIInitResult SonicPiAPI::Init(const fs::path& root)
         }
     }
 
-    if (m_homeDirWriteable) {
-
-    } else {
+    if (!m_homeDirWriteable) {
       LOG(INFO, "Home dir not writable ");
       return APIInitResult::HomePathNotWritableError;
     }
 
     EnsurePathsAreCanonical();
-    m_osc_mtx.unlock();
     return APIInitResult::Successful;
 }
 
 APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
 {
-    m_osc_mtx.lock();
+    std::unique_lock<std::mutex> lock(m_osc_mtx);
 
     // Setup redirection of log from this app to our log file
     // stdout into ~/.sonic-pi/log/gui.log
@@ -788,8 +782,7 @@ APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
 
     if (boot_daemon_res != BootDaemonInitResult::Successful)
     {
-        LOG(INFO, "Attempting to start Boot Daemon failed....";)
-        m_osc_mtx.unlock();
+        LOG(INFO, "Attempting to start Boot Daemon failed....");
         return APIBootResult::TerminalError;
     }
 
@@ -797,7 +790,6 @@ APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
     if(!StartOscServer())
     {
         LOG(INFO, "Attempting to start OSC Server failed....");
-        m_osc_mtx.unlock();
         return APIBootResult::TerminalError;
     }
 
@@ -806,7 +798,8 @@ APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
 
     LOG(INFO, "API State set to: Initializing...");
 
-    m_osc_mtx.unlock();
+    // Release before spawning the pinger thread, which locks the same mutex.
+    lock.unlock();
 
     LOG(INFO, "Going to start pinging server...");
     m_pingerThread = std::thread([&]() {
