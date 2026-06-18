@@ -1699,6 +1699,13 @@ void MainWindow::midiEnabledMenuChanged()
     toggleMidi();
 }
 
+void MainWindow::gamepadEnabledMenuChanged()
+{
+    piSettings->gamepad_enabled = gamepadEnabledAct->isChecked();
+    emit settingsChanged();
+    toggleGamepad();
+}
+
 void MainWindow::oscServerEnabledMenuChanged()
 {
     piSettings->osc_server_enabled = enableOSCServerAct->isChecked();
@@ -3768,6 +3775,11 @@ void MainWindow::createToolBar()
     midiEnabledAct->setChecked(piSettings->midi_enabled);
     connect(midiEnabledAct, SIGNAL(triggered()), this, SLOT(midiEnabledMenuChanged()));
 
+    gamepadEnabledAct = new QAction(tr("Enable Incoming Gamepad Cues"), this);
+    gamepadEnabledAct->setCheckable(true);
+    gamepadEnabledAct->setChecked(piSettings->gamepad_enabled);
+    connect(gamepadEnabledAct, SIGNAL(triggered()), this, SLOT(gamepadEnabledMenuChanged()));
+
     enableOSCServerAct = new QAction(tr("Allow Incoming OSC"), this);
     enableOSCServerAct->setCheckable(true);
     enableOSCServerAct->setChecked(piSettings->osc_server_enabled);
@@ -3969,18 +3981,26 @@ void MainWindow::createToolBar()
         scopeKindVisibilityMenu->addAction(act);
     }
 
+    // The IO menu is grouped into labelled sections (addSection) so the
+    // device controls, network controls and capture controls read as
+    // distinct blocks. The MIDI/gamepad device submenus are populated
+    // dynamically (see updateMIDI*Ports / updateGamepadDevices) with one
+    // checkable entry per device, mirroring the IO preferences pane.
     ioMenu = menuBar()->addMenu(tr("IO"));
+
+    // Keyboard input mode — a self-contained picker, kept at the top.
     shortcutMenu = ioMenu->addMenu(tr("Shortcut Mode"));
     shortcutMenu->addAction(macShortcutModeAct);
     shortcutMenu->addAction(winShortcutModeAct);
     shortcutMenu->addAction(emacsShortcutModeAct);
     shortcutMenu->addAction(userShortcutModeAct);
-    ioMenu->addSeparator();
+
+    ioMenu->addSection(tr("MIDI"));
     ioMenu->addAction(midiEnabledAct);
     ioMidiInMenu = ioMenu->addMenu(tr("MIDI Inputs"));
-    ioMidiInMenu->addAction(tr("No Connected Inputs"));
+    ioMidiInMenu->addAction(tr("No Connected Inputs"))->setEnabled(false);
     ioMidiOutMenu = ioMenu->addMenu(tr("MIDI Outputs"));
-    ioMidiOutMenu->addAction(tr("No Connected Outputs"));
+    ioMidiOutMenu->addAction(tr("No Connected Outputs"))->setEnabled(false);
 
     ioMidiOutChannelMenu = ioMenu->addMenu(tr("Default MIDI Out Channel"));
 
@@ -4069,7 +4089,12 @@ void MainWindow::createToolBar()
     midiOutChanMenu16->setChecked(false);
     connect(midiOutChanMenu16, &QAction::triggered, [this]() { midiDefaultChannelMenuChanged(16); });
 
-    ioMenu->addSeparator();
+    ioMenu->addSection(tr("Game Controllers"));
+    ioMenu->addAction(gamepadEnabledAct);
+    ioGamepadMenu = ioMenu->addMenu(tr("Connected Controllers"));
+    ioGamepadMenu->addAction(tr("No Connected Controllers"))->setEnabled(false);
+
+    ioMenu->addSection(tr("OSC"));
     ioMenu->addAction(enableOSCServerAct);
     ioMenu->addAction(allowRemoteOSCAct);
     localIpAddressesMenu = ioMenu->addMenu(tr("Local IP Addresses"));
@@ -4187,19 +4212,20 @@ void MainWindow::createToolBar()
 
     // IO menu recording / publishing tail — appended here so the
     // QActions exist.
-    ioMenu->addSeparator();
+    ioMenu->addSection(tr("Recording"));
     QMenu* recModeSubmenu = ioMenu->addMenu(tr("Recording Mode"));
     recModeSubmenu->addAction(recAudioModeAct);
     recModeSubmenu->addAction(recAudioVideoModeAct);
     ioMenu->addAction(recordShowCursorAct);
     ioMenu->addAction(recordFlashIconAct);
-    ioMenu->addSeparator();
 #endif
 #ifdef Q_OS_MAC
+    ioMenu->addSection(tr("Window Publishing"));
     ioMenu->addAction(syphonPublishAct);
     ioMenu->addAction(syphonShowCursorAct);
 #endif
 #ifdef Q_OS_WIN
+    ioMenu->addSection(tr("Window Publishing"));
     ioMenu->addAction(spoutPublishAct);
     ioMenu->addAction(spoutShowCursorAct);
 #endif
@@ -5226,6 +5252,9 @@ void MainWindow::toggleMidi(int silent)
 
 void MainWindow::toggleGamepad(int silent)
 {
+    QSignalBlocker blocker(gamepadEnabledAct);
+    gamepadEnabledAct->setChecked(piSettings->gamepad_enabled);
+
     if (piSettings->gamepad_enabled)
     {
         statusBar()->showMessage(tr("Enabling gamepad input..."), 2000);
@@ -5383,19 +5412,37 @@ static QList<QPair<QString, bool>> parseDeviceLines(const QString& info)
     return out;
 }
 
+// Rebuild an IO device submenu: one checkable entry per device reflecting the
+// engine's enabled flag, each forwarding its toggle to `onToggle`. Falls back
+// to a single disabled placeholder when nothing is connected. The menu mirrors
+// the per-device checkboxes in the IO preferences — a user toggle round-trips
+// through the spider, which rebroadcasts the device list and re-enters here.
+template <typename Toggle>
+static void populateDeviceMenu(QMenu* menu, const QList<QPair<QString, bool>>& devices,
+                               const QString& emptyText, Toggle onToggle)
+{
+    menu->clear();
+    if (devices.isEmpty())
+    {
+        menu->addAction(emptyText)->setEnabled(false);
+        return;
+    }
+    for (const auto& d : devices)
+    {
+        const QString name = d.first;
+        QAction* act = menu->addAction(name);
+        act->setCheckable(true);
+        act->setChecked(d.second);
+        QObject::connect(act, &QAction::triggered, menu,
+                         [onToggle, name](bool checked) { onToggle(name, checked); });
+    }
+}
+
 void MainWindow::updateMIDIInPorts(QString port_info)
 {
     settingsWidget->updateMidiInPorts(port_info);
-    const auto devices = parseDeviceLines(port_info);
-    ioMidiInMenu->clear();
-    if (devices.isEmpty())
-    {
-        ioMidiInMenu->addAction(tr("No Connected Inputs"));
-    }
-    else
-    {
-        for (const auto& d : devices) ioMidiInMenu->addAction(d.first);
-    }
+    populateDeviceMenu(ioMidiInMenu, parseDeviceLines(port_info), tr("No Connected Inputs"),
+                       [this](const QString& name, bool enabled) { setMidiPortEnabled("in", name, enabled); });
 }
 
 void MainWindow::updateMIDIOutPorts(QString port_info)
@@ -5405,20 +5452,15 @@ void MainWindow::updateMIDIOutPorts(QString port_info)
     QStringList names;
     for (const auto& d : devices) names << d.first;
     autocomplete->updateMidiOuts(names.join("\n"));
-    ioMidiOutMenu->clear();
-    if (devices.isEmpty())
-    {
-        ioMidiOutMenu->addAction(tr("No Connected Outputs"));
-    }
-    else
-    {
-        for (const auto& d : devices) ioMidiOutMenu->addAction(d.first);
-    }
+    populateDeviceMenu(ioMidiOutMenu, devices, tr("No Connected Outputs"),
+                       [this](const QString& name, bool enabled) { setMidiPortEnabled("out", name, enabled); });
 }
 
 void MainWindow::updateGamepadDevices(QString devices)
 {
     settingsWidget->updateGamepadDevices(devices);
+    populateDeviceMenu(ioGamepadMenu, parseDeviceLines(devices), tr("No Connected Controllers"),
+                       [this](const QString& name, bool enabled) { setGamepadDeviceEnabled(name, enabled); });
 }
 
 void MainWindow::focusPane(QWidget* pane)
