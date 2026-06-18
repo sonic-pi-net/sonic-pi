@@ -717,6 +717,23 @@ module SonicPi
       @midi_api.midi_system_stop!
     end
 
+    # MIDI hotplug detection is native, so this is just a manual
+    # re-enumeration request for the /midi-reset API endpoint.
+    def __midi_system_reset(silent=false)
+      __info "Refreshing MIDI devices..." unless silent
+      @midi_api.midi_refresh_devices!
+    end
+
+    def __midi_port_enable(direction, port, enabled)
+      __info "#{enabled ? "Enabling" : "Ignoring"} MIDI #{direction}put: #{port}"
+      @midi_api.midi_port_enable!(direction, port, enabled)
+    end
+
+    def __gamepad_device_enable(pad, enabled)
+      __info "#{enabled ? "Enabling" : "Ignoring"} game controller: #{pad}"
+      @gamepad_api.gamepad_device_enable!(pad, enabled)
+    end
+
     def __gamepad_system_start(silent=false)
       __info "Enabling incoming gamepad cues..." unless silent
       __schedule_delayed_blocks_and_messages!
@@ -1652,22 +1669,29 @@ module SonicPi
         @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
       end
 
+      # Device lists arrive as [name, enabled] pairs and are forwarded to the
+      # GUI one device per line as "enabled<TAB>name" so the prefs can show a
+      # per-device enable checkbox.
+      encode_device_pairs = lambda do |pairs|
+        pairs.map { |name, enabled| "#{enabled}\t#{name}" }.join("\n")
+      end
+
       updated_midi_ins_handler = lambda do |ins|
-        desc = ins.join("\n")
-        __msg_queue.push({:type => :midi_in_ports, :val => desc})
+        __msg_queue.push({:type => :midi_in_ports, :val => encode_device_pairs.call(ins)})
       end
 
       updated_midi_outs_handler = lambda do |outs|
-        desc = outs.join("\n")
-        __msg_queue.push({:type => :midi_out_ports, :val => desc})
+        __msg_queue.push({:type => :midi_out_ports, :val => encode_device_pairs.call(outs)})
       end
 
       last_gamepads = []
       updated_gamepads_handler = lambda do |pads|
         next if pads == last_gamepads
         last_gamepads = pads
-        desc = pads.empty? ? "No game controllers connected" : "Connected game controllers: #{pads.join(", ")}"
+        names = pads.map(&:first)
+        desc = names.empty? ? "No game controllers connected" : "Connected game controllers: #{names.join(", ")}"
         __msg_queue.push({:type => :info, :val => desc})
+        __msg_queue.push({:type => :gamepad_devices, :val => encode_device_pairs.call(pads)})
       end
 
       updated_link_num_peers_handler = lambda do |num|
@@ -1694,19 +1718,34 @@ module SonicPi
                                 updated_link_bpm: updated_link_bpm_handler
                               })
 
-      # MIDI lives in SuperSonic, reached over the same OSC port as Link.
+      # MIDI now lives in SuperSonic too (replacing sp_midi + the Tau MIDI layer),
+      # reached over the same OSC port as Link. The user's per-device mutes are
+      # persisted here in @settings — the engine is stateless, so the APIs seed
+      # from these values and re-assert them on device broadcasts.
       @midi_api = MidiAPI.new("127.0.0.1", scsynth_send_port,
                               {
                                 internal_cue: internal_cue_handler,
                                 updated_midi_ins: updated_midi_ins_handler,
-                                updated_midi_outs: updated_midi_outs_handler
+                                updated_midi_outs: updated_midi_outs_handler,
+                                disabled_midi_ports_changed: lambda do |disabled|
+                                  @settings.set(:midi_disabled_in_ports, disabled[:in])
+                                  @settings.set(:midi_disabled_out_ports, disabled[:out])
+                                end
+                              },
+                              {
+                                in:  @settings.get(:midi_disabled_in_ports, []),
+                                out: @settings.get(:midi_disabled_out_ports, [])
                               })
 
       @gamepad_api = GamepadAPI.new("127.0.0.1", scsynth_send_port,
                                     {
                                       internal_cue: internal_cue_handler,
-                                      updated_gamepads: updated_gamepads_handler
-                                    })
+                                      updated_gamepads: updated_gamepads_handler,
+                                      disabled_gamepads_changed: lambda do |disabled|
+                                        @settings.set(:gamepad_disabled_devices, disabled)
+                                      end
+                                    },
+                                    @settings.get(:gamepad_disabled_devices, []))
 
       begin
         @gitsave = GitSave.new(Paths.project_path)

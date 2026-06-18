@@ -139,6 +139,7 @@ public:
     void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
     void updateMIDIInPorts(QString port_info);
     void updateMIDIOutPorts(QString port_info);
+    void updateGamepadDevices(QString devices);
     void updateScsynthInfo(QString description);
     void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
     void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
@@ -408,8 +409,12 @@ private slots:
     void setupTheme();
     void escapeWorkspaces();
     void toggleMidi(int silent = 0);
+    void toggleGamepad(int silent = 0);
     void toggleOSCServer(int silent = 0);
-    void resetMidi();
+    // Per-device enable/disable, forwarded to the spider which owns the
+    // persistent mute list and re-asserts it on device broadcasts.
+    void setMidiPortEnabled(QString direction, QString name, bool enabled);
+    void setGamepadDeviceEnabled(QString name, bool enabled);
     void honourPrefs();
 
     void showBufferCapacityError();

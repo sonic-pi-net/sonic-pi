@@ -45,6 +45,7 @@ public:
     virtual void AudioDataAvailable(SonicPi::ProcessedAudioPtr audio) override;
     virtual void Status(const SonicPi::StatusInfo& info) override;
     virtual void Midi(const SonicPi::MidiInfo& info) override;
+    virtual void GamepadDevices(const std::string& devices) override;
     virtual void Version(const SonicPi::VersionInfo& info) override;
     virtual void Buffer(const BufferInfo& info) override;
     virtual void ActiveLinks(const int numLinks) override;
@@ -73,6 +74,7 @@ public slots:
     virtual void CueGui(const SonicPi::CueInfo& info);
     virtual void StatusGui(const SonicPi::StatusInfo& info);
     virtual void MidiGui(const SonicPi::MidiInfo& info);
+    virtual void GamepadDevicesGui(const QString& devices);
     virtual void VersionGui(const SonicPi::VersionInfo& info);
     virtual void BufferGui(const SonicPi::BufferInfo& info);
     virtual void ScsynthGui(const SonicPi::ScsynthInfo& scsynthInfo);

@@ -109,6 +109,8 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/model/sonicpitheme.h
     ${QTAPP_ROOT}/widgets/infowidget.h
     ${QTAPP_ROOT}/widgets/settingswidget.h
+    ${QTAPP_ROOT}/widgets/devicelistwidget.cpp
+    ${QTAPP_ROOT}/widgets/devicelistwidget.h
     ${QTAPP_ROOT}/widgets/logpanel.cpp
     ${QTAPP_ROOT}/widgets/logpanel.h
     ${QTAPP_ROOT}/widgets/metricspanel.cpp

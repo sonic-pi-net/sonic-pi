@@ -697,6 +697,26 @@ register_api = lambda do |server|
     end
   end
 
+  server.add_method("/midi-port-enable") do |args|
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__midi_port_enable(args[1], args[2], args[3] == 1)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /midi-port-enable call"
+      STDOUT.flush
+    end
+  end
+
+  server.add_method("/gamepad-enable") do |args|
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__gamepad_device_enable(args[1], args[2] == 1)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /gamepad-enable call"
+      STDOUT.flush
+    end
+  end
+
   server.add_method("/cue-port-external") do |args|
     incoming_token = args[0]
     if incoming_token == token
@@ -827,6 +847,8 @@ out_t = Thread.new do
           gui.send("/midi/out-ports", message[:val])
         when :midi_in_ports
           gui.send("/midi/in-ports", message[:val])
+        when :gamepad_devices
+          gui.send("/gamepad/devices-list", message[:val])
         when :link_num_peers
           gui.send("/link-num-peers", message[:val])
         when :link_bpm

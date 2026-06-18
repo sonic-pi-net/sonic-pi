@@ -33,6 +33,7 @@ public:
     bool osc_server_enabled;
     bool osc_public;
     bool midi_enabled;
+    bool gamepad_enabled;
     int midi_default_channel;
     QString midi_default_channel_str;
 

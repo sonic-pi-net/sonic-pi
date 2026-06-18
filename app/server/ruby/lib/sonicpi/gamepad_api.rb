@@ -33,16 +33,24 @@ module SonicPi
   # cue is a real state change.
   class GamepadAPI
 
-    def initialize(supersonic_host, supersonic_port, handlers)
+    def initialize(supersonic_host, supersonic_port, handlers, disabled_pads = [])
       @gamepad_comms = SonicPi::SupersonicGamepadComms.new(supersonic_host, supersonic_port)
       @internal_cue_handler = handlers[:internal_cue]
       @updated_gamepads_handler = handlers[:updated_gamepads]
+      # Called with [names] whenever the user's disabled-pad set changes, so
+      # the host can persist it.
+      @disabled_pads_changed_handler = handlers[:disabled_gamepads_changed]
+      # The user's persisted per-pad mutes — the engine itself is stateless,
+      # so this is the source of truth, re-asserted on device broadcasts.
+      @disabled_pads = (disabled_pads || []).map(&:to_s)
       # Last-seen pressed state per [pad, button], to derive the /down and /up
       # edge cues from the (pressed, value) stream.
       @pressed = {}
 
       add_supersonic_gamepad_handlers!
       @gamepad_comms.subscribe_to_notifications!
+      # Mute the user's disabled pads before any events can cue.
+      @disabled_pads.each { |n| @gamepad_comms.send("/gamepad/enable", n, 0) }
       @gamepad_comms.send("/gamepad/devices/list")   # prime the device list
     end
 
@@ -56,6 +64,21 @@ module SonicPi
 
     def gamepad_refresh_devices!
       @gamepad_comms.send("/gamepad/refresh")
+    end
+
+    # Mute/unmute a single pad ("*" = all). The engine applies it to the live
+    # session and rebroadcasts /gamepad/devices; we own the persistent record.
+    def gamepad_device_enable!(pad, enabled)
+      pad = pad.to_s
+      unless pad == "*"
+        if enabled
+          @disabled_pads.delete(pad)
+        else
+          @disabled_pads << pad unless @disabled_pads.include?(pad)
+        end
+        @disabled_pads_changed_handler.call(@disabled_pads) if @disabled_pads_changed_handler
+      end
+      @gamepad_comms.send("/gamepad/enable", pad, enabled ? 1 : 0)
     end
 
     # Dual-motor rumble (magnitudes 0..1), best-effort: pads or platforms
@@ -106,20 +129,34 @@ module SonicPi
       ["/gamepad/devices", "/gamepad/devices.reply"].each do |addr|
         @gamepad_comms.add_method(addr) do |args|
           pads = parse_devices(args)
+          names = pads.map(&:first)
+          reassert_disabled_pads!(pads)
           # Drop edge state for departed pads — SuperSonic doesn't synthesise
           # releases on disconnect, so a button held at unplug would otherwise
           # swallow the first /down after a reconnect.
-          @pressed.delete_if { |(pad, _button), _| !pads.include?(pad) }
+          @pressed.delete_if { |(pad, _button), _| !names.include?(pad) }
           @updated_gamepads_handler.call(pads) if @updated_gamepads_handler
-          cue("/gamepad/devices", pads) if addr == "/gamepad/devices"
+          cue("/gamepad/devices", names) if addr == "/gamepad/devices"
         end
       end
     end
 
-    # Extract the pad-name list from a /gamepad/devices payload
-    # (n [name enabled]*): drop the count, keep the names.
+    # The engine forgets a pad's enable state when it disconnects, so a
+    # persistently-muted pad that reconnects comes back enabled — re-mute it
+    # as soon as a broadcast reports it enabled. The engine only rebroadcasts
+    # on actual state change, so this cannot loop.
+    def reassert_disabled_pads!(pairs)
+      pairs.each do |name, enabled|
+        if enabled == 1 && @disabled_pads.include?(name)
+          @gamepad_comms.send("/gamepad/enable", name, 0)
+        end
+      end
+    end
+
+    # Extract the [name, enabled] pair list from a /gamepad/devices payload
+    # (n [name enabled]*): drop the count.
     def parse_devices(args)
-      args.drop(1).each_slice(2).map(&:first)
+      args.drop(1).each_slice(2).map { |name, enabled| [name, enabled.to_i] }
     end
   end
 end

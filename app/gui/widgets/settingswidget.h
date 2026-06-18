@@ -27,6 +27,7 @@ class QSignalMapper;
 class QVBoxLayout;
 class QSizePolicy;
 class QTimer;
+class DeviceListWidget;
 
 class SettingsWidget : public QWidget
 {
@@ -39,6 +40,7 @@ public:
     void updateVersionInfo( QString info_string, QString visit, bool sonic_pi_net_visible, bool check_now_visible);
     void updateMidiInPorts( QString in );
     void updateMidiOutPorts( QString out );
+    void updateGamepadDevices( QString devices );
     void updateScsynthInfo(QString scsynthInfo);
     void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
     void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
@@ -69,7 +71,7 @@ private slots:
     void updateEnableScsynthInputs();
     void toggleOscServer();
     void toggleMidi();
-    void forceMidiReset();
+    void toggleGamepad();
     void changeMainVolume(int);
     void toggleLineNumbers();
     void showAutoCompletion();
@@ -118,9 +120,12 @@ signals:
     void enableScsynthInputsChanged();
     void oscSettingsChanged();
     void midiSettingsChanged();
+    void gamepadSettingsChanged();
+    // Per-device enable checkbox toggled (direction is "in" or "out")
+    void midiPortEnabledChanged(QString direction, QString name, bool enabled);
+    void gamepadDeviceEnabledChanged(QString name, bool enabled);
     // SuperSonic-wide network visibility: 0=Off, 1=Loopback, 2=Network.
     void supersonicNetworkVisibilityChanged(int mode);
-    void resetMidi();
     void volumeChanged(int vol);
     void showLineNumbersChanged();
     void showAutoCompletionChanged();
@@ -229,6 +234,7 @@ private:
 
     QComboBox *midi_default_channel_combo;
     QCheckBox *midi_enable_check;
+    QCheckBox *gamepad_enable_check;
     QCheckBox *osc_public_check;
     QCheckBox *osc_server_enabled_check;
 
@@ -253,8 +259,9 @@ private:
     QPushButton *check_studio_hash;
     QLineEdit   *user_token;
     QLabel *update_info;
-    QLabel *midi_in_ports_label;
-    QLabel *midi_out_ports_label;
+    DeviceListWidget *midi_in_ports_list;
+    DeviceListWidget *midi_out_ports_list;
+    DeviceListWidget *gamepad_devices_list;
     QLabel *supersonic_ascii_label;
     QLabel *supersonic_version_label;
     QGroupBox *supersonicBox;

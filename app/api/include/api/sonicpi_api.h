@@ -302,6 +302,10 @@ struct IAPIClient
     virtual void Status(const StatusInfo& info) = 0;
     virtual void Cue(const CueInfo& info) = 0;
     virtual void Midi(const MidiInfo& info) = 0;
+    // Connected game-controller list, one device per line as
+    // "enabled<TAB>name" (empty = none). Default no-op so non-GUI
+    // consumers don't need to react.
+    virtual void GamepadDevices(const std::string& devices) {}
     virtual void Version(const VersionInfo& info) = 0;
     virtual void AudioDataAvailable(ProcessedAudioPtr audio) = 0;
     virtual void Buffer(const BufferInfo& info) = 0;

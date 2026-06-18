@@ -23,7 +23,8 @@ module SonicPi
         @settings_path = settings_path
         begin
           content = File.read(@settings_path)
-          cur_settings =  MultiJson.load(content)
+          # get/set key on symbols, so loaded keys must be symbols too
+          cur_settings = MultiJson.load(content, symbolize_keys: true)
         rescue
           cur_settings = {}
         end
@@ -34,11 +35,10 @@ module SonicPi
       def get(k, default=nil)
         k = k.to_sym
         @sem.synchronize do
-          if @settings.has_key?(k)
-            @settings[k]
-          else
-            default
-          end
+          v = @settings[k]
+          # Treat an explicit JSON null the same as a missing key — callers
+          # passing a default expect never to receive nil back.
+          v.nil? ? default : v
         end
       end
 

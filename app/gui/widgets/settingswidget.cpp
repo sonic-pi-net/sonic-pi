@@ -1,4 +1,5 @@
 #include "settingswidget.h"
+#include "devicelistwidget.h"
 #include "mainwindow.h"
 #include "utils/sonicpi_i18n.h"
 #include "dpi.h"
@@ -478,11 +479,6 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_enable_check = new QCheckBox(tr("Enable incoming MIDI cues"));
     midi_enable_check->setToolTip(tr("Enable or disable automatic conversion of incoming MIDI messages to cue events"));
 
-    QPushButton *midi_reset_button = new QPushButton(tr("Reset MIDI"));
-    midi_reset_button->setFlat(true);
-    midi_reset_button->setToolTip(tr("Reset MIDI subsystems\n(Required to detect device changes on some platforms)"));
-    midi_reset_button->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
-
     midi_default_channel_combo = new QComboBox();
     midi_default_channel_combo->addItem("* (" + tr("all") + ")");
     for (int ch = 1; ch <= 16; ++ch) {
@@ -503,35 +499,61 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_default_channel_layout->addWidget(midi_default_channel_combo, 0, 0);
     midi_default_channel_layout->addWidget(midi_default_channel_label, 0, 1);
 
-    midi_in_ports_label = new QLabel;
-    midi_out_ports_label = new QLabel;
-    midi_in_ports_label->setFont(QFont("Hack"));
-    midi_out_ports_label->setFont(QFont("Hack"));
-    midi_in_ports_label->setAccessibleName("midi-in-ports-label");
-    midi_out_ports_label->setAccessibleName("midi-out-ports-label");
-    midi_in_ports_label->setText(tr("No connected input devices"));
-    midi_out_ports_label->setText(tr("No connected output devices"));
-    midi_in_ports_label->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
-    midi_out_ports_label->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
+    midi_in_ports_list = new DeviceListWidget(tr("No connected input devices"));
+    midi_out_ports_list = new DeviceListWidget(tr("No connected output devices"));
+    midi_in_ports_list->setAccessibleName("midi-in-ports-list");
+    midi_out_ports_list->setAccessibleName("midi-out-ports-list");
+    midi_in_ports_list->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
+    midi_out_ports_list->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
+
+    QLabel *midi_in_header = new QLabel(tr("Inputs"));
+    QLabel *midi_out_header = new QLabel(tr("Outputs"));
+    midi_in_header->setStyleSheet("font-weight: bold;");
+    midi_out_header->setStyleSheet("font-weight: bold;");
+
+    connect(midi_in_ports_list, &DeviceListWidget::deviceToggled, this,
+            [this](const QString& name, bool enabled) { emit midiPortEnabledChanged("in", name, enabled); });
+    connect(midi_out_ports_list, &DeviceListWidget::deviceToggled, this,
+            [this](const QString& name, bool enabled) { emit midiPortEnabledChanged("out", name, enabled); });
 
     QVBoxLayout *midi_ports_box_layout = new QVBoxLayout;
     QVBoxLayout *midi_config_box_layout = new QVBoxLayout;
     midi_config_box_layout->addWidget(midi_enable_check);
     midi_config_box_layout->addLayout(midi_default_channel_layout);
 
-    midi_ports_box_layout->addWidget(midi_in_ports_label);
-    midi_ports_box_layout->addWidget(midi_out_ports_label);
-    midi_ports_box_layout->addWidget(midi_reset_button, 0, Qt::AlignLeft);
-
-    connect(midi_reset_button, SIGNAL(clicked()), this, SLOT(forceMidiReset()));
+    midi_ports_box_layout->addWidget(midi_in_header);
+    midi_ports_box_layout->addWidget(midi_in_ports_list);
+    midi_ports_box_layout->addSpacing(8);
+    midi_ports_box_layout->addWidget(midi_out_header);
+    midi_ports_box_layout->addWidget(midi_out_ports_list);
+    midi_ports_box_layout->addStretch(1);
 
     midi_ports_box->setLayout(midi_ports_box_layout);
     midi_config_box->setLayout(midi_config_box_layout);
 
+    QGroupBox *gamepad_box = new QGroupBox(tr("Game Controllers"));
+    gamepad_box->setToolTip(tr("Configure game controller behaviour"));
+
+    gamepad_enable_check = new QCheckBox(tr("Enable incoming gamepad cues"));
+    gamepad_enable_check->setToolTip(tr("Enable or disable automatic conversion of game controller\nbutton and axis events to cue events"));
+
+    gamepad_devices_list = new DeviceListWidget(tr("No connected game controllers"));
+    gamepad_devices_list->setAccessibleName("gamepad-devices-list");
+    gamepad_devices_list->setToolTip(tr("Connected game controllers send button and axis events\nto Sonic Pi which are received as cue events"));
+
+    connect(gamepad_devices_list, &DeviceListWidget::deviceToggled, this,
+            [this](const QString& name, bool enabled) { emit gamepadDeviceEnabledChanged(name, enabled); });
+
+    QVBoxLayout *gamepad_box_layout = new QVBoxLayout;
+    gamepad_box_layout->addWidget(gamepad_enable_check);
+    gamepad_box_layout->addWidget(gamepad_devices_list);
+    gamepad_box->setLayout(gamepad_box_layout);
+
     QGridLayout *io_tab_layout = new QGridLayout();
-    io_tab_layout->addWidget(midi_ports_box, 0, 0, 0, 1);
+    io_tab_layout->addWidget(midi_ports_box, 0, 0, 3, 1);
     io_tab_layout->addWidget(midi_config_box, 0, 1);
-    io_tab_layout->addWidget(network_box, 1, 1);
+    io_tab_layout->addWidget(gamepad_box, 1, 1);
+    io_tab_layout->addWidget(network_box, 2, 1);
 
     ioTab->setLayout(io_tab_layout);
     return ioTab;
@@ -1594,16 +1616,20 @@ void SettingsWidget::toggleMidi() {
     emit midiSettingsChanged();
 }
 
-void SettingsWidget::forceMidiReset() {
-    emit resetMidi();
+void SettingsWidget::toggleGamepad() {
+    emit gamepadSettingsChanged();
 }
 
 void SettingsWidget::updateMidiInPorts( QString in ) {
-    midi_in_ports_label->setText( in );
+    midi_in_ports_list->setDevices( in );
 }
 
 void SettingsWidget::updateMidiOutPorts( QString out ) {
-    midi_out_ports_label->setText( out );
+    midi_out_ports_list->setDevices( out );
+}
+
+void SettingsWidget::updateGamepadDevices( QString devices ) {
+    gamepad_devices_list->setDevices( devices );
 }
 
 void SettingsWidget::updateScsynthInfo( QString scsynthInfo ) {
@@ -2200,6 +2226,7 @@ void SettingsWidget::updateSettings() {
     piSettings->midi_default_channel = midi_default_channel_combo->currentIndex();
     piSettings->midi_default_channel_str = channel_pat_str;
     piSettings->midi_enabled = midi_enable_check->isChecked();
+    piSettings->gamepad_enabled = gamepad_enable_check->isChecked();
 
     piSettings->auto_indent_on_run = auto_indent_on_run->isChecked();
     piSettings->show_line_numbers = show_line_numbers->isChecked();
@@ -2261,6 +2288,7 @@ void SettingsWidget::settingsChanged() {
     midi_default_channel_combo->setCurrentIndex(piSettings->midi_default_channel);
     piSettings->midi_default_channel_str = midi_default_channel_combo->currentText(); // TODO find a more elegant solution
     midi_enable_check->setChecked(piSettings->midi_enabled);
+    gamepad_enable_check->setChecked(piSettings->gamepad_enabled);
 
     auto_indent_on_run->setChecked(piSettings->auto_indent_on_run);
 
@@ -2324,6 +2352,8 @@ void SettingsWidget::connectAll() {
     connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(osc_public_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(midi_enable_check, SIGNAL(clicked()), this, SLOT(toggleMidi()));
+    connect(gamepad_enable_check, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(gamepad_enable_check, SIGNAL(clicked()), this, SLOT(toggleGamepad()));
     connect(osc_server_enabled_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
     connect(osc_public_check, SIGNAL(clicked()), this, SLOT(toggleOscServer()));
 

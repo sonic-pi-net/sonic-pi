@@ -500,6 +500,19 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 LOG(ERR, "Unhandled OSC msg /midi/in-ports");
             }
         }
+        else if (msg->match("/gamepad/devices-list"))
+        {
+            std::string devices;
+            if (msg->arg().popStr(devices).isOkNoMoreArgs())
+            {
+                LOG(DBG, "/gamepad/devices-list: " << devices);
+                m_pClient->GamepadDevices(devices);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /gamepad/devices-list");
+            }
+        }
         else if (msg->match("/version"))
         {
             VersionInfo versionInfo;

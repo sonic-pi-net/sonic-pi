@@ -460,7 +460,9 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
     connect(settingsWidget, SIGNAL(enableScsynthInputsChanged()), this, SLOT(changeEnableScsynthInputs()));
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
-    connect(settingsWidget, SIGNAL(resetMidi()), this, SLOT(resetMidi()));
+    connect(settingsWidget, SIGNAL(gamepadSettingsChanged()), this, SLOT(toggleGamepad()));
+    connect(settingsWidget, &SettingsWidget::midiPortEnabledChanged, this, &MainWindow::setMidiPortEnabled);
+    connect(settingsWidget, &SettingsWidget::gamepadDeviceEnabledChanged, this, &MainWindow::setGamepadDeviceEnabled);
     connect(settingsWidget, SIGNAL(oscSettingsChanged()), this, SLOT(toggleOSCServer()));
     // Slider drives only the Link mesh reach; the OSC bind scope stays
     // on the prefs IO checkboxes.
@@ -1804,6 +1806,7 @@ void MainWindow::honourPrefs()
     changeScopeLabels();
     changeTitleVisibility();
     toggleMidi(1);
+    toggleGamepad(1);
     toggleOSCServer(1);
     toggleIcons();
     scope();
@@ -4655,6 +4658,7 @@ void MainWindow::readSettings()
     piSettings->osc_public = gui_settings->value("prefs/osc-public", false).toBool();
     piSettings->osc_server_enabled = gui_settings->value("prefs/osc-enabled", true).toBool();
     piSettings->midi_enabled = gui_settings->value("prefs/midi-enable", true).toBool();
+    piSettings->gamepad_enabled = gui_settings->value("prefs/gamepad-enable", true).toBool();
     piSettings->midi_default_channel = gui_settings->value("prefs/midi-default-channel", 0).toInt();
     piSettings->check_args = gui_settings->value("prefs/check-args", true).toBool();
     piSettings->log_synths = gui_settings->value("prefs/log-synths", true).toBool();
@@ -4732,6 +4736,7 @@ void MainWindow::writeSettings()
 
     gui_settings->setValue("prefs/midi-default-channel", piSettings->midi_default_channel);
     gui_settings->setValue("prefs/midi-enable", piSettings->midi_enabled);
+    gui_settings->setValue("prefs/gamepad-enable", piSettings->gamepad_enabled);
     gui_settings->setValue("prefs/osc-public", piSettings->osc_public);
     gui_settings->setValue("prefs/osc-enabled", piSettings->osc_server_enabled);
 
@@ -5219,27 +5224,46 @@ void MainWindow::toggleMidi(int silent)
     }
 }
 
-void MainWindow::resetMidi()
+void MainWindow::toggleGamepad(int silent)
 {
-    if (piSettings->midi_enabled)
+    if (piSettings->gamepad_enabled)
     {
-
-        ioMidiOutMenu->clear();
-        ioMidiOutMenu->addAction(tr("No Connected Outputs"));
-        ioMidiInMenu->clear();
-        ioMidiInMenu->addAction(tr("No Connected Inputs"));
-
-        settingsWidget->updateMidiInPorts(tr("No connected input devices"));
-        settingsWidget->updateMidiOutPorts(tr("No connected output devices"));
-        statusBar()->showMessage(tr("Resetting MIDI..."), 2000);
-        Message msg("/midi-reset");
+        statusBar()->showMessage(tr("Enabling gamepad input..."), 2000);
+        Message msg("/gamepad-start");
         msg.pushInt32(guiID);
+        msg.pushInt32(silent);
         sendOSC(msg);
     }
     else
     {
-        statusBar()->showMessage(tr("MIDI is disabled..."), 2000);
+        statusBar()->showMessage(tr("Disabling gamepad input..."), 2000);
+        Message msg("/gamepad-stop");
+        msg.pushInt32(guiID);
+        msg.pushInt32(silent);
+        sendOSC(msg);
     }
+}
+
+// Per-device mute persistence lives server-side (the spider's settings
+// store) — the GUI just forwards the toggle and displays whatever the
+// device-list broadcasts report.
+void MainWindow::setMidiPortEnabled(QString direction, QString name, bool enabled)
+{
+    Message msg("/midi-port-enable");
+    msg.pushInt32(guiID);
+    msg.pushStr(direction.toStdString());
+    msg.pushStr(name.toStdString());
+    msg.pushInt32(enabled ? 1 : 0);
+    sendOSC(msg);
+}
+
+void MainWindow::setGamepadDeviceEnabled(QString name, bool enabled)
+{
+    Message msg("/gamepad-enable");
+    msg.pushInt32(guiID);
+    msg.pushStr(name.toStdString());
+    msg.pushInt32(enabled ? 1 : 0);
+    sendOSC(msg);
 }
 
 void MainWindow::toggleOSCServer(int silent)
@@ -5343,47 +5367,58 @@ void MainWindow::zoomOutLogs()
     incomingPane->zoomOut();
 }
 
+// Parse "enabled<TAB>name" device lines (bare names = enabled).
+static QList<QPair<QString, bool>> parseDeviceLines(const QString& info)
+{
+    QList<QPair<QString, bool>> out;
+    for (const QString& rawLine : info.split('\n', Qt::SkipEmptyParts))
+    {
+        const QString line = rawLine.trimmed();
+        if (line.isEmpty()) continue;
+        const int tab = line.indexOf('\t');
+        const QString name = (tab >= 0) ? line.mid(tab + 1).trimmed() : line;
+        const bool enabled = (tab < 0) || (line.left(tab).trimmed() != "0");
+        if (!name.isEmpty()) out.append({ name, enabled });
+    }
+    return out;
+}
+
 void MainWindow::updateMIDIInPorts(QString port_info)
 {
-    QString input_header = tr("Connected MIDI inputs") + ":\n\n";
-    settingsWidget->updateMidiInPorts(input_header + port_info);
+    settingsWidget->updateMidiInPorts(port_info);
+    const auto devices = parseDeviceLines(port_info);
     ioMidiInMenu->clear();
-    port_info = port_info.trimmed();
-    if (port_info.isEmpty())
+    if (devices.isEmpty())
     {
         ioMidiInMenu->addAction(tr("No Connected Inputs"));
     }
     else
     {
-        QStringList input_ports = port_info.split("\n");
-
-        for (int i = 0; i < input_ports.size(); ++i)
-        {
-            ioMidiInMenu->addAction(input_ports.at(i));
-        }
+        for (const auto& d : devices) ioMidiInMenu->addAction(d.first);
     }
 }
 
 void MainWindow::updateMIDIOutPorts(QString port_info)
 {
-    QString output_header = tr("Connected MIDI outputs") + ":\n\n";
-    settingsWidget->updateMidiOutPorts(output_header + port_info);
-    autocomplete->updateMidiOuts(port_info);
+    settingsWidget->updateMidiOutPorts(port_info);
+    const auto devices = parseDeviceLines(port_info);
+    QStringList names;
+    for (const auto& d : devices) names << d.first;
+    autocomplete->updateMidiOuts(names.join("\n"));
     ioMidiOutMenu->clear();
-    port_info = port_info.trimmed();
-    if (port_info.isEmpty())
+    if (devices.isEmpty())
     {
         ioMidiOutMenu->addAction(tr("No Connected Outputs"));
     }
     else
     {
-        QStringList output_ports = port_info.split("\n");
-
-        for (int i = 0; i < output_ports.size(); ++i)
-        {
-            ioMidiOutMenu->addAction(output_ports.at(i));
-        }
+        for (const auto& d : devices) ioMidiOutMenu->addAction(d.first);
     }
+}
+
+void MainWindow::updateGamepadDevices(QString devices)
+{
+    settingsWidget->updateGamepadDevices(devices);
 }
 
 void MainWindow::focusPane(QWidget* pane)

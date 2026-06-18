@@ -164,6 +164,11 @@ void QtAPIClient::MidiGui(const MidiInfo& info)
 
 }
 
+void QtAPIClient::GamepadDevicesGui(const QString& devices)
+{
+    m_pMainWindow->updateGamepadDevices(devices);
+}
+
 void QtAPIClient::VersionGui(const VersionInfo& info)
 {
     QDate date = QDate(info.lastCheckedYear, info.lastCheckedMonth, info.lastCheckedDay);
@@ -220,6 +225,12 @@ void QtAPIClient::Status(const StatusInfo& info)
 void QtAPIClient::Midi(const MidiInfo& info)
 {
     QMetaObject::invokeMethod(this, "MidiGui", Qt::QueuedConnection, Q_ARG(SonicPi::MidiInfo, info));
+}
+
+void QtAPIClient::GamepadDevices(const std::string& devices)
+{
+    QMetaObject::invokeMethod(this, "GamepadDevicesGui", Qt::QueuedConnection,
+                              Q_ARG(QString, QString::fromStdString(devices)));
 }
 
 void QtAPIClient::Version(const VersionInfo& info)
