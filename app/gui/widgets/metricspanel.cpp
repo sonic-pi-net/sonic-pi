@@ -33,13 +33,18 @@
 #include <QHideEvent>
 #include <QLabel>
 #include <QProgressBar>
+#include <QResizeEvent>
 #include <QScrollArea>
+#include <QScrollBar>
 #include <QShowEvent>
 #include <QSizePolicy>
 #include <QSplitter>
 #include <QSplitterHandle>
 #include <QStyle>
+#include <QTextDocument>
 #include <QTextEdit>
+#include <QTextFrame>
+#include <QTextFrameFormat>
 #include <QTime>
 #include <QTimer>
 #include <QToolButton>
@@ -49,6 +54,7 @@
 #include <QMouseEvent>
 
 #include "chevronbutton.h"
+#include "dpi.h"
 
 // ─── Static layout model ────────────────────────────────────────────────
 //
@@ -463,7 +469,9 @@ void MetricsPanel::buildUi()
 
     mainRow->setStretchFactor(0, 618);  // (tree + metrics) : logs ≈ golden ratio
     mainRow->setStretchFactor(1, 382);
-    mainRow->setHandleWidth(6);
+    // Match the rest of the app's dividers, which app.qss sizes as 6dx.
+    const int kHandleW = ScaleHeightForDPI(6);
+    mainRow->setHandleWidth(kHandleW);
     mainRow->setChildrenCollapsible(false);
 
     // Both vertical columns are draggable, and laid out by revealColumns()
@@ -474,7 +482,7 @@ void MetricsPanel::buildUi()
         // handle, leaving the divider bar (and its chevron) draggable even when
         // the metrics are minimised to nothing.
         col->setChildrenCollapsible(false);
-        col->setHandleWidth(6);
+        col->setHandleWidth(kHandleW);
         for (int i = 0; i < col->count(); ++i)
         {
             QWidget* child = col->widget(i);
@@ -624,6 +632,61 @@ void MetricsPanel::buildNodeColumn(QSplitter* topRow)
     topRow->addWidget(card);
 }
 
+namespace
+{
+// Read-only log view that behaves like a terminal: newest lines sit at the
+// bottom. When the text is taller than the view it scrolls and stays pinned to
+// the bottom (unless the user scrolls up); when it's shorter, a top margin
+// pushes it down so the empty space is above, not below.
+class LogView : public QTextEdit
+{
+public:
+    explicit LogView(QWidget* parent = nullptr) : QTextEdit(parent)
+    {
+        connect(verticalScrollBar(), &QScrollBar::valueChanged, this,
+                [this](int v) { m_pinned = v >= verticalScrollBar()->maximum() - 2; });
+        connect(document(), &QTextDocument::contentsChanged, this,
+                [this]() { updateBottomFill(); });
+    }
+
+protected:
+    void resizeEvent(QResizeEvent* e) override
+    {
+        QTextEdit::resizeEvent(e);
+        updateBottomFill();
+    }
+
+private:
+    void updateBottomFill()
+    {
+        QScrollBar* sb = verticalScrollBar();
+        const bool atBottom = m_pinned || sb->value() >= sb->maximum() - 2;
+
+        // Bottom-align by pushing the content down with a top margin on the
+        // document's root frame (the widget won't reset this, unlike the
+        // viewport margins). The document height already includes the current
+        // margin, so subtract it to get the content's own height.
+        const int contentH = document()->size().toSize().height() - m_topGap;
+        const int gap = qMax(0, viewport()->height() - contentH);
+        if (gap != m_topGap)
+        {
+            m_topGap = gap;
+            if (QTextFrame* root = document()->rootFrame())
+            {
+                QTextFrameFormat fmt = root->frameFormat();
+                fmt.setTopMargin(gap);
+                root->setFrameFormat(fmt);
+            }
+        }
+        if (atBottom)
+            sb->setValue(sb->maximum());
+    }
+
+    bool m_pinned = true;
+    int m_topGap = 0;
+};
+} // namespace
+
 void MetricsPanel::buildLogs(QSplitter* col)
 {
     QFont mono = makeMonoFont();
@@ -637,7 +700,7 @@ void MetricsPanel::buildLogs(QSplitter* col)
         t->setFont(mono);
         m_rowLabels.append(t);
 
-        auto* view = new QTextEdit(card);
+        auto* view = new LogView(card);
         view->setReadOnly(true);
         view->setFont(mono);
         view->setLineWrapMode(QTextEdit::NoWrap);
@@ -725,7 +788,8 @@ void MetricsPanel::drainEgressRing(bool nrt)
     ring_view   rv  = nrt ? m_api->AudioProcessor_GetDebugRing()
                           : m_api->AudioProcessor_GetOutRing();
     RingCursor& cur = nrt ? m_debugCursor : m_outCursor;
-    const QString cMuted = m_theme ? m_theme->color("CommentForeground").name() : kindColor(K_Muted).name();
+    // Debug-line timestamps in the Sonic Pi accent blue.
+    const QString cTime = m_theme ? m_theme->color("ScrollBarHover").name() : QStringLiteral("#7aa2f7");
     walkRing(rv, cur, m_scratch,
         [&](uint32_t seq, uint32_t src, const uint8_t* payload, uint32_t n) {
             // NRT-out frames carry a leading [route:u32] word (OUT too once
@@ -746,7 +810,7 @@ void MetricsPanel::drainEgressRing(bool nrt)
                     if (!text.isEmpty()) {
                         const QString ts = QTime::currentTime().toString(QStringLiteral("HH:mm:ss.zzz"));
                         m_debugView->append(QStringLiteral("<span style=\"color:%1\">[%2]</span> %3")
-                                                .arg(cMuted, ts, text.toHtmlEscaped()));
+                                                .arg(cTime, ts, text.toHtmlEscaped()));
                     }
                     return;
                 }
@@ -963,11 +1027,19 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QFrame#ssCell[lastrow=\"true\"] { border-bottom:none; }"
         // #ssCardFlat is the same card without the border (node tree, logs).
         "QFrame#ssCard { border:1px solid %3; border-radius:4px; }"
-        "QLabel#ssCardTitle { color:%5; padding-bottom:3px; border-bottom:1px solid %6; }"
+        "QLabel#ssCardTitle { color:%5; padding-bottom:3px; }"
         "QLabel[ssRole=\"rowlabel\"] { color:%4; }"
         "QTextEdit { color:%2; background:%1; border:none; }"
-        "QSplitter::handle { background:%7; image:none; }"
-        "QSplitter::handle:hover { background:%8; }")
+        // Plain themed line: the app-wide handle's grip image (app.qss
+        // url(images/...)) doesn't resolve in this widget's stylesheet scope, so
+        // it would render as an invisible handle here. Thickness is unified via
+        // setHandleWidth(ScaleHeightForDPI(6)) instead. Orientation-specific so
+        // these win over app.qss's ::handle:horizontal/:vertical rules — needed
+        // for the hover colour to take effect.
+        "QSplitter::handle:horizontal { background:%7; image:none; }"
+        "QSplitter::handle:vertical { background:%7; image:none; }"
+        "QSplitter::handle:horizontal:hover { background:%8; }"
+        "QSplitter::handle:vertical:hover { background:%8; }")
         .arg(bg, fg, border, dim, muted, faint).arg(winBorder, hover));
 
     // The chevron grip is painted by ChevronButton (not styled via QSS): fill

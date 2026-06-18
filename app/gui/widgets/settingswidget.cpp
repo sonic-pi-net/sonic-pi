@@ -637,9 +637,9 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
         "#themeSegControl { background: rgba(127,127,127,70); border-radius: 7px; }"
         // color: explicit — the global QPushButton rule uses buttonTextColor,
         // which is white-on-light for the Light / High Contrast themes.
-        "#themeSegControl QPushButton { border: none; padding: 6px 16px; border-radius: 5px;"
+        "#themeSegControl QPushButton { border: none; padding: 5px 16px; border-radius: 5px;"
         " background: transparent; color: palette(window-text); text-align: left;"
-        " font-size: 14px; height: 30px; }"
+        " font-size: medium; }"
         "#themeSegControl QPushButton:hover:!checked { background: rgba(127,127,127,70); }"
         "#themeSegControl QPushButton:checked { background: palette(highlight);"
         " color: palette(highlighted-text); }");
