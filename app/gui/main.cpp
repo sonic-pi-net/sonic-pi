@@ -58,14 +58,13 @@ int main(int argc, char* argv[])
     // linux code goes here
 #elif defined(Q_OS_WIN)
     // windows code goes here
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    // High-DPI scaling and pixmaps are always on in Qt6; only the GL
+    // backend hint still does anything.
     QApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
 
 #elif defined(Q_OS_DARWIN)
     // macOS code goes here
     SonicPi::removeMacosSpecificMenuItems();
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
     QApplication app(argc, argv);
