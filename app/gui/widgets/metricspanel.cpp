@@ -37,11 +37,18 @@
 #include <QShowEvent>
 #include <QSizePolicy>
 #include <QSplitter>
+#include <QSplitterHandle>
+#include <QStyle>
 #include <QTextEdit>
 #include <QTime>
 #include <QTimer>
+#include <QToolButton>
 #include <QVBoxLayout>
 #include <QHash>
+#include <QEvent>
+#include <QMouseEvent>
+
+#include "chevronbutton.h"
 
 // ─── Static layout model ────────────────────────────────────────────────
 //
@@ -77,6 +84,17 @@ constexpr int kPanelFieldCount  = 53;
 
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
+
+// Per-widget reveal heights (logical px). As a column grows, each widget in
+// turn grows to its reveal height before the next begins to appear; once every
+// widget is revealed the surplus is shared evenly between them.
+constexpr int kTreeReveal    = 220;  // left:  node tree
+constexpr int kMetricsReveal = 220;  // left:  metrics grid
+constexpr int kLogReveal     = 150;  // right: each of Debug / To / From
+
+// Approx height of one metric card row; used to decide how many rows of cards
+// fit the metrics pane so they re-flow (down to a single row when it's short).
+constexpr int kCardRowH = 100;
 
 // Ring capacities, mirrored from external/supersonic/src/memory_profile.h
 // (IN/OUT/NRT_OUT_BUFFER_SIZE); used to scale the level bars.
@@ -351,7 +369,13 @@ void MetricsPanel::buildUi()
     auto* scroll = new QScrollArea;
     scroll->setWidgetResizable(true);
     scroll->setFrameShape(QFrame::NoFrame);
-    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // Horizontal AsNeeded keeps the scroll area's minimum width small so the
+    // left column can shrink and the main divider stays freely draggable; the
+    // grid scrolls sideways when narrow.
+    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    // Vertical AlwaysOn reserves the scrollbar gutter so the viewport width is
+    // constant at any height.
+    scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
     auto* content = new QWidget;
     content->setObjectName("ssZones");
@@ -394,10 +418,10 @@ void MetricsPanel::buildUi()
         }
     };
 
-    // Equal row + column stretch sizes every cell the same; rows top-packed.
+    // Build the cards; their placement in the grid is done by reflowMetricsGrid
+    // so they can re-flow by the available height (a single row when short).
     const auto& panels = panelLayout();
     const int nPanels = static_cast<int>(panels.size());
-    const int kCols = 5;
     for (int p = 0; p < nPanels; ++p)
     {
         const PanelDef& panel = panels[p];
@@ -420,37 +444,92 @@ void MetricsPanel::buildUi()
         body->addLayout(rows);
         body->addStretch(1);
 
-        const int col = p % kCols;
-        // Bottom-row cells drop their bottom border (no line on the window edge).
-        if (p / kCols == (nPanels - 1) / kCols)
-            card->setProperty("lastrow", true);
-        // Final panel spans any leftover columns (no empty trailing cell).
-        const int colSpan = (p == nPanels - 1) ? (kCols - col) : 1;
-        grid->addWidget(card, p / kCols, col, 1, colSpan);
+        m_metricsCards.append(card);
     }
-    const int kRows = (nPanels + kCols - 1) / kCols;
-    for (int c = 0; c < kCols; ++c)  grid->setColumnStretch(c, 1);
-    for (int rr = 0; rr < kRows; ++rr) grid->setRowStretch(rr, 1);
+    m_metricsGrid = grid;
+    m_metricsScroll = scroll;
+    reflowMetricsGrid(5);   // initial: the full five-column grid
+
     scroll->setWidget(content);
+    scroll->viewport()->installEventFilter(this);   // re-flow when the pane height changes
 
     leftCol->addWidget(scroll);
     mainRow->addWidget(leftCol);
 
     auto* rightCol = new QSplitter(Qt::Vertical);
+    m_rightSplit = rightCol;
     buildLogs(rightCol);
     mainRow->addWidget(rightCol);
 
     mainRow->setStretchFactor(0, 618);  // (tree + metrics) : logs ≈ golden ratio
     mainRow->setStretchFactor(1, 382);
-    leftCol->setStretchFactor(0, 1);    // node tree : metrics, even split
-    leftCol->setStretchFactor(1, 1);
+    mainRow->setHandleWidth(6);
+    mainRow->setChildrenCollapsible(false);
 
-    for (QSplitter* s : { mainRow, leftCol, rightCol })
+    // Both vertical columns are draggable, and laid out by revealColumns()
+    // until the user drags a divider (then that column is left to the user).
+    for (QSplitter* col : { leftCol, rightCol })
     {
-        s->setHandleWidth(6);
-        s->setChildrenCollapsible(false);
+        // Non-collapsible so a zero-height pane stays visible and keeps its
+        // handle, leaving the divider bar (and its chevron) draggable even when
+        // the metrics are minimised to nothing.
+        col->setChildrenCollapsible(false);
+        col->setHandleWidth(6);
+        for (int i = 0; i < col->count(); ++i)
+        {
+            QWidget* child = col->widget(i);
+            // Let the card layouts shrink below their content width, and give
+            // each pane a small explicit minimum, so columns stay narrow enough
+            // for the main divider to move. Ignored vertical policy + a zero
+            // height floor let the reveal ease a pane up from nothing.
+            if (QLayout* l = child->layout())
+                l->setSizeConstraint(QLayout::SetNoConstraint);
+            child->setMinimumSize(80, 0);
+            QSizePolicy sp = child->sizePolicy();
+            sp.setVerticalPolicy(QSizePolicy::Ignored);
+            child->setSizePolicy(sp);
+        }
+        col->installEventFilter(this);   // track height changes to re-reveal
     }
-    leftCol->setCollapsible(0, true);
+
+    // Chevron grip on the node-tree / metrics divider. Parented to the panel,
+    // not the splitter (a QSplitter would adopt a child widget as a pane), so
+    // it floats as an overlay, positioned onto the divider by
+    // positionMetricsToggle().
+    m_metricsToggle = new ChevronButton(this);
+    m_metricsToggle->setFixedSize(48, 22);
+    connect(m_metricsToggle, &QToolButton::clicked, this, &MetricsPanel::toggleMetrics);
+    m_metricsToggle->setDragHandler([this](const QPoint& g) { dragMetricsDividerTo(g); });
+    updateChevron();
+
+    // Double-clicking the divider line itself toggles the metrics too, as if
+    // the chevron were clicked (handled in eventFilter).
+    if (QSplitterHandle* h = leftCol->handle(1))
+        h->installEventFilter(this);
+
+    // Dragging a column's divider takes it out of auto-reveal (so the drag
+    // isn't undone on the next dock resize). The left column also re-anchors
+    // the chevron knob onto its moved divider and keeps the chevron's
+    // minimised state (and remembered height) in sync with the drag.
+    connect(leftCol, &QSplitter::splitterMoved, this, [this, leftCol](int, int) {
+        m_leftManual = true;
+        const QList<int> s = leftCol->sizes();
+        if (s.size() > 1)
+        {
+            const bool collapsed = s[1] <= 2;   // dragged (almost) shut
+            if (s[1] > 0)
+                m_savedMetricsH = s[1];
+            if (m_metricsMinimised != collapsed)
+            {
+                m_metricsMinimised = collapsed;
+                updateChevron();
+            }
+        }
+        positionMetricsToggle();
+    });
+    connect(rightCol, &QSplitter::splitterMoved, this, [this](int, int) {
+        m_rightManual = true;
+    });
 
     renderDisconnected();
 }
@@ -891,6 +970,14 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QSplitter::handle:hover { background:%8; }")
         .arg(bg, fg, border, dim, muted, faint).arg(winBorder, hover));
 
+    // The chevron grip is painted by ChevronButton (not styled via QSS): fill
+    // with the exact divider-line colour, brighten to the accent on hover like
+    // the splitter handle, glyph in the foreground colour.
+    if (m_metricsToggle)
+        m_metricsToggle->setColors(theme->color("WindowBorder"),
+                                   theme->color("ScrollBarHover"),
+                                   m_textColor);
+
     if (m_nodeGraph)
         m_nodeGraph->applyTheme(m_textColor, m_bgColor, m_borderColor,
                                 theme->color("NumberForeground"),             // group  (blue)
@@ -921,29 +1008,24 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         renderDisconnected();
 }
 
+void MetricsPanel::seedMainSplit()
+{
+    // Seed once, the first time the splitter has a real width.
+    if (m_splitInit || !m_mainSplit || m_mainSplit->width() <= 0)
+        return;
+    constexpr double kPhi = 0.618;
+    const int w = m_mainSplit->width();
+    m_mainSplit->setSizes({ int(w * kPhi), w - int(w * kPhi) });
+    m_splitInit = true;
+}
+
 void MetricsPanel::showEvent(QShowEvent* e)
 {
     QWidget::showEvent(e);
-
-    // Seed the split positions once the panel has a real size.
-    if (!m_splitInit)
-    {
-        constexpr double kPhi = 0.618;
-        if (m_mainSplit && m_mainSplit->width() > 0)
-        {
-            const int w = m_mainSplit->width();
-            m_mainSplit->setSizes({ int(w * kPhi), w - int(w * kPhi) });
-        }
-        if (m_leftSplit && m_leftSplit->height() > 0)
-        {
-            const int h = m_leftSplit->height();
-            m_leftSplit->setSizes({ h / 2, h - h / 2 });  // tree : metrics — half/half
-        }
-        if ((m_mainSplit && m_mainSplit->width() > 0) ||
-            (m_leftSplit && m_leftSplit->height() > 0))
-            m_splitInit = true;
-    }
-
+    seedMainSplit();
+    revealColumns();
+    if (m_metricsToggle)
+        m_metricsToggle->raise();   // keep the chevron grip on top
     refresh();
     m_timer->start();
 }
@@ -952,4 +1034,250 @@ void MetricsPanel::hideEvent(QHideEvent* e)
 {
     QWidget::hideEvent(e);
     m_timer->stop();
+}
+
+bool MetricsPanel::eventFilter(QObject* obj, QEvent* e)
+{
+    if ((obj == m_leftSplit || obj == m_rightSplit) && e->type() == QEvent::Resize)
+        revealColumns();
+    // Re-flow the metric cards (one row when the pane is short) as it resizes.
+    else if (m_metricsScroll && obj == m_metricsScroll->viewport() && e->type() == QEvent::Resize)
+        reflowMetrics();
+    // Double-click on the node-tree / metrics divider toggles the metrics.
+    else if (e->type() == QEvent::MouseButtonDblClick && m_leftSplit &&
+             obj == m_leftSplit->handle(1))
+    {
+        toggleMetrics();
+        return true;
+    }
+    return QWidget::eventFilter(obj, e);
+}
+
+namespace
+{
+// Progressive top-down reveal, then even stretch. `targets` holds each widget's
+// reveal height (one entry per widget). While the column is shorter than the
+// sum of the targets, widgets fill top-down (each capped at its target) so they
+// appear in order; once it's taller, the surplus is split evenly so they grow
+// together. The two regimes meet continuously at the boundary.
+void revealStack(QSplitter* s, const QVector<int>& targets)
+{
+    const int n = s->count();
+    if (n == 0 || n != targets.size())
+        return;
+    int avail = s->height() - s->handleWidth() * (n - 1);
+    if (avail < 0)
+        avail = 0;
+
+    int sumTargets = 0;
+    for (int t : targets)
+        sumTargets += t;
+
+    QList<int> sizes;
+    sizes.reserve(n);
+    if (avail <= sumTargets)
+    {
+        int remaining = avail;
+        for (int i = 0; i < n; ++i)
+        {
+            const int give = qMax(0, qMin(remaining, targets[i]));
+            sizes << give;
+            remaining -= give;
+        }
+    }
+    else
+    {
+        const int surplus = avail - sumTargets;
+        const int each = surplus / n;
+        for (int i = 0; i < n; ++i)
+            sizes << targets[i] + each;
+        sizes[n - 1] += surplus - each * n;   // rounding remainder to the last
+    }
+    // Only re-apply when the split actually changes — in particular a no-op
+    // when only the column width changes, leaving the main divider untouched.
+    if (sizes == s->sizes())
+        return;
+    QSignalBlocker block(s);
+    s->setSizes(sizes);
+}
+} // namespace
+
+void MetricsPanel::reflowMetrics()
+{
+    if (!m_metricsScroll || m_metricsCards.isEmpty())
+        return;
+    const int h = m_metricsScroll->viewport()->height();
+    const int n = m_metricsCards.size();
+    int cols;
+    if (h >= 3 * kCardRowH)      cols = 5;   // tall: the designed five-column grid
+    else if (h >= 2 * kCardRowH) cols = 6;   // medium: two rows
+    else                         cols = n;   // short: a single row (scrolls sideways)
+    reflowMetricsGrid(cols);
+}
+
+void MetricsPanel::reflowMetricsGrid(int cols)
+{
+    if (!m_metricsGrid || cols < 1 || cols == m_metricsCols)
+        return;
+    m_metricsCols = cols;
+
+    const int n = m_metricsCards.size();
+    const int rows = (n + cols - 1) / cols;
+    for (QFrame* c : m_metricsCards)
+        m_metricsGrid->removeWidget(c);
+    for (int i = 0; i < n; ++i)
+    {
+        const int r = i / cols;
+        const int cc = i % cols;
+        // The last card spans any leftover columns so there's no empty cell.
+        const int span = (i == n - 1) ? (cols - cc) : 1;
+        m_metricsGrid->addWidget(m_metricsCards[i], r, cc, 1, span);
+        // Bottom-row cells drop their bottom border; re-polish so the dynamic
+        // property change takes effect in the stylesheet.
+        const bool lastRow = (r == rows - 1);
+        if (m_metricsCards[i]->property("lastrow").toBool() != lastRow)
+        {
+            m_metricsCards[i]->setProperty("lastrow", lastRow);
+            m_metricsCards[i]->style()->unpolish(m_metricsCards[i]);
+            m_metricsCards[i]->style()->polish(m_metricsCards[i]);
+        }
+    }
+    // Equal stretch across the active extent; collapse the rest.
+    for (int c = 0; c < 16; ++c) m_metricsGrid->setColumnStretch(c, c < cols ? 1 : 0);
+    for (int r = 0; r < 16; ++r) m_metricsGrid->setRowStretch(r, r < rows ? 1 : 0);
+}
+
+void MetricsPanel::revealColumns()
+{
+    if (m_revealing)   // our own setSizes can re-enter via resize events; ignore
+        return;
+    m_revealing = true;
+
+    if (m_leftSplit && m_leftSplit->count() > 1 && m_leftSplit->height() > 0)
+    {
+        if (m_metricsMinimised)
+        {
+            // Collapse the metrics to nothing but keep it visible: the node
+            // tree fills the column and the divider bar sits at the bottom,
+            // still draggable.
+            const int avail = qMax(0, m_leftSplit->height() - m_leftSplit->handleWidth());
+            const QList<int> want{ avail, 0 };
+            if (m_leftSplit->sizes() != want)
+            {
+                QSignalBlocker block(m_leftSplit);
+                m_leftSplit->setSizes(want);
+            }
+        }
+        // Auto-reveal only until the user takes manual control of the column;
+        // after that (and when not minimised) leave its split to the user.
+        else if (!m_leftManual)
+        {
+            revealStack(m_leftSplit, { kTreeReveal, kMetricsReveal });
+        }
+    }
+    if (m_rightSplit && m_rightSplit->height() > 0 && !m_rightManual)
+        revealStack(m_rightSplit, { kLogReveal, kLogReveal, kLogReveal });
+
+    positionMetricsToggle();
+    m_revealing = false;
+}
+
+void MetricsPanel::positionMetricsToggle()
+{
+    if (!m_metricsToggle || !m_leftSplit)
+        return;
+    const int h = m_leftSplit->height();
+    if (h <= 0)
+        return;
+    const int hw = m_leftSplit->handleWidth();
+    const int btnW = m_metricsToggle->width();
+    const int btnH = m_metricsToggle->height();
+    // Centre the grip on the divider. When minimised the divider sits at the
+    // bottom; take it from the geometry directly rather than sizes(), which can
+    // be momentarily stale after a toggle.
+    int dividerCentre;
+    if (m_metricsMinimised)
+    {
+        dividerCentre = h - hw / 2;
+    }
+    else
+    {
+        const QList<int> sizes = m_leftSplit->sizes();
+        dividerCentre = (sizes.isEmpty() ? h : sizes[0]) + hw / 2;
+    }
+    const int x = m_leftSplit->width() - btnW - 6;          // right edge, small inset
+    int y = qBound(0, dividerCentre - btnH / 2, qMax(0, h - btnH));
+    m_metricsToggle->move(x, y);
+}
+
+void MetricsPanel::dragMetricsDividerTo(const QPoint& globalPos)
+{
+    if (!m_leftSplit || m_leftSplit->count() < 2)
+        return;
+    const int hw = m_leftSplit->handleWidth();
+    const int avail = qMax(0, m_leftSplit->height() - hw);
+    // Cursor in the column's coords → node-tree height (divider top).
+    const int y = m_leftSplit->mapFromGlobal(globalPos).y();
+    const int node = qBound(0, y - hw / 2, avail);
+    const QList<int> want{ node, avail - node };
+    if (m_leftSplit->sizes() != want)
+    {
+        QSignalBlocker block(m_leftSplit);
+        m_leftSplit->setSizes(want);
+    }
+    m_leftManual = true;
+    const int metrics = avail - node;
+    if (metrics > 0)
+        m_savedMetricsH = metrics;
+    const bool collapsed = metrics <= 2;
+    if (m_metricsMinimised != collapsed)
+    {
+        m_metricsMinimised = collapsed;
+        updateChevron();
+    }
+    positionMetricsToggle();
+}
+
+void MetricsPanel::toggleMetrics()
+{
+    m_metricsMinimised = !m_metricsMinimised;
+
+    // Collapse the metrics to nothing on minimise; restore the remembered
+    // height (or the reveal default) on show.
+    if (m_leftSplit && m_leftSplit->count() > 1 && m_leftSplit->height() > 0)
+    {
+        const int avail = qMax(0, m_leftSplit->height() - m_leftSplit->handleWidth());
+        const QList<int> cur = m_leftSplit->sizes();
+        QList<int> want;
+        if (m_metricsMinimised)
+        {
+            if (cur.size() > 1 && cur[1] > 0)
+                m_savedMetricsH = cur[1];   // remember for restore
+            want = { avail, 0 };
+        }
+        else
+        {
+            const int target = m_savedMetricsH > 0 ? m_savedMetricsH : kMetricsReveal;
+            const int m = qBound(0, target, avail);
+            want = { avail - m, m };
+        }
+        if (cur != want)
+        {
+            QSignalBlocker block(m_leftSplit);
+            m_leftSplit->setSizes(want);
+        }
+    }
+
+    updateChevron();
+    positionMetricsToggle();
+}
+
+void MetricsPanel::updateChevron()
+{
+    if (!m_metricsToggle)
+        return;
+    // Points down when the metrics are shown (click to collapse), up when
+    // minimised (click to show). The glyph is painted by ChevronButton.
+    m_metricsToggle->setDir(m_metricsMinimised ? ChevronButton::Up : ChevronButton::Down);
+    m_metricsToggle->setToolTip(m_metricsMinimised ? tr("Show metrics") : tr("Minimise metrics"));
 }

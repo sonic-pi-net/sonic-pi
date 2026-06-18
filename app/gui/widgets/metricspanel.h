@@ -29,7 +29,12 @@ class QShowEvent;
 class QHideEvent;
 class QTextEdit;
 class QSplitter;
+class QToolButton;
 class QVBoxLayout;
+class QFrame;
+class QGridLayout;
+class QScrollArea;
+class ChevronButton;
 class NodeTreeGraph;
 class SonicPiTheme;
 
@@ -58,6 +63,10 @@ public:
 protected:
     void showEvent(QShowEvent* e) override;
     void hideEvent(QHideEvent* e) override;
+    // Watches the vertical column splitters for resizes so the reveal layout
+    // tracks the available height (the panel itself doesn't resize when only
+    // an inner splitter does).
+    bool eventFilter(QObject* obj, QEvent* e) override;
 
 private slots:
     void refresh();
@@ -95,6 +104,27 @@ private:
     // shm rings + node-tree mirror.
     void buildNodeColumn(QSplitter* topRow);  // node-tree graph (right)
     void buildLogs(QSplitter* vsplit);        // tabbed OSC in/out + debug (bottom)
+    // Lay out both vertical columns as a progressive top-down reveal: each
+    // widget grows to its reveal height before the next appears; once all are
+    // revealed the surplus is shared evenly between them.
+    void revealColumns();
+    // Re-flow the metric cards by the available height: the full 5-column grid
+    // when tall, fewer rows when shorter, a single row when there's little
+    // space. reflowMetricsGrid does the placement for a given column count.
+    void reflowMetrics();
+    void reflowMetricsGrid(int cols);
+    // Seed the main (tree+metrics | logs) split to the golden ratio, once,
+    // when it first has a real width.
+    void seedMainSplit();
+    // Chevron on the node-tree / metrics divider: collapse or restore the
+    // metrics grid.
+    void toggleMetrics();
+    void updateChevron();
+    // Place the chevron knob onto the current node-tree / metrics divider.
+    void positionMetricsToggle();
+    // Move the node-tree / metrics divider so its bar tracks `globalPos` —
+    // lets the chevron grip be dragged like the divider bar itself.
+    void dragMetricsDividerTo(const QPoint& globalPos);
     void drainOscRing(bool outgoing);   // outgoing = IN ring (sent), else OUT ring (replies)
     void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /supersonic/debug → Debug pane, rest → From-SuperSonic
     void updateNodeTree();
@@ -106,8 +136,20 @@ private:
     SonicPiTheme* m_theme = nullptr;  // active theme, for syntax colours
 
     QSplitter* m_mainSplit = nullptr; // left (tree + metrics) | right (logs)
-    QSplitter* m_leftSplit = nullptr; // node tree / metrics table
-    bool m_splitInit = false;         // seed split positions once, on first show
+    QSplitter* m_leftSplit = nullptr; // node tree / metrics
+    QSplitter* m_rightSplit = nullptr;// debug / to / from logs
+
+    QVector<QFrame*> m_metricsCards;  // metric cards, in order, re-flowed by height
+    QGridLayout* m_metricsGrid = nullptr;
+    QScrollArea* m_metricsScroll = nullptr;
+    int m_metricsCols = 0;            // current column count of the metric grid
+    ChevronButton* m_metricsToggle = nullptr; // chevron grip on the tree/metrics divider
+    bool m_splitInit = false;         // seed the main (horizontal) split once, on first show
+    bool m_metricsMinimised = false;  // user collapsed the metrics via the chevron
+    bool m_revealing = false;         // re-entrancy guard for revealColumns()
+    bool m_leftManual = false;        // user dragged the left column's divider — stop auto-revealing it
+    bool m_rightManual = false;       // user dragged a right column divider — stop auto-revealing it
+    int m_savedMetricsH = 0;          // metrics height to restore when un-minimising (0 = use reveal default)
 
     QColor m_textColor;
     QColor m_bgColor;

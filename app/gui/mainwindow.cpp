@@ -88,6 +88,8 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/logpanel.h"
 #include "widgets/metricspanel.h"
 
+#include <QMouseEvent>
+
 #include "utils/ruby_help.h"
 
 #include "dpi.h"
@@ -791,6 +793,23 @@ void MainWindow::setupWindowStructure()
 
     incomingPane->setZoomLevel(gui_settings->value("prefs/cue-zoom", 0).toInt());
     outputPane->setZoomLevel(gui_settings->value("prefs/log-zoom", 0).toInt());
+}
+
+void MainWindow::toggleDocPane()
+{
+    if (!docWidget)
+        return;
+    if (docWidget->isVisible())
+    {
+        m_savedDockH = docWidget->height();   // remember for re-open
+        docWidget->hide();
+    }
+    else
+    {
+        docWidget->show();
+        const int h = (m_savedDockH > 0) ? m_savedDockH : (height() / 3);
+        resizeDocks({ docWidget }, { h }, Qt::Vertical);
+    }
 }
 
 void MainWindow::docLinkClicked(const QUrl& url)
@@ -5363,6 +5382,23 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
         if (ks == QKeySequence("Escape"))
         {
             escapeWorkspaces();
+        }
+    }
+
+    // Double-clicking anywhere on the editor / docks divider bar toggles the
+    // dock open/closed.
+    if (event->type() == QEvent::MouseButtonDblClick && docWidget && mainWidget && docWidget->isVisible())
+    {
+        const QPoint g = static_cast<QMouseEvent*>(event)->globalPosition().toPoint();
+        const int sepTop = mainWidget->mapToGlobal(QPoint(0, mainWidget->height())).y();
+        const int sepBot = docWidget->mapToGlobal(QPoint(0, 0)).y();
+        const int dockL = docWidget->mapToGlobal(QPoint(0, 0)).x();
+        const int dockR = dockL + docWidget->width();
+        if (g.y() >= qMin(sepTop, sepBot) - 4 && g.y() <= qMax(sepTop, sepBot) + 4 &&
+            g.x() >= dockL && g.x() <= dockR)
+        {
+            toggleDocPane();
+            return true;
         }
     }
 

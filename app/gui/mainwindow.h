@@ -421,6 +421,9 @@ private slots:
     void setGamepadDeviceEnabled(QString name, bool enabled);
     void honourPrefs();
 
+    // Toggle the bottom Help/Debug dock (double-clicking the divider bar).
+    void toggleDocPane();
+
     void showBufferCapacityError();
     void checkForStudioMode();
 
@@ -548,6 +551,7 @@ private:
     QDockWidget* metroWidget;
     LogPanel* debugLogPanel = nullptr;
     MetricsPanel* metricsPanel = nullptr;
+    int m_savedDockH = 0;                    // dock height to restore when re-opening via double-click
 
     QWidget* blankWidgetOutput;
     QWidget* blankWidgetIncoming;
