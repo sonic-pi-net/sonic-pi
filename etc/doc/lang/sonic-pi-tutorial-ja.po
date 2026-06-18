@@ -16143,43 +16143,56 @@ msgstr ""
 "でなかったら、別のクラリネットに乗り換えるには大変な時間を費やしてしまうだろうし、1回だけの制作のためにそれを使用することについて戸惑ってしまうでしょう。"
 
 #: B.01-Using-Shortcuts.md:29
+#, fuzzy
 msgid ""
-"Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
-"come with their own standard defaults for actions such as cut and paste etc. S"
-"onic Pi will try and honour these standards. However *priority is placed on co"
-"nsistency across platforms* within Sonic Pi rather than attempting to conform "
-"to a given platform's standards. This means that when you learn the shortcuts "
-"whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
-"PC and feel right at home."
-msgstr ""
-"残念なことに3つの主要なオペレーティングシステム（Linux、Mac OS XおよびWindows）では、カット＆ペーストなどの操作のために独自の基準が用意"
-"されています。Sonic Piは、これらの基準を尊重します。しかしながら、Sonic Piでは、プラットフォームの基準に対応することよりも、*プラットフォー"
-"ム間での一貫性を優先しています*。これはRaspberry PiでSonic Piを演奏してショートカットを学んだら、MacやPCに乗り換えても違和感無く同"
-"じように操作できることを意味しています。"
+"Unfortunately there are a number of standards for shortcuts with macOS and Win"
+"dows being two of the major styles and other more esoteric editors such as Ema"
+"cs offering other approaches. You can choose between these three styles - *Mac"
+"*, *Windows \\| Linux* and *Emacs Live* - using the menu `IO -> Shortcut Mode`."
+" You can therefore switch between a Windows and a macOS machine and keep your "
+"shortcuts consistent."
+msgstr "choose：選択"
 
-#: B.01-Using-Shortcuts.md:37
+#: B.01-Using-Shortcuts.md:31
+msgid "Customising your Shortcuts"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:33
+#, fuzzy
+msgid ""
+"If none of the presets quite fit your fingers, you can build your own. Open `P"
+"references -> Shortcuts` and choose the *Custom* mode. Pick one of the presets"
+" as a starting point, then double-click any command and press the key combinat"
+"ion you'd like to use - Sonic Pi records it on the spot. Bindings you've chang"
+"ed are marked, and if a combination clashes with another command it's highligh"
+"ted so you can decide what to do. You can also import and export your custom s"
+"et, which is handy for sharing it or moving it between machines."
+msgstr "choose：選択"
+
+#: B.01-Using-Shortcuts.md:35
 msgid "Control and Meta"
 msgstr "ControlとMeta"
 
-#: B.01-Using-Shortcuts.md:39
+#: B.01-Using-Shortcuts.md:37
+#, fuzzy
 msgid ""
-"Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
-"se the names *Control* and *Meta* to refer to the two main combination keys. O"
-"n all platforms *Control* is the same. However, on Linux and Windows, *Meta* i"
-"s actually the *Alt* key while on Mac *Meta* is the *Command* key. For consist"
-"ency we'll use the term *Meta* - just remember to map that to the appropriate "
-"key on your operating system."
+"A key part of the notion of consistency is the naming of shortcuts. In Sonic P"
+"i we use the names *Control* and *Meta* to refer to the two main combination k"
+"eys. On all platforms *Control* is the same. However, on Linux and Windows, *M"
+"eta* is actually the *Alt* key while on Mac *Meta* is the *Command* key. For c"
+"onsistency we'll use the term *Meta* - just remember to map that to the approp"
+"riate key on your operating system."
 msgstr ""
 "一貫性への考え方のひとつにショートカットの命名があります。Sonic Piにおいて、主要な2つの組み合わせキーを当てはめるために、*Controlキー*と*"
 "Metaキー*を用います。すべてのプラットフォームでは、*Controlキー*は同じです。しかし、LinuxとWindowsでは、実際の*Metaキー*はA"
 "ltキーで、Macの*Metaキー*は*コマンド⌘キー*です。一貫性のために、*Metaキー*という言葉を使いますが、あなたのオペレーティングシステムにおけ"
 "る適切なキーに置き換えるようにしてください。"
 
-#: B.01-Using-Shortcuts.md:46
+#: B.01-Using-Shortcuts.md:44
 msgid "Abbreviations"
 msgstr "略語"
 
-#: B.01-Using-Shortcuts.md:48
+#: B.01-Using-Shortcuts.md:46
 msgid ""
 "To help keep things simple and readable, we'll use the abbreviations *C-* for "
 "*Control* plus another key and *M-* for *Meta* plus another key. For example, "
@@ -16189,25 +16202,25 @@ msgstr ""
 "シンプルで読みやすくするために、*Ctrlキー*＋その他のキーは「*C-*」、*Metaキー*＋その他のキーは「*M-*」の略語を使います。例えば、あるショ"
 "ートカットが*Metaキー*と'r'を同時に押さえる必要がある場合、「*M-r*」と表記します。そして、*-*は、\"同時に押さえる\"を意味しています。"
 
-#: B.01-Using-Shortcuts.md:53
+#: B.01-Using-Shortcuts.md:51
 msgid "The following are some of the shortcuts I find most useful."
 msgstr "以下は、僕が見つけたとっても有用なショートカットのいくつかです。"
 
-#: B.01-Using-Shortcuts.md:55
+#: B.01-Using-Shortcuts.md:53
 msgid "Stopping and starting"
 msgstr "停止と開始"
 
-#: B.01-Using-Shortcuts.md:57
+#: B.01-Using-Shortcuts.md:55
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr "マウスを使う代わりに、`M-r`でコードを実行することができます。同様に、`M-s`でコードを停止することができます。"
 
-#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:56
+#: B.01-Using-Shortcuts.md:58 B.02-Shortcut-Cheatsheet.md:65
 msgid "Navigation"
 msgstr "ナビゲーション"
 
-#: B.01-Using-Shortcuts.md:62
+#: B.01-Using-Shortcuts.md:60
 msgid ""
 "I'm really lost without the navigation shortcuts. I therefore highly recommend"
 " you spend the time to learn them. These shortcuts also work extremely well wh"
@@ -16218,29 +16231,32 @@ msgstr ""
 "ナビゲーションのショートカットを使わない操作は実にもどかしいです。そのため、ショートカットを学ぶことに時間を費やすことを強くお勧めします。ブラインドタッチを"
 "習得すれば、マウスやキーボードの矢印キーに手を移動させる必要が無くなるので、これらのショートカットをさらに有効に活用することができます。"
 
-#: B.01-Using-Shortcuts.md:68
+#: B.01-Using-Shortcuts.md:66
+#, fuzzy
 msgid ""
-"You can move to the beginning of the line with `C-a`, the end of the line with"
-" `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
-" `C-f`, and back a character with `C-b`. You can even delete all the character"
-"s from the cursor to the end of the line with `C-k`."
+"For example, if you're in Emacs Live short cut mode, You can move to the begin"
+"ning of the line with `C-a`, the end of the line with `C-e`, up a line with `C"
+"-p`, down a line with `C-n`, forward a character with `C-f`, and back a charac"
+"ter with `C-b`. You can even delete all the characters from the cursor to the "
+"end of the line with `C-k`. Other modes will have their own shortcuts which ca"
+"n be easily discovered in the app menu."
 msgstr ""
 "行の先頭に移動するには`C-a`、行の末尾に移動するには`C-e`、1行上は`C-p`、1行下がるには`C-n`、1文字進むには`C-f`、そして、1文字戻"
 "るには`C-b`。`C-k`でカーソルから行の末尾まで全ての文字を消去する事ができます。"
 
-#: B.01-Using-Shortcuts.md:74
+#: B.01-Using-Shortcuts.md:71
 msgid "Tidy Code"
 msgstr "コードの整形"
 
-#: B.01-Using-Shortcuts.md:76
+#: B.01-Using-Shortcuts.md:73
 msgid "To auto-align your code simply press `M-m`."
 msgstr "コードを自動整形するには`M-m`を押します。"
 
-#: B.01-Using-Shortcuts.md:78
+#: B.01-Using-Shortcuts.md:75
 msgid "Help System"
 msgstr "ヘルプシステム"
 
-#: B.01-Using-Shortcuts.md:80
+#: B.01-Using-Shortcuts.md:77
 msgid ""
 "To toggle the help system you can press `M-i`. However, a much more useful sho"
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
@@ -16249,7 +16265,7 @@ msgstr ""
 "ヘルプシステムを切り替えるには、`M-i`を押します。しかし、何かを見つける場合、もっとはるかに便利なショートカットは、カーソル下の単語検索し、ドキュメント"
 "を表示する`C-i`です。簡単でしょう！"
 
-#: B.01-Using-Shortcuts.md:84
+#: B.01-Using-Shortcuts.md:81
 #, fuzzy
 msgid "For a full list take a look at section B.2 Shortcut Cheatsheet."
 msgstr "完全なリストについては、セクション10.2ショートカット一覧表を見てみましょう。"
@@ -16264,281 +16280,317 @@ msgid "Shortcut Cheatsheet"
 msgstr "ショートカット一覧表"
 
 #: B.02-Shortcut-Cheatsheet.md:5
-#, fuzzy
 msgid ""
-"The following is a summary of the main shortcuts available within Sonic Pi. Pl"
-"ease see Section B.1 for motivation and background."
-msgstr "以下は、Sonic Piで利用可能な主なショートカットをまとめたものです。動機と背景については、セクション10.1を参照してください。"
+"The following is a summary of the main Emacs Live shortcuts available within S"
+"onic Pi. The Mac and Windows \\| Linux modes differ - switch between them in `I"
+"O -> Shortcut Mode`, or open `Preferences -> Shortcuts` to view every binding "
+"and build your own. Please see Section B.1 for motivation and background."
+msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:8
+#: B.02-Shortcut-Cheatsheet.md:10
 msgid "Conventions"
 msgstr "規定"
 
-#: B.02-Shortcut-Cheatsheet.md:10
+#: B.02-Shortcut-Cheatsheet.md:12
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
 msgstr "このリストでは下記の規定に準拠します（WindowsとLinuxの*Meta*キーは*Alt*キー、そしてMacは*Cmd*キー）:"
 
-#: B.02-Shortcut-Cheatsheet.md:13
+#: B.02-Shortcut-Cheatsheet.md:15
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
 msgstr "`C-a` は*Control*キーを押さえながら*a*キー、両方を同時にを押した後に離す事を意味しています。"
 
-#: B.02-Shortcut-Cheatsheet.md:14
+#: B.02-Shortcut-Cheatsheet.md:16
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
 msgstr "`M-r` は*Meta*キーを押さえながら*r*キー、両方を同時にした後に離す事を意味しています。"
 
-#: B.02-Shortcut-Cheatsheet.md:15
+#: B.02-Shortcut-Cheatsheet.md:17
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
 msgstr "`S-M-z` は*Shift*キーを押さえながら*Meta*キー、そして最後に*z*キー全てを同時に押した後に離す事を意味しています。"
 
-#: B.02-Shortcut-Cheatsheet.md:16
+#: B.02-Shortcut-Cheatsheet.md:18
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
 msgstr "`C-M-f`は*Control* キーを押さえながら*Meta*キー、そして最後に*f*キー全てを同時に押した後に離す事を意味しています。"
 
-#: B.02-Shortcut-Cheatsheet.md:18
+#: B.02-Shortcut-Cheatsheet.md:19
+#, fuzzy
+msgid ""
+"`S-C-a` means hold the *Shift* key, then the *Control* key, then finally the *"
+"a* key all at the same time, then releasing."
+msgstr "`S-M-z` は*Shift*キーを押さえながら*Meta*キー、そして最後に*z*キー全てを同時に押した後に離す事を意味しています。"
+
+#: B.02-Shortcut-Cheatsheet.md:21
 msgid "Main Application Manipulation"
 msgstr "主なアプリケーションの操作"
 
-#: B.02-Shortcut-Cheatsheet.md:20
+#: B.02-Shortcut-Cheatsheet.md:23
 msgid "`M-r` - Run code"
 msgstr "`M-r` - コードを実行"
 
-#: B.02-Shortcut-Cheatsheet.md:21
+#: B.02-Shortcut-Cheatsheet.md:24
 msgid "`M-s` - Stop code"
 msgstr "`M-s` - コードを停止"
 
-#: B.02-Shortcut-Cheatsheet.md:22
+#: B.02-Shortcut-Cheatsheet.md:25
 msgid "`M-i` - Toggle Help System"
 msgstr "`M-i` - ヘルプシステムを表示"
 
-#: B.02-Shortcut-Cheatsheet.md:23
+#: B.02-Shortcut-Cheatsheet.md:26
 msgid "`M-p` - Toggle Preferences"
 msgstr "`M-p` - 設定を表示"
 
-#: B.02-Shortcut-Cheatsheet.md:24
+#: B.02-Shortcut-Cheatsheet.md:27
 msgid "`M-{` - Switch buffer to the left"
 msgstr "`M-{` - 左のBufferに切り替え"
 
-#: B.02-Shortcut-Cheatsheet.md:25
+#: B.02-Shortcut-Cheatsheet.md:28
 msgid "`M-}` - Switch buffer to the right"
 msgstr "`M-}` - 右のBufferに切り替え"
 
-#: B.02-Shortcut-Cheatsheet.md:26
+#: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-0` - Switch to buffer 0"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:27
+#: B.02-Shortcut-Cheatsheet.md:30
 msgid "`S-M-1` - Switch to buffer 1"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:28
+#: B.02-Shortcut-Cheatsheet.md:31
 msgid "..."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:29
+#: B.02-Shortcut-Cheatsheet.md:32
 msgid "`S-M-9` - Switch to buffer 9"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:30
+#: B.02-Shortcut-Cheatsheet.md:33
 msgid "`M-+` - Increase text size of current buffer"
 msgstr "`M-+` - 文字サイズを大きく"
 
-#: B.02-Shortcut-Cheatsheet.md:31
+#: B.02-Shortcut-Cheatsheet.md:34
 msgid "`M--` - Decrease text size of current buffer"
 msgstr "`M--` - 文字サイズを小さく"
 
-#: B.02-Shortcut-Cheatsheet.md:34
+#: B.02-Shortcut-Cheatsheet.md:37
 msgid "Selection/Copy/Paste"
 msgstr "選択/コピー/張り付け"
 
-#: B.02-Shortcut-Cheatsheet.md:36
+#: B.02-Shortcut-Cheatsheet.md:39
 msgid "`M-a` - Select all"
 msgstr "`M-a` - 全てを選択"
 
-#: B.02-Shortcut-Cheatsheet.md:37
+#: B.02-Shortcut-Cheatsheet.md:40
 msgid "`M-c` - Copy selection to paste buffer"
 msgstr "`M-c` - 選択箇所をコピー"
 
-#: B.02-Shortcut-Cheatsheet.md:38
+#: B.02-Shortcut-Cheatsheet.md:41
 msgid "`M-]` - Copy selection to paste buffer"
 msgstr "`M-]` - 選択箇所をコピー"
 
-#: B.02-Shortcut-Cheatsheet.md:39
+#: B.02-Shortcut-Cheatsheet.md:42
 msgid "`M-x` - Cut selection to paste buffer"
 msgstr "`M-x` - 選択箇所をカット"
 
-#: B.02-Shortcut-Cheatsheet.md:40
+#: B.02-Shortcut-Cheatsheet.md:43
 msgid "`C-]` - Cut selection to paste buffer"
 msgstr "`C-]` - 選択箇所をカット"
 
-#: B.02-Shortcut-Cheatsheet.md:41
+#: B.02-Shortcut-Cheatsheet.md:44
 msgid "`C-k` - Cut to the end of the line"
 msgstr "`C-k` - カーソルから行の末尾まで全ての文字を消去する"
 
-#: B.02-Shortcut-Cheatsheet.md:42
+#: B.02-Shortcut-Cheatsheet.md:45
 msgid "`M-v` - Paste from paste buffer to editor"
 msgstr "`M-v` - エディタへ張り付け"
 
-#: B.02-Shortcut-Cheatsheet.md:43
+#: B.02-Shortcut-Cheatsheet.md:46
 msgid "`C-y` - Paste from paste buffer to editor"
 msgstr "`C-y` - エディタへ張り付け"
 
-#: B.02-Shortcut-Cheatsheet.md:44
+#: B.02-Shortcut-Cheatsheet.md:47
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
 msgstr "`C-SPACE` - マークを設定します。以降のナビゲーション操作で選択箇所を変更できます。`C-g`でマークを解除します。"
 
-#: B.02-Shortcut-Cheatsheet.md:46
+#: B.02-Shortcut-Cheatsheet.md:48
+#, fuzzy
+msgid "`S-C-a` - Select to beginning of line"
+msgstr "`C-a` - 行の先頭に移動"
+
+#: B.02-Shortcut-Cheatsheet.md:49
+#, fuzzy
+msgid "`S-C-e` - Select to end of line"
+msgstr "`C-e` - 行の末尾に移動"
+
+#: B.02-Shortcut-Cheatsheet.md:50
+msgid "`S-C-Left` - Select word to the left"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:51
+msgid "`S-C-Right` - Select word to the right"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:52
+#, fuzzy
+msgid "`S-C-Home` - Select to beginning of buffer"
+msgstr "`M-<` - Bufferの先頭に移動"
+
+#: B.02-Shortcut-Cheatsheet.md:53
+#, fuzzy
+msgid "`S-C-End` - Select to end of buffer"
+msgstr "`M->` - Bufferの末尾に移動"
+
+#: B.02-Shortcut-Cheatsheet.md:55
 msgid "Text Manipulation"
 msgstr "文字の操作"
 
-#: B.02-Shortcut-Cheatsheet.md:48
+#: B.02-Shortcut-Cheatsheet.md:57
 msgid "`M-m` - Align all text"
 msgstr "`M-m` - テキストを整形"
 
-#: B.02-Shortcut-Cheatsheet.md:49
+#: B.02-Shortcut-Cheatsheet.md:58
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr "`Tab` - 現在の行または選択箇所のテキストを整形（または、自動補完を選択）"
 
-#: B.02-Shortcut-Cheatsheet.md:50
+#: B.02-Shortcut-Cheatsheet.md:59
 msgid "`C-l` - Centre editor"
 msgstr "`C-l` - 真ん中へ移動"
 
-#: B.02-Shortcut-Cheatsheet.md:51
+#: B.02-Shortcut-Cheatsheet.md:60
 msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr "`M-/` - 現在の行または選択箇所をコメント／コメント解除"
 
-#: B.02-Shortcut-Cheatsheet.md:52
+#: B.02-Shortcut-Cheatsheet.md:61
 msgid "`C-t` - Transpose/swap characters"
 msgstr "`C-t` - カーソルの前後の文字を入れ替え"
 
-#: B.02-Shortcut-Cheatsheet.md:53
+#: B.02-Shortcut-Cheatsheet.md:62
 msgid "`M-u` - Convert next word (or selection) to upper case."
 msgstr "`M-u` - カーソルの後ろの単語（または選択箇所）を大文字に変換"
 
-#: B.02-Shortcut-Cheatsheet.md:54
+#: B.02-Shortcut-Cheatsheet.md:63
 msgid "`M-l` - Convert next word (or selection) to lower case."
 msgstr "`M-l` - カーソルの後ろの単語（または選択箇所）を小文字に変換"
 
-#: B.02-Shortcut-Cheatsheet.md:58
+#: B.02-Shortcut-Cheatsheet.md:67
 msgid "`C-a` - Move to beginning of line"
 msgstr "`C-a` - 行の先頭に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:59
+#: B.02-Shortcut-Cheatsheet.md:68
 msgid "`C-e` - Move to end of line"
 msgstr "`C-e` - 行の末尾に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:60
+#: B.02-Shortcut-Cheatsheet.md:69
 msgid "`C-p` - Move to previous line"
 msgstr "`C-p` - ひとつ前の行に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:61
+#: B.02-Shortcut-Cheatsheet.md:70
 msgid "`C-n` - Move to next line"
 msgstr "`C-n` - 次の行に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:62
+#: B.02-Shortcut-Cheatsheet.md:71
 msgid "`C-f` - Move forward one character"
 msgstr "`C-f` - 一文字進む"
 
-#: B.02-Shortcut-Cheatsheet.md:63
+#: B.02-Shortcut-Cheatsheet.md:72
 msgid "`C-b` - Move backward one character"
 msgstr "`C-b` - 一文字戻る"
 
-#: B.02-Shortcut-Cheatsheet.md:64
+#: B.02-Shortcut-Cheatsheet.md:73
 msgid "`M-f` - Move forward one word"
 msgstr "`M-f` - 一単語進む"
 
-#: B.02-Shortcut-Cheatsheet.md:65
+#: B.02-Shortcut-Cheatsheet.md:74
 msgid "`M-b` - Move backward one word"
 msgstr "`M-b` - 一単語戻る"
 
-#: B.02-Shortcut-Cheatsheet.md:66
+#: B.02-Shortcut-Cheatsheet.md:75
 msgid "`C-M-n` - Move line or selection down"
 msgstr "`C-M-n` - 現在の行または選択箇所を下に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:67
+#: B.02-Shortcut-Cheatsheet.md:76
 msgid "`C-M-p` - Move line or selection up"
 msgstr "`C-M-p` - 現在の行または選択箇所を上に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:68
+#: B.02-Shortcut-Cheatsheet.md:77
 msgid "`S-M-u` - Move up 10 lines"
 msgstr "`S-M-u` - 10行上に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:69
+#: B.02-Shortcut-Cheatsheet.md:78
 msgid "`S-M-d` - Move down 10 lines"
 msgstr "`S-M-d` - 10行下に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:70
+#: B.02-Shortcut-Cheatsheet.md:79
 msgid "`M-<` - Move to beginning of buffer"
 msgstr "`M-<` - Bufferの先頭に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:71
+#: B.02-Shortcut-Cheatsheet.md:80
 msgid "`M->` - Move to end of buffer"
 msgstr "`M->` - Bufferの末尾に移動"
 
-#: B.02-Shortcut-Cheatsheet.md:73
+#: B.02-Shortcut-Cheatsheet.md:82
 msgid "Deletion"
 msgstr "削除"
 
-#: B.02-Shortcut-Cheatsheet.md:75
+#: B.02-Shortcut-Cheatsheet.md:84
 msgid "`C-h` - Delete previous character"
 msgstr "`C-h` - 前の文字を削除"
 
-#: B.02-Shortcut-Cheatsheet.md:76
+#: B.02-Shortcut-Cheatsheet.md:85
 msgid "`C-d` - Delete next character"
 msgstr "`C-d` - 次の文字を削除"
 
-#: B.02-Shortcut-Cheatsheet.md:78
+#: B.02-Shortcut-Cheatsheet.md:87
 msgid "Advanced Editor Features"
 msgstr "高度なエディタの機能"
 
-#: B.02-Shortcut-Cheatsheet.md:80
+#: B.02-Shortcut-Cheatsheet.md:89
 msgid "`C-i` - Show docs for word under cursor"
 msgstr "`C-i` - カーソルの下の単語のドキュメントを表示"
 
-#: B.02-Shortcut-Cheatsheet.md:81
+#: B.02-Shortcut-Cheatsheet.md:90
 msgid "`M-z` - Undo"
 msgstr "`M-z` - アンドゥ（行った操作を取り消し、元の状態に戻る）"
 
-#: B.02-Shortcut-Cheatsheet.md:82
+#: B.02-Shortcut-Cheatsheet.md:91
 msgid "`S-M-z` - Redo"
 msgstr "`S-M-z` - リドゥ（一旦取り消した操作をやり直す）"
 
-#: B.02-Shortcut-Cheatsheet.md:83
+#: B.02-Shortcut-Cheatsheet.md:92
 msgid "`C-g` - Escape"
 msgstr "`C-g` - エスケープ"
 
-#: B.02-Shortcut-Cheatsheet.md:84
+#: B.02-Shortcut-Cheatsheet.md:93
 msgid "`S-M-f` - Toggle fullscreen mode"
 msgstr "`S-M-f` - フルスクリーンモードを切り替え"
 
-#: B.02-Shortcut-Cheatsheet.md:85
+#: B.02-Shortcut-Cheatsheet.md:94
 msgid "`S-M-b` - Toggle visibility of buttons"
 msgstr "`S-M-b` - ボタンの表示を切り替え"
 
-#: B.02-Shortcut-Cheatsheet.md:86
+#: B.02-Shortcut-Cheatsheet.md:95
 msgid "`S-M-l` - Toggle visibility of log"
 msgstr "`S-M-l` - ログの表示を切り替え"
 
-#: B.02-Shortcut-Cheatsheet.md:87
+#: B.02-Shortcut-Cheatsheet.md:96
 msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - ライト／ダークモードを切り替え"
 
-#: B.02-Shortcut-Cheatsheet.md:88
+#: B.02-Shortcut-Cheatsheet.md:97
 msgid "`S-M-s` - Save contents of buffer to a file"
 msgstr "`S-M-s` - Bufferの内容をファイルに保存"
 
-#: B.02-Shortcut-Cheatsheet.md:89
+#: B.02-Shortcut-Cheatsheet.md:98
 msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Bufferの内容をファイルから読み込む"
 

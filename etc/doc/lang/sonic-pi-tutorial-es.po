@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2025-10-02 02:02+0000\n"
 "Last-Translator: Chadow <83732118+Chadowo@users.noreply.github.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/"
-"tutorial/es/>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7375,7 +7375,7 @@ msgid "This is the equivalent to:"
 msgstr "Eso equivale a:"
 
 #: 08.2-Chords.md:48
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "play 52, sustain: 0.25\n"
 "sleep 0.25\n"
@@ -7418,9 +7418,9 @@ msgid ""
 "es to fill the times. You can remove this behavior by setting the `sustain:` o"
 "pt to `0`:"
 msgstr ""
-"Ten en cuenta que `play_pattern` y `play_pattern_timed` modifican el "
-"mantenimiento de las notas para rellenar los tiempos. Puedes detener este "
-"comportamiento cambiando el parametro `sustain:` a `0`:"
+"Ten en cuenta que `play_pattern` y `play_pattern_timed` modifican el mantenimi"
+"ento de las notas para rellenar los tiempos. Puedes detener este comportamient"
+"o cambiando el parametro `sustain:` a `0`:"
 
 #: 08.2-Chords.md:71
 #, no-wrap
@@ -9399,10 +9399,10 @@ msgid ""
 " an error if the value you are attempting to store in the Time State is not va"
 "lid."
 msgstr ""
-"Ten en cuenta que valores transmitidos a través de `set` y `cue` deben ser "
-"seguros en hilos - en concreto, anillos inmutables, números, símbolos o "
-"hilos de texto congelados. Sonic Pi dará un error si el valor que estas "
-"intentando guardar en el Time State no es válido."
+"Ten en cuenta que valores transmitidos a través de `set` y `cue` deben ser seg"
+"uros en hilos - en concreto, anillos inmutables, números, símbolos o hilos de "
+"texto congelados. Sonic Pi dará un error si el valor que estas intentando guar"
+"dar en el Time State no es válido."
 
 #: 10.3-Pattern-Matching.md:1
 msgid "10.3 Pattern Matching"
@@ -9436,8 +9436,8 @@ msgstr "Coincidir cualquier segmento de la ruta"
 #: 10.3-Pattern-Matching.md:15
 msgid "Let's assume we want to wait for the next event that has three path segments:"
 msgstr ""
-"Asumamos que queremos esperar por el siguiente evento que tiene tres "
-"segmentos de ruta:"
+"Asumamos que queremos esperar por el siguiente evento que tiene tres segmentos"
+" de ruta:"
 
 #: 10.3-Pattern-Matching.md:17
 #, no-wrap
@@ -9449,8 +9449,8 @@ msgid ""
 "This will match any Time State event with exactly three path segments, regardl"
 "ess of their names. For example:"
 msgstr ""
-"Esto coincidira con cualquier evento en el Estado de Tiempo que contenga "
-"exactamente tres segmentos de ruta, sin importar sus nombres. Por ejemplo:"
+"Esto coincidira con cualquier evento en el Estado de Tiempo que contenga exact"
+"amente tres segmentos de ruta, sin importar sus nombres. Por ejemplo:"
 
 #: 10.3-Pattern-Matching.md:24 10.3-Pattern-Matching.md:46
 #: 10.3-Pattern-Matching.md:68 10.3-Pattern-Matching.md:78
@@ -9478,8 +9478,8 @@ msgid ""
 "However, it will *not* match paths with fewer or more path segments. The follo"
 "wing will not match:"
 msgstr ""
-"Sin embargo, *no* va a coincidir con rutas que contengan menos o mas "
-"segmentos. Los siguientes no van a coincidir, por ejemplo:"
+"Sin embargo, *no* va a coincidir con rutas que contengan menos o mas segmentos"
+". Los siguientes no van a coincidir, por ejemplo:"
 
 #: 10.3-Pattern-Matching.md:32
 #, fuzzy
@@ -9501,9 +9501,9 @@ msgid ""
 "Each `*` means *any content*. So we could match paths with just one segment wi"
 "th `/*` or paths with five segments with `/*/*/*/*/*`"
 msgstr ""
-"Cada `*` significa *cualquier contenido*. Así que podemos coincidir con "
-"rutas que tengan solo un segmento con `/*` o rutas con cinco segmentos con "
-"`/*/*/*/*/*`"
+"Cada `*` significa *cualquier contenido*. Así que podemos coincidir con rutas "
+"que tengan solo un segmento con `/*` o rutas con cinco segmentos con `/*/*/*/*"
+"/*`"
 
 #: 10.3-Pattern-Matching.md:38
 msgid "Matching partial segments"
@@ -9765,11 +9765,11 @@ msgid ""
 "metimes it is essential to break out of the code into the real world. We want "
 "two extra things:"
 msgstr ""
-"Una vez que hayas dominado convertir código a musica, seguramente te estés "
-"preguntado - ¿ahora que? A veces las limitaciones de trabajar puramente "
-"dentro de la sintaxis y el sistema de sonido de Sonic Pi puede ser "
-"entretenido y darte una nueva posición creativa. Sin embargo, a veces es "
-"esencial salir del código al mundo real. Necesitamos dos cosas más:"
+"Una vez que hayas dominado convertir código a musica, seguramente te estés pre"
+"guntado - ¿ahora que? A veces las limitaciones de trabajar puramente dentro de"
+" la sintaxis y el sistema de sonido de Sonic Pi puede ser entretenido y darte "
+"una nueva posición creativa. Sin embargo, a veces es esencial salir del código"
+" al mundo real. Necesitamos dos cosas más:"
 
 #: 11-MIDI.md:11
 msgid ""
@@ -9782,8 +9782,8 @@ msgid ""
 "To be able to use Sonic Pi's strong timing model and semantics to control and "
 "manipulate objects in the real world"
 msgstr ""
-"Poder usar el modelo de sincronización fuerte y semanticas de Sonic Pi para "
-"controlar y manipular objetos en el mundo real"
+"Poder usar el modelo de sincronización fuerte y semanticas de Sonic Pi para co"
+"ntrolar y manipular objetos en el mundo real"
 
 #: 11-MIDI.md:14
 msgid ""
@@ -9793,19 +9793,19 @@ msgid ""
 "at all support MIDI. We can use MIDI to receive data and also use it to send d"
 "ata."
 msgstr ""
-"Por suerte para nosotros, existe un protocolo desde los 80 que permite "
-"exactamente este tipo de interacción - MIDI. Hay un increíble numero de "
-"dispositivos externos incluyendo teclados, controladores, secuenciadores, y "
-"software de audio pro que soportan MIDI. Podemos usar MIDI para recibir data "
-"y también usarlo para enviarla."
+"Por suerte para nosotros, existe un protocolo desde los 80 que permite exactam"
+"ente este tipo de interacción - MIDI. Hay un increíble numero de dispositivos "
+"externos incluyendo teclados, controladores, secuenciadores, y software de aud"
+"io pro que soportan MIDI. Podemos usar MIDI para recibir data y también usarlo"
+" para enviarla."
 
 #: 11-MIDI.md:20
 msgid ""
 "Sonic Pi provides full support for the MIDI protocol enabling you to connect y"
 "our live code to the real world. Let's explore it further..."
 msgstr ""
-"Sonic Pi provee soporte completo del protocolo MIDI, permitiéndote conectar "
-"tu código al mundo real. Experimentemos un poco mas..."
+"Sonic Pi provee soporte completo del protocolo MIDI, permitiéndote conectar tu"
+" código al mundo real. Experimentemos un poco mas..."
 
 #: 11.1-MIDI-In.md:1
 msgid "11.1 MIDI In"
@@ -9822,10 +9822,10 @@ msgid ""
 "into Sonic Pi to control our synths and sounds. Go and grab a MIDI controller "
 "such as a keyboard or control surface and let's get physical!"
 msgstr ""
-"En esta seccion, vamos a aprender como conectar un controlador MIDI para "
-"enviar eventos hacia Sonic Pi para controlar nuestros sintetizadores y "
-"sonidos. Ve y a trae un controlador MIDI como un teclado o una superficie de "
-"control y a tocar!"
+"En esta seccion, vamos a aprender como conectar un controlador MIDI para envia"
+"r eventos hacia Sonic Pi para controlar nuestros sintetizadores y sonidos. Ve "
+"y a trae un controlador MIDI como un teclado o una superficie de control y a t"
+"ocar!"
 
 #: 11.1-MIDI-In.md:11
 msgid "Connecting a MIDI Controller"
@@ -9901,9 +9901,9 @@ msgid ""
 "Once you can see a stream of messages like this, you've successfully connected"
 " your MIDI device. Congratulations, let's see what we can do with it!"
 msgstr ""
-"Una vez que veas un torrente de mensajes como esto, significa que has "
-"conectado tu dispositivo MIDI exitosamente. Felicitaciones, ahora veamos que "
-"podemos hacer con el!"
+"Una vez que veas un torrente de mensajes como esto, significa que has conectad"
+"o tu dispositivo MIDI exitosamente. Felicitaciones, ahora veamos que podemos h"
+"acer con el!"
 
 #: 11.1-MIDI-In.md:50
 #, fuzzy
@@ -9940,10 +9940,10 @@ msgid ""
 "ed that our knowledge of Time State is all we need to work with the events, we"
 " can now start having fun. Let's build a simple MIDI piano:"
 msgstr ""
-"Ahora que hemos conectado un dispositivo MIDI, vimos sus eventos en el "
-"registro de señales y descubrimos qué nuestro conocimiento de Time State es "
-"todo lo que necesitamos para trabajar con los eventos, podemos empezar a "
-"divertirnos. Construyamos un simple piano MIDI:"
+"Ahora que hemos conectado un dispositivo MIDI, vimos sus eventos en el registr"
+"o de señales y descubrimos qué nuestro conocimiento de Time State es todo lo q"
+"ue necesitamos para trabajar con los eventos, podemos empezar a divertirnos. C"
+"onstruyamos un simple piano MIDI:"
 
 #: 11.1-MIDI-In.md:67
 #, no-wrap
@@ -9971,18 +9971,17 @@ msgid ""
 " we assign the result to two separate variables `note` and `velocity`. Finally"
 " we trigger the `:piano` synth passing our note."
 msgstr ""
-"Hay un par de cosas ocurriendo en el código de arriba incluyendo algunos "
-"problemas. Primero, tenemos un simple `live_loop` que va a repetirse por "
-"siempre ejecutando el código dentro del bloque `do` / `end`. Esto fue "
-"introducido en la sección 9.2 respectivamente. Segundo, estamos ejecutando "
-"`sync` para esperar al siguiente evento coincidente del Time State. Usamos "
-"un hilo de texto para representar el mensaje MIDI que buscamos (El cual es "
-"el mismo que salió en el registrador de señales). Nota que este largo hilo "
-"de texto es proveído por el sistema de auto completado de Sonic Pi, así que "
-"no tienes que escribirlo. En el registro vimos que había dos valores para "
-"cada nota MIDI en evento, así que asignamos el resultado a las dos variables "
-"`note` y `velocity `. Finalmente desencadenamos el sintetizador `:piano`"
-"pasando nuestra nota."
+"Hay un par de cosas ocurriendo en el código de arriba incluyendo algunos probl"
+"emas. Primero, tenemos un simple `live_loop` que va a repetirse por siempre ej"
+"ecutando el código dentro del bloque `do` / `end`. Esto fue introducido en la "
+"sección 9.2 respectivamente. Segundo, estamos ejecutando `sync` para esperar a"
+"l siguiente evento coincidente del Time State. Usamos un hilo de texto para re"
+"presentar el mensaje MIDI que buscamos (El cual es el mismo que salió en el re"
+"gistrador de señales). Nota que este largo hilo de texto es proveído por el si"
+"stema de auto completado de Sonic Pi, así que no tienes que escribirlo. En el "
+"registro vimos que había dos valores para cada nota MIDI en evento, así que as"
+"ignamos el resultado a las dos variables `note` y `velocity `. Finalmente dese"
+"ncadenamos el sintetizador `:piano`pasando nuestra nota."
 
 #: 11.1-MIDI-In.md:86
 msgid ""
@@ -9994,15 +9993,14 @@ msgid ""
 "tude. Given that MIDI has a range of 0->127, to convert this number to a value"
 " between 0->1 we just need to divide it by 127:"
 msgstr ""
-"Ahora tu inténtalo. Tipea en el código de arriba, reemplaza la llave sync "
-"con un hilo igual al nombre de tu dispositivo MIDI especifico y dale a "
-"Ejecutar. Presto, ahora tienes un piano que funciona! Sin embargo, "
-"probablemente hayas notado un par de errores: antes que todo, todas las "
-"notas son del mismo volumen sin importar qué tan fuerte presiones el "
-"teclado. Esto puede ser arreglado fácilmente usando el valor de velocidad "
-"MIDI y convirtiéndolo en una amplitud. Dado que MIDI tiene un rango de 0-"
-">127, para convertir este numero a un valor dentro de 0->1 solo tenemos que "
-"dividirlo por 127:"
+"Ahora tu inténtalo. Tipea en el código de arriba, reemplaza la llave sync con "
+"un hilo igual al nombre de tu dispositivo MIDI especifico y dale a Ejecutar. P"
+"resto, ahora tienes un piano que funciona! Sin embargo, probablemente hayas no"
+"tado un par de errores: antes que todo, todas las notas son del mismo volumen "
+"sin importar qué tan fuerte presiones el teclado. Esto puede ser arreglado fác"
+"ilmente usando el valor de velocidad MIDI y convirtiéndolo en una amplitud. Da"
+"do que MIDI tiene un rango de 0->127, para convertir este numero a un valor de"
+"ntro de 0->1 solo tenemos que dividirlo por 127:"
 
 #: 11.1-MIDI-In.md:95
 #, no-wrap
@@ -10022,9 +10020,9 @@ msgid ""
 "Update the code and hit Run again. Now the velocity of the keyboard is honoure"
 "d. Next, let's get rid of that pesky pause."
 msgstr ""
-"Actualiza el código y dale a Ejecutar de nuevo. Ahora la velocidad del "
-"teclado es propiamente utilizada. Siguiendo con lo nuestro, deshagamosnos de "
-"esa molesta pausa."
+"Actualiza el código y dale a Ejecutar de nuevo. Ahora la velocidad del teclado"
+" es propiamente utilizada. Siguiendo con lo nuestro, deshagamosnos de esa mole"
+"sta pausa."
 
 #: 11.1-MIDI-In.md:105
 msgid "Removing Latency"
@@ -10047,23 +10045,22 @@ msgid ""
 " loops that have their timing controlled by `sync`ing with external devices, a"
 "nd keep the default latency for all other live loops. Let's see:"
 msgstr ""
-"Antes de que podamos quitar la pausa, necesitamos saber porque esta ahí. "
-"Para mantener todos los sintetizadores y efectos especiales sincronizados en "
-"variedades de CPUs, Sonic Pi programa el audio en adelantado por 0.5s por "
-"defecto. (Nota que esta latencia añadida puede ser configurada a través de "
-"las funciones `set_sched_ahead_time!` y `use_sched_ahead_time`). Estos 0.5s "
-"de latencia esta siendo añadido a los gatillos de nuestro sintetizador "
-"`:piano`como es añadido también a todos los sintetizadores accionados por "
-"Sonic Pi. Típicamente queremos esta latencia artificial para que todos los "
-"sintetizadores estén bien sincronizados. Pero, esto solo viene al caso con "
-"sintetizadores accionados por código usando `play` y `sleep`. En este caso, "
-"estamos accionando el sintetizador `:piano` con nuestro dispositivo MIDI "
-"externo y no necesitamos que Sonic Pi se encarge se los tiempos. Podemos "
-"desactivar esta latencia con el comando `use_real_time` el cual desactiva la "
-"latencia para el hilo actual. Esto significa que puedes usar el modo de "
-"tiempo real para los bucles en vivo que tiene sus tiempos controlados por "
-"`sync` (sincronizar) con dispositivos MIDI externo, y mantener la latencia "
-"por defecto para todos los demás bucles en vivo. Veamos:"
+"Antes de que podamos quitar la pausa, necesitamos saber porque esta ahí. Para "
+"mantener todos los sintetizadores y efectos especiales sincronizados en varied"
+"ades de CPUs, Sonic Pi programa el audio en adelantado por 0.5s por defecto. ("
+"Nota que esta latencia añadida puede ser configurada a través de las funciones"
+" `set_sched_ahead_time!` y `use_sched_ahead_time`). Estos 0.5s de latencia est"
+"a siendo añadido a los gatillos de nuestro sintetizador `:piano`como es añadid"
+"o también a todos los sintetizadores accionados por Sonic Pi. Típicamente quer"
+"emos esta latencia artificial para que todos los sintetizadores estén bien sin"
+"cronizados. Pero, esto solo viene al caso con sintetizadores accionados por có"
+"digo usando `play` y `sleep`. En este caso, estamos accionando el sintetizador"
+" `:piano` con nuestro dispositivo MIDI externo y no necesitamos que Sonic Pi s"
+"e encarge se los tiempos. Podemos desactivar esta latencia con el comando `use"
+"_real_time` el cual desactiva la latencia para el hilo actual. Esto significa "
+"que puedes usar el modo de tiempo real para los bucles en vivo que tiene sus t"
+"iempos controlados por `sync` (sincronizar) con dispositivos MIDI externo, y m"
+"antener la latencia por defecto para todos los demás bucles en vivo. Veamos:"
 
 #: 11.1-MIDI-In.md:124
 #, no-wrap
@@ -10085,9 +10082,9 @@ msgid ""
 "Update your code to match the code above and hit Run again. Now we have a low "
 "latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
 msgstr ""
-"Actualiza tu código para que sea igual al código DD arriba y dale a Ejecutar "
-"de nuevo. Ahora tenemos un piano de baja latencia con velocidad variable "
-"programado en solo 5 lineas. ¡Que fácil!"
+"Actualiza tu código para que sea igual al código DD arriba y dale a Ejecutar d"
+"e nuevo. Ahora tenemos un piano de baja latencia con velocidad variable progra"
+"mado en solo 5 lineas. ¡Que fácil!"
 
 #: 11.1-MIDI-In.md:136
 #, fuzzy
@@ -10104,14 +10101,14 @@ msgid ""
 "te value. You can even use `time_warp` to jump back in time and call `get` to "
 "see past events..."
 msgstr ""
-"Finalmente, mientras nuestros eventos MIDI van directo al Time State, "
-"también podemos usar la función `get` (recibir) para obtener el ultimo valor "
-"visto. Esto no bloquea el hilo actual y devuelve `nil` si no hay valor que "
-"encontrar (puede sobrescribir este comportamiento al pasar un valor por "
-"defecto ‐ ve la documentación para `get`). Recuerda que puedes usar `get` en "
-"cualquier hilo en cualquier momento para ver el valor coincidente del Time "
-"State mas reciente. Incluso puedes usar `time_warp` para viajar en el tiempo "
-"al pasado y entonces usar `get` para ver los eventos pasados..."
+"Finalmente, mientras nuestros eventos MIDI van directo al Time State, también "
+"podemos usar la función `get` (recibir) para obtener el ultimo valor visto. Es"
+"to no bloquea el hilo actual y devuelve `nil` si no hay valor que encontrar (p"
+"uede sobrescribir este comportamiento al pasar un valor por defecto ‐ ve la do"
+"cumentación para `get`). Recuerda que puedes usar `get` en cualquier hilo en c"
+"ualquier momento para ver el valor coincidente del Time State mas reciente. In"
+"cluso puedes usar `time_warp` para viajar en el tiempo al pasado y entonces us"
+"ar `get` para ver los eventos pasados..."
 
 #: 11.1-MIDI-In.md:147
 msgid "Now You are in Control"
@@ -10142,10 +10139,10 @@ msgid ""
 "er and control external hardware synths, keyboards and other devices. Sonic Pi"
 " provides a full set of fns for sending various MIDI messages such as:"
 msgstr ""
-"En adición a recibir eventos MIDI también podemos enviar eventos MIDI para "
-"accionar y controlar sintetizadores de hardware externos, teclados y otros "
-"dispositivos. Sonic Pi provee un set completo de funciones para enviar "
-"varios mensajes MIDI tales como:"
+"En adición a recibir eventos MIDI también podemos enviar eventos MIDI para acc"
+"ionar y controlar sintetizadores de hardware externos, teclados y otros dispos"
+"itivos. Sonic Pi provee un set completo de funciones para enviar varios mensaj"
+"es MIDI tales como:"
 
 #: 11.2-MIDI-Out.md:9
 msgid "Note on - `midi_note_on`"
@@ -10172,8 +10169,8 @@ msgid ""
 "There are many other supported MIDI messages too - check out the API documenta"
 "tion for all the other fns that start with `midi_`."
 msgstr ""
-"Hay varios otros mensajes MIDI soportados - chequea la documentacion API y "
-"busca las funciones que empiezen con `midi_`."
+"Hay varios otros mensajes MIDI soportados - chequea la documentacion API y bus"
+"ca las funciones que empiezen con `midi_`."
 
 #: 11.2-MIDI-Out.md:18
 msgid "Connecting to a MIDI Device"
@@ -10189,13 +10186,13 @@ msgid ""
 "he MIDI out port of your computer. You should see your MIDI device listed in t"
 "he preferences pane."
 msgstr ""
-"Para poder enviar un mensaje MIDI a un dispositivo externo, primero debemos "
-"conectarlo. Lee la sub-seccion 'Conectando un Controlador MIDI' en la "
-"sección 11.1 para mas detalles. Nota que si estas usando USB, conectarse a "
-"un dispositivo al que le envías (contrario a recibir mensajes de) es el "
-"mismo procedimiento. Sin embargo, si estas usando los clasicos conectores "
-"DIN, asegúrate de conectar al puerto de salida MIDI de tu computadora. "
-"Deberías ver tu dispositivo MIDI listado en la ventana de preferencias."
+"Para poder enviar un mensaje MIDI a un dispositivo externo, primero debemos co"
+"nectarlo. Lee la sub-seccion 'Conectando un Controlador MIDI' en la sección 11"
+".1 para mas detalles. Nota que si estas usando USB, conectarse a un dispositiv"
+"o al que le envías (contrario a recibir mensajes de) es el mismo procedimiento"
+". Sin embargo, si estas usando los clasicos conectores DIN, asegúrate de conec"
+"tar al puerto de salida MIDI de tu computadora. Deberías ver tu dispositivo MI"
+"DI listado en la ventana de preferencias."
 
 #: 11.2-MIDI-Out.md:29
 msgid "Sending MIDI events"
@@ -10208,10 +10205,10 @@ msgid ""
 "s to the `midi_*` fns you need to use `sleep` just like you did with `play`. L"
 "et's take a look:"
 msgstr ""
-"Las muchas funciones `midi_*` funcionan tal como `play`, `sample` y `synth` "
-"en que envían un mensaje en el tiempo (lógico) actual. Por ejemplo, para "
-"dispersar las llamadas a las funciones `midi_*` necesitas usar `sleep` justo "
-"como hiciste con `play`. Echemos un vistazo:"
+"Las muchas funciones `midi_*` funcionan tal como `play`, `sample` y `synth` en"
+" que envían un mensaje en el tiempo (lógico) actual. Por ejemplo, para dispers"
+"ar las llamadas a las funciones `midi_*` necesitas usar `sleep` justo como hic"
+"iste con `play`. Echemos un vistazo:"
 
 #: 11.2-MIDI-Out.md:36
 #, no-wrap
@@ -10224,17 +10221,17 @@ msgid ""
 " 50. (Note that Sonic Pi will automatically convert notes in the form `:e3` to"
 " their corresponding MIDI number such as 52 in this case.)"
 msgstr ""
-"Esto va a enviar una nota MIDI con velocidad 50 al dispositivo MIDI "
-"conectado. (Nota que Sonic Pi automáticamente convierte notas en formato "
-"`:e3` a su correspondiente numero MIDI, que en este caso sería 52.)"
+"Esto va a enviar una nota MIDI con velocidad 50 al dispositivo MIDI conectado."
+" (Nota que Sonic Pi automáticamente convierte notas en formato `:e3` a su corr"
+"espondiente numero MIDI, que en este caso sería 52.)"
 
 #: 11.2-MIDI-Out.md:44
 msgid ""
 "If your connected MIDI device is a synthesiser, you should be able to hear it "
 "playing a note. To disable it use `midi_note_off`:"
 msgstr ""
-"Si tu dispositivo MIDI conectado es un sintetizador, deberías escuchar una "
-"nota musical. Para desactivarlo usa `midi_note_off`:"
+"Si tu dispositivo MIDI conectado es un sintetizador, deberías escuchar una not"
+"a musical. Para desactivarlo usa `midi_note_off`:"
 
 #: 11.2-MIDI-Out.md:47
 #, no-wrap
@@ -18741,34 +18738,44 @@ msgstr ""
 #: B.01-Using-Shortcuts.md:29
 #, fuzzy
 msgid ""
-"Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
-"come with their own standard defaults for actions such as cut and paste etc. S"
-"onic Pi will try and honour these standards. However *priority is placed on co"
-"nsistency across platforms* within Sonic Pi rather than attempting to conform "
-"to a given platform's standards. This means that when you learn the shortcuts "
-"whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
-"PC and feel right at home."
-msgstr ""
-"Desafortunadamente los tres principales sistemas operativos (Linux, Mac OS X y"
-" Windows) vienen con acciones como cortar y pegar determinadas. Sonic Pi inten"
-"tará honrar estos estándares. Sin embargo *priorizaremos consistencia a través"
-" de las plataformas* dentro de Sonic Pi. Esto significa que te sentirás cómodo"
-" y en casa ya sea que toques con la Raspberry Pi, Mac o PC."
+"Unfortunately there are a number of standards for shortcuts with macOS and Win"
+"dows being two of the major styles and other more esoteric editors such as Ema"
+"cs offering other approaches. You can choose between these three styles - *Mac"
+"*, *Windows \\| Linux* and *Emacs Live* - using the menu `IO -> Shortcut Mode`."
+" You can therefore switch between a Windows and a macOS machine and keep your "
+"shortcuts consistent."
+msgstr "Elegir (choose)"
 
-#: B.01-Using-Shortcuts.md:37
+#: B.01-Using-Shortcuts.md:31
+msgid "Customising your Shortcuts"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:33
+#, fuzzy
+msgid ""
+"If none of the presets quite fit your fingers, you can build your own. Open `P"
+"references -> Shortcuts` and choose the *Custom* mode. Pick one of the presets"
+" as a starting point, then double-click any command and press the key combinat"
+"ion you'd like to use - Sonic Pi records it on the spot. Bindings you've chang"
+"ed are marked, and if a combination clashes with another command it's highligh"
+"ted so you can decide what to do. You can also import and export your custom s"
+"et, which is handy for sharing it or moving it between machines."
+msgstr "Elegir (choose)"
+
+#: B.01-Using-Shortcuts.md:35
 #, fuzzy
 msgid "Control and Meta"
 msgstr "Control y Meta"
 
-#: B.01-Using-Shortcuts.md:39
+#: B.01-Using-Shortcuts.md:37
 #, fuzzy
 msgid ""
-"Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
-"se the names *Control* and *Meta* to refer to the two main combination keys. O"
-"n all platforms *Control* is the same. However, on Linux and Windows, *Meta* i"
-"s actually the *Alt* key while on Mac *Meta* is the *Command* key. For consist"
-"ency we'll use the term *Meta* - just remember to map that to the appropriate "
-"key on your operating system."
+"A key part of the notion of consistency is the naming of shortcuts. In Sonic P"
+"i we use the names *Control* and *Meta* to refer to the two main combination k"
+"eys. On all platforms *Control* is the same. However, on Linux and Windows, *M"
+"eta* is actually the *Alt* key while on Mac *Meta* is the *Command* key. For c"
+"onsistency we'll use the term *Meta* - just remember to map that to the approp"
+"riate key on your operating system."
 msgstr ""
 "Parte de la noción de consistencia es el nombramiento de los atajos. En Sonic "
 "Pi usamos los nombre *Control* y *Meta* para referirnos a las dos principales "
@@ -18777,12 +18784,12 @@ msgstr ""
 "ecla *Command*. Por consistencia, utilizaremos el término *Meta* - sólo recuer"
 "da mapear la tecla apropiada a tu OS."
 
-#: B.01-Using-Shortcuts.md:46
+#: B.01-Using-Shortcuts.md:44
 #, fuzzy
 msgid "Abbreviations"
 msgstr "Abreviaciones"
 
-#: B.01-Using-Shortcuts.md:48
+#: B.01-Using-Shortcuts.md:46
 #, fuzzy
 msgid ""
 "To help keep things simple and readable, we'll use the abbreviations *C-* for "
@@ -18795,17 +18802,17 @@ msgstr ""
 " un atajo te requiere que mantengas apretadas ambas *Meta* y *r*, escribiremos"
 " elso, así `M-r`. El *-* significa que es al mismo tiempo."
 
-#: B.01-Using-Shortcuts.md:53
+#: B.01-Using-Shortcuts.md:51
 #, fuzzy
 msgid "The following are some of the shortcuts I find most useful."
 msgstr "Los siguientes son los atajos que encuentro más útiles."
 
-#: B.01-Using-Shortcuts.md:55
+#: B.01-Using-Shortcuts.md:53
 #, fuzzy
 msgid "Stopping and starting"
 msgstr "Para y comenzar"
 
-#: B.01-Using-Shortcuts.md:57
+#: B.01-Using-Shortcuts.md:55
 #, fuzzy
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
@@ -18814,12 +18821,12 @@ msgstr ""
 "En vez de comenzar tu código conel ratón, puedes simplemente presionar `M-r`. "
 "Similarmente puedes pararlo con `M-s`."
 
-#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:56
+#: B.01-Using-Shortcuts.md:58 B.02-Shortcut-Cheatsheet.md:65
 #, fuzzy
 msgid "Navigation"
 msgstr "Navegación"
 
-#: B.01-Using-Shortcuts.md:62
+#: B.01-Using-Shortcuts.md:60
 #, fuzzy
 msgid ""
 "I'm really lost without the navigation shortcuts. I therefore highly recommend"
@@ -18833,35 +18840,37 @@ msgstr ""
 "clear, ya que usan letras estándar, en vez de requerir que vayas al ratón o la"
 "s flechas del teclado."
 
-#: B.01-Using-Shortcuts.md:68
+#: B.01-Using-Shortcuts.md:66
 #, fuzzy
 msgid ""
-"You can move to the beginning of the line with `C-a`, the end of the line with"
-" `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
-" `C-f`, and back a character with `C-b`. You can even delete all the character"
-"s from the cursor to the end of the line with `C-k`."
+"For example, if you're in Emacs Live short cut mode, You can move to the begin"
+"ning of the line with `C-a`, the end of the line with `C-e`, up a line with `C"
+"-p`, down a line with `C-n`, forward a character with `C-f`, and back a charac"
+"ter with `C-b`. You can even delete all the characters from the cursor to the "
+"end of the line with `C-k`. Other modes will have their own shortcuts which ca"
+"n be easily discovered in the app menu."
 msgstr ""
 "Puedes moverte al inicio de una línea con `C-a`, al final de la línea con `C-e"
 "`, una línea arriba con `C-p`, abajo con `C-n`, un carácter adelante con `C-f`"
 ", y atrás un carácter con `C-b`. puedes borrar todos los caracteres desde el c"
 "ursor hasta el final de la línea con `C-k`."
 
-#: B.01-Using-Shortcuts.md:74
+#: B.01-Using-Shortcuts.md:71
 #, fuzzy
 msgid "Tidy Code"
 msgstr "Código legibles"
 
-#: B.01-Using-Shortcuts.md:76
+#: B.01-Using-Shortcuts.md:73
 #, fuzzy
 msgid "To auto-align your code simply press `M-m`."
 msgstr "Para auto-alinear el código, simplemete presiona `M-m`."
 
-#: B.01-Using-Shortcuts.md:78
+#: B.01-Using-Shortcuts.md:75
 #, fuzzy
 msgid "Help System"
 msgstr "Sistema de ayuda"
 
-#: B.01-Using-Shortcuts.md:80
+#: B.01-Using-Shortcuts.md:77
 msgid ""
 "To toggle the help system you can press `M-i`. However, a much more useful sho"
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
@@ -18871,7 +18880,7 @@ msgstr ""
 " más útil es `C-i` que buscará la palabra debajo del cursor y mostrará los doc"
 "umentos si encuentra algo. ¡Ayuda instantánea!"
 
-#: B.01-Using-Shortcuts.md:84
+#: B.01-Using-Shortcuts.md:81
 #, fuzzy
 msgid "For a full list take a look at section B.2 Shortcut Cheatsheet."
 msgstr "Para una lista completa, mira la sección 10.2 Tabla de Atajos."
@@ -18887,20 +18896,19 @@ msgid "Shortcut Cheatsheet"
 msgstr "Tabla de Atajos"
 
 #: B.02-Shortcut-Cheatsheet.md:5
-#, fuzzy
 msgid ""
-"The following is a summary of the main shortcuts available within Sonic Pi. Pl"
-"ease see Section B.1 for motivation and background."
+"The following is a summary of the main Emacs Live shortcuts available within S"
+"onic Pi. The Mac and Windows \\| Linux modes differ - switch between them in `I"
+"O -> Shortcut Mode`, or open `Preferences -> Shortcuts` to view every binding "
+"and build your own. Please see Section B.1 for motivation and background."
 msgstr ""
-"Este es un resumen de los atajos principales dentro de Sonic Pi. Te remito a l"
-"a sección 10.1 para motivación."
 
-#: B.02-Shortcut-Cheatsheet.md:8
+#: B.02-Shortcut-Cheatsheet.md:10
 #, fuzzy
 msgid "Conventions"
 msgstr "Convenciones"
 
-#: B.02-Shortcut-Cheatsheet.md:10
+#: B.02-Shortcut-Cheatsheet.md:12
 #, fuzzy
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
@@ -18909,7 +18917,7 @@ msgstr ""
 "En esta lista, usaremos la siguiente convención (donde *Meta* es uno de los *A"
 "lt* en Windows/Linux o *Cmd* en Mac):"
 
-#: B.02-Shortcut-Cheatsheet.md:13
+#: B.02-Shortcut-Cheatsheet.md:15
 #, fuzzy
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
@@ -18918,14 +18926,14 @@ msgstr ""
 "`C-a` mantén presionado *Control* y presiona *a* al mismo tiempo, después suel"
 "ta."
 
-#: B.02-Shortcut-Cheatsheet.md:14
+#: B.02-Shortcut-Cheatsheet.md:16
 #, fuzzy
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
 msgstr "`M-r` mantén presionado *Meta* y presiona *r* al mismo tiempo, después suelta."
 
-#: B.02-Shortcut-Cheatsheet.md:15
+#: B.02-Shortcut-Cheatsheet.md:17
 #, fuzzy
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
@@ -18934,7 +18942,7 @@ msgstr ""
 "`S-M-z` mantén presionado *Shift* y presiona la tecla *Meta*, después la tecla"
 " *z* al mismo tiempo, después suelta."
 
-#: B.02-Shortcut-Cheatsheet.md:16
+#: B.02-Shortcut-Cheatsheet.md:18
 #, fuzzy
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
@@ -18943,114 +18951,123 @@ msgstr ""
 "`C-M-f` mantén presionado *Control*, después presiona *Meta*, finalmente la te"
 "cla *f*, después suelta."
 
-#: B.02-Shortcut-Cheatsheet.md:18
+#: B.02-Shortcut-Cheatsheet.md:19
+#, fuzzy
+msgid ""
+"`S-C-a` means hold the *Shift* key, then the *Control* key, then finally the *"
+"a* key all at the same time, then releasing."
+msgstr ""
+"`S-M-z` mantén presionado *Shift* y presiona la tecla *Meta*, después la tecla"
+" *z* al mismo tiempo, después suelta."
+
+#: B.02-Shortcut-Cheatsheet.md:21
 #, fuzzy
 msgid "Main Application Manipulation"
 msgstr "Manipulación de la aplicación principal"
 
-#: B.02-Shortcut-Cheatsheet.md:20
+#: B.02-Shortcut-Cheatsheet.md:23
 #, fuzzy
 msgid "`M-r` - Run code"
 msgstr "`M-r` - ejecuta el código"
 
-#: B.02-Shortcut-Cheatsheet.md:21
+#: B.02-Shortcut-Cheatsheet.md:24
 #, fuzzy
 msgid "`M-s` - Stop code"
 msgstr "`M-s` - para el código"
 
-#: B.02-Shortcut-Cheatsheet.md:22
+#: B.02-Shortcut-Cheatsheet.md:25
 #, fuzzy
 msgid "`M-i` - Toggle Help System"
 msgstr "`M-i` - muestra el sistema de Ayuda"
 
-#: B.02-Shortcut-Cheatsheet.md:23
+#: B.02-Shortcut-Cheatsheet.md:26
 #, fuzzy
 msgid "`M-p` - Toggle Preferences"
 msgstr "`M-p` - muestra las Preferencias"
 
-#: B.02-Shortcut-Cheatsheet.md:24
+#: B.02-Shortcut-Cheatsheet.md:27
 #, fuzzy
 msgid "`M-{` - Switch buffer to the left"
 msgstr "`M-{` - Va al buffer de la izquierda"
 
-#: B.02-Shortcut-Cheatsheet.md:25
+#: B.02-Shortcut-Cheatsheet.md:28
 #, fuzzy
 msgid "`M-}` - Switch buffer to the right"
 msgstr "`M-}` - Va al buffer de la derecha"
 
-#: B.02-Shortcut-Cheatsheet.md:26
+#: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-0` - Switch to buffer 0"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:27
+#: B.02-Shortcut-Cheatsheet.md:30
 msgid "`S-M-1` - Switch to buffer 1"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:28
+#: B.02-Shortcut-Cheatsheet.md:31
 #, fuzzy
 msgid "..."
 msgstr "..."
 
-#: B.02-Shortcut-Cheatsheet.md:29
+#: B.02-Shortcut-Cheatsheet.md:32
 msgid "`S-M-9` - Switch to buffer 9"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:30
+#: B.02-Shortcut-Cheatsheet.md:33
 #, fuzzy
 msgid "`M-+` - Increase text size of current buffer"
 msgstr "`M-+` - Incrementa el tamaño del texto del buffer actual"
 
-#: B.02-Shortcut-Cheatsheet.md:31
+#: B.02-Shortcut-Cheatsheet.md:34
 #, fuzzy
 msgid "`M--` - Decrease text size of current buffer"
 msgstr "`M--` - Decrementa el tamaño del texto del buffer actual"
 
-#: B.02-Shortcut-Cheatsheet.md:34
+#: B.02-Shortcut-Cheatsheet.md:37
 #, fuzzy
 msgid "Selection/Copy/Paste"
 msgstr "Seleccionar/Copiar/Pegar"
 
-#: B.02-Shortcut-Cheatsheet.md:36
+#: B.02-Shortcut-Cheatsheet.md:39
 #, fuzzy
 msgid "`M-a` - Select all"
 msgstr "`M-a` - Selecciona todo"
 
-#: B.02-Shortcut-Cheatsheet.md:37
+#: B.02-Shortcut-Cheatsheet.md:40
 #, fuzzy
 msgid "`M-c` - Copy selection to paste buffer"
 msgstr "`M-c` - Copia lo seleccionado al buffer de pegado"
 
-#: B.02-Shortcut-Cheatsheet.md:38
+#: B.02-Shortcut-Cheatsheet.md:41
 #, fuzzy
 msgid "`M-]` - Copy selection to paste buffer"
 msgstr "`M-]` - Copia lo seleccionado al buffer de pegado"
 
-#: B.02-Shortcut-Cheatsheet.md:39
+#: B.02-Shortcut-Cheatsheet.md:42
 #, fuzzy
 msgid "`M-x` - Cut selection to paste buffer"
 msgstr "`M-x` - Corta lo seleccionado al buffer de pegado"
 
-#: B.02-Shortcut-Cheatsheet.md:40
+#: B.02-Shortcut-Cheatsheet.md:43
 #, fuzzy
 msgid "`C-]` - Cut selection to paste buffer"
 msgstr "`C-]` - Corta lo seleccionado al buffer de pegado"
 
-#: B.02-Shortcut-Cheatsheet.md:41
+#: B.02-Shortcut-Cheatsheet.md:44
 #, fuzzy
 msgid "`C-k` - Cut to the end of the line"
 msgstr "`C-k` - Corta hasta el final de la línea"
 
-#: B.02-Shortcut-Cheatsheet.md:42
+#: B.02-Shortcut-Cheatsheet.md:45
 #, fuzzy
 msgid "`M-v` - Paste from paste buffer to editor"
 msgstr "`M-v` - Pega del buffer de pegado al editor"
 
-#: B.02-Shortcut-Cheatsheet.md:43
+#: B.02-Shortcut-Cheatsheet.md:46
 #, fuzzy
 msgid "`C-y` - Paste from paste buffer to editor"
 msgstr "`C-y` - Pega del buffer de pegado al editor"
 
-#: B.02-Shortcut-Cheatsheet.md:44
+#: B.02-Shortcut-Cheatsheet.md:47
 #, fuzzy
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
@@ -19059,181 +19076,209 @@ msgstr ""
 "`C-SPACE` - Establece marca. La navegación manipulará ahora la región resaltad"
 "a. Usa `C-g` para escapar."
 
-#: B.02-Shortcut-Cheatsheet.md:46
+#: B.02-Shortcut-Cheatsheet.md:48
+#, fuzzy
+msgid "`S-C-a` - Select to beginning of line"
+msgstr "`C-a` - Mueve al inicio de la línea"
+
+#: B.02-Shortcut-Cheatsheet.md:49
+#, fuzzy
+msgid "`S-C-e` - Select to end of line"
+msgstr "`C-e` - Mueve al final de la línea"
+
+#: B.02-Shortcut-Cheatsheet.md:50
+msgid "`S-C-Left` - Select word to the left"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:51
+msgid "`S-C-Right` - Select word to the right"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:52
+#, fuzzy
+msgid "`S-C-Home` - Select to beginning of buffer"
+msgstr "`M-<` - Mueve al inicio del buffer"
+
+#: B.02-Shortcut-Cheatsheet.md:53
+#, fuzzy
+msgid "`S-C-End` - Select to end of buffer"
+msgstr "`M->` - Mueve al final del buffer"
+
+#: B.02-Shortcut-Cheatsheet.md:55
 #, fuzzy
 msgid "Text Manipulation"
 msgstr "Manipulación de Texto"
 
-#: B.02-Shortcut-Cheatsheet.md:48
+#: B.02-Shortcut-Cheatsheet.md:57
 #, fuzzy
 msgid "`M-m` - Align all text"
 msgstr "`M-m` - Alinea todo el texto"
 
-#: B.02-Shortcut-Cheatsheet.md:49
+#: B.02-Shortcut-Cheatsheet.md:58
 #, fuzzy
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr "`Tab` - Alinea la línea/selección actual (o lista completa)"
 
-#: B.02-Shortcut-Cheatsheet.md:50
+#: B.02-Shortcut-Cheatsheet.md:59
 #, fuzzy
 msgid "`C-l` - Centre editor"
 msgstr "`C-l` - Centra el editor"
 
-#: B.02-Shortcut-Cheatsheet.md:51
+#: B.02-Shortcut-Cheatsheet.md:60
 #, fuzzy
 msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr "`M-/` - Comenta la línea actual"
 
-#: B.02-Shortcut-Cheatsheet.md:52
+#: B.02-Shortcut-Cheatsheet.md:61
 #, fuzzy
 msgid "`C-t` - Transpose/swap characters"
 msgstr "`C-t` - Transpone/cambia caracteres"
 
-#: B.02-Shortcut-Cheatsheet.md:53
+#: B.02-Shortcut-Cheatsheet.md:62
 #, fuzzy
 msgid "`M-u` - Convert next word (or selection) to upper case."
 msgstr "`M-u` - Convierte la siguiente palabra (o selección) a mayúscula."
 
-#: B.02-Shortcut-Cheatsheet.md:54
+#: B.02-Shortcut-Cheatsheet.md:63
 #, fuzzy
 msgid "`M-l` - Convert next word (or selection) to lower case."
 msgstr "`M-l` - Convierte la siguiente palabra (o selección) a minúscula."
 
-#: B.02-Shortcut-Cheatsheet.md:58
+#: B.02-Shortcut-Cheatsheet.md:67
 #, fuzzy
 msgid "`C-a` - Move to beginning of line"
 msgstr "`C-a` - Mueve al inicio de la línea"
 
-#: B.02-Shortcut-Cheatsheet.md:59
+#: B.02-Shortcut-Cheatsheet.md:68
 #, fuzzy
 msgid "`C-e` - Move to end of line"
 msgstr "`C-e` - Mueve al final de la línea"
 
-#: B.02-Shortcut-Cheatsheet.md:60
+#: B.02-Shortcut-Cheatsheet.md:69
 #, fuzzy
 msgid "`C-p` - Move to previous line"
 msgstr "`C-p` - Mueve a la línea anterior"
 
-#: B.02-Shortcut-Cheatsheet.md:61
+#: B.02-Shortcut-Cheatsheet.md:70
 #, fuzzy
 msgid "`C-n` - Move to next line"
 msgstr "`C-n` - Mueve a la línea posterior"
 
-#: B.02-Shortcut-Cheatsheet.md:62
+#: B.02-Shortcut-Cheatsheet.md:71
 #, fuzzy
 msgid "`C-f` - Move forward one character"
 msgstr "`C-f` - Mueve adelante un caracter"
 
-#: B.02-Shortcut-Cheatsheet.md:63
+#: B.02-Shortcut-Cheatsheet.md:72
 #, fuzzy
 msgid "`C-b` - Move backward one character"
 msgstr "`C-b` - Mueve atrás un caracter"
 
-#: B.02-Shortcut-Cheatsheet.md:64
+#: B.02-Shortcut-Cheatsheet.md:73
 #, fuzzy
 msgid "`M-f` - Move forward one word"
 msgstr "`M-f` - Mueve adelante una palabra"
 
-#: B.02-Shortcut-Cheatsheet.md:65
+#: B.02-Shortcut-Cheatsheet.md:74
 #, fuzzy
 msgid "`M-b` - Move backward one word"
 msgstr "`M-b` - Mueve atrás una palabra"
 
-#: B.02-Shortcut-Cheatsheet.md:66
+#: B.02-Shortcut-Cheatsheet.md:75
 #, fuzzy
 msgid "`C-M-n` - Move line or selection down"
 msgstr "`C-M-n` - Mueve abajo la línea o selección"
 
-#: B.02-Shortcut-Cheatsheet.md:67
+#: B.02-Shortcut-Cheatsheet.md:76
 #, fuzzy
 msgid "`C-M-p` - Move line or selection up"
 msgstr "`C-M-p` - Mueve arriba la línea o selección"
 
-#: B.02-Shortcut-Cheatsheet.md:68
+#: B.02-Shortcut-Cheatsheet.md:77
 #, fuzzy
 msgid "`S-M-u` - Move up 10 lines"
 msgstr "`S-M-u` - Mueve arriba 10 líneas"
 
-#: B.02-Shortcut-Cheatsheet.md:69
+#: B.02-Shortcut-Cheatsheet.md:78
 #, fuzzy
 msgid "`S-M-d` - Move down 10 lines"
 msgstr "`S-M-d` - Mueve abajo 10 líneas"
 
-#: B.02-Shortcut-Cheatsheet.md:70
+#: B.02-Shortcut-Cheatsheet.md:79
 #, fuzzy
 msgid "`M-<` - Move to beginning of buffer"
 msgstr "`M-<` - Mueve al inicio del buffer"
 
-#: B.02-Shortcut-Cheatsheet.md:71
+#: B.02-Shortcut-Cheatsheet.md:80
 #, fuzzy
 msgid "`M->` - Move to end of buffer"
 msgstr "`M->` - Mueve al final del buffer"
 
-#: B.02-Shortcut-Cheatsheet.md:73
+#: B.02-Shortcut-Cheatsheet.md:82
 #, fuzzy
 msgid "Deletion"
 msgstr "Borrado"
 
-#: B.02-Shortcut-Cheatsheet.md:75
+#: B.02-Shortcut-Cheatsheet.md:84
 #, fuzzy
 msgid "`C-h` - Delete previous character"
 msgstr "`C-h` - Borra el caracter previo"
 
-#: B.02-Shortcut-Cheatsheet.md:76
+#: B.02-Shortcut-Cheatsheet.md:85
 #, fuzzy
 msgid "`C-d` - Delete next character"
 msgstr "`C-d` - Borra el caracter posterior"
 
-#: B.02-Shortcut-Cheatsheet.md:78
+#: B.02-Shortcut-Cheatsheet.md:87
 #, fuzzy
 msgid "Advanced Editor Features"
 msgstr "Características avanzadas del Editor"
 
-#: B.02-Shortcut-Cheatsheet.md:80
+#: B.02-Shortcut-Cheatsheet.md:89
 #, fuzzy
 msgid "`C-i` - Show docs for word under cursor"
 msgstr "`C-i` - Muestra documentos para la palabra bajo el cursor"
 
-#: B.02-Shortcut-Cheatsheet.md:81
+#: B.02-Shortcut-Cheatsheet.md:90
 #, fuzzy
 msgid "`M-z` - Undo"
 msgstr "`M-z` - Deshace"
 
-#: B.02-Shortcut-Cheatsheet.md:82
+#: B.02-Shortcut-Cheatsheet.md:91
 #, fuzzy
 msgid "`S-M-z` - Redo"
 msgstr "`S-M-z` - Rehace"
 
-#: B.02-Shortcut-Cheatsheet.md:83
+#: B.02-Shortcut-Cheatsheet.md:92
 #, fuzzy
 msgid "`C-g` - Escape"
 msgstr "`C-g` - Escapa"
 
-#: B.02-Shortcut-Cheatsheet.md:84
+#: B.02-Shortcut-Cheatsheet.md:93
 #, fuzzy
 msgid "`S-M-f` - Toggle fullscreen mode"
 msgstr "`S-M-f` - Cambia al modo de pantalla completa"
 
-#: B.02-Shortcut-Cheatsheet.md:85
+#: B.02-Shortcut-Cheatsheet.md:94
 #, fuzzy
 msgid "`S-M-b` - Toggle visibility of buttons"
 msgstr "`S-M-b` - Cambia la visibilidad de los botones"
 
-#: B.02-Shortcut-Cheatsheet.md:86
+#: B.02-Shortcut-Cheatsheet.md:95
 #, fuzzy
 msgid "`S-M-l` - Toggle visibility of log"
 msgstr "`S-M-l` - Cambia la visibilidad de la bitácora"
 
-#: B.02-Shortcut-Cheatsheet.md:87
+#: B.02-Shortcut-Cheatsheet.md:96
 #, fuzzy
 msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - Cambia entre los modos luminoso/Obscuro de pantalla"
 
-#: B.02-Shortcut-Cheatsheet.md:88
+#: B.02-Shortcut-Cheatsheet.md:97
 msgid "`S-M-s` - Save contents of buffer to a file"
 msgstr "`S-M-s` - Guarda los contenidos del búfer en un archivo"
 
-#: B.02-Shortcut-Cheatsheet.md:89
+#: B.02-Shortcut-Cheatsheet.md:98
 msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Carga los contenidos de un archivo en el búfer"
 

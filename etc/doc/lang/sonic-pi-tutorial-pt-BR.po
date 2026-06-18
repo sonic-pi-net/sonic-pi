@@ -14742,35 +14742,51 @@ msgid ""
 msgstr ""
 
 #: B.01-Using-Shortcuts.md:29
+#, fuzzy
 msgid ""
-"Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
-"come with their own standard defaults for actions such as cut and paste etc. S"
-"onic Pi will try and honour these standards. However *priority is placed on co"
-"nsistency across platforms* within Sonic Pi rather than attempting to conform "
-"to a given platform's standards. This means that when you learn the shortcuts "
-"whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
-"PC and feel right at home."
+"Unfortunately there are a number of standards for shortcuts with macOS and Win"
+"dows being two of the major styles and other more esoteric editors such as Ema"
+"cs offering other approaches. You can choose between these three styles - *Mac"
+"*, *Windows \\| Linux* and *Emacs Live* - using the menu `IO -> Shortcut Mode`."
+" You can therefore switch between a Windows and a macOS machine and keep your "
+"shortcuts consistent."
+msgstr "choose"
+
+#: B.01-Using-Shortcuts.md:31
+msgid "Customising your Shortcuts"
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:37
+#: B.01-Using-Shortcuts.md:33
+#, fuzzy
+msgid ""
+"If none of the presets quite fit your fingers, you can build your own. Open `P"
+"references -> Shortcuts` and choose the *Custom* mode. Pick one of the presets"
+" as a starting point, then double-click any command and press the key combinat"
+"ion you'd like to use - Sonic Pi records it on the spot. Bindings you've chang"
+"ed are marked, and if a combination clashes with another command it's highligh"
+"ted so you can decide what to do. You can also import and export your custom s"
+"et, which is handy for sharing it or moving it between machines."
+msgstr "choose"
+
+#: B.01-Using-Shortcuts.md:35
 msgid "Control and Meta"
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:39
+#: B.01-Using-Shortcuts.md:37
 msgid ""
-"Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
-"se the names *Control* and *Meta* to refer to the two main combination keys. O"
-"n all platforms *Control* is the same. However, on Linux and Windows, *Meta* i"
-"s actually the *Alt* key while on Mac *Meta* is the *Command* key. For consist"
-"ency we'll use the term *Meta* - just remember to map that to the appropriate "
-"key on your operating system."
+"A key part of the notion of consistency is the naming of shortcuts. In Sonic P"
+"i we use the names *Control* and *Meta* to refer to the two main combination k"
+"eys. On all platforms *Control* is the same. However, on Linux and Windows, *M"
+"eta* is actually the *Alt* key while on Mac *Meta* is the *Command* key. For c"
+"onsistency we'll use the term *Meta* - just remember to map that to the approp"
+"riate key on your operating system."
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:46
+#: B.01-Using-Shortcuts.md:44
 msgid "Abbreviations"
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:48
+#: B.01-Using-Shortcuts.md:46
 msgid ""
 "To help keep things simple and readable, we'll use the abbreviations *C-* for "
 "*Control* plus another key and *M-* for *Meta* plus another key. For example, "
@@ -14778,25 +14794,25 @@ msgid ""
 "s `M-r`. The *-* just means \"at the same time as.\""
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:53
+#: B.01-Using-Shortcuts.md:51
 msgid "The following are some of the shortcuts I find most useful."
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:55
+#: B.01-Using-Shortcuts.md:53
 msgid "Stopping and starting"
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:57
+#: B.01-Using-Shortcuts.md:55
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:56
+#: B.01-Using-Shortcuts.md:58 B.02-Shortcut-Cheatsheet.md:65
 msgid "Navigation"
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:62
+#: B.01-Using-Shortcuts.md:60
 msgid ""
 "I'm really lost without the navigation shortcuts. I therefore highly recommend"
 " you spend the time to learn them. These shortcuts also work extremely well wh"
@@ -14805,34 +14821,36 @@ msgid ""
 "."
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:68
+#: B.01-Using-Shortcuts.md:66
 msgid ""
-"You can move to the beginning of the line with `C-a`, the end of the line with"
-" `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
-" `C-f`, and back a character with `C-b`. You can even delete all the character"
-"s from the cursor to the end of the line with `C-k`."
+"For example, if you're in Emacs Live short cut mode, You can move to the begin"
+"ning of the line with `C-a`, the end of the line with `C-e`, up a line with `C"
+"-p`, down a line with `C-n`, forward a character with `C-f`, and back a charac"
+"ter with `C-b`. You can even delete all the characters from the cursor to the "
+"end of the line with `C-k`. Other modes will have their own shortcuts which ca"
+"n be easily discovered in the app menu."
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:74
+#: B.01-Using-Shortcuts.md:71
 msgid "Tidy Code"
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:76
+#: B.01-Using-Shortcuts.md:73
 msgid "To auto-align your code simply press `M-m`."
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:78
+#: B.01-Using-Shortcuts.md:75
 msgid "Help System"
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:80
+#: B.01-Using-Shortcuts.md:77
 msgid ""
 "To toggle the help system you can press `M-i`. However, a much more useful sho"
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
 "isplay the docs if it finds anything. Instant help!"
 msgstr ""
 
-#: B.01-Using-Shortcuts.md:84
+#: B.01-Using-Shortcuts.md:81
 msgid "For a full list take a look at section B.2 Shortcut Cheatsheet."
 msgstr ""
 
@@ -14846,279 +14864,311 @@ msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:5
 msgid ""
-"The following is a summary of the main shortcuts available within Sonic Pi. Pl"
-"ease see Section B.1 for motivation and background."
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:8
-msgid "Conventions"
+"The following is a summary of the main Emacs Live shortcuts available within S"
+"onic Pi. The Mac and Windows \\| Linux modes differ - switch between them in `I"
+"O -> Shortcut Mode`, or open `Preferences -> Shortcuts` to view every binding "
+"and build your own. Please see Section B.1 for motivation and background."
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:10
+msgid "Conventions"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:12
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:13
+#: B.02-Shortcut-Cheatsheet.md:15
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:14
+#: B.02-Shortcut-Cheatsheet.md:16
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:15
+#: B.02-Shortcut-Cheatsheet.md:17
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:16
+#: B.02-Shortcut-Cheatsheet.md:18
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:18
-msgid "Main Application Manipulation"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:20
-msgid "`M-r` - Run code"
+#: B.02-Shortcut-Cheatsheet.md:19
+msgid ""
+"`S-C-a` means hold the *Shift* key, then the *Control* key, then finally the *"
+"a* key all at the same time, then releasing."
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:21
-msgid "`M-s` - Stop code"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:22
-msgid "`M-i` - Toggle Help System"
+msgid "Main Application Manipulation"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:23
-msgid "`M-p` - Toggle Preferences"
+msgid "`M-r` - Run code"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:24
-msgid "`M-{` - Switch buffer to the left"
+msgid "`M-s` - Stop code"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:25
-msgid "`M-}` - Switch buffer to the right"
+msgid "`M-i` - Toggle Help System"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:26
-msgid "`S-M-0` - Switch to buffer 0"
+msgid "`M-p` - Toggle Preferences"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:27
-msgid "`S-M-1` - Switch to buffer 1"
+msgid "`M-{` - Switch buffer to the left"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:28
-msgid "..."
+msgid "`M-}` - Switch buffer to the right"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:29
-msgid "`S-M-9` - Switch to buffer 9"
+msgid "`S-M-0` - Switch to buffer 0"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:30
-msgid "`M-+` - Increase text size of current buffer"
+msgid "`S-M-1` - Switch to buffer 1"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:31
-msgid "`M--` - Decrease text size of current buffer"
+msgid "..."
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:32
+msgid "`S-M-9` - Switch to buffer 9"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:33
+msgid "`M-+` - Increase text size of current buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:34
-msgid "Selection/Copy/Paste"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:36
-msgid "`M-a` - Select all"
+msgid "`M--` - Decrease text size of current buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:37
-msgid "`M-c` - Copy selection to paste buffer"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:38
-msgid "`M-]` - Copy selection to paste buffer"
+msgid "Selection/Copy/Paste"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:39
-msgid "`M-x` - Cut selection to paste buffer"
+msgid "`M-a` - Select all"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:40
-msgid "`C-]` - Cut selection to paste buffer"
+msgid "`M-c` - Copy selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:41
-msgid "`C-k` - Cut to the end of the line"
+msgid "`M-]` - Copy selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:42
-msgid "`M-v` - Paste from paste buffer to editor"
+msgid "`M-x` - Cut selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:43
-msgid "`C-y` - Paste from paste buffer to editor"
+msgid "`C-]` - Cut selection to paste buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:44
+msgid "`C-k` - Cut to the end of the line"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:45
+msgid "`M-v` - Paste from paste buffer to editor"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:46
+msgid "`C-y` - Paste from paste buffer to editor"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:47
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:46
-msgid "Text Manipulation"
-msgstr ""
-
 #: B.02-Shortcut-Cheatsheet.md:48
-msgid "`M-m` - Align all text"
+msgid "`S-C-a` - Select to beginning of line"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:49
-msgid "`Tab` - Align current line or selection (or select autocompletion)"
+msgid "`S-C-e` - Select to end of line"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:50
-msgid "`C-l` - Centre editor"
+msgid "`S-C-Left` - Select word to the left"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:51
-msgid "`M-/` - Comment/Uncomment current line or selection"
+msgid "`S-C-Right` - Select word to the right"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:52
-msgid "`C-t` - Transpose/swap characters"
+msgid "`S-C-Home` - Select to beginning of buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:53
-msgid "`M-u` - Convert next word (or selection) to upper case."
+msgid "`S-C-End` - Select to end of buffer"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:54
-msgid "`M-l` - Convert next word (or selection) to lower case."
+#: B.02-Shortcut-Cheatsheet.md:55
+msgid "Text Manipulation"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:57
+msgid "`M-m` - Align all text"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:58
-msgid "`C-a` - Move to beginning of line"
+msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:59
-msgid "`C-e` - Move to end of line"
+msgid "`C-l` - Centre editor"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:60
-msgid "`C-p` - Move to previous line"
+msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:61
-msgid "`C-n` - Move to next line"
+msgid "`C-t` - Transpose/swap characters"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:62
-msgid "`C-f` - Move forward one character"
+msgid "`M-u` - Convert next word (or selection) to upper case."
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:63
-msgid "`C-b` - Move backward one character"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:64
-msgid "`M-f` - Move forward one word"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:65
-msgid "`M-b` - Move backward one word"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:66
-msgid "`C-M-n` - Move line or selection down"
+msgid "`M-l` - Convert next word (or selection) to lower case."
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:67
-msgid "`C-M-p` - Move line or selection up"
+msgid "`C-a` - Move to beginning of line"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:68
-msgid "`S-M-u` - Move up 10 lines"
+msgid "`C-e` - Move to end of line"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:69
-msgid "`S-M-d` - Move down 10 lines"
+msgid "`C-p` - Move to previous line"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:70
-msgid "`M-<` - Move to beginning of buffer"
+msgid "`C-n` - Move to next line"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:71
-msgid "`M->` - Move to end of buffer"
+msgid "`C-f` - Move forward one character"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:72
+msgid "`C-b` - Move backward one character"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:73
-msgid "Deletion"
+msgid "`M-f` - Move forward one word"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:74
+msgid "`M-b` - Move backward one word"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:75
-msgid "`C-h` - Delete previous character"
+msgid "`C-M-n` - Move line or selection down"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:76
-msgid "`C-d` - Delete next character"
+msgid "`C-M-p` - Move line or selection up"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:77
+msgid "`S-M-u` - Move up 10 lines"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:78
-msgid "Advanced Editor Features"
+msgid "`S-M-d` - Move down 10 lines"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:79
+msgid "`M-<` - Move to beginning of buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:80
-msgid "`C-i` - Show docs for word under cursor"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:81
-msgid "`M-z` - Undo"
+msgid "`M->` - Move to end of buffer"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:82
-msgid "`S-M-z` - Redo"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:83
-msgid "`C-g` - Escape"
+msgid "Deletion"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:84
-msgid "`S-M-f` - Toggle fullscreen mode"
+msgid "`C-h` - Delete previous character"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:85
-msgid "`S-M-b` - Toggle visibility of buttons"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:86
-msgid "`S-M-l` - Toggle visibility of log"
+msgid "`C-d` - Delete next character"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:87
-msgid "`S-M-m` - Toggle between light/dark modes"
-msgstr ""
-
-#: B.02-Shortcut-Cheatsheet.md:88
-msgid "`S-M-s` - Save contents of buffer to a file"
+msgid "Advanced Editor Features"
 msgstr ""
 
 #: B.02-Shortcut-Cheatsheet.md:89
+msgid "`C-i` - Show docs for word under cursor"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:90
+msgid "`M-z` - Undo"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:91
+msgid "`S-M-z` - Redo"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:92
+msgid "`C-g` - Escape"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:93
+msgid "`S-M-f` - Toggle fullscreen mode"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:94
+msgid "`S-M-b` - Toggle visibility of buttons"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:95
+msgid "`S-M-l` - Toggle visibility of log"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:96
+msgid "`S-M-m` - Toggle between light/dark modes"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:97
+msgid "`S-M-s` - Save contents of buffer to a file"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:98
 msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr ""
 

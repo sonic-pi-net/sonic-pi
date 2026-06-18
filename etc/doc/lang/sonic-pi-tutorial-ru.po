@@ -18858,35 +18858,45 @@ msgstr ""
 "ользовать всего один."
 
 #: B.01-Using-Shortcuts.md:29
+#, fuzzy
 msgid ""
-"Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
-"come with their own standard defaults for actions such as cut and paste etc. S"
-"onic Pi will try and honour these standards. However *priority is placed on co"
-"nsistency across platforms* within Sonic Pi rather than attempting to conform "
-"to a given platform's standards. This means that when you learn the shortcuts "
-"whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
-"PC and feel right at home."
-msgstr ""
-"К сожалению три основные операционные системы (Linux, Mac ОС X и Windows) пост"
-"авляются с собственными стандартами по умолчанию для таких действий, как вырез"
-"ать, вставить и т. д. Sonic Pi будет пытаться соблюдать эти стандарты. Однако,"
-" вместо попыток соответствовать стандартам текущей платформы, Sonic Pi *приори"
-"тетное внимание уделяет согласованности между платформами*. Это значит, что ес"
-"ли вы изучите сочетания клавиш во время игры с Sonic Pi на Raspberry Pi, то см"
-"ожете перейти на Mac или PC и чувствовать себя там как дома."
+"Unfortunately there are a number of standards for shortcuts with macOS and Win"
+"dows being two of the major styles and other more esoteric editors such as Ema"
+"cs offering other approaches. You can choose between these three styles - *Mac"
+"*, *Windows \\| Linux* and *Emacs Live* - using the menu `IO -> Shortcut Mode`."
+" You can therefore switch between a Windows and a macOS machine and keep your "
+"shortcuts consistent."
+msgstr "choose"
 
-#: B.01-Using-Shortcuts.md:37
+#: B.01-Using-Shortcuts.md:31
+msgid "Customising your Shortcuts"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:33
+#, fuzzy
+msgid ""
+"If none of the presets quite fit your fingers, you can build your own. Open `P"
+"references -> Shortcuts` and choose the *Custom* mode. Pick one of the presets"
+" as a starting point, then double-click any command and press the key combinat"
+"ion you'd like to use - Sonic Pi records it on the spot. Bindings you've chang"
+"ed are marked, and if a combination clashes with another command it's highligh"
+"ted so you can decide what to do. You can also import and export your custom s"
+"et, which is handy for sharing it or moving it between machines."
+msgstr "choose"
+
+#: B.01-Using-Shortcuts.md:35
 msgid "Control and Meta"
 msgstr "Control и Meta"
 
-#: B.01-Using-Shortcuts.md:39
+#: B.01-Using-Shortcuts.md:37
+#, fuzzy
 msgid ""
-"Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
-"se the names *Control* and *Meta* to refer to the two main combination keys. O"
-"n all platforms *Control* is the same. However, on Linux and Windows, *Meta* i"
-"s actually the *Alt* key while on Mac *Meta* is the *Command* key. For consist"
-"ency we'll use the term *Meta* - just remember to map that to the appropriate "
-"key on your operating system."
+"A key part of the notion of consistency is the naming of shortcuts. In Sonic P"
+"i we use the names *Control* and *Meta* to refer to the two main combination k"
+"eys. On all platforms *Control* is the same. However, on Linux and Windows, *M"
+"eta* is actually the *Alt* key while on Mac *Meta* is the *Command* key. For c"
+"onsistency we'll use the term *Meta* - just remember to map that to the approp"
+"riate key on your operating system."
 msgstr ""
 "Частью понятия согласованности является именование клавиатурных сочетаний. В S"
 "onic Pi мы используем имена *Control* и *Meta*, ссылаясь на две главные комбин"
@@ -18896,11 +18906,11 @@ msgstr ""
 "ко не забудьте сопоставить его с соответствующей клавишей вашей операционной с"
 "истемы."
 
-#: B.01-Using-Shortcuts.md:46
+#: B.01-Using-Shortcuts.md:44
 msgid "Abbreviations"
 msgstr "Аббревиатуры"
 
-#: B.01-Using-Shortcuts.md:48
+#: B.01-Using-Shortcuts.md:46
 msgid ""
 "To help keep things simple and readable, we'll use the abbreviations *C-* for "
 "*Control* plus another key and *M-* for *Meta* plus another key. For example, "
@@ -18913,15 +18923,15 @@ msgstr ""
 "еменно *Meta* и *r*, мы напишем это как `M-r`. Символ *-* означает \"одновремен"
 "но с\"."
 
-#: B.01-Using-Shortcuts.md:53
+#: B.01-Using-Shortcuts.md:51
 msgid "The following are some of the shortcuts I find most useful."
 msgstr "Ниже приведены клавиатурные сочетания, которые я считаю самыми полезными."
 
-#: B.01-Using-Shortcuts.md:55
+#: B.01-Using-Shortcuts.md:53
 msgid "Stopping and starting"
 msgstr "Выполнение и остановка"
 
-#: B.01-Using-Shortcuts.md:57
+#: B.01-Using-Shortcuts.md:55
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
@@ -18930,11 +18940,11 @@ msgstr ""
 "ожете просто нажать `M-r`. Аналогично, чтобы остановить выполнение кода, вы мо"
 "жете нажать `M-s`."
 
-#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:56
+#: B.01-Using-Shortcuts.md:58 B.02-Shortcut-Cheatsheet.md:65
 msgid "Navigation"
 msgstr "Навигация"
 
-#: B.01-Using-Shortcuts.md:62
+#: B.01-Using-Shortcuts.md:60
 msgid ""
 "I'm really lost without the navigation shortcuts. I therefore highly recommend"
 " you spend the time to learn them. These shortcuts also work extremely well wh"
@@ -18948,30 +18958,33 @@ msgstr ""
 "ак они используют обычные буквы и не нужно перемещать руку на мышь или клавиши"
 " со стрелками на вашей клавиатуре."
 
-#: B.01-Using-Shortcuts.md:68
+#: B.01-Using-Shortcuts.md:66
+#, fuzzy
 msgid ""
-"You can move to the beginning of the line with `C-a`, the end of the line with"
-" `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
-" `C-f`, and back a character with `C-b`. You can even delete all the character"
-"s from the cursor to the end of the line with `C-k`."
+"For example, if you're in Emacs Live short cut mode, You can move to the begin"
+"ning of the line with `C-a`, the end of the line with `C-e`, up a line with `C"
+"-p`, down a line with `C-n`, forward a character with `C-f`, and back a charac"
+"ter with `C-b`. You can even delete all the characters from the cursor to the "
+"end of the line with `C-k`. Other modes will have their own shortcuts which ca"
+"n be easily discovered in the app menu."
 msgstr ""
 "Вы можете двигаться к началу строки, используя `C-a`, к концу строки, использу"
 "я `C-e`, на строку вверх - `C-p`, на строку вниз - `C-n`, на символ вперёд - `"
 "C-f`, и на символ назад - `C-b`."
 
-#: B.01-Using-Shortcuts.md:74
+#: B.01-Using-Shortcuts.md:71
 msgid "Tidy Code"
 msgstr "Аккуратный код"
 
-#: B.01-Using-Shortcuts.md:76
+#: B.01-Using-Shortcuts.md:73
 msgid "To auto-align your code simply press `M-m`."
 msgstr "Чтобы применить автовыравнивание к вашему коду, просто нажмите `M-m`."
 
-#: B.01-Using-Shortcuts.md:78
+#: B.01-Using-Shortcuts.md:75
 msgid "Help System"
 msgstr "Справочная система"
 
-#: B.01-Using-Shortcuts.md:80
+#: B.01-Using-Shortcuts.md:77
 msgid ""
 "To toggle the help system you can press `M-i`. However, a much more useful sho"
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
@@ -18981,7 +18994,7 @@ msgstr ""
 "знее знать сочетание `C-i`, которое будет искать слово под курсором в документ"
 "ации и отображать её, если что-нибудь найдет. Мгновенная помощь!"
 
-#: B.01-Using-Shortcuts.md:84
+#: B.01-Using-Shortcuts.md:81
 #, fuzzy
 msgid "For a full list take a look at section B.2 Shortcut Cheatsheet."
 msgstr ""
@@ -18997,19 +19010,18 @@ msgid "Shortcut Cheatsheet"
 msgstr "Шпаргалка по клавиатурным сочетаниям"
 
 #: B.02-Shortcut-Cheatsheet.md:5
-#, fuzzy
 msgid ""
-"The following is a summary of the main shortcuts available within Sonic Pi. Pl"
-"ease see Section B.1 for motivation and background."
+"The following is a summary of the main Emacs Live shortcuts available within S"
+"onic Pi. The Mac and Windows \\| Linux modes differ - switch between them in `I"
+"O -> Shortcut Mode`, or open `Preferences -> Shortcuts` to view every binding "
+"and build your own. Please see Section B.1 for motivation and background."
 msgstr ""
-"Ниже приводится обзор основных клавиатурных сочетаний, доступных в Sonic Pi. П"
-"ожалуйста, посмотрите раздел 10.1 для подготовки и мотивации."
 
-#: B.02-Shortcut-Cheatsheet.md:8
+#: B.02-Shortcut-Cheatsheet.md:10
 msgid "Conventions"
 msgstr "Соглашения"
 
-#: B.02-Shortcut-Cheatsheet.md:10
+#: B.02-Shortcut-Cheatsheet.md:12
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
@@ -19017,7 +19029,7 @@ msgstr ""
 "В этом списке мы используем следующие соглашения (где *Meta* называется *Alt* "
 "в Windows/Linux или *Cmd* в Mac):"
 
-#: B.02-Shortcut-Cheatsheet.md:13
+#: B.02-Shortcut-Cheatsheet.md:15
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
@@ -19025,7 +19037,7 @@ msgstr ""
 "`C-a` значит удерживая клавишу *Control*, нажмите клавишу *a*. И после того, к"
 "ак обе клавиши будут нажаты одновременно, отпустите их."
 
-#: B.02-Shortcut-Cheatsheet.md:14
+#: B.02-Shortcut-Cheatsheet.md:16
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
@@ -19033,7 +19045,7 @@ msgstr ""
 "`M-r` значит удерживая клавишу *Meta*, нажмите клавишу *r*. И после того, как "
 "обе клавиши будут нажаты одновременно, отпустите их."
 
-#: B.02-Shortcut-Cheatsheet.md:15
+#: B.02-Shortcut-Cheatsheet.md:17
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
@@ -19041,7 +19053,7 @@ msgstr ""
 "`S-M-z` значит удерживая клавиши *Shift* и *Meta*, нажмите клавишу *z*. И посл"
 "е того, как все три клавиши будут нажаты одновременно, отпустите их."
 
-#: B.02-Shortcut-Cheatsheet.md:16
+#: B.02-Shortcut-Cheatsheet.md:18
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
@@ -19049,95 +19061,104 @@ msgstr ""
 "`C-M-f` значит удерживая клавиши *Control* и *Meta*, нажмите клавишу *f*. И по"
 "сле того, как все три клавиши будут нажаты одновременно, отпустите их."
 
-#: B.02-Shortcut-Cheatsheet.md:18
+#: B.02-Shortcut-Cheatsheet.md:19
+#, fuzzy
+msgid ""
+"`S-C-a` means hold the *Shift* key, then the *Control* key, then finally the *"
+"a* key all at the same time, then releasing."
+msgstr ""
+"`S-M-z` значит удерживая клавиши *Shift* и *Meta*, нажмите клавишу *z*. И посл"
+"е того, как все три клавиши будут нажаты одновременно, отпустите их."
+
+#: B.02-Shortcut-Cheatsheet.md:21
 msgid "Main Application Manipulation"
 msgstr "Основные манипуляции с приложением"
 
-#: B.02-Shortcut-Cheatsheet.md:20
+#: B.02-Shortcut-Cheatsheet.md:23
 msgid "`M-r` - Run code"
 msgstr "`M-r` - Выполнить код"
 
-#: B.02-Shortcut-Cheatsheet.md:21
+#: B.02-Shortcut-Cheatsheet.md:24
 msgid "`M-s` - Stop code"
 msgstr "`M-s` - Остановить выполнение кода"
 
-#: B.02-Shortcut-Cheatsheet.md:22
+#: B.02-Shortcut-Cheatsheet.md:25
 msgid "`M-i` - Toggle Help System"
 msgstr "`M-i` - Показать/скрыть справочную систему"
 
-#: B.02-Shortcut-Cheatsheet.md:23
+#: B.02-Shortcut-Cheatsheet.md:26
 msgid "`M-p` - Toggle Preferences"
 msgstr "`M-p` - Показать/скрыть настройки"
 
-#: B.02-Shortcut-Cheatsheet.md:24
+#: B.02-Shortcut-Cheatsheet.md:27
 msgid "`M-{` - Switch buffer to the left"
 msgstr "`M-{` - Переключить буфер влево"
 
-#: B.02-Shortcut-Cheatsheet.md:25
+#: B.02-Shortcut-Cheatsheet.md:28
 msgid "`M-}` - Switch buffer to the right"
 msgstr "`M-}` - Переключить буфер вправо"
 
-#: B.02-Shortcut-Cheatsheet.md:26
+#: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-0` - Switch to buffer 0"
 msgstr "`S-M-0` – Переключится на буфер 0"
 
-#: B.02-Shortcut-Cheatsheet.md:27
+#: B.02-Shortcut-Cheatsheet.md:30
 msgid "`S-M-1` - Switch to buffer 1"
 msgstr "`S-M-1` – Переключится на буфер 1"
 
-#: B.02-Shortcut-Cheatsheet.md:28
+#: B.02-Shortcut-Cheatsheet.md:31
 msgid "..."
 msgstr "..."
 
-#: B.02-Shortcut-Cheatsheet.md:29
+#: B.02-Shortcut-Cheatsheet.md:32
 msgid "`S-M-9` - Switch to buffer 9"
 msgstr "`S-M-9` – Переключится на буфер 9"
 
-#: B.02-Shortcut-Cheatsheet.md:30
+#: B.02-Shortcut-Cheatsheet.md:33
 msgid "`M-+` - Increase text size of current buffer"
 msgstr "`M-+` - Увеличить размер текста в текущем буфере"
 
-#: B.02-Shortcut-Cheatsheet.md:31
+#: B.02-Shortcut-Cheatsheet.md:34
 msgid "`M--` - Decrease text size of current buffer"
 msgstr "`M--` - Уменьшить размер текста в текущем буфере"
 
-#: B.02-Shortcut-Cheatsheet.md:34
+#: B.02-Shortcut-Cheatsheet.md:37
 msgid "Selection/Copy/Paste"
 msgstr "Выделение/Копирование/Вставка"
 
-#: B.02-Shortcut-Cheatsheet.md:36
+#: B.02-Shortcut-Cheatsheet.md:39
 msgid "`M-a` - Select all"
 msgstr "`M-a` - Выбрать всё"
 
-#: B.02-Shortcut-Cheatsheet.md:37
+#: B.02-Shortcut-Cheatsheet.md:40
 msgid "`M-c` - Copy selection to paste buffer"
 msgstr "`M-c` - Копировать выделение в буфер обмена"
 
-#: B.02-Shortcut-Cheatsheet.md:38
+#: B.02-Shortcut-Cheatsheet.md:41
 msgid "`M-]` - Copy selection to paste buffer"
 msgstr "`M-]` - Копировать выделение в буфер обмена"
 
-#: B.02-Shortcut-Cheatsheet.md:39
+#: B.02-Shortcut-Cheatsheet.md:42
 msgid "`M-x` - Cut selection to paste buffer"
 msgstr "`M-x` - Вырезать выделение в буфер обмена"
 
-#: B.02-Shortcut-Cheatsheet.md:40
+#: B.02-Shortcut-Cheatsheet.md:43
 msgid "`C-]` - Cut selection to paste buffer"
 msgstr "`C-]` - Вырезать выделение в буфер обмена"
 
-#: B.02-Shortcut-Cheatsheet.md:41
+#: B.02-Shortcut-Cheatsheet.md:44
 msgid "`C-k` - Cut to the end of the line"
 msgstr "`C-k` - Вырезать от курсора до конца строки"
 
-#: B.02-Shortcut-Cheatsheet.md:42
+#: B.02-Shortcut-Cheatsheet.md:45
 msgid "`M-v` - Paste from paste buffer to editor"
 msgstr "`M-v` - Вставить из буфера обмена в редактор"
 
-#: B.02-Shortcut-Cheatsheet.md:43
+#: B.02-Shortcut-Cheatsheet.md:46
 msgid "`C-y` - Paste from paste buffer to editor"
 msgstr "`C-y` - Вставить из буфера обмена в редактор"
 
-#: B.02-Shortcut-Cheatsheet.md:44
+#: B.02-Shortcut-Cheatsheet.md:47
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
@@ -19145,147 +19166,175 @@ msgstr ""
 "`C-SPACE` - Установить метку. Теперь навигация управляет областью выделения. И"
 "спользуйте `C-g` для отмены."
 
-#: B.02-Shortcut-Cheatsheet.md:46
+#: B.02-Shortcut-Cheatsheet.md:48
+#, fuzzy
+msgid "`S-C-a` - Select to beginning of line"
+msgstr "`C-a` - Перейти в начало строки"
+
+#: B.02-Shortcut-Cheatsheet.md:49
+#, fuzzy
+msgid "`S-C-e` - Select to end of line"
+msgstr "`C-e` - Перейти в конец строки"
+
+#: B.02-Shortcut-Cheatsheet.md:50
+msgid "`S-C-Left` - Select word to the left"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:51
+msgid "`S-C-Right` - Select word to the right"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:52
+#, fuzzy
+msgid "`S-C-Home` - Select to beginning of buffer"
+msgstr "`M-<` - Перейти в начало буфера"
+
+#: B.02-Shortcut-Cheatsheet.md:53
+#, fuzzy
+msgid "`S-C-End` - Select to end of buffer"
+msgstr "`M->` - Перейти в конец буфера"
+
+#: B.02-Shortcut-Cheatsheet.md:55
 msgid "Text Manipulation"
 msgstr "Работа с текстом"
 
-#: B.02-Shortcut-Cheatsheet.md:48
+#: B.02-Shortcut-Cheatsheet.md:57
 msgid "`M-m` - Align all text"
 msgstr "`M-m` - Выровнять весь текст"
 
-#: B.02-Shortcut-Cheatsheet.md:49
+#: B.02-Shortcut-Cheatsheet.md:58
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr "`Tab` - Выровнять текущую линию/выделение"
 
-#: B.02-Shortcut-Cheatsheet.md:50
+#: B.02-Shortcut-Cheatsheet.md:59
 msgid "`C-l` - Centre editor"
 msgstr "`C-l` - Отобразить буфер с текущей строкой по центру экрана"
 
-#: B.02-Shortcut-Cheatsheet.md:51
+#: B.02-Shortcut-Cheatsheet.md:60
 msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr "`M-/` - Комментировать/раскомментировать текущую строку"
 
-#: B.02-Shortcut-Cheatsheet.md:52
+#: B.02-Shortcut-Cheatsheet.md:61
 msgid "`C-t` - Transpose/swap characters"
 msgstr "`C-t` - Перемещение/замена символов"
 
-#: B.02-Shortcut-Cheatsheet.md:53
+#: B.02-Shortcut-Cheatsheet.md:62
 msgid "`M-u` - Convert next word (or selection) to upper case."
 msgstr "`M-u` - Преобразовать следующее слово (или выделение) в верхний регистр."
 
-#: B.02-Shortcut-Cheatsheet.md:54
+#: B.02-Shortcut-Cheatsheet.md:63
 msgid "`M-l` - Convert next word (or selection) to lower case."
 msgstr "`M-l` - Преобразовать следующее слово (или выделение) в нижний регистр"
 
-#: B.02-Shortcut-Cheatsheet.md:58
+#: B.02-Shortcut-Cheatsheet.md:67
 msgid "`C-a` - Move to beginning of line"
 msgstr "`C-a` - Перейти в начало строки"
 
-#: B.02-Shortcut-Cheatsheet.md:59
+#: B.02-Shortcut-Cheatsheet.md:68
 msgid "`C-e` - Move to end of line"
 msgstr "`C-e` - Перейти в конец строки"
 
-#: B.02-Shortcut-Cheatsheet.md:60
+#: B.02-Shortcut-Cheatsheet.md:69
 msgid "`C-p` - Move to previous line"
 msgstr "`C-p` - Перейти на предыдущую строку"
 
-#: B.02-Shortcut-Cheatsheet.md:61
+#: B.02-Shortcut-Cheatsheet.md:70
 msgid "`C-n` - Move to next line"
 msgstr "`C-n` - Перейти на следующую строку"
 
-#: B.02-Shortcut-Cheatsheet.md:62
+#: B.02-Shortcut-Cheatsheet.md:71
 msgid "`C-f` - Move forward one character"
 msgstr "`C-f` - Перейти вперёд на один символ"
 
-#: B.02-Shortcut-Cheatsheet.md:63
+#: B.02-Shortcut-Cheatsheet.md:72
 msgid "`C-b` - Move backward one character"
 msgstr "`C-b` - Перейти назад на один символ"
 
-#: B.02-Shortcut-Cheatsheet.md:64
+#: B.02-Shortcut-Cheatsheet.md:73
 msgid "`M-f` - Move forward one word"
 msgstr "`M-f` - Перейти вперёд на одно слово"
 
-#: B.02-Shortcut-Cheatsheet.md:65
+#: B.02-Shortcut-Cheatsheet.md:74
 msgid "`M-b` - Move backward one word"
 msgstr "`M-b` - Перейти назад на одно слово"
 
-#: B.02-Shortcut-Cheatsheet.md:66
+#: B.02-Shortcut-Cheatsheet.md:75
 msgid "`C-M-n` - Move line or selection down"
 msgstr "`C-M-n` - Переместить строку или выделение вниз"
 
-#: B.02-Shortcut-Cheatsheet.md:67
+#: B.02-Shortcut-Cheatsheet.md:76
 msgid "`C-M-p` - Move line or selection up"
 msgstr "`C-M-p` - Переместить строку или выделение вверх"
 
-#: B.02-Shortcut-Cheatsheet.md:68
+#: B.02-Shortcut-Cheatsheet.md:77
 msgid "`S-M-u` - Move up 10 lines"
 msgstr "`S-M-u` - Подняться на 10 строк"
 
-#: B.02-Shortcut-Cheatsheet.md:69
+#: B.02-Shortcut-Cheatsheet.md:78
 msgid "`S-M-d` - Move down 10 lines"
 msgstr "`S-M-d` - Опуститься на 10 строк"
 
-#: B.02-Shortcut-Cheatsheet.md:70
+#: B.02-Shortcut-Cheatsheet.md:79
 msgid "`M-<` - Move to beginning of buffer"
 msgstr "`M-<` - Перейти в начало буфера"
 
-#: B.02-Shortcut-Cheatsheet.md:71
+#: B.02-Shortcut-Cheatsheet.md:80
 msgid "`M->` - Move to end of buffer"
 msgstr "`M->` - Перейти в конец буфера"
 
-#: B.02-Shortcut-Cheatsheet.md:73
+#: B.02-Shortcut-Cheatsheet.md:82
 msgid "Deletion"
 msgstr "Удаление"
 
-#: B.02-Shortcut-Cheatsheet.md:75
+#: B.02-Shortcut-Cheatsheet.md:84
 msgid "`C-h` - Delete previous character"
 msgstr "`C-h` - Удалить предыдущий символ"
 
-#: B.02-Shortcut-Cheatsheet.md:76
+#: B.02-Shortcut-Cheatsheet.md:85
 msgid "`C-d` - Delete next character"
 msgstr "`C-d` - Удалить следующий символ"
 
-#: B.02-Shortcut-Cheatsheet.md:78
+#: B.02-Shortcut-Cheatsheet.md:87
 msgid "Advanced Editor Features"
 msgstr "Расширенные возможности редактора"
 
-#: B.02-Shortcut-Cheatsheet.md:80
+#: B.02-Shortcut-Cheatsheet.md:89
 msgid "`C-i` - Show docs for word under cursor"
 msgstr "`C-i` - Показать документацию по слову под курсором"
 
-#: B.02-Shortcut-Cheatsheet.md:81
+#: B.02-Shortcut-Cheatsheet.md:90
 msgid "`M-z` - Undo"
 msgstr "`M-z` - Отмена"
 
-#: B.02-Shortcut-Cheatsheet.md:82
+#: B.02-Shortcut-Cheatsheet.md:91
 msgid "`S-M-z` - Redo"
 msgstr "`S-M-z` - Повтор"
 
-#: B.02-Shortcut-Cheatsheet.md:83
+#: B.02-Shortcut-Cheatsheet.md:92
 msgid "`C-g` - Escape"
 msgstr "`C-g` - Escape"
 
-#: B.02-Shortcut-Cheatsheet.md:84
+#: B.02-Shortcut-Cheatsheet.md:93
 msgid "`S-M-f` - Toggle fullscreen mode"
 msgstr "`S-M-f` - Переключение полноэкранного режима"
 
-#: B.02-Shortcut-Cheatsheet.md:85
+#: B.02-Shortcut-Cheatsheet.md:94
 msgid "`S-M-b` - Toggle visibility of buttons"
 msgstr "`S-M-b` - Показать/скрыть кнопки"
 
-#: B.02-Shortcut-Cheatsheet.md:86
+#: B.02-Shortcut-Cheatsheet.md:95
 msgid "`S-M-l` - Toggle visibility of log"
 msgstr "`S-M-l` - Показать/скрыть журнал"
 
-#: B.02-Shortcut-Cheatsheet.md:87
+#: B.02-Shortcut-Cheatsheet.md:96
 msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - Переключение между светлым и тёмным режимом"
 
-#: B.02-Shortcut-Cheatsheet.md:88
+#: B.02-Shortcut-Cheatsheet.md:97
 msgid "`S-M-s` - Save contents of buffer to a file"
 msgstr "`S-M-s` - Сохранить содержание буфера в файл"
 
-#: B.02-Shortcut-Cheatsheet.md:89
+#: B.02-Shortcut-Cheatsheet.md:98
 msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Загрузить содержания из файла в буфер"
 

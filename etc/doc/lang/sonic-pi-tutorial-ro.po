@@ -17789,35 +17789,45 @@ msgstr ""
 "arca."
 
 #: B.01-Using-Shortcuts.md:29
+#, fuzzy
 msgid ""
-"Unfortunately the three major operating systems (Linux, Mac OS X and Windows) "
-"come with their own standard defaults for actions such as cut and paste etc. S"
-"onic Pi will try and honour these standards. However *priority is placed on co"
-"nsistency across platforms* within Sonic Pi rather than attempting to conform "
-"to a given platform's standards. This means that when you learn the shortcuts "
-"whilst playing with Sonic Pi on your Raspberry Pi, you can move to the Mac or "
-"PC and feel right at home."
-msgstr ""
-"Din pacate, cele trei sisteme de operare cele mai raspandite (Linux, Mac OS X "
-"si Windows) vin cu propriile combinatii implicite pentru diferite actiuni cum "
-"ar fi pentru copy/paste, etc. Sonic Pi va incerca sa respecte aceste standarde"
-". Totusi, *prioritate are coerenta intre platforme* in cadrul Sonic Pi, nu res"
-"pectarea standardelor unei anumite platforme. Asta inseamna ca daca ai invatat"
-" combinatiile folosind Sonic Pi pe Raspberry Pi, poti trece la versiunea de Ma"
-"c sau PC si sa te simti ca acasa."
+"Unfortunately there are a number of standards for shortcuts with macOS and Win"
+"dows being two of the major styles and other more esoteric editors such as Ema"
+"cs offering other approaches. You can choose between these three styles - *Mac"
+"*, *Windows \\| Linux* and *Emacs Live* - using the menu `IO -> Shortcut Mode`."
+" You can therefore switch between a Windows and a macOS machine and keep your "
+"shortcuts consistent."
+msgstr "choose (alege)"
 
-#: B.01-Using-Shortcuts.md:37
+#: B.01-Using-Shortcuts.md:31
+msgid "Customising your Shortcuts"
+msgstr ""
+
+#: B.01-Using-Shortcuts.md:33
+#, fuzzy
+msgid ""
+"If none of the presets quite fit your fingers, you can build your own. Open `P"
+"references -> Shortcuts` and choose the *Custom* mode. Pick one of the presets"
+" as a starting point, then double-click any command and press the key combinat"
+"ion you'd like to use - Sonic Pi records it on the spot. Bindings you've chang"
+"ed are marked, and if a combination clashes with another command it's highligh"
+"ted so you can decide what to do. You can also import and export your custom s"
+"et, which is handy for sharing it or moving it between machines."
+msgstr "choose (alege)"
+
+#: B.01-Using-Shortcuts.md:35
 msgid "Control and Meta"
 msgstr "Control si Meta"
 
-#: B.01-Using-Shortcuts.md:39
+#: B.01-Using-Shortcuts.md:37
+#, fuzzy
 msgid ""
-"Part of the notion of consistency is the naming of shortcuts. In Sonic Pi we u"
-"se the names *Control* and *Meta* to refer to the two main combination keys. O"
-"n all platforms *Control* is the same. However, on Linux and Windows, *Meta* i"
-"s actually the *Alt* key while on Mac *Meta* is the *Command* key. For consist"
-"ency we'll use the term *Meta* - just remember to map that to the appropriate "
-"key on your operating system."
+"A key part of the notion of consistency is the naming of shortcuts. In Sonic P"
+"i we use the names *Control* and *Meta* to refer to the two main combination k"
+"eys. On all platforms *Control* is the same. However, on Linux and Windows, *M"
+"eta* is actually the *Alt* key while on Mac *Meta* is the *Command* key. For c"
+"onsistency we'll use the term *Meta* - just remember to map that to the approp"
+"riate key on your operating system."
 msgstr ""
 "Notiunea de coerenta acopera si numele folosite pentru combinatiile de taste. "
 "In Sonic Pi folosim *Control* si *Meta* pentru a ne referi la 2 taste importan"
@@ -17827,11 +17837,11 @@ msgstr ""
 "ne minte sa il inlocuiesti cu tasta corespunzatoare pe sistemul tau de operare"
 "."
 
-#: B.01-Using-Shortcuts.md:46
+#: B.01-Using-Shortcuts.md:44
 msgid "Abbreviations"
 msgstr "Abrevieri"
 
-#: B.01-Using-Shortcuts.md:48
+#: B.01-Using-Shortcuts.md:46
 msgid ""
 "To help keep things simple and readable, we'll use the abbreviations *C-* for "
 "*Control* plus another key and *M-* for *Meta* plus another key. For example, "
@@ -17843,17 +17853,17 @@ msgstr ""
 "emplu, daca o combinatie cere sa apesi *Meta* si *r*, o vom nota 'M-r'. *-* in"
 "seamna in acest caz \"in acelasi timp cu\"."
 
-#: B.01-Using-Shortcuts.md:53
+#: B.01-Using-Shortcuts.md:51
 msgid "The following are some of the shortcuts I find most useful."
 msgstr ""
 "In continuare sunt cateva dintre combinatiile pe care le consider cele mai uti"
 "le."
 
-#: B.01-Using-Shortcuts.md:55
+#: B.01-Using-Shortcuts.md:53
 msgid "Stopping and starting"
 msgstr "Oprirea si pornirea"
 
-#: B.01-Using-Shortcuts.md:57
+#: B.01-Using-Shortcuts.md:55
 msgid ""
 "Instead of always reaching for the mouse to run your code, you can simply pres"
 "s `M-r`. Similarly, to stop running code you can press `M-s`."
@@ -17861,11 +17871,11 @@ msgstr ""
 "In loc sa iei de fiecare data mouse-ul ca sa apesi pe butonul Run, poti apasa "
 "'M-r'. La fel, pentru a opri executia codului poti apasa 'M-s'."
 
-#: B.01-Using-Shortcuts.md:60 B.02-Shortcut-Cheatsheet.md:56
+#: B.01-Using-Shortcuts.md:58 B.02-Shortcut-Cheatsheet.md:65
 msgid "Navigation"
 msgstr "Navigarea"
 
-#: B.01-Using-Shortcuts.md:62
+#: B.01-Using-Shortcuts.md:60
 msgid ""
 "I'm really lost without the navigation shortcuts. I therefore highly recommend"
 " you spend the time to learn them. These shortcuts also work extremely well wh"
@@ -17879,31 +17889,34 @@ msgstr ""
 "itere obisnuite si nu e nevoie sa-ti misti mana dupa mouse sau dupa tastele sa"
 "geti."
 
-#: B.01-Using-Shortcuts.md:68
+#: B.01-Using-Shortcuts.md:66
+#, fuzzy
 msgid ""
-"You can move to the beginning of the line with `C-a`, the end of the line with"
-" `C-e`, up a line with `C-p`, down a line with `C-n`, forward a character with"
-" `C-f`, and back a character with `C-b`. You can even delete all the character"
-"s from the cursor to the end of the line with `C-k`."
+"For example, if you're in Emacs Live short cut mode, You can move to the begin"
+"ning of the line with `C-a`, the end of the line with `C-e`, up a line with `C"
+"-p`, down a line with `C-n`, forward a character with `C-f`, and back a charac"
+"ter with `C-b`. You can even delete all the characters from the cursor to the "
+"end of the line with `C-k`. Other modes will have their own shortcuts which ca"
+"n be easily discovered in the app menu."
 msgstr ""
 "Poti merge la inceputul liniei cu 'C-a', la sfarsit cu 'C-e', mai sus cu o lin"
 "ie cu 'C-p', mai jos cu o linie cu 'C-n', inainte cu un caracter cu 'C-f' si i"
 "napoi cu un caracter cu 'C-b'. Poti sterge toate caracterele de la cursor pana"
 " la sfarsitul liniei cu 'C-k'."
 
-#: B.01-Using-Shortcuts.md:74
+#: B.01-Using-Shortcuts.md:71
 msgid "Tidy Code"
 msgstr "Cod mai ordonat"
 
-#: B.01-Using-Shortcuts.md:76
+#: B.01-Using-Shortcuts.md:73
 msgid "To auto-align your code simply press `M-m`."
 msgstr "Pentru auto-alinierea codului apasa 'M-m'."
 
-#: B.01-Using-Shortcuts.md:78
+#: B.01-Using-Shortcuts.md:75
 msgid "Help System"
 msgstr "Sistem de ajutor (help)"
 
-#: B.01-Using-Shortcuts.md:80
+#: B.01-Using-Shortcuts.md:77
 msgid ""
 "To toggle the help system you can press `M-i`. However, a much more useful sho"
 "rtcut to know is `C-i` which will look up the word underneath the cursor and d"
@@ -17913,7 +17926,7 @@ msgstr ""
 "i utila este 'C-i' care va cauta cuvantul din spatele cursorului si va afisa d"
 "ocumentatia aferenta daca il gaseste. Ajutor instantaneu!"
 
-#: B.01-Using-Shortcuts.md:84
+#: B.01-Using-Shortcuts.md:81
 #, fuzzy
 msgid "For a full list take a look at section B.2 Shortcut Cheatsheet."
 msgstr ""
@@ -17930,19 +17943,18 @@ msgid "Shortcut Cheatsheet"
 msgstr "Tabel de combinatii de taste"
 
 #: B.02-Shortcut-Cheatsheet.md:5
-#, fuzzy
 msgid ""
-"The following is a summary of the main shortcuts available within Sonic Pi. Pl"
-"ease see Section B.1 for motivation and background."
+"The following is a summary of the main Emacs Live shortcuts available within S"
+"onic Pi. The Mac and Windows \\| Linux modes differ - switch between them in `I"
+"O -> Shortcut Mode`, or open `Preferences -> Shortcuts` to view every binding "
+"and build your own. Please see Section B.1 for motivation and background."
 msgstr ""
-"Ceea ce urmeaza este un rezumat al principalelor combinatii de taste disponibi"
-"le in Sonic Pi. Vezi sectiunea 10.1 pentru explicatii."
 
-#: B.02-Shortcut-Cheatsheet.md:8
+#: B.02-Shortcut-Cheatsheet.md:10
 msgid "Conventions"
 msgstr "Conventii"
 
-#: B.02-Shortcut-Cheatsheet.md:10
+#: B.02-Shortcut-Cheatsheet.md:12
 msgid ""
 "In this list, we use the following conventions (where *Meta* is one of *Alt* o"
 "n Windows/Linux or *Cmd* on Mac):"
@@ -17950,7 +17962,7 @@ msgstr ""
 "In aceasta lista folosim urmatoarele conventii (unde *Meta* este *Alt* pentru "
 "Windows/Linux sau *Cmd* pentru Mac):"
 
-#: B.02-Shortcut-Cheatsheet.md:13
+#: B.02-Shortcut-Cheatsheet.md:15
 msgid ""
 "`C-a` means hold the *Control* key then press the *a* key whilst holding them "
 "both at the same time, then releasing."
@@ -17958,7 +17970,7 @@ msgstr ""
 "'C-a' inseamna sa tii apasata tasta *Control* apoi sa apesi tasta *a* astfel i"
 "ncat sa fie ambele apasate simultan, apoi sa le eliberezi."
 
-#: B.02-Shortcut-Cheatsheet.md:14
+#: B.02-Shortcut-Cheatsheet.md:16
 msgid ""
 "`M-r` means hold the *Meta* key and then press the *r* key whilst holding them"
 " both at the same time, then releasing."
@@ -17966,7 +17978,7 @@ msgstr ""
 "'M-r' inseamna sa tii apasata tasta *Meta* apoi sa apesi tasta *r* astfel inca"
 "t sa fie ambele apasate simultan, apoi sa le eliberezi."
 
-#: B.02-Shortcut-Cheatsheet.md:15
+#: B.02-Shortcut-Cheatsheet.md:17
 msgid ""
 "`S-M-z` means hold the *Shift* key, then the *Meta* key, then finally the *z* "
 "key all at the same time, then releasing."
@@ -17974,7 +17986,7 @@ msgstr ""
 "'S-M-z' inseamna sa tii apasata tasta *Shift*, apoi tasta *Meta*, apoi sa apes"
 "i tasta *z* astfel incat sa fie toate apasate simultan, apoi sa le eliberezi."
 
-#: B.02-Shortcut-Cheatsheet.md:16
+#: B.02-Shortcut-Cheatsheet.md:18
 msgid ""
 "`C-M-f` means hold the *Control* key, then press *Meta* key, finally the *f* k"
 "ey all at the same time, then releasing."
@@ -17983,95 +17995,104 @@ msgstr ""
 "esi tasta *f* astfel incat sa fie toate apasate simultan, apoi sa le eliberezi"
 "."
 
-#: B.02-Shortcut-Cheatsheet.md:18
+#: B.02-Shortcut-Cheatsheet.md:19
+#, fuzzy
+msgid ""
+"`S-C-a` means hold the *Shift* key, then the *Control* key, then finally the *"
+"a* key all at the same time, then releasing."
+msgstr ""
+"'S-M-z' inseamna sa tii apasata tasta *Shift*, apoi tasta *Meta*, apoi sa apes"
+"i tasta *z* astfel incat sa fie toate apasate simultan, apoi sa le eliberezi."
+
+#: B.02-Shortcut-Cheatsheet.md:21
 msgid "Main Application Manipulation"
 msgstr "Controlul aplicatiei principale"
 
-#: B.02-Shortcut-Cheatsheet.md:20
+#: B.02-Shortcut-Cheatsheet.md:23
 msgid "`M-r` - Run code"
 msgstr "`M-r` - Executa codul (Run)"
 
-#: B.02-Shortcut-Cheatsheet.md:21
+#: B.02-Shortcut-Cheatsheet.md:24
 msgid "`M-s` - Stop code"
 msgstr "`M-s` - Opreste codul (Stop)"
 
-#: B.02-Shortcut-Cheatsheet.md:22
+#: B.02-Shortcut-Cheatsheet.md:25
 msgid "`M-i` - Toggle Help System"
 msgstr "'M-i' - Activeaza/dezactiveaza sistemul de ajutor (help)"
 
-#: B.02-Shortcut-Cheatsheet.md:23
+#: B.02-Shortcut-Cheatsheet.md:26
 msgid "`M-p` - Toggle Preferences"
 msgstr "`M-p` - Activeaza/dezactiveaza optiunile"
 
-#: B.02-Shortcut-Cheatsheet.md:24
+#: B.02-Shortcut-Cheatsheet.md:27
 msgid "`M-{` - Switch buffer to the left"
 msgstr "`M-{` - Comuta la buffer-ul din stanga"
 
-#: B.02-Shortcut-Cheatsheet.md:25
+#: B.02-Shortcut-Cheatsheet.md:28
 msgid "`M-}` - Switch buffer to the right"
 msgstr "`M-}` - Comuta la buffer-ul din dreapta"
 
-#: B.02-Shortcut-Cheatsheet.md:26
+#: B.02-Shortcut-Cheatsheet.md:29
 msgid "`S-M-0` - Switch to buffer 0"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:27
+#: B.02-Shortcut-Cheatsheet.md:30
 msgid "`S-M-1` - Switch to buffer 1"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:28
+#: B.02-Shortcut-Cheatsheet.md:31
 msgid "..."
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:29
+#: B.02-Shortcut-Cheatsheet.md:32
 msgid "`S-M-9` - Switch to buffer 9"
 msgstr ""
 
-#: B.02-Shortcut-Cheatsheet.md:30
+#: B.02-Shortcut-Cheatsheet.md:33
 msgid "`M-+` - Increase text size of current buffer"
 msgstr "`M-+` - Creste dimensiunea textului in buffer-ul curent"
 
-#: B.02-Shortcut-Cheatsheet.md:31
+#: B.02-Shortcut-Cheatsheet.md:34
 msgid "`M--` - Decrease text size of current buffer"
 msgstr "`M--` - Micsoreaza dimensiunea textului in buffer-ul curent"
 
-#: B.02-Shortcut-Cheatsheet.md:34
+#: B.02-Shortcut-Cheatsheet.md:37
 msgid "Selection/Copy/Paste"
 msgstr "Selectie/Copy/Paste"
 
-#: B.02-Shortcut-Cheatsheet.md:36
+#: B.02-Shortcut-Cheatsheet.md:39
 msgid "`M-a` - Select all"
 msgstr "'M-a' - Selecteaza tot"
 
-#: B.02-Shortcut-Cheatsheet.md:37
+#: B.02-Shortcut-Cheatsheet.md:40
 msgid "`M-c` - Copy selection to paste buffer"
 msgstr "`M-c` - Copiaza selectia in memorie"
 
-#: B.02-Shortcut-Cheatsheet.md:38
+#: B.02-Shortcut-Cheatsheet.md:41
 msgid "`M-]` - Copy selection to paste buffer"
 msgstr "`M-]` - Copiaza selectia in memorie"
 
-#: B.02-Shortcut-Cheatsheet.md:39
+#: B.02-Shortcut-Cheatsheet.md:42
 msgid "`M-x` - Cut selection to paste buffer"
 msgstr "`M-x` - Muta selectia in memorie (cut)"
 
-#: B.02-Shortcut-Cheatsheet.md:40
+#: B.02-Shortcut-Cheatsheet.md:43
 msgid "`C-]` - Cut selection to paste buffer"
 msgstr "`C-]` - Muta selectia in memorie (cut)"
 
-#: B.02-Shortcut-Cheatsheet.md:41
+#: B.02-Shortcut-Cheatsheet.md:44
 msgid "`C-k` - Cut to the end of the line"
 msgstr "`C-k` - Muta in memorie (cut) totul pana la sfarsitul liniei"
 
-#: B.02-Shortcut-Cheatsheet.md:42
+#: B.02-Shortcut-Cheatsheet.md:45
 msgid "`M-v` - Paste from paste buffer to editor"
 msgstr "`M-v` - Aduce din memorie (paste) in editor"
 
-#: B.02-Shortcut-Cheatsheet.md:43
+#: B.02-Shortcut-Cheatsheet.md:46
 msgid "`C-y` - Paste from paste buffer to editor"
 msgstr "`C-y` - Aduce din memorie (paste) in editor"
 
-#: B.02-Shortcut-Cheatsheet.md:44
+#: B.02-Shortcut-Cheatsheet.md:47
 msgid ""
 "`C-SPACE` - Set mark. Navigation will now manipulate highlighted region. Use `"
 "C-g` to escape."
@@ -18079,151 +18100,179 @@ msgstr ""
 "'C-SPATIU' - Trece in mod evidentiere. Comenzile de navigare vor actiona in zo"
 "na evidentiata. Foloseste 'C-g' ca sa revii in modul normal."
 
-#: B.02-Shortcut-Cheatsheet.md:46
+#: B.02-Shortcut-Cheatsheet.md:48
+#, fuzzy
+msgid "`S-C-a` - Select to beginning of line"
+msgstr "`C-a` - Merge la inceputul liniei"
+
+#: B.02-Shortcut-Cheatsheet.md:49
+#, fuzzy
+msgid "`S-C-e` - Select to end of line"
+msgstr "`C-e` - Merge la sfarsitul liniei"
+
+#: B.02-Shortcut-Cheatsheet.md:50
+msgid "`S-C-Left` - Select word to the left"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:51
+msgid "`S-C-Right` - Select word to the right"
+msgstr ""
+
+#: B.02-Shortcut-Cheatsheet.md:52
+#, fuzzy
+msgid "`S-C-Home` - Select to beginning of buffer"
+msgstr "`M-<` - Merge la inceputul buffer-ului"
+
+#: B.02-Shortcut-Cheatsheet.md:53
+#, fuzzy
+msgid "`S-C-End` - Select to end of buffer"
+msgstr "`M->` - Merge la sfarsitul buffer-ului"
+
+#: B.02-Shortcut-Cheatsheet.md:55
 msgid "Text Manipulation"
 msgstr "Manipularea textului"
 
-#: B.02-Shortcut-Cheatsheet.md:48
+#: B.02-Shortcut-Cheatsheet.md:57
 msgid "`M-m` - Align all text"
 msgstr "'M-m' - Aliniaza tot textul"
 
-#: B.02-Shortcut-Cheatsheet.md:49
+#: B.02-Shortcut-Cheatsheet.md:58
 msgid "`Tab` - Align current line or selection (or select autocompletion)"
 msgstr ""
 "`Tab` - Aliniaza linia sau selectia curenta (sau trece in modul auto-completar"
 "e)"
 
-#: B.02-Shortcut-Cheatsheet.md:50
+#: B.02-Shortcut-Cheatsheet.md:59
 msgid "`C-l` - Centre editor"
 msgstr "`C-l` - Centreaza editorul"
 
-#: B.02-Shortcut-Cheatsheet.md:51
+#: B.02-Shortcut-Cheatsheet.md:60
 msgid "`M-/` - Comment/Uncomment current line or selection"
 msgstr ""
 "`M-/` - Transforma linia sau selectia curenta in comentariu/revine la text nor"
 "mal"
 
-#: B.02-Shortcut-Cheatsheet.md:52
+#: B.02-Shortcut-Cheatsheet.md:61
 msgid "`C-t` - Transpose/swap characters"
 msgstr "`C-t` - Inverseaza ordinea caracterelor"
 
-#: B.02-Shortcut-Cheatsheet.md:53
+#: B.02-Shortcut-Cheatsheet.md:62
 msgid "`M-u` - Convert next word (or selection) to upper case."
 msgstr "`M-u` - Converteste urmatorul cuvant (sau selectie) la majuscule."
 
-#: B.02-Shortcut-Cheatsheet.md:54
+#: B.02-Shortcut-Cheatsheet.md:63
 msgid "`M-l` - Convert next word (or selection) to lower case."
 msgstr "`M-l` - Converteste urmatorul cuvant (sau selectie) la litere mici."
 
-#: B.02-Shortcut-Cheatsheet.md:58
+#: B.02-Shortcut-Cheatsheet.md:67
 msgid "`C-a` - Move to beginning of line"
 msgstr "`C-a` - Merge la inceputul liniei"
 
-#: B.02-Shortcut-Cheatsheet.md:59
+#: B.02-Shortcut-Cheatsheet.md:68
 msgid "`C-e` - Move to end of line"
 msgstr "`C-e` - Merge la sfarsitul liniei"
 
-#: B.02-Shortcut-Cheatsheet.md:60
+#: B.02-Shortcut-Cheatsheet.md:69
 msgid "`C-p` - Move to previous line"
 msgstr "`C-p` - Merge la linia precedenta"
 
-#: B.02-Shortcut-Cheatsheet.md:61
+#: B.02-Shortcut-Cheatsheet.md:70
 msgid "`C-n` - Move to next line"
 msgstr "`C-n` - Merge la linia urmatoare"
 
-#: B.02-Shortcut-Cheatsheet.md:62
+#: B.02-Shortcut-Cheatsheet.md:71
 msgid "`C-f` - Move forward one character"
 msgstr "`C-f` - Merge inainte un caracter"
 
-#: B.02-Shortcut-Cheatsheet.md:63
+#: B.02-Shortcut-Cheatsheet.md:72
 msgid "`C-b` - Move backward one character"
 msgstr "`C-b` - Merge inapoi un caracter"
 
-#: B.02-Shortcut-Cheatsheet.md:64
+#: B.02-Shortcut-Cheatsheet.md:73
 msgid "`M-f` - Move forward one word"
 msgstr "`M-f` - Merge inainte un cuvant"
 
-#: B.02-Shortcut-Cheatsheet.md:65
+#: B.02-Shortcut-Cheatsheet.md:74
 msgid "`M-b` - Move backward one word"
 msgstr "`M-b` - Merge inapoi un cuvant"
 
-#: B.02-Shortcut-Cheatsheet.md:66
+#: B.02-Shortcut-Cheatsheet.md:75
 msgid "`C-M-n` - Move line or selection down"
 msgstr "`C-M-n` - Muta linia sau selectia in jos"
 
-#: B.02-Shortcut-Cheatsheet.md:67
+#: B.02-Shortcut-Cheatsheet.md:76
 msgid "`C-M-p` - Move line or selection up"
 msgstr "`C-M-p` -  Muta linia sau selectia in sus"
 
-#: B.02-Shortcut-Cheatsheet.md:68
+#: B.02-Shortcut-Cheatsheet.md:77
 msgid "`S-M-u` - Move up 10 lines"
 msgstr "`S-M-u` - Merge in sus 10 linii"
 
-#: B.02-Shortcut-Cheatsheet.md:69
+#: B.02-Shortcut-Cheatsheet.md:78
 msgid "`S-M-d` - Move down 10 lines"
 msgstr "`S-M-d` - Merge in jos 10 linii"
 
-#: B.02-Shortcut-Cheatsheet.md:70
+#: B.02-Shortcut-Cheatsheet.md:79
 msgid "`M-<` - Move to beginning of buffer"
 msgstr "`M-<` - Merge la inceputul buffer-ului"
 
-#: B.02-Shortcut-Cheatsheet.md:71
+#: B.02-Shortcut-Cheatsheet.md:80
 msgid "`M->` - Move to end of buffer"
 msgstr "`M->` - Merge la sfarsitul buffer-ului"
 
-#: B.02-Shortcut-Cheatsheet.md:73
+#: B.02-Shortcut-Cheatsheet.md:82
 msgid "Deletion"
 msgstr "Stergerea"
 
-#: B.02-Shortcut-Cheatsheet.md:75
+#: B.02-Shortcut-Cheatsheet.md:84
 msgid "`C-h` - Delete previous character"
 msgstr "`C-h` - Sterge caracterul precedent"
 
-#: B.02-Shortcut-Cheatsheet.md:76
+#: B.02-Shortcut-Cheatsheet.md:85
 msgid "`C-d` - Delete next character"
 msgstr "`C-d` - Sterge caracterul urmator"
 
-#: B.02-Shortcut-Cheatsheet.md:78
+#: B.02-Shortcut-Cheatsheet.md:87
 msgid "Advanced Editor Features"
 msgstr "Functii avansate ale editorului"
 
-#: B.02-Shortcut-Cheatsheet.md:80
+#: B.02-Shortcut-Cheatsheet.md:89
 msgid "`C-i` - Show docs for word under cursor"
 msgstr "`C-i` - Arata documentatia pentru cuvantul de la pozitia cursorului"
 
-#: B.02-Shortcut-Cheatsheet.md:81
+#: B.02-Shortcut-Cheatsheet.md:90
 msgid "`M-z` - Undo"
 msgstr "`M-z` - Undo (anuleaza ultima modificare)"
 
-#: B.02-Shortcut-Cheatsheet.md:82
+#: B.02-Shortcut-Cheatsheet.md:91
 msgid "`S-M-z` - Redo"
 msgstr "`S-M-z` - Redo (reface ultima modificare)"
 
-#: B.02-Shortcut-Cheatsheet.md:83
+#: B.02-Shortcut-Cheatsheet.md:92
 msgid "`C-g` - Escape"
 msgstr "`C-g` - Escape (Revine la modul anterior)"
 
-#: B.02-Shortcut-Cheatsheet.md:84
+#: B.02-Shortcut-Cheatsheet.md:93
 msgid "`S-M-f` - Toggle fullscreen mode"
 msgstr "`S-M-f` - Activeaza/dezactiveaza modul ecran complet"
 
-#: B.02-Shortcut-Cheatsheet.md:85
+#: B.02-Shortcut-Cheatsheet.md:94
 msgid "`S-M-b` - Toggle visibility of buttons"
 msgstr "`S-M-b` - Afiseaza/ascunde butoanele"
 
-#: B.02-Shortcut-Cheatsheet.md:86
+#: B.02-Shortcut-Cheatsheet.md:95
 msgid "`S-M-l` - Toggle visibility of log"
 msgstr "`S-M-l` - Afiseaza/ascunde jurnalul (log)"
 
-#: B.02-Shortcut-Cheatsheet.md:87
+#: B.02-Shortcut-Cheatsheet.md:96
 msgid "`S-M-m` - Toggle between light/dark modes"
 msgstr "`S-M-m` - Comuta intre modurile luminos/intunecat"
 
-#: B.02-Shortcut-Cheatsheet.md:88
+#: B.02-Shortcut-Cheatsheet.md:97
 msgid "`S-M-s` - Save contents of buffer to a file"
 msgstr "`S-M-s` - Salveaza continutul bufferului intr-un fisier"
 
-#: B.02-Shortcut-Cheatsheet.md:89
+#: B.02-Shortcut-Cheatsheet.md:98
 msgid "`S-M-o` - Load contents of buffer from a file"
 msgstr "`S-M-o` - Incarca dintr-un fisier continutul bufferului"
 
