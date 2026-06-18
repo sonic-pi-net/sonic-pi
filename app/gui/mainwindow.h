@@ -199,6 +199,9 @@ signals:
 
 private slots:
 
+    // Runs the blocking server wait + finalisation under the live event loop.
+    void completeBoot();
+
     void updateSelectedUILanguageAction(QString lang);
     void updateContext(int line, int index);
     void updateContextWithCurrentWs();

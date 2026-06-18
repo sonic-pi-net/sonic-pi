@@ -124,7 +124,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 {
     app.installEventFilter(this);
     app.processEvents();
-    connect(&app, SIGNAL(aboutToQuit()), this, SLOT(onExitCleanup()));
+    connect(&app, &QApplication::aboutToQuit, this, &MainWindow::onExitCleanup);
 
     printAsciiArtLogo();
 
@@ -138,7 +138,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     this->piSettings = new SonicPiSettings();
 
-    startup_error_reported = new QCheckBox;
+    startup_error_reported = new QCheckBox(this);
     startup_error_reported->setChecked(false);
 
     hash_salt = "Secret Hash ;-)";
@@ -155,19 +155,14 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     version_num = 0;
     latest_version_num = 0;
 
-    bool startupOK = false;
-
     APIInitResult init_success = m_spAPI->Init(rootPath().toStdString());
 
-    if (init_success == APIInitResult::Successful)
-    {
-    }
-    else if (init_success == APIInitResult::HomePathNotWritableError)
+    if (init_success == APIInitResult::HomePathNotWritableError)
     {
         std::cout << "[GUI] - API HomePath Not Writable" << std::endl;
         homeDirWriteError();
     }
-    else
+    else if (init_success != APIInitResult::Successful)
     {
         std::cout << "[GUI] - API Init failed" << std::endl;
     }
@@ -241,7 +236,13 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 
-    startupOK = m_spAPI->WaitUntilReady();
+    // Defer the blocking server wait to the live event loop.
+    QTimer::singleShot(0, this, &MainWindow::completeBoot);
+}
+
+void MainWindow::completeBoot()
+{
+    bool startupOK = m_spAPI->WaitUntilReady();
 
     if (startupOK)
     {
@@ -271,13 +272,12 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
         m_spAPI->RequestAudioDevices();
 
         QTimer* timer = new QTimer(this);
-        connect(timer, SIGNAL(timeout()), this, SLOT(heartbeatOSC()));
+        connect(timer, &QTimer::timeout, this, &MainWindow::heartbeatOSC);
         timer->start(1000);
         emit settingsChanged();
         splashClose();
         focusEditor();
         showWindow();
-        app.processEvents();
         std::cout << "[GUI] - boot sequence completed." << std::endl;
     }
     else
