@@ -15,6 +15,7 @@
 
 #include <QCheckBox>
 #include <QFormLayout>
+#include <QGridLayout>
 #include <QSet>
 #include <QStringList>
 #include <QTableWidgetItem>
@@ -185,19 +186,10 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     layout->setSpacing(2);
 
     auto makeSectionLabel = [this](const QString& text) {
-        auto* l = new QLabel(text, this);
-        l->setObjectName("linkSectionLabel");
-        l->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        auto* l = new QLabel(text.toUpper(), this);
+        l->setObjectName("paneTitle");   // shared small/muted/left title style
+        l->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         return l;
-    };
-    // AlignHCenter on both so label text and control stay centred on each other.
-    auto makeColumn = [](QLabel* label, QWidget* control) {
-        auto* col = new QVBoxLayout;
-        col->setContentsMargins(0, 0, 0, 0);
-        col->setSpacing(2);
-        col->addWidget(label, 0, Qt::AlignHCenter);
-        col->addWidget(control, 0, Qt::AlignHCenter);
-        return col;
     };
 
     // Link Name — peer identity as broadcast over Link.
@@ -207,8 +199,8 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     m_peerNameEdit->setPlaceholderText(tr("Name visible to other Link peers"));
     m_peerNameEdit->setText(
         QSettings().value("link/peerName", QStringLiteral("Sonic Pi")).toString());
-    // Fixed width so the column doesn't grab all horizontal slack.
-    m_peerNameEdit->setFixedWidth(180);
+    // Fixed (narrow) width so the column doesn't grab all horizontal slack.
+    m_peerNameEdit->setFixedWidth(90);
 
     // Engine-wide receive latency, 0-2000 ms. SuperSonic's contract is
     // per-input, so this is reconciled onto every subscription (see
@@ -257,7 +249,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     connect(m_shareAudioBox, &QPushButton::toggled, this, [this](bool on) {
         m_shareAudioBox->setText(on ? tr("On") : tr("Off"));
     });
-    auto* shareLabel = makeSectionLabel(tr("Share Audio"));
+    auto* shareLabel = makeSectionLabel(tr("Stream Audio"));
 
     // Two-state sliding toggle: Local / Network. Muted when Link is off
     // (see applyLinkEnabled).
@@ -275,21 +267,27 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     const int rowH = m_visibilityToggle->sizeHint().height();
     m_shareAudioBox->setFixedHeight(rowH);
 
-    // Equal stretch at each end centres the row of fixed-width controls.
-    auto* idRow = new QHBoxLayout;
-    idRow->setContentsMargins(0, 0, 0, 0);
-    idRow->setSpacing(0);
-    idRow->setAlignment(Qt::AlignBottom);
-    idRow->addStretch(1);
-    idRow->addLayout(makeColumn(nameLabel, m_peerNameEdit));
-    idRow->addSpacing(20);
-    idRow->addLayout(makeColumn(latLabel, latencyControl));
-    idRow->addSpacing(20);
-    idRow->addLayout(makeColumn(shareLabel, m_shareAudioBox));
-    idRow->addSpacing(20);
-    idRow->addLayout(makeColumn(visLabel, m_visibilityToggle));
-    idRow->addStretch(1);
-    layout->addLayout(idRow);
+    // Two-row grid: titles on row 0 (all at the same height) and controls on
+    // row 1, each vertically centred so a shorter control (e.g. the latency
+    // slider) doesn't drag its title down. A trailing stretch column left-pins
+    // the lot so they never drift right within the capped width.
+    auto* idGrid = new QGridLayout;
+    idGrid->setContentsMargins(0, 0, 0, 0);
+    idGrid->setHorizontalSpacing(20);
+    idGrid->setVerticalSpacing(2);
+    int gc = 0;
+    auto addCol = [&](QLabel* label, QWidget* control) {
+        idGrid->addWidget(label, 0, gc, Qt::AlignLeft | Qt::AlignBottom);
+        idGrid->addWidget(control, 1, gc, Qt::AlignHCenter | Qt::AlignVCenter);
+        ++gc;
+    };
+    addCol(nameLabel, m_peerNameEdit);
+    addCol(latLabel, latencyControl);
+    addCol(shareLabel, m_shareAudioBox);
+    addCol(visLabel, m_visibilityToggle);
+    idGrid->setColumnStretch(gc, 1);
+    layout->addLayout(idGrid);
+    m_idGrid = idGrid;
     // Extra gap to separate the identity controls from the peer table
     // (panel row-spacing is only 2dx).
     layout->addSpacing(10);
@@ -422,6 +420,11 @@ void LinkAudioStreamsWidget::flashEmptyMessage()
 }
 
 LinkAudioStreamsWidget::~LinkAudioStreamsWidget() = default;
+
+int LinkAudioStreamsWidget::controlsNaturalWidth() const
+{
+    return m_idGrid ? m_idGrid->sizeHint().width() : 0;
+}
 
 void LinkAudioStreamsWidget::refresh()
 {

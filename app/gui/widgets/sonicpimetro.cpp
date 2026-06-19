@@ -102,26 +102,51 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   linkStreamsButton->setFlat(true);
   linkStreamsButton->setToolTip(tr("Show / hide the Link Audio streams panel."));
 
+  // The three groups (Link / Tap+BPM / TimeWarp) spread across the row's width
+  // via expanding inner spacers; the row itself is capped to the same natural
+  // width as the streams panel below (see metroRowWidget), so they line up.
   QHBoxLayout* metro_row = new QHBoxLayout;
+  metro_row->setContentsMargins(0, 0, 0, 0);
   metro_row->addWidget(enableLinkButton);
   metro_row->addWidget(linkStreamsButton);
-  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Maximum, QSizePolicy::Fixed));
+  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
   metro_row->addWidget(tapButton);
   metro_row->addWidget(bpmScrubWidget);
-  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Maximum, QSizePolicy::Fixed));
+  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
   metro_row->addWidget(timeWarpSlider);
   metro_row->addWidget(timeWarpLineEdit);
-  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+
+  // Same capped natural width as the streams panel, left-aligned, so the bottom
+  // controls and the panel above share one column.
+  QWidget* metroRowWidget = new QWidget(this);
+  metroRowWidget->setLayout(metro_row);
+  metroRowWidget->setMaximumWidth(640);
 
   // Hidden by default; toggled by linkStreamsButton.
   linkStreamsWidget = new LinkAudioStreamsWidget(m_spAPI, this);
   linkStreamsWidget->setVisible(false);
 
   // Streams panel sits just above the anchored metro row.
+  // Stack the streams panel and the metro row in one fixed-width, left-aligned
+  // column so they're always the same width — and crucially, so the metro row
+  // doesn't change width when the streams panel is shown or hidden (a content-
+  // sized column would shrink to the metro row's natural width when collapsed).
+  QWidget* linkColumn = new QWidget(this);
+  QVBoxLayout* colLayout = new QVBoxLayout(linkColumn);
+  colLayout->setContentsMargins(0, 0, 0, 0);
+  colLayout->setSpacing(0);
+  colLayout->addWidget(linkStreamsWidget);
+  colLayout->addWidget(metroRowWidget);
+  // Size the column to the identity controls' natural width (Link Name /
+  // Latency / Stream Audio / Visibility). The peer table and the metro row both
+  // match this — the metro row's expanding spacers shrink so it fits — and the
+  // top controls fill it exactly (no trailing slack). Fixed so it doesn't move
+  // when the streams panel is shown or hidden.
+  linkColumn->setFixedWidth(linkStreamsWidget->controlsNaturalWidth());
+
   QVBoxLayout* metro_layout = new QVBoxLayout;
   metro_layout->addStretch(1);
-  metro_layout->addWidget(linkStreamsWidget);
-  metro_layout->addLayout(metro_row);
+  metro_layout->addWidget(linkColumn, 0, Qt::AlignLeft);
   setLayout(metro_layout);
 
   // Restore visibility scope from QSettings (Local default). Link enable

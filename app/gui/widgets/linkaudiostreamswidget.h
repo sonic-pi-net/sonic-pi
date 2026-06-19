@@ -16,6 +16,7 @@
 #include <memory>
 
 class QTableWidget;
+class QGridLayout;
 class QLabel;
 class QLineEdit;
 class QPushButton;
@@ -62,6 +63,11 @@ public:
                                     QWidget* parent = nullptr);
     ~LinkAudioStreamsWidget() override;
 
+    // Natural width of the identity controls row (Link Name / Latency / Stream
+    // Audio / Visibility). Used to size the whole Link column so the peer table
+    // and the metro row below match these controls rather than stretching wider.
+    int controlsNaturalWidth() const;
+
 public slots:
     // Called by SonicPiMetro when Visibility scope (Local/Net) changes.
     void applyMasterVisibility(int mode);
@@ -96,6 +102,7 @@ private:
     QSlider*              m_latencySlider = nullptr;
     QLabel*               m_latencyValueLabel = nullptr;
     QTableWidget*         m_peersTable = nullptr;
+    QGridLayout*          m_idGrid = nullptr;   // the identity controls row
     QUdpSocket*   m_socket = nullptr;
     QTimer*       m_pollTimer = nullptr;
     int           m_currentVisibility = 1;  // 1 = Local, 2 = Network
