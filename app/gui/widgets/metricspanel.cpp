@@ -31,6 +31,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QHideEvent>
+#include <QHostAddress>
 #include <QLabel>
 #include <QProgressBar>
 #include <QResizeEvent>
@@ -47,6 +48,7 @@
 #include <QTextFrame>
 #include <QTextFrameFormat>
 #include <QTime>
+#include <QUdpSocket>
 #include <QTimer>
 #include <QToolButton>
 #include <QVBoxLayout>
@@ -100,7 +102,7 @@ constexpr int kLogReveal = 150;  // right: each of Debug / To / From
 // Minimum sensible width for a metric card. The grid snaps to a single row of
 // all cards when the pane is at least (card count * this) wide, otherwise two
 // rows; the pane is then pinned to exactly the height those rows need.
-constexpr int kCardMinW = 120;
+constexpr int kCardMinW = 92;
 
 // Ring capacities, mirrored from external/supersonic/src/memory_profile.h
 // (IN/OUT/NRT_OUT_BUFFER_SIZE); used to scale the level bars.
@@ -303,7 +305,7 @@ QFrame* makeCard(const QString& title, QVBoxLayout** bodyOut, QLabel** titleOut)
     auto* card = new QFrame;
     card->setObjectName("ssCard");
     auto* v = new QVBoxLayout(card);
-    v->setContentsMargins(9, 5, 9, 6);
+    v->setContentsMargins(6, 5, 6, 6);
     v->setSpacing(4);
 
     auto* lbl = new QLabel(title.toUpper());
@@ -441,7 +443,7 @@ void MetricsPanel::buildUi()
 
         auto* rows = new QGridLayout;
         rows->setContentsMargins(0, 0, 0, 0);
-        rows->setHorizontalSpacing(8);
+        rows->setHorizontalSpacing(6);
         rows->setVerticalSpacing(2);
         rows->setColumnStretch(1, 1);
         int r = 0;
@@ -709,7 +711,7 @@ void MetricsPanel::buildLogs(QSplitter* col)
         col->addWidget(card);
         return view;
     };
-    m_debugView  = addLogCard(tr("Debug"));
+    m_debugView  = addLogCard(tr("Info"));
 
     // Seed with the engine's own boot banner so the pane doesn't start
     // empty (matches what SuperSonic prints to its log on boot).
@@ -807,9 +809,25 @@ void MetricsPanel::drainEgressRing(bool nrt)
                     QString text = QString::fromStdString(s);
                     while (text.endsWith('\n') || text.endsWith('\r')) text.chop(1);
                     if (!text.isEmpty()) {
-                        const QString ts = QTime::currentTime().toString(QStringLiteral("HH:mm:ss.zzz"));
-                        m_debugView->append(QStringLiteral("<span style=\"color:%1\">[%2]</span> %3")
-                                                .arg(cTime, ts, text.toHtmlEscaped()));
+                        // A leading \x01 marks the engine's boot banner (the
+                        // status summary): render it verbatim with no timestamp.
+                        // Everything else is a timestamped debug line.
+                        const bool banner = text.startsWith(QChar(0x01));
+                        if (banner) text.remove(0, 1);
+                        // Rendered as HTML, so turn newlines into <br>; pre-wrap
+                        // keeps runs of spaces (font is monospace Hack).
+                        const QString html = text.toHtmlEscaped().replace(QLatin1Char('\n'),
+                                                                          QStringLiteral("<br>"));
+                        if (banner) {
+                            m_debugView->append(QStringLiteral(
+                                "<span style=\"white-space:pre-wrap\">%1</span>").arg(html));
+                        } else {
+                            const QString ts = QTime::currentTime().toString(QStringLiteral("HH:mm:ss.zzz"));
+                            m_debugView->append(QStringLiteral(
+                                "<span style=\"color:%1\">[%2]</span> "
+                                "<span style=\"white-space:pre-wrap\">%3</span>")
+                                                    .arg(cTime, ts, html));
+                        }
                     }
                     return;
                 }
@@ -993,6 +1011,35 @@ void MetricsPanel::refresh()
     drainEgressRing(/*nrt=*/false);    // OUT ring     → /supersonic/debug → Debug, rest → From SuperSonic
     drainEgressRing(/*nrt=*/true);     // NRT-out ring → /supersonic/debug → Debug, rest → From SuperSonic
     updateNodeTree();
+
+    // Now that the debug cursor is primed (tailing live), ask SuperSonic once
+    // for its build/runtime summary — it replies down the debug ring, so the
+    // next drain shows it in the Info pane just after the ascii art.
+    if (m_debugCursor.primed && !m_summaryRequested)
+        requestSupersonicSummary();
+}
+
+void MetricsPanel::requestSupersonicSummary()
+{
+    const int port = m_api ? m_api->GetPort(SonicPi::SonicPiPortId::scsynth) : 0;
+    if (port <= 0)
+        return;
+    if (!m_summarySocket)
+    {
+        m_summarySocket = new QUdpSocket(this);
+        m_summarySocket->bind(QHostAddress::LocalHost, 0);
+    }
+    // OSC "/supersonic/summary" with an empty (",") type tag, 4-byte padded.
+    QByteArray pkt;
+    auto pad = [&pkt](const char* str) {
+        pkt.append(str);
+        pkt.append('\0');
+        while (pkt.size() % 4 != 0) pkt.append('\0');
+    };
+    pad("/supersonic/summary");
+    pad(",");
+    m_summarySocket->writeDatagram(pkt, QHostAddress::LocalHost, static_cast<quint16>(port));
+    m_summaryRequested = true;
 }
 
 void MetricsPanel::applyTheme(SonicPiTheme* theme)
@@ -1085,6 +1132,16 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         refresh();
     else
         renderDisconnected();
+}
+
+void MetricsPanel::setTitlesVisible(bool visible)
+{
+    // Card titles carry objectName "ssCardTitle" (see makeCard). Toggle them so
+    // the debug panel follows the "show pane titles" preference.
+    const QList<QLabel*> labels = findChildren<QLabel*>();
+    for (QLabel* l : labels)
+        if (l->objectName() == QLatin1String("ssCardTitle"))
+            l->setVisible(visible);
 }
 
 void MetricsPanel::seedMainSplit()

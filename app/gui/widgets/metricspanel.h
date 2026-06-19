@@ -34,6 +34,7 @@ class QVBoxLayout;
 class QFrame;
 class QGridLayout;
 class QScrollArea;
+class QUdpSocket;
 class ChevronButton;
 class NodeTreeGraph;
 class SonicPiTheme;
@@ -56,6 +57,10 @@ public:
     // Apply the active Sonic Pi theme (log fg/bg + syntax colours for the
     // OSC/node rendering).
     void applyTheme(SonicPiTheme* theme);
+
+    // Show/hide the card titles (DEBUG / scsynth / Link / …), following the
+    // "show pane titles" preference like the dock titles do.
+    void setTitlesVisible(bool visible);
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
@@ -125,6 +130,9 @@ private:
     void updateChevron();
     // Place the chevron knob onto the current node-tree / metrics divider.
     void positionMetricsToggle();
+    // Ask SuperSonic (once, after we're tailing the debug ring) to push its
+    // build/runtime summary down the debug channel so it shows in the Info pane.
+    void requestSupersonicSummary();
     void drainOscRing(bool outgoing);   // outgoing = IN ring (sent), else OUT ring (replies)
     void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /supersonic/debug → Debug pane, rest → From-SuperSonic
     void updateNodeTree();
@@ -167,6 +175,8 @@ private:
     RingCursor m_inCursor;
     RingCursor m_outCursor;
     RingCursor m_debugCursor;
+    QUdpSocket* m_summarySocket = nullptr;  // sends the one-shot /supersonic/summary request
+    bool m_summaryRequested = false;
     std::vector<uint8_t> m_scratch;
     uint32_t m_lastTreeVersion = 0xFFFFFFFFu;
 };
