@@ -20,6 +20,7 @@
 #include <QLibraryInfo>
 #include <QPixmap>
 #include <QSplashScreen>
+#include <QSurfaceFormat>
 #include <QThread>
 
 #include "mainwindow.h"
@@ -53,6 +54,16 @@ int main(int argc, char* argv[])
 #endif
 
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus, true);
+
+    // Sync GL surfaces to the display refresh (vsync). The scope is the only
+    // QOpenGLWidget; this caps its swaps to the refresh rate and lets Qt's
+    // repaint coalescing keep the GUI to one frame per refresh instead of
+    // tearing/over-painting. Must be set before the first window is created.
+    {
+        QSurfaceFormat fmt = QSurfaceFormat::defaultFormat();
+        fmt.setSwapInterval(1);
+        QSurfaceFormat::setDefaultFormat(fmt);
+    }
 
 #if defined(Q_OS_LINUX)
     // linux code goes here

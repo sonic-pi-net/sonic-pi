@@ -126,6 +126,11 @@ private:
     ProcessedAudioPtr m_audio;
     uint32_t m_audioFrameSamples = 0;
     std::atomic<bool> m_audioAvailable = false;
+    // Persistence/decay: normally the background is cleared with a low alpha so
+    // the previous trace fades a little each frame (a soft phosphor trail).
+    // m_fullClear forces one opaque clear on the first paint and after a resize,
+    // where the preserved framebuffer would otherwise hold stale/garbage pixels.
+    bool m_fullClear = true;
 };
 
 } // namespace SonicPi

@@ -48,6 +48,10 @@ ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<
     , m_spClient(spClient)
     , m_spAPI(spAPI)
 {
+    // Preserve the framebuffer between frames so the faded background clear in
+    // paintEvent leaves a decaying trace (phosphor persistence).
+    setUpdateBehavior(QOpenGLWidget::PartialUpdate);
+
     QVBoxLayout* layout = new QVBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
@@ -100,6 +104,8 @@ void ScopeWindow::resizeEvent(QResizeEvent* pSize)
 {
     QOpenGLWidget::resizeEvent(pSize);
 
+    // The framebuffer is recreated on resize — clear it opaquely next paint.
+    m_fullClear = true;
     Layout();
 }
 
@@ -347,7 +353,21 @@ void ScopeWindow::paintEvent(QPaintEvent* pEv)
     auto textColor = QWidget::palette().color(QWidget::foregroundRole());
     auto shadowColor = QWidget::palette().color(QPalette::ColorRole::AlternateBase);
 
-    painter.fillRect(rect(), backColor);
+    // Clear with a small alpha so the previous frame's trace lingers and fades
+    // out over a few frames — a soft decay. The first paint (and any resize)
+    // does one opaque clear so no stale framebuffer pixels show through.
+    if (m_fullClear)
+    {
+        painter.fillRect(rect(), backColor);
+        m_fullClear = false;
+    }
+    else
+    {
+        constexpr int kDecayAlpha = 70;   // higher = faster decay / shorter trail
+        QColor fade = backColor;
+        fade.setAlpha(kDecayAlpha);
+        painter.fillRect(rect(), fade);
+    }
 
     // m_audio is an immutable snapshot; slot + paint share the GUI thread.
     const ProcessedAudio& processedAudio = *m_audio;

@@ -118,6 +118,11 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
     QTextCharFormat tf;
     QString ss;
 
+    // Coalesce every insert below (one message can be many lines) into a single
+    // document edit block, so the layout/relayout runs once instead of per line.
+    QTextCursor editBlock = textCursor();
+    editBlock.beginEditBlock();
+
     tf.setForeground(theme->color("LogForeground"));
     tf.setBackground(theme->color("LogBackground"));
     setCurrentCharFormat(tf);
@@ -215,6 +220,8 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
         setCurrentCharFormat(tf);
     }
     appendPlainText(QString::fromStdString(" "));
+
+    editBlock.endEditBlock();
 
     if (forceScroll)
     {

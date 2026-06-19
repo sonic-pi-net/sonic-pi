@@ -19,6 +19,7 @@
 #include "SpoutDX.h"
 
 #include <atomic>
+#include <chrono>
 #include <iostream>
 #include <memory>
 #include <mutex>
@@ -166,6 +167,15 @@ private:
             return;
         }
 
+        // Cap publishing to ~60fps so a high-refresh display doesn't push the
+        // Spout sender faster than needed (macOS SCK caps the same way via
+        // minimumFrameInterval). On a 60Hz display every frame passes; on
+        // higher-refresh displays we drop the extras. The WGC frame is already
+        // consumed above, so skipping just means we don't re-send it.
+        const auto now = std::chrono::steady_clock::now();
+        if (now - m_lastPublish < std::chrono::milliseconds(16)) return;
+        m_lastPublish = now;
+
         try {
             auto tex = GetFrameTexture(frame);
             if (tex) m_spout.SendTexture(tex.get());
@@ -186,6 +196,7 @@ private:
     winrt::GraphicsCaptureItem        m_item{ nullptr };
     winrt::Direct3D11CaptureFramePool m_framePool{ nullptr };
     winrt::GraphicsCaptureSession     m_session{ nullptr };
+    std::chrono::steady_clock::time_point m_lastPublish{};  // ~60fps publish throttle
     winrt::event_token                m_frameArrivedToken{};
     winrt::event_token                m_itemClosedToken{};
 
