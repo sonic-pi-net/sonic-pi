@@ -36,6 +36,7 @@
 #include <QResizeEvent>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QSignalBlocker>
 #include <QShowEvent>
 #include <QSizePolicy>
 #include <QSplitter>
@@ -659,31 +660,46 @@ protected:
 private:
     void updateBottomFill()
     {
+        // Mutating the document below re-fires contentsChanged, which re-enters
+        // this slot; without this guard that recursion is unbounded and blows
+        // the stack (a silent crash on startup). The QSignalBlocker is the
+        // primary defence; the bool guards the resizeEvent path too.
+        if (m_adjusting)
+            return;
+        m_adjusting = true;
+
         QScrollBar* sb = verticalScrollBar();
         const bool atBottom = m_pinned || sb->value() >= sb->maximum() - 2;
 
-        // Bottom-align by pushing the content down with a top margin on the
+        // Bottom-align short content by pushing it down with a top margin on the
         // document's root frame (the widget won't reset this, unlike the
-        // viewport margins). The document height already includes the current
-        // margin, so subtract it to get the content's own height.
-        const int contentH = document()->size().toSize().height() - m_topGap;
-        const int gap = qMax(0, viewport()->height() - contentH);
-        if (gap != m_topGap)
+        // viewport margins). Measure the content's natural height with the
+        // margin zeroed first, so the gap can't drift across updates.
+        if (QTextFrame* root = document()->rootFrame())
         {
-            m_topGap = gap;
-            if (QTextFrame* root = document()->rootFrame())
+            const QSignalBlocker block(document());
+            QTextFrameFormat fmt = root->frameFormat();
+            if (fmt.topMargin() != 0)
             {
-                QTextFrameFormat fmt = root->frameFormat();
+                fmt.setTopMargin(0);
+                root->setFrameFormat(fmt);
+            }
+            const int contentH = document()->size().toSize().height();
+            const int gap = qMax(0, viewport()->height() - contentH);
+            if (gap != 0)
+            {
                 fmt.setTopMargin(gap);
                 root->setFrameFormat(fmt);
             }
         }
         if (atBottom)
             sb->setValue(sb->maximum());
+
+        m_adjusting = false;
     }
 
     bool m_pinned = true;
-    int m_topGap = 0;
+    bool m_adjusting = false;
 };
 } // namespace
 
