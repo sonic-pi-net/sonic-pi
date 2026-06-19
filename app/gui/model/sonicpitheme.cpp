@@ -888,6 +888,12 @@ void SonicPiTheme::reloadStylesheet() {
     QString paneColor = this->color("PaneBackground").name();
     QString logForegroundColor = this->color("LogForeground").name();
     QString logBackgroundColor = this->color("LogBackground").name();
+    // Muted title colour matching the SuperSonic debug pane's log titles
+    // (45% of the foreground blended over the log background).
+    QColor lf = this->color("LogForeground"), lb = this->color("LogBackground");
+    QString paneTitleColor = QColor(int(lf.red()   * 0.45 + lb.red()   * 0.55),
+                                    int(lf.green() * 0.45 + lb.green() * 0.55),
+                                    int(lf.blue()  * 0.45 + lb.blue()  * 0.55)).name();
     QString windowBorderColor = this->color("WindowBorder").name();
     QString windowInternalBorderColor = this->color("WindowInternalBorder").name();
 
@@ -938,6 +944,7 @@ void SonicPiTheme::reloadStylesheet() {
         .replace("windowColor", windowColor)
         .replace("windowForegroundColor", windowForegroundColor)
         .replace("paneColor", paneColor)
+        .replace("paneTitleColor", paneTitleColor)
         .replace("logForegroundColor", logForegroundColor)
         .replace("logBackgroundColor", logBackgroundColor)
         .replace("windowBorderColor", windowBorderColor)

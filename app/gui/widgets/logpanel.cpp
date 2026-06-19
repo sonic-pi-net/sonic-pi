@@ -196,8 +196,9 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
         paneLayout->setContentsMargins(0, 0, 0, 0);
         paneLayout->setSpacing(0);
 
-        QLabel* label = new QLabel(src.name, pane);
-        label->setAlignment(Qt::AlignCenter);
+        QLabel* label = new QLabel(src.name.toUpper(), pane);
+        label->setObjectName("paneTitle");   // shared small/muted/left title style
+        label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         paneLayout->addWidget(label);
 
         QPlainTextEdit* edit = new QPlainTextEdit(pane);
@@ -219,6 +220,9 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
     }
 
     addTab(m_logsTab, tr("Logs"));
+    // Only the single Logs tab by default — hide the redundant tab bar. It
+    // reappears if addExtraTab() adds a sibling.
+    tabBar()->setVisible(false);
 
     connect(this, &QTabWidget::currentChanged, this, &LogPanel::onCurrentChanged);
 }
@@ -230,6 +234,7 @@ void LogPanel::addExtraTab(QWidget* w, const QString& name)
     // is shown.
     insertTab(0, w, name);
     setCurrentIndex(0);
+    tabBar()->setVisible(true);   // more than one tab now — show the bar
 }
 
 void LogPanel::applyTheme(const QColor& textColor, const QColor& bgColor)
@@ -243,16 +248,8 @@ void LogPanel::applyTheme(const QColor& textColor, const QColor& bgColor)
         "}").arg(textColor.name(), bgColor.name());
     for (QPlainTextEdit* edit : m_edits) edit->setStyleSheet(editCss);
 
-    // Translucent strip over the log background — readable on any theme
-    // (light, dark, high contrast) without hard borders.
-    const QString labelCss = QString(
-        "QLabel {"
-        "  color: %1;"
-        "  background-color: rgba(127, 127, 127, 50);"
-        "  font-weight: bold;"
-        "  padding: 2px;"
-        "}").arg(textColor.name());
-    for (QLabel* label : m_labels) label->setStyleSheet(labelCss);
+    // Source labels use the shared #paneTitle style (small/muted/left, like the
+    // SuperSonic debug pane titles) from app.qss — no per-widget override here.
 
     // Panes and splitter handles blend into the log background; the
     // header strips are the only visual separators. Per-widget styles

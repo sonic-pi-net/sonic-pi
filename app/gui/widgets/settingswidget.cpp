@@ -703,15 +703,11 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     log_auto_scroll = new QCheckBox(tr("Auto-scroll log"));
     log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the bottom after every new message is displayed."));
 
-    show_debug_log_panel = new QCheckBox(tr("Show debug log panel"));
-    show_debug_log_panel->setToolTip(tr("Show a dockable panel with live tails of the\nGUI, Spider, Daemon and SuperSonic log files.\nNo CPU is used while the panel is hidden."));
-
     QVBoxLayout *debug_box_layout = new QVBoxLayout;
     debug_box_layout->addWidget(log_synths);
     debug_box_layout->addWidget(log_cues);
     debug_box_layout->addWidget(log_auto_scroll);
     debug_box_layout->addWidget(clear_output_on_run);
-    debug_box_layout->addWidget(show_debug_log_panel);
     debug_box->setLayout(debug_box_layout);
 
     gridEditorPrefs->addWidget(editor_look_feel_box, 0, 0);
@@ -2175,10 +2171,6 @@ void SettingsWidget::clearOutputOnRun() {
   emit clearOutputOnRunChanged();
 }
 
-void SettingsWidget::showDebugLogPanel() {
-  emit showDebugLogPanelChanged();
-}
-
 
 void SettingsWidget::autoIndentOnRun() {
   emit autoIndentOnRunChanged();
@@ -2243,7 +2235,6 @@ void SettingsWidget::updateSettings() {
     piSettings->clear_output_on_run = clear_output_on_run->isChecked();
     piSettings->log_cues = log_cues->isChecked();
     piSettings->log_auto_scroll = log_auto_scroll->isChecked();
-    piSettings->show_debug_log_panel = show_debug_log_panel->isChecked();
     piSettings->gui_transparency = gui_transparency_slider->value();
     if (lightModeCheck->isChecked())        { piSettings->themeStyle = SonicPiTheme::LightMode; }
     if (darkModeCheck->isChecked())         { piSettings->themeStyle = SonicPiTheme::DarkMode; }
@@ -2303,7 +2294,6 @@ void SettingsWidget::settingsChanged() {
     clear_output_on_run->setChecked(piSettings->clear_output_on_run);
     log_cues->setChecked(piSettings->log_cues);
     log_auto_scroll->setChecked(piSettings->log_auto_scroll);
-    show_debug_log_panel->setChecked(piSettings->show_debug_log_panel);
     gui_transparency_slider->setValue(piSettings->gui_transparency);
     lightModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::LightMode );
     darkModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::DarkMode );
@@ -2379,7 +2369,6 @@ void SettingsWidget::connectAll() {
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_completion_help, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_context, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(show_debug_log_panel, SIGNAL(clicked()), this, SLOT(updateSettings()));
 
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));
@@ -2421,7 +2410,6 @@ void SettingsWidget::connectAll() {
     connect(log_synths, SIGNAL(clicked()), this, SLOT(logSynths()));
     connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(clearOutputOnRun()));
     connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(autoIndentOnRun()));
-    connect(show_debug_log_panel, SIGNAL(clicked()), this, SLOT(showDebugLogPanel()));
 }
 
 void SettingsWidget::add_language_combo_box_entries(QComboBox* combo) {

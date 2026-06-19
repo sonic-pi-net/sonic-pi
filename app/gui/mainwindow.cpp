@@ -226,7 +226,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     updateButtonVisibility();
     updateLogVisibility();
     updateCuesVisibility();
-    updateDebugLogPanelVisibility();
+    createDebugAndLogTabs();
 
     // The implementation of this method is dynamically generated and can
     // be found in ruby_help.h:
@@ -509,7 +509,6 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(logSynthsChanged()), this, SLOT(changeLogSynths()));
     connect(settingsWidget, SIGNAL(clearOutputOnRunChanged()), this, SLOT(changeClearOutputOnRun()));
     connect(settingsWidget, SIGNAL(autoIndentOnRunChanged()), this, SLOT(changeAutoIndentOnRun()));
-    connect(settingsWidget, SIGNAL(showDebugLogPanelChanged()), this, SLOT(updateDebugLogPanelVisibility()));
 
     connect(settingsWidget, SIGNAL(driverChanged(QString)), this, SLOT(switchAudioDriver(QString)));
     connect(settingsWidget, SIGNAL(audioOutputDeviceChanged(QString)), this, SLOT(switchAudioDevice(QString)));
@@ -761,6 +760,7 @@ void MainWindow::setupWindowStructure()
     docsplit->addWidget(docPane);
 
     southTabs = new QTabWidget;
+    southTabs->setObjectName("southTabs");
     southTabs->setTabPosition(QTabWidget::West);
     southTabs->setTabsClosable(false);
     southTabs->setMovable(false);
@@ -911,16 +911,35 @@ void MainWindow::blankTitleBars()
     scopeWidget->setTitleBarWidget(blankWidgetScope);
     docWidget->setTitleBarWidget(blankWidgetDoc);
     metroWidget->setTitleBarWidget(blankWidgetMetro);
+    if (metricsPanel) metricsPanel->setTitlesVisible(false);
 }
 
 void MainWindow::namedTitleBars()
 {
     statusBar()->showMessage(tr("Showing pane titles..."), 2000);
-    outputWidget->setTitleBarWidget(0);
-    incomingWidget->setTitleBarWidget(0);
-    scopeWidget->setTitleBarWidget(0);
-    docWidget->setTitleBarWidget(0);
-    metroWidget->setTitleBarWidget(0);
+
+    // Custom title-bar labels styled like the SuperSonic debug pane titles
+    // (small/muted/left, uppercase). QDockWidget::title's QSS colour isn't
+    // honoured for the title text, so we supply our own #paneTitle labels.
+    // Created lazily here (all docks exist by now).
+    auto makeDockTitle = [](QDockWidget* dock) {
+        auto* l = new QLabel(dock->windowTitle().toUpper());
+        l->setObjectName("paneTitle");
+        l->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        return l;
+    };
+    if (!titleBarOutput)   titleBarOutput   = makeDockTitle(outputWidget);
+    if (!titleBarIncoming) titleBarIncoming = makeDockTitle(incomingWidget);
+    if (!titleBarScope)    titleBarScope    = makeDockTitle(scopeWidget);
+    if (!titleBarDoc)      titleBarDoc      = makeDockTitle(docWidget);
+    if (!titleBarMetro)    titleBarMetro    = makeDockTitle(metroWidget);
+
+    outputWidget->setTitleBarWidget(titleBarOutput);
+    incomingWidget->setTitleBarWidget(titleBarIncoming);
+    scopeWidget->setTitleBarWidget(titleBarScope);
+    docWidget->setTitleBarWidget(titleBarDoc);
+    metroWidget->setTitleBarWidget(titleBarMetro);
+    if (metricsPanel) metricsPanel->setTitlesVisible(true);
 }
 
 void MainWindow::updateFullScreenMode()
@@ -1222,42 +1241,32 @@ void MainWindow::updateCuesVisibility()
     }
 }
 
-void MainWindow::updateDebugLogPanelVisibility()
+void MainWindow::createDebugAndLogTabs()
 {
-    if (piSettings->show_debug_log_panel)
-    {
-        if (!debugLogPanel)
-        {
-            QVector<LogPanel::Source> sources;
-            for (const auto& src : m_spAPI->GetLogSources())
-            {
-                sources.append({ QString::fromStdString(src.name),
-                                 QString::fromStdString(src.path.string()) });
-            }
-            debugLogPanel = new LogPanel(sources, this);
-            debugLogPanel->applyTheme(theme->color("LogForeground"),
-                                      theme->color("LogBackground"));
+    if (debugLogPanel)
+        return;   // already created — these tabs are always present
 
-            // Live SuperSonic panel (metrics + OSC in/out + debug + node tree),
-            // read from the engine's shared segment. Reparented into
-            // debugLogPanel by addExtraTab, so it is torn down with it.
-            metricsPanel = new MetricsPanel(m_spAPI, this);
-            metricsPanel->applyTheme(theme);
-            debugLogPanel->addExtraTab(metricsPanel, tr("SuperSonic"));
-
-            southTabs->addTab(debugLogPanel, tr("Debug"));
-            int idx = southTabs->indexOf(debugLogPanel);
-            if (idx >= 0) southTabs->setCurrentIndex(idx);
-        }
-    }
-    else if (debugLogPanel)
+    QVector<LogPanel::Source> sources;
+    for (const auto& src : m_spAPI->GetLogSources())
     {
-        int idx = southTabs->indexOf(debugLogPanel);
-        if (idx >= 0) southTabs->removeTab(idx);
-        debugLogPanel->deleteLater();
-        debugLogPanel = nullptr;
-        metricsPanel = nullptr; // child of debugLogPanel — deleted with it
+        sources.append({ QString::fromStdString(src.name),
+                         QString::fromStdString(src.path.string()) });
     }
+    debugLogPanel = new LogPanel(sources, this);
+    debugLogPanel->applyTheme(theme->color("LogForeground"),
+                              theme->color("LogBackground"));
+
+    // Live SuperSonic panel (metrics + OSC in/out + debug + node tree), read
+    // from the engine's shared segment. A top-level tab, sibling of Logs and
+    // Docs (it starts/stops polling on show/hide).
+    metricsPanel = new MetricsPanel(m_spAPI, this);
+    metricsPanel->applyTheme(theme);
+
+    // Top-level south tabs in the order Docs, Logs, Debug (Docs was added at
+    // construction, so append these after it).
+    southTabs->addTab(debugLogPanel, tr("Logs"));
+    southTabs->addTab(metricsPanel, tr("Debug"));
+    southTabs->setCurrentWidget(metricsPanel);
 }
 
 void MainWindow::updateMetroVisibility()
@@ -4710,7 +4719,6 @@ void MainWindow::readSettings()
     piSettings->clear_output_on_run = gui_settings->value("prefs/clear-output-on-run", true).toBool();
     piSettings->log_cues = gui_settings->value("prefs/log-cues", false).toBool();
     piSettings->log_auto_scroll = gui_settings->value("prefs/log-auto-scroll", true).toBool();
-    piSettings->show_debug_log_panel = gui_settings->value("prefs/show-debug-log-panel", false).toBool();
     piSettings->show_line_numbers = gui_settings->value("prefs/show-line-numbers", true).toBool();
     piSettings->enable_external_synths = gui_settings->value("prefs/enable-external-synths", false).toBool();
     piSettings->synth_trigger_timing_guarantees = gui_settings->value("prefs/synth-trigger-timing-guarantees", false).toBool();
@@ -4790,7 +4798,6 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/clear-output-on-run", piSettings->clear_output_on_run);
     gui_settings->setValue("prefs/log-cues", piSettings->log_cues);
     gui_settings->setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);
-    gui_settings->setValue("prefs/show-debug-log-panel", piSettings->show_debug_log_panel);
     gui_settings->setValue("prefs/show-line-numbers", piSettings->show_line_numbers);
     gui_settings->setValue("prefs/enable-external-synths", piSettings->enable_external_synths);
     gui_settings->setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);

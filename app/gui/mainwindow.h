@@ -394,7 +394,7 @@ private slots:
     void toggleScopePaused();
     void updateLogVisibility();
     void updateCuesVisibility();
-    void updateDebugLogPanelVisibility();
+    void createDebugAndLogTabs();
     void toggleLogVisibility();
     void toggleCuesVisibility();
     void updateTabsVisibility();
@@ -558,6 +558,14 @@ private:
     QWidget* blankWidgetScope;
     QWidget* blankWidgetDoc;
     QWidget* blankWidgetMetro;
+    // Custom dock title bars: QLabel#paneTitle (small/muted/left, matching the
+    // SuperSonic debug pane). QDockWidget::title's QSS colour isn't honoured for
+    // the title text, so we supply our own label widgets.
+    QLabel* titleBarOutput = nullptr;
+    QLabel* titleBarIncoming = nullptr;
+    QLabel* titleBarScope = nullptr;
+    QLabel* titleBarDoc = nullptr;
+    QLabel* titleBarMetro = nullptr;
     QTextBrowser* docPane;
 
     //  QTextBrowser *hudPane;

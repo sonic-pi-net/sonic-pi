@@ -104,7 +104,6 @@ private slots:
     void logSynths();
     void clearOutputOnRun();
     void autoIndentOnRun();
-    void showDebugLogPanel();
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     void recordingTypeChanged(int index);
 #endif
@@ -155,7 +154,6 @@ signals:
     void logSynthsChanged();
     void clearOutputOnRunChanged();
     void autoIndentOnRunChanged();
-    void showDebugLogPanelChanged();
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // Recording → Type radio toggled. MainWindow::setRecordingMode
     // owns persistence and cross-view sync.
@@ -210,7 +208,6 @@ private:
     int        m_engineCurrentSampleRate = 0;
     int        m_engineCurrentBufferSize = 0;
     QCheckBox *log_synths;
-    QCheckBox *show_debug_log_panel;
     QCheckBox *check_args;
     QCheckBox *clear_output_on_run;
     QCheckBox *log_cues;

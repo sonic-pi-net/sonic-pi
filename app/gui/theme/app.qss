@@ -146,6 +146,17 @@ QTabBar::tab:hover:selected
 
 }
 
+/* Docs / Logs / Debug side tabs: uniform length with centred text. On a West
+   tab bar the word runs bottom-to-top, so min-height sets that length (keeping
+   all three tabs equal); modest left/right padding keeps the thickness slim.
+   The child combinator (>) limits this to southTabs' own bar so the nested
+   Docs sub-tabs (Tutorial / Examples / Synths …) are left alone. */
+QTabWidget#southTabs > QTabBar::tab
+{
+    min-height: 68dx;
+    padding: 6dx;
+}
+
 QTabWidget
 {
     background: paneColor;
@@ -165,17 +176,32 @@ QTabWidget::pane
 
 QDockWidget::title
 {
-    color: windowForegroundColor;
-    /*border-bottom: 3dx solid windowBorderColor;*/
+    /* Match the SuperSonic debug pane's log titles: 11px Hack, muted, left. */
+    color: paneTitleColor;
     border: 0dx;
-    text-align: center;
+    text-align: left;
     background: windowColor;
-    font-size: small;
+    font-family: 'Hack';
+    font-size: 11px;
+    padding-left: 6dx;
 }
 
 QDockWidget
 {
   font-size: small;
+}
+
+/* Shared "section title" look, matching the SuperSonic debug pane's log titles
+   (DEBUG / TO SUPERSONIC / FROM SUPERSONIC): small, muted, left-aligned Hack.
+   Text is uppercased by the code that creates the label. */
+QLabel#paneTitle
+{
+    font-family: 'Hack';
+    font-size: 11px;
+    font-weight: normal;
+    color: paneTitleColor;
+    background: transparent;
+    padding: 3dx 6dx 3dx 6dx;
 }
 
  QToolTip
@@ -762,7 +788,9 @@ QLineEdit#linkPeerName
 {
     background-color: paneColor;
     color: windowForegroundColor;
-    border: 1dx solid buttonBorderColor;
+    /* Match the Global Time Warp field: a soft grey (Button), not the harsh
+       white of ButtonBorder. */
+    border: 2dx solid buttonColor;
     border-radius: 3dx;
     padding: 4dx 6dx;
     selection-color: selectionForegroundColor;
@@ -771,7 +799,7 @@ QLineEdit#linkPeerName
 
 QLineEdit#linkPeerName:focus
 {
-    border: 1dx solid hoverButtonColor;
+    border: 2dx solid hoverButtonColor;
 }
 
 /* Share-audio: a checkable pill button. Same border / radius / height
@@ -800,15 +828,15 @@ QPushButton#shareAudioToggle:checked
 }
 
 /* "Muted" state (Link is off — setting has no effect right now).
-   Still fully clickable so users can discover it's a button. The
-   checked variant uses palette(mid) as fill, matching the muted thumb
-   in LinkVisibilityToggle (both sourced from QPalette::Mid → theme's
-   "Mid" colour), so the two widgets read as the same shade of grey
-   across light/dark/high-contrast themes. */
+   Still fully clickable so users can discover it's a button. Dimmed but
+   legible: palette(mid) is near-invisible dark-grey-on-black, so use the
+   placeholder-text role, which is derived to stay readable at reduced
+   emphasis across light/dark/high-contrast themes. The checked variant
+   still uses palette(mid) as a fill, where contrast isn't an issue. */
 QPushButton#shareAudioToggle[muted="true"],
 QPushButton#shareAudioToggle[muted="true"]:hover
 {
-    color: palette(mid);
+    color: palette(placeholder-text);
 }
 
 QPushButton#shareAudioToggle[muted="true"]:checked,
@@ -817,12 +845,6 @@ QPushButton#shareAudioToggle[muted="true"]:checked:hover
     color: palette(highlighted-text);
     background-color: palette(mid);
     border: 1dx solid palette(mid);
-}
-
-QLabel#linkSectionLabel
-{
-    color: windowForegroundColor;
-    font-weight: bold;
 }
 
 /* Link Audio latency slider — without explicit groove/handle styling
