@@ -14,24 +14,20 @@
 #ifndef CHEVRONBUTTON_H
 #define CHEVRONBUTTON_H
 
-#include <QApplication>
 #include <QColor>
 #include <QEnterEvent>
 #include <QEvent>
-#include <QMouseEvent>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPoint>
 #include <QPolygonF>
 #include <QToolButton>
 
-#include <functional>
-
-// A collapse/expand toggle that sits on a splitter divider: it paints a flat
-// "grip" (a thicker segment of the divider line, in the divider's own colour)
-// with a triangle centred on the rect, brightening to an accent on hover like
-// the splitter handle. A short press toggles; a longer press-drag forwards the
-// cursor position to a drag handler so the grip can move the divider too.
+// A collapse/expand toggle that spans the whole node-tree / metrics divider: it
+// paints the divider line (the divider's own grey, brightening to the accent on
+// hover) with a triangle centred on it, and toggles on click. Because it covers
+// and overlays the entire divider, hovering or clicking anywhere on the divider
+// hits this one button — so the divider and its glyph act as a single control.
 class ChevronButton : public QToolButton
 {
 public:
@@ -39,8 +35,7 @@ public:
 
     explicit ChevronButton(QWidget* parent = nullptr) : QToolButton(parent)
     {
-        // Cursor of the splitter it rides, since it also drags the divider.
-        setCursor(Qt::SplitVCursor);
+        setCursor(Qt::PointingHandCursor);
         setFocusPolicy(Qt::NoFocus);
     }
 
@@ -57,61 +52,55 @@ public:
         if (m_dir != d) { m_dir = d; update(); }
     }
 
-    // Drag handler: called with the cursor's global position while the grip is
-    // dragged, so the owner can move the divider as if the bar were dragged. A
-    // press that doesn't pass the drag threshold stays a click (toggle).
-    void setDragHandler(std::function<void(const QPoint&)> onDrag) { m_onDrag = std::move(onDrag); }
+    // Horizontal placement of the triangle: pixels in from the right edge.
+    // Negative (the default) centres it. Lets the glyph sit where the old
+    // right-anchored knob did even though the button now spans the divider.
+    void setGlyphInsetRight(int px)
+    {
+        if (m_glyphInsetRight != px) { m_glyphInsetRight = px; update(); }
+    }
+
+    // Box mode: instead of filling the whole rect, paint a thin full-width
+    // divider line (lineThickness, centred) plus a taller "knob" box on the
+    // right (boxW wide, boxInsetRight in from the edge) that holds the triangle.
+    void setBox(int lineThickness, int boxW, int boxInsetRight)
+    {
+        m_lineThickness = lineThickness;
+        m_boxW = boxW;
+        m_boxInsetRight = boxInsetRight;
+        update();
+    }
 
 protected:
     void enterEvent(QEnterEvent*) override { update(); }
     void leaveEvent(QEvent*) override { update(); }
 
-    void mousePressEvent(QMouseEvent* e) override
-    {
-        if (e->button() == Qt::LeftButton)
-        {
-            m_pressGlobal = e->globalPosition().toPoint();
-            m_dragging = false;
-        }
-        QToolButton::mousePressEvent(e);   // keep the pressed/visual state
-    }
-
-    void mouseMoveEvent(QMouseEvent* e) override
-    {
-        if (e->buttons() & Qt::LeftButton)
-        {
-            if (!m_dragging &&
-                (e->globalPosition().toPoint() - m_pressGlobal).manhattanLength()
-                    >= QApplication::startDragDistance())
-                m_dragging = true;
-            if (m_dragging && m_onDrag)
-                m_onDrag(e->globalPosition().toPoint());
-        }
-        QToolButton::mouseMoveEvent(e);
-    }
-
-    void mouseReleaseEvent(QMouseEvent* e) override
-    {
-        if (m_dragging)
-        {
-            // A drag, not a click — swallow the release so no clicked()/toggle.
-            m_dragging = false;
-            setDown(false);
-            e->accept();
-            return;
-        }
-        QToolButton::mouseReleaseEvent(e);   // a real click → clicked() → toggle
-    }
-
     void paintEvent(QPaintEvent*) override
     {
         QPainter p(this);
-        p.fillRect(rect(), underMouse() ? m_hoverGrip : m_grip);
+        const QColor c = underMouse() ? m_hoverGrip : m_grip;
+        const int w = rect().width();
+        const int h = rect().height();
+
+        qreal cx;
+        if (m_boxW > 0)
+        {
+            // Thin full-width divider line + a taller knob box on the right. Both
+            // are one button, so the whole divider hovers/toggles as a unit.
+            const int lt = (m_lineThickness > 0 && m_lineThickness < h) ? m_lineThickness : h;
+            p.fillRect(0, (h - lt) / 2, w, lt, c);     // divider line
+            const int bx = w - m_boxInsetRight - m_boxW;
+            p.fillRect(bx, 0, m_boxW, h, c);           // knob box
+            cx = bx + m_boxW / 2.0;
+        }
+        else
+        {
+            p.fillRect(rect(), c);
+            cx = (m_glyphInsetRight >= 0) ? (w - m_glyphInsetRight) : w / 2.0;
+        }
         p.setRenderHint(QPainter::Antialiasing, true);
 
-        // Triangle centred on the widget centre → even padding on all sides.
-        const qreal cx = rect().width() / 2.0;
-        const qreal cy = rect().height() / 2.0;
+        const qreal cy = h / 2.0;
         const qreal a = 5.0;   // half the span along the divider
         const qreal b = 4.0;   // depth (toward where the pane goes)
         QPolygonF tri;
@@ -140,10 +129,10 @@ private:
     QColor m_hoverGrip{ "#666666" };
     QColor m_glyph{ "#cccccc" };
     Dir m_dir = Down;
-
-    std::function<void(const QPoint&)> m_onDrag;
-    QPoint m_pressGlobal;
-    bool m_dragging = false;
+    int m_glyphInsetRight = -1;   // <0 = centred (non-box mode)
+    int m_lineThickness = -1;     // box mode: divider line height (<=0 disables box mode)
+    int m_boxW = 0;               // box mode: knob width
+    int m_boxInsetRight = 0;      // box mode: knob inset from the right edge
 };
 
 #endif // CHEVRONBUTTON_H

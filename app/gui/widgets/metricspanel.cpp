@@ -469,8 +469,8 @@ void MetricsPanel::buildUi()
 
     mainRow->setStretchFactor(0, 618);  // (tree + metrics) : logs ≈ golden ratio
     mainRow->setStretchFactor(1, 382);
-    // Match the rest of the app's dividers, which app.qss sizes as 6dx.
-    const int kHandleW = ScaleHeightForDPI(6);
+    // Match the main window's separators, which app.qss sizes as 8dx.
+    const int kHandleW = ScaleHeightForDPI(8);
     mainRow->setHandleWidth(kHandleW);
     mainRow->setChildrenCollapsible(false);
 
@@ -504,16 +504,16 @@ void MetricsPanel::buildUi()
     // not the splitter (a QSplitter would adopt a child widget as a pane), so
     // it floats as an overlay, positioned onto the divider by
     // positionMetricsToggle().
+    // Spans the whole tree/metrics divider (sized/placed in positionMetricsToggle)
+    // so the divider line and its glyph are one button: hover or click anywhere
+    // on the divider hits it. A click toggles the metrics' visibility.
     m_metricsToggle = new ChevronButton(this);
-    m_metricsToggle->setFixedSize(48, 22);
-    m_metricsToggle->setCursor(Qt::ArrowCursor);   // it toggles, it no longer drags
+    // Thin divider line (kHandleW) across the full width + a 48px knob box on
+    // the right (6px inset) holding the triangle — restores the box look while
+    // keeping the whole divider as one hover/click target.
+    m_metricsToggle->setBox(kHandleW, 48, 6);
     connect(m_metricsToggle, &QToolButton::clicked, this, &MetricsPanel::toggleMetrics);
     updateChevron();
-
-    // Double-clicking the divider line itself toggles the metrics too, as if
-    // the chevron were clicked (handled in eventFilter).
-    if (QSplitterHandle* h = leftCol->handle(1))
-        h->installEventFilter(this);
 
     // Dragging a right-column divider takes it out of auto-reveal (so the drag
     // isn't undone on the next dock resize). The left column's metrics pane is
@@ -1012,6 +1012,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     const QString faint  = blend(m_borderColor, m_bgColor, 0.55).name();
     const QString winBorder = theme->color("WindowBorder").name();     // separator bar
     const QString hover     = theme->color("ScrollBarHover").name();   // blue highlight
+    const int gridW = ScaleHeightForDPI(1);   // DPI-scaled grid line (a bare 1px reads as a faint hairline)
 
     setStyleSheet(QString(
         // Enforce the (small) panel font in the sheet itself — a setStyleSheet()
@@ -1021,8 +1022,8 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         " QFrame#ssCell { background:%1; }"
         // Border-top/left on the container + border-right/bottom per cell =
         // shared single grid lines, no gaps.
-        "QWidget#ssZones { background:%1; border-top:1px solid %7; border-left:1px solid %7; }"
-        "QFrame#ssCell { border-right:1px solid %7; border-bottom:1px solid %7; }"
+        "QWidget#ssZones { background:%1; border-top:%8px solid %7; border-left:%8px solid %7; }"
+        "QFrame#ssCell { border-right:%8px solid %7; border-bottom:%8px solid %7; }"
         "QFrame#ssCell[lastrow=\"true\"] { border-bottom:none; }"
         // Rightmost cells drop their right border so the grid doesn't draw a
         // line hard up against the scrollbar.
@@ -1032,7 +1033,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QLabel#ssCardTitle { color:%5; padding-bottom:3px; }"
         "QLabel[ssRole=\"rowlabel\"] { color:%4; }"
         "QTextEdit { color:%2; background:%1; border:none; }")
-        .arg(bg, fg, border, dim, muted, faint).arg(winBorder));
+        .arg(bg, fg, border, dim, muted, faint).arg(winBorder).arg(gridW));
 
     // Splitter handles are styled on each splitter directly (below) rather than
     // here: app.qss's ::handle:vertical sets a (missing) grip image that
@@ -1119,16 +1120,9 @@ bool MetricsPanel::eventFilter(QObject* obj, QEvent* e)
 {
     if ((obj == m_leftSplit || obj == m_rightSplit) && e->type() == QEvent::Resize)
         revealColumns();
-    // Re-flow the metric cards (one row when the pane is short) as it resizes.
+    // Re-flow the metric cards (snap 1/2 rows by width) as the pane resizes.
     else if (m_metricsScroll && obj == m_metricsScroll->viewport() && e->type() == QEvent::Resize)
         reflowMetrics();
-    // Double-click on the node-tree / metrics divider toggles the metrics.
-    else if (e->type() == QEvent::MouseButtonDblClick && m_leftSplit &&
-             obj == m_leftSplit->handle(1))
-    {
-        toggleMetrics();
-        return true;
-    }
     return QWidget::eventFilter(obj, e);
 }
 
@@ -1279,17 +1273,16 @@ void MetricsPanel::positionMetricsToggle()
     if (h <= 0)
         return;
     const int hw = m_leftSplit->handleWidth();
-    const int btnW = m_metricsToggle->width();
-    const int btnH = m_metricsToggle->height();
-    // The metrics pane sits at the bottom with a fixed height and the divider is
-    // directly above it, so derive the divider centre from that height. Reading
-    // sizes() instead would be momentarily stale right after a toggle (the
-    // splitter relayouts asynchronously), making the grip jump off the divider.
+    // The grip spans the whole divider width and is a bit taller than the line so
+    // its knob box can rise above/below it; centre that band on the divider. The
+    // metrics pane is fixed-height and sits at the bottom, so the divider is
+    // directly above it — derive its position from that height (sizes() would be
+    // momentarily stale right after a toggle, as the splitter relayouts async).
     const int m = m_metricsMinimised ? 0 : qBound(0, m_metricsNeededH, qMax(0, h - hw));
     const int dividerCentre = h - m - hw / 2;
-    const int x = m_leftSplit->width() - btnW - 6;          // right edge, small inset
-    int y = qBound(0, dividerCentre - btnH / 2, qMax(0, h - btnH));
-    m_metricsToggle->move(x, y);
+    const int boxH = ScaleHeightForDPI(18);
+    const int top = qBound(0, dividerCentre - boxH / 2, qMax(0, h - boxH));
+    m_metricsToggle->setGeometry(0, top, m_leftSplit->width(), boxH);
 }
 
 void MetricsPanel::toggleMetrics()
