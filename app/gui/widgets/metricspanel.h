@@ -113,6 +113,9 @@ private:
     // space. reflowMetricsGrid does the placement for a given column count.
     void reflowMetrics();
     void reflowMetricsGrid(int cols);
+    // Pin the metrics pane to exactly the height its current 1 or 2 rows need,
+    // so it never stretches and the node tree above takes any spare height.
+    void updateMetricsHeight();
     // Seed the main (tree+metrics | logs) split to the golden ratio, once,
     // when it first has a real width.
     void seedMainSplit();
@@ -122,9 +125,6 @@ private:
     void updateChevron();
     // Place the chevron knob onto the current node-tree / metrics divider.
     void positionMetricsToggle();
-    // Move the node-tree / metrics divider so its bar tracks `globalPos` —
-    // lets the chevron grip be dragged like the divider bar itself.
-    void dragMetricsDividerTo(const QPoint& globalPos);
     void drainOscRing(bool outgoing);   // outgoing = IN ring (sent), else OUT ring (replies)
     void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /supersonic/debug → Debug pane, rest → From-SuperSonic
     void updateNodeTree();
@@ -147,9 +147,8 @@ private:
     bool m_splitInit = false;         // seed the main (horizontal) split once, on first show
     bool m_metricsMinimised = false;  // user collapsed the metrics via the chevron
     bool m_revealing = false;         // re-entrancy guard for revealColumns()
-    bool m_leftManual = false;        // user dragged the left column's divider — stop auto-revealing it
     bool m_rightManual = false;       // user dragged a right column divider — stop auto-revealing it
-    int m_savedMetricsH = 0;          // metrics height to restore when un-minimising (0 = use reveal default)
+    int m_metricsNeededH = 0;         // fixed height the current 1/2 rows of cards need
 
     QColor m_textColor;
     QColor m_bgColor;
