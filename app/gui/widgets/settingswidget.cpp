@@ -639,7 +639,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
         // which is white-on-light for the Light / High Contrast themes.
         "#themeSegControl QPushButton { border: none; padding: 5px 16px; border-radius: 5px;"
         " background: transparent; color: palette(window-text); text-align: left;"
-        " font-size: medium; }"
+        " font-size: medium; min-height: 20px; }"
         "#themeSegControl QPushButton:hover:!checked { background: rgba(127,127,127,70); }"
         "#themeSegControl QPushButton:checked { background: palette(highlight);"
         " color: palette(highlighted-text); }");
