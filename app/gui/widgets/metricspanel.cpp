@@ -43,6 +43,8 @@
 #include <QSplitter>
 #include <QSplitterHandle>
 #include <QStyle>
+#include <QTextCharFormat>
+#include <QTextCursor>
 #include <QTextDocument>
 #include <QTextEdit>
 #include <QTextFrame>
@@ -724,46 +726,89 @@ void MetricsPanel::buildLogs(QSplitter* col)
     m_oscInView  = addLogCard(tr("From SuperSonic"));  // engine → host (replies)
 }
 
-QString MetricsPanel::formatOscHtml(const uint8_t* data, uint32_t size,
-                                    uint32_t sequence, uint32_t sourceId, bool outgoing)
+QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
+                                            uint32_t sequence, uint32_t sourceId, bool outgoing)
 {
-    // Sonic Pi theme syntax colours (fall back to fixed hues pre-theme).
-    auto tc = [&](const char* name, const char* fallback) {
-        return m_theme ? m_theme->color(name).name() : QString::fromLatin1(fallback);
+    // Sonic Pi theme syntax colours (fall back to fixed hues pre-theme). Built as
+    // coloured runs (not HTML) so the log inserts them via QTextCharFormat,
+    // skipping the rich-text HTML parser on this per-message hot path.
+    auto tc = [&](const char* name, const char* fallback) -> QColor {
+        return m_theme ? m_theme->color(name) : QColor(QString::fromLatin1(fallback));
     };
-    const QString cMuted = m_theme ? m_theme->color("CommentForeground").name() : kindColor(K_Muted).name();
-    const QString cSrc  = tc("KeywordForeground", "#e0af68");
-    const QString cAddr = tc("FunctionMethodNameForeground", "#ff5fff");  // deep pink
-    const QString cNum  = tc("NumberForeground", "#ff9e64");
-    const QString cStr  = tc("DoubleQuotedStringForeground", "#9ece6a");
-    auto span = [](const QString& col, const QString& txt) {
-        return QStringLiteral("<span style=\"color:%1\">%2</span>").arg(col, txt);
-    };
+    const QColor cMuted = m_theme ? m_theme->color("CommentForeground") : kindColor(K_Muted);
+    const QColor cSrc  = tc("KeywordForeground", "#e0af68");
+    const QColor cAddr = tc("FunctionMethodNameForeground", "#ff5fff");  // deep pink
+    const QColor cNum  = tc("NumberForeground", "#ff9e64");
+    const QColor cStr  = tc("DoubleQuotedStringForeground", "#9ece6a");
 
-    QString out = span(cMuted, QStringLiteral("[%1]").arg(sequence));
+    QVector<LogRun> runs;
+    runs.append({ cMuted, QStringLiteral("[%1]").arg(sequence) });
     if (outgoing && sourceId != 0)
-        out += " " + span(cSrc, QStringLiteral("ch%1").arg(sourceId));
+        runs.append({ cSrc, QStringLiteral(" ch%1").arg(sourceId) });
 
     oscpkt::PacketReader pr(data, size);
     oscpkt::Message* msg;
     int count = 0;
     while (pr.isOk() && (msg = pr.popMessage()) != nullptr)
     {
-        if (count++ > 0) out += " " + span(cMuted, QStringLiteral("|"));
-        out += " " + span(cAddr, QString::fromStdString(msg->addressPattern()).toHtmlEscaped());
+        if (count++ > 0) runs.append({ cMuted, QStringLiteral(" |") });
+        runs.append({ cAddr, QLatin1Char(' ') + QString::fromStdString(msg->addressPattern()) });
         oscpkt::Message::ArgReader ar = msg->arg();
         while (ar.nbArgRemaining() && ar.isOk())
         {
-            if (ar.isInt32())      { int32_t i; ar.popInt32(i); out += " " + span(cNum, QString::number(i)); }
-            else if (ar.isInt64()) { int64_t i; ar.popInt64(i); out += " " + span(cNum, QString::number(static_cast<qlonglong>(i))); }
-            else if (ar.isFloat()) { float f;   ar.popFloat(f); out += " " + span(cNum, QString::number(f, 'g', 6)); }
-            else if (ar.isDouble()){ double d;  ar.popDouble(d); out += " " + span(cNum, QString::number(d, 'g', 6)); }
-            else if (ar.isStr())   { std::string s; ar.popStr(s); out += " " + span(cStr, "\"" + QString::fromStdString(s).toHtmlEscaped() + "\""); }
-            else if (ar.isBlob())  { std::vector<char> b; ar.popBlob(b); out += " " + span(cMuted, QStringLiteral("&lt;%1 bytes&gt;").arg(b.size())); }
-            else                   { ar.pop(); out += " " + span(cMuted, QStringLiteral("?")); }
+            if (ar.isInt32())      { int32_t i; ar.popInt32(i); runs.append({ cNum, QLatin1Char(' ') + QString::number(i) }); }
+            else if (ar.isInt64()) { int64_t i; ar.popInt64(i); runs.append({ cNum, QLatin1Char(' ') + QString::number(static_cast<qlonglong>(i)) }); }
+            else if (ar.isFloat()) { float f;   ar.popFloat(f); runs.append({ cNum, QLatin1Char(' ') + QString::number(f, 'g', 6) }); }
+            else if (ar.isDouble()){ double d;  ar.popDouble(d); runs.append({ cNum, QLatin1Char(' ') + QString::number(d, 'g', 6) }); }
+            else if (ar.isStr())   { std::string s; ar.popStr(s); runs.append({ cStr, QStringLiteral(" \"") + QString::fromStdString(s) + QLatin1Char('"') }); }
+            else if (ar.isBlob())  { std::vector<char> b; ar.popBlob(b); runs.append({ cMuted, QStringLiteral(" <%1 bytes>").arg(b.size()) }); }
+            else                   { ar.pop(); runs.append({ cMuted, QStringLiteral(" ?") }); }
         }
     }
-    return out;
+    return runs;
+}
+
+// Flood cap: under heavy traffic we'd format and insert thousands of lines per
+// refresh that maximumBlockCount(2000) trims away the same frame. Keep only the
+// most recent and note how many were dropped — bounds the per-refresh relayout.
+static constexpr int kMaxLinesPerRefresh = 256;
+
+// Append a whole refresh's worth of log lines in one coalesced edit. Each line
+// stays its own block (so maximumBlockCount still bounds memory), but the
+// expensive QTextDocument relayout + text shaping happens once for the batch
+// instead of once per QTextEdit::append(). Runs are inserted with
+// QTextCharFormat (no HTML parse); '\n' inside a run becomes a soft line break so
+// a multi-line entry stays a single block. Auto-scrolls to the bottom.
+static void appendLogBatch(QTextEdit* view, QVector<QVector<LogRun>>& lines)
+{
+    if (!view || lines.isEmpty()) return;
+    if (lines.size() > kMaxLinesPerRefresh)
+    {
+        const int dropped = lines.size() - kMaxLinesPerRefresh;
+        lines.remove(0, dropped);   // keep the newest
+        lines.prepend({ { QColor(128, 128, 128),
+                          QStringLiteral("… %1 lines suppressed (flood)").arg(dropped) } });
+    }
+    QTextCursor c(view->document());
+    c.movePosition(QTextCursor::End);
+    const bool startEmpty = view->document()->isEmpty();
+    c.beginEditBlock();
+    for (int i = 0; i < lines.size(); ++i)
+    {
+        // append() doesn't prepend an empty block to an empty document.
+        if (!(startEmpty && i == 0)) c.insertBlock();
+        for (const LogRun& r : lines.at(i))
+        {
+            QTextCharFormat fmt;
+            if (r.color.isValid()) fmt.setForeground(r.color);
+            QString t = r.text;
+            t.replace(QLatin1Char('\n'), QChar(QChar::LineSeparator));  // keep multi-line entries in one block
+            c.insertText(t, fmt);
+        }
+    }
+    c.endEditBlock();   // single relayout + maximumBlockCount trim here
+    view->moveCursor(QTextCursor::End);
+    view->ensureCursorVisible();
 }
 
 void MetricsPanel::drainOscRing(bool outgoing)
@@ -774,10 +819,12 @@ void MetricsPanel::drainOscRing(bool outgoing)
     ring_view rv = outgoing ? m_api->AudioProcessor_GetInRing()
                             : m_api->AudioProcessor_GetOutRing();
     RingCursor& cur = outgoing ? m_inCursor : m_outCursor;
+    QVector<QVector<LogRun>> lines;
     walkRing(rv, cur, m_scratch,
         [&](uint32_t seq, uint32_t src, const uint8_t* payload, uint32_t n) {
-            view->append(formatOscHtml(payload, n, seq, src, outgoing));
+            lines.append(formatOscRuns(payload, n, seq, src, outgoing));
         });
+    appendLogBatch(view, lines);
 }
 
 // Drain one engine→host ring, splitting by type: /supersonic/debug → Debug pane
@@ -790,7 +837,8 @@ void MetricsPanel::drainEgressRing(bool nrt)
                           : m_api->AudioProcessor_GetOutRing();
     RingCursor& cur = nrt ? m_debugCursor : m_outCursor;
     // Debug-line timestamps in the Sonic Pi accent blue.
-    const QString cTime = m_theme ? m_theme->color("ScrollBarHover").name() : QStringLiteral("#7aa2f7");
+    const QColor cTime = m_theme ? m_theme->color("ScrollBarHover") : QColor(QStringLiteral("#7aa2f7"));
+    QVector<QVector<LogRun>> debugLines, oscInLines;
     walkRing(rv, cur, m_scratch,
         [&](uint32_t seq, uint32_t src, const uint8_t* payload, uint32_t n) {
             // NRT-out frames carry a leading [route:u32] word (OUT too once
@@ -811,30 +859,27 @@ void MetricsPanel::drainEgressRing(bool nrt)
                     if (!text.isEmpty()) {
                         // A leading \x01 marks the engine's boot banner (the
                         // status summary): render it verbatim with no timestamp.
-                        // Everything else is a timestamped debug line.
+                        // Everything else is a timestamped debug line. Embedded
+                        // '\n' becomes a soft break in appendLogBatch (one block).
                         const bool banner = text.startsWith(QChar(0x01));
                         if (banner) text.remove(0, 1);
-                        // Rendered as HTML, so turn newlines into <br>; pre-wrap
-                        // keeps runs of spaces (font is monospace Hack).
-                        const QString html = text.toHtmlEscaped().replace(QLatin1Char('\n'),
-                                                                          QStringLiteral("<br>"));
                         if (banner) {
-                            m_debugView->append(QStringLiteral(
-                                "<span style=\"white-space:pre-wrap\">%1</span>").arg(html));
+                            debugLines.append({ { QColor(), text } });
                         } else {
                             const QString ts = QTime::currentTime().toString(QStringLiteral("HH:mm:ss.zzz"));
-                            m_debugView->append(QStringLiteral(
-                                "<span style=\"color:%1\">[%2]</span> "
-                                "<span style=\"white-space:pre-wrap\">%3</span>")
-                                                    .arg(cTime, ts, html));
+                            debugLines.append({ { cTime, QStringLiteral("[%1] ").arg(ts) },
+                                                { QColor(), text } });
                         }
                     }
                     return;
                 }
             }
             if (m_oscInView)
-                m_oscInView->append(formatOscHtml(osc, oscN, seq, src, /*outgoing=*/false));
+                oscInLines.append(formatOscRuns(osc, oscN, seq, src, /*outgoing=*/false));
         });
+    // One coalesced relayout per view, instead of one per drained message.
+    appendLogBatch(m_debugView, debugLines);
+    appendLogBatch(m_oscInView, oscInLines);
 }
 
 void MetricsPanel::updateNodeTree()

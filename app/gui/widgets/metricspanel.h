@@ -44,6 +44,12 @@ namespace SonicPi
 class SonicPiAPI;
 }
 
+// A coloured text run for the OSC/debug logs. These are built and inserted via
+// QTextCharFormat instead of generating HTML and calling insertHtml(), which
+// skips the rich-text HTML parser on the per-message hot path. An invalid colour
+// means "use the view's default foreground".
+struct LogRun { QColor color; QString text; };
+
 // Live engine performance dashboard: reads the PerformanceMetrics the engine
 // publishes into shared memory (via SonicPiAPI::AudioProcessor_GetMetrics) and
 // renders it. Polling is gated on visibility. Fields with no native writer
@@ -136,8 +142,8 @@ private:
     void drainOscRing(bool outgoing);   // outgoing = IN ring (sent), else OUT ring (replies)
     void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /supersonic/debug → Debug pane, rest → From-SuperSonic
     void updateNodeTree();
-    QString formatOscHtml(const uint8_t* data, uint32_t size,
-                          uint32_t sequence, uint32_t sourceId, bool outgoing);
+    QVector<LogRun> formatOscRuns(const uint8_t* data, uint32_t size,
+                                  uint32_t sequence, uint32_t sourceId, bool outgoing);
 
     std::shared_ptr<SonicPi::SonicPiAPI> m_api;
     QTimer* m_timer = nullptr;
