@@ -41,16 +41,23 @@ namespace
 const int LissajousSamples = 1024;
 const int PenWidth = 1;
 const float FFTDecibelRange = 70.0f;
+// Once silent, repaint for this many more frames so the phosphor trail can
+// fully fade, then stop repainting until real signal returns. ~20 frames
+// (~1/3 s at 60fps) is enough at the current decay rate.
+const int SilentSettleFrames = 20;
 } // namespace
 
 ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<SonicPiAPI> spAPI, QWidget* parent)
-    : QOpenGLWidget(parent)
+    : QWidget(parent)
     , m_spClient(spClient)
     , m_spAPI(spAPI)
 {
-    // Preserve the framebuffer between frames so the faded background clear in
-    // paintEvent leaves a decaying trace (phosphor persistence).
-    setUpdateBehavior(QOpenGLWidget::PartialUpdate);
+    // Raster widget: we repaint every pixel ourselves and rely on the backing
+    // store being preserved between frames, so the faded background clear in
+    // paintEvent leaves a decaying trace (phosphor persistence). Not a
+    // QOpenGLWidget — a GL widget would force the whole window onto Qt's RHI
+    // texturized-composition flush path (a full backing-store copy per frame).
+    setAttribute(Qt::WA_OpaquePaintEvent);
 
     QVBoxLayout* layout = new QVBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
@@ -102,7 +109,7 @@ void ScopeWindow::ShutDown()
 
 void ScopeWindow::resizeEvent(QResizeEvent* pSize)
 {
-    QOpenGLWidget::resizeEvent(pSize);
+    QWidget::resizeEvent(pSize);
 
     // The framebuffer is recreated on resize — clear it opaquely next paint.
     m_fullClear = true;
@@ -618,10 +625,28 @@ void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
 
         m_audioAvailable = true;
 
-        update();
+        // The audio thread delivers a frame at the refresh rate whether or not
+        // there's signal, and repainting every one of them wastes CPU at idle.
+        // While there's signal we repaint normally; once the snapshot is silent
+        // (samples below ~-80dB and, for a spectrum panel, its bars and peaks
+        // decayed) we issue only SilentSettleFrames more repaints to let the
+        // phosphor trail fade out, then stop until real signal returns. This
+        // slot keeps being called regardless (it only drives painting), so a
+        // returning signal resumes the scope on the very next frame.
+        const bool silent = !audio || SnapshotSilent(*audio);
+        if (!silent)
+        {
+            m_silentFrames = 0;
+            update();
+        }
+        else if (m_silentFrames < SilentSettleFrames)
+        {
+            m_silentFrames++;
+            update();
+        }
 
         // Deferred pause once everything has visually run down
-        if (m_pendingPause && audio && SnapshotSilent(*audio))
+        if (m_pendingPause && audio && silent)
         {
             Pause();
         }

@@ -13,7 +13,6 @@
 #pragma once
  
 #include <QWidget>
-#include <QOpenGLWidget>
 #include <QPen>
 #include <QLine>
 #include <QThread>
@@ -70,7 +69,7 @@ struct ScopeWindowPanel
     QLinearGradient redBlueGradient;
 };
 
-class ScopeWindow : public QOpenGLWidget
+class ScopeWindow : public QWidget
 {
     Q_OBJECT
 
@@ -131,6 +130,10 @@ private:
     // m_fullClear forces one opaque clear on the first paint and after a resize,
     // where the preserved framebuffer would otherwise hold stale/garbage pixels.
     bool m_fullClear = true;
+    // Consecutive silent frames painted since the signal stopped. Caps idle
+    // repaints at SilentSettleFrames so the scope stops repainting once the
+    // trail has decayed; reset to 0 when signal returns.
+    int m_silentFrames = 0;
 };
 
 } // namespace SonicPi
