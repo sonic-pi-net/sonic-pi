@@ -15,6 +15,7 @@
 #define NODETREEGRAPH_H
 
 #include <QColor>
+#include <QElapsedTimer>
 #include <QHash>
 #include <QPointF>
 #include <QString>
@@ -71,6 +72,7 @@ private:
     QHash<int, int> m_index;         // id → index in m_nodes
     QHash<int, Layout> m_layout;     // id → eased layout
     QTimer* m_anim = nullptr;
+    QElapsedTimer m_clock;           // wall-clock between steps → frame-rate-independent easing
 
     QColor m_text{ "#cccccc" };
     QColor m_bg{ "#1e1e1e" };

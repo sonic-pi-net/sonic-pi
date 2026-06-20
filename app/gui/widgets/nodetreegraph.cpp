@@ -35,6 +35,7 @@ NodeTreeGraph::NodeTreeGraph(QWidget* parent) : QWidget(parent)
     setMouseTracking(true);  // hover tooltips without a pressed button
     m_anim = new QTimer(this);
     m_anim->setInterval(16);  // ~60 fps easing
+    m_anim->setTimerType(Qt::PreciseTimer);  // steadier interval than the default coarse timer
     connect(m_anim, &QTimer::timeout, this, &NodeTreeGraph::animateStep);
 }
 
@@ -134,6 +135,7 @@ void NodeTreeGraph::setTree(const QVector<Node>& nodes)
         // Large tree: snap to targets instead of easing.
         for (auto& l : m_layout) { l.cx = l.tx; l.cy = l.ty; }
         if (m_anim->isActive()) m_anim->stop();
+        m_clock.invalidate();
     }
     else if (!m_anim->isActive())
     {
@@ -144,16 +146,28 @@ void NodeTreeGraph::setTree(const QVector<Node>& nodes)
 
 void NodeTreeGraph::animateStep()
 {
+    // Ease by real elapsed time, not a fixed per-frame fraction, so motion speed
+    // stays constant when frames arrive unevenly. Clamp dt so a long stall
+    // (window hidden/backgrounded) catches up in one step rather than jumping.
+    // frames == elapsed time expressed in 60fps frame-units.
+    qint64 dtMs;
+    if (m_clock.isValid()) dtMs = m_clock.restart();
+    else { m_clock.start(); dtMs = 16; }
+    dtMs = std::clamp<qint64>(dtMs, 1, 100);
+    const float frames = static_cast<float>(dtMs) / 16.6667f;
+
     bool moving = false;
     for (auto& l : m_layout)
     {
-        const float step = 1.0f - l.visc;   // fraction moved toward target per frame
+        // visc^frames: the per-frame retained fraction compounded over real
+        // elapsed time — same curve as a fixed 60fps step, correct off-cadence.
+        const float step = 1.0f - std::pow(l.visc, frames);
         l.cx += (l.tx - l.cx) * step;
         l.cy += (l.ty - l.cy) * step;
         if (std::abs(l.tx - l.cx) > 0.0005f || std::abs(l.ty - l.cy) > 0.0005f) moving = true;
         else { l.cx = l.tx; l.cy = l.ty; }
     }
-    if (!moving) m_anim->stop();
+    if (!moving) { m_anim->stop(); m_clock.invalidate(); }
     update();
 }
 
@@ -178,42 +192,53 @@ void NodeTreeGraph::paintEvent(QPaintEvent*)
 
     const bool dense = m_nodes.size() > kMaxAnimatedNodes;
 
-    // Edges first (parent → child), faint. S-curves when sparse, straight when dense.
-    QPen edgePen(QColor(m_text.red(), m_text.green(), m_text.blue(), 90));
-    edgePen.setWidthF(1.2);
-    p.setPen(edgePen);
+    // Edges first (parent → child), faint. S-curves when sparse, straight when
+    // dense. All edges accumulate into one path and stroke in a single drawPath
+    // — one antialiased pass instead of one (bezier) draw call per edge.
+    QPainterPath edges;
     for (const Node& n : m_nodes)
     {
         if (n.parent < 0 || !m_index.contains(n.parent)) continue;
         const Layout& a = m_layout[n.parent];
         const Layout& b = m_layout[n.id];
         QPointF p0(px(a.cx), py(a.cy)), p1(px(b.cx), py(b.cy));
+        edges.moveTo(p0);
         if (dense)
         {
-            p.drawLine(p0, p1);
+            edges.lineTo(p1);
         }
         else
         {
-            QPainterPath path(p0);
             const qreal midY = (p0.y() + p1.y()) / 2.0;    // vertical S-curve
-            path.cubicTo(QPointF(p0.x(), midY), QPointF(p1.x(), midY), p1);
-            p.drawPath(path);
+            edges.cubicTo(QPointF(p0.x(), midY), QPointF(p1.x(), midY), p1);
         }
     }
+    QPen edgePen(QColor(m_text.red(), m_text.green(), m_text.blue(), 90));
+    edgePen.setWidthF(1.2);
+    p.setPen(edgePen);
+    p.setBrush(Qt::NoBrush);
+    p.drawPath(edges);
 
-    // Nodes (no labels; hover shows the name). Record screen centres for hit-testing.
+    // Nodes (no labels; hover shows the name). Record screen centres for
+    // hit-testing. Drawn grouped by kind so brush/pen are set 4× rather than
+    // once per node; within a kind the radius is constant. Groups paint first
+    // (under leaves), matching their role as containers.
     m_screenPos.clear();
-    for (const Node& n : m_nodes)
+    for (int k = 0; k < 4; ++k)
     {
-        const Layout& l = m_layout[n.id];
-        QPointF c(px(l.cx), py(l.cy));
-        m_screenPos.insert(n.id, c);
-        const qreal r = dense ? (n.kind == Group ? 4.0 : 3.0)
-                              : (n.kind == Group ? 6.0 : 4.5);
-        QColor col = m_kindColor[n.kind];
+        const qreal r = dense ? (k == Group ? 4.0 : 3.0)
+                              : (k == Group ? 6.0 : 4.5);
+        QColor col = m_kindColor[k];
         p.setBrush(col);
         p.setPen(QPen(col.darker(140), 1.0));
-        p.drawEllipse(c, r, r);
+        for (const Node& n : m_nodes)
+        {
+            if (n.kind != k) continue;
+            const Layout& l = m_layout[n.id];
+            QPointF c(px(l.cx), py(l.cy));
+            m_screenPos.insert(n.id, c);
+            p.drawEllipse(c, r, r);
+        }
     }
 }
 
