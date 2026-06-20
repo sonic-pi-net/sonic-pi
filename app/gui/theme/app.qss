@@ -180,7 +180,7 @@ QDockWidget::title
     color: paneTitleColor;
     border: 0dx;
     text-align: left;
-    background: windowColor;
+    background: logBackgroundColor;
     font-family: 'Hack';
     font-size: 11px;
     padding-left: 6dx;
@@ -200,7 +200,7 @@ QLabel#paneTitle
     font-size: 11px;
     font-weight: normal;
     color: paneTitleColor;
-    background: transparent;
+    background: logBackgroundColor;
     padding: 3dx 6dx 3dx 6dx;
 }
 
