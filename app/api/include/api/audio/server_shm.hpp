@@ -226,9 +226,12 @@ struct node_tree_view {
 
 // Native-only live engine stats (0 on a web-origin segment / when unmapped).
 struct native_stats {
-    uint32_t synthdefs    = 0;
-    uint32_t buffers      = 0;
-    uint32_t buffer_bytes = 0;
+    uint32_t synthdefs           = 0;
+    uint32_t buffers             = 0;
+    uint32_t buffer_bytes        = 0;
+    uint32_t cpu_load_avg_centi  = 0;  // DSP load, percent * 100 (smoothed average)
+    uint32_t cpu_load_peak_centi = 0;  // DSP load, percent * 100 (decaying peak)
+    uint32_t callback_overruns   = 0;  // audio callbacks that overran their budget
 };
 
 // ──── Client (GUI / reader side) ────────────────────────────────────────
@@ -340,9 +343,29 @@ public:
         return reinterpret_cast<const std::atomic<uint32_t>*>(blob_ + hdr_.native_stats_offset + 8)
             ->load(std::memory_order_relaxed);
     }
-    native_stats get_native_stats() {
-        return { native_synthdefs(), native_buffers(), native_buffer_bytes() };
+    uint32_t native_cpu_avg_centi() {
+        if (!hdr_.native_stats_offset) return 0;
+        return reinterpret_cast<const std::atomic<uint32_t>*>(blob_ + hdr_.native_stats_offset + 12)
+            ->load(std::memory_order_relaxed);
     }
+    uint32_t native_cpu_peak_centi() {
+        if (!hdr_.native_stats_offset) return 0;
+        return reinterpret_cast<const std::atomic<uint32_t>*>(blob_ + hdr_.native_stats_offset + 16)
+            ->load(std::memory_order_relaxed);
+    }
+    uint32_t native_callback_overruns() {
+        if (!hdr_.native_stats_offset) return 0;
+        return reinterpret_cast<const std::atomic<uint32_t>*>(blob_ + hdr_.native_stats_offset + 20)
+            ->load(std::memory_order_relaxed);
+    }
+    native_stats get_native_stats() {
+        return { native_synthdefs(), native_buffers(), native_buffer_bytes(),
+                 native_cpu_avg_centi(), native_cpu_peak_centi(), native_callback_overruns() };
+    }
+    // Whether this segment carries native-only stats at all (false on a
+    // web-origin segment). Lets the GUI render "-" rather than a misleading 0
+    // for native-only metrics that simply aren't produced on this runtime.
+    bool has_native_stats() const { return hdr_.native_stats_offset != 0; }
 
 private:
     string              shmem_name;

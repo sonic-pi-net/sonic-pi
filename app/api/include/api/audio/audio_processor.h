@@ -72,6 +72,7 @@ public:
     ring_view GetDebugRing();   // engine debug/log text
     node_tree_view GetNodeTree();
     native_stats GetNativeStats();  // synthdef count, allocated buffers + bytes
+    bool HasNativeStats();          // false on a web-origin segment (render "-", not 0)
 
 private:
     void GenFreqPartitions(uint32_t buckets, int sampleRate);

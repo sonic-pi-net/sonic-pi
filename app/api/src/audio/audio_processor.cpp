@@ -292,6 +292,11 @@ native_stats AudioProcessor::GetNativeStats()
     return m_shmClient->get_native_stats();
 }
 
+bool AudioProcessor::HasNativeStats()
+{
+    return m_shmClient && m_shmClient->has_native_stats();
+}
+
 // Re-opens the shm segment and re-binds the scope reader. The segment
 // is owned by supersonic and survives cold swaps; re-opening by name
 // covers both in-place cold swap and supersonic-restart. Validity

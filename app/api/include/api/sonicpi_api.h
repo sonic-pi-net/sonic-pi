@@ -467,6 +467,7 @@ public:
     virtual ring_view AudioProcessor_GetDebugRing();
     virtual node_tree_view AudioProcessor_GetNodeTree();
     virtual native_stats AudioProcessor_GetNativeStats();
+    virtual bool AudioProcessor_HasNativeStats();
 
     std::string GetLogs();
 

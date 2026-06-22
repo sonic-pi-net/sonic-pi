@@ -1055,6 +1055,11 @@ native_stats SonicPiAPI::AudioProcessor_GetNativeStats()
     return m_spAudioProcessor ? m_spAudioProcessor->GetNativeStats() : native_stats{};
 }
 
+bool SonicPiAPI::AudioProcessor_HasNativeStats()
+{
+    return m_spAudioProcessor ? m_spAudioProcessor->HasNativeStats() : false;
+}
+
 
 const int SonicPiAPI::GetGuid() const
 {
