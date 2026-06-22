@@ -26,6 +26,7 @@
 
 #include <QBrush>
 #include <QFont>
+#include <QFontMetrics>
 #include <QFrame>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -91,7 +92,10 @@ constexpr int kFieldClockPlaying   = 49;
 constexpr int kFieldSynthDefs   = 50;
 constexpr int kFieldBuffers     = 51;
 constexpr int kFieldBufferBytes = 52;
-constexpr int kPanelFieldCount  = 53;
+constexpr int kFieldCpuAvg      = 53; // DSP load %, centi (native_stats)
+constexpr int kFieldCpuPeak     = 54; // DSP load % peak, centi (native_stats)
+constexpr int kFieldOverruns    = 55; // audio callback overruns (native_stats)
+constexpr int kPanelFieldCount  = 56;
 
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
@@ -103,8 +107,9 @@ constexpr int kLogReveal = 150;  // right: each of Debug / To / From
 
 // Minimum sensible width for a metric card. The grid snaps to a single row of
 // all cards when the pane is at least (card count * this) wide, otherwise two
-// rows; the pane is then pinned to exactly the height those rows need.
-constexpr int kCardMinW = 92;
+// rows; the pane is then pinned to exactly the height those rows need. Set so
+// the two-row layout is preferred until the pane is genuinely wide.
+constexpr int kCardMinW = 112;
 
 // Ring capacities, mirrored from external/supersonic/src/memory_profile.h
 // (IN/OUT/NRT_OUT_BUFFER_SIZE); used to scale the level bars.
@@ -146,6 +151,7 @@ struct Seg
     Fmt fmt;
     Kind kind;
     bool na;           // force "-" (no native writer)
+    bool nativeOnly;   // render "-" when the segment carries no native stats
 };
 
 struct RowDef
@@ -167,8 +173,10 @@ struct PanelDef
 };
 
 // Cell factories.
-Seg V(int f, Kind k = K_Normal, Fmt fmt = F_Plain) { return Seg{ false, "", f, fmt, k, false }; }
-Seg T(const char* t, Kind k = K_Muted) { return Seg{ true, t, -1, F_Plain, k, false }; }
+Seg V(int f, Kind k = K_Normal, Fmt fmt = F_Plain) { return Seg{ false, "", f, fmt, k, false, false }; }
+// Native-only value: renders "-" (not 0) on a segment with no native stats.
+Seg Vn(int f, Kind k = K_Normal, Fmt fmt = F_Plain) { return Seg{ false, "", f, fmt, k, false, true }; }
+Seg T(const char* t, Kind k = K_Muted) { return Seg{ true, t, -1, F_Plain, k, false, false }; }
 
 RowDef ValRow(const char* label, std::vector<Seg> segs)
 {
@@ -187,30 +195,30 @@ const std::vector<PanelDef>& panelLayout()
 {
     static const std::vector<PanelDef> panels = {
         { "scsynth",
-          { ValRow("ticks", { V(0, K_Dim), T(" | "), V(1, K_Muted), T(" msgs") }),
-            ValRow("dropped", { V(2, K_Error) }),
-            ValRow("seq gaps", { V(6, K_Error) }),
+          { ValRow("msgs", { V(1, K_Muted) }),
+            ValRow("queue", { V(3), T(" | "), V(4, K_Muted) }),
+            ValRow("max|last", { V(23, K_Error, F_Signed), T(" | "), V(24, K_Dim, F_Signed), T(" ms") }),
             ValRow("debug", { V(15, K_Muted), T(" ("), V(16, K_Muted, F_Bytes), T(")") }) } },
-        { "scsynth Queue",
-          { ValRow("queue", { V(3), T(" | "), V(4, K_Muted) }),
-            ValRow("dropped", { V(5, K_Error) }),
+        { "DSP",
+          { ValRow("load", { Vn(kFieldCpuAvg, K_Normal, F_Centi), T("%") }),
+            ValRow("peak", { Vn(kFieldCpuPeak, K_Dim, F_Centi), T("%") }),
+            ValRow("overruns", { Vn(kFieldOverruns, K_Error) }) } },
+        { "Errors",
+          { ValRow("dropped", { V(2, K_Error) }),
+            ValRow("q drop", { V(5, K_Error) }),
+            ValRow("seq gaps", { V(6, K_Error) }),
             ValRow("lates", { V(8, K_Error) }),
-            ValRow("max | last", { V(23, K_Error, F_Signed), T(" | "), V(24, K_Dim, F_Signed), T(" ms") }) } },
-        { "OSC In",
-          { ValRow("received", { V(11) }),
-            ValRow("bytes", { V(12, K_Muted, F_Bytes) }),
-            ValRow("corrupted", { V(14, K_Error) }) } },
-        { "OSC Out",
-          { ValRow("sent", { V(9) }),
-            ValRow("bytes", { V(10, K_Muted, F_Bytes) }) } },
-        { "Ring Level",
-          { BarRow("in", 17, 20, kInBufferCap, BC_Blue),
+            ValRow("corrupt", { V(14, K_Error) }) } },
+        { "OSC",
+          { ValRow("sent", { V(9), T(" | "), V(10, K_Muted, F_Bytes) }),
+            ValRow("recv", { V(11), T(" | "), V(12, K_Muted, F_Bytes) }),
+            BarRow("in", 17, 20, kInBufferCap, BC_Blue),
             BarRow("out", 18, 21, kOutBufferCap, BC_Green),
             BarRow("nrt", 19, 22, kNrtOutBufferCap, BC_Purple) } },
         { "Buffers",
-          { ValRow("synthdefs", { V(kFieldSynthDefs) }),
-            ValRow("buffers", { V(kFieldBuffers, K_Green) }),
-            ValRow("buf bytes", { V(kFieldBufferBytes, K_Muted, F_Bytes) }) } },
+          { ValRow("synthdefs", { Vn(kFieldSynthDefs) }),
+            ValRow("buffers", { Vn(kFieldBuffers, K_Green) }),
+            ValRow("buf bytes", { Vn(kFieldBufferBytes, K_Muted, F_Bytes) }) } },
         { "Link",
           { ValRow("peers", { V(27, K_Green) }),
             ValRow("tempo", { V(28, K_Normal, F_MilliBpm), T(" bpm") }),
@@ -227,7 +235,8 @@ const std::vector<PanelDef>& panelLayout()
           { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) }),
             ValRow("rate", { V(kFieldSampleRate), T(" Hz") }),
             ValRow("block", { V(kFieldBlockSize), T(" frames") }),
-            ValRow("channels", { V(kFieldOutputChannels), T(" | "), V(kFieldInputChannels, K_Muted) }) } },
+            ValRow("channels", { V(kFieldOutputChannels), T(" | "), V(kFieldInputChannels, K_Muted) }),
+            ValRow("ticks", { V(0, K_Dim) }) } },
         { "Clock",
           { ValRow("tempo", { V(kFieldClockTempo, K_Normal, F_MilliBpm), T(" bpm") }),
             ValRow("beat", { V(kFieldClockBeat, K_Dim, F_Centi) }),
@@ -307,8 +316,8 @@ QFrame* makeCard(const QString& title, QVBoxLayout** bodyOut, QLabel** titleOut)
     auto* card = new QFrame;
     card->setObjectName("ssCard");
     auto* v = new QVBoxLayout(card);
-    v->setContentsMargins(6, 5, 6, 6);
-    v->setSpacing(4);
+    v->setContentsMargins(5, 3, 5, 4);
+    v->setSpacing(2);
 
     auto* lbl = new QLabel(title.toUpper());
     lbl->setObjectName("ssCardTitle");
@@ -408,12 +417,18 @@ void MetricsPanel::buildUi()
             auto* bar = new QProgressBar;
             bar->setRange(0, 1000);
             bar->setTextVisible(false);
-            bar->setFixedHeight(8);
-            rows->addWidget(bar, r, 1);
+            bar->setFixedHeight(5);
+            bar->setMaximumWidth(ScaleHeightForDPI(60));
+            rows->addWidget(bar, r, 1, Qt::AlignLeft | Qt::AlignVCenter);
             auto* txt = new QLabel;
             txt->setFont(mono);
             txt->setTextFormat(Qt::RichText);
             txt->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+            // Reserve width for the widest reading so the card doesn't jitter as
+            // the used/peak digit counts change.
+            QFont vf = mono; vf.setPixelSize(11);
+            txt->setMinimumWidth(QFontMetrics(vf).horizontalAdvance(
+                QStringLiteral("100.0 / 100.0%")));
             rows->addWidget(txt, r, 2, Qt::AlignRight);
             m_barRows.append({ &row, bar, txt, QString() });
         }
@@ -423,6 +438,9 @@ void MetricsPanel::buildUi()
             val->setFont(mono);
             val->setTextFormat(Qt::RichText);
             val->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+            // Don't let the value's width drive the card width — otherwise a digit
+            // crossing (e.g. 9→10, or a growing counter) reflows the whole grid.
+            val->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
             rows->addWidget(val, r, 1, 1, 2, Qt::AlignRight);
             m_valueRows.append({ &row, val, QString() });
         }
@@ -445,8 +463,8 @@ void MetricsPanel::buildUi()
 
         auto* rows = new QGridLayout;
         rows->setContentsMargins(0, 0, 0, 0);
-        rows->setHorizontalSpacing(6);
-        rows->setVerticalSpacing(2);
+        rows->setHorizontalSpacing(5);
+        rows->setVerticalSpacing(1);
         rows->setColumnStretch(1, 1);
         int r = 0;
         for (const RowDef& row : panel.rows)
@@ -807,8 +825,9 @@ static void appendLogBatch(QTextEdit* view, QVector<QVector<LogRun>>& lines)
         }
     }
     c.endEditBlock();   // single relayout + maximumBlockCount trim here
-    view->moveCursor(QTextCursor::End);
-    view->ensureCursorVisible();
+    // No moveCursor/ensureCursorVisible: that scrolls horizontally to the end of
+    // the last line, drifting the view right. LogView::updateBottomFill keeps it
+    // pinned to the bottom-left (and only while the user is already at the bottom).
 }
 
 void MetricsPanel::drainOscRing(bool outgoing)
@@ -1005,6 +1024,12 @@ void MetricsPanel::refresh()
     v[kFieldSynthDefs]   = ns.synthdefs;
     v[kFieldBuffers]     = ns.buffers;
     v[kFieldBufferBytes] = ns.buffer_bytes;
+    v[kFieldCpuAvg]      = ns.cpu_load_avg_centi;
+    v[kFieldCpuPeak]     = ns.cpu_load_peak_centi;
+    v[kFieldOverruns]    = ns.callback_overruns;
+    // Native-only metrics read "-" (not a misleading 0) when this segment
+    // doesn't produce them (e.g. a web-origin engine).
+    const bool nativeOk = m_api->AudioProcessor_HasNativeStats();
 
     for (ValueRowUi& ui : m_valueRows)
     {
@@ -1016,6 +1041,8 @@ void MetricsPanel::refresh()
             if (s.isText)
                 piece = QString::fromUtf8(s.text).toHtmlEscaped();
             else if (s.na || s.field < 0 || s.field >= kPanelFieldCount)
+                piece = QStringLiteral("-");
+            else if (s.nativeOnly && !nativeOk)
                 piece = QStringLiteral("-");
             else
                 piece = formatField(v[s.field], s.fmt);
@@ -1040,8 +1067,8 @@ void MetricsPanel::refresh()
 
         ui.bar->setValue(int(usedPct * 10.0));  // styling is set once in applyTheme
 
-        const QString t = QString("<span style=\"color:%1\">%2%</span>"
-                                  "<span style=\"color:%3\"> pk %4%</span>")
+        const QString t = QString("<span style=\"color:%1\">%2</span>"
+                                  "<span style=\"color:%3\"> / %4%</span>")
                               .arg(kindColor(K_Normal).name(), QString::number(usedPct, 'f', 1),
                                    kindColor(K_Muted).name(), QString::number(peakPct, 'f', 1));
         if (t != ui.lastText)
@@ -1122,7 +1149,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QFrame#ssCell[lastcol=\"true\"] { border-right:none; }"
         // #ssCardFlat is the same card without the border (node tree, logs).
         "QFrame#ssCard { border:1px solid %3; border-radius:4px; }"
-        "QLabel#ssCardTitle { color:%5; padding-bottom:3px; }"
+        "QLabel#ssCardTitle { color:%5; padding-bottom:1px; }"
         "QLabel[ssRole=\"rowlabel\"] { color:%4; }"
         "QTextEdit { color:%2; background:%1; border:none; }")
         .arg(bg, fg, border, dim, muted, faint).arg(winBorder).arg(gridW));
@@ -1137,9 +1164,14 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QSplitter::handle:horizontal:hover { background:%2; image:none; }"
         "QSplitter::handle:vertical:hover { background:%2; image:none; }")
         .arg(winBorder, hover);
-    for (QSplitter* s : { m_mainSplit, m_leftSplit, m_rightSplit })
+    for (QSplitter* s : { m_mainSplit, m_rightSplit })
         if (s)
             s->setStyleSheet(handleQss);
+    // The node-tree/metrics divider is drawn by the ChevronButton overlay, so the
+    // splitter's own handle must be transparent — otherwise it paints a second
+    // line that ghosts just above the chevron until a relayout clears it.
+    if (m_leftSplit)
+        m_leftSplit->setStyleSheet("QSplitter::handle { background:transparent; image:none; }");
 
     // The chevron grip is painted by ChevronButton (not styled via QSS): fill
     // with the exact divider-line colour, brighten to the accent on hover like
@@ -1179,14 +1211,15 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         renderDisconnected();
 }
 
-void MetricsPanel::setTitlesVisible(bool visible)
+void MetricsPanel::setTitlesVisible(bool)
 {
-    // Card titles carry objectName "ssCardTitle" (see makeCard). Toggle them so
-    // the debug panel follows the "show pane titles" preference.
+    // Card titles (objectName "ssCardTitle", see makeCard) label otherwise-cryptic
+    // metric groups, so they stay visible regardless of the "show pane titles"
+    // preference.
     const QList<QLabel*> labels = findChildren<QLabel*>();
     for (QLabel* l : labels)
         if (l->objectName() == QLatin1String("ssCardTitle"))
-            l->setVisible(visible);
+            l->setVisible(true);
 }
 
 void MetricsPanel::seedMainSplit()
@@ -1235,7 +1268,10 @@ namespace
 // sum of the targets, widgets fill top-down (each capped at its target) so they
 // appear in order; once it's taller, the surplus is split evenly so they grow
 // together. The two regimes meet continuously at the boundary.
-void revealStack(QSplitter* s, const QVector<int>& targets)
+// pinLast: keep the last pane at exactly its target (surplus goes to the panes
+// above it) — used to make the bottom log pane match the metrics pane height so
+// their dividers line up across the two columns.
+void revealStack(QSplitter* s, const QVector<int>& targets, bool pinLast = false)
 {
     const int n = s->count();
     if (n == 0 || n != targets.size())
@@ -1259,6 +1295,17 @@ void revealStack(QSplitter* s, const QVector<int>& targets)
             sizes << give;
             remaining -= give;
         }
+    }
+    else if (pinLast && n >= 2)
+    {
+        // Last pane fixed at its target; share the surplus among the panes above.
+        const int growN = n - 1;
+        const int surplus = avail - sumTargets;
+        const int each = surplus / growN;
+        for (int i = 0; i < growN; ++i)
+            sizes << targets[i] + each;
+        sizes[growN - 1] += surplus - each * growN;   // rounding remainder
+        sizes << targets[n - 1];
     }
     else
     {
@@ -1294,6 +1341,7 @@ void MetricsPanel::reflowMetrics()
     const int cols = (n + rows - 1) / rows;
     reflowMetricsGrid(cols);
     updateMetricsHeight();
+    revealColumns();   // re-align the bottom log pane with the new metrics height
 }
 
 void MetricsPanel::updateMetricsHeight()
@@ -1358,10 +1406,16 @@ void MetricsPanel::revealColumns()
     m_revealing = true;
 
     // The left column is laid out by updateMetricsHeight(): the metrics pane is
-    // pinned to its needed height and the node tree takes the rest. Only the
-    // right (logs) column uses the progressive reveal.
+    // pinned to its needed height and the node tree takes the rest. The right
+    // (logs) column uses the progressive reveal; while the metrics are shown its
+    // bottom pane ("From SuperSonic") is pinned to the metrics height so the
+    // To/From divider lines up with the metrics chevron across the two columns.
     if (m_rightSplit && m_rightSplit->height() > 0 && !m_rightManual)
-        revealStack(m_rightSplit, { kLogReveal, kLogReveal, kLogReveal });
+    {
+        const int bottom = m_metricsMinimised ? kLogReveal : m_metricsNeededH;
+        revealStack(m_rightSplit, { kLogReveal, kLogReveal, bottom },
+                    /*pinLast=*/!m_metricsMinimised);
+    }
 
     positionMetricsToggle();
     m_revealing = false;
