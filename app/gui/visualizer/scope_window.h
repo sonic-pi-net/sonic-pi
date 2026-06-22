@@ -15,6 +15,7 @@
 #include <QWidget>
 #include <QPen>
 #include <QLine>
+#include <QImage>
 #include <QThread>
 
 #include <memory>
@@ -89,6 +90,9 @@ public:
     void Resume();
     void SetColor(QColor c);
     void SetColor2(QColor c);
+    // Scope background (the faded-clear/phosphor colour). Set from the theme's
+    // LogBackground so it's the dark content colour, not the window-chrome grey.
+    void SetBackgroundColor(QColor c);
 
     void DrawWave(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);
     void DrawMirrorStereo(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);
@@ -130,6 +134,10 @@ private:
     // m_fullClear forces one opaque clear on the first paint and after a resize,
     // where the preserved framebuffer would otherwise hold stale/garbage pixels.
     bool m_fullClear = true;
+    QColor m_backColor{ Qt::black };   // theme LogBackground; set in SetBackgroundColor
+    // Offscreen phosphor-trail buffer (owned + DPI-scaled). The decay lives here
+    // rather than the widget backing store, which Qt doesn't preserve on macOS.
+    QImage m_trail;
     // Consecutive silent frames painted since the signal stopped. Caps idle
     // repaints at SilentSettleFrames so the scope stops repainting once the
     // trail has decayed; reset to 0 when signal returns.

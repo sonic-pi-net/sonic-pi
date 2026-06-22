@@ -354,18 +354,31 @@ void ScopeWindow::DrawLissajous(const ProcessedAudio& audio, QPainter& painter, 
 
 void ScopeWindow::paintEvent(QPaintEvent* pEv)
 {
-    QPainter painter(this);
+    if (size().isEmpty())
+        return;
 
-    auto backColor = QWidget::palette().color(QWidget::backgroundRole());
+    auto backColor = m_backColor;
     auto textColor = QWidget::palette().color(QWidget::foregroundRole());
     auto shadowColor = QWidget::palette().color(QPalette::ColorRole::AlternateBase);
 
-    // Clear with a small alpha so the previous frame's trace lingers and fades
-    // out over a few frames — a soft decay. The first paint (and any resize)
-    // does one opaque clear so no stale framebuffer pixels show through.
+    // Draw into our own offscreen buffer so the phosphor trail (the faded clear
+    // that lets the previous frame linger and decay) survives between frames
+    // regardless of whether Qt preserves the widget backing store — it doesn't on
+    // macOS, where the translucent clear accumulated over a grey backing and read
+    // as window grey. The buffer is blitted to the widget at the end.
+    const qreal dpr = devicePixelRatioF();
+    const QSize bufPx = size() * dpr;
+    if (m_trail.size() != bufPx)
+    {
+        m_trail = QImage(bufPx, QImage::Format_ARGB32_Premultiplied);
+        m_trail.setDevicePixelRatio(dpr);
+        m_fullClear = true;
+    }
+
+    QPainter painter(&m_trail);
     if (m_fullClear)
     {
-        painter.fillRect(rect(), backColor);
+        painter.fillRect(rect(), backColor);   // opaque clear on first paint / resize
         m_fullClear = false;
     }
     else
@@ -373,7 +386,7 @@ void ScopeWindow::paintEvent(QPaintEvent* pEv)
         constexpr int kDecayAlpha = 70;   // higher = faster decay / shorter trail
         QColor fade = backColor;
         fade.setAlpha(kDecayAlpha);
-        painter.fillRect(rect(), fade);
+        painter.fillRect(rect(), fade);    // soft decay of the previous frame
     }
 
     // m_audio is an immutable snapshot; slot + paint share the GUI thread.
@@ -421,6 +434,10 @@ void ScopeWindow::paintEvent(QPaintEvent* pEv)
             }
         }
     }
+
+    painter.end();
+    QPainter widgetPainter(this);
+    widgetPainter.drawImage(0, 0, m_trail);
 }
 
 void ScopeWindow::Layout()
@@ -612,6 +629,13 @@ void ScopeWindow::SetColor2(QColor c)
         scope.pen2.setColor(c);
         scope.brush2 = QBrush(c);
     }
+}
+
+void ScopeWindow::SetBackgroundColor(QColor c)
+{
+    m_backColor = c;
+    m_fullClear = true;   // repaint the whole area in the new colour
+    update();
 }
 
 void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)

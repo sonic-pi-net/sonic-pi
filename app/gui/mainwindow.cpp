@@ -2779,6 +2779,7 @@ void MainWindow::updateColourTheme()
     updateContextWithCurrentWs();
     scopeWindow->SetColor(theme->color("Scope"));
     scopeWindow->SetColor2(theme->color("Scope_2"));
+    scopeWindow->SetBackgroundColor(theme->color("LogBackground"));
     lexer->unhighlightAll();
     metroPane->updateColourTheme();
 
