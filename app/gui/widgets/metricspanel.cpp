@@ -100,11 +100,6 @@ constexpr int kPanelFieldCount  = 56;
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
 
-// Per-pane reveal height (logical px) for the right (logs) column: as it grows,
-// each log pane grows to this height before the next appears, then the surplus
-// is shared evenly between them.
-constexpr int kLogReveal = 150;  // right: each of Debug / To / From
-
 // Minimum sensible width for a metric card. The grid snaps to a single row of
 // all cards when the pane is at least (card count * this) wide, otherwise two
 // rows; the pane is then pinned to exactly the height those rows need. Set so
@@ -649,8 +644,28 @@ class LogView : public QTextEdit
 public:
     explicit LogView(QWidget* parent = nullptr) : QTextEdit(parent)
     {
-        connect(verticalScrollBar(), &QScrollBar::valueChanged, this,
-                [this](int v) { m_pinned = v >= verticalScrollBar()->maximum() - 2; });
+        QScrollBar* sb = verticalScrollBar();
+        // Track whether the view is parked at the bottom — but only from genuine
+        // scrolls, not our own programmatic setValue()s (guarded by m_adjusting),
+        // so layout churn can't silently un-pin a quiet pane.
+        connect(sb, &QScrollBar::valueChanged, this, [this](int v) {
+            if (m_adjusting) return;
+            m_pinned = v >= verticalScrollBar()->maximum() - 2;
+        });
+        // A large one-shot insert (e.g. the Info pane's boot summary) updates the
+        // scrollbar range asynchronously, so updateBottomFill()'s setValue(maximum)
+        // can land short of the true bottom. A busy pane (To/From) is nudged the
+        // rest of the way by the next line a tick later; a quiet pane (Info) would
+        // sit stranded mid-history. Re-assert the bottom once the range catches up,
+        // while still pinned.
+        connect(sb, &QScrollBar::rangeChanged, this, [this](int, int max) {
+            if (!m_pinned || m_adjusting) return;
+            QScrollBar* s = verticalScrollBar();
+            if (s->value() != max) {
+                const QSignalBlocker block(s);   // re-pin without re-evaluating m_pinned
+                s->setValue(max);
+            }
+        });
         connect(document(), &QTextDocument::contentsChanged, this,
                 [this]() { updateBottomFill(); });
     }
@@ -698,7 +713,10 @@ private:
             }
         }
         if (atBottom)
+        {
             sb->setValue(sb->maximum());
+            m_pinned = true;   // committed to the bottom; the rangeChanged re-assert relies on this
+        }
 
         m_adjusting = false;
     }
@@ -1263,65 +1281,6 @@ bool MetricsPanel::eventFilter(QObject* obj, QEvent* e)
 
 namespace
 {
-// Progressive top-down reveal, then even stretch. `targets` holds each widget's
-// reveal height (one entry per widget). While the column is shorter than the
-// sum of the targets, widgets fill top-down (each capped at its target) so they
-// appear in order; once it's taller, the surplus is split evenly so they grow
-// together. The two regimes meet continuously at the boundary.
-// pinLast: keep the last pane at exactly its target (surplus goes to the panes
-// above it) — used to make the bottom log pane match the metrics pane height so
-// their dividers line up across the two columns.
-void revealStack(QSplitter* s, const QVector<int>& targets, bool pinLast = false)
-{
-    const int n = s->count();
-    if (n == 0 || n != targets.size())
-        return;
-    int avail = s->height() - s->handleWidth() * (n - 1);
-    if (avail < 0)
-        avail = 0;
-
-    int sumTargets = 0;
-    for (int t : targets)
-        sumTargets += t;
-
-    QList<int> sizes;
-    sizes.reserve(n);
-    if (avail <= sumTargets)
-    {
-        int remaining = avail;
-        for (int i = 0; i < n; ++i)
-        {
-            const int give = qMax(0, qMin(remaining, targets[i]));
-            sizes << give;
-            remaining -= give;
-        }
-    }
-    else if (pinLast && n >= 2)
-    {
-        // Last pane fixed at its target; share the surplus among the panes above.
-        const int growN = n - 1;
-        const int surplus = avail - sumTargets;
-        const int each = surplus / growN;
-        for (int i = 0; i < growN; ++i)
-            sizes << targets[i] + each;
-        sizes[growN - 1] += surplus - each * growN;   // rounding remainder
-        sizes << targets[n - 1];
-    }
-    else
-    {
-        const int surplus = avail - sumTargets;
-        const int each = surplus / n;
-        for (int i = 0; i < n; ++i)
-            sizes << targets[i] + each;
-        sizes[n - 1] += surplus - each * n;   // rounding remainder to the last
-    }
-    // Only re-apply when the split actually changes — in particular a no-op
-    // when only the column width changes, leaving the main divider untouched.
-    if (sizes == s->sizes())
-        return;
-    QSignalBlocker block(s);
-    s->setSizes(sizes);
-}
 } // namespace
 
 void MetricsPanel::reflowMetrics()
@@ -1407,14 +1366,30 @@ void MetricsPanel::revealColumns()
 
     // The left column is laid out by updateMetricsHeight(): the metrics pane is
     // pinned to its needed height and the node tree takes the rest. The right
-    // (logs) column uses the progressive reveal; while the metrics are shown its
-    // bottom pane ("From SuperSonic") is pinned to the metrics height so the
-    // To/From divider lines up with the metrics chevron across the two columns.
+    // (logs) column splits its three panes (Info / To / From) evenly at any
+    // height, so they start equal on boot and grow together — until the user
+    // drags a divider (m_rightManual).
     if (m_rightSplit && m_rightSplit->height() > 0 && !m_rightManual)
     {
-        const int bottom = m_metricsMinimised ? kLogReveal : m_metricsNeededH;
-        revealStack(m_rightSplit, { kLogReveal, kLogReveal, bottom },
-                    /*pinLast=*/!m_metricsMinimised);
+        // Even split at any height (no progressive top-down reveal). Panes have a
+        // zero height floor (Ignored vertical policy), so nothing clamps it.
+        const int n = m_rightSplit->count();
+        if (n > 0)
+        {
+            const int avail = qMax(0, m_rightSplit->height()
+                                      - m_rightSplit->handleWidth() * (n - 1));
+            const int each = avail / n;
+            QList<int> sizes;
+            sizes.reserve(n);
+            for (int i = 0; i < n; ++i)
+                sizes << each;
+            sizes[n - 1] += avail - each * n;   // rounding remainder to the last
+            if (sizes != m_rightSplit->sizes())
+            {
+                QSignalBlocker block(m_rightSplit);
+                m_rightSplit->setSizes(sizes);
+            }
+        }
     }
 
     positionMetricsToggle();
