@@ -118,10 +118,17 @@ if errorlevel 1 (
     exit /b 1
 )
 
-where ruby >nul 2>&1
-if errorlevel 1 (
-    echo ERROR: Ruby not found. Required for prune.rb.
-    exit /b 1
+REM Prefer the bundled, code-signed Ruby over a system Ruby on PATH. Under
+REM SAC the system Ruby's unsigned native extensions are blocked and crash
+REM generate_license_rtf.rb; the bundled copy's .so files are signed.
+set "RUBY=..\..\app\server\native\ruby\bin\ruby.exe"
+if not exist "%RUBY%" (
+    where ruby >nul 2>&1
+    if errorlevel 1 (
+        echo ERROR: Ruby not found. Required for prune.rb.
+        exit /b 1
+    )
+    set "RUBY=ruby"
 )
 
 REM --- Locate vc_redist.<arch>.exe from the active Visual Studio install ---
@@ -192,14 +199,14 @@ REM Clean up unwanted files
 REM ======================================================================
 echo Pruning staging area...
 rmdir /S /Q app\server\ruby\vendor\ruby-aubio-prerelease 2>nul
-ruby prune.rb app/server/ruby/vendor
+"%RUBY%" prune.rb app/server/ruby/vendor
 
 REM ======================================================================
 REM Regenerate the EULA RTF from LICENSE.md so the installer never
 REM ships an out-of-date licence panel after a LICENSE.md edit.
 REM ======================================================================
 echo Regenerating wix\LICENSE.rtf from LICENSE.md...
-ruby wix\generate_license_rtf.rb
+"%RUBY%" wix\generate_license_rtf.rb
 if errorlevel 1 (
     echo ERROR: Failed to regenerate wix\LICENSE.rtf
     exit /b 1
