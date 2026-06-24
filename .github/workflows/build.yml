@@ -132,7 +132,13 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.11.1"
+          # Windows is pinned to the last pre-restructure Qt (6.9.x): Qt 6.10+
+          # split the Windows download tree into per-arch dirs and dropped the
+          # old nested qt6_XXX/qt6_XXX/ wrapper, which aqtinstall 3.3.0 (used by
+          # install-qt-action@v4) can't resolve -> "Failed to download checksum
+          # for Updates.xml". Linux/macOS keep the nested layout, so they're
+          # fine on 6.11.1. Revert once aqtinstall ships a fix (miurahr/aqtinstall#1007).
+          version: ${{ startsWith(matrix.os, 'windows') && '6.9.3' || '6.11.1' }}
 
         # Prebuild on Ubuntu
       - name: Prebuild Linux
