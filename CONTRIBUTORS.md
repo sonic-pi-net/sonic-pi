@@ -91,6 +91,7 @@ especially the following individuals who have been remarkably generous:
 
 * Adam Renklint
 * Aditya Dhara
+* Adrian Cockcroft
 * Alan Boulton
 * Alan O'Donnell
 * [Alexandre Enkerli](https://twitter.com/enkerli)
@@ -104,10 +105,12 @@ especially the following individuals who have been remarkably generous:
 * brainTrain
 * [Boris Bokowski](https://twitter.com/bokowski)
 * [Brandon Weaver](https://twitter.com/keystonelemur)
+* Brian Cooley
 * Bruce
 * Bruce Williams
 * Bryce Young
 * Cecily Morrison
+* Chad Fowler
 * [Chih-Chun Chen](http://abmcet.net/Chih-Chun_Chen/home.html)
 * [Christoffer Krakou](http://www.krakou.dk/)
 * Christopher Kyburg
@@ -121,8 +124,11 @@ especially the following individuals who have been remarkably generous:
 * [Dean Wampler](https://twitter.com/deanwampler)
 * desmosthenes
 * Douglas Drumond Kayama
+* Edgard Costa
+* Edmund Jackson
 * Elmar Geese
 * [Emlyn Corrin](https://github.com/emlyn)
+* Evan
 * [Evan Kroske](https://www.evankroske.com/)
 * Fergal Byrne
 * Florent Biville
@@ -139,17 +145,22 @@ especially the following individuals who have been remarkably generous:
 * Jaroslav Lichtblau
 * Jean-Luc Geering
 * jer
+* Job Kamara
 * Joek van Montfort
+* John Courtney
 * Joshua Lotz
 * [Joshua Thomas](instagram.com/tig3rbabu)
 * [Justin Balthrop](http://ninjudd.com)
 * [Justin Worrall](https://twitter.com/juzbo)
+* Kent Beck
 * Kope Inefable
 * [Lily Foster](https://lily.flowers/)
+* Lucca Faria Ferri
 * [Luis Espinoza](https://twitter.com/luis_espinoza)
 * Maciej
 * Manfred Van Ursel
 * [Marco Rolappe](https://rolappe.it)
+* Mark Hibberd
 * [Mark Rendle](https://twitter.com/markrendle)
 * [Markku Rontu](https://twitter.com/zorcam)
 * [Marmaduke Woodman](https://github.com/maedoc)
@@ -167,7 +178,10 @@ especially the following individuals who have been remarkably generous:
 * [Michael Hunger](https://twitter.com/mesirii)
 * [Nada Amin](http://namin.net)
 * [NAMTAO](https://namtao.com)
+* Nate Lee
 * [Nathan Letwory](https://github.com/jesterKing)
+* Nezteb
+* Norma Hatfield
 * nullstyle
 * [Oladapo Fadeyi](https://twitter.com/erfadda)
 * [Ole Friis Østergaard](https://github.com/olefriis)
@@ -191,6 +205,7 @@ especially the following individuals who have been remarkably generous:
 * [Scott Fleckenstein](http://nullstyle.com))
 * Scott Hanes
 * [Scott Turner](https://twitter.com/scottturneruon)
+* sudara
 * [Sébastien Rannou](https://mxs.sbrk.org/)
 * [Simon Woodman](https://twitter.com/sjwoodman)
 * Srinivas
@@ -198,7 +213,7 @@ especially the following individuals who have been remarkably generous:
 * [thattommyhall](https://twitter.com/thattommyhall)
 * Tim Regan
 * Uad Jayanth
-* Uiannis Mavroukakis
+* Yiannis Mavroukakis
 * Vasilis Spilka
 * Zack Urlocker
 
@@ -311,8 +326,8 @@ thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
 
-* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5737)
-* [Ethan Crawford](https://github.com/sonic-pi-net/sonic-pi/commits?author=ethancrawford) (307)
+* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5952)
+* [Ethan Crawford](https://github.com/sonic-pi-net/sonic-pi/commits?author=ethancrawford) (309)
 * [Hanno Zulla](https://github.com/sonic-pi-net/sonic-pi/commits?author=hzulla) (198)
 * [Joseph Wilk](https://github.com/sonic-pi-net/sonic-pi/commits?author=josephwilk) (160)
 * [Jeremy Weatherford](https://github.com/sonic-pi-net/sonic-pi/commits?author=jweather) (123)
@@ -357,6 +372,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Keiko Machiya](https://github.com/sonic-pi-net/sonic-pi/commits?author=keikomachiya) (4)
 * [Marco Giordano](https://github.com/sonic-pi-net/sonic-pi/commits?author=marco-giordano) (4)
 * [Sayak Mondal](https://github.com/sonic-pi-net/sonic-pi/commits?author=isayakmondal) (4)
+* [Tim Clem](https://github.com/sonic-pi-net/sonic-pi/commits?author=misterfifths) (4)
 * [Anmol Gautam](https://github.com/sonic-pi-net/sonic-pi/commits?author=Tarptaeya) (3)
 * [Brock Wilcox](https://github.com/sonic-pi-net/sonic-pi/commits?author=awwaiid) (3)
 * [Brujo Rojas](https://github.com/sonic-pi-net/sonic-pi/commits?author=brujo-rojas) (3)
@@ -395,7 +411,7 @@ effort to help grow and improve the Sonic Pi code base:
 * [Sergio Gil](https://github.com/sonic-pi-net/sonic-pi/commits?author=porras) (2)
 * [Shane Malone](https://github.com/sonic-pi-net/sonic-pi/commits?author=shanemalo) (2)
 * [Theodore Tsirpanis](https://github.com/sonic-pi-net/sonic-pi/commits?author=teo-tsirpanis) (2)
-* [Tim Clem](https://github.com/sonic-pi-net/sonic-pi/commits?author=misterfifths) (2)
+* [Valentin Vidić](https://github.com/sonic-pi-net/sonic-pi/commits?author=vvidic) (2)
 * [Will Stephenson](https://github.com/sonic-pi-net/sonic-pi/commits?author=wstephenson) (2)
 * [William W. Wu](https://github.com/sonic-pi-net/sonic-pi/commits?author=willy-vvu) (2)
 * [Adam Weiler](https://github.com/sonic-pi-net/sonic-pi/commits?author=dam-weiler) (1)
@@ -508,7 +524,6 @@ effort to help grow and improve the Sonic Pi code base:
 * [Tyler Korthal](https://github.com/sonic-pi-net/sonic-pi/commits?author=tjkorthal) (1)
 * [Uriel Corfa](https://github.com/sonic-pi-net/sonic-pi/commits?author=korfuri) (1)
 * [Valentin Vidic](https://github.com/sonic-pi-net/sonic-pi/commits?author=) (1)
-* [Valentin Vidić](https://github.com/sonic-pi-net/sonic-pi/commits?author=vvidic) (1)
 * [Veith Roethlingshoefer](https://github.com/sonic-pi-net/sonic-pi/commits?author=RunOrVeith) (1)
 * [kwmiebach](https://github.com/sonic-pi-net/sonic-pi/commits?author=kwmiebach) (1)
 * [miannoni](https://github.com/sonic-pi-net/sonic-pi/commits?author=miannoni) (1)
@@ -524,12 +539,12 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Kenichi Kanai (103)
 * Nico Staelens (85)
 * Nicolas Dermine (85)
-* Olivier Humbert (66)
+* Olivier Humbert (71)
 * Sam Aaron (64)
 * Cindy Dallaire (50)
 * Hanno Zulla (49)
+* Pau Monfort (47)
 * Olympia Brikis (46)
-* Pau Monfort (46)
 * Emlyn Corrin (44)
 * Federico Pepe (37)
 * Mircea Patrascu (34)
@@ -540,8 +555,8 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Yann Pavlenko (24)
 * Giovanni Mori (23)
 * Ruben Tobalina (20)
+* Yaron Shahrabani (18)
 * Kanta Negishi (17)
-* Yaron Shahrabani (16)
 * Allan Nordhøy (15)
 * Boris Vogeler (15)
 * Álvaro Cáceres Muñoz (14)
@@ -559,9 +574,9 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Daniele Paradiso (10)
 * Herb Stigel (10)
 * Ole Erik Yrvin (10)
+* Timo Dankert (10)
 * Bote Wang (9)
 * Paulo Chiliguano (9)
-* Timo Dankert (9)
 * Alex Esc (8)
 * Davide Anzaldi (8)
 * J. Lavoie (8)
@@ -665,6 +680,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Maria Trofimova (4)
 * Martin Solheim (4)
 * Matthias Kaak (4)
+* Michael Bölling (4)
 * Michael Peters (4)
 * Moru (4)
 * Neko Nekowazarashi (4)
@@ -694,6 +710,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * தமிழ்நேரம் (4)
 * キツネさん (4)
 * Adrian Nöthlich (3)
+* Aindriú Mac Giolla Eoin (3)
 * Anderson Freitas B. da Silva (3)
 * Andreas Linz (3)
 * Andrey Raspopov (3)
@@ -750,7 +767,6 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Mattias Münster (3)
 * Mauro Garcia (3)
 * Maxwell Edison (3)
-* Michael Bölling (3)
 * Moisés Cachay Tello (3)
 * Moon Sungjoon (3)
 * Nader Jafari (3)
@@ -821,6 +837,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * HelaBasa (2)
 * Hilla Shahrabani (2)
 * Huang Tianyu (2)
+* Håvard Haugen (2)
 * Joyinglee (2)
 * Kiki Hzz (2)
 * Lin Yu-Chien (2)
@@ -867,7 +884,6 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Adam Süki (1)
 * AgentWu (1)
 * Ai Doan (1)
-* Aindriú Mac Giolla Eoin (1)
 * Alejandro Sánchez Medina (1)
 * Alessandro Kiefer (1)
 * Andras Nemeth (1)
@@ -882,7 +898,9 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Benson Muite (1)
 * Breu Weber (1)
 * Bruno Arakaki (1)
+* Cagatay Yildirim (1)
 * Cem Olcay (1)
+* Chadow (1)
 * Claudio Pereira (1)
 * Cristian Cabrera (1)
 * Cyprien Huissoud (1)
@@ -901,6 +919,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Gabriel Macedo (1)
 * Gabriele Boddi (1)
 * Garen Hart (1)
+* Geek Neuron (1)
 * Gerardo Soares (1)
 * Glauco Luiz Corrêa Basilio Dos (1)
 * Guillaume Gautier (1)
@@ -911,6 +930,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Huiting Milewski (1)
 * Hyemin Shim (1)
 * Ian Molina (1)
+* Icarus (1)
 * Ingrid Yrvin (1)
 * Ioannis Sarlis (1)
 * Iván Montiel Cardona (1)
@@ -962,6 +982,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Satjawat Paanakaan (1)
 * Serge Stinckwich (1)
 * Shu Shean (1)
+* Sudhanshu Ambastha (1)
 * Sveinn í Felli (1)
 * Sıtkı Bağdat (1)
 * T-Jak-T (1)
@@ -977,6 +998,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Uğur Küpeli (1)
 * Vadim R (1)
 * Valdeci Gomes (1)
+* Vasilis (1)
 * Vee F (1)
 * Veres Károly (1)
 * Vitezslav Homolka (1)
@@ -986,6 +1008,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Zaiyi Wang (1)
 * Zhe Wang (1)
 * Zhengkun Wang (1)
+* coden stark (1)
 * gallegonovato (1)
 * ggobugi27 (1)
 * hugoalh (1)
