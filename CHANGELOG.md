@@ -1,6 +1,8 @@
 # History
+- [v5.0.0 'SuperSonic' BETA-4](#v5.0.0-beta4), To be released...
 - [v5.0.0 'SuperSonic' BETA-3](#v5.0.0-beta3), To be released...
 - [v5.0.0 'SuperSonic' BETA-2](#v5.0.0-beta2), To be released...
+- [v5.0.0 'SuperSonic' BETA-1](#v5.0.0-beta1), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,6 +37,33 @@
 - [v2.1 'Core'](#v2.1), 21st Nov, 2014
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v5.0.0-beta4"></a>
+
+## Version 5.0.0 'SuperSonic' BETA-4
+
+Welcome to v5 Beta 4! This is the final beta in the v5 series and comes with a nice set of improvements.
+
+We now support MIDI clock tracking. Lock your tempo to an incoming MIDI clock with `use_bpm :midi`, or send a steady clock out to your hardware with `midi_clock_out`. Now you can jam with even more of your friends! Also, you can plug in a game controller and use it like a MIDI controller. Simply use `sync` and `get` to wait for or read game controller event values just like for incoming MIDI events.
+
+Note that this is still a BETA release — please do report any issues you have to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### MIDI & Sync
+* New: follow an incoming external MIDI clock with `use_bpm :midi`. The current thread tracks the live tempo and aligns to the next bar; pass a port name to follow a specific device (`use_bpm :midi, "launchpad"`) and `quantum:` to set the bar length. Use `midi_clock_sources` to see which ports are sending clock. Following is now accurate even with jittery real-world clocks.
+* New: send MIDI clock out from the current thread's tempo with `midi_clock_out`, to drive synths, drum machines and DAWs in time with your code.
+
+### Inputs
+* New: game controller support. Connect a game controller and respond to its buttons and sticks as live events, just like MIDI.
+* New: switch individual MIDI and game controller devices on and off from the new IO menu and the preferences.
+
+### GUI
+* The live SuperSonic debug panel has been reworked and is no longer hidded behind a preference flag. It includes clearer engine metrics, an improved node visualiser and a tidier layout.
+* The main help section of teh GUI now has three tabs - Docs (the original), Debug (the SuperSonic panel) and Logs (live log files for all the internal components).
+* The Link metronome panel has been tidied up, including the Link Audio controls and peer list.
+* Better screen-reader support: errors are now announced and code buffers are named.
+
+### Translations
+* Translation updates across many languages, including Spanish, German, Irish, Hebrew, Turkish, Norwegian, Hindi, Persian, Greek, Catalan and Chinese.
 
 <a name="v5.0.0-beta3"></a>
 
