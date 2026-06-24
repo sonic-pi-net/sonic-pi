@@ -132,7 +132,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           modules: "qtpositioning qtwebchannel qtwebengine qtwebsockets"
-          version: "6.9.0"
+          version: "6.11.1"
 
         # Prebuild on Ubuntu
       - name: Prebuild Linux
