@@ -36,6 +36,8 @@ public:
     {
         int id = -1;
         int parent = -1;
+        int head = -1;   // first child (groups only) — scsynth sibling chain
+        int next = -1;   // next sibling in parent's child list
         Kind kind = Synth;
         QString label;
     };

@@ -15,6 +15,9 @@
 
 #include <algorithm>
 #include <functional>
+#include <vector>
+
+#include <api/audio/node_tree_order.hpp>
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -64,14 +67,28 @@ void NodeTreeGraph::computeTargets()
     for (int i = 0; i < m_nodes.size(); ++i)
         m_index.insert(m_nodes[i].id, i);
 
-    // Children in encounter order (≈ scsynth execution order from the mirror).
-    QHash<int, QVector<int>> children;
-    QVector<int> roots;
+    // Children in true scsynth execution order. The mirror's array/slot order is
+    // allocation order (slots are freed and reused across runs), NOT sibling
+    // order — relying on it makes identical sub-trees render in different orders.
+    // order_children() walks each group's sibling chain (head → next → …) exactly
+    // as the engine's depth-first audio traversal does. Shared with its tests so
+    // the drawn order and the tested order can't drift apart.
+    std::vector<sonic_pi::node_tree::OrderNode> flat;
+    flat.reserve(m_nodes.size());
     for (const Node& n : m_nodes)
+        flat.push_back({ n.id, n.parent, n.head, n.next, n.kind == Group });
+    const sonic_pi::node_tree::OrderedTree ordered = sonic_pi::node_tree::order_children(flat);
+
+    QHash<int, QVector<int>> children;
+    for (const auto& kv : ordered.children)
     {
-        if (n.parent >= 0 && m_index.contains(n.parent)) children[n.parent].append(n.id);
-        else                                             roots.append(n.id);
+        QVector<int>& vec = children[kv.first];
+        vec.reserve(static_cast<int>(kv.second.size()));
+        for (int c : kv.second) vec.append(c);
     }
+    QVector<int> roots;
+    roots.reserve(static_cast<int>(ordered.roots.size()));
+    for (int r : ordered.roots) roots.append(r);
 
     // Level-by-depth layout: leaves take sequential slots, parents centre over
     // their children.

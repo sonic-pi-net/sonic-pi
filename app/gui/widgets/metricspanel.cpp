@@ -946,6 +946,11 @@ void MetricsPanel::updateNodeTree()
         if (id < 0) continue;                            // empty slot
         int32_t parent  = *reinterpret_cast<const int32_t*>(e + 4);
         int32_t isGroup = *reinterpret_cast<const int32_t*>(e + 8);
+        // prev_id @12, next_id @16, head_id @20 — the scsynth sibling chain that
+        // encodes true execution order. Slot/array order here is allocation
+        // order, not sibling order, so the graph must follow this chain.
+        int32_t nextId  = *reinterpret_cast<const int32_t*>(e + 16);
+        int32_t headId  = *reinterpret_cast<const int32_t*>(e + 20);
         const char* nm  = reinterpret_cast<const char*>(e + 24);
         QString name = QString::fromUtf8(nm, qstrnlen(nm, 32));
 
@@ -960,6 +965,8 @@ void MetricsPanel::updateNodeTree()
         NodeTreeGraph::Node node;
         node.id = id;
         node.parent = parent;
+        node.head = headId;
+        node.next = nextId;
         node.kind = kind;
         node.label = isGroup ? (name.isEmpty() ? QStringLiteral("group") : name)
                              : name;
