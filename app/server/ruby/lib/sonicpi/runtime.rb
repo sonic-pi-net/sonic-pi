@@ -249,31 +249,6 @@ module SonicPi
         __system_thread_locals.set(:sonic_pi_spider_bpm, bpm.to_f)
         __change_spider_time_and_beat!(time, beat)
       end
-
-      # If this thread drives any MIDI clock-out ports, hand the engine the new
-      # tempo source (a fixed bpm follows use_bpm; :link/:midi follow the timeline).
-      __midi_clock_out_repush
-    end
-
-    # Push this thread's current tempo source to each bound clock-out port. A
-    # numeric bpm (incl. density) → fixed tempo; a clock mode → follow its
-    # timeline (the engine then tracks it live). Idempotent engine-side.
-    def __midi_clock_out_repush
-      ports = __system_thread_locals.get(:sonic_pi_midi_clock_out_ports)
-      return if ports.nil? || ports.empty?
-      ports.each { |p| __midi_clock_out_push(p) }
-    end
-
-    def __midi_clock_out_push(port)
-      # Raw thread bpm, NOT __get_spider_bpm: density is local time-compression
-      # within a block — the externally visible tempo (and so the hardware
-      # clock) is unchanged by it.
-      mode = __system_thread_locals.get(:sonic_pi_spider_bpm)
-      if mode.is_a?(Numeric)
-        @midi_api.midi_clock_out_bpm(port, mode)
-      else
-        @midi_api.midi_clock_out_follow(port, __spider_timeline_name(mode))
-      end
     end
 
 

@@ -46,9 +46,6 @@ module SonicPi
     def midi_flush!(*); end
     def midi_system_start!(*); end
     def midi_system_stop!(*); end
-    def midi_clock_out_bpm(*); end
-    def midi_clock_out_follow(*); end
-    def midi_clock_out_off(*); end
     def set_global_timewarp!(*); end
   end
 
