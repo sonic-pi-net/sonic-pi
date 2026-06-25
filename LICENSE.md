@@ -96,8 +96,6 @@ relevant licenses:
 
 - [Ruby](http://ruby-lang.org) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
 - [SuperSonic](https://github.com/sonic-pi-net/supersonic) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
-- [Erlang](http://erlang.org) - [Erlang Public License](https://www.erlang.org/EPLICENSE)
-- [Elixir](http://elixir-lang.org/) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 - [Aubio](http://aubio.org) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ### Dynamically Linked Libraries for GUI
@@ -106,10 +104,10 @@ relevant licenses:
 - [QScintilla2](http://www.riverbankcomputing.com/software/qscintilla/intro) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
 - [SingleApplication](https://github.com/itay-grudev/SingleApplication) - [MIT License](http://opensource.org/licenses/MIT)
 - [KISS FFT](https://github.com/mborgerding/kissfft) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
-- [Tracy](https://bitbucket.org/wolfpld/tracy/src/master/) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
 - [ghc_filesystem](https://github.com/gulrak/filesystem) - [MIT License](http://opensource.org/licenses/MIT)
 - [kissnet](https://github.com/Ybalrid/kissnet) - [MIT License](http://opensource.org/licenses/MIT)
-- [liblo](https://github.com/radarsat1/liblo) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
+- [PlatformFolders](https://github.com/sago007/PlatformFolders) - [MIT License](http://opensource.org/licenses/MIT)
+- [reproc](https://github.com/DaanDeMeyer/reproc) - [MIT License](http://opensource.org/licenses/MIT)
 - [TLSF](http://www.gii.upv.es/tlsf/) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 - [Syphon](https://github.com/Syphon/Syphon-Framework) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause) (macOS only)
 
@@ -117,6 +115,7 @@ relevant licenses:
 
 - [JUCE](https://juce.com) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
 - [boost (subset)](https://www.boost.org) - [Boost Software License 1.0 (BSL-1.0)](https://opensource.org/licenses/BSL-1.0)
+- [Ableton Link](https://github.com/Ableton/link) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
 
 ### Dynamically Linked Libraries for Aubio
 
@@ -130,11 +129,10 @@ relevant licenses:
 
 (contents of [app/server/ruby/vendor/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/server/ruby/vendor))
 
-- [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport) - [MIT License](http://opensource.org/licenses/MIT)
-- [Blankslate](https://github.com/masover/blankslate) - [MIT License](http://opensource.org/licensesMIT)
-- [Concurrent Ruby](https://github.com/ruby-concurrency/concurrent-ruby) - [MIT License](http://opensource.org/licensesMIT)
+- [Blankslate](https://github.com/masover/blankslate) - [MIT License](http://opensource.org/licenses/MIT)
+- [Concurrent Ruby](https://github.com/ruby-concurrency/concurrent-ruby) - [MIT License](http://opensource.org/licenses/MIT)
 - [gettext](https://github.com/ruby-gettext/gettext) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
-- [i81n](https://github.com/svenfuchs/i18n) - [MIT License](http://opensource.org/licenses/MIT)
+- [i18n](https://github.com/svenfuchs/i18n) - [MIT License](http://opensource.org/licenses/MIT)
 - [Kramdown](http://kramdown.gettalong.org) - [MIT License](http://opensource.org/licenses/MIT)
 - [Locale](https://github.com/ruby-gettext/locale) - [Ruby License](https://www.ruby-lang.org/en/about/license.txt)
 - [Memoist](https://github.com/matthewrudy/memoist) - [MIT License](http://opensource.org/licenses/MIT)
@@ -146,21 +144,7 @@ relevant licenses:
 - [Ruby Beautify](https://github.com/erniebrodeur/ruby-beautify) - [MIT License](http://opensource.org/licenses/MIT)
 - [Rugged](https://github.com/libgit2/rugged) - [MIT License](http://opensource.org/licenses/MIT)
 - [Text](https://github.com/threedaymonk/text) - [MIT License](http://opensource.org/licenses/MIT)
+- [Titleize](https://github.com/greatseth/titleize) - [MIT License](http://opensource.org/licenses/MIT)
 - [Tomlrb](https://github.com/fbernier/tomlrb) - [MIT License](http://opensource.org/licenses/MIT)
 - [TZ Info](https://github.com/tzinfo/tzinfo) - [MIT License](http://opensource.org/licenses/MIT)
 - [WaveFile](https://github.com/jstrait/wavefile/) - [MIT License](http://opensource.org/licenses/MIT)
-
-### Dynamically Linked Libraries for Tau IO Server NIFs
-
-- [Ableton Link](https://github.com/Ableton/link) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html) (linked statically by SuperSonic)
-- [RtMidi](https://github.com/thestk/rtmidi) - [MIT License + sharing request](https://github.com/thestk/rtmidi/blob/master/LICENSE)
-
-### Included Elixir Libraries for Tau IO Server
-
-(contents of app/server/beam/tau/deps/):
-
-- [jason](https://github.com/michalmuskala/jason) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [logger_file_backend](https://github.com/onkel-dirtus/logger_file_backend) - [MIT License](http://opensource.org/licenses/MIT)
-- [telemetry](https://github.com/beam-telemetry/telemetry) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [telemetry_metrics](https://github.com/beam-telemetry/telemetry_metrics) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
-- [telemetry_poller](https://github.com/beam-telemetry/telemetry_poller) - [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
