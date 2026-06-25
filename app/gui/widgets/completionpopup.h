@@ -57,7 +57,7 @@ public:
                    int lineHeight, int preferNote = -1);
 
     // Match the editor's current (zoomed) code font.
-    void setItemFont(const QFont& font);
+    void setItemFont(const QFont& font, double docPointSize);
 
     // When false, the popup is a plain word list (no docstring/piano/slider panes).
     void setShowHelp(bool on) { m_showHelp = on; }
@@ -99,6 +99,11 @@ private:
     // Last summary+doc rendered into the detail pane, so navigation/filtering that
     // lands on the same row's content doesn't re-parse the whole docstring.
     QString m_detailKey;
+
+    // Current docstring font size (pt). The detail pane is stylesheet-governed, so
+    // its font is driven via a stylesheet font-size (QWidget::setFont is ignored on
+    // styled widgets), updated on zoom independently of the list font.
+    int m_docPointSize = -1;
 
     // When a piano key with no matching list row is clicked, the MIDI note to
     // insert (currentText() returns this); cleared once a real row is selected.

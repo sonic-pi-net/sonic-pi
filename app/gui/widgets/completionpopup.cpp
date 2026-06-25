@@ -721,19 +721,29 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
     update();
 }
 
-void CompletionPopup::setItemFont(const QFont& font)
+void CompletionPopup::setItemFont(const QFont& font, double docPointSize)
 {
+    // Docstring pane: this widget is governed by the popup's stylesheet, so
+    // QWidget::setFont() is ignored (Qt resolves a styled widget's font through
+    // the style sheet). Drive its size with a stylesheet font-size instead, and
+    // re-render so the imported HTML/markdown adopts it. Tracked separately from
+    // the list font (and before the list early-return) so the docs keep tracking
+    // zoom even when the list font is clamped at its max and stops changing.
+    if (m_detail) {
+        const int pt = qRound(qBound(9.0, docPointSize, 22.0));
+        if (pt != m_docPointSize) {
+            m_docPointSize = pt;
+            // Own stylesheet, font-size only — the popup-wide sheet keeps styling
+            // #completionDetail's colours/padding; these cascade together.
+            m_detail->setStyleSheet(QStringLiteral("QTextBrowser { font-size: %1pt; }").arg(pt));
+            m_detailKey.clear();  // force updateDetail() to re-render at the new size
+        }
+    }
+
     if (m_view->font() == font) return;
     m_view->setFont(font);
     if (m_piano) m_piano->setFont(font);
     if (m_rangeSlider) m_rangeSlider->setFont(font);
-    // Docstring pane reads like prose, not code: the proportional UI font at a
-    // fixed comfortable size (the list/piano stay on the zoomed code font).
-    if (m_detail) {
-        QFont docFont = QApplication::font();
-        docFont.setPointSizeF(12.0);
-        m_detail->setFont(docFont);
-    }
 }
 
 bool CompletionPopup::showItems(const QList<CompletionItem>& items,
@@ -969,11 +979,18 @@ void CompletionPopup::resizeToContents()
         setPopupSize(w, sh);
     } else if (m_hasDetail) {
         // Give the docstring room even when only a few rows matched (a short list
-        // shouldn't crop the docs); the list just gets empty space below.
-        const int h = qMax(listH, kDetailMinH);
+        // shouldn't crop the docs); the list just gets empty space below. The pane
+        // (and its min height) grow with the docstring font so larger zoom levels
+        // don't crowd the prose — baseline ~12pt keeps the default layout, capped
+        // at 2x and never narrower than half the screen.
+        const double docScale = qBound(1.0, m_docPointSize / 12.0, 2.0);
+        int detailW = int(kDetailW * docScale);
+        if (QScreen* scr = QApplication::screenAt(pos()))
+            detailW = qMin(detailW, scr->availableGeometry().width() / 2);
+        const int h = qMax(listH, int(kDetailMinH * docScale));
         m_view->setGeometry(0, 0, stickyW, h);
-        m_detailPane->setGeometry(stickyW, 0, kDetailW, h);
-        setPopupSize(stickyW + kDetailW, h);
+        m_detailPane->setGeometry(stickyW, 0, detailW, h);
+        setPopupSize(stickyW + detailW, h);
     } else if (m_noteMode || m_chordMode) {
         // Note / chord / scale lists are narrow with fixed content; use their own
         // width (not the grow-only session width, which can carry over from a wider

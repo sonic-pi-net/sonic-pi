@@ -993,12 +993,17 @@ void SonicPiScintilla::updateCompletion()
         return;
     }
 
-    // Track the editor's code font + live zoom, but noticeably smaller (popups
-    // sit below the editor text size).
+    // Track the editor's code font + live zoom. The list sits a touch below the
+    // editor text size and is clamped; the docstring reads like prose, so it
+    // tracks the editor's effective (zoomed) size directly — derived from the
+    // same zoomed value, NOT the clamped list size, so it keeps following zoom
+    // even once the list font saturates at its max. Notched down by a fixed
+    // offset so the prose sits comfortably below the editor text size.
+    constexpr double kDocFontOffset = 4.0;
     QFont codeFont = lexer() ? lexer()->defaultFont() : font();
-    const double sized = (codeFont.pointSize() + SendScintilla(SCI_GETZOOM)) * 0.82;
-    codeFont.setPointSizeF(qBound(8.0, sized, 15.0));
-    m_completion->setItemFont(codeFont);
+    const double zoomed = codeFont.pointSize() + SendScintilla(SCI_GETZOOM);
+    codeFont.setPointSizeF(qBound(8.0, zoomed * 0.82, 15.0));
+    m_completion->setItemFont(codeFont, zoomed - kDocFontOffset);
 
     int wordStart = pos - partial.length();
     int x = SendScintilla(SCI_POINTXFROMPOSITION, 0, wordStart);
