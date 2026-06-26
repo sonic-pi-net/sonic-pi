@@ -22,8 +22,9 @@ class QTextBrowser;
 class QToolButton;
 class QWidget;
 class QPropertyAnimation;
-class NotePiano;     // mini keyboard for note completions (defined in the .cpp)
-class RangeSlider;   // value-picker for bounded opts (defined in the .cpp)
+class NotePiano;       // mini keyboard for note completions (defined in the .cpp)
+class RangeSlider;     // value-picker for bounded opts (defined in the .cpp)
+class OptIllustration; // live diagram for a bounded opt (defined in the .cpp)
 
 // A modern, frameless code-completion popup: one row per candidate showing a
 // kind badge, the name, and a dimmed one-line summary. It never steals focus
@@ -62,7 +63,8 @@ public:
     // When false, the popup is a plain word list (no docstring/piano/slider panes).
     void setShowHelp(bool on) { m_showHelp = on; }
 
-    void moveSelection(int delta);   // +1/-1 row, or +/- page
+    void moveSelection(int delta);   // +1/-1 row, or +/- page (slider: linear nudge)
+    void sliderNudgeLog(int steps);  // slider: logarithmic (proportional) nudge
     QString currentText() const;     // insert text of the selected row ("" if none)
     bool isShowing() const;
     bool isSliderMode() const { return m_sliderMode; }  // value picker vs list
@@ -124,6 +126,10 @@ private:
     QToolButton* m_docsButton = nullptr; // "Docs ↗" — opens the help pane for the row
     NotePiano* m_piano = nullptr;        // mini keyboard (bottom, for notes)
     RangeSlider* m_rangeSlider = nullptr; // value slider (for bounded opts)
+    OptIllustration* m_optIllo = nullptr; // live diagram beneath the slider
+    bool m_hasIllo = false;               // the current opt has an illustration
+    OptIllustration* m_shapeIllo = nullptr; // waveform/curve shape in the detail pane
+    QString m_enumIllo;                   // "wave"/"curve" for the current enum list
     QPropertyAnimation* m_sizeAnim = nullptr; // tweens the popup between shapes
     QSize m_targetSize;                  // the size the popup is animating toward
     QColor m_bg = QColor(30, 30, 30);    // painted background (rounded)

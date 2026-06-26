@@ -32,6 +32,7 @@ struct CompletionItem
     // For kind=="range": a slider value-picker over [rmin, rmax] (e.g. pan: -1..1).
     bool slider = false;
     double rmin = 0, rmax = 0, rdefault = 0;
+    QString illo;             // enum-value shape tag ("wave"/"curve"), else empty
 };
 
 class ScintillaAPI : public QsciAbstractAPIs
@@ -63,6 +64,9 @@ class ScintillaAPI : public QsciAbstractAPIs
   // Register a numeric range for a bounded opt (e.g. "pan:", -1, 1, 0) so its
   // value position offers a slider instead of a list.
   void setOptRange(const QString& name, double lo, double hi, double def);
+  // Register the valid values of an enum opt (e.g. "wave:", {"0","1","2"}) so its
+  // value position offers a choice list.
+  void setOptOptions(const QString& name, const QStringList& opts);
   // Register a chord/scale's semitone offsets from the tonic (keyed by the bare
   // name, e.g. "minor7"), so the popup can light up its notes on the keyboard.
   void setChordIntervals(const QString& name, const QList<int>& semis);
@@ -97,6 +101,7 @@ class ScintillaAPI : public QsciAbstractAPIs
   QHash<QString, QString> docs;
   struct OptRange { double lo, hi, def; };
   QHash<QString, OptRange> optRanges;
+  QHash<QString, QStringList> optOptions;   // enum opt -> valid values
   QHash<QString, QList<int>> chordIntervals;   // bare name -> semitone offsets
   QHash<QString, QList<int>> scaleIntervals;
   std::function<QString()> synthResolver;

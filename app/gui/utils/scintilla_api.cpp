@@ -191,6 +191,10 @@ void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double
   optRanges.insert(name, {lo, hi, def});
 }
 
+void ScintillaAPI::setOptOptions(const QString& name, const QStringList& opts) {
+  optOptions.insert(name, opts);
+}
+
 void ScintillaAPI::setChordIntervals(const QString& name, const QList<int>& semis) {
   chordIntervals.insert(name, semis);
 }
@@ -231,6 +235,17 @@ int tonicToMidi(const QString& tok) {
   bool ok = false;
   const int n = t.toInt(&ok);
   return ok ? n : -1;
+}
+
+// Pull an enum value's meaning out of the opt's doc prose, e.g. "0 saw, 1 pulse"
+// or "0=saw wave, 1=pulse" → "saw" / "saw wave". Empty if it isn't described.
+QString enumLabelFor(const QString& doc, const QString& value) {
+  if (doc.isEmpty() || value.isEmpty()) return QString();
+  const QRegularExpression re(
+      QStringLiteral("\\b") + QRegularExpression::escape(value) +
+      QStringLiteral("\\b\\s*=?\\s*([A-Za-z][A-Za-z ]*?)(?=[,.;)<]|\\s+\\d|\\s+and\\b|$)"));
+  const QRegularExpressionMatch m = re.match(doc);
+  return m.hasMatch() ? m.captured(1).trimmed() : QString();
 }
 } // namespace
 
@@ -273,8 +288,28 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
     }
     return noteCompletions();
   }
-  // Opt value slot for a bounded opt (e.g. `pan: `) → a single slider item.
+  // Opt value slot. An enum opt (e.g. `wave: `) → a choice list of its values; a
+  // bounded opt (e.g. `pan: `) → a single slider item.
   const QString optBefore = lastWordBeforePartial(context);
+  if (optOptions.contains(optBefore)) {
+    // Each value carries its meaning (parsed from the opt docs) inline, and the
+    // full opt doc in the detail pane — so `wave: 0` reads "0 saw", not a bare 0.
+    const QString optDoc = docs.value(optBefore);
+    QString illo;
+    if (optBefore == "wave:" || optBefore == "mod_wave:") illo = "wave";
+    else if (optBefore.endsWith("env_curve:")) illo = "curve";
+    QList<CompletionItem> out;
+    for (const QString& v : optOptions.value(optBefore)) {
+      CompletionItem it;
+      it.kind = "optval";
+      it.text = v;
+      it.summary = enumLabelFor(optDoc, v);
+      it.doc = optDoc;
+      it.illo = illo;
+      out.append(it);
+    }
+    return out;
+  }
   if (optRanges.contains(optBefore)) {
     const OptRange r = optRanges.value(optBefore);
     CompletionItem it;

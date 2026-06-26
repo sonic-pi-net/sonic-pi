@@ -230,12 +230,14 @@ module SonicPi
             res[parent] = new_info
           else
             default_info = @info[arg] || {}
-            constraints = (default_info[:validations] || []).map{|el| el[1]}
+            validations = default_info[:validations] || []
+            constraints = validations.map{|el| el[1]}
             new_info = {}
             new_info[:doc] = default_info[:doc]
             new_info[:default] = default_info[:default] || default
             new_info[:bpm_scale] = default_info[:bpm_scale]
             new_info[:constraints] = constraints
+            new_info[:bounds] = merge_validation_bounds(validations)
             new_info[:modulatable] = default_info[:modulatable]
             # Semantic type (default :float) and the range it infers, if any.
             new_info[:type] = default_info[:type] || :float
@@ -299,44 +301,69 @@ module SonicPi
         [lambda{|args| (args[arg1] + args[arg2]) <= max}, "added to #{arg2.to_sym} must be less than or equal to #{max}"]
       end
 
+      # Combine the machine-readable bounds (3rd element) of an opt's validations
+      # into one hash the GUI can build a constraint-respecting selector from: the
+      # tightest :min / :max with their inclusivity, plus :options / :exclude.
+      def merge_validation_bounds(validations)
+        b = {}
+        validations.each do |v|
+          meta = v[2]
+          next unless meta.is_a?(Hash)
+          if meta.key?(:min) && (!b.key?(:min) || meta[:min] > b[:min])
+            b[:min] = meta[:min]
+            b[:min_incl] = meta[:min_incl]
+          end
+          if meta.key?(:max) && (!b.key?(:max) || meta[:max] < b[:max])
+            b[:max] = meta[:max]
+            b[:max_incl] = meta[:max_incl]
+          end
+          b[:options] = meta[:options] if meta[:options]
+          (b[:exclude] ||= []) << meta[:exclude] if meta.key?(:exclude)
+        end
+        b
+      end
+
+      # Each validation is [check_lambda, human_description, bounds]. `bounds` is a
+      # machine-readable hash (:min/:max with :min_incl/:max_incl, :options, or
+      # :exclude) so the GUI can derive a constraint-respecting value selector.
       def v_positive(arg)
-        [lambda{|args| args[arg] >= 0}, "must be zero or greater"]
+        [lambda{|args| args[arg] >= 0}, "must be zero or greater", {:min => 0, :min_incl => true}]
       end
 
       def v_positive_not_zero(arg)
-        [lambda{|args| args[arg] > 0}, "must be greater than zero"]
+        [lambda{|args| args[arg] > 0}, "must be greater than zero", {:min => 0, :min_incl => false}]
       end
 
       def v_between_inclusive(arg, min, max)
-        [lambda{|args| args[arg] >= min && args[arg] <= max}, "must be a value between #{min} and #{max} inclusively"]
+        [lambda{|args| args[arg] >= min && args[arg] <= max}, "must be a value between #{min} and #{max} inclusively", {:min => min, :max => max, :min_incl => true, :max_incl => true}]
       end
 
       def v_between_exclusive(arg, min, max)
-        [lambda{|args| args[arg] > min && args[arg] < max}, "must be a value between #{min} and #{max} exclusively"]
+        [lambda{|args| args[arg] > min && args[arg] < max}, "must be a value between #{min} and #{max} exclusively", {:min => min, :max => max, :min_incl => false, :max_incl => false}]
       end
 
       def v_less_than(arg,  max)
-        [lambda{|args| args[arg] < max}, "must be a value less than #{max}"]
+        [lambda{|args| args[arg] < max}, "must be a value less than #{max}", {:max => max, :max_incl => false}]
       end
 
       def v_less_than_oet(arg,  max)
-        [lambda{|args| args[arg] <= max}, "must be a value less than or equal to #{max}"]
+        [lambda{|args| args[arg] <= max}, "must be a value less than or equal to #{max}", {:max => max, :max_incl => true}]
       end
 
       def v_greater_than(arg,  min)
-        [lambda{|args| args[arg] > min}, "must be a value greater than #{min}"]
+        [lambda{|args| args[arg] > min}, "must be a value greater than #{min}", {:min => min, :min_incl => false}]
       end
 
       def v_greater_than_oet(arg,  min)
-        [lambda{|args| args[arg] >= min}, "must be a value greater than or equal to #{min}"]
+        [lambda{|args| args[arg] >= min}, "must be a value greater than or equal to #{min}", {:min => min, :min_incl => true}]
       end
 
       def v_one_of(arg, valid_options)
-        [lambda{|args| valid_options.include?(args[arg])}, "must be one of the following values: #{valid_options.inspect}"]
+        [lambda{|args| valid_options.include?(args[arg])}, "must be one of the following values: #{valid_options.inspect}", {:options => valid_options}]
       end
 
       def v_not_zero(arg)
-        [lambda{|args| args[arg] != 0}, "must not be zero"]
+        [lambda{|args| args[arg] != 0}, "must not be zero", {:exclude => 0}]
       end
 
       def default_arg_info

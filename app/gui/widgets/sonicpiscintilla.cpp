@@ -65,6 +65,7 @@ bool fuzzyMatch(const QString& pat, const QString& text, int& score) {
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QRegularExpression>
+#include <QSet>
 #include <QSettings>
 #include <QShortcut>
 #include <Qsci/qscicommandset.h>
@@ -530,6 +531,43 @@ QStringList SonicPiScintilla::apiContext(int pos, int& context_start,
     QString line = text(linenum);
     line.truncate(cursor);
 
+    // A trailing statement modifier or operator (`... if cond`, `unless`, `while`,
+    // `until`, `and`, `or`, `then`, `do`, `;`, `&&`, `||`) ends the call's argument
+    // list — text after it is a fresh expression, not another opt. Drop up to the
+    // last such top-level token (ignoring ones inside strings or brackets) so we
+    // don't offer the call's opts there: `sample :bd, amp: 1 if foo, p|` ≠ `pan:`.
+    {
+        static const QStringList mods = { "if", "unless", "while", "until",
+                                          "and", "or", "then", "do" };
+        int depth = 0, cut = -1;
+        QChar quote;
+        for (int i = 0; i < line.length(); ++i)
+        {
+            const QChar c = line[i];
+            if (!quote.isNull()) { if (c == quote) quote = QChar(); continue; }
+            if (c == '"' || c == '\'') { quote = c; continue; }
+            if (c == '(' || c == '[' || c == '{') { ++depth; continue; }
+            if (c == ')' || c == ']' || c == '}') { if (depth > 0) --depth; continue; }
+            if (depth != 0) continue;
+            if (c == ';') { cut = i + 1; continue; }
+            if ((c == '&' && i + 1 < line.length() && line[i + 1] == '&') ||
+                (c == '|' && i + 1 < line.length() && line[i + 1] == '|'))
+            { cut = i + 2; ++i; continue; }
+            const bool startsWord = (c.isLetter() || c == '_') &&
+                (i == 0 || !(line[i - 1].isLetterOrNumber() || line[i - 1] == '_'));
+            if (!startsWord) continue;
+            int j = i;
+            while (j < line.length() && (line[j].isLetterOrNumber() || line[j] == '_')) ++j;
+            if (mods.contains(line.mid(i, j - i))) cut = j;
+            i = j - 1;
+        }
+        if (cut >= 0)
+        {
+            while (cut < line.length() && line[cut] == ' ') ++cut;
+            line = line.mid(cut);
+        }
+    }
+
     // Resolve nested calls to the innermost one: `play (scale ` should complete
     // scale's args, not play's. Drop everything up to the last unclosed bracket.
     int innermost = -1;
@@ -795,6 +833,14 @@ bool SonicPiScintilla::event(QEvent* evt)
             case Qt::Key_Down:     m_completion->moveSelection(+1);  return true;
             case Qt::Key_PageUp:   m_completion->moveSelection(-10); return true;
             case Qt::Key_PageDown: m_completion->moveSelection(+10); return true;
+            // On the value slider, Left/Right step logarithmically (proportional)
+            // while Up/Down step linearly; elsewhere they move the caret as usual.
+            case Qt::Key_Left:
+                if (m_completion->isSliderMode()) { m_completion->sliderNudgeLog(-1); return true; }
+                break;
+            case Qt::Key_Right:
+                if (m_completion->isSliderMode()) { m_completion->sliderNudgeLog(+1); return true; }
+                break;
             case Qt::Key_Space:
                 // Space commits a previewed entry, then types the space; a plain
                 // space otherwise (no preview shown yet).
@@ -866,6 +912,32 @@ bool SonicPiScintilla::event(QEvent* evt)
     return QsciScintilla::event(evt);
 }
 
+// Append names the user has defined in this buffer (define/live_loop/cue/set) to
+// the completion list — the static API can't know about them. `symbol` prefixes a
+// ':' (for sync/cue value positions). Dedups against the existing items.
+static void addBufferDefs(QList<CompletionItem>& items, const QString& buffer,
+                          const QRegularExpression& re, bool symbol)
+{
+    if (items.isEmpty()) return;
+    const QString kind = items.first().kind;
+    QSet<QString> have;
+    for (const CompletionItem& it : items) have.insert(it.text);
+    QRegularExpressionMatchIterator mi = re.globalMatch(buffer);
+    while (mi.hasNext())
+    {
+        const QString name = mi.next().captured(1);
+        if (name.isEmpty()) continue;
+        const QString t = symbol ? (QStringLiteral(":") + name) : name;
+        if (have.contains(t)) continue;
+        have.insert(t);
+        CompletionItem it;
+        it.text = t;
+        it.kind = kind;
+        it.summary = QObject::tr("defined in this buffer");
+        items.append(it);
+    }
+}
+
 void SonicPiScintilla::updateCompletion()
 {
     if (!m_completion) return;
@@ -878,6 +950,35 @@ void SonicPiScintilla::updateCompletion()
 
     // Work against the user's typed text / current value, not a stale preview.
     clearPreview();
+
+    // Don't pop up inside a comment or a string literal: scan the line up to the
+    // caret tracking quote state; bail on an unquoted '#' (comment) or if the
+    // caret sits inside an unterminated string.
+    {
+        int gl, gc;
+        getCursorPosition(&gl, &gc);
+        const QString upto = text(gl).left(gc);
+        QChar q;
+        bool suppress = false;
+        for (int i = 0; i < upto.length(); ++i)
+        {
+            const QChar c = upto[i];
+            if (!q.isNull())
+            {
+                if (c == '\\') { ++i; continue; }   // skip escaped char in string
+                if (c == q) q = QChar();
+                continue;
+            }
+            if (c == '"' || c == '\'') { q = c; continue; }
+            if (c == '#') { suppress = true; break; }   // comment to end of line
+        }
+        if (suppress || !q.isNull())
+        {
+            endPreview();
+            m_completion->hidePopup();
+            return;
+        }
+    }
 
     int pos = SendScintilla(SCI_GETCURRENTPOS);
     int context_start, last_word_start;
@@ -899,6 +1000,25 @@ void SonicPiScintilla::updateCompletion()
     const QString afterCursor = text(curLine).mid(curCol);
 
     QList<CompletionItem> items = api->completionsFor(context, afterCursor);
+
+    // Offer names defined in this buffer: user functions at a call position, and
+    // live_loop/cue/set names where a cue symbol is expected (sync/cue/get/set).
+    if (!items.isEmpty())
+    {
+        const QString k = items.first().kind;
+        if (k == "fn")
+        {
+            static const QRegularExpression reDef(
+                QStringLiteral("\\b(?:define|defonce)\\s+:([A-Za-z_][A-Za-z0-9_]*[?!]?)"));
+            addBufferDefs(items, text(), reDef, false);
+        }
+        else if (k == "cue")
+        {
+            static const QRegularExpression reCue(
+                QStringLiteral("\\b(?:live_loop|cue|set)\\s+:([A-Za-z_][A-Za-z0-9_]*)"));
+            addBufferDefs(items, text(), reCue, true);
+        }
+    }
 
     // With no partial typed yet (e.g. just after a space), only pop up in a
     // "value" position — args/opts, synth/fx/sample/cue names — so `play :e3, `

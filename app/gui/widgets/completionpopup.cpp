@@ -32,7 +32,11 @@
 #include <QVariantAnimation>
 #include <QWheelEvent>
 #include <QPolygonF>
+#include <QPainterPath>
+#include <QRadialGradient>
+#include <QLinearGradient>
 #include <QSet>
+#include <cmath>
 
 #ifdef Q_OS_MACOS
 #include "platform/macos.h"
@@ -79,9 +83,9 @@ public:
         const QString name = index.data(Qt::DisplayRole).toString();
         const QString kind = index.data(CompletionPopup::KindRole).toString();
         const QString summary = index.data(CompletionPopup::SummaryRole).toString();
-        // Only notes carry an inline summary (name · MIDI · Hz); other kinds show
-        // their docstring in the right-hand pane instead.
-        const bool inlineSummary = (kind == "note") && !summary.isEmpty();
+        // Notes and enum opt-values carry an inline summary (note pitch, or what an
+        // enum value means); other kinds show their docstring in the pane instead.
+        const bool inlineSummary = (kind == "note" || kind == "optval") && !summary.isEmpty();
         int w = inlineSummary
                     ? m_popup->nameColumnX() + fm.horizontalAdvance(name) + 18
                           + fm.horizontalAdvance(summary)
@@ -112,7 +116,7 @@ public:
 
         // Kind badge — saturated colour, bright label for legibility. Notes skip
         // it: the piano below already signals "this is a note".
-        if (!kind.isEmpty() && kind != "note") {
+        if (!kind.isEmpty() && kind != "note" && kind != "optval") {
             QFont badgeFont = opt.font;
             badgeFont.setPointSizeF(opt.font.pointSizeF() * 0.8);
             QFontMetrics bfm(badgeFont);
@@ -138,7 +142,7 @@ public:
 
         // Inline summary (notes only) — readable secondary tone, placed right
         // after the number with a small gap (not a far column) so it reads tight.
-        if (kind == "note" && !summary.isEmpty()) {
+        if ((kind == "note" || kind == "optval") && !summary.isEmpty()) {
             const int sx = nameX + fm.horizontalAdvance(name) + 18;
             int avail = opt.rect.right() - kRowHPad - sx;
             if (avail > 20) {
@@ -445,7 +449,17 @@ public:
     void setColors(const QColor& fg, const QColor& accent) { m_fg = fg; m_accent = accent; update(); }
     void setOnAccept(std::function<void()> cb) { m_onAccept = std::move(cb); }
     void setOnChange(std::function<void()> cb) { m_onChange = std::move(cb); }
-    void nudge(int steps) { setValue(m_value + steps * (m_max - m_min) / 40.0); }
+    // Linear "text" step by a clean round amount (1/2/5 ×10ⁿ) so the value reads
+    // tidily; Page keys pass ±10 for a coarse jump.
+    void nudge(int steps) { setValue(m_value + steps * niceStep()); }
+    // Logarithmic step: a proportional (multiplicative) move, natural for
+    // frequency/amplitude ranges. Mirrors nudge()'s granularity in log space.
+    void nudgeLog(int steps) {
+        if (m_max <= 0) { nudge(steps); return; }   // log undefined → fall back
+        const double lo = qMax(m_min, m_max * 1e-3);   // avoid log(0)/negatives
+        const double v = qMax(m_value, lo);
+        setValue(v * std::exp(steps * std::log(m_max / lo) / 40.0));
+    }
     void setValue(double v) {
         v = qBound(m_min, v, m_max);
         if (qFuzzyCompare(v, m_value)) return;
@@ -506,12 +520,278 @@ private:
         const double frac = qBound(0.0, (x - tr.left()) / tr.width(), 1.0);
         setValue(m_min + frac * (m_max - m_min));
     }
+    // A clean round increment (1/2/5 ×10ⁿ) ~1/40 of the range, so linear nudges
+    // keep the value tidy (e.g. 0.05, not 0.025).
+    double niceStep() const {
+        const double raw = (m_max - m_min) / 40.0;
+        if (!(raw > 0)) return 1.0;
+        const double mag = std::pow(10.0, std::floor(std::log10(raw)));
+        const double n = raw / mag;
+        const double s = n < 1.5 ? 1.0 : n < 3.5 ? 2.0 : n < 7.5 ? 5.0 : 10.0;
+        return s * mag;
+    }
     double m_min = 0, m_max = 1, m_value = 0;
     QString m_label;
     QColor m_fg = QColor(220, 220, 220);
     QColor m_accent = QColor(0x9B, 0x59, 0xB6);
     std::function<void()> m_onAccept;
     std::function<void()> m_onChange;
+};
+
+// A live, QPainter-drawn diagram for a bounded opt, shown under the slider so a
+// value is tangible (pan as a stereo field, cutoff as a filter response). Plain
+// QWidget (no signals); the popup feeds it the slider's value via setValue().
+class OptIllustration : public QWidget {
+public:
+    enum class Kind { None, Pan, Cutoff, Wave, Curve };
+
+    // Registry: opt name → illustration. Add more here (res:, attack: …).
+    static Kind kindFor(const QString& opt) {
+        if (opt == "pan:")    return Kind::Pan;
+        if (opt == "cutoff:") return Kind::Cutoff;
+        return Kind::None;
+    }
+    // Enum-value illustrations (waveform / envelope-curve shapes), keyed by the
+    // "illo" tag the API attaches to wave:/env_curve: value completions.
+    static Kind enumKindFor(const QString& illo) {
+        if (illo == "wave")  return Kind::Wave;
+        if (illo == "curve") return Kind::Curve;
+        return Kind::None;
+    }
+
+    explicit OptIllustration(QWidget* parent = nullptr) : QWidget(parent) {
+        setFocusPolicy(Qt::NoFocus);
+        setAttribute(Qt::WA_TransparentForMouseEvents);
+    }
+    void configure(Kind kind, double lo, double hi, double val) {
+        m_kind = kind; m_min = lo; m_max = qMax(hi, lo + 1e-6);
+        m_value = qBound(m_min, val, m_max);
+        update();
+    }
+    void setValue(double v) { m_value = qBound(m_min, v, m_max); update(); }
+    // A discrete enum-value shape (waveform/curve); `value` is the opt value.
+    void configureEnum(Kind kind, int value) { m_kind = kind; m_enumValue = value; update(); }
+    void setColors(const QColor& fg, const QColor& accent, const QColor& bg) {
+        m_fg = fg; m_accent = accent; m_bg = bg; update();
+    }
+
+protected:
+    void paintEvent(QPaintEvent*) override {
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing, true);
+        const QRectF r = QRectF(rect()).adjusted(14, 8, -14, -10);
+        if (r.width() < 20 || r.height() < 20) return;
+        if (m_kind == Kind::Pan)         paintPan(p, r);
+        else if (m_kind == Kind::Cutoff) paintCutoff(p, r);
+        else if (m_kind == Kind::Wave)   paintWave(p, r);
+        else if (m_kind == Kind::Curve)  paintCurve(p, r);
+    }
+
+private:
+    // A hi-fi speaker: a sloped cabinet (narrower at the top, soft top→bottom
+    // shade so it reads 3-D) with a tweeter and a woofer (surround + cone + dust
+    // cap). `level` (0..1) lights the active side toward the accent as it pans.
+    void drawSpeaker(QPainter& p, const QRectF& box, double level) const {
+        const QColor base = mix(m_fg, m_bg, 34);
+        const QColor lit  = mix(m_accent, base, int(12 + 60 * level));
+
+        // Upright cabinet: a rounded rectangle (a real speaker box), with a soft
+        // top→bottom shade and an inset front baffle so it reads 3-D.
+        const double radius = box.width() * 0.16;
+        QLinearGradient cg(box.topLeft(), box.bottomLeft());
+        cg.setColorAt(0.0, mix(lit, m_bg, 78));
+        cg.setColorAt(1.0, mix(lit, m_bg, 42));
+        p.setPen(QPen(mix(m_fg, m_bg, 58), 1.4));
+        p.setBrush(cg);
+        p.drawRoundedRect(box, radius, radius);
+        p.setPen(Qt::NoPen);
+        p.setBrush(mix(m_bg, lit, 16));
+        p.drawRoundedRect(box.adjusted(3, 3, -3, -3), radius * 0.7, radius * 0.7);
+
+        const double cx = box.center().x();
+
+        // Tweeter (small driver, upper third).
+        const double twY = box.top() + box.height() * 0.26;
+        const double twR = box.width() * 0.11;
+        p.setBrush(mix(m_bg, base, 55)); p.setPen(QPen(mix(m_fg, m_bg, 50), 1.0));
+        p.drawEllipse(QPointF(cx, twY), twR, twR);
+        p.setBrush(mix(m_accent, base, int(25 + 55 * level))); p.setPen(Qt::NoPen);
+        p.drawEllipse(QPointF(cx, twY), twR * 0.45, twR * 0.45);
+
+        // Woofer (large driver, lower half): surround, cone, dust cap.
+        const double wy = box.top() + box.height() * 0.62;
+        const double wr = box.width() * 0.30;
+        p.setPen(QPen(mix(m_fg, m_bg, 50), 1.0));
+        p.setBrush(mix(m_bg, base, 62)); p.drawEllipse(QPointF(cx, wy), wr, wr);
+        p.setPen(QPen(mix(m_fg, m_bg, 42), 0.8));
+        p.setBrush(mix(m_bg, lit, 45));  p.drawEllipse(QPointF(cx, wy), wr * 0.64, wr * 0.64);
+        p.setPen(Qt::NoPen);
+        p.setBrush(mix(m_accent, m_fg, int(35 + 40 * level)));
+        p.drawEllipse(QPointF(cx, wy), wr * 0.24, wr * 0.24);
+    }
+
+    // Concentric sound waves radiating from a speaker's inner edge toward the
+    // centre. `dir` is +1 (rightward, from the left speaker) or -1 (leftward);
+    // `level` (0..1) sets how bright/far they reach, so the louder side pushes
+    // visibly more sound — the pan reads as relative strength, not a slider.
+    void drawWaves(QPainter& p, const QPointF& origin, int dir, double level, double reach) const {
+        if (level <= 0.02 || reach <= 4) return;
+        const int rings = 4;
+        const double span = 64.0;   // degrees of the radiating fan
+        const double start = (dir > 0 ? -span / 2.0 : 180.0 - span / 2.0);
+        p.setBrush(Qt::NoBrush);
+        for (int i = 1; i <= rings; ++i) {
+            const double t = double(i) / rings;
+            const double rad = reach * t * (0.45 + 0.55 * level);
+            QColor c = m_accent;
+            c.setAlpha(int(170 * level * (1.0 - 0.6 * t)));
+            p.setPen(QPen(c, 2.2));
+            const QRectF arc(origin.x() - rad, origin.y() - rad, 2 * rad, 2 * rad);
+            p.drawArc(arc, int(start * 16), int(span * 16));
+        }
+    }
+
+    void paintPan(QPainter& p, const QRectF& r) const {
+        const double frac = (m_value - m_min) / (m_max - m_min);   // 0=L .. 1=R
+        const double lLevel = qBound(0.0, 1.0 - frac, 1.0);
+        const double rLevel = qBound(0.0, frac, 1.0);
+
+        const double spkW = qMin(52.0, r.width() * 0.20);
+        const double spkH = qMin(r.height() * 0.66, spkW * 1.45);
+        const double cy = r.top() + r.height() * 0.46;
+        const QRectF lBox(r.left(), cy - spkH / 2, spkW, spkH);
+        const QRectF rBox(r.right() - spkW, cy - spkH / 2, spkW, spkH);
+
+        // Sound waves first (behind the cabinets): each side pushes sound toward
+        // the centre in proportion to its level, so the pan reads as relative
+        // loudness from the speakers — no draggable-looking track or dot.
+        const double reach = (rBox.left() - lBox.right()) / 2.0 - 4;
+        drawWaves(p, QPointF(lBox.right() + 2, cy), +1, lLevel, reach);
+        drawWaves(p, QPointF(rBox.left() - 2, cy), -1, rLevel, reach);
+
+        drawSpeaker(p, lBox, lLevel);
+        drawSpeaker(p, rBox, rLevel);
+
+        // L / R captions.
+        QFont lf = font(); lf.setBold(true); p.setFont(lf);
+        p.setPen(mix(m_fg, m_bg, 70));
+        p.drawText(QRectF(lBox.left(), r.bottom() - 16, spkW, 16), Qt::AlignCenter, "L");
+        p.drawText(QRectF(rBox.left(), r.bottom() - 16, spkW, 16), Qt::AlignCenter, "R");
+    }
+
+    static QString hzLabel(double hz) {
+        if (hz >= 1000) return QString("≈ %1 kHz").arg(hz / 1000.0, 0, 'f', hz < 10000 ? 1 : 0);
+        return QString("≈ %1 Hz").arg(hz, 0, 'f', 0);
+    }
+
+    void paintCutoff(QPainter& p, const QRectF& full) const {
+        QFontMetrics fm(font());
+        const QRectF r = full.adjusted(0, 0, 0, -fm.height() - 4);   // leave room for label
+
+        // Cutoff is a MIDI note; midicps gives the real corner frequency.
+        auto hzOf = [](double note) { return 440.0 * std::pow(2.0, (note - 69.0) / 12.0); };
+        const double lLo = std::log10(hzOf(m_min)), lHi = std::log10(hzOf(m_max));
+        const double fc = hzOf(m_value);
+        const double lc = std::log10(fc);
+        const double knee = r.left() + (lc - lLo) / (lHi - lLo) * r.width();
+
+        // Illustrative spectrum (NOT a precise filter response): bars across the
+        // frequency range, bright and full below the cutoff, fading away above it.
+        // Synths use different filters (LPF/RLPF ~2-pole, BLowPass4 ~4-pole) so the
+        // roll-off only conveys the idea — low cutoff = darker, high = brighter.
+        const int bars = 28;
+        const double gap = 2.0;
+        const double bw = (r.width() - gap * (bars - 1)) / bars;
+        for (int i = 0; i < bars; ++i) {
+            const double bx = r.left() + i * (bw + gap);
+            const double l = lLo + (i + 0.5) / bars * (lHi - lLo);   // this bar's log-freq
+            const double pass = l <= lc ? 1.0 : std::exp(-(l - lc) * 3.0);
+            const double h = r.height() * qBound(0.05, 0.10 + 0.90 * pass, 1.0);
+            p.setPen(Qt::NoPen);
+            p.setBrush(l <= lc ? m_accent : mix(m_accent, m_bg, 30));
+            p.drawRoundedRect(QRectF(bx, r.bottom() - h, bw, h), 1.5, 1.5);
+        }
+
+        // Cutoff position + the real corner frequency.
+        p.setPen(QPen(mix(m_fg, m_bg, 75), 1.4, Qt::DashLine));
+        p.drawLine(QPointF(knee, r.top()), QPointF(knee, r.bottom()));
+        QFont lf = font(); lf.setBold(true); p.setFont(lf);
+        p.setPen(mix(m_fg, m_bg, 85));
+        p.drawText(QRectF(full.left(), full.bottom() - fm.height(), full.width(), fm.height()),
+                   Qt::AlignCenter, QString("cutoff %1  (%2)")
+                       .arg(int(m_value)).arg(hzLabel(fc)));
+    }
+
+    // One cycle or two of the selected waveform (0 saw, 1 pulse, 2 triangle,
+    // 3 sine, 4+ noise) drawn on a centre line — the shape of the timbre.
+    void paintWave(QPainter& p, const QRectF& full) const {
+        const QRectF r = full.adjusted(0, 0, 0, -2);
+        const double midY = r.center().y(), amp = r.height() * 0.38, cycles = 2.0;
+        p.setPen(QPen(mix(m_fg, m_bg, 24), 1.0));
+        p.drawLine(QPointF(r.left(), midY), QPointF(r.right(), midY));   // baseline
+
+        QPainterPath path;
+        const int N = 280;
+        for (int i = 0; i <= N; ++i) {
+            const double t = double(i) / N;
+            const double ph = t * cycles, frac = ph - std::floor(ph);
+            double y;
+            if (m_enumValue == 0)      y = 1.0 - 2.0 * frac;                                  // saw
+            else if (m_enumValue == 1) y = frac < 0.5 ? 1.0 : -1.0;                           // pulse
+            else if (m_enumValue == 2) y = frac < 0.5 ? 1.0 - 4.0 * frac : -3.0 + 4.0 * frac; // triangle
+            else if (m_enumValue == 3) y = std::sin(ph * 2.0 * kPi);                          // sine
+            else {                                                                            // noise
+                const double s = std::sin((i + 1) * 12.9898) * 43758.5453;
+                y = (s - std::floor(s)) * 2.0 - 1.0;
+            }
+            const QPointF pt(r.left() + t * r.width(), midY - y * amp);
+            if (i == 0) path.moveTo(pt); else path.lineTo(pt);
+        }
+        p.setPen(QPen(m_accent, 2.2));
+        p.setBrush(Qt::NoBrush);
+        p.drawPath(path);
+    }
+
+    // The envelope-segment shape between two levels for the selected curve
+    // (1 linear, 2 exponential, 3 sine, 4 welch, 6 squared, 7 cubed).
+    void paintCurve(QPainter& p, const QRectF& full) const {
+        const QRectF r = full.adjusted(0, 2, 0, -2);
+        auto shape = [&](double t) -> double {
+            switch (m_enumValue) {
+                case 2:  return (std::exp(t * 2.2) - 1.0) / (std::exp(2.2) - 1.0); // exponential
+                case 3:  return 0.5 - 0.5 * std::cos(t * kPi);                     // sine
+                case 4:  return std::sin(t * kPi / 2.0);                           // welch
+                case 6:  return t * t;                                            // squared
+                case 7:  return t * t * t;                                        // cubed
+                default: return t;                                                // linear (1)
+            }
+        };
+        p.setPen(QPen(mix(m_fg, m_bg, 24), 1.0));
+        p.drawLine(QPointF(r.left(), r.bottom()), QPointF(r.right(), r.bottom()));
+
+        QPainterPath path;
+        const int N = 160;
+        for (int i = 0; i <= N; ++i) {
+            const double t = double(i) / N;
+            const QPointF pt(r.left() + t * r.width(), r.bottom() - shape(t) * r.height());
+            if (i == 0) path.moveTo(pt); else path.lineTo(pt);
+        }
+        p.setPen(QPen(m_accent, 2.4));
+        p.setBrush(Qt::NoBrush);
+        p.drawPath(path);
+        p.setPen(Qt::NoPen);
+        p.setBrush(m_accent);
+        p.drawEllipse(QPointF(r.left(), r.bottom()), 3, 3);
+        p.drawEllipse(QPointF(r.right(), r.top()), 3, 3);
+    }
+
+    static constexpr double kPi = 3.14159265358979323846;
+    Kind m_kind = Kind::None;
+    double m_min = 0, m_max = 1, m_value = 0;
+    int m_enumValue = 0;
+    QColor m_fg = QColor(220, 220, 220);
+    QColor m_accent = QColor(0x9B, 0x59, 0xB6);
+    QColor m_bg = QColor(30, 30, 30);
 };
 
 CompletionPopup::CompletionPopup(QWidget* parent)
@@ -567,6 +847,17 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     m_rangeSlider->setVisible(false);
     m_rangeSlider->setOnAccept([this]() { emit accepted(); });
 
+    m_optIllo = new OptIllustration(this);
+    m_optIllo->setObjectName("completionIllo");
+    m_optIllo->setVisible(false);
+
+    // Shape illustration shown at the top of the detail pane for enum values that
+    // have one (waveform for wave:, envelope shape for env_curve:).
+    m_shapeIllo = new OptIllustration;
+    m_shapeIllo->setObjectName("completionShapeIllo");
+    m_shapeIllo->setMinimumHeight(70);
+    m_shapeIllo->setVisible(false);
+
     // "Docs" affordance pinned to the bottom-right of the docstring pane.
     m_docsButton = new QToolButton;
     m_docsButton->setObjectName("completionDocsButton");
@@ -585,6 +876,7 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     auto* paneLayout = new QVBoxLayout(m_detailPane);
     paneLayout->setContentsMargins(0, 0, 0, 0);
     paneLayout->setSpacing(0);
+    paneLayout->addWidget(m_shapeIllo, 0);
     paneLayout->addWidget(m_detail, 1);
     auto* btnRow = new QHBoxLayout;
     btnRow->setContentsMargins(8, 6, 12, 10);
@@ -608,6 +900,8 @@ CompletionPopup::CompletionPopup(QWidget* parent)
         " border-left: 1px solid rgba(127,127,127,60); }"
         "#completionDetail { background: transparent; padding: 6px 8px; border: none; }"
         "#completionPiano { background: transparent;"
+        " border-top: 1px solid rgba(127,127,127,60); }"
+        "#completionIllo { background: transparent;"
         " border-top: 1px solid rgba(127,127,127,60); }");
 
     // Hide as soon as the app is no longer active (switching away, etc.).
@@ -638,8 +932,12 @@ CompletionPopup::CompletionPopup(QWidget* parent)
         if (!selectNote(midi)) m_noteOverride = QString::number(midi);
         emit accepted();
     });
-    // Dragging the slider live-previews its value in the buffer.
-    m_rangeSlider->setOnChange([this]() { emit previewChanged(m_rangeSlider->valueText()); });
+    // Dragging the slider live-previews its value in the buffer and drives the
+    // illustration so its diagram tracks the value.
+    m_rangeSlider->setOnChange([this]() {
+        if (m_hasIllo) m_optIllo->setValue(m_rangeSlider->valueText().toDouble());
+        emit previewChanged(m_rangeSlider->valueText());
+    });
 }
 
 void CompletionPopup::paintEvent(QPaintEvent*)
@@ -701,6 +999,7 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
         "#completionDetail { background: transparent; color: %3; padding: 12px 16px;"
         " border: none; }"
         "#completionPiano { background: transparent; border-top: 1px solid %2; }"
+        "#completionIllo { background: transparent; border-top: 1px solid %2; }"
         "#completionDocsButton { background: transparent; color: %4; border: 1px solid %2;"
         " border-radius: 4px; padding: 3px 10px; font-size: 11px; }"
         "#completionDocsButton:hover { background: %4; color: %1; border-color: %4; }")
@@ -718,6 +1017,8 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
         .arg(fg.name(), selBg.name(), grid.name()));
     if (m_piano) m_piano->setColors(fg, selBg, bg);
     if (m_rangeSlider) m_rangeSlider->setColors(fg, selBg);
+    if (m_optIllo) m_optIllo->setColors(fg, selBg, bg);
+    if (m_shapeIllo) m_shapeIllo->setColors(fg, selBg, bg);
     update();
 }
 
@@ -744,6 +1045,8 @@ void CompletionPopup::setItemFont(const QFont& font, double docPointSize)
     m_view->setFont(font);
     if (m_piano) m_piano->setFont(font);
     if (m_rangeSlider) m_rangeSlider->setFont(font);
+    if (m_optIllo) m_optIllo->setFont(font);
+    if (m_shapeIllo) m_shapeIllo->setFont(font);
 }
 
 bool CompletionPopup::showItems(const QList<CompletionItem>& items,
@@ -760,6 +1063,7 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
     m_noteOverride.clear();
 
     const QString kind0 = items.isEmpty() ? QString() : items.first().kind;
+    m_enumIllo = items.isEmpty() ? QString() : items.first().illo;
     m_sliderMode = m_showHelp && items.size() == 1 && items.first().slider;
     m_noteMode = m_showHelp && !m_sliderMode && kind0 == "note";
     m_chordMode = m_showHelp && !m_sliderMode && (kind0 == "chord" || kind0 == "scale");
@@ -784,6 +1088,11 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
     if (m_sliderMode) {
         const CompletionItem& it = items.first();
         m_rangeSlider->configure(it.rmin, it.rmax, it.rdefault, it.text);
+        const OptIllustration::Kind k = OptIllustration::kindFor(it.text);
+        m_hasIllo = (k != OptIllustration::Kind::None);
+        if (m_hasIllo) m_optIllo->configure(k, it.rmin, it.rmax, it.rdefault);
+    } else {
+        m_hasIllo = false;
     }
 
     m_model->clear();
@@ -851,15 +1160,18 @@ void CompletionPopup::updateDetail()
     if (!m_detail || !m_piano) return;
 
     if (m_sliderMode) {
-        // A single value slider replaces the list/detail/piano entirely.
+        // A single value slider replaces the list/detail/piano entirely; opts with
+        // an illustration also show a live diagram beneath it.
         m_view->setVisible(false);
         m_detailPane->setVisible(false);
         m_piano->setVisible(false);
         m_rangeSlider->setVisible(true);
+        m_optIllo->setVisible(m_hasIllo);
         return;
     }
     m_view->setVisible(true);
     m_rangeSlider->setVisible(false);
+    m_optIllo->setVisible(false);
 
     const QModelIndex idx = m_view->currentIndex();
     const QString summary = idx.isValid() ? idx.data(SummaryRole).toString() : QString();
@@ -892,6 +1204,14 @@ void CompletionPopup::updateDetail()
         // The pane stays reserved for the whole session (stable width); each row
         // fills it with its summary heading + docstring, or a muted placeholder.
         m_piano->setVisible(false);
+        // Enum value with a shape (waveform / envelope curve): draw it atop the doc.
+        const OptIllustration::Kind sk = OptIllustration::enumKindFor(m_enumIllo);
+        if (sk != OptIllustration::Kind::None && idx.isValid()) {
+            m_shapeIllo->configureEnum(sk, idx.data(Qt::DisplayRole).toString().toInt());
+            m_shapeIllo->setVisible(true);
+        } else {
+            m_shapeIllo->setVisible(false);
+        }
         // Skip the re-render (parse + layout) when the row's content is unchanged.
         const QString key = summary + QChar(0x1f) + doc;
         if (key != m_detailKey) {
@@ -972,11 +1292,18 @@ void CompletionPopup::resizeToContents()
     // Gate on the session-mode flags, not isVisible() — a child reports invisible
     // until the top-level popup is first shown, which would skip placement.
     if (m_sliderMode) {
-        // Just the slider — a compact, fixed-size value picker.
-        const int w = 320;
+        // The slider — a compact value picker — with the illustration (if any)
+        // stacked beneath it so the diagram tracks the slider live.
+        const int w = m_hasIllo ? 380 : 320;
         const int sh = QFontMetrics(m_rangeSlider->font()).height() * 3 + 22;
         m_rangeSlider->setGeometry(0, 0, w, sh);
-        setPopupSize(w, sh);
+        if (m_hasIllo) {
+            const int ih = 168;
+            m_optIllo->setGeometry(0, sh, w, ih);
+            setPopupSize(w, sh + ih);
+        } else {
+            setPopupSize(w, sh);
+        }
     } else if (m_hasDetail) {
         // Give the docstring room even when only a few rows matched (a short list
         // shouldn't crop the docs); the list just gets empty space below. The pane
@@ -1038,6 +1365,11 @@ void CompletionPopup::setPopupSize(int w, int h)
     m_sizeAnim->setStartValue(size());
     m_sizeAnim->setEndValue(m_targetSize);
     m_sizeAnim->start();
+}
+
+void CompletionPopup::sliderNudgeLog(int steps)
+{
+    if (m_sliderMode) m_rangeSlider->nudgeLog(steps);
 }
 
 void CompletionPopup::moveSelection(int delta)
