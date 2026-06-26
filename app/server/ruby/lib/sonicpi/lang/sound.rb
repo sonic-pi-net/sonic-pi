@@ -1961,7 +1961,12 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
               end
               tracker.block_until_finished
               Kernel.sleep(kill_delay)
-              fx_container_group.kill(true)
+              # If the job was stopped, the job group (and hence this
+              # fx_container_group child) may already have been freed by
+              # kill_job_group. Re-freeing it here would trigger a
+              # spurious "/n_free Node XXX not found" server error, so
+              # only kill if the group is still live.
+              fx_container_group.kill(true) unless fx_container_group.destroyed?
             end
 
             gc_init_completed.deliver! true
