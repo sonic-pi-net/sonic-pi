@@ -25,6 +25,8 @@
 class SonicPiLexer;
 class QSettings;
 class CompletionPopup;
+class QMenu;
+class QContextMenuEvent;
 
 class SonicPiScintilla : public QsciScintilla
 {
@@ -50,6 +52,9 @@ signals:
     void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
     // The completion popup's "Docs" button was clicked — open help for this name.
     void docsRequested(const QString& name);
+    // Right-click menu is being built — MainWindow appends editor-wide actions
+    // (Comment/Uncomment, Show Docs, Align) before it's shown.
+    void extendContextMenu(QMenu* menu);
 
 public slots:
     void cutLineFromPoint();
@@ -154,6 +159,7 @@ private:
     void dragMoveEvent(QDragMoveEvent* event);
     void focusOutEvent(QFocusEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
+    void contextMenuEvent(QContextMenuEvent* event) override;
     bool event(QEvent* evt);
     bool autoIndent;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))

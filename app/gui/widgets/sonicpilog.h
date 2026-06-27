@@ -17,6 +17,7 @@
 #include <QPlainTextEdit>
 
 class SonicPiTheme;
+class QContextMenuEvent;
 
 class SonicPiLog : public QPlainTextEdit
 {
@@ -59,6 +60,7 @@ public slots:
 
 
 protected:
+    void contextMenuEvent(QContextMenuEvent* event) override;
 };
 
 Q_DECLARE_METATYPE(SonicPiLog::MultiMessage)

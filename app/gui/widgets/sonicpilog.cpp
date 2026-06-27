@@ -16,6 +16,8 @@
 // Standard stuff
 #include "model/sonicpitheme.h"
 #include <QScrollBar>
+#include <QMenu>
+#include <QContextMenuEvent>
 #include <vector>
 
 SonicPiLog::SonicPiLog(QWidget* parent)
@@ -60,6 +62,18 @@ void SonicPiLog::setZoomLevel(int zoom)
 int SonicPiLog::currentZoomLevel() const
 {
     return zoomLevel;
+}
+
+void SonicPiLog::contextMenuEvent(QContextMenuEvent* event)
+{
+    // Standard menu (copy/select-all) plus Clear — the idiomatic action for a
+    // log/output view.
+    QMenu* menu = createStandardContextMenu();
+    if (!menu) menu = new QMenu(this);
+    menu->addSeparator();
+    menu->addAction(tr("Clear"), this, [this] { clear(); });
+    menu->exec(event->globalPos());
+    delete menu;
 }
 
 void SonicPiLog::forceScrollDown(bool force)

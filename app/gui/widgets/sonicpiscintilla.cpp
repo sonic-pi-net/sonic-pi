@@ -66,6 +66,8 @@ bool fuzzyMatch(const QString& pat, const QString& text, int& score) {
 #include <QDropEvent>
 #include <QRegularExpression>
 #include <QSet>
+#include <QMenu>
+#include <QContextMenuEvent>
 #include <QSettings>
 #include <QShortcut>
 #include <Qsci/qscicommandset.h>
@@ -812,6 +814,26 @@ void SonicPiScintilla::focusOutEvent(QFocusEvent* e)
         m_completion->hidePopup();
     }
     QsciScintilla::focusOutEvent(e);
+}
+
+void SonicPiScintilla::contextMenuEvent(QContextMenuEvent* event)
+{
+    // Move the caret under the click (unless there's a selection) so word/line
+    // actions like "Show Docs for Current Word" act on what was right-clicked.
+    if (!hasSelectedText())
+    {
+        const int pos = (int)SendScintilla(SCI_POSITIONFROMPOINT,
+                                           (unsigned long)event->pos().x(),
+                                           (long)event->pos().y());
+        if (pos >= 0) SendScintilla(SCI_SETEMPTYSELECTION, pos);
+    }
+    // Standard edit menu (cut/copy/paste/…); MainWindow appends the idiomatic
+    // code actions (Show Docs for word, Comment/Uncomment, Align) via the signal.
+    QMenu* menu = createStandardContextMenu();
+    if (!menu) menu = new QMenu(this);
+    emit extendContextMenu(menu);
+    menu->exec(event->globalPos());
+    delete menu;
 }
 
 bool SonicPiScintilla::event(QEvent* evt)

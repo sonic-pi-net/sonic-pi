@@ -610,6 +610,15 @@ void MainWindow::setupWindowStructure()
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
         connect(workspace, &SonicPiScintilla::docsRequested, this,
                 [this](const QString& name) { showHelpForKeyword(name); });
+        // Append the idiomatic code actions to the editor's right-click menu. The
+        // lambda runs when the menu is shown, so the actions already exist by then.
+        connect(workspace, &SonicPiScintilla::extendContextMenu, this, [this](QMenu* menu) {
+            if (!contextHelpAct) return;
+            menu->addSeparator();
+            menu->addAction(contextHelpAct);   // Show Docs for Current Word
+            menu->addAction(textCommentAct);   // Comment / Uncomment
+            menu->addAction(textAlignAct);     // Auto-align / indent
+        });
     }
 
     connect(editorTabWidget, SIGNAL(currentChanged(int)), this, SLOT(focusEditor()));
@@ -3520,7 +3529,7 @@ void MainWindow::createToolBar()
     connect(loadFileAct, SIGNAL(triggered()), this, SLOT(loadFile()));
 
     // Align
-    textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Indent Code Buffer"), this);
+    textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Align Code"), this);
     connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
 
     // Comment
