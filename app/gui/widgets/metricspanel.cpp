@@ -781,7 +781,7 @@ QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
     // Drain-time stamp (no engine timestamp in the ring header); drop detection lives in the Errors panel.
     runs.append({ cMuted, QStringLiteral("[%1]").arg(QTime::currentTime().toString(QStringLiteral("HH:mm:ss.zzz"))) });
     if (sourceId != 0)
-        runs.append({ cSrc, QStringLiteral(" ch%1").arg(sourceId) });
+        runs.append({ cSrc, QStringLiteral(" ch%1").arg(sourceId, 3, 10, QLatin1Char('0')) });
 
     oscpkt::PacketReader pr(data, size);
     oscpkt::Message* msg;
