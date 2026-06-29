@@ -80,6 +80,13 @@ int main(int argc, char* argv[])
 
     QApplication app(argc, argv);
 
+#if defined(Q_OS_DARWIN)
+    // Local accessibility self-test: drive the real NSAccessibility bridge and
+    // exit with a pass/fail code, without launching the full app.
+    if (app.arguments().contains(QStringLiteral("--selftest-accessibility")))
+        return SonicPi::runAccessibilitySelfTest();
+#endif
+
     // Splash up before any other init. shownAtMs is read by
     // MainWindow::splashClose to enforce a minimum visible duration.
     QPixmap pixmap(":/images/splash@2x.png");

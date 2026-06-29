@@ -17,6 +17,7 @@
 #include "dpi.h"
 #include <algorithm>
 #include <iostream>
+#include <QAccessible>
 #include <QCheckBox>
 #include <QKeyEvent>
 #include <QFocusEvent>
@@ -175,6 +176,9 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     // The popup's "Docs" button opens the help pane (handled by MainWindow).
     connect(m_completion, &CompletionPopup::docsRequested, this,
             [this](const QString& name) { m_completion->hidePopup(); emit docsRequested(name); });
+    // Relay popup navigation announcements up to MainWindow's screen-reader helper.
+    connect(m_completion, &CompletionPopup::announceRequested, this,
+            &SonicPiScintilla::announceRequested);
 
     setSelectionBackgroundColor(theme->color("SelectionBackground"));
     setSelectionForegroundColor(theme->color("SelectionForeground"));
@@ -1264,6 +1268,11 @@ void SonicPiScintilla::replacePreviewSpan(const QString& text)
 void SonicPiScintilla::applyPreview(const QString& sel)
 {
     if (m_pvStart < 0) return;
+    // With a screen reader active, a list preview's buffer edit gets spoken on top
+    // of the popup's own announcement (doubled/garbled speech). Skip the visual
+    // preview for lists; the announcement conveys the selection and Enter still
+    // commits. Slider values are committed live, so keep those.
+    if (!m_pvSlider && QAccessible::isActive()) return;
     // Prepend any separating comma so the preview reads exactly as the commit will.
     replacePreviewSpan(m_pvPrefix + sel);
     m_pvLive = true;   // a selection is now shown in the buffer (Space can commit it)
