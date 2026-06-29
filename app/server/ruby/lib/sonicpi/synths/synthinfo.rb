@@ -5761,7 +5761,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
                       :pre_mix =>
                       {
                         :doc => "The amount (percentage) of the original signal that is fed into the internal FX system as a value between 0 and 1. With a pre_mix: of 0 the FX is completely bypassed unlike a mix: of 0 where the internal FX is still being fed the original signal but the output of the FX is ignored. The difference between the two is subtle but important and is evident when the FX has a residual component such as echo or reverb. When switching mix: from 0 to 1, the residual component of the FX's output from previous audio is present in the output signal. With pre_mix: there is no residual component of the previous audio in the output signal.",
-                        :validations => [v_positive(:pre_mix)],
+                        :validations => [v_between_inclusive(:pre_mix, 0, 1)],
                         :modulatable => true
                       },
 
