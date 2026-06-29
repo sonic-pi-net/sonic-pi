@@ -96,6 +96,7 @@ private slots:
     void updateTransparency(int t);
     void settingsChanged();
     void showContext();
+    void speakTransport();
     void checkArgs();
     void synthTriggerTimingGuarantees();
     void enableExternalSynths();
@@ -146,6 +147,7 @@ signals:
     void checkUpdatesChanged();
     void forceCheckUpdates();
     void showContextChanged();
+    void speakTransportChanged();
     void checkArgsChanged();
     void synthTriggerTimingGuaranteesChanged();
     void enableExternalSynthsChanged();
@@ -228,6 +230,7 @@ private:
     QCheckBox *show_autocompletion;
     QCheckBox *show_completion_help;
     QCheckBox *show_context;
+    QCheckBox *speak_transport;
 
     QComboBox *midi_default_channel_combo;
     QCheckBox *midi_enable_check;

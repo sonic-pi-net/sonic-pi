@@ -52,6 +52,9 @@ signals:
     void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
     // The completion popup's "Docs" button was clicked — open help for this name.
     void docsRequested(const QString& name);
+    // A completion suggestion to speak to the screen reader (MainWindow relays it
+    // to its portable announce() helper). Focus stays in the editor throughout.
+    void announceRequested(const QString& message);
     // Right-click menu is being built — MainWindow appends editor-wide actions
     // (Comment/Uncomment, Show Docs, Align) before it's shown.
     void extendContextMenu(QMenu* menu);

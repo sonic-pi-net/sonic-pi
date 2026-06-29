@@ -36,6 +36,8 @@
 #include <QRadialGradient>
 #include <QLinearGradient>
 #include <QSet>
+#include <QAccessible>
+#include <QAccessibleWidget>
 #include <cmath>
 
 #ifdef Q_OS_MACOS
@@ -794,9 +796,47 @@ private:
     QColor m_bg = QColor(30, 30, 30);
 };
 
+namespace {
+
+// The popup is a top-level window, so every screen reader (VoiceOver, NVDA,
+// Narrator, Orca) otherwise reports it as a new, unlabelled "dialog" and shifts
+// its review context onto it — which silences the editor's own typed-character
+// echo until the user manually returns. We never want the popup in the
+// accessibility tree: focus stays in the editor and suggestions are spoken via
+// announcements instead. This interface prunes the popup (and its children) from
+// the tree on all platforms via Qt's portable accessibility bridge.
+class IgnoredAccessible : public QAccessibleWidget
+{
+public:
+    explicit IgnoredAccessible(QWidget* w) : QAccessibleWidget(w, QAccessible::NoRole) {}
+    QAccessible::State state() const override
+    {
+        QAccessible::State s = QAccessibleWidget::state();
+        s.invisible = 1;   // bridges skip invisible/offscreen nodes
+        s.offscreen = 1;
+        return s;
+    }
+    int childCount() const override { return 0; }              // prune children too
+    QAccessibleInterface* child(int) const override { return nullptr; }
+};
+
+QAccessibleInterface* completionPopupAccessibleFactory(const QString& classname, QObject* object)
+{
+    if (object && object->isWidgetType()
+        && classname == QLatin1String(CompletionPopup::staticMetaObject.className()))
+        return new IgnoredAccessible(static_cast<QWidget*>(object));
+    return nullptr;   // not ours — let Qt's default factory handle it
+}
+
+} // namespace
+
 CompletionPopup::CompletionPopup(QWidget* parent)
     : QWidget(parent)
 {
+    // Register the accessibility-ignore factory once (the first popup created).
+    [[maybe_unused]] static const bool s_a11yFactoryInstalled =
+        (QAccessible::installFactory(completionPopupAccessibleFactory), true);
+
     // Frameless, always-on-top, non-focus-stealing popup. A translucent window
     // background lets the stylesheet paint the rounded body + its border (without
     // it, a frameless top-level draws an opaque square and the border is lost).
@@ -1150,6 +1190,7 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
         // Qt::ToolTip sits above the Cmd-Tab switcher; lower it (on each show, as
         // Qt may reset the level) so the switcher draws on top.
         SonicPi::setPopupBelowSwitcher(reinterpret_cast<void*>(winId()));
+        SonicPi::setWindowAccessibilityIgnored(reinterpret_cast<void*>(winId()));
 #endif
     }
     return true;
@@ -1367,22 +1408,37 @@ void CompletionPopup::setPopupSize(int w, int h)
     m_sizeAnim->start();
 }
 
+void CompletionPopup::announceSelection()
+{
+    emit announceRequested(currentAnnouncement());
+}
+
 void CompletionPopup::sliderNudgeLog(int steps)
 {
-    if (m_sliderMode) m_rangeSlider->nudgeLog(steps);
+    if (!m_sliderMode) return;
+    const QString before = m_rangeSlider->valueText();
+    m_rangeSlider->nudgeLog(steps);
+    if (m_rangeSlider->valueText() != before) announceSelection();
 }
 
 void CompletionPopup::moveSelection(int delta)
 {
-    if (m_sliderMode) { m_rangeSlider->nudge(delta); return; }
+    if (m_sliderMode) {
+        const QString before = m_rangeSlider->valueText();
+        m_rangeSlider->nudge(delta);
+        if (m_rangeSlider->valueText() != before) announceSelection();
+        return;
+    }
     const int rows = m_model->rowCount();
     if (rows == 0) return;
     int cur = m_view->currentIndex().row();
     if (cur < 0) cur = 0;
     int next = qBound(0, cur + delta, rows - 1);
+    if (next == cur) return;   // boundary: selection unchanged, don't re-announce
     QModelIndex idx = m_model->index(next, 0);
     m_view->setCurrentIndex(idx);
     m_view->scrollTo(idx, QAbstractItemView::EnsureVisible);
+    announceSelection();
 }
 
 QString CompletionPopup::currentText() const
@@ -1392,6 +1448,22 @@ QString CompletionPopup::currentText() const
     QModelIndex idx = m_view->currentIndex();
     if (!idx.isValid()) return QString();
     return idx.data(InsertRole).toString();
+}
+
+QString CompletionPopup::currentAnnouncement() const
+{
+    if (m_sliderMode) return m_rangeSlider->valueText();
+    const int rows = m_model->rowCount();
+    const QModelIndex idx = m_view->currentIndex();
+    if (rows == 0 || !idx.isValid()) return QString();
+    const QString name = idx.data(Qt::DisplayRole).toString();
+    const QString kind = idx.data(KindRole).toString();
+    // "prophet, synth, 1 of 5" — name, kind, then position so the user knows
+    // both where they are and how many options there are.
+    QString s = name;
+    if (!kind.isEmpty()) s += QStringLiteral(", ") + kind;
+    s += QStringLiteral(", ") + tr("%1 of %2").arg(idx.row() + 1).arg(rows);
+    return s;
 }
 
 bool CompletionPopup::isShowing() const

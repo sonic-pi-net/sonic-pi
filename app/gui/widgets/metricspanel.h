@@ -143,7 +143,7 @@ private:
     void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /supersonic/debug → Debug pane, rest → From-SuperSonic
     void updateNodeTree();
     QVector<LogRun> formatOscRuns(const uint8_t* data, uint32_t size,
-                                  uint32_t sequence, uint32_t sourceId, bool outgoing);
+                                  uint32_t sourceId);
 
     std::shared_ptr<SonicPi::SonicPiAPI> m_api;
     QTimer* m_timer = nullptr;

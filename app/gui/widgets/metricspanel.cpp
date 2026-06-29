@@ -763,7 +763,7 @@ void MetricsPanel::buildLogs(QSplitter* col)
 }
 
 QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
-                                            uint32_t sequence, uint32_t sourceId, bool outgoing)
+                                            uint32_t sourceId)
 {
     // Sonic Pi theme syntax colours (fall back to fixed hues pre-theme). Built as
     // coloured runs (not HTML) so the log inserts them via QTextCharFormat,
@@ -778,8 +778,9 @@ QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
     const QColor cStr  = tc("DoubleQuotedStringForeground", "#9ece6a");
 
     QVector<LogRun> runs;
-    runs.append({ cMuted, QStringLiteral("[%1]").arg(sequence) });
-    if (outgoing && sourceId != 0)
+    // Drain-time stamp (no engine timestamp in the ring header); drop detection lives in the Errors panel.
+    runs.append({ cMuted, QStringLiteral("[%1]").arg(QTime::currentTime().toString(QStringLiteral("HH:mm:ss.zzz"))) });
+    if (sourceId != 0)
         runs.append({ cSrc, QStringLiteral(" ch%1").arg(sourceId) });
 
     oscpkt::PacketReader pr(data, size);
@@ -858,8 +859,8 @@ void MetricsPanel::drainOscRing(bool outgoing)
     RingCursor& cur = outgoing ? m_inCursor : m_outCursor;
     QVector<QVector<LogRun>> lines;
     walkRing(rv, cur, m_scratch,
-        [&](uint32_t seq, uint32_t src, const uint8_t* payload, uint32_t n) {
-            lines.append(formatOscRuns(payload, n, seq, src, outgoing));
+        [&](uint32_t /*seq*/, uint32_t src, const uint8_t* payload, uint32_t n) {
+            lines.append(formatOscRuns(payload, n, src));
         });
     appendLogBatch(view, lines);
 }
@@ -877,7 +878,7 @@ void MetricsPanel::drainEgressRing(bool nrt)
     const QColor cTime = m_theme ? m_theme->color("ScrollBarHover") : QColor(QStringLiteral("#7aa2f7"));
     QVector<QVector<LogRun>> debugLines, oscInLines;
     walkRing(rv, cur, m_scratch,
-        [&](uint32_t seq, uint32_t src, const uint8_t* payload, uint32_t n) {
+        [&](uint32_t /*seq*/, uint32_t src, const uint8_t* payload, uint32_t n) {
             // NRT-out frames carry a leading [route:u32] word (OUT too once
             // unified). OSC addresses start with '/', a route word doesn't, so
             // skip 4 bytes when the first byte isn't '/'.
@@ -912,7 +913,7 @@ void MetricsPanel::drainEgressRing(bool nrt)
                 }
             }
             if (m_oscInView)
-                oscInLines.append(formatOscRuns(osc, oscN, seq, src, /*outgoing=*/false));
+                oscInLines.append(formatOscRuns(osc, oscN, src));
         });
     // One coalesced relayout per view, instead of one per drained message.
     appendLogBatch(m_debugView, debugLines);

@@ -61,6 +61,7 @@ public:
     bool show_autocompletion;
     bool show_completion_help;
     bool show_context;
+    bool speak_transport;   // screen reader speaks "Run started"/"Stopped"
     SonicPiTheme::Style themeStyle;
 
     // UpdateSettings;
