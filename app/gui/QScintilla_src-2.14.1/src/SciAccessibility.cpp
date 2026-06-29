@@ -354,6 +354,12 @@ bool QsciAccessibleScintillaBase::boundaries(QsciScintillaBase *sb,
 QString QsciAccessibleScintillaBase::textRange(QsciScintillaBase *sb,
         int start_position, int end_position)
 {
+    // An empty/reversed range yields an empty QByteArray whose data() is Qt's
+    // shared read-only buffer; SCI_GETTEXTRANGE writing its NUL terminator there
+    // is a crash (e.g. VoiceOver querying the current/empty line).
+    if (end_position <= start_position)
+        return QString();
+
     QByteArray bytes(end_position - start_position + 1, '\0');
 
     sb->SendScintilla(QsciScintillaBase::SCI_GETTEXTRANGE, start_position,
