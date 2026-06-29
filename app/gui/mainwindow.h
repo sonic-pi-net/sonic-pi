@@ -33,6 +33,7 @@
 #include "api/osc/osc_pkt.hh"
 
 #include "config.h"
+#include "utils/announcementpolicy.h"
 
 class QAction;
 class QActionGroup;
@@ -316,7 +317,9 @@ private slots:
     void changeShowAutoCompletion();
     void changeShowCompletionHelp();
     void changeShowContext();
+    void changeSpeakTransport();
     void showContextMenuChanged();
+    void speakTransportMenuChanged();
     void oscServerEnabledMenuChanged();
     void allowRemoteOSCMenuChanged();
     void showLogMenuChanged();
@@ -361,8 +364,10 @@ private slots:
     // Move keyboard focus to `pane` so a screen reader follows it; caller first
     // reveals the pane's host (setFocus is ignored on a hidden widget).
     void focusPane(QWidget* pane);
-    // Speak a short message via the screen reader; a no-op when none is active.
-    void announce(const QString& message, bool assertive = false);
+    // Speak a short message via the screen reader; a no-op when no screen reader is
+    // active or when the user has silenced this announcement's category.
+    void announce(const QString& message, bool assertive = false,
+                  SonicPi::Announcement category = SonicPi::Announcement::General);
     // Reveal the Help dock and bring its tab strip to the Docs tab.
     void revealDocsTab();
     void resetErrorPane();
@@ -515,7 +520,7 @@ private:
     void addUniversalCopyShortcuts(QTextEdit* te);
     void updateTranslatedUIText();
 
-    QMenu *shortcutMenu, *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *focusMenu, *tabMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *ioGamepadMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu, *languageMenu;
+    QMenu *shortcutMenu, *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *focusMenu, *tabMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *ioGamepadMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu, *languageMenu, *accessibilityMenu;
     QMap<QString, QKeySequence> shortcutMap;
 
     QSettings* gui_settings;
@@ -582,7 +587,7 @@ private:
     SonicPiTheme* theme;
 
     QToolBar* toolBar;
-    QAction *textUpcaseWordAct, *textDowncaseWordAct, *textDeleteWordRightAct, *textDeleteWordLeftAct, *textSelectAllAct, *textRedoAct, *textUndoAct, *textCenterCaretAct, *textWordLeftAct, *textWordRightAct, *textSelectLineStartAct, *textSelectLineEndAct, *textSelectWordLeftAct, *textSelectWordRightAct, *textSelectDocStartAct, *textSelectDocEndAct, *textDocEndAct, *textDocStartAct, *textLineEndAct, *textLineStartAct, *textDeleteBackAct, *textDeleteForwardAct, *textRightAct, *textLeftAct, *textCopyAct, *textCutAct, *textPasteAct, *textCutToEndOfLineAct, *textDownAct, *textUpAct, *textDownTenAct, *textUpTenAct, *logZoomInAct, *logZoomOutAct, *textSetMarkAct, *winShortcutModeAct, *emacsShortcutModeAct, *macShortcutModeAct, *userShortcutModeAct, *tabPrevAct, *tabNextAct, *tab1Act, *tab2Act, *tab3Act, *tab4Act, *tab5Act, *tab6Act, *tab7Act, *tab8Act, *tab9Act, *tab0Act, *cycleThemesAct, *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textCommentAct, *textTransposeAct, *textShiftLineUpAct, *textShiftLineDownAct, *contextHelpAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *focusBPMScrubberAct, *focusTimeWarpScrubberAct, *showLineNumbersAct, *showAutoCompletionAct, *showCompletionHelpAct, *showContextAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *enableScsynthInputsAct, *midiEnabledAct, *gamepadEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct, *showTitlesAct, *hideMenuBarInFullscreenAct, *showMetroAct, *enableLinkAct, *linkTapTempoAct;
+    QAction *textUpcaseWordAct, *textDowncaseWordAct, *textDeleteWordRightAct, *textDeleteWordLeftAct, *textSelectAllAct, *textRedoAct, *textUndoAct, *textCenterCaretAct, *textWordLeftAct, *textWordRightAct, *textSelectLineStartAct, *textSelectLineEndAct, *textSelectWordLeftAct, *textSelectWordRightAct, *textSelectDocStartAct, *textSelectDocEndAct, *textDocEndAct, *textDocStartAct, *textLineEndAct, *textLineStartAct, *textDeleteBackAct, *textDeleteForwardAct, *textRightAct, *textLeftAct, *textCopyAct, *textCutAct, *textPasteAct, *textCutToEndOfLineAct, *textDownAct, *textUpAct, *textDownTenAct, *textUpTenAct, *logZoomInAct, *logZoomOutAct, *textSetMarkAct, *winShortcutModeAct, *emacsShortcutModeAct, *macShortcutModeAct, *userShortcutModeAct, *tabPrevAct, *tabNextAct, *tab1Act, *tab2Act, *tab3Act, *tab4Act, *tab5Act, *tab6Act, *tab7Act, *tab8Act, *tab9Act, *tab0Act, *cycleThemesAct, *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textCommentAct, *textTransposeAct, *textShiftLineUpAct, *textShiftLineDownAct, *contextHelpAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *focusBPMScrubberAct, *focusTimeWarpScrubberAct, *showLineNumbersAct, *showAutoCompletionAct, *showCompletionHelpAct, *showContextAct, *speakTransportAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *enableScsynthInputsAct, *midiEnabledAct, *gamepadEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct, *showTitlesAct, *hideMenuBarInFullscreenAct, *showMetroAct, *enableLinkAct, *linkTapTempoAct;
 #ifdef Q_OS_MAC
     QAction *syphonPublishAct;
     QAction *syphonShowCursorAct;

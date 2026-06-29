@@ -17,31 +17,30 @@
 #include "dpi.h"
 #include <algorithm>
 #include <iostream>
+#include <QAccessible>
 #include <QCheckBox>
 #include <QKeyEvent>
 #include <QFocusEvent>
 #include <QMouseEvent>
 
 namespace {
-// Fuzzy subsequence match anchored at a word boundary: every char of `pat` must
-// appear in `text` in order (case-insensitive), and crucially the FIRST char must
-// land at the start or just after a separator (`: _ - space`). That anchoring is
-// what keeps results trustworthy — `pla` matches `play*` (and the `paths` word in
-// `sample_paths`, via its boundary `p`, only if the rest follows) but not a
-// mid-word `p`, so junk like `sample_free_all` drops out. Higher `score` = better.
+// Fuzzy subsequence match (fzf / VS Code style): every char of `pat` must appear
+// in `text` in order (case-insensitive), anywhere — so "empo" matches "tempo".
+// Scoring floats start-of-string, word-boundary (`: _ - / space`) and contiguous-
+// run hits above scattered/mid-word ones, so boundary matches rank to the top
+// without excluding mid-word ones. Higher `score` = better.
 bool fuzzyMatch(const QString& pat, const QString& text, int& score) {
     if (pat.isEmpty()) { score = 0; return true; }
     auto isBoundary = [&](int i) {
         if (i == 0) return true;
         const QChar p = text[i - 1];
-        return p == ':' || p == '_' || p == ' ' || p == '-';
+        return p == ':' || p == '_' || p == ' ' || p == '-' || p == '/';
     };
     int ti = 0, pi = 0, run = 0, s = 0, gaps = 0;
     bool startMatch = false;
     while (ti < text.size() && pi < pat.size()) {
         const bool boundary = isBoundary(ti);
-        const bool hit = text[ti].toLower() == pat[pi].toLower()
-                         && (pi != 0 || boundary);   // anchor the first char
+        const bool hit = text[ti].toLower() == pat[pi].toLower();
         if (hit) {
             if (pi == 0 && ti == 0) startMatch = true;
             if (boundary && ti > 0) s += 8;           // reward word-boundary hits
@@ -175,6 +174,9 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     // The popup's "Docs" button opens the help pane (handled by MainWindow).
     connect(m_completion, &CompletionPopup::docsRequested, this,
             [this](const QString& name) { m_completion->hidePopup(); emit docsRequested(name); });
+    // Relay popup navigation announcements up to MainWindow's screen-reader helper.
+    connect(m_completion, &CompletionPopup::announceRequested, this,
+            &SonicPiScintilla::announceRequested);
 
     setSelectionBackgroundColor(theme->color("SelectionBackground"));
     setSelectionForegroundColor(theme->color("SelectionForeground"));
@@ -1264,6 +1266,11 @@ void SonicPiScintilla::replacePreviewSpan(const QString& text)
 void SonicPiScintilla::applyPreview(const QString& sel)
 {
     if (m_pvStart < 0) return;
+    // With a screen reader active, a list preview's buffer edit gets spoken on top
+    // of the popup's own announcement (doubled/garbled speech). Skip the visual
+    // preview for lists; the announcement conveys the selection and Enter still
+    // commits. Slider values are committed live, so keep those.
+    if (!m_pvSlider && QAccessible::isActive()) return;
     // Prepend any separating comma so the preview reads exactly as the commit will.
     replacePreviewSpan(m_pvPrefix + sel);
     m_pvLive = true;   // a selection is now shown in the buffer (Space can commit it)

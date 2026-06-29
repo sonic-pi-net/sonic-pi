@@ -501,6 +501,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
     connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
     connect(settingsWidget, SIGNAL(showContextChanged()), this, SLOT(changeShowContext()));
+    connect(settingsWidget, SIGNAL(speakTransportChanged()), this, SLOT(changeSpeakTransport()));
     connect(settingsWidget, SIGNAL(checkArgsChanged()), this, SLOT(changeAudioSafeMode()));
     connect(settingsWidget, SIGNAL(synthTriggerTimingGuaranteesChanged()), this, SLOT(changeAudioTimingGuarantees()));
     connect(settingsWidget, SIGNAL(enableExternalSynthsChanged()), this, SLOT(changeEnableExternalSynths()));
@@ -610,6 +611,8 @@ void MainWindow::setupWindowStructure()
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
         connect(workspace, &SonicPiScintilla::docsRequested, this,
                 [this](const QString& name) { showHelpForKeyword(name); });
+        connect(workspace, &SonicPiScintilla::announceRequested, this,
+                [this](const QString& msg) { announce(msg, true, SonicPi::Announcement::Navigation); });
         // Append the idiomatic code actions to the editor's right-click menu. The
         // lambda runs when the menu is shown, so the actions already exist by then.
         connect(workspace, &SonicPiScintilla::extendContextMenu, this, [this](QMenu* menu) {
@@ -2112,7 +2115,8 @@ void MainWindow::showError(QString msg)
     focusErrors();
     // Errors are the most important feedback event — announce assertively so
     // screen-reader users hear them (parallels the Run started / Stopped cues).
-    announce(tr("Error: %1").arg(errorPane->toPlainText().simplified()), true);
+    announce(tr("Error: %1").arg(errorPane->toPlainText().simplified()), true,
+             SonicPi::Announcement::Error);
 }
 
 void MainWindow::showBufferCapacityError()
@@ -2123,7 +2127,7 @@ void MainWindow::showBufferCapacityError()
 void MainWindow::runCode()
 {
     scopeWindow->Resume();
-    announce(tr("Run started"));
+    announce(tr("Run started"), false, SonicPi::Announcement::Transport);
 
     // move log cursors to the end of the logs. Keep them read-only but
     // keyboard-selectable so a screen reader can still navigate/read the output
@@ -2349,7 +2353,7 @@ void MainWindow::stopCode()
 {
     stopRunningSynths();
     statusBar()->showMessage(tr("Stopping..."), 2000);
-    announce(tr("Stopped"));
+    announce(tr("Stopped"), false, SonicPi::Announcement::Transport);
 }
 
 void MainWindow::scopeVisibilityChanged()
@@ -2832,6 +2836,12 @@ void MainWindow::showContextMenuChanged()
     changeShowContext();
 }
 
+void MainWindow::speakTransportMenuChanged()
+{
+    piSettings->speak_transport = speakTransportAct->isChecked();
+    emit settingsChanged();
+}
+
 void MainWindow::audioSafeMenuChanged()
 {
     piSettings->check_args = audioSafeAct->isChecked();
@@ -3044,6 +3054,12 @@ void MainWindow::changeShowContext()
 
     QSignalBlocker blocker(showContextAct);
     showContextAct->setChecked(piSettings->show_context);
+}
+
+void MainWindow::changeSpeakTransport()
+{
+    QSignalBlocker blocker(speakTransportAct);
+    speakTransportAct->setChecked(piSettings->speak_transport);
 }
 
 void MainWindow::togglePrefs()
@@ -3770,6 +3786,11 @@ void MainWindow::createToolBar()
     showContextAct->setChecked(piSettings->show_context);
     connect(showContextAct, SIGNAL(triggered()), this, SLOT(showContextMenuChanged()));
 
+    speakTransportAct = new QAction(tr("Speak Run and Stop"), this);
+    speakTransportAct->setCheckable(true);
+    speakTransportAct->setChecked(piSettings->speak_transport);
+    connect(speakTransportAct, SIGNAL(triggered()), this, SLOT(speakTransportMenuChanged()));
+
     enableScsynthInputsAct = new QAction(tr("Enable Audio Inputs"), this);
     enableScsynthInputsAct->setCheckable(true);
     enableScsynthInputsAct->setChecked(piSettings->enable_scsynth_inputs);
@@ -4322,6 +4343,9 @@ void MainWindow::createToolBar()
     viewMenu->addAction(showMetroAct);
     viewMenu->addSeparator();
 
+    accessibilityMenu = viewMenu->addMenu(tr("Accessibility"));
+    accessibilityMenu->addAction(speakTransportAct);
+
     focusMenu = menuBar()->addMenu(tr("Focus"));
     focusMenu->addAction(contextHelpAct);
     focusMenu->addSeparator();
@@ -4764,6 +4788,7 @@ void MainWindow::readSettings()
     piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
     piSettings->show_completion_help = gui_settings->value("prefs/show-completion-help", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
+    piSettings->speak_transport = gui_settings->value("prefs/speak-transport", true).toBool();
 #if defined(Q_OS_WIN)
     int os_shortcut_mode = 2;
 #elif defined(Q_OS_MAC)
@@ -4843,6 +4868,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show-tabs", piSettings->show_tabs);
     gui_settings->setValue("prefs/show-log", piSettings->show_log);
     gui_settings->setValue("prefs/show-context", piSettings->show_context);
+    gui_settings->setValue("prefs/speak-transport", piSettings->speak_transport);
     gui_settings->setValue("prefs/shortcut-mode", piSettings->shortcut_mode);
     gui_settings->setValue("prefs/log-zoom", outputPane->currentZoomLevel());
     gui_settings->setValue("prefs/cue-zoom", incomingPane->currentZoomLevel());
@@ -5533,10 +5559,15 @@ void MainWindow::revealDocsTab()
     updatePrefsIcon();
 }
 
-void MainWindow::announce(const QString& message, bool assertive)
+void MainWindow::announce(const QString& message, bool assertive,
+                          SonicPi::Announcement category)
 {
     // No-op unless a screen reader is connected.
     if (message.isEmpty() || !QAccessible::isActive())
+        return;
+    SonicPi::AnnouncementPolicy policy;
+    policy.speakTransport = piSettings->speak_transport;
+    if (!policy.shouldSpeak(category))
         return;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     // QAccessibleAnnouncementEvent arrived in Qt 6.8; on older Qt this is a no-op.

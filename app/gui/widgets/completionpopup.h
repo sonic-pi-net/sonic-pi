@@ -66,6 +66,9 @@ public:
     void moveSelection(int delta);   // +1/-1 row, or +/- page (slider: linear nudge)
     void sliderNudgeLog(int steps);  // slider: logarithmic (proportional) nudge
     QString currentText() const;     // insert text of the selected row ("" if none)
+    // A screen-reader phrase for the highlighted row (e.g. "prophet, synth, 1 of 5")
+    // or the slider's value text. Empty when there's nothing selected.
+    QString currentAnnouncement() const;
     bool isShowing() const;
     bool isSliderMode() const { return m_sliderMode; }  // value picker vs list
     void hidePopup();
@@ -86,8 +89,14 @@ signals:
     // The "Docs" button was clicked — the editor should open the help pane for
     // this keyword (same as C-i over the word).
     void docsRequested(const QString& name);
+    // The highlighted entry changed via explicit navigation: the editor relays
+    // `text` to the screen reader so suggestions are spoken while focus (and the
+    // typing echo) stay in the editor. Emitted on arrow/page/slider moves only —
+    // never on per-keystroke refiltering, so it doesn't talk over typing.
+    void announceRequested(const QString& text);
 
 private:
+    void announceSelection();     // emit announceRequested() for the current row
     void resizeToContents();
     void computeColumns();
     void updateDetail();          // refresh the docstring/piano for the current row

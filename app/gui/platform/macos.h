@@ -22,6 +22,13 @@ namespace SonicPi {
 
 void removeMacosSpecificMenuItems();
 
+// Accessibility self-test (--selftest-accessibility CLI flag). Drives the real
+// macOS NSAccessibility bridge in-process to confirm the completion popup is
+// pruned from the AX tree and navigation announcements are delivered. Prints
+// findings + PASS/FAIL; returns 0 on pass. Local-only; may need a one-time
+// Privacy > Accessibility grant.
+int runAccessibilitySelfTest();
+
 // Drop the window backing nsViewPtr (cast from QWidget::winId()) to the
 // floating window level. A frameless always-on-top popup uses Qt::ToolTip,
 // which macOS places above everything — including the Cmd-Tab application
@@ -29,6 +36,13 @@ void removeMacosSpecificMenuItems();
 // popup above the editor but below the switcher. Call after each show();
 // no-op if the view has no NSWindow yet.
 void setPopupBelowSwitcher(void* nsViewPtr);
+
+// Hide the window backing nsViewPtr from the accessibility tree. The popup's
+// content view is already pruned (IgnoredAccessible), but its top-level NSWindow
+// still surfaces in the app's AX window list as an AXDialog, so VoiceOver
+// announces "in dialog" when it appears. Strip the window's AX role so it is
+// neither announced nor entered. Call after each show().
+void setWindowAccessibilityIgnored(void* nsViewPtr);
 
 // Request microphone access via AVCaptureDevice. Must be called from the
 // GUI/foreground app (not a background helper) or macOS will auto-deny.

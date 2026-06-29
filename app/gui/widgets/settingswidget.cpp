@@ -588,6 +588,9 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_context = new QCheckBox(tr("Show code context"));
     show_context->setToolTip(tr("When enabled, Sonic Pi's editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor."));
 
+    speak_transport = new QCheckBox(tr("Speak run and stop"));
+    speak_transport->setToolTip(tr("When enabled, a screen reader announces \"Run started\" and \"Stopped\". Disable this if you'd rather hear the very start of your audio without it being ducked by the announcement."));
+
     show_log = new QCheckBox(tr("Show log"));
     show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
     show_log->setChecked(true);
@@ -682,6 +685,12 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_display_box->setLayout(editor_display_box_layout);
     editor_look_feel_box->setLayout(editor_box_look_feel_layout);
 
+    QGroupBox *accessibility_box = new QGroupBox(tr("Accessibility"));
+    accessibility_box->setToolTip(tr("Settings that support screen readers and other assistive tools."));
+    QVBoxLayout *accessibility_box_layout = new QVBoxLayout;
+    accessibility_box_layout->addWidget(speak_transport);
+    accessibility_box->setLayout(accessibility_box_layout);
+
 
     automation_box_layout->addWidget(auto_indent_on_run);
     automation_box_layout->addWidget(full_screen);
@@ -716,6 +725,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     gridEditorPrefs->addWidget(editor_show_panels_box, 1, 1);
 
     gridEditorPrefs->addWidget(debug_box, 0, 1);
+    gridEditorPrefs->addWidget(accessibility_box, 3, 0, 1, 2);
 
 
     editor_box->setLayout(gridEditorPrefs);
@@ -2083,6 +2093,10 @@ void SettingsWidget::showContext() {
   emit showContextChanged();
 }
 
+void SettingsWidget::speakTransport() {
+  emit speakTransportChanged();
+}
+
 void SettingsWidget::toggleLog() {
     emit showLogChanged();
 }
@@ -2225,6 +2239,7 @@ void SettingsWidget::updateSettings() {
     piSettings->show_autocompletion = show_autocompletion->isChecked();
     piSettings->show_completion_help = show_completion_help->isChecked();
     piSettings->show_context = show_context->isChecked();
+    piSettings->speak_transport = speak_transport->isChecked();
     piSettings->show_log = show_log->isChecked();
     piSettings->show_cues = show_cues->isChecked();
     piSettings->show_metro = show_metro->isChecked();
@@ -2310,6 +2325,7 @@ void SettingsWidget::settingsChanged() {
     show_autocompletion->setChecked(piSettings->show_autocompletion);
     show_completion_help->setChecked(piSettings->show_completion_help);
     show_context->setChecked(piSettings->show_context);
+    speak_transport->setChecked(piSettings->speak_transport);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // setChecked emits toggled, not idClicked, so this doesn't echo
     // back to recordingTypeChanged.
@@ -2369,6 +2385,8 @@ void SettingsWidget::connectAll() {
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_completion_help, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_context, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(speak_transport, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(speak_transport, SIGNAL(clicked()), this, SLOT(speakTransport()));
 
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));

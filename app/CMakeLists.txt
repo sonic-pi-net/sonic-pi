@@ -67,6 +67,7 @@ endif()
 add_subdirectory(api)
 add_subdirectory(api-tests)
 add_subdirectory(gui)
+add_subdirectory(gui-tests)
 
 option(BUILD_SPOUT_SMOKETEST "Build tools/spout-receiver smoke-test (Windows)" OFF)
 if(WIN32 AND BUILD_SPOUT_SMOKETEST)
