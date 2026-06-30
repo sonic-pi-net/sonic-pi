@@ -783,6 +783,26 @@ static QString hiResStamp()
                .arg(us % 1000, 3, 10, QLatin1Char('0'));
 }
 
+// The drain timestamp as coloured runs (using the metric rows' two greys): the
+// main time HH:mm:ss.mmm in the brighter grey, the trailing microseconds — the
+// least-significant, noisiest part — in the dimmer grey so they recede.
+QVector<LogRun> MetricsPanel::stampRuns() const
+{
+    const QColor bright = kindColor(K_Dim);    // main time
+    const QColor dim    = kindColor(K_Muted);  // microseconds
+    const QString s = hiResStamp();            // HH:mm:ss.mmm.uuu
+    const int lastDot = s.lastIndexOf(QLatin1Char('.'));
+    QVector<LogRun> runs;
+    if (lastDot < 0) {
+        runs.append({ bright, QLatin1Char('[') + s + QLatin1Char(']') });
+        return runs;
+    }
+    runs.append({ bright, QLatin1Char('[') + s.left(lastDot) });   // [HH:mm:ss.mmm
+    runs.append({ dim,    s.mid(lastDot) });                       // .uuu
+    runs.append({ bright, QStringLiteral("]") });
+    return runs;
+}
+
 QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
                                             uint32_t sourceId)
 {
@@ -798,9 +818,8 @@ QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
     const QColor cNum  = tc("NumberForeground", "#ff9e64");
     const QColor cStr  = tc("DoubleQuotedStringForeground", "#9ece6a");
 
-    QVector<LogRun> runs;
     // Drain-time stamp (no engine timestamp in the ring header); drop detection lives in the Errors panel.
-    runs.append({ cMuted, QStringLiteral("[%1]").arg(hiResStamp()) });
+    QVector<LogRun> runs = stampRuns();
     if (sourceId != 0)
         runs.append({ cSrc, QStringLiteral(" ch%1").arg(sourceId, 3, 10, QLatin1Char('0')) });
 
@@ -895,8 +914,6 @@ void MetricsPanel::drainEgressRing(bool nrt)
     ring_view   rv  = nrt ? m_api->AudioProcessor_GetDebugRing()
                           : m_api->AudioProcessor_GetOutRing();
     RingCursor& cur = nrt ? m_debugCursor : m_outCursor;
-    // Debug-line timestamps in the Sonic Pi accent blue.
-    const QColor cTime = m_theme ? m_theme->color("ScrollBarHover") : QColor(QStringLiteral("#7aa2f7"));
     QVector<QVector<LogRun>> debugLines, oscInLines;
     walkRing(rv, cur, m_scratch,
         [&](uint32_t /*seq*/, uint32_t src, const uint8_t* payload, uint32_t n) {
@@ -925,9 +942,10 @@ void MetricsPanel::drainEgressRing(bool nrt)
                         if (banner) {
                             debugLines.append({ { QColor(), text } });
                         } else {
-                            const QString ts = hiResStamp();
-                            debugLines.append({ { cTime, QStringLiteral("[%1] ").arg(ts) },
-                                                { QColor(), text } });
+                            QVector<LogRun> line = stampRuns();
+                            line.append({ QColor(), QStringLiteral(" ") });
+                            line.append({ QColor(), text });
+                            debugLines.append(line);
                         }
                     }
                     return;

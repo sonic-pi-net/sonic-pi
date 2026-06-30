@@ -142,6 +142,7 @@ private:
     void drainOscRing(bool outgoing);   // outgoing = IN ring (sent), else OUT ring (replies)
     void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /supersonic/debug → Debug pane, rest → From-SuperSonic
     void updateNodeTree();
+    QVector<LogRun> stampRuns() const;   // bracketed hi-res timestamp, alternating grey shades
     QVector<LogRun> formatOscRuns(const uint8_t* data, uint32_t size,
                                   uint32_t sourceId);
 
