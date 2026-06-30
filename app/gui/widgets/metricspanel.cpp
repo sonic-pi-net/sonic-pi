@@ -26,6 +26,7 @@
 #include <vector>
 
 #include <QBrush>
+#include <QEasingCurve>
 #include <QFont>
 #include <QFontMetrics>
 #include <QFrame>
@@ -55,6 +56,7 @@
 #include <QTime>
 #include <QUdpSocket>
 #include <QTimer>
+#include <QVariantAnimation>
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QHash>
@@ -533,6 +535,18 @@ void MetricsPanel::buildUi()
     m_metricsToggle->setBox(kHandleW, 48, 6);
     connect(m_metricsToggle, &QToolButton::clicked, this, &MetricsPanel::toggleMetrics);
     updateChevron();
+
+    // Vertical chevron on the main (left columns | logs) divider — the rotated
+    // sibling of the metrics chevron. A knob centred on the divider: clicking it
+    // (or double-clicking the divider line, handled in eventFilter) minimises the
+    // logs column off to the right and restores it. The line itself stays
+    // draggable for resizing, so the knob is short rather than full-height.
+    m_logsToggle = new ChevronButton(this);
+    m_logsToggle->setBox(kHandleW, 48, 0, ChevronButton::Vertical);
+    connect(m_logsToggle, &QToolButton::clicked, this, &MetricsPanel::toggleLogs);
+    updateLogsChevron();
+    if (QSplitterHandle* mainHandle = mainRow->handle(1))
+        mainHandle->installEventFilter(this);
 
     // Dragging a right-column divider takes it out of auto-reveal (so the drag
     // isn't undone on the next dock resize). The left column's metrics pane is
@@ -1224,20 +1238,23 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     // ties, so the per-splitter sheet is what actually takes. It uses the same
     // flat windowBorder bar + hover as app.qss, keeping the debug-pane dividers
     // identical to the main-GUI separators.
-    const QString handleQss = QString(
+    m_handleQss = QString(
         "QSplitter::handle:horizontal { background:%1; image:none; }"
         "QSplitter::handle:vertical { background:%1; image:none; }"
         "QSplitter::handle:horizontal:hover { background:%2; image:none; }"
         "QSplitter::handle:vertical:hover { background:%2; image:none; }")
         .arg(winBorder, hover);
-    for (QSplitter* s : { m_mainSplit, m_rightSplit })
-        if (s)
-            s->setStyleSheet(handleQss);
-    // The node-tree/metrics divider is drawn by the ChevronButton overlay, so the
-    // splitter's own handle must be transparent — otherwise it paints a second
-    // line that ghosts just above the chevron until a relayout clears it.
+    if (m_rightSplit)
+        m_rightSplit->setStyleSheet(m_handleQss);
+    // The tree/metrics divider line is painted by the metrics ChevronButton (its
+    // band spans the whole divider), so that splitter's own handle stays
+    // transparent to avoid a doubled line.
     if (m_leftSplit)
         m_leftSplit->setStyleSheet("QSplitter::handle { background:transparent; image:none; }");
+    // The logs chevron's band is short, so the main divider's full-height line is
+    // the splitter handle itself — shown while the logs are visible, hidden once
+    // they're collapsed (setDividerLineVisible toggles it).
+    setDividerLineVisible(m_mainSplit, !m_logsMinimised);
 
     // The chevron grip is painted by ChevronButton (not styled via QSS): fill
     // with the exact divider-line colour, brighten to the accent on hover like
@@ -1252,6 +1269,16 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         m_metricsToggle->setColors(theme->color("WindowBorder"),
                                    theme->color("ScrollBarHover"),
                                    glyph);
+    }
+
+    if (m_logsToggle)
+    {
+        const QColor glyph = (theme->getStyle() == SonicPiTheme::HighContrastMode)
+                                 ? QColor(Qt::white)
+                                 : m_textColor;
+        m_logsToggle->setColors(theme->color("WindowBorder"),
+                                theme->color("ScrollBarHover"),
+                                glyph);
     }
 
     if (m_nodeGraph)
@@ -1313,7 +1340,10 @@ void MetricsPanel::showEvent(QShowEvent* e)
     reflowMetrics();   // snap rows by width + pin the metrics pane height
     revealColumns();
     if (m_metricsToggle)
-        m_metricsToggle->raise();   // keep the chevron grip on top
+        m_metricsToggle->raise();   // keep the chevron grips on top
+    if (m_logsToggle)
+        m_logsToggle->raise();
+    positionLogsToggle();
     refresh();
     m_timer->start();
 }
@@ -1326,6 +1356,14 @@ void MetricsPanel::hideEvent(QHideEvent* e)
 
 bool MetricsPanel::eventFilter(QObject* obj, QEvent* e)
 {
+    // Double-clicking the main divider line toggles the logs column, mirroring a
+    // click on its chevron knob.
+    if (m_mainSplit && e->type() == QEvent::MouseButtonDblClick
+        && obj == m_mainSplit->handle(1))
+    {
+        toggleLogs();
+        return true;
+    }
     if ((obj == m_leftSplit || obj == m_rightSplit) && e->type() == QEvent::Resize)
         revealColumns();
     // Re-flow the metric cards (snap 1/2 rows by width) as the pane resizes.
@@ -1448,6 +1486,7 @@ void MetricsPanel::revealColumns()
     }
 
     positionMetricsToggle();
+    positionLogsToggle();
     m_revealing = false;
 }
 
@@ -1475,14 +1514,34 @@ void MetricsPanel::toggleMetrics()
 {
     m_metricsMinimised = !m_metricsMinimised;
 
-    // Collapse the metrics pane to nothing on minimise (node tree fills the
-    // column), or restore it to the height its rows need. The QSplitter follows
-    // the fixed-height child automatically.
-    if (m_metricsScroll)
-        m_metricsScroll->setFixedHeight(m_metricsMinimised ? 0 : m_metricsNeededH);
+    // Ease the metrics pane to nothing on minimise (node tree fills the column),
+    // or back to the height its rows need. The QSplitter follows the fixed-height
+    // child automatically, so animating that height animates the divider.
+    animateMetrics(m_metricsMinimised ? 0 : m_metricsNeededH);
 
     updateChevron();
-    positionMetricsToggle();
+}
+
+void MetricsPanel::animateMetrics(int targetHeight)
+{
+    if (!m_metricsScroll)
+        return;
+    if (!m_metricsAnim)
+    {
+        m_metricsAnim = new QVariantAnimation(this);
+        m_metricsAnim->setDuration(160);
+        m_metricsAnim->setEasingCurve(QEasingCurve::InOutCubic);
+        connect(m_metricsAnim, &QVariantAnimation::valueChanged, this,
+                [this](const QVariant& v) {
+                    if (m_metricsScroll)
+                        m_metricsScroll->setFixedHeight(v.toInt());
+                    positionMetricsToggle();
+                });
+    }
+    m_metricsAnim->stop();
+    m_metricsAnim->setStartValue(m_metricsScroll->height());
+    m_metricsAnim->setEndValue(targetHeight);
+    m_metricsAnim->start();
 }
 
 void MetricsPanel::updateChevron()
@@ -1493,4 +1552,118 @@ void MetricsPanel::updateChevron()
     // minimised (click to show). The glyph is painted by ChevronButton.
     m_metricsToggle->setDir(m_metricsMinimised ? ChevronButton::Up : ChevronButton::Down);
     m_metricsToggle->setToolTip(m_metricsMinimised ? tr("Show metrics") : tr("Minimise metrics"));
+    // The divider line shows while the metrics are visible, and disappears (just
+    // the knob remains) once collapsed.
+    m_metricsToggle->setLineVisible(!m_metricsMinimised);
+}
+
+void MetricsPanel::setDividerLineVisible(QSplitter* s, bool visible)
+{
+    if (!s)
+        return;
+    s->setStyleSheet(visible
+                         ? m_handleQss
+                         : QStringLiteral("QSplitter::handle { background:transparent; image:none; }"));
+}
+
+void MetricsPanel::toggleLogs()
+{
+    if (!m_mainSplit || !m_rightSplit)
+        return;
+    m_logsMinimised = !m_logsMinimised;
+    int target;
+    if (m_logsMinimised)
+    {
+        // Remember the divider position, then ease the logs column to zero width.
+        m_savedMainSizes = m_mainSplit->sizes();
+        target = 0;
+    }
+    else if (m_savedMainSizes.size() == 2)
+    {
+        target = m_savedMainSizes[1];
+    }
+    else
+    {
+        const int w = m_mainSplit->width();
+        target = w - int(w * 0.618);   // golden ratio fallback
+    }
+    animateLogs(target);
+    updateLogsChevron();
+}
+
+void MetricsPanel::animateLogs(int targetLogsWidth)
+{
+    if (!m_mainSplit || !m_rightSplit)
+        return;
+    if (!m_logsAnim)
+    {
+        m_logsAnim = new QVariantAnimation(this);
+        m_logsAnim->setDuration(160);
+        m_logsAnim->setEasingCurve(QEasingCurve::InOutCubic);
+        // Drive the logs column width via its max width (a QSplitter honours a
+        // child's max width even when the split is non-collapsible by drag), then
+        // re-flow the main split to suit.
+        connect(m_logsAnim, &QVariantAnimation::valueChanged, this,
+                [this](const QVariant& v) {
+                    if (!m_mainSplit || !m_rightSplit)
+                        return;
+                    const int rw = v.toInt();
+                    m_rightSplit->setMaximumWidth(rw);
+                    const QList<int> s = m_mainSplit->sizes();
+                    const int total = s.value(0) + s.value(1);
+                    m_mainSplit->setSizes({ total - rw, rw });
+                    positionLogsToggle();
+                });
+        connect(m_logsAnim, &QVariantAnimation::finished, this, [this]() {
+            if (!m_rightSplit)
+                return;
+            // When restored, lift the width clamp so the divider is draggable
+            // again; when minimised, leave it clamped at zero.
+            if (!m_logsMinimised)
+            {
+                m_rightSplit->setMaximumWidth(QWIDGETSIZE_MAX);
+                if (m_savedMainSizes.size() == 2)
+                    m_mainSplit->setSizes(m_savedMainSizes);
+            }
+            positionLogsToggle();
+        });
+    }
+    m_logsAnim->stop();
+    m_logsAnim->setStartValue(m_rightSplit->width());
+    m_logsAnim->setEndValue(targetLogsWidth);
+    m_logsAnim->start();
+}
+
+void MetricsPanel::updateLogsChevron()
+{
+    if (!m_logsToggle)
+        return;
+    // Points right when the logs are shown (click to push them off to the
+    // right), left when minimised (click to bring them back).
+    m_logsToggle->setDir(m_logsMinimised ? ChevronButton::Left : ChevronButton::Right);
+    m_logsToggle->setToolTip(m_logsMinimised ? tr("Show logs") : tr("Minimise logs"));
+    // The divider line (chevron band + the full-height splitter handle behind it)
+    // shows while the logs are visible, and disappears once collapsed.
+    m_logsToggle->setLineVisible(!m_logsMinimised);
+    setDividerLineVisible(m_mainSplit, !m_logsMinimised);
+}
+
+void MetricsPanel::positionLogsToggle()
+{
+    if (!m_logsToggle || !m_mainSplit || !m_leftSplit)
+        return;
+    const int w = m_mainSplit->width();
+    const int h = m_mainSplit->height();
+    if (w <= 0 || h <= 0)
+        return;
+    const int hw = m_mainSplit->handleWidth();
+    // The divider sits just right of the left column. Centre a short knob band on
+    // it — short enough that the rest of the divider line stays draggable.
+    const int dividerCentreX = m_leftSplit->width() + hw / 2;
+    const int bandW = ScaleHeightForDPI(18);
+    const int bandH = ScaleHeightForDPI(64);
+    const int left = qBound(0, dividerCentreX - bandW / 2, qMax(0, w - bandW));
+    // Near the top of the divider (top-right of the pane) rather than centred.
+    const int top = qBound(0, ScaleHeightForDPI(10), qMax(0, h - bandH));
+    m_logsToggle->setGeometry(left, top, bandW, bandH);
 }

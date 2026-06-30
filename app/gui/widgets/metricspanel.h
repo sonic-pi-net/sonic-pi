@@ -15,6 +15,7 @@
 #define METRICSPANEL_H
 
 #include <QColor>
+#include <QList>
 #include <QString>
 #include <QVector>
 #include <QWidget>
@@ -35,6 +36,7 @@ class QFrame;
 class QGridLayout;
 class QScrollArea;
 class QUdpSocket;
+class QVariantAnimation;
 class ChevronButton;
 class NodeTreeGraph;
 class SonicPiTheme;
@@ -136,6 +138,18 @@ private:
     void updateChevron();
     // Place the chevron knob onto the current node-tree / metrics divider.
     void positionMetricsToggle();
+    // Chevron on the main (left columns | logs) divider: collapse the logs
+    // column to the right, or restore it. Mirrors the metrics chevron, rotated.
+    void toggleLogs();
+    void updateLogsChevron();
+    void positionLogsToggle();
+    // Ease the metrics pane height / logs column width to a target instead of
+    // snapping, so collapse and restore animate.
+    void animateMetrics(int targetHeight);
+    void animateLogs(int targetLogsWidth);
+    // Show or hide a splitter's own handle line (used for the main divider, whose
+    // full-height line comes from the handle rather than the short chevron band).
+    void setDividerLineVisible(QSplitter* s, bool visible);
     // Ask SuperSonic (once, after we're tailing the debug ring) to push its
     // build/runtime summary down the debug channel so it shows in the Info pane.
     void requestSupersonicSummary();
@@ -159,8 +173,14 @@ private:
     QScrollArea* m_metricsScroll = nullptr;
     int m_metricsCols = 0;            // current column count of the metric grid
     ChevronButton* m_metricsToggle = nullptr; // chevron grip on the tree/metrics divider
+    ChevronButton* m_logsToggle = nullptr;    // chevron grip on the main (logs) divider
     bool m_splitInit = false;         // seed the main (horizontal) split once, on first show
     bool m_metricsMinimised = false;  // user collapsed the metrics via the chevron
+    bool m_logsMinimised = false;     // user collapsed the logs column via the chevron
+    QList<int> m_savedMainSizes;      // main-split sizes to restore when logs reappear
+    QVariantAnimation* m_metricsAnim = nullptr; // eases the metrics pane height
+    QVariantAnimation* m_logsAnim = nullptr;    // eases the logs column width
+    QString m_handleQss;              // splitter handle stylesheet (visible line)
     bool m_revealing = false;         // re-entrancy guard for revealColumns()
     bool m_rightManual = false;       // user dragged a right column divider — stop auto-revealing it
     int m_metricsNeededH = 0;         // fixed height the current 1/2 rows of cards need
