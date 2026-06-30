@@ -58,6 +58,10 @@ QMap<QString, QString> SonicPiTheme::withCustomSettings(QMap<QString, QString> s
   return settings;
 }
 
+SonicPiTheme::Style SonicPiTheme::getStyle() {
+  return this->style;
+}
+
 void SonicPiTheme::switchStyle(Style style) {
   this->name = themeStyleToName(style);
   this->style = style;

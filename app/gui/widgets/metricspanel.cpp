@@ -1241,11 +1241,18 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
 
     // The chevron grip is painted by ChevronButton (not styled via QSS): fill
     // with the exact divider-line colour, brighten to the accent on hover like
-    // the splitter handle, glyph in the foreground colour.
+    // the splitter handle, glyph in the foreground colour. In high-contrast mode
+    // LogForeground is near-black, which vanishes on the grey divider grip — so
+    // force the glyph to white there to keep the chevron legible.
     if (m_metricsToggle)
+    {
+        const QColor glyph = (theme->getStyle() == SonicPiTheme::HighContrastMode)
+                                 ? QColor(Qt::white)
+                                 : m_textColor;
         m_metricsToggle->setColors(theme->color("WindowBorder"),
                                    theme->color("ScrollBarHover"),
-                                   m_textColor);
+                                   glyph);
+    }
 
     if (m_nodeGraph)
         m_nodeGraph->applyTheme(m_textColor, m_bgColor, m_borderColor,
