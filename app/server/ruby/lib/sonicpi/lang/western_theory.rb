@@ -705,6 +705,7 @@ play chrd  # the same chord as above, but using decimal number strings
         Scale.resolve_scale(tonic, name, num_octaves).ring
       end
       doc name:          :scale,
+      arg_kinds:     [nil, :scale],
       introduced:    Version.new(2,0,0),
       summary:       "Create scale",
       doc:           "Creates a ring of MIDI note numbers when given a tonic note and a scale name. Also takes an optional `num_octaves:` parameter (octave `1` is the default). If only passed the scale name, the tonic defaults to 0. See examples.",
@@ -950,6 +951,7 @@ end",
         return c.ring
       end
       doc name:          :chord,
+      arg_kinds:     [nil, :chord],
       introduced:    Version.new(2,0,0),
       summary:       "Create chord",
       doc:           "Creates an immutable ring of Midi note numbers when given a tonic note and a chord type. If only passed a chord type, will default the tonic to 0. See examples.",

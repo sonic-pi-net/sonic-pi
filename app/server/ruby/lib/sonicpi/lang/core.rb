@@ -154,6 +154,7 @@ module SonicPi
         __cueset(k, val, "set")
       end
       doc name:           :set,
+          arg_kinds:     [:cue],
           introduced:     Version.new(3,0,0),
           summary:        "Store information in the Time State",
           doc:            "Store information in the Time State for the current time for either the current or any other thread. If called multiple times without an intervening call to `sleep`, `sync`, `set` or `cue`, the last value set will prevail. The value will remain in the Time State until overwritten by another call to `set`, or until Sonic Pi quits.
@@ -200,6 +201,7 @@ end
         __cueset(k, splat_map_or_arr, "cue")
       end
       doc name:           :cue,
+          arg_kinds:     [:cue],
           introduced:     Version.new(2,0,0),
           summary:        "Cue other threads",
           doc:            "Send a heartbeat synchronisation message containing the (virtual) timestamp of the current thread. Useful for syncing up external threads via the `sync` fn. Any opts which are passed are given to the thread which syncs on the `cue_id`. The values of the opts must be immutable. Currently numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values are supported.",
@@ -345,6 +347,7 @@ end
         end
       end
       doc name:           :get,
+          arg_kinds:     [:cue],
           introduced:     Version.new(3,0,0),
           summary:        "Get information from the Time State",
           doc:            "Retrieve information from Time State set prior to the current time from either the current or any other thread. If called multiple times will always return the same value unless a call to `sleep`, `sync`, `set` or `cue` is interleaved. Also, calls to `get` will always return the same value across Runs for deterministic behaviour - which means you may safely use it in your compositions for repeatable music. If no value is stored with the relevant key, will return `nil`.
@@ -4673,6 +4676,7 @@ puts current_sched_ahead_time # Prints 0.5"]
         sync_event(*args).val
       end
       doc name:           :sync,
+          arg_kinds:     [:cue],
           introduced:     Version.new(2,0,0),
           summary:        "Sync with other threads",
           doc:            "Pause/block the current thread until a `cue` heartbeat with a matching `cue_id` is received. When a matching `cue` message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the `cue` heartbeat. The current thread is therefore synced to the `cue` thread. If multiple cue ids are passed as arguments, it will `sync` on the first matching `cue_id`. The BPM of the cueing thread can optionally be inherited by using the bpm_sync: opt.",

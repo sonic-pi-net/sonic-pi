@@ -17,6 +17,8 @@
 #include <cmath>
 #include <QRegularExpression>
 #include "scintilla_api.h"
+#include "completion_context.h"
+#include "completion_argkinds.gen.h"
 
 using namespace std;
 
@@ -377,7 +379,6 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
   }
 
   QString last = words.isEmpty() ? "" : words.last();
-  QString lastButOne = words.length() < 2 ? "" : words[words.length()-2];
   QString first = words.isEmpty() ? "" : words.first();
   QString second = words.length() < 2 ? "" : words[1];
 
@@ -388,28 +389,38 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
     cout << "words[" << i << "] = " << words[i].toStdString() << endl;
   cout << "first = " << first.toStdString()
        << ", second = " << second.toStdString()
-       << ", lastButOne = " << lastButOne.toStdString()
        << ", last = " << last.toStdString()
        << ", partial = " << partial.toStdString() << endl;
   */
 
-  if (last == "sample" || last == "sample_info" || last == "sample_duration" || last == "use_sample_bpm" || last == "sample_buffer" || last == "sample_loaded?" || last == "load_sample" || last == "load_samples") {
-    ctx = Sample;
-  } else if (last == "sync" || last == "sync:" || last == "cue" || last == "get" || last == "set" || last == "get[" ) {
+  // Name/value-slot contexts come from the generated arg-kinds table (the language
+  // metadata's `arg_kinds:` tags) via resolveArgKind — the single source, so
+  // detection can't drift from the language. Opt-VALUE slots (MIDI `port:`, `sync:`)
+  // aren't positional args so stay inline, as do the untagged examples/random/
+  // tuning. Note slots resolve to Func here and fall through to the note handling.
+  static const SonicPi::ArgKindTable s_argKinds = SonicPi::generatedArgKinds();
+  switch (SonicPi::resolveArgKind(context, s_argKinds)) {
+    case SonicPi::ArgKind::Sample:           ctx = Sample; break;
+    case SonicPi::ArgKind::CuePath:          ctx = CuePath; break;
+    case SonicPi::ArgKind::Fx:               ctx = FX; break;
+    case SonicPi::ArgKind::Synth:            ctx = Synth; break;
+    case SonicPi::ArgKind::Scale:            ctx = Scale; break;
+    case SonicPi::ArgKind::Chord:            ctx = Chord; break;
+    case SonicPi::ArgKind::LinkAudioPeer:    ctx = LinkAudioPeer; break;
+    case SonicPi::ArgKind::LinkAudioChannel: ctx = LinkAudioChannel; break;
+    default: break;
+  }
+
+  if (ctx != Func) {
+    // resolved from the metadata table above
+  } else if (last == "sync:") {
     ctx = CuePath;
-  } else if (last == "with_fx") {
-    ctx = FX;
-  } else if (last == "with_synth" || last == "use_synth" || last == "synth") {
-    ctx = Synth;
+  } else if ((first == "midi" || first.startsWith("midi_") || first == "use_midi_defaults" || first == "with_midi_defaults") && last == "port:") {
+    ctx = MidiOuts;
   } else if (last == "load_example") {
     ctx = Examples;
   } else if (last == "use_random_source" || last == "with_random_source") {
     ctx = RandomSource;
-  // autocomplete the second arg of scale/chord
-  } else if (lastButOne == "scale") {
-    ctx = Scale;
-  } else if (lastButOne == "chord") {
-    ctx = Chord;
   } else if (last == "use_tuning" || last == "with_tuning") {
     ctx = Tuning;
 
@@ -432,10 +443,12 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
       return;
     }
 
-  // Play params — only the opts for the synth currently in effect (set by
-  // use_synth, resolved live from the editor; defaults to :beep). Falls back to
-  // the generic PlayParam list only if that synth's args aren't known.
-  } else if (words.length() >= 2 && first == "play") {
+  // Play/control params — the opts for the synth currently in effect (set by
+  // use_synth, resolved live; defaults to :beep). control modulates a node whose
+  // synth may differ from the current one, but opts overlap heavily across synths
+  // (amp/note/cutoff/pan/release + slides), so the current synth is a good-enough
+  // suggestion source. Falls back to the generic PlayParam list when unknown.
+  } else if (words.length() >= 2 && (first == "play" || first == "control")) {
     if (last.endsWith(':')) return; // don't try to complete parameters
     QString synth = synthResolver ? synthResolver() : QString();
     if (!synth.isEmpty()) {
@@ -455,18 +468,9 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
   } else if (first == "use_sample_defaults" || first == "with_sample_defaults") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = SampleParam;
-  } else if ((first == "midi" || (first.startsWith("midi_")) || (first == "use_midi_defaults") || (first == "with_midi_defaults")) && last == "port:") {
-    ctx = MidiOuts;
-  }  else if (words.length() >= 2 && first == "midi") {
+  } else if (words.length() >= 2 && first == "midi") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = MidiParam;
-
-  // link_audio: peer name as the first arg, channel name as the second
-  } else if (last == "link_audio") {
-    ctx = LinkAudioPeer;
-  } else if (words.length() >= 2 && first == "link_audio") {
-    if (last.endsWith(':')) return; // don't try to complete opts
-    ctx = LinkAudioChannel;
   } else if (context.length() > 1) {
     if (partial.length() <= 2) {
       // don't attempt to autocomplete other words on the same line

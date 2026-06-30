@@ -20,13 +20,27 @@ if(NOT TARGET Catch2::Catch2)
   return()
 endif()
 
+# Some tests include the generated completion metadata (completion_argkinds.gen.h),
+# produced by qt-doc.rb during pre-translations. If it hasn't been generated yet,
+# skip rather than fail with a cryptic missing-include error.
+if(NOT EXISTS ${GUI_ROOT}/utils/completion_argkinds.gen.h)
+  message(WARNING "completion_argkinds.gen.h not generated (run pre-translations); skipping gui-tests")
+  return()
+endif()
+
 set(CMAKE_AUTOMOC ON)
 
 add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/main.cpp
     ${GUI_TESTS_ROOT}/completionpopup_a11y.test.cpp
     ${GUI_TESTS_ROOT}/announcementpolicy.test.cpp
+    ${GUI_TESTS_ROOT}/completion_context.test.cpp
+    ${GUI_TESTS_ROOT}/arg_kind.test.cpp
+    ${GUI_TESTS_ROOT}/argkinds_generated.test.cpp
+    ${GUI_TESTS_ROOT}/completion_detect.test.cpp
+    ${GUI_TESTS_ROOT}/completion_rank.test.cpp
     ${GUI_ROOT}/widgets/completionpopup.cpp
+    ${GUI_ROOT}/utils/completion_context.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

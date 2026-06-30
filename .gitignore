@@ -70,6 +70,8 @@ app/gui/moc_sonicpiudpserver.cpp
 app/gui/qrc_SonicPi.cpp
 app/gui/utils/ruby_help.h
 app/gui/utils/lang_list.h
+app/gui/utils/completion_argkinds.gen.h
+app/gui/utils/patreon_supporters.h
 app/gui/help/*.html
 app/gui/help_files.qrc
 app/gui/lang/*.qm

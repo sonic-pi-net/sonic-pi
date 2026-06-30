@@ -123,6 +123,7 @@ set(QT_SOURCES
 set(SOURCES
     ${QTAPP_ROOT}/main.cpp
     ${QTAPP_ROOT}/utils/scintilla_api.cpp
+    ${QTAPP_ROOT}/utils/completion_context.cpp
     ${QTAPP_ROOT}/utils/sonicpi_i18n.cpp
     ${QTAPP_ROOT}/widgets/sonicpilog.cpp
     ${QTAPP_ROOT}/widgets/sonicpilog.h

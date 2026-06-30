@@ -14,6 +14,7 @@
 #include "sonicpiscintilla.h"
 #include "completionpopup.h"
 #include "utils/scintilla_api.h"
+#include "utils/completion_context.h"
 #include "dpi.h"
 #include <algorithm>
 #include <iostream>
@@ -23,43 +24,6 @@
 #include <QFocusEvent>
 #include <QMouseEvent>
 
-namespace {
-// Fuzzy subsequence match (fzf / VS Code style): every char of `pat` must appear
-// in `text` in order (case-insensitive), anywhere — so "empo" matches "tempo".
-// Scoring floats start-of-string, word-boundary (`: _ - / space`) and contiguous-
-// run hits above scattered/mid-word ones, so boundary matches rank to the top
-// without excluding mid-word ones. Higher `score` = better.
-bool fuzzyMatch(const QString& pat, const QString& text, int& score) {
-    if (pat.isEmpty()) { score = 0; return true; }
-    auto isBoundary = [&](int i) {
-        if (i == 0) return true;
-        const QChar p = text[i - 1];
-        return p == ':' || p == '_' || p == ' ' || p == '-' || p == '/';
-    };
-    int ti = 0, pi = 0, run = 0, s = 0, gaps = 0;
-    bool startMatch = false;
-    while (ti < text.size() && pi < pat.size()) {
-        const bool boundary = isBoundary(ti);
-        const bool hit = text[ti].toLower() == pat[pi].toLower();
-        if (hit) {
-            if (pi == 0 && ti == 0) startMatch = true;
-            if (boundary && ti > 0) s += 8;           // reward word-boundary hits
-            ++run;
-            s += 1 + run * 3;
-            ++pi;
-        } else {
-            if (pi > 0) ++gaps;                       // skipped char inside a match
-            run = 0;
-        }
-        ++ti;
-    }
-    if (pi != pat.size()) return false;
-    if (startMatch) s += 20;
-    s -= gaps * 2;                                    // penalise scattered matches
-    score = s;
-    return true;
-}
-} // namespace
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -525,80 +489,16 @@ void SonicPiScintilla::moveLineOrSelection(int numLines)
 QStringList SonicPiScintilla::apiContext(int pos, int& context_start,
     int& last_word_start)
 {
-    QStringList context;
-    // sampl|
-    // sample |
-    // chord :E3,|
-
+    // sampl|  /  sample |  /  chord :E3,|
     int linenum, cursor;
     getCursorPosition(&linenum, &cursor);
-    QString line = text(linenum);
-    line.truncate(cursor);
-
-    // A trailing statement modifier or operator (`... if cond`, `unless`, `while`,
-    // `until`, `and`, `or`, `then`, `do`, `;`, `&&`, `||`) ends the call's argument
-    // list — text after it is a fresh expression, not another opt. Drop up to the
-    // last such top-level token (ignoring ones inside strings or brackets) so we
-    // don't offer the call's opts there: `sample :bd, amp: 1 if foo, p|` ≠ `pan:`.
-    {
-        static const QStringList mods = { "if", "unless", "while", "until",
-                                          "and", "or", "then", "do" };
-        int depth = 0, cut = -1;
-        QChar quote;
-        for (int i = 0; i < line.length(); ++i)
-        {
-            const QChar c = line[i];
-            if (!quote.isNull()) { if (c == quote) quote = QChar(); continue; }
-            if (c == '"' || c == '\'') { quote = c; continue; }
-            if (c == '(' || c == '[' || c == '{') { ++depth; continue; }
-            if (c == ')' || c == ']' || c == '}') { if (depth > 0) --depth; continue; }
-            if (depth != 0) continue;
-            if (c == ';') { cut = i + 1; continue; }
-            if ((c == '&' && i + 1 < line.length() && line[i + 1] == '&') ||
-                (c == '|' && i + 1 < line.length() && line[i + 1] == '|'))
-            { cut = i + 2; ++i; continue; }
-            const bool startsWord = (c.isLetter() || c == '_') &&
-                (i == 0 || !(line[i - 1].isLetterOrNumber() || line[i - 1] == '_'));
-            if (!startsWord) continue;
-            int j = i;
-            while (j < line.length() && (line[j].isLetterOrNumber() || line[j] == '_')) ++j;
-            if (mods.contains(line.mid(i, j - i))) cut = j;
-            i = j - 1;
-        }
-        if (cut >= 0)
-        {
-            while (cut < line.length() && line[cut] == ' ') ++cut;
-            line = line.mid(cut);
-        }
-    }
-
-    // Resolve nested calls to the innermost one: `play (scale ` should complete
-    // scale's args, not play's. Drop everything up to the last unclosed bracket.
-    int innermost = -1;
-    QList<int> open;
-    for (int i = 0; i < line.length(); ++i) {
-        const QChar c = line[i];
-        if (c == '(' || c == '[' || c == '{') open.append(i);
-        else if ((c == ')' || c == ']' || c == '}') && !open.isEmpty()) open.removeLast();
-    }
-    if (!open.isEmpty()) innermost = open.last();
-    if (innermost >= 0) {
-        // Keep the function name when '(' is its call paren (`scale(60,` — an
-        // identifier flush against the bracket), so the args still read as
-        // scale/chord/note. A space before '(' marks a grouping paren — drop it.
-        int s = innermost;
-        while (s > 0 && (line[s - 1].isLetterOrNumber() || line[s - 1] == '_')) --s;
-        const QString fn = line.mid(s, innermost - s);
-        line = line.mid(innermost + 1);
-        if (!fn.isEmpty()) line = fn + " " + line;
-    }
-
-    context = line.split(QRegularExpression("[ ,(){}]+"));
 
     context_start = 0;
     last_word_start = pos;
 
-    return context;
+    // The token reduction is a pure function (utils/completion_context) so the
+    // completion detection it drives can be tested from hardcoded text + cursor.
+    return SonicPi::lineToContext(text(linenum), cursor);
 }
 
 int SonicPiScintilla::incLineNumWithinBounds(int linenum, int inc)
@@ -1119,7 +1019,7 @@ void SonicPiScintilla::updateCompletion()
         for (int i = 0; i < items.size(); ++i)
         {
             int sc;
-            if (fuzzyMatch(partial, items[i].text, sc))
+            if (SonicPi::fuzzyMatch(partial, items[i].text, sc))
                 ranked.append(qMakePair(sc, i));
         }
         std::stable_sort(ranked.begin(), ranked.end(),

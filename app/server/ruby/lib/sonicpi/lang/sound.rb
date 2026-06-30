@@ -257,6 +257,7 @@ module SonicPi
         sn
       end
       doc name:           :link_audio,
+          arg_kinds:     [:link_peer, :link_channel],
           introduced:     Version.new(7, 0, 0),
           summary:        "A named audio stream live from an Ableton Link peer",
           args:           [[:peer, :string], [:channel, :string]],
@@ -693,6 +694,7 @@ end"]
         use_bpm(num_beats * (60.0 / sd))
       end
       doc name:           :use_sample_bpm,
+          arg_kinds:     [:sample],
           introduced:     Version.new(2,1,0),
           summary:        "Sample-duration-based bpm modification",
           doc:            "Modify bpm so that sleeping for 1 will sleep for the duration of the sample.",
@@ -732,6 +734,7 @@ end"]
         with_bpm(num_beats * (60.0 / sd), &block)
       end
       doc name:           :with_sample_bpm,
+          arg_kinds:     [:sample],
           introduced:     Version.new(2,1,0),
           summary:        "Block-scoped sample-duration-based bpm modification",
           doc:            "Block-scoped modification of bpm so that sleeping for 1 will sleep for the duration of the sample.",
@@ -1014,6 +1017,7 @@ play 90 # Args are checked
         set_current_synth synth_name
       end
       doc name:          :use_synth,
+          arg_kinds:     [:synth],
           introduced:    Version.new(2,0,0),
           summary:       "Switch current synth",
           doc:           "Switch the current synth to `synth_name`. Affects all further calls to `play`. See `with_synth` for changing the current synth only for a specific `do`/`end` block.",
@@ -1039,6 +1043,7 @@ play 50 # Plays with mod_sine synth"]
         res
       end
       doc name:           :with_synth,
+          arg_kinds:     [:synth],
           introduced:     Version.new(2,0,0),
           summary:        "Block-level synth switching",
           doc:            "Switch the current synth to `synth_name` but only for the duration of the `do`/`end` block. After the `do`/`end` block has completed, the previous synth is restored.",
@@ -1261,6 +1266,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
         res_node
       end
       doc name:          :synth,
+          arg_kinds:     [:synth],
           introduced:    Version.new(2,0,0),
           summary:       "Trigger specific synth",
           doc:           "Trigger specified synth with given opts. Bypasses `current_synth` value, yet still honours `current_synth_defaults`. When using `synth`, the note is no longer an explicit argument but an opt with the key `note:`.
@@ -2050,6 +2056,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
         block_res
       end
       doc name:           :with_fx,
+          arg_kinds:     [:fx],
           introduced:     Version.new(2,0,0),
           summary:        "Use Studio FX",
           doc:            "This applies the named effect (FX) to everything within a given `do`/`end` block. Effects may take extra parameters to modify their behaviour. See FX help for parameter details.
@@ -2275,6 +2282,7 @@ set_volume! 2 # Set the main system volume to 2",
       end
 
       doc name:          :sample_loaded?,
+          arg_kinds:     [:sample],
           introduced:    Version.new(2,2,0),
           summary:       "Test if sample was pre-loaded",
           doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` file, returns `true` if the sample has already been loaded.",
@@ -2293,6 +2301,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
         load_sample_at_path path
       end
       doc name:          :load_sample,
+          arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load first matching sample",
           doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` file, pre-loads the sample into memory.
@@ -2323,6 +2332,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
         end
       end
       doc name:          :load_samples,
+          arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load all matching samples",
           doc:           "Given a directory containing multiple `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` files, pre-loads all the samples into memory.
@@ -2370,6 +2380,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
         sample_buffer(*args)
       end
       doc name:          :sample_info,
+          arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Get sample information",
           doc:           "Alias for the `load_sample` method. Loads sample if necessary and returns sample information.",
@@ -2387,6 +2398,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
         load_sample_at_path(path)
       end
       doc name:          :sample_buffer,
+          arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Get sample data",
           doc:           "Alias for the `load_sample` method. Loads sample if necessary and returns buffer information.",
@@ -2439,6 +2451,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
       end
 
       doc name:          :sample_duration,
+          arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Get duration of sample in beats",
           doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an effect on the playback duration such as `rate:`. The time returned is scaled to the current BPM.
@@ -2689,6 +2702,7 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
       end
 
       doc name:          :sample,
+          arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Trigger sample",
           doc:           "Play back a recorded sound file (sample). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` files from anywhere on your computer too. To play a built-in sample use the corresponding keyword such as `sample :bd_haus`. To play any file on your computer use a full path such as `sample \"/path/to/sample.wav\"`.
