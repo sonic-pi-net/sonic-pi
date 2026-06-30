@@ -20,6 +20,7 @@
 #include <api/osc/osc_pkt.hh>
 
 #include <atomic>
+#include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <vector>
@@ -50,6 +51,7 @@
 #include <QTextEdit>
 #include <QTextFrame>
 #include <QTextFrameFormat>
+#include <QDateTime>
 #include <QTime>
 #include <QUdpSocket>
 #include <QTimer>
@@ -762,6 +764,25 @@ void MetricsPanel::buildLogs(QSplitter* col)
     m_oscInView  = addLogCard(tr("From SuperSonic"));  // engine → host (replies)
 }
 
+// Wall-clock drain stamp with microsecond resolution. QTime is millisecond-only,
+// so take a single std::chrono reading and derive both the HH:mm:ss (via Qt, for
+// local-tz/DST correctness) and the µs-of-second fraction from the same value.
+static QString hiResStamp()
+{
+    const int64_t us =
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+            .count();
+    // HH:mm:ss.mmm.uuu — split the sub-second part into millis and micros so the
+    // groups are readable at a glance (e.g. 09:13:39.966.142).
+    return QDateTime::fromMSecsSinceEpoch(us / 1000)
+               .time()
+               .toString(QStringLiteral("HH:mm:ss"))
+         + QStringLiteral(".%1.%2")
+               .arg((us / 1000) % 1000, 3, 10, QLatin1Char('0'))
+               .arg(us % 1000, 3, 10, QLatin1Char('0'));
+}
+
 QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
                                             uint32_t sourceId)
 {
@@ -779,7 +800,7 @@ QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
 
     QVector<LogRun> runs;
     // Drain-time stamp (no engine timestamp in the ring header); drop detection lives in the Errors panel.
-    runs.append({ cMuted, QStringLiteral("[%1]").arg(QTime::currentTime().toString(QStringLiteral("HH:mm:ss.zzz"))) });
+    runs.append({ cMuted, QStringLiteral("[%1]").arg(hiResStamp()) });
     if (sourceId != 0)
         runs.append({ cSrc, QStringLiteral(" ch%1").arg(sourceId, 3, 10, QLatin1Char('0')) });
 
@@ -904,7 +925,7 @@ void MetricsPanel::drainEgressRing(bool nrt)
                         if (banner) {
                             debugLines.append({ { QColor(), text } });
                         } else {
-                            const QString ts = QTime::currentTime().toString(QStringLiteral("HH:mm:ss.zzz"));
+                            const QString ts = hiResStamp();
                             debugLines.append({ { cTime, QStringLiteral("[%1] ").arg(ts) },
                                                 { QColor(), text } });
                         }
