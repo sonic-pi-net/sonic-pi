@@ -976,6 +976,12 @@ CompletionPopup::CompletionPopup(QWidget* parent)
         if (m_hasIllo) m_optIllo->setValue(m_rangeSlider->valueText().toDouble());
         emit previewChanged(m_rangeSlider->valueText());
     });
+
+    // Realise the native window up front so the first move() (which happens
+    // before the first show()) targets a real window: macOS drops pre-creation
+    // geometry, so without this the first popup ignores its position and lands
+    // over the caret instead of below it.
+    createWinId();
 }
 
 void CompletionPopup::paintEvent(QPaintEvent*)
