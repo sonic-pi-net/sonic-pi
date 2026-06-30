@@ -15,6 +15,7 @@
 #include <QStyledItemDelegate>
 #include <QTextEdit>
 #include <QTextBrowser>
+#include <QTextDocumentFragment>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QToolButton>
@@ -1462,11 +1463,26 @@ QString CompletionPopup::currentAnnouncement() const
     if (rows == 0 || !idx.isValid()) return QString();
     const QString name = idx.data(Qt::DisplayRole).toString();
     const QString kind = idx.data(KindRole).toString();
-    // "prophet, synth, 1 of 5" — name, kind, position.
+    const QString summary = idx.data(SummaryRole).toString();
+    // "prophet, synth, analogue-style synth, 1 of 5" — name, kind, summary (the
+    // detail a screen reader can't see in the docs pane), position.
     QString s = name;
     if (!kind.isEmpty()) s += QStringLiteral(", ") + kind;
+    if (!summary.isEmpty()) s += QStringLiteral(", ") + summary;
     s += QStringLiteral(", ") + tr("%1 of %2").arg(idx.row() + 1).arg(rows);
     return s;
+}
+
+// The current item's full docstring as plain text — the same content shown in the
+// docs pane, for a screen reader to hear on demand (the pane itself is pruned from
+// the a11y tree). Empty when there's no doc or no selection.
+QString CompletionPopup::currentDoc() const
+{
+    const QModelIndex idx = m_view->currentIndex();
+    if (!idx.isValid()) return QString();
+    const QString html = idx.data(DocRole).toString();
+    if (html.isEmpty()) return QString();
+    return QTextDocumentFragment::fromHtml(html).toPlainText().simplified();
 }
 
 bool CompletionPopup::isShowing() const

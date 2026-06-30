@@ -862,10 +862,26 @@ static void addBufferDefs(QList<CompletionItem>& items, const QString& buffer,
     }
 }
 
-void SonicPiScintilla::updateCompletion()
+void SonicPiScintilla::triggerCompletion()
+{
+    // Explicit invocation (menu/shortcut): show suggestions at the caret even when
+    // automatic completion is turned off, so it can be used purely on demand.
+    updateCompletion(true);
+}
+
+void SonicPiScintilla::announceCompletionDetails()
+{
+    // Speak the highlighted item's full docstring on demand — the docs pane is
+    // pruned from the accessibility tree, so this is how a screen reader hears it.
+    if (!m_completion || !m_completion->isShowing()) return;
+    const QString doc = m_completion->currentDoc();
+    if (!doc.isEmpty()) emit announceRequested(doc);
+}
+
+void SonicPiScintilla::updateCompletion(bool force)
 {
     if (!m_completion) return;
-    if (!m_completionEnabled)
+    if (!m_completionEnabled && !force)
     {
         clearPreview(); endPreview();
         m_completion->hidePopup();
@@ -1043,7 +1059,7 @@ void SonicPiScintilla::updateCompletion()
     // same zoomed value, NOT the clamped list size, so it keeps following zoom
     // even once the list font saturates at its max. Notched down by a fixed
     // offset so the prose sits comfortably below the editor text size.
-    constexpr double kDocFontOffset = 4.0;
+    constexpr double kDocFontOffset = 3.0;
     QFont codeFont = lexer() ? lexer()->defaultFont() : font();
     const double zoomed = codeFont.pointSize() + SendScintilla(SCI_GETZOOM);
     codeFont.setPointSizeF(qBound(8.0, zoomed * 0.82, 15.0));

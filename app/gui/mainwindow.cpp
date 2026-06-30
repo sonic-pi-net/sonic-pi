@@ -1412,6 +1412,18 @@ void MainWindow::setMarkInCurrentWorkspace()
     ws->setMark();
 }
 
+void MainWindow::triggerAutocompleteInCurrentWorkspace()
+{
+    if (SonicPiScintilla* ws = getCurrentWorkspace())
+        ws->triggerCompletion();
+}
+
+void MainWindow::readCompletionDetailsInCurrentWorkspace()
+{
+    if (SonicPiScintilla* ws = getCurrentWorkspace())
+        ws->announceCompletionDetails();
+}
+
 void MainWindow::toggleCommentInCurrentWorkspace()
 {
     SonicPiScintilla* ws = getCurrentWorkspace();
@@ -3306,7 +3318,9 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "ShowButtons", QT_TR_NOOP("Show or hide the buttons"), "ShiftMeta+b", "ShiftMeta+b", "ShiftMeta+b", "View", &MainWindow::showButtonsAct },
     { "ShowCueLog", QT_TR_NOOP("Show or hide the cue log"), "ShiftMeta+c", "ShiftMeta+c", "ShiftMeta+c", "View", &MainWindow::showCuesAct },
     { "ShowLog", QT_TR_NOOP("Show or hide the log"), "ShiftMeta+l", "ShiftMeta+l", "ShiftMeta+l", "View", &MainWindow::showLogAct },
-    { "SetMark", QT_TR_NOOP("Set a mark in the text"), "Ctrl+Space", "Ctrl+Space", "Ctrl+Space", "Code", &MainWindow::textSetMarkAct },
+    { "SetMark", QT_TR_NOOP("Set a mark in the text"), "CtrlShift+Space", "CtrlShift+Space", "Ctrl+Space", "Code", &MainWindow::textSetMarkAct },
+    { "TriggerAutocomplete", QT_TR_NOOP("Trigger code completion"), "Ctrl+Space", "Ctrl+Space", "CtrlMeta+Space", "Code", &MainWindow::triggerAutocompleteAct },
+    { "ReadCompletionDetails", QT_TR_NOOP("Read code completion details"), "CtrlShift+i", "CtrlShift+i", "CtrlShift+i", "Accessibility", &MainWindow::readCompletionDetailsAct },
     { "LogZoomIn", QT_TR_NOOP("Zoom in the log"), "Ctrl+=", "Ctrl+=", "Ctrl+=", "View", &MainWindow::logZoomInAct },
     { "LogZoomOut", QT_TR_NOOP("Zoom out the log"), "Ctrl+-", "Ctrl+-", "Ctrl+-", "View", &MainWindow::logZoomOutAct },
     { "Down", QT_TR_NOOP("Move Cursor Down"), "Ctrl+n", "Ctrl+n", "Ctrl+n", "Code", &MainWindow::textDownAct },
@@ -3877,6 +3891,12 @@ void MainWindow::createToolBar()
     textSetMarkAct = new QAction(tr("Set Mark"), this);
     connect(textSetMarkAct, SIGNAL(triggered()), this, SLOT(setMarkInCurrentWorkspace()));
 
+    triggerAutocompleteAct = new QAction(tr("Trigger Autocomplete"), this);
+    connect(triggerAutocompleteAct, SIGNAL(triggered()), this, SLOT(triggerAutocompleteInCurrentWorkspace()));
+
+    readCompletionDetailsAct = new QAction(tr("Read Completion Details"), this);
+    connect(readCompletionDetailsAct, SIGNAL(triggered()), this, SLOT(readCompletionDetailsInCurrentWorkspace()));
+
     toolBar->addAction(scopeAct);
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
@@ -3906,6 +3926,7 @@ void MainWindow::createToolBar()
     codeMenu->addAction(textCutToEndOfLineAct);
     codeMenu->addAction(textSelectAllAct);
     codeMenu->addAction(textSetMarkAct);
+    codeMenu->addAction(triggerAutocompleteAct);
     codeMenu->addSeparator();
     codeMenu->addAction(textUndoAct);
     codeMenu->addAction(textRedoAct);
@@ -4345,6 +4366,7 @@ void MainWindow::createToolBar()
 
     accessibilityMenu = viewMenu->addMenu(tr("Accessibility"));
     accessibilityMenu->addAction(speakTransportAct);
+    accessibilityMenu->addAction(readCompletionDetailsAct);
 
     focusMenu = menuBar()->addMenu(tr("Focus"));
     focusMenu->addAction(contextHelpAct);

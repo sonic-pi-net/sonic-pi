@@ -64,6 +64,8 @@ public slots:
     void tabCompleteifList();
     void transposeChars();
     void setMark();
+    void triggerCompletion();          // explicitly invoke completion (menu/shortcut), even when auto-completion is off
+    void announceCompletionDetails();  // emit the selected item's full docstring for a screen reader
     void escapeAndCancelSelection();
     void copyClear();
     void hideLineNumbers();
@@ -127,7 +129,7 @@ public slots:
 private:
     // Custom completion popup driven from key events (replaces Scintilla's
     // built-in list so we can show kind badges + summaries per row).
-    void updateCompletion();   // (re)show or refresh the popup at the caret
+    void updateCompletion(bool force = false);   // (re)show/refresh the popup; force ignores the auto-completion pref
     void acceptCompletion();   // insert the highlighted entry, replacing the partial
     CompletionPopup* m_completion = nullptr;
     bool m_completionEnabled = true;

@@ -69,6 +69,8 @@ public:
     // A screen-reader phrase for the highlighted row (e.g. "prophet, synth, 1 of 5")
     // or the slider's value text. Empty when there's nothing selected.
     QString currentAnnouncement() const;
+    // The selected row's full docstring as plain text (for on-demand SR reading).
+    QString currentDoc() const;
     bool isShowing() const;
     bool isSliderMode() const { return m_sliderMode; }  // value picker vs list
     void hidePopup();

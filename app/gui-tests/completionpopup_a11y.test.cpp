@@ -71,6 +71,23 @@ TEST_CASE_METHOD(ShownPopup, "highlighted suggestion has a screen-reader phrase"
     CHECK(popup.currentAnnouncement() == QStringLiteral("pretty_bells, synth, 1 of 3"));
 }
 
+TEST_CASE("announcement includes the summary, and the full doc is readable on demand", "[a11y][completion]")
+{
+    CompletionItem it;
+    it.text = "prophet";
+    it.kind = "synth";
+    it.summary = "analogue-style synth";
+    it.doc = "<p>The <b>Prophet</b> synth.</p>";
+
+    CompletionPopup popup;
+    popup.showItems({ it }, QPoint(0, 0), 12);
+
+    // The summary (what a screen reader can't see in the docs pane) rides along.
+    CHECK(popup.currentAnnouncement() == QStringLiteral("prophet, synth, analogue-style synth, 1 of 1"));
+    // The full docstring is available as plain text for on-demand reading.
+    CHECK(popup.currentDoc() == QStringLiteral("The Prophet synth."));
+}
+
 TEST_CASE_METHOD(ShownPopup, "navigation announces the new selection", "[a11y][completion]")
 {
     QSignalSpy spy(&popup, &CompletionPopup::announceRequested);
