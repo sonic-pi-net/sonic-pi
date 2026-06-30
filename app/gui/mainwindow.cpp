@@ -1421,7 +1421,7 @@ void MainWindow::triggerAutocompleteInCurrentWorkspace()
 void MainWindow::readCompletionDetailsInCurrentWorkspace()
 {
     if (SonicPiScintilla* ws = getCurrentWorkspace())
-        ws->announceCompletionDetails();
+        ws->showCompletionDocs();
 }
 
 void MainWindow::toggleCommentInCurrentWorkspace()
@@ -3273,8 +3273,8 @@ void MainWindow::loadUserShortcut(const QString& id, QSettings& shortcut_setting
 const QList<ShortcutDef>& MainWindow::shortcutDefs()
 {
     static const QList<ShortcutDef> defs = {
-    { "Run", QT_TR_NOOP("Run the code in the current buffer"), "Meta+R", "Meta+R", "Meta+R", "Live", &MainWindow::runAct },
-    { "Stop", QT_TR_NOOP("Stop all running code"), "Meta+S", "Meta+S", "Meta+S", "Live", &MainWindow::stopAct },
+    { "Run", QT_TR_NOOP("Run the code in the current buffer"), "Meta+Return", "Meta+Return", "Meta+Return", "Live", &MainWindow::runAct, "Meta+R" },
+    { "Stop", QT_TR_NOOP("Stop all running code"), "Meta+.", "Meta+.", "Meta+.", "Live", &MainWindow::stopAct, "Meta+S" },
     { "Record", QT_TR_NOOP("Start recording to a WAV audio file"), "ShiftMeta+R", "ShiftMeta+R", "ShiftMeta+R", "Live", &MainWindow::recAct },
     { "Save", QT_TR_NOOP("Save current buffer as an external file"), "ShiftMeta+S", "CtrlShift+S", "ShiftMeta+S", "Live", &MainWindow::saveAsAct },
     { "Load", QT_TR_NOOP("Load an external file in the current buffer"), "Ctrl+O", "Ctrl+O", "ShiftMeta+O", "Live", &MainWindow::loadFileAct },
@@ -3283,7 +3283,7 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "Transpose", QT_TR_NOOP("Transpose Characters"), "Ctrl+T", "Ctrl+T", "Ctrl+T", "Code", &MainWindow::textTransposeAct },
     { "ShiftUp", QT_TR_NOOP("Shift Line or Selection Up"), "Alt+Up", "CtrlMeta+P", "CtrlMeta+P", "Code", &MainWindow::textShiftLineUpAct },
     { "ShiftDown", QT_TR_NOOP("Shift Line or Selection Down"), "Alt+Down", "CtrlMeta+N", "CtrlMeta+N", "Code", &MainWindow::textShiftLineDownAct },
-    { "ContextualDocs", QT_TR_NOOP("Look up documentation for the current word"), "Shift+F1", "Shift+F1", "Ctrl+I", "Focus", &MainWindow::contextHelpAct },
+    { "ContextualDocs", QT_TR_NOOP("Look up documentation for the current word"), "CtrlMeta+i", "CtrlMeta+i", "CtrlMeta+i", "Focus", &MainWindow::contextHelpAct, "Shift+F1" },
     { "TextZoomIn", QT_TR_NOOP("Increase Text Size"), "Meta+=", "Ctrl++", "Meta+=", "View", &MainWindow::textIncAct },
     { "TextZoomOut", QT_TR_NOOP("Decrease Text Size"), "Meta+-", "Ctrl+-", "Meta+-", "View", &MainWindow::textDecAct },
     { "Scope", QT_TR_NOOP("Toggle visibility of audio oscilloscope"), "Meta+O", "Meta+O", "Meta+O", "Visuals", &MainWindow::scopeAct },
@@ -3320,7 +3320,7 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "ShowLog", QT_TR_NOOP("Show or hide the log"), "ShiftMeta+l", "ShiftMeta+l", "ShiftMeta+l", "View", &MainWindow::showLogAct },
     { "SetMark", QT_TR_NOOP("Set a mark in the text"), "CtrlShift+Space", "CtrlShift+Space", "Ctrl+Space", "Code", &MainWindow::textSetMarkAct },
     { "TriggerAutocomplete", QT_TR_NOOP("Trigger code completion"), "Ctrl+Space", "Ctrl+Space", "CtrlMeta+Space", "Code", &MainWindow::triggerAutocompleteAct },
-    { "ReadCompletionDetails", QT_TR_NOOP("Read code completion details"), "CtrlShift+i", "CtrlShift+i", "CtrlShift+i", "Accessibility", &MainWindow::readCompletionDetailsAct },
+    { "ReadCompletionDetails", QT_TR_NOOP("Show autocomplete documentation for the current context"), "Ctrl+i", "Ctrl+i", "Ctrl+i", "Accessibility", &MainWindow::readCompletionDetailsAct },
     { "LogZoomIn", QT_TR_NOOP("Zoom in the log"), "Ctrl+=", "Ctrl+=", "Ctrl+=", "View", &MainWindow::logZoomInAct },
     { "LogZoomOut", QT_TR_NOOP("Zoom out the log"), "Ctrl+-", "Ctrl+-", "Ctrl+-", "View", &MainWindow::logZoomOutAct },
     { "Down", QT_TR_NOOP("Move Cursor Down"), "Ctrl+n", "Ctrl+n", "Ctrl+n", "Code", &MainWindow::textDownAct },
@@ -3473,6 +3473,11 @@ void MainWindow::updateShortcuts()
         if (QAction* act = this->*(d.act))
         {
             updateShortcut(d.id, act, tr(d.desc));
+            // Optional secondary shortcut (undocumented fallback) — both trigger
+            // the same action, so setShortcuts() carries them without ambiguity.
+            if (d.secondary && d.secondary[0])
+                act->setShortcuts(act->shortcuts()
+                                  << resolveShortcut(QString::fromLatin1(d.secondary)));
         }
     }
     // show code context

@@ -66,6 +66,7 @@ public slots:
     void setMark();
     void triggerCompletion();          // explicitly invoke completion (menu/shortcut), even when auto-completion is off
     void announceCompletionDetails();  // emit the selected item's full docstring for a screen reader
+    void showCompletionDocs();         // show the popup (with docs) if hidden, then read the current item's doc
     void escapeAndCancelSelection();
     void copyClear();
     void hideLineNumbers();

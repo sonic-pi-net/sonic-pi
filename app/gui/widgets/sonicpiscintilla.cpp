@@ -869,6 +869,16 @@ void SonicPiScintilla::triggerCompletion()
     updateCompletion(true);
 }
 
+void SonicPiScintilla::showCompletionDocs()
+{
+    // Surface the autocomplete docs for the current context: always (re)build the
+    // popup for the CURRENT cursor position — like the trigger shortcut — so it
+    // swaps when the cursor has moved to a different context, not just when hidden.
+    // Then read the highlighted item's docstring for a screen reader.
+    triggerCompletion();
+    announceCompletionDetails();
+}
+
 void SonicPiScintilla::announceCompletionDetails()
 {
     // Speak the highlighted item's full docstring on demand — the docs pane is
