@@ -488,8 +488,8 @@ void MetricsPanel::buildUi()
 
     mainRow->setStretchFactor(0, 618);  // (tree + metrics) : logs ≈ golden ratio
     mainRow->setStretchFactor(1, 382);
-    // Match the main window's separators, which app.qss sizes as 8dx.
-    const int kHandleW = ScaleHeightForDPI(8);
+    // Match the main window's separators, which app.qss sizes as 4dx.
+    const int kHandleW = ScaleHeightForDPI(4);
     mainRow->setHandleWidth(kHandleW);
     mainRow->setChildrenCollapsible(false);
 
@@ -1220,9 +1220,10 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         .arg(bg, fg, border, dim, muted, faint).arg(winBorder).arg(gridW));
 
     // Splitter handles are styled on each splitter directly (below) rather than
-    // here: app.qss's ::handle:vertical sets a (missing) grip image that
-    // suppresses the panel-sheet background, and a widget's own stylesheet wins
-    // on specificity ties — so the per-splitter sheet is what actually takes.
+    // in the panel sheet above: a widget's own stylesheet wins on specificity
+    // ties, so the per-splitter sheet is what actually takes. It uses the same
+    // flat windowBorder bar + hover as app.qss, keeping the debug-pane dividers
+    // identical to the main-GUI separators.
     const QString handleQss = QString(
         "QSplitter::handle:horizontal { background:%1; image:none; }"
         "QSplitter::handle:vertical { background:%1; image:none; }"

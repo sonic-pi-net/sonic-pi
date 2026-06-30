@@ -83,9 +83,26 @@ QSplitter
 }
 
 
+/* Splitter handles match the QMainWindow::separator dividers: a flat 4dx
+   windowBorderColor bar that brightens on hover. No grip image, so the
+   main-GUI dock separators and the debug-pane splitters look identical. */
 QSplitter::handle:horizontal
 {
+    width: 4dx;
     background: windowBorderColor;
+    image: none;
+}
+
+QSplitter::handle:vertical
+{
+    height: 4dx;
+    background: windowBorderColor;
+    image: none;
+}
+
+QSplitter::handle:hover
+{
+    background: scrollBarHoverColor;
 }
 
 QFrame
@@ -99,17 +116,6 @@ QLabel
   border: none;
 }
 
-QSplitter::handle:vertical
-{
-    height: 6dx;
-    image: url(images/vsplitter.png);
-}
-
-QSplitter::handle:horizontal
-{
-    width: 6dx;
-    image: url(images/hsplitter.png);
-}
 
 QTabBar
 {
@@ -269,14 +275,14 @@ QMenuBar::item:selected {
 QMainWindow::separator
 {
    background-color: windowBorderColor;
-   height: 8dx;
+   height: 4dx;
 
 }
 
 QMainWindow::separator:hover
 {
    background-color: scrollBarHoverColor;
-   height: 8dx;
+   height: 4dx;
 }
 
 QMainWindow
@@ -543,101 +549,70 @@ QGroupBox:title
     background-color: windowColor;
 }
 
-QScrollBar:vertical
+/* Scrollbars — unified across both axes. An 8dx track (2x the 4dx
+   divider) carries a fully-rounded capsule handle. No arrow buttons; the
+   handle runs the full length of the track. Vertical and horizontal are
+   exact mirrors of each other. */
+
+QScrollBar:vertical,
+QScrollBar:horizontal
 {
     background: transparent;
-    width: 6dx;
-
-
-
-}
-
-QScrollBar::handle:vertical
-{
-    background: scrollBarColor;
-    border-top: 4dx;
-    border-bottom: 4dx;
-    min-height: 39dx;
-    padding-top: 0dx;
-    padding-right: 0dx;
-    padding-bottom: 20dx;
-    padding-left: 0dx;
-
-    margin-top: 22dx;
-    margin-right: 0dx;
-    margin-bottom: 22dx;
-    margin-left: 0dx;
-    border-radius: 3dx;
-}
-
-QScrollBar::add-line:vertical
-{
-    border-top: solid 5dx transparent;
-    background: none;
-    height: 20dx;
-    subcontrol-position: bottom;
-    subcontrol-origin: padding;
-}
-
-QScrollBar::sub-line:vertical
-{
     border: none;
-    background: none;
-    height: 20dx;
-    subcontrol-position: top;
-    subcontrol-origin: margin;
+    margin: 0dx;
+}
+
+QScrollBar:vertical
+{
+    width: 8dx;
 }
 
 QScrollBar:horizontal
 {
-    border: 2dx scrollBarBackgroundColor;
-    background: scrollBarBackgroundColor;
-    height: 12dx;
-    margin-top: 0dx;
-    margin-right: 2dx;
-    margin-bottom: 0dx;
-    margin-left: 20dx;
+    height: 8dx;
+}
 
+QScrollBar::handle:vertical,
+QScrollBar::handle:horizontal
+{
+    background: scrollBarColor;
+    border-radius: 4dx;
+}
+
+QScrollBar::handle:vertical
+{
+    min-height: 24dx;
 }
 
 QScrollBar::handle:horizontal
 {
-    background: scrollBarColor;
-    min-width: 20dx;
-    border: 2dx solid paneColor;
-    border-radius: 6dx;
+    min-width: 24dx;
 }
 
-QScrollBar::add-line:horizontal
+QScrollBar::handle:hover
 {
-    border: 2dx scrollBarBackgroundColor;
-    background: scrollBarBackgroundColor;
-    width: 20dx;
-    subcontrol-position: right;
-    subcontrol-origin: margin;
+    background: scrollBarHoverColor;
 }
 
+/* No arrow buttons. */
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical,
+QScrollBar::add-line:horizontal,
 QScrollBar::sub-line:horizontal
 {
-    border: 2dx scrollBarBackgroundColor;
+    width: 0dx;
+    height: 0dx;
     background: none;
-    width: 20dx;
-    subcontrol-position: left;
-    subcontrol-origin: margin;
+    border: none;
 }
 
-QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
+/* Empty track stays transparent. */
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical,
+QScrollBar::add-page:horizontal,
+QScrollBar::sub-page:horizontal
 {
     background: none;
-}
-
-QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
-{
-    background: none;
-}
-
-QScrollBar::handle:hover {
-    background: scrollBarHoverColor;
 }
 
 QPushButton
