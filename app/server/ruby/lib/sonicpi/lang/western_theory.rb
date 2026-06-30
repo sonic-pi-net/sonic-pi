@@ -351,6 +351,7 @@ play 62 # Plays note 86"]
       args:          [[:octave_shift, :number]],
       opts:          nil,
       accepts_block: true,
+      requires_block: true,
       intro_fn:      true,
       examples:      ["
 play 50 # Plays note 50
@@ -616,7 +617,7 @@ puts note('C', octave: 2)
       returns:        :ring,
       opts:           {:pitches => "An array of notes (symbols or ints) to filter on. Octave information is ignored."},
       accepts_block:  false,
-      doc:            "Produces a ring of all the notes between a start note and an end note. By default this is chromatic (all the notes) but can be filtered with a pitches: argument. This opens the door to arpeggiator style sequences and other useful patterns. If you try to specify only pitches which aren't in the range it will raise an error - you have been warned!",
+      doc:            "Produces a ring of all the notes between a start note and an end note. By default this is chromatic (all the notes) but can be filtered with a pitches: argument. This opens the door to arpeggiator style sequences and other useful patterns. If you specify only pitches which don't fall within the range, an empty ring is returned.",
       examples:       [
         "(note_range :c4, :c5) # => (ring 60,61,62,63,64,65,66,67,68,69,70,71,72)",
         "(note_range :c5, :c4) # => (ring 72,71,70,69,68,67,66,65,64,63,62,61,60)",
@@ -971,7 +972,7 @@ play (chord :e, :minor)",
 # Chord inversions (see the fn chord_invert)
 play (chord :e3, :minor, invert: 0) # Play the basic :e3, :minor chord - (ring 52, 55, 59)
 play (chord :e3, :minor, invert: 1) # Play the first inversion of :e3, :minor - (ring 55, 59, 64)
-play (chord :e3, :minor, invert: 2) # Play the first inversion of :e3, :minor - (ring 59, 64, 67)
+play (chord :e3, :minor, invert: 2) # Play the second inversion of :e3, :minor - (ring 59, 64, 67)
 ",
 
         "# You can create a chord without a tonic:

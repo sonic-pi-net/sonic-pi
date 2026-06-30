@@ -251,7 +251,7 @@ midi_note_on :e3 # Sends MIDI :e3 note_on to channel 3 on port \"foo\"
 with_merged_midi_defaults channel: 1 do
 
   midi_note_on :e2 # Sends MIDI :e2 note_on to channel 1 on port \"foo\".
-                   # This is because the call to use_merged_midi_defaults overrode the
+                   # This is because the call to with_merged_midi_defaults overrode the
                    # channel but not the port which got merged in.
 end
 
@@ -409,7 +409,7 @@ You may also optionally pass the velocity value as a floating point value betwee
 [MIDI 1.0 Specification - Channel Voice Messages - Note on event](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
       examples:       [
-        "midi_note_on :e3  #=> Sends MIDI note on for note :e3 with the default velocity of 12 to all ports and channels",
+        "midi_note_on :e3  #=> Sends MIDI note on for note :e3 with the default velocity of 127 to all ports and channels",
         "midi_note_on :e3, 12  #=> Sends MIDI note on for note :e3 with velocity 12 to all channels",
         "midi_note_on :e3, 12, channel: 3  #=> Sends MIDI note on for note :e3 with velocity 12 on channel 3",
         "midi_note_on :e3, velocity: 100 #=> Sends MIDI note on for note :e3 with velocity 100",
@@ -669,7 +669,7 @@ You may also optionally pass the pressure value as a floating point value betwee
           examples:       [
         "midi_channel_pressure 50  #=> Sends MIDI channel pressure message with value 50 to all ports and channels",
         "midi_channel_pressure :C4  #=> Sends MIDI channel pressure message with value 60 to all ports and channels",
-        "midi_channel_pressure 0.5  #=> Sends MIDI channel pressure message with value 63.5 to all ports and channels",
+        "midi_channel_pressure val_f: 0.5  #=> Sends MIDI channel pressure message with value 64 to all ports and channels",
         "midi_channel_pressure 30, channel: [1, 5]  #=> Sends MIDI channel pressure message with value 30 on channel 1 and 5 to all ports"
 ]
 
@@ -1137,7 +1137,7 @@ All devices on a given channel will respond both to data received over MIDI and 
                          port: "MIDI port to send to",
                          mode: "Mode keyword - one of :omni_off, :omni_on, :mono or :poly",
                          num_chans: "Used in mono mode only - Number of channels (defaults to 16)",
-                         on: "If specified and false/nil/0 will stop the midi local control off message from being sent out. (Ensures all opts are evaluated in this call to `midi_local_control_off` regardless of value)."},
+                         on: "If specified and false/nil/0 will stop the midi mode message from being sent out. (Ensures all opts are evaluated in this call to `midi_mode` regardless of value)."},
 
           accepts_block:  false,
           doc:            "Sends the Omni/Mono/Poly MIDI mode message to *all* connected MIDI devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
@@ -1235,7 +1235,7 @@ When an All Notes Off event is received, all oscillators will turn off.
                           port: "MIDI port to send to",
                           on: "If specified and false/nil/0 will stop the midi clock tick message from being sent out. (Ensures all opts are evaluated in this call to `midi_clock_tick` regardless of value)."},
           accepts_block:  false,
-          doc:            "Sends a MIDI clock tick message to *all* connected devices on *all* channels. Use the `port:` and `channel:` opts to restrict which MIDI ports and channels are used.
+          doc:            "Sends a MIDI clock tick message to *all* connected MIDI devices on *all* ports. Use the `port:` opt to restrict which MIDI ports are used.
 
 Typical MIDI devices expect the clock to send 24 ticks per quarter note (typically a beat). See `midi_clock_beat` for a simple way of sending all the ticks for a given beat.
 
@@ -1270,7 +1270,7 @@ Typical MIDI devices expect the clock to send 24 ticks per quarter note (typical
           summary:        "Send MIDI system message - start",
           args:           [],
           returns:        :nil,
-          opts:           nil,
+          opts:           {port: "MIDI Port(s) to send the start message to"},
           accepts_block:  false,
           doc:            "Sends the MIDI start system message to *all* connected MIDI devices on *all* ports.  Use the `port:` opt to restrict which MIDI ports are used.
 
@@ -1313,7 +1313,7 @@ Start the current sequence playing. (This message should be followed with calls 
 
 Stops the current sequence.
 
-[MIDI 1.0 Specification - System Real-Time Messages - Start](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
+[MIDI 1.0 Specification - System Real-Time Messages - Stop](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message)
 ",
           examples:       [
         "midi_stop #=> Send stop message to all connected MIDI devices"
@@ -1375,6 +1375,7 @@ Upon receiving the MIDI continue event, the MIDI device(s) will continue at the 
 
           __midi_rest_message "midi_clock_beat port: #{port}"
         end
+        nil
       end
       doc name:           :midi_clock_beat,
           introduced:     Version.new(3,0,0),
@@ -1450,19 +1451,16 @@ end"
       doc name:           :midi,
           introduced:     Version.new(3,0,0),
           summary:        "Trigger and release an external synth via MIDI",
-          args:           [[:note, :number], ],
+          args:           [[:note, :number], [:velocity, :number]],
           returns:        :nil,
           opts:           {sustain: "Duration of note event in beats",
                            vel:  "Velocity of note as a MIDI number",
                            on: "If specified and false/nil/0 will stop the midi on/off messages from being sent out. (Ensures all opts are evaluated in this call to `midi` regardless of value)."},
           accepts_block:  false,
           doc:            "Sends a MIDI note on event to *all* connected MIDI devices and *all* channels and then after sustain beats sends a MIDI note off event. Ensures MIDI trigger is synchronised with standard calls to play and sample. Co-operates completely with Sonic Pi's timing system including `time_warp`.
-
-If `note` is specified as `:off` then all notes will be turned off (same as `midi_all_notes_off`).
 ",
           examples:       [
         "midi :e1, sustain: 0.3, vel_f: 0.5, channel: 3 # Play E, octave 1 for 0.3 beats at half velocity on channel 3 on all connected MIDI ports.",
-        "midi :off, channel: 3 #=> Turn off all notes on channel 3 on all connected MIDI ports",
         "midi :e1, channel: 3, port: \"foo\" #=> Play note :E1 for 1 beats on channel 3 on MIDI port named \"foo\" only",
         "
 live_loop :arp do

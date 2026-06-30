@@ -334,7 +334,7 @@ link_audio \"Live\", :stop
           # }},
           accepts_block:  false,
           args_size:      0,
-          opts_keys:      [:sound_in_stereo],
+          opts_keys:      [:input, :stereo],
           doc:            "Create a named synthesiser which works similar to `play`, `sample` or `synth`. Rather than synthesising the sound mathematically or playing back recorded audio, it streams audio live from your sound card.
 
 However, unlike `play`, `sample` and `synth`, which allow multiple similar synths to play at the same time (i.e. a chord) only one `live_audio` synth of a given name may exist in the system at any one time. This is similar to `live_loop` where only one live loop of each name may exist at any one time. See examples for further information.
@@ -620,7 +620,7 @@ sample :loop_amen        # re-loads and plays amen"]
           doc:            "If set to true, synths will not trigger if it is too late. If false, some synth triggers may be late.",
           args:           [[:bool, :true_or_false]],
           opts:           nil,
-          accepts_block:  true,
+          accepts_block:  false,
           examples:       ["
 use_timing_guarantees true
 
@@ -647,6 +647,7 @@ sample :loop_amen  #=> unless time is too far behind, this will trigger even whe
           args:           [[:bool, :true_or_false]],
           opts:           nil,
           accepts_block:  true,
+          requires_block: true,
           examples:       ["
 with_timing_guarantees true do
   sample :loop_amen  #=> if time is behind by any margin, this will not trigger
@@ -809,7 +810,7 @@ sleep rt(2)             # still sleeps for 2 seconds"]
           introduced:     Version.new(2,0,0),
           summary:        "Block-level enable and disable BPM scaling",
           doc:            "Turn synth argument bpm scaling on or off for the supplied block. Note, using `rt` for args will result in incorrect times when used within this block.",
-          args:           [],
+          args:           [[:bool, :boolean]],
           opts:           nil,
           accepts_block:  true,
           requires_block: true,
@@ -1140,6 +1141,8 @@ play 50 # Plays with supersaw synth
         FileUtils.rm @tmp_path if @tmp_path
       end
       doc name:          :recording_delete,
+          introduced:    Version.new(2,0,0),
+          summary:       "Delete a recording",
           doc:           "After using `recording_start` and `recording_stop`, a temporary file is created until you decide to use `recording_save`. If you've decided you don't want to save it you can use this method to delete the temporary file straight away, otherwise the operating system will take care of deleting it later.",
           args:          [],
           opts:          nil,
@@ -1179,7 +1182,7 @@ sample :loop_amen          # :loop_amen sample is played with normal cutoff"]
           doc:           "The main mixer is the final mixer that all sound passes through. This fn gives you control over the main mixer allowing you to manipulate all the sound playing through Sonic Pi at once. For example, you can sweep a lpf or hpf over the entire sound. You can reset the controls back to their defaults with `reset_mixer!`.",
           args:          [],
           opts:          {pre_amp:        "Controls the amplitude of the signal prior to the FX stage of the mixer (prior to lpf/hpf stages). Has slide opts. Default 1.",
-                          amp:            "Controls the amplitude of the signal after the FX stage. Has slide opts. Default 1.",
+                          amp:            "Controls the amplitude of the signal after the FX stage. Has slide opts. Default 6.",
                           hpf:            "Global hpf FX. Has slide opts. Default 0.",
                           lpf:            "Global lpf FX. Has slide opts. Default 135.5.",
                           hpf_bypass:     "Bypass the global hpf. 0=no bypass, 1=bypass. Default 0.",
@@ -1722,8 +1725,8 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and and an amp of 0.5 
           doc:            "Specify new default values to be used by all subsequent calls to `sample` within the `do`/`end` block. After the `do`/`end` block has completed, the previous sampled defaults (if any) are restored. For the contents of the block, will remove and override any previous defaults.",
           args:           [],
           opts:           {},
-          accepts_block:  false,
-          requires_block: false,
+          accepts_block:  true,
+          requires_block: true,
           examples:       ["
 sample :loop_amen # plays amen break with default arguments
 
@@ -1756,8 +1759,8 @@ sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again a
           doc:            "Specify new default values to be used by all subsequent calls to `sample` within the `do`/`end` block.  Merges the specified values with any previous sample defaults, rather than replacing them. After the `do`/`end` block has completed, the previous sampled defaults (if any) are restored.",
           args:           [],
           opts:           {},
-          accepts_block:  false,
-          requires_block: false,
+          accepts_block:  true,
+          requires_block: true,
           examples:       ["
 sample :loop_amen # plays amen break with default arguments
 
@@ -2306,7 +2309,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
           summary:       "Pre-load first matching sample",
           doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` file, pre-loads the sample into memory.
 
-You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load all matching samples. See `sample`'s docs for more information." ,
+You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load the first matching sample. Use `load_samples` to load all matching samples. See `sample`'s docs for more information." ,
           args:          [[:path, :string]],
           opts:          nil,
           accepts_block: false,
@@ -2337,21 +2340,21 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
           summary:       "Pre-load all matching samples",
           doc:           "Given a directory containing multiple `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` files, pre-loads all the samples into memory.
 
- You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will load all matching samples (not just the sample `sample` would play given the same opts) - see `sample`'s docs for more information." ,
+ You may also specify the same set of source and filter pre-args available to `sample` itself. `load_samples` will load all matching samples (not just the sample `sample` would play given the same opts) - see `sample`'s docs for more information." ,
           args:          [[:paths, :list]],
           opts:          nil,
           accepts_block: false,
           examples:      ["
- load_sample :elec_blip # :elec_blip is now loaded and ready to play as a sample
+ load_samples :elec_blip # :elec_blip is now loaded and ready to play as a sample
  sample :elec_blip # No delay takes place when attempting to trigger it",
 
  "# Using source and filter pre-args
  dir = \"/path/to/sample/dir\"
- load_sample dir # loads all samples in \"/path/to/sample/dir\"
- load_sample dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
- load_sample dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
- load_sample dir, \"quux\" # loads all samples with file names containing \"quux\" in \"/path/to/sample/dir\"
- load_sample dir, /[Bb]ar/ # loads all samples which match regex /[Bb]ar/ in \"/path/to/sample/dir\"
+ load_samples dir # loads all samples in \"/path/to/sample/dir\"
+ load_samples dir, 1 # loads sample with index 1 in \"/path/to/sample/dir\"
+ load_samples dir, :foo # loads sample with name \"foo\" in \"/path/to/sample/dir\"
+ load_samples dir, \"quux\" # loads all samples with file names containing \"quux\" in \"/path/to/sample/dir\"
+ load_samples dir, /[Bb]ar/ # loads all samples which match regex /[Bb]ar/ in \"/path/to/sample/dir\"
 
  "]
 

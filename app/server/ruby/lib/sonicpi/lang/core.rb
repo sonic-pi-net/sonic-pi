@@ -414,12 +414,13 @@ end
                            pulse: "How often to apply the swing. Defaults to 4.",
                            tick: "A key for the tick with which to count pulses. Override this if you have more than one `with_swing` block in your `live_loop` or thread to stop them interfering with each other.",
                            offset: "Count offset - before modding the count with the pulse size - integer offset to add to the result of calling `tick` with the specified tick key (via the `tick:` opt)"},
-          accepts_block:  false,
-          doc:            "Runs block within a `time_warp` except for once every `pulse` consecutive runs (defaulting to 4). When used for rhythmical purposes this results in one in every `pulse` calls of the block being 'on beat' and the rest shifted forward or backwards in time by `shift` beats.",
+          accepts_block:  true,
+          requires_block: true,
+          doc:            "Runs the block normally except once every `pulse` consecutive runs (defaulting to 4), where the block is run within a `time_warp` of `shift` beats. When used for rhythmical purposes this results in one in every `pulse` calls of the block being shifted (swung) forward or backwards in time by `shift` beats while the rest play 'on beat'.",
           examples: ["
 live_loop :foo do
   with_swing 0.1 do
-    sample :elec_beep      # plays the :elec_beep sample late except on the 1st beat of every 4
+    sample :elec_beep      # plays the :elec_beep sample late on the 1st beat of every 4 (straight otherwise)
   end
   sleep 0.25
 end
@@ -450,7 +451,7 @@ live_loop :foo do
 
   with_swing -0.1, tick: :b do
     sample :elec_beep, rate: 2  # plays the :elec_beep sample at double rate
-  end                           #  slightly early except  on the 1st beat of every 4
+  end                           #  slightly early on the 1st beat of every 4
   sleep 0.25
 end",
         "
@@ -785,6 +786,7 @@ osc \"/foo/baz\"             # Send another OSC message to port 7010
           returns:        nil,
           opts:           nil,
           accepts_block:  true,
+          requires_block: true,
           doc:            "Sets the destination host and port that `osc` will send messages to for the given do/end block.",
           examples: [
 "
@@ -814,7 +816,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
           args:           [[:hostname, :string], [:port, :number], [:path, :osc_path], [:args, :list]],
           returns:        nil,
           opts:           nil,
-          accepts_block:  true,
+          accepts_block:  false,
           doc:            "Similar to `osc` except ignores any `use_osc` settings and sends the OSC message directly to the specified `hostname` and `port`.
 
 See `osc` for more information.",
@@ -1253,11 +1255,6 @@ end
     puts [t, idx] #=> prints out [0, 0], [0.5, 1], then [2, 2]
   end
   ",
-  "
-  time_warp [0, 0.5, 2], [:a, :b] do |t, b, idx|  # If you specify the block with 3 args, it will pass through the time, the param and the index
-    puts [t, b, idx] #=> prints out [0, :a, 0], [0.5, :b, 1], then [2, :a, 2]
-  end
-  ",
   " # time_warp consumes & interferes with the outer random stream
 puts \"main: \", rand  # 0.75006103515625
 rand_back
@@ -1321,7 +1318,7 @@ end
           summary:        "Reset tick to 0",
           args:           [],
           alt_args:       [[[:key, :symbol]]],
-          returns:        :number,
+          returns:        :nil,
           opts:           nil,
           accepts_block:  false,
           doc:            "Reset default tick to 0. If a `key` is referenced, set that tick to 0 instead. Same as calling tick_set(0)",
@@ -1331,7 +1328,7 @@ end
   tick
   tick
   puts look #=> 2 (default tick is now 2)
-  tick_set 0 # default tick is now 0
+  tick_reset # default tick is now 0
   puts look #=> 0 (default tick is now 0
   ",
   "
@@ -1340,9 +1337,9 @@ end
   tick :foo
   tick :foo
   puts look(:foo) #=> 2 (tick :foo is now 2)
-  tick_set 0 # default tick is now 0
+  tick_reset # default tick is now 0
   puts look(:foo) #=> 2 (tick :foo is still 2)
-  tick_set :foo, 0 #  reset tick :foo
+  tick_reset :foo #  reset tick :foo
   puts look(:foo) #=> 0 (tick :foo is now 0)"
       ]
 
@@ -1381,12 +1378,11 @@ end
           introduced:     Version.new(2,6,0),
           summary:        "Increment a tick and return value",
           args:           [[:key, :symbol]],
-          alt_args:       [[[:key, :symbol], [:value, :number]]],
           returns:        :number,
           opts:           {step: "The amount to tick up by. Default is 1.",
                            offset: "Offset to add to index returned. Useful when calling tick on lists, rings and vectors to offset the returned value. Default is 0."},
           accepts_block:  false,
-          doc:            "Increment the default tick by 1 and return value. Successive calls to `tick` will continue to increment the default tick. If a `key` is specified, increment that specific tick. If an increment `value` is specified, increment key by that value rather than 1. Ticks are `in_thread` and `live_loop` local, so incrementing a tick only affects the current thread's version of that tick. See `tick_reset` and `tick_set` for directly manipulating the tick vals.",
+          doc:            "Increment the default tick by 1 and return value. Successive calls to `tick` will continue to increment the default tick. If a `key` is specified, increment that specific tick. If a `step:` opt is specified, increment by that amount rather than 1. Ticks are `in_thread` and `live_loop` local, so incrementing a tick only affects the current thread's version of that tick. See `tick_reset` and `tick_set` for directly manipulating the tick vals.",
           examples:       ["
   puts tick #=> 0
   puts tick #=> 1
@@ -1526,13 +1522,7 @@ end
     play (ring :e1, :e2, :e3).look, release: 0.25 # use the same look on another ring
     sleep 0.25
   end
-  ",
-"
-# Returns numbers unchanged if single argument
-puts look(0)     #=> 0
-puts look(4)     #=> 4
-puts look(-4)    #=> -4
-puts look(20.3)  #=> 20.3"
+  "
       ]
 
 
@@ -1593,7 +1583,7 @@ puts look(20.3)  #=> 20.3"
           args:           [[:condition, :truthy]],
           returns:        nil,
           opts:           nil,
-          accepts_block:  false,
+          accepts_block:  true,
           doc:            "Optionally evaluate the block depending on the truthiness of the supplied condition. The truthiness rules are as follows: all values are seen as true except for: false, nil and 0. Lambdas will be automatically called and the truthiness of their results used.",
       examples:       [
 "
@@ -2725,8 +2715,8 @@ end
           accepts_block:  false,
           doc:            "Given a list of numeric values, this method turns them into a string of bar heights. Useful for quickly graphing the shape of an array. Remember to use puts so you can see the output. See `spark` for a simple way of printing a spark graph.",
       examples:           [
-  "puts (spark_graph (range 1, 5))    #=> ▁▃▅█",
-  "puts (spark_graph (range 1, 5).shuffle) #=> ▃█▅▁"
+  "puts (spark_graph (range 1, 5))    #=> ▁▃▅▇",
+  "puts (spark_graph (range 1, 5).shuffle) #=> ▃▇▅▁"
       ]
 
 
@@ -2744,8 +2734,8 @@ end
           accepts_block:  false,
           doc:            "Given a list of numeric values, this method turns them into a string of bar heights and prints them out. Useful for quickly graphing the shape of an array.",
           examples:       [
-  "spark (range 1, 5)    #=> ▁▃▅█",
-  "spark (range 1, 5).shuffle #=> ▃█▅▁"
+  "spark (range 1, 5)    #=> ▁▃▄▆▇",
+  "spark (range 1, 5).shuffle #=> ▄▇▆▁▃"
       ]
 
 
@@ -2980,9 +2970,9 @@ Note, it is not recommended to start a function name with a capital letter if it
           intro_fn:       true,
           doc:            "Displays the information you specify as a string inside the output pane. This can be a number, symbol, or a string itself. Useful for debugging. Synonym for `print`.",
           examples:      [
-  "print \"hello there\"   #=> will print the string \"hello there\" to the output pane",
-  "print 5               #=> will print the number 5 to the output pane",
-  "print foo             #=> will print the contents of foo to the output pane"]
+  "puts \"hello there\"   #=> will print the string \"hello there\" to the output pane",
+  "puts 5               #=> will print the number 5 to the output pane",
+  "puts foo             #=> will print the contents of foo to the output pane"]
 
 
 
@@ -3251,7 +3241,7 @@ Note, it is not recommended to start a function name with a capital letter if it
           args:           [[:max, :number_or_range]],
           opts:           nil,
           accepts_block:  false,
-          doc:            "Given a max number, produces a number between `0` and the supplied max value exclusively. If max is a range produces an int within the range. With no args returns a value between `0` and `1`.
+          doc:            "Given a max number, produces a number between `0` and the supplied max value exclusively. If max is a range produces a float within the range. With no args returns a value between `0` and `1`.
 
 Does not consume a random value from the stream. Therefore, multiple sequential calls to `rand_look` will all return the same value.",
           examples:       ["
@@ -3378,7 +3368,7 @@ print rand_i_look(5) # will print either 0, 1, 2, 3, or 4 to the output pane"
                # exactly the same as if rand had been called
                # three times
 
-  puts rand 0.24249267578125"]
+  puts rand # prints 0.24249267578125"]
 
 
 
@@ -3753,7 +3743,7 @@ For other related link functions see link_sync, use_bpm :link, set_link_bpm!
 use_bpm 120      # bpm is at 120
 link             # wait for the start of the next bar before continuing
                  # (where each bar has 4 beats)
-puts current_bpm #=> :link (not 120)
+puts current_bpm_mode #=> :link (not 120)
   ",
         "
 link 8 # wait for the start of the next bar
@@ -3934,8 +3924,8 @@ end
   * Dubstep: 135-145 bpm
   * Drum and bass: 160-180 bpm
   ",
-          args:           [[:bpm, :number]],
-          opts:           nil,
+          args:           [[:bpm, :number_or_symbol]],
+          opts:           {quantum: "Bar length in beats for joining an external MIDI clock grid (default 4). Only valid with :midi."},
           accepts_block:  true,
           requires_block: true,
           examples:       ["
@@ -4205,11 +4195,11 @@ This can be set via the fns `use_bpm`, `with_bpm`, `use_sample_bpm` and `with_sa
           accepts_block: false,
           examples:      ["
   use_bpm 60
-  puts current_bpm_mode    # => 60
+  puts current_bpm    # => 60
   use_bpm 70
-  puts current_bpm_mode    # => 70
+  puts current_bpm    # => 70
   use_bpm :link
-  puts current_bpm_mode    # => 120 (or whatever the current Link BPM value is)"]
+  puts current_bpm    # => 120 (or whatever the current Link BPM value is)"]
 
 
 
@@ -4396,7 +4386,8 @@ See `with_sched_ahead_time` for a version of this function which allows you to s
           args:          [],
           opts:          nil,
           modifies_env: true,
-          accepts_block: false,
+          accepts_block: true,
+          requires_block: true,
           examples:      ["
 with_real_time do
   play 70  # Sound will happen without a scheduling delay.
@@ -4423,7 +4414,8 @@ See `with_real_time` for a simple way of setting the schedule ahead time to 0.",
           args:          [[:time, :number]],
           opts:          nil,
           modifies_env: true,
-          accepts_block: false,
+          accepts_block: true,
+          requires_block: true,
           examples:      ["
 with_sched_ahead_time 1 do
   play 70  # Sound will happen with a latency of 1
@@ -4570,7 +4562,7 @@ puts current_sched_ahead_time # Prints 0.5"]
       doc name:           :wait,
           introduced:     Version.new(2,0,0),
           summary:        "Wait for duration",
-          doc:            "Synonym for `sleep` - see `sleep`",
+          doc:            "Wait for a duration. When called with a number it is a synonym for `sleep` - see `sleep`. When called with a Symbol it is a synonym for `sync` and waits for the corresponding cue event - see `sync`.",
           args:           [[:beats, :number]],
           opts:           nil,
           accepts_block:  false,
@@ -4679,7 +4671,7 @@ puts current_sched_ahead_time # Prints 0.5"]
           arg_kinds:     [:cue],
           introduced:     Version.new(2,0,0),
           summary:        "Sync with other threads",
-          doc:            "Pause/block the current thread until a `cue` heartbeat with a matching `cue_id` is received. When a matching `cue` message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the `cue` heartbeat. The current thread is therefore synced to the `cue` thread. If multiple cue ids are passed as arguments, it will `sync` on the first matching `cue_id`. The BPM of the cueing thread can optionally be inherited by using the bpm_sync: opt.",
+          doc:            "Pause/block the current thread until a `cue` heartbeat with a matching `cue_id` is received. When a matching `cue` message is received, unblock the current thread, and continue execution with the virtual time set to match the thread that sent the `cue` heartbeat. The current thread is therefore synced to the `cue` thread. The BPM of the cueing thread can optionally be inherited by using the bpm_sync: opt.",
           args:           [[:cue_id, :symbol]],
           opts:           {:bpm_sync => "Inherit the BPM of the cueing thread. Default is false"},
           accepts_block:  false,
@@ -4708,9 +4700,6 @@ puts current_sched_ahead_time # Prints 0.5"]
     sync :tick               # waiting for :tick sync messages
     sample :drum_heavy_kick  # after which play the drum kick sample
   end",
-
-  "
-  sync :foo, :bar # Wait for either a :foo or :bar cue ",
 
   "
   in_thread do   # Start a metronome thread
@@ -4935,7 +4924,7 @@ end                         # Will throw an exception as the block contains a Ze
 assert_not false   # As false is either nil or false, this assertion passes
 assert_not nil     # As nil is either nil or false, this assertion passes
 assert_not 1 == 5  # These numbers are not equal
-assert true  # This will raise an exception
+assert_not true  # This will raise an exception
 ",
 "
 # Communicating error messages

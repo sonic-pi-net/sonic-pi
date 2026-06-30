@@ -23,8 +23,8 @@ module SonicPi
       doc name:           :math_scale,
           introduced:     Version.new(3,0,0),
           summary:        "Linear scaling algorithm",
-          args:           [[], ],
-          returns:        :nil,
+          args:           [[:val, :number], [:in_min, :number], [:in_max, :number], [:out_min, :number], [:out_max, :number]],
+          returns:        :number,
           opts:           nil,
           accepts_block:  false,
           doc:            "
