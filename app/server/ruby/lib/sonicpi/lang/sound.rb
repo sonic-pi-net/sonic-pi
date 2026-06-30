@@ -169,7 +169,7 @@ module SonicPi
       end
 
       # Wipe job-side scsynth refs on cold swap — the nodes are already dead
-      def nuke_job_scsynth_state!
+      def __nuke_job_scsynth_state!
         STDOUT.puts "Spider - nuking job scsynth state"
         STDOUT.flush
         @job_group_mutex.synchronize { @job_groups.clear }
@@ -184,15 +184,15 @@ module SonicPi
       end
 
       # Stop jobs, then rebuild Studio after SuperSonic cold swap
-      def cold_swap_reinit!
+      def __cold_swap_reinit!
         STDOUT.puts "Spider - cold swap reinit starting"
         STDOUT.flush
         __stop_jobs
-        # nuke_job_scsynth_state! fires no node callbacks, so the per-synth
+        # __nuke_job_scsynth_state! fires no node callbacks, so the per-synth
         # on_destroyed teardown won't run; engine subs survive but point at
         # stale busses. Clear them explicitly.
         @mod_sound_studio.kill_all_link_audio(@link_api)
-        nuke_job_scsynth_state!
+        __nuke_job_scsynth_state!
         @mod_sound_studio.cold_swap_reinit!
         STDOUT.puts "Spider - cold swap reinit complete"
         STDOUT.flush
@@ -258,7 +258,7 @@ module SonicPi
       end
       doc name:           :link_audio,
           arg_kinds:     [:link_peer, :link_channel],
-          introduced:     Version.new(7, 0, 0),
+          introduced:     Version.new(5, 0, 0),
           summary:        "A named audio stream live from an Ableton Link peer",
           args:           [[:peer, :string], [:channel, :string]],
           returns:        :SynthNode,
@@ -4106,7 +4106,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         # The thread-local is set externally (by with_fx, line ~1873)
         # to redirect output to an FX's input bus. We don't set it
         # here — if absent, fall back to the job's main bus (which
-        # goes via @job_busses, cleared by nuke_job_scsynth_state! on
+        # goes via @job_busses, cleared by __nuke_job_scsynth_state! on
         # cold swap so it auto-reallocates fresh).
         #
         # BUT: if a with_fx-set thread-local IS present and was set

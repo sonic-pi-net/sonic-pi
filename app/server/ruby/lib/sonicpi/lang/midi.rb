@@ -35,7 +35,7 @@ module SonicPi
           end
       end
       doc name:          :midi_clock_sources,
-          introduced:    Version.new(4,6,0),
+          introduced:    Version.new(5,0,0),
           summary:       "List incoming MIDI clock sources",
           doc:           "Returns a list of the external MIDI ports currently sending (or recently sent) MIDI clock, as seen by SuperClock. Each entry is a Hash with: `:port` (the normalised handle you pass to `use_bpm :midi, port`), `:name` (the friendly OS device name), `:bpm` (the latest estimated tempo), `:clocking` (true while pulses are arriving), `:stale` (true if the source stopped clocking and its tempo is frozen), and `:primary` (true for the source `use_bpm :midi` follows by default).
 

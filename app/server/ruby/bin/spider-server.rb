@@ -804,7 +804,7 @@ register_api = lambda do |server|
           STDOUT.puts "Spider - setup settled, reinitialising..."
           STDOUT.flush
           begin
-            sp.cold_swap_reinit!
+            sp.__cold_swap_reinit!
           rescue Exception => e
             STDOUT.puts "Spider - cold swap reinit error: #{e.message}"
             STDOUT.puts e.backtrace.first(5).join("\n")

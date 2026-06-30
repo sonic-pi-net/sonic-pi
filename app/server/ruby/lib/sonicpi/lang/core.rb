@@ -3779,7 +3779,7 @@ link 7, 2 # wait for the 2nd beat of the next bar
         __phase_sync_to_clock_timeline(mode, quantum, phase)
       end
       doc name:          :midi_sync,
-          introduced:    Version.new(4,0,0),
+          introduced:    Version.new(5,0,0),
           summary:       "Sync to an external MIDI clock with automatic transport and phase syncing.",
           doc:           "Wait until an external MIDI clock is running and continue at the start of its next bar. Similar to `link` but for an incoming MIDI clock: if the clock's transport isn't yet anchored (no START/Song Position Pointer has defined where the bar is) `midi_sync` first waits for it to start, then sleeps until the next bar boundary before continuing.
 
