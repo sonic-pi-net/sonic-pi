@@ -631,22 +631,26 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     for (const ThemeSwatch& s : swatches)
         maxTextW = qMax(maxTextW, fm.horizontalAdvance(s.btn->text()));
     const int btnMinW = maxTextW + ScaleWidthForDPI(28);   // name + margins
+    // A QPushButton doesn't size to its child layout, so drive the height here.
+    // The card's own stylesheet must also set the height: the app-wide QSS rule
+    // `QPushButton { height: 25dx; }` is merged in by Qt and, on styles that honour
+    // it strictly (Linux/Fusion), pins the card to ~25px so its icon+name overflow.
+    const int cardH = iconSize.height() + ScaleHeightForDPI(38);
     for (const ThemeSwatch& s : swatches) {
         s.btn->setCheckable(true);
         s.btn->setCursor(Qt::PointingHandCursor);
         s.btn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         s.btn->setMinimumWidth(btnMinW);
-        // A QPushButton doesn't size to its child layout, so set the height here.
-        s.btn->setMinimumHeight(iconSize.height() + ScaleHeightForDPI(38));
+        s.btn->setMinimumHeight(cardH);
         // Card colours from the theme; border shows resting/hover/checked state.
         s.btn->setStyleSheet(QString(
             "QPushButton { background:%1; border:2px solid %3;"
-            " border-radius:6px; padding:0; }"
+            " border-radius:6px; padding:0; min-height:%4px; height:%4px; }"
             "QPushButton:hover:!checked { border:2px solid rgba(255,20,147,150); }"
             "QPushButton:checked { border:2px solid deeppink; }"
             "QLabel { background:transparent; color:%2; }")
             .arg(QString::fromLatin1(s.bg), QString::fromLatin1(s.fg),
-                 QString::fromLatin1(s.border)));
+                 QString::fromLatin1(s.border)).arg(cardH));
 
         // Icon above name, as child labels (a QPushButton lays its own icon+text
         // horizontally). Labels are click-through so the button receives the click.
