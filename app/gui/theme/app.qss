@@ -628,11 +628,13 @@ QScrollBar::sub-page:horizontal
 QPushButton
 {
     font-size: medium;
-    background-color: TabColor;
+    /* Buttons are black in every theme by design; the border (white in dark,
+       light-grey in light) gives them their form, the text stays white. */
+    background-color: black;
     color: buttonTextColor;
     padding: 5dx;
     border-radius: 3dx;
-    border: 2dx solid transparent;   /* adds the fields' 2px size; transparent so the fill shows through — no halo on any background */
+    border: 2dx solid buttonBorderColor;
     height: 25dx;
 }
 
@@ -699,29 +701,19 @@ QPushButton#linkStreamsButton:checked:hover
   border: 2dx solid selectionBackgroundColor;   /* 2dx like the base, so size doesn't change when checked */
 }
 
-/* Network-visibility button. Inherits the base QPushButton look (background,
-   hover) so it matches every other metro button. Fills pink when public — same
-   dynamic-property pattern as enableLinkButton[linkOn]. */
+/* Network-visibility button: a bare glyph — no fill, no border (2dx transparent
+   keeps it the same size as the other buttons). The glyph colour carries the
+   state (pink when Link is on, white when off; set in code). Hover only. */
 QPushButton#rowVisibility
 {
-  min-width: 28dx;   /* padding/height inherited from base QPushButton so it's the same size as the others */
+  min-width: 28dx;
+  background: transparent;
+  border: 2dx solid transparent;
 }
 
-/* Don't use the generic pink pressed-flash — pink is this button's "public"
-   state, so a neutral press avoids looking like it toggled to public. */
-QPushButton#rowVisibility:pressed
+QPushButton#rowVisibility:hover
 {
   background-color: hoverButtonColor;
-  color: buttonTextColor;
-}
-
-QPushButton#rowVisibility[public="true"],
-QPushButton#rowVisibility[public="true"]:hover,
-QPushButton#rowVisibility[public="true"]:pressed
-{
-  background-color: selectionBackgroundColor;
-  color: selectionForegroundColor;
-  border: 2dx solid selectionBackgroundColor;   /* 2dx like the base, so size doesn't change with state */
 }
 QLineEdit
 {

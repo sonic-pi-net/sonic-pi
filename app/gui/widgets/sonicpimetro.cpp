@@ -22,6 +22,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QSvgRenderer>
+#include <QEnterEvent>
 #include <QThread>
 #include "dpi.h"
 
@@ -52,15 +53,19 @@ class GlyphButton : public QPushButton
 {
 public:
     explicit GlyphButton(QWidget* parent = nullptr) : QPushButton(parent) {}
-    void setGlyph(const char* svg, const QColor& color)
+    // color = resting glyph colour; hoverColor = glyph colour while hovered.
+    void setGlyph(const char* svg, const QColor& color, const QColor& hoverColor)
     {
-        if (m_svg == svg && m_color == color) return;
+        if (m_svg == svg && m_color == color && m_hoverColor == hoverColor) return;
         m_svg = svg;
         m_color = color;
+        m_hoverColor = hoverColor;
         m_cache = QPixmap();   // invalidate; re-rendered lazily on next paint
         update();
     }
 protected:
+    void enterEvent(QEnterEvent*) override { m_hover = true;  m_cache = QPixmap(); update(); }
+    void leaveEvent(QEvent*)      override { m_hover = false; m_cache = QPixmap(); update(); }
     void paintEvent(QPaintEvent* e) override
     {
         QPushButton::paintEvent(e);   // qss background / hover / border
@@ -77,8 +82,9 @@ protected:
             QPainter cp(&m_cache);
             cp.setRenderHint(QPainter::Antialiasing);
             const qreal o = s * 0.10;   // crop Tabler's viewBox margin so it fills
+            const QColor c = m_hover ? m_hoverColor : m_color;
             QByteArray bytes =
-                QString::fromLatin1(m_svg).arg(m_color.name(QColor::HexRgb)).toUtf8();
+                QString::fromLatin1(m_svg).arg(c.name(QColor::HexRgb)).toUtf8();
             QSvgRenderer(bytes).render(&cp, QRectF(-o, -o, s + 2 * o, s + 2 * o));
         }
         QPainter p(this);
@@ -87,7 +93,9 @@ protected:
 private:
     const char* m_svg = nullptr;
     QColor m_color;
+    QColor m_hoverColor;
     QPixmap m_cache;
+    bool m_hover = false;
 };
 
 } // namespace
@@ -293,16 +301,14 @@ void SonicPiMetro::updateRowVisibility()
 {
   if (!m_rowVisibility) return;
   const bool net = (static_cast<int>(m_networkMode) == 2);
+  // Bare glyph: ghost (local) / mesh (network); pink when Link is engaged, else
+  // the theme foreground (near-white in dark, dark in light) so it stays visible
+  // on the transparent button in both themes.
+  const QColor glyphColor = m_linkEnabled ? theme->color("HighlightedBackground")
+                                          : theme->color("WindowForeground");
   static_cast<GlyphButton*>(m_rowVisibility)
-      ->setGlyph(net ? kNetworkSvg : kGhostSvg, theme->color("ButtonText"));
-  // Pink only when actually public: Network selected AND Link engaged.
-  const bool pub = net && m_linkEnabled;
-  if (m_rowVisibility->property("public").toBool() != pub) {
-    m_rowVisibility->setProperty("public", pub);
-    m_rowVisibility->style()->unpolish(m_rowVisibility);
-    m_rowVisibility->style()->polish(m_rowVisibility);
-  }
-  m_rowVisibility->update();
+      ->setGlyph(net ? kNetworkSvg : kGhostSvg, glyphColor,
+                 theme->color("HighlightedForeground"));  // white on hover
   m_rowVisibility->setToolTip(net
       ? tr("Public — visible to other devices on your network.\n"
            "Click to go local (private).")

@@ -99,13 +99,13 @@ void LinkVisibilityToggle::paintEvent(QPaintEvent*)
     p.setRenderHint(QPainter::Antialiasing);
 
     // Local | Network sliding pill: the selected half highlights with the thumb
-    // — pink when Link is live, grey when off — so whichever side is chosen
-    // (incl. Local) goes pink. The accent is pushed in via setAccent (custom-
-    // painted widgets don't reliably pick up the theme palette on macOS).
+    // — pink when Link is live, a visible mid-grey when off (so the selected mode
+    // still reads on both light and dark tracks). The accent is pushed in via
+    // setAccent (custom-painted widgets don't reliably get the palette on macOS).
     const QColor border  = palette().color(QPalette::Mid);
     const QColor track   = palette().color(QPalette::Base);
     const QColor trackTx = palette().color(QPalette::Text);
-    const QColor thumb   = m_muted ? palette().color(QPalette::Mid) : m_thumb;
+    const QColor thumb   = m_muted ? QColor(128, 128, 128) : m_thumb;
     const QColor thumbTx = m_activeIcon;
     const qreal radius = 3.0;
 
