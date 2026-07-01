@@ -23,8 +23,11 @@
 #include <memory>
 #include <vector>
 
+#include "thinsplitter.h"
+
 class QLabel;
 class QProgressBar;
+
 class QTimer;
 class QShowEvent;
 class QHideEvent;
@@ -149,7 +152,7 @@ private:
     void animateLogs(int targetLogsWidth);
     // Show or hide a splitter's own handle line (used for the main divider, whose
     // full-height line comes from the handle rather than the short chevron band).
-    void setDividerLineVisible(QSplitter* s, bool visible);
+    void setDividerLineVisible(ThinSplitter* s, bool visible);
     // Ask SuperSonic (once, after we're tailing the debug ring) to push its
     // build/runtime summary down the debug channel so it shows in the Info pane.
     void requestSupersonicSummary();
@@ -164,9 +167,9 @@ private:
     QTimer* m_timer = nullptr;
     SonicPiTheme* m_theme = nullptr;  // active theme, for syntax colours
 
-    QSplitter* m_mainSplit = nullptr; // left (tree + metrics) | right (logs)
-    QSplitter* m_leftSplit = nullptr; // node tree / metrics
-    QSplitter* m_rightSplit = nullptr;// debug / to / from logs
+    ThinSplitter* m_mainSplit = nullptr; // left (tree + metrics) | right (logs)
+    QSplitter* m_leftSplit = nullptr;    // node tree / metrics (chevron paints line)
+    ThinSplitter* m_rightSplit = nullptr;// debug / to / from logs
 
     QVector<QFrame*> m_metricsCards;  // metric cards, in order, re-flowed by height
     QGridLayout* m_metricsGrid = nullptr;
@@ -180,7 +183,6 @@ private:
     QList<int> m_savedMainSizes;      // main-split sizes to restore when logs reappear
     QVariantAnimation* m_metricsAnim = nullptr; // eases the metrics pane height
     QVariantAnimation* m_logsAnim = nullptr;    // eases the logs column width
-    QString m_handleQss;              // splitter handle stylesheet (visible line)
     bool m_revealing = false;         // re-entrancy guard for revealColumns()
     bool m_rightManual = false;       // user dragged a right column divider — stop auto-revealing it
     int m_metricsNeededH = 0;         // fixed height the current 1/2 rows of cards need

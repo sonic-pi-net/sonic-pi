@@ -376,7 +376,7 @@ void MetricsPanel::buildUi()
     QFont mono = makeMonoFont();
 
     // Left: node tree + metric grid. Right: debug + OSC in/out logs.
-    auto* mainRow = new QSplitter(Qt::Horizontal, this);
+    auto* mainRow = new ThinSplitter(Qt::Horizontal, this);
     m_mainSplit = mainRow;
     outer->addWidget(mainRow);
 
@@ -483,21 +483,24 @@ void MetricsPanel::buildUi()
     leftCol->addWidget(scroll);
     mainRow->addWidget(leftCol);
 
-    auto* rightCol = new QSplitter(Qt::Vertical);
+    auto* rightCol = new ThinSplitter(Qt::Vertical);
     m_rightSplit = rightCol;
     buildLogs(rightCol);
     mainRow->addWidget(rightCol);
 
     mainRow->setStretchFactor(0, 618);  // (tree + metrics) : logs ≈ golden ratio
     mainRow->setStretchFactor(1, 382);
-    // Match the main window's separators, which app.qss sizes as 4dx.
-    const int kHandleW = ScaleHeightForDPI(4);
+    // A wide grab area whose centre is a thin 2px line at rest, revealed to the
+    // full width on hover (ThinSplitter). Fixed px (not DPI-scaled) so the reveal
+    // stays clearly wider than the resting line on macOS's sub-1.0 display scale.
+    const int kHandleW = 7;
+    const int kLineW = 2;
     mainRow->setHandleWidth(kHandleW);
     mainRow->setChildrenCollapsible(false);
 
     // Both vertical columns are draggable, and laid out by revealColumns()
     // until the user drags a divider (then that column is left to the user).
-    for (QSplitter* col : { leftCol, rightCol })
+    for (QSplitter* col : { leftCol, static_cast<QSplitter*>(rightCol) })
     {
         // Non-collapsible so a zero-height pane stays visible and keeps its
         // handle, leaving the divider bar (and its chevron) draggable even when
@@ -529,10 +532,11 @@ void MetricsPanel::buildUi()
     // so the divider line and its glyph are one button: hover or click anywhere
     // on the divider hits it. A click toggles the metrics' visibility.
     m_metricsToggle = new ChevronButton(this);
-    // Thin divider line (kHandleW) across the full width + a 48px knob box on
-    // the right (6px inset) holding the triangle — restores the box look while
-    // keeping the whole divider as one hover/click target.
-    m_metricsToggle->setBox(kHandleW, 48, 6);
+    // Thin divider line across the full width + a 48px knob box on the right
+    // (6px inset) holding the triangle — restores the box look while keeping the
+    // whole divider as one hover/click target. On hover the line reveals to the
+    // handle width (kHandleW), matching the ThinSplitter dividers.
+    m_metricsToggle->setBox(kLineW, 48, 6, ChevronButton::Horizontal, kHandleW);
     connect(m_metricsToggle, &QToolButton::clicked, this, &MetricsPanel::toggleMetrics);
     updateChevron();
 
@@ -542,11 +546,15 @@ void MetricsPanel::buildUi()
     // logs column off to the right and restores it. The line itself stays
     // draggable for resizing, so the knob is short rather than full-height.
     m_logsToggle = new ChevronButton(this);
-    m_logsToggle->setBox(kHandleW, 48, 0, ChevronButton::Vertical);
+    m_logsToggle->setBox(kLineW, 48, 0, ChevronButton::Vertical, kHandleW);
     connect(m_logsToggle, &QToolButton::clicked, this, &MetricsPanel::toggleLogs);
     updateLogsChevron();
+    // The short logs knob overlays the main divider handle; filter both so their
+    // hover states stay in sync and they reveal as one control (as the full-width
+    // metrics chevron does over its own divider).
     if (QSplitterHandle* mainHandle = mainRow->handle(1))
         mainHandle->installEventFilter(this);
+    m_logsToggle->installEventFilter(this);
 
     // Dragging a right-column divider takes it out of auto-reveal (so the drag
     // isn't undone on the next dock resize). The left column's metrics pane is
@@ -1209,7 +1217,6 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     const QString muted  = kindColor(K_Muted).name();
     const QString faint  = blend(m_borderColor, m_bgColor, 0.55).name();
     const QString winBorder = theme->color("WindowBorder").name();     // separator bar
-    const QString hover     = theme->color("ScrollBarHover").name();   // blue highlight
     const int gridW = ScaleHeightForDPI(1);   // DPI-scaled grid line (a bare 1px reads as a faint hairline)
 
     setStyleSheet(QString(
@@ -1233,19 +1240,13 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QTextEdit { color:%2; background:%1; border:none; }")
         .arg(bg, fg, border, dim, muted, faint).arg(winBorder).arg(gridW));
 
-    // Splitter handles are styled on each splitter directly (below) rather than
-    // in the panel sheet above: a widget's own stylesheet wins on specificity
-    // ties, so the per-splitter sheet is what actually takes. It uses the same
-    // flat windowBorder bar + hover as app.qss, keeping the debug-pane dividers
-    // identical to the main-GUI separators.
-    m_handleQss = QString(
-        "QSplitter::handle:horizontal { background:%1; image:none; }"
-        "QSplitter::handle:vertical { background:%1; image:none; }"
-        "QSplitter::handle:horizontal:hover { background:%2; image:none; }"
-        "QSplitter::handle:vertical:hover { background:%2; image:none; }")
-        .arg(winBorder, hover);
-    if (m_rightSplit)
-        m_rightSplit->setStyleSheet(m_handleQss);
+    // The main/logs dividers paint themselves (ThinSplitter): a thin centre line
+    // at rest, revealed full-width on hover (Qt's QSS can't do this). Push the
+    // theme colours in; bg blends the wide grab area with the panel.
+    const QColor divLine  = theme->color("WindowBorder");
+    const QColor divHover = theme->color("ScrollBarHover");
+    if (m_mainSplit)  m_mainSplit->setDividerColors(m_bgColor, divLine, divHover);
+    if (m_rightSplit) m_rightSplit->setDividerColors(m_bgColor, divLine, divHover);
     // The tree/metrics divider line is painted by the metrics ChevronButton (its
     // band spans the whole divider), so that splitter's own handle stays
     // transparent to avoid a doubled line.
@@ -1363,6 +1364,22 @@ bool MetricsPanel::eventFilter(QObject* obj, QEvent* e)
     {
         toggleLogs();
         return true;
+    }
+    // Keep the logs chevron knob and the main divider handle it overlays in sync:
+    // hovering either reveals both, so they act as one control.
+    QSplitterHandle* mainHandle = m_mainSplit ? m_mainSplit->handle(1) : nullptr;
+    if (obj == mainHandle || obj == m_logsToggle)
+    {
+        if (e->type() == QEvent::Enter || e->type() == QEvent::HoverEnter)
+        {
+            if (m_mainSplit) m_mainSplit->setForcedHover(true);
+            if (m_logsToggle) m_logsToggle->setHovering(true);
+        }
+        else if (e->type() == QEvent::Leave || e->type() == QEvent::HoverLeave)
+        {
+            if (m_mainSplit) m_mainSplit->setForcedHover(false);
+            if (m_logsToggle) m_logsToggle->setHovering(false);
+        }
     }
     if ((obj == m_leftSplit || obj == m_rightSplit) && e->type() == QEvent::Resize)
         revealColumns();
@@ -1557,13 +1574,10 @@ void MetricsPanel::updateChevron()
     m_metricsToggle->setLineVisible(!m_metricsMinimised);
 }
 
-void MetricsPanel::setDividerLineVisible(QSplitter* s, bool visible)
+void MetricsPanel::setDividerLineVisible(ThinSplitter* s, bool visible)
 {
-    if (!s)
-        return;
-    s->setStyleSheet(visible
-                         ? m_handleQss
-                         : QStringLiteral("QSplitter::handle { background:transparent; image:none; }"));
+    if (s)
+        s->setLineVisible(visible);
 }
 
 void MetricsPanel::toggleLogs()

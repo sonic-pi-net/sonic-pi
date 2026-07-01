@@ -20,8 +20,11 @@
 #include <QLibraryInfo>
 #include <QPixmap>
 #include <QSplashScreen>
+#include <QStyleFactory>
 #include <QSurfaceFormat>
 #include <QThread>
+
+#include "utils/dividerproxystyle.h"
 
 #include "mainwindow.h"
 
@@ -111,7 +114,13 @@ int main(int argc, char* argv[])
 
     app.setApplicationName(QObject::tr("Sonic Pi"));
 
-    app.setStyle("fusion");
+    // Wrap Fusion in a proxy so QMainWindow dock separators get the same
+    // thin-line/hover-reveal as the custom QSplitter handles (ThinSplitter).
+    {
+        auto* dividerStyle = new DividerProxyStyle;
+        dividerStyle->setBaseStyle(QStyleFactory::create("fusion"));
+        app.setStyle(dividerStyle);
+    }
 
     MainWindow mainWin(app, splash);
 

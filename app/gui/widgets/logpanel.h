@@ -14,6 +14,7 @@ class QPlainTextEdit;
 class QShowEvent;
 class QHideEvent;
 class QTimer;
+class ThinSplitter;
 
 // Mutes the leading "[HH:MM:SS.mmm]" stamp on each log line so the
 // message itself stands out.
@@ -83,6 +84,7 @@ private slots:
 
 private:
     QWidget* m_logsTab = nullptr;
+    ThinSplitter* m_splitter = nullptr;
     QVector<QLabel*> m_labels;
     QVector<QPlainTextEdit*> m_edits;
     QVector<LogTailer*> m_tailers;

@@ -83,27 +83,9 @@ QSplitter
 }
 
 
-/* Splitter handles match the QMainWindow::separator dividers: a flat 4dx
-   windowBorderColor bar that brightens on hover. No grip image, so the
-   main-GUI dock separators and the debug-pane splitters look identical. */
-QSplitter::handle:horizontal
-{
-    width: 4dx;
-    background: windowBorderColor;
-    image: none;
-}
-
-QSplitter::handle:vertical
-{
-    height: 4dx;
-    background: windowBorderColor;
-    image: none;
-}
-
-QSplitter::handle:hover
-{
-    background: scrollBarHoverColor;
-}
+/* Splitter handles are custom-painted by ThinSplitterHandle (thinsplitter.h).
+   Don't add a QSplitter::handle rule here — it routes them through Qt's
+   stylesheet style and clobbers the thin-line paint and hover reveal. */
 
 QFrame
 {
@@ -282,18 +264,9 @@ QMenuBar::item:selected {
     color: menuSelectedTextColor;
 }
 
-QMainWindow::separator
-{
-   background-color: windowBorderColor;
-   height: 4dx;
-
-}
-
-QMainWindow::separator:hover
-{
-   background-color: scrollBarHoverColor;
-   height: 4dx;
-}
+/* Dock separators are custom-painted by DividerProxyStyle (dividerproxystyle.h).
+   Don't add a QMainWindow::separator rule here — it routes them through Qt's
+   stylesheet style and clobbers the thin-line paint and hover reveal. */
 
 QMainWindow
 {

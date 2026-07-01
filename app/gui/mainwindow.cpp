@@ -87,6 +87,8 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/linkaudiostreamswidget.h"
 #include "widgets/logpanel.h"
 #include "widgets/metricspanel.h"
+#include "widgets/thinsplitter.h"
+#include "utils/dividerproxystyle.h"
 
 #include <QMouseEvent>
 
@@ -767,7 +769,8 @@ void MainWindow::setupWindowStructure()
 
     addUniversalCopyShortcuts(docPane);
 
-    docsplit = new QSplitter;
+    docsplit = new ThinSplitter;
+    docsplit->setHandleWidth(7);
     docsplit->addWidget(docsNavTabs);
     docsplit->addWidget(docPane);
 
@@ -2800,6 +2803,18 @@ void MainWindow::updateColourTheme()
     {
         ((SonicPiEditor*)editorTabWidget->widget(i))->updateColourTheme(appStyling, piSettings->themeStyle);
     }
+
+    // The Docs nav/content divider paints itself (ThinSplitter): a thin centre
+    // line at rest, revealed full-width on hover.
+    docsplit->setDividerColors(theme->color("PaneBackground"),
+                               theme->color("WindowBorder"),
+                               theme->color("ScrollBarHover"));
+
+    // Same reveal for the QMainWindow dock separators (painted by the proxy style).
+    DividerProxyStyle::setDividerColors(theme->color("WindowBackground"),
+                                        theme->color("WindowBorder"),
+                                        theme->color("ScrollBarHover"));
+    update();   // repaint separators with the new colours
 
     updateContextWithCurrentWs();
     scopeWindow->SetColor(theme->color("Scope"));

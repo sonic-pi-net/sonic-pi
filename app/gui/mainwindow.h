@@ -47,6 +47,7 @@ class QTextBrowser;
 class QString;
 class QSlider;
 class QSplitter;
+class ThinSplitter;
 
 namespace SonicPi
 {
@@ -640,7 +641,7 @@ private:
     QString latest_version;
     int latest_version_num;
 
-    QSplitter* docsplit;
+    ThinSplitter* docsplit;
 
     QLabel* versionLabel;
     bool tmpFileStoreAvailable;
