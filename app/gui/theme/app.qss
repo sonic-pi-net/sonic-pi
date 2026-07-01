@@ -372,7 +372,9 @@ QTextBrowser
     font-size: medium;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
-    padding: 20dx;
+    /* No scroll-area padding: it would inset the scrollbar and break the
+       shared 2dx offset. The 20dx text inset is applied via documentMargin
+       (see setDocumentMargin calls) so the bar stays flush to the edge. */
     background-color: paneColor;
 }
 
@@ -532,27 +534,33 @@ QGroupBox:title
     background-color: windowColor;
 }
 
-/* Scrollbars — unified across both axes. An 8dx track (2x the 4dx
-   divider) carries a fully-rounded capsule handle. No arrow buttons; the
-   handle runs the full length of the track. Vertical and horizontal are
-   exact mirrors of each other. */
+/* Scrollbars — unified across both axes and every pane. A 10dx strip
+   carries an 8dx fully-rounded capsule handle that sits a constant 2dx off
+   the trailing edge (right for vertical, bottom for horizontal). The 2dx
+   gap lives on the handle, not the container, so the offset is identical
+   everywhere regardless of each pane's own border/padding. No arrow
+   buttons; the handle runs the full length of the track. Vertical and
+   horizontal are exact mirrors of each other.
+   NB: keep panes free of scroll-area padding (it would shove the whole
+   strip inward and break the shared offset — pad text via documentMargin
+   instead). */
 
 QScrollBar:vertical,
 QScrollBar:horizontal
 {
     background: transparent;
     border: none;
-    margin: 0dx;
+    margin: 0px;
 }
 
 QScrollBar:vertical
 {
-    width: 8dx;
+    width: 10dx;
 }
 
 QScrollBar:horizontal
 {
-    height: 8dx;
+    height: 10dx;
 }
 
 QScrollBar::handle:vertical,
@@ -562,14 +570,24 @@ QScrollBar::handle:horizontal
     border-radius: 4dx;
 }
 
+/* 2dx capsule inset off the trailing edge (right for vertical, bottom for
+   horizontal). MUST be single-value longhand margins: the dx→px preprocessor
+   (ScalePxInStyleSheet) only rewrites a dx token that comes straight after a
+   colon, so a shorthand like `margin: 0dx 2dx 0dx 0dx` leaves the later
+   values un-scaled and Qt drops the whole declaration. Zeros are literal 0px
+   for the same reason (there is no 0dx rule in the preprocessor). */
 QScrollBar::handle:vertical
 {
     min-height: 24dx;
+    margin-left: 0px;
+    margin-right: 2dx;
 }
 
 QScrollBar::handle:horizontal
 {
     min-width: 24dx;
+    margin-top: 0px;
+    margin-bottom: 2dx;
 }
 
 QScrollBar::handle:hover
@@ -583,8 +601,8 @@ QScrollBar::sub-line:vertical,
 QScrollBar::add-line:horizontal,
 QScrollBar::sub-line:horizontal
 {
-    width: 0dx;
-    height: 0dx;
+    width: 0px;
+    height: 0px;
     background: none;
     border: none;
 }

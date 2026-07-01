@@ -9,6 +9,7 @@
 //++
 
 #include "completionpopup.h"
+#include "dpi.h"
 
 #include <QListView>
 #include <QStandardItemModel>
@@ -860,6 +861,7 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     // list, separated by a hairline. Hidden when the item has no summary.
     // Scrollable rich-text docstring box (right of the list).
     m_detail = new QTextBrowser;
+    m_detail->document()->setDocumentMargin(ScaleWidthForDPI(20));  // text inset; keeps the scrollbar flush
     m_detail->setObjectName("completionDetail");
     m_detail->setReadOnly(true);
     m_detail->setFrameShape(QFrame::NoFrame);

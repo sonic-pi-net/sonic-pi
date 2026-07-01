@@ -27,6 +27,12 @@ SonicPiEditor::SonicPiEditor(SonicPiScintilla *workspace, SonicPiTheme *theme, Q
   QVBoxLayout* workspace_layout = new QVBoxLayout;
   QWidget* workspace_widget = new QWidget;
   setLayout(workspace_layout);
+  // Fill the pane: the style's default layout margins would inset the whole
+  // editor (and so its scrollbars) ~10px from the pane edge, leaving the code
+  // scrollbar floating while the log/info panes sit flush. Zero margins +
+  // spacing so every pane's scrollbar shares the same edge offset.
+  workspace_layout->setContentsMargins(0, 0, 0, 0);
+  workspace_layout->setSpacing(0);
   m_context = new SonicPiContext(this);
   m_context->setContent("");
   m_context->setReadOnly(true);

@@ -759,6 +759,10 @@ void MetricsPanel::buildLogs(QSplitter* col)
         QLabel* t = nullptr;
         QFrame* card = makeCard(title, &body, &t);
         card->setObjectName("ssCardFlat");  // borderless
+        // Drop the card body's right margin so the log's scrollbar sits flush to
+        // the panel edge, matching the editor / output-log panes (their bars are
+        // flush + the shared 2dx handle inset). Left inset stays for the text.
+        body->setContentsMargins(5, 3, 0, 4);
         card->setFont(mono);
         t->setFont(mono);
         m_rowLabels.append(t);

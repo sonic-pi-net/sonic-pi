@@ -371,6 +371,7 @@ void MainWindow::showWelcomeScreen()
     if (gui_settings->value("first_time", 1).toInt() == 1)
     {
         QTextBrowser* startupPane = new QTextBrowser;
+        startupPane->document()->setDocumentMargin(ScaleWidthForDPI(20));  // text inset; keeps the scrollbar flush
         startupPane->setFixedSize(ScaleHeightForDPI(600), ScaleHeightForDPI(650));
         startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
         startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
@@ -430,6 +431,7 @@ void MainWindow::setupWindowStructure()
     incomingPane = new SonicPiLog;
     incomingPane->setAccessibleName(tr("Cues"));
     errorPane = new QTextBrowser;
+    errorPane->document()->setDocumentMargin(ScaleWidthForDPI(20));  // text inset; keeps the scrollbar flush
     errorPane->setAccessibleName(tr("Errors"));
     metroPane = new SonicPiMetro(m_spClient, m_spAPI, theme, this);
 
@@ -746,6 +748,7 @@ void MainWindow::setupWindowStructure()
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
     docPane = new QTextBrowser;
+    docPane->document()->setDocumentMargin(ScaleWidthForDPI(20));  // text inset; keeps the scrollbar flush
     docPane->setAccessibleName(tr("Documentation"));
     QSizePolicy policy = docPane->sizePolicy();
     policy.setHorizontalStretch(QSizePolicy::Maximum);
@@ -796,6 +799,12 @@ void MainWindow::setupWindowStructure()
     connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
 
     mainWidgetLayout = new QVBoxLayout;
+    // Fill the central area: the style's default layout margins would inset the
+    // editor tab widget (and so its scrollbars) ~10px from the window edge,
+    // while the dock panes (log / info) sit flush. Zero margins + spacing so
+    // every pane's scrollbar shares the same edge offset.
+    mainWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    mainWidgetLayout->setSpacing(0);
     mainWidgetLayout->addWidget(editorTabWidget);
     mainWidgetLayout->addWidget(errorPane);
     mainWidget = new QWidget;
@@ -4525,6 +4534,7 @@ void MainWindow::createInfoPane()
     for (int t = 0; t < urls.size(); t++)
     {
         QTextBrowser* pane = new QTextBrowser;
+        pane->document()->setDocumentMargin(ScaleWidthForDPI(20));  // text inset; keeps the scrollbar flush
         infoPanes.append(pane);
         addUniversalCopyShortcuts(pane);
         pane->setOpenExternalLinks(true);

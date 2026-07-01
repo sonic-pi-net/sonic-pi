@@ -95,6 +95,10 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     setIndentationGuidesForegroundColor(theme->color("IndentationGuidesForeground"));
     setBraceMatching(SonicPiScintilla::SloppyBraceMatch);
 
+    // Drop the default sunken frame so the editor's scrollbars sit flush to the
+    // edge, matching every other pane's shared 2dx scrollbar offset.
+    setFrameShape(QFrame::NoFrame);
+
     // TODO: add preference toggle for this:
     // this->setFolding(SonicPiScintilla::CircledTreeFoldStyle, 2);
     setCaretLineVisible(true);
