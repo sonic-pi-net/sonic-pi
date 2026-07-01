@@ -382,7 +382,7 @@ QGroupBox
     font-size: medium;
     font-weight: italic;
     background-color: windowColor;
-    border: 5dx solid windowInternalBorderColor;
+    border: 1dx solid windowInternalBorderColor;
 }
 
 QDockWidget QListView

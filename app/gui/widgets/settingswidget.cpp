@@ -34,6 +34,8 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QIcon>
+#include <QPen>
+#include <QFontMetrics>
 #include <QUrl>
 #include <iostream>
 #include <QLabel>
@@ -549,8 +551,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     hide_menubar_in_fullscreen->setToolTip(tr("Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode."));
     hide_menubar_in_fullscreen->setChecked(false);
 
-    // Theme picker — vertical segmented pill list (one-of-N, same idiom
-    // as the Shortcuts mode and Recording controls).
+    // One checkable button per theme, made mutually exclusive by the button group.
     colourModeButtonGroup = new QButtonGroup(this);
     lightModeCheck = new QPushButton(tr("Light"));
     darkModeCheck = new QPushButton(tr("Dark"));
@@ -563,74 +564,121 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     colourModeButtonGroup->addButton(darkProModeCheck, 3);
     colourModeButtonGroup->addButton(highContrastModeCheck, 4);
 
-    // Per-theme preview so the options aren't ambiguous: the theme's editor
-    // background carrying its actual run/stop toolbar icons. Light vs Dark reads
-    // from the background; default vs Pro reads from the icon art (Pro Light and
-    // Pro Dark share the Pro icons but differ by background). Label = the name.
-    auto makeThemePreview = [](const QColor& bg, const QString& runPath,
-                               const QString& stopPath) -> QIcon {
-        const qreal dpr = 2.0;
-        const int w = 64, h = 22;
-        QPixmap pm(int(w * dpr), int(h * dpr));
-        pm.setDevicePixelRatio(dpr);
-        pm.fill(Qt::transparent);
-        QPainter p(&pm);
-        p.setRenderHint(QPainter::Antialiasing);
-        p.setRenderHint(QPainter::SmoothPixmapTransform);
-        p.setBrush(bg);
-        p.setPen(QPen(QColor(127, 127, 127, 110), 1));
-        p.drawRoundedRect(QRectF(0.5, 0.5, w - 1, h - 1), 4, 4);
-        const int ic = 14, pad = 7, gap = 8;
-        const int y = (h - ic) / 2;
-        const QPixmap runPm(runPath), stopPm(stopPath);
-        if (!runPm.isNull())  p.drawPixmap(QRect(pad, y, ic, ic), runPm);
-        if (!stopPm.isNull()) p.drawPixmap(QRect(pad + ic + gap, y, ic, ic), stopPm);
-        p.end();
-        return QIcon(pm);
-    };
-    const QColor lightBg("#ffffff"), darkBg("#1e1e1e");
-    lightModeCheck->setIcon(makeThemePreview(
-        lightBg, ":/images/toolbar/default/light-run.png",
-        ":/images/toolbar/default/light-stop.png"));
-    darkModeCheck->setIcon(makeThemePreview(
-        darkBg, ":/images/toolbar/default/dark-run.png",
-        ":/images/toolbar/default/dark-stop.png"));
-    lightProModeCheck->setIcon(makeThemePreview(
-        lightBg, ":/images/toolbar/pro/run.png", ":/images/toolbar/pro/stop.png"));
-    darkProModeCheck->setIcon(makeThemePreview(
-        darkBg, ":/images/toolbar/pro/run.png", ":/images/toolbar/pro/stop.png"));
-    highContrastModeCheck->setIcon(makeThemePreview(
-        lightBg, ":/images/toolbar/default/hc-run.png",
-        ":/images/toolbar/default/hc-stop.png"));
-
     lightModeCheck->setToolTip(tr("Light colours with the classic icon set."));
     darkModeCheck->setToolTip(tr("Dark colours with the classic icon set."));
     lightProModeCheck->setToolTip(tr("Light colours with the Pro icon set."));
     darkProModeCheck->setToolTip(tr("Dark colours with the Pro icon set."));
     highContrastModeCheck->setToolTip(tr("High-contrast colours for maximum legibility."));
 
-    QWidget* themeSegControl = new QWidget();
-    themeSegControl->setObjectName("themeSegControl");
-    themeSegControl->setStyleSheet(
-        "#themeSegControl { background: rgba(127,127,127,70); border-radius: 7px; }"
-        // color: explicit — the global QPushButton rule uses buttonTextColor,
-        // which is white-on-light for the Light / High Contrast themes.
-        "#themeSegControl QPushButton { border: none; padding: 5px 16px; border-radius: 5px;"
-        " background: transparent; color: palette(window-text); text-align: left;"
-        " font-size: medium; min-height: 20px; }"
-        "#themeSegControl QPushButton:hover:!checked { background: rgba(127,127,127,70); }"
-        "#themeSegControl QPushButton:checked { background: palette(highlight);"
-        " color: palette(highlighted-text); }");
-    QVBoxLayout* themeSegLayout = new QVBoxLayout(themeSegControl);
-    themeSegLayout->setContentsMargins(3, 3, 3, 3);
-    themeSegLayout->setSpacing(3);
-    for (QPushButton* b : { lightModeCheck, darkModeCheck, lightProModeCheck,
-                            darkProModeCheck, highContrastModeCheck }) {
-        b->setCheckable(true);
-        b->setCursor(Qt::PointingHandCursor);
-        b->setIconSize(QSize(64, 22));
-        themeSegLayout->addWidget(b);
+    // Theme picker: a grid of checkable cards, one per theme, each painted in its
+    // theme's colours with a toolbar-icon preview above the theme name.
+    QWidget* themeGrid = new QWidget();
+    themeGrid->setObjectName("themeGrid");
+    QGridLayout* themeGridLayout = new QGridLayout(themeGrid);
+    themeGridLayout->setContentsMargins(0, 0, 0, 0);
+    themeGridLayout->setHorizontalSpacing(6);
+    themeGridLayout->setVerticalSpacing(6);
+
+    const QSize iconSize(ScaleWidthForDPI(64), ScaleHeightForDPI(26));
+    const qreal dpr = devicePixelRatioF();
+    // Draws the run icon (plus stop, for Pro) onto a transparent pixmap; the card
+    // background behind the label shows through.
+    auto makeThemeIcon = [&](bool pro, const QString& runPath, const QString& stopPath) -> QPixmap {
+        QPixmap pm(iconSize * dpr);
+        pm.setDevicePixelRatio(dpr);
+        pm.fill(Qt::transparent);
+        QPainter p(&pm);
+        p.setRenderHint(QPainter::Antialiasing, true);
+        p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+        const qreal w = iconSize.width(), h = iconSize.height();
+        // Each icon is drawn at height ih; its width follows its aspect ratio.
+        const qreal ih = h * 0.82;
+        const QPixmap runPm(runPath), stopPm(stopPath);
+        auto blit = [&](const QPixmap& src, qreal cx) {
+            if (src.isNull()) return;
+            const qreal ar = qreal(src.width()) / qMax(1, src.height());
+            const qreal iw = ih * ar;
+            p.drawPixmap(QRectF(cx - iw / 2.0, (h - ih) / 2.0, iw, ih), src, QRectF(src.rect()));
+        };
+        if (pro) {
+            const qreal gap = w * 0.06;
+            blit(runPm,  w / 2.0 - (ih + gap) / 2.0);
+            blit(stopPm, w / 2.0 + (ih + gap) / 2.0);
+        } else {
+            blit(runPm, w / 2.0);
+        }
+        p.end();
+        return pm;
+    };
+
+    // bg/fg: card background and text. border: resting border colour. run/stop:
+    // toolbar icon resource paths. pro: draw both run + stop. Light row, dark row.
+    struct ThemeSwatch { QPushButton* btn; const char* bg; const char* fg; const char* border;
+                         const char* run; const char* stop; bool pro; int row; int col; };
+    const char* kGrey = "rgba(127,127,127,90)";   // resting border colour
+    const ThemeSwatch swatches[] = {
+        { lightModeCheck,        "#ffffff", "#3c3c3c", kGrey,     ":/images/toolbar/default/light-run.png", ":/images/toolbar/default/light-stop.png", false, 0, 0 },
+        { lightProModeCheck,     "#ffffff", "#3c3c3c", kGrey,     ":/images/toolbar/pro/run.png",           ":/images/toolbar/pro/stop.png",           true,  0, 1 },
+        { highContrastModeCheck, "#ffffff", "#000000", "#000000", ":/images/toolbar/default/hc-run.png",    ":/images/toolbar/default/hc-stop.png",    false, 0, 2 },
+        { darkModeCheck,         "#1a1a1a", "#ededed", kGrey,     ":/images/toolbar/default/dark-run.png",  ":/images/toolbar/default/dark-stop.png",  false, 1, 0 },
+        { darkProModeCheck,      "#1a1a1a", "#ededed", kGrey,     ":/images/toolbar/pro/run.png",           ":/images/toolbar/pro/stop.png",           true,  1, 1 },
+    };
+    // Card width is driven by the widest label (the icon sits above the name).
+    QFont measureFont = lightModeCheck->font();
+    measureFont.setPixelSize(ScaleHeightForDPI(19));   // matches the drawn "medium" size
+    QFontMetrics fm(measureFont);
+    int maxTextW = 0;
+    for (const ThemeSwatch& s : swatches)
+        maxTextW = qMax(maxTextW, fm.horizontalAdvance(s.btn->text()));
+    const int btnMinW = maxTextW + ScaleWidthForDPI(28);   // name + margins
+    for (const ThemeSwatch& s : swatches) {
+        s.btn->setCheckable(true);
+        s.btn->setCursor(Qt::PointingHandCursor);
+        s.btn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        s.btn->setMinimumWidth(btnMinW);
+        // A QPushButton doesn't size to its child layout, so set the height here.
+        s.btn->setMinimumHeight(iconSize.height() + ScaleHeightForDPI(38));
+        // Card colours from the theme; border shows resting/hover/checked state.
+        s.btn->setStyleSheet(QString(
+            "QPushButton { background:%1; border:2px solid %3;"
+            " border-radius:6px; padding:0; }"
+            "QPushButton:hover:!checked { border:2px solid rgba(255,20,147,150); }"
+            "QPushButton:checked { border:2px solid deeppink; }"
+            "QLabel { background:transparent; color:%2; }")
+            .arg(QString::fromLatin1(s.bg), QString::fromLatin1(s.fg),
+                 QString::fromLatin1(s.border)));
+
+        // Icon above name, as child labels (a QPushButton lays its own icon+text
+        // horizontally). Labels are click-through so the button receives the click.
+        QVBoxLayout* card = new QVBoxLayout(s.btn);
+        card->setContentsMargins(ScaleWidthForDPI(10), ScaleHeightForDPI(4),
+                                 ScaleWidthForDPI(10), ScaleHeightForDPI(8));
+        card->setSpacing(ScaleHeightForDPI(3));
+        QLabel* iconLbl = new QLabel;
+        iconLbl->setPixmap(makeThemeIcon(s.pro, s.run, s.stop));
+        iconLbl->setAlignment(Qt::AlignCenter);
+        iconLbl->setAttribute(Qt::WA_TransparentForMouseEvents);
+        const QString name = s.btn->text();
+        QLabel* nameLbl = new QLabel(name);
+        nameLbl->setAlignment(Qt::AlignCenter);
+        nameLbl->setAttribute(Qt::WA_TransparentForMouseEvents);
+        // Stretches above and below centre the icon+name group vertically.
+        card->addStretch(1);
+        card->addWidget(iconLbl);
+        card->addWidget(nameLbl);
+        card->addStretch(1);
+        // Name is shown by nameLbl; set it as the accessible name before clearing
+        // the button's own text.
+        s.btn->setAccessibleName(name);
+        s.btn->setText("");
+
+        themeGridLayout->addWidget(s.btn, s.row, s.col);
     }
+    // Equal minimum width on the three columns; a trailing stretch column takes
+    // any remaining width.
+    for (int c = 0; c < 3; ++c)
+        themeGridLayout->setColumnMinimumWidth(c, btnMinW);
+    themeGridLayout->setColumnStretch(3, 1);
 
     QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
     QVBoxLayout *editor_show_panels_box_layout = new QVBoxLayout;
@@ -655,7 +703,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_display_box_layout->addWidget(hide_menubar_in_fullscreen);
 #endif
 
-    editor_box_look_feel_layout->addWidget(themeSegControl);
+    editor_box_look_feel_layout->addWidget(themeGrid);
 
     editor_show_panels_box->setLayout(editor_show_panels_box_layout);
     editor_display_box->setLayout(editor_display_box_layout);

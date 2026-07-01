@@ -240,7 +240,8 @@ private:
 
 
     QButtonGroup *colourModeButtonGroup;
-    // Segmented control buttons (checkable, exclusive via the group).
+    // Theme picker cards (checkable, exclusive via the group): a preview icon
+    // above the theme name, painted in that theme's colours.
     QPushButton *lightModeCheck;
     QPushButton *darkModeCheck;
     QPushButton *lightProModeCheck;
