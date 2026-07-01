@@ -984,7 +984,16 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     // before the first show()) targets a real window: macOS drops pre-creation
     // geometry, so without this the first popup ignores its position and lands
     // over the caret instead of below it.
+    //
+    // macOS only: on Windows, realising the HWND this early — before the first
+    // show() — creates the native window before the translucent/layered
+    // compositing is set up for this frameless WA_TranslucentBackground tooltip,
+    // so it "shows" at the right size/position but paints nothing (an invisible
+    // popup). Windows keeps geometry across the pre-show move(), so it doesn't
+    // need this anyway.
+#ifdef Q_OS_MACOS
     createWinId();
+#endif
 }
 
 void CompletionPopup::paintEvent(QPaintEvent*)
