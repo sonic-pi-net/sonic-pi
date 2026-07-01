@@ -187,8 +187,8 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
 
     auto makeSectionLabel = [this](const QString& text) {
         auto* l = new QLabel(text.toUpper(), this);
-        l->setObjectName("paneTitle");   // shared small/muted/left title style
-        l->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        l->setObjectName("linkSectionLabel");  // subordinate to the widget title
+        l->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         return l;
     };
 
@@ -251,15 +251,16 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     });
     auto* shareLabel = makeSectionLabel(tr("Stream Audio"));
 
-    // Two-state sliding toggle: Local / Network. Muted when Link is off
-    // (see applyLinkEnabled).
+    // Two-state Local / Network control. The compact icon button lives on the
+    // metro row (see SonicPiMetro); this fuller labelled pill lives here in the
+    // expanded panel. Both drive supersonic/networkVisibility and stay in sync;
+    // the selected half fills pink when on-network (public).
     m_visibilityToggle = new LinkVisibilityToggle(this);
     connect(m_visibilityToggle, &LinkVisibilityToggle::toggled,
             this, [this](bool isNet) {
                 emit requestNetworkVisibilityChange(isNet ? 2 : 1);
                 if (!m_linkEnabled) flashEmptyMessage();
             });
-    auto* visLabel = makeSectionLabel(tr("Visibility"));
 
     // Match Share Audio's height to the visibility toggle. The latency
     // control sizes naturally: macOS's native QSlider needs more vertical
@@ -277,15 +278,18 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     idGrid->setVerticalSpacing(2);
     int gc = 0;
     auto addCol = [&](QLabel* label, QWidget* control) {
-        idGrid->addWidget(label, 0, gc, Qt::AlignLeft | Qt::AlignBottom);
+        idGrid->addWidget(label, 0, gc, Qt::AlignHCenter | Qt::AlignBottom);
         idGrid->addWidget(control, 1, gc, Qt::AlignHCenter | Qt::AlignVCenter);
         ++gc;
     };
     addCol(nameLabel, m_peerNameEdit);
     addCol(latLabel, latencyControl);
     addCol(shareLabel, m_shareAudioBox);
-    addCol(visLabel, m_visibilityToggle);
-    idGrid->setColumnStretch(gc, 1);
+    addCol(makeSectionLabel(tr("Visibility")), m_visibilityToggle);
+    // Distribute the columns across the full width (rather than a trailing
+    // stretch) so the identity row spans the same width as the peer table and
+    // the metro row below — Link Name at the left, Visibility at the right edge.
+    for (int c = 0; c < gc; ++c) idGrid->setColumnStretch(c, 1);
     layout->addLayout(idGrid);
     m_idGrid = idGrid;
     // Extra gap to separate the identity controls from the peer table
@@ -352,6 +356,13 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     applyLinkEnabled(false);
 }
 
+void LinkAudioStreamsWidget::setVisibilityColors(const QColor& thumb,
+                                                 const QColor& activeIcon)
+{
+    if (!m_visibilityToggle) return;
+    m_visibilityToggle->setAccent(thumb, activeIcon);
+}
+
 void LinkAudioStreamsWidget::applyMasterVisibility(int mode)
 {
     if (!m_visibilityToggle) return;
@@ -376,6 +387,11 @@ void LinkAudioStreamsWidget::applyLinkEnabled(bool enabled)
     if (m_shareAudioBox) {
         m_shareAudioBox->setProperty("muted", !enabled);
         repolish(m_shareAudioBox);
+    }
+    if (m_peerNameEdit) {
+        // Border goes pink when Link is engaged (see app.qss).
+        m_peerNameEdit->setProperty("linkOn", enabled);
+        repolish(m_peerNameEdit);
     }
     if (m_peersTable) {
         // Drives the header-section colour swap in app.qss (Link-state chip).

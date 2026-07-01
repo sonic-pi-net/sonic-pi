@@ -75,6 +75,7 @@ private:
   QPushButton *tapButton;
   QSlider *timeWarpSlider;
   TimeWarpEdit *timeWarpLineEdit;
+  QPushButton *m_rowVisibility = nullptr;  // Local/Network button on the metro row (a GlyphButton)
   // Embedded inline below the main metro row; toggled by linkStreamsButton.
   LinkAudioStreamsWidget *linkStreamsWidget = nullptr;
   // Independent state pair. Effective Link visibility sent over OSC =
@@ -93,6 +94,7 @@ private:
 
 
   bool isSetPosAvailable();
+  void updateRowVisibility();      // Sync the button's glyph / public state / tip.
   void updateActiveLinkText();
   void updateLinkButtonDisplay();
   void pushLinkConfigToServer();  // Sends peer-name then effective visibility.

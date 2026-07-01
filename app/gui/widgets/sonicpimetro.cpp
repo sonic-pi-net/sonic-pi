@@ -20,9 +20,77 @@
 #include "linkaudiostreamswidget.h"
 #include <QStyleOption>
 #include <QPainter>
-#include <QSpacerItem>
+#include <QPixmap>
+#include <QSvgRenderer>
 #include <QThread>
 #include "dpi.h"
+
+namespace {
+
+// Tabler icons (MIT, see Tabler-Icons-License.md): ti-ghost-3 (filled) =
+// Local/hidden, ti-topology-ring-2 = Network/public. %1 = the render colour.
+const char* kGhostSvg =
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%1'>"
+    "<path d='M12 3a8 8 0 0 1 8 8v6.954l.009 .103a2.78 2.78 0 0 1 -1.468 2.618l-.163 .08c-1.111 .502 -2.42 .22 -3.266 -.74a.65 .65 0 0 0 -1.024 0a2.65 2.65 0 0 1 -4.176 0a.65 .65 0 0 0 -.512 -.249c-.2 0 -.389 .092 -.55 .296a2.78 2.78 0 0 1 -4.859 -2.005l.01 -.104l.007 -.077l-.008 .074v-6.95l.004 -.25a8 8 0 0 1 7.747 -7.746zm-1.99 6h-.01a1 1 0 1 0 0 2h.01a1 1 0 0 0 0 -2m4 0h-.01a1 1 0 0 0 0 2h.01a1 1 0 0 0 0 -2'/>"
+    "</svg>";
+
+const char* kNetworkSvg =
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+    "stroke='%1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>"
+    "<path d='M14 6a2 2 0 1 0 -4 0a2 2 0 0 0 4 0'/>"
+    "<path d='M7 18a2 2 0 1 0 -4 0a2 2 0 0 0 4 0'/>"
+    "<path d='M21 18a2 2 0 1 0 -4 0a2 2 0 0 0 4 0'/>"
+    "<path d='M7 18h10'/>"
+    "<path d='M18 16l-5 -8'/>"
+    "<path d='M11 8l-5 8'/>"
+    "</svg>";
+
+// A metro button that keeps all the app.qss chrome (background, hover, border)
+// via QPushButton, but paints its glyph itself so it fills the button rather
+// than being capped to the small icon content area a QPushButton allows.
+class GlyphButton : public QPushButton
+{
+public:
+    explicit GlyphButton(QWidget* parent = nullptr) : QPushButton(parent) {}
+    void setGlyph(const char* svg, const QColor& color)
+    {
+        if (m_svg == svg && m_color == color) return;
+        m_svg = svg;
+        m_color = color;
+        m_cache = QPixmap();   // invalidate; re-rendered lazily on next paint
+        update();
+    }
+protected:
+    void paintEvent(QPaintEvent* e) override
+    {
+        QPushButton::paintEvent(e);   // qss background / hover / border
+        if (!m_svg) return;
+        // Glyph fills 60% of the button (not capped to the tiny icon content
+        // area). Rendered once per (glyph, colour, size) and cached.
+        const int s = int(qMin(width(), height()) * 0.6);
+        if (s <= 0) return;
+        const qreal dpr = devicePixelRatioF();
+        if (m_cache.isNull() || m_cache.size() != QSize(s, s) * dpr) {
+            m_cache = QPixmap(QSize(s, s) * dpr);
+            m_cache.setDevicePixelRatio(dpr);
+            m_cache.fill(Qt::transparent);
+            QPainter cp(&m_cache);
+            cp.setRenderHint(QPainter::Antialiasing);
+            const qreal o = s * 0.10;   // crop Tabler's viewBox margin so it fills
+            QByteArray bytes =
+                QString::fromLatin1(m_svg).arg(m_color.name(QColor::HexRgb)).toUtf8();
+            QSvgRenderer(bytes).render(&cp, QRectF(-o, -o, s + 2 * o, s + 2 * o));
+        }
+        QPainter p(this);
+        p.drawPixmap(QPoint((width() - s) / 2, (height() - s) / 2), m_cache);
+    }
+private:
+    const char* m_svg = nullptr;
+    QColor m_color;
+    QPixmap m_cache;
+};
+
+} // namespace
 
 SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, QWidget* parent)
   : QWidget(parent)
@@ -63,7 +131,8 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   timeWarpSlider = new QSlider(Qt::Horizontal, this);
   timeWarpSlider->setAutoFillBackground(true);
   timeWarpSlider->setObjectName("timeWarpSlider");
-  timeWarpSlider->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  // The row's flexible filler: expands to span the row (min width from app.qss).
+  timeWarpSlider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   timeWarpSlider->setTickPosition(QSlider::TicksBelow);
   timeWarpSlider->setToolTip(tr("Global Time Warp.\n\nSlide to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nThe unit is milliseconds."));
   timeWarpSlider->setMinimum(-250);
@@ -77,7 +146,6 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   timeWarpLineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   timeWarpLineEdit->setToolTip(tr("Global Time Warp.\n\nAdjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nEdit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds."));
-
   connect(timeWarpSlider, &QSlider::valueChanged, [this](int value) {
     QSignalBlocker blocker(timeWarpLineEdit);
     timeWarpLineEdit->setDisplayAndWarpToTime(value);
@@ -102,22 +170,34 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   linkStreamsButton->setFlat(true);
   linkStreamsButton->setToolTip(tr("Show / hide the Link Audio streams panel."));
 
-  // The three groups (Link / Tap+BPM / TimeWarp) spread across the row's width
-  // via expanding inner spacers; the row itself is capped to the same natural
-  // width as the streams panel below (see metroRowWidget), so they line up.
+  // Network-visibility button — a plain QPushButton styled by app.qss exactly
+  // like the other metro buttons (background, hover) with a dynamic "public"
+  // property for the pink state. Icon switches ghost (Local) / cloud (Network).
+  m_rowVisibility = new GlyphButton(this);
+  m_rowVisibility->setObjectName("rowVisibility");
+  m_rowVisibility->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  m_rowVisibility->setFlat(true);
+  m_rowVisibility->setCursor(Qt::PointingHandCursor);
+  updateRowVisibility();
+  connect(m_rowVisibility, &QPushButton::clicked, this, [this]() {
+    const int mode = (static_cast<int>(m_networkMode) == 2) ? 1 : 2;  // toggle
+    QSettings().setValue("supersonic/networkVisibility", mode);
+    onSupersonicNetworkVisibilityChanged(mode);
+  });
+
+  // Single tight row: fixed spacing (never collapses), left-packed via a
+  // trailing stretch so the strip stays compact and the dock can narrow.
   QHBoxLayout* metro_row = new QHBoxLayout;
   metro_row->setContentsMargins(0, 0, 0, 0);
+  metro_row->setSpacing(ScaleWidthForDPI(14));
   metro_row->addWidget(enableLinkButton);
   metro_row->addWidget(linkStreamsButton);
-  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
   metro_row->addWidget(tapButton);
   metro_row->addWidget(bpmScrubWidget);
-  metro_row->addSpacerItem(new QSpacerItem(ScaleWidthForDPI(30), 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
-  metro_row->addWidget(timeWarpSlider);
-  metro_row->addWidget(timeWarpLineEdit);
+  metro_row->addWidget(timeWarpSlider, 1);   // flexible filler: spans the row so
+  metro_row->addWidget(timeWarpLineEdit);    // the controls reach the full panel
+  metro_row->addWidget(m_rowVisibility);     // width (ghost at the right edge).
 
-  // Same capped natural width as the streams panel, left-aligned, so the bottom
-  // controls and the panel above share one column.
   QWidget* metroRowWidget = new QWidget(this);
   metroRowWidget->setLayout(metro_row);
   metroRowWidget->setMaximumWidth(640);
@@ -125,6 +205,8 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   // Hidden by default; toggled by linkStreamsButton.
   linkStreamsWidget = new LinkAudioStreamsWidget(m_spAPI, this);
   linkStreamsWidget->setVisible(false);
+  linkStreamsWidget->setVisibilityColors(theme->color("HighlightedBackground"),
+                                         theme->color("HighlightedForeground"));
 
   // Streams panel sits just above the anchored metro row.
   // Stack the streams panel and the metro row in one fixed-width, left-aligned
@@ -137,11 +219,10 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   colLayout->setSpacing(0);
   colLayout->addWidget(linkStreamsWidget);
   colLayout->addWidget(metroRowWidget);
-  // Size the column to the identity controls' natural width (Link Name /
-  // Latency / Stream Audio / Visibility). The peer table and the metro row both
-  // match this — the metro row's expanding spacers shrink so it fits — and the
-  // top controls fill it exactly (no trailing slack). Fixed so it doesn't move
-  // when the streams panel is shown or hidden.
+  // Lock the whole column (metro row + expanded panel) to the streams-panel
+  // controls width so the collapsed row and the expanded panel are the same
+  // width — one cohesive widget. The row's trailing stretch left-packs its
+  // controls within that width.
   linkColumn->setFixedWidth(linkStreamsWidget->controlsNaturalWidth());
 
   QVBoxLayout* metro_layout = new QVBoxLayout;
@@ -160,6 +241,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
     m_linkEnabled = false;
     pushLinkConfigToServer();
     updateLinkButtonDisplay();
+    updateRowVisibility();
   }
 
   connect(enableLinkButton, &QPushButton::clicked, [this]() {
@@ -204,6 +286,28 @@ void SonicPiMetro::onSupersonicNetworkVisibilityChanged(int mode)
   mutex->unlock();
   // Keep the streams widget's header/empty-state/slider in sync.
   if (linkStreamsWidget) linkStreamsWidget->applyMasterVisibility(mode);
+  updateRowVisibility();
+}
+
+void SonicPiMetro::updateRowVisibility()
+{
+  if (!m_rowVisibility) return;
+  const bool net = (static_cast<int>(m_networkMode) == 2);
+  static_cast<GlyphButton*>(m_rowVisibility)
+      ->setGlyph(net ? kNetworkSvg : kGhostSvg, theme->color("ButtonText"));
+  // Pink only when actually public: Network selected AND Link engaged.
+  const bool pub = net && m_linkEnabled;
+  if (m_rowVisibility->property("public").toBool() != pub) {
+    m_rowVisibility->setProperty("public", pub);
+    m_rowVisibility->style()->unpolish(m_rowVisibility);
+    m_rowVisibility->style()->polish(m_rowVisibility);
+  }
+  m_rowVisibility->update();
+  m_rowVisibility->setToolTip(net
+      ? tr("Public — visible to other devices on your network.\n"
+           "Click to go local (private).")
+      : tr("Local only — hidden from the network.\n"
+           "Click to go public (visible on the network)."));
 }
 
 void SonicPiMetro::linkEnable()
@@ -216,6 +320,7 @@ void SonicPiMetro::linkEnable()
   }
   updateLinkButtonDisplay();
   if (linkStreamsWidget) linkStreamsWidget->applyLinkEnabled(true);
+  updateRowVisibility();
   mutex->unlock();
 }
 
@@ -229,6 +334,7 @@ void SonicPiMetro::linkDisable()
   }
   updateLinkButtonDisplay();
   if (linkStreamsWidget) linkStreamsWidget->applyLinkEnabled(false);
+  updateRowVisibility();
   mutex->unlock();
 }
 
@@ -290,6 +396,10 @@ void SonicPiMetro::updateColourTheme()
   // Qt re-applies the app-wide stylesheet itself; just re-evaluate
   // state-dependent styling.
   updateLinkButtonDisplay();
+  updateRowVisibility();   // glyph colour tracks the theme's ButtonText
+  if (linkStreamsWidget)
+    linkStreamsWidget->setVisibilityColors(theme->color("HighlightedBackground"),
+                                           theme->color("HighlightedForeground"));
 }
 
  void SonicPiMetro::paintEvent(QPaintEvent *)

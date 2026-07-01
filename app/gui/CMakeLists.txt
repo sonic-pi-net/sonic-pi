@@ -526,7 +526,8 @@ target_link_libraries(${APP_NAME}
     Qt::OpenGL
     Qt::Concurrent
     Qt::Network
-    Qt::OpenGLWidgets)
+    Qt::OpenGLWidgets
+    Qt::Svg)
 
 
 # Compile options and OS specific libraries

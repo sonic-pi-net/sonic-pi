@@ -16,8 +16,6 @@
 LinkVisibilityToggle::LinkVisibilityToggle(QWidget* parent)
     : LinkVisibilityToggle(tr("Local"), tr("Network"), parent)
 {
-    setToolTip(tr("Visibility scope: Local (loopback only) or Network (LAN). "
-                  "Click to switch."));
 }
 
 LinkVisibilityToggle::LinkVisibilityToggle(const QString& leftLabel,
@@ -29,12 +27,23 @@ LinkVisibilityToggle::LinkVisibilityToggle(const QString& leftLabel,
 {
     setCursor(Qt::PointingHandCursor);
     setFocusPolicy(Qt::NoFocus);
+    updateTooltip();
+}
+
+void LinkVisibilityToggle::updateTooltip()
+{
+    setToolTip(m_isRight
+        ? tr("Public — visible to other devices on your network.\n"
+             "Click to go local (private).")
+        : tr("Local only — hidden from the network.\n"
+             "Click to go public (visible on the network)."));
 }
 
 void LinkVisibilityToggle::setRight(bool right)
 {
     if (m_isRight == right) return;
     m_isRight = right;
+    updateTooltip();
     update();
 }
 
@@ -44,6 +53,14 @@ void LinkVisibilityToggle::setLabels(const QString& left, const QString& right)
     m_leftLabel = left;
     m_rightLabel = right;
     updateGeometry();
+    update();
+}
+
+void LinkVisibilityToggle::setAccent(const QColor& thumb, const QColor& activeIcon)
+{
+    if (m_thumb == thumb && m_activeIcon == activeIcon) return;
+    m_thumb = thumb;
+    m_activeIcon = activeIcon;
     update();
 }
 
@@ -59,9 +76,7 @@ QSize LinkVisibilityToggle::sizeHint() const
     const QFontMetrics fm(font());
     const int textW = qMax(fm.horizontalAdvance(m_leftLabel),
                            fm.horizontalAdvance(m_rightLabel));
-    // Width = 2 * (text + side padding). Height 25 to match the metro-row
-    // controls (QPushButton/QLineEdit in app.qss).
-    return QSize(2 * (textW + 14), 25);
+    return QSize(2 * (textW + 14), 25);  // 25 to match the panel controls
 }
 
 QSize LinkVisibilityToggle::minimumSizeHint() const
@@ -73,6 +88,7 @@ void LinkVisibilityToggle::mousePressEvent(QMouseEvent* e)
 {
     if (e->button() != Qt::LeftButton) return;
     m_isRight = !m_isRight;
+    updateTooltip();
     update();
     emit toggled(m_isRight);
 }
@@ -82,24 +98,22 @@ void LinkVisibilityToggle::paintEvent(QPaintEvent*)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
 
-    const QRectF r = QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5);
-    // border-radius 3 to match QPushButton/QLineEdit in app.qss.
+    // Local | Network sliding pill: the selected half highlights with the thumb
+    // — pink when Link is live, grey when off — so whichever side is chosen
+    // (incl. Local) goes pink. The accent is pushed in via setAccent (custom-
+    // painted widgets don't reliably pick up the theme palette on macOS).
+    const QColor border  = palette().color(QPalette::Mid);
+    const QColor track   = palette().color(QPalette::Base);
+    const QColor trackTx = palette().color(QPalette::Text);
+    const QColor thumb   = m_muted ? palette().color(QPalette::Mid) : m_thumb;
+    const QColor thumbTx = m_activeIcon;
     const qreal radius = 3.0;
 
-    const QColor border   = palette().color(QPalette::Mid);
-    const QColor idleBg   = palette().color(QPalette::Base);
-    const QColor idleTx   = palette().color(QPalette::Text);
-    // Thumb: Highlight when live, Mid (grey) when muted.
-    const QColor thumb    = m_muted ? palette().color(QPalette::Mid)
-                                    : palette().color(QPalette::Highlight);
-    const QColor activeTx = palette().color(QPalette::HighlightedText);
-
-    // Idle track.
-    p.setBrush(idleBg);
+    const QRectF r = QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5);
+    p.setBrush(track);
     p.setPen(QPen(border, 1));
     p.drawRoundedRect(r, radius, radius);
 
-    // Thumb covers half the width, slides between left/right.
     const qreal halfW = r.width() / 2.0;
     const QRectF thumbRect = m_isRight
         ? QRectF(r.left() + halfW, r.top(), r.width() - halfW, r.height())
@@ -108,11 +122,10 @@ void LinkVisibilityToggle::paintEvent(QPaintEvent*)
     p.setPen(QPen(border, 1));
     p.drawRoundedRect(thumbRect, radius, radius);
 
-    // Labels.
-    p.setPen(m_isRight ? idleTx : activeTx);
+    p.setPen(m_isRight ? trackTx : thumbTx);
     p.drawText(QRectF(r.left(), r.top(), halfW, r.height()),
                Qt::AlignCenter, m_leftLabel);
-    p.setPen(m_isRight ? activeTx : idleTx);
+    p.setPen(m_isRight ? thumbTx : trackTx);
     p.drawText(QRectF(r.left() + halfW, r.top(), r.width() - halfW, r.height()),
                Qt::AlignCenter, m_rightLabel);
 }

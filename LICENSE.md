@@ -60,6 +60,10 @@ site.
 
 The font used in the GUI is [Hack](http://sourcefoundry.org/hack/) released under the [Hack Open Font License v2.0](https://github.com/chrissimpkins/Hack/blob/master/LICENSE.md)
 
+## Icons
+
+Some GUI icons are from [Tabler Icons](https://tabler.io/icons) released under the [MIT License](http://opensource.org/licenses/MIT) (Copyright (c) 2020-2026 Paweł Kuna). See [app/gui/widgets/Tabler-Icons-License.md](app/gui/widgets/Tabler-Icons-License.md).
+
 ## Docs, Tutorial and Examples
 
 (contents of [etc/doc/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/doc) and [etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples) directories)

@@ -32,6 +32,8 @@
 #include <QDial>
 #include <QTimer>
 #include <QPainter>
+#include <QPixmap>
+#include <QIcon>
 #include <QUrl>
 #include <iostream>
 #include <QLabel>
@@ -44,80 +46,7 @@
 #include <QCoreApplication>
 #include <QSize>
 
-class ArcDial : public QDial {
-public:
-    explicit ArcDial(QWidget* parent = nullptr) : QDial(parent) {
-        setCursor(Qt::SizeVerCursor);
-    }
-protected:
-    // DAW-style rotary behaviour: drag vertically to change the value,
-    // relative to where it was — no jump-to-clicked-angle, no circular
-    // dragging. Shift = fine control. Scroll wheel and arrow keys are
-    // inherited from QDial.
-    void mousePressEvent(QMouseEvent* e) override {
-        if (e->button() == Qt::LeftButton) {
-            m_dragStartY = e->position().y();
-            m_dragStartValue = value();
-            setSliderDown(true);
-            e->accept();
-            return;
-        }
-        QDial::mousePressEvent(e);
-    }
-    void mouseMoveEvent(QMouseEvent* e) override {
-        if (isSliderDown()) {
-            double pixelsForFullRange =
-                (e->modifiers() & Qt::ShiftModifier) ? 800.0 : 200.0;
-            double delta = (m_dragStartY - e->position().y())
-                * (maximum() - minimum()) / pixelsForFullRange;
-            setValue(m_dragStartValue + static_cast<int>(delta));
-            e->accept();
-            return;
-        }
-        QDial::mouseMoveEvent(e);
-    }
-    void mouseReleaseEvent(QMouseEvent* e) override {
-        if (e->button() == Qt::LeftButton && isSliderDown()) {
-            setSliderDown(false);
-            e->accept();
-            return;
-        }
-        QDial::mouseReleaseEvent(e);
-    }
-    void paintEvent(QPaintEvent*) override {
-        QPainter p(this);
-        p.setRenderHint(QPainter::Antialiasing);
-
-        int side = qMin(width(), height());
-        int margin = 8;
-        QRectF arc(margin, margin, side - 2 * margin, side - 2 * margin);
-
-        // Palette-driven so all five themes render correctly (the old
-        // hardcoded track assumed a dark background).
-        QColor track(127, 127, 127, 70);
-        QColor accent = palette().color(QPalette::Highlight);
-
-        // Background track
-        p.setPen(QPen(track, 6, Qt::SolidLine, Qt::RoundCap));
-        p.drawArc(arc, 225 * 16, -270 * 16);
-
-        // Value arc
-        double frac = 0.0;
-        if (maximum() > minimum())
-            frac = double(value() - minimum()) / double(maximum() - minimum());
-        int span = -static_cast<int>(frac * 270 * 16);
-        p.setPen(QPen(accent, 6, Qt::SolidLine, Qt::RoundCap));
-        p.drawArc(arc, 225 * 16, span);
-
-        // Value text
-        p.setPen(accent);
-        p.setFont(QFont("Hack", 14, QFont::Bold));
-        p.drawText(rect(), Qt::AlignCenter, QString::number(value()));
-    }
-private:
-    double m_dragStartY = 0.0;
-    int m_dragStartValue = 0;
-};
+#include "arcdial.h"
 
 /**
  * Default Constructor
@@ -634,6 +563,52 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     colourModeButtonGroup->addButton(darkProModeCheck, 3);
     colourModeButtonGroup->addButton(highContrastModeCheck, 4);
 
+    // Per-theme preview so the options aren't ambiguous: the theme's editor
+    // background carrying its actual run/stop toolbar icons. Light vs Dark reads
+    // from the background; default vs Pro reads from the icon art (Pro Light and
+    // Pro Dark share the Pro icons but differ by background). Label = the name.
+    auto makeThemePreview = [](const QColor& bg, const QString& runPath,
+                               const QString& stopPath) -> QIcon {
+        const qreal dpr = 2.0;
+        const int w = 64, h = 22;
+        QPixmap pm(int(w * dpr), int(h * dpr));
+        pm.setDevicePixelRatio(dpr);
+        pm.fill(Qt::transparent);
+        QPainter p(&pm);
+        p.setRenderHint(QPainter::Antialiasing);
+        p.setRenderHint(QPainter::SmoothPixmapTransform);
+        p.setBrush(bg);
+        p.setPen(QPen(QColor(127, 127, 127, 110), 1));
+        p.drawRoundedRect(QRectF(0.5, 0.5, w - 1, h - 1), 4, 4);
+        const int ic = 14, pad = 7, gap = 8;
+        const int y = (h - ic) / 2;
+        const QPixmap runPm(runPath), stopPm(stopPath);
+        if (!runPm.isNull())  p.drawPixmap(QRect(pad, y, ic, ic), runPm);
+        if (!stopPm.isNull()) p.drawPixmap(QRect(pad + ic + gap, y, ic, ic), stopPm);
+        p.end();
+        return QIcon(pm);
+    };
+    const QColor lightBg("#ffffff"), darkBg("#1e1e1e");
+    lightModeCheck->setIcon(makeThemePreview(
+        lightBg, ":/images/toolbar/default/light-run.png",
+        ":/images/toolbar/default/light-stop.png"));
+    darkModeCheck->setIcon(makeThemePreview(
+        darkBg, ":/images/toolbar/default/dark-run.png",
+        ":/images/toolbar/default/dark-stop.png"));
+    lightProModeCheck->setIcon(makeThemePreview(
+        lightBg, ":/images/toolbar/pro/run.png", ":/images/toolbar/pro/stop.png"));
+    darkProModeCheck->setIcon(makeThemePreview(
+        darkBg, ":/images/toolbar/pro/run.png", ":/images/toolbar/pro/stop.png"));
+    highContrastModeCheck->setIcon(makeThemePreview(
+        lightBg, ":/images/toolbar/default/hc-run.png",
+        ":/images/toolbar/default/hc-stop.png"));
+
+    lightModeCheck->setToolTip(tr("Light colours with the classic icon set."));
+    darkModeCheck->setToolTip(tr("Dark colours with the classic icon set."));
+    lightProModeCheck->setToolTip(tr("Light colours with the Pro icon set."));
+    darkProModeCheck->setToolTip(tr("Dark colours with the Pro icon set."));
+    highContrastModeCheck->setToolTip(tr("High-contrast colours for maximum legibility."));
+
     QWidget* themeSegControl = new QWidget();
     themeSegControl->setObjectName("themeSegControl");
     themeSegControl->setStyleSheet(
@@ -653,6 +628,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
                             darkProModeCheck, highContrastModeCheck }) {
         b->setCheckable(true);
         b->setCursor(Qt::PointingHandCursor);
+        b->setIconSize(QSize(64, 22));
         themeSegLayout->addWidget(b);
     }
 

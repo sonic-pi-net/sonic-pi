@@ -210,6 +210,16 @@ QLabel#paneTitle
     padding: 3dx 6dx 3dx 6dx;
 }
 
+/* Per-control section labels inside the Link widget — subordinate to the
+   widget title: smaller, no background chip, so they don't compete with it. */
+QLabel#linkSectionLabel
+{
+    font-family: 'Hack';
+    font-size: 9px;
+    font-weight: normal;
+    color: paneTitleColor;
+}
+
  QToolTip
  {
     color: toolTipTextColor;
@@ -622,7 +632,7 @@ QPushButton
     color: buttonTextColor;
     padding: 5dx;
     border-radius: 3dx;
-    border: 1dx solid buttonBorderColor;
+    border: 2dx solid transparent;   /* adds the fields' 2px size; transparent so the fill shows through — no halo on any background */
     height: 25dx;
 }
 
@@ -686,7 +696,32 @@ QPushButton#linkStreamsButton:checked:hover
 {
   background-color: selectionBackgroundColor;
   color: selectionForegroundColor;
-  border: 1dx solid selectionBackgroundColor;
+  border: 2dx solid selectionBackgroundColor;   /* 2dx like the base, so size doesn't change when checked */
+}
+
+/* Network-visibility button. Inherits the base QPushButton look (background,
+   hover) so it matches every other metro button. Fills pink when public — same
+   dynamic-property pattern as enableLinkButton[linkOn]. */
+QPushButton#rowVisibility
+{
+  min-width: 28dx;   /* padding/height inherited from base QPushButton so it's the same size as the others */
+}
+
+/* Don't use the generic pink pressed-flash — pink is this button's "public"
+   state, so a neutral press avoids looking like it toggled to public. */
+QPushButton#rowVisibility:pressed
+{
+  background-color: hoverButtonColor;
+  color: buttonTextColor;
+}
+
+QPushButton#rowVisibility[public="true"],
+QPushButton#rowVisibility[public="true"]:hover,
+QPushButton#rowVisibility[public="true"]:pressed
+{
+  background-color: selectionBackgroundColor;
+  color: selectionForegroundColor;
+  border: 2dx solid selectionBackgroundColor;   /* 2dx like the base, so size doesn't change with state */
 }
 QLineEdit
 {
@@ -713,7 +748,8 @@ QLineEdit#bpmScrubber
     background-color: paneColor;
     border: 2dx solid hoverButtonColor;
     padding: 5dx;
-    max-width: 110dx;
+    min-width: 105dx;
+    max-width: 125dx;
     height: 25dx;
 
 }
@@ -777,6 +813,12 @@ QLineEdit#linkPeerName:focus
     border: 2dx solid hoverButtonColor;
 }
 
+/* Link Name border goes pink while Link is engaged. */
+QLineEdit#linkPeerName[linkOn="true"]
+{
+    border: 2dx solid selectionBackgroundColor;
+}
+
 /* Share-audio: a checkable pill button. Same border / radius / height
    as Link / Tap / BPM / TimeWarp (inherited from the base QPushButton
    rule), with a light "off" fill matching BPM / TimeWarp — these are
@@ -799,7 +841,7 @@ QPushButton#shareAudioToggle:checked
 {
     background-color: selectionBackgroundColor;
     color: selectionForegroundColor;
-    border: 1dx solid selectionBackgroundColor;
+    border: 2dx solid selectionBackgroundColor;
 }
 
 /* "Muted" state (Link is off — setting has no effect right now).
@@ -819,7 +861,7 @@ QPushButton#shareAudioToggle[muted="true"]:checked:hover
 {
     color: palette(highlighted-text);
     background-color: palette(mid);
-    border: 1dx solid palette(mid);
+    border: 2dx solid palette(mid);
 }
 
 /* Link Audio latency slider — without explicit groove/handle styling
@@ -831,21 +873,21 @@ QSlider#linkLatencySlider
     min-height: 20dx;
 }
 
+/* Match the Global Time Warp slider so the two sliders are consistent. */
 QSlider#linkLatencySlider::groove:horizontal
 {
     height: 4dx;
     background: windowBorderColor;
-    border-radius: 2dx;
     margin: 2dx 0;
 }
 
 QSlider#linkLatencySlider::handle:horizontal
 {
     background: buttonColor;
-    border: 1dx solid buttonBorderColor;
-    width: 12dx;
-    margin: -5dx 0;
-    border-radius: 2dx;
+    width: 18dx;
+    height: 25dx;
+    margin: -5px 0;
+    border-radius: 1dx;
 }
 
 QSlider#linkLatencySlider::handle:horizontal:hover
@@ -910,7 +952,7 @@ QTableWidget#linkPeersTable::item
 QSlider#timeWarpSlider
 {
 min-height: 20dx;
-min-width: 150dx;
+min-width: 80dx;
 }
 
 QSlider#timeWarpSlider::groove:horizontal {

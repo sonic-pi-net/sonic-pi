@@ -10,6 +10,7 @@
 #ifndef LINKAUDIOSTREAMSWIDGET_H
 #define LINKAUDIOSTREAMSWIDGET_H
 
+#include <QColor>
 #include <QString>
 #include <QVector>
 #include <QWidget>
@@ -67,6 +68,10 @@ public:
     // Audio / Visibility). Used to size the whole Link column so the peer table
     // and the metro row below match these controls rather than stretching wider.
     int controlsNaturalWidth() const;
+
+    // Push the accent (pink / white) into the in-panel visibility pill (it can't
+    // reach the theme itself). Called by SonicPiMetro, which owns the theme.
+    void setVisibilityColors(const QColor& thumb, const QColor& activeIcon);
 
 public slots:
     // Called by SonicPiMetro when Visibility scope (Local/Net) changes.

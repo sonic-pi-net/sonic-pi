@@ -10,12 +10,15 @@
 #ifndef LINKVISIBILITYTOGGLE_H
 #define LINKVISIBILITYTOGGLE_H
 
+#include <QColor>
 #include <QString>
 #include <QWidget>
 
-// Two-state sliding pill toggle with custom labels (default Local/Network).
-// Click anywhere to flip. setMuted(true) greys the active half but stays
-// clickable. Colours come from the active QPalette, tracking the theme.
+// Local | Network sliding pill (Link Audio panel). The selected half fills with
+// the thumb colour — pink (setAccent) when Link is live, grey when muted.
+// setMuted(true) (e.g. Link off) greys it but it stays clickable. The accent is
+// pushed in via setAccent (custom-painted widgets don't reliably pick up the
+// theme palette on macOS).
 class LinkVisibilityToggle : public QWidget
 {
     Q_OBJECT
@@ -33,6 +36,9 @@ public:
 
     void setLabels(const QString& left, const QString& right);
 
+    // Selected-half thumb + selected-label colours (theme pink / white).
+    void setAccent(const QColor& thumb, const QColor& activeIcon);
+
     // Visual-only muting (e.g. Link off): stays clickable.
     void setMuted(bool muted);
 
@@ -47,10 +53,14 @@ protected:
     void mousePressEvent(QMouseEvent* e) override;
 
 private:
+    void updateTooltip();
+
     bool m_isRight = false;
     bool m_muted = false;
     QString m_leftLabel;
     QString m_rightLabel;
+    QColor m_thumb = QColor("deeppink");
+    QColor m_activeIcon = QColor("white");
 };
 
 #endif
