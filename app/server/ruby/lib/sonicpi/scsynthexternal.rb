@@ -34,7 +34,7 @@ module SonicPi
       raise "No cue event lambda!" unless @register_cue_event_lambda
       @out_queue = SizedQueue.new(20)
       @scsynth_thread_id = ThreadId.new(-5)
-      @version = request_version.freeze
+      @version = ""
       boot
     end
 
@@ -85,16 +85,6 @@ module SonicPi
     end
 
     private
-
-    def request_version
-      version_string = `"#{Paths.supersonic_path}" -v`
-      m = version_string.match(/\A\s*supersonic\s+([0-9.a-zA-Z-]+)\s.*/)
-      if m && m[1] && !m[1].empty?
-        "v#{m[1]}"
-      else
-        ""
-      end
-    end
 
     def boot
       if booted?
@@ -188,8 +178,11 @@ module SonicPi
       p = Promise.new
       connected = false
 
-      boot_s = OSC::UDPServer.new(0, name: "SuperSonic ack server") do |a, b, info|
+      boot_s = OSC::UDPServer.new(0, name: "SuperSonic ack server") do |address, args, info|
         puts "SuperSonic boot - Receiving ack"
+        if address == "/supersonic/notify.reply" && args[1].is_a?(String) && !args[1].empty?
+          @version = "v#{args[1]}".freeze
+        end
         p.deliver! true unless connected
         connected = true
       end
@@ -203,7 +196,7 @@ module SonicPi
           rescue Exception => e
             puts "SuperSonic boot - Error: #{e.message}"
           end
-          sleep 1
+          sleep 0.25
         end
       end
 

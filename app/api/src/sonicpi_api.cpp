@@ -596,7 +596,7 @@ bool SonicPiAPI::WaitUntilReady()
         return true;
     }
 
-    int num_tries = 60;
+    int num_tries = 600; // 600 * 100ms = 60s
     while (m_state != State::Created && num_tries > 0)
     {
         num_tries--;
@@ -605,8 +605,11 @@ bool SonicPiAPI::WaitUntilReady()
             LOG(ERR, "Oh no, Spider Server got to an Error State whilst starting...");
             return false;
         }
-        LOG(INFO, "Waiting Until Ready... " + std::to_string(num_tries));
-        std::this_thread::sleep_for(1s);
+        if (num_tries % 10 == 0)
+        {
+            LOG(INFO, "Waiting Until Ready... " + std::to_string(num_tries));
+        }
+        std::this_thread::sleep_for(100ms);
     }
 
     if (num_tries < 1)
@@ -635,12 +638,10 @@ bool SonicPiAPI::PingUntilServerCreated()
         return false;
     }
 
-    int timeout = 60;
+    int timeout = 240; // 240 * 250ms = 60s
     LOG(INFO, "Waiting for Sonic Pi Spider Server to respond...");
     while (m_keep_alive.load() && m_spOscSpiderServer->waitForServer() && timeout-- > 0)
     {
-        std::this_thread::sleep_for(1s);
-        LOG(INFO, ".");
         if (m_spOscSpiderServer->isIncomingPortOpen())
         {
             Message msg("/ping");
@@ -652,6 +653,7 @@ bool SonicPiAPI::PingUntilServerCreated()
             //to figure out!
             m_spOscSpiderSender->sendOSC(msg);
         }
+        std::this_thread::sleep_for(250ms);
     }
 
     if (!m_spOscSpiderServer->isServerStarted())

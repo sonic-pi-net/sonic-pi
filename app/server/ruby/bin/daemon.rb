@@ -204,6 +204,12 @@ module SonicPi
 
         Util.log "Booting SuperSonic"
         @supersonic_booter = SupersonicBooter.new(@ports, @no_scsynth_inputs)
+
+        # Spider boots concurrently — it self-syncs against SuperSonic
+        # via its own /supersonic/notify ping loop.
+        Util.log "Booting Spider Server"
+        @spider_booter = SpiderBooter.new(@ports, @daemon_token)
+
         success = @supersonic_booter.wait_for_boot
         if success
           Util.log "SuperSonic booted successfully"
@@ -256,9 +262,6 @@ module SonicPi
             end
           end
         end
-
-        Util.log "Booting Spider Server"
-        @spider_booter  = SpiderBooter.new(@ports, @daemon_token)
 
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
@@ -789,7 +792,7 @@ module SonicPi
               rescue Exception => e
                 Util.log "Error sending to SuperSonic: #{e.message}"
               end
-              sleep 1
+              sleep 0.25
             end
           end
 
