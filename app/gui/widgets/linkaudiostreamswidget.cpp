@@ -197,6 +197,8 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     m_peerNameEdit = new QLineEdit(this);
     m_peerNameEdit->setObjectName("linkPeerName");
     m_peerNameEdit->setAccessibleName(tr("Link Name"));
+    m_peerNameEdit->setProperty("tipTitle", tr("Link Name"));
+    m_peerNameEdit->setToolTip(tr("The name other Link peers see for this Sonic Pi when browsing audio streams on the network."));
     m_peerNameEdit->setPlaceholderText(tr("Name visible to other Link peers"));
     m_peerNameEdit->setText(
         QSettings().value("link/peerName", QStringLiteral("Sonic Pi")).toString());
@@ -216,6 +218,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     m_latencySlider->setRange(0, 2000);
     m_latencySlider->setValue(initialLatencyMs);
     m_latencySlider->setFixedWidth(110);
+    m_latencySlider->setProperty("tipTitle", tr("Receive Latency"));
     m_latencySlider->setToolTip(tr(
         "Link Audio receive latency in ms. Smaller = closer to real-time "
         "monitoring; larger = more robust against network jitter. "
@@ -245,6 +248,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     m_shareAudioBox->setChecked(initialShareAudio);
     m_shareAudioBox->setFlat(true);
     m_shareAudioBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    m_shareAudioBox->setProperty("tipTitle", tr("Stream Audio"));
     m_shareAudioBox->setToolTip(tr(
         "When on, our audio channels are visible to other Link peers and "
         "stream to anyone who subscribes. Preference is remembered between "

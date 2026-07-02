@@ -121,26 +121,33 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
     grid->addWidget(prefTabs, 0, 0);
 
     QGroupBox *audio_prefs_box = createAudioPrefsTab();
-    prefTabs->addTab(audio_prefs_box, tr("Audio"));
+    prefTabs->setTabToolTip(prefTabs->addTab(audio_prefs_box, tr("Audio")),
+                            tr("Volume, audio inputs and outputs, safety checks and recording."));
 
     QGroupBox *ioTab = createIoPrefsTab();
-    prefTabs->addTab(ioTab, tr("IO"));
+    prefTabs->setTabToolTip(prefTabs->addTab(ioTab, tr("IO")),
+                            tr("Connect to the outside world: OSC networking, MIDI devices and game controllers."));
 
     QGroupBox *editorTab = createEditorPrefsTab();
-    prefTabs->addTab(editorTab, tr("Editor"));
+    prefTabs->setTabToolTip(prefTabs->addTab(editorTab, tr("Editor")),
+                            tr("Editor display, code completion, accessibility and pane visibility."));
 
     QGroupBox *visualizationTab = createVisualizationPrefsTab();
-    prefTabs->addTab(visualizationTab, tr("Visuals"));
+    prefTabs->setTabToolTip(prefTabs->addTab(visualizationTab, tr("Visuals")),
+                            tr("Audio oscilloscopes and options useful when performing."));
 
     QGroupBox *shortcuts_prefs_box = createKeyboardShortcutsTab();
-    prefTabs->addTab(shortcuts_prefs_box, tr("Shortcuts"));
+    prefTabs->setTabToolTip(prefTabs->addTab(shortcuts_prefs_box, tr("Shortcuts")),
+                            tr("View and customise the keyboard shortcuts."));
 
     QGroupBox *language_prefs_box = createLanguagePrefsTab();
-    prefTabs->addTab(language_prefs_box, tr("Language"));
+    prefTabs->setTabToolTip(prefTabs->addTab(language_prefs_box, tr("Language")),
+                            tr("Change the language of the interface and tutorial."));
 
     // Updates last — it's the least-visited tab.
     QGroupBox *update_prefs_box = createUpdatePrefsTab();
-    prefTabs->addTab(update_prefs_box, tr("Updates"));
+    prefTabs->setTabToolTip(prefTabs->addTab(update_prefs_box, tr("Updates")),
+                            tr("Version information and update checking."));
 
 
     settingsChanged();
@@ -166,6 +173,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     system_vol_slider->setWrapping(false);
     system_vol_slider->setMinimumSize(100, 100);
     system_vol_slider->setAccessibleName(tr("Main Volume"));
+    system_vol_slider->setProperty("tipTitle", tr("Main Volume"));
+    system_vol_slider->setToolTip(tr("Drag or scroll to change the overall volume of Sonic Pi's audio output."));
 
     enable_scsynth_inputs = new QCheckBox(tr("Enable Audio Inputs"));
     enable_scsynth_inputs->setToolTip(tr("Toggle to enable or disable audio inputs."));
@@ -175,18 +184,18 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     asio_input_note->setObjectName("asioInputNote");   // styled by app.qss (muted note)
     asio_input_note->setVisible(false);
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
-    mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and vice versa."));
+    mixer_invert_stereo->setToolTip(tr("If enabled, audio sent to the left speaker will be routed to the right speaker and vice versa."));
     mixer_force_mono = new QCheckBox(tr("Force mono"));
-    mixer_force_mono->setToolTip(tr("Toggle mono mode.\nIf enabled both right and left audio is mixed and\nthe same signal is sent to both speakers.\nUseful when working with external systems that\ncan only handle mono."));
+    mixer_force_mono->setToolTip(tr("If enabled, right and left audio is mixed and the same signal is sent to both speakers. Useful when working with external systems that can only handle mono."));
 
     check_args = new QCheckBox(tr("Safe mode"));
-    check_args->setToolTip(tr("Toggle synth argument checking functions.\nIf disabled, certain synth opt values may\ncreate unexpectedly loud or uncomfortable sounds."));
+    check_args->setToolTip(tr("Checks synth arguments before triggering. If disabled, certain synth opt values may create unexpectedly loud or uncomfortable sounds."));
 
     synth_trigger_timing_guarantees_cb = new QCheckBox(tr("Enforce timing guarantees"));
-    synth_trigger_timing_guarantees_cb->setToolTip(tr("When enabled, Sonic Pi will refuse\nto trigger synths and FX if\nit is too late to do so\n\nWhen disabled, Sonic Pi will always\nattempt to trigger synths and FX\neven when a little late."));
+    synth_trigger_timing_guarantees_cb->setToolTip(tr("When enabled, Sonic Pi will refuse to trigger synths and FX if it is too late to do so.\n\nWhen disabled, Sonic Pi will always attempt to trigger synths and FX even when a little late."));
 
     enable_external_synths_cb = new QCheckBox(tr("Enable external synths/FX"));
-    enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow\nsynths and FX loaded via load_synthdefs\nto be triggered.\n\nWhen disabled, Sonic Pi will complain\nwhen you attempt to use a synth or FX\nwhich isn't recognised."));
+    enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow synths and FX loaded via load_synthdefs to be triggered.\n\nWhen disabled, Sonic Pi will complain when you attempt to use a synth or FX which isn't recognised."));
 
     QGroupBox *audioGroup = new QGroupBox(tr("Audio"));
     QVBoxLayout *audioGroupLayout = new QVBoxLayout;
@@ -409,7 +418,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     QGroupBox *ioTab = new QGroupBox();
 
     QGroupBox *network_box = new QGroupBox(tr("Networked OSC"));
-    network_box->setToolTip(tr("Sonic Pi can send and receive Open Sound Control messages\nto and from other programs or computers\n via the currently connected network."));
+    network_box->setToolTip(tr("Sonic Pi can send and receive Open Sound Control messages to and from other programs or computers via the currently connected network."));
 
     QLabel *network_ip_label = new QLabel();
     QString ip_address_trans = tr("Local IP address");
@@ -439,10 +448,10 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     network_ip_label->setToolTip(all_ip_addresses);
 
     osc_public_check = new QCheckBox(tr("Allow OSC from other computers"));
-    osc_public_check->setToolTip(tr("When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines.\n When unchecked, only sending and receiving from the local machine will be enabled."));
+    osc_public_check->setToolTip(tr("When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines. When unchecked, only sending and receiving from the local machine will be enabled."));
 
     osc_server_enabled_check = new QCheckBox(tr("Allow incoming OSC"));
-    osc_server_enabled_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages.\n When unchecked no OSC messages will be received."));
+    osc_server_enabled_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages. When unchecked, no OSC messages will be received."));
 
     QVBoxLayout *network_box_layout = new QVBoxLayout;
     network_box_layout->addWidget(osc_server_enabled_check);
@@ -485,8 +494,8 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_in_ports_list->setAccessibleName(tr("MIDI input ports"));
     midi_out_ports_list->setObjectName("midi-out-ports-list");
     midi_out_ports_list->setAccessibleName(tr("MIDI output ports"));
-    midi_in_ports_list->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
-    midi_out_ports_list->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
+    midi_in_ports_list->setToolTip(tr("MIDI input devices send MIDI messages directly to Sonic Pi and are received as cue events (similar to incoming OSC messages and internal cues)."));
+    midi_out_ports_list->setToolTip(tr("MIDI output devices receive MIDI messages directly from Sonic Pi which can be sent via the midi_* fns."));
 
     QLabel *midi_in_header = new QLabel(tr("Inputs"));
     QLabel *midi_out_header = new QLabel(tr("Outputs"));
@@ -517,12 +526,12 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     gamepad_box->setToolTip(tr("Configure game controller behaviour"));
 
     gamepad_enable_check = new QCheckBox(tr("Enable incoming gamepad cues"));
-    gamepad_enable_check->setToolTip(tr("Enable or disable automatic conversion of game controller\nbutton and axis events to cue events"));
+    gamepad_enable_check->setToolTip(tr("Enable or disable automatic conversion of game controller button and axis events to cue events."));
 
     gamepad_devices_list = new DeviceListWidget(tr("No connected game controllers"));
     gamepad_devices_list->setObjectName("gamepad-devices-list");
     gamepad_devices_list->setAccessibleName(tr("Game controllers"));
-    gamepad_devices_list->setToolTip(tr("Connected game controllers send button and axis events\nto Sonic Pi which are received as cue events"));
+    gamepad_devices_list->setToolTip(tr("Connected game controllers send button and axis events to Sonic Pi which are received as cue events."));
 
     connect(gamepad_devices_list, &DeviceListWidget::deviceToggled, this,
             [this](const QString& name, bool enabled) { emit gamepadDeviceEnabledChanged(name, enabled); });
@@ -575,11 +584,13 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     speak_transport->setToolTip(tr("When enabled, a screen reader announces \"Run started\" and \"Stopped\". Disable this if you'd rather hear the very start of your audio without it being ducked by the announcement."));
 
     show_log = new QCheckBox(tr("Show log"));
-    show_log->setToolTip(tooltipStrShiftMeta('L', tr("Toggle visibility of the log.")));
+    show_log->setToolTip(tr("Toggle visibility of the log."));
+    show_log->setProperty("tipShortcut", shortcutStrShiftMeta('L'));
     show_log->setChecked(true);
 
     show_cues = new QCheckBox(tr("Show cue log"));
-    show_cues->setToolTip(tooltipStrShiftMeta('C', tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages.")));
+    show_cues->setToolTip(tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages."));
+    show_cues->setProperty("tipShortcut", shortcutStrShiftMeta('C'));
     show_cues->setChecked(true);
 
     show_metro = new QCheckBox(tr("Show Link metronome controls"));
@@ -587,13 +598,15 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_cues->setChecked(true);
 
     show_buttons = new QCheckBox(tr("Show buttons"));
-    show_buttons->setToolTip(tooltipStrShiftMeta('B', tr("Toggle visibility of the control buttons.")));
+    show_buttons->setToolTip(tr("Toggle visibility of the control buttons."));
+    show_buttons->setProperty("tipShortcut", shortcutStrShiftMeta('B'));
     show_buttons->setChecked(true);
     show_tabs = new QCheckBox(tr("Show tabs"));
     show_tabs->setChecked(true);
     show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
     full_screen = new QCheckBox(tr("Full screen"));
-    full_screen->setToolTip(tooltipStrShiftMeta('F', tr("Toggle full screen mode.")));
+    full_screen->setToolTip(tr("Toggle full screen mode."));
+    full_screen->setProperty("tipShortcut", shortcutStrShiftMeta('F'));
 
     show_titles = new QCheckBox(tr("Show titles"));
     show_titles->setToolTip(tr("Toggle the title visibility for the scope, log, cue and other information panes"));
@@ -777,16 +790,16 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box->setToolTip(tr("Configure debug behaviour"));
 
     log_synths = new QCheckBox(tr("Log synths"));
-    log_synths->setToolTip(tr("Toggle log messages.\nIf disabled, activity such as synth and sample\ntriggering will not be printed to the log by default."));
+    log_synths->setToolTip(tr("If disabled, activity such as synth and sample triggering will not be printed to the log by default."));
 
     clear_output_on_run = new QCheckBox(tr("Clear log on run"));
-    clear_output_on_run->setToolTip(tr("Toggle log clearing on run.\nIf enabled, the log is cleared each\ntime the run button is pressed."));
+    clear_output_on_run->setToolTip(tr("If enabled, the log is cleared each time the run button is pressed."));
 
     log_cues = new QCheckBox(tr("Log cues"));
-    log_cues->setToolTip(tr("Enable or disable logging of cues.\nIf disabled, cues will still trigger.\nHowever, they will not be visible in the logs."));
+    log_cues->setToolTip(tr("If disabled, cues will still trigger. However, they will not be visible in the logs."));
 
     log_auto_scroll = new QCheckBox(tr("Auto-scroll log"));
-    log_auto_scroll->setToolTip(tr("Toggle log auto scrolling.\nIf enabled the log is scrolled to the bottom after every new message is displayed."));
+    log_auto_scroll->setToolTip(tr("If enabled, the log is scrolled to the bottom after every new message is displayed."));
 
     QVBoxLayout *debug_box_layout = new QVBoxLayout;
     debug_box_layout->addWidget(log_synths);
@@ -845,7 +858,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     show_scope_labels->setChecked(true);
 
     scope_box_kinds->setLayout(scope_box_kinds_layout);
-    scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in several flavours which may\nbe viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMirror Stereo - simple left/right composite wave, with left on top, right on bottom\nMono - shows a combined view of the left and right channels (using RMS)\nSpectrum - shows the sound frequencies as a spectrum, from low to high frequencies\nStereo - shows two independent scopes for left and right channels"));
+    scope_box_kinds->setToolTip(tr("The audio oscilloscope comes in several flavours which may be viewed independently or all together:\n\nLissajous - illustrates the phase relationship between the left and right channels\nMirror Stereo - simple left/right composite wave, with left on top, right on bottom\nMono - shows a combined view of the left and right channels (using RMS)\nSpectrum - shows the sound frequencies as a spectrum, from low to high frequencies\nStereo - shows two independent scopes for left and right channels"));
     scope_box_layout->addWidget(show_scopes);
     scope_box_layout->addWidget(show_scope_labels);
     scope_box->setLayout(scope_box_layout);
@@ -885,11 +898,11 @@ QGroupBox* SettingsWidget::createUpdatePrefsTab() {
     QGroupBox *update_box = new QGroupBox(tr("Updates"));
     QSizePolicy updatesPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     check_updates = new QCheckBox(tr("Check for updates"));
-    check_updates->setToolTip(tr("Toggle automatic update checking.\nThis check involves sending anonymous information about your platform and version."));
+    check_updates->setToolTip(tr("This check involves sending anonymous information about your platform and version."));
     check_updates_now = new QPushButton(tr("Check now"));
     check_updates_now->setFlat(true);
     check_updates_now->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
-    check_updates_now->setToolTip(tr("Force a check for updates now.\nThis check involves sending anonymous information about your platform and version."));
+    check_updates_now->setToolTip(tr("Force a check for updates now. This check involves sending anonymous information about your platform and version."));
     visit_sonic_pi_net = new QPushButton(tr("Get update"));
     visit_sonic_pi_net->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
     visit_sonic_pi_net->setToolTip(tr("Visit http://sonic-pi.net to download new version"));
@@ -1563,20 +1576,31 @@ void SettingsWidget::importShortcuts() {
 }
 
 
-// TODO utils?
-QString SettingsWidget::tooltipStrShiftMeta(char key, QString str) {
+// Display string for the tooltip popup's key-cap chip (set as the
+// "tipShortcut" widget property — see sonicpitooltip.h).
+QString SettingsWidget::shortcutStrShiftMeta(char key) {
 #ifdef Q_OS_MAC
-    return QString("%1 (⇧⌘%2)").arg(str).arg(key);
+    return QString("⇧⌘%1").arg(key);
 #else
-    return QString("%1 (Shift-alt-%2)").arg(str).arg(key);
+    return QString("Shift+Alt+%1").arg(key);
 #endif
 }
 
 void SettingsWidget::updateScopeNames( std::vector<QString> names ) {
     piSettings->scope_names = names;
+    // Per-kind descriptions for the tooltip popup; keep in sync with the
+    // scope kinds published by the scope window.
+    QMap<QString, QString> scopeDescriptions;
+    scopeDescriptions["Lissajous"]     = tr("Illustrates the phase relationship between the left and right channels.");
+    scopeDescriptions["Mirror Stereo"] = tr("A simple left/right composite wave, with left on top, right on bottom.");
+    scopeDescriptions["Mono"]          = tr("A combined view of the left and right channels (using RMS).");
+    scopeDescriptions["Spectrum"]      = tr("The sound frequencies as a spectrum, from low to high.");
+    scopeDescriptions["Stereo"]        = tr("Two independent scopes for the left and right channels.");
     for( auto name : names ) {
         QCheckBox* cb = new QCheckBox( name );
         cb->setChecked( piSettings->isScopeActive(name));
+        cb->setToolTip(scopeDescriptions.value(name,
+            tr("Toggle the visibility of the %1 oscilloscope.").arg(name)));
         scope_box_kinds_layout->addWidget(cb);
         connect(cb, &QCheckBox::clicked, this, [=]() {
           toggleScope(cb);

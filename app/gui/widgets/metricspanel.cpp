@@ -25,6 +25,10 @@
 #include <cstring>
 #include <vector>
 
+// Generated from SuperSonic's canonical metrics schema
+// (js/lib/metrics_schema.js) — metric descriptions shared by every GUI.
+#include "supersonic/src/metrics_schema.h"
+
 #include <QBrush>
 #include <QEasingCurve>
 #include <QFont>
@@ -163,6 +167,8 @@ struct RowDef
     int peakField;
     uint32_t cap;
     BarColor barColor;
+    const char* tip;   // tooltip body explaining the metric (untranslated,
+                       // like the row labels — this is a developer panel)
 };
 
 struct PanelDef
@@ -177,13 +183,13 @@ Seg V(int f, Kind k = K_Normal, Fmt fmt = F_Plain) { return Seg{ false, "", f, f
 Seg Vn(int f, Kind k = K_Normal, Fmt fmt = F_Plain) { return Seg{ false, "", f, fmt, k, false, true }; }
 Seg T(const char* t, Kind k = K_Muted) { return Seg{ true, t, -1, F_Plain, k, false, false }; }
 
-RowDef ValRow(const char* label, std::vector<Seg> segs)
+RowDef ValRow(const char* label, std::vector<Seg> segs, const char* tip = "")
 {
-    return RowDef{ label, false, std::move(segs), -1, -1, 0, BC_Blue };
+    return RowDef{ label, false, std::move(segs), -1, -1, 0, BC_Blue, tip };
 }
-RowDef BarRow(const char* label, int used, int peak, uint32_t cap, BarColor c)
+RowDef BarRow(const char* label, int used, int peak, uint32_t cap, BarColor c, const char* tip = "")
 {
-    return RowDef{ label, true, {}, used, peak, cap, c };
+    return RowDef{ label, true, {}, used, peak, cap, c, tip };
 }
 
 // Field indices match the struct order in shared_memory.h; late-ms fields
@@ -192,12 +198,20 @@ RowDef BarRow(const char* label, int used, int peak, uint32_t cap, BarColor c)
 // fails) are omitted (no native writer).
 const std::vector<PanelDef>& panelLayout()
 {
+    // Row tooltips come from SuperSonic's canonical metrics schema (see
+    // supersonic/js/lib/metrics_schema.js → generated metrics_schema.h): a
+    // row with no explicit tip falls back to the schema description of its
+    // first metric field, mirroring the <supersonic-metrics> web component.
+    // Explicit tips are only for rows that combine several fields.
     static const std::vector<PanelDef> panels = {
         { "scsynth",
           { ValRow("msgs", { V(1, K_Muted) }),
-            ValRow("queue", { V(3), T(" | "), V(4, K_Muted) }),
-            ValRow("max|last", { V(23, K_Error, F_Signed), T(" | "), V(24, K_Dim, F_Signed), T(" ms") }),
-            ValRow("debug", { V(15, K_Muted), T(" ("), V(16, K_Muted, F_Bytes), T(")") }) } },
+            ValRow("queue", { V(3), T(" | "), V(4, K_Muted) },
+                   "Scheduler queue depth — current | peak."),
+            ValRow("max|last", { V(23, K_Error, F_Signed), T(" | "), V(24, K_Dim, F_Signed), T(" ms") },
+                   "Late bundle execution — worst | most recent lateness in milliseconds."),
+            ValRow("debug", { V(15, K_Muted), T(" ("), V(16, K_Muted, F_Bytes), T(")") },
+                   "Debug messages received from the engine — count (bytes).") } },
         { "DSP",
           { ValRow("load", { Vn(kFieldCpuAvg, K_Normal, F_Centi), T("%") }),
             ValRow("peak", { Vn(kFieldCpuPeak, K_Dim, F_Centi), T("%") }),
@@ -209,11 +223,16 @@ const std::vector<PanelDef>& panelLayout()
             ValRow("lates", { V(8, K_Error) }),
             ValRow("corrupt", { V(14, K_Error) }) } },
         { "OSC",
-          { ValRow("sent", { V(9), T(" | "), V(10, K_Muted, F_Bytes) }),
-            ValRow("recv", { V(11), T(" | "), V(12, K_Muted, F_Bytes) }),
-            BarRow("in", 17, 20, kInBufferCap, BC_Blue),
-            BarRow("out", 18, 21, kOutBufferCap, BC_Green),
-            BarRow("nrt", 19, 22, kNrtOutBufferCap, BC_Purple) } },
+          { ValRow("sent", { V(9), T(" | "), V(10, K_Muted, F_Bytes) },
+                   "Messages | bytes sent to the engine (Sonic Pi → SuperSonic)."),
+            ValRow("recv", { V(11), T(" | "), V(12, K_Muted, F_Bytes) },
+                   "Messages | bytes received back from the engine (SuperSonic → Sonic Pi)."),
+            BarRow("in", 17, 20, kInBufferCap, BC_Blue,
+                   "IN ring buffer usage (Sonic Pi → engine) — used / peak."),
+            BarRow("out", 18, 21, kOutBufferCap, BC_Green,
+                   "OUT ring buffer usage (engine replies → Sonic Pi) — used / peak."),
+            BarRow("nrt", 19, 22, kNrtOutBufferCap, BC_Purple,
+                   "Non-realtime egress ring usage (replies, notifications, debug) — used / peak.") } },
         { "Buffers",
           { ValRow("synthdefs", { Vn(kFieldSynthDefs) }),
             ValRow("buffers", { Vn(kFieldBuffers, K_Green) }),
@@ -225,16 +244,20 @@ const std::vector<PanelDef>& panelLayout()
             ValRow("phase", { V(30, K_Dim, F_Centi) }),
             ValRow("playing", { V(31, K_Muted) }) } },
         { "Link Audio",
-          { ValRow("in", { V(32), T(" ch @ "), V(33, K_Muted), T(" Hz") }),
+          { ValRow("in", { V(32), T(" ch @ "), V(33, K_Muted), T(" Hz") },
+                   "Received stream — active channels @ sample rate."),
             ValRow("underruns", { V(34, K_Error) }),
             ValRow("buffered", { V(35, K_Dim), T(" ms") }),
             ValRow("drift", { V(36, K_Dim, F_Signed), T(" ppm") }),
-            ValRow("publish", { V(37, K_Green), T(" | "), V(38, K_Muted), T(" sinks") }) } },
+            ValRow("publish", { V(37, K_Green), T(" | "), V(38, K_Muted), T(" sinks") },
+                   "Audio publishing state (1 = on) | active output sinks.") } },
         { "Engine",
-          { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) }),
+          { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) },
+                   "SuperSonic audio engine version."),
             ValRow("rate", { V(kFieldSampleRate), T(" Hz") }),
             ValRow("block", { V(kFieldBlockSize), T(" frames") }),
-            ValRow("channels", { V(kFieldOutputChannels), T(" | "), V(kFieldInputChannels, K_Muted) }),
+            ValRow("channels", { V(kFieldOutputChannels), T(" | "), V(kFieldInputChannels, K_Muted) },
+                   "Audio bus channels — output | input."),
             ValRow("ticks", { V(0, K_Dim) }) } },
         { "Clock",
           { ValRow("tempo", { V(kFieldClockTempo, K_Normal, F_MilliBpm), T(" bpm") }),
@@ -404,10 +427,48 @@ void MetricsPanel::buildUi()
 
     // Builds one value/bar row into `rows` at row index `r`, registering it for
     // refresh().
-    auto addRow = [&](QGridLayout* rows, int r, const RowDef& row) {
+    auto addRow = [&](QGridLayout* rows, int r, const RowDef& row, const char* panelTitle) {
+        // Tooltip explaining the metric, applied to every widget in the row.
+        // Title is "card · row" so the popup names the (cryptic) metric.
+        // Body: the row's explicit tip, else the schema description of its
+        // first metric field (fields >= kFieldSynthDefs live in the
+        // NATIVE_STATS segment — see the panel's field remapping above).
+        const char* tip = (row.tip && *row.tip) ? row.tip : nullptr;
+        if (!tip)
+        {
+            int f = row.usedField; // bar rows
+            if (!row.isBar)
+            {
+                f = -1;
+                for (const Seg& seg : row.segs)
+                {
+                    if (!seg.isText)
+                    {
+                        f = seg.field;
+                        break;
+                    }
+                }
+            }
+            if (f >= kFieldSynthDefs)
+                tip = supersonic::metrics_schema::descriptionForNativeStat(f - kFieldSynthDefs);
+            else if (f >= 0)
+                tip = supersonic::metrics_schema::descriptionForOffset(f);
+        }
+        const QString tipBody = tip ? QString::fromUtf8(tip) : QString();
+        const QString tipTitle = QString::fromUtf8(panelTitle)
+            + QStringLiteral(" · ") + QString::fromUtf8(row.label);
+        auto applyTip = [&](QWidget* w) {
+            if (!tipBody.isEmpty())
+            {
+                w->setProperty("tipTitle", tipTitle);
+                w->setToolTip(tipBody);
+            }
+        };
+
         auto* lbl = new QLabel(QString::fromUtf8(row.label));
         lbl->setFont(mono);
         lbl->setProperty("ssRole", "rowlabel");
+        applyTip(lbl);
         m_rowLabels.append(lbl);
         rows->addWidget(lbl, r, 0, Qt::AlignLeft);
 
@@ -418,9 +479,11 @@ void MetricsPanel::buildUi()
             bar->setTextVisible(false);
             bar->setFixedHeight(5);
             bar->setMaximumWidth(ScaleHeightForDPI(60));
+            applyTip(bar);
             rows->addWidget(bar, r, 1, Qt::AlignLeft | Qt::AlignVCenter);
             auto* txt = new QLabel;
             txt->setFont(mono);
+            applyTip(txt);
             txt->setTextFormat(Qt::RichText);
             txt->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
             // Reserve width for the widest reading so the card doesn't jitter as
@@ -435,6 +498,7 @@ void MetricsPanel::buildUi()
         {
             auto* val = new QLabel;
             val->setFont(mono);
+            applyTip(val);
             val->setTextFormat(Qt::RichText);
             val->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
             // Don't let the value's width drive the card width — otherwise a digit
@@ -467,7 +531,7 @@ void MetricsPanel::buildUi()
         rows->setColumnStretch(1, 1);
         int r = 0;
         for (const RowDef& row : panel.rows)
-            addRow(rows, r++, row);
+            addRow(rows, r++, row, panel.title);
         body->addLayout(rows);
         body->addStretch(1);
 

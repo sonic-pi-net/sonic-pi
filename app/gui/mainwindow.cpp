@@ -66,6 +66,7 @@
 #include <Qsci/qsciscintilla.h>
 
 #include "model/sonicpitheme.h"
+#include "widgets/sonicpitooltip.h"
 #include "utils/scintilla_api.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
@@ -416,6 +417,10 @@ void MainWindow::setupTheme()
     QString themeFilename = sonicPiConfigPath() + QDir::separator() + "colour-theme.properties";
 
     this->theme = new SonicPiTheme(this, themeFilename, rootPath());
+
+    // Route every tooltip in the app through the themed, anchored popup
+    // (installs itself as an application-wide event filter).
+    this->toolTipManager = new SonicPiToolTipManager(theme, this);
 }
 
 void MainWindow::setupWindowStructure()
@@ -560,6 +565,7 @@ void MainWindow::setupWindowStructure()
     prefsLayout->addWidget(settingsWidget, 2);
     QHBoxLayout* prefsButtonLayout = new QHBoxLayout;
     QPushButton* prefsHidePushButton = new QPushButton(tr("Close"));
+    prefsHidePushButton->setToolTip(tr("Close the preferences panel."));
     prefsHidePushButton->setObjectName("prefsHideButton");
     prefsHidePushButton->setStyleSheet("#prefsHideButton { padding: 5px 18px; }");
     prefsButtonLayout->setContentsMargins(0, ScaleHeightForDPI(6), ScaleWidthForDPI(10), ScaleHeightForDPI(8));
@@ -616,7 +622,8 @@ void MainWindow::setupWindowStructure()
         workspace->setAccessibleName(tr("Code Editor Buffer %1").arg(ws));
         SonicPiEditor* editor = new SonicPiEditor(workspace, theme, this);
         editor->getContext()->setAccessibleName(tr("Run Context"));
-        editorTabWidget->addTab(editor, w);
+        editorTabWidget->setTabToolTip(editorTabWidget->addTab(editor, w),
+                                       tr("Code buffer %1 — one of 10 workspaces, each saved automatically.").arg(ws));
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
         connect(workspace, &SonicPiScintilla::docsRequested, this,
@@ -788,7 +795,8 @@ void MainWindow::setupWindowStructure()
     southTabs->setTabPosition(QTabWidget::West);
     southTabs->setTabsClosable(false);
     southTabs->setMovable(false);
-    southTabs->addTab(docsplit, "Docs");
+    southTabs->setTabToolTip(southTabs->addTab(docsplit, "Docs"),
+                             tr("Tutorial, examples and reference documentation."));
     southTabs->setAttribute(Qt::WA_StyledBackground, true);
 
     docWidget = new QDockWidget(tr("Help"), this);
@@ -1316,8 +1324,10 @@ void MainWindow::createDebugAndLogTabs()
 
     // Top-level south tabs in the order Docs, Logs, Debug (Docs was added at
     // construction, so append these after it).
-    southTabs->addTab(debugLogPanel, tr("Logs"));
-    southTabs->addTab(metricsPanel, tr("Debug"));
+    southTabs->setTabToolTip(southTabs->addTab(debugLogPanel, tr("Logs")),
+                             tr("Detailed logs from the language runtime and audio server."));
+    southTabs->setTabToolTip(southTabs->addTab(metricsPanel, tr("Debug")),
+                             tr("Live audio engine metrics and the synth node graph."));
     southTabs->setCurrentWidget(metricsPanel);
 }
 
@@ -3275,7 +3285,9 @@ QString MainWindow::tooltipStrMeta(const QString& key, const QString& str)
 void MainWindow::updateAction(QAction* action, const QString& desc)
 {
     QString shortcutDesc = action->shortcut().toString(QKeySequence::PortableText);
-    action->setToolTip(desc + " (" + shortcutDesc + ")");
+    // Tooltip is the description alone: the tooltip popup renders the
+    // action's shortcut as a separate key-cap chip (see sonicpitooltip.h).
+    action->setToolTip(desc);
     action->setText(action->iconText());
     action->setStatusTip(desc + " (" + shortcutDesc + ")");
 }

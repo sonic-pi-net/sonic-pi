@@ -209,11 +209,15 @@ QLabel#linkSectionLabel
     color: paneTitleColor;
 }
 
+/* Fallback only: app tooltips are drawn by SonicPiToolTip (an anchored,
+   caret-pointing popup — see widgets/sonicpitooltip.h). This styles any
+   stock QToolTip that slips through (e.g. from third-party widgets). */
  QToolTip
  {
     color: toolTipTextColor;
     background-color: toolTipBaseColor;
-    border: 0dx;
+    border: 1dx solid toolTipTextColor;
+    padding: 4dx;
 }
 
 QSlider

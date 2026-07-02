@@ -121,11 +121,12 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   #else
   QString link_shortcut = QKeySequence("alt+t").toString(QKeySequence::NativeText);
   #endif
+  enableLinkButton->setProperty("tipTitle", tr("Ableton Link"));
+  enableLinkButton->setProperty("tipShortcut", link_shortcut);
   enableLinkButton->setToolTip(tr(
-      "Enable / disable Ableton Link tempo sync.\n\n"
-      "Scope (Off / Local / Net) is set under Preferences ▶ IO ▶ "
-      "SuperSonic network. Greyed out when the master scope is Off.")
-      + "\n(" + link_shortcut + ")");
+      "Enable / disable Ableton Link tempo sync. Scope (Off / Local / Net) "
+      "is set under Preferences ▶ IO ▶ SuperSonic network. Greyed out when "
+      "the master scope is Off."));
 
   tapButton = new QPushButton(tr("Tap"));
   tapButton->setAutoFillBackground(true);
@@ -133,7 +134,9 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   tapButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   tapButton->setFlat(true);
 
-  tapButton->setToolTip(tr("Tap tempo.\n\nClick repeatedly to the beat to set the BPM manually.\nAccuracy increases with every additional click.") + "\n(" + QKeySequence("Shift+Return").toString(QKeySequence::NativeText) + ")");
+  tapButton->setProperty("tipTitle", tr("Tap tempo"));
+  tapButton->setProperty("tipShortcut", QKeySequence("Shift+Return").toString(QKeySequence::NativeText));
+  tapButton->setToolTip(tr("Click repeatedly to the beat to set the BPM manually. Accuracy increases with every additional click."));
 
 
   timeWarpSlider = new QSlider(Qt::Horizontal, this);
@@ -143,7 +146,8 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   timeWarpSlider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   timeWarpSlider->setTickPosition(QSlider::TicksBelow);
   timeWarpSlider->setAccessibleName(tr("Global Time Warp"));
-  timeWarpSlider->setToolTip(tr("Global Time Warp.\n\nSlide to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nThe unit is milliseconds."));
+  timeWarpSlider->setProperty("tipTitle", tr("Global Time Warp"));
+  timeWarpSlider->setToolTip(tr("Slide to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. The unit is milliseconds."));
   timeWarpSlider->setMinimum(-250);
   timeWarpSlider->setMaximum(999);
   timeWarpSlider->setValue(0);
@@ -155,7 +159,8 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   timeWarpLineEdit->setAccessibleName(tr("Time Warp Scrubber"));
   timeWarpLineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-  timeWarpLineEdit->setToolTip(tr("Global Time Warp.\n\nAdjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nEdit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds."));
+  timeWarpLineEdit->setProperty("tipTitle", tr("Global Time Warp"));
+  timeWarpLineEdit->setToolTip(tr("Adjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. Edit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds."));
   connect(timeWarpSlider, &QSlider::valueChanged, [this](int value) {
     QSignalBlocker blocker(timeWarpLineEdit);
     timeWarpLineEdit->setDisplayAndWarpToTime(value);
@@ -170,7 +175,8 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   bpmScrubWidget->setObjectName("bpmScrubber");
   bpmScrubWidget->setAccessibleName(tr("BPM Scrubber"));
   bpmScrubWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  bpmScrubWidget->setToolTip(tr("Current Link Tempo in BPM (Beats Per Minute).\n\nEdit, drag or scroll to modify. Double click to reset to 60."));
+  bpmScrubWidget->setProperty("tipTitle", tr("Link Tempo (BPM)"));
+  bpmScrubWidget->setToolTip(tr("Current Link tempo in beats per minute. Edit, drag or scroll to modify. Double click to reset to 60."));
 
   // Expand/collapse the inline Link Audio Streams panel. Up-arrow when
   // collapsed, down-arrow when expanded.
@@ -180,6 +186,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   linkStreamsButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   linkStreamsButton->setFlat(true);
   linkStreamsButton->setAccessibleName(tr("Show Link Audio streams panel"));
+  linkStreamsButton->setProperty("tipTitle", tr("Link Audio Streams"));
   linkStreamsButton->setToolTip(tr("Show / hide the Link Audio streams panel."));
 
   // Network-visibility button — a plain QPushButton styled by app.qss exactly
@@ -313,11 +320,13 @@ void SonicPiMetro::updateRowVisibility()
   static_cast<GlyphButton*>(m_rowVisibility)
       ->setGlyph(net ? kNetworkSvg : kGhostSvg, glyphColor,
                  theme->color("HighlightedForeground"));  // white on hover
+  // Structured tooltip (title + auto-wrapped body — see sonicpitooltip.h).
+  m_rowVisibility->setProperty("tipTitle", net
+      ? tr("Network visibility: Public")
+      : tr("Network visibility: Local"));
   m_rowVisibility->setToolTip(net
-      ? tr("Public — visible to other devices on your network.\n"
-           "Click to go local (private).")
-      : tr("Local only — hidden from the network.\n"
-           "Click to go public (visible on the network)."));
+      ? tr("Sonic Pi is visible to other devices on your network for Link tempo sync and Link Audio streams. Click to go local (private to this machine).")
+      : tr("Link tempo sync and Link Audio stay on this machine — Sonic Pi is hidden from other devices. Click to go public (visible on your network)."));
   m_rowVisibility->setAccessibleName(net
       ? tr("Network visibility: public")
       : tr("Network visibility: local only"));

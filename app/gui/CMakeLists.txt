@@ -106,6 +106,8 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/linkaudiostreamswidget.h
     ${QTAPP_ROOT}/widgets/linkvisibilitytoggle.cpp
     ${QTAPP_ROOT}/widgets/linkvisibilitytoggle.h
+    ${QTAPP_ROOT}/widgets/sonicpitooltip.cpp
+    ${QTAPP_ROOT}/widgets/sonicpitooltip.h
     ${QTAPP_ROOT}/mainwindow.cpp
     ${QTAPP_ROOT}/mainwindow.h
     ${QTAPP_ROOT}/model/sonicpitheme.cpp

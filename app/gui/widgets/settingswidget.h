@@ -330,7 +330,7 @@ private:
 
     void add_language_combo_box_entries(QComboBox* combo);
 
-    QString tooltipStrShiftMeta(char key, QString str);
+    QString shortcutStrShiftMeta(char key);
 
     void connectAll();
     void updateScopeKindVisibility();
