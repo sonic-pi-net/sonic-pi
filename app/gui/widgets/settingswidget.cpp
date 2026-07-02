@@ -632,9 +632,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
         maxTextW = qMax(maxTextW, fm.horizontalAdvance(s.btn->text()));
     const int btnMinW = maxTextW + ScaleWidthForDPI(28);   // name + margins
     // A QPushButton doesn't size to its child layout, so drive the height here.
-    // The card's own stylesheet must also set the height: the app-wide QSS rule
-    // `QPushButton { height: 25dx; }` is merged in by Qt and, on styles that honour
-    // it strictly (Linux/Fusion), pins the card to ~25px so its icon+name overflow.
     const int cardH = iconSize.height() + ScaleHeightForDPI(38);
     for (const ThemeSwatch& s : swatches) {
         s.btn->setCheckable(true);
@@ -688,7 +685,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     QVBoxLayout *editor_show_panels_box_layout = new QVBoxLayout;
     QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
     QVBoxLayout *automation_box_layout = new QVBoxLayout;
-    QGridLayout *gridEditorPrefs = new QGridLayout;
 
     editor_show_panels_box_layout->addWidget(show_log);
     editor_show_panels_box_layout->addWidget(show_cues);
@@ -747,16 +743,28 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box_layout->addWidget(clear_output_on_run);
     debug_box->setLayout(debug_box_layout);
 
-    gridEditorPrefs->addWidget(editor_look_feel_box, 0, 0);
-    gridEditorPrefs->addWidget(automation_box, 2, 1);
-    gridEditorPrefs->addWidget(editor_display_box, 1, 0, 2, 1);
-    gridEditorPrefs->addWidget(editor_show_panels_box, 1, 1);
+    // Two independent columns rather than a shared grid: grid rows take the
+    // taller of the two sides, which stretched Show and Hide to match the
+    // right-hand boxes and squeezed the theme cards. Independent columns let
+    // each side pack to its own content, with any spare height left at the
+    // bottom of each column.
+    QVBoxLayout *leftEditorPrefs = new QVBoxLayout;
+    leftEditorPrefs->addWidget(editor_look_feel_box);
+    leftEditorPrefs->addWidget(editor_display_box);
+    leftEditorPrefs->addStretch(1);
 
-    gridEditorPrefs->addWidget(debug_box, 0, 1);
-    gridEditorPrefs->addWidget(accessibility_box, 3, 0, 1, 2);
+    QVBoxLayout *rightEditorPrefs = new QVBoxLayout;
+    rightEditorPrefs->addWidget(debug_box);
+    rightEditorPrefs->addWidget(editor_show_panels_box);
+    rightEditorPrefs->addWidget(automation_box);
+    rightEditorPrefs->addWidget(accessibility_box);
+    rightEditorPrefs->addStretch(1);
 
+    QHBoxLayout *editorPrefsColumns = new QHBoxLayout;
+    editorPrefsColumns->addLayout(leftEditorPrefs, 1);
+    editorPrefsColumns->addLayout(rightEditorPrefs, 1);
 
-    editor_box->setLayout(gridEditorPrefs);
+    editor_box->setLayout(editorPrefsColumns);
     return editor_box;
 }
 
