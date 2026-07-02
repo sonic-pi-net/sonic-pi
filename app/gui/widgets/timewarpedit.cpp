@@ -16,7 +16,19 @@
 #include <QDoubleValidator>
 #include <QApplication>
 #include <QShortcut>
+#include <QStyle>
 #include "dpi.h"
+
+namespace {
+// Re-evaluate a widget's stylesheet after a dynamic property change so
+// property-driven rules (e.g. [flashing="true"]) take effect.
+void repolish(QWidget* w)
+{
+  w->style()->unpolish(w);
+  w->style()->polish(w);
+  w->update();
+}
+} // namespace
 
 TimeWarpEdit::TimeWarpEdit(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, bool setPosAvailable, QWidget* parent)
   : QLineEdit(parent)
@@ -43,7 +55,8 @@ TimeWarpEdit::TimeWarpEdit(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   m_timer->setSingleShot(true);
 
   connect(m_timer, &QTimer::timeout, this, [=](){
-    setStyleSheet(theme->getAppStylesheet());
+    setProperty("flashing", false);
+    repolish(this);
   });
 
   m_valueMatcher = new QRegularExpression("(-?[0-9]+)");
@@ -302,11 +315,11 @@ void TimeWarpEdit::displayTimeWarpValue()
 
 void TimeWarpEdit::flash()
 {
-  QString qss = QString("\nQLineEdit#timeWarpEdit {\ncolor: %1;\nborder-color: %2;\nbackground-color: %3;}\n\nQLineEdit#timeWarpEdit::hover:!pressed {\nbackground-color: %4;}\n").arg(theme->color("ButtonText").name()).arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name()).arg(theme->color("PressedButton").name());
-
-  setStyleSheet(theme->getAppStylesheet() + qss);
+  // Transient "warp applied" cue: toggle the `flashing` property so the
+  // central app.qss rule (#timeWarpEdit[flashing="true"]) paints the pressed
+  // look, then clear it after 250ms. Replaces an inline full-stylesheet rebuild.
+  setProperty("flashing", true);
+  repolish(this);
   m_timer->stop();
   m_timer->start(250);
-
-
 }

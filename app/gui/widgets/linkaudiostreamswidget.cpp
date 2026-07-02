@@ -328,6 +328,13 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     m_peersTable->setColumnWidth(4, 80);   // "48.0 kHz"
     m_peersTable->setColumnWidth(5, 60);   // "14" (bus index)
 
+    // Open tall enough on first show to display the header plus content (or the
+    // centred empty-state message). Without a floor, the 0-row table collapses
+    // to roughly the header height and clips the first row before any peers or
+    // the empty-state message have populated it.
+    m_peersTable->setMinimumHeight(
+        m_peersTable->horizontalHeader()->sizeHint().height() + ScaleHeightForDPI(80));
+
     layout->addWidget(m_peersTable);
     // Matching gap below the table for symmetric padding.
     layout->addSpacing(10);

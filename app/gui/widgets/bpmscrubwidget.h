@@ -67,7 +67,6 @@ private:
   QString formatBPM();
   void editingCancelled();
   void setBPM(double bpm);
-  QString generateStylesheet(QString text, QString border, QString background, QString pressedBackground );
 
 
 

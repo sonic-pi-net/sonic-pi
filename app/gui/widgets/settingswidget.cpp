@@ -47,8 +47,47 @@
 #include <QFileInfo>
 #include <QCoreApplication>
 #include <QSize>
+#include <QSvgRenderer>
+#include <QApplication>
 
 #include "arcdial.h"
+
+namespace {
+
+// Recording-selector glyphs (Tabler icons, MIT). %1 = the render colour.
+// Audio Only = a waveform; Audio + Video = a camcorder.
+const char* kWaveformSvg =
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+    "stroke='%1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>"
+    "<path d='M3 9v6'/>"
+    "<path d='M7 5v14'/>"
+    "<path d='M11 3v18'/>"
+    "<path d='M15 6v12'/>"
+    "<path d='M19 9v6'/>"
+    "</svg>";
+
+const char* kVideoSvg =
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+    "stroke='%1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>"
+    "<path d='M15 10l4.553 -2.276a1 1 0 0 1 1.447 .894v6.764a1 1 0 0 1 -1.447 .894l-4.553 -2.276v-4z'/>"
+    "<path d='M3 8a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z'/>"
+    "</svg>";
+
+// Render a tinted SVG glyph to a crisp (2x) QIcon of the given logical size.
+QIcon makeSvgIcon(const char* svg, const QColor& color, int px)
+{
+    QPixmap pm(QSize(px, px) * 2);
+    pm.setDevicePixelRatio(2);
+    pm.fill(Qt::transparent);
+    QPainter p(&pm);
+    p.setRenderHint(QPainter::Antialiasing);
+    const QByteArray bytes =
+        QString::fromLatin1(svg).arg(color.name(QColor::HexRgb)).toUtf8();
+    QSvgRenderer(bytes).render(&p, QRectF(0, 0, px, px));
+    return QIcon(pm);
+}
+
+} // namespace
 
 /**
  * Default Constructor
@@ -132,7 +171,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     asio_input_note = new QLabel(
         tr("ASIO uses one device for both input and output."));
     asio_input_note->setWordWrap(true);
-    asio_input_note->setStyleSheet("font-size: 10px; color: gray; margin-left: 18px;");
+    asio_input_note->setObjectName("asioInputNote");   // styled by app.qss (muted note)
     asio_input_note->setVisible(false);
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
     mixer_invert_stereo->setToolTip(tr("Toggle stereo inversion.\nIf enabled, audio sent to the left speaker will\nbe routed to the right speaker and vice versa."));
@@ -227,11 +266,20 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     QGroupBox *recordingGroup = new QGroupBox(tr("Recording"));
     recordingGroup->setToolTip(tr("Choose what the rec button captures."));
 
+    // Icons tinted with the themed foreground so they read on both the resting
+    // grey segment and the highlighted (checked) segment.
+    const QColor segIconColor = QApplication::palette().color(QPalette::WindowText);
+    const int segIconPx = ScaleHeightForDPI(16);
+
     recording_type_audio_radio = new QPushButton(tr("Audio Only"));
+    recording_type_audio_radio->setIcon(makeSvgIcon(kWaveformSvg, segIconColor, segIconPx));
+    recording_type_audio_radio->setIconSize(QSize(segIconPx, segIconPx));
     recording_type_audio_radio->setToolTip(tr(
         "SuperSonic writes a .wav of the master mix"));
 
     recording_type_av_radio = new QPushButton(tr("Audio + Video"));
+    recording_type_av_radio->setIcon(makeSvgIcon(kVideoSvg, segIconColor, segIconPx));
+    recording_type_av_radio->setIconSize(QSize(segIconPx, segIconPx));
 #if defined(Q_OS_MAC)
     recording_type_av_radio->setToolTip(tr(
         "Captures the Sonic Pi window plus master mix into a .mov\n"
@@ -244,13 +292,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     QWidget* recSegControl = new QWidget();
     recSegControl->setObjectName("recSegControl");
-    recSegControl->setStyleSheet(
-        "#recSegControl { background: rgba(127,127,127,70); border-radius: 7px; }"
-        "#recSegControl QPushButton { border: none; padding: 6px 16px; border-radius: 5px;"
-        " background: transparent; color: palette(window-text); }"
-        "#recSegControl QPushButton:hover:!checked { background: rgba(127,127,127,70); }"
-        "#recSegControl QPushButton:checked { background: palette(highlight);"
-        " color: palette(highlighted-text); }");
+    // Styled by the shared "segmented control" rule in app.qss (house metrics).
+    recSegControl->setProperty("segmented", true);
     QHBoxLayout* recSegLayout = new QHBoxLayout(recSegControl);
     recSegLayout->setContentsMargins(3, 3, 3, 3);
     recSegLayout->setSpacing(3);
@@ -285,7 +328,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     supersonicBox = new QGroupBox();
     QLabel *powered_by_label = new QLabel(tr("Powered by"));
     powered_by_label->setAlignment(Qt::AlignCenter);
-    powered_by_label->setStyleSheet("font-size: 10px; color: gray;");
+    powered_by_label->setObjectName("poweredByLabel");   // styled by app.qss (muted note)
     supersonic_ascii_label = new QLabel(
         QString::fromUtf8(
             "\u2591\u2588\u2580\u2580\u2591\u2588\u2591\u2588\u2591\u2588\u2580\u2588\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2584\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2588\u2591\u2588\u2580\u2588\u2591\u2580\u2588\u2580\u2591\u2588\u2580\u2580\n"
@@ -1139,13 +1182,8 @@ QGroupBox* SettingsWidget::createKeyboardShortcutsTab() {
 
     QWidget* segControl = new QWidget();
     segControl->setObjectName("segControl");
-    segControl->setStyleSheet(
-        "#segControl { background: rgba(127,127,127,70); border-radius: 7px; }"
-        "#segControl QPushButton { border: none; padding: 6px 16px; border-radius: 5px;"
-        " background: transparent; color: palette(window-text); }"
-        "#segControl QPushButton:hover:!checked { background: rgba(127,127,127,70); }"
-        "#segControl QPushButton:checked { background: palette(highlight);"
-        " color: palette(highlighted-text); }");
+    // Styled by the shared "segmented control" rule in app.qss (house metrics).
+    segControl->setProperty("segmented", true);
     QHBoxLayout* segLayout = new QHBoxLayout(segControl);
     segLayout->setContentsMargins(3, 3, 3, 3);
     segLayout->setSpacing(3);

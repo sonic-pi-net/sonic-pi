@@ -16,7 +16,19 @@
 #include <QDoubleValidator>
 #include <QApplication>
 #include <QShortcut>
+#include <QStyle>
 #include "dpi.h"
+
+namespace {
+// Re-evaluate a widget's stylesheet after a dynamic property change so
+// property-driven rules (e.g. [cue="change"], [linkOn="true"]) take effect.
+void repolish(QWidget* w)
+{
+  w->style()->unpolish(w);
+  w->style()->polish(w);
+  w->update();
+}
+} // namespace
 
 BPMScrubWidget::BPMScrubWidget(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::shared_ptr<SonicPi::SonicPiAPI> spAPI, SonicPiTheme *theme, bool setPosAvailable, QWidget* parent)
   : QLineEdit(parent)
@@ -283,80 +295,39 @@ void BPMScrubWidget::keyPressEvent(QKeyEvent* event)
   }
 }
 
-QString BPMScrubWidget::generateStylesheet(QString text, QString border, QString background, QString pressedBackground)
-{
-  return QString("\nQLineEdit#bpmScrubber {\ncolor: %1;\nborder-color: %2;\nbackground-color: %3;}\n\nQLineEdit#bpmScrubber::hover:!pressed {\nbackground-color: %4;}\n").arg(theme->color(text).name()).arg(theme->color(border).name()).arg(theme->color(background).name()).arg(theme->color(pressedBackground).name());
-}
-
+// The resting look and both edit cues now live in app.qss, selected by the
+// `linkOn` (link-engaged border) and `cue` (transient change/reset flash)
+// dynamic properties — no per-edit stylesheet rebuilds.
 void BPMScrubWidget::displayBPMChangeVisualCue()
 {
-  QString qss;
-
-  if(m_linkEnabled){
-    qss = generateStylesheet("ButtonText",
-                             "PressedButton",
-                             "PressedButton",
-                             "PressedButton");
-  } else {
-    qss = generateStylesheet("ButtonText",
-                             "PressedButton",
-                             "PressedButton",
-                             "PressedButton");
-  }
-
-  setStyleSheet(theme->getAppStylesheet() + qss);
+  setProperty("cue", "change");
+  repolish(this);
   QTimer::singleShot(250, this, &BPMScrubWidget::displayNoVisualCue);
 }
 
-
 void BPMScrubWidget::displayNoVisualCue()
 {
-  QString qss;
-  if(m_linkEnabled){
-    qss = generateStylesheet("WindowForeground",
-                             "PressedButton",
-                             "PaneBackground",
-                             "PressedButton");
-
-  } else {
-    qss = generateStylesheet("WindowForeground",
-                             "HoverButton",
-                             "PaneBackground",
-                             "HoverButton");
-
-  }
-  setStyleSheet(theme->getAppStylesheet() + qss);
+  setProperty("cue", "none");
+  repolish(this);
 }
 
 void BPMScrubWidget::displayResetVisualCue()
 {
-  QString qss;
-  if(m_linkEnabled){
-    qss = generateStylesheet("PaneBackground",
-                             "ButtonText",
-                             "WindowForeground",
-                             "PressedButton");
-
-  } else {
-    qss = generateStylesheet("PaneBackground",
-                             "ButtonText",
-                             "WindowForeground",
-                             "HoverButton");
-  }
-
-  setStyleSheet(theme->getAppStylesheet() + qss);
+  setProperty("cue", "reset");
+  repolish(this);
   QTimer::singleShot(250, this, &BPMScrubWidget::displayNoVisualCue);
-
 }
 
 void BPMScrubWidget::setLinkEnabled()
 {
   m_linkEnabled = true;
-  displayNoVisualCue();
+  setProperty("linkOn", true);
+  displayNoVisualCue();   // clears any cue + repolishes
 }
 
 void BPMScrubWidget::setLinkDisabled()
 {
   m_linkEnabled = false;
+  setProperty("linkOn", false);
   displayNoVisualCue();
 }

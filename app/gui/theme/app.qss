@@ -646,20 +646,57 @@ QMessageBox
     background: windowColor;
 }
 
+/* ── House style: "segmented control" ────────────────────────────────────
+   A pill of mutually-exclusive buttons (recording format, shortcut scheme, …).
+   One shared rule via the `segmented` property, so every picker matches —
+   instead of each widget carrying its own inline stylesheet. */
+QWidget[segmented="true"]
+{
+    background: rgba(127,127,127,70);
+    border-radius: 7px;
+}
+
+QWidget[segmented="true"] QPushButton
+{
+    border: none;
+    padding: 6px 16px;
+    border-radius: 5px;
+    background: transparent;
+    color: palette(window-text);
+}
+
+QWidget[segmented="true"] QPushButton:hover:!checked
+{
+    background: rgba(127,127,127,70);
+}
+
+QWidget[segmented="true"] QPushButton:checked
+{
+    background: palette(highlight);
+    color: palette(highlighted-text);
+}
+
 
 QPushButton#enableLinkButton
 {
   min-width: 100dx;
 }
 
-/* Active Link mesh — same "pressed" look the user used to get via
-   updateLinkButtonDisplay()'s inline stylesheet. Driven by the
-   linkOn dynamic property so the C++ side just toggles state. */
+/* ── House style: "active pill" ──────────────────────────────────────────
+   Shared selected/on look: highlight fill with a border matching that fill
+   (seamless, stable 2dx). Used by the Link button, the streams chevron and
+   the share-audio toggle. (The muted share-audio :checked below overrides
+   this with a dimmed fill via its more specific selector.) */
 QPushButton#enableLinkButton[linkOn="true"],
-QPushButton#enableLinkButton[linkOn="true"]:hover
+QPushButton#enableLinkButton[linkOn="true"]:hover,
+QPushButton#linkStreamsButton:checked,
+QPushButton#linkStreamsButton:checked:hover,
+QPushButton#shareAudioToggle:checked,
+QPushButton#shareAudioToggle:checked:hover
 {
-  background-color: pressedButtonColor;
-  color: pressedButtonTextColor;
+  background-color: selectionBackgroundColor;
+  color: selectionForegroundColor;
+  border: 2dx solid selectionBackgroundColor;
 }
 
 QPushButton#tapTempo
@@ -676,20 +713,11 @@ QPushButton#tapButton[flashing="true"]
   border-color: paneColor;
 }
 
-/* Streams-panel expand / collapse chevron. When checked (panel open)
-   it fills with the highlight colour so it reads as "active" — same
-   colour family as the Visibility toggle's active half. */
+/* Streams-panel expand / collapse chevron. Its :checked "active" look is the
+   shared "active pill" rule above (highlight fill, seamless border). */
 QPushButton#linkStreamsButton
 {
   min-width: 28dx;
-}
-
-QPushButton#linkStreamsButton:checked,
-QPushButton#linkStreamsButton:checked:hover
-{
-  background-color: selectionBackgroundColor;
-  color: selectionForegroundColor;
-  border: 2dx solid selectionBackgroundColor;   /* 2dx like the base, so size doesn't change when checked */
 }
 
 /* Network-visibility button: a bare glyph — no fill, no border (2dx transparent
@@ -711,23 +739,16 @@ QLineEdit
     border-radius: 3dx;
 }
 
-QLineEdit#bpmScrubber::hover:!pressed
-{
-    background-color: hoverButtonColor;
-    color: buttonTextColor;
-}
-
-QLineEdit#bpmScrubber::hover:pressed
-{
-    background-color: hoverButtonColor;
-    color: buttonTextColor;
-}
-
+/* BPM scrubber. The resting (link-off) look lives here; the `linkOn` and `cue`
+   dynamic properties drive the link-engaged border and the transient
+   change/reset edit cues — replacing the old per-edit inline full-stylesheet
+   rebuilds. */
 QLineEdit#bpmScrubber
 {
     font-size: medium;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
+    color: windowForegroundColor;
     background-color: paneColor;
     border: 2dx solid hoverButtonColor;
     padding: 5dx;
@@ -735,6 +756,42 @@ QLineEdit#bpmScrubber
     max-width: 125dx;
     height: 25dx;
 
+}
+
+/* Link engaged: border tracks the pressed/active colour. */
+QLineEdit#bpmScrubber[linkOn="true"]
+{
+    border: 2dx solid pressedButtonColor;
+}
+
+QLineEdit#bpmScrubber::hover:!pressed,
+QLineEdit#bpmScrubber::hover:pressed
+{
+    background-color: hoverButtonColor;
+    color: buttonTextColor;
+}
+
+QLineEdit#bpmScrubber[linkOn="true"]::hover:!pressed,
+QLineEdit#bpmScrubber[linkOn="true"]::hover:pressed
+{
+    background-color: pressedButtonColor;
+    color: buttonTextColor;
+}
+
+/* Transient edit cues — C++ sets cue=change/reset then clears to "none" after
+   250ms. change = pressed fill; reset = inverted flash. */
+QLineEdit#bpmScrubber[cue="change"]
+{
+    color: buttonTextColor;
+    border-color: pressedButtonColor;
+    background-color: pressedButtonColor;
+}
+
+QLineEdit#bpmScrubber[cue="reset"]
+{
+    color: paneColor;
+    border-color: buttonTextColor;
+    background-color: windowForegroundColor;
 }
 
 
@@ -763,9 +820,33 @@ QLineEdit#timeWarpEdit::hover:pressed
     color: buttonTextColor;
 }
 
+/* Transient warp-applied flash — driven by the `flashing` dynamic property
+   (C++ toggles it + repolishes, then clears after 250ms), replacing the old
+   inline full-stylesheet rebuild. */
+QLineEdit#timeWarpEdit[flashing="true"]
+{
+    color: buttonTextColor;
+    border-color: pressedButtonColor;
+    background-color: pressedButtonColor;
+}
+
 SonicPiMetro
 {
     background-color: windowColor;
+}
+
+/* Muted helper/footnote labels — house small size + the theme's placeholder
+   (dimmed-but-legible) foreground, replacing hardcoded 10px / "gray" inline. */
+QLabel#asioInputNote,
+QLabel#poweredByLabel
+{
+    font-size: small;
+    color: palette(placeholder-text);
+}
+
+QLabel#asioInputNote
+{
+    margin-left: 18dx;
 }
 
 
@@ -786,7 +867,8 @@ QLineEdit#linkPeerName
        white of ButtonBorder. */
     border: 2dx solid buttonColor;
     border-radius: 3dx;
-    padding: 4dx 6dx;
+    /* Match the Global Time Warp field's text padding (uniform 5dx). */
+    padding: 5dx;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
 }
@@ -820,12 +902,8 @@ QPushButton#shareAudioToggle:hover
     color: buttonTextColor;
 }
 
-QPushButton#shareAudioToggle:checked
-{
-    background-color: selectionBackgroundColor;
-    color: selectionForegroundColor;
-    border: 2dx solid selectionBackgroundColor;
-}
+/* #shareAudioToggle:checked "active" look is the shared "active pill" rule
+   near the top of the button section (highlight fill, seamless border). */
 
 /* "Muted" state (Link is off — setting has no effect right now).
    Still fully clickable so users can discover it's a button. Dimmed but
@@ -842,7 +920,9 @@ QPushButton#shareAudioToggle[muted="true"]:hover
 QPushButton#shareAudioToggle[muted="true"]:checked,
 QPushButton#shareAudioToggle[muted="true"]:checked:hover
 {
-    color: palette(highlighted-text);
+    /* placeholder-text (not highlighted-text, which was white-on-Mid in light
+       mode) — legible on the Mid fill in every theme. */
+    color: palette(placeholder-text);
     background-color: palette(mid);
     border: 2dx solid palette(mid);
 }
