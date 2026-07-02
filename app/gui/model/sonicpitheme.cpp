@@ -358,13 +358,13 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["RegexForeground"]                 = dt_green;
     themeSettings["RegexBackground"]                 = theme_bg;
 
-    themeSettings["HereDocumentDelimiterForeground"] = dt_white;
+    themeSettings["HereDocumentDelimiterForeground"] = dt_green;
     themeSettings["HereDocumentDelimiterBackground"] = theme_bg;
 
     themeSettings["PercentStringrForeground"]        = dt_green;
     themeSettings["PercentStringrBackground"]        = theme_bg;
 
-    themeSettings["PercentStringwForeground"]        = dt_white;
+    themeSettings["PercentStringwForeground"]        = dt_green;
     themeSettings["PercentStringwBackground"]        = theme_bg;
 
     themeSettings["MarginForeground"]                = dt_grey;
@@ -772,13 +772,13 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["RegexForeground"]                 = dt_green;
     themeSettings["RegexBackground"]                 = theme_bg;
 
-    themeSettings["HereDocumentDelimiterForeground"] = dt_white;
+    themeSettings["HereDocumentDelimiterForeground"] = dt_green;
     themeSettings["HereDocumentDelimiterBackground"] = theme_bg;
 
     themeSettings["PercentStringrForeground"]        = dt_green;
     themeSettings["PercentStringrBackground"]        = theme_bg;
 
-    themeSettings["PercentStringwForeground"]        = dt_white;
+    themeSettings["PercentStringwForeground"]        = dt_green;
     themeSettings["PercentStringwBackground"]        = theme_bg;
 
     themeSettings["MarginForeground"]                = dt_grey;
