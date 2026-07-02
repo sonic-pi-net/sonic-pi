@@ -5127,10 +5127,10 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
     in.setCodec("UTF-8");
 #endif
 
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    // No wait cursor: the read is instant, and building the cursor image can
+    // crash in Qt's Cocoa colorspace path (CGImageCreate PAC trap, 2026-07-02)
     text->setText(in.readAll());
     file.close();
-    QApplication::restoreOverrideCursor();
     showStatusAndAnnounce(tr("File loaded..."), 2000);
 }
 
@@ -5155,7 +5155,6 @@ bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
     out.setCodec("UTF-8");
 #endif
 
-    QApplication::setOverrideCursor(Qt::WaitCursor);
     QString code = text->text();
 #if defined(Q_OS_WIN)
     code.replace("\n", "\r\n"); // CRLF for Windows users
@@ -5164,7 +5163,6 @@ bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
     out << code;
     out.flush();
     file.close();
-    QApplication::restoreOverrideCursor();
 
     showStatusAndAnnounce(tr("File saved..."), 2000);
     return true;
