@@ -1219,7 +1219,6 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     const QString border = m_borderColor.name();
     const QString dim    = kindColor(K_Dim).name();
     const QString muted  = kindColor(K_Muted).name();
-    const QString faint  = blend(m_borderColor, m_bgColor, 0.55).name();
     const QString winBorder = theme->color("WindowBorder").name();     // separator bar
     const int gridW = ScaleHeightForDPI(1);   // DPI-scaled grid line (a bare 1px reads as a faint hairline)
 
@@ -1231,8 +1230,8 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         " QFrame#ssCell { background:%1; }"
         // Border-top/left on the container + border-right/bottom per cell =
         // shared single grid lines, no gaps.
-        "QWidget#ssZones { background:%1; border-top:%8px solid %7; border-left:%8px solid %7; }"
-        "QFrame#ssCell { border-right:%8px solid %7; border-bottom:%8px solid %7; }"
+        "QWidget#ssZones { background:%1; border-top:%7px solid %6; border-left:%7px solid %6; }"
+        "QFrame#ssCell { border-right:%7px solid %6; border-bottom:%7px solid %6; }"
         "QFrame#ssCell[lastrow=\"true\"] { border-bottom:none; }"
         // Rightmost cells drop their right border so the grid doesn't draw a
         // line hard up against the scrollbar.
@@ -1242,7 +1241,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QLabel#ssCardTitle { color:%5; padding-bottom:1px; }"
         "QLabel[ssRole=\"rowlabel\"] { color:%4; }"
         "QTextEdit { color:%2; background:%1; border:none; }")
-        .arg(bg, fg, border, dim, muted, faint).arg(winBorder).arg(gridW));
+        .arg(bg, fg, border, dim, muted, winBorder).arg(gridW));
 
     // The main/logs dividers paint themselves (ThinSplitter): a thin centre line
     // at rest, revealed full-width on hover (Qt's QSS can't do this). Push the
