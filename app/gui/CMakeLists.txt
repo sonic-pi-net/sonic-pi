@@ -57,6 +57,9 @@ find_package(Qt6)
 
 if(Qt6_FOUND)
   find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Network OpenGLWidgets PrintSupport Xml Svg LinguistTools REQUIRED)
+  if(Qt6_VERSION VERSION_LESS 6.8)
+    message(WARNING "Qt ${Qt6_VERSION} < 6.8: screen-reader announcements (QAccessibleAnnouncementEvent) will be compiled out. Build against Qt 6.8+ for full accessibility support.")
+  endif()
 endif()
 
 find_package(Threads REQUIRED)

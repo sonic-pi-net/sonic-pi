@@ -10,16 +10,17 @@
 #ifndef LINKVISIBILITYTOGGLE_H
 #define LINKVISIBILITYTOGGLE_H
 
+#include <QAbstractButton>
 #include <QColor>
 #include <QString>
-#include <QWidget>
 
 // Local | Network sliding pill (Link Audio panel). The selected half fills with
 // the thumb colour — pink (setAccent) when Link is live, grey when muted.
 // setMuted(true) (e.g. Link off) greys it but it stays clickable. The accent is
 // pushed in via setAccent (custom-painted widgets don't reliably pick up the
-// theme palette on macOS).
-class LinkVisibilityToggle : public QWidget
+// theme palette on macOS). A checkable QAbstractButton: checked == Network,
+// toggled(bool) == toggled(isRight).
+class LinkVisibilityToggle : public QAbstractButton
 {
     Q_OBJECT
 public:
@@ -28,11 +29,11 @@ public:
                          const QString& rightLabel,
                          QWidget* parent = nullptr);
 
-    bool isRight() const { return m_isRight; }
-    void setRight(bool right);
+    bool isRight() const { return isChecked(); }
+    void setRight(bool right) { setChecked(right); }
 
-    bool isNetwork() const { return m_isRight; }
-    void setNetwork(bool net) { setRight(net); }
+    bool isNetwork() const { return isChecked(); }
+    void setNetwork(bool net) { setChecked(net); }
 
     void setLabels(const QString& left, const QString& right);
 
@@ -45,17 +46,13 @@ public:
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
 
-signals:
-    void toggled(bool isRight);
-
 protected:
     void paintEvent(QPaintEvent* e) override;
-    void mousePressEvent(QMouseEvent* e) override;
+    void checkStateSet() override;
 
 private:
     void updateTooltip();
 
-    bool m_isRight = false;
     bool m_muted = false;
     QString m_leftLabel;
     QString m_rightLabel;

@@ -15,7 +15,6 @@
 #include "qt_api_client.h"
 #include <QDoubleValidator>
 #include <QApplication>
-#include <QShortcut>
 #include <QStyle>
 #include "dpi.h"
 
@@ -38,17 +37,13 @@ TimeWarpEdit::TimeWarpEdit(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   , m_setPosAvailable(setPosAvailable)
 {
   m_isDragging = false;
+  m_isEditing = false;
   m_timeWarpValue = 0;
   m_linkEnabled = false;
   displayTimeWarpValue();
 
   connect(this, &QLineEdit::editingFinished, [=]() {
     warpToTime();
-  });
-
-  QShortcut* escape = new QShortcut(QKeySequence("Escape"), this);
-  connect(escape, &QShortcut::activated, [=]() {
-    editingCancelled();
   });
 
   m_timer = new QTimer(this);
@@ -61,6 +56,20 @@ TimeWarpEdit::TimeWarpEdit(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
 
   m_valueMatcher = new QRegularExpression("(-?[0-9]+)");
 };
+
+// Claim Escape ahead of the global shortcut map so keyPressEvent's cancel
+// handling is reachable while editing.
+bool TimeWarpEdit::event(QEvent* event)
+{
+  if (event->type() == QEvent::ShortcutOverride) {
+    QKeyEvent* ke = static_cast<QKeyEvent*>(event);
+    if (ke->key() == Qt::Key_Escape && m_isEditing) {
+      event->accept();
+      return true;
+    }
+  }
+  return QLineEdit::event(event);
+}
 
 void TimeWarpEdit::warpToTime()
 {

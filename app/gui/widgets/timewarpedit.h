@@ -39,6 +39,7 @@ signals:
 public slots:
 
 protected:
+  bool event(QEvent* event) override;
   void mousePressEvent(QMouseEvent * event);
   void mouseReleaseEvent(QMouseEvent * event);
   void mouseMoveEvent(QMouseEvent * event);

@@ -43,6 +43,7 @@
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QScrollBar>
+#include <QSet>
 #include <QShortcut>
 #include <QSplashScreen>
 #include <QTimer>
@@ -282,6 +283,7 @@ void MainWindow::completeBoot()
         splashClose();
         focusEditor();
         showWindow();
+        announce(tr("Sonic Pi is ready"));
         std::cout << "[GUI] - boot sequence completed." << std::endl;
     }
     else
@@ -295,6 +297,8 @@ void MainWindow::completeBoot()
     editorTabWidget->currentWidget()->activateWindow();
 
     showWelcomeScreen();
+
+    bootAnnouncementsReady = true;
 
     std::cout << "[GUI] - MainWindow initialisation completed." << std::endl;
 }
@@ -355,13 +359,13 @@ void MainWindow::checkForStudioMode()
         std::cout << "[GUI] - Found Studio Hash Match" << std::endl;
         std::cout << "[GUI] - Enabling Studio Mode..." << std::endl;
         std::cout << "[GUI] - Thank-you for supporting Sonic Pi's continued development :-)" << std::endl;
-        statusBar()->showMessage(tr("Studio Mode Enabled. Thank-you for supporting Sonic Pi."), 5000);
+        showStatusAndAnnounce(tr("Studio Mode Enabled. Thank-you for supporting Sonic Pi."), 5000);
         studio_mode->setChecked(true);
     }
     else
     {
         std::cout << "[GUI] - No Studio Hash Match Found" << std::endl;
-        statusBar()->showMessage(tr("No Matching Studio Hash Found..."), 1000);
+        showStatusAndAnnounce(tr("No Matching Studio Hash Found..."), 1000);
         studio_mode->setChecked(false);
     }
 }
@@ -598,6 +602,8 @@ void MainWindow::setupWindowStructure()
 
         // tab completion when in list
         auto indentLine = new QShortcut(QKeySequence(Qt::Key_Tab), workspace);
+        // WidgetShortcut: a window-context Tab would swallow focus traversal app-wide
+        indentLine->setContext(Qt::WidgetShortcut);
 
         connect(indentLine, &QShortcut::activated, this, [this, workspace]() {
             completeSnippetListOrIndentLine(workspace);
@@ -929,7 +935,7 @@ void MainWindow::shortcutModeMenuChanged(int modeID)
 
 void MainWindow::blankTitleBars()
 {
-    statusBar()->showMessage(tr("Hiding pane titles..."), 2000);
+    showStatusAndAnnounce(tr("Hiding pane titles..."), 2000);
     outputWidget->setTitleBarWidget(blankWidgetOutput);
     incomingWidget->setTitleBarWidget(blankWidgetIncoming);
     scopeWidget->setTitleBarWidget(blankWidgetScope);
@@ -940,7 +946,7 @@ void MainWindow::blankTitleBars()
 
 void MainWindow::namedTitleBars()
 {
-    statusBar()->showMessage(tr("Showing pane titles..."), 2000);
+    showStatusAndAnnounce(tr("Showing pane titles..."), 2000);
 
     // Custom title-bar labels styled like the SuperSonic debug pane titles
     // (small/muted/left, uppercase). QDockWidget::title's QSS colour isn't
@@ -986,6 +992,10 @@ void MainWindow::updateFullScreenMode()
 #else
         this->showFullScreen();
 #endif
+        if (!quietFullScreenChange)
+        {
+            showStatusAndAnnounce(tr("Full screen mode on."));
+        }
         fullScreenMode = true;
     }
     else if (!piSettings->full_screen && fullScreenMode)
@@ -1003,7 +1013,10 @@ void MainWindow::updateFullScreenMode()
         this->showNormal();
 #endif
 
-        statusBar()->showMessage(tr("Full screen mode off."), 2000);
+        if (!quietFullScreenChange)
+        {
+            showStatusAndAnnounce(tr("Full screen mode off."), 2000);
+        }
         fullScreenMode = false;
     }
     changeMenuBarInFullscreenVisibility();
@@ -1034,12 +1047,27 @@ void MainWindow::updateFocusMode()
         piSettings->show_log = true;
         piSettings->show_cues = true;
     }
+    focusModeAct->setChecked(focusMode);
+    // Quiet the fullscreen transition below: its message would clobber the
+    // exit hint and stack a second announcement.
+    quietFullScreenChange = true;
     emit settingsChanged();
     updateFullScreenMode();
+    quietFullScreenChange = false;
     updateTabsVisibility();
     updateButtonVisibility();
     updateLogVisibility();
     updateCuesVisibility();
+    if (focusMode)
+    {
+        showStatusAndAnnounce(tr("Focus mode on. Press %1 to exit.")
+                                  .arg(focusModeAct->shortcut().toString(QKeySequence::NativeText)),
+                              5000);
+    }
+    else
+    {
+        showStatusAndAnnounce(tr("Focus mode off."));
+    }
 }
 
 void MainWindow::toggleScopePaused()
@@ -1811,11 +1839,11 @@ void MainWindow::changeEnableScsynthInputs()
 
     if (piSettings->enable_scsynth_inputs)
     {
-        statusBar()->showMessage(tr("Enabling Audio Inputs..."), 2000);
+        showStatusAndAnnounce(tr("Enabling Audio Inputs..."), 2000);
     }
     else
     {
-        statusBar()->showMessage(tr("Disabling Audio Inputs..."), 2000);
+        showStatusAndAnnounce(tr("Disabling Audio Inputs..."), 2000);
     }
 }
 
@@ -1842,10 +1870,30 @@ void MainWindow::mixerSettingsChanged()
     {
         mixerStereoMode();
     }
+
+    // Both axes are always re-applied above; only speak the one that changed.
+    if (mixerStateKnown)
+    {
+        if (lastMixerInvertStereo != piSettings->mixer_invert_stereo)
+        {
+            announce(piSettings->mixer_invert_stereo ? tr("Enabling Inverted Stereo...")
+                                                     : tr("Enabling Standard Stereo..."));
+        }
+        if (lastMixerForceMono != piSettings->mixer_force_mono)
+        {
+            announce(piSettings->mixer_force_mono ? tr("Mono Mode...")
+                                                  : tr("Stereo Mode..."));
+        }
+    }
+    lastMixerInvertStereo = piSettings->mixer_invert_stereo;
+    lastMixerForceMono = piSettings->mixer_force_mono;
+    mixerStateKnown = true;
 }
 
 void MainWindow::update_check_updates()
 {
+    QSignalBlocker blocker(checkUpdatesAct);
+    checkUpdatesAct->setChecked(piSettings->check_updates);
     if (piSettings->check_updates)
     {
         enableCheckUpdates();
@@ -1938,10 +1986,14 @@ void MainWindow::startupError(QString msg)
     auto pTextArea = new QTextEdit();
     pTextArea->setMarkdown(text);
     pTextArea->setReadOnly(true);
+    pTextArea->setAccessibleName(tr("Boot error details"));
     pLayout->addWidget(pTextArea);
+    // Focus the details so a screen reader lands on the message, not the button
+    pTextArea->setFocus();
 
-    // Add a dialog style OK button
     QDialogButtonBox* pButtons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+    // Accepting the dialog quits the app, so say so
+    pButtons->button(QDialogButtonBox::Ok)->setText(tr("Quit"));
     pLayout->addWidget(pButtons);
 
     auto finished = [&]() {
@@ -2285,7 +2337,7 @@ void MainWindow::reloadServerCode()
 
 void MainWindow::check_for_updates_now()
 {
-    statusBar()->showMessage(tr("Checking for updates..."), 2000);
+    showStatusAndAnnounce(tr("Checking for updates..."), 2000);
     Message msg("/check-for-updates-now");
     msg.pushInt32(guiID);
     sendOSC(msg);
@@ -2293,7 +2345,7 @@ void MainWindow::check_for_updates_now()
 
 void MainWindow::enableCheckUpdates()
 {
-    statusBar()->showMessage(tr("Enabling update checking..."), 2000);
+    showStatusAndAnnounce(tr("Enabling update checking..."), 2000);
     Message msg("/enable-update-checking");
     msg.pushInt32(guiID);
     sendOSC(msg);
@@ -2301,7 +2353,7 @@ void MainWindow::enableCheckUpdates()
 
 void MainWindow::disableCheckUpdates()
 {
-    statusBar()->showMessage(tr("Disabling update checking..."), 2000);
+    showStatusAndAnnounce(tr("Disabling update checking..."), 2000);
     Message msg("/disable-update-checking");
     msg.pushInt32(guiID);
     sendOSC(msg);
@@ -2309,7 +2361,7 @@ void MainWindow::disableCheckUpdates()
 
 void MainWindow::mixerHpfEnable(float freq)
 {
-    statusBar()->showMessage(tr("Enabling Mixer HPF..."), 2000);
+    showStatusAndAnnounce(tr("Enabling Mixer HPF..."), 2000);
     Message msg("/mixer-hpf-enable");
     msg.pushInt32(guiID);
     msg.pushFloat(freq);
@@ -2318,7 +2370,7 @@ void MainWindow::mixerHpfEnable(float freq)
 
 void MainWindow::mixerHpfDisable()
 {
-    statusBar()->showMessage(tr("Disabling Mixer HPF..."), 2000);
+    showStatusAndAnnounce(tr("Disabling Mixer HPF..."), 2000);
     Message msg("/mixer-hpf-disable");
     msg.pushInt32(guiID);
     sendOSC(msg);
@@ -2326,7 +2378,7 @@ void MainWindow::mixerHpfDisable()
 
 void MainWindow::mixerLpfEnable(float freq)
 {
-    statusBar()->showMessage(tr("Enabling Mixer LPF..."), 2000);
+    showStatusAndAnnounce(tr("Enabling Mixer LPF..."), 2000);
     Message msg("/mixer-lpf-enable");
     msg.pushInt32(guiID);
     msg.pushFloat(freq);
@@ -2335,7 +2387,7 @@ void MainWindow::mixerLpfEnable(float freq)
 
 void MainWindow::mixerLpfDisable()
 {
-    statusBar()->showMessage(tr("Disabling Mixer LPF..."), 2000);
+    showStatusAndAnnounce(tr("Disabling Mixer LPF..."), 2000);
     Message msg("/mixer-lpf-disable");
     msg.pushInt32(guiID);
     sendOSC(msg);
@@ -2422,13 +2474,13 @@ void MainWindow::about()
 
     if (infoWidg->isVisible())
     {
-        statusBar()->showMessage(tr("Hiding about window..."), 2000);
+        showStatusAndAnnounce(tr("Hiding about window..."), 2000);
         infoWidg->hide();
         infoAct->setChecked(false);
     }
     else
     {
-        statusBar()->showMessage(tr("Showing about window..."), 2000);
+        showStatusAndAnnounce(tr("Showing about window..."), 2000);
         infoWidg->raise();
         infoWidg->show();
         infoAct->setChecked(true);
@@ -2447,13 +2499,13 @@ void MainWindow::help()
 
     if (docWidget->isVisible())
     {
-        statusBar()->showMessage(tr("Hiding help..."), 2000);
+        showStatusAndAnnounce(tr("Hiding help..."), 2000);
         docWidget->hide();
         helpAct->setChecked(false);
     }
     else
     {
-        statusBar()->showMessage(tr("Showing help..."), 2000);
+        showStatusAndAnnounce(tr("Showing help..."), 2000);
         docWidget->show();
         helpAct->setChecked(true);
     }
@@ -2695,11 +2747,11 @@ void MainWindow::updateLogAutoScroll()
     outputPane->forceScrollDown(val);
     if (val)
     {
-        statusBar()->showMessage(tr("Log Auto Scroll on..."), 2000);
+        showStatusAndAnnounce(tr("Log Auto Scroll on..."), 2000);
     }
     else
     {
-        statusBar()->showMessage(tr("Log Auto Scroll off..."), 2000);
+        showStatusAndAnnounce(tr("Log Auto Scroll off..."), 2000);
     }
 }
 
@@ -2713,7 +2765,7 @@ void MainWindow::toggleIcons()
     textDecAct->setIcon(theme->getTextDecIcon());
 
     helpAct->setIcon(theme->getHelpIcon(docWidget->isVisible()));
-    recAct->setIcon(theme->getRecIcon(false, false));
+    recAct->setIcon(theme->getRecIcon(is_recording, is_recording));
     prefsAct->setIcon(theme->getPrefsIcon(prefsWidget->isVisible()));
     infoAct->setIcon(theme->getInfoIcon(infoWidg->isVisible()));
     scopeAct->setIcon(theme->getScopeIcon(scopeWidget->isVisible()));
@@ -2764,7 +2816,7 @@ void MainWindow::updateColourTheme()
     }
 
     theme->switchStyle(piSettings->themeStyle);
-    statusBar()->showMessage(tr("Colour Theme: ") + theme->getName(), 2000);
+    showStatusAndAnnounce(tr("Colour Theme: ") + theme->getName(), 2000);
 
     QString css = theme->getCss();
     toggleIcons();
@@ -2971,11 +3023,11 @@ void MainWindow::changeAutoIndentOnRun()
     QSignalBlocker blocker(autoIndentOnRunAct);
     if (piSettings->auto_indent_on_run)
     {
-        statusBar()->showMessage(tr("Auto Indent mode enabled"), 2000);
+        showStatusAndAnnounce(tr("Auto Indent mode enabled"), 2000);
     }
     else
     {
-        statusBar()->showMessage(tr("Auto Indent mode disabled"), 2000);
+        showStatusAndAnnounce(tr("Auto Indent mode disabled"), 2000);
     }
 
     for (int i = 0; i < editorTabWidget->count(); i++)
@@ -3038,11 +3090,11 @@ void MainWindow::changeShowAutoCompletion()
     bool show = piSettings->show_autocompletion;
     if (show)
     {
-        statusBar()->showMessage(tr("Show autocompletion on"), 2000);
+        showStatusAndAnnounce(tr("Show autocompletion on"), 2000);
     }
     else
     {
-        statusBar()->showMessage(tr("Show autocompletion off"), 2000);
+        showStatusAndAnnounce(tr("Show autocompletion off"), 2000);
     }
 
     for (int i = 0; i < editorTabWidget->count(); i++)
@@ -3073,7 +3125,7 @@ void MainWindow::changeShowContext()
     bool show = piSettings->show_context;
     if (show)
     {
-        statusBar()->showMessage(tr("Show context on"), 2000);
+        showStatusAndAnnounce(tr("Show context on"), 2000);
         for (int i = 0; i < editorTabWidget->count(); i++)
         {
             ((SonicPiEditor*)editorTabWidget->widget(i))->showContext();
@@ -3081,7 +3133,7 @@ void MainWindow::changeShowContext()
     }
     else
     {
-        statusBar()->showMessage(tr("Show context off"), 2000);
+        showStatusAndAnnounce(tr("Show context off"), 2000);
         for (int i = 0; i < editorTabWidget->count(); i++)
         {
             ((SonicPiEditor*)editorTabWidget->widget(i))->hideContext();
@@ -3103,13 +3155,13 @@ void MainWindow::togglePrefs()
     QSignalBlocker blocker(prefsAct);
     if (prefsWidget->isVisible())
     {
-        statusBar()->showMessage(tr("Hiding preferences..."), 2000);
+        showStatusAndAnnounce(tr("Hiding preferences..."), 2000);
         slidePrefsWidgetOut();
         prefsAct->setChecked(false);
     }
     else
     {
-        statusBar()->showMessage(tr("Showing preferences..."), 2000);
+        showStatusAndAnnounce(tr("Showing preferences..."), 2000);
 
         slidePrefsWidgetIn();
         prefsAct->setChecked(true);
@@ -3380,6 +3432,10 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "UpcaseWord", QT_TR_NOOP("Uppercase word or selection"), "Meta+u", "Meta+u", "Meta+u", "Code", &MainWindow::textUpcaseWordAct },
     { "DowncaseWord", QT_TR_NOOP("Lowercase word or selection"), "Meta+l", "Meta+l", "Meta+l", "Code", &MainWindow::textDowncaseWordAct },
     { "FullScreen", QT_TR_NOOP("Toggle fullscreen mode"), "ShiftMeta+f", "F11", "ShiftMeta+f", "View", &MainWindow::fullScreenAct },
+    // F10 reserved for menu bar access on Windows/Linux (used by screen readers)
+    { "FocusMode", QT_TR_NOOP("Toggle focus mode (fullscreen editor with all distractions hidden)"), "F10", "Ctrl+F10", "Ctrl+F10", "View", &MainWindow::focusModeAct },
+    { "ScopePaused", QT_TR_NOOP("Pause or resume the audio oscilloscopes"), "F12", "F12", "F12", "Visuals", &MainWindow::scopePausedAct },
+    { "ReloadServerCode", QT_TR_NOOP("Reload the Sonic Pi server's runtime code (developer)"), "F8", "F8", "F8", "Live", &MainWindow::reloadServerCodeAct },
     };
     return defs;
 }
@@ -3492,6 +3548,15 @@ void MainWindow::updateShortcuts()
         loadEmacsShortcuts();
     }
 
+#ifndef Q_OS_MAC
+    // F10 is the platform menu-bar key on Windows/Linux (relied on by screen
+    // readers); never bind it bare, whichever keymap or custom ini is chosen.
+    if (shortcutMap["FocusMode"] == QKeySequence("F10"))
+    {
+        shortcutMap["FocusMode"] = QKeySequence("Ctrl+F10");
+    }
+#endif
+
     for (const ShortcutDef& d : shortcutDefs())
     {
         if (QAction* act = this->*(d.act))
@@ -3504,6 +3569,7 @@ void MainWindow::updateShortcuts()
                                   << resolveShortcut(QString::fromLatin1(d.secondary)));
         }
     }
+    addMenuBarMnemonics();
     // show code context
     // show metronome
 }
@@ -3548,6 +3614,7 @@ void MainWindow::createToolBar()
 
     // Record
     recAct = new QAction(theme->getRecIcon(false, false), tr("Start Recording"), this);
+    recAct->setCheckable(true);
     connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
@@ -3720,6 +3787,31 @@ void MainWindow::createToolBar()
     scopeAct->setCheckable(true);
     scopeAct->setChecked(piSettings->show_scopes);
     connect(scopeAct, SIGNAL(triggered()), this, SLOT(toggleScope()));
+
+    scopePausedAct = new QAction(tr("Pause or Resume Scopes"), this);
+    connect(scopePausedAct, SIGNAL(triggered()), this, SLOT(toggleScopePaused()));
+
+    reloadServerCodeAct = new QAction(tr("Reload Server Code (developer)"), this);
+    connect(reloadServerCodeAct, SIGNAL(triggered()), this, SLOT(reloadServerCode()));
+
+    focusModeAct = new QAction(tr("Focus Mode"), this);
+    focusModeAct->setCheckable(true);
+    focusModeAct->setChecked(false);
+    connect(focusModeAct, SIGNAL(triggered()), this, SLOT(toggleFocusMode()));
+
+    checkUpdatesAct = new QAction(tr("Check for Updates on Launch"), this);
+    checkUpdatesAct->setCheckable(true);
+    checkUpdatesAct->setChecked(piSettings->check_updates);
+    connect(checkUpdatesAct, &QAction::triggered, this, [this]() {
+        piSettings->check_updates = checkUpdatesAct->isChecked();
+        emit settingsChanged();
+        update_check_updates();
+    });
+
+    checkUpdatesNowAct = new QAction(tr("Check for Updates Now"), this);
+    connect(checkUpdatesNowAct, &QAction::triggered, this, [this]() {
+        check_for_updates_now();
+    });
 
     // Cycle Themes
     cycleThemesAct = new QAction(tr("Cycle Themes"), this);
@@ -3944,6 +4036,8 @@ void MainWindow::createToolBar()
     liveMenu->addAction(logAutoScrollAct);
     liveMenu->addAction(clearOutputOnRunAct);
     liveMenu->addSeparator();
+    liveMenu->addAction(reloadServerCodeAct);
+    liveMenu->addSeparator();
     liveMenu->addAction(exitAct);
 
     codeMenu = menuBar()->addMenu(tr("Code"));
@@ -4078,6 +4172,7 @@ void MainWindow::createToolBar()
     displayMenu->addSeparator();
 
     displayMenu->addAction(scopeAct);
+    displayMenu->addAction(scopePausedAct);
     displayMenu->addAction(showScopeLabelsAct);
     scopeKindVisibilityMenu = displayMenu->addMenu(tr("Show Scope Kinds"));
 
@@ -4361,6 +4456,7 @@ void MainWindow::createToolBar()
     connect(logZoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutLogs()));
 
     viewMenu->addAction(fullScreenAct);
+    viewMenu->addAction(focusModeAct);
     viewMenu->addSeparator();
     viewMenu->addAction(textIncAct);
     viewMenu->addAction(textDecAct);
@@ -4391,6 +4487,9 @@ void MainWindow::createToolBar()
     viewMenu->addAction(helpAct);
     viewMenu->addAction(prefsAct);
     viewMenu->addAction(showMetroAct);
+    viewMenu->addSeparator();
+    viewMenu->addAction(checkUpdatesAct);
+    viewMenu->addAction(checkUpdatesNowAct);
     viewMenu->addSeparator();
 
     accessibilityMenu = viewMenu->addMenu(tr("Accessibility"));
@@ -4457,11 +4556,6 @@ void MainWindow::createToolBar()
         }
     }
 
-    // for debugging purposes
-    reloadServerCodeSc = new QShortcut(QKeySequence("F8"), this, SLOT(reloadServerCode()));
-    toggleFocusModeSc = new QShortcut(QKeySequence("F10"), this, SLOT(toggleFocusMode()));
-    toggleScopePausedSc = new QShortcut(QKeySequence("F12"), this, SLOT(toggleScopePaused()));
-
     escapeSc = new QShortcut(ctrlKey("g"), this, SLOT(escapeWorkspaces()));
     escape2Sc = new QShortcut(QKeySequence("Escape"), this, SLOT(escapeWorkspaces()));
 
@@ -4483,6 +4577,60 @@ void MainWindow::createToolBar()
 
     connect(signalMapper, SIGNAL(mappedInt(int)), settingsWidget, SLOT(updateUILanguage(int)));
     connect(settingsWidget, SIGNAL(uiLanguageChanged(QString)), this, SLOT(updateSelectedUILanguageAction(QString)));
+}
+
+// Assign Alt+letter mnemonics to the top-level menus at runtime so translated
+// titles keep working without translators managing '&' placement. Letters
+// already bound as Alt+<letter> shortcuts are skipped — Meta+x resolves to
+// Alt+x on Windows/Linux, so e.g. '&Live' would make Alt+L (Lowercase word)
+// ambiguous. Re-run on every shortcut-mode change; existing '&'s are stripped
+// first so assignment stays idempotent. macOS ignores mnemonics entirely.
+void MainWindow::addMenuBarMnemonics()
+{
+#ifndef Q_OS_MAC
+    QSet<QChar> used;
+    QList<QKeySequence> bindings;
+    const QList<QAction*> allActions = findChildren<QAction*>();
+    for (QAction* a : allActions)
+    {
+        bindings << a->shortcuts();
+    }
+    const QList<QShortcut*> allShortcuts = findChildren<QShortcut*>();
+    for (QShortcut* sc : allShortcuts)
+    {
+        bindings << sc->key();
+    }
+    for (const QKeySequence& ks : bindings)
+    {
+        for (int i = 0; i < ks.count(); i++)
+        {
+            const QKeyCombination kc = ks[i];
+            if (kc.keyboardModifiers() == Qt::AltModifier
+                && kc.key() >= Qt::Key_A && kc.key() <= Qt::Key_Z)
+            {
+                used.insert(QChar::fromLatin1('a' + (kc.key() - Qt::Key_A)));
+            }
+        }
+    }
+
+    const QList<QAction*> topLevel = menuBar()->actions();
+    for (QAction* a : topLevel)
+    {
+        QString title = a->text();
+        title.remove('&');
+        for (int i = 0; i < title.size(); i++)
+        {
+            QChar c = title[i].toLower();
+            if (c.isLetter() && !used.contains(c))
+            {
+                used.insert(c);
+                title = title.left(i) + "&" + title.mid(i);
+                break;
+            }
+        }
+        a->setText(title);
+    }
+#endif
 }
 
 void MainWindow::updateSelectedUILanguageAction(QString lang)
@@ -4576,9 +4724,17 @@ void MainWindow::createInfoPane()
     connect(infoWidg, SIGNAL(closed()), this, SLOT(about()));
 
     QAction* closeInfoAct = new QAction(this);
-    closeInfoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_W));
+    closeInfoAct->setShortcuts({ QKeySequence(Qt::CTRL | Qt::Key_W), QKeySequence(Qt::Key_Escape) });
     connect(closeInfoAct, SIGNAL(triggered()), this, SLOT(about()));
     infoWidg->addAction(closeInfoAct);
+}
+
+// Keep the record action's label and checked state in sync with
+// is_recording so the toggle is visible to screen readers.
+void MainWindow::updateRecordingUI()
+{
+    recAct->setText(is_recording ? tr("Stop Recording") : tr("Start Recording"));
+    recAct->setChecked(is_recording);
 }
 
 /**
@@ -4596,6 +4752,8 @@ void MainWindow::toggleRecordingOnIcon()
 void MainWindow::toggleRecording()
 {
     is_recording = !is_recording;
+    updateRecordingUI();
+    announce(is_recording ? tr("Recording started") : tr("Recording stopped"));
 
     // Mode is read on start only; m_videoTempPath discriminates the
     // stop path so flipping mode mid-recording is safe.
@@ -4687,6 +4845,8 @@ void MainWindow::startSessionRecordingFlow()
     if (!started) {
         if (audioSlot) freeRecordAudioOutSynth();
         is_recording = false;
+        updateRecordingUI();
+        announce(tr("Recording failed to start"), true);
         rec_flash_timer->stop();
         recAct->setIcon(theme->getRecIcon(false, false));
         m_videoTempPath.clear();
@@ -4971,7 +5131,7 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
     text->setText(in.readAll());
     file.close();
     QApplication::restoreOverrideCursor();
-    statusBar()->showMessage(tr("File loaded..."), 2000);
+    showStatusAndAnnounce(tr("File loaded..."), 2000);
 }
 
 bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
@@ -5006,7 +5166,7 @@ bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
     file.close();
     QApplication::restoreOverrideCursor();
 
-    statusBar()->showMessage(tr("File saved..."), 2000);
+    showStatusAndAnnounce(tr("File saved..."), 2000);
     return true;
 }
 
@@ -5068,7 +5228,7 @@ void MainWindow::onExitCleanup()
 
 void MainWindow::restartApp()
 {
-    statusBar()->showMessage(tr("Restarting Sonic Pi..."), 10000);
+    showStatusAndAnnounce(tr("Restarting Sonic Pi..."), 10000);
 
     qputenv("SONIC_PI_RESTART", "1");
     // Save settings and perform some cleanup
@@ -5348,7 +5508,7 @@ void MainWindow::toggleMidi(int silent)
 
     if (piSettings->midi_enabled)
     {
-        statusBar()->showMessage(tr("Enabling MIDI <input>..."), 2000);
+        showStatusAndAnnounce(tr("Enabling MIDI <input>..."), 2000);
         Message msg("/midi-start");
         msg.pushInt32(guiID);
         msg.pushInt32(silent);
@@ -5356,7 +5516,7 @@ void MainWindow::toggleMidi(int silent)
     }
     else
     {
-        statusBar()->showMessage(tr("Disabling MIDI input..."), 2000);
+        showStatusAndAnnounce(tr("Disabling MIDI input..."), 2000);
         Message msg("/midi-stop");
         msg.pushInt32(guiID);
         msg.pushInt32(silent);
@@ -5371,7 +5531,7 @@ void MainWindow::toggleGamepad(int silent)
 
     if (piSettings->gamepad_enabled)
     {
-        statusBar()->showMessage(tr("Enabling gamepad input..."), 2000);
+        showStatusAndAnnounce(tr("Enabling gamepad input..."), 2000);
         Message msg("/gamepad-start");
         msg.pushInt32(guiID);
         msg.pushInt32(silent);
@@ -5379,7 +5539,7 @@ void MainWindow::toggleGamepad(int silent)
     }
     else
     {
-        statusBar()->showMessage(tr("Disabling gamepad input..."), 2000);
+        showStatusAndAnnounce(tr("Disabling gamepad input..."), 2000);
         Message msg("/gamepad-stop");
         msg.pushInt32(guiID);
         msg.pushInt32(silent);
@@ -5425,7 +5585,7 @@ void MainWindow::toggleOSCServer(int silent)
     {
 
         enableOSCServerAct->setChecked(false);
-        statusBar()->showMessage(tr("Disabling OSC cue port..."), 2000);
+        showStatusAndAnnounce(tr("Disabling OSC cue port..."), 2000);
         std::cout << "[GUI] - asking OSC server to stop" << std::endl;
         Message msg("/cue-port-stop");
         msg.pushInt32(guiID);
@@ -5439,7 +5599,7 @@ void MainWindow::toggleOSCServer(int silent)
 
         if (piSettings->osc_server_enabled)
         {
-            statusBar()->showMessage(tr("Enabling external OSC cue port..."), 2000);
+            showStatusAndAnnounce(tr("Enabling external OSC cue port..."), 2000);
         }
 
         std::cout << "[GUI] - cue port in external mode" << std::endl;
@@ -5453,7 +5613,7 @@ void MainWindow::toggleOSCServer(int silent)
 
         if (piSettings->osc_server_enabled)
         {
-            statusBar()->showMessage(tr("Enabling internal OSC cue port..."), 2000);
+            showStatusAndAnnounce(tr("Enabling internal OSC cue port..."), 2000);
         }
         std::cout << "[GUI] - cue port in internal mode" << std::endl;
         Message msg("/cue-port-internal");
@@ -5474,7 +5634,8 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
     {
         QShortcutEvent* sc = static_cast<QShortcutEvent*>(event);
         const QKeySequence& ks = sc->key();
-        if (ks == QKeySequence("Escape"))
+        // Ambiguous-only: escape2Sc already handles the unambiguous case
+        if (ks == QKeySequence("Escape") && sc->isAmbiguous())
         {
             escapeWorkspaces();
         }
@@ -5630,6 +5791,15 @@ void MainWindow::announce(const QString& message, bool assertive,
 #else
     Q_UNUSED(assertive);
 #endif
+}
+
+void MainWindow::showStatusAndAnnounce(const QString& message, int timeoutMs)
+{
+    statusBar()->showMessage(message, timeoutMs);
+    if (bootAnnouncementsReady)
+    {
+        announce(message);
+    }
 }
 
 void MainWindow::focusContext()
@@ -6156,10 +6326,13 @@ void MainWindow::homeDirWriteError()
     pTextArea->document()->setDefaultStyleSheet(styles);
     pTextArea->setHtml(text);
     pTextArea->setReadOnly(true);
+    pTextArea->setAccessibleName(tr("Boot error details"));
     pLayout->addWidget(pTextArea);
+    pTextArea->setFocus();
 
-    // Add a dialog style OK button
     QDialogButtonBox* pButtons = new QDialogButtonBox(QDialogButtonBox::Ok, this);
+    // Accepting the dialog quits the app, so say so
+    pButtons->button(QDialogButtonBox::Ok)->setText(tr("Quit"));
     pLayout->addWidget(pButtons);
 
     auto finished = [&]() {

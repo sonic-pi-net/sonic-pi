@@ -1572,6 +1572,7 @@ void MetricsPanel::updateChevron()
     // minimised (click to show). The glyph is painted by ChevronButton.
     m_metricsToggle->setDir(m_metricsMinimised ? ChevronButton::Up : ChevronButton::Down);
     m_metricsToggle->setToolTip(m_metricsMinimised ? tr("Show metrics") : tr("Minimise metrics"));
+    m_metricsToggle->setAccessibleName(m_metricsMinimised ? tr("Show metrics") : tr("Minimise metrics"));
     // The divider line shows while the metrics are visible, and disappears (just
     // the knob remains) once collapsed.
     m_metricsToggle->setLineVisible(!m_metricsMinimised);
@@ -1659,6 +1660,7 @@ void MetricsPanel::updateLogsChevron()
     // right), left when minimised (click to bring them back).
     m_logsToggle->setDir(m_logsMinimised ? ChevronButton::Left : ChevronButton::Right);
     m_logsToggle->setToolTip(m_logsMinimised ? tr("Show logs") : tr("Minimise logs"));
+    m_logsToggle->setAccessibleName(m_logsMinimised ? tr("Show logs") : tr("Minimise logs"));
     // The divider line (chevron band + the full-height splitter handle behind it)
     // shows while the logs are visible, and disappears once collapsed.
     m_logsToggle->setLineVisible(!m_logsMinimised);

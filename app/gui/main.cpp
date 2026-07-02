@@ -95,6 +95,7 @@ int main(int argc, char* argv[])
     QPixmap pixmap(":/images/splash@2x.png");
     QSplashScreen* splash = new QSplashScreen(pixmap);
     splash->setProperty("shownAtMs", QDateTime::currentMSecsSinceEpoch());
+    splash->setAccessibleName(QObject::tr("Sonic Pi is starting"));
     splash->show();
     app.processEvents();
 

@@ -142,6 +142,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   // The row's flexible filler: expands to span the row (min width from app.qss).
   timeWarpSlider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   timeWarpSlider->setTickPosition(QSlider::TicksBelow);
+  timeWarpSlider->setAccessibleName(tr("Global Time Warp"));
   timeWarpSlider->setToolTip(tr("Global Time Warp.\n\nSlide to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nThe unit is milliseconds."));
   timeWarpSlider->setMinimum(-250);
   timeWarpSlider->setMaximum(999);
@@ -151,6 +152,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   timeWarpLineEdit = new TimeWarpEdit(m_spClient, m_spAPI, theme, setPosAvailable);
   timeWarpLineEdit->setAutoFillBackground(true);
   timeWarpLineEdit->setObjectName("timeWarpEdit");
+  timeWarpLineEdit->setAccessibleName(tr("Time Warp Scrubber"));
   timeWarpLineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   timeWarpLineEdit->setToolTip(tr("Global Time Warp.\n\nAdjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events.\nNegative values trigger everything earlier, positive values trigger things later.\nEdit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds."));
@@ -166,6 +168,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
 
   bpmScrubWidget = new BPMScrubWidget(m_spClient, m_spAPI, theme, setPosAvailable);
   bpmScrubWidget->setObjectName("bpmScrubber");
+  bpmScrubWidget->setAccessibleName(tr("BPM Scrubber"));
   bpmScrubWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   bpmScrubWidget->setToolTip(tr("Current Link Tempo in BPM (Beats Per Minute).\n\nEdit, drag or scroll to modify. Double click to reset to 60."));
 
@@ -176,6 +179,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   linkStreamsButton->setCheckable(true);
   linkStreamsButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   linkStreamsButton->setFlat(true);
+  linkStreamsButton->setAccessibleName(tr("Show Link Audio streams panel"));
   linkStreamsButton->setToolTip(tr("Show / hide the Link Audio streams panel."));
 
   // Network-visibility button — a plain QPushButton styled by app.qss exactly
@@ -314,6 +318,9 @@ void SonicPiMetro::updateRowVisibility()
            "Click to go local (private).")
       : tr("Local only — hidden from the network.\n"
            "Click to go public (visible on the network)."));
+  m_rowVisibility->setAccessibleName(net
+      ? tr("Network visibility: public")
+      : tr("Network visibility: local only"));
 }
 
 void SonicPiMetro::linkEnable()
@@ -468,7 +475,6 @@ void SonicPiMetro::tapTempo(int flashDelay)
 
 void SonicPiMetro::setFocusBPMScrubber()
 {
-  bpmScrubWidget->setAccessibleName(tr("BPM Scrubber"));
   bpmScrubWidget->setFocusPolicy(Qt::StrongFocus);
   bpmScrubWidget->setFocus();
   bpmScrubWidget->raise();
@@ -478,7 +484,6 @@ void SonicPiMetro::setFocusBPMScrubber()
 
 void SonicPiMetro::setFocusTimeWarpScrubber()
 {
-  timeWarpLineEdit->setAccessibleName(tr("Time Warp Scrubber"));
   timeWarpLineEdit->setFocusPolicy(Qt::StrongFocus);
   timeWarpLineEdit->setFocus();
   timeWarpLineEdit->raise();
@@ -495,5 +500,8 @@ void SonicPiMetro::toggleLinkAudioStreams()
   linkStreamsButton->setText(nowVisible
       ? QString::fromUtf8("\xe2\x86\x93")
       : QString::fromUtf8("\xe2\x86\x91"));
+  linkStreamsButton->setAccessibleName(nowVisible
+      ? tr("Hide Link Audio streams panel")
+      : tr("Show Link Audio streams panel"));
   emit linkAudioStreamsExpandedChanged(nowVisible);
 }

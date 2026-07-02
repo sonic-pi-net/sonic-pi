@@ -10,7 +10,6 @@
 #include "linkvisibilitytoggle.h"
 
 #include <QFontMetrics>
-#include <QMouseEvent>
 #include <QPainter>
 
 LinkVisibilityToggle::LinkVisibilityToggle(QWidget* parent)
@@ -21,28 +20,35 @@ LinkVisibilityToggle::LinkVisibilityToggle(QWidget* parent)
 LinkVisibilityToggle::LinkVisibilityToggle(const QString& leftLabel,
                                            const QString& rightLabel,
                                            QWidget* parent)
-    : QWidget(parent)
+    : QAbstractButton(parent)
     , m_leftLabel(leftLabel)
     , m_rightLabel(rightLabel)
 {
+    setCheckable(true);
     setCursor(Qt::PointingHandCursor);
-    setFocusPolicy(Qt::NoFocus);
+    // TabFocus: keyboard-reachable without clicks stealing focus from the editor
+    setFocusPolicy(Qt::TabFocus);
+    setAccessibleName(tr("Link visibility"));
+    // checkStateSet() is skipped by Qt on the user-click path (blockRefresh),
+    // so sync the state text from toggled as well.
+    connect(this, &QAbstractButton::toggled, this, [this](bool) { updateTooltip(); });
     updateTooltip();
 }
 
 void LinkVisibilityToggle::updateTooltip()
 {
-    setToolTip(m_isRight
+    const QString tip = isChecked()
         ? tr("Public — visible to other devices on your network.\n"
              "Click to go local (private).")
         : tr("Local only — hidden from the network.\n"
-             "Click to go public (visible on the network)."));
+             "Click to go public (visible on the network).");
+    setToolTip(tip);
+    setAccessibleDescription(tip);
 }
 
-void LinkVisibilityToggle::setRight(bool right)
+void LinkVisibilityToggle::checkStateSet()
 {
-    if (m_isRight == right) return;
-    m_isRight = right;
+    QAbstractButton::checkStateSet();
     updateTooltip();
     update();
 }
@@ -84,15 +90,6 @@ QSize LinkVisibilityToggle::minimumSizeHint() const
     return sizeHint();
 }
 
-void LinkVisibilityToggle::mousePressEvent(QMouseEvent* e)
-{
-    if (e->button() != Qt::LeftButton) return;
-    m_isRight = !m_isRight;
-    updateTooltip();
-    update();
-    emit toggled(m_isRight);
-}
-
 void LinkVisibilityToggle::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
@@ -108,6 +105,7 @@ void LinkVisibilityToggle::paintEvent(QPaintEvent*)
     const QColor thumb   = m_muted ? QColor(128, 128, 128) : m_thumb;
     const QColor thumbTx = m_activeIcon;
     const qreal radius = 3.0;
+    const bool right = isChecked();
 
     const QRectF r = QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5);
     p.setBrush(track);
@@ -115,17 +113,24 @@ void LinkVisibilityToggle::paintEvent(QPaintEvent*)
     p.drawRoundedRect(r, radius, radius);
 
     const qreal halfW = r.width() / 2.0;
-    const QRectF thumbRect = m_isRight
+    const QRectF thumbRect = right
         ? QRectF(r.left() + halfW, r.top(), r.width() - halfW, r.height())
         : QRectF(r.left(), r.top(), halfW, r.height());
     p.setBrush(thumb);
     p.setPen(QPen(border, 1));
     p.drawRoundedRect(thumbRect, radius, radius);
 
-    p.setPen(m_isRight ? trackTx : thumbTx);
+    p.setPen(right ? trackTx : thumbTx);
     p.drawText(QRectF(r.left(), r.top(), halfW, r.height()),
                Qt::AlignCenter, m_leftLabel);
-    p.setPen(m_isRight ? thumbTx : trackTx);
+    p.setPen(right ? thumbTx : trackTx);
     p.drawText(QRectF(r.left() + halfW, r.top(), r.width() - halfW, r.height()),
                Qt::AlignCenter, m_rightLabel);
+
+    if (hasFocus()) {
+        p.setBrush(Qt::NoBrush);
+        p.setPen(QPen(thumb, 2));
+        p.drawRoundedRect(QRectF(rect()).adjusted(1.0, 1.0, -1.0, -1.0),
+                          radius, radius);
+    }
 }

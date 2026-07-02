@@ -196,6 +196,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     auto* nameLabel = makeSectionLabel(tr("Link Name"));
     m_peerNameEdit = new QLineEdit(this);
     m_peerNameEdit->setObjectName("linkPeerName");
+    m_peerNameEdit->setAccessibleName(tr("Link Name"));
     m_peerNameEdit->setPlaceholderText(tr("Name visible to other Link peers"));
     m_peerNameEdit->setText(
         QSettings().value("link/peerName", QStringLiteral("Sonic Pi")).toString());
@@ -210,6 +211,8 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     auto* latLabel = makeSectionLabel(tr("Latency"));
     m_latencySlider = new QSlider(Qt::Horizontal, this);
     m_latencySlider->setObjectName("linkLatencySlider");
+    m_latencySlider->setAccessibleName(tr("Latency"));
+    m_latencySlider->setAccessibleDescription(tr("milliseconds"));
     m_latencySlider->setRange(0, 2000);
     m_latencySlider->setValue(initialLatencyMs);
     m_latencySlider->setFixedWidth(110);
@@ -237,6 +240,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
         QSettings().value("link/audioPublish", false).toBool();
     m_shareAudioBox = new QPushButton(initialShareAudio ? tr("On") : tr("Off"), this);
     m_shareAudioBox->setObjectName("shareAudioToggle");
+    m_shareAudioBox->setAccessibleName(tr("Stream Audio"));
     m_shareAudioBox->setCheckable(true);
     m_shareAudioBox->setChecked(initialShareAudio);
     m_shareAudioBox->setFlat(true);
@@ -309,9 +313,11 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     // Tight row pitch; Qt's platform default (~30dx) leaves the table sparse.
     m_peersTable->verticalHeader()->setDefaultSectionSize(ScaleHeightForDPI(20));
     m_peersTable->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-    m_peersTable->setSelectionMode(QAbstractItemView::NoSelection);
+    m_peersTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    m_peersTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_peersTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    m_peersTable->setFocusPolicy(Qt::NoFocus);
+    m_peersTable->setFocusPolicy(Qt::StrongFocus);
+    m_peersTable->setAccessibleName(tr("Link Audio peers"));
     m_peersTable->setObjectName("linkPeersTable");
     m_peersTable->setShowGrid(false);
     m_peersTable->setAlternatingRowColors(true);
@@ -531,6 +537,17 @@ void LinkAudioStreamsWidget::enforceEngineLatency()
 
 void LinkAudioStreamsWidget::renderPeersTable()
 {
+    // Selection is positional; remember its peer/channel identity so rebuilds
+    // (2s polling) don't silently move a keyboard user's selection.
+    QString selPeer, selChannel;
+    const int selRow = m_peersTable->currentRow();
+    if (selRow >= 0) {
+        if (auto* keyItem = m_peersTable->item(selRow, 0)) {
+            selPeer = keyItem->data(Qt::UserRole).toString();
+            selChannel = keyItem->data(Qt::UserRole + 1).toString();
+        }
+    }
+
     const bool isNet = (m_currentVisibility == 2);
     // Header reflects the current scope.
     m_peersTable->setHorizontalHeaderLabels({
@@ -609,12 +626,23 @@ void LinkAudioStreamsWidget::renderPeersTable()
         };
         // Peer name only on its first row, grouping its channels under one label.
         set(0, ch.peerName == prevPeer ? QString() : ch.peerName);
+        m_peersTable->item(i, 0)->setData(Qt::UserRole, ch.peerName);
+        m_peersTable->item(i, 0)->setData(Qt::UserRole + 1, ch.channelName);
         set(1, ch.channelName);
         set(2, status, Qt::AlignHCenter | Qt::AlignVCenter);
         set(3, buffered, Qt::AlignHCenter | Qt::AlignVCenter);
         set(4, rate, Qt::AlignHCenter | Qt::AlignVCenter);
         set(5, bus, Qt::AlignHCenter | Qt::AlignVCenter);
         prevPeer = ch.peerName;
+    }
+
+    if (!selChannel.isEmpty()) {
+        for (int i = 0; i < shown.size(); ++i) {
+            if (shown[i].peerName == selPeer && shown[i].channelName == selChannel) {
+                m_peersTable->selectRow(i);
+                break;
+            }
+        }
     }
 }
 

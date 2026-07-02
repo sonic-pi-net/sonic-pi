@@ -37,7 +37,8 @@ public:
     explicit ChevronButton(QWidget* parent = nullptr) : QToolButton(parent)
     {
         setCursor(Qt::PointingHandCursor);
-        setFocusPolicy(Qt::NoFocus);
+        // TabFocus: keyboard-reachable without clicks stealing editor focus
+        setFocusPolicy(Qt::TabFocus);
     }
 
     void setColors(const QColor& grip, const QColor& hoverGrip, const QColor& glyph)
@@ -105,6 +106,7 @@ protected:
 
         qreal cx = w / 2.0;
         qreal cy = h / 2.0;
+        QRect focusRect = rect();
         if (m_boxLen > 0 && m_orient == Horizontal)
         {
             // The knob box is always drawn; the divider line is shown while the
@@ -121,6 +123,7 @@ protected:
             const int bx = w - m_boxInset - m_boxLen;
             p.fillRect(bx, 0, m_boxLen, h, c);           // knob box (always)
             cx = bx + m_boxLen / 2.0;
+            focusRect = QRect(bx, 0, m_boxLen, h);
         }
         else if (m_boxLen > 0 && m_orient == Vertical)
         {
@@ -135,6 +138,7 @@ protected:
             const int by = (h - m_boxLen) / 2;
             p.fillRect(0, by, w, m_boxLen, c);           // knob box (always)
             cy = by + m_boxLen / 2.0;
+            focusRect = QRect(0, by, w, m_boxLen);
         }
         else
         {
@@ -164,6 +168,14 @@ protected:
         p.setPen(Qt::NoPen);
         p.setBrush(m_glyph);
         p.drawPolygon(tri);
+
+        if (hasFocus())
+        {
+            p.setRenderHint(QPainter::Antialiasing, false);
+            p.setPen(QPen(m_glyph, 1));
+            p.setBrush(Qt::NoBrush);
+            p.drawRect(focusRect.adjusted(0, 0, -1, -1));
+        }
     }
 
 private:

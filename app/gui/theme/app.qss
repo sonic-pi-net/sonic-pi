@@ -110,10 +110,17 @@ QTabBar::tab
 
     background: tabColor;
     color: tabTextColor;
-    padding-top: 5dx;
-    padding-right: 10dx;
-    padding-bottom: 5dx;
-    padding-left: 10dx;
+    /* padding shrunk by the border width so tab geometry is unchanged */
+    border: 2dx solid transparent;
+    padding-top: 3dx;
+    padding-right: 8dx;
+    padding-bottom: 3dx;
+    padding-left: 8dx;
+}
+
+QTabBar::tab:focus
+{
+    border: 2dx solid hoverButtonColor;
 }
 
 QTabBar::tab:hover {
@@ -237,6 +244,11 @@ QSlider::handle:vertical:hover
     background-color: scrollBarHoverColor;
 }
 
+QSlider::handle:vertical:focus
+{
+    background-color: hoverButtonColor;
+}
+
 QMenu
 {
     background: menuColor;
@@ -305,6 +317,12 @@ QPlainTextEdit
 QCheckBox {
     font-size: medium;
     spacing: 15dx;
+    border: 2dx solid transparent;
+}
+
+QCheckBox:focus
+{
+    border: 2dx solid hoverButtonColor;
 }
 
 QCheckBox::indicator {
@@ -331,6 +349,12 @@ QRadioButton
 {
     color: windowForegroundColor;
     background: windowColor;
+    border: 2dx solid transparent;
+}
+
+QRadioButton:focus
+{
+    border: 2dx solid hoverButtonColor;
 }
 
 QGroupBox QFrame
@@ -386,6 +410,11 @@ QListWidget
     min-width: 500dx;
 }
 
+QListWidget:focus
+{
+    border: 1dx solid hoverButtonColor;
+}
+
 QListWidget::item
 {
     background: paneColor;
@@ -424,6 +453,11 @@ QComboBox:hover
     border-radius: 3dx;;
     border-color: #1e90ff;
     background: hoverButtonColor;
+}
+
+QComboBox:focus
+{
+    border: 1dx solid hoverButtonColor;
 }
 
 QComboBox::item::selected
@@ -519,6 +553,12 @@ QToolButton::hover::pressed
 {
     border-bottom: 2px solid tabSelectedColor;
     border-top: 2px solid tabSelectedColor;
+}
+
+QToolButton:focus
+{
+    border-bottom: 2px solid hoverButtonColor;
+    border-top: 2px solid hoverButtonColor;
 }
 
 
@@ -641,6 +681,11 @@ QPushButton::hover:!pressed
     color: buttonTextColor;
 }
 
+QPushButton:focus
+{
+    border: 2dx solid hoverButtonColor;
+}
+
 QMessageBox
 {
     background: windowColor;
@@ -737,6 +782,12 @@ QPushButton#rowVisibility:hover
 QLineEdit
 {
     border-radius: 3dx;
+    border: 2dx solid transparent;
+}
+
+QLineEdit:focus
+{
+    border: 2dx solid hoverButtonColor;
 }
 
 /* BPM scrubber. The resting (link-off) look lives here; the `linkOn` and `cue`
@@ -778,6 +829,13 @@ QLineEdit#bpmScrubber[linkOn="true"]::hover:pressed
     color: buttonTextColor;
 }
 
+/* Placed after the linkOn rule (equal specificity) so keyboard focus stays
+   visible whether or not Link is engaged; the cue flashes below still win. */
+QLineEdit#bpmScrubber:focus
+{
+    border: 2dx solid windowForegroundColor;
+}
+
 /* Transient edit cues — C++ sets cue=change/reset then clears to "none" after
    250ms. change = pressed fill; reset = inverted flash. */
 QLineEdit#bpmScrubber[cue="change"]
@@ -806,6 +864,11 @@ QLineEdit#timeWarpEdit
     max-width: 80dx;
     height: 25dx;
 
+}
+
+QLineEdit#timeWarpEdit:focus
+{
+    border: 2dx solid hoverButtonColor;
 }
 
 QLineEdit#timeWarpEdit::hover:!pressed
@@ -958,6 +1021,11 @@ QSlider#linkLatencySlider::handle:horizontal:hover
     background: hoverButtonColor;
 }
 
+QSlider#linkLatencySlider::handle:horizontal:focus
+{
+    background: hoverButtonColor;
+}
+
 QLabel#linkLatencyValue
 {
     color: windowForegroundColor;
@@ -1035,6 +1103,10 @@ QSlider#timeWarpSlider::handle:horizontal {
 }
 
 QSlider#timeWarpSlider::handle:horizontal:hover {
+    background: hoverButtonColor;
+}
+
+QSlider#timeWarpSlider::handle:horizontal:focus {
     background: hoverButtonColor;
 }
 

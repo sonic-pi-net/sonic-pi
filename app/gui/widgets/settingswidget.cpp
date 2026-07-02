@@ -165,6 +165,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     system_vol_slider = new ArcDial(this);
     system_vol_slider->setWrapping(false);
     system_vol_slider->setMinimumSize(100, 100);
+    system_vol_slider->setAccessibleName(tr("Main Volume"));
 
     enable_scsynth_inputs = new QCheckBox(tr("Enable Audio Inputs"));
     enable_scsynth_inputs->setToolTip(tr("Toggle to enable or disable audio inputs."));
@@ -217,6 +218,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_driver_combo = new QComboBox();
     audio_driver_combo->setMinimumContentsLength(12);
     audio_driver_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    driverLabel->setBuddy(audio_driver_combo);
     audio_device_layout->addWidget(driverLabel, 0, 0);
     audio_device_layout->addWidget(audio_driver_combo, 0, 1);
 
@@ -224,6 +226,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_output_combo = new QComboBox();
     audio_output_combo->setMinimumContentsLength(20);
     audio_output_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    outputLabel->setBuddy(audio_output_combo);
     audio_device_layout->addWidget(outputLabel, 1, 0);
     audio_device_layout->addWidget(audio_output_combo, 1, 1);
 
@@ -231,6 +234,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_input_combo = new QComboBox();
     audio_input_combo->setMinimumContentsLength(20);
     audio_input_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    inputLabel->setBuddy(audio_input_combo);
     audio_device_layout->addWidget(inputLabel, 2, 0);
     audio_device_layout->addWidget(audio_input_combo, 2, 1);
 
@@ -238,6 +242,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_sample_rate_combo = new QComboBox();
     audio_sample_rate_combo->setMinimumContentsLength(8);
     audio_sample_rate_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    srLabel->setBuddy(audio_sample_rate_combo);
     audio_device_layout->addWidget(srLabel, 3, 0);
     audio_device_layout->addWidget(audio_sample_rate_combo, 3, 1);
 
@@ -245,6 +250,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_buffer_size_combo = new QComboBox();
     audio_buffer_size_combo->setMinimumContentsLength(8);
     audio_buffer_size_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    bsLabel->setBuddy(audio_buffer_size_combo);
     audio_device_layout->addWidget(bsLabel, 4, 0);
     audio_device_layout->addWidget(audio_buffer_size_combo, 4, 1);
 
@@ -475,8 +481,10 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 
     midi_in_ports_list = new DeviceListWidget(tr("No connected input devices"));
     midi_out_ports_list = new DeviceListWidget(tr("No connected output devices"));
-    midi_in_ports_list->setAccessibleName("midi-in-ports-list");
-    midi_out_ports_list->setAccessibleName("midi-out-ports-list");
+    midi_in_ports_list->setObjectName("midi-in-ports-list");
+    midi_in_ports_list->setAccessibleName(tr("MIDI input ports"));
+    midi_out_ports_list->setObjectName("midi-out-ports-list");
+    midi_out_ports_list->setAccessibleName(tr("MIDI output ports"));
     midi_in_ports_list->setToolTip(tr("MIDI input devices send MIDI messages directly to\nSonic Pi and are received as cue events\n(similar to incoming OSC messages and internal cues)"));
     midi_out_ports_list->setToolTip(tr("MIDI output devices receive MIDI messages directly from\nSonic Pi which can be sent via the midi_* fns"));
 
@@ -512,7 +520,8 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     gamepad_enable_check->setToolTip(tr("Enable or disable automatic conversion of game controller\nbutton and axis events to cue events"));
 
     gamepad_devices_list = new DeviceListWidget(tr("No connected game controllers"));
-    gamepad_devices_list->setAccessibleName("gamepad-devices-list");
+    gamepad_devices_list->setObjectName("gamepad-devices-list");
+    gamepad_devices_list->setAccessibleName(tr("Game controllers"));
     gamepad_devices_list->setToolTip(tr("Connected game controllers send button and axis events\nto Sonic Pi which are received as cue events"));
 
     connect(gamepad_devices_list, &DeviceListWidget::deviceToggled, this,
@@ -846,6 +855,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
     QGridLayout *transparency_box_layout = new QGridLayout;
     gui_transparency_slider = new QSlider(this);
+    gui_transparency_slider->setAccessibleName(tr("Transparency"));
     QLabel *transparency_value_label = new QLabel();
     transparency_value_label->setAlignment(Qt::AlignHCenter);
     connect(gui_transparency_slider, &QSlider::valueChanged, transparency_value_label,
