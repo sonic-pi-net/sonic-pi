@@ -236,6 +236,16 @@ begin
 
   STDOUT.puts "Spider - Runtime Server Initialised"
   STDOUT.flush
+
+  # We boot with --disable=gems as the boot path only needs stdlib and
+  # vendored libs. Restore RubyGems now (off the boot-critical path) so
+  # user code in init.rb and buffers can still require installed gems.
+  begin
+    require 'rubygems' unless defined?(::Gem)
+  rescue LoadError
+    STDOUT.puts "Spider - Warning: unable to restore RubyGems"
+  end
+
   # read in init.rb if exists
   if File.exist?(SonicPi::Paths.init_path)
     sp.__spider_eval(File.read(SonicPi::Paths.init_path), silent: true)

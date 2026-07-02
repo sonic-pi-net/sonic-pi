@@ -202,27 +202,9 @@ module SonicPi
           end
         end
 
-        Util.log "Booting SuperSonic"
-        @supersonic_booter = SupersonicBooter.new(@ports, @no_scsynth_inputs)
-
-        # Spider boots concurrently — it self-syncs against SuperSonic
-        # via its own /supersonic/notify ping loop.
-        Util.log "Booting Spider Server"
-        @spider_booter = SpiderBooter.new(@ports, @daemon_token)
-
-        success = @supersonic_booter.wait_for_boot
-        if success
-          Util.log "SuperSonic booted successfully"
-          @supersonic_sender = SonicPi::OSC::UDPClient.new('localhost', @ports["scsynth"])
-          # Send from @api_server so SuperSonic records its port as the notify target
-          @api_server.send("localhost", @ports["scsynth"], "/supersonic/notify")
-          Util.log "Sent /supersonic/notify to SuperSonic, registering daemon on port #{@ports["daemon"]}"
-        else
-          Util.log "sending ERROR to gui"
-          puts "SuperSonic Audio Server Boot Error\nSuperSonic failed to boot"
-          STDOUT.flush
-          @safe_exit.exit
-        end
+        # The sender to SuperSonic can be created before SuperSonic has
+        # booted - it's just a UDP client pointed at a known port.
+        @supersonic_sender = SonicPi::OSC::UDPClient.new('localhost', @ports["scsynth"])
 
         # Forward /supersonic/setup to Spider for cold-swap reinit
         @api_server.add_method("/supersonic/setup") do |args|
@@ -265,9 +247,32 @@ module SonicPi
 
         # Let the calling process (likely the GUI) know which port to
         # listen to and communicate on with the Ruby spider server via
-        # STDOUT.
+        # STDOUT. All ports and the token are known before SuperSonic
+        # and Spider have booted, so send them now - this unblocks the
+        # GUI to construct its UI concurrently with the server boot.
+        # Boot failures are reported via /exited-with-boot-error OSC.
         puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@daemon_token}"
         STDOUT.flush
+
+        Util.log "Booting SuperSonic"
+        @supersonic_booter = SupersonicBooter.new(@ports, @no_scsynth_inputs)
+
+        # Spider boots concurrently — it self-syncs against SuperSonic
+        # via its own /supersonic/notify ping loop.
+        Util.log "Booting Spider Server"
+        @spider_booter = SpiderBooter.new(@ports, @daemon_token)
+
+        success = @supersonic_booter.wait_for_boot
+        if success
+          Util.log "SuperSonic booted successfully"
+          # Send from @api_server so SuperSonic records its port as the notify target
+          @api_server.send("localhost", @ports["scsynth"], "/supersonic/notify")
+          Util.log "Sent /supersonic/notify to SuperSonic, registering daemon on port #{@ports["daemon"]}"
+        else
+          Util.log "sending ERROR to gui"
+          @api_server.send("localhost", @ports["gui-listen-to-spider"], "/exited-with-boot-error", "SuperSonic Audio Server Boot Error\nSuperSonic failed to boot")
+          @safe_exit.exit
+        end
 
         Util.log "Blocking main thread until exit signal received..."
         begin
@@ -616,7 +621,11 @@ module SonicPi
 
     class SpiderBooter < ProcessBooter
       def initialize(ports, token)
+        # RubyGems is not needed on the boot path (all deps are stdlib
+        # or vendored) and skipping it shaves several hundred ms off
+        # boot. Spider restores it before running any user code.
         args = [
+          "--disable=gems",
           "--enable-frozen-string-literal", "-E", "utf-8", "--yjit",
           Paths.spider_server_path,
           "-u",

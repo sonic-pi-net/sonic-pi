@@ -751,6 +751,10 @@ APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
 {
     std::unique_lock<std::mutex> lock(m_osc_mtx);
 
+    // Rotate logs before opening gui.log below so the previous
+    // session's gui.log makes it into the history dir intact.
+    CycleLogs();
+
     // Setup redirection of log from this app to our log file
     // stdout into ~/.sonic-pi/log/gui.log
     if (m_homeDirWriteable && (m_logOption == LogOption::File))
@@ -760,8 +764,6 @@ APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
         m_stampbuf = std::make_unique<TimestampLineBuf>(m_stdlog.rdbuf());
         std::cout.rdbuf(m_stampbuf.get());
     }
-
-    StartClearLogsScript();
 
     LOG(INFO, "Starting...");
 
@@ -1163,22 +1165,68 @@ void SonicPiAPI::SetSettings(const APISettings& settings)
 }
 
 
-void SonicPiAPI::StartClearLogsScript()
+void SonicPiAPI::CycleLogs()
 {
-    std::string output;
-    std::vector<std::string> args;
+    // Rotate the previous session's logs into a timestamped history
+    // directory and truncate them for this run. Done natively rather
+    // than by spawning clear-logs.rb - booting a whole Ruby
+    // interpreter for this sat on the startup critical path.
+    auto logPath = GetPath(SonicPiPath::LogPath);
+    auto historyRoot = logPath / "history";
 
-    args.push_back(GetPath(SonicPiPath::RubyPath).string());
-    args.push_back(GetPath(SonicPiPath::ClearLogsPath).string());
-
-    std::ostringstream str;
-    for (auto& arg : args)
+    std::error_code ec;
+    if (!fs::is_directory(logPath, ec))
     {
-        str << arg << " ";
+        return;
     }
-    LOG(INFO, "Args: " << str.str());
 
-    auto proc =  StartProcess(args);
+    std::time_t now = std::time(nullptr);
+    std::tm tmBuf;
+#if defined(WIN32)
+    localtime_s(&tmBuf, &now);
+#else
+    localtime_r(&now, &tmBuf);
+#endif
+    char stamp[32];
+    std::strftime(stamp, sizeof(stamp), "%Y-%m-%d_%H_%M_%S", &tmBuf);
+
+    auto historyDir = historyRoot / stamp;
+    fs::create_directories(historyDir, ec);
+    if (ec)
+    {
+        LOG(ERR, "Unable to create log history dir: " + historyDir.string());
+        return;
+    }
+
+    for (auto& entry : fs::directory_iterator(logPath, ec))
+    {
+        if (!entry.is_regular_file(ec) || entry.path().extension() != ".log")
+        {
+            continue;
+        }
+        fs::copy_file(entry.path(), historyDir / entry.path().filename(), fs::copy_options::overwrite_existing, ec);
+        std::ofstream truncateStream(entry.path(), std::ios::out | std::ios::trunc);
+    }
+
+    // Only keep the most recent history sessions. Timestamped dir
+    // names are zero-padded so a lexicographic sort is chronological.
+    const size_t maxSessions = 10;
+    std::vector<fs::path> sessions;
+    for (auto& entry : fs::directory_iterator(historyRoot, ec))
+    {
+        if (entry.is_directory(ec))
+        {
+            sessions.push_back(entry.path());
+        }
+    }
+    if (sessions.size() > maxSessions)
+    {
+        std::sort(sessions.begin(), sessions.end());
+        for (size_t i = 0; i < sessions.size() - maxSessions; i++)
+        {
+            fs::remove_all(sessions[i], ec);
+        }
+    }
 }
 
 } // namespace SonicPi

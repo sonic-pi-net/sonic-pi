@@ -387,7 +387,9 @@ public:
     virtual APIInitResult Init(const fs::path& rootPath);
     virtual APIBootResult Boot(bool noScsynthInputs = false);
 
-    virtual void StartClearLogsScript();
+    // Rotate the previous session's logs into the history dir and
+    // truncate them ready for this run.
+    virtual void CycleLogs();
 
     virtual bool LinkEnable();
     virtual bool LinkDisable();
