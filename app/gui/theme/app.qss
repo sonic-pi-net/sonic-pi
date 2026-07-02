@@ -783,6 +783,13 @@ QPushButton#rowVisibility:hover
 {
   background-color: hoverButtonColor;
 }
+
+/* This ID rule's transparent border outranks the generic focus ring, so
+   keyboard focus is re-asserted here. */
+QPushButton#rowVisibility:focus
+{
+  border-color: hoverButtonColor;
+}
 QLineEdit
 {
     border-radius: 3dx;
@@ -940,15 +947,17 @@ QLineEdit#linkPeerName
     selection-background-color: selectionBackgroundColor;
 }
 
-QLineEdit#linkPeerName:focus
-{
-    border: 2dx solid hoverButtonColor;
-}
-
 /* Link Name border goes pink while Link is engaged. */
 QLineEdit#linkPeerName[linkOn="true"]
 {
     border: 2dx solid selectionBackgroundColor;
+}
+
+/* After the linkOn rule (equal specificity) so the keyboard focus ring
+   stays visible while Link is engaged. */
+QLineEdit#linkPeerName:focus
+{
+    border: 2dx solid hoverButtonColor;
 }
 
 /* Share-audio: a checkable pill button. Same border / radius / height
@@ -987,9 +996,10 @@ QPushButton#shareAudioToggle[muted="true"]:hover
 QPushButton#shareAudioToggle[muted="true"]:checked,
 QPushButton#shareAudioToggle[muted="true"]:checked:hover
 {
-    /* placeholder-text (not highlighted-text, which was white-on-Mid in light
-       mode) — legible on the Mid fill in every theme. */
-    color: palette(placeholder-text);
+    /* buttonTextColor (white) — Mid is a dark fill in every theme, so
+       white stays legible everywhere; placeholder-text sank into the
+       light theme's grey Mid. */
+    color: buttonTextColor;
     background-color: palette(mid);
     border: 2dx solid palette(mid);
 }
@@ -1050,6 +1060,8 @@ QTableWidget#linkPeersTable
     border-radius: 3dx;
     gridline-color: paneColor;
     alternate-background-color: windowColor;
+    selection-background-color: selectionBackgroundColor;
+    selection-color: selectionForegroundColor;
     font-size: small;
 }
 

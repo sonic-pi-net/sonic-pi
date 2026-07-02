@@ -870,6 +870,13 @@ QPalette SonicPiTheme::createPalette() {
     p.setColor(QPalette::Dark,            color("Dark"));
     p.setColor(QPalette::Link,            color("Link"));
     p.setColor(QPalette::LinkVisited,     color("LinkVisited"));
+    // Not provided by the themes, and without an explicit value it leaks
+    // in from whatever palette the app booted with (white-ish when the
+    // OS is in dark mode — invisible on light panes). Derive it from the
+    // theme foreground at reduced emphasis.
+    QColor placeholder = color("WindowForeground");
+    placeholder.setAlpha(140);
+    p.setColor(QPalette::PlaceholderText, placeholder);
     return p;
 }
 

@@ -655,7 +655,9 @@ void LinkAudioStreamsWidget::showEmptyMessage(const QString& text)
     m_peersTable->setRowCount(1);
     m_peersTable->setSpan(0, 0, 1, m_peersTable->columnCount());
     auto* it = new QTableWidgetItem(text);
-    it->setFlags(it->flags() & ~Qt::ItemIsEditable);
+    // Not selectable: it's a status message, and selecting the full-width
+    // span floods the whole table with the highlight colour.
+    it->setFlags(it->flags() & ~(Qt::ItemIsEditable | Qt::ItemIsSelectable));
     it->setTextAlignment(Qt::AlignCenter);
     // Italic to signal empty/status state.
     QFont f = it->font();
