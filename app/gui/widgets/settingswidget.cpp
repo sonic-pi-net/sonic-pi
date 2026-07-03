@@ -25,6 +25,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QButtonGroup>
+#include <QToolButton>
 #include <QNetworkInterface>
 #include <QDesktopServices>
 #include <QCheckBox>
@@ -59,7 +60,7 @@ namespace {
 // Audio Only = a waveform; Audio + Video = a camcorder.
 const char* kWaveformSvg =
     "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
-    "stroke='%1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>"
+    "stroke='%1' stroke-width='2.75' stroke-linecap='round' stroke-linejoin='round'>"
     "<path d='M3 9v6'/>"
     "<path d='M7 5v14'/>"
     "<path d='M11 3v18'/>"
@@ -69,13 +70,13 @@ const char* kWaveformSvg =
 
 const char* kVideoSvg =
     "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
-    "stroke='%1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>"
+    "stroke='%1' stroke-width='2.75' stroke-linecap='round' stroke-linejoin='round'>"
     "<path d='M15 10l4.553 -2.276a1 1 0 0 1 1.447 .894v6.764a1 1 0 0 1 -1.447 .894l-4.553 -2.276v-4z'/>"
     "<path d='M3 8a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z'/>"
     "</svg>";
 
-// Render a tinted SVG glyph to a crisp (2x) QIcon of the given logical size.
-QIcon makeSvgIcon(const char* svg, const QColor& color, int px)
+// Render a tinted SVG glyph to a crisp (2x) pixmap of the given logical size.
+QPixmap makeSvgPixmap(const char* svg, const QColor& color, int px)
 {
     QPixmap pm(QSize(px, px) * 2);
     pm.setDevicePixelRatio(2);
@@ -85,7 +86,20 @@ QIcon makeSvgIcon(const char* svg, const QColor& color, int px)
     const QByteArray bytes =
         QString::fromLatin1(svg).arg(color.name(QColor::HexRgb)).toUtf8();
     QSvgRenderer(bytes).render(&p, QRectF(0, 0, px, px));
-    return QIcon(pm);
+    return pm;
+}
+
+// Two-state icon: `off` tint at rest, `on` tint while checked — Qt picks
+// the QIcon::On pixmap automatically for checked buttons, so the glyph
+// reads on both the grey segment and the highlight-filled one.
+QIcon makeSvgToggleIcon(const char* svg, const QColor& off, const QColor& on, int px)
+{
+    QIcon icon;
+    icon.addPixmap(makeSvgPixmap(svg, off, px), QIcon::Normal, QIcon::Off);
+    icon.addPixmap(makeSvgPixmap(svg, on, px), QIcon::Normal, QIcon::On);
+    icon.addPixmap(makeSvgPixmap(svg, off, px), QIcon::Active, QIcon::Off);
+    icon.addPixmap(makeSvgPixmap(svg, on, px), QIcon::Active, QIcon::On);
+    return icon;
 }
 
 } // namespace
@@ -223,6 +237,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     QGroupBox *audioDeviceBox = new QGroupBox(tr("Audio Device"));
     audioDeviceBox->setToolTip(tr("Configure audio driver, device, sample rate and buffer size."));
     QGridLayout *audio_device_layout = new QGridLayout;
+    // Gap between rows so the combos read as separate fields, not one block.
+    audio_device_layout->setVerticalSpacing(ScaleHeightForDPI(8));
 
     QLabel *driverLabel = new QLabel(tr("Driver"));
     audio_driver_combo = new QComboBox();
@@ -264,6 +280,15 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_device_layout->addWidget(bsLabel, 4, 0);
     audio_device_layout->addWidget(audio_buffer_size_combo, 4, 1);
 
+    // Fixed, uniform height so each combo's grey fill exactly matches its
+    // focus/hover highlight (otherwise the widget floats taller than the
+    // painted background) and every row is the same height (even spacing).
+    const int comboHeight = ScaleHeightForDPI(28);
+    for (QComboBox* c : { audio_driver_combo, audio_output_combo, audio_input_combo,
+                          audio_sample_rate_combo, audio_buffer_size_combo }) {
+        c->setFixedHeight(comboHeight);
+    }
+
     audioDeviceBox->setLayout(audio_device_layout);
 
     // activated(int) — user-interaction only. currentIndexChanged fires
@@ -283,18 +308,25 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     recordingGroup->setToolTip(tr("Choose what the rec button captures."));
 
     // Icons tinted with the themed foreground so they read on both the resting
-    // grey segment and the highlighted (checked) segment.
+    // grey segment and the highlighted (checked) segment. QToolButton with
+    // TextUnderIcon stacks a large glyph above the label — a QPushButton can
+    // only put a small icon beside the text.
     const QColor segIconColor = QApplication::palette().color(QPalette::WindowText);
-    const int segIconPx = ScaleHeightForDPI(16);
+    const QColor segIconOnColor = QApplication::palette().color(QPalette::HighlightedText);
+    const int segIconPx = ScaleHeightForDPI(32);
 
-    recording_type_audio_radio = new QPushButton(tr("Audio Only"));
-    recording_type_audio_radio->setIcon(makeSvgIcon(kWaveformSvg, segIconColor, segIconPx));
+    recording_type_audio_radio = new QToolButton();
+    recording_type_audio_radio->setText(tr("Record Audio Only"));
+    recording_type_audio_radio->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    recording_type_audio_radio->setIcon(makeSvgToggleIcon(kWaveformSvg, segIconColor, segIconOnColor, segIconPx));
     recording_type_audio_radio->setIconSize(QSize(segIconPx, segIconPx));
     recording_type_audio_radio->setToolTip(tr(
         "SuperSonic writes a .wav of the master mix"));
 
-    recording_type_av_radio = new QPushButton(tr("Audio + Video"));
-    recording_type_av_radio->setIcon(makeSvgIcon(kVideoSvg, segIconColor, segIconPx));
+    recording_type_av_radio = new QToolButton();
+    recording_type_av_radio->setText(tr("Record Audio + Video"));
+    recording_type_av_radio->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    recording_type_av_radio->setIcon(makeSvgToggleIcon(kVideoSvg, segIconColor, segIconOnColor, segIconPx));
     recording_type_av_radio->setIconSize(QSize(segIconPx, segIconPx));
 #if defined(Q_OS_MAC)
     recording_type_av_radio->setToolTip(tr(
@@ -320,7 +352,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // echo back.
     recording_type_group = new QButtonGroup(this);
     recording_type_group->setExclusive(true);
-    for (QPushButton* b : { recording_type_audio_radio, recording_type_av_radio }) {
+    for (QToolButton* b : { recording_type_audio_radio, recording_type_av_radio }) {
         b->setCheckable(true);
         b->setCursor(Qt::PointingHandCursor);
         recSegLayout->addWidget(b);
@@ -402,12 +434,22 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     QGroupBox *audio_prefs_box = new QGroupBox();
     QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
+    // Audio Device and Recording keep their natural height; the SuperSonic
+    // panel (centred art with top/bottom stretches) absorbs any slack so it
+    // doesn't squeeze the device combos.
+    audioDeviceBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    recordingGroup->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    supersonicBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+
     audio_prefs_box_layout->addWidget(volBox, 0, 0, 3, 1);
     audio_prefs_box_layout->addWidget(audioDeviceBox, 0, 1);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     audio_prefs_box_layout->addWidget(recordingGroup, 1, 1);
 #endif
     audio_prefs_box_layout->addWidget(supersonicBox, 2, 1);
+    audio_prefs_box_layout->setRowStretch(0, 0);
+    audio_prefs_box_layout->setRowStretch(1, 0);
+    audio_prefs_box_layout->setRowStretch(2, 1);
     audio_prefs_box->setLayout(audio_prefs_box_layout);
     return audio_prefs_box;
 }
@@ -821,12 +863,12 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     QVBoxLayout *leftEditorPrefs = new QVBoxLayout;
     leftEditorPrefs->addWidget(editor_look_feel_box);
     leftEditorPrefs->addWidget(editor_display_box);
+    leftEditorPrefs->addWidget(automation_box);
     leftEditorPrefs->addStretch(1);
 
     QVBoxLayout *rightEditorPrefs = new QVBoxLayout;
     rightEditorPrefs->addWidget(debug_box);
     rightEditorPrefs->addWidget(editor_show_panels_box);
-    rightEditorPrefs->addWidget(automation_box);
     rightEditorPrefs->addWidget(accessibility_box);
     rightEditorPrefs->addStretch(1);
 

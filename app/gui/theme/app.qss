@@ -9,6 +9,7 @@
 - windowInternalBorderColor
 - buttonColor
 - buttonBorderColor
+- metroButtonBorderColor
 - buttonTextColor
 - pressedButtonColor
 - pressedButtonTextColor
@@ -371,7 +372,9 @@ QGroupBox
 
   font-size: medium;
 
-  padding-top: 5dx;
+  /* Extra top padding: breathing room between the section header and the
+     first control. */
+  padding-top: 12dx;
     padding-right: 10dx;
     padding-bottom: 5dx;
     padding-left: 10dx;
@@ -434,12 +437,18 @@ QListWidget::item::selected
 QComboBox
 {
     font-size: medium;
-    border: 1dx solid tabSelectedColor;
+    /* No resting border (transparent keeps geometry stable against the 1dx
+       hover/focus borders below). */
+    border: 1dx solid transparent;
     border-radius: 3dx;
+    /* min-height (not padding) gives the box its height — padding would push
+       the text into a fixed content area and clip the glyphs. Row gaps come
+       from the grid's vertical spacing, not from the combo. */
+    min-height: 22dx;
     padding-top: 1dx;
     padding-right: 18dx;
     padding-bottom: 1dx;
-    padding-left: 3dx;
+    padding-left: 6dx;
     background: tabColor;
     color: tabTextColor;
 }
@@ -705,21 +714,29 @@ QWidget[segmented="true"]
     border-radius: 7px;
 }
 
-QWidget[segmented="true"] QPushButton
+/* QToolButton included: the recording picker uses tool buttons so a large
+   icon can sit above the label (TextUnderIcon). */
+QWidget[segmented="true"] QPushButton,
+QWidget[segmented="true"] QToolButton
 {
     border: none;
     padding: 6px 16px;
     border-radius: 5px;
     background: transparent;
     color: palette(window-text);
+    /* QToolButton isn't covered by the app-wide QPushButton font rule, so
+       pin the size here to keep segment labels on the house scale. */
+    font-size: medium;
 }
 
-QWidget[segmented="true"] QPushButton:hover:!checked
+QWidget[segmented="true"] QPushButton:hover:!checked,
+QWidget[segmented="true"] QToolButton:hover:!checked
 {
     background: rgba(127,127,127,70);
 }
 
-QWidget[segmented="true"] QPushButton:checked
+QWidget[segmented="true"] QPushButton:checked,
+QWidget[segmented="true"] QToolButton:checked
 {
     background: palette(highlight);
     color: palette(highlighted-text);
@@ -729,6 +746,25 @@ QWidget[segmented="true"] QPushButton:checked
 QPushButton#enableLinkButton
 {
   min-width: 100dx;
+}
+
+/* Metro-row buttons: theme-dependent resting border — transparent on light
+   panes (no grey ring), white on dark panes where the black pill needs it
+   for form. Active/flashing states set their own borders. */
+QPushButton#enableLinkButton,
+QPushButton#tapButton,
+QPushButton#linkStreamsButton
+{
+  border: 2dx solid metroButtonBorderColor;
+}
+
+/* These ID rules outrank the generic focus ring, so keyboard focus is
+   re-asserted here (same pattern as #rowVisibility below). */
+QPushButton#enableLinkButton:focus,
+QPushButton#tapButton:focus,
+QPushButton#linkStreamsButton:focus
+{
+  border: 2dx solid hoverButtonColor;
 }
 
 /* ── House style: "active pill" ──────────────────────────────────────────

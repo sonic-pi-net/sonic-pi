@@ -19,6 +19,7 @@ class QGroupBox;
 class QComboBox;
 class QCheckBox;
 class QPushButton;
+class QToolButton;
 class QRadioButton;
 class QLabel;
 class QLineEdit;
@@ -280,8 +281,8 @@ private:
     QComboBox *audio_buffer_size_combo;
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // Segmented control buttons (checkable, exclusive via the group).
-    QPushButton *recording_type_audio_radio;
-    QPushButton *recording_type_av_radio;
+    QToolButton *recording_type_audio_radio;
+    QToolButton *recording_type_av_radio;
     QButtonGroup *recording_type_group;
 #endif
     SonicPi::AudioDevicesInfo m_lastAudioDevicesInfo;

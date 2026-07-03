@@ -253,6 +253,9 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["ToolTipText"] = dt_black;
     themeSettings["Button"] = dt_darkgrey;
     themeSettings["ButtonBorder"] = dt_grey;
+    // Metro-row pills: no resting border on light panes; dark themes keep
+    // the white ring that gives the black pill its form (see app.qss).
+    themeSettings["MetroButtonBorder"] = "transparent";
     themeSettings["PressedButton"] = dt_pink;
     themeSettings["ButtonText"] = dt_white;
     themeSettings["PressedButtonText"] = dt_white;
@@ -460,6 +463,9 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["ToolTipText"] = dt_white;
     themeSettings["Button"] = dt_grey;
     themeSettings["ButtonBorder"] = dt_white;
+    // Dark panes keep the white ring on the metro pills (black on dark
+    // needs it for form); light themes make it transparent.
+    themeSettings["MetroButtonBorder"] = dt_white;
     themeSettings["PressedButton"] = dt_pink;
     themeSettings["ButtonText"] = dt_white;
     themeSettings["PressedButtonText"] = dt_white;
@@ -670,6 +676,8 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["ToolTipText"] = dt_white;
     themeSettings["Button"] = dt_grey;
     themeSettings["ButtonBorder"] = dt_darkgrey;
+    // High contrast: same border as every other button.
+    themeSettings["MetroButtonBorder"] = dt_darkgrey;
     themeSettings["PressedButton"] = dt_pink;
     themeSettings["ButtonText"] = dt_white;
     themeSettings["PressedButtonText"] = dt_white;
@@ -910,6 +918,12 @@ void SonicPiTheme::reloadStylesheet() {
 
     QString buttonColor = this->color("Button").name();
     QString buttonBorderColor = this->color("ButtonBorder").name();
+    // May be transparent (light themes), so keep the alpha channel —
+    // .name() would drop it.
+    const QColor metroBorder = this->color("MetroButtonBorder");
+    QString metroButtonBorderColor = QString("rgba(%1,%2,%3,%4)")
+        .arg(metroBorder.red()).arg(metroBorder.green())
+        .arg(metroBorder.blue()).arg(metroBorder.alpha());
     QString buttonTextColor = this->color("ButtonText").name();
     QString pressedButtonColor = this->color("PressedButton").name();
     QString pressedButtonTextColor = this->color("PressedButtonText").name();
@@ -961,6 +975,7 @@ void SonicPiTheme::reloadStylesheet() {
         .replace("windowBorderColor", windowBorderColor)
         .replace("windowInternalBorderColor", windowInternalBorderColor)
         .replace("buttonColor", buttonColor)
+        .replace("metroButtonBorderColor", metroButtonBorderColor)
         .replace("buttonBorderColor", buttonBorderColor)
         .replace("buttonTextColor", buttonTextColor)
         .replace("pressedButtonColor", pressedButtonColor)
