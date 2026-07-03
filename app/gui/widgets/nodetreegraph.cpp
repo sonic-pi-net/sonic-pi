@@ -12,6 +12,7 @@
 //++
 
 #include "nodetreegraph.h"
+#include "utils/reducedmotion.h"
 
 #include <algorithm>
 #include <functional>
@@ -147,9 +148,11 @@ void NodeTreeGraph::setTree(const QVector<Node>& nodes)
 {
     m_nodes = nodes;
     computeTargets();
-    if (m_nodes.size() > kMaxAnimatedNodes)
+    if (m_nodes.size() > kMaxAnimatedNodes || SonicPi::prefersReducedMotion())
     {
-        // Large tree: snap to targets instead of easing.
+        // Large tree (or the reduce-motion preference): snap to targets
+        // instead of easing. The tree still tracks the live synth graph;
+        // only the decorative glide between layouts is dropped.
         for (auto& l : m_layout) { l.cx = l.tx; l.cy = l.ty; }
         if (m_anim->isActive()) m_anim->stop();
         m_clock.invalidate();

@@ -69,6 +69,7 @@
 
 #include "chevronbutton.h"
 #include "dpi.h"
+#include "utils/reducedmotion.h"
 
 // ─── Static layout model ────────────────────────────────────────────────
 //
@@ -1624,6 +1625,9 @@ void MetricsPanel::animateMetrics(int targetHeight)
                 });
     }
     m_metricsAnim->stop();
+    // Reduced motion: run the same path in a single frame so the layout logic
+    // (and any finished handlers) still execute, just without the tween.
+    m_metricsAnim->setDuration(SonicPi::prefersReducedMotion() ? 1 : 160);
     m_metricsAnim->setStartValue(m_metricsScroll->height());
     m_metricsAnim->setEndValue(targetHeight);
     m_metricsAnim->start();
@@ -1712,6 +1716,8 @@ void MetricsPanel::animateLogs(int targetLogsWidth)
         });
     }
     m_logsAnim->stop();
+    // Reduced motion: single-frame run — see animateMetrics().
+    m_logsAnim->setDuration(SonicPi::prefersReducedMotion() ? 1 : 160);
     m_logsAnim->setStartValue(m_rightSplit->width());
     m_logsAnim->setEndValue(targetLogsWidth);
     m_logsAnim->start();

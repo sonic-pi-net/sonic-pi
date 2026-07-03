@@ -60,6 +60,9 @@ if(Qt6_FOUND)
   if(Qt6_VERSION VERSION_LESS 6.8)
     message(WARNING "Qt ${Qt6_VERSION} < 6.8: screen-reader announcements (QAccessibleAnnouncementEvent) will be compiled out. Build against Qt 6.8+ for full accessibility support.")
   endif()
+  if(Qt6_VERSION VERSION_LESS 6.10)
+    message(WARNING "Qt ${Qt6_VERSION} < 6.10: automatic OS high-contrast detection (QAccessibilityHints) will be compiled out; the high-contrast theme remains available as a manual pick in Preferences.")
+  endif()
 endif()
 
 find_package(Threads REQUIRED)
@@ -129,6 +132,8 @@ set(SOURCES
     ${QTAPP_ROOT}/main.cpp
     ${QTAPP_ROOT}/utils/scintilla_api.cpp
     ${QTAPP_ROOT}/utils/completion_context.cpp
+    ${QTAPP_ROOT}/utils/reducedmotion.cpp
+    ${QTAPP_ROOT}/utils/reducedmotion.h
     ${QTAPP_ROOT}/utils/sonicpi_i18n.cpp
     ${QTAPP_ROOT}/widgets/sonicpilog.cpp
     ${QTAPP_ROOT}/widgets/sonicpilog.h
@@ -213,6 +218,8 @@ SET(TS_FILES
 
 if(WIN32)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/windows.h)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/windows_a11y.cpp)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/windows_a11y.h)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/spout_publisher.cpp)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/recorder_win.cpp)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/mp4_soft_remux.cpp)
@@ -507,13 +514,17 @@ if(WIN32)
     # D3D11 / DXGI / IPC libs come in transitively via spout_vendored.
     # mf*: Media Foundation libs used by the session recorder
     # (recorder_win.cpp) to mux H.264 + AAC into .mp4 via IMFSinkWriter.
+    # ole32/oleaut32: COM + BSTR for the UIA accessibility self-test
+    # (windows_a11y.cpp).
     target_link_libraries(${APP_NAME} PRIVATE
         spout_vendored
         windowsapp
         mf
         mfplat
         mfreadwrite
-        mfuuid)
+        mfuuid
+        ole32
+        oleaut32)
 endif()
 
 target_link_libraries(${APP_NAME}

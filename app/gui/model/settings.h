@@ -62,6 +62,7 @@ public:
     bool show_completion_help;
     bool show_context;
     bool speak_transport;   // screen reader speaks "Run started"/"Stopped"
+    bool reduce_motion;     // suppress UI animations (ORed with the OS setting)
     SonicPiTheme::Style themeStyle;
 
     // UpdateSettings;

@@ -70,6 +70,8 @@ struct ScopeWindowPanel
     QLinearGradient redBlueGradient;
 };
 
+class ScopePauseButton;
+
 class ScopeWindow : public QWidget
 {
     Q_OBJECT
@@ -88,6 +90,7 @@ public:
     // out visually instead of freezing the scope mid-image.
     void PauseWhenSilent();
     void Resume();
+    bool IsPaused() const { return m_paused; }
     void SetColor(QColor c);
     void SetColor2(QColor c);
     // Scope background (the faded-clear/phosphor colour). Set from the theme's
@@ -101,6 +104,11 @@ public:
 
     void Booted();
     void ShutDown();
+
+signals:
+    // Emitted whenever the running/frozen state actually flips, from any
+    // path: F12, the Visuals menu, the overlay button, or pause-when-silent.
+    void PausedChanged(bool paused);
 
 private slots:
     void OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio);
@@ -123,6 +131,9 @@ private:
     std::vector<ScopeWindowPanel> m_panels;
     bool m_paused = false;
     bool m_pendingPause = false;
+    // Overlay pause/resume toggle in the top-right corner; also freezes the
+    // image for inspection (waveform shapes, spectrum peaks).
+    ScopePauseButton* m_pauseButton = nullptr;
     // Latest snapshot from the audio processor; never null after the
     // constructor seeds it. Slot and paintEvent both run on the GUI
     // thread, so no lock is needed.

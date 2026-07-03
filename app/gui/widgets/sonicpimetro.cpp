@@ -301,6 +301,7 @@ void SonicPiMetro::onSupersonicNetworkVisibilityChanged(int mode)
 {
   if (mode != 1 && mode != 2) return;
   mutex->lock();
+  const bool changed = (static_cast<int>(m_networkMode) != mode);
   m_networkMode = static_cast<SonicPi::SonicPiAPI::LinkVisibility>(mode);
   pushLinkConfigToServer();
   updateLinkButtonDisplay();
@@ -308,6 +309,13 @@ void SonicPiMetro::onSupersonicNetworkVisibilityChanged(int mode)
   // Keep the streams widget's header/empty-state/slider in sync.
   if (linkStreamsWidget) linkStreamsWidget->applyMasterVisibility(mode);
   updateRowVisibility();
+  // Guarded so the ghost button and the streams-panel slider (which both
+  // drive this slot) don't repeat the message when nothing changed.
+  if (changed) {
+    emit statusMessage(mode == 2
+        ? tr("Link visibility: public — visible to other devices on your network")
+        : tr("Link visibility: local — hidden from the network"));
+  }
 }
 
 void SonicPiMetro::updateRowVisibility()
@@ -337,8 +345,10 @@ void SonicPiMetro::updateRowVisibility()
 void SonicPiMetro::linkEnable()
 {
   mutex->lock();
+  bool turnedOn = false;
   if (!m_linkEnabled) {
     m_linkEnabled = true;
+    turnedOn = true;
     pushLinkConfigToServer();
     emit linkEnabled();
   }
@@ -346,13 +356,22 @@ void SonicPiMetro::linkEnable()
   if (linkStreamsWidget) linkStreamsWidget->applyLinkEnabled(true);
   updateRowVisibility();
   mutex->unlock();
+  if (turnedOn) {
+    // Spell out the visibility consequence: local scope means enabling Link
+    // still doesn't expose Sonic Pi to the network.
+    emit statusMessage(static_cast<int>(m_networkMode) == 2
+        ? tr("Link on — tempo synced with other devices on your network")
+        : tr("Link on — local only, hidden from the network"));
+  }
 }
 
 void SonicPiMetro::linkDisable()
 {
   mutex->lock();
+  bool turnedOff = false;
   if (m_linkEnabled) {
     m_linkEnabled = false;
+    turnedOff = true;
     pushLinkConfigToServer();
     emit linkDisabled();
   }
@@ -360,6 +379,8 @@ void SonicPiMetro::linkDisable()
   if (linkStreamsWidget) linkStreamsWidget->applyLinkEnabled(false);
   updateRowVisibility();
   mutex->unlock();
+  if (turnedOff)
+    emit statusMessage(tr("Link off"));
 }
 
 void SonicPiMetro::toggleLink()
@@ -478,6 +499,7 @@ void SonicPiMetro::tapTempo(int flashDelay)
       if(newBpm != bpmScrubWidget->getBPM()) {
         bpmScrubWidget->setDisplayAndSyncBPM(newBpm);
         bpmScrubWidget->displayBPMChangeVisualCue();
+        emit statusMessage(tr("Tap tempo: %1 BPM").arg(newBpm));
       }
     }
   }

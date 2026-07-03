@@ -54,6 +54,10 @@ public:
 signals:
   void linkEnabled();
   void linkDisabled();
+  // User-visible feedback for metro-row actions (tap tempo, Link on/off,
+  // network visibility). MainWindow routes this to the status bar and the
+  // screen reader via showStatusAndAnnounce().
+  void statusMessage(const QString& message);
   // Emitted when the inline Link Audio Streams panel is shown/hidden.
   // MainWindow listens to resize the surrounding dock — the metro
   // dock is hard-capped to a small height when collapsed.

@@ -35,6 +35,9 @@
 #ifdef Q_OS_DARWIN
 #include "platform/macos.h"
 #endif
+#ifdef Q_OS_WIN
+#include "platform/windows_a11y.h"
+#endif
 
 int main(int argc, char* argv[])
 {
@@ -83,9 +86,10 @@ int main(int argc, char* argv[])
 
     QApplication app(argc, argv);
 
-#if defined(Q_OS_DARWIN)
-    // Local accessibility self-test: drive the real NSAccessibility bridge and
-    // exit with a pass/fail code, without launching the full app.
+#if defined(Q_OS_DARWIN) || defined(Q_OS_WIN)
+    // Local accessibility self-test: drive the real platform accessibility
+    // bridge (NSAccessibility on macOS, UI Automation on Windows) and exit
+    // with a pass/fail code, without launching the full app.
     if (app.arguments().contains(QStringLiteral("--selftest-accessibility")))
         return SonicPi::runAccessibilitySelfTest();
 #endif

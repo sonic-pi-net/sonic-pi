@@ -14,6 +14,7 @@
 #include "sonicpitooltip.h"
 #include "dpi.h"
 #include "model/sonicpitheme.h"
+#include "utils/reducedmotion.h"
 
 #include <QAbstractButton>
 #include <QAbstractItemView>
@@ -204,7 +205,8 @@ void SonicPiToolTip::showTip(const QRect& anchorGlobal, const QString& title,
     if (!alreadyVisible)
     {
         m_fade.stop();
-        setWindowOpacity(0.0);
+        const bool reducedMotion = SonicPi::prefersReducedMotion();
+        setWindowOpacity(reducedMotion ? 1.0 : 0.0);
         show();
 #ifdef Q_OS_MAC
         // Qt::ToolTip windows sit above the Cmd-Tab switcher; drop to
@@ -214,7 +216,8 @@ void SonicPiToolTip::showTip(const QRect& anchorGlobal, const QString& title,
         SonicPi::setPopupBelowSwitcher(reinterpret_cast<void*>(winId()));
         SonicPi::setWindowAccessibilityIgnored(reinterpret_cast<void*>(winId()));
 #endif
-        m_fade.start();
+        if (!reducedMotion)
+            m_fade.start();
     }
 }
 

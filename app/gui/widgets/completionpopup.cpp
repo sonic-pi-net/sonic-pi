@@ -10,6 +10,7 @@
 
 #include "completionpopup.h"
 #include "dpi.h"
+#include "utils/reducedmotion.h"
 
 #include <QListView>
 #include <QStandardItemModel>
@@ -374,6 +375,11 @@ private:
     void slideTo(double target) {
         m_targetWhite = target;
         m_slide->stop();
+        if (SonicPi::prefersReducedMotion()) {
+            m_startWhite = target;
+            update();
+            return;
+        }
         m_slide->setStartValue(m_startWhite);
         m_slide->setEndValue(target);
         m_slide->start();
@@ -1397,7 +1403,8 @@ void CompletionPopup::setPopupSize(int w, int h)
     m_targetSize = QSize(w, h);
     // First appearance (or no change): snap. While on screen, tween between
     // shapes. setFixedSize pins it — the popup auto-sizes and isn't user-resizable.
-    if (!isVisible() || size() == m_targetSize) {
+    // Snap unconditionally when reduced motion is preferred (in-app or OS).
+    if (!isVisible() || size() == m_targetSize || SonicPi::prefersReducedMotion()) {
         if (m_sizeAnim) m_sizeAnim->stop();
         setFixedSize(m_targetSize);
         return;

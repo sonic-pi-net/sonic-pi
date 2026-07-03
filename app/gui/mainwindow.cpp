@@ -50,7 +50,11 @@
 #include <QSplitter>
 #include <QStatusBar>
 #include <QStyle>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+#include <QAccessibilityHints>
+#endif
 #include <QTextBrowser>
+#include <QTextDocument>
 #include <QTextEdit>
 #include <QTextStream>
 #include <QThread>
@@ -67,6 +71,7 @@
 
 #include "model/sonicpitheme.h"
 #include "widgets/sonicpitooltip.h"
+#include "utils/reducedmotion.h"
 #include "utils/scintilla_api.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
@@ -242,6 +247,8 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 
+    mirrorToolTipsToAccessibleDescriptions();
+
     // Defer the blocking server wait to the live event loop.
     QTimer::singleShot(0, this, &MainWindow::completeBoot);
 }
@@ -267,6 +274,15 @@ void MainWindow::completeBoot()
 
         updateFullScreenMode();
 
+        // May swap themeStyle to high contrast before the first theme
+        // application below; also follows live OS contrast toggles from here
+        // on (the call creates the QAccessibilityHints instance).
+        applyOSContrastPreference();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        connect(accessibilityHints, &QAccessibilityHints::contrastPreferenceChanged,
+                this, &MainWindow::applyOSContrastPreference);
+#endif
+
         updateColourTheme();
         std::cout << "[GUI] - load workspaces" << std::endl;
         loadWorkspaces();
@@ -284,6 +300,7 @@ void MainWindow::completeBoot()
         splashClose();
         focusEditor();
         showWindow();
+        statusBar()->showMessage(tr("Sonic Pi is ready"));
         announce(tr("Sonic Pi is ready"));
         std::cout << "[GUI] - boot sequence completed." << std::endl;
     }
@@ -300,6 +317,9 @@ void MainWindow::completeBoot()
     showWelcomeScreen();
 
     bootAnnouncementsReady = true;
+
+    // Second pass for widgets (and tooltips) created during boot completion.
+    mirrorToolTipsToAccessibleDescriptions();
 
     std::cout << "[GUI] - MainWindow initialisation completed." << std::endl;
 }
@@ -446,6 +466,10 @@ void MainWindow::setupWindowStructure()
 
     connect(metroPane, SIGNAL(linkEnabled()), this, SLOT(checkEnableLinkMenu()));
     connect(metroPane, SIGNAL(linkDisabled()), this, SLOT(uncheckEnableLinkMenu()));
+    // Metro-row actions (tap tempo, Link on/off, network visibility) report
+    // through the status bar and screen reader like every other GUI action.
+    connect(metroPane, &SonicPiMetro::statusMessage, this,
+            [this](const QString& msg) { showStatusAndAnnounce(msg, 2000); });
 
     errorPane->setOpenExternalLinks(true);
 
@@ -503,7 +527,15 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
     connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
     connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
-    connect(settingsWidget, SIGNAL(themeChanged()), this, SLOT(updateColourTheme()));
+    connect(settingsWidget, &SettingsWidget::themeChanged, this, [this]() {
+        // The theme buttons emit clicked() (and thus this signal) even when
+        // the already-active theme is clicked; updateSettings() has run first
+        // and written themeStyle, so compare against the last applied style
+        // to treat only real changes as an explicit pick.
+        if (static_cast<int>(piSettings->themeStyle) != appliedThemeStyle)
+            noteExplicitThemeChoice();
+        updateColourTheme();
+    });
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(changeScopeKindVisibility(QString)));
     connect(settingsWidget, SIGNAL(scopeLabelsChanged()), this, SLOT(changeScopeLabels()));
@@ -515,6 +547,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
     connect(settingsWidget, SIGNAL(showContextChanged()), this, SLOT(changeShowContext()));
     connect(settingsWidget, SIGNAL(speakTransportChanged()), this, SLOT(changeSpeakTransport()));
+    connect(settingsWidget, SIGNAL(reduceMotionChanged()), this, SLOT(changeReduceMotion()));
     connect(settingsWidget, SIGNAL(checkArgsChanged()), this, SLOT(changeAudioSafeMode()));
     connect(settingsWidget, SIGNAL(synthTriggerTimingGuaranteesChanged()), this, SLOT(changeAudioTimingGuarantees()));
     connect(settingsWidget, SIGNAL(enableExternalSynthsChanged()), this, SLOT(changeEnableExternalSynths()));
@@ -641,7 +674,15 @@ void MainWindow::setupWindowStructure()
         });
     }
 
-    connect(editorTabWidget, SIGNAL(currentChanged(int)), this, SLOT(focusEditor()));
+    connect(editorTabWidget, &QTabWidget::currentChanged, this, [this](int index) {
+        focusEditor();
+        // Errors and transport events are announced explicitly; do the same
+        // for buffer switches rather than relying on every screen reader
+        // noticing the programmatic focus move into the newly-current editor.
+        // (Polite, so it queues behind any focus speech instead of cutting in.)
+        if (bootAnnouncementsReady && index >= 0)
+            announce(tr("Buffer %1").arg(index), false, SonicPi::Announcement::Navigation);
+    });
 
     QFont font("Hack", 10);
     font.setStyleHint(QFont::Monospace);
@@ -1881,18 +1922,18 @@ void MainWindow::mixerSettingsChanged()
         mixerStereoMode();
     }
 
-    // Both axes are always re-applied above; only speak the one that changed.
+    // Both axes are always re-applied above; only report the one that changed.
     if (mixerStateKnown)
     {
         if (lastMixerInvertStereo != piSettings->mixer_invert_stereo)
         {
-            announce(piSettings->mixer_invert_stereo ? tr("Enabling Inverted Stereo...")
-                                                     : tr("Enabling Standard Stereo..."));
+            showStatusAndAnnounce(piSettings->mixer_invert_stereo ? tr("Enabling Inverted Stereo...")
+                                                                  : tr("Enabling Standard Stereo..."), 2000);
         }
         if (lastMixerForceMono != piSettings->mixer_force_mono)
         {
-            announce(piSettings->mixer_force_mono ? tr("Mono Mode...")
-                                                  : tr("Stereo Mode..."));
+            showStatusAndAnnounce(piSettings->mixer_force_mono ? tr("Mono Mode...")
+                                                               : tr("Stereo Mode..."), 2000);
         }
     }
     lastMixerInvertStereo = piSettings->mixer_invert_stereo;
@@ -2212,7 +2253,15 @@ void MainWindow::showBufferCapacityError()
 
 void MainWindow::runCode()
 {
-    scopeWindow->Resume();
+    // The scope is on screen by default, so with "Reduce animations" set it
+    // must not start moving on its own; the user resumes it deliberately via
+    // F12, the Visuals menu, or the scope button. This gates on the in-app
+    // preference alone, not prefersReducedMotion(): that also folds in the OS
+    // animation setting, which is force-disabled under RDP (and by users who
+    // turned off window animations for unrelated reasons), so gating on it
+    // would freeze the scope for them with no in-app setting to explain it.
+    if (!piSettings->reduce_motion)
+        scopeWindow->Resume();
     announce(tr("Run started"), false, SonicPi::Announcement::Transport);
 
     // move log cursors to the end of the logs. Keep them read-only but
@@ -2403,9 +2452,11 @@ void MainWindow::mixerLpfDisable()
     sendOSC(msg);
 }
 
+// The four mixer senders below are re-applied for both axes on every settings
+// change, so user feedback (status bar + speech) lives in mixerSettingsChanged(),
+// which knows which axis actually changed.
 void MainWindow::mixerInvertStereo()
 {
-    statusBar()->showMessage(tr("Enabling Inverted Stereo..."), 2000);
     Message msg("/mixer-invert-stereo");
     msg.pushInt32(guiID);
     sendOSC(msg);
@@ -2413,7 +2464,6 @@ void MainWindow::mixerInvertStereo()
 
 void MainWindow::mixerStandardStereo()
 {
-    statusBar()->showMessage(tr("Enabling Standard Stereo..."), 2000);
     Message msg("/mixer-standard-stereo");
     msg.pushInt32(guiID);
     sendOSC(msg);
@@ -2421,7 +2471,6 @@ void MainWindow::mixerStandardStereo()
 
 void MainWindow::mixerMonoMode()
 {
-    statusBar()->showMessage(tr("Mono Mode..."), 2000);
     Message msg("/mixer-mono-mode");
     msg.pushInt32(guiID);
     sendOSC(msg);
@@ -2429,7 +2478,6 @@ void MainWindow::mixerMonoMode()
 
 void MainWindow::mixerStereoMode()
 {
-    statusBar()->showMessage(tr("Stereo Mode..."), 2000);
     Message msg("/mixer-stereo-mode");
     msg.pushInt32(guiID);
     sendOSC(msg);
@@ -2688,8 +2736,85 @@ void MainWindow::changeMenuBarInFullscreenVisibility()
     }
 }
 
+// The user made a deliberate theme choice: stop treating the current theme as
+// something we imposed on the OS's behalf, so a later "contrast off" event, a
+// re-fired contrast signal, or the next boot doesn't yank their pick away.
+// Callers must only invoke this for an ACTUAL theme change — re-selecting the
+// current theme is not a choice and must not disturb the restore state.
+void MainWindow::noteExplicitThemeChoice()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+    if (!accessibilityHints)
+        accessibilityHints = new QAccessibilityHints(this);
+    if (accessibilityHints->contrastPreference() == Qt::ContrastPreference::HighContrast)
+    {
+        // Picked while the OS still asks for contrast: persist the opt-out so
+        // neither a re-fired signal nor the next boot re-imposes high
+        // contrast. Keep the saved pre-contrast theme — if the user is back
+        // on high contrast when the episode ends, it's still what to restore.
+        gui_settings->setValue("prefs/theme-os-contrast-opt-out", true);
+        return;
+    }
+#endif
+    gui_settings->remove("prefs/theme-before-os-contrast");
+}
+
+void MainWindow::applyOSContrastPreference()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+    // QAccessibilityHints (Qt 6.10+) maps this to Windows Contrast Themes and
+    // macOS Increase Contrast. On older Qt the whole feature compiles out.
+    if (!accessibilityHints)
+        accessibilityHints = new QAccessibilityHints(this);
+    const bool osWantsContrast =
+        accessibilityHints->contrastPreference() == Qt::ContrastPreference::HighContrast;
+
+    // "prefs/theme-before-os-contrast" remembers the theme we auto-replaced,
+    // persisted so quit-while-contrast-on still restores it next boot. It is
+    // only ever set here and cleared by an explicit user pick.
+    const QString savedTheme = gui_settings->value("prefs/theme-before-os-contrast", "").toString();
+
+    if (osWantsContrast)
+    {
+        // The user explicitly picked a theme during this contrast episode
+        // (see noteExplicitThemeChoice) — never re-impose high contrast over
+        // that, across signal re-fires and restarts alike.
+        if (gui_settings->value("prefs/theme-os-contrast-opt-out", false).toBool())
+            return;
+        if (piSettings->themeStyle != SonicPiTheme::HighContrastMode)
+        {
+            if (savedTheme.isEmpty())
+                gui_settings->setValue("prefs/theme-before-os-contrast",
+                                       theme->themeStyleToName(piSettings->themeStyle));
+            piSettings->themeStyle = SonicPiTheme::HighContrastMode;
+            emit settingsChanged();
+            updateColourTheme();
+        }
+    }
+    else
+    {
+        // Episode over: a future contrast episode starts fresh.
+        gui_settings->remove("prefs/theme-os-contrast-opt-out");
+        if (!savedTheme.isEmpty())
+        {
+            // The current theme is still ours to undo: hand back what the
+            // user had before. (If they picked something else meanwhile,
+            // just drop the stale marker.)
+            gui_settings->remove("prefs/theme-before-os-contrast");
+            if (piSettings->themeStyle == SonicPiTheme::HighContrastMode)
+            {
+                piSettings->themeStyle = theme->themeNameToStyle(savedTheme);
+                emit settingsChanged();
+                updateColourTheme();
+            }
+        }
+    }
+#endif
+}
+
 void MainWindow::cycleThemes()
 {
+    noteExplicitThemeChoice();
     if (piSettings->themeStyle == SonicPiTheme::LightMode)
     {
         piSettings->themeStyle = SonicPiTheme::DarkMode;
@@ -2716,26 +2841,28 @@ void MainWindow::cycleThemes()
 
 void MainWindow::colourThemeMenuChanged(int themeID)
 {
+    SonicPiTheme::Style newStyle = SonicPiTheme::LightMode;
     if (themeID == 2)
     {
-        piSettings->themeStyle = SonicPiTheme::DarkMode;
+        newStyle = SonicPiTheme::DarkMode;
     }
     else if (themeID == 3)
     {
-        piSettings->themeStyle = SonicPiTheme::LightProMode;
+        newStyle = SonicPiTheme::LightProMode;
     }
     else if (themeID == 4)
     {
-        piSettings->themeStyle = SonicPiTheme::DarkProMode;
+        newStyle = SonicPiTheme::DarkProMode;
     }
     else if (themeID == 5)
     {
-        piSettings->themeStyle = SonicPiTheme::HighContrastMode;
+        newStyle = SonicPiTheme::HighContrastMode;
     }
-    else
-    {
-        piSettings->themeStyle = SonicPiTheme::LightMode;
-    }
+
+    // Re-selecting the current theme is not a choice.
+    if (newStyle != piSettings->themeStyle)
+        noteExplicitThemeChoice();
+    piSettings->themeStyle = newStyle;
 
     emit settingsChanged();
     updateColourTheme();
@@ -2826,6 +2953,7 @@ void MainWindow::updateColourTheme()
     }
 
     theme->switchStyle(piSettings->themeStyle);
+    appliedThemeStyle = static_cast<int>(piSettings->themeStyle);
     showStatusAndAnnounce(tr("Colour Theme: ") + theme->getName(), 2000);
 
     QString css = theme->getCss();
@@ -2938,6 +3066,20 @@ void MainWindow::speakTransportMenuChanged()
 {
     piSettings->speak_transport = speakTransportAct->isChecked();
     emit settingsChanged();
+}
+
+void MainWindow::reduceMotionMenuChanged()
+{
+    piSettings->reduce_motion = reduceMotionAct->isChecked();
+    SonicPi::setReduceMotionPreference(piSettings->reduce_motion);
+    // Enabling should still the scope right away, not at the next silence
+    // (it's on screen by default). Turning it off never auto-resumes —
+    // motion only restarts on a deliberate act (Run, F12, the scope button).
+    if (piSettings->reduce_motion)
+        scopeWindow->Pause();
+    emit settingsChanged();
+    showStatusAndAnnounce(piSettings->reduce_motion ? tr("Reduce animations on")
+                                                    : tr("Reduce animations off"), 2000);
 }
 
 void MainWindow::audioSafeMenuChanged()
@@ -3160,6 +3302,15 @@ void MainWindow::changeSpeakTransport()
     speakTransportAct->setChecked(piSettings->speak_transport);
 }
 
+void MainWindow::changeReduceMotion()
+{
+    QSignalBlocker blocker(reduceMotionAct);
+    reduceMotionAct->setChecked(piSettings->reduce_motion);
+    // Same immediate-pause as the menu path — see reduceMotionMenuChanged().
+    if (piSettings->reduce_motion)
+        scopeWindow->Pause();
+}
+
 void MainWindow::togglePrefs()
 {
     QSignalBlocker blocker(prefsAct);
@@ -3364,14 +3515,19 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "Run", QT_TR_NOOP("Run the code in the current buffer"), "Meta+Return", "Meta+Return", "Meta+Return", "Live", &MainWindow::runAct, "Meta+R" },
     { "Stop", QT_TR_NOOP("Stop all running code"), "Meta+.", "Meta+.", "Meta+.", "Live", &MainWindow::stopAct, "Meta+S" },
     { "Record", QT_TR_NOOP("Start recording to a WAV audio file"), "ShiftMeta+R", "ShiftMeta+R", "ShiftMeta+R", "Live", &MainWindow::recAct },
+    // Deliberately NOT plain Ctrl+S on win: the action is Save-As (a modal
+    // file dialog every press — hostile to muscle memory mid-performance),
+    // and buffers autosave so a quick-save has no job to do.
     { "Save", QT_TR_NOOP("Save current buffer as an external file"), "ShiftMeta+S", "CtrlShift+S", "ShiftMeta+S", "Live", &MainWindow::saveAsAct },
     { "Load", QT_TR_NOOP("Load an external file in the current buffer"), "Ctrl+O", "Ctrl+O", "ShiftMeta+O", "Live", &MainWindow::loadFileAct },
     { "Align", QT_TR_NOOP("Align code to improve readability"), "Meta+M", "Meta+M", "Meta+M", "Code", &MainWindow::textAlignAct },
     { "Comment", QT_TR_NOOP("Comment/Uncomment code"), "Meta+/", "Meta+/", "Meta+/", "Code", &MainWindow::textCommentAct },
     { "Transpose", QT_TR_NOOP("Transpose Characters"), "Ctrl+T", "Ctrl+T", "Ctrl+T", "Code", &MainWindow::textTransposeAct },
-    { "ShiftUp", QT_TR_NOOP("Shift Line or Selection Up"), "Alt+Up", "CtrlMeta+P", "CtrlMeta+P", "Code", &MainWindow::textShiftLineUpAct },
-    { "ShiftDown", QT_TR_NOOP("Shift Line or Selection Down"), "Alt+Down", "CtrlMeta+N", "CtrlMeta+N", "Code", &MainWindow::textShiftLineDownAct },
-    { "ContextualDocs", QT_TR_NOOP("Look up documentation for the current word"), "CtrlMeta+i", "CtrlMeta+i", "CtrlMeta+i", "Focus", &MainWindow::contextHelpAct, "Shift+F1" },
+    // Win column avoids Ctrl+Alt combos: Windows delivers AltGr as Ctrl+Alt,
+    // so e.g. Ctrl+Alt+N would swallow "ń" on a Polish layout.
+    { "ShiftUp", QT_TR_NOOP("Shift Line or Selection Up"), "Alt+Up", "Alt+Up", "CtrlMeta+P", "Code", &MainWindow::textShiftLineUpAct },
+    { "ShiftDown", QT_TR_NOOP("Shift Line or Selection Down"), "Alt+Down", "Alt+Down", "CtrlMeta+N", "Code", &MainWindow::textShiftLineDownAct },
+    { "ContextualDocs", QT_TR_NOOP("Look up documentation for the current word"), "CtrlMeta+i", "Shift+F1", "CtrlMeta+i", "Focus", &MainWindow::contextHelpAct, "Shift+F1" },
     { "TextZoomIn", QT_TR_NOOP("Increase Text Size"), "Meta+=", "Ctrl++", "Meta+=", "View", &MainWindow::textIncAct },
     { "TextZoomOut", QT_TR_NOOP("Decrease Text Size"), "Meta+-", "Ctrl+-", "Meta+-", "View", &MainWindow::textDecAct },
     { "Scope", QT_TR_NOOP("Toggle visibility of audio oscilloscope"), "Meta+O", "Meta+O", "Meta+O", "Visuals", &MainWindow::scopeAct },
@@ -3393,6 +3549,8 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "Tab0", QT_TR_NOOP("Switch to tab 0"), "Meta+0", "ShiftMeta+0", "ShiftMeta+0", "Focus", &MainWindow::tab0Act },
     { "Link", QT_TR_NOOP("Connect or disconnect the Link Metronome from the network"), "Meta+t", "Meta+t", "Meta+t", "Audio", &MainWindow::enableLinkAct },
     { "TapTempo", QT_TR_NOOP("Click Link Tap Tempo"), "Shift+Return", "Shift+Return", "Shift+Return", "Audio", &MainWindow::linkTapTempoAct },
+    { "CycleFocusForward", QT_TR_NOOP("Move focus to the next visible pane"), "F6", "F6", "F6", "Focus", &MainWindow::cycleFocusForwardAct },
+    { "CycleFocusBack", QT_TR_NOOP("Move focus to the previous visible pane"), "Shift+F6", "Shift+F6", "Shift+F6", "Focus", &MainWindow::cycleFocusBackAct },
     { "FocusEditor", QT_TR_NOOP("Place focus on the code editor"), "CtrlShift+e", "CtrlShift+e", "CtrlShift+e", "Focus", &MainWindow::focusEditorAct },
     { "FocusLogs", QT_TR_NOOP("Place focus on the logs"), "CtrlShift+l", "CtrlShift+l", "CtrlShift+l", "Focus", &MainWindow::focusLogsAct },
     { "FocusContext", QT_TR_NOOP("Place focus on the context pane"), "CtrlShift+t", "CtrlShift+t", "CtrlShift+t", "Focus", &MainWindow::focusContextAct },
@@ -3439,10 +3597,13 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "Undo", QT_TR_NOOP("Undo the last action"), "Meta+z", "Ctrl+z", "Meta+z", "Code", &MainWindow::textUndoAct },
     { "Redo", QT_TR_NOOP("Redo the last undo"), "ShiftMeta+z", "ShiftCtrl+z", "ShiftMeta+z", "Code", &MainWindow::textRedoAct },
     { "SelectAll", QT_TR_NOOP("Select all text"), "Meta+a", "Ctrl+a", "Meta+a", "Code", &MainWindow::textSelectAllAct },
-    { "DeleteWordRight", QT_TR_NOOP("Delete word to the right"), "Alt+Shift+Backspace", "Meta+d", "Meta+d", "Code", &MainWindow::textDeleteWordRightAct },
-    { "DeleteWordLeft", QT_TR_NOOP("Delete word to the left"), "Alt+Backspace", "Meta+Backspace", "Meta+Backspace", "Code", &MainWindow::textDeleteWordLeftAct },
-    { "UpcaseWord", QT_TR_NOOP("Uppercase word or selection"), "Meta+u", "Meta+u", "Meta+u", "Code", &MainWindow::textUpcaseWordAct },
-    { "DowncaseWord", QT_TR_NOOP("Lowercase word or selection"), "Meta+l", "Meta+l", "Meta+l", "Code", &MainWindow::textDowncaseWordAct },
+    // Win column follows the native Windows editing conventions
+    // (Ctrl+Backspace/Delete for word deletes, Visual Studio's Ctrl(+Shift)+U
+    // for case) — this also frees Alt+letter combos for menu mnemonics.
+    { "DeleteWordRight", QT_TR_NOOP("Delete word to the right"), "Alt+Shift+Backspace", "Ctrl+Delete", "Meta+d", "Code", &MainWindow::textDeleteWordRightAct },
+    { "DeleteWordLeft", QT_TR_NOOP("Delete word to the left"), "Alt+Backspace", "Ctrl+Backspace", "Meta+Backspace", "Code", &MainWindow::textDeleteWordLeftAct },
+    { "UpcaseWord", QT_TR_NOOP("Uppercase word or selection"), "Meta+u", "CtrlShift+u", "Meta+u", "Code", &MainWindow::textUpcaseWordAct },
+    { "DowncaseWord", QT_TR_NOOP("Lowercase word or selection"), "Meta+l", "Ctrl+u", "Meta+l", "Code", &MainWindow::textDowncaseWordAct },
     { "FullScreen", QT_TR_NOOP("Toggle fullscreen mode"), "ShiftMeta+f", "F11", "ShiftMeta+f", "View", &MainWindow::fullScreenAct },
     // F10 reserved for menu bar access on Windows/Linux (used by screen readers)
     { "FocusMode", QT_TR_NOOP("Toggle focus mode (fullscreen editor with all distractions hidden)"), "F10", "Ctrl+F10", "Ctrl+F10", "View", &MainWindow::focusModeAct },
@@ -3499,9 +3660,30 @@ void MainWindow::loadUserShortcuts()
     }
 
     // Overlay the user's shortcuts from the .ini over the base
+    QSet<QString> overridden;
     for (const ShortcutDef& d : shortcutDefs())
     {
+        if (shortcut_settings->contains(d.id))
+            overridden.insert(QString::fromLatin1(d.id));
         loadUserShortcut(d.id, *shortcut_settings);
+    }
+
+    // A user override wins over a colliding base default: base presets can
+    // change between releases, and a new default landing on a key the user
+    // already assigned would make both bindings ambiguous (Qt then fires
+    // neither). Unbind the base-default side of any such collision.
+    for (auto it = shortcutMap.begin(); it != shortcutMap.end(); ++it)
+    {
+        if (it.value().isEmpty() || overridden.contains(it.key()))
+            continue;
+        for (const QString& id : overridden)
+        {
+            if (shortcutMap.value(id) == it.value())
+            {
+                it.value() = QKeySequence();
+                break;
+            }
+        }
     }
 
     // Clean up the dynamically allocated QSettings object
@@ -3569,6 +3751,17 @@ void MainWindow::updateShortcuts()
     }
 #endif
 
+    // Every primary binding currently in force, so an undocumented secondary
+    // never shadows a key the keymap (or the user's custom overlay) has given
+    // to a different action — two actions on one key is ambiguous in Qt and
+    // silently triggers neither.
+    QSet<QString> primaries;
+    for (auto it = shortcutMap.cbegin(); it != shortcutMap.cend(); ++it)
+    {
+        if (!it.value().isEmpty())
+            primaries.insert(it.value().toString(QKeySequence::PortableText));
+    }
+
     for (const ShortcutDef& d : shortcutDefs())
     {
         if (QAction* act = this->*(d.act))
@@ -3576,9 +3769,18 @@ void MainWindow::updateShortcuts()
             updateShortcut(d.id, act, tr(d.desc));
             // Optional secondary shortcut (undocumented fallback) — both trigger
             // the same action, so setShortcuts() carries them without ambiguity.
+            // Skip it when the keymap's primary is already the same key, or when
+            // the key belongs to another action's primary.
             if (d.secondary && d.secondary[0])
-                act->setShortcuts(act->shortcuts()
-                                  << resolveShortcut(QString::fromLatin1(d.secondary)));
+            {
+                const QKeySequence secondary = resolveShortcut(QString::fromLatin1(d.secondary));
+                const QString secondaryStr = secondary.toString(QKeySequence::PortableText);
+                const bool ownPrimary =
+                    shortcutMap.value(d.id).toString(QKeySequence::PortableText) == secondaryStr;
+                if ((ownPrimary || !primaries.contains(secondaryStr))
+                    && !act->shortcuts().contains(secondary))
+                    act->setShortcuts(act->shortcuts() << secondary);
+            }
         }
     }
     addMenuBarMnemonics();
@@ -3937,6 +4139,11 @@ void MainWindow::createToolBar()
     speakTransportAct->setCheckable(true);
     speakTransportAct->setChecked(piSettings->speak_transport);
     connect(speakTransportAct, SIGNAL(triggered()), this, SLOT(speakTransportMenuChanged()));
+
+    reduceMotionAct = new QAction(tr("Reduce Animations"), this);
+    reduceMotionAct->setCheckable(true);
+    reduceMotionAct->setChecked(piSettings->reduce_motion);
+    connect(reduceMotionAct, SIGNAL(triggered()), this, SLOT(reduceMotionMenuChanged()));
 
     enableScsynthInputsAct = new QAction(tr("Enable Audio Inputs"), this);
     enableScsynthInputsAct->setCheckable(true);
@@ -4368,6 +4575,14 @@ void MainWindow::createToolBar()
     focusErrorsAct = new QAction(tr("Focus Errors"), this);
     connect(focusErrorsAct, SIGNAL(triggered()), this, SLOT(focusErrors()));
 
+    // Cycle focus through visible panes (F6 — the standard pane-cycling key
+    // on Windows, harmless elsewhere)
+    cycleFocusForwardAct = new QAction(tr("Focus Next Pane"), this);
+    connect(cycleFocusForwardAct, SIGNAL(triggered()), this, SLOT(cycleFocusForward()));
+
+    cycleFocusBackAct = new QAction(tr("Focus Previous Pane"), this);
+    connect(cycleFocusBackAct, SIGNAL(triggered()), this, SLOT(cycleFocusBack()));
+
     // Focus BPM SCrubber
     focusBPMScrubberAct = new QAction(tr("Focus BPM Scrubber"), this);
     connect(focusBPMScrubberAct, SIGNAL(triggered()), this, SLOT(focusBPMScrubber()));
@@ -4506,6 +4721,7 @@ void MainWindow::createToolBar()
 
     accessibilityMenu = viewMenu->addMenu(tr("Accessibility"));
     accessibilityMenu->addAction(speakTransportAct);
+    accessibilityMenu->addAction(reduceMotionAct);
     accessibilityMenu->addAction(readCompletionDetailsAct);
 
     focusMenu = menuBar()->addMenu(tr("Focus"));
@@ -4525,6 +4741,8 @@ void MainWindow::createToolBar()
     focusMenu->addAction(tab8Act);
     focusMenu->addAction(tab9Act);
     focusMenu->addSeparator();
+    focusMenu->addAction(cycleFocusForwardAct);
+    focusMenu->addAction(cycleFocusBackAct);
     focusMenu->addAction(focusEditorAct);
     focusMenu->addAction(focusLogsAct);
     focusMenu->addAction(focusCuesAct);
@@ -4765,7 +4983,7 @@ void MainWindow::toggleRecording()
 {
     is_recording = !is_recording;
     updateRecordingUI();
-    announce(is_recording ? tr("Recording started") : tr("Recording stopped"));
+    showStatusAndAnnounce(is_recording ? tr("Recording started") : tr("Recording stopped"), 2000);
 
     // Mode is read on start only; m_videoTempPath discriminates the
     // stop path so flipping mode mid-recording is safe.
@@ -4858,6 +5076,7 @@ void MainWindow::startSessionRecordingFlow()
         if (audioSlot) freeRecordAudioOutSynth();
         is_recording = false;
         updateRecordingUI();
+        statusBar()->showMessage(tr("Recording failed to start"), 2000);
         announce(tr("Recording failed to start"), true);
         rec_flash_timer->stop();
         recAct->setIcon(theme->getRecIcon(false, false));
@@ -5013,6 +5232,8 @@ void MainWindow::readSettings()
     piSettings->show_completion_help = gui_settings->value("prefs/show-completion-help", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
     piSettings->speak_transport = gui_settings->value("prefs/speak-transport", true).toBool();
+    piSettings->reduce_motion = gui_settings->value("prefs/reduce-motion", false).toBool();
+    SonicPi::setReduceMotionPreference(piSettings->reduce_motion);
 #if defined(Q_OS_WIN)
     int os_shortcut_mode = 2;
 #elif defined(Q_OS_MAC)
@@ -5093,6 +5314,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show-log", piSettings->show_log);
     gui_settings->setValue("prefs/show-context", piSettings->show_context);
     gui_settings->setValue("prefs/speak-transport", piSettings->speak_transport);
+    gui_settings->setValue("prefs/reduce-motion", piSettings->reduce_motion);
     gui_settings->setValue("prefs/shortcut-mode", piSettings->shortcut_mode);
     gui_settings->setValue("prefs/log-zoom", outputPane->currentZoomLevel());
     gui_settings->setValue("prefs/cue-zoom", incomingPane->currentZoomLevel());
@@ -5812,6 +6034,30 @@ void MainWindow::showStatusAndAnnounce(const QString& message, int timeoutMs)
     }
 }
 
+void MainWindow::mirrorToolTipsToAccessibleDescriptions()
+{
+    const QList<QWidget*> widgets = findChildren<QWidget*>();
+    for (QWidget* w : widgets)
+    {
+        QString tip = w->toolTip();
+        if (tip.isEmpty() || !w->accessibleDescription().isEmpty())
+            continue;
+        // Some tooltips carry markup for the custom tooltip renderer; the
+        // description wants plain prose.
+        if (Qt::mightBeRichText(tip))
+        {
+            QTextDocument doc;
+            doc.setHtml(tip);
+            tip = doc.toPlainText().simplified();
+        }
+        // Skip when the tooltip merely repeats the accessible name — a
+        // duplicate description is noise for screen-reader users.
+        if (tip.isEmpty() || tip == w->accessibleName())
+            continue;
+        w->setAccessibleDescription(tip);
+    }
+}
+
 void MainWindow::focusContext()
 {
     focusPane(getCurrentEditor()->getContext());
@@ -5858,6 +6104,60 @@ void MainWindow::focusHelpDetails()
 void MainWindow::focusErrors()
 {
     focusPane(errorPane);
+}
+
+void MainWindow::cycleFocusForward()
+{
+    cycleFocus(1);
+}
+
+void MainWindow::cycleFocusBack()
+{
+    cycleFocus(-1);
+}
+
+// F6/Shift+F6 walk the panes that are currently on screen, in rough layout
+// order, wrapping at the ends. Hidden panes are skipped — revealing a pane
+// stays the job of the Focus menu / Ctrl+Shift jumps.
+void MainWindow::cycleFocus(int direction)
+{
+    QList<QWidget*> panes;
+    auto add = [&panes](QWidget* w) {
+        // isVisible() alone is not enough: a splitter section dragged (or
+        // clamped) to zero size still reports visible, and focusing it would
+        // strand the keyboard in a pane with no on-screen presence.
+        if (w && w->isVisible() && w->width() > 0 && w->height() > 0)
+            panes << w;
+    };
+    add(getCurrentWorkspace());
+    add(getCurrentEditor()->getContext());
+    add(outputPane);
+    add(incomingPane);
+    add(errorPane);
+    const int helpIdx = docsNavTabs->currentIndex();
+    add((helpIdx >= 0 && helpIdx < helpLists.size()) ? (QWidget*)helpLists[helpIdx]
+                                                     : (QWidget*)docsNavTabs);
+    add(docPane);
+    add(settingsWidget);
+    if (panes.isEmpty())
+        return;
+
+    QWidget* focused = QApplication::focusWidget();
+    int current = -1;
+    for (int i = 0; focused && i < panes.size(); ++i)
+    {
+        if (panes[i] == focused || panes[i]->isAncestorOf(focused))
+        {
+            current = i;
+            break;
+        }
+    }
+    // Focus outside any pane (toolbar, menus…): enter the ring at whichever
+    // end matches the travel direction.
+    const int next = (current < 0)
+        ? (direction > 0 ? 0 : panes.size() - 1)
+        : (current + direction + panes.size()) % panes.size();
+    focusPane(panes[next]);
 }
 
 void MainWindow::focusBPMScrubber()
@@ -5929,6 +6229,16 @@ void MainWindow::slidePrefsWidgetIn()
     int w = full_width - prefsWidget->size().width();
 
     cancelPrefsSlide(prefsWidget);
+
+    // With reduce motion preferred (in-app setting or OS accessibility
+    // setting), place the pane directly instead of sliding it in.
+    if (SonicPi::prefersReducedMotion()) {
+        prefsWidget->move(w, h);
+        prefsWidget->show();
+        prefsWidget->raise();
+        return;
+    }
+
     prefsWidget->move(full_width, h);
     prefsWidget->show();
     prefsWidget->raise();
@@ -5949,12 +6259,23 @@ void MainWindow::slidePrefsWidgetOut()
 
     cancelPrefsSlide(prefsWidget);
 
+    if (SonicPi::prefersReducedMotion()) {
+        prefsWidget->hide();
+        return;
+    }
+
     QPropertyAnimation* anim = new QPropertyAnimation(prefsWidget, "pos", prefsWidget);
     anim->setDuration(180);
     anim->setEasingCurve(QEasingCurve::InCubic);
     anim->setStartValue(prefsWidget->pos());
     anim->setEndValue(QPoint(full_width, h));
-    connect(anim, &QPropertyAnimation::finished, prefsWidget, &QWidget::hide);
+    // Refresh the toolbar icon once actually hidden: togglePrefs calls
+    // updatePrefsIcon while the pane is still sliding (isVisible()==true),
+    // which otherwise leaves the "open" icon showing after the pane is gone.
+    connect(anim, &QPropertyAnimation::finished, this, [this]() {
+        prefsWidget->hide();
+        updatePrefsIcon();
+    });
     anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 

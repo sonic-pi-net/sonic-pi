@@ -16,11 +16,15 @@
 
 
 #include <QDebug>
+#include <QEnterEvent>
 #include <QIcon>
+#include <QKeySequence>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QPolygonF>
 #include <QResizeEvent>
 #include <QTimer>
+#include <QToolButton>
 #include <QVBoxLayout>
 
 #include <algorithm>
@@ -46,6 +50,91 @@ const float FFTDecibelRange = 70.0f;
 // (~1/3 s at 60fps) is enough at the current decay rate.
 const int SilentSettleFrames = 20;
 } // namespace
+
+// A small pause/resume chip floating in the scope's top-right corner: a quiet
+// pause glyph while the trace runs, a full-strength play triangle while it's
+// frozen. Freezing is useful in itself — it holds a waveform or spectrum
+// snapshot still for inspection. Custom-painted (no MOC: no new signals),
+// keyboard-reachable like ChevronButton.
+class ScopePauseButton : public QToolButton
+{
+public:
+    explicit ScopePauseButton(QWidget* parent = nullptr)
+        : QToolButton(parent)
+    {
+        setCursor(Qt::PointingHandCursor);
+        // TabFocus: keyboard-reachable without clicks stealing editor focus
+        setFocusPolicy(Qt::TabFocus);
+    }
+
+    void setPaused(bool p)
+    {
+        if (m_paused != p)
+        {
+            m_paused = p;
+            update();
+        }
+    }
+
+    void setBackgroundColor(const QColor& bg)
+    {
+        m_bg = bg;
+        update();
+    }
+
+protected:
+    void enterEvent(QEnterEvent*) override { update(); }
+    void leaveEvent(QEvent*) override { update(); }
+
+    void paintEvent(QPaintEvent*) override
+    {
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing, true);
+        const bool hover = underMouse();
+
+        // Quiet while the scope runs; hover — or the frozen state, which the
+        // user needs to notice — brings it to full strength. WindowText (not
+        // this button's own foregroundRole) so the glyph matches the panel titles.
+        QColor bg = m_bg;
+        bg.setAlpha(hover ? 220 : 150);
+        QColor fg = palette().color(QPalette::WindowText);
+        fg.setAlpha((hover || m_paused) ? 255 : 160);
+
+        p.setPen(Qt::NoPen);
+        p.setBrush(bg);
+        p.drawRoundedRect(QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5), 4, 4);
+
+        const qreal cx = width() / 2.0;
+        const qreal cy = height() / 2.0;
+        const qreal g = qMin(width(), height()) * 0.24; // glyph half-extent
+        p.setBrush(fg);
+        if (m_paused)
+        {
+            QPolygonF tri;
+            tri << QPointF(cx - g * 0.7, cy - g) << QPointF(cx - g * 0.7, cy + g)
+                << QPointF(cx + g, cy);
+            p.drawPolygon(tri);
+        }
+        else
+        {
+            const qreal barW = g * 0.7;
+            p.drawRect(QRectF(cx - g, cy - g, barW, 2 * g));
+            p.drawRect(QRectF(cx + g - barW, cy - g, barW, 2 * g));
+        }
+
+        if (hasFocus())
+        {
+            p.setRenderHint(QPainter::Antialiasing, false);
+            p.setPen(QPen(fg, 1));
+            p.setBrush(Qt::NoBrush);
+            p.drawRect(rect().adjusted(0, 0, -1, -1));
+        }
+    }
+
+private:
+    bool m_paused = false;
+    QColor m_bg{ Qt::black };
+};
 
 ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<SonicPiAPI> spAPI, QWidget* parent)
     : QWidget(parent)
@@ -95,6 +184,17 @@ ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<
     qRegisterMetaType<ProcessedAudioPtr>("SonicPi::ProcessedAudioPtr");
     connect(m_spClient.get(), &QtAPIClient::ConsumeAudioData, this, &ScopeWindow::OnConsumeAudioData);
 
+    m_pauseButton = new ScopePauseButton(this);
+    m_pauseButton->setFixedSize(ScaleForDPI(30, 30));
+    m_pauseButton->setToolTip(tr("Pause or resume the audio oscilloscopes. Pausing freezes the current image so you can inspect it."));
+    m_pauseButton->setProperty("tipShortcut", QKeySequence("F12").toString(QKeySequence::NativeText));
+    m_pauseButton->setAccessibleName(tr("Pause scopes"));
+    connect(m_pauseButton, &QToolButton::clicked, this, &ScopeWindow::TogglePause);
+    connect(this, &ScopeWindow::PausedChanged, m_pauseButton, [this](bool paused) {
+        m_pauseButton->setPaused(paused);
+        m_pauseButton->setAccessibleName(paused ? tr("Resume scopes") : tr("Pause scopes"));
+    });
+
     Layout();
 }
 
@@ -114,6 +214,13 @@ void ScopeWindow::resizeEvent(QResizeEvent* pSize)
     // The framebuffer is recreated on resize — clear it opaquely next paint.
     m_fullClear = true;
     Layout();
+
+    if (m_pauseButton)
+    {
+        const int margin = ScaleHeightForDPI(6);
+        m_pauseButton->move(width() - m_pauseButton->width() - margin, margin);
+        m_pauseButton->raise();
+    }
 }
 
 // Draw a Simple Stereo representation with a mirror of right/left stereo
@@ -536,13 +643,17 @@ void ScopeWindow::TogglePause()
     m_pendingPause = false;
     m_paused = !m_paused;
     m_spAPI->AudioProcessor_Enable(!m_paused);
+    emit PausedChanged(m_paused);
 }
 
 void ScopeWindow::Pause()
 {
+    const bool was = m_paused;
     m_pendingPause = false;
     m_paused = true;
     m_spAPI->AudioProcessor_Enable(!m_paused);
+    if (!was)
+        emit PausedChanged(m_paused);
 }
 
 void ScopeWindow::PauseWhenSilent()
@@ -555,9 +666,12 @@ void ScopeWindow::PauseWhenSilent()
 
 void ScopeWindow::Resume()
 {
+    const bool was = m_paused;
     m_pendingPause = false;
     m_paused = false;
     m_spAPI->AudioProcessor_Enable(!m_paused);
+    if (was)
+        emit PausedChanged(m_paused);
 }
 
 // True when the sample window is (audibly) silent and, if a spectrum
@@ -635,6 +749,8 @@ void ScopeWindow::SetBackgroundColor(QColor c)
 {
     m_backColor = c;
     m_fullClear = true;   // repaint the whole area in the new colour
+    if (m_pauseButton)
+        m_pauseButton->setBackgroundColor(m_backColor);
     update();
 }
 

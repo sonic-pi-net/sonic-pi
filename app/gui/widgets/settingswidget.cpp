@@ -1,6 +1,7 @@
 #include "settingswidget.h"
 #include "devicelistwidget.h"
 #include "mainwindow.h"
+#include "utils/reducedmotion.h"
 #include "utils/sonicpi_i18n.h"
 #include "dpi.h"
 #include <QTreeWidget>
@@ -583,6 +584,9 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     speak_transport = new QCheckBox(tr("Speak run and stop"));
     speak_transport->setToolTip(tr("When enabled, a screen reader announces \"Run started\" and \"Stopped\". Disable this if you'd rather hear the very start of your audio without it being ducked by the announcement."));
 
+    reduce_motion = new QCheckBox(tr("Reduce animations"));
+    reduce_motion->setToolTip(tr("When enabled, Sonic Pi keeps its interface still: panes and popups appear in place instead of sliding or gliding. Also switched on automatically while your operating system's reduce-animations accessibility setting is active."));
+
     show_log = new QCheckBox(tr("Show log"));
     show_log->setToolTip(tr("Toggle visibility of the log."));
     show_log->setProperty("tipShortcut", shortcutStrShiftMeta('L'));
@@ -778,6 +782,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     accessibility_box->setToolTip(tr("Settings that support screen readers and other assistive tools."));
     QVBoxLayout *accessibility_box_layout = new QVBoxLayout;
     accessibility_box_layout->addWidget(speak_transport);
+    accessibility_box_layout->addWidget(reduce_motion);
     accessibility_box->setLayout(accessibility_box_layout);
 
 
@@ -2205,6 +2210,10 @@ void SettingsWidget::speakTransport() {
   emit speakTransportChanged();
 }
 
+void SettingsWidget::reduceMotion() {
+  emit reduceMotionChanged();
+}
+
 void SettingsWidget::toggleLog() {
     emit showLogChanged();
 }
@@ -2348,6 +2357,10 @@ void SettingsWidget::updateSettings() {
     piSettings->show_completion_help = show_completion_help->isChecked();
     piSettings->show_context = show_context->isChecked();
     piSettings->speak_transport = speak_transport->isChecked();
+    piSettings->reduce_motion = reduce_motion->isChecked();
+    // Widgets consult prefersReducedMotion() directly (no settings pointer
+    // there), so push the preference into the shared flag as it changes.
+    SonicPi::setReduceMotionPreference(piSettings->reduce_motion);
     piSettings->show_log = show_log->isChecked();
     piSettings->show_cues = show_cues->isChecked();
     piSettings->show_metro = show_metro->isChecked();
@@ -2434,6 +2447,7 @@ void SettingsWidget::settingsChanged() {
     show_completion_help->setChecked(piSettings->show_completion_help);
     show_context->setChecked(piSettings->show_context);
     speak_transport->setChecked(piSettings->speak_transport);
+    reduce_motion->setChecked(piSettings->reduce_motion);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // setChecked emits toggled, not idClicked, so this doesn't echo
     // back to recordingTypeChanged.
@@ -2495,6 +2509,8 @@ void SettingsWidget::connectAll() {
     connect(show_context, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(speak_transport, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(speak_transport, SIGNAL(clicked()), this, SLOT(speakTransport()));
+    connect(reduce_motion, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(reduce_motion, SIGNAL(clicked()), this, SLOT(reduceMotion()));
 
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(toggleLineNumbers()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(toggleLog()));

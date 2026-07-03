@@ -57,6 +57,7 @@ class ScopeWindow;
 } // namespace SonicPi
 
 class QShortcut;
+class QAccessibilityHints;
 class QDockWidget;
 class QListWidget;
 class QListWidgetItem;
@@ -323,8 +324,10 @@ private slots:
     void changeShowCompletionHelp();
     void changeShowContext();
     void changeSpeakTransport();
+    void changeReduceMotion();
     void showContextMenuChanged();
     void speakTransportMenuChanged();
+    void reduceMotionMenuChanged();
     void oscServerEnabledMenuChanged();
     void allowRemoteOSCMenuChanged();
     void showLogMenuChanged();
@@ -353,6 +356,13 @@ private slots:
     void cycleThemes();
     void updateColourTheme();
     void colourThemeMenuChanged(int themeID);
+    // Follow the OS contrast preference (Windows Contrast Themes, macOS
+    // Increase Contrast): auto-switch to the high-contrast theme while the
+    // preference is active and restore the user's prior theme when it lifts.
+    // An explicit theme pick (menu/prefs/cycle) always wins — see
+    // noteExplicitThemeChoice().
+    void applyOSContrastPreference();
+    void noteExplicitThemeChoice();
     void updatePrefsIcon();
     void togglePrefs();
     void updateDocPane(QListWidgetItem* cur);
@@ -369,6 +379,10 @@ private slots:
     // Move keyboard focus to `pane` so a screen reader follows it; caller first
     // reveals the pane's host (setFocus is ignored on a hidden widget).
     void focusPane(QWidget* pane);
+    // Copy each widget's tooltip into its accessibleDescription when the
+    // latter is empty, so screen-reader users get the same explanatory text
+    // as sighted hover users. Idempotent; safe to re-run after late UI setup.
+    void mirrorToolTipsToAccessibleDescriptions();
     // Speak a short message via the screen reader; a no-op when no screen reader is
     // active or when the user has silenced this announcement's category.
     void announce(const QString& message, bool assertive = false,
@@ -450,6 +464,11 @@ private slots:
     void focusHelpListing();
     void focusHelpDetails();
     void focusErrors();
+    // F6/Shift+F6: walk keyboard focus through the panes currently on screen
+    // (the platform pane-cycling convention on Windows).
+    void cycleFocusForward();
+    void cycleFocusBack();
+    void cycleFocus(int direction);
     void focusBPMScrubber();
     void focusTimeWarpScrubber();
     void shortcutModeMenuChanged(int modeID);
@@ -606,10 +625,20 @@ private:
 
     SonicPiLexer* lexer;
     SonicPiTheme* theme;
+    // Last themeStyle actually applied by updateColourTheme(); lets the
+    // prefs themeChanged handler distinguish a real change from a re-click
+    // of the active theme button. -1 until the first application.
+    int appliedThemeStyle = -1;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+    // OS contrast-preference watcher (Windows Contrast Themes / macOS
+    // Increase Contrast); created lazily on first use by
+    // applyOSContrastPreference() or noteExplicitThemeChoice().
+    QAccessibilityHints* accessibilityHints = nullptr;
+#endif
     SonicPiToolTipManager* toolTipManager;
 
     QToolBar* toolBar;
-    QAction *textUpcaseWordAct, *textDowncaseWordAct, *textDeleteWordRightAct, *textDeleteWordLeftAct, *textSelectAllAct, *textRedoAct, *textUndoAct, *textCenterCaretAct, *textWordLeftAct, *textWordRightAct, *textSelectLineStartAct, *textSelectLineEndAct, *textSelectWordLeftAct, *textSelectWordRightAct, *textSelectDocStartAct, *textSelectDocEndAct, *textDocEndAct, *textDocStartAct, *textLineEndAct, *textLineStartAct, *textDeleteBackAct, *textDeleteForwardAct, *textRightAct, *textLeftAct, *textCopyAct, *textCutAct, *textPasteAct, *textCutToEndOfLineAct, *textDownAct, *textUpAct, *textDownTenAct, *textUpTenAct, *logZoomInAct, *logZoomOutAct, *textSetMarkAct, *triggerAutocompleteAct, *readCompletionDetailsAct, *winShortcutModeAct, *emacsShortcutModeAct, *macShortcutModeAct, *userShortcutModeAct, *tabPrevAct, *tabNextAct, *tab1Act, *tab2Act, *tab3Act, *tab4Act, *tab5Act, *tab6Act, *tab7Act, *tab8Act, *tab9Act, *tab0Act, *cycleThemesAct, *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textCommentAct, *textTransposeAct, *textShiftLineUpAct, *textShiftLineDownAct, *contextHelpAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *focusBPMScrubberAct, *focusTimeWarpScrubberAct, *showLineNumbersAct, *showAutoCompletionAct, *showCompletionHelpAct, *showContextAct, *speakTransportAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *enableScsynthInputsAct, *midiEnabledAct, *gamepadEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct, *showTitlesAct, *hideMenuBarInFullscreenAct, *showMetroAct, *enableLinkAct, *linkTapTempoAct, *reloadServerCodeAct, *scopePausedAct, *focusModeAct, *checkUpdatesAct, *checkUpdatesNowAct;
+    QAction *textUpcaseWordAct, *textDowncaseWordAct, *textDeleteWordRightAct, *textDeleteWordLeftAct, *textSelectAllAct, *textRedoAct, *textUndoAct, *textCenterCaretAct, *textWordLeftAct, *textWordRightAct, *textSelectLineStartAct, *textSelectLineEndAct, *textSelectWordLeftAct, *textSelectWordRightAct, *textSelectDocStartAct, *textSelectDocEndAct, *textDocEndAct, *textDocStartAct, *textLineEndAct, *textLineStartAct, *textDeleteBackAct, *textDeleteForwardAct, *textRightAct, *textLeftAct, *textCopyAct, *textCutAct, *textPasteAct, *textCutToEndOfLineAct, *textDownAct, *textUpAct, *textDownTenAct, *textUpTenAct, *logZoomInAct, *logZoomOutAct, *textSetMarkAct, *triggerAutocompleteAct, *readCompletionDetailsAct, *winShortcutModeAct, *emacsShortcutModeAct, *macShortcutModeAct, *userShortcutModeAct, *tabPrevAct, *tabNextAct, *tab1Act, *tab2Act, *tab3Act, *tab4Act, *tab5Act, *tab6Act, *tab7Act, *tab8Act, *tab9Act, *tab0Act, *cycleThemesAct, *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *recAct, *textAlignAct, *textCommentAct, *textTransposeAct, *textShiftLineUpAct, *textShiftLineDownAct, *contextHelpAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *focusBPMScrubberAct, *focusTimeWarpScrubberAct, *cycleFocusForwardAct, *cycleFocusBackAct, *showLineNumbersAct, *showAutoCompletionAct, *showCompletionHelpAct, *showContextAct, *speakTransportAct, *reduceMotionAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *enableScsynthInputsAct, *midiEnabledAct, *gamepadEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *proLightThemeAct, *proDarkThemeAct, *highContrastThemeAct, *showScopeLabelsAct, *showTitlesAct, *hideMenuBarInFullscreenAct, *showMetroAct, *enableLinkAct, *linkTapTempoAct, *reloadServerCodeAct, *scopePausedAct, *focusModeAct, *checkUpdatesAct, *checkUpdatesNowAct;
 #ifdef Q_OS_MAC
     QAction *syphonPublishAct;
     QAction *syphonShowCursorAct;
