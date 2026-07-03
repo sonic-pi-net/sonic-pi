@@ -198,20 +198,21 @@ RowDef BarRow(const char* label, int used, int peak, uint32_t cap, BarColor c, c
 // fails) are omitted (no native writer).
 const std::vector<PanelDef>& panelLayout()
 {
-    // Row tooltips come from SuperSonic's canonical metrics schema (see
+    // All row tooltips come from SuperSonic's canonical metrics schema (see
     // supersonic/js/lib/metrics_schema.js → generated metrics_schema.h): a
-    // row with no explicit tip falls back to the schema description of its
-    // first metric field, mirroring the <supersonic-metrics> web component.
-    // Explicit tips are only for rows that combine several fields.
+    // row with no tip falls back to the schema description of its first
+    // metric field, and rows combining several fields name a schema
+    // composite — mirroring the <supersonic-metrics> web component.
+    const auto composite = supersonic::metrics_schema::descriptionForComposite;
     static const std::vector<PanelDef> panels = {
         { "scsynth",
           { ValRow("msgs", { V(1, K_Muted) }),
             ValRow("queue", { V(3), T(" | "), V(4, K_Muted) },
-                   "Scheduler queue depth — current | peak."),
+                   composite("schedulerQueueCurrentPeak")),
             ValRow("max|last", { V(23, K_Error, F_Signed), T(" | "), V(24, K_Dim, F_Signed), T(" ms") },
-                   "Late bundle execution — worst | most recent lateness in milliseconds."),
+                   composite("schedulerLateWorstLast")),
             ValRow("debug", { V(15, K_Muted), T(" ("), V(16, K_Muted, F_Bytes), T(")") },
-                   "Debug messages received from the engine — count (bytes).") } },
+                   composite("debugCountBytes")) } },
         { "DSP",
           { ValRow("load", { Vn(kFieldCpuAvg, K_Normal, F_Centi), T("%") }),
             ValRow("peak", { Vn(kFieldCpuPeak, K_Dim, F_Centi), T("%") }),
@@ -224,15 +225,15 @@ const std::vector<PanelDef>& panelLayout()
             ValRow("corrupt", { V(14, K_Error) }) } },
         { "OSC",
           { ValRow("sent", { V(9), T(" | "), V(10, K_Muted, F_Bytes) },
-                   "Messages | bytes sent to the engine (Sonic Pi → SuperSonic)."),
+                   composite("oscSentCountBytes")),
             ValRow("recv", { V(11), T(" | "), V(12, K_Muted, F_Bytes) },
-                   "Messages | bytes received back from the engine (SuperSonic → Sonic Pi)."),
+                   composite("oscRecvCountBytes")),
             BarRow("in", 17, 20, kInBufferCap, BC_Blue,
-                   "IN ring buffer usage (Sonic Pi → engine) — used / peak."),
+                   composite("inRingUsedPeak")),
             BarRow("out", 18, 21, kOutBufferCap, BC_Green,
-                   "OUT ring buffer usage (engine replies → Sonic Pi) — used / peak."),
+                   composite("outRingUsedPeak")),
             BarRow("nrt", 19, 22, kNrtOutBufferCap, BC_Purple,
-                   "Non-realtime egress ring usage (replies, notifications, debug) — used / peak.") } },
+                   composite("nrtRingUsedPeak")) } },
         { "Buffers",
           { ValRow("synthdefs", { Vn(kFieldSynthDefs) }),
             ValRow("buffers", { Vn(kFieldBuffers, K_Green) }),
@@ -245,19 +246,19 @@ const std::vector<PanelDef>& panelLayout()
             ValRow("playing", { V(31, K_Muted) }) } },
         { "Link Audio",
           { ValRow("in", { V(32), T(" ch @ "), V(33, K_Muted), T(" Hz") },
-                   "Received stream — active channels @ sample rate."),
+                   composite("linkAudioChannelsRate")),
             ValRow("underruns", { V(34, K_Error) }),
             ValRow("buffered", { V(35, K_Dim), T(" ms") }),
             ValRow("drift", { V(36, K_Dim, F_Signed), T(" ppm") }),
             ValRow("publish", { V(37, K_Green), T(" | "), V(38, K_Muted), T(" sinks") },
-                   "Audio publishing state (1 = on) | active output sinks.") } },
+                   composite("linkAudioPublishSinks")) } },
         { "Engine",
           { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) },
-                   "SuperSonic audio engine version."),
+                   composite("engineVersion")),
             ValRow("rate", { V(kFieldSampleRate), T(" Hz") }),
             ValRow("block", { V(kFieldBlockSize), T(" frames") }),
             ValRow("channels", { V(kFieldOutputChannels), T(" | "), V(kFieldInputChannels, K_Muted) },
-                   "Audio bus channels — output | input."),
+                   composite("busChannelsOutIn")),
             ValRow("ticks", { V(0, K_Dim) }) } },
         { "Clock",
           { ValRow("tempo", { V(kFieldClockTempo, K_Normal, F_MilliBpm), T(" bpm") }),

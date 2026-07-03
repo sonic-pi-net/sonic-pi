@@ -20,6 +20,7 @@
 #include <QAbstractTextDocumentLayout>
 #include <QAction>
 #include <QApplication>
+#include <QCursor>
 #include <QGroupBox>
 #include <QFontMetrics>
 #include <QHelpEvent>
@@ -60,7 +61,6 @@ QFont chipFont()
 {
     QFont f = bodyFontForTip();
     f.setFamily("Hack");
-    f.setPointSizeF(f.pointSizeF() - 1.0);
     return f;
 }
 
@@ -92,6 +92,41 @@ QString cleanTitle(QString s)
     return s;
 }
 
+// Anchor rect for the popup (global coords): the control's visible label,
+// not its full rect. Layouts stretch checkboxes/radios well past their
+// text — anchoring the full rect points the caret at empty space — and a
+// group box's rect is its entire contents. Anchoring the label keeps the
+// caret on the text and guarantees the popup never obscures it, even
+// partially: placement always puts the bubble wholly above or below the
+// anchor rect.
+QRect labelAnchorRect(QWidget* t)
+{
+    QRect local = t->rect();
+    if (QGroupBox* g = qobject_cast<QGroupBox*>(t))
+    {
+        if (!g->title().isEmpty())
+        {
+            // Title sits top-left (app.qss uses the default subcontrol
+            // position); approximate its rect from font metrics rather
+            // than QStyleOptionGroupBox, which QSS styling can skew.
+            const QFontMetrics fm = g->fontMetrics();
+            const int w = fm.size(Qt::TextShowMnemonic, g->title()).width()
+                + ScaleWidthForDPI(16);
+            local = QRect(local.x(), local.y(),
+                          qMin(local.width(), w),
+                          fm.height() + ScaleHeightForDPI(8));
+        }
+    }
+    else if (QAbstractButton* b = qobject_cast<QAbstractButton*>(t))
+    {
+        // sizeHint width = indicator + spacing + label text, so this clamps
+        // a stretched checkbox/radio to its visible content.
+        if (!b->text().isEmpty())
+            local.setWidth(qMin(local.width(), b->sizeHint().width()));
+    }
+    return QRect(t->mapToGlobal(local.topLeft()), local.size());
+}
+
 // Opaque blend of a→b. Borders must be opaque: a semi-transparent border
 // lets the drop shadow bleed through, which reads as a smudged edge
 // (especially over light themes).
@@ -110,8 +145,12 @@ SonicPiToolTip::SonicPiToolTip(SonicPiTheme* theme)
     // NoDropShadowWindowHint: the OS would otherwise draw its own shadow
     // around the (mostly transparent) window rect, which shows up as a dark
     // outline floating clear of the bubble. The shadow is painted by us.
+    // WindowTransparentForInput: makes the OS ignore the pointer entirely
+    // (NSWindow.ignoresMouseEvents on macOS) — without it macOS offers its
+    // resize-from-any-edge drag cursor on the frameless window. The widget
+    // attribute below only covers Qt-internal event delivery, not the OS.
     setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowDoesNotAcceptFocus
-                   | Qt::NoDropShadowWindowHint);
+                   | Qt::NoDropShadowWindowHint | Qt::WindowTransparentForInput);
     setAttribute(Qt::WA_TranslucentBackground);
     // Never intercept the pointer — the tip must not swallow hover or
     // clicks meant for what's underneath it.
@@ -128,6 +167,19 @@ SonicPiToolTip::SonicPiToolTip(SonicPiTheme* theme)
     m_fade.setEasingCurve(QEasingCurve::OutCubic);
     connect(&m_fade, &QVariantAnimation::valueChanged, this,
             [this](const QVariant& v) { setWindowOpacity(v.toReal()); });
+
+    // Realise the native window up front so the first move() (which happens
+    // before the first show()) targets a real window: macOS drops
+    // pre-creation geometry, so without this the first tip ignores its
+    // position and lands slightly off. Same fix as CompletionPopup.
+    //
+    // macOS only: on Windows, realising the HWND before the first show()
+    // breaks the translucent compositing for this frameless
+    // WA_TranslucentBackground window (it "shows" but paints nothing), and
+    // Windows keeps pre-show geometry anyway.
+#ifdef Q_OS_MACOS
+    createWinId();
+#endif
 }
 
 void SonicPiToolTip::showTip(const QRect& anchorGlobal, const QString& title,
@@ -263,7 +315,10 @@ void SonicPiToolTip::place(const QRect& anchor)
     const int maxCaretX = m_bubble.right() - m_radius - m_caretW / 2 - 2;
     m_caretX = qBound(minCaretX, anchor.center().x() - wx, qMax(minCaretX, maxCaretX));
 
-    setGeometry(wx, wy, ww, wh);
+    // Fixed size (min == max) marks the window non-resizable at the OS
+    // level — belt and braces alongside WindowTransparentForInput.
+    setFixedSize(ww, wh);
+    move(wx, wy);
 }
 
 void SonicPiToolTip::paintEvent(QPaintEvent* event)
@@ -273,9 +328,12 @@ void SonicPiToolTip::paintEvent(QPaintEvent* event)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
 
-    const QColor bg = m_theme->color("ToolTipBase");
-    const QColor fg = m_theme->color("ToolTipText");
     const bool highContrast = m_theme->getStyle() == SonicPiTheme::HighContrastMode;
+    // Bubble matches the window dividers (WindowBorder) so the popup reads
+    // as app chrome. High contrast keeps its dedicated tooltip base — the
+    // divider grey there would cost text contrast.
+    const QColor bg = m_theme->color(highContrast ? "ToolTipBase" : "WindowBorder");
+    const QColor fg = m_theme->color("ToolTipText");
 
     // Bubble + caret as one outline.
     const QRectF bubble(m_bubble);
@@ -318,8 +376,13 @@ void SonicPiToolTip::paintEvent(QPaintEvent* event)
     p.setBrush(bg);
     p.drawPath(path);
 
-    QAbstractTextDocumentLayout::PaintContext ctx;
-    ctx.palette.setColor(QPalette::Text, fg);
+    // Title at full text strength; body slightly muted towards the bubble
+    // (the palette's light grey on the dark themes) so the title visibly
+    // outranks it. High contrast keeps both at full strength.
+    QAbstractTextDocumentLayout::PaintContext titleCtx;
+    titleCtx.palette.setColor(QPalette::Text, fg);
+    QAbstractTextDocumentLayout::PaintContext bodyCtx;
+    bodyCtx.palette.setColor(QPalette::Text, highContrast ? fg : mix(fg, bg, 0.22));
 
     const qreal x = bubble.left() + m_padX;
     qreal y = bubble.top() + m_padY;
@@ -328,14 +391,14 @@ void SonicPiToolTip::paintEvent(QPaintEvent* event)
     {
         p.save();
         p.translate(x, y);
-        m_titleDoc.documentLayout()->draw(&p, ctx);
+        m_titleDoc.documentLayout()->draw(&p, titleCtx);
         p.restore();
         y += m_titleDoc.size().height() + ScaleHeightForDPI(TITLE_GAP);
     }
 
     p.save();
     p.translate(x, y);
-    m_bodyDoc.documentLayout()->draw(&p, ctx);
+    m_bodyDoc.documentLayout()->draw(&p, bodyCtx);
     p.restore();
     y += m_bodyDoc.size().height();
 
@@ -366,6 +429,9 @@ SonicPiToolTipManager::SonicPiToolTipManager(SonicPiTheme* theme, QObject* paren
     m_focusTipTimer.setSingleShot(true);
     m_focusTipTimer.setInterval(650);
     connect(&m_focusTipTimer, &QTimer::timeout, this, &SonicPiToolTipManager::onFocusTipTimer);
+    m_reshowTimer.setSingleShot(true);
+    m_reshowTimer.setInterval(700);
+    connect(&m_reshowTimer, &QTimer::timeout, this, &SonicPiToolTipManager::onReshowTimer);
     qApp->installEventFilter(this);
 }
 
@@ -418,6 +484,40 @@ QWidget* SonicPiToolTipManager::resolveTip(QWidget* w, Tip& tip)
     return nullptr;
 }
 
+bool SonicPiToolTipManager::showResolvedTip(QWidget* w, const QPoint& globalPos)
+{
+    Tip tip;
+    QWidget* t = resolveTip(w, tip);
+    if (!t)
+        return false;
+
+    // Section headers: a group box's tip belongs to its title, so it only
+    // shows while the pointer is over the title text. Hovering the body of
+    // the section stays quiet — but still counts as handled, so the stock
+    // QToolTip can't fire instead.
+    if (QGroupBox* g = qobject_cast<QGroupBox*>(t))
+    {
+        if (!g->title().isEmpty()
+            && !labelAnchorRect(g).adjusted(-4, -2, 4, 2).contains(globalPos))
+        {
+            hideTip();
+            return true;
+        }
+    }
+
+    QRect anchor = labelAnchorRect(t);
+    // For large widgets still left with no label-sized anchor (lists,
+    // untitled panes) an edge-anchored bubble floats far from the
+    // pointer and reads as unrelated — anchor to the pointer instead.
+    const bool cursorAnchored = anchor.height() > ScaleHeightForDPI(120)
+        || anchor.width() > ScaleWidthForDPI(440);
+    if (cursorAnchored)
+        anchor = QRect(globalPos - QPoint(ScaleWidthForDPI(8), ScaleHeightForDPI(10)),
+                       ScaleForDPI(16, 20));
+    showTip(t, tip, anchor, cursorAnchored);
+    return true;
+}
+
 bool SonicPiToolTipManager::eventFilter(QObject* obj, QEvent* event)
 {
     if (obj == m_tip)
@@ -467,34 +567,20 @@ bool SonicPiToolTipManager::eventFilter(QObject* obj, QEvent* event)
             }
         }
 
-        Tip tip;
-        QWidget* t = resolveTip(w, tip);
-        if (!t)
+        if (!showResolvedTip(w, w->mapToGlobal(he->pos())))
         {
             if (m_tip->isVisible())
                 hideTip();
             return false;
         }
-
-        QRect anchor(t->mapToGlobal(QPoint(0, 0)), t->size());
-        // For large widgets (group boxes, lists) an edge-anchored bubble
-        // floats far from the pointer and reads as unrelated — anchor to
-        // the pointer instead.
-        const bool cursorAnchored = anchor.height() > ScaleHeightForDPI(120)
-            || anchor.width() > ScaleWidthForDPI(440);
-        if (cursorAnchored)
-        {
-            const QPoint gp = w->mapToGlobal(he->pos());
-            anchor = QRect(gp - QPoint(ScaleWidthForDPI(8), ScaleHeightForDPI(10)),
-                           ScaleForDPI(16, 20));
-        }
-        showTip(t, tip, anchor, cursorAnchored);
         return true; // handled — stock QToolTip must not also fire
     }
 
     case QEvent::Leave:
         if (m_tip->isVisible() && obj == m_anchorWidget)
             hideTip();
+        if (obj == m_reshowCandidate)
+            m_reshowTimer.stop();
         return false;
 
     case QEvent::MouseMove:
@@ -526,7 +612,22 @@ bool SonicPiToolTipManager::eventFilter(QObject* obj, QEvent* event)
     case QEvent::Wheel:
         hideTip();
         m_focusTipTimer.stop();
+        m_reshowTimer.stop();
         return false;
+
+    case QEvent::MouseButtonRelease:
+    {
+        // No ToolTip event arrives after a click until the pointer moves,
+        // so a toggled control's refreshed tip would need a wiggle to
+        // appear. Re-arm instead: show again if the pointer is still
+        // resting on this control after the usual delay.
+        if (QWidget* w = qobject_cast<QWidget*>(obj))
+        {
+            m_reshowCandidate = w;
+            m_reshowTimer.start();
+        }
+        return false;
+    }
 
     case QEvent::KeyPress:
         // Esc dismisses (WCAG 1.4.13); any other key also hides so tips
@@ -534,6 +635,7 @@ bool SonicPiToolTipManager::eventFilter(QObject* obj, QEvent* event)
         // app-level meaning.
         hideTip();
         m_focusTipTimer.stop();
+        m_reshowTimer.stop();
         return false;
 
     case QEvent::FocusIn:
@@ -601,6 +703,17 @@ void SonicPiToolTipManager::hideTip()
     m_cursorAnchored = false;
 }
 
+void SonicPiToolTipManager::onReshowTimer()
+{
+    QWidget* w = m_reshowCandidate.data();
+    if (!w || !w->isVisible() || !w->window()->isActiveWindow())
+        return;
+    const QPoint gp = QCursor::pos();
+    if (!w->rect().contains(w->mapFromGlobal(gp)))
+        return;
+    showResolvedTip(w, gp);
+}
+
 void SonicPiToolTipManager::onFocusTipTimer()
 {
     QWidget* w = m_focusCandidate.data();
@@ -610,10 +723,10 @@ void SonicPiToolTipManager::onFocusTipTimer()
     QWidget* t = resolveTip(w, tip);
     if (!t)
         return;
-    QRect anchor(t->mapToGlobal(QPoint(0, 0)), t->size());
+    QRect anchor = labelAnchorRect(t);
     // If the tip lives on a large ancestor, anchor to the focused control
     // itself so the bubble appears where the user is looking.
     if (anchor.height() > ScaleHeightForDPI(120) || anchor.width() > ScaleWidthForDPI(440))
-        anchor = QRect(w->mapToGlobal(QPoint(0, 0)), w->size());
+        anchor = labelAnchorRect(w);
     showTip(t, tip, anchor, false);
 }

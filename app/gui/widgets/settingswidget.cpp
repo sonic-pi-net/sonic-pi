@@ -126,7 +126,7 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
 
     QGroupBox *ioTab = createIoPrefsTab();
     prefTabs->setTabToolTip(prefTabs->addTab(ioTab, tr("IO")),
-                            tr("Connect to the outside world: OSC networking, MIDI devices and game controllers."));
+                            tr("OSC networking, MIDI devices and game controllers."));
 
     QGroupBox *editorTab = createEditorPrefsTab();
     prefTabs->setTabToolTip(prefTabs->addTab(editorTab, tr("Editor")),
@@ -174,7 +174,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     system_vol_slider->setMinimumSize(100, 100);
     system_vol_slider->setAccessibleName(tr("Main Volume"));
     system_vol_slider->setProperty("tipTitle", tr("Main Volume"));
-    system_vol_slider->setToolTip(tr("Drag or scroll to change the overall volume of Sonic Pi's audio output."));
+    system_vol_slider->setToolTip(tr("Drag or scroll to change Sonic Pi's overall volume."));
 
     enable_scsynth_inputs = new QCheckBox(tr("Enable Audio Inputs"));
     enable_scsynth_inputs->setToolTip(tr("Toggle to enable or disable audio inputs."));

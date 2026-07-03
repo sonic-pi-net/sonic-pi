@@ -623,7 +623,7 @@ void MainWindow::setupWindowStructure()
         SonicPiEditor* editor = new SonicPiEditor(workspace, theme, this);
         editor->getContext()->setAccessibleName(tr("Run Context"));
         editorTabWidget->setTabToolTip(editorTabWidget->addTab(editor, w),
-                                       tr("Code buffer %1 — one of 10 workspaces, each saved automatically.").arg(ws));
+                                       tr("Code buffer %1. All buffers are saved automatically.").arg(ws));
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
         connect(workspace, &SonicPiScintilla::docsRequested, this,
@@ -1325,9 +1325,9 @@ void MainWindow::createDebugAndLogTabs()
     // Top-level south tabs in the order Docs, Logs, Debug (Docs was added at
     // construction, so append these after it).
     southTabs->setTabToolTip(southTabs->addTab(debugLogPanel, tr("Logs")),
-                             tr("Detailed logs from the language runtime and audio server."));
+                             tr("A live view of Sonic Pi's log files."));
     southTabs->setTabToolTip(southTabs->addTab(metricsPanel, tr("Debug")),
-                             tr("Live audio engine metrics and the synth node graph."));
+                             tr("Live metrics, node tree and message logs for the SuperSonic audio engine."));
     southTabs->setCurrentWidget(metricsPanel);
 }
 

@@ -115,9 +115,16 @@ private:
     // nullptr if nothing along the chain has one.
     static QWidget* resolveTip(QWidget* w, Tip& tip);
 
+    // Resolve + anchor + show for a widget under the pointer at globalPos.
+    // Returns true when handled (tip shown, or deliberately suppressed —
+    // e.g. hovering a group box's body rather than its title); false if
+    // nothing along the parent chain has a tip.
+    bool showResolvedTip(QWidget* w, const QPoint& globalPos);
+
     void showTip(QWidget* anchorWidget, const Tip& tip, const QRect& anchorGlobal, bool cursorAnchored);
     void hideTip();
     void onFocusTipTimer();
+    void onReshowTimer();
 
     SonicPiToolTip* m_tip;
     QPointer<QWidget> m_anchorWidget;  // widget the visible tip belongs to
@@ -125,4 +132,10 @@ private:
     QPoint m_cursorAnchor;             // global pos of the cursor anchor
     QTimer m_focusTipTimer;
     QPointer<QWidget> m_focusCandidate;
+    // Clicks hide the tip and Qt sends no new ToolTip event until the
+    // pointer moves — so after a release the tip (with any refreshed
+    // state, e.g. a toggled control) is re-shown if the pointer is still
+    // resting on the same control.
+    QTimer m_reshowTimer;
+    QPointer<QWidget> m_reshowCandidate;
 };

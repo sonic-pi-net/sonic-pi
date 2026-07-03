@@ -124,9 +124,11 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   enableLinkButton->setProperty("tipTitle", tr("Ableton Link"));
   enableLinkButton->setProperty("tipShortcut", link_shortcut);
   enableLinkButton->setToolTip(tr(
-      "Enable / disable Ableton Link tempo sync. Scope (Off / Local / Net) "
-      "is set under Preferences ▶ IO ▶ SuperSonic network. Greyed out when "
-      "the master scope is Off."));
+      "Share a tempo with other Link-enabled apps and devices, so everyone "
+      "plays in time. Click to join or leave the shared session.\n\n"
+      "Link works either on this machine only or across your local "
+      "network. Switch modes with the ghost / network button at the end "
+      "of this row."));
 
   tapButton = new QPushButton(tr("Tap"));
   tapButton->setAutoFillBackground(true);
@@ -322,11 +324,11 @@ void SonicPiMetro::updateRowVisibility()
                  theme->color("HighlightedForeground"));  // white on hover
   // Structured tooltip (title + auto-wrapped body — see sonicpitooltip.h).
   m_rowVisibility->setProperty("tipTitle", net
-      ? tr("Network visibility: Public")
-      : tr("Network visibility: Local"));
+      ? tr("Link Visibility: Local Network")
+      : tr("Link Visibility: Local Machine Only (Hidden from Local Network)"));
   m_rowVisibility->setToolTip(net
-      ? tr("Sonic Pi is visible to other devices on your network for Link tempo sync and Link Audio streams. Click to go local (private to this machine).")
-      : tr("Link tempo sync and Link Audio stay on this machine — Sonic Pi is hidden from other devices. Click to go public (visible on your network)."));
+      ? tr("Link is active on your local network. Other devices can sync tempo and stream audio with this Sonic Pi. Click to limit Link to this machine.")
+      : tr("Link is limited to this machine. Tempo sync and Link Audio only connect to other apps running here. Click to join Link sessions on your local network."));
   m_rowVisibility->setAccessibleName(net
       ? tr("Network visibility: public")
       : tr("Network visibility: local only"));

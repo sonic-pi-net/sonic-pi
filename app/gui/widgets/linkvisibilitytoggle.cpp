@@ -39,11 +39,11 @@ void LinkVisibilityToggle::updateTooltip()
 {
     // Matches the metro row's ghost/network button (see SonicPiMetro).
     setProperty("tipTitle", isChecked()
-        ? tr("Network visibility: Public")
-        : tr("Network visibility: Local"));
+        ? tr("Link Visibility: Local Network")
+        : tr("Link Visibility: Local Machine Only (Hidden from Local Network)"));
     const QString tip = isChecked()
-        ? tr("Sonic Pi is visible to other devices on your network for Link tempo sync and Link Audio streams. Click to go local (private to this machine).")
-        : tr("Link tempo sync and Link Audio stay on this machine — Sonic Pi is hidden from other devices. Click to go public (visible on your network).");
+        ? tr("Link is active on your local network. Other devices can sync tempo and stream audio with this Sonic Pi. Click to limit Link to this machine.")
+        : tr("Link is limited to this machine. Tempo sync and Link Audio only connect to other apps running here. Click to join Link sessions on your local network.");
     setToolTip(tip);
     setAccessibleDescription(tip);
 }
