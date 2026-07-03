@@ -830,6 +830,58 @@ register_api = lambda do |server|
   end
 end
 
+# Process-stall detector. A heartbeat that notices when this whole Ruby
+# process stops being scheduled (major GC, page-in, OS stall) for long
+# enough to matter musically: a ~0.5s process stall pushes every scheduled
+# thread past its sched-ahead window (raising TimingError in each) and
+# shows up engine-side only as an unexplained "LATE: NNNms" with no audio
+# callback gap. GC time is sampled across each window so the log shows
+# whether GC caused the stall.
+GC.measure_total_time = true if GC.respond_to?(:measure_total_time=)
+Thread.new do
+  Thread.current.priority = 20
+  interval = 0.05
+  last = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+  gc_buf = {}   # reused so the heartbeat itself allocates ~nothing per tick
+  GC.stat(gc_buf)
+  gc_time_last = gc_buf[:time] || 0
+  # Heap telemetry once a minute: allocation churn is the usual cause of
+  # whole-process stalls (via major-GC pauses), so record the rate in the
+  # log rather than needing external sampling.
+  telemetry_every = 60.0
+  last_telemetry  = last
+  alloc_last      = gc_buf[:total_allocated_objects] || 0
+  major_last      = gc_buf[:major_gc_count] || 0
+  loop do
+    sleep interval
+    now = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    stall_ms = ((now - last - interval) * 1000).round
+    GC.stat(gc_buf)
+    if stall_ms > 150
+      gc_time_now = gc_buf[:time] || 0
+      STDOUT.puts "Spider - PROCESS STALL: ~#{stall_ms}ms " \
+                  "(GC time in window: #{gc_time_now - gc_time_last}ms, " \
+                  "GC count: #{GC.count})"
+      STDOUT.flush
+    end
+    gc_time_last = gc_buf[:time] || 0
+    if now - last_telemetry >= telemetry_every
+      alloc_now = gc_buf[:total_allocated_objects] || 0
+      major_now = gc_buf[:major_gc_count] || 0
+      mins = (now - last_telemetry) / 60.0
+      STDOUT.puts "Spider - HEAP: live=#{gc_buf[:heap_live_slots]} " \
+                  "alloc/min=#{((alloc_now - alloc_last) / mins).round} " \
+                  "majorGC/min=#{format('%.1f', (major_now - major_last) / mins)} " \
+                  "gc_time_total=#{gc_buf[:time] || 0}ms"
+      STDOUT.flush
+      last_telemetry = now
+      alloc_last = alloc_now
+      major_last = major_now
+    end
+    last = now
+  end
+end
+
 register_api.call(osc_server)
 
 # Send stuff out from Sonic Pi back out to osc_server
