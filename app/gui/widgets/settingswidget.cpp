@@ -438,7 +438,9 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // panel (centred art with top/bottom stretches) absorbs any slack so it
     // doesn't squeeze the device combos.
     audioDeviceBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     recordingGroup->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+#endif
     supersonicBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     audio_prefs_box_layout->addWidget(volBox, 0, 0, 3, 1);

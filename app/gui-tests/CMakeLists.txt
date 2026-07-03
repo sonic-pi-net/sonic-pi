@@ -41,6 +41,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/completion_rank.test.cpp
     ${GUI_ROOT}/widgets/completionpopup.cpp
     ${GUI_ROOT}/utils/completion_context.cpp
+    ${GUI_ROOT}/utils/reducedmotion.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

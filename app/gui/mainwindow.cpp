@@ -3019,6 +3019,7 @@ void MainWindow::updateColourTheme()
     scopeWindow->SetColor(theme->color("Scope"));
     scopeWindow->SetColor2(theme->color("Scope_2"));
     scopeWindow->SetBackgroundColor(theme->color("LogBackground"));
+    scopeWindow->SetPauseButtonColor(theme->color("WindowBorder"));
     lexer->unhighlightAll();
     metroPane->updateColourTheme();
 

@@ -96,6 +96,9 @@ public:
     // Scope background (the faded-clear/phosphor colour). Set from the theme's
     // LogBackground so it's the dark content colour, not the window-chrome grey.
     void SetBackgroundColor(QColor c);
+    // Pause/resume chip colour. Set from the theme's WindowBorder so it matches
+    // the dock divider lines.
+    void SetPauseButtonColor(QColor c);
 
     void DrawWave(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);
     void DrawMirrorStereo(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);

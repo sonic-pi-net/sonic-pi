@@ -92,13 +92,14 @@ protected:
         p.setRenderHint(QPainter::Antialiasing, true);
         const bool hover = underMouse();
 
-        // Quiet while the scope runs; hover — or the frozen state, which the
-        // user needs to notice — brings it to full strength. WindowText (not
-        // this button's own foregroundRole) so the glyph matches the panel titles.
+        // Quiet at rest, full strength on hover. The glyph flip (bars<->triangle)
+        // alone signals paused/running — brightness is a control affordance, not a
+        // status light. WindowText (not this button's own foregroundRole) so the
+        // glyph matches the panel titles.
         QColor bg = m_bg;
         bg.setAlpha(hover ? 220 : 150);
         QColor fg = palette().color(QPalette::WindowText);
-        fg.setAlpha((hover || m_paused) ? 255 : 160);
+        fg.setAlpha(hover ? 255 : 160);
 
         p.setPen(Qt::NoPen);
         p.setBrush(bg);
@@ -749,9 +750,13 @@ void ScopeWindow::SetBackgroundColor(QColor c)
 {
     m_backColor = c;
     m_fullClear = true;   // repaint the whole area in the new colour
-    if (m_pauseButton)
-        m_pauseButton->setBackgroundColor(m_backColor);
     update();
+}
+
+void ScopeWindow::SetPauseButtonColor(QColor c)
+{
+    if (m_pauseButton)
+        m_pauseButton->setBackgroundColor(c);
 }
 
 void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
