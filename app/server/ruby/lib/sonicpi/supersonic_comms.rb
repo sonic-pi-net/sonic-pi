@@ -26,11 +26,18 @@ module SonicPi
       @port = Integer(supersonic_port)
       @address_space = address_space.freeze
       @udp_server = SonicPi::OSC::UDPServer.new(0, name: name)
-      # FIFO queue of outstanding promises per expect-address. SuperSonic
-      # replies to rpc requests in order, so the next reply belongs to the
-      # head promise even when live_loops race the same RPC.
+      # Each rpc request carries a correlation token as its last int32
+      # argument, which SuperSonic echoes as the last argument of the reply
+      # (see "Correlation tokens" in SuperSonic's docs/OSC_API.md). A reply
+      # whose token does not match the outstanding request is discarded.
+      # Without it, a reply that arrives after its caller has timed out would
+      # be delivered to the next caller on the same address, giving it a
+      # stale answer. rpc() also serialises per address (@rpc_locks) so only
+      # one request is outstanding at a time.
       @reply_mut = Mutex.new
-      @reply_queues = Hash.new { |h, k| h[k] = [] }
+      @rpc_locks = Hash.new { |h, k| h[k] = Mutex.new }
+      @pending = {}
+      @rpc_token = 0
       @reply_handlers_installed = {}
     end
 
@@ -39,25 +46,48 @@ module SonicPi
     end
 
     def rpc(req_pattern, *args, expect:, timeout: 1.0)
-      promise = Promise.new
-      @reply_mut.synchronize do
-        # Install the per-address reply dispatcher once.
-        unless @reply_handlers_installed[expect]
-          @reply_handlers_installed[expect] = true
-          @udp_server.add_method(expect) do |reply_args|
-            next_p = @reply_mut.synchronize { @reply_queues[expect].shift }
-            next_p.deliver!(reply_args) if next_p && !next_p.delivered?
+      # Serialise per expect-address (see initialize). Racing callers queue
+      # on the lock; these RPCs are sub-millisecond on loopback, so the
+      # serialisation cost is negligible next to unambiguous reply matching.
+      @rpc_locks[expect].synchronize do
+        promise = Promise.new
+        token = nil
+        @reply_mut.synchronize do
+          token = @rpc_token = (@rpc_token + 1) & 0x7FFFFFFF
+          # Install the per-address reply dispatcher once.
+          unless @reply_handlers_installed[expect]
+            @reply_handlers_installed[expect] = true
+            @udp_server.add_method(expect) do |reply_args|
+              matched = @reply_mut.synchronize do
+                entry = @pending[expect]
+                if entry && reply_args.last == entry[0]
+                  @pending.delete(expect)
+                else
+                  # No outstanding request, or a token from an already-
+                  # abandoned one: a stale reply. Drop it; the live
+                  # request's reply (with the right token) may still come.
+                  nil
+                end
+              end
+              if matched
+                p = matched[1]
+                # Strip the echoed token — callers see the verb's own args.
+                p.deliver!(reply_args[0...-1]) unless p.delivered?
+              end
+            end
           end
+          @pending[expect] = [token, promise]
         end
-        @reply_queues[expect] << promise
-      end
-      send(req_pattern, *args)
-      begin
-        promise.get(timeout)
-      rescue Exception
-        # Drop our still-pending promise so the next reply doesn't fill it.
-        @reply_mut.synchronize { @reply_queues[expect].delete(promise) }
-        nil
+        send(req_pattern, *args, token)
+        begin
+          promise.get(timeout)
+        rescue Exception
+          @reply_mut.synchronize do
+            entry = @pending[expect]
+            @pending.delete(expect) if entry && entry[1].equal?(promise)
+          end
+          nil
+        end
       end
     end
 

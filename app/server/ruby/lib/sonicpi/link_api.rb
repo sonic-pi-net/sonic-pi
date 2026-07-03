@@ -39,11 +39,23 @@ module SonicPi
       add_supersonic_link_handlers!
 
       Thread.new do
-        # Refresh the wall-clock/Link-clock offset; mainly to recover
-        # after a laptop sleep/wake.
-        loop do
+        # Establish the delta from two agreeing samples at boot before the
+        # periodic refresh takes over. Until it lands, a delta of 0 (or one
+        # skewed by boot churn) makes beat<->wall conversions invalid, so
+        # those conversions fall back to wall time (see
+        # link_micros_to_clock_time). The periodic refresh also recovers the
+        # delta after a laptop sleep/wake.
+        prev = nil
+        10.times do
           update_link_time_delta!
+          cur = @link_time_delta_micros
+          break if prev && cur != 0 && (cur - prev).abs < 5_000
+          prev = cur if cur != 0
+          Kernel.sleep 0.25
+        end
+        loop do
           Kernel.sleep 5
+          update_link_time_delta!
         end
       end
     end
@@ -302,6 +314,22 @@ module SonicPi
     private
 
     def link_micros_to_clock_time(t)
+      # t == 0: a failed/mid-reset RPC upstream. delta == 0: the boot-time
+      # delta measurement hasn't landed yet. Converting through either
+      # yields a timestamp anchored to the wrong epoch (days or decades in
+      # the past), so a scheduled event derived from it is already overdue
+      # and every queued event fires at once. Return wall-clock now instead,
+      # and log the reason (rate-limited to once a second).
+      if t == 0 || @link_time_delta_micros == 0
+        now = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        if now - (@last_zero_lookup_log || 0) >= 1.0
+          @last_zero_lookup_log = now
+          reason = (t == 0) ? "time lookup failed (0)" : "delta not yet initialised"
+          STDOUT.puts "Spider - LINK #{reason} — using wall clock"
+          STDOUT.flush
+        end
+        return Process.clock_gettime(Process::CLOCK_REALTIME)
+      end
       (t + @link_time_delta_micros) / 1_000_000.0
     end
 
@@ -310,12 +338,36 @@ module SonicPi
     end
 
     def update_link_time_delta!
+      # Bracket the RPC with monotonic reads: the engine samples its Link
+      # clock somewhere inside the round-trip, so the midpoint is the best
+      # wall-time estimate — and a slow round-trip means the sample's age is
+      # unknowable, so reject it. A delayed reply otherwise skews the delta
+      # by the delay, pushing every beat<->wall conversion (and thus every
+      # live loop) off by that much until the next good refresh.
+      mono_before = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       link_micros = link_current_time
+      mono_after  = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       # Skip on RPC failure (0); else delta becomes wall-clock-now and
       # corrupts conversions until the next good refresh.
       return if link_micros == 0
-      clock_micros = (Process.clock_gettime(Process::CLOCK_REALTIME, :microsecond))
-      @link_time_delta_micros = clock_micros - link_micros
+      rtt = mono_after - mono_before
+      if rtt > 0.05
+        STDOUT.puts "Spider - LINK DELTA refresh rejected: rtt #{(rtt * 1000).round}ms"
+        STDOUT.flush
+        return
+      end
+      clock_micros = Process.clock_gettime(Process::CLOCK_REALTIME, :microsecond)
+      new_delta = (clock_micros - (rtt * 500_000.0)).round - link_micros
+      old_delta = @link_time_delta_micros
+      # A step this large means the engine's Link clock re-anchored or
+      # something upstream is unhealthy. Apply it (it is still the best
+      # estimate) but log it, since it shifts the beat grid.
+      if old_delta != 0 && (new_delta - old_delta).abs > 100_000
+        STDOUT.puts "Spider - LINK DELTA STEP: #{((new_delta - old_delta) / 1000.0).round}ms " \
+                    "(old #{old_delta}, new #{new_delta})"
+        STDOUT.flush
+      end
+      @link_time_delta_micros = new_delta
     end
 
     def add_supersonic_link_handlers!
