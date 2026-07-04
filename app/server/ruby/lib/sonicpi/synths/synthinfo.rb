@@ -8083,7 +8083,7 @@ end
       end
 
       def doc
-        "This effect filters the input to match a human voice singing a certain vowel sound. Human singing voice sounds are easily achieved with a source of a saw wave with a little vibrato."
+        "This effect filters the input to imitate a human voice singing a vowel sound, using formant filters. It works best on rich, sustained tones (like a saw wave with a little vibrato) and gives a subtle vowel colouring rather than full speech synthesis. Use `vowel_sound:` to choose the vowel and `voice:` to choose the vocal register."
       end
     end
 
