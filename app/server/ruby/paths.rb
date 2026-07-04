@@ -47,10 +47,12 @@ module SonicPi
     end
 
     def self.root_path
+      return File.expand_path(ENV["SONIC_PI_ROOT"]) if ENV["SONIC_PI_ROOT"] && !ENV["SONIC_PI_ROOT"].empty?
       File.absolute_path("#{File.dirname(__FILE__)}/../../../")
     end
 
     def self.etc_path
+      return File.expand_path(ENV["SONIC_PI_ETC_PATH"]) if ENV["SONIC_PI_ETC_PATH"] && !ENV["SONIC_PI_ETC_PATH"].empty?
       File.absolute_path("#{root_path}/etc")
     end
     def self.snippets_path

@@ -849,7 +849,13 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
     m_paths[SonicPiPath::GUILogPath]          = m_paths[SonicPiPath::LogPath] / "gui.log";
 
     // Set built-in samples path
-    m_paths[SonicPiPath::SamplePath] = m_paths[SonicPiPath::RootPath] / "etc/samples/";
+    fs::path etcPath = m_paths[SonicPiPath::RootPath] / "etc";
+    auto pszEtc = std::getenv("SONIC_PI_ETC_PATH");
+    if (pszEtc != nullptr && pszEtc[0] != '\0')
+    {
+        etcPath = fs::path(pszEtc);
+    }
+    m_paths[SonicPiPath::SamplePath] = etcPath / "samples/";
 
     // Set Config paths
     m_paths[SonicPiPath::ConfigPath]              = m_paths[SonicPiPath::UserPath] / "config";

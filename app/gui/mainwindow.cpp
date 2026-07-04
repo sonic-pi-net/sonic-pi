@@ -1764,6 +1764,10 @@ void MainWindow::toggleComment(SonicPiScintilla* ws)
 
 QString MainWindow::rootPath()
 {
+    QByteArray envRoot = qgetenv("SONIC_PI_ROOT");
+    if (!envRoot.isEmpty())
+        return QString::fromLocal8Bit(envRoot);
+
     // diversity is the spice of life
 #if defined(Q_OS_MAC)
     return QCoreApplication::applicationDirPath() + "/../Resources";
