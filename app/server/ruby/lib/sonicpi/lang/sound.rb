@@ -1446,6 +1446,8 @@ play_pattern [40, 41, 42] # Same as:
 
 If the list of times is smaller than the number of notes, the list is repeated again. If the list of times is longer than the number of notes, then some of the times are ignored. See examples for more detail.
 
+By default each note's `sustain:` is stretched to fill the time until the next note, so the notes flow smoothly into each other (unlike a plain `play`, which uses its normal envelope and fades away). Set `sustain:` to `0` to keep the notes' normal envelopes. If you pass an explicit envelope opt such as `release:`, the total note duration is matched to the time instead.
+
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.",
           args:          [[:notes, :list], [:times, :list_or_number]],
           opts:          DEFAULT_PLAY_OPTS,
