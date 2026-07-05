@@ -1,0 +1,357 @@
+body {
+  font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Liberation Sans;
+  font-size: large;
+  color: #5e5e5e;
+  background-color: white;
+}
+
+ul.toc {
+  list-style-type: none;
+}
+
+a {
+  color: dodgerblue;
+  text-decoration: none;
+}
+
+em {
+  color: darkorange;
+}
+
+.asciilogo {
+    font-size: medium;
+    color: deeppink;
+}
+
+
+.highlight {
+    color: deeppink;
+}
+
+.error_description {
+    font-size: medium;
+    background-color: deeppink;
+    color: white;
+}
+
+.syntax_error_description {
+    font-size: medium;
+    background-color: dodgerblue;
+    color: white;
+}
+
+
+.backtrace {
+    font-size: small;
+    color: #5e5e5e;
+}
+
+.error_line {
+    font-size: large;
+    color: #5e5e5e;
+}
+
+.error_msg {
+    font-size: large;
+    color: deeppink;
+}
+
+pre {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+code {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+    color: deeppink;
+}
+
+code .symbol {
+  color: deeppink;
+}
+
+code .number {
+  color: dodgerblue;
+}
+
+code .keyword {
+  color: darkorange;
+}
+
+code .info {
+  color: gray;
+}
+
+.version {
+  font-size: small;
+}
+
+.strapline {
+  font-size: large;
+}
+
+.usage {
+    /* placeholder */
+}
+
+.usage code {
+  font-size: large;
+  color: black;
+  background-color: white;
+}
+
+h1 {
+  font-size: xx-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: deeppink;
+}
+
+h2 {
+  font-size: x-large;
+  font-weight: bold;
+  padding: 2px;
+  color: white;
+  background-color: dodgerblue;
+}
+
+body.info {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+body.info a {
+  color: deeppink;
+}
+
+body.example code {
+  font-size: large;
+  color: dodgerblue;
+}
+
+body.manual .introduced {
+  color: darkorange;
+  font-size: medium;
+}
+
+body.manual table.arguments td {
+    font-size: medium;
+    padding: 2px;
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+}
+
+body.manual table.arguments td.odd,
+body.manual table.arguments td.odd a {
+  background-color: #e8e8e8;
+  color: #5e5e5e;
+}
+
+body.manual table.arguments td.even,
+body.manual table.arguments td.even a {
+  background-color: #5e5e5e;
+  color: white;
+}
+
+body.manual table.details td {
+  padding: 8px;
+}
+
+body.manual table.details td.key {
+    font-family: "Hack", "Menlo", "Bitstream Vera Sans Mono", "DejaVu Sans Mono",  "Liberation Mono", "DroidSansMono", "Lucida Console", Consolas, Terminal, Monaco, "Courier New", monospace;
+  font-size: large;
+}
+
+body.manual table.details td.odd {
+  background-color: #f8f8f8;
+}
+
+body.manual table.details td.even {
+  background-color: #e8e8e8;
+}
+
+body.manual table.details td.odd.key {
+  background-color: #74acff;
+}
+
+body.manual table.details td.even.key {
+  background-color: #b2d1ff;
+}
+
+body.manual table.details .properties {
+  font-size: medium;
+  font-style: italic;
+}
+
+body.manual table.examples td {
+  padding: 8px;
+}
+
+body.manual table.examples code {
+  color: #5e5e5e;
+  font-size: medium;
+}
+
+body.manual table.examples td.odd {
+  background-color: #f8f8f8;
+}
+
+body.manual table.examples td.even {
+  background-color: #e8e8e8;
+}
+
+body.manual table.examples td.odd.head {
+  background-color: #74acff;
+}
+
+body.manual table.examples td.even.head {
+  background-color: #b2d1ff;
+}
+
+#contentss {
+    padding-right: 20px;
+}
+
+#contentss h2 {
+    margin-top: 30px;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 20px;
+}
+
+#contentss h1 {
+    margin-top: 200px;
+    margin-bottom: 20px;
+    padding: 20px 10px 20px 10px
+
+}
+
+#contentss strong {
+    font-style: italic;
+    color: #282828;
+}
+
+#contentss code {
+    font-size: 1em;
+
+}
+
+#contentss pre  {
+padding: 0.2em 0.9em;
+margin: 0;
+    background-color: rgba(27,31,35,0.05);
+border-radius: 3px;
+
+word-break: normal;
+white-space: pre;
+margin-bottom: 20px;
+border: 10px;
+border-color: black;
+white-space: pre;
+overflow-x: auto !important;
+width: 100%;
+
+}
+
+#contentss hr {
+    visibility: hidden;
+}
+
+#listingg > ul > li > a {
+    color: var(--sidebar-link);
+}
+
+#doc-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2em;
+    background-color: deeppink;
+    color: white;
+    font-size: 0.8em;
+}
+
+#doc-version {
+    color: white;
+    float: right;
+
+    padding-right: 25px;
+
+    display: inline;
+}
+
+#doc-nav {
+    display: inline;
+    float: left;
+    clear: none;
+    color: #282828;
+
+    text-align: left;
+
+    padding-left: 25px;
+
+}
+
+#doc-nav:hover {
+    color: white !important;
+}
+
+#contentss img {
+    max-width: 100%;
+}
+
+
+#contentss ul {
+    margin: 50px;
+    padding: 10px;
+    list-style-type: square;
+    list-style-position: outside;
+    list-style-image: none;
+}
+
+#contentss ol {
+    margin: 50px;
+    padding: 10px;
+    list-style-position: outside;
+    list-style-image: none;
+    list-style-type: decimal;
+
+}
+
+
+.hljs-string {
+    color: #61CE3C;
+
+}
+
+.hljs-symbol {
+    color: deeppink;
+
+}
+
+.hljs-number {
+    color: #1e90ff;
+
+}
+
+.hljs-keyword {
+    color: #ff8c00;
+
+
+}
+
+.hljs-params {
+
+}
+
+.hljs-comment {
+    font-style: italic;
+
+}
+
+.hljs {
+    color: #5e5e5e;
+
+}
+
+code span {
+    font-size: 1em;
+}

@@ -1,0 +1,91 @@
+/*
+ * Layout for the Sonic Pi web tutorial: a fixed table-of-contents sidebar
+ * on the left and scrolling content on the right, with a fixed footer bar.
+ * This is all the tutorial needs — it replaces the old site-wide skel /
+ * Miniport framework so the page is self-contained with no external assets.
+ */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+
+body {
+  font-family: "Helvetica Neue Light", HelveticaNeue-Light, "Helvetica Neue", "Liberation Sans", sans-serif;
+  font-size: large;
+  line-height: 1.4;
+}
+
+/* Two columns: fixed TOC sidebar, scrolling content. */
+#listingg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#contentss {
+  margin-left: 30%;
+  padding: 20px 30px 60px 30px;
+}
+
+/* Table of contents. */
+#listingg ul.toc {
+  list-style: none;
+  margin: 2px 0;
+  padding-left: 14px;
+}
+#listingg ul.toc.top-level { padding-left: 0; }
+#listingg a { text-decoration: none; line-height: 1.5; }
+
+/* Logo at the top of the content (visibility handled per-theme in themes.css). */
+#contentss .logo-light,
+#contentss .logo-dark { margin: 8px 0 24px 0; }
+
+/* Content headings (no giant top gap — that was for the old fixed header). */
+#contentss h1 { margin-top: 48px; }
+#contentss h1:first-of-type { margin-top: 0; }
+
+/* Copy-to-clipboard button, pinned to the top-right of each code block. */
+#contentss pre { position: relative; }
+.copy-button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font: inherit;
+  font-size: 0.72em;
+  cursor: pointer;
+  background: deeppink;
+  color: white;
+  border: 0;
+  padding: 3px 9px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+#contentss pre:hover .copy-button { opacity: 0.9; }
+.copy-button:hover { opacity: 1 !important; }
+
+/* Fixed footer bar. */
+#doc-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 4px 16px;
+  font-size: 0.85em;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+#doc-version { margin-left: auto; }
+#doc-nav { text-decoration: none; }
+
+/* Small screens: stack the TOC above the content, unpin the footer. */
+@media (max-width: 820px) {
+  #listingg { position: static; width: 100%; height: auto; }
+  #contentss { margin-left: 0; }
+  #doc-footer { position: static; flex-wrap: wrap; }
+}

@@ -1,0 +1,93 @@
+/*
+ * Colour themes for the Sonic Pi web tutorial.
+ * Light / Dark / High Contrast, matching the Sonic Pi editor's own themes
+ * (colours lifted from app/gui/theme/{light,dark,high_contrast}/doc-styles.css).
+ * Loaded last so its variable-driven rules win over the base stylesheets.
+ * Theme is selected by the data-theme attribute on <html> (see js/theme.js).
+ */
+
+:root {
+  --bg: white;                     --fg: #5e5e5e;
+  --link: dodgerblue;              --em: darkorange;
+  --sidebar-bg: #ededed;           --sidebar-fg: #282828;   --sidebar-link: deeppink;
+  --pre-bg: rgba(27,31,35,0.05);
+  --footer-bg: deeppink;           --footer-fg: white;
+  --code-base: #5e5e5e;            --code-string: #61CE3C;  --code-symbol: deeppink;
+  --code-number: #1e90ff;          --code-keyword: #ff8c00; --code-comment: #6a737d;
+}
+
+:root[data-theme="dark"] {
+  --bg: #000;                      --fg: #e6e6e6;
+  --link: #FBDE2D;                 --em: darkorange;
+  --sidebar-bg: #1a1a1a;           --sidebar-fg: #dcdcdc;   --sidebar-link: #FBDE2D;
+  --pre-bg: rgba(255,255,255,0.08);
+  --footer-bg: deeppink;           --footer-fg: white;
+  --code-base: #d4d4d4;            --code-string: #61CE3C;  --code-symbol: deeppink;
+  --code-number: #5d99f3;          --code-keyword: darkorange; --code-comment: #808080;
+}
+
+:root[data-theme="hc"] {
+  --bg: white;                     --fg: #2B2B2B;
+  --link: #003CC7;                 --em: #4F4303;
+  --sidebar-bg: #f0f0f0;           --sidebar-fg: #2B2B2B;   --sidebar-link: #003CC7;
+  --pre-bg: #f0f0f0;
+  --footer-bg: #99004A;            --footer-fg: white;
+  --code-base: #2B2B2B;            --code-string: #006400;  --code-symbol: #99004A;
+  --code-number: #003CC7;          --code-keyword: #4F4303; --code-comment: #595959;
+}
+
+/* Apply the variables. */
+body                { background-color: var(--bg); color: var(--fg); }
+a                   { color: var(--link); }
+em                  { color: var(--em); }
+#listingg           { background-color: var(--sidebar-bg); }
+#listingg a         { color: var(--sidebar-fg); }
+#contentss pre      { background-color: var(--pre-bg); }
+#doc-footer         { background-color: var(--footer-bg); }
+#doc-footer, #doc-nav, #doc-version { color: var(--footer-fg); }
+
+.hljs               { color: var(--code-base); }
+.hljs-string        { color: var(--code-string); }
+.hljs-symbol        { color: var(--code-symbol); }
+.hljs-number        { color: var(--code-number); }
+.hljs-keyword       { color: var(--code-keyword); }
+.hljs-comment       { color: var(--code-comment); font-style: italic; }
+
+/* Logo: show the light-wordmark variant normally, the white one in dark mode. */
+#contentss .logo-light { display: block; }
+#contentss .logo-dark  { display: none; }
+:root[data-theme="dark"] #contentss .logo-light { display: none; }
+:root[data-theme="dark"] #contentss .logo-dark  { display: block; }
+
+/* Keep the logo at its native size rather than stretching it to the full
+   content width (which upscales the 328px source and blurs it). */
+#contentss .image.fit img { width: auto; max-width: 320px; height: auto; }
+
+/* Theme switcher in the footer bar: a single segmented control. */
+#theme-switch {
+  display: inline-flex;
+  vertical-align: middle;
+  border: 1px solid var(--footer-fg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+#theme-switch button {
+  -webkit-appearance: none;
+  appearance: none;
+  font: inherit;
+  font-size: 0.85em;
+  cursor: pointer;
+  background: transparent;
+  color: var(--footer-fg);
+  border: 0;
+  border-left: 1px solid var(--footer-fg);
+  padding: 1px 10px;
+  opacity: 0.7;
+}
+#theme-switch button:first-child { border-left: 0; }
+#theme-switch button:hover { opacity: 1; }
+#theme-switch button[aria-pressed="true"] {
+  opacity: 1;
+  font-weight: bold;
+  background: rgba(255,255,255,0.22);
+}
