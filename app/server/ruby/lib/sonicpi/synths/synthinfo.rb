@@ -5033,7 +5033,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
 
           :lpf =>
           {
-            :doc => "Low pass filter cutoff value. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy.",
+            :doc => "Low pass filter cutoff value. A MIDI note representing the highest frequencies allowed to be present in the sound. A low value like 30 makes the sound round and dull, a high value like 100 makes the sound buzzy and crispy. This option is also available as `cutoff:` (the two are aliases).",
             :validations => [v_positive(:lpf), v_less_than(:lpf, 131)],
             :modulatable => true,
             :midi => true
