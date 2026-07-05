@@ -141,11 +141,18 @@ Next we run the build-all script for Linux:
 
 ## 4. Start Sonic Pi
 
-Finally, you can run your newly compiled `Sonic Pi` app within the `build`
-directly either by double clicking it in your file manager or via the terminal
+Finally, you can run your newly compiled `Sonic Pi` app. From the `app`
+directory you built in, the executable lives at `build/gui/sonic-pi`:
 
 ```
-./sonic-pi
+./build/gui/sonic-pi
+```
+
+There's also a convenience launcher in the repository root that starts the
+same executable:
+
+```
+bin/sonic-pi
 ```
 
 
