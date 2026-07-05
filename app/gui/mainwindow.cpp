@@ -3440,7 +3440,7 @@ QString MainWindow::tooltipStrMeta(const QString& key, const QString& str)
 
 void MainWindow::updateAction(QAction* action, const QString& desc)
 {
-    QString shortcutDesc = action->shortcut().toString(QKeySequence::PortableText);
+    QString shortcutDesc = action->shortcut().toString(QKeySequence::NativeText);
     // Tooltip is the description alone: the tooltip popup renders the
     // action's shortcut as a separate key-cap chip (see sonicpitooltip.h).
     action->setToolTip(desc);
