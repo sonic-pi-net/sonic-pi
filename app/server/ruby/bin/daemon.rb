@@ -671,7 +671,11 @@ module SonicPi
         "-l" => "1",
         "-b" => "4096",
         "-B" => "127.0.0.1",
-        "-Z" => "1024"
+        "-Z" => "1024",
+        # Sonic Pi's default tempo. Seeded at SuperSonic boot (not a post-boot
+        # OSC tempo set) so bpm and beat origin are consistent from the first
+        # clock read — SuperSonic's own default is 120.
+        "--default-bpm" => "60"
       }.freeze
 
       OPTS_TOML_KEY_CONVERSION = {
