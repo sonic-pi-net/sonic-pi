@@ -516,8 +516,11 @@ protected:
     void mouseReleaseEvent(QMouseEvent*) override { if (m_onAccept) m_onAccept(); }
 
 private:
+    // Faithful to m_value: show the actual held value, not a 2dp approximation, so
+    // the number always matches the handle (`0.125` stays `0.125`, never `0.13`).
+    // Trailing zeros are trimmed; 'f',6 also absorbs float noise (0.1+0.2 → 0.3).
     static QString fmt(double v) {
-        QString s = QString::number(v, 'f', 2);
+        QString s = QString::number(v, 'f', 6);
         if (s.contains('.')) { while (s.endsWith('0')) s.chop(1); if (s.endsWith('.')) s.chop(1); }
         return s;
     }
@@ -528,7 +531,15 @@ private:
     void setValueFromX(int x) {
         const QRectF tr = trackRect();
         const double frac = qBound(0.0, (x - tr.left()) / tr.width(), 1.0);
-        setValue(m_min + frac * (m_max - m_min));
+        double v = m_min + frac * (m_max - m_min);
+        // Snap to a clean grid (~1/100 of the range) so a dragged value reads tidily
+        // now that fmt() no longer rounds: 0.01 for pan/amp, 1 for cutoff, 100 for Hz.
+        const double range = m_max - m_min;
+        if (range > 0) {
+            const double grid = std::pow(10.0, std::floor(std::log10(range)) - 2.0);
+            v = std::round(v / grid) * grid;
+        }
+        setValue(v);
     }
     // A clean round increment (1/2/5 ×10ⁿ) ~1/40 of the range, so linear nudges
     // keep the value tidy (e.g. 0.05, not 0.025).

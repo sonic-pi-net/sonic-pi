@@ -149,6 +149,10 @@ private:
     // preceding one; sets `replaceStart` to where the replacement begins
     // (eating intervening whitespace when a separator is added).
     QString argSeparatorBefore(const QStringList& context, int wordStart, int& replaceStart);
+    // Buffer pos at the end of the token the caret sits in — extends past the caret
+    // over trailing token chars so a caret mid-word/number (`lpf: 7|0`) completes and
+    // replaces the whole token, not just the part before the caret.
+    int tokenEndForCaret(int pos);
     int m_pvStart = -1;        // buffer pos of the previewed word (-1 = inactive)
     int m_pvLen = 0;           // current length of the previewed text
     QString m_pvRestore;       // what clearPreview() puts back (filter / current value)

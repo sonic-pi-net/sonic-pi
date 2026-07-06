@@ -9,6 +9,16 @@
 
 using SonicPi::LineScan;
 using SonicPi::scanLineToCaret;
+using SonicPi::tokenEndAtCaret;
+using SonicPi::lineToContext;
+
+// The partial being completed = the last token lineToContext produces. text(line)
+// from the editor arrives WITH its trailing newline, so these cases include it.
+static QString partialAt(const QString& line, int caret)
+{
+    const QStringList ctx = lineToContext(line, caret);
+    return ctx.isEmpty() ? QString() : ctx.last();
+}
 
 TEST_CASE("plain code is neither string nor comment", "[completion][scan]")
 {
@@ -90,4 +100,39 @@ TEST_CASE("scan stops at the caret column, ignoring text after it", "[completion
     const QString line = "cue \"x\" play";   // caret placed INSIDE the first string
     const LineScan s = scanLineToCaret(line, 6); // between the x and the closing quote
     CHECK(s.inString);
+}
+
+TEST_CASE("tokenEndAtCaret extends over the token around the caret", "[completion][token]")
+{
+    // Caret in the middle of a number/word sees the whole token, not just what's
+    // before it: `lpf: 7|0` completes 70, not 7.
+    CHECK(tokenEndAtCaret("lpf: 70", 6) == 7);   // between 7 and 0
+    CHECK(tokenEndAtCaret("lpf: 70", 5) == 7);   // just after the space
+    CHECK(tokenEndAtCaret("sample :ambi_choir", 11) == 18);  // inside the symbol
+}
+
+TEST_CASE("tokenEndAtCaret stops at separators, including the newline", "[completion][token]")
+{
+    // The regression: text(linenum) carries a trailing newline. A caret at end of
+    // line must NOT extend across it (that made the partial "\n" and shoved the
+    // completion span back onto the preceding space, gluing `pan:0.5`).
+    CHECK(tokenEndAtCaret("pan: \n", 5) == 5);       // caret after space, before \n
+    CHECK(tokenEndAtCaret("pan: 0.5\n", 8) == 8);    // caret after value, before \n
+    CHECK(tokenEndAtCaret("pan: \r\n", 5) == 5);     // CRLF too
+    CHECK(tokenEndAtCaret("lpf: 70,pan", 7) == 7);   // stops at the comma
+}
+
+TEST_CASE("partial is the whole token around a mid-token caret", "[completion][token]")
+{
+    CHECK(partialAt("lpf: 70", 6) == "70");
+    CHECK(partialAt("sample :ambi_choir", 11) == ":ambi_choir");
+}
+
+TEST_CASE("end-of-line partial is empty despite the trailing newline", "[completion][token]")
+{
+    // With the caret right after `pan: ` the partial is empty (a fresh value slot),
+    // NOT "\n" — the bug that ate the space after the opt colon.
+    CHECK(partialAt("sample :ambi_choir, pan: \n", 25) == "");
+    CHECK(partialAt("pan: \n", 5) == "");
+    CHECK(partialAt("sample :ambi_choir, pan: 0.5\n", 28) == "0.5");
 }

@@ -505,6 +505,22 @@ QStringList SonicPiScintilla::apiContext(int pos, int& context_start,
     return SonicPi::lineToContext(text(linenum), cursor);
 }
 
+int SonicPiScintilla::tokenEndForCaret(int pos)
+{
+    const int len = SendScintilla(SCI_GETLENGTH);
+    int end = pos;
+    while (end < len)
+    {
+        const char c = (char)SendScintilla(SCI_GETCHARAT, end);
+        if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == ',' ||
+            c == '(' || c == ')' || c == '{' || c == '}' ||
+            c == '[' || c == ']' || c == '"' || c == '\'' || c == '#')
+            break;
+        ++end;
+    }
+    return end;
+}
+
 int SonicPiScintilla::incLineNumWithinBounds(int linenum, int inc)
 {
     mutex->lock();
@@ -1079,7 +1095,8 @@ void SonicPiScintilla::updateCompletion(bool force)
     codeFont.setPointSizeF(qBound(8.0, zoomed * 0.82, 15.0));
     m_completion->setItemFont(codeFont, zoomed - kDocFontOffset);
 
-    int wordStart = pos - partial.length();
+    const int tokenEnd = tokenEndForCaret(pos);
+    int wordStart = tokenEnd - partial.length();
     int x = SendScintilla(SCI_POINTXFROMPOSITION, 0, wordStart);
     int y = SendScintilla(SCI_POINTYFROMPOSITION, 0, pos);
     int line = SendScintilla(SCI_LINEFROMPOSITION, pos);
@@ -1098,7 +1115,7 @@ void SonicPiScintilla::updateCompletion(bool force)
     int sepStart;
     m_pvPrefix = nowSlider ? QString() : argSeparatorBefore(context, wordStart, sepStart);
     if (m_pvPrefix.isEmpty()) sepStart = wordStart;
-    const QString original = text(sepStart, pos);   // whitespace + typed partial
+    const QString original = text(sepStart, tokenEnd);   // whitespace + typed partial
     if (m_pvStart < 0 || nowSlider != m_pvSlider) m_pvOriginal = original;
     m_pvStart = sepStart;
     m_pvLen = original.length();
@@ -1163,11 +1180,12 @@ void SonicPiScintilla::acceptCompletion()
     int context_start, last_word_start;
     QStringList context = apiContext(pos, context_start, last_word_start);
     QString partial = context.isEmpty() ? QString() : context.last();
-    int wordStart = pos - partial.length();
+    const int tokenEnd = tokenEndForCaret(pos);
+    int wordStart = tokenEnd - partial.length();
 
     int selStart;
     QString insert = argSeparatorBefore(context, wordStart, selStart) + chosen;
-    SendScintilla(SCI_SETSEL, selStart, pos);
+    SendScintilla(SCI_SETSEL, selStart, tokenEnd);
     replaceSelectedText(insert);
 }
 

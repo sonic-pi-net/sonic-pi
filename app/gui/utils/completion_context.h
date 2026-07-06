@@ -25,6 +25,12 @@ struct LineScan {
 // next char; '#' outside a string begins a comment to end of line.
 LineScan scanLineToCaret(const QString& line, int caretCol);
 
+// Extend a caret column forward to the end of the token it sits inside, so a caret
+// in the middle of a word/number sees the whole token (`lpf: 7|0` → "70", not "7").
+// Advances over token chars — anything that isn't a separator (space, tab, comma,
+// bracket, quote, '#'). Returns caretCol unchanged when the next char is a separator.
+int tokenEndAtCaret(const QString& line, int caretCol);
+
 // Reduce a line (considered up to caretCol) to the completion context token list
 // — the same reduction the editor uses: drop up to the last top-level statement
 // modifier/operator, resolve to the innermost call, split into tokens (the last

@@ -27,9 +27,24 @@ LineScan scanLineToCaret(const QString& line, int caretCol)
     return s;
 }
 
+static bool isTokenSeparator(QChar c)
+{
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == ',' ||
+           c == '(' || c == ')' || c == '{' || c == '}' ||
+           c == '[' || c == ']' || c == '"' || c == '\'' || c == '#';
+}
+
+int tokenEndAtCaret(const QString& line, int caretCol)
+{
+    int end = caretCol < 0 ? 0 : caretCol;
+    if (end > line.length()) end = line.length();
+    while (end < line.length() && !isTokenSeparator(line[end])) ++end;
+    return end;
+}
+
 QStringList lineToContext(const QString& fullLine, int caretCol)
 {
-    QString line = fullLine.left(caretCol < 0 ? 0 : caretCol);
+    QString line = fullLine.left(tokenEndAtCaret(fullLine, caretCol));
 
     // A trailing statement modifier or operator (`... if cond`, `unless`, `while`,
     // `until`, `and`, `or`, `then`, `do`, `;`, `&&`, `||`) ends the call's argument
