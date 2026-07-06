@@ -26,7 +26,6 @@
 #include "thinsplitter.h"
 
 class QLabel;
-class QProgressBar;
 
 class QTimer;
 class QShowEvent;
@@ -94,13 +93,6 @@ private:
         const void* def;     // const RowDef* (opaque to the header)
         QLabel* value;
         QString lastHtml;
-    };
-    struct BarRowUi
-    {
-        const void* def;     // const RowDef*
-        QProgressBar* bar;
-        QLabel* text;
-        QString lastText;
     };
 
     // Private read cursor for passively tailing a transport ring (we never
@@ -192,7 +184,6 @@ private:
     QColor m_borderColor;
 
     QVector<ValueRowUi> m_valueRows;
-    QVector<BarRowUi> m_barRows;
     QVector<QLabel*> m_rowLabels; // row labels + card titles, recoloured on theme change
 
     QTextEdit* m_oscOutView = nullptr;   // OSC host→engine (what Sonic Pi sent)

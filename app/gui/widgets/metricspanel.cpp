@@ -32,7 +32,6 @@
 #include <QBrush>
 #include <QEasingCurve>
 #include <QFont>
-#include <QFontMetrics>
 #include <QFrame>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -40,7 +39,6 @@
 #include <QHideEvent>
 #include <QHostAddress>
 #include <QLabel>
-#include <QProgressBar>
 #include <QResizeEvent>
 #include <QScrollArea>
 #include <QScrollBar>
@@ -116,7 +114,7 @@ constexpr int kRefreshMs = 150;
 constexpr int kCardMinW = 112;
 
 // Ring capacities, mirrored from external/supersonic/src/memory_profile.h
-// (IN/OUT/NRT_OUT_BUFFER_SIZE); used to scale the level bars.
+// (IN/OUT/NRT_OUT_BUFFER_SIZE); used to scale the ring usage % readouts.
 constexpr uint32_t kInBufferCap = 786432;  // 768 KB
 constexpr uint32_t kOutBufferCap = 131072; // 128 KB
 constexpr uint32_t kNrtOutBufferCap = 65536; // 64 KB
@@ -136,15 +134,7 @@ enum Kind
     K_Normal,
     K_Muted,
     K_Dim,
-    K_Green,
     K_Error
-};
-
-enum BarColor
-{
-    BC_Blue,
-    BC_Green,
-    BC_Purple
 };
 
 struct Seg
@@ -161,13 +151,13 @@ struct Seg
 struct RowDef
 {
     const char* label;
-    bool isBar;
-    std::vector<Seg> segs; // value row
-    // bar row:
+    std::vector<Seg> segs;
+    // Ring usage rows (in/out/nrt) render "used% / peak%" computed from these
+    // fields against the ring capacity, instead of formatting `segs`. cap == 0
+    // marks a plain value row.
     int usedField;
     int peakField;
     uint32_t cap;
-    BarColor barColor;
     const char* tip;   // tooltip body explaining the metric (untranslated,
                        // like the row labels — this is a developer panel)
 };
@@ -186,11 +176,12 @@ Seg T(const char* t, Kind k = K_Muted) { return Seg{ true, t, -1, F_Plain, k, fa
 
 RowDef ValRow(const char* label, std::vector<Seg> segs, const char* tip = "")
 {
-    return RowDef{ label, false, std::move(segs), -1, -1, 0, BC_Blue, tip };
+    return RowDef{ label, std::move(segs), -1, -1, 0, tip };
 }
-RowDef BarRow(const char* label, int used, int peak, uint32_t cap, BarColor c, const char* tip = "")
+// Ring usage % readout: "used% / peak%" of the ring capacity (no bar graphic).
+RowDef PctRow(const char* label, int used, int peak, uint32_t cap, const char* tip = "")
 {
-    return RowDef{ label, true, {}, used, peak, cap, c, tip };
+    return RowDef{ label, {}, used, peak, cap, tip };
 }
 
 // Field indices match the struct order in shared_memory.h; late-ms fields
@@ -229,18 +220,15 @@ const std::vector<PanelDef>& panelLayout()
                    composite("oscSentCountBytes")),
             ValRow("recv", { V(11), T(" | "), V(12, K_Muted, F_Bytes) },
                    composite("oscRecvCountBytes")),
-            BarRow("in", 17, 20, kInBufferCap, BC_Blue,
-                   composite("inRingUsedPeak")),
-            BarRow("out", 18, 21, kOutBufferCap, BC_Green,
-                   composite("outRingUsedPeak")),
-            BarRow("nrt", 19, 22, kNrtOutBufferCap, BC_Purple,
-                   composite("nrtRingUsedPeak")) } },
+            PctRow("in", 17, 20, kInBufferCap, composite("inRingUsedPeak")),
+            PctRow("out rt", 18, 21, kOutBufferCap, composite("outRingUsedPeak")),
+            PctRow("out nrt", 19, 22, kNrtOutBufferCap, composite("nrtRingUsedPeak")) } },
         { "Buffers",
           { ValRow("synthdefs", { Vn(kFieldSynthDefs) }),
-            ValRow("buffers", { Vn(kFieldBuffers, K_Green) }),
+            ValRow("buffers", { Vn(kFieldBuffers) }),
             ValRow("buf bytes", { Vn(kFieldBufferBytes, K_Muted, F_Bytes) }) } },
         { "Link",
-          { ValRow("peers", { V(27, K_Green) }),
+          { ValRow("peers", { V(27) }),
             ValRow("tempo", { V(28, K_Normal, F_MilliBpm), T(" bpm") }),
             ValRow("beat", { V(29, K_Dim, F_Centi) }),
             ValRow("phase", { V(30, K_Dim, F_Centi) }),
@@ -251,7 +239,7 @@ const std::vector<PanelDef>& panelLayout()
             ValRow("underruns", { V(34, K_Error) }),
             ValRow("buffered", { V(35, K_Dim), T(" ms") }),
             ValRow("drift", { V(36, K_Dim, F_Signed), T(" ppm") }),
-            ValRow("publish", { V(37, K_Green), T(" | "), V(38, K_Muted), T(" sinks") },
+            ValRow("publish", { V(37), T(" | "), V(38, K_Muted), T(" sinks") },
                    composite("linkAudioPublishSinks")) } },
         { "Engine",
           { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) },
@@ -310,21 +298,6 @@ QColor blend(const QColor& a, const QColor& b, double t)
                   int(a.blue() * t + b.blue() * (1 - t)));
 }
 
-// Bar fill hue from the theme palette (hex is the pre-theme fallback).
-QString barChunkColor(BarColor c, SonicPiTheme* t)
-{
-    switch (c)
-    {
-    case BC_Green:
-        return t ? t->color("DoubleQuotedStringForeground").name() : QStringLiteral("#9ece6a");
-    case BC_Purple:
-        return t ? t->color("FunctionMethodNameForeground").name() : QStringLiteral("#bb9af7");
-    case BC_Blue:
-    default:
-        return t ? t->color("NumberForeground").name() : QStringLiteral("#7aa2f7");
-    }
-}
-
 QFont makeMonoFont()
 {
     QFont mono("Hack", 8, -1, false);
@@ -381,8 +354,6 @@ QColor MetricsPanel::kindColor(int kind) const
         return blend(m_textColor, m_bgColor, 0.45);
     case K_Dim:
         return blend(m_textColor, m_bgColor, 0.70);
-    case K_Green:
-        return m_theme ? m_theme->color("DoubleQuotedStringForeground") : QColor("#9ece6a");
     case K_Error:
         // K_Error renders as normal text (no red).
         return m_textColor;
@@ -438,10 +409,10 @@ void MetricsPanel::buildUi()
         const char* tip = (row.tip && *row.tip) ? row.tip : nullptr;
         if (!tip)
         {
-            int f = row.usedField; // bar rows
-            if (!row.isBar)
-            {
-                f = -1;
+            int f = -1;
+            if (row.cap > 0)   // ring usage % row
+                f = row.usedField;
+            else
                 for (const Seg& seg : row.segs)
                 {
                     if (!seg.isText)
@@ -450,7 +421,6 @@ void MetricsPanel::buildUi()
                         break;
                     }
                 }
-            }
             if (f >= kFieldSynthDefs)
                 tip = supersonic::metrics_schema::descriptionForNativeStat(f - kFieldSynthDefs);
             else if (f >= 0)
@@ -474,41 +444,16 @@ void MetricsPanel::buildUi()
         m_rowLabels.append(lbl);
         rows->addWidget(lbl, r, 0, Qt::AlignLeft);
 
-        if (row.isBar)
-        {
-            auto* bar = new QProgressBar;
-            bar->setRange(0, 1000);
-            bar->setTextVisible(false);
-            bar->setFixedHeight(5);
-            bar->setMaximumWidth(ScaleHeightForDPI(60));
-            applyTip(bar);
-            rows->addWidget(bar, r, 1, Qt::AlignLeft | Qt::AlignVCenter);
-            auto* txt = new QLabel;
-            txt->setFont(mono);
-            applyTip(txt);
-            txt->setTextFormat(Qt::RichText);
-            txt->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-            // Reserve width for the widest reading so the card doesn't jitter as
-            // the used/peak digit counts change.
-            QFont vf = mono; vf.setPixelSize(11);
-            txt->setMinimumWidth(QFontMetrics(vf).horizontalAdvance(
-                QStringLiteral("100.0 / 100.0%")));
-            rows->addWidget(txt, r, 2, Qt::AlignRight);
-            m_barRows.append({ &row, bar, txt, QString() });
-        }
-        else
-        {
-            auto* val = new QLabel;
-            val->setFont(mono);
-            applyTip(val);
-            val->setTextFormat(Qt::RichText);
-            val->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-            // Don't let the value's width drive the card width — otherwise a digit
-            // crossing (e.g. 9→10, or a growing counter) reflows the whole grid.
-            val->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-            rows->addWidget(val, r, 1, 1, 2, Qt::AlignRight);
-            m_valueRows.append({ &row, val, QString() });
-        }
+        auto* val = new QLabel;
+        val->setFont(mono);
+        applyTip(val);
+        val->setTextFormat(Qt::RichText);
+        val->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        // Don't let the value's width drive the card width — otherwise a digit
+        // crossing (e.g. 9→10, or a growing counter) reflows the whole grid.
+        val->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+        rows->addWidget(val, r, 1, 1, 2, Qt::AlignRight);
+        m_valueRows.append({ &row, val, QString() });
     };
 
     // Build the cards; their placement in the grid is done by reflowMetricsGrid
@@ -1127,33 +1072,25 @@ void MetricsPanel::updateNodeTree()
 
 void MetricsPanel::renderDisconnected()
 {
-    const QString dash = QString("<span style=\"color:%1\">-</span>").arg(kindColor(K_Muted).name());
     for (ValueRowUi& ui : m_valueRows)
     {
         const RowDef* def = static_cast<const RowDef*>(ui.def);
         QString html;
-        for (const Seg& s : def->segs)
-        {
-            if (s.isText)
-                html += QString("<span style=\"color:%1\">%2</span>")
-                            .arg(kindColor(s.kind).name(), QString::fromUtf8(s.text).toHtmlEscaped());
-            else
-                html += QString("<span style=\"color:%1\">-</span>").arg(kindColor(s.kind).name());
-        }
+        if (def->cap > 0)   // ring usage % row
+            html = QString("<span style=\"color:%1\">-</span>").arg(kindColor(K_Muted).name());
+        else
+            for (const Seg& s : def->segs)
+            {
+                if (s.isText)
+                    html += QString("<span style=\"color:%1\">%2</span>")
+                                .arg(kindColor(s.kind).name(), QString::fromUtf8(s.text).toHtmlEscaped());
+                else
+                    html += QString("<span style=\"color:%1\">-</span>").arg(kindColor(s.kind).name());
+            }
         if (html != ui.lastHtml)
         {
             ui.value->setText(html);
             ui.lastHtml = html;
-        }
-    }
-    for (BarRowUi& ui : m_barRows)
-    {
-        ui.bar->setValue(0);
-        const QString t = dash;
-        if (t != ui.lastText)
-        {
-            ui.text->setText(t);
-            ui.lastText = t;
         }
     }
     // Drop ring cursors so a reconnect re-primes at the live head (no replay).
@@ -1192,46 +1129,39 @@ void MetricsPanel::refresh()
     {
         const RowDef* def = static_cast<const RowDef*>(ui.def);
         QString html;
-        for (const Seg& s : def->segs)
+        if (def->cap > 0)   // ring usage % readout: "used% / peak%"
         {
-            QString piece;
-            if (s.isText)
-                piece = QString::fromUtf8(s.text).toHtmlEscaped();
-            else if (s.na || s.field < 0 || s.field >= kPanelFieldCount)
-                piece = QStringLiteral("-");
-            else if (s.nativeOnly && !nativeOk)
-                piece = QStringLiteral("-");
-            else
-                piece = formatField(v[s.field], s.fmt);
+            const uint32_t used = (def->usedField >= 0) ? v[def->usedField] : 0;
+            const uint32_t peak = (def->peakField >= 0) ? v[def->peakField] : 0;
+            const double cap = double(def->cap);
+            const double usedPct = (used / cap) * 100.0;
+            const double peakPct = (peak / cap) * 100.0;
+            html = QString("<span style=\"color:%1\">%2</span>"
+                           "<span style=\"color:%3\"> / %4%</span>")
+                       .arg(kindColor(K_Normal).name(), QString::number(usedPct, 'f', 1),
+                            kindColor(K_Muted).name(), QString::number(peakPct, 'f', 1));
+        }
+        else
+        {
+            for (const Seg& s : def->segs)
+            {
+                QString piece;
+                if (s.isText)
+                    piece = QString::fromUtf8(s.text).toHtmlEscaped();
+                else if (s.na || s.field < 0 || s.field >= kPanelFieldCount)
+                    piece = QStringLiteral("-");
+                else if (s.nativeOnly && !nativeOk)
+                    piece = QStringLiteral("-");
+                else
+                    piece = formatField(v[s.field], s.fmt);
 
-            html += QString("<span style=\"color:%1\">%2</span>").arg(kindColor(s.kind).name(), piece);
+                html += QString("<span style=\"color:%1\">%2</span>").arg(kindColor(s.kind).name(), piece);
+            }
         }
         if (html != ui.lastHtml)
         {
             ui.value->setText(html);
             ui.lastHtml = html;
-        }
-    }
-
-    for (BarRowUi& ui : m_barRows)
-    {
-        const RowDef* def = static_cast<const RowDef*>(ui.def);
-        const uint32_t used = (def->usedField >= 0) ? v[def->usedField] : 0;
-        const uint32_t peak = (def->peakField >= 0) ? v[def->peakField] : 0;
-        const double cap = def->cap > 0 ? double(def->cap) : 0.0;
-        const double usedPct = cap > 0 ? (used / cap) * 100.0 : 0.0;
-        const double peakPct = cap > 0 ? (peak / cap) * 100.0 : 0.0;
-
-        ui.bar->setValue(int(usedPct * 10.0));  // styling is set once in applyTheme
-
-        const QString t = QString("<span style=\"color:%1\">%2</span>"
-                                  "<span style=\"color:%3\"> / %4%</span>")
-                              .arg(kindColor(K_Normal).name(), QString::number(usedPct, 'f', 1),
-                                   kindColor(K_Muted).name(), QString::number(peakPct, 'f', 1));
-        if (t != ui.lastText)
-        {
-            ui.text->setText(t);
-            ui.lastText = t;
         }
     }
 
@@ -1358,21 +1288,9 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
                                 theme->color("KeywordForeground"),            // fx     (yellow)
                                 theme->color("DoubleQuotedStringForeground"));// sample (green)
 
-    // Bar chrome is theme-static, so it's applied here rather than in refresh().
-    for (BarRowUi& ui : m_barRows)
-    {
-        const RowDef* def = static_cast<const RowDef*>(ui.def);
-        ui.bar->setStyleSheet(QString("QProgressBar{background:%1;border:1px solid %2;border-radius:2px;}"
-                                      "QProgressBar::chunk{background:%3;border-radius:2px;}")
-                                  .arg(m_bgColor.name(), m_borderColor.name(),
-                                       barChunkColor(def->barColor, m_theme)));
-    }
-
     // Re-render with the new palette on the next tick by clearing the diff cache.
     for (ValueRowUi& ui : m_valueRows)
         ui.lastHtml.clear();
-    for (BarRowUi& ui : m_barRows)
-        ui.lastText.clear();
     m_lastTreeVersion = 0xFFFFFFFFu;  // force legend (colours) to re-render
 
     if (isVisible())
