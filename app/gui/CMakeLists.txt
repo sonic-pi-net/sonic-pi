@@ -549,7 +549,7 @@ target_link_libraries(${APP_NAME}
 # Compile options and OS specific libraries
 if(WIN32)
     # Workaround Qt + MSVC 19 compile issue in release build.
-    target_compile_options(${APP_NAME} PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/wd4005 /W3 /D_CRT_SECURE_NO_WARNINGS /D_WINSOCK_DEPRECATED_NO_WARNINGS /DBOOST_DATE_TIME_NO_LIB>)
+    target_compile_options(${APP_NAME} PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/bigobj /wd4005 /W3 /D_CRT_SECURE_NO_WARNINGS /D_WINSOCK_DEPRECATED_NO_WARNINGS /DBOOST_DATE_TIME_NO_LIB>)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
     # Link librt
     target_link_libraries(${APP_NAME} PRIVATE rt)
