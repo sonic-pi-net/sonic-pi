@@ -103,6 +103,15 @@ module SonicPi
             current_spider_time_lambda = lambda { __get_spider_time }
             @mod_sound_studio = Studio.new(ports, msg_queue, @system_state, @register_cue_event_lambda, current_spider_time_lambda)
 
+            # Studio.new blocked on wait_for_boot, so SuperSonic is now up and
+            # listening. Subscribe the always-on notify channels here rather than
+            # in the API constructors, which run before the engine's UDP port
+            # exists — those subscribes are silently dropped. MIDI and gamepad are
+            # gated on their enable prefs (which only the GUI knows), so the GUI
+            # drives their subscribe via /midi-start / /gamepad-start.
+            @link_api.link_system_start!
+            @osc_api.osc_system_start!
+
             buf_lookup = lambda do |name, duration=nil|
               # scale duration to the current BPM
               duration ||= 8

@@ -26,14 +26,20 @@ module SonicPi
     def initialize(supersonic_host, supersonic_port, osc_cues_port, handlers)
       @osc_comms = SonicPi::SupersonicOscComms.new(supersonic_host, supersonic_port)
       @external_osc_cue_handler = handlers[:external_osc_cue]
+      @osc_cues_port = Integer(osc_cues_port)
       @global_timewarp = 0
 
       add_incoming_handlers!
+    end
+
+    # Subscribe to /osc notifications and bind the cue server. Must run once
+    # SuperSonic is up: subscribing from the constructor races the engine's UDP
+    # bind and the datagram is silently dropped.
+    def osc_system_start!
       @osc_comms.subscribe_to_notifications!
-      # Bind the cue server on the agreed port. Defaults: forwarding on,
-      # loopback-restricted on; the GUI overrides at boot / on pref change via
-      # start_stop_cue_server! / cue_server_internal!.
-      @osc_comms.send("/osc/cue-server/config", Integer(osc_cues_port), 1, 1)
+      # Defaults: forwarding on, loopback-restricted on; the GUI overrides at
+      # boot / on pref change via start_stop_cue_server! / cue_server_internal!.
+      @osc_comms.send("/osc/cue-server/config", @osc_cues_port, 1, 1)
     end
 
     # Schedule an outgoing OSC message to host:port at spider time `t` (seconds).

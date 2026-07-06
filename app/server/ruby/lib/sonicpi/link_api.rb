@@ -44,6 +44,15 @@ module SonicPi
       add_supersonic_link_handlers!
     end
 
+    # Subscribe to /clock/notify/* and enable Link start/stop sync. Must run
+    # once SuperSonic is up: subscribing from the constructor races the engine's
+    # UDP bind and the datagram is silently dropped.
+    def link_system_start!
+      @link_comms.subscribe_to_notifications!
+      # Peer play/stop drives the /link/start and /link/stop cues link_sync waits on.
+      link_set_start_stop_sync_enabled!(true)
+    end
+
     def link_is_on?
       res = @link_comms.rpc("/clock/enabled/get",
                             expect: "/clock/enabled.reply")
@@ -363,17 +372,6 @@ module SonicPi
         cue = playing ? "/link/start" : "/link/stop"
         @internal_cue_handler.call(cue, []) if @internal_cue_handler
       end
-
-      @link_comms.subscribe_to_notifications!
-
-      # Peer play/stop drives the /link/start and /link/stop cues link_sync waits on.
-      link_set_start_stop_sync_enabled!(true)
-
-      # The engine now boots its Link session at Sonic Pi's 60 BPM default
-      # (supersonic::kDefaultBpm), so this is a re-assert that also corrects a
-      # stale session left by a prior connection. Joining a Link session with
-      # peers overrides it as normal.
-      @link_comms.send("/clock/tempo/set", 60.0)
     end
   end
 end
