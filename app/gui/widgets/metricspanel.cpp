@@ -90,6 +90,8 @@ constexpr int kFieldSampleRate     = 42;
 constexpr int kFieldBlockSize      = 43;
 constexpr int kFieldOutputChannels = 44;
 constexpr int kFieldInputChannels  = 45;
+constexpr int kFieldProcessCount      = 0;  // audio process() callbacks (tick counter)
+constexpr int kFieldSchedLastLateTick = 25; // process count when the last scsynth late fired
 constexpr int kFieldClockTempo     = 46; // milli-BPM
 constexpr int kFieldClockBeat      = 47; // beat * 100
 constexpr int kFieldClockPhase     = 48; // phase * 100
@@ -158,6 +160,10 @@ struct RowDef
     int usedField;
     int peakField;
     uint32_t cap;
+    // Age rows render "nowField - thenField ticks" (nowField >= 0); "-" when
+    // thenField is 0 (event has never fired this session).
+    int nowField;
+    int thenField;
     const char* tip;   // tooltip body explaining the metric (untranslated,
                        // like the row labels — this is a developer panel)
 };
@@ -176,12 +182,17 @@ Seg T(const char* t, Kind k = K_Muted) { return Seg{ true, t, -1, F_Plain, k, fa
 
 RowDef ValRow(const char* label, std::vector<Seg> segs, const char* tip = "")
 {
-    return RowDef{ label, std::move(segs), -1, -1, 0, tip };
+    return RowDef{ label, std::move(segs), -1, -1, 0, -1, -1, tip };
 }
 // Ring usage % readout: "used% / peak%" of the ring capacity (no bar graphic).
 RowDef PctRow(const char* label, int used, int peak, uint32_t cap, const char* tip = "")
 {
-    return RowDef{ label, {}, used, peak, cap, tip };
+    return RowDef{ label, {}, used, peak, cap, -1, -1, tip };
+}
+// Age readout: "nowField - thenField ticks" (process calls since an event).
+RowDef AgeRow(const char* label, int nowF, int thenF, const char* tip = "")
+{
+    return RowDef{ label, {}, -1, -1, 0, nowF, thenF, tip };
 }
 
 // Field indices match the struct order in shared_memory.h; late-ms fields
@@ -197,50 +208,6 @@ const std::vector<PanelDef>& panelLayout()
     // composite — mirroring the <supersonic-metrics> web component.
     const auto composite = supersonic::metrics_schema::descriptionForComposite;
     static const std::vector<PanelDef> panels = {
-        { "scsynth",
-          { ValRow("msgs", { V(1, K_Muted) }),
-            ValRow("queue", { V(3), T(" | "), V(4, K_Muted) },
-                   composite("schedulerQueueCurrentPeak")),
-            ValRow("max|last", { V(23, K_Error, F_Signed), T(" | "), V(24, K_Dim, F_Signed), T(" ms") },
-                   composite("schedulerLateWorstLast")),
-            ValRow("debug", { V(15, K_Muted), T(" ("), V(16, K_Muted, F_Bytes), T(")") },
-                   composite("debugCountBytes")) } },
-        { "DSP",
-          { ValRow("load", { Vn(kFieldCpuAvg, K_Normal, F_Centi), T("%") }),
-            ValRow("peak", { Vn(kFieldCpuPeak, K_Dim, F_Centi), T("%") }),
-            ValRow("overruns", { Vn(kFieldOverruns, K_Error) }) } },
-        { "Errors",
-          { ValRow("dropped", { V(2, K_Error) }),
-            ValRow("q drop", { V(5, K_Error) }),
-            ValRow("seq gaps", { V(6, K_Error) }),
-            ValRow("lates", { V(8, K_Error) }),
-            ValRow("corrupt", { V(14, K_Error) }) } },
-        { "OSC",
-          { ValRow("sent", { V(9), T(" | "), V(10, K_Muted, F_Bytes) },
-                   composite("oscSentCountBytes")),
-            ValRow("recv", { V(11), T(" | "), V(12, K_Muted, F_Bytes) },
-                   composite("oscRecvCountBytes")),
-            PctRow("in", 17, 20, kInBufferCap, composite("inRingUsedPeak")),
-            PctRow("out rt", 18, 21, kOutBufferCap, composite("outRingUsedPeak")),
-            PctRow("out nrt", 19, 22, kNrtOutBufferCap, composite("nrtRingUsedPeak")) } },
-        { "Buffers",
-          { ValRow("synthdefs", { Vn(kFieldSynthDefs) }),
-            ValRow("buffers", { Vn(kFieldBuffers) }),
-            ValRow("buf bytes", { Vn(kFieldBufferBytes, K_Muted, F_Bytes) }) } },
-        { "Link",
-          { ValRow("peers", { V(27) }),
-            ValRow("tempo", { V(28, K_Normal, F_MilliBpm), T(" bpm") }),
-            ValRow("beat", { V(29, K_Dim, F_Centi) }),
-            ValRow("phase", { V(30, K_Dim, F_Centi) }),
-            ValRow("playing", { V(31, K_Muted) }) } },
-        { "Link Audio",
-          { ValRow("in", { V(32), T(" ch @ "), V(33, K_Muted), T(" Hz") },
-                   composite("linkAudioChannelsRate")),
-            ValRow("underruns", { V(34, K_Error) }),
-            ValRow("buffered", { V(35, K_Dim), T(" ms") }),
-            ValRow("drift", { V(36, K_Dim, F_Signed), T(" ppm") }),
-            ValRow("publish", { V(37), T(" | "), V(38, K_Muted), T(" sinks") },
-                   composite("linkAudioPublishSinks")) } },
         { "Engine",
           { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) },
                    composite("engineVersion")),
@@ -249,11 +216,53 @@ const std::vector<PanelDef>& panelLayout()
             ValRow("channels", { V(kFieldOutputChannels), T(" | "), V(kFieldInputChannels, K_Muted) },
                    composite("busChannelsOutIn")),
             ValRow("ticks", { V(0, K_Dim) }) } },
+        { "OSC",
+          { ValRow("sent", { V(9), T(" | "), V(10, K_Muted, F_Bytes) },
+                   composite("oscSentCountBytes")),
+            ValRow("recv", { V(11), T(" | "), V(12, K_Muted, F_Bytes) },
+                   composite("oscRecvCountBytes")),
+            PctRow("in", 17, 20, kInBufferCap, composite("inRingUsedPeak")),
+            PctRow("out rt", 18, 21, kOutBufferCap, composite("outRingUsedPeak")),
+            PctRow("out nrt", 19, 22, kNrtOutBufferCap, composite("nrtRingUsedPeak")) } },
         { "Clock",
           { ValRow("tempo", { V(kFieldClockTempo, K_Normal, F_MilliBpm), T(" bpm") }),
             ValRow("beat", { V(kFieldClockBeat, K_Dim, F_Centi) }),
             ValRow("phase", { V(kFieldClockPhase, K_Dim, F_Centi) }),
-            ValRow("playing", { V(kFieldClockPlaying, K_Muted) }) } },
+            ValRow("playing", { V(kFieldClockPlaying, K_Muted) }),
+            ValRow("peers", { V(27) },
+                   "Connected Ableton Link peers (0 = local session, not network-synced)") } },
+        { "DSP",
+          { ValRow("load", { Vn(kFieldCpuAvg, K_Normal, F_Centi), T("%") }),
+            ValRow("peak", { Vn(kFieldCpuPeak, K_Dim, F_Centi), T("%") }),
+            ValRow("overruns", { Vn(kFieldOverruns, K_Error) }) } },
+        { "Link Audio",
+          { ValRow("in", { V(32), T(" ch @ "), V(33, K_Muted), T(" Hz") },
+                   composite("linkAudioChannelsRate")),
+            ValRow("underruns", { V(34, K_Error) }),
+            ValRow("buffered", { V(35, K_Dim), T(" ms") }),
+            ValRow("drift", { V(36, K_Dim, F_Signed), T(" ppm") }),
+            ValRow("publish", { V(37), T(" | "), V(38, K_Muted), T(" sinks") },
+                   composite("linkAudioPublishSinks")) } },
+        { "scsynth",
+          { ValRow("msgs", { V(1, K_Muted) }),
+            ValRow("queue", { V(3), T(" | "), V(4, K_Muted) },
+                   composite("schedulerQueueCurrentPeak")),
+            ValRow("max|last", { V(23, K_Error, F_Signed), T(" | "), V(24, K_Dim, F_Signed), T(" ms") },
+                   composite("schedulerLateWorstLast")),
+            AgeRow("late age", kFieldProcessCount, kFieldSchedLastLateTick,
+                   "Process calls since the last scheduler late (larger = longer ago; - = none this session)"),
+            ValRow("debug", { V(15, K_Muted), T(" ("), V(16, K_Muted, F_Bytes), T(")") },
+                   composite("debugCountBytes")) } },
+        { "Buffers",
+          { ValRow("synthdefs", { Vn(kFieldSynthDefs) }),
+            ValRow("buffers", { Vn(kFieldBuffers) }),
+            ValRow("buf bytes", { Vn(kFieldBufferBytes, K_Muted, F_Bytes) }) } },
+        { "Errors",
+          { ValRow("dropped", { V(2, K_Error) }),
+            ValRow("q drop", { V(5, K_Error) }),
+            ValRow("seq gaps", { V(6, K_Error) }),
+            ValRow("lates", { V(8, K_Error) }),
+            ValRow("corrupt", { V(14, K_Error) }) } },
     };
     return panels;
 }
@@ -412,6 +421,8 @@ void MetricsPanel::buildUi()
             int f = -1;
             if (row.cap > 0)   // ring usage % row
                 f = row.usedField;
+            else if (row.nowField >= 0)   // age row → describe the event field
+                f = row.thenField;
             else
                 for (const Seg& seg : row.segs)
                 {
@@ -1076,7 +1087,7 @@ void MetricsPanel::renderDisconnected()
     {
         const RowDef* def = static_cast<const RowDef*>(ui.def);
         QString html;
-        if (def->cap > 0)   // ring usage % row
+        if (def->cap > 0 || def->nowField >= 0)   // ring usage % / age row
             html = QString("<span style=\"color:%1\">-</span>").arg(kindColor(K_Muted).name());
         else
             for (const Seg& s : def->segs)
@@ -1140,6 +1151,21 @@ void MetricsPanel::refresh()
                            "<span style=\"color:%3\"> / %4%</span>")
                        .arg(kindColor(K_Normal).name(), QString::number(usedPct, 'f', 1),
                             kindColor(K_Muted).name(), QString::number(peakPct, 'f', 1));
+        }
+        else if (def->nowField >= 0)   // age readout: process calls since an event
+        {
+            const uint32_t now  = v[def->nowField];
+            const uint32_t then = v[def->thenField];
+            if (then == 0)   // event never fired this session
+                html = QString("<span style=\"color:%1\">-</span>").arg(kindColor(K_Dim).name());
+            else
+            {
+                const uint32_t age = now >= then ? now - then : 0;
+                html = QString("<span style=\"color:%1\">%2</span>"
+                               "<span style=\"color:%3\"> ticks</span>")
+                           .arg(kindColor(K_Dim).name(), QString::number(age),
+                                kindColor(K_Muted).name());
+            }
         }
         else
         {
