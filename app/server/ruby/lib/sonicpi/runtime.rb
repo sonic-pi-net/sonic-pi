@@ -536,7 +536,7 @@ module SonicPi
       trace = e.backtrace
       return -1 unless trace
 
-      l = trace.find {|line| line.include?("in __spider_eval")}
+      l = trace.find {|line| line.include?("__spider_eval")}
       unless l
         return -1
       else
