@@ -135,8 +135,11 @@ public:
     SonicPiTheme* GetTheme() const;
 
     void addCuePath(QString path, QString val);
-    void setLineMarkerinCurrentWorkspace(int num);
+    void setLineMarkerinCurrentWorkspace(int num, bool isSyntaxError, const QString& errorToken, int colStart, int colEnd);
     void showError(QString msg);
+    // Runtime error with a collapsed (friendly) and expanded (full details) view
+    // toggled by a link in the error pane.
+    void showToggleableError(const QString& collapsed, const QString& expanded);
     void replaceBuffer(QString id, QString content, int line, int index, int first_line);
     void replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line);
     void setUpdateInfoText(QString t);
@@ -587,6 +590,10 @@ private:
     SonicPiLog* incomingPane;
     SonicPiMetro* metroPane;
     QTextBrowser* errorPane;
+    void onErrorAnchorClicked(const QUrl& link);
+    QString m_errorHtmlCollapsed;
+    QString m_errorHtmlExpanded;
+    bool m_errorShowingExpanded = false;
     QDockWidget* outputWidget;
     QDockWidget* incomingWidget;
     QWidget* prefsWidget;

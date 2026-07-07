@@ -32,30 +32,90 @@ em {
 
 .error_description {
     font-size: large;
+    font-weight: bold;
     background-color: deeppink;
-    color: white;
+    color: black;
+    padding: 8px 12px;
+    margin: 0;
 }
 
 .syntax_error_description {
     font-size: large;
+    font-weight: bold;
     background-color: dodgerblue;
-    color: white;
+    color: black;
+    padding: 8px 12px;
+    margin: 0;
 }
 
+
+.error_text {
+    margin: 0;
+    font-weight: bold;
+}
+
+.error_body {
+    background-color: #f0f0f0;
+    padding: 8px 12px;
+}
+
+.error_snippet {
+    font-size: large;
+    color: #333333;
+    background-color: #e2e2e2;
+    padding: 8px 10px;
+    margin: 0 0 8px 0;
+}
+
+.error_mark {
+    color: deeppink;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.syntax_error_mark {
+    color: dodgerblue;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.error_detail {
+    font-size: small;
+    color: #666666;
+    padding: 0;
+    margin: 0;
+}
+
+.error_loc {
+    color: black;
+}
+
+.error_toggle {
+    font-size: small;
+    padding: 8px 0 0 0;
+}
+
+body.error a {
+    color: #666666;
+    text-decoration: underline;
+}
 
 .backtrace {
     font-size: small;
-    color: #5e5e5e;
+    color: #888888;
+    padding: 8px 0 0 0;
+    margin: 0;
 }
 
 .error_line {
-    font-size: x-large;
     color: #5e5e5e;
 }
 
 .error_msg {
-    font-size: x-large;
+    font-size: large;
     color: deeppink;
+    padding: 6px 8px;
+    margin: 0;
 }
 
 pre {

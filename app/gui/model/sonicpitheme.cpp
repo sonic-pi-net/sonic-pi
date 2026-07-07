@@ -374,6 +374,7 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["MarginBackground"]                = dt_white;
 
     themeSettings["MarkerBackground"]                = dt_pink;
+    themeSettings["MarkerBackgroundSyntax"]          = dt_blue;
 
     themeSettings["SelectionForeground"]             = dt_white;
     themeSettings["SelectionBackground"]             = dt_pink;
@@ -585,6 +586,7 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["MarginBackground"]                = dt_black;
 
     themeSettings["MarkerBackground"]                = dt_pink;
+    themeSettings["MarkerBackgroundSyntax"]          = dt_blue;
 
     themeSettings["SelectionForeground"]             = dt_white;
     themeSettings["SelectionBackground"]             = dt_pink;
@@ -793,6 +795,7 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["MarginBackground"]                = dt_white;
 
     themeSettings["MarkerBackground" ]                = dt_pink;
+    themeSettings["MarkerBackgroundSyntax" ]          = dt_blue;
 
     themeSettings["SelectionForeground"]             = dt_white;
     themeSettings["SelectionBackground"]             = dt_pink;

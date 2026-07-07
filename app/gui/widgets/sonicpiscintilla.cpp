@@ -23,6 +23,7 @@
 #include <QKeyEvent>
 #include <QFocusEvent>
 #include <QMouseEvent>
+#include <QWheelEvent>
 
 #include <QDrag>
 #include <QDragEnterEvent>
@@ -31,6 +32,11 @@
 #include <QSet>
 #include <QMenu>
 #include <QContextMenuEvent>
+#include <QPainter>
+#include <QImage>
+#include <QColor>
+#include <QFont>
+#include <QPolygonF>
 #include <QSettings>
 #include <QShortcut>
 #include <Qsci/qscicommandset.h>
@@ -38,6 +44,9 @@
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 #include <QRecursiveMutex>
 #endif
+
+// Container indicator (>= INDICATOR_CONTAINER) for the error underline.
+static const int kErrorIndicator = 20;
 
 SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QString fileName, bool autoIndent)
     : QsciScintilla()
@@ -113,9 +122,26 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     setText("# Loading previous buffer contents. Please wait...");
     setLexer((QsciLexer*)lexer);
 
-    markerDefine(QImage(":/images/marker-error.png").scaled(QSize(ScaleHeightForDPI(30), ScaleHeightForDPI(21))), 8);
+    // marker 9: translucent full-line wash over the code area.
+    markerDefine(QsciScintilla::Background, 9);
+    setMarkerBackgroundColor(theme->color("MarkerBackground"), 9);
+    SendScintilla(SCI_MARKERSETALPHA, 9, 40);
 
-    setMarkerBackgroundColor(theme->color("MarkerBackground"), 8);
+    // No blank inset before the text, so the error line's wash meets the symbol
+    // margin with no untinted seam.
+    SendScintilla(SCI_SETMARGINLEFT, (unsigned long)0, (long)0);
+
+    // marker 8 (gutter dot) and marker 10 (number-margin tint) are RGBA images
+    // sized to the live line height / margin width, so setLineErrorMarker builds
+    // them. Route marker 10 to the number margin only, not the symbol margin.
+    SendScintilla(SCI_SETMARGINMASKN, (unsigned long)0, (long)(1 << 10));
+    long errSymMask = SendScintilla(SCI_GETMARGINMASKN, (unsigned long)1);
+    SendScintilla(SCI_SETMARGINMASKN, (unsigned long)1, (long)(errSymMask & ~(1 << 10)));
+
+    // Dashed underline beneath the offending code on the error line. An indicator
+    // is vector-drawn by Scintilla, so it tracks zoom and edits for free; its
+    // colour is set per error (pink runtime / blue syntax) in applyErrorMarkers.
+    SendScintilla(SCI_INDICSETSTYLE, (unsigned long)kErrorIndicator, (long)INDIC_DASH);
 
     // Drive completion through our own popup (CompletionPopup) rather than
     // Scintilla's built-in list, so each row can show a kind badge + summary.
@@ -595,12 +621,15 @@ void SonicPiScintilla::downcaseWordOrSelection()
     mutex->unlock();
 }
 
-void SonicPiScintilla::setLineErrorMarker(int lineNumber)
+void SonicPiScintilla::setLineErrorMarker(int lineNumber, bool isSyntaxError, const QString& errorToken, int colStart, int colEnd)
 {
     mutex->lock();
-
-    markerDeleteAll(-1);
-    markerAdd(lineNumber, 8);
+    m_errorLine = lineNumber;
+    m_errorIsSyntax = isSyntaxError;
+    m_errorToken = errorToken;
+    m_errorColStart = colStart;
+    m_errorColEnd = colEnd;
+    applyErrorMarkers(lineNumber);
 
     // Perhaps consider a more manual way of returning this functionality:
     // int currlinenum, index;
@@ -612,10 +641,146 @@ void SonicPiScintilla::setLineErrorMarker(int lineNumber)
     mutex->unlock();
 }
 
+// Rebuild the error line's markers at the current zoom, so the image-based
+// margin washes and dot track the line height like the dynamic code wash does.
+void SonicPiScintilla::refreshErrorMarkers()
+{
+    mutex->lock();
+    if (m_errorLine >= 0)
+        applyErrorMarkers(m_errorLine);
+    mutex->unlock();
+}
+
+void SonicPiScintilla::applyErrorMarkers(int lineNumber)
+{
+    markerDeleteAll(-1);
+
+    // Runtime errors are pink, syntax errors blue; the dot, washes and underline
+    // all take this colour. Marker 9 is the translucent line wash — its alpha
+    // comes from the colour (setMarkerBackgroundColor also sets the marker alpha),
+    // so pass a 40-alpha colour, not the opaque one.
+    QColor errCol = theme->color(m_errorIsSyntax ? "MarkerBackgroundSyntax" : "MarkerBackground");
+    QColor errWash = errCol;
+    errWash.setAlpha(40);
+    setMarkerBackgroundColor(errWash, 9);
+
+    int errH = SendScintilla(SCI_TEXTHEIGHT, (unsigned long)0);
+    // The symbol margin is the gap between the number and the code where the
+    // arrowhead sits. Size it to one code character width so it scales with the
+    // font (zoom included) and the arrowhead always fits.
+    if (m_defaultSymMarginW == 0)
+        m_defaultSymMarginW = SendScintilla(SCI_GETMARGINWIDTHN, (unsigned long)1);
+    int gapW = (SendScintilla(SCI_TEXTWIDTH, static_cast<uintptr_t>(STYLE_DEFAULT), "0") * 13) / 10;
+    if (gapW < 4) gapW = (errH * 4) / 5;
+    setMarginWidth(1, gapW);
+
+    qreal errDpr = devicePixelRatioF();
+    if (errDpr < 1.0) errDpr = 1.0;
+
+    // symbol margin: left at its default background; only the coloured dot sits
+    // there (no solid fill).
+
+    // number margin (10): solid fill + black right-justified line number, drawn
+    // ourselves since the opaque fill covers Scintilla's own (grey) number.
+    int numW = SendScintilla(SCI_GETMARGINWIDTHN, (unsigned long)0);
+    if (numW > 0 && errH > 0) {
+        QImage img(qRound(numW * errDpr), qRound(errH * errDpr), QImage::Format_ARGB32);
+        img.setDevicePixelRatio(errDpr);
+        img.fill(errCol);
+        {
+            QPainter p(&img);
+            p.setRenderHint(QPainter::TextAntialiasing, true);
+            int zoom = SendScintilla(SCI_GETZOOM);
+            QFont f("Hack", qMax(1, 15 + zoom), -1, true);
+            p.setFont(f);
+            p.setPen(Qt::black);
+            p.drawText(QRect(0, 0, numW - 3, errH), Qt::AlignRight | Qt::AlignVCenter,
+                       QString::number(lineNumber + 1));
+        }
+        SendScintilla(SCI_RGBAIMAGESETSCALE, (unsigned long)qRound(errDpr * 100));
+        markerDefine(img, 10);
+    }
+
+    // gutter marker: full-line-height arrowhead pointing right toward the code
+    // (error colour), sized to the one-character gap so it scales with the font.
+    if (errH >= 8) {
+        int hPx = qRound(errH * errDpr);
+        int wPx = qRound(gapW * errDpr);
+        QImage dot(wPx, hPx, QImage::Format_ARGB32);
+        dot.fill(Qt::transparent);
+        {
+            QPainter dp(&dot);
+            dp.setRenderHint(QPainter::Antialiasing, true);
+            dp.setPen(Qt::NoPen);
+            dp.setBrush(errCol);
+            // Inset the base a little so there's a small gap between the triangle
+            // and the highlighted number margin to its left.
+            int leftPx = qRound((gapW / 6.0) * errDpr);
+            QPolygonF tri;
+            tri << QPointF(leftPx, 0) << QPointF(wPx, hPx / 2.0) << QPointF(leftPx, hPx);
+            dp.drawPolygon(tri);
+        }
+        dot.setDevicePixelRatio(errDpr);
+        SendScintilla(SCI_RGBAIMAGESETSCALE, (unsigned long)qRound(errDpr * 100));
+        markerDefine(dot, 8);
+    }
+
+    // Dashed underline in the error colour. Underline just the offending
+    // identifier when the exception named one (found whole-word in the line's
+    // byte range so multi-byte characters don't shift it); otherwise underline
+    // the whole line's code, skipping the leading indentation.
+    int lineStart = SendScintilla(SCI_POSITIONFROMLINE, (unsigned long)lineNumber);
+    int lineEnd = SendScintilla(SCI_GETLINEENDPOSITION, (unsigned long)lineNumber);
+    int errFrom = -1;
+    int errLen = 0;
+    // 1. Exact byte-column span from error_highlight (clamped to the line).
+    if (m_errorColStart >= 0 && m_errorColEnd > m_errorColStart) {
+        int from = lineStart + m_errorColStart;
+        int to = lineStart + m_errorColEnd;
+        if (to > lineEnd) to = lineEnd;
+        if (from < lineEnd) {
+            errFrom = from;
+            errLen = to - from;
+        }
+    }
+    // 2. Fall back to the identifier named in the message (whole-word search).
+    if (errFrom < 0 && !m_errorToken.isEmpty()) {
+        QByteArray tok = m_errorToken.toUtf8();
+        SendScintilla(SCI_SETSEARCHFLAGS, (unsigned long)SCFIND_WHOLEWORD);
+        SendScintilla(SCI_SETTARGETSTART, (unsigned long)lineStart);
+        SendScintilla(SCI_SETTARGETEND, (unsigned long)lineEnd);
+        int found = SendScintilla(SCI_SEARCHINTARGET, static_cast<uintptr_t>(tok.length()), tok.constData());
+        if (found >= 0) {
+            errFrom = found;
+            errLen = tok.length();
+        }
+    }
+    // 3. Otherwise underline the whole line's code.
+    if (errFrom < 0) {
+        errFrom = SendScintilla(SCI_GETLINEINDENTPOSITION, (unsigned long)lineNumber);
+        errLen = lineEnd - errFrom;
+    }
+    SendScintilla(SCI_INDICSETFORE, (unsigned long)kErrorIndicator,
+                  (long)((errCol.blue() << 16) | (errCol.green() << 8) | errCol.red()));
+    SendScintilla(SCI_SETINDICATORCURRENT, (unsigned long)kErrorIndicator);
+    SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)0, (long)SendScintilla(SCI_GETLENGTH));
+    if (errLen > 0)
+        SendScintilla(SCI_INDICATORFILLRANGE, (unsigned long)errFrom, (long)errLen);
+
+    markerAdd(lineNumber, 8);
+    markerAdd(lineNumber, 9);
+    markerAdd(lineNumber, 10);
+}
+
 void SonicPiScintilla::clearLineMarkers()
 {
     mutex->lock();
+    m_errorLine = -1;
     markerDeleteAll(-1);
+    SendScintilla(SCI_SETINDICATORCURRENT, (unsigned long)kErrorIndicator);
+    SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)0, (long)SendScintilla(SCI_GETLENGTH));
+    if (m_defaultSymMarginW > 0)
+        setMarginWidth(1, m_defaultSymMarginW);
     mutex->unlock();
 }
 
@@ -629,6 +794,7 @@ void SonicPiScintilla::zoomFontIn()
     setProperty("zoom", QVariant(zoom));
     zoomTo(zoom);
     mutex->unlock();
+    refreshErrorMarkers();
 }
 
 void SonicPiScintilla::zoomFontOut()
@@ -641,6 +807,15 @@ void SonicPiScintilla::zoomFontOut()
     setProperty("zoom", QVariant(zoom));
     zoomTo(zoom);
     mutex->unlock();
+    refreshErrorMarkers();
+}
+
+void SonicPiScintilla::wheelEvent(QWheelEvent* event)
+{
+    QsciScintilla::wheelEvent(event);
+    // Ctrl+wheel zooms the code; rebuild the error markers to the new line height.
+    if (event->modifiers() & Qt::ControlModifier)
+        refreshErrorMarkers();
 }
 
 void SonicPiScintilla::newLine()

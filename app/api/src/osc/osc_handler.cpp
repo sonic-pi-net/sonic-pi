@@ -110,7 +110,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         {
             MessageInfo message;
             message.type = MessageType::RuntimeError;
-            if (msg->arg().popInt32(message.jobId).popStr(message.text).popStr(message.backtrace).popInt32(message.line).isOkNoMoreArgs())
+            if (msg->arg().popInt32(message.jobId).popStr(message.text).popStr(message.backtrace).popInt32(message.line).popInt32(message.errorColStart).popInt32(message.errorColEnd).popStr(message.errorLineString).isOkNoMoreArgs())
             {
                 LOG(DBG, "/error: " << message.text << " " << message.backtrace);
                 m_pClient->Report(message);
@@ -124,7 +124,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         {
             MessageInfo message;
             message.type = MessageType::SyntaxError;
-            if (msg->arg().popInt32(message.jobId).popStr(message.text).popStr(message.errorLineString).popInt32(message.line).popStr(message.lineNumString).isOkNoMoreArgs())
+            if (msg->arg().popInt32(message.jobId).popStr(message.text).popStr(message.errorLineString).popInt32(message.line).popStr(message.lineNumString).popInt32(message.errorColStart).popInt32(message.errorColEnd).isOkNoMoreArgs())
             {
                 LOG(DBG, "/syntax_error: " << message.text << " : " << message.errorLineString);
                 m_pClient->Report(message);

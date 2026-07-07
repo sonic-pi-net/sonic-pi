@@ -162,6 +162,9 @@ struct MessageInfo : MessageData
     std::string runtime;
     std::string backtrace;
     int line = 0;
+    // Byte-column span of the offending token on the error line; -1 when unavailable.
+    int errorColStart = -1;
+    int errorColEnd = -1;
     std::string errorLineString;
     std::string lineNumString;
 

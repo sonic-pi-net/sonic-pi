@@ -471,7 +471,10 @@ void MainWindow::setupWindowStructure()
     connect(metroPane, &SonicPiMetro::statusMessage, this,
             [this](const QString& msg) { showStatusAndAnnounce(msg, 2000); });
 
-    errorPane->setOpenExternalLinks(true);
+    // Handle links ourselves: the error pane uses a "sonicpi:toggle" link to
+    // expand/collapse the full exception details.
+    errorPane->setOpenLinks(false);
+    connect(errorPane, &QTextBrowser::anchorClicked, this, &MainWindow::onErrorAnchorClicked);
 
     // Window layout
     editorTabWidget = new QTabWidget();
@@ -2241,13 +2244,35 @@ void MainWindow::runBufferIdx(int idx)
 void MainWindow::showError(QString msg)
 {
     errorPane->clear();
-    errorPane->setHtml("<html><head></head><body>" + msg + "</body></html>");
+    errorPane->setHtml("<html><head></head><body class=\"error\">" + msg + "</body></html>");
     errorPane->show();
     focusErrors();
     // Errors are the most important feedback event — announce assertively so
     // screen-reader users hear them (parallels the Run started / Stopped cues).
     announce(tr("Error: %1").arg(errorPane->toPlainText().simplified()), true,
              SonicPi::Announcement::Error);
+}
+
+void MainWindow::showToggleableError(const QString& collapsed, const QString& expanded)
+{
+    m_errorHtmlCollapsed = collapsed;
+    m_errorHtmlExpanded = expanded;
+    m_errorShowingExpanded = false;
+    showError(collapsed);
+}
+
+void MainWindow::onErrorAnchorClicked(const QUrl& link)
+{
+    if (link.toString() == "sonicpi:toggle")
+    {
+        m_errorShowingExpanded = !m_errorShowingExpanded;
+        const QString& h = m_errorShowingExpanded ? m_errorHtmlExpanded : m_errorHtmlCollapsed;
+        errorPane->setHtml("<html><head></head><body class=\"error\">" + h + "</body></html>");
+    }
+    else if (link.scheme() == "http" || link.scheme() == "https")
+    {
+        QDesktopServices::openUrl(link);
+    }
 }
 
 void MainWindow::showBufferCapacityError()
@@ -3534,7 +3559,10 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "ShiftDown", QT_TR_NOOP("Shift Line or Selection Down"), "Alt+Down", "Alt+Down", "CtrlMeta+N", "Code", &MainWindow::textShiftLineDownAct },
     { "ContextualDocs", QT_TR_NOOP("Look up documentation for the current word"), "CtrlMeta+i", "Shift+F1", "CtrlMeta+i", "Focus", &MainWindow::contextHelpAct, "Shift+F1" },
     { "TextZoomIn", QT_TR_NOOP("Increase Text Size"), "Meta+=", "Ctrl++", "Meta+=", "View", &MainWindow::textIncAct },
-    { "TextZoomOut", QT_TR_NOOP("Decrease Text Size"), "Meta+-", "Ctrl+-", "Meta+-", "View", &MainWindow::textDecAct },
+    // Win text-zoom mirrors zoom-in's shifted symbol (Ctrl++), so out is Ctrl+_
+    // (Ctrl+Shift+-). Plain Ctrl+- is the log zoom-out; sharing it here made both
+    // an ambiguous shortcut that fired neither.
+    { "TextZoomOut", QT_TR_NOOP("Decrease Text Size"), "Meta+-", "Ctrl+_", "Meta+-", "View", &MainWindow::textDecAct },
     { "Scope", QT_TR_NOOP("Toggle visibility of audio oscilloscope"), "Meta+O", "Meta+O", "Meta+O", "Visuals", &MainWindow::scopeAct },
     { "CycleThemes", QT_TR_NOOP("Cycle through the available colour themes"), "ShiftMeta+M", "ShiftMeta+M", "ShiftMeta+M", "Visuals", &MainWindow::cycleThemesAct },
     { "Info", QT_TR_NOOP("Toggle information about Sonic Pi"), "Meta+n", "Meta+1", "Meta+1", "View", &MainWindow::infoAct },
@@ -5638,12 +5666,12 @@ void MainWindow::tabGoto(int index)
         QMetaObject::invokeMethod(editorTabWidget, "setCurrentIndex", Q_ARG(int, index));
 }
 
-void MainWindow::setLineMarkerinCurrentWorkspace(int num)
+void MainWindow::setLineMarkerinCurrentWorkspace(int num, bool isSyntaxError, const QString& errorToken, int colStart, int colEnd)
 {
     if (num > 0)
     {
         SonicPiScintilla* ws = getCurrentWorkspace();
-        ws->setLineErrorMarker(num - 1);
+        ws->setLineErrorMarker(num - 1, isSyntaxError, errorToken, colStart, colEnd);
     }
 }
 // TODO remove

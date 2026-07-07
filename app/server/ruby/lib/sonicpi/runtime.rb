@@ -559,68 +559,126 @@ module SonicPi
 
       info = __current_job_info
       err_msg.gsub!(/for Runtime:[A-Za-z0-9:]+ /, '')
-      res = ""
       w = info[:workspace]
       if linenum != -1
-
         # TODO: Remove this hack when we have projects
         w = normalise_buffer_name(w)
-        w = "buffer " + w
+        location = "buffer #{w}, line #{linenum}"
         # TODO: end of hack
-
-        res = res + "[#{w}, line #{linenum}]"
       else
-        res = res + "[#{w}]"
+        location = "buffer #{w}"
       end
-      res = res + " - " + m if m
-      res = res + "\n #{err_msg}"
-      __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, linenum: linenum})
+      friendly = __friendly_error(e)
+      if friendly
+        # Lead with a prominent "Runtime Error" label + the friendly message; a
+        # demoted caption (location + exact Ruby error) follows.
+        res = "Runtime Error — " + friendly + "\n\n" + location + "\n" + __clean_error_message(e)
+      else
+        res = "[#{location}]"
+        res = res + " - " + m if m
+        res = res + "\n #{err_msg}"
+      end
+      span = __error_token_span(e, info)
+      error_line = linenum != -1 ? (info[:code].lines.to_a[linenum - info[:first_line_num]] || "") : ""
+      __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, linenum: linenum, first_col: (span ? span[0] : -1), last_col: (span ? span[1] : -1), error_line: error_line})
+    end
+
+    # The byte-column span of the offending expression's name on the error line,
+    # via Ruby's error_highlight. It normally can't spot eval'd code (no source
+    # file), so re-parse our own source with Prism and match the backtrace node
+    # id ourselves. Returns [first_col, last_col] for a single-line span, else nil.
+    def __error_token_span(e, info)
+      require 'prism'
+      require 'error_highlight'
+      code = info && info[:code]
+      return nil unless code
+      locs = e.backtrace_locations
+      return nil unless locs && locs.first
+      nid = RubyVM::AbstractSyntaxTree.node_id_for_backtrace_location(locs.first)
+      return nil unless nid
+      node = Prism.parse(code).value.breadth_first_search { |n| n.node_id == nid }
+      return nil unless node
+      name = e.respond_to?(:name) ? e.name : nil
+      spot = ErrorHighlight.spot(node, point_type: :name, name: name)
+      return nil unless spot && spot[:first_lineno] == spot[:last_lineno]
+      [spot[:first_column], spot[:last_column]]
+    rescue Exception
+      nil
+    end
+
+    # A plain-language headline for common error types (nil to fall back to the
+    # raw message). Keeps the offending identifier and any "did you mean"
+    # suggestion; the exact Ruby error is shown separately for accuracy.
+    def __friendly_error(e)
+      name = (e.name.to_s if e.respond_to?(:name) && e.name)
+      suggestion = nil
+      if e.respond_to?(:corrections) && e.corrections && !e.corrections.empty?
+        suggestion = e.corrections.first.to_s
+      end
+      headline =
+        case e
+        when NoMethodError     then name && "Sonic Pi doesn't know a function called '#{name}'"
+        when NameError         then name && "Sonic Pi doesn't know '#{name}'"
+        when ZeroDivisionError then "You divided by zero"
+        when ArgumentError     then "A function was given the wrong arguments"
+        when TypeError         then "A value wasn't the kind this expected"
+        else nil
+        end
+      return nil unless headline
+      headline += " — did you mean #{suggestion}?" if suggestion
+      headline
+    rescue Exception
+      nil
+    end
+
+    # The exact Ruby error, with the internal receiver noise stripped.
+    def __clean_error_message(e)
+      msg = e.message.to_s.dup
+      msg.sub!(/ for (an instance of \S+|main|Runtime:\S+)\z/, '')
+      "#{e.class}: #{msg}"
+    rescue Exception
+      "#{e.class}: #{e.message}"
     end
 
 
     def __syntax_error(e, m=nil)
       info = __current_job_info
-      _, linenum, err_msg = *e.message.match(/\A.*:([0-9]+): (.*)/)
-      linenum = linenum.to_i
+      # Prism (Ruby 3.4+) gives a precise message + byte-column span. On older
+      # Rubies require/parse fails and we fall back to the exception text.
+      linenum = -1
+      col_start = -1
+      col_end = -1
+      err_msg = nil
+      begin
+        require 'prism'
+        perrs = Prism.parse(info[:code]).errors
+        unless perrs.nil? || perrs.empty?
+          # Prefer a specific error over Prism's generic "assuming ... closing".
+          perr = perrs.reject { |er| er.message =~ /assuming it is closing/ }.first || perrs.first
+          loc = perr.location
+          linenum = loc.start_line + info[:first_line_num] - 1
+          col_start = loc.start_column
+          col_end = loc.end_column
+          err_msg = perr.message
+        end
+      rescue Exception
+      end
+      if err_msg.nil?
+        _, ln, err_msg = *e.message.match(/\A.*:([0-9]+): (.*)/)
+        linenum = ln.to_i if ln
+      end
       error_line = info[:code].lines.to_a[linenum - info[:first_line_num]] ||  ""
-      res = ""
       w = info[:workspace]
       if linenum != -1
-
         # TODO: Remove this hack when we have projects
         w = normalise_buffer_name(w)
-        w = "buffer " + w
+        location = "buffer #{w}, line #{linenum}"
         # TODO: end of hack
-
-        res = res + "[#{w}, line #{linenum}]"
       else
-        res = res + "[#{w}]"
+        location = "buffer #{w}"
       end
-      res = res + "\n" + m if m
-      res = res + "\n #{err_msg}"
-       __msg_queue.push({type: :syntax_error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, error_line: error_line, linenum: linenum})
-
-      # _, line, message = *e.message.match(/\A.*:([0-9]+): (.*)/)
-      # error_line = ""
-      # if line
-      #   line = line.to_i
-
-      #   # TODO: Remove this hack when we have projects
-      #   w = info[:workspace]
-      #   w = normalise_buffer_name(w)
-      #   w = "buffer #{w}"
-      #   # TODO: end of hack
-
-      #   err_msg = "[#{w}, line #{line}] \n #{message}"
-      #   error_line = code.lines.to_a[line - firstline] ||  ""
-      # else
-      #   line = -1
-      #   err_msg = "\n #{e.message}"
-      # end
-      # __msg_queue.push({type: :job, jobid: id, action: :completed, jobinfo: info})
-      # __msg_queue.push({type: :syntax_error, val: err_msg, error_line: error_line , jobid: id  , jobinfo: info, line: line})
-      # __msg_queue.push({type: :syntax_error, val: "yo no!", error_line: error_line , jobid: id  , jobinfo: info, line: line})
-      # __info("Syntax error in run #{id}. Code ignored.")
+      res = "Syntax Error — Sorry, Sonic Pi couldn't read your code\n\n" + location + "\nSyntaxError: #{err_msg}"
+      __msg_queue.push({type: :syntax_error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, error_line: error_line, linenum: linenum, first_col: col_start, last_col: col_end})
     end
 
     def __current_thread_name

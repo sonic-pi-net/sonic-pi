@@ -180,11 +180,17 @@ void Indicator::Draw(Surface *surface, const PRectangle &rc, const PRectangle &r
 		}
 		surface->DrawRGBAImage(rcBox, image.GetWidth(), image.GetHeight(), image.Pixels());
 	} else if (sacDraw.style == INDIC_DASH) {
+		// (Sonic Pi) thick dashes drawn at the bottom of the line, below the text
+		// body, rather than a 1px line striking through the descenders.
+		const int lineH = static_cast<int>(rcLine.bottom - rcLine.top);
+		const int thickness = std::max(3, lineH / 6);
+		const int yBottom = static_cast<int>(rcLine.bottom);
 		int x = irc.left;
-		while (x < rc.right) {
-			surface->MoveTo(x, ymid);
-			surface->LineTo(std::min(x + 4, irc.right), ymid);
-			x += 7;
+		while (x < irc.right) {
+			const PRectangle rcDash = PRectangle::FromInts(
+				x, yBottom - thickness, std::min(x + 3, irc.right), yBottom);
+			surface->FillRectangle(rcDash, sacDraw.fore);
+			x += 6;
 		}
 	} else if (sacDraw.style == INDIC_DOTS) {
 		int x = irc.left;

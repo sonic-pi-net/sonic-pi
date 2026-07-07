@@ -926,7 +926,9 @@ out_t = Thread.new do
           STDOUT.puts "[ruby-error]   #{error_line}" unless error_line.to_s.strip.empty?
           STDOUT.flush
           desc = CGI.escapeHTML(desc)
-          gui.send("/syntax_error", message[:jobid], desc, error_line, linenum, linenum.to_s)
+          first_col = message[:first_col] || -1
+          last_col = message[:last_col] || -1
+          gui.send("/syntax_error", message[:jobid], desc, error_line, linenum, linenum.to_s, first_col, last_col)
         when :error
           desc = message[:val] || ""
           linenum = message[:linenum] || -1
@@ -941,8 +943,13 @@ out_t = Thread.new do
           # TODO: Move this escaping to the Qt Client
           desc = CGI.escapeHTML(desc)
           trace = CGI.escapeHTML(trace)
+          first_col = message[:first_col] || -1
+          last_col = message[:last_col] || -1
+          # error_line stays raw (unescaped) so the GUI can split it at the byte
+          # column span before HTML-escaping each part.
+          error_line = message[:error_line] || ""
           # puts "sending: /error #{desc}, #{trace}"
-          gui.send("/error", message[:jobid], desc, trace, linenum)
+          gui.send("/error", message[:jobid], desc, trace, linenum, first_col, last_col, error_line)
         when "replace-buffer"
           buf_id = message[:buffer_id]
           content = message[:val] || "Internal error within a fn calling replace-buffer without a :val payload"
