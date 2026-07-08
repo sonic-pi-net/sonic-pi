@@ -93,6 +93,9 @@ set(NEW_API_SOURCES
 
 set(EDITOR_SOURCES
     ${QTAPP_ROOT}/widgets/sonicpiscintilla.cpp
+    ${QTAPP_ROOT}/widgets/sonicpierrorcard.cpp
+    ${QTAPP_ROOT}/widgets/sonicpierrorcard.h
+    ${QTAPP_ROOT}/widgets/sonicpierrorcodeline.h
     ${QTAPP_ROOT}/widgets/sonicpilexer.cpp
     ${QTAPP_ROOT}/widgets/sonicpilexer.h
     ${QTAPP_ROOT}/widgets/sonicpiscintilla.h

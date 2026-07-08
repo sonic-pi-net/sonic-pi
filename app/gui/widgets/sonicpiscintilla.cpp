@@ -138,10 +138,14 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     long errSymMask = SendScintilla(SCI_GETMARGINMASKN, (unsigned long)1);
     SendScintilla(SCI_SETMARGINMASKN, (unsigned long)1, (long)(errSymMask & ~(1 << 10)));
 
-    // Dashed underline beneath the offending code on the error line. An indicator
-    // is vector-drawn by Scintilla, so it tracks zoom and edits for free; its
-    // colour is set per error (pink runtime / blue syntax) in applyErrorMarkers.
-    SendScintilla(SCI_INDICSETSTYLE, (unsigned long)kErrorIndicator, (long)INDIC_DASH);
+    // Zig-zag (squiggle) underline beneath the offending code on the error line.
+    // An indicator is vector-drawn by Scintilla, so it tracks zoom and edits for
+    // free; its colour is set per error (pink runtime / blue syntax) in
+    // applyErrorMarkers. The squiggle itself is Sonic Pi's enlarged smooth
+    // zig-zag (patched in QScintilla_src .../Indicator.cpp) matching the error
+    // card's; the extra descent below grants it room to sit clear of the text.
+    SendScintilla(SCI_INDICSETSTYLE, (unsigned long)kErrorIndicator, (long)INDIC_SQUIGGLE);
+    SendScintilla(SCI_SETEXTRADESCENT, (long)ScaleHeightForDPI(8));
 
     // Drive completion through our own popup (CompletionPopup) rather than
     // Scintilla's built-in list, so each row can show a kind badge + summary.
@@ -220,7 +224,7 @@ void SonicPiScintilla::hideLineNumbers()
     mutex->lock();
     setMarginLineNumbers(0, false);
     setMarginWidth(0, "0");
-    setMarginWidth(1, ScaleHeightForDPI(30));
+    updateErrorMarginWidth();
     SendScintilla(SCI_HIDELINES);
     mutex->unlock();
 }
@@ -230,7 +234,7 @@ void SonicPiScintilla::showLineNumbers()
     mutex->lock();
     setMarginLineNumbers(0, true);
     setMarginWidth(0, "1000");
-    setMarginWidth(1, ScaleHeightForDPI(30));
+    updateErrorMarginWidth();
     SendScintilla(SCI_SHOWLINES);
     mutex->unlock();
 }
@@ -665,14 +669,10 @@ void SonicPiScintilla::applyErrorMarkers(int lineNumber)
     setMarkerBackgroundColor(errWash, 9);
 
     int errH = SendScintilla(SCI_TEXTHEIGHT, (unsigned long)0);
-    // The symbol margin is the gap between the number and the code where the
-    // arrowhead sits. Size it to one code character width so it scales with the
-    // font (zoom included) and the arrowhead always fits.
-    if (m_defaultSymMarginW == 0)
-        m_defaultSymMarginW = SendScintilla(SCI_GETMARGINWIDTHN, (unsigned long)1);
-    int gapW = (SendScintilla(SCI_TEXTWIDTH, static_cast<uintptr_t>(STYLE_DEFAULT), "0") * 13) / 10;
-    if (gapW < 4) gapW = (errH * 4) / 5;
-    setMarginWidth(1, gapW);
+    // The arrowhead fills the symbol-margin gap between the number and the code.
+    // The gap is kept at this same char-proportional width in every state, so
+    // showing or dismissing an error never shifts the code horizontally.
+    int gapW = updateErrorMarginWidth();
 
     qreal errDpr = devicePixelRatioF();
     if (errDpr < 1.0) errDpr = 1.0;
@@ -779,9 +779,16 @@ void SonicPiScintilla::clearLineMarkers()
     markerDeleteAll(-1);
     SendScintilla(SCI_SETINDICATORCURRENT, (unsigned long)kErrorIndicator);
     SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)0, (long)SendScintilla(SCI_GETLENGTH));
-    if (m_defaultSymMarginW > 0)
-        setMarginWidth(1, m_defaultSymMarginW);
     mutex->unlock();
+}
+
+int SonicPiScintilla::updateErrorMarginWidth()
+{
+    int gapW = (SendScintilla(SCI_TEXTWIDTH, static_cast<uintptr_t>(STYLE_DEFAULT), "0") * 13) / 10;
+    if (gapW < 4)
+        gapW = (SendScintilla(SCI_TEXTHEIGHT, (unsigned long)0) * 4) / 5;
+    setMarginWidth(1, gapW);
+    return gapW;
 }
 
 void SonicPiScintilla::zoomFontIn()
@@ -793,6 +800,7 @@ void SonicPiScintilla::zoomFontIn()
         zoom = 20;
     setProperty("zoom", QVariant(zoom));
     zoomTo(zoom);
+    updateErrorMarginWidth();
     mutex->unlock();
     refreshErrorMarkers();
 }
@@ -806,6 +814,7 @@ void SonicPiScintilla::zoomFontOut()
         zoom = -10;
     setProperty("zoom", QVariant(zoom));
     zoomTo(zoom);
+    updateErrorMarginWidth();
     mutex->unlock();
     refreshErrorMarkers();
 }
@@ -813,9 +822,14 @@ void SonicPiScintilla::zoomFontOut()
 void SonicPiScintilla::wheelEvent(QWheelEvent* event)
 {
     QsciScintilla::wheelEvent(event);
-    // Ctrl+wheel zooms the code; rebuild the error markers to the new line height.
+    // Ctrl+wheel zooms the code; keep the gap and error markers at the new line height.
     if (event->modifiers() & Qt::ControlModifier)
+    {
+        mutex->lock();
+        updateErrorMarginWidth();
+        mutex->unlock();
         refreshErrorMarkers();
+    }
 }
 
 void SonicPiScintilla::newLine()

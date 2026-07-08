@@ -13,31 +13,18 @@
 namespace SonicPi
 {
 
-// A one-line code preview of the offending source line with the [cs,ce) byte
-// span wrapped in markClass. The raw line is split before escaping so the byte
-// columns from Prism/error_highlight line up with the (ASCII) source.
-static QString buildErrorSnippet(const QString& rawLine, int cs, int ce, const QString& markClass)
+// Splits the friendly error text ("header\n\nlocation\nreason") into its parts.
+static void splitErrorText(const QString& full, const QString& fallbackPrefix,
+                           QString& header, QString& location, QString& reason)
 {
-    QString line = rawLine;
-    while (line.endsWith('\n') || line.endsWith('\r'))
-        line.chop(1);
-    if (line.trimmed().isEmpty())
-        return QString();
-
-    QString inner;
-    if (cs >= 0 && ce > cs && cs < line.length())
-    {
-        int a = qBound(0, cs, line.length());
-        int b = qBound(a, ce, line.length());
-        inner = line.left(a).toHtmlEscaped()
-              + "<span class=\"" + markClass + "\">" + line.mid(a, b - a).toHtmlEscaped() + "</span>"
-              + line.mid(b).toHtmlEscaped();
-    }
-    else
-    {
-        inner = line.toHtmlEscaped();
-    }
-    return "<pre class=\"error_snippet\">" + inner + "</pre>";
+    int sep = full.indexOf("\n\n");
+    header = (sep >= 0) ? full.left(sep) : (fallbackPrefix + full);
+    if (sep < 0)
+        return;
+    QString det = full.mid(sep + 2);
+    int nl = det.indexOf('\n');
+    location = (nl >= 0) ? det.left(nl) : det;
+    reason = (nl >= 0) ? det.mid(nl + 1) : QString();
 }
 
 QtAPIClient::QtAPIClient(MainWindow* pMainWindow)
@@ -94,83 +81,39 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
     }
     else if (info.type == MessageType::RuntimeError)
     {
-        // error_highlight gives the offending token's exact byte-column span; if
-        // it's unavailable, fall back to the identifier named in the message
-        // (e.g. undefined method 'pl9ay').
         QString full = QString::fromStdString(info.text);
-        static const QRegularExpression reErrTok("'([^']+)'");
+        QString header, location, reason;
+        splitErrorText(full, "Runtime Error: ", header, location, reason);
+
+        // error_highlight gives the offending token's exact byte-column span; if
+        // it's unavailable, fall back to the identifier — the backtick-marked
+        // name in the friendly header, else the 'quoted' name in the raw reason
+        // (the reason has no contraction apostrophes to confuse the match).
         QString errToken;
-        QRegularExpressionMatch tm = reErrTok.match(full);
+        static const QRegularExpression reBacktick("`([^`]+)`");
+        static const QRegularExpression reQuoted("'([^']+)'");
+        QRegularExpressionMatch tm = reBacktick.match(header);
+        if (!tm.hasMatch())
+            tm = reQuoted.match(reason);
         if (tm.hasMatch())
             errToken = tm.captured(1);
         m_pMainWindow->setLineMarkerinCurrentWorkspace(info.line, false, errToken, info.errorColStart, info.errorColEnd);
 
-        // Present the error as one card: a coloured header (friendly message)
-        // over a panel body holding the muted caption, the details toggle and
-        // (when expanded) the full backtrace.
-        int sep = full.indexOf("\n\n");
-        QString headerText = (sep >= 0) ? full.left(sep) : ("Runtime Error: " + full);
-        QString caption;
-        if (sep >= 0)
-        {
-            // detail = "location\nexact-error"; the location gets its own style.
-            QString det = full.mid(sep + 2);
-            int nl = det.indexOf('\n');
-            QString loc = (nl >= 0) ? det.left(nl) : det;
-            QString rawPart = (nl >= 0) ? det.mid(nl + 1) : QString();
-            caption = "<pre class=\"error_detail\"><span class=\"error_loc\">" + loc + "</span>";
-            if (!rawPart.isEmpty())
-                caption += " &#183; " + rawPart;
-            caption += "</pre>";
-        }
-        QString header = "<tr><td class=\"error_description\"><pre class=\"error_text\">" + headerText + "</pre></td></tr>";
-        QString bt = QString::fromStdString(info.backtrace);
-        QString snippet = buildErrorSnippet(QString::fromStdString(info.errorLineString), info.errorColStart, info.errorColEnd, "error_mark");
-
-        auto card = [&](const QString& bodyExtra) -> QString {
-            QString inner = snippet + caption + bodyExtra;
-            QString body = inner.isEmpty()
-                ? QString()
-                : ("<tr><td class=\"error_body\">" + inner + "</td></tr>");
-            return "<table width=\"100%\" cellspacing=\"0\" class=\"error_card\">" + header + body + "</table>";
-        };
-
-        if (bt.isEmpty())
-        {
-            m_pMainWindow->showError(card(QString()));
-        }
-        else
-        {
-            QString collapsed = card("<div class=\"error_toggle\"><a href=\"sonicpi:toggle\">Show details</a></div>");
-            QString expanded = card("<div class=\"error_toggle\"><a href=\"sonicpi:toggle\">Hide details</a></div><pre class=\"backtrace\">" + bt + "</pre>");
-            m_pMainWindow->showToggleableError(collapsed, expanded);
-        }
+        m_pMainWindow->showErrorCard(false, header, location, reason,
+                                     QString::fromStdString(info.errorLineString), info.line,
+                                     info.errorColStart, info.errorColEnd,
+                                     QString::fromStdString(info.backtrace), info.line > 0);
     }
     else if (info.type == MessageType::SyntaxError)
     {
         m_pMainWindow->setLineMarkerinCurrentWorkspace(info.line, true, QString(), info.errorColStart, info.errorColEnd);
 
-        // Same card as runtime errors, but with the blue syntax-error header.
-        QString full = QString::fromStdString(info.text);
-        int sep = full.indexOf("\n\n");
-        QString headerText = (sep >= 0) ? full.left(sep) : ("Syntax Error: " + full);
-        QString caption;
-        if (sep >= 0)
-        {
-            QString det = full.mid(sep + 2);
-            int nl = det.indexOf('\n');
-            QString loc = (nl >= 0) ? det.left(nl) : det;
-            QString rawPart = (nl >= 0) ? det.mid(nl + 1) : QString();
-            caption = "<pre class=\"error_detail\"><span class=\"error_loc\">" + loc + "</span>";
-            if (!rawPart.isEmpty())
-                caption += " &#183; " + rawPart;
-            caption += "</pre>";
-        }
-        QString header = "<tr><td class=\"syntax_error_description\"><pre class=\"error_text\">" + headerText + "</pre></td></tr>";
-        QString snippet = buildErrorSnippet(QString::fromStdString(info.errorLineString), info.errorColStart, info.errorColEnd, "syntax_error_mark");
-        QString inner = snippet + caption;
-        QString body = inner.isEmpty() ? QString() : ("<tr><td class=\"error_body\">" + inner + "</td></tr>");
-        m_pMainWindow->showError("<table width=\"100%\" cellspacing=\"0\" class=\"error_card\">" + header + body + "</table>");
+        QString header, location, reason;
+        splitErrorText(QString::fromStdString(info.text), "Syntax Error: ", header, location, reason);
+        m_pMainWindow->showErrorCard(true, header, location, reason,
+                                     QString::fromStdString(info.errorLineString), info.line,
+                                     info.errorColStart, info.errorColEnd,
+                                     QString(), info.line > 0);
     }
     else if (info.type == MessageType::StartupError)
     {

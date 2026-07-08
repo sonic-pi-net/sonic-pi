@@ -180,12 +180,15 @@ private:
     // changes. m_errorLine is the marked line, or -1 when none is shown.
     void applyErrorMarkers(int lineNumber);
     void refreshErrorMarkers();
+    // Sets the symbol-margin gap (number-to-code) to ~1 char width so it tracks
+    // the font/zoom; kept identical in every state so errors never shift the
+    // code. Returns the width. Caller must hold the mutex.
+    int updateErrorMarginWidth();
     int m_errorLine = -1;
     bool m_errorIsSyntax = false;  // colour markers blue for syntax, pink for runtime
     QString m_errorToken;          // identifier to underline when no exact span
     int m_errorColStart = -1;      // exact byte-column span of the token to
     int m_errorColEnd = -1;        // underline (error_highlight); -1 = none
-    int m_defaultSymMarginW = 0;  // symbol-margin width to restore when no error
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     QRecursiveMutex* mutex;
 #else

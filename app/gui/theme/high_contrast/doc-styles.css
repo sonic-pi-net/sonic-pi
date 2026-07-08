@@ -32,15 +32,6 @@ em {
     color: #99004A;
 }
 
-.error_description {
-    font-size: x-large;
-    font-weight: bold;
-    background-color: #99004A;
-    color: white;
-    padding: 8px 12px;
-    margin: 0;
-}
-
 .syntax_error_description {
     font-size: x-large;
     font-weight: bold;
@@ -51,62 +42,9 @@ em {
 }
 
 
-.error_text {
-    margin: 0;
-    font-weight: bold;
-}
-
-.error_body {
-    background-color: #ededed;
-    padding: 8px 12px;
-}
-
-.error_snippet {
-    font-size: x-large;
-    color: black;
-    background-color: #dcdcdc;
-    padding: 8px 10px;
-    margin: 0 0 8px 0;
-}
-
-.error_mark {
-    color: #99004A;
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-.syntax_error_mark {
-    color: #003CC7;
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-.error_detail {
-    font-size: small;
-    color: #555555;
-    padding: 0;
-    margin: 0;
-}
-
-.error_loc {
-    color: black;
-}
-
-.error_toggle {
-    font-size: small;
-    padding: 8px 0 0 0;
-}
-
 body.error a {
     color: #555555;
     text-decoration: underline;
-}
-
-.backtrace {
-    font-size: small;
-    color: #777777;
-    padding: 8px 0 0 0;
-    margin: 0;
 }
 
 .error_line {

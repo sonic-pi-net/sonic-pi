@@ -572,7 +572,7 @@ module SonicPi
       if friendly
         # Lead with a prominent "Runtime Error" label + the friendly message; a
         # demoted caption (location + exact Ruby error) follows.
-        res = "Runtime Error — " + friendly + "\n\n" + location + "\n" + __clean_error_message(e)
+        res = "Runtime Error " + friendly + "\n\n" + location + "\n" + __clean_error_message(e)
       else
         res = "[#{location}]"
         res = res + " - " + m if m
@@ -617,15 +617,15 @@ module SonicPi
       end
       headline =
         case e
-        when NoMethodError     then name && "Sonic Pi doesn't know a function called '#{name}'"
-        when NameError         then name && "Sonic Pi doesn't know '#{name}'"
+        when NoMethodError     then name && "Sonic Pi doesn't know a function called `#{name}`"
+        when NameError         then name && "Sonic Pi doesn't know `#{name}`"
         when ZeroDivisionError then "You divided by zero"
         when ArgumentError     then "A function was given the wrong arguments"
         when TypeError         then "A value wasn't the kind this expected"
         else nil
         end
       return nil unless headline
-      headline += " — did you mean #{suggestion}?" if suggestion
+      headline += ". Did you mean `#{suggestion}`?" if suggestion
       headline
     rescue Exception
       nil
@@ -677,7 +677,7 @@ module SonicPi
       else
         location = "buffer #{w}"
       end
-      res = "Syntax Error — Sorry, Sonic Pi couldn't read your code\n\n" + location + "\nSyntaxError: #{err_msg}"
+      res = "Syntax Error Sonic Pi couldn't read your code\n\n" + location + "\nSyntaxError: #{err_msg}"
       __msg_queue.push({type: :syntax_error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, error_line: error_line, linenum: linenum, first_col: col_start, last_col: col_end})
     end
 

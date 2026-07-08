@@ -75,6 +75,7 @@
 #include "utils/scintilla_api.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
+#include "widgets/sonicpierrorcard.h"
 
 #include "utils/sonicpi_i18n.h"
 
@@ -471,8 +472,8 @@ void MainWindow::setupWindowStructure()
     connect(metroPane, &SonicPiMetro::statusMessage, this,
             [this](const QString& msg) { showStatusAndAnnounce(msg, 2000); });
 
-    // Handle links ourselves: the error pane uses a "sonicpi:toggle" link to
-    // expand/collapse the full exception details.
+    // Handle links ourselves so web links open in the system browser rather
+    // than navigating the pane.
     errorPane->setOpenLinks(false);
     connect(errorPane, &QTextBrowser::anchorClicked, this, &MainWindow::onErrorAnchorClicked);
 
@@ -863,11 +864,17 @@ void MainWindow::setupWindowStructure()
     // every pane's scrollbar shares the same edge offset.
     mainWidgetLayout->setContentsMargins(0, 0, 0, 0);
     mainWidgetLayout->setSpacing(0);
+    errorCard = new SonicPiErrorCard(theme);
+    connect(errorCard, &SonicPiErrorCard::jumpRequested, this, &MainWindow::jumpToError);
+    connect(errorCard, &SonicPiErrorCard::closeRequested, this, &MainWindow::dismissErrorCard);
+
     mainWidgetLayout->addWidget(editorTabWidget);
     mainWidgetLayout->addWidget(errorPane);
+    mainWidgetLayout->addWidget(errorCard);
     mainWidget = new QWidget;
     mainWidget->setFocusPolicy(Qt::NoFocus);
     errorPane->hide();
+    errorCard->hide();
     mainWidget->setLayout(mainWidgetLayout);
     mainWidget->setObjectName("mainWidget");
 
@@ -936,6 +943,7 @@ void MainWindow::handleCustomUrl(const QUrl& url)
 void MainWindow::escapeWorkspaces()
 {
     errorPane->hide();
+    errorCard->hide();
 
     for (int w = 0; w < workspace_max; w++)
     {
@@ -2232,6 +2240,7 @@ bool MainWindow::saveAs()
 void MainWindow::resetErrorPane()
 {
     errorPane->hide();
+    errorCard->hide();
     focusEditor();
 }
 
@@ -2243,9 +2252,16 @@ void MainWindow::runBufferIdx(int idx)
 
 void MainWindow::showError(QString msg)
 {
+    errorCard->hide();
     errorPane->clear();
     errorPane->setHtml("<html><head></head><body class=\"error\">" + msg + "</body></html>");
     errorPane->show();
+    // Grow the pane to fit the card so the primary "Jump to error" action is
+    // never clipped; cap it so an expanded backtrace scrolls instead.
+    QTextDocument* doc = errorPane->document();
+    doc->setTextWidth(errorPane->viewport()->width());
+    int wanted = qRound(doc->size().height()) + ScaleHeightForDPI(4);
+    errorPane->setFixedHeight(qBound(ScaleHeightForDPI(110), wanted, ScaleHeightForDPI(420)));
     focusErrors();
     // Errors are the most important feedback event — announce assertively so
     // screen-reader users hear them (parallels the Run started / Stopped cues).
@@ -2253,23 +2269,42 @@ void MainWindow::showError(QString msg)
              SonicPi::Announcement::Error);
 }
 
-void MainWindow::showToggleableError(const QString& collapsed, const QString& expanded)
+void MainWindow::showErrorCard(bool isSyntax, const QString& header, const QString& location,
+                               const QString& reason, const QString& codeLine, int lineNumber,
+                               int colStart, int colEnd, const QString& backtrace, bool canJump)
 {
-    m_errorHtmlCollapsed = collapsed;
-    m_errorHtmlExpanded = expanded;
-    m_errorShowingExpanded = false;
-    showError(collapsed);
+    errorPane->hide();
+    errorCard->showError(isSyntax, header, location, reason, codeLine, lineNumber, colStart, colEnd, backtrace, canJump);
+    focusErrors();
+    announce(tr("Error: %1").arg(errorCard->plainText().simplified()), true,
+             SonicPi::Announcement::Error);
+}
+
+void MainWindow::dismissErrorCard()
+{
+    errorCard->hide();
+    for (int w = 0; w < workspace_max; w++)
+        workspaces[w]->clearLineMarkers();
+    focusEditor();
+}
+
+void MainWindow::jumpToError()
+{
+    if (m_errorJumpLine < 0)
+        return;
+    if (m_errorJumpTab >= 0 && m_errorJumpTab < editorTabWidget->count())
+        editorTabWidget->setCurrentIndex(m_errorJumpTab);
+    if (SonicPiScintilla* ws = getCurrentWorkspace())
+    {
+        ws->setCursorPosition(m_errorJumpLine, m_errorJumpCol);
+        ws->ensureLineVisible(m_errorJumpLine);
+        ws->setFocus();
+    }
 }
 
 void MainWindow::onErrorAnchorClicked(const QUrl& link)
 {
-    if (link.toString() == "sonicpi:toggle")
-    {
-        m_errorShowingExpanded = !m_errorShowingExpanded;
-        const QString& h = m_errorShowingExpanded ? m_errorHtmlExpanded : m_errorHtmlCollapsed;
-        errorPane->setHtml("<html><head></head><body class=\"error\">" + h + "</body></html>");
-    }
-    else if (link.scheme() == "http" || link.scheme() == "https")
+    if (link.scheme() == "http" || link.scheme() == "https")
     {
         QDesktopServices::openUrl(link);
     }
@@ -2998,6 +3033,7 @@ void MainWindow::updateColourTheme()
     }
 
     errorPane->document()->setDefaultStyleSheet(css);
+    errorCard->applyTheme();
 
     // clear stylesheets
     this->setStyleSheet("");
@@ -5672,6 +5708,9 @@ void MainWindow::setLineMarkerinCurrentWorkspace(int num, bool isSyntaxError, co
     {
         SonicPiScintilla* ws = getCurrentWorkspace();
         ws->setLineErrorMarker(num - 1, isSyntaxError, errorToken, colStart, colEnd);
+        m_errorJumpTab = editorTabWidget->currentIndex();
+        m_errorJumpLine = num - 1;
+        m_errorJumpCol = colStart >= 0 ? colStart : 0;
     }
 }
 // TODO remove
@@ -6136,7 +6175,7 @@ void MainWindow::focusHelpDetails()
 
 void MainWindow::focusErrors()
 {
-    focusPane(errorPane);
+    focusPane(errorCard->isVisible() ? static_cast<QWidget*>(errorCard) : static_cast<QWidget*>(errorPane));
 }
 
 void MainWindow::cycleFocusForward()

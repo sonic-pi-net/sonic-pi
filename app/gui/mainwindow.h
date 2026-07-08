@@ -76,6 +76,7 @@ class ScintillaAPI;
 class SonicPii18n;
 class SonicPiLog;
 class SonicPiScintilla;
+class SonicPiErrorCard;
 class SonicPiEditor;
 class SonicPiTheme;
 class SonicPiToolTipManager;
@@ -137,9 +138,12 @@ public:
     void addCuePath(QString path, QString val);
     void setLineMarkerinCurrentWorkspace(int num, bool isSyntaxError, const QString& errorToken, int colStart, int colEnd);
     void showError(QString msg);
-    // Runtime error with a collapsed (friendly) and expanded (full details) view
-    // toggled by a link in the error pane.
-    void showToggleableError(const QString& collapsed, const QString& expanded);
+    // Runtime/syntax errors as a native card (rounded, themed, with a jump button).
+    void showErrorCard(bool isSyntax, const QString& header, const QString& location,
+                       const QString& reason, const QString& codeLine, int lineNumber,
+                       int colStart, int colEnd, const QString& backtrace, bool canJump);
+    void jumpToError();
+    void dismissErrorCard();
     void replaceBuffer(QString id, QString content, int line, int index, int first_line);
     void replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line);
     void setUpdateInfoText(QString t);
@@ -590,10 +594,12 @@ private:
     SonicPiLog* incomingPane;
     SonicPiMetro* metroPane;
     QTextBrowser* errorPane;
+    SonicPiErrorCard* errorCard;
     void onErrorAnchorClicked(const QUrl& link);
-    QString m_errorHtmlCollapsed;
-    QString m_errorHtmlExpanded;
-    bool m_errorShowingExpanded = false;
+    // "Jump to error" target: the buffer tab, line and column the marker was set on.
+    int m_errorJumpTab = -1;
+    int m_errorJumpLine = -1;
+    int m_errorJumpCol = 0;
     QDockWidget* outputWidget;
     QDockWidget* incomingWidget;
     QWidget* prefsWidget;

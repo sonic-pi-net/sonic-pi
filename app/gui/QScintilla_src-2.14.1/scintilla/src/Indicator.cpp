@@ -41,20 +41,60 @@ void Indicator::Draw(Surface *surface, const PRectangle &rc, const PRectangle &r
 	surface->PenColour(sacDraw.fore);
 	const int ymid = (irc.bottom + irc.top) / 2;
 	if (sacDraw.style == INDIC_SQUIGGLE) {
+		// Sonic Pi patch: Scintilla's stock squiggle is a cramped 2px pixel wave
+		// hugging the baseline. Draw instead the same smooth zig-zag the GUI's
+		// error card paints (widgets/sonicpierrorcodeline.h) so the editor and
+		// the card match: thicker stroke, taller amplitude, longer wavelength,
+		// antialiased via an RGBA image, and sat a little below the baseline.
+		// The editor grants room with SCI_SETEXTRADESCENT; the drawing clamps
+		// to the line box regardless. Tune the look with the constants below
+		// (keep them in step with sonicpierrorcodeline.h).
 		const IntegerRectangle ircSquiggle(PixelGridAlign(rc));
-		int x = ircSquiggle.left;
-		const int xLast = ircSquiggle.right;
-		int y = 0;
-		surface->MoveTo(x, irc.top + y);
-		while (x < xLast) {
-			if ((x + 2) > xLast) {
-				y = 1;
-				x = xLast;
-			} else {
-				x += 2;
-				y = 2 - y;
+		const int width = std::min(4000, ircSquiggle.right - ircSquiggle.left);
+		if (width > 0) {
+			const float amp = 3.0f;      // peak height above/below the centre line
+			const float half = 5.0f;     // half a wavelength
+			const float stroke = 2.0f;   // perpendicular line thickness
+			const int gap = 6;           // px between baseline (rc.top) and wave top
+			const int height = static_cast<int>(2 * amp + stroke) + 2;
+
+			// Vertical distance -> perpendicular distance on the diagonals, so
+			// the stroke reads as `stroke` px thick regardless of slope.
+			const float slope = (2.0f * amp) / half;
+			const float perp = 1.0f / std::sqrt(1.0f + slope * slope);
+
+			RGBAImage image(width, height, 1.0, nullptr);
+			const float yMid = height / 2.0f;
+			const int period = static_cast<int>(2 * half);
+			for (int x = 0; x < width; x++) {
+				// Phase from the run's start and rising first, so a marked token
+				// always begins its wave identically to the error card's
+				// (moveTo(x0, y + amp) then up).
+				const float px = static_cast<float>(x % period) + 0.5f;
+				const float yc = (px < half)
+					? amp - (2.0f * amp) * (px / half)
+					: -amp + (2.0f * amp) * ((px - half) / half);
+				const float rowCentre = yMid + yc;
+				for (int y = 0; y < height; y++) {
+					const float d = std::abs((y + 0.5f) - rowCentre) * perp;
+					const float a = (stroke / 2.0f) + 0.5f - d;
+					if (a > 0.0f)
+						image.SetPixel(x, y, sacDraw.fore,
+							static_cast<int>(std::min(1.0f, a) * 0xff));
+				}
 			}
-			surface->LineTo(x, irc.top + y);
+
+			PRectangle rcSquiggle(static_cast<XYPOSITION>(ircSquiggle.left),
+				rc.top + gap,
+				static_cast<XYPOSITION>(ircSquiggle.left + width),
+				rc.top + gap + height);
+			// Never draw past the bottom of the line box.
+			if (rcSquiggle.bottom > rcLine.bottom) {
+				const XYPOSITION dy = rcSquiggle.bottom - rcLine.bottom;
+				rcSquiggle.top -= dy;
+				rcSquiggle.bottom -= dy;
+			}
+			surface->DrawRGBAImage(rcSquiggle, image.GetWidth(), image.GetHeight(), image.Pixels());
 		}
 	} else if (sacDraw.style == INDIC_SQUIGGLEPIXMAP) {
 		const PRectangle rcSquiggle = PixelGridAlign(rc);
@@ -180,17 +220,11 @@ void Indicator::Draw(Surface *surface, const PRectangle &rc, const PRectangle &r
 		}
 		surface->DrawRGBAImage(rcBox, image.GetWidth(), image.GetHeight(), image.Pixels());
 	} else if (sacDraw.style == INDIC_DASH) {
-		// (Sonic Pi) thick dashes drawn at the bottom of the line, below the text
-		// body, rather than a 1px line striking through the descenders.
-		const int lineH = static_cast<int>(rcLine.bottom - rcLine.top);
-		const int thickness = std::max(3, lineH / 6);
-		const int yBottom = static_cast<int>(rcLine.bottom);
 		int x = irc.left;
-		while (x < irc.right) {
-			const PRectangle rcDash = PRectangle::FromInts(
-				x, yBottom - thickness, std::min(x + 3, irc.right), yBottom);
-			surface->FillRectangle(rcDash, sacDraw.fore);
-			x += 6;
+		while (x < rc.right) {
+			surface->MoveTo(x, ymid);
+			surface->LineTo(std::min(x + 4, irc.right), ymid);
+			x += 7;
 		}
 	} else if (sacDraw.style == INDIC_DOTS) {
 		int x = irc.left;
