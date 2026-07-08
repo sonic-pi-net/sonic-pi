@@ -2445,6 +2445,7 @@ void SettingsWidget::refreshThemeCards(SonicPiTheme* theme) {
     // Recording-mode segmented icons bake their off/on colours in, so regenerate
     // them on theme change: resting = window foreground, selected = auto-contrast
     // against the accent fill (black on neon green, white on dark, …).
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     if (recording_type_audio_radio && recording_type_av_radio) {
         const int px = ScaleHeightForDPI(32);
         const QColor off = theme->color("WindowForeground");
@@ -2452,6 +2453,7 @@ void SettingsWidget::refreshThemeCards(SonicPiTheme* theme) {
         recording_type_audio_radio->setIcon(makeSvgToggleIcon(kWaveformSvg, off, on, px));
         recording_type_av_radio->setIcon(makeSvgToggleIcon(kVideoSvg, off, on, px));
     }
+#endif
 }
 
 
