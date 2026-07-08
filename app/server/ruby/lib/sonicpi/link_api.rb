@@ -194,12 +194,19 @@ module SonicPi
       res ? res[0].to_i : 0
     end
 
+    # Engine "now" (NTP micros) plus beat and phase at that instant, in a
+    # single round-trip (was three serial RPCs: time/now + beat + phase).
+    def link_get_now_beat_and_phase(quantum = 4, tl: "link")
+      res = @link_comms.rpc(clock_addr("rpc/beat_phase_now", tl),
+                            quantum.to_f,
+                            expect: clock_addr("rpc/beat_phase_now.reply", tl))
+      res ? [res[0].to_i, res[1].to_f, res[2].to_f] : [0, 0.0, 0.0]
+    end
+
     def link_get_next_beat_and_time_at_phase(phase, quantum, safety_t, tl: "link")
       safety_micros = safety_t * 1_000_000.0
       fq = quantum.to_f
-      t_now = link_current_time
-      t_now_phase = link_get_phase_at_time(t_now, fq, tl: tl)
-      t_now_beat = link_get_beat_at_time(t_now, fq, tl: tl)
+      t_now, t_now_beat, t_now_phase = link_get_now_beat_and_phase(fq, tl: tl)
 
       next_whole_quantum = (t_now_beat - t_now_phase) + quantum
       next_beat = next_whole_quantum + phase
@@ -229,11 +236,12 @@ module SonicPi
       link_get_phase_at_time(clock_time_to_link_micros(clock_time), quantum, tl: tl)
     end
 
-    def link_get_phase_and_beat_at_clock_time(clock_time, quantum = 4)
-      # No combined phase+beat RPC, so two calls.
-      link_time = clock_time_to_link_micros(clock_time)
-      [link_get_phase_at_time(link_time, quantum),
-       link_get_beat_at_time(link_time, quantum)]
+    def link_get_beat_and_phase_at_clock_time(clock_time, quantum = 4, tl: "link")
+      res = @link_comms.rpc(clock_addr("rpc/beat_phase_at_time", tl),
+                            SonicPi::OSC::Int64.new(clock_time_to_link_micros(clock_time)),
+                            quantum.to_f,
+                            expect: clock_addr("rpc/beat_phase_at_time.reply", tl))
+      res ? [res[0].to_f, res[1].to_f] : [0.0, 0.0]
     end
 
     def link_set_is_playing!(enabled)
@@ -282,8 +290,7 @@ module SonicPi
     end
 
     def link_current_time_and_beat(quantise_beat=true)
-      link_time = link_current_time
-      beat = link_get_beat_at_time(link_time)
+      link_time, beat, _phase = link_get_now_beat_and_phase
 
       if quantise_beat
         beat = (beat + 1).to_i
@@ -366,11 +373,15 @@ module SonicPi
         @internal_cue_handler.call("/midi/clock-change", []) if @internal_cue_handler
       end
 
-      # Transport state changed. Args: <int> playing, <int64> at-link-micros.
+      # Transport state changed. Args: <int> playing, <int64> at-NTP-micros
+      # (the engine converts out of the Link clock domain before broadcast).
+      # The cue carries the transition's clock time so waiters can align to
+      # the actual transport edge rather than cue-delivery time.
       @link_comms.add_method("/clock/notify/transport") do |args|
         playing = args[0].to_i != 0
         cue = playing ? "/link/start" : "/link/stop"
-        @internal_cue_handler.call(cue, []) if @internal_cue_handler
+        t = args[1] ? link_micros_to_clock_time(args[1].to_i) : nil
+        @internal_cue_handler.call(cue, t ? [t] : []) if @internal_cue_handler
       end
     end
   end
