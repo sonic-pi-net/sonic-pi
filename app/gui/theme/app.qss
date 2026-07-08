@@ -126,6 +126,7 @@ QTabBar::tab:focus
 
 QTabBar::tab:hover {
     background: scrollBarHoverColor;
+    color: scrollBarHoverTextColor;
 }
 
 QTabBar::tab:selected
@@ -325,7 +326,10 @@ QCheckBox {
     border: 2dx solid transparent;
 }
 
-QCheckBox:focus
+/* Focus ring only for KEYBOARD focus (kbFocus property, set by SettingsWidget's
+   app-wide event filter) — a mouse click toggles without drawing a box around
+   the row. */
+QCheckBox[kbFocus="true"]
 {
     border: 2dx solid hoverButtonColor;
 }
@@ -346,7 +350,7 @@ QCheckBox::indicator:unchecked {
 }
 
 QCheckBox::indicator:checked {
-    image: url(:/images/checkbox-checked.png);
+    image: url("checkboxCheckedImage");
 }
 
 
@@ -428,6 +432,14 @@ QListWidget::item
     color: menuTextColor;
 }
 
+/* Hover highlight so the help nav list responds to the pointer like the docs do,
+   with auto-contrasting text on the hover fill. */
+QListWidget::item:hover
+{
+    background: scrollBarHoverColor;
+    color: scrollBarHoverTextColor;
+}
+
 QListWidget::item::selected
 {
     background: menuSelectedColor;
@@ -463,8 +475,8 @@ QComboBox::item
 
 QComboBox:hover
 {
-    border-radius: 3dx;;
-    border-color: #1e90ff;
+    border-radius: 3dx;
+    border-color: hoverButtonColor;
     background: hoverButtonColor;
 }
 
@@ -673,8 +685,10 @@ QPushButton
 {
     font-size: medium;
     /* Buttons are black in every theme by design; the border (white in dark,
-       light-grey in light) gives them their form, the text stays white. */
-    background-color: black;
+       light-grey in light) gives them their form, the text stays white. Routed
+       through a token (not literal black) so it still inverts / greys with the
+       global colour toggles. */
+    background-color: buttonBackgroundColor;
     color: buttonTextColor;
     padding: 5dx;
     border-radius: 3dx;
@@ -691,7 +705,7 @@ QPushButton::pressed
 QPushButton::hover:!pressed
 {
     background-color: hoverButtonColor;
-    color: buttonTextColor;
+    color: hoverButtonTextColor;
 }
 
 QPushButton:focus
@@ -794,7 +808,7 @@ QPushButton#tapTempo
 QPushButton#tapButton[flashing="true"]
 {
   background-color: pressedButtonColor;
-  color: buttonTextColor;
+  color: pressedButtonTextColor;
   border-color: paneColor;
 }
 
@@ -846,9 +860,9 @@ QLineEdit#bpmScrubber
     font-size: medium;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
-    color: windowForegroundColor;
+    color: highlightedBackgroundColor;
     background-color: paneColor;
-    border: 2dx solid hoverButtonColor;
+    border: 2dx solid highlightedBackgroundColor;
     padding: 5dx;
     min-width: 105dx;
     max-width: 125dx;
@@ -866,14 +880,14 @@ QLineEdit#bpmScrubber::hover:!pressed,
 QLineEdit#bpmScrubber::hover:pressed
 {
     background-color: hoverButtonColor;
-    color: buttonTextColor;
+    color: hoverButtonTextColor;
 }
 
 QLineEdit#bpmScrubber[linkOn="true"]::hover:!pressed,
 QLineEdit#bpmScrubber[linkOn="true"]::hover:pressed
 {
     background-color: pressedButtonColor;
-    color: buttonTextColor;
+    color: pressedButtonTextColor;
 }
 
 /* Placed after the linkOn rule (equal specificity) so keyboard focus stays
@@ -887,7 +901,7 @@ QLineEdit#bpmScrubber:focus
    250ms. change = pressed fill; reset = inverted flash. */
 QLineEdit#bpmScrubber[cue="change"]
 {
-    color: buttonTextColor;
+    color: pressedButtonTextColor;
     border-color: pressedButtonColor;
     background-color: pressedButtonColor;
 }
@@ -905,8 +919,9 @@ QLineEdit#timeWarpEdit
     font-size: medium;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
+    color: highlightedBackgroundColor;
     background-color: paneColor;
-    border: 2dx solid buttonColor;
+    border: 2dx solid highlightedBackgroundColor;
     padding: 5dx;
     max-width: 80dx;
     height: 25dx;
@@ -921,13 +936,13 @@ QLineEdit#timeWarpEdit:focus
 QLineEdit#timeWarpEdit::hover:!pressed
 {
     background-color: hoverButtonColor;
-    color: buttonTextColor;
+    color: hoverButtonTextColor;
 }
 
 QLineEdit#timeWarpEdit::hover:pressed
 {
     background-color: hoverButtonColor;
-    color: buttonTextColor;
+    color: hoverButtonTextColor;
 }
 
 /* Transient warp-applied flash — driven by the `flashing` dynamic property
@@ -935,7 +950,7 @@ QLineEdit#timeWarpEdit::hover:pressed
    inline full-stylesheet rebuild. */
 QLineEdit#timeWarpEdit[flashing="true"]
 {
-    color: buttonTextColor;
+    color: pressedButtonTextColor;
     border-color: pressedButtonColor;
     background-color: pressedButtonColor;
 }
@@ -1146,7 +1161,7 @@ QSlider#timeWarpSlider::groove:horizontal {
 }
 
 QSlider#timeWarpSlider::handle:horizontal {
-    background: buttonColor;
+    background: highlightedBackgroundColor;
     width: 18dx;
     height: 25dx;
     margin: -5px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
@@ -1160,19 +1175,4 @@ QSlider#timeWarpSlider::handle:horizontal:hover {
 
 QSlider#timeWarpSlider::handle:horizontal:focus {
     background: hoverButtonColor;
-}
-
-QSlider#timeWarpSlider::handle:vertical {
-    min-height: 8dx;
-    background: green;
-    /* margin: 0 -4dx; /\* expand outside the groove *\/ */
-}
-
-QSlider#timeWarpSlider::add-page:vertical {
-    background: white;
-}
-
-QSlider#timeWarpSlider::sub-page:vertical {
-    background: pink;
-
 }

@@ -216,6 +216,36 @@ void SonicPiErrorCard::applyTheme()
         .arg(accent.name(), cardBg.name(), muted.name(), textColor.name(), editorBg.name())
         .arg(codeBorder.name(), btnText.name(), btnBorder.name(), btnHover.name(), btnPressed.name());
     setStyleSheet(qss);
+
+    // The message's accent code-spans and the offending code line bake theme
+    // colours into their content (not QSS), so re-render them here too.
+    renderThemedContent();
+}
+
+void SonicPiErrorCard::renderThemedContent()
+{
+    QColor accent = m_theme->color(m_isSyntax ? "MarkerBackgroundSyntax" : "MarkerBackground");
+
+    // Identifiers are backtick-marked (`name`); render them as coloured code
+    // font instead of quotes, which read poorly next to contraction apostrophes.
+    if (!m_messageText.isEmpty())
+    {
+        QString msgHtml = m_messageText.toHtmlEscaped();
+        static const QRegularExpression reTok("`([^`]+)`");
+        msgHtml.replace(reTok, "<span style=\"font-family:'Hack','Courier New',monospace; color:"
+                        + accent.name() + ";\">\\1</span>");
+        m_message->setText(msgHtml);
+    }
+
+    // The offending span gets the full-strength foreground with the accent
+    // zig-zag beneath; the rest of the line recedes into comment grey so the
+    // error is the focus.
+    if (!m_codeLine.isEmpty())
+    {
+        m_code->setContent(m_codeLine, m_colStart, m_colEnd, m_codeLineNumber,
+                           m_theme->color("CommentForeground"),
+                           m_theme->color("Foreground"), accent);
+    }
 }
 
 void SonicPiErrorCard::showError(bool isSyntax,
@@ -229,9 +259,6 @@ void SonicPiErrorCard::showError(bool isSyntax,
                                  bool canJump)
 {
     m_isSyntax = isSyntax;
-    applyTheme();
-
-    QColor accent = m_theme->color(isSyntax ? "MarkerBackgroundSyntax" : "MarkerBackground");
 
     // The accent-coloured "Runtime Error"/"Syntax Error" label is the centred
     // title; the friendly message that follows it becomes its own row.
@@ -245,13 +272,7 @@ void SonicPiErrorCard::showError(bool isSyntax,
     m_headerPlain = header;
     m_headerPlain.remove('`');   // don't let the screen reader speak "backtick"
     m_header->setText(title);
-    // Identifiers are backtick-marked (`name`); render them as coloured code
-    // font instead of quotes, which read poorly next to contraction apostrophes.
-    QString msgHtml = message.toHtmlEscaped();
-    static const QRegularExpression reTok("`([^`]+)`");
-    msgHtml.replace(reTok, "<span style=\"font-family:'Hack','Courier New',monospace; color:"
-                    + accent.name() + ";\">\\1</span>");
-    m_message->setText(msgHtml);
+    m_messageText = message;
     m_message->setVisible(!message.isEmpty());
 
     m_location->setText(location.toHtmlEscaped());
@@ -264,15 +285,14 @@ void SonicPiErrorCard::showError(bool isSyntax,
         code.chop(1);
     bool hasCode = !code.trimmed().isEmpty();
     m_codeFrame->setVisible(hasCode);
-    if (hasCode)
-    {
-        // The offending span gets the full-strength foreground with the accent
-        // zig-zag beneath; the rest of the line recedes into comment grey so
-        // the error is the focus.
-        m_code->setContent(codeLine, colStart, colEnd, lineNumber,
-                           m_theme->color("CommentForeground"),
-                           m_theme->color("Foreground"), accent);
-    }
+    m_codeLine = hasCode ? codeLine : QString();
+    m_colStart = colStart;
+    m_colEnd = colEnd;
+    m_codeLineNumber = lineNumber;
+
+    // Apply the themed QSS and paint the accent-coloured message spans + code
+    // line from the values just stored (applyTheme re-runs renderThemedContent).
+    applyTheme();
 
     m_jump->setText(tr("Jump to error"));
     m_jump->setVisible(canJump);

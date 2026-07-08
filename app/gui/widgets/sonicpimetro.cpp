@@ -227,7 +227,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   linkStreamsWidget = new LinkAudioStreamsWidget(m_spAPI, this);
   linkStreamsWidget->setVisible(false);
   linkStreamsWidget->setVisibilityColors(theme->color("HighlightedBackground"),
-                                         theme->color("HighlightedForeground"));
+                                         theme->contrastingText(theme->color("HighlightedBackground")));
 
   // Streams panel sits just above the anchored metro row.
   // Stack the streams panel and the metro row in one fixed-width, left-aligned
@@ -329,7 +329,9 @@ void SonicPiMetro::updateRowVisibility()
                                           : theme->color("WindowForeground");
   static_cast<GlyphButton*>(m_rowVisibility)
       ->setGlyph(net ? kNetworkSvg : kGhostSvg, glyphColor,
-                 theme->color("HighlightedForeground"));  // white on hover
+                 // Hovering fills the button with HoverButton (see #rowVisibility
+                 // in app.qss), so contrast the glyph against that fill.
+                 theme->contrastingText(theme->color("HoverButton")));
   // Structured tooltip (title + auto-wrapped body — see sonicpitooltip.h).
   m_rowVisibility->setProperty("tipTitle", net
       ? tr("Link Visibility: Local Network")
@@ -444,7 +446,7 @@ void SonicPiMetro::updateColourTheme()
   updateRowVisibility();   // glyph colour tracks the theme's ButtonText
   if (linkStreamsWidget)
     linkStreamsWidget->setVisibilityColors(theme->color("HighlightedBackground"),
-                                           theme->color("HighlightedForeground"));
+                                           theme->contrastingText(theme->color("HighlightedBackground")));
 }
 
  void SonicPiMetro::paintEvent(QPaintEvent *)

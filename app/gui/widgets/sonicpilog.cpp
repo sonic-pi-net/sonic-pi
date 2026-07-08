@@ -18,7 +18,43 @@
 #include <QScrollBar>
 #include <QMenu>
 #include <QContextMenuEvent>
+#include <QTextBlock>
+#include <QTextFragment>
 #include <vector>
+
+namespace {
+// Custom QTextCharFormat properties recording the theme roles a fragment was
+// coloured from, so the log can be re-resolved after a theme change instead of
+// keeping the baked (and now stale) colours.
+constexpr int FgKeyProp   = QTextFormat::UserProperty + 1;
+constexpr int BgKeyProp   = QTextFormat::UserProperty + 2;
+constexpr int BgAlphaProp = QTextFormat::UserProperty + 3;
+
+// The foreground sentinel "@contrast" means "black or white, whichever reads on
+// the background" — for text on a coloured fill (e.g. cue path/data chips).
+static const char* const kContrastFg = "@contrast";
+
+// Sets fg/bg on a char format from theme keys AND records those keys (+ bg
+// alpha) so recolour() can re-derive them. An empty key leaves that channel.
+// bgKey is resolved first so the fg can auto-contrast against it.
+void applyRole(QTextCharFormat& tf, SonicPiTheme* theme,
+               const QString& fgKey, const QString& bgKey, int bgAlpha = 255) {
+    if (!bgKey.isEmpty()) {
+        QColor bg = theme->color(bgKey);
+        if (bgAlpha != 255) bg.setAlpha(bgAlpha);
+        tf.setBackground(bg);
+        tf.setProperty(BgKeyProp, bgKey);
+        tf.setProperty(BgAlphaProp, bgAlpha);
+    }
+    if (!fgKey.isEmpty()) {
+        const QColor fg = (fgKey == kContrastFg && !bgKey.isEmpty())
+                              ? theme->contrastingText(theme->color(bgKey))
+                              : theme->color(fgKey);
+        tf.setForeground(fg);
+        tf.setProperty(FgKeyProp, fgKey);
+    }
+}
+} // namespace
 
 SonicPiLog::SonicPiLog(QWidget* parent)
     : QPlainTextEdit(parent)
@@ -103,6 +139,68 @@ void SonicPiLog::setTextBackgroundColor(QColor c)
     setCurrentCharFormat(tf);
 }
 
+void SonicPiLog::setTextColorKey(SonicPiTheme* theme, const QString& fgKey)
+{
+    QTextCharFormat tf;
+    applyRole(tf, theme, fgKey, QString());
+    setCurrentCharFormat(tf);
+}
+
+void SonicPiLog::setTextBgFgColorKeys(SonicPiTheme* theme, const QString& bgKey,
+                                      const QString& fgKey, int bgAlpha)
+{
+    QTextCharFormat tf;
+    applyRole(tf, theme, fgKey, bgKey, bgAlpha);
+    setCurrentCharFormat(tf);
+}
+
+void SonicPiLog::setTextBackgroundColorKey(SonicPiTheme* theme, const QString& bgKey, int bgAlpha)
+{
+    QTextCharFormat tf;
+    applyRole(tf, theme, QString(), bgKey, bgAlpha);
+    setCurrentCharFormat(tf);
+}
+
+// Re-resolve every fragment's recorded theme roles against the current theme
+// (scheme + hue rotation + monochrome), so log history already on screen tracks
+// the theme instead of keeping the colours it was written with.
+void SonicPiLog::recolour(SonicPiTheme* theme)
+{
+    QTextDocument* doc = document();
+    QTextCursor edit(doc);
+    edit.beginEditBlock();
+    for (QTextBlock block = doc->begin(); block.isValid(); block = block.next()) {
+        for (QTextBlock::iterator it = block.begin(); !it.atEnd(); ++it) {
+            const QTextFragment frag = it.fragment();
+            if (!frag.isValid()) continue;
+            QTextCharFormat f = frag.charFormat();
+            bool changed = false;
+            if (f.hasProperty(BgKeyProp)) {
+                QColor bg = theme->color(f.property(BgKeyProp).toString());
+                const int a = f.hasProperty(BgAlphaProp) ? f.property(BgAlphaProp).toInt() : 255;
+                if (a != 255) bg.setAlpha(a);
+                f.setBackground(bg);
+                changed = true;
+            }
+            if (f.hasProperty(FgKeyProp)) {
+                const QString fk = f.property(FgKeyProp).toString();
+                if (fk == kContrastFg && f.hasProperty(BgKeyProp))
+                    f.setForeground(theme->contrastingText(theme->color(f.property(BgKeyProp).toString())));
+                else
+                    f.setForeground(theme->color(fk));
+                changed = true;
+            }
+            if (changed) {
+                QTextCursor fc(doc);
+                fc.setPosition(frag.position());
+                fc.setPosition(frag.position() + frag.length(), QTextCursor::KeepAnchor);
+                fc.setCharFormat(f);
+            }
+        }
+    }
+    edit.endEditBlock();
+}
+
 void SonicPiLog::setFontFamily(QString font_name)
 {
 #ifdef __APPLE__
@@ -137,8 +235,7 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
     QTextCursor editBlock = textCursor();
     editBlock.beginEditBlock();
 
-    tf.setForeground(theme->color("LogForeground"));
-    tf.setBackground(theme->color("LogBackground"));
+    applyRole(tf, theme, "LogForeground", "LogBackground");
     setCurrentCharFormat(tf);
 
     ss.append("{run: ").append(QString::number(mm.job_id));
@@ -175,46 +272,15 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
 
         for (int j = 0; j < lines.size(); ++j)
         {
-            switch (msg_type)
-            {
-            case 0:
-                tf.setForeground(theme->color("LogForeground"));
-                tf.setBackground(theme->color("LogBackground"));
-                break;
-            case 1:
-                tf.setForeground(theme->color("LogForeground_1"));
-                tf.setBackground(theme->color("LogBackground_1"));
-                break;
-            case 2:
-                tf.setForeground(theme->color("LogForeground_2"));
-                tf.setBackground(theme->color("LogBackground_2"));
-                break;
-            case 3:
-                tf.setForeground(theme->color("LogForeground_3"));
-                tf.setBackground(theme->color("LogBackground_3"));
-                break;
-            case 4:
-                tf.setForeground(theme->color("LogForeground_4"));
-                tf.setBackground(theme->color("LogBackground_4"));
-                break;
-            case 5:
-                tf.setForeground(theme->color("LogForeground_5"));
-                tf.setBackground(theme->color("LogBackground_5"));
-                break;
-            case 6:
-                tf.setForeground(theme->color("LogForeground_6"));
-                tf.setBackground(theme->color("LogBackground_6"));
-                break;
-            default:
-                tf.setForeground(theme->color("LogForeground"));
-                tf.setBackground(theme->color("LogBackground"));
-            }
-
+            // msg_type 1-6 map to the numbered log-stream roles; 0/other use the
+            // default log role. The role is recorded on the format for recolour().
+            const QString sfx = (msg_type >= 1 && msg_type <= 6) ? QString("_%1").arg(msg_type) : QString();
+            applyRole(tf, theme, "LogForeground" + sfx, "LogBackground" + sfx);
             setCurrentCharFormat(tf);
             insertPlainText(lines.at(j));
             if ((j + 1) < lines.size())
             {
-                tf.setForeground(theme->color("LogForeground"));
+                applyRole(tf, theme, "LogForeground", QString());
                 setCurrentCharFormat(tf);
                 if (i == (msg_count - 1))
                 {
@@ -229,8 +295,7 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
             }
         }
 
-        tf.setForeground(theme->color("LogForeground"));
-        tf.setBackground(theme->color("LogBackground"));
+        applyRole(tf, theme, "LogForeground", "LogBackground");
         setCurrentCharFormat(tf);
     }
     appendPlainText(QString::fromStdString(" "));

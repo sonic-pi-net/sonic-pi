@@ -275,7 +275,7 @@ void MainWindow::completeBoot()
 
         updateFullScreenMode();
 
-        // May swap themeStyle to high contrast before the first theme
+        // May swap the colour scheme to high contrast before the first theme
         // application below; also follows live OS contrast toggles from here
         // on (the call creates the QAccessibilityHints instance).
         applyOSContrastPreference();
@@ -531,14 +531,27 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
     connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
     connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
+    // The full re-theme (stylesheet regen + repolish of every widget) is heavy
+    // and must not run while an input is being dragged (e.g. the hue dial), or
+    // the UI thread stutters. This timer debounces it off the input path: each
+    // change restarts it, so during a continuous drag nothing re-themes; the
+    // single apply fires once the dial settles (and reads the latest values).
+    themeApplyTimer = new QTimer(this);
+    themeApplyTimer->setSingleShot(true);
+    themeApplyTimer->setInterval(60);
+    connect(themeApplyTimer, &QTimer::timeout, this, [this]() { updateColourTheme(); });
     connect(settingsWidget, &SettingsWidget::themeChanged, this, [this]() {
         // The theme buttons emit clicked() (and thus this signal) even when
         // the already-active theme is clicked; updateSettings() has run first
-        // and written themeStyle, so compare against the last applied style
-        // to treat only real changes as an explicit pick.
-        if (static_cast<int>(piSettings->themeStyle) != appliedThemeStyle)
+        // and written the scheme choice, so compare against the last applied
+        // scheme to treat only real changes as an explicit pick. The icon set
+        // is an independent axis (see applyOSContrastPreference): toggling it
+        // still re-themes below but is not a theme pick, so it must not
+        // disturb the OS-contrast restore state.
+        if (!themeEverApplied
+            || static_cast<int>(piSettings->colourScheme) != appliedColourScheme)
             noteExplicitThemeChoice();
-        updateColourTheme();
+        themeApplyTimer->start();   // debounce: only re-theme once the input settles
     });
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(changeScopeKindVisibility(QString)));
@@ -725,7 +738,7 @@ void MainWindow::setupWindowStructure()
     incomingPane->document()->setMaximumBlockCount(1000);
     errorPane->document()->setMaximumBlockCount(1000);
 
-    outputPane->setTextColor(QColor(theme->color("LogForeground")));
+    outputPane->setTextColorKey(theme, "LogForeground");
     outputPane->appendPlainText("\n");
 
     incomingPane->setTextColor(QColor(theme->color("LogForeground")));
@@ -2845,12 +2858,13 @@ void MainWindow::applyOSContrastPreference()
         // that, across signal re-fires and restarts alike.
         if (gui_settings->value("prefs/theme-os-contrast-opt-out", false).toBool())
             return;
-        if (piSettings->themeStyle != SonicPiTheme::HighContrastMode)
+        if (piSettings->colourScheme != SonicPiTheme::HighContrastScheme)
         {
             if (savedTheme.isEmpty())
                 gui_settings->setValue("prefs/theme-before-os-contrast",
-                                       theme->themeStyleToName(piSettings->themeStyle));
-            piSettings->themeStyle = SonicPiTheme::HighContrastMode;
+                                       SonicPiTheme::colourSchemeToName(piSettings->colourScheme));
+            // Force High Contrast but keep the user's current icon-set choice.
+            piSettings->colourScheme = SonicPiTheme::HighContrastScheme;
             emit settingsChanged();
             updateColourTheme();
         }
@@ -2865,9 +2879,9 @@ void MainWindow::applyOSContrastPreference()
             // user had before. (If they picked something else meanwhile,
             // just drop the stale marker.)
             gui_settings->remove("prefs/theme-before-os-contrast");
-            if (piSettings->themeStyle == SonicPiTheme::HighContrastMode)
+            if (piSettings->colourScheme == SonicPiTheme::HighContrastScheme)
             {
-                piSettings->themeStyle = theme->themeNameToStyle(savedTheme);
+                piSettings->colourScheme = theme->colourSchemeFromName(savedTheme);
                 emit settingsChanged();
                 updateColourTheme();
             }
@@ -2879,54 +2893,36 @@ void MainWindow::applyOSContrastPreference()
 void MainWindow::cycleThemes()
 {
     noteExplicitThemeChoice();
-    if (piSettings->themeStyle == SonicPiTheme::LightMode)
-    {
-        piSettings->themeStyle = SonicPiTheme::DarkMode;
+    // Cycle the colour scheme; the icon set is an independent choice, preserved.
+    SonicPiTheme::ColourScheme next;
+    switch (piSettings->colourScheme) {
+        case SonicPiTheme::LightScheme:        next = SonicPiTheme::DarkScheme; break;
+        case SonicPiTheme::DarkScheme:         next = SonicPiTheme::MildDarkScheme; break;
+        case SonicPiTheme::MildDarkScheme:     next = SonicPiTheme::PhosphorScheme; break;
+        case SonicPiTheme::PhosphorScheme:     next = SonicPiTheme::HighContrastScheme; break;
+        case SonicPiTheme::HighContrastScheme: next = SonicPiTheme::SignalScheme; break;
+        case SonicPiTheme::SignalScheme:
+        default:                               next = SonicPiTheme::LightScheme; break;
     }
-    else if (piSettings->themeStyle == SonicPiTheme::DarkMode)
-    {
-        piSettings->themeStyle = SonicPiTheme::LightProMode;
-    }
-    else if (piSettings->themeStyle == SonicPiTheme::LightProMode)
-    {
-        piSettings->themeStyle = SonicPiTheme::DarkProMode;
-    }
-    else if (piSettings->themeStyle == SonicPiTheme::DarkProMode)
-    {
-        piSettings->themeStyle = SonicPiTheme::HighContrastMode;
-    }
-    else if (piSettings->themeStyle == SonicPiTheme::HighContrastMode)
-    {
-        piSettings->themeStyle = SonicPiTheme::LightMode;
-    }
+    piSettings->colourScheme = next;
     emit settingsChanged();
     updateColourTheme();
 }
 
 void MainWindow::colourThemeMenuChanged(int themeID)
 {
-    SonicPiTheme::Style newStyle = SonicPiTheme::LightMode;
-    if (themeID == 2)
-    {
-        newStyle = SonicPiTheme::DarkMode;
-    }
-    else if (themeID == 3)
-    {
-        newStyle = SonicPiTheme::LightProMode;
-    }
-    else if (themeID == 4)
-    {
-        newStyle = SonicPiTheme::DarkProMode;
-    }
-    else if (themeID == 5)
-    {
-        newStyle = SonicPiTheme::HighContrastMode;
-    }
+    SonicPiTheme::ColourScheme scheme = SonicPiTheme::LightScheme;
+    if (themeID == 2)      scheme = SonicPiTheme::DarkScheme;
+    else if (themeID == 3) scheme = SonicPiTheme::HighContrastScheme;
+    else if (themeID == 4) scheme = SonicPiTheme::MildDarkScheme;
+    else if (themeID == 5) scheme = SonicPiTheme::PhosphorScheme;
+    else if (themeID == 6) scheme = SonicPiTheme::SignalScheme;
 
-    // Re-selecting the current theme is not a choice.
-    if (newStyle != piSettings->themeStyle)
+    // Re-selecting the current scheme is not a choice. (The icon set is a
+    // separate control and is left untouched here.)
+    if (scheme != piSettings->colourScheme)
         noteExplicitThemeChoice();
-    piSettings->themeStyle = newStyle;
+    piSettings->colourScheme = scheme;
 
     emit settingsChanged();
     updateColourTheme();
@@ -2971,53 +2967,44 @@ void MainWindow::toggleIcons()
     infoAct->setIcon(theme->getInfoIcon(infoWidg->isVisible()));
     scopeAct->setIcon(theme->getScopeIcon(scopeWidget->isVisible()));
 
-    if (piSettings->themeStyle == SonicPiTheme::DarkProMode || piSettings->themeStyle == SonicPiTheme::LightProMode)
-    {
+    // Pro glyphs are square; the classic set is wide (icon + baked label), so it
+    // needs a wider icon slot or it renders tiny squashed into a square.
+    if (piSettings->proIcons)
         toolBar->setIconSize(ScaleForDPI(38, 38));
-    }
     else
-    {
         toolBar->setIconSize(ScaleForDPI(107, 38));
-    }
     toolBar->setMinimumHeight(ScaleHeightForDPI(45));
 }
 
 void MainWindow::updateColourTheme()
 {
+    const SonicPiTheme::ColourScheme scheme = piSettings->colourScheme;
+
     QSignalBlocker lightBlocker(lightThemeAct);
-    lightThemeAct->setChecked(false);
+    lightThemeAct->setChecked(scheme == SonicPiTheme::LightScheme);
     QSignalBlocker darkBlocker(darkThemeAct);
-    darkThemeAct->setChecked(false);
-    QSignalBlocker proLightBlocker(proLightThemeAct);
-    proLightThemeAct->setChecked(false);
-    QSignalBlocker proDarkBlocker(proDarkThemeAct);
-    proDarkThemeAct->setChecked(false);
+    darkThemeAct->setChecked(scheme == SonicPiTheme::DarkScheme);
     QSignalBlocker highContrastBlocker(highContrastThemeAct);
-    highContrastThemeAct->setChecked(false);
+    highContrastThemeAct->setChecked(scheme == SonicPiTheme::HighContrastScheme);
+    QSignalBlocker mildBlocker(mildThemeAct);
+    mildThemeAct->setChecked(scheme == SonicPiTheme::MildDarkScheme);
+    QSignalBlocker phosphorBlocker(phosphorThemeAct);
+    phosphorThemeAct->setChecked(scheme == SonicPiTheme::PhosphorScheme);
+    QSignalBlocker signalBlocker(signalThemeAct);
+    signalThemeAct->setChecked(scheme == SonicPiTheme::SignalScheme);
 
-    if (piSettings->themeStyle == SonicPiTheme::LightMode)
-    {
-        lightThemeAct->setChecked(true);
-    }
-    else if (piSettings->themeStyle == SonicPiTheme::DarkMode)
-    {
-        darkThemeAct->setChecked(true);
-    }
-    else if (piSettings->themeStyle == SonicPiTheme::LightProMode)
-    {
-        proLightThemeAct->setChecked(true);
-    }
-    else if (piSettings->themeStyle == SonicPiTheme::DarkProMode)
-    {
-        proDarkThemeAct->setChecked(true);
-    }
-    else if (piSettings->themeStyle == SonicPiTheme::HighContrastMode)
-    {
-        highContrastThemeAct->setChecked(true);
-    }
+    // Icon set toggle is independent of the colour scheme; every scheme,
+    // High Contrast included, supports both the Classic and Pro icon sets.
+    QSignalBlocker proIconsBlocker(proIconsAct);
+    proIconsAct->setChecked(piSettings->proIcons);
 
-    theme->switchStyle(piSettings->themeStyle);
-    appliedThemeStyle = static_cast<int>(piSettings->themeStyle);
+    theme->applyTheme(piSettings->colourScheme, piSettings->proIcons);
+    theme->setHueRotation(piSettings->hue_rotation);
+    theme->setMonochrome(piSettings->monochrome);
+    theme->setInvert(piSettings->invert_colours);
+    appliedColourScheme = static_cast<int>(piSettings->colourScheme);
+    appliedProIcons = piSettings->proIcons;
+    themeEverApplied = true;
     showStatusAndAnnounce(tr("Colour Theme: ") + theme->getName(), 2000);
 
     QString css = theme->getCss();
@@ -3060,12 +3047,23 @@ void MainWindow::updateColourTheme()
     infoWidg->setStyleSheet(appStyling);
     settingsWidget->setStyleSheet(appStyling);
 
+    // Re-tint the log history already on screen so it tracks the new theme
+    // (scheme / hue / monochrome) instead of keeping the colours it was
+    // written with — each fragment remembers its theme role.
+    outputPane->recolour(theme);
+    incomingPane->recolour(theme);
+
+    // The hue dial previews the highlight colour; give the settings pane the
+    // base (un-rotated) accent so its live tint matches the real accent.
+    settingsWidget->setHuePreviewBase(theme->rawColor("HighlightedBackground"));
+    settingsWidget->refreshThemeCards(theme);
+
     scopeWindow->Refresh();
     scopeWidget->update();
 
     for (int i = 0; i < editorTabWidget->count(); i++)
     {
-        ((SonicPiEditor*)editorTabWidget->widget(i))->updateColourTheme(appStyling, piSettings->themeStyle);
+        ((SonicPiEditor*)editorTabWidget->widget(i))->updateColourTheme(appStyling, piSettings->colourScheme);
     }
 
     // The Docs nav/content divider paints itself (ThinSplitter): a thin centre
@@ -4400,20 +4398,36 @@ void MainWindow::createToolBar()
     darkThemeAct->setChecked(false);
     connect(darkThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(2); });
 
-    proLightThemeAct = new QAction(tr("Pro Light"));
-    proLightThemeAct->setCheckable(true);
-    proLightThemeAct->setChecked(false);
-    connect(proLightThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(3); });
-
-    proDarkThemeAct = new QAction(tr("Pro Dark"));
-    proDarkThemeAct->setCheckable(true);
-    proDarkThemeAct->setChecked(false);
-    connect(proDarkThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(4); });
-
     highContrastThemeAct = new QAction(tr("High Contrast"));
     highContrastThemeAct->setCheckable(true);
     highContrastThemeAct->setChecked(false);
-    connect(highContrastThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(5); });
+    connect(highContrastThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(3); });
+
+    mildThemeAct = new QAction(tr("Mild Dark"));
+    mildThemeAct->setCheckable(true);
+    mildThemeAct->setChecked(false);
+    connect(mildThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(4); });
+
+    phosphorThemeAct = new QAction(tr("Phosphor"));
+    phosphorThemeAct->setCheckable(true);
+    phosphorThemeAct->setChecked(false);
+    connect(phosphorThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(5); });
+
+    signalThemeAct = new QAction(tr("Signal"));
+    signalThemeAct->setCheckable(true);
+    signalThemeAct->setChecked(false);
+    connect(signalThemeAct, &QAction::triggered, [this]() { colourThemeMenuChanged(6); });
+
+    // Icon set is a fully independent axis; toggles Classic <-> Pro for the
+    // currently-selected colour scheme.
+    proIconsAct = new QAction(tr("Pro Icons"));
+    proIconsAct->setCheckable(true);
+    proIconsAct->setChecked(false);
+    connect(proIconsAct, &QAction::triggered, [this](bool pro) {
+        piSettings->proIcons = pro;
+        emit settingsChanged();
+        updateColourTheme();
+    });
 
     showScopeLabelsAct = new QAction(tr("Show Scope Labels"));
     showScopeLabelsAct->setCheckable(true);
@@ -4453,9 +4467,12 @@ void MainWindow::createToolBar()
     themeMenu = displayMenu->addMenu(tr("Colour Theme"));
     themeMenu->addAction(lightThemeAct);
     themeMenu->addAction(darkThemeAct);
-    themeMenu->addAction(proLightThemeAct);
-    themeMenu->addAction(proDarkThemeAct);
+    themeMenu->addAction(mildThemeAct);
+    themeMenu->addAction(phosphorThemeAct);
     themeMenu->addAction(highContrastThemeAct);
+    themeMenu->addAction(signalThemeAct);
+    themeMenu->addSeparator();
+    themeMenu->addAction(proIconsAct);
     displayMenu->addAction(cycleThemesAct);
     displayMenu->addSeparator();
 
@@ -5295,8 +5312,14 @@ void MainWindow::readSettings()
     piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
     piSettings->hide_menubar_in_fullscreen = gui_settings->value("prefs/hide-menubar-in-fullscreen", false).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
-
-    piSettings->themeStyle = theme->themeNameToStyle(styleName);
+    piSettings->colourScheme = theme->colourSchemeFromName(styleName);
+    // Icon set: migrated from legacy combined names ("... Pro") when the
+    // dedicated pref is absent.
+    piSettings->proIcons = gui_settings->value("prefs/pro-icons",
+                               styleName.trimmed().endsWith(" Pro")).toBool();
+    piSettings->hue_rotation = gui_settings->value("prefs/hue-rotation", 0).toInt();
+    piSettings->monochrome = gui_settings->value("prefs/monochrome", false).toBool();
+    piSettings->invert_colours = gui_settings->value("prefs/invert-colours", false).toBool();
     piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
     piSettings->show_completion_help = gui_settings->value("prefs/show-completion-help", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
@@ -5373,7 +5396,11 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/record_flash_icon", piSettings->record_flash_icon);
     gui_settings->setValue("prefs/recording_type", static_cast<int>(piSettings->recording_type));
     gui_settings->setValue("prefs/spout_show_cursor", piSettings->spout_show_cursor);
-    gui_settings->setValue("prefs/theme", theme->themeStyleToName(piSettings->themeStyle));
+    gui_settings->setValue("prefs/theme", SonicPiTheme::colourSchemeToName(piSettings->colourScheme));
+    gui_settings->setValue("prefs/pro-icons", piSettings->proIcons);
+    gui_settings->setValue("prefs/hue-rotation", piSettings->hue_rotation);
+    gui_settings->setValue("prefs/monochrome", piSettings->monochrome);
+    gui_settings->setValue("prefs/invert-colours", piSettings->invert_colours);
 
     gui_settings->setValue("prefs/show-autocompletion", piSettings->show_autocompletion);
     gui_settings->setValue("prefs/show-completion-help", piSettings->show_completion_help);

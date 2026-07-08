@@ -88,7 +88,7 @@ void SonicPiEditor::showContext()
   m_context->show();
 }
 
-void SonicPiEditor::updateColourTheme(QString appStyling,  SonicPiTheme::Style themeStyle)
+void SonicPiEditor::updateColourTheme(QString appStyling,  SonicPiTheme::ColourScheme colourScheme)
 {
 
   m_workspace->setFrameShape(QFrame::NoFrame);
@@ -97,7 +97,7 @@ void SonicPiEditor::updateColourTheme(QString appStyling,  SonicPiTheme::Style t
   if (QWidget* corner = m_workspace->cornerWidget())
     corner->setStyleSheet(QString("background: %1;").arg(m_theme->color("Background").name()));
   m_context->setTextColor(QColor(m_theme->color("LogForeground")));
-  if (themeStyle == SonicPiTheme::HighContrastMode)
+  if (colourScheme == SonicPiTheme::HighContrastScheme)
     {
       m_workspace->setCaretWidth(8);
     }

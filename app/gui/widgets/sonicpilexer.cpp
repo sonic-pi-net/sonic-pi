@@ -33,7 +33,7 @@ QStringList SonicPiLexer::autoCompletionWordSeparators() const {
 void SonicPiLexer::highlightAll()
 {
     setPaper(theme->color("SelectionBackground"), -1);
-    setColor(theme->color("SelectionForeground"), -1);
+    setColor(theme->contrastingText(theme->color("SelectionBackground")), -1);
     this->setDefaultPaper(theme->color("Background"));
 }
 

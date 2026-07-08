@@ -48,6 +48,7 @@
 #include <QSplitter>
 #include <QSplitterHandle>
 #include <QStyle>
+#include <QTextBlock>
 #include <QTextCharFormat>
 #include <QTextCursor>
 #include <QTextDocument>
@@ -68,6 +69,10 @@
 #include "chevronbutton.h"
 #include "dpi.h"
 #include "utils/reducedmotion.h"
+
+// Custom QTextCharFormat property storing a run's colour role, so text already
+// in the OSC/debug views can be re-tinted on a theme change (see recolourLogViews).
+static constexpr int RoleProp = QTextFormat::UserProperty + 1;
 
 // ─── Static layout model ────────────────────────────────────────────────
 //
@@ -369,6 +374,41 @@ QColor MetricsPanel::kindColor(int kind) const
     case K_Normal:
     default:
         return m_textColor;
+    }
+}
+
+QColor MetricsPanel::colorForRole(const QString& role) const
+{
+    if (role == QLatin1String("kdim"))   return kindColor(K_Dim);
+    if (role == QLatin1String("kmuted")) return kindColor(K_Muted);
+    return m_theme ? m_theme->color(role) : m_textColor;
+}
+
+void MetricsPanel::recolourLogViews()
+{
+    QTextEdit* views[] = { m_oscOutView, m_oscInView, m_debugView };
+    for (QTextEdit* v : views)
+    {
+        if (!v) continue;
+        QTextDocument* doc = v->document();
+        QTextCursor edit(doc);
+        edit.beginEditBlock();
+        for (QTextBlock block = doc->begin(); block.isValid(); block = block.next())
+        {
+            for (QTextBlock::iterator it = block.begin(); !it.atEnd(); ++it)
+            {
+                const QTextFragment frag = it.fragment();
+                if (!frag.isValid()) continue;
+                QTextCharFormat f = frag.charFormat();
+                if (!f.hasProperty(RoleProp)) continue;
+                f.setForeground(colorForRole(f.property(RoleProp).toString()));
+                QTextCursor fc(doc);
+                fc.setPosition(frag.position());
+                fc.setPosition(frag.position() + frag.length(), QTextCursor::KeepAnchor);
+                fc.setCharFormat(f);
+            }
+        }
+        edit.endEditBlock();
     }
 }
 
@@ -842,12 +882,12 @@ QVector<LogRun> MetricsPanel::stampRuns() const
     const int lastDot = s.lastIndexOf(QLatin1Char('.'));
     QVector<LogRun> runs;
     if (lastDot < 0) {
-        runs.append({ bright, QLatin1Char('[') + s + QLatin1Char(']') });
+        runs.append({ bright, QLatin1Char('[') + s + QLatin1Char(']'), QStringLiteral("kdim") });
         return runs;
     }
-    runs.append({ bright, QLatin1Char('[') + s.left(lastDot) });   // [HH:mm:ss.mmm
-    runs.append({ dim,    s.mid(lastDot) });                       // .uuu
-    runs.append({ bright, QStringLiteral("]") });
+    runs.append({ bright, QLatin1Char('[') + s.left(lastDot), QStringLiteral("kdim") });   // [HH:mm:ss.mmm
+    runs.append({ dim,    s.mid(lastDot), QStringLiteral("kmuted") });                      // .uuu
+    runs.append({ bright, QStringLiteral("]"), QStringLiteral("kdim") });
     return runs;
 }
 
@@ -865,29 +905,35 @@ QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
     const QColor cAddr = tc("FunctionMethodNameForeground", "#ff5fff");  // deep pink
     const QColor cNum  = tc("NumberForeground", "#ff9e64");
     const QColor cStr  = tc("DoubleQuotedStringForeground", "#9ece6a");
+    // Roles (theme keys) so these runs re-tint when the theme/hue changes.
+    const QString rMuted = QStringLiteral("CommentForeground");
+    const QString rSrc   = QStringLiteral("KeywordForeground");
+    const QString rAddr  = QStringLiteral("FunctionMethodNameForeground");
+    const QString rNum   = QStringLiteral("NumberForeground");
+    const QString rStr   = QStringLiteral("DoubleQuotedStringForeground");
 
     // Drain-time stamp (no engine timestamp in the ring header); drop detection lives in the Errors panel.
     QVector<LogRun> runs = stampRuns();
     if (sourceId != 0)
-        runs.append({ cSrc, QStringLiteral(" ch%1").arg(sourceId, 3, 10, QLatin1Char('0')) });
+        runs.append({ cSrc, QStringLiteral(" ch%1").arg(sourceId, 3, 10, QLatin1Char('0')), rSrc });
 
     oscpkt::PacketReader pr(data, size);
     oscpkt::Message* msg;
     int count = 0;
     while (pr.isOk() && (msg = pr.popMessage()) != nullptr)
     {
-        if (count++ > 0) runs.append({ cMuted, QStringLiteral(" |") });
-        runs.append({ cAddr, QLatin1Char(' ') + QString::fromStdString(msg->addressPattern()) });
+        if (count++ > 0) runs.append({ cMuted, QStringLiteral(" |"), rMuted });
+        runs.append({ cAddr, QLatin1Char(' ') + QString::fromStdString(msg->addressPattern()), rAddr });
         oscpkt::Message::ArgReader ar = msg->arg();
         while (ar.nbArgRemaining() && ar.isOk())
         {
-            if (ar.isInt32())      { int32_t i; ar.popInt32(i); runs.append({ cNum, QLatin1Char(' ') + QString::number(i) }); }
-            else if (ar.isInt64()) { int64_t i; ar.popInt64(i); runs.append({ cNum, QLatin1Char(' ') + QString::number(static_cast<qlonglong>(i)) }); }
-            else if (ar.isFloat()) { float f;   ar.popFloat(f); runs.append({ cNum, QLatin1Char(' ') + QString::number(f, 'g', 6) }); }
-            else if (ar.isDouble()){ double d;  ar.popDouble(d); runs.append({ cNum, QLatin1Char(' ') + QString::number(d, 'g', 6) }); }
-            else if (ar.isStr())   { std::string s; ar.popStr(s); runs.append({ cStr, QStringLiteral(" \"") + QString::fromStdString(s) + QLatin1Char('"') }); }
-            else if (ar.isBlob())  { std::vector<char> b; ar.popBlob(b); runs.append({ cMuted, QStringLiteral(" <%1 bytes>").arg(b.size()) }); }
-            else                   { ar.pop(); runs.append({ cMuted, QStringLiteral(" ?") }); }
+            if (ar.isInt32())      { int32_t i; ar.popInt32(i); runs.append({ cNum, QLatin1Char(' ') + QString::number(i), rNum }); }
+            else if (ar.isInt64()) { int64_t i; ar.popInt64(i); runs.append({ cNum, QLatin1Char(' ') + QString::number(static_cast<qlonglong>(i)), rNum }); }
+            else if (ar.isFloat()) { float f;   ar.popFloat(f); runs.append({ cNum, QLatin1Char(' ') + QString::number(f, 'g', 6), rNum }); }
+            else if (ar.isDouble()){ double d;  ar.popDouble(d); runs.append({ cNum, QLatin1Char(' ') + QString::number(d, 'g', 6), rNum }); }
+            else if (ar.isStr())   { std::string s; ar.popStr(s); runs.append({ cStr, QStringLiteral(" \"") + QString::fromStdString(s) + QLatin1Char('"'), rStr }); }
+            else if (ar.isBlob())  { std::vector<char> b; ar.popBlob(b); runs.append({ cMuted, QStringLiteral(" <%1 bytes>").arg(b.size()), rMuted }); }
+            else                   { ar.pop(); runs.append({ cMuted, QStringLiteral(" ?"), rMuted }); }
         }
     }
     return runs;
@@ -926,6 +972,7 @@ static void appendLogBatch(QTextEdit* view, QVector<QVector<LogRun>>& lines)
         {
             QTextCharFormat fmt;
             if (r.color.isValid()) fmt.setForeground(r.color);
+            if (!r.role.isEmpty()) fmt.setProperty(RoleProp, r.role);
             QString t = r.text;
             t.replace(QLatin1Char('\n'), QChar(QChar::LineSeparator));  // keep multi-line entries in one block
             c.insertText(t, fmt);
@@ -1289,7 +1336,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     // force the glyph to white there to keep the chevron legible.
     if (m_metricsToggle)
     {
-        const QColor glyph = (theme->getStyle() == SonicPiTheme::HighContrastMode)
+        const QColor glyph = (theme->getColourScheme() == SonicPiTheme::HighContrastScheme)
                                  ? QColor(Qt::white)
                                  : m_textColor;
         m_metricsToggle->setColors(theme->color("WindowBorder"),
@@ -1299,7 +1346,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
 
     if (m_logsToggle)
     {
-        const QColor glyph = (theme->getStyle() == SonicPiTheme::HighContrastMode)
+        const QColor glyph = (theme->getColourScheme() == SonicPiTheme::HighContrastScheme)
                                  ? QColor(Qt::white)
                                  : m_textColor;
         m_logsToggle->setColors(theme->color("WindowBorder"),
@@ -1313,6 +1360,10 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
                                 theme->color("FunctionMethodNameForeground"), // synth  (pink)
                                 theme->color("KeywordForeground"),            // fx     (yellow)
                                 theme->color("DoubleQuotedStringForeground"));// sample (green)
+
+    // Re-tint the OSC/debug text already on screen so it tracks the new theme
+    // (scheme + hue) instead of keeping the colours it was inserted with.
+    recolourLogViews();
 
     // Re-render with the new palette on the next tick by clearing the diff cache.
     for (ValueRowUi& ui : m_valueRows)

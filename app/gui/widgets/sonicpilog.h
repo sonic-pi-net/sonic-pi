@@ -49,6 +49,12 @@ public slots:
     void setTextColor(QColor c);
     void setTextBackgroundColor(QColor c);
     void setTextBgFgColors(QColor fg, QColor bg);
+    // Role-aware variants: record the theme keys used so recolour() can
+    // re-derive the colours after a theme change (scheme / hue / monochrome).
+    void setTextColorKey(SonicPiTheme* theme, const QString& fgKey);
+    void setTextBgFgColorKeys(SonicPiTheme* theme, const QString& bgKey, const QString& fgKey, int bgAlpha = 255);
+    void setTextBackgroundColorKey(SonicPiTheme* theme, const QString& bgKey, int bgAlpha = 255);
+    void recolour(SonicPiTheme* theme);
     void setFontFamily(QString font_name);
     void handleMultiMessage(SonicPiLog::MultiMessage mm);
     void forceScrollDown(bool force);

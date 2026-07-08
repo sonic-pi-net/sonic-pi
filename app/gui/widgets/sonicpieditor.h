@@ -30,7 +30,7 @@ public:
   void setContextContent(QString s);
   void hideContext();
   void showContext();
-  void updateColourTheme(QString appStyling,  SonicPiTheme::Style themeStyle);
+  void updateColourTheme(QString appStyling,  SonicPiTheme::ColourScheme colourScheme);
 
 signals:
 

@@ -472,7 +472,7 @@ module SonicPi
 
     class ProcessBooter
       attr_reader :pid, :args, :cmd, :log
-      def initialize(cmd, args, log_path, record_log=false, env=nil)
+      def initialize(cmd, args, log_path, record_log=false, env=nil, mirror_log=true)
         @env = env
         @pid = nil
         @log_file = nil
@@ -480,6 +480,14 @@ module SonicPi
         @cmd = cmd
         @log = ""
         @record_log = record_log
+        # Whether to also echo this process's output into the shared daemon log.
+        # SuperSonic and Spider are already surfaced live in the GUI (shm debug
+        # ring / OSC), so mirroring them just doubles their own log files as noise.
+        @mirror_log = mirror_log
+        @log_path = log_path
+        @shutdown_requested = false
+        @log_tail_logged = false
+        @log_tail_mutex = Mutex.new
         if log_path
           begin
             @log_file = File.open(log_path, 'a')
@@ -534,12 +542,39 @@ module SonicPi
                 @log_file << "#{Util.timestamp_for_log} #{line}"
                 @log_file.flush
                 @log << line if @record_log
-                Util.log "[#{File.basename(@cmd, ".*")}] #{line}"
+                Util.log "[#{File.basename(@cmd, ".*")}] #{line}" if @mirror_log
               rescue IOError
                 # don't attempt to write
               end
             end
+            # EOF here means the process has exited. If we didn't ask it
+            # to, surface its final output in the daemon log for triage -
+            # for non-mirrored processes the failure would otherwise only
+            # be visible in the process's own log file.
+            log_tail_to_daemon_log unless @shutdown_requested
           end
+        end
+      end
+
+      # Append the tail of this process's own log file to the daemon log,
+      # clearly labelled with the process name. Only needed for
+      # non-mirrored processes - mirrored ones already have their output
+      # in the daemon log. Idempotent, so it's safe to call from both the
+      # unexpected-exit and failed-boot paths.
+      def log_tail_to_daemon_log(num_lines=30)
+        return if @mirror_log || !@log_path
+        @log_tail_mutex.synchronize do
+          return if @log_tail_logged
+          @log_tail_logged = true
+        end
+        name = File.basename(@cmd, ".*")
+        begin
+          tail = File.readlines(@log_path).last(num_lines)
+          Util.log "Last #{tail.size} lines of #{@log_path} for #{name}:"
+          tail.each { |line| Util.log "[#{name}] #{line.chomp}" }
+        rescue StandardError => e
+          Util.log "Unable to read log file #{@log_path} for #{name}"
+          Util.log_error(e)
         end
       end
 
@@ -557,6 +592,7 @@ module SonicPi
       end
 
       def kill
+        @shutdown_requested = true
         if process_running? && @pid
           Util.log "Process Booter - killing #{@cmd} with pid #{@pid} and args #{@args.inspect}, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
 
@@ -637,7 +673,9 @@ module SonicPi
           token
         ]
 
-        super(Paths.ruby_path, args, Paths.spider_log_path)
+        # Spider's output is shown live in the GUI (OSC) and kept in spider.log;
+        # don't also mirror it into the daemon log.
+        super(Paths.ruby_path, args, Paths.spider_log_path, false, nil, false)
       end
     end
 
@@ -773,7 +811,9 @@ module SonicPi
         end
 
         @success = Promise.new
-        super(cmd, args, Paths.supersonic_log_path, false, env)
+        # SuperSonic's output is shown live in the GUI (shm debug ring) and kept
+        # in supersonic.log; don't also mirror it into the daemon log.
+        super(cmd, args, Paths.supersonic_log_path, false, env, false)
       end
 
       def wait_for_boot
@@ -816,12 +856,14 @@ module SonicPi
               return true
             else
               Util.log "Unable to connect to SuperSonic"
+              log_tail_to_daemon_log
               return false
             end
           rescue StandardError => e
             Util.log "Unable to connect to SuperSonic (#{e.message})."
             @success.deliver! false, false
             t.kill
+            log_tail_to_daemon_log
             return false
           end
         end

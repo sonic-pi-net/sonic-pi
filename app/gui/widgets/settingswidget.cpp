@@ -8,11 +8,18 @@
 #include <QHeaderView>
 #include <QRadioButton>
 #include <QFileDialog>
+#include <QColorDialog>
+#include <QListWidget>
+#include <QDial>
+#include "arcdial.h"
+#include "theme_card.h"
 #include <QDialog>
 #include <QStyledItemDelegate>
 #include <QLineEdit>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QFocusEvent>
+#include <QStyle>
 #include <QScopedValueRollback>
 #include <memory>
 #if defined(Q_OS_DARWIN)
@@ -660,28 +667,48 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_titles->setToolTip(tr("Toggle the title visibility for the scope, log, cue and other information panes"));
     show_titles->setChecked(true);
 
-    hide_menubar_in_fullscreen = new QCheckBox(tr("Hide Menubar in Fullscreen Mode"));
+    hide_menubar_in_fullscreen = new QCheckBox(tr("Hide menu bar in full screen mode"));
     hide_menubar_in_fullscreen->setToolTip(tr("Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode."));
     hide_menubar_in_fullscreen->setChecked(false);
 
-    // One checkable button per theme, made mutually exclusive by the button group.
+    // One checkable button per colour scheme, made mutually exclusive by the
+    // button group. Icons are a separate choice (proIconsCheck) so any scheme
+    // can pair with either icon set.
     colourModeButtonGroup = new QButtonGroup(this);
-    lightModeCheck = new QPushButton(tr("Light"));
-    darkModeCheck = new QPushButton(tr("Dark"));
-    lightProModeCheck = new QPushButton(tr("Pro Light"));
-    darkProModeCheck = new QPushButton(tr("Pro Dark"));
-    highContrastModeCheck = new QPushButton(tr("High Contrast"));
+    lightModeCheck = new ThemeCard(tr("Light"));
+    darkModeCheck = new ThemeCard(tr("Dark"));
+    highContrastModeCheck = new ThemeCard(tr("High Contrast"));
+    mildModeCheck = new ThemeCard(tr("Mild Dark"));
+    phosphorModeCheck = new ThemeCard(tr("Phosphor"));
+    signalModeCheck = new ThemeCard(tr("Signal"));
     colourModeButtonGroup->addButton(lightModeCheck, 0);
     colourModeButtonGroup->addButton(darkModeCheck, 1);
-    colourModeButtonGroup->addButton(lightProModeCheck, 2);
-    colourModeButtonGroup->addButton(darkProModeCheck, 3);
-    colourModeButtonGroup->addButton(highContrastModeCheck, 4);
+    colourModeButtonGroup->addButton(highContrastModeCheck, 2);
+    colourModeButtonGroup->addButton(mildModeCheck, 3);
+    colourModeButtonGroup->addButton(phosphorModeCheck, 4);
+    colourModeButtonGroup->addButton(signalModeCheck, 5);
 
-    lightModeCheck->setToolTip(tr("Light colours with the classic icon set."));
-    darkModeCheck->setToolTip(tr("Dark colours with the classic icon set."));
-    lightProModeCheck->setToolTip(tr("Light colours with the Pro icon set."));
-    darkProModeCheck->setToolTip(tr("Dark colours with the Pro icon set."));
-    highContrastModeCheck->setToolTip(tr("High-contrast colours for maximum legibility."));
+    lightModeCheck->setToolTip(tr("Light colour scheme."));
+    darkModeCheck->setToolTip(tr("Dark colour scheme."));
+    highContrastModeCheck->setToolTip(tr("High-contrast colour scheme for maximum legibility."));
+    mildModeCheck->setToolTip(tr("Mild Dark: a softer, low-contrast dark colour scheme."));
+    phosphorModeCheck->setToolTip(tr("Phosphor: a green-on-black CRT colour scheme."));
+    signalModeCheck->setToolTip(tr("Signal: high-contrast blue-and-gold colour scheme."));
+
+    // Orthogonal to the colour scheme: swap the classic toolbar icons for the
+    // compact Pro set. High Contrast keeps its own icons, so this has no effect
+    // there (disabled while High Contrast is selected).
+    proIconsCheck = new QCheckBox(tr("Pro icons"));
+    proIconsCheck->setToolTip(tr("Use the compact Pro toolbar icon set instead of the classic icons."));
+
+    // Global greyscale toggle: renders every interface colour as luma-matched
+    // grey. Independent of the hue rotation above.
+    monochromeCheck = new QCheckBox(tr("Monochrome"));
+    monochromeCheck->setToolTip(tr("Show the whole interface in greyscale."));
+
+    // Global colour inversion (photo-negative) over the whole interface.
+    invertCheck = new QCheckBox(tr("Invert colours"));
+    invertCheck->setToolTip(tr("Invert every interface colour (photo-negative)."));
 
     // Theme picker: a grid of checkable cards, one per theme, each painted in its
     // theme's colours with a toolbar-icon preview above the theme name.
@@ -692,49 +719,23 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     themeGridLayout->setHorizontalSpacing(6);
     themeGridLayout->setVerticalSpacing(6);
 
-    const QSize iconSize(ScaleWidthForDPI(64), ScaleHeightForDPI(26));
-    const qreal dpr = devicePixelRatioF();
-    // Draws the run icon (plus stop, for Pro) onto a transparent pixmap; the card
-    // background behind the label shows through.
-    auto makeThemeIcon = [&](bool pro, const QString& runPath, const QString& stopPath) -> QPixmap {
-        QPixmap pm(iconSize * dpr);
-        pm.setDevicePixelRatio(dpr);
-        pm.fill(Qt::transparent);
-        QPainter p(&pm);
-        p.setRenderHint(QPainter::Antialiasing, true);
-        p.setRenderHint(QPainter::SmoothPixmapTransform, true);
-        const qreal w = iconSize.width(), h = iconSize.height();
-        // Each icon is drawn at height ih; its width follows its aspect ratio.
-        const qreal ih = h * 0.82;
-        const QPixmap runPm(runPath), stopPm(stopPath);
-        auto blit = [&](const QPixmap& src, qreal cx) {
-            if (src.isNull()) return;
-            const qreal ar = qreal(src.width()) / qMax(1, src.height());
-            const qreal iw = ih * ar;
-            p.drawPixmap(QRectF(cx - iw / 2.0, (h - ih) / 2.0, iw, ih), src, QRectF(src.rect()));
-        };
-        if (pro) {
-            const qreal gap = w * 0.06;
-            blit(runPm,  w / 2.0 - (ih + gap) / 2.0);
-            blit(stopPm, w / 2.0 + (ih + gap) / 2.0);
-        } else {
-            blit(runPm, w / 2.0);
-        }
-        p.end();
-        return pm;
-    };
+    // Card icon montage (the three Greek glyphs, tinted per card) is built by
+    // makeThemeCardGlyphs() so it can be regenerated when the global colour
+    // filters change; iconSize here drives the card sizing below.
+    const QSize iconSize(ScaleWidthForDPI(80), ScaleHeightForDPI(26));
 
-    // bg/fg: card background and text. border: resting border colour. run/stop:
-    // toolbar icon resource paths. pro: draw both run + stop. Light row, dark row.
-    struct ThemeSwatch { QPushButton* btn; const char* bg; const char* fg; const char* border;
-                         const char* run; const char* stop; bool pro; int row; int col; };
-    const char* kGrey = "rgba(127,127,127,90)";   // resting border colour
+    // bg/fg: card background and text. border: resting border colour.
+    // bg/fg: card background + name text. accent: the scheme's signature colour,
+    // used to tint the glyphs so each card reads as its own theme. border: resting.
+    struct ThemeSwatch { QPushButton* btn; const char* bg; const char* fg; const char* accent; const char* border; int row; int col; };
+    const char* kGrey = "#5a7f7f7f";   // resting border colour (AARRGGBB)
     const ThemeSwatch swatches[] = {
-        { lightModeCheck,        "#ffffff", "#3c3c3c", kGrey,     ":/images/toolbar/default/light-run.png", ":/images/toolbar/default/light-stop.png", false, 0, 0 },
-        { lightProModeCheck,     "#ffffff", "#3c3c3c", kGrey,     ":/images/toolbar/pro/run.png",           ":/images/toolbar/pro/stop.png",           true,  0, 1 },
-        { highContrastModeCheck, "#ffffff", "#000000", "#000000", ":/images/toolbar/default/hc-run.png",    ":/images/toolbar/default/hc-stop.png",    false, 0, 2 },
-        { darkModeCheck,         "#1a1a1a", "#ededed", kGrey,     ":/images/toolbar/default/dark-run.png",  ":/images/toolbar/default/dark-stop.png",  false, 1, 0 },
-        { darkProModeCheck,      "#1a1a1a", "#ededed", kGrey,     ":/images/toolbar/pro/run.png",           ":/images/toolbar/pro/stop.png",           true,  1, 1 },
+        { lightModeCheck,        "#ffffff", "#3c3c3c", "#ff1493", kGrey,     0, 0 },
+        { darkModeCheck,         "#1a1a1a", "#ededed", "#ff1493", kGrey,     0, 1 },
+        { highContrastModeCheck, "#ffffff", "#000000", "#99004a", "#000000", 0, 2 },
+        { mildModeCheck,         "#1e1e1e", "#d4d4d4", "#ce9178", kGrey,     1, 0 },
+        { phosphorModeCheck,     "#0a0e0a", "#8bd450", "#39ff14", kGrey,     1, 1 },
+        { signalModeCheck,       "#000000", "#ffffff", "#1e90ff", "#ffd700", 1, 2 },   // black/white, blue + gold
     };
     // Card width is driven by the widest label (the icon sits above the name).
     QFont measureFont = lightModeCheck->font();
@@ -743,7 +744,8 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     int maxTextW = 0;
     for (const ThemeSwatch& s : swatches)
         maxTextW = qMax(maxTextW, fm.horizontalAdvance(s.btn->text()));
-    const int btnMinW = maxTextW + ScaleWidthForDPI(28);   // name + margins
+    // Wide enough for the label and the four-glyph icon row above it.
+    const int btnMinW = qMax(maxTextW + ScaleWidthForDPI(28), iconSize.width() + ScaleWidthForDPI(18));
     // A QPushButton doesn't size to its child layout, so drive the height here.
     const int cardH = iconSize.height() + ScaleHeightForDPI(38);
     for (const ThemeSwatch& s : swatches) {
@@ -751,16 +753,14 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
         s.btn->setCursor(Qt::PointingHandCursor);
         s.btn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         s.btn->setMinimumWidth(btnMinW);
-        s.btn->setMinimumHeight(cardH);
-        // Card colours from the theme; border shows resting/hover/checked state.
-        s.btn->setStyleSheet(QString(
-            "QPushButton { background:%1; border:2px solid %3;"
-            " border-radius:6px; padding:0; min-height:%4px; height:%4px; }"
-            "QPushButton:hover:!checked { border:2px solid rgba(255,20,147,150); }"
-            "QPushButton:checked { border:2px solid deeppink; }"
-            "QLabel { background:transparent; color:%2; }")
-            .arg(QString::fromLatin1(s.bg), QString::fromLatin1(s.fg),
-                 QString::fromLatin1(s.border)).arg(cardH));
+        // Lock the height on the widget (not via QSS min-height/height): re-setting
+        // a QSS height on a button with a child layout makes it creep taller on
+        // every repolish, which refreshThemeCards() would trigger on each rotate.
+        s.btn->setFixedHeight(cardH);
+        // Card fill + border are custom-painted (antialiased) by ThemeCard.
+        static_cast<ThemeCard*>(s.btn)->setCardColors(
+            QColor(QString::fromLatin1(s.bg)), QColor(QString::fromLatin1(s.border)));
+        s.btn->setStyleSheet("QPushButton { padding:0; } QLabel { background:transparent; }");
 
         // Icon above name, as child labels (a QPushButton lays its own icon+text
         // horizontally). Labels are click-through so the button receives the click.
@@ -769,13 +769,20 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
                                  ScaleWidthForDPI(10), ScaleHeightForDPI(8));
         card->setSpacing(ScaleHeightForDPI(3));
         QLabel* iconLbl = new QLabel;
-        iconLbl->setPixmap(makeThemeIcon(s.pro, s.run, s.stop));
+        iconLbl->setPixmap(makeThemeCardGlyphs(QColor(QString::fromLatin1(s.accent))));
         iconLbl->setAlignment(Qt::AlignCenter);
         iconLbl->setAttribute(Qt::WA_TransparentForMouseEvents);
         const QString name = s.btn->text();
         QLabel* nameLbl = new QLabel(name);
         nameLbl->setAlignment(Qt::AlignCenter);
         nameLbl->setAttribute(Qt::WA_TransparentForMouseEvents);
+        nameLbl->setStyleSheet(QString("background:transparent; color:%1;")
+                                   .arg(QColor(QString::fromLatin1(s.fg)).name()));
+        // Remember each card's widgets + base colours so refreshThemeCards() can
+        // re-preview them through the active filters (hue / mono / invert).
+        m_themeCards.append({ s.btn, iconLbl, nameLbl,
+            QColor(QString::fromLatin1(s.bg)), QColor(QString::fromLatin1(s.fg)),
+            QColor(QString::fromLatin1(s.accent)), QColor(QString::fromLatin1(s.border)) });
         // Stretches above and below centre the icon+name group vertically.
         card->addStretch(1);
         card->addWidget(iconLbl);
@@ -817,6 +824,48 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 #endif
 
     editor_box_look_feel_layout->addWidget(themeGrid);
+    // Breathing room between the theme cards and the rotate-colour dial below.
+    editor_box_look_feel_layout->addSpacing(ScaleHeightForDPI(26));
+
+    // Colour hue-rotation dial (amp-style ArcDial). Drag vertically to set the
+    // rotation; it stops hard at 0 and 359 (no wrap) and shows no value.
+    m_hueDial = new ArcDial(this);
+    m_hueDial->setRange(0, 359);
+    m_hueDial->setWrapping(false);
+    m_hueDial->setShowValue(false);
+    m_hueDial->setFixedSize(ScaleWidthForDPI(108), ScaleHeightForDPI(108));
+    m_hueTimer = new QTimer(this);
+    m_hueTimer->setSingleShot(true);
+    connect(m_hueDial, &QDial::valueChanged, this, &SettingsWidget::hueRotationChanged);
+    connect(m_hueDial, &QAbstractSlider::sliderReleased, this, [this]() { emit themeChanged(); });
+
+    // Left: the dial with its "Rotate Colour" label beneath it (a dial value of
+    // 0 is simply no rotation). Right: Pro icons, Monochrome, Invert.
+    QVBoxLayout* hueCol = new QVBoxLayout;
+    QLabel* rcTitle = new QLabel(tr("Rotate Hue"));
+    rcTitle->setAlignment(Qt::AlignHCenter);
+    rcTitle->setToolTip(tr("Drag the dial to rotate the hue of every colour in the interface."));
+    // Centre the dial + label in its half, both vertically and horizontally.
+    hueCol->addStretch(1);
+    hueCol->addWidget(m_hueDial, 0, Qt::AlignHCenter);
+    hueCol->addWidget(rcTitle, 0, Qt::AlignHCenter);
+    hueCol->addStretch(1);
+
+    // Right column: the three toggles stacked tightly and centred vertically so
+    // they sit level with the dial beside them instead of floating at the top.
+    QVBoxLayout* toggleCol = new QVBoxLayout;
+    toggleCol->setSpacing(ScaleHeightForDPI(4));
+    toggleCol->addStretch(1);
+    toggleCol->addWidget(proIconsCheck);
+    toggleCol->addWidget(monochromeCheck);
+    toggleCol->addWidget(invertCheck);
+    toggleCol->addStretch(1);
+
+    // Two equal halves: toggles on the left, dial (+ label) on the right.
+    QHBoxLayout* tweaks = new QHBoxLayout;
+    tweaks->addLayout(toggleCol, 1);
+    tweaks->addLayout(hueCol, 1);
+    editor_box_look_feel_layout->addLayout(tweaks);
 
     editor_show_panels_box->setLayout(editor_show_panels_box_layout);
     editor_display_box->setLayout(editor_display_box_layout);
@@ -865,12 +914,12 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     QVBoxLayout *leftEditorPrefs = new QVBoxLayout;
     leftEditorPrefs->addWidget(editor_look_feel_box);
     leftEditorPrefs->addWidget(editor_display_box);
-    leftEditorPrefs->addWidget(automation_box);
     leftEditorPrefs->addStretch(1);
 
     QVBoxLayout *rightEditorPrefs = new QVBoxLayout;
     rightEditorPrefs->addWidget(debug_box);
     rightEditorPrefs->addWidget(editor_show_panels_box);
+    rightEditorPrefs->addWidget(automation_box);
     rightEditorPrefs->addWidget(accessibility_box);
     rightEditorPrefs->addStretch(1);
 
@@ -2290,6 +2339,122 @@ void SettingsWidget::updateColourTheme() {
     emit themeChanged();
 }
 
+// Tint the dial to the theme's highlight/accent colour rotated by `degrees`, so
+// dragging previews exactly what the accent will become. Repolishing this one
+// small widget is cheap; the whole-page re-theme is deferred to release.
+void SettingsWidget::updateHueDialTint(int degrees) {
+    if (!m_hueDial || !m_huePreviewBase.isValid()) return;
+    // Run the accent through the theme's transform pipeline with the dial's
+    // in-flight rotation, so the dial previews the accent exactly as the rest
+    // of the interface will render it under the current toggles.
+    m_hueDial->setArcColor(SonicPiTheme::applyColourTransforms(
+        m_huePreviewBase,
+        piSettings && piSettings->invert_colours,
+        piSettings && piSettings->monochrome,
+        degrees));
+}
+
+void SettingsWidget::setHuePreviewBase(const QColor& baseAccent) {
+    m_huePreviewBase = baseAccent;
+    updateHueDialTint(piSettings ? piSettings->hue_rotation : 0);
+}
+
+void SettingsWidget::hueRotationChanged(int degrees) {
+    piSettings->hue_rotation = degrees;
+    updateHueDialTint(degrees);   // live feedback on the dial only (arc + centre value)
+    if (!m_hueDial || !m_hueDial->isSliderDown())
+        emit themeChanged();      // keyboard/wheel step (not a drag): apply immediately
+}
+
+// The three iconic Sonic Pi Greek glyphs (lambda, delta, pi), drawn in a centred
+// row and recoloured to `tint` (masked by each glyph's own alpha) so they read on
+// any card background. A member (not a build-time lambda) so refreshThemeCards()
+// can regenerate it when the global colour filters change.
+QPixmap SettingsWidget::makeThemeCardGlyphs(const QColor& tint) const {
+    const QSize iconSize(ScaleWidthForDPI(80), ScaleHeightForDPI(26));
+    const qreal dpr = devicePixelRatioF();
+    static const char* const paths[] = {
+        ":/images/toolbar/pro/info.png",    // lambda
+        ":/images/toolbar/pro/help.png",    // delta
+        ":/images/toolbar/pro/prefs.png",   // pi
+    };
+    QPixmap pm(iconSize * dpr);
+    pm.setDevicePixelRatio(dpr);
+    pm.fill(Qt::transparent);
+    QPainter p(&pm);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    const qreal w = iconSize.width(), h = iconSize.height();
+    const qreal ih = h * 0.82;   // glyph height; width follows aspect ratio
+    auto tinted = [&](const QString& path) -> QPixmap {
+        QPixmap src(path);
+        if (src.isNull()) return src;
+        QPixmap t(src.size());
+        t.setDevicePixelRatio(src.devicePixelRatio());
+        t.fill(Qt::transparent);
+        QPainter tp(&t);
+        tp.drawPixmap(0, 0, src);
+        tp.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        tp.fillRect(t.rect(), tint);
+        tp.end();
+        return t;
+    };
+    QList<QPixmap> glyphs;
+    qreal totalW = 0;
+    const qreal gap = ScaleWidthForDPI(7);
+    for (const char* path : paths) {
+        const QPixmap t = tinted(QString::fromLatin1(path));
+        glyphs.append(t);
+        if (!t.isNull())
+            totalW += ih * (qreal(t.width()) / qMax(1, t.height()));
+    }
+    if (!glyphs.isEmpty())
+        totalW += gap * (glyphs.size() - 1);
+    qreal x = (w - totalW) / 2.0;
+    for (const QPixmap& t : glyphs) {
+        if (t.isNull()) continue;
+        const qreal iw = ih * (qreal(t.width()) / qMax(1, t.height()));
+        p.drawPixmap(QRectF(x, (h - ih) / 2.0, iw, ih), t, QRectF(t.rect()));
+        x += iw + gap;
+    }
+    p.end();
+    return pm;
+}
+
+void SettingsWidget::refreshThemeCards(SonicPiTheme* theme) {
+    m_cardTheme = theme;
+    if (!theme) return;
+    // Preview each card's palette as the interface would render it under the
+    // current global filters, so the cards track hue rotation / monochrome /
+    // invert along with everything else.
+    for (const ThemeCardInfo& c : m_themeCards) {
+        const QColor bg     = theme->applyGlobalTransforms(c.bg);
+        const QColor fg     = theme->applyGlobalTransforms(c.fg);
+        const QColor accent = theme->applyGlobalTransforms(c.accent);
+        const QColor border = theme->applyGlobalTransforms(c.border);
+        static_cast<ThemeCard*>(c.card)->setCardColors(bg, border);
+        // The selected/hover ring uses the current theme's accent (not a fixed pink).
+        static_cast<ThemeCard*>(c.card)->setHighlight(theme->color("HighlightedBackground"));
+        // Recolour the name label directly — re-setting the button's own
+        // stylesheet here would re-polish its child layout and make the card
+        // creep taller on every rotate.
+        if (c.name) c.name->setStyleSheet(QString("background:transparent; color:%1;").arg(fg.name()));
+        if (c.icon) c.icon->setPixmap(makeThemeCardGlyphs(accent));
+    }
+
+    // Recording-mode segmented icons bake their off/on colours in, so regenerate
+    // them on theme change: resting = window foreground, selected = auto-contrast
+    // against the accent fill (black on neon green, white on dark, …).
+    if (recording_type_audio_radio && recording_type_av_radio) {
+        const int px = ScaleHeightForDPI(32);
+        const QColor off = theme->color("WindowForeground");
+        const QColor on = theme->contrastingText(theme->color("HighlightedBackground"));
+        recording_type_audio_radio->setIcon(makeSvgToggleIcon(kWaveformSvg, off, on, px));
+        recording_type_av_radio->setIcon(makeSvgToggleIcon(kVideoSvg, off, on, px));
+    }
+}
+
+
 void SettingsWidget::toggleScope() {
     emit scopeChanged();
 }
@@ -2416,11 +2581,17 @@ void SettingsWidget::updateSettings() {
     piSettings->log_cues = log_cues->isChecked();
     piSettings->log_auto_scroll = log_auto_scroll->isChecked();
     piSettings->gui_transparency = gui_transparency_slider->value();
-    if (lightModeCheck->isChecked())        { piSettings->themeStyle = SonicPiTheme::LightMode; }
-    if (darkModeCheck->isChecked())         { piSettings->themeStyle = SonicPiTheme::DarkMode; }
-    if (lightProModeCheck->isChecked())     { piSettings->themeStyle = SonicPiTheme::LightProMode; }
-    if (darkProModeCheck->isChecked())      { piSettings->themeStyle = SonicPiTheme::DarkProMode; }
-    if (highContrastModeCheck->isChecked()) { piSettings->themeStyle = SonicPiTheme::HighContrastMode; }
+    SonicPiTheme::ColourScheme scheme = SonicPiTheme::LightScheme;
+    if (darkModeCheck->isChecked())         { scheme = SonicPiTheme::DarkScheme; }
+    if (highContrastModeCheck->isChecked()) { scheme = SonicPiTheme::HighContrastScheme; }
+    if (mildModeCheck->isChecked())         { scheme = SonicPiTheme::MildDarkScheme; }
+    if (phosphorModeCheck->isChecked())     { scheme = SonicPiTheme::PhosphorScheme; }
+    if (signalModeCheck->isChecked())       { scheme = SonicPiTheme::SignalScheme; }
+    piSettings->colourScheme = scheme;
+    piSettings->proIcons = proIconsCheck->isChecked();
+    if (m_hueDial) piSettings->hue_rotation = m_hueDial->value();
+    if (monochromeCheck) piSettings->monochrome = monochromeCheck->isChecked();
+    if (invertCheck) piSettings->invert_colours = invertCheck->isChecked();
 
     piSettings->show_scopes = show_scopes->isChecked();
     piSettings->show_scope_labels = show_scope_labels->isChecked();
@@ -2475,11 +2646,17 @@ void SettingsWidget::settingsChanged() {
     log_cues->setChecked(piSettings->log_cues);
     log_auto_scroll->setChecked(piSettings->log_auto_scroll);
     gui_transparency_slider->setValue(piSettings->gui_transparency);
-    lightModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::LightMode );
-    darkModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::DarkMode );
-    lightProModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::LightProMode );
-    darkProModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::DarkProMode );
-    highContrastModeCheck->setChecked( piSettings->themeStyle == SonicPiTheme::HighContrastMode );
+    const SonicPiTheme::ColourScheme scheme = piSettings->colourScheme;
+    lightModeCheck->setChecked( scheme == SonicPiTheme::LightScheme );
+    darkModeCheck->setChecked( scheme == SonicPiTheme::DarkScheme );
+    highContrastModeCheck->setChecked( scheme == SonicPiTheme::HighContrastScheme );
+    mildModeCheck->setChecked( scheme == SonicPiTheme::MildDarkScheme );
+    phosphorModeCheck->setChecked( scheme == SonicPiTheme::PhosphorScheme );
+    signalModeCheck->setChecked( scheme == SonicPiTheme::SignalScheme );
+    proIconsCheck->setChecked( piSettings->proIcons );
+    if (m_hueDial) { QSignalBlocker hb(m_hueDial); m_hueDial->setValue(piSettings->hue_rotation); }
+    if (monochromeCheck) monochromeCheck->setChecked(piSettings->monochrome);
+    if (invertCheck) invertCheck->setChecked(piSettings->invert_colours);
 
     show_scopes->setChecked(piSettings->show_scopes);
     show_scope_labels->setChecked(piSettings->show_scope_labels);
@@ -2543,9 +2720,13 @@ void SettingsWidget::connectAll() {
     connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
-    connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(mildModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(phosphorModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(signalModeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(proIconsCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(monochromeCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(invertCheck, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
 
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -2566,9 +2747,13 @@ void SettingsWidget::connectAll() {
     connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(toggleLogAutoScroll()));
     connect(lightModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(darkModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    connect(lightProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
-    connect(darkProModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(highContrastModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(mildModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(phosphorModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(signalModeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(proIconsCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(monochromeCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
+    connect(invertCheck, SIGNAL(clicked()), this, SLOT(updateColourTheme()));
     connect(gui_transparency_slider, SIGNAL(valueChanged(int)), this, SLOT(updateTransparency(int)));
 
     connect(show_scope_labels, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -2596,6 +2781,41 @@ void SettingsWidget::connectAll() {
     connect(log_synths, SIGNAL(clicked()), this, SLOT(logSynths()));
     connect(clear_output_on_run, SIGNAL(clicked()), this, SLOT(clearOutputOnRun()));
     connect(auto_indent_on_run, SIGNAL(clicked()), this, SLOT(autoIndentOnRun()));
+
+    // Prefs checkboxes: focus only via keyboard (Tab), not a mouse click. A click
+    // still toggles the box, but no longer grabs focus and draws the blue focus
+    // ring around the whole row — which read as a pointless "selection". Keyboard
+    // users keep the focus ring (and Space to toggle) for accessibility.
+    for (QCheckBox* cb : findChildren<QCheckBox*>()) {
+        cb->setFocusPolicy(Qt::TabFocus);
+    }
+    // Watch focus application-wide so that checkboxes created after startup
+    // (scope kinds, MIDI/OSC device rows) get the keyboard focus ring too
+    // (see eventFilter). Installed once: connectAll() runs only from the
+    // constructor, and SettingsWidget is constructed once.
+    qApp->installEventFilter(this);
+}
+
+bool SettingsWidget::eventFilter(QObject* obj, QEvent* event)
+{
+    // The checkbox focus ring (QCheckBox[kbFocus="true"] in app.qss) reads as a
+    // pointless "selection box" when a mouse click draws it. Show it ONLY for
+    // keyboard (Tab) focus: flip the kbFocus property by focus reason and repolish.
+    // The toggle-on-click is unaffected. This filter is installed on qApp so it
+    // covers every checkbox, including ones created after startup.
+    QCheckBox* cb = qobject_cast<QCheckBox*>(obj);
+    if (cb && (event->type() == QEvent::FocusIn || event->type() == QEvent::FocusOut)) {
+        const bool kb = event->type() == QEvent::FocusIn
+            && [event]() { const Qt::FocusReason r = static_cast<QFocusEvent*>(event)->reason();
+                           return r == Qt::TabFocusReason || r == Qt::BacktabFocusReason; }();
+        if (cb->property("kbFocus").toBool() != kb) {
+            cb->setProperty("kbFocus", kb);
+            cb->style()->unpolish(cb);
+            cb->style()->polish(cb);
+            cb->update();
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }
 
 void SettingsWidget::add_language_combo_box_entries(QComboBox* combo) {

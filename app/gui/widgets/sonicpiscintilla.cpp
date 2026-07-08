@@ -41,6 +41,7 @@
 #include <QShortcut>
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
+#include <QPainter>
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 #include <QRecursiveMutex>
 #endif
@@ -154,7 +155,8 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     setAutoCompletionCaseSensitivity(false);
     m_completion = new CompletionPopup(this);
     m_completion->applyTheme(theme->color("Background"), theme->color("Foreground"),
-                             theme->color("SelectionBackground"), theme->color("SelectionForeground"));
+                             theme->color("HighlightedBackground"),
+                             theme->contrastingText(theme->color("HighlightedBackground")));
     // Clicking the mini piano accepts that note like Tab/Return.
     connect(m_completion, &CompletionPopup::accepted, this, [this]() { acceptCompletion(); });
     // Live-preview the selected entry (list navigation, note, slider drag) in the
@@ -177,7 +179,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
             &SonicPiScintilla::announceRequested);
 
     setSelectionBackgroundColor(theme->color("SelectionBackground"));
-    setSelectionForegroundColor(theme->color("SelectionForeground"));
+    setSelectionForegroundColor(theme->contrastingText(theme->color("SelectionBackground")));
     setCaretWidth(ScaleHeightForDPI(5));
     setCaretForegroundColor(theme->color("CaretForeground"));
     setEolMode(EolUnix);
@@ -191,7 +193,7 @@ void SonicPiScintilla::redraw()
     setMarginsBackgroundColor(theme->color("MarginBackground"));
     setMarginsForegroundColor(theme->color("MarginForeground"));
     setSelectionBackgroundColor(theme->color("SelectionBackground"));
-    setSelectionForegroundColor(theme->color("SelectionForeground"));
+    setSelectionForegroundColor(theme->contrastingText(theme->color("SelectionBackground")));
     setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
     setFoldMarginColors(theme->color("FoldMarginForeground"), theme->color("FoldMarginForeground"));
     setIndentationGuidesForegroundColor(theme->color("IndentationGuidesForeground"));
@@ -200,8 +202,13 @@ void SonicPiScintilla::redraw()
     if (m_completion)
     {
         m_completion->applyTheme(theme->color("Background"), theme->color("Foreground"),
-                                 theme->color("SelectionBackground"), theme->color("SelectionForeground"));
+                                 theme->color("HighlightedBackground"),
+                                 theme->contrastingText(theme->color("HighlightedBackground")));
     }
+    // Re-tint the error-line markers (gutter dot/washes + squiggle) so a visible
+    // error tracks the new theme (applyErrorMarkers runs under the held mutex).
+    if (m_errorLine >= 0)
+        applyErrorMarkers(m_errorLine);
     mutex->unlock();
 }
 

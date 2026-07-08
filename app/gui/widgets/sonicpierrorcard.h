@@ -59,10 +59,22 @@ protected:
 
 private:
     void setDetailsVisible(bool on);
+    // Re-paints the theme-coloured dynamic content (accent code-spans in the
+    // message + the syntax-coloured offending line) from the stored error, so a
+    // theme change re-tints it without needing the error to be re-reported.
+    void renderThemedContent();
 
     SonicPiTheme* m_theme;
     bool m_isSyntax = false;
     QString m_headerPlain;  // raw header text for the screen-reader announce
+
+    // Stored inputs from the last showError(), so renderThemedContent() can
+    // re-derive the accent-coloured content against the current theme.
+    QString m_messageText;   // friendly message with `backtick` tokens intact
+    QString m_codeLine;      // raw offending source line ("" when none)
+    int m_colStart = -1;
+    int m_colEnd = -1;
+    int m_codeLineNumber = -1;
 
     QLabel* m_header;
     QPushButton* m_close;

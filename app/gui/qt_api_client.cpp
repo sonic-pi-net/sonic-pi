@@ -67,17 +67,17 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
 
         if (info.style == 1)
         {
-            pOutput->setTextBgFgColors(pTheme->color("LogInfoBackground_1"), pTheme->color("LogInfoForeground_1"));
+            pOutput->setTextBgFgColorKeys(pTheme, "LogInfoBackground_1", "LogInfoForeground_1");
         }
         else
         {
-            pOutput->setTextBgFgColors(pTheme->color("LogInfoBackground"), pTheme->color("LogInfoForeground"));
+            pOutput->setTextBgFgColorKeys(pTheme, "LogInfoBackground", "LogInfoForeground");
         }
 
         pOutput->appendPlainText(QString::fromStdString("=> " + info.text + "\n"));
 
-        pOutput->setTextColor(pTheme->color("LogForeground"));
-        pOutput->setTextBackgroundColor(pTheme->color("LogBackground"));
+        pOutput->setTextColorKey(pTheme, "LogForeground");
+        pOutput->setTextBackgroundColorKey(pTheme, "LogBackground");
     }
     else if (info.type == MessageType::RuntimeError)
     {
@@ -147,19 +147,16 @@ void QtAPIClient::CueGui(const CueInfo& cue)
     QString qs_address = QString::fromStdString(cue.address);
     if (!qs_address.startsWith(":"))
     {
-        auto bg = m_pMainWindow->GetTheme()->color("CuePathBackground");
-        bg.setAlpha(idmod);
-
         auto pIncoming = m_pMainWindow->GetIncomingPane();
         auto pTheme = m_pMainWindow->GetTheme();
-        pIncoming->setTextBgFgColors(bg, pTheme->color("CuePathForeground"));
+        // idmod is a per-cue alpha (id-striping); stored with the role so the
+        // stripe survives a recolour.
+        pIncoming->setTextBgFgColorKeys(pTheme, "CuePathBackground", "@contrast", idmod);
         pIncoming->appendPlainText(QString(" ") + QString::fromStdString(cue.address));
         pIncoming->insertPlainText(QString::fromStdString(std::string(len_diff, ' ')));
-        pIncoming->setTextBgFgColors(pTheme->color("LogBackground"), QColor(Qt::white));
+        pIncoming->setTextBgFgColorKeys(pTheme, "LogBackground", "LogForeground");
         pIncoming->insertPlainText(QString::fromStdString(" "));
-        bg = pTheme->color("CueDataBackground");
-        bg.setAlpha(idmod);
-        pIncoming->setTextBgFgColors(bg, pTheme->color("CueDataForeground"));
+        pIncoming->setTextBgFgColorKeys(pTheme, "CueDataBackground", "@contrast", idmod);
         pIncoming->insertPlainText(QString::fromStdString(cue.args));
         last_incoming_path_lens[cue.id % last_incoming_path_lens.size()] = int(cue.address.length());
     }

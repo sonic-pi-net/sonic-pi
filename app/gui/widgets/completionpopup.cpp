@@ -108,7 +108,7 @@ public:
         if (selected) {
             QRect r = opt.rect.adjusted(2, 1, -2, -1);
             p->setPen(Qt::NoPen);
-            p->setBrush(pal.color(QPalette::Highlight));
+            p->setBrush(m_popup->selectionBg());
             p->drawRoundedRect(r, 4, 4);
         }
 
@@ -141,7 +141,7 @@ public:
         // Name — full-contrast theme foreground, at the aligned name column.
         const int nameX = opt.rect.left() + m_popup->nameColumnX();
         p->setFont(opt.font);
-        p->setPen(selected ? pal.color(QPalette::HighlightedText) : pal.color(QPalette::Text));
+        p->setPen(selected ? m_popup->selectionFg() : m_popup->textColor());
         p->drawText(QRect(nameX, opt.rect.top(), fm.horizontalAdvance(name), opt.rect.height()),
                     Qt::AlignVCenter | Qt::AlignLeft, name);
 
@@ -152,8 +152,8 @@ public:
             int avail = opt.rect.right() - kRowHPad - sx;
             if (avail > 20) {
                 const QColor dim = selected
-                    ? pal.color(QPalette::HighlightedText)
-                    : mix(pal.color(QPalette::Text), pal.color(QPalette::Base), 60);
+                    ? m_popup->selectionFg()
+                    : mix(m_popup->textColor(), m_popup->backgroundColor(), 60);
                 p->setPen(dim);
                 QString elided = fm.elidedText(summary, Qt::ElideRight, avail);
                 p->drawText(QRect(sx, opt.rect.top(), avail, opt.rect.height()),
@@ -1062,6 +1062,9 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
     // QWidget doesn't render a stylesheet border), so keep the colours here.
     m_bg = bg;
     m_border = border;
+    m_selBg = selBg;
+    m_selFg = selFg;
+    m_text = fg;
     // Detail body: keep it bright (95% fg) so prose is easy to read.
     QColor detail = mix(fg, bg, 95);
     update();

@@ -63,7 +63,12 @@ public:
     bool show_context;
     bool speak_transport;   // screen reader speaks "Run started"/"Stopped"
     bool reduce_motion;     // suppress UI animations (ORed with the OS setting)
-    SonicPiTheme::Style themeStyle;
+    // The two independent theme axes.
+    SonicPiTheme::ColourScheme colourScheme;
+    bool proIcons;
+    int hue_rotation;    // colour hue rotation dial value, 0-359 degrees (0 = none)
+    bool monochrome;     // global greyscale toggle
+    bool invert_colours; // global photo-negative toggle
 
     // UpdateSettings;
     bool check_updates;

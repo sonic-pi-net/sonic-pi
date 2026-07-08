@@ -23,15 +23,49 @@ class SonicPiTheme : public QObject
 {
 Q_OBJECT
 public:
-    enum Style { LightMode, DarkMode, LightProMode, DarkProMode, HighContrastMode };
+    // The colour scheme is the only theme axis. Each scheme is just a theme map.
+    // The icon set (Classic vs Pro) is a fully independent choice carried
+    // separately as a bool, so every scheme pairs with either icon set. There is
+    // deliberately no combined "style" type — the two axes never merge.
+    enum ColourScheme {
+        LightScheme, DarkScheme, HighContrastScheme,
+        MildDarkScheme, PhosphorScheme, SignalScheme
+    };
+
+    static QString colourSchemeToName(ColourScheme scheme);
+    static ColourScheme colourSchemeFromName(QString name);
+
+    // Global hue rotation (degrees) applied to every colour the theme resolves.
+    void setHueRotation(int degrees);
+    // The theme colour for a key WITHOUT the global hue/monochrome transform
+    // (e.g. for a preview that wants to apply its own rotation).
+    QColor rawColor(QString key);
+    // Global monochrome (greyscale) toggle over every colour the theme resolves.
+    void setMonochrome(bool on);
+    // Global colour inversion (photo-negative) over every colour the theme resolves.
+    void setInvert(bool on);
 
     explicit SonicPiTheme(QObject *parent = 0, QString customSettingsFilename="", QString rootPath = "");
     ~SonicPiTheme();
     QColor color(QString);
+    // Black or white, whichever reads better on `bg` (by perceived brightness).
+    // For text placed on an accent fill whose lightness varies per theme.
+    QColor contrastingText(const QColor& bg) const;
+    // Applies the global invert / monochrome / hue-rotation transforms to an
+    // arbitrary colour (the shared pipeline behind color(); also used for literal
+    // colours and for previewing each theme card under the active toggles).
+    QColor applyGlobalTransforms(QColor c) const;
+    // The same pipeline with the transforms supplied explicitly, for callers
+    // that need a hue other than the member state (e.g. previewing a candidate
+    // rotation mid-drag). applyGlobalTransforms() delegates here.
+    static QColor applyColourTransforms(QColor c, bool invert, bool monochrome, int hueRotation);
     QString font(QString);
     void darkMode();
     void lightMode();
     void hcMode();
+    void mildDarkMode();
+    void phosphorMode();
+    void signalMode();
     void updateCustomSettings();
     QPalette createPalette();
 
@@ -39,9 +73,10 @@ public:
     QString getAppStylesheet();
 
     QString getCss();
-    void switchStyle( Style style );
+    void applyTheme(ColourScheme scheme, bool proIcons);
     QString getName();
-    Style getStyle();
+    ColourScheme getColourScheme();
+    bool getProIcons();
 
     QIcon getRunIcon();
     QIcon getStopIcon();
@@ -56,13 +91,24 @@ public:
     QIcon getInfoIcon(bool active);
     QIcon getScopeIcon(bool active);
 
-    QString themeStyleToName(Style style);
-    Style themeNameToStyle(QString name);
-
 private:
     QString name;
-    Style style;
+    ColourScheme colourScheme;
+    bool proIcons;
+    int m_hueRotation = 0;
+    bool m_monochrome = false;
+    bool m_invert = false;
     QString stylesheet;
+    QString m_cssTemplate;   // cached disk-read + DPI-scaled .qss (colours filled per re-theme)
+    // Cached disk-read + DPI-scaled doc-styles .css per source file (the scaled
+    // text depends only on the file, not the theme — colours are swapped in later
+    // by getCss()).
+    QHash<QString, QString> m_docCssCache;
+    // getRecIcon() results per (on, ab) frame: the recording flash timer requests
+    // the same frames twice a second and generating one is expensive (per-pixel
+    // recolour or resource reload + tint). Cleared whenever its inputs change
+    // (re-theme / icon set / global colour filters).
+    QHash<int, QIcon> m_recIconCache;
 
     QString customSettingsFilename;
     QString rootPath;
@@ -77,10 +123,39 @@ private:
     QMap<QString, QString> lightTheme();
     QMap<QString, QString> darkTheme();
     QMap<QString, QString> highContrastTheme();
+    QMap<QString, QString> mildDarkTheme();
+    QMap<QString, QString> phosphorTheme();
+    QMap<QString, QString> signalTheme();
+    // Assigns all toolbar icon pointers for a scheme + icon-set pair (colours
+    // are set separately by the *Mode() helpers).
+    void applyIcons(ColourScheme scheme, bool proIcons);
+    // Recolours a single-colour glyph PNG to a theme colour (masked by alpha).
+    QIcon tintedIcon(const QString& resource, const QColor& colour);
+    // Runs a classic (hand-designed, uniform) toolbar icon through a per-theme hue
+    // offset (rotating the art's baked accent onto this theme's accent) and then
+    // the global colour filters, at its native size — keeping the original art so
+    // its border and uniform pill shape are preserved. When logoContrast is set,
+    // the glyph-box logo is additionally recoloured black/white for best contrast
+    // against its (light or dark) box background. When wordOnAccent is set (the
+    // recording flash frames, whose word box is accent-filled), the light word
+    // text is recoloured black/white to contrast the accent too.
+    QIcon classicIcon(const QIcon* icon, bool logoContrast = false, bool wordOnAccent = false);
+    // Degrees to pre-rotate the classic icon art so its baked deep-pink accent
+    // lands on this theme's accent hue. Explicit via the "ClassicIconHueOffset"
+    // theme key, else derived from the accent. Applied before the global filters.
+    int classicIconHueOffset() const;
+    // Generates a checked-checkbox indicator (box in the theme accent, white
+    // tick) tinted to the current highlight colour and returns an absolute file
+    // path for the QSS. Cached per accent colour under the temp dir; the QSS
+    // (checkbox-checked static PNG) can't follow the theme on its own.
+    QString checkboxCheckedImagePath();
     QMap<QString, QString> theme;
     QMap<QString, QString> customSettings;
 
     QString readFile(QString name);
+    // The doc-styles .css for a source path, disk-read + DPI-scaled once and
+    // cached (see m_docCssCache).
+    QString scaledDocCss(const QString& path);
 
     void loadToolBarIcons();
 

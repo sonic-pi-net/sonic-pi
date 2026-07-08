@@ -78,6 +78,13 @@ public:
     // The name column's x (relative to a row's left), after the kind badge, so
     // names line up regardless of badge width. Used by the delegate.
     int nameColumnX() const { return m_nameColX; }
+    // Selection + text colours, read straight by the delegate. Setting a stylesheet
+    // re-resolves the widget palette, so QPalette::Highlight can't be relied on;
+    // these are the theme values applyTheme() was last given.
+    QColor selectionBg() const { return m_selBg; }
+    QColor selectionFg() const { return m_selFg; }
+    QColor textColor()   const { return m_text; }
+    QColor backgroundColor() const { return m_bg; }
 
 protected:
     void paintEvent(QPaintEvent*) override;   // rounded background + border
@@ -145,6 +152,9 @@ private:
     QSize m_targetSize;                  // the size the popup is animating toward
     QColor m_bg = QColor(30, 30, 30);    // painted background (rounded)
     QColor m_border = QColor(127, 127, 127); // painted border
+    QColor m_selBg = QColor(0xff, 0x14, 0x93);   // selection fill (theme accent)
+    QColor m_selFg = QColor(255, 255, 255);      // selected-row text
+    QColor m_text  = QColor(220, 220, 220);      // normal row text
 };
 
 #endif // COMPLETIONPOPUP_H

@@ -51,8 +51,10 @@ class SonicPiAPI;
 // A coloured text run for the OSC/debug logs. These are built and inserted via
 // QTextCharFormat instead of generating HTML and calling insertHtml(), which
 // skips the rich-text HTML parser on the per-message hot path. An invalid colour
-// means "use the view's default foreground".
-struct LogRun { QColor color; QString text; };
+// means "use the view's default foreground". `role` names how the colour was
+// derived (a theme key, or "kdim"/"kmuted" for the timestamp blends) so the
+// already-inserted text can be re-resolved on a theme change; empty = leave as is.
+struct LogRun { QColor color; QString text; QString role; };
 
 // Live engine performance dashboard: reads the PerformanceMetrics the engine
 // publishes into shared memory (via SonicPiAPI::AudioProcessor_GetMetrics) and
@@ -107,6 +109,12 @@ private:
     void buildUi();
     void renderDisconnected();
     QColor kindColor(int kind) const;
+    // Resolve a LogRun role (theme key or "kdim"/"kmuted" blend) to a colour
+    // against the current theme, so existing OSC/debug text can be re-tinted.
+    QColor colorForRole(const QString& role) const;
+    // Re-tint the text already in the OSC in/out + debug views after a theme
+    // change (each run remembers its role via a QTextCharFormat property).
+    void recolourLogViews();
 
     // OSC in/out + debug logs and the node-tree graph, fed from the engine's
     // shm rings + node-tree mirror.

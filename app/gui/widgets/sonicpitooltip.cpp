@@ -331,7 +331,7 @@ void SonicPiToolTip::paintEvent(QPaintEvent* event)
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
 
-    const bool highContrast = m_theme->getStyle() == SonicPiTheme::HighContrastMode;
+    const bool highContrast = m_theme->getColourScheme() == SonicPiTheme::HighContrastScheme;
     // Bubble matches the window dividers (WindowBorder) so the popup reads
     // as app chrome. High contrast keeps its dedicated tooltip base — the
     // divider grey there would cost text contrast.

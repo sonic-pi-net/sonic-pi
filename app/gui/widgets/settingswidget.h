@@ -14,6 +14,9 @@ class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
 class QDialog;
+class QListWidget;
+class QColorDialog;
+class ArcDial;
 class QBoxLayout;
 class QGroupBox;
 class QComboBox;
@@ -25,6 +28,8 @@ class QLabel;
 class QLineEdit;
 class QButtonGroup;
 class QSignalMapper;
+class QPixmap;
+class SonicPiTheme;
 class QVBoxLayout;
 class QSizePolicy;
 class QTimer;
@@ -56,6 +61,18 @@ public:
     void applyAsioInputConstraints();
     void updateScopeNames(std::vector<QString>);
     void updateSelectedUILanguage(QString lang);
+    // The base (un-rotated) accent colour used to preview the hue dial live.
+    void setHuePreviewBase(const QColor& baseAccent);
+    // Re-preview each theme card through the active global colour filters (hue
+    // rotation / monochrome / invert), so a card shows how its scheme would look
+    // under the current toggles rather than its raw palette.
+    void refreshThemeCards(SonicPiTheme* theme);
+
+protected:
+    // Application-wide filter (installed on qApp) that shows the checkbox focus
+    // ring only for keyboard (Tab) navigation, not clicks — covering every
+    // checkbox in the app, including ones created after startup.
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 public slots:
     void updateUILanguage(int index);
@@ -85,6 +102,7 @@ private slots:
     void toggleTabs();
     void toggleLogAutoScroll();
     void updateColourTheme();
+    void hueRotationChanged(int degrees);
     void toggleScope();
     void toggleScopeLabels();
     void toggleScope( QObject* qo );
@@ -244,13 +262,30 @@ private:
 
 
     QButtonGroup *colourModeButtonGroup;
-    // Theme picker cards (checkable, exclusive via the group): a preview icon
-    // above the theme name, painted in that theme's colours.
+    // Colour-scheme picker cards (checkable, exclusive via the group): a preview
+    // icon above the scheme name, painted in that scheme's colours. The icon set
+    // (Classic/Pro) is a separate, orthogonal choice — proIconsCheck below.
     QPushButton *lightModeCheck;
     QPushButton *darkModeCheck;
-    QPushButton *lightProModeCheck;
-    QPushButton *darkProModeCheck;
     QPushButton *highContrastModeCheck;
+    QPushButton *mildModeCheck;
+    QPushButton *phosphorModeCheck;
+    QPushButton *signalModeCheck;
+    QCheckBox *proIconsCheck;
+    QCheckBox *monochromeCheck = nullptr;   // global greyscale toggle
+    QCheckBox *invertCheck = nullptr;       // global photo-negative toggle
+
+    // Global colour hue-rotation dial + monochrome toggle.
+    ArcDial* m_hueDial = nullptr;
+    QTimer* m_hueTimer = nullptr;
+    QColor m_huePreviewBase;   // base accent the dial tints from
+    void updateHueDialTint(int degrees);
+
+    // Theme picker cards, re-previewed through the active global colour filters.
+    struct ThemeCardInfo { QPushButton* card; QLabel* icon; QLabel* name; QColor bg, fg, accent, border; };
+    QVector<ThemeCardInfo> m_themeCards;
+    SonicPiTheme* m_cardTheme = nullptr;   // theme the card previews are filtered through
+    QPixmap makeThemeCardGlyphs(const QColor& tint) const;
 
     QSignalMapper *scopeSignalMap;
     QCheckBox *show_scope_labels;
