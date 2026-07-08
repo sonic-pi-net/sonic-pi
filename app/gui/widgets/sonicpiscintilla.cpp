@@ -810,6 +810,7 @@ void SonicPiScintilla::zoomFontIn()
     updateErrorMarginWidth();
     mutex->unlock();
     refreshErrorMarkers();
+    emit zoomLevelChanged();
 }
 
 void SonicPiScintilla::zoomFontOut()
@@ -824,6 +825,12 @@ void SonicPiScintilla::zoomFontOut()
     updateErrorMarginWidth();
     mutex->unlock();
     refreshErrorMarkers();
+    emit zoomLevelChanged();
+}
+
+int SonicPiScintilla::currentZoom()
+{
+    return (int)SendScintilla(SCI_GETZOOM);
 }
 
 void SonicPiScintilla::wheelEvent(QWheelEvent* event)
@@ -836,6 +843,7 @@ void SonicPiScintilla::wheelEvent(QWheelEvent* event)
         updateErrorMarginWidth();
         mutex->unlock();
         refreshErrorMarkers();
+        emit zoomLevelChanged();
     }
 }
 

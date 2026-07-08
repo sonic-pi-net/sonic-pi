@@ -676,6 +676,7 @@ void MainWindow::setupWindowStructure()
                                        tr("Code buffer %1. All buffers are saved automatically.").arg(ws));
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
+        connect(workspace, &SonicPiScintilla::zoomLevelChanged, this, &MainWindow::updateErrorCardZoom);
         connect(workspace, &SonicPiScintilla::docsRequested, this,
                 [this](const QString& name) { showHelpForKeyword(name); });
         connect(workspace, &SonicPiScintilla::announceRequested, this,
@@ -880,6 +881,9 @@ void MainWindow::setupWindowStructure()
     errorCard = new SonicPiErrorCard(theme);
     connect(errorCard, &SonicPiErrorCard::jumpRequested, this, &MainWindow::jumpToError);
     connect(errorCard, &SonicPiErrorCard::closeRequested, this, &MainWindow::dismissErrorCard);
+    // Buffers can have different zoom levels; keep the card tracking the
+    // current one.
+    connect(editorTabWidget, &QTabWidget::currentChanged, this, &MainWindow::updateErrorCardZoom);
 
     mainWidgetLayout->addWidget(editorTabWidget);
     mainWidgetLayout->addWidget(errorPane);
@@ -2287,6 +2291,7 @@ void MainWindow::showErrorCard(bool isSyntax, const QString& header, const QStri
                                int colStart, int colEnd, const QString& backtrace, bool canJump)
 {
     errorPane->hide();
+    updateErrorCardZoom();
     errorCard->showError(isSyntax, header, location, reason, codeLine, lineNumber, colStart, colEnd, backtrace, canJump);
     focusErrors();
     announce(tr("Error: %1").arg(errorCard->plainText().simplified()), true,
@@ -2436,6 +2441,18 @@ void MainWindow::zoomCurrentWorkspaceOut()
     statusBar()->showMessage(tr("Zooming Out..."), 2000);
     SonicPiScintilla* ws = getCurrentWorkspace();
     ws->zoomFontOut();
+}
+
+void MainWindow::updateErrorCardZoom()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    if (!ws || !errorCard)
+        return;
+    // Editor text is the lexer's base size plus the Scintilla zoom; the card's
+    // design sizes assume the default zoom of 2. Boosted a touch so the card
+    // reads slightly larger than the code.
+    double base = lexer->defaultFont(0).pointSizeF();
+    errorCard->setFontScale(1.15 * (base + ws->currentZoom()) / (base + 2.0));
 }
 
 void MainWindow::beautifyCode()

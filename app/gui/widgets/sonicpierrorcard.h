@@ -48,6 +48,8 @@ public:
                    bool canJump);
 
     void applyTheme();
+    // Scale all the card's font sizes (1.0 = design size); tracks editor zoom.
+    void setFontScale(double scale);
     QString plainText() const;  // flat text for the screen-reader announce
 
 signals:
@@ -66,6 +68,7 @@ private:
 
     SonicPiTheme* m_theme;
     bool m_isSyntax = false;
+    double m_fontScale = 1.0;
     QString m_headerPlain;  // raw header text for the screen-reader announce
 
     // Stored inputs from the last showError(), so renderThemedContent() can

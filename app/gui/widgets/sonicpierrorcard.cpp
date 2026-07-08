@@ -107,9 +107,6 @@ SonicPiErrorCard::SonicPiErrorCard(SonicPiTheme* theme, QWidget* parent)
     m_code = new SonicPiErrorCodeLine(m_codeFrame);
     m_code->setObjectName("errCode");
     m_code->setToolTip(tr("The line of your code that caused the error"));
-    QFont codeFont("Hack");
-    codeFont.setPointSize(11);
-    m_code->setFont(codeFont);
     codeV->addWidget(m_code);
 
     m_backtraceScroll = new QScrollArea(cardFrame);
@@ -164,6 +161,15 @@ SonicPiErrorCard::SonicPiErrorCard(SonicPiTheme* theme, QWidget* parent)
     applyTheme();
 }
 
+void SonicPiErrorCard::setFontScale(double scale)
+{
+    scale = qBound(0.5, scale, 3.0);
+    if (qFuzzyCompare(scale, m_fontScale))
+        return;
+    m_fontScale = scale;
+    applyTheme();
+}
+
 void SonicPiErrorCard::keyPressEvent(QKeyEvent* event)
 {
     if (event->key() == Qt::Key_Escape)
@@ -193,29 +199,41 @@ void SonicPiErrorCard::applyTheme()
     QColor btnHover = m_theme->color("HoverButton");
     QColor btnPressed = m_theme->color("PressedButton");
 
+    // Font sizes are design sizes (at the default editor zoom) scaled by
+    // m_fontScale so the card tracks the editor's zoom level.
+    auto pt = [this](int base) {
+        return QString::number(qMax(6, qRound(base * m_fontScale))) + "pt";
+    };
+
     // %1 accent  %2 cardBg  %3 muted  %4 textColor  %5 editorBg  %6 codeBorder
     // %7 btnText %8 btnBorder %9 btnHover %10 btnPressed
+    // %11-%18 scaled font sizes
     QString qss = QString(
         "#errCardFrame { background:%2; border:2px solid %1; border-radius:10px; }"
-        "#errHeader { background:transparent; color:%1; font-size:15pt; font-weight:bold; }"
-        "#errClose { background:transparent; border:none; color:%3; font-size:13pt;"
+        "#errHeader { background:transparent; color:%1; font-size:%11; font-weight:bold; }"
+        "#errClose { background:transparent; border:none; color:%3; font-size:%12;"
         " padding:0 2px; }"
         "#errClose:hover { color:%4; }"
-        "#errMessage { color:%4; font-size:14pt; font-weight:bold; }"
-        "#errLocation { color:%3; font-size:10pt; }"
-        "#errReason { color:%3; font-size:12pt; }"
+        "#errMessage { color:%4; font-size:%13; font-weight:bold; }"
+        "#errLocation { color:%3; font-size:%14; }"
+        "#errReason { color:%3; font-size:%15; }"
         "#errCodeFrame { background:%5; border-radius:6px; border:1px solid %6; }"
-        "#errBacktrace { color:%3; background:transparent; font-size:10pt; }"
+        "#errBacktrace { color:%3; background:transparent; font-size:%16; }"
         "#errJump { background:black; color:%7; border:2px solid %8;"
-        " border-radius:3px; padding:5px 12px; font-size:10pt; }"
+        " border-radius:3px; padding:5px 12px; font-size:%17; }"
         "#errJump:hover:!pressed { background:%9; color:%7; }"
         "#errJump:pressed { background:%10; color:%7; }"
         "#errDetails { background:transparent; border:none; color:%3;"
-        " text-decoration:underline; font-size:9pt; }"
+        " text-decoration:underline; font-size:%18; }"
         "#errDetails:hover { color:%4; }")
         .arg(accent.name(), cardBg.name(), muted.name(), textColor.name(), editorBg.name())
-        .arg(codeBorder.name(), btnText.name(), btnBorder.name(), btnHover.name(), btnPressed.name());
+        .arg(codeBorder.name(), btnText.name(), btnBorder.name(), btnHover.name(), btnPressed.name())
+        .arg(pt(15), pt(13), pt(14), pt(10), pt(12), pt(10), pt(10), pt(9));
     setStyleSheet(qss);
+
+    QFont codeFont("Hack");
+    codeFont.setPointSize(qMax(6, qRound(11 * m_fontScale)));
+    m_code->setFont(codeFont);
 
     // The message's accent code-spans and the offending code line bake theme
     // colours into their content (not QSS), so re-render them here too.

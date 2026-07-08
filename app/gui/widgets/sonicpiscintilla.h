@@ -49,7 +49,13 @@ public:
     bool completionActive() const;
     void acceptCompletionPopup();
 
+    // The live Scintilla zoom level (points added on top of the base font size).
+    int currentZoom();
+
 signals:
+    // Zoom changed via zoomFontIn/Out or Ctrl+wheel, so dependent UI (e.g. the
+    // error card) can track the editor's effective font size.
+    void zoomLevelChanged();
     void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
     // The completion popup's "Docs" button was clicked — open help for this name.
     void docsRequested(const QString& name);

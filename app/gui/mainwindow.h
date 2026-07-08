@@ -444,6 +444,7 @@ private slots:
     void heartbeatOSC();
     void zoomCurrentWorkspaceIn();
     void zoomCurrentWorkspaceOut();
+    void updateErrorCardZoom();
     void showWelcomeScreen();
     void setupWindowStructure();
     void setupTheme();
