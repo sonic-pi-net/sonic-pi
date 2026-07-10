@@ -84,6 +84,7 @@ protected:
 signals:
     void runRequested(const QString& code, const QString& workspace, bool silent = false);
     void stopJobRequested(int jobId);
+    void loadRequested(const QString& code); // load into the current editor buffer
     void announceRequested(QString msg);
     void navigateRequested(int delta); // -1 previous chapter, +1 next
     void linkClicked(const QUrl& url);
@@ -137,9 +138,8 @@ private:
     QFrame* m_exampleFrame = nullptr;
     QVBoxLayout* m_exampleFrameLayout = nullptr;
     SonicPiScintilla* m_exampleEditor = nullptr;
-    QPushButton* m_examplePlay = nullptr;
-    QPushButton* m_exampleStop = nullptr;
-    QPushButton* m_exampleCopy = nullptr;
+    QPushButton* m_examplePlay = nullptr; // jukebox transport: toggles play/stop
+    QPushButton* m_exampleLoad = nullptr;
 
     SonicPi::TutorialChapter m_chapter;
     QVector<TutDial*> m_dials;

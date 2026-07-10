@@ -870,6 +870,14 @@ void MainWindow::setupWindowStructure()
             });
     connect(tutorialPane, &TutorialPane::stopJobRequested, this,
             [this](int jobId) { m_spAPI->StopJob(jobId); });
+    connect(tutorialPane, &TutorialPane::loadRequested, this, [this](const QString& code) {
+        SonicPiScintilla* ws = getCurrentWorkspace();
+        if (!ws)
+            return;
+        ws->replaceBuffer(code, 0, 0, 0); // single undo step, so it can be undone
+        ws->setFocus();
+        showStatusAndAnnounce(tr("Loaded example into the current buffer."), 3000);
+    });
     connect(tutorialPane, &TutorialPane::announceRequested, this,
             [this](const QString& msg) { announce(msg); });
     connect(tutorialPane, &TutorialPane::linkClicked, this, &MainWindow::docLinkClicked);

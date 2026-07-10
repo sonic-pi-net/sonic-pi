@@ -148,33 +148,26 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     QHBoxLayout* exampleControls = new QHBoxLayout();
     exampleControls->setContentsMargins(0, 0, 0, 0);
     exampleControls->setSpacing(ScaleWidthForDPI(4));
+    // Jukebox transport: one toggle button that plays, then flips to stop while
+    // the example is running (only one example ever plays at a time)
     m_examplePlay = new QPushButton(m_exampleFrame);
     m_examplePlay->setObjectName("tutPlay");
     m_examplePlay->setToolTip(tr("Run this example"));
     m_examplePlay->setAccessibleName(tr("Run example"));
-    m_exampleStop = new QPushButton(m_exampleFrame);
-    m_exampleStop->setObjectName("tutStop");
-    m_exampleStop->setToolTip(tr("Stop this example"));
-    m_exampleStop->setAccessibleName(tr("Stop example"));
-    m_exampleStop->setEnabled(false);
-    m_exampleCopy = new QPushButton(tr("Copy"), m_exampleFrame);
-    m_exampleCopy->setObjectName("tutCopy");
-    m_exampleCopy->setToolTip(tr("Copy code to clipboard"));
-    m_exampleCopy->setAccessibleName(tr("Copy example"));
+    m_exampleLoad = new QPushButton(tr("Load"), m_exampleFrame);
+    m_exampleLoad->setObjectName("tutCopy");
+    m_exampleLoad->setToolTip(tr("Load this example into the current buffer"));
+    m_exampleLoad->setAccessibleName(tr("Load example into buffer"));
     QSize exIconSize = ScaleForDPI(15, 15);
     QSize exButtonSize = ScaleForDPI(28, 28);
-    for (QPushButton* b : { m_examplePlay, m_exampleStop })
-    {
-        b->setIconSize(exIconSize);
-        b->setFixedSize(exButtonSize);
-        b->setFlat(true);
-        b->setCursor(Qt::PointingHandCursor);
-    }
-    m_exampleCopy->setCursor(Qt::PointingHandCursor);
-    m_exampleCopy->setFixedHeight(exButtonSize.height());
+    m_examplePlay->setIconSize(exIconSize);
+    m_examplePlay->setFixedSize(exButtonSize);
+    m_examplePlay->setFlat(true);
+    m_examplePlay->setCursor(Qt::PointingHandCursor);
+    m_exampleLoad->setCursor(Qt::PointingHandCursor);
+    m_exampleLoad->setFixedHeight(exButtonSize.height());
     exampleControls->addWidget(m_examplePlay);
-    exampleControls->addWidget(m_exampleStop);
-    exampleControls->addWidget(m_exampleCopy);
+    exampleControls->addWidget(m_exampleLoad);
     exampleControls->addStretch(1);
     m_exampleFrameLayout->addLayout(exampleControls);
     examplePage->addWidget(m_exampleFrame, 1);
@@ -183,20 +176,18 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
 
     // The example page always occupies m_snippets[0] while visible
     connect(m_examplePlay, &QPushButton::clicked, this, [this]() {
-        if (!m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay)
-            emit runRequested(m_snippets[0].code, m_snippets[0].workspace);
-    });
-    connect(m_exampleStop, &QPushButton::clicked, this, [this]() {
-        if (!m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay && m_snippets[0].jobId >= 0)
-            emit stopJobRequested(m_snippets[0].jobId);
-    });
-    connect(m_exampleCopy, &QPushButton::clicked, this, [this]() {
         if (m_snippets.isEmpty() || m_snippets[0].play != m_examplePlay)
             return;
-        QApplication::clipboard()->setText(m_snippets[0].code);
-        m_exampleCopy->setText(tr("Copied"));
-        QPushButton* button = m_exampleCopy;
-        QTimer::singleShot(1200, button, [button]() { button->setText(tr("Copy")); });
+        Snippet& s = m_snippets[0];
+        if (s.jobId >= 0)
+            emit stopJobRequested(s.jobId);
+        else
+            emit runRequested(s.code, s.workspace);
+    });
+    connect(m_exampleLoad, &QPushButton::clicked, this, [this]() {
+        if (m_snippets.isEmpty() || m_snippets[0].play != m_examplePlay)
+            return;
+        emit loadRequested(m_snippets[0].code);
     });
 
     applyTheme();
@@ -242,8 +233,6 @@ void TutorialPane::showCodePage(const QString& title, const QString& code)
     Snippet snippet;
     snippet.frame = m_exampleFrame;
     snippet.play = m_examplePlay;
-    snippet.stop = m_exampleStop;
-    snippet.copy = m_exampleCopy;
     snippet.code = code;
     snippet.workspace = QString("sonic-pi-tutorial-%1").arg(++m_workspaceSeq);
     m_snippets.append(snippet);
@@ -603,6 +592,10 @@ void TutorialPane::rebuild()
 
 void TutorialPane::clearContent()
 {
+    // Jukebox: an example only plays while its page is showing — stop it on the
+    // way out so at most one example is ever running
+    if (!m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay && m_snippets[0].jobId >= 0)
+        emit stopJobRequested(m_snippets[0].jobId);
     m_snippets.clear();
     m_dials.clear();
     // Labels deregister themselves on destruction, but that happens via
@@ -879,7 +872,17 @@ void TutorialPane::runEnded(int jobId)
 
 void TutorialPane::setSnippetPlaying(Snippet& snippet, bool playing)
 {
-    snippet.stop->setEnabled(playing);
+    if (snippet.play == m_examplePlay)
+    {
+        // Jukebox toggle: the single transport button flips between play and stop
+        snippet.play->setIcon(playing ? m_stopIcon : m_playIcon);
+        snippet.play->setToolTip(playing ? tr("Stop this example") : tr("Run this example"));
+        snippet.play->setAccessibleName(playing ? tr("Stop example") : tr("Run example"));
+    }
+    else if (snippet.stop)
+    {
+        snippet.stop->setEnabled(playing);
+    }
     snippet.frame->setProperty("playing", playing);
     repolish(snippet.frame);
 }
@@ -1055,8 +1058,9 @@ void TutorialPane::applyContentTheme()
         snippet.play->setIcon(m_playIcon);
         snippet.stop->setIcon(m_stopIcon);
     }
-    m_examplePlay->setIcon(m_playIcon);
-    m_exampleStop->setIcon(m_stopIcon);
+    bool examplePlaying = !m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay
+                          && m_snippets[0].jobId >= 0;
+    m_examplePlay->setIcon(examplePlaying ? m_stopIcon : m_playIcon);
     if (m_exampleEditor)
         m_exampleEditor->redraw();
 
