@@ -4,6 +4,7 @@
 #include "utils/reducedmotion.h"
 #include "utils/sonicpi_i18n.h"
 #include "dpi.h"
+#include <api/audio/audio_driver_select.hpp>
 #include <QTreeWidget>
 #include <QHeaderView>
 #include <QRadioButton>
@@ -2015,28 +2016,26 @@ void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInf
         }
     }
 
-    // Driver dropdown is local UX state — don't override the user's
-    // current selection from configInfo.currentDriver. Picking
-    // Driver=ASIO is a pending intent that's only committed when an
-    // Output device is also picked; overriding to whatever JUCE
-    // happens to have open would make ASIO un-pickable. Auto-sync
-    // only on:
-    //   (a) first population (dropdown was empty)
-    //   (b) user's selection no longer in the list (driver disappeared)
+    // Driver dropdown doubles as pending user intent (Driver=ASIO isn't
+    // committed until an Output device is also picked) and a mirror of the
+    // engine's live driver. m_engineActualDriver still holds the driver from
+    // the previous report here (refreshed below), which lets
+    // choose_driver_selection tell an engine-synced value from a deliberate
+    // override and follow the engine when it switches on its own.
     QString userSelection = audio_driver_combo->currentText();
     bool wasEmpty = audio_driver_combo->count() == 0;
     audio_driver_combo->clear();
     for (const auto& driver : configInfo.availableDrivers) {
         audio_driver_combo->addItem(QString::fromStdString(driver));
     }
-    int restoreIdx = -1;
-    if (!wasEmpty && !userSelection.isEmpty()) {
-        restoreIdx = audio_driver_combo->findText(userSelection);
-    }
-    if (restoreIdx >= 0) {
-        audio_driver_combo->setCurrentIndex(restoreIdx);
-    } else if (!configInfo.currentDriver.empty()) {
-        int idx = audio_driver_combo->findText(QString::fromStdString(configInfo.currentDriver));
+    std::string driverToSelect = sonic_pi::audio::choose_driver_selection(
+        wasEmpty,
+        userSelection.toStdString(),
+        m_engineActualDriver.toStdString(),
+        configInfo.availableDrivers,
+        configInfo.currentDriver);
+    if (!driverToSelect.empty()) {
+        int idx = audio_driver_combo->findText(QString::fromStdString(driverToSelect));
         if (idx >= 0) {
             audio_driver_combo->setCurrentIndex(idx);
         }
