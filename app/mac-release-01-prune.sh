@@ -53,7 +53,8 @@ log_info "  removed ${dsym_count} .dSYM directories"
 # SuperSonic backup binaries
 # ---------------------------------------------------------------------------
 log_step "prune supersonic backups"
-rm -f "${resources}/app/server/native/"supersonic.known-good-*
+rm -f "${resources}/app/server/native/"supersonic.bak-* \
+      "${resources}/app/server/native/"supersonic.known-good-*
 
 # ---------------------------------------------------------------------------
 # Flatten symlinks (skip anything inside .framework/Versions/)

@@ -65,10 +65,18 @@ for required in \
     "VERSION" \
     "app/server/ruby/bin/daemon.rb" \
     "app/server/ruby/bin/fetch-url.rb" \
-    "app/server/ruby/bin/clear-logs.rb"; do
+    "app/server/ruby/bin/clear-logs.rb" \
+    "app/server/native/supersonic"; do
     if [ ! -f "${resources}/${required}" ]; then
         die "Required runtime file missing after stage: Resources/${required}"
     fi
 done
+
+# The :piano synth needs its wavetable asset (built-copied from the SuperSonic
+# submodule). Not fatal — :piano degrades to silence — but warn loudly since
+# its absence means a headline synth ships mute.
+if [ ! -f "${resources}/app/server/native/piano_wavetable.dat" ]; then
+    log_info "  WARNING: piano_wavetable.dat missing — :piano will be silent in this build"
+fi
 
 log_ok "stage 00 done — ${RELEASE_APP}"
