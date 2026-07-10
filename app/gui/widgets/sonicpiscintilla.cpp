@@ -177,6 +177,9 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     // Relay popup navigation announcements up to MainWindow's screen-reader helper.
     connect(m_completion, &CompletionPopup::announceRequested, this,
             &SonicPiScintilla::announceRequested);
+    // Relay synth/fx audition requests up to MainWindow, which runs the snippet.
+    connect(m_completion, &CompletionPopup::auditionRequested, this,
+            &SonicPiScintilla::auditionRequested);
 
     setSelectionBackgroundColor(theme->color("SelectionBackground"));
     setSelectionForegroundColor(theme->contrastingText(theme->color("SelectionBackground")));

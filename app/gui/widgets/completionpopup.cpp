@@ -10,7 +10,10 @@
 
 #include "completionpopup.h"
 #include "dpi.h"
+#include "utils/instrument_icons.h"
 #include "utils/reducedmotion.h"
+
+#include <QSvgRenderer>
 
 #include <QListView>
 #include <QStandardItemModel>
@@ -76,6 +79,29 @@ const int kGap = 10;
 const int kDetailW = 380;   // fixed docstring-pane width (independent of the list)
 const int kDetailMinH = 320; // min popup height when a docstring pane is shown
 
+// Cached identity icon for a synth/fx completion row (32x18 SVG scaled to
+// the row height, tinted with the kind colour / selection colour).
+static QPixmap instrumentRowIcon(const QString& kind, const QString& name,
+                                 const QColor& colour, int h, qreal dpr)
+{
+    static QHash<QString, QPixmap> cache;
+    const QString key = kind + ":" + name + ":" + colour.name() + ":"
+        + QString::number(h) + ":" + QString::number(dpr);
+    auto it = cache.constFind(key);
+    if (it != cache.constEnd())
+        return *it;
+    int w = qRound(h * 32.0 / 18.0);
+    QPixmap pm(QSize(w, h) * dpr);
+    pm.fill(Qt::transparent);
+    QSvgRenderer renderer(instrumentIconSvg(kind == "fx", name, colour).toUtf8());
+    QPainter p(&pm);
+    renderer.render(&p, QRectF(0, 0, w * dpr, h * dpr));
+    p.end();
+    pm.setDevicePixelRatio(dpr);
+    cache.insert(key, pm);
+    return pm;
+}
+
 // Paints aligned columns: [kind badge]  name      dimmed summary (elided).
 class CompletionDelegate : public QStyledItemDelegate {
 public:
@@ -95,6 +121,8 @@ public:
                     ? m_popup->nameColumnX() + fm.horizontalAdvance(name) + 18
                           + fm.horizontalAdvance(summary)
                     : m_popup->nameColumnX() + fm.horizontalAdvance(name);
+        if (kind == "synth" || kind == "fx")
+            w += (h - 6) * 32 / 18 + 16; // room for the right-aligned identity icon
         return QSize(w + kRowHPad, h);
     }
 
@@ -144,6 +172,17 @@ public:
         p->setPen(selected ? m_popup->selectionFg() : m_popup->textColor());
         p->drawText(QRect(nameX, opt.rect.top(), fm.horizontalAdvance(name), opt.rect.height()),
                     Qt::AlignVCenter | Qt::AlignLeft, name);
+
+        // Synth/fx rows carry their identity icon, right-aligned
+        if (kind == "synth" || kind == "fx") {
+            int ih = opt.rect.height() - 6;
+            QString bare = name.startsWith(':') ? name.mid(1) : name;
+            QColor iconColour = selected ? m_popup->selectionFg() : kindColor(kind);
+            QPixmap icon = instrumentRowIcon(kind, bare, iconColour, ih,
+                                             m_popup->devicePixelRatioF());
+            int iw = qRound(icon.width() / icon.devicePixelRatio());
+            p->drawPixmap(QPoint(opt.rect.right() - kRowHPad - iw, cy - ih / 2), icon);
+        }
 
         // Inline summary (notes only) — readable secondary tone, placed right
         // after the number with a small gap (not a far column) so it reads tight.
@@ -984,9 +1023,29 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     // A key with no list entry is still clickable: it inserts that MIDI note
     // directly (the keyboard covers more notes than any filtered list). In
     // chord/scale mode the keyboard is a read-only preview, so clicks are inert.
-    m_piano->setOnHover([this](int midi) { if (!m_chordMode) selectNote(midi); });
+    // In audition mode (synth/fx rows) a click plays that pitch through the
+    // highlighted synth instead — the docs pane's preview UX.
+    m_piano->setOnHover([this](int midi) {
+        if (!m_chordMode && !m_auditionMode) selectNote(midi);
+    });
     m_piano->setOnClick([this](int midi) {
         if (m_chordMode) return;
+        if (m_auditionMode) {
+            m_piano->setNote(midi); // press feedback: light the played key
+            const QModelIndex idx = m_view->currentIndex();
+            if (!idx.isValid()) return;
+            QString kind = idx.data(KindRole).toString();
+            QString name = idx.data(Qt::DisplayRole).toString();
+            if (name.startsWith(':')) name = name.mid(1);
+            QString code = "use_real_time\nuse_debug false\n";
+            if (kind == "fx")
+                code += "with_fx :" + name + " do\n  use_synth :prophet\n  play "
+                    + QString::number(midi) + ", release: 1\nend";
+            else
+                code += "use_synth :" + name + "\nplay " + QString::number(midi);
+            emit auditionRequested(code);
+            return;
+        }
         if (!selectNote(midi)) m_noteOverride = QString::number(midi);
         emit accepted();
     });
@@ -1236,6 +1295,7 @@ void CompletionPopup::updateDetail()
 {
     if (!m_detail || !m_piano) return;
 
+    m_auditionMode = false;
     if (m_sliderMode) {
         // A single value slider replaces the list/detail/piano entirely; opts with
         // an illustration also show a live diagram beneath it.
@@ -1280,7 +1340,13 @@ void CompletionPopup::updateDetail()
     } else if (m_hasDetail) {
         // The pane stays reserved for the whole session (stable width); each row
         // fills it with its summary heading + docstring, or a muted placeholder.
-        m_piano->setVisible(false);
+        // Synth/fx rows keep the keyboard: clicking a key auditions the
+        // highlighted instrument at that pitch (matching the docs pane).
+        const QString curKind = idx.isValid() ? idx.data(KindRole).toString() : QString();
+        m_auditionMode = (curKind == "synth" || curKind == "fx");
+        if (m_auditionMode)
+            m_piano->setNote(52); // centre the keyboard on the audition octave
+        m_piano->setVisible(m_auditionMode);
         // Enum value with a shape (waveform / envelope curve): draw it atop the doc.
         const OptIllustration::Kind sk = OptIllustration::enumKindFor(m_enumIllo);
         if (sk != OptIllustration::Kind::None && idx.isValid()) {
@@ -1394,7 +1460,13 @@ void CompletionPopup::resizeToContents()
         const int h = qMax(listH, int(kDetailMinH * docScale));
         m_view->setGeometry(0, 0, stickyW, h);
         m_detailPane->setGeometry(stickyW, 0, detailW, h);
-        setPopupSize(stickyW + detailW, h);
+        // Synth/fx rows keep a compact audition keyboard under the doc pane
+        int pianoH = 0;
+        if (m_auditionMode) {
+            pianoH = qBound(64, int(detailW * 0.16), 84);
+            m_piano->setGeometry(stickyW, h, detailW, pianoH);
+        }
+        setPopupSize(stickyW + detailW, h + pianoH);
     } else if (m_noteMode || m_chordMode) {
         // Note / chord / scale lists are narrow with fixed content; use their own
         // width (not the grow-only session width, which can carry over from a wider

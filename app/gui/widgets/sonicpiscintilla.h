@@ -62,6 +62,8 @@ signals:
     void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
     // The completion popup's "Docs" button was clicked — open help for this name.
     void docsRequested(const QString& name);
+    // The popup's piano was clicked on a synth/fx row — run `code` to audition it.
+    void auditionRequested(const QString& code);
     // A completion suggestion to speak to the screen reader (MainWindow relays it
     // to its portable announce() helper). Focus stays in the editor throughout.
     void announceRequested(const QString& message);

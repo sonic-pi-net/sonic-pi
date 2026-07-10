@@ -684,6 +684,11 @@ void MainWindow::setupWindowStructure()
                 [this](const QString& name) { showHelpForKeyword(name); });
         connect(workspace, &SonicPiScintilla::announceRequested, this,
                 [this](const QString& msg) { announce(msg, true, SonicPi::Announcement::Navigation); });
+        connect(workspace, &SonicPiScintilla::auditionRequested, this,
+                [this](const QString& code) {
+                    m_spAPI->RunCode(prefWrappedCode(code).toStdString(),
+                                     "sonic-pi-autocomplete-preview", true);
+                });
         // Append the idiomatic code actions to the editor's right-click menu. The
         // lambda runs when the menu is shown, so the actions already exist by then.
         connect(workspace, &SonicPiScintilla::extendContextMenu, this, [this](QMenu* menu) {

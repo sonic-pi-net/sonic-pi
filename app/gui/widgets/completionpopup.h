@@ -98,6 +98,9 @@ signals:
     // The "Docs" button was clicked — the editor should open the help pane for
     // this keyword (same as C-i over the word).
     void docsRequested(const QString& name);
+    // A piano key was clicked on a synth/fx row — run `code` to audition the
+    // highlighted instrument at that pitch (the docs pane's preview UX).
+    void auditionRequested(const QString& code);
     // The highlighted entry changed via explicit navigation: the editor relays
     // `text` to the screen reader so suggestions are spoken while focus (and the
     // typing echo) stay in the editor. Emitted on arrow/page/slider moves only —
@@ -133,6 +136,7 @@ private:
     bool m_hasDetail = false;   // this list has docstrings → reserve the detail pane
     bool m_noteMode = false;    // this list is notes → show the piano
     bool m_chordMode = false;   // this list is chords/scales → piano shows their notes
+    bool m_auditionMode = false; // synth/fx row → piano clicks audition the instrument
     bool m_sliderMode = false;  // this is a bounded opt → show the value slider
     bool m_showHelp = true;     // show the docstring/piano/slider helper panes
     int m_sessionListW = 0;     // grow-only list width for the current session
