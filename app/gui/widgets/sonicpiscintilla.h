@@ -51,6 +51,9 @@ public:
 
     // The live Scintilla zoom level (points added on top of the base font size).
     int currentZoom();
+    // The zoom level a fresh workspace starts at; dependent UI (error card,
+    // docs example editor) sizes its designs against this.
+    static constexpr int kDefaultZoom = 2;
 
 signals:
     // Zoom changed via zoomFontIn/Out or Ctrl+wheel, so dependent UI (e.g. the

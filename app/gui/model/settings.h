@@ -62,6 +62,7 @@ public:
     bool show_completion_help;
     bool show_context;
     bool speak_transport;   // screen reader speaks "Run started"/"Stopped"
+    bool example_play_on_open; // Examples menu: run an example as it is opened
     bool reduce_motion;     // suppress UI animations (ORed with the OS setting)
     // The two independent theme axes.
     SonicPiTheme::ColourScheme colourScheme;

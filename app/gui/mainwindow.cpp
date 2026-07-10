@@ -48,6 +48,7 @@
 #include <QSplashScreen>
 #include <QTimer>
 #include <QSplitter>
+#include <QStackedWidget>
 #include <QStatusBar>
 #include <QStyle>
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
@@ -76,6 +77,7 @@
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
 #include "widgets/sonicpierrorcard.h"
+#include "widgets/tutorialpane.h"
 
 #include "utils/sonicpi_i18n.h"
 
@@ -242,6 +244,7 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     // be found in ruby_help.h:
     std::cout << "[GUI] - initialising documentation window" << std::endl;
     initDocsWindow();
+
 
     // setup autocompletion
     autocomplete->loadSamples(QString::fromStdString(m_spAPI->GetPath(SonicPiPath::SamplePath)));
@@ -819,35 +822,64 @@ void MainWindow::setupWindowStructure()
     QShortcut* right = new QShortcut(Qt::Key_Right, docsNavTabs);
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
-    docPane = new QTextBrowser;
-    docPane->document()->setDocumentMargin(ScaleWidthForDPI(20));  // text inset; keeps the scrollbar flush
-    docPane->setAccessibleName(tr("Documentation"));
-    QSizePolicy policy = docPane->sizePolicy();
+
+    tutorialPane = new TutorialPane(lexer, theme);
+    tutorialPane->setUserZoom(gui_settings->value("prefs/docs-zoom", 0).toInt());
+
+    // Stack rather than a third splitter pane: QSplitter restores persisted
+    // sizes, which can leave a late-added widget at zero width.
+    QSizePolicy policy = tutorialPane->sizePolicy();
     policy.setHorizontalStretch(QSizePolicy::Maximum);
-    docPane->setSizePolicy(policy);
-    docPane->setMinimumHeight(100);
-    docPane->setOpenLinks(false);
-    docPane->setOpenExternalLinks(true);
-    docPane->setStyle(new BorderlessLinksProxyStyle);
-    connect(docPane, SIGNAL(anchorClicked(const QUrl&)), this, SLOT(docLinkClicked(const QUrl&)));
-
-    {
-        // Load via QFile + setHtml (not setSource) so we can substitute the
-        // version placeholder. doc.html only references absolute :/images
-        // resources, so no baseUrl is needed.
-        QFile doc_file(":/html/doc.html");
-        doc_file.open(QFile::ReadOnly | QFile::Text);
-        QString doc_src = QTextStream(&doc_file).readAll();
-        doc_src = doc_src.replace("__SONIC_PI_VERSION__", SONIC_PI_VERSION);
-        docPane->setHtml(doc_src);
-    }
-
-    addUniversalCopyShortcuts(docPane);
+    tutorialPane->setSizePolicy(policy);
+    tutorialPane->setMinimumHeight(100);
 
     docsplit = new ThinSplitter;
     docsplit->setHandleWidth(7);
     docsplit->addWidget(docsNavTabs);
-    docsplit->addWidget(docPane);
+    docsplit->addWidget(tutorialPane);
+
+    // Chapter JSON is generated per language by qt-doc.rb with the same
+    // filenames as the markdown sources (so rows align with the generated
+    // titles); fall back to English.
+    QDir tutorialDir(rootPath() + "/etc/doc/generated/native/en/tutorial");
+    for (const QString& lang : { ui_language, ui_language.section('_', 0, 0) })
+    {
+        if (lang.isEmpty() || lang.startsWith("en"))
+            break;
+        QDir translated(rootPath() + "/etc/doc/generated/native/" + lang + "/tutorial");
+        if (translated.exists() && !translated.entryList(QStringList() << "*.json", QDir::Files).isEmpty())
+        {
+            tutorialDir = translated;
+            break;
+        }
+    }
+    const QStringList tutorialFiles = tutorialDir.entryList(QStringList() << "*.json", QDir::Files, QDir::Name);
+    for (const QString& fname : tutorialFiles)
+        tutorialJsonPaths << tutorialDir.filePath(fname);
+
+    connect(tutorialPane, &TutorialPane::runRequested, this,
+            [this](const QString& code, const QString& workspace, bool silent) {
+                if (!piSettings->reduce_motion)
+                    scopeWindow->Resume();
+                m_spAPI->RunCode(prefWrappedCode(code).toStdString(), workspace.toStdString(), silent);
+            });
+    connect(tutorialPane, &TutorialPane::stopJobRequested, this,
+            [this](int jobId) { m_spAPI->StopJob(jobId); });
+    connect(tutorialPane, &TutorialPane::announceRequested, this,
+            [this](const QString& msg) { announce(msg); });
+    connect(tutorialPane, &TutorialPane::linkClicked, this, &MainWindow::docLinkClicked);
+    connect(tutorialPane, &TutorialPane::navigateRequested, this, [this](int delta) {
+        QListWidget* list = helpLists.value(0);
+        if (!list)
+            return;
+        int row = list->currentRow() + delta;
+        if (row >= 0 && row < list->count())
+            list->setCurrentRow(row);
+    });
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunStartedReceived,
+            tutorialPane, &TutorialPane::runStarted);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunEndedReceived,
+            tutorialPane, &TutorialPane::runEnded);
 
     southTabs = new QTabWidget;
     southTabs->setObjectName("southTabs");
@@ -915,6 +947,10 @@ void MainWindow::toggleDocPane()
         docWidget->show();
         const int h = (m_savedDockH > 0) ? m_savedDockH : (height() / 3);
         resizeDocks({ docWidget }, { h }, Qt::Vertical);
+        // First open: land on the tutorial's first chapter rather than a blank pane
+        QListWidget* list = helpLists.value(docsNavTabs->currentIndex());
+        if (list && list->currentRow() < 0 && list->count() > 0)
+            list->setCurrentRow(0);
     }
 }
 
@@ -929,7 +965,7 @@ void MainWindow::docLinkClicked(const QUrl& url)
     }
     else if (url.isRelative() || url.isLocalFile() || url.scheme() == "qrc")
     {
-        docPane->setSource(url);
+        showHelpPageForUrl(url);
     }
     else
     {
@@ -2363,34 +2399,7 @@ void MainWindow::runCode()
     update();
     SonicPiScintilla* ws = getCurrentWorkspace();
 
-    QString code = ws->text();
-
-    if (!piSettings->log_synths)
-    {
-        code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code;
-    }
-
-    if (!piSettings->log_cues)
-    {
-        code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code;
-    }
-
-    if (piSettings->check_args)
-    {
-        code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code;
-    }
-
-    if (piSettings->enable_external_synths)
-    {
-        code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code;
-    }
-
-    if (piSettings->synth_trigger_timing_guarantees)
-    {
-        code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code;
-    }
-
-    code = "use_midi_defaults channel: \"" + piSettings->midi_default_channel_str + "\" #__nosave__ set by Qt GUI user preferences.\n" + code;
+    QString code = prefWrappedCode(ws->text());
 
     if (piSettings->auto_indent_on_run)
     {
@@ -2429,6 +2438,168 @@ void MainWindow::runCode()
     statusBar()->showMessage(tr("Running Code..."), 1000);
 }
 
+QString MainWindow::prefWrappedCode(QString code)
+{
+    if (!piSettings->log_synths)
+    {
+        code = "use_debug false #__nosave__ set by Qt GUI user preferences.\n" + code;
+    }
+
+    if (!piSettings->log_cues)
+    {
+        code = "use_cue_logging false #__nosave__ set by Qt GUI user preferences.\n" + code;
+    }
+
+    if (piSettings->check_args)
+    {
+        code = "use_arg_checks true #__nosave__ set by Qt GUI user preferences.\n" + code;
+    }
+
+    if (piSettings->enable_external_synths)
+    {
+        code = "use_external_synths true #__nosave__ set by Qt GUI user preferences.\n" + code;
+    }
+
+    if (piSettings->synth_trigger_timing_guarantees)
+    {
+        code = "use_timing_guarantees true #__nosave__ set by Qt GUI user preferences.\n" + code;
+    }
+
+    code = "use_midi_defaults channel: \"" + piSettings->midi_default_channel_str + "\" #__nosave__ set by Qt GUI user preferences.\n" + code;
+
+    return code;
+}
+
+void MainWindow::createExamplesMenu()
+{
+    examplesMenu = menuBar()->addMenu(tr("Examples"));
+
+    const struct
+    {
+        QString dir;
+        QString title;
+    } categories[] = {
+        { "apprentice", tr("Apprentice - first sounds") },
+        { "illusionist", tr("Illusionist - textures & ambient") },
+        { "magician", tr("Magician - beats & grooves") },
+        { "sorcerer", tr("Sorcerer - melodies & remixes") },
+        { "wizard", tr("Wizard - bigger machines") },
+        { "algomancer", tr("Algomancer - generative worlds") },
+    };
+
+    // Same glob + sort as qt-doc.rb, so the running row index lines up with
+    // the entries in the help pane's Examples tab.
+    int helpRow = 0;
+    for (const auto& category : categories)
+    {
+        QMenu* categoryMenu = examplesMenu->addMenu(category.title);
+        QDir dir(rootPath() + "/etc/examples/" + category.dir);
+        const QStringList files = dir.entryList(QStringList() << "*.rb", QDir::Files, QDir::Name);
+        for (const QString& fname : files)
+        {
+            QString base = fname;
+            base.chop(3);
+            QStringList words = base.split('_');
+            for (QString& word : words)
+            {
+                if (!word.isEmpty())
+                    word[0] = word[0].toUpper();
+            }
+            QString title = words.join(' ');
+            QString path = dir.filePath(fname);
+            examplePaths << path;
+            exampleTitles << title;
+            int row = helpRow++;
+            QAction* act = categoryMenu->addAction(title);
+            connect(act, &QAction::triggered, this, [this, path, title, row]() {
+                openExample(path, title, row);
+            });
+        }
+        categoryMenu->setEnabled(!files.isEmpty());
+    }
+
+    examplesMenu->addSeparator();
+
+    examplesPlayOnOpenAct = new QAction(tr("Play When Opened"), this);
+    examplesPlayOnOpenAct->setCheckable(true);
+    examplesPlayOnOpenAct->setChecked(piSettings->example_play_on_open);
+    connect(examplesPlayOnOpenAct, &QAction::toggled, this, [this](bool on) {
+        piSettings->example_play_on_open = on;
+    });
+    examplesMenu->addAction(examplesPlayOnOpenAct);
+
+    examplesMenu->addSeparator();
+
+    QAction* browseExamplesAct = new QAction(tr("Browse Examples in Help..."), this);
+    connect(browseExamplesAct, &QAction::triggered, this, [this]() {
+        showExamplesHelpTab(-1);
+    });
+    examplesMenu->addAction(browseExamplesAct);
+
+    QAction* browseFxAct = new QAction(tr("Browse FX in Help..."), this);
+    connect(browseFxAct, &QAction::triggered, this, [this]() {
+        showHelpListTab((int)DocTab::Fx, -1);
+    });
+    examplesMenu->addAction(browseFxAct);
+}
+
+void MainWindow::showExamplesHelpTab(int row)
+{
+    showHelpListTab((int)DocTab::Examples, row);
+}
+
+void MainWindow::showHelpListTab(int tabIdx, int row)
+{
+    southTabs->setCurrentWidget(docsplit);
+    docsNavTabs->setCurrentIndex(tabIdx);
+    if (tabIdx < helpLists.size())
+    {
+        QListWidget* list = helpLists[tabIdx];
+        if (row >= 0 && row < list->count())
+            list->setCurrentRow(row);
+        else if (list->currentRow() < 0 && list->count() > 0)
+            list->setCurrentRow(0);
+    }
+    if (!docWidget->isVisible())
+        toggleDocPane();
+}
+
+void MainWindow::openExample(const QString& path, const QString& title, int helpRow)
+{
+    // Examples live in the help pane: show the example there and (optionally)
+    // play it from the pane. Buffers are never touched.
+    showExamplesHelpTab(helpRow);
+
+    if (!examplesPlayOnOpenAct->isChecked())
+    {
+        showStatusAndAnnounce(tr("Opened %1 in the Help panel.").arg(title), 3000);
+        return;
+    }
+
+    if (!piSettings->reduce_motion)
+        scopeWindow->Resume();
+    if (!(tutorialPane && tutorialPane->isVisible() && tutorialPane->playFirstSnippet()))
+    {
+        QFile file(path);
+        if (!file.open(QFile::ReadOnly | QFile::Text))
+        {
+            showStatusAndAnnounce(tr("Unable to load example: %1").arg(title), 3000);
+            return;
+        }
+        QTextStream in(&file);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        in.setEncoding(QStringConverter::Utf8);
+#else
+        in.setCodec("UTF-8");
+#endif
+        Message msg("/run-code");
+        msg.pushInt32(guiID);
+        msg.pushStr(prefWrappedCode(in.readAll()).toStdString());
+        sendOSC(msg);
+    }
+    showStatusAndAnnounce(tr("Playing %1 from the Help panel.").arg(title), 3000);
+}
+
 void MainWindow::zoomCurrentWorkspaceIn()
 {
     statusBar()->showMessage(tr("Zooming In..."), 2000);
@@ -2452,7 +2623,7 @@ void MainWindow::updateErrorCardZoom()
     // design sizes assume the default zoom of 2. Boosted a touch so the card
     // reads slightly larger than the code.
     double base = lexer->defaultFont(0).pointSizeF();
-    errorCard->setFontScale(1.15 * (base + ws->currentZoom()) / (base + 2.0));
+    errorCard->setFontScale(1.15 * (base + ws->currentZoom()) / (base + SonicPiScintilla::kDefaultZoom));
 }
 
 void MainWindow::beautifyCode()
@@ -3027,8 +3198,6 @@ void MainWindow::updateColourTheme()
     QString css = theme->getCss();
     toggleIcons();
 
-    docPane->document()->setDefaultStyleSheet(css);
-    docPane->reload();
 
     foreach (QTextBrowser* pane, infoPanes)
     {
@@ -3038,6 +3207,8 @@ void MainWindow::updateColourTheme()
 
     errorPane->document()->setDefaultStyleSheet(css);
     errorCard->applyTheme();
+    if (tutorialPane)
+        tutorialPane->applyTheme();
 
     // clear stylesheets
     this->setStyleSheet("");
@@ -4392,6 +4563,8 @@ void MainWindow::createToolBar()
     codeMenu->addAction(textAlignAct);
     codeMenu->addAction(textCommentAct);
 
+    createExamplesMenu();
+
     audioMenu = menuBar()->addMenu(tr("Audio"));
     audioMenu->addAction(enableExternalSynthsAct);
     audioMenu->addAction(audioSafeAct);
@@ -5341,6 +5514,7 @@ void MainWindow::readSettings()
     piSettings->show_completion_help = gui_settings->value("prefs/show-completion-help", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
     piSettings->speak_transport = gui_settings->value("prefs/speak-transport", true).toBool();
+    piSettings->example_play_on_open = gui_settings->value("prefs/example-play-on-open", true).toBool();
     piSettings->reduce_motion = gui_settings->value("prefs/reduce-motion", false).toBool();
     SonicPi::setReduceMotionPreference(piSettings->reduce_motion);
 #if defined(Q_OS_WIN)
@@ -5427,6 +5601,9 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show-log", piSettings->show_log);
     gui_settings->setValue("prefs/show-context", piSettings->show_context);
     gui_settings->setValue("prefs/speak-transport", piSettings->speak_transport);
+    gui_settings->setValue("prefs/example-play-on-open", piSettings->example_play_on_open);
+    if (tutorialPane)
+        gui_settings->setValue("prefs/docs-zoom", tutorialPane->userZoom());
     gui_settings->setValue("prefs/reduce-motion", piSettings->reduce_motion);
     gui_settings->setValue("prefs/shortcut-mode", piSettings->shortcut_mode);
     gui_settings->setValue("prefs/log-zoom", outputPane->currentZoomLevel());
@@ -5610,8 +5787,138 @@ void MainWindow::heartbeatOSC()
 
 void MainWindow::updateDocPane(QListWidgetItem* cur)
 {
-    QString url = cur->data(32).toString();
-    docPane->setSource(QUrl(url));
+    if (!cur)
+        return;
+    QListWidget* list = cur->listWidget();
+    showInTutorialPane(helpLists.indexOf(list), list ? list->row(cur) : -1);
+}
+
+bool MainWindow::showInTutorialPane(int tabIdx, int row)
+{
+    if (!tutorialPane || tabIdx < 0 || row < 0)
+        return false;
+
+    // itemPressed + currentItemChanged both fire per click - don't build twice
+    // (also keeps a playing snippet's state on a re-click)
+    if (tabIdx == lastTutorialDocTab && row == lastTutorialDocRow)
+        return true;
+
+    QListWidget* list = helpLists.value(tabIdx);
+    QListWidgetItem* item = list ? list->item(row) : nullptr;
+    if (!item)
+        return false;
+
+    loadNativeDocs();
+    const QString keyword = helpTabKeywords.value(tabIdx).value(row);
+
+    auto instrumentByKey = [](const QVector<SonicPi::InstrumentPage>& pages,
+                              const QString& key) -> const SonicPi::InstrumentPage* {
+        for (const SonicPi::InstrumentPage& page : pages)
+            if (page.key == key)
+                return &page;
+        return nullptr;
+    };
+
+    bool built = false;
+    if (tabIdx == (int)DocTab::Tutorial && row < tutorialJsonPaths.size())
+    {
+        QString json = readFile(tutorialJsonPaths[row]);
+        if (!json.isEmpty())
+        {
+            SonicPi::TutorialChapter chapter = SonicPi::TutorialDocs::chapterFromJson(json.toUtf8());
+            QString prevTitle = row > 0 ? list->item(row - 1)->text() : QString();
+            QString nextTitle = row + 1 < list->count() ? list->item(row + 1)->text() : QString();
+            tutorialPane->loadChapter(chapter, rootPath() + "/etc/doc/images", prevTitle, nextTitle);
+            built = true;
+        }
+    }
+    else if (tabIdx == (int)DocTab::Examples && row < examplePaths.size())
+    {
+        QString code = readFile(examplePaths[row]);
+        if (!code.isEmpty())
+        {
+            tutorialPane->showCodePage(exampleTitles.value(row), code);
+            built = true;
+        }
+    }
+    else if (tabIdx == (int)DocTab::Synths || tabIdx == (int)DocTab::Fx)
+    {
+        const bool isFx = tabIdx == (int)DocTab::Fx;
+        if (const SonicPi::InstrumentPage* page =
+                instrumentByKey(isFx ? fxDocPages : synthDocPages, keyword))
+        {
+            tutorialPane->showInstrumentPage(isFx, *page);
+            built = true;
+        }
+    }
+    else if (tabIdx == (int)DocTab::Samples)
+    {
+        for (const SonicPi::SampleGroup& group : sampleDocGroups)
+            if (group.title == item->text())
+            {
+                tutorialPane->showSampleGroupPage(group);
+                built = true;
+                break;
+            }
+    }
+    else if (tabIdx == (int)DocTab::Lang)
+    {
+        for (const SonicPi::LangPage& page : langDocPages)
+            if (page.key == keyword)
+            {
+                tutorialPane->showLangPage(page);
+                built = true;
+                break;
+            }
+    }
+
+    if (!built)
+    {
+        // Docs data missing for this row (e.g. generated docs out of date):
+        // show a title-only page rather than nothing, and say so in the log
+        SonicPi::LangPage stub;
+        stub.key = item->text();
+        tutorialPane->showLangPage(stub);
+        std::cout << "[GUI] - no native doc data for help row: "
+                  << item->text().toStdString() << std::endl;
+    }
+
+    lastTutorialDocTab = tabIdx;
+    lastTutorialDocRow = row;
+    return true;
+}
+
+void MainWindow::loadNativeDocs()
+{
+    if (nativeDocsLoaded)
+        return;
+    nativeDocsLoaded = true;
+    const QString base = rootPath() + "/etc/doc/generated/native/reference/";
+    synthDocPages = SonicPi::TutorialDocs::instrumentsFromJson(readFile(base + "synths.json").toUtf8());
+    fxDocPages = SonicPi::TutorialDocs::instrumentsFromJson(readFile(base + "fx.json").toUtf8());
+    sampleDocGroups = SonicPi::TutorialDocs::sampleGroupsFromJson(readFile(base + "samples.json").toUtf8());
+    langDocPages = SonicPi::TutorialDocs::langPagesFromJson(readFile(base + "lang.json").toUtf8());
+}
+
+// A qrc/relative link inside a doc page: select the help row whose page it is
+void MainWindow::showHelpPageForUrl(const QUrl& url)
+{
+    QString target = url.toString();
+    QString fileName = target.section('/', -1);
+    for (int tab = 0; tab < helpLists.size(); tab++)
+    {
+        QListWidget* list = helpLists[tab];
+        for (int row = 0; row < list->count(); row++)
+        {
+            QString pageUrl = list->item(row)->data(32).toString();
+            if (pageUrl == target || (!fileName.isEmpty() && pageUrl.endsWith("/" + fileName)))
+            {
+                showHelpListTab(tab, row);
+                return;
+            }
+        }
+    }
+    std::cout << "[GUI] - no help page for link: " << target.toStdString() << std::endl;
 }
 
 void MainWindow::updateDocPane2(QListWidgetItem* cur, QListWidgetItem* prev)
@@ -5633,22 +5940,23 @@ void MainWindow::addHelpPage(QListWidget* nameList,
         item->setData(32, QVariant(helpPages[i].url));
         nameList->addItem(item);
         entry.entryIndex = nameList->count() - 1;
+        helpTabKeywords[entry.pageIndex] << helpPages[i].keyword;
 
         if (helpPages[i].keyword != "")
         {
             helpKeywords.insert(helpPages[i].keyword, entry);
-            // magic numbers ahoy
-            // to be revamped along with the help system
-            switch (entry.pageIndex)
+            switch ((DocTab)entry.pageIndex)
             {
-            case 2:
+            case DocTab::Synths:
                 autocomplete->addSymbol(ScintillaAPI::Synth, helpPages[i].keyword);
                 break;
-            case 3:
+            case DocTab::Fx:
                 autocomplete->addSymbol(ScintillaAPI::FX, helpPages[i].keyword);
                 break;
-            case 5:
+            case DocTab::Lang:
                 autocomplete->addKeyword(ScintillaAPI::Func, helpPages[i].keyword);
+                break;
+            default:
                 break;
             }
         }
@@ -5659,6 +5967,11 @@ QListWidget* MainWindow::createHelpTab(QString name)
 {
     QListWidget* nameList = new QListWidget;
     nameList->setAccessibleName(tr("Help Topics"));
+    nameList->setSpacing(ScaleHeightForDPI(1));
+    // Both signals on purpose: currentItemChanged covers keyboard navigation,
+    // itemPressed covers re-clicking the already-current row (to return after
+    // following links away in the browser pane). The native pane dedupes via
+    // lastTutorialDocTab/Row so a click never builds a page twice.
     connect(nameList,
         SIGNAL(itemPressed(QListWidgetItem*)),
         this, SLOT(updateDocPane(QListWidgetItem*)));
@@ -5666,9 +5979,23 @@ QListWidget* MainWindow::createHelpTab(QString name)
         SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)),
         this, SLOT(updateDocPane2(QListWidgetItem*, QListWidgetItem*)));
 
-    QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight);
-    layout->addWidget(nameList);
-    layout->setStretch(1, 1);
+    QLineEdit* filter = new QLineEdit;
+    filter->setPlaceholderText(tr("Filter %1...").arg(name));
+    filter->setAccessibleName(tr("Filter %1 help topics").arg(name));
+    filter->setClearButtonEnabled(true);
+    connect(filter, &QLineEdit::textChanged, nameList, [nameList](const QString& q) {
+        for (int i = 0; i < nameList->count(); i++)
+        {
+            QListWidgetItem* item = nameList->item(i);
+            item->setHidden(!q.isEmpty() && !item->text().contains(q, Qt::CaseInsensitive));
+        }
+    });
+
+    QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(ScaleHeightForDPI(4));
+    layout->addWidget(filter);
+    layout->addWidget(nameList, 1);
     QWidget* tabWidget = new QWidget;
     tabWidget->setLayout(layout);
     docsNavTabs->addTab(tabWidget, name);
@@ -5712,12 +6039,12 @@ void MainWindow::docNextTab()
 
 void MainWindow::docScrollUp()
 {
-    docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepSub);
+    tutorialPane->scrollStep(-1);
 }
 
 void MainWindow::docScrollDown()
 {
-    docPane->verticalScrollBar()->triggerAction(QAbstractSlider::SliderSingleStepAdd);
+    tutorialPane->scrollStep(1);
 }
 
 void MainWindow::tabNext()
@@ -6214,7 +6541,7 @@ void MainWindow::focusHelpListing()
 void MainWindow::focusHelpDetails()
 {
     revealDocsTab();
-    focusPane(docPane);
+    focusPane(tutorialPane);
 }
 
 void MainWindow::focusErrors()
@@ -6253,7 +6580,7 @@ void MainWindow::cycleFocus(int direction)
     const int helpIdx = docsNavTabs->currentIndex();
     add((helpIdx >= 0 && helpIdx < helpLists.size()) ? (QWidget*)helpLists[helpIdx]
                                                      : (QWidget*)docsNavTabs);
-    add(docPane);
+    add(tutorialPane);
     add(settingsWidget);
     if (panes.isEmpty())
         return;

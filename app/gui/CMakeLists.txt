@@ -129,6 +129,12 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/metricspanel.h
     ${QTAPP_ROOT}/widgets/nodetreegraph.cpp
     ${QTAPP_ROOT}/widgets/nodetreegraph.h
+    ${QTAPP_ROOT}/widgets/tutorialpane.cpp
+    ${QTAPP_ROOT}/widgets/tutorialpane.h
+    ${QTAPP_ROOT}/widgets/tutorialwidgets.cpp
+    ${QTAPP_ROOT}/widgets/tutorialwidgets.h
+    ${QTAPP_ROOT}/utils/tutorialdocs.cpp
+    ${QTAPP_ROOT}/utils/tutorialdocs.h
     )
 
 set(SOURCES

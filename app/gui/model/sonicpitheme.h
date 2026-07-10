@@ -51,6 +51,14 @@ public:
     // Black or white, whichever reads better on `bg` (by perceived brightness).
     // For text placed on an accent fill whose lightness varies per theme.
     QColor contrastingText(const QColor& bg) const;
+    // Linear mix of two colours (t = 0 -> a, t = 1 -> b). The shared helper for
+    // widgets deriving in-between tones from theme tokens.
+    static QColor blend(const QColor& a, const QColor& b, double t)
+    {
+        return QColor(qRound(a.red() * (1 - t) + b.red() * t),
+                      qRound(a.green() * (1 - t) + b.green() * t),
+                      qRound(a.blue() * (1 - t) + b.blue() * t));
+    }
     // Applies the global invert / monochrome / hue-rotation transforms to an
     // arbitrary colour (the shared pipeline behind color(); also used for literal
     // colours and for previewing each theme card under the active toggles).

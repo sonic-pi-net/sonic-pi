@@ -699,3 +699,240 @@ end
 generate_patreon_supporters_header()
 
 generate_ui_lang_names()
+
+
+###
+# Native docs pane JSON generation
+#
+# Typed-block JSON docs consumed by the GUI's native docs pane. Pure
+# addition: everything above is untouched and all outputs live under
+# etc/doc/generated/native/.
+###
+
+require 'json'
+require 'ripper'
+
+native_docs_root = File.join(SonicPi::Paths.docs_generated_path, "native")
+FileUtils.rm_rf native_docs_root
+FileUtils.mkdir_p File.join(native_docs_root, "reference")
+
+write_native_json = lambda do |path, obj|
+  FileUtils.mkdir_p File.dirname(path)
+  File.open(path, 'w') { |f| f << JSON.pretty_generate(obj) << "\n" }
+end
+
+# A snippet is runnable if Ripper parses it and it isn't a comment-only,
+# absolute-path, printed-result (#=>) or bare-expression demo.
+native_code_runnable = lambda do |src|
+  s = src.to_s
+  stripped_lines = s.lines.map(&:strip)
+  return false unless stripped_lines.any? { |l| !l.empty? && !l.start_with?("#") }
+  return false if s.include?("#=>")
+  return false if s.include?("\"/")
+  return false if ('A'..'Z').any? { |d| s.include?("\"#{d}:/") }
+  return false if ('a'..'z').any? { |d| s.include?("\"#{d}:/") }
+  first = stripped_lines.find { |l| !l.empty? }
+  return false if first.start_with?("(") || first.start_with?("[")
+  begin
+    !Ripper.sexp(s).nil?
+  rescue StandardError
+    false
+  end
+end
+
+native_render_elements = lambda do |els|
+  root = Kramdown::Element.new(
+    :root, nil, nil,
+    :encoding => "UTF-8",
+    :location => 1,
+    :options => {},
+    :abbrev_defs => {}, :abbrev_attr => {}
+  )
+  root.children = els
+  Kramdown::Converter::Html.convert(root)[0].to_s
+end
+
+native_image_path = lambda do |src|
+  if src.include?("etc/doc/images/")
+    src.split("etc/doc/images/").last
+  elsif src.include?("images/")
+    src.split("images/").last
+  else
+    src
+  end
+end
+
+# The img element if the paragraph is just an image (optionally surrounded
+# by whitespace), else nil.
+native_only_img = lambda do |el|
+  imgs = el.children.select { |c| c.type == :img }
+  return nil unless imgs.length == 1
+  rest = el.children - imgs
+  return nil unless rest.all? { |c| c.type == :text && c.value.to_s.strip.empty? }
+  imgs.first
+end
+
+native_li_html = lambda do |li|
+  html = native_render_elements.call(li.children).strip
+  if li.children.length == 1 && li.children[0].type == :p &&
+     html.start_with?("<p>") && html.end_with?("</p>")
+    html = html[3...-4].strip
+  end
+  html
+end
+
+native_tutorial_blocks = lambda do |markdown|
+  # same code-fence fudge as MarkdownConverter.convert
+  md = markdown.to_s.gsub(/\`\`\`\`*/, '~~~~')
+  blocks = []
+  Kramdown::Document.new(md).root.children.each do |el|
+    case el.type
+    when :blank
+      next
+    when :header
+      blocks << { "type" => "heading",
+                  "level" => el.options[:level],
+                  "text" => el.options[:raw_text].to_s.strip }
+    when :codeblock
+      source = el.value.to_s
+      source = source[0...-1] while source.end_with?("\n")
+      blocks << { "type" => "code",
+                  "source" => source,
+                  "runnable" => native_code_runnable.call(source) }
+    when :ul, :ol
+      items = el.children.select { |c| c.type == :li }.map { |li| native_li_html.call(li) }
+      blocks << { "type" => "list", "ordered" => el.type == :ol, "items" => items }
+    when :p
+      if (img = native_only_img.call(el))
+        blocks << { "type" => "image",
+                    "path" => native_image_path.call(img.attr["src"].to_s),
+                    "alt" => img.attr["alt"].to_s }
+      else
+        html = native_render_elements.call([el]).strip
+        blocks << { "type" => "prose", "html" => html } unless html.empty?
+      end
+    else
+      # tables and any other block construct: keep the content as prose
+      html = native_render_elements.call([el]).strip
+      blocks << { "type" => "prose", "html" => html } unless html.empty?
+    end
+  end
+  blocks
+end
+
+native_tutorial_langs = ["en"] + Dir["#{SonicPi::Paths.docs_generated_path}/*/tutorial"].
+                        map { |p| File.basename(File.dirname(p)) }.
+                        reject { |l| l == "native" }.sort
+
+native_tutorial_langs.each do |lang|
+  if lang == "en"
+    src_dir = SonicPi::Paths.tutorial_path
+  else
+    src_dir = File.expand_path("../generated/#{lang}/tutorial", SonicPi::Paths.tutorial_path)
+  end
+  Dir["#{src_dir}/*.md"].sort.each do |path|
+    lines = IO.read(path, :encoding => 'utf-8').lines
+    title = lines.first.to_s.strip
+    body = lines.length > 1 ? lines[1..-1].join : ""
+    out = { "title" => title, "blocks" => native_tutorial_blocks.call(body) }
+    write_native_json.call(File.join(native_docs_root, lang, "tutorial",
+                                     "#{File.basename(path, '.md')}.json"), out)
+  end
+end
+
+# lo/hi for an opt, mirroring the setOptRange derivation above; nil when the
+# opt has no known range.
+native_opt_min_max = lambda do |ak, info, default|
+  bounds = info[:bounds] || {}
+  return nil if bounds[:options]
+  midi_ranges = { "cutoff" => [30.0, 130.0] }
+  if (mr = midi_ranges[ak.to_s]) && !info[:range]
+    mr
+  elsif (r = info[:range])
+    [r[0].to_f, r[1].to_f]
+  elsif bounds.key?(:min) && bounds.key?(:max)
+    [bounds[:min].to_f, bounds[:max].to_f]
+  elsif bounds.key?(:min) && default.is_a?(Numeric)
+    lo = bounds[:min].to_f
+    dv = default.to_f
+    [lo, dv > lo ? lo + (dv - lo) * 4.0 : lo + 1.0]
+  elsif bounds.key?(:max) && default.is_a?(Numeric)
+    hi = bounds[:max].to_f
+    dv = default.to_f
+    [dv < hi ? hi - (hi - dv) * 4.0 : hi - 1.0, hi]
+  end
+end
+
+native_num = lambda { |n| (n.is_a?(Float) && n == n.to_i) ? n.to_i : n }
+
+# Same instrument filter as info_doc_html_map (which feeds today's synth/fx
+# help tabs). Defaults come from the instrument's own arg_defaults; arg_info
+# already folds away the *_slide/*_slide_shape/*_slide_curve opts.
+native_instrument_pages = lambda do |klass|
+  pages = []
+  SonicPi::Synths::SynthInfo.get_all.each do |k, v|
+    next unless v.is_a? klass
+    next if (klass == SonicPi::Synths::FXInfo) && (k.to_s.include? 'replace_')
+    next if v.is_a? SonicPi::Synths::StudioInfo
+    key = (klass == SonicPi::Synths::FXInfo) ? k.to_s[3..-1] : k.to_s
+    defaults = v.arg_defaults
+    opts = v.arg_info.map do |ak, info|
+      d = defaults[ak]
+      o = { "name" => ak.to_s }
+      if d.is_a?(Numeric)
+        o["default"] = native_num.call(d)
+      else
+        o["default"] = fmt_default.call(d) || d.to_s
+      end
+      o["doc"] = info[:doc].to_s
+      if d.is_a?(Numeric) && (mm = native_opt_min_max.call(ak, info, d))
+        o["min"] = native_num.call(mm[0])
+        o["max"] = native_num.call(mm[1])
+      end
+      o["slidable"] = !!info[:slidable]
+      o
+    end
+    pages << { "key" => key,
+               "title" => v.name,
+               "doc_html" => Kramdown::Document.new(v.doc.to_s).to_html.strip,
+               "opts" => opts }
+  end
+  pages.sort_by { |p| p["key"] }
+end
+
+write_native_json.call(File.join(native_docs_root, "reference", "synths.json"),
+                       { "pages" => native_instrument_pages.call(SonicPi::Synths::SynthInfo) })
+write_native_json.call(File.join(native_docs_root, "reference", "fx.json"),
+                       { "pages" => native_instrument_pages.call(SonicPi::Synths::FXInfo) })
+
+native_sample_groups = SonicPi::Synths::SynthInfo.grouped_samples.map do |_, v|
+  { "title" => v[:desc].to_s, "samples" => v[:samples].map(&:to_s) }
+end
+write_native_json.call(File.join(native_docs_root, "reference", "samples.json"),
+                       { "groups" => native_sample_groups })
+
+# DocSystem keeps one shared docs registry, so Core.docs already contains the
+# Sound (and other lang module) entries. ruby_html_map has no entries.
+native_lang_pages = []
+SonicPi::Lang::Core.docs.each do |k, v|
+  next if v[:hide]
+  summary = (v[:summary] || v[:name]).to_s.dup
+  summary[0] = summary[0].capitalize unless summary.empty?
+  usage_args = (v[:args] || []).map { |arg| n, t = *arg; "#{n} (#{t})" }
+  usage = v[:name].to_s
+  usage = "#{usage} #{usage_args.join(', ')}" unless usage_args.empty?
+  native_lang_pages << {
+    "key" => k.to_s,
+    "summary" => summary,
+    "usage" => usage,
+    "doc_html" => Kramdown::Document.new(v[:doc].to_s).to_html.strip,
+    "introduced" => v[:introduced].to_s,
+    "examples" => (v[:examples] || []).map do |e|
+      code = e.to_s.strip
+      { "code" => code, "runnable" => native_code_runnable.call(code) }
+    end
+  }
+end
+native_lang_pages.sort_by! { |p| p["key"] }
+write_native_json.call(File.join(native_docs_root, "reference", "lang.json"),
+                       { "pages" => native_lang_pages })

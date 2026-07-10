@@ -34,6 +34,7 @@
 
 #include "config.h"
 #include "utils/announcementpolicy.h"
+#include "utils/tutorialdocs.h"
 
 class QAction;
 class QActionGroup;
@@ -47,7 +48,9 @@ class QTextBrowser;
 class QString;
 class QSlider;
 class QSplitter;
+class QStackedWidget;
 class ThinSplitter;
+class TutorialPane;
 
 namespace SonicPi
 {
@@ -92,6 +95,17 @@ struct help_page
     QString title = "";
     QString keyword = "";
     QString url = "";
+};
+
+// Fixed order of the help nav tabs, as built by initDocsWindow (ruby_help.h)
+enum class DocTab
+{
+    Tutorial = 0,
+    Examples,
+    Synths,
+    Fx,
+    Samples,
+    Lang
 };
 
 struct help_entry
@@ -518,6 +532,15 @@ private:
 
     void clearOutputPanels();
     void createToolBar();
+    void createExamplesMenu();
+    void openExample(const QString& path, const QString& title, int helpRow);
+    void showExamplesHelpTab(int row);
+    void showHelpListTab(int tabIdx, int row);
+    // Render this help-list selection in the docs pane
+    bool showInTutorialPane(int tabIdx, int row);
+    // Select the help row whose generated page matches `url` (in-doc links)
+    void showHelpPageForUrl(const QUrl& url);
+    QString prefWrappedCode(QString code);
     void createStatusBar();
     void createInfoPane();
     void createScopePane();
@@ -557,7 +580,23 @@ private:
     void addUniversalCopyShortcuts(QTextEdit* te);
     void updateTranslatedUIText();
 
-    QMenu *shortcutMenu, *liveMenu, *codeMenu, *audioMenu, *displayMenu, *viewMenu, *focusMenu, *tabMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *ioGamepadMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu, *languageMenu, *accessibilityMenu;
+    QMenu *shortcutMenu, *liveMenu, *codeMenu, *examplesMenu, *audioMenu, *displayMenu, *viewMenu, *focusMenu, *tabMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *ioGamepadMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu, *languageMenu, *accessibilityMenu;
+    QAction* examplesPlayOnOpenAct;
+    QStringList tutorialJsonPaths; // sorted generated chapter JSON, row-aligned with the Tutorial help list
+    QStringList examplePaths;      // qt-doc glob order, row-aligned with the Examples help list
+    QStringList exampleTitles;
+    // Generated reference docs (loaded lazily from etc/doc/generated/native)
+    QVector<SonicPi::InstrumentPage> synthDocPages;
+    QVector<SonicPi::InstrumentPage> fxDocPages;
+    QVector<SonicPi::SampleGroup> sampleDocGroups;
+    QVector<SonicPi::LangPage> langDocPages;
+    bool nativeDocsLoaded = false;
+    void loadNativeDocs();
+    QHash<int, QStringList> helpTabKeywords; // tab index -> per-row keywords ("" where none)
+    // Last tab/row shown in the tutorial pane; itemPressed + currentItemChanged
+    // both fire per click, so loads must dedupe
+    int lastTutorialDocTab = -1;
+    int lastTutorialDocRow = -1;
     QMap<QString, QKeySequence> shortcutMap;
 
     QSettings* gui_settings;
@@ -625,7 +664,7 @@ private:
     QLabel* titleBarScope = nullptr;
     QLabel* titleBarDoc = nullptr;
     QLabel* titleBarMetro = nullptr;
-    QTextBrowser* docPane;
+    TutorialPane* tutorialPane = nullptr;
 
     //  QTextBrowser *hudPane;
     QWidget* mainWidget;
