@@ -793,6 +793,15 @@ module SonicPi
           args << "-H" << sound_card_name
         end
 
+        # Point SuperSonic at the MdaPiano sample table (the :piano synth). The
+        # table ships as an external asset rather than being compiled into the
+        # engine; if it's missing, :piano just plays silence.
+        if File.exist?(Paths.piano_wavetable_path)
+          args << "--piano-wavetable" << Paths.piano_wavetable_path
+        else
+          Util.log "Piano wavetable not found at #{Paths.piano_wavetable_path} — :piano will be silent"
+        end
+
         cmd = Paths.supersonic_path
         Util.log "SuperSonic opts: #{opts.inspect}"
 

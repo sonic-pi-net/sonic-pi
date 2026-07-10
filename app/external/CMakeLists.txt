@@ -111,7 +111,13 @@ add_custom_target(copy_supersonic ALL
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${BINARY_DIR}/SuperSonic_artefacts/${CMAKE_BUILD_TYPE}/${SUPERSONIC_BUILD_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/${SUPERSONIC_NATIVE_NAME}
-    COMMENT "Copying SuperSonic binary to server/native/"
+    # MdaPiano sample table — an optional SuperSonic asset, not compiled into the
+    # engine. Copied next to the binary so the :piano synth works in the bundle;
+    # if absent the engine just plays :piano silent.
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_LIST_DIR}/supersonic/assets/piano/piano_wavetable.dat
+        ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/piano_wavetable.dat
+    COMMENT "Copying SuperSonic binary + piano wavetable to server/native/"
     DEPENDS supersonic
 )
 

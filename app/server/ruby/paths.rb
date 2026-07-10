@@ -143,6 +143,12 @@ module SonicPi
       File.absolute_path("#{etc_path}/synthdefs/compiled")
     end
 
+    def self.piano_wavetable_path
+      # Optional SuperSonic asset, build-copied next to the engine binary
+      # (see app/external/CMakeLists.txt). Absent => :piano plays silent.
+      File.absolute_path("#{native_path}/piano_wavetable.dat")
+    end
+
     def self.samples_path
       File.absolute_path("#{etc_path}/samples")
     end
