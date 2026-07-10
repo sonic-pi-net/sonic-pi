@@ -352,14 +352,15 @@ end
 # per opt — each its own block (name heading + doc), separated by a rule.
 opts_html = lambda do |arg_info|
   return "" if arg_info.empty?
-  # Summary: a small-font grid, 2 opts per row (a name cell + a value cell each).
+  # Summary: a grid at the body font size, 2 opts per row (a name cell + a
+  # value cell each).
   cells = arg_info.map do |ak, info|
     ds = fmt_default.call(info[:default])
     # opt name links to its description block below (anchor named after the opt).
     "<td><a href=\"##{ak}\"><code>#{ak}:</code></a></td><td>#{ds ? opt_doc_html.call(ds) : ''}</td>"
   end
   rows = cells.each_slice(2).map { |s| "<tr>#{s.join}</tr>" }.join
-  table = "<table cellspacing=\"0\" cellpadding=\"4\" style=\"font-size:small\">#{rows}</table>"
+  table = "<table cellspacing=\"0\" cellpadding=\"4\">#{rows}</table>"
   blocks = arg_info.map do |ak, info|
     head = "<a name=\"#{ak}\"></a><b><code>#{ak}:</code></b>"
     head += " <i>(slidable)</i>" if info[:slidable]
