@@ -1643,6 +1643,12 @@ QIcon SonicPiTheme::classicIcon(const QIcon* icon, bool logoContrast, bool wordO
         // Contrast against the box as it will actually render (post-filters).
         logoColour = contrastingText(applyGlobalTransforms(QColor(boxLum, boxLum, boxLum)));
     }
+    // The pill's outer border is drawn in the art to blend into its toolbar
+    // (white in the light/hc sets, black in the dark set) — sample it so the
+    // glyph-contrast pass leaves it (and its antialiased fringe — anything
+    // nearer the border tone than the box tone) invisible instead of forcing
+    // it to the logo colour, which painted a partial border in light mode.
+    const int borderLum = QColor(img.pixel(img.width() - 2, img.height() / 2)).lightness();
 
     for (int y = 0; y < img.height(); ++y) {
         QRgb* line = reinterpret_cast<QRgb*>(img.scanLine(y));
@@ -1651,8 +1657,9 @@ QIcon SonicPiTheme::classicIcon(const QIcon* icon, bool logoContrast, bool wordO
             if (a == 0) continue;
             QColor c(qRed(line[x]), qGreen(line[x]), qBlue(line[x]));
             if (logoContrast && x >= split &&
-                qAbs(c.lightness() - boxLum) > 55) {
-                // Glyph-box logo (and its border): force to the contrasting colour.
+                qAbs(c.lightness() - boxLum) > 55 &&
+                qAbs(c.lightness() - borderLum) > qAbs(c.lightness() - boxLum)) {
+                // Glyph-box logo: force to the contrasting colour.
                 c = logoColour;
             } else if (wordOnAccent && x < split &&
                        c.saturation() < 40 && c.lightness() > 160) {
