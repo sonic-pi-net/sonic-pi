@@ -283,6 +283,22 @@ jobs:
         run: ctest --verbose
         if: startsWith(matrix.os, 'windows')
 
+      # GUI tests: Catch2 + Qt Test, run headless via the offscreen platform.
+      # (Windows offscreen path unverified — add a Windows step once confirmed.)
+      - name: GUI Tests - Mac
+        working-directory: ${{github.workspace}}/app/build/gui-tests
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --verbose
+        if: matrix.os == 'macos-latest'
+
+      - name: GUI Tests - Linux
+        working-directory: ${{github.workspace}}/app/build/gui-tests
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --verbose
+        if: matrix.os == 'ubuntu-latest'
+
 
       - name: Archive Logs
         uses: actions/upload-artifact@v4
