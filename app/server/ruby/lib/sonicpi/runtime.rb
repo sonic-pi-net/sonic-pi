@@ -1146,7 +1146,7 @@ module SonicPi
 
           ## fix this for link
           __init_spider_time_and_beat!
-          if num_running_jobs == 1
+          if num_running_jobs == 1 && !silent
             # Force a GC collection before we start making music!
             GC.start
           end

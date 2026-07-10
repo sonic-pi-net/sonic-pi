@@ -296,9 +296,24 @@ register_api = lambda do |server|
     incoming_token = args[0]
     if incoming_token == token
       code = args[1].force_encoding("utf-8")
-      sp.__spider_eval code
+      workspace = args[2]
+      if workspace
+        sp.__spider_eval code, {workspace: workspace, silent: args[3] == 1}
+      else
+        sp.__spider_eval code
+      end
     else
       STDOUT.puts "Invalid token: #{incoming_token} - ignoring /run-code API call"
+      STDOUT.flush
+    end
+  end
+
+  server.add_method("/stop-job") do |args|
+    incoming_token = args[0]
+    if incoming_token == token
+      sp.__stop_job args[1].to_i
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /stop-job API call"
       STDOUT.flush
     end
   end
@@ -987,9 +1002,15 @@ out_t = Thread.new do
         when :all_jobs_completed
           gui.send("/runs/all-completed")
         when :job
-          id = message[:job_id]
+          id = message[:jobid]
           action = message[:action]
-          # do nothing for now
+          case action
+          when :start
+            workspace = (message[:jobinfo] || {})[:workspace].to_s
+            gui.send("/run/started", id.to_i, workspace)
+          when :killed, :completed
+            gui.send("/run/ended", id.to_i)
+          end
         else
           STDOUT.puts "Spider - Ignoring #{message}"
           STDOUT.flush

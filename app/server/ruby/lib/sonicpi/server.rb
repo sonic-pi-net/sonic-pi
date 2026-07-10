@@ -735,7 +735,15 @@ module SonicPi
 
     def osc_bundle(ts, *args)
 #      log "--> oscb at #{ts}, #{args}"
-      @scsynth.send_at(ts, *args)
+      # In real-time mode a stamp at or behind the wall clock means "as soon
+      # as possible" — send it as a plain message (no bundle) so the engine
+      # plays it immediately rather than flagging a late bundle. Future
+      # stamps (e.g. time_warp ahead) still schedule.
+      if __system_thread_locals.get(:sonic_pi_spider_real_time_mode) && ts.to_f <= Time.now.to_f
+        @scsynth.send(*args)
+      else
+        @scsynth.send_at(ts, *args)
+      end
     end
 
     def async_add_event_handlers(args_list)

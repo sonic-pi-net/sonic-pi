@@ -333,4 +333,14 @@ void QtAPIClient::AudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
   emit AudioSwitchDoneReceived(outcome);
 }
 
+void QtAPIClient::RunStarted(int jobId, const std::string& workspace)
+{
+  emit RunStartedReceived(jobId, QString::fromStdString(workspace));
+}
+
+void QtAPIClient::RunEnded(int jobId)
+{
+  emit RunEndedReceived(jobId);
+}
+
 } // namespace SonicPi

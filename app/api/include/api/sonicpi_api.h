@@ -320,6 +320,10 @@ struct IAPIClient
     virtual void AudioDeviceConfig(const AudioDeviceConfigInfo& configInfo) = 0;
     virtual void SupersonicSetup(int sampleRate, int bufferSize) = 0;
     virtual void SpiderReady() = 0;
+    // Per-job run lifecycle (/run/started, /run/ended). Default no-op
+    // so non-GUI consumers don't need to react.
+    virtual void RunStarted(int /*jobId*/, const std::string& /*workspace*/) {}
+    virtual void RunEnded(int /*jobId*/) {}
     // Truthful outcome of a debounced device-switch — see
     // AudioSwitchOutcome. Default no-op so non-GUI consumers don't
     // need to react.
@@ -423,8 +427,17 @@ public:
     // Helper to send a buffer string to Ruby
     virtual void Run(const std::string& buffer, const std::string& text);
 
+    // Run a code string as its own job without touching any buffer.
+    // The workspace tags the job so /run/started can be matched back.
+    // silent skips run logging and the spider's pre-run GC (for low-latency
+    // one-shot previews such as keyboard/audition notes).
+    virtual void RunCode(const std::string& code, const std::string& workspace, bool silent = false);
+
     // Stop all music
     virtual void Stop();
+
+    // Stop a single job by id (from RunStarted)
+    virtual void StopJob(int jobId);
 
     virtual void BufferNewLineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
 

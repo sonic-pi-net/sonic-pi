@@ -1098,10 +1098,28 @@ void SonicPiAPI::Run(const std::string& buffer, const std::string& text)
     bool res = SendOSC(msg);
 }
 
+void SonicPiAPI::RunCode(const std::string& code, const std::string& workspace, bool silent)
+{
+    Message msg("/run-code");
+    msg.pushInt32(m_token);
+    msg.pushStr(code);
+    msg.pushStr(workspace);
+    msg.pushInt32(silent ? 1 : 0);
+    SendOSC(msg);
+}
+
 void SonicPiAPI::Stop()
 {
     Message msg("/stop-all-jobs");
     msg.pushInt32(m_token);
+    SendOSC(msg);
+}
+
+void SonicPiAPI::StopJob(int jobId)
+{
+    Message msg("/stop-job");
+    msg.pushInt32(m_token);
+    msg.pushInt32(jobId);
     SendOSC(msg);
 }
 

@@ -57,6 +57,8 @@ public:
     virtual void SupersonicSetup(int sampleRate, int bufferSize) override;
     virtual void SpiderReady() override;
     virtual void AudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome) override;
+    virtual void RunStarted(int jobId, const std::string& workspace) override;
+    virtual void RunEnded(int jobId) override;
 
 signals:
     void ConsumeAudioData(SonicPi::ProcessedAudioPtr audio);
@@ -68,6 +70,8 @@ signals:
     void SupersonicSetupReceived(int sampleRate, int bufferSize);
     void SpiderReadyReceived();
     void AudioSwitchDoneReceived(const SonicPi::AudioSwitchOutcome& outcome);
+    void RunStartedReceived(int jobId, const QString& workspace);
+    void RunEndedReceived(int jobId);
 
 public slots:
     virtual void ReportGui(const SonicPi::MessageInfo& message);

@@ -526,6 +526,33 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 LOG(ERR, "Unhandled OSC msg /version ");
             }
         }
+        else if (msg->match("/run/started"))
+        {
+            int jobId;
+            std::string workspace;
+            if (msg->arg().popInt32(jobId).popStr(workspace).isOkNoMoreArgs())
+            {
+                LOG(DBG, "/run/started: " << jobId << " " << workspace);
+                m_pClient->RunStarted(jobId, workspace);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /run/started");
+            }
+        }
+        else if (msg->match("/run/ended"))
+        {
+            int jobId;
+            if (msg->arg().popInt32(jobId).isOkNoMoreArgs())
+            {
+                LOG(DBG, "/run/ended: " << jobId);
+                m_pClient->RunEnded(jobId);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /run/ended");
+            }
+        }
         else if (msg->match("/runs/all-completed"))
         {
             LOG(DBG, "/runs/all-completed: ");
