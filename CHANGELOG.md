@@ -64,6 +64,7 @@ Note that this is a release candidate — please do report any issues you have t
 ### GUI
 * New: a redesigned code completion popup. Suggestions now come with inline documentation, a mini note keyboard for choosing pitches, and value sliders for ranged options such as `pan:`. The highlighted suggestion is previewed live in your code as you move through the list, and you can accept it with `Tab`, `Return` or `Space`. A new "Show Code Completion Help" toggle — in the View menu and the editor preferences — switches between a plain list of suggestions and these richer helper panes.
 * The code editor now autocompletes Link Audio peer and channel names for `link_audio`, the same way it completes MIDI ports and cue names.
+* You can now trigger the code completion popup and read the highlighted suggestion's documentation using dedicated keyboard shortcuts.
 * New: a Keyboard Shortcuts preferences tab. See every shortcut in one place, switch between the Mac, Windows \| Linux and Emacs Live presets, or choose Custom to record your own bindings. Clashing shortcuts are flagged as you edit, and you can import and export your custom set to share it or carry it between machines.
 * The default keyboard shortcut mode now follows the host operating system on first launch. New users on macOS get the Mac shortcut mode, new users on Windows get the Windows shortcut mode, and Linux continues to default to the original Emacs Live mode. You can still change this at any time in Preferences.
 * Improved Windows shortcuts. Jump-to-document-start and jump-to-document-end are now `Ctrl+Home` and `Ctrl+End` to match the standard Windows conventions. Thanks to Henri Vilminko for the suggestion.
@@ -71,15 +72,23 @@ Note that this is a release candidate — please do report any issues you have t
 * New: GUI streaming for macOS and Windows. Stream the Sonic Pi window via Syphon (macOS) or Spout (Windows) to other Syphon/Spout-aware applications (Resolume, VDMX, OBS, etc.) without going through screen capture.
 * ASIO-aware audio preferences on Windows. Audio device selection exposes ASIO-specific options when an ASIO driver is present.
 * New: a live SuperSonic debug panel, with engine metrics, a node-tree visualiser and a tidy layout for keeping an eye on the audio engine as you play.
-* The main help section of the GUI now has three tabs — Docs (the original), Debug (the SuperSonic panel) and Logs (live log files for all the internal components).
+* The main help section of the GUI now has three tabs — Docs, Debug (the SuperSonic panel) and Logs (live log files for all the internal components).
+* New: a rebuilt Docs help pane. Tutorial and reference pages now render natively with syntax-highlighted, runnable examples — play a snippet and stop it right there in the help pane, without copying it into a buffer first. Synth and FX pages gain interactive dials for exploring their options.
+* New: an Examples menu. Load and play a bundled example in one step straight from the menu bar. It opens into your first empty buffer and never overwrites work you already have.
 * New: a Link Audio Streams panel showing the peers and channels currently published on the network, so you can see what is available to stream. The Link metronome panel has been tidied up, including the Link Audio controls and peer list.
+* New: more colour themes, including a low-contrast "Mild Dark" theme that is kinder on the eyes for those with light sensitivity or migraines, plus display filters such as hue rotation. Mild Dark grew out of a community contribution from Chris Prosser.
 * Friendlier microphone-permission notice on macOS. The message is clearer, and it now only appears when audio inputs are enabled.
+* Friendlier, clearer error messages. Error reports have been restyled for readability and the error text now scales with the editor zoom level.
 * Editor tabs now take keyboard focus when you switch to them.
-* Better screen-reader support: errors are now announced and code buffers are named.
+* Wider accessibility improvements: keyboard navigation and screen-reader feedback across the GUI, high-contrast detection, WCAG colour fixes, visible focus rings and a reduced-motion option. Errors are now announced and code buffers are named. Windows gains its own contrast detection, screen-reader feedback and reduced-motion support.
+* Faster boot times.
 * Fixed shift-based text selection so holding Shift with the navigation shortcuts once again selects text, including `Shift`+`Cmd`+`Left`/`Right` and `Shift`+`Option`+`Left`/`Right` on macOS. (Fixes #3537 and #955)
 
 ### Synths
 * Fixed `:tech_saws` which was incorrectly outputting four channels of audio. It now correctly outputs stereo as originally intended.
+
+### Misc
+* New: `SONIC_PI_ROOT` and `SONIC_PI_ETC_PATH` environment variables let you point Sonic Pi at relocatable install and config locations, making life easier for packagers.
 
 ### Translations
 * New: complete Spanish GUI translation.
