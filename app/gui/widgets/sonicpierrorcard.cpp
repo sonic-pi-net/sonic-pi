@@ -193,11 +193,17 @@ void SonicPiErrorCard::applyTheme()
     QColor muted = blend(fg, editorBg, 0.38);
     QColor textColor = blend(fg, editorBg, 0.08);
 
-    // House-style button: black fill, themed border/text, hover blue, pressed pink.
+    // House-style button: black fill, themed border/text, hover blue, pressed
+    // pink. The fill is literal black by design, so it must go through the
+    // global transforms by hand (color() isn't involved) or Invert leaves it
+    // black under inverted-to-black text.
+    QColor btnBg = m_theme->applyGlobalTransforms(QColor(Qt::black));
     QColor btnText = m_theme->color("ButtonText");
     QColor btnBorder = m_theme->color("ButtonBorder");
     QColor btnHover = m_theme->color("HoverButton");
     QColor btnPressed = m_theme->color("PressedButton");
+    QColor btnHoverText = m_theme->contrastingText(btnHover);
+    QColor btnPressedText = m_theme->contrastingText(btnPressed);
 
     // Font sizes are design sizes (at the default editor zoom) scaled by
     // m_fontScale so the card tracks the editor's zoom level.
@@ -207,27 +213,29 @@ void SonicPiErrorCard::applyTheme()
 
     // %1 accent  %2 cardBg  %3 muted  %4 textColor  %5 editorBg  %6 codeBorder
     // %7 btnText %8 btnBorder %9 btnHover %10 btnPressed
-    // %11-%18 scaled font sizes
+    // %11 btnBg %12 btnHoverText %13 btnPressedText
+    // %14-%21 scaled font sizes
     QString qss = QString(
         "#errCardFrame { background:%2; border:2px solid %1; border-radius:10px; }"
-        "#errHeader { background:transparent; color:%1; font-size:%11; font-weight:bold; }"
-        "#errClose { background:transparent; border:none; color:%3; font-size:%12;"
+        "#errHeader { background:transparent; color:%1; font-size:%14; font-weight:bold; }"
+        "#errClose { background:transparent; border:none; color:%3; font-size:%15;"
         " padding:0 2px; }"
         "#errClose:hover { color:%4; }"
-        "#errMessage { color:%4; font-size:%13; font-weight:bold; }"
-        "#errLocation { color:%3; font-size:%14; }"
-        "#errReason { color:%3; font-size:%15; }"
+        "#errMessage { color:%4; font-size:%16; font-weight:bold; }"
+        "#errLocation { color:%3; font-size:%17; }"
+        "#errReason { color:%3; font-size:%18; }"
         "#errCodeFrame { background:%5; border-radius:6px; border:1px solid %6; }"
-        "#errBacktrace { color:%3; background:transparent; font-size:%16; }"
-        "#errJump { background:black; color:%7; border:2px solid %8;"
-        " border-radius:3px; padding:5px 12px; font-size:%17; }"
-        "#errJump:hover:!pressed { background:%9; color:%7; }"
-        "#errJump:pressed { background:%10; color:%7; }"
+        "#errBacktrace { color:%3; background:transparent; font-size:%19; }"
+        "#errJump { background:%11; color:%7; border:2px solid %8;"
+        " border-radius:3px; padding:5px 12px; font-size:%20; }"
+        "#errJump:hover:!pressed { background:%9; color:%12; }"
+        "#errJump:pressed { background:%10; color:%13; }"
         "#errDetails { background:transparent; border:none; color:%3;"
-        " text-decoration:underline; font-size:%18; }"
+        " text-decoration:underline; font-size:%21; }"
         "#errDetails:hover { color:%4; }")
         .arg(accent.name(), cardBg.name(), muted.name(), textColor.name(), editorBg.name())
         .arg(codeBorder.name(), btnText.name(), btnBorder.name(), btnHover.name(), btnPressed.name())
+        .arg(btnBg.name(), btnHoverText.name(), btnPressedText.name())
         .arg(pt(15), pt(13), pt(14), pt(10), pt(12), pt(10), pt(10), pt(9));
     setStyleSheet(qss);
 
