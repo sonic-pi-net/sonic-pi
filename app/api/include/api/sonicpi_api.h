@@ -324,6 +324,16 @@ struct IAPIClient
     // so non-GUI consumers don't need to react.
     virtual void RunStarted(int /*jobId*/, const std::string& /*workspace*/) {}
     virtual void RunEnded(int /*jobId*/) {}
+    // Transient editor line flash (e.g. a live_loop header pulsing each
+    // iteration). workspace names the buffer, line is 1-based. Default no-op.
+    virtual void Flash(const std::string& /*workspace*/, int /*line*/) {}
+    // A live_loop started or was re-run: its audio is tapped into scope
+    // buffer scopeNum and its header sits at line (1-based) in workspace.
+    // Ended fires when the loop's thread dies. Default no-ops.
+    virtual void LiveLoopScope(int /*jobId*/, const std::string& /*name*/,
+                               const std::string& /*workspace*/, int /*line*/,
+                               int /*scopeNum*/) {}
+    virtual void LiveLoopScopeEnded(int /*jobId*/, const std::string& /*name*/) {}
     // Truthful outcome of a debounced device-switch — see
     // AudioSwitchOutcome. Default no-op so non-GUI consumers don't
     // need to react.

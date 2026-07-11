@@ -115,6 +115,7 @@ private slots:
     void updateTransparency(int t);
     void settingsChanged();
     void showContext();
+    void flashOnPlay();
     void speakTransport();
     void reduceMotion();
     void checkArgs();
@@ -167,6 +168,7 @@ signals:
     void checkUpdatesChanged();
     void forceCheckUpdates();
     void showContextChanged();
+    void flashSettingsChanged();
     void speakTransportChanged();
     void reduceMotionChanged();
     void checkArgsChanged();
@@ -251,6 +253,10 @@ private:
     QCheckBox *show_autocompletion;
     QCheckBox *show_completion_help;
     QCheckBox *show_context;
+    QCheckBox *flash_code;
+    QCheckBox *flash_gutter;
+    QCheckBox *show_loop_scopes;
+    ArcDial *flash_brightness_slider;
     QCheckBox *speak_transport;
     QCheckBox *reduce_motion;
 

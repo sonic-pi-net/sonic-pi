@@ -16,11 +16,14 @@
 #include "utils/scintilla_api.h"
 #include "utils/completion_context.h"
 #include "dpi.h"
+#include "kiss_fftr.h"
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <QAccessible>
 #include <QCheckBox>
 #include <QKeyEvent>
+#include <QTimer>
 #include <QFocusEvent>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -36,6 +39,7 @@
 #include <QImage>
 #include <QColor>
 #include <QFont>
+#include <QPainterPath>
 #include <QPolygonF>
 #include <QSettings>
 #include <QShortcut>
@@ -48,6 +52,242 @@
 
 // Container indicator (>= INDICATOR_CONTAINER) for the error underline.
 static const int kErrorIndicator = 20;
+
+// Transient trigger flash (distinct from the error markers/indicator so the
+// two can coexist): indicator 21 washes the line's code text, marker 12 is a
+// small dot in the gutter gap between the line numbers and the code.
+static const int kFlashIndicator = 21;
+static const int kFlashGutterMarker = 12;
+
+// How long a line stays lit after a flash, in milliseconds.
+static const int kFlashHoldMs = 150;
+
+// Tiny inline oscilloscope + spectrum pinned to a live_loop's header line,
+// fed by the loop's own scope-buffer tap (with_fx :scope_out). Decorative:
+// mouse-transparent, no focus. Drawing mirrors the Examples jukebox scope
+// (tutorialpane.cpp) at postage-stamp size, plus FFT bars behind the trace.
+// The whole box warms from grey to the accent colour with the signal level so
+// a quiet loop reads as dormant at a glance. SonicPiScintilla owns
+// positioning and polling via its shared timer.
+class LiveLoopScopeWidget : public QWidget
+{
+public:
+    // Analysis sizes: last 512 samples of the tap, 20 log-spaced bars.
+    static const int kFftSize = 512;
+    static const int kBars = 20;
+
+    explicit LiveLoopScopeWidget(QWidget* parent)
+        : QWidget(parent)
+    {
+        setAttribute(Qt::WA_TransparentForMouseEvents, true);
+        setFocusPolicy(Qt::NoFocus);
+    }
+
+    ~LiveLoopScopeWidget() override
+    {
+        if (m_fftCfg)
+            kiss_fftr_free(m_fftCfg);
+    }
+
+    void setReader(const shm_scope_buffer_reader& r) { m_reader = r; }
+
+    void setColours(const QColor& wave, const QColor& quiet, const QColor& panel)
+    {
+        m_wave = wave;
+        m_quiet = quiet;
+        m_panel = panel;
+        update();
+    }
+
+    void poll()
+    {
+        unsigned int frames = 0;
+        if (!m_reader.pull(frames) || frames == 0)
+        {
+            // No fresh audio: decay the level so the box cools back to grey.
+            m_level *= 0.86f;
+            decayBars();
+            update();
+            return;
+        }
+        float* d = m_reader.data();
+        if (!d)
+            return;
+        unsigned int stride = m_reader.max_frames();
+        unsigned int ch = m_reader.channels();
+        m_samples.resize(frames);
+        float peak = 0.0f;
+        for (unsigned int i = 0; i < frames; i++)
+        {
+            float v = ch >= 2 ? 0.5f * (d[i] + d[stride + i]) : d[i];
+            m_samples[i] = v;
+            peak = qMax(peak, qAbs(v));
+        }
+        // Fast attack, ~0.5s decay: the colour snaps on with a hit and fades out.
+        m_level = qMax(peak, m_level * 0.86f);
+        updateSpectrum();
+        update();
+    }
+
+protected:
+    void paintEvent(QPaintEvent*) override
+    {
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing, true);
+        const qreal w = width();
+        const qreal h = height();
+        const qreal mid = h / 2.0;
+        const qreal radius = ScaleWidthForDPI(3);
+
+        // 0 = dormant grey, 1 = full accent. Mapped in dB so colour means
+        // "playing", not "loud": silence (< -60dB) stays grey and anything
+        // above -40dB is fully lit, however quiet the mix level.
+        const qreal db = 20.0 * std::log10((double)qMax(m_level, 1e-6f));
+        const qreal heat = qBound(0.0, (db + 60.0) / 20.0, 1.0);
+        QColor wave = lerp(m_quiet, m_wave.isValid() ? m_wave : palette().highlight().color(), heat);
+
+        QRectF panelRect(0.5, 0.5, w - 1.0, h - 1.0);
+        if (m_panel.isValid())
+        {
+            p.setPen(Qt::NoPen);
+            p.setBrush(m_panel);
+            p.drawRoundedRect(panelRect, radius, radius);
+        }
+        QPainterPath clip;
+        clip.addRoundedRect(panelRect, radius, radius);
+        p.setClipPath(clip);
+
+        // Spectrum: bottom-anchored log-spaced bars behind the trace.
+        if (!m_bars.empty())
+        {
+            QColor barCol = wave;
+            barCol.setAlpha(55);
+            p.setPen(Qt::NoPen);
+            p.setBrush(barCol);
+            const qreal barW = w / m_bars.size();
+            for (size_t i = 0; i < m_bars.size(); i++)
+            {
+                qreal bh = qBound(0.0, (double)m_bars[i], 1.0) * (h - 2.0);
+                if (bh < 0.5)
+                    continue;
+                p.drawRect(QRectF(i * barW + 0.5, h - 1.0 - bh, barW - 1.0, bh));
+            }
+        }
+
+        QColor base = wave;
+        base.setAlpha(60);
+        p.setPen(QPen(base, 1.0));
+        p.drawLine(QPointF(0, mid), QPointF(w, mid));
+
+        if (m_samples.size() >= 2 && w >= 2)
+        {
+            const qreal amp = mid * 0.9;
+            const size_t n = m_samples.size();
+            const int cols = qMax(2, (int)w);
+            QPainterPath line;
+            for (int x = 0; x < cols; x++)
+            {
+                size_t idx = (size_t)((qreal)x / (cols - 1) * (n - 1));
+                qreal v = qBound(-1.0, (double)m_samples[idx], 1.0);
+                qreal y = mid - v * amp;
+                qreal px = (qreal)x / (cols - 1) * w;
+                if (x == 0)
+                    line.moveTo(px, y);
+                else
+                    line.lineTo(px, y);
+            }
+            QPainterPath body = line;
+            body.lineTo(w, mid);
+            body.lineTo(0, mid);
+            body.closeSubpath();
+            QColor fill = wave;
+            fill.setAlpha(60);
+            p.fillPath(body, fill);
+
+            QPen wavePen(wave);
+            wavePen.setWidthF(1.6);
+            wavePen.setJoinStyle(Qt::RoundJoin);
+            wavePen.setCapStyle(Qt::RoundCap);
+            p.setPen(wavePen);
+            p.drawPath(line);
+        }
+
+        p.setClipping(false);
+        QColor border = wave;
+        border.setAlpha(90);
+        p.setPen(QPen(border, 1.0));
+        p.setBrush(Qt::NoBrush);
+        p.drawRoundedRect(panelRect, radius, radius);
+    }
+
+private:
+    static QColor lerp(const QColor& a, const QColor& b, qreal t)
+    {
+        return QColor(a.red() + (int)((b.red() - a.red()) * t),
+                      a.green() + (int)((b.green() - a.green()) * t),
+                      a.blue() + (int)((b.blue() - a.blue()) * t),
+                      a.alpha() + (int)((b.alpha() - a.alpha()) * t));
+    }
+
+    void decayBars()
+    {
+        for (float& b : m_bars)
+            b *= 0.8f;
+    }
+
+    void updateSpectrum()
+    {
+        if (!m_fftCfg)
+        {
+            m_fftCfg = kiss_fftr_alloc(kFftSize, 0, 0, 0);
+            m_fftIn.resize(kFftSize);
+            m_fftOut.resize(kFftSize / 2 + 1);
+            m_bars.assign(kBars, 0.0f);
+        }
+        // Last kFftSize samples, Hann-windowed (zero-padded when short).
+        const int n = (int)m_samples.size();
+        for (int i = 0; i < kFftSize; i++)
+        {
+            int src = n - kFftSize + i;
+            float v = (src >= 0 && src < n) ? m_samples[src] : 0.0f;
+            const float kTau = 6.283185307f;
+            float win = 0.5f * (1.0f - std::cos(kTau * i / (kFftSize - 1)));
+            m_fftIn[i] = v * win;
+        }
+        kiss_fftr(m_fftCfg, m_fftIn.data(), m_fftOut.data());
+
+        // Log-spaced buckets over bins 1..N/2; sqrt of peak magnitude per
+        // bucket for a musical-feeling scale. Bars decay so hits linger.
+        const int maxBin = kFftSize / 2;
+        for (int b = 0; b < kBars; b++)
+        {
+            int lo = (int)std::pow((double)maxBin, (double)b / kBars);
+            int hi = (int)std::pow((double)maxBin, (double)(b + 1) / kBars);
+            lo = qMax(1, lo);
+            hi = qMax(lo + 1, hi);
+            hi = qMin(hi, maxBin + 1);
+            float mag = 0.0f;
+            for (int k = lo; k < hi; k++)
+            {
+                float m = std::sqrt(m_fftOut[k].r * m_fftOut[k].r + m_fftOut[k].i * m_fftOut[k].i);
+                mag = qMax(mag, m);
+            }
+            float v = std::sqrt(mag / (kFftSize / 8.0f));
+            m_bars[b] = qMax(v, m_bars[b] * 0.8f);
+        }
+    }
+
+    QColor m_wave;
+    QColor m_quiet;
+    QColor m_panel;
+    std::vector<float> m_samples;
+    std::vector<float> m_bars;
+    float m_level = 0.0f;
+    shm_scope_buffer_reader m_reader;
+    kiss_fftr_cfg m_fftCfg = nullptr;
+    std::vector<kiss_fft_scalar> m_fftIn;
+    std::vector<kiss_fft_cpx> m_fftOut;
+};
 
 SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QString fileName, bool autoIndent)
     : QsciScintilla()
@@ -128,6 +368,22 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     setMarkerBackgroundColor(theme->color("MarkerBackground"), 9);
     SendScintilla(SCI_MARKERSETALPHA, 9, 40);
 
+    // Trigger pulse used by flashLine: a box behind just the code text (drawn
+    // under it), or the gutter dot (image marker built in
+    // applyFlashMarkerColours, sized by updateErrorMarginWidth). STRAIGHTBOX
+    // not FULLBOX: it hugs the glyphs, so the extra descent added below each
+    // line (squiggle room) stays unwashed and the pulse sits centred on the text.
+    SendScintilla(SCI_INDICSETSTYLE, (unsigned long)kFlashIndicator, (long)INDIC_STRAIGHTBOX);
+    SendScintilla(SCI_INDICSETUNDER, (unsigned long)kFlashIndicator, (long)1);
+    applyFlashMarkerColours();
+
+    // Follow insert/delete edits so run-time flash anchors track live edits.
+    SendScintilla(SCI_SETMODEVENTMASK,
+                  SendScintilla(SCI_GETMODEVENTMASK) | SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT);
+    connect(this, &QsciScintillaBase::SCN_MODIFIED, this,
+            [this](int position, int modificationType, const char*, int length, int, int, int,
+                   int, int, int) { trackEditForFlash(position, modificationType, length); });
+
     // No blank inset before the text, so the error line's wash meets the symbol
     // margin with no untinted seam.
     SendScintilla(SCI_SETMARGINLEFT, (unsigned long)0, (long)0);
@@ -135,9 +391,11 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     // marker 8 (gutter dot) and marker 10 (number-margin tint) are RGBA images
     // sized to the live line height / margin width, so setLineErrorMarker builds
     // them. Route marker 10 to the number margin only, not the symbol margin.
+    // The flash dot (12) lives in the symbol margin only.
     SendScintilla(SCI_SETMARGINMASKN, (unsigned long)0, (long)(1 << 10));
     long errSymMask = SendScintilla(SCI_GETMARGINMASKN, (unsigned long)1);
-    SendScintilla(SCI_SETMARGINMASKN, (unsigned long)1, (long)(errSymMask & ~(1 << 10)));
+    SendScintilla(SCI_SETMARGINMASKN, (unsigned long)1,
+                  (long)((errSymMask & ~(1 << 10)) | (1 << kFlashGutterMarker)));
 
     // Zig-zag (squiggle) underline beneath the offending code on the error line.
     // An indicator is vector-drawn by Scintilla, so it tracks zoom and edits for
@@ -212,7 +470,45 @@ void SonicPiScintilla::redraw()
     // error tracks the new theme (applyErrorMarkers runs under the held mutex).
     if (m_errorLine >= 0)
         applyErrorMarkers(m_errorLine);
+    applyFlashMarkerColours();
+    applyLoopScopeColours();
     mutex->unlock();
+}
+
+void SonicPiScintilla::applyFlashMarkerColours()
+{
+    // Code wash: translucent accent behind the text.
+    QColor accent = theme->color("HighlightedBackground");
+    SendScintilla(SCI_INDICSETFORE, (unsigned long)kFlashIndicator, accent);
+    SendScintilla(SCI_INDICSETALPHA, kFlashIndicator, m_flashAlpha);
+    SendScintilla(SCI_INDICSETOUTLINEALPHA, kFlashIndicator, m_flashAlpha);
+
+    // Gutter dot: a small accent disc centred in the symbol-margin gap. An
+    // image marker (like the error dot) so it can be smaller than Scintilla's
+    // own circle; rebuilt per theme/zoom since images don't scale themselves.
+    int h = SendScintilla(SCI_TEXTHEIGHT, (unsigned long)0);
+    int gapW = SendScintilla(SCI_GETMARGINWIDTHN, (unsigned long)1);
+    if (h <= 0 || gapW <= 0)
+        return;
+    qreal dpr = devicePixelRatioF();
+    if (dpr < 1.0) dpr = 1.0;
+    QImage dot(qRound(gapW * dpr), qRound(h * dpr), QImage::Format_ARGB32);
+    dot.fill(Qt::transparent);
+    {
+        QPainter dp(&dot);
+        dp.setRenderHint(QPainter::Antialiasing, true);
+        dp.setPen(Qt::NoPen);
+        dp.setBrush(accent);
+        // Centre on the text, not the cell: the cell's extra descent (squiggle
+        // room) sits below the glyphs.
+        int extraDescent = SendScintilla(SCI_GETEXTRADESCENT);
+        qreal cy = ((h - extraDescent) / 2.0) * dpr;
+        qreal d = qMin(gapW, h - extraDescent) * 0.55 * dpr;
+        dp.drawEllipse(QRectF((dot.width() - d) / 2.0, cy - d / 2.0, d, d));
+    }
+    dot.setDevicePixelRatio(dpr);
+    SendScintilla(SCI_RGBAIMAGESETSCALE, (unsigned long)qRound(dpr * 100));
+    markerDefine(dot, kFlashGutterMarker);
 }
 
 void SonicPiScintilla::highlightCurrentLine()
@@ -227,6 +523,235 @@ void SonicPiScintilla::unhighlightCurrentLine()
     mutex->lock();
     setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
     mutex->unlock();
+}
+
+void SonicPiScintilla::snapshotRunLines()
+{
+    // Anchor each run-time line to its start position; trackEditForFlash nudges
+    // these as the buffer is edited so flashRunLine can resolve the current line.
+    int n = lines();
+    m_runLinePos.resize(n);
+    for (int i = 0; i < n; i++)
+        m_runLinePos[i] = (int)SendScintilla(SCI_POSITIONFROMLINE, (unsigned long)i);
+}
+
+void SonicPiScintilla::remapFlashAnchorsAcrossReplace(const QVector<int>& oldAnchorLines,
+                                                      const QStringList& oldStripped,
+                                                      const QStringList& newStripped)
+{
+    const int oldN = oldStripped.size();
+    const int newN = newStripped.size();
+    // Longest matching run of lines from the top and from the bottom (indent is
+    // ignored). Everything between is the changed region.
+    int pre = 0;
+    while (pre < oldN && pre < newN && oldStripped[pre] == newStripped[pre])
+        pre++;
+    int suf = 0;
+    while (suf < oldN - pre && suf < newN - pre && oldStripped[oldN - 1 - suf] == newStripped[newN - 1 - suf])
+        suf++;
+    const int delta = newN - oldN;
+
+    m_runLinePos.resize(oldAnchorLines.size());
+    for (int i = 0; i < oldAnchorLines.size(); i++)
+    {
+        int L = oldAnchorLines[i];
+        int nl;
+        if (L < pre)
+            nl = L; // unchanged prefix
+        else if (L >= oldN - suf)
+            nl = L + delta; // unchanged suffix, shifted by the size change
+        else
+            nl = qBound(pre, L, newN - 1); // inside the edited region, best effort
+        nl = qBound(0, nl, newN > 0 ? newN - 1 : 0);
+        m_runLinePos[i] = (int)SendScintilla(SCI_POSITIONFROMLINE, (unsigned long)nl);
+    }
+}
+
+void SonicPiScintilla::trackEditForFlash(int position, int modificationType, int length)
+{
+    // Full-buffer replaces are handled by remapFlashAnchorsAcrossReplace, which
+    // has the before/after line context; ignore their piecemeal notifications.
+    if (m_runLinePos.isEmpty() || m_inReplaceBuffer)
+        return;
+    // Shift anchors at or after an insertion forward; pull anchors after a
+    // deletion back (clamped into the deleted range's start).
+    if (modificationType & SC_MOD_INSERTTEXT)
+    {
+        for (int& p : m_runLinePos)
+            if (p >= position)
+                p += length;
+    }
+    else if (modificationType & SC_MOD_DELETETEXT)
+    {
+        for (int& p : m_runLinePos)
+            if (p > position)
+                p = qMax(position, p - length);
+    }
+}
+
+// Map a run-time line to its current line via the edit-tracking anchors
+// (identity when the line predates the anchors).
+int SonicPiScintilla::runLineToCurrent(int runLine)
+{
+    if (runLine >= 0 && runLine < m_runLinePos.size())
+        return (int)SendScintilla(SCI_LINEFROMPOSITION, (unsigned long)m_runLinePos[runLine]);
+    return runLine;
+}
+
+void SonicPiScintilla::flashRunLine(int runLine, bool codeWash, bool gutterDot)
+{
+    if (runLine < 0)
+        return;
+    flashLine(runLineToCurrent(runLine), codeWash, gutterDot);
+}
+
+void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine,
+                                        const shm_scope_buffer_reader& reader)
+{
+    LiveLoopScopeWidget* w = m_loopScopes.value(name);
+    if (!w)
+    {
+        w = new LiveLoopScopeWidget(viewport());
+        m_loopScopes[name] = w;
+    }
+    w->setReader(reader);
+    m_loopScopeLines[name] = runLine;
+    applyLoopScopeColours();
+
+    if (!m_loopScopeTimer)
+    {
+        m_loopScopeTimer = new QTimer(this);
+        connect(m_loopScopeTimer, &QTimer::timeout, this, [this]() {
+            positionLiveLoopScopes();
+            for (LiveLoopScopeWidget* s : m_loopScopes)
+                s->poll();
+        });
+    }
+    if (!m_loopScopeTimer->isActive())
+        m_loopScopeTimer->start(33);
+    positionLiveLoopScopes();
+}
+
+void SonicPiScintilla::endLiveLoopScope(const QString& name)
+{
+    if (LiveLoopScopeWidget* w = m_loopScopes.take(name))
+        w->deleteLater();
+    m_loopScopeLines.remove(name);
+    if (m_loopScopes.isEmpty() && m_loopScopeTimer)
+        m_loopScopeTimer->stop();
+}
+
+void SonicPiScintilla::clearLiveLoopScopes()
+{
+    for (LiveLoopScopeWidget* w : m_loopScopes)
+        w->deleteLater();
+    m_loopScopes.clear();
+    m_loopScopeLines.clear();
+    if (m_loopScopeTimer)
+        m_loopScopeTimer->stop();
+}
+
+void SonicPiScintilla::positionLiveLoopScopes()
+{
+    if (m_loopScopes.isEmpty())
+        return;
+    int lineH = SendScintilla(SCI_TEXTHEIGHT, (unsigned long)0);
+    int extraDescent = SendScintilla(SCI_GETEXTRADESCENT);
+    int h = lineH - extraDescent;
+    int w = ScaleWidthForDPI(170);
+    int viewW = viewport()->width();
+    int viewH = viewport()->height();
+    for (auto it = m_loopScopes.begin(); it != m_loopScopes.end(); ++it)
+    {
+        int cur = runLineToCurrent(m_loopScopeLines.value(it.key(), -1));
+        if (cur < 0 || cur >= lines())
+        {
+            it.value()->hide();
+            continue;
+        }
+        long pos = SendScintilla(SCI_POSITIONFROMLINE, (unsigned long)cur);
+        int y = (int)SendScintilla(SCI_POINTYFROMPOSITION, (unsigned long)0, pos);
+        if (y + h < 0 || y > viewH)
+        {
+            it.value()->hide();
+            continue;
+        }
+        it.value()->setGeometry(viewW - w - ScaleWidthForDPI(18), y, w, h);
+        it.value()->show();
+        it.value()->raise();
+    }
+}
+
+void SonicPiScintilla::applyLoopScopeColours()
+{
+    QColor wave = theme->color("Scope");
+    // Dormant grey: the theme foreground faded right down, so a silent loop's
+    // box sits quietly in any theme until signal warms it to the accent.
+    QColor quiet = theme->color("Foreground");
+    quiet.setAlpha(120);
+    QColor panel = theme->color("Background");
+    panel.setAlpha(215);
+    for (LiveLoopScopeWidget* s : m_loopScopes)
+        s->setColours(wave, quiet, panel);
+}
+
+void SonicPiScintilla::flashLine(int line, bool codeWash, bool gutterDot)
+{
+    if (line < 0 || line >= lines() || !(codeWash || gutterDot))
+        return;
+    // Re-flashing within the hold window extends the pulse: bump this line's
+    // generation and only clear when the matching timer is still the latest.
+    int gen = ++m_flashGen[line];
+    if (gutterDot)
+    {
+        markerDelete(line, kFlashGutterMarker);
+        markerAdd(line, kFlashGutterMarker);
+    }
+    if (codeWash)
+    {
+        // Wash just the code: first non-blank character to end of text.
+        long start = SendScintilla(SCI_GETLINEINDENTPOSITION, (unsigned long)line);
+        long end = SendScintilla(SCI_GETLINEENDPOSITION, (unsigned long)line);
+        if (end > start)
+        {
+            SendScintilla(SCI_SETINDICATORCURRENT, (unsigned long)kFlashIndicator);
+            SendScintilla(SCI_INDICATORFILLRANGE, (unsigned long)start, end - start);
+        }
+    }
+    QTimer::singleShot(kFlashHoldMs, this, [this, line, gen]() {
+        if (m_flashGen.value(line) == gen)
+        {
+            m_flashGen.remove(line);
+            markerDelete(line, kFlashGutterMarker);
+            clearFlashWash(line);
+        }
+    });
+}
+
+void SonicPiScintilla::setFlashBrightness(int percent)
+{
+    m_flashAlpha = qBound(0, percent * 255 / 100, 255);
+    applyFlashMarkerColours();
+}
+
+void SonicPiScintilla::clearFlashWash(int line)
+{
+    SendScintilla(SCI_SETINDICATORCURRENT, (unsigned long)kFlashIndicator);
+    if (m_flashGen.isEmpty())
+    {
+        // No pulse pending anywhere: sweep the whole document, so a wash whose
+        // text was moved to another line mid-pulse can't linger.
+        long len = SendScintilla(SCI_GETLENGTH);
+        if (len > 0)
+            SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)0, len);
+        return;
+    }
+    if (line < 0 || line >= lines())
+        return;
+    long start = SendScintilla(SCI_POSITIONFROMLINE, (unsigned long)line);
+    long end = SendScintilla(SCI_GETLINEENDPOSITION, (unsigned long)line);
+    if (end > start)
+        SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)start, end - start);
 }
 
 void SonicPiScintilla::hideLineNumbers()
@@ -798,6 +1323,9 @@ int SonicPiScintilla::updateErrorMarginWidth()
     if (gapW < 4)
         gapW = (SendScintilla(SCI_TEXTHEIGHT, (unsigned long)0) * 4) / 5;
     setMarginWidth(1, gapW);
+    // The flash gutter dot is an image sized to this gap, so rebuild it here
+    // (covers zoom changes and the initial sizing).
+    applyFlashMarkerColours();
     return gapW;
 }
 
@@ -860,6 +1388,21 @@ void SonicPiScintilla::newLine()
 void SonicPiScintilla::replaceBuffer(QString content, int line, int index, int first_line)
 {
     mutex->lock();
+    // A Return with auto-indent, and beautify-on-run, both arrive here as a
+    // whole-buffer replace. Capture where the flash anchors sit (line +
+    // de-indented text) so we can remap them across the replace afterwards.
+    const bool remap = !m_runLinePos.isEmpty();
+    QVector<int> anchorLines;
+    QStringList oldStripped;
+    if (remap)
+    {
+        for (int p : m_runLinePos)
+            anchorLines.append((int)SendScintilla(SCI_LINEFROMPOSITION, (unsigned long)p));
+        for (int i = 0, n = lines(); i < n; i++)
+            oldStripped.append(text(i).trimmed());
+    }
+
+    m_inReplaceBuffer = true;
     beginUndoAction();
     insert(" ");
     SendScintilla(QsciCommand::Delete);
@@ -868,6 +1411,15 @@ void SonicPiScintilla::replaceBuffer(QString content, int line, int index, int f
     setCursorPosition(line, index);
     setFirstVisibleLine(first_line);
     endUndoAction();
+    m_inReplaceBuffer = false;
+
+    if (remap)
+    {
+        QStringList newStripped;
+        for (int i = 0, n = lines(); i < n; i++)
+            newStripped.append(text(i).trimmed());
+        remapFlashAnchorsAcrossReplace(anchorLines, oldStripped, newStripped);
+    }
     mutex->unlock();
 }
 

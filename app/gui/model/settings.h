@@ -61,6 +61,10 @@ public:
     bool show_autocompletion;
     bool show_completion_help;
     bool show_context;
+    bool flash_code;        // pulse a sound's source code text as it plays
+    int flash_brightness;   // code-wash strength percent (100 = opaque)
+    bool flash_gutter;      // pulse a dot in the gutter next to the source line
+    bool show_loop_scopes;  // per-live_loop mini scope pinned to its header line
     bool speak_transport;   // screen reader speaks "Run started"/"Stopped"
     bool example_play_on_open; // Examples menu: run an example as it is opened
     bool reduce_motion;     // suppress UI animations (ORed with the OS setting)

@@ -173,6 +173,14 @@ void Indicator::Draw(Surface *surface, const PRectangle &rc, const PRectangle &r
 		PRectangle rcBox = rcLine;
 		if (sacDraw.style != INDIC_FULLBOX)
 			rcBox.top = rcLine.top + 1;
+		// SONIC-PI CHANGE: STRAIGHTBOX hugs the glyph band (rcCharacter's
+		// vertical extent, set in EditView.cpp) instead of the whole line
+		// rect, so lines with extra ascent/descent padding get a box that
+		// sits symmetrically around the text (see SONIC-PI-CHANGES.md).
+		if (sacDraw.style == INDIC_STRAIGHTBOX) {
+			rcBox.top = rcCharacter.top;
+			rcBox.bottom = rcCharacter.bottom;
+		}
 		rcBox.left = rc.left;
 		rcBox.right = rc.right;
 		surface->AlphaRectangle(rcBox, (sacDraw.style == INDIC_ROUNDBOX) ? 1 : 0,

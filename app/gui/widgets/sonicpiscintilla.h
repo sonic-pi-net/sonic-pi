@@ -16,7 +16,10 @@
 
 #include "model/sonicpitheme.h"
 #include "widgets/sonicpilog.h"
+#include "api/audio/server_shm.hpp"
 #include <QCheckBox>
+#include <QHash>
+#include <QVector>
 #include <Qsci/qsciscintilla.h>
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 #include <QRecursiveMutex>
@@ -102,6 +105,25 @@ public slots:
     void downcaseWordOrSelection();
     void highlightCurrentLine();
     void unhighlightCurrentLine();
+    // Briefly pulse a line (e.g. the source line of a sound as it plays):
+    // a translucent wash behind the line's code text and/or a small dot in
+    // the gutter. line is 0-based; re-flashing extends the pulse rather than
+    // stacking.
+    void flashLine(int line, bool codeWash = true, bool gutterDot = false);
+    // Strength of the code wash as a percentage (100 = opaque accent).
+    void setFlashBrightness(int percent);
+    // Snapshot the current line positions as edit-tracking marker handles (call
+    // when the buffer is run). flashRunLine then maps a run-time line number to
+    // its current line, so flashes stay correct as the code is edited live.
+    void snapshotRunLines();
+    void flashRunLine(int runLine, bool codeWash = true, bool gutterDot = false);
+    // Pin a mini oscilloscope to a live_loop's header line (runLine is the
+    // 0-based line at run time, mapped through the same edit-tracking anchors
+    // as the flashes). Re-registering an existing name updates its line and
+    // reader; endLiveLoopScope removes it when the loop dies.
+    void setLiveLoopScope(const QString& name, int runLine, const shm_scope_buffer_reader& reader);
+    void endLiveLoopScope(const QString& name);
+    void clearLiveLoopScopes();
     void zoomFontIn();
     void zoomFontOut();
     void newLine();
@@ -200,6 +222,35 @@ private:
     QString m_errorToken;          // identifier to underline when no exact span
     int m_errorColStart = -1;      // exact byte-column span of the token to
     int m_errorColEnd = -1;        // underline (error_highlight); -1 = none
+
+    // Live line-flash: a re-flash bumps the line's generation so only the last
+    // pending timer clears the marker (rapid pulses extend, don't stack).
+    QHash<int, int> m_flashGen;
+    // Edit-tracking anchors captured at run time, indexed by run-time line: the
+    // character position of each line's start, nudged on every insert/delete
+    // (see the SCN_MODIFIED handler) so a run-time line maps to its current line
+    // even after the code is edited live — including line splits, which plain
+    // line-markers don't follow.
+    QVector<int> m_runLinePos;
+    bool m_inReplaceBuffer = false; // suppress incremental tracking during a full replace
+    int m_flashAlpha = 90;          // code-wash indicator alpha (setFlashBrightness)
+    void applyFlashMarkerColours();
+    void clearFlashWash(int line);
+    void trackEditForFlash(int position, int modificationType, int length);
+    int runLineToCurrent(int runLine);
+    // live_loop mini scopes, keyed by loop name; one shared timer polls the
+    // scope buffers and re-pins each widget to its (edit-tracked) header line.
+    QHash<QString, class LiveLoopScopeWidget*> m_loopScopes;
+    QHash<QString, int> m_loopScopeLines;
+    QTimer* m_loopScopeTimer = nullptr;
+    void positionLiveLoopScopes();
+    void applyLoopScopeColours();
+    // Remap flash anchors across a full-buffer replace (Return-triggered
+    // re-indent, beautify) by diffing old vs new lines ignoring indentation, so
+    // inserted/removed lines shift the anchors below them.
+    void remapFlashAnchorsAcrossReplace(const QVector<int>& oldAnchorLines,
+                                        const QStringList& oldStripped,
+                                        const QStringList& newStripped);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     QRecursiveMutex* mutex;
 #else

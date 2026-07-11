@@ -81,6 +81,11 @@ module SonicPi
 
       osc.add_method("/log/info") { |m| say "LOG  #{m[1]}" }
 
+      osc.add_method("/flash") { |m| say "FLASH job #{m[0]} #{m[1]} line #{m[2]}" }
+
+      osc.add_method("/live_loop/scope") { |m| say "LOOP-SCOPE job #{m[0]} #{m[1]} #{m[2]} line #{m[3]} slot #{m[4]}" }
+      osc.add_method("/live_loop/scope-ended") { |m| say "LOOP-SCOPE-ENDED job #{m[0]} #{m[1]}" }
+
       osc.add_method("/log/multi_message") do |m|
         next if m == "" || !m.is_a?(Array)
         thread = m[1]

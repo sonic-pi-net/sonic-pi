@@ -3730,6 +3730,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
           end
         end
+        __delayed_flash_from_caller
         add_arg_slide_times!(args_h, info)
         args_h[:buf] = buf_id
         return trigger_synth(sn, args_h, group, info)
@@ -3753,6 +3754,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
         end
+        __delayed_flash_from_caller
 
         add_arg_slide_times!(processed_args, info) if info
         out_bus = current_out_bus
@@ -3782,6 +3784,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
         end
+        __delayed_flash_from_caller
 
         # Scale down amplitude based on number of notes in chord
         amp = args_h[:amp] || 1.0

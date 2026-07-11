@@ -932,6 +932,12 @@ out_t = Thread.new do
           gui.send("/link-bpm", message[:val])
         when :info
           gui.send("/log/info", message[:style] || 0, message[:val] || "")
+        when :flash
+          gui.send("/flash", message[:jobid], message[:workspace], message[:line])
+        when :live_loop_scope
+          gui.send("/live_loop/scope", message[:jobid], message[:name], message[:workspace], message[:line], message[:scope_num])
+        when :live_loop_scope_ended
+          gui.send("/live_loop/scope-ended", message[:jobid], message[:name])
         when :syntax_error
           desc = message[:val] || ""
           linenum = message[:linenum] || -1

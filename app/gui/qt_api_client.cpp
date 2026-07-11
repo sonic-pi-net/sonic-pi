@@ -343,4 +343,21 @@ void QtAPIClient::RunEnded(int jobId)
   emit RunEndedReceived(jobId);
 }
 
+void QtAPIClient::Flash(const std::string& workspace, int line)
+{
+  emit FlashReceived(QString::fromStdString(workspace), line);
+}
+
+void QtAPIClient::LiveLoopScope(int jobId, const std::string& name, const std::string& workspace,
+                                int line, int scopeNum)
+{
+  emit LiveLoopScopeReceived(jobId, QString::fromStdString(name),
+                             QString::fromStdString(workspace), line, scopeNum);
+}
+
+void QtAPIClient::LiveLoopScopeEnded(int jobId, const std::string& name)
+{
+  emit LiveLoopScopeEndedReceived(jobId, QString::fromStdString(name));
+}
+
 } // namespace SonicPi

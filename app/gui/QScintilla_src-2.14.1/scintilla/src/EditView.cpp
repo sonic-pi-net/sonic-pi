@@ -1039,8 +1039,12 @@ static void DrawIndicator(int indicNum, Sci::Position startPos, Sci::Position en
 		ll->positions[endPos] + xStart - subLineStart,
 		rcLine.top + vsDraw.maxAscent + 3);
 	PRectangle rcFirstCharacter = rcIndic;
-	// Allow full descent space for character indicators
-	rcFirstCharacter.bottom = rcLine.top + vsDraw.maxAscent + vsDraw.maxDescent;
+	// Allow full descent space for character indicators.
+	// SONIC-PI CHANGE: vertical extent is the true glyph band — excluding any
+	// extra ascent/descent line padding — so INDIC_STRAIGHTBOX can hug the
+	// text symmetrically (see Indicator.cpp and SONIC-PI-CHANGES.md).
+	rcFirstCharacter.top = rcLine.top + vsDraw.extraAscent;
+	rcFirstCharacter.bottom = rcLine.top + vsDraw.maxAscent + vsDraw.maxDescent - vsDraw.extraDescent;
 	if (secondCharacter >= 0) {
 		rcFirstCharacter.right = ll->positions[secondCharacter] + xStart - subLineStart;
 	} else {

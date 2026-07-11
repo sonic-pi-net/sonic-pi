@@ -2301,6 +2301,18 @@ play 80      # This is *never* played as the program is trapped in the loop abov
           raise ArgumentError, "Live loop block must only accept 0 or 1 args"
         end
 
+        # Mini-scope support: tap the loop's audio into its own scope-buffer
+        # slot and tell the GUI where the loop lives so it can pin a scope
+        # widget to the header line. Same slot across re-runs (the loop's
+        # thread persists); re-registering just refreshes the line number.
+        scope_num = __live_loop_scope_slot(ll_name)
+        ll_ws, ll_line = __caller_workspace_line
+        if scope_num && ll_ws
+          __msg_queue.push({:type => :live_loop_scope, :jobid => __current_job_id,
+                            :name => name.to_s, :workspace => ll_ws,
+                            :line => ll_line, :scope_num => scope_num})
+        end
+
         in_thread(name: ll_name, delay: delay, sync: sync_sym, sync_bpm: sync_bpm_sym) do
           __system_thread_locals.set_local :sonic_pi_local_live_loop_auto_cue, auto_cue
           if args_h.has_key?(:init)
@@ -2309,9 +2321,27 @@ play 80      # This is *never* played as the program is trapped in the loop abov
             res = 0
           end
           use_random_seed args_h[:seed] if args_h[:seed]
-          loop do
-            __live_loop_cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
-            res = send(ll_name, res)
+          run_loop = lambda do
+            loop do
+              __live_loop_cue name if __system_thread_locals.get :sonic_pi_local_live_loop_auto_cue
+              res = send(ll_name, res)
+            end
+          end
+          begin
+            if scope_num && respond_to?(:with_fx)
+              with_fx :scope_out, scope_num: scope_num do
+                run_loop.call
+              end
+            else
+              run_loop.call
+            end
+          ensure
+            # This block only runs in the loop's real thread (duplicate-named
+            # threads are killed before their block starts), so the slot is
+            # held exactly as long as the loop lives.
+            __live_loop_scope_slot_release(ll_name)
+            __msg_queue.push({:type => :live_loop_scope_ended, :jobid => __current_job_id,
+                              :name => name.to_s}) rescue nil
           end
         end
 

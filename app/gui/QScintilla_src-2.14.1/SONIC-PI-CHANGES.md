@@ -11,6 +11,24 @@ list current when you touch the vendored source so the fork stays auditable
 
 ## Changes
 
+### 2026-07-11 — `INDIC_STRAIGHTBOX` hugs the glyph band, not the whole line rect
+
+- **Files:** `scintilla/src/EditView.cpp`, `scintilla/src/Indicator.cpp`
+- **What:** `DrawIndicator` now passes the true glyph band (line top +
+  `extraAscent` … baseline + font descent, i.e. excluding `extraAscent` /
+  `extraDescent` padding) as `rcCharacter`'s vertical extent, and
+  `INDIC_STRAIGHTBOX` uses that instead of `rcLine` for its box. Stock
+  behaviour boxes the whole line rect (only 1px off the top), which is
+  identical to `INDIC_FULLBOX` in all but name.
+- **Why:** Sonic Pi adds `SCI_SETEXTRADESCENT` line padding (room for the
+  error squiggle), so a stock straight-box hangs well below the text and reads
+  as vertically off-centre. The trigger-flash code wash needs a box that sits
+  symmetrically around the glyphs. `rcCharacter`'s vertical extent was
+  otherwise unused (`INDIC_POINT`/`POINTCHARACTER` only read its x-range), and
+  `INDIC_FULLBOX` retains the full-line behaviour for anyone who wants it.
+- **Reportable upstream:** arguably (STRAIGHTBOX == FULLBOX is surely not
+  intended), but the fix changes documented behaviour, so it stays ours.
+
 ### 2026-06-29 — Fix screen-reader crash in `QsciAccessibleScintillaBase::textRange`
 
 - **File:** `src/SciAccessibility.cpp`

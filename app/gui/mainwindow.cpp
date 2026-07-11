@@ -566,6 +566,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(checkUpdatesChanged()), this, SLOT(update_check_updates()));
     connect(settingsWidget, SIGNAL(forceCheckUpdates()), this, SLOT(check_for_updates_now()));
     connect(settingsWidget, SIGNAL(showContextChanged()), this, SLOT(changeShowContext()));
+    connect(settingsWidget, SIGNAL(flashSettingsChanged()), this, SLOT(changeFlashSettings()));
     connect(settingsWidget, SIGNAL(speakTransportChanged()), this, SLOT(changeSpeakTransport()));
     connect(settingsWidget, SIGNAL(reduceMotionChanged()), this, SLOT(changeReduceMotion()));
     connect(settingsWidget, SIGNAL(checkArgsChanged()), this, SLOT(changeAudioSafeMode()));
@@ -590,6 +591,38 @@ void MainWindow::setupWindowStructure()
 
     scopeWindow = new ScopeWindow(m_spClient, m_spAPI, this);
 
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::FlashReceived, this,
+            [this](const QString& workspace, int line) {
+                if (!piSettings->flash_code && !piSettings->flash_gutter)
+                    return;
+                // Only flash real editor buffers — tutorial/jukebox runs use
+                // other workspace names and filenameToWorkspace would otherwise
+                // fall back to buffer 0 and flash the wrong tab.
+                if (!workspace.startsWith("workspace_"))
+                    return;
+                // Runtime lines are 1-based; Scintilla lines are 0-based.
+                // flashRunLine maps the run-time line through edit-tracking
+                // handles so it lands correctly after live edits.
+                SonicPiScintilla* ws = filenameToWorkspace(workspace.toStdString());
+                if (ws)
+                    ws->flashRunLine(line - 1, piSettings->flash_code, piSettings->flash_gutter);
+            });
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::LiveLoopScopeReceived, this,
+            [this](int, const QString& name, const QString& workspace, int line, int scopeNum) {
+                // Same guard as the flash: only pin scopes to real editor buffers.
+                if (!piSettings->show_loop_scopes || !workspace.startsWith("workspace_") || !m_spAPI)
+                    return;
+                SonicPiScintilla* ws = filenameToWorkspace(workspace.toStdString());
+                if (ws)
+                    ws->setLiveLoopScope(name, line - 1,
+                                         m_spAPI->AudioProcessor_GetScopeReader((unsigned int)scopeNum));
+            });
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::LiveLoopScopeEndedReceived, this,
+            [this](int, const QString& name) {
+                // Loop names are global, so clear the widget wherever it lives.
+                for (int i = 0; i < editorTabWidget->count(); i++)
+                    ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace()->endLiveLoopScope(name);
+            });
     connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioDevicesReceived,
             this, &MainWindow::updateAudioDevices);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioInputDevicesReceived,
@@ -1892,6 +1925,7 @@ void MainWindow::showWindow()
         showNormal();
     }
     changeShowLineNumbers();
+    changeFlashSettings();
 }
 
 void MainWindow::enableScsynthInputsMenuChanged()
@@ -2418,6 +2452,9 @@ void MainWindow::runCode()
 
     update();
     SonicPiScintilla* ws = getCurrentWorkspace();
+    // Anchor line-tracking handles to the code being run, so trigger flashes
+    // stay on the right line as it's edited live afterwards.
+    ws->snapshotRunLines();
 
     QString code = prefWrappedCode(ws->text());
 
@@ -3332,6 +3369,46 @@ void MainWindow::showContextMenuChanged()
     piSettings->show_context = showContextAct->isChecked();
     emit settingsChanged();
     changeShowContext();
+}
+
+void MainWindow::flashCodeMenuChanged()
+{
+    piSettings->flash_code = flashCodeAct->isChecked();
+    emit settingsChanged();
+    changeFlashSettings();
+}
+
+void MainWindow::flashGutterMenuChanged()
+{
+    piSettings->flash_gutter = flashGutterAct->isChecked();
+    emit settingsChanged();
+    changeFlashSettings();
+}
+
+void MainWindow::showLoopScopesMenuChanged()
+{
+    piSettings->show_loop_scopes = showLoopScopesAct->isChecked();
+    emit settingsChanged();
+    changeFlashSettings();
+}
+
+void MainWindow::changeFlashSettings()
+{
+    QSignalBlocker b1(flashCodeAct);
+    QSignalBlocker b2(flashGutterAct);
+    QSignalBlocker b3(showLoopScopesAct);
+    flashCodeAct->setChecked(piSettings->flash_code);
+    flashGutterAct->setChecked(piSettings->flash_gutter);
+    showLoopScopesAct->setChecked(piSettings->show_loop_scopes);
+    for (int i = 0; i < editorTabWidget->count(); i++)
+    {
+        SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
+        ws->setFlashBrightness(piSettings->flash_brightness);
+        // Turning loop scopes off removes the widgets right away; turning it
+        // back on shows them again from the next Run (loops re-register on run).
+        if (!piSettings->show_loop_scopes)
+            ws->clearLiveLoopScopes();
+    }
 }
 
 void MainWindow::speakTransportMenuChanged()
@@ -4410,6 +4487,21 @@ void MainWindow::createToolBar()
     showContextAct->setChecked(piSettings->show_context);
     connect(showContextAct, SIGNAL(triggered()), this, SLOT(showContextMenuChanged()));
 
+    flashCodeAct = new QAction(tr("Flash Code on Sound Trigger"), this);
+    flashCodeAct->setCheckable(true);
+    flashCodeAct->setChecked(piSettings->flash_code);
+    connect(flashCodeAct, SIGNAL(triggered()), this, SLOT(flashCodeMenuChanged()));
+
+    flashGutterAct = new QAction(tr("Flash Gutter on Sound Trigger"), this);
+    flashGutterAct->setCheckable(true);
+    flashGutterAct->setChecked(piSettings->flash_gutter);
+    connect(flashGutterAct, SIGNAL(triggered()), this, SLOT(flashGutterMenuChanged()));
+
+    showLoopScopesAct = new QAction(tr("Show Live Loop Scopes"), this);
+    showLoopScopesAct->setCheckable(true);
+    showLoopScopesAct->setChecked(piSettings->show_loop_scopes);
+    connect(showLoopScopesAct, SIGNAL(triggered()), this, SLOT(showLoopScopesMenuChanged()));
+
     speakTransportAct = new QAction(tr("Speak Run and Stop"), this);
     speakTransportAct->setCheckable(true);
     speakTransportAct->setChecked(piSettings->speak_transport);
@@ -4999,6 +5091,9 @@ void MainWindow::createToolBar()
     viewMenu->addAction(showAutoCompletionAct);
     viewMenu->addAction(showCompletionHelpAct);
     viewMenu->addAction(autoIndentOnRunAct);
+    viewMenu->addAction(flashCodeAct);
+    viewMenu->addAction(flashGutterAct);
+    viewMenu->addAction(showLoopScopesAct);
 #ifndef Q_OS_MAC
     // Don't enable this on Mac as macOS autohides the menubar on
     // fullscreen anyway
@@ -5533,6 +5628,10 @@ void MainWindow::readSettings()
     piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
     piSettings->show_completion_help = gui_settings->value("prefs/show-completion-help", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
+    piSettings->flash_code = gui_settings->value("prefs/flash-code", true).toBool();
+    piSettings->flash_brightness = gui_settings->value("prefs/flash-brightness", 35).toInt();
+    piSettings->flash_gutter = gui_settings->value("prefs/flash-gutter", false).toBool();
+    piSettings->show_loop_scopes = gui_settings->value("prefs/show-loop-scopes", true).toBool();
     piSettings->speak_transport = gui_settings->value("prefs/speak-transport", true).toBool();
     piSettings->example_play_on_open = gui_settings->value("prefs/example-play-on-open", true).toBool();
     piSettings->reduce_motion = gui_settings->value("prefs/reduce-motion", false).toBool();
@@ -5620,6 +5719,10 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show-tabs", piSettings->show_tabs);
     gui_settings->setValue("prefs/show-log", piSettings->show_log);
     gui_settings->setValue("prefs/show-context", piSettings->show_context);
+    gui_settings->setValue("prefs/flash-code", piSettings->flash_code);
+    gui_settings->setValue("prefs/flash-brightness", piSettings->flash_brightness);
+    gui_settings->setValue("prefs/flash-gutter", piSettings->flash_gutter);
+    gui_settings->setValue("prefs/show-loop-scopes", piSettings->show_loop_scopes);
     gui_settings->setValue("prefs/speak-transport", piSettings->speak_transport);
     gui_settings->setValue("prefs/example-play-on-open", piSettings->example_play_on_open);
     if (tutorialPane)

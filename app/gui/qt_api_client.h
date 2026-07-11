@@ -59,6 +59,10 @@ public:
     virtual void AudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome) override;
     virtual void RunStarted(int jobId, const std::string& workspace) override;
     virtual void RunEnded(int jobId) override;
+    virtual void Flash(const std::string& workspace, int line) override;
+    virtual void LiveLoopScope(int jobId, const std::string& name, const std::string& workspace,
+                               int line, int scopeNum) override;
+    virtual void LiveLoopScopeEnded(int jobId, const std::string& name) override;
 
 signals:
     void ConsumeAudioData(SonicPi::ProcessedAudioPtr audio);
@@ -72,6 +76,10 @@ signals:
     void AudioSwitchDoneReceived(const SonicPi::AudioSwitchOutcome& outcome);
     void RunStartedReceived(int jobId, const QString& workspace);
     void RunEndedReceived(int jobId);
+    void FlashReceived(const QString& workspace, int line);
+    void LiveLoopScopeReceived(int jobId, const QString& name, const QString& workspace,
+                               int line, int scopeNum);
+    void LiveLoopScopeEndedReceived(int jobId, const QString& name);
 
 public slots:
     virtual void ReportGui(const SonicPi::MessageInfo& message);

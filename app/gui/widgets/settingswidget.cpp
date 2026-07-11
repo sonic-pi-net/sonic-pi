@@ -964,6 +964,57 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     viz_tab_layout->addWidget(scope_box, 0, 0);
     viz_tab_layout->addWidget(scope_box_kinds, 1, 0);
 
+    // In-editor visuals driven by the running audio: trigger flashes and the
+    // per-live_loop mini scopes.
+    QGroupBox *editor_visuals_box = new QGroupBox(tr("Editor Visuals"));
+    QVBoxLayout *editor_visuals_box_layout = new QVBoxLayout;
+
+    flash_code = new QCheckBox(tr("Flash code on sound trigger"));
+    flash_code->setToolTip(tr("When enabled, the editor briefly washes the code responsible for each sound as it is triggered."));
+
+    flash_gutter = new QCheckBox(tr("Flash gutter on sound trigger"));
+    flash_gutter->setToolTip(tr("When enabled, the editor briefly shows a dot in the gutter next to the line responsible for each sound as it is triggered."));
+
+    show_loop_scopes = new QCheckBox(tr("Show live loop scopes"));
+    show_loop_scopes->setToolTip(tr("When enabled, each running live loop shows a small oscilloscope and spectrum of its own audio next to its line in the editor."));
+
+    // Brightness as an amp-style ArcDial (same feel as the volume + hue
+    // dials), with the percentage shown in the hub.
+    flash_brightness_slider = new ArcDial(this);
+    flash_brightness_slider->setWrapping(false);
+    flash_brightness_slider->setRange(5, 100);
+    flash_brightness_slider->setValueSuffix("%");
+    flash_brightness_slider->setFixedSize(ScaleWidthForDPI(108), ScaleHeightForDPI(108));
+    flash_brightness_slider->setAccessibleName(tr("Flash brightness"));
+    flash_brightness_slider->setProperty("tipTitle", tr("Flash Brightness"));
+    flash_brightness_slider->setToolTip(tr("Drag or scroll to change how strongly the code flash washes the line."));
+
+    QLabel *flash_brightness_label = new QLabel(tr("Flash Brightness"));
+    flash_brightness_label->setAlignment(Qt::AlignHCenter);
+
+    // Checkboxes on the left, dial to their right — same arrangement as the
+    // hue dial in the look & feel section. The box hugs its content (the tab
+    // grid no longer stretches rows), so both columns centre naturally.
+    QVBoxLayout *flash_checks_col = new QVBoxLayout;
+    flash_checks_col->addStretch(1);
+    flash_checks_col->addWidget(flash_code);
+    flash_checks_col->addWidget(flash_gutter);
+    flash_checks_col->addWidget(show_loop_scopes);
+    flash_checks_col->addStretch(1);
+    QVBoxLayout *flash_dial_col = new QVBoxLayout;
+    flash_dial_col->addStretch(1);
+    flash_dial_col->addWidget(flash_brightness_slider, 0, Qt::AlignHCenter);
+    flash_dial_col->addWidget(flash_brightness_label, 0, Qt::AlignHCenter);
+    flash_dial_col->addStretch(1);
+    QHBoxLayout *editor_visuals_row = new QHBoxLayout;
+    editor_visuals_row->addLayout(flash_checks_col);
+    editor_visuals_row->addSpacing(ScaleWidthForDPI(40));
+    editor_visuals_row->addLayout(flash_dial_col);
+    editor_visuals_row->addStretch(1);
+    editor_visuals_box_layout->addLayout(editor_visuals_row);
+    editor_visuals_box->setLayout(editor_visuals_box_layout);
+    viz_tab_layout->addWidget(editor_visuals_box, 2, 0);
+
     QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
     QGridLayout *transparency_box_layout = new QGridLayout;
     gui_transparency_slider = new QSlider(this);
@@ -982,9 +1033,18 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
 //#if defined(Q_OS_LINUX)
 //    // do nothing
 //#else
-    viz_tab_layout->addWidget(transparency_box, 0, 1, 0, 1);
+    // Framed like the other groups and spanning the left stack's three rows,
+    // so its frame bottom lines up with the Editor Visuals box.
+    viz_tab_layout->addWidget(transparency_box, 0, 1, 3, 1);
 //#endif
 
+    // Groups hug their content and stack from the top; leftover tab height
+    // goes to an empty stretch row, and leftover width to the left column —
+    // no more group boxes ballooning to fill the tab.
+    viz_tab_layout->setRowStretch(3, 1);
+    viz_tab_layout->setColumnStretch(0, 1);
+    viz_tab_layout->setHorizontalSpacing(ScaleWidthForDPI(24));
+    viz_tab_layout->setVerticalSpacing(ScaleHeightForDPI(18));
     viz_box->setLayout(viz_tab_layout);
 
     return viz_box;
@@ -2298,6 +2358,10 @@ void SettingsWidget::showContext() {
   emit showContextChanged();
 }
 
+void SettingsWidget::flashOnPlay() {
+  emit flashSettingsChanged();
+}
+
 void SettingsWidget::speakTransport() {
   emit speakTransportChanged();
 }
@@ -2566,6 +2630,10 @@ void SettingsWidget::updateSettings() {
     piSettings->show_autocompletion = show_autocompletion->isChecked();
     piSettings->show_completion_help = show_completion_help->isChecked();
     piSettings->show_context = show_context->isChecked();
+    piSettings->flash_code = flash_code->isChecked();
+    piSettings->flash_brightness = flash_brightness_slider->value();
+    piSettings->flash_gutter = flash_gutter->isChecked();
+    piSettings->show_loop_scopes = show_loop_scopes->isChecked();
     piSettings->speak_transport = speak_transport->isChecked();
     piSettings->reduce_motion = reduce_motion->isChecked();
     // Widgets consult prefersReducedMotion() directly (no settings pointer
@@ -2668,6 +2736,10 @@ void SettingsWidget::settingsChanged() {
     show_autocompletion->setChecked(piSettings->show_autocompletion);
     show_completion_help->setChecked(piSettings->show_completion_help);
     show_context->setChecked(piSettings->show_context);
+    flash_code->setChecked(piSettings->flash_code);
+    { QSignalBlocker fb(flash_brightness_slider); flash_brightness_slider->setValue(piSettings->flash_brightness); }
+    flash_gutter->setChecked(piSettings->flash_gutter);
+    show_loop_scopes->setChecked(piSettings->show_loop_scopes);
     speak_transport->setChecked(piSettings->speak_transport);
     reduce_motion->setChecked(piSettings->reduce_motion);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
@@ -2733,6 +2805,14 @@ void SettingsWidget::connectAll() {
     connect(show_autocompletion, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_completion_help, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_context, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(flash_code, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(flash_code, SIGNAL(clicked()), this, SLOT(flashOnPlay()));
+    connect(flash_gutter, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(flash_gutter, SIGNAL(clicked()), this, SLOT(flashOnPlay()));
+    connect(show_loop_scopes, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_loop_scopes, SIGNAL(clicked()), this, SLOT(flashOnPlay()));
+    connect(flash_brightness_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
+    connect(flash_brightness_slider, SIGNAL(valueChanged(int)), this, SLOT(flashOnPlay()));
     connect(speak_transport, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(speak_transport, SIGNAL(clicked()), this, SLOT(speakTransport()));
     connect(reduce_motion, SIGNAL(clicked()), this, SLOT(updateSettings()));

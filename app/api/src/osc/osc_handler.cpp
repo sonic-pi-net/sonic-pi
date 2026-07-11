@@ -540,6 +540,49 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 LOG(ERR, "Unhandled OSC msg /run/started");
             }
         }
+        else if (msg->match("/flash"))
+        {
+            int jobId;
+            std::string workspace;
+            int line;
+            if (msg->arg().popInt32(jobId).popStr(workspace).popInt32(line).isOkNoMoreArgs())
+            {
+                m_pClient->Flash(workspace, line);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /flash");
+            }
+        }
+        else if (msg->match("/live_loop/scope"))
+        {
+            int jobId;
+            std::string name;
+            std::string workspace;
+            int line;
+            int scopeNum;
+            if (msg->arg().popInt32(jobId).popStr(name).popStr(workspace).popInt32(line).popInt32(scopeNum).isOkNoMoreArgs())
+            {
+                m_pClient->LiveLoopScope(jobId, name, workspace, line, scopeNum);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /live_loop/scope");
+            }
+        }
+        else if (msg->match("/live_loop/scope-ended"))
+        {
+            int jobId;
+            std::string name;
+            if (msg->arg().popInt32(jobId).popStr(name).isOkNoMoreArgs())
+            {
+                m_pClient->LiveLoopScopeEnded(jobId, name);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /live_loop/scope-ended");
+            }
+        }
         else if (msg->match("/run/ended"))
         {
             int jobId;

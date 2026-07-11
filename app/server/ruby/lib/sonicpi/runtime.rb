@@ -503,25 +503,85 @@ module SonicPi
         @system_state.get(__get_spider_time, 0, __current_thread_id, 0, __get_spider_beat, __get_spider_bpm, :sched_ahead_time,).val
     end
 
+    # Editor line flash (pulse the source line of a sound as it plays). Queued
+    # like a delayed message so it flushes in sync with the audio it accompanies.
+    def __delayed_flash(workspace, line)
+      return unless workspace && line && line > 0
+      flashes = __system_thread_locals.get(:sonic_pi_local_spider_delayed_flashes, [])
+      flashes << {:type => :flash, :jobid => __current_job_id, :workspace => workspace, :line => line}
+      __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_flashes, flashes)
+    end
+
+    # The user's source location responsible for the current call: the nearest
+    # frame in the running buffer (the eval filename is the workspace), so it
+    # lands on the actual user line whatever the call depth. [workspace, line]
+    # or nil.
+    def __caller_workspace_line
+      ws = __current_job_info && __current_job_info[:workspace]
+      return nil unless ws
+      frame = caller_locations(2, 50)&.find { |l| l.path == ws }
+      frame ? [ws, frame.lineno] : nil
+    end
+
+    # Flash the user's source line responsible for the current trigger.
+    def __delayed_flash_from_caller
+      return if __system_thread_locals.get(:sonic_pi_spider_silent)
+      ws, line = __caller_workspace_line
+      __delayed_flash(ws, line) if ws
+    end
+
+    # Scope-tap slots for live_loop mini scopes. Slot 0 is the master mix and 1
+    # the Examples jukebox, so loops share the rest (the engine's desktop
+    # profile has 32). A loop keeps its slot for its lifetime, across re-runs;
+    # release it when its thread dies. Returns nil when all slots are taken.
+    def __live_loop_scope_slot(ll_name)
+      @live_loop_scope_slots_mutex.synchronize do
+        slot = @live_loop_scope_slots[ll_name]
+        return slot if slot
+        used = @live_loop_scope_slots.values
+        slot = (2..31).find { |s| !used.include?(s) }
+        @live_loop_scope_slots[ll_name] = slot if slot
+        slot
+      end
+    end
+
+    def __live_loop_scope_slot_release(ll_name)
+      @live_loop_scope_slots_mutex.synchronize { @live_loop_scope_slots.delete(ll_name) }
+    end
+
     def __schedule_delayed_blocks_and_messages!
       delayed_messages = __system_thread_locals.get(:sonic_pi_local_spider_delayed_messages, [])
+      delayed_flashes = __system_thread_locals.get(:sonic_pi_local_spider_delayed_flashes, [])
       __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_messages, [])
+      __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_flashes, [])
       __system_thread_locals.set_local(:sonic_pi_local_spider_delayed_blocks, [])
-      if (delayed_messages && (!delayed_messages.empty?) && (!__system_thread_locals.get(:sonic_pi_spider_silent)))
-        msg = {:type => :multi_message,
-          :val => delayed_messages,
-          :jobid => __current_job_id,
-          :jobinfo => __current_job_info,
-          :runtime => __current_local_run_time.round(4),
-          :thread_name => __current_thread_name}
-            last_vt = __get_spider_time
-            sched_ahead_sync_t = last_vt + __current_sched_ahead_time
-            sleep_time = sched_ahead_sync_t.to_f - Time.now.to_f
+
+      send_messages = delayed_messages && (!delayed_messages.empty?) && (!__system_thread_locals.get(:sonic_pi_spider_silent))
+      # Repeated triggers of the same line within one flush collapse to a
+      # single flash (the GUI pulse coalesces them anyway).
+      delayed_flashes = delayed_flashes ? delayed_flashes.uniq : []
+      send_flashes = !delayed_flashes.empty?
+
+      if send_messages || send_flashes
+        last_vt = __get_spider_time
+        sched_ahead_sync_t = last_vt + __current_sched_ahead_time
+        sleep_time = sched_ahead_sync_t.to_f - Time.now.to_f
+
+        msg = nil
+        if send_messages
+          msg = {:type => :multi_message,
+            :val => delayed_messages,
+            :jobid => __current_job_id,
+            :jobinfo => __current_job_info,
+            :runtime => __current_local_run_time.round(4),
+            :thread_name => __current_thread_name}
+        end
 
         Thread.new do
-            Kernel.sleep(sleep_time) if sleep_time > 0
-          __msg_queue.push msg
-          #We're now in sync with the sched_ahead time
+          Kernel.sleep(sleep_time) if sleep_time > 0
+          # We're now in sync with the sched_ahead time
+          __msg_queue.push(msg) if msg
+          delayed_flashes.each { |f| __msg_queue.push(f) } if send_flashes
         end
       end
     end
@@ -1643,6 +1703,8 @@ module SonicPi
       @named_subthreads = {}
       @job_subthread_mutex = Mutex.new
       @osc_cue_server_mutex = Mutex.new
+      @live_loop_scope_slots = {}
+      @live_loop_scope_slots_mutex = Mutex.new
       @user_jobs = Jobs.new
       @session_id = SecureRandom.uuid
       @snippets = {}
