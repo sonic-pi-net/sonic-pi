@@ -405,6 +405,10 @@ module SonicPi
       @server.allocate_audio_bus
     end
 
+    def num_fx_busses_allocated
+      @server.num_audio_busses_allocated
+    end
+
     def control_delta
       @server.control_delta
     end
@@ -567,7 +571,7 @@ module SonicPi
         # Phase 1.5: Re-register Spider as a /supersonic/notify target.
         # supersonic builds a fresh World on driver-switch / cold-swap, and
         # the new World's notify-subscribers list is empty. If we skip this,
-        # Phase 2's /sync (in clear_scsynth!) and Phase 3's /d_loadDir send
+        # Phase 2's /d_loadDir and Phase 3's /sync (in clear_scsynth!) send
         # fine but the /synced + /done replies are silently dropped — both
         # promises hit their 10s/5s timeouts, mixer_group stays nil, and
         # studio is unrecoverable until a relaunch. This is what blocks
@@ -580,22 +584,30 @@ module SonicPi
           log_phase_err.call("re-registering notify target", e)
         end
 
-        # Phase 2: Rebuild groups and busses
-        begin
-          reset_and_setup_groups_and_busses
-          STDOUT.puts "Studio - Phase 2: Groups (#{(Time.now - start).round(2)}s)"
-          STDOUT.flush
-        rescue Exception => e
-          log_phase_err.call("resetting groups", e)
-        end
-
-        # Phase 3: Load synthdefs
+        # Phase 2: Load synthdefs into the new World. Must precede
+        # Phase 3 — the server-info query there runs the
+        # sonic-pi-server-info synthdef.
         begin
           @server.load_synthdefs(Paths.synthdef_path)
-          STDOUT.puts "Studio - Phase 3: Synthdefs (#{(Time.now - start).round(2)}s)"
+          STDOUT.puts "Studio - Phase 2: Synthdefs (#{(Time.now - start).round(2)}s)"
           STDOUT.flush
         rescue Exception => e
           log_phase_err.call("loading synthdefs", e)
+        end
+
+        # Phase 3: Re-read server info, then rebuild groups and busses.
+        # The new World's hardware channel counts set the audio bus
+        # allocator's reserved offset; skipping the refresh leaves fx
+        # busses overlapping hardware output/input busses when the
+        # device channel count changed (mic feedback, synths bypassing
+        # the mixer).
+        begin
+          @server.fetch_scsynth_info!(5)
+          reset_and_setup_groups_and_busses
+          STDOUT.puts "Studio - Phase 3: Server info + Groups (#{(Time.now - start).round(2)}s)"
+          STDOUT.flush
+        rescue Exception => e
+          log_phase_err.call("resetting groups", e)
         end
 
         # Phases 4-6 all need the mixer group from Phase 2. If Phase 2

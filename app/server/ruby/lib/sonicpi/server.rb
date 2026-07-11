@@ -106,14 +106,31 @@ module SonicPi
       @CURRENT_SYNC_ID = Counter.new(0)
       @BUFFER_ALLOCATOR = Allocator.new(num_buffers_for_current_os)
 
+      load_synthdefs(Paths.synthdef_path)
+      fetch_scsynth_info!
+
+      message "info        - Initialising comms... #{msg_queue}" if @debug_mode
+      clear_scsynth!
+    end
+
+    # (Re)query the current World's config via the sonic-pi-server-info
+    # synthdef and rebuild the bus allocators from it. The audio bus
+    # allocator reserves the hardware channels (num_output +
+    # num_input busses) at the bottom of the bus range. These counts
+    # change when a cold swap rebuilds the World for a device with a
+    # different channel count, so this must re-run after every swap —
+    # a stale offset lets fx busses land on hardware output busses
+    # (synths blare out of the mix) and input busses (mic feedback).
+    # Requires synthdefs to be loaded in the current World.
+    def fetch_scsynth_info!(timeout=nil)
       info_prom = Promise.new
 
       add_event_oneshot_handler("/sonic-pi/server-info") do |payload|
         info_prom.deliver! payload
       end
-      load_synthdefs(Paths.synthdef_path)
       osc @osc_path_s_new, "sonic-pi-server-info", 1, 0, 0
-      server_info = info_prom.get
+      server_info = info_prom.get(timeout)
+      raise "Timed out waiting for server info" unless server_info
       @scsynth_info = SonicPi::Core::SPMap.new({
         :sample_rate => server_info[2],
         :sample_dur => server_info[3],
@@ -134,9 +151,7 @@ module SonicPi
       info "num audio busses: #{@scsynth_info[:num_audio_busses]}"
       @AUDIO_BUS_ALLOCATOR = AudioBusAllocator.new @scsynth_info[:num_audio_busses], @scsynth_info[:num_output_busses] + @scsynth_info[:num_input_busses]
       @CONTROL_BUS_ALLOCATOR = ControlBusAllocator.new @scsynth_info[:num_control_busses]
-
-      message "info        - Initialising comms... #{msg_queue}" if @debug_mode
-      clear_scsynth!
+      @scsynth_info
     end
 
     def info(s)
@@ -339,6 +354,10 @@ module SonicPi
 
     def allocate_audio_bus
       @AUDIO_BUS_ALLOCATOR.allocate
+    end
+
+    def num_audio_busses_allocated
+      @AUDIO_BUS_ALLOCATOR.num_busses_allocated
     end
 
     def allocate_control_bus

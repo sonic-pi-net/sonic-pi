@@ -1909,6 +1909,8 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           rescue AllocationError
             # We couldn't create the bus so treat as if the FX was :none
             # and return early
+            STDOUT.puts "FX-DEBUG bus-exhausted fx=#{fx_name} job=#{current_job_id} - FX BYPASSED"
+            STDOUT.flush
             __delayed_serious_warning "All busses allocated - unable to honour FX"
             if block.arity == 0
               return args_h[:reps].times do
@@ -2005,6 +2007,11 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           use_logical_clock = true
         end
         fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_container_group, !use_logical_clock, t_minus_delta)
+
+        # temp diagnostic: fx bus lifecycle (transient blare bug) - pairs with
+        # bus-free logging in FXNode
+        STDOUT.puts "FX-DEBUG bus-alloc bus=#{new_bus.to_i} fx=#{fx_synth_name} node=#{fx_synth.respond_to?(:id) ? fx_synth.id : '?'} job=#{current_job_id} total=#{@mod_sound_studio.num_fx_busses_allocated}"
+        STDOUT.flush
 
         ## Now actually execute the fx block. Pass the fx synth in as a
         ## parameter if the block was defined with a param.
