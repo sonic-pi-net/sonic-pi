@@ -34,5 +34,7 @@
     fin_l = XFade2.ar(fx_arg_in_l, wet_l, fx_arg_mix, fx_arg_amp);
     fin_r = XFade2.ar(fx_arg_in_r, wet_r, fx_arg_mix, fx_arg_amp);
     Out.ar(fx_arg_out_bus, [fin_l, fin_r]);
-  }, []).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/");
+  // Write next to this repo checkout (designs/supercollider -> compiled),
+  // wherever it lives, rather than a hardcoded absolute path.
+  }, []).writeDefFile("../../compiled/".resolveRelative);
 };
