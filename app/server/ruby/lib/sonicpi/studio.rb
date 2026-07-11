@@ -405,10 +405,6 @@ module SonicPi
       @server.allocate_audio_bus
     end
 
-    def num_fx_busses_allocated
-      @server.num_audio_busses_allocated
-    end
-
     def control_delta
       @server.control_delta
     end

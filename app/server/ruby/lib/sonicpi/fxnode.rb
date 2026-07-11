@@ -18,10 +18,6 @@ module SonicPi
       @in_bus = in_bus
       @out_bus = out_bus
       @node.on_destroyed do
-        # temp diagnostic: fx bus lifecycle (transient blare bug) - pairs with
-        # bus-alloc logging in with_fx
-        STDOUT.puts "FX-DEBUG bus-free bus=#{@in_bus.to_i} node=#{@node.id}"
-        STDOUT.flush
         @in_bus.free
       end
     end

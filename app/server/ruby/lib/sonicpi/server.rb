@@ -356,10 +356,6 @@ module SonicPi
       @AUDIO_BUS_ALLOCATOR.allocate
     end
 
-    def num_audio_busses_allocated
-      @AUDIO_BUS_ALLOCATOR.num_busses_allocated
-    end
-
     def allocate_control_bus
       @CONTROL_BUS_ALLOCATOR.allocate
     end
