@@ -256,6 +256,12 @@ shm_audio_buffer* AudioProcessor::GetAudioBufferSlot(unsigned int slot)
     return m_shmClient->get_audio_buffer(slot);
 }
 
+shm_scope_buffer_reader AudioProcessor::GetScopeReader(unsigned int index)
+{
+    if (!m_shmClient) return shm_scope_buffer_reader();
+    return m_shmClient->get_scope_buffer_reader(index);
+}
+
 const std::atomic<uint32_t>* AudioProcessor::GetMetrics()
 {
     if (!m_shmClient) return nullptr;

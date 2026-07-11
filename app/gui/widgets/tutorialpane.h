@@ -31,7 +31,13 @@ class SonicPiLexer;
 class SonicPiScintilla;
 class SonicPiTheme;
 class TutDial;
+class TutScope;
 class TutSelectionGroup;
+
+namespace SonicPi
+{
+class SonicPiAPI;
+}
 
 // Native replacement for the QTextBrowser docs pane: a scrollable column of
 // heading/prose/code blocks parsed from the tutorial markdown. Code blocks
@@ -42,6 +48,10 @@ class TutorialPane : public QFrame
     Q_OBJECT
 public:
     TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* parent = nullptr);
+
+    // The jukebox scope reads an isolated scope-buffer slot straight from the
+    // engine shm; the pane needs the API handle to fetch a reader per play.
+    void setAudioApi(std::shared_ptr<SonicPi::SonicPiAPI> api);
 
     // imagesRoot is the on-disk dir that image paths are relative to
     // (rootPath()/etc/doc/images). Empty prev/next titles hide that button.
@@ -82,7 +92,10 @@ protected:
     void keyPressEvent(QKeyEvent* event) override;
 
 signals:
-    void runRequested(const QString& code, const QString& workspace, bool silent = false);
+    // scopeTap wraps the run in an fx_scope_out tap so the jukebox scope can
+    // show only this run's audio (used by the Examples page play button).
+    void runRequested(const QString& code, const QString& workspace, bool silent = false,
+                      bool scopeTap = false);
     void stopJobRequested(int jobId);
     void loadRequested(const QString& code); // load into the current editor buffer
     void announceRequested(QString msg);
@@ -140,6 +153,8 @@ private:
     SonicPiScintilla* m_exampleEditor = nullptr;
     QPushButton* m_examplePlay = nullptr; // jukebox transport: toggles play/stop
     QPushButton* m_exampleLoad = nullptr;
+    TutScope* m_exampleScope = nullptr;   // live scope, visible only while playing
+    std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
 
     SonicPi::TutorialChapter m_chapter;
     QVector<TutDial*> m_dials;
@@ -159,6 +174,8 @@ private:
     SonicPi::CodeColours m_codeColours;
     QIcon m_playIcon;
     QIcon m_stopIcon;
+    QIcon m_exPlayIcon; // jukebox transport glyphs (contrasting, for accent fill)
+    QIcon m_exStopIcon;
     int m_userZoom = 0;      // pane zoom steps from A-/A+ (persisted as a pref)
     double m_fontScale = 1.0;
     int m_workspaceSeq = 0;

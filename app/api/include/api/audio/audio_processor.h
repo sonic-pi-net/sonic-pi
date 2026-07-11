@@ -57,6 +57,13 @@ public:
     // AudioProcessor alive for its lifetime.
     shm_audio_buffer* GetAudioBufferSlot(unsigned int slot);
 
+    // Reader onto scope-buffer pool slot `index`. Slot 0 is the master scope
+    // (the full mix, driven by the sonic-pi-scope synth); slots 1..N are fed
+    // by fx_scope_out / ScopeOut2 taps. Invalid reader if the shm client is
+    // not connected or the index is out of range. Same lifetime caveat as
+    // GetAudioBufferSlot — points into supersonic's shm mapping.
+    shm_scope_buffer_reader GetScopeReader(unsigned int index);
+
     // Flat pointer to the PerformanceMetrics region in supersonic's shm
     // mapping (METRICS_FIELD_COUNT contiguous uint32 fields), or nullptr
     // if the shm client is not connected. Same lifetime caveat as

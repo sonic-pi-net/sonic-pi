@@ -1031,6 +1031,15 @@ shm_audio_buffer* SonicPiAPI::AudioProcessor_GetAudioBufferSlot(unsigned int slo
     return nullptr;
 }
 
+shm_scope_buffer_reader SonicPiAPI::AudioProcessor_GetScopeReader(unsigned int scope_num)
+{
+    if (m_spAudioProcessor)
+    {
+        return m_spAudioProcessor->GetScopeReader(scope_num);
+    }
+    return shm_scope_buffer_reader();
+}
+
 const std::atomic<uint32_t>* SonicPiAPI::AudioProcessor_GetMetrics()
 {
     if (m_spAudioProcessor)

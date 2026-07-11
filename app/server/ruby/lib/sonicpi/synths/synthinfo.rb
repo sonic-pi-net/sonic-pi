@@ -5976,6 +5976,60 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
       end
     end
 
+    class FXScopeOut < FXInfo
+      def name
+        "Scope Out"
+      end
+
+      def introduced
+        Version.new(5,0,0)
+      end
+
+      def synth_name
+        "fx_scope_out"
+      end
+
+      # Internal for now: only useful once there are multiple GUI scopes to view
+      # taps on. The Examples jukebox uses it programmatically via with_fx.
+      def user_facing?
+        false
+      end
+
+      def trigger_with_logical_clock?
+        true
+      end
+
+      def doc
+        "Taps the audio generated within this FX block into a numbered scope buffer, passing the sound straight through unaltered. Lets a visualiser show just this block's audio, independently of the main scope which always displays the full mix."
+      end
+
+      def kill_delay(args_h)
+        0
+      end
+
+      def arg_defaults
+        super.merge({
+                      :scope_num => 1,
+                      :max_frames => 1024
+                    })
+      end
+
+      def specific_arg_info
+        {
+          :scope_num =>
+          {
+            :doc => "The scope buffer to write to. Buffer 0 is the main scope (the full mix), so use 1 or higher for an independent tap.",
+            :modulatable => false
+          },
+          :max_frames =>
+          {
+            :doc => "Number of frames captured per scope window.",
+            :modulatable => false
+          }
+        }
+      end
+    end
+
 
     class FXEQ < FXInfo
 
@@ -9785,6 +9839,7 @@ Note: sliding the `phase:` opt with `phase_slide:` will also cause each echo dur
         :fx_record => FXRecord.new,
         :fx_sound_out => FXSoundOut.new,
         :fx_sound_out_stereo => FXSoundOutStereo.new,
+        :fx_scope_out => FXScopeOut.new,
         :fx_ping_pong => FXPingPong.new
       }
 

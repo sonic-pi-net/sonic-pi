@@ -17,6 +17,7 @@
 #include "model/sonicpitheme.h"
 #include "sonicpiscintilla.h"
 #include "utils/instrument_icons.h"
+#include "api/sonicpi_api.h"
 
 #include <QAbstractTextDocumentLayout>
 #include <QApplication>
@@ -37,6 +38,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QSpacerItem>
 #include <QStringList>
 #include <QStyle>
 #include <QSvgRenderer>
@@ -58,7 +60,165 @@ void repolish(QWidget* w)
     w->style()->polish(w);
 }
 
+// Scope-buffer slot the jukebox taps into (slot 0 is the master scope). Must
+// match the scope_num in the with_fx :scope_out wrap on the run side (mainwindow).
+constexpr unsigned int kJukeboxScopeSlot = 1;
+
 } // namespace
+
+// Live oscilloscope on the Examples jukebox page. Reads an isolated scope-buffer
+// slot (fed by a wrapping fx_scope_out tap), so it shows only the example's own
+// audio while the main Scope dock keeps showing the full mix. Decorative:
+// mouse-transparent, no focus, no accessible role (the Play/Stop button conveys
+// the running state).
+class TutScope : public QWidget
+{
+public:
+    explicit TutScope(QWidget* parent = nullptr)
+        : QWidget(parent)
+    {
+        setAttribute(Qt::WA_TransparentForMouseEvents, true);
+        setFocusPolicy(Qt::NoFocus);
+        setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        m_timer = new QTimer(this);
+        connect(m_timer, &QTimer::timeout, this, [this]() { poll(); });
+    }
+
+    void setColours(const QColor& wave, const QColor& base, const QColor& panel,
+                    const QColor& border)
+    {
+        m_wave = wave;
+        m_base = base;
+        m_panel = panel;
+        m_border = border;
+        update();
+    }
+
+    // Begin polling scope slot `scopeNum`; the reader is fetched fresh each
+    // time so it survives a device swap between plays.
+    void start(SonicPi::SonicPiAPI* api, unsigned int scopeNum)
+    {
+        m_reader = api ? api->AudioProcessor_GetScopeReader(scopeNum)
+                       : shm_scope_buffer_reader();
+        m_samples.clear();
+        show();
+        if (!m_timer->isActive())
+            m_timer->start(30);
+        update();
+    }
+
+    void stop()
+    {
+        m_timer->stop();
+        m_reader = shm_scope_buffer_reader();
+        m_samples.clear();
+        hide();
+    }
+
+protected:
+    void paintEvent(QPaintEvent*) override
+    {
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing, true);
+        const qreal w = width();
+        const qreal h = height();
+        const qreal mid = h / 2.0;
+        const qreal radius = ScaleWidthForDPI(4);
+
+        // Rounded panel so the scope reads as a distinct little display, even
+        // when the trace is quiet or flat.
+        QRectF panelRect(0.5, 0.5, w - 1.0, h - 1.0);
+        if (m_panel.isValid())
+        {
+            p.setPen(Qt::NoPen);
+            p.setBrush(m_panel);
+            p.drawRoundedRect(panelRect, radius, radius);
+        }
+
+        // Clip the trace to the rounded panel so it never spills past the corners
+        QPainterPath clip;
+        clip.addRoundedRect(panelRect, radius, radius);
+        p.setClipPath(clip);
+
+        QColor base = m_base.isValid() ? m_base : palette().mid().color();
+        QPen basePen(base);
+        basePen.setWidthF(1.0);
+        p.setPen(basePen);
+        p.drawLine(QPointF(0, mid), QPointF(w, mid));
+
+        if (m_samples.size() >= 2 && w >= 2)
+        {
+            QColor wave = m_wave.isValid() ? m_wave : palette().highlight().color();
+            const qreal amp = mid * 0.92;
+            const size_t n = m_samples.size();
+            const int cols = qMax(2, (int)w);
+
+            // The raw waveform, traced once and reused for the fill and stroke
+            QPainterPath line;
+            for (int x = 0; x < cols; x++)
+            {
+                size_t idx = (size_t)((qreal)x / (cols - 1) * (n - 1));
+                qreal v = qBound(-1.0, (double)m_samples[idx], 1.0);
+                qreal y = mid - v * amp;
+                qreal px = (qreal)x / (cols - 1) * w;
+                if (x == 0)
+                    line.moveTo(px, y);
+                else
+                    line.lineTo(px, y);
+            }
+
+            // Fill back along the midline for a soft body under the stroke
+            QPainterPath body = line;
+            body.lineTo(w, mid);
+            body.lineTo(0, mid);
+            body.closeSubpath();
+            QColor fill = wave;
+            fill.setAlpha(70);
+            p.fillPath(body, fill);
+
+            QPen wavePen(wave);
+            wavePen.setWidthF(3.0);
+            wavePen.setJoinStyle(Qt::RoundJoin);
+            wavePen.setCapStyle(Qt::RoundCap);
+            p.setPen(wavePen);
+            p.drawPath(line);
+        }
+
+        // Panel border, crisp on top (outside the clip)
+        p.setClipping(false);
+        if (m_border.isValid())
+        {
+            p.setPen(QPen(m_border, 1.0));
+            p.setBrush(Qt::NoBrush);
+            p.drawRoundedRect(panelRect, radius, radius);
+        }
+    }
+
+private:
+    void poll()
+    {
+        unsigned int frames = 0;
+        if (!m_reader.pull(frames) || frames == 0)
+            return;
+        float* d = m_reader.data();
+        if (!d)
+            return;
+        unsigned int stride = m_reader.max_frames();
+        unsigned int ch = m_reader.channels();
+        m_samples.resize(frames);
+        for (unsigned int i = 0; i < frames; i++)
+            m_samples[i] = ch >= 2 ? 0.5f * (d[i] + d[stride + i]) : d[i];
+        update();
+    }
+
+    QColor m_wave;
+    QColor m_base;
+    QColor m_panel;
+    QColor m_border;
+    std::vector<float> m_samples;
+    shm_scope_buffer_reader m_reader;
+    QTimer* m_timer = nullptr;
+};
 
 TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* parent)
     : QFrame(parent)
@@ -147,28 +307,46 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     m_exampleFrameLayout->setSpacing(ScaleHeightForDPI(4));
     QHBoxLayout* exampleControls = new QHBoxLayout();
     exampleControls->setContentsMargins(0, 0, 0, 0);
-    exampleControls->setSpacing(ScaleWidthForDPI(4));
-    // Jukebox transport: one toggle button that plays, then flips to stop while
-    // the example is running (only one example ever plays at a time)
-    m_examplePlay = new QPushButton(m_exampleFrame);
-    m_examplePlay->setObjectName("tutPlay");
+    exampleControls->setSpacing(ScaleWidthForDPI(8));
+    // Jukebox transport (sits above the code): one prominent toggle button that
+    // plays, then flips to stop while the example runs (only one example ever
+    // plays at a time), a Load button, and a live scope that appears while it
+    // is playing so it's obvious the sound is coming from here.
+    m_examplePlay = new QPushButton(tr("Play"), m_exampleFrame);
+    m_examplePlay->setObjectName("exPlay");
     m_examplePlay->setToolTip(tr("Run this example"));
     m_examplePlay->setAccessibleName(tr("Run example"));
     m_exampleLoad = new QPushButton(tr("Load"), m_exampleFrame);
-    m_exampleLoad->setObjectName("tutCopy");
+    m_exampleLoad->setObjectName("exLoad");
     m_exampleLoad->setToolTip(tr("Load this example into the current buffer"));
     m_exampleLoad->setAccessibleName(tr("Load example into buffer"));
-    QSize exIconSize = ScaleForDPI(15, 15);
-    QSize exButtonSize = ScaleForDPI(28, 28);
-    m_examplePlay->setIconSize(exIconSize);
-    m_examplePlay->setFixedSize(exButtonSize);
-    m_examplePlay->setFlat(true);
-    m_examplePlay->setCursor(Qt::PointingHandCursor);
-    m_exampleLoad->setCursor(Qt::PointingHandCursor);
-    m_exampleLoad->setFixedHeight(exButtonSize.height());
+    int exButtonHeight = ScaleHeightForDPI(30);
+    int exScopeHeight = ScaleHeightForDPI(46);
+    m_examplePlay->setIconSize(ScaleForDPI(13, 13));
+    // Fixed-size buttons stay packed left (they don't stretch to fill)
+    for (QPushButton* b : { m_examplePlay, m_exampleLoad })
+    {
+        b->setMinimumHeight(exButtonHeight);
+        b->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        b->setCursor(Qt::PointingHandCursor);
+    }
+    // Scope fills the width right of the buttons; the stretch spacer carries a
+    // much smaller factor so it only takes over when the scope is hidden (and
+    // then keeps the Fixed buttons from spreading out). Taller than the buttons
+    // so the trace has room; they centre in the row.
+    m_exampleScope = new TutScope(m_exampleFrame);
+    m_exampleScope->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    m_exampleScope->setMinimumWidth(ScaleWidthForDPI(160));
+    m_exampleScope->setFixedHeight(exScopeHeight);
+    m_exampleScope->hide(); // shown only while an example is playing
     exampleControls->addWidget(m_examplePlay);
     exampleControls->addWidget(m_exampleLoad);
     exampleControls->addStretch(1);
+    exampleControls->addWidget(m_exampleScope, 20);
+    // Reserve the scope's height permanently (zero width) so the buttons don't
+    // shift when the taller scope appears/disappears
+    exampleControls->addSpacerItem(
+        new QSpacerItem(0, exScopeHeight, QSizePolicy::Fixed, QSizePolicy::Fixed));
     m_exampleFrameLayout->addLayout(exampleControls);
     examplePage->addWidget(m_exampleFrame, 1);
     m_examplePage->hide();
@@ -182,7 +360,7 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
         if (s.jobId >= 0)
             emit stopJobRequested(s.jobId);
         else
-            emit runRequested(s.code, s.workspace);
+            emit runRequested(s.code, s.workspace, false, true); // scope-tapped
     });
     connect(m_exampleLoad, &QPushButton::clicked, this, [this]() {
         if (m_snippets.isEmpty() || m_snippets[0].play != m_examplePlay)
@@ -191,6 +369,11 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     });
 
     applyTheme();
+}
+
+void TutorialPane::setAudioApi(std::shared_ptr<SonicPi::SonicPiAPI> api)
+{
+    m_spAPI = api;
 }
 
 void TutorialPane::ensureExampleEditor()
@@ -203,7 +386,8 @@ void TutorialPane::ensureExampleEditor()
     m_exampleEditor->setCaretWidth(0);
     m_exampleEditor->showAutoCompletion(false);
     m_exampleEditor->zoomTo(SonicPiScintilla::kDefaultZoom + m_userZoom);
-    m_exampleFrameLayout->insertWidget(0, m_exampleEditor, 1);
+    // Below the transport controls (which were added to the frame first)
+    m_exampleFrameLayout->addWidget(m_exampleEditor, 1);
 }
 
 void TutorialPane::loadChapter(const SonicPi::TutorialChapter& chapter, const QString& imagesRoot,
@@ -596,6 +780,10 @@ void TutorialPane::clearContent()
     // way out so at most one example is ever running
     if (!m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay && m_snippets[0].jobId >= 0)
         emit stopJobRequested(m_snippets[0].jobId);
+    // The stop above is async; hide the scope now so it doesn't linger on the
+    // next page (runEnded won't find the snippet once m_snippets is cleared)
+    if (m_exampleScope)
+        m_exampleScope->stop();
     m_snippets.clear();
     m_dials.clear();
     // Labels deregister themselves on destruction, but that happens via
@@ -875,9 +1063,17 @@ void TutorialPane::setSnippetPlaying(Snippet& snippet, bool playing)
     if (snippet.play == m_examplePlay)
     {
         // Jukebox toggle: the single transport button flips between play and stop
-        snippet.play->setIcon(playing ? m_stopIcon : m_playIcon);
+        snippet.play->setIcon(playing ? m_exStopIcon : m_exPlayIcon);
+        snippet.play->setText(playing ? tr("Stop") : tr("Play"));
         snippet.play->setToolTip(playing ? tr("Stop this example") : tr("Run this example"));
         snippet.play->setAccessibleName(playing ? tr("Stop example") : tr("Run example"));
+        if (m_exampleScope)
+        {
+            if (playing)
+                m_exampleScope->start(m_spAPI.get(), kJukeboxScopeSlot);
+            else
+                m_exampleScope->stop();
+        }
     }
     else if (snippet.stop)
     {
@@ -986,6 +1182,27 @@ void TutorialPane::applyTheme()
         .arg(pt(22), pt(15), pt(11), pt(11), pt(18));
     setStyleSheet(ScalePxInStyleSheet(qss));
 
+    // Jukebox transport buttons: a bold accent-filled Play/Stop and an outlined
+    // Load, both prominent so they're easy to spot (styled on the frame so both
+    // children pick it up; ScalePxInStyleSheet needs per-side padding).
+    QColor accentHover = SonicPiTheme::blend(accent, fg, 0.14);
+    QColor loadBorder = SonicPiTheme::blend(fg, editorBg, 0.45);
+    QString transportQss = QString(
+        "#exPlay { background:%1; color:%2; border:none; border-radius:5dx;"
+        " padding-top:4dx; padding-bottom:4dx; padding-left:14dx; padding-right:14dx;"
+        " font-size:%3; font-weight:bold; }"
+        "#exPlay:hover { background:%4; }"
+        "#exLoad { background:transparent; color:%5; border:1dx solid %6;"
+        " border-radius:5dx; padding-top:4dx; padding-bottom:4dx;"
+        " padding-left:12dx; padding-right:12dx; font-size:%3; }"
+        "#exLoad:hover { color:%7; border-color:%7; }")
+        .arg(accent.name(), m_theme->contrastingText(accent).name(), pt(12),
+             accentHover.name(), fg.name(), loadBorder.name(), accent.name());
+    if (m_examplePlay)
+        m_examplePlay->setStyleSheet(ScalePxInStyleSheet(transportQss));
+    if (m_exampleLoad)
+        m_exampleLoad->setStyleSheet(ScalePxInStyleSheet(transportQss));
+
     applyContentTheme();
 }
 
@@ -1050,17 +1267,43 @@ void TutorialPane::applyContentTheme()
 
     m_playIcon = glyph(true, accent);
     m_stopIcon = glyph(false, fg);
+    // The jukebox transport button is accent-filled, so its glyphs are drawn in
+    // the contrasting colour rather than the accent used on the flat snippets.
+    QColor exGlyph = m_theme->contrastingText(accent);
+    m_exPlayIcon = glyph(true, exGlyph);
+    m_exStopIcon = glyph(false, exGlyph);
     for (Snippet& snippet : m_snippets)
     {
         if (snippet.codeView)
             snippet.codeView->setHtml(
                 SonicPi::TutorialDocs::highlightCode(snippet.code, m_codeColours));
-        snippet.play->setIcon(m_playIcon);
-        snippet.stop->setIcon(m_stopIcon);
+        // The example snippet's play button is the jukebox transport, themed
+        // just below; its stop pointer is null (single toggle button).
+        if (snippet.play && snippet.play != m_examplePlay)
+            snippet.play->setIcon(m_playIcon);
+        if (snippet.stop)
+            snippet.stop->setIcon(m_stopIcon);
     }
     bool examplePlaying = !m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay
                           && m_snippets[0].jobId >= 0;
-    m_examplePlay->setIcon(examplePlaying ? m_stopIcon : m_playIcon);
+    m_examplePlay->setIcon(examplePlaying ? m_exStopIcon : m_exPlayIcon);
+    // Pin the transport button to the wider of its two states so it doesn't
+    // change size when the label toggles between Play and Stop. Recomputed here
+    // so it tracks the current font size (icons + stylesheet are already set).
+    m_examplePlay->ensurePolished();
+    QString exText = m_examplePlay->text();
+    int exW = 0;
+    for (const QString& s : { tr("Play"), tr("Stop") })
+    {
+        m_examplePlay->setText(s);
+        exW = qMax(exW, m_examplePlay->sizeHint().width());
+    }
+    m_examplePlay->setText(exText);
+    m_examplePlay->setFixedWidth(exW);
+    if (m_exampleScope)
+        m_exampleScope->setColours(accent, SonicPiTheme::blend(editorBg, fg, 0.22),
+                                   SonicPiTheme::blend(editorBg, fg, 0.05),
+                                   SonicPiTheme::blend(editorBg, fg, 0.22));
     if (m_exampleEditor)
         m_exampleEditor->redraw();
 

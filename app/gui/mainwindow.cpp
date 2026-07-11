@@ -829,6 +829,7 @@ void MainWindow::setupWindowStructure()
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
 
     tutorialPane = new TutorialPane(lexer, theme);
+    tutorialPane->setAudioApi(m_spAPI);
     tutorialPane->setUserZoom(gui_settings->value("prefs/docs-zoom", 0).toInt());
 
     // Stack rather than a third splitter pane: QSplitter restores persisted
@@ -863,10 +864,16 @@ void MainWindow::setupWindowStructure()
         tutorialJsonPaths << tutorialDir.filePath(fname);
 
     connect(tutorialPane, &TutorialPane::runRequested, this,
-            [this](const QString& code, const QString& workspace, bool silent) {
+            [this](const QString& code, const QString& workspace, bool silent, bool scopeTap) {
                 if (!piSettings->reduce_motion)
                     scopeWindow->Resume();
-                m_spAPI->RunCode(prefWrappedCode(code).toStdString(), workspace.toStdString(), silent);
+                // Jukebox runs are wrapped in an fx_scope_out tap (scope_num 1,
+                // matching kJukeboxScopeSlot) so the Examples scope shows only
+                // this run's audio while the main scope keeps showing the mix.
+                QString toRun = scopeTap
+                    ? QString("with_fx :scope_out, scope_num: 1 do\n%1\nend").arg(code)
+                    : code;
+                m_spAPI->RunCode(prefWrappedCode(toRun).toStdString(), workspace.toStdString(), silent);
             });
     connect(tutorialPane, &TutorialPane::stopJobRequested, this,
             [this](int jobId) { m_spAPI->StopJob(jobId); });
