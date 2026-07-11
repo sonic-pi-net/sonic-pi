@@ -85,6 +85,12 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${API_ROOT}/include
 
+        # The shm segment layout + reader come straight from supersonic (the
+        # api/audio shm headers are thin shims over these) — one source of
+        # truth, no hand-synced mirror to drift.
+        ${API_ROOT}/../external/supersonic
+        ${API_ROOT}/../external/supersonic/src
+
         ${VENDOR_DIR}/${GHC_FILESYSTEM_VERSION}/include
         ${VENDOR_DIR}/${KISSNET_VERSION}
         ${VENDOR_DIR}/${REPROC_VERSION}/reproc++/include

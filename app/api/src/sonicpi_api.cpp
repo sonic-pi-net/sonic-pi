@@ -358,7 +358,7 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
       while(m_keep_alive.load())
       {
         LOG(DBG, "SND keep_alive");
-        Message msg("/daemon/keep-alive");
+        oscpkt::Message msg("/daemon/keep-alive");
         msg.pushInt32(m_token);
         m_spOscDaemonSender->sendOSC(msg);
         LOG(DBG, "SND keep_alive sent");
@@ -380,14 +380,14 @@ SonicPiAPI::~SonicPiAPI()
 bool SonicPiAPI::LinkEnable()
 {
     // visibility 2 = NetworkWide (peer discovery + Link Audio).
-    Message msg("/clock/visibility");
+    oscpkt::Message msg("/clock/visibility");
     msg.pushInt32(2);
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkBPM(double bpm)
 {
-    Message msg("/clock/tempo/set");
+    oscpkt::Message msg("/clock/tempo/set");
     msg.pushFloat((float) bpm);
     return SupersonicSendOSC(msg);
 }
@@ -395,28 +395,28 @@ bool SonicPiAPI::SetLinkBPM(double bpm)
 bool SonicPiAPI::LinkDisable()
 {
     // visibility 0 = Off.
-    Message msg("/clock/visibility");
+    oscpkt::Message msg("/clock/visibility");
     msg.pushInt32(0);
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkVisibility(LinkVisibility mode)
 {
-    Message msg("/clock/visibility");
+    oscpkt::Message msg("/clock/visibility");
     msg.pushInt32(static_cast<int32_t>(mode));
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkAudioPublish(bool enabled)
 {
-    Message msg("/clock/audio/publish/set");
+    oscpkt::Message msg("/clock/audio/publish/set");
     msg.pushInt32(enabled ? 1 : 0);
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkPeerName(const std::string& name)
 {
-    Message msg("/clock/peer_name/set");
+    oscpkt::Message msg("/clock/peer_name/set");
     msg.pushStr(name);
     return SupersonicSendOSC(msg);
 }
@@ -474,7 +474,7 @@ void SonicPiAPI::Shutdown()
     if (m_state != State::Initializing)
     {
         LOG(INFO, "Sending /daemon/exit to daemon's kill switch with token " << std::to_string(m_token)) ;
-        Message msg("/daemon/exit");
+        oscpkt::Message msg("/daemon/exit");
         msg.pushInt32(m_token);
         m_spOscDaemonSender->sendOSC(msg);
 
@@ -521,14 +521,14 @@ bool SonicPiAPI::StartOscServer()
 
 void SonicPiAPI::SetGlobalTimeWarp(double time)
 {
-    Message msg("/set-global-timewarp");
+    oscpkt::Message msg("/set-global-timewarp");
     msg.pushInt32(m_token);
     msg.pushFloat((float) time);
     SendOSC(msg);
     return;
 }
 
-bool SonicPiAPI::SendOSC(Message m)
+bool SonicPiAPI::SendOSC(oscpkt::Message m)
 {
 
     if (WaitUntilReady())
@@ -545,7 +545,7 @@ bool SonicPiAPI::SendOSC(Message m)
     return false;
 }
 
-bool SonicPiAPI::SendDaemonOSC(Message m)
+bool SonicPiAPI::SendDaemonOSC(oscpkt::Message m)
 {
     if (m_spOscDaemonSender)
     {
@@ -565,7 +565,7 @@ int SonicPiAPI::GetToken() const
     return m_token;
 }
 
-bool SonicPiAPI::SupersonicSendOSC(Message m)
+bool SonicPiAPI::SupersonicSendOSC(oscpkt::Message m)
 {
     if (m_spOscSupersonicSender)
     {
@@ -584,7 +584,7 @@ void SonicPiAPI::RequestAudioDevices()
 {
     // /supersonic/devices/report registers the GUI port as a notify
     // target AND triggers an immediate device report.
-    Message msg("/supersonic/devices/report");
+    oscpkt::Message msg("/supersonic/devices/report");
     msg.pushInt32(m_ports[SonicPiPortId::gui_listen_to_spider]);
     SupersonicSendOSC(msg);
 }
@@ -644,7 +644,7 @@ bool SonicPiAPI::PingUntilServerCreated()
     {
         if (m_spOscSpiderServer->isIncomingPortOpen())
         {
-            Message msg("/ping");
+            oscpkt::Message msg("/ping");
             msg.pushInt32(m_token);
             msg.pushStr("QtClient/1/hello");
 
@@ -894,7 +894,7 @@ bool SonicPiAPI::TestAudio()
 {
     // Just play a chord
     auto fileName = "d:/pi.rb";
-    Message msg("/save-and-run-buffer");
+    oscpkt::Message msg("/save-and-run-buffer");
     msg.pushInt32(m_token);
     msg.pushStr(fileName);
     msg.pushStr("play_chord [:c4, :e4, :g4]");
@@ -1087,7 +1087,7 @@ const int SonicPiAPI::GetGuid() const
 
 void SonicPiAPI::BufferNewLineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName)
 {
-    Message msg("/buffer-newline-and-indent");
+    oscpkt::Message msg("/buffer-newline-and-indent");
     msg.pushInt32(m_token);
     msg.pushStr(fileName);
     msg.pushStr(code);
@@ -1099,7 +1099,7 @@ void SonicPiAPI::BufferNewLineAndIndent(int point_line, int point_index, int fir
 
 void SonicPiAPI::Run(const std::string& buffer, const std::string& text)
 {
-    Message msg("/save-and-run-buffer");
+    oscpkt::Message msg("/save-and-run-buffer");
     msg.pushInt32(m_token);
     msg.pushStr(buffer);
     msg.pushStr(text);
@@ -1109,7 +1109,7 @@ void SonicPiAPI::Run(const std::string& buffer, const std::string& text)
 
 void SonicPiAPI::RunCode(const std::string& code, const std::string& workspace, bool silent)
 {
-    Message msg("/run-code");
+    oscpkt::Message msg("/run-code");
     msg.pushInt32(m_token);
     msg.pushStr(code);
     msg.pushStr(workspace);
@@ -1119,14 +1119,14 @@ void SonicPiAPI::RunCode(const std::string& code, const std::string& workspace, 
 
 void SonicPiAPI::Stop()
 {
-    Message msg("/stop-all-jobs");
+    oscpkt::Message msg("/stop-all-jobs");
     msg.pushInt32(m_token);
     SendOSC(msg);
 }
 
 void SonicPiAPI::StopJob(int jobId)
 {
-    Message msg("/stop-job");
+    oscpkt::Message msg("/stop-job");
     msg.pushInt32(m_token);
     msg.pushInt32(jobId);
     SendOSC(msg);
@@ -1141,7 +1141,7 @@ void SonicPiAPI::LoadWorkspaces()
 {
     for (uint32_t i = 0; i < MaxWorkspaces(); i++)
     {
-        Message msg("/load-buffer");
+        oscpkt::Message msg("/load-buffer");
         msg.pushInt32(m_token);
         std::string s = "workspace_" + string_number_name(i);
         msg.pushStr(s);
@@ -1158,7 +1158,7 @@ void SonicPiAPI::SaveWorkspaces(const std::map<uint32_t, std::string>& workspace
         auto itrSpace = workspaces.find(i);
         if (itrSpace != workspaces.end())
         {
-            Message msg("/save-buffer");
+            oscpkt::Message msg("/save-buffer");
             msg.pushInt32(m_token);
             std::string s = "workspace_" + string_number_name(i);
             msg.pushStr(s);
@@ -1174,7 +1174,7 @@ bool SonicPiAPI::SaveAndRunBuffer(const std::string& name, const std::string& te
     std::string code = text;
     m_settings.Preprocess(code);
 
-    Message msg("/save-and-run-buffer");
+    oscpkt::Message msg("/save-and-run-buffer");
     msg.pushInt32(m_token);
     msg.pushStr(name);
     msg.pushStr(code);

@@ -265,7 +265,7 @@ shm_scope_buffer_reader AudioProcessor::GetScopeReader(unsigned int index)
 const std::atomic<uint32_t>* AudioProcessor::GetMetrics()
 {
     if (!m_shmClient) return nullptr;
-    return m_shmClient->get_metrics();
+    return m_shmClient->get_metrics_flat();
 }
 
 ring_view AudioProcessor::GetInRing()
@@ -283,7 +283,7 @@ ring_view AudioProcessor::GetOutRing()
 ring_view AudioProcessor::GetDebugRing()
 {
     if (!m_shmClient) return ring_view{};
-    return m_shmClient->get_debug_ring();
+    return m_shmClient->get_nrt_out_ring();
 }
 
 node_tree_view AudioProcessor::GetNodeTree()

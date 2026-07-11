@@ -1036,7 +1036,7 @@ void MainWindow::handleCustomUrl(const QUrl& url)
                        "use_real_time\n"
                        "sample :"
             + sample;
-        Message msg("/run-code");
+        oscpkt::Message msg("/run-code");
         msg.pushInt32(guiID);
         msg.pushStr(code.toStdString());
         if (sendOSC(msg))
@@ -1365,7 +1365,7 @@ static constexpr int32_t kRecordAudioOutNodeId = 999100;
 void MainWindow::spawnRecordAudioOutSynth()
 {
     if (!m_spAPI) return;
-    Message snew("/s_new");
+    oscpkt::Message snew("/s_new");
     snew.pushStr("supersonic-audio-out");
     snew.pushInt32(kRecordAudioOutNodeId);
     snew.pushInt32(1);  // addAction = TAIL
@@ -1377,7 +1377,7 @@ void MainWindow::spawnRecordAudioOutSynth()
 void MainWindow::freeRecordAudioOutSynth()
 {
     if (!m_spAPI) return;
-    Message nfree("/n_free");
+    oscpkt::Message nfree("/n_free");
     nfree.pushInt32(kRecordAudioOutNodeId);
     m_spAPI->SupersonicSendOSC(nfree);
 }
@@ -1602,7 +1602,7 @@ void MainWindow::completeSnippetOrIndentCurrentLineOrSelection(SonicPiScintilla*
 
     std::string code = ws->text().toStdString();
 
-    Message msg("/buffer-section-complete-snippet-or-indent-selection");
+    oscpkt::Message msg("/buffer-section-complete-snippet-or-indent-selection");
     msg.pushInt32(guiID);
     std::string filename = ws->fileName.toStdString();
     msg.pushStr(filename);
@@ -1867,7 +1867,7 @@ void MainWindow::toggleComment(SonicPiScintilla* ws)
 
     std::string code = ws->text().toStdString();
 
-    Message msg("/buffer-section-toggle-comment");
+    oscpkt::Message msg("/buffer-section-toggle-comment");
     msg.pushInt32(guiID);
     std::string filename = ws->fileName.toStdString();
     msg.pushStr(filename);
@@ -2006,7 +2006,7 @@ void MainWindow::changeEnableScsynthInputs()
     // Send live input channel change to SuperSonic (triggers cold swap)
     // -1 = enable (SuperSonic resolves to boot value or default), 0 = disable.
     int inputChannels = piSettings->enable_scsynth_inputs ? -1 : 0;
-    Message msg("/supersonic/inputs/enable");
+    oscpkt::Message msg("/supersonic/inputs/enable");
     msg.pushInt32(inputChannels);
     m_spAPI->SupersonicSendOSC(msg);
 
@@ -2270,7 +2270,7 @@ void MainWindow::loadWorkspaces()
 
     for (int i = 0; i < workspace_max; i++)
     {
-        Message msg("/load-buffer");
+        oscpkt::Message msg("/load-buffer");
         msg.pushInt32(guiID);
         std::string s = "workspace_" + number_name(i);
         msg.pushStr(s);
@@ -2285,7 +2285,7 @@ void MainWindow::saveWorkspaces()
     for (int i = 0; i < workspace_max; i++)
     {
         std::string code = workspaces[i]->text().toStdString();
-        Message msg("/save-buffer");
+        oscpkt::Message msg("/save-buffer");
         msg.pushInt32(guiID);
         std::string s = "workspace_" + number_name(i);
         msg.pushStr(s);
@@ -2471,7 +2471,7 @@ void MainWindow::runCode()
     resetErrorPane();
 
     // std::string code = ws->text().toStdString();
-    Message msg("/save-and-run-buffer");
+    oscpkt::Message msg("/save-and-run-buffer");
     msg.pushInt32(guiID);
 
     std::string filename = getCurrentWorkspace()->fileName.toStdString();
@@ -2649,7 +2649,7 @@ void MainWindow::openExample(const QString& path, const QString& title, int help
 #else
         in.setCodec("UTF-8");
 #endif
-        Message msg("/run-code");
+        oscpkt::Message msg("/run-code");
         msg.pushInt32(guiID);
         msg.pushStr(prefWrappedCode(in.readAll()).toStdString());
         sendOSC(msg);
@@ -2692,7 +2692,7 @@ void MainWindow::beautifyCode()
     int index = 0;
     ws->getCursorPosition(&line, &index);
     int first_line = ws->firstVisibleLine();
-    Message msg("/buffer-beautify");
+    oscpkt::Message msg("/buffer-beautify");
     msg.pushInt32(guiID);
     std::string filename = getCurrentWorkspace()->fileName.toStdString();
     msg.pushStr(filename);
@@ -2703,7 +2703,7 @@ void MainWindow::beautifyCode()
     sendOSC(msg);
 }
 
-bool MainWindow::sendOSC(Message m)
+bool MainWindow::sendOSC(oscpkt::Message m)
 {
     return m_spAPI->SendOSC(m);
 }
@@ -2711,7 +2711,7 @@ bool MainWindow::sendOSC(Message m)
 void MainWindow::reloadServerCode()
 {
     statusBar()->showMessage(tr("Reloading..."), 2000);
-    Message msg("/reload");
+    oscpkt::Message msg("/reload");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
@@ -2719,7 +2719,7 @@ void MainWindow::reloadServerCode()
 void MainWindow::check_for_updates_now()
 {
     showStatusAndAnnounce(tr("Checking for updates..."), 2000);
-    Message msg("/check-for-updates-now");
+    oscpkt::Message msg("/check-for-updates-now");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
@@ -2727,7 +2727,7 @@ void MainWindow::check_for_updates_now()
 void MainWindow::enableCheckUpdates()
 {
     showStatusAndAnnounce(tr("Enabling update checking..."), 2000);
-    Message msg("/enable-update-checking");
+    oscpkt::Message msg("/enable-update-checking");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
@@ -2735,7 +2735,7 @@ void MainWindow::enableCheckUpdates()
 void MainWindow::disableCheckUpdates()
 {
     showStatusAndAnnounce(tr("Disabling update checking..."), 2000);
-    Message msg("/disable-update-checking");
+    oscpkt::Message msg("/disable-update-checking");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
@@ -2743,7 +2743,7 @@ void MainWindow::disableCheckUpdates()
 void MainWindow::mixerHpfEnable(float freq)
 {
     showStatusAndAnnounce(tr("Enabling Mixer HPF..."), 2000);
-    Message msg("/mixer-hpf-enable");
+    oscpkt::Message msg("/mixer-hpf-enable");
     msg.pushInt32(guiID);
     msg.pushFloat(freq);
     sendOSC(msg);
@@ -2752,7 +2752,7 @@ void MainWindow::mixerHpfEnable(float freq)
 void MainWindow::mixerHpfDisable()
 {
     showStatusAndAnnounce(tr("Disabling Mixer HPF..."), 2000);
-    Message msg("/mixer-hpf-disable");
+    oscpkt::Message msg("/mixer-hpf-disable");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
@@ -2760,7 +2760,7 @@ void MainWindow::mixerHpfDisable()
 void MainWindow::mixerLpfEnable(float freq)
 {
     showStatusAndAnnounce(tr("Enabling Mixer LPF..."), 2000);
-    Message msg("/mixer-lpf-enable");
+    oscpkt::Message msg("/mixer-lpf-enable");
     msg.pushInt32(guiID);
     msg.pushFloat(freq);
     sendOSC(msg);
@@ -2769,7 +2769,7 @@ void MainWindow::mixerLpfEnable(float freq)
 void MainWindow::mixerLpfDisable()
 {
     showStatusAndAnnounce(tr("Disabling Mixer LPF..."), 2000);
-    Message msg("/mixer-lpf-disable");
+    oscpkt::Message msg("/mixer-lpf-disable");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
@@ -2779,28 +2779,28 @@ void MainWindow::mixerLpfDisable()
 // which knows which axis actually changed.
 void MainWindow::mixerInvertStereo()
 {
-    Message msg("/mixer-invert-stereo");
+    oscpkt::Message msg("/mixer-invert-stereo");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
 void MainWindow::mixerStandardStereo()
 {
-    Message msg("/mixer-standard-stereo");
+    oscpkt::Message msg("/mixer-standard-stereo");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
 void MainWindow::mixerMonoMode()
 {
-    Message msg("/mixer-mono-mode");
+    oscpkt::Message msg("/mixer-mono-mode");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
 
 void MainWindow::mixerStereoMode()
 {
-    Message msg("/mixer-stereo-mode");
+    oscpkt::Message msg("/mixer-stereo-mode");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
@@ -2949,7 +2949,7 @@ void MainWindow::changeSystemPreAmp(int val, int silent)
     std::cout << "[GUI] - Change Volume to " << val << std::endl;
     float v = (float)val;
     v = (v / 100.0) * 2.0;
-    Message msg("/mixer-amp");
+    oscpkt::Message msg("/mixer-amp");
     msg.pushInt32(guiID);
     msg.pushFloat(v);
     msg.pushInt32(silent);
@@ -3702,7 +3702,7 @@ void MainWindow::wheelEvent(QWheelEvent* event)
 
 void MainWindow::stopRunningSynths()
 {
-    Message msg("/stop-all-jobs");
+    oscpkt::Message msg("/stop-all-jobs");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
@@ -4456,8 +4456,8 @@ void MainWindow::createToolBar()
                 this, &MainWindow::showRecordingModeMenu);
     }
 #endif
-    toolBar->addAction(saveAsAct);
     toolBar->addAction(loadFileAct);
+    toolBar->addAction(saveAsAct);
 
     toolBar->addWidget(spacer);
 
@@ -5394,7 +5394,7 @@ void MainWindow::toggleRecording()
             return;
         }
 #endif
-        Message msg("/start-recording");
+        oscpkt::Message msg("/start-recording");
         msg.pushInt32(guiID);
         sendOSC(msg);
     }
@@ -5409,7 +5409,7 @@ void MainWindow::toggleRecording()
             return;
         }
 #endif
-        Message msg("/stop-recording");
+        oscpkt::Message msg("/stop-recording");
         msg.pushInt32(guiID);
         sendOSC(msg);
         QString lastAudioDir = gui_settings->value("lastAudioDir", QDir::homePath() + "/Desktop").toString();
@@ -5417,14 +5417,14 @@ void MainWindow::toggleRecording()
         if (!fileName.isEmpty())
         {
             gui_settings->setValue("lastAudioDir", QDir(fileName).absolutePath());
-            Message msg("/save-recording");
+            oscpkt::Message msg("/save-recording");
             msg.pushInt32(guiID);
             msg.pushStr(fileName.toStdString());
             sendOSC(msg);
         }
         else
         {
-            Message msg("/delete-recording");
+            oscpkt::Message msg("/delete-recording");
             msg.pushInt32(guiID);
             sendOSC(msg);
         }
@@ -6246,7 +6246,7 @@ void MainWindow::printAsciiArtLogo()
 
 void MainWindow::requestVersion()
 {
-    Message msg("/version");
+    oscpkt::Message msg("/version");
     msg.pushInt32(guiID);
     sendOSC(msg);
 }
@@ -6307,7 +6307,7 @@ void MainWindow::toggleMidi(int silent)
     if (piSettings->midi_enabled)
     {
         showStatusAndAnnounce(tr("Enabling MIDI <input>..."), 2000);
-        Message msg("/midi-start");
+        oscpkt::Message msg("/midi-start");
         msg.pushInt32(guiID);
         msg.pushInt32(silent);
         sendOSC(msg);
@@ -6315,7 +6315,7 @@ void MainWindow::toggleMidi(int silent)
     else
     {
         showStatusAndAnnounce(tr("Disabling MIDI input..."), 2000);
-        Message msg("/midi-stop");
+        oscpkt::Message msg("/midi-stop");
         msg.pushInt32(guiID);
         msg.pushInt32(silent);
         sendOSC(msg);
@@ -6330,7 +6330,7 @@ void MainWindow::toggleGamepad(int silent)
     if (piSettings->gamepad_enabled)
     {
         showStatusAndAnnounce(tr("Enabling gamepad input..."), 2000);
-        Message msg("/gamepad-start");
+        oscpkt::Message msg("/gamepad-start");
         msg.pushInt32(guiID);
         msg.pushInt32(silent);
         sendOSC(msg);
@@ -6338,7 +6338,7 @@ void MainWindow::toggleGamepad(int silent)
     else
     {
         showStatusAndAnnounce(tr("Disabling gamepad input..."), 2000);
-        Message msg("/gamepad-stop");
+        oscpkt::Message msg("/gamepad-stop");
         msg.pushInt32(guiID);
         msg.pushInt32(silent);
         sendOSC(msg);
@@ -6350,7 +6350,7 @@ void MainWindow::toggleGamepad(int silent)
 // device-list broadcasts report.
 void MainWindow::setMidiPortEnabled(QString direction, QString name, bool enabled)
 {
-    Message msg("/midi-port-enable");
+    oscpkt::Message msg("/midi-port-enable");
     msg.pushInt32(guiID);
     msg.pushStr(direction.toStdString());
     msg.pushStr(name.toStdString());
@@ -6360,7 +6360,7 @@ void MainWindow::setMidiPortEnabled(QString direction, QString name, bool enable
 
 void MainWindow::setGamepadDeviceEnabled(QString name, bool enabled)
 {
-    Message msg("/gamepad-enable");
+    oscpkt::Message msg("/gamepad-enable");
     msg.pushInt32(guiID);
     msg.pushStr(name.toStdString());
     msg.pushInt32(enabled ? 1 : 0);
@@ -6375,7 +6375,7 @@ void MainWindow::toggleOSCServer(int silent)
     {
         enableOSCServerAct->setChecked(true);
         std::cout << "[GUI] - asking OSC server to start" << std::endl;
-        Message msg("/cue-port-start");
+        oscpkt::Message msg("/cue-port-start");
         msg.pushInt32(guiID);
         sendOSC(msg);
     }
@@ -6385,7 +6385,7 @@ void MainWindow::toggleOSCServer(int silent)
         enableOSCServerAct->setChecked(false);
         showStatusAndAnnounce(tr("Disabling OSC cue port..."), 2000);
         std::cout << "[GUI] - asking OSC server to stop" << std::endl;
-        Message msg("/cue-port-stop");
+        oscpkt::Message msg("/cue-port-stop");
         msg.pushInt32(guiID);
         sendOSC(msg);
     }
@@ -6401,7 +6401,7 @@ void MainWindow::toggleOSCServer(int silent)
         }
 
         std::cout << "[GUI] - cue port in external mode" << std::endl;
-        Message msg("/cue-port-external");
+        oscpkt::Message msg("/cue-port-external");
         msg.pushInt32(guiID);
         sendOSC(msg);
     }
@@ -6414,7 +6414,7 @@ void MainWindow::toggleOSCServer(int silent)
             showStatusAndAnnounce(tr("Enabling internal OSC cue port..."), 2000);
         }
         std::cout << "[GUI] - cue port in internal mode" << std::endl;
-        Message msg("/cue-port-internal");
+        oscpkt::Message msg("/cue-port-internal");
         msg.pushInt32(guiID);
         sendOSC(msg);
     }
@@ -6987,7 +6987,7 @@ void MainWindow::sendDeviceSwitch(QString device, int sampleRate, int bufferSize
               << device.toUtf8().constData()
               << "' sr=" << sampleRate << " buf=" << bufferSize
               << " input='" << inputDevice.toUtf8().constData() << "'" << std::endl;
-    Message msg("/daemon/audio/switch-device");
+    oscpkt::Message msg("/daemon/audio/switch-device");
     msg.pushInt32(m_spAPI->GetToken());
     msg.pushStr(device.toStdString());
     msg.pushFloat(static_cast<float>(sampleRate));
@@ -7001,7 +7001,7 @@ void MainWindow::switchAudioDriver(QString driver)
 {
     piSettings->audio_driver = driver;
     gui_settings->setValue("prefs/audio-driver", driver);
-    Message msg("/daemon/audio/switch-driver");
+    oscpkt::Message msg("/daemon/audio/switch-driver");
     msg.pushInt32(m_spAPI->GetToken());
     msg.pushStr(driver.toStdString());
     m_spAPI->SendDaemonOSC(msg);
@@ -7020,7 +7020,7 @@ void MainWindow::switchAudioInputDevice(QString device)
     if (device == "__disabled__" || device == tr("-- DISABLED --")) {
         m_pendingAudioPrefs.input = "__disabled__";
         // Disable audio inputs
-        Message msg("/daemon/audio/switch-device");
+        oscpkt::Message msg("/daemon/audio/switch-device");
         msg.pushInt32(m_spAPI->GetToken());
         msg.pushStr("");           // keep current output device
         msg.pushFloat(0);          // keep current sample rate
@@ -7035,7 +7035,7 @@ void MainWindow::switchAudioInputDevice(QString device)
     // a device later. Same command as disable, different GUI state.
     if (device == tr("-- None --")) {
         m_pendingAudioPrefs.input = "__none__";
-        Message msg("/daemon/audio/switch-device");
+        oscpkt::Message msg("/daemon/audio/switch-device");
         msg.pushInt32(m_spAPI->GetToken());
         msg.pushStr("");           // keep current output device
         msg.pushFloat(0);          // keep current sample rate
@@ -7046,7 +7046,7 @@ void MainWindow::switchAudioInputDevice(QString device)
     }
 
     m_pendingAudioPrefs.input = device;
-    Message msg("/daemon/audio/switch-device");
+    oscpkt::Message msg("/daemon/audio/switch-device");
     msg.pushInt32(m_spAPI->GetToken());
     msg.pushStr("");           // keep current output device
     msg.pushFloat(0);          // keep current sample rate

@@ -53,6 +53,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${GUI_ROOT}/widgets
     ${GUI_ROOT}/QScintilla_src-2.14.1/src   # <Qsci/...> headers (declarations only)
     ${SP_APP_ROOT}/api/include              # api/audio/shm_audio_buffer.hpp via platform/macos.h
+    ${SP_APP_ROOT}/external/supersonic      # the api/audio shm headers shim to supersonic's
+    ${SP_APP_ROOT}/external/supersonic/src
     ${CMAKE_BINARY_DIR}
 )
 
