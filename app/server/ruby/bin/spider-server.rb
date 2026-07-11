@@ -829,6 +829,12 @@ register_api = lambda do |server|
           STDOUT.puts "Spider - setup settled, reinitialising..."
           STDOUT.flush
           begin
+            # The swap rebuilt the World, so every running job's synth/fx
+            # graph is gone; their threads would keep scheduling into dead
+            # busses (silent loops, orphaned scope taps). Stop them like an
+            # explicit Stop press — teardown also releases loop scope slots
+            # and clears the GUI's per-loop scope widgets.
+            sp.__stop_jobs
             sp.__cold_swap_reinit!
           rescue Exception => e
             STDOUT.puts "Spider - cold swap reinit error: #{e.message}"
