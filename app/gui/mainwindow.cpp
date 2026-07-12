@@ -2826,12 +2826,12 @@ void MainWindow::createExamplesMenu()
         QString dir;
         QString title;
     } categories[] = {
-        { "apprentice", tr("Apprentice - first sounds") },
-        { "illusionist", tr("Illusionist - textures & ambient") },
-        { "magician", tr("Magician - beats & grooves") },
-        { "sorcerer", tr("Sorcerer - melodies & remixes") },
-        { "wizard", tr("Wizard - bigger machines") },
-        { "algomancer", tr("Algomancer - generative worlds") },
+        { "apprentice", tr("Apprentice") },
+        { "illusionist", tr("Illusionist") },
+        { "magician", tr("Magician") },
+        { "sorcerer", tr("Sorcerer") },
+        { "wizard", tr("Wizard") },
+        { "algomancer", tr("Algomancer") },
     };
 
     // Same glob + sort as qt-doc.rb, so the running row index lines up with
