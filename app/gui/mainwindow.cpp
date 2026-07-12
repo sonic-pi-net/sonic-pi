@@ -72,8 +72,11 @@
 
 #include "model/sonicpitheme.h"
 #include "widgets/sonicpitooltip.h"
+#include <QFileOpenEvent>
+
 #include "utils/reducedmotion.h"
 #include "utils/scintilla_api.h"
+#include "utils/setbundle.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
 #include "widgets/sonicpierrorcard.h"
@@ -252,6 +255,17 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 
     mirrorToolTipsToAccessibleDescriptions();
+
+    // Win/Linux file associations pass the path via argv; macOS double-clicks
+    // arrive as QFileOpenEvent in eventFilter.
+    for (const QString& arg : app.arguments().mid(1))
+    {
+        if (arg.endsWith(".sonicpi", Qt::CaseInsensitive) && QFileInfo(arg).isFile())
+        {
+            openSetPath(QFileInfo(arg).absoluteFilePath());
+            break;
+        }
+    }
 
     // Defer the blocking server wait to the live event loop.
     QTimer::singleShot(0, this, &MainWindow::completeBoot);
@@ -2195,6 +2209,38 @@ void MainWindow::replaceBuffer(QString id, QString content, int line, int index,
 {
     SonicPiScintilla* ws = filenameToWorkspace(id.toStdString());
     ws->replaceBuffer(content, line, index, first_line);
+
+    // Exit-time saveWorkspaces() and a launch-time set open must both wait
+    // until all ten boot loads have landed.
+    if (!loaded_workspaces && id.startsWith("workspace_"))
+    {
+        initialWorkspaceLoads.insert(id);
+        if (initialWorkspaceLoads.size() >= workspace_max)
+        {
+            loaded_workspaces = true;
+            initialWorkspaceLoads.clear();
+            if (!pendingSetPath.isEmpty())
+            {
+                const QString path = pendingSetPath;
+                pendingSetPath.clear();
+                QTimer::singleShot(0, this, [this, path]() { loadSetFromFile(path); });
+            }
+        }
+    }
+}
+
+void MainWindow::openSetPath(const QString& path)
+{
+    if (!path.endsWith(".sonicpi", Qt::CaseInsensitive))
+    {
+        return;
+    }
+    if (!loaded_workspaces)
+    {
+        pendingSetPath = path;
+        return;
+    }
+    loadSetFromFile(path);
 }
 
 void MainWindow::replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line)
@@ -2342,6 +2388,250 @@ bool MainWindow::saveAs()
     {
         return false;
     }
+}
+
+bool MainWindow::confirmAction(const QString& text, const QString& informativeText, const QString& confirmLabel)
+{
+    // QMessageBox renders half-native under the app QSS on macOS.
+    QDialog dlg(this);
+    dlg.setWindowTitle(tr("Sonic Pi"));
+    dlg.setModal(true);
+
+    QLabel* headline = new QLabel(text);
+    headline->setObjectName("confirmHeadline");
+    headline->setWordWrap(true);
+    headline->setAccessibleName(text);
+
+    QLabel* body = new QLabel(informativeText);
+    body->setObjectName("confirmBody");
+    body->setWordWrap(true);
+
+    QPushButton* cancelBtn = new QPushButton(tr("Cancel"));
+    cancelBtn->setObjectName("confirmCancel");
+    QPushButton* confirmBtn = new QPushButton(confirmLabel);
+    confirmBtn->setObjectName("confirmPrimary");
+    confirmBtn->setAccessibleDescription(informativeText);
+
+    QHBoxLayout* buttons = new QHBoxLayout();
+    buttons->addStretch(1);
+    buttons->addWidget(cancelBtn);
+    buttons->addWidget(confirmBtn);
+    buttons->setSpacing(12);
+
+    QVBoxLayout* layout = new QVBoxLayout(&dlg);
+    layout->setContentsMargins(28, 24, 28, 20);
+    layout->setSpacing(10);
+    layout->addWidget(headline);
+    layout->addWidget(body);
+    layout->addSpacing(14);
+    layout->addLayout(buttons);
+
+    const QColor bg = theme->color("WindowBackground");
+    const QColor fg = theme->color("WindowForeground");
+    const QColor accent = theme->color("HighlightedBackground");
+    const QColor accentText = theme->contrastingText(accent);
+    QColor bodyFg = fg;
+    bodyFg.setAlphaF(0.75);
+
+    dlg.setStyleSheet(QString(
+        "QDialog { background: %1; }"
+        "QLabel { background: transparent; color: %2; }"
+        "QLabel#confirmHeadline { font-weight: bold; }"
+        "QLabel#confirmBody { color: rgba(%3,%4,%5,%6); }"
+        "QPushButton { padding: 6px 20px; border-radius: 6px; border: none; }"
+        "QPushButton#confirmCancel { background: rgba(127,127,127,60); color: %2; }"
+        "QPushButton#confirmCancel:hover { background: rgba(127,127,127,110); }"
+        "QPushButton#confirmPrimary { background: %7; color: %8; }"
+        "QPushButton#confirmPrimary:hover { background: %9; }")
+        .arg(bg.name())
+        .arg(fg.name())
+        .arg(fg.red()).arg(fg.green()).arg(fg.blue()).arg(bodyFg.alphaF())
+        .arg(accent.name())
+        .arg(accentText.name())
+        .arg(accent.lighter(115).name()));
+
+    dlg.setMinimumWidth(420);
+    cancelBtn->setDefault(true);
+    cancelBtn->setFocus();
+    connect(cancelBtn, &QPushButton::clicked, &dlg, &QDialog::reject);
+    connect(confirmBtn, &QPushButton::clicked, &dlg, &QDialog::accept);
+
+    return dlg.exec() == QDialog::Accepted;
+}
+
+bool MainWindow::loadSet()
+{
+    QString lastSetDir = gui_settings->value("lastSetDir", QDir::homePath() + "/Desktop").toString();
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Set"), lastSetDir,
+        QString("%1 (*.sonicpi)").arg(tr("Sonic Pi Sets")));
+    if (fileName.isEmpty())
+    {
+        return false;
+    }
+    loadSetFromFile(fileName);
+    return true;
+}
+
+void MainWindow::loadSetFromFile(const QString& path)
+{
+    const SonicPi::SetBundle::Load set = SonicPi::SetBundle::read(path);
+    if (!set.ok)
+    {
+        QMessageBox::warning(this, tr("Sonic Pi"),
+            tr("Cannot load set:\n%1.").arg(set.error));
+        updateColourTheme();
+        return;
+    }
+
+    bool anyContent = false;
+    for (int i = 0; i < workspace_max; i++)
+    {
+        if (!workspaces[i]->text().trimmed().isEmpty())
+        {
+            anyContent = true;
+            break;
+        }
+    }
+    if (anyContent)
+    {
+        if (!confirmAction(
+                tr("Load the set %1?").arg(QFileInfo(path).completeBaseName()),
+                tr("The current contents of all buffers will be replaced with the buffers stored in this set."),
+                tr("Replace")))
+        {
+            return;
+        }
+    }
+
+    for (int i = 0; i < workspace_max && i < set.buffers.size(); i++)
+    {
+        workspaces[i]->setText(set.buffers[i]);
+        const int zoom = (i < set.zooms.size()) ? set.zooms[i] : SonicPiScintilla::kDefaultZoom;
+        workspaces[i]->setProperty("zoom", QVariant(zoom));
+        workspaces[i]->zoomTo(zoom);
+    }
+    editorTabWidget->setCurrentIndex(set.currentBuffer);
+    saveWorkspaces();
+
+    currentSetPath = QFileInfo(path).absoluteFilePath();
+    rememberRecentSet(path);
+    showStatusAndAnnounce(tr("Set %1 loaded...").arg(QFileInfo(path).completeBaseName()), 2000);
+}
+
+void MainWindow::rememberRecentSet(const QString& path)
+{
+    const QString abs = QFileInfo(path).absoluteFilePath();
+    gui_settings->setValue("lastSetDir", QFileInfo(abs).absolutePath());
+    QStringList recents = gui_settings->value("recentSets").toStringList();
+    recents.removeAll(abs);
+    recents.prepend(abs);
+    while (recents.size() > 8)
+    {
+        recents.removeLast();
+    }
+    gui_settings->setValue("recentSets", recents);
+    updateRecentSetsMenu();
+}
+
+bool MainWindow::saveSetAs()
+{
+    QString lastSetDir = gui_settings->value("lastSetDir", QDir::homePath() + "/Desktop").toString();
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Set"),
+        lastSetDir + "/" + tr("My Set") + ".sonicpi",
+        QString("%1 (*.sonicpi)").arg(tr("Sonic Pi Sets")));
+    if (fileName.isEmpty())
+    {
+        return false;
+    }
+    if (!fileName.endsWith(".sonicpi", Qt::CaseInsensitive))
+    {
+        fileName += ".sonicpi";
+    }
+    return saveSetToPath(fileName);
+}
+
+bool MainWindow::saveSet()
+{
+    if (currentSetPath.isEmpty() || !QFileInfo(currentSetPath).isFile())
+    {
+        return saveSetAs();
+    }
+    return saveSetToPath(currentSetPath);
+}
+
+bool MainWindow::saveSetToPath(const QString& path)
+{
+    QVector<QString> buffers(workspace_max);
+    QVector<int> zooms(workspace_max);
+    for (int i = 0; i < workspace_max; i++)
+    {
+        buffers[i] = workspaces[i]->text();
+        zooms[i] = workspaces[i]->currentZoom();
+    }
+    const QString err = SonicPi::SetBundle::write(path, buffers, editorTabWidget->currentIndex(), zooms);
+    if (!err.isEmpty())
+    {
+        QMessageBox::warning(this, tr("Sonic Pi"),
+            tr("Cannot save set:\n%1.").arg(err));
+        updateColourTheme();
+        return false;
+    }
+
+    currentSetPath = QFileInfo(path).absoluteFilePath();
+    rememberRecentSet(path);
+    showStatusAndAnnounce(tr("Set saved as %1...").arg(QFileInfo(path).completeBaseName()), 2000);
+    return true;
+}
+
+void MainWindow::clearAllBuffers()
+{
+    bool anyContent = false;
+    for (int i = 0; i < workspace_max; i++)
+    {
+        if (!workspaces[i]->text().trimmed().isEmpty())
+        {
+            anyContent = true;
+            break;
+        }
+    }
+    if (anyContent)
+    {
+        if (!confirmAction(
+                tr("Clear all buffers?"),
+                tr("The contents of all buffers will be emptied and their text size reset."),
+                tr("Clear")))
+        {
+            return;
+        }
+    }
+
+    for (int i = 0; i < workspace_max; i++)
+    {
+        workspaces[i]->setText("");
+        workspaces[i]->setProperty("zoom", QVariant(SonicPiScintilla::kDefaultZoom));
+        workspaces[i]->zoomTo(SonicPiScintilla::kDefaultZoom);
+    }
+    saveWorkspaces();
+    // Detach so a later Save Set can't overwrite the old set with new material.
+    currentSetPath.clear();
+    showStatusAndAnnounce(tr("All buffers cleared..."), 2000);
+}
+
+void MainWindow::updateRecentSetsMenu()
+{
+    recentSetsMenu->clear();
+    const QStringList recents = gui_settings->value("recentSets").toStringList();
+    for (const QString& path : recents)
+    {
+        if (!QFileInfo(path).isFile())
+        {
+            continue;
+        }
+        QAction* act = recentSetsMenu->addAction(QFileInfo(path).completeBaseName());
+        act->setToolTip(path);
+        connect(act, &QAction::triggered, this, [this, path]() { loadSetFromFile(path); });
+    }
+    recentSetsMenu->setEnabled(!recentSetsMenu->isEmpty());
 }
 
 void MainWindow::resetErrorPane()
@@ -4213,12 +4503,27 @@ void MainWindow::createToolBar()
 #endif
 
     // Save
-    saveAsAct = new QAction(theme->getSaveAsIcon(), tr("Save"), this);
+    saveAsAct = new QAction(theme->getSaveAsIcon(), tr("Save Buffer As..."), this);
+    saveAsAct->setIconText(tr("Save Buffer As..."));
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
     // Load
-    loadFileAct = new QAction(theme->getLoadIcon(), tr("Load"), this);
+    loadFileAct = new QAction(theme->getLoadIcon(), tr("Load into Buffer..."), this);
+    loadFileAct->setIconText(tr("Load into Buffer..."));
     connect(loadFileAct, SIGNAL(triggered()), this, SLOT(loadFile()));
+
+    // Sets
+    loadSetAct = new QAction(tr("Load Set..."), this);
+    connect(loadSetAct, SIGNAL(triggered()), this, SLOT(loadSet()));
+
+    saveSetAct = new QAction(tr("Save Set"), this);
+    connect(saveSetAct, SIGNAL(triggered()), this, SLOT(saveSet()));
+
+    saveSetAsAct = new QAction(tr("Save Set As..."), this);
+    connect(saveSetAsAct, SIGNAL(triggered()), this, SLOT(saveSetAs()));
+
+    clearAllBuffersAct = new QAction(tr("Clear All Buffers..."), this);
+    connect(clearAllBuffersAct, SIGNAL(triggered()), this, SLOT(clearAllBuffers()));
 
     // Align
     textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Align Code"), this);
@@ -4616,6 +4921,13 @@ void MainWindow::createToolBar()
     liveMenu->addSeparator();
     liveMenu->addAction(saveAsAct);
     liveMenu->addAction(loadFileAct);
+    liveMenu->addSeparator();
+    liveMenu->addAction(loadSetAct);
+    liveMenu->addAction(saveSetAct);
+    liveMenu->addAction(saveSetAsAct);
+    recentSetsMenu = liveMenu->addMenu(tr("Load Recent Set"));
+    updateRecentSetsMenu();
+    liveMenu->addAction(clearAllBuffersAct);
     liveMenu->addSeparator();
     liveMenu->addAction(logSynthsAct);
     liveMenu->addAction(logCuesAct);
@@ -6426,6 +6738,16 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
     {
         statusBar()->showMessage(tr("Welcome back. Now get your live code on..."), 2000);
         update();
+    }
+
+    if (event->type() == QEvent::FileOpen)
+    {
+        const QString file = static_cast<QFileOpenEvent*>(event)->file();
+        if (file.endsWith(".sonicpi", Qt::CaseInsensitive))
+        {
+            openSetPath(file);
+            return true;
+        }
     }
 
     if (event->type() == QEvent::Shortcut)

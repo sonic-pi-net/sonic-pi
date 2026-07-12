@@ -41,11 +41,13 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/completion_rank.test.cpp
     ${GUI_TESTS_ROOT}/tutorialdocs.test.cpp
     ${GUI_TESTS_ROOT}/tutorialwidgets_a11y.test.cpp
+    ${GUI_TESTS_ROOT}/setbundle.test.cpp
     ${GUI_ROOT}/widgets/completionpopup.cpp
     ${GUI_ROOT}/utils/completion_context.cpp
     ${GUI_ROOT}/utils/reducedmotion.cpp
     ${GUI_ROOT}/utils/tutorialdocs.cpp
     ${GUI_ROOT}/widgets/tutorialwidgets.cpp
+    ${GUI_ROOT}/utils/setbundle.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

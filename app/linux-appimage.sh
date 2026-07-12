@@ -205,8 +205,27 @@ Terminal=false
 Categories=AudioVideo;Audio;Music;Education;
 Keywords=music;livecoding;synth;programming;
 StartupWMClass=sonic-pi
+MimeType=text/x-sonic-pi-set;
 EOF
     ln -sf "usr/share/applications/sonic-pi.desktop" "$APPDIR/sonic-pi.desktop"
+}
+
+write_mime() {
+    # Declares .sonicpi set files so desktop integration (appimaged /
+    # AppImageLauncher) can associate them with Sonic Pi.
+    local mimedir="$APPDIR/usr/share/mime/packages"
+    mkdir -p "$mimedir"
+    cat > "$mimedir/sonic-pi.xml" <<'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="text/x-sonic-pi-set">
+    <comment>Sonic Pi Set</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.sonicpi"/>
+    <icon name="sonic-pi"/>
+  </mime-type>
+</mime-info>
+EOF
 }
 
 write_apprun() {
@@ -245,9 +264,10 @@ EOF
 }
 
 write_metadata() {
-    echo "[3/5] Writing icon, .desktop, AppRun..."
+    echo "[3/5] Writing icon, .desktop, mime, AppRun..."
     write_icon
     write_desktop
+    write_mime
     write_apprun
 }
 

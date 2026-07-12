@@ -140,6 +140,8 @@ set(QT_SOURCES
 set(SOURCES
     ${QTAPP_ROOT}/main.cpp
     ${QTAPP_ROOT}/utils/scintilla_api.cpp
+    ${QTAPP_ROOT}/utils/setbundle.cpp
+    ${QTAPP_ROOT}/utils/setbundle.h
     ${QTAPP_ROOT}/utils/completion_context.cpp
     ${QTAPP_ROOT}/utils/reducedmotion.cpp
     ${QTAPP_ROOT}/utils/reducedmotion.h
@@ -168,7 +170,15 @@ SET(RESOURCES
     ${QTAPP_ROOT}/info_files.qrc
     ${QTAPP_ROOT}/SonicPi.rc
     ${QTAPP_ROOT}/images/app.icns
+    ${QTAPP_ROOT}/images/set.icns
     )
+
+if(APPLE)
+  # Copied during the build proper (unlike RESOURCE-property files, which
+  # land after POST_BUILD) so the re-sign at the end seals it correctly.
+  set_source_files_properties(${QTAPP_ROOT}/images/set.icns PROPERTIES
+    MACOSX_PACKAGE_LOCATION Resources)
+endif()
 
 SET(TS_FILES
     ${QTAPP_ROOT}/lang/sonic-pi_ar.ts
@@ -400,6 +410,14 @@ if (APPLE)
     TARGET ${APP_NAME}
     POST_BUILD
     COMMAND plutil -replace NSScreenCaptureUsageDescription -string "Sonic Pi captures its own window when you publish it as a Syphon video feed for VJ apps like Resolume Avenue." ${MACOS_APP_NAME}.app/Contents/Info.plist
+  )
+  # Register the .sonicpi set format so Finder double-clicks open Sonic Pi.
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND plutil -replace UTExportedTypeDeclarations -json [=[[{"UTTypeIdentifier":"net.sonic-pi.set","UTTypeDescription":"Sonic Pi Set","UTTypeConformsTo":["public.data"],"UTTypeIconFile":"set.icns","UTTypeTagSpecification":{"public.filename-extension":["sonicpi"]}}]]=] ${MACOS_APP_NAME}.app/Contents/Info.plist
+    COMMAND plutil -replace CFBundleDocumentTypes -json [=[[{"CFBundleTypeName":"Sonic Pi Set","CFBundleTypeRole":"Editor","LSHandlerRank":"Owner","CFBundleTypeIconFile":"set.icns","LSItemContentTypes":["net.sonic-pi.set"]}]]=] ${MACOS_APP_NAME}.app/Contents/Info.plist
+    VERBATIM
   )
 
   # Compile Syphon's Metal shader at build time and embed the resulting
