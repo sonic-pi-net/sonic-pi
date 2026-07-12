@@ -3042,14 +3042,6 @@ bool MainWindow::sendOSC(oscpkt::Message m)
     return m_spAPI->SendOSC(m);
 }
 
-void MainWindow::reloadServerCode()
-{
-    statusBar()->showMessage(tr("Reloading..."), 2000);
-    oscpkt::Message msg("/reload");
-    msg.pushInt32(guiID);
-    sendOSC(msg);
-}
-
 void MainWindow::check_for_updates_now()
 {
     showStatusAndAnnounce(tr("Checking for updates..."), 2000);
@@ -4294,7 +4286,6 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     // F10 reserved for menu bar access on Windows/Linux (used by screen readers)
     { "FocusMode", QT_TR_NOOP("Toggle focus mode (fullscreen editor with all distractions hidden)"), "F10", "Ctrl+F10", "Ctrl+F10", "View", &MainWindow::focusModeAct },
     { "ScopePaused", QT_TR_NOOP("Pause or resume the audio oscilloscopes"), "F12", "F12", "F12", "Visuals", &MainWindow::scopePausedAct },
-    { "ReloadServerCode", QT_TR_NOOP("Reload the Sonic Pi server's runtime code (developer)"), "F8", "F8", "F8", "Live", &MainWindow::reloadServerCodeAct },
     };
     return defs;
 }
@@ -4706,9 +4697,6 @@ void MainWindow::createToolBar()
     scopePausedAct = new QAction(tr("Pause or Resume Scopes"), this);
     connect(scopePausedAct, SIGNAL(triggered()), this, SLOT(toggleScopePaused()));
 
-    reloadServerCodeAct = new QAction(tr("Reload Server Code (developer)"), this);
-    connect(reloadServerCodeAct, SIGNAL(triggered()), this, SLOT(reloadServerCode()));
-
     focusModeAct = new QAction(tr("Focus Mode"), this);
     focusModeAct->setCheckable(true);
     focusModeAct->setChecked(false);
@@ -4977,8 +4965,6 @@ void MainWindow::createToolBar()
     liveMenu->addAction(logCuesAct);
     liveMenu->addAction(logAutoScrollAct);
     liveMenu->addAction(clearOutputOnRunAct);
-    liveMenu->addSeparator();
-    liveMenu->addAction(reloadServerCodeAct);
     liveMenu->addSeparator();
     liveMenu->addAction(exitAct);
 
