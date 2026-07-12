@@ -1552,27 +1552,32 @@ end"
 
       def __midi_send_timed(path, port)
         t = __get_spider_schedule_time
-         @midi_api.midi_send_at(t, path, port)
+        @midi_api.midi_send_at(t, path, port)
+        __delayed_flash_from_caller
       end
 
       def __midi_send_timed_param_2(path, a, b)
         t = __get_spider_schedule_time
         @midi_api.midi_send_at(t, path, a, b)
+        __delayed_flash_from_caller
       end
 
       def __midi_send_timed_param_3(path, a, b, c)
         t = __get_spider_schedule_time
         @midi_api.midi_send_at(t, path, a, b, c)
+        __delayed_flash_from_caller
       end
 
       def __midi_send_timed_param_4(path, a, b, c, d)
         t = __get_spider_schedule_time
         @midi_api.midi_send_at(t, path, a, b, c, d)
+        __delayed_flash_from_caller
       end
 
       def __midi_send_timed_param_n(path, *args)
         t = __get_spider_schedule_time
         @midi_api.midi_send_at(t, path, *args)
+        __delayed_flash_from_caller
       end
 
       def __midi_message(m)

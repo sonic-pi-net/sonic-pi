@@ -2007,6 +2007,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           use_logical_clock = true
         end
         fx_synth = trigger_fx(fx_synth_name, args_h, info, new_bus, fx_container_group, !use_logical_clock, t_minus_delta)
+        __delayed_flash_block_from_caller(block)
 
         ## Now actually execute the fx block. Pass the fx synth in as a
         ## parameter if the block was defined with a param.
@@ -3254,6 +3255,7 @@ puts status # Returns something similar to:
           end
         end
         node.control args_h
+        __delayed_flash_from_caller unless node.is_a?(BlankNode)
 
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "control node #{node.id}, #{arg_h_pp(args_h)}" unless node.is_a?(BlankNode)

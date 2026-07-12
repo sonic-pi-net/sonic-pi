@@ -506,6 +506,7 @@ module SonicPi
     # Editor line flash (pulse the source line of a sound as it plays). Queued
     # like a delayed message so it flushes in sync with the audio it accompanies.
     def __delayed_flash(workspace, line)
+      return if __system_thread_locals.get(:sonic_pi_spider_silent)
       return unless workspace && line && line > 0
       flashes = __system_thread_locals.get(:sonic_pi_local_spider_delayed_flashes, [])
       flashes << {:type => :flash, :jobid => __current_job_id, :workspace => workspace, :line => line}
@@ -525,9 +526,40 @@ module SonicPi
 
     # Flash the user's source line responsible for the current trigger.
     def __delayed_flash_from_caller
-      return if __system_thread_locals.get(:sonic_pi_spider_silent)
       ws, line = __caller_workspace_line
       __delayed_flash(ws, line) if ws
+    end
+
+    # The line of a block's closing `end`, read from the compiled iseq's code
+    # location - works for eval'd workspace code where no source file exists
+    # on disk. Memoised as with_fx inside a loop asks for the same block every
+    # cycle. nil for single-line blocks or when unavailable.
+    def __block_end_line(block)
+      loc = block.source_location
+      return nil unless loc
+      key = [__current_job_id, loc[0], loc[1]]
+      @block_end_lines_mutex.synchronize do
+        @block_end_lines.clear if @block_end_lines.size > 512
+        return @block_end_lines[key] if @block_end_lines.key?(key)
+        @block_end_lines[key] = begin
+                                  iseq = RubyVM::InstructionSequence.of(block)
+                                  misc = iseq && iseq.to_a.find { |e| e.is_a?(Hash) && e[:code_location] }
+                                  end_line = misc && misc[:code_location][2]
+                                  end_line && end_line > loc[1] ? end_line : nil
+                                rescue StandardError
+                                  nil
+                                end
+      end
+    end
+
+    # Flash a block-form call (with_fx etc.): the header line and its
+    # matching end line.
+    def __delayed_flash_block_from_caller(block)
+      ws, line = __caller_workspace_line
+      return unless ws
+      __delayed_flash(ws, line)
+      end_line = __block_end_line(block)
+      __delayed_flash(ws, end_line) if end_line
     end
 
     # Scope-tap slots for live_loop mini scopes. Slot 0 is the master mix and 1
@@ -1705,6 +1737,8 @@ module SonicPi
       @osc_cue_server_mutex = Mutex.new
       @live_loop_scope_slots = {}
       @live_loop_scope_slots_mutex = Mutex.new
+      @block_end_lines = {}
+      @block_end_lines_mutex = Mutex.new
       @user_jobs = Jobs.new
       @session_id = SecureRandom.uuid
       @snippets = {}

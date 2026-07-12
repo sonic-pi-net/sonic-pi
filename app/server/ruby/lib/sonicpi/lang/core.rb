@@ -808,6 +808,7 @@ osc \"/foo/baz\"             # Send an OSC message to port 7000
         host = host[1..-2] if host.start_with?("[") && host.end_with?("]")  # accept a bracketed IPv6 literal
         t = __get_spider_schedule_time
         @osc_api.send_osc_at(t, host, port, path, *args)
+        __delayed_flash_from_caller
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc_send,
@@ -841,6 +842,7 @@ osc_send \"localhost\", 7000, \"/foo/baz\"  # Send an OSC message to port 7000
         host, port = __osc_split_host_port(host_and_port)
         t = __get_spider_schedule_time
         @osc_api.send_osc_at(t, host, port, path, *args)
+        __delayed_flash_from_caller
         __delayed_message "OSC -> #{host}, #{port}, #{path}, #{args}" unless __thread_locals.get(:sonic_pi_suppress_osc_logging)
       end
       doc name:           :osc,
@@ -2288,13 +2290,23 @@ play 80      # This is *never* played as the program is trapped in the loop abov
           auto_cue = true
         end
 
+        # Flash the loop's header and matching end lines each time round.
+        # Captured at (re-)definition time, not per-cycle from the stack, so
+        # they always reflect the latest Run's code.
+        ll_ws, ll_line = __caller_workspace_line
+        ll_end_line = ll_ws ? __block_end_line(block) : nil
+
         case block.arity
         when 0
           define(ll_name) do |a|
+            __delayed_flash(ll_ws, ll_line) if ll_ws
+            __delayed_flash(ll_ws, ll_end_line) if ll_end_line
             block.call
           end
         when 1
           define(ll_name) do |a|
+            __delayed_flash(ll_ws, ll_line) if ll_ws
+            __delayed_flash(ll_ws, ll_end_line) if ll_end_line
             block.call(a)
           end
         else
@@ -2306,7 +2318,6 @@ play 80      # This is *never* played as the program is trapped in the loop abov
         # widget to the header line. Same slot across re-runs (the loop's
         # thread persists); re-registering just refreshes the line number.
         scope_num = __live_loop_scope_slot(ll_name)
-        ll_ws, ll_line = __caller_workspace_line
         if scope_num && ll_ws
           __msg_queue.push({:type => :live_loop_scope, :jobid => __current_job_id,
                             :name => name.to_s, :workspace => ll_ws,
