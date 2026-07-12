@@ -69,9 +69,10 @@ release_version_short() {
 }
 
 # Insert a hyphen between an alpha pre-release tag and its trailing number
-# so VERSION="5.0.0-beta2" → "5.0.0-beta-2". Used in distribution filenames.
+# so VERSION="5.0.0-beta2" → "5.0.0-beta-2" (also "5.0.0-RC1" → "5.0.0-RC-1").
+# Used in distribution filenames.
 release_version_dist() {
-    release_version | sed -E 's/-([a-z]+)([0-9]+)$/-\1-\2/'
+    release_version | sed -E 's/-([A-Za-z]+)([0-9]+)$/-\1-\2/'
 }
 
 # DMG basename without the .dmg extension:

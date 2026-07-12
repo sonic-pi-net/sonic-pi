@@ -48,7 +48,7 @@ REM Distribution version — insert a hyphen between an alpha pre-release
 REM tag and its trailing number (e.g. 5.0.0-beta2 -> 5.0.0-beta-2) so the
 REM MSI filename matches the macOS DMG shape:
 REM     Sonic-Pi-for-Win-x64-v5.0.0-beta-2.msi
-for /f "usebackq delims=" %%V in (`powershell -NoProfile -Command "'%FULL_VERSION%' -replace '-([a-z]+)([0-9]+)$','-$1-$2'"`) do set DIST_VERSION=%%V
+for /f "usebackq delims=" %%V in (`powershell -NoProfile -Command "'%FULL_VERSION%' -replace '-([A-Za-z]+)([0-9]+)$','-$1-$2'"`) do set DIST_VERSION=%%V
 if "%DIST_VERSION%"=="" set DIST_VERSION=%FULL_VERSION%
 
 REM --- Parse arguments ---
