@@ -212,12 +212,6 @@ protected:
             p.drawPath(line);
         }
 
-        p.setClipping(false);
-        QColor border = wave;
-        border.setAlpha(90);
-        p.setPen(QPen(border, 1.0));
-        p.setBrush(Qt::NoBrush);
-        p.drawRoundedRect(panelRect, radius, radius);
     }
 
 private:
@@ -658,7 +652,7 @@ void SonicPiScintilla::positionLiveLoopScopes()
     int lineH = SendScintilla(SCI_TEXTHEIGHT, (unsigned long)0);
     int extraDescent = SendScintilla(SCI_GETEXTRADESCENT);
     int h = lineH - extraDescent;
-    int w = ScaleWidthForDPI(170);
+    int w = ScaleWidthForDPI(230);
     int viewW = viewport()->width();
     int viewH = viewport()->height();
     for (auto it = m_loopScopes.begin(); it != m_loopScopes.end(); ++it)
@@ -676,7 +670,13 @@ void SonicPiScintilla::positionLiveLoopScopes()
             it.value()->hide();
             continue;
         }
-        it.value()->setGeometry(viewW - w - ScaleWidthForDPI(18), y, w, h);
+        // Sit just after the line's text (the live_loop header's `do`),
+        // clamped on-screen for long lines / narrow viewports.
+        long endPos = SendScintilla(SCI_GETLINEENDPOSITION, (unsigned long)cur);
+        int x = (int)SendScintilla(SCI_POINTXFROMPOSITION, (unsigned long)0, endPos)
+              + ScaleWidthForDPI(12);
+        x = qBound(0, x, qMax(0, viewW - w - ScaleWidthForDPI(6)));
+        it.value()->setGeometry(x, y, w, h);
         it.value()->show();
         it.value()->raise();
     }
