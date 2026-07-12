@@ -72,6 +72,11 @@ QColor kindColor(const QString& kind) {
     return QColor(0x27, 0xAE, 0x60); // green (fn / default)
 }
 
+// What the kind badge displays; kinds themselves are internal tags.
+QString kindLabel(const QString& kind) {
+    return kind == "fn" ? QString(QChar(0x03BB)) /* λ */ : kind;
+}
+
 const int kRowVPad = 5;
 const int kRowHPad = 8;
 const int kBadgeHPad = 6;
@@ -153,7 +158,8 @@ public:
             QFont badgeFont = opt.font;
             badgeFont.setPointSizeF(opt.font.pointSizeF() * 0.8);
             QFontMetrics bfm(badgeFont);
-            int bw = bfm.horizontalAdvance(kind) + 2 * kBadgeHPad;
+            const QString label = kindLabel(kind);
+            int bw = bfm.horizontalAdvance(label) + 2 * kBadgeHPad;
             int bh = bfm.height() + 2;
             QRect badge(opt.rect.left() + kRowHPad, cy - bh / 2, bw, bh);
             QColor c = kindColor(kind);
@@ -163,7 +169,7 @@ public:
             p->drawRoundedRect(badge, 3, 3);
             p->setFont(badgeFont);
             p->setPen(selected ? c.lighter(135) : c.lighter(125));
-            p->drawText(badge, Qt::AlignCenter, kind);
+            p->drawText(badge, Qt::AlignCenter, label);
         }
 
         // Name — full-contrast theme foreground, at the aligned name column.
@@ -1394,7 +1400,7 @@ void CompletionPopup::computeColumns()
     for (int i = 0; i < m_model->rowCount(); ++i) {
         const QString kind = m_model->index(i, 0).data(KindRole).toString();
         if (!kind.isEmpty() && kind != "note")
-            maxBadge = qMax(maxBadge, bfm.horizontalAdvance(kind) + 2 * kBadgeHPad);
+            maxBadge = qMax(maxBadge, bfm.horizontalAdvance(kindLabel(kind)) + 2 * kBadgeHPad);
     }
     m_nameColX = kRowHPad + (maxBadge > 0 ? maxBadge + kGap : 0);
 }
