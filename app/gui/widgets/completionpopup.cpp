@@ -59,6 +59,23 @@ QColor mix(const QColor& a, const QColor& b, int pct) {
                   (a.blue()  * pct + b.blue()  * (100 - pct)) / 100);
 }
 
+// A painted close cross, exactly centred in its box (the × text glyph sits
+// low in its font box, which made the hover pill look off-centre).
+QIcon closeGlyphIcon(int side, qreal dpr, const QColor& c) {
+    const qreal s = side * dpr;
+    QPixmap p(qRound(s), qRound(s));
+    p.fill(Qt::transparent);
+    QPainter painter(&p);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(QPen(c, qMax<qreal>(2.0, s * 0.11), Qt::SolidLine, Qt::RoundCap));
+    const qreal m = s * 0.30;
+    painter.drawLine(QPointF(m, m), QPointF(s - m, s - m));
+    painter.drawLine(QPointF(s - m, m), QPointF(m, s - m));
+    painter.end();
+    p.setDevicePixelRatio(dpr);
+    return QIcon(p);
+}
+
 // Subtle per-kind badge colour so the eye can tell synths from fx from opts.
 QColor kindColor(const QString& kind) {
     if (kind == "synth")   return QColor(0x9B, 0x59, 0xB6); // purple
@@ -973,6 +990,17 @@ CompletionPopup::CompletionPopup(QWidget* parent)
         if (idx.isValid()) emit docsRequested(idx.data(Qt::DisplayRole).toString());
     });
 
+    // Close button pinned to the popup's top-right; its hover tooltip teaches
+    // the keystroke that does the same thing.
+    m_closeButton = new QToolButton(this);
+    m_closeButton->setObjectName("completionCloseButton");
+    m_closeButton->setCursor(Qt::PointingHandCursor);
+    m_closeButton->setFocusPolicy(Qt::NoFocus);
+    m_closeButton->setToolTip(tr("Close (Esc)"));
+    m_closeButton->installEventFilter(this);   // hover icon swap (see eventFilter)
+    connect(m_closeButton, &QToolButton::clicked, this,
+            [this]() { emit dismissRequested(); });
+
     // Right column: the docstring above, the Docs button in a bottom row.
     m_detailPane = new QWidget(this);
     m_detailPane->setObjectName("completionDetailPane");
@@ -1143,7 +1171,13 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
         "#completionIllo { background: transparent; border-top: 1px solid %2; }"
         "#completionDocsButton { background: transparent; color: %4; border: 1px solid %2;"
         " border-radius: 4px; padding: 3px 10px; font-size: 11px; }"
-        "#completionDocsButton:hover { background: %4; color: %1; border-color: %4; }")
+        "#completionDocsButton:hover { background: %4; color: %1; border-color: %4; }"
+        // margin/padding zeroed explicitly: the app-wide QToolButton rule's 6dx
+        // margins + 4dx padding would otherwise consume this tiny button's whole
+        // box, leaving a hoverable but invisible widget.
+        "#completionCloseButton { margin: 0; padding: 0; background: transparent;"
+        " border: none; border-radius: 4px; }"
+        "#completionCloseButton:hover { background: %4; border: none; }")
         .arg(bg.name(), border.name(), detail.name(), selBg.name()));
     // Accent-colour inline code + links so opt names stand out; code blocks stay neutral.
     QColor grid = mix(fg, bg, 28);   // faint opts-table lines
@@ -1160,7 +1194,31 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
     if (m_rangeSlider) m_rangeSlider->setColors(fg, selBg);
     if (m_optIllo) m_optIllo->setColors(fg, selBg, bg);
     if (m_shapeIllo) m_shapeIllo->setColors(fg, selBg, bg);
+    updateCloseIcon(m_closeIconPx);   // re-tint the cross for the new theme
     update();
+}
+
+void CompletionPopup::updateCloseIcon(int side)
+{
+    if (!m_closeButton || side <= 0) return;
+    m_closeIconPx = side;
+    const qreal dpr = devicePixelRatioF();
+    m_closeIconNormal = closeGlyphIcon(side, dpr, m_border);
+    m_closeIconHover = closeGlyphIcon(side, dpr, m_selFg);
+    m_closeButton->setIconSize(QSize(side, side));
+    m_closeButton->setIcon(m_closeButton->underMouse() ? m_closeIconHover
+                                                       : m_closeIconNormal);
+}
+
+bool CompletionPopup::eventFilter(QObject* obj, QEvent* ev)
+{
+    if (obj == m_closeButton) {
+        if (ev->type() == QEvent::Enter)
+            m_closeButton->setIcon(m_closeIconHover);
+        else if (ev->type() == QEvent::Leave)
+            m_closeButton->setIcon(m_closeIconNormal);
+    }
+    return QWidget::eventFilter(obj, ev);
 }
 
 void CompletionPopup::setItemFont(const QFont& font, double docPointSize)
@@ -1440,18 +1498,21 @@ void CompletionPopup::resizeToContents()
     // hand so nothing (e.g. the QTextEdit's size hint) can renegotiate the width.
     // Gate on the session-mode flags, not isVisible() — a child reports invisible
     // until the top-level popup is first shown, which would skip placement.
+    // Every mode leaves the closeBandH() strip above its regions for the close
+    // button (positioned in resizeEvent).
+    const int band = closeBandH();
     if (m_sliderMode) {
         // The slider — a compact value picker — with the illustration (if any)
         // stacked beneath it so the diagram tracks the slider live.
         const int w = m_hasIllo ? 380 : 320;
         const int sh = QFontMetrics(m_rangeSlider->font()).height() * 3 + 22;
-        m_rangeSlider->setGeometry(0, 0, w, sh);
+        m_rangeSlider->setGeometry(0, band, w, sh);
         if (m_hasIllo) {
             const int ih = 168;
-            m_optIllo->setGeometry(0, sh, w, ih);
-            setPopupSize(w, sh + ih);
+            m_optIllo->setGeometry(0, band + sh, w, ih);
+            setPopupSize(w, band + sh + ih);
         } else {
-            setPopupSize(w, sh);
+            setPopupSize(w, band + sh);
         }
     } else if (m_hasDetail) {
         // Give the docstring room even when only a few rows matched (a short list
@@ -1464,15 +1525,15 @@ void CompletionPopup::resizeToContents()
         if (QScreen* scr = QApplication::screenAt(pos()))
             detailW = qMin(detailW, scr->availableGeometry().width() / 2);
         const int h = qMax(listH, int(kDetailMinH * docScale));
-        m_view->setGeometry(0, 0, stickyW, h);
-        m_detailPane->setGeometry(stickyW, 0, detailW, h);
+        m_view->setGeometry(0, band, stickyW, h);
+        m_detailPane->setGeometry(stickyW, band, detailW, h);
         // Synth/fx rows keep a compact audition keyboard under the doc pane
         int pianoH = 0;
         if (m_auditionMode) {
             pianoH = qBound(64, int(detailW * 0.16), 84);
-            m_piano->setGeometry(stickyW, h, detailW, pianoH);
+            m_piano->setGeometry(stickyW, band + h, detailW, pianoH);
         }
-        setPopupSize(stickyW + detailW, h + pianoH);
+        setPopupSize(stickyW + detailW, band + h + pianoH);
     } else if (m_noteMode || m_chordMode) {
         // Note / chord / scale lists are narrow with fixed content; use their own
         // width (not the grow-only session width, which can carry over from a wider
@@ -1481,13 +1542,31 @@ void CompletionPopup::resizeToContents()
         const int w = qBound(300, naturalW, 380);
         const int nListH = qMin(rows, 9) * rowH + 4;
         const int pianoH = qBound(98, int(w * 0.36), 132);
-        m_view->setGeometry(0, 0, w, nListH);
-        m_piano->setGeometry(0, nListH, w, pianoH);
-        setPopupSize(w, nListH + pianoH);
+        m_view->setGeometry(0, band, w, nListH);
+        m_piano->setGeometry(0, band + nListH, w, pianoH);
+        setPopupSize(w, band + nListH + pianoH);
     } else {
-        m_view->setGeometry(0, 0, stickyW, listH);
-        setPopupSize(stickyW, listH);
+        m_view->setGeometry(0, band, stickyW, listH);
+        setPopupSize(stickyW, band + listH);
     }
+}
+
+int CompletionPopup::closeBandH() const
+{
+    // Tracks the list font so the strip follows editor zoom and DPI.
+    return qMax(28, QFontMetrics(m_view->font()).height() + 12);
+}
+
+void CompletionPopup::resizeEvent(QResizeEvent* e)
+{
+    QWidget::resizeEvent(e);
+    // Re-pinned on every resize so the button stays anchored top-right while
+    // setPopupSize() tweens the popup between shapes.
+    if (!m_closeButton) return;
+    const int side = closeBandH() - 6;
+    m_closeButton->setGeometry(width() - side - 8, 3, side, side);
+    if (side != m_closeIconPx) updateCloseIcon(side);
+    m_closeButton->raise();
 }
 
 void CompletionPopup::setPopupSize(int w, int h)

@@ -13,6 +13,7 @@
 #include <QWidget>
 #include <QList>
 #include <QColor>
+#include <QIcon>
 
 #include "utils/scintilla_api.h"
 
@@ -88,10 +89,17 @@ public:
 
 protected:
     void paintEvent(QPaintEvent*) override;   // rounded background + border
+    void resizeEvent(QResizeEvent*) override; // keeps the close button pinned top-right
+    // Swaps the close cross to its high-contrast variant on hover: a
+    // stylesheet-styled QToolButton doesn't reliably use QIcon::Active.
+    bool eventFilter(QObject* obj, QEvent* ev) override;
 
 signals:
     // A piano key was clicked — the editor should insert the current selection.
     void accepted();
+    // The close button was clicked — the editor should cancel completion
+    // exactly as it does for Escape (revert the preview, then hide).
+    void dismissRequested();
     // The previewed text changed (list navigation, note selection, slider drag):
     // the editor live-previews `text` in the buffer in place of the typed word.
     void previewChanged(const QString& text);
@@ -109,6 +117,8 @@ signals:
 
 private:
     void announceSelection();     // emit announceRequested() for the current row
+    // Height of the strip reserved above all regions for the close button.
+    int closeBandH() const;
     void resizeToContents();
     void computeColumns();
     void updateDetail();          // refresh the docstring/piano for the current row
@@ -146,6 +156,13 @@ private:
     QWidget* m_detailPane = nullptr;     // right-hand column: docstring + Docs button
     QTextBrowser* m_detail = nullptr;    // scrollable rich-text docstring (right of the list); QTextBrowser for in-doc anchor jumps
     QToolButton* m_docsButton = nullptr; // "Docs ↗" — opens the help pane for the row
+    QToolButton* m_closeButton = nullptr; // "×" top-right — dismiss, same as Escape
+    int m_closeIconPx = -1;               // last icon size rendered (avoids re-render per tween frame)
+    QIcon m_closeIconNormal;              // muted cross (resting)
+    QIcon m_closeIconHover;               // high-contrast cross (on the accent pill)
+    // Re-render the close glyph (a painted cross, so it centres exactly —
+    // the × text glyph sits low in its font box) at `side` px.
+    void updateCloseIcon(int side);
     NotePiano* m_piano = nullptr;        // mini keyboard (bottom, for notes)
     RangeSlider* m_rangeSlider = nullptr; // value slider (for bounded opts)
     OptIllustration* m_optIllo = nullptr; // live diagram beneath the slider

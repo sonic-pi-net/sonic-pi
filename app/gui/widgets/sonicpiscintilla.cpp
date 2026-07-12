@@ -411,6 +411,12 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
                              theme->contrastingText(theme->color("HighlightedBackground")));
     // Clicking the mini piano accepts that note like Tab/Return.
     connect(m_completion, &CompletionPopup::accepted, this, [this]() { acceptCompletion(); });
+    // The popup's close button cancels completion exactly like Escape.
+    connect(m_completion, &CompletionPopup::dismissRequested, this, [this]() {
+        if (m_pvSlider) restoreOriginal(); else clearPreview();
+        endPreview();
+        m_completion->hidePopup();
+    });
     // Live-preview the selected entry (list navigation, note, slider drag) in the
     // buffer in place of the typed word.
     connect(m_completion, &CompletionPopup::previewChanged, this,
