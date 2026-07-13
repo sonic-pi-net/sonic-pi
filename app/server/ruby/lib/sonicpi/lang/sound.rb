@@ -203,8 +203,13 @@ module SonicPi
         @mod_sound_studio.kill_all_link_audio(@link_api)
         __nuke_job_scsynth_state!
         @mod_sound_studio.cold_swap_reinit!
-        STDOUT.puts "Spider - cold swap reinit complete"
+        # Phase 2 can time out mid-swap, leaving the studio with no mixer
+        # group (every trigger would nil-crash). Report it so the caller can
+        # schedule a retry.
+        ok = !@mod_sound_studio.mixer_group.nil?
+        STDOUT.puts "Spider - cold swap reinit #{ok ? 'complete' : 'INCOMPLETE (no mixer group)'}"
         STDOUT.flush
+        ok
       end
 
       def link_audio(*params)

@@ -815,6 +815,7 @@ register_api = lambda do |server|
 
     unless setup_thread&.alive?
       setup_thread = Thread.new do
+        reinit_retries = 0
         loop do
           # Wait for 1s quiet — CV broadcast on each event pushes the wait out
           setup_mutex.synchronize do
@@ -828,6 +829,7 @@ register_api = lambda do |server|
           reinit_started_at = Time.now
           STDOUT.puts "Spider - setup settled, reinitialising..."
           STDOUT.flush
+          reinit_ok = false
           begin
             # The swap rebuilt the World, so every running job's synth/fx
             # graph is gone; their threads would keep scheduling into dead
@@ -835,14 +837,31 @@ register_api = lambda do |server|
             # explicit Stop press — teardown also releases loop scope slots
             # and clears the GUI's per-loop scope widgets.
             sp.__stop_jobs
-            sp.__cold_swap_reinit!
+            reinit_ok = sp.__cold_swap_reinit!
           rescue Exception => e
             STDOUT.puts "Spider - cold swap reinit error: #{e.message}"
             STDOUT.puts e.backtrace.first(5).join("\n")
             STDOUT.flush
           end
 
-          # Loop if an event arrived mid-reinit so it gets its own pass
+          if reinit_ok
+            reinit_retries = 0
+          elsif (reinit_retries += 1) <= 4
+            # An aborted reinit (Phase 2 timeout) used to wait for the next
+            # /supersonic/setup to retry — but if the World has already
+            # settled, none is coming and the studio stays broken (nil mixer
+            # group) until relaunch. Queue our own pass instead.
+            STDOUT.puts "Spider - reinit incomplete, scheduling retry #{reinit_retries}/4"
+            STDOUT.flush
+            Kernel.sleep 2
+            setup_mutex.synchronize { last_setup_time = Time.now }
+          else
+            STDOUT.puts "Spider - reinit still incomplete after 4 retries - waiting for next device event"
+            STDOUT.flush
+          end
+
+          # Loop if an event arrived mid-reinit (or a retry was queued) so it
+          # gets its own pass
           new_event_during_reinit = setup_mutex.synchronize { last_setup_time > reinit_started_at }
           break unless new_event_during_reinit
         end

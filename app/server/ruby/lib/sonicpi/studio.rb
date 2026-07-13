@@ -325,6 +325,14 @@ module SonicPi
     def trigger_synth(synth_name, group, args, info, now=false, t_minus_delta=false, pos=:tail )
       check_for_server_rebooting!(:trigger_synth)
 
+      # A nil group means an aborted cold-swap left the studio without its
+      # base groups (mixer_group is nil until the retry pass completes).
+      # Raise something a musician can act on rather than nil.subnode_add.
+      if group.nil?
+        raise StudioCurrentlyRebootingError,
+              "The audio engine is still reinitialising after a device change - please try again in a moment"
+      end
+
       @server.trigger_synth(pos, group, synth_name, args, info, now, t_minus_delta)
     end
 
@@ -569,9 +577,11 @@ module SonicPi
         # the new World's notify-subscribers list is empty. If we skip this,
         # Phase 2's /d_loadDir and Phase 3's /sync (in clear_scsynth!) send
         # fine but the /synced + /done replies are silently dropped — both
-        # promises hit their 10s/5s timeouts, mixer_group stays nil, and
-        # studio is unrecoverable until a relaunch. This is what blocks
-        # ASIO from producing sound after a driver switch.
+        # promises hit their 10s/5s timeouts and mixer_group stays nil.
+        # Since every reinit pass (including the debouncer's retry passes)
+        # would fail the same way, skipping this leaves studio broken until
+        # the next device event or a relaunch. This is what blocked ASIO
+        # from producing sound after a driver switch.
         begin
           ok = @server.register_for_notifications!(timeout: 5.0)
           STDOUT.puts "Studio - Phase 1.5: Notify re-register #{ok ? 'OK' : 'TIMEOUT'} (#{(Time.now - start).round(2)}s)"
@@ -606,19 +616,22 @@ module SonicPi
           log_phase_err.call("resetting groups", e)
         end
 
-        # Phases 4-6 all need the mixer group from Phase 2. If Phase 2
-        # didn't complete (typically because a second /supersonic/setup
-        # arrived mid-Phase-2 — the new World wiped the /notify subscribers
-        # list, so wait_until_started for /n_go hit its timeout and raised
-        # before @mixer_group was assigned), running them anyway just
-        # produces noisy `nil.subnode_add` NoMethodErrors. Skip cleanly;
-        # the debounce thread in spider-server.rb will queue another pass
-        # that runs against the settled World and succeeds.
+        # Phases 4-6 all need the mixer group, which Phase 3's
+        # reset_and_setup_groups_and_busses creates. It's nil when a reply
+        # was lost mid-swap (a second /supersonic/setup wiping the /notify
+        # subscribers list, or Phase 3's fetch_scsynth_info! /sync timing
+        # out), so running them anyway just produces noisy `nil.subnode_add`
+        # NoMethodErrors. Skip cleanly: __cold_swap_reinit! reports the pass
+        # as incomplete and the debounce thread in spider-server.rb schedules
+        # its own retry pass — it must not wait for another /supersonic/setup,
+        # which never comes when the timeout was the swap's last event. Runs
+        # arriving in the window get StudioCurrentlyRebootingError from
+        # trigger_synth's nil-group guard.
         if @mixer_group.nil?
-          STDOUT.puts "Studio - Phase 2 incomplete (mixer group nil) — " \
-                      "skipping mixer/scope/init; debouncer will retry"
+          STDOUT.puts "Studio - reinit pass incomplete (mixer group nil) — " \
+                      "skipping mixer/scope/init; a retry will be scheduled"
           STDOUT.flush
-          message "Reinitialisation aborted (will retry on next swap settle)"
+          message "Reinitialisation incomplete (retrying shortly...)"
         else
           # Phase 4: Start mixer and reapply GUI settings (firing from
           # updateAudioDeviceConfig targets the dead pre-swap node)
@@ -652,9 +665,9 @@ module SonicPi
           rescue Exception => e
             log_phase_err.call("in init_studio", e)
           end
-        end
 
-        message "Reinitialisation complete (#{(Time.now - start).round(2)}s)"
+          message "Reinitialisation complete (#{(Time.now - start).round(2)}s)"
+        end
       ensure
         @rebooting = false
         @cold_swap_reinit_in_progress = false
