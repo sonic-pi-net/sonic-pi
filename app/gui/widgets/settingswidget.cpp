@@ -2026,14 +2026,25 @@ void SettingsWidget::updateAudioInputDevices(const SonicPi::AudioInputDevicesInf
     QString selDriver = audio_driver_combo->currentText();
     bool isAsioDr = (selDriver == "ASIO");
     bool haveTypesIn = devicesInfo.deviceTypes.size() == devicesInfo.devices.size();
+    // The engine resolves a swap's input name strictly within the active
+    // driver, so an input typed under a different driver would be refused
+    // ("unknown input device") — don't offer it. The Windows Audio mode
+    // variants expose the same endpoint names, so they count as one family.
+    // ASIO stays a coarse yes/no bucket: an ASIO device is its own driver
+    // and we can't probe its inputs from here.
+    auto driverFamily = [](const QString& t) {
+        return t.startsWith("Windows Audio") ? QString("Windows Audio") : t;
+    };
     for (size_t i = 0; i < devicesInfo.devices.size(); ++i) {
         const auto& dev = devicesInfo.devices[i];
         if (haveTypesIn && !selDriver.isEmpty()) {
             QString qt = QString::fromStdString(devicesInfo.deviceTypes[i]);
             if (isAsioDr) {
                 if (qt != "ASIO") continue;
-            } else {
-                if (qt == "ASIO") continue;
+            } else if (qt == "ASIO") {
+                continue;
+            } else if (driverFamily(qt) != driverFamily(selDriver)) {
+                continue;
             }
         }
         audio_input_combo->addItem(QString::fromStdString(dev));
