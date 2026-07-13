@@ -158,6 +158,16 @@ private:
     QToolButton* m_docsButton = nullptr; // "Docs ↗" — opens the help pane for the row
     QToolButton* m_closeButton = nullptr; // "×" top-right — dismiss, same as Escape
     int m_closeIconPx = -1;               // last icon size rendered (avoids re-render per tween frame)
+    // Last global pointer position seen over the list. Hover only follows
+    // REAL movement — not the popup appearing under a parked cursor, nor rows
+    // scrolling beneath it — so the selection (and its live preview) can't
+    // change without user intent.
+    QPoint m_lastHoverGlobal = QPoint(-1, -1);
+    // Apex of the "safe triangle" to the detail pane: where the selection was
+    // last set. Crossing rows inside the triangle (pointer en route to the
+    // docs/keyboard) must not switch the selection.
+    QPoint m_hoverAnchorGlobal = QPoint(-1, -1);
+    bool inDetailSafeTriangle(const QPoint& g) const;
     QIcon m_closeIconNormal;              // muted cross (resting)
     QIcon m_closeIconHover;               // high-contrast cross (on the accent pill)
     // Re-render the close glyph (a painted cross, so it centres exactly —

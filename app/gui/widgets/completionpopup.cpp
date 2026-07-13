@@ -28,6 +28,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QMouseEvent>
+#include <QCursor>
 #include <QHBoxLayout>
 #include <functional>
 #include <QVBoxLayout>
@@ -280,6 +281,7 @@ public:
     void setColors(const QColor& fg, const QColor& accent, const QColor& bg) {
         m_fg = fg;
         m_accent = accent;
+        m_bg = bg;
         // Invert the keys in dark mode so they sit in the theme rather than glaring.
         if (bg.lightnessF() < 0.5) {
             m_white = QColor(30, 30, 30);
@@ -363,17 +365,20 @@ protected:
                        Qt::AlignHCenter | Qt::AlignVCenter, QString("C%1").arg(m / 12 - 1));
         }
 
-        // Scroll chevrons at the edges (only when there's more to see that way).
+        // Octave-scroll affordances at the edges (only when there's more that
+        // way): a scrim pill spanning the whole click zone with a chevron on
+        // top, accent-lit on hover, so it reads as a button rather than debris
+        // on the keys.
         const double cy = kb.center().y();
-        if (canScroll(-1)) drawChevron(p, kb.left() + 7, cy, -1);
-        if (canScroll(+1)) drawChevron(p, kb.right() - 7, cy, +1);
+        if (canScroll(-1)) drawScrollZone(p, kb, cy, -1);
+        if (canScroll(+1)) drawScrollZone(p, kb, cy, +1);
     }
 
     void mousePressEvent(QMouseEvent* e) override {
         const QRect kb = keyRect();
         const int x = e->pos().x();
-        if (x < kb.left() + 18 && canScroll(-1)) { scrollBy(-1); return; }
-        if (x > kb.right() - 18 && canScroll(+1)) { scrollBy(+1); return; }
+        if (x < kb.left() && canScroll(-1)) { scrollBy(-1); return; }
+        if (x > kb.right() && canScroll(+1)) { scrollBy(+1); return; }
         const int m = midiAt(e->pos());
         if (m >= 0 && m_onClick) m_onClick(m);
     }
@@ -387,11 +392,33 @@ protected:
 
     // Hovering a key highlights the matching completion (which in turn repaints
     // the keyboard with that key lit, via the popup's selection → setNote loop).
+    // The scroll zones aren't keys: hovering them lights the zone (and swaps the
+    // cursor), never the key beneath.
     void mouseMoveEvent(QMouseEvent* e) override {
+        const QRect kb = keyRect();
+        const int x = e->pos().x();
+        int zone = 0;
+        if (x < kb.left() && canScroll(-1)) zone = -1;
+        else if (x > kb.right() && canScroll(+1)) zone = +1;
+        if (zone != m_hoverZone) {
+            m_hoverZone = zone;
+            setCursor(zone ? Qt::PointingHandCursor : Qt::ArrowCursor);
+            update();
+        }
+        if (zone) return;
         const int m = midiAt(e->pos());
         if (m != m_hoverMidi) {
             m_hoverMidi = m;
             if (m >= 0 && m_onHover) m_onHover(m);
+        }
+    }
+
+    void leaveEvent(QEvent*) override {
+        m_hoverMidi = -1;
+        if (m_hoverZone) {
+            m_hoverZone = 0;
+            setCursor(Qt::ArrowCursor);
+            update();
         }
     }
 
@@ -449,16 +476,32 @@ private:
     void scrollBy(int octaves) { slideTo(clampStart(m_targetWhite + octaves * 7.0)); }
 
     QRect keyRect() const {
+        // Gutters either side hold the octave-scroll arrows, off the keys.
         const int labelH = QFontMetrics(font()).height() + 2;
-        return QRect(6, 5, width() - 12, height() - labelH - 8);
+        return QRect(kZoneW + 4, 5, width() - 2 * (kZoneW + 4), height() - labelH - 8);
     }
-    void drawChevron(QPainter& p, double x, double cy, int dir) const {
-        const double s = 5;
+    void drawScrollZone(QPainter& p, const QRect& kb, double cy, int dir) const {
+        // Drawn in the gutter beside the keys, on the popup background — no
+        // fighting the key artwork for contrast.
+        const bool hov = (m_hoverZone == dir);
+        const double cxp = dir < 0 ? kb.left() / 2.0 : width() - kb.left() / 2.0;
+        p.setRenderHint(QPainter::Antialiasing, true);
+        if (hov) {
+            const double ph = qMin(double(kb.height() - 4), 42.0);
+            QRectF pill(cxp - (kZoneW - 4) / 2.0, cy - ph / 2, kZoneW - 4, ph);
+            p.setPen(Qt::NoPen);
+            p.setBrush(m_accent);
+            p.drawRoundedRect(pill, 5, 5);
+        }
+        const double s = qBound(5.0, kb.height() * 0.14, 7.0);
+        const double x = cxp + dir * s * 0.5;
         QPolygonF tri;
         tri << QPointF(x - dir * s, cy - s) << QPointF(x + dir * s, cy)
             << QPointF(x - dir * s, cy + s);
+        QColor rest = m_fg;
+        rest.setAlpha(190);
         p.setPen(Qt::NoPen);
-        p.setBrush(QColor(120, 120, 120, 200));
+        p.setBrush(hov ? m_bg : rest);
         p.drawPolygon(tri);
     }
 
@@ -494,8 +537,11 @@ private:
     double m_startWhite = -1;   // animated render position (white-key units)
     double m_targetWhite = 0;   // logical window position
     int m_hoverMidi = -2;
+    int m_hoverZone = 0;                    // -1/+1 while hovering a scroll zone
+    static constexpr int kZoneW = 18;       // octave-scroll click zone width
     QColor m_fg = QColor(220, 220, 220);
     QColor m_accent = QColor(0x9B, 0x59, 0xB6);
+    QColor m_bg = QColor(30, 30, 30);          // popup background (gutter arrows sit on it)
     QColor m_white = QColor(250, 250, 250);   // white-key body (inverted in dark mode)
     QColor m_black = QColor(30, 30, 30);       // black-key body (inverted in dark mode)
     QColor m_edge = QColor(176, 176, 176);     // white-key outline
@@ -919,7 +965,12 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     // Frameless, always-on-top, non-focus-stealing popup. A translucent window
     // background lets the stylesheet paint the rounded body + its border (without
     // it, a frameless top-level draws an opaque square and the border is lost).
-    setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint);
+    // WindowDoesNotAcceptFocus (WS_EX_NOACTIVATE on Windows) is load-bearing:
+    // WA_ShowWithoutActivating only covers showing — without the flag, CLICKING
+    // the popup (piano key, slider) activates it, deactivating the main window,
+    // and the editor stops receiving keystrokes until clicked.
+    setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint
+                   | Qt::WindowDoesNotAcceptFocus);
     setAttribute(Qt::WA_ShowWithoutActivating);
     setAttribute(Qt::WA_TranslucentBackground);
     setFocusPolicy(Qt::NoFocus);
@@ -1045,6 +1096,10 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
             this, [this](const QModelIndex&, const QModelIndex&) {
                 m_noteOverride.clear();   // a real row selection supersedes any clicked-key override
+                // However the selection moved (hover or keys), the safe
+                // triangle to the detail pane starts from the pointer's
+                // current position.
+                m_hoverAnchorGlobal = QCursor::pos();
                 updateDetail();
                 if (!m_sliderMode) emit previewChanged(currentText());
             });
@@ -1052,6 +1107,12 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     connect(m_view, &QListView::clicked, this, [this](const QModelIndex& idx) {
         if (idx.isValid()) { m_view->setCurrentIndex(idx); emit accepted(); }
     });
+
+    // Selection follows the mouse (docs/preview for the hovered row, and a
+    // click then accepts exactly what's highlighted). Gated on real pointer
+    // movement in eventFilter().
+    m_view->viewport()->setMouseTracking(true);
+    m_view->viewport()->installEventFilter(this);
 
     // Hover a piano key → highlight the matching completion; click → insert it.
     // A key with no list entry is still clickable: it inserts that MIDI note
@@ -1218,7 +1279,49 @@ bool CompletionPopup::eventFilter(QObject* obj, QEvent* ev)
         else if (ev->type() == QEvent::Leave)
             m_closeButton->setIcon(m_closeIconNormal);
     }
+    else if (m_view && obj == m_view->viewport() && ev->type() == QEvent::MouseMove) {
+        auto* me = static_cast<QMouseEvent*>(ev);
+        const QPoint g = me->globalPosition().toPoint();
+        // Only genuine pointer movement moves the highlight — never the popup
+        // materialising under a parked cursor or rows scrolling beneath it.
+        // And not while the pointer is plausibly en route to the detail pane's
+        // controls (inside the safe triangle) — crossing rows on that journey
+        // must not switch the doc pane out from under it.
+        if (g != m_lastHoverGlobal) {
+            m_lastHoverGlobal = g;
+            if (!inDetailSafeTriangle(g)) {
+                const QModelIndex idx = m_view->indexAt(me->position().toPoint());
+                if (idx.isValid() && idx != m_view->currentIndex())
+                    m_view->setCurrentIndex(idx);
+                m_hoverAnchorGlobal = g;   // re-anchor the triangle to the pointer
+            }
+        }
+    }
     return QWidget::eventFilter(obj, ev);
+}
+
+// True while the pointer is inside the triangle spanning from where the
+// selection was last set (apex) to the detail pane's left edge — i.e. on a
+// plausible straight-ish path to the docs / audition keyboard.
+bool CompletionPopup::inDetailSafeTriangle(const QPoint& g) const
+{
+    if (!m_detailPane || !m_detailPane->isVisible()) return false;
+    if (m_hoverAnchorGlobal.x() < 0) return false;
+    const QPoint top = m_detailPane->mapToGlobal(QPoint(0, 0));
+    QPoint bottom = m_detailPane->mapToGlobal(QPoint(0, m_detailPane->height()));
+    if (m_auditionMode && m_piano && m_piano->isVisible())
+        bottom = m_piano->mapToGlobal(QPoint(0, m_piano->height()));
+    if (m_hoverAnchorGlobal.x() >= top.x()) return false;   // pane must be to the right
+    auto side = [](const QPoint& p, const QPoint& a, const QPoint& b) {
+        return (qint64)(b.x() - a.x()) * (p.y() - a.y())
+             - (qint64)(b.y() - a.y()) * (p.x() - a.x());
+    };
+    const qint64 s1 = side(g, m_hoverAnchorGlobal, top);
+    const qint64 s2 = side(g, top, bottom);
+    const qint64 s3 = side(g, bottom, m_hoverAnchorGlobal);
+    const bool hasNeg = (s1 < 0) || (s2 < 0) || (s3 < 0);
+    const bool hasPos = (s1 > 0) || (s2 > 0) || (s3 > 0);
+    return !(hasNeg && hasPos);
 }
 
 void CompletionPopup::setItemFont(const QFont& font, double docPointSize)
@@ -1343,6 +1446,10 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
         if (x + tw > g.right()) x = qMax(g.left(), g.right() - tw);
     }
     move(x, y);
+    // Pre-record the pointer position so the synthetic hover the popup gets
+    // when it appears under a parked cursor doesn't count as movement.
+    m_lastHoverGlobal = QCursor::pos();
+    m_hoverAnchorGlobal = m_lastHoverGlobal;
     if (!isVisible()) {
         show();
 #ifdef Q_OS_MACOS
@@ -1541,7 +1648,7 @@ void CompletionPopup::resizeToContents()
         // shorter list + a taller keyboard makes the piano the focus, not filler.
         const int w = qBound(300, naturalW, 380);
         const int nListH = qMin(rows, 9) * rowH + 4;
-        const int pianoH = qBound(98, int(w * 0.36), 132);
+        const int pianoH = qBound(72, int(w * 0.25), 95);
         m_view->setGeometry(0, band, w, nListH);
         m_piano->setGeometry(0, band + nListH, w, pianoH);
         setPopupSize(w, band + nListH + pianoH);
