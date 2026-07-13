@@ -679,6 +679,17 @@ module SonicPi
       end
       span = __error_token_span(e, info)
       error_line = linenum != -1 ? (info[:code].lines.to_a[linenum - info[:first_line_num]] || "") : ""
+      # "given 0" arity errors: point the card's marker at the gap AFTER the
+      # call, where the missing argument belongs, not at the fn name — but
+      # only when there IS a gap. With trailing code (`use_synth + 3` parses
+      # as zero-arg use_synth plus 3) the marker stays on the call itself.
+      # (The editor clamps spans to the line and falls back to underlining
+      # the name, so this only moves the card's chevron.)
+      if span && e.is_a?(ArgumentError) &&
+         e.message =~ /wrong number of arguments \(given 0/
+        rest = error_line[span[1]..].to_s.strip
+        span = [span[1], span[1] + 4] if rest.empty? || rest.start_with?("#")
+      end
       __msg_queue.push({type: :error, val: res, backtrace: e.backtrace, jobid: __current_job_id, jobinfo: __current_job_info, linenum: linenum, first_col: (span ? span[0] : -1), last_col: (span ? span[1] : -1), error_line: error_line})
     end
 
@@ -693,7 +704,11 @@ module SonicPi
       return nil unless code
       locs = e.backtrace_locations
       return nil unless locs && locs.first
-      nid = RubyVM::AbstractSyntaxTree.node_id_for_backtrace_location(locs.first)
+      # The frame to spot is the user's call in the workspace — for errors
+      # raised INSIDE a lang fn (e.g. arity errors) the first frame is the
+      # raise site in lib/, whose node id can't match the workspace parse.
+      loc = locs.find { |l| l.path == info[:workspace] } || locs.first
+      nid = RubyVM::AbstractSyntaxTree.node_id_for_backtrace_location(loc)
       return nil unless nid
       node = Prism.parse(code).value.breadth_first_search { |n| n.node_id == nid }
       return nil unless node
@@ -775,15 +790,18 @@ module SonicPi
       return nil unless info
       args = info[:args]
       return nil unless args && !args.empty?
-      arg_list = args.map do |a|
+      fmt = lambda do |a|
         kind = a[1] ? " (#{a[1].to_s.tr('_', ' ')})" : ""
         "`#{a[0]}`#{kind}"
-      end.join(", ")
+      end
       given = e.message[/given (\d+)/, 1]
-      if given
-        "`#{fn}` was given #{given} argument#{given == '1' ? '' : 's'} but takes: #{arg_list}"
+      if given && given.to_i < args.size
+        # Under-supplied: name what's absent, not the whole signature.
+        "`#{fn}` is missing #{args[given.to_i..].map(&fmt).join(", ")}"
+      elsif given
+        "`#{fn}` was given #{given} argument#{given == '1' ? '' : 's'} but takes: #{args.map(&fmt).join(", ")}"
       else
-        "`#{fn}` takes: #{arg_list}"
+        "`#{fn}` takes: #{args.map(&fmt).join(", ")}"
       end
     rescue Exception
       nil

@@ -57,7 +57,12 @@ public:
         // Height covers the text plus the zig-zag sitting kGap below the
         // descent (see paintEvent) with its amplitude and stroke.
         const int wave = kGap + qCeil(2 * kAmp + kStroke);
-        return QSize(int(gutterWidth(fm)) + fm.horizontalAdvance(m_line) + 2, fm.height() + wave);
+        // A span extending past the text (gap pointer) widens the hint so the
+        // wave isn't clipped.
+        int extra = 0;
+        if (m_cs >= 0 && m_ce > m_cs && m_ce > m_line.length())
+            extra = fm.horizontalAdvance(QChar(' ')) * (m_ce - qMax(m_cs, int(m_line.length())));
+        return QSize(int(gutterWidth(fm)) + fm.horizontalAdvance(m_line) + extra + 2, fm.height() + wave);
     }
 
 protected:
@@ -82,15 +87,18 @@ protected:
 
         int cs = m_cs;
         int ce = m_ce;
-        const bool hasTok = (cs >= 0 && ce > cs && cs < m_line.length());
+        // cs may sit AT the end of the text: a gap pointer marking where a
+        // missing argument belongs (span past EOL, zig-zag over empty space).
+        const bool hasTok = (cs >= 0 && ce > cs && cs <= m_line.length());
+        int ceText = ce;
         if (hasTok)
         {
-            cs = qBound(0, cs, m_line.length());
-            ce = qBound(cs, ce, m_line.length());
+            cs = qBound(0, cs, int(m_line.length()));
+            ceText = qBound(cs, ce, int(m_line.length()));
         }
         const QString pre = hasTok ? m_line.left(cs) : m_line;
-        const QString tok = hasTok ? m_line.mid(cs, ce - cs) : QString();
-        const QString post = hasTok ? m_line.mid(ce) : QString();
+        const QString tok = hasTok ? m_line.mid(cs, ceText - cs) : QString();
+        const QString post = hasTok ? m_line.mid(ceText) : QString();
 
         qreal x = codeX;
         // With no marked span the whole line is the error — keep it full
@@ -106,7 +114,10 @@ protected:
             p.drawText(QPointF(x, baseline), tok);
             x += fm.horizontalAdvance(tok);
         }
-        const qreal tokX1 = x;
+        qreal tokX1 = x;
+        // Extend the wave over the virtual columns past the text.
+        if (hasTok && ce > m_line.length())
+            tokX1 += fm.horizontalAdvance(QChar(' ')) * (ce - qMax(cs, int(m_line.length())));
 
         p.setPen(m_text);
         p.drawText(QPointF(x, baseline), post);

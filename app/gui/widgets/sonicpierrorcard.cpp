@@ -130,7 +130,7 @@ SonicPiErrorCard::SonicPiErrorCard(SonicPiTheme* theme, QWidget* parent)
         if (!m_docsFn.isEmpty())
             emit docsRequested(m_docsFn);
     };
-    m_hintChip = new QPushButton(tr("Show docs:"), m_hintFrame);
+    m_hintChip = new QPushButton(tr("Doc Example:"), m_hintFrame);
     m_hintChip->setObjectName("errHintChip");
     m_hintChip->setFlat(true);
     m_hintChip->setCursor(Qt::PointingHandCursor);
@@ -202,16 +202,16 @@ SonicPiErrorCard::SonicPiErrorCard(SonicPiTheme* theme, QWidget* parent)
     actions->addWidget(m_jump, 0, Qt::AlignVCenter);
 
     // Reading order = priority order: what happened, the offending code, the
-    // precise reason (tied to the code, muted), then how to fix it.
+    // doc example, and only then the raw technical error (muted, lowest).
     bodyV->addLayout(headerRow);
     bodyV->addSpacing(ScaleHeightForDPI(10));   // gap between title and message
     bodyV->addWidget(m_message);
     bodyV->addSpacing(ScaleHeightForDPI(10));   // let the code box breathe
     bodyV->addWidget(m_codeFrame);
-    bodyV->addSpacing(ScaleHeightForDPI(4));
-    bodyV->addWidget(m_reason);
     bodyV->addSpacing(ScaleHeightForDPI(8));
     bodyV->addWidget(m_hintFrame);
+    bodyV->addSpacing(ScaleHeightForDPI(4));
+    bodyV->addWidget(m_reason);
     bodyV->addSpacing(ScaleHeightForDPI(8));
     bodyV->addWidget(m_backtraceScroll);
     bodyV->addLayout(actions);
@@ -291,7 +291,7 @@ void SonicPiErrorCard::applyTheme()
         "#errJump:hover:!pressed { background:%9; color:%12; }"
         "#errJump:pressed { background:%10; color:%13; }"
         "#errDetails { background:transparent; border:none; color:%3;"
-        " text-decoration:underline; font-size:%21; }"
+        " text-decoration:underline; font-size:%21; padding:0; text-align:left; }"
         "#errDetails:hover { color:%4; }"
         "#errHintFrame { background:%22; border:1px solid %23; border-radius:6px; }"
         "#errHintChip { background:transparent; color:%3; font-size:%24;"
@@ -303,7 +303,7 @@ void SonicPiErrorCard::applyTheme()
         .arg(accent.name(), cardBg.name(), muted.name(), textColor.name(), editorBg.name())
         .arg(codeBorder.name(), btnText.name(), btnBorder.name(), btnHover.name(), btnPressed.name())
         .arg(btnBg.name(), btnHoverText.name(), btnPressedText.name())
-        .arg(pt(15), pt(13), pt(14), pt(10), pt(12), pt(10), pt(10), pt(9))
+        .arg(pt(15), pt(13), pt(14), pt(10), pt(9), pt(10), pt(10), pt(9))
         .arg(blend(cardBg, accent, 0.10).name(), blend(cardBg, accent, 0.45).name())
         .arg(pt(10), pt(11));
     setStyleSheet(qss);

@@ -937,6 +937,11 @@ void MainWindow::setupWindowStructure()
     southTabs->setTabToolTip(southTabs->addTab(docsplit, "Docs"),
                              tr("Tutorial, examples and reference documentation."));
     southTabs->setAttribute(Qt::WA_StyledBackground, true);
+    // Explicit minimum so the dock can always be shrunk (content scrolls):
+    // the Debug tab's natural minimum is tall enough to defeat
+    // stealHelpHeightForError's resizeDocks, squeezing error cards out of
+    // the central area entirely.
+    southTabs->setMinimumHeight(ScaleHeightForDPI(60));
 
     // The docs zoom bar's final icon: a close ✕ sharing the A-/A+ (#tutZoom)
     // styling so the three read as one designed row. Closing the Help dock is
@@ -962,6 +967,17 @@ void MainWindow::setupWindowStructure()
     // Currently causes a segfault when dragging doc pane out of main
     // window:
     connect(docWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(toggleHelpIcon()));
+    // An error card must stay visible even when Help opens after the error:
+    // re-steal the height once the dock's layout settles.
+    connect(docWidget, &QDockWidget::visibilityChanged, this, [this](bool visible) {
+        if (!visible || !errorCard || !errorCard->isVisible())
+            return;
+        QTimer::singleShot(0, this, [this]() {
+            if (errorCard && errorCard->isVisible())
+                stealHelpHeightForError(errorCard->height() > 0 ? errorCard->height()
+                                                                : errorCard->sizeHint().height());
+        });
+    });
 
     mainWidgetLayout = new QVBoxLayout;
     // Fill the central area: the style's default layout margins would inset the
