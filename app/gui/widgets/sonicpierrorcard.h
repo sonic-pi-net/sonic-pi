@@ -51,10 +51,15 @@ public:
     // Scale all the card's font sizes (1.0 = design size); tracks editor zoom.
     void setFontScale(double scale);
     QString plainText() const;  // flat text for the screen-reader announce
+    // The whole report — message, location, reason, offending line and
+    // backtrace — as clipboard-ready plain text.
+    QString clipboardText() const;
 
 signals:
     void jumpRequested();
     void closeRequested();
+    // The hint strip's docs link was clicked — open the help page for fn.
+    void docsRequested(const QString& fn);
 
 protected:
     void keyPressEvent(QKeyEvent* event) override;
@@ -86,8 +91,13 @@ private:
     QLabel* m_reason;
     QFrame* m_codeFrame;
     SonicPiErrorCodeLine* m_code;
+    QFrame* m_hintFrame;      // "Show docs: <code>" callout (below code + reason)
+    QPushButton* m_hintChip;  // the lead-in label — also a docs link
+    QPushButton* m_hintCode;  // the example code IS the docs link
+    QString m_docsFn;         // documented fn behind the docs link ("" = no link)
     QPushButton* m_jump;
     QPushButton* m_details;
+    QPushButton* m_copy;
     QScrollArea* m_backtraceScroll;
     QLabel* m_backtrace;
     bool m_detailsOn = false;

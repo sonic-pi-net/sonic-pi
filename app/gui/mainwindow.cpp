@@ -980,6 +980,8 @@ void MainWindow::setupWindowStructure()
     errorCard = new SonicPiErrorCard(theme);
     connect(errorCard, &SonicPiErrorCard::jumpRequested, this, &MainWindow::jumpToError);
     connect(errorCard, &SonicPiErrorCard::closeRequested, this, &MainWindow::dismissErrorCard);
+    connect(errorCard, &SonicPiErrorCard::docsRequested, this,
+            [this](const QString& name) { showHelpForKeyword(name); });
     // Buffers can have different zoom levels; keep the card tracking the
     // current one.
     connect(editorTabWidget, &QTabWidget::currentChanged, this, &MainWindow::updateErrorCardZoom);

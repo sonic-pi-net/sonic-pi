@@ -25,6 +25,9 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPaintEvent>
+#include <QGuiApplication>
+#include <QClipboard>
+#include <QTimer>
 
 #include "sonicpierrorcodeline.h"
 
@@ -109,6 +112,41 @@ SonicPiErrorCard::SonicPiErrorCard(SonicPiTheme* theme, QWidget* parent)
     m_code->setToolTip(tr("The line of your code that caused the error"));
     codeV->addWidget(m_code);
 
+    // The usage illustration as its own callout: an accent-tinted strip with
+    // a quiet "For example:" lead-in and the canonical example in plain code.
+    // Reads as a general how-it's-used note from Sonic Pi — not a correction
+    // of the user's specific values, and never confusable with the offending
+    // line above it.
+    m_hintFrame = new QFrame(cardFrame);
+    m_hintFrame->setObjectName("errHintFrame");
+    QHBoxLayout* hintH = new QHBoxLayout(m_hintFrame);
+    hintH->setContentsMargins(ScaleWidthForDPI(12), ScaleHeightForDPI(7),
+                              ScaleWidthForDPI(12), ScaleHeightForDPI(7));
+    hintH->setSpacing(ScaleWidthForDPI(10));
+    // Both the lead-in and the example code are docs links: the whole strip
+    // is one affordance, clicking anywhere meaningful opens the failing fn's
+    // help page.
+    auto openDocs = [this] {
+        if (!m_docsFn.isEmpty())
+            emit docsRequested(m_docsFn);
+    };
+    m_hintChip = new QPushButton(tr("Show docs:"), m_hintFrame);
+    m_hintChip->setObjectName("errHintChip");
+    m_hintChip->setFlat(true);
+    m_hintChip->setCursor(Qt::PointingHandCursor);
+    m_hintChip->setFocusPolicy(Qt::NoFocus);
+    connect(m_hintChip, &QPushButton::clicked, this, openDocs);
+    m_hintCode = new QPushButton(m_hintFrame);
+    m_hintCode->setObjectName("errHintCode");
+    m_hintCode->setFlat(true);
+    m_hintCode->setCursor(Qt::PointingHandCursor);
+    m_hintCode->setFocusPolicy(Qt::NoFocus);
+    connect(m_hintCode, &QPushButton::clicked, this, openDocs);
+    hintH->addWidget(m_hintChip, 0, Qt::AlignVCenter);
+    hintH->addWidget(m_hintCode, 0, Qt::AlignVCenter);
+    hintH->addStretch(1);
+    m_hintFrame->hide();
+
     m_backtraceScroll = new QScrollArea(cardFrame);
     m_backtraceScroll->setObjectName("errBacktraceScroll");
     m_backtraceScroll->setWidgetResizable(true);
@@ -130,28 +168,50 @@ SonicPiErrorCard::SonicPiErrorCard(SonicPiTheme* theme, QWidget* parent)
     m_details->setFocusPolicy(Qt::NoFocus);
     connect(m_details, &QPushButton::clicked, this, [this] { setDetailsVisible(!m_detailsOn); });
 
+    // "Copy" shares the details link's objectName so the #errDetails
+    // stylesheet rule styles both.
+    m_copy = new QPushButton(tr("Copy"), cardFrame);
+    m_copy->setObjectName("errDetails");
+    m_copy->setCursor(Qt::PointingHandCursor);
+    m_copy->setFlat(true);
+    m_copy->setFocusPolicy(Qt::NoFocus);
+    m_copy->setToolTip(tr("Copy the whole error report (message, location, code and backtrace) to the clipboard"));
+    m_copy->setAccessibleName(tr("Copy error report"));
+    connect(m_copy, &QPushButton::clicked, this, [this] {
+        QGuiApplication::clipboard()->setText(clipboardText());
+        m_copy->setText(tr("Copied ✓"));
+        QTimer::singleShot(1500, m_copy, [this] { m_copy->setText(tr("Copy")); });
+    });
+
     m_jump = new QPushButton(cardFrame);
     m_jump->setObjectName("errJump");
     m_jump->setCursor(Qt::PointingHandCursor);
     m_jump->setToolTip(tr("Move the cursor to the error in your code"));
     connect(m_jump, &QPushButton::clicked, this, [this] { emit jumpRequested(); });
 
-    // Bottom row: "Show details" on the left; the location sits next to the
-    // primary jump button on the right.
+    // Bottom row: "Show details" + "Copy" on the left; the location sits next
+    // to the primary jump button on the right.
     QHBoxLayout* actions = new QHBoxLayout;
     actions->setContentsMargins(0, ScaleHeightForDPI(6), 0, 0);
     actions->addWidget(m_details, 0, Qt::AlignLeft | Qt::AlignVCenter);
+    actions->addSpacing(ScaleWidthForDPI(14));
+    actions->addWidget(m_copy, 0, Qt::AlignLeft | Qt::AlignVCenter);
     actions->addStretch(1);
     actions->addWidget(m_location, 0, Qt::AlignVCenter);
     actions->addSpacing(ScaleWidthForDPI(12));
     actions->addWidget(m_jump, 0, Qt::AlignVCenter);
 
+    // Reading order = priority order: what happened, the offending code, the
+    // precise reason (tied to the code, muted), then how to fix it.
     bodyV->addLayout(headerRow);
     bodyV->addSpacing(ScaleHeightForDPI(10));   // gap between title and message
     bodyV->addWidget(m_message);
-    bodyV->addWidget(m_reason);
     bodyV->addSpacing(ScaleHeightForDPI(10));   // let the code box breathe
     bodyV->addWidget(m_codeFrame);
+    bodyV->addSpacing(ScaleHeightForDPI(4));
+    bodyV->addWidget(m_reason);
+    bodyV->addSpacing(ScaleHeightForDPI(8));
+    bodyV->addWidget(m_hintFrame);
     bodyV->addSpacing(ScaleHeightForDPI(8));
     bodyV->addWidget(m_backtraceScroll);
     bodyV->addLayout(actions);
@@ -232,11 +292,20 @@ void SonicPiErrorCard::applyTheme()
         "#errJump:pressed { background:%10; color:%13; }"
         "#errDetails { background:transparent; border:none; color:%3;"
         " text-decoration:underline; font-size:%21; }"
-        "#errDetails:hover { color:%4; }")
+        "#errDetails:hover { color:%4; }"
+        "#errHintFrame { background:%22; border:1px solid %23; border-radius:6px; }"
+        "#errHintChip { background:transparent; color:%3; font-size:%24;"
+        " border:none; padding:0; text-align:left; }"
+        "#errHintChip:hover:enabled { color:%1; text-decoration:underline; }"
+        "#errHintCode { background:transparent; color:%4; border:none; padding:0;"
+        " text-align:left; font-family:'Hack','Courier New',monospace; font-size:%25; }"
+        "#errHintCode:hover:enabled { color:%1; text-decoration:underline; }")
         .arg(accent.name(), cardBg.name(), muted.name(), textColor.name(), editorBg.name())
         .arg(codeBorder.name(), btnText.name(), btnBorder.name(), btnHover.name(), btnPressed.name())
         .arg(btnBg.name(), btnHoverText.name(), btnPressedText.name())
-        .arg(pt(15), pt(13), pt(14), pt(10), pt(12), pt(10), pt(10), pt(9));
+        .arg(pt(15), pt(13), pt(14), pt(10), pt(12), pt(10), pt(10), pt(9))
+        .arg(blend(cardBg, accent, 0.10).name(), blend(cardBg, accent, 0.45).name())
+        .arg(pt(10), pt(11));
     setStyleSheet(qss);
 
     QFont codeFont("Hack");
@@ -260,6 +329,9 @@ void SonicPiErrorCard::renderThemedContent()
         static const QRegularExpression reTok("`([^`]+)`");
         msgHtml.replace(reTok, "<span style=\"font-family:'Hack','Courier New',monospace; color:"
                         + accent.name() + ";\">\\1</span>");
+        // Rich text swallows newlines; the server uses one for the
+        // "Try: ..." hint line.
+        msgHtml.replace("\n", "<br/>");
         m_message->setText(msgHtml);
     }
 
@@ -298,6 +370,43 @@ void SonicPiErrorCard::showError(bool isSyntax,
     m_headerPlain = header;
     m_headerPlain.remove('`');   // don't let the screen reader speak "backtick"
     m_header->setText(title);
+
+    // Pull the server's structured trailer lines out of the message: the
+    // "Try: ..." remedy and the "Docs: fn" link render as their own callout
+    // below the code + reason, not as part of the headline.
+    QString hint;
+    m_docsFn.clear();
+    {
+        QStringList kept;
+        const QStringList lines = message.split('\n');
+        for (const QString& line : lines)
+        {
+            if (line.startsWith(QStringLiteral("Example: ")))
+                hint = QString(line.mid(9)).remove('`').trimmed();
+            else if (line.startsWith(QStringLiteral("Docs: ")))
+                m_docsFn = line.mid(6).trimmed();
+            else
+                kept << line;
+        }
+        message = kept.join('\n').trimmed();
+    }
+    // The lead-in labels the click action, so it stays for the docs-only case
+    // (e.g. a typo'd name), where the link is just the fn name.
+    m_hintCode->setText(hint.isEmpty() && !m_docsFn.isEmpty() ? m_docsFn : hint);
+    const QString docsTip = m_docsFn.isEmpty()
+                                ? QString()
+                                : tr("Open the documentation for %1").arg(m_docsFn);
+    for (QPushButton* link : { m_hintChip, m_hintCode })
+    {
+        link->setEnabled(!m_docsFn.isEmpty());
+        link->setCursor(m_docsFn.isEmpty() ? Qt::ArrowCursor : Qt::PointingHandCursor);
+        link->setToolTip(docsTip);
+    }
+    m_hintCode->setAccessibleName(m_docsFn.isEmpty()
+                                      ? tr("Usage example")
+                                      : tr("Usage example - opens the %1 documentation").arg(m_docsFn));
+    m_hintFrame->setVisible(!hint.isEmpty() || !m_docsFn.isEmpty());
+
     m_messageText = message;
     m_message->setVisible(!message.isEmpty());
 
@@ -349,4 +458,27 @@ QString SonicPiErrorCard::plainText() const
     if (m_reason->isVisible())
         parts << m_reason->text();
     return parts.join(". ");
+}
+
+QString SonicPiErrorCard::clipboardText() const
+{
+    QStringList parts;
+    parts << m_headerPlain;
+    if (m_location->isVisible())
+        parts << m_location->text();
+    if (m_reason->isVisible())
+        parts << m_reason->text();
+    if (!m_codeLine.isEmpty())
+    {
+        QString code = m_codeLine;
+        while (code.endsWith('\n') || code.endsWith('\r'))
+            code.chop(1);
+        parts << (m_codeLineNumber >= 0
+                      ? QStringLiteral("line %1: %2").arg(m_codeLineNumber).arg(code)
+                      : code);
+    }
+    const QString bt = m_backtrace->text();
+    if (!bt.trimmed().isEmpty())
+        parts << QStringLiteral("Backtrace:\n") + bt;
+    return parts.join("\n");
 }
