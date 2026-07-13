@@ -511,11 +511,14 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     sig->setTextInteractionFlags(Qt::TextSelectableByMouse);
     m_column->addWidget(sig);
 
-    // Dials: the instrument's specific ranged opts first, then mix/amp for FX
+    // Dials: the instrument's specific ranged opts first, then mix/amp for FX.
+    // Slide opts are skipped — the preview snippet is a one-shot trigger, so a
+    // slide dial would be a dead control.
     const QStringList commonFx = { "amp", "mix", "pre_mix", "pre_amp" };
     QVector<SonicPi::InstrumentOpt> dialOpts;
     for (const SonicPi::InstrumentOpt& opt : page.opts)
-        if (opt.numeric && opt.hasRange && !(isFx && commonFx.contains(opt.name)))
+        if (opt.numeric && opt.hasRange && !opt.name.endsWith("_slide")
+            && !(isFx && commonFx.contains(opt.name)))
             dialOpts.append(opt);
     if (isFx)
         for (const QString& name : { QString("mix"), QString("amp") })
@@ -525,10 +528,10 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
 
     QWidget* dialsRow = new QWidget(m_content);
     dialsRow->setObjectName("tutDials");
-    QHBoxLayout* dials = new QHBoxLayout(dialsRow);
+    QVBoxLayout* dialRows = new QVBoxLayout(dialsRow);
     int dialPad = ScaleWidthForDPI(10);
-    dials->setContentsMargins(dialPad, ScaleHeightForDPI(8), dialPad, ScaleHeightForDPI(6));
-    dials->setSpacing(ScaleWidthForDPI(6));
+    dialRows->setContentsMargins(dialPad, ScaleHeightForDPI(8), dialPad, ScaleHeightForDPI(6));
+    dialRows->setSpacing(ScaleHeightForDPI(2));
 
     QColor dialFg = m_theme->color("Foreground");
     QColor dialBg = m_theme->color("Background");
@@ -536,14 +539,27 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     QColor dialMuted = SonicPiTheme::blend(dialFg, dialBg, 0.38);
     QColor dialTrack = SonicPiTheme::blend(dialBg, dialFg, 0.18);
     auto onChange = [this]() { regenerateInstrumentCode(); };
+    // Wrap into rows so every ranged opt gets a dial: a single row overflowed
+    // the pane sideways, which silently hid everything past the first few
+    // opts (e.g. :saw's cutoff).
+    const int kDialsPerRow = 6, kMaxDials = 18;
+    QHBoxLayout* dials = nullptr;
     for (const SonicPi::InstrumentOpt& opt : dialOpts)
     {
-        if (m_dials.size() >= 8)
+        if (m_dials.size() >= kMaxDials)
             break;
+        if (!dials || m_dials.size() % kDialsPerRow == 0)
+        {
+            dials = new QHBoxLayout;
+            dials->setContentsMargins(0, 0, 0, 0);
+            dials->setSpacing(ScaleWidthForDPI(6));
+            dials->addStretch(1);
+            dialRows->addLayout(dials);
+        }
         TutDial* dial = new TutDial(opt.name, opt.min, opt.max, opt.defaultNum, onChange, dialsRow);
         dial->setColours(dialFg, dialMuted, dialAccent, dialTrack);
         m_dials.append(dial);
-        dials->addWidget(dial);
+        dials->insertWidget(dials->count() - 1, dial);
     }
 
     QPushButton* reset = new QPushButton(tr("Reset"), dialsRow);
@@ -555,8 +571,8 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
             dial->reset(false);
         regenerateInstrumentCode();
     });
-    dials->addStretch(1);
-    dials->addWidget(reset, 0, Qt::AlignBottom);
+    if (dials)
+        dials->addWidget(reset, 0, Qt::AlignBottom);
 
     if (m_dials.isEmpty())
         dialsRow->deleteLater();

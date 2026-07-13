@@ -625,11 +625,7 @@ public:
         , m_onChange(std::move(onChange))
     {
         m_step = (hi - lo) >= 20.0 ? 1.0 : 0.01;
-        QFontMetrics fm(font());
-        int w = qBound(ScaleWidthForDPI(56),
-                       fm.horizontalAdvance(optName) + ScaleWidthForDPI(14),
-                       ScaleWidthForDPI(104));
-        setFixedSize(w, ScaleHeightForDPI(80));
+        updateWidth();
         setFocusPolicy(Qt::TabFocus);
         setCursor(Qt::SizeVerCursor);
         setAccessibleName(optName);
@@ -706,12 +702,11 @@ protected:
                               centre.y() - r * std::sin(angle)),
                       penW * 0.9, penW * 0.9);
 
-        QFont f = font();
-        f.setPointSizeF(qMax(7.0, f.pointSizeF() * 0.8));
-        p.setFont(f);
+        p.setFont(labelFont());
         QRect nameRect(0, arcRect.bottom() + ScaleHeightForDPI(2), width(), ScaleHeightForDPI(13));
         p.setPen(isDefault() ? m_dim : m_accent);
-        p.drawText(nameRect, Qt::AlignHCenter | Qt::AlignTop, m_name);
+        p.drawText(nameRect, Qt::AlignHCenter | Qt::AlignTop,
+                   p.fontMetrics().elidedText(m_name, Qt::ElideMiddle, nameRect.width()));
         QRect valRect(0, nameRect.bottom() + ScaleHeightForDPI(1), width(), ScaleHeightForDPI(14));
         p.setPen(m_fg);
         p.drawText(valRect, Qt::AlignHCenter | Qt::AlignTop, valueText());
@@ -742,6 +737,16 @@ protected:
     void mouseReleaseEvent(QMouseEvent*) override { m_dragStartY = -1; }
     void mouseDoubleClickEvent(QMouseEvent*) override { reset(); }
 
+    // The ctor's font is not the font the dial ends up painting with (the app
+    // font propagates in afterwards) — re-fit the width when it lands, or the
+    // label gets cropped.
+    void changeEvent(QEvent* e) override
+    {
+        if (e->type() == QEvent::FontChange)
+            updateWidth();
+        QWidget::changeEvent(e);
+    }
+
     void wheelEvent(QWheelEvent* e) override
     {
         setValue(m_value + (e->angleDelta().y() > 0 ? m_step : -m_step));
@@ -769,6 +774,23 @@ protected:
     }
 
 private:
+    QFont labelFont() const
+    {
+        QFont f = font();
+        f.setPointSizeF(qMax(7.0, f.pointSizeF() * 0.8));
+        return f;
+    }
+
+    // Fit the dial to its label, measured with the font the label is actually
+    // painted in.
+    void updateWidth()
+    {
+        int w = qBound(ScaleWidthForDPI(56),
+                       QFontMetrics(labelFont()).horizontalAdvance(m_name) + ScaleWidthForDPI(12),
+                       ScaleWidthForDPI(140));
+        setFixedSize(w, ScaleHeightForDPI(80));
+    }
+
     void updateAccessibleValue()
     {
         setAccessibleDescription(QString("%1 %2").arg(m_name, valueText()));
