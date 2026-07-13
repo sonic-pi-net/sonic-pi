@@ -274,6 +274,7 @@ module SonicPi
           arg_kinds:     [:link_peer, :link_channel],
           introduced:     Version.new(5, 0, 0),
           summary:        "A named audio stream live from an Ableton Link peer",
+          usage_example:  "link_audio \"Live\"",
           args:           [[:peer, :string], [:channel, :string]],
           returns:        :SynthNode,
           opts:           {amp:  "Amplitude.",
@@ -339,6 +340,7 @@ link_audio \"Live\", :stop
       doc name:           :live_audio,
           introduced:     Version.new(3,0,0),
           summary:        "A named audio stream live from your soundcard",
+          usage_example:  "live_audio :mic",
           args:           [[:name, :symbol]],
           returns:        :SynthNode,
           opts:           {:input  => "The audio card input to read audio from.",
@@ -471,6 +473,7 @@ live_audio :foo, :stop     #=> stop playing audio from input 1
       doc name:           :scsynth_info,
           introduced:     Version.new(2,11,0),
           summary:        "Return information about the internal SuperSonic sound server",
+          usage_example:  "scsynth_info",
           args:           [],
           returns:        :SPMap,
           opts:           nil,
@@ -510,6 +513,7 @@ live_audio :foo, :stop     #=> stop playing audio from input 1
       doc name:           :sample_free,
           introduced:     Version.new(2,9,0),
           summary:        "Free a sample on the synth server",
+          usage_example:  "sample_free :loop_amen",
           args:           [[:path, :string]],
           returns:        nil,
           opts:           nil,
@@ -560,6 +564,7 @@ sample_free dir, /[Bb]ar/ # frees sample which matches regex /[Bb]ar/ in \"/path
       doc name:           :buffer,
           introduced:     Version.new(3,0,0),
           summary:        "Initialise or return named buffer",
+          usage_example:  "buffer(:foo)",
           args:           [[:symbol, :name], [:number, :duration]],
           alt_args:       [[:symbol, :name]],
           returns:        :buffer,
@@ -594,6 +599,7 @@ buffer(:foo)     # return cached 8s buffer (has the same duration)"]
       doc name:           :sample_free_all,
           introduced:     Version.new(2,9,0),
           summary:        "Free all loaded samples on the synth server",
+          usage_example:  "sample_free_all",
           args:           [],
           returns:        nil,
           opts:           nil,
@@ -631,6 +637,7 @@ sample :loop_amen        # re-loads and plays amen"]
       doc name:           :use_timing_guarantees,
           introduced:     Version.new(2,10,0),
           summary:        "Inhibit synth triggers if too late",
+          usage_example:  "use_timing_guarantees true",
           doc:            "If set to true, synths will not trigger if it is too late. If false, some synth triggers may be late.",
           args:           [[:bool, :true_or_false]],
           opts:           nil,
@@ -657,6 +664,7 @@ sample :loop_amen  #=> unless time is too far behind, this will trigger even whe
       doc name:           :with_timing_guarantees,
           introduced:     Version.new(2,10,0),
           summary:        "Block-scoped inhibition of synth triggers if too late",
+          usage_example:  "with_timing_guarantees true do ... end",
           doc:            "For the given block, if set to true, synths will not trigger if it is too late. If false, some synth triggers may be late. After the block has completed, the previous value is restored. ",
           args:           [[:bool, :true_or_false]],
           opts:           nil,
@@ -712,6 +720,7 @@ end"]
           arg_kinds:     [:sample],
           introduced:     Version.new(2,1,0),
           summary:        "Sample-duration-based bpm modification",
+          usage_example:  "use_sample_bpm :loop_amen",
           doc:            "Modify bpm so that sleeping for 1 will sleep for the duration of the sample.",
           args:           [[:string_or_number, :sample_name_or_duration]],
           opts:           {:num_beats => "The number of beats within the sample. By default this is 1."},
@@ -752,6 +761,7 @@ end"]
           arg_kinds:     [:sample],
           introduced:     Version.new(2,1,0),
           summary:        "Block-scoped sample-duration-based bpm modification",
+          usage_example:  "with_sample_bpm :loop_amen do ... end",
           doc:            "Block-scoped modification of bpm so that sleeping for 1 will sleep for the duration of the sample.",
           args:           [[:string_or_number, :sample_name_or_duration]],
           opts:           {:num_beats => "The number of beats within the sample. By default this is 1."},
@@ -787,6 +797,7 @@ end"]
       doc name:           :use_arg_bpm_scaling,
           introduced:     Version.new(2,0,0),
           summary:        "Enable and disable BPM scaling",
+          usage_example:  "use_arg_bpm_scaling false",
           doc:            "Turn synth argument bpm scaling on or off for the current thread. This is on by default. Note, using `rt` for args will result in incorrect times when used after turning arg bpm scaling off.",
           args:           [[:bool, :boolean]],
           opts:           nil,
@@ -823,6 +834,7 @@ sleep rt(2)             # still sleeps for 2 seconds"]
       doc name:           :with_arg_bpm_scaling,
           introduced:     Version.new(2,0,0),
           summary:        "Block-level enable and disable BPM scaling",
+          usage_example:  "with_arg_bpm_scaling false do ... end",
           doc:            "Turn synth argument bpm scaling on or off for the supplied block. Note, using `rt` for args will result in incorrect times when used within this block.",
           args:           [[:bool, :boolean]],
           opts:           nil,
@@ -852,6 +864,7 @@ end"]
       doc name:          :set_audio_latency!,
           introduced:    Version.new(3,1,0),
           summary:       "Globally modify audio latency",
+          usage_example: "set_audio_latency! 100",
           doc:           "On some systems with certain configurations (such as wireless speakers, and even a typical Windows environment with the default audio drivers) the audio latency can be large. If all the user is doing is generating audio via calls such as `play`, `synth` and `sample`, then this latency essentially adds to the schedule ahead time and for the most part can be ignored. However, if the user is combining audio with external MIDI/OSC triggered events, this latency can result in a noticeable offset. This function allows you to address this offset by moving the audio events forwards and backwards in time.
 
 So, for example, if your audio system has an audio latency of 150ms, you can compensate for this by setting Sonic Pi's latency to be a negative value: `set_audio_latency! -150`.",
@@ -876,6 +889,7 @@ So, for example, if your audio system has an audio latency of 150ms, you can com
       doc name:          :set_recording_bit_depth!,
           introduced:    Version.new(2,11,0),
           summary:       "Set the bit depth for recording wav files",
+          usage_example: "set_recording_bit_depth! 24",
           doc:           "When you hit the record button, Sonic Pi saves all the audio you can hear into a wav file. By default, this file uses a resolution of 16 bits which is the same as CD audio and good enough for most use cases. However, when working with professional equipment, it is common to want to work with even higher quality files such as 24 bits and even 32 bits. This function allows you to switch the default from 16 to one of 8, 16, 24 or 32.",
           args:          [[:bit_depth, :number]],
           opts:          nil,
@@ -893,6 +907,7 @@ set_recording_bit_depth! 24                 # Set recording bit depth to 24"]
       doc name:          :set_control_delta!,
           introduced:    Version.new(2,1,0),
           summary:       "Set control delta globally",
+          usage_example: "set_control_delta! 0.1",
           doc:           "Specify how many seconds between successive modifications (i.e. trigger then controls) of a specific node on a specific thread. Set larger if you are missing control messages sent extremely close together in time.",
           args:          [[:time, :number]],
           opts:          nil,
@@ -923,6 +938,7 @@ control s, note: 82                    # immediately start sliding note.
       doc name:          :use_debug,
           introduced:    Version.new(2,0,0),
           summary:       "Enable and disable debug",
+          usage_example: "use_debug false",
           doc:           "Enable or disable messages created on synth triggers. If this is set to false, the synths will be silent until debug is turned back on. Silencing debug messages can reduce output noise and also increase performance on slower platforms. See `with_debug` for setting the debug value only for a specific `do`/`end` block.",
           args:          [[:true_or_false, :boolean]],
           opts:          nil,
@@ -943,6 +959,7 @@ control s, note: 82                    # immediately start sliding note.
       doc name:          :with_debug,
           introduced:    Version.new(2,0,0),
           summary:       "Block-level enable and disable debug",
+          usage_example: "with_debug false do ... end",
           doc:           "Similar to use_debug except only applies to code within supplied `do`/`end` block. Previous debug value is restored after block.",
           args:          [[:true_or_false, :boolean]],
           opts:          nil,
@@ -977,6 +994,7 @@ play 90 # Debug message is sent
       doc name:          :use_arg_checks,
           introduced:    Version.new(2,0,0),
           summary:       "Enable and disable arg checks",
+          usage_example: "use_arg_checks false",
           doc:           "When triggering synths, each argument is checked to see if it is sensible. When argument checking is enabled and an argument isn't sensible, you'll see an error in the debug pane. This setting allows you to explicitly enable and disable the checking mechanism. See with_arg_checks for enabling/disabling argument checking only for a specific `do`/`end` block.",
           args:          [[:true_or_false, :boolean]],
           opts:          nil,
@@ -1001,6 +1019,7 @@ play 50, release: 5 # Args are not checked"]
       doc name:           :with_arg_checks,
           introduced:     Version.new(2,0,0),
           summary:        "Block-level enable and disable arg checks",
+          usage_example:  "with_arg_checks false do ... end",
           doc:            "Similar to `use_arg_checks` except only applies to code within supplied `do`/`end` block. Previous arg check value is restored after block.",
           args:           [[:true_or_false, :boolean]],
           opts:           nil,
@@ -1035,6 +1054,7 @@ play 90 # Args are checked
           arg_kinds:     [:synth],
           introduced:    Version.new(2,0,0),
           summary:       "Switch current synth",
+          usage_example: "use_synth :prophet",
           doc:           "Switch the current synth to `synth_name`. Affects all further calls to `play`. See `with_synth` for changing the current synth only for a specific `do`/`end` block.",
           args:          [[:synth_name, :symbol]],
           opts:          nil,
@@ -1061,6 +1081,7 @@ play 50 # Plays with mod_sine synth"]
           arg_kinds:     [:synth],
           introduced:     Version.new(2,0,0),
           summary:        "Block-level synth switching",
+          usage_example:  "with_synth :prophet do ... end",
           doc:            "Switch the current synth to `synth_name` but only for the duration of the `do`/`end` block. After the `do`/`end` block has completed, the previous synth is restored.",
           args:           [[:synth_name, :symbol]],
           opts:           nil,
@@ -1173,6 +1194,7 @@ play 50 # Plays with supersaw synth
       doc name:          :reset_mixer!,
           introduced:    Version.new(2,9,0),
           summary:       "Reset main mixer",
+          usage_example: "reset_mixer!",
           doc:           "The main mixer is the final mixer that all sound passes through. This fn resets it to its default set - undoing any changes made via set_mixer_control!",
           args:          [],
           opts:          {},
@@ -1193,6 +1215,7 @@ sample :loop_amen          # :loop_amen sample is played with normal cutoff"]
       doc name:          :set_mixer_control!,
           introduced:    Version.new(2,7,0),
           summary:       "Control main mixer",
+          usage_example: "set_mixer_control! lpf: 70",
           doc:           "The main mixer is the final mixer that all sound passes through. This fn gives you control over the main mixer allowing you to manipulate all the sound playing through Sonic Pi at once. For example, you can sweep a lpf or hpf over the entire sound. You can reset the controls back to their defaults with `reset_mixer!`.",
           args:          [],
           opts:          {pre_amp:        "Controls the amplitude of the signal prior to the FX stage of the mixer (prior to lpf/hpf stages). Has slide opts. Default 1.",
@@ -1286,6 +1309,7 @@ set_mixer_control! lpf: 30, lpf_slide: 16 # slide the global lpf to 30 over 16 b
           arg_kinds:     [:synth],
           introduced:    Version.new(2,0,0),
           summary:       "Trigger specific synth",
+          usage_example: "synth :dsaw, note: :e3, release: 2",
           doc:           "Trigger specified synth with given opts. Bypasses `current_synth` value, yet still honours `current_synth_defaults`. When using `synth`, the note is no longer an explicit argument but an opt with the key `note:`.
 
 If note: opt is `nil`, `:r` or `:rest`, play is ignored and treated as a rest. Also, if the `on:` opt is specified and returns `false`, or `nil` then play is similarly ignored and treated as a rest.
@@ -1369,6 +1393,7 @@ synth :dsaw, note: :e3 # This is triggered after 0.5s from start"
       doc name:          :play,
           introduced:    Version.new(2,0,0),
           summary:       "Play current synth",
+          usage_example: "play :e3, release: 0.5",
           doc:           "Play note with current synth. Accepts a set of standard options which include control of an amplitude envelope with `attack:`, `decay:`, `sustain:` and `release:` phases. These phases are triggered in order, so the duration of the sound is attack + decay + sustain + release times. The duration of the sound does not affect any other notes. Code continues executing whilst the sound is playing through its envelope phases.
 
 If `duration:` is supplied and `sustain:` isn't, it causes `sustain:` to be set so that all four phases add up to the duration.
@@ -1417,6 +1442,7 @@ play :e3 # This is triggered after 0.5s from start"]
       doc name:          :play_pattern,
           introduced:    Version.new(2,0,0),
           summary:       "Play pattern of notes",
+          usage_example: "play_pattern (scale :c3, :major)",
           doc:           "Play list of notes with the current synth one after another with a sleep of 1
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See use_synth and with_synth for changing the current synth.",
@@ -1456,6 +1482,7 @@ play_pattern [40, 41, 42] # Same as:
       doc name:          :play_pattern_timed,
           introduced:    Version.new(2,0,0),
           summary:       "Play pattern of notes with specific times",
+          usage_example: "play_pattern_timed (scale :c3, :major), [0.25]",
           doc:           "Play each note in a list of notes one after another with specified durations. The notes should be a list of MIDI numbers, symbols such as :E4 or chords such as chord(:A3, :major) - identical to the first parameter of the play function. The times should be a list of durations for each note in beats.
 
 If the list of times is smaller than the number of notes, the list is repeated again. If the list of times is longer than the number of notes, then some of the times are ignored. See examples for more detail.
@@ -1542,6 +1569,7 @@ sleep 3"]
       doc name:          :play_chord,
           introduced:    Version.new(2,0,0),
           summary:       "Play notes simultaneously",
+          usage_example: "play_chord [52, 55, 59]",
           doc:           "Play a list of notes at the same time.
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.",
@@ -1580,6 +1608,7 @@ play 47, amp: 0.5",
       doc name:          :use_merged_synth_defaults,
           introduced:    Version.new(2,0,0),
           summary:       "Merge synth defaults",
+          usage_example: "use_merged_synth_defaults amp: 0.5",
           doc:           "Specify synth arg values to be used by any following call to play. Merges the specified values with any previous defaults, rather than replacing them.",
           args:          [],
           opts:          {},
@@ -1619,6 +1648,7 @@ play 50 #=> Plays note 50 with amp 0.7, cutoff 80 and pan -1"]
       doc name:           :with_merged_synth_defaults,
           introduced:     Version.new(2,0,0),
           summary:        "Block-level merge synth defaults",
+          usage_example:  "with_merged_synth_defaults amp: 0.5 do ... end",
           doc:            "Specify synth arg values to be used by any following call to play within the specified `do`/`end` block. Merges the specified values with any previous synth defaults, rather than replacing them. After the `do`/`end` block has completed, previous defaults (if any) are restored.",
           args:           [],
           opts:           {},
@@ -1652,6 +1682,7 @@ end"]
       doc name:          :use_synth_defaults,
           introduced:    Version.new(2,0,0),
           summary:       "Use new synth defaults",
+          usage_example: "use_synth_defaults release: 2",
           doc:           "Specify new default values to be used by all subsequent calls to `play`. Will remove and override any previous defaults.",
           args:          [],
           opts:          {},
@@ -1679,6 +1710,7 @@ play 50 # plays note 50 with a cutoff of 90 and defaults for rest of args - note
       doc name:          :use_sample_defaults,
           introduced:    Version.new(2,5,0),
           summary:       "Use new sample defaults",
+          usage_example: "use_sample_defaults amp: 0.5",
           doc:           "Specify new default values to be used by all subsequent calls to `sample`. Will remove and override any previous defaults.",
           args:          [],
           opts:          {},
@@ -1706,6 +1738,7 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and defaults for rest 
       doc name:          :use_merged_sample_defaults,
           introduced:    Version.new(2,9,0),
           summary:       "Merge new sample defaults",
+          usage_example: "use_merged_sample_defaults amp: 0.5",
           doc:           "Specify new default values to be used by all subsequent calls to `sample`. Merges the specified values with any previous defaults, rather than replacing them.",
           args:          [],
           opts:          {},
@@ -1738,6 +1771,7 @@ sample :loop_amen  # plays amen break with a cutoff of 90 and and an amp of 0.5 
       doc name:           :with_sample_defaults,
           introduced:     Version.new(2,5,0),
           summary:        "Block-level use new sample defaults",
+          usage_example:  "with_sample_defaults amp: 0.5 do ... end",
           doc:            "Specify new default values to be used by all subsequent calls to `sample` within the `do`/`end` block. After the `do`/`end` block has completed, the previous sampled defaults (if any) are restored. For the contents of the block, will remove and override any previous defaults.",
           args:           [],
           opts:           {},
@@ -1772,6 +1806,7 @@ sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again a
       doc name:           :with_merged_sample_defaults,
           introduced:     Version.new(2,9,0),
           summary:        "Block-level use merged sample defaults",
+          usage_example:  "with_merged_sample_defaults amp: 0.5 do ... end",
           doc:            "Specify new default values to be used by all subsequent calls to `sample` within the `do`/`end` block.  Merges the specified values with any previous sample defaults, rather than replacing them. After the `do`/`end` block has completed, the previous sampled defaults (if any) are restored.",
           args:           [],
           opts:           {},
@@ -1806,6 +1841,7 @@ sample :loop_amen  # plays amen break with a cutoff of 70 and amp is 0.5 again a
       doc name:           :with_synth_defaults,
           introduced:     Version.new(2,0,0),
           summary:        "Block-level use new synth defaults",
+          usage_example:  "with_synth_defaults release: 2 do ... end",
           doc:            "Specify new default values to be used by all calls to `play` within the `do`/`end` block. After the `do`/`end` block has completed the previous synth defaults (if any) are restored.",
           args:           [],
           opts:           {},
@@ -2081,6 +2117,7 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
           arg_kinds:     [:fx],
           introduced:     Version.new(2,0,0),
           summary:        "Use Studio FX",
+          usage_example:  "with_fx :reverb do ... end",
           doc:            "This applies the named effect (FX) to everything within a given `do`/`end` block. Effects may take extra parameters to modify their behaviour. See FX help for parameter details.
 
 For advanced control, it is also possible to modify the parameters of an effect within the body of the block. If you define the block with a single argument, the argument becomes a reference to the current effect and can be used to control its parameters (see examples).",
@@ -2149,6 +2186,7 @@ end
       doc name:          :current_synth,
           introduced:    Version.new(2,0,0),
           summary:       "Get current synth",
+          usage_example: "current_synth",
           doc:           "Returns the current synth name.
 
 This can be set via the fns `use_synth` and `with_synth`.",
@@ -2167,6 +2205,7 @@ puts current_synth # Print out the current synth name"]
       doc name:          :current_synth_defaults,
           introduced:    Version.new(2,0,0),
           summary:       "Get current synth defaults",
+          usage_example: "current_synth_defaults",
           doc:           "Returns the current synth defaults. This is a map of synth arg names to values.
 
 This can be set via the fns `use_synth_defaults`, `with_synth_defaults`, `use_merged_synth_defaults` and `with_merged_synth_defaults`.",
@@ -2187,6 +2226,7 @@ puts current_synth_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
       doc name:          :current_sample_defaults,
           introduced:    Version.new(2,5,0),
           summary:       "Get current sample defaults",
+          usage_example: "current_sample_defaults",
           doc:           "Returns the current sample defaults. This is a map of synth arg names to either values or functions.
 
 This can be set via the fns `use_sample_defaults`, `with_sample_defaults`, `use_merged_sample_defaults` and `with_merged_sample_defaults`.",
@@ -2212,6 +2252,7 @@ puts current_sample_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
       doc name:          :current_volume,
           introduced:    Version.new(2,0,0),
           summary:       "Get current volume",
+          usage_example: "current_volume",
           doc:           "Returns the current volume.
 
 This can be set via the fn `set_volume!`.",
@@ -2235,6 +2276,7 @@ puts current_volume #=> 2"]
       doc name:          :current_debug,
           introduced:    Version.new(2,0,0),
           summary:       "Get current debug status",
+          usage_example: "current_debug",
           doc:           "Returns the current debug setting (`true` or `false`).
 
 This can be set via the fns `use_debug` and `with_debug`.",
@@ -2253,6 +2295,7 @@ puts current_debug # Print out the current debug setting"]
       doc name:          :current_arg_checks,
           introduced:    Version.new(2,0,0),
           summary:       "Get current arg checking status",
+          usage_example: "current_arg_checks",
           doc:           "Returns the current arg checking setting (`true` or `false`).
 
 This can be set via the fns `use_arg_checks` and `with_arg_checks`.",
@@ -2279,6 +2322,7 @@ puts current_arg_checks # Print out the current arg check setting"]
       doc name:          :set_volume!,
           introduced:    Version.new(2,0,0),
           summary:       "Set Volume globally",
+          usage_example: "set_volume! 2",
           doc:           "Set the main system volume to `vol`. Accepts a value between `0` and `5` inclusive. Vols greater or smaller than the allowed values are trimmed to keep them within range. Default is `1`.",
           args:          [[:vol, :number]],
           opts:          nil,
@@ -2307,6 +2351,7 @@ set_volume! 2 # Set the main system volume to 2",
           arg_kinds:     [:sample],
           introduced:    Version.new(2,2,0),
           summary:       "Test if sample was pre-loaded",
+          usage_example: "sample_loaded? :loop_amen",
           doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` file, returns `true` if the sample has already been loaded.",
           args:          [[:path, :string]],
           opts:          nil,
@@ -2326,6 +2371,7 @@ puts sample_loaded? :misc_burp # prints false because it has not been loaded"]
           arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load first matching sample",
+          usage_example: "load_sample :loop_amen",
           doc:           "Given a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` file, pre-loads the sample into memory.
 
 You may also specify the same set of source and filter pre-args available to `sample` itself. `load_sample` will then load the first matching sample. Use `load_samples` to load all matching samples. See `sample`'s docs for more information." ,
@@ -2357,6 +2403,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
           arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Pre-load all matching samples",
+          usage_example: "load_samples [:bd_haus, :loop_amen]",
           doc:           "Given a directory containing multiple `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` files, pre-loads all the samples into memory.
 
  You may also specify the same set of source and filter pre-args available to `sample` itself. `load_samples` will load all matching samples (not just the sample `sample` would play given the same opts) - see `sample`'s docs for more information." ,
@@ -2405,6 +2452,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
           arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Get sample information",
+          usage_example: "sample_info :loop_amen",
           doc:           "Alias for the `load_sample` method. Loads sample if necessary and returns sample information.",
           args:          [[:path, :string]],
           opts:          nil,
@@ -2423,6 +2471,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
           arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Get sample data",
+          usage_example: "sample_buffer(:loop_amen)",
           doc:           "Alias for the `load_sample` method. Loads sample if necessary and returns buffer information.",
           args:          [[:path, :string]],
           opts:          nil,
@@ -2476,6 +2525,7 @@ load_sample dir, /[Bb]ar/ # loads first sample which matches regex /[Bb]ar/ in \
           arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Get duration of sample in beats",
+          usage_example: "sample_duration :loop_amen",
           doc:           "Given the name of a loaded sample, or a path to a `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` file returns the length of time in beats that the sample would play for. `sample_duration` understands and accounts for all the opts you can pass to `sample` which have an effect on the playback duration such as `rate:`. The time returned is scaled to the current BPM.
 
 *Note:* avoid using `sample_duration` to set the sleep time in `live_loop`s, prefer stretching the sample with the `beat_stretch:` opt or changing the BPM instead. See the examples below for details.",
@@ -2661,6 +2711,7 @@ sample :loop_amen                    # starting it again
       doc name:          :sample_paths,
           introduced:    Version.new(2,10,0),
           summary:       "Sample Pack Filter Resolution",
+          usage_example: "sample_paths \"/path/to/samples/\"",
           doc:           "Accepts the same pre-args and opts as `sample` and returns a ring of matched sample paths.",
           args:          [[:pre_args, :source_and_filter_types]],
           returns:       :ring,
@@ -2727,6 +2778,7 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
           arg_kinds:     [:sample],
           introduced:    Version.new(2,0,0),
           summary:       "Trigger sample",
+          usage_example: "sample :loop_amen",
           doc:           "Play back a recorded sound file (sample). Sonic Pi comes with lots of great samples included (see the section under help) but you can also load and play `.wav`, `.wave`, `.aif`, `.aiff`, `.ogg`, `.oga`, `.flac` or `.mp3` files from anywhere on your computer too. To play a built-in sample use the corresponding keyword such as `sample :bd_haus`. To play any file on your computer use a full path such as `sample \"/path/to/sample.wav\"`.
 
 There are many opts for manipulating the playback. For example, the `rate:` opt affects both the speed and the pitch of the playback. To control the rate of the sample in a pitch-meaningful way take a look at the `rpitch:` opt.
@@ -3179,6 +3231,7 @@ sample :loop_tabla, onset: 1, slice: 0, num_slices: 4, finish: 0.0, start: 0.5  
       doc name:          :status,
           introduced:    Version.new(2,0,0),
           summary:       "Get server status",
+          usage_example: "status",
           doc:           "This returns a Hash of information about the synthesis environment. Mostly used for debugging purposes.",
           args:          [],
           opts:          nil,
@@ -3270,6 +3323,7 @@ puts status # Returns something similar to:
       doc name:          :control,
           introduced:    Version.new(2,0,0),
           summary:       "Control running synth",
+          usage_example: "control my_node, cutoff: 70",
           doc:           "Control a running synth node by passing new parameters to it. A synth node represents a running synth and can be obtained by assigning the return value of a call to play or sample or by specifying a parameter to the do/end block of an FX. You may modify any of the parameters you can set when triggering the synth, sample or FX. See documentation for opt details. If the synth to control is a chord, then control will change all the notes of that chord group at once to a new target set of notes - see example. Also, you may use the on: opt to conditionally trigger the control - see the docs for the `synth` and `sample` fns for more information.
 
 If no synth to control is specified, then the last synth triggered by the current (or parent) thread will be controlled - see example below.",
@@ -3408,6 +3462,7 @@ control note: :e4                        # Control last triggered synth (:dsaw)
       doc name:          :kill,
           introduced:    Version.new(2,0,0),
           summary:       "Kill synth",
+          usage_example: "kill my_node",
           doc:           "Kill a running synth sound or sample. In order to kill a sound, you need to have stored a reference to it in a variable.",
           args:          [[:node, :synth_node]],
           opts:          {},
@@ -3434,6 +3489,7 @@ kill bar"]
       doc name:          :sample_names,
           introduced:    Version.new(2,0,0),
           summary:       "Get sample names",
+          usage_example: "sample_names :loop",
           doc:           "Return a ring of sample names for the specified group",
           args:          [[:group, :symbol]],
           returns:        :ring,
@@ -3451,6 +3507,7 @@ kill bar"]
       doc name:          :all_sample_names,
           introduced:    Version.new(2,0,0),
           summary:       "Get all sample names",
+          usage_example: "all_sample_names",
           doc:           "Return a list of all the sample names available",
           args:          [],
           opts:          nil,
@@ -3467,6 +3524,7 @@ kill bar"]
       doc name:          :sample_groups,
           introduced:    Version.new(2,0,0),
           summary:       "Get all sample groups",
+          usage_example: "sample_groups",
           doc:           "Return a list of all the sample groups available",
           args:          [],
           opts:          nil,
@@ -3483,6 +3541,7 @@ kill bar"]
       doc name:          :synth_names,
           introduced:    Version.new(2,9,0),
           summary:       "Get all synth names",
+          usage_example: "synth_names",
           doc:           "Return a list of all the synths available",
           args:          [],
           opts:          nil,
@@ -3497,6 +3556,7 @@ kill bar"]
       doc name:          :fx_names,
           introduced:    Version.new(2,10,0),
           summary:       "Get all FX names",
+          usage_example: "fx_names",
           doc:           "Return a list of all the FX available",
           args:          [],
           opts:          nil,
@@ -3523,6 +3583,7 @@ kill bar"]
       doc name:          :load_synthdef,
           introduced:    Version.new(4,0,0),
           summary:       "Load a single external synthdef",
+          usage_example: "load_synthdef \"/path/to/synth.scsyndef\"",
           doc:           "Load a pre-compiled synth design from the specified file. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
 
 ## Important notes
@@ -3571,6 +3632,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
       doc name:          :load_synthdefs,
           introduced:    Version.new(2,0,0),
           summary:       "Load external synthdefs",
+          usage_example: "load_synthdefs \"/path/to/synthdefs/\"",
           doc:           "Load all pre-compiled synth designs in the specified directory. This is useful if you wish to use your own SuperCollider synthesiser designs within Sonic Pi.
 
 ## Important notes

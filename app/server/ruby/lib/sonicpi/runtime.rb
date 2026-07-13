@@ -661,14 +661,21 @@ module SonicPi
         location = "buffer #{w}"
       end
       friendly = __friendly_error(e)
+      # A named thread's identity survives into the location line; the bare
+      # "Thread death!" tag is runtime noise and doesn't reach the user.
+      thread_name = (m && m[/\+--> (.+)/, 1])
+      location += " - thread #{thread_name}" if thread_name
       if friendly
         # Lead with a prominent "Runtime Error" label + the friendly message; a
-        # demoted caption (location + exact Ruby error) follows.
-        res = "Runtime Error " + friendly + "\n\n" + location + "\n" + __clean_error_message(e)
+        # demoted caption (exact Ruby error) follows. When the headline IS the
+        # exception's own message (domain errors from lang fns), the caption
+        # carries nothing new - drop it entirely (a bare class name under the
+        # code is noise; the card's title already says Runtime Error).
+        head = friendly.sub(/\n(Example|Docs): .*/m, '').strip
+        caption = (head == e.message.to_s.strip) ? "" : __clean_error_message(e)
+        res = "Runtime Error " + friendly + "\n\n" + location + "\n" + caption
       else
-        res = "[#{location}]"
-        res = res + " - " + m if m
-        res = res + "\n #{err_msg}"
+        res = "Runtime Error \n\n" + location + "\n" + err_msg.to_s.strip
       end
       span = __error_token_span(e, info)
       error_line = linenum != -1 ? (info[:code].lines.to_a[linenum - info[:first_line_num]] || "") : ""
@@ -707,18 +714,112 @@ module SonicPi
       if e.respond_to?(:corrections) && e.corrections && !e.corrections.empty?
         suggestion = e.corrections.first.to_s
       end
+      fn = __errored_lang_fn(e)
       headline =
         case e
         when NoMethodError     then name && "Sonic Pi doesn't know a function called `#{name}`"
         when NameError         then name && "Sonic Pi doesn't know `#{name}`"
         when ZeroDivisionError then "You divided by zero"
-        when ArgumentError     then "A function was given the wrong arguments"
+        when ArgumentError     then __arity_headline(e) || __domain_headline(e, fn) || "A function was given the wrong arguments"
         when TypeError         then "A value wasn't the kind this expected"
+        when StandardError     then __domain_headline(e, fn)
         else nil
         end
       return nil unless headline
       headline += ". Did you mean `#{suggestion}`?" if suggestion
+      # Structured trailer lines the GUI renders as their own affordances
+      # (single \n each: \n\n would split the header from its location/reason
+      # — see the GUI's splitErrorText). "Example: `...`" becomes the usage
+      # callout; "Docs: fn" becomes a link to the fn's help page. A typo'd fn
+      # name (NoMethodError) links the docs of the suggested correction.
+      docs_fn = (fn if __fn_docs(fn))
+      docs_fn ||= (suggestion.to_sym if suggestion && __fn_docs(suggestion.to_sym))
+      if fn && __fn_docs(fn)
+        hint = __usage_hint(fn)
+        headline += "\n#{hint}" if hint
+      end
+      headline += "\nDocs: #{docs_fn}" if docs_fn
       headline
+    rescue Exception
+      nil
+    end
+
+    # A domain error raised by a documented lang fn already speaks user prose
+    # ("use_synth does not accept opts such as ..."): its message IS the
+    # headline. nil for undocumented origins or messages too long/structured
+    # to be a headline.
+    def __domain_headline(e, fn)
+      return nil unless fn && __fn_docs(fn)
+      msg = e.message.to_s.strip
+      return nil if msg.empty? || msg.length > 220 || msg.lines.size > 3
+      msg
+    end
+
+    # The doc entry for a lang fn, or nil.
+    def __fn_docs(fn)
+      return nil unless fn
+      return nil unless defined?(SonicPi::Lang::Sound) && SonicPi::Lang::Sound.respond_to?(:docs)
+      SonicPi::Lang::Sound.docs[fn]
+    end
+
+    # For a genuine arity error on a documented fn, be precise: name the fn,
+    # its documented parameters with their kinds, and what it actually got:
+    #   "`rrand` was given 0 arguments but takes: `min` (number), `max` (number)"
+    # "takes:" rather than a hard count, as trailing documented args can be
+    # optional. Domain ArgumentErrors (e.g. "bpm should be positive") keep the
+    # generic headline — their own message is the precise one.
+    def __arity_headline(e)
+      return nil unless e.message =~ /wrong number of arguments/
+      fn = __errored_lang_fn(e)
+      info = __fn_docs(fn)
+      return nil unless info
+      args = info[:args]
+      return nil unless args && !args.empty?
+      arg_list = args.map do |a|
+        kind = a[1] ? " (#{a[1].to_s.tr('_', ' ')})" : ""
+        "`#{a[0]}`#{kind}"
+      end.join(", ")
+      given = e.message[/given (\d+)/, 1]
+      if given
+        "`#{fn}` was given #{given} argument#{given == '1' ? '' : 's'} but takes: #{arg_list}"
+      else
+        "`#{fn}` takes: #{arg_list}"
+      end
+    rescue Exception
+      nil
+    end
+
+    # The documented lang fn the user actually called: the lang frame closest
+    # to the workspace frame in the backtrace (the raise site itself may be an
+    # internal helper several frames deeper).
+    def __errored_lang_fn(e)
+      bt = e.backtrace
+      return nil unless bt
+      fn = nil
+      bt.each do |frame|
+        break if frame.start_with?("workspace_") || frame.include?("in 'Kernel#eval'")
+        m = frame[/lib\/sonicpi\/lang\/[^:]+:\d+:in [`'](?:[\w:]+#)?([a-z_][a-zA-Z0-9_?!]*)'/, 1]
+        fn = m if m
+      end
+      fn && fn.to_sym
+    end
+
+    # An "Example: `...`" usage illustration from the fn's doc entry — its
+    # canonical usage_example, falling back to the documented signature.
+    # Deliberately NOT "Try:": the example shows how the fn is used in
+    # general, not a specific correction of the user's values. Backticked so
+    # the GUI's error card renders the code span in accent.
+    def __usage_hint(fn)
+      return nil unless fn
+      return nil unless defined?(SonicPi::Lang::Sound) && SonicPi::Lang::Sound.respond_to?(:docs)
+      info = SonicPi::Lang::Sound.docs[fn]
+      return nil unless info
+      example = info[:usage_example]
+      unless example
+        args = info[:args]
+        example = "#{fn} #{args.map { |a| a[0] }.join(", ")}" if args && !args.empty?
+      end
+      example ? "Example: `#{example}`" : nil
     rescue Exception
       nil
     end
