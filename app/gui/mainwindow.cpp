@@ -81,6 +81,7 @@
 #include "widgets/sonicpiscintilla.h"
 #include "widgets/sonicpierrorcard.h"
 #include "widgets/tutorialpane.h"
+#include "widgets/welcomewidget.h"
 
 #include "utils/sonicpi_i18n.h"
 
@@ -413,37 +414,17 @@ void MainWindow::showWelcomeScreen()
 {
     if (gui_settings->value("first_time", 1).toInt() == 1)
     {
-        QTextBrowser* startupPane = new QTextBrowser;
-        startupPane->document()->setDocumentMargin(ScaleWidthForDPI(20));  // text inset; keeps the scrollbar flush
-        startupPane->setFixedSize(ScaleHeightForDPI(600), ScaleHeightForDPI(650));
-        startupPane->setWindowIcon(QIcon(":images/icon-smaller.png"));
-        startupPane->setWindowTitle(tr("Welcome to Sonic Pi"));
-        addUniversalCopyShortcuts(startupPane);
-        QString styles = ScalePxInStyleSheet(readFile(":/theme/light/doc-styles.css"));
-        startupPane->document()->setDefaultStyleSheet(styles);
-        QFile file(":/html/startup.html");
-        file.open(QFile::ReadOnly | QFile::Text);
-        QTextStream st(&file);
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-        st.setEncoding(QStringConverter::Utf8);
-#else
-        st.setCodec("UTF-8");
-#endif
-
-        QString source = st.readAll();
-        source = source.replace("214dx", QString("%1").arg(ScaleHeightForDPI(214)));
-        source = source.replace("262dx", QString("%1").arg(ScaleHeightForDPI(262)));
-        source = source.replace("50dx", QString("%1px").arg(ScaleHeightForDPI(32)));
-        startupPane->setHtml(source);
+        WelcomeWidget* welcome = new WelcomeWidget(theme, piSettings->reduce_motion, this);
+        connect(welcome, &WelcomeWidget::dismissRequested, this, [this, welcome]() {
+            welcome->close();
+            focusEditor();
+        });
         docWidget->show();
         docsNavTabs->setCurrentIndex(0);
         helpLists[0]->setCurrentRow(0);
-        startupPane->show();
-        startupPane->raise();
-        startupPane->activateWindow();
-        incomingPane->setFixedWidth(ScaleWidthForDPI(600));
-        incomingPane->setFixedHeight(ScaleHeightForDPI(50));
+        welcome->show();
+        welcome->raise();
+        welcome->activateWindow();
         outputPane->verticalScrollBar()->setValue(0);
     }
 }

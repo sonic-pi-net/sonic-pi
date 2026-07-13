@@ -750,7 +750,6 @@ private:
 
     InfoWidget* infoWidg;
     QList<QTextBrowser*> infoPanes;
-    QTextEdit* startupPane;
     QVBoxLayout* mainWidgetLayout;
 
     QList<QListWidget*> helpLists;

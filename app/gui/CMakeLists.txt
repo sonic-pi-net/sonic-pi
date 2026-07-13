@@ -133,6 +133,8 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/tutorialpane.h
     ${QTAPP_ROOT}/widgets/tutorialwidgets.cpp
     ${QTAPP_ROOT}/widgets/tutorialwidgets.h
+    ${QTAPP_ROOT}/widgets/welcomewidget.cpp
+    ${QTAPP_ROOT}/widgets/welcomewidget.h
     ${QTAPP_ROOT}/utils/tutorialdocs.cpp
     ${QTAPP_ROOT}/utils/tutorialdocs.h
     )
