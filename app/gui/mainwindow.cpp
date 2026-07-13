@@ -1066,6 +1066,7 @@ void MainWindow::escapeWorkspaces()
 {
     errorPane->hide();
     errorCard->hide();
+    returnStolenHelpHeight();
 
     for (int w = 0; w < workspace_max; w++)
     {
@@ -2640,6 +2641,7 @@ void MainWindow::resetErrorPane()
 {
     errorPane->hide();
     errorCard->hide();
+    returnStolenHelpHeight();
     focusEditor();
 }
 
@@ -2661,6 +2663,7 @@ void MainWindow::showError(QString msg)
     doc->setTextWidth(errorPane->viewport()->width());
     int wanted = qRound(doc->size().height()) + ScaleHeightForDPI(4);
     errorPane->setFixedHeight(qBound(ScaleHeightForDPI(110), wanted, ScaleHeightForDPI(420)));
+    stealHelpHeightForError(errorPane->height());
     focusErrors();
     // Errors are the most important feedback event — announce assertively so
     // screen-reader users hear them (parallels the Run started / Stopped cues).
@@ -2675,6 +2678,7 @@ void MainWindow::showErrorCard(bool isSyntax, const QString& header, const QStri
     errorPane->hide();
     updateErrorCardZoom();
     errorCard->showError(isSyntax, header, location, reason, codeLine, lineNumber, colStart, colEnd, backtrace, canJump);
+    stealHelpHeightForError(errorCard->sizeHint().height());
     focusErrors();
     announce(tr("Error: %1").arg(errorCard->plainText().simplified()), true,
              SonicPi::Announcement::Error);
@@ -2683,9 +2687,47 @@ void MainWindow::showErrorCard(bool isSyntax, const QString& header, const QStri
 void MainWindow::dismissErrorCard()
 {
     errorCard->hide();
+    returnStolenHelpHeight();
     for (int w = 0; w < workspace_max; w++)
         workspaces[w]->clearLineMarkers();
     focusEditor();
+}
+
+void MainWindow::stealHelpHeightForError(int errorH)
+{
+    if (!docWidget || !docWidget->isVisible())
+        return;
+    // Keep a useful strip of code above the error; the help pane is the
+    // flexible neighbour, so it gives way first (down to a floor that keeps
+    // it usable — beyond that there's nothing more to steal).
+    const int wantEditor = ScaleHeightForDPI(220);
+    const int need = errorH + wantEditor - mainWidget->height();
+    if (need <= 0)
+        return;
+    const int floor = ScaleHeightForDPI(120);
+    const int newDockH = qMax(floor, docWidget->height() - need);
+    if (newDockH < docWidget->height())
+    {
+        // Remember the original height only for the first steal of this error
+        // episode — a follow-up error while one is showing keeps the original
+        // restore target.
+        if (m_dockHBeforeSteal < 0)
+            m_dockHBeforeSteal = docWidget->height();
+        resizeDocks({ docWidget }, { newDockH }, Qt::Vertical);
+    }
+}
+
+void MainWindow::returnStolenHelpHeight()
+{
+    if (m_dockHBeforeSteal < 0)
+        return;
+    // Unconditional: resizeDocks doesn't always honour the exact height asked
+    // for (the dock content's minimums win), so comparing against the
+    // requested value to detect a manual re-size is unreliable and quietly
+    // skipped the restore.
+    if (docWidget && docWidget->isVisible())
+        resizeDocks({ docWidget }, { m_dockHBeforeSteal }, Qt::Vertical);
+    m_dockHBeforeSteal = -1;
 }
 
 void MainWindow::jumpToError()

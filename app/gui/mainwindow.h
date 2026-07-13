@@ -158,6 +158,11 @@ public:
                        int colStart, int colEnd, const QString& backtrace, bool canJump);
     void jumpToError();
     void dismissErrorCard();
+    // Shrink the help dock when the central area is too short to show an
+    // error (card/pane) plus a useful strip of editor; the height goes back
+    // when the error is dismissed (unless the user re-sized meanwhile).
+    void stealHelpHeightForError(int errorH);
+    void returnStolenHelpHeight();
     void replaceBuffer(QString id, QString content, int line, int index, int first_line);
     void replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line);
     void setUpdateInfoText(QString t);
@@ -669,6 +674,7 @@ private:
     LogPanel* debugLogPanel = nullptr;
     MetricsPanel* metricsPanel = nullptr;
     int m_savedDockH = 0;                    // dock height to restore when re-opening via double-click
+    int m_dockHBeforeSteal = -1;             // help-dock height before an error stole from it (-1: nothing stolen)
 
     QWidget* blankWidgetOutput;
     QWidget* blankWidgetIncoming;
