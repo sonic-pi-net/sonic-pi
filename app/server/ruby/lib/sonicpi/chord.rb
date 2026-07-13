@@ -26,6 +26,7 @@ module SonicPi
       dim     = [0, 3, 6]
       dim7    = [0, 3, 6, 9]
       halfdim = [0, 3, 6, 10]
+      minmaj7 = [0, 3, 7, 11]
       all_chords = {
         "1"              => [0],
         "5"              => [0, 7],
@@ -46,15 +47,17 @@ module SonicPi
         "m7+9"           => [0, 3, 7, 10, 14],
         :maj9            => [0, 4, 7, 11, 14],
         "9sus4"          => [0, 5, 7, 10, 14],
+        "9-5"            => [0, 4, 6, 10, 14],
         "6*9"            => [0, 4, 7, 9, 14],
         "m6*9"           => [0, 3, 7, 9, 14],
         "7-9"            => [0, 4, 7, 10, 13],
         "m7-9"           => [0, 3, 7, 10, 13],
         "7-10"           => [0, 4, 7, 10, 15],
+        "7+9"            => [0, 4, 7, 10, 15],
         "7-11"           => [0, 4, 7, 10, 16],
         "7-13"           => [0, 4, 7, 10, 20],
-        "9+5"            => [0, 10, 13],
-        "m9+5"           => [0, 10, 14],
+        "9+5"            => [0, 4, 8, 10, 14],
+        "m9+5"           => [0, 3, 8, 10, 14],
         "7+5-9"          => [0, 4, 8, 10, 13],
         "m7+5-9"         => [0, 3, 8, 10, 13],
         "11"             => [0, 4, 7, 10, 14, 17],
@@ -64,6 +67,7 @@ module SonicPi
         "m11+"           => [0, 3, 7, 10, 14, 18],
         "13"             => [0, 4, 7, 10, 14, 17, 21],
         :m13             => [0, 3, 7, 10, 14, 17, 21],
+        :maj13           => [0, 4, 7, 11, 14, 17, 21],
         :add2            => [0, 2, 4, 7],
         :add4            => [0, 4, 5, 7],
         :add9            => [0, 4, 7, 14],
@@ -81,11 +85,16 @@ module SonicPi
         :min             => minor,
         :m               => minor,
         :major7          => major7,
+        :maj7            => major7,
         :dom7            => dom7,
         "7"              => dom7,
         :M7              => major7,
         :minor7          => minor7,
+        :min7            => minor7,
         :m7              => minor7,
+        :minor_major7    => minmaj7,
+        "mM7"            => minmaj7,
+        "mmaj7"          => minmaj7,
         :augmented       => aug,
         :a               => aug,
         :diminished      => dim,
@@ -120,6 +129,11 @@ module SonicPi
       name = name.to_s
       degree_int = Scale.resolve_degree_index(degree)
       scale = Scale.resolve_scale(tonic, name, 2)
+      min_notes = degree_int + (no_of_notes * 2) - 1
+      if scale.notes.length < min_notes
+        notes_per_octave = (scale.notes.length - 1) / 2
+        scale = Scale.resolve_scale(tonic, name, (min_notes.to_f / notes_per_octave).ceil)
+      end
       scale.notes.drop(degree_int).select.with_index{|_, i| i % 2 == 0}.take(no_of_notes)
     end
 

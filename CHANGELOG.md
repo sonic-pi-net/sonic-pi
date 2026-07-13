@@ -87,6 +87,15 @@ Note that this is a release candidate — please do report any issues you have t
 ### Synths
 * Fixed `:tech_saws` which was incorrectly outputting four channels of audio. It now correctly outputs stereo as originally intended.
 
+### Music Theory
+* New scale: `:lydian_dominant` (also available as `:acoustic`).
+* New scale aliases with the names musicians usually reach for: `:altered` (same as `:super_locrian`), `:phrygian_dominant` (same as `:spanish`) and `:double_harmonic` / `:byzantine` (same as `:bhairav`).
+* New chords: `:minor_major7` (also available as `mM7` / `mmaj7`), `:maj13`, `9-5` and `7+9` — the latter a friendlier name for the Hendrix chord previously only available as `7-10`.
+* New chord aliases: `:maj7` and `:min7` for `:major7` and `:minor7`.
+* Fixed the `9+5` and `m9+5` chords which were missing their 3rd, sharpened 5th and 9th — a long-standing bug inherited from SuperCollider via Overtone.
+* Fixed `chord_degree` silently returning fewer notes than requested for higher degrees combined with larger chord sizes.
+* Fixed `degree` on scales which don't span exactly an octave (such as the makam `:evic`) — degrees beyond the scale's length now continue the scale's own interval pattern rather than assuming a 12 semitone octave.
+
 ### Misc
 * New: `SONIC_PI_ROOT` and `SONIC_PI_ETC_PATH` environment variables let you point Sonic Pi at relocatable install and config locations, making life easier for packagers.
 

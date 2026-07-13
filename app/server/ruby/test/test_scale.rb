@@ -52,6 +52,25 @@ module SonicPi
       assert_equal(81, Scale.resolve_degree(:xv, :A3, :minor))
     end
 
+    def test_resolution_of_degree_on_non_octave_scales
+      two_octaves = Scale.new(:c4, :evic, 2).notes
+      (1..7).each do |d|
+        assert_in_delta(two_octaves[d - 1], Scale.resolve_degree(d, :c4, :evic), 0.0001)
+      end
+    end
+
+    def test_lydian_dominant
+      assert_equal([60, 62, 64, 66, 67, 69, 70, 72], Scale.new(:C4, :lydian_dominant).notes)
+      assert_equal(Scale.new(:C4, :lydian_dominant), Scale.new(:C4, :acoustic))
+    end
+
+    def test_scale_aliases
+      assert_equal(Scale.new(:C4, :super_locrian), Scale.new(:C4, :altered))
+      assert_equal(Scale.new(:C4, :spanish), Scale.new(:C4, :phrygian_dominant))
+      assert_equal(Scale.new(:C4, :bhairav), Scale.new(:C4, :double_harmonic))
+      assert_equal(Scale.new(:C4, :bhairav), Scale.new(:C4, :byzantine))
+    end
+
     def test_degree_invalid
       assert_raises Scale::InvalidDegreeError do
         Scale.resolve_degree(:joe, :A3, :major)
