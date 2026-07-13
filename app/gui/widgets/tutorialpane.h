@@ -23,6 +23,7 @@
 
 #include "utils/tutorialdocs.h"
 
+class QHBoxLayout;
 class QLabel;
 class QPushButton;
 class QScrollArea;
@@ -81,6 +82,11 @@ public:
 
     // Keyboard scrolling (docScrollUp/Down shortcuts): one scroll step
     void scrollStep(int direction);
+
+    // Append a button to the end of the A-/A+ zoom bar (MainWindow adds its
+    // help-close ✕ here so the trio reads as one designed row). Styled to
+    // match by giving it the #tutZoom object name before calling this.
+    void addZoomBarButton(QPushButton* btn);
 
     // Wire these to QtAPIClient's RunStartedReceived/RunEndedReceived
     void runStarted(int jobId, const QString& workspace);
@@ -169,6 +175,7 @@ private:
     QString m_prevTitle;
     QString m_nextTitle;
     QVector<Snippet> m_snippets;
+    QHBoxLayout* m_zoomBar = nullptr;
     QPushButton* m_zoomIn = nullptr;
     QPushButton* m_zoomOut = nullptr;
     SonicPi::CodeColours m_codeColours;

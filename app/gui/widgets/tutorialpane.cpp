@@ -234,7 +234,8 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     outer->setContentsMargins(0, 0, 0, 0);
     outer->setSpacing(0);
 
-    QHBoxLayout* bar = new QHBoxLayout();
+    m_zoomBar = new QHBoxLayout();
+    QHBoxLayout* bar = m_zoomBar;
     bar->setContentsMargins(ScaleWidthForDPI(6), ScaleHeightForDPI(4), ScaleWidthForDPI(6), 0);
     bar->setSpacing(ScaleWidthForDPI(2));
     bar->addStretch(1);
@@ -1104,6 +1105,15 @@ void TutorialPane::scrollStep(int direction)
     m_scroll->verticalScrollBar()->triggerAction(
         direction < 0 ? QAbstractSlider::SliderSingleStepSub
                       : QAbstractSlider::SliderSingleStepAdd);
+}
+
+void TutorialPane::addZoomBarButton(QPushButton* btn)
+{
+    if (!btn || !m_zoomBar)
+        return;
+    // Appends after A-/A+ (the leading stretch keeps the trio right-aligned).
+    btn->setParent(this);
+    m_zoomBar->addWidget(btn);
 }
 
 void TutorialPane::setUserZoom(int zoom)

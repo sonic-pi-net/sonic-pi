@@ -938,6 +938,18 @@ void MainWindow::setupWindowStructure()
                              tr("Tutorial, examples and reference documentation."));
     southTabs->setAttribute(Qt::WA_StyledBackground, true);
 
+    // The docs zoom bar's final icon: a close ✕ sharing the A-/A+ (#tutZoom)
+    // styling so the three read as one designed row. Closing the Help dock is
+    // a Docs-tab affordance here; the toolbar Help toggle closes it from the
+    // Logs/Debug tabs. (Tooltip gains the shortcut once helpAct exists.)
+    helpCloseButton = new QPushButton(QString::fromUtf8("\xE2\x9C\x95"));
+    helpCloseButton->setObjectName("tutZoom");
+    helpCloseButton->setCursor(Qt::PointingHandCursor);
+    helpCloseButton->setFocusPolicy(Qt::NoFocus);
+    helpCloseButton->setAccessibleName(tr("Close the help pane"));
+    connect(helpCloseButton, &QPushButton::clicked, this, &MainWindow::toggleDocPane);
+    tutorialPane->addZoomBarButton(helpCloseButton);
+
     docWidget = new QDockWidget(tr("Help"), this);
     docWidget->setFocusPolicy(Qt::NoFocus);
     docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
@@ -4712,6 +4724,12 @@ void MainWindow::createToolBar()
     helpAct->setCheckable(true);
     helpAct->setChecked(false);
     connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
+    if (helpCloseButton)
+    {
+        const QString ks = helpAct->shortcut().toString(QKeySequence::NativeText);
+        helpCloseButton->setToolTip(ks.isEmpty() ? tr("Close Help")
+                                                 : tr("Close Help (%1)").arg(ks));
+    }
 
     // Preferences
     prefsAct = new QAction(theme->getPrefsIcon(false), tr("Show Preferences"), this);

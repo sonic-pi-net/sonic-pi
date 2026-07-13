@@ -586,7 +586,6 @@ QToolButton:focus
     border-top: 2px solid hoverButtonColor;
 }
 
-
 QGroupBox:title
 {
     subcontrol-origin: margin;

@@ -48,6 +48,7 @@ class QTextBrowser;
 class QString;
 class QSlider;
 class QSplitter;
+class QPushButton;
 class QStackedWidget;
 class ThinSplitter;
 class TutorialPane;
@@ -669,6 +670,7 @@ private:
 
     QDockWidget* hudWidget;
     QDockWidget* docWidget;
+    QPushButton* helpCloseButton = nullptr;  // ✕ = final icon in the docs zoom bar
     QDockWidget* metroWidget;
     LogPanel* debugLogPanel = nullptr;
     MetricsPanel* metricsPanel = nullptr;
