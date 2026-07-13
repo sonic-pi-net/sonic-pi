@@ -141,6 +141,12 @@ module SonicPi
            lydian_minor:       [2, 2, 2, 1, 1, 2, 2],
            blues_major:        [2, 1, 1, 3, 2, 3],
            blues_minor:        [3, 2, 1, 1, 3, 2],
+           lydian_dominant:    [2, 2, 2, 1, 2, 1, 2],
+           acoustic:           [2, 2, 2, 1, 2, 1, 2],
+           altered:            [1, 2, 1, 2, 2, 2, 2],
+           phrygian_dominant:  [1, 3, 1, 2, 1, 2, 2],
+           double_harmonic:    [1, 3, 1, 2, 1, 3, 1],
+           byzantine:          [1, 3, 1, 2, 1, 3, 1],
 	   # Basic makams
 	   cargah:             cargah_beslisi + cargah_dortlusu,
 	   buselik:            buselik_beslisi + kurdi_dortlusu,
@@ -288,7 +294,8 @@ module SonicPi
         end
       end
       octave, index = resolve_degree_index(degree).divmod (scale.notes.length - 1)
-      scale.notes[index] + octave * 12 + augmentation
+      span = scale.notes.last - scale.notes.first
+      scale.notes[index] + octave * span + augmentation
     end
 
     @@scale_cache = Hash.new {|h, k| h[k] = Hash.new {|h2, k2| h2[k2] = {} } }

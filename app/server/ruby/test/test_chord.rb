@@ -33,5 +33,38 @@ module SonicPi
       assert_equal(Chord.resolve_degree(:vii, :F4, :ionian, 4), [76, 79, 82, 86])
     end
 
+    def test_resolution_of_chord_degrees_with_many_notes
+      assert_equal(Chord.resolve_degree(:vii, :C4, :major, 6),  [71, 74, 77, 81, 84, 88])
+      assert_equal(Chord.resolve_degree(:vii, :C4, :major, 7),  [71, 74, 77, 81, 84, 88, 91])
+    end
+
+    def test_resolution_of_ninth_sharp_five
+      assert_equal(Chord.new(:C4, "9+5"),  [60, 64, 68, 70, 74])
+      assert_equal(Chord.new(:C4, "m9+5"), [60, 63, 68, 70, 74])
+    end
+
+    def test_resolution_of_ninth_flat_five
+      assert_equal(Chord.new(:C4, "9-5"),  [60, 64, 66, 70, 74])
+    end
+
+    def test_resolution_of_minor_major_seven
+      assert_equal(Chord.new(:C4, :minor_major7), [60, 63, 67, 71])
+      assert_equal(Chord.new(:C4, "mM7"),         [60, 63, 67, 71])
+      assert_equal(Chord.new(:C4, "mmaj7"),       [60, 63, 67, 71])
+    end
+
+    def test_resolution_of_maj13
+      assert_equal(Chord.new(:C4, :maj13), [60, 64, 67, 71, 74, 77, 81])
+    end
+
+    def test_seven_sharp_nine_is_alias_of_seven_flat_ten
+      assert_equal(Chord.new(:C4, "7-10"), Chord.new(:C4, "7+9"))
+    end
+
+    def test_maj7_and_min7_aliases
+      assert_equal(Chord.new(:C4, :major7), Chord.new(:C4, :maj7))
+      assert_equal(Chord.new(:C4, :minor7), Chord.new(:C4, :min7))
+    end
+
   end
 end
