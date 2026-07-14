@@ -332,9 +332,9 @@ void SonicPiToolTip::paintEvent(QPaintEvent* event)
     p.setRenderHint(QPainter::Antialiasing);
 
     const bool highContrast = m_theme->getColourScheme() == SonicPiTheme::HighContrastScheme;
-    // Bubble matches the window dividers (WindowBorder) so the popup reads
-    // as app chrome. High contrast keeps its dedicated tooltip base — the
-    // divider grey there would cost text contrast.
+    // Neutral bubble matching the window dividers (WindowBorder) so the popup
+    // reads as app chrome; the only spot of theme colour is the shortcut chip
+    // below. High contrast keeps its dedicated tooltip base.
     const QColor bg = m_theme->color(highContrast ? "ToolTipBase" : "WindowBorder");
     const QColor fg = m_theme->color("ToolTipText");
 
@@ -409,14 +409,18 @@ void SonicPiToolTip::paintEvent(QPaintEvent* event)
     {
         y += ScaleHeightForDPI(CHIP_GAP);
         const QRectF chip(x, y, m_chipW, m_chipH);
+        // The one spot of theme colour: a subtle accent-tinted keycap (neutral
+        // fill, accent-leaning border + text). High contrast stays neutral.
+        const QColor accent = m_theme->color("HighlightedBackground");
         const QColor chipBg = mix(bg, fg, 0.08);
-        const QColor chipBorder = highContrast ? fg : mix(bg, fg, 0.5);
+        const QColor chipBorder = highContrast ? fg : mix(bg, accent, 0.55);
+        const QColor chipText = highContrast ? fg : mix(fg, accent, 0.45);
         p.setPen(QPen(chipBorder, 1.0));
         p.setBrush(chipBg);
         const qreal chipRadius = ScaleHeightForDPI(4);
         p.drawRoundedRect(chip, chipRadius, chipRadius);
         p.setFont(chipFont());
-        p.setPen(fg);
+        p.setPen(chipText);
         p.drawText(chip, Qt::AlignCenter, m_shortcut);
     }
 }
