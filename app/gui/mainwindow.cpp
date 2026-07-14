@@ -4795,6 +4795,7 @@ void MainWindow::createToolBar()
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     toolBar = addToolBar(tr("Tools"));
     toolBar->setObjectName("toolbar");
+    toolBar->setMovable(false);   // drop the drag-handle grip at the toolbar's left edge
 
     toolBar->addAction(runAct);
     toolBar->addAction(stopAct);
