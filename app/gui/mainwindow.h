@@ -542,6 +542,11 @@ private:
 
     void blankTitleBars();
     void namedTitleBars();
+    // Persistent dock title bar: a #paneTitle label on the left and the given
+    // controls packed right. Controls stay visible when titles are hidden (only
+    // the label toggles). outLabel receives the label pointer.
+    QWidget* makeControlTitleBar(const QString& title, QLabel*& outLabel,
+                                 const QVector<QWidget*>& controls);
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // A+V session-recorder branch of toggleRecording. Write to a temp
@@ -670,7 +675,10 @@ private:
 
     QDockWidget* hudWidget;
     QDockWidget* docWidget;
-    QPushButton* helpCloseButton = nullptr;  // ✕ = final icon in the docs zoom bar
+    QPushButton* helpCloseButton = nullptr;  // ✕ = persistent close, top-right of the help pane
+    QIcon m_helpCloseIcon;                    // tabler-x, theme-tinted (rest / hover)
+    QIcon m_helpCloseIconHover;
+    void updateHelpCloseIcon();               // (re)renders the ✕ for the current theme
     QDockWidget* metroWidget;
     LogPanel* debugLogPanel = nullptr;
     MetricsPanel* metricsPanel = nullptr;
@@ -679,8 +687,6 @@ private:
 
     QWidget* blankWidgetOutput;
     QWidget* blankWidgetIncoming;
-    QWidget* blankWidgetScope;
-    QWidget* blankWidgetDoc;
     QWidget* blankWidgetMetro;
     // Custom dock title bars: QLabel#paneTitle (small/muted/left, matching the
     // SuperSonic debug pane). QDockWidget::title's QSS colour isn't honoured for

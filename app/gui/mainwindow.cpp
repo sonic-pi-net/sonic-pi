@@ -103,6 +103,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/metricspanel.h"
 #include "widgets/thinsplitter.h"
 #include "utils/dividerproxystyle.h"
+#include "utils/tablericons.h"
 
 #include <QMouseEvent>
 
@@ -803,6 +804,13 @@ void MainWindow::setupWindowStructure()
     scopeWidget->setMinimumHeight(ScaleHeightForDPI(100));
     addDockWidget(Qt::RightDockWidgetArea, scopeWidget);
 
+    // Scope dock title row: SCOPE + the pause/resume toggle, so the control sits
+    // beside the title rather than floating over the trace.
+    QWidget* scopePauseButton = scopeWindow->PauseButton();
+    scopePauseButton->setFixedSize(ScaleForDPI(26, 20));
+    scopeWidget->setTitleBarWidget(
+        makeControlTitleBar(scopeWidget->windowTitle(), titleBarScope, { scopePauseButton }));
+
     connect(scopeWidget, SIGNAL(visibilityChanged(bool)), this, SLOT(scopeVisibilityChanged()));
 
     outputWidget = new QDockWidget(tr("Log"), this);
@@ -840,8 +848,6 @@ void MainWindow::setupWindowStructure()
 
     blankWidgetOutput = new QWidget();
     blankWidgetIncoming = new QWidget();
-    blankWidgetScope = new QWidget();
-    blankWidgetDoc = new QWidget();
     blankWidgetMetro = new QWidget();
 
     docsNavTabs = new QTabWidget;
@@ -943,23 +949,38 @@ void MainWindow::setupWindowStructure()
     // the central area entirely.
     southTabs->setMinimumHeight(ScaleHeightForDPI(60));
 
-    // The docs zoom bar's final icon: a close ✕ sharing the A-/A+ (#tutZoom)
-    // styling so the three read as one designed row. Closing the Help dock is
-    // a Docs-tab affordance here; the toolbar Help toggle closes it from the
-    // Logs/Debug tabs. (Tooltip gains the shortcut once helpAct exists.)
-    helpCloseButton = new QPushButton(QString::fromUtf8("\xE2\x9C\x95"));
-    helpCloseButton->setObjectName("tutZoom");
+    // A persistent close ✕ for the help pane, placed in the dock title row
+    // (see makeControlTitleBar below) so it stays put across tabs and floats.
+    // Its #helpCloseButton chip stays legible on any background; eventFilter()
+    // swaps its tint on hover. (Tooltip gains the shortcut once helpAct exists.)
+    helpCloseButton = new QPushButton(southTabs);
+    helpCloseButton->setObjectName("helpCloseButton");
     helpCloseButton->setCursor(Qt::PointingHandCursor);
     helpCloseButton->setFocusPolicy(Qt::NoFocus);
     helpCloseButton->setAccessibleName(tr("Close the help pane"));
     connect(helpCloseButton, &QPushButton::clicked, this, &MainWindow::toggleDocPane);
-    tutorialPane->addZoomBarButton(helpCloseButton);
+    updateHelpCloseIcon();
 
     docWidget = new QDockWidget(tr("Help"), this);
     docWidget->setFocusPolicy(Qt::NoFocus);
     docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
     docWidget->setWidget(southTabs);
     docWidget->setObjectName("help");
+
+    // Help dock title row: HELP + docs text-size (A-/A+) + the persistent close
+    // ✕, so all three sit on the same row as the title. The row stays put
+    // whether or not pane titles are shown (only the HELP label toggles).
+    QWidget* docZoomControls = tutorialPane->zoomControls();
+    docWidget->setTitleBarWidget(
+        makeControlTitleBar(docWidget->windowTitle(), titleBarDoc,
+                            { docZoomControls, helpCloseButton }));
+    // A-/A+ only apply to the Docs tab; the close ✕ is always available.
+    auto syncDocZoomVisible = [this, docZoomControls]() {
+        docZoomControls->setVisible(southTabs->currentWidget() == docsplit);
+    };
+    connect(southTabs, &QTabWidget::currentChanged, this,
+            [syncDocZoomVisible](int) { syncDocZoomVisible(); });
+    syncDocZoomVisible();
 
     addDockWidget(Qt::BottomDockWidgetArea, docWidget);
     docWidget->hide();
@@ -1130,9 +1151,11 @@ void MainWindow::blankTitleBars()
     showStatusAndAnnounce(tr("Hiding pane titles..."), 2000);
     outputWidget->setTitleBarWidget(blankWidgetOutput);
     incomingWidget->setTitleBarWidget(blankWidgetIncoming);
-    scopeWidget->setTitleBarWidget(blankWidgetScope);
-    docWidget->setTitleBarWidget(blankWidgetDoc);
     metroWidget->setTitleBarWidget(blankWidgetMetro);
+    // Scope & Help keep their persistent control rows; hide just the label so
+    // the pause / A-/A+ / close controls stay reachable.
+    if (titleBarScope) titleBarScope->hide();
+    if (titleBarDoc)   titleBarDoc->hide();
     if (metricsPanel) metricsPanel->setTitlesVisible(false);
 }
 
@@ -1152,16 +1175,34 @@ void MainWindow::namedTitleBars()
     };
     if (!titleBarOutput)   titleBarOutput   = makeDockTitle(outputWidget);
     if (!titleBarIncoming) titleBarIncoming = makeDockTitle(incomingWidget);
-    if (!titleBarScope)    titleBarScope    = makeDockTitle(scopeWidget);
-    if (!titleBarDoc)      titleBarDoc      = makeDockTitle(docWidget);
     if (!titleBarMetro)    titleBarMetro    = makeDockTitle(metroWidget);
 
     outputWidget->setTitleBarWidget(titleBarOutput);
     incomingWidget->setTitleBarWidget(titleBarIncoming);
-    scopeWidget->setTitleBarWidget(titleBarScope);
-    docWidget->setTitleBarWidget(titleBarDoc);
     metroWidget->setTitleBarWidget(titleBarMetro);
+    // Scope & Help keep their persistent control rows; just reveal the label.
+    if (titleBarScope) titleBarScope->show();
+    if (titleBarDoc)   titleBarDoc->show();
     if (metricsPanel) metricsPanel->setTitlesVisible(true);
+}
+
+QWidget* MainWindow::makeControlTitleBar(const QString& title, QLabel*& outLabel,
+                                         const QVector<QWidget*>& controls)
+{
+    QWidget* bar = new QWidget();
+    bar->setObjectName("dockTitleBar");
+    bar->setAttribute(Qt::WA_StyledBackground, true);
+    QHBoxLayout* layout = new QHBoxLayout(bar);
+    layout->setContentsMargins(ScaleWidthForDPI(6), 0, ScaleWidthForDPI(6), 0);
+    layout->setSpacing(ScaleWidthForDPI(4));
+    outLabel = new QLabel(title.toUpper(), bar);
+    outLabel->setObjectName("paneTitle");
+    outLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    layout->addWidget(outLabel);
+    layout->addStretch(1);
+    for (QWidget* c : controls)
+        layout->addWidget(c, 0, Qt::AlignVCenter);
+    return bar;
 }
 
 void MainWindow::updateFullScreenMode()
@@ -2702,6 +2743,24 @@ void MainWindow::dismissErrorCard()
     focusEditor();
 }
 
+void MainWindow::updateHelpCloseIcon()
+{
+    if (!helpCloseButton)
+        return;
+    const int px = ScaleWidthForDPI(26);
+    const qreal dpr = devicePixelRatioF();
+    // Flat button (no chip): muted at rest, accent on hover — matching the
+    // A-/A+ zoom glyphs sharing the title row.
+    const QColor rest = SonicPiTheme::blend(theme->color("LogForeground"),
+                                            theme->color("LogBackground"), 0.55);
+    const QColor hover = theme->color("HighlightedBackground");
+    helpCloseButton->setIconSize(QSize(px, px));
+    m_helpCloseIcon = TablerIcons::icon(TablerIcons::Glyph::SquareX, rest, px, dpr);
+    m_helpCloseIconHover = TablerIcons::icon(TablerIcons::Glyph::SquareX, hover, px, dpr);
+    helpCloseButton->setIcon(helpCloseButton->underMouse() ? m_helpCloseIconHover
+                                                           : m_helpCloseIcon);
+}
+
 void MainWindow::stealHelpHeightForError(int errorH)
 {
     if (!docWidget || !docWidget->isVisible())
@@ -3656,6 +3715,7 @@ void MainWindow::updateColourTheme()
     DividerProxyStyle::setDividerColors(theme->color("WindowBackground"),
                                         theme->color("WindowBorder"),
                                         theme->color("ScrollBarHover"));
+    updateHelpCloseIcon();   // re-tint the help ✕ for the new theme
     update();   // repaint separators with the new colours
 
     updateContextWithCurrentWs();
@@ -6784,6 +6844,14 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
     {
         statusBar()->showMessage(tr("Welcome back. Now get your live code on..."), 2000);
         update();
+    }
+
+    // Swap the help ✕ glyph to its accent hover tint (flat button, no chip).
+    if (helpCloseButton && obj == helpCloseButton
+        && (event->type() == QEvent::Enter || event->type() == QEvent::Leave))
+    {
+        helpCloseButton->setIcon(event->type() == QEvent::Enter ? m_helpCloseIconHover
+                                                                : m_helpCloseIcon);
     }
 
     if (event->type() == QEvent::FileOpen)

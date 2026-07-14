@@ -17,6 +17,7 @@
 #include "model/sonicpitheme.h"
 #include "sonicpiscintilla.h"
 #include "utils/instrument_icons.h"
+#include "utils/tablericons.h"
 #include "api/sonicpi_api.h"
 
 #include <QAbstractTextDocumentLayout>
@@ -234,19 +235,30 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     outer->setContentsMargins(0, 0, 0, 0);
     outer->setSpacing(0);
 
-    m_zoomBar = new QHBoxLayout();
-    QHBoxLayout* bar = m_zoomBar;
-    bar->setContentsMargins(ScaleWidthForDPI(6), ScaleHeightForDPI(4), ScaleWidthForDPI(6), 0);
-    bar->setSpacing(ScaleWidthForDPI(2));
-    bar->addStretch(1);
-    m_zoomOut = new QPushButton("A-", this);
+    // Docs text-size controls (A- / A+). Owned by the pane, but displayed in the
+    // help dock's title row beside the HELP title (MainWindow places the widget),
+    // so they sit on the same row as the title rather than above the content.
+    m_zoomBar = new QWidget(this);
+    QHBoxLayout* zoomLayout = new QHBoxLayout(m_zoomBar);
+    zoomLayout->setContentsMargins(0, 0, 0, 0);
+    zoomLayout->setSpacing(ScaleWidthForDPI(2));
+    // Circle -/+ (tabler) glyphs; the actual pixmaps are tinted per-theme in
+    // applyTheme(), and eventFilter() swaps to the accent tint on hover.
+    const int zoomIconPx = ScaleWidthForDPI(26);
+    m_zoomOut = new QPushButton(m_zoomBar);
     m_zoomOut->setObjectName("tutZoom");
+    m_zoomOut->setIconSize(QSize(zoomIconPx, zoomIconPx));
+    m_zoomOut->setCursor(Qt::PointingHandCursor);
     m_zoomOut->setToolTip(tr("Decrease documentation text size"));
     m_zoomOut->setAccessibleName(tr("Decrease documentation text size"));
-    m_zoomIn = new QPushButton("A+", this);
+    m_zoomOut->installEventFilter(this);
+    m_zoomIn = new QPushButton(m_zoomBar);
     m_zoomIn->setObjectName("tutZoom");
+    m_zoomIn->setIconSize(QSize(zoomIconPx, zoomIconPx));
+    m_zoomIn->setCursor(Qt::PointingHandCursor);
     m_zoomIn->setToolTip(tr("Increase documentation text size"));
     m_zoomIn->setAccessibleName(tr("Increase documentation text size"));
+    m_zoomIn->installEventFilter(this);
     connect(m_zoomOut, &QPushButton::clicked, this, [this]() {
         m_userZoom = qMax(m_userZoom - 1, -4);
         applySizing();
@@ -255,9 +267,14 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
         m_userZoom = qMin(m_userZoom + 1, 8);
         applySizing();
     });
-    bar->addWidget(m_zoomOut);
-    bar->addWidget(m_zoomIn);
-    outer->addLayout(bar);
+    zoomLayout->addWidget(m_zoomOut);
+    zoomLayout->addWidget(m_zoomIn);
+    // Styled on m_zoomBar itself (not the pane) so the flat chrome survives once
+    // MainWindow reparents these buttons into the help dock's title row. The
+    // glyphs are painted icons (set in applyTheme), so no colour is needed here.
+    m_zoomBar->setStyleSheet(ScalePxInStyleSheet(
+        "QPushButton#tutZoom { background: transparent; border: none;"
+        " border-radius: 4dx; padding: 1dx 4dx; }"));
 
     m_scroll = new QScrollArea(this);
     m_scroll->setWidgetResizable(true);
@@ -1107,13 +1124,19 @@ void TutorialPane::scrollStep(int direction)
                       : QAbstractSlider::SliderSingleStepAdd);
 }
 
-void TutorialPane::addZoomBarButton(QPushButton* btn)
+bool TutorialPane::eventFilter(QObject* obj, QEvent* event)
 {
-    if (!btn || !m_zoomBar)
-        return;
-    // Appends after A-/A+ (the leading stretch keeps the trio right-aligned).
-    btn->setParent(this);
-    m_zoomBar->addWidget(btn);
+    // Zoom glyphs light to the accent tint on hover.
+    if ((obj == m_zoomOut || obj == m_zoomIn)
+        && (event->type() == QEvent::Enter || event->type() == QEvent::Leave))
+    {
+        const bool hover = event->type() == QEvent::Enter;
+        if (obj == m_zoomOut)
+            m_zoomOut->setIcon(hover ? m_zoomOutIconHover : m_zoomOutIcon);
+        else
+            m_zoomIn->setIcon(hover ? m_zoomInIconHover : m_zoomInIcon);
+    }
+    return QFrame::eventFilter(obj, event);
 }
 
 void TutorialPane::setUserZoom(int zoom)
@@ -1160,6 +1183,19 @@ void TutorialPane::applyTheme()
     QColor playingTint = SonicPiTheme::blend(editorBg, accent, 0.16);
     QColor sigColour = SonicPiTheme::blend(fg, editorBg, 0.18);
 
+    // Zoom -/+ glyphs: muted at rest, accent on hover (swapped by eventFilter).
+    if (m_zoomOut && m_zoomIn)
+    {
+        const int px = m_zoomOut->iconSize().width();
+        const qreal dpr = devicePixelRatioF();
+        m_zoomOutIcon = TablerIcons::icon(TablerIcons::Glyph::CircleMinus, muted, px, dpr);
+        m_zoomOutIconHover = TablerIcons::icon(TablerIcons::Glyph::CircleMinus, accent, px, dpr);
+        m_zoomInIcon = TablerIcons::icon(TablerIcons::Glyph::CirclePlus, muted, px, dpr);
+        m_zoomInIconHover = TablerIcons::icon(TablerIcons::Glyph::CirclePlus, accent, px, dpr);
+        m_zoomOut->setIcon(m_zoomOut->underMouse() ? m_zoomOutIconHover : m_zoomOutIcon);
+        m_zoomIn->setIcon(m_zoomIn->underMouse() ? m_zoomInIconHover : m_zoomInIcon);
+    }
+
     // Design sizes at the default editor zoom, scaled to track it
     auto pt = [this](int base) {
         return QString::number(qMax(6, qRound(base * m_fontScale))) + "pt";
@@ -1194,10 +1230,6 @@ void TutorialPane::applyTheme()
         "#tutOptName { color:%5; font-family:'Hack'; font-size:%15; font-weight:bold; }"
         "#tutOptDefault { color:%12; font-family:'Hack'; font-size:%15; }"
         "#tutDials { background:transparent; border:none; }"
-        "#tutZoom { background:transparent; color:%8; border:none;"
-        " border-radius:4dx; padding-top:2dx; padding-bottom:2dx;"
-        " padding-left:8dx; padding-right:8dx; font-size:%15; font-weight:bold; }"
-        "#tutZoom:hover { color:%3; }"
         "#tutNav { background:transparent; color:%8; border:none;"
         " text-decoration:underline; font-size:%16; padding:4dx; }"
         "#tutNav:hover { color:%3; }")

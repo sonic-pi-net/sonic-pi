@@ -23,7 +23,6 @@
 
 #include "utils/tutorialdocs.h"
 
-class QHBoxLayout;
 class QLabel;
 class QPushButton;
 class QScrollArea;
@@ -80,13 +79,12 @@ public:
     int userZoom() const { return m_userZoom; }
     void setUserZoom(int zoom);
 
+    // The A-/A+ text-size buttons, packed in a standalone widget so the help
+    // dock can host them in its title row beside the HELP title.
+    QWidget* zoomControls() const { return m_zoomBar; }
+
     // Keyboard scrolling (docScrollUp/Down shortcuts): one scroll step
     void scrollStep(int direction);
-
-    // Append a button to the end of the A-/A+ zoom bar (MainWindow adds its
-    // help-close ✕ here so the trio reads as one designed row). Styled to
-    // match by giving it the #tutZoom object name before calling this.
-    void addZoomBarButton(QPushButton* btn);
 
     // Wire these to QtAPIClient's RunStartedReceived/RunEndedReceived
     void runStarted(int jobId, const QString& workspace);
@@ -96,6 +94,8 @@ protected:
     // Instrument pages are playable: Space toggles the demo, QWERTY piano
     // keys (a w s e d f t g y h u j k o l p) play notes up from the note dial
     void keyPressEvent(QKeyEvent* event) override;
+    // Hover recolour for the zoom -/+ glyph buttons.
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 signals:
     // scopeTap wraps the run in an fx_scope_out tap so the jukebox scope can
@@ -175,9 +175,11 @@ private:
     QString m_prevTitle;
     QString m_nextTitle;
     QVector<Snippet> m_snippets;
-    QHBoxLayout* m_zoomBar = nullptr;
+    QWidget* m_zoomBar = nullptr; // hosts A-/A+, displayed in the help dock title row
     QPushButton* m_zoomIn = nullptr;
     QPushButton* m_zoomOut = nullptr;
+    QIcon m_zoomOutIcon, m_zoomOutIconHover;
+    QIcon m_zoomInIcon, m_zoomInIconHover;
     SonicPi::CodeColours m_codeColours;
     QIcon m_playIcon;
     QIcon m_stopIcon;

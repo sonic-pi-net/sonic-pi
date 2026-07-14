@@ -215,13 +215,11 @@ void ScopeWindow::resizeEvent(QResizeEvent* pSize)
     // The framebuffer is recreated on resize — clear it opaquely next paint.
     m_fullClear = true;
     Layout();
+}
 
-    if (m_pauseButton)
-    {
-        const int margin = ScaleHeightForDPI(6);
-        m_pauseButton->move(width() - m_pauseButton->width() - margin, margin);
-        m_pauseButton->raise();
-    }
+QWidget* ScopeWindow::PauseButton() const
+{
+    return m_pauseButton;
 }
 
 // Draw a Simple Stereo representation with a mirror of right/left stereo

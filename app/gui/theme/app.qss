@@ -186,6 +186,8 @@ QDockWidget::title
 QDockWidget
 {
   font-size: small;
+  /* Opaque themed frame so a floated-out pane isn't a bare white window. */
+  background: paneColor;
 }
 
 /* Shared "section title" look, matching the SuperSonic debug pane's log titles
@@ -199,6 +201,13 @@ QLabel#paneTitle
     color: paneTitleColor;
     background: logBackgroundColor;
     padding: 3dx 6dx 3dx 6dx;
+}
+
+/* Dock title row that hosts controls beside the title (Scope, Help). Same
+   background as the #paneTitle chip so the label and row read as one strip. */
+QWidget#dockTitleBar
+{
+    background: logBackgroundColor;
 }
 
 /* Per-control section labels inside the Link widget — subordinate to the
@@ -584,6 +593,17 @@ QToolButton:focus
 {
     border-bottom: 2px solid hoverButtonColor;
     border-top: 2px solid hoverButtonColor;
+}
+
+/* The help pane's persistent close ✕ in the dock title row. Flat: the square-x
+   glyph carries its own box, so the button itself draws no chip — it just
+   brightens the glyph to the accent on hover (see updateHelpCloseIcon). */
+QPushButton#helpCloseButton
+{
+    background: transparent;
+    border: none;
+    border-radius: 4dx;
+    padding: 1dx 4dx;
 }
 
 QGroupBox:title

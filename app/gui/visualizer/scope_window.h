@@ -108,6 +108,11 @@ public:
     void Booted();
     void ShutDown();
 
+    // The pause/resume toggle. Displayed in the scope dock's title row (placed
+    // there by MainWindow) rather than overlaid on the trace, so it sits beside
+    // the SCOPE title.
+    QWidget* PauseButton() const;
+
 signals:
     // Emitted whenever the running/frozen state actually flips, from any
     // path: F12, the Visuals menu, the overlay button, or pause-when-silent.
@@ -134,7 +139,7 @@ private:
     std::vector<ScopeWindowPanel> m_panels;
     bool m_paused = false;
     bool m_pendingPause = false;
-    // Overlay pause/resume toggle in the top-right corner; also freezes the
+    // Pause/resume toggle (hosted in the scope dock title row); also freezes the
     // image for inspection (waveform shapes, spectrum peaks).
     ScopePauseButton* m_pauseButton = nullptr;
     // Latest snapshot from the audio processor; never null after the
