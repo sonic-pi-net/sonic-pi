@@ -41,6 +41,7 @@
 #include <QPropertyAnimation>
 #include <QMessageBox>
 #include <QNetworkInterface>
+#include <QPainter>
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QScrollBar>
@@ -51,6 +52,7 @@
 #include <QStackedWidget>
 #include <QStatusBar>
 #include <QStyle>
+#include <QStyledItemDelegate>
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
 #include <QAccessibilityHints>
 #endif
@@ -256,6 +258,7 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
     // be found in ruby_help.h:
     std::cout << "[GUI] - initialising documentation window" << std::endl;
     initDocsWindow();
+    updateDocsNavMinWidth();
 
 
     // setup autocompletion
@@ -900,7 +903,14 @@ void MainWindow::setupWindowStructure()
     blankWidgetMetro = new QWidget();
 
     docsNavTabs = new QTabWidget;
+    docsNavTabs->setObjectName("docsNavTabs");   // chip-style tabs, see app.qss
     docsNavTabs->setFocusPolicy(Qt::NoFocus);
+    // Landing on a docs tab should always show something: select the first
+    // entry if the tab has never had a selection (switching back keeps the
+    // previous selection). NB the initial tab's signal fires before its list
+    // exists, so every show-the-docs path also calls ensureDocsSelection().
+    connect(docsNavTabs, &QTabWidget::currentChanged, this,
+            [this](int) { ensureDocsSelection(); });
     docsNavTabs->setTabsClosable(false);
     docsNavTabs->setMovable(false);
     docsNavTabs->setTabPosition(QTabWidget::South);
@@ -1193,10 +1203,7 @@ void MainWindow::toggleDocPane()
         docWidget->show();
         const int h = (m_savedDockH > 0) ? m_savedDockH : (height() / 3);
         resizeDocks({ docWidget }, { h }, Qt::Vertical);
-        // First open: land on the tutorial's first chapter rather than a blank pane
-        QListWidget* list = helpLists.value(docsNavTabs->currentIndex());
-        if (list && list->currentRow() < 0 && list->count() > 0)
-            list->setCurrentRow(0);
+        ensureDocsSelection();   // never land on a blank pane
     }
 }
 
@@ -2930,6 +2937,46 @@ void MainWindow::updateHelpCloseIcon()
                                                            : m_helpCloseIcon);
 }
 
+void MainWindow::updateDocsFilterIcons()
+{
+    if (docsFilterSearchActions.isEmpty())
+        return;
+    const int px = ScaleWidthForDPI(14);
+    const qreal dpr = devicePixelRatioF();
+    // Same muted tint as placeholder-style chrome: legible but quiet.
+    const QColor tint = SonicPiTheme::blend(theme->color("Foreground"),
+                                            theme->color("PaneBackground"), 0.45);
+    const QIcon icon = TablerIcons::icon(TablerIcons::Glyph::Search, tint, px, dpr);
+    for (QAction* action : docsFilterSearchActions)
+        action->setIcon(icon);
+}
+
+void MainWindow::updateDocsNavMinWidth()
+{
+    // The Tutorial / Examples / … chips must never collapse into scroll
+    // arrows: hold the nav pane at the tab bar's natural width so the
+    // splitter stretches to fit all chips whenever the window has room.
+    // (Recomputed on theme changes — chip metrics come from the stylesheet.)
+    // Clamped to 40% of the window so verbose locales (German chip labels
+    // run ~530px+) can't turn the chip row into a hard window minimum on
+    // small screens — beyond the clamp the bar falls back to scroll arrows.
+    if (!docsNavTabs || docsNavTabs->count() == 0)
+        return;
+    docsNavTabs->tabBar()->ensurePolished();
+    const int natural = docsNavTabs->tabBar()->sizeHint().width() + ScaleWidthForDPI(12);
+    const int cap = qMax(ScaleWidthForDPI(200), (width() * 2) / 5);
+    docsNavTabs->setMinimumWidth(qMin(natural, cap));
+}
+
+void MainWindow::ensureDocsSelection()
+{
+    // The docs pane should never show a blank page: whichever tab is
+    // current, make sure it has a selected entry (selecting builds the page).
+    QListWidget* list = helpLists.value(docsNavTabs ? docsNavTabs->currentIndex() : -1);
+    if (list && list->currentRow() < 0 && list->count() > 0)
+        list->setCurrentRow(0);
+}
+
 void MainWindow::stealHelpHeightForError(int errorH)
 {
     if (!docWidget || !docWidget->isVisible())
@@ -3520,6 +3567,8 @@ void MainWindow::about()
     else
     {
         showStatusAndAnnounce(tr("Showing about window..."), 2000);
+        if (infoPanesDirty)
+            rerenderInfoPanes();   // styles changed while hidden
         infoWidg->raise();
         infoWidg->show();
         infoAct->setChecked(true);
@@ -3546,6 +3595,7 @@ void MainWindow::help()
     {
         showStatusAndAnnounce(tr("Showing help..."), 2000);
         docWidget->show();
+        ensureDocsSelection();   // never land on a blank page
         helpAct->setChecked(true);
     }
     helpAct->setIcon(theme->getHelpIcon(docWidget->isVisible()));
@@ -3915,11 +3965,27 @@ void MainWindow::updateColourTheme()
     toggleIcons();
 
 
+    // Info window typography, mirroring the docs pane: accent headings,
+    // coloured links, monospace code. (QTextDocument's CSS subset — no
+    // borders/hover, so it's colour, size and weight doing the work.)
+    QString infoCss = QString(
+        "body { color: %1; font-size: 12pt; }"
+        "h1 { color: %2; font-size: 20pt; font-weight: bold; }"
+        "h2 { color: %3; font-size: 15pt; font-weight: bold; }"
+        "h3 { color: %1; font-size: 13pt; font-weight: bold; }"
+        "a { color: %2; }"
+        "code, pre { font-family: 'Hack'; color: %2; }")
+        .arg(theme->color("WindowForeground").name(),
+             theme->color("HighlightedBackground").name(),
+             theme->color("NumberForeground").name());
     foreach (QTextBrowser* pane, infoPanes)
-    {
-        pane->document()->setDefaultStyleSheet(css);
-        pane->reload();
-    }
+        pane->document()->setDefaultStyleSheet(infoCss);
+    // Re-rendering resets scroll/selection and re-parses the big changelog,
+    // so hidden panes just go dirty and re-render on next show (about()).
+    if (infoWidg && infoWidg->isVisible())
+        rerenderInfoPanes();
+    else
+        infoPanesDirty = true;
 
     errorPane->document()->setDefaultStyleSheet(css);
     errorCard->applyTheme();
@@ -3985,6 +4051,8 @@ void MainWindow::updateColourTheme()
                                         theme->color("WindowBorder"),
                                         theme->color("ScrollBarHover"));
     updateHelpCloseIcon();   // re-tint the help ✕ for the new theme
+    updateDocsFilterIcons(); // re-tint the docs filter magnifiers too
+    updateDocsNavMinWidth(); // chip metrics may have changed with the theme
     update();   // repaint separators with the new colours
 
     updateContextWithCurrentWs();
@@ -5971,10 +6039,24 @@ QString MainWindow::readFile(QString name)
     return st.readAll();
 }
 
+void MainWindow::rerenderInfoPanes()
+{
+    // setDefaultStyleSheet only affects subsequently-set html, so restyling
+    // means re-setting each pane's stashed source; keep the reader's place.
+    foreach (QTextBrowser* pane, infoPanes)
+    {
+        const int scrollPos = pane->verticalScrollBar()->value();
+        pane->setHtml(pane->property("infoHtml").toString());
+        pane->verticalScrollBar()->setValue(scrollPos);
+    }
+    infoPanesDirty = false;
+}
+
 void MainWindow::createInfoPane()
 {
     std::cout << "[GUI] - creating info panel" << std::endl;
     QTabWidget* infoTabs = new QTabWidget(this);
+    infoTabs->setObjectName("infoNavTabs");   // chip-style tabs, see app.qss
 
     QStringList urls, tabs;
 
@@ -6018,6 +6100,10 @@ void MainWindow::createInfoPane()
         source = source.replace("268dx", QString("%1").arg(ScaleHeightForDPI(268)));
         source = source.replace("328dx", QString("%1").arg(ScaleHeightForDPI(328)));
         source = source.replace("__SONIC_PI_VERSION__", SONIC_PI_VERSION);
+        // Stashed for re-render on theme changes: setDefaultStyleSheet only
+        // affects subsequently-set html, and reload() is a no-op for setHtml
+        // content (no source URL).
+        pane->setProperty("infoHtml", source);
         pane->setHtml(source);
         infoTabs->addTab(pane, tabs[t]);
     }
@@ -6256,6 +6342,7 @@ void MainWindow::restoreWindows()
         const int winH = size.height();
         if (winH > 0 && docWidget->height() > (winH * 2) / 5)
             resizeDocks({ docWidget }, { winH / 3 }, Qt::Vertical);
+        ensureDocsSelection();   // restored-visible dock: don't land on a blank page
     }
 }
 
@@ -6756,6 +6843,9 @@ void MainWindow::addHelpPage(QListWidget* nameList,
     {
         QListWidgetItem* item = new QListWidgetItem(helpPages[i].title);
         item->setData(32, QVariant(helpPages[i].url));
+        // Searchable symbol (bass_foundation) alongside the display title
+        // ("Bass Foundation") so the filter matches text pasted from code.
+        item->setData(33, QVariant(QString(helpPages[i].keyword)));
         nameList->addItem(item);
         entry.entryIndex = nameList->count() - 1;
         helpTabKeywords[entry.pageIndex] << helpPages[i].keyword;
@@ -6781,11 +6871,90 @@ void MainWindow::addHelpPage(QListWidget* nameList,
     }
 }
 
+// Two-tone painting for the tutorial chapter list: chapter numbers in a muted
+// tint, titles in the theme foreground, top-level chapters bold. Painting
+// only — the item's text (and so its screen-reader announcement) is unchanged.
+class DocsNavDelegate : public QStyledItemDelegate
+{
+public:
+    DocsNavDelegate(SonicPiTheme* theme, QObject* parent)
+        : QStyledItemDelegate(parent)
+        , m_theme(theme)
+    {
+    }
+
+    void paint(QPainter* painter, const QStyleOptionViewItem& option,
+               const QModelIndex& index) const override
+    {
+        QStyleOptionViewItem opt = option;
+        initStyleOption(&opt, index);
+
+        static const QRegularExpression numbered(
+            QStringLiteral("^(\\s*)(\\d+(?:\\.\\d+)*) (.*)$"));
+        QRegularExpressionMatch match = numbered.match(opt.text);
+        if (!match.hasMatch())
+        {
+            QStyledItemDelegate::paint(painter, option, index);
+            return;
+        }
+
+        const QString indent = match.captured(1);
+        const QString number = match.captured(2);
+        const QString title = match.captured(3);
+        const bool topLevel = !number.contains('.');
+
+        // Pill background (selection / hover / resting) comes from the
+        // stylesheet; draw it text-free, then match the text to its fill.
+        opt.text.clear();
+        QStyle* style = opt.widget ? opt.widget->style() : QApplication::style();
+        style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, opt.widget);
+
+        QColor fill = m_theme->color("WindowBackground");
+        QColor fg = m_theme->color("WindowForeground");
+        if (opt.state & QStyle::State_Selected)
+            fill = m_theme->color("MenuSelected");
+        else if (opt.state & QStyle::State_MouseOver)
+            fill = m_theme->color("ScrollBarHover");
+        if (opt.state & (QStyle::State_Selected | QStyle::State_MouseOver))
+            fg = m_theme->contrastingText(fill);
+        const QColor numColour = SonicPiTheme::blend(fg, fill, 0.45);
+
+        QFont titleFont = opt.font;
+        titleFont.setBold(topLevel);
+        const QFontMetrics numMetrics(opt.font);
+        const QFontMetrics titleMetrics(titleFont);
+
+        const QRect textRect = style->subElementRect(QStyle::SE_ItemViewItemText, &opt, opt.widget);
+        painter->save();
+        int x = textRect.left() + numMetrics.horizontalAdvance(indent);
+        painter->setFont(opt.font);
+        painter->setPen(numColour);
+        painter->drawText(QRect(x, textRect.top(), qMax(0, textRect.right() - x), textRect.height()),
+                          Qt::AlignVCenter | Qt::TextSingleLine, number);
+        x += numMetrics.horizontalAdvance(number + QStringLiteral("  "));
+        const int titleWidth = qMax(0, textRect.right() - x);
+        painter->setFont(titleFont);
+        painter->setPen(fg);
+        painter->drawText(QRect(x, textRect.top(), titleWidth, textRect.height()),
+                          Qt::AlignVCenter | Qt::TextSingleLine,
+                          titleMetrics.elidedText(title, Qt::ElideRight, titleWidth));
+        painter->restore();
+    }
+
+private:
+    SonicPiTheme* m_theme;
+};
+
 QListWidget* MainWindow::createHelpTab(QString name)
 {
     QListWidget* nameList = new QListWidget;
+    nameList->setObjectName("docsNavList");   // borderless list with pill rows, see app.qss
+    nameList->setFrameShape(QFrame::NoFrame);
     nameList->setAccessibleName(tr("Help Topics"));
     nameList->setSpacing(ScaleHeightForDPI(1));
+    // Titles elide rather than growing a horizontal scrollbar under the list.
+    nameList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    nameList->setItemDelegate(new DocsNavDelegate(theme, nameList));
     // Both signals on purpose: currentItemChanged covers keyboard navigation,
     // itemPressed covers re-clicking the already-current row (to return after
     // following links away in the browser pane). The native pane dedupes via
@@ -6798,23 +6967,41 @@ QListWidget* MainWindow::createHelpTab(QString name)
         this, SLOT(updateDocPane2(QListWidgetItem*, QListWidgetItem*)));
 
     QLineEdit* filter = new QLineEdit;
+    filter->setObjectName("docsFilter");   // pill-shaped search field, see app.qss
     filter->setPlaceholderText(tr("Filter %1...").arg(name));
     filter->setAccessibleName(tr("Filter %1 help topics").arg(name));
     filter->setClearButtonEnabled(true);
+    // Leading magnifier so the field reads as search at a glance; decorative
+    // only (the accessible name above carries the semantics). Tinted for the
+    // current theme here and re-tinted on theme changes (updateDocsFilterIcons).
+    docsFilterSearchActions.append(filter->addAction(QIcon(), QLineEdit::LeadingPosition));
+    updateDocsFilterIcons();
     connect(filter, &QLineEdit::textChanged, nameList, [nameList](const QString& q) {
         for (int i = 0; i < nameList->count(); i++)
         {
             QListWidgetItem* item = nameList->item(i);
-            item->setHidden(!q.isEmpty() && !item->text().contains(q, Qt::CaseInsensitive));
+            // Match the display title OR the raw symbol (data 33), so
+            // underscored names pasted from code still filter.
+            const bool match = q.isEmpty()
+                               || item->text().contains(q, Qt::CaseInsensitive)
+                               || item->data(33).toString().contains(q, Qt::CaseInsensitive);
+            item->setHidden(!match);
         }
     });
 
     QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(ScaleHeightForDPI(4));
+    // Air around the nav column so the list and filter don't press against the
+    // splitter and window edges; the bottom stays tight to the tab chips.
+    layout->setContentsMargins(ScaleWidthForDPI(8), ScaleHeightForDPI(8),
+                               ScaleWidthForDPI(4), ScaleHeightForDPI(2));
+    layout->setSpacing(ScaleHeightForDPI(6));
     layout->addWidget(filter);
     layout->addWidget(nameList, 1);
     QWidget* tabWidget = new QWidget;
+    // Tinted sidebar (see #docsNavPage in app.qss) so the nav column reads as
+    // its own surface against the white/dark content pane.
+    tabWidget->setObjectName("docsNavPage");
+    tabWidget->setAttribute(Qt::WA_StyledBackground, true);
     tabWidget->setLayout(layout);
     docsNavTabs->addTab(tabWidget, name);
     helpLists.append(nameList);

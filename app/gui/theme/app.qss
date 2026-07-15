@@ -466,6 +466,130 @@ QListWidget::item::selected
     color: menuSelectedTextColor;
 }
 
+/* ── Docs panel navigation ───────────────────────────────────────────────
+   The help nav is a filter field over a chapter list, with chip-style tabs
+   below (Tutorial / Examples / …). Everything stays a stock Qt widget —
+   QLineEdit / QListWidget / QTabBar — so screen readers keep their native
+   roles; only the chrome changes: no sunken frames, pill selection rows,
+   and a keyboard focus ring that never collides with the resting look
+   (transparent resting borders keep geometry stable). */
+
+/* The nav column is a tinted sidebar — its own surface against the content
+   pane, like the nav rail of a docs site. */
+QWidget#docsNavPage
+{
+    background: windowColor;
+}
+
+/* Chapter list: borderless and padded, with full-width rounded "pill" rows.
+   The selected pill (auto-contrast text on the accent) doubles as the focus
+   landmark; the rounded ring below appears when the list itself has focus. */
+QListWidget#docsNavList
+{
+    border: 2dx solid transparent;
+    border-radius: 8dx;
+    background: transparent;
+    padding: 4dx;
+    min-width: 200dx;
+}
+
+QListWidget#docsNavList:focus
+{
+    border: 2dx solid hoverButtonColor;
+}
+
+QListWidget#docsNavList::item
+{
+    background: transparent;
+    color: windowForegroundColor;
+    border-radius: 5dx;
+    padding-top: 4dx;
+    padding-bottom: 4dx;
+    padding-left: 9dx;
+    padding-right: 9dx;
+}
+
+QListWidget#docsNavList::item:hover
+{
+    background: scrollBarHoverColor;
+    color: scrollBarHoverTextColor;
+}
+
+QListWidget#docsNavList::item:selected
+{
+    background: menuSelectedColor;
+    color: menuSelectedTextColor;
+}
+
+/* Filter field: a pill-shaped search box with a quiet outline that swaps to
+   the focus accent at the same 2dx weight (no layout shift on focus). */
+QLineEdit#docsFilter
+{
+    background: paneColor;
+    color: windowForegroundColor;
+    border: 2dx solid windowInternalBorderColor;
+    border-radius: 12dx;
+    min-height: 20dx;
+    padding-top: 2dx;
+    padding-bottom: 2dx;
+    padding-left: 8dx;
+    padding-right: 8dx;
+    font-size: medium;
+}
+
+QLineEdit#docsFilter:focus
+{
+    border: 2dx solid hoverButtonColor;
+}
+
+/* Docs sub-tabs (Tutorial / Examples / Synths / …) and the Info window's
+   tabs: rounded chips in the house segmented-control style instead of boxy
+   legacy tabs. Selected chip fills with the accent (auto-contrast text);
+   keyboard focus keeps the standard 2dx ring, which integrates with the
+   chip radius. */
+QTabWidget#docsNavTabs::pane,
+QTabWidget#infoNavTabs::pane
+{
+    border: none;
+}
+
+QTabWidget#docsNavTabs > QTabBar::tab,
+QTabWidget#infoNavTabs > QTabBar::tab
+{
+    background: transparent;
+    color: windowForegroundColor;
+    border: 2dx solid transparent;
+    border-radius: 6dx;
+    padding-top: 3dx;
+    padding-bottom: 3dx;
+    padding-left: 7dx;
+    padding-right: 7dx;
+    margin-top: 2dx;
+    margin-bottom: 3dx;
+    margin-left: 1dx;
+    margin-right: 1dx;
+}
+
+QTabWidget#docsNavTabs > QTabBar::tab:hover,
+QTabWidget#infoNavTabs > QTabBar::tab:hover
+{
+    background: scrollBarHoverColor;
+    color: scrollBarHoverTextColor;
+}
+
+QTabWidget#docsNavTabs > QTabBar::tab:selected,
+QTabWidget#infoNavTabs > QTabBar::tab:selected
+{
+    background: tabSelectedColor;
+    color: tabSelectedTextColor;
+}
+
+QTabWidget#docsNavTabs > QTabBar::tab:focus,
+QTabWidget#infoNavTabs > QTabBar::tab:focus
+{
+    border: 2dx solid hoverButtonColor;
+}
+
 QComboBox
 {
     font-size: medium;

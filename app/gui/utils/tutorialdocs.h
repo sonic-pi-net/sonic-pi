@@ -62,6 +62,8 @@ struct InstrumentOpt
     bool hasRange = false;
     double min = 0;
     double max = 0;
+    bool minExcl = false; // open bound: valid values are strictly inside
+    bool maxExcl = false;
     bool slidable = false;
 };
 

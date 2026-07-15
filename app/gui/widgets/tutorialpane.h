@@ -23,6 +23,8 @@
 
 #include "utils/tutorialdocs.h"
 
+class QGridLayout;
+class QHBoxLayout;
 class QLabel;
 class QPushButton;
 class QScrollArea;
@@ -116,6 +118,8 @@ private:
         QPushButton* play = nullptr;
         QPushButton* stop = nullptr;
         QPushButton* copy = nullptr;
+        QGridLayout* codeArea = nullptr; // grid hosting the code + corner controls
+        bool commentsAside = false; // display-only example: comments in a right column
         QString code;
         QString workspace;
         int jobId = -1;
@@ -128,12 +132,24 @@ private:
     void applySizing();
     void applyContentTheme();
     void regenerateInstrumentCode();
-    void setSnippetCode(int index, const QString& code);
+    // html overrides the default highlight rendering (the playground snippet
+    // embeds editable-number anchors).
+    void setSnippetCode(int index, const QString& code, const QString& html = QString());
+    // Inline editor for one opt value, wired to its dial (from code anchors).
+    void openOptEditor(const QString& optName, const QPoint& globalPos);
+    // Two-column rendering for display-only examples: code left, comments
+    // gathered in a muted right column (the old doc system's layout).
+    QString exampleTableHtml(const QString& code) const;
     void addHeading(int level, const QString& text);
     void addProse(const QString& richText);
     void addList(const SonicPi::TutorialBlock& block);
     void addImage(const SonicPi::TutorialBlock& block);
-    void addSnippet(const QString& code, bool runnable = true);
+    // `into` nests the snippet inside another card (the instrument playground)
+    // instead of appending it to the page column. `transportInto` relocates
+    // the play/stop/copy buttons into an external row (the playground's
+    // trigger row) instead of a strip under the code.
+    void addSnippet(const QString& code, bool runnable = true, QVBoxLayout* into = nullptr,
+                    QHBoxLayout* transportInto = nullptr);
     void addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts);
     void addNavFooter();
     void setSnippetPlaying(Snippet& snippet, bool playing);
@@ -181,6 +197,10 @@ private:
     QIcon m_stopIcon;
     QIcon m_exPlayIcon; // jukebox transport glyphs (contrasting, for accent fill)
     QIcon m_exStopIcon;
+    QIcon m_copyIcon;
+    QIcon m_copiedIcon; // check-mark flash after a successful copy
+    QHash<QString, QWidget*> m_optRows; // opt name → its doc-table row, for jump links
+    int m_pianoBaseNote = 52; // page-default note the QWERTY keys offset from
     int m_userZoom = 0;      // pane zoom steps from A-/A+ (persisted as a pref)
     double m_fontScale = 1.0;
     int m_workspaceSeq = 0;

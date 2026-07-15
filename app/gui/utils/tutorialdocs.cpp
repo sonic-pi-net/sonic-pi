@@ -49,6 +49,8 @@ InstrumentOpt optFromJson(const QJsonObject& o)
     opt.hasRange = o.contains("min") && o.contains("max");
     opt.min = o.value("min").toDouble();
     opt.max = o.value("max").toDouble();
+    opt.minExcl = o.value("min_excl").toBool();
+    opt.maxExcl = o.value("max_excl").toBool();
     return opt;
 }
 
@@ -131,8 +133,11 @@ QVector<SampleGroup> TutorialDocs::sampleGroupsFromJson(const QByteArray& json)
         const QJsonObject g = v.toObject();
         SampleGroup group;
         group.title = g.value("title").toString();
+        // Entries are objects ({name, duration}) in current generator output,
+        // bare strings in older files — take the name either way.
         for (const QJsonValue& s : g.value("samples").toArray())
-            group.samples << s.toString();
+            group.samples << (s.isObject() ? s.toObject().value("name").toString()
+                                           : s.toString());
         groups.append(group);
     }
     return groups;
@@ -216,7 +221,7 @@ QString highlightLine(const QString& line, const CodeColours& c)
         {
             int end = i + 1;
             while (end < n && line[end] != ch)
-                end++;
+                end += (line[end] == '\\' && end + 1 < n) ? 2 : 1; // skip escapes
             if (end < n)
                 end++;
             flushPlain(i);

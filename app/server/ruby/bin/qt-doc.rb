@@ -122,7 +122,9 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
   doc_items.each do |n, doc|
     title = n
     if titleize == :titleize then
-      title = title.titleize
+      # Symbol-style keys (bass_foundation) read as words in the GUI; the
+      # searchable symbol itself travels in the keyword column.
+      title = title.tr("_", " ").titleize
       # HPF et al get capitalized
       if name == 'fx' and title =~ /pf$/ then
         title = title.upcase
@@ -841,27 +843,44 @@ native_tutorial_langs.each do |lang|
   end
 end
 
-# lo/hi for an opt, mirroring the setOptRange derivation above; nil when the
-# opt has no known range.
+# [lo, hi, min_excl, max_excl] for an opt, mirroring the setOptRange
+# derivation above; nil when the opt has no known range. The range is clamped
+# to the validation bounds and carries their exclusivity, so GUI selectors
+# never offer an invalid edge value (e.g. res: 1.0 where res must be < 1).
 native_opt_min_max = lambda do |ak, info, default|
   bounds = info[:bounds] || {}
   return nil if bounds[:options]
   midi_ranges = { "cutoff" => [30.0, 130.0] }
   if (mr = midi_ranges[ak.to_s]) && !info[:range]
-    mr
+    lo, hi = mr
   elsif (r = info[:range])
-    [r[0].to_f, r[1].to_f]
+    lo, hi = r[0].to_f, r[1].to_f
   elsif bounds.key?(:min) && bounds.key?(:max)
-    [bounds[:min].to_f, bounds[:max].to_f]
+    lo, hi = bounds[:min].to_f, bounds[:max].to_f
   elsif bounds.key?(:min) && default.is_a?(Numeric)
     lo = bounds[:min].to_f
     dv = default.to_f
-    [lo, dv > lo ? lo + (dv - lo) * 4.0 : lo + 1.0]
+    hi = dv > lo ? lo + (dv - lo) * 4.0 : lo + 1.0
   elsif bounds.key?(:max) && default.is_a?(Numeric)
     hi = bounds[:max].to_f
     dv = default.to_f
-    [dv < hi ? hi - (hi - dv) * 4.0 : hi - 1.0, hi]
+    lo = dv < hi ? hi - (hi - dv) * 4.0 : hi - 1.0
+  else
+    return nil
   end
+  min_excl = false
+  max_excl = false
+  if bounds.key?(:min)
+    bmin = bounds[:min].to_f
+    lo = bmin if lo < bmin
+    min_excl = (lo <= bmin) && (bounds[:min_incl] == false)
+  end
+  if bounds.key?(:max)
+    bmax = bounds[:max].to_f
+    hi = bmax if hi > bmax
+    max_excl = (hi >= bmax) && (bounds[:max_incl] == false)
+  end
+  [lo, hi, min_excl, max_excl]
 end
 
 native_num = lambda { |n| (n.is_a?(Float) && n == n.to_i) ? n.to_i : n }
@@ -889,6 +908,8 @@ native_instrument_pages = lambda do |klass|
       if d.is_a?(Numeric) && (mm = native_opt_min_max.call(ak, info, d))
         o["min"] = native_num.call(mm[0])
         o["max"] = native_num.call(mm[1])
+        o["min_excl"] = true if mm[2]
+        o["max_excl"] = true if mm[3]
       end
       o["slidable"] = !!info[:slidable]
       o

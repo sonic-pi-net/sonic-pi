@@ -28,8 +28,8 @@ enum class Glyph
 {
     X,               // close
     SquareX,         // close (boxed)
-    CirclePlus,      // zoom in
-    CircleMinus,     // zoom out
+    CirclePlus,      // zoom in / octave up
+    CircleMinus,     // zoom out / octave down
     GridDots,        // Cards tab
     Book,            // Docs tab
     Radioactive,     // Logs tab
@@ -38,8 +38,10 @@ enum class Glyph
     StopFilled,      // card stop (solid)
     SquareChevronsUp,// card insert-at-cursor
     Texture,         // card drag handle
-    Copy,            // card copy-to-clipboard
-    Check            // copied! confirmation tick
+    Copy,            // copy-to-clipboard
+    Check,           // copied! confirmation tick
+    Search,          // docs filter
+    Restore          // reset dials
 };
 
 // Solid glyphs are tinted via fill; everything else via stroke.
@@ -125,6 +127,15 @@ inline QString glyphPaths(Glyph glyph)
             "-2.667l0 -8.666' />"
             "<path d='M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 "
             "0 1.158 .385 1.5 1' />");
+    case Glyph::Search:
+        return QStringLiteral(
+            "<path d='M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0' />"
+            "<path d='M21 21l-6 -6' />");
+    case Glyph::Restore:
+        return QStringLiteral(
+            "<path d='M3.06 13a9 9 0 1 0 .49 -4.087' />"
+            "<path d='M3 4.001v5h5' />"
+            "<path d='M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />");
     case Glyph::Check:
         return QStringLiteral("<path d='M5 12l5 5l10 -10' />");
     }
@@ -132,21 +143,24 @@ inline QString glyphPaths(Glyph glyph)
 }
 
 // The complete tinted SVG document for a glyph, for custom rendering (e.g.
-// into a sub-rect of an existing painter); pixmap() below covers the usual case.
-inline QString svgMarkup(Glyph glyph, const QColor& colour)
+// into a sub-rect of an existing painter); pixmap() below covers the usual
+// case. strokeWidth applies to outline glyphs only (filled ones have no stroke).
+inline QString svgMarkup(Glyph glyph, const QColor& colour, qreal strokeWidth = 2.0)
 {
-    const QString wrapper = glyphFilled(glyph)
-        ? QStringLiteral("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' "
-                         "fill='%1' stroke='none'>%2</svg>")
-        : QStringLiteral("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
-                         "stroke='%1' stroke-width='2' stroke-linecap='round' "
-                         "stroke-linejoin='round'>%2</svg>");
-    return wrapper.arg(colour.name(), glyphPaths(glyph));
+    if (glyphFilled(glyph))
+        return QStringLiteral("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' "
+                              "fill='%1' stroke='none'>%2</svg>")
+            .arg(colour.name(), glyphPaths(glyph));
+    return QStringLiteral("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+                          "stroke='%1' stroke-width='%3' stroke-linecap='round' "
+                          "stroke-linejoin='round'>%2</svg>")
+        .arg(colour.name(), glyphPaths(glyph), QString::number(strokeWidth));
 }
 
-inline QPixmap pixmap(Glyph glyph, const QColor& colour, int side, qreal dpr)
+inline QPixmap pixmap(Glyph glyph, const QColor& colour, int side, qreal dpr,
+                      qreal strokeWidth = 2.0)
 {
-    const QString svg = svgMarkup(glyph, colour);
+    const QString svg = svgMarkup(glyph, colour, strokeWidth);
 
     QSvgRenderer renderer(svg.toUtf8());
     QPixmap pm(QSize(side, side) * dpr);
@@ -159,9 +173,33 @@ inline QPixmap pixmap(Glyph glyph, const QColor& colour, int side, qreal dpr)
     return pm;
 }
 
-inline QIcon icon(Glyph glyph, const QColor& colour, int side, qreal dpr)
+inline QIcon icon(Glyph glyph, const QColor& colour, int side, qreal dpr,
+                  qreal strokeWidth = 2.0)
 {
-    return QIcon(pixmap(glyph, colour, side, dpr));
+    return QIcon(pixmap(glyph, colour, side, dpr, strokeWidth));
+}
+
+// A filled glyph centred on a coloured disc — the transport badge shared by
+// the quickstart cards and the docs snippets. A play triangle's centroid sits
+// left of its geometric centre, so it gets a small optical nudge right.
+inline QPixmap discBadge(Glyph glyph, const QColor& disc, const QColor& glyphColour,
+                         int side, qreal dpr)
+{
+    const int dev = qRound(side * dpr);
+    QPixmap pm(dev, dev);
+    pm.fill(Qt::transparent);
+    QPainter p(&pm);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setPen(Qt::NoPen);
+    p.setBrush(disc);
+    p.drawEllipse(QRectF(0, 0, dev, dev));
+    QSvgRenderer renderer(svgMarkup(glyph, glyphColour).toUtf8());
+    const qreal gs = dev * 0.58;
+    const qreal nudge = (glyph == Glyph::PlayFilled) ? gs * 0.06 : 0.0;
+    renderer.render(&p, QRectF((dev - gs) / 2.0 + nudge, (dev - gs) / 2.0, gs, gs));
+    p.end();
+    pm.setDevicePixelRatio(dpr);
+    return pm;
 }
 }
 

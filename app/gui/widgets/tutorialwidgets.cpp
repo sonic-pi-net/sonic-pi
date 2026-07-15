@@ -48,6 +48,41 @@ void TutProseText::mouseMoveEvent(QMouseEvent* e)
     }
     QString anchor = m_doc.documentLayout()->anchorAt(e->position());
     setCursor(anchor.isEmpty() ? Qt::IBeamCursor : Qt::PointingHandCursor);
+    applyAnchorHover(anchor.startsWith(QLatin1String("opt:")) ? anchor : QString());
+}
+
+void TutProseText::leaveEvent(QEvent* e)
+{
+    applyAnchorHover(QString());
+    QWidget::leaveEvent(e);
+}
+
+void TutProseText::applyAnchorHover(const QString& href)
+{
+    if (m_hoverAnchor == href)
+        return;
+    m_hoverAnchor = href;
+    for (QTextBlock block = m_doc.begin(); block != m_doc.end(); block = block.next())
+    {
+        for (QTextBlock::iterator it = block.begin(); !it.atEnd(); ++it)
+        {
+            const QTextFragment frag = it.fragment();
+            QTextCharFormat fmt = frag.charFormat();
+            // Only editable-number anchors: prose hyperlinks keep their own
+            // permanent underline from the markup.
+            if (!fmt.isAnchor() || !fmt.anchorHref().startsWith(QLatin1String("opt:")))
+                continue;
+            const bool on = !href.isEmpty() && fmt.anchorHref() == href;
+            if (fmt.fontUnderline() == on)
+                continue;
+            fmt.setFontUnderline(on);
+            QTextCursor cursor(&m_doc);
+            cursor.setPosition(frag.position());
+            cursor.setPosition(frag.position() + frag.length(), QTextCursor::KeepAnchor);
+            cursor.setCharFormat(fmt);
+        }
+    }
+    update();
 }
 
 void TutProseText::mouseReleaseEvent(QMouseEvent* e)

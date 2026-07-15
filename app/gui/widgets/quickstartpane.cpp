@@ -1420,34 +1420,15 @@ QIcon QuickstartPane::svgIcon(TablerIcons::Glyph glyph, const QColor& colour, in
 QPixmap QuickstartPane::playDisc(bool playing, int d, bool hover) const
 {
     const qreal dpr = devicePixelRatioF();
-    const int dev = qRound(d * dpr);
     const QColor accent = m_theme->color("HighlightedBackground");
     const QColor onAccent = m_theme->contrastingText(accent);
     // Like the header icons: normal is a white glyph on an accent disc; hover
     // inverts to an accent glyph on a light disc; a strong contrast flip.
     const QColor disc = hover ? onAccent : accent;
     const QColor glyphColour = hover ? accent : onAccent;
-    QPixmap pm(dev, dev);
-    pm.fill(Qt::transparent);
-    QPainter p(&pm);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.setPen(Qt::NoPen);
-    p.setBrush(disc);
-    p.drawEllipse(QRectF(0, 0, dev, dev));
-    // Play/stop glyph centred, filling most of the disc. A play triangle's
-    // centroid sits left of its geometric centre, so nudge it right a touch to
-    // look optically centred (the stop square needs no nudge).
-    QSvgRenderer renderer(
-        TablerIcons::svgMarkup(playing ? TablerIcons::Glyph::StopFilled
-                                       : TablerIcons::Glyph::PlayFilled,
-                               glyphColour)
-            .toUtf8());
-    const qreal gs = dev * 0.58;
-    const qreal nudge = playing ? 0.0 : gs * 0.06;
-    renderer.render(&p, QRectF((dev - gs) / 2.0 + nudge, (dev - gs) / 2.0, gs, gs));
-    p.end();
-    pm.setDevicePixelRatio(dpr);
-    return pm;
+    return TablerIcons::discBadge(playing ? TablerIcons::Glyph::StopFilled
+                                          : TablerIcons::Glyph::PlayFilled,
+                                  disc, glyphColour, d, dpr);
 }
 
 QPixmap QuickstartPane::cardDragPixmap(QWidget* frame) const
