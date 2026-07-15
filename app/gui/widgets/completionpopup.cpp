@@ -243,7 +243,7 @@ public:
         setFocusPolicy(Qt::NoFocus);     // never steal the editor's keyboard focus
         // Slides the keyboard window smoothly when it scrolls.
         m_slide = new QVariantAnimation(this);
-        m_slide->setDuration(180);
+        m_slide->setDuration(360); // gentle octave glide (half the old speed)
         m_slide->setEasingCurve(QEasingCurve::OutCubic);
         connect(m_slide, &QVariantAnimation::valueChanged, this,
                 [this](const QVariant& v) { m_startWhite = v.toDouble(); update(); });
@@ -260,7 +260,11 @@ public:
         if (midi != m_note || m_startWhite < 0) {
             m_chordNotes.clear();
             m_note = midi;
-            if (midi >= 0) centreOn(whitesBelow(midi));
+            // Hovering a key must not slide the keyboard (midi == m_hoverMidi).
+            // A different note (keyboard list nav, wheel) still recentres.
+            // Always snap on first show.
+            if (midi >= 0 && (m_startWhite < 0 || m_hoverMidi != midi))
+                centreOn(whitesBelow(midi));
         }
         update();
     }
@@ -570,14 +574,6 @@ public:
     // Linear "text" step by a clean round amount (1/2/5 ×10ⁿ) so the value reads
     // tidily; Page keys pass ±10 for a coarse jump.
     void nudge(int steps) { setValue(m_value + steps * niceStep()); }
-    // Logarithmic step: a proportional (multiplicative) move, natural for
-    // frequency/amplitude ranges. Mirrors nudge()'s granularity in log space.
-    void nudgeLog(int steps) {
-        if (m_max <= 0) { nudge(steps); return; }   // log undefined → fall back
-        const double lo = qMax(m_min, m_max * 1e-3);   // avoid log(0)/negatives
-        const double v = qMax(m_value, lo);
-        setValue(v * std::exp(steps * std::log(m_max / lo) / 40.0));
-    }
     void setValue(double v) {
         v = qBound(m_min, v, m_max);
         if (qFuzzyCompare(v, m_value)) return;
@@ -1714,13 +1710,6 @@ void CompletionPopup::announceSelection()
     emit announceRequested(currentAnnouncement());
 }
 
-void CompletionPopup::sliderNudgeLog(int steps)
-{
-    if (!m_sliderMode) return;
-    const QString before = m_rangeSlider->valueText();
-    m_rangeSlider->nudgeLog(steps);
-    if (m_rangeSlider->valueText() != before) announceSelection();
-}
 
 void CompletionPopup::moveSelection(int delta)
 {

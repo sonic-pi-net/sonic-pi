@@ -720,6 +720,10 @@ void MainWindow::setupWindowStructure()
             });
 
         workspace->setObjectName(QString("Buffer %1").arg(ws));
+        workspace->setPlaceholderText(tr(
+            "# Welcome to Sonic Pi\n"
+            "#\n"
+            "# Type a line and press Run to hear it. Try:  play 60"));
 
         // tab completion when in list
         auto indentLine = new QShortcut(QKeySequence(Qt::Key_Tab), workspace);
@@ -2419,6 +2423,8 @@ void MainWindow::saveWorkspaces()
 
     for (int i = 0; i < workspace_max; i++)
     {
+        // Never persist an un-committed card hover projection.
+        workspaces[i]->cancelInsertPreview();
         std::string code = workspaces[i]->text().toStdString();
         oscpkt::Message msg("/save-buffer");
         msg.pushInt32(guiID);
@@ -2598,6 +2604,7 @@ void MainWindow::loadSetFromFile(const QString& path)
         const int zoom = (i < set.zooms.size()) ? set.zooms[i] : SonicPiScintilla::kDefaultZoom;
         workspaces[i]->setProperty("zoom", QVariant(zoom));
         workspaces[i]->zoomTo(zoom);
+        workspaces[i]->updatePlaceholder();
     }
     editorTabWidget->setCurrentIndex(set.currentBuffer);
     saveWorkspaces();
@@ -2699,6 +2706,7 @@ void MainWindow::clearAllBuffers()
         workspaces[i]->setText("");
         workspaces[i]->setProperty("zoom", QVariant(SonicPiScintilla::kDefaultZoom));
         workspaces[i]->zoomTo(SonicPiScintilla::kDefaultZoom);
+        workspaces[i]->updatePlaceholder();
     }
     saveWorkspaces();
     // Detach so a later Save Set can't overwrite the old set with new material.
@@ -2890,6 +2898,8 @@ void MainWindow::runCode()
 
     update();
     SonicPiScintilla* ws = getCurrentWorkspace();
+    // A card hover projection is un-committed: it must never run or be saved.
+    ws->cancelInsertPreview();
     // Anchor line-tracking handles to the code being run, so trigger flashes
     // stay on the right line as it's edited live afterwards.
     ws->snapshotRunLines();
@@ -6000,6 +6010,7 @@ void MainWindow::restoreWindows()
 
         workspaces[w]->setProperty("zoom", QVariant(zoom));
         workspaces[w]->zoomTo(zoom);
+        workspaces[w]->updatePlaceholder();
     }
 
     restoreState(gui_settings->value("windowState").toByteArray());

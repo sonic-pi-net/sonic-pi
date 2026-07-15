@@ -65,7 +65,6 @@ public:
     void setShowHelp(bool on) { m_showHelp = on; }
 
     void moveSelection(int delta);   // +1/-1 row, or +/- page (slider: linear nudge)
-    void sliderNudgeLog(int steps);  // slider: logarithmic (proportional) nudge
     QString currentText() const;     // insert text of the selected row ("" if none)
     // A screen-reader phrase for the highlighted row (e.g. "prophet, synth, 1 of 5")
     // or the slider's value text. Empty when there's nothing selected.

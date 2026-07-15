@@ -15,6 +15,7 @@
 #define SONICPISCINTILLA_H
 
 #include "model/sonicpitheme.h"
+#include "utils/flash_style.h"
 #include "widgets/sonicpilog.h"
 #include "api/audio/server_shm.hpp"
 #include <QCheckBox>
@@ -46,6 +47,11 @@ public:
     bool selectionMode;
 
     void redraw();
+
+    // Transient italic placeholder shown while the buffer is empty (like a text
+    // field's placeholder); it isn't part of the document and vanishes as soon
+    // as any real text is entered.
+    void setPlaceholderText(const QString& text);
 
     // Completion popup state, for the Tab handler in MainWindow (so Tab accepts
     // the popup the same way Return does).
@@ -135,6 +141,9 @@ public slots:
     void charLeft();
     void deleteForward();
     void deleteBack();
+    // Caret-relocation ops (menu/shortcut driven, so they bypass the popup's
+    // key handling). Each dismisses an open completion popup first: typed
+    // text stays, an un-committed preview is dropped.
     void lineStart();
     void lineEnd();
     void documentStart();
@@ -161,7 +170,14 @@ public slots:
     void setCompletionHelp(bool val);   // show docstring/piano/slider helper panes
     void setText(const QString& text);
 
+    // Re-lay the empty-buffer welcome overlay (size tracks the zoom, so call
+    // this after any zoomTo that doesn't route through zoomFontIn/Out).
+    void updatePlaceholder();
+
 private:
+    class QLabel* m_placeholder = nullptr;
+    QString m_placeholderText;
+
     // Custom completion popup driven from key events (replaces Scintilla's
     // built-in list so we can show kind badges + summaries per row).
     void updateCompletion(bool force = false);   // (re)show/refresh the popup; force ignores the auto-completion pref
@@ -187,6 +203,9 @@ private:
     // over trailing token chars so a caret mid-word/number (`lpf: 7|0`) completes and
     // replaces the whole token, not just the part before the caret.
     int tokenEndForCaret(int pos);
+    // Dismiss an open completion popup the "click away" way: keep whatever the
+    // user typed, drop an un-committed preview. No-op when the popup is hidden.
+    void dismissCompletionKeepTyped();
     int m_pvStart = -1;        // buffer pos of the previewed word (-1 = inactive)
     int m_pvLen = 0;           // current length of the previewed text
     QString m_pvRestore;       // what clearPreview() puts back (filter / current value)
@@ -201,6 +220,28 @@ private:
     void dragEnterEvent(QDragEnterEvent* pEvent);
     void dropEvent(QDropEvent* pEvent);
     void dragMoveEvent(QDragMoveEvent* event);
+    void dragLeaveEvent(QDragLeaveEvent* event);
+
+    // Live preview of a text drag (quickstart cards): the payload is written
+    // into the buffer at the pointer's line while the drag is over the
+    // editor, so the drop shows exactly what it will produce. Kept out of
+    // the undo history; the real insert happens on drop.
+    void placeDropPreview(int bytePos, const QString& text, const QString& title = QString());
+    void clearDropPreview();
+    int m_dropPreviewPos = -1; // byte pos of the previewed text (-1 = none)
+    int m_dropPreviewLen = 0;  // byte length of the previewed text
+    QString m_dropPreviewText; // the previewed payload
+    QWidget* m_dropPreviewBox = nullptr; // accent border overlay around the block
+
+public:
+    // Commit a still-live drop preview as a real (undoable) insert at the
+    // previewed position.
+    void finaliseDropPreview();
+    // Quickstart insert-button hover preview: project the card code at the
+    // cursor line (like a drag-over), then commit (finaliseDropPreview) on click
+    // or drop (cancelInsertPreview) on unhover.
+    void previewInsertAtCursor(const QString& text, const QString& title = QString());
+    void cancelInsertPreview();
     void focusOutEvent(QFocusEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void contextMenuEvent(QContextMenuEvent* event) override;
@@ -233,7 +274,7 @@ private:
     // line-markers don't follow.
     QVector<int> m_runLinePos;
     bool m_inReplaceBuffer = false; // suppress incremental tracking during a full replace
-    int m_flashAlpha = 90;          // code-wash indicator alpha (setFlashBrightness)
+    int m_flashAlpha = SonicPi::kFlashWashAlpha; // code-wash indicator alpha (setFlashBrightness)
     void applyFlashMarkerColours();
     void clearFlashWash(int line);
     void trackEditForFlash(int position, int modificationType, int length);

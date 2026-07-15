@@ -137,6 +137,7 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/welcomewidget.h
     ${QTAPP_ROOT}/widgets/splashwidget.cpp
     ${QTAPP_ROOT}/widgets/splashwidget.h
+    ${QTAPP_ROOT}/utils/flash_style.h
     ${QTAPP_ROOT}/utils/tutorialdocs.cpp
     ${QTAPP_ROOT}/utils/tutorialdocs.h
     )

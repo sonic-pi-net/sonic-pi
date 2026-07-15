@@ -2761,8 +2761,15 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
         if @mod_sound_studio.sample_loaded?(path)
           res_node = trigger_sampler path, args_h
         else
+          # The loader thread's backtrace lacks the user's frame, so capture
+          # the flash location here or the first trigger never flashes.
+          flash_ws, flash_line = __caller_workspace_line
           res = Promise.new
-          in_thread { res.deliver!(trigger_sampler path, args_h)}
+          in_thread do
+            node = trigger_sampler path, args_h
+            __delayed_flash(flash_ws, flash_line) if flash_ws
+            res.deliver!(node)
+          end
           res_node = LazyNode.new(res)
         end
 

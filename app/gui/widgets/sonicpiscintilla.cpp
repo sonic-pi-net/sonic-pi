@@ -15,6 +15,7 @@
 #include "completionpopup.h"
 #include "utils/scintilla_api.h"
 #include "utils/completion_context.h"
+#include "utils/flash_style.h"
 #include "dpi.h"
 #include "kiss_fftr.h"
 #include <algorithm>
@@ -22,6 +23,7 @@
 #include <iostream>
 #include <QAccessible>
 #include <QCheckBox>
+#include <QLabel>
 #include <QKeyEvent>
 #include <QTimer>
 #include <QFocusEvent>
@@ -39,12 +41,14 @@
 #include <QImage>
 #include <QColor>
 #include <QFont>
+#include <QFontMetrics>
 #include <QPainterPath>
 #include <QPolygonF>
 #include <QSettings>
 #include <QShortcut>
 #include <Qsci/qscicommandset.h>
 #include <Qsci/qscilexer.h>
+#include <Qsci/qscilexerruby.h>
 #include <QPainter>
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
 #include <QRecursiveMutex>
@@ -59,8 +63,9 @@ static const int kErrorIndicator = 20;
 static const int kFlashIndicator = 21;
 static const int kFlashGutterMarker = 12;
 
-// How long a line stays lit after a flash, in milliseconds.
-static const int kFlashHoldMs = 150;
+// How long a line stays lit after a flash — shared with every other flash
+// renderer (see utils/flash_style.h).
+static const int kFlashHoldMs = SonicPi::kFlashHoldMs;
 
 // Tiny inline oscilloscope + spectrum pinned to a live_loop's header line,
 // fed by the loop's own scope-buffer tap (with_fx :scope_out). Decorative:
@@ -1431,11 +1436,19 @@ void SonicPiScintilla::replaceBuffer(QString content, int line, int index, int f
 
 void SonicPiScintilla::completeListOrNewlineAndIndent()
 {
-    // The completion popup owns Return when it is open (accept the highlight).
+    // Return accepts the popup's highlight. A slider's value is already typed
+    // into the buffer, so there Return closes the popup and newlines in one
+    // press.
     if (m_completion && m_completion->isShowing())
     {
-        acceptCompletion();
-        return;
+        if (!m_completion->isSliderMode())
+        {
+            acceptCompletion();
+            return;
+        }
+        endPreview();
+        m_completion->hidePopup();
+        // fall through to newline + indent
     }
     mutex->lock();
     if (isListActive())
@@ -1469,12 +1482,234 @@ void SonicPiScintilla::newlineAndIndent()
     mutex->unlock();
 }
 
+// Indicator recolouring the drop preview grey, so it reads as provisional
+// until the drop commits (indicators can't italicise, only recolour).
+static const int kDropPreviewIndicator = 22;
+
+namespace
+{
+// One rounded accent border around the whole previewed block: a card-shaped
+// outline Scintilla's per-line-run indicators can't draw.
+class DropPreviewBox : public QWidget
+{
+public:
+    QColor colour;
+    QColor titleBg;  // editor background, to break the border behind the title
+    QString title;   // card title, drawn straddling the top border
+    QFont titleFont;
+
+    explicit DropPreviewBox(QWidget* parent)
+        : QWidget(parent)
+    {
+        setAttribute(Qt::WA_TransparentForMouseEvents, true);
+        setAttribute(Qt::WA_NoSystemBackground, true);
+        setAttribute(Qt::WA_TranslucentBackground, true);
+        hide();
+    }
+
+    // Reserve a full title height above the code so the legend straddles the
+    // top border clear of the first code line.
+    int titleReserve() const
+    {
+        return title.isEmpty() ? 0 : QFontMetrics(titleFont).height();
+    }
+
+    // Minimum box width so the whole title fits (drawn at kTitleX with a small
+    // background pad each side and a right margin).
+    int minWidthForTitle() const
+    {
+        if (title.isEmpty())
+            return 0;
+        return 12 + QFontMetrics(titleFont).horizontalAdvance(title) + 6 + 8;
+    }
+
+protected:
+    void paintEvent(QPaintEvent*) override
+    {
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing);
+        const int titleH = title.isEmpty() ? 0 : QFontMetrics(titleFont).height();
+        const qreal borderTop = titleH / 2.0;
+        QColor fill = colour;
+        fill.setAlpha(14);
+        p.setPen(QPen(colour, 2.0));
+        p.setBrush(fill);
+        p.drawRoundedRect(QRectF(rect()).adjusted(1, borderTop + 1, -1, -1), 6, 6);
+        if (title.isEmpty())
+            return;
+        // Title straddling the top border, legend style: clear the border
+        // behind the text, then draw it in the accent colour.
+        p.setFont(titleFont);
+        const int tw = QFontMetrics(titleFont).horizontalAdvance(title);
+        const int tx = 12;
+        const int pad = 6;
+        p.setPen(Qt::NoPen);
+        p.setBrush(titleBg);
+        p.drawRect(QRectF(tx - pad, 0, tw + 2 * pad, titleH));
+        p.setPen(colour);
+        p.drawText(QRectF(tx, 0, tw, titleH), Qt::AlignVCenter | Qt::AlignLeft, title);
+    }
+};
+} // namespace
+
+void SonicPiScintilla::setPlaceholderText(const QString& text)
+{
+    m_placeholderText = text;
+    if (!m_placeholder)
+    {
+        m_placeholder = new QLabel(viewport());
+        m_placeholder->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+        m_placeholder->setTextFormat(Qt::PlainText);
+    }
+    m_placeholder->setText(text);
+    // Re-evaluate whenever the buffer changes or the editor is zoomed.
+    connect(this, &QsciScintilla::textChanged, this, &SonicPiScintilla::updatePlaceholder,
+            Qt::UniqueConnection);
+    connect(this, &SonicPiScintilla::zoomLevelChanged, this, &SonicPiScintilla::updatePlaceholder,
+            Qt::UniqueConnection);
+    updatePlaceholder();
+}
+
+void SonicPiScintilla::updatePlaceholder()
+{
+    if (!m_placeholder)
+        return;
+    // SCI_GETLENGTH, not text().isEmpty(): the latter copies the whole document
+    // out of Scintilla on every textChanged just to test emptiness.
+    const bool show = SendScintilla(SCI_GETLENGTH) == 0 && !m_placeholderText.isEmpty();
+    m_placeholder->setVisible(show);
+    if (!show)
+        return;
+    // Same font as the line-number margin (Hack, 15 + the live zoom, italic).
+    // The size has to go in the stylesheet: the app-wide QLabel font-size rule
+    // overrides setFont on styled labels. setFont still runs so adjustSize
+    // measures the right font.
+    const unsigned long commentStyle = QsciLexerRuby::Comment;
+    const int ptSize = qMax(6, 15 + (int)SendScintilla(SCI_GETZOOM));
+    m_placeholder->setFont(QFont("Hack", ptSize, -1, true));
+    // 38% opacity so it reads as a placeholder hint rather than real code.
+    const long fore = SendScintilla(SCI_STYLEGETFORE, commentStyle);
+    const QColor c((int)(fore & 0xFF), (int)((fore >> 8) & 0xFF), (int)((fore >> 16) & 0xFF));
+    m_placeholder->setStyleSheet(
+        QString("color: rgba(%1,%2,%3,0.38); background: transparent;"
+                " font-family: 'Hack'; font-size: %4pt; font-style: italic;")
+            .arg(c.red())
+            .arg(c.green())
+            .arg(c.blue())
+            .arg(ptSize));
+    m_placeholder->adjustSize();
+    const int x = (int)SendScintilla(SCI_POINTXFROMPOSITION, (unsigned long)0, (long)0);
+    const int y = (int)SendScintilla(SCI_POINTYFROMPOSITION, (unsigned long)0, (long)0);
+    m_placeholder->move(x, y);
+}
+
+void SonicPiScintilla::placeDropPreview(int bytePos, const QString& text, const QString& title)
+{
+    // Pointer sitting over the preview itself: already in place. Same payload
+    // only; a different card's code replaces it.
+    if (m_dropPreviewPos >= 0 && text == m_dropPreviewText && bytePos >= m_dropPreviewPos
+        && bytePos <= m_dropPreviewPos + m_dropPreviewLen)
+        return;
+    SendScintilla(SCI_SETUNDOCOLLECTION, (long)0);
+    if (m_dropPreviewPos >= 0)
+    {
+        if (bytePos > m_dropPreviewPos)
+            bytePos = qMax(m_dropPreviewPos, bytePos - m_dropPreviewLen);
+        SendScintilla(SCI_DELETERANGE, (unsigned long)m_dropPreviewPos, (long)m_dropPreviewLen);
+    }
+    const QByteArray utf8 = text.toUtf8();
+    SendScintilla(SCI_INSERTTEXT, (unsigned long)bytePos, utf8.constData());
+    SendScintilla(SCI_SETUNDOCOLLECTION, (long)1);
+    m_dropPreviewPos = bytePos;
+    m_dropPreviewLen = utf8.length();
+    m_dropPreviewText = text;
+
+    SendScintilla(SCI_INDICSETSTYLE, (unsigned long)kDropPreviewIndicator, (long)INDIC_TEXTFORE);
+    SendScintilla(SCI_INDICSETFORE, (unsigned long)kDropPreviewIndicator, (long)0x909090);
+    SendScintilla(SCI_SETINDICATORCURRENT, (unsigned long)kDropPreviewIndicator);
+    SendScintilla(SCI_INDICATORFILLRANGE, (unsigned long)m_dropPreviewPos, (long)m_dropPreviewLen);
+
+    // Card-shaped border around the block's content lines (the payload's
+    // leading/trailing blank lines stay outside the box).
+    if (!m_dropPreviewBox)
+        m_dropPreviewBox = new DropPreviewBox(viewport());
+    DropPreviewBox* box = static_cast<DropPreviewBox*>(m_dropPreviewBox);
+    box->colour = theme->color("HighlightedBackground");
+    box->title = title;
+    box->titleBg = theme->color("Background");
+    QFont titleFont = font();
+    titleFont.setBold(true);
+    box->titleFont = titleFont;
+    const long firstLine = SendScintilla(SCI_LINEFROMPOSITION, (unsigned long)m_dropPreviewPos) + 1;
+    const long endLine = SendScintilla(SCI_LINEFROMPOSITION,
+                                       (unsigned long)(m_dropPreviewPos + m_dropPreviewLen - 1));
+    const long lastLine = qMax(firstLine, endLine - 1);
+    const long topPos = SendScintilla(SCI_POSITIONFROMLINE, (unsigned long)firstLine);
+    const int top = (int)SendScintilla(SCI_POINTYFROMPOSITION, (unsigned long)0, topPos);
+    const int bottom = (int)SendScintilla(SCI_POINTYFROMPOSITION, (unsigned long)0,
+                                          SendScintilla(SCI_POSITIONFROMLINE, (unsigned long)lastLine))
+                       + (int)SendScintilla(SCI_TEXTHEIGHT, (unsigned long)lastLine);
+    const int left = (int)SendScintilla(SCI_POINTXFROMPOSITION, (unsigned long)0, topPos);
+    int right = left;
+    for (long ln = firstLine; ln <= lastLine; ++ln)
+        right = qMax(right, (int)SendScintilla(SCI_POINTXFROMPOSITION, (unsigned long)0,
+                                               SendScintilla(SCI_GETLINEENDPOSITION,
+                                                             (unsigned long)ln)));
+    const int padX = 8;
+    const int padY = 4;
+    const int titleTop = box->titleReserve(); // room above the border for the title
+    // Stretch the box so the full card name is visible even when it is wider
+    // than the code lines it wraps.
+    const int boxW = qMax((right - left) + 2 * padX, box->minWidthForTitle());
+    box->setGeometry(left - padX, top - padY - titleTop, boxW,
+                     (bottom - top) + 2 * padY + titleTop);
+    box->show();
+    box->raise();
+    box->update();
+}
+
+void SonicPiScintilla::clearDropPreview()
+{
+    if (m_dropPreviewPos < 0)
+        return;
+    SendScintilla(SCI_SETUNDOCOLLECTION, (long)0);
+    SendScintilla(SCI_DELETERANGE, (unsigned long)m_dropPreviewPos, (long)m_dropPreviewLen);
+    SendScintilla(SCI_SETUNDOCOLLECTION, (long)1);
+    m_dropPreviewPos = -1;
+    m_dropPreviewLen = 0;
+    if (m_dropPreviewBox)
+        m_dropPreviewBox->hide();
+}
+
+// Byte position of the start of the line under the pointer: card code is
+// line-based, so previews and drops always land on line boundaries.
+static long dropLineStart(QsciScintillaBase* sci, const QPoint& pos)
+{
+    const long sciPos = sci->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMPOINT,
+                                           (unsigned long)pos.x(), (long)pos.y());
+    const long line = sci->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION, sciPos);
+    return sci->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE, line);
+}
+
+// Card drags carry this mime tag, and their lifecycle (dragEnded /
+// insertPreviewCleared) cleans the preview up. Other text drags (other apps,
+// the editor's own selection) never get preview text written into the buffer;
+// nothing would clean it up.
+static const char* kCardMime = "application/x-sonic-pi-card-title";
+
 void SonicPiScintilla::dragEnterEvent(QDragEnterEvent* event)
 {
     mutex->lock();
     if (event->mimeData()->hasFormat("text/uri-list"))
     {
         event->acceptProposedAction();
+    }
+    else if (event->mimeData()->hasFormat(kCardMime))
+    {
+        event->acceptProposedAction();
+        placeDropPreview((int)dropLineStart(this, event->position().toPoint()),
+                         event->mimeData()->text(),
+                         QString::fromUtf8(event->mimeData()->data(kCardMime)));
     }
     mutex->unlock();
 }
@@ -1486,6 +1721,56 @@ void SonicPiScintilla::dragMoveEvent(QDragMoveEvent* event)
     {
         event->acceptProposedAction();
     }
+    else if (event->mimeData()->hasFormat(kCardMime))
+    {
+        event->acceptProposedAction();
+        placeDropPreview((int)dropLineStart(this, event->position().toPoint()),
+                         event->mimeData()->text(),
+                         QString::fromUtf8(event->mimeData()->data(kCardMime)));
+    }
+    mutex->unlock();
+}
+
+void SonicPiScintilla::dragLeaveEvent(QDragLeaveEvent* event)
+{
+    // Keep the preview while the pointer is off the editor so dragging back on
+    // restores it in place. If the card is released out here, dragEnded cancels
+    // it (cancelInsertPreview) rather than committing a fumbled drag.
+    QsciScintilla::dragLeaveEvent(event);
+}
+
+void SonicPiScintilla::finaliseDropPreview()
+{
+    mutex->lock();
+    if (m_dropPreviewPos < 0)
+    {
+        mutex->unlock();
+        return;
+    }
+    const int pos = m_dropPreviewPos;
+    const QString text = m_dropPreviewText;
+    clearDropPreview();
+    int line = 0, index = 0;
+    lineIndexFromPosition(pos, &line, &index);
+    insertAt(text, line, index);
+    setCursorPosition(line, index);
+    mutex->unlock();
+}
+
+void SonicPiScintilla::previewInsertAtCursor(const QString& text, const QString& title)
+{
+    mutex->lock();
+    int line = 0, index = 0;
+    getCursorPosition(&line, &index);
+    const long bytePos = SendScintilla(SCI_POSITIONFROMLINE, (unsigned long)line);
+    placeDropPreview((int)bytePos, text, title);
+    mutex->unlock();
+}
+
+void SonicPiScintilla::cancelInsertPreview()
+{
+    mutex->lock();
+    clearDropPreview();
     mutex->unlock();
 }
 
@@ -1530,6 +1815,12 @@ bool SonicPiScintilla::event(QEvent* evt)
         QKeyEvent* key = static_cast<QKeyEvent*>(evt);
         const int k = key->key();
 
+        // Any keystroke dismisses a live hover projection first: its text is
+        // undo-invisible, so an edit or a Scintilla-keymap undo landing while
+        // it sits in the buffer would apply at shifted positions.
+        if (m_dropPreviewPos >= 0)
+            clearDropPreview();
+
         // Raw arrow / page / escape keys (from Scintilla's keymap) drive the
         // popup directly. The configured nav/accept shortcuts (Ctrl+n, Tab,
         // Return, …) are handled by their existing slots, which are popup-aware,
@@ -1542,14 +1833,9 @@ bool SonicPiScintilla::event(QEvent* evt)
             case Qt::Key_Down:     m_completion->moveSelection(+1);  return true;
             case Qt::Key_PageUp:   m_completion->moveSelection(-10); return true;
             case Qt::Key_PageDown: m_completion->moveSelection(+10); return true;
-            // On the value slider, Left/Right step logarithmically (proportional)
-            // while Up/Down step linearly; elsewhere they move the caret as usual.
-            case Qt::Key_Left:
-                if (m_completion->isSliderMode()) { m_completion->sliderNudgeLog(-1); return true; }
-                break;
-            case Qt::Key_Right:
-                if (m_completion->isSliderMode()) { m_completion->sliderNudgeLog(+1); return true; }
-                break;
+            // Left/Right move the caret (a slider still steps via Up/Down or
+            // the mouse); the post-key block below re-derives the popup
+            // context after the move.
             case Qt::Key_Space:
                 // Space commits a previewed entry, then types the space; a plain
                 // space otherwise (no preview shown yet).
@@ -1607,6 +1893,13 @@ bool SonicPiScintilla::event(QEvent* evt)
             case Qt::Key_Meta:
             case Qt::Key_AltGr:
             case Qt::Key_CapsLock:
+                break;
+            case Qt::Key_Left:
+            case Qt::Key_Right:
+                // The caret moved: re-derive the context at its new position.
+                // The popup follows while the caret stays within the completable
+                // area and dismisses once it walks out of it.
+                updateCompletion();
                 break;
             default:
                 endPreview();
@@ -1719,6 +2012,27 @@ void SonicPiScintilla::updateCompletion(bool force)
     int context_start, last_word_start;
     QStringList context = apiContext(pos, context_start, last_word_start);
     QString partial = context.isEmpty() ? QString() : context.last();
+
+    // Ruby structural keywords are complete words, not identifiers to complete:
+    // typing `end` (or `do`, `if`, ...) must not fuzz-match every name that
+    // merely contains those letters (osc_send, midi_pitch_bend, ...).
+    static const QSet<QString> kRubyKeywords = {
+        QStringLiteral("end"),    QStringLiteral("do"),     QStringLiteral("then"),
+        QStringLiteral("begin"),  QStringLiteral("rescue"), QStringLiteral("ensure"),
+        QStringLiteral("else"),   QStringLiteral("elsif"),  QStringLiteral("when"),
+        QStringLiteral("while"),  QStringLiteral("until"),  QStringLiteral("for"),
+        QStringLiteral("if"),     QStringLiteral("unless"), QStringLiteral("case"),
+        QStringLiteral("def"),    QStringLiteral("class"),  QStringLiteral("module"),
+        QStringLiteral("return"), QStringLiteral("next"),   QStringLiteral("break"),
+        QStringLiteral("yield"),  QStringLiteral("and"),    QStringLiteral("or"),
+        QStringLiteral("not"),    QStringLiteral("in")
+    };
+    if (kRubyKeywords.contains(partial))
+    {
+        endPreview();
+        m_completion->hidePopup();
+        return;
+    }
 
     auto* api = dynamic_cast<ScintillaAPI*>(lexer() ? lexer()->apis() : nullptr);
     if (!api)
@@ -2040,8 +2354,17 @@ void SonicPiScintilla::popCompletionOnClick()
 
 void SonicPiScintilla::mouseReleaseEvent(QMouseEvent* e)
 {
+    // A click in the editor dismisses an open popup (clicks on the popup never
+    // reach the editor). clearPreview() keeps typed text: it drops only an
+    // un-committed list preview and leaves a committed slider value in place.
+    const bool dismissed = m_completion && m_completion->isShowing();
+    if (dismissed)
+        dismissCompletionKeepTyped();
     QsciScintilla::mouseReleaseEvent(e);
-    popCompletionOnClick();   // clicking onto a note/chord/scale or `pan: 0.5` value opens its preview
+    // Don't reopen on the very click that dismissed it; a fresh click onto a
+    // note/chord/scale or `pan: 0.5` value still opens its preview.
+    if (!dismissed)
+        popCompletionOnClick();
 }
 
 void SonicPiScintilla::dropEvent(QDropEvent* dropEvent)
@@ -2057,6 +2380,20 @@ void SonicPiScintilla::dropEvent(QDropEvent* dropEvent)
             text += "\"" + urlList.at(i).toLocalFile() + "\"" + QLatin1Char('\n');
         }
         insert(text);
+    }
+    else if (dropEvent->mimeData()->hasFormat(kCardMime))
+    {
+        // Commit at the preview box's position (m_dropPreviewPos), not the
+        // pointer's line: within a multi-line block the pointer can sit lines
+        // below the box. finaliseDropPreview re-inserts as one undoable step.
+        dropEvent->acceptProposedAction();
+        if (m_dropPreviewPos < 0) // drop with no live preview: place it first
+            placeDropPreview((int)dropLineStart(this, dropEvent->position().toPoint()),
+                             dropEvent->mimeData()->text(),
+                             QString::fromUtf8(dropEvent->mimeData()->data(kCardMime)));
+        mutex->unlock();
+        finaliseDropPreview();
+        return;
     }
     mutex->unlock();
 }
@@ -2105,11 +2442,16 @@ void SonicPiScintilla::setAutoIndentEnabled(bool enabled)
     this->autoIndent = enabled;
 }
 
+// Single-char moves and deletes arrive via the shortcut path (Ctrl+b/f/h/d
+// etc.), bypassing event(); re-derive the popup context after each, as the
+// raw keys do.
 void SonicPiScintilla::charRight()
 {
     mutex->lock();
     SendScintilla(QsciCommand::CharRight);
     mutex->unlock();
+    if (m_completion && m_completion->isShowing())
+        updateCompletion();
 }
 
 void SonicPiScintilla::charLeft()
@@ -2117,6 +2459,8 @@ void SonicPiScintilla::charLeft()
     mutex->lock();
     SendScintilla(QsciCommand::CharLeft);
     mutex->unlock();
+    if (m_completion && m_completion->isShowing())
+        updateCompletion();
 }
 
 void SonicPiScintilla::deleteForward()
@@ -2124,6 +2468,8 @@ void SonicPiScintilla::deleteForward()
     mutex->lock();
     SendScintilla(QsciCommand::Delete);
     mutex->unlock();
+    if (m_completion && m_completion->isShowing())
+        updateCompletion();
 }
 
 void SonicPiScintilla::deleteBack()
@@ -2131,10 +2477,22 @@ void SonicPiScintilla::deleteBack()
     mutex->lock();
     SendScintilla(QsciCommand::DeleteBack);
     mutex->unlock();
+    if (m_completion && m_completion->isShowing())
+        updateCompletion();
+}
+
+void SonicPiScintilla::dismissCompletionKeepTyped()
+{
+    if (!m_completion || !m_completion->isShowing())
+        return;
+    clearPreview();
+    endPreview();
+    m_completion->hidePopup();
 }
 
 void SonicPiScintilla::lineStart()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::Home);
     mutex->unlock();
@@ -2142,6 +2500,7 @@ void SonicPiScintilla::lineStart()
 
 void SonicPiScintilla::lineEnd()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::LineEnd);
     mutex->unlock();
@@ -2149,6 +2508,7 @@ void SonicPiScintilla::lineEnd()
 
 void SonicPiScintilla::documentStart()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::DocumentStart);
     mutex->unlock();
@@ -2156,6 +2516,7 @@ void SonicPiScintilla::documentStart()
 
 void SonicPiScintilla::documentEnd()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::DocumentEnd);
     mutex->unlock();
@@ -2163,6 +2524,7 @@ void SonicPiScintilla::documentEnd()
 
 void SonicPiScintilla::wordRight()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::WordRight);
     mutex->unlock();
@@ -2170,6 +2532,7 @@ void SonicPiScintilla::wordRight()
 
 void SonicPiScintilla::wordLeft()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::WordLeft);
     mutex->unlock();
@@ -2177,6 +2540,7 @@ void SonicPiScintilla::wordLeft()
 
 void SonicPiScintilla::selectLineStart()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::HomeExtend);
     mutex->unlock();
@@ -2184,6 +2548,7 @@ void SonicPiScintilla::selectLineStart()
 
 void SonicPiScintilla::selectLineEnd()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::LineEndExtend);
     mutex->unlock();
@@ -2191,6 +2556,7 @@ void SonicPiScintilla::selectLineEnd()
 
 void SonicPiScintilla::selectWordRight()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::WordRightExtend);
     mutex->unlock();
@@ -2198,6 +2564,7 @@ void SonicPiScintilla::selectWordRight()
 
 void SonicPiScintilla::selectWordLeft()
 {
+    dismissCompletionKeepTyped();
     mutex->lock();
     SendScintilla(QsciCommand::WordLeftExtend);
     mutex->unlock();
@@ -2224,9 +2591,12 @@ void SonicPiScintilla::centerCaret()
     mutex->unlock();
 }
 
+// Undo positions are recorded without any live preview text (previews stay
+// out of undo collection), so drop the preview before replaying.
 void SonicPiScintilla::undo()
 {
     mutex->lock();
+    clearDropPreview();
     SendScintilla(QsciCommand::Undo);
     mutex->unlock();
 }
@@ -2234,6 +2604,7 @@ void SonicPiScintilla::undo()
 void SonicPiScintilla::redo()
 {
     mutex->lock();
+    clearDropPreview();
     SendScintilla(QsciCommand::Redo);
     mutex->unlock();
 }
