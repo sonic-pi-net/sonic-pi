@@ -81,7 +81,7 @@ public:
 
     // The A-/A+ text-size buttons, packed in a standalone widget so the help
     // dock can host them in its title row beside the HELP title.
-    QWidget* zoomControls() const { return m_zoomBar; }
+    QWidget* zoomControls() const;
 
     // Keyboard scrolling (docScrollUp/Down shortcuts): one scroll step
     void scrollStep(int direction);
@@ -175,11 +175,7 @@ private:
     QString m_prevTitle;
     QString m_nextTitle;
     QVector<Snippet> m_snippets;
-    QWidget* m_zoomBar = nullptr; // hosts A-/A+, displayed in the help dock title row
-    QPushButton* m_zoomIn = nullptr;
-    QPushButton* m_zoomOut = nullptr;
-    QIcon m_zoomOutIcon, m_zoomOutIconHover;
-    QIcon m_zoomInIcon, m_zoomInIconHover;
+    class ZoomBar* m_zoomBar = nullptr; // shared A-/A+ bar, hosted in the dock title row
     SonicPi::CodeColours m_codeColours;
     QIcon m_playIcon;
     QIcon m_stopIcon;

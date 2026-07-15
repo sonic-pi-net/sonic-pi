@@ -71,6 +71,10 @@ public:
 
     void applyTheme(const QColor& textColor, const QColor& bgColor);
 
+    // Text-size zoom (level is a point-size offset from the 7pt base), driven by
+    // the shared ZoomBar in the dock title row.
+    void setFontZoom(int level);
+
     // Add a non-log tab (e.g. the live metrics panel). It is not backed by
     // LogTailers, so all tailers are stopped while it is shown.
     void addExtraTab(QWidget* w, const QString& name);

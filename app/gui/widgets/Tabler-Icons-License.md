@@ -6,6 +6,10 @@ re-drawn inline as themed SVG in the C++ source. Icons currently used:
 
 - `ghost-3` and `topology-ring-2` — the Link network-visibility button
   (`sonicpimetro.cpp`).
+- `grid-dots`, `book`, `radioactive` and `binary-tree`: the south dock tab
+  symbols for Cards, Docs, Logs and Debug, plus `player-play-filled`,
+  `player-stop-filled`, `square-chevrons-up`, `texture`, `copy` and `check`
+  for the quickstart card buttons (`tablericons.h`).
 
 Tabler Icons is distributed under the MIT License, reproduced below.
 

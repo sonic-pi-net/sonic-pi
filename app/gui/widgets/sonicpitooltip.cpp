@@ -295,6 +295,31 @@ void SonicPiToolTip::place(const QRect& anchor)
     const int bw = m_bubble.width();
     const int bh = m_bubble.height();
 
+    // Beside the anchor (vertical tab bars): bubble to the right, caret on
+    // its left edge pointing back at the tab.
+    m_rightMode = m_preferRight && anchor.right() + gap + m_caretH + bw + margin <= scr.right();
+    if (m_rightMode)
+    {
+        const int bx = anchor.right() + gap + m_caretH;
+        int by = anchor.center().y() - bh / 2;
+        by = qBound(scr.top() + margin, by, qMax(scr.top() + margin, scr.bottom() - margin - bh));
+
+        const int wx = bx - m_shadow - m_caretH;
+        const int wy = by - m_shadow;
+        const int ww = bw + m_caretH + 2 * m_shadow;
+        const int wh = bh + 2 * m_shadow;
+
+        m_bubble.moveTo(m_shadow + m_caretH, m_shadow);
+
+        const int minCaretY = m_bubble.top() + m_radius + m_caretW / 2 + 2;
+        const int maxCaretY = m_bubble.bottom() - m_radius - m_caretW / 2 - 2;
+        m_caretY = qBound(minCaretY, anchor.center().y() - wy, qMax(minCaretY, maxCaretY));
+
+        setFixedSize(ww, wh);
+        move(wx, wy);
+        return;
+    }
+
     // Prefer below the control; flip above when there's no room.
     const int belowTop = anchor.bottom() + gap + m_caretH;
     const int aboveTop = anchor.top() - gap - m_caretH - bh;
@@ -342,12 +367,23 @@ void SonicPiToolTip::paintEvent(QPaintEvent* event)
     const QRectF bubble(m_bubble);
     QPainterPath path;
     path.addRoundedRect(bubble, m_radius, m_radius);
-    const qreal baseY = m_below ? bubble.top() + 1.0 : bubble.bottom() - 1.0;
-    const qreal tipY = m_below ? bubble.top() - m_caretH : bubble.bottom() + m_caretH;
     QPolygonF tri;
-    tri << QPointF(m_caretX - m_caretW / 2.0, baseY)
-        << QPointF(m_caretX, tipY)
-        << QPointF(m_caretX + m_caretW / 2.0, baseY);
+    if (m_rightMode)
+    {
+        const qreal baseX = bubble.left() + 1.0;
+        const qreal tipX = bubble.left() - m_caretH;
+        tri << QPointF(baseX, m_caretY - m_caretW / 2.0)
+            << QPointF(tipX, m_caretY)
+            << QPointF(baseX, m_caretY + m_caretW / 2.0);
+    }
+    else
+    {
+        const qreal baseY = m_below ? bubble.top() + 1.0 : bubble.bottom() - 1.0;
+        const qreal tipY = m_below ? bubble.top() - m_caretH : bubble.bottom() + m_caretH;
+        tri << QPointF(m_caretX - m_caretW / 2.0, baseY)
+            << QPointF(m_caretX, tipY)
+            << QPointF(m_caretX + m_caretW / 2.0, baseY);
+    }
     QPainterPath caret;
     caret.addPolygon(tri);
     caret.closeSubpath();
@@ -584,6 +620,9 @@ bool SonicPiToolTipManager::eventFilter(QObject* obj, QEvent* event)
     }
 
     case QEvent::Leave:
+        // Hide only when the anchor itself is left: movement within the
+        // tipped control must not blink the tip (hand tremor, magnifier
+        // panning).
         if (m_tip->isVisible() && obj == m_anchorWidget)
             hideTip();
         if (obj == m_reshowCandidate)
@@ -700,6 +739,11 @@ void SonicPiToolTipManager::showTip(QWidget* anchorWidget, const Tip& tip,
     m_anchorWidget = anchorWidget;
     m_cursorAnchored = cursorAnchored;
     m_cursorAnchor = anchorGlobal.center();
+    // Vertical tab bars get the bubble beside the tab, not over the strip.
+    QTabBar* tabs = qobject_cast<QTabBar*>(anchorWidget);
+    m_tip->setPreferRight(tabs
+                          && (tabs->shape() == QTabBar::RoundedWest
+                              || tabs->shape() == QTabBar::TriangularWest));
     m_tip->showTip(anchorGlobal, tip.title, tip.body, tip.shortcut);
 }
 

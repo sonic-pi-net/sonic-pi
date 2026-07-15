@@ -1,0 +1,304 @@
+# Sonic Pi Quickstart Cards
+#
+# Edit this file to change the cards, then restart Sonic Pi, no rebuild
+# needed. To keep your own version safe from updates, copy it to
+#   ~/.sonic-pi/config/quickstart-cards.txt
+# and Sonic Pi will load that instead.
+#
+# Format:
+#   # Deck: <name>            starts a new deck
+#   <a line of text>          the deck's description (shown at the top)
+#   ## <card title>           starts a card
+#   <one or two lines>        the card's description
+#   ```                       the code, between fences
+#   play 70
+#   ```
+#
+# When cards are meant to play together, give them the same tempo (and key)
+# so they lock. Keep code to 6 lines or fewer so it fits the card.
+
+
+# Deck: Basics
+Welcome! Each card is a useful snippet of music code. Press play to hear what it sounds like. If you want to use a card in your code, drag it into your editor or insert at point.
+
+## Your First Note
+Use play to make a beep. Change 60 to a bigger number for a higher note or a smaller number for a lower note.
+```
+play 60
+```
+
+## Change Synth
+Change synth with use_synth to change the character of the sound. Use options like release: to change the duration.
+```
+use_synth :chiplead
+play 72, release: 0.2
+```
+
+## Lower and Longer Synth
+Let's try a different synth, drop 12 notes down (an octave) and give it a longer release duration.
+```
+use_synth :fm
+play 72 - 12, release: 3
+```
+
+
+## A Little Tune
+To make a melody you need to add sleeps between the notes you play. See if you can hear the last two ring together as there is no sleep.
+```
+play :e4
+sleep 0.25
+play :g4
+sleep 0.25
+play :b4
+play :e3
+```
+
+## A Chord
+Chords are easy to play too.
+```
+use_synth :piano
+play (chord :e4, :minor)
+```
+
+## A Beat
+Four bars of boots and cats.
+```
+4.times do
+  sample :bd_haus, lpf: 80
+  sleep 0.25
+  sample :sn_dolf, hpf: 110
+  sleep 0.25
+end
+```
+
+## Roll the Dice
+Pick random percussive slices from any sample. Change the random seed, change the choices.
+```
+use_random_seed 30
+
+16.times do
+  sample :guit_em9, onset: pick
+  sleep 0.125
+end
+```
+
+## Synth Pads
+Combine long release times with other opts like cutoff for expressive pads.
+```
+use_synth :prophet
+play :e1, release: 8, cutoff: 80
+```
+
+
+# Deck: Synths
+Trigger, manipulate and expressively control synths with code.
+
+## Slow Bloom
+Fade in with attack and fade out with release. Stretch them and a note becomes a pad.
+```
+use_synth :prophet
+play :e2, attack: 2, release: 4
+```
+
+## Open the Filter
+Control the brightness and fuzz of the sound by filtering the high frequencies.
+```
+use_synth :tb303
+play :e2, cutoff: 60
+sleep 0.5
+play :e2, cutoff: 90
+sleep 0.5
+play :e2, cutoff: 120
+```
+
+## Rave Stab
+Play multiple notes like chords at the same time to add the sounds together.
+```
+use_synth :supersaw
+play (chord :e3, :minor)
+```
+
+## Glide
+Change and slide most opts using control. note_slide lets you set a slide duration.
+```
+use_synth :prophet
+s = play :e2, sustain: 4, note_slide: 1
+sleep 1
+control s, note: :b2
+sleep 1
+control s, note: :e3
+```
+
+## Wobble
+The mod synths flip between two pitches automatically. Instant wobble.
+```
+use_synth :mod_dsaw
+play :e2, mod_range: 12, release: 3
+```
+
+
+# Deck: FX
+Effects that transform any sound. Wrap your code in one and hear it change.
+
+## Cathedral
+Wrap a sound in reverb and it gets a room. room: 1 is a cathedral.
+```
+with_fx :reverb, room: 1 do
+  sample :perc_bell, rate: 0.8
+end
+```
+
+## Dub Echo
+Echoes repeat in time. phase sets how far apart, decay how long they ring.
+```
+with_fx :echo, phase: 0.25, decay: 6 do
+  play :e5, release: 0.1
+end
+```
+
+## Krush
+Krush and distort any sound such as this guitar sample.
+```
+sample :guit_e_fifths
+sleep 2
+with_fx :krush do
+  sample :guit_e_fifths
+end
+```
+
+## The Chopper
+The slicer FX gates the sound on and off in time. Use it to turn a chord into a rhythm.
+```
+with_fx :slicer, phase: 0.125 do
+  sample :guit_em9
+end
+```
+
+## FX Inside FX
+Here the sample runs through the echo and then through reverb in a chain. You can chain many FX together this way.
+```
+with_fx :reverb, room: 0.9 do
+  with_fx :echo, phase: 0.375 do
+    sample :tabla_ghe3
+  end
+end
+```
+
+
+
+# Deck: Live Loops
+Live Loops play at the same time. Each one is a loop with its own timing, rhythm and score. Layer simple loops for complex sounds.
+
+## Kick
+Start with a four-to-the-floor kick.
+```
+live_loop :kick do
+  sample :bd_haus
+  sleep 1
+end
+```
+
+## Hi-Hat
+Offbeat hats riding on top.
+```
+live_loop :hats do
+  sample :drum_cymbal_closed, amp: 0.5
+  sleep 0.5
+end
+```
+
+## Snare
+A backbeat on the 2 and the 4.
+```
+live_loop :snare do
+  sleep 1
+  sample :sn_dolf
+  sleep 1
+end
+```
+
+## Bass
+A rolling acid bassline underneath.
+```
+live_loop :bass do
+  use_synth :tb303
+  play :e1, release: 0.4, cutoff: 80
+  sleep 0.5
+end
+```
+
+## Chords
+Slow warm pads to fill it out.
+```
+live_loop :chords do
+  use_synth :prophet
+  c = (chord :e3, :minor)
+  play c, release: 3, cutoff: rrand(70, 130)
+  sleep 4
+end
+```
+
+## Lead
+A random topline over the top with the saw synth.
+```
+live_loop :lead do
+  use_synth :saw
+  n = (scale :e5, :minor_pentatonic).choose
+  play n, release: 0.2
+  sleep 0.25
+end
+```
+
+
+# Deck: Hotswap
+If you use the same live loop name it doesn't create a new live loop - it hot swaps the code in time with the beat.
+
+
+## Start the Loop
+This is the loop :groove. Run the next cards and the same loop changes to them, live.
+```
+live_loop :groove do
+  sample :bd_haus
+  sleep 1
+end
+```
+
+## Add a Snare
+Same :groove with a backbeat now. Run it and the drums switch to the new code without missing a beat.
+```
+live_loop :groove do
+  sample :bd_haus
+  sleep 0.5
+  sample :sn_dolf
+  sleep 0.5
+end
+```
+
+## Double Time
+sleep 0.25 is four hits a beat.
+```
+live_loop :groove do
+  sample :bd_haus
+  sleep 0.25
+end
+```
+
+## Drop a Melody
+Slip a note into the loop alongside the drum.
+```
+live_loop :groove do
+  sample :bd_haus
+  play :e4, release: 0.2
+  sleep 0.5
+end
+```
+
+## Silence
+Putting stop in a live_loop causes it to stop running.
+```
+live_loop :groove do
+  stop
+  sample :bd_haus
+  sleep 1
+end
+```

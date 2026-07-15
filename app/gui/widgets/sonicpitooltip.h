@@ -50,6 +50,10 @@ public:
                  const QString& body, const QString& shortcut);
     void hideTip();
 
+    // Place the next tips beside the anchor instead of above/below it
+    // (vertical tab bars, where below would sit over the strip).
+    void setPreferRight(bool on) { m_preferRight = on; }
+
     bool isShowing(const QString& body) const { return isVisible() && body == m_body; }
 
 protected:
@@ -75,6 +79,9 @@ private:
     QRect m_bubble;        // bubble rect in widget coords (excludes caret + shadow)
     int m_caretX = 0;      // caret tip x in widget coords
     bool m_below = true;   // bubble below the anchor (caret on top edge)
+    bool m_preferRight = false; // placement request for the next show
+    bool m_rightMode = false;   // this show is beside the anchor (caret on left edge)
+    int m_caretY = 0;           // caret tip y in widget coords (right mode)
 
     QVariantAnimation m_fade;
 };

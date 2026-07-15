@@ -143,15 +143,17 @@ QTabBar::tab:hover:selected
 
 }
 
-/* Docs / Logs / Debug side tabs: uniform length with centred text. On a West
-   tab bar the word runs bottom-to-top, so min-height sets that length (keeping
-   all three tabs equal); modest left/right padding keeps the thickness slim.
-   The child combinator (>) limits this to southTabs' own bar so the nested
-   Docs sub-tabs (Tutorial / Examples / Synths …) are left alone. */
+/* Cards / Docs / Logs / Debug side tabs are icon-only: size each tab snugly
+   around its (uniform) icon so the glyph is centred by construction — Qt
+   start-aligns icons along the tab axis, so any spare length reads as
+   misalignment. The child combinator (>) limits this to southTabs' own bar
+   so the nested Docs sub-tabs (Tutorial / Examples / Synths …) are left
+   alone. */
 QTabWidget#southTabs > QTabBar::tab
 {
-    min-height: 68dx;
-    padding: 6dx;
+    /* Size comes from IconTabBar::tabSizeHint (square); no padding here so
+       it doesn't transpose awkwardly on the vertical bar. */
+    padding: 0dx;
 }
 
 QTabWidget
@@ -169,6 +171,15 @@ QTabWidget::pane
 {
     border: 0dx;
 
+}
+
+/* South dock: pages sit flush against the icon tab bar (the Cards pane's
+   page-back zone reaches all the way to the tabs). */
+QTabWidget#southTabs::pane
+{
+    border: 0dx;
+    margin: 0dx;
+    padding: 0dx;
 }
 
 QDockWidget::title

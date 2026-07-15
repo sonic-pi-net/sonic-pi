@@ -562,16 +562,17 @@ module SonicPi
       __delayed_flash(ws, end_line) if end_line
     end
 
-    # Scope-tap slots for live_loop mini scopes. Slot 0 is the master mix and 1
-    # the Examples jukebox, so loops share the rest (the engine's desktop
-    # profile has 32). A loop keeps its slot for its lifetime, across re-runs;
-    # release it when its thread dies. Returns nil when all slots are taken.
+    # Scope-tap slots for live_loop mini scopes. Slots 0 the master mix, 1
+    # the Examples jukebox and 2-9 the Quickstart cards (one per visible
+    # card), so loops share 10-31 (the engine's desktop profile has 32). A
+    # loop keeps its slot for its lifetime, across re-runs; release it when
+    # its thread dies. Returns nil when all slots are taken.
     def __live_loop_scope_slot(ll_name)
       @live_loop_scope_slots_mutex.synchronize do
         slot = @live_loop_scope_slots[ll_name]
         return slot if slot
         used = @live_loop_scope_slots.values
-        slot = (2..31).find { |s| !used.include?(s) }
+        slot = (10..31).find { |s| !used.include?(s) }
         @live_loop_scope_slots[ll_name] = slot if slot
         slot
       end

@@ -70,6 +70,10 @@ public:
     // OSC/node rendering).
     void applyTheme(SonicPiTheme* theme);
 
+    // Text-size zoom (level is a pixel offset from the 11px base). The whole
+    // panel's font is set by one stylesheet rule, so this just re-themes.
+    void setFontZoom(int level);
+
     // Show/hide the card titles (DEBUG / scsynth / Link / …), following the
     // "show pane titles" preference like the dock titles do.
     void setTitlesVisible(bool visible);
@@ -166,6 +170,7 @@ private:
     std::shared_ptr<SonicPi::SonicPiAPI> m_api;
     QTimer* m_timer = nullptr;
     SonicPiTheme* m_theme = nullptr;  // active theme, for syntax colours
+    int m_fontZoom = 0;               // px offset from the 11px base font
 
     ThinSplitter* m_mainSplit = nullptr; // left (tree + metrics) | right (logs)
     QSplitter* m_leftSplit = nullptr;    // node tree / metrics (chevron paints line)

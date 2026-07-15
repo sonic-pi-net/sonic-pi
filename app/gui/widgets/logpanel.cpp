@@ -229,6 +229,15 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
     connect(this, &QTabWidget::currentChanged, this, &LogPanel::onCurrentChanged);
 }
 
+void LogPanel::setFontZoom(int level)
+{
+    QFont mono("Hack", qMax(5, 7 + level), -1, false);
+    mono.setStyleHint(QFont::Monospace);
+    mono.setFixedPitch(true);
+    for (QPlainTextEdit* edit : m_edits)
+        edit->setFont(mono);
+}
+
 void LogPanel::addExtraTab(QWidget* w, const QString& name)
 {
     // Inserted as the first tab and made current. No LogTailers are

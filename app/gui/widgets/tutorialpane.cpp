@@ -13,11 +13,12 @@
 
 #include "tutorialpane.h"
 #include "tutorialwidgets.h"
+#include "tutscope.h"
 #include "dpi.h"
 #include "model/sonicpitheme.h"
 #include "sonicpiscintilla.h"
 #include "utils/instrument_icons.h"
-#include "utils/tablericons.h"
+#include "widgets/zoombar.h"
 #include "api/sonicpi_api.h"
 
 #include <QAbstractTextDocumentLayout>
@@ -67,160 +68,6 @@ constexpr unsigned int kJukeboxScopeSlot = 1;
 
 } // namespace
 
-// Live oscilloscope on the Examples jukebox page. Reads an isolated scope-buffer
-// slot (fed by a wrapping fx_scope_out tap), so it shows only the example's own
-// audio while the main Scope dock keeps showing the full mix. Decorative:
-// mouse-transparent, no focus, no accessible role (the Play/Stop button conveys
-// the running state).
-class TutScope : public QWidget
-{
-public:
-    explicit TutScope(QWidget* parent = nullptr)
-        : QWidget(parent)
-    {
-        setAttribute(Qt::WA_TransparentForMouseEvents, true);
-        setFocusPolicy(Qt::NoFocus);
-        setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        m_timer = new QTimer(this);
-        connect(m_timer, &QTimer::timeout, this, [this]() { poll(); });
-    }
-
-    void setColours(const QColor& wave, const QColor& base, const QColor& panel,
-                    const QColor& border)
-    {
-        m_wave = wave;
-        m_base = base;
-        m_panel = panel;
-        m_border = border;
-        update();
-    }
-
-    // Begin polling scope slot `scopeNum`; the reader is fetched fresh each
-    // time so it survives a device swap between plays.
-    void start(SonicPi::SonicPiAPI* api, unsigned int scopeNum)
-    {
-        m_reader = api ? api->AudioProcessor_GetScopeReader(scopeNum)
-                       : shm_scope_buffer_reader();
-        m_samples.clear();
-        show();
-        if (!m_timer->isActive())
-            m_timer->start(30);
-        update();
-    }
-
-    void stop()
-    {
-        m_timer->stop();
-        m_reader = shm_scope_buffer_reader();
-        m_samples.clear();
-        hide();
-    }
-
-protected:
-    void paintEvent(QPaintEvent*) override
-    {
-        QPainter p(this);
-        p.setRenderHint(QPainter::Antialiasing, true);
-        const qreal w = width();
-        const qreal h = height();
-        const qreal mid = h / 2.0;
-        const qreal radius = ScaleWidthForDPI(4);
-
-        // Rounded panel so the scope reads as a distinct little display, even
-        // when the trace is quiet or flat.
-        QRectF panelRect(0.5, 0.5, w - 1.0, h - 1.0);
-        if (m_panel.isValid())
-        {
-            p.setPen(Qt::NoPen);
-            p.setBrush(m_panel);
-            p.drawRoundedRect(panelRect, radius, radius);
-        }
-
-        // Clip the trace to the rounded panel so it never spills past the corners
-        QPainterPath clip;
-        clip.addRoundedRect(panelRect, radius, radius);
-        p.setClipPath(clip);
-
-        QColor base = m_base.isValid() ? m_base : palette().mid().color();
-        QPen basePen(base);
-        basePen.setWidthF(1.0);
-        p.setPen(basePen);
-        p.drawLine(QPointF(0, mid), QPointF(w, mid));
-
-        if (m_samples.size() >= 2 && w >= 2)
-        {
-            QColor wave = m_wave.isValid() ? m_wave : palette().highlight().color();
-            const qreal amp = mid * 0.92;
-            const size_t n = m_samples.size();
-            const int cols = qMax(2, (int)w);
-
-            // The raw waveform, traced once and reused for the fill and stroke
-            QPainterPath line;
-            for (int x = 0; x < cols; x++)
-            {
-                size_t idx = (size_t)((qreal)x / (cols - 1) * (n - 1));
-                qreal v = qBound(-1.0, (double)m_samples[idx], 1.0);
-                qreal y = mid - v * amp;
-                qreal px = (qreal)x / (cols - 1) * w;
-                if (x == 0)
-                    line.moveTo(px, y);
-                else
-                    line.lineTo(px, y);
-            }
-
-            // Fill back along the midline for a soft body under the stroke
-            QPainterPath body = line;
-            body.lineTo(w, mid);
-            body.lineTo(0, mid);
-            body.closeSubpath();
-            QColor fill = wave;
-            fill.setAlpha(70);
-            p.fillPath(body, fill);
-
-            QPen wavePen(wave);
-            wavePen.setWidthF(3.0);
-            wavePen.setJoinStyle(Qt::RoundJoin);
-            wavePen.setCapStyle(Qt::RoundCap);
-            p.setPen(wavePen);
-            p.drawPath(line);
-        }
-
-        // Panel border, crisp on top (outside the clip)
-        p.setClipping(false);
-        if (m_border.isValid())
-        {
-            p.setPen(QPen(m_border, 1.0));
-            p.setBrush(Qt::NoBrush);
-            p.drawRoundedRect(panelRect, radius, radius);
-        }
-    }
-
-private:
-    void poll()
-    {
-        unsigned int frames = 0;
-        if (!m_reader.pull(frames) || frames == 0)
-            return;
-        float* d = m_reader.data();
-        if (!d)
-            return;
-        unsigned int stride = m_reader.max_frames();
-        unsigned int ch = m_reader.channels();
-        m_samples.resize(frames);
-        for (unsigned int i = 0; i < frames; i++)
-            m_samples[i] = ch >= 2 ? 0.5f * (d[i] + d[stride + i]) : d[i];
-        update();
-    }
-
-    QColor m_wave;
-    QColor m_base;
-    QColor m_panel;
-    QColor m_border;
-    std::vector<float> m_samples;
-    shm_scope_buffer_reader m_reader;
-    QTimer* m_timer = nullptr;
-};
-
 TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* parent)
     : QFrame(parent)
     , m_lexer(lexer)
@@ -235,46 +82,14 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     outer->setContentsMargins(0, 0, 0, 0);
     outer->setSpacing(0);
 
-    // Docs text-size controls (A- / A+). Owned by the pane, but displayed in the
-    // help dock's title row beside the HELP title (MainWindow places the widget),
-    // so they sit on the same row as the title rather than above the content.
-    m_zoomBar = new QWidget(this);
-    QHBoxLayout* zoomLayout = new QHBoxLayout(m_zoomBar);
-    zoomLayout->setContentsMargins(0, 0, 0, 0);
-    zoomLayout->setSpacing(ScaleWidthForDPI(2));
-    // Circle -/+ (tabler) glyphs; the actual pixmaps are tinted per-theme in
-    // applyTheme(), and eventFilter() swaps to the accent tint on hover.
-    const int zoomIconPx = ScaleWidthForDPI(26);
-    m_zoomOut = new QPushButton(m_zoomBar);
-    m_zoomOut->setObjectName("tutZoom");
-    m_zoomOut->setIconSize(QSize(zoomIconPx, zoomIconPx));
-    m_zoomOut->setCursor(Qt::PointingHandCursor);
-    m_zoomOut->setToolTip(tr("Decrease documentation text size"));
-    m_zoomOut->setAccessibleName(tr("Decrease documentation text size"));
-    m_zoomOut->installEventFilter(this);
-    m_zoomIn = new QPushButton(m_zoomBar);
-    m_zoomIn->setObjectName("tutZoom");
-    m_zoomIn->setIconSize(QSize(zoomIconPx, zoomIconPx));
-    m_zoomIn->setCursor(Qt::PointingHandCursor);
-    m_zoomIn->setToolTip(tr("Increase documentation text size"));
-    m_zoomIn->setAccessibleName(tr("Increase documentation text size"));
-    m_zoomIn->installEventFilter(this);
-    connect(m_zoomOut, &QPushButton::clicked, this, [this]() {
-        m_userZoom = qMax(m_userZoom - 1, -4);
+    // Docs text-size controls (A- / A+): the shared ZoomBar, displayed in the
+    // help dock's title row beside the HELP title (MainWindow places the
+    // widget), like the Cards/Logs/Debug tabs' bars.
+    m_zoomBar = new ZoomBar(m_theme, tr("documentation"), this);
+    connect(m_zoomBar, &ZoomBar::zoomStep, this, [this](int delta) {
+        m_userZoom = qBound(-4, m_userZoom + delta, 8);
         applySizing();
     });
-    connect(m_zoomIn, &QPushButton::clicked, this, [this]() {
-        m_userZoom = qMin(m_userZoom + 1, 8);
-        applySizing();
-    });
-    zoomLayout->addWidget(m_zoomOut);
-    zoomLayout->addWidget(m_zoomIn);
-    // Styled on m_zoomBar itself (not the pane) so the flat chrome survives once
-    // MainWindow reparents these buttons into the help dock's title row. The
-    // glyphs are painted icons (set in applyTheme), so no colour is needed here.
-    m_zoomBar->setStyleSheet(ScalePxInStyleSheet(
-        "QPushButton#tutZoom { background: transparent; border: none;"
-        " border-radius: 4dx; padding: 1dx 4dx; }"));
 
     m_scroll = new QScrollArea(this);
     m_scroll->setWidgetResizable(true);
@@ -589,8 +404,10 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
             dial->reset(false);
         regenerateInstrumentCode();
     });
+    // Insert before the row's trailing stretch so Reset sits just after the last
+    // dial, not shoved to the far right edge by the stretch.
     if (dials)
-        dials->addWidget(reset, 0, Qt::AlignBottom);
+        dials->insertWidget(dials->count() - 1, reset, 0, Qt::AlignBottom);
 
     if (m_dials.isEmpty())
         dialsRow->deleteLater();
@@ -1124,18 +941,13 @@ void TutorialPane::scrollStep(int direction)
                       : QAbstractSlider::SliderSingleStepAdd);
 }
 
+QWidget* TutorialPane::zoomControls() const
+{
+    return m_zoomBar;
+}
+
 bool TutorialPane::eventFilter(QObject* obj, QEvent* event)
 {
-    // Zoom glyphs light to the accent tint on hover.
-    if ((obj == m_zoomOut || obj == m_zoomIn)
-        && (event->type() == QEvent::Enter || event->type() == QEvent::Leave))
-    {
-        const bool hover = event->type() == QEvent::Enter;
-        if (obj == m_zoomOut)
-            m_zoomOut->setIcon(hover ? m_zoomOutIconHover : m_zoomOutIcon);
-        else
-            m_zoomIn->setIcon(hover ? m_zoomInIconHover : m_zoomInIcon);
-    }
     return QFrame::eventFilter(obj, event);
 }
 
@@ -1183,18 +995,8 @@ void TutorialPane::applyTheme()
     QColor playingTint = SonicPiTheme::blend(editorBg, accent, 0.16);
     QColor sigColour = SonicPiTheme::blend(fg, editorBg, 0.18);
 
-    // Zoom -/+ glyphs: muted at rest, accent on hover (swapped by eventFilter).
-    if (m_zoomOut && m_zoomIn)
-    {
-        const int px = m_zoomOut->iconSize().width();
-        const qreal dpr = devicePixelRatioF();
-        m_zoomOutIcon = TablerIcons::icon(TablerIcons::Glyph::CircleMinus, muted, px, dpr);
-        m_zoomOutIconHover = TablerIcons::icon(TablerIcons::Glyph::CircleMinus, accent, px, dpr);
-        m_zoomInIcon = TablerIcons::icon(TablerIcons::Glyph::CirclePlus, muted, px, dpr);
-        m_zoomInIconHover = TablerIcons::icon(TablerIcons::Glyph::CirclePlus, accent, px, dpr);
-        m_zoomOut->setIcon(m_zoomOut->underMouse() ? m_zoomOutIconHover : m_zoomOutIcon);
-        m_zoomIn->setIcon(m_zoomIn->underMouse() ? m_zoomInIconHover : m_zoomInIcon);
-    }
+    if (m_zoomBar)
+        m_zoomBar->applyTheme();
 
     // Design sizes at the default editor zoom, scaled to track it
     auto pt = [this](int base) {

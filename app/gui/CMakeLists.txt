@@ -137,6 +137,12 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/welcomewidget.h
     ${QTAPP_ROOT}/widgets/splashwidget.cpp
     ${QTAPP_ROOT}/widgets/splashwidget.h
+    ${QTAPP_ROOT}/widgets/quickstartpane.cpp
+    ${QTAPP_ROOT}/widgets/quickstartpane.h
+    ${QTAPP_ROOT}/widgets/zoombar.cpp
+    ${QTAPP_ROOT}/widgets/zoombar.h
+    ${QTAPP_ROOT}/widgets/tutscope.h
+    ${QTAPP_ROOT}/widgets/icontabbar.h
     ${QTAPP_ROOT}/utils/flash_style.h
     ${QTAPP_ROOT}/utils/tutorialdocs.cpp
     ${QTAPP_ROOT}/utils/tutorialdocs.h

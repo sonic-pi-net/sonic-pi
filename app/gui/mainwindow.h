@@ -90,6 +90,8 @@ class SonicPiContext;
 class SonicPiMetro;
 class LogPanel;
 class MetricsPanel;
+class QuickstartPane;
+class ZoomBar;
 
 struct help_page
 {
@@ -569,6 +571,11 @@ private:
     void createExamplesMenu();
     void openExample(const QString& path, const QString& title, int helpRow);
     void showExamplesHelpTab(int row);
+    void showQuickstartCards();
+    // Path of the card set to load: a set explicitly loaded via the Examples
+    // menu (persisted), else the user override, else the shipped default.
+    QString cardsFileToLoad();
+    void applySouthTabIcons();
     void showHelpListTab(int tabIdx, int row);
     // Render this help-list selection in the docs pane
     bool showInTutorialPane(int tabIdx, int row);
@@ -683,6 +690,8 @@ private:
     QDockWidget* hudWidget;
     QDockWidget* docWidget;
     QPushButton* helpCloseButton = nullptr;  // ✕ = persistent close, top-right of the help pane
+    ZoomBar* logsZoom = nullptr;             // Logs/Debug tab text-size controls in the title row
+    ZoomBar* debugZoom = nullptr;
     QIcon m_helpCloseIcon;                    // tabler-x, theme-tinted (rest / hover)
     QIcon m_helpCloseIconHover;
     void updateHelpCloseIcon();               // (re)renders the ✕ for the current theme
@@ -704,6 +713,7 @@ private:
     QLabel* titleBarDoc = nullptr;
     QLabel* titleBarMetro = nullptr;
     TutorialPane* tutorialPane = nullptr;
+    QuickstartPane* quickstartPane = nullptr;
 
     //  QTextBrowser *hudPane;
     QWidget* mainWidget;

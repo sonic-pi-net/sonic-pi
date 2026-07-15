@@ -95,6 +95,21 @@ struct LangPage
     QVector<CodeExample> examples;
 };
 
+// One quickstart cheat-sheet card: a friendly one-liner plus a small
+// runnable snippet
+struct QuickstartCard
+{
+    QString title;
+    QString blurb;
+    QString code;
+};
+
+struct QuickstartGroup
+{
+    QString title;
+    QVector<QuickstartCard> cards;
+};
+
 // Colour names for the code token classes, mirroring the editor theme
 struct CodeColours
 {

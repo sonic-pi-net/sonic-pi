@@ -20,6 +20,7 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QApplication>
+#include <QClipboard>
 #include <QAccessible>
 #include <QBoxLayout>
 #include <QDesktopServices>
@@ -79,6 +80,10 @@
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
 #include "widgets/sonicpierrorcard.h"
+#include "utils/chrome_metrics.h"
+#include "widgets/icontabbar.h"
+#include "widgets/quickstartpane.h"
+#include "utils/tablericons.h"
 #include "widgets/tutorialpane.h"
 #include "widgets/welcomewidget.h"
 #include "widgets/splashwidget.h"
@@ -101,6 +106,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/linkaudiostreamswidget.h"
 #include "widgets/logpanel.h"
 #include "widgets/metricspanel.h"
+#include "widgets/zoombar.h"
 #include "widgets/thinsplitter.h"
 #include "utils/dividerproxystyle.h"
 #include "utils/tablericons.h"
@@ -244,6 +250,7 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
     updateLogVisibility();
     updateCuesVisibility();
     createDebugAndLogTabs();
+    applySouthTabIcons();
 
     // The implementation of this method is dynamically generated and can
     // be found in ruby_help.h:
@@ -454,8 +461,11 @@ void MainWindow::showWelcomeScreen()
             focusEditor();
         });
         docWidget->show();
-        docsNavTabs->setCurrentIndex(0);
-        helpLists[0]->setCurrentRow(0);
+        southTabs->setCurrentWidget(quickstartPane);
+        // Size the dock so a fresh install sees two full rows of cards.
+        resizeDocks({ docWidget }, { quickstartPane->preferredDockHeight() }, Qt::Vertical);
+        docsNavTabs->setCurrentIndex((int)DocTab::Tutorial);
+        helpLists[(int)DocTab::Tutorial]->setCurrentRow(0);
         welcome->show();
         welcome->raise();
         welcome->activateWindow();
@@ -514,6 +524,8 @@ void MainWindow::setupWindowStructure()
     editorTabWidget->setTabsClosable(false);
     editorTabWidget->setMovable(false);
     editorTabWidget->setTabPosition(QTabWidget::South);
+    // Buffer selector tabs share the chrome unit with the side tab strip.
+    editorTabWidget->tabBar()->setFixedHeight(ScaleHeightForDPI(SonicPi::kChromeControlDp));
 
     lexer->setAutoIndentStyle(SonicPiScintilla::AiMaintain);
 
@@ -960,7 +972,7 @@ void MainWindow::setupWindowStructure()
             [this](const QString& msg) { announce(msg); });
     connect(tutorialPane, &TutorialPane::linkClicked, this, &MainWindow::docLinkClicked);
     connect(tutorialPane, &TutorialPane::navigateRequested, this, [this](int delta) {
-        QListWidget* list = helpLists.value(0);
+        QListWidget* list = helpLists.value((int)DocTab::Tutorial);
         if (!list)
             return;
         int row = list->currentRow() + delta;
@@ -972,11 +984,99 @@ void MainWindow::setupWindowStructure()
     connect(m_spClient.get(), &SonicPi::QtAPIClient::RunEndedReceived,
             tutorialPane, &TutorialPane::runEnded);
 
-    southTabs = new QTabWidget;
+    southTabs = new IconTabWidget;
     southTabs->setObjectName("southTabs");
     southTabs->setTabPosition(QTabWidget::West);
     southTabs->setTabsClosable(false);
     southTabs->setMovable(false);
+    quickstartPane = new QuickstartPane(theme);
+    quickstartPane->setAudioApi(m_spAPI);
+    quickstartPane->setUserZoom(gui_settings->value("prefs/quickstart-zoom", 2).toInt());
+    // Cards come from an editable text file (see cardsFileToLoad).
+    quickstartPane->setCardsFile(cardsFileToLoad());
+    connect(quickstartPane, &QuickstartPane::runRequested, this,
+            [this](const QString& title, const QString& code, const QString& workspace,
+                   int scopeSlot) {
+                if (!piSettings->reduce_motion)
+                    scopeWindow->Resume();
+                // Only live_loop cards are beat-synced: `link 1` quantises their
+                // start to the next Link beat so loops drop in together and in
+                // time. One-shot cards fire immediately (no wait). The `link 1;`
+                // rides the wrapper's single leading line either way, so the
+                // card's flash line-offset is unchanged. Wrapped in an fx
+                // :scope_out tap on the card's own slot so its rings show only
+                // this card's audio, isolated from the other playing cards.
+                const bool sync = code.contains(QStringLiteral("live_loop"));
+                const QString lead = sync ? QStringLiteral("link 1; ") : QString();
+                QString toRun = QString("%1with_fx :scope_out, scope_num: %2 do\n%3\nend")
+                                    .arg(lead)
+                                    .arg(scopeSlot)
+                                    .arg(code);
+                m_spAPI->RunCode(prefWrappedCode(toRun).toStdString(), workspace.toStdString(), false);
+                showStatusAndAnnounce(sync ? tr("Playing %1 on the next beat.").arg(title)
+                                           : tr("Playing %1.").arg(title),
+                                      3000);
+            });
+    connect(quickstartPane, &QuickstartPane::stopJobRequested, this,
+            [this](int jobId) { m_spAPI->StopJob(jobId); });
+    connect(quickstartPane, &QuickstartPane::dragEnded, this, [this] {
+        // A drop on the editor already committed (dropEvent). Anything still
+        // previewing here means the card was released off the editor: cancel it,
+        // don't turn a fumbled drag into real code.
+        for (int i = 0; i < workspace_max; i++)
+            workspaces[i]->cancelInsertPreview();
+    });
+    connect(quickstartPane, &QuickstartPane::insertPreviewRequested, this,
+            [this](const QString& title, const QString& code) {
+                if (SonicPiScintilla* ws = getCurrentWorkspace())
+                    ws->previewInsertAtCursor(code, title);
+            });
+    connect(quickstartPane, &QuickstartPane::insertPreviewCleared, this, [this] {
+        // All workspaces, not just the current one: the preview went into
+        // whichever buffer was current at hover time, and the user may have
+        // switched buffers since (cancel is a no-op where nothing previews).
+        for (int i = 0; i < workspace_max; i++)
+            workspaces[i]->cancelInsertPreview();
+    });
+    connect(quickstartPane, &QuickstartPane::insertRequested, this,
+            [this](const QString& title, const QString& code) {
+                SonicPiScintilla* ws = getCurrentWorkspace();
+                if (!ws)
+                    return;
+                // Drop any stale hover preview everywhere (it may live in
+                // another buffer after a switch), then place + commit fresh in
+                // the current one.
+                for (int i = 0; i < workspace_max; i++)
+                    workspaces[i]->cancelInsertPreview();
+                ws->previewInsertAtCursor(code, title);
+                ws->finaliseDropPreview();
+                ws->setFocus();
+                showStatusAndAnnounce(
+                    title.isEmpty()
+                        ? tr("Inserted the card's code at the cursor. Press Run to hear it.")
+                        : tr("Inserted %1 at the cursor. Press Run to hear it.").arg(title),
+                    5000);
+            });
+    connect(quickstartPane, &QuickstartPane::copyRequested, this,
+            [this](const QString& title, const QString& code) {
+                QApplication::clipboard()->setText(code);
+                showStatusAndAnnounce(
+                    title.isEmpty() ? tr("Copied the card's code to the clipboard.")
+                                    : tr("Copied %1 to the clipboard.").arg(title),
+                    5000);
+            });
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunStartedReceived,
+            quickstartPane, &QuickstartPane::runStarted);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunEndedReceived,
+            quickstartPane, &QuickstartPane::runEnded);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::FlashReceived, quickstartPane,
+            [this](const QString& workspace, int line) {
+                // Same pref gate as the editor's code-wash.
+                if (piSettings->flash_code)
+                    quickstartPane->flashLine(workspace, line);
+            });
+    southTabs->setTabToolTip(southTabs->addTab(quickstartPane, tr("Cards")),
+                             tr("Quickstart cards: small runnable snippets to get going."));
     southTabs->setTabToolTip(southTabs->addTab(docsplit, "Docs"),
                              tr("Tutorial, examples and reference documentation."));
     southTabs->setAttribute(Qt::WA_StyledBackground, true);
@@ -1007,13 +1107,23 @@ void MainWindow::setupWindowStructure()
     // Help dock title row: HELP + docs text-size (A-/A+) + the persistent close
     // ✕, so all three sit on the same row as the title. The row stays put
     // whether or not pane titles are shown (only the HELP label toggles).
+    // Every help tab has A-/A+ text-size controls; they share the title row so
+    // they line up beside the always-present close ✕. Only the current tab's
+    // pair is shown. (The Logs/Debug panels are built further down, so their
+    // bars are wired to the panels once those exist.)
     QWidget* docZoomControls = tutorialPane->zoomControls();
+    QWidget* cardsZoomControls = quickstartPane->zoomControls();
+    logsZoom = new ZoomBar(theme, tr("logs"), this);
+    debugZoom = new ZoomBar(theme, tr("metrics"), this);
     docWidget->setTitleBarWidget(
         makeControlTitleBar(docWidget->windowTitle(), titleBarDoc,
-                            { docZoomControls, helpCloseButton }));
-    // A-/A+ only apply to the Docs tab; the close ✕ is always available.
-    auto syncDocZoomVisible = [this, docZoomControls]() {
+                            { docZoomControls, cardsZoomControls, logsZoom, debugZoom,
+                              helpCloseButton }));
+    auto syncDocZoomVisible = [this, docZoomControls, cardsZoomControls]() {
         docZoomControls->setVisible(southTabs->currentWidget() == docsplit);
+        cardsZoomControls->setVisible(southTabs->currentWidget() == quickstartPane);
+        logsZoom->setVisible(southTabs->currentWidget() == debugLogPanel);
+        debugZoom->setVisible(southTabs->currentWidget() == metricsPanel);
     };
     connect(southTabs, &QTabWidget::currentChanged, this,
             [syncDocZoomVisible](int) { syncDocZoomVisible(); });
@@ -1591,6 +1701,21 @@ void MainWindow::createDebugAndLogTabs()
     southTabs->setTabToolTip(southTabs->addTab(metricsPanel, tr("Debug")),
                              tr("Live metrics, node tree and message logs for the SuperSonic audio engine."));
     southTabs->setCurrentWidget(metricsPanel);
+
+    // Wire the title-row A-/A+ bars (built earlier) to the Logs/Debug panels,
+    // restoring the saved level and persisting each step.
+    debugLogPanel->setFontZoom(gui_settings->value("prefs/logs-text-zoom", 0).toInt());
+    connect(logsZoom, &ZoomBar::zoomStep, this, [this](int delta) {
+        const int lvl = qBound(-3, gui_settings->value("prefs/logs-text-zoom", 0).toInt() + delta, 12);
+        gui_settings->setValue("prefs/logs-text-zoom", lvl);
+        debugLogPanel->setFontZoom(lvl);
+    });
+    metricsPanel->setFontZoom(gui_settings->value("prefs/debug-text-zoom", 0).toInt());
+    connect(debugZoom, &ZoomBar::zoomStep, this, [this](int delta) {
+        const int lvl = qBound(-4, gui_settings->value("prefs/debug-text-zoom", 0).toInt() + delta, 20);
+        gui_settings->setValue("prefs/debug-text-zoom", lvl);
+        metricsPanel->setFontZoom(lvl);
+    });
 }
 
 void MainWindow::updateMetroVisibility()
@@ -2975,9 +3100,59 @@ QString MainWindow::prefWrappedCode(QString code)
     return code;
 }
 
+QString MainWindow::cardsFileToLoad()
+{
+    const QString custom = gui_settings->value("prefs/quickstart-cards-file").toString();
+    if (!custom.isEmpty() && QFile::exists(custom))
+        return custom;
+    const QString userCards =
+        sonicPiConfigPath() + QDir::separator() + "quickstart-cards.txt";
+    if (QFile::exists(userCards))
+        return userCards;
+    return rootPath() + "/etc/quickstart/cards.txt";
+}
+
 void MainWindow::createExamplesMenu()
 {
     examplesMenu = menuBar()->addMenu(tr("Examples"));
+
+    QAction* quickstartAct = new QAction(tr("Quickstart Cards..."), this);
+    connect(quickstartAct, &QAction::triggered, this, &MainWindow::showQuickstartCards);
+    examplesMenu->addAction(quickstartAct);
+
+    QAction* loadCardsAct = new QAction(tr("Load Card Set..."), this);
+    connect(loadCardsAct, &QAction::triggered, this, [this]() {
+        const QString start = gui_settings->value("lastCardsDir", QDir::homePath()).toString();
+        const QString path = QFileDialog::getOpenFileName(
+            this, tr("Load Card Set"), start, tr("Card sets (*.txt);;All files (*)"));
+        if (path.isEmpty())
+            return;
+        gui_settings->setValue("lastCardsDir", QFileInfo(path).absolutePath());
+        QString err;
+        if (!QuickstartPane::validateCardsFile(path, &err))
+        {
+            QMessageBox::warning(this, tr("Load Card Set"),
+                                 tr("\"%1\" is not a valid card set.\n\n%2")
+                                     .arg(QFileInfo(path).fileName(), err));
+            return; // keep the current cards
+        }
+        gui_settings->setValue("prefs/quickstart-cards-file", path);
+        quickstartPane->setCardsFile(path);
+        showQuickstartCards();
+        showStatusAndAnnounce(tr("Loaded card set: %1").arg(QFileInfo(path).fileName()), 5000);
+    });
+    examplesMenu->addAction(loadCardsAct);
+
+    QAction* resetCardsAct = new QAction(tr("Reset to Default Cards"), this);
+    connect(resetCardsAct, &QAction::triggered, this, [this]() {
+        gui_settings->remove("prefs/quickstart-cards-file");
+        quickstartPane->setCardsFile(cardsFileToLoad());
+        showQuickstartCards();
+        showStatusAndAnnounce(tr("Reset to the default card set."), 5000);
+    });
+    examplesMenu->addAction(resetCardsAct);
+
+    examplesMenu->addSeparator();
 
     const struct
     {
@@ -3103,6 +3278,50 @@ void MainWindow::openExample(const QString& path, const QString& title, int help
         sendOSC(msg);
     }
     showStatusAndAnnounce(tr("Playing %1 from the Help panel.").arg(title), 3000);
+}
+
+void MainWindow::applySouthTabIcons()
+{
+    const QColor fg = theme->color("TabText");
+    // The selected tab is accent-filled, so its glyph (QIcon::On) is drawn
+    // entirely in the contrasting colour.
+    const QColor on = theme->contrastingText(theme->color("TabSelected"));
+    // Sidebar thickness comes from the shared chrome unit so the side tabs,
+    // buffer selector and transport all line up. Icon fills ~65%.
+    const int side = ScaleHeightForDPI(SonicPi::kChromeControlDp);
+    const int px = qRound(side * 0.65);
+    const qreal dpr = devicePixelRatioF();
+    // Set on the bar itself: setIconSize on the QTabWidget doesn't reach a
+    // custom QTabBar, leaving it at the style's 16px default.
+    southTabs->setIconSize(QSize(px, px));
+    southTabs->tabBar()->setIconSize(QSize(px, px));
+    // southTabs is an IconTabWidget, so its bar is always an IconTabBar.
+    static_cast<IconTabBar*>(southTabs->tabBar())->setSquareSide(side);
+    // Icon-only tabs, painted dead-centre and upright by IconTabBar; the
+    // label lives on in the accessible name and tooltip.
+    auto set = [&](QWidget* page, const QPixmap& normal, const QPixmap& selected,
+                   const QString& name) {
+        int idx = southTabs->indexOf(page);
+        if (idx < 0)
+            return;
+        QIcon icon;
+        icon.addPixmap(normal, QIcon::Normal, QIcon::Off);
+        icon.addPixmap(selected, QIcon::Normal, QIcon::On);
+        southTabs->setTabIcon(idx, icon);
+        southTabs->setTabText(idx, "");
+        southTabs->tabBar()->setAccessibleTabName(idx, name);
+    };
+    set(quickstartPane, TablerIcons::pixmap(TablerIcons::Glyph::GridDots, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::GridDots, on, px, dpr), tr("Cards"));
+    set(docsplit, TablerIcons::pixmap(TablerIcons::Glyph::Book, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::Book, on, px, dpr), tr("Docs"));
+    set(debugLogPanel, TablerIcons::pixmap(TablerIcons::Glyph::Radioactive, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::Radioactive, on, px, dpr), tr("Logs"));
+    set(metricsPanel, TablerIcons::pixmap(TablerIcons::Glyph::BinaryTree, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::BinaryTree, on, px, dpr), tr("Debug"));
+}
+
+void MainWindow::showQuickstartCards()
+{
+    southTabs->setCurrentWidget(quickstartPane);
+    if (!docWidget->isVisible())
+        docWidget->show();
 }
 
 void MainWindow::zoomCurrentWorkspaceIn()
@@ -3706,6 +3925,10 @@ void MainWindow::updateColourTheme()
     errorCard->applyTheme();
     if (tutorialPane)
         tutorialPane->applyTheme();
+    if (quickstartPane)
+        quickstartPane->applyTheme();
+    if (southTabs)
+        applySouthTabIcons();
 
     // clear stylesheets
     this->setStyleSheet("");
@@ -3782,6 +4005,11 @@ void MainWindow::updateColourTheme()
     {
         metricsPanel->applyTheme(theme);
     }
+
+    if (logsZoom)
+        logsZoom->applyTheme();
+    if (debugZoom)
+        debugZoom->applyTheme();
 }
 
 void MainWindow::showLineNumbersMenuChanged()
@@ -6192,6 +6420,8 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/example-play-on-open", piSettings->example_play_on_open);
     if (tutorialPane)
         gui_settings->setValue("prefs/docs-zoom", tutorialPane->userZoom());
+    if (quickstartPane)
+        gui_settings->setValue("prefs/quickstart-zoom", quickstartPane->userZoom());
     gui_settings->setValue("prefs/reduce-motion", piSettings->reduce_motion);
     gui_settings->setValue("prefs/shortcut-mode", piSettings->shortcut_mode);
     gui_settings->setValue("prefs/log-zoom", outputPane->currentZoomLevel());

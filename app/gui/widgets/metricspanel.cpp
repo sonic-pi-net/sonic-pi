@@ -1274,6 +1274,17 @@ void MetricsPanel::requestSupersonicSummary()
     m_summaryRequested = true;
 }
 
+void MetricsPanel::setFontZoom(int level)
+{
+    m_fontZoom = level;
+    if (m_theme)
+        applyTheme(m_theme); // the font size lives in the stylesheet
+    // Bigger/smaller text means taller/shorter metric cards: re-pin the metrics
+    // pane to exactly fit them (the node tree above absorbs the rest), the same
+    // as dragging the divider down to the bottom.
+    reflowMetrics();
+}
+
 void MetricsPanel::applyTheme(SonicPiTheme* theme)
 {
     m_theme = theme;
@@ -1294,7 +1305,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     setStyleSheet(QString(
         // Enforce the (small) panel font in the sheet itself — a setStyleSheet()
         // call otherwise resets fonts applied via setFont() back to the default.
-        "MetricsPanel, MetricsPanel * { font-family:'Hack'; font-size:11px; }"
+        "MetricsPanel, MetricsPanel * { font-family:'Hack'; font-size:%8px; }"
         "MetricsPanel, QScrollArea, QFrame#ssCard, QFrame#ssCardFlat,"
         " QFrame#ssCell { background:%1; }"
         // Border-top/left on the container + border-right/bottom per cell =
@@ -1310,7 +1321,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QLabel#ssCardTitle { color:%5; padding-bottom:1px; }"
         "QLabel[ssRole=\"rowlabel\"] { color:%4; }"
         "QTextEdit { color:%2; background:%1; border:none; }")
-        .arg(bg, fg, border, dim, muted, winBorder).arg(gridW));
+        .arg(bg, fg, border, dim, muted, winBorder).arg(gridW).arg(qMax(6, 11 + m_fontZoom)));
 
     // The main/logs dividers paint themselves (ThinSplitter): a thin centre line
     // at rest, revealed full-width on hover (Qt's QSS can't do this). Push the
