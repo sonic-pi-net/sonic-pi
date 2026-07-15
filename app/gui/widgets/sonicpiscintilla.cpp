@@ -1605,10 +1605,19 @@ void SonicPiScintilla::updatePlaceholder()
 
 void SonicPiScintilla::placeDropPreview(int bytePos, const QString& text, const QString& title)
 {
+    // Appending at the document end after a non-terminated last line: the
+    // payload's leading newline would only terminate that line, so add one
+    // more to keep the blank separator above the code.
+    QString insertText = text;
+    if (bytePos > 0 && bytePos >= (long)SendScintilla(SCI_GETLENGTH)
+        && SendScintilla(SCI_GETCHARAT, (unsigned long)(bytePos - 1)) != '\n')
+        insertText.prepend(QLatin1Char('\n'));
     // Pointer sitting over the preview itself: already in place. Same payload
-    // only; a different card's code replaces it.
-    if (m_dropPreviewPos >= 0 && text == m_dropPreviewText && bytePos >= m_dropPreviewPos
-        && bytePos <= m_dropPreviewPos + m_dropPreviewLen)
+    // only (with or without the appended-newline variant); a different card's
+    // code replaces it.
+    if (m_dropPreviewPos >= 0
+        && (m_dropPreviewText == text || m_dropPreviewText == QLatin1Char('\n') + text)
+        && bytePos >= m_dropPreviewPos && bytePos <= m_dropPreviewPos + m_dropPreviewLen)
         return;
     SendScintilla(SCI_SETUNDOCOLLECTION, (long)0);
     if (m_dropPreviewPos >= 0)
@@ -1617,7 +1626,7 @@ void SonicPiScintilla::placeDropPreview(int bytePos, const QString& text, const 
             bytePos = qMax(m_dropPreviewPos, bytePos - m_dropPreviewLen);
         SendScintilla(SCI_DELETERANGE, (unsigned long)m_dropPreviewPos, (long)m_dropPreviewLen);
     }
-    const QByteArray utf8 = text.toUtf8();
+    const QByteArray utf8 = insertText.toUtf8();
     // uintptr_t selects the (uintptr_t, const char*) overload unambiguously
     // (unsigned long is 32-bit on MSVC, leaving the call ambiguous there).
     SendScintilla(SCI_INSERTTEXT, (uintptr_t)bytePos, utf8.constData());
@@ -1690,6 +1699,21 @@ static long dropLineStart(QsciScintillaBase* sci, const QPoint& pos)
     const long sciPos = sci->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMPOINT,
                                            (unsigned long)pos.x(), (long)pos.y());
     const long line = sci->SendScintilla(QsciScintillaBase::SCI_LINEFROMPOSITION, sciPos);
+    // Below the last line's text the drop appends at the document end (the
+    // payload's leading newline starts the fresh line); mapping it to the
+    // last line's start would make dropping after the code impossible.
+    const long lastLine = sci->SendScintilla(QsciScintillaBase::SCI_GETLINECOUNT) - 1;
+    if (line == lastLine)
+    {
+        const long lastTop = sci->SendScintilla(
+            QsciScintillaBase::SCI_POINTYFROMPOSITION, (unsigned long)0,
+            sci->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE,
+                               (unsigned long)lastLine));
+        const long lastBottom = lastTop
+            + sci->SendScintilla(QsciScintillaBase::SCI_TEXTHEIGHT, (unsigned long)lastLine);
+        if (pos.y() > lastBottom)
+            return sci->SendScintilla(QsciScintillaBase::SCI_GETLENGTH);
+    }
     return sci->SendScintilla(QsciScintillaBase::SCI_POSITIONFROMLINE, line);
 }
 
