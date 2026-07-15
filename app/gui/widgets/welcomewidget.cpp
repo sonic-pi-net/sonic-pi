@@ -9,17 +9,13 @@
 
 #include "welcomewidget.h"
 
-#include <QFrame>
-#include <QGraphicsOpacityEffect>
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QPainter>
 #include <QPixmap>
-#include <QPropertyAnimation>
 #include <QPushButton>
-#include <QTimer>
 #include <QVBoxLayout>
 
 #include "dpi.h"
@@ -33,13 +29,13 @@ const QColor kStageFg(242, 242, 242);
 const QColor kStageDim(140, 140, 140);
 } // namespace
 
-WelcomeWidget::WelcomeWidget(SonicPiTheme* theme, bool reduceMotion, QWidget* parent)
-    : QWidget(parent, Qt::Window), m_theme(theme), m_reduceMotion(reduceMotion)
+WelcomeWidget::WelcomeWidget(SonicPiTheme* theme, bool, QWidget* parent)
+    : QWidget(parent, Qt::Window), m_theme(theme)
 {
     setWindowTitle(tr("Welcome to Sonic Pi"));
     setWindowIcon(QIcon(":images/icon-smaller.png"));
     setAttribute(Qt::WA_DeleteOnClose);
-    setFixedSize(ScaleHeightForDPI(600), ScaleHeightForDPI(640));
+    setFixedSize(ScaleHeightForDPI(600), ScaleHeightForDPI(680));
 
     const QColor accentColor = m_theme->applyGlobalTransforms(QColor("deeppink"));
     const QString accent = accentColor.name();
@@ -48,20 +44,8 @@ WelcomeWidget::WelcomeWidget(SonicPiTheme* theme, bool reduceMotion, QWidget* pa
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     const int pad = ScaleHeightForDPI(40);
-    layout->setContentsMargins(pad, ScaleHeightForDPI(30), pad, ScaleHeightForDPI(34));
+    layout->setContentsMargins(pad, ScaleHeightForDPI(34), pad, ScaleHeightForDPI(38));
     layout->setSpacing(0);
-
-    // Collect a widget into the staggered entrance (no-op under reduce
-    // motion). The opacity effect owns its fade animation, so removing the
-    // effect in finishIntro() also stops and frees the animation.
-    auto enters = [&](QWidget* w, int delayMs) {
-        if (m_reduceMotion)
-            return;
-        QGraphicsOpacityEffect* effect = new QGraphicsOpacityEffect(w);
-        effect->setOpacity(0.0);
-        w->setGraphicsEffect(effect);
-        m_introTargets.append({ w, delayMs });
-    };
 
     // Downscale in device pixels so the logo stays sharp on high-DPI displays.
     QLabel* mark = new QLabel(this);
@@ -74,7 +58,6 @@ WelcomeWidget::WelcomeWidget(SonicPiTheme* theme, bool reduceMotion, QWidget* pa
     mark->setPixmap(logo);
     mark->setStyleSheet("background: transparent;");
     layout->addWidget(mark, 0, Qt::AlignHCenter);
-    enters(mark, 0);
 
     // Font properties must live in the stylesheet: Qt ignores
     // QWidget::setFont on styled widgets.
@@ -94,72 +77,42 @@ WelcomeWidget::WelcomeWidget(SonicPiTheme* theme, bool reduceMotion, QWidget* pa
                                 .arg(fg)
                                 .arg(ScaleHeightForDPI(38)));
         taglineLayout->addWidget(word);
-        enters(word, 500 + i * 350);
     }
-    layout->addSpacing(ScaleHeightForDPI(26));
+    layout->addSpacing(ScaleHeightForDPI(60));
     layout->addWidget(tagline, 0, Qt::AlignHCenter);
 
-    QLabel* blurb = new QLabel(
-        tr("Simple enough for your first ever note.\n"
-           "Powerful enough to perform in nightclubs."),
+    QLabel* greeting = new QLabel(tr("Hello, and welcome!"), this);
+    greeting->setAlignment(Qt::AlignHCenter);
+    greeting->setStyleSheet(QString("color: %1; background: transparent; font-size: %2px;"
+                                    " font-weight: 600;")
+                                .arg(fg)
+                                .arg(ScaleHeightForDPI(22)));
+    layout->addSpacing(ScaleHeightForDPI(58));
+    layout->addWidget(greeting);
+
+    QLabel* body = new QLabel(
+        tr("Sonic Pi is a musical instrument you play by writing code."), this);
+    body->setAlignment(Qt::AlignHCenter);
+    body->setWordWrap(true);
+    body->setStyleSheet(QString("color: %1; background: transparent; font-size: %2px;")
+                            .arg(dim)
+                            .arg(ScaleHeightForDPI(20)));
+    layout->addSpacing(ScaleHeightForDPI(16));
+    layout->addWidget(body);
+
+    QLabel* motto = new QLabel(
+        tr("Remember, when you code live there are no mistakes, only opportunities..."),
         this);
-    blurb->setAlignment(Qt::AlignHCenter);
-    blurb->setStyleSheet(QString("color: %1; background: transparent; font-size: %2px;"
+    motto->setAlignment(Qt::AlignHCenter);
+    motto->setWordWrap(true);
+    motto->setStyleSheet(QString("color: %1; background: transparent; font-size: %2px;"
                                  " font-style: italic;")
                              .arg(dim)
-                             .arg(ScaleHeightForDPI(18)));
-    layout->addSpacing(ScaleHeightForDPI(14));
-    layout->addWidget(blurb);
-    enters(blurb, 1550);
+                             .arg(ScaleHeightForDPI(20)));
+    layout->addSpacing(ScaleHeightForDPI(26));
+    layout->addWidget(motto);
 
     layout->addStretch(1);
-    QWidget* rows = new QWidget(this);
-    rows->setStyleSheet("background: transparent;");
-    QVBoxLayout* rowsLayout = new QVBoxLayout(rows);
-    rowsLayout->setContentsMargins(0, 0, 0, 0);
-    rowsLayout->setSpacing(ScaleHeightForDPI(10));
-    auto row = [&](const QString& lead, const QString& detail) {
-        QFrame* card = new QFrame(rows);
-        card->setFixedWidth(ScaleHeightForDPI(470));
-        card->setStyleSheet(QString("QFrame { background-color: #232323; border-radius: %1px; }")
-                                .arg(ScaleHeightForDPI(10)));
-        QHBoxLayout* cardLayout = new QHBoxLayout(card);
-        cardLayout->setContentsMargins(ScaleHeightForDPI(16), ScaleHeightForDPI(11),
-                                       ScaleHeightForDPI(16), ScaleHeightForDPI(11));
-        // Fixed-width lead column so the detail sentences share a left edge.
-        QLabel* leadLabel = new QLabel(
-            QString("<span style=\"color: %1;\">&#9654;</span>&nbsp;&nbsp;"
-                    "<b style=\"color: %2; font-size: %3px;\">%4</b>")
-                .arg(accent)
-                .arg(fg)
-                .arg(ScaleHeightForDPI(19))
-                .arg(lead),
-            card);
-        leadLabel->setTextFormat(Qt::RichText);
-        leadLabel->setFixedWidth(ScaleHeightForDPI(118));
-        leadLabel->setStyleSheet(QString("background: transparent; font-size: %1px;")
-                                     .arg(ScaleHeightForDPI(17)));
-        QLabel* detailLabel = new QLabel(
-            QString("<span style=\"color: #d4d4d4;\">%1</span>").arg(detail), card);
-        detailLabel->setTextFormat(Qt::RichText);
-        detailLabel->setStyleSheet(QString("background: transparent; font-size: %1px;")
-                                       .arg(ScaleHeightForDPI(17)));
-        cardLayout->addWidget(leadLabel);
-        cardLayout->addWidget(detailLabel, 1);
-        rowsLayout->addWidget(card);
-    };
-    // Hack runs optically larger than the sans face, so the code span gets a
-    // slightly smaller point size to sit level with the sentence.
-    row(tr("Play"), tr("type <span style=\"color:%1; font-family:Hack; font-size:%3px;\">play 70</span>, hit <b style=\"color:%2;\">Run</b>")
-                        .arg(accent)
-                        .arg(fg)
-                        .arg(ScaleHeightForDPI(15)));
-    row(tr("Learn"), tr("follow the tutorial below"));
-    row(tr("Explore"), tr("remix the examples"));
-    layout->addWidget(rows, 0, Qt::AlignHCenter);
-    enters(rows, 1550);
-
-    layout->addStretch(2);
 
     QPushButton* start = new QPushButton(tr("Get Started"), this);
     start->setCursor(Qt::PointingHandCursor);
@@ -179,7 +132,6 @@ WelcomeWidget::WelcomeWidget(SonicPiTheme* theme, bool reduceMotion, QWidget* pa
             .arg(fg));
     connect(start, &QPushButton::clicked, this, &WelcomeWidget::dismissRequested);
     layout->addWidget(start, 0, Qt::AlignHCenter);
-    enters(start, 1550);
 
     start->setFocus();
 }
@@ -204,75 +156,12 @@ void WelcomeWidget::paintEvent(QPaintEvent*)
     }
 }
 
-void WelcomeWidget::showEvent(QShowEvent* event)
-{
-    QWidget::showEvent(event);
-    if (!m_introStarted)
-    {
-        m_introStarted = true;
-        beginIntro();
-    }
-}
-
-void WelcomeWidget::beginIntro()
-{
-    if (m_introTargets.isEmpty())
-    {
-        m_introDone = true;
-        return;
-    }
-    for (const auto& target : m_introTargets)
-    {
-        QWidget* w = target.first;
-        QTimer::singleShot(target.second, this, [this, w] {
-            QGraphicsOpacityEffect* effect =
-                qobject_cast<QGraphicsOpacityEffect*>(w->graphicsEffect());
-            if (m_introDone || !effect)
-                return;
-            QPropertyAnimation* fade = new QPropertyAnimation(effect, "opacity", effect);
-            fade->setDuration(320);
-            fade->setStartValue(0.0);
-            fade->setEndValue(1.0);
-            fade->setEasingCurve(QEasingCurve::OutCubic);
-            fade->start(QAbstractAnimation::DeleteWhenStopped);
-        });
-    }
-    // Once the last element has landed, drop the opacity effects so nothing
-    // renders through an effect raster (keeps the logo pixel-sharp).
-    const int last = m_introTargets.last().second;
-    QTimer::singleShot(last + 400, this, &WelcomeWidget::finishIntro);
-}
-
-void WelcomeWidget::finishIntro()
-{
-    if (m_introDone)
-        return;
-    m_introDone = true;
-    for (const auto& target : m_introTargets)
-        target.first->setGraphicsEffect(nullptr);
-}
-
 void WelcomeWidget::keyPressEvent(QKeyEvent* event)
 {
-    if (!m_introDone)
-    {
-        finishIntro();
-        return;
-    }
     if (event->key() == Qt::Key_Escape)
     {
         emit dismissRequested();
         return;
     }
     QWidget::keyPressEvent(event);
-}
-
-void WelcomeWidget::mousePressEvent(QMouseEvent* event)
-{
-    if (!m_introDone)
-    {
-        finishIntro();
-        return;
-    }
-    QWidget::mousePressEvent(event);
 }

@@ -16,10 +16,10 @@
 #include <QApplication>
 #include <QBitmap>
 #include <QDateTime>
+#include <QFontDatabase>
 #include <QLabel>
 #include <QLibraryInfo>
 #include <QPixmap>
-#include <QSplashScreen>
 #include <QStyleFactory>
 #include <QSurfaceFormat>
 #include <QThread>
@@ -29,6 +29,7 @@
 #include "mainwindow.h"
 
 #include "widgets/sonicpilog.h"
+#include "widgets/splashwidget.h"
 
 #include "dpi.h"
 
@@ -94,12 +95,16 @@ int main(int argc, char* argv[])
         return SonicPi::runAccessibilitySelfTest();
 #endif
 
+    // Registered before the splash is built so its strapline gets Hack.
+    QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Hack-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/Hack-BoldItalic.ttf");
+
     // Splash up before any other init. shownAtMs is read by
     // MainWindow::splashClose to enforce a minimum visible duration.
-    QPixmap pixmap(":/images/splash@2x.png");
-    QSplashScreen* splash = new QSplashScreen(pixmap);
+    SplashWidget* splash = new SplashWidget();
     splash->setProperty("shownAtMs", QDateTime::currentMSecsSinceEpoch());
-    splash->setAccessibleName(QObject::tr("Sonic Pi is starting"));
     splash->show();
     app.processEvents();
 
@@ -109,11 +114,6 @@ int main(int argc, char* argv[])
     // Permission granted here applies to all child processes.
     SonicPi::requestMicrophoneAccess();
 #endif
-
-    QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/Hack-Italic.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/Hack-Bold.ttf");
-    QFontDatabase::addApplicationFont(":/fonts/Hack-BoldItalic.ttf");
 
     qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 

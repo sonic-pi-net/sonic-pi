@@ -589,6 +589,16 @@ void SonicPiAPI::RequestAudioDevices()
     SupersonicSendOSC(msg);
 }
 
+bool SonicPiAPI::IsServerReady()
+{
+    return m_state == State::Created;
+}
+
+bool SonicPiAPI::HasServerErrored()
+{
+    return m_state == State::Error;
+}
+
 bool SonicPiAPI::WaitUntilReady()
 {
     if (m_state == State::Created)

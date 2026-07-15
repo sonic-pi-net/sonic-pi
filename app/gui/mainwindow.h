@@ -69,7 +69,7 @@ class QSignalMapper;
 class QTabWidget;
 class QCheckBox;
 class QVBoxLayout;
-class QSplashScreen;
+class SplashWidget;
 class QLabel;
 class QWebEngineView;
 
@@ -138,7 +138,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QApplication& ref, QSplashScreen* splash);
+    MainWindow(QApplication& ref, SplashWidget* splash);
 
     static const QList<ShortcutDef>& shortcutDefs();
 
@@ -234,8 +234,13 @@ signals:
 
 private slots:
 
-    // Runs the blocking server wait + finalisation under the live event loop.
+    // Starts the splash intro, then the deferred daemon-ready poll.
     void completeBoot();
+    void beginServerReadyPoll();
+    // One tick of that poll; hands off to onServerReady() or errors out.
+    void pollServerReady();
+    // Finalisation once the daemon has reached the ready state.
+    void onServerReady();
 
     void updateSelectedUILanguageAction(QString lang);
     void updateContext(int line, int index);
@@ -651,7 +656,9 @@ private:
     bool show_rec_icon_a;
     QTimer* rec_flash_timer;
 
-    QSplashScreen* splash;
+    SplashWidget* splash;
+    QTimer* boot_poll_timer = nullptr;
+    int boot_poll_tries = 0;
 
     bool i18n;
     static const int workspace_max = 10;

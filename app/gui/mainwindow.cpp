@@ -45,7 +45,6 @@
 #include <QScrollBar>
 #include <QSet>
 #include <QShortcut>
-#include <QSplashScreen>
 #include <QTimer>
 #include <QSplitter>
 #include <QStackedWidget>
@@ -82,6 +81,7 @@
 #include "widgets/sonicpierrorcard.h"
 #include "widgets/tutorialpane.h"
 #include "widgets/welcomewidget.h"
+#include "widgets/splashwidget.h"
 
 #include "utils/sonicpi_i18n.h"
 
@@ -139,7 +139,7 @@ using namespace std::chrono;
 
 using namespace SonicPi;
 
-MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
+MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
 {
     app.installEventFilter(this);
     app.processEvents();
@@ -275,60 +275,93 @@ MainWindow::MainWindow(QApplication& app, QSplashScreen* splash)
 
 void MainWindow::completeBoot()
 {
-    bool startupOK = m_spAPI->WaitUntilReady();
+    // The event loop is live now, so start the strapline animation.
+    if (splash)
+        splash->startAnimation(piSettings->reduce_motion);
 
-    if (startupOK)
+    // Defer the ready poll until the intro has played: onServerReady's heavy
+    // synchronous finalisation would freeze the event loop mid-intro and bunch
+    // the word reveals. The daemon boots in parallel throughout.
+    const int introMs = (splash && !piSettings->reduce_motion) ? splash->introDurationMs() : 0;
+    QTimer::singleShot(introMs, this, &MainWindow::beginServerReadyPoll);
+}
+
+void MainWindow::beginServerReadyPoll()
+{
+    // Poll the daemon's readiness without blocking the event loop (the state
+    // flips on the API's pinger thread during boot). Same budget as
+    // WaitUntilReady: 600 * 100ms = 60s.
+    boot_poll_tries = 600;
+    boot_poll_timer = new QTimer(this);
+    connect(boot_poll_timer, &QTimer::timeout, this, &MainWindow::pollServerReady);
+    boot_poll_timer->start(100);
+}
+
+void MainWindow::pollServerReady()
+{
+    if (m_spAPI->IsServerReady())
     {
-        // We have a connection! Finish up loading app...
-
-        scopeWindow->Booted();
-        std::cout << "[GUI] - restore windows" << std::endl;
-        restoreWindows();
-        std::cout << "[GUI] - honour prefs" << std::endl;
-        honourPrefs();
-        std::cout << "[GUI] - update prefs icon" << std::endl;
-        updatePrefsIcon();
-        std::cout << "[GUI] - toggle icons" << std::endl;
-        toggleIcons();
-        std::cout << "[GUI] - full screen" << std::endl;
-
-        updateFullScreenMode();
-
-        // May swap the colour scheme to high contrast before the first theme
-        // application below; also follows live OS contrast toggles from here
-        // on (the call creates the QAccessibilityHints instance).
-        applyOSContrastPreference();
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        connect(accessibilityHints, &QAccessibilityHints::contrastPreferenceChanged,
-                this, &MainWindow::applyOSContrastPreference);
-#endif
-
-        updateColourTheme();
-        std::cout << "[GUI] - load workspaces" << std::endl;
-        loadWorkspaces();
-        std::cout << "[GUI] - load request Version" << std::endl;
-        requestVersion();
-        changeSystemPreAmp(piSettings->main_volume, 1);
-
-        // Register GUI with SuperSonic for push notifications and get device info
-        m_spAPI->RequestAudioDevices();
-
-        QTimer* timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, this, &MainWindow::heartbeatOSC);
-        timer->start(1000);
-        emit settingsChanged();
-        splashClose();
-        focusEditor();
-        showWindow();
-        statusBar()->showMessage(tr("Sonic Pi is ready"));
-        announce(tr("Sonic Pi is ready"));
-        std::cout << "[GUI] - boot sequence completed." << std::endl;
+        boot_poll_timer->stop();
+        onServerReady();
+        return;
     }
-    else
+
+    if (m_spAPI->HasServerErrored() || --boot_poll_tries <= 0)
     {
+        boot_poll_timer->stop();
         std::cout << "[GUI] - Critical Error. Unable to connect to server.." << std::endl;
         startupError("GUI was unable to connect to the Ruby server.");
+        toggleOSCServer(1);
+        editorTabWidget->currentWidget()->activateWindow();
     }
+}
+
+void MainWindow::onServerReady()
+{
+    // We have a connection! Finish up loading app...
+
+    scopeWindow->Booted();
+    std::cout << "[GUI] - restore windows" << std::endl;
+    restoreWindows();
+    std::cout << "[GUI] - honour prefs" << std::endl;
+    honourPrefs();
+    std::cout << "[GUI] - update prefs icon" << std::endl;
+    updatePrefsIcon();
+    std::cout << "[GUI] - toggle icons" << std::endl;
+    toggleIcons();
+    std::cout << "[GUI] - full screen" << std::endl;
+
+    updateFullScreenMode();
+
+    // May swap the colour scheme to high contrast before the first theme
+    // application below; also follows live OS contrast toggles from here
+    // on (the call creates the QAccessibilityHints instance).
+    applyOSContrastPreference();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+    connect(accessibilityHints, &QAccessibilityHints::contrastPreferenceChanged,
+            this, &MainWindow::applyOSContrastPreference);
+#endif
+
+    updateColourTheme();
+    std::cout << "[GUI] - load workspaces" << std::endl;
+    loadWorkspaces();
+    std::cout << "[GUI] - load request Version" << std::endl;
+    requestVersion();
+    changeSystemPreAmp(piSettings->main_volume, 1);
+
+    // Register GUI with SuperSonic for push notifications and get device info
+    m_spAPI->RequestAudioDevices();
+
+    QTimer* timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &MainWindow::heartbeatOSC);
+    timer->start(1000);
+    emit settingsChanged();
+    splashClose();
+    focusEditor();
+    showWindow();
+    statusBar()->showMessage(tr("Sonic Pi is ready"));
+    announce(tr("Sonic Pi is ready"));
+    std::cout << "[GUI] - boot sequence completed." << std::endl;
 
     toggleOSCServer(1);
 
@@ -1968,17 +2001,20 @@ QString MainWindow::rootPath()
 void MainWindow::splashClose()
 {
     if (!splash) return;
-    // Minimum visible duration so the splash doesn't flash by on fast boots.
-    constexpr qint64 kMinSplashMs = 1500;
+    // Minimum visible duration so the animation always settles; a slower boot
+    // keeps it up until it finishes.
+    constexpr qint64 kMinSplashMs = 4500;
     const qint64 shownAt = splash->property("shownAtMs").toLongLong();
     const qint64 elapsed = QDateTime::currentMSecsSinceEpoch() - shownAt;
     if (shownAt > 0 && elapsed < kMinSplashMs) {
-        QTimer::singleShot(kMinSplashMs - elapsed, this, [this]() {
-            if (splash) splash->finish(this);
-        });
+        QTimer::singleShot(kMinSplashMs - elapsed, this, [this]() { splashClose(); });
         return;
     }
-    splash->finish(this);
+    // finishAndClose() fades out and self-deletes (WA_DeleteOnClose); drop our
+    // reference first so any later splashClose() is a no-op.
+    SplashWidget* s = splash;
+    splash = nullptr;
+    s->finishAndClose();
 }
 
 void MainWindow::showWindow()

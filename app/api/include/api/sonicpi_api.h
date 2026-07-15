@@ -431,6 +431,10 @@ public:
     virtual bool PingUntilServerCreated();
     virtual bool WaitUntilReady();
 
+    // Non-blocking snapshots of the boot state WaitUntilReady blocks on.
+    virtual bool IsServerReady();
+    virtual bool HasServerErrored();
+
     // Shut down the API, close the server, ports, osc, etc.
     virtual void Shutdown();
 
@@ -588,7 +592,9 @@ private:
         Created,
         Error
     };
-    State m_state = State::Reset;
+    // Atomic: written by the pinger/boot thread, polled from the GUI thread
+    // (IsServerReady/HasServerErrored and WaitUntilReady's sleep loop).
+    std::atomic<State> m_state = State::Reset;
     uint64_t m_startServerTime;
     APISettings m_settings;
 };
