@@ -86,22 +86,58 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
         splitErrorText(full, "Runtime Error: ", header, location, reason);
 
         // error_highlight gives the offending token's exact byte-column span; if
-        // it's unavailable, fall back to the identifier — the backtick-marked
+        // it's unavailable, fall back to the identifier: the backtick-marked
         // name in the friendly header, else the 'quoted' name in the raw reason
-        // (the reason has no contraction apostrophes to confuse the match).
+        // (the reason has no contraction apostrophes to confuse the match),
+        // else the first :symbol in the header ("Value of opt :cutoff must...";
+        // the whole-word search still finds it written as `cutoff:` in code).
+        // Match against the header's first line only: the structured trailers
+        // below it ("Example: ...", "Docs: ...") are full of backticks.
         QString errToken;
         static const QRegularExpression reBacktick("`([^`]+)`");
         static const QRegularExpression reQuoted("'([^']+)'");
-        QRegularExpressionMatch tm = reBacktick.match(header);
+        static const QRegularExpression reSymbol(":([A-Za-z_][A-Za-z0-9_]*)");
+        const QString headLine = header.section(QLatin1Char('\n'), 0, 0);
+        QRegularExpressionMatch tm = reBacktick.match(headLine);
         if (!tm.hasMatch())
             tm = reQuoted.match(reason);
+        if (!tm.hasMatch())
+            tm = reSymbol.match(headLine);
         if (tm.hasMatch())
             errToken = tm.captured(1);
         m_pMainWindow->setLineMarkerinCurrentWorkspace(info.line, false, errToken, info.errorColStart, info.errorColEnd);
 
+        // The card draws its squiggle from [colStart,colEnd) alone; when
+        // error_highlight gave no span, fall back to the identifier named in
+        // the message, the same whole-word search the editor's underline uses
+        // (byte-based, so multi-byte characters don't shift it).
+        int colStart = info.errorColStart;
+        int colEnd = info.errorColEnd;
+        if ((colStart < 0 || colEnd <= colStart) && !errToken.isEmpty())
+        {
+            const QByteArray line = QByteArray::fromStdString(info.errorLineString);
+            const QByteArray tok = errToken.toUtf8();
+            auto isWord = [](char c) {
+                return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+                       || (c >= '0' && c <= '9') || c == '_';
+            };
+            for (int i = line.indexOf(tok); i >= 0; i = line.indexOf(tok, i + 1))
+            {
+                const bool okL = i == 0 || !isWord(line[i - 1]);
+                const int after = i + tok.length();
+                const bool okR = after >= line.size() || !isWord(line[after]);
+                if (okL && okR)
+                {
+                    colStart = i;
+                    colEnd = after;
+                    break;
+                }
+            }
+        }
+
         m_pMainWindow->showErrorCard(false, header, location, reason,
                                      QString::fromStdString(info.errorLineString), info.line,
-                                     info.errorColStart, info.errorColEnd,
+                                     colStart, colEnd,
                                      QString::fromStdString(info.backtrace), info.line > 0);
     }
     else if (info.type == MessageType::SyntaxError)
@@ -110,6 +146,18 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
 
         QString header, location, reason;
         splitErrorText(QString::fromStdString(info.text), "Syntax Error: ", header, location, reason);
+        // The parser's own message ("expected a block beginning with `do` to
+        // end with `end`") becomes the headline, shedding its "SyntaxError:"
+        // tag.
+        QString msg = reason;
+        static const QRegularExpression kSynTag(QStringLiteral("^\\s*SyntaxError:\\s*"));
+        msg.remove(kSynTag);
+        if (!msg.isEmpty())
+        {
+            msg[0] = msg[0].toUpper();
+            header = QStringLiteral("Syntax Error ") + msg;
+            reason.clear();
+        }
         m_pMainWindow->showErrorCard(true, header, location, reason,
                                      QString::fromStdString(info.errorLineString), info.line,
                                      info.errorColStart, info.errorColEnd,

@@ -878,6 +878,24 @@ module SonicPi
         _, ln, err_msg = *e.message.match(/\A.*:([0-9]+): (.*)/)
         linenum = ln.to_i if ln
       end
+      # A dangling opt label (e.g. `cutoff:` ending a line) makes the parser
+      # swallow the next statement as its value, so the reported error lands on
+      # a later, innocent line. If the nearest code line above the report ends
+      # with a bare label, that's the real culprit - point there instead.
+      if linenum != -1 && err_msg =~ /unexpected/
+        lines_arr = info[:code].lines.to_a
+        # The fallback path takes linenum from the exception message, which can
+        # exceed the buffer's line count - clamp or lines_arr[idx] is nil.
+        idx = [linenum - info[:first_line_num] - 1, lines_arr.length - 1].min
+        idx -= 1 while idx >= 0 && lines_arr[idx] =~ /\A\s*(#|\z)/
+        if idx >= 0 && (m = lines_arr[idx].match(/(?<![:\w])([a-z_][A-Za-z0-9_]*):\s*\z/))
+          linenum = idx + info[:first_line_num]
+          col_start = lines_arr[idx][0, m.begin(1)].bytesize
+          col_end = col_start + m[1].bytesize + 1
+          # Keep the parser's own message so a misfire still shows the real error.
+          err_msg = "`#{m[1]}:` is missing its value (#{err_msg})"
+        end
+      end
       error_line = info[:code].lines.to_a[linenum - info[:first_line_num]] ||  ""
       w = info[:workspace]
       if linenum != -1
