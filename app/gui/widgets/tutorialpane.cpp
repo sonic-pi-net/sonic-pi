@@ -435,10 +435,22 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     for (QString& word : titleWords)
         word[0] = word[0].toUpper();
     title = titleWords.join(' ');
-    // Title and instrument glyph share one header row (the glyph on its own
-    // line burned ~80px of vertical space); both bottom-aligned so the H1's
-    // hairline and the icon sit on a common baseline.
-    QWidget* headerRow = new QWidget(m_content);
+    // One "playground" card holds the whole interactive demo (name, dials,
+    // piano and the generated snippet) so the controls and the code they
+    // regenerate read as a single instrument.
+    QFrame* playground = new QFrame(m_content);
+    playground->setObjectName("tutPlayground");
+    // sizeHint is a floor: the card must never be squeezed below its content
+    // (a squeeze pushed the snippet controls out under the card border).
+    playground->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    QVBoxLayout* playLayout = new QVBoxLayout(playground);
+    int playPad = ScaleWidthForDPI(12);
+    playLayout->setContentsMargins(playPad, ScaleHeightForDPI(10), playPad, ScaleHeightForDPI(10));
+    playLayout->setSpacing(ScaleHeightForDPI(8));
+
+    // Faceplate header inside the card: name on the left, instrument glyph on
+    // the right, bottom-aligned on a common baseline.
+    QWidget* headerRow = new QWidget(playground);
     QHBoxLayout* header = new QHBoxLayout(headerRow);
     header->setContentsMargins(0, 0, 0, 0);
     header->setSpacing(ScaleWidthForDPI(12));
@@ -453,24 +465,10 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     renderFxIcon(icon);
     header->addWidget(titleLabel, 1, Qt::AlignBottom);
     header->addWidget(icon, 0, Qt::AlignBottom);
-    m_column->addWidget(headerRow);
+    playLayout->addWidget(headerRow);
 
-    // One "playground" card holds the whole interactive demo — signature +
-    // Reset header, dials, piano and the generated snippet — so the controls
-    // and the code they regenerate read as a single instrument.
-    QFrame* playground = new QFrame(m_content);
-    playground->setObjectName("tutPlayground");
-    // sizeHint is a floor: the card must never be squeezed below its content
-    // (a squeeze pushed the snippet controls out under the card border).
-    playground->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-    QVBoxLayout* playLayout = new QVBoxLayout(playground);
-    int playPad = ScaleWidthForDPI(12);
-    playLayout->setContentsMargins(playPad, ScaleHeightForDPI(10), playPad, ScaleHeightForDPI(10));
-    playLayout->setSpacing(ScaleHeightForDPI(8));
-
-    // No header line: the H1 above and the snippet's first line already name
-    // the instrument. Reset joins Copy in the code area's corner: a flat
-    // restore glyph in the transport family.
+    // Reset joins Copy in the code area's corner: a flat restore glyph in the
+    // transport family.
     QPushButton* reset = new QPushButton(playground);
     reset->setObjectName("tutReset");
     reset->setToolTip(tr("Reset all controls to their defaults"));

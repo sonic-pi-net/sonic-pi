@@ -913,7 +913,9 @@ void MainWindow::setupWindowStructure()
             [this](int) { ensureDocsSelection(); });
     docsNavTabs->setTabsClosable(false);
     docsNavTabs->setMovable(false);
-    docsNavTabs->setTabPosition(QTabWidget::South);
+    // North: the section chips head the column; at the bottom they read as
+    // disconnected from the list they drive.
+    docsNavTabs->setTabPosition(QTabWidget::North);
     QShortcut* left = new QShortcut(Qt::Key_Left, docsNavTabs);
     left->setContext(Qt::WidgetWithChildrenShortcut);
     connect(left, SIGNAL(activated()), this, SLOT(docPrevTab()));

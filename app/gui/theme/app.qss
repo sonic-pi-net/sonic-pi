@@ -523,11 +523,13 @@ QListWidget#docsNavList::item:selected
 
 /* Filter field: a pill-shaped search box with a quiet outline that swaps to
    the focus accent at the same 2dx weight (no layout shift on focus). */
+/* Quiet at rest (just the magnifier + placeholder on the column tint);
+   the field chrome appears on hover and fills on focus. */
 QLineEdit#docsFilter
 {
-    background: paneColor;
+    background: transparent;
     color: windowForegroundColor;
-    border: 2dx solid windowInternalBorderColor;
+    border: 2dx solid transparent;
     border-radius: 12dx;
     min-height: 20dx;
     padding-top: 2dx;
@@ -537,8 +539,14 @@ QLineEdit#docsFilter
     font-size: medium;
 }
 
+QLineEdit#docsFilter:hover
+{
+    border: 2dx solid windowInternalBorderColor;
+}
+
 QLineEdit#docsFilter:focus
 {
+    background: paneColor;
     border: 2dx solid hoverButtonColor;
 }
 
@@ -553,17 +561,28 @@ QTabWidget#infoNavTabs::pane
     border: none;
 }
 
+/* One surface for the whole nav column: the chip strip sits on the same tint
+   as the pages below it (#docsNavPage), so it reads as the column's header
+   rather than a floating row of words. */
+QTabWidget#docsNavTabs
+{
+    background: windowColor;
+}
+
+/* Same pill grammar as the Cards deck selector: outlined pill at rest,
+   accent border on hover, solid accent fill (no border) when selected. */
 QTabWidget#docsNavTabs > QTabBar::tab,
 QTabWidget#infoNavTabs > QTabBar::tab
 {
     background: transparent;
     color: windowForegroundColor;
-    border: 2dx solid transparent;
-    border-radius: 6dx;
+    border: 2dx solid windowInternalBorderColor;
+    border-radius: 12dx;
+    font-weight: 600;
     padding-top: 3dx;
     padding-bottom: 3dx;
-    padding-left: 7dx;
-    padding-right: 7dx;
+    padding-left: 9dx;
+    padding-right: 9dx;
     margin-top: 2dx;
     margin-bottom: 3dx;
     margin-left: 1dx;
@@ -573,8 +592,7 @@ QTabWidget#infoNavTabs > QTabBar::tab
 QTabWidget#docsNavTabs > QTabBar::tab:hover,
 QTabWidget#infoNavTabs > QTabBar::tab:hover
 {
-    background: scrollBarHoverColor;
-    color: scrollBarHoverTextColor;
+    border-color: hoverButtonColor;
 }
 
 QTabWidget#docsNavTabs > QTabBar::tab:selected,
@@ -582,6 +600,7 @@ QTabWidget#infoNavTabs > QTabBar::tab:selected
 {
     background: tabSelectedColor;
     color: tabSelectedTextColor;
+    border-color: transparent;
 }
 
 QTabWidget#docsNavTabs > QTabBar::tab:focus,
