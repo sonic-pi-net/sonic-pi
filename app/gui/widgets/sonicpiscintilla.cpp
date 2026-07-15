@@ -1618,7 +1618,9 @@ void SonicPiScintilla::placeDropPreview(int bytePos, const QString& text, const 
         SendScintilla(SCI_DELETERANGE, (unsigned long)m_dropPreviewPos, (long)m_dropPreviewLen);
     }
     const QByteArray utf8 = text.toUtf8();
-    SendScintilla(SCI_INSERTTEXT, (unsigned long)bytePos, utf8.constData());
+    // uintptr_t selects the (uintptr_t, const char*) overload unambiguously
+    // (unsigned long is 32-bit on MSVC, leaving the call ambiguous there).
+    SendScintilla(SCI_INSERTTEXT, (uintptr_t)bytePos, utf8.constData());
     SendScintilla(SCI_SETUNDOCOLLECTION, (long)1);
     m_dropPreviewPos = bytePos;
     m_dropPreviewLen = utf8.length();
