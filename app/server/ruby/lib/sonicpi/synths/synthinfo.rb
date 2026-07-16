@@ -6860,7 +6860,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
       end
 
       def doc
-        "Autotune/phase vocoder effect. Used without any arguments, it tries to detect the pitch and shift it to the nearest exact note. This can help with out of tune singing, but it's also an interesting effect in its own right. When used with the note: arg, it tries to shift the input to match that note instead. This gives that classic \"robot singing\" sound that people associate with vocoders. This can then be changed using the control method to create new melodies.
+        "Pitch quantisation effect. Used without any arguments, it tracks the pitch of the input and pulls it to the nearest exact semitone. Works best on a clean, unaccompanied melodic source such as a single voice. When used with the note: arg, it shifts the input to match that note instead - the classic \"robot singing\" sound people associate with vocoders - and the note can then be changed using the control method to create new melodies. Use strength: for gentler correction and retune: to glide onto the target rather than snapping.
 
 ```
 with_fx :autotuner do |c|
@@ -6913,7 +6913,9 @@ end
           :formant_ratio => 1.0,
           :formant_ratio_slide => 0,
           :formant_ratio_slide_shape => 1,
-          :formant_ratio_slide_curve => 0
+          :formant_ratio_slide_curve => 0,
+          :retune => 0,
+          :strength => 1
           #TODO: Add documentation:
           # comment out these until documentation is added
           # :transpose => 0,
@@ -6931,6 +6933,20 @@ end
             :validations => [v_between_inclusive(:note, 0, 127)],
             :modulatable => true,
             :midi => true
+          },
+
+          :retune =>
+          {
+            :doc => "Time (in seconds) the pitch correction takes to glide onto its target. 0 snaps instantly for the classic hard-tune robot sound; larger values retune more gently.",
+            :validations => [v_positive(:retune)],
+            :modulatable => true
+          },
+
+          :strength =>
+          {
+            :doc => "How strongly the pitch is pulled toward the target as a value between 0 and 1. 0 leaves the sound untouched, 1 tunes it all the way; in-between values correct gently.",
+            :validations => [v_between_inclusive(:strength, 0, 1)],
+            :modulatable => true
           },
 
           :formant_ratio =>

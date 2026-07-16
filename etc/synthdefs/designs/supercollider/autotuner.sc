@@ -36,6 +36,8 @@ SynthDef('sonic-pi-fx_autotuner', {|
     max_formant_ratio = 10,
     grains_period = 2,
     transpose=0,
+    retune = 0,
+    strength = 1,
     time_dispersion|
 
     var pitch_ratio,
@@ -107,13 +109,28 @@ SynthDef('sonic-pi-fx_autotuner', {|
 
     formant_ratio = formant_ratio.varlag(formant_ratio_slide, formant_ratio_slide_curve, formant_ratio_slide_shape);
 
-    freq = Pitch.kr(in)[0].asArray.wrapExtend(numChannels);
+    min_freq = min_freq.max(absolutelyMinValue);
+    maxdelaytime = min_freq.reciprocal;
+
+    // Clamp before any midi conversion: Pitch outputs 0 Hz until its first
+    // analysis lands (and for unpitched input), and cpsmidi(0) is -inf. That
+    // -inf makes midiDiff NaN for the first control block, which permanently
+    // corrupts the phase of the grain-trigger Impulse downstream and the FX
+    // emits silence forever.
+    // median: 7 smooths the tracker's jitter (raw autocorrelation warbles on
+    // harmonically rich input, and every wobble rides straight onto the grains).
+    freq = Pitch.kr(in, median: 7)[0].max(min_freq).asArray.wrapExtend(numChannels);
     freqAsMidi = freq.asArray[0].cpsmidi;
     // "quantize" (round) pitch information
     quantizedMidi = freq.asArray[0].cpsmidi.softRound(1, 0, 1); //quantize to integers, therefore semitones
 
     // using an if statement caused performance issues for the next line
     midiDiff = Select.kr(note.clip(0, 1), [(quantizedMidi - freqAsMidi), (note - freqAsMidi)]);
+
+    // strength scales how far toward the target the pitch is pulled (0 = off,
+    // 1 = full hard-tune); retune lags the correction so it glides onto the
+    // target instead of snapping (0 = instant, the classic robot).
+    midiDiff = Lag.kr(midiDiff * strength.clip(0, 1), retune.max(0));
 
     //optionally harmonize
     harmonize = [transpose].midiratio; //single
@@ -129,11 +146,6 @@ SynthDef('sonic-pi-fx_autotuner', {|
     });
 
     pitch_ratio = pitch_ratio.asArray.wrapExtend(numChannels);
-
-    min_freq = min_freq.max(absolutelyMinValue);
-    maxdelaytime = min_freq.reciprocal;
-
-    freq = freq.max(min_freq);
 
     wavePeriod = freq.reciprocal;
     grainDur = grains_period * wavePeriod;
@@ -179,5 +191,5 @@ SynthDef('sonic-pi-fx_autotuner', {|
 
     Out.ar(out_bus, [finL, finR]);
 }
-).writeDefFile("/Users/sam/Development/RPi/sonic-pi/etc/synthdefs/compiled/")
+).writeDefFile(PathName(thisProcess.nowExecutingPath).parentPath +/+ "../../compiled/")
 )
