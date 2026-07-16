@@ -45,7 +45,6 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QScrollBar>
-#include <QSpacerItem>
 #include <QStringList>
 #include <QStyle>
 #include <QSvgRenderer>
@@ -235,45 +234,41 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     QHBoxLayout* exampleControls = new QHBoxLayout();
     exampleControls->setContentsMargins(0, 0, 0, 0);
     exampleControls->setSpacing(ScaleWidthForDPI(8));
-    // Jukebox transport (sits above the code): one prominent toggle button that
-    // plays, then flips to stop while the example runs (only one example ever
-    // plays at a time), a Load button, and a live scope that appears while it
-    // is playing so it's obvious the sound is coming from here.
-    m_examplePlay = new QPushButton(tr("Play"), m_exampleFrame);
-    m_examplePlay->setObjectName("exPlay");
+    // Jukebox transport (sits above the code): an outline play toggle that
+    // flips to an outline stop while the example runs (only one example ever
+    // plays at a time), a Load glyph that drops the code into the current
+    // buffer, and a live scope that appears while it is playing so it's
+    // obvious the sound is coming from here. Play/stop and Load all come from
+    // the tabler outline set on its shared 24 grid, so the pair sit together
+    // as equals — a solid disc badge here dwarfed the Load glyph at the same
+    // pixel size.
+    m_examplePlay = new QPushButton(m_exampleFrame);
+    m_examplePlay->setObjectName("tutPlay");
     m_examplePlay->setToolTip(tr("Run this example"));
     m_examplePlay->setAccessibleName(tr("Run example"));
-    m_exampleLoad = new QPushButton(tr("Load"), m_exampleFrame);
-    m_exampleLoad->setObjectName("exLoad");
+    m_exampleLoad = new QPushButton(m_exampleFrame);
+    m_exampleLoad->setObjectName("tutLoad");
     m_exampleLoad->setToolTip(tr("Load this example into the current buffer"));
     m_exampleLoad->setAccessibleName(tr("Load example into buffer"));
-    int exButtonHeight = ScaleHeightForDPI(30);
-    int exScopeHeight = ScaleHeightForDPI(46);
-    m_examplePlay->setIconSize(ScaleForDPI(13, 13));
-    // Fixed-size buttons stay packed left (they don't stretch to fill)
     for (QPushButton* b : { m_examplePlay, m_exampleLoad })
     {
-        b->setMinimumHeight(exButtonHeight);
-        b->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        b->setFixedSize(ScaleForDPI(40, 40));
+        b->setIconSize(ScaleForDPI(24, 24));
         b->setCursor(Qt::PointingHandCursor);
     }
     // Scope fills the width right of the buttons; the stretch spacer carries a
     // much smaller factor so it only takes over when the scope is hidden (and
-    // then keeps the Fixed buttons from spreading out). Taller than the buttons
-    // so the trace has room; they centre in the row.
+    // then keeps the fixed-size buttons from spreading out). It centres in the
+    // taller transport row.
     m_exampleScope = new TutScope(m_exampleFrame);
     m_exampleScope->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     m_exampleScope->setMinimumWidth(ScaleWidthForDPI(160));
-    m_exampleScope->setFixedHeight(exScopeHeight);
+    m_exampleScope->setFixedHeight(ScaleHeightForDPI(46));
     m_exampleScope->hide(); // shown only while an example is playing
     exampleControls->addWidget(m_examplePlay);
     exampleControls->addWidget(m_exampleLoad);
     exampleControls->addStretch(1);
     exampleControls->addWidget(m_exampleScope, 20);
-    // Reserve the scope's height permanently (zero width) so the buttons don't
-    // shift when the taller scope appears/disappears
-    exampleControls->addSpacerItem(
-        new QSpacerItem(0, exScopeHeight, QSizePolicy::Fixed, QSizePolicy::Fixed));
     m_exampleFrameLayout->addLayout(exampleControls);
     examplePage->addWidget(m_exampleFrame, 1);
     m_examplePage->hide();
@@ -1480,9 +1475,9 @@ void TutorialPane::setSnippetPlaying(Snippet& snippet, bool playing)
 {
     if (snippet.play == m_examplePlay)
     {
-        // Jukebox toggle: the single transport button flips between play and stop
+        // Jukebox toggle: the single transport button flips between the accent
+        // outline play and the foreground outline stop.
         snippet.play->setIcon(playing ? m_exStopIcon : m_exPlayIcon);
-        snippet.play->setText(playing ? tr("Stop") : tr("Play"));
         snippet.play->setToolTip(playing ? tr("Stop this example") : tr("Run this example"));
         snippet.play->setAccessibleName(playing ? tr("Stop example") : tr("Run example"));
         if (m_exampleScope)
@@ -1582,7 +1577,6 @@ void TutorialPane::applyTheme()
     // Soft accent hairline under H1s: mostly-background so it reads as a
     // rule, not another banner.
     QColor h1Rule = SonicPiTheme::blend(bg, accent, 0.45);
-    QColor accentHover = SonicPiTheme::blend(accent, fg, 0.14);
 
     QString qss = QStringLiteral(
         "#tutorialPane, #tutorialContent { background:@bg; }"
@@ -1615,13 +1609,14 @@ void TutorialPane::applyTheme()
         "#tutDialGroup { background:rgba(127,127,127,22); border:none; border-radius:6dx; }"
         "#tutSection { color:@muted; font-family:'Hack'; font-size:@hintSize;"
         " background:transparent; }"
-        // Transport + octave + reset: flat tabler glyph buttons.
-        "#tutPlay, #tutStop, #tutCopy, #tutOct, #tutReset { background:transparent;"
+        // Transport + load + octave + reset: flat tabler glyph buttons.
+        "#tutPlay, #tutStop, #tutCopy, #tutLoad, #tutOct, #tutReset { background:transparent;"
         " border:none; border-radius:6dx; padding:2dx; }"
         "#tutPlay:hover:!pressed, #tutStop:hover:!pressed, #tutCopy:hover:!pressed,"
-        " #tutOct:hover:!pressed, #tutReset:hover:!pressed { background:@hoverTint; }"
-        "#tutPlay:pressed, #tutStop:pressed, #tutCopy:pressed, #tutOct:pressed,"
-        " #tutReset:pressed { background:@pressedTint; }"
+        " #tutLoad:hover:!pressed, #tutOct:hover:!pressed, #tutReset:hover:!pressed"
+        " { background:@hoverTint; }"
+        "#tutPlay:pressed, #tutStop:pressed, #tutCopy:pressed, #tutLoad:pressed,"
+        " #tutOct:pressed, #tutReset:pressed { background:@pressedTint; }"
         "#tutSig { color:@sigColour; font-family:'Hack'; font-size:@buttonSize; }"
         "#tutHint { color:@muted; font-family:'Hack'; font-size:@hintSize; }"
         "#tutOptName { color:@h2; font-family:'Hack'; font-size:@buttonSize; font-weight:bold;"
@@ -1672,26 +1667,6 @@ void TutorialPane::applyTheme()
         qss.replace(QLatin1String(sub.token), sub.value);
     setStyleSheet(ScalePxInStyleSheet(qss));
 
-    // Jukebox transport buttons: a bold accent-filled Play/Stop and an outlined
-    // Load, both prominent so they're easy to spot (styled on the frame so both
-    // children pick it up; ScalePxInStyleSheet needs per-side padding).
-    QColor loadBorder = SonicPiTheme::blend(fg, editorBg, 0.45);
-    QString transportQss = QString(
-        "#exPlay { background:%1; color:%2; border:none; border-radius:5dx;"
-        " padding-top:4dx; padding-bottom:4dx; padding-left:14dx; padding-right:14dx;"
-        " font-size:%3; font-weight:bold; }"
-        "#exPlay:hover { background:%4; }"
-        "#exLoad { background:transparent; color:%5; border:1dx solid %6;"
-        " border-radius:5dx; padding-top:4dx; padding-bottom:4dx;"
-        " padding-left:12dx; padding-right:12dx; font-size:%3; }"
-        "#exLoad:hover { color:%7; border-color:%7; }")
-        .arg(accent.name(), m_theme->contrastingText(accent).name(), pt(12),
-             accentHover.name(), fg.name(), loadBorder.name(), accent.name());
-    if (m_examplePlay)
-        m_examplePlay->setStyleSheet(ScalePxInStyleSheet(transportQss));
-    if (m_exampleLoad)
-        m_exampleLoad->setStyleSheet(ScalePxInStyleSheet(transportQss));
-
     applyContentTheme();
 }
 
@@ -1727,22 +1702,31 @@ void TutorialPane::applyContentTheme()
 
     // Tabler transport glyphs, matching the title-bar controls' icon family.
     const qreal dpr = devicePixelRatioF();
-    const int glyphPx = ScaleWidthForDPI(30);
     // Same transport badges as the quickstart cards: filled glyph on a disc
     // (accent for play; foreground for stop, which greys out when disabled).
-    m_playIcon = QIcon(TablerIcons::discBadge(TablerIcons::Glyph::PlayFilled, accent,
-                                              m_theme->contrastingText(accent), glyphPx, dpr));
-    m_stopIcon = QIcon(TablerIcons::discBadge(TablerIcons::Glyph::StopFilled, fg,
-                                              m_theme->contrastingText(fg), glyphPx, dpr));
+    // The discs are displayed at two sizes (standard snippets and the
+    // playground's hero trigger row), so bake a pixmap for each — letting
+    // QIcon upscale the smaller render blurs on high-DPI screens.
+    auto discIcon = [this, dpr](TablerIcons::Glyph glyph, const QColor& disc) {
+        QIcon icon;
+        for (int side : { 30, 44 })
+            icon.addPixmap(TablerIcons::discBadge(glyph, disc, m_theme->contrastingText(disc),
+                                                  ScaleWidthForDPI(side), dpr));
+        return icon;
+    };
+    m_playIcon = discIcon(TablerIcons::Glyph::PlayFilled, accent);
+    m_stopIcon = discIcon(TablerIcons::Glyph::StopFilled, fg);
     m_copyIcon = TablerIcons::icon(TablerIcons::Glyph::Copy, muted, ScaleWidthForDPI(24), dpr);
     m_copiedIcon = TablerIcons::icon(TablerIcons::Glyph::Check, accent, ScaleWidthForDPI(24), dpr);
-    // The jukebox transport button is accent-filled, so its glyphs are drawn in
-    // the contrasting colour rather than the accent used on the flat snippets.
-    QColor exGlyph = m_theme->contrastingText(accent);
-    // The jukebox button is itself accent-filled, so its glyphs stay flat
-    // (a disc-on-pill would double up) but share the cards' filled shapes.
-    m_exPlayIcon = TablerIcons::icon(TablerIcons::Glyph::PlayFilled, exGlyph, glyphPx, dpr);
-    m_exStopIcon = TablerIcons::icon(TablerIcons::Glyph::StopFilled, exGlyph, glyphPx, dpr);
+    // Jukebox transport: outline glyphs on the tabler 24 grid — play in the
+    // accent, stop in the foreground, Load (an upload into the buffer)
+    // tinted like the other quiet flat controls (copy / reset / octave).
+    const int exGlyphPx = ScaleWidthForDPI(24);
+    m_exPlayIcon = TablerIcons::icon(TablerIcons::Glyph::Play, accent, exGlyphPx, dpr);
+    m_exStopIcon = TablerIcons::icon(TablerIcons::Glyph::Stop, fg, exGlyphPx, dpr);
+    if (m_exampleLoad)
+        m_exampleLoad->setIcon(
+            TablerIcons::icon(TablerIcons::Glyph::Upload, muted, exGlyphPx, dpr));
     // Re-tint the per-page glyph icons (Reset / octave −+) for the new theme.
     for (QPushButton* b : m_content->findChildren<QPushButton*>("tutReset"))
         b->setIcon(TablerIcons::icon(TablerIcons::Glyph::Restore, muted, ScaleWidthForDPI(20), dpr));
@@ -1773,19 +1757,6 @@ void TutorialPane::applyContentTheme()
     bool examplePlaying = !m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay
                           && m_snippets[0].jobId >= 0;
     m_examplePlay->setIcon(examplePlaying ? m_exStopIcon : m_exPlayIcon);
-    // Pin the transport button to the wider of its two states so it doesn't
-    // change size when the label toggles between Play and Stop. Recomputed here
-    // so it tracks the current font size (icons + stylesheet are already set).
-    m_examplePlay->ensurePolished();
-    QString exText = m_examplePlay->text();
-    int exW = 0;
-    for (const QString& s : { tr("Play"), tr("Stop") })
-    {
-        m_examplePlay->setText(s);
-        exW = qMax(exW, m_examplePlay->sizeHint().width());
-    }
-    m_examplePlay->setText(exText);
-    m_examplePlay->setFixedWidth(exW);
     if (m_exampleScope)
         m_exampleScope->setColours(accent, SonicPiTheme::blend(editorBg, fg, 0.22),
                                    SonicPiTheme::blend(editorBg, fg, 0.05),

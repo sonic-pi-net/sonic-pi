@@ -10,10 +10,12 @@
 #ifndef SPLASHWIDGET_H
 #define SPLASHWIDGET_H
 
+#include <QElapsedTimer>
 #include <QVector>
 #include <QWidget>
 
 class QLabel;
+class QTimer;
 
 class SplashWidget : public QWidget
 {
@@ -43,6 +45,12 @@ private:
     QVector<QPair<QWidget*, int>> m_introTargets; // widget, start delay ms
     QLabel* m_version = nullptr;      // pinned to the bottom-right corner by hand
     QWidget* m_poweredBy = nullptr;   // pinned to the bottom-left corner by hand
+
+    // Glowing segment that sweeps around the border. Time-based so event-loop
+    // hitches during boot skip the glow forward instead of slowing it down.
+    QTimer* m_borderTimer = nullptr;
+    QElapsedTimer m_borderClock;
+    qreal m_borderPos = 0.0; // fraction of a revolution, 0 = top centre
 };
 
 #endif // SPLASHWIDGET_H

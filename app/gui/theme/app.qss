@@ -53,6 +53,7 @@ colours: blends and auto-contrast that plain QSS can't express):
 - focusWashColor          (translucent accent-contrast wash, rgba)
 
 - fixedWidthFont
+- pillRadius (shared pill corner radius, already DPI-scaled — see kPillRadiusDx)
 
 Note about auto scaling
 -----------------------
@@ -518,7 +519,7 @@ QListWidget#docsNavList::item
 {
     background: transparent;
     color: windowForegroundColor;
-    border-radius: 5dx;
+    border-radius: pillRadius;
     padding-top: 4dx;
     padding-bottom: 4dx;
     padding-left: 9dx;
@@ -546,7 +547,7 @@ QLineEdit#docsFilter
     background: transparent;
     color: windowForegroundColor;
     border: 2dx solid transparent;
-    border-radius: 12dx;
+    border-radius: pillRadius;
     min-height: 20dx;
     padding-top: 2dx;
     padding-bottom: 2dx;
@@ -557,7 +558,7 @@ QLineEdit#docsFilter
 
 QLineEdit#docsFilter:hover
 {
-    border: 2dx solid windowInternalBorderColor;
+    border: 2dx solid faintForegroundColor;
 }
 
 QLineEdit#docsFilter:focus
@@ -595,7 +596,7 @@ QTabWidget#infoNavTabs > QTabBar::tab
     background: transparent;
     color: windowForegroundColor;
     border: 2dx solid faintForegroundColor;
-    border-radius: 12dx;
+    border-radius: pillRadius;
     font-weight: 600;
     padding-top: 3dx;
     padding-bottom: 3dx;
@@ -1393,7 +1394,7 @@ QPushButton#qsDeckPill
     background-color: transparent;
     color: windowForegroundColor;
     border: 2dx solid faintForegroundColor;
-    border-radius: 13dx;
+    border-radius: pillRadius;
     padding-top: 6dx;
     padding-bottom: 6dx;
     padding-left: 14dx;

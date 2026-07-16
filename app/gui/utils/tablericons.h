@@ -36,7 +36,10 @@ enum class Glyph
     BinaryTree,      // Debug tab (mirrored left-right)
     PlayFilled,      // card play (solid)
     StopFilled,      // card stop (solid)
+    Play,            // jukebox play (outline, pairs with SquareChevronsUp)
+    Stop,            // jukebox stop (outline)
     SquareChevronsUp,// card insert-at-cursor
+    Upload,          // jukebox load-into-buffer
     Texture,         // card drag handle
     Copy,            // copy-to-clipboard
     Check,           // copied! confirmation tick
@@ -110,11 +113,22 @@ inline QString glyphPaths(Glyph glyph)
         return QStringLiteral(
             "<path d='M17 4h-10a3 3 0 0 0 -3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3 -3v-10a3 3 0 0 0 "
             "-3 -3z' />");
+    case Glyph::Play:
+        return QStringLiteral("<path d='M7 4v16l13 -8l-13 -8' />");
+    case Glyph::Stop:
+        return QStringLiteral(
+            "<path d='M5 7a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-10a2 2 0 0 1 "
+            "-2 -2l0 -10' />");
     case Glyph::SquareChevronsUp:
         return QStringLiteral(
             "<path d='M9 16l3 -3l3 3' />"
             "<path d='M9 11l3 -3l3 3' />"
             "<path d='M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14' />");
+    case Glyph::Upload:
+        return QStringLiteral(
+            "<path d='M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2' />"
+            "<path d='M7 9l5 -5l5 5' />"
+            "<path d='M12 4l0 12' />");
     case Glyph::Texture:
         return QStringLiteral(
             "<path d='M6 3l-3 3' /><path d='M21 18l-3 3' /><path d='M11 3l-8 8' />"
@@ -177,6 +191,36 @@ inline QIcon icon(Glyph glyph, const QColor& colour, int side, qreal dpr,
                   qreal strokeWidth = 2.0)
 {
     return QIcon(pixmap(glyph, colour, side, dpr, strokeWidth));
+}
+
+// The card transport ring rendered two-tone: tabler's circle-caret-right /
+// circle-stop geometry (tabler has no circle-stop; the square is player-stop's
+// grammar) with the circle filled solid in `disc` — its stroke kept in the
+// same colour so the shape spans the full drawn ring — and the inner
+// triangle/square filled in `glyphColour`. The solid badge colour scheme on
+// the designed tabler shapes.
+inline QPixmap transportRing(bool stop, const QColor& disc, const QColor& glyphColour,
+                             int side, qreal dpr)
+{
+    const QString inner = stop ? QStringLiteral("<path d='M9.5 9.5h5v5h-5z' />")
+                               : QStringLiteral("<path d='M15 12l-4 -4v8l4 -4' />");
+    const QString svg = QStringLiteral(
+        "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' "
+        "stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>"
+        "<path d='M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0' fill='%1' stroke='%1' />"
+        "<g fill='%2' stroke='%2'>%3</g>"
+        "</svg>")
+        .arg(disc.name(), glyphColour.name(), inner);
+
+    QSvgRenderer renderer(svg.toUtf8());
+    QPixmap pm(QSize(side, side) * dpr);
+    pm.fill(Qt::transparent);
+    QPainter p(&pm);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    renderer.render(&p, QRectF(0, 0, side * dpr, side * dpr));
+    p.end();
+    pm.setDevicePixelRatio(dpr);
+    return pm;
 }
 
 // A filled glyph centred on a coloured disc — the transport badge shared by

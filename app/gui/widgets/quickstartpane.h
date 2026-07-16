@@ -140,6 +140,9 @@ private:
     QIcon svgIcon(TablerIcons::Glyph glyph, const QColor& colour, int px) const;
     // A solid accent disc with a centred play/stop glyph; the scope's control.
     QPixmap playDisc(bool playing, int d, bool hover = false) const;
+    // Rings follow the play glyph's hover colour (the whole scope is the
+    // click target, so it lights up as one control).
+    void setScopeHover(QPushButton* button, bool hover);
     // The drag projection: a bordered code card with the card's title drawn
     // straddling the top border (legend style).
     QPixmap cardDragPixmap(QWidget* frame) const;

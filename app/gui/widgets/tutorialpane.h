@@ -195,8 +195,8 @@ private:
     SonicPi::CodeColours m_codeColours;
     QIcon m_playIcon;
     QIcon m_stopIcon;
-    QIcon m_exPlayIcon; // jukebox transport glyphs (contrasting, for accent fill)
-    QIcon m_exStopIcon;
+    QIcon m_exPlayIcon; // jukebox transport: outline glyphs on the tabler 24
+    QIcon m_exStopIcon; // grid, sized to sit as equals beside the Load glyph
     QIcon m_copyIcon;
     QIcon m_copiedIcon; // check-mark flash after a successful copy
     QHash<QString, QWidget*> m_optRows; // opt name → its doc-table row, for jump links

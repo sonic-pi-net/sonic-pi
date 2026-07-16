@@ -94,6 +94,14 @@ public:
         update();
     }
 
+    // Hover lights idle rings at full strength (the resting fade says "not
+    // playing"; hover says "click me", matching the glyph's hover colour).
+    void setLit(bool lit)
+    {
+        m_lit = lit;
+        update();
+    }
+
     // The scope-buffer slot this card taps (its own, isolated from others).
     void setSlot(unsigned int slot) { m_slot = slot; }
 
@@ -127,7 +135,7 @@ protected:
         auto ring = [&](const std::vector<float>& samples, qreal baseR, QColor colour) {
             const qreal radius = baseR * side;
             const qreal amp = 0.04 * side; // rings kept clear of the centre play icon
-            if (!m_active)
+            if (!m_active && !m_lit)
                 colour.setAlphaF(0.22);
             QPen pen(colour, side * 0.028, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
             p.setPen(pen);
@@ -178,6 +186,7 @@ private:
     std::vector<float> m_left;
     std::vector<float> m_right;
     bool m_active = false;
+    bool m_lit = false;
     unsigned int m_slot = 0;
 };
 
@@ -426,7 +435,9 @@ void QuickstartPane::computeGlobalLayout()
     const int innerH = kBlurbLines * blurbLineH + ScaleHeightForDPI(58);
     m_footerH = 2 * ScaleHeightForDPI(8) + innerH;
     m_scopeSide = innerH - ScaleHeightForDPI(16);
-    m_blurbW = codeAvail - m_scopeSide - ScaleHeightForDPI(12);
+    // The blurb yields the full hit-box width (scope + its surrounding
+    // margin), not just the scope square — see the scopeHit box in addCard.
+    m_blurbW = codeAvail - innerH - ScaleHeightForDPI(12);
 }
 
 void QuickstartPane::setCardHover(QWidget* frame, bool on)
@@ -511,6 +522,7 @@ void QuickstartPane::updateHover()
                 m_hoverIcon->setIcon(m_iconNormal.value(m_hoverIcon));
             if (m_addCode.contains(m_hoverIcon)) // leaving an add button: revert its preview
                 emit insertPreviewCleared();
+            setScopeHover(m_hoverIcon, false); // run button: settle its rings
         }
         m_hoverIcon = icon;
         if (m_hoverIcon)
@@ -520,6 +532,7 @@ void QuickstartPane::updateHover()
             if (m_addCode.contains(m_hoverIcon)) // entering an add button: project the code
                 emit insertPreviewRequested(m_addTitle.value(m_hoverIcon),
                                             m_addCode.value(m_hoverIcon));
+            setScopeHover(m_hoverIcon, true); // run button: rings follow the glyph
         }
     }
 }
@@ -851,6 +864,28 @@ void QuickstartPane::runEnded(int jobId)
     }
 }
 
+void QuickstartPane::setScopeHover(QPushButton* button, bool hover)
+{
+    const QString workspace = m_runButtons.key(button);
+    if (workspace.isEmpty())
+        return;
+    CardScope* scope = m_scopes.value(workspace);
+    if (!scope)
+        return;
+    const QColor accent = m_theme->color("HighlightedBackground");
+    const QColor fg = m_theme->color("Foreground");
+    // A playing card keeps its rings in the full resting colours — the live
+    // trace is the point; only the glyph tracks hover during playback.
+    const bool idleHover = hover && !m_jobs.contains(workspace);
+    if (idleHover)
+        scope->setColours(fg, fg);
+    else // the resting pair from addCard
+        scope->setColours(accent, SonicPiTheme::blend(fg, accent, 0.5));
+    // Hover also lifts the idle fade, so the rings match the glyph at full
+    // strength rather than a washed-out version of it.
+    scope->setLit(idleHover);
+}
+
 void QuickstartPane::setCardPlaying(const QString& workspace, bool playing)
 {
     QPushButton* button = m_runButtons.value(workspace);
@@ -864,6 +899,10 @@ void QuickstartPane::setCardPlaying(const QString& workspace, bool playing)
         button->setIcon(button->underMouse() ? m_iconHover.value(button)
                                              : m_iconNormal.value(button));
         button->setAccessibleName(playing ? tr("Stop this card") : tr("Run this card"));
+        // Re-derive the ring colours for the new playback state: starting
+        // under the pointer settles them to full colour, stopping under the
+        // pointer lets them pick the hover tint back up.
+        setScopeHover(button, button == m_hoverIcon);
     }
     CardScope* scope = m_scopes.value(workspace);
     if (scope)
@@ -1380,14 +1419,14 @@ QPixmap QuickstartPane::playDisc(bool playing, int d, bool hover) const
 {
     const qreal dpr = devicePixelRatioF();
     const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor onAccent = m_theme->accentContrastText();
-    // Like the header icons: normal is a white glyph on an accent disc; hover
-    // inverts to an accent glyph on a light disc; a strong contrast flip.
-    const QColor disc = hover ? onAccent : accent;
-    const QColor glyphColour = hover ? accent : onAccent;
-    return TablerIcons::discBadge(playing ? TablerIcons::Glyph::StopFilled
-                                          : TablerIcons::Glyph::PlayFilled,
-                                  disc, glyphColour, d, dpr);
+    const QColor fg = m_theme->color("Foreground");
+    // The disc is a solid accent ring, flipping to the same foreground the
+    // scope rings light up in on hover (see setScopeHover). The glyph is
+    // always the plain dark pane grey — a clean cut-out in the logo rather
+    // than a tinted blend.
+    const QColor bg = m_theme->color("PaneBackground");
+    const QColor disc = hover ? fg : accent;
+    return TablerIcons::transportRing(playing, disc, bg, d, dpr);
 }
 
 QPixmap QuickstartPane::cardDragPixmap(QWidget* frame) const
@@ -1669,20 +1708,37 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     blurb->setStyleSheet(QString("font-size: %1px;").arg(m_codeFontPx));
     footerLayout->addWidget(blurb, 1, Qt::AlignTop);
 
-    CardScope* scope = new CardScope(footer);
+    // The scope sits centred in a hit box spanning the footer's full inner
+    // height: the scope square is inset so its rings never clip, but the
+    // whole region reads as the control, so the click/hover target must not
+    // stop at the drawn rings.
+    QWidget* scopeHit = new QWidget(footer);
+    const int hitSide = m_footerH - 2 * ScaleHeightForDPI(8); // footer inner height
+    scopeHit->setFixedSize(hitSide, hitSide);
+    QGridLayout* hitLay = new QGridLayout(scopeHit);
+    hitLay->setContentsMargins(0, 0, 0, 0);
+    CardScope* scope = new CardScope(scopeHit);
     scope->setFixedSize(m_scopeSide, m_scopeSide);
     scope->setColours(accent, SonicPiTheme::blend(fg, accent, 0.5));
     scope->setSlot(scopeSlot);
     m_scopes[workspace] = scope;
-    footerLayout->addWidget(scope, 0, Qt::AlignVCenter);
+    hitLay->addWidget(scope, 0, 0, Qt::AlignCenter);
+    footerLayout->addWidget(scopeHit, 0, Qt::AlignVCenter);
 
-    // The scope IS the play/stop control: a transparent button fills it, with a
-    // solid accent disc + play/stop glyph in the centre and the audio rings
-    // drawn around it. Clicking anywhere on the scope toggles the card.
-    const int discD = int(m_scopeSide * 0.40); // smaller than the rings, clear gap
-    QPushButton* run = new QPushButton(scope);
+    // The scope IS the play/stop control: a transparent button fills the hit
+    // box, with an outline play/stop ring in the centre and the audio rings
+    // drawn around it. Clicking anywhere on or around the rings toggles the
+    // card. The tabler ring spans 18 of its 24 grid, so the icon box is sized
+    // up to keep the drawn circle smaller than the audio rings with a clear
+    // gap.
+    const int discD = int(m_scopeSide * 0.52);
+    QPushButton* run = new QPushButton(scopeHit);
     run->setObjectName(QStringLiteral("qsCardRun"));
     run->setCursor(Qt::PointingHandCursor);
+    // A QPushButton's vertical size policy is Fixed, so a layout never
+    // stretches it to the cell — pin it to the hit box explicitly or the
+    // clickable area collapses to a button-height band across the middle.
+    run->setFixedSize(hitSide, hitSide);
     run->setIconSize(QSize(discD, discD));
     // Register normal + hover discs so the polling hover swaps them like the
     // other icon buttons.
@@ -1691,9 +1747,7 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     run->setIcon(m_iconNormal.value(run));
     run->setAccessibleName(playing ? tr("Stop %1").arg(card.title) : tr("Run %1").arg(card.title));
     run->setToolTip(tr("Play this card. Press again to stop."));
-    QVBoxLayout* scopeLay = new QVBoxLayout(scope); // fills the scope with the button
-    scopeLay->setContentsMargins(0, 0, 0, 0);
-    scopeLay->addWidget(run);
+    hitLay->addWidget(run, 0, 0); // overlays the scope and takes the mouse
     connect(run, &QPushButton::clicked, this, [this, title, snippet, workspace, scopeSlot] {
         if (m_jobs.contains(workspace))
             emit stopJobRequested(m_jobs.value(workspace));

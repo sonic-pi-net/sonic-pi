@@ -9,13 +9,18 @@
 
 #include "splashwidget.h"
 
+#include <cmath>
+
+#include <QConicalGradient>
 #include <QGraphicsOpacityEffect>
+#include <QGuiApplication>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPainter>
 #include <QPixmap>
 #include <QPropertyAnimation>
 #include <QScreen>
+#include <QSvgRenderer>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -37,41 +42,77 @@ SplashWidget::SplashWidget(QWidget* parent)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setAccessibleName(tr("Sonic Pi is starting"));
-    setFixedSize(ScaleHeightForDPI(928), ScaleHeightForDPI(608));
+    // A generous stage so the content floats in space, clamped so smaller
+    // displays still see the whole splash with a margin around it.
+    QSize stage(ScaleHeightForDPI(1160), ScaleHeightForDPI(760));
+    if (QScreen* s = QGuiApplication::primaryScreen())
+    {
+        const QSize avail = s->availableGeometry().size();
+        const qreal fit = qMin(1.0, qMin(avail.width() * 0.9 / stage.width(),
+                                         avail.height() * 0.9 / stage.height()));
+        stage *= fit;
+    }
+    setFixedSize(stage);
 
     const QString accent = kAccent.name();
     const QString fg = kStageFg.name();
     const QString dim = kStageDim.name();
 
     QVBoxLayout* layout = new QVBoxLayout(this);
-    const int pad = ScaleHeightForDPI(44);
+    const int pad = ScaleHeightForDPI(68);
     layout->setContentsMargins(pad, pad, pad, pad);
     layout->setSpacing(0);
-    layout->addStretch(3);
+    // Slightly top-weighted (2:3 against the bottom stretch): the logo rides
+    // a little high, opening space beneath the tagline.
+    layout->addStretch(2);
 
-    // Downscale in device pixels so the logo stays sharp on high-DPI displays.
+    // The square logo, rendered from vector at the exact device resolution
+    // and used as a mask: the tile silhouette is filled with the accent and
+    // the glyphs are punched through to the stage behind. In the source SVG
+    // the tile is black and the glyphs are white, so a pixel's whiteness is
+    // how strongly it is punched out.
     QLabel* mark = new QLabel(this);
-    QPixmap logo(":/images/logo-transparent-dark.png");
     const qreal dpr = devicePixelRatioF();
-    const int markW = ScaleHeightForDPI(340);
-    if (logo.width() > markW * dpr)
-        logo = logo.scaledToWidth(qRound(markW * dpr), Qt::SmoothTransformation);
+    const int markW = ScaleHeightForDPI(280);
+    QSvgRenderer svg(QStringLiteral(":/images/logo-square.svg"));
+    const QSize logical = svg.defaultSize();
+    const QSize px(qRound(markW * dpr),
+                   qRound(markW * dpr * qreal(logical.height()) / logical.width()));
+    QImage src(px, QImage::Format_ARGB32_Premultiplied);
+    src.fill(Qt::transparent);
+    {
+        QPainter sp(&src);
+        sp.setRenderHint(QPainter::Antialiasing);
+        svg.render(&sp);
+    }
+    QImage tinted(px, QImage::Format_ARGB32);
+    QColor fill = kAccent;
+    for (int y = 0; y < src.height(); ++y)
+    {
+        for (int x = 0; x < src.width(); ++x)
+        {
+            const QColor s = src.pixelColor(x, y);
+            fill.setAlphaF(s.alphaF() * (1.0 - s.valueF()));
+            tinted.setPixelColor(x, y, fill);
+        }
+    }
+    QPixmap logo = QPixmap::fromImage(tinted);
     logo.setDevicePixelRatio(dpr);
     mark->setPixmap(logo);
     mark->setStyleSheet("background: transparent;");
     layout->addWidget(mark, 0, Qt::AlignHCenter);
 
-    layout->addSpacing(ScaleHeightForDPI(14));
+    layout->addSpacing(ScaleHeightForDPI(22));
 
     QLabel* credit = new QLabel(
         QString("<div align=\"center\">"
                 "<span style=\"color:%1; font-style:italic; font-size:%2px;\">%3</span><br>"
                 "<span style=\"color:%4; font-size:%5px;\">%6</span></div>")
             .arg(dim)
-            .arg(ScaleHeightForDPI(17))
+            .arg(ScaleHeightForDPI(21))
             .arg(tr("created by"))
             .arg(accent)
-            .arg(ScaleHeightForDPI(27))
+            .arg(ScaleHeightForDPI(33))
             .arg(tr("Sam Aaron")),
         this);
     credit->setTextFormat(Qt::RichText);
@@ -79,7 +120,7 @@ SplashWidget::SplashWidget(QWidget* parent)
     credit->setStyleSheet("background: transparent;");
     layout->addWidget(credit, 0, Qt::AlignHCenter);
 
-    layout->addSpacing(ScaleHeightForDPI(30));
+    layout->addSpacing(ScaleHeightForDPI(46));
 
     // Only the strapline words animate: each starts hidden and pops in on
     // its beat.
@@ -104,20 +145,20 @@ SplashWidget::SplashWidget(QWidget* parent)
         word->setStyleSheet(QString("color: %1; background: transparent; font-family: Hack;"
                                     " font-size: %2px; font-style: italic; font-weight: 700;")
                                 .arg(fg)
-                                .arg(ScaleHeightForDPI(40)));
+                                .arg(ScaleHeightForDPI(48)));
         taglineLayout->addWidget(word);
         enters(word, 800 * (i + 1));
     }
     layout->addWidget(tagline, 0, Qt::AlignHCenter);
 
-    layout->addStretch(2);
+    layout->addStretch(3);
 
     QLabel* thanks = new QLabel(
         QString("<div align=\"center\">"
                 "<span style=\"color:%1; font-style:italic; font-size:%2px;\">%3</span><br>"
                 "<span style=\"color:%4; font-size:%2px;\">%5</span></div>")
             .arg(dim)
-            .arg(ScaleHeightForDPI(17))
+            .arg(ScaleHeightForDPI(21))
             .arg(tr("Love and thanks to all the kind people<br>"
                     "who supported this release on Patreon:"))
             .arg(accent)
@@ -134,10 +175,10 @@ SplashWidget::SplashWidget(QWidget* parent)
                 "<span style=\"color:%1; font-size:%2px;\">%3</span><br>"
                 "<span style=\"color:%4; font-size:%5px; font-weight:700;\">%6</span></div>")
             .arg(dim)
-            .arg(ScaleHeightForDPI(18))
+            .arg(ScaleHeightForDPI(22))
             .arg(tr("Version"))
             .arg(accent)
-            .arg(ScaleHeightForDPI(24))
+            .arg(ScaleHeightForDPI(29))
             .arg(SONIC_PI_VERSION),
         this);
     m_version->setTextFormat(Qt::RichText);
@@ -152,25 +193,41 @@ SplashWidget::SplashWidget(QWidget* parent)
     poweredLabel->setStyleSheet(QString("color:%1; background: transparent;"
                                         " font-style:italic; font-size:%2px;")
                                     .arg(dim)
-                                    .arg(ScaleHeightForDPI(15)));
+                                    .arg(ScaleHeightForDPI(19)));
     poweredLayout->addWidget(poweredLabel, 0, Qt::AlignLeft);
     QLabel* ssMark = new QLabel(m_poweredBy);
     QPixmap ssLogo(":/images/supersonic-dark.png");
-    const int ssW = ScaleHeightForDPI(168);
+    const int ssW = ScaleHeightForDPI(196);
     if (ssLogo.width() > ssW * dpr)
         ssLogo = ssLogo.scaledToWidth(qRound(ssW * dpr), Qt::SmoothTransformation);
     ssLogo.setDevicePixelRatio(dpr);
     ssMark->setPixmap(ssLogo);
     ssMark->setStyleSheet("background: transparent;");
     poweredLayout->addWidget(ssMark, 0, Qt::AlignLeft);
+
+    // Started by startAnimation(); until then the border is a static line.
+    // Repaints only the edge strips so the labels never re-rasterise.
+    m_borderTimer = new QTimer(this);
+    m_borderTimer->setInterval(16);
+    connect(m_borderTimer, &QTimer::timeout, this, [this] {
+        // Unhurried lap: fast enough to read as alive, slow enough to feel
+        // deliberate rather than spinning for attention.
+        constexpr qreal kRevolutionMs = 5200.0;
+        m_borderPos = std::fmod(m_borderClock.elapsed() / kRevolutionMs, 1.0);
+        const int t = ScaleHeightForDPI(9);
+        update(QRegion(0, 0, width(), t)
+               + QRegion(0, height() - t, width(), t)
+               + QRegion(0, 0, t, height())
+               + QRegion(width() - t, 0, t, height()));
+    });
 }
 
 void SplashWidget::showEvent(QShowEvent* event)
 {
     QWidget::showEvent(event);
 
-    const int mx = ScaleHeightForDPI(40);
-    const int my = ScaleHeightForDPI(30);
+    const int mx = ScaleHeightForDPI(52);
+    const int my = ScaleHeightForDPI(40);
 
     if (m_version)
     {
@@ -194,6 +251,48 @@ void SplashWidget::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
     p.fillRect(rect(), kStageBg);
+
+    // Inset half the core width so the stroke isn't clipped by the edge.
+    const qreal inset = ScaleHeightForDPI(1);
+    const QRectF border = QRectF(rect()).adjusted(inset, inset, -inset, -inset);
+    p.setBrush(Qt::NoBrush);
+
+    if (!m_borderTimer || !m_borderTimer->isActive())
+    {
+        // Static thin border: pre-intro, and the reduce-motion stand-in.
+        QColor line = kAccent;
+        line.setAlpha(110);
+        p.setPen(QPen(line, ScaleHeightForDPI(1)));
+        p.drawRect(border);
+        return;
+    }
+
+    // Only a segment of the border is lit: a conical gradient that is
+    // transparent everywhere except around the glow head, swept by rotating
+    // the gradient itself. Angle 0 is at 3 o'clock and grows anticlockwise,
+    // so start at the top and subtract to travel clockwise.
+    p.setRenderHint(QPainter::Antialiasing);
+    QConicalGradient sweep(border.center(), 90.0 - m_borderPos * 360.0);
+    auto accent = [](int alpha) {
+        QColor c = kAccent;
+        c.setAlpha(alpha);
+        return c;
+    };
+    sweep.setColorAt(0.0, accent(255));
+    sweep.setColorAt(0.045, accent(120));
+    sweep.setColorAt(0.12, accent(0));
+    sweep.setColorAt(0.88, accent(0));
+    sweep.setColorAt(0.955, accent(120));
+    sweep.setColorAt(1.0, accent(255));
+
+    // Two strokes: a wide translucent pass for the glow bleed, then the
+    // thin bright core on top.
+    p.setOpacity(0.4);
+    p.setPen(QPen(QBrush(sweep), ScaleHeightForDPI(7)));
+    p.drawRect(border);
+    p.setOpacity(1.0);
+    p.setPen(QPen(QBrush(sweep), ScaleHeightForDPI(2)));
+    p.drawRect(border);
 }
 
 void SplashWidget::startAnimation(bool reduceMotion)
@@ -208,6 +307,9 @@ void SplashWidget::startAnimation(bool reduceMotion)
         finishIntro();
         return;
     }
+
+    m_borderClock.start();
+    m_borderTimer->start();
 
     // Snap, not fade: an opacity fade rasterises through the graphics effect
     // every frame and stutters when boot hitches the event loop.

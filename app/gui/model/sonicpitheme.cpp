@@ -1110,6 +1110,10 @@ void SonicPiTheme::reloadStylesheet() {
                                     int(lf.blue()  * 0.45 + lb.blue()  * 0.55)).name();
     QString windowBorderColor = this->color("WindowBorder").name();
     QString windowInternalBorderColor = this->color("WindowInternalBorder").name();
+    // Pill-shaped controls (nav chips, pill rows, deck pills) share one corner
+    // radius. The cached template has already been through ScalePxInStyleSheet,
+    // so the radius goes in as a ready-scaled px value rather than a dx one.
+    QString pillRadius = QString("%1px").arg(ScaleHeightForDPI(kPillRadiusDx));
 
     QString buttonColor = this->color("Button").name();
     QString buttonBorderColor = this->color("ButtonBorder").name();
@@ -1206,6 +1210,7 @@ void SonicPiTheme::reloadStylesheet() {
         .replace("logBackgroundColor", logBackgroundColor)
         .replace("windowBorderColor", windowBorderColor)
         .replace("windowInternalBorderColor", windowInternalBorderColor)
+        .replace("pillRadius", pillRadius)
         .replace("buttonBackgroundColor", buttonBackgroundColor)
         .replace("buttonColor", buttonColor)
         .replace("metroButtonBorderColor", metroButtonBorderColor)

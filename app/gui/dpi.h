@@ -4,6 +4,13 @@
 #include <QScreen>
 #include <QRegularExpression>
 
+// House corner radius (in dx) for pill-shaped controls: the docs/info nav
+// chips, the card-deck selector pills, the docs filter field and the pill
+// selection rows. One value keeps every pill on the same curvature, sized so
+// the smallest pill stays above twice the radius (Qt paints artifacts once a
+// radius exceeds half the widget height). Stylesheets consume it via the
+// `pillRadius` token substituted in SonicPiTheme::reloadStylesheet().
+constexpr int kPillRadiusDx = 12;
 
 inline QSizeF GetDisplayScale()
 {
