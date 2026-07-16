@@ -61,6 +61,10 @@
 namespace
 {
 
+// Examples sit beside 13pt prose; the editor's default 12pt Hack reads
+// oversized next to it, so the example editor runs two points down.
+constexpr int kExampleZoom = SonicPiScintilla::kDefaultZoom - 2;
+
 void repolish(QWidget* w)
 {
     w->style()->unpolish(w);
@@ -308,7 +312,7 @@ void TutorialPane::ensureExampleEditor()
     m_exampleEditor->setCaretLineVisible(false);
     m_exampleEditor->setCaretWidth(0);
     m_exampleEditor->showAutoCompletion(false);
-    m_exampleEditor->zoomTo(SonicPiScintilla::kDefaultZoom + m_userZoom);
+    m_exampleEditor->zoomTo(kExampleZoom + m_userZoom);
     // Below the transport controls (which were added to the frame first)
     m_exampleFrameLayout->addWidget(m_exampleEditor, 1);
 }
@@ -448,23 +452,24 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     playLayout->setContentsMargins(playPad, ScaleHeightForDPI(10), playPad, ScaleHeightForDPI(10));
     playLayout->setSpacing(ScaleHeightForDPI(8));
 
-    // Faceplate header inside the card: name on the left, instrument glyph on
-    // the right, bottom-aligned on a common baseline.
+    // Faceplate header inside the card: the instrument's glyph and name as
+    // one left-aligned badge, like a hardware synth's silkscreened logo.
     QWidget* headerRow = new QWidget(playground);
     QHBoxLayout* header = new QHBoxLayout(headerRow);
     header->setContentsMargins(0, 0, 0, 0);
-    header->setSpacing(ScaleWidthForDPI(12));
-    QLabel* titleLabel = new QLabel(title, headerRow);
-    titleLabel->setObjectName("tutH1");
-    titleLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    header->setSpacing(ScaleWidthForDPI(10));
     QLabel* icon = new QLabel(headerRow);
     icon->setObjectName("tutFxIcon");
     icon->setProperty("fxname", page.key);
     icon->setProperty("isfx", isFx);
     icon->setAccessibleName(tr("%1 icon").arg(title));
     renderFxIcon(icon);
-    header->addWidget(titleLabel, 1, Qt::AlignBottom);
-    header->addWidget(icon, 0, Qt::AlignBottom);
+    QLabel* titleLabel = new QLabel(title, headerRow);
+    titleLabel->setObjectName("tutPlateName");
+    titleLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    header->addWidget(icon, 0, Qt::AlignVCenter);
+    header->addWidget(titleLabel, 0, Qt::AlignVCenter);
+    header->addStretch(1);
     playLayout->addWidget(headerRow);
 
     // Reset joins Copy in the code area's corner: a flat restore glyph in the
@@ -588,11 +593,14 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
             row->addStretch(1);   // short trailing rows stay left-aligned
         dialFlow->addWidget(panel);
     }
-    // The QWERTY keys offset from the page's default note.
-    m_pianoBaseNote = 52;
-    for (TutDial* dial : m_dials)
-        if (dial->optName() == "note")
-            m_pianoBaseNote = qRound(dial->value());
+    // The QWERTY keys offset from the page's default note: the FX demo's
+    // played note, or the synth's note dial. An FX page's own note dial
+    // (the autotuner's tuning target) is not the played note.
+    m_pianoBaseNote = isFx ? m_demoNote : 52;
+    if (!isFx)
+        for (TutDial* dial : m_dials)
+            if (dial->optName() == "note")
+                m_pianoBaseNote = qRound(dial->value());
 
     if (m_dials.isEmpty())
     {
@@ -724,7 +732,9 @@ QString TutorialPane::instrumentOpts() const
     QString opts;
     for (TutDial* dial : m_dials)
     {
-        if (dial->optName() == "note")
+        // A synth page's note renders as the `play` argument, not an opt;
+        // an FX page's note dial is a real opt (the autotuner's target).
+        if (!m_pageIsFx && dial->optName() == "note")
             continue;
         if (!dial->isDefault())
             opts += ", " + dial->optName() + ": " + dial->valueText();
@@ -795,27 +805,39 @@ void TutorialPane::playKeyboardNote(int semitoneOffset)
     QString note = QString::number(played);
     // use_real_time bypasses the default sched-ahead so keys sound instantly
     QString code = "use_real_time\nuse_debug false\n";
+    double release = 1.0;
     if (m_pageIsFx)
     {
+        release = 2.0; // the demo line's release: 2
         code += "with_fx :" + m_pageName + instrumentOpts() + " do\n"
-                "  use_synth :prophet\n"
-                "  play " + note + ", release: 1\n"
+                "  synth :prophet, note: " + note + ", release: 2, cutoff: 80\n"
                 "end";
     }
     else
     {
+        for (TutDial* dial : m_dials)
+            if (dial->optName() == "release")
+                release = dial->value();
         code += "use_synth :" + m_pageName + "\n"
                 "play " + note + instrumentOpts();
     }
     // Untracked workspace: key notes shouldn't drive the demo's playing state
     emit runRequested(code, "sonic-pi-tutorial-keys", true);
     if (m_piano)
-        m_piano->flash(semitoneOffset);
+        m_piano->flash(semitoneOffset, qRound(release * 1000));
     // Dial/code sync happens AFTER the note is dispatched: setValue triggers
     // a synchronous snippet regeneration (font metrics + document parse),
     // which must not sit in front of the sound on the use_real_time path.
     // instrumentOpts() skips the note dial, so the emitted code is identical.
-    if (!m_pageIsFx)
+    if (m_pageIsFx)
+    {
+        if (m_demoNote != played)
+        {
+            m_demoNote = played;
+            regenerateInstrumentCode();
+        }
+    }
+    else
         for (TutDial* dial : m_dials)
             if (dial->optName() == "note")
                 dial->setValue(played);
@@ -835,7 +857,9 @@ void TutorialPane::regenerateInstrumentCode()
     QString note = "52";
     for (TutDial* dial : m_dials)
     {
-        if (dial->optName() == "note")
+        // A synth page's note renders as the `play` argument, not an opt;
+        // an FX page's note dial is a real opt (the autotuner's target).
+        if (!m_pageIsFx && dial->optName() == "note")
         {
             note = dial->valueText();
             continue;
@@ -909,10 +933,11 @@ void TutorialPane::regenerateInstrumentCode()
         html = "with_fx " + span(m_codeColours.symbol, ":" + m_pageName);
         lineLen = text.length();
         emitOpts("        ");
-        const QString body = "  use_synth :prophet\n"
-                             "  play 50, release: 2, cutoff: 80\n"
-                             "  sleep 0.5\n"
-                             "end";
+        // The demo note tracks the piano (see keyPlayNote), like the synth
+        // pages' note dial.
+        const QString body = QString("  synth :prophet, note: %1, release: 2, cutoff: 80\n"
+                                     "end")
+                                 .arg(m_demoNote);
         text += " do\n" + body;
         html += " " + span(m_codeColours.keyword, "do") + "<br>"
                 + SonicPi::TutorialDocs::highlightCode(body, m_codeColours);
@@ -1089,6 +1114,7 @@ void TutorialPane::clearContent()
     m_octaveLabel = nullptr;
     m_optRows.clear();
     m_pianoBaseNote = 52;
+    m_demoNote = 50;
     m_pageName.clear();
     m_pageIsFx = false;
     if (m_examplePage)
@@ -1419,13 +1445,17 @@ void TutorialPane::runStarted(int jobId, const QString& workspace)
             setSnippetPlaying(snippet, true);
             if (m_piano && !m_pageName.isEmpty())
             {
-                // Light the key for the note actually played (the note dial
-                // may have moved off the page default). Out-of-range offsets
-                // simply don't light anything.
+                // Light the key for the note actually played (it may have
+                // moved off the page default). An FX page's own note dial is
+                // its tuning target, not the played note. Out-of-range
+                // offsets simply don't light anything.
                 int offset = 0;
-                for (TutDial* dial : m_dials)
-                    if (dial->optName() == "note")
-                        offset = qRound(dial->value()) - (m_pianoBaseNote + m_octave * 12);
+                if (m_pageIsFx)
+                    offset = m_demoNote - (m_pianoBaseNote + m_octave * 12);
+                else
+                    for (TutDial* dial : m_dials)
+                        if (dial->optName() == "note")
+                            offset = qRound(dial->value()) - (m_pianoBaseNote + m_octave * 12);
                 m_piano->flash(offset);
             }
             return;
@@ -1511,7 +1541,7 @@ void TutorialPane::applySizing()
 {
     m_fontScale = qBound(0.5, std::pow(1.1, m_userZoom), 3.0);
     if (m_exampleEditor)
-        m_exampleEditor->zoomTo(SonicPiScintilla::kDefaultZoom + m_userZoom);
+        m_exampleEditor->zoomTo(kExampleZoom + m_userZoom);
     applyTheme();
 }
 
@@ -1575,7 +1605,12 @@ void TutorialPane::applyTheme()
         "#tutCodeFrame[nested=\"true\"][playing=\"true\"] { border:1dx solid @accent;"
         " background:rgba(127,127,127,18); }"
         "#tutCodeFrame[nested=\"true\"] #tutCode { font-size:@codeSmall; }"
-        "#tutPlayground { background:@editorBg; border:1dx solid @accent; border-radius:8dx; }"
+        // Quiet neutral card matching the display-code grammar; the badge
+        // carries the instrument's identity, not a coloured border.
+        "#tutPlayground { background:@editorBg; border:1dx solid rgba(127,127,127,60);"
+        " border-radius:8dx; }"
+        "#tutPlateName { background:transparent; color:@fg; font-size:@h1Size;"
+        " font-weight:bold; }"
         // Synth-panel sections: each dial group is its own quiet region.
         "#tutDialGroup { background:rgba(127,127,127,22); border:none; border-radius:6dx; }"
         "#tutSection { color:@muted; font-family:'Hack'; font-size:@hintSize;"
@@ -1782,7 +1817,9 @@ void TutorialPane::renderFxIcon(QLabel* iconLabel)
     QColor colour = m_theme->color(isFx ? "NumberForeground" : "HighlightedBackground");
     QSvgRenderer renderer(
         instrumentIconSvg(isFx, iconLabel->property("fxname").toString(), colour).toUtf8());
-    QSize size = ScaleForDPI(144, 81);
+    // Badge-sized: sits beside the name at roughly its cap height, not a
+    // banner illustration.
+    QSize size = ScaleForDPI(56, 32);
     qreal dpr = devicePixelRatioF();
     QPixmap pix(size * dpr);
     pix.fill(Qt::transparent);

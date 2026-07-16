@@ -201,6 +201,7 @@ private:
     QIcon m_copiedIcon; // check-mark flash after a successful copy
     QHash<QString, QWidget*> m_optRows; // opt name → its doc-table row, for jump links
     int m_pianoBaseNote = 52; // page-default note the QWERTY keys offset from
+    int m_demoNote = 50;      // FX demo's played note; follows the piano
     int m_userZoom = 0;      // pane zoom steps from A-/A+ (persisted as a pref)
     double m_fontScale = 1.0;
     int m_workspaceSeq = 0;

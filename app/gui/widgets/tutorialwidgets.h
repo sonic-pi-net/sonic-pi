@@ -528,11 +528,13 @@ public:
         update();
     }
 
-    void flash(int offset)
+    // Lights the key for `ms`; callers pass the note's release time so the
+    // key stays lit for as long as the note sounds.
+    void flash(int offset, int ms = 180)
     {
         m_flashOffset = offset;
         update();
-        QTimer::singleShot(180, this, [this, offset]() {
+        QTimer::singleShot(ms, this, [this, offset]() {
             if (m_flashOffset == offset)
             {
                 m_flashOffset = -1;
@@ -730,15 +732,25 @@ public:
     double value() const { return m_value; }
     bool isDefault() const { return std::abs(m_value - m_def) < m_step / 2; }
 
+    // This text lands verbatim in the generated code, so it must never round
+    // to a value outside the dial's bounds (a 0.001..100 dial at its bottom
+    // stop printing "0" would emit invalid code).
     QString valueText() const
     {
         if (m_step >= 1.0)
-            return QString::number(qRound(m_value));
+        {
+            const double r = qBound(m_lo, (double)qRound(m_value), m_hi);
+            if (r == (double)qRound(r))
+                return QString::number(qRound(r));
+            return QString::number(r);
+        }
         QString s = QString::number(m_value, 'f', 2);
         while (s.endsWith('0'))
             s.chop(1);
         if (s.endsWith('.'))
             s += "0";
+        if (s.toDouble() < m_lo || s.toDouble() > m_hi)
+            return QString::number(m_value); // full precision at the bounds
         return s;
     }
 
@@ -852,6 +864,7 @@ protected:
 
     void mousePressEvent(QMouseEvent* e) override
     {
+        closeEditor();
         m_dragStartY = e->position().y();
         m_dragStartVal = m_value;
         m_pressPos = e->position();
@@ -905,12 +918,14 @@ protected:
 
     void wheelEvent(QWheelEvent* e) override
     {
+        closeEditor();
         setValue(m_value + (e->angleDelta().y() > 0 ? m_step : -m_step));
         e->accept();
     }
 
     void keyPressEvent(QKeyEvent* e) override
     {
+        closeEditor();
         double big = (m_hi - m_lo) / 10.0;
         switch (e->key())
         {
@@ -962,6 +977,15 @@ private:
         m_editor->show();
         m_editor->setFocus();
         m_editor->selectAll();
+    }
+
+    // Adjusting the dial directly (drag/wheel/keys) dismisses an open editor
+    // so it can't linger showing a stale value over the name. Typed text is
+    // never provisional: an edited value commits, an untouched one just closes.
+    void closeEditor()
+    {
+        if (m_editor)
+            commitEditor(m_editor->isModified());
     }
 
     void commitEditor(bool apply)
