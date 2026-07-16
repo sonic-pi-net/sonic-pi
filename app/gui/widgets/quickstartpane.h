@@ -197,8 +197,8 @@ private:
     QHash<QString, QVector<class QLabel*>> m_codeLines;
     QHash<QString, QSet<QString>> m_cardLoops; // workspace -> live_loop names in its code
     QHash<QString, int> m_jobs;
-    // Card hover: the footer washes with accent and its description brightens
-    // while the pointer is anywhere over the card. Poll-driven (see
+    // Card hover: a high-contrast border lights up while the pointer is
+    // anywhere over the card ([cardHover] in app.qss). Poll-driven (see
     // updateHover) so crossing child widgets never flickers or sticks.
     struct CardHoverFx
     {
@@ -206,7 +206,6 @@ private:
         class QLabel* blurb = nullptr;
         QWidget* body = nullptr; // code area, grabbed for the drag ghost
         QString title;
-        QString footerBase, footerHover, blurbBase, blurbHover;
     };
     QHash<QWidget*, CardHoverFx> m_cardFx; // keyed by card frame
     QTimer* m_hoverTimer = nullptr;
@@ -228,7 +227,6 @@ private:
     // Side-scrolling pages one card per gesture; the cooldown swallows a
     // trackpad swipe's momentum so it doesn't fly through the deck.
     bool m_wheelCooldown = false;
-    QString m_lineStyle; // current base style of code-line labels (flash restore)
 };
 
 #endif // QUICKSTARTPANE_H

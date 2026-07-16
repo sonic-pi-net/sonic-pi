@@ -59,7 +59,7 @@ SonicPiEditor::SonicPiEditor(SonicPiScintilla *workspace, SonicPiTheme *theme, Q
   // only shown by Qt when both scrollbars are visible — exactly when the corner
   // would otherwise appear.
   QWidget* scrollCorner = new QWidget(m_workspace);
-  scrollCorner->setStyleSheet(QString("background: %1;").arg(m_theme->color("Background").name()));
+  scrollCorner->setObjectName("editorScrollCorner"); // themed in app.qss
   m_workspace->setCornerWidget(scrollCorner);
 }
 
@@ -94,8 +94,6 @@ void SonicPiEditor::updateColourTheme(QString appStyling,  SonicPiTheme::ColourS
   m_workspace->setFrameShape(QFrame::NoFrame);
   m_workspace->setStyleSheet("");
   m_workspace->setStyleSheet(appStyling);
-  if (QWidget* corner = m_workspace->cornerWidget())
-    corner->setStyleSheet(QString("background: %1;").arg(m_theme->color("Background").name()));
   m_context->setTextColor(QColor(m_theme->color("LogForeground")));
   if (colourScheme == SonicPiTheme::HighContrastScheme)
     {

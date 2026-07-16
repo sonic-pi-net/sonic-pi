@@ -22,6 +22,7 @@
 #include <QtGlobal>
 
 #include "dpi.h"
+#include "utils/flash_style.h"
 
 SonicPiTheme::SonicPiTheme(QObject *parent, QString customSettingsFilename, QString rootPath) : QObject(parent)
 {
@@ -1167,6 +1168,25 @@ void SonicPiTheme::reloadStylesheet() {
     QString errorBackgroundColor = this->color("ErrorBackground").name();
     QString highlightedBackgroundColor = this->color("HighlightedBackground").name();   // the accent
 
+    // Derived colour-role tokens (single definitions: the accessors below).
+    const QColor accent = this->color("HighlightedBackground");
+    const QColor onAccent = contrastingText(accent);
+    QString accentContrastTextColor = onAccent.name();
+    QString accentHoverColor = accent.lighter(115).name();
+    QString accentTintStrongColor = accentTintStrong().name();
+    QString accentTintColor = accentTint().name();
+    QString softForegroundColor = softForeground().name();
+    QString mutedForegroundColor = mutedForeground().name();
+    QString faintForegroundColor = faintForeground().name();
+    QString ghostForegroundColor = ghostForeground().name();
+    QString subtleFillColor = subtleFill().name();
+    // Translucent washes (rgba so the content underneath shows through).
+    QString flashWashColor = QString("rgba(%1,%2,%3,%4)")
+        .arg(accent.red()).arg(accent.green()).arg(accent.blue())
+        .arg(SonicPi::kFlashWashAlpha);
+    QString focusWashColor = QString("rgba(%1,%2,%3,0.28)")
+        .arg(onAccent.red()).arg(onAccent.green()).arg(onAccent.blue());
+
     // Themed checked-checkbox glyph (accent box + white tick) — a static PNG
     // can't follow the theme accent, so we generate one and drop its path in.
     QString checkboxCheckedImage = checkboxCheckedImagePath();
@@ -1219,9 +1239,45 @@ void SonicPiTheme::reloadStylesheet() {
         .replace("selectionBackgroundColor", selectionBackgroundColor)
         .replace("errorBackgroundColor", errorBackgroundColor)
         .replace("highlightedBackgroundColor", highlightedBackgroundColor)
+        .replace("accentContrastTextColor", accentContrastTextColor)
+        .replace("accentHoverColor", accentHoverColor)
+        .replace("accentTintStrongColor", accentTintStrongColor)
+        .replace("accentTintColor", accentTintColor)
+        .replace("softForegroundColor", softForegroundColor)
+        .replace("mutedForegroundColor", mutedForegroundColor)
+        .replace("faintForegroundColor", faintForegroundColor)
+        .replace("ghostForegroundColor", ghostForegroundColor)
+        .replace("subtleFillColor", subtleFillColor)
+        .replace("flashWashColor", flashWashColor)
+        .replace("focusWashColor", focusWashColor)
         .replace("checkboxCheckedImage", checkboxCheckedImage);
 
     this->stylesheet = appStyling;
+}
+
+QColor SonicPiTheme::softForeground() {
+    return blend(color("WindowForeground"), color("PaneBackground"), 0.10);
+}
+QColor SonicPiTheme::mutedForeground() {
+    return blend(color("WindowForeground"), color("PaneBackground"), 0.30);
+}
+QColor SonicPiTheme::faintForeground() {
+    return blend(color("WindowForeground"), color("PaneBackground"), 0.62);
+}
+QColor SonicPiTheme::ghostForeground() {
+    return blend(color("WindowForeground"), color("PaneBackground"), 0.82);
+}
+QColor SonicPiTheme::subtleFill() {
+    return blend(color("PaneBackground"), color("WindowForeground"), 0.07);
+}
+QColor SonicPiTheme::accentTint() {
+    return blend(color("PaneBackground"), color("HighlightedBackground"), 0.06);
+}
+QColor SonicPiTheme::accentTintStrong() {
+    return blend(color("PaneBackground"), color("HighlightedBackground"), 0.14);
+}
+QColor SonicPiTheme::accentContrastText() {
+    return contrastingText(color("HighlightedBackground"));
 }
 
 QString SonicPiTheme::getAppStylesheet() {

@@ -39,6 +39,7 @@
 #include <QTextDocumentFragment>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QStyle>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -58,6 +59,18 @@
 #include "utils/tutorialdocs.h"
 
 #include "api/sonicpi_api.h"
+
+namespace
+{
+// Re-evaluate a widget's stylesheet after a dynamic property change so
+// property-driven rules (e.g. [cardHover="true"]) take effect.
+void repolish(QWidget* w)
+{
+    w->style()->unpolish(w);
+    w->style()->polish(w);
+    w->update();
+}
+} // namespace
 
 // Circular stereo mini scope for a playing card: the waveform wrapped
 // around a ring (left channel on the outer ring, right on the inner)
@@ -418,16 +431,8 @@ void QuickstartPane::setCardHover(QWidget* frame, bool on)
 {
     if (!m_cardFx.contains(frame))
         return;
-    // Hover = a crisp high-contrast border (foreground: black in light mode,
-    // white in dark). The border is pre-reserved transparent, so only its
-    // colour changes; no layout shift, no footer/text change.
-    const int borderW = ScaleHeightForDPI(2);
-    frame->setStyleSheet(
-        QString("QFrame#qsCard { background: transparent; border: %1px solid %2;"
-                " border-radius: %3px; }")
-            .arg(borderW)
-            .arg(on ? m_theme->color("Foreground").name() : QStringLiteral("transparent"))
-            .arg(ScaleHeightForDPI(6) + borderW));
+    frame->setProperty("cardHover", on);
+    repolish(frame);
 }
 
 void QuickstartPane::updateHover()
@@ -877,18 +882,14 @@ void QuickstartPane::flashLine(const QString& workspace, int line)
     if (idx < 0 || idx >= lines.size())
         return;
     QLabel* label = lines[idx];
-    const QColor accent = m_theme->color("HighlightedBackground");
-    label->setStyleSheet(m_lineStyle
-                         + QString(" background-color: rgba(%1,%2,%3,%4);")
-                               .arg(accent.red())
-                               .arg(accent.green())
-                               .arg(accent.blue())
-                               .arg(SonicPi::kFlashWashAlpha));
+    label->setProperty("flashing", true);
+    repolish(label);
     QPointer<QLabel> guard(label);
-    const QString base = m_lineStyle;
-    QTimer::singleShot(SonicPi::kFlashHoldMs, this, [guard, base] {
-        if (guard)
-            guard->setStyleSheet(base);
+    QTimer::singleShot(SonicPi::kFlashHoldMs, this, [guard] {
+        if (!guard)
+            return;
+        guard->setProperty("flashing", false);
+        repolish(guard);
     });
 }
 
@@ -955,9 +956,6 @@ void QuickstartPane::rebuild()
     m_frameWs.clear();
     m_dragSource = nullptr;
 
-    setStyleSheet(QString("QuickstartPane { background-color: %1; }")
-                      .arg(m_theme->color("PaneBackground").name()));
-
     const QVector<Deck>& decks = quickstartDecks(m_cardsPath);
     if (decks.isEmpty())
         return;
@@ -965,13 +963,10 @@ void QuickstartPane::rebuild()
         m_deckIdx = 0;
 
     const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor fg = m_theme->color("Foreground");
-    const QColor bg = m_theme->color("PaneBackground");
 
     // A single vertical stack: a full-width deck bar (the deck selector) over
     // the deck description over the cards.
     QWidget* rightSide = new QWidget(this);
-    rightSide->setStyleSheet("background: transparent;");
     QVBoxLayout* rightCol = new QVBoxLayout(rightSide);
     rightCol->setContentsMargins(0, 0, 0, 0);
     rightCol->setSpacing(0);
@@ -979,7 +974,6 @@ void QuickstartPane::rebuild()
     // Deck bar: selector pills on the left, the carousel pill centred, zoom on
     // the right. The highlighted pill is the current deck (it doubles as title).
     m_topBar = new QWidget(rightSide);
-    m_topBar->setStyleSheet("background: transparent;");
     QHBoxLayout* deckBar = new QHBoxLayout(m_topBar);
     deckBar->setContentsMargins(ScaleHeightForDPI(14), ScaleHeightForDPI(8),
                                 ScaleHeightForDPI(12), ScaleHeightForDPI(3));
@@ -987,22 +981,11 @@ void QuickstartPane::rebuild()
     for (int i = 0; i < decks.size(); ++i)
     {
         QPushButton* pill = new QPushButton(decks[i].title, m_topBar);
-        const bool current = i == m_deckIdx;
+        pill->setObjectName(QStringLiteral("qsDeckPill"));
+        pill->setProperty("current", i == m_deckIdx);
         pill->setCursor(Qt::PointingHandCursor);
         pill->setAccessibleName(tr("%1 card deck").arg(decks[i].title));
-        pill->setStyleSheet(
-            QString("QPushButton { background-color: %1; color: %2;"
-                    " border: 2px solid %3; border-radius: %4px; padding: %5px %6px;"
-                    " font-size: %7px; font-weight: 600; }"
-                    "QPushButton:hover { border-color: %8; }")
-                .arg(current ? accent.name() : "transparent")
-                .arg(current ? m_theme->contrastingText(accent).name() : fg.name())
-                .arg(current ? "transparent" : SonicPiTheme::blend(fg, bg, 0.6).name())
-                .arg(ScaleHeightForDPI(13))
-                .arg(ScaleHeightForDPI(6))
-                .arg(ScaleHeightForDPI(14))
-                .arg(fontPx(13))
-                .arg(accent.name()));
+        pill->setStyleSheet(QString("font-size: %1px;").arg(fontPx(13)));
         connect(pill, &QPushButton::clicked, this, [this, i] {
             // Each deck keeps its own carousel position: stash where this deck
             // was, restore where the target deck last was (first card if new).
@@ -1022,18 +1005,10 @@ void QuickstartPane::rebuild()
     // Carousel controls: prev arrow, page dots and next arrow in one grouped pill.
     auto makeArrow = [&](const QString& glyph, const QString& a11y) {
         QPushButton* b = new QPushButton(glyph, m_topBar);
+        b->setObjectName(QStringLiteral("qsArrow"));
         b->setCursor(Qt::PointingHandCursor);
         b->setAccessibleName(a11y);
         b->setFixedSize(ScaleForDPI(30, 30));
-        b->setStyleSheet(
-            QString("QPushButton { background: transparent; border: none; color: %1;"
-                    " font-size: %2px; font-weight: 700; }"
-                    "QPushButton:hover:enabled { color: %3; }"
-                    "QPushButton:disabled { color: %4; }")
-                .arg(SonicPiTheme::blend(fg, bg, 0.25).name())
-                .arg(ScaleHeightForDPI(26))
-                .arg(accent.name())
-                .arg(SonicPiTheme::blend(fg, bg, 0.82).name()));
         return b;
     };
     m_prevArrow = makeArrow(QStringLiteral("‹"), tr("Previous cards"));
@@ -1042,15 +1017,12 @@ void QuickstartPane::rebuild()
     connect(m_nextArrow, &QPushButton::clicked, this, [this] { goToPage(m_pageIndex + 1); });
 
     m_dotsHost = new QWidget(m_topBar);
-    m_dotsHost->setStyleSheet("background: transparent;");
     m_dotsLayout = new QHBoxLayout(m_dotsHost);
     m_dotsLayout->setContentsMargins(ScaleHeightForDPI(6), 0, ScaleHeightForDPI(6), 0);
     m_dotsLayout->setSpacing(ScaleHeightForDPI(8));
 
     QWidget* nav = new QWidget(m_topBar);
-    nav->setStyleSheet(QString("background: %1; border-radius: %2px;")
-                           .arg(SonicPiTheme::blend(bg, fg, 0.07).name())
-                           .arg(ScaleHeightForDPI(17)));
+    nav->setObjectName(QStringLiteral("qsNav"));
     QHBoxLayout* navLay = new QHBoxLayout(nav);
     navLay->setContentsMargins(ScaleHeightForDPI(4), ScaleHeightForDPI(2),
                                ScaleHeightForDPI(4), ScaleHeightForDPI(2));
@@ -1071,23 +1043,19 @@ void QuickstartPane::rebuild()
     if (!desc.isEmpty())
     {
         QWidget* descRow = new QWidget(rightSide);
-        descRow->setStyleSheet("background: transparent;");
         QHBoxLayout* descLay = new QHBoxLayout(descRow);
         descLay->setContentsMargins(ScaleHeightForDPI(14), ScaleHeightForDPI(4), ScaleHeightForDPI(14),
                                     ScaleHeightForDPI(9));
         descLay->setSpacing(ScaleHeightForDPI(10));
         QWidget* rail = new QWidget(descRow);
+        rail->setObjectName(QStringLiteral("qsHeaderRail"));
         rail->setFixedWidth(ScaleHeightForDPI(4));
-        rail->setStyleSheet(QString("background: %1; border-radius: %2px;")
-                                .arg(accent.name())
-                                .arg(ScaleHeightForDPI(2)));
         descLay->addWidget(rail);
         m_headerRail = rail;
         QLabel* descLabel = new QLabel(desc, descRow);
+        descLabel->setObjectName(QStringLiteral("qsDeckDesc"));
         descLabel->setWordWrap(true);
-        descLabel->setStyleSheet(QString("color: %1; background: transparent; font-size: %2px;")
-                                     .arg(SonicPiTheme::blend(fg, bg, 0.12).name())
-                                     .arg(fontPx(15)));
+        descLabel->setStyleSheet(QString("font-size: %1px;").arg(fontPx(15)));
         descLay->addWidget(descLabel, 1);
         m_deckDesc = descLabel;
         rightCol->addWidget(descRow);
@@ -1103,9 +1071,7 @@ void QuickstartPane::rebuild()
     m_scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_scroll->setFocusPolicy(Qt::StrongFocus); // hold focus so Left/Right page it
-    m_scroll->setStyleSheet("QScrollArea { background: transparent; border: none; }");
     QWidget* content = new QWidget(m_scroll);
-    content->setStyleSheet("background: transparent;");
     m_cardRow = content;
     m_cardGrid = new QGridLayout(content);
     const int pad = ScaleHeightForDPI(14);
@@ -1135,7 +1101,6 @@ void QuickstartPane::rebuild()
     // the right-hand pad so the final page still snaps to a card boundary
     // (no half cards) without the grid spreading the cards apart.
     m_gridSpacer = new QWidget(content);
-    m_gridSpacer->setStyleSheet("background: transparent;");
     m_gridSpacer->setFixedWidth(0);
     m_gridRows = 0; // force the first updateCarousel to place the grid
     m_cardHeight = m_cardFrames.isEmpty() ? 0 : m_cardFrames.first()->sizeHint().height();
@@ -1152,7 +1117,7 @@ void QuickstartPane::rebuild()
     // BackZone). Click handled in eventFilter.
     BackZone* backZone = new BackZone(rightSide);
     backZone->fill = accent; // the card headers' green
-    backZone->chev = m_theme->contrastingText(accent);
+    backZone->chev = m_theme->accentContrastText();
     m_backEdge = backZone;
     m_backEdge->setFixedWidth(ScaleWidthForDPI(26) + ScaleHeightForDPI(14));
     m_backEdge->setFocusPolicy(Qt::NoFocus);
@@ -1195,7 +1160,6 @@ void QuickstartPane::rebuild()
 
     // Carousel control on its own full-width row beneath the cards, centred.
     QWidget* navRow = new QWidget(rightSide);
-    navRow->setStyleSheet("background: transparent;");
     QHBoxLayout* navRowLay = new QHBoxLayout(navRow);
     navRowLay->setContentsMargins(0, ScaleHeightForDPI(4), 0, ScaleHeightForDPI(6));
     navRowLay->addStretch(1);
@@ -1255,9 +1219,6 @@ void QuickstartPane::rebuildDots()
     const int rows = rowsThatFit();
     const int cpv = cardsPerView();
 
-    const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor fg = m_theme->color("Foreground");
-    const QColor bg = m_theme->color("PaneBackground");
     while (QLayoutItem* it = m_dotsLayout->takeAt(0))
     {
         if (QWidget* w = it->widget())
@@ -1272,15 +1233,11 @@ void QuickstartPane::rebuildDots()
         const int col = rows > 0 ? i / rows : i;
         const bool visible = col >= m_pageIndex && col < m_pageIndex + cpv;
         QPushButton* d = new QPushButton(m_dotsHost);
+        d->setObjectName(QStringLiteral("qsDot"));
+        d->setProperty("lit", visible);
         d->setCursor(Qt::PointingHandCursor);
         d->setFixedSize(dot, dot);
         d->setAccessibleName(tr("Scroll to card %1 of %2").arg(i + 1).arg(m_cardCount));
-        d->setStyleSheet(
-            QString("QPushButton { border: none; border-radius: %1px; background: %2; }"
-                    "QPushButton:hover { background: %3; }")
-                .arg(dot / 2.0)
-                .arg(visible ? accent.name() : SonicPiTheme::blend(fg, bg, 0.66).name())
-                .arg(visible ? accent.name() : SonicPiTheme::blend(fg, bg, 0.4).name()));
         connect(d, &QPushButton::clicked, this,
                 [this, col, pages] { goToPage(qBound(0, col, pages - 1)); });
         m_dotsLayout->addWidget(d);
@@ -1421,7 +1378,7 @@ QPixmap QuickstartPane::playDisc(bool playing, int d, bool hover) const
 {
     const qreal dpr = devicePixelRatioF();
     const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor onAccent = m_theme->contrastingText(accent);
+    const QColor onAccent = m_theme->accentContrastText();
     // Like the header icons: normal is a white glyph on an accent disc; hover
     // inverts to an accent glyph on a light disc; a strong contrast flip.
     const QColor disc = hover ? onAccent : accent;
@@ -1444,8 +1401,7 @@ QPixmap QuickstartPane::cardDragPixmap(QWidget* frame) const
     const int chD = code.height();
 
     const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor bg = m_theme->color("PaneBackground");
-    const QColor cardBg = SonicPiTheme::blend(bg, accent, 0.06);
+    const QColor cardBg = m_theme->accentTint();
 
     QFont titleFont(QStringLiteral("Hack"));
     titleFont.setPixelSize(qRound(fontPx(15) * dpr));
@@ -1496,25 +1452,13 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
 {
     const QColor accent = m_theme->color("HighlightedBackground");
     const QColor fg = m_theme->color("Foreground");
-    const QColor bg = m_theme->color("PaneBackground");
 
     // Cheat-sheet-style card: solid accent header bar, tinted body below,
-    // like the printed Sonic Pi cheat sheets.
-    const int radius = ScaleHeightForDPI(6);
+    // like the printed Sonic Pi cheat sheets. Chrome is styled in app.qss
+    // (#qsCard and friends); only the zoomed font sizes are set here.
     const int cardW = cardWidth();
     QFrame* frame = new QFrame;
-    // Object-name selector so the border applies ONLY to the card frame, not to
-    // its QLabel children (QLabel derives from QFrame). A 2px border is always
-    // reserved (transparent when idle) so lighting it up on hover causes no
-    // layout shift; the outer radius = child radius + border width so it hugs
-    // the rounded header/footer corners.
     frame->setObjectName(QStringLiteral("qsCard"));
-    const int borderW = ScaleHeightForDPI(2);
-    frame->setStyleSheet(
-        QString("QFrame#qsCard { background: transparent; border: %1px solid transparent;"
-                " border-radius: %2px; }")
-            .arg(borderW)
-            .arg(radius + borderW));
     frame->setFixedWidth(cardW);
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(frame);
     shadow->setBlurRadius(ScaleHeightForDPI(6));
@@ -1526,10 +1470,7 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     cardLayout->setSpacing(0);
 
     QWidget* header = new QWidget(frame);
-    header->setStyleSheet(QString("background-color: %1;"
-                                  " border-top-left-radius: %2px; border-top-right-radius: %2px;")
-                              .arg(accent.name())
-                              .arg(radius));
+    header->setObjectName(QStringLiteral("qsCardHeader"));
     QHBoxLayout* headerLayout = new QHBoxLayout(header);
     // No vertical margin so the icon buttons fill the bar top to bottom; the
     // drag handle sits flush in the top-left corner and Add flush in the
@@ -1537,10 +1478,8 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     headerLayout->setContentsMargins(ScaleHeightForDPI(14), 0, 0, 0); // title padded on the left
     headerLayout->setSpacing(0);
     QLabel* heading = new QLabel(card.title, header);
-    heading->setStyleSheet(QString("color: %1; background: transparent; font-size: %2px;"
-                                   " font-weight: 700;")
-                               .arg(m_theme->contrastingText(accent).name())
-                               .arg(fontPx(17)));
+    heading->setObjectName(QStringLiteral("qsCardTitle"));
+    heading->setStyleSheet(QString("font-size: %1px;").arg(fontPx(17)));
     // Match the widget font to the stylesheet size so the bar height (and thus
     // the button height) is measured correctly; sizeHint uses the widget font.
     {
@@ -1563,7 +1502,7 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     const QString payload = QStringLiteral("\n%1\n\n").arg(card.code);
     const QString addTitle = card.title;
 
-    const QColor onAccent = m_theme->contrastingText(accent);
+    const QColor onAccent = m_theme->accentContrastText();
     // Fill the whole header-bar height: the title sets the bar height (measured
     // via the font above), so the buttons match it exactly.
     const int btnH = heading->sizeHint().height() + ScaleHeightForDPI(22);
@@ -1574,18 +1513,9 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // Icon buttons: a white glyph on the accent bar. On hover the button fills
     // with the near-white code-body colour and the glyph flips to a dark
     // contrasting ink; a strong, legible contrast (done on Enter/Leave in the
-    // eventFilter). `corner` rounds the outer corner of the end buttons.
-    const QColor codeBg = SonicPiTheme::blend(bg, accent, 0.06);
+    // eventFilter).
+    const QColor codeBg = m_theme->accentTint();
     const QColor hoverInk = m_theme->contrastingText(codeBg);
-    auto iconBtnCss = [&](const QString& corner) {
-        return QString("QPushButton { background: transparent; border: none; border-radius: 0;"
-                       " padding: 0; outline: none; %1 }"
-                       "QPushButton:focus { background: rgba(%2,%3,%4,0.28); }"
-                       "QPushButton:hover { background: %5; }")
-            .arg(corner)
-            .arg(onAccent.red()).arg(onAccent.green()).arg(onAccent.blue())
-            .arg(codeBg.name());
-    };
     auto setupIconBtn = [this, iconPx, &hoverInk, &onAccent](QPushButton* b,
                                                              TablerIcons::Glyph svg) {
         // Tab reaches the button (the :focus wash is for keyboard users), but a
@@ -1599,12 +1529,12 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
 
     // Play/Stop is the scope in the footer, not a header button (see below).
     QPushButton* add = new QPushButton(header);
+    add->setObjectName(QStringLiteral("qsCardBtn"));
     add->setCursor(Qt::PointingHandCursor);
     add->setFixedSize(btnW, btnH);
     add->setIconSize(QSize(iconPx, iconPx));
     add->setAccessibleName(tr("Add %1 to the editor at the cursor").arg(card.title));
     add->setToolTip(tr("Add this card to your code at the cursor."));
-    add->setStyleSheet(iconBtnCss(QString())); // middle button, square
     setupIconBtn(add, TablerIcons::Glyph::SquareChevronsUp);
     // Hovering projects a live preview into the editor (see updateHover); the
     // click commits it.
@@ -1616,12 +1546,12 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // Copy: the card's code (unwrapped) onto the clipboard. The glyph flashes
     // to a tick so the copy visibly registered right where it was clicked.
     QPushButton* copy = new QPushButton(header);
+    copy->setObjectName(QStringLiteral("qsCardBtn"));
     copy->setCursor(Qt::PointingHandCursor);
     copy->setFixedSize(btnW, btnH);
     copy->setIconSize(QSize(iconPx, iconPx));
     copy->setAccessibleName(tr("Copy %1 to the clipboard").arg(card.title));
     copy->setToolTip(tr("Copy this card's code to the clipboard."));
-    copy->setStyleSheet(iconBtnCss(QString())); // middle button, square
     setupIconBtn(copy, TablerIcons::Glyph::Copy);
     connect(copy, &QPushButton::clicked, this,
             [this, addTitle, snippet, copy, iconPx, hoverInk, onAccent] {
@@ -1647,12 +1577,13 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // into the drag system like the card body so grabbing it drops the card's
     // code on the editor.
     QPushButton* drag = new QPushButton(header);
+    drag->setObjectName(QStringLiteral("qsCardBtn"));
+    drag->setProperty("corner", "tr"); // outer corner rounded to match the card
     drag->setCursor(Qt::OpenHandCursor);
     drag->setFixedSize(btnW, btnH);
     drag->setIconSize(QSize(iconPx, iconPx));
     drag->setAccessibleName(tr("Drag %1 into the editor").arg(card.title));
     drag->setToolTip(tr("Drag me into your editor."));
-    drag->setStyleSheet(iconBtnCss(QString("border-top-right-radius: %1px;").arg(radius)));
     setupIconBtn(drag, TablerIcons::Glyph::Texture);
     // Buttons accept the press, so the frame's filter never sees it; the
     // handle needs its own filter to start drags.
@@ -1670,9 +1601,8 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // Card anatomy, top to bottom: accent header, code area, docs strip
     // (deeper tint), live scope strip. Code and docs sections are equalised
     // across the deck after all cards are built.
-    const QColor bodyBg = SonicPiTheme::blend(bg, accent, 0.06);
     QWidget* body = new QWidget(frame);
-    body->setStyleSheet(QString("background-color: %1;").arg(bodyBg.name()));
+    body->setObjectName(QStringLiteral("qsCardBody"));
     body->setFixedHeight(m_codeBodyH); // uniform across all decks
     // Grid so the scope can overlay the same cell as the code, pinned to
     // the bottom-right where the uniform code area leaves its slack.
@@ -1691,16 +1621,9 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // One label per code line so the trigger wash can light individual
     // lines, mirroring the editor's flash.
     QWidget* codeBlock = new QWidget(body);
-    codeBlock->setStyleSheet("background: transparent;");
     QVBoxLayout* codeLayout = new QVBoxLayout(codeBlock);
     codeLayout->setContentsMargins(0, 0, 0, 0);
     codeLayout->setSpacing(0);
-    m_lineStyle = QString("color: %1; background: transparent; font-family: Hack;"
-                          " font-size: %2px; border-radius: %3px;")
-                      .arg(fg.name())
-                      .arg(m_codeFontPx)
-                      .arg(ScaleHeightForDPI(3));
-    const QString lineStyle = m_lineStyle;
     QVector<QLabel*> lineLabels;
     const QStringList codeLines = card.code.split('\n');
     for (const QString& lineText : codeLines)
@@ -1709,10 +1632,11 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
             lineText.isEmpty() ? QString("&nbsp;")
                                : SonicPi::TutorialDocs::highlightCode(lineText, colours),
             codeBlock);
+        line->setObjectName(QStringLiteral("qsCodeLine"));
         line->setTextFormat(Qt::RichText);
         // Not selectable: selection would swallow the mouse press, and the
         // whole card is a drag surface.
-        line->setStyleSheet(lineStyle);
+        line->setStyleSheet(QString("font-size: %1px;").arg(m_codeFontPx));
         codeLayout->addWidget(line);
         lineLabels << line;
     }
@@ -1730,43 +1654,22 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     bodyLayout->addWidget(codeBlock, 0, 0, Qt::AlignTop | Qt::AlignLeft);
 
     QWidget* footer = new QWidget(frame);
+    footer->setObjectName(QStringLiteral("qsCardFooter"));
     footer->setFixedHeight(m_footerH); // uniform across all decks
-    // On hover the footer deepens its accent and the description brightens to
-    // full foreground; the card is accentuated and the text gains contrast.
-    const QString footerRadius = QString(" border-bottom-left-radius: %1px;"
-                                         " border-bottom-right-radius: %1px;")
-                                     .arg(radius);
-    // A clearly demarcated description bar; on hover it deepens strongly and
-    // the text jumps to full foreground; an active, high-contrast lift.
-    const QString footerBase = QString("background-color: %1;%2")
-                                   .arg(SonicPiTheme::blend(bg, accent, 0.14).name())
-                                   .arg(footerRadius);
-    const QString footerHover = QString("background-color: %1;%2")
-                                    .arg(SonicPiTheme::blend(bg, accent, 0.34).name())
-                                    .arg(footerRadius);
-    footer->setStyleSheet(footerBase);
     // Footer: the description filling the left, a full-height scope on the
     // right (the Run/Add buttons live in the header).
     QHBoxLayout* footerLayout = new QHBoxLayout(footer);
     footerLayout->setContentsMargins(pad, ScaleHeightForDPI(8), pad, ScaleHeightForDPI(8));
     footerLayout->setSpacing(ScaleHeightForDPI(12));
 
-    // Italic description at the code's size; on hover it steps to full
-    // foreground. Top-aligned so every card's description starts at the same
-    // spot however many lines it wraps to.
+    // Italic description at the code's size. Top-aligned so every card's
+    // description starts at the same spot however many lines it wraps to.
     QLabel* blurb = new QLabel(card.blurb, footer);
+    blurb->setObjectName(QStringLiteral("qsCardBlurb"));
     blurb->setTextFormat(Qt::RichText);
     blurb->setWordWrap(true);
     blurb->setMaximumWidth(m_blurbW);
-    const QString blurbBase = QString("color: %1; background: transparent; font-size: %2px;"
-                                      " font-style: italic;")
-                                  .arg(SonicPiTheme::blend(fg, bg, 0.08).name())
-                                  .arg(m_codeFontPx);
-    const QString blurbHover = QString("color: %1; background: transparent; font-size: %2px;"
-                                       " font-style: italic;")
-                                   .arg(fg.name())
-                                   .arg(m_codeFontPx);
-    blurb->setStyleSheet(blurbBase);
+    blurb->setStyleSheet(QString("font-size: %1px;").arg(m_codeFontPx));
     footerLayout->addWidget(blurb, 1, Qt::AlignTop);
 
     CardScope* scope = new CardScope(footer);
@@ -1781,8 +1684,8 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // drawn around it. Clicking anywhere on the scope toggles the card.
     const int discD = int(m_scopeSide * 0.40); // smaller than the rings, clear gap
     QPushButton* run = new QPushButton(scope);
+    run->setObjectName(QStringLiteral("qsCardRun"));
     run->setCursor(Qt::PointingHandCursor);
-    run->setStyleSheet("QPushButton { background: transparent; border: none; }");
     run->setIconSize(QSize(discD, discD));
     // Register normal + hover discs so the polling hover swaps them like the
     // other icon buttons.
@@ -1807,10 +1710,6 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     fx.blurb = blurb;
     fx.body = body;
     fx.title = card.title;
-    fx.footerBase = footerBase;
-    fx.footerHover = footerHover;
-    fx.blurbBase = blurbBase;
-    fx.blurbHover = blurbHover;
     m_cardFx[frame] = fx;
 
     // Cards are picked up anywhere on their face and dropped on the editor:

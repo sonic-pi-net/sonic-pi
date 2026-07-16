@@ -17,12 +17,8 @@ ZoomBar::ZoomBar(SonicPiTheme* theme, const QString& subject, QWidget* parent)
     // Match the title row's control spacing so the gap between -/+ equals the
     // gap on to the shared close ✕: three evenly spaced buttons in a row.
     lay->setSpacing(ScaleWidthForDPI(4));
-    // Styled here (not on the pane) so the flat chrome survives once MainWindow
-    // reparents the bar into the dock title row. The #zoomBtn id keeps the
-    // app-wide QPushButton chrome (padding/height/border) from leaking in.
-    setStyleSheet(ScalePxInStyleSheet(
-        "QPushButton#zoomBtn { background: transparent; border: none;"
-        " border-radius: 4dx; padding: 1dx 4dx; }"));
+    // Flat chrome comes from the #zoomBtn rule in app.qss, which keeps the
+    // app-wide QPushButton padding/height/border from leaking in.
 
     const int px = ScaleWidthForDPI(26);
     auto make = [&](QPushButton*& btn, const QString& a11y, int delta) {
@@ -44,10 +40,8 @@ ZoomBar::ZoomBar(SonicPiTheme* theme, const QString& subject, QWidget* parent)
 
 void ZoomBar::applyTheme()
 {
-    const QColor fg = m_theme->color("Foreground");
-    const QColor bg = m_theme->color("PaneBackground");
     const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor muted = SonicPiTheme::blend(fg, bg, 0.38);
+    const QColor muted = m_theme->mutedForeground();
     const int px = ScaleWidthForDPI(26);
     const qreal dpr = devicePixelRatioF();
     m_outIcon = TablerIcons::icon(TablerIcons::Glyph::CircleMinus, muted, px, dpr);

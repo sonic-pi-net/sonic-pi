@@ -35,6 +35,22 @@
 - selectionForegroundColor
 - selectionBackgroundColor
 - errorBackgroundColor
+- highlightedBackgroundColor (the accent)
+
+Derived tokens (computed in SonicPiTheme::reloadStylesheet from the theme
+colours: blends and auto-contrast that plain QSS can't express):
+
+- accentContrastTextColor (auto-contrast text on the accent)
+- accentHoverColor        (accent lightened for hover fills)
+- accentTintColor         (pane washed 6% toward the accent)
+- accentTintStrongColor   (pane washed 14% toward the accent)
+- softForegroundColor     (foreground -> pane emphasis ramp: 10%)
+- mutedForegroundColor    (30%)
+- faintForegroundColor    (62%)
+- ghostForegroundColor    (82%)
+- subtleFillColor         (pane nudged 7% toward the foreground)
+- flashWashColor          (translucent accent wash, rgba)
+- focusWashColor          (translucent accent-contrast wash, rgba)
 
 - fixedWidthFont
 
@@ -569,14 +585,16 @@ QTabWidget#docsNavTabs
     background: windowColor;
 }
 
-/* Same pill grammar as the Cards deck selector: outlined pill at rest,
-   accent border on hover, solid accent fill (no border) when selected. */
+/* ── House style: "pill" ─────────────────────────────────────────────────
+   Outlined pill at rest, hover-accent border on hover, solid selected fill
+   (no border) when current. Used by the docs/info nav chips here and the
+   Cards deck selector (#qsDeckPill below): one grammar, two sizes. */
 QTabWidget#docsNavTabs > QTabBar::tab,
 QTabWidget#infoNavTabs > QTabBar::tab
 {
     background: transparent;
     color: windowForegroundColor;
-    border: 2dx solid windowInternalBorderColor;
+    border: 2dx solid faintForegroundColor;
     border-radius: 12dx;
     font-weight: 600;
     padding-top: 3dx;
@@ -749,15 +767,17 @@ QToolButton:focus
     border-top: 2px solid hoverButtonColor;
 }
 
-/* The help pane's persistent close ✕ in the dock title row. Flat: the square-x
-   glyph carries its own box, so the button itself draws no chip — it just
-   brightens the glyph to the accent on hover (see updateHelpCloseIcon). */
-QPushButton#helpCloseButton
+/* Dock-title-row icon buttons: the help pane's persistent close ✕ and the
+   A-/A+ zoom pairs (zoombar.cpp). Flat: the glyphs carry their own form, so
+   the buttons draw no chip; hover brightens the glyph in code. One shared
+   rule so all their boxes are identical and the row's icons space evenly. */
+QPushButton#helpCloseButton,
+QPushButton#zoomBtn
 {
     background: transparent;
     border: none;
     border-radius: 4dx;
-    padding: 1dx 4dx;
+    padding: 2px;
 }
 
 QGroupBox:title
@@ -1350,3 +1370,273 @@ QSlider#timeWarpSlider::handle:horizontal:hover {
 QSlider#timeWarpSlider::handle:horizontal:focus {
     background: hoverButtonColor;
 }
+
+/* ── Quickstart Cards pane ──────────────────────────────────────────────
+   Font sizes track the pane's own zoom, so they're set per-widget in
+   quickstartpane.cpp; everything theme-coloured lives here. */
+
+QuickstartPane
+{
+    background-color: paneColor;
+}
+
+QuickstartPane QScrollArea
+{
+    background: transparent;
+    border: none;
+}
+
+/* Deck selector: the house pill grammar (see #docsNavTabs above), sized up
+   for the deck bar. `current` marks the active deck. */
+QPushButton#qsDeckPill
+{
+    background-color: transparent;
+    color: windowForegroundColor;
+    border: 2dx solid faintForegroundColor;
+    border-radius: 13dx;
+    padding-top: 6dx;
+    padding-bottom: 6dx;
+    padding-left: 14dx;
+    padding-right: 14dx;
+    font-weight: 600;
+}
+
+QPushButton#qsDeckPill:hover
+{
+    border-color: hoverButtonColor;
+}
+
+QPushButton#qsDeckPill:focus
+{
+    border-color: hoverButtonColor;
+}
+
+QPushButton#qsDeckPill[current="true"]
+{
+    background-color: tabSelectedColor;
+    color: tabSelectedTextColor;
+    border-color: transparent;
+}
+
+/* Carousel nav: ‹ dots › grouped in a soft pill. */
+QWidget#qsNav
+{
+    background: subtleFillColor;
+    border-radius: 17dx;
+}
+
+QPushButton#qsArrow
+{
+    background: transparent;
+    border: none;
+    color: mutedForegroundColor;
+    font-size: 26dx;
+    font-weight: 700;
+}
+
+QPushButton#qsArrow:hover:enabled
+{
+    color: highlightedBackgroundColor;
+}
+
+QPushButton#qsArrow:disabled
+{
+    color: ghostForegroundColor;
+}
+
+/* One dot per card; the lit run is the cards currently on screen. */
+QPushButton#qsDot
+{
+    border: none;
+    border-radius: 5dx;
+    padding: 0;
+    background: faintForegroundColor;
+}
+
+QPushButton#qsDot:hover
+{
+    background: mutedForegroundColor;
+}
+
+QPushButton#qsDot[lit="true"],
+QPushButton#qsDot[lit="true"]:hover
+{
+    background: highlightedBackgroundColor;
+}
+
+/* Deck description row: accent rail + muted one-liner. */
+QWidget#qsHeaderRail
+{
+    background: highlightedBackgroundColor;
+    border-radius: 2dx;
+}
+
+QLabel#qsDeckDesc
+{
+    color: softForegroundColor;
+    background: transparent;
+}
+
+/* The card. A 2dx border is always reserved (transparent when idle) so the
+   hover highlight causes no layout shift; the outer radius = child radius +
+   border width so it hugs the rounded header/footer corners. The #qsCard ID
+   keeps the border off QLabel children (QLabel derives from QFrame). */
+QFrame#qsCard
+{
+    background: transparent;
+    border: 2dx solid transparent;
+    border-radius: 8dx;
+}
+
+QFrame#qsCard[cardHover="true"]
+{
+    border-color: windowForegroundColor;
+}
+
+QWidget#qsCardHeader
+{
+    background-color: highlightedBackgroundColor;
+    border-top-left-radius: 6dx;
+    border-top-right-radius: 6dx;
+}
+
+QLabel#qsCardTitle
+{
+    color: accentContrastTextColor;
+    background: transparent;
+    font-weight: 700;
+}
+
+/* Header icon buttons (copy / add / drag): bare glyphs on the accent bar.
+   Hover fills with the code-body tint (the glyph swap to matching ink is done
+   in code); the :focus wash is for keyboard users. corner="tr" rounds the
+   drag handle's outer corner to match the card. */
+QPushButton#qsCardBtn
+{
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    outline: none;
+}
+
+QPushButton#qsCardBtn:focus
+{
+    background: focusWashColor;
+}
+
+QPushButton#qsCardBtn:hover
+{
+    background: accentTintColor;
+}
+
+QPushButton#qsCardBtn[corner="tr"]
+{
+    border-top-right-radius: 6dx;
+}
+
+QWidget#qsCardBody
+{
+    background-color: accentTintColor;
+}
+
+QLabel#qsCodeLine
+{
+    color: windowForegroundColor;
+    background: transparent;
+    font-family: 'Hack';
+    border-radius: 3dx;
+}
+
+/* Trigger flash: the same accent wash the editor uses. */
+QLabel#qsCodeLine[flashing="true"]
+{
+    background: flashWashColor;
+}
+
+QWidget#qsCardFooter
+{
+    background-color: accentTintStrongColor;
+    border-bottom-left-radius: 6dx;
+    border-bottom-right-radius: 6dx;
+}
+
+QLabel#qsCardBlurb
+{
+    color: softForegroundColor;
+    background: transparent;
+    font-style: italic;
+}
+
+/* The scope is the play/stop control; the disc icon carries the visuals. */
+QPushButton#qsCardRun
+{
+    background: transparent;
+    border: none;
+}
+
+/* Prefs panel close button. */
+QPushButton#prefsHideButton
+{
+    padding: 5px 18px;
+}
+
+/* Covers the corner where the editor's scrollbars meet, which the style
+   otherwise paints window-grey against the transparent tracks. */
+QWidget#editorScrollCorner
+{
+    background: paneColor;
+}
+
+/* ── Themed confirm dialog (confirmAction in mainwindow.cpp) ── */
+
+QDialog#confirmDialog
+{
+    background: windowColor;
+}
+
+QDialog#confirmDialog QLabel
+{
+    background: transparent;
+    color: windowForegroundColor;
+}
+
+QLabel#confirmHeadline
+{
+    font-weight: bold;
+}
+
+QLabel#confirmBody
+{
+    color: mutedForegroundColor;
+}
+
+QDialog#confirmDialog QPushButton
+{
+    padding: 6px 20px;
+    border-radius: 6px;
+    border: none;
+}
+
+QPushButton#confirmCancel
+{
+    background: rgba(127,127,127,60);
+    color: windowForegroundColor;
+}
+
+QPushButton#confirmCancel:hover
+{
+    background: rgba(127,127,127,110);
+}
+
+QPushButton#confirmPrimary
+{
+    background: highlightedBackgroundColor;
+    color: accentContrastTextColor;
+}
+
+QPushButton#confirmPrimary:hover
+{
+    background: accentHoverColor;
+}
+

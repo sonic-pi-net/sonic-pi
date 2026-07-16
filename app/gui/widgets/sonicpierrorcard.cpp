@@ -250,8 +250,8 @@ void SonicPiErrorCard::applyTheme()
 
     QColor cardBg = blend(editorBg, fg, dark ? 0.09 : 0.06);
     QColor codeBorder = blend(cardBg, fg, 0.18);
-    QColor muted = blend(fg, editorBg, 0.38);
-    QColor textColor = blend(fg, editorBg, 0.08);
+    QColor muted = m_theme->mutedForeground();
+    QColor textColor = m_theme->softForeground();
 
     // House-style button: black fill, themed border/text, hover blue, pressed
     // pink. The fill is literal black by design, so it must go through the

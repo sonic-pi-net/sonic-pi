@@ -696,8 +696,7 @@ void MainWindow::setupWindowStructure()
     QHBoxLayout* prefsButtonLayout = new QHBoxLayout;
     QPushButton* prefsHidePushButton = new QPushButton(tr("Close"));
     prefsHidePushButton->setToolTip(tr("Close the preferences panel."));
-    prefsHidePushButton->setObjectName("prefsHideButton");
-    prefsHidePushButton->setStyleSheet("#prefsHideButton { padding: 5px 18px; }");
+    prefsHidePushButton->setObjectName("prefsHideButton"); // padding in app.qss
     prefsButtonLayout->setContentsMargins(0, ScaleHeightForDPI(6), ScaleWidthForDPI(10), ScaleHeightForDPI(8));
     prefsButtonLayout->addStretch(1);
     prefsButtonLayout->addWidget(prefsHidePushButton);
@@ -2623,6 +2622,7 @@ bool MainWindow::confirmAction(const QString& text, const QString& informativeTe
 {
     // QMessageBox renders half-native under the app QSS on macOS.
     QDialog dlg(this);
+    dlg.setObjectName("confirmDialog"); // styled in app.qss
     dlg.setWindowTitle(tr("Sonic Pi"));
     dlg.setModal(true);
 
@@ -2654,30 +2654,6 @@ bool MainWindow::confirmAction(const QString& text, const QString& informativeTe
     layout->addWidget(body);
     layout->addSpacing(14);
     layout->addLayout(buttons);
-
-    const QColor bg = theme->color("WindowBackground");
-    const QColor fg = theme->color("WindowForeground");
-    const QColor accent = theme->color("HighlightedBackground");
-    const QColor accentText = theme->contrastingText(accent);
-    QColor bodyFg = fg;
-    bodyFg.setAlphaF(0.75);
-
-    dlg.setStyleSheet(QString(
-        "QDialog { background: %1; }"
-        "QLabel { background: transparent; color: %2; }"
-        "QLabel#confirmHeadline { font-weight: bold; }"
-        "QLabel#confirmBody { color: rgba(%3,%4,%5,%6); }"
-        "QPushButton { padding: 6px 20px; border-radius: 6px; border: none; }"
-        "QPushButton#confirmCancel { background: rgba(127,127,127,60); color: %2; }"
-        "QPushButton#confirmCancel:hover { background: rgba(127,127,127,110); }"
-        "QPushButton#confirmPrimary { background: %7; color: %8; }"
-        "QPushButton#confirmPrimary:hover { background: %9; }")
-        .arg(bg.name())
-        .arg(fg.name())
-        .arg(fg.red()).arg(fg.green()).arg(fg.blue()).arg(bodyFg.alphaF())
-        .arg(accent.name())
-        .arg(accentText.name())
-        .arg(accent.lighter(115).name()));
 
     dlg.setMinimumWidth(420);
     cancelBtn->setDefault(true);

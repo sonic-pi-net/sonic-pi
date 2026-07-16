@@ -59,6 +59,16 @@ public:
                       qRound(a.green() * (1 - t) + b.green() * t),
                       qRound(a.blue() * (1 - t) + b.blue() * t));
     }
+    // Derived colour roles: one definition each, shared by the QSS tokens
+    // (reloadStylesheet) and any C++ painting that needs the same tone.
+    QColor softForeground();     // foreground -> pane emphasis ramp: 10%
+    QColor mutedForeground();    // 30%
+    QColor faintForeground();    // 62%
+    QColor ghostForeground();    // 82%
+    QColor subtleFill();         // pane nudged 7% toward the foreground
+    QColor accentTint();         // pane washed 6% toward the accent
+    QColor accentTintStrong();   // pane washed 14% toward the accent
+    QColor accentContrastText(); // auto-contrast text on the accent
     // Applies the global invert / monochrome / hue-rotation transforms to an
     // arbitrary colour (the shared pipeline behind color(); also used for literal
     // colours and for previewing each theme card under the active toggles).
