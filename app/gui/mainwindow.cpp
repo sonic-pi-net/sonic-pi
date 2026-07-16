@@ -4608,7 +4608,7 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "Scope", QT_TR_NOOP("Toggle visibility of audio oscilloscope"), "Meta+O", "Meta+O", "Meta+O", "Visuals", &MainWindow::scopeAct },
     { "CycleThemes", QT_TR_NOOP("Cycle through the available colour themes"), "ShiftMeta+M", "ShiftMeta+M", "ShiftMeta+M", "Visuals", &MainWindow::cycleThemesAct },
     { "Info", QT_TR_NOOP("Toggle information about Sonic Pi"), "Meta+n", "Meta+1", "Meta+1", "View", &MainWindow::infoAct },
-    { "Help", QT_TR_NOOP("Toggle the visibility of the help pane"), "F1", "F1", "Meta+i", "View", &MainWindow::helpAct },
+    { "Help", QT_TR_NOOP("Toggle the visibility of the help pane"), "Meta+?", "F1", "Meta+i", "View", &MainWindow::helpAct, "F1" },
     { "Prefs", QT_TR_NOOP("Toggle the visibility of the preferences pane"), "Meta+p", "Meta+p", "Meta+p", "View", &MainWindow::prefsAct },
     { "TabPrev", QT_TR_NOOP("Switch to the previous tab"), "ShiftMeta+[", "ShiftMeta+[", "ShiftMeta+[", "Focus", &MainWindow::tabPrevAct },
     { "TabNext", QT_TR_NOOP("Switch to the next tab"), "ShiftMeta+]", "ShiftMeta+]", "ShiftMeta+]", "Focus", &MainWindow::tabNextAct },
