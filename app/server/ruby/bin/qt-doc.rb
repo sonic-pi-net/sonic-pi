@@ -425,7 +425,10 @@ opt_summaries.each do |ak, info|
   docs << "  autocomplete->setSummary(\"#{ak}:\", QString::fromUtf8(\"#{ak}:\"));\n"
   docs << "  autocomplete->setDoc(\"#{ak}:\", #{qutf8_doc.call(body)});\n"
   # Bounded opt (inferred from its :type) → a value-picker slider in the GUI.
-  # MIDI-note opts (cutoff etc.) have no :type range but get a useful one here.
+  # MIDI-note opts (flagged :midi in their arg info: cutoff, band_eq's freq)
+  # have no :type range but get a musical one here rather than the "4x the
+  # default" fallback, which offers ultrasonic values (a filter fed
+  # midicps(186), roughly 384kHz, explodes into full-scale noise).
   midi_ranges = { "cutoff" => [30.0, 130.0, 100.0] }
   bounds = info[:bounds] || {}
   if (opts = bounds[:options])
@@ -434,6 +437,9 @@ opt_summaries.each do |ak, info|
     docs << "  autocomplete->setOptOptions(\"#{ak}:\", QStringList{#{list}});\n"
   elsif (mr = midi_ranges[ak.to_s]) && !info[:range]
     docs << "  autocomplete->setOptRange(\"#{ak}:\", #{mr[0]}, #{mr[1]}, #{mr[2]});\n"
+  elsif info[:midi] && !info[:range] && !(bounds.key?(:min) && bounds.key?(:max))
+    dv = info[:default].is_a?(Numeric) ? [[info[:default].to_f, 30.0].max, 130.0].min : 100.0
+    docs << "  autocomplete->setOptRange(\"#{ak}:\", 30.0, 130.0, #{dv});\n"
   elsif (r = info[:range])
     dv = info[:default].is_a?(Numeric) ? info[:default] : ((r[0] + r[1]) / 2.0)
     docs << "  autocomplete->setOptRange(\"#{ak}:\", #{r[0].to_f}, #{r[1].to_f}, #{dv.to_f});\n"
@@ -853,6 +859,11 @@ native_opt_min_max = lambda do |ak, info, default|
   midi_ranges = { "cutoff" => [30.0, 130.0] }
   if (mr = midi_ranges[ak.to_s]) && !info[:range]
     lo, hi = mr
+  elsif info[:midi] && !info[:range] && !(bounds.key?(:min) && bounds.key?(:max))
+    # MIDI-note opt without explicit bounds (e.g. band_eq's freq): a musical
+    # range rather than the "4x the default" fallback below, which offers
+    # ultrasonic values that blow filters up into full-scale noise.
+    lo, hi = 30.0, 130.0
   elsif (r = info[:range])
     lo, hi = r[0].to_f, r[1].to_f
   elsif bounds.key?(:min) && bounds.key?(:max)

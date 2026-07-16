@@ -23,8 +23,12 @@ module SonicPi
       # GUI shows a slider for a ranged opt). Opts with no :type are plain floats
       # (free numbers, no range/slider).
       OPT_TYPE_RANGES = {
-        :pan  => [-1.0, 1.0],   # left .. right
-        :unit => [0.0, 1.0],    # normalised level / mix
+        :pan       => [-1.0, 1.0],   # left .. right
+        :unit      => [0.0, 1.0],    # normalised level / mix
+        :db        => [-24.0, 24.0], # boost/cut in decibels
+        :eq_gain   => [-1.0, 1.0],   # normalised EQ gain (x15 -> dB)
+        :semitones => [-24.0, 24.0], # detune/transpose distance in MIDI notes
+        :slope     => [0.0, 2.0],    # compander slope ratio (1 = neutral)
       }
 
       def initialize
@@ -239,6 +243,7 @@ module SonicPi
             new_info[:constraints] = constraints
             new_info[:bounds] = merge_validation_bounds(validations)
             new_info[:modulatable] = default_info[:modulatable]
+            new_info[:midi] = default_info[:midi]
             # Semantic type (default :float) and the range it infers, if any.
             new_info[:type] = default_info[:type] || :float
             if r = OPT_TYPE_RANGES[new_info[:type]]
@@ -510,6 +515,7 @@ module SonicPi
           {
             :doc => "Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds.",
             :validations => [],
+            :type => :semitones,
             :modulatable => true
           },
 
@@ -547,6 +553,7 @@ module SonicPi
           :mod_range =>
           {
             :doc => "The size of gap between modulation notes. A gap of 12 is one octave.",
+            :type => :semitones,
             :modulatable => true
           },
 
@@ -1013,6 +1020,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           {
             :doc => "Amplitude for the additional sine wave.",
             :validations => [],
+            :type => :unit,
             :modulatable => true
           },
 
@@ -1028,6 +1036,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           {
             :doc => "Amount of detune from the note for the additional sine wave. Default is -12",
             :validations => [],
+            :type => :semitones,
             :modulatable => true
           },
 
@@ -2097,7 +2106,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           :coef =>
           {
             :doc => "Coefficient of the internal OnePole filter. Values around zero are resonant and bright, values towards 1 sound more dampened and cutoff. It's a little bit like playing nearer the soundhole/fingerboard for values near zero and more toward the bridge for values approaching one, although this isn't an exact comparison.",
-            :validations => [v_between_inclusive(:coef, -1, 1)],
+            :validations => [v_greater_than(:coef, -1), v_less_than(:coef, 1)],
             :modulatable => false
           },
 
@@ -2332,7 +2341,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           :note =>
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, 56.5, `:C`, `:C2`, `:Eb4`, or `:Ds3`.",
-            :validations => [v_positive(:note), v_less_than(:note, 231)],
+            :validations => [v_positive(:note), v_less_than(:note, 131)],
             :modulatable => true,
             :midi => true
           },
@@ -2527,12 +2536,13 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           :reverb_time =>
           {
             :doc => "How long in beats the reverb should go on for.",
-            :validations => [v_positive(:reverb_time)],
+            :validations => [v_greater_than(:reverb_time, 0)],
             :modulatable => false
           },
           :detune1 =>
           {
             :doc => "Distance (in MIDI notes) between the main note and the second component of sound. Affects thickness, sense of tuning and harmony.",
+            :type => :semitones,
           },
 
 
@@ -2547,6 +2557,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           :detune2 =>
           {
             :doc => "Distance (in MIDI notes) between the main note and the third component of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound.",
+            :type => :semitones,
           },
 
           :detune2_slide =>
@@ -3666,7 +3677,7 @@ Based on work of [Chris Wigington](https://actlab.us/actlab/cwigington/projone.h
           :note =>
           {
             :doc => "Note to play. Either a MIDI number or a symbol representing a note. For example: `30`, `52`, 56.5, `:C`, `:C2`, `:Eb4`, or `:Ds3`. This synth does allow changing or sliding the note while playing. In real tonewheel organs one would get this effect only when fiddling with the motor driving the tonewheel.",
-            :validations => [v_positive(:note), v_less_than(:note, 231)],
+            :validations => [v_positive(:note), v_less_than(:note, 131)],
             :modulatable => true,
             :midi => true
           },
@@ -4552,6 +4563,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Distance (in MIDI notes) between components of sound. Affects thickness, sense of tuning and harmony. Tiny values such as 0.1 create a thick sound. Larger values such as 0.5 make the tuning sound strange. Even bigger values such as 5 create chord-like sounds.",
             :validations => [],
+            :type => :semitones,
             :modulatable => true
           },
           :decay =>
@@ -5526,7 +5538,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :threshold =>
           {
             :doc => "Threshold value determining the break point between slope_below and slope_above. Only valid if the compressor is enabled by turning on the compress: opt.",
-            :validations => [v_positive(:threshold)],
+            :validations => [v_greater_than(:threshold, 0)],
             :modulatable => true
           },
 
@@ -5542,6 +5554,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           {
             :doc => "Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.",
             :validations => [],
+            :type => :slope,
             :modulatable => true
           },
 
@@ -5558,6 +5571,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
             :doc => "Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal. Only valid if the compressor is enabled by turning on the compress: opt.",
 
             :validations => [],
+            :type => :slope,
             :modulatable => true
           },
 
@@ -6127,6 +6141,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :low_shelf =>
           {
             :doc => "Gain - boost or cut the centre frequency. The low shelf defines the characteristics of the lowest part of the eq FX. A value of 0 will neither boost or cut the low_shelf frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :type => :eq_gain,
             :modulatable => true
           },
 
@@ -6157,7 +6172,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :low_shelf_slope =>
           {
             :doc => "Low shelf boost/cut slope. When set to 1 (the default), the shelf slope is as steep as it can be and remain monotonically increasing or decreasing gain with frequency.",
-            :validations => [v_greater_than_oet(:low_shelf_slope, 0), v_less_than_oet(:low_shelf_slope, 1)],
+            :validations => [v_greater_than_oet(:low_shelf_slope, 0.3), v_less_than_oet(:low_shelf_slope, 1)],
             :modulatable => true
           },
 
@@ -6172,7 +6187,8 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
 
           :low =>
           {
-            :doc => "Gain - boost or cut the centre frequency of the bass part of the sound. The low shelf defines the characteristics of the bass of the eq FX. A value of 0 will neither boost or cut the bass frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :doc => "Gain - boost or cut the centre frequency of the bass part of the sound. The low band defines the characteristics of the bass of the eq FX. A value of 0 will neither boost or cut the bass frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :type => :eq_gain,
             :modulatable => true
           },
 
@@ -6232,7 +6248,8 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
 
           :mid =>
           {
-            :doc => "Gain - boost or cut the centre frequency of the middle part of the sound. The mid shelf defines the characteristics of the bass of the eq FX. A value of 0 will neither boost or cut the bass frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :doc => "Gain - boost or cut the centre frequency of the middle part of the sound. The mid band defines the characteristics of the mids of the eq FX. A value of 0 will neither boost or cut the mid frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :type => :eq_gain,
             :modulatable => true
           },
 
@@ -6292,7 +6309,8 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
 
                     :high =>
           {
-            :doc => "Gain - boost or cut the centre frequency of the high part of the sound. The high shelf defines the characteristics of the treble of the eq FX. A value of 0 will neither boost or cut the treble frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :doc => "Gain - boost or cut the centre frequency of the high part of the sound. The high band defines the characteristics of the treble of the eq FX. A value of 0 will neither boost or cut the treble frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :type => :eq_gain,
             :modulatable => true
           },
 
@@ -6352,6 +6370,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
           :high_shelf =>
           {
             :doc => "Gain - boost or cut the centre frequency. The high shelf defines the characteristics of the highest part of the eq FX. A value of 0 will neither boost or cut the high_shelf frequencies. A value of 1 will boost by 15 dB and a value of -1 will cut/attenuate by -15 dB.",
+            :type => :eq_gain,
             :modulatable => true
           },
 
@@ -6382,7 +6401,7 @@ A decent range of Q factors for naturally sounding boosts/cuts is 0.6 to 1.
           :high_shelf_slope =>
           {
             :doc => "High shelf boost/cut slope. When set to 1 (the default), the shelf slope is as steep as it can be and remain monotonically increasing or decreasing gain with frequency.",
-            :validations => [v_greater_than_oet(:high_shelf_slope, 0), v_less_than_oet(:high_shelf_slope, 1)],
+            :validations => [v_greater_than_oet(:high_shelf_slope, 0.3), v_less_than_oet(:high_shelf_slope, 1)],
             :modulatable => true
           },
 
@@ -7290,6 +7309,7 @@ end
           {
             :doc => "Minimum amplitude of the slicer",
             :validations => [v_positive(:amp_min)],
+            :type => :unit,
             :modulatable => true
           },
 
@@ -7305,6 +7325,7 @@ end
           {
             :doc => "Maximum amplitude of the slicer",
             :validations => [v_positive(:amp_max)],
+            :type => :unit,
             :modulatable => true
           },
 
@@ -7960,6 +7981,7 @@ end
           :transpose =>
           {
             :doc => "This is how much to transpose the input, expressed as a midi pitch.",
+            :type => :semitones,
             :modulatable => true
           },
 
@@ -8039,7 +8061,7 @@ end
           :threshold =>
           {
             :doc => "Threshold value determining the break point between slope_below and slope_above.",
-            :validations => [v_positive(:threshold)],
+            :validations => [v_greater_than(:threshold, 0)],
             :modulatable => true
           },
 
@@ -8055,6 +8077,7 @@ end
           {
             :doc => "Slope of the amplitude curve below the threshold. A value of 1 means that the output of signals with amplitude below the threshold will be unaffected. Greater values will attenuate and smaller values will magnify the signal.",
             :validations => [],
+            :type => :slope,
             :modulatable => true
           },
 
@@ -8071,6 +8094,7 @@ end
             :doc => "Slope of the amplitude curve above the threshold. A value of 1 means that the output of signals with amplitude above the threshold will be unaffected. Greater values will magnify and smaller values will attenuate the signal.",
 
             :validations => [],
+            :type => :slope,
             :modulatable => true
           },
 
@@ -8733,6 +8757,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
           :db =>
           {
             :doc => "Amount of boost or attenuation of the frequency band. A positive value boosts frequencies in the band, a negative value attenuates them.",
+            :type => :db,
             :modulatable => true
           },
 
