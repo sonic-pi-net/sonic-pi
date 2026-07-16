@@ -358,6 +358,19 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     setMarginsBackgroundColor(theme->color("MarginBackground"));
     setMarginsForegroundColor(theme->color("MarginForeground"));
     setMarginsFont(QFont("Hack", 15, -1, true));
+    // Scintilla's horizontal scroll range defaults to a fixed 2000px, which
+    // keeps the horizontal scrollbar visible in any narrower window. Track
+    // the widest actual line instead, so the bar only appears when a line
+    // genuinely overflows. Tracking only ever grows; re-arm it on every text
+    // or zoom change (the next paint re-measures what's displayed) or the
+    // ctor's loading placeholder, a deleted long line or a reduced zoom
+    // leaves a stale oversized range behind.
+    SendScintilla(SCI_SETSCROLLWIDTH, 1);
+    SendScintilla(SCI_SETSCROLLWIDTHTRACKING, 1);
+    connect(this, &QsciScintilla::textChanged, this,
+            [this] { SendScintilla(SCI_SETSCROLLWIDTH, 1); });
+    connect(this, &SonicPiScintilla::zoomLevelChanged, this,
+            [this] { SendScintilla(SCI_SETSCROLLWIDTH, 1); });
     setUtf8(true);
     setText("# Loading previous buffer contents. Please wait...");
     setLexer((QsciLexer*)lexer);
