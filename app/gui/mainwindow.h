@@ -205,8 +205,13 @@ private:
                           QString inputDevice = QString());
 
     // One-shot restore of QSettings audio intent — fires after all three
-    // initial /supersonic/* broadcasts have landed
+    // initial /supersonic/* broadcasts have landed. The driver goes first
+    // (a switch cascades a device re-open), so the restore is two-staged:
+    // m_audioDriverRestoreSent marks the driver switch dispatched, and the
+    // device/rate/buffer pass runs on a later broadcast once the engine
+    // has reported back.
     bool m_audioIntentRestored = false;
+    bool m_audioDriverRestoreSent = false;
     bool m_audioDevicesSeen = false;
     bool m_audioInputDevicesSeen = false;
     bool m_audioDeviceConfigSeen = false;

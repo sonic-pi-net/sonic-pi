@@ -26,6 +26,13 @@
 #if defined(Q_OS_DARWIN)
 #include "platform/macos.h"
 #endif
+#ifdef Q_OS_WIN
+#define WIN32_LEAN_AND_MEAN
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
 
 #include <QSettings>
 #include <QVBoxLayout>
@@ -184,6 +191,22 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
 SettingsWidget::~SettingsWidget() {
 }
 
+// True when the GUI is running inside a remote desktop session (RDP).
+// Local audio hardware is typically unavailable there — WASAPI endpoints
+// are redirected to "Remote Audio", while installed ASIO drivers still
+// enumerate from the registry regardless of session and then fail to
+// start. Checked per call rather than cached: RDP attach/detach changes
+// the session state mid-run, and each attach also changes the audio
+// device list, which triggers the device report that re-reads this.
+static bool isRemoteDesktopSession()
+{
+#ifdef Q_OS_WIN
+    return GetSystemMetrics(SM_REMOTESESSION) != 0;
+#else
+    return false;
+#endif
+}
+
 /**
  * Create Audio Preferences Tab of Settings Widget
  */
@@ -287,6 +310,14 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     bsLabel->setBuddy(audio_buffer_size_combo);
     audio_device_layout->addWidget(bsLabel, 4, 0);
     audio_device_layout->addWidget(audio_buffer_size_combo, 4, 1);
+
+    remote_session_note = new QLabel(
+        tr("Remote desktop session: local audio hardware is usually "
+           "unavailable, and ASIO devices may fail to start."));
+    remote_session_note->setWordWrap(true);
+    remote_session_note->setObjectName("remoteSessionNote");   // styled by app.qss (muted note)
+    remote_session_note->setVisible(isRemoteDesktopSession());
+    audio_device_layout->addWidget(remote_session_note, 5, 0, 1, 2);
 
     // Fixed, uniform height so each combo's grey fill exactly matches its
     // focus/hover highlight (otherwise the widget floats taller than the
@@ -2089,10 +2120,14 @@ void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInf
 
     // Driver dropdown doubles as pending user intent (Driver=ASIO isn't
     // committed until an Output device is also picked) and a mirror of the
-    // engine's live driver. m_engineActualDriver still holds the driver from
-    // the previous report here (refreshed below), which lets
-    // choose_driver_selection tell an engine-synced value from a deliberate
-    // override and follow the engine when it switches on its own.
+    // engine's live driver. The report's intendedDriver settles the conflict
+    // authoritatively: it carries the engine's own pending-pick record, which
+    // survives failed swaps and recovery reopens — and when it's explicitly
+    // empty, a differing local selection is stale and follows the engine.
+    // Reports without the field (older engine) fall back to inference:
+    // m_engineActualDriver still holds the driver from the previous report
+    // here (refreshed below), which lets choose_driver_selection tell an
+    // engine-synced value from a deliberate override.
     QString userSelection = audio_driver_combo->currentText();
     bool wasEmpty = audio_driver_combo->count() == 0;
     audio_driver_combo->clear();
@@ -2104,7 +2139,9 @@ void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInf
         userSelection.toStdString(),
         m_engineActualDriver.toStdString(),
         configInfo.availableDrivers,
-        configInfo.currentDriver);
+        configInfo.currentDriver,
+        configInfo.hasIntendedDriver,
+        configInfo.intendedDriver);
     if (!driverToSelect.empty()) {
         int idx = audio_driver_combo->findText(QString::fromStdString(driverToSelect));
         if (idx >= 0) {
@@ -2130,6 +2167,11 @@ void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInf
     if (!configInfo.currentDriver.empty()) {
         versionText += QString(" | %1").arg(QString::fromStdString(configInfo.currentDriver));
     }
+    const bool remoteSession = isRemoteDesktopSession();
+    if (remoteSession) {
+        versionText += QString(" | %1").arg(tr("remote session"));
+    }
+    remote_session_note->setVisible(remoteSession);
     supersonic_version_label->setText(versionText);
 
     // Re-enable controls after device switch completes

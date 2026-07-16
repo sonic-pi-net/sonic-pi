@@ -255,7 +255,9 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             else
             {
                 // Extended format: text, sampleRate, bufferSize,
-                // numRates, rates..., numBufs, bufs..., numDrivers, drivers..., currentDriver
+                // numRates, rates..., numBufs, bufs..., numDrivers, drivers...,
+                // currentDriver, outCh, inCh,
+                // intendedDriver (trailing, absent on older engines)
                 ar.popInt32(message.sampleRate);
                 ar.popInt32(message.bufferSize);
 
@@ -292,6 +294,11 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 ar.popInt32(outCh);
                 ar.popInt32(inCh);
 
+                // Engine's pending driver pick — trailing so reports from
+                // engines predating it simply run out of args here.
+                std::string intendedDriver;
+                bool hasIntendedDriver = ar.popStr(intendedDriver).isOk();
+
                 LOG(INFO, "/supersonic/info (extended): > " << message.text
                     << " sr=" << message.sampleRate
                     << " bs=" << message.bufferSize
@@ -307,6 +314,8 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 config.availableBufferSizes = std::move(message.availableBufferSizes);
                 config.availableDrivers = std::move(message.availableDrivers);
                 config.currentDriver = std::move(message.currentDriver);
+                config.intendedDriver = std::move(intendedDriver);
+                config.hasIntendedDriver = hasIntendedDriver;
                 m_pClient->AudioDeviceConfig(config);
             }
         }

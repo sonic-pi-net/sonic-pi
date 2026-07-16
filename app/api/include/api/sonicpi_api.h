@@ -209,6 +209,12 @@ struct AudioDeviceConfigInfo {
     std::vector<int> availableBufferSizes;
     std::vector<std::string> availableDrivers;
     std::string currentDriver;
+    // The engine's pending driver pick (switchDriver with no openable
+    // device yet); empty when nothing is pending. hasIntendedDriver is
+    // false when the report predates the field (older engine) — the GUI
+    // then falls back to inferring pending intent locally.
+    std::string intendedDriver;
+    bool hasIntendedDriver = false;
 };
 
 // Carries the truthful outcome of a debounced /supersonic/devices/switch

@@ -210,6 +210,13 @@ private:
     // input cannot be disabled separately from output without a
     // driver-level reconfigure that crashes many ASIO drivers.
     QLabel    *asio_input_note;
+    // Shown under the Audio Device grid when the GUI runs inside a
+    // remote desktop session, where local audio hardware is typically
+    // unavailable (WASAPI redirects to "Remote Audio") yet installed
+    // ASIO drivers still enumerate from the registry and then fail to
+    // start. Annotates rather than filters — some ASIO devices do work
+    // over RDP.
+    QLabel    *remote_session_note;
     // Original tooltip and Qt::Checked state of enable_scsynth_inputs
     // remembered before we override them for ASIO, so they restore
     // intact when leaving ASIO.

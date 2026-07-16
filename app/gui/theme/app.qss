@@ -1136,6 +1136,7 @@ SonicPiMetro
 /* Muted helper/footnote labels — house small size + the theme's placeholder
    (dimmed-but-legible) foreground, replacing hardcoded 10px / "gray" inline. */
 QLabel#asioInputNote,
+QLabel#remoteSessionNote,
 QLabel#poweredByLabel
 {
     font-size: small;

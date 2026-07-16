@@ -7824,18 +7824,38 @@ void MainWindow::maybeRestoreAudioIntent()
     // Wait for SuperSonic's full initial state before diffing against intent
     if (m_audioIntentRestored) return;
     if (!m_audioDevicesSeen || !m_audioInputDevicesSeen || !m_audioDeviceConfigSeen) return;
-    m_audioIntentRestored = true;
 
     // Driver first — a switch cascades a device re-open, so leave
-    // device/rate/buffer for the next broadcast to settle
+    // device/rate/buffer for the next broadcast to settle. For a driver
+    // with no engine-remembered device (ASIO on a fresh boot) the switch
+    // only records a pending intent; the device pass below then commits
+    // it by naming the saved output, which the engine resolves under the
+    // intended driver.
     const QString currentDriver = QString::fromStdString(m_lastAudioDeviceConfig.currentDriver);
-    if (!piSettings->audio_driver.isEmpty() && piSettings->audio_driver != currentDriver) {
+    if (!m_audioDriverRestoreSent
+        && !piSettings->audio_driver.isEmpty()
+        && piSettings->audio_driver != currentDriver) {
+        m_audioDriverRestoreSent = true;
         std::cout << "[gui-audio] restore: driver '"
                   << currentDriver.toUtf8().constData() << "' -> '"
                   << piSettings->audio_driver.toUtf8().constData() << "'" << std::endl;
         switchAudioDriver(piSettings->audio_driver);
         return;
     }
+    if (m_audioDriverRestoreSent && piSettings->audio_driver != currentDriver) {
+        // Driver ask dispatched but the engine hasn't reflected it yet —
+        // either the swap is still in flight (device-list churn fires
+        // broadcasts mid-swap; the atomic switch below would bounce off
+        // the engine's swap mutex) or the engine recorded a pending
+        // intent instead of opening a device. Proceed only once the
+        // report shows one or the other.
+        const bool intentRecorded =
+            m_lastAudioDeviceConfig.hasIntendedDriver
+            && piSettings->audio_driver
+               == QString::fromStdString(m_lastAudioDeviceConfig.intendedDriver);
+        if (!intentRecorded) return;
+    }
+    m_audioIntentRestored = true;
 
     // One atomic switch for output/input/rate/buffer — separate calls
     // race inside SuperSonic's 500ms debounce buffer
