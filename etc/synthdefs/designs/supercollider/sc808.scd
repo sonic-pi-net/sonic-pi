@@ -568,7 +568,7 @@ SynthDef('sonic-pi-sc808_cymbal', {|
     sum = LPF.ar(sum, 4000);
     sum = sum * amp * 12;
     DetectSilence.ar(sum, doneAction: Done.freeSelf);
-    Out.ar(0, Pan2.ar(sum, pan));
+    Out.ar(out_bus, Pan2.ar(sum, pan));
 
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )/*
@@ -1147,7 +1147,7 @@ SynthDef('sonic-pi-sc808_cymbal', {|
     sum = LPF.ar(sum, 4000);
     sum = sum * amp * 12;
     DetectSilence.ar(sum, doneAction: Done.freeSelf);
-    Out.ar(0, Pan2.ar(sum, pan));
+    Out.ar(out_bus, Pan2.ar(sum, pan));
 
 }).writeDefFile("/Users/sam/Development/sonic-pi/etc/synthdefs/compiled/");
 )
