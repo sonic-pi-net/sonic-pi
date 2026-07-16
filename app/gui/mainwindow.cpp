@@ -994,6 +994,14 @@ void MainWindow::setupWindowStructure()
             tutorialPane, &TutorialPane::runStarted);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::RunEndedReceived,
             tutorialPane, &TutorialPane::runEnded);
+    // Job -> workspace, so errors can tell an editor run from a help-system
+    // one (help errors must never scribble markers on the editor).
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunStartedReceived, this,
+            [this](int jobId, const QString& workspace) {
+                m_jobWorkspaces[jobId] = workspace;
+            });
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunEndedReceived, this,
+            [this](int jobId) { m_jobWorkspaces.remove(jobId); });
 
     southTabs = new IconTabWidget;
     southTabs->setObjectName("southTabs");

@@ -153,6 +153,14 @@ public:
     SonicPiTheme* GetTheme() const;
 
     void addCuePath(QString path, QString val);
+    // True when the job ran from an editor buffer (workspace_*), not the help
+    // system's playground/example/card workspaces. Jobs with no recorded
+    // workspace count as editor runs.
+    bool jobRanFromEditor(int jobId) const
+    {
+        return !m_jobWorkspaces.contains(jobId)
+               || m_jobWorkspaces.value(jobId).startsWith(QLatin1String("workspace_"));
+    }
     void setLineMarkerinCurrentWorkspace(int num, bool isSyntaxError, const QString& errorToken, int colStart, int colEnd);
     void showError(QString msg);
     // Runtime/syntax errors as a native card (rounded, themed, with a jump button).
@@ -628,6 +636,7 @@ private:
 
     QMenu *shortcutMenu, *liveMenu, *codeMenu, *examplesMenu, *audioMenu, *displayMenu, *viewMenu, *focusMenu, *tabMenu, *ioMenu, *ioMidiInMenu, *ioMidiOutMenu, *ioMidiOutChannelMenu, *ioGamepadMenu, *localIpAddressesMenu, *themeMenu, *scopeKindVisibilityMenu, *languageMenu, *accessibilityMenu, *recentSetsMenu;
     QAction* examplesPlayOnOpenAct;
+    QHash<int, QString> m_jobWorkspaces; // live jobs -> source workspace (error routing)
     QStringList tutorialJsonPaths; // sorted generated chapter JSON, row-aligned with the Tutorial help list
     QStringList examplePaths;      // qt-doc glob order, row-aligned with the Examples help list
     QStringList exampleTitles;

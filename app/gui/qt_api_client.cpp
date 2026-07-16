@@ -81,6 +81,11 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
     }
     else if (info.type == MessageType::RuntimeError)
     {
+        // Errors from help-system runs (playground/example/card workspaces)
+        // must not mark lines in, or offer a jump into, the editor: their
+        // line numbers belong to the generated snippet, not any buffer.
+        const bool fromEditor = m_pMainWindow->jobRanFromEditor(info.jobId);
+
         QString full = QString::fromStdString(info.text);
         QString header, location, reason;
         splitErrorText(full, "Runtime Error: ", header, location, reason);
@@ -105,7 +110,8 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
             tm = reSymbol.match(headLine);
         if (tm.hasMatch())
             errToken = tm.captured(1);
-        m_pMainWindow->setLineMarkerinCurrentWorkspace(info.line, false, errToken, info.errorColStart, info.errorColEnd);
+        if (fromEditor)
+            m_pMainWindow->setLineMarkerinCurrentWorkspace(info.line, false, errToken, info.errorColStart, info.errorColEnd);
 
         // The card draws its squiggle from [colStart,colEnd) alone; when
         // error_highlight gave no span, fall back to the identifier named in
@@ -138,11 +144,14 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
         m_pMainWindow->showErrorCard(false, header, location, reason,
                                      QString::fromStdString(info.errorLineString), info.line,
                                      colStart, colEnd,
-                                     QString::fromStdString(info.backtrace), info.line > 0);
+                                     QString::fromStdString(info.backtrace),
+                                     fromEditor && info.line > 0);
     }
     else if (info.type == MessageType::SyntaxError)
     {
-        m_pMainWindow->setLineMarkerinCurrentWorkspace(info.line, true, QString(), info.errorColStart, info.errorColEnd);
+        const bool fromEditor = m_pMainWindow->jobRanFromEditor(info.jobId);
+        if (fromEditor)
+            m_pMainWindow->setLineMarkerinCurrentWorkspace(info.line, true, QString(), info.errorColStart, info.errorColEnd);
 
         QString header, location, reason;
         splitErrorText(QString::fromStdString(info.text), "Syntax Error: ", header, location, reason);
@@ -161,7 +170,7 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
         m_pMainWindow->showErrorCard(true, header, location, reason,
                                      QString::fromStdString(info.errorLineString), info.line,
                                      info.errorColStart, info.errorColEnd,
-                                     QString(), info.line > 0);
+                                     QString(), fromEditor && info.line > 0);
     }
     else if (info.type == MessageType::StartupError)
     {
