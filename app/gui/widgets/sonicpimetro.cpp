@@ -285,16 +285,10 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
 
 bool SonicPiMetro::isSetPosAvailable()
 {
-  QPoint pos, new_pos;
-  pos = QCursor::pos();
-  QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
-  QCursor::setPos(QPoint(0, 0));
-  QThread::msleep(250);
-  new_pos = QCursor::pos();
-  bool available = pos != new_pos;
-  QGuiApplication::restoreOverrideCursor();
-  QCursor::setPos(pos);
-  return available;
+  // QCursor::setPos is a silent no-op on Wayland; the pointer-warp drags in
+  // the BPM scrubber / time-warp edit fall back to plain drags there.
+  return !QGuiApplication::platformName().contains(QLatin1String("wayland"),
+                                                   Qt::CaseInsensitive);
 }
 
 void SonicPiMetro::onSupersonicNetworkVisibilityChanged(int mode)

@@ -57,12 +57,16 @@ public:
     // AudioProcessor alive for its lifetime.
     shm_audio_buffer* GetAudioBufferSlot(unsigned int slot);
 
-    // Reader onto scope-buffer pool slot `index`. Slot 0 is the master scope
-    // (the full mix, driven by the sonic-pi-scope synth); slots 1..N are fed
-    // by fx_scope_out / ScopeOut2 taps. Invalid reader if the shm client is
-    // not connected or the index is out of range. Same lifetime caveat as
-    // GetAudioBufferSlot — points into supersonic's shm mapping.
-    shm_scope_buffer_reader GetScopeReader(unsigned int index);
+    // Reader onto scope stream slot `index`. Slot 0 is the master scope
+    // (the full mix); slots 1..N are fed by fx_scope_out / ScopeOut2 taps.
+    // Invalid reader if the shm client is not connected or the index is out
+    // of range. Same lifetime caveat as GetAudioBufferSlot — points into
+    // supersonic's shm mapping.
+    shm_scope_stream_reader GetScopeReader(unsigned int index);
+
+    // Seqlock snapshot of the engine sample clock (sample position ↔ DAC NTP);
+    // invalid when disconnected or before the engine's first publish.
+    sample_clock_view GetSampleClock();
 
     // Flat pointer to the PerformanceMetrics region in supersonic's shm
     // mapping (METRICS_FIELD_COUNT contiguous uint32 fields), or nullptr
@@ -88,10 +92,14 @@ private:
 
 private:
     std::unique_ptr<server_shared_memory_client> m_shmClient;
-    shm_scope_buffer_reader m_shmReader;
+    shm_scope_stream_reader m_shmReader;
 
     // Previous validity for transition-only logging in Run().
     bool m_shmReaderLastValid = false;
+    // Slot-local cursor of the last emitted window (skip repaints when the
+    // stream hasn't advanced) and the interleaved copy-out scratch.
+    uint64_t m_lastEndCursor = 0;
+    std::vector<float> m_windowScratch;
 
     int m_scSynthPort = 0;
 

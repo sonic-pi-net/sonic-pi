@@ -205,6 +205,9 @@ struct AudioDeviceConfigInfo {
     int bufferSize = 0;
     int outputChannels = 0;
     int inputChannels = 0;
+    // DSP→speaker delay reported by the device; 0 when the engine predates
+    // the field. Visualisations delay by this to align with audible sound.
+    int outputLatencySamples = 0;
     std::vector<int> availableSampleRates;
     std::vector<int> availableBufferSizes;
     std::vector<std::string> availableDrivers;
@@ -492,11 +495,17 @@ public:
     // nullptr if the audio processor hasn't been initialised.
     virtual shm_audio_buffer* AudioProcessor_GetAudioBufferSlot(unsigned int slot);
 
-    // Reader onto scope-buffer pool slot `scope_num`. Slot 0 is the master
-    // scope (full mix); higher slots are independent fx_scope_out taps, used
-    // by the Examples jukebox to visualise only its own audio. Invalid reader
-    // if the audio processor hasn't connected.
-    virtual shm_scope_buffer_reader AudioProcessor_GetScopeReader(unsigned int scope_num);
+    // Reader onto scope stream slot `scope_num`. Slot 0 is the master scope
+    // (full mix); higher slots are independent fx_scope_out taps (inline
+    // live-loop scopes, cards, the Examples jukebox). Invalid reader if the
+    // audio processor hasn't connected. Combine with AudioProcessor_GetSampleClock
+    // to window the stream on what the listener is currently hearing.
+    virtual shm_scope_stream_reader AudioProcessor_GetScopeReader(unsigned int scope_num);
+
+    // Seqlock-consistent snapshot of the engine's sample clock (sample
+    // position ↔ wall-clock DAC time). `valid` is false until the engine has
+    // published and while disconnected.
+    virtual sample_clock_view AudioProcessor_GetSampleClock();
 
     // Flat pointer to the engine's PerformanceMetrics region (a block of
     // contiguous uint32 fields) in the cross-process shm mapping, or

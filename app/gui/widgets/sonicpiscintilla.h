@@ -33,12 +33,21 @@ class QMenu;
 class QContextMenuEvent;
 class QWheelEvent;
 
+namespace SonicPi
+{
+class SonicPiAPI;
+}
+
 class SonicPiScintilla : public QsciScintilla
 {
     Q_OBJECT
 
 public:
-    SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QString fileName, bool autoIndent);
+    // keyBindings: pass a shared QSettings when constructing several editors
+    // back-to-back (MainWindow builds ten) so the bindings ini is parsed once;
+    // each ctor opens its own when null.
+    SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QString fileName, bool autoIndent,
+                     QSettings* keyBindings = nullptr);
 
     virtual QStringList apiContext(int pos, int& context_start,
         int& last_word_start);
@@ -127,7 +136,10 @@ public slots:
     // 0-based line at run time, mapped through the same edit-tracking anchors
     // as the flashes). Re-registering an existing name updates its line and
     // reader; endLiveLoopScope removes it when the loop dies.
-    void setLiveLoopScope(const QString& name, int runLine, const shm_scope_buffer_reader& reader);
+    void setLiveLoopScope(const QString& name, int runLine, const shm_scope_stream_reader& reader);
+    // Engine API access for the inline scopes' sample-clock reads (audible-time
+    // window alignment). Called once by MainWindow after boot wiring.
+    void setAudioApi(SonicPi::SonicPiAPI* api);
     void endLiveLoopScope(const QString& name);
     void clearLiveLoopScopes();
     void zoomFontIn();
@@ -212,6 +224,8 @@ private:
     QString m_pvOriginal;      // what Escape puts back (text before the popup opened)
     bool m_pvSlider = false;   // the active preview is a slider value
     bool m_pvGuard = false;    // suppress textChanged during our own preview edits
+    bool m_keyEditGuard = false; // suppress the textChanged completion backstop while
+                                 // the keypress path runs its own updateCompletion()
     bool m_pvLive = false;     // a preview is written into the buffer (vs merely armed)
     QString m_pvPrefix;        // separator prepended to the previewed selection (e.g. ", ")
 
@@ -284,6 +298,7 @@ public:
     QHash<QString, class LiveLoopScopeWidget*> m_loopScopes;
     QHash<QString, int> m_loopScopeLines;
     QTimer* m_loopScopeTimer = nullptr;
+    SonicPi::SonicPiAPI* m_audioApi = nullptr;
     void positionLiveLoopScopes();
     void applyLoopScopeColours();
     // Remap flash anchors across a full-buffer replace (Return-triggered

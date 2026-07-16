@@ -613,7 +613,7 @@ bool ScopeWindow::EnableScope(const QString& category, bool on)
         }
     }
 
-    m_spAPI->AudioProcessor_Enable(any);
+    ApplyProcessorEnable();
     m_spAPI->AudioProcessor_EnableFFT(doFFT);
 
     Layout();
@@ -634,14 +634,14 @@ bool ScopeWindow::SetScopeLabels(bool on)
 
 void ScopeWindow::Booted()
 {
-    m_spAPI->AudioProcessor_Enable(!m_paused);
+    ApplyProcessorEnable();
 }
 
 void ScopeWindow::TogglePause()
 {
     m_pendingPause = false;
     m_paused = !m_paused;
-    m_spAPI->AudioProcessor_Enable(!m_paused);
+    ApplyProcessorEnable();
     emit PausedChanged(m_paused);
 }
 
@@ -650,7 +650,7 @@ void ScopeWindow::Pause()
     const bool was = m_paused;
     m_pendingPause = false;
     m_paused = true;
-    m_spAPI->AudioProcessor_Enable(!m_paused);
+    ApplyProcessorEnable();
     if (!was)
         emit PausedChanged(m_paused);
 }
@@ -668,9 +668,31 @@ void ScopeWindow::Resume()
     const bool was = m_paused;
     m_pendingPause = false;
     m_paused = false;
-    m_spAPI->AudioProcessor_Enable(!m_paused);
+    ApplyProcessorEnable();
     if (was)
         emit PausedChanged(m_paused);
+}
+
+void ScopeWindow::SetSuspended(bool suspended)
+{
+    if (m_suspended == suspended)
+        return;
+    m_suspended = suspended;
+    ApplyProcessorEnable();
+}
+
+void ScopeWindow::ApplyProcessorEnable()
+{
+    bool anyVisible = false;
+    for (auto& scope : m_panels)
+    {
+        if (scope.visible)
+        {
+            anyVisible = true;
+            break;
+        }
+    }
+    m_spAPI->AudioProcessor_Enable(anyVisible && !m_paused && !m_suspended);
 }
 
 // True when the sample window is (audibly) silent and, if a spectrum

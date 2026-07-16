@@ -9,8 +9,8 @@
 
 #include "synth/common/server_shm.hpp"
 
-using detail_server_shm::shm_scope_buffer_reader;
 using detail_server_shm::server_shared_memory_client;
 using detail_server_shm::ring_view;
 using detail_server_shm::node_tree_view;
 using detail_server_shm::native_stats;
+using detail_server_shm::sample_clock_view;

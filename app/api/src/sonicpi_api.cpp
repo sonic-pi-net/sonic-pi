@@ -1041,13 +1041,22 @@ shm_audio_buffer* SonicPiAPI::AudioProcessor_GetAudioBufferSlot(unsigned int slo
     return nullptr;
 }
 
-shm_scope_buffer_reader SonicPiAPI::AudioProcessor_GetScopeReader(unsigned int scope_num)
+shm_scope_stream_reader SonicPiAPI::AudioProcessor_GetScopeReader(unsigned int scope_num)
 {
     if (m_spAudioProcessor)
     {
         return m_spAudioProcessor->GetScopeReader(scope_num);
     }
-    return shm_scope_buffer_reader();
+    return shm_scope_stream_reader();
+}
+
+sample_clock_view SonicPiAPI::AudioProcessor_GetSampleClock()
+{
+    if (m_spAudioProcessor)
+    {
+        return m_spAudioProcessor->GetSampleClock();
+    }
+    return sample_clock_view();
 }
 
 const std::atomic<uint32_t>* SonicPiAPI::AudioProcessor_GetMetrics()

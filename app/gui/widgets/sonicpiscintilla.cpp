@@ -12,6 +12,7 @@
 //++
 
 #include "sonicpiscintilla.h"
+#include "api/sonicpi_api.h"
 #include "completionpopup.h"
 #include "utils/scintilla_api.h"
 #include "utils/completion_context.h"
@@ -21,6 +22,7 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <optional>
 #include <QAccessible>
 #include <QCheckBox>
 #include <QLabel>
@@ -67,13 +69,13 @@ static const int kFlashGutterMarker = 12;
 // renderer (see utils/flash_style.h).
 static const int kFlashHoldMs = SonicPi::kFlashHoldMs;
 
-// Tiny inline oscilloscope + spectrum pinned to a live_loop's header line,
-// fed by the loop's own scope-buffer tap (with_fx :scope_out). Decorative:
-// mouse-transparent, no focus. Drawing mirrors the Examples jukebox scope
-// (tutorialpane.cpp) at postage-stamp size, plus FFT bars behind the trace.
-// The whole box warms from grey to the accent colour with the signal level so
-// a quiet loop reads as dormant at a glance. SonicPiScintilla owns
-// positioning and polling via its shared timer.
+// Inline oscilloscope + spectrum pinned to a live_loop's header line, fed
+// by the loop's scope-stream tap (with_fx :scope_out). The display window
+// ends at the audible sample (sample_clock_view::audible_end), so the trace
+// tracks what's heard, not what's rendered. Waveform envelope + FFT bars;
+// box colour follows signal level (grey when silent). Mouse-transparent,
+// no focus. SonicPiScintilla owns positioning and polling via its shared
+// timer.
 class LiveLoopScopeWidget : public QWidget
 {
 public:
@@ -94,7 +96,11 @@ public:
             kiss_fftr_free(m_fftCfg);
     }
 
-    void setReader(const shm_scope_buffer_reader& r) { m_reader = r; }
+    void setReader(const shm_scope_stream_reader& r)
+    {
+        m_reader = r;
+        m_lastEnd = 0;
+    }
 
     void setColours(const QColor& wave, const QColor& quiet, const QColor& panel)
     {
@@ -104,33 +110,64 @@ public:
         update();
     }
 
+    // Sample-clock access for audible-time alignment (see poll()).
+    void setApi(SonicPi::SonicPiAPI* api) { m_api = api; }
+
     void poll()
     {
-        unsigned int frames = 0;
-        if (!m_reader.pull(frames) || frames == 0)
+        if (!m_reader.valid())
         {
-            // No fresh audio: decay the level so the box cools back to grey.
-            m_level *= 0.86f;
-            decayBars();
-            update();
+            decayTick(); // slot released (loop ended mid-life): cool down
             return;
         }
-        float* d = m_reader.data();
-        if (!d)
+
+        // End the display window at the sample the listener is hearing,
+        // via the engine's sample clock.
+        const uint64_t end = (m_api ? m_api->AudioProcessor_GetSampleClock()
+                                    : sample_clock_view())
+                                 .audible_end(m_reader);
+        if (end == m_lastEnd)
+        {
+            decayTick(); // stream stalled (loop silent/stopped): cool down
             return;
-        unsigned int stride = m_reader.max_frames();
-        unsigned int ch = m_reader.channels();
-        m_samples.resize(frames);
+        }
+        m_lastEnd = end;
+
+        // Scrolling display: the last ~250ms of the stream ending at `end`,
+        // scrolling right-to-left. The window depends only on the stream,
+        // so the same audio always draws the same trace.
+        // Scratch is sized for the max stride; copy_window reports the one
+        // it used (sizing from a separate channels() read would race a slot
+        // re-activation).
+        m_scratch.resize((size_t)kScrollWindow * SHM_SCOPE_STREAM_CHANNELS);
+        uint32_t ch = 1;
+        m_reader.copy_window(end, kScrollWindow, m_scratch.data(), &ch);
+        m_samples.resize(kScrollWindow);
+        for (int i = 0; i < kScrollWindow; i++)
+        {
+            const float l = m_scratch[(size_t)i * ch];
+            const float r = m_scratch[(size_t)i * ch + (ch - 1)];
+            m_samples[i] = 0.5f * (l + r);
+        }
+
+        // The colour level follows only the newest 1024 frames, so it
+        // tracks fresh hits rather than window history.
         float peak = 0.0f;
-        for (unsigned int i = 0; i < frames; i++)
-        {
-            float v = ch >= 2 ? 0.5f * (d[i] + d[stride + i]) : d[i];
-            m_samples[i] = v;
-            peak = qMax(peak, qAbs(v));
-        }
+        for (int i = kScrollWindow - 1024; i < kScrollWindow; i++)
+            peak = qMax(peak, qAbs(m_samples[i]));
         // Fast attack, ~0.5s decay: the colour snaps on with a hit and fades out.
         m_level = qMax(peak, m_level * 0.86f);
+        if (peak >= kQuietFloor)
+            m_settled = false;
+        if (m_settled)
+            return; // silent scroll of a flatline — nothing to repaint
         updateSpectrum();
+        if (m_level < 0.001f && barsSettled() && peak < kQuietFloor)
+        {
+            m_level = 0.0f;
+            std::fill(m_bars.begin(), m_bars.end(), 0.0f);
+            m_settled = true; // final flatline paint, then stop repainting
+        }
         update();
     }
 
@@ -189,32 +226,71 @@ protected:
             const qreal amp = mid * 0.9;
             const size_t n = m_samples.size();
             const int cols = qMax(2, (int)w);
-            QPainterPath line;
-            for (int x = 0; x < cols; x++)
+            if ((int)n > cols * 2)
             {
-                size_t idx = (size_t)((qreal)x / (cols - 1) * (n - 1));
-                qreal v = qBound(-1.0, (double)m_samples[idx], 1.0);
-                qreal y = mid - v * amp;
-                qreal px = (qreal)x / (cols - 1) * w;
-                if (x == 0)
-                    line.moveTo(px, y);
-                else
-                    line.lineTo(px, y);
+                // Scroll window: ~52 samples per pixel column, so draw a
+                // min/max envelope per column — index-sampling would
+                // spatially alias short transients out of the trace.
+                QPainterPath band;
+                std::vector<qreal> mins(cols);
+                for (int x = 0; x < cols; x++)
+                {
+                    size_t i0 = (size_t)((double)x / cols * n);
+                    size_t i1 = qMax((size_t)((double)(x + 1) / cols * n), i0 + 1);
+                    float mn = 1.0f, mx = -1.0f;
+                    for (size_t i = i0; i < i1 && i < n; i++)
+                    {
+                        mn = qMin(mn, m_samples[i]);
+                        mx = qMax(mx, m_samples[i]);
+                    }
+                    qreal px = (qreal)x / (cols - 1) * w;
+                    qreal yTop = mid - qBound(-1.0, (double)mx, 1.0) * amp;
+                    mins[x] = mid - qBound(-1.0, (double)mn, 1.0) * amp;
+                    if (x == 0)
+                        band.moveTo(px, yTop);
+                    else
+                        band.lineTo(px, yTop);
+                }
+                for (int x = cols - 1; x >= 0; x--)
+                    band.lineTo((qreal)x / (cols - 1) * w, mins[x]);
+                band.closeSubpath();
+                QColor fill = wave;
+                fill.setAlpha(150);
+                p.fillPath(band, fill);
+                QPen edgePen(wave);
+                edgePen.setWidthF(1.0);
+                p.setPen(edgePen);
+                p.drawPath(band);
             }
-            QPainterPath body = line;
-            body.lineTo(w, mid);
-            body.lineTo(0, mid);
-            body.closeSubpath();
-            QColor fill = wave;
-            fill.setAlpha(60);
-            p.fillPath(body, fill);
+            else
+            {
+                QPainterPath line;
+                for (int x = 0; x < cols; x++)
+                {
+                    size_t idx = (size_t)((qreal)x / (cols - 1) * (n - 1));
+                    qreal v = qBound(-1.0, (double)m_samples[idx], 1.0);
+                    qreal y = mid - v * amp;
+                    qreal px = (qreal)x / (cols - 1) * w;
+                    if (x == 0)
+                        line.moveTo(px, y);
+                    else
+                        line.lineTo(px, y);
+                }
+                QPainterPath body = line;
+                body.lineTo(w, mid);
+                body.lineTo(0, mid);
+                body.closeSubpath();
+                QColor fill = wave;
+                fill.setAlpha(60);
+                p.fillPath(body, fill);
 
-            QPen wavePen(wave);
-            wavePen.setWidthF(1.6);
-            wavePen.setJoinStyle(Qt::RoundJoin);
-            wavePen.setCapStyle(Qt::RoundCap);
-            p.setPen(wavePen);
-            p.drawPath(line);
+                QPen wavePen(wave);
+                wavePen.setWidthF(1.6);
+                wavePen.setJoinStyle(Qt::RoundJoin);
+                wavePen.setCapStyle(Qt::RoundCap);
+                p.setPen(wavePen);
+                p.drawPath(line);
+            }
         }
 
     }
@@ -232,6 +308,31 @@ private:
     {
         for (float& b : m_bars)
             b *= 0.8f;
+    }
+
+    bool barsSettled() const
+    {
+        for (float b : m_bars)
+            if (b >= 0.005f)
+                return false;
+        return true;
+    }
+
+    // No new audible audio this tick: decay the level so the box cools back
+    // to grey, then stop repainting entirely once fully settled.
+    void decayTick()
+    {
+        if (m_settled)
+            return;
+        m_level *= 0.86f;
+        decayBars();
+        if (m_level < 0.001f && barsSettled())
+        {
+            m_level = 0.0f;
+            std::fill(m_bars.begin(), m_bars.end(), 0.0f);
+            m_settled = true;
+        }
+        update();
     }
 
     void updateSpectrum()
@@ -282,13 +383,22 @@ private:
     std::vector<float> m_samples;
     std::vector<float> m_bars;
     float m_level = 0.0f;
-    shm_scope_buffer_reader m_reader;
+    bool m_settled = false;
+    // Linear amplitude below which the trace counts as silent; window size
+    // assumes ~48k — close enough for a decorative scope.
+    static constexpr float kQuietFloor = 0.008f;
+    static constexpr int kScrollWindow = 12000; // ~250ms of scroll history
+    SonicPi::SonicPiAPI* m_api = nullptr;
+    uint64_t m_lastEnd = 0;
+    std::vector<float> m_scratch;
+    shm_scope_stream_reader m_reader;
     kiss_fftr_cfg m_fftCfg = nullptr;
     std::vector<kiss_fft_scalar> m_fftIn;
     std::vector<kiss_fft_cpx> m_fftOut;
 };
 
-SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QString fileName, bool autoIndent)
+SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QString fileName, bool autoIndent,
+                                   QSettings* keyBindings)
     : QsciScintilla()
 {
     setAcceptDrops(true);
@@ -300,7 +410,11 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     standardCommands()->clearKeys();
     standardCommands()->clearAlternateKeys();
     QString skey;
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "scintilla-key-bindings");
+    std::optional<QSettings> ownSettings;
+    if (!keyBindings)
+        ownSettings.emplace(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net",
+                            "scintilla-key-bindings");
+    QSettings& settings = keyBindings ? *keyBindings : *ownSettings;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     mutex = new QRecursiveMutex();
 #else
@@ -444,7 +558,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     // (it runs after the caret settles); this only re-filters an already-open
     // popup, guarded by isShowing(). Skip our own preview edits (m_pvGuard).
     connect(this, &QsciScintilla::textChanged, this, [this]() {
-        if (m_pvGuard) return;
+        if (m_pvGuard || m_keyEditGuard) return;
         if (m_completion && m_completion->isShowing()) updateCompletion();
     });
     // The popup's "Docs" button opens the help pane (handled by MainWindow).
@@ -624,7 +738,7 @@ void SonicPiScintilla::flashRunLine(int runLine, bool codeWash, bool gutterDot)
 }
 
 void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine,
-                                        const shm_scope_buffer_reader& reader)
+                                        const shm_scope_stream_reader& reader)
 {
     LiveLoopScopeWidget* w = m_loopScopes.value(name);
     if (!w)
@@ -633,6 +747,7 @@ void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine,
         m_loopScopes[name] = w;
     }
     w->setReader(reader);
+    w->setApi(m_audioApi);
     m_loopScopeLines[name] = runLine;
     applyLoopScopeColours();
 
@@ -640,14 +755,28 @@ void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine,
     {
         m_loopScopeTimer = new QTimer(this);
         connect(m_loopScopeTimer, &QTimer::timeout, this, [this]() {
+            // Hidden tab / minimized window: skip the per-scope Scintilla
+            // position queries and stream reads. The ring overwrites itself,
+            // so nothing backs up while polling is skipped.
+            if (!isVisible())
+                return;
             positionLiveLoopScopes();
             for (LiveLoopScopeWidget* s : m_loopScopes)
                 s->poll();
         });
     }
+    // 16ms is purely the display frame rate: the stream is lossless at any
+    // poll rate, so this trades smoothness against repaint cost only.
     if (!m_loopScopeTimer->isActive())
-        m_loopScopeTimer->start(33);
+        m_loopScopeTimer->start(16);
     positionLiveLoopScopes();
+}
+
+void SonicPiScintilla::setAudioApi(SonicPi::SonicPiAPI* api)
+{
+    m_audioApi = api;
+    for (LiveLoopScopeWidget* s : m_loopScopes)
+        s->setApi(api);
 }
 
 void SonicPiScintilla::endLiveLoopScope(const QString& name)
@@ -1903,6 +2032,9 @@ bool SonicPiScintilla::event(QEvent* evt)
 
         // Coalesce preview-restore + the edit + re-preview into one undo step, so
         // a single Cmd-Z removes the whole keystroke (not each preview edit).
+        // The backstop below would otherwise run the full completion pipeline a
+        // second time off this edit's textChanged, before the caret settles.
+        m_keyEditGuard = true;
         SendScintilla(SCI_BEGINUNDOACTION);
         // Drop the preview first so the keystroke edits the user's typed text (or,
         // for a slider, leaves its committed value), then let the editor process it.
@@ -1947,6 +2079,7 @@ bool SonicPiScintilla::event(QEvent* evt)
             }
         }
         SendScintilla(SCI_ENDUNDOACTION);
+        m_keyEditGuard = false;
         return res;
     }
 

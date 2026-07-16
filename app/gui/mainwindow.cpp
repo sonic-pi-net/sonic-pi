@@ -644,12 +644,20 @@ void MainWindow::setupWindowStructure()
                 // fall back to buffer 0 and flash the wrong tab.
                 if (!workspace.startsWith("workspace_"))
                     return;
-                // Runtime lines are 1-based; Scintilla lines are 0-based.
-                // flashRunLine maps the run-time line through edit-tracking
-                // handles so it lands correctly after live edits.
-                SonicPiScintilla* ws = filenameToWorkspace(workspace.toStdString());
-                if (ws)
-                    ws->flashRunLine(line - 1, piSettings->flash_code, piSettings->flash_gutter);
+                // The spider sends flashes at scheduled-render time; delay by
+                // the device output latency so the pulse lands with the sound.
+                auto apply = [this, workspace, line]() {
+                    // Runtime lines are 1-based; Scintilla lines are 0-based.
+                    // flashRunLine maps the run-time line through edit-tracking
+                    // handles so it lands correctly after live edits.
+                    SonicPiScintilla* ws = filenameToWorkspace(workspace.toStdString());
+                    if (ws)
+                        ws->flashRunLine(line - 1, piSettings->flash_code, piSettings->flash_gutter);
+                };
+                if (m_visualLatencyMs > 0)
+                    QTimer::singleShot(m_visualLatencyMs, this, apply);
+                else
+                    apply();
             });
     connect(m_spClient.get(), &SonicPi::QtAPIClient::LiveLoopScopeReceived, this,
             [this](int, const QString& name, const QString& workspace, int line, int scopeNum) {
@@ -713,6 +721,9 @@ void MainWindow::setupWindowStructure()
     });
 
     bool auto_indent = piSettings->auto_indent_on_run;
+    // Shared across all ten editor ctors so the bindings ini is parsed once.
+    QSettings keyBindings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net",
+                          "scintilla-key-bindings");
     for (int ws = 0; ws < workspace_max; ws++)
     {
         std::string s;
@@ -725,7 +736,8 @@ void MainWindow::setupWindowStructure()
         //       should only be considered an interim solution necessary to
         //       fix the return issue on Japanese keyboards.
 
-        SonicPiScintilla* workspace = new SonicPiScintilla(lexer, theme, fileName, auto_indent);
+        SonicPiScintilla* workspace = new SonicPiScintilla(lexer, theme, fileName, auto_indent, &keyBindings);
+        workspace->setAudioApi(m_spAPI.get());
         connect(workspace,
             &SonicPiScintilla::bufferNewlineAndIndent,
             this,
@@ -1090,8 +1102,13 @@ void MainWindow::setupWindowStructure()
             quickstartPane, &QuickstartPane::runEnded);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::FlashReceived, quickstartPane,
             [this](const QString& workspace, int line) {
-                // Same pref gate as the editor's code-wash.
-                if (piSettings->flash_code)
+                // Same pref gate and output-latency delay as the editor flash.
+                if (!piSettings->flash_code)
+                    return;
+                if (m_visualLatencyMs > 0)
+                    QTimer::singleShot(m_visualLatencyMs, quickstartPane,
+                                       [this, workspace, line]() { quickstartPane->flashLine(workspace, line); });
+                else
                     quickstartPane->flashLine(workspace, line);
             });
     southTabs->setTabToolTip(southTabs->addTab(quickstartPane, tr("Cards")),
@@ -3507,6 +3524,10 @@ void MainWindow::stopCode()
 void MainWindow::scopeVisibilityChanged()
 {
     piSettings->show_scopes = scopeWidget->isVisible();
+    // A hidden dock must suspend the audio processor: the deferred
+    // pause-when-silent cannot resolve inside OnConsumeAudioData's
+    // isVisible() gate.
+    scopeWindow->SetSuspended(!piSettings->show_scopes);
     scopeAct->setIcon(theme->getScopeIcon(piSettings->show_scopes));
     emit settingsChanged();
 }
@@ -3533,6 +3554,11 @@ void MainWindow::scope()
     {
         scopeWidget->hide();
     }
+    // Explicit sync: a dock hidden before its first show emits no
+    // visibilityChanged, so the boot path (honourPrefs → scope()) must set
+    // the suspend state directly or Resume() at run start re-enables the
+    // audio processor behind a closed dock.
+    scopeWindow->SetSuspended(!piSettings->show_scopes);
 
     QSignalBlocker blocker(scopeAct);
     scopeAct->setChecked(piSettings->show_scopes);
@@ -3553,6 +3579,7 @@ void MainWindow::about()
     else
     {
         showStatusAndAnnounce(tr("Showing about window..."), 2000);
+        loadInfoPaneContent();     // deferred from startup to first open
         if (infoPanesDirty)
             rerenderInfoPanes();   // styles changed while hidden
         infoWidg->raise();
@@ -6025,6 +6052,42 @@ QString MainWindow::readFile(QString name)
     return st.readAll();
 }
 
+void MainWindow::loadInfoPaneContent()
+{
+    if (infoPanesLoaded)
+        return;
+    infoPanesLoaded = true;
+    foreach (QTextBrowser* pane, infoPanes)
+    {
+        QFile file(pane->property("infoSrc").toString());
+        file.open(QFile::ReadOnly | QFile::Text);
+
+        QTextStream st(&file);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        st.setEncoding(QStringConverter::Utf8);
+#else
+        st.setCodec("UTF-8");
+#endif
+
+        QString source = st.readAll();
+        source = source.replace("100dx", QString("%1").arg(ScaleHeightForDPI(100)));
+        source = source.replace("254dx", QString("%1").arg(ScaleHeightForDPI(254)));
+        source = source.replace("413dx", QString("%1").arg(ScaleHeightForDPI(413)));
+        source = source.replace("268dx", QString("%1").arg(ScaleHeightForDPI(268)));
+        source = source.replace("328dx", QString("%1").arg(ScaleHeightForDPI(328)));
+        source = source.replace("__SONIC_PI_VERSION__", SONIC_PI_VERSION);
+        // Stashed for re-render on theme changes: setDefaultStyleSheet only
+        // affects subsequently-set html, and reload() is a no-op for setHtml
+        // content (no source URL).
+        pane->setProperty("infoHtml", source);
+        pane->setHtml(source);
+    }
+    // Just rendered with the current default stylesheets, so clear any
+    // dirtiness accumulated while unloaded.
+    infoPanesDirty = false;
+}
+
 void MainWindow::rerenderInfoPanes()
 {
     // setDefaultStyleSheet only affects subsequently-set html, so restyling
@@ -6067,30 +6130,9 @@ void MainWindow::createInfoPane()
         infoPanes.append(pane);
         addUniversalCopyShortcuts(pane);
         pane->setOpenExternalLinks(true);
-
-        QFile file(urls[t]);
-        file.open(QFile::ReadOnly | QFile::Text);
-
-        QTextStream st(&file);
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-        st.setEncoding(QStringConverter::Utf8);
-#else
-        st.setCodec("UTF-8");
-#endif
-
-        QString source = st.readAll();
-        source = source.replace("100dx", QString("%1").arg(ScaleHeightForDPI(100)));
-        source = source.replace("254dx", QString("%1").arg(ScaleHeightForDPI(254)));
-        source = source.replace("413dx", QString("%1").arg(ScaleHeightForDPI(413)));
-        source = source.replace("268dx", QString("%1").arg(ScaleHeightForDPI(268)));
-        source = source.replace("328dx", QString("%1").arg(ScaleHeightForDPI(328)));
-        source = source.replace("__SONIC_PI_VERSION__", SONIC_PI_VERSION);
-        // Stashed for re-render on theme changes: setDefaultStyleSheet only
-        // affects subsequently-set html, and reload() is a no-op for setHtml
-        // content (no source URL).
-        pane->setProperty("infoHtml", source);
-        pane->setHtml(source);
+        // Content is read and parsed lazily on first open (the changelog
+        // alone is ~160KB of HTML) — see loadInfoPaneContent().
+        pane->setProperty("infoSrc", urls[t]);
         infoTabs->addTab(pane, tabs[t]);
     }
 
@@ -7797,6 +7839,14 @@ void MainWindow::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& c
     settingsWidget->updateAudioDeviceConfig(configInfo);
     // Spectrum bucket frequencies depend on the engine sample rate
     m_spAPI->AudioProcessor_SetSampleRate(configInfo.sampleRate);
+
+    // Code flashes lag by the device output latency so the pulse lands with
+    // the audible sound; scopes align via the engine's sample clock and
+    // don't read this. Re-derived on every config broadcast so
+    // device/buffer switches stay in sync.
+    m_visualLatencyMs = configInfo.sampleRate > 0
+        ? (int)std::lround(1000.0 * configInfo.outputLatencySamples / configInfo.sampleRate)
+        : 0;
 
     // Don't re-push mixer settings here — Spider's cold_swap_reinit!
     // does that in Phase 4 once the new mixer node exists

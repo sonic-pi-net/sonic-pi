@@ -226,6 +226,9 @@ private:
     SonicPi::AudioDevicesInfo      m_lastAudioDevices;
     SonicPi::AudioInputDevicesInfo m_lastAudioInputDevices;
     SonicPi::AudioDeviceConfigInfo m_lastAudioDeviceConfig;
+    // Device output latency in ms; visuals (flash, inline scopes) are
+    // delayed by this to align with the audible sound.
+    int m_visualLatencyMs = 0;
     void maybeRestoreAudioIntent();
 
     // Audio device/rate/buffer intent awaiting engine confirmation.
@@ -714,6 +717,8 @@ private:
     void updateDocsNavMinWidth();             // keeps the Tutorial/Examples/… chips un-squashed
     void ensureDocsSelection();               // current docs tab always has a selected page
     bool infoPanesDirty = true;               // info html needs re-render (styles changed while hidden)
+    bool infoPanesLoaded = false;             // info html read+parsed on first open, not at startup
+    void loadInfoPaneContent();
     void rerenderInfoPanes();                 // re-render info panes, preserving scroll
     QDockWidget* metroWidget;
     LogPanel* debugLogPanel = nullptr;

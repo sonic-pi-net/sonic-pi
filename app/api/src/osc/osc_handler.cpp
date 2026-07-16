@@ -294,15 +294,19 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 ar.popInt32(outCh);
                 ar.popInt32(inCh);
 
-                // Engine's pending driver pick — trailing so reports from
-                // engines predating it simply run out of args here.
+                // Trailing fields, each optional so reports from engines
+                // predating them simply run out of args here. Wire order:
+                // outputLatencySamples(int32), then intendedDriver(str).
+                int outputLatencySamples = 0;
+                ar.popInt32(outputLatencySamples);
                 std::string intendedDriver;
                 bool hasIntendedDriver = ar.popStr(intendedDriver).isOk();
 
                 LOG(INFO, "/supersonic/info (extended): > " << message.text
                     << " sr=" << message.sampleRate
                     << " bs=" << message.bufferSize
-                    << " out=" << outCh << " in=" << inCh);
+                    << " out=" << outCh << " in=" << inCh
+                    << " outLat=" << outputLatencySamples);
                 m_pClient->Scsynth(message);
 
                 AudioDeviceConfigInfo config;
@@ -310,6 +314,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 config.bufferSize = message.bufferSize;
                 config.outputChannels = outCh;
                 config.inputChannels = inCh;
+                config.outputLatencySamples = outputLatencySamples;
                 config.availableSampleRates = std::move(message.availableSampleRates);
                 config.availableBufferSizes = std::move(message.availableBufferSizes);
                 config.availableDrivers = std::move(message.availableDrivers);

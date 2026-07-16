@@ -91,6 +91,11 @@ public:
     void PauseWhenSilent();
     void Resume();
     bool IsPaused() const { return m_paused; }
+    // Dock hidden/minimized: stop the engine-side audio processor entirely
+    // (sample copies, FFT, ~60Hz cross-thread frames) without touching the
+    // user-facing pause state, so showing the dock again picks up where the
+    // pause button left it.
+    void SetSuspended(bool suspended);
     void SetColor(QColor c);
     void SetColor2(QColor c);
     // Scope background (the faded-clear/phosphor colour). Set from the theme's
@@ -131,6 +136,9 @@ protected:
 private:
     void Layout();
     bool SnapshotSilent(const ProcessedAudio& audio) const;
+    // Single authority for AudioProcessor_Enable: on only when a panel is
+    // visible, not user-paused and not suspended.
+    void ApplyProcessorEnable();
 
 
 private:
@@ -139,6 +147,7 @@ private:
     std::vector<ScopeWindowPanel> m_panels;
     bool m_paused = false;
     bool m_pendingPause = false;
+    bool m_suspended = false;
     // Pause/resume toggle (hosted in the scope dock title row); also freezes the
     // image for inspection (waveform shapes, spectrum peaks).
     ScopePauseButton* m_pauseButton = nullptr;

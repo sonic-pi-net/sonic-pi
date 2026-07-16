@@ -17,7 +17,6 @@
 #include <QRegularExpression>
 #include <QDrag>
 #include <QFrame>
-#include <QGraphicsDropShadowEffect>
 #include <QGridLayout>
 #include <QIcon>
 #include <QFontMetrics>
@@ -158,15 +157,18 @@ protected:
         ring(m_right, 0.30, m_inner);
     }
 
-    void storeFrames(const float* d, unsigned int frames, unsigned int stride,
+    // One tap block's worth of the newest audible audio per revolution.
+    unsigned int windowFrames() const override { return 1024; }
+
+    void storeWindow(const float* interleaved, unsigned int frames,
                      unsigned int ch) override
     {
         m_left.resize(frames);
         m_right.resize(frames);
         for (unsigned int i = 0; i < frames; i++)
         {
-            m_left[i] = d[i];
-            m_right[i] = ch >= 2 ? d[stride + i] : d[i];
+            m_left[i] = interleaved[(size_t)i * ch];
+            m_right[i] = interleaved[(size_t)i * ch + (ch - 1)];
         }
     }
 
@@ -1460,11 +1462,6 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     QFrame* frame = new QFrame;
     frame->setObjectName(QStringLiteral("qsCard"));
     frame->setFixedWidth(cardW);
-    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(frame);
-    shadow->setBlurRadius(ScaleHeightForDPI(6));
-    shadow->setOffset(0, ScaleHeightForDPI(1));
-    shadow->setColor(QColor(0, 0, 0, 55));
-    frame->setGraphicsEffect(shadow);
     QVBoxLayout* cardLayout = new QVBoxLayout(frame);
     cardLayout->setContentsMargins(0, 0, 0, 0);
     cardLayout->setSpacing(0);

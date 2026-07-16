@@ -11,6 +11,7 @@
 //++
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <set>
 #include <vector>
@@ -256,10 +257,16 @@ shm_audio_buffer* AudioProcessor::GetAudioBufferSlot(unsigned int slot)
     return m_shmClient->get_audio_buffer(slot);
 }
 
-shm_scope_buffer_reader AudioProcessor::GetScopeReader(unsigned int index)
+shm_scope_stream_reader AudioProcessor::GetScopeReader(unsigned int index)
 {
-    if (!m_shmClient) return shm_scope_buffer_reader();
-    return m_shmClient->get_scope_buffer_reader(index);
+    if (!m_shmClient) return shm_scope_stream_reader();
+    return m_shmClient->get_scope_stream_reader(index);
+}
+
+sample_clock_view AudioProcessor::GetSampleClock()
+{
+    if (!m_shmClient) return sample_clock_view();
+    return m_shmClient->get_sample_clock();
 }
 
 const std::atomic<uint32_t>* AudioProcessor::GetMetrics()
@@ -309,17 +316,27 @@ bool AudioProcessor::HasNativeStats()
 // transitions are logged from Run() (see m_shmReaderLastValid).
 void AudioProcessor::ResetConnection()
 {
+    // Pairs with Run()'s lock: the reset destroys the client (unmapping the
+    // segment), which must not interleave with the scope thread's reads.
+    std::lock_guard<std::mutex> lock(m_mutex);
     try
     {
         m_shmClient.reset(new server_shared_memory_client(m_scSynthPort));
-        m_shmReader = m_shmClient->get_scope_buffer_reader(0);
+        m_shmReader = m_shmClient->get_scope_stream_reader(0);
     }
-    catch (const std::exception&)
+    catch (const std::exception& e)
     {
-        // Segment not yet created by supersonic — expected at boot races.
+        // Segment not yet created by supersonic — expected at boot races,
+        // retried quietly. A layout mismatch, though, is a build/staging
+        // error (test-profile engine staged as production): surface it.
+        if (std::string(e.what()).find("layout mismatch") != std::string::npos)
+        {
+            LOG(ERR, e.what());
+        }
         m_shmClient.reset();
-        m_shmReader = shm_scope_buffer_reader();
+        m_shmReader = shm_scope_stream_reader();
     }
+    m_lastEndCursor = 0;
 
     // Clear any stale consumed=false left from a prior torn-down session.
     SetConsumed(true);
@@ -337,6 +354,11 @@ void AudioProcessor::Run()
 
         auto startTime = std::chrono::high_resolution_clock::now();
         auto nextTime = startTime + std::chrono::milliseconds(int(1000.0f / AudioProcessorRefreshRate));
+
+        // m_mutex: ResetConnection() (GUI thread) destroys and reassigns
+        // m_shmClient/m_shmReader; every access to them on this thread must
+        // hold the lock or the client can be unmapped mid-call.
+        std::unique_lock<std::mutex> lock(m_mutex);
 
         // Log validity transitions once per change. The buffer the
         // reader points at transitions free → initialized asynchronously
@@ -360,12 +382,14 @@ void AudioProcessor::Run()
 
         if (!m_running.load())
         {
+            lock.unlock();
             std::this_thread::sleep_for(std::chrono::seconds(1));
             continue;
         }
 
         if (!nowValid)
         {
+            lock.unlock();
             std::this_thread::sleep_until(nextTime);
             continue;
         }
@@ -374,41 +398,38 @@ void AudioProcessor::Run()
         // rest of this slice. Avoids spinning while the UI is busy.
         if (!m_consumed.load())
         {
+            lock.unlock();
             std::this_thread::sleep_until(nextTime);
             continue;
         }
 
-        unsigned int frames;
-        if (m_shmReader.pull(frames))
-        {
-            float* data = m_shmReader.data();
-            for (unsigned int j = 0; j < 2; ++j)
-            {
-                unsigned int offset = m_shmReader.max_frames() * j;
-                for (unsigned int i = 0; i < FrameSamples - frames; ++i)
-                {
-                    m_processedAudio.m_samples[j][i] = m_processedAudio.m_samples[j][i + frames];
-                    if (j == 0)
-                    {
-                        m_processedAudio.m_monoSamples[i] = m_processedAudio.m_monoSamples[i + frames];
-                    }
-                }
+        // Window the stream on what the listener is hearing, via the
+        // engine's sample clock.
+        const uint64_t endCursor =
+            (m_shmClient ? m_shmClient->get_sample_clock() : sample_clock_view())
+                .audible_end(m_shmReader);
 
-                for (unsigned int i = 0; i < frames; ++i)
-                {
-                    m_processedAudio.m_samples[j][FrameSamples - frames + i] = data[i + offset];
-                    auto d = data[i + offset] + 1.0;
-                    if (j == 0)
-                    {
-                        m_processedAudio.m_monoSamples[FrameSamples - frames + i] = float(d * d);
-                    }
-                    else
-                    {
-                        m_processedAudio.m_monoSamples[FrameSamples - frames + i] += float(d * d);
-                        m_processedAudio.m_monoSamples[FrameSamples - frames + i] /= 2.0f;
-                        m_processedAudio.m_monoSamples[FrameSamples - frames + i] = sqrt(m_processedAudio.m_monoSamples[FrameSamples - frames + i]) - 1.0f;
-                    }
-                }
+        if (endCursor != m_lastEndCursor)
+        {
+            m_lastEndCursor = endCursor;
+            // Scratch sized for the max stride; copy_window reports the one
+            // it used (a separate channels() read would race re-activation).
+            m_windowScratch.resize(static_cast<size_t>(FrameSamples) * SHM_SCOPE_STREAM_CHANNELS);
+            uint32_t ch = 1;
+            m_shmReader.copy_window(endCursor, FrameSamples, m_windowScratch.data(), &ch);
+
+            for (unsigned int i = 0; i < FrameSamples; ++i)
+            {
+                const float l = m_windowScratch[i * ch];
+                const float r = m_windowScratch[i * ch + (ch - 1)];
+                m_processedAudio.m_samples[0][i] = l;
+                m_processedAudio.m_samples[1][i] = r;
+                // Mono display curve: RMS-of-offset-squares (the mono
+                // scope's established shape — keep as-is).
+                const double dl = l + 1.0;
+                const double dr = r + 1.0;
+                m_processedAudio.m_monoSamples[i] =
+                    float(sqrt((dl * dl + dr * dr) / 2.0) - 1.0);
             }
 
             CalculateFFT(m_processedAudio);
@@ -418,6 +439,7 @@ void AudioProcessor::Run()
                 std::make_shared<const ProcessedAudio>(m_processedAudio));
         }
 
+        lock.unlock();
         std::this_thread::sleep_until(nextTime);
     }
 
