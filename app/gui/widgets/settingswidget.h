@@ -319,7 +319,7 @@ private:
     QLabel *supersonic_version_label;
     QGroupBox *supersonicBox;
 
-    QDial *system_vol_slider;
+    ArcDial *system_vol_slider;
     QSlider *gui_transparency_slider;
 
     QComboBox *audio_driver_combo;
