@@ -6,22 +6,22 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1031"/>
         <source>Docs ↗</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentācija ↗</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1034"/>
         <source>Open the help pane for this entry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atvērt palīdzības rūti šim ierakstam</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1046"/>
         <source>Close (Esc)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aizvērt (Esc)</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1757"/>
         <source>%1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 no %2</translation>
     </message>
 </context>
 <context>
@@ -29,7 +29,7 @@
     <message>
         <location filename="../widgets/devicelistwidget.cpp" line="66"/>
         <source>Untick to ignore this device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Noņemiet atzīmi, lai ignorētu šo ierīci</translation>
     </message>
 </context>
 <context>
@@ -39,179 +39,179 @@
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="199"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="200"/>
         <source>Link Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link nosaukums</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="201"/>
         <source>The name other Link peers see for this Sonic Pi when browsing audio streams on the network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nosaukums, ko citi Link dalībnieki redz šim Sonic Pi, pārlūkojot audio straumes tīklā.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="202"/>
         <source>Name visible to other Link peers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nosaukums, kas redzams citiem Link dalībniekiem</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="213"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="216"/>
         <source>Latency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aizture</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="217"/>
         <source>milliseconds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">milisekundes</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="221"/>
         <source>Receive Latency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saņemšanas aizture</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="222"/>
         <source>Link Audio receive latency in ms. Smaller = closer to real-time monitoring; larger = more robust against network jitter. Engine-wide (applies to every link_audio subscription).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio saņemšanas aizture milisekundēs. Mazāka = tuvāk reāllaika monitoringam; lielāka = noturīgāka pret tīkla svārstībām. Attiecas uz visu dzinēju (uz katru link_audio abonementu).</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="226"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="518"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="610"/>
         <source>%1 ms</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ms</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ieslēgts</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izslēgts</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="246"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="251"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="260"/>
         <source>Stream Audio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Straumēt audio</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="252"/>
         <source>When on, our audio channels are visible to other Link peers and stream to anyone who subscribes. Preference is remembered between sessions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kad ieslēgts, mūsu audio kanāli ir redzami citiem Link dalībniekiem un tiek straumēti ikvienam, kas tos abonē. Iestatījums tiek saglabāts starp sesijām.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="296"/>
         <source>Visibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Redzamība</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <source>Peer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dalībnieks</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kanāls</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Statuss</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Buffered</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buferizēts</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Frekvence</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Bus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopne</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="324"/>
         <source>Link Audio peers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio dalībnieki</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="467"/>
         <source>SuperSonic not connected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic nav pievienots</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Network Peer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tīkla dalībnieks</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Local Peer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lokālais dalībnieks</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="580"/>
         <source>on the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">tīklā</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="581"/>
         <source>on this machine</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">šajā datorā</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="583"/>
         <source>Click Link to find other peers %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Noklikšķiniet uz Link, lai atrastu citus dalībniekus %1</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="584"/>
         <source>Waiting for Link Audio peers %1…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gaida Link Audio dalībniekus %1…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="598"/>
         <source>Available</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pieejams</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="601"/>
         <source>Connecting…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Savienojas…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="602"/>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Savienots</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="603"/>
         <source>Dropout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārrāvums</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="604"/>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abonēts</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="613"/>
         <source>%1 kHz</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 kHz</translation>
     </message>
 </context>
 <context>
@@ -219,37 +219,37 @@
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Local</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lokāls</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tīkls</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="31"/>
         <source>Link visibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link redzamība</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="42"/>
         <source>Link Visibility: Local Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link redzamība: lokālais tīkls</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="43"/>
         <source>Link Visibility: Local Machine Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link redzamība: tikai šis dators</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="45"/>
         <source>Link is visible to other devices on your local network. They can sync tempo and stream audio with this Sonic Pi via Link. Click to switch to Local Machine Only mode to hide Link from the network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link ir redzams citām ierīcēm jūsu lokālajā tīklā. Tās var sinhronizēt tempu un straumēt audio ar šo Sonic Pi, izmantojot Link. Noklikšķiniet, lai pārslēgtos uz režīmu &quot;Tikai šis dators&quot; un paslēptu Link no tīkla.</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="46"/>
         <source>Link is hidden from the local network. Link tempo sync and Link Audio only connect to other apps on this machine. Click to switch to Local Network mode to make Link visible to other machines on your local network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link ir paslēpts no lokālā tīkla. Link tempa sinhronizācija un Link Audio savienojas tikai ar citām lietotnēm šajā datorā. Noklikšķiniet, lai pārslēgtos uz lokālā tīkla režīmu un padarītu Link redzamu citiem datoriem jūsu lokālajā tīklā.</translation>
     </message>
 </context>
 <context>
@@ -257,7 +257,7 @@
     <message>
         <location filename="../widgets/logpanel.cpp" line="224"/>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Žurnāli</translation>
     </message>
 </context>
 <context>
@@ -586,157 +586,159 @@
         <location filename="../mainwindow.cpp" line="372"/>
         <location filename="../mainwindow.cpp" line="373"/>
         <source>Sonic Pi is ready</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi ir gatavs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="510"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kļūdas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="706"/>
         <source>Close the preferences panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aizvērt priekšrocību paneli.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="749"/>
         <source># Welcome to Sonic Pi
 #
 # Type a line and press Run to hear it. Try:  play 60</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"># Laipni lūgts/-ta Sonic Pi
+#
+# Ieraksti rindu un nospied Palaist, lai to dzirdētu. Pamēģini:  play 60</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="767"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Koda redaktora buferis %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="769"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palaišanas konteksts</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="771"/>
         <source>Code buffer %1. All buffers are saved automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Koda buferis %1. Visi buferi tiek saglabāti automātiski.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="802"/>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buferis %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Loaded example into the current buffer.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Piemērs ielādēts esošajā buferī.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"/>
         <source>Playing %1 on the next beat.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atskaņos %1 nākamajā sitienā.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"/>
         <source>Playing %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atskaņo %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Inserted the card&apos;s code at the cursor. Press Run to hear it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kartītes kods ievietots pie kursora. Nospied Palaist, lai to dzirdētu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1088"/>
         <source>Inserted %1 at the cursor. Press Run to hear it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ievietots pie kursora. Nospied Palaist, lai to dzirdētu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1095"/>
         <source>Copied the card&apos;s code to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kartītes kods nokopēts starpliktuvē.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1096"/>
         <source>Copied %1 to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 nokopēts starpliktuvē.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <location filename="../mainwindow.cpp" line="3364"/>
         <source>Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kartītes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1115"/>
         <source>Quickstart cards: small runnable snippets to get going.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ātrā starta kartītes: mazi palaižami koda fragmenti, lai sāktu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1117"/>
         <source>Tutorial, examples and reference documentation.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pamācība, piemēri un uzziņu dokumentācija.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1133"/>
         <source>Close the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aizvērt palīdzības rūti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1152"/>
         <source>logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">žurnāli</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1153"/>
         <source>metrics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">metrika</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1410"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pilnekrāna režīms ieslēgts.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
         <source>Focus mode on. Press %1 to exit.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusa režīms ieslēgts. Nospied %1, lai izietu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1482"/>
         <source>Focus mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusa režīms izslēgts.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1732"/>
         <location filename="../mainwindow.cpp" line="3366"/>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Žurnāli</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1733"/>
         <source>A live view of Sonic Pi&apos;s log files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi žurnālfailu tiešais skats.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1734"/>
         <location filename="../mainwindow.cpp" line="3367"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atkļūdošana</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1735"/>
         <source>Live metrics, node tree and message logs for the SuperSonic audio engine.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic audio dzinēja tiešā metrika, mezglu koks un ziņojumu žurnāli.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2280"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iespējo audio ievades...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2284"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atspējo audio ievades...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2318"/>
@@ -760,24 +762,25 @@
         <location filename="../mainwindow.cpp" line="2407"/>
         <source>Apologies, unable to start...
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atvainojiet, neizdodas palaist...
+</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2409"/>
         <source>Sorry, Sonic Pi is having issues booting:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atvainojiet, Sonic Pi ir problēmas ar sāknēšanu:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2427"/>
         <location filename="../mainwindow.cpp" line="8182"/>
         <source>Boot error details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sāknēšanas kļūdas detaļas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2434"/>
         <location filename="../mainwindow.cpp" line="8188"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iziet</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2663"/>
@@ -787,199 +790,203 @@
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
         <source>Load Sonic Pi Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielādēt Sonic Pi komplektu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
         <location filename="../mainwindow.cpp" line="2772"/>
         <source>Sonic Pi Sets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi komplekti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Cannot load set:
 %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nevar ielādēt komplektu:
+%1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2728"/>
         <source>Load the set %1?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vai ielādēt komplektu %1?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2729"/>
         <source>The current contents of all buffers will be replaced with the buffers stored in this set.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visu buferu pašreizējais saturs tiks aizstāts ar šajā komplektā saglabātajiem buferiem.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aizstāt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2749"/>
         <source>Set %1 loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Komplekts %1 ielādēts...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
         <source>Save Current Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saglabāt esošo komplektu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
         <source>My Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mans komplekts</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>Cannot save set:
 %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nevar saglabāt komplektu:
+%1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
         <source>Set saved as %1...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Komplekts saglabāts kā %1...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2831"/>
         <source>Clear all buffers?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vai notīrīt visus buferus?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2832"/>
         <source>The contents of all buffers will be emptied and their text size reset.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visu buferu saturs tiks iztukšots un to teksta izmērs atiestatīts.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2833"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notīrīt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2849"/>
         <source>All buffers cleared...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visi buferi notīrīti...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <location filename="../mainwindow.cpp" line="2912"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kļūda: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3058"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palaišana sākta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3169"/>
         <source>Quickstart Cards...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ātrā starta kartītes...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
         <source>Load Card Set...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielādēt kartīšu komplektu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3177"/>
         <location filename="../mainwindow.cpp" line="3184"/>
         <source>Load Card Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielādēt kartīšu komplektu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3177"/>
         <source>Card sets (*.txt);;All files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kartīšu komplekti (*.txt);;Visi faili (*)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3185"/>
         <source>&quot;%1&quot; is not a valid card set.
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&quot;%1&quot; nav derīgs kartīšu komplekts.
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3192"/>
         <source>Loaded card set: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielādēts kartīšu komplekts: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3196"/>
         <source>Reset to Default Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atiestatīt uz noklusējuma kartītēm</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3201"/>
         <source>Reset to the default card set.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atiestatīt uz noklusējuma kartīšu komplektu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3212"/>
         <source>Apprentice</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Māceklis</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3213"/>
         <source>Illusionist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iluzionists</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Magician</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mags</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3215"/>
         <source>Sorcerer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Burvis</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3216"/>
         <source>Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Burvju meistars</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3217"/>
         <source>Algomancer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Algomants</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Play When Opened</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atskaņot atverot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Browse Examples in Help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārlūkot piemērus palīdzībā...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <source>Browse FX in Help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārlūkot FX palīdzībā...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3305"/>
         <source>Opened %1 in the Help panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 atvērts palīdzības panelī.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3316"/>
         <source>Unable to load example: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nevar ielādēt piemēru: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Playing %1 from the Help panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atskaņo %1 no palīdzības paneļa.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3365"/>
         <source>Docs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentācija</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3520"/>
@@ -989,7 +996,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Apturēts</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3575"/>
@@ -1024,22 +1031,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Reduce animations on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Animāciju samazināšana ieslēgta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4181"/>
         <source>Reduce animations off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Animāciju samazināšana izslēgta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4277"/>
         <source>Auto Indent mode enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automātisko atkāpju režīms iespējots</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4281"/>
         <source>Auto Indent mode disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automātisko atkāpju režīms atspējots</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4344"/>
@@ -1075,329 +1082,329 @@
         <location filename="../mainwindow.cpp" line="4623"/>
         <location filename="../mainwindow.cpp" line="4992"/>
         <source>Comment/Uncomment code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Komentēt/atkomentēt kodu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4624"/>
         <location filename="../mainwindow.cpp" line="4996"/>
         <source>Transpose Characters</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Samainīt rakstzīmes vietām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4627"/>
         <source>Shift Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārbīdīt rindu vai atlasi uz augšu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4628"/>
         <source>Shift Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārbīdīt rindu vai atlasi uz leju</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4629"/>
         <source>Look up documentation for the current word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Meklēt dokumentāciju pašreizējam vārdam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4636"/>
         <source>Cycle through the available colour themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties starp pieejamajām krāsu tēmām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4640"/>
         <source>Switch to the previous tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz iepriekšējo cilni</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4641"/>
         <source>Switch to the next tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz nākamo cilni</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4642"/>
         <source>Switch to tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4643"/>
         <source>Switch to tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4644"/>
         <source>Switch to tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4645"/>
         <source>Switch to tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4646"/>
         <source>Switch to tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4647"/>
         <source>Switch to tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4648"/>
         <source>Switch to tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4649"/>
         <source>Switch to tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4650"/>
         <source>Switch to tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4651"/>
         <source>Switch to tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgties uz cilni 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4654"/>
         <source>Move focus to the next visible pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot fokusu uz nākamo redzamo rūti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4655"/>
         <source>Move focus to the previous visible pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot fokusu uz iepriekšējo redzamo rūti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4657"/>
         <source>Place focus on the logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Novietot fokusu uz žurnāliem</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4666"/>
         <source>Show or hide the buttons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt vai paslēpt pogas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4667"/>
         <source>Show or hide the cue log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt vai paslēpt norāžu žurnālu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4668"/>
         <source>Show or hide the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt vai paslēpt žurnālu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4669"/>
         <source>Set a mark in the text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iestatīt atzīmi tekstā</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4670"/>
         <source>Trigger code completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktivizēt koda pabeigšanu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4671"/>
         <source>Show autocomplete documentation for the current context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt automātiskās pabeigšanas dokumentāciju pašreizējam kontekstam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4672"/>
         <source>Zoom in the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tuvināt žurnālu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4673"/>
         <source>Zoom out the log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Attālināt žurnālu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4674"/>
         <source>Move Cursor Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru uz leju</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4675"/>
         <source>Move Cursor Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru uz augšu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4676"/>
         <source>Move Cursor Up 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru 10 rindas uz augšu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4677"/>
         <source>Move Cursor Down 10 Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru 10 rindas uz leju</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4678"/>
         <source>Cut to the end of the line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgriezt līdz rindas beigām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4679"/>
         <source>Copy the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopēt pašreizējo atlasi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4680"/>
         <source>Cut the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgriezt pašreizējo atlasi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4681"/>
         <source>Paste the current selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielīmēt pašreizējo atlasi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4682"/>
         <source>Move Cursor Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru pa labi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4683"/>
         <source>Move Cursor Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru pa kreisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4684"/>
         <source>Delete Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dzēst pa labi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4685"/>
         <source>Delete Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dzēst pa kreisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4686"/>
         <source>Move Cursor to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru uz rindas sākumu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4687"/>
         <source>Move Cursor to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru uz rindas beigām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4688"/>
         <source>Move Cursor to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru uz dokumenta sākumu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4689"/>
         <source>Move Cursor to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru uz dokumenta beigām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4690"/>
         <source>Move Cursor Right by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru par vārdu pa labi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4691"/>
         <source>Move Cursor Left by Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru par vārdu pa kreisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4692"/>
         <location filename="../mainwindow.cpp" line="5061"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atlasīt līdz rindas sākumam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4693"/>
         <location filename="../mainwindow.cpp" line="5064"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atlasīt līdz rindas beigām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4694"/>
         <location filename="../mainwindow.cpp" line="5067"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atlasīt vārdu pa labi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4695"/>
         <location filename="../mainwindow.cpp" line="5070"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atlasīt vārdu pa kreisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4696"/>
         <location filename="../mainwindow.cpp" line="5073"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atlasīt līdz dokumenta sākumam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4697"/>
         <location filename="../mainwindow.cpp" line="5076"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atlasīt līdz dokumenta beigām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4698"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vertikāli centrēt kursoru redaktorā</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4699"/>
         <source>Undo the last action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atsaukt pēdējo darbību</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4700"/>
         <source>Redo the last undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atcelt pēdējo atsaukšanu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4701"/>
         <source>Select all text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atlasīt visu tekstu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4705"/>
         <source>Delete word to the right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dzēst vārdu pa labi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4706"/>
         <source>Delete word to the left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dzēst vārdu pa kreisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4707"/>
         <source>Uppercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvērst vārdu vai atlasi lielajos burtos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4708"/>
         <source>Lowercase word or selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvērst vārdu vai atlasi mazajos burtos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4709"/>
         <source>Toggle fullscreen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgt pilnekrāna režīmu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4711"/>
         <source>Toggle focus mode (fullscreen editor with all distractions hidden)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgt fokusa režīmu (pilnekrāna redaktors ar paslēptiem visiem traucēkļiem)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4712"/>
         <source>Pause or resume the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pauzēt vai atsākt audio osciloskopus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4918"/>
@@ -1408,18 +1415,18 @@
         <location filename="../mainwindow.cpp" line="7937"/>
         <location filename="../mainwindow.cpp" line="7992"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Nav --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7938"/>
         <location filename="../mainwindow.cpp" line="7976"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ATSPĒJOTS --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8098"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio ierīces pārslēgšana neizdevās</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8099"/>
@@ -1428,12 +1435,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neizdevās pārslēgties uz:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8114"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio ievades ierīce nav pieejama</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8115"/>
@@ -1442,50 +1453,54 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neizdevās atvērt audio ievades ierīci:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8129"/>
         <source>Sonic Pi - Unable to Write to Home Directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi - nevar rakstīt mājas direktorijā</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8136"/>
         <source>Boot Error - Home Dir not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sāknēšanas kļūda - mājas direktorija nav rakstāma:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8138"/>
         <location filename="../mainwindow.cpp" line="8152"/>
         <source>Quick Fix: set the environment variable SONIC_PI_HOME to a directory you have permission to write to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ātrs risinājums: iestatiet vides mainīgo SONIC_PI_HOME uz direktoriju, kurā jums ir atļauja rakstīt.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8142"/>
         <location filename="../mainwindow.cpp" line="8156"/>
         <source>For the curious among you, Sonic Pi automatically stores the contents of the code buffers, configuration files and logs in a folder called .sonic-pi which typically resides in your home directory.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zinātkārajiem jūsu vidū: Sonic Pi automātiski saglabā koda buferu saturu, konfigurācijas failus un žurnālus mapē .sonic-pi, kas parasti atrodas jūsu mājas direktorijā.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8143"/>
         <source>Unfortunately you don&apos;t appear to have permission to write to your home directory:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Diemžēl izskatās, ka jums nav atļaujas rakstīt jūsu mājas direktorijā:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8144"/>
         <location filename="../mainwindow.cpp" line="8158"/>
         <source>To fix this you can set the environment variable SONIC_PI_HOME to any directory you have write access to and Sonic Pi will place its .sonic-pi directory within that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lai to novērstu, varat iestatīt vides mainīgo SONIC_PI_HOME uz jebkuru direktoriju, kurā jums ir rakstīšanas piekļuve, un Sonic Pi tajā izvietos savu .sonic-pi direktoriju.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8150"/>
         <source>Boot Error - SONIC_PI_HOME not writable:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sāknēšanas kļūda - SONIC_PI_HOME nav rakstāms:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8157"/>
         <source>Unfortunately it appears you have set the SONIC_PI_HOME environment variable to a directory you don&apos;t have permission to write to:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Diemžēl izskatās, ka esat iestatījis vides mainīgo SONIC_PI_HOME uz direktoriju, kurā jums nav atļaujas rakstīt:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4616"/>
@@ -1932,430 +1947,430 @@
     <message>
         <location filename="../mainwindow.cpp" line="4942"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīt tikai audio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4949"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīt audio + video</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4965"/>
         <location filename="../mainwindow.cpp" line="4966"/>
         <source>Save Buffer As...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saglabāt buferi kā...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4970"/>
         <location filename="../mainwindow.cpp" line="4971"/>
         <source>Load into Buffer...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielādēt buferī...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4975"/>
         <source>Load Set...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielādēt komplektu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4978"/>
         <source>Save Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saglabāt komplektu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4981"/>
         <source>Save Set As...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saglabāt komplektu kā...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4984"/>
         <source>Clear All Buffers...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notīrīt visus buferus...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4988"/>
         <source>Align Code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izlīdzināt kodu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5000"/>
         <source>Move Line or Selection Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot rindu vai atlasi uz augšu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5004"/>
         <source>Move Line or Selection Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot rindu vai atlasi uz leju</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5007"/>
         <source>Move Down One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties vienu rindu uz leju</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5010"/>
         <source>Move Up One Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties vienu rindu uz augšu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5013"/>
         <source>Move Down Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties desmit rindas uz leju</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5016"/>
         <source>Move Up Ten Lines</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties desmit rindas uz augšu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5019"/>
         <source>Cut to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgriezt līdz rindas beigām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5022"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopēt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5025"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgriezt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5028"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielīmēt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5031"/>
         <source>Move Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties pa labi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5034"/>
         <source>Move Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties pa kreisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5037"/>
         <source>Delete Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dzēst uz priekšu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5040"/>
         <source>Delete Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dzēst atpakaļ</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5043"/>
         <source>Move to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties uz rindas sākumu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5046"/>
         <source>Move to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties uz rindas beigām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5049"/>
         <source>Move to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties uz dokumenta sākumu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5052"/>
         <source>Move to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties uz dokumenta beigām</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5055"/>
         <source>Move Right One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties par vienu vārdu pa labi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5058"/>
         <source>Move Left One Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietoties par vienu vārdu pa kreisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5079"/>
         <source>Center Cursor Vertically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Centrēt kursoru vertikāli</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5082"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atsaukt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5085"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atcelt atsaukšanu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5088"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atlasīt visu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5091"/>
         <source>Delete Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dzēst vārdu pa kreisi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5094"/>
         <source>Delete Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dzēst vārdu pa labi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5097"/>
         <source>Upcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vārds vai atlase lielajos burtos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5100"/>
         <source>Downcase Word or Selection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vārds vai atlase mazajos burtos</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5104"/>
         <source>Show Docs for Current Word</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt dokumentāciju pašreizējam vārdam</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5121"/>
         <source>Pause or Resume Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pauzēt vai atsākt oscilogrammas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5124"/>
         <source>Focus Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusa režīms</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5129"/>
         <source>Check for Updates on Launch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārbaudīt atjauninājumus palaižot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5138"/>
         <source>Check for Updates Now</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārbaudīt atjauninājumus tagad</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5144"/>
         <source>Cycle Themes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgt tēmas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5161"/>
         <source>Close Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aizvērt palīdzību</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
         <source>Close Help (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aizvērt palīdzību (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5172"/>
         <source>Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iepriekšējā cilne</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5176"/>
         <source>Next Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nākamā cilne</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5179"/>
         <source>Focus Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5182"/>
         <source>Focus Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5185"/>
         <source>Focus Tab 3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5188"/>
         <source>Focus Tab 4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 4</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5191"/>
         <source>Focus Tab 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5194"/>
         <source>Focus Tab 6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 6</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5197"/>
         <source>Focus Tab 7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 7</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5200"/>
         <source>Focus Tab 8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 8</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5203"/>
         <source>Focus Tab 9</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 9</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Focus Tab 0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt cilni 0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5248"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt koda pabeigšanas palīdzību</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5258"/>
         <source>Flash Code on Sound Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgaismot kodu skaņas brīdī</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5263"/>
         <source>Flash Gutter on Sound Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgaismot piemali skaņas brīdī</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5268"/>
         <source>Show Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt live loop oscilogrammas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5273"/>
         <source>Speak Run and Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izrunāt palaišanu un apturēšanu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5278"/>
         <source>Reduce Animations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Samazināt animācijas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5326"/>
         <source>Enable Incoming Gamepad Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ieslēgt ienākošās spēļu kontroliera norādes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5356"/>
         <source>Auto Indent Code Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automātiskās atkāpes koda buferim</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5366"/>
         <source>Set Mark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iestatīt atzīmi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5369"/>
         <source>Trigger Autocomplete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktivizēt automātisko pabeigšanu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5372"/>
         <source>Read Completion Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nolasīt pabeigšanas detaļas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5391"/>
         <source>Load Recent Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielādēt nesenu komplektu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5481"/>
         <source>Mild Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maigi tumšs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5486"/>
         <source>Phosphor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fosfors</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5491"/>
         <source>Signal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Signāls</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5498"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro ikonas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5522"/>
         <source>Emacs Live Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live saīsņu režīms</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5527"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux saīsņu režīms</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5532"/>
         <source>Mac Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac saīsņu režīms</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5537"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pielāgots saīsņu režīms</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5576"/>
         <source>Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saīsņu režīms</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5582"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5676"/>
         <source>Game Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spēļu kontrolieri</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5678"/>
         <source>Connected Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pievienotie kontrolieri</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5679"/>
         <location filename="../mainwindow.cpp" line="7480"/>
         <source>No Connected Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nav pievienotu kontrolieru</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5681"/>
         <source>OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5741"/>
         <source>Focus Next Pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt nākamo rūti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5744"/>
         <source>Focus Previous Pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusēt iepriekšējo rūti</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5755"/>
@@ -2375,48 +2390,48 @@
     <message>
         <location filename="../mainwindow.cpp" line="5771"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publicēt logu caur Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5776"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iekļaut peles kursoru Syphon plūsmā</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5783"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publicēt logu caur Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5788"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iekļaut peles kursoru Spout plūsmā</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5795"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iekļaut peles kursoru sesijas ierakstā</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5800"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mirgot ierakstīšanas ikonai</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5807"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīšana</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5808"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīšanas režīms</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5815"/>
         <location filename="../mainwindow.cpp" line="5820"/>
         <source>Window Publishing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Loga publicēšana</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5825"/>
@@ -2436,22 +2451,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="5840"/>
         <source>Zoom In Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tuvināt žurnālus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5843"/>
         <source>Zoom Out Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Attālināt žurnālus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5886"/>
         <source>Accessibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pieejamība</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5891"/>
         <source>Focus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokuss</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5921"/>
@@ -2461,33 +2476,33 @@
     <message>
         <location filename="../mainwindow.cpp" line="6183"/>
         <source>Recording started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīšana sākta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6183"/>
         <source>Recording stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīšana apturēta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6276"/>
         <location filename="../mainwindow.cpp" line="6277"/>
         <source>Recording failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīšanu neizdevās sākt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6291"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QuickTime filma (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6294"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MP4 video (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6302"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saglabāt sesijas ierakstu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6325"/>
@@ -2512,17 +2527,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="6981"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palīdzības tēmas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6999"/>
         <source>Filter %1...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filtrēt %1...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7000"/>
         <source>Filter %1 help topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filtrēt %1 palīdzības tēmas</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7175"/>
@@ -2556,17 +2571,17 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../mainwindow.cpp" line="7219"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iespējo MIDI &lt;input&gt;...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7242"/>
         <source>Enabling gamepad input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iespējo spēļu kontroliera ievadi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7250"/>
         <source>Disabling gamepad input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atspējo spēļu kontroliera ievadi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7684"/>
@@ -2816,46 +2831,46 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="705"/>
         <source>Node Tree</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mezglu koks</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="842"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Info</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="851"/>
         <source>To SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uz SuperSonic</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="852"/>
         <source>From SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No SuperSonic</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1649"/>
         <location filename="../widgets/metricspanel.cpp" line="1650"/>
         <source>Show metrics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt metriku</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1649"/>
         <location filename="../widgets/metricspanel.cpp" line="1650"/>
         <source>Minimise metrics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Minimizēt metriku</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1739"/>
         <location filename="../widgets/metricspanel.cpp" line="1740"/>
         <source>Show logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt žurnālus</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1739"/>
         <location filename="../widgets/metricspanel.cpp" line="1740"/>
         <source>Minimise logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Minimizēt žurnālus</translation>
     </message>
 </context>
 <context>
@@ -2863,7 +2878,7 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/nodetreegraph.cpp" line="209"/>
         <source>(no active nodes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(nav aktīvu mezglu)</translation>
     </message>
 </context>
 <context>
@@ -2876,12 +2891,12 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1289"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ievadiet saīsni…</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpiscintilla.cpp" line="2110"/>
         <source>defined in this buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">definēts šajā buferī</translation>
     </message>
 </context>
 <context>
@@ -2889,108 +2904,108 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="280"/>
         <source>The file could not be opened for reading.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Failu neizdevās atvērt lasīšanai.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="287"/>
         <source>No card decks were found. A card set needs at least one &quot;# Deck: name&quot; line followed by &quot;## Card title&quot; cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Netika atrasta neviena kartīšu kava. Kartīšu komplektam nepieciešama vismaz viena &quot;# Deck: name&quot; rinda, kam seko &quot;## Card title&quot; kartītes.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="364"/>
         <source>quickstart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ātrais starts</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="901"/>
         <source>Stop this card</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Apturēt šo kartīti</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="901"/>
         <source>Run this card</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palaist šo kartīti</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1028"/>
         <source>%1 card deck</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 kartīšu kava</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1055"/>
         <location filename="../widgets/quickstartpane.cpp" line="1165"/>
         <source>Previous cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iepriekšējās kartītes</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1056"/>
         <source>More cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vairāk kartīšu</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1281"/>
         <source>Scroll to card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ritināt uz kartīti %1 no %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1309"/>
         <source>Click to see the previous cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Noklikšķiniet, lai redzētu iepriekšējās kartītes.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1572"/>
         <source>Add %1 to the editor at the cursor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pievienot %1 redaktorā pie kursora</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1573"/>
         <source>Add this card to your code at the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pievienot šo kartīti savam kodam pie kursora.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1589"/>
         <source>Copy %1 to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopēt %1 starpliktuvē</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1590"/>
         <source>Copy this card&apos;s code to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopēt šīs kartītes kodu starpliktuvē.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1621"/>
         <source>Drag %1 into the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ievilkt %1 redaktorā</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1622"/>
         <source>Drag me into your editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ievelc mani savā redaktorā.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1748"/>
         <source>Stop %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Apturēt %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1748"/>
         <source>Run %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palaist %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1749"/>
         <source>Play this card. Press again to stop.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atskaņot šo kartīti. Nospiediet vēlreiz, lai apturētu.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1786"/>
         <source>%1 card. %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kartīte %1. %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1788"/>
         <source>Press Space to play or stop, I to insert the code into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nospiediet atstarpes taustiņu, lai atskaņotu vai apturētu, I — lai ievietotu kodu redaktorā.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1797"/>
@@ -3005,7 +3020,7 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1798"/>
         <source>Insert at Cursor in Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ievietot redaktorā pie kursora</translation>
     </message>
 </context>
 <context>
@@ -3019,7 +3034,7 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
         <source>Volume, audio inputs and outputs, safety checks and recording.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skaļums, audio ievades un izvades, drošības pārbaudes un ierakstīšana.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="158"/>
@@ -3029,7 +3044,7 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>OSC networking, MIDI devices and game controllers.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC tīklošana, MIDI ierīces un spēļu kontrolieri.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="162"/>
@@ -3039,7 +3054,7 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="163"/>
         <source>Editor display, code completion, accessibility and pane visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Redaktora attēlojums, koda pabeigšana, pieejamība un rūšu redzamība.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="166"/>
@@ -3049,22 +3064,22 @@ Iegūt Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="167"/>
         <source>Audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio osciloskopi un opcijas, kas noder uzstājoties.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="170"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saīsnes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>View and customise the keyboard shortcuts.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skatīt un pielāgot tastatūras saīsnes.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Change the language of the interface and tutorial.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mainīt saskarnes un pamācības valodu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="179"/>
@@ -3633,68 +3648,74 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio osciloskops ir pieejams vairākos veidos, kurus var skatīt atsevišķi vai visus kopā:
+
+Lisažū - ilustrē fāžu attiecības starp kreiso un labo kanālu
+Spoguļa stereo - vienkāršs kreisā/labā viļņu kompozīts, kur kreisais ir augšā, labais apakšā
+Mono - attēlo kreisā un labā kanāla kombinēto skatu (izmantojot RMS)
+Spektrs - parāda skaņas frekvences kā spektru no zemām līdz augstām frekvencēm
+Stereo - attēlo divas neatkarīgas oscilogrammas kreisajam un labajam kanālam</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1001"/>
         <source>Editor Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Redaktora attēlojumi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1004"/>
         <source>Flash code on sound trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgaismot kodu skaņas brīdī</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1005"/>
         <source>When enabled, the editor briefly washes the code responsible for each sound as it is triggered.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kad iespējots, redaktors uz mirkli izgaismo kodu, kas atbild par katru skaņu tās atskaņošanas brīdī.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1007"/>
         <source>Flash gutter on sound trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgaismot piemali skaņas brīdī</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1008"/>
         <source>When enabled, the editor briefly shows a dot in the gutter next to the line responsible for each sound as it is triggered.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kad iespējots, redaktors uz mirkli parāda punktu piemalē blakus rindai, kas atbild par katru skaņu tās atskaņošanas brīdī.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1010"/>
         <source>Show live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt live loop oscilogrammas</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1011"/>
         <source>When enabled, each running live loop shows a small oscilloscope and spectrum of its own audio next to its line in the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kad iespējots, katrs palaists live loop rāda mazu oscilogrammu un sava audio spektru blakus savai rindai redaktorā.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1021"/>
         <source>Flash brightness</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgaismojuma spilgtums</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1022"/>
         <location filename="../widgets/settingswidget.cpp" line="1025"/>
         <source>Flash Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izgaismojuma spilgtums</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1023"/>
         <source>Drag or scroll to change how strongly the code flash washes the line.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Velciet vai ritiniet, lai mainītu, cik spēcīgi koda izgaismojums pārklāj rindu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1093"/>
         <source>This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Šī pārbaude ietver anonīmas informācijas par platformu un versiju nosūtīšanu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1097"/>
         <source>Force a check for updates now. This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Piespiedu kārtā pārbaudīt atjauninājumus tagad. Šī pārbaude ietver anonīmas informācijas par platformu un versiju nosūtīšanu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1135"/>
@@ -3727,160 +3748,160 @@ vietnē https://hosted.weblate.org/projects/sonic-pi/. Paldies! :)</translation>
         <location filename="../widgets/settingswidget.cpp" line="1388"/>
         <location filename="../widgets/settingswidget.cpp" line="1419"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1389"/>
         <location filename="../widgets/settingswidget.cpp" line="1420"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1390"/>
         <location filename="../widgets/settingswidget.cpp" line="1421"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1391"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pielāgots</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1412"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Režīms:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1422"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rediģēt saīsni</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1424"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atiestatīt</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1427"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importēt…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1428"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eksportēt…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1435"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pamats:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1585"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Piešķirta arī: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1589"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mainīts no noklusējuma (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1589"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">nav iestatīts</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1599"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(nav izmaiņu)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1600"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(mainīti: %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1691"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saīsne jau tiek izmantota</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1692"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&quot;%1&quot; jau ir piešķirta: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1693"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ko vēlaties darīt?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1694"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārpiešķirt šai darbībai</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1695"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Paturēt abas</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1723"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vai atiestatīt saīsnes?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1724"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tas atmet visas jūsu pielāgotās izmaiņas un atjauno pamata iestatījumu kopu. Vai turpināt?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1733"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eksportēt saīsnes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1734"/>
         <location filename="../widgets/settingswidget.cpp" line="1749"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Saīsņu faili (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1748"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importēt saīsnes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1786"/>
         <source>Illustrates the phase relationship between the left and right channels.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ilustrē fāžu attiecības starp kreiso un labo kanālu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1787"/>
         <source>A simple left/right composite wave, with left on top, right on bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vienkāršs kreisā/labā viļņu kompozīts, kur kreisais ir augšā, labais apakšā.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1788"/>
         <source>A combined view of the left and right channels (using RMS).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kreisā un labā kanāla kombinēts skats (izmantojot RMS).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1789"/>
         <source>The sound frequencies as a spectrum, from low to high.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skaņas frekvences kā spektrs no zemām līdz augstām.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1790"/>
         <source>Two independent scopes for the left and right channels.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Divas neatkarīgas oscilogrammas kreisajam un labajam kanālam.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1795"/>
         <source>Toggle the visibility of the %1 oscilloscope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēgt %1 osciloskopa redzamību.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1840"/>
@@ -3974,143 +3995,149 @@ vietnē https://hosted.weblate.org/projects/sonic-pi/. Paldies! :)</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="138"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierīces pārslēgšanai iestājās noildze</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>Version information and update checking.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Versijas informācija un atjauninājumu pārbaude.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="217"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izmantojiet šo regulatoru, lai mainītu sistēmas skaļumu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="224"/>
         <source>Drag or scroll to change Sonic Pi&apos;s overall volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Velciet vai ritiniet, lai mainītu Sonic Pi kopējo skaļumu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO izmanto vienu ierīci gan ievadei, gan izvadei.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="234"/>
         <source>If enabled, audio sent to the left speaker will be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja iespējots, skaņa, kas tiek sūtīta uz kreiso skaļruni, tiks novirzīta uz labo skaļruni un otrādi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
         <source>If enabled, right and left audio is mixed and the same signal is sent to both speakers. Useful when working with external systems that can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja iespējots, labās un kreisās puses audio tiek sajaukts, un uz abiem skaļruņiem tiek sūtīts viens un tas pats signāls. Noderīgi, strādājot ar ārējām sistēmām, kas spēj apstrādāt tikai mono.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="239"/>
         <source>Checks synth arguments before triggering. If disabled, certain synth opt values may create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārbauda sintezatora argumentus pirms iedarbināšanas. Ja atspējots, dažas sintezatora opt vērtības var radīt negaidīti skaļas vai nepatīkamas skaņas.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>When enabled, Sonic Pi will refuse to trigger synths and FX if it is too late to do so.
 
 When disabled, Sonic Pi will always attempt to trigger synths and FX even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kad iespējots, Sonic Pi atteiksies iedarbināt sintezatorus un FX, ja to darīt ir par vēlu.
+
+Kad atspējots, Sonic Pi vienmēr mēģinās iedarbināt sintezatorus un FX pat ar nelielu novēlošanos.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>When enabled, Sonic Pi will allow synths and FX loaded via load_synthdefs to be triggered.
 
 When disabled, Sonic Pi will complain when you attempt to use a synth or FX which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kad iespējots, Sonic Pi ļaus iedarbināt sintezatorus un FX, kas ielādēti ar load_synthdefs.
+
+Kad atspējots, Sonic Pi iebildīs, kad mēģināsiet izmantot neatpazītu sintezatoru vai FX.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio ierīce</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Konfigurēt audio draiveri, ierīci, diskretizācijas frekvenci un bufera izmēru.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Draiveris</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izvade</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ievade</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Diskretizācijas frekvence</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="307"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bufera izmērs</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>Remote desktop session: local audio hardware is usually unavailable, and ASIO devices may fail to start.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Attālinātās darbvirsmas sesija: vietējā audio aparatūra parasti nav pieejama, un ASIO ierīcēm var neizdoties startēt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="347"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīšana</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="348"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izvēlieties, ko tver ierakstīšanas poga.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="359"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīt tikai audio</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="363"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic ieraksta galvenā miksa .wav failu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ierakstīt audio + video</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="372"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tver Sonic Pi logu kopā ar galveno miksu .mov failā,
+izmantojot GPU paātrinātu ekrāna tveršanu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tver Sonic Pi logu kopā ar galveno miksu .mp4 failā,
+izmantojot GPU paātrinātu ekrāna tveršanu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Darbina</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gaida SuperSonic...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
@@ -4120,242 +4147,242 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="440"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atvērt sistēmas iestatījumus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="506"/>
         <source>Sonic Pi can send and receive Open Sound Control messages to and from other programs or computers via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi var sūtīt un saņemt Open Sound Control ziņojumus uz un no citām programmām vai datoriem, izmantojot pašlaik pieslēgto tīklu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="536"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines. When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja atzīmēts, Sonic Pi ļaus sūtīt un saņemt OSC ziņojumus uz un no attālām iekārtām. Ja nav atzīmēts, būs iespējota tikai sūtīšana un saņemšana no lokālās iekārtas.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="539"/>
         <source>When checked, Sonic Pi will listen for OSC messages. When unchecked, no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja atzīmēts, Sonic Pi klausīsies OSC ziņojumus. Ja nav atzīmēts, OSC ziņojumi netiks saņemti.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="579"/>
         <source>MIDI input ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI ievades porti</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
         <source>MIDI output ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI izvades porti</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="582"/>
         <source>MIDI input devices send MIDI messages directly to Sonic Pi and are received as cue events (similar to incoming OSC messages and internal cues).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI ievades ierīces sūta MIDI ziņojumus tieši uz Sonic Pi, un tie tiek saņemti kā norāžu notikumi (līdzīgi kā ienākošie OSC ziņojumi un iekšējās norādes).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="583"/>
         <source>MIDI output devices receive MIDI messages directly from Sonic Pi which can be sent via the midi_* fns.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI izvades ierīces saņem MIDI ziņojumus tieši no Sonic Pi, kurus var nosūtīt ar midi_* funkcijām.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="585"/>
         <source>Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ievades</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="586"/>
         <source>Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izvades</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="610"/>
         <source>Game Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spēļu kontrolieri</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="611"/>
         <source>Configure game controller behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Konfigurēt spēļu kontroliera uzvedību</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="613"/>
         <source>Enable incoming gamepad cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iespējot ienākošās spēļu kontroliera norādes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="614"/>
         <source>Enable or disable automatic conversion of game controller button and axis events to cue events.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iespējot vai atspējot spēļu kontroliera pogu un asu notikumu automātisku pārveidošanu par norāžu notikumiem.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="616"/>
         <source>No connected game controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nav pievienotu spēļu kontrolieru</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="618"/>
         <source>Game controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spēļu kontrolieri</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="619"/>
         <source>Connected game controllers send button and axis events to Sonic Pi which are received as cue events.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pievienotie spēļu kontrolieri sūta pogu un asu notikumus uz Sonic Pi, kas tiek saņemti kā norāžu notikumi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="654"/>
         <source>Automatically align code on Enter or Run </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automātiski izlīdzināt kodu pie Enter vai Palaist </translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt koda pabeigšanas palīdzību</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kad iespējots, koda pabeigšanas uznirstošais logs ietver palīgrūtis - dokumentāciju, nošu klaviatūru un vērtību slīdņus. Kad atspējots, tiek rādīts tikai ieteikumu saraksts.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="668"/>
         <source>Speak run and stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izrunāt palaišanu un apturēšanu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="669"/>
         <source>When enabled, a screen reader announces &quot;Run started&quot; and &quot;Stopped&quot;. Disable this if you&apos;d rather hear the very start of your audio without it being ducked by the announcement.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kad iespējots, ekrāna lasītājs paziņo &quot;Palaišana sākta&quot; un &quot;Apturēts&quot;. Atspējojiet, ja vēlaties dzirdēt pašu audio sākumu, kuru nepieklusina paziņojums.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="671"/>
         <source>Reduce animations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Samazināt animācijas</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="672"/>
         <source>When enabled, Sonic Pi keeps its interface still: panes and popups appear in place instead of sliding or gliding. Also switched on automatically while your operating system&apos;s reduce-animations accessibility setting is active.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kad iespējots, Sonic Pi saskarne paliek nekustīga: rūtis un uznirstošie logi parādās uzreiz savā vietā, nevis slīd. Tiek ieslēgts automātiski arī tad, kad ir aktīvs jūsu operētājsistēmas animāciju samazināšanas pieejamības iestatījums.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="703"/>
         <source>Hide menu bar in full screen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Paslēpt izvēļņu joslu pilnekrāna režīmā</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="714"/>
         <source>Mild Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maigi tumšs</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="715"/>
         <source>Phosphor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fosfors</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="716"/>
         <source>Signal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Signāls</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="724"/>
         <source>Light colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gaišā krāsu shēma.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="725"/>
         <source>Dark colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tumšā krāsu shēma.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
         <source>High-contrast colour scheme for maximum legibility.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Augsta kontrasta krāsu shēma maksimālai salasāmībai.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Mild Dark: a softer, low-contrast dark colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maigi tumšs: maigāka, zema kontrasta tumšā krāsu shēma.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>
         <source>Phosphor: a green-on-black CRT colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fosfors: zaļa uz melna CRT krāsu shēma.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="729"/>
         <source>Signal: high-contrast blue-and-gold colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Signāls: augsta kontrasta zili zelta krāsu shēma.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="734"/>
         <source>Pro icons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro ikonas</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="735"/>
         <source>Use the compact Pro toolbar icon set instead of the classic icons.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Izmantot kompakto Pro rīkjoslas ikonu komplektu klasisko ikonu vietā.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="739"/>
         <source>Monochrome</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Monohroms</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="740"/>
         <source>Show the whole interface in greyscale.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt visu saskarni pelēktoņos.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="743"/>
         <source>Invert colours</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invertēt krāsas</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="744"/>
         <source>Invert every interface colour (photo-negative).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invertēt katru saskarnes krāsu (fotonegatīvs).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="878"/>
         <source>Rotate Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pagriezt nokrāsu</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="880"/>
         <source>Drag the dial to rotate the hue of every colour in the interface.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Velciet regulatoru, lai pagrieztu katras saskarnes krāsas nokrāsu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="907"/>
         <source>Accessibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pieejamība</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="908"/>
         <source>Settings that support screen readers and other assistive tools.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iestatījumi, kas atbalsta ekrāna lasītājus un citus palīgrīkus.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
         <source>If disabled, activity such as synth and sample triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja atspējots, darbības, piemēram, sintezatoru un sampļu iedarbināšana, pēc noklusējuma netiks rakstītas žurnālā.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="927"/>
         <source>If enabled, the log is cleared each time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja iespējots, žurnāls tiek notīrīts katru reizi, kad tiek nospiesta palaišanas poga.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="930"/>
         <source>If disabled, cues will still trigger. However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja atspējots, norādes joprojām aktivizēsies, taču tās nebūs redzamas žurnālos.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="933"/>
         <source>If enabled, the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja iespējots, žurnāls pēc katra jauna ziņojuma tiek noritināts līdz apakšai.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="988"/>
@@ -4365,72 +4392,73 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1850"/>
         <source>System language found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atrastā sistēmas valoda: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1898"/>
         <location filename="../widgets/settingswidget.cpp" line="2049"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ATSPĒJOTS --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1945"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārslēdz audio ierīci...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1983"/>
         <location filename="../widgets/settingswidget.cpp" line="2058"/>
         <location filename="../widgets/settingswidget.cpp" line="2273"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Nav --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1985"/>
         <location filename="../widgets/settingswidget.cpp" line="2270"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistēmas noklusējums</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1987"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistēmas noklusējums (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2174"/>
         <source>remote session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">attālinātā sesija</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2257"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO ierīcēm ievade/izvade ir saistīta.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2280"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atspoguļo izvadi (ASIO ir pilndupleksa).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2319"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi vēl nav piekļuves mikrofonam, tāpēc live_audio un :sound_in klusēs. Noklikšķiniet zemāk, lai piešķirtu piekļuvi sistēmas iestatījumos.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2321"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Piekļuvi mikrofonam ierobežo sistēmas politika, tāpēc live_audio un :sound_in klusēs.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2323"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Piekļuve mikrofonam vēl nav piešķirta — noklikšķiniet zemāk, lai atvērtu sistēmas iestatījumus.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2735"/>
         <source>System language: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistēmas valoda: %1
+</translation>
     </message>
     <message>
         <source>The audio oscilloscope comes in several flavours which may
@@ -4504,48 +4532,48 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../visualizer/scope_window.cpp" line="167"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lisažū</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="168"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kreisais</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="169"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Labais</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="170"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="171"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spoguļa stereo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="173"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spektrs</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="190"/>
         <source>Pause or resume the audio oscilloscopes. Pausing freezes the current image so you can inspect it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pauzēt vai atsākt audio osciloskopus. Pauzēšana iesaldē pašreizējo attēlu, lai to varētu apskatīt.</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="192"/>
         <location filename="../visualizer/scope_window.cpp" line="196"/>
         <source>Pause scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pauzēt oscilogrammas</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="196"/>
         <source>Resume scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atsākt oscilogrammas</translation>
     </message>
 </context>
 <context>
@@ -4553,89 +4581,89 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="79"/>
         <source>Close (Esc)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aizvērt (Esc)</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="97"/>
         <source>The buffer (tab) and line where the error happened</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buferis (cilne) un rinda, kur notika kļūda</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="112"/>
         <source>The line of your code that caused the error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jūsu koda rinda, kas izraisīja kļūdu</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="133"/>
         <source>Doc Example:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentācijas piemērs:</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="164"/>
         <location filename="../widgets/sonicpierrorcard.cpp" line="447"/>
         <source>Show details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt detaļas</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="173"/>
         <location filename="../widgets/sonicpierrorcard.cpp" line="183"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopēt</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="178"/>
         <source>Copy the whole error report (message, location, code and backtrace) to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopēt visu kļūdas pārskatu (ziņojumu, vietu, kodu un izsaukumu steku) starpliktuvē</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="179"/>
         <source>Copy error report</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopēt kļūdas pārskatu</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="182"/>
         <source>Copied ✓</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nokopēts ✓</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="189"/>
         <source>Move the cursor to the error in your code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pārvietot kursoru uz kļūdu jūsu kodā</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="398"/>
         <source>Open the documentation for %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atvērt %1 dokumentāciju</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="406"/>
         <source>Usage example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lietojuma piemērs</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="407"/>
         <source>Usage example - opens the %1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lietojuma piemērs - atver %1 dokumentāciju</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="432"/>
         <source>Jump to error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pāriet uz kļūdu</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="447"/>
         <source>Hide details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Paslēpt detaļas</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="448"/>
         <source>Hide the full technical error and backtrace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Paslēpt pilno tehnisko kļūdu un izsaukumu steku</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="449"/>
         <source>Show the full technical error and backtrace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt pilno tehnisko kļūdu un izsaukumu steku</translation>
     </message>
 </context>
 <context>
@@ -4643,7 +4671,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/sonicpilog.cpp" line="110"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notīrīt</translation>
     </message>
 </context>
 <context>
@@ -4652,162 +4680,164 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../widgets/sonicpimetro.cpp" line="114"/>
         <location filename="../widgets/sonicpimetro.cpp" line="409"/>
         <source>Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="124"/>
         <source>Ableton Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ableton Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="126"/>
         <source>Share a tempo with other Link-enabled apps and devices, so everyone plays in time. Click to join or leave the shared session.
 
 Link works either on this machine only or across your local network. Switch modes with the ghost / network button at the end of this row.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopīgojiet tempu ar citām Link atbalstošām lietotnēm un ierīcēm, lai visi spēlētu vienā ritmā. Noklikšķiniet, lai pievienotos kopīgajai sesijai vai to pamestu.
+
+Link darbojas vai nu tikai šajā datorā, vai visā jūsu lokālajā tīklā. Pārslēdziet režīmus ar spoka / tīkla pogu šīs rindas beigās.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="133"/>
         <source>Tap</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uzsit</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="139"/>
         <source>Tap tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uzsit tempu</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="141"/>
         <source>Click repeatedly to the beat to set the BPM manually. Accuracy increases with every additional click.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klikšķiniet atkārtoti ritmā, lai manuāli iestatītu BPM. Precizitāte pieaug ar katru papildu klikšķi.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="150"/>
         <location filename="../widgets/sonicpimetro.cpp" line="151"/>
         <location filename="../widgets/sonicpimetro.cpp" line="164"/>
         <source>Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Globālā laika deformācija</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="152"/>
         <source>Slide to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. The unit is milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bīdiet, lai nobīdītu visu iedarbināto sintezatoru / FX un nosūtīto MIDI/OSC notikumu fāzi. Negatīvas vērtības visu iedarbina agrāk, pozitīvas — vēlāk. Mērvienība ir milisekundes.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="161"/>
         <source>Time Warp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Laika deformācijas skrāpis</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="165"/>
         <source>Adjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. Edit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pielāgojiet, lai nobīdītu visu iedarbināto sintezatoru / FX un nosūtīto MIDI/OSC notikumu fāzi. Negatīvas vērtības visu iedarbina agrāk, pozitīvas — vēlāk. Rediģējiet, velciet vai ritiniet, lai mainītu. Veiciet dubultklikšķi, lai atiestatītu uz 0. Mērvienība ir milisekundes.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="178"/>
         <source>BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tempa skrāpis</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="180"/>
         <source>Link Tempo (BPM)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link temps (BPM)</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="181"/>
         <source>Current Link tempo in beats per minute. Edit, drag or scroll to modify. Double click to reset to 60.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pašreizējais Link temps sitienos minūtē. Rediģējiet, velciet vai ritiniet, lai mainītu. Veiciet dubultklikšķi, lai atiestatītu uz 60.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="190"/>
         <location filename="../widgets/sonicpimetro.cpp" line="534"/>
         <source>Show Link Audio streams panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt Link Audio straumju paneli</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="191"/>
         <source>Link Audio Streams</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio straumes</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="192"/>
         <source>Show / hide the Link Audio streams panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rādīt / paslēpt Link Audio straumju paneli.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="310"/>
         <source>Link visibility: public — visible to other devices on your network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link redzamība: publiska — redzams citām ierīcēm jūsu tīklā</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="311"/>
         <source>Link visibility: local — hidden from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link redzamība: lokāla — paslēpts no tīkla</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="331"/>
         <source>Link Visibility: Local Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link redzamība: lokālais tīkls</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="332"/>
         <source>Link Visibility: Local Machine Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link redzamība: tikai šis dators</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="334"/>
         <source>Link is visible to other devices on your local network. They can sync tempo and stream audio with this Sonic Pi via Link. Click to switch to Local Machine Only mode to hide Link from the network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link ir redzams citām ierīcēm jūsu lokālajā tīklā. Tās var sinhronizēt tempu un straumēt audio ar šo Sonic Pi, izmantojot Link. Noklikšķiniet, lai pārslēgtos uz režīmu &quot;Tikai šis dators&quot; un paslēptu Link no tīkla.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="335"/>
         <source>Link is hidden from the local network. Link tempo sync and Link Audio only connect to other apps on this machine. Click to switch to Local Network mode to make Link visible to other machines on your local network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link ir paslēpts no lokālā tīkla. Link tempa sinhronizācija un Link Audio savienojas tikai ar citām lietotnēm šajā datorā. Noklikšķiniet, lai pārslēgtos uz lokālā tīkla režīmu un padarītu Link redzamu citiem datoriem jūsu lokālajā tīklā.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="337"/>
         <source>Network visibility: public</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tīkla redzamība: publiska</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="338"/>
         <source>Network visibility: local only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tīkla redzamība: tikai lokāla</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="359"/>
         <source>Link on — tempo synced with other devices on your network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link ieslēgts — temps sinhronizēts ar citām ierīcēm jūsu tīklā</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="360"/>
         <source>Link on — local only, hidden from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link ieslēgts — tikai lokāli, paslēpts no tīkla</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="379"/>
         <source>Link off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link izslēgts</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="411"/>
         <source>1 Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1 Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="413"/>
         <source>%1 Links</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="498"/>
         <source>Tap tempo: %1 BPM</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uzsists temps: %1 BPM</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="533"/>
         <source>Hide Link Audio streams panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Paslēpt Link Audio straumju paneli</translation>
     </message>
 </context>
 <context>
@@ -4815,7 +4845,7 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../utils/sonicpi_i18n.cpp" line="151"/>
         <source>System language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistēmas valoda</translation>
     </message>
 </context>
 <context>
@@ -4823,32 +4853,32 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/splashwidget.cpp" line="44"/>
         <source>Sonic Pi is starting</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi startē</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="113"/>
         <source>created by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">radījis</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="116"/>
         <source>Sam Aaron</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sam Aaron</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="162"/>
         <source>Love and thanks to all the kind people&lt;br&gt;who supported this release on Patreon:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mīlestība un pateicība visiem laipnajiem cilvēkiem,&lt;br&gt;kas atbalstīja šo laidienu Patreon:</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="179"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Versija</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="192"/>
         <source>powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">darbina</translation>
     </message>
 </context>
 <context>
@@ -4856,7 +4886,7 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialwidgets.h" line="967"/>
         <source>%1 value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 vērtība</translation>
     </message>
 </context>
 <context>
@@ -4864,7 +4894,7 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialwidgets.h" line="518"/>
         <source>Piano keyboard — play with your computer keys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klavieru klaviatūra — spēlējiet ar datora taustiņiem</translation>
     </message>
 </context>
 <context>
@@ -4872,30 +4902,30 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="181"/>
         <source>documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">dokumentācija</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="247"/>
         <location filename="../widgets/tutorialpane.cpp" line="1253"/>
         <location filename="../widgets/tutorialpane.cpp" line="1481"/>
         <source>Run this example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palaist šo piemēru</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="248"/>
         <location filename="../widgets/tutorialpane.cpp" line="1482"/>
         <source>Run example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palaist piemēru</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="251"/>
         <source>Load this example into the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielādēt šo piemēru esošajā buferī</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="252"/>
         <source>Load example into buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ielādēt piemēru buferī</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="401"/>
@@ -4905,123 +4935,123 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="408"/>
         <source>Example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Piemērs %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="418"/>
         <source>Introduced in %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ieviests versijā %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="460"/>
         <source>%1 icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ikona</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="474"/>
         <source>Reset all controls to their defaults</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atiestatīt visas vadīklas uz noklusējumiem</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="475"/>
         <source>Reset %1 controls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atiestatīt %1 vadīklas</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="641"/>
         <source>Octave down (z)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oktāvu uz leju (z)</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="642"/>
         <source>Octave down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oktāvu uz leju</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="650"/>
         <source>Octave up (x)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oktāvu uz augšu (x)</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="651"/>
         <source>Octave up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oktāvu uz augšu</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="693"/>
         <source>Jump to documentation for %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pāriet uz %1 dokumentāciju</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="718"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opcijas</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="777"/>
         <source>z/x: octave</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">z/x: oktāva</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="778"/>
         <source>octave %1%2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">oktāva %1%2</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1037"/>
         <source>Edit %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rediģēt %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1254"/>
         <source>Run example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palaist piemēru %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1257"/>
         <location filename="../widgets/tutorialpane.cpp" line="1481"/>
         <source>Stop this example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Apturēt šo piemēru</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1258"/>
         <source>Stop example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Apturēt piemēru %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1262"/>
         <source>Copy code to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopēt kodu starpliktuvē</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1263"/>
         <source>Copy example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopēt piemēru %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1318"/>
         <source>Copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nokopēts starpliktuvē</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1385"/>
         <source>slidable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">bīdāms</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1414"/>
         <source>Previous chapter: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iepriekšējā nodaļa: %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1423"/>
         <source>Next chapter: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nākamā nodaļa: %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1482"/>
         <source>Stop example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Apturēt piemēru</translation>
     </message>
 </context>
 <context>
@@ -5034,22 +5064,22 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="84"/>
         <source>Hello, and welcome!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sveiki un laipni lūdzam!</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="94"/>
         <source>Sonic Pi is a musical instrument you play by writing code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi ir mūzikas instruments, ko spēlē, rakstot kodu.</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="104"/>
         <source>Remember, when you code live there are no mistakes, only opportunities...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atceries — kodējot tiešraidē, kļūdu nav, ir tikai iespējas...</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="117"/>
         <source>Get Started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sākt</translation>
     </message>
 </context>
 <context>
@@ -5057,12 +5087,12 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/zoombar.cpp" line="36"/>
         <source>Make %1 text smaller</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Samazināt %1 tekstu</translation>
     </message>
     <message>
         <location filename="../widgets/zoombar.cpp" line="37"/>
         <source>Make %1 text larger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palielināt %1 tekstu</translation>
     </message>
 </context>
 </TS>

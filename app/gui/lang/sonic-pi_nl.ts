@@ -6,22 +6,22 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1031"/>
         <source>Docs ↗</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Docs ↗</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1034"/>
         <source>Open the help pane for this entry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Open het hulppaneel voor dit item</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1046"/>
         <source>Close (Esc)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sluiten (Esc)</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1757"/>
         <source>%1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 van %2</translation>
     </message>
 </context>
 <context>
@@ -29,7 +29,7 @@
     <message>
         <location filename="../widgets/devicelistwidget.cpp" line="66"/>
         <source>Untick to ignore this device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vink uit om dit apparaat te negeren</translation>
     </message>
 </context>
 <context>
@@ -39,179 +39,179 @@
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="199"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="200"/>
         <source>Link Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link-naam</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="201"/>
         <source>The name other Link peers see for this Sonic Pi when browsing audio streams on the network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De naam die andere Link-peers zien voor deze Sonic Pi bij het bekijken van audiostreams op het netwerk.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="202"/>
         <source>Name visible to other Link peers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Naam zichtbaar voor andere Link-peers</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="213"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="216"/>
         <source>Latency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Latentie</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="217"/>
         <source>milliseconds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">milliseconden</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="221"/>
         <source>Receive Latency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ontvangstlatentie</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="222"/>
         <source>Link Audio receive latency in ms. Smaller = closer to real-time monitoring; larger = more robust against network jitter. Engine-wide (applies to every link_audio subscription).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio-ontvangstlatentie in ms. Kleiner = dichter bij realtime meeluisteren; groter = beter bestand tegen netwerkjitter. Geldt voor de hele engine (voor elk link_audio-abonnement).</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="226"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="518"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="610"/>
         <source>%1 ms</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ms</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aan</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uit</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="246"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="251"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="260"/>
         <source>Stream Audio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio streamen</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="252"/>
         <source>When on, our audio channels are visible to other Link peers and stream to anyone who subscribes. Preference is remembered between sessions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wanneer aan zijn onze audiokanalen zichtbaar voor andere Link-peers en streamen ze naar iedereen die zich abonneert. Deze voorkeur wordt tussen sessies onthouden.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="296"/>
         <source>Visibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zichtbaarheid</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <source>Peer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Peer</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kanaal</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Status</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Buffered</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gebufferd</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Frequentie</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Bus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bus</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="324"/>
         <source>Link Audio peers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio-peers</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="467"/>
         <source>SuperSonic not connected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic niet verbonden</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Network Peer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Netwerkpeer</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Local Peer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lokale peer</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="580"/>
         <source>on the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">op het netwerk</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="581"/>
         <source>on this machine</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">op deze computer</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="583"/>
         <source>Click Link to find other peers %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klik op Link om andere peers te vinden %1</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="584"/>
         <source>Waiting for Link Audio peers %1…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wachten op Link Audio-peers %1…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="598"/>
         <source>Available</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beschikbaar</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="601"/>
         <source>Connecting…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verbinden…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="602"/>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verbonden</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="603"/>
         <source>Dropout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dropout</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="604"/>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geabonneerd</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="613"/>
         <source>%1 kHz</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 kHz</translation>
     </message>
 </context>
 <context>
@@ -219,37 +219,37 @@
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Local</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lokaal</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Netwerk</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="31"/>
         <source>Link visibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link-zichtbaarheid</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="42"/>
         <source>Link Visibility: Local Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link-zichtbaarheid: lokaal netwerk</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="43"/>
         <source>Link Visibility: Local Machine Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link-zichtbaarheid: alleen deze computer</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="45"/>
         <source>Link is visible to other devices on your local network. They can sync tempo and stream audio with this Sonic Pi via Link. Click to switch to Local Machine Only mode to hide Link from the network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link is zichtbaar voor andere apparaten op je lokale netwerk. Ze kunnen via Link het tempo synchroniseren en audio streamen met deze Sonic Pi. Klik om over te schakelen naar de modus Alleen deze computer en Link voor het netwerk te verbergen.</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="46"/>
         <source>Link is hidden from the local network. Link tempo sync and Link Audio only connect to other apps on this machine. Click to switch to Local Network mode to make Link visible to other machines on your local network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link is verborgen voor het lokale netwerk. Link-temposynchronisatie en Link Audio verbinden alleen met andere apps op deze computer. Klik om over te schakelen naar de modus Lokaal netwerk en Link zichtbaar te maken voor andere computers op je lokale netwerk.</translation>
     </message>
 </context>
 <context>
@@ -257,7 +257,7 @@
     <message>
         <location filename="../widgets/logpanel.cpp" line="224"/>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Logs</translation>
     </message>
 </context>
 <context>
@@ -1307,7 +1307,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1735"/>
         <source>Live metrics, node tree and message logs for the SuperSonic audio engine.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Live statistieken, node-boom en berichtenlogs voor de SuperSonic audio-engine.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2280"/>
@@ -1323,13 +1323,13 @@
         <location filename="../mainwindow.cpp" line="2427"/>
         <location filename="../mainwindow.cpp" line="8182"/>
         <source>Boot error details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Details van opstartfout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2434"/>
         <location filename="../mainwindow.cpp" line="8188"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afsluiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2663"/>
@@ -1339,80 +1339,82 @@
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
         <source>Load Sonic Pi Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi set laden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
         <location filename="../mainwindow.cpp" line="2772"/>
         <source>Sonic Pi Sets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi sets</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Cannot load set:
 %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kan set niet laden:
+%1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2728"/>
         <source>Load the set %1?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Set %1 laden?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2729"/>
         <source>The current contents of all buffers will be replaced with the buffers stored in this set.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De huidige inhoud van alle buffers wordt vervangen door de buffers uit deze set.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vervangen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2749"/>
         <source>Set %1 loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Set %1 geladen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
         <source>Save Current Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Huidige set opslaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
         <source>My Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mijn set</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>Cannot save set:
 %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kan set niet opslaan:
+%1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
         <source>Set saved as %1...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Set opgeslagen als %1...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2831"/>
         <source>Clear all buffers?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle buffers wissen?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2832"/>
         <source>The contents of all buffers will be emptied and their text size reset.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De inhoud van alle buffers wordt geleegd en de tekstgrootte teruggezet.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2833"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wissen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2849"/>
         <source>All buffers cleared...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle buffers gewist...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
@@ -1428,110 +1430,112 @@
     <message>
         <location filename="../mainwindow.cpp" line="3169"/>
         <source>Quickstart Cards...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Snelstartkaarten...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
         <source>Load Card Set...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaartenset laden...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3177"/>
         <location filename="../mainwindow.cpp" line="3184"/>
         <source>Load Card Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaartenset laden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3177"/>
         <source>Card sets (*.txt);;All files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaartensets (*.txt);;Alle bestanden (*)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3185"/>
         <source>&quot;%1&quot; is not a valid card set.
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&quot;%1&quot; is geen geldige kaartenset.
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3192"/>
         <source>Loaded card set: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaartenset geladen: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3196"/>
         <source>Reset to Default Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Standaardkaarten herstellen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3201"/>
         <source>Reset to the default card set.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Herstel de standaard kaartenset.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3212"/>
         <source>Apprentice</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Leerling</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3213"/>
         <source>Illusionist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Illusionist</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Magician</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Goochelaar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3215"/>
         <source>Sorcerer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Magiër</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3216"/>
         <source>Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tovenaar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3217"/>
         <source>Algomancer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Algomancer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Play When Opened</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afspelen bij openen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Browse Examples in Help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voorbeelden bekijken in Hulp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <source>Browse FX in Help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">FX bekijken in Hulp...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3305"/>
         <source>Opened %1 in the Help panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 geopend in het hulppaneel.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3316"/>
         <source>Unable to load example: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kan voorbeeld niet laden: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Playing %1 from the Help panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 wordt afgespeeld vanuit het hulppaneel.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3365"/>
         <source>Docs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Docs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
@@ -1541,12 +1545,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Reduce animations on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Minder animaties aan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4181"/>
         <source>Reduce animations off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Minder animaties uit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4629"/>
@@ -1621,12 +1625,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4654"/>
         <source>Move focus to the next visible pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Breng de focus naar het volgende zichtbare paneel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4655"/>
         <source>Move focus to the previous visible pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Breng de focus naar het vorige zichtbare paneel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4657"/>
@@ -1651,12 +1655,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4670"/>
         <source>Trigger code completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automatisch aanvullen activeren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4671"/>
         <source>Show autocomplete documentation for the current context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toon documentatie van automatisch aanvullen voor de huidige context</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4672"/>
@@ -1712,12 +1716,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4711"/>
         <source>Toggle focus mode (fullscreen editor with all distractions hidden)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focusmodus in-/uitschakelen (editor op volledig scherm zonder afleiding)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4712"/>
         <source>Pause or resume the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pauzeer of hervat de audio-oscilloscopen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4942"/>
@@ -1733,38 +1737,38 @@
         <location filename="../mainwindow.cpp" line="4965"/>
         <location filename="../mainwindow.cpp" line="4966"/>
         <source>Save Buffer As...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buffer opslaan als...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4970"/>
         <location filename="../mainwindow.cpp" line="4971"/>
         <source>Load into Buffer...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Laden in buffer...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4975"/>
         <source>Load Set...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Set laden...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4978"/>
         <source>Save Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Set opslaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4981"/>
         <source>Save Set As...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Set opslaan als...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4984"/>
         <source>Clear All Buffers...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alle buffers wissen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4988"/>
         <source>Align Code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Code uitlijnen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5000"/>
@@ -1914,22 +1918,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="5121"/>
         <source>Pause or Resume Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scopes pauzeren of hervatten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5124"/>
         <source>Focus Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focusmodus</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5129"/>
         <source>Check for Updates on Launch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bij opstarten controleren op updates</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5138"/>
         <source>Check for Updates Now</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nu controleren op updates</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5144"/>
@@ -1939,12 +1943,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="5161"/>
         <source>Close Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hulp sluiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
         <source>Close Help (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hulp sluiten (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5172"/>
@@ -2014,32 +2018,32 @@
     <message>
         <location filename="../mainwindow.cpp" line="5258"/>
         <source>Flash Code on Sound Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Code laten oplichten bij geluidstrigger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5263"/>
         <source>Flash Gutter on Sound Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kantlijn laten oplichten bij geluidstrigger</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5268"/>
         <source>Show Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Live loop-scopes tonen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5273"/>
         <source>Speak Run and Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afspelen en Stop uitspreken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5278"/>
         <source>Reduce Animations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Minder animaties</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5326"/>
         <source>Enable Incoming Gamepad Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inkomende gamepad-cues inschakelen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5356"/>
@@ -2054,37 +2058,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="5369"/>
         <source>Trigger Autocomplete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automatisch aanvullen activeren</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5372"/>
         <source>Read Completion Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Details van aanvulling voorlezen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5391"/>
         <source>Load Recent Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Recente set laden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5481"/>
         <source>Mild Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mild Donker</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5486"/>
         <source>Phosphor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Phosphor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5491"/>
         <source>Signal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Signal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5498"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro-pictogrammen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5522"/>
@@ -2094,38 +2098,38 @@
     <message>
         <location filename="../mainwindow.cpp" line="5582"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5676"/>
         <source>Game Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gamecontrollers</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5678"/>
         <source>Connected Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verbonden controllers</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5679"/>
         <location filename="../mainwindow.cpp" line="7480"/>
         <source>No Connected Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geen verbonden controllers</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5681"/>
         <source>OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5741"/>
         <source>Focus Next Pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focus volgend paneel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5744"/>
         <source>Focus Previous Pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focus vorig paneel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5807"/>
@@ -2136,53 +2140,53 @@
         <location filename="../mainwindow.cpp" line="5815"/>
         <location filename="../mainwindow.cpp" line="5820"/>
         <source>Window Publishing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vensterpublicatie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5886"/>
         <source>Accessibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toegankelijkheid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6163"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opname stoppen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6183"/>
         <source>Recording started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opname gestart</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6183"/>
         <source>Recording stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opname gestopt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6276"/>
         <location filename="../mainwindow.cpp" line="6277"/>
         <source>Recording failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opname kon niet starten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6999"/>
         <source>Filter %1...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filter %1...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7000"/>
         <source>Filter %1 help topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filter hulponderwerpen van %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7242"/>
         <source>Enabling gamepad input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gamepad-invoer inschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7250"/>
         <source>Disabling gamepad input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gamepad-invoer uitschakelen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7937"/>
@@ -2241,121 +2245,123 @@
         <location filename="../mainwindow.cpp" line="372"/>
         <location filename="../mainwindow.cpp" line="373"/>
         <source>Sonic Pi is ready</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi is klaar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="706"/>
         <source>Close the preferences panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sluit het voorkeurenpaneel.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="749"/>
         <source># Welcome to Sonic Pi
 #
 # Type a line and press Run to hear it. Try:  play 60</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"># Welkom bij Sonic Pi
+#
+# Typ een regel en druk op Afspelen om hem te horen. Probeer:  play 60</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="771"/>
         <source>Code buffer %1. All buffers are saved automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codebuffer %1. Alle buffers worden automatisch opgeslagen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="802"/>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buffer %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Loaded example into the current buffer.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voorbeeld geladen in het huidige buffer.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"/>
         <source>Playing %1 on the next beat.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 wordt afgespeeld op de volgende tel.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"/>
         <source>Playing %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 wordt afgespeeld.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Inserted the card&apos;s code at the cursor. Press Run to hear it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De code van de kaart is ingevoegd bij de cursor. Druk op Afspelen om hem te horen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1088"/>
         <source>Inserted %1 at the cursor. Press Run to hear it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ingevoegd bij de cursor. Druk op Afspelen om hem te horen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1095"/>
         <source>Copied the card&apos;s code to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De code van de kaart is naar het klembord gekopieerd.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1096"/>
         <source>Copied %1 to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 naar het klembord gekopieerd.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <location filename="../mainwindow.cpp" line="3364"/>
         <source>Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaarten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1115"/>
         <source>Quickstart cards: small runnable snippets to get going.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Snelstartkaarten: kleine uitvoerbare stukjes code om mee te beginnen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1117"/>
         <source>Tutorial, examples and reference documentation.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tutorial, voorbeelden en referentiedocumentatie.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1133"/>
         <source>Close the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sluit het hulppaneel</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1152"/>
         <source>logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">logs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1153"/>
         <source>metrics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">statistieken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1410"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volledig scherm aan.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
         <source>Focus mode on. Press %1 to exit.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focusmodus aan. Druk op %1 om te verlaten.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1482"/>
         <source>Focus mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focusmodus uit.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1732"/>
         <location filename="../mainwindow.cpp" line="3366"/>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Logs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1733"/>
         <source>A live view of Sonic Pi&apos;s log files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Een live weergave van de logbestanden van Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5576"/>
@@ -2767,46 +2773,46 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="705"/>
         <source>Node Tree</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Node-boom</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="842"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Info</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="851"/>
         <source>To SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Naar SuperSonic</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="852"/>
         <source>From SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Van SuperSonic</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1649"/>
         <location filename="../widgets/metricspanel.cpp" line="1650"/>
         <source>Show metrics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Statistieken tonen</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1649"/>
         <location filename="../widgets/metricspanel.cpp" line="1650"/>
         <source>Minimise metrics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Statistieken minimaliseren</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1739"/>
         <location filename="../widgets/metricspanel.cpp" line="1740"/>
         <source>Show logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Logs tonen</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1739"/>
         <location filename="../widgets/metricspanel.cpp" line="1740"/>
         <source>Minimise logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Logs minimaliseren</translation>
     </message>
 </context>
 <context>
@@ -2814,7 +2820,7 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/nodetreegraph.cpp" line="209"/>
         <source>(no active nodes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(geen actieve nodes)</translation>
     </message>
 </context>
 <context>
@@ -2832,7 +2838,7 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/sonicpiscintilla.cpp" line="2110"/>
         <source>defined in this buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">gedefinieerd in dit buffer</translation>
     </message>
 </context>
 <context>
@@ -2840,108 +2846,108 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="280"/>
         <source>The file could not be opened for reading.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Het bestand kon niet worden geopend om te lezen.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="287"/>
         <source>No card decks were found. A card set needs at least one &quot;# Deck: name&quot; line followed by &quot;## Card title&quot; cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geen kaartendecks gevonden. Een kaartenset heeft minstens één regel &quot;# Deck: name&quot; nodig, gevolgd door kaarten van de vorm &quot;## Card title&quot;.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="364"/>
         <source>quickstart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">snelstart</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="901"/>
         <source>Stop this card</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stop deze kaart</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="901"/>
         <source>Run this card</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speel deze kaart af</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1028"/>
         <source>%1 card deck</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaartendeck %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1055"/>
         <location filename="../widgets/quickstartpane.cpp" line="1165"/>
         <source>Previous cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vorige kaarten</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1056"/>
         <source>More cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Meer kaarten</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1281"/>
         <source>Scroll to card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scroll naar kaart %1 van %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1309"/>
         <source>Click to see the previous cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klik om de vorige kaarten te zien.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1572"/>
         <source>Add %1 to the editor at the cursor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voeg %1 toe aan de editor bij de cursor</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1573"/>
         <source>Add this card to your code at the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voeg deze kaart toe aan je code bij de cursor.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1589"/>
         <source>Copy %1 to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopieer %1 naar het klembord</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1590"/>
         <source>Copy this card&apos;s code to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopieer de code van deze kaart naar het klembord.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1621"/>
         <source>Drag %1 into the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sleep %1 naar de editor</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1622"/>
         <source>Drag me into your editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sleep me naar je editor.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1748"/>
         <source>Stop %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stop %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1748"/>
         <source>Run %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speel %1 af</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1749"/>
         <source>Play this card. Press again to stop.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speel deze kaart af. Druk nogmaals om te stoppen.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1786"/>
         <source>%1 card. %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaart %1. %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1788"/>
         <source>Press Space to play or stop, I to insert the code into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Druk op spatie om af te spelen of te stoppen, I om de code in de editor in te voegen.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1797"/>
@@ -2956,7 +2962,7 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1798"/>
         <source>Insert at Cursor in Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invoegen bij cursor in editor</translation>
     </message>
 </context>
 <context>
@@ -3356,67 +3362,67 @@ Sonic Pi, welke verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="579"/>
         <source>MIDI input ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-invoerpoorten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
         <source>MIDI output ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-uitvoerpoorten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="582"/>
         <source>MIDI input devices send MIDI messages directly to Sonic Pi and are received as cue events (similar to incoming OSC messages and internal cues).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-invoerapparaten sturen MIDI-berichten rechtstreeks naar Sonic Pi en worden ontvangen als cue-events (vergelijkbaar met inkomende OSC-berichten en interne cues).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="583"/>
         <source>MIDI output devices receive MIDI messages directly from Sonic Pi which can be sent via the midi_* fns.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIDI-uitvoerapparaten ontvangen MIDI-berichten rechtstreeks van Sonic Pi, te versturen via de midi_*-functies.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="585"/>
         <source>Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ingangen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="586"/>
         <source>Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uitgangen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="610"/>
         <source>Game Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gamecontrollers</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="611"/>
         <source>Configure game controller behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configureer het gedrag van gamecontrollers</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="613"/>
         <source>Enable incoming gamepad cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inkomende gamepad-cues inschakelen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="614"/>
         <source>Enable or disable automatic conversion of game controller button and axis events to cue events.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schakel de automatische omzetting van knop- en as-events van gamecontrollers naar cue-events in of uit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="616"/>
         <source>No connected game controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geen verbonden gamecontrollers</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="618"/>
         <source>Game controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gamecontrollers</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="619"/>
         <source>Connected game controllers send button and axis events to Sonic Pi which are received as cue events.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verbonden gamecontrollers sturen knop- en as-events naar Sonic Pi, die worden ontvangen als cue-events.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="644"/>
@@ -3486,22 +3492,22 @@ Sonic Pi, welke verstuurd kunnen worden via de midi_* functies</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="668"/>
         <source>Speak run and stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Afspelen en Stop uitspreken</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="669"/>
         <source>When enabled, a screen reader announces &quot;Run started&quot; and &quot;Stopped&quot;. Disable this if you&apos;d rather hear the very start of your audio without it being ducked by the announcement.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wanneer actief kondigt een schermlezer &quot;Afspelen gestart&quot; en &quot;Gestopt&quot; aan. Zet dit uit als je liever het allereerste begin van je audio hoort zonder dat de aankondiging het geluid dempt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="671"/>
         <source>Reduce animations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Minder animaties</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="672"/>
         <source>When enabled, Sonic Pi keeps its interface still: panes and popups appear in place instead of sliding or gliding. Also switched on automatically while your operating system&apos;s reduce-animations accessibility setting is active.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wanneer actief houdt Sonic Pi de interface stil: panelen en popups verschijnen direct in plaats van te schuiven of te glijden. Wordt ook automatisch ingeschakeld zolang de toegankelijkheidsinstelling voor minder animaties van je besturingssysteem actief is.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="674"/>
@@ -3947,76 +3953,80 @@ op https://hosted.weblate.org/projects/sonic-pi/. Dank je wel! :)</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
         <source>Volume, audio inputs and outputs, safety checks and recording.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volume, audio-in- en uitgangen, veiligheidscontroles en opnemen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>OSC networking, MIDI devices and game controllers.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC-netwerk, MIDI-apparaten en gamecontrollers.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="163"/>
         <source>Editor display, code completion, accessibility and pane visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Editorweergave, automatisch aanvullen, toegankelijkheid en zichtbaarheid van panelen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="167"/>
         <source>Audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio-oscilloscopen en opties die handig zijn bij optredens.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>View and customise the keyboard shortcuts.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bekijk en pas de sneltoetsen aan.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Change the language of the interface and tutorial.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wijzig de taal van de interface en de tutorial.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>Version information and update checking.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Versie-informatie en updatecontrole.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="224"/>
         <source>Drag or scroll to change Sonic Pi&apos;s overall volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sleep of scroll om het totale volume van Sonic Pi aan te passen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="234"/>
         <source>If enabled, audio sent to the left speaker will be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indien actief wordt audio voor de linkerluidspreker naar de rechterluidspreker gestuurd en andersom.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
         <source>If enabled, right and left audio is mixed and the same signal is sent to both speakers. Useful when working with external systems that can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indien actief worden het linker- en rechterkanaal gemengd en krijgen beide luidsprekers hetzelfde signaal. Handig bij externe systemen die alleen mono aankunnen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="239"/>
         <source>Checks synth arguments before triggering. If disabled, certain synth opt values may create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Controleert synth-argumenten voordat ze worden getriggerd. Indien uitgeschakeld kunnen bepaalde waarden van synth-opts onverwacht harde of onaangename geluiden veroorzaken.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>When enabled, Sonic Pi will refuse to trigger synths and FX if it is too late to do so.
 
 When disabled, Sonic Pi will always attempt to trigger synths and FX even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wanneer actief weigert Sonic Pi synths en FX te triggeren als het daarvoor te laat is.
+
+Wanneer inactief probeert Sonic Pi synths en FX altijd te triggeren, ook als het iets te laat is.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>When enabled, Sonic Pi will allow synths and FX loaded via load_synthdefs to be triggered.
 
 When disabled, Sonic Pi will complain when you attempt to use a synth or FX which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wanneer actief staat Sonic Pi toe dat synths en FX die via load_synthdefs zijn geladen worden getriggerd.
+
+Wanneer inactief klaagt Sonic Pi wanneer je een synth of FX probeert te gebruiken die niet wordt herkend.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>Remote desktop session: local audio hardware is usually unavailable, and ASIO devices may fail to start.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Extern-bureaubladsessie: lokale audiohardware is meestal niet beschikbaar en ASIO-apparaten starten mogelijk niet.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="359"/>
@@ -4031,137 +4041,137 @@ When disabled, Sonic Pi will complain when you attempt to use a synth or FX whic
     <message>
         <location filename="../widgets/settingswidget.cpp" line="506"/>
         <source>Sonic Pi can send and receive Open Sound Control messages to and from other programs or computers via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi kan Open Sound Control-berichten versturen naar en ontvangen van andere programma&apos;s of computers via het momenteel verbonden netwerk.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="536"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines. When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indien aangevinkt kun je OSC-berichten versturen naar en ontvangen van andere computers. Indien uitgevinkt is alleen versturen en ontvangen op de lokale computer mogelijk.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="539"/>
         <source>When checked, Sonic Pi will listen for OSC messages. When unchecked, no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indien aangevinkt luistert Sonic Pi naar OSC-berichten. Indien uitgevinkt worden er geen OSC-berichten ontvangen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="703"/>
         <source>Hide menu bar in full screen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Menubalk verbergen in volledig scherm</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="714"/>
         <source>Mild Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mild Donker</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="715"/>
         <source>Phosphor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Phosphor</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="716"/>
         <source>Signal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Signal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="724"/>
         <source>Light colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Licht kleurenschema.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="725"/>
         <source>Dark colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Donker kleurenschema.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
         <source>High-contrast colour scheme for maximum legibility.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kleurenschema met hoog contrast voor maximale leesbaarheid.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Mild Dark: a softer, low-contrast dark colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mild Donker: een zachter, donker kleurenschema met laag contrast.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>
         <source>Phosphor: a green-on-black CRT colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Phosphor: een groen-op-zwart CRT-kleurenschema.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="729"/>
         <source>Signal: high-contrast blue-and-gold colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Signal: kleurenschema in blauw en goud met hoog contrast.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="734"/>
         <source>Pro icons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pro-pictogrammen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="735"/>
         <source>Use the compact Pro toolbar icon set instead of the classic icons.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gebruik de compacte Pro-pictogrammenset voor de werkbalk in plaats van de klassieke pictogrammen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="739"/>
         <source>Monochrome</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Monochroom</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="740"/>
         <source>Show the whole interface in greyscale.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toon de hele interface in grijstinten.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="743"/>
         <source>Invert colours</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kleuren omkeren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="744"/>
         <source>Invert every interface colour (photo-negative).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keer elke interfacekleur om (fotonegatief).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="878"/>
         <source>Rotate Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tint roteren</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="880"/>
         <source>Drag the dial to rotate the hue of every colour in the interface.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sleep de draaiknop om de tint van elke kleur in de interface te roteren.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="907"/>
         <source>Accessibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toegankelijkheid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="908"/>
         <source>Settings that support screen readers and other assistive tools.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Instellingen ter ondersteuning van schermlezers en andere hulpmiddelen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
         <source>If disabled, activity such as synth and sample triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indien uitgeschakeld wordt activiteit zoals het triggeren van synths en samples standaard niet in het log getoond.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="927"/>
         <source>If enabled, the log is cleared each time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indien actief wordt het log gewist telkens wanneer op de afspeelknop wordt gedrukt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="930"/>
         <source>If disabled, cues will still trigger. However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indien uitgeschakeld worden cues nog steeds getriggerd, maar zijn ze niet zichtbaar in de logs.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="933"/>
         <source>If enabled, the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indien actief scrolt het log na elk nieuw bericht naar beneden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="992"/>
@@ -4172,98 +4182,104 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De audio-oscilloscoop is er in verschillende varianten, die los of allemaal tegelijk bekeken kunnen worden:
+
+Lissajous - toont de faserelatie tussen het linker- en rechterkanaal
+Mirror Stereo - eenvoudige samengestelde links/rechts-golf, met links boven en rechts onder
+Mono - toont een gecombineerd beeld van het linker- en rechterkanaal (met RMS)
+Spectrum - toont de geluidsfrequenties als een spectrum, van lage naar hoge frequenties
+Stereo - toont twee onafhankelijke scopes voor het linker- en rechterkanaal</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1001"/>
         <source>Editor Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Editorweergave</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1004"/>
         <source>Flash code on sound trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Code laten oplichten bij geluidstrigger</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1005"/>
         <source>When enabled, the editor briefly washes the code responsible for each sound as it is triggered.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wanneer actief licht in de editor kort de code op die verantwoordelijk is voor elk geluid dat wordt getriggerd.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1007"/>
         <source>Flash gutter on sound trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kantlijn laten oplichten bij geluidstrigger</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1008"/>
         <source>When enabled, the editor briefly shows a dot in the gutter next to the line responsible for each sound as it is triggered.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wanneer actief toont de editor kort een stip in de kantlijn naast de regel die verantwoordelijk is voor elk geluid dat wordt getriggerd.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1010"/>
         <source>Show live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Live loop-scopes tonen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1011"/>
         <source>When enabled, each running live loop shows a small oscilloscope and spectrum of its own audio next to its line in the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wanneer actief toont elke draaiende live loop een kleine oscilloscoop en een spectrum van zijn eigen audio naast zijn regel in de editor.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1021"/>
         <source>Flash brightness</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Helderheid van oplichten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1022"/>
         <location filename="../widgets/settingswidget.cpp" line="1025"/>
         <source>Flash Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Helderheid van oplichten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1023"/>
         <source>Drag or scroll to change how strongly the code flash washes the line.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sleep of scroll om aan te passen hoe sterk de regel oplicht.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1093"/>
         <source>This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bij deze controle wordt anonieme informatie over je platform en versie verstuurd.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1097"/>
         <source>Force a check for updates now. This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Controleer nu direct op updates. Bij deze controle wordt anonieme informatie over je platform en versie verstuurd.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1786"/>
         <source>Illustrates the phase relationship between the left and right channels.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toont de faserelatie tussen het linker- en rechterkanaal.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1787"/>
         <source>A simple left/right composite wave, with left on top, right on bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Een eenvoudige samengestelde links/rechts-golf, met links boven en rechts onder.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1788"/>
         <source>A combined view of the left and right channels (using RMS).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Een gecombineerd beeld van het linker- en rechterkanaal (met RMS).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1789"/>
         <source>The sound frequencies as a spectrum, from low to high.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De geluidsfrequenties als een spectrum, van laag naar hoog.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1790"/>
         <source>Two independent scopes for the left and right channels.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Twee onafhankelijke scopes voor het linker- en rechterkanaal.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1795"/>
         <source>Toggle the visibility of the %1 oscilloscope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schakel de zichtbaarheid van de %1-oscilloscoop in/uit.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1855"/>
@@ -4305,7 +4321,7 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2174"/>
         <source>remote session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">externe sessie</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2968"/>
@@ -4414,48 +4430,48 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../visualizer/scope_window.cpp" line="167"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="168"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Links</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="169"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rechts</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="170"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mono</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="171"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mirror Stereo</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="173"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spectrum</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="190"/>
         <source>Pause or resume the audio oscilloscopes. Pausing freezes the current image so you can inspect it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pauzeer of hervat de audio-oscilloscopen. Pauzeren bevriest het huidige beeld zodat je het kunt bekijken.</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="192"/>
         <location filename="../visualizer/scope_window.cpp" line="196"/>
         <source>Pause scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scopes pauzeren</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="196"/>
         <source>Resume scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scopes hervatten</translation>
     </message>
 </context>
 <context>
@@ -4463,28 +4479,28 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="79"/>
         <source>Close (Esc)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sluiten (Esc)</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="97"/>
         <source>The buffer (tab) and line where the error happened</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Het buffer (tabblad) en de regel waar de fout optrad</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="112"/>
         <source>The line of your code that caused the error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De regel van je code die de fout veroorzaakte</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="133"/>
         <source>Doc Example:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Documentatievoorbeeld:</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="164"/>
         <location filename="../widgets/sonicpierrorcard.cpp" line="447"/>
         <source>Show details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Details tonen</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="173"/>
@@ -4495,57 +4511,57 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="178"/>
         <source>Copy the whole error report (message, location, code and backtrace) to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopieer het hele foutrapport (melding, locatie, code en backtrace) naar het klembord</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="179"/>
         <source>Copy error report</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Foutrapport kopiëren</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="182"/>
         <source>Copied ✓</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gekopieerd ✓</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="189"/>
         <source>Move the cursor to the error in your code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verplaats de cursor naar de fout in je code</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="398"/>
         <source>Open the documentation for %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Open de documentatie voor %1</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="406"/>
         <source>Usage example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gebruiksvoorbeeld</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="407"/>
         <source>Usage example - opens the %1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gebruiksvoorbeeld - opent de documentatie voor %1</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="432"/>
         <source>Jump to error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ga naar fout</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="447"/>
         <source>Hide details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Details verbergen</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="448"/>
         <source>Hide the full technical error and backtrace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verberg de volledige technische foutmelding en backtrace</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="449"/>
         <source>Show the full technical error and backtrace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toon de volledige technische foutmelding en backtrace</translation>
     </message>
 </context>
 <context>
@@ -4553,7 +4569,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../widgets/sonicpilog.cpp" line="110"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wissen</translation>
     </message>
 </context>
 <context>
@@ -4562,162 +4578,164 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
         <location filename="../widgets/sonicpimetro.cpp" line="114"/>
         <location filename="../widgets/sonicpimetro.cpp" line="409"/>
         <source>Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="124"/>
         <source>Ableton Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ableton Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="126"/>
         <source>Share a tempo with other Link-enabled apps and devices, so everyone plays in time. Click to join or leave the shared session.
 
 Link works either on this machine only or across your local network. Switch modes with the ghost / network button at the end of this row.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deel een tempo met andere apps en apparaten met Link, zodat iedereen in de maat speelt. Klik om deel te nemen aan de gedeelde sessie of deze te verlaten.
+
+Link werkt alleen op deze computer of via je lokale netwerk. Wissel van modus met de spook-/netwerkknop aan het einde van deze rij.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="133"/>
         <source>Tap</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tik</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="139"/>
         <source>Tap tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tik Tempo</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="141"/>
         <source>Click repeatedly to the beat to set the BPM manually. Accuracy increases with every additional click.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klik herhaaldelijk op de maat om de BPM handmatig in te stellen. De nauwkeurigheid neemt toe met elke extra klik.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="150"/>
         <location filename="../widgets/sonicpimetro.cpp" line="151"/>
         <location filename="../widgets/sonicpimetro.cpp" line="164"/>
         <source>Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Globale Tijd Warp</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="152"/>
         <source>Slide to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. The unit is milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schuif om de fase van alle getriggerde synths/FX en verzonden MIDI/OSC-events te verschuiven. Negatieve waarden triggeren alles eerder, positieve waarden later. De eenheid is milliseconden.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="161"/>
         <source>Time Warp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tijd Warp Regelaar</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="165"/>
         <source>Adjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. Edit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pas aan om de fase van alle getriggerde synths/FX en verzonden MIDI/OSC-events te verschuiven. Negatieve waarden triggeren alles eerder, positieve waarden later. Bewerk, sleep of scroll om aan te passen. Dubbelklik om terug te zetten naar 0. De eenheid is milliseconden.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="178"/>
         <source>BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">BPM Regelaar</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="180"/>
         <source>Link Tempo (BPM)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Tempo (BPM)</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="181"/>
         <source>Current Link tempo in beats per minute. Edit, drag or scroll to modify. Double click to reset to 60.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Huidig Link-tempo in slagen per minuut. Bewerk, sleep of scroll om aan te passen. Dubbelklik om terug te zetten naar 60.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="190"/>
         <location filename="../widgets/sonicpimetro.cpp" line="534"/>
         <source>Show Link Audio streams panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toon het Link Audio streams-paneel</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="191"/>
         <source>Link Audio Streams</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio-streams</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="192"/>
         <source>Show / hide the Link Audio streams panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toon of verberg het Link Audio streams-paneel.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="310"/>
         <source>Link visibility: public — visible to other devices on your network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link-zichtbaarheid: publiek — zichtbaar voor andere apparaten op je netwerk</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="311"/>
         <source>Link visibility: local — hidden from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link-zichtbaarheid: lokaal — verborgen voor het netwerk</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="331"/>
         <source>Link Visibility: Local Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link-zichtbaarheid: lokaal netwerk</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="332"/>
         <source>Link Visibility: Local Machine Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link-zichtbaarheid: alleen deze computer</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="334"/>
         <source>Link is visible to other devices on your local network. They can sync tempo and stream audio with this Sonic Pi via Link. Click to switch to Local Machine Only mode to hide Link from the network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link is zichtbaar voor andere apparaten op je lokale netwerk. Ze kunnen via Link het tempo synchroniseren en audio streamen met deze Sonic Pi. Klik om over te schakelen naar de modus Alleen deze computer en Link voor het netwerk te verbergen.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="335"/>
         <source>Link is hidden from the local network. Link tempo sync and Link Audio only connect to other apps on this machine. Click to switch to Local Network mode to make Link visible to other machines on your local network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link is verborgen voor het lokale netwerk. Link-temposynchronisatie en Link Audio verbinden alleen met andere apps op deze computer. Klik om over te schakelen naar de modus Lokaal netwerk en Link zichtbaar te maken voor andere computers op je lokale netwerk.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="337"/>
         <source>Network visibility: public</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Netwerkzichtbaarheid: publiek</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="338"/>
         <source>Network visibility: local only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Netwerkzichtbaarheid: alleen lokaal</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="359"/>
         <source>Link on — tempo synced with other devices on your network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link aan — tempo gesynchroniseerd met andere apparaten op je netwerk</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="360"/>
         <source>Link on — local only, hidden from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link aan — alleen lokaal, verborgen voor het netwerk</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="379"/>
         <source>Link off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link uit</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="411"/>
         <source>1 Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1 Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="413"/>
         <source>%1 Links</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 Links</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="498"/>
         <source>Tap tempo: %1 BPM</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tik Tempo: %1 BPM</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="533"/>
         <source>Hide Link Audio streams panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verberg het Link Audio streams-paneel</translation>
     </message>
 </context>
 <context>
@@ -4725,7 +4743,7 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../utils/sonicpi_i18n.cpp" line="151"/>
         <source>System language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Systeemtaal</translation>
     </message>
 </context>
 <context>
@@ -4733,32 +4751,32 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/splashwidget.cpp" line="44"/>
         <source>Sonic Pi is starting</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi wordt gestart</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="113"/>
         <source>created by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">gemaakt door</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="116"/>
         <source>Sam Aaron</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sam Aaron</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="162"/>
         <source>Love and thanks to all the kind people&lt;br&gt;who supported this release on Patreon:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Liefde en dank aan alle lieve mensen&lt;br&gt;die deze release op Patreon hebben gesteund:</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="179"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Versie</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="192"/>
         <source>powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">aangedreven door</translation>
     </message>
 </context>
 <context>
@@ -4766,7 +4784,7 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialwidgets.h" line="967"/>
         <source>%1 value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Waarde van %1</translation>
     </message>
 </context>
 <context>
@@ -4774,7 +4792,7 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialwidgets.h" line="518"/>
         <source>Piano keyboard — play with your computer keys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pianoklavier — speel met de toetsen van je computer</translation>
     </message>
 </context>
 <context>
@@ -4782,30 +4800,30 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="181"/>
         <source>documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">documentatie</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="247"/>
         <location filename="../widgets/tutorialpane.cpp" line="1253"/>
         <location filename="../widgets/tutorialpane.cpp" line="1481"/>
         <source>Run this example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speel dit voorbeeld af</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="248"/>
         <location filename="../widgets/tutorialpane.cpp" line="1482"/>
         <source>Run example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voorbeeld afspelen</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="251"/>
         <source>Load this example into the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Laad dit voorbeeld in het huidige buffer</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="252"/>
         <source>Load example into buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voorbeeld in buffer laden</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="401"/>
@@ -4815,123 +4833,123 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="408"/>
         <source>Example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voorbeeld %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="418"/>
         <source>Introduced in %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geïntroduceerd in %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="460"/>
         <source>%1 icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1-pictogram</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="474"/>
         <source>Reset all controls to their defaults</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zet alle regelaars terug naar hun standaardwaarden</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="475"/>
         <source>Reset %1 controls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Regelaars van %1 terugzetten</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="641"/>
         <source>Octave down (z)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Octaaf omlaag (z)</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="642"/>
         <source>Octave down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Octaaf omlaag</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="650"/>
         <source>Octave up (x)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Octaaf omhoog (x)</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="651"/>
         <source>Octave up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Octaaf omhoog</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="693"/>
         <source>Jump to documentation for %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ga naar de documentatie voor %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="718"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opties</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="777"/>
         <source>z/x: octave</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">z/x: octaaf</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="778"/>
         <source>octave %1%2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">octaaf %1%2</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1037"/>
         <source>Edit %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 bewerken</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1254"/>
         <source>Run example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voorbeeld %1 afspelen</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1257"/>
         <location filename="../widgets/tutorialpane.cpp" line="1481"/>
         <source>Stop this example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stop dit voorbeeld</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1258"/>
         <source>Stop example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voorbeeld %1 stoppen</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1262"/>
         <source>Copy code to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Code naar klembord kopiëren</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1263"/>
         <source>Copy example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voorbeeld %1 kopiëren</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1318"/>
         <source>Copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gekopieerd naar klembord</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1385"/>
         <source>slidable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">verschuifbaar</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1414"/>
         <source>Previous chapter: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vorig hoofdstuk: %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1423"/>
         <source>Next chapter: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volgend hoofdstuk: %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1482"/>
         <source>Stop example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voorbeeld stoppen</translation>
     </message>
 </context>
 <context>
@@ -4944,22 +4962,22 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="84"/>
         <source>Hello, and welcome!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hallo en welkom!</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="94"/>
         <source>Sonic Pi is a musical instrument you play by writing code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sonic Pi is een muziekinstrument dat je bespeelt door code te schrijven.</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="104"/>
         <source>Remember, when you code live there are no mistakes, only opportunities...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Onthoud: bij live coderen bestaan er geen fouten, alleen kansen...</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="117"/>
         <source>Get Started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aan de slag</translation>
     </message>
 </context>
 <context>
@@ -4967,12 +4985,12 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/zoombar.cpp" line="36"/>
         <source>Make %1 text smaller</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maak de tekst van %1 kleiner</translation>
     </message>
     <message>
         <location filename="../widgets/zoombar.cpp" line="37"/>
         <source>Make %1 text larger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maak de tekst van %1 groter</translation>
     </message>
 </context>
 </TS>

@@ -6,22 +6,22 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1031"/>
         <source>Docs ↗</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">டாக்ச் ↗</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1034"/>
         <source>Open the help pane for this entry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த உருப்படிக்கான உதவி பலகத்தைத் திறக்கவும்</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1046"/>
         <source>Close (Esc)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மூடு (Esc)</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1757"/>
         <source>%1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%2 இல் %1</translation>
     </message>
 </context>
 <context>
@@ -29,7 +29,7 @@
     <message>
         <location filename="../widgets/devicelistwidget.cpp" line="66"/>
         <source>Untick to ignore this device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்தச் சாதனத்தைப் புறக்கணிக்க டிக்கை நீக்கவும்</translation>
     </message>
 </context>
 <context>
@@ -39,179 +39,179 @@
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="199"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="200"/>
         <source>Link Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link பெயர்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="201"/>
         <source>The name other Link peers see for this Sonic Pi when browsing audio streams on the network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிணையத்தில் ஆடியோ ச்ட்ரீம்களை உலாவும்போது மற்ற Link பியர்கள் இந்த சோனிக் பைக்குக் காணும் பெயர்.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="202"/>
         <source>Name visible to other Link peers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மற்ற Link பியர்களுக்குத் தெரியும் பெயர்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="213"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="216"/>
         <source>Latency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தாமதம்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="217"/>
         <source>milliseconds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மில்லி வினாடிகள்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="221"/>
         <source>Receive Latency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பெறும் தாமதம்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="222"/>
         <source>Link Audio receive latency in ms. Smaller = closer to real-time monitoring; larger = more robust against network jitter. Engine-wide (applies to every link_audio subscription).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio பெறும் தாமதம் ms இல். சிறியது = நிகழ்நேர கண்காணிப்புக்கு நெருக்கமானது; பெரியது = பிணைய ஏற்றத்தாழ்வுகளுக்கு எதிராக உறுதியானது. இயந்திரம் முழுவதற்கும் (ஒவ்வொரு link_audio சந்தாவுக்கும் பொருந்தும்).</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="226"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="518"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="610"/>
         <source>%1 ms</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ms</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆன்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆஃப்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="246"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="251"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="260"/>
         <source>Stream Audio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோவை ச்ட்ரீம் செய்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="252"/>
         <source>When on, our audio channels are visible to other Link peers and stream to anyone who subscribes. Preference is remembered between sessions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆன் ஆக இருக்கும்போது, நம் ஆடியோ சேனல்கள் மற்ற Link பியர்களுக்குத் தெரியும்; சந்தா செய்யும் எவருக்கும் ச்ட்ரீம் ஆகும். இந்த விருப்பம் அமர்வுகளுக்கு இடையில் நினைவில் வைக்கப்படும்.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="296"/>
         <source>Visibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தெரிவுநிலை</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <source>Peer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பியர்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சேனல்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிலை</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Buffered</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடையகம்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வீதம்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Bus</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பச்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="324"/>
         <source>Link Audio peers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio பியர்கள்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="467"/>
         <source>SuperSonic not connected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic இணைக்கப்படவில்லை</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Network Peer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிணைய பியர்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Local Peer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உள்ளூர் பியர்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="580"/>
         <source>on the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிணையத்தில்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="581"/>
         <source>on this machine</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்தக் கணினியில்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="583"/>
         <source>Click Link to find other peers %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 மற்ற பியர்களைக் கண்டறிய Link ஐ சொடுக்கவும்</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="584"/>
         <source>Waiting for Link Audio peers %1…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 Link Audio பியர்களுக்காகக் காத்திருக்கிறது…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="598"/>
         <source>Available</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கிடைக்கிறது</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="601"/>
         <source>Connecting…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இணைக்கிறது…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="602"/>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இணைக்கப்பட்டது</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="603"/>
         <source>Dropout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">துண்டிப்பு</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="604"/>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சந்தா செய்யப்பட்டது</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="613"/>
         <source>%1 kHz</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 kHz</translation>
     </message>
 </context>
 <context>
@@ -219,37 +219,37 @@
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Local</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உள்ளூர்</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிணையம்</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="31"/>
         <source>Link visibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link தெரிவுநிலை</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="42"/>
         <source>Link Visibility: Local Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link தெரிவுநிலை: உள்ளூர் பிணையம்</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="43"/>
         <source>Link Visibility: Local Machine Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link தெரிவுநிலை: இந்தக் கணினி மட்டும்</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="45"/>
         <source>Link is visible to other devices on your local network. They can sync tempo and stream audio with this Sonic Pi via Link. Click to switch to Local Machine Only mode to hide Link from the network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உங்கள் உள்ளூர் பிணையத்தில் உள்ள மற்ற சாதனங்களுக்கு Link தெரியும். அவை Link வழியாக இந்த சோனிக் பையுடன் டெம்போவை ஒத்திசைத்து ஆடியோவை ச்ட்ரீம் செய்யலாம். பிணையத்திலிருந்து Link ஐ மறைக்க, இந்தக் கணினி மட்டும் பயன்முறைக்கு மாற சொடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="46"/>
         <source>Link is hidden from the local network. Link tempo sync and Link Audio only connect to other apps on this machine. Click to switch to Local Network mode to make Link visible to other machines on your local network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உள்ளூர் பிணையத்திலிருந்து Link மறைக்கப்பட்டுள்ளது. Link டெம்போ ஒத்திசைவும் Link Audio வும் இந்தக் கணினியில் உள்ள பிற பயன்பாடுகளுடன் மட்டுமே இணையும். உங்கள் உள்ளூர் பிணையத்தில் உள்ள மற்ற கணினிகளுக்கு Link தெரியும்படி செய்ய, உள்ளூர் பிணைய பயன்முறைக்கு மாற சொடுக்கவும்.</translation>
     </message>
 </context>
 <context>
@@ -257,7 +257,7 @@
     <message>
         <location filename="../widgets/logpanel.cpp" line="224"/>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவுகள்</translation>
     </message>
 </context>
 <context>
@@ -864,12 +864,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="5527"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux குறுக்குவழி பயன்முறை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5537"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தனிப்பயன் குறுக்குவழி பயன்முறை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5542"/>
@@ -889,7 +889,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5582"/>
         <source>MIDI</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிடி</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5584"/>
@@ -1006,23 +1006,23 @@
     <message>
         <location filename="../mainwindow.cpp" line="5676"/>
         <source>Game Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விளையாட்டுக் கட்டுப்படுத்திகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5678"/>
         <source>Connected Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இணைக்கப்பட்ட கட்டுப்படுத்திகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5679"/>
         <location filename="../mainwindow.cpp" line="7480"/>
         <source>No Connected Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இணைக்கப்பட்ட கட்டுப்படுத்திகள் இல்லை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5681"/>
         <source>OSC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5684"/>
@@ -1316,169 +1316,171 @@
         <location filename="../mainwindow.cpp" line="372"/>
         <location filename="../mainwindow.cpp" line="373"/>
         <source>Sonic Pi is ready</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை தயார்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="510"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிழைகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="706"/>
         <source>Close the preferences panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விருப்பத்தேர்வுகள் பலகத்தை மூடவும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="749"/>
         <source># Welcome to Sonic Pi
 #
 # Type a line and press Run to hear it. Try:  play 60</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"># சோனிக் பைக்கு வருக
+#
+# ஒரு வரியைத் தட்டச்சு செய்து, கேட்க ஓடு ஐ அழுத்தவும். முயற்சிக்கவும்:  play 60</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="767"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீடு எடிட்டர் இடையகம் %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="769"/>
         <source>Run Context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கச் சூழல்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="771"/>
         <source>Code buffer %1. All buffers are saved automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீடு இடையகம் %1. எல்லா இடையகங்களும் தானாகவே சேமிக்கப்படும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="802"/>
         <source>Buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடையகம் %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Loaded example into the current buffer.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடுத்துக்காட்டு தற்போதைய இடையகத்தில் ஏற்றப்பட்டது.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"/>
         <source>Playing %1 on the next beat.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அடுத்த துடிப்பில் %1 இசைக்கப்படும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"/>
         <source>Playing %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 இசைக்கப்படுகிறது.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Inserted the card&apos;s code at the cursor. Press Run to hear it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அட்டையின் குறியீடு கர்சரில் செருகப்பட்டது. கேட்க ஓடு ஐ அழுத்தவும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1088"/>
         <source>Inserted %1 at the cursor. Press Run to hear it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 கர்சரில் செருகப்பட்டது. கேட்க ஓடு ஐ அழுத்தவும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1095"/>
         <source>Copied the card&apos;s code to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அட்டையின் குறியீடு கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1096"/>
         <source>Copied %1 to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <location filename="../mainwindow.cpp" line="3364"/>
         <source>Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அட்டைகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1115"/>
         <source>Quickstart cards: small runnable snippets to get going.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விரைவுத் தொடக்க அட்டைகள்: தொடங்குவதற்கான சிறிய இயக்கக்கூடிய குறியீடு துண்டுகள்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1117"/>
         <source>Tutorial, examples and reference documentation.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பயிற்சி, எடுத்துக்காட்டுகள் மற்றும் குறிப்பு ஆவணங்கள்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1133"/>
         <source>Close the help pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி பலகத்தை மூடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1152"/>
         <source>logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவுகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1153"/>
         <source>metrics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அளவீடுகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1410"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முழு திரை பயன்முறை இயக்கப்பட்டுள்ளது.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
         <source>Focus mode on. Press %1 to exit.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கவனப் பயன்முறை இயக்கப்பட்டுள்ளது. வெளியேற %1 ஐ அழுத்தவும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1482"/>
         <source>Focus mode off.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கவனப் பயன்முறை முடக்கப்பட்டுள்ளது.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1732"/>
         <location filename="../mainwindow.cpp" line="3366"/>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவுகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1733"/>
         <source>A live view of Sonic Pi&apos;s log files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பையின் பதிவு கோப்புகளின் நேரடி காட்சி.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1734"/>
         <location filename="../mainwindow.cpp" line="3367"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிழைத்திருத்தம்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1735"/>
         <source>Live metrics, node tree and message logs for the SuperSonic audio engine.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic ஆடியோ இயந்திரத்திற்கான நேரடி அளவீடுகள், முனை மரம் மற்றும் செய்தி பதிவுகள்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2280"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ உள்ளீடுகளை இயக்குகிறது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2284"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ உள்ளீடுகளை முடக்குகிறது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2427"/>
         <location filename="../mainwindow.cpp" line="8182"/>
         <source>Boot error details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">துவக்க பிழை விவரங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2434"/>
         <location filename="../mainwindow.cpp" line="8188"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வெளியேறு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2663"/>
@@ -1488,214 +1490,218 @@
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
         <source>Load Sonic Pi Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை தொகுப்பை ஏற்றவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
         <location filename="../mainwindow.cpp" line="2772"/>
         <source>Sonic Pi Sets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை தொகுப்புகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Cannot load set:
 %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொகுப்பை ஏற்ற முடியவில்லை:
+%1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2728"/>
         <source>Load the set %1?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 தொகுப்பை ஏற்றவா?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2729"/>
         <source>The current contents of all buffers will be replaced with the buffers stored in this set.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எல்லா இடையகங்களின் தற்போதைய உள்ளடக்கங்களும் இந்தத் தொகுப்பில் சேமிக்கப்பட்ட இடையகங்களால் மாற்றப்படும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மாற்று</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2749"/>
         <source>Set %1 loaded...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொகுப்பு %1 ஏற்றப்பட்டது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
         <source>Save Current Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தற்போதைய தொகுப்பை சேமிக்கவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
         <source>My Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">என் தொகுப்பு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>Cannot save set:
 %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொகுப்பை சேமிக்க முடியவில்லை:
+%1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
         <source>Set saved as %1...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொகுப்பு %1 ஆக சேமிக்கப்பட்டது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2831"/>
         <source>Clear all buffers?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எல்லா இடையகங்களையும் அழிக்கவா?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2832"/>
         <source>The contents of all buffers will be emptied and their text size reset.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எல்லா இடையகங்களின் உள்ளடக்கங்களும் காலி செய்யப்பட்டு, அவற்றின் உரை அளவு மீட்டமைக்கப்படும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2833"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அழி</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2849"/>
         <source>All buffers cleared...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எல்லா இடையகங்களும் அழிக்கப்பட்டன ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <location filename="../mainwindow.cpp" line="2912"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிழை: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3058"/>
         <source>Run started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கம் தொடங்கியது</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3169"/>
         <source>Quickstart Cards...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விரைவுத் தொடக்க அட்டைகள் ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
         <source>Load Card Set...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அட்டைத் தொகுப்பை ஏற்று ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3177"/>
         <location filename="../mainwindow.cpp" line="3184"/>
         <source>Load Card Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அட்டைத் தொகுப்பை ஏற்றவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3177"/>
         <source>Card sets (*.txt);;All files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அட்டைத் தொகுப்புகள் (*.txt);;அனைத்து கோப்புகள் (*)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3185"/>
         <source>&quot;%1&quot; is not a valid card set.
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&quot;%1&quot; சரியான அட்டைத் தொகுப்பு அல்ல.
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3192"/>
         <source>Loaded card set: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அட்டைத் தொகுப்பு ஏற்றப்பட்டது: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3196"/>
         <source>Reset to Default Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயல்புநிலை அட்டைகளுக்கு மீட்டமை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3201"/>
         <source>Reset to the default card set.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயல்புநிலை அட்டைத் தொகுப்பிற்கு மீட்டமைக்கவும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3212"/>
         <source>Apprentice</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பயிற்சியாளர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3213"/>
         <source>Illusionist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மாயக்காரர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Magician</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மந்திரவாதி</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3215"/>
         <source>Sorcerer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மாந்திரீகர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3216"/>
         <source>Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வித்தகர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3217"/>
         <source>Algomancer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அல்கோமான்சர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Play When Opened</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">திறக்கும்போது இசைக்கவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Browse Examples in Help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவியில் எடுத்துக்காட்டுகளை உலாவு ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <source>Browse FX in Help...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவியில் எஃப்எக்சை உலாவு ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3305"/>
         <source>Opened %1 in the Help panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 உதவி பலகத்தில் திறக்கப்பட்டது.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3316"/>
         <source>Unable to load example: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடுத்துக்காட்டை ஏற்ற முடியவில்லை: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Playing %1 from the Help panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி பலகத்திலிருந்து %1 இசைக்கப்படுகிறது.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3365"/>
         <source>Docs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">டாக்ச்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிறுத்தப்பட்டது</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Reduce animations on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அசைவூட்டக் குறைப்பு இயக்கப்பட்டது</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4181"/>
         <source>Reduce animations off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அசைவூட்டக் குறைப்பு முடக்கப்பட்டது</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4629"/>
@@ -1770,12 +1776,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4654"/>
         <source>Move focus to the next visible pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அடுத்த தெரியும் பலகத்திற்கு கவனத்தை நகர்த்தவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4655"/>
         <source>Move focus to the previous visible pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முந்தைய தெரியும் பலகத்திற்கு கவனத்தை நகர்த்தவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4657"/>
@@ -1800,12 +1806,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4670"/>
         <source>Trigger code completion</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீடு நிறைவைத் தூண்டவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4671"/>
         <source>Show autocomplete documentation for the current context</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தற்போதைய சூழலுக்கான தானியங்கு நிறைவு ஆவணங்களைக் காட்டவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4672"/>
@@ -1821,42 +1827,42 @@
         <location filename="../mainwindow.cpp" line="4692"/>
         <location filename="../mainwindow.cpp" line="5061"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வரியின் தொடக்கம் வரை தேர்ந்தெடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4693"/>
         <location filename="../mainwindow.cpp" line="5064"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வரியின் முடிவு வரை தேர்ந்தெடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4694"/>
         <location filename="../mainwindow.cpp" line="5067"/>
         <source>Select Word Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வலது சொல்லைத் தேர்ந்தெடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4695"/>
         <location filename="../mainwindow.cpp" line="5070"/>
         <source>Select Word Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடது சொல்லைத் தேர்ந்தெடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4696"/>
         <location filename="../mainwindow.cpp" line="5073"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆவணத்தின் தொடக்கம் வரை தேர்ந்தெடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4697"/>
         <location filename="../mainwindow.cpp" line="5076"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆவணத்தின் முடிவு வரை தேர்ந்தெடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4698"/>
         <source>Vertically center the caret in the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடிட்டரில் கர்சரை செங்குத்தாக மையப்படுத்தவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4709"/>
@@ -1866,59 +1872,59 @@
     <message>
         <location filename="../mainwindow.cpp" line="4711"/>
         <source>Toggle focus mode (fullscreen editor with all distractions hidden)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கவனப் பயன்முறையை மாற்றவும் (எல்லா கவனச்சிதறல்களும் மறைக்கப்பட்ட முழுத்திரை எடிட்டர்)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4712"/>
         <source>Pause or resume the audio oscilloscopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ அலைக்காட்டிகளை இடைநிறுத்தவும் அல்லது தொடரவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4942"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ மட்டும் பதிவு செய்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4949"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ + வீடியோ பதிவு செய்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4965"/>
         <location filename="../mainwindow.cpp" line="4966"/>
         <source>Save Buffer As...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடையகத்தை இவ்வாறு சேமி ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4970"/>
         <location filename="../mainwindow.cpp" line="4971"/>
         <source>Load into Buffer...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடையகத்தில் ஏற்று ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4975"/>
         <source>Load Set...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொகுப்பை ஏற்று ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4978"/>
         <source>Save Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொகுப்பை சேமி</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4981"/>
         <source>Save Set As...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொகுப்பை இவ்வாறு சேமி ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4984"/>
         <source>Clear All Buffers...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எல்லா இடையகங்களையும் அழி ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4988"/>
         <source>Align Code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீட்டை சீரமை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5000"/>
@@ -2068,22 +2074,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="5121"/>
         <source>Pause or Resume Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ச்கோப்களை இடைநிறுத்து அல்லது தொடர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5124"/>
         <source>Focus Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கவனப் பயன்முறை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5129"/>
         <source>Check for Updates on Launch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொடக்கத்தில் புதுப்பிப்புகளை சரிபார்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5138"/>
         <source>Check for Updates Now</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இப்போது புதுப்பிப்புகளை சரிபார்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5144"/>
@@ -2093,12 +2099,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="5161"/>
         <source>Close Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவியை மூடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
         <source>Close Help (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவியை மூடு (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5172"/>
@@ -2163,37 +2169,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="5248"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீடு நிறைவு உதவியைக் காட்டு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5258"/>
         <source>Flash Code on Sound Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒலி தூண்டலில் குறியீட்டை ஒளிரச்செய்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5263"/>
         <source>Flash Gutter on Sound Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒலி தூண்டலில் ஓரப்பட்டையை ஒளிரச்செய்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5268"/>
         <source>Show Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">லைவ் லூப் ச்கோப்களைக் காட்டு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5273"/>
         <source>Speak Run and Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஓடு மற்றும் நிறுத்து ஐப் பேசு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5278"/>
         <source>Reduce Animations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அசைவூட்டங்களைக் குறை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5326"/>
         <source>Enable Incoming Gamepad Cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உள்வரும் கேம்பேட் குறிப்புகளை இயக்கவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5356"/>
@@ -2208,37 +2214,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="5369"/>
         <source>Trigger Autocomplete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தானியங்கு நிறைவைத் தூண்டு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5372"/>
         <source>Read Completion Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிறைவு விவரங்களைப் படி</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5391"/>
         <source>Load Recent Set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சமீபத்திய தொகுப்பை ஏற்று</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5481"/>
         <source>Mild Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிதமான இருள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5486"/>
         <source>Phosphor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஃபாச்பர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5491"/>
         <source>Signal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சமிக்ஞை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5498"/>
         <source>Pro Icons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சார்பு சின்னங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5522"/>
@@ -2249,18 +2255,18 @@
         <location filename="../mainwindow.cpp" line="7937"/>
         <location filename="../mainwindow.cpp" line="7992"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ஏதுமில்லை --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7938"/>
         <location filename="../mainwindow.cpp" line="7976"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- முடக்கப்பட்டது --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8098"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ சாதன மாற்றம் தோல்வியடைந்தது</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8099"/>
@@ -2269,12 +2275,16 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இதற்கு மாற முடியவில்லை:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8114"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ உள்ளீட்டு சாதனம் கிடைக்கவில்லை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8115"/>
@@ -2283,7 +2293,11 @@
   %1
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ உள்ளீட்டு சாதனத்தைத் திறக்க முடியவில்லை:
+
+  %1
+
+%2</translation>
     </message>
     <message>
         <source>Windows Shortcut Mode</source>
@@ -2306,12 +2320,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="5741"/>
         <source>Focus Next Pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அடுத்த பலகத்தில் கவனம்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5744"/>
         <source>Focus Previous Pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முந்தைய பலகத்தில் கவனம்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5755"/>
@@ -2331,48 +2345,48 @@
     <message>
         <location filename="../mainwindow.cpp" line="5771"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Syphon வழியாக சாளரத்தை வெளியிடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5776"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Syphon ஊட்டத்தில் சுட்டி கர்சரை சேர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5783"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spout வழியாக சாளரத்தை வெளியிடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5788"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spout ஊட்டத்தில் சுட்டி கர்சரை சேர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5795"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அமர்வு பதிவில் சுட்டி கர்சரை சேர்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5800"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவு சின்னத்தை ஒளிரச்செய்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5807"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5808"/>
         <source>Recording Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவு பயன்முறை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5815"/>
         <location filename="../mainwindow.cpp" line="5820"/>
         <source>Window Publishing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சாளர வெளியீடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5825"/>
@@ -2402,7 +2416,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5886"/>
         <source>Accessibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அணுகல்தன்மை</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5891"/>
@@ -2417,38 +2431,38 @@
     <message>
         <location filename="../mainwindow.cpp" line="6163"/>
         <source>Stop Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவை நிறுத்து</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6183"/>
         <source>Recording started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவு தொடங்கியது</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6183"/>
         <source>Recording stopped</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவு நிறுத்தப்பட்டது</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6276"/>
         <location filename="../mainwindow.cpp" line="6277"/>
         <source>Recording failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவு தொடங்கத் தவறிவிட்டது</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6291"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QuickTime திரைப்படம் (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6294"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MP4 வீடியோ (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6302"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அமர்வு பதிவை சேமி</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6325"/>
@@ -2473,17 +2487,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="6981"/>
         <source>Help Topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி தலைப்புகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6999"/>
         <source>Filter %1...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ஐ வடிகட்டு ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7000"/>
         <source>Filter %1 help topics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 உதவி தலைப்புகளை வடிகட்டு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7175"/>
@@ -2517,17 +2531,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../mainwindow.cpp" line="7219"/>
         <source>Enabling MIDI &lt;input&gt;...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிடி &lt;input&gt; ஐ இயக்குகிறது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7242"/>
         <source>Enabling gamepad input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கேம்பேட் உள்ளீட்டை இயக்குகிறது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7250"/>
         <source>Disabling gamepad input...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கேம்பேட் உள்ளீட்டை முடக்குகிறது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7684"/>
@@ -2815,46 +2829,46 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="705"/>
         <source>Node Tree</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முனை மரம்</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="842"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தகவல்</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="851"/>
         <source>To SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic க்கு</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="852"/>
         <source>From SuperSonic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic இலிருந்து</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1649"/>
         <location filename="../widgets/metricspanel.cpp" line="1650"/>
         <source>Show metrics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அளவீடுகளைக் காட்டு</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1649"/>
         <location filename="../widgets/metricspanel.cpp" line="1650"/>
         <source>Minimise metrics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அளவீடுகளைச் சிறிதாக்கு</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1739"/>
         <location filename="../widgets/metricspanel.cpp" line="1740"/>
         <source>Show logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவுகளைக் காட்டு</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1739"/>
         <location filename="../widgets/metricspanel.cpp" line="1740"/>
         <source>Minimise logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவுகளைச் சிறிதாக்கு</translation>
     </message>
 </context>
 <context>
@@ -2862,7 +2876,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/nodetreegraph.cpp" line="209"/>
         <source>(no active nodes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(செயலில் உள்ள முனைகள் இல்லை)</translation>
     </message>
 </context>
 <context>
@@ -2875,12 +2889,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1289"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறுக்குவழியைத் தட்டச்சு செய்யவும்…</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpiscintilla.cpp" line="2110"/>
         <source>defined in this buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த இடையகத்தில் வரையறுக்கப்பட்டது</translation>
     </message>
 </context>
 <context>
@@ -2888,108 +2902,108 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="280"/>
         <source>The file could not be opened for reading.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கோப்பை படிக்கத் திறக்க முடியவில்லை.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="287"/>
         <source>No card decks were found. A card set needs at least one &quot;# Deck: name&quot; line followed by &quot;## Card title&quot; cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அட்டை அடுக்குகள் எதுவும் காணப்படவில்லை. ஒரு அட்டைத் தொகுப்பிற்கு குறைந்தது ஒரு &quot;# Deck: name&quot; வரியும், அதைத் தொடர்ந்து &quot;## Card title&quot; அட்டைகளும் தேவை.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="364"/>
         <source>quickstart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விரைவுத் தொடக்கம்</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="901"/>
         <source>Stop this card</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த அட்டையை நிறுத்து</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="901"/>
         <source>Run this card</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த அட்டையை இயக்கு</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1028"/>
         <source>%1 card deck</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 அட்டை அடுக்கு</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1055"/>
         <location filename="../widgets/quickstartpane.cpp" line="1165"/>
         <source>Previous cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முந்தைய அட்டைகள்</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1056"/>
         <source>More cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மேலும் அட்டைகள்</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1281"/>
         <source>Scroll to card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%2 இல் %1 அட்டைக்கு உருட்டவும்</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1309"/>
         <source>Click to see the previous cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முந்தைய அட்டைகளைப் பார்க்க சொடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1572"/>
         <source>Add %1 to the editor at the cursor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ஐ எடிட்டரில் கர்சரில் சேர்க்கவும்</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1573"/>
         <source>Add this card to your code at the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த அட்டையை உங்கள் குறியீட்டில் கர்சரில் சேர்க்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1589"/>
         <source>Copy %1 to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ஐ கிளிப்போர்டுக்கு நகலெடு</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1590"/>
         <source>Copy this card&apos;s code to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த அட்டையின் குறியீட்டை கிளிப்போர்டுக்கு நகலெடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1621"/>
         <source>Drag %1 into the editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ஐ எடிட்டருக்குள் இழுக்கவும்</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1622"/>
         <source>Drag me into your editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">என்னை உங்கள் எடிட்டருக்குள் இழுங்கள்.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1748"/>
         <source>Stop %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ஐ நிறுத்து</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1748"/>
         <source>Run %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ஐ இயக்கு</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1749"/>
         <source>Play this card. Press again to stop.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த அட்டையை இசைக்கவும். நிறுத்த மீண்டும் அழுத்தவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1786"/>
         <source>%1 card. %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 அட்டை. %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1788"/>
         <source>Press Space to play or stop, I to insert the code into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இசைக்க அல்லது நிறுத்த Space ஐ அழுத்தவும், குறியீட்டை எடிட்டரில் செருக I ஐ அழுத்தவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1797"/>
@@ -3004,7 +3018,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1798"/>
         <source>Insert at Cursor in Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடிட்டரில் கர்சரில் செருகு</translation>
     </message>
 </context>
 <context>
@@ -3640,60 +3654,60 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
         <location filename="../widgets/settingswidget.cpp" line="1898"/>
         <location filename="../widgets/settingswidget.cpp" line="2049"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- முடக்கப்பட்டது --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1945"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ சாதனத்தை மாற்றுகிறது ...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1983"/>
         <location filename="../widgets/settingswidget.cpp" line="2058"/>
         <location filename="../widgets/settingswidget.cpp" line="2273"/>
         <source>-- None --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- ஏதுமில்லை --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1985"/>
         <location filename="../widgets/settingswidget.cpp" line="2270"/>
         <source>System Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கணினி இயல்புநிலை</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1987"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கணினி இயல்புநிலை (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2174"/>
         <source>remote session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொலைநிலை அமர்வு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2257"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO சாதனங்களில் உள்ளீடு/வெளியீடு இணைக்கப்பட்டுள்ளது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2280"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வெளியீட்டை பிரதிபலிக்கிறது (ASIO முழு-இருவழி).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2319"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பைக்கு இன்னும் மைக்ரோஃபோன் அணுகல் இல்லை, எனவே live_audio மற்றும் :sound_in அமைதியாக இருக்கும். கணினி அமைப்புகளில் அணுகல் வழங்க கீழே சொடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2321"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கணினி கொள்கையால் மைக்ரோஃபோன் அணுகல் கட்டுப்படுத்தப்பட்டுள்ளது, எனவே live_audio மற்றும் :sound_in அமைதியாக இருக்கும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2323"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மைக்ரோஃபோன் அணுகல் இன்னும் வழங்கப்படவில்லை — கணினி அமைப்புகளைத் திறக்க கீழே சொடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2735"/>
@@ -3710,178 +3724,184 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="138"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சாதன மாற்றம் நேரம் முடிந்தது</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
         <source>Volume, audio inputs and outputs, safety checks and recording.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒலியளவு, ஆடியோ உள்ளீடுகள் மற்றும் வெளியீடுகள், பாதுகாப்பு சோதனைகள் மற்றும் பதிவு.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>OSC networking, MIDI devices and game controllers.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OSC பிணையம், மிடி சாதனங்கள் மற்றும் விளையாட்டுக் கட்டுப்படுத்திகள்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="163"/>
         <source>Editor display, code completion, accessibility and pane visibility.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடிட்டர் காட்சி, குறியீடு நிறைவு, அணுகல்தன்மை மற்றும் பலக தெரிவுநிலை.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="167"/>
         <source>Audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ அலைக்காட்டிகள் மற்றும் நிகழ்ச்சி நடத்தும்போது பயனுள்ள விருப்பங்கள்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="170"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறுக்குவழிகள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>View and customise the keyboard shortcuts.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விசைப்பலகை குறுக்குவழிகளைப் பார்த்து தனிப்பயனாக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Change the language of the interface and tutorial.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடைமுகம் மற்றும் பயிற்சியின் மொழியை மாற்றவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>Version information and update checking.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிப்பு தகவல் மற்றும் புதுப்பிப்பு சரிபார்ப்பு.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="217"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கணினி ஒலியளவை மாற்ற இந்த டயலைப் பயன்படுத்தவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="224"/>
         <source>Drag or scroll to change Sonic Pi&apos;s overall volume.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பையின் ஒட்டுமொத்த ஒலியளவை மாற்ற இழுக்கவும் அல்லது உருட்டவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ASIO உள்ளீடு மற்றும் வெளியீடு இரண்டிற்கும் ஒரே சாதனத்தைப் பயன்படுத்துகிறது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="234"/>
         <source>If enabled, audio sent to the left speaker will be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், இடது ச்பீக்கருக்கு அனுப்பப்படும் ஆடியோ வலது ச்பீக்கருக்கு அனுப்பப்படும்; நேர்மாறாகவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
         <source>If enabled, right and left audio is mixed and the same signal is sent to both speakers. Useful when working with external systems that can only handle mono.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், வலது மற்றும் இடது ஆடியோ கலக்கப்பட்டு ஒரே சமிக்ஞை இரு ச்பீக்கர்களுக்கும் அனுப்பப்படும். மோனோவை மட்டுமே கையாளக்கூடிய வெளிப்புற அமைப்புகளுடன் பணிபுரியும்போது பயனுள்ளது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="239"/>
         <source>Checks synth arguments before triggering. If disabled, certain synth opt values may create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தூண்டுவதற்கு முன் சின்த் மதிப்புருக்களை சரிபார்க்கிறது. முடக்கப்பட்டால், சில சின்த் opt மதிப்புகள் எதிர்பாராத விதமாக உரத்த அல்லது சங்கடமான ஒலிகளை உருவாக்கலாம்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>When enabled, Sonic Pi will refuse to trigger synths and FX if it is too late to do so.
 
 When disabled, Sonic Pi will always attempt to trigger synths and FX even when a little late.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், மிகவும் தாமதமாகிவிட்டால் சின்த்ச் மற்றும் எஃப்எக்சை தூண்ட சோனிக் பை மறுக்கும்.
+
+முடக்கப்பட்டால், கொஞ்சம் தாமதமானாலும் சின்த்ச் மற்றும் எஃப்எக்சை தூண்ட சோனிக் பை எப்போதும் முயற்சிக்கும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>When enabled, Sonic Pi will allow synths and FX loaded via load_synthdefs to be triggered.
 
 When disabled, Sonic Pi will complain when you attempt to use a synth or FX which isn&apos;t recognised.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், load_synthdefs வழியாக ஏற்றப்பட்ட சின்த்ச் மற்றும் எஃப்எக்ச் தூண்டப்பட சோனிக் பை அனுமதிக்கும்.
+
+முடக்கப்பட்டால், அங்கீகரிக்கப்படாத சின்த் அல்லது எஃப்எக்சை பயன்படுத்த முயற்சிக்கும்போது சோனிக் பை புகார் கூறும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Audio Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ சாதனம்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ இயக்கி, சாதனம், மாதிரி வீதம் மற்றும் இடையக அளவை உள்ளமைக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Driver</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கி</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வெளியீடு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உள்ளீடு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மாதிரி வீதம்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="307"/>
         <source>Buffer Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடையக அளவு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>Remote desktop session: local audio hardware is usually unavailable, and ASIO devices may fail to start.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொலைநிலை டெஸ்க்டாப் அமர்வு: உள்ளூர் ஒலி வன்பொருள் பொதுவாக கிடைக்காது, ASIO சாதனங்கள் தொடங்கத் தவறக்கூடும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="347"/>
         <source>Recording</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="348"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிவு பொத்தான் எதைப் பிடிக்கும் என்பதைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="359"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ மட்டும் பதிவு செய்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="363"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முதன்மை கலவையின் .wav கோப்பை SuperSonic எழுதும்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ + வீடியோ பதிவு செய்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="372"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை சாளரத்தையும் முதன்மை கலவையையும் ஒரு .mov கோப்பில் பிடிக்கும்
+GPU-முடுக்கப்பட்ட திரைப் பிடிப்பைப் பயன்படுத்தி</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை சாளரத்தையும் முதன்மை கலவையையும் ஒரு .mp4 கோப்பில் பிடிக்கும்
+GPU-முடுக்கப்பட்ட திரைப் பிடிப்பைப் பயன்படுத்தி</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்குவது</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SuperSonic க்காக காத்திருக்கிறது ...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
@@ -3891,237 +3911,237 @@ using GPU-accelerated screen capture</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="440"/>
         <source>Open System Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கணினி அமைப்புகளைத் திற</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="506"/>
         <source>Sonic Pi can send and receive Open Sound Control messages to and from other programs or computers via the currently connected network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தற்போது இணைக்கப்பட்ட பிணையம் வழியாக, பிற நிரல்கள் அல்லது கணினிகளுக்கு Open Sound Control செய்திகளை சோனிக் பை அனுப்பவும் பெறவும் முடியும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="536"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines. When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தேர்வு செய்தால், தொலைநிலை கணினிகளுக்கு OSC செய்திகளை அனுப்பவும் பெறவும் சோனிக் பை அனுமதிக்கும். தேர்வு நீக்கினால், உள்ளூர் கணினியிலிருந்து அனுப்புவதும் பெறுவதும் மட்டுமே இயக்கப்படும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="539"/>
         <source>When checked, Sonic Pi will listen for OSC messages. When unchecked, no OSC messages will be received.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தேர்வு செய்தால், சோனிக் பை OSC செய்திகளுக்குக் காத்திருக்கும். தேர்வு நீக்கினால், OSC செய்திகள் எதுவும் பெறப்படாது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="579"/>
         <source>MIDI input ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிடி உள்ளீட்டு போர்ட்கள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
         <source>MIDI output ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிடி வெளியீட்டு போர்ட்கள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="582"/>
         <source>MIDI input devices send MIDI messages directly to Sonic Pi and are received as cue events (similar to incoming OSC messages and internal cues).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிடி உள்ளீட்டு சாதனங்கள் மிடி செய்திகளை நேரடியாக சோனிக் பைக்கு அனுப்புகின்றன; அவை கியூ நிகழ்வுகளாகப் பெறப்படுகின்றன (உள்வரும் OSC செய்திகள் மற்றும் உள் குறிப்புகளைப் போன்றது).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="583"/>
         <source>MIDI output devices receive MIDI messages directly from Sonic Pi which can be sent via the midi_* fns.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிடி வெளியீட்டு சாதனங்கள் சோனிக் பையிலிருந்து நேரடியாக மிடி செய்திகளைப் பெறுகின்றன; இவை midi_* செயல்பாடுகள் வழியாக அனுப்பப்படலாம்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="585"/>
         <source>Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உள்ளீடுகள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="586"/>
         <source>Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வெளியீடுகள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="610"/>
         <source>Game Controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விளையாட்டுக் கட்டுப்படுத்திகள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="611"/>
         <source>Configure game controller behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விளையாட்டுக் கட்டுப்படுத்தி நடத்தையை உள்ளமைக்கவும்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="613"/>
         <source>Enable incoming gamepad cues</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உள்வரும் கேம்பேட் குறிப்புகளை இயக்கவும்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="614"/>
         <source>Enable or disable automatic conversion of game controller button and axis events to cue events.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விளையாட்டுக் கட்டுப்படுத்தி பொத்தான் மற்றும் அச்சு நிகழ்வுகளை கியூ நிகழ்வுகளாக தானாக மாற்றுவதை இயக்கவும் அல்லது முடக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="616"/>
         <source>No connected game controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இணைக்கப்பட்ட விளையாட்டுக் கட்டுப்படுத்திகள் இல்லை</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="618"/>
         <source>Game controllers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விளையாட்டுக் கட்டுப்படுத்திகள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="619"/>
         <source>Connected game controllers send button and axis events to Sonic Pi which are received as cue events.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இணைக்கப்பட்ட விளையாட்டுக் கட்டுப்படுத்திகள் பொத்தான் மற்றும் அச்சு நிகழ்வுகளை சோனிக் பைக்கு அனுப்புகின்றன; அவை கியூ நிகழ்வுகளாகப் பெறப்படுகின்றன.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <source>Show code completion help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீடு நிறைவு உதவியைக் காட்டு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், குறியீடு நிறைவு பாப்அப்பில் உதவி பலகங்கள் - ஆவணங்கள், இசைக்குறிப்பு விசைப்பலகை மற்றும் மதிப்பு ச்லைடர்கள் - அடங்கும். முடக்கப்பட்டால், பரிந்துரைகளின் பட்டியல் மட்டுமே காட்டப்படும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="668"/>
         <source>Speak run and stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஓடு மற்றும் நிறுத்து ஐப் பேசு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="669"/>
         <source>When enabled, a screen reader announces &quot;Run started&quot; and &quot;Stopped&quot;. Disable this if you&apos;d rather hear the very start of your audio without it being ducked by the announcement.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், திரை வாசிப்பான் &quot;இயக்கம் தொடங்கியது&quot; மற்றும் &quot;நிறுத்தப்பட்டது&quot; என அறிவிக்கும். அறிவிப்பால் மறைக்கப்படாமல் உங்கள் ஆடியோவின் துவக்கத்தைக் கேட்க விரும்பினால் இதை முடக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="671"/>
         <source>Reduce animations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அசைவூட்டங்களைக் குறை</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="672"/>
         <source>When enabled, Sonic Pi keeps its interface still: panes and popups appear in place instead of sliding or gliding. Also switched on automatically while your operating system&apos;s reduce-animations accessibility setting is active.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், சோனிக் பை தன் இடைமுகத்தை அசைவின்றி வைத்திருக்கும்: பலகங்களும் பாப்அப்களும் நழுவுவதற்குப் பதிலாக அப்படியே தோன்றும். உங்கள் இயக்க முறைமையின் அசைவூட்டக் குறைப்பு அணுகல்தன்மை அமைப்பு செயலில் இருக்கும்போது இது தானாகவும் இயக்கப்படும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="703"/>
         <source>Hide menu bar in full screen mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முழுத்திரை பயன்முறையில் மெனுபரை மறைக்கவும்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="714"/>
         <source>Mild Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிதமான இருள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="715"/>
         <source>Phosphor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஃபாச்பர்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="716"/>
         <source>Signal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சமிக்ஞை</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="724"/>
         <source>Light colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒளி வண்ணத் திட்டம்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="725"/>
         <source>Dark colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இருண்ட வண்ணத் திட்டம்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
         <source>High-contrast colour scheme for maximum legibility.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அதிகபட்ச வாசிப்புத்திறனுக்கான உயர் வேறுபாடு வண்ணத் திட்டம்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Mild Dark: a softer, low-contrast dark colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிதமான இருள்: மென்மையான, குறைந்த வேறுபாடு கொண்ட இருண்ட வண்ணத் திட்டம்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>
         <source>Phosphor: a green-on-black CRT colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஃபாச்பர்: கருப்பில் பச்சை CRT வண்ணத் திட்டம்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="729"/>
         <source>Signal: high-contrast blue-and-gold colour scheme.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சமிக்ஞை: உயர் வேறுபாடு கொண்ட நீலம்-தங்க வண்ணத் திட்டம்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="734"/>
         <source>Pro icons</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சார்பு சின்னங்கள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="735"/>
         <source>Use the compact Pro toolbar icon set instead of the classic icons.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பாரம்பரிய சின்னங்களுக்குப் பதிலாக சுருக்கமான சார்பு கருவிப்பட்டை சின்னத் தொகுப்பைப் பயன்படுத்தவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="739"/>
         <source>Monochrome</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒற்றை நிறம்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="740"/>
         <source>Show the whole interface in greyscale.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முழு இடைமுகத்தையும் சாம்பல் நிறத்தில் காட்டு.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="743"/>
         <source>Invert colours</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிறங்களைத் தலைகீழாக்கு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="744"/>
         <source>Invert every interface colour (photo-negative).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடைமுகத்தின் ஒவ்வொரு நிறத்தையும் தலைகீழாக்கு (நெகட்டிவ் போல).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="878"/>
         <source>Rotate Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிறச்சாயலைச் சுழற்று</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="880"/>
         <source>Drag the dial to rotate the hue of every colour in the interface.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடைமுகத்தின் ஒவ்வொரு நிறத்தின் சாயலையும் சுழற்ற டயலை இழுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="907"/>
         <source>Accessibility</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அணுகல்தன்மை</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="908"/>
         <source>Settings that support screen readers and other assistive tools.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">திரை வாசிப்பான்கள் மற்றும் பிற உதவிக் கருவிகளை ஆதரிக்கும் அமைப்புகள்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
         <source>If disabled, activity such as synth and sample triggering will not be printed to the log by default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முடக்கப்பட்டால், சின்த் மற்றும் மாதிரி தூண்டுதல் போன்ற செயல்பாடுகள் முன்னிருப்பாக பதிவில் அச்சிடப்படாது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="927"/>
         <source>If enabled, the log is cleared each time the run button is pressed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், ஓடு பொத்தானை அழுத்தும் ஒவ்வொரு முறையும் பதிவு அழிக்கப்படும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="930"/>
         <source>If disabled, cues will still trigger. However, they will not be visible in the logs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முடக்கப்பட்டால், குறிப்புகள் தொடர்ந்து தூண்டும். இருப்பினும், அவை பதிவுகளில் காணப்படாது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="933"/>
         <source>If enabled, the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், ஒவ்வொரு புதிய செய்தி காட்டப்பட்ட பிறகும் பதிவு கீழே உருட்டப்படும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="992"/>
@@ -4132,227 +4152,233 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ அலைக்காட்டி பல வகைகளில் வருகிறது; அவற்றைத் தனித்தனியாகவோ அனைத்தையும் ஒன்றாகவோ பார்க்கலாம்:
+
+லிசாசச் - இடது மற்றும் வலது சேனல்களுக்கு இடையிலான கட்ட உறவை விளக்குகிறது
+மிரர் ச்டீரியோ - எளிய இடது/வலது கூட்டு அலை, மேலே இடது, கீழே வலது
+மோனோ - இடது மற்றும் வலது சேனல்களின் ஒருங்கிணைந்த காட்சியைக் காட்டுகிறது (RMS ஐப் பயன்படுத்தி)
+ச்பெக்ட்ரம் - ஒலி அதிர்வெண்களை குறைந்த முதல் உயர் அதிர்வெண் வரை ஒரு நிறமாலையாகக் காட்டுகிறது
+ச்டீரியோ - இடது மற்றும் வலது சேனல்களுக்கு இரண்டு தனித்தனி ச்கோப்களைக் காட்டுகிறது</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1001"/>
         <source>Editor Visuals</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடிட்டர் காட்சிகள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1004"/>
         <source>Flash code on sound trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒலி தூண்டலில் குறியீட்டை ஒளிரச்செய்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1005"/>
         <source>When enabled, the editor briefly washes the code responsible for each sound as it is triggered.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், ஒவ்வொரு ஒலியும் தூண்டப்படும்போது அதற்குக் காரணமான குறியீட்டை எடிட்டர் சிறிது நேரம் ஒளிரச் செய்யும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1007"/>
         <source>Flash gutter on sound trigger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒலி தூண்டலில் ஓரப்பட்டையை ஒளிரச்செய்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1008"/>
         <source>When enabled, the editor briefly shows a dot in the gutter next to the line responsible for each sound as it is triggered.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், ஒவ்வொரு ஒலியும் தூண்டப்படும்போது அதற்குக் காரணமான வரிக்கு அருகில் ஓரப்பட்டையில் ஒரு புள்ளியை எடிட்டர் சிறிது நேரம் காட்டும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1010"/>
         <source>Show live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">லைவ் லூப் ச்கோப்களைக் காட்டு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1011"/>
         <source>When enabled, each running live loop shows a small oscilloscope and spectrum of its own audio next to its line in the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், இயங்கும் ஒவ்வொரு லைவ் லூப்பும் தன் சொந்த ஆடியோவின் சிறிய அலைக்காட்டியையும் நிறமாலையையும் எடிட்டரில் தன் வரிக்கு அருகில் காட்டும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1021"/>
         <source>Flash brightness</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒளிர்வு பிரகாசம்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1022"/>
         <location filename="../widgets/settingswidget.cpp" line="1025"/>
         <source>Flash Brightness</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒளிர்வு பிரகாசம்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1023"/>
         <source>Drag or scroll to change how strongly the code flash washes the line.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீடு ஒளிர்வு வரியை எவ்வளவு வலுவாக ஒளிரச் செய்யும் என்பதை மாற்ற இழுக்கவும் அல்லது உருட்டவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1093"/>
         <source>This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த சரிபார்ப்பில் உங்கள் தளம் மற்றும் பதிப்பு பற்றிய அநாமதேய தகவல்களை அனுப்புவது அடங்கும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1097"/>
         <source>Force a check for updates now. This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இப்போது புதுப்பிப்புகளை சரிபார்க்கவும். இந்த சரிபார்ப்பில் உங்கள் தளம் மற்றும் பதிப்பு பற்றிய அநாமதேய தகவல்களை அனுப்புவது அடங்கும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1388"/>
         <location filename="../widgets/settingswidget.cpp" line="1419"/>
         <source>Mac</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1389"/>
         <location filename="../widgets/settingswidget.cpp" line="1420"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1390"/>
         <location filename="../widgets/settingswidget.cpp" line="1421"/>
         <source>Emacs Live</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1391"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தனிப்பயன்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1412"/>
         <source>Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பயன்முறை:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1422"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறுக்குவழியைத் திருத்து</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1424"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மீட்டமை</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1427"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இறக்குமதி…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1428"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஏற்றுமதி…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1435"/>
         <source>Base:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அடிப்படை:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1585"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இதற்கும் ஒதுக்கப்பட்டுள்ளது: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1589"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயல்புநிலையிலிருந்து மாற்றப்பட்டது (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1589"/>
         <source>unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அமைக்கப்படவில்லை</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1599"/>
         <source>(no changes)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(மாற்றங்கள் இல்லை)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1600"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(%1 மாற்றப்பட்டது)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1691"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறுக்குவழி ஏற்கனவே பயன்பாட்டில் உள்ளது</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1692"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&quot;%1&quot; ஏற்கனவே இதற்கு ஒதுக்கப்பட்டுள்ளது: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1693"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1694"/>
         <source>Reassign to this</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இதற்கு மறுஒதுக்கீடு செய்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1695"/>
         <source>Keep both</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இரண்டையும் வைத்திரு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1723"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறுக்குவழிகளை மீட்டமைக்கவா?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1724"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இது உங்கள் தனிப்பயன் மாற்றங்கள் அனைத்தையும் நீக்கி அடிப்படை முன்னமைப்பை மீட்டெடுக்கும். தொடரவா?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1733"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறுக்குவழிகளை ஏற்றுமதி செய்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1734"/>
         <location filename="../widgets/settingswidget.cpp" line="1749"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறுக்குவழி கோப்புகள் (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1748"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறுக்குவழிகளை இறக்குமதி செய்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1786"/>
         <source>Illustrates the phase relationship between the left and right channels.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடது மற்றும் வலது சேனல்களுக்கு இடையிலான கட்ட உறவை விளக்குகிறது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1787"/>
         <source>A simple left/right composite wave, with left on top, right on bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எளிய இடது/வலது கூட்டு அலை; மேலே இடது, கீழே வலது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1788"/>
         <source>A combined view of the left and right channels (using RMS).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடது மற்றும் வலது சேனல்களின் ஒருங்கிணைந்த காட்சி (RMS ஐப் பயன்படுத்தி).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1789"/>
         <source>The sound frequencies as a spectrum, from low to high.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒலி அதிர்வெண்கள் குறைந்தது முதல் உயர்ந்தது வரை ஒரு நிறமாலையாக.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1790"/>
         <source>Two independent scopes for the left and right channels.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடது மற்றும் வலது சேனல்களுக்கு இரண்டு தனித்தனி ச்கோப்கள்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1795"/>
         <source>Toggle the visibility of the %1 oscilloscope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 அலைக்காட்டியின் தெரிவுநிலையை மாற்றவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1855"/>
@@ -4490,48 +4516,48 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../visualizer/scope_window.cpp" line="167"/>
         <source>Lissajous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">லிசாசச்</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="168"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடது</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="169"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வலது</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="170"/>
         <source>Mono</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மோனோ</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="171"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிரர் ச்டீரியோ</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="173"/>
         <source>Spectrum</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ச்பெக்ட்ரம்</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="190"/>
         <source>Pause or resume the audio oscilloscopes. Pausing freezes the current image so you can inspect it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ அலைக்காட்டிகளை இடைநிறுத்தவும் அல்லது தொடரவும். இடைநிறுத்தினால் தற்போதைய படம் உறைந்து, அதை நீங்கள் ஆராயலாம்.</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="192"/>
         <location filename="../visualizer/scope_window.cpp" line="196"/>
         <source>Pause scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ச்கோப்களை இடைநிறுத்து</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="196"/>
         <source>Resume scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ச்கோப்களைத் தொடர்</translation>
     </message>
 </context>
 <context>
@@ -4539,28 +4565,28 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="79"/>
         <source>Close (Esc)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மூடு (Esc)</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="97"/>
         <source>The buffer (tab) and line where the error happened</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிழை நடந்த இடையகம் (தாவல்) மற்றும் வரி</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="112"/>
         <source>The line of your code that caused the error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிழையை ஏற்படுத்திய உங்கள் குறியீட்டின் வரி</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="133"/>
         <source>Doc Example:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆவண எடுத்துக்காட்டு:</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="164"/>
         <location filename="../widgets/sonicpierrorcard.cpp" line="447"/>
         <source>Show details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விவரங்களைக் காட்டு</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="173"/>
@@ -4571,57 +4597,57 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="178"/>
         <source>Copy the whole error report (message, location, code and backtrace) to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முழு பிழை அறிக்கையையும் (செய்தி, இடம், குறியீடு மற்றும் பின்தடம்) கிளிப்போர்டுக்கு நகலெடு</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="179"/>
         <source>Copy error report</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிழை அறிக்கையை நகலெடு</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="182"/>
         <source>Copied ✓</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நகலெடுக்கப்பட்டது ✓</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="189"/>
         <source>Move the cursor to the error in your code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உங்கள் குறியீட்டில் உள்ள பிழைக்கு கர்சரை நகர்த்து</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="398"/>
         <source>Open the documentation for %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 க்கான ஆவணங்களைத் திற</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="406"/>
         <source>Usage example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பயன்பாட்டு எடுத்துக்காட்டு</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="407"/>
         <source>Usage example - opens the %1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பயன்பாட்டு எடுத்துக்காட்டு - %1 ஆவணங்களைத் திறக்கும்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="432"/>
         <source>Jump to error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிழைக்குச் செல்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="447"/>
         <source>Hide details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விவரங்களை மறை</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="448"/>
         <source>Hide the full technical error and backtrace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முழு தொழில்நுட்பப் பிழையையும் பின்தடத்தையும் மறை</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="449"/>
         <source>Show the full technical error and backtrace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முழு தொழில்நுட்பப் பிழையையும் பின்தடத்தையும் காட்டு</translation>
     </message>
 </context>
 <context>
@@ -4629,7 +4655,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../widgets/sonicpilog.cpp" line="110"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அழி</translation>
     </message>
 </context>
 <context>
@@ -4638,162 +4664,164 @@ This check involves sending anonymous information about your platform and versio
         <location filename="../widgets/sonicpimetro.cpp" line="114"/>
         <location filename="../widgets/sonicpimetro.cpp" line="409"/>
         <source>Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="124"/>
         <source>Ableton Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ableton Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="126"/>
         <source>Share a tempo with other Link-enabled apps and devices, so everyone plays in time. Click to join or leave the shared session.
 
 Link works either on this machine only or across your local network. Switch modes with the ghost / network button at the end of this row.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மற்ற Link இயக்கப்பட்ட பயன்பாடுகள் மற்றும் சாதனங்களுடன் டெம்போவைப் பகிர்ந்து, அனைவரும் ஒரே தாளத்தில் இசைக்கலாம். பகிரப்பட்ட அமர்வில் சேர அல்லது வெளியேற சொடுக்கவும்.
+
+Link இந்தக் கணினியில் மட்டுமோ அல்லது உங்கள் உள்ளூர் பிணையம் முழுவதுமோ செயல்படும். இந்த வரிசையின் இறுதியில் உள்ள பேய் / பிணைய பொத்தானால் பயன்முறைகளை மாற்றவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="133"/>
         <source>Tap</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தட்டு</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="139"/>
         <source>Tap tempo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தட்டு டெம்போ</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="141"/>
         <source>Click repeatedly to the beat to set the BPM manually. Accuracy increases with every additional click.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">BPM ஐ கைமுறையாக அமைக்க துடிப்புக்கு ஏற்பத் தொடர்ந்து சொடுக்கவும். ஒவ்வொரு கூடுதல் சொடுக்கிலும் துல்லியம் அதிகரிக்கும்.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="150"/>
         <location filename="../widgets/sonicpimetro.cpp" line="151"/>
         <location filename="../widgets/sonicpimetro.cpp" line="164"/>
         <source>Global Time Warp</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உலகளாவிய டைம் வார்ப்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="152"/>
         <source>Slide to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. The unit is milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தூண்டப்படும் அனைத்து சின்த்ச் / எஃப்எக்ச் மற்றும் அனுப்பப்படும் மிடி/OSC நிகழ்வுகளின் கட்டத்தை நகர்த்த வழுக்கவும். எதிர்மறை மதிப்புகள் எல்லாவற்றையும் முன்னதாகவும், நேர்மறை மதிப்புகள் பின்னதாகவும் தூண்டும். அலகு மில்லி வினாடிகள்.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="161"/>
         <source>Time Warp Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">டைம் வார்ப் ச்க்ரப்பர்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="165"/>
         <source>Adjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. Edit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தூண்டப்படும் அனைத்து சின்த்ச் / எஃப்எக்ச் மற்றும் அனுப்பப்படும் மிடி/OSC நிகழ்வுகளின் கட்டத்தை நகர்த்த சரிசெய்யவும். எதிர்மறை மதிப்புகள் எல்லாவற்றையும் முன்னதாகவும், நேர்மறை மதிப்புகள் பின்னதாகவும் தூண்டும். மாற்ற திருத்தவும், இழுக்கவும் அல்லது உருட்டவும். 0 க்கு மீட்டமைக்க இருமுறை சொடுக்கவும். அலகு மில்லி வினாடிகள்.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="178"/>
         <source>BPM Scrubber</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">BPM ச்க்ரப்பர்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="180"/>
         <source>Link Tempo (BPM)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link டெம்போ (BPM)</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="181"/>
         <source>Current Link tempo in beats per minute. Edit, drag or scroll to modify. Double click to reset to 60.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிமிடத்திற்கு துடிப்புகளில் தற்போதைய Link டெம்போ. மாற்ற திருத்தவும், இழுக்கவும் அல்லது உருட்டவும். 60 க்கு மீட்டமைக்க இருமுறை சொடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="190"/>
         <location filename="../widgets/sonicpimetro.cpp" line="534"/>
         <source>Show Link Audio streams panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio ச்ட்ரீம்கள் பலகத்தைக் காட்டு</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="191"/>
         <source>Link Audio Streams</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio ச்ட்ரீம்கள்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="192"/>
         <source>Show / hide the Link Audio streams panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio ச்ட்ரீம்கள் பலகத்தைக் காட்டு / மறை.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="310"/>
         <source>Link visibility: public — visible to other devices on your network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link தெரிவுநிலை: பொது — உங்கள் பிணையத்தில் உள்ள மற்ற சாதனங்களுக்குத் தெரியும்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="311"/>
         <source>Link visibility: local — hidden from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link தெரிவுநிலை: உள்ளூர் — பிணையத்திலிருந்து மறைக்கப்பட்டுள்ளது</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="331"/>
         <source>Link Visibility: Local Network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link தெரிவுநிலை: உள்ளூர் பிணையம்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="332"/>
         <source>Link Visibility: Local Machine Only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link தெரிவுநிலை: இந்தக் கணினி மட்டும்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="334"/>
         <source>Link is visible to other devices on your local network. They can sync tempo and stream audio with this Sonic Pi via Link. Click to switch to Local Machine Only mode to hide Link from the network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உங்கள் உள்ளூர் பிணையத்தில் உள்ள மற்ற சாதனங்களுக்கு Link தெரியும். அவை Link வழியாக இந்த சோனிக் பையுடன் டெம்போவை ஒத்திசைத்து ஆடியோவை ச்ட்ரீம் செய்யலாம். பிணையத்திலிருந்து Link ஐ மறைக்க, இந்தக் கணினி மட்டும் பயன்முறைக்கு மாற சொடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="335"/>
         <source>Link is hidden from the local network. Link tempo sync and Link Audio only connect to other apps on this machine. Click to switch to Local Network mode to make Link visible to other machines on your local network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உள்ளூர் பிணையத்திலிருந்து Link மறைக்கப்பட்டுள்ளது. Link டெம்போ ஒத்திசைவும் Link Audio வும் இந்தக் கணினியில் உள்ள பிற பயன்பாடுகளுடன் மட்டுமே இணையும். உங்கள் உள்ளூர் பிணையத்தில் உள்ள மற்ற கணினிகளுக்கு Link தெரியும்படி செய்ய, உள்ளூர் பிணைய பயன்முறைக்கு மாற சொடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="337"/>
         <source>Network visibility: public</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிணைய தெரிவுநிலை: பொது</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="338"/>
         <source>Network visibility: local only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பிணைய தெரிவுநிலை: உள்ளூர் மட்டும்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="359"/>
         <source>Link on — tempo synced with other devices on your network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link ஆன் — உங்கள் பிணையத்தில் உள்ள மற்ற சாதனங்களுடன் டெம்போ ஒத்திசைக்கப்பட்டுள்ளது</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="360"/>
         <source>Link on — local only, hidden from the network</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link ஆன் — உள்ளூர் மட்டும், பிணையத்திலிருந்து மறைக்கப்பட்டுள்ளது</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="379"/>
         <source>Link off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link ஆஃப்</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="411"/>
         <source>1 Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1 Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="413"/>
         <source>%1 Links</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="498"/>
         <source>Tap tempo: %1 BPM</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தட்டு டெம்போ: %1 BPM</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="533"/>
         <source>Hide Link Audio streams panel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link Audio ச்ட்ரீம்கள் பலகத்தை மறை</translation>
     </message>
 </context>
 <context>
@@ -4801,7 +4829,7 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../utils/sonicpi_i18n.cpp" line="151"/>
         <source>System language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கணினி மொழி</translation>
     </message>
 </context>
 <context>
@@ -4809,32 +4837,32 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/splashwidget.cpp" line="44"/>
         <source>Sonic Pi is starting</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை தொடங்குகிறது</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="113"/>
         <source>created by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உருவாக்கியவர்</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="116"/>
         <source>Sam Aaron</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சாம் ஆரன்</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="162"/>
         <source>Love and thanks to all the kind people&lt;br&gt;who supported this release on Patreon:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த வெளியீட்டை Patreon இல் ஆதரித்த&lt;br&gt;அன்பான அனைவருக்கும் அன்பும் நன்றியும்:</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="179"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பதிப்பு</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="192"/>
         <source>powered by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்குவது</translation>
     </message>
 </context>
 <context>
@@ -4842,7 +4870,7 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialwidgets.h" line="967"/>
         <source>%1 value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 மதிப்பு</translation>
     </message>
 </context>
 <context>
@@ -4850,7 +4878,7 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialwidgets.h" line="518"/>
         <source>Piano keyboard — play with your computer keys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பியானோ விசைப்பலகை — உங்கள் கணினி விசைகளால் இசைக்கவும்</translation>
     </message>
 </context>
 <context>
@@ -4858,30 +4886,30 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="181"/>
         <source>documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆவணங்கள்</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="247"/>
         <location filename="../widgets/tutorialpane.cpp" line="1253"/>
         <location filename="../widgets/tutorialpane.cpp" line="1481"/>
         <source>Run this example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த எடுத்துக்காட்டை இயக்கு</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="248"/>
         <location filename="../widgets/tutorialpane.cpp" line="1482"/>
         <source>Run example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடுத்துக்காட்டை இயக்கு</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="251"/>
         <source>Load this example into the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த எடுத்துக்காட்டை தற்போதைய இடையகத்தில் ஏற்று</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="252"/>
         <source>Load example into buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடுத்துக்காட்டை இடையகத்தில் ஏற்று</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="401"/>
@@ -4891,123 +4919,123 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="408"/>
         <source>Example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடுத்துக்காட்டு %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="418"/>
         <source>Introduced in %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 இல் அறிமுகமானது</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="460"/>
         <source>%1 icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 சின்னம்</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="474"/>
         <source>Reset all controls to their defaults</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எல்லா கட்டுப்பாடுகளையும் அவற்றின் இயல்புநிலைகளுக்கு மீட்டமை</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="475"/>
         <source>Reset %1 controls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 கட்டுப்பாடுகளை மீட்டமை</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="641"/>
         <source>Octave down (z)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆக்டேவ் கீழே (z)</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="642"/>
         <source>Octave down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆக்டேவ் கீழே</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="650"/>
         <source>Octave up (x)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆக்டேவ் மேலே (x)</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="651"/>
         <source>Octave up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆக்டேவ் மேலே</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="693"/>
         <source>Jump to documentation for %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 க்கான ஆவணங்களுக்குச் செல்</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="718"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விருப்பங்கள்</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="777"/>
         <source>z/x: octave</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">z/x: ஆக்டேவ்</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="778"/>
         <source>octave %1%2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆக்டேவ் %1%2</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1037"/>
         <source>Edit %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ஐ திருத்து</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1254"/>
         <source>Run example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடுத்துக்காட்டு %1 ஐ இயக்கு</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1257"/>
         <location filename="../widgets/tutorialpane.cpp" line="1481"/>
         <source>Stop this example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த எடுத்துக்காட்டை நிறுத்து</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1258"/>
         <source>Stop example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடுத்துக்காட்டு %1 ஐ நிறுத்து</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1262"/>
         <source>Copy code to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீட்டை கிளிப்போர்டுக்கு நகலெடு</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1263"/>
         <source>Copy example %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடுத்துக்காட்டு %1 ஐ நகலெடு</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1318"/>
         <source>Copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1385"/>
         <source>slidable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ச்லைடு செய்யக்கூடியது</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1414"/>
         <source>Previous chapter: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முந்தைய அத்தியாயம்: %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1423"/>
         <source>Next chapter: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அடுத்த அத்தியாயம்: %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1482"/>
         <source>Stop example</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடுத்துக்காட்டை நிறுத்து</translation>
     </message>
 </context>
 <context>
@@ -5020,22 +5048,22 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="84"/>
         <source>Hello, and welcome!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வணக்கம், வருக!</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="94"/>
         <source>Sonic Pi is a musical instrument you play by writing code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை என்பது குறியீடு எழுதி நீங்கள் இசைக்கும் ஒரு இசைக்கருவி.</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="104"/>
         <source>Remember, when you code live there are no mistakes, only opportunities...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நினைவில் கொள்ளுங்கள், நேரடியாக குறியீடு எழுதும்போது தவறுகள் இல்லை, வாய்ப்புகள் மட்டுமே ...</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="117"/>
         <source>Get Started</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தொடங்குங்கள்</translation>
     </message>
 </context>
 <context>
@@ -5043,12 +5071,12 @@ Link works either on this machine only or across your local network. Switch mode
     <message>
         <location filename="../widgets/zoombar.cpp" line="36"/>
         <source>Make %1 text smaller</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 உரையை சிறிதாக்கு</translation>
     </message>
     <message>
         <location filename="../widgets/zoombar.cpp" line="37"/>
         <source>Make %1 text larger</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 உரையை பெரிதாக்கு</translation>
     </message>
 </context>
 </TS>
