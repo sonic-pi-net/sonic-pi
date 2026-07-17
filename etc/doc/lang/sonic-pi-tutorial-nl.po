@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Sonic Pi\n"
 "PO-Revision-Date: 2026-06-30 06:19+0000\n"
 "Last-Translator: caviaz <sverrebesteman@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
-"nl/>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/sonic-pi/tutorial/nl"
+"/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2992,9 +2992,9 @@ msgid ""
 "So how do you play any arbitrary WAV, AIFF, OGG, OGA, FLAC or MP3 file on your"
 " computer? All you need to do is pass the path of that file to `sample`:"
 msgstr ""
-"Maar hoe speel je nou een willekeurig WAV-, AIFF-, OGG-, OGA- of FLAC-"
-"bestand van je computer? Het enige wat je hoeft te doen is het pad naar het "
-"bestand mee te geven aan `sample`:"
+"Maar hoe speel je nou een willekeurig WAV-, AIFF-, OGG-, OGA- of FLAC-bestand "
+"van je computer? Het enige wat je hoeft te doen is het pad naar het bestand me"
+"e te geven aan `sample`:"
 
 #: 03.6-External-Samples.md:31
 #, no-wrap
@@ -3332,10 +3332,10 @@ msgid ""
 "d then by adding all the valid `.flac`, `.aif`, `.aiff`, `.wav`, `.wave`, `.mp"
 "3` files contained within the directories."
 msgstr ""
-"De `sample` functie zal eerst alle bronnen verzamelen en deze gebruiken om "
-"een lange lijst van kandidaten te maken.Deze lijst wordt gevormd door eerst "
-"alle geldige paden toe te voegen en daarna alle geldige `.flac`, `.aif`, "
-"`.aiff`, `.wav`, `.wave` bestanden die deze mappen bevatten."
+"De `sample` functie zal eerst alle bronnen verzamelen en deze gebruiken om een"
+" lange lijst van kandidaten te maken.Deze lijst wordt gevormd door eerst alle "
+"geldige paden toe te voegen en daarna alle geldige `.flac`, `.aif`, `.aiff`, `"
+".wav`, `.wave` bestanden die deze mappen bevatten."
 
 #: 03.7-Sample-Packs.md:150
 msgid "For example, take a look at the following code:"
@@ -7183,11 +7183,10 @@ msgid ""
 "n use another function `play_pattern_timed` to specify our own timings and spe"
 "ed things up:"
 msgstr ""
-"Ok, dit is niet zo prettig - het speelde het echt te traag af. "
-"`play_pattern` zal elke noot van de lijst apart afspelen met een rust van "
-"`sleep 1` tussen elke oproep naar `play`. We kunnen de functie "
-"`play_pattern_timed` gebruiken om een eigen timing aan te geven en het wat "
-"sneller te laten gaan:"
+"Ok, dit is niet zo prettig - het speelde het echt te traag af. `play_pattern` "
+"zal elke noot van de lijst apart afspelen met een rust van `sleep 1` tussen el"
+"ke oproep naar `play`. We kunnen de functie `play_pattern_timed` gebruiken om "
+"een eigen timing aan te geven en het wat sneller te laten gaan:"
 
 #: 08.2-Chords.md:35
 #, no-wrap
@@ -7234,12 +7233,15 @@ msgstr "Welke wil je liever schrijven?"
 
 #: 08.2-Chords.md:67
 msgid ""
-"Note that `play_pattern` and `play_pattern_timed` alter the sustain of the not"
-"es to fill the times. You can remove this behavior by setting the `sustain:` o"
-"pt to `0`:"
+"Note that `play_pattern` and `play_pattern_timed` stretch the `sustain:` of ea"
+"ch note to fill the time until the next one. This is different from a plain `p"
+"lay`, which uses its normal envelope and lets the note fade away. Stretching t"
+"he sustain like this lets melodies and chords flow smoothly from one note into"
+" the next without you having to set envelope opts every time. If you'd prefer "
+"the notes to use their normal envelopes, set the `sustain:` opt to `0`:"
 msgstr ""
 
-#: 08.2-Chords.md:71
+#: 08.2-Chords.md:75
 #, no-wrap
 #, fuzzy
 msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5], sustain: 0"
@@ -9529,6 +9531,7 @@ msgid "Connecting a MIDI Controller"
 msgstr "Verbinden van een MIDI Controller"
 
 #: 11.1-MIDI-In.md:13
+#, fuzzy
 msgid ""
 "In order to get information from an external MIDI device into Sonic Pi we firs"
 "t need to connect it to our computer. Typically this will be via a USB connect"
@@ -9536,11 +9539,12 @@ msgid ""
 " need hardware support for your computer (for example, some sound cards have M"
 "IDI DIN connectors). Once you've connected your device, launch Sonic Pi and ta"
 "ke a look at the IO section of the Preferences panel. You should see your devi"
-"ce listed there. If not, try hitting the 'Reset MIDI' button and see if it app"
-"ears. If you're still not seeing anything, the next thing to try is to consult"
-" your operating system's MIDI config to see if it sees your device. Failing al"
-"l that, feel free to ask questions in our friendly forums: https://in-thread.s"
-"onic-pi.net"
+"ce listed there - devices are detected automatically, even when plugged in whi"
+"le Sonic Pi is running. If it doesn't appear, try unplugging it and plugging i"
+"t back in. If you're still not seeing anything, the next thing to try is to co"
+"nsult your operating system's MIDI config to see if it sees your device. Faili"
+"ng all that, feel free to ask questions in our friendly forums: https://in-thr"
+"ead.sonic-pi.net"
 msgstr ""
 "Om informatie van een extern MIDI apparaat in te lezen in Sonic Pi zullen we e"
 "erst moeten verbinden met onze computer. Dit zal meestal gebeuren via een USB "
@@ -9554,11 +9558,11 @@ msgstr ""
 "hier het apparaat wel tussen staat. Indien dit allemaal niet werkt, voel je vr"
 "ij om hulp te vragen op onze forums: https://in-thread.sonic-pi.net"
 
-#: 11.1-MIDI-In.md:26
+#: 11.1-MIDI-In.md:27
 msgid "Receiving MIDI Events"
 msgstr "Ontvangen Van MIDI Events"
 
-#: 11.1-MIDI-In.md:28
+#: 11.1-MIDI-In.md:29
 msgid ""
 "Once your device is connected, Sonic Pi will automatically receive events. You"
 " can see for yourself by manipulating your MIDI device and looking at the cue "
@@ -9573,7 +9577,7 @@ msgstr ""
 " 'Show Cue Log' checkbox ingeschakeld kan worden. Een opeenvolging van event z"
 "oals de volgende is zichtbaar:"
 
-#: 11.1-MIDI-In.md:35
+#: 11.1-MIDI-In.md:36
 #, no-wrap
 msgid ""
 "/midi:nanokey2_keyboard:0:1/note_off  [55, 64]\n"
@@ -9594,7 +9598,7 @@ msgstr ""
 "/midi:nanokey2_keyboard:0:1/note_on   [53, 96]\n"
 "/midi:nanokey2_keyboard:0:1/note_off  [55, 64]"
 
-#: 11.1-MIDI-In.md:46
+#: 11.1-MIDI-In.md:47
 msgid ""
 "Once you can see a stream of messages like this, you've successfully connected"
 " your MIDI device. Congratulations, let's see what we can do with it!"
@@ -9603,11 +9607,11 @@ msgstr ""
 "at succesvol verbonden. Gefeliciteerd, laten wij is kijken wat we hiermee kunn"
 "en doen!"
 
-#: 11.1-MIDI-In.md:50
+#: 11.1-MIDI-In.md:51
 msgid "MIDI Time State"
 msgstr "MIDI Time State"
 
-#: 11.1-MIDI-In.md:52
+#: 11.1-MIDI-In.md:53
 msgid ""
 "These events are broken into two sections. Firstly there's the name of the eve"
 "nt such as `/midi:nanokey2_keyboard:0:1/note_on` and secondly there's the valu"
@@ -9625,11 +9629,11 @@ msgstr ""
 "arden en eveneens `sync` wacht op de volgende MIDI waarde, zoals omschreven in"
 " sectie 10 van deze handleiding."
 
-#: 11.1-MIDI-In.md:60
+#: 11.1-MIDI-In.md:61
 msgid "Controlling Code"
 msgstr "Besturingscode"
 
-#: 11.1-MIDI-In.md:62
+#: 11.1-MIDI-In.md:63
 msgid ""
 "Now we've connected a MIDI device, seen its events in the cue log and discover"
 "ed that our knowledge of Time State is all we need to work with the events, we"
@@ -9640,7 +9644,7 @@ msgstr ""
 "hebben om met de events te werken. Nu kunnen we plezier hebben en een eenvoudi"
 "ge MIDI piano maken:"
 
-#: 11.1-MIDI-In.md:67
+#: 11.1-MIDI-In.md:68
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
@@ -9653,7 +9657,7 @@ msgstr ""
 "  synth :piano, note: note\n"
 "end"
 
-#: 11.1-MIDI-In.md:74
+#: 11.1-MIDI-In.md:75
 msgid ""
 "There's a few things going on in the code above including some issues. Firstly"
 ", we have a simple `live_loop` which will repeat forever running the code betw"
@@ -9679,7 +9683,7 @@ msgstr ""
 "variabelen `note` en `velocity`. Tot slot kan de `:piano` synthesizer worden a"
 "angeroepen door onze noot."
 
-#: 11.1-MIDI-In.md:86
+#: 11.1-MIDI-In.md:87
 msgid ""
 "Now, you try it. Type in the code above, replace the sync key with a string ma"
 "tching your specific MIDI device and hit Run. Hey presto, you have a working p"
@@ -9697,7 +9701,7 @@ msgstr ""
 "en naar een amplitude. Er is gegeven dat MIDI een bereik heeft van 0->127, om "
 "dit te converteren naar een waarde tussen 0 en 1 kan worden gedeeld door 127:"
 
-#: 11.1-MIDI-In.md:95
+#: 11.1-MIDI-In.md:96
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
@@ -9710,7 +9714,7 @@ msgstr ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 
-#: 11.1-MIDI-In.md:102
+#: 11.1-MIDI-In.md:103
 msgid ""
 "Update the code and hit Run again. Now the velocity of the keyboard is honoure"
 "d. Next, let's get rid of that pesky pause."
@@ -9718,11 +9722,11 @@ msgstr ""
 "Update de code en klik opnieuw op Run. Nu zal de velocity van het keyboard wor"
 "den gehonoreerd. We kunnen nu die irritante pauze oplossen."
 
-#: 11.1-MIDI-In.md:105
+#: 11.1-MIDI-In.md:106
 msgid "Removing Latency"
 msgstr "Verwijderen van Latency"
 
-#: 11.1-MIDI-In.md:107
+#: 11.1-MIDI-In.md:108
 msgid ""
 "Before we can remove the pause, we need to know why it's there. In order to ke"
 "ep all the synths and FX well-timed across a variety of differently capable CP"
@@ -9755,7 +9759,7 @@ msgstr ""
 "via `sync`ing met externe apparaten en alle overige loops wel gewoon de standa"
 "ard latency gebruiken. Laten we hier naar kijken:"
 
-#: 11.1-MIDI-In.md:124
+#: 11.1-MIDI-In.md:125
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
@@ -9770,7 +9774,7 @@ msgstr ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 
-#: 11.1-MIDI-In.md:132
+#: 11.1-MIDI-In.md:133
 msgid ""
 "Update your code to match the code above and hit Run again. Now we have a low "
 "latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
@@ -9779,11 +9783,11 @@ msgstr ""
 "We hebben nu een piano met lage latency en variabele velocity gecodeerd in sle"
 "chts 5 regels. Was dat niet makkelijk!"
 
-#: 11.1-MIDI-In.md:136
+#: 11.1-MIDI-In.md:137
 msgid "Getting Values"
 msgstr "Waarden Ophalen"
 
-#: 11.1-MIDI-In.md:138
+#: 11.1-MIDI-In.md:139
 msgid ""
 "Finally, as our MIDI events are going straight into the Time State, we can als"
 "o use the `get` fn to retrieve the last seen value. This doesn't block the cur"
@@ -9802,11 +9806,11 @@ msgstr ""
 " vragen. Zelfs `time_warp` kan worden gebruikt om terug te gaan in de tijd en "
 "om via `get` events uit het verleden te bekijken..."
 
-#: 11.1-MIDI-In.md:147
+#: 11.1-MIDI-In.md:148
 msgid "Now You are in Control"
 msgstr "Nu heb jij de Besturing"
 
-#: 11.1-MIDI-In.md:149
+#: 11.1-MIDI-In.md:150
 msgid ""
 "The exciting thing now is that you can now use the same code structures to `sy"
 "nc` and `get` MIDI information from any MIDI device and do whatever you want w"
@@ -17660,9 +17664,9 @@ msgid ""
 "this in one synth. Try playing with the `detune:` opt of `:dsaw`, `:dpulse` an"
 "d `:dtri`."
 msgstr ""
-"Sommige van de ingebouwde synths beschikken reeds over een detune optie die "
-"exact dit toepast in één synth. Probeer te spelen met de ' detune: ' opt van "
-"': dsaw ',': dpulse' en ': dtri'."
+"Sommige van de ingebouwde synths beschikken reeds over een detune optie die ex"
+"act dit toepast in één synth. Probeer te spelen met de ' detune: ' opt van ': "
+"dsaw ',': dpulse' en ': dtri'."
 
 #: A.18-additive-synthesis.md:92
 msgid "Amplitude shaping"

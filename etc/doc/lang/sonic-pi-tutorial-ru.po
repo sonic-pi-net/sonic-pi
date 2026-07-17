@@ -7303,12 +7303,15 @@ msgstr "Что бы вы предпочли написать?"
 
 #: 08.2-Chords.md:67
 msgid ""
-"Note that `play_pattern` and `play_pattern_timed` alter the sustain of the not"
-"es to fill the times. You can remove this behavior by setting the `sustain:` o"
-"pt to `0`:"
+"Note that `play_pattern` and `play_pattern_timed` stretch the `sustain:` of ea"
+"ch note to fill the time until the next one. This is different from a plain `p"
+"lay`, which uses its normal envelope and lets the note fade away. Stretching t"
+"he sustain like this lets melodies and chords flow smoothly from one note into"
+" the next without you having to set envelope opts every time. If you'd prefer "
+"the notes to use their normal envelopes, set the `sustain:` opt to `0`:"
 msgstr ""
 
-#: 08.2-Chords.md:71
+#: 08.2-Chords.md:75
 #, no-wrap
 #, fuzzy
 msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5], sustain: 0"
@@ -9702,11 +9705,12 @@ msgid ""
 " need hardware support for your computer (for example, some sound cards have M"
 "IDI DIN connectors). Once you've connected your device, launch Sonic Pi and ta"
 "ke a look at the IO section of the Preferences panel. You should see your devi"
-"ce listed there. If not, try hitting the 'Reset MIDI' button and see if it app"
-"ears. If you're still not seeing anything, the next thing to try is to consult"
-" your operating system's MIDI config to see if it sees your device. Failing al"
-"l that, feel free to ask questions in our friendly forums: https://in-thread.s"
-"onic-pi.net"
+"ce listed there - devices are detected automatically, even when plugged in whi"
+"le Sonic Pi is running. If it doesn't appear, try unplugging it and plugging i"
+"t back in. If you're still not seeing anything, the next thing to try is to co"
+"nsult your operating system's MIDI config to see if it sees your device. Faili"
+"ng all that, feel free to ask questions in our friendly forums: https://in-thr"
+"ead.sonic-pi.net"
 msgstr ""
 "Чтобы получить информацию с внешнего MIDI-устройства в Sonic Pi, нам сначала н"
 "ужно подключить ее к нашему компьютеру. Как правило, это происходит через USB "
@@ -9720,11 +9724,11 @@ msgstr ""
 "нить, доступно ли она ваше устройство там. В противном случае, не стесняйтесь "
 "задавать вопросы в публичном чате: http://gitter.im/samaaron/sonic-pi"
 
-#: 11.1-MIDI-In.md:26
+#: 11.1-MIDI-In.md:27
 msgid "Receiving MIDI Events"
 msgstr "Прием событий MIDI"
 
-#: 11.1-MIDI-In.md:28
+#: 11.1-MIDI-In.md:29
 msgid ""
 "Once your device is connected, Sonic Pi will automatically receive events. You"
 " can see for yourself by manipulating your MIDI device and looking at the cue "
@@ -9738,7 +9742,7 @@ msgstr ""
 "если его не видно, перейдите в «Настройки» -> «Редактор» -> «Показать/Скрыть» "
 "и включите «Показать журнал сигналов»). Вы увидите поток событий, таких как:"
 
-#: 11.1-MIDI-In.md:35
+#: 11.1-MIDI-In.md:36
 #, no-wrap
 msgid ""
 "/midi:nanokey2_keyboard:0:1/note_off  [55, 64]\n"
@@ -9759,7 +9763,7 @@ msgstr ""
 "/midi:nanokey2_keyboard:0:1/note_on   [53, 96]\n"
 "/midi:nanokey2_keyboard:0:1/note_off  [55, 64]"
 
-#: 11.1-MIDI-In.md:46
+#: 11.1-MIDI-In.md:47
 msgid ""
 "Once you can see a stream of messages like this, you've successfully connected"
 " your MIDI device. Congratulations, let's see what we can do with it!"
@@ -9767,11 +9771,11 @@ msgstr ""
 "Как только вы увидите поток таких сообщений, вы успешно подключили ваше MIDI-у"
 "стройство. Поздравляем! Давайте посмотрим, что мы можем с этим сделать!"
 
-#: 11.1-MIDI-In.md:50
+#: 11.1-MIDI-In.md:51
 msgid "MIDI Time State"
 msgstr "Временные состояние MIDI"
 
-#: 11.1-MIDI-In.md:52
+#: 11.1-MIDI-In.md:53
 msgid ""
 "These events are broken into two sections. Firstly there's the name of the eve"
 "nt such as `/midi:nanokey2_keyboard:0:1/note_on` and secondly there's the valu"
@@ -9789,11 +9793,11 @@ msgstr ""
 "ть последнее значение MIDI, а также использовать`sync` для ожидания следующего"
 " MIDI значения, применяя все, что мы узнали в разделе 10 этого руководства."
 
-#: 11.1-MIDI-In.md:60
+#: 11.1-MIDI-In.md:61
 msgid "Controlling Code"
 msgstr "Контролируя код"
 
-#: 11.1-MIDI-In.md:62
+#: 11.1-MIDI-In.md:63
 msgid ""
 "Now we've connected a MIDI device, seen its events in the cue log and discover"
 "ed that our knowledge of Time State is all we need to work with the events, we"
@@ -9804,7 +9808,7 @@ msgstr ""
 "ытиями, теперь мы можем начать веселиться. Давайте создадим простое MIDI-пиани"
 "но:"
 
-#: 11.1-MIDI-In.md:67
+#: 11.1-MIDI-In.md:68
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
@@ -9817,7 +9821,7 @@ msgstr ""
 "  synth :piano, note: note\n"
 "end"
 
-#: 11.1-MIDI-In.md:74
+#: 11.1-MIDI-In.md:75
 #, fuzzy
 msgid ""
 "There's a few things going on in the code above including some issues. Firstly"
@@ -9843,7 +9847,7 @@ msgstr ""
 "сваиваем результат двум отдельным переменным `note` и` velocity`. Наконец, мы "
 "запускаем синтезатор `: piano`, передавая ему нашу ноту."
 
-#: 11.1-MIDI-In.md:86
+#: 11.1-MIDI-In.md:87
 #, fuzzy
 msgid ""
 "Now, you try it. Type in the code above, replace the sync key with a string ma"
@@ -9863,7 +9867,7 @@ msgstr ""
 "0-> 127, чтобы преобразовать это число в значение между 0-> 1, нам просто нужн"
 "о разделить его на 127:"
 
-#: 11.1-MIDI-In.md:95
+#: 11.1-MIDI-In.md:96
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
@@ -9876,7 +9880,7 @@ msgstr ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 
-#: 11.1-MIDI-In.md:102
+#: 11.1-MIDI-In.md:103
 msgid ""
 "Update the code and hit Run again. Now the velocity of the keyboard is honoure"
 "d. Next, let's get rid of that pesky pause."
@@ -9885,11 +9889,11 @@ msgstr ""
 "ости нажатия клавиш на клавиатуре соблюдается. Далее, давайте избавимся от это"
 "й досадной паузы."
 
-#: 11.1-MIDI-In.md:105
+#: 11.1-MIDI-In.md:106
 msgid "Removing Latency"
 msgstr "Устранение задержки"
 
-#: 11.1-MIDI-In.md:107
+#: 11.1-MIDI-In.md:108
 msgid ""
 "Before we can remove the pause, we need to know why it's there. In order to ke"
 "ep all the synths and FX well-timed across a variety of differently capable CP"
@@ -9924,7 +9928,7 @@ msgstr ""
 "нтролируется путем `синхронизации` с внешними устройствами, и сохранять задерж"
 "ку по умолчанию для всех других живых циклов. Давайте взглянем на это:"
 
-#: 11.1-MIDI-In.md:124
+#: 11.1-MIDI-In.md:125
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
@@ -9939,7 +9943,7 @@ msgstr ""
 "  synth :piano, note: note, amp: velocity / 127.0\n"
 "end"
 
-#: 11.1-MIDI-In.md:132
+#: 11.1-MIDI-In.md:133
 msgid ""
 "Update your code to match the code above and hit Run again. Now we have a low "
 "latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
@@ -9948,11 +9952,11 @@ msgstr ""
 "лнить». Теперь у нас есть пианино с низкой задержкой и переменной скоростью, к"
 "одируемое всего за 5 строк. Это было не так уж и просто!"
 
-#: 11.1-MIDI-In.md:136
+#: 11.1-MIDI-In.md:137
 msgid "Getting Values"
 msgstr "Получение значений"
 
-#: 11.1-MIDI-In.md:138
+#: 11.1-MIDI-In.md:139
 msgid ""
 "Finally, as our MIDI events are going straight into the Time State, we can als"
 "o use the `get` fn to retrieve the last seen value. This doesn't block the cur"
@@ -9971,11 +9975,11 @@ msgstr ""
 "е использовать `time_warp`, чтобы вернуться назад во времени, вызвать` get`  и"
 " увидеть прошедшие события ..."
 
-#: 11.1-MIDI-In.md:147
+#: 11.1-MIDI-In.md:148
 msgid "Now You are in Control"
 msgstr "Теперь контролируете Вы"
 
-#: 11.1-MIDI-In.md:149
+#: 11.1-MIDI-In.md:150
 msgid ""
 "The exciting thing now is that you can now use the same code structures to `sy"
 "nc` and `get` MIDI information from any MIDI device and do whatever you want w"

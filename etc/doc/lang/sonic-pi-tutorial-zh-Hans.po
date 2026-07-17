@@ -5620,12 +5620,15 @@ msgstr ""
 
 #: 08.2-Chords.md:67
 msgid ""
-"Note that `play_pattern` and `play_pattern_timed` alter the sustain of the not"
-"es to fill the times. You can remove this behavior by setting the `sustain:` o"
-"pt to `0`:"
+"Note that `play_pattern` and `play_pattern_timed` stretch the `sustain:` of ea"
+"ch note to fill the time until the next one. This is different from a plain `p"
+"lay`, which uses its normal envelope and lets the note fade away. Stretching t"
+"he sustain like this lets melodies and chords flow smoothly from one note into"
+" the next without you having to set envelope opts every time. If you'd prefer "
+"the notes to use their normal envelopes, set the `sustain:` opt to `0`:"
 msgstr ""
 
-#: 08.2-Chords.md:71
+#: 08.2-Chords.md:75
 #, no-wrap
 msgid "play_pattern_timed chord(:E3, :m13), [0.25, 0.5], sustain: 0"
 msgstr ""
@@ -7362,18 +7365,19 @@ msgid ""
 " need hardware support for your computer (for example, some sound cards have M"
 "IDI DIN connectors). Once you've connected your device, launch Sonic Pi and ta"
 "ke a look at the IO section of the Preferences panel. You should see your devi"
-"ce listed there. If not, try hitting the 'Reset MIDI' button and see if it app"
-"ears. If you're still not seeing anything, the next thing to try is to consult"
-" your operating system's MIDI config to see if it sees your device. Failing al"
-"l that, feel free to ask questions in our friendly forums: https://in-thread.s"
-"onic-pi.net"
+"ce listed there - devices are detected automatically, even when plugged in whi"
+"le Sonic Pi is running. If it doesn't appear, try unplugging it and plugging i"
+"t back in. If you're still not seeing anything, the next thing to try is to co"
+"nsult your operating system's MIDI config to see if it sees your device. Faili"
+"ng all that, feel free to ask questions in our friendly forums: https://in-thr"
+"ead.sonic-pi.net"
 msgstr ""
 
-#: 11.1-MIDI-In.md:26
+#: 11.1-MIDI-In.md:27
 msgid "Receiving MIDI Events"
 msgstr ""
 
-#: 11.1-MIDI-In.md:28
+#: 11.1-MIDI-In.md:29
 msgid ""
 "Once your device is connected, Sonic Pi will automatically receive events. You"
 " can see for yourself by manipulating your MIDI device and looking at the cue "
@@ -7382,7 +7386,7 @@ msgid ""
 "g' tickbox). You'll see a stream of events such as:"
 msgstr ""
 
-#: 11.1-MIDI-In.md:35
+#: 11.1-MIDI-In.md:36
 #, no-wrap
 msgid ""
 "/midi:nanokey2_keyboard:0:1/note_off  [55, 64]\n"
@@ -7395,17 +7399,17 @@ msgid ""
 "/midi:nanokey2_keyboard:0:1/note_off  [55, 64]"
 msgstr ""
 
-#: 11.1-MIDI-In.md:46
+#: 11.1-MIDI-In.md:47
 msgid ""
 "Once you can see a stream of messages like this, you've successfully connected"
 " your MIDI device. Congratulations, let's see what we can do with it!"
 msgstr ""
 
-#: 11.1-MIDI-In.md:50
+#: 11.1-MIDI-In.md:51
 msgid "MIDI Time State"
 msgstr ""
 
-#: 11.1-MIDI-In.md:52
+#: 11.1-MIDI-In.md:53
 msgid ""
 "These events are broken into two sections. Firstly there's the name of the eve"
 "nt such as `/midi:nanokey2_keyboard:0:1/note_on` and secondly there's the valu"
@@ -7416,18 +7420,18 @@ msgid ""
 "d in section 10 of this tutorial."
 msgstr ""
 
-#: 11.1-MIDI-In.md:60
+#: 11.1-MIDI-In.md:61
 msgid "Controlling Code"
 msgstr ""
 
-#: 11.1-MIDI-In.md:62
+#: 11.1-MIDI-In.md:63
 msgid ""
 "Now we've connected a MIDI device, seen its events in the cue log and discover"
 "ed that our knowledge of Time State is all we need to work with the events, we"
 " can now start having fun. Let's build a simple MIDI piano:"
 msgstr ""
 
-#: 11.1-MIDI-In.md:67
+#: 11.1-MIDI-In.md:68
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
@@ -7436,7 +7440,7 @@ msgid ""
 "end"
 msgstr ""
 
-#: 11.1-MIDI-In.md:74
+#: 11.1-MIDI-In.md:75
 msgid ""
 "There's a few things going on in the code above including some issues. Firstly"
 ", we have a simple `live_loop` which will repeat forever running the code betw"
@@ -7450,7 +7454,7 @@ msgid ""
 " we trigger the `:piano` synth passing our note."
 msgstr ""
 
-#: 11.1-MIDI-In.md:86
+#: 11.1-MIDI-In.md:87
 msgid ""
 "Now, you try it. Type in the code above, replace the sync key with a string ma"
 "tching your specific MIDI device and hit Run. Hey presto, you have a working p"
@@ -7461,7 +7465,7 @@ msgid ""
 " between 0->1 we just need to divide it by 127:"
 msgstr ""
 
-#: 11.1-MIDI-In.md:95
+#: 11.1-MIDI-In.md:96
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
@@ -7470,17 +7474,17 @@ msgid ""
 "end"
 msgstr ""
 
-#: 11.1-MIDI-In.md:102
+#: 11.1-MIDI-In.md:103
 msgid ""
 "Update the code and hit Run again. Now the velocity of the keyboard is honoure"
 "d. Next, let's get rid of that pesky pause."
 msgstr ""
 
-#: 11.1-MIDI-In.md:105
+#: 11.1-MIDI-In.md:106
 msgid "Removing Latency"
 msgstr ""
 
-#: 11.1-MIDI-In.md:107
+#: 11.1-MIDI-In.md:108
 msgid ""
 "Before we can remove the pause, we need to know why it's there. In order to ke"
 "ep all the synths and FX well-timed across a variety of differently capable CP"
@@ -7498,7 +7502,7 @@ msgid ""
 "nd keep the default latency for all other live loops. Let's see:"
 msgstr ""
 
-#: 11.1-MIDI-In.md:124
+#: 11.1-MIDI-In.md:125
 #, no-wrap
 msgid ""
 "live_loop :midi_piano do\n"
@@ -7508,17 +7512,17 @@ msgid ""
 "end"
 msgstr ""
 
-#: 11.1-MIDI-In.md:132
+#: 11.1-MIDI-In.md:133
 msgid ""
 "Update your code to match the code above and hit Run again. Now we have a low "
 "latency piano with variable velocity coded in just 5 lines. Wasn't that easy!"
 msgstr ""
 
-#: 11.1-MIDI-In.md:136
+#: 11.1-MIDI-In.md:137
 msgid "Getting Values"
 msgstr ""
 
-#: 11.1-MIDI-In.md:138
+#: 11.1-MIDI-In.md:139
 msgid ""
 "Finally, as our MIDI events are going straight into the Time State, we can als"
 "o use the `get` fn to retrieve the last seen value. This doesn't block the cur"
@@ -7529,11 +7533,11 @@ msgid ""
 "see past events..."
 msgstr ""
 
-#: 11.1-MIDI-In.md:147
+#: 11.1-MIDI-In.md:148
 msgid "Now You are in Control"
 msgstr ""
 
-#: 11.1-MIDI-In.md:149
+#: 11.1-MIDI-In.md:150
 msgid ""
 "The exciting thing now is that you can now use the same code structures to `sy"
 "nc` and `get` MIDI information from any MIDI device and do whatever you want w"
