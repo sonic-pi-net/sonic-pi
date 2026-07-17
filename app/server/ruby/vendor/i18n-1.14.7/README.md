@@ -1,7 +1,6 @@
 # Ruby I18n
 
-[![Gem Version](https://badge.fury.io/rb/i18n.svg)](https://badge.fury.io/rb/i18n)
-[![Build Status](https://github.com/ruby-i18n/i18n/workflows/Ruby/badge.svg)](https://github.com/ruby-i18n/i18n/actions?query=workflow%3ARuby)
+[![Gem Version](https://badge.fury.io/rb/i18n.svg)](https://badge.fury.io/rb/i18n) [![Build Status](https://github.com/ruby-i18n/i18n/workflows/Ruby/badge.svg)](https://github.com/ruby-i18n/i18n/actions?query=workflow%3ARuby)
 
 Ruby internationalization and localization (i18n) solution.
 
@@ -94,20 +93,13 @@ You can run all tests against all Gemfiles with
 
 * `ruby test/run_all.rb`
 
-The structure of the test suite is a bit unusual as it uses modules to reuse
-particular tests in different test cases.
+The structure of the test suite is a bit unusual as it uses modules to reuse particular tests in different test cases.
 
-The reason for this is that we need to enforce the I18n API across various
-combinations of extensions. E.g. the Simple backend alone needs to support
-the same API as any combination of feature and/or optimization modules included
-to the Simple backend. We test this by reusing the same API definition (implemented
-as test methods) in test cases with different setups.
+The reason for this is that we need to enforce the I18n API across various combinations of extensions. E.g. the Simple backend alone needs to support the same API as any combination of feature and/or optimization modules included to the Simple backend. We test this by reusing the same API definition (implemented as test methods) in test cases with different setups.
 
-You can find the test cases that enforce the API in test/api. And you can find
-the API definition test methods in test/api/tests.
+You can find the test cases that enforce the API in test/api. And you can find the API definition test methods in test/api/tests.
 
-All other test cases (e.g. as defined in test/backend, test/core_ext) etc.
-follow the usual test setup and should be easy to grok.
+All other test cases (e.g. as defined in test/backend, test/core_ext) etc. follow the usual test setup and should be easy to grok.
 
 ## More Documentation
 

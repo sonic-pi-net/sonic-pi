@@ -1,8 +1,7 @@
 <a id="top"></a>
 # Reference
 
-To get the most out of Catch2, start with the [tutorial](tutorial.md#top).
-Once you're up and running consider the following reference material.
+To get the most out of Catch2, start with the [tutorial](tutorial.md#top). Once you're up and running consider the following reference material.
 
 **Writing tests:**
 * [Assertion macros](assertions.md#top)

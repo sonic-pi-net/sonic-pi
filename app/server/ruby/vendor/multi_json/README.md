@@ -1,19 +1,13 @@
 # MultiJSON
 
-[![Gem Version](http://img.shields.io/gem/v/multi_json.svg)][gem]
-[![Build Status](http://img.shields.io/travis/intridea/multi_json.svg)][travis]
-[![Dependency Status](http://img.shields.io/gemnasium/intridea/multi_json.svg)][gemnasium]
-[![Code Climate](http://img.shields.io/codeclimate/github/intridea/multi_json.svg)][codeclimate]
+[![Gem Version](http://img.shields.io/gem/v/multi_json.svg)][gem] [![Build Status](http://img.shields.io/travis/intridea/multi_json.svg)][travis] [![Dependency Status](http://img.shields.io/gemnasium/intridea/multi_json.svg)][gemnasium] [![Code Climate](http://img.shields.io/codeclimate/github/intridea/multi_json.svg)][codeclimate]
 
 [gem]: https://rubygems.org/gems/multi_json
 [travis]: http://travis-ci.org/intridea/multi_json
 [gemnasium]: https://gemnasium.com/intridea/multi_json
 [codeclimate]: https://codeclimate.com/github/intridea/multi_json
 
-Lots of Ruby libraries parse JSON and everyone has their favorite JSON coder.
-Instead of choosing a single JSON coder and forcing users of your library to be
-stuck with it, you can use MultiJSON instead, which will simply choose the
-fastest available JSON coder. Here's how to use it:
+Lots of Ruby libraries parse JSON and everyone has their favorite JSON coder. Instead of choosing a single JSON coder and forcing users of your library to be stuck with it, you can use MultiJSON instead, which will simply choose the fastest available JSON coder. Here's how to use it:
 
 ```ruby
 require 'multi_json'
@@ -35,21 +29,13 @@ rescue MultiJson::ParseError => exception
 end
 ```
 
-`ParseError` instance has `cause` reader which contains the original exception.
-It also has `data` reader with the input that caused the problem.
+`ParseError` instance has `cause` reader which contains the original exception. It also has `data` reader with the input that caused the problem.
 
-The `use` method, which sets the MultiJson adapter, takes either a symbol or a
-class (to allow for custom JSON parsers) that responds to both `.load` and `.dump`
-at the class level.
+The `use` method, which sets the MultiJson adapter, takes either a symbol or a class (to allow for custom JSON parsers) that responds to both `.load` and `.dump` at the class level.
 
-When MultiJson fails to load the specified adapter, it'll throw `MultiJson::AdapterError`
-which inherits from `ArgumentError`.
+When MultiJson fails to load the specified adapter, it'll throw `MultiJson::AdapterError` which inherits from `ArgumentError`.
 
-MultiJSON tries to have intelligent defaulting. That is, if you have any of the
-supported engines already loaded, it will utilize them before attempting to
-load any. When loading, libraries are ordered by speed. First Oj, then Yajl,
-then the JSON gem, then JSON pure. If no other JSON library is available,
-MultiJSON falls back to [OkJson][], a simple, vendorable JSON parser.
+MultiJSON tries to have intelligent defaulting. That is, if you have any of the supported engines already loaded, it will utilize them before attempting to load any. When loading, libraries are ordered by speed. First Oj, then Yajl, then the JSON gem, then JSON pure. If no other JSON library is available, MultiJSON falls back to [OkJson][], a simple, vendorable JSON parser.
 
 [okjson]: https://github.com/kr/okjson
 
@@ -65,8 +51,7 @@ MultiJSON falls back to [OkJson][], a simple, vendorable JSON parser.
 * [OkJson][okjson] A simple, vendorable JSON parser
 
 ## Supported Ruby Versions
-This library aims to support and is [tested against][travis] the following Ruby
-implementations:
+This library aims to support and is [tested against][travis] the following Ruby implementations:
 
 * Ruby 1.8.7
 * Ruby 1.9.2
@@ -84,27 +69,13 @@ implementations:
 
 If something doesn't work on one of these interpreters, it's a bug.
 
-This library may inadvertently work (or seem to work) on other Ruby
-implementations, however support will only be provided for the versions listed
-above.
+This library may inadvertently work (or seem to work) on other Ruby implementations, however support will only be provided for the versions listed above.
 
-If you would like this library to support another Ruby version, you may
-volunteer to be a maintainer. Being a maintainer entails making sure all tests
-run and pass on that implementation. When something breaks on your
-implementation, you will be responsible for providing patches in a timely
-fashion. If critical issues for a particular implementation exist at the time
-of a major release, support for that Ruby version may be dropped.
+If you would like this library to support another Ruby version, you may volunteer to be a maintainer. Being a maintainer entails making sure all tests run and pass on that implementation. When something breaks on your implementation, you will be responsible for providing patches in a timely fashion. If critical issues for a particular implementation exist at the time of a major release, support for that Ruby version may be dropped.
 
 ## Versioning
 
-This library aims to adhere to [Semantic Versioning 2.0.0][semver]. Violations
-of this scheme should be reported as bugs. Specifically, if a minor or patch
-version is released that breaks backward compatibility, that version should be
-immediately yanked and/or a new version should be immediately released that
-restores compatibility. Breaking changes to the public API will only be
-introduced with new major versions. As a result of this policy, you can (and
-should) specify a dependency on this gem using the [Pessimistic Version
-Constraint][pvc] with two digits of precision. For example:
+This library aims to adhere to [Semantic Versioning 2.0.0][semver]. Violations of this scheme should be reported as bugs. Specifically, if a minor or patch version is released that breaks backward compatibility, that version should be immediately yanked and/or a new version should be immediately released that restores compatibility. Breaking changes to the public API will only be introduced with new major versions. As a result of this policy, you can (and should) specify a dependency on this gem using the [Pessimistic Version Constraint][pvc] with two digits of precision. For example:
 
 ```ruby
 spec.add_dependency 'multi_json', '~> 1.0'
@@ -114,7 +85,6 @@ spec.add_dependency 'multi_json', '~> 1.0'
 [pvc]: http://docs.rubygems.org/read/chapter/16#page74
 
 ## Copyright
-Copyright (c) 2010-2013 Michael Bleigh, Josh Kalderimis, Erik Michaels-Ober,
-and Pavel Pravosud. See [LICENSE][] for details.
+Copyright (c) 2010-2013 Michael Bleigh, Josh Kalderimis, Erik Michaels-Ober, and Pavel Pravosud. See [LICENSE][] for details.
 
 [license]: LICENSE.md

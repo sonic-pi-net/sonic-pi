@@ -4,9 +4,7 @@
 -  Inspired by Akka and Erlang.
 -  Modular.
 
-This Actor model implementation makes actors very cheap to create and discard.
-Thousands of actors can be created, allowing you to break the program into smaller 
-maintainable pieces, without violating the single responsibility principle.
+This Actor model implementation makes actors very cheap to create and discard. Thousands of actors can be created, allowing you to break the program into smaller maintainable pieces, without violating the single responsibility principle.
 
 ## What is an actor model?
 
@@ -16,12 +14,7 @@ were first  written about four decades ago, which has led to a serious fragmenta
 There is *no* universally accepted, strict definition of "actor" and actor implementations differ widely between 
 languages and libraries.  
 
-[Wiki](http://en.wikipedia.org/wiki/Actor_model) definition is pretty good:
-_The actor model in computer science is a mathematical model of concurrent computation
-that treats **actors** as the universal primitives of concurrent digital computation:
-in response to a message that it receives, an actor can make local decisions,
-create more actors, send more messages, and determine how to respond to the next
-message received._
+[Wiki](http://en.wikipedia.org/wiki/Actor_model) definition is pretty good: _The actor model in computer science is a mathematical model of concurrent computation that treats **actors** as the universal primitives of concurrent digital computation: in response to a message that it receives, an actor can make local decisions, create more actors, send more messages, and determine how to respond to the next message received._
 
 ## Why?
 
@@ -79,8 +72,7 @@ counter.ask(0).value
 -   {Concurrent::Actor::Reference#ask!}
     {include:Concurrent::Actor::Reference#ask!}
 
-Messages are processed in same order as they are sent by a sender. It may interleaved with
-messages from other senders though.
+Messages are processed in same order as they are sent by a sender. It may interleaved with messages from other senders though.
 
 ### Immutability
 
@@ -122,9 +114,7 @@ Spawned actor cannot be garbage-collected until it's terminated. There is a refe
 
 ## IO cooperation
 
-Actors are running on shared thread poll which allows user to create many actors cheaply.
-Downside is that these actors cannot be directly used to do IO or other blocking operations.
-Blocking operations could starve the `global_fast_executor`. However there are two options:
+Actors are running on shared thread poll which allows user to create many actors cheaply. Downside is that these actors cannot be directly used to do IO or other blocking operations. Blocking operations could starve the `global_fast_executor`. However there are two options:
 
 - Create an regular actor which will schedule blocking operations in `global_io_executor`
   (which is intended for blocking operations) sending results back to self in messages.
@@ -149,8 +139,7 @@ Alleged supervisor will receive errors from its supervised actors. They'll have 
 
 ### How to change supervision strategy?
 
-Use option `behaviour_definition: Behaviour.restarting_behaviour_definition(:resume!)` or 
-`behaviour_definition: Behaviour.restarting_behaviour_definition(:reset!, :one_for_all)`
+Use option `behaviour_definition: Behaviour.restarting_behaviour_definition(:resume!)` or `behaviour_definition: Behaviour.restarting_behaviour_definition(:reset!, :one_for_all)`
 
 ### How to change behaviors?
 
@@ -158,19 +147,13 @@ Any existing behavior can be subclassed
 
 ### How to implement custom restarting?
 
-By subclassing {Behaviour::Pausing} and overriding {Behaviour::Pausing#restart!}. Implementing 
-{AbstractContext#on_event} could be also considered.
+By subclassing {Behaviour::Pausing} and overriding {Behaviour::Pausing#restart!}. Implementing {AbstractContext#on_event} could be also considered.
 
-_We'll be happy to answer any other questions, 
-just [open an Issue](https://github.com/ruby-concurrency/concurrent-ruby/issues/new) or find us on 
-https://gitter.im/ruby-concurrency/concurrent-ruby._
+_We'll be happy to answer any other questions, just [open an Issue](https://github.com/ruby-concurrency/concurrent-ruby/issues/new) or find us on https://gitter.im/ruby-concurrency/concurrent-ruby._
 
 ## Speed
 
-Simple benchmark Actor vs Celluloid, the numbers are looking good
-but you know how it is with benchmarks. Source code is in
-`examples/actor/celluloid_benchmark.rb`. It sends numbers between x actors
-and adding 1 until certain limit is reached.
+Simple benchmark Actor vs Celluloid, the numbers are looking good but you know how it is with benchmarks. Source code is in `examples/actor/celluloid_benchmark.rb`. It sends numbers between x actors and adding 1 until certain limit is reached.
 
 Benchmark legend:
 
@@ -224,5 +207,4 @@ Benchmark legend:
     50000 1500 concurrent   5.580000   0.760000   6.340000 (  6.038535)
     50000 1500 celluloid   20.000000  11.680000  31.680000 ( 29.590774) (1)
 
-*Note (1):* Celluloid is using thread per actor so this bench is creating about 1500
-native threads. Actor is using constant number of threads.
+*Note (1):* Celluloid is using thread per actor so this bench is creating about 1500 native threads. Actor is using constant number of threads.

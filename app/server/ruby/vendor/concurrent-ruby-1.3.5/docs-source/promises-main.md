@@ -1,25 +1,10 @@
-Promises is a new framework unifying former tools `Concurrent::Future`,
-`Concurrent::Promise`, `Concurrent::IVar`, `Concurrent::Event`,
-`Concurrent.dataflow`, `Delay`, and `TimerTask` of concurrent-ruby. It
-extensively uses the new synchronization layer to make all the methods
-*lock-free* (with the exception of obviously blocking operations like `#wait`,
-`#value`, etc.). As a result it lowers danger of deadlocking and offers
-better performance.
+Promises is a new framework unifying former tools `Concurrent::Future`, `Concurrent::Promise`, `Concurrent::IVar`, `Concurrent::Event`, `Concurrent.dataflow`, `Delay`, and `TimerTask` of concurrent-ruby. It extensively uses the new synchronization layer to make all the methods *lock-free* (with the exception of obviously blocking operations like `#wait`, `#value`, etc.). As a result it lowers danger of deadlocking and offers better performance.
 
-It provides similar tools as other promise libraries do, users coming from
-other languages and other promise libraries will find the same tools here
-(probably named differently though). The naming conventions were borrowed
-heavily from JS promises.
+It provides similar tools as other promise libraries do, users coming from other languages and other promise libraries will find the same tools here (probably named differently though). The naming conventions were borrowed heavily from JS promises.
   
-This framework, however, is not just a re-implementation of other promise
-library, it draws inspiration from many other promise libraries, adds new
-ideas, and is integrated with other abstractions like actors and channels.
+This framework, however, is not just a re-implementation of other promise library, it draws inspiration from many other promise libraries, adds new ideas, and is integrated with other abstractions like actors and channels.
 
-Therefore it is likely that user will find a suitable solution for a problem in
-this framework. If the problem is simple user can pick one suitable
-abstraction, e.g. just promises or actors. If the problem is complex user can
-combine parts (promises, channels, actors) which were designed to work together
-well to a solution. Rather than having to combine fragilely independent tools.
+Therefore it is likely that user will find a suitable solution for a problem in this framework. If the problem is simple user can pick one suitable abstraction, e.g. just promises or actors. If the problem is complex user can combine parts (promises, channels, actors) which were designed to work together well to a solution. Rather than having to combine fragilely independent tools.
 
 This framework allows its users to:
 
@@ -45,9 +30,7 @@ This framework allows its users to:
 
 # Main classes
 
-The main public user-facing classes are {Concurrent::Promises::Event} and
-{Concurrent::Promises::Future} which share common ancestor
-{Concurrent::Promises::AbstractEventFuture}.
+The main public user-facing classes are {Concurrent::Promises::Event} and {Concurrent::Promises::Future} which share common ancestor {Concurrent::Promises::AbstractEventFuture}.
 
 **{Concurrent::Promises::AbstractEventFuture}:** 
 > {include:Concurrent::Promises::AbstractEventFuture}

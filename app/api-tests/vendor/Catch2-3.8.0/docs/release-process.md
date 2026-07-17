@@ -10,9 +10,7 @@ These steps are necessary and have to be performed before each new release. They
 
 ### Testing
 
-All of the tests are currently run in our CI setup based on TravisCI and
-AppVeyor. As long as the last commit tested green, the release can
-proceed.
+All of the tests are currently run in our CI setup based on TravisCI and AppVeyor. As long as the last commit tested green, the release can proceed.
 
 
 ### Incrementing version number
@@ -21,8 +19,7 @@ Catch uses a variant of [semantic versioning](http://semver.org/), with breaking
 
 After deciding which part of version number should be incremented, you can use one of the `*Release.py` scripts to perform the required changes to Catch.
 
-This will take care of generating the single include header, updating
-version numbers everywhere and pushing the new version to Wandbox.
+This will take care of generating the single include header, updating version numbers everywhere and pushing the new version to Wandbox.
 
 
 ### Release notes
@@ -37,26 +34,19 @@ After version number is incremented, single-include header is regenerated and re
 
 ### Release on GitHub
 
-After pushing changes to GitHub, GitHub release *needs* to be created.
-Tag version and release title should be same as the new version,
-description should contain the release notes for the current release.
-We also attach the two amalgamated files as "binaries".
+After pushing changes to GitHub, GitHub release *needs* to be created. Tag version and release title should be same as the new version, description should contain the release notes for the current release. We also attach the two amalgamated files as "binaries".
 
-Since 2.5.0, the release tag and the "binaries" (amalgamated files) should
-be PGP signed.
+Since 2.5.0, the release tag and the "binaries" (amalgamated files) should be PGP signed.
 
 #### Signing a tag
 
-To create a signed tag, use `git tag -s <VERSION>`, where `<VERSION>`
-is the version being released, e.g. `git tag -s v2.6.0`.
+To create a signed tag, use `git tag -s <VERSION>`, where `<VERSION>` is the version being released, e.g. `git tag -s v2.6.0`.
 
-Use the version name as the short message and the release notes as
-the body (long) message.
+Use the version name as the short message and the release notes as the body (long) message.
 
 #### Signing the amalgamated files
 
-This will create ASCII-armored signatures for the two amalgamated files
-that are uploaded to the GitHub release:
+This will create ASCII-armored signatures for the two amalgamated files that are uploaded to the GitHub release:
 
 ```
 gpg --armor --output extras/catch_amalgamated.hpp.asc --detach-sig extras/catch_amalgamated.hpp

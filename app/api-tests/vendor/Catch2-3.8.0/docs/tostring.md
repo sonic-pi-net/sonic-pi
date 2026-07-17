@@ -1,17 +1,10 @@
 <a id="top"></a>
 # String conversions
 
-**Contents**<br>
-[operator << overload for std::ostream](#operator--overload-for-stdostream)<br>
-[Catch::StringMaker specialisation](#catchstringmaker-specialisation)<br>
-[Catch::is_range specialisation](#catchis_range-specialisation)<br>
-[Exceptions](#exceptions)<br>
-[Enums](#enums)<br>
-[Floating point precision](#floating-point-precision)<br>
+**Contents**<br> [operator << overload for std::ostream](#operator--overload-for-stdostream)<br> [Catch::StringMaker specialisation](#catchstringmaker-specialisation)<br> [Catch::is_range specialisation](#catchis_range-specialisation)<br> [Exceptions](#exceptions)<br> [Enums](#enums)<br> [Floating point precision](#floating-point-precision)<br>
 
 
-Catch needs to be able to convert types you use in assertions and logging expressions into strings (for logging and reporting purposes).
-Most built-in or std types are supported out of the box but there are two ways that you can tell Catch how to convert your own types (or other, third-party types) into strings.
+Catch needs to be able to convert types you use in assertions and logging expressions into strings (for logging and reporting purposes). Most built-in or std types are supported out of the box but there are two ways that you can tell Catch how to convert your own types (or other, third-party types) into strings.
 
 ## operator << overload for std::ostream
 
@@ -43,10 +36,7 @@ namespace Catch {
 ```
 
 ## Catch::is_range specialisation
-As a fallback, Catch attempts to detect if the type can be iterated
-(`begin(T)` and `end(T)` are valid) and if it can be, it is stringified
-as a range. For certain types this can lead to infinite recursion, so
-it can be disabled by specializing `Catch::is_range` like so:
+As a fallback, Catch attempts to detect if the type can be iterated (`begin(T)` and `end(T)` are valid) and if it can be, it is stringified as a range. For certain types this can lead to infinite recursion, so it can be disabled by specializing `Catch::is_range` like so:
 
 ```cpp
 namespace Catch {
@@ -73,10 +63,7 @@ CATCH_TRANSLATE_EXCEPTION( MyType const& ex ) {
 
 > Introduced in Catch2 2.8.0.
 
-Enums that already have a `<<` overload for `std::ostream` will convert to strings as expected.
-If you only need to convert enums to strings for test reporting purposes you can provide a `StringMaker` specialisations as any other type.
-However, as a convenience, Catch provides the `CATCH_REGISTER_ENUM` helper macro that will generate the `StringMaker` specialisation for you with minimal code.
-Simply provide it the (qualified) enum name, followed by all the enum values, and you're done!
+Enums that already have a `<<` overload for `std::ostream` will convert to strings as expected. If you only need to convert enums to strings for test reporting purposes you can provide a `StringMaker` specialisations as any other type. However, as a convenience, Catch provides the `CATCH_REGISTER_ENUM` helper macro that will generate the `StringMaker` specialisation for you with minimal code. Simply provide it the (qualified) enum name, followed by all the enum values, and you're done!
 
 E.g.
 
@@ -112,10 +99,7 @@ TEST_CASE() {
 
 > [Introduced](https://github.com/catchorg/Catch2/issues/1614) in Catch2 2.8.0.
 
-Catch provides a built-in `StringMaker` specialization for both `float`
-and `double`. By default, it uses what we think is a reasonable precision,
-but you can customize it by modifying the `precision` static variable
-inside the `StringMaker` specialization, like so:
+Catch provides a built-in `StringMaker` specialization for both `float` and `double`. By default, it uses what we think is a reasonable precision, but you can customize it by modifying the `precision` static variable inside the `StringMaker` specialization, like so:
 
 ```cpp
         Catch::StringMaker<float>::precision = 15;
@@ -124,8 +108,7 @@ inside the `StringMaker` specialization, like so:
         REQUIRE(testFloat1 == testFloat2);
 ```
 
-This assertion will fail and print out the `testFloat1` and `testFloat2`
-to 15 decimal places.
+This assertion will fail and print out the `testFloat1` and `testFloat2` to 15 decimal places.
 
 ---
 

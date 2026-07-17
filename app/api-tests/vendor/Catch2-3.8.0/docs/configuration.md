@@ -1,27 +1,9 @@
 <a id="top"></a>
 # Compile-time configuration
 
-**Contents**<br>
-[Prefixing Catch macros](#prefixing-catch-macros)<br>
-[Terminal colour](#terminal-colour)<br>
-[Console width](#console-width)<br>
-[stdout](#stdout)<br>
-[Fallback stringifier](#fallback-stringifier)<br>
-[Default reporter](#default-reporter)<br>
-[Bazel support](#bazel-support)<br>
-[C++11 toggles](#c11-toggles)<br>
-[C++17 toggles](#c17-toggles)<br>
-[Other toggles](#other-toggles)<br>
-[Enabling stringification](#enabling-stringification)<br>
-[Disabling exceptions](#disabling-exceptions)<br>
-[Overriding Catch's debug break (`-b`)](#overriding-catchs-debug-break--b)<br>
-[Static analysis support](#static-analysis-support)<br>
+**Contents**<br> [Prefixing Catch macros](#prefixing-catch-macros)<br> [Terminal colour](#terminal-colour)<br> [Console width](#console-width)<br> [stdout](#stdout)<br> [Fallback stringifier](#fallback-stringifier)<br> [Default reporter](#default-reporter)<br> [Bazel support](#bazel-support)<br> [C++11 toggles](#c11-toggles)<br> [C++17 toggles](#c17-toggles)<br> [Other toggles](#other-toggles)<br> [Enabling stringification](#enabling-stringification)<br> [Disabling exceptions](#disabling-exceptions)<br> [Overriding Catch's debug break (`-b`)](#overriding-catchs-debug-break--b)<br> [Static analysis support](#static-analysis-support)<br>
 
-Catch2 is designed to "just work" as much as possible, and most of the
-configuration options below are changed automatically during compilation,
-according to the detected environment. However, this detection can also
-be overridden by users, using macros documented below, and/or CMake options
-with the same name.
+Catch2 is designed to "just work" as much as possible, and most of the configuration options below are changed automatically during compilation, according to the detected environment. However, this detection can also be overridden by users, using macros documented below, and/or CMake options with the same name.
 
 
 ## Prefixing Catch macros
@@ -39,74 +21,51 @@ To keep test code clean and uncluttered Catch uses short macro names (e.g. ```TE
 
 Yes, Catch2 uses the british spelling of colour.
 
-Catch2 attempts to autodetect whether the Win32 console colouring API,
-`SetConsoleTextAttribute`, is available, and if it is available it compiles
-in a console colouring implementation that uses it.
+Catch2 attempts to autodetect whether the Win32 console colouring API, `SetConsoleTextAttribute`, is available, and if it is available it compiles in a console colouring implementation that uses it.
 
-This option can be used to override Catch2's autodetection and force the
-compilation either ON or OFF.
+This option can be used to override Catch2's autodetection and force the compilation either ON or OFF.
 
 
 ## Console width
 
     CATCH_CONFIG_CONSOLE_WIDTH = x // where x is a number
 
-Catch formats output intended for the console to fit within a fixed number of characters. This is especially important as indentation is used extensively and uncontrolled line wraps break this.
-By default a console width of 80 is assumed but this can be controlled by defining the above identifier to be a different value.
+Catch formats output intended for the console to fit within a fixed number of characters. This is especially important as indentation is used extensively and uncontrolled line wraps break this. By default a console width of 80 is assumed but this can be controlled by defining the above identifier to be a different value.
 
 ## stdout
 
     CATCH_CONFIG_NOSTDOUT
 
-To support platforms that do not provide `std::cout`, `std::cerr` and
-`std::clog`, Catch does not use them directly, but rather calls
-`Catch::cout`, `Catch::cerr` and `Catch::clog`. You can replace their
-implementation by defining `CATCH_CONFIG_NOSTDOUT` and implementing
-them yourself, their signatures are:
+To support platforms that do not provide `std::cout`, `std::cerr` and `std::clog`, Catch does not use them directly, but rather calls `Catch::cout`, `Catch::cerr` and `Catch::clog`. You can replace their implementation by defining `CATCH_CONFIG_NOSTDOUT` and implementing them yourself, their signatures are:
 
     std::ostream& cout();
     std::ostream& cerr();
     std::ostream& clog();
 
-[You can see an example of replacing these functions here.](
-../examples/231-Cfg-OutputStreams.cpp)
+[You can see an example of replacing these functions here.]( ../examples/231-Cfg-OutputStreams.cpp)
 
 
 ## Fallback stringifier
 
-By default, when Catch's stringification machinery has to stringify
-a type that does not specialize `StringMaker`, does not overload `operator<<`,
-is not an enumeration and is not a range, it uses `"{?}"`. This can be
-overridden by defining `CATCH_CONFIG_FALLBACK_STRINGIFIER` to name of a
-function that should perform the stringification instead.
+By default, when Catch's stringification machinery has to stringify a type that does not specialize `StringMaker`, does not overload `operator<<`, is not an enumeration and is not a range, it uses `"{?}"`. This can be overridden by defining `CATCH_CONFIG_FALLBACK_STRINGIFIER` to name of a function that should perform the stringification instead.
 
-All types that do not provide `StringMaker` specialization or `operator<<`
-overload will be sent to this function (this includes enums and ranges).
-The provided function must return `std::string` and must accept any type,
-e.g. via overloading.
+All types that do not provide `StringMaker` specialization or `operator<<` overload will be sent to this function (this includes enums and ranges). The provided function must return `std::string` and must accept any type, e.g. via overloading.
 
-_Note that if the provided function does not handle a type and this type
-requires to be stringified, the compilation will fail._
+_Note that if the provided function does not handle a type and this type requires to be stringified, the compilation will fail._
 
 
 ## Default reporter
 
-Catch's default reporter can be changed by defining macro
-`CATCH_CONFIG_DEFAULT_REPORTER` to string literal naming the desired
-default reporter.
+Catch's default reporter can be changed by defining macro `CATCH_CONFIG_DEFAULT_REPORTER` to string literal naming the desired default reporter.
 
-This means that defining `CATCH_CONFIG_DEFAULT_REPORTER` to `"console"`
-is equivalent with the out-of-the-box experience.
+This means that defining `CATCH_CONFIG_DEFAULT_REPORTER` to `"console"` is equivalent with the out-of-the-box experience.
 
 
 ## Bazel support
 
-Compiling Catch2 with `CATCH_CONFIG_BAZEL_SUPPORT` force-enables Catch2's
-support for Bazel's environment variables (normally Catch2 looks for
-`BAZEL_TEST=1` env var first).
+Compiling Catch2 with `CATCH_CONFIG_BAZEL_SUPPORT` force-enables Catch2's support for Bazel's environment variables (normally Catch2 looks for `BAZEL_TEST=1` env var first).
 
-This can be useful if you are using older versions of Bazel, that do not
-yet have `BAZEL_TEST` env var support.
+This can be useful if you are using older versions of Bazel, that do not yet have `BAZEL_TEST` env var support.
 
 > `CATCH_CONFIG_BAZEL_SUPPORT` was [introduced](https://github.com/catchorg/Catch2/pull/2399) in Catch2 3.0.1.
 
@@ -117,13 +76,7 @@ yet have `BAZEL_TEST` env var support.
 
     CATCH_CONFIG_CPP11_TO_STRING // Use `std::to_string`
 
-Because we support platforms whose standard library does not contain
-`std::to_string`, it is possible to force Catch to use a workaround
-based on `std::stringstream`. On platforms other than Android,
-the default is to use `std::to_string`. On Android, the default is to
-use the `stringstream` workaround. As always, it is possible to override
-Catch's selection, by defining either `CATCH_CONFIG_CPP11_TO_STRING` or
-`CATCH_CONFIG_NO_CPP11_TO_STRING`.
+Because we support platforms whose standard library does not contain `std::to_string`, it is possible to force Catch to use a workaround based on `std::stringstream`. On platforms other than Android, the default is to use `std::to_string`. On Android, the default is to use the `stringstream` workaround. As always, it is possible to override Catch's selection, by defining either `CATCH_CONFIG_CPP11_TO_STRING` or `CATCH_CONFIG_NO_CPP11_TO_STRING`.
 
 
 ## C++17 toggles
@@ -136,11 +89,7 @@ Catch's selection, by defining either `CATCH_CONFIG_CPP11_TO_STRING` or
 
 > `CATCH_CONFIG_CPP17_STRING_VIEW` was [introduced](https://github.com/catchorg/Catch2/issues/1376) in Catch2 2.4.1.
 
-Catch contains basic compiler/standard detection and attempts to use
-some C++17 features whenever appropriate. This automatic detection
-can be manually overridden in both directions, that is, a feature
-can be enabled by defining the macro in the table above, and disabled
-by using `_NO_` in the macro, e.g. `CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS`.
+Catch contains basic compiler/standard detection and attempts to use some C++17 features whenever appropriate. This automatic detection can be manually overridden in both directions, that is, a feature can be enabled by defining the macro in the table above, and disabled by using `_NO_` in the macro, e.g. `CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS`.
 
 
 ## Other toggles
@@ -170,37 +119,21 @@ Currently Catch enables `CATCH_CONFIG_WINDOWS_SEH` only when compiled with MSVC,
 
 `CATCH_CONFIG_POSIX_SIGNALS` is on by default, except when Catch is compiled under `Cygwin`, where it is disabled by default (but can be force-enabled by defining `CATCH_CONFIG_POSIX_SIGNALS`).
 
-`CATCH_CONFIG_GETENV` is on by default, except when Catch2 is compiled for
-platforms that lacks working `std::getenv` (currently Windows UWP and
-Playstation).
+`CATCH_CONFIG_GETENV` is on by default, except when Catch2 is compiled for platforms that lacks working `std::getenv` (currently Windows UWP and Playstation).
 
-`CATCH_CONFIG_WINDOWS_CRTDBG` is off by default. If enabled, Windows's
-CRT is used to check for memory leaks, and displays them after the tests
-finish running. This option only works when linking against the default
-main, and must be defined for the whole library build.
+`CATCH_CONFIG_WINDOWS_CRTDBG` is off by default. If enabled, Windows's CRT is used to check for memory leaks, and displays them after the tests finish running. This option only works when linking against the default main, and must be defined for the whole library build.
 
-`CATCH_CONFIG_WCHAR` is on by default, but can be disabled. Currently
-it is only used in support for DJGPP cross-compiler.
+`CATCH_CONFIG_WCHAR` is on by default, but can be disabled. Currently it is only used in support for DJGPP cross-compiler.
 
-With the exception of `CATCH_CONFIG_EXPERIMENTAL_REDIRECT`,
-these toggles can be disabled by using `_NO_` form of the toggle,
-e.g. `CATCH_CONFIG_NO_WINDOWS_SEH`.
+With the exception of `CATCH_CONFIG_EXPERIMENTAL_REDIRECT`, these toggles can be disabled by using `_NO_` form of the toggle, e.g. `CATCH_CONFIG_NO_WINDOWS_SEH`.
 
-`CATCH_CONFIG_USE_BUILTIN_CONSTANT_P` is ON by default for Clang and GCC
-(but as far as possible, not for other compilers masquerading for these
-two). However, it can cause bugs where the enclosed code is evaluated, even
-though it should not be, e.g. in [#2925](https://github.com/catchorg/Catch2/issues/2925).
+`CATCH_CONFIG_USE_BUILTIN_CONSTANT_P` is ON by default for Clang and GCC (but as far as possible, not for other compilers masquerading for these two). However, it can cause bugs where the enclosed code is evaluated, even though it should not be, e.g. in [#2925](https://github.com/catchorg/Catch2/issues/2925).
 
 
 ### `CATCH_CONFIG_FAST_COMPILE`
-This compile-time flag speeds up compilation of assertion macros by ~20%,
-by disabling the generation of assertion-local try-catch blocks for
-non-exception family of assertion macros ({`REQUIRE`,`CHECK`}{``,`_FALSE`, `_THAT`}).
-This disables translation of exceptions thrown under these assertions, but
-should not lead to false negatives.
+This compile-time flag speeds up compilation of assertion macros by ~20%, by disabling the generation of assertion-local try-catch blocks for non-exception family of assertion macros ({`REQUIRE`,`CHECK`}{``,`_FALSE`, `_THAT`}). This disables translation of exceptions thrown under these assertions, but should not lead to false negatives.
 
-`CATCH_CONFIG_FAST_COMPILE` has to be either defined, or not defined,
-in all translation units that are linked into single test binary.
+`CATCH_CONFIG_FAST_COMPILE` has to be either defined, or not defined, in all translation units that are linked into single test binary.
 
 ### `CATCH_CONFIG_DISABLE_STRINGIFICATION`
 This toggle enables a workaround for VS 2017 bug. For details see [known limitations](limitations.md#visual-studio-2017----raw-string-literal-in-assert-fails-to-compile).
@@ -231,26 +164,19 @@ By default, Catch does not stringify some types from the standard library. This 
 
 > Introduced in Catch2 2.4.0.
 
-By default, Catch2 uses exceptions to signal errors and to abort tests
-when an assertion from the `REQUIRE` family of assertions fails. We also
-provide an experimental support for disabling exceptions. Catch2 should
-automatically detect when it is compiled with exceptions disabled, but
-it can be forced to compile without exceptions by defining
+By default, Catch2 uses exceptions to signal errors and to abort tests when an assertion from the `REQUIRE` family of assertions fails. We also provide an experimental support for disabling exceptions. Catch2 should automatically detect when it is compiled with exceptions disabled, but it can be forced to compile without exceptions by defining
 
     CATCH_CONFIG_DISABLE_EXCEPTIONS
 
-Note that when using Catch2 without exceptions, there are 2 major
-limitations:
+Note that when using Catch2 without exceptions, there are 2 major limitations:
 
 1) If there is an error that would normally be signalled by an exception,
-the exception's message will instead be written to `Catch::cerr` and
-`std::terminate` will be called.
+the exception's message will instead be written to `Catch::cerr` and `std::terminate` will be called.
 2) If an assertion from the `REQUIRE` family of macros fails,
 `std::terminate` will be called after the active reporter returns.
 
 
-There is also a customization point for the exact behaviour of what
-happens instead of exception being thrown. To use it, define
+There is also a customization point for the exact behaviour of what happens instead of exception being thrown. To use it, define
 
     CATCH_CONFIG_DISABLE_EXCEPTIONS_CUSTOM_HANDLER
 
@@ -267,36 +193,27 @@ namespace Catch {
 
 > [Introduced](https://github.com/catchorg/Catch2/pull/1846) in Catch2 2.11.2.
 
-You can override Catch2's break-into-debugger code by defining the
-`CATCH_BREAK_INTO_DEBUGGER()` macro. This can be used if e.g. Catch2 does
-not know your platform, or your platform is misdetected.
+You can override Catch2's break-into-debugger code by defining the `CATCH_BREAK_INTO_DEBUGGER()` macro. This can be used if e.g. Catch2 does not know your platform, or your platform is misdetected.
 
-The macro will be used as is, that is, `CATCH_BREAK_INTO_DEBUGGER();`
-must compile and must break into debugger.
+The macro will be used as is, that is, `CATCH_BREAK_INTO_DEBUGGER();` must compile and must break into debugger.
 
 
 ## Static analysis support
 
 > Introduced in Catch2 3.4.0.
 
-Some parts of Catch2, e.g. `SECTION`s, can be hard for static analysis
-tools to reason about. Catch2 can change its internals to help static
-analysis tools reason about the tests.
+Some parts of Catch2, e.g. `SECTION`s, can be hard for static analysis tools to reason about. Catch2 can change its internals to help static analysis tools reason about the tests.
 
-Catch2 automatically detects some static analysis tools (initial
-implementation checks for clang-tidy and Coverity), but you can override
-its detection (in either direction) via
+Catch2 automatically detects some static analysis tools (initial implementation checks for clang-tidy and Coverity), but you can override its detection (in either direction) via
 
 ```
 CATCH_CONFIG_EXPERIMENTAL_STATIC_ANALYSIS_SUPPORT     // force enables static analysis help
 CATCH_CONFIG_NO_EXPERIMENTAL_STATIC_ANALYSIS_SUPPORT  // force disables static analysis help
 ```
 
-_As the name suggests, this is currently experimental, and thus we provide
-no backwards compatibility guarantees._
+_As the name suggests, this is currently experimental, and thus we provide no backwards compatibility guarantees._
 
-**DO NOT ENABLE THIS FOR BUILDS YOU INTEND TO RUN.** The changed internals
-are not meant to be runnable, only "scannable".
+**DO NOT ENABLE THIS FOR BUILDS YOU INTEND TO RUN.** The changed internals are not meant to be runnable, only "scannable".
 
 
 

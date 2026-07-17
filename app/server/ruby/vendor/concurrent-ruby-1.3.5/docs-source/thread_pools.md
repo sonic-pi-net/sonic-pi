@@ -49,9 +49,7 @@ If you'd like to configure a maximum number of threads, you can use the more gen
 
 A {Concurrent::ThreadPoolExecutor} is a general-purpose thread pool that can be configured to have various behaviors.
 
-A `ThreadPoolExecutor` will automatically adjust the pool size according to the bounds set by `min-threads` and `max-threads`.
-When a new task is submitted and fewer than `min-threads` threads are running, a new thread is created to handle the request, even if other worker threads are idle.
-If there are more than `min-threads` but less than `max-threads` threads running, a new thread will be created only if the queue is full.
+A `ThreadPoolExecutor` will automatically adjust the pool size according to the bounds set by `min-threads` and `max-threads`. When a new task is submitted and fewer than `min-threads` threads are running, a new thread is created to handle the request, even if other worker threads are idle. If there are more than `min-threads` but less than `max-threads` threads running, a new thread will be created only if the queue is full.
 
 The `CachedThreadPool` and `FixedThreadPool` are simply `ThreadPoolExecutors` with certain configuration pre-determined. For instance, to create a `ThreadPoolExecutor` that works just like a `FixedThreadPool.new 5`, you could:
 
@@ -80,9 +78,7 @@ pool = Concurrent::ThreadPoolExecutor.new(
 )
 ~~~
 
-You can create something similar to a `CachedThreadPool`, but with a maximum number of threads and a bounded queue.
-A new thread will be created for the first 3 tasks submitted, and then, once the queue is full, up to an additional 7 threads (10 total) will be created.
-If all 10 threads are busy and 100 tasks are already queued, additional tasks will be rejected.
+You can create something similar to a `CachedThreadPool`, but with a maximum number of threads and a bounded queue. A new thread will be created for the first 3 tasks submitted, and then, once the queue is full, up to an additional 7 threads (10 total) will be created. If all 10 threads are busy and 100 tasks are already queued, additional tasks will be rejected.
 
 ~~~ruby
 pool = Concurrent::ThreadPoolExecutor.new(

@@ -1,19 +1,11 @@
 # Contributors
 
-We would like to express our sincerest thanks and gratitude to everyone
-that has helped with either the development of Sonic Pi or supported its
-use in any capacity. On its own Sonic Pi is just a piece of
-software. Only when combined with our kind and generous community does
-it become a powerful tool for sharing and celebrating the creativity of
-code. Thank-you everyone.
+We would like to express our sincerest thanks and gratitude to everyone that has helped with either the development of Sonic Pi or supported its use in any capacity. On its own Sonic Pi is just a piece of software. Only when combined with our kind and generous community does it become a powerful tool for sharing and celebrating the creativity of code. Thank-you everyone.
 
 
 ## A humble beginning
 
-The start of any project is a fragile period which relies heavily on the
-generous support of others. We would like to offer our considered
-gratitude to the following people who provided support in the early days
-of Sonic Pi with their time, advice, and wisdom:
+The start of any project is a fragile period which relies heavily on the generous support of others. We would like to offer our considered gratitude to the following people who provided support in the early days of Sonic Pi with their time, advice, and wisdom:
 
 * [Carrie Anne Philbin](https://twitter.com/missphilbin)
 * [Robert Mullins](https://www.cl.cam.ac.uk/~rdm34/)
@@ -27,10 +19,7 @@ of Sonic Pi with their time, advice, and wisdom:
 
 ## Organisations
 
-The following organisations kindly contributed to Sonic Pi and provided
-a fertile ground for its initial development and growth within
-[The University of Cambridge Computer Laboratory](https://www.cl.cam.ac.uk)
-through various collaborations, projects and other means:
+The following organisations kindly contributed to Sonic Pi and provided a fertile ground for its initial development and growth within [The University of Cambridge Computer Laboratory](https://www.cl.cam.ac.uk) through various collaborations, projects and other means:
 
 * [The Raspberry Pi Foundation](https://www.raspberrypi.org)
 * [The Broadcom Foundation](http://broadcomfoundation.org/)
@@ -43,9 +32,7 @@ through various collaborations, projects and other means:
 
 ## Inspiration
 
-The following is a far from complete list of some of the individuals who
-have provided inspiration for the creation of Sonic Pi through their own
-projects:
+The following is a far from complete list of some of the individuals who have provided inspiration for the creation of Sonic Pi through their own projects:
 
 * _why (why the lucky stiff) - [Shoes](https://en.wikipedia.org/wiki/Shoes_(GUI_toolkit))
 * Andrew Sorensen  - [Extempore](https://extemporelang.github.io/)
@@ -64,9 +51,7 @@ projects:
 
 ## Sponsors
 
-The following organisations have financially supported the continued
-development and maintenance of Sonic Pi. We give our appreciation and
-respect back to them all for choosing to support open source software:
+The following organisations have financially supported the continued development and maintenance of Sonic Pi. We give our appreciation and respect back to them all for choosing to support open source software:
 
 * [Trading & Consulting 'H.P.C.' GmbH](https://www.hpc.at/)
 * [Dashbit](https://dashbit.co)
@@ -75,8 +60,7 @@ respect back to them all for choosing to support open source software:
 
 ## Artistic Sample Contributions
 
-The following artists have contributed towards Sonic Pi by kindly donating audio samples
-into the public domain under a CC0 license for free use. Thank-you.
+The following artists have contributed towards Sonic Pi by kindly donating audio samples into the public domain under a CC0 license for free use. Thank-you.
 
 * [Arovane](https://arovane.bandcamp.com)
 * [Tommi Toivonen](https://totosoundlab.com)
@@ -84,10 +68,7 @@ into the public domain under a CC0 license for free use. Thank-you.
 
 ## Patreon Supporters
 
-Sonic Pi development is increasingly funded by a growing number of very
-kind and generous people via [Patreon](https://patreon.com/samaaron). We
-would like to thank everyone who has supported Sonic Pi in this way -
-especially the following individuals who have been remarkably generous:
+Sonic Pi development is increasingly funded by a growing number of very kind and generous people via [Patreon](https://patreon.com/samaaron). We would like to thank everyone who has supported Sonic Pi in this way - especially the following individuals who have been remarkably generous:
 
 * Adam Renklint
 * Alan Boulton
@@ -186,8 +167,7 @@ especially the following individuals who have been remarkably generous:
 
 ## Outstanding Community Contributions
 
-We would like to recognise the following individuals for their important
-contributions which have supported the Sonic Pi Community:
+We would like to recognise the following individuals for their important contributions which have supported the Sonic Pi Community:
 
 * [Paul Winstanley](https://twitter.com/SCCMentor)
 * [Robin Newman](https://twitter.com/rbnman)
@@ -196,10 +176,7 @@ contributions which have supported the Sonic Pi Community:
 
 ## Guidance and Advice
 
-We would like to thank the following people for their time providing
-valuable advice, feedback and suggestions on a wide variety of aspects
-of Sonic Pi - from technical development, to artistic
-conceptualisations, to musical production and performance.
+We would like to thank the following people for their time providing valuable advice, feedback and suggestions on a wide variety of aspects of Sonic Pi - from technical development, to artistic conceptualisations, to musical production and performance.
 
 * [Dago Sondervan](https://twitter.com/sondervan1)
 * [Sam Conran](https://twitter.com/samconran)
@@ -212,10 +189,7 @@ conceptualisations, to musical production and performance.
 
 ## Core Team
 
-Much of the development, distribution and support work for Sonic Pi is
-carried out by the Core Team. This is a group of dedicated volunteers
-(with the exception of Sam Aaron who works full time on the project) who
-kindly donate their time to continue to improve Sonic Pi.
+Much of the development, distribution and support work for Sonic Pi is carried out by the Core Team. This is a group of dedicated volunteers (with the exception of Sam Aaron who works full time on the project) who kindly donate their time to continue to improve Sonic Pi.
 
 Current members:
 
@@ -239,56 +213,23 @@ Previous members:
 
 ## Core Team Thanks
 
-Sam Aaron would like to express his deep thanks to his family and
-friends who have supported him over the years and given him the strength
-to continue on this strange and often unforgiving path. He would
-particularly like to thank his friend and partner Susanna and also his
-fab Mum.
+Sam Aaron would like to express his deep thanks to his family and friends who have supported him over the years and given him the strength to continue on this strange and often unforgiving path. He would particularly like to thank his friend and partner Susanna and also his fab Mum.
 
-Luis Lloret wants to thank his wonderful family for their understanding
-and support while working on this. Specially Marina, you are my reason
-to live. Mar and Darío, keep being so special and giving us so much joy.
+Luis Lloret wants to thank his wonderful family for their understanding and support while working on this. Specially Marina, you are my reason to live. Mar and Darío, keep being so special and giving us so much joy.
 
-Xavier Riley would like to thank his wife Emily, and he'd like to
-reassure her that he definitely loves her more than any computer. Also
-big thanks to conference organizers, in particular Simon Starr for
-putting on the awesome Bath Ruby conferences and letting me rock out
-there not [once](https://youtu.be/Jp0VKD_7pmw?t=10m1s), but
-[twice](https://www.youtube.com/watch?v=L06FlSoiBi4). Lastly I'd like to
-thank Scott Wilson for teaching me some programming as part of a music
-degree, and my good friend David Bamber for helping me get started as a
-programmer.
+Xavier Riley would like to thank his wife Emily, and he'd like to reassure her that he definitely loves her more than any computer. Also big thanks to conference organizers, in particular Simon Starr for putting on the awesome Bath Ruby conferences and letting me rock out there not [once](https://youtu.be/Jp0VKD_7pmw?t=10m1s), but [twice](https://www.youtube.com/watch?v=L06FlSoiBi4). Lastly I'd like to thank Scott Wilson for teaching me some programming as part of a music degree, and my good friend David Bamber for helping me get started as a programmer.
 
-Adrian Cheater dedicates this space in loving memory of her mother,
-Katherine Cheater. Mom shared her passion for music and performance
-and equipped me with all the tools I needed to live life fully. She was
-kind, but did not let the opinions of strangers deter her from her path.
-Though mom never met me as her daughter, I know she would have been proud
-that I chose to embrace my truth as it became known to me.
-My wish is that you, fellow musician, will also choose to never dampen your
-light, and that you will encourage and empower others to shine bright.
+Adrian Cheater dedicates this space in loving memory of her mother, Katherine Cheater. Mom shared her passion for music and performance and equipped me with all the tools I needed to live life fully. She was kind, but did not let the opinions of strangers deter her from her path. Though mom never met me as her daughter, I know she would have been proud that I chose to embrace my truth as it became known to me. My wish is that you, fellow musician, will also choose to never dampen your light, and that you will encourage and empower others to shine bright.
 
-Robin Newman would like to thank Sam for producing such inspirational
-software as Sonic Pi. Both the sounds that it can produce and the
-intricate programming beneath the surface are a work of art. To work
-with Sonic Pi gives me such a buzz as I have not experienced since
-working with Music on a network of BBC Micros in the 1980s. Then as now
-my Wife Julia describes herself as a computer widow. I thank her for
-putting up with my passion for musical programming over the years.
+Robin Newman would like to thank Sam for producing such inspirational software as Sonic Pi. Both the sounds that it can produce and the intricate programming beneath the surface are a work of art. To work with Sonic Pi gives me such a buzz as I have not experienced since working with Music on a network of BBC Micros in the 1980s. Then as now my Wife Julia describes herself as a computer widow. I thank her for putting up with my passion for musical programming over the years.
 
-Ethan Crawford is grateful to his parents for giving him the opportunity
-of music lessons as a young boy, and all the skills and interests that
-this helped to develop. He'd also like to thank Sam for creating Sonic
-Pi and the ease and fun with which it combines two of his favourite
-interests - music and programming.
+Ethan Crawford is grateful to his parents for giving him the opportunity of music lessons as a young boy, and all the skills and interests that this helped to develop. He'd also like to thank Sam for creating Sonic Pi and the ease and fun with which it combines two of his favourite interests - music and programming.
 
 
 
 ## Developer Contributions
 
-In addition to the Sonic Pi Core Team, we would like to extend our
-thanks to the following developers who have donated their time and
-effort to help grow and improve the Sonic Pi code base:
+In addition to the Sonic Pi Core Team, we would like to extend our thanks to the following developers who have donated their time and effort to help grow and improve the Sonic Pi code base:
 
 
 * [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (5737)

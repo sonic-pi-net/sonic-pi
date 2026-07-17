@@ -10,10 +10,6 @@
 
 ## Reporting a Vulnerability
 
-Due to its nature as a _unit_ test framework, Catch2 shouldn't interact
-with untrusted inputs and there shouldn't be many security vulnerabilities
-in it.
+Due to its nature as a _unit_ test framework, Catch2 shouldn't interact with untrusted inputs and there shouldn't be many security vulnerabilities in it.
 
-However, if you find one you send email to martin <dot> horenovsky <at>
-gmail <dot> com. If you want to encrypt the email, my pgp key is
-`E29C 46F3 B8A7 5028 6079 3B7D ECC9 C20E 314B 2360`.
+However, if you find one you send email to martin <dot> horenovsky <at> gmail <dot> com. If you want to encrypt the email, my pgp key is `E29C 46F3 B8A7 5028 6079 3B7D ECC9 C20E 314B 2360`.

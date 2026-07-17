@@ -3,8 +3,7 @@ aubio
 
 aubio is a collection of tools for music and audio analysis.
 
-This package integrates the aubio library with [NumPy] to provide a set of
-efficient tools to process and analyse audio signals, including:
+This package integrates the aubio library with [NumPy] to provide a set of efficient tools to process and analyse audio signals, including:
 
 - read audio from any media file, including videos and remote streams
 - high quality phase vocoder, spectral filterbanks, and linear filters
@@ -27,8 +26,7 @@ Links
 Demos
 -----
 
-Some examples are available in the [`python/demos` folder][demos_dir]. Each
-script is a command line program which accepts one ore more argument.
+Some examples are available in the [`python/demos` folder][demos_dir]. Each script is a command line program which accepts one ore more argument.
 
 **Notes**: installing additional modules is required to run some of the demos.
 
@@ -57,17 +55,14 @@ script is a command line program which accepts one ore more argument.
 
 ### Example
 
-Use `demo_timestretch_online.py` to slow down `loop.wav`, write the results in
-`stretched_loop.wav`:
+Use `demo_timestretch_online.py` to slow down `loop.wav`, write the results in `stretched_loop.wav`:
 
     $ python demo_timestretch_online.py loop.wav stretched_loop.wav 0.92
 
 Built with
 ----------
 
-The core of aubio is written in C for portability and speed. In addition to
-[NumPy], aubio can be optionally built to use one or more of the following
-libraries:
+The core of aubio is written in C for portability and speed. In addition to [NumPy], aubio can be optionally built to use one or more of the following libraries:
 
 - media file reading:
 
@@ -94,11 +89,7 @@ libraries:
 [Accelerate]: https://developer.apple.com/reference/accelerate
 [Intel IPP]: https://software.intel.com/en-us/intel-ipp
 
-[demos_dir]:https://github.com/aubio/aubio/tree/master/python/demos
-[pyaudio]:https://people.csail.mit.edu/hubert/pyaudio/
-[PySoundCard]:https://github.com/bastibe/PySoundCard
-[pyalsaaudio]:https://larsimmisch.github.io/pyalsaaudio/
-[mido]:https://mido.readthedocs.io
+[demos_dir]:https://github.com/aubio/aubio/tree/master/python/demos [pyaudio]:https://people.csail.mit.edu/hubert/pyaudio/ [PySoundCard]:https://github.com/bastibe/PySoundCard [pyalsaaudio]:https://larsimmisch.github.io/pyalsaaudio/ [mido]:https://mido.readthedocs.io
 
 [manual]: https://aubio.org/manual/latest/
 [doc_python]: https://aubio.org/manual/latest/python.html

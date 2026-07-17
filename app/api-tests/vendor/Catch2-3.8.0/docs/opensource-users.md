@@ -1,18 +1,11 @@
 <a id="top"></a>
 # Open Source projects using Catch2
 
-Catch2 is great for open source. It is licensed under the [Boost Software
-License (BSL)](../LICENSE.txt), has no further dependencies and supports
-two file distribution.
+Catch2 is great for open source. It is licensed under the [Boost Software License (BSL)](../LICENSE.txt), has no further dependencies and supports two file distribution.
 
-As a result, Catch2 is used for testing in many different Open Source
-projects. This page lists at least some of them, even though it will
-obviously never be complete (and does not have the ambition to be
-complete). Note that the list below is intended to be in alphabetical
-order, to avoid implications of relative importance of the projects.
+As a result, Catch2 is used for testing in many different Open Source projects. This page lists at least some of them, even though it will obviously never be complete (and does not have the ambition to be complete). Note that the list below is intended to be in alphabetical order, to avoid implications of relative importance of the projects.
 
-_Please only add projects here if you are their maintainer, or have the
-maintainer's explicit consent._
+_Please only add projects here if you are their maintainer, or have the maintainer's explicit consent._
 
 
 ## Libraries & Frameworks

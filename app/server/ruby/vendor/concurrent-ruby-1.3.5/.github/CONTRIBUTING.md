@@ -124,8 +124,7 @@ To setup this project with IntelliJ Ultimate, this worked well:
 * `git checkout ext/concurrent-ruby`
 * Import `ext/concurrent-ruby` as Java module
 
-If it's imported directly without removing `ext/concurrent-ruby` then the whole project is recognized as a Java module,
-and `require` resolution, etc does not work.
+If it's imported directly without removing `ext/concurrent-ruby` then the whole project is recognized as a Java module, and `require` resolution, etc does not work.
 
 #### Thank You
 

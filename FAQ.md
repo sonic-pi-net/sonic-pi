@@ -2,9 +2,7 @@
 
 ## Doesn't work? Where to look for clues:
 
-If you have trouble with Sonic Pi, have a look at the logs. You will
-find the log files in your user home directory in `~/.sonic-pi/log/`.
-Most likely, you will find a helpful error message there.
+If you have trouble with Sonic Pi, have a look at the logs. You will find the log files in your user home directory in `~/.sonic-pi/log/`. Most likely, you will find a helpful error message there.
 
 ## Windows: Server boot error - Can't open UDP port 4558
 
@@ -24,24 +22,13 @@ and quit it if there is.
 
 ## Linux: There is no sound with use_synth :piano
 
-You probably didn't install the SC3 plugins
-package for SuperCollider on your system. If there
-is no binary package provided by your distribution, you can
-[install it from source](https://github.com/samaaron/sonic-pi/blob/main/INSTALL-LINUX.md#supercollider-sc3-plugins).
+You probably didn't install the SC3 plugins package for SuperCollider on your system. If there is no binary package provided by your distribution, you can [install it from source](https://github.com/samaaron/sonic-pi/blob/main/INSTALL-LINUX.md#supercollider-sc3-plugins).
 
 ## Linux: Trouble with JACK
 
-If the GUI complains that _"The Sonic Pi server could not be started!"_
-or the message _"Loading previous buffer contents. Please wait..."_
-does not disappear from your buffers after startup, the most likely
-reason is a problem with JACK.
+If the GUI complains that _"The Sonic Pi server could not be started!"_ or the message _"Loading previous buffer contents. Please wait..."_ does not disappear from your buffers after startup, the most likely reason is a problem with JACK.
 
-The Linux version of Sonic Pi relies on the
-[JACK audio connection kit](http://jackaudio.github.io/) for its audio
-output and it needs to be installed with it. The `jackd` audio daemon
-needs to be started in the background and if it isn't running already,
-the Sonic Pi server will start it for you. If this fails, Sonic Pi never
-finishes starting up and won't get ready for you.
+The Linux version of Sonic Pi relies on the [JACK audio connection kit](http://jackaudio.github.io/) for its audio output and it needs to be installed with it. The `jackd` audio daemon needs to be started in the background and if it isn't running already, the Sonic Pi server will start it for you. If this fails, Sonic Pi never finishes starting up and won't get ready for you.
 
 As a workaround, try this:
 
@@ -49,13 +36,8 @@ As a workaround, try this:
 * start jackd manually using the `qjackctl` GUI
 * once it started, start `sonic-pi` again
 
-Sonic Pi contributor @rbnpi has described a [working configuration to
-workaround problems starting JACK](https://github.com/samaaron/sonic-pi/issues/827#issuecomment-160928821).
+Sonic Pi contributor @rbnpi has described a [working configuration to workaround problems starting JACK](https://github.com/samaaron/sonic-pi/issues/827#issuecomment-160928821).
 
-On Linux distributions using PulseAudio, starting JACK may interfere
-with the applications using sound that were running already, e.g.
-Firefox will stop playing audio once JACK starts. There is a guide on
-[how to configure JACK with PulseAudio](https://github.com/jackaudio/jackaudio.github.com/wiki/WalkThrough_User_PulseOnJack)
-to avoid this.
+On Linux distributions using PulseAudio, starting JACK may interfere with the applications using sound that were running already, e.g. Firefox will stop playing audio once JACK starts. There is a guide on [how to configure JACK with PulseAudio](https://github.com/jackaudio/jackaudio.github.com/wiki/WalkThrough_User_PulseOnJack) to avoid this.
 
 ----

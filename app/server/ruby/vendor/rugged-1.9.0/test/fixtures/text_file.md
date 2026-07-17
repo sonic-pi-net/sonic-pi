@@ -1,15 +1,11 @@
 # Rugged
 **libgit2 bindings in Ruby**
 
-Rugged is a library for accessing [libgit2](https://github.com/libgit2/libgit2) in Ruby. It gives you the speed and
-portability of libgit2 with the beauty of the Ruby language.
+Rugged is a library for accessing [libgit2](https://github.com/libgit2/libgit2) in Ruby. It gives you the speed and portability of libgit2 with the beauty of the Ruby language.
 
 ### libgit2
 
-libgit2 is a pure C implementation of the Git core methods. It's designed to be
-fast and portable. For more information about libgit2,
-[check out libgit2's website](http://libgit2.github.com) or browse the
-[libgit2 organization](https://github.com/libgit2) on GitHub.
+libgit2 is a pure C implementation of the Git core methods. It's designed to be fast and portable. For more information about libgit2, [check out libgit2's website](http://libgit2.github.com) or browse the [libgit2 organization](https://github.com/libgit2) on GitHub.
 
 ## Install
 
@@ -25,16 +21,13 @@ require 'rugged'
 
 ## Usage
 
-Rugged gives you access to the many parts of a Git repository. You can read and
-write objects, walk a tree, access the staging area, and lots more. Let's look
-at each area individually.
+Rugged gives you access to the many parts of a Git repository. You can read and write objects, walk a tree, access the staging area, and lots more. Let's look at each area individually.
 
 ### Repositories
 
 #### Instantiation
 
-The repository is naturally central to Git. Rugged has a `Repository` class that
-you can instantiate with a path to open an existing repository :
+The repository is naturally central to Git. Rugged has a `Repository` class that you can instantiate with a path to open an existing repository :
 
 ```ruby
 repo = Rugged::Repository.new('path/to/my/repository')
@@ -47,16 +40,14 @@ You can create a new repository with `init_at`. Add a second parameter `:bare` t
 Rugged::Repository.init_at('.', :bare)
 ```
 
-You can also let Rugged discover the path to the .git directory if you give it a
-subdirectory.
+You can also let Rugged discover the path to the .git directory if you give it a subdirectory.
 
 ```ruby
 Rugged::Repository.discover("/Users/me/projects/repo/lib/subdir/")
 # => "/Users/me/projects/repo/.git/"
 ```
 
-Once your Repository instantiated (in the following examples, as `repo`), you
-can access or modify it.
+Once your Repository instantiated (in the following examples, as `repo`), you can access or modify it.
 
 #### Accessing a Repository
 
@@ -104,15 +95,13 @@ object.type
 
 #### Writing to a Repository
 
-There's a few ways to write to a repository. To write directly from your
-instantiated repository object:
+There's a few ways to write to a repository. To write directly from your instantiated repository object:
 
 ```ruby
 sha = repo.write(content, type)
 ```
 
-You can also use the `Commit` object directly to craft a commit; this is a bit
-more high-level, so it may be preferable:
+You can also use the `Commit` object directly to craft a commit; this is a bit more high-level, so it may be preferable:
 
 ```ruby
 oid = repo.write("This is a blob.", :blob)
@@ -135,8 +124,7 @@ Rugged::Commit.create(repo, options)
 
 ### Objects
 
-`Object` is the main object class - it shouldn't be created directly, but all of
-these methods should be useful in their derived classes.
+`Object` is the main object class - it shouldn't be created directly, but all of these methods should be useful in their derived classes.
 
 ```ruby
 obj = repo.lookup(sha)
@@ -148,8 +136,7 @@ str  = robj.data
 int  = robj.len
 ```
 
-There are four base object types in Git: **blobs**, **commits**, **tags**, and
-**trees**. Each of these object types have a corresponding class within Rugged.
+There are four base object types in Git: **blobs**, **commits**, **tags**, and **trees**. Each of these object types have a corresponding class within Rugged.
 
 ### Commit Objects
 
@@ -252,13 +239,9 @@ Rugged::Commit.create(repo, options)
 
 ### Commit Walker
 
-`Rugged::Walker` is a class designed to help you traverse a set of commits over
-a repository.
+`Rugged::Walker` is a class designed to help you traverse a set of commits over a repository.
 
-You first push head SHAs onto the walker, and then call next to get a list of
-the reachable commit objects one at a time. You can also `hide()` commits if you
-are not interested in anything beneath them (useful in situations like when
-you're running something like `git log master ^origin/master`).
+You first push head SHAs onto the walker, and then call next to get a list of the reachable commit objects one at a time. You can also `hide()` commits if you are not interested in anything beneath them (useful in situations like when you're running something like `git log master ^origin/master`).
 
 ```ruby
 walker = Rugged::Walker.new(repo)
@@ -273,9 +256,7 @@ walker.reset
 
 ### Index ("staging") area
 
-We can inspect and manipulate the Git Index as well. To work with the index
-inside an existing repository, instantiate it by using the `Repository.index`
-method instead of manually opening the Index by its path.
+We can inspect and manipulate the Git Index as well. To work with the index inside an existing repository, instantiate it by using the `Repository.index` method instead of manually opening the Index by its path.
 
 ```ruby
 index = Rugged::Index.new(path)
@@ -422,9 +403,7 @@ repo.config.delete('user.name')
 
 ### General methods
 
-Rugged also includes a general library for handling basic Git operations. One of
-these is converting a raw sha (20 bytes) into a readable hex sha (40
-characters).
+Rugged also includes a general library for handling basic Git operations. One of these is converting a raw sha (20 bytes) into a readable hex sha (40 characters).
 
 ```ruby
 Rugged.hex_to_raw('bfde59cdd0dfac1d892814f66a95641abd8a1faf')
@@ -438,8 +417,7 @@ Rugged.raw_to_hex("\277\336Y\315\320\337\254\035\211(\024\366j\225d\032\275\212\
 
 ## Contributing
 
-Fork libgit2/rugged on GitHub, make it awesomer (preferably in a branch named
-for the topic), send a pull request.
+Fork libgit2/rugged on GitHub, make it awesomer (preferably in a branch named for the topic), send a pull request.
 
 
 ## Development

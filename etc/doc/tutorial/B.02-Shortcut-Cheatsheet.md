@@ -2,13 +2,11 @@ B.2 Shortcut Cheatsheet
 
 # Shortcut Cheatsheet
 
-The following is a summary of the main Emacs Live shortcuts available within Sonic
-Pi. Please see Section B.1 for motivation and background.
+The following is a summary of the main Emacs Live shortcuts available within Sonic Pi. Please see Section B.1 for motivation and background.
 
 ## Conventions
 
-In this list, we use the following conventions (where *Meta* is one of *Alt* on
-Windows/Linux or *Cmd* on Mac):
+In this list, we use the following conventions (where *Meta* is one of *Alt* on Windows/Linux or *Cmd* on Mac):
 
 * `C-a`   means hold the *Control* key then press the *a* key whilst holding them both at the same time, then releasing.
 * `M-r`   means hold the *Meta* key and then press the *r* key whilst holding them both at the same time, then releasing.

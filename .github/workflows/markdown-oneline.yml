@@ -1,0 +1,36 @@
+# Seeded by the bamr87 hub (tools/fanout.sh --kit prose). Enforces the house
+# rule "one paragraph per line" in markdown: fails if any tracked *.md has
+# soft-wrapped prose. This is the Liquid-safe surgical unwrapper — it only joins
+# wrapped prose and leaves Liquid/HTML/tables/code/front-matter untouched.
+#
+# Fix locally:  python3 tools/unwrap-prose.py --write
+name: markdown-oneline
+
+on:
+  pull_request:
+    paths: ["**/*.md", "**/*.markdown"]
+  push:
+    branches: [dev]
+    paths: ["**/*.md", "**/*.markdown"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: markdown-oneline-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  oneline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Check one paragraph per line
+        run: |
+          python3 tools/unwrap-prose.py --check \
+            --exclude '(^|/)SCHEMA\.md$' --exclude '(^|/)CHANGELOG\.md$' \
+          || { echo "::error::Wrapped markdown prose found. Run: python3 tools/unwrap-prose.py --write"; exit 1; }

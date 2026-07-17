@@ -7,14 +7,11 @@ assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Describe the bug** A clear and concise description of what the bug is.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Expected behavior** A clear and concise description of what you expected to happen.
 
-**Reproduction steps**
-Steps to reproduce the bug.
+**Reproduction steps** Steps to reproduce the bug.
 <!-- Usually this means a small and self-contained piece of code that uses Catch and specifying compiler flags if relevant. -->
 
 
@@ -25,5 +22,4 @@ Steps to reproduce the bug.
  - Catch version: **v1.2.3**
 
 
-**Additional context**
-Add any other context about the problem here.
+**Additional context** Add any other context about the problem here.

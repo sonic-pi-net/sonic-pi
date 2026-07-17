@@ -8,8 +8,7 @@ A C++ library to look for directories like `My Documents`, `~/.config`, `%APPDAT
 
 There are a lot of platform abstraction libraries available. You can get graphics abstraction libraries, GUI abstraction libraries and file abstraction libraries.
 
-But folder abstraction seems to be more difficult.
-My problem was that the code that found the place to save data was platform dependent. This cluttered my code and often I would not discover that it did not compile until moving it to the different platforms.
+But folder abstraction seems to be more difficult. My problem was that the code that found the place to save data was platform dependent. This cluttered my code and often I would not discover that it did not compile until moving it to the different platforms.
 
 [I have written a bit more about it here.](https://sago007.blogspot.dk/2015/10/abstraction-for-special-folders.html)
 
@@ -34,9 +33,7 @@ It should work on any Unix system that has the following headers available: `pwd
 
 ### macOS
 
-Version 4.0.0 and forward uses hardcoded values for the directories on Mac OS X. Unlike the other operating systems the folders cannot be moved on a Mac and the translation is done in the UI.
-The versions 2.X and 3.X uses the deprecated FSFindFolder, which requires the CoreServices framework during linking.
-Version 1.X simple used the XDG specification.
+Version 4.0.0 and forward uses hardcoded values for the directories on Mac OS X. Unlike the other operating systems the folders cannot be moved on a Mac and the translation is done in the UI. The versions 2.X and 3.X uses the deprecated FSFindFolder, which requires the CoreServices framework during linking. Version 1.X simple used the XDG specification.
 
 ## Usage
 
@@ -52,8 +49,7 @@ find_package(platform_folders 3.1.0 REQUIRED)
 target_link_libraries(EXEORLIBNAME PRIVATE sago::platform_folders)
 ```
 
-Alternatively, you can just copy the [sago](https://github.com/sago007/PlatformFolders/tree/master/sago) folder into your program and manually link everything.
-If you use the last option and are using a library version from before 4.0.0: Remember to link to the CoreServices lib when compiling on Mac. This typically means passing "-framework CoreServices" during the linking phase.
+Alternatively, you can just copy the [sago](https://github.com/sago007/PlatformFolders/tree/master/sago) folder into your program and manually link everything. If you use the last option and are using a library version from before 4.0.0: Remember to link to the CoreServices lib when compiling on Mac. This typically means passing "-framework CoreServices" during the linking phase.
 
 Note that if you build in-tree, you can link against the Cmake alias `sago::platform_folders` just like if you had used find_package.
 
@@ -169,9 +165,7 @@ The aim is to always support the default C++ compiler on the oldest supported ve
 
 ## Encoding
 
-From version 3.0, Windows always encodes to UTF-8, and this will be the default on almost any other system.
-Before version 3.0, Windows was encoded in ANSI.
-Although the user may use any characters they want, I recommend that the program should have only ASCII characters in the source code itself.
+From version 3.0, Windows always encodes to UTF-8, and this will be the default on almost any other system. Before version 3.0, Windows was encoded in ANSI. Although the user may use any characters they want, I recommend that the program should have only ASCII characters in the source code itself.
 
 # Licence
 

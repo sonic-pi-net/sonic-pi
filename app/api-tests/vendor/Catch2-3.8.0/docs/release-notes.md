@@ -1,69 +1,7 @@
 <a id="top"></a>
 
 # Release notes
-**Contents**<br>
-[3.8.0](#380)<br>
-[3.7.1](#371)<br>
-[3.7.0](#370)<br>
-[3.6.0](#360)<br>
-[3.5.4](#354)<br>
-[3.5.3](#353)<br>
-[3.5.2](#352)<br>
-[3.5.1](#351)<br>
-[3.5.0](#350)<br>
-[3.4.0](#340)<br>
-[3.3.2](#332)<br>
-[3.3.1](#331)<br>
-[3.3.0](#330)<br>
-[3.2.1](#321)<br>
-[3.2.0](#320)<br>
-[3.1.1](#311)<br>
-[3.1.0](#310)<br>
-[3.0.1](#301)<br>
-[2.13.7](#2137)<br>
-[2.13.6](#2136)<br>
-[2.13.5](#2135)<br>
-[2.13.4](#2134)<br>
-[2.13.3](#2133)<br>
-[2.13.2](#2132)<br>
-[2.13.1](#2131)<br>
-[2.13.0](#2130)<br>
-[2.12.4](#2124)<br>
-[2.12.3](#2123)<br>
-[2.12.2](#2122)<br>
-[2.12.1](#2121)<br>
-[2.12.0](#2120)<br>
-[2.11.3](#2113)<br>
-[2.11.2](#2112)<br>
-[2.11.1](#2111)<br>
-[2.11.0](#2110)<br>
-[2.10.2](#2102)<br>
-[2.10.1](#2101)<br>
-[2.10.0](#2100)<br>
-[2.9.2](#292)<br>
-[2.9.1](#291)<br>
-[2.9.0](#290)<br>
-[2.8.0](#280)<br>
-[2.7.2](#272)<br>
-[2.7.1](#271)<br>
-[2.7.0](#270)<br>
-[2.6.1](#261)<br>
-[2.6.0](#260)<br>
-[2.5.0](#250)<br>
-[2.4.2](#242)<br>
-[2.4.1](#241)<br>
-[2.4.0](#240)<br>
-[2.3.0](#230)<br>
-[2.2.3](#223)<br>
-[2.2.2](#222)<br>
-[2.2.1](#221)<br>
-[2.2.0](#220)<br>
-[2.1.2](#212)<br>
-[2.1.1](#211)<br>
-[2.1.0](#210)<br>
-[2.0.1](#201)<br>
-[Older versions](#older-versions)<br>
-[Even Older versions](#even-older-versions)<br>
+**Contents**<br> [3.8.0](#380)<br> [3.7.1](#371)<br> [3.7.0](#370)<br> [3.6.0](#360)<br> [3.5.4](#354)<br> [3.5.3](#353)<br> [3.5.2](#352)<br> [3.5.1](#351)<br> [3.5.0](#350)<br> [3.4.0](#340)<br> [3.3.2](#332)<br> [3.3.1](#331)<br> [3.3.0](#330)<br> [3.2.1](#321)<br> [3.2.0](#320)<br> [3.1.1](#311)<br> [3.1.0](#310)<br> [3.0.1](#301)<br> [2.13.7](#2137)<br> [2.13.6](#2136)<br> [2.13.5](#2135)<br> [2.13.4](#2134)<br> [2.13.3](#2133)<br> [2.13.2](#2132)<br> [2.13.1](#2131)<br> [2.13.0](#2130)<br> [2.12.4](#2124)<br> [2.12.3](#2123)<br> [2.12.2](#2122)<br> [2.12.1](#2121)<br> [2.12.0](#2120)<br> [2.11.3](#2113)<br> [2.11.2](#2112)<br> [2.11.1](#2111)<br> [2.11.0](#2110)<br> [2.10.2](#2102)<br> [2.10.1](#2101)<br> [2.10.0](#2100)<br> [2.9.2](#292)<br> [2.9.1](#291)<br> [2.9.0](#290)<br> [2.8.0](#280)<br> [2.7.2](#272)<br> [2.7.1](#271)<br> [2.7.0](#270)<br> [2.6.1](#261)<br> [2.6.0](#260)<br> [2.5.0](#250)<br> [2.4.2](#242)<br> [2.4.1](#241)<br> [2.4.0](#240)<br> [2.3.0](#230)<br> [2.2.3](#223)<br> [2.2.2](#222)<br> [2.2.1](#221)<br> [2.2.0](#220)<br> [2.1.2](#212)<br> [2.1.1](#211)<br> [2.1.0](#210)<br> [2.0.1](#201)<br> [Older versions](#older-versions)<br> [Even Older versions](#even-older-versions)<br>
 
 
 ## 3.8.0
@@ -463,13 +401,9 @@
 
 ## 3.0.1
 
-**Catch2 now uses statically compiled library as its distribution model.
-This also means that to get all of Catch2's functionality in a test file,
-you have to include multiple headers.**
+**Catch2 now uses statically compiled library as its distribution model. This also means that to get all of Catch2's functionality in a test file, you have to include multiple headers.**
 
-You probably want to look into the [migration docs](migrate-v2-to-v3.md#top),
-which were written to help people coming from v2.x.x versions to the
-v3 releases.
+You probably want to look into the [migration docs](migrate-v2-to-v3.md#top), which were written to help people coming from v2.x.x versions to the v3 releases.
 
 
 ### FAQ
@@ -1222,9 +1156,7 @@ subsequently ignored (#1391, #1392)
 
 ## 2.4.0
 
-**This release brings two new experimental features, generator support
-and a `-fno-exceptions` support. Being experimental means that they
-will not be subject to the usual stability guarantees provided by semver.**
+**This release brings two new experimental features, generator support and a `-fno-exceptions` support. Being experimental means that they will not be subject to the usual stability guarantees provided by semver.**
 
 ### Improvements
 * Various small runtime performance improvements
@@ -1251,12 +1183,7 @@ will not be subject to the usual stability guarantees provided by semver.**
 
 ## 2.3.0
 
-**This release changes the include paths provided by our CMake and
-pkg-config integration. The proper include path for the single-header
-when using one of the above is now `<catch2/catch.hpp>`. This change
-also necessitated changes to paths inside the repository, so that the
-single-header version is now at `single_include/catch2/catch.hpp`, rather
-than `single_include/catch.hpp`.**
+**This release changes the include paths provided by our CMake and pkg-config integration. The proper include path for the single-header when using one of the above is now `<catch2/catch.hpp>`. This change also necessitated changes to paths inside the repository, so that the single-header version is now at `single_include/catch2/catch.hpp`, rather than `single_include/catch.hpp`.**
 
 
 
@@ -1282,8 +1209,7 @@ than `single_include/catch.hpp`.**
 
 ## 2.2.3
 
-**To fix some of the bugs, some behavior had to change in potentially breaking manner.**
-**This means that even though this is a patch release, it might not be a drop-in replacement.**
+**To fix some of the bugs, some behavior had to change in potentially breaking manner.** **This means that even though this is a patch release, it might not be a drop-in replacement.**
 
 ### Fixes
 * Listeners are now called before reporter

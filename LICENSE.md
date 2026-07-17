@@ -8,41 +8,23 @@ The MIT License (MIT)
 
 Copyright (c) 2012 - 2023 Samuel Aaron and contributors (sam@sonic-pi.net)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## GPL Compliance
 
-As Sonic Pi links with and contains GPLv3-licensed software, distributors of
-Sonic Pi GUI binaries must comply with the terms of the GPL.
+As Sonic Pi links with and contains GPLv3-licensed software, distributors of Sonic Pi GUI binaries must comply with the terms of the GPL.
 
 ## Samples
 
 (contents of [etc/samples/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/samples))
 
-All the bundled samples are individually licensed under a
-[CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They
-have been obtained from [freesound.org](http://freesound.org) and
-links to their sources can be found in the file
-[etc/samples/README.md](https://github.com/sonic-pi-net/sonic-pi/blob/main/etc/samples/README.md)
+All the bundled samples are individually licensed under a [CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They have been obtained from [freesound.org](http://freesound.org) and links to their sources can be found in the file [etc/samples/README.md](https://github.com/sonic-pi-net/sonic-pi/blob/main/etc/samples/README.md)
 
-One exception is the samples prefixed with `arovane_`. These have been kindly donated by Uwe Zahn
-([Arovane](https://arovane.bandcamp.com)) also under a CC0 license. Thanks Uwe!
+One exception is the samples prefixed with `arovane_`. These have been kindly donated by Uwe Zahn ([Arovane](https://arovane.bandcamp.com)) also under a CC0 license. Thanks Uwe!
 
 [http://creativecommons.org/publicdomain/zero/1.0/](http://creativecommons.org/publicdomain/zero/1.0/)
 
@@ -50,11 +32,7 @@ One exception is the samples prefixed with `arovane_`. These have been kindly do
 
 (contents of [etc/wavetables/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/wavetables)
 
-All the bundled wavetable samples are individually licensed under a
-[CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They
-have been obtained from the
-[Adventure Kid](http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/)
-site.
+All the bundled wavetable samples are individually licensed under a [CC0 1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/). They have been obtained from the [Adventure Kid](http://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/) site.
 
 ## Font
 
@@ -64,13 +42,7 @@ The font used in the GUI is [Hack](http://sourcefoundry.org/hack/) released unde
 
 (contents of [etc/doc/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/doc) and [etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples) directories)
 
-All the examples (in
-[etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples))
-and contents of the doc directory including the articles and the
-tutorial are copyright by Sam Aaron unless a specific author is stated
-with the comment `# coded by ...` in which case the copyright is
-associated with that author (2015) and the content is released under the
-CC BY-SA 4.0 license:
+All the examples (in [etc/examples](https://github.com/sonic-pi-net/sonic-pi/tree/stable/etc/examples)) and contents of the doc directory including the articles and the tutorial are copyright by Sam Aaron unless a specific author is stated with the comment `# coded by ...` in which case the copyright is associated with that author (2015) and the content is released under the CC BY-SA 4.0 license:
 
 [http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/)
 
@@ -89,8 +61,7 @@ See their source files for links to the original designs.
 
 ## Bundled Software
 
-The following is a list of the software included in Sonic Pi with their
-relevant licenses:
+The following is a list of the software included in Sonic Pi with their relevant licenses:
 
 ### Unlinked software
 

@@ -20,33 +20,25 @@
 
 ## Code. Music. Live.
 
-Sonic Pi is a *new kind of musical instrument*. Instead of strumming
-strings or whacking things with sticks - you write code - **live**.
+Sonic Pi is a *new kind of musical instrument*. Instead of strumming strings or whacking things with sticks - you write code - **live**.
 
-Sonic Pi has been designed with the aim to find a harmonious balance
-between three core principles:
+Sonic Pi has been designed with the aim to find a harmonious balance between three core principles:
 
 * **Simple** enough for the 10 year old within you
 * **Joyful** enough for you to lose yourself through play
 * **Powerful** enough for your own expressions
 
-Sonic Pi is a complete open source programming environment originally
-designed to explore and *teach programming concepts* within schools through
-the process of creating *new sounds*.
+Sonic Pi is a complete open source programming environment originally designed to explore and *teach programming concepts* within schools through the process of creating *new sounds*.
 
-In addition to being an engaging education resource it has evolved into
-an *extremely powerful* and performance-ready *live coding instrument* suitable
-for professional artists and DJs.
+In addition to being an engaging education resource it has evolved into an *extremely powerful* and performance-ready *live coding instrument* suitable for professional artists and DJs.
 
-Whilst Education is a core focus it now sits at the intersection
-between three core domains:
+Whilst Education is a core focus it now sits at the intersection between three core domains:
 
 * **Art** - providing the means to express yourself and ask new questions of music and notation
 * **Technology** - exploring questions related to liveness, time and concurrency in programming languages
 * **Education**  - demonstrating that open play rather than rigid structures increases motivation and engagement in the classroom
 
-Again, finding a balance working to the best benefits of all these
-domains is the objective.
+Again, finding a balance working to the best benefits of all these domains is the objective.
 
 
 * Info & Latest Releases: https://sonic-pi.net

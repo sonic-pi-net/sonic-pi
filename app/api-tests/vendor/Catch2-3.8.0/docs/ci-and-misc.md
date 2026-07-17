@@ -1,14 +1,9 @@
 <a id="top"></a>
 # Tooling integration (CI, test runners and so on)
 
-**Contents**<br>
-[Continuous Integration systems](#continuous-integration-systems)<br>
-[Bazel test runner integration](#bazel-test-runner-integration)<br>
-[Low-level tools](#low-level-tools)<br>
-[CMake](#cmake)<br>
+**Contents**<br> [Continuous Integration systems](#continuous-integration-systems)<br> [Bazel test runner integration](#bazel-test-runner-integration)<br> [Low-level tools](#low-level-tools)<br> [CMake](#cmake)<br>
 
-This page talks about Catch2's integration with other related tooling,
-like Continuous Integration and 3rd party test runners.
+This page talks about Catch2's integration with other related tooling, like Continuous Integration and 3rd party test runners.
 
 
 ## Continuous Integration systems
@@ -60,8 +55,7 @@ Because of the incremental nature of Catch's test suites and ability to run spec
 
 ## Bazel test runner integration
 
-Catch2 understands some of the environment variables Bazel uses to control
-test execution. Specifically it understands
+Catch2 understands some of the environment variables Bazel uses to control test execution. Specifically it understands
 
  * JUnit output path via `XML_OUTPUT_FILE`
  * Test filtering via `TESTBRIDGE_TEST_ONLY`
@@ -71,9 +65,7 @@ test execution. Specifically it understands
 
 > Support for `TESTBRIDGE_TEST_ONLY` and sharding was introduced in Catch2 3.2.0
 
-This integration is enabled via either a [compile time configuration
-option](configuration.md#bazel-support), or via `BAZEL_TEST` environment
-variable set to "1".
+This integration is enabled via either a [compile time configuration option](configuration.md#bazel-support), or via `BAZEL_TEST` environment variable set to "1".
 
 > Support for `BAZEL_TEST` was [introduced](https://github.com/catchorg/Catch2/pull/2459) in Catch2 3.1.0
 
@@ -87,22 +79,16 @@ If you are using GCOV tool to get testing coverage of your code, and are not sur
 
 ### pkg-config
 
-Catch2 provides a rudimentary pkg-config integration, by registering itself
-under the name `catch2`. This means that after Catch2 is installed, you
-can use `pkg-config` to get its include path: `pkg-config --cflags catch2`.
+Catch2 provides a rudimentary pkg-config integration, by registering itself under the name `catch2`. This means that after Catch2 is installed, you can use `pkg-config` to get its include path: `pkg-config --cflags catch2`.
 
 ### gdb and lldb scripts
 
-Catch2's `extras` folder also contains two simple debugger scripts,
-`gdbinit` for `gdb` and `lldbinit` for `lldb`. If loaded into their
-respective debugger, these will tell it to step over Catch2's internals
-when stepping through code.
+Catch2's `extras` folder also contains two simple debugger scripts, `gdbinit` for `gdb` and `lldbinit` for `lldb`. If loaded into their respective debugger, these will tell it to step over Catch2's internals when stepping through code.
 
 
 ## CMake
 
-[As it has been getting kinda long, the documentation of Catch2's
-integration with CMake has been moved to its own page.](cmake-integration.md#top)
+[As it has been getting kinda long, the documentation of Catch2's integration with CMake has been moved to its own page.](cmake-integration.md#top)
 
 
 ---

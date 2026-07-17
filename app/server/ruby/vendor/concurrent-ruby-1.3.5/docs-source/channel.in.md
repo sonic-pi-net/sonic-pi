@@ -6,9 +6,7 @@ Let's start by creating a channel with a capacity of 2 messages.
 ch = Concurrent::Promises::Channel.new 2
 ```
 
-We push 3 messages, 
-then it can be observed that the last thread pushing is sleeping 
-since the channel is full. 
+We push 3 messages, then it can be observed that the last thread pushing is sleeping since the channel is full.
 
 ```ruby
 threads = Array.new(3) { |i| Thread.new { ch.push message: i } } #
@@ -23,10 +21,7 @@ ch.pop
 threads.map(&:join)
 ```
 
-Same principle applies to popping as well.
-There are now 2 messages int he channel.
-Lets create 3 threads trying to pop a message, 
-one will be blocked until new messages is pushed.
+Same principle applies to popping as well. There are now 2 messages int he channel. Lets create 3 threads trying to pop a message, one will be blocked until new messages is pushed.
 
 ```ruby
 threads = Array.new(3) { |i| Thread.new { ch.pop } } #
@@ -38,8 +33,7 @@ threads.map(&:value)
 
 ### Promises integration
 
-However this channel is implemented to **integrate with promises**
-therefore all operations can be represented as futures.
+However this channel is implemented to **integrate with promises** therefore all operations can be represented as futures.
 
 ```ruby
 ch = Concurrent::Promises::Channel.new 2
@@ -65,9 +59,7 @@ pop_operations.map(&:value)
 
 ### Selecting over channels
 
-A selection over channels can be created with the `.select_channel` factory method. It
-will be fulfilled with a first message available in any of the channels. It
-returns a pair to be able to find out which channel had the message available.
+A selection over channels can be created with the `.select_channel` factory method. It will be fulfilled with a first message available in any of the channels. It returns a pair to be able to find out which channel had the message available.
 
 ```ruby
 ch1    = Concurrent::Promises::Channel.new 2
@@ -89,9 +81,7 @@ Concurrent::Promises::Channel.
 
 ### `try_` variants
 
-All blocking operations ({#pop}, {#push}, {#select}) have non-blocking variant
-with `try_` prefix. 
-They always return immediately and indicate either success or failure.
+All blocking operations ({#pop}, {#push}, {#select}) have non-blocking variant with `try_` prefix. They always return immediately and indicate either success or failure.
 
 ```ruby
 ch
@@ -105,9 +95,7 @@ ch.try_pop
 
 ### Timeouts
 
-All blocking operations ({#pop}, {#push}, {#select}) have a timeout option.
-Similar to `try_` variants it will indicate success or timing out, 
-when the timeout option is used.
+All blocking operations ({#pop}, {#push}, {#select}) have a timeout option. Similar to `try_` variants it will indicate success or timing out, when the timeout option is used.
 
 ```ruby
 ch
@@ -121,9 +109,7 @@ ch.pop 0.01
 
 ### Backpressure
 
-Most importantly the channel can be used to create systems with backpressure.
-A self adjusting system where the producers will slow down 
-if the consumers are not keeping up.
+Most importantly the channel can be used to create systems with backpressure. A self adjusting system where the producers will slow down if the consumers are not keeping up.
 
 ```ruby
 channel = Concurrent::Promises::Channel.new 2
@@ -158,13 +144,9 @@ log
 
 The producers are much faster than consumers 
 (since they `do_stuff` which takes some time)  
-but as it can be seen from the log they fill the channel 
-and then they slow down 
-until there is space available in the channel.
+but as it can be seen from the log they fill the channel and then they slow down until there is space available in the channel.
 
-If permanent allocation of threads to the producers and consumers has to be avoided,
-the threads can be replaced with promises
-that run a thread pool.
+If permanent allocation of threads to the producers and consumers has to be avoided, the threads can be replaced with promises that run a thread pool.
 
 ```ruby
 channel = Concurrent::Promises::Channel.new 2
@@ -203,11 +185,7 @@ log
 
 ### Synchronization of workers by passing a value
 
-If the capacity of the channel is zero 
-then any push operation will succeed only 
-when there is a matching pop operation
-which can take the message.
-The operations have to be paired to succeed. 
+If the capacity of the channel is zero then any push operation will succeed only when there is a matching pop operation which can take the message. The operations have to be paired to succeed.
 
 ```ruby
 channel = Concurrent::Promises::Channel.new 0

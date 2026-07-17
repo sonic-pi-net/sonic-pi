@@ -625,11 +625,7 @@
 
 This is a new major version up release!
 
-This release removes many deprecated APIs and improves internal
-APIs. We want to keep backward compatibility as much as possible but
-some existing codes may be broken by gettext gem API change. If your
-code breaks by gettext gem 3.0.0, please report your problem. We will
-fix the problem and release a new version.
+This release removes many deprecated APIs and improves internal APIs. We want to keep backward compatibility as much as possible but some existing codes may be broken by gettext gem API change. If your code breaks by gettext gem 3.0.0, please report your problem. We will fix the problem and release a new version.
 
 ### Improvements
 
@@ -830,8 +826,7 @@ It's a bug fix release.
 
 ## 2.3.1: 2012-09-13 {#version-2-3-1}
 
-It's a Bug and package fix release.
-Then, it's also encoding support release, only if you use Ruby 1.9.
+It's a Bug and package fix release. Then, it's also encoding support release, only if you use Ruby 1.9.
 
 ### Improvements
 

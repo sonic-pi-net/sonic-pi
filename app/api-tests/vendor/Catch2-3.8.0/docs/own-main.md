@@ -1,28 +1,18 @@
 <a id="top"></a>
 # Supplying main() yourself
 
-**Contents**<br>
-[Let Catch2 take full control of args and config](#let-catch2-take-full-control-of-args-and-config)<br>
-[Amending the Catch2 config](#amending-the-catch2-config)<br>
-[Adding your own command line options](#adding-your-own-command-line-options)<br>
-[Version detection](#version-detection)<br>
+**Contents**<br> [Let Catch2 take full control of args and config](#let-catch2-take-full-control-of-args-and-config)<br> [Amending the Catch2 config](#amending-the-catch2-config)<br> [Adding your own command line options](#adding-your-own-command-line-options)<br> [Version detection](#version-detection)<br>
 
-The easiest way to use Catch2 is to use its own `main` function, and let
-it handle the command line arguments. This is done by linking against
-Catch2Main library, e.g. through the [CMake target](cmake-integration.md#cmake-targets),
-or pkg-config files.
+The easiest way to use Catch2 is to use its own `main` function, and let it handle the command line arguments. This is done by linking against Catch2Main library, e.g. through the [CMake target](cmake-integration.md#cmake-targets), or pkg-config files.
 
-If you want to provide your own `main`, then you should link against
-the static library (target) only, without the main part. You will then
-have to write your own `main` and call into Catch2 test runner manually.
+If you want to provide your own `main`, then you should link against the static library (target) only, without the main part. You will then have to write your own `main` and call into Catch2 test runner manually.
 
 Below are some basic recipes on what you can do supplying your own main.
 
 
 ## Let Catch2 take full control of args and config
 
-This is useful if you just need to have code that executes before/after
-Catch2 runs tests.
+This is useful if you just need to have code that executes before/after Catch2 runs tests.
 
 ```cpp
 #include <catch2/catch_session.hpp>
@@ -38,15 +28,12 @@ int main( int argc, char* argv[] ) {
 }
 ```
 
-_Note that if you only want to run some set up before tests are run, it
-might be simpler to use [event listeners](event-listeners.md#top) instead._
+_Note that if you only want to run some set up before tests are run, it might be simpler to use [event listeners](event-listeners.md#top) instead._
 
 
 ## Amending the Catch2 config
 
-If you want Catch2 to process command line arguments, but also want to
-programmatically change the resulting configuration of Catch2 run,
-you can do it in two ways:
+If you want Catch2 to process command line arguments, but also want to programmatically change the resulting configuration of Catch2 run, you can do it in two ways:
 
 ```c++
 int main( int argc, char* argv[] ) {
@@ -77,8 +64,7 @@ If you want full control of the configuration, don't call `applyCommandLine`.
 
 ## Adding your own command line options
 
-You can add new command line options to Catch2, by composing the premade
-CLI parser (called Clara), and add your own options.
+You can add new command line options to Catch2, by composing the premade CLI parser (called Clara), and add your own options.
 
 ```cpp
 int main( int argc, char* argv[] ) {
@@ -110,8 +96,7 @@ int main( int argc, char* argv[] ) {
 }
 ```
 
-See the [Clara documentation](https://github.com/catchorg/Clara/blob/master/README.md)
-for more details on how to use the Clara parser.
+See the [Clara documentation](https://github.com/catchorg/Clara/blob/master/README.md) for more details on how to use the Clara parser.
 
 
 ## Version detection
@@ -122,9 +107,7 @@ Catch2 provides a triplet of macros providing the header's version,
 * `CATCH_VERSION_MINOR`
 * `CATCH_VERSION_PATCH`
 
-these macros expand into a single number, that corresponds to the appropriate
-part of the version. As an example, given single header version v2.3.4,
-the macros would expand into `2`, `3`, and `4` respectively.
+these macros expand into a single number, that corresponds to the appropriate part of the version. As an example, given single header version v2.3.4, the macros would expand into `2`, `3`, and `4` respectively.
 
 
 ---

@@ -1,12 +1,8 @@
 # KISS FFT [![Build Status](https://travis-ci.com/mborgerding/kissfft.svg?branch=master)](https://travis-ci.com/mborgerding/kissfft)
 
-KISS FFT - A mixed-radix Fast Fourier Transform based up on the principle, 
-"Keep It Simple, Stupid."
+KISS FFT - A mixed-radix Fast Fourier Transform based up on the principle, "Keep It Simple, Stupid."
 
-There are many great fft libraries already around.  Kiss FFT is not trying
-to be better than any of them.  It only attempts to be a reasonably efficient, 
-moderately useful FFT that can use fixed or floating data types and can be 
-incorporated into someone's C program in a few minutes with trivial licensing.
+There are many great fft libraries already around.  Kiss FFT is not trying to be better than any of them.  It only attempts to be a reasonably efficient, moderately useful FFT that can use fixed or floating data types and can be incorporated into someone's C program in a few minutes with trivial licensing.
 
 ## USAGE:
 
@@ -29,8 +25,7 @@ The basic usage for 1-d complex FFT is:
     so cx_out[0] is the dc bin of the FFT
     and cx_out[nfft/2] is the Nyquist bin (if exists)
 
-Declarations are in "kiss_fft.h", along with a brief description of the 
-functions you'll need to use. 
+Declarations are in "kiss_fft.h", along with a brief description of the functions you'll need to use.
 
 Code definitions for 1d complex FFTs are in kiss_fft.c.
 
@@ -41,8 +36,7 @@ You can do other cool stuff with the extras you'll find in tools/
 > - fast convolution FIR filtering (not available for fixed point)
 > - spectrum image creation
 
-The core fft and most tools/ code can be compiled to use float, double,
- Q15 short or Q31 samples. The default is float.
+The core fft and most tools/ code can be compiled to use float, double, Q15 short or Q31 samples. The default is float.
 
 ## BUILDING:
 
@@ -63,14 +57,12 @@ Additional libraries required to build and test kissfft include:
  - python 2/3 with Numpy to validate kissfft results against it.
  - OpenMP supported by GCC, Clang or MSVC for multi-core FFT transformations
 
-Environments like Cygwin and MinGW can be highly likely used to build kissfft
-targeting Windows platform, but no tests were performed to the date.
+Environments like Cygwin and MinGW can be highly likely used to build kissfft targeting Windows platform, but no tests were performed to the date.
 
 Both Make and CMake builds are easily configurable:
 
  - `KISSFFT_DATATYPE=<datatype>` (for Make) or `-DKISSFFT_DATATYPE=<datatype>`
-   (for CMake) denote the principal datatype used by kissfft. It can be one
-   of the following:
+(for CMake) denote the principal datatype used by kissfft. It can be one of the following:
 
    - float (default)
    - double
@@ -79,17 +71,13 @@ Both Make and CMake builds are easily configurable:
    - SIMD (requires SSE instruction set support on target CPU)
 
  - `KISSFFT_OPENMP=1` (for Make) or `-DKISSFFT_OPENMP=ON` (for CMake) builds kissfft
-   with OpenMP support. Please note that a supported compiler is required and this
-   option is turned off by default.
+with OpenMP support. Please note that a supported compiler is required and this option is turned off by default.
 
  - `KISSFFT_STATIC=1` (for Make) or `-DKISSFFT_STATIC=ON` (for CMake) instructs
-   the builder to create static library ('.lib' for Windows / '.a' for Unix or Linux).
-   By default, this option is turned off and the shared library is created
-   ('.dll' for Windows, '.so' for Linux or Unix, '.dylib' for Mac OSX)
+the builder to create static library ('.lib' for Windows / '.a' for Unix or Linux). By default, this option is turned off and the shared library is created ('.dll' for Windows, '.so' for Linux or Unix, '.dylib' for Mac OSX)
 
  - `-DKISSFFT_TEST=OFF` (for CMake) disables building tests for kissfft. On Make,
-   building tests is done separately by 'make testall' or 'make testsingle', so
-   no specific setting is required.
+building tests is done separately by 'make testall' or 'make testsingle', so no specific setting is required.
 
  - `KISSFFT_TOOLS=0` (for Make) or `-DKISSFFT_TOOLS=OFF` (for CMake) builds kissfft
     without command-line tools like 'fastconv'. By default the tools are built.
@@ -101,8 +89,7 @@ Both Make and CMake builds are easily configurable:
       `-DCMAKE_INSTALL_PREFIX=/full/path/to/installation/prefix/directory` (for CMake)
       specifies the prefix directory to install kissfft into.
 
-For example, to build kissfft as a static library with 'int16_t' datatype and
-OpenMP support using Make, run the command from kissfft source tree:
+For example, to build kissfft as a static library with 'int16_t' datatype and OpenMP support using Make, run the command from kissfft source tree:
 
 ```
 make KISSFFT_DATATYPE=int16_t KISSFFT_STATIC=1 KISSFFT_OPENMP=1 all
@@ -134,8 +121,7 @@ make install
 
 ## TESTING:
 
-To validate the build configured as an example above, run the following command from
-kissfft source tree:
+To validate the build configured as an example above, run the following command from kissfft source tree:
 
 ```
 make KISSFFT_DATATYPE=int16_t KISSFFT_STATIC=1 KISSFFT_OPENMP=1 testsingle
@@ -149,15 +135,13 @@ make test
 
 if using CMake.
 
-To test all possible build configurations, please run an extended testsuite from
-kissfft source tree:
+To test all possible build configurations, please run an extended testsuite from kissfft source tree:
 
 ```
 sh test/kissfft-testsuite.sh
 ```
 
-Please note that the extended testsuite takes around 20-40 minutes depending on device
-it runs on. This testsuite is useful for reporting bugs or testing the pull requests.
+Please note that the extended testsuite takes around 20-40 minutes depending on device it runs on. This testsuite is useful for reporting bugs or testing the pull requests.
 
 ## BACKGROUND
 
@@ -167,19 +151,14 @@ theory straight before working on fixed point issues.  In the end, I had a
 little bit of code that could be recompiled easily to do ffts with short, float
 or double (other types should be easy too).  
 
-Once I got my FFT working, I was curious about the speed compared to
-a well respected and highly optimized fft library.  I don't want to criticize 
-this great library, so let's call it FFT_BRANDX.
-During this process, I learned:
+Once I got my FFT working, I was curious about the speed compared to a well respected and highly optimized fft library.  I don't want to criticize this great library, so let's call it FFT_BRANDX. During this process, I learned:
 
 > 1. FFT_BRANDX has more than 100K lines of code. The core of kiss_fft is about 500 lines (cpx 1-d).
 > 2. It took me an embarrassingly long time to get FFT_BRANDX working.
 > 3. A simple program using FFT_BRANDX is 522KB. A similar program using kiss_fft is 18KB (without optimizing for size).
 > 4. FFT_BRANDX is roughly twice as fast as KISS FFT in default mode.
 
-It is wonderful that free, highly optimized libraries like FFT_BRANDX exist.
-But such libraries carry a huge burden of complexity necessary to extract every 
-last bit of performance.
+It is wonderful that free, highly optimized libraries like FFT_BRANDX exist. But such libraries carry a huge burden of complexity necessary to extract every last bit of performance.
 
 **Sometimes simpler is better, even if it's not better.**
 
@@ -201,9 +180,7 @@ last bit of performance.
 ## PERFORMANCE
     (on Athlon XP 2100+, with gcc 2.96, float data type)
 
-Kiss performed 10000 1024-pt cpx ffts in .63 s of cpu time.
-For comparison, it took md5sum twice as long to process the same amount of data.
-Transforming 5 minutes of CD quality audio takes less than a second (nfft=1024). 
+Kiss performed 10000 1024-pt cpx ffts in .63 s of cpu time. For comparison, it took md5sum twice as long to process the same amount of data. Transforming 5 minutes of CD quality audio takes less than a second (nfft=1024).
 
 **DO NOT:**
 - use Kiss if you need the Fastest Fourier Transform in the World
@@ -221,12 +198,9 @@ Scaling is done both ways for the fixed-point version (for overflow prevention).
 
 Optimized butterflies are used for factors 2,3,4, and 5. 
 
-The real (i.e. not complex) optimization code only works for even length ffts.  It does two half-length
-FFTs in parallel (packed into real&imag), and then combines them via twiddling.  The result is 
-nfft/2+1 complex frequency bins from DC to Nyquist.  If you don't know what this means, search the web.
+The real (i.e. not complex) optimization code only works for even length ffts.  It does two half-length FFTs in parallel (packed into real&imag), and then combines them via twiddling.  The result is nfft/2+1 complex frequency bins from DC to Nyquist.  If you don't know what this means, search the web.
 
-The fast convolution filtering uses the overlap-scrap method, slightly 
-modified to put the scrap at the tail.
+The fast convolution filtering uses the overlap-scrap method, slightly modified to put the scrap at the tail.
 
 ## LICENSE
     Revised BSD License, see COPYING for verbiage. 

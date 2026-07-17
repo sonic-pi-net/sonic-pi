@@ -5,9 +5,7 @@ Memoist
 
 Memoist is an extraction of ActiveSupport::Memoizable.
 
-Since June 2011 ActiveSupport::Memoizable has been deprecated.
-But I love it,
-and so I plan to keep it alive.
+Since June 2011 ActiveSupport::Memoizable has been deprecated. But I love it, and so I plan to keep it alive.
 
 Usage
 -----
@@ -38,8 +36,7 @@ person.social_security
 
 And person.social_security will only be calculated once.
 
-Every memoized function (which initially was not accepting any arguments) has a ```(reload)```
-argument you can pass in to bypass and reset the memoization:
+Every memoized function (which initially was not accepting any arguments) has a ```(reload)``` argument you can pass in to bypass and reset the memoization:
 
 ```ruby
 def some_method
@@ -79,8 +76,7 @@ class Person
 end
 ```
 
-When a sub-class overrides one of its parent's methods and you need to memoize both. 
-Then you can use the `:identifier` parameter in order to help _Memoist_ distinguish between the two.
+When a sub-class overrides one of its parent's methods and you need to memoize both. Then you can use the `:identifier` parameter in order to help _Memoist_ distinguish between the two.
 
 ```ruby
 class Clock

@@ -1,20 +1,11 @@
 <a id="top"></a>
 # Event Listeners
 
-An event listener is a bit like a reporter, in that it responds to various
-reporter events in Catch2, but it is not expected to write any output.
-Instead, an event listener performs actions within the test process, such
-as performing global initialization (e.g. of a C library), or cleaning out
-in-memory logs if they are not needed (the test case passed).
+An event listener is a bit like a reporter, in that it responds to various reporter events in Catch2, but it is not expected to write any output. Instead, an event listener performs actions within the test process, such as performing global initialization (e.g. of a C library), or cleaning out in-memory logs if they are not needed (the test case passed).
 
-Unlike reporters, each registered event listener is always active. Event
-listeners are always notified before reporter(s).
+Unlike reporters, each registered event listener is always active. Event listeners are always notified before reporter(s).
 
-To write your own event listener, you should derive from `Catch::TestEventListenerBase`,
-as it provides empty stubs for all reporter events, allowing you to
-only override events you care for. Afterwards you have to register it
-with Catch2 using `CATCH_REGISTER_LISTENER` macro, so that Catch2 knows
-about it and instantiates it before running tests.
+To write your own event listener, you should derive from `Catch::TestEventListenerBase`, as it provides empty stubs for all reporter events, allowing you to only override events you care for. Afterwards you have to register it with Catch2 using `CATCH_REGISTER_LISTENER` macro, so that Catch2 knows about it and instantiates it before running tests.
 
 Example event listener:
 ```cpp
@@ -35,8 +26,7 @@ CATCH_REGISTER_LISTENER(testRunListener)
 
 _Note that you should not use any assertion macros within a Listener!_
 
-[You can find the list of events that the listeners can react to on its
-own page](reporter-events.md#top).
+[You can find the list of events that the listeners can react to on its own page](reporter-events.md#top).
 
 
 ---

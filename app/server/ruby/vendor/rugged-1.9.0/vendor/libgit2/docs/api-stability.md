@@ -1,8 +1,4 @@
-The maintainers of the libgit2 project believe that having a stable API
-to program against is important for our users and the ecosystem - whether
-you're building against the libgit2 C APIs directly, creating a wrapper to
-a managed language, or programming against one of those managed wrappers
-like LibGit2Sharp or Rugged.
+The maintainers of the libgit2 project believe that having a stable API to program against is important for our users and the ecosystem - whether you're building against the libgit2 C APIs directly, creating a wrapper to a managed language, or programming against one of those managed wrappers like LibGit2Sharp or Rugged.
 
 Our API stability considerations are:
 
@@ -57,7 +53,5 @@ Our API stability considerations are:
   * ABI changes will be noted specially within a release's changelog.
 
 * Point releases are _generally_ only for bugfixes, and generally do _not_
-  include new features.  This means that point releases generally do _not_
-  include new APIs.  Point releases will never break API, systems API or
-  ABI compatibility.
+include new features.  This means that point releases generally do _not_ include new APIs.  Point releases will never break API, systems API or ABI compatibility.
 

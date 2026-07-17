@@ -1,15 +1,12 @@
 # Samples
 
-The samples prefixed with `arovane_` have been kindly donated by Uwe Zahn
-(Arovane) under a Creative Commons 0 license. Thanks Uwe!
+The samples prefixed with `arovane_` have been kindly donated by Uwe Zahn (Arovane) under a Creative Commons 0 license. Thanks Uwe!
 
-All other samples in this directory are from http://freesound.org and have
-also been placed in the public domain via the Creative Commons 0 License:
+All other samples in this directory are from http://freesound.org and have also been placed in the public domain via the Creative Commons 0 License:
 
 http://creativecommons.org/publicdomain/zero/1.0/
 
-Many of the samples have been slightly modified and trimmed for use with
-Sonic Pi.
+Many of the samples have been slightly modified and trimmed for use with Sonic Pi.
 
 Links to original samples:
 

@@ -1,9 +1,6 @@
 # Samples for moodycamel::ConcurrentQueue
 
-Here are some example usage scenarios with sample code. Note that most
-use the simplest version of each available method for demonstration purposes,
-but they can all be adapted to use tokens and/or the corresponding bulk methods for
-extra speed.
+Here are some example usage scenarios with sample code. Note that most use the simplest version of each available method for demonstration purposes, but they can all be adapted to use tokens and/or the corresponding bulk methods for extra speed.
 
 
 ## Hello queue
@@ -22,8 +19,7 @@ for (int i = 0; i != 123; ++i) {
 
 ## Hello concurrency
 
-Basic example of how to use the queue from multiple threads, with no
-particular goal (i.e. it does nothing, but in an instructive way).
+Basic example of how to use the queue from multiple threads, with no particular goal (i.e. it does nothing, but in an instructive way).
 ```C++
 ConcurrentQueue<int> q;
 int dequeued[100] = { 0 };
@@ -118,10 +114,7 @@ for (int i = 0; i != 100; ++i) {
 
 ## Producer/consumer model (simultaneous)
 
-In this model, one set of threads is producing items,
-and the other is consuming them concurrently until all of
-them have been consumed. The counters are required to
-ensure that all items eventually get consumed.
+In this model, one set of threads is producing items, and the other is consuming them concurrently until all of them have been consumed. The counters are required to ensure that all items eventually get consumed.
 ```C++
 ConcurrentQueue<Item> q;
 const int ProducerCount = 8;
@@ -164,11 +157,7 @@ for (int i = 0; i != ConsumerCount; ++i) {
 ```
 ## Producer/consumer model (simultaneous, blocking)
 
-The blocking version is different, since either the number of elements being produced needs
-to be known ahead of time, or some other coordination is required to tell the consumers when
-to stop calling wait_dequeue (not shown here). This is necessary because otherwise a consumer
-could end up blocking forever -- and destroying a queue while a consumer is blocking on it leads
-to undefined behaviour.
+The blocking version is different, since either the number of elements being produced needs to be known ahead of time, or some other coordination is required to tell the consumers when to stop calling wait_dequeue (not shown here). This is necessary because otherwise a consumer could end up blocking forever -- and destroying a queue while a consumer is blocking on it leads to undefined behaviour.
 ```C++
 BlockingConcurrentQueue<Item> q;
 const int ProducerCount = 8;
@@ -235,16 +224,12 @@ for (int i = 0; i != 8; ++i) {
 	threads[i].join();
 }
 ```
-Note that there's no point trying to use the blocking queue with this model, since
-there's no need to use the `wait` methods (all the elements are produced before any
-are consumed), and hence the complexity would be the same but with additional overhead.
+Note that there's no point trying to use the blocking queue with this model, since there's no need to use the `wait` methods (all the elements are produced before any are consumed), and hence the complexity would be the same but with additional overhead.
 
 
 ## Object pool
 
-If you don't know what threads will be using the queue in advance,
-you can't really declare any long-term tokens. The obvious solution
-is to use the implicit methods (that don't take any tokens):
+If you don't know what threads will be using the queue in advance, you can't really declare any long-term tokens. The obvious solution is to use the implicit methods (that don't take any tokens):
 ```C++
 // A pool of 'Something' objects that can be safely accessed
 // from any thread
@@ -322,12 +307,7 @@ while (pendingTasks.load(std::memory_order_acquire) != 0) {
 
 ## Pump until empty
 
-This might be useful if, for example, you want to process any remaining items
-in the queue before it's destroyed. Note that it is your responsibility
-to ensure that the memory effects of any enqueue operations you wish to see on
-the dequeue thread are visible (i.e. if you're waiting for a certain set of elements,
-you need to use memory fences to ensure that those elements are visible to the dequeue
-thread after they've been enqueued).
+This might be useful if, for example, you want to process any remaining items in the queue before it's destroyed. Note that it is your responsibility to ensure that the memory effects of any enqueue operations you wish to see on the dequeue thread are visible (i.e. if you're waiting for a certain set of elements, you need to use memory fences to ensure that those elements are visible to the dequeue thread after they've been enqueued).
 ```C++
 ConcurrentQueue<Item> q;
 
@@ -367,9 +347,4 @@ for (int i = 0; i != 8; ++i) {
 
 ## Wait for a queue to become empty (without dequeueing)
 
-You can't (robustly) :-) However, you can set up your own atomic counter and
-poll that instead (see the game loop example). If you're satisfied with merely an estimate, you can use
-`size_approx()`. Note that `size_approx()` may return 0 even if the queue is
-not completely empty, unless the queue has already stabilized first (no threads
-are enqueueing or dequeueing, and all memory effects of any previous operations
-have been propagated to the thread before it calls `size_approx()`).
+You can't (robustly) :-) However, you can set up your own atomic counter and poll that instead (see the game loop example). If you're satisfied with merely an estimate, you can use `size_approx()`. Note that `size_approx()` may return 0 even if the queue is not completely empty, unless the queue has already stabilized first (no threads are enqueueing or dequeueing, and all memory effects of any previous operations have been propagated to the thread before it calls `size_approx()`).

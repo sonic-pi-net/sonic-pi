@@ -3,20 +3,13 @@ Diff is broken into four phases:
 1. Building a list of things that have changed.  These changes are called
    deltas (git_diff_delta objects) and are grouped into a git_diff_list.
 2. Applying file similarity measurement for rename and copy detection (and
-   to potentially split files that have changed radically).  This step is
-   optional.
+to potentially split files that have changed radically).  This step is optional.
 3. Computing the textual diff for each delta.  Not all deltas have a
-   meaningful textual diff.  For those that do, the textual diff can
-   either be generated on the fly and passed to output callbacks or can be
-   turned into a git_diff_patch object.
+meaningful textual diff.  For those that do, the textual diff can either be generated on the fly and passed to output callbacks or can be turned into a git_diff_patch object.
 4. Formatting the diff and/or patch into standard text formats (such as
    patches, raw lists, etc).
 
-In the source code, step 1 is implemented in `src/diff.c`, step 2 in
-`src/diff_tform.c`, step 3 in `src/diff_patch.c`, and step 4 in
-`src/diff_print.c`.  Additionally, when it comes to accessing file
-content, everything goes through diff drivers that are implemented in
-`src/diff_driver.c`.
+In the source code, step 1 is implemented in `src/diff.c`, step 2 in `src/diff_tform.c`, step 3 in `src/diff_patch.c`, and step 4 in `src/diff_print.c`.  Additionally, when it comes to accessing file content, everything goes through diff drivers that are implemented in `src/diff_driver.c`.
 
 External Objects
 ----------------
@@ -29,13 +22,9 @@ External Objects
 * `git_diff_list` is a list of deltas along with information about how
   those particular deltas were found.
 * `git_diff_patch` represents the actual diff between a pair of items.  In
-  some cases, a delta may not have a corresponding patch, if the objects
-  are binary, for example.  The content of a patch will be a set of hunks
-  and lines.
+some cases, a delta may not have a corresponding patch, if the objects are binary, for example.  The content of a patch will be a set of hunks and lines.
 * A `hunk` is range of lines described by a `git_diff_range` (i.e.  "lines
-  10-20 in the old file became lines 12-23 in the new").  It will have a
-  header that compactly represents that information, and it will have a
-  number of lines of context surrounding added and deleted lines.
+10-20 in the old file became lines 12-23 in the new").  It will have a header that compactly represents that information, and it will have a number of lines of context surrounding added and deleted lines.
 * A `line` is simple a line of data along with a `git_diff_line_t` value
   that tells how the data should be interpreted (e.g. context or added).
 
@@ -43,8 +32,7 @@ Internal Objects
 ----------------
 
 * `git_diff_file_content` is an internal structure that represents the
-  data on one side of an item to be diffed; it is an augmented
-  `git_diff_file` with more flags and the actual file data.
+data on one side of an item to be diffed; it is an augmented `git_diff_file` with more flags and the actual file data.
 
     * it is created from a repository plus a) a git_diff_file, b) a git_blob,
    or c) raw data and size

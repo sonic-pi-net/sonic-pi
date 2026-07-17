@@ -1,40 +1,9 @@
 <a id="top"></a>
 # Command line
 
-**Contents**<br>
-[Specifying which tests to run](#specifying-which-tests-to-run)<br>
-[Choosing a reporter to use](#choosing-a-reporter-to-use)<br>
-[Breaking into the debugger](#breaking-into-the-debugger)<br>
-[Showing results for successful tests](#showing-results-for-successful-tests)<br>
-[Aborting after a certain number of failures](#aborting-after-a-certain-number-of-failures)<br>
-[Listing available tests, tags or reporters](#listing-available-tests-tags-or-reporters)<br>
-[Sending output to a file](#sending-output-to-a-file)<br>
-[Naming a test run](#naming-a-test-run)<br>
-[Eliding assertions expected to throw](#eliding-assertions-expected-to-throw)<br>
-[Make whitespace visible](#make-whitespace-visible)<br>
-[Warnings](#warnings)<br>
-[Reporting timings](#reporting-timings)<br>
-[Load test names to run from a file](#load-test-names-to-run-from-a-file)<br>
-[Specify the order test cases are run](#specify-the-order-test-cases-are-run)<br>
-[Specify a seed for the Random Number Generator](#specify-a-seed-for-the-random-number-generator)<br>
-[Identify framework and version according to the libIdentify standard](#identify-framework-and-version-according-to-the-libidentify-standard)<br>
-[Wait for key before continuing](#wait-for-key-before-continuing)<br>
-[Skip all benchmarks](#skip-all-benchmarks)<br>
-[Specify the number of benchmark samples to collect](#specify-the-number-of-benchmark-samples-to-collect)<br>
-[Specify the number of resamples for bootstrapping](#specify-the-number-of-resamples-for-bootstrapping)<br>
-[Specify the confidence-interval for bootstrapping](#specify-the-confidence-interval-for-bootstrapping)<br>
-[Disable statistical analysis of collected benchmark samples](#disable-statistical-analysis-of-collected-benchmark-samples)<br>
-[Specify the amount of time in milliseconds spent on warming up each test](#specify-the-amount-of-time-in-milliseconds-spent-on-warming-up-each-test)<br>
-[Usage](#usage)<br>
-[Specify the section to run](#specify-the-section-to-run)<br>
-[Filenames as tags](#filenames-as-tags)<br>
-[Override output colouring](#override-output-colouring)<br>
-[Test Sharding](#test-sharding)<br>
-[Allow running the binary without tests](#allow-running-the-binary-without-tests)<br>
-[Output verbosity](#output-verbosity)<br>
+**Contents**<br> [Specifying which tests to run](#specifying-which-tests-to-run)<br> [Choosing a reporter to use](#choosing-a-reporter-to-use)<br> [Breaking into the debugger](#breaking-into-the-debugger)<br> [Showing results for successful tests](#showing-results-for-successful-tests)<br> [Aborting after a certain number of failures](#aborting-after-a-certain-number-of-failures)<br> [Listing available tests, tags or reporters](#listing-available-tests-tags-or-reporters)<br> [Sending output to a file](#sending-output-to-a-file)<br> [Naming a test run](#naming-a-test-run)<br> [Eliding assertions expected to throw](#eliding-assertions-expected-to-throw)<br> [Make whitespace visible](#make-whitespace-visible)<br> [Warnings](#warnings)<br> [Reporting timings](#reporting-timings)<br> [Load test names to run from a file](#load-test-names-to-run-from-a-file)<br> [Specify the order test cases are run](#specify-the-order-test-cases-are-run)<br> [Specify a seed for the Random Number Generator](#specify-a-seed-for-the-random-number-generator)<br> [Identify framework and version according to the libIdentify standard](#identify-framework-and-version-according-to-the-libidentify-standard)<br> [Wait for key before continuing](#wait-for-key-before-continuing)<br> [Skip all benchmarks](#skip-all-benchmarks)<br> [Specify the number of benchmark samples to collect](#specify-the-number-of-benchmark-samples-to-collect)<br> [Specify the number of resamples for bootstrapping](#specify-the-number-of-resamples-for-bootstrapping)<br> [Specify the confidence-interval for bootstrapping](#specify-the-confidence-interval-for-bootstrapping)<br> [Disable statistical analysis of collected benchmark samples](#disable-statistical-analysis-of-collected-benchmark-samples)<br> [Specify the amount of time in milliseconds spent on warming up each test](#specify-the-amount-of-time-in-milliseconds-spent-on-warming-up-each-test)<br> [Usage](#usage)<br> [Specify the section to run](#specify-the-section-to-run)<br> [Filenames as tags](#filenames-as-tags)<br> [Override output colouring](#override-output-colouring)<br> [Test Sharding](#test-sharding)<br> [Allow running the binary without tests](#allow-running-the-binary-without-tests)<br> [Output verbosity](#output-verbosity)<br>
 
-Catch works quite nicely without any command line options at all - but for those times when you want greater control the following options are available.
-Click one of the following links to take you straight to that option - or scroll on to browse the available options.
+Catch works quite nicely without any command line options at all - but for those times when you want greater control the following options are available. Click one of the following links to take you straight to that option - or scroll on to browse the available options.
 
 <a href="#specifying-which-tests-to-run">               `    <test-spec> ...`</a><br />
 <a href="#usage">                                       `    -h, -?, --help`</a><br />
@@ -85,13 +54,9 @@ Click one of the following links to take you straight to that option - or scroll
 
 <pre>&lt;test-spec> ...</pre>
 
-By providing a test spec, you filter which tests will be run. If you call
-Catch2 without any test spec, then it will run all non-hidden test
-cases. A test case is hidden if it has the `[!benchmark]` tag, any tag
-with a dot at the start, e.g. `[.]` or `[.foo]`.
+By providing a test spec, you filter which tests will be run. If you call Catch2 without any test spec, then it will run all non-hidden test cases. A test case is hidden if it has the `[!benchmark]` tag, any tag with a dot at the start, e.g. `[.]` or `[.foo]`.
 
-There are three basic test specs that can then be combined into more
-complex specs:
+There are three basic test specs that can then be combined into more complex specs:
 
   * Full test name, e.g. `"Test 1"`.
 
@@ -109,8 +74,7 @@ complex specs:
     tags are special, e.g. those that start with "." or with "!".
 
 
-You can also combine the basic test specs to create more complex test
-specs. You can:
+You can also combine the basic test specs to create more complex test specs. You can:
 
   * Concatenate specs to apply all of them, e.g. `[some-tag][other-tag]`.
 
@@ -136,16 +100,9 @@ specs. You can:
     This means that `~[foo][bar]` negates only the "[foo]" tag and not the
     "[bar]" tag.
 
-Note that when Catch2 is deciding whether to include a test, first it
-checks whether the test matches any negative filters. If it does,
-the test is rejected. After that, the behaviour depends on whether there
-are positive filters as well. If there are no positive filters, all
-remaining non-hidden tests are included. If there are positive filters,
-only tests that match the positive filters are included.
+Note that when Catch2 is deciding whether to include a test, first it checks whether the test matches any negative filters. If it does, the test is rejected. After that, the behaviour depends on whether there are positive filters as well. If there are no positive filters, all remaining non-hidden tests are included. If there are positive filters, only tests that match the positive filters are included.
 
-You can also match test names with special characters by escaping them
-with a backslash (`"\"`), e.g. a test named `"Do A, then B"` is matched
-by `"Do A\, then B"` test spec. Backslash also escapes itself.
+You can also match test names with special characters by escaping them with a backslash (`"\"`), e.g. a test named `"Do A, then B"` is matched by `"Do A\, then B"` test spec. Backslash also escapes itself.
 
 
 ### Examples
@@ -177,9 +134,7 @@ this is the result of these filters
 ./tests "Test 1*"            # Selects test 1, wildcard can match zero characters
 ```
 
-_Note: Using plain asterisk on a command line can cause issues with shell
-expansion. Make sure that the asterisk is passed to Catch2 and is not
-interpreted by the shell._
+_Note: Using plain asterisk on a command line can cause issues with shell expansion. Make sure that the asterisk is passed to Catch2 and is not interpreted by the shell._
 
 
 <a id="choosing-a-reporter-to-use"></a>
@@ -187,62 +142,37 @@ interpreted by the shell._
 
 <pre>-r, --reporter &lt;reporter[::key=value]*&gt;</pre>
 
-Reporters are how the output from Catch2 (results of assertions, tests,
-benchmarks and so on) is formatted and written out. The default reporter
-is called the "Console" reporter and is intended to provide relatively
-verbose and human-friendly output.
+Reporters are how the output from Catch2 (results of assertions, tests, benchmarks and so on) is formatted and written out. The default reporter is called the "Console" reporter and is intended to provide relatively verbose and human-friendly output.
 
-Reporters are also individually configurable. To pass configuration options
-to the reporter, you append `::key=value` to the reporter specification
-as many times as you want, e.g. `--reporter xml::out=someFile.xml` or
-`--reporter custom::colour-mode=ansi::Xoption=2`.
+Reporters are also individually configurable. To pass configuration options to the reporter, you append `::key=value` to the reporter specification as many times as you want, e.g. `--reporter xml::out=someFile.xml` or `--reporter custom::colour-mode=ansi::Xoption=2`.
 
-The keys must either be prefixed by "X", in which case they are not parsed
-by Catch2 and are only passed down to the reporter, or one of options
-hardcoded into Catch2. Currently there are only 2,
-["out"](#sending-output-to-a-file), and ["colour-mode"](#colour-mode).
+The keys must either be prefixed by "X", in which case they are not parsed by Catch2 and are only passed down to the reporter, or one of options hardcoded into Catch2. Currently there are only 2, ["out"](#sending-output-to-a-file), and ["colour-mode"](#colour-mode).
 
-_Note that the reporter might still check the X-prefixed options for
-validity, and throw an error if they are wrong._
+_Note that the reporter might still check the X-prefixed options for validity, and throw an error if they are wrong._
 
 > Support for passing arguments to reporters through the `-r`, `--reporter` flag was introduced in Catch2 3.0.1
 
-There are multiple built-in reporters, you can see what they do by using the
-[`--list-reporters`](command-line.md#listing-available-tests-tags-or-reporters)
-flag. If you need a reporter providing custom format outside of the already
-provided ones, look at the ["write your own reporter" part of the reporter
-documentation](reporters.md#writing-your-own-reporter).
+There are multiple built-in reporters, you can see what they do by using the [`--list-reporters`](command-line.md#listing-available-tests-tags-or-reporters) flag. If you need a reporter providing custom format outside of the already provided ones, look at the ["write your own reporter" part of the reporter documentation](reporters.md#writing-your-own-reporter).
 
-This option may be passed multiple times to use multiple (different)
-reporters  at the same time. See the [reporter documentation](reporters.md#multiple-reporters)
-for details on what the resulting behaviour is. Also note that at most one
-reporter can be provided without the output-file part of reporter spec.
-This reporter will use the "default" output destination, based on
-the [`-o`, `--out`](#sending-output-to-a-file) option.
+This option may be passed multiple times to use multiple (different) reporters  at the same time. See the [reporter documentation](reporters.md#multiple-reporters) for details on what the resulting behaviour is. Also note that at most one reporter can be provided without the output-file part of reporter spec. This reporter will use the "default" output destination, based on the [`-o`, `--out`](#sending-output-to-a-file) option.
 
 > Support for using multiple different reporters at the same time was [introduced](https://github.com/catchorg/Catch2/pull/2183) in Catch2 3.0.1
 
 
-_Note: There is currently no way to escape `::` in the reporter spec,
-and thus the reporter names, or configuration keys and values, cannot
-contain `::`. As `::` in paths is relatively obscure (unlike ':'), we do
-not consider this an issue._
+_Note: There is currently no way to escape `::` in the reporter spec, and thus the reporter names, or configuration keys and values, cannot contain `::`. As `::` in paths is relatively obscure (unlike ':'), we do not consider this an issue._
 
 
 <a id="breaking-into-the-debugger"></a>
 ## Breaking into the debugger
 <pre>-b, --break</pre>
 
-Under most debuggers Catch2 is capable of automatically breaking on a test
-failure. This allows the user to see the current state of the test during
-failure.
+Under most debuggers Catch2 is capable of automatically breaking on a test failure. This allows the user to see the current state of the test during failure.
 
 <a id="showing-results-for-successful-tests"></a>
 ## Showing results for successful tests
 <pre>-s, --success</pre>
 
-Usually you only want to see reporting for failed tests. Sometimes it's useful to see *all* the output (especially when you don't trust that that test you just added worked first time!).
-To see successful, as well as failing, test results just pass this option. Note that each reporter may treat this option differently. The Junit reporter, for example, logs all results regardless.
+Usually you only want to see reporting for failed tests. Sometimes it's useful to see *all* the output (especially when you don't trust that that test you just added worked first time!). To see successful, as well as failing, test results just pass this option. Note that each reporter may treat this option differently. The Junit reporter, for example, logs all results regardless.
 
 <a id="aborting-after-a-certain-number-of-failures"></a>
 ## Aborting after a certain number of failures
@@ -250,8 +180,7 @@ To see successful, as well as failing, test results just pass this option. Note 
 -x, --abortx [&lt;failure threshold>]
 </pre>
 
-If a ```REQUIRE``` assertion fails the test case aborts, but subsequent test cases are still run.
-If a ```CHECK``` assertion fails even the current test case is not aborted.
+If a ```REQUIRE``` assertion fails the test case aborts, but subsequent test cases are still run. If a ```CHECK``` assertion fails even the current test case is not aborted.
 
 Sometimes this results in a flood of failure messages and you'd rather just see the first few. Specifying ```-a``` or ```--abort``` on its own will abort the whole test run on the first failed assertion of any kind. Use ```-x``` or ```--abortx``` followed by a number to abort after that number of assertion failures.
 
@@ -268,20 +197,15 @@ Sometimes this results in a flood of failure messages and you'd rather just see 
 
 > The `--list-listeners` option was added in Catch2 3.0.1
 
-`--list-tests` lists all registered tests matching specified test spec.
-Usually this listing also includes tags, and potentially also other
-information, like source location, based on verbosity and reporter's design.
+`--list-tests` lists all registered tests matching specified test spec. Usually this listing also includes tags, and potentially also other information, like source location, based on verbosity and reporter's design.
 
-`--list-tags` lists all tags from registered tests matching specified test
-spec. Usually this also includes number of tests cases they match and
-similar information.
+`--list-tags` lists all tags from registered tests matching specified test spec. Usually this also includes number of tests cases they match and similar information.
 
 `--list-reporters` lists all available reporters and their descriptions.
 
 `--list-listeners` lists all registered listeners and their descriptions.
 
-The [`--verbosity` argument](#output-verbosity) modifies the level of detail provided by the default `--list*` options
-as follows:
+The [`--verbosity` argument](#output-verbosity) modifies the level of detail provided by the default `--list*` options as follows:
 
 | Option             | `normal` (default)              | `quiet`             | `high`                                  |
 |--------------------|---------------------------------|---------------------|-----------------------------------------|
@@ -295,15 +219,11 @@ as follows:
 <pre>-o, --out &lt;filename&gt;
 </pre>
 
-Use this option to send all output to a file, instead of stdout. You can
-use `-` as the filename to explicitly send the output to stdout (this is
-useful e.g. when using multiple reporters).
+Use this option to send all output to a file, instead of stdout. You can use `-` as the filename to explicitly send the output to stdout (this is useful e.g. when using multiple reporters).
 
 > Support for `-` as the filename was introduced in Catch2 3.0.1
 
-Filenames starting with "%" (percent symbol) are reserved by Catch2 for
-meta purposes, e.g. using `%debug` as the filename opens stream that
-writes to platform specific debugging/logging mechanism.
+Filenames starting with "%" (percent symbol) are reserved by Catch2 for meta purposes, e.g. using `%debug` as the filename opens stream that writes to platform specific debugging/logging mechanism.
 
 Catch2 currently recognizes 3 meta streams:
 
@@ -336,17 +256,13 @@ When running with this option any throw checking assertions are skipped so as no
 ## Make whitespace visible
 <pre>-i, --invisibles</pre>
 
-If a string comparison fails due to differences in whitespace - especially leading or trailing whitespace - it can be hard to see what's going on.
-This option transforms tabs and newline characters into ```\t``` and ```\n``` respectively when printing.
+If a string comparison fails due to differences in whitespace - especially leading or trailing whitespace - it can be hard to see what's going on. This option transforms tabs and newline characters into ```\t``` and ```\n``` respectively when printing.
 
 <a id="warnings"></a>
 ## Warnings
 <pre>-w, --warn &lt;warning name></pre>
 
-You can think of Catch2's warnings as the equivalent of `-Werror` (`/WX`)
-flag for C++ compilers. It turns some suspicious occurrences, like a section
-without assertions, into errors. Because these might be intended, warnings
-are not enabled by default, but user can opt in.
+You can think of Catch2's warnings as the equivalent of `-Werror` (`/WX`) flag for C++ compilers. It turns some suspicious occurrences, like a section without assertions, into errors. Because these might be intended, warnings are not enabled by default, but user can opt in.
 
 You can enable multiple warnings at the same time.
 
@@ -372,23 +288,16 @@ When set to ```yes``` Catch will report the duration of each test case, in secon
 
 > `--min-duration` was [introduced](https://github.com/catchorg/Catch2/pull/1910) in Catch2 2.13.0
 
-When set, Catch will report the duration of each test case that took more
-than &lt;value> seconds, in seconds with millisecond precision. This option is overridden by both
-`-d yes` and `-d no`, so that either all durations are reported, or none
-are.
+When set, Catch will report the duration of each test case that took more than &lt;value> seconds, in seconds with millisecond precision. This option is overridden by both `-d yes` and `-d no`, so that either all durations are reported, or none are.
 
 
 <a id="input-file"></a>
 ## Load test names to run from a file
 <pre>-f, --input-file &lt;filename></pre>
 
-Provide the name of a file that contains a list of test case names,
-one per line. Blank lines are skipped.
+Provide the name of a file that contains a list of test case names, one per line. Blank lines are skipped.
 
-A useful way to generate an initial instance of this file is to combine
-the [`--list-tests`](#listing-available-tests-tags-or-reporters) flag with
-the [`--verbosity quiet`](#output-verbosity) option. You can also
-use test specs to filter this list down to what you want first.
+A useful way to generate an initial instance of this file is to combine the [`--list-tests`](#listing-available-tests-tags-or-reporters) flag with the [`--verbosity quiet`](#output-verbosity) option. You can also use test specs to filter this list down to what you want first.
 
 
 <a id="order"></a>
@@ -398,9 +307,7 @@ use test specs to filter this list down to what you want first.
 Test cases are ordered one of three ways:
 
 ### decl
-Declaration order (this is the default order if no --order argument is provided).
-Tests in the same translation unit are sorted using their declaration orders,
-different TUs are sorted in an implementation (linking) dependent order.
+Declaration order (this is the default order if no --order argument is provided). Tests in the same translation unit are sorted using their declaration orders, different TUs are sorted in an implementation (linking) dependent order.
 
 
 ### lex
@@ -409,35 +316,22 @@ Lexicographic order. Tests are sorted by their name, their tags are ignored.
 
 ### rand
 
-Randomly ordered. The order is dependent on Catch2's random seed (see
-[`--rng-seed`](#rng-seed)), and is subset invariant. What this means
-is that as long as the random seed is fixed, running only some tests
-(e.g. via tag) does not change their relative order.
+Randomly ordered. The order is dependent on Catch2's random seed (see [`--rng-seed`](#rng-seed)), and is subset invariant. What this means is that as long as the random seed is fixed, running only some tests (e.g. via tag) does not change their relative order.
 
 > The subset stability was introduced in Catch2 v2.12.0
 
-Since the random order was made subset stable, we promise that given
-the same random seed, the order of test cases will be the same across
-different platforms, as long as the tests were compiled against identical
-version of Catch2. We reserve the right to change the relative order
-of tests cases between Catch2 versions, but it is unlikely to happen often.
+Since the random order was made subset stable, we promise that given the same random seed, the order of test cases will be the same across different platforms, as long as the tests were compiled against identical version of Catch2. We reserve the right to change the relative order of tests cases between Catch2 versions, but it is unlikely to happen often.
 
 
 <a id="rng-seed"></a>
 ## Specify a seed for the Random Number Generator
 <pre>--rng-seed &lt;'time'|'random-device'|number&gt;</pre>
 
-Sets the seed for random number generators used by Catch2. These are used
-e.g. to shuffle tests when user asks for tests to be in random order.
+Sets the seed for random number generators used by Catch2. These are used e.g. to shuffle tests when user asks for tests to be in random order.
 
-Using `time` as the argument asks Catch2 generate the seed through call
-to `std::time(nullptr)`. This provides very weak randomness and multiple
-runs of the binary can generate the same seed if they are started close
-to each other.
+Using `time` as the argument asks Catch2 generate the seed through call to `std::time(nullptr)`. This provides very weak randomness and multiple runs of the binary can generate the same seed if they are started close to each other.
 
-Using `random-device` asks for `std::random_device` to be used instead.
-If your implementation provides working `std::random_device`, it should
-be preferred to using `time`. Catch2 uses `std::random_device` by default.
+Using `random-device` asks for `std::random_device` to be used instead. If your implementation provides working `std::random_device`, it should be preferred to using `time`. Catch2 uses `std::random_device` by default.
 
 
 <a id="libidentify"></a>
@@ -450,8 +344,7 @@ See [The LibIdentify repo for more information and examples](https://github.com/
 ## Wait for key before continuing
 <pre>--wait-for-keypress &lt;never|start|exit|both&gt;</pre>
 
-Will cause the executable to print a message and wait until the return/ enter key is pressed before continuing -
-either before running any tests, after running all tests - or both, depending on the argument.
+Will cause the executable to print a message and wait until the return/ enter key is pressed before continuing - either before running any tests, after running all tests - or both, depending on the argument.
 
 <a id="skip-benchmarks"></a>
 ## Skip all benchmarks
@@ -459,9 +352,7 @@ either before running any tests, after running all tests - or both, depending on
 
 > [Introduced](https://github.com/catchorg/Catch2/issues/2408) in Catch2 3.0.1.
 
-This flag tells Catch2 to skip running all benchmarks. Benchmarks in this
-case mean code blocks in `BENCHMARK` and `BENCHMARK_ADVANCED` macros, not
-test cases with the `[!benchmark]` tag.
+This flag tells Catch2 to skip running all benchmarks. Benchmarks in this case mean code blocks in `BENCHMARK` and `BENCHMARK_ADVANCED` macros, not test cases with the `[!benchmark]` tag.
 
 <a id="benchmark-samples"></a>
 ## Specify the number of benchmark samples to collect
@@ -469,8 +360,7 @@ test cases with the `[!benchmark]` tag.
 
 > [Introduced](https://github.com/catchorg/Catch2/issues/1616) in Catch2 2.9.0.
 
-When running benchmarks a number of "samples" is collected. This is the base data for later statistical analysis.
-Per sample a clock resolution dependent number of iterations of the user code is run, which is independent of the number of samples. Defaults to 100.
+When running benchmarks a number of "samples" is collected. This is the base data for later statistical analysis. Per sample a clock resolution dependent number of iterations of the user code is run, which is independent of the number of samples. Defaults to 100.
 
 <a id="benchmark-resamples"></a>
 ## Specify the number of resamples for bootstrapping
@@ -478,12 +368,7 @@ Per sample a clock resolution dependent number of iterations of the user code is
 
 > [Introduced](https://github.com/catchorg/Catch2/issues/1616) in Catch2 2.9.0.
 
-After the measurements are performed, statistical [bootstrapping] is performed
-on the samples. The number of resamples for that bootstrapping is configurable
-but defaults to 100000. Due to the bootstrapping it is possible to give
-estimates for the mean and standard deviation. The estimates come with a lower
-bound and an upper bound, and the confidence interval (which is configurable but
-defaults to 95%).
+After the measurements are performed, statistical [bootstrapping] is performed on the samples. The number of resamples for that bootstrapping is configurable but defaults to 100000. Due to the bootstrapping it is possible to give estimates for the mean and standard deviation. The estimates come with a lower bound and an upper bound, and the confidence interval (which is configurable but defaults to 95%).
 
  [bootstrapping]: http://en.wikipedia.org/wiki/Bootstrapping_%28statistics%29
 
@@ -493,9 +378,7 @@ defaults to 95%).
 
 > [Introduced](https://github.com/catchorg/Catch2/issues/1616) in Catch2 2.9.0.
 
-The confidence-interval is used for statistical bootstrapping on the samples to
-calculate the upper and lower bounds of mean and standard deviation.
-Must be between 0 and 1 and defaults to 0.95.
+The confidence-interval is used for statistical bootstrapping on the samples to calculate the upper and lower bounds of mean and standard deviation. Must be between 0 and 1 and defaults to 0.95.
 
 <a id="benchmark-no-analysis"></a>
 ## Disable statistical analysis of collected benchmark samples
@@ -503,8 +386,7 @@ Must be between 0 and 1 and defaults to 0.95.
 
 > [Introduced](https://github.com/catchorg/Catch2/issues/1616) in Catch2 2.9.0.
 
-When this flag is specified no bootstrapping or any other statistical analysis is performed.
-Instead the user code is only measured and the plain mean from the samples is reported.
+When this flag is specified no bootstrapping or any other statistical analysis is performed. Instead the user code is only measured and the plain mean from the samples is reported.
 
 <a id="benchmark-warmup-time"></a>
 ## Specify the amount of time in milliseconds spent on warming up each test
@@ -525,25 +407,21 @@ Prints the command line arguments to stdout
 ## Specify the section to run
 <pre>-c, --section &lt;section name&gt;</pre>
 
-To limit execution to a specific section within a test case, use this option one or more times.
-To narrow to sub-sections use multiple instances, where each subsequent instance specifies a deeper nesting level.
+To limit execution to a specific section within a test case, use this option one or more times. To narrow to sub-sections use multiple instances, where each subsequent instance specifies a deeper nesting level.
 
 E.g. if you have:
 
 <pre>
-TEST_CASE( "Test" ) {
-  SECTION( "sa" ) {
+TEST_CASE( "Test" ) { SECTION( "sa" ) {
     SECTION( "sb" ) {
       /*...*/
     }
     SECTION( "sc" ) {
       /*...*/
     }
-  }
-  SECTION( "sd" ) {
+} SECTION( "sd" ) {
     /*...*/
-  }
-}
+} }
 </pre>
 
 Then you can run `sb` with:
@@ -567,12 +445,9 @@ start of the first section.</br>
 ## Filenames as tags
 <pre>-#, --filenames-as-tags</pre>
 
-This option adds an extra tag to all test cases. The tag is `#` followed
-by the unqualified filename the test case is defined in, with the _last_
-extension stripped out.
+This option adds an extra tag to all test cases. The tag is `#` followed by the unqualified filename the test case is defined in, with the _last_ extension stripped out.
 
-For example, tests within the file `tests\SelfTest\UsageTests\BDD.tests.cpp`
-will be given the `[#BDD.tests]` tag.
+For example, tests within the file `tests\SelfTest\UsageTests\BDD.tests.cpp` will be given the `[#BDD.tests]` tag.
 
 
 <a id="colour-mode"></a>
@@ -582,10 +457,7 @@ will be given the `[#BDD.tests]` tag.
 > The `--colour-mode` option replaced the old `--colour` option in Catch2 3.0.1
 
 
-Catch2 support two different ways of colouring terminal output, and by
-default it attempts to make a good guess on which implementation to use
-(and whether to even use it, e.g. Catch2 tries to avoid writing colour
-codes when writing the results into a file).
+Catch2 support two different ways of colouring terminal output, and by default it attempts to make a good guess on which implementation to use (and whether to even use it, e.g. Catch2 tries to avoid writing colour codes when writing the results into a file).
 
 `--colour-mode` allows the user to explicitly select what happens.
 
@@ -605,17 +477,11 @@ when writing to a file
 
 > [Introduced](https://github.com/catchorg/Catch2/pull/2257) in Catch2 3.0.1.
 
-When `--shard-count <#number of shards>` is used, the tests to execute
-will be split evenly in to the given number of sets, identified by indices
-starting at 0. The tests in the set given by
-`--shard-index <#shard index to run>` will be executed. The default shard
-count is `1`, and the default index to run is `0`.
+When `--shard-count <#number of shards>` is used, the tests to execute will be split evenly in to the given number of sets, identified by indices starting at 0. The tests in the set given by `--shard-index <#shard index to run>` will be executed. The default shard count is `1`, and the default index to run is `0`.
 
-_Shard index must be less than number of shards. As the name suggests,
-it is treated as an index of the shard to run._
+_Shard index must be less than number of shards. As the name suggests, it is treated as an index of the shard to run._
 
-Sharding is useful when you want to split test execution across multiple
-processes, as is done with the [Bazel test sharding](https://docs.bazel.build/versions/main/test-encyclopedia.html#test-sharding).
+Sharding is useful when you want to split test execution across multiple processes, as is done with the [Bazel test sharding](https://docs.bazel.build/versions/main/test-encyclopedia.html#test-sharding).
 
 
 <a id="no-tests-override"></a>
@@ -624,21 +490,14 @@ processes, as is done with the [Bazel test sharding](https://docs.bazel.build/ve
 
 > Introduced in Catch2 3.0.1.
 
-By default, Catch2 test binaries return non-0 exit code if no tests were run,
-e.g. if the binary was compiled with no tests, the provided test spec matched no
-tests, or all tests [were skipped at runtime](skipping-passing-failing.md#top). This flag
-overrides that, so a test run with no tests still returns 0.
+By default, Catch2 test binaries return non-0 exit code if no tests were run, e.g. if the binary was compiled with no tests, the provided test spec matched no tests, or all tests [were skipped at runtime](skipping-passing-failing.md#top). This flag overrides that, so a test run with no tests still returns 0.
 
 ## Output verbosity
 ```
 -v, --verbosity <quiet|normal|high>
 ```
 
-Changing verbosity might change how many details Catch2's reporters output.
-However, you should consider changing the verbosity level as a _suggestion_.
-Not all reporters support all verbosity levels, e.g. because the reporter's
-format cannot meaningfully change. In that case, the verbosity level is
-ignored.
+Changing verbosity might change how many details Catch2's reporters output. However, you should consider changing the verbosity level as a _suggestion_. Not all reporters support all verbosity levels, e.g. because the reporter's format cannot meaningfully change. In that case, the verbosity level is ignored.
 
 Verbosity defaults to _normal_.
 

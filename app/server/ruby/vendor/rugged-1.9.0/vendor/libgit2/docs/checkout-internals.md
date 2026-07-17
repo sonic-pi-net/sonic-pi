@@ -1,54 +1,37 @@
 Checkout Internals
 ==================
 
-Checkout has to handle a lot of different cases.  It examines the
-differences between the target tree, the baseline tree and the working
-directory, plus the contents of the index, and groups files into five
-categories:
+Checkout has to handle a lot of different cases.  It examines the differences between the target tree, the baseline tree and the working directory, plus the contents of the index, and groups files into five categories:
 
 1. UNMODIFIED - Files that match in all places.
 2. SAFE - Files where the working directory and the baseline content
    match that can be safely updated to the target.
 3. DIRTY/MISSING - Files where the working directory differs from the
-   baseline but there is no conflicting change with the target.  One
-   example is a file that doesn't exist in the working directory - no
-   data would be lost as a result of writing this file.  Which action
-   will be taken with these files depends on the options you use.
+baseline but there is no conflicting change with the target.  One example is a file that doesn't exist in the working directory - no data would be lost as a result of writing this file.  Which action will be taken with these files depends on the options you use.
 4. CONFLICTS - Files where changes in the working directory conflict
-   with changes to be applied by the target.  If conflicts are found,
-   they prevent any other modifications from being made (although there
-   are options to override that and force the update, of course).
+with changes to be applied by the target.  If conflicts are found, they prevent any other modifications from being made (although there are options to override that and force the update, of course).
 5. UNTRACKED/IGNORED - Files in the working directory that are untracked
    or ignored (i.e. only in the working directory, not the other places).
 
-Right now, this classification is done via 3 iterators (for the three
-trees), with a final lookup in the index.  At some point, this may move to
-a 4 iterator version to incorporate the index better.
+Right now, this classification is done via 3 iterators (for the three trees), with a final lookup in the index.  At some point, this may move to a 4 iterator version to incorporate the index better.
 
 The actual checkout is done in five phases (at least right now).
 
 1. The diff between the baseline and the target tree is used as a base
    list of possible updates to be applied.
 2. Iterate through the diff and the working directory, building a list of
-   actions to be taken (and sending notifications about conflicts and
-   dirty files).
+actions to be taken (and sending notifications about conflicts and dirty files).
 3. Remove any files / directories as needed (because alphabetical
-   iteration means that an untracked directory will end up sorted *after*
-   a blob that should be checked out with the same name).
+iteration means that an untracked directory will end up sorted *after* a blob that should be checked out with the same name).
 4. Update all blobs.
 5. Update all submodules (after 4 in case a new .gitmodules blob was
    checked out)
 
-Checkout could be driven either off a target-to-workdir diff or a
-baseline-to-target diff.  There are pros and cons of each.
+Checkout could be driven either off a target-to-workdir diff or a baseline-to-target diff.  There are pros and cons of each.
 
-Target-to-workdir means the diff includes every file that could be
-modified, which simplifies bookkeeping, but the code to constantly refer
-back to the baseline gets complicated.
+Target-to-workdir means the diff includes every file that could be modified, which simplifies bookkeeping, but the code to constantly refer back to the baseline gets complicated.
 
-Baseline-to-target has simpler code because the diff defines the action to
-take, but needs special handling for untracked and ignored files, if they
-need to be removed.
+Baseline-to-target has simpler code because the diff defines the action to take, but needs special handling for untracked and ignored files, if they need to be removed.
 
 The current checkout implementation is based on a baseline-to-target diff.
 
@@ -56,9 +39,7 @@ The current checkout implementation is based on a baseline-to-target diff.
 Picking Actions
 ===============
 
-The most interesting aspect of this is phase 2, picking the actions that
-should be taken.  There are a lot of corner cases, so it may be easier to
-start by looking at the rules for a simple 2-iterator diff:
+The most interesting aspect of this is phase 2, picking the actions that should be taken.  There are a lot of corner cases, so it may be easier to start by looking at the rules for a simple 2-iterator diff:
 
 Key
 ---
@@ -88,8 +69,7 @@ Diff with 2 non-workdir iterators
 | 10 |  T1 |  T2 | modified tree (implies modified/added/removed blob inside) |
 
 
-Now, let's make the "New" iterator into a working directory iterator, so
-we replace "added" items with either untracked or ignored, like this:
+Now, let's make the "New" iterator into a working directory iterator, so we replace "added" items with either untracked or ignored, like this:
 
 Diff with non-work & workdir iterators
 --------------------------------------
@@ -112,12 +92,10 @@ Diff with non-work & workdir iterators
 | 13 | T1  | T1  | unmodified tree                                            |
 | 14 | T1  | T2  | modified tree (implies modified/added/removed blob inside) |
 
-Note: if there is a corresponding entry in the old tree, then a working
-directory item won't be ignored (i.e. no Bi or Ti for tracked items).
+Note: if there is a corresponding entry in the old tree, then a working directory item won't be ignored (i.e. no Bi or Ti for tracked items).
 
 
-Now, expand this to three iterators: a baseline tree, a target tree, and
-an actual working directory tree:
+Now, expand this to three iterators: a baseline tree, a target tree, and an actual working directory tree:
 
 Checkout From 3 Iterators (2 not workdir, 1 workdir)
 ----------------------------------------------------
@@ -187,9 +165,7 @@ Checkout From 3 Iterators (2 not workdir, 1 workdir)
 | 58* |  T1 |     S1 |     T1         | typechange tree->submodule (SAFE)                                  |
 
 
-The number is followed by ' ' if no change is needed or '+' if the case
-needs to write to disk or '-' if something must be deleted and '*' if
-there should be a delete followed by an write.
+The number is followed by ' ' if no change is needed or '+' if the case needs to write to disk or '-' if something must be deleted and '*' if there should be a delete followed by an write.
 
 There are four tiers of safe cases:
 
@@ -227,5 +203,4 @@ Some slightly unusual circumstances:
 * 52 - Core git makes destructive changes without any warning when the
     submodule is dirty and the type changes to a blob.
 
-Cases 3, 17, 24, 26, and 29 are all considered conflicts even though
-none of them will require making any updates to the working directory.
+Cases 3, 17, 24, 26, and 29 are all considered conflicts even though none of them will require making any updates to the working directory.

@@ -1,12 +1,9 @@
 Bug Reports
 ===========
 
-If you've found a bug in Link itself, then please file a new issue here at GitHub. If you
-have found a bug in a Link-enabled app, it might be wiser to reach out to the developer of
-the app before filing an issue here.
+If you've found a bug in Link itself, then please file a new issue here at GitHub. If you have found a bug in a Link-enabled app, it might be wiser to reach out to the developer of the app before filing an issue here.
 
-Any and all information that you can provide regarding the bug will help in our being able
-to find it. Specifically, that could include:
+Any and all information that you can provide regarding the bug will help in our being able to find it. Specifically, that could include:
 
  - Stacktraces, in the event of a crash
  - Versions of the software used, and the underlying operating system
@@ -17,8 +14,7 @@ to find it. Specifically, that could include:
 Pull Requests
 =============
 
-We are happy to accept pull requests from the GitHub community, assuming that they meet
-the following criteria:
+We are happy to accept pull requests from the GitHub community, assuming that they meet the following criteria:
 
  - You have signed and returned Ableton's [CLA][cla]
  - The [tests pass](#testing)
@@ -29,27 +25,18 @@ the following criteria:
 Testing
 -------
 
-Link ships with unit tests that are run on [Travis CI][travis] and [AppVeyor][appveyor] for
-all PRs. There are two test suites: `LinkCoreTest`, which tests the core Link
-functionality, and `LinkDiscoverTest`, which tests the network discovery feature of Link.
-A third virtual target, `LinkAllTest` is provided by the CMake project as a convenience
-to run all tests at once.
+Link ships with unit tests that are run on [Travis CI][travis] and [AppVeyor][appveyor] for all PRs. There are two test suites: `LinkCoreTest`, which tests the core Link functionality, and `LinkDiscoverTest`, which tests the network discovery feature of Link. A third virtual target, `LinkAllTest` is provided by the CMake project as a convenience to run all tests at once.
 
-The unit tests are run on every platform which Link is officially supported on, and also
-are run through [Valgrind][valgrind] on Linux to check for memory corruption and leaks. If
-valgrind detects any memory errors when running the tests, it will fail the build.
+The unit tests are run on every platform which Link is officially supported on, and also are run through [Valgrind][valgrind] on Linux to check for memory corruption and leaks. If valgrind detects any memory errors when running the tests, it will fail the build.
 
-If you are submitting a PR which fixes a bug or introduces new functionality, please add a
-test which helps to verify the correctness of the code in the PR.
+If you are submitting a PR which fixes a bug or introduces new functionality, please add a test which helps to verify the correctness of the code in the PR.
 
 Code Formatting
 ---------------
 
-Link uses [clang-format][clang-format] to enforce our preferred code style. At the moment,
-we use **clang-format version 6.0**. Note that other versions may format code differently.
+Link uses [clang-format][clang-format] to enforce our preferred code style. At the moment, we use **clang-format version 6.0**. Note that other versions may format code differently.
 
-Any PRs submitted to Link are also checked with clang-format by the Travis CI service. If
-you get a build failure, then you can format your code by running the following command:
+Any PRs submitted to Link are also checked with clang-format by the Travis CI service. If you get a build failure, then you can format your code by running the following command:
 
 ```
 clang-format -style=file -i (filename)

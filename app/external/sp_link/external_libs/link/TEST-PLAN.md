@@ -1,8 +1,6 @@
 # Test Plan
 
-Below are a set of user interactions that are expected to work consistently across all
-Link-enabled apps. In order to provide the best user experience, it's important that apps
-behave consistently with respect to these test cases. 
+Below are a set of user interactions that are expected to work consistently across all Link-enabled apps. In order to provide the best user experience, it's important that apps behave consistently with respect to these test cases.
 
 ## Tempo Changes
 
@@ -61,10 +59,7 @@ These cases verify the continuity of beat time across Link operations.
 - Start playing.
 - Open LinkHut and **enable** Link **&rArr;** No beat time jump or audible discontinuity should occur in the App.
 
-**Note**: When joining an existing Link session, an app should adjust to the existing
-session's tempo and phase, which will usually result in a beat time jump. Apps that are
-already in a session should never have any kind of beat time or audio discontinuity when
-a new participant joins the session.
+**Note**: When joining an existing Link session, an app should adjust to the existing session's tempo and phase, which will usually result in a beat time jump. Apps that are already in a session should never have any kind of beat time or audio discontinuity when a new participant joins the session.
 
 ## Start Stop States
 
@@ -84,14 +79,12 @@ their quantizations.
 
 ## Audio Engine
 
-These cases verify the correct implementation of latency compensation within an app's
-audio engine.
+These cases verify the correct implementation of latency compensation within an app's audio engine.
 
 ### AUDIOENGINE-1: Correct alignment of app audio with shared session
 
 - Connect the audio out of your computer to the audio in. Alternatively use
-[SoundFlower](https://github.com/mattingalls/Soundflower) to be able to record the output
-of your app and LinkHut.
+[SoundFlower](https://github.com/mattingalls/Soundflower) to be able to record the output of your app and LinkHut.
 - Open LinkHut, **enable** Link and press **Play**.
 - Open App and **enable** Link.
 - Start playing audio (preferably a short, click-like sample) with notes on the same beats as LinkHut.

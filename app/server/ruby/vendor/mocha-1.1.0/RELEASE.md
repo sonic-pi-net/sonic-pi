@@ -15,13 +15,9 @@
 * Provide shortcuts for integrating with specific test library i.e. `require 'mocha/test_unit'` or `require 'mocha/mini_test'`
 as alternatives to `require 'mocha/setup'`.
 * Do not automatically try to integrate with test libraries. Since the automatic test library integration functionality
-requires the test library to be loaded and this doesn't usually happen until *after* the bundle is loaded, it makes things
-simpler if we use `require 'mocha/setup'` to explicitly setup Mocha when we know the test library has been loaded. Fixes #146 & #155.
+requires the test library to be loaded and this doesn't usually happen until *after* the bundle is loaded, it makes things simpler if we use `require 'mocha/setup'` to explicitly setup Mocha when we know the test library has been loaded. Fixes #146 & #155.
 * Consider stubs on superclasses if none exist on primary receiver. Largely based on changes suggested by @ccutrer in #145.
-Note: this may break existing tests which rely on the old behaviour. Stubbing a superclass method and then invoking that
-method on a child class would previously cause an unexpected invocation error. By searching up through the inheritance
-hierarchy for each of the delegate mock objects, we can provide more intuitive behaviour. Instead of an unexpected invocation
-error, invoking the method on the child class will cause the stubbed method on the superclass to be used.
+Note: this may break existing tests which rely on the old behaviour. Stubbing a superclass method and then invoking that method on a child class would previously cause an unexpected invocation error. By searching up through the inheritance hierarchy for each of the delegate mock objects, we can provide more intuitive behaviour. Instead of an unexpected invocation error, invoking the method on the child class will cause the stubbed method on the superclass to be used.
 * Avoid recursion when constructing unexpected invocation message. Fixes #168.
 * Add explanation of method dispatch. Heavily based on the relevant jMock v1 documentation. Fixes #172.
 * Make class_eval line number more accurate. This sets the line number as the line number of the `def` statement. Closes #169.
@@ -39,10 +35,7 @@ on the stubbed method being public while the original method was protected or pr
 * Run integration tests against Ruby 2.0.0 with latest Test::Unit gem in the build matrix.
 * Test::Unit is not available in Ruby v1.9.3 standard library, so remove it from the build matrix.
 * Force use of Test::Unit runner, etc in relevant integration tests. Prior to this, I don't think we were really testing the
-Mocha integration with Test::Unit much, because, although `TestUnitTest` was a subclass of `Test::Unit::TestCase`, the
-important test case instances are the temporary ones built by `TestRunner#run_as_test` et al. Prior to this change, these
-would only have used Test::Unit where MiniTest was not available *at all* i.e. only in early versions of Ruby and when the
-MiniTest gem was not loaded.
+Mocha integration with Test::Unit much, because, although `TestUnitTest` was a subclass of `Test::Unit::TestCase`, the important test case instances are the temporary ones built by `TestRunner#run_as_test` et al. Prior to this change, these would only have used Test::Unit where MiniTest was not available *at all* i.e. only in early versions of Ruby and when the MiniTest gem was not loaded.
 * Reset environment variables between build matrix builds.
 * Only activate integration with relevant test library for each of the integration tests.
 * Include standard build combinations from Travis CI config i.e. builds using standard library versions of test libraries.
@@ -376,54 +369,35 @@ Hash with wrong number of entries.
 
 - Parameter Matchers - I’ve added a few Hamcrest-style parameter matchers which are designed to be used inside Expectation#with. The following matchers are currently available: anything(), includes(), has_key(), has_value(), has_entry(), all_of() & any_of(). More to follow soon. The idea is eventually to get rid of the nasty parameter_block option on Expectation#with.
 
-  object = mock()
-  object.expects(:method).with(has_key('key_1'))
-  object.method('key_1' => 1, 'key_2' => 2)
+object = mock() object.expects(:method).with(has_key('key_1')) object.method('key_1' => 1, 'key_2' => 2)
   # no verification error raised
 
-  object = mock()
-  object.expects(:method).with(has_key('key_1'))
-  object.method('key_2' => 2)
+object = mock() object.expects(:method).with(has_key('key_1')) object.method('key_2' => 2)
   # verification error raised, because method was not called with Hash containing key: 'key_1'
 
 - Values Returned and Exceptions Raised on Consecutive Invocations - Allow multiple calls to Expectation#returns and Expectation#raises to build up a sequence of responses to invocations on the mock. Added syntactic sugar method Expectation#then to allow more readable expectations.
 
-  object = mock()
-  object.stubs(:method).returns(1, 2).then.raises(Exception).then.returns(4)
-  object.method # => 1
-  object.method # => 2
-  object.method # => raises exception of class Exception
-  object.method # => 4
+object = mock() object.stubs(:method).returns(1, 2).then.raises(Exception).then.returns(4) object.method # => 1 object.method # => 2 object.method # => raises exception of class Exception object.method # => 4
 
 - Yields on Consecutive Invocations - Allow multiple calls to yields on single expectation to allow yield parameters to be specified for consecutive invocations.
 
-  object = mock()
-  object.stubs(:method).yields(1, 2).then.yields(3)
+object = mock() object.stubs(:method).yields(1, 2).then.yields(3)
   object.method { |*values| p values } # => [1, 2]
   object.method { |*values| p values } # => [3]
 
 - Multiple Yields on Single Invocation - Added Expectation#multiple_yields to allow a mocked or stubbed method to yield multiple times for a single invocation.
 
-  object = mock()
-  object.stubs(:method).multiple_yields([1, 2], [3])
+object = mock() object.stubs(:method).multiple_yields([1, 2], [3])
   object.method { |*values| p values } # => [1, 2] # => [3]
 
 - Invocation Dispatch - Expectations were already being matched in reverse order i.e. the most recently defined one was being found first. This is still the case, but we now stop matching an expectation when its maximum number of expected invocations is reached. c.f. JMock v1. A stub will never stop matching by default. Hopefully this means we can soon get rid of the need to pass a Proc to Expectation#returns.
 
-  object = mock()
-  object.stubs(:method).returns(2)
-  object.expects(:method).once.returns(1)
-  object.method # => 1
-  object.method # => 2
-  object.method # => 2
+object = mock() object.stubs(:method).returns(2) object.expects(:method).once.returns(1) object.method # => 1 object.method # => 2 object.method # => 2
   # no verification error raised
 
   # The following should still work...
 
-  Time.stubs(:now).returns(Time.parse('Mon Jan 01 00:00:00 UTC 2007'))
-  Time.now # => Mon Jan 01 00:00:00 UTC 2007
-  Time.stubs(:now).returns(Time.parse('Thu Feb 01 00:00:00 UTC 2007'))
-  Time.now # => Thu Feb 01 00:00:00 UTC 2007
+Time.stubs(:now).returns(Time.parse('Mon Jan 01 00:00:00 UTC 2007')) Time.now # => Mon Jan 01 00:00:00 UTC 2007 Time.stubs(:now).returns(Time.parse('Thu Feb 01 00:00:00 UTC 2007')) Time.now # => Thu Feb 01 00:00:00 UTC 2007
 
 - Deprecate passing an instance of Proc to Expectation#returns.
 - Explicitly include all Rakefile dependencies in project.
@@ -491,27 +465,18 @@ Hash with wrong number of entries.
 
 So instead of...
 
-  wotsit = Mocha.new
-  wotsit.expects(:thingummy).with(5).returns(10)
-  doobrey = Doobrey.new(wotsit)
-  doobrey.hoojamaflip
-  wotsit.verify
+wotsit = Mocha.new wotsit.expects(:thingummy).with(5).returns(10) doobrey = Doobrey.new(wotsit) doobrey.hoojamaflip wotsit.verify
 
 you need to do...
 
-  wotsit = mock()
-  wotsit.expects(:thingummy).with(5).returns(10)
-  doobrey = Doobrey.new(wotsit)
-  doobrey.hoojamaflip
+wotsit = mock() wotsit.expects(:thingummy).with(5).returns(10) doobrey = Doobrey.new(wotsit) doobrey.hoojamaflip
   # no need to verify
 
 There are also shortcuts as follows...
 
 instead of...
 
-  wotsit = Mocha.new
-  wotsit.expects(:thingummy).returns(10)
-  wotsit.expects(:summat).returns(25)
+wotsit = Mocha.new wotsit.expects(:thingummy).returns(10) wotsit.expects(:summat).returns(25)
 
 you can have...
 
@@ -519,9 +484,7 @@ you can have...
 
 and instead of...
 
-  wotsit = Mocha.new
-  wotsit.stubs(:thingummy).returns(10)
-  wotsit.stubs(:summat).returns(25)
+wotsit = Mocha.new wotsit.stubs(:thingummy).returns(10) wotsit.stubs(:summat).returns(25)
 
 you can have...
 

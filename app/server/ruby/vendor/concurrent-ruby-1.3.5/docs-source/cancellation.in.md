@@ -52,9 +52,7 @@ end
 
 **Run only for limited time – Timeout replacement**
 
-Execute task for a given time then finish. 
-Instead of letting Cancellation crate its own origin, it can be passed in as argument.
-The passed in origin is scheduled to be resolved in given time which then cancels the Cancellation.
+Execute task for a given time then finish. Instead of letting Cancellation crate its own origin, it can be passed in as argument. The passed in origin is scheduled to be resolved in given time which then cancels the Cancellation.
 
 ```ruby
 timeout = Concurrent::Cancellation.new Concurrent::Promises.schedule(0.02)
@@ -72,9 +70,7 @@ count.value                              # => 177576
 
 **Parallel background processing with single cancellation**
 
-Each task tries to count to 1000 but there is a randomly failing test. The
-tasks share single cancellation, when one of them fails it cancels the others.
-The failing tasks ends with an error, the other tasks are gracefully cancelled.
+Each task tries to count to 1000 but there is a randomly failing test. The tasks share single cancellation, when one of them fails it cancels the others. The failing tasks ends with an error, the other tasks are gracefully cancelled.
 
 ```ruby
 cancellation, origin = Concurrent::Cancellation.new
@@ -137,8 +133,7 @@ cancellation_b.canceled?
 combined_cancellation.canceled?
 ```
 
-If a different rule for joining is needed, the source can be combined manually.
-The manually created cancellation cancels when both the first and the other cancels.
+If a different rule for joining is needed, the source can be combined manually. The manually created cancellation cancels when both the first and the other cancels.
 
 ```ruby
 cancellation_a, origin_a = Concurrent::Cancellation.new

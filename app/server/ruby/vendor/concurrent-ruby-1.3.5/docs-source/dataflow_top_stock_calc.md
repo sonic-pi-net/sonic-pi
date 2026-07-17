@@ -1,13 +1,8 @@
-This program determines which stock had the highest price in a given year.
-It as an example from chapter 1 "Introduction", section 1.2 "What's Scala?" of the book
-[Programming Scala: Tackle Multi-Core Complexity on the Java Virtual Machine](http://pragprog.com/book/vsscala/programming-scala).
+This program determines which stock had the highest price in a given year. It as an example from chapter 1 "Introduction", section 1.2 "What's Scala?" of the book [Programming Scala: Tackle Multi-Core Complexity on the Java Virtual Machine](http://pragprog.com/book/vsscala/programming-scala).
 
 ## What It Does
 
-This program takes a list of one or more stock symbols and a year. It then concurrently
-obtains the relevant stock data from Alpha Vantage service for each symbol. Once all
-the data has been retrieved the program determines which stock had the highest year-end
-closing price.
+This program takes a list of one or more stock symbols and a year. It then concurrently obtains the relevant stock data from Alpha Vantage service for each symbol. Once all the data has been retrieved the program determines which stock had the highest year-end closing price.
 
 To use this example you need to obtain a free api key in [AlphaVantage](https://www.alphavantage.co/support/#api-key).
 

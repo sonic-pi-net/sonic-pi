@@ -1,18 +1,8 @@
 # Concurrent Ruby
 
-[![Gem Version](https://badge.fury.io/rb/concurrent-ruby.svg)](http://badge.fury.io/rb/concurrent-ruby)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](http://opensource.org/licenses/MIT)
-[![Gitter chat](https://img.shields.io/badge/IRC%20(gitter)-devs%20%26%20users-brightgreen.svg)](https://gitter.im/ruby-concurrency/concurrent-ruby)
+[![Gem Version](https://badge.fury.io/rb/concurrent-ruby.svg)](http://badge.fury.io/rb/concurrent-ruby) [![License](https://img.shields.io/badge/license-MIT-green.svg)](http://opensource.org/licenses/MIT) [![Gitter chat](https://img.shields.io/badge/IRC%20(gitter)-devs%20%26%20users-brightgreen.svg)](https://gitter.im/ruby-concurrency/concurrent-ruby)
 
-Modern concurrency tools for Ruby. Inspired by
-[Erlang](http://www.erlang.org/doc/reference_manual/processes.html),
-[Clojure](http://clojure.org/concurrent_programming),
-[Scala](http://akka.io/),
-[Haskell](http://www.haskell.org/haskellwiki/Applications_and_libraries/Concurrency_and_parallelism#Concurrent_Haskell),
-[F#](http://blogs.msdn.com/b/dsyme/archive/2010/02/15/async-and-parallel-design-patterns-in-f-part-3-agents.aspx),
-[C#](http://msdn.microsoft.com/en-us/library/vstudio/hh191443.aspx),
-[Java](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html),
-and classic concurrency patterns.
+Modern concurrency tools for Ruby. Inspired by [Erlang](http://www.erlang.org/doc/reference_manual/processes.html), [Clojure](http://clojure.org/concurrent_programming), [Scala](http://akka.io/), [Haskell](http://www.haskell.org/haskellwiki/Applications_and_libraries/Concurrency_and_parallelism#Concurrent_Haskell), [F#](http://blogs.msdn.com/b/dsyme/archive/2010/02/15/async-and-parallel-design-patterns-in-f-part-3-agents.aspx), [C#](http://msdn.microsoft.com/en-us/library/vstudio/hh191443.aspx), [Java](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html), and classic concurrency patterns.
 
 <img src="https://raw.githubusercontent.com/ruby-concurrency/concurrent-ruby/master/docs-source/logo/concurrent-ruby-logo-300x300.png" align="right" style="margin-left: 20px;" />
 
@@ -32,42 +22,23 @@ The design goals of this gem are:
 
 ## Contributing
 
-**This gem depends on 
-[contributions](https://github.com/ruby-concurrency/concurrent-ruby/graphs/contributors) and we 
-appreciate your help. Would you like to contribute? Great! Have a look at 
-[issues with `looking-for-contributor` label](https://github.com/ruby-concurrency/concurrent-ruby/issues?q=is%3Aissue+is%3Aopen+label%3Alooking-for-contributor).** And if you pick something up let us know on the issue.
+**This gem depends on [contributions](https://github.com/ruby-concurrency/concurrent-ruby/graphs/contributors) and we appreciate your help. Would you like to contribute? Great! Have a look at [issues with `looking-for-contributor` label](https://github.com/ruby-concurrency/concurrent-ruby/issues?q=is%3Aissue+is%3Aopen+label%3Alooking-for-contributor).** And if you pick something up let us know on the issue.
 
 You can also get started by triaging issues which may include reproducing bug reports or asking for vital information, such as version numbers or reproduction instructions. If you would like to start triaging issues, one easy way to get started is to [subscribe to concurrent-ruby on CodeTriage](https://www.codetriage.com/ruby-concurrency/concurrent-ruby). [![Open Source Helpers](https://www.codetriage.com/ruby-concurrency/concurrent-ruby/badges/users.svg)](https://www.codetriage.com/ruby-concurrency/concurrent-ruby)
 
 ## Thread Safety
 
-*Concurrent Ruby makes one of the strongest thread safety guarantees of any Ruby concurrency 
-library, providing consistent behavior and guarantees on all three main Ruby interpreters
-(MRI/CRuby, JRuby, TruffleRuby).*
+*Concurrent Ruby makes one of the strongest thread safety guarantees of any Ruby concurrency library, providing consistent behavior and guarantees on all three main Ruby interpreters (MRI/CRuby, JRuby, TruffleRuby).*
 
-Every abstraction in this library is thread safe. Specific thread safety guarantees are documented 
-with each abstraction.
+Every abstraction in this library is thread safe. Specific thread safety guarantees are documented with each abstraction.
 
-It is critical to remember, however, that Ruby is a language of mutable references. *No*
-concurrency library for Ruby can ever prevent the user from making thread safety mistakes (such as
-sharing a mutable object between threads and modifying it on both threads) or from creating
-deadlocks through incorrect use of locks. All the library can do is provide safe abstractions which
-encourage safe practices. Concurrent Ruby provides more safe concurrency abstractions than any
-other Ruby library, many of which support the mantra of 
-["Do not communicate by sharing memory; instead, share memory by communicating"](https://blog.golang.org/share-memory-by-communicating).
-Concurrent Ruby is also the only Ruby library which provides a full suite of thread safe and
-immutable variable types and data structures.
+It is critical to remember, however, that Ruby is a language of mutable references. *No* concurrency library for Ruby can ever prevent the user from making thread safety mistakes (such as sharing a mutable object between threads and modifying it on both threads) or from creating deadlocks through incorrect use of locks. All the library can do is provide safe abstractions which encourage safe practices. Concurrent Ruby provides more safe concurrency abstractions than any other Ruby library, many of which support the mantra of ["Do not communicate by sharing memory; instead, share memory by communicating"](https://blog.golang.org/share-memory-by-communicating). Concurrent Ruby is also the only Ruby library which provides a full suite of thread safe and immutable variable types and data structures.
 
-We've also initiated discussion to document the [memory model](docs-source/synchronization.md) of Ruby which 
-would provide consistent behaviour and guarantees on all three main Ruby interpreters 
-(MRI/CRuby, JRuby, TruffleRuby).
+We've also initiated discussion to document the [memory model](docs-source/synchronization.md) of Ruby which would provide consistent behaviour and guarantees on all three main Ruby interpreters (MRI/CRuby, JRuby, TruffleRuby).
 
 ## Features & Documentation
 
-**The primary site for documentation is the automatically generated 
-[API documentation](http://ruby-concurrency.github.io/concurrent-ruby/index.html) which is up to 
-date with latest release.** This readme matches the master so may contain new stuff not yet 
-released.
+**The primary site for documentation is the automatically generated [API documentation](http://ruby-concurrency.github.io/concurrent-ruby/index.html) which is up to date with latest release.** This readme matches the master so may contain new stuff not yet released.
 
 We also have a [IRC (gitter)](https://gitter.im/ruby-concurrency/concurrent-ruby).
 
@@ -206,10 +177,7 @@ Deprecated features are still available and bugs are being fixed, but new featur
 
 These are available in the `concurrent-ruby-edge` companion gem.
 
-These features are under active development and may change frequently. They are expected not to
-keep backward compatibility (there may also lack tests and documentation). Semantic versions will
-be obeyed though. Features developed in `concurrent-ruby-edge` are expected to move to
-`concurrent-ruby` when final.
+These features are under active development and may change frequently. They are expected not to keep backward compatibility (there may also lack tests and documentation). Semantic versions will be obeyed though. Features developed in `concurrent-ruby-edge` are expected to move to `concurrent-ruby` when final.
 
 *   [Actor](http://ruby-concurrency.github.io/concurrent-ruby/master/Concurrent/Actor.html): Implements
     the Actor Model, where concurrent actors exchange messages.
@@ -284,8 +252,7 @@ To use the tools in the Edge gem it must be required separately:
 require 'concurrent-edge'
 ```
 
-If the library does not behave as expected, `Concurrent.use_simple_logger(:DEBUG)` could
-help to reveal the problem.
+If the library does not behave as expected, `Concurrent.use_simple_logger(:DEBUG)` could help to reveal the problem.
 
 ## Installation
 
@@ -320,10 +287,7 @@ and run `bundle install` from your shell.
 
 ### C Extensions for MRI
 
-Potential performance improvements may be achieved under MRI by installing optional C extensions.
-To minimise installation errors the C extensions are available in the `concurrent-ruby-ext`
-extension gem. `concurrent-ruby` and `concurrent-ruby-ext` are always released together with same
-version. Simply install the extension gem too:
+Potential performance improvements may be achieved under MRI by installing optional C extensions. To minimise installation errors the C extensions are available in the `concurrent-ruby-ext` extension gem. `concurrent-ruby` and `concurrent-ruby-ext` are always released together with same version. Simply install the extension gem too:
 
 ```ruby
 gem install concurrent-ruby-ext
@@ -343,13 +307,11 @@ In code it is only necessary to
 require 'concurrent'
 ```
 
-The `concurrent-ruby` gem will automatically detect the presence of the `concurrent-ruby-ext` gem
-and load the appropriate C extensions.
+The `concurrent-ruby` gem will automatically detect the presence of the `concurrent-ruby-ext` gem and load the appropriate C extensions.
 
 #### Note For gem developers
 
-No gems should depend on `concurrent-ruby-ext`. Doing so will force C extensions on your users. The
-best practice is to depend on `concurrent-ruby` and let users to decide if they want C extensions.
+No gems should depend on `concurrent-ruby-ext`. Doing so will force C extensions on your users. The best practice is to depend on `concurrent-ruby` and let users to decide if they want C extensions.
 
 ## Building the gem
 
@@ -367,8 +329,7 @@ best practice is to depend on `concurrent-ruby` and let users to decide if they 
 * Add the new version to `docs-source/signpost.md`. Needs to be done only if there are visible changes in the documentation.
 * Commit (and push) the changes.
 * Use `bundle exec rake release` to release the gem.
-  It consists of `['release:checks', 'release:build', 'release:test', 'release:publish']` steps.
-  It will ask at the end before publishing anything. Steps can also be executed individually.
+It consists of `['release:checks', 'release:build', 'release:test', 'release:publish']` steps. It will ask at the end before publishing anything. Steps can also be executed individually.
 
 ## Maintainers
 
@@ -394,14 +355,10 @@ to the past maintainers
 * [Paweł Obrok](https://github.com/obrok)
 * [Lucas Allan](https://github.com/lucasallan)
 
-and to [Ruby Association](https://www.ruby.or.jp/en/) for sponsoring a project 
-["Enhancing Ruby’s concurrency tooling"](https://www.ruby.or.jp/en/news/20181106) in 2018. 
+and to [Ruby Association](https://www.ruby.or.jp/en/) for sponsoring a project ["Enhancing Ruby’s concurrency tooling"](https://www.ruby.or.jp/en/news/20181106) in 2018.
 
 ## License and Copyright
 
-*Concurrent Ruby* is free software released under the 
-[MIT License](http://www.opensource.org/licenses/MIT).
+*Concurrent Ruby* is free software released under the [MIT License](http://www.opensource.org/licenses/MIT).
 
-The *Concurrent Ruby* [logo](https://raw.githubusercontent.com/ruby-concurrency/concurrent-ruby/master/docs-source/logo/concurrent-ruby-logo-300x300.png) was
-designed by [David Jones](https://twitter.com/zombyboy). It is Copyright &copy; 2014 
-[Jerry D'Antonio](https://twitter.com/jerrydantonio). All Rights Reserved.
+The *Concurrent Ruby* [logo](https://raw.githubusercontent.com/ruby-concurrency/concurrent-ruby/master/docs-source/logo/concurrent-ruby-logo-300x300.png) was designed by [David Jones](https://twitter.com/zombyboy). It is Copyright &copy; 2014 [Jerry D'Antonio](https://twitter.com/jerrydantonio). All Rights Reserved.

@@ -1,13 +1,7 @@
 <a id="top"></a>
 # Why do we need yet another C++ test framework?
 
-Good question. For C++ there are quite a number of established frameworks,
-including (but not limited to),
-[Google Test](http://code.google.com/p/googletest/),
-[Boost.Test](http://www.boost.org/doc/libs/1_49_0/libs/test/doc/html/index.html),
-[CppUnit](http://sourceforge.net/apps/mediawiki/cppunit/index.php?title=Main_Page),
-[Cute](http://www.cute-test.com), and
-[many, many more](http://en.wikipedia.org/wiki/List_of_unit_testing_frameworks#C.2B.2B).
+Good question. For C++ there are quite a number of established frameworks, including (but not limited to), [Google Test](http://code.google.com/p/googletest/), [Boost.Test](http://www.boost.org/doc/libs/1_49_0/libs/test/doc/html/index.html), [CppUnit](http://sourceforge.net/apps/mediawiki/cppunit/index.php?title=Main_Page), [Cute](http://www.cute-test.com), and [many, many more](http://en.wikipedia.org/wiki/List_of_unit_testing_frameworks#C.2B.2B).
 
 So what does Catch2 bring to the party that differentiates it from these? Apart from the catchy name, of course.
 
@@ -41,18 +35,13 @@ So what does Catch2 bring to the party that differentiates it from these? Apart 
 
 ## Who else is using Catch2?
 
-A whole lot of people. According to [the 2022 JetBrains C++ ecosystem survey](https://www.jetbrains.com/lp/devecosystem-2022/cpp/#Which-unit-testing-frameworks-do-you-regularly-use),
-about 12% of C++ programmers use Catch2 for unit testing, making it the
-second most popular unit testing framework.
+A whole lot of people. According to [the 2022 JetBrains C++ ecosystem survey](https://www.jetbrains.com/lp/devecosystem-2022/cpp/#Which-unit-testing-frameworks-do-you-regularly-use), about 12% of C++ programmers use Catch2 for unit testing, making it the second most popular unit testing framework.
 
-You can also take a look at the (incomplete) list of [open source projects](opensource-users.md#top)
-or the (very incomplete) list of [commercial users of Catch2](commercial-users.md#top)
-for some idea on who else also uses Catch2.
+You can also take a look at the (incomplete) list of [open source projects](opensource-users.md#top) or the (very incomplete) list of [commercial users of Catch2](commercial-users.md#top) for some idea on who else also uses Catch2.
 
 ---
 
-See the [tutorial](tutorial.md#top) to get more of a taste of using
-Catch2 in practice.
+See the [tutorial](tutorial.md#top) to get more of a taste of using Catch2 in practice.
 
 ---
 

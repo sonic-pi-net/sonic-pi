@@ -1,8 +1,7 @@
 # gettext
 *gettext for Ruby*
 
-[![Gem Version](https://badge.fury.io/rb/gettext.svg)](https://badge.fury.io/rb/gettext)
-[![Build Status](https://travis-ci.org/ruby-gettext/gettext.svg?branch=master)](https://travis-ci.org/ruby-gettext/gettext)
+[![Gem Version](https://badge.fury.io/rb/gettext.svg)](https://badge.fury.io/rb/gettext) [![Build Status](https://travis-ci.org/ruby-gettext/gettext.svg?branch=master)](https://travis-ci.org/ruby-gettext/gettext)
 
 > **NOTE:**
 > Gettext gem 3.0.0 removed many deprecated APIs and improves internal APIs.
@@ -16,9 +15,7 @@
 
 Gettext gem is a pure Ruby Localization(L10n) library and tool which is modeled after the GNU gettext package.
 
-This library was called as "Ruby-GetText-Package".
-Since 2.3.0, this library is called just "gettext".
-You can call this library as "gettext gem" or "Ruby gettext" to distinguish from GNU gettext.
+This library was called as "Ruby-GetText-Package". Since 2.3.0, this library is called just "gettext". You can call this library as "gettext gem" or "Ruby gettext" to distinguish from GNU gettext.
 
 This library translates original messages to localized messages using client-side locale information(environment variable or CGI variable).
 
@@ -104,8 +101,7 @@ gem install gettext
 ruby setup.rb
 ```
 
-You can also install files in your favorite directory by supplying setup.rb some options.
-Try `ruby setup.rb --help`.
+You can also install files in your favorite directory by supplying setup.rb some options. Try `ruby setup.rb --help`.
 
 ## Usage
 
@@ -126,8 +122,7 @@ msgid: "Hello"
 msgstr: "Bonjour"
 ```
 
-When a translation is not found it, it will return the `msgid`. This is a core
-benefit of gettext and applies to all its translation methods.
+When a translation is not found it, it will return the `msgid`. This is a core benefit of gettext and applies to all its translation methods.
 
 ```ruby
 _("Hello") => "Hello"  # Not Found
@@ -171,14 +166,11 @@ msgid "Open"
 msgstr "Öffnen"
 ```
 
-Note that the parser when sorting by `msgid` will strictly sort by the `msgid` ignoring
-the `msgctxt`. If you prefer to sort with the `msgctxt` you should consider the
-`s_()` method.
+Note that the parser when sorting by `msgid` will strictly sort by the `msgid` ignoring the `msgctxt`. If you prefer to sort with the `msgctxt` you should consider the `s_()` method.
 
 #### `s_()` or `sgettext()`: without context
 
-The `s_()` method is very similar to the `p_()` method except that the context is
-inside the msgid.
+The `s_()` method is very similar to the `p_()` method except that the context is inside the msgid.
 
 ```ruby
 s_("Printer|Open") => "Öffnen" #translation found
@@ -190,8 +182,7 @@ msgid "Printer|Open"
 msgstr "Öffnen"
 ```
 
-Note the the parser when sorting by `msgid` will take the context into consideration
-as it is part of the `msgid` unlike the `p_()` method.
+Note the the parser when sorting by `msgid` will take the context into consideration as it is part of the `msgid` unlike the `p_()` method.
 
 Your preference of using `s_()` or `p_()` will depend on your translation workflow and process.
 
@@ -231,8 +222,7 @@ msgstr[1] ""
 
 #### `N_()` and `Nn_()`: makes dynamic translation messages readable for the gettext parser
 
-`_(fruit)` cannot be understood by the gettext parser.
-To help the parser find all your translations, you can add `fruit = N_("Apple")` which does not translate, but tells the parser: "Apple" needs translation.
+`_(fruit)` cannot be understood by the gettext parser. To help the parser find all your translations, you can add `fruit = N_("Apple")` which does not translate, but tells the parser: "Apple" needs translation.
 
 ```ruby
 fruit = N_("Apple")   # same as fruit = "Apple"
@@ -254,9 +244,7 @@ _("Your account is #{account_state}.") % { account_state: _(status) }
 
 ### Bind textdomains to the classes
 
-A textdomain has a translation file in each language.
-A module/class can have multiple textdomains.
-This means the libraries/applications can have their own textdomains.
+A textdomain has a translation file in each language. A module/class can have multiple textdomains. This means the libraries/applications can have their own textdomains.
 
 ```ruby
 class Foo

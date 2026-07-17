@@ -1,34 +1,22 @@
 Projects For LibGit2
 ====================
 
-So, you want to start helping out with `libgit2`? That's fantastic! We
-welcome contributions and we promise we'll try to be nice.
+So, you want to start helping out with `libgit2`? That's fantastic! We welcome contributions and we promise we'll try to be nice.
 
-This is a list of libgit2 related projects that new contributors can take
-on.  It includes a number of good starter projects as well as some larger
-ideas that no one is actively working on.
+This is a list of libgit2 related projects that new contributors can take on.  It includes a number of good starter projects as well as some larger ideas that no one is actively working on.
 
 ## Before You Start
 
-Please start by reading the [README.md](../README.md),
-[contributing.md](contributing.md), and [conventions.md](conventions.md)
-files before diving into one of these projects.  Those explain our work
-flow and coding conventions to help ensure that your work will be easily
-integrated into libgit2.
+Please start by reading the [README.md](../README.md), [contributing.md](contributing.md), and [conventions.md](conventions.md) files before diving into one of these projects.  Those explain our work flow and coding conventions to help ensure that your work will be easily integrated into libgit2.
 
-Next, work through the build instructions and make sure you can clone the
-repository, compile it, and run the tests successfully.  That will make
-sure that your development environment is set up correctly and you are
-ready to start on libgit2 development.
+Next, work through the build instructions and make sure you can clone the repository, compile it, and run the tests successfully.  That will make sure that your development environment is set up correctly and you are ready to start on libgit2 development.
 
 ## Starter Projects
 
 These are good small projects to get started with libgit2.
 
 * Look at the `examples/` programs, find an existing one that mirrors a
-  core Git command and add a missing command-line option.  There are many
-  gaps right now and this helps demonstrate how to use the library.  Here
-  are some specific ideas (though there are many more):
+core Git command and add a missing command-line option.  There are many gaps right now and this helps demonstrate how to use the library.  Here are some specific ideas (though there are many more):
     * Fix the `examples/diff.c` implementation of the `-B`
       (a.k.a. `--break-rewrites`) command line option to actually look for
       the optional `[<n>][/<m>]` configuration values. There is an
@@ -41,29 +29,17 @@ These are good small projects to get started with libgit2.
     * For `examples/log.c`, implement the `--first-parent` option now that
       libgit2 supports it in the revwalk API.
 * Pick a Git command that is not already emulated in `examples/` and write
-  a new example that mirrors the behavior.  Examples don't have to be
-  perfect emulations, but should demonstrate how to use the libgit2 APIs
-  to get results that are similar to Git commands.  This lets you (and us)
-  easily exercise a particular facet of the API and measure compatibility
-  and feature parity with core git.
+a new example that mirrors the behavior.  Examples don't have to be perfect emulations, but should demonstrate how to use the libgit2 APIs to get results that are similar to Git commands.  This lets you (and us) easily exercise a particular facet of the API and measure compatibility and feature parity with core git.
 * Submit a PR to clarify documentation! While we do try to document all of
-  the APIs, your fresh eyes on the documentation will find areas that are
-  confusing much more easily.
+the APIs, your fresh eyes on the documentation will find areas that are confusing much more easily.
 
-If none of these appeal to you, take a look at our issues list to see if
-there are any unresolved issues you'd like to jump in on.
+If none of these appeal to you, take a look at our issues list to see if there are any unresolved issues you'd like to jump in on.
 
 ## Larger Projects
 
-These are ideas for larger projects mostly taken from our backlog of
-[Issues](https://github.com/libgit2/libgit2/issues).  Please don't dive
-into one of these as a first project for libgit2 - we'd rather get to
-know you first by successfully shipping your work on one of the smaller
-projects above.
+These are ideas for larger projects mostly taken from our backlog of [Issues](https://github.com/libgit2/libgit2/issues).  Please don't dive into one of these as a first project for libgit2 - we'd rather get to know you first by successfully shipping your work on one of the smaller projects above.
 
-Some of these projects are broken down into subprojects and/or have
-some incremental steps listed towards the larger goal.  Those steps
-might make good smaller projects by themselves.
+Some of these projects are broken down into subprojects and/or have some incremental steps listed towards the larger goal.  Those steps might make good smaller projects by themselves.
 
 * Port part of the Git test suite to run against the command line emulation
   in `examples/`

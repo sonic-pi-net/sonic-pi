@@ -30,8 +30,7 @@ Array.new(10) do
 # concurrency level in each of them   
 end.map(&:value)                         # => [2, 2, 1, 1, 1, 2, 2, 2, 2, 1]
 ```
-Notice that the returned array has no number bigger than 2 therefore 
-the concurrency level of the block with the `do_stuff` was never bigger than 2. 
+Notice that the returned array has no number bigger than 2 therefore the concurrency level of the block with the `do_stuff` was never bigger than 2.
 
 ```ruby
 # runs a block, and returns the observed concurrency level during the execution
@@ -58,10 +57,7 @@ end.map(&:value!)                        # => [3, 2, 1, 2, 1, 3, 3, 1, 2, 1]
 ```
 The concurrency level does not rise above 3.
 
-It works by setting the executor of the future created from the throttle. 
-The executor is a proxy executor for the `Concurrent::Promises.default_executor` 
-which can be obtained using {Concurrent::Throttle#on} method. 
-Therefore the above example could be instead more explicitly written as follows
+It works by setting the executor of the future created from the throttle. The executor is a proxy executor for the `Concurrent::Promises.default_executor` which can be obtained using {Concurrent::Throttle#on} method. Therefore the above example could be instead more explicitly written as follows
  
 ```ruby
 # ...
@@ -73,15 +69,9 @@ Array.new(10) do |i|
 end.map(&:value!) #
 ```
 
-Anything executed on the proxy executor is throttled. 
-A throttle can have more proxy executors for different executors, 
-all jobs share the same capacity provided by the throttle.
+Anything executed on the proxy executor is throttled. A throttle can have more proxy executors for different executors, all jobs share the same capacity provided by the throttle.
 
-Since the proxy executor becomes the executor of the future, 
-any chained futures will also be throttled. 
-It can be changed by using different executor.
-It the following example the first 2 futures in the chain are throttled, 
-the last is not.
+Since the proxy executor becomes the executor of the future, any chained futures will also be throttled. It can be changed by using different executor. It the following example the first 2 futures in the chain are throttled, the last is not.
 
 ```ruby
 concurrency_level_throttled   = Concurrent::AtomicFixnum.new #
@@ -107,16 +97,14 @@ end.map(&:value!) #
 #     [3, 1, 1]]
 ```
 
-In the output you can see that the first 2 columns do not cross the 3 capacity limit
-and the last column which is untroubled does.
+In the output you can see that the first 2 columns do not cross the 3 capacity limit and the last column which is untroubled does.
 
 TODO (pitr-ch 20-Dec-2018): example with virtual throttled executor, 
 throttling only part of promises chain.  
 
 **Other abstraction**
 
-The proxy executor created with throttle can be used with other abstractions as well 
-and combined.
+The proxy executor created with throttle can be used with other abstractions as well and combined.
 
 ```ruby
 concurrency_level = Concurrent::AtomicFixnum.new #

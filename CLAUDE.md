@@ -1,7 +1,6 @@
 # CLAUDE.md
 
-Guidance for AI coding agents (Claude Code, Copilot, Cursor) working in
-**sonic-pi**.
+Guidance for AI coding agents (Claude Code, Copilot, Cursor) working in **sonic-pi**.
 
 <!-- TODO: one paragraph — what this project is, who it serves, and what "done" looks like here. -->
 
@@ -27,9 +26,4 @@ Guidance for AI coding agents (Claude Code, Copilot, Cursor) working in
 
 ## Fleet context
 
-This repo is one of ~40 managed by the [bamr87/bamr87 dash](https://github.com/bamr87/bamr87)
-(registry: `_data/projects.yml`; tiered baseline: `docs/STANDARDS.md`). It is
-vendored there as a git submodule: commit and push changes **here** first — the
-hub only bumps its pointer afterwards. Shared CI, release, schema, and agent
-kits are seeded from the hub's `templates/`; prefer adopting those over
-hand-rolling equivalents.
+This repo is one of ~40 managed by the [bamr87/bamr87 dash](https://github.com/bamr87/bamr87) (registry: `_data/projects.yml`; tiered baseline: `docs/STANDARDS.md`). It is vendored there as a git submodule: commit and push changes **here** first — the hub only bumps its pointer afterwards. Shared CI, release, schema, and agent kits are seeded from the hub's `templates/`; prefer adopting those over hand-rolling equivalents.
