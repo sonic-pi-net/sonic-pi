@@ -77,6 +77,28 @@ Pick random percussive slices from any sample. Change the random seed, change th
 use_random_seed 30
 
 16.times do
+  sample :loop_amen, onset: pick
+  sleep 0.125
+end
+```
+
+## Roll the Dice again
+Different seeds create different random outcoms. All repeatable and re-usable.
+```
+use_random_seed 50
+
+16.times do
+  sample :guit_em9, onset: pick
+  sleep 0.125
+end
+```
+
+## Re-use dice throws
+Use the same random stream with any sample.
+```
+use_random_seed 30
+
+16.times do
   sample :guit_em9, onset: pick
   sleep 0.125
 end
