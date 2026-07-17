@@ -103,8 +103,9 @@
             <File Id="SONIC_PI.EXE" Name="sonic-pi.exe"
                   Source="app\gui\build\Release\sonic-pi.exe" />
             <!-- .sonicpi set files open in Sonic Pi (argv handled by the GUI) -->
+            <!-- Non-advertised ProgId: Icon references a File Id, not an Icon Id -->
             <ProgId Id="SonicPi.Set" Description="Sonic Pi Set"
-                    Icon="StartMenuIcon.exe">
+                    Icon="SONIC_PI.EXE">
                 <Extension Id="sonicpi" ContentType="text/plain">
                     <Verb Id="open" Command="Open" TargetFile="SONIC_PI.EXE"
                           Argument="&quot;%1&quot;" />
