@@ -178,10 +178,6 @@ xcopy /Y /I /R /E ..\..\etc etc\
 REM VERSION file (Spider runtime reads this from install root)
 copy /Y ..\..\VERSION VERSION
 
-REM Tau (Erlang server)
-xcopy /Y /I /R /E ..\..\app\server\beam\tau\_build app\server\beam\tau\_build
-copy /Y ..\..\app\server\beam\tau\boot-win.bat app\server\beam\tau\boot-win.bat
-
 REM Native components
 xcopy /Y /I /R /E ..\..\app\server\native\osmid app\server\native\osmid
 xcopy /Y /I /R /E ..\..\app\server\native\plugins app\server\native\plugins
