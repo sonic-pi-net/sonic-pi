@@ -234,14 +234,13 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     QHBoxLayout* exampleControls = new QHBoxLayout();
     exampleControls->setContentsMargins(0, 0, 0, 0);
     exampleControls->setSpacing(ScaleWidthForDPI(8));
-    // Jukebox transport (sits above the code): an outline play toggle that
-    // flips to an outline stop while the example runs (only one example ever
+    // Jukebox transport (sits above the code): a filled play toggle that
+    // flips to a filled stop while the example runs (only one example ever
     // plays at a time), a Load glyph that drops the code into the current
-    // buffer, and a live scope that appears while it is playing so it's
-    // obvious the sound is coming from here. Play/stop and Load all come from
-    // the tabler outline set on its shared 24 grid, so the pair sit together
-    // as equals — a solid disc badge here dwarfed the Load glyph at the same
-    // pixel size.
+    // buffer, and a live scope that animates while it is playing so it's
+    // obvious the sound is coming from here. The glyphs share the tabler 24
+    // grid so play/stop and Load sit together as equals — a solid disc badge
+    // here dwarfed the Load glyph at the same pixel size.
     m_examplePlay = new QPushButton(m_exampleFrame);
     m_examplePlay->setObjectName("tutPlay");
     m_examplePlay->setToolTip(tr("Run this example"));
@@ -264,7 +263,8 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     m_exampleScope->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     m_exampleScope->setMinimumWidth(ScaleWidthForDPI(160));
     m_exampleScope->setFixedHeight(ScaleHeightForDPI(46));
-    m_exampleScope->hide(); // shown only while an example is playing
+    // Permanent fixture (flat midline while idle) so starting a run doesn't
+    // resize the transport row and shove the code down.
     exampleControls->addWidget(m_examplePlay);
     exampleControls->addWidget(m_exampleLoad);
     exampleControls->addStretch(1);
@@ -1094,10 +1094,11 @@ void TutorialPane::clearContent()
     // way out so at most one example is ever running
     if (!m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay && m_snippets[0].jobId >= 0)
         emit stopJobRequested(m_snippets[0].jobId);
-    // The stop above is async; hide the scope now so it doesn't linger on the
-    // next page (runEnded won't find the snippet once m_snippets is cleared)
+    // The stop above is async; quiesce the scope now so it doesn't linger on
+    // the next page (runEnded won't find the snippet once m_snippets is
+    // cleared). The panel itself stays — it's a permanent fixture.
     if (m_exampleScope)
-        m_exampleScope->stop();
+        m_exampleScope->stop(false);
     m_snippets.clear();
     m_dials.clear();
     // Labels deregister themselves on destruction, but that happens via
@@ -1475,8 +1476,10 @@ void TutorialPane::setSnippetPlaying(Snippet& snippet, bool playing)
 {
     if (snippet.play == m_examplePlay)
     {
-        // Jukebox toggle: the single transport button flips between the accent
-        // outline play and the foreground outline stop.
+        // Jukebox toggle: the single transport button flips between filled
+        // play and filled stop. The frame keeps its idle card look — running
+        // state lives in the transport glyph and the animating scope, not a
+        // colour flood over the code.
         snippet.play->setIcon(playing ? m_exStopIcon : m_exPlayIcon);
         snippet.play->setToolTip(playing ? tr("Stop this example") : tr("Run this example"));
         snippet.play->setAccessibleName(playing ? tr("Stop example") : tr("Run example"));
@@ -1485,13 +1488,12 @@ void TutorialPane::setSnippetPlaying(Snippet& snippet, bool playing)
             if (playing)
                 m_exampleScope->start(m_spAPI.get(), kJukeboxScopeSlot);
             else
-                m_exampleScope->stop();
+                m_exampleScope->stop(false);
         }
+        return;
     }
-    else if (snippet.stop)
-    {
+    if (snippet.stop)
         snippet.stop->setEnabled(playing);
-    }
     snippet.frame->setProperty("playing", playing);
     repolish(snippet.frame);
 }
@@ -1718,12 +1720,13 @@ void TutorialPane::applyContentTheme()
     m_stopIcon = discIcon(TablerIcons::Glyph::StopFilled, fg);
     m_copyIcon = TablerIcons::icon(TablerIcons::Glyph::Copy, muted, ScaleWidthForDPI(24), dpr);
     m_copiedIcon = TablerIcons::icon(TablerIcons::Glyph::Check, accent, ScaleWidthForDPI(24), dpr);
-    // Jukebox transport: outline glyphs on the tabler 24 grid — play in the
-    // accent, stop in the foreground, Load (an upload into the buffer)
-    // tinted like the other quiet flat controls (copy / reset / octave).
+    // Jukebox transport: filled glyphs on the tabler 24 grid, both in the
+    // accent so stop reads as the same transport the play started (the thin
+    // outline square looked like a broken checkbox). Load (an upload into
+    // the buffer) stays tinted like the other quiet flat controls.
     const int exGlyphPx = ScaleWidthForDPI(24);
-    m_exPlayIcon = TablerIcons::icon(TablerIcons::Glyph::Play, accent, exGlyphPx, dpr);
-    m_exStopIcon = TablerIcons::icon(TablerIcons::Glyph::Stop, fg, exGlyphPx, dpr);
+    m_exPlayIcon = TablerIcons::icon(TablerIcons::Glyph::PlayFilled, accent, exGlyphPx, dpr);
+    m_exStopIcon = TablerIcons::icon(TablerIcons::Glyph::StopFilled, accent, exGlyphPx, dpr);
     if (m_exampleLoad)
         m_exampleLoad->setIcon(
             TablerIcons::icon(TablerIcons::Glyph::Upload, muted, exGlyphPx, dpr));

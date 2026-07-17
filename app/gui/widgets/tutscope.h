@@ -15,6 +15,7 @@
 #include <QTimer>
 #include <QWidget>
 
+#include <cmath>
 #include <vector>
 
 #include "api/sonicpi_api.h"
@@ -180,6 +181,14 @@ protected:
             const qreal amp = mid * 0.92;
             const size_t n = m_samples.size();
             const int cols = qMax(2, (int)w);
+            // Square-root amplitude shaping: musical material rarely nears
+            // full scale, so a linear trace hugs the midline as a thin
+            // scribble. sqrt lifts the quiet body while still saturating at
+            // ±1, and it's monotonic so the same audio draws the same trace.
+            auto shaped = [](double v) {
+                v = qBound(-1.0, v, 1.0);
+                return v >= 0 ? std::sqrt(v) : -std::sqrt(-v);
+            };
             if ((int)n > cols * 2)
             {
                 // Scroll window: many samples per pixel column, so draw a
@@ -200,8 +209,8 @@ protected:
                         mx = qMax(mx, m_samples[i]);
                     }
                     qreal px = (qreal)x / (cols - 1) * w;
-                    qreal yTop = mid - qBound(-1.0, (double)mx, 1.0) * amp;
-                    mins[x] = mid - qBound(-1.0, (double)mn, 1.0) * amp;
+                    qreal yTop = mid - shaped(mx) * amp;
+                    mins[x] = mid - shaped(mn) * amp;
                     if (x == 0)
                         band.moveTo(px, yTop);
                     else
@@ -211,9 +220,9 @@ protected:
                     band.lineTo((qreal)x / (cols - 1) * w, mins[x]);
                 band.closeSubpath();
                 QColor fill = wave;
-                fill.setAlpha(150);
+                fill.setAlpha(110);
                 p.fillPath(band, fill);
-                p.setPen(QPen(wave, 1.2));
+                p.setPen(QPen(wave, 1.6));
                 p.drawPath(band);
             }
             else
@@ -223,7 +232,7 @@ protected:
                 for (int x = 0; x < cols; x++)
                 {
                     size_t idx = (size_t)((qreal)x / (cols - 1) * (n - 1));
-                    qreal v = qBound(-1.0, (double)m_samples[idx], 1.0);
+                    qreal v = shaped((double)m_samples[idx]);
                     qreal y = mid - v * amp;
                     qreal px = (qreal)x / (cols - 1) * w;
                     if (x == 0)
