@@ -17,44 +17,47 @@
 
 SOURCES += main.cpp \
            mainwindow.cpp \
-           utils/sonicpiapis.cpp \
-           osc/oschandler.cpp \
-           osc/oscsender.cpp \
-           osc/sonic_pi_osc_server.cpp \
-           osc/sonic_pi_udp_osc_server.cpp \
-           osc/sonic_pi_tcp_osc_server.cpp \
-           widgets/sonicpilog.cpp \
+           qt_api_client.cpp \
+           model/sonicpitheme.cpp \
+           utils/completion_context.cpp \
+           utils/reducedmotion.cpp \
+           utils/scintilla_api.cpp \
+           utils/setbundle.cpp \
+           utils/sonicpi_i18n.cpp \
+           utils/tutorialdocs.cpp \
+           visualizer/scope_window.cpp \
+           widgets/bpmscrubwidget.cpp \
+           widgets/completionpopup.cpp \
+           widgets/devicelistwidget.cpp \
            widgets/infowidget.cpp \
-           widgets/sonicpiscintilla.cpp \
-           widgets/sonicpilexer.cpp \
+           widgets/linkaudiostreamswidget.cpp \
+           widgets/linkvisibilitytoggle.cpp \
+           widgets/logpanel.cpp \
+           widgets/metricspanel.cpp \
+           widgets/nodetreegraph.cpp \
+           widgets/quickstartpane.cpp \
            widgets/settingswidget.cpp \
            widgets/sonicpicontext.cpp \
-           widgets/bpmscrubwidget.cpp \
-           widgets/bpmscrubwidget.h \
-           model/sonicpitheme.cpp \
-           visualizer/scope.cpp \
+           widgets/sonicpieditor.cpp \
+           widgets/sonicpierrorcard.cpp \
+           widgets/sonicpilexer.cpp \
+           widgets/sonicpilog.cpp \
+           widgets/sonicpimetro.cpp \
+           widgets/sonicpiscintilla.cpp \
+           widgets/sonicpitooltip.cpp \
+           widgets/splashwidget.cpp \
+           widgets/timewarpedit.cpp \
+           widgets/tutorialpane.cpp \
+           widgets/tutorialwidgets.cpp \
+           widgets/visualizer.cpp \
+           widgets/welcomewidget.cpp \
+           widgets/zoombar.cpp \
 
-HEADERS += mainwindow.h \
-           widgets/sonicpilog.h \
-           widgets/infowidget.h \
-           widgets/sonicpilexer.h \
-           widgets/sonicpiscintilla.h \
-           widgets/settingswidget.h \
-           widgets/sonicpicontext.h \
-           widgets/settingswidget.h \
-           widgets/sonicpicontext.h \
-           utils/sonicpiapis.h \
-           utils/ruby_help.h \
-           osc/oschandler.h \
-           osc/oscsender.h \
-           osc/sonic_pi_osc_server.h \
-           osc/sonic_pi_udp_osc_server.h \
-           osc/sonic_pi_tcp_osc_server.h \
-           model/sonicpitheme.h \
-           model/settings.h \
-           visualizer/scope.h \
+HEADERS += utils/ruby_help.h \
+           widgets/tutorialwidgets.h \
 
-TRANSLATIONS = lang/sonic-pi_bg.ts \
+TRANSLATIONS = lang/sonic-pi_ar.ts \
+               lang/sonic-pi_bg.ts \
                lang/sonic-pi_bn.ts \
                lang/sonic-pi_bs.ts \
                lang/sonic-pi_ca.ts \
@@ -63,17 +66,21 @@ TRANSLATIONS = lang/sonic-pi_bg.ts \
                lang/sonic-pi_da.ts \
                lang/sonic-pi_de.ts \
                lang/sonic-pi_el.ts \
+               lang/sonic-pi_en_AU.ts \
                lang/sonic-pi_en_US.ts \
                lang/sonic-pi_eo.ts \
                lang/sonic-pi_es.ts \
                lang/sonic-pi_et.ts \
+               lang/sonic-pi_eu.ts \
                lang/sonic-pi_fa.ts \
                lang/sonic-pi_fi.ts \
                lang/sonic-pi_fr.ts \
                lang/sonic-pi_ga.ts \
+               lang/sonic-pi_gd.ts \
                lang/sonic-pi_gl.ts \
                lang/sonic-pi_he.ts \
                lang/sonic-pi_hi.ts \
+               lang/sonic-pi_hr.ts \
                lang/sonic-pi_hu.ts \
                lang/sonic-pi_hy.ts \
                lang/sonic-pi_id.ts \
@@ -82,6 +89,7 @@ TRANSLATIONS = lang/sonic-pi_bg.ts \
                lang/sonic-pi_ja.ts \
                lang/sonic-pi_ka.ts \
                lang/sonic-pi_ko.ts \
+               lang/sonic-pi_lv.ts \
                lang/sonic-pi_nb.ts \
                lang/sonic-pi_nl.ts \
                lang/sonic-pi_pl.ts \
@@ -94,6 +102,7 @@ TRANSLATIONS = lang/sonic-pi_bg.ts \
                lang/sonic-pi_sl.ts \
                lang/sonic-pi_sv.ts \
                lang/sonic-pi_sw.ts \
+               lang/sonic-pi_ta.ts \
                lang/sonic-pi_th.ts \
                lang/sonic-pi_tr.ts \
                lang/sonic-pi_ug.ts \
