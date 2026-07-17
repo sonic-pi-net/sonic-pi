@@ -53,6 +53,7 @@ Note that this is a release candidate — please do report any issues you have t
 * New: SuperSonic replaces scsynth as the audio engine. Change audio input, output, buffer size and sample rate live from the GUI, without restarting and without losing your running music.
 * New: `link_audio` streams live audio from another Ableton Link peer straight into Sonic Pi. Subscribe to a remote peer's published channel — for example Ableton Live's "Main" or "Drums" — as a named live audio source and use it just like `live_audio`: add FX, pan it, and run several streams side by side. Each `(peer, channel)` pair is its own independent stream.
 * Session recording is now capped to stereo to match the master mix.
+* The master mixer's internal FX chain has been reordered for cleaner, better-balanced output.
 
 ### MIDI & Sync
 * New: follow an incoming external MIDI clock with `use_bpm :midi`. The current thread tracks the live tempo and aligns to the next bar; pass a port name to follow a specific device (`use_bpm :midi, "launchpad"`) and `quantum:` to set the bar length. Use `midi_clock_sources` to see which ports are sending clock. Following is now accurate even with jittery real-world clocks.
@@ -73,8 +74,13 @@ Note that this is a release candidate — please do report any issues you have t
 * ASIO-aware audio preferences on Windows. Audio device selection exposes ASIO-specific options when an ASIO driver is present.
 * New: a live SuperSonic debug panel, with engine metrics, a node-tree visualiser and a tidy layout for keeping an eye on the audio engine as you play.
 * The main help section of the GUI now has three tabs — Docs, Debug (the SuperSonic panel) and Logs (live log files for all the internal components).
-* New: a rebuilt Docs help pane. Tutorial and reference pages now render natively with syntax-highlighted, runnable examples — play a snippet and stop it right there in the help pane, without copying it into a buffer first. Synth and FX pages gain interactive dials for exploring their options.
+* New: a rebuilt Docs help pane. Tutorial and reference pages now render natively with syntax-highlighted, runnable examples — play a snippet and stop it right there in the help pane, without copying it into a buffer first, and any error it raises stays in the help pane rather than marking lines in your code. Synth and FX pages gain an interactive playground: dials for exploring each ranged option (offering only values the engine accepts) and an on-screen keyboard that updates the demo code as you play.
 * New: an Examples menu. Load and play a bundled example in one step straight from the menu bar. It opens into your first empty buffer and never overwrites work you already have.
+* New: Quickstart Cards. A deck of small runnable code cards in the help pane — play a musical idea and watch its waveform on the card's own mini-scope, then drag the card (or hover its insert button to preview, and click) straight into your code. Ships with decks covering the basics, synths, FX and live loops.
+* New: a boot splash, and a friendlier welcome window for first-time users.
+* New: Sets. Save and load all ten buffers together as a single `.sonicpi` file — Load Set, Save Set, Save Set As and a recent-sets list live in the Live menu, alongside Clear All Buffers for a fresh start. A set remembers which buffer you were working in and each buffer's text size. The file itself is plain text, so it can be shared, diffed and version-controlled like any other code, and double-clicking a `.sonicpi` file opens it straight into Sonic Pi.
+* New: live visual feedback in the editor. Runs briefly flash the code they trigger, and each `live_loop` gains an inline mini-oscilloscope next to the code showing its own audio as it plays. Both can be switched off in the editor preferences.
+* The load and save toolbar icons have swapped: `+` now means load (add a file's contents into the current buffer) and the arrow means save (write the buffer out to a file), better matching what each action does. Their menu items are now named "Load into Buffer..." and "Save Buffer As..." to match.
 * New: a Link Audio Streams panel showing the peers and channels currently published on the network, so you can see what is available to stream. The Link metronome panel has been tidied up, including the Link Audio controls and peer list.
 * New: more colour themes, including a low-contrast "Mild Dark" theme that is kinder on the eyes for those with light sensitivity or migraines, plus display filters such as hue rotation. Mild Dark grew out of a community contribution from Chris Prosser.
 * Friendlier microphone-permission notice on macOS. The message is clearer, and it now only appears when audio inputs are enabled.
@@ -82,10 +88,16 @@ Note that this is a release candidate — please do report any issues you have t
 * Editor tabs now take keyboard focus when you switch to them.
 * Wider accessibility improvements: keyboard navigation and screen-reader feedback across the GUI, high-contrast detection, WCAG colour fixes, visible focus rings and a reduced-motion option. Errors are now announced and code buffers are named. Windows gains its own contrast detection, screen-reader feedback and reduced-motion support.
 * Faster boot times.
+* The help pane's macOS shortcut is now the standard `Cmd+?` (F1 still works everywhere).
+* The editor's horizontal scrollbar now only appears when a line is actually wider than the window.
 * Fixed shift-based text selection so holding Shift with the navigation shortcuts once again selects text, including `Shift`+`Cmd`+`Left`/`Right` and `Shift`+`Option`+`Left`/`Right` on macOS. (Fixes #3537 and #955)
 
 ### Synths
 * Fixed `:tech_saws` which was incorrectly outputting four channels of audio. It now correctly outputs stereo as originally intended.
+* Fixed the `:krush` FX which was adding a constant DC offset to its output.
+* Fixed the `:autotuner` FX, which emitted silence in its automatic pitch-correction mode, and taught it two new opts: `strength:` for gentler correction and `retune:` to glide onto the target pitch instead of snapping.
+* Fixed `:sc808_cymbal`, which played straight to the hardware output — bypassing the master mixer, recordings and the scopes.
+* Swept every synth and FX opt at its extreme values and fixed the ones that silenced the sound entirely: `threshold: 0` on `:compressor`, near-zero shelf slopes on `:eq`, `coef:` at ±1 on `:pluck` and `reverb_time: 0` on `:dark_ambience` are now rejected with a clear message instead of producing mysterious silence.
 
 ### Music Theory
 * New scale: `:lydian_dominant` (also available as `:acoustic`).
