@@ -11,7 +11,7 @@ lets you put in any code or function definitions which you'd like to be
 able to use in every Sonic Pi session.
 
 
-## audio-settings.toml
+## v5-audio-settings.toml
 
 This is a toml file which lets you configure the behaviour of the
 SuperCollider scsynth audio server (which generates all audio). You can
@@ -19,7 +19,7 @@ use this file to change audio cards, set buffer sizes and sample rates,
 etc.
 
 
-## colour-theme.properties
+## v5-colour-theme.properties
 
 This is a properties file which lets you override colour themes for the
 GUI. This is currently very experimental and is likely to significantly

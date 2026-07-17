@@ -188,7 +188,7 @@ signals:
     // Keyboard Shortcuts tab. schemeChanged switches the active scheme
     // (1=Emacs, 2=Win, 3=Mac, 4=Custom). applyRequested carries the custom
     // base preset + only the diffs from it; MainWindow owns the write to
-    // keyboard-shortcuts.ini + reapply.
+    // v5-keyboard-shortcuts.ini + reapply.
     void shortcutSchemeChanged(int mode);
     void shortcutsApplyRequested(QString base, QMap<QString, QString> diffs);
 

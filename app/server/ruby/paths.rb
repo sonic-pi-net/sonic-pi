@@ -291,7 +291,7 @@ module SonicPi
     end
 
     def self.user_audio_settings_path
-      File.absolute_path("#{config_path}/audio-settings.toml")
+      File.absolute_path("#{config_path}/v5-audio-settings.toml")
     end
 
     def self.system_cache_store_path

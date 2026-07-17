@@ -47,7 +47,7 @@ Thread::abort_on_exception = true
 #
 # The Daemon does all the work necessary to figure out the correct
 # process paths and flags - even considering config files such as
-# `audio-settings.toml`
+# `v5-audio-settings.toml`
 #
 #
 # Zombie Kill Switch
@@ -805,7 +805,7 @@ module SonicPi
         cmd = Paths.supersonic_path
         Util.log "SuperSonic opts: #{opts.inspect}"
 
-        # Linux: set PIPEWIRE_QUANTUM from audio-settings.toml
+        # Linux: set PIPEWIRE_QUANTUM from v5-audio-settings.toml
         env = nil
         if Util.os == :linux || Util.os == :raspberry
           pw_buf  = toml_opts_hash[:linux_pipewire_buffsize].to_i
@@ -815,7 +815,7 @@ module SonicPi
             Util.log "Setting PIPEWIRE_QUANTUM=#{quantum} for SuperSonic"
             env = { "PIPEWIRE_QUANTUM" => quantum }
           elsif pw_buf > 0 || pw_rate > 0
-            Util.log "audio-settings.toml: linux_pipewire_buffsize and linux_pipewire_samplerate must both be set to apply PIPEWIRE_QUANTUM (got buf=#{pw_buf}, rate=#{pw_rate})"
+            Util.log "v5-audio-settings.toml: linux_pipewire_buffsize and linux_pipewire_samplerate must both be set to apply PIPEWIRE_QUANTUM (got buf=#{pw_buf}, rate=#{pw_rate})"
           end
         end
 

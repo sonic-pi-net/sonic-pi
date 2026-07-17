@@ -413,7 +413,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     std::optional<QSettings> ownSettings;
     if (!keyBindings)
         ownSettings.emplace(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net",
-                            "scintilla-key-bindings");
+                            "v5-scintilla-key-bindings");
     QSettings& settings = keyBindings ? *keyBindings : *ownSettings;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     mutex = new QRecursiveMutex();

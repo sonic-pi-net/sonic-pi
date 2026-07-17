@@ -17,6 +17,7 @@
 #include <QHBoxLayout>
 #include <QSettings>
 #include "qt_api_client.h"
+#include "utils/gui_settings.h"
 #include "linkaudiostreamswidget.h"
 #include <QStyleOption>
 #include <QPainter>
@@ -202,7 +203,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   updateRowVisibility();
   connect(m_rowVisibility, &QPushButton::clicked, this, [this]() {
     const int mode = (static_cast<int>(m_networkMode) == 2) ? 1 : 2;  // toggle
-    QSettings().setValue("supersonic/networkVisibility", mode);
+    SonicPi::guiSettings().setValue("supersonic/networkVisibility", mode);
     onSupersonicNetworkVisibilityChanged(mode);
   });
 
@@ -254,7 +255,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   // Restore visibility scope from QSettings (Local default). Link enable
   // is not persisted: joining a mesh is a per-session opt-in.
   {
-    QSettings s;
+    QSettings s = SonicPi::guiSettings();
     const int savedNet = s.value("supersonic/networkVisibility", 1).toInt();
     if (savedNet == 1 || savedNet == 2) {
       m_networkMode = static_cast<SonicPi::SonicPiAPI::LinkVisibility>(savedNet);
@@ -388,7 +389,7 @@ void SonicPiMetro::pushLinkConfigToServer()
 {
   if (!m_spAPI) return;
   // Peer-name first so peers see it. Idempotent on SuperSonic.
-  const QString name = QSettings().value("link/peerName", QStringLiteral("Sonic Pi")).toString();
+  const QString name = SonicPi::guiSettings().value("link/peerName", QStringLiteral("Sonic Pi")).toString();
   m_spAPI->SetLinkPeerName(name.toStdString());
   // Link button gates Link; master scope forces Off when Link is disabled.
   const auto effective = m_linkEnabled

@@ -28,6 +28,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSettings>
+
+#include "utils/gui_settings.h"
 #include <QSlider>
 #include <QTableWidget>
 #include <QTimer>
@@ -201,7 +203,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     m_peerNameEdit->setToolTip(tr("The name other Link peers see for this Sonic Pi when browsing audio streams on the network."));
     m_peerNameEdit->setPlaceholderText(tr("Name visible to other Link peers"));
     m_peerNameEdit->setText(
-        QSettings().value("link/peerName", QStringLiteral("Sonic Pi")).toString());
+        SonicPi::guiSettings().value("link/peerName", QStringLiteral("Sonic Pi")).toString());
     // Fixed (narrow) width so the column doesn't grab all horizontal slack.
     m_peerNameEdit->setFixedWidth(90);
 
@@ -209,7 +211,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     // per-input, so this is reconciled onto every subscription (see
     // enforceEngineLatency). Persisted across restarts.
     const int initialLatencyMs =
-        QSettings().value("link/audioLatencyMs", 200).toInt();
+        SonicPi::guiSettings().value("link/audioLatencyMs", 200).toInt();
     auto* latLabel = makeSectionLabel(tr("Latency"));
     m_latencySlider = new QSlider(Qt::Horizontal, this);
     m_latencySlider->setObjectName("linkLatencySlider");
@@ -240,7 +242,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     // Share-audio as a checkable On/Off pill. Persisted across restarts;
     // only the Link button itself is session-only.
     const bool initialShareAudio =
-        QSettings().value("link/audioPublish", false).toBool();
+        SonicPi::guiSettings().value("link/audioPublish", false).toBool();
     m_shareAudioBox = new QPushButton(initialShareAudio ? tr("On") : tr("Off"), this);
     m_shareAudioBox->setObjectName("shareAudioToggle");
     m_shareAudioBox->setAccessibleName(tr("Stream Audio"));
@@ -369,7 +371,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     // Initial visibility from QSettings (Local default); Link is session-only,
     // always off on launch.
     applyMasterVisibility(
-        QSettings().value("supersonic/networkVisibility", 1).toInt());
+        SonicPi::guiSettings().value("supersonic/networkVisibility", 1).toInt());
     applyLinkEnabled(false);
 }
 
@@ -424,13 +426,13 @@ void LinkAudioStreamsWidget::onPeerNameEdited()
 {
     const QString name = m_peerNameEdit->text().trimmed();
     if (name.isEmpty()) return;
-    QSettings().setValue("link/peerName", name);
+    SonicPi::guiSettings().setValue("link/peerName", name);
     if (m_spAPI) m_spAPI->SetLinkPeerName(name.toStdString());
 }
 
 void LinkAudioStreamsWidget::onShareAudioToggled(bool checked)
 {
-    QSettings().setValue("link/audioPublish", checked);
+    SonicPi::guiSettings().setValue("link/audioPublish", checked);
     if (m_spAPI) m_spAPI->SetLinkAudioPublish(checked);
     if (!m_linkEnabled) flashEmptyMessage();
 }
@@ -517,7 +519,7 @@ void LinkAudioStreamsWidget::onLatencySliderChanged(int ms)
     if (m_latencyValueLabel) {
         m_latencyValueLabel->setText(tr("%1 ms").arg(ms));
     }
-    QSettings().setValue("link/audioLatencyMs", ms);
+    SonicPi::guiSettings().setValue("link/audioLatencyMs", ms);
     // Apply now rather than waiting for the next poll.
     enforceEngineLatency();
 }

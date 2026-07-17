@@ -869,7 +869,7 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
 
     // Set Config paths
     m_paths[SonicPiPath::ConfigPath]              = m_paths[SonicPiPath::UserPath] / "config";
-    m_paths[SonicPiPath::AudioSettingsConfigPath] = m_paths[SonicPiPath::ConfigPath] / "audio-settings.toml";
+    m_paths[SonicPiPath::AudioSettingsConfigPath] = m_paths[SonicPiPath::ConfigPath] / "v5-audio-settings.toml";
 
     // Sanity check for script existence
     const auto checkPaths = std::vector<SonicPiPath>{ SonicPiPath::FetchUrlPath, SonicPiPath::BootDaemonPath, SonicPiPath::ClearLogsPath  };

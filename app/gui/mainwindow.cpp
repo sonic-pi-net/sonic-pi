@@ -77,6 +77,7 @@
 #include <QFileOpenEvent>
 
 #include "utils/reducedmotion.h"
+#include "utils/gui_settings.h"
 #include "utils/scintilla_api.h"
 #include "utils/setbundle.h"
 #include "widgets/sonicpilexer.h"
@@ -390,7 +391,8 @@ void MainWindow::onServerReady()
 void MainWindow::initPaths()
 {
 
-    QString settings_path = sonicPiConfigPath() + QDir::separator() + "gui-settings.ini";
+    QString settings_path = sonicPiConfigPath() + QDir::separator() + "v5-gui-settings.ini";
+    SonicPi::setGuiSettingsPath(settings_path);
     gui_settings = new QSettings(settings_path, QSettings::IniFormat);
 
     QString root_path = rootPath();
@@ -480,7 +482,7 @@ void MainWindow::setupTheme()
 {
     // Syntax highlighting
 
-    QString themeFilename = sonicPiConfigPath() + QDir::separator() + "colour-theme.properties";
+    QString themeFilename = sonicPiConfigPath() + QDir::separator() + "v5-colour-theme.properties";
 
     this->theme = new SonicPiTheme(this, themeFilename, rootPath());
 
@@ -723,7 +725,7 @@ void MainWindow::setupWindowStructure()
     bool auto_indent = piSettings->auto_indent_on_run;
     // Shared across all ten editor ctors so the bindings ini is parsed once.
     QSettings keyBindings(QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net",
-                          "scintilla-key-bindings");
+                          "v5-scintilla-key-bindings");
     for (int ws = 0; ws < workspace_max; ws++)
     {
         std::string s;
@@ -3156,7 +3158,7 @@ QString MainWindow::cardsFileToLoad()
     if (!custom.isEmpty() && QFile::exists(custom))
         return custom;
     const QString userCards =
-        sonicPiConfigPath() + QDir::separator() + "quickstart-cards.txt";
+        sonicPiConfigPath() + QDir::separator() + "v5-quickstart-cards.txt";
     if (QFile::exists(userCards))
         return userCards;
     return rootPath() + "/etc/quickstart/cards.txt";
@@ -7399,7 +7401,7 @@ QString MainWindow::sonicPiConfigPath()
 
 QString MainWindow::shortcutsConfigPath()
 {
-    return sonicPiConfigPath() + QDir::separator() + "keyboard-shortcuts.ini";
+    return sonicPiConfigPath() + QDir::separator() + "v5-keyboard-shortcuts.ini";
 }
 
 void MainWindow::zoomInLogs()
@@ -7929,7 +7931,7 @@ void MainWindow::sendDeviceSwitch(QString device, int sampleRate, int bufferSize
                                   QString inputDevice)
 {
     // Normalise dropdown display strings to SuperSonic's sentinel form.
-    // Display strings get persisted in gui-settings.ini and read back by
+    // Display strings get persisted in v5-gui-settings.ini and read back by
     // the restore-from-settings path; if we forward them raw, JUCE rejects
     // the swap with "No such device: -- None --" and the rollback can
     // leave the engine in a half-broken state. Keep the mapping right
