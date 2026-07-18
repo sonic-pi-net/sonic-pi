@@ -3460,10 +3460,12 @@ control note: :e4                        # Control last triggered synth (:dsaw)
 
         alive = node.live?
         node.kill
-        if alive
-          __delayed_message "killing sound #{node.id}"
-        else
-          __delayed_message "not killing sound #{node.id} (already killed)"
+        unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
+          if alive
+            __delayed_message "killing sound #{node.id}"
+          else
+            __delayed_message "not killing sound #{node.id} (already killed)"
+          end
         end
       end
       doc name:          :kill,
