@@ -88,6 +88,12 @@ public:
     // Keyboard scrolling (docScrollUp/Down shortcuts): one scroll step
     void scrollStep(int direction);
 
+    // Copy the pane's current selection (prose/code group, or the Examples
+    // editor when focused). The app-wide Copy action routes here when focus
+    // is inside the pane, so Cmd/Ctrl+C copies what the user selected in the
+    // docs rather than the editor buffer.
+    void copySelection();
+
     // Wire these to QtAPIClient's RunStartedReceived/RunEndedReceived
     void runStarted(int jobId, const QString& workspace);
     void runEnded(int jobId);

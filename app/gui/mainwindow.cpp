@@ -1972,6 +1972,12 @@ void MainWindow::cutLineFromPointInCurrentWorkspace()
 
 void MainWindow::copyInCurrentWorkspace()
 {
+    QWidget* focus = QApplication::focusWidget();
+    if (focus && tutorialPane && tutorialPane->isAncestorOf(focus))
+    {
+        tutorialPane->copySelection();
+        return;
+    }
     SonicPiScintilla* ws = getCurrentWorkspace();
     ws->copyClear();
 }

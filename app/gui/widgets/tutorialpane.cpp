@@ -1505,6 +1505,17 @@ void TutorialPane::scrollStep(int direction)
                       : QAbstractSlider::SliderSingleStepAdd);
 }
 
+void TutorialPane::copySelection()
+{
+    if (m_exampleEditor && m_exampleEditor->hasFocus() && m_exampleEditor->hasSelectedText())
+    {
+        m_exampleEditor->copy();
+        return;
+    }
+    if (m_selGroup)
+        m_selGroup->copy();
+}
+
 QWidget* TutorialPane::zoomControls() const
 {
     return m_zoomBar;
