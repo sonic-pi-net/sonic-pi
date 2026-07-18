@@ -1448,19 +1448,37 @@ void MainWindow::updateFocusMode()
 {
     if (focusMode)
     {
+        preFocus.fullScreen = piSettings->full_screen;
+        preFocus.tabs = piSettings->show_tabs;
+        preFocus.buttons = piSettings->show_buttons;
+        preFocus.log = piSettings->show_log;
+        preFocus.cues = piSettings->show_cues;
+        preFocus.metro = piSettings->show_metro;
+        preFocus.scopes = piSettings->show_scopes;
+        preFocus.docs = docWidget->isVisible();
+
         piSettings->full_screen = true;
         piSettings->show_tabs = false;
         piSettings->show_buttons = false;
         piSettings->show_log = false;
         piSettings->show_cues = false;
+        piSettings->show_metro = false;
+        piSettings->show_scopes = false;
+        docWidget->hide();
     }
     else
     {
-        piSettings->full_screen = false;
-        piSettings->show_tabs = true;
-        piSettings->show_buttons = true;
-        piSettings->show_log = true;
-        piSettings->show_cues = true;
+        piSettings->full_screen = preFocus.fullScreen;
+        piSettings->show_tabs = preFocus.tabs;
+        piSettings->show_buttons = preFocus.buttons;
+        piSettings->show_log = preFocus.log;
+        piSettings->show_cues = preFocus.cues;
+        piSettings->show_metro = preFocus.metro;
+        piSettings->show_scopes = preFocus.scopes;
+        if (preFocus.docs)
+        {
+            docWidget->show();
+        }
     }
     focusModeAct->setChecked(focusMode);
     // Quiet the fullscreen transition below: its message would clobber the
@@ -1473,6 +1491,8 @@ void MainWindow::updateFocusMode()
     updateButtonVisibility();
     updateLogVisibility();
     updateCuesVisibility();
+    updateMetroVisibility();
+    scope();
     if (focusMode)
     {
         showStatusAndAnnounce(tr("Focus mode on. Press %1 to exit.")

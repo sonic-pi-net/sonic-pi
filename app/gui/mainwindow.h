@@ -663,6 +663,18 @@ private:
 
     bool fullScreenMode = false;
     bool focusMode;
+    struct FocusSnapshot
+    {
+        bool fullScreen = false;
+        bool tabs = true;
+        bool buttons = true;
+        bool log = true;
+        bool cues = true;
+        bool metro = true;
+        bool scopes = false;
+        bool docs = false;
+    };
+    FocusSnapshot preFocus;
     // Boot restores many prefs through the same paths as user toggles; hold
     // screen-reader status announcements until the boot sequence finishes.
     bool bootAnnouncementsReady = false;
