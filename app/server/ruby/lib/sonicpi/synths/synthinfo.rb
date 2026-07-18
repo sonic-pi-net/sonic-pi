@@ -8741,7 +8741,7 @@ Use FX `:band_eq` with a negative db for the opposite effect - to attenuate a gi
 
           :res =>
           {
-            :doc => "Width of the band as a value between 0 and 1",
+            :doc => "Filter resonance as a value between 0 and 1. Higher values make the boosted or cut band narrower, lower values make it wider.",
             :validations => [v_positive(:res), v_less_than(:res, 1)],
             :modulatable => true
           },
