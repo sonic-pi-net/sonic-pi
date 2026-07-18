@@ -69,7 +69,7 @@ begin
       STDOUT.puts "Warning, you have an older init.rb file in #{SonicPi::Paths.original_init_path} which is now being ignored as your newer config/init.rb file is being used instead. Consider deleting your old init.rb (perhaps copying anything useful across first)."
     else
       STDOUT.puts "Found init.rb in old location #{SonicPi::Paths.original_init_path}. Moving it to the new config directory #{SonicPi::Paths.init_path}."
-      FileUtils.mv(SonicPi::Paths.original_init_path, init_path)
+      FileUtils.mv(SonicPi::Paths.original_init_path, SonicPi::Paths.init_path)
     end
   end
 rescue Exception => e
