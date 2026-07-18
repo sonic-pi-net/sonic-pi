@@ -6472,12 +6472,10 @@ void MainWindow::readSettings()
     piSettings->example_play_on_open = gui_settings->value("prefs/example-play-on-open", true).toBool();
     piSettings->reduce_motion = gui_settings->value("prefs/reduce-motion", false).toBool();
     SonicPi::setReduceMotionPreference(piSettings->reduce_motion);
-#if defined(Q_OS_WIN)
-    int os_shortcut_mode = 2;
-#elif defined(Q_OS_MAC)
+#if defined(Q_OS_MAC)
     int os_shortcut_mode = 3;
 #else
-    int os_shortcut_mode = 1;
+    int os_shortcut_mode = 2;
 #endif
     piSettings->shortcut_mode = gui_settings->value("prefs/shortcut-mode", os_shortcut_mode).toInt();
 
