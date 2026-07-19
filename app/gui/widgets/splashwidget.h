@@ -32,6 +32,10 @@ public:
     // Fade out and close; self-deletes via WA_DeleteOnClose.
     void finishAndClose();
 
+    // Re-resolve the (screen-reader) accessible name against the loaded
+    // translations; the splash is built before the translator is installed.
+    void retranslate();
+
 protected:
     void showEvent(QShowEvent* event) override;
     void paintEvent(QPaintEvent* event) override;

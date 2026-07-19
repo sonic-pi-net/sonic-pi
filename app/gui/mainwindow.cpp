@@ -221,6 +221,11 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
     std::cout << "[GUI] - Using language: " << ui_language.toUtf8().constData() << std::endl;
     this->i18n = sonicPii18n->loadTranslations(ui_language);
 
+    // The splash was built in main() before the translator was installed, so
+    // its screen-reader announcement resolved to English; re-resolve it now.
+    if (splash)
+        splash->retranslate();
+
     if (i18n)
     {
         std::cout << "[GUI] - translations available " << std::endl;

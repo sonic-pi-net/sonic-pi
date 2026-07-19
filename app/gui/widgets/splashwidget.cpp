@@ -41,6 +41,10 @@ SplashWidget::SplashWidget(QWidget* parent)
     : QWidget(parent, Qt::SplashScreen)
 {
     setAttribute(Qt::WA_DeleteOnClose);
+    // The splash's visible text is brand English by design; only this screen
+    // reader announcement is translated. Construction happens before the
+    // translator is installed, so MainWindow re-resolves it via retranslate()
+    // once translations are loaded.
     setAccessibleName(tr("Sonic Pi is starting"));
     // A generous stage so the content floats in space, clamped so smaller
     // displays still see the whole splash with a margin around it.
@@ -110,10 +114,10 @@ SplashWidget::SplashWidget(QWidget* parent)
                 "<span style=\"color:%4; font-size:%5px;\">%6</span></div>")
             .arg(dim)
             .arg(ScaleHeightForDPI(21))
-            .arg(tr("created by"))
+            .arg(QStringLiteral("created by"))
             .arg(accent)
             .arg(ScaleHeightForDPI(33))
-            .arg(tr("Sam Aaron")),
+            .arg(QStringLiteral("Sam Aaron")),
         this);
     credit->setTextFormat(Qt::RichText);
     credit->setAlignment(Qt::AlignHCenter);
@@ -159,8 +163,8 @@ SplashWidget::SplashWidget(QWidget* parent)
                 "<span style=\"color:%4; font-size:%2px;\">%5</span></div>")
             .arg(dim)
             .arg(ScaleHeightForDPI(21))
-            .arg(tr("Love and thanks to all the kind people<br>"
-                    "who supported this release on Patreon:"))
+            .arg(QStringLiteral("Love and thanks to all the kind people<br>"
+                                "who supported this release on Patreon:"))
             .arg(accent)
             .arg("https://patreon.com/samaaron"),
         this);
@@ -176,7 +180,7 @@ SplashWidget::SplashWidget(QWidget* parent)
                 "<span style=\"color:%4; font-size:%5px; font-weight:700;\">%6</span></div>")
             .arg(dim)
             .arg(ScaleHeightForDPI(22))
-            .arg(tr("Version"))
+            .arg(QStringLiteral("Version"))
             .arg(accent)
             .arg(ScaleHeightForDPI(29))
             .arg(SONIC_PI_VERSION),
@@ -189,7 +193,7 @@ SplashWidget::SplashWidget(QWidget* parent)
     QVBoxLayout* poweredLayout = new QVBoxLayout(m_poweredBy);
     poweredLayout->setContentsMargins(0, 0, 0, 0);
     poweredLayout->setSpacing(ScaleHeightForDPI(4));
-    QLabel* poweredLabel = new QLabel(tr("powered by"), m_poweredBy);
+    QLabel* poweredLabel = new QLabel(QStringLiteral("powered by"), m_poweredBy);
     poweredLabel->setStyleSheet(QString("color:%1; background: transparent;"
                                         " font-style:italic; font-size:%2px;")
                                     .arg(dim)
@@ -220,6 +224,15 @@ SplashWidget::SplashWidget(QWidget* parent)
                + QRegion(0, 0, t, height())
                + QRegion(width() - t, 0, t, height()));
     });
+}
+
+void SplashWidget::retranslate()
+{
+    // Construction runs before the translator is installed, so the screen
+    // reader announcement resolves to English there; this re-resolves it
+    // against the loaded translations. The visible text is brand English by
+    // design and stays untouched.
+    setAccessibleName(tr("Sonic Pi is starting"));
 }
 
 void SplashWidget::showEvent(QShowEvent* event)
