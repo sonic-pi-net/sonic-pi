@@ -119,5 +119,21 @@ module SonicPi
         PreParser.preparse(a, SonicPi::Lang::Core.vec_fns)
       end
     end
+
+    def test_error_reports_line_number_on_first_line
+      a = "scale = 10"
+      err = assert_raises PreParser::PreParseError do
+        PreParser.preparse(a, SonicPi::Lang::Core.vec_fns)
+      end
+      assert_match(/line 1/, err.message)
+    end
+
+    def test_error_reports_line_number_in_multiline_buffer
+      a = "play 60\nsleep 1\nscale = 10\nplay 62"
+      err = assert_raises PreParser::PreParseError do
+        PreParser.preparse(a, SonicPi::Lang::Core.vec_fns)
+      end
+      assert_match(/line 3/, err.message)
+    end
   end
 end

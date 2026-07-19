@@ -41,8 +41,9 @@ module SonicPi
           masked[m.begin(0)...m.end(0)] = replacement
           pos = m.end(0)
         end
-        if masked.match(/(?!\B)\W?#{fn}\s*=[\s\w]/)
-          raise PreParseError, "You may not use the built-in fn names as variable names.\n You attempted to use: #{fn}"
+        if (m = masked.match(/(?!\B)\W?(#{fn})\s*=[\s\w]/))
+          line = masked[0...m.begin(1)].count("\n") + 1
+          raise PreParseError, "You may not use the built-in fn names as variable names.\n You attempted to use: #{fn} (line #{line})"
         end
       end
       rb
