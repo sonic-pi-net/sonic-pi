@@ -121,6 +121,20 @@ add_custom_target(copy_supersonic ALL
     DEPENDS supersonic
 )
 
+# Keep the PDB next to supersonic.exe so a WER crash dump from this build can
+# be symbolicated. Not harvested into the MSI. Same file each build config —
+# dbghelp resolves it by the GUID in the exe's debug directory, and the
+# case-insensitive rename (SuperSonic.pdb -> supersonic.pdb) is transparent
+# to it.
+if(WIN32)
+    add_custom_command(TARGET copy_supersonic POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${BINARY_DIR}/SuperSonic_artefacts/${CMAKE_BUILD_TYPE}/SuperSonic.pdb
+            ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supersonic.pdb
+        COMMENT "Copying SuperSonic PDB to server/native/"
+        VERBATIM)
+endif()
+
 # Refresh the bundled MSVC runtime DLLs alongside supersonic.exe on every build.
 # app/server/native/ is gitignored and persists across builds, so when the
 # developer's MSVC toolchain updates (e.g. 14.29 -> 14.44) the freshly compiled
