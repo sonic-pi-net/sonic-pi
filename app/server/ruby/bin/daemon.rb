@@ -159,6 +159,13 @@ module SonicPi
         @compton_booter    = nil
         @supersonic_booter = nil
 
+        # Set (only) by cleanup_any_running_processes BEFORE it sends /quit to
+        # SuperSonic, so the resulting process exit doesn't read as a crash and
+        # trigger a restart mid-shutdown.
+        @exiting = false
+        @supersonic_restarts = []
+        @supersonic_restart_mutex = Mutex.new
+
         if @no_scsynth_inputs
           Util.log "SuperSonic inputs disabled by GUI"
         else
@@ -268,6 +275,7 @@ module SonicPi
           # Send from @api_server so SuperSonic records its port as the notify target
           @api_server.send("localhost", @ports["scsynth"], "/supersonic/notify")
           Util.log "Sent /supersonic/notify to SuperSonic, registering daemon on port #{@ports["daemon"]}"
+          @supersonic_booter.on_unexpected_exit { handle_supersonic_death }
         else
           Util.log "sending ERROR to gui"
           @api_server.send("localhost", @ports["gui-listen-to-spider"], "/exited-with-boot-error", "SuperSonic Audio Server Boot Error\nSuperSonic failed to boot")
@@ -284,7 +292,48 @@ module SonicPi
 
       end
 
+      # SuperSonic died without being asked to (post-sleep crash, device-driver
+      # fault, ...). Reboot it and re-sync the survivors rather than leaving
+      # spider + GUI pointed at dead ports for the rest of the session. Runs on
+      # the dead process's log-reader thread; the budget stops a crash-looping
+      # engine (e.g. binary blocked by SAC) from being relaunched forever.
+      SUPERSONIC_RESTART_MAX       = 3
+      SUPERSONIC_RESTART_WINDOW_S  = 300
+
+      def handle_supersonic_death
+        return if @exiting
+        @supersonic_restart_mutex.synchronize do
+          return if @exiting
+          now = Time.now
+          @supersonic_restarts.reject! { |t| now - t > SUPERSONIC_RESTART_WINDOW_S }
+          if @supersonic_restarts.size >= SUPERSONIC_RESTART_MAX
+            Util.log "SuperSonic exited unexpectedly - restart budget exhausted (#{SUPERSONIC_RESTART_MAX} in #{SUPERSONIC_RESTART_WINDOW_S}s), not restarting"
+            @api_server.send("localhost", @ports["gui-listen-to-spider"], "/exited-with-boot-error", "SuperSonic Audio Server Crashed\nSuperSonic keeps crashing - please restart Sonic Pi")
+            return
+          end
+          @supersonic_restarts << now
+          Util.log "SuperSonic exited unexpectedly - rebooting it (restart #{@supersonic_restarts.size}/#{SUPERSONIC_RESTART_MAX} in window)"
+          if @supersonic_booter.restart
+            # Same re-sync as a cold swap. The fresh process has an empty
+            # notify-subscriber list, so re-register the daemon first, then
+            # push Spider through its /supersonic/setup path - it stops the
+            # (now-dead) jobs, re-registers its own notify port and rebuilds
+            # groups/synthdefs/mixer via cold_swap_reinit!.
+            Util.log "SuperSonic rebooted - re-registering and triggering Spider cold-swap reinit"
+            @api_server.send("localhost", @ports["scsynth"], "/supersonic/notify")
+            @api_server.send("localhost", @ports["gui-send-to-spider"], "/supersonic/setup")
+          else
+            Util.log "SuperSonic reboot failed"
+            @api_server.send("localhost", @ports["gui-listen-to-spider"], "/exited-with-boot-error", "SuperSonic Audio Server Crashed\nSuperSonic could not be restarted - please restart Sonic Pi")
+          end
+        end
+      rescue StandardError => e
+        Util.log "Error handling unexpected SuperSonic exit"
+        Util.log_error(e)
+      end
+
       def cleanup_any_running_processes
+        @exiting = true
         if @supersonic_sender && @supersonic_booter && @supersonic_booter.process_running?
           begin
             Util.log "Sending /quit to SuperSonic"
@@ -551,9 +600,21 @@ module SonicPi
             # to, surface its final output in the daemon log for triage -
             # for non-mirrored processes the failure would otherwise only
             # be visible in the process's own log file.
-            log_tail_to_daemon_log unless @shutdown_requested
+            unless @shutdown_requested
+              log_tail_to_daemon_log
+              @unexpected_exit_blk.call if @unexpected_exit_blk
+            end
           end
         end
+      end
+
+      # Register a block to run when the process exits without kill having
+      # been requested. Runs on this process's log-reader thread, after the
+      # log tail has been surfaced. A booter rebooted from inside the block
+      # gets a fresh log-reader thread, so the block fires again if the new
+      # process also dies.
+      def on_unexpected_exit(&blk)
+        @unexpected_exit_blk = blk
       end
 
       # Append the tail of this process's own log file to the daemon log,
@@ -823,6 +884,22 @@ module SonicPi
         # SuperSonic's output is shown live in the GUI (shm debug ring) and kept
         # in supersonic.log; don't also mirror it into the daemon log.
         super(cmd, args, Paths.supersonic_log_path, false, env, false)
+      end
+
+      # Boot the same SuperSonic command line again after an unexpected exit
+      # and wait for the fresh process to ack. It binds the same UDP ports, so
+      # Spider's existing sockets recover on their own; engine-state re-sync
+      # (notify re-registration, cold-swap reinit) is the caller's job — see
+      # Daemon#handle_supersonic_death. Returns true once the new process acks.
+      def restart
+        @log_tail_mutex.synchronize { @log_tail_logged = false }
+        @success = Promise.new
+        boot
+        wait_for_boot
+      rescue StandardError => e
+        Util.log "Error rebooting SuperSonic"
+        Util.log_error(e)
+        false
       end
 
       def wait_for_boot
