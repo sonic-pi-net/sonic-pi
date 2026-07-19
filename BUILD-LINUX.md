@@ -56,7 +56,7 @@ few dependencies:
 ### 1.1 Debian
 The following is a rough list of Debian packages that are needed that can serve as a starting position:
 ```bash
-sudo apt-get install -y build-essential git ruby-dev qt6-tools-dev qt6-tools-dev-tools libqt6svg6-dev libqt6opengl6-dev alsa-utils libasound2-dev cmake ninja-build qt6-wayland libwayland-dev libxkbcommon-dev libegl1-mesa-dev libx11-dev libxft-dev libxext-dev m4 libpng-dev libboost-dev
+sudo apt-get install -y build-essential git libssl-dev ruby-dev qt6-tools-dev qt6-tools-dev-tools libqt6svg6-dev libqt6opengl6-dev alsa-utils libasound2-dev cmake ninja-build qt6-wayland libwayland-dev libxkbcommon-dev libegl1-mesa-dev libx11-dev libxft-dev libxext-dev m4 libaubio-dev libpng-dev libboost-dev
 ```
 
 *Notes:*
