@@ -18,12 +18,30 @@ module SonicPi
 
     class PreParseError < StandardError ; end
 
+    STRING_OR_COMMENT = /'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"|#[^\n]*/m
+
+    # String literals and comments are opaque to the preparser: matching
+    # happens against a masked copy (contents blanked, newlines kept) so
+    # positions line up, and the length-preserving ring transform is
+    # applied to the real source by position.
+    def self.mask_strings_and_comments(rb)
+      rb.gsub(STRING_OR_COMMENT) { |m| m.gsub(/[^\n]/, " ") }
+    end
+
     def self.preparse(rb, vec_fns)
+      rb = String.new(rb)
+      masked = mask_strings_and_comments(rb)
       vec_fns.each do |fn|
-        rb = String.new(rb)
         fn = fn[:name].to_s
-        rb.gsub!(/\((\s*)#{fn}([,[:space:]]+)/) {|s| ' ' + $1 + fn + '(' + (' ' * ($2.size - 1))}
-        if rb.match(/(?!\B)\W?#{fn}\s*=[\s\w]/)
+        re = /\((\s*)#{fn}([,[:space:]]+)/
+        pos = 0
+        while (m = masked.match(re, pos))
+          replacement = ' ' + m[1] + fn + '(' + (' ' * (m[2].size - 1))
+          rb[m.begin(0)...m.end(0)] = replacement
+          masked[m.begin(0)...m.end(0)] = replacement
+          pos = m.end(0)
+        end
+        if masked.match(/(?!\B)\W?#{fn}\s*=[\s\w]/)
           raise PreParseError, "You may not use the built-in fn names as variable names.\n You attempted to use: #{fn}"
         end
       end

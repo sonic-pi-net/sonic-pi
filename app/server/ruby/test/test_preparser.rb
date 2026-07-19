@@ -76,5 +76,48 @@ module SonicPi
         PreParser.preparse(a, SonicPi::Lang::Core.vec_fns)
       end
     end
+
+    def test_fn_assignment_inside_single_quoted_string_is_ignored
+      a = "puts 'chord = foo'"
+      assert_equal(a, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
+    end
+
+    def test_fn_assignment_inside_double_quoted_string_is_ignored
+      a = "puts \"scale = 10\""
+      assert_equal(a, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
+    end
+
+    def test_fn_assignment_inside_comment_is_ignored
+      a = "play 60 # chord = foo"
+      assert_equal(a, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
+    end
+
+    def test_ring_syntax_inside_string_is_not_transformed
+      a = "puts '(ring 50, 60)'"
+      assert_equal(a, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
+    end
+
+    def test_ring_syntax_after_string_still_transformed
+      a = "puts 'hello'; (ring 50, 60)"
+      b = "puts 'hello';  ring(50, 60)"
+      assert_equal(b, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
+    end
+
+    def test_fn_assignment_inside_multiline_string_is_ignored
+      a = "s = \"line one\nchord = foo\nline three\"\nplay 60"
+      assert_equal(a, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
+    end
+
+    def test_escaped_quote_inside_string_is_ignored
+      a = "puts 'it\\'s a chord = thing'"
+      assert_equal(a, PreParser.preparse(a, SonicPi::Lang::Core.vec_fns))
+    end
+
+    def test_real_assignment_after_string_still_raises
+      a = "puts 'hello'\nscale = 10"
+      assert_raises PreParser::PreParseError do
+        PreParser.preparse(a, SonicPi::Lang::Core.vec_fns)
+      end
+    end
   end
 end
