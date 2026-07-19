@@ -175,7 +175,13 @@
           env         (env-gen:kr (core/gated-shaped-adsr attack decay sustain release attack_level decay_level sustain_level env_curve 3) gate :action FREE)
           output      (* pre_amp mix env)
           output      (rlpf output cutoff-freq res)]
-      (out out_bus (pan2 output pan (* amp-fudge amp)))))
+      ;; `output` carries three detuned voices (the multichannel expansion
+      ;; above runs the whole chain in triplicate), so the pan2 expands to
+      ;; three stereo pairs which MUST be summed to one: without the sum, out
+      ;; writes six channels to consecutive busses, trampling whatever sits
+      ;; beside out_bus (FX busses included). The shipped .scsyndef assets are
+      ;; binary-patched to exactly this sum - diff any recompile against them.
+      (out out_bus (apply + (pan2 output pan (* amp-fudge amp))))))
 
 
  (defsynth sonic-pi-supersaw_gated [note 52
