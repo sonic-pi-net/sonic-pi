@@ -120,6 +120,9 @@
         <ComponentGroup Id="AllFiles" Directory="SonicPiDir">
             <Files Subdirectory="app" Include="..\app\**">
                 <Exclude Files="..\app\gui\build\Release\sonic-pi.exe" />
+                <!-- Debug symbols are build-side only (crash-dump triage) —
+                     never shipped, even in BETA releases                   -->
+                <Exclude Files="..\app\**\*.pdb" />
             </Files>
             <Files Subdirectory="etc" Include="..\etc\**" />
             <Files Include="..\VERSION" />
