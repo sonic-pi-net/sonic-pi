@@ -14,6 +14,7 @@
 #include "sonicpiscintilla.h"
 #include "api/sonicpi_api.h"
 #include "completionpopup.h"
+#include "editortoolbar.h"
 #include "findpopup.h"
 #include <QVariantAnimation>
 #include "utils/scintilla_api.h"
@@ -646,8 +647,24 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
             [this](bool abort) { closeFind(abort); });
     // The bar tracks the editor zoom (projector legibility). showFind also
     // refreshes it, covering zoomTo paths that bypass this signal.
-    connect(this, &SonicPiScintilla::zoomLevelChanged, this,
-            [this] { m_find->setZoom(currentZoom() - kDefaultZoom); });
+    connect(this, &SonicPiScintilla::zoomLevelChanged, this, [this] {
+        m_find->setZoom(currentZoom() - kDefaultZoom);
+        if (m_editorToolbar)
+            m_editorToolbar->setZoom(currentZoom() - kDefaultZoom);
+    });
+
+    // Optional edit toolbar sharing the find bar's corner (MainWindow toggles
+    // it via setEditorToolbarEnabled; hidden while the find bar is open).
+    m_editorToolbar = new EditorToolbar(this);
+    m_editorToolbar->applyTheme(theme->color("Background"), theme->color("Foreground"),
+                                SonicPiTheme::blend(theme->color("Foreground"),
+                                                    theme->color("Background"), 0.55));
+    connect(m_editorToolbar, &EditorToolbar::undoRequested, this, &SonicPiScintilla::undo);
+    connect(m_editorToolbar, &EditorToolbar::redoRequested, this, &SonicPiScintilla::redo);
+    connect(m_editorToolbar, &EditorToolbar::cutRequested, this, &SonicPiScintilla::sp_cut);
+    connect(m_editorToolbar, &EditorToolbar::copyRequested, this, &SonicPiScintilla::copyClear);
+    connect(m_editorToolbar, &EditorToolbar::pasteRequested, this, &SonicPiScintilla::sp_paste);
+    connect(m_editorToolbar, &EditorToolbar::findRequested, this, &SonicPiScintilla::showFind);
     // Keep the highlights and counter live while the buffer is edited — but
     // never move the caret from under the user (interact = false).
     connect(this, &QsciScintilla::textChanged, this, [this] {
@@ -707,7 +724,30 @@ void SonicPiScintilla::redraw()
                            theme->color("Foreground"), accent,
                            theme->contrastingText(accent));
     }
+    if (m_editorToolbar)
+        m_editorToolbar->applyTheme(theme->color("Background"), theme->color("Foreground"),
+                                    SonicPiTheme::blend(theme->color("Foreground"),
+                                                        theme->color("Background"), 0.55));
     mutex->unlock();
+}
+
+void SonicPiScintilla::setEditorToolbarEnabled(bool on)
+{
+    m_editorToolbarEnabled = on;
+    updateEditorToolbarVisibility();
+}
+
+void SonicPiScintilla::updateEditorToolbarVisibility()
+{
+    if (!m_editorToolbar)
+        return;
+    const bool show = m_editorToolbarEnabled && !(m_find && m_find->isOpen());
+    m_editorToolbar->setVisible(show);
+    if (show)
+    {
+        m_editorToolbar->setZoom(currentZoom() - kDefaultZoom);
+        m_editorToolbar->reposition();
+    }
 }
 
 QString SonicPiScintilla::s_lastFindQuery;
@@ -749,6 +789,7 @@ void SonicPiScintilla::showFind()
     if (seed.isNull() && !s_lastFindQuery.isEmpty())
         seed = s_lastFindQuery;
     m_find->open(seed);
+    updateEditorToolbarVisibility();   // the find bar takes the corner over
 }
 
 void SonicPiScintilla::findNextMatch()
@@ -803,6 +844,7 @@ void SonicPiScintilla::closeFind(bool abortToOrigin)
     else if (hadMatch)
         SendScintilla(SCI_SETSEL, (unsigned long)selStart, (long)selEnd);
     setFocus();
+    updateEditorToolbarVisibility();   // hand the corner back to the toolbar
 }
 
 void SonicPiScintilla::refreshFind(bool interact)

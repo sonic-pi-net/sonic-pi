@@ -103,6 +103,8 @@ set(EDITOR_SOURCES
     ${QTAPP_ROOT}/widgets/completionpopup.h
     ${QTAPP_ROOT}/widgets/findpopup.cpp
     ${QTAPP_ROOT}/widgets/findpopup.h
+    ${QTAPP_ROOT}/widgets/editortoolbar.cpp
+    ${QTAPP_ROOT}/widgets/editortoolbar.h
     )
 
 set(QT_SOURCES

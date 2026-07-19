@@ -30,6 +30,7 @@ class SonicPiLexer;
 class QSettings;
 class CompletionPopup;
 class FindPopup;
+class EditorToolbar;
 class QVariantAnimation;
 class QMenu;
 class QContextMenuEvent;
@@ -195,6 +196,10 @@ public slots:
     // MainWindow::escapeWorkspaces). No-op when the bar is hidden.
     void closeFindPopup();
 
+    // Optional floating edit toolbar (undo/redo, cut/copy/paste, find) in the
+    // editor's top-right corner; the find bar takes the corner over while open.
+    void setEditorToolbarEnabled(bool on);
+
     void showAutoCompletion(bool val);
     void setCompletionHelp(bool val);   // show docstring/piano/slider helper panes
     void setText(const QString& text);
@@ -262,6 +267,11 @@ private:
     void setCurrentFindMatch(int idx, bool interact);
     void applyFindIndicatorColours();
     void closeFind(bool abortToOrigin);
+
+    EditorToolbar* m_editorToolbar = nullptr;
+    bool m_editorToolbarEnabled = false;
+    // Visible = enabled and the find bar isn't occupying the corner.
+    void updateEditorToolbarVisibility();
 
     void addKeyBinding(QSettings& qs, int cmd, int key);
     void addOtherKeyBinding(QSettings& qs, int cmd, int key);

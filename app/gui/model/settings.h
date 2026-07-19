@@ -44,6 +44,7 @@ public:
     bool show_log;
     bool show_cues;
     bool show_buttons;
+    bool show_editor_toolbar;
     bool show_tabs;
     bool show_metro;
     bool syphon_show_cursor;

@@ -689,6 +689,10 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     show_buttons->setToolTip(tr("Toggle visibility of the control buttons."));
     show_buttons->setProperty("tipShortcut", shortcutStrShiftMeta('B'));
     show_buttons->setChecked(true);
+
+    show_editor_toolbar = new QCheckBox(tr("Show editor toolbar"));
+    show_editor_toolbar->setToolTip(tr("Toggle visibility of the editor's floating toolbar (undo/redo, cut/copy/paste, find)."));
+    show_editor_toolbar->setChecked(true);
     show_tabs = new QCheckBox(tr("Show tabs"));
     show_tabs->setChecked(true);
     show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
@@ -848,6 +852,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_display_box_layout->addWidget(show_autocompletion);
     editor_display_box_layout->addWidget(show_completion_help);
     editor_display_box_layout->addWidget(show_buttons);
+    editor_display_box_layout->addWidget(show_editor_toolbar);
     editor_display_box_layout->addWidget(show_tabs);
     editor_display_box_layout->addWidget(show_titles);
 #ifndef Q_OS_MAC
@@ -2444,6 +2449,10 @@ void SettingsWidget::toggleButtons() {
     emit showButtonsChanged();
 }
 
+void SettingsWidget::toggleEditorToolbar() {
+    emit showEditorToolbarChanged();
+}
+
 void SettingsWidget::toggleFullScreen() {
     emit showFullscreenChanged();
 }
@@ -2702,6 +2711,7 @@ void SettingsWidget::updateSettings() {
     piSettings->show_cues = show_cues->isChecked();
     piSettings->show_metro = show_metro->isChecked();
     piSettings->show_buttons = show_buttons->isChecked();
+    piSettings->show_editor_toolbar = show_editor_toolbar->isChecked();
     piSettings->show_tabs = show_tabs->isChecked();
     piSettings->full_screen = full_screen->isChecked();
     piSettings->log_synths = log_synths->isChecked();
@@ -2767,6 +2777,7 @@ void SettingsWidget::settingsChanged() {
     show_cues->setChecked(piSettings->show_cues);
     show_metro->setChecked(piSettings->show_metro);
     show_buttons->setChecked(piSettings->show_buttons);
+    show_editor_toolbar->setChecked(piSettings->show_editor_toolbar);
     show_tabs->setChecked(piSettings->show_tabs);
     full_screen->setChecked(piSettings->full_screen);
     log_synths->setChecked(piSettings->log_synths);
@@ -2845,6 +2856,7 @@ void SettingsWidget::connectAll() {
     connect(show_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_metro, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(show_editor_toolbar, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(log_synths, SIGNAL(clicked()), this, SLOT(updateSettings()));
@@ -2885,6 +2897,7 @@ void SettingsWidget::connectAll() {
     connect(show_cues, SIGNAL(clicked()), this, SLOT(toggleCuesLog()));
     connect(show_metro, SIGNAL(clicked()), this, SLOT(toggleMetro()));
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(toggleButtons()));
+    connect(show_editor_toolbar, SIGNAL(clicked()), this, SLOT(toggleEditorToolbar()));
     connect(full_screen, SIGNAL(clicked()), this, SLOT(toggleFullScreen()));
     connect(show_tabs, SIGNAL(clicked()), this, SLOT(toggleTabs()));
     connect(log_auto_scroll, SIGNAL(clicked()), this, SLOT(toggleLogAutoScroll()));

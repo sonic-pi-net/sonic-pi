@@ -46,7 +46,11 @@ enum class Glyph
     Search,          // docs filter
     Restore,         // reset dials
     ChevronUp,       // find bar: previous match
-    ChevronDown      // find bar: next match
+    ChevronDown,     // find bar: next match
+    Scissors,        // editor toolbar: cut
+    Clipboard,       // editor toolbar: paste
+    ArrowBackUp,     // editor toolbar: undo
+    ArrowForwardUp   // editor toolbar: redo
 };
 
 // Solid glyphs are tinted via fill; everything else via stroke.
@@ -158,6 +162,24 @@ inline QString glyphPaths(Glyph glyph)
         return QStringLiteral("<path d='M6 15l6 -6l6 6' />");
     case Glyph::ChevronDown:
         return QStringLiteral("<path d='M6 9l6 6l6 -6' />");
+    case Glyph::Scissors:
+        return QStringLiteral(
+            "<path d='M6 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0' />"
+            "<path d='M6 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0' />"
+            "<path d='M8.6 8.6l10.4 10.4' />"
+            "<path d='M8.6 15.4l10.4 -10.4' />");
+    case Glyph::Clipboard:
+        return QStringLiteral(
+            "<path d='M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 "
+            "-2 -2h-2' />"
+            "<path d='M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 "
+            "-2 -2z' />");
+    case Glyph::ArrowBackUp:
+        return QStringLiteral(
+            "<path d='M9 14l-4 -4l4 -4' /><path d='M5 10h11a4 4 0 1 1 0 8h-1' />");
+    case Glyph::ArrowForwardUp:
+        return QStringLiteral(
+            "<path d='M15 14l4 -4l-4 -4' /><path d='M19 10h-11a4 4 0 1 0 0 8h1' />");
     }
     return QString();
 }

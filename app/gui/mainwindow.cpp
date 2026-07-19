@@ -250,6 +250,9 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
     updateShortcuts();
     updateTabsVisibility();
     updateButtonVisibility();
+    // After BOTH setupWindowStructure (the workspaces) and createToolBar
+    // (the action) — it touches each.
+    updateEditorToolbarVisibility();
     updateLogVisibility();
     updateCuesVisibility();
     createDebugAndLogTabs();
@@ -577,6 +580,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(showCuesChanged()), this, SLOT(updateCuesVisibility()));
     connect(settingsWidget, SIGNAL(showMetroChanged()), this, SLOT(updateMetroVisibility()));
     connect(settingsWidget, SIGNAL(showButtonsChanged()), this, SLOT(updateButtonVisibility()));
+    connect(settingsWidget, SIGNAL(showEditorToolbarChanged()), this, SLOT(updateEditorToolbarVisibility()));
     connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
     connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
     connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
@@ -803,6 +807,7 @@ void MainWindow::setupWindowStructure()
         if (bootAnnouncementsReady && index >= 0)
             announce(tr("Buffer %1").arg(index), false, SonicPi::Announcement::Navigation);
     });
+
 
     QFont font("Hack", 10);
     font.setStyleHint(QFont::Monospace);
@@ -1848,6 +1853,23 @@ void MainWindow::updateButtonVisibility()
     else
     {
         toolBar->close();
+    }
+}
+
+void MainWindow::showEditorToolbarMenuChanged()
+{
+    piSettings->show_editor_toolbar = showEditorToolbarAct->isChecked();
+    emit settingsChanged();
+    updateEditorToolbarVisibility();
+}
+
+void MainWindow::updateEditorToolbarVisibility()
+{
+    QSignalBlocker blocker(showEditorToolbarAct);
+    showEditorToolbarAct->setChecked(piSettings->show_editor_toolbar);
+    for (int w = 0; w < workspace_max; w++)
+    {
+        workspaces[w]->setEditorToolbarEnabled(piSettings->show_editor_toolbar);
     }
 }
 
@@ -5909,6 +5931,11 @@ void MainWindow::createToolBar()
     showButtonsAct->setChecked(piSettings->show_buttons);
     connect(showButtonsAct, SIGNAL(triggered()), this, SLOT(showButtonsMenuChanged()));
 
+    showEditorToolbarAct = new QAction(tr("Show Editor Toolbar"), this);
+    showEditorToolbarAct->setCheckable(true);
+    showEditorToolbarAct->setChecked(piSettings->show_editor_toolbar);
+    connect(showEditorToolbarAct, SIGNAL(triggered()), this, SLOT(showEditorToolbarMenuChanged()));
+
     showTabsAct = new QAction(tr("Show Tabs"), this);
     showTabsAct->setCheckable(true);
     showTabsAct->setChecked(piSettings->show_tabs);
@@ -5939,6 +5966,7 @@ void MainWindow::createToolBar()
     viewMenu->addAction(showContextAct);
     viewMenu->addSeparator();
     viewMenu->addAction(showButtonsAct);
+    viewMenu->addAction(showEditorToolbarAct);
     viewMenu->addAction(showTabsAct);
     viewMenu->addAction(showTitlesAct);
     viewMenu->addSeparator();
@@ -6467,6 +6495,7 @@ void MainWindow::readSettings()
     // Read in preferences from previous session
     piSettings->language = gui_settings->value("prefs/language", "system_language").toString();
     piSettings->show_buttons = gui_settings->value("prefs/show-buttons", true).toBool();
+    piSettings->show_editor_toolbar = gui_settings->value("prefs/show-editor-toolbar", true).toBool();
     piSettings->show_tabs = gui_settings->value("prefs/show-tabs", true).toBool();
     piSettings->show_log = gui_settings->value("prefs/show-log", true).toBool();
     piSettings->osc_public = gui_settings->value("prefs/osc-public", false).toBool();
@@ -6607,6 +6636,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/show-completion-help", piSettings->show_completion_help);
 
     gui_settings->setValue("prefs/show-buttons", piSettings->show_buttons);
+    gui_settings->setValue("prefs/show-editor-toolbar", piSettings->show_editor_toolbar);
     gui_settings->setValue("prefs/show-tabs", piSettings->show_tabs);
     gui_settings->setValue("prefs/show-log", piSettings->show_log);
     gui_settings->setValue("prefs/show-context", piSettings->show_context);

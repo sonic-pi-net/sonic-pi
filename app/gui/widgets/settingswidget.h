@@ -98,6 +98,7 @@ private slots:
     void toggleCuesLog();
     void toggleMetro();
     void toggleButtons();
+    void toggleEditorToolbar();
     void toggleFullScreen();
     void toggleTabs();
     void toggleLogAutoScroll();
@@ -155,6 +156,7 @@ signals:
     void showCuesChanged();
     void showMetroChanged();
     void showButtonsChanged();
+    void showEditorToolbarChanged();
     void showFullscreenChanged();
     void showTabsChanged();
     void logAutoScrollChanged();
@@ -254,6 +256,7 @@ private:
     QCheckBox *show_cues;
     QCheckBox *show_metro;
     QCheckBox *show_buttons;
+    QCheckBox *show_editor_toolbar;
     QCheckBox *show_tabs;
     QCheckBox *check_updates;
     QCheckBox *studio_mode;
