@@ -3,4 +3,4 @@
 echo "Fetching dependencies via apt..."
 
 sudo apt-get update
-sudo apt-get install -y build-essential git libssl-dev ruby-dev qt6-tools-dev qt6-tools-dev-tools libqt6svg6-dev libqt6opengl6-dev alsa-utils libasound2-dev cmake ninja-build qt6-wayland libwayland-dev libxkbcommon-dev libegl1-mesa-dev libx11-dev libxft-dev libxext-dev m4 libaubio-dev libpng-dev libboost-dev
+sudo apt-get install -y build-essential git libssl-dev ruby-dev qt6-tools-dev qt6-tools-dev-tools libqt6svg6-dev libqt6opengl6-dev alsa-utils libasound2-dev libjack-jackd2-dev cmake ninja-build qt6-wayland libwayland-dev libxkbcommon-dev libegl1-mesa-dev libx11-dev libxft-dev libxext-dev m4 libaubio-dev libpng-dev libboost-dev

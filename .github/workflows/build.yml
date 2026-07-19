@@ -147,7 +147,7 @@ jobs:
           CC: ${{ matrix.cc }}
           QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: |
-          sudo apt install -y pulseaudio dbus-x11 ruby-dev libssl-dev alsa-base alsa-utils libasound2-dev libudev-dev autoconf automake libtool-bin gettext pkg-config m4 libaubio-dev libpng-dev libboost-dev libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev libfreetype6-dev libfontconfig1-dev libglu1-mesa-dev
+          sudo apt install -y pulseaudio dbus-x11 ruby-dev libssl-dev alsa-base alsa-utils libasound2-dev libjack-jackd2-dev libudev-dev autoconf automake libtool-bin gettext pkg-config m4 libaubio-dev libpng-dev libboost-dev libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev libfreetype6-dev libfontconfig1-dev libglu1-mesa-dev
           ./linux-prebuild.sh
         if: matrix.os == 'ubuntu-latest'
 
@@ -351,7 +351,7 @@ jobs:
           # source-build of Ruby needs (lib*-dev for ./configure).
           apt-get install -y \
             pulseaudio dbus-x11 ruby-dev libssl-dev \
-            alsa-base alsa-utils libasound2-dev \
+            alsa-base alsa-utils libasound2-dev libjack-jackd2-dev \
             libudev-dev autoconf automake libtool-bin gettext \
             pkg-config m4 libaubio-dev libpng-dev libboost-dev \
             libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev \
