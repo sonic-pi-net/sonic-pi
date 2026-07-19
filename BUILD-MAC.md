@@ -40,7 +40,7 @@ few dependencies:
 
 1. Xcode (12.1+) and command line tools
 2. Homebrew
-3. All other dependencies - Qt6 (6.2+), CMake (3.18+), Elixir(1.13+), pkg-config
+3. All other dependencies - Qt6 (6.2+), CMake (3.18+), pkg-config
 
 ### 1.1 Install Xcode
 
@@ -69,7 +69,7 @@ Once you have Homebrew installed, pulling in the rest of the
 dependencies is a couple of lines to execute within a terminal:
 
 ```
-brew install qt cmake elixir pkg-config
+brew install qt cmake pkg-config
 
 ```
 

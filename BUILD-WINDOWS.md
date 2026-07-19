@@ -26,9 +26,9 @@ and to run
 
 ### Notes
 
-* **ARM64 Windows** (e.g. Qualcomm Snapdragon / Surface Laptop): See
-  [BUILD-WINDOWS-ARM64.md](BUILD-WINDOWS-ARM64.md) for dedicated ARM64
-  native build instructions. The instructions below are for x86-64.
+* **ARM64 Windows** (e.g. Qualcomm Snapdragon / Surface Laptop) builds
+  natively with the very same scripts — see [Building for ARM64](#building-for-arm64)
+  at the end for the handful of prerequisite differences.
 * If you have any issues building Sonic Pi on Windows please open up an
   issue on GitHub and we'll try our best to assist you:
   https://github.com/sonic-pi-net/sonic-pi/issues
@@ -44,10 +44,10 @@ In order to build Sonic Pi's various components, we need to install a few
 dependencies:
 
 1. Visual Studio 2026
-2. Qt (6.8+)
+2. Qt 6 (a recent release — 6.9 or newer, latest strongly recommended)
 3. CMake (3.29+)
-4. Ruby (3.4.2+)
-5. Elixir (1.16+)
+4. Ruby (4.0+)
+5. Rust (for the SuperSonic audio engine's native MIDI subsystem)
 
 Let's look at each in turn.
 
@@ -64,14 +64,15 @@ Note that you need to enable the "Desktop development with C++" workload. See: h
 
 ### 1.2 Install - Qt
 
-Install the latest version of Qt6 (note that Qt5 may work on Windows but isn't supported) - ensure
-you pick 64 bit options for msvc:
+Install a recent Qt 6 (6.9 or newer — the latest release is strongly
+recommended, as Sonic Pi's GUI benefits from ongoing Qt fixes; Qt 5 is
+not supported). Use the online installer and pick the 64-bit MSVC build:
 
-https://download.qt.io/official_releases/qt/6.8/6.8.2/single/qt-everywhere-src-6.8.2.zip
+https://www.qt.io/download-qt-installer
 
 When selecting Qt components you need:
 
-* MSVC 2019 64-bit
+* MSVC 2022 64-bit
 * Additional Libraries
     - Qt Positioning
     - Qt WebChannel
@@ -93,10 +94,10 @@ Alternatively, the `setx` command can make global variables. (Note that
 after using `setx` the command line needs to be restarted for it to take
 effect).
 
-For example, if you installed Qt to `C:\Qt\Qt6.8.2` then you could run:
+For example, if you installed Qt 6.11.1 then you could run:
 
 ```
-setx QT_INSTALL_LOCATION C:\Qt\6.8.2\msvc2019_64
+setx QT_INSTALL_LOCATION C:\Qt\6.11.1\msvc2022_64
 ```
 
 (followed by restarting your command prompt)
@@ -116,9 +117,10 @@ Ruby is needed both for a number of the build steps and as the main
 runtime for the language server. We need to install both it and some
 additional libraries.
 
-Firstly, install the latest version of Ruby (3.4.2 - 64 bit with devkit) from:
+Firstly, install the latest version of Ruby (4.0.x - 64 bit with devkit).
+Grab the newest `rubyinstaller-devkit-4.0.x-*-x64.exe` from:
 
-https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.4.2-1/rubyinstaller-devkit-3.4.2-1-x64.exe
+https://github.com/oneclick/rubyinstaller2/releases
 
 Once you have installed Ruby, you need to grab some additional
 libraries. We can do this from the command prompt with the following:
@@ -130,13 +132,13 @@ gem install rugged
 This uses the Ruby library management tool `gem` to install rugged which is used to
 store the code diffs in a local Git repository.
 
-### 1.5 Install Elixir
+### 1.5 Install - Rust
 
-Lastly we just need to head over to the Elixir website and download and
-run the installer:
+The SuperSonic audio engine (built from source as part of the build) has
+a native MIDI subsystem written in Rust, so `cargo` must be on your `PATH`
+when the build configures. Install the toolchain from:
 
-https://elixir-lang.org/install.html#windows
-
+https://rustup.rs
 
 ## 2. Preparing the Build
 
@@ -177,17 +179,17 @@ change any future references to `C:\dev\sonic-pi` to your chosen location.
 Next, we need to point your build of Sonic Pi to your local Ruby
 installation. We can do this by creating a folder link - similar to a
 symbolic link on Linux and macOS. First, find out where you installed
-Ruby. For example, this might be `C:\Ruby34-x64`.
+Ruby. For example, this might be `C:\Ruby40-x64`.
 
 Finally, open a console as administrator (this is necessary for making the
 link). Then `cd` into the `sonic-pi\app\server\native` directory within
 your copy of Sonic Pi's source. For example, if you put Sonic Pi within
-`C:\dev` and installed Ruby to `C:\Ruby34-x64` then you'd do the
+`C:\dev` and installed Ruby to `C:\Ruby40-x64` then you'd do the
 following:
 
 ```
 cd C:\dev\sonic-pi\app\server\native
-mklink /d ruby C:\Ruby34-x64
+mklink /d ruby C:\Ruby40-x64
 ```
 
 
@@ -233,6 +235,45 @@ Or from anywhere using the full path:
 ```
 C:\dev\sonic-pi\app\build\gui\Release\sonic-pi.exe
 ```
+
+
+## Building for ARM64
+
+ARM64 Windows (e.g. Qualcomm Snapdragon devices like the Surface Laptop
+7th Edition) builds natively with the **same scripts** as x64 — the build
+system auto-detects the host architecture and selects the correct vcpkg
+triplet (`arm64-windows-static-md`) and CMake generator flag (`-A ARM64`)
+automatically. Everything, including the SuperSonic audio engine, is built
+from source for ARM64; there is nothing to prebuild by hand.
+
+**Goal**: every binary runs as native ARM64 — no x86/x64 emulation.
+
+Only the prerequisites differ from the x64 steps above:
+
+* **Visual Studio 2026** — under Individual Components, add **MSVC
+  ARM64/ARM64EC build tools**. Note that on ARM64 Windows, VS installs to
+  `C:\Program Files (x86)\`, not `C:\Program Files\` — anything that hunts
+  for `vcvarsall.bat` must check both locations.
+* **Ruby** — install the ARM64 RubyInstaller build and verify with
+  `ruby -e "puts RUBY_PLATFORM"` (should print `aarch64-mingw-ucrt`). Link
+  it the same way, e.g. `mklink /j ruby C:\Ruby40-arm`. ARM64 Ruby ships
+  without YJIT (that needs Rust at Ruby's own build time), so you'll see a
+  harmless startup warning.
+* **Rust** — install the ARM64 `rustup` toolchain (same reason as x64: the
+  SuperSonic MIDI subsystem).
+* **Qt** — install the ARM64 build. The `aqtinstall` CLI is the easy way:
+  ```
+  pip install aqtinstall
+  aqt install-qt windows desktop 6.11.1 win64_msvc2022_arm64 -m qtsvg qttools qttranslations -O C:\Qt
+  setx QT_INSTALL_LOCATION C:\Qt\6.11.1\msvc2022_arm64
+  ```
+
+Then build exactly as above — `win-prebuild.bat`, `win-config.bat`,
+`win-build-gui.bat Release` — deploy the Qt DLLs with `windeployqt`, and
+run `app\build\gui\Release\sonic-pi.exe`. On first launch, Windows
+Defender may delay audio startup by up to 20 seconds while it scans the
+freshly built `supersonic.exe`; add it to Defender's process exclusion
+list to avoid this on subsequent launches.
 
 
 ## Good Luck!

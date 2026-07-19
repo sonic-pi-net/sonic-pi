@@ -13,7 +13,7 @@ git clone --recurse-submodules https://github.com/sonic-pi-net/sonic-pi.git
 cd sonic-pi/app
 ./pi-setup.sh
 ./pi-build-all.sh
-./build/gui/qt/sonic-pi
+./build/gui/sonic-pi
 
 ```
 
@@ -99,7 +99,7 @@ To start the build process run the following command (which will likely take som
 Finally, you can run your newly compiled Sonic Pi app with the following command:
 
 ```
-./app/build/gui/qt/sonic-pi
+./app/build/gui/sonic-pi
 ```
 
 

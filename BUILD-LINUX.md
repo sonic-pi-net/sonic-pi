@@ -37,7 +37,7 @@ and to run
   issue on GitHub and we'll try our best to assist you:
   https://github.com/sonic-pi-net/sonic-pi/issues
 * If you're running Raspberry Pi OS, please see our other help file
-  `BUILD-RASPBERRY_PI.md` for more specific instructions.
+  `BUILD-RASPBERRY-PI.md` for more specific instructions.
 * These build instructions assume you're running under a Debian-based
   Linux. You may need to modify the package names and other aspects to
   match your specific Linux distribution.
@@ -49,18 +49,14 @@ few dependencies:
 
 * Build Tools (c++ compiler, cmake, git.)
 * Qt + Dev tools (6+)
-* Pipewire
-* Ruby + Dev tools (2.5+)
-* Elixir + Dev tools (12.0+)
-* SuperCollider + SC3 plugins
-
-Note: please make sure that you have gcc12 installed. Compiling vcpkg dependencies does not work with gcc13 currently
+* ALSA sound libraries (JACK/PipeWire optional, for low-latency routing)
+* Ruby + Dev tools (3.x)
 
 
 ### 1.1 Debian
 The following is a rough list of Debian packages that are needed that can serve as a starting position:
 ```bash
-sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-dev erlang-xmerl qt6-tools-dev qt6-tools-dev-tools libqt6svg6-dev libqt6opengl6-dev supercollider-server sc3-plugins-server alsa-utils  libasound2-dev cmake ninja-build pipewire-jack libspa-0.2-jack qt6-wayland libwayland-dev libxkbcommon-dev libegl1-mesa-dev libx11-dev libxft-dev libxext-dev qpwgraph compton m4 libaubio-dev libpng-dev libboost-all-dev librtmidi-dev
+sudo apt-get install -y build-essential git ruby-dev qt6-tools-dev qt6-tools-dev-tools libqt6svg6-dev libqt6opengl6-dev alsa-utils libasound2-dev cmake ninja-build qt6-wayland libwayland-dev libxkbcommon-dev libegl1-mesa-dev libx11-dev libxft-dev libxext-dev m4 libpng-dev libboost-dev
 ```
 
 *Notes:*
@@ -69,16 +65,6 @@ sudo apt-get install -y build-essential git libssl-dev ruby-dev elixir erlang-de
 
 * Check your current Qt version with `qmake --version`.
 * If it is too old (see dependency list above) you should find a way to update `Qt` before going to the build step.
-
-3. The main repositories may not have a recent enough version of
-Elixir. If this is the case, you can install it via **one** of the
-following methods:
-
-* Run `app/pi-install-elixir.sh` to install it using [ASDF](https://github.com/asdf-vm/asdf)
-* Get newer packaged versions of Elixir from [Erlang Solutions' repository](https://www.erlang-solutions.com/downloads/) (though installing packages from outside your distros main repository is at your own risk!)
-* Build and install it yourself
-
-There is an Audinux Copr [repository](https://copr.fedorainfracloud.org/coprs/ycollet/audinux/package/sonic-pi/) with Sonic Pi.
 
 ## 2. Preparing the Build
 
