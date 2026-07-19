@@ -4424,7 +4424,7 @@ puts beat    #=> 109255.703125"]
   puts bt(1) # 2
 "]
 
-      def set_sched_ahead_time!(sat)
+      def set_sched_ahead_time!(sat = default_sched_ahead_time)
         t = __get_spider_time
         b = __get_spider_beat
         i = __current_thread_id
@@ -4436,7 +4436,7 @@ puts beat    #=> 109255.703125"]
           introduced:    Version.new(2,0,0),
           summary:       "Set sched ahead time globally",
           usage_example: "set_sched_ahead_time! 1",
-          doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms. However, a larger time also increases latency between modifying code and hearing the result whilst live coding.",
+          doc:           "Specify how many seconds ahead of time the synths should be triggered. This represents the amount of time between pressing 'Run' and hearing audio. A larger time gives the system more room to work with and can reduce performance issues in playing fast sections on slower platforms. However, a larger time also increases latency between modifying code and hearing the result whilst live coding. Calling with no argument resets it to your platform's default value.",
           args:          [[:time, :number]],
           opts:          nil,
           modifies_env: true,

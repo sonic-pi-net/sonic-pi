@@ -900,7 +900,7 @@ So, for example, if your audio system has an audio latency of 150ms, you can com
 set_recording_bit_depth! 24                 # Set recording bit depth to 24"]
 
 
-      def set_control_delta!(t)
+      def set_control_delta!(t = default_control_delta)
         @mod_sound_studio.control_delta = t
         __info "Control delta set to #{t}"
       end
@@ -908,7 +908,7 @@ set_recording_bit_depth! 24                 # Set recording bit depth to 24"]
           introduced:    Version.new(2,1,0),
           summary:       "Set control delta globally",
           usage_example: "set_control_delta! 0.1",
-          doc:           "Specify how many seconds between successive modifications (i.e. trigger then controls) of a specific node on a specific thread. Set larger if you are missing control messages sent extremely close together in time.",
+          doc:           "Specify how many seconds between successive modifications (i.e. trigger then controls) of a specific node on a specific thread. Set larger if you are missing control messages sent extremely close together in time. Calling with no argument resets it to your platform's default value.",
           args:          [[:time, :number]],
           opts:          nil,
           modifies_env: true,
