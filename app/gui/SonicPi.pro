@@ -29,6 +29,7 @@ SOURCES += main.cpp \
            widgets/bpmscrubwidget.cpp \
            widgets/completionpopup.cpp \
            widgets/devicelistwidget.cpp \
+           widgets/findpopup.cpp \
            widgets/infowidget.cpp \
            widgets/linkaudiostreamswidget.cpp \
            widgets/linkvisibilitytoggle.cpp \

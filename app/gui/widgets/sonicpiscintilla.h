@@ -29,6 +29,8 @@
 class SonicPiLexer;
 class QSettings;
 class CompletionPopup;
+class FindPopup;
+class QVariantAnimation;
 class QMenu;
 class QContextMenuEvent;
 class QWheelEvent;
@@ -178,6 +180,18 @@ public slots:
     void sp_paste();
     void sp_cut();
 
+    // In-buffer find (the floating FindPopup bar). showFind opens/refocuses
+    // the bar seeded from the selection or the shared last query; pressing
+    // the Find shortcut again while the bar is focused advances (isearch
+    // style). Next/prev cycle with wrap-around. ("Match" suffix: QsciScintilla
+    // already has a virtual findNext with a different signature.)
+    void showFind();
+    void findNextMatch();
+    void findPrevMatch();
+    // Close the bar and clear the highlights (Escape path — also called from
+    // MainWindow::escapeWorkspaces). No-op when the bar is hidden.
+    void closeFindPopup();
+
     void showAutoCompletion(bool val);
     void setCompletionHelp(bool val);   // show docstring/piano/slider helper panes
     void setText(const QString& text);
@@ -228,6 +242,23 @@ private:
                                  // the keypress path runs its own updateCompletion()
     bool m_pvLive = false;     // a preview is written into the buffer (vs merely armed)
     QString m_pvPrefix;        // separator prepended to the previewed selection (e.g. ", ")
+
+    // Find state: match spans are byte positions kept in step with the query
+    // (refreshFind re-runs on every keystroke and buffer edit). The query is
+    // shared across all editors via s_lastFindQuery so find behaves as one
+    // feature across buffer tabs.
+    FindPopup* m_find = nullptr;
+    QVector<int> m_findStarts, m_findEnds;
+    int m_findCurrent = -1;         // index into m_findStarts (-1 = none)
+    int m_findOrigin = -1;          // caret pos at open (Ctrl+G abort target)
+    QVariantAnimation* m_findPulse = nullptr;   // current-match landing pulse
+    static QString s_lastFindQuery;
+    // interact: select + scroll to the current match (user-driven navigation);
+    // false for buffer-edit refreshes, which must never move the caret.
+    void refreshFind(bool interact);
+    void setCurrentFindMatch(int idx, bool interact);
+    void applyFindIndicatorColours();
+    void closeFind(bool abortToOrigin);
 
     void addKeyBinding(QSettings& qs, int cmd, int key);
     void addOtherKeyBinding(QSettings& qs, int cmd, int key);

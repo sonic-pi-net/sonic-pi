@@ -396,18 +396,40 @@ void SurfaceImpl::AlphaRectangle(PRectangle rc, int cornerSize,
 
     // There was a report of Qt seeming to ignore the alpha value of the pen so
     // so we disable the pen if the outline and fill colours are the same.
-    if (outline_colour == fill_colour)
-        painter->setPen(Qt::NoPen);
-    else
-        painter->setPen(outline_colour);
-
+    const bool hasPen = (outline_colour != fill_colour);
     painter->setBrush(fill_colour);
 
-    const int radius = (cornerSize ? 25 : 0);
+    // SONIC-PI CHANGE: rounded boxes (the find-match chips) get a real
+    // border: antialiased, 2px stroke inset fully inside the rect, and a
+    // small absolute corner radius (Qt::RelativeSize percentages taper into
+    // ovals on wide boxes). Borderless (outline == fill) boxes fill the full
+    // rect — no inset — so they keep the caller's exact geometry
+    // (see SONIC-PI-CHANGES.md).
+    if (cornerSize)
+    {
+        const qreal penW = 2.0;
+        if (hasPen)
+            painter->setPen(QPen(outline_colour, penW));
+        else
+            painter->setPen(Qt::NoPen);
+        const bool aa = painter->testRenderHint(QPainter::Antialiasing);
+        if (!aa)
+            painter->setRenderHint(QPainter::Antialiasing, true);
+        const qreal inset = hasPen ? penW / 2 : 0.0;
+        QRectF r(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
+        r.adjust(inset, inset, -inset, -inset);
+        const qreal radius = qMin(qMin(r.width(), r.height()) / 4.0, 5.0);
+        painter->drawRoundedRect(r, radius, radius);
+        if (!aa)
+            painter->setRenderHint(QPainter::Antialiasing, false);
+        return;
+    }
 
-    painter->drawRoundedRect(
-            QRectF(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top),
-            radius, radius, Qt::RelativeSize);
+    if (hasPen)
+        painter->setPen(outline_colour);
+    else
+        painter->setPen(Qt::NoPen);
+    painter->drawRect(QRectF(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top));
 }
 
 void SurfaceImpl::GradientRectangle(PRectangle rc,

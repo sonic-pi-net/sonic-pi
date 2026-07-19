@@ -14,6 +14,8 @@
 #include "sonicpiscintilla.h"
 #include "api/sonicpi_api.h"
 #include "completionpopup.h"
+#include "findpopup.h"
+#include <QVariantAnimation>
 #include "utils/scintilla_api.h"
 #include "utils/completion_context.h"
 #include "utils/flash_style.h"
@@ -64,6 +66,21 @@ static const int kErrorIndicator = 20;
 // small dot in the gutter gap between the line numbers and the code.
 static const int kFlashIndicator = 21;
 static const int kFlashGutterMarker = 12;
+
+// Find-bar match highlights: every match gets a quiet accent tint (23); the
+// current match is a near-solid accent block (24) with its text recoloured to
+// the accent's contrast colour (25) — the selection/cue-log look, two
+// intensities of one hue. Indicator 22 is the drag-drop preview.
+static const int kFindMatchIndicator = 23;
+static const int kFindCurrentIndicator = 24;
+static const int kFindCurrentTextIndicator = 25;
+// Matches: quiet tint fill ringed by a crisp square outline; current match:
+// near-solid block (the landing pulse ignites it from translucent).
+static const int kFindMatchAlpha = 28;
+static const int kFindMatchOutlineAlpha = 170;
+static const int kFindCurrentAlpha = 235;
+// Runaway guard for degenerate queries (e.g. a single space in a big buffer).
+static const int kMaxFindMatches = 10000;
 
 // How long a line stays lit after a flash — shared with every other flash
 // renderer (see utils/flash_style.h).
@@ -510,9 +527,11 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
             [this](int position, int modificationType, const char*, int length, int, int, int,
                    int, int, int) { trackEditForFlash(position, modificationType, length); });
 
-    // No blank inset before the text, so the error line's wash meets the symbol
-    // margin with no untinted seam.
-    SendScintilla(SCI_SETMARGINLEFT, (unsigned long)0, (long)0);
+    // Small blank inset before the text: room for the find-match chips'
+    // left padding + border at column 0. Line washes (error wash, caret
+    // line) span the inset seamlessly — the vendored QScintilla extends
+    // them across it (widened leftTextOverlap, see SONIC-PI-CHANGES.md).
+    SendScintilla(SCI_SETMARGINLEFT, (unsigned long)0, (long)ScaleWidthForDPI(7));
 
     // marker 8 (gutter dot) and marker 10 (number-margin tint) are RGBA images
     // sized to the live line height / margin width, so setLineErrorMarker builds
@@ -571,6 +590,57 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     connect(m_completion, &CompletionPopup::auditionRequested, this,
             &SonicPiScintilla::auditionRequested);
 
+    // Find bar: every match washed via kFindMatchIndicator, the current match
+    // lifted via kFindCurrentIndicator; drawn under the text so the code stays
+    // legible. The editor owns the searching (refreshFind); FindPopup is the
+    // floating chrome in the top-right corner.
+    // ROUNDBOX chips hugging the glyph band: matches get the tint + crisp
+    // 2px border, the current match a solid rounded block (outline == fill →
+    // borderless). Rendering patched in QScintilla_src PlatQt.cpp /
+    // Indicator.cpp (antialiased, inset stroke, absolute radius).
+    SendScintilla(SCI_INDICSETSTYLE, (unsigned long)kFindMatchIndicator, (long)INDIC_ROUNDBOX);
+    SendScintilla(SCI_INDICSETUNDER, (unsigned long)kFindMatchIndicator, (long)1);
+    SendScintilla(SCI_INDICSETSTYLE, (unsigned long)kFindCurrentIndicator, (long)INDIC_ROUNDBOX);
+    SendScintilla(SCI_INDICSETUNDER, (unsigned long)kFindCurrentIndicator, (long)1);
+    SendScintilla(SCI_INDICSETSTYLE, (unsigned long)kFindCurrentTextIndicator, (long)INDIC_TEXTFORE);
+    applyFindIndicatorColours();
+    m_find = new FindPopup(this);
+    {
+        QColor accent = theme->color("HighlightedBackground");
+        m_find->applyTheme(theme->color("Background"), theme->color("Foreground"),
+                           theme->color("Foreground"), accent,
+                           theme->contrastingText(accent));
+    }
+    connect(m_find, &FindPopup::queryChanged, this, [this](const QString& q) {
+        s_lastFindQuery = q;
+        refreshFind(true);
+    });
+    connect(m_find, &FindPopup::nextRequested, this, &SonicPiScintilla::findNextMatch);
+    connect(m_find, &FindPopup::prevRequested, this, &SonicPiScintilla::findPrevMatch);
+    connect(m_find, &FindPopup::closeRequested, this,
+            [this](bool abort) { closeFind(abort); });
+    // The bar tracks the editor zoom (projector legibility). showFind also
+    // refreshes it, covering zoomTo paths that bypass this signal.
+    connect(this, &SonicPiScintilla::zoomLevelChanged, this,
+            [this] { m_find->setZoom(currentZoom() - kDefaultZoom); });
+    // Keep the highlights and counter live while the buffer is edited — but
+    // never move the caret from under the user (interact = false).
+    connect(this, &QsciScintilla::textChanged, this, [this] {
+        if (m_find && m_find->isOpen())
+            refreshFind(false);
+    });
+    // Landing pulse: the current match flares then settles, so a jump reads
+    // in the same visual language as the run-flash.
+    m_findPulse = new QVariantAnimation(this);
+    m_findPulse->setDuration(280);
+    m_findPulse->setStartValue(140);
+    m_findPulse->setEndValue(kFindCurrentAlpha);
+    m_findPulse->setEasingCurve(QEasingCurve::OutCubic);
+    connect(m_findPulse, &QVariantAnimation::valueChanged, this, [this](const QVariant& v) {
+        SendScintilla(SCI_INDICSETALPHA, kFindCurrentIndicator, v.toInt());
+        SendScintilla(SCI_INDICSETOUTLINEALPHA, kFindCurrentIndicator, v.toInt());
+    });
+
     setSelectionBackgroundColor(theme->color("SelectionBackground"));
     setSelectionForegroundColor(theme->contrastingText(theme->color("SelectionBackground")));
     setCaretWidth(ScaleHeightForDPI(5));
@@ -604,7 +674,225 @@ void SonicPiScintilla::redraw()
         applyErrorMarkers(m_errorLine);
     applyFlashMarkerColours();
     applyLoopScopeColours();
+    applyFindIndicatorColours();
+    if (m_find)
+    {
+        QColor accent = theme->color("HighlightedBackground");
+        m_find->applyTheme(theme->color("Background"), theme->color("Foreground"),
+                           theme->color("Foreground"), accent,
+                           theme->contrastingText(accent));
+    }
     mutex->unlock();
+}
+
+QString SonicPiScintilla::s_lastFindQuery;
+
+void SonicPiScintilla::applyFindIndicatorColours()
+{
+    SendScintilla(SCI_INDICSETFORE, (unsigned long)kFindMatchIndicator,
+                  theme->color("FindMatchBackground"));
+    SendScintilla(SCI_INDICSETALPHA, kFindMatchIndicator, kFindMatchAlpha);
+    SendScintilla(SCI_INDICSETOUTLINEALPHA, kFindMatchIndicator, kFindMatchOutlineAlpha);
+    SendScintilla(SCI_INDICSETFORE, (unsigned long)kFindCurrentIndicator,
+                  theme->color("FindCurrentMatchBackground"));
+    SendScintilla(SCI_INDICSETALPHA, kFindCurrentIndicator, kFindCurrentAlpha);
+    SendScintilla(SCI_INDICSETOUTLINEALPHA, kFindCurrentIndicator, kFindCurrentAlpha);
+    SendScintilla(SCI_INDICSETFORE, (unsigned long)kFindCurrentTextIndicator,
+                  theme->contrastingText(theme->color("FindCurrentMatchBackground")));
+}
+
+void SonicPiScintilla::showFind()
+{
+    if (!m_find)
+        return;
+    // Pressing the Find shortcut with the bar already focused advances —
+    // emacs isearch's open/repeat on one key.
+    if (m_find->isOpen() && m_find->editHasFocus() && !m_find->query().isEmpty())
+    {
+        findNextMatch();
+        return;
+    }
+    m_find->setZoom(currentZoom() - kDefaultZoom);
+    m_findOrigin = (int)SendScintilla(SCI_GETCURRENTPOS);
+    QString seed;   // null → keep the query shared across buffers/openings
+    if (hasSelectedText())
+    {
+        QString sel = selectedText();
+        if (!sel.isEmpty() && !sel.contains('\n'))
+            seed = sel;
+    }
+    if (seed.isNull() && !s_lastFindQuery.isEmpty())
+        seed = s_lastFindQuery;
+    m_find->open(seed);
+}
+
+void SonicPiScintilla::findNextMatch()
+{
+    if (!m_find)
+        return;
+    if (!m_find->isOpen())
+    {
+        showFind();
+        return;
+    }
+    if (m_findStarts.isEmpty())
+        return;
+    setCurrentFindMatch((m_findCurrent + 1) % m_findStarts.size(), true);
+    emit announceRequested(tr("%1 of %2").arg(m_findCurrent + 1).arg(m_findStarts.size()));
+}
+
+void SonicPiScintilla::findPrevMatch()
+{
+    if (!m_find)
+        return;
+    if (!m_find->isOpen())
+    {
+        showFind();
+        return;
+    }
+    if (m_findStarts.isEmpty())
+        return;
+    setCurrentFindMatch((m_findCurrent - 1 + m_findStarts.size()) % m_findStarts.size(), true);
+    emit announceRequested(tr("%1 of %2").arg(m_findCurrent + 1).arg(m_findStarts.size()));
+}
+
+void SonicPiScintilla::closeFindPopup()
+{
+    closeFind(false);
+}
+
+void SonicPiScintilla::closeFind(bool abortToOrigin)
+{
+    if (!m_find || !m_find->isOpen())
+        return;
+    // Land with the current match selected (ready to type over / copy), or
+    // back at the origin on an isearch abort. Captured before the refresh
+    // below clears the match list.
+    const bool hadMatch = (m_findCurrent >= 0 && m_findCurrent < m_findStarts.size());
+    const int selStart = hadMatch ? m_findStarts[m_findCurrent] : -1;
+    const int selEnd = hadMatch ? m_findEnds[m_findCurrent] : -1;
+    m_find->closePopup();
+    refreshFind(false);   // closed bar → clears every highlight
+    if (abortToOrigin && m_findOrigin >= 0)
+        SendScintilla(SCI_GOTOPOS, m_findOrigin);
+    else if (hadMatch)
+        SendScintilla(SCI_SETSEL, (unsigned long)selStart, (long)selEnd);
+    setFocus();
+}
+
+void SonicPiScintilla::refreshFind(bool interact)
+{
+    if (!m_find)
+        return;
+    // Anchor: keep the current match stable across re-searches (typing extends
+    // the query, edits move text). Captured before the spans are rebuilt.
+    const int anchor = (m_findCurrent >= 0 && m_findCurrent < m_findStarts.size())
+        ? m_findStarts[m_findCurrent]
+        : m_findOrigin;
+
+    const int docLen = (int)SendScintilla(SCI_GETLENGTH);
+    SendScintilla(SCI_SETINDICATORCURRENT, kFindMatchIndicator);
+    SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)0, (long)docLen);
+    SendScintilla(SCI_SETINDICATORCURRENT, kFindCurrentIndicator);
+    SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)0, (long)docLen);
+    SendScintilla(SCI_SETINDICATORCURRENT, kFindCurrentTextIndicator);
+    SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)0, (long)docLen);
+    m_findStarts.clear();
+    m_findEnds.clear();
+    m_findCurrent = -1;
+
+    const QString q = m_find->query();
+    if (!m_find->isOpen() || q.isEmpty())
+    {
+        m_find->setMatchStatus(0, -1);
+        return;
+    }
+
+    // Smart-case (the emacs/Zed default): an all-lowercase query matches any
+    // case; a capital anywhere — or the Aa toggle — makes the search exact.
+    const bool caseSensitive = m_find->forceCase() || q.toLower() != q;
+    SendScintilla(SCI_SETSEARCHFLAGS, (long)(caseSensitive ? SCFIND_MATCHCASE : 0));
+    const QByteArray needle = q.toUtf8();
+    int from = 0;
+    while (m_findStarts.size() < kMaxFindMatches)
+    {
+        SendScintilla(SCI_SETTARGETRANGE, (unsigned long)from, (long)docLen);
+        long found = SendScintilla(SCI_SEARCHINTARGET, (uintptr_t)needle.size(),
+                                   needle.constData());
+        if (found < 0)
+            break;
+        const int end = (int)SendScintilla(SCI_GETTARGETEND);
+        if (end <= (int)found)
+            break;
+        m_findStarts.append((int)found);
+        m_findEnds.append(end);
+        from = end;
+    }
+
+    if (m_findStarts.isEmpty())
+    {
+        m_find->setMatchStatus(0, 0);
+        return;
+    }
+
+    // Coalesce back-to-back matches into a single chip — their ±4px padded
+    // borders would otherwise draw crossing each other (e.g. "a" in "aa").
+    SendScintilla(SCI_SETINDICATORCURRENT, kFindMatchIndicator);
+    int runStart = m_findStarts[0];
+    int runEnd = m_findEnds[0];
+    for (int i = 1; i <= m_findStarts.size(); i++)
+    {
+        if (i < m_findStarts.size() && m_findStarts[i] == runEnd)
+        {
+            runEnd = m_findEnds[i];
+            continue;
+        }
+        SendScintilla(SCI_INDICATORFILLRANGE, (unsigned long)runStart, (long)(runEnd - runStart));
+        if (i < m_findStarts.size())
+        {
+            runStart = m_findStarts[i];
+            runEnd = m_findEnds[i];
+        }
+    }
+
+    // Current match: the first at/after the anchor, wrapping to the top.
+    int idx = 0;
+    for (int i = 0; i < m_findStarts.size(); i++)
+    {
+        if (m_findStarts[i] >= anchor)
+        {
+            idx = i;
+            break;
+        }
+    }
+    setCurrentFindMatch(idx, interact);
+}
+
+void SonicPiScintilla::setCurrentFindMatch(int idx, bool interact)
+{
+    if (idx < 0 || idx >= m_findStarts.size())
+        return;
+    const int docLen = (int)SendScintilla(SCI_GETLENGTH);
+    m_findCurrent = idx;
+    const int start = m_findStarts[idx];
+    const int end = m_findEnds[idx];
+    SendScintilla(SCI_SETINDICATORCURRENT, kFindCurrentIndicator);
+    SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)0, (long)docLen);
+    SendScintilla(SCI_INDICATORFILLRANGE, (unsigned long)start, (long)(end - start));
+    SendScintilla(SCI_SETINDICATORCURRENT, kFindCurrentTextIndicator);
+    SendScintilla(SCI_INDICATORCLEARRANGE, (unsigned long)0, (long)docLen);
+    SendScintilla(SCI_INDICATORFILLRANGE, (unsigned long)start, (long)(end - start));
+    if (interact)
+    {
+        // Move the caret (no selection — the opaque selection block fought
+        // the wash styling) and bring the match into view; the match becomes
+        // a real selection only when the bar closes on it (closeFind).
+        SendScintilla(SCI_SETEMPTYSELECTION, (unsigned long)start);
+        SendScintilla(SCI_SCROLLCARET);
+        m_findPulse->stop();
+        m_findPulse->start();
+    }
+    m_find->setMatchStatus(idx + 1, (int)m_findStarts.size());
 }
 
 void SonicPiScintilla::applyFlashMarkerColours()

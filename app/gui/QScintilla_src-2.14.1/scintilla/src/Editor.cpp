@@ -543,7 +543,8 @@ PRectangle Editor::RectangleFromRange(Range r, int overlap) {
 		pdoc->SciLineFromPosition(r.Last()));
 	const PRectangle rcClientDrawing = GetClientDrawingRectangle();
 	PRectangle rc;
-	const int leftTextOverlap = ((xOffset == 0) && (vs.leftMarginWidth > 0)) ? 1 : 0;
+	// SONIC-PI CHANGE: in step with EditView.cpp's widened leftTextOverlap.
+	const int leftTextOverlap = vs.LeftTextOverlap(xOffset);
 	rc.left = static_cast<XYPOSITION>(vs.textStart - leftTextOverlap);
 	rc.top = static_cast<XYPOSITION>((minLine - TopLineOfMain()) * vs.lineHeight - overlap);
 	if (rc.top < rcClientDrawing.top)

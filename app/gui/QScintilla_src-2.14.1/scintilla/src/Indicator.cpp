@@ -170,19 +170,29 @@ void Indicator::Draw(Surface *surface, const PRectangle &rc, const PRectangle &r
 	} else if (sacDraw.style == INDIC_ROUNDBOX ||
 		sacDraw.style == INDIC_STRAIGHTBOX ||
 		sacDraw.style == INDIC_FULLBOX) {
+		// SONIC-PI CHANGE: STRAIGHTBOX and ROUNDBOX hug the glyph band
+		// (rcCharacter's vertical extent, set in EditView.cpp) instead of the
+		// whole line rect, so lines with extra ascent/descent padding get a
+		// box that sits symmetrically around the text. ROUNDBOX additionally
+		// pads a few px around the glyphs, clamped to rcLine so the box never
+		// leaks into adjacent lines' rects (per-line invalidation would leave
+		// stale/shaved border rows there). Column-0 left padding lands in the
+		// blank left margin, which the widened leftTextOverlap (EditView.cpp)
+		// keeps inside the paint clip; the host sets SCI_SETMARGINLEFT wide
+		// enough for the padding + border (see SONIC-PI-CHANGES.md).
 		PRectangle rcBox = rcLine;
-		if (sacDraw.style != INDIC_FULLBOX)
-			rcBox.top = rcLine.top + 1;
-		// SONIC-PI CHANGE: STRAIGHTBOX hugs the glyph band (rcCharacter's
-		// vertical extent, set in EditView.cpp) instead of the whole line
-		// rect, so lines with extra ascent/descent padding get a box that
-		// sits symmetrically around the text (see SONIC-PI-CHANGES.md).
-		if (sacDraw.style == INDIC_STRAIGHTBOX) {
+		rcBox.left = rc.left;
+		rcBox.right = rc.right;
+		if (sacDraw.style == INDIC_STRAIGHTBOX || sacDraw.style == INDIC_ROUNDBOX) {
 			rcBox.top = rcCharacter.top;
 			rcBox.bottom = rcCharacter.bottom;
 		}
-		rcBox.left = rc.left;
-		rcBox.right = rc.right;
+		if (sacDraw.style == INDIC_ROUNDBOX) {
+			rcBox.left = rc.left - 4;
+			rcBox.right = rc.right + 4;
+			rcBox.top = std::max(rcBox.top - 1, rcLine.top);
+			rcBox.bottom = std::min(rcBox.bottom + 1, rcLine.bottom);
+		}
 		surface->AlphaRectangle(rcBox, (sacDraw.style == INDIC_ROUNDBOX) ? 1 : 0,
 			sacDraw.fore, fillAlpha, sacDraw.fore, outlineAlpha, 0);
 	} else if (sacDraw.style == INDIC_GRADIENT ||

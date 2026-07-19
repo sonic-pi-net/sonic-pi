@@ -101,6 +101,8 @@ set(EDITOR_SOURCES
     ${QTAPP_ROOT}/widgets/sonicpiscintilla.h
     ${QTAPP_ROOT}/widgets/completionpopup.cpp
     ${QTAPP_ROOT}/widgets/completionpopup.h
+    ${QTAPP_ROOT}/widgets/findpopup.cpp
+    ${QTAPP_ROOT}/widgets/findpopup.h
     )
 
 set(QT_SOURCES

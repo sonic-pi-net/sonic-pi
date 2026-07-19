@@ -44,7 +44,9 @@ enum class Glyph
     Copy,            // copy-to-clipboard
     Check,           // copied! confirmation tick
     Search,          // docs filter
-    Restore          // reset dials
+    Restore,         // reset dials
+    ChevronUp,       // find bar: previous match
+    ChevronDown      // find bar: next match
 };
 
 // Solid glyphs are tinted via fill; everything else via stroke.
@@ -152,6 +154,10 @@ inline QString glyphPaths(Glyph glyph)
             "<path d='M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />");
     case Glyph::Check:
         return QStringLiteral("<path d='M5 12l5 5l10 -10' />");
+    case Glyph::ChevronUp:
+        return QStringLiteral("<path d='M6 15l6 -6l6 6' />");
+    case Glyph::ChevronDown:
+        return QStringLiteral("<path d='M6 9l6 6l6 -6' />");
     }
     return QString();
 }

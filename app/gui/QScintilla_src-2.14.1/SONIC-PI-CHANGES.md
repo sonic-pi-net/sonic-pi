@@ -11,6 +11,54 @@ list current when you touch the vendored source so the fork stays auditable
 
 ## Changes
 
+### 2026-07-19 — Blank left margin joins the text painting (chip padding at column 0)
+
+- **Files:** `scintilla/src/EditView.cpp`, `scintilla/src/Editor.cpp`,
+  `scintilla/src/ViewStyle.h`
+- **What:** `leftTextOverlap` widens from a fixed 1px to the full blank left
+  margin (`SCI_SETMARGINLEFT`), via a single `ViewStyle::LeftTextOverlap`
+  helper: the paint clip, spacer clear, buffered-copy rect and redraw rect
+  all cover the strip. The strip is kept seamless with the line in every
+  configuration: `DrawTranslucentLineState` extends caret-line and
+  background/underline marker washes across it, and the spacer clear runs in
+  all phase modes (including `SC_PHASES_MULTIPLE`, which otherwise never
+  re-primes it) filling with the line's effective background
+  (`ViewStyle::Background`) so opaque caret-line/marker colours meet the
+  margin without a notch.
+- **Why:** find-match chips pad a few px around the glyphs; at column 0 the
+  padding + border needs room left of the text. Stock behaviour clipped
+  there, and a blank `SCI_SETMARGINLEFT` inset previously left an untinted
+  seam beside the margin on washed lines (the reason Sonic Pi had zeroed it).
+  Sonic Pi sets a 7dx inset in `sonicpiscintilla.cpp`.
+- **Known limits:** the overlap collapses to 0 while horizontally scrolled
+  (`xOffset > 0`, as stock), so column-0 chip padding is clipped at the text
+  edge mid-scroll; validated for `marginInside == true` (Sonic Pi's config)
+  only.
+- **Reportable upstream:** no — behavioural styling choice.
+
+### 2026-07-19 — `INDIC_ROUNDBOX` draws real rounded chips (find-match highlights)
+
+- **Files:** `src/PlatQt.cpp`, `scintilla/src/Indicator.cpp`
+- **What:** `SurfaceImpl::AlphaRectangle` renders the rounded (`cornerSize`)
+  case antialiased with a 2px stroke inset fully inside the rect and a small
+  absolute corner radius; stock code used an unantialiased 1px cosmetic pen
+  sitting exactly on the rect edge (clipped invisible at column 0) and
+  `Qt::RelativeSize` 25% radii, which taper into ovals on wide boxes.
+  Borderless boxes (outline == fill, e.g. the solid current-match chip) fill
+  the full rect with no inset, keeping the caller's exact geometry.
+  `INDIC_ROUNDBOX` also now hugs the glyph band like the 2026-07-11
+  `INDIC_STRAIGHTBOX` change, padded a few px around the glyphs and clamped
+  to the line rect vertically (the box must not leak into adjacent lines'
+  rects — per-line invalidation would leave stale/shaved border rows there).
+  Column-0 left padding relies on the blank-left-margin change above; the
+  host must set `SCI_SETMARGINLEFT` at least padding + stroke wide, and the
+  find code coalesces back-to-back matches so padded chips don't overlap.
+- **Why:** the editor find bar highlights matches as rounded outlined chips;
+  the stock rendering lost the left border on column-0 matches and drew
+  lopsided corners.
+- **Reportable upstream:** the clipped/unantialiased outline arguably; the
+  radius/stroke choices are Sonic Pi styling.
+
 ### 2026-07-11 — `INDIC_STRAIGHTBOX` hugs the glyph band, not the whole line rect
 
 - **Files:** `scintilla/src/EditView.cpp`, `scintilla/src/Indicator.cpp`

@@ -367,6 +367,12 @@ QMap<QString, QString> SonicPiTheme::lightTheme(){
     themeSettings["MarkerBackground"]                = dt_pink;
     themeSettings["MarkerBackgroundSyntax"]          = dt_blue;
 
+    // Find-bar matches: two intensities of the primary accent — quiet
+    // outlined tints for the field, a solid contrast-text block for the
+    // current match (see kFind* indicators in sonicpiscintilla.cpp).
+    themeSettings["FindMatchBackground"]             = dt_pink;
+    themeSettings["FindCurrentMatchBackground"]      = dt_pink;
+
     themeSettings["SelectionBackground"]             = dt_pink;
 
     themeSettings["MatchedBraceForeground"]          = dt_pink;
@@ -574,6 +580,12 @@ QMap<QString, QString> SonicPiTheme::darkTheme(){
     themeSettings["MarkerBackground"]                = dt_pink;
     themeSettings["MarkerBackgroundSyntax"]          = dt_blue;
 
+    // Find-bar matches: two intensities of the primary accent — quiet
+    // outlined tints for the field, a solid contrast-text block for the
+    // current match (see kFind* indicators in sonicpiscintilla.cpp).
+    themeSettings["FindMatchBackground"]             = dt_pink;
+    themeSettings["FindCurrentMatchBackground"]      = dt_pink;
+
     themeSettings["SelectionBackground"]             = dt_pink;
 
     themeSettings["MatchedBraceForeground"]          = dt_pink;
@@ -778,6 +790,11 @@ QMap<QString, QString> SonicPiTheme::highContrastTheme(){
     themeSettings["MarkerBackground" ]                = dt_pink;
     themeSettings["MarkerBackgroundSyntax" ]          = dt_blue;
 
+    // Find-bar matches: two intensities of the plum accent (solid + white
+    // text on the current match keeps HC contrast).
+    themeSettings["FindMatchBackground"]             = dt_pink;
+    themeSettings["FindCurrentMatchBackground"]      = dt_pink;
+
     themeSettings["SelectionBackground"]             = dt_pink;
 
     themeSettings["MatchedBraceForeground"]          = dt_pink;
@@ -871,6 +888,7 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme() {
   t["TabSelected"]=accent; t["MenuSelected"]=accent; t["Link"]=accent; t["LinkVisited"]=accent;
   t["Scope"]=accent; t["MarkerBackground"]=accent; t["SelectionBackground"]=accent;
   t["MarkerBackgroundSyntax"]=blue;   // syntax-error accent, distinct from the runtime salmon
+  t["FindMatchBackground"]=accent; t["FindCurrentMatchBackground"]=accent;
   t["MatchedBraceForeground"]=accent; t["CaretForeground"]=accent;
   t["FunctionMethodNameForeground"]=accent; t["SymbolForeground"]=accent;
   t["CuePathBackground"]=accent; t["LogInfoBackground_1"]=accent; t["LogBackground_4"]=accent;
@@ -906,6 +924,7 @@ QMap<QString, QString> SonicPiTheme::phosphorTheme() {
   t["TabSelected"]=accent; t["MenuSelected"]=accent; t["Link"]=accent; t["LinkVisited"]=accent;
   t["Scope"]=accent; t["MarkerBackground"]=accent; t["SelectionBackground"]="#123012";
   t["MarkerBackgroundSyntax"]=number;   // syntax-error accent (amber), distinct from the runtime green
+  t["FindMatchBackground"]=accent; t["FindCurrentMatchBackground"]=accent;   // phosphor green, two intensities
   t["MatchedBraceForeground"]=accent; t["CaretForeground"]=accent;
   t["FunctionMethodNameForeground"]=accent; t["SymbolForeground"]=accent;
   t["CuePathBackground"]="#123012";
@@ -953,6 +972,7 @@ QMap<QString, QString> SonicPiTheme::signalTheme() {
   t["Link"]=blue; t["LinkVisited"]=blue; t["Scope"]=blue;
   t["MarkerBackground"]=blue; t["SelectionBackground"]=blue;
   t["MarkerBackgroundSyntax"]=gold;   // syntax-error accent (gold), distinct from the runtime blue
+  t["FindMatchBackground"]=blue; t["FindCurrentMatchBackground"]=blue;   // primary blue, two intensities
   t["MatchedBraceForeground"]=blue; t["CaretForeground"]=blue;
   t["ScrollBarHover"]=blue; t["HoverButton"]=blue; t["StatusBarText"]=blue;
   t["IndentationGuidesForeground"]=blue;

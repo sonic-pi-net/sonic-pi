@@ -194,6 +194,12 @@ public:
 	void SetStyleFontName(int styleIndex, const char *name);
 	bool ProtectionActive() const;
 	int ExternalMarginWidth() const;
+	// SONIC-PI CHANGE: the blank left margin belongs to the text painting
+	// when not horizontally scrolled. Single source for the paint clip,
+	// spacer clear, redraw rects and wash extension (see SONIC-PI-CHANGES.md).
+	int LeftTextOverlap(int xOffset) const noexcept {
+		return ((xOffset == 0) && (leftMarginWidth > 0)) ? leftMarginWidth : 0;
+	}
 	int MarginFromLocation(Point pt) const;
 	bool ValidStyle(size_t styleIndex) const;
 	void CalcLargestMarkerHeight();

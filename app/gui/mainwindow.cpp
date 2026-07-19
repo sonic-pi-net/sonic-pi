@@ -1282,6 +1282,7 @@ void MainWindow::escapeWorkspaces()
 
     for (int w = 0; w < workspace_max; w++)
     {
+        workspaces[w]->closeFindPopup();
         workspaces[w]->escapeAndCancelSelection();
         workspaces[w]->clearLineMarkers();
     }
@@ -1998,6 +1999,21 @@ void MainWindow::rightInCurrentWorkspace()
 {
     SonicPiScintilla* ws = getCurrentWorkspace();
     ws->charRight();
+}
+
+void MainWindow::showFindInCurrentWorkspace()
+{
+    getCurrentWorkspace()->showFind();
+}
+
+void MainWindow::findNextInCurrentWorkspace()
+{
+    getCurrentWorkspace()->findNextMatch();
+}
+
+void MainWindow::findPrevInCurrentWorkspace()
+{
+    getCurrentWorkspace()->findPrevMatch();
 }
 
 void MainWindow::leftInCurrentWorkspace()
@@ -4649,6 +4665,13 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "Load", QT_TR_NOOP("Load an external file in the current buffer"), "Ctrl+O", "Ctrl+O", "ShiftMeta+O", "Live", &MainWindow::loadFileAct },
     { "Align", QT_TR_NOOP("Align code to improve readability"), "Meta+M", "Meta+M", "Meta+M", "Code", &MainWindow::textAlignAct },
     { "Comment", QT_TR_NOOP("Comment/Uncomment code"), "Meta+/", "Meta+/", "Meta+/", "Code", &MainWindow::textCommentAct },
+    // Emacs column keeps Ctrl+f as forward-char and gets classic isearch on
+    // Ctrl+s / Ctrl+r instead; the win column's Ctrl+f is reclaimed from
+    // "Right" below. While the find bar is focused, Ctrl+s / Ctrl+r repeat
+    // the search in either direction (see FindPopup::eventFilter).
+    { "Find", QT_TR_NOOP("Find text in the current buffer"), "Meta+f", "Ctrl+f", "Ctrl+s", "Code", &MainWindow::findAct },
+    { "FindNext", QT_TR_NOOP("Jump to the next match"), "Meta+g", "F3", "", "Code", &MainWindow::findNextAct },
+    { "FindPrev", QT_TR_NOOP("Jump to the previous match"), "ShiftMeta+g", "Shift+F3", "Ctrl+r", "Code", &MainWindow::findPrevAct },
     { "Transpose", QT_TR_NOOP("Transpose Characters"), "Ctrl+T", "Ctrl+T", "Ctrl+T", "Code", &MainWindow::textTransposeAct },
     // Win column avoids Ctrl+Alt combos: Windows delivers AltGr as Ctrl+Alt,
     // so e.g. Ctrl+Alt+N would swallow "ń" on a Polish layout.
@@ -4707,7 +4730,10 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "Copy", QT_TR_NOOP("Copy the current selection"), "Meta+c", "Ctrl+c", "Meta+]", "Code", &MainWindow::textCopyAct },
     { "Cut", QT_TR_NOOP("Cut the current selection"), "Meta+x", "Ctrl+x", "Ctrl+]", "Code", &MainWindow::textCutAct },
     { "Paste", QT_TR_NOOP("Paste the current selection"), "Meta+v", "Ctrl+v", "Ctrl+y", "Code", &MainWindow::textPasteAct },
-    { "Right", QT_TR_NOOP("Move Cursor Right"), "Ctrl+f", "Ctrl+f", "Ctrl+f", "Code", &MainWindow::textRightAct },
+    // Win column: Ctrl+f belongs to Find (the platform convention); arrow keys
+    // cover the motion. Mac's Ctrl+f is the real Control key (Cmd+F is
+    // "Meta+f"), i.e. macOS's native forward-char — no clash with Find.
+    { "Right", QT_TR_NOOP("Move Cursor Right"), "Ctrl+f", "", "Ctrl+f", "Code", &MainWindow::textRightAct },
     { "Left", QT_TR_NOOP("Move Cursor Left"), "Ctrl+b", "Ctrl+b", "Ctrl+b", "Code", &MainWindow::textLeftAct },
     { "DeleteForward", QT_TR_NOOP("Delete Right"), "Ctrl+d", "Ctrl+d", "Ctrl+d", "Code", &MainWindow::textDeleteForwardAct },
     { "DeleteBackward", QT_TR_NOOP("Delete Left"), "Ctrl+h", "Ctrl+h", "Ctrl+h", "Code", &MainWindow::textDeleteBackAct },
@@ -5058,6 +5084,15 @@ void MainWindow::createToolBar()
 
     textRightAct = new QAction(tr("Move Right"), this);
     connect(textRightAct, SIGNAL(triggered()), this, SLOT(rightInCurrentWorkspace()));
+
+    findAct = new QAction(tr("Find..."), this);
+    connect(findAct, SIGNAL(triggered()), this, SLOT(showFindInCurrentWorkspace()));
+
+    findNextAct = new QAction(tr("Find Next"), this);
+    connect(findNextAct, SIGNAL(triggered()), this, SLOT(findNextInCurrentWorkspace()));
+
+    findPrevAct = new QAction(tr("Find Previous"), this);
+    connect(findPrevAct, SIGNAL(triggered()), this, SLOT(findPrevInCurrentWorkspace()));
 
     textLeftAct = new QAction(tr("Move Left"), this);
     connect(textLeftAct, SIGNAL(triggered()), this, SLOT(leftInCurrentWorkspace()));
@@ -5437,6 +5472,10 @@ void MainWindow::createToolBar()
     codeMenu->addAction(textSelectAllAct);
     codeMenu->addAction(textSetMarkAct);
     codeMenu->addAction(triggerAutocompleteAct);
+    codeMenu->addSeparator();
+    codeMenu->addAction(findAct);
+    codeMenu->addAction(findNextAct);
+    codeMenu->addAction(findPrevAct);
     codeMenu->addSeparator();
     codeMenu->addAction(textUndoAct);
     codeMenu->addAction(textRedoAct);

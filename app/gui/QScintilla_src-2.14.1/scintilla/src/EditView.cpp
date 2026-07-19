@@ -1609,6 +1609,9 @@ static void DrawTranslucentSelection(Surface *surface, const EditModel &model, c
 // Draw any translucent whole line states
 static void DrawTranslucentLineState(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll,
 	Sci::Line line, PRectangle rcLine, int subLine) {
+	// SONIC-PI CHANGE: line washes span the widened leftTextOverlap strip
+	// (see SONIC-PI-CHANGES.md).
+	rcLine.left -= vsDraw.LeftTextOverlap(model.xOffset);
 	if ((model.caret.active || vsDraw.alwaysShowCaretLineBackground) && vsDraw.showCaretLineBackground && ll->containsCaret &&
 		vsDraw.caretLineAlpha != SC_ALPHA_NOALPHA) {
 		if (vsDraw.caretLineFrame) {
@@ -1992,7 +1995,10 @@ void EditView::PaintText(Surface *surfaceWindow, const EditModel &model, PRectan
 	PRectangle rcClient, const ViewStyle &vsDraw) {
 	// Allow text at start of line to overlap 1 pixel into the margin as this displays
 	// serifs and italic stems for aliased text.
-	const int leftTextOverlap = ((model.xOffset == 0) && (vsDraw.leftMarginWidth > 0)) ? 1 : 0;
+	// SONIC-PI CHANGE: overlap the whole blank left margin, not 1px, so
+	// column-0 decorations (find-match chips) get breathing room and line
+	// washes can span the strip seamlessly (see SONIC-PI-CHANGES.md).
+	const int leftTextOverlap = vsDraw.LeftTextOverlap(model.xOffset);
 
 	// Do the painting
 	if (rcArea.right > vsDraw.textStart - leftTextOverlap) {
@@ -2094,12 +2100,22 @@ void EditView::PaintText(Surface *surfaceWindow, const EditModel &model, PRectan
 					ll->SetBracesHighlight(rangeLine, model.braces, static_cast<char>(model.bracesMatchStyle),
 						static_cast<int>(model.highlightGuideColumn * vsDraw.spaceWidth), bracesIgnoreStyle);
 
-					if (leftTextOverlap && (bufferedDraw || ((phasesDraw < phasesMultiple) && (phase & drawBack)))) {
+					// SONIC-PI CHANGE: clear the whole overlap strip (in step
+					// with the widened leftTextOverlap), in every phase mode —
+					// translucent washes composite onto it each paint, so
+					// SC_PHASES_MULTIPLE must re-prime it too. Fill with the
+					// line's effective background (opaque caret-line/marker
+					// colour when set) so opaque line states meet the margin
+					// without a seam, matching the extended translucent washes.
+					if (leftTextOverlap && (bufferedDraw || (phase & drawBack))) {
 						// Clear the left margin
 						PRectangle rcSpacer = rcLine;
 						rcSpacer.right = rcSpacer.left;
-						rcSpacer.left -= 1;
-						surface->FillRectangle(rcSpacer, vsDraw.styles[STYLE_DEFAULT].back);
+						rcSpacer.left -= leftTextOverlap;
+						const ColourOptional spacerBack = vsDraw.Background(
+							model.pdoc->GetMark(lineDoc), model.caret.active, ll->containsCaret);
+						surface->FillRectangle(rcSpacer,
+							spacerBack.isSet ? spacerBack : vsDraw.styles[STYLE_DEFAULT].back);
 					}
 
 					DrawLine(surface, model, vsDraw, ll, lineDoc, visibleLine, xStart, rcLine, subLine, phase);
