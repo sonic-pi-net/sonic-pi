@@ -2841,10 +2841,10 @@ end
             val_block = lambda{val}
             define(name, &val_block)
           end
-          __info "Evaluating defonce #{name}"
+          __info "Evaluating defonce #{name}" unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
 
         else
-          __info "Not re-evaluating defonce #{name}"
+          __info "Not re-evaluating defonce #{name}" unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
         end
       end
       doc name:           :defonce,
