@@ -4186,18 +4186,28 @@ void MainWindow::showLoopScopesMenuChanged()
     changeFlashSettings();
 }
 
+void MainWindow::loopScopeScrollMenuChanged()
+{
+    piSettings->loop_scope_scroll = loopScopeScrollAct->isChecked();
+    emit settingsChanged();
+    changeFlashSettings();
+}
+
 void MainWindow::changeFlashSettings()
 {
     QSignalBlocker b1(flashCodeAct);
     QSignalBlocker b2(flashGutterAct);
     QSignalBlocker b3(showLoopScopesAct);
+    QSignalBlocker b4(loopScopeScrollAct);
     flashCodeAct->setChecked(piSettings->flash_code);
     flashGutterAct->setChecked(piSettings->flash_gutter);
     showLoopScopesAct->setChecked(piSettings->show_loop_scopes);
+    loopScopeScrollAct->setChecked(piSettings->loop_scope_scroll);
     for (int i = 0; i < editorTabWidget->count(); i++)
     {
         SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
         ws->setFlashBrightness(piSettings->flash_brightness);
+        ws->setLiveLoopScopeScroll(piSettings->loop_scope_scroll);
         // Turning loop scopes off removes the widgets right away; turning it
         // back on shows them again from the next Run (loops re-register on run).
         if (!piSettings->show_loop_scopes)
@@ -5333,6 +5343,11 @@ void MainWindow::createToolBar()
     showLoopScopesAct->setChecked(piSettings->show_loop_scopes);
     connect(showLoopScopesAct, SIGNAL(triggered()), this, SLOT(showLoopScopesMenuChanged()));
 
+    loopScopeScrollAct = new QAction(tr("Scrolling Live Loop Scopes"), this);
+    loopScopeScrollAct->setCheckable(true);
+    loopScopeScrollAct->setChecked(piSettings->loop_scope_scroll);
+    connect(loopScopeScrollAct, SIGNAL(triggered()), this, SLOT(loopScopeScrollMenuChanged()));
+
     speakTransportAct = new QAction(tr("Speak Run and Stop"), this);
     speakTransportAct->setCheckable(true);
     speakTransportAct->setChecked(piSettings->speak_transport);
@@ -5934,6 +5949,7 @@ void MainWindow::createToolBar()
     viewMenu->addAction(flashCodeAct);
     viewMenu->addAction(flashGutterAct);
     viewMenu->addAction(showLoopScopesAct);
+    viewMenu->addAction(loopScopeScrollAct);
 #ifndef Q_OS_MAC
     // Don't enable this on Mac as macOS autohides the menubar on
     // fullscreen anyway
@@ -6508,6 +6524,7 @@ void MainWindow::readSettings()
     piSettings->flash_brightness = gui_settings->value("prefs/flash-brightness", 35).toInt();
     piSettings->flash_gutter = gui_settings->value("prefs/flash-gutter", false).toBool();
     piSettings->show_loop_scopes = gui_settings->value("prefs/show-loop-scopes", true).toBool();
+    piSettings->loop_scope_scroll = gui_settings->value("prefs/loop-scope-scroll", false).toBool();
     piSettings->speak_transport = gui_settings->value("prefs/speak-transport", true).toBool();
     piSettings->example_play_on_open = gui_settings->value("prefs/example-play-on-open", true).toBool();
     piSettings->reduce_motion = gui_settings->value("prefs/reduce-motion", false).toBool();
@@ -6597,6 +6614,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/flash-brightness", piSettings->flash_brightness);
     gui_settings->setValue("prefs/flash-gutter", piSettings->flash_gutter);
     gui_settings->setValue("prefs/show-loop-scopes", piSettings->show_loop_scopes);
+    gui_settings->setValue("prefs/loop-scope-scroll", piSettings->loop_scope_scroll);
     gui_settings->setValue("prefs/speak-transport", piSettings->speak_transport);
     gui_settings->setValue("prefs/example-play-on-open", piSettings->example_play_on_open);
     if (tutorialPane)

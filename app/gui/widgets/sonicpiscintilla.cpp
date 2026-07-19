@@ -100,6 +100,21 @@ public:
     static const int kFftSize = 512;
     static const int kBars = 20;
 
+    // Sweep mode (default) draws a short zero-crossing-triggered window (a
+    // tiny stationary oscilloscope, like the main scope panel); scroll mode
+    // is the ~250ms rolling strip. User preference: loop_scope_scroll.
+    static constexpr int kSweepWindow = 1200; // ~25ms at 48k
+    static constexpr int kSweepSearch = 1200; // trigger search: periods down to ~40Hz
+
+    void setScroll(bool scroll)
+    {
+        if (m_scroll == scroll)
+            return;
+        m_scroll = scroll;
+        m_settled = false; // repaint in the new style even if currently quiet
+        update();
+    }
+
     explicit LiveLoopScopeWidget(QWidget* parent)
         : QWidget(parent)
     {
@@ -156,11 +171,20 @@ public:
         // Scratch is sized for the max stride; copy_window reports the one
         // it used (sizing from a separate channels() read would race a slot
         // re-activation).
-        m_scratch.resize((size_t)kScrollWindow * SHM_SCOPE_STREAM_CHANNELS);
+        const int window = m_scroll ? kScrollWindow : kSweepWindow;
+        m_scratch.resize((size_t)window * SHM_SCOPE_STREAM_CHANNELS);
         uint32_t ch = 1;
-        m_reader.copy_window(end, kScrollWindow, m_scratch.data(), &ch);
-        m_samples.resize(kScrollWindow);
-        for (int i = 0; i < kScrollWindow; i++)
+        if (m_scroll)
+        {
+            m_reader.copy_window(end, kScrollWindow, m_scratch.data(), &ch);
+        }
+        else
+        {
+            m_reader.copy_triggered_window(end, kSweepWindow, kSweepSearch,
+                                           m_scratch.data(), &ch);
+        }
+        m_samples.resize(window);
+        for (int i = 0; i < window; i++)
         {
             const float l = m_scratch[(size_t)i * ch];
             const float r = m_scratch[(size_t)i * ch + (ch - 1)];
@@ -170,7 +194,7 @@ public:
         // The colour level follows only the newest 1024 frames, so it
         // tracks fresh hits rather than window history.
         float peak = 0.0f;
-        for (int i = kScrollWindow - 1024; i < kScrollWindow; i++)
+        for (int i = qMax(0, window - 1024); i < window; i++)
             peak = qMax(peak, qAbs(m_samples[i]));
         // Fast attack, ~0.5s decay: the colour snaps on with a hit and fades out.
         m_level = qMax(peak, m_level * 0.86f);
@@ -405,6 +429,7 @@ private:
     // assumes ~48k — close enough for a decorative scope.
     static constexpr float kQuietFloor = 0.008f;
     static constexpr int kScrollWindow = 12000; // ~250ms of scroll history
+    bool m_scroll = false;
     SonicPi::SonicPiAPI* m_api = nullptr;
     uint64_t m_lastEnd = 0;
     std::vector<float> m_scratch;
@@ -1025,6 +1050,15 @@ void SonicPiScintilla::flashRunLine(int runLine, bool codeWash, bool gutterDot)
     flashLine(runLineToCurrent(runLine), codeWash, gutterDot);
 }
 
+void SonicPiScintilla::setLiveLoopScopeScroll(bool scroll)
+{
+    m_loopScopeScroll = scroll;
+    for (LiveLoopScopeWidget* w : m_loopScopes)
+    {
+        w->setScroll(scroll);
+    }
+}
+
 void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine,
                                         const shm_scope_stream_reader& reader)
 {
@@ -1032,6 +1066,7 @@ void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine,
     if (!w)
     {
         w = new LiveLoopScopeWidget(viewport());
+        w->setScroll(m_loopScopeScroll);
         m_loopScopes[name] = w;
     }
     w->setReader(reader);

@@ -1009,6 +1009,8 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
 
     show_loop_scopes = new QCheckBox(tr("Show live loop scopes"));
     show_loop_scopes->setToolTip(tr("When enabled, each running live loop shows a small oscilloscope and spectrum of its own audio next to its line in the editor."));
+    loop_scope_scroll = new QCheckBox(tr("Scrolling live loop scopes"));
+    loop_scope_scroll->setToolTip(tr("When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope."));
 
     // Brightness as an amp-style ArcDial (same feel as the volume + hue
     // dials), with the percentage shown in the hub.
@@ -1033,6 +1035,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     flash_checks_col->addWidget(flash_code);
     flash_checks_col->addWidget(flash_gutter);
     flash_checks_col->addWidget(show_loop_scopes);
+    flash_checks_col->addWidget(loop_scope_scroll);
     flash_checks_col->addStretch(1);
     QVBoxLayout *flash_dial_col = new QVBoxLayout;
     flash_dial_col->addStretch(1);
@@ -2689,6 +2692,7 @@ void SettingsWidget::updateSettings() {
     piSettings->flash_brightness = flash_brightness_slider->value();
     piSettings->flash_gutter = flash_gutter->isChecked();
     piSettings->show_loop_scopes = show_loop_scopes->isChecked();
+    piSettings->loop_scope_scroll = loop_scope_scroll->isChecked();
     piSettings->speak_transport = speak_transport->isChecked();
     piSettings->reduce_motion = reduce_motion->isChecked();
     // Widgets consult prefersReducedMotion() directly (no settings pointer
@@ -2795,6 +2799,7 @@ void SettingsWidget::settingsChanged() {
     { QSignalBlocker fb(flash_brightness_slider); flash_brightness_slider->setValue(piSettings->flash_brightness); }
     flash_gutter->setChecked(piSettings->flash_gutter);
     show_loop_scopes->setChecked(piSettings->show_loop_scopes);
+    loop_scope_scroll->setChecked(piSettings->loop_scope_scroll);
     speak_transport->setChecked(piSettings->speak_transport);
     reduce_motion->setChecked(piSettings->reduce_motion);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
@@ -2866,6 +2871,8 @@ void SettingsWidget::connectAll() {
     connect(flash_gutter, SIGNAL(clicked()), this, SLOT(flashOnPlay()));
     connect(show_loop_scopes, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_loop_scopes, SIGNAL(clicked()), this, SLOT(flashOnPlay()));
+    connect(loop_scope_scroll, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(loop_scope_scroll, SIGNAL(clicked()), this, SLOT(flashOnPlay()));
     connect(flash_brightness_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
     connect(flash_brightness_slider, SIGNAL(valueChanged(int)), this, SLOT(flashOnPlay()));
     connect(speak_transport, SIGNAL(clicked()), this, SLOT(updateSettings()));

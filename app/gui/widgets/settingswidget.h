@@ -263,6 +263,7 @@ private:
     QCheckBox *flash_code;
     QCheckBox *flash_gutter;
     QCheckBox *show_loop_scopes;
+    QCheckBox *loop_scope_scroll;
     ArcDial *flash_brightness_slider;
     QCheckBox *speak_transport;
     QCheckBox *reduce_motion;

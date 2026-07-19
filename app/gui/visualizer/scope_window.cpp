@@ -164,6 +164,12 @@ ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<
     }
     m_audio = seed;
 
+    // Settle watchdog (see SettleTick). Interval sits above the ~60Hz frame
+    // spacing so it never fires while frames are flowing.
+    m_settleTimer = new QTimer(this);
+    m_settleTimer->setInterval(33);
+    connect(m_settleTimer, &QTimer::timeout, this, &ScopeWindow::SettleTick);
+
     m_panels.push_back({ "Lissajous", tr("Lissajous"), ScopeWindowType::Lissajous });
     m_panels.push_back({ "Stereo", tr("Left"), ScopeWindowType::Left });
     m_panels.push_back({ "Stereo", tr("Right"), ScopeWindowType::Right });
@@ -338,10 +344,28 @@ void ScopeWindow::DrawMirrorStereo(const ProcessedAudio& audio, QPainter& painte
         return;
     }
 
+    // Same zero-crossing trigger as DrawWave (sonic-pi#1330), searched on the
+    // raw left channel since the rectified display has no crossings itself.
+    uint32_t searchLimit = m_audioFrameSamples / 4;
+    uint32_t trigger = 0;
+    for (uint32_t i = 1; i < searchLimit; i++)
+    {
+        if (audio.m_samples[0][i - 1] < 0.0f && audio.m_samples[0][i] >= 0.0f)
+        {
+            trigger = i;
+            break;
+        }
+    }
+    uint32_t visibleSamples = m_audioFrameSamples - searchLimit;
+    if (visibleSamples == 0)
+    {
+        return;
+    }
+
     // Peak envelope per pixel column: every sample in the column's bin is
     // inspected, so transients can't alias away as they did when we
     // point-sampled one-in-N.
-    double step = m_audioFrameSamples / double(width);
+    double step = visibleSamples / double(width);
 
     // One vertical line per column per channel
     panel.waveLines.resize(width * 2);
@@ -354,14 +378,14 @@ void ScopeWindow::DrawMirrorStereo(const ProcessedAudio& audio, QPainter& painte
     {
         uint32_t start = uint32_t(double(x) * step);
         uint32_t end = std::max(start + 1, uint32_t(double(x + 1) * step));
-        end = std::min(end, m_audioFrameSamples);
+        end = std::min(end, visibleSamples);
 
         float peakLeft = 0.0f;
         float peakRight = 0.0f;
         for (uint32_t i = start; i < end; i++)
         {
-            peakLeft = std::max(peakLeft, std::abs(audio.m_samples[0][i]));
-            peakRight = std::max(peakRight, std::abs(audio.m_samples[1][i]));
+            peakLeft = std::max(peakLeft, std::abs(audio.m_samples[0][trigger + i]));
+            peakRight = std::max(peakRight, std::abs(audio.m_samples[1][trigger + i]));
         }
 
         int xCoord = left + x;
@@ -404,9 +428,30 @@ void ScopeWindow::DrawWave(const ProcessedAudio& audio, QPainter& painter, Scope
         return;
     }
 
+    // Oscilloscope-style trigger (sonic-pi#1330): the first quarter of the
+    // snapshot is a search margin, and the visible window starts at the first
+    // rising zero-crossing found in it, so periodic waveforms hold still
+    // frame to frame. No crossing (silence, noise) falls back to free-run.
+    uint32_t searchLimit = m_audioFrameSamples / 4;
+    uint32_t trigger = 0;
+    for (uint32_t i = 1; i < searchLimit; i++)
+    {
+        if (pSamples[i - 1] < 0.0f && pSamples[i] >= 0.0f)
+        {
+            trigger = i;
+            break;
+        }
+    }
+    pSamples += trigger;
+    uint32_t visibleSamples = m_audioFrameSamples - searchLimit;
+    if (visibleSamples == 0)
+    {
+        return;
+    }
+
     // Min/max envelope per pixel column (the classic scope/wave-editor
     // rendering): stable image, no aliasing of fast transients.
-    double step = m_audioFrameSamples / double(width);
+    double step = visibleSamples / double(width);
     panel.waveLines.resize(width);
 
     float yScale = float(panel.rcGraph.height() / 2.0f);
@@ -417,7 +462,7 @@ void ScopeWindow::DrawWave(const ProcessedAudio& audio, QPainter& painter, Scope
     {
         uint32_t start = uint32_t(double(x) * step);
         uint32_t end = std::max(start + 1, uint32_t(double(x + 1) * step));
-        end = std::min(end, m_audioFrameSamples);
+        end = std::min(end, visibleSamples);
 
         float lo = pSamples[start];
         float hi = lo;
@@ -783,9 +828,17 @@ void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
 {
     if (!m_paused && isVisible())
     {
+        const bool silent = !audio || SnapshotSilent(*audio);
         if (audio && !audio->m_samples[0].empty())
         {
             m_audio = audio;
+        }
+        else if (m_silentFrames < SilentSettleFrames)
+        {
+            // Silent gaps deliver empty buffers; without substitution the
+            // settle repaints re-burn the stale waveform into the fading
+            // trail instead of letting it decay to a flat line.
+            m_audio = MakeSilentSnapshot();
         }
 
         m_audioAvailable = true;
@@ -798,7 +851,6 @@ void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
         // phosphor trail fade out, then stop until real signal returns. This
         // slot keeps being called regardless (it only drives painting), so a
         // returning signal resumes the scope on the very next frame.
-        const bool silent = !audio || SnapshotSilent(*audio);
         if (!silent)
         {
             m_silentFrames = 0;
@@ -810,12 +862,57 @@ void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
             update();
         }
 
+        // The engine pauses itself once its output is silent, which can stop
+        // this frame stream mid-fade; the watchdog then finishes the settle.
+        if (m_silentFrames < SilentSettleFrames)
+        {
+            m_settleTimer->start();
+        }
+        else
+        {
+            m_settleTimer->stop();
+        }
+
         // Deferred pause once everything has visually run down
         if (m_pendingPause && audio && silent)
         {
             Pause();
         }
     }
+}
+
+void ScopeWindow::SettleTick()
+{
+    if (m_paused || !isVisible() || m_silentFrames >= SilentSettleFrames)
+    {
+        m_settleTimer->stop();
+        return;
+    }
+    m_audio = MakeSilentSnapshot();
+    m_silentFrames++;
+    update();
+    if (m_silentFrames >= SilentSettleFrames)
+    {
+        m_settleTimer->stop();
+        if (m_pendingPause)
+        {
+            Pause();
+        }
+    }
+}
+
+SonicPi::ProcessedAudioPtr ScopeWindow::MakeSilentSnapshot() const
+{
+    auto snap = std::make_shared<ProcessedAudio>();
+    const ProcessedAudio& cur = *m_audio;
+    for (int i = 0; i < 2; i++)
+    {
+        snap->m_samples[i].assign(std::max<size_t>(cur.m_samples[i].size(), 1), 0.0f);
+        snap->m_spectrumQuantized[i].assign(cur.m_spectrumQuantized[i].size(), 0.0f);
+        snap->m_spectrumPeaks[i].assign(cur.m_spectrumPeaks[i].size(), 0.0f);
+    }
+    snap->m_monoSamples.assign(std::max<size_t>(cur.m_monoSamples.size(), 1), 0.0f);
+    return snap;
 }
 
 } // namespace SonicPi

@@ -139,6 +139,9 @@ public slots:
     // as the flashes). Re-registering an existing name updates its line and
     // reader; endLiveLoopScope removes it when the loop dies.
     void setLiveLoopScope(const QString& name, int runLine, const shm_scope_stream_reader& reader);
+    // Roll-mode (scrolling strip) vs the default triggered sweep; applies to
+    // current and future loop scopes (preference: loop_scope_scroll).
+    void setLiveLoopScopeScroll(bool scroll);
     // Engine API access for the inline scopes' sample-clock reads (audible-time
     // window alignment). Called once by MainWindow after boot wiring.
     void setAudioApi(SonicPi::SonicPiAPI* api);
@@ -327,6 +330,7 @@ public:
     // live_loop mini scopes, keyed by loop name; one shared timer polls the
     // scope buffers and re-pins each widget to its (edit-tracked) header line.
     QHash<QString, class LiveLoopScopeWidget*> m_loopScopes;
+    bool m_loopScopeScroll = false;
     QHash<QString, int> m_loopScopeLines;
     QTimer* m_loopScopeTimer = nullptr;
     SonicPi::SonicPiAPI* m_audioApi = nullptr;

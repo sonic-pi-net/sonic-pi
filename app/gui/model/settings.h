@@ -65,6 +65,7 @@ public:
     int flash_brightness;   // code-wash strength percent (100 = opaque)
     bool flash_gutter;      // pulse a dot in the gutter next to the source line
     bool show_loop_scopes;  // per-live_loop mini scope pinned to its header line
+    bool loop_scope_scroll; // loop scopes scroll history (roll mode) instead of holding a triggered waveform
     bool speak_transport;   // screen reader speaks "Run started"/"Stopped"
     bool example_play_on_open; // Examples menu: run an example as it is opened
     bool reduce_motion;     // suppress UI animations (ORed with the OS setting)

@@ -21,6 +21,8 @@
 #include <memory>
 #include <string>
 
+class QTimer;
+
 #include <qt_api_client.h>
 
 #include "config.h"
@@ -136,6 +138,13 @@ protected:
 private:
     void Layout();
     bool SnapshotSilent(const ProcessedAudio& audio) const;
+    // A zeroed snapshot matching the current one's geometry: what the settle
+    // repaints draw so the phosphor trail fades to a flat line rather than
+    // re-burning the last waveform (empty/missing frames leave m_audio stale).
+    ProcessedAudioPtr MakeSilentSnapshot() const;
+    // Finishes the settle fade if audio frames stop arriving mid-decay (the
+    // engine pauses itself once silent, taking the frame stream with it).
+    void SettleTick();
     // Single authority for AudioProcessor_Enable: on only when a panel is
     // visible, not user-paused and not suspended.
     void ApplyProcessorEnable();
@@ -170,6 +179,9 @@ private:
     // repaints at SilentSettleFrames so the scope stops repainting once the
     // trail has decayed; reset to 0 when signal returns.
     int m_silentFrames = 0;
+    // Watchdog for the settle fade: re-armed on every delivered frame, fires
+    // only when delivery stops before the trail has fully decayed.
+    QTimer* m_settleTimer = nullptr;
 };
 
 } // namespace SonicPi
