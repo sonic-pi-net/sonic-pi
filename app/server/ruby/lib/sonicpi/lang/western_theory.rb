@@ -35,6 +35,16 @@ class SonicPi::Core::SPVector
 
     self.map {|n| note.call(n, args) }
   end
+
+  # Melodic inversion: reflect each element around the pitch axis n, turning a
+  # melody upside-down. (ring :c4, :e4, :g4).invert_around(:c4) => (ring 60, 56, 53).
+  # Rests pass through unchanged. Named invert_around (not invert) to avoid
+  # confusion with chord inversion. See #2089.
+  def invert_around(n)
+    axis = [n].ring.notes.first
+    raise "Can only invert_around a note, not a rest" unless axis
+    self.notes.map { |e| e && (2 * axis - e) }.ring
+  end
 end
 
 class Symbol
