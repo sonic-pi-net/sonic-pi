@@ -248,7 +248,7 @@ begin
 
   # read in init.rb if exists
   if File.exist?(SonicPi::Paths.init_path)
-    sp.__spider_eval(File.read(SonicPi::Paths.init_path), silent: true)
+    sp.__spider_eval(File.read(SonicPi::Paths.init_path), workspace: SonicPi::Paths.init_path, silent: true)
   else
     STDOUT.puts "Spider - Could not find init.rb file: #{SonicPi::Paths.init_path} "
   end

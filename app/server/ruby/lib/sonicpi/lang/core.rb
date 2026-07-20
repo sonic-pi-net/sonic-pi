@@ -556,7 +556,10 @@ end"
       def run_file(path)
         path = File.expand_path(path.to_s)
         raise IOError, "Unable to run file - no file found with path: #{path}" unless File.exist?(path)
-        __spider_eval(File.read(path))
+        # Pass the file path as the workspace so any error raised inside the
+        # file reports its location (e.g. "buffer /path/to/file.rb, line 10")
+        # rather than the confusing generic "eval" (#2336).
+        __spider_eval(File.read(path), workspace: path)
       end
       doc name:           :run_file,
           introduced:     Version.new(2,11,0),
