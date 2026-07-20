@@ -2835,6 +2835,8 @@ There are many opts for manipulating the playback. For example, the `rate:` opt 
 
 The sampler synth has three separate envelopes - one for amplitude, one for a low pass filter and another for a high pass filter. These work very similar to the standard synth envelopes except for two major differences. Firstly, the envelope times do not stretch or shrink to match the BPM. Secondly, the sustain time by default stretches to make the envelope fit the length of the sample. This is explained in detail in the tutorial.
 
+As a shorthand you may set `duration:` instead of `sustain:` (just as with `play`). This sets the *total* length of the amplitude envelope (`attack:` + `decay:` + `sustain:` + `release:`), so `duration:` picks the `sustain:` for you. Note that this can only ever make a sample play for *less* than its natural length: if the requested duration is longer than the sample, the sample simply plays through to its natural end (there is no silent padding, and any `release:` scheduled beyond that point is not heard). To make a sample last for a specific number of beats by changing its speed instead, use `beat_stretch:`.
+
 Samples are loaded on-the-fly when first requested (and subsequently remembered). If the sample loading process takes longer than the schedule ahead time, the sample trigger will be skipped rather than be played late and out of time. To avoid this you may preload any samples you wish to work with using `load_sample` or `load_samples`.
 
 It is possible to set the `start:` and `finish:` positions within the sample to play only a sub-section of it. These values can be automatically chosen based on an onset detection algorithm which will essentially isolate each individual drum or synth hit in the sample and let you access each one by an integer index (floats will be rounded to the nearest integer value). See the `onset:` docstring and examples for more information.
@@ -2860,6 +2862,7 @@ By combining commands which add to the candidates and then filtering those candi
                           :pitch_stretch => "Stretch (or shrink) the sample to last for exactly the specified number of beats. This attempts to keep the pitch constant using the `pitch:` opt. Note, it's very likely you'll need to experiment with the `window_size:`, `pitch_dis:` and `time_dis:` opts depending on the sample and the amount you'd like to stretch/shrink from original size.",
                           :attack        => "Time to reach full volume. Default is 0.",
                           :sustain       => "Time to stay at full volume. Default is to stretch to length of sample (minus attack and release times).",
+                          :duration      => "Total length of the amplitude envelope (attack + decay + sustain + release), used to set `sustain:` automatically. Can only shorten a sample, never lengthen it (a longer duration than the sample just plays the whole sample). See `beat_stretch:` to change a sample's length by altering its speed.",
                           :release       => "Time (from the end of the sample) to go from full amplitude to 0. Default is 0.",
                           :start         => "Position in sample as a fraction between 0 and 1 to start playback. Default is 0.",
                           :finish        => "Position in sample as a fraction between 0 and 1 to end playback. Default is 1.",
@@ -4174,6 +4177,13 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         end
 
         normalise_args!(args_h, defaults)
+        # duration: is a shorthand for the total envelope length, converted to a
+        # concrete sustain: (see #1497). This overrides the sampler's default
+        # sustain: -1 ("play the whole buffer"), gating the sample to duration
+        # beats - exactly as duration: works for play/synth. When neither
+        # duration: nor sustain: is given, sustain stays -1 and the whole sample
+        # plays as before.
+        calculate_sustain!(args_h, defaults)
         scale_time_args_to_bpm!(args_h, info, true) if info && __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
         args_h
       end
