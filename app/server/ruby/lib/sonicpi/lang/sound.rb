@@ -1498,50 +1498,50 @@ play_pattern_timed [40, 42, 44], [1, 2, 3]
 
 # same as:
 
-play 40, sustain: 1
+play 40, duration: 1
 sleep 1
-play 42, sustain: 2
+play 42, duration: 2
 sleep 2
-play 44, sustain: 3
+play 44, duration: 3
 sleep 3",
 
         "play_pattern_timed [40, 42, 44, 46, 49], [1, 0.5]
 
 # same as:
 
-play 40, sustain: 1
+play 40, duration: 1
 sleep 1
-play 42, sustain: 0.5
+play 42, duration: 0.5
 sleep 0.5
-play 44, sustain: 1
+play 44, duration: 1
 sleep 1
-play 46, sustain: 0.5
+play 46, duration: 0.5
 sleep 0.5
-play 49, sustain: 1
+play 49, duration: 1
 sleep 1",
 
         "play_pattern_timed [40, 42, 44, 46], [0.5]
 
 # same as:
 
-play 40, sustain: 0.5
+play 40, duration: 0.5
 sleep 0.5
-play 42, sustain: 0.5
+play 42, duration: 0.5
 sleep 0.5
-play 44, sustain: 0.5
+play 44, duration: 0.5
 sleep 0.5
-play 46, sustain: 0.5
+play 46, duration: 0.5
 sleep 0.5",
 
         "play_pattern_timed [40, 42, 44], [1, 2, 3, 4, 5]
 
 # same as:
 
-play 40, sustain: 1
+play 40, duration: 1
 sleep 1
-play 42, sustain: 2
+play 42, duration: 2
 sleep 2
-play 44, sustain: 3
+play 44, duration: 3
 sleep 3",
 
         "play_pattern_timed [40, 42, 44], [1, 2, 3], sustain: 0
@@ -4012,11 +4012,11 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         args_h["out_bus"] = out_bus.to_i
       end
 
-      def calculate_sustain!(args)
+      def calculate_sustain!(args, defaults)
         if args.has_key? :duration and not(args.has_key? :sustain)
-          attack = args.fetch(:attack, 0)
-          decay = args.fetch(:decay, 0)
-          release = args.fetch(:release, 0)
+          attack = args.fetch(:attack, defaults.fetch(:attack, 0))
+          decay = args.fetch(:decay, defaults.fetch(:decay, 0))
+          release = args.fetch(:release, defaults.fetch(:release, 0))
           duration = args[:duration]
 
           sustain = duration - (attack + decay + release)
@@ -4155,7 +4155,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         end
 
         normalise_args!(args_h, defaults)
-        calculate_sustain!(args_h)
+        calculate_sustain!(args_h, defaults)
         scale_time_args_to_bpm!(args_h, info, true) if info && __thread_locals.get(:sonic_pi_spider_arg_bpm_scaling)
 
         args_h
