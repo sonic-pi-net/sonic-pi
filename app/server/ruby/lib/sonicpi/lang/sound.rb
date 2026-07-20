@@ -1481,6 +1481,10 @@ play_pattern [40, 41, 42] # Same as:
           notes.each_with_index do |note, idx|
             duration = t[idx]
             kwargs = opts.dup
+            # A list-like opt value is treated as one value per note, indexed by
+            # position with ring semantics (so a shorter list cycles). This lets
+            # e.g. amp: or release: vary from note to note across the pattern.
+            kwargs.each { |k, v| kwargs[k] = v.ring[idx] if is_list_like?(v) }
             if match_total
               kwargs[:duration] = duration
             elsif !explicit_length
@@ -1502,6 +1506,8 @@ play_pattern [40, 41, 42] # Same as:
 If the list of times is smaller than the number of notes, the list is repeated again. If the list of times is longer than the number of notes, then some of the times are ignored. See examples for more detail.
 
 By default each note's `sustain:` is stretched to fill the time until the next note, so the notes flow smoothly into each other (unlike a plain `play`, which uses its normal envelope and fades away). Set `sustain:` to `0` to keep the notes' normal envelopes. If you pass an explicit envelope opt such as `release:`, the total note duration is matched to the time instead.
+
+Any opt may also be given a list (or ring) of values instead of a single value, in which case the values are spread one-per-note across the pattern, cycling if the list is shorter than the number of notes. For example `amp: [0.5, 1, 0.25]` gives each note a different amplitude.
 
 Accepts optional args for modification of the synth being played. See each synth's documentation for synth-specific opts. See `use_synth` and `with_synth` for changing the current synth.",
           args:          [[:notes, :list], [:times, :list_or_number]],
@@ -1579,7 +1585,18 @@ sleep 1
 play 42, duration: 2, release: 0.5
 sleep 2
 play 44, duration: 3, release: 0.5
-sleep 3"]
+sleep 3",
+
+        "play_pattern_timed [40, 42, 44], [0.5], amp: [0.25, 0.5, 1]
+
+# a list opt is spread one-per-note, so each note gets its own amp:
+
+play 40, sustain: 0.5, amp: 0.25
+sleep 0.5
+play 42, sustain: 0.5, amp: 0.5
+sleep 0.5
+play 44, sustain: 0.5, amp: 1
+sleep 0.5"]
 
 
 

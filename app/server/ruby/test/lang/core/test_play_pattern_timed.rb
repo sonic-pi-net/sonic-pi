@@ -87,5 +87,29 @@ module SonicPi
       assert_equal 0, opts[0][:sustain]
       refute opts[0].has_key?(:duration)
     end
+
+    # ---- play_pattern_timed : per-note list opts (#3401) ----
+    # A list-like opt value is spread one-per-note (ring-indexed, so it cycles).
+
+    def test_list_opt_indexes_per_note
+      opts = played_opts { play_pattern_timed [40, 42, 44], [1], amp: [0.2, 0.5, 1] }
+      assert_equal [0.2, 0.5, 1], opts.map { |o| o[:amp] }
+    end
+
+    def test_list_opt_shorter_than_notes_cycles
+      opts = played_opts { play_pattern_timed [40, 42, 44], [1], amp: [0.2, 0.5] }
+      assert_equal [0.2, 0.5, 0.2], opts.map { |o| o[:amp] }
+    end
+
+    def test_scalar_opt_still_applies_to_all_notes
+      opts = played_opts { play_pattern_timed [40, 42], [1], amp: 0.7 }
+      assert_equal [0.7, 0.7], opts.map { |o| o[:amp] }
+    end
+
+    def test_per_note_release_varies_and_still_matches_total
+      opts = played_opts { play_pattern_timed [40, 42], [1, 2], release: [0.1, 0.5] }
+      assert_equal [0.1, 0.5], opts.map { |o| o[:release] }
+      assert_equal [1, 2], opts.map { |o| o[:duration] }
+    end
   end
 end
