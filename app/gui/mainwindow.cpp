@@ -20,6 +20,7 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QApplication>
+#include <QStyleHints>
 #include <QClipboard>
 #include <QAccessible>
 #include <QBoxLayout>
@@ -3851,6 +3852,20 @@ void MainWindow::changeMenuBarInFullscreenVisibility()
     }
 }
 
+// First boot only: with no saved theme yet, start in Light or Dark to match the
+// OS colour scheme rather than always defaulting to Light. Once the user has a
+// persisted theme (their own pick, or this default written on the first save)
+// the OS setting is no longer consulted. See #3329. On Qt < 6.5, where the OS
+// colour scheme can't be queried, this falls back to Light as before.
+static SonicPiTheme::ColourScheme osDefaultColourScheme()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    if (qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark)
+        return SonicPiTheme::DarkScheme;
+#endif
+    return SonicPiTheme::LightScheme;
+}
+
 // The user made a deliberate theme choice: stop treating the current theme as
 // something we imposed on the OS's behalf, so a later "contrast off" event, a
 // re-fired contrast signal, or the next boot doesn't yank their pick away.
@@ -6543,7 +6558,12 @@ void MainWindow::readSettings()
     piSettings->show_titles = gui_settings->value("prefs/show-titles", true).toBool();
     piSettings->hide_menubar_in_fullscreen = gui_settings->value("prefs/hide-menubar-in-fullscreen", false).toBool();
     QString styleName = gui_settings->value("prefs/theme", "").toString();
-    piSettings->colourScheme = theme->colourSchemeFromName(styleName);
+    // First boot (no saved theme): start Light or Dark to match the OS setting
+    // instead of always Light. Once a theme is persisted the OS is not consulted
+    // again. See #3329.
+    piSettings->colourScheme = styleName.isEmpty()
+        ? osDefaultColourScheme()
+        : theme->colourSchemeFromName(styleName);
     // Icon set: migrated from legacy combined names ("... Pro") when the
     // dedicated pref is absent.
     piSettings->proIcons = gui_settings->value("prefs/pro-icons",
