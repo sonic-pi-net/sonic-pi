@@ -132,6 +132,8 @@ Note that this is a release candidate — please do report any issues you have t
 
 ## Version 4.6.0 'Tuplet'
 
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v4.6.0):
+
 Welcome to v4.6 of Sonic Pi. This new release introduces a significant overhaul of the GUI shortcuts. You can now choose between the default (called Emacs Live), Windows or Mac modes. There's also a wonderful new function for working with tuplets designed by Dago Sondervan. We've also added some beautiful new samples created by Sheffield techno legends The Black Dog. These came from the experimental sister live-coding platform "Bleep" developed by Sam Aaron and Guy Brown at the University of Sheffield (https://bleep.sheffield.ac.uk).
 
 All dependencies have been updated and there are many, many bug fixes and internal improvements from a wide range of contributors - thank-you!
