@@ -547,7 +547,7 @@ module SonicPi
       attr_reader :vec
 
       def initialize(list)
-        @vec = list
+        @vec = list.to_a
         @vec.freeze
         res = @vec.all? {|el| el.sp_thread_safe?}
         @thread_safe = !!res
