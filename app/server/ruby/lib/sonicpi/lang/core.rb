@@ -2081,6 +2081,69 @@ end"
         "(ring 1, 2, 3)[-1] #=> 3",
       ]
 
+      doc name:           :ring_and_list_methods,
+          introduced:     Version.new(2,2,0),
+          summary:        "Ring & list methods",
+          usage_example:  "(ring 1, 2, 3).reverse  #=> (ring 3, 2, 1)",
+          args:           [],
+          returns:        nil,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Rings, vectors and ramps (such as those made by `ring`, `range`, `knit`, `scale` and `chord`) all share a common set of methods you can chain onto them with a dot - for example `.reverse`, `.take` and `.shuffle`. These let you slice, reorder and transform a list without writing a loop. They never modify the original (rings are immutable): each returns a fresh ring. The tutorial section *Ring Chains* covers these in more depth.
+
+**Selecting and slicing**
+
+* `.take(n)` - a new ring of the first `n` elements
+* `.drop(n)` - a new ring with the first `n` elements removed
+* `.take_last(n)` - a new ring of the last `n` elements
+* `.drop_last(n)` - a new ring with the last `n` elements removed
+* `.butlast` - a new ring with the final element removed
+* `.first(n)` - the first element, or a ring of the first `n` if `n` is given
+* `.last(n)` - the last element, or a ring of the last `n` if `n` is given
+
+**Reordering and repeating**
+
+* `.reverse` - a reversed copy
+* `.sort` - a sorted copy (ascending)
+* `.rotate(n)` - rotate the elements left by `n` (a negative `n` rotates right)
+* `.repeat(n)` - the whole ring repeated `n` times
+* `.stretch(n)` - each element repeated `n` times in place
+* `.mirror` - the ring followed by a reversed copy (the end values are duplicated)
+* `.reflect` - like `.mirror`, but the shared middle value is not duplicated
+
+**Transforming**
+
+* `.scale(n)` - every (numeric) element multiplied by `n`
+* `.invert_around(note)` - each note reflected around a pitch, turning a melody upside-down
+* `.compact` - a copy with any `nil`s removed
+* `.uniq` - a copy with duplicate elements removed
+* `.flatten` - nested rings flattened into a single ring
+
+**Choosing at random** (these all use the current deterministic random stream)
+
+* `.choose` - a single random element
+* `.shuffle` - a randomly reordered copy
+* `.pick(n)` - a ring of `n` randomly chosen elements, duplicates allowed (`n` defaults to 1)
+
+**Converting**
+
+* `.ring` - convert a list or ramp to a ring (out-of-range indexes wrap around)
+* `.ramp` - convert to a ramp (out-of-range indexes clamp to the first/last value)
+* `.to_a` - convert to a plain list (array)
+
+To step through a ring one element at a time across successive runs of a `live_loop`, see `tick` and `look`.",
+          examples:       [
+        "(ring 10, 20, 30, 40, 50).take(3)   #=> (ring 10, 20, 30)",
+        "(ring 10, 20, 30, 40, 50).drop(3)   #=> (ring 40, 50)",
+        "(ring 1, 2, 3).mirror               #=> (ring 1, 2, 3, 3, 2, 1)",
+        "(ring 1, 2, 3).reflect              #=> (ring 1, 2, 3, 2, 1)",
+        "(ring 1, 2, 3).stretch(2)           #=> (ring 1, 1, 2, 2, 3, 3)",
+        "(ring 1, 2, 3).repeat(2)            #=> (ring 1, 2, 3, 1, 2, 3)",
+        "(ring :c4, :e4, :g4).invert_around(:c4)  #=> (ring 60, 56, 53)",
+        "# chain them together:
+(ring 10, 20, 30, 40, 50).shuffle.drop(1).take(3)",
+      ]
+
 
 
       def map(*args)
