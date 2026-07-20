@@ -692,7 +692,7 @@ module SonicPi
       end
 
       def map(&block)
-        @vec.map(&block)
+        self.class.new(@vec.map(&block))
       end
 
       def max(n=nil, &block)
