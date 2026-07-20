@@ -3262,7 +3262,7 @@ msgid ""
 "samps = \"/path/to/my/samples/\"\n"
 "sample samps, \"120\", 1"
 msgstr ""
-"samps = “/pad/naar/mijn/samples/\"\n"
+"samps = \"/pad/naar/mijn/samples/\"\n"
 "sample samps, \"120\", 1"
 
 #: 03.7-Sample-Packs.md:120

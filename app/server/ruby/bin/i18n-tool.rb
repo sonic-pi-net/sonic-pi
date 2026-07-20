@@ -14,6 +14,7 @@
 
 # This script creates translated versions of the English tutorial.
 require_relative "../core.rb"
+require_relative "i18n-tool-hygiene"
 
 require 'kramdown'
 require 'gettext'
@@ -46,21 +47,6 @@ end
 
 def is_number? string
   true if Float(string) rescue false
-end
-
-
-def clean_invisible_chars(text)
-  # Remove or replace problematic invisible Unicode characters that can cause
-  # syntax errors when code is copied from documentation
-  text
-    .gsub(/\u202F/, ' ')  # Replace Narrow No-Break Space with regular space
-    .gsub(/\u00A0/, ' ')  # Replace Non-Breaking Space with regular space
-    .gsub(/\u200B/, '')   # Remove Zero Width Space
-    .gsub(/\u200C/, '')   # Remove Zero Width Non-Joiner
-    .gsub(/\u200D/, '')   # Remove Zero Width Joiner
-    .gsub(/\uFEFF/, '')   # Remove Byte Order Mark
-    .gsub(/\u200E/, '')   # Remove Left-to-Right Mark
-    .gsub(/\u200F/, '')   # Remove Right-to-Left Mark
 end
 
 
@@ -228,12 +214,21 @@ lang.each do |l|
 
     case $task
     when :translate
+      # Space-like and zero-width characters are repaired; quote marks a
+      # translator's editor has prettified can only be fixed in Weblate, so
+      # they abort the run rather than ship an example that won't parse.
+      # Both happen before anything is written, leaving the previously
+      # generated tutorial in place when a language is rejected.
+      $translated.each do |filename, newcontent|
+        $translated[filename] = I18nHygiene.clean_invisible_chars(newcontent)
+        I18nHygiene.assert_no_typographic_quotes_in_code!("#{l}/tutorial/#{filename}", $translated[filename])
+      end
+
       FileUtils::rm_rf File.expand_path("../../../../etc/doc/generated/#{l}/tutorial", __dir__)
       FileUtils::mkdir_p File.expand_path("../../../../etc/doc/generated/#{l}/tutorial", __dir__)
       $translated.each do |filename, newcontent|
         File.open(File.expand_path("../../../../etc/doc/generated/#{l}/tutorial/#{filename}", __dir__), 'w') do |f|
-          # Clean invisible characters that can cause syntax errors
-          f << clean_invisible_chars(newcontent)
+          f << newcontent
         end
       end
       if ($count_msgid > 0) then
