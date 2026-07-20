@@ -105,7 +105,15 @@ module SonicPi
         :i7              => dim7,
         :halfdim         => halfdim,
         "m7b5"           => halfdim,
-        "m7-5" => halfdim
+        "m7-5"           => halfdim,
+        # long-form aliases for extended chords (consistency with :minor7 / :major7)
+        :minor6          => [0, 3, 7, 9],
+        :major6          => [0, 4, 7, 9],
+        :minor9          => [0, 3, 7, 10, 14],
+        :major9          => [0, 4, 7, 11, 14],
+        :minor11         => [0, 3, 7, 10, 14, 17],
+        :major11         => [0, 4, 7, 11, 14, 17],
+        :minor13         => [0, 3, 7, 10, 14, 17, 21]
       }
 
       all_chords_lookup = all_chords.inject({}) do |res, chord_intervals|
