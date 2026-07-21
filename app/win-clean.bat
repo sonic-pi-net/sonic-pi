@@ -4,18 +4,18 @@ cd %~dp0
 
 
 
-@echo Cleaning out vcpkg....
+echo Cleaning out vcpkg....
 rmdir vcpkg /s /q
 
-@echo Cleaning out build dir....
+echo Cleaning out build dir....
 rmdir build /s /q
 
 
-@echo Cleaning out any CMakeCache files....
+echo Cleaning out any CMakeCache files....
 for /r "." %%F in (CMakeCache.txt) do (
     if exist "%%F" del "%%F" /q
 )
 
-@echo Cleaning completed
+echo Cleaning completed
 
 cd %WORKING_DIR%

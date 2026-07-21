@@ -1,8 +1,9 @@
+@echo off
 set WORKING_DIR=%CD%
 
 cd %~dp0
 
-REM Build vcpkg — pinned to the same release tag as mac-pre-vcpkg.sh.
+REM Build vcpkg - pinned to the same release tag as mac-pre-vcpkg.sh.
 REM "git clone HEAD" let vcpkg's main branch drift past the libsndfile
 REM revision the Sonic Pi CMake config expects, breaking find_package.
 if not exist "vcpkg\" (
@@ -28,10 +29,10 @@ if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
 )
 
 cd vcpkg
-@echo Installing Libraries (%VCPKG_TRIPLET%)
+echo Installing Libraries (%VCPKG_TRIPLET%)
 .\vcpkg install libsndfile[core,external-libs] --triplet %VCPKG_TRIPLET% --recurse
 if errorlevel 1 (
-    @echo vcpkg install failed with errorlevel %errorlevel%
+    echo vcpkg install failed with errorlevel %errorlevel%
     cd %WORKING_DIR%
     exit /b %errorlevel%
 )
@@ -39,10 +40,10 @@ if errorlevel 1 (
 REM Diagnostic: list what libsndfile actually installed under share/.
 REM If find_package(SndFile) fails downstream, this output makes it
 REM obvious whether the CMake config was installed and where.
-@echo === installed\%VCPKG_TRIPLET%\share (sndfile-related) ===
+echo === installed\%VCPKG_TRIPLET%\share (sndfile-related) ===
 if exist "installed\%VCPKG_TRIPLET%\share" (
     dir /b /s "installed\%VCPKG_TRIPLET%\share" 2>nul | findstr /i sndfile
 )
-@echo === end of share listing ===
+echo === end of share listing ===
 
 cd %WORKING_DIR%

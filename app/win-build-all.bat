@@ -1,3 +1,4 @@
+@echo off
 set WORKING_DIR=%CD%
 set CONFIG=%1
 if /I "%CONFIG%" == "" (set CONFIG=Release)
@@ -13,7 +14,7 @@ cd %WORKING_DIR%
 exit /b 0
 
 :build_failed
-@echo.
-@echo *** Build FAILED with errorlevel %errorlevel% ***
+echo.
+echo *** Build FAILED with errorlevel %errorlevel% ***
 cd %WORKING_DIR%
 exit /b %errorlevel%
