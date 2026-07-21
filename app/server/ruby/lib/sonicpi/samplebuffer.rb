@@ -131,7 +131,9 @@ module SonicPi
 
     def onset_slices
       return @aubio_slices if @aubio_slices
-      ons_bounds = onsets
+      # onsets returns an immutable ring (map preserves ring type since #3422),
+      # so take a mutable copy before appending the boundary values.
+      ons_bounds = onsets.to_a
       @aubio_sem.synchronize do
         return @aubio_slices if @aubio_slices
         res = []
