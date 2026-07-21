@@ -13,6 +13,7 @@
 
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/sample_loader"
+require_relative "../../../lib/sonicpi/lang/core"
 
 module SonicPi
   class SampleLoaderTester < Minitest::Test
@@ -169,6 +170,68 @@ module SonicPi
     def test_idx
       res = @loader.find_candidates([@fake_sample_dir, 1])
       assert_equal(["#{@fake_sample_dir}/buzz_100.flac"], res)
+    end
+
+    # Whole floats index like their integer counterpart. Ring-producing fns
+    # (range, line) coerce to float internally, so `sample dir, range(2, 6).tick`
+    # hands this filter a 2.0 — which used to raise
+    # "Unknown sample filter type: Float". Any numeric source has the same
+    # problem, including a bare literal, so tolerance lives here at the point
+    # of use rather than in each fn that can produce a float.
+    def test_float_idx
+      res = @loader.find_candidates([@fake_sample_dir, 1.0])
+      assert_equal(["#{@fake_sample_dir}/buzz_100.flac"], res)
+    end
+
+    def test_float_idx_matches_integer_idx
+      (0..8).each do |i|
+        assert_equal(@loader.find_candidates([@fake_sample_dir, i]),
+                     @loader.find_candidates([@fake_sample_dir, i.to_f]),
+                     "float #{i}.0 should select the same sample as integer #{i}")
+      end
+    end
+
+    def test_float_idx_wraps
+      res = @loader.find_candidates([@fake_sample_dir, 7.0])
+      assert_equal(@loader.find_candidates([@fake_sample_dir, 7]), res)
+    end
+
+    def test_negative_float_idx
+      assert_equal(@loader.find_candidates([@fake_sample_dir, -1]),
+                   @loader.find_candidates([@fake_sample_dir, -1.0]))
+    end
+
+    # A fractional index truncates towards zero rather than raising: the index
+    # is already taken modulo the candidate count, so it is a "pick one of
+    # these" control, not an exact value.
+    def test_fractional_float_idx_truncates
+      assert_equal(@loader.find_candidates([@fake_sample_dir, 1]),
+                   @loader.find_candidates([@fake_sample_dir, 1.7]))
+    end
+
+    # Rationals arrive from Sonic Pi's timing/arithmetic helpers too.
+    def test_rational_idx
+      assert_equal(@loader.find_candidates([@fake_sample_dir, 1]),
+                   @loader.find_candidates([@fake_sample_dir, Rational(3, 2)]))
+    end
+
+    # The reported bug, end to end (PR #3381): range/line coerce to float
+    # internally, so their values reach this filter as Floats. Pinned against
+    # the real fns rather than float literals, so a change to either that
+    # reintroduces the problem fails here.
+    def test_ring_fns_index_samples
+      lang = Class.new { include SonicPi::Lang::Core }.new
+
+      %i[range line].each do |fn|
+        ring = lang.send(fn, 2, 6)
+        assert(ring.to_a.all? { |v| v.is_a?(Float) },
+               "#{fn} is expected to yield Floats; if that changed, this test's premise is stale")
+        ring.to_a.each do |v|
+          assert_equal(@loader.find_candidates([@fake_sample_dir, v.to_i]),
+                       @loader.find_candidates([@fake_sample_dir, v]),
+                       "#{fn} value #{v.inspect} should index like #{v.to_i}")
+        end
+      end
     end
 
     def test_mult_idx_overrides

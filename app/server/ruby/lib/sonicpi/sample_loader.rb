@@ -69,9 +69,19 @@ module SonicPi
             bn = File.basename(v, ".*")
             bn.match f
           end
-        when Integer
+        when Numeric
+          # Any number indexes, not just an Integer. Ring-producing fns coerce
+          # to float internally (range and line both start with `start.to_f`),
+          # so `sample dir, range(2, 6).tick` hands this a 2.0 — and so does a
+          # bare `2.0`, or anything that has been through arithmetic. Widening
+          # here fixes every such source at once; narrowing the fns one by one
+          # would not, and changing what range returns would silently turn
+          # `range(0, 10).tick / 10` into integer division.
+          #
+          # to_i truncates: the index is taken modulo the candidate count, so
+          # it is a "pick one of these" control rather than an exact value.
           unless candidates.empty?
-            candidates = [candidates[f % candidates.size]]
+            candidates = [candidates[f.to_i % candidates.size]]
           end
         when NilClass
           # Do nothing
