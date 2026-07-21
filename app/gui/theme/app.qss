@@ -86,7 +86,6 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
 
 *#scopes
 {
-    font-size: small;
     background: paneColor;
 }
 
@@ -112,14 +111,12 @@ QFrame
 
 QLabel
 {
-  font-size: medium;
   border: none;
 }
 
 
 QTabBar
 {
-  font-size: medium;
 
 }
 
@@ -207,13 +204,12 @@ QDockWidget::title
     text-align: left;
     background: logBackgroundColor;
     font-family: 'Hack';
-    font-size: 11px;
+    font-size: paneTitleFontPx;
     padding-left: 6dx;
 }
 
 QDockWidget
 {
-  font-size: small;
   /* Opaque themed frame so a floated-out pane isn't a bare white window. */
   background: paneColor;
 }
@@ -224,7 +220,6 @@ QDockWidget
 QLabel#paneTitle
 {
     font-family: 'Hack';
-    font-size: 11px;
     font-weight: normal;
     color: paneTitleColor;
     background: logBackgroundColor;
@@ -243,7 +238,6 @@ QWidget#dockTitleBar
 QLabel#linkSectionLabel
 {
     font-family: 'Hack';
-    font-size: 9px;
     font-weight: normal;
     color: paneTitleColor;
 }
@@ -263,7 +257,6 @@ QSlider
 {
     width: 35dx;
 }
-
 
 
 QSlider::groove:vertical
@@ -358,7 +351,6 @@ QPlainTextEdit
 
 
 QCheckBox {
-    font-size: medium;
     spacing: 15dx;
     border: 2dx solid transparent;
 }
@@ -411,7 +403,6 @@ QGroupBox QFrame
 QGroupBox
 {
 
-  font-size: medium;
 
   /* Extra top padding: breathing room between the section header and the
      first control. */
@@ -424,7 +415,6 @@ QGroupBox
     subcontrol-origin: margin;
     margin-top: 15dx;
     margin-bottom: 15dx;
-    font-size: medium;
     font-weight: italic;
     background-color: windowColor;
     border: 1dx solid windowInternalBorderColor;
@@ -441,7 +431,6 @@ QDockWidget QListView
 
 QTextBrowser
 {
-    font-size: medium;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
     /* No scroll-area padding: it would inset the scrollbar and break the
@@ -452,7 +441,6 @@ QTextBrowser
 
 QListWidget
 {
-    font-size: medium;
     border: 1dx solid windowBorderColor;
     background: paneColor;
     min-width: 500dx;
@@ -553,7 +541,6 @@ QLineEdit#docsFilter
     padding-bottom: 2dx;
     padding-left: 8dx;
     padding-right: 8dx;
-    font-size: medium;
 }
 
 QLineEdit#docsFilter:hover
@@ -630,7 +617,6 @@ QTabWidget#infoNavTabs > QTabBar::tab:focus
 
 QComboBox
 {
-    font-size: medium;
     /* No resting border (transparent keeps geometry stable against the 1dx
        hover/focus borders below). */
     border: 1dx solid transparent;
@@ -683,53 +669,6 @@ QComboBox::drop-down
     border-style: none;
 }
 
-QLabel[accessibleName="incoming-osc-disabled-label"]
-{
-    font-size: small;
-    margin-left: 16dx;
-}
-
-QLabel[accessibleName="midi-in-ports-label"]
-{
-    font-size: small;
-    padding-top: 1dx;
-    padding-right: 18dx;
-    padding-bottom: 2dx;
-    padding-left: 3dx;
-    border-radius: 3dx;
-    border: 1px solid tabSelectedColor;
-    background-color: paneColor;
-    color: windowForegroundColor;
-}
-
-QLabel[accessibleName="scsynth-info"]
-{
-    font-size: small;
-    padding-top: 2dx;
-    padding-right: 18dx;
-    padding-bottom: 2dx;
-    padding-left: 3dx;
-    border-radius: 3dx;
-    border: 1px solid tabSelectedColor;
-    background-color: paneColor;
-    color: windowForegroundColor;
-}
-
-QLabel[accessibleName="midi-out-ports-label"]
-{
-    font-size: small;
-    padding-top: 2dx;
-    padding-right: 18dx;
-    padding-bottom: 2dx;
-    padding-left: 3dx;
-    border-radius: 3dx;
-    background-color: tabColor;
-    color: tabTextColor;
-
-    border: 1px solid tabSelectedColor;
-    background-color: paneColor;
-    color: windowForegroundColor;
-}
 
 QToolBar
 {
@@ -877,7 +816,6 @@ QScrollBar::sub-page:horizontal
 
 QPushButton
 {
-    font-size: medium;
     /* Buttons are black in every theme by design; the border (white in dark,
        light-grey in light) gives them their form, the text stays white. Routed
        through a token (not literal black) so it still inverts / greys with the
@@ -934,7 +872,6 @@ QWidget[segmented="true"] QToolButton
     color: palette(window-text);
     /* QToolButton isn't covered by the app-wide QPushButton font rule, so
        pin the size here to keep segment labels on the house scale. */
-    font-size: medium;
 }
 
 QWidget[segmented="true"] QPushButton:hover:!checked,
@@ -1051,7 +988,6 @@ QLineEdit:focus
    rebuilds. */
 QLineEdit#bpmScrubber
 {
-    font-size: medium;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
     color: highlightedBackgroundColor;
@@ -1110,7 +1046,6 @@ QLineEdit#bpmScrubber[cue="reset"]
 
 QLineEdit#timeWarpEdit
 {
-    font-size: medium;
     selection-color: selectionForegroundColor;
     selection-background-color: selectionBackgroundColor;
     color: highlightedBackgroundColor;
@@ -1160,7 +1095,6 @@ QLabel#asioInputNote,
 QLabel#remoteSessionNote,
 QLabel#poweredByLabel
 {
-    font-size: small;
     color: palette(placeholder-text);
 }
 
@@ -1176,7 +1110,6 @@ LinkAudioStreamsWidget QLabel,
 LinkAudioStreamsWidget QCheckBox,
 LinkAudioStreamsWidget QLineEdit
 {
-    font-size: medium;
 }
 
 QLineEdit#linkPeerName
@@ -1292,7 +1225,6 @@ QLabel#linkLatencyValue
 }
 
 
-
 /* Table doubles as a Link-state indicator via its borders — grey when
    Link is off (same palette(mid) used by the muted Visibility thumb),
    pink when Link is on (same selectionBackgroundColor as the active
@@ -1308,7 +1240,6 @@ QTableWidget#linkPeersTable
     alternate-background-color: windowColor;
     selection-background-color: selectionBackgroundColor;
     selection-color: selectionForegroundColor;
-    font-size: small;
 }
 
 QTableWidget#linkPeersTable[linkOn="true"]
@@ -1333,7 +1264,7 @@ QTableWidget#linkPeersTable QHeaderView::section
     color: windowForegroundColor;
     border: none;
     padding: 3dx 8dx;
-    font-size: small;
+    font-size: smallFontPx;
     font-weight: bold;
 }
 
@@ -1431,7 +1362,6 @@ QPushButton#qsArrow
     background: transparent;
     border: none;
     color: mutedForegroundColor;
-    font-size: 26dx;
     font-weight: 700;
 }
 

@@ -54,7 +54,7 @@ constexpr int CHIP_GAP = 8;
 QFont bodyFontForTip()
 {
     QFont f = QToolTip::font();
-    f.setPointSizeF(f.pointSizeF() + 1.5);
+    SetFontSizeValue(f, FontSizeValue(f) + 1.5);
     return f;
 }
 
@@ -238,7 +238,7 @@ void SonicPiToolTip::layoutContent()
 
     const QFont bodyFont = bodyFontForTip();
     QFont titleFont = bodyFont;
-    titleFont.setPointSizeF(bodyFont.pointSizeF() + 2.0);
+    SetFontSizeValue(titleFont, FontSizeValue(bodyFont) + 2.0);
     titleFont.setWeight(QFont::Bold);
 
     m_bodyDoc.setDefaultFont(bodyFont);

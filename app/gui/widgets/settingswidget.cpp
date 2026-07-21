@@ -4,6 +4,7 @@
 #include "utils/reducedmotion.h"
 #include "utils/sonicpi_i18n.h"
 #include "dpi.h"
+#include "utils/fontroles.h"
 #include <api/audio/audio_driver_select.hpp>
 #include <QTreeWidget>
 #include <QHeaderView>
@@ -229,6 +230,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
         tr("ASIO uses one device for both input and output."));
     asio_input_note->setWordWrap(true);
     asio_input_note->setObjectName("asioInputNote");   // styled by app.qss (muted note)
+    ApplyFontRole(asio_input_note, FontRole::Small);
     asio_input_note->setVisible(false);
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
     mixer_invert_stereo->setToolTip(tr("If enabled, audio sent to the left speaker will be routed to the right speaker and vice versa."));
@@ -317,6 +319,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
            "unavailable, and ASIO devices may fail to start."));
     remote_session_note->setWordWrap(true);
     remote_session_note->setObjectName("remoteSessionNote");   // styled by app.qss (muted note)
+    ApplyFontRole(remote_session_note, FontRole::Small);
     remote_session_note->setVisible(isRemoteDesktopSession());
     audio_device_layout->addWidget(remote_session_note, 5, 0, 1, 2);
 
@@ -417,6 +420,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     QLabel *powered_by_label = new QLabel(tr("Powered by"));
     powered_by_label->setAlignment(Qt::AlignCenter);
     powered_by_label->setObjectName("poweredByLabel");   // styled by app.qss (muted note)
+    ApplyFontRole(powered_by_label, FontRole::Small);
     supersonic_ascii_label = new QLabel(
         QString::fromUtf8(
             "\u2591\u2588\u2580\u2580\u2591\u2588\u2591\u2588\u2591\u2588\u2580\u2588\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2584\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2588\u2591\u2588\u2580\u2588\u2591\u2580\u2588\u2580\u2591\u2588\u2580\u2580\n"
@@ -1534,7 +1538,7 @@ void SettingsWidget::fillShortcutTree(QTreeWidget* tree, const QString& base,
             parent->setFirstColumnSpanned(true);
             QFont gf = parent->font(0);
             gf.setBold(true);
-            gf.setPointSizeF(gf.pointSizeF() * 1.1);
+            SetFontSizeValue(gf, FontSizeValue(gf) * 1.1);
             parent->setFont(0, gf);
             parent->setBackground(0, QColor(127, 127, 127, 120));
             parent->setExpanded(true);

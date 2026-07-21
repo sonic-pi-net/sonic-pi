@@ -2706,9 +2706,13 @@ void SonicPiScintilla::updateCompletion(bool force)
     // even once the list font saturates at its max. Notched down by a fixed
     // offset so the prose sits comfortably below the editor text size.
     constexpr double kDocFontOffset = 3.0;
+    // Read the size in whatever unit the font carries: the lexer font is
+    // point-sized, but the widget-font fallback inherits the application
+    // font, which is pixel-sized (see FontRolePx) — pointSize() on that
+    // returns -1 and would collapse this to the 8pt floor.
     QFont codeFont = lexer() ? lexer()->defaultFont() : font();
-    const double zoomed = codeFont.pointSize() + SendScintilla(SCI_GETZOOM);
-    codeFont.setPointSizeF(qBound(8.0, zoomed * 0.82, 15.0));
+    const double zoomed = FontSizeValue(codeFont) + SendScintilla(SCI_GETZOOM);
+    SetFontSizeValue(codeFont, qBound(8.0, zoomed * 0.82, 15.0), 8.0);
     m_completion->setItemFont(codeFont, zoomed - kDocFontOffset);
 
     const int tokenEnd = tokenEndForCaret(pos);

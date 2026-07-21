@@ -505,17 +505,21 @@ public:
         : QWidget(parent)
         , m_onKey(std::move(onKey))
     {
-        m_whiteW = ScaleWidthForDPI(32);
-        m_whiteH = ScaleHeightForDPI(72);
-        m_blackW = ScaleWidthForDPI(20);
-        m_blackH = ScaleHeightForDPI(42);
-        // Width-adaptive: at least the 9 QWERTY-labelled whites, growing to
-        // fill whatever row width is available with more octaves.
-        setMinimumSize(m_whiteW * 9 + 2, m_whiteH + 2);
-        setFixedHeight(m_whiteH + 2);
+        applyScale();
         setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         setCursor(Qt::PointingHandCursor);
         setAccessibleName(tr("Piano keyboard — play with your computer keys"));
+    }
+
+    // The docs pane's text zoom. Painted like the dials, so the keys and
+    // their QWERTY labels have to be scaled explicitly.
+    void setUiScale(double scale)
+    {
+        if (qFuzzyCompare(m_scale, scale))
+            return;
+        m_scale = scale;
+        applyScale();
+        update();
     }
 
 
@@ -527,6 +531,25 @@ public:
         m_muted = muted;
         update();
     }
+
+private:
+    void applyScale()
+    {
+        auto px = [this](int base, bool vertical) {
+            const int dpi = vertical ? ScaleHeightForDPI(base) : ScaleWidthForDPI(base);
+            return qMax(1, qRound(dpi * m_scale));
+        };
+        m_whiteW = px(32, false);
+        m_whiteH = px(72, true);
+        m_blackW = px(20, false);
+        m_blackH = px(42, true);
+        // Width-adaptive: at least the 9 QWERTY-labelled whites, growing to
+        // fill whatever row width is available with more octaves.
+        setMinimumSize(m_whiteW * 9 + 2, m_whiteH + 2);
+        setFixedHeight(m_whiteH + 2);
+    }
+
+public:
 
     // Lights the key for `ms`; callers pass the note's release time so the
     // key stays lit for as long as the note sounds.
@@ -541,6 +564,34 @@ public:
                 update();
             }
         });
+    }
+
+public:
+    // Test hooks: the QWERTY labels actually drawn at the current width, the
+    // white-key count, and how far the rightmost key overhangs the widget.
+    // Pin the labelled window against clipping (see stylesheet/zoom tests).
+    QString qwertyLabelsForTest() const
+    {
+        QString out;
+        for (const Key& k : keys())
+            if (!k.label.isNull())
+                out += k.label;
+        return out;
+    }
+    int whiteCountForTest() const
+    {
+        int n = 0;
+        for (const Key& k : keys())
+            if (!k.black)
+                n++;
+        return n;
+    }
+    int rightOverflowForTest() const
+    {
+        double right = 0;
+        for (const Key& k : keys())
+            right = qMax(right, k.rect.right());
+        return int(right) - (width() - 1);
     }
 
 protected:
@@ -577,13 +628,30 @@ protected:
         };
         auto whiteOffset = [](int i) { return 12 * (i / 7) + kMajor[i % 7]; };
 
-        const int whites = qBound(9, (width() - 2) / m_whiteW, 30);
+        const int avail = qMax(1, width() - 2);
+        const int raw = avail / m_whiteW;
+        const int whites = qBound(9, raw, 30);
+        // The last white's black note straddles its right edge, so the board
+        // needs half a black key of headroom for it. Reserve that before
+        // dividing up the width — dropping the key instead would delete 'p'
+        // from the QWERTY row exactly at the 9-key minimum, leaving a
+        // keystroke that sounds a note with no key to show for it.
+        const int lastStep = (whites - 1) % 7;
+        const bool trailingBlack = !(lastStep == 2 || lastStep == 6); // none above E or B
+        const double reserve = trailingBlack ? m_blackW / 2.0 : 0.0;
+        // Spread the sub-key remainder across the whites so the board spans its
+        // full width instead of stopping up to one key short of the edge. Only
+        // when the count is unclamped — at the 9/30 stops the natural key width
+        // wins, so a very narrow row doesn't squash and a very wide one doesn't
+        // inflate the keys to fill it.
+        const double whiteW = (raw >= 9 && raw <= 30) ? (double(avail) - reserve) / whites
+                                                      : double(m_whiteW);
         QVector<Key> out;
         for (int i = 0; i < whites; i++)
         {
             const QChar label = i < 9 ? QChar::fromLatin1(kWhiteQwerty[i]) : QChar();
             out.append({ label, whiteOffset(i),
-                         QRectF(1 + i * m_whiteW, 1, m_whiteW - 1, m_whiteH), false });
+                         QRectF(1 + i * whiteW, 1, whiteW - 1, m_whiteH), false });
         }
         for (int i = 0; i < whites; i++)
         {
@@ -592,7 +660,7 @@ protected:
                 continue;
             const char qwerty = blackQwerty(i);
             out.append({ qwerty ? QChar::fromLatin1(qwerty) : QChar(), whiteOffset(i) + 1,
-                         QRectF(1 + (i + 1) * m_whiteW - m_blackW / 2.0, 1,
+                         QRectF(1 + (i + 1) * whiteW - m_blackW / 2.0, 1,
                                 m_blackW, m_blackH), true });
         }
         return out;
@@ -603,9 +671,12 @@ protected:
         QPainter p(this);
         p.setRenderHint(QPainter::Antialiasing);
         // Monospace labels read as terminal glyphs, matching the code blocks.
-        QFont f("Hack");
-        f.setPointSizeF(qMax(6.5, font().pointSizeF() * 0.7));
+        QFont f = font();
+        f.setFamily(QStringLiteral("Hack"));
+        SetFontSizeValue(f, FontSizeValue(font()) * 0.7 * m_scale, 6.5);
         p.setFont(f);
+        const int whiteInset = qMax(1, qRound(ScaleHeightForDPI(4) * m_scale));
+        const int blackInset = qMax(1, qRound(ScaleHeightForDPI(3) * m_scale));
 
         // Tron-style: translucent key bodies traced with neutral light-lines —
         // dim traces on the whites, brighter on the blacks. Colour is reserved
@@ -646,7 +717,7 @@ protected:
             if (k.label.isNull())
                 continue;   // keys beyond the QWERTY window are unlabelled
             p.setPen(lit ? m_bg : whiteLabel);
-            p.drawText(k.rect.adjusted(0, 0, 0, -ScaleHeightForDPI(4)),
+            p.drawText(k.rect.adjusted(0, 0, 0, -whiteInset),
                        Qt::AlignHCenter | Qt::AlignBottom, QString(k.label));
         }
         for (const Key& k : ks)
@@ -662,7 +733,7 @@ protected:
             if (k.label.isNull())
                 continue;
             p.setPen(lit ? m_bg : blackLabel);
-            p.drawText(k.rect.adjusted(0, 0, 0, -ScaleHeightForDPI(3)),
+            p.drawText(k.rect.adjusted(0, 0, 0, -blackInset),
                        Qt::AlignHCenter | Qt::AlignBottom, QString(k.label));
         }
     }
@@ -683,6 +754,7 @@ protected:
 
 private:
     std::function<void(int)> m_onKey;
+    double m_scale = 1.0;   // pane text zoom, see setUiScale
     int m_whiteW, m_whiteH, m_blackW, m_blackH;
     int m_flashOffset = -1;
     QColor m_fg = Qt::white;
@@ -785,19 +857,35 @@ public:
         update();
     }
 
+    // The docs pane's text zoom (A-/A+). The dial is painted, not styled, so
+    // it takes no font-size from the pane stylesheet — it has to be told.
+    // Ring, value and name all key off this together: scaling the label alone
+    // would push the name out of the widget's fixed height.
+    void setUiScale(double scale)
+    {
+        if (qFuzzyCompare(m_scale, scale))
+            return;
+        m_scale = scale;
+        QFont f = QApplication::font();
+        SetFontSizeValue(f, FontSizeValue(f) * m_scale);
+        setFont(f);   // FontChange → changeEvent → updateWidth()
+        updateWidth();
+        update();
+    }
+
 protected:
     void paintEvent(QPaintEvent*) override
     {
         QPainter p(this);
         p.setRenderHint(QPainter::Antialiasing);
 
-        int penW = ScaleHeightForDPI(4);
+        int penW = dy(4);
         // Fixed arc diameter — never derived from text metrics, so every dial
         // on a page paints identically. Text rows below use real font metrics
         // so descenders (damp, sustain) never clip.
         const QFontMetrics fm(labelFont());
         const int nameH = fm.height();
-        const int side = ScaleWidthForDPI(54) - penW * 2;
+        const int side = dx(54) - penW * 2;
         // Top inset leaves room for the pointer tick to cross the ring.
         QRectF arcRect((width() - side) / 2.0, penW * 2, side, side);
 
@@ -830,21 +918,25 @@ protected:
         const int valInset = (penW * 3) / 2;
         m_valRect = arcRect.toRect().adjusted(valInset, valInset, -valInset, -valInset);
         const QString val = valueText();
-        QFont valFont(QStringLiteral("Hack"));
-        valFont.setPointSizeF(qMax(7.0, font().pointSizeF() * 0.9));
+        // Derived from the widget font so it inherits its unit — a bare
+        // QFont("Hack") would be point-sized while the inherited size is in
+        // pixels, silently mixing the two scales.
+        QFont valFont = font();
+        valFont.setFamily(QStringLiteral("Hack"));
+        SetFontSizeValue(valFont, FontSizeValue(font()) * 0.9, 7.0);
         // Fit against a fixed worst-case ("00.00"), NOT the live value — so
         // ints and floats share one size and it never jumps mid-drag.
         const QString widest = QStringLiteral("00.00");
-        while (valFont.pointSizeF() > 6.0
+        while (FontSizeValue(valFont) > 6.0
                && QFontMetricsF(valFont).horizontalAdvance(widest) > m_valRect.width())
-            valFont.setPointSizeF(valFont.pointSizeF() - 0.5);
+            SetFontSizeValue(valFont, FontSizeValue(valFont) - 0.5, 6.0);
         p.setFont(valFont);
         p.setPen(m_fg);
         p.drawText(m_valRect, Qt::AlignCenter, val);
         p.setFont(labelFont());
         // Name below: one or two lines (long names wrap at an underscore).
         p.setPen(isDefault() ? m_dim : m_accent);
-        QRect nameRect(0, qRound(arcRect.bottom()) + ScaleHeightForDPI(2), width(), nameH);
+        QRect nameRect(0, qRound(arcRect.bottom()) + dy(2), width(), nameH);
         p.drawText(nameRect, Qt::AlignHCenter | Qt::AlignTop,
                    p.fontMetrics().elidedText(m_nameLine1, Qt::ElideMiddle, nameRect.width()));
         if (!m_nameLine2.isEmpty())
@@ -945,10 +1037,14 @@ protected:
     }
 
 private:
+    // Dial metrics, DPI- and zoom-scaled (see setUiScale).
+    int dx(int px) const { return qMax(1, qRound(ScaleWidthForDPI(px) * m_scale)); }
+    int dy(int px) const { return qMax(1, qRound(ScaleHeightForDPI(px) * m_scale)); }
+
     QFont labelFont() const
     {
         QFont f = font();
-        f.setPointSizeF(qMax(7.0, f.pointSizeF() * 0.8));
+        SetFontSizeValue(f, FontSizeValue(f) * 0.8, 7.0);
         return f;
     }
 
@@ -968,9 +1064,9 @@ private:
         // Below the arc, over the name row: the editor's opaque field must
         // not sit on the arc itself (the value stays readable in-arc while
         // typing a replacement underneath).
-        const int editorH = QFontMetrics(labelFont()).height() + ScaleHeightForDPI(6);
-        m_editor->setGeometry(ScaleWidthForDPI(4), height() - editorH,
-                              width() - ScaleWidthForDPI(8), editorH);
+        const int editorH = QFontMetrics(labelFont()).height() + dy(6);
+        m_editor->setGeometry(dx(4), height() - editorH,
+                              width() - dx(8), editorH);
         m_editor->installEventFilter(this);
         QObject::connect(m_editor, &QLineEdit::editingFinished, m_editor,
                          [this]() { commitEditor(true); });
@@ -1009,8 +1105,8 @@ private:
     void updateWidth()
     {
         const QFontMetrics fm(labelFont());
-        const int w = ScaleWidthForDPI(88);
-        const int avail = w - ScaleWidthForDPI(4);
+        const int w = dx(88);
+        const int avail = w - dx(4);
         m_nameLine1 = m_name;
         m_nameLine2.clear();
         if (fm.horizontalAdvance(m_name) > avail && m_name.contains('_'))
@@ -1024,8 +1120,8 @@ private:
             m_nameLine2 = m_name.mid(best + 1);
         }
         const int nameLines = m_nameLine2.isEmpty() ? 1 : 2;
-        const int h = ScaleHeightForDPI(8) + ScaleWidthForDPI(54) + ScaleHeightForDPI(2)
-                      + fm.height() * nameLines + ScaleHeightForDPI(2);
+        const int h = dy(8) + dx(54) + dy(2)
+                      + fm.height() * nameLines + dy(2);
         setFixedSize(w, h);
         updateToolTip();
     }
@@ -1062,6 +1158,7 @@ private:
     QColor m_dim = Qt::gray;
     QColor m_accent = QColor("#ff1493");
     QColor m_track = Qt::darkGray;
+    double m_scale = 1.0;   // pane text zoom, see setUiScale
     double m_dragStartY = -1;
     double m_dragStartVal = 0;
     QPointF m_pressPos;

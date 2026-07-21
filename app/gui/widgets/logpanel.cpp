@@ -1,5 +1,6 @@
 #include "logpanel.h"
 #include "thinsplitter.h"
+#include "utils/fontroles.h"
 
 #include <QDir>
 #include <QFile>
@@ -199,7 +200,8 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
         paneLayout->setSpacing(0);
 
         QLabel* label = new QLabel(src.name.toUpper(), pane);
-        label->setObjectName("paneTitle");   // shared small/muted/left title style
+        label->setObjectName("paneTitle");
+        ApplyFontRole(label, FontRole::PaneTitle);   // shared small/muted/left title style
         label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         paneLayout->addWidget(label);
 

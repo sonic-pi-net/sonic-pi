@@ -17,6 +17,7 @@
 
 #include <memory>
 
+#include "dpi.h"
 #include "utils/tablericons.h"
 
 class SonicPiTheme;
@@ -136,6 +137,14 @@ private:
     QWidget* addCard(const SonicPi::QuickstartCard& card, const QString& workspace, int scopeSlot);
     void setCardPlaying(const QString& workspace, bool playing);
     int fontPx(int base) const;
+    // Cached FontZoomFactor(m_userZoom): uiScale()/fontPx() are called ~60
+    // times per card rebuild and from hit-test paths, and recomputing a
+    // std::pow each time is pure waste. Refreshed in setUserZoom().
+    double m_zoomFactor = 1.0;
+    // Zoom-aware pixel metrics for the card format (shared with the docs
+    // pane via dpi.h) — card geometry and padding grow with the type, so
+    // zooming adds room rather than crowding the content that grew.
+    UiScale uiScale() const { return UiScale(m_zoomFactor); }
     // A Tabler-icon glyph rendered in one colour at the given size.
     QIcon svgIcon(TablerIcons::Glyph glyph, const QColor& colour, int px) const;
     // A solid accent disc with a centred play/stop glyph; the scope's control.

@@ -174,7 +174,7 @@ public:
         // it: the piano below already signals "this is a note".
         if (!kind.isEmpty() && kind != "note" && kind != "optval") {
             QFont badgeFont = opt.font;
-            badgeFont.setPointSizeF(opt.font.pointSizeF() * 0.8);
+            SetFontSizeValue(badgeFont, FontSizeValue(opt.font) * 0.8);
             QFontMetrics bfm(badgeFont);
             const QString label = kindLabel(kind);
             int bw = bfm.horizontalAdvance(label) + 2 * kBadgeHPad;
@@ -357,7 +357,7 @@ protected:
 
         // Octave labels (C4, C5 …) under each C, so the keyboard is orienting.
         QFont lf = font();
-        lf.setPointSizeF(qMax(8.0, font().pointSizeF() - 1));
+        SetFontSizeValue(lf, FontSizeValue(font()) - 1, 8.0);
         p.setFont(lf);
         const int labelTop = kb.bottom() + 1;
         for (int m = m_minMidi; m <= m_maxMidi; m += 12) {     // every C
@@ -602,7 +602,7 @@ protected:
         p.drawEllipse(QPointF(hx, tr.center().y()), 8, 8);
 
         QFontMetrics fm(font());
-        QFont vf = font(); vf.setBold(true); vf.setPointSizeF(font().pointSizeF() + 2);
+        QFont vf = font(); vf.setBold(true); SetFontSizeValue(vf, FontSizeValue(font()) + 2);
         p.setFont(vf);
         p.setPen(m_fg);
         p.drawText(QRectF(0, 6, width(), fm.height() + 6), Qt::AlignHCenter,
@@ -1554,7 +1554,7 @@ void CompletionPopup::computeColumns()
 {
     // The name column starts after the widest kind badge (notes have none).
     QFont badgeFont = m_view->font();
-    badgeFont.setPointSizeF(badgeFont.pointSizeF() * 0.8);
+    SetFontSizeValue(badgeFont, FontSizeValue(badgeFont) * 0.8);
     QFontMetrics bfm(badgeFont);
 
     int maxBadge = 0;

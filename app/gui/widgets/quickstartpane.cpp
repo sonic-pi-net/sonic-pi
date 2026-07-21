@@ -49,6 +49,7 @@
 #include <QSvgRenderer>
 
 #include "dpi.h"
+#include "utils/fontroles.h"
 #include "model/sonicpitheme.h"
 #include "utils/tablericons.h"
 #include "widgets/tutscope.h" // ScopeSampler: the shared SHM reader/poll base
@@ -371,7 +372,7 @@ QWidget* QuickstartPane::zoomControls()
 int QuickstartPane::preferredDockHeight() const
 {
     // Start tall enough for the deck bar, the description and one full card.
-    int chrome = ScaleHeightForDPI(24); // grid margins around the card
+    int chrome = uiScale().y(24); // grid margins around the card
     if (m_topBar)
         chrome += m_topBar->sizeHint().height();
     if (m_navRow)
@@ -380,17 +381,16 @@ int QuickstartPane::preferredDockHeight() const
     {
         QFont descFont;
         descFont.setPixelSize(fontPx(15));
-        chrome += 2 * QFontMetrics(descFont).height() + ScaleHeightForDPI(12); // two lines
+        chrome += 2 * QFontMetrics(descFont).height() + uiScale().y(12); // two lines
     }
     return m_cardHeight + chrome;
 }
 
 int QuickstartPane::cardWidth() const
 {
-    const double factor = double(qMax(8, 16 + m_userZoom)) / 16.0;
     // Sized so kMaxCols monospace columns fit without shrinking the code font
     // (grown in step with kMaxCols: 41 cols needs ~441).
-    return ScaleHeightForDPI(int(441 * factor));
+    return qRound(ScaleHeightForDPI(441) * m_zoomFactor);
 }
 
 void QuickstartPane::computeGlobalLayout()
@@ -405,24 +405,27 @@ void QuickstartPane::computeGlobalLayout()
     const int kCodeLines = 6;  // tallest snippet a card is designed to hold
     const int kBlurbLines = 2; // blurb runs full width, so it wraps in fewer lines
 
-    const int pad = ScaleHeightForDPI(14);
+    const int pad = uiScale().y(14);
     const int codeAvail = cardWidth() - 2 * pad;
     m_blurbW = codeAvail; // the description now spans the full card width
 
     // Code font: the requested (zoomed) size, capped so kMaxCols monospace
     // columns fit the card width; guaranteeing authored lines never clip
     // (there is no horizontal scroll).
-    int codePx = ScaleHeightForDPI(qMax(8, 15 + m_userZoom));
+    int codePx = qMax(8, qRound(ScaleHeightForDPI(15) * m_zoomFactor));
     QFont hack(QStringLiteral("Hack"));
     hack.setPixelSize(codePx);
     const qreal colW = QFontMetricsF(hack).horizontalAdvance(QLatin1Char('m'));
     if (colW * kMaxCols > codeAvail)
+        // Floor stays unscaled: it is the "never clip an authored line"
+        // backstop, so letting it rise with zoom would defeat the shrink-to-fit
+        // it guards.
         codePx = qMax(ScaleHeightForDPI(9), int(codePx * codeAvail / (colW * kMaxCols)));
     m_codeFontPx = codePx;
 
     hack.setPixelSize(m_codeFontPx);
     const int lineH = QFontMetrics(hack).height();
-    m_codeBodyH = 2 * ScaleHeightForDPI(10) + kCodeLines * lineH;
+    m_codeBodyH = 2 * uiScale().y(10) + kCodeLines * lineH;
 
     // Footer: a full-height scope on the left, and to its right the
     // description (two lines) over the Run/Add buttons.
@@ -432,12 +435,12 @@ void QuickstartPane::computeGlobalLayout()
     // The footer holds the description (two lines) and, on the right, the scope
     // which is the play/stop control. The scope is inset from the footer's
     // inner height so its rings never touch (get clipped by) the edges.
-    const int innerH = kBlurbLines * blurbLineH + ScaleHeightForDPI(58);
-    m_footerH = 2 * ScaleHeightForDPI(8) + innerH;
-    m_scopeSide = innerH - ScaleHeightForDPI(16);
+    const int innerH = kBlurbLines * blurbLineH + uiScale().y(58);
+    m_footerH = 2 * uiScale().y(8) + innerH;
+    m_scopeSide = innerH - uiScale().y(16);
     // The blurb yields the full hit-box width (scope + its surrounding
     // margin), not just the scope square — see the scopeHit box in addCard.
-    m_blurbW = codeAvail - innerH - ScaleHeightForDPI(12);
+    m_blurbW = codeAvail - innerH - uiScale().y(12);
 }
 
 void QuickstartPane::setCardHover(QWidget* frame, bool on)
@@ -478,7 +481,7 @@ void QuickstartPane::updateHover()
             // rounding can leave a 1-2px sliver of an off-page card visible at
             // the viewport edge, and its hover border would paint there.
             const QRect vis = f->visibleRegion().boundingRect();
-            if (vis.width() > ScaleHeightForDPI(8) && vis.contains(lp))
+            if (vis.width() > uiScale().y(8) && vis.contains(lp))
             {
                 card = f;
                 break;
@@ -809,10 +812,10 @@ void QuickstartPane::updateHeaderForHeight()
     // description shows or hides at the same pane height; otherwise a longer,
     // two-line blurb (Basics) would hide while a one-line one (FX) stayed.
     const int deckBarH = m_topBar ? m_topBar->sizeHint().height() : 0;
-    const int cardRow = m_cardHeight + ScaleHeightForDPI(20);
+    const int cardRow = m_cardHeight + uiScale().y(20);
     QFont descFont;
     descFont.setPixelSize(fontPx(15));
-    const int descH = 2 * QFontMetrics(descFont).height() + ScaleHeightForDPI(12);
+    const int descH = 2 * QFontMetrics(descFont).height() + uiScale().y(12);
     const bool showDesc = height() - deckBarH - cardRow >= descH;
     m_deckDesc->setVisible(showDesc);
     if (m_headerRail)
@@ -936,13 +939,18 @@ void QuickstartPane::flashLine(const QString& workspace, int line)
 
 void QuickstartPane::setUserZoom(int zoom)
 {
-    m_userZoom = qBound(-4, zoom, 10);
+    m_userZoom = qBound(kFontZoomMin, zoom, kFontZoomMax);
+    m_zoomFactor = FontZoomFactor(m_userZoom);
     rebuild();
 }
 
+// Shared curve (utils/fontroles.h): multiplicative, so the card's type
+// hierarchy holds its proportions as it zooms. The old `base + m_userZoom`
+// added the same pixel to every size, which pulled a 17px heading down
+// toward a 13px pill the further you zoomed in.
 int QuickstartPane::fontPx(int base) const
 {
-    return ScaleHeightForDPI(qMax(8, base + m_userZoom));
+    return qMax(8, qRound(ScaleHeightForDPI(base) * m_zoomFactor));
 }
 
 void QuickstartPane::rebuild()
@@ -1016,9 +1024,9 @@ void QuickstartPane::rebuild()
     // the right. The highlighted pill is the current deck (it doubles as title).
     m_topBar = new QWidget(rightSide);
     QHBoxLayout* deckBar = new QHBoxLayout(m_topBar);
-    deckBar->setContentsMargins(ScaleHeightForDPI(14), ScaleHeightForDPI(8),
-                                ScaleHeightForDPI(12), ScaleHeightForDPI(3));
-    deckBar->setSpacing(ScaleHeightForDPI(6));
+    deckBar->setContentsMargins(uiScale().y(14), uiScale().y(8),
+                                uiScale().y(12), uiScale().y(3));
+    deckBar->setSpacing(uiScale().y(6));
     for (int i = 0; i < decks.size(); ++i)
     {
         QPushButton* pill = new QPushButton(decks[i].title, m_topBar);
@@ -1047,9 +1055,10 @@ void QuickstartPane::rebuild()
     auto makeArrow = [&](const QString& glyph, const QString& a11y) {
         QPushButton* b = new QPushButton(glyph, m_topBar);
         b->setObjectName(QStringLiteral("qsArrow"));
+        ApplyFontRole(b, FontRole::Arrow);
         b->setCursor(Qt::PointingHandCursor);
         b->setAccessibleName(a11y);
-        b->setFixedSize(ScaleForDPI(30, 30));
+        b->setFixedSize(uiScale().size(30, 30));
         return b;
     };
     m_prevArrow = makeArrow(QStringLiteral("‹"), tr("Previous cards"));
@@ -1059,15 +1068,15 @@ void QuickstartPane::rebuild()
 
     m_dotsHost = new QWidget(m_topBar);
     m_dotsLayout = new QHBoxLayout(m_dotsHost);
-    m_dotsLayout->setContentsMargins(ScaleHeightForDPI(6), 0, ScaleHeightForDPI(6), 0);
-    m_dotsLayout->setSpacing(ScaleHeightForDPI(8));
+    m_dotsLayout->setContentsMargins(uiScale().y(6), 0, uiScale().y(6), 0);
+    m_dotsLayout->setSpacing(uiScale().y(8));
 
     QWidget* nav = new QWidget(m_topBar);
     nav->setObjectName(QStringLiteral("qsNav"));
     QHBoxLayout* navLay = new QHBoxLayout(nav);
-    navLay->setContentsMargins(ScaleHeightForDPI(4), ScaleHeightForDPI(2),
-                               ScaleHeightForDPI(4), ScaleHeightForDPI(2));
-    navLay->setSpacing(ScaleHeightForDPI(2));
+    navLay->setContentsMargins(uiScale().y(4), uiScale().y(2),
+                               uiScale().y(4), uiScale().y(2));
+    navLay->setSpacing(uiScale().y(2));
     navLay->addWidget(m_prevArrow);
     navLay->addWidget(m_dotsHost);
     navLay->addWidget(m_nextArrow);
@@ -1085,12 +1094,12 @@ void QuickstartPane::rebuild()
     {
         QWidget* descRow = new QWidget(rightSide);
         QHBoxLayout* descLay = new QHBoxLayout(descRow);
-        descLay->setContentsMargins(ScaleHeightForDPI(14), ScaleHeightForDPI(4), ScaleHeightForDPI(14),
-                                    ScaleHeightForDPI(9));
-        descLay->setSpacing(ScaleHeightForDPI(10));
+        descLay->setContentsMargins(uiScale().y(14), uiScale().y(4), uiScale().y(14),
+                                    uiScale().y(9));
+        descLay->setSpacing(uiScale().y(10));
         QWidget* rail = new QWidget(descRow);
         rail->setObjectName(QStringLiteral("qsHeaderRail"));
-        rail->setFixedWidth(ScaleHeightForDPI(4));
+        rail->setFixedWidth(uiScale().y(4));
         descLay->addWidget(rail);
         m_headerRail = rail;
         QLabel* descLabel = new QLabel(desc, descRow);
@@ -1115,12 +1124,12 @@ void QuickstartPane::rebuild()
     QWidget* content = new QWidget(m_scroll);
     m_cardRow = content;
     m_cardGrid = new QGridLayout(content);
-    const int pad = ScaleHeightForDPI(14);
+    const int pad = uiScale().y(14);
     // No left margin: the back zone's lane provides the left pad, so the whole
     // margin up to the first card is one contiguous click target.
-    m_cardGrid->setContentsMargins(0, ScaleHeightForDPI(8), pad, pad);
-    m_cardGrid->setHorizontalSpacing(ScaleHeightForDPI(14));
-    m_cardGrid->setVerticalSpacing(ScaleHeightForDPI(14));
+    m_cardGrid->setContentsMargins(0, uiScale().y(8), pad, pad);
+    m_cardGrid->setHorizontalSpacing(uiScale().y(14));
+    m_cardGrid->setVerticalSpacing(uiScale().y(14));
 
     // One set of dimensions for every card in every deck.
     computeGlobalLayout();
@@ -1160,7 +1169,7 @@ void QuickstartPane::rebuild()
     backZone->fill = accent; // the card headers' green
     backZone->chev = m_theme->accentContrastText();
     m_backEdge = backZone;
-    m_backEdge->setFixedWidth(ScaleWidthForDPI(26) + ScaleHeightForDPI(14));
+    m_backEdge->setFixedWidth(uiScale().x(26) + uiScale().y(14));
     m_backEdge->setFocusPolicy(Qt::NoFocus);
     m_backEdge->setAccessibleName(tr("Previous cards"));
     m_backEdge->installEventFilter(this);
@@ -1184,7 +1193,7 @@ void QuickstartPane::rebuild()
     connect(settle, &QTimer::timeout, this, [this] {
         if (!m_scroll)
             return;
-        const int step = cardWidth() + ScaleHeightForDPI(14);
+        const int step = cardWidth() + uiScale().y(14);
         QScrollBar* sb = m_scroll->horizontalScrollBar();
         const int p = qBound(0, qRound(double(sb->value()) / step), pageCount() - 1);
         // Same clamp goToPage applies, so an unreachable boundary can't make
@@ -1202,7 +1211,7 @@ void QuickstartPane::rebuild()
     // Carousel control on its own full-width row beneath the cards, centred.
     QWidget* navRow = new QWidget(rightSide);
     QHBoxLayout* navRowLay = new QHBoxLayout(navRow);
-    navRowLay->setContentsMargins(0, ScaleHeightForDPI(4), 0, ScaleHeightForDPI(6));
+    navRowLay->setContentsMargins(0, uiScale().y(4), 0, uiScale().y(6));
     navRowLay->addStretch(1);
     navRowLay->addWidget(nav);
     navRowLay->addStretch(1);
@@ -1222,8 +1231,8 @@ int QuickstartPane::rowsThatFit() const
 {
     if (!m_scroll || m_cardHeight <= 0)
         return 1;
-    const int gap = ScaleHeightForDPI(14);
-    const int marginsV = ScaleHeightForDPI(8) + ScaleHeightForDPI(14);
+    const int gap = uiScale().y(14);
+    const int marginsV = uiScale().y(8) + uiScale().y(14);
     const int vh = m_scroll->viewport()->height() - marginsV;
     int rows = qMax(1, (vh + gap) / (m_cardHeight + gap));
     if (m_cardCount > 0)
@@ -1235,9 +1244,9 @@ int QuickstartPane::cardsPerView() const
 {
     if (!m_scroll)
         return 1;
-    const int step = cardWidth() + ScaleHeightForDPI(14);
+    const int step = cardWidth() + uiScale().y(14);
     const int vw = m_scroll->viewport()->width();
-    return qMax(1, (vw + ScaleHeightForDPI(14)) / step);
+    return qMax(1, (vw + uiScale().y(14)) / step);
 }
 
 int QuickstartPane::pageCount() const
@@ -1268,7 +1277,7 @@ void QuickstartPane::rebuildDots()
     }
     // One dot per card; every card currently on screen lights accent, so the
     // lit run of dots shows how many cards are visible and where you are.
-    const int dot = ScaleHeightForDPI(10);
+    const int dot = uiScale().y(10);
     for (int i = 0; i < m_cardCount; ++i)
     {
         const int col = rows > 0 ? i / rows : i;
@@ -1301,8 +1310,8 @@ void QuickstartPane::updateBackEdge()
     BackZone* bz = static_cast<BackZone*>(m_backEdge);
     // Wash aligns with the cards' PAINTED extent: the frame reserves a 2px
     // transparent hover border top and bottom, so inset past it.
-    const int borderW = ScaleHeightForDPI(2);
-    bz->contentTop = ScaleHeightForDPI(8) + borderW;
+    const int borderW = uiScale().y(2);
+    bz->contentTop = uiScale().y(8) + borderW;
     bz->contentHeight = qMax(0, m_cardHeight - 2 * borderW);
     bz->setEnabled(canBack);
     bz->setCursor(canBack ? Qt::PointingHandCursor : Qt::ArrowCursor);
@@ -1331,8 +1340,8 @@ void QuickstartPane::updateCarousel()
 {
     if (!m_scroll || !m_cardGrid || !m_cardRow)
         return;
-    const int gap = ScaleHeightForDPI(14);
-    const int pad = ScaleHeightForDPI(14);
+    const int gap = uiScale().y(14);
+    const int pad = uiScale().y(14);
     const int step = cardWidth() + gap;
 
     // Use as many rows as fit the height, then page horizontally by columns.
@@ -1371,7 +1380,7 @@ void QuickstartPane::goToPage(int page)
 {
     if (!m_scroll)
         return;
-    const int step = cardWidth() + ScaleHeightForDPI(14);
+    const int step = cardWidth() + uiScale().y(14);
     const int pages = pageCount();
     m_pageIndex = qBound(0, page, pages - 1);
 
@@ -1452,9 +1461,9 @@ QPixmap QuickstartPane::cardDragPixmap(QWidget* frame) const
     const int textWD = fm.horizontalAdvance(fx.title);
 
     const int strokeD = qMax(1, qRound(2 * dpr));
-    const int radiusD = qRound(ScaleHeightForDPI(8) * dpr);
-    const int cpadD = qRound(ScaleHeightForDPI(12) * dpr);
-    const int titlePadD = qRound(ScaleHeightForDPI(6) * dpr);
+    const int radiusD = qRound(uiScale().y(8) * dpr);
+    const int cpadD = qRound(uiScale().y(12) * dpr);
+    const int titlePadD = qRound(uiScale().y(6) * dpr);
     const int borderTopD = titleHD / 2;
     const int titleX = strokeD + cpadD;
     const int WD = strokeD + cpadD + qMax(cwD, textWD + 2 * titlePadD) + cpadD + strokeD;
@@ -1511,7 +1520,7 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // No vertical margin so the icon buttons fill the bar top to bottom; the
     // drag handle sits flush in the top-left corner and Add flush in the
     // top-right (their outer corners rounded to match the card).
-    headerLayout->setContentsMargins(ScaleHeightForDPI(14), 0, 0, 0); // title padded on the left
+    headerLayout->setContentsMargins(uiScale().y(14), 0, 0, 0); // title padded on the left
     headerLayout->setSpacing(0);
     QLabel* heading = new QLabel(card.title, header);
     heading->setObjectName(QStringLiteral("qsCardTitle"));
@@ -1541,11 +1550,11 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     const QColor onAccent = m_theme->accentContrastText();
     // Fill the whole header-bar height: the title sets the bar height (measured
     // via the font above), so the buttons match it exactly.
-    const int btnH = heading->sizeHint().height() + ScaleHeightForDPI(22);
-    const int iconPx = ScaleHeightForDPI(24);
+    const int btnH = heading->sizeHint().height() + uiScale().y(22);
+    const int iconPx = uiScale().y(24);
     // Width snug around the glyph so the two icons sit close together (a wide
     // button padded the icons far apart); still a comfortable click target.
-    const int btnW = iconPx + ScaleHeightForDPI(14);
+    const int btnW = iconPx + uiScale().y(14);
     // Icon buttons: a white glyph on the accent bar. On hover the button fills
     // with the near-white code-body colour and the glyph flips to a dark
     // contrasting ink; a strong, legible contrast (done on Enter/Leave in the
@@ -1643,8 +1652,8 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // Grid so the scope can overlay the same cell as the code, pinned to
     // the bottom-right where the uniform code area leaves its slack.
     QGridLayout* bodyLayout = new QGridLayout(body);
-    const int pad = ScaleHeightForDPI(14);
-    bodyLayout->setContentsMargins(pad, ScaleHeightForDPI(10), pad, ScaleHeightForDPI(10));
+    const int pad = uiScale().y(14);
+    bodyLayout->setContentsMargins(pad, uiScale().y(10), pad, uiScale().y(10));
     cardLayout->addWidget(body);
 
     SonicPi::CodeColours colours;
@@ -1695,8 +1704,8 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // Footer: the description filling the left, a full-height scope on the
     // right (the Run/Add buttons live in the header).
     QHBoxLayout* footerLayout = new QHBoxLayout(footer);
-    footerLayout->setContentsMargins(pad, ScaleHeightForDPI(8), pad, ScaleHeightForDPI(8));
-    footerLayout->setSpacing(ScaleHeightForDPI(12));
+    footerLayout->setContentsMargins(pad, uiScale().y(8), pad, uiScale().y(8));
+    footerLayout->setSpacing(uiScale().y(12));
 
     // Italic description at the code's size. Top-aligned so every card's
     // description starts at the same spot however many lines it wraps to.
@@ -1713,7 +1722,7 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // whole region reads as the control, so the click/hover target must not
     // stop at the drawn rings.
     QWidget* scopeHit = new QWidget(footer);
-    const int hitSide = m_footerH - 2 * ScaleHeightForDPI(8); // footer inner height
+    const int hitSide = m_footerH - 2 * uiScale().y(8); // footer inner height
     scopeHit->setFixedSize(hitSide, hitSide);
     QGridLayout* hitLay = new QGridLayout(scopeHit);
     hitLay->setContentsMargins(0, 0, 0, 0);

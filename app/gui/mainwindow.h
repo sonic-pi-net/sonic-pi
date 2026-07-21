@@ -732,6 +732,7 @@ private:
     void updateHelpCloseIcon();               // (re)renders the ✕ for the current theme
     QList<QAction*> docsFilterSearchActions;  // leading magnifier glyph in each docs filter field
     void updateDocsFilterIcons();             // (re)tints the magnifiers for the current theme
+    void applyDocsNavZoom();                  // scales the topic lists/filters to the docs A-/A+ step
     void updateDocsNavMinWidth();             // keeps the Tutorial/Examples/… chips un-squashed
     void ensureDocsSelection();               // current docs tab always has a selected page
     bool infoPanesDirty = true;               // info html needs re-render (styles changed while hidden)

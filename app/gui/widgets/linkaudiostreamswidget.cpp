@@ -12,6 +12,7 @@
 #include "linkvisibilitytoggle.h"
 #include "api/sonicpi_api.h"
 #include "dpi.h"
+#include "utils/fontroles.h"
 
 #include <QCheckBox>
 #include <QFormLayout>
@@ -190,6 +191,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     auto makeSectionLabel = [this](const QString& text) {
         auto* l = new QLabel(text.toUpper(), this);
         l->setObjectName("linkSectionLabel");  // subordinate to the widget title
+        ApplyFontRole(l, FontRole::Tiny);
         l->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         return l;
     };
@@ -325,6 +327,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     m_peersTable->setFocusPolicy(Qt::StrongFocus);
     m_peersTable->setAccessibleName(tr("Link Audio peers"));
     m_peersTable->setObjectName("linkPeersTable");
+    ApplyFontRole(m_peersTable, FontRole::Small);
     m_peersTable->setShowGrid(false);
     m_peersTable->setAlternatingRowColors(true);
     // Colour / padding driven by app.qss.

@@ -120,6 +120,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "utils/ruby_help.h"
 
 #include "dpi.h"
+#include "utils/fontroles.h"
 
 // Operating System Specific includes
 #if defined(Q_OS_WIN)
@@ -268,6 +269,8 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
     // be found in ruby_help.h:
     std::cout << "[GUI] - initialising documentation window" << std::endl;
     initDocsWindow();
+    // The lists only exist now, so the zoom restored above hasn't reached them.
+    applyDocsNavZoom();
     updateDocsNavMinWidth();
 
 
@@ -702,6 +705,8 @@ void MainWindow::setupWindowStructure()
 
     scopeWindow->Pause();
     scopeWindow->setObjectName("scopes");
+    // Scope chrome sits a step below body text (was `*#scopes { font-size: small }`).
+    ApplyFontRole(scopeWindow, FontRole::Small);
 
     restoreScopeState(scopeWindow->GetScopeCategories());
     settingsWidget->updateScopeNames(scopeWindow->GetScopeCategories());
@@ -949,6 +954,13 @@ void MainWindow::setupWindowStructure()
 
     tutorialPane = new TutorialPane(lexer, theme);
     tutorialPane->setAudioApi(m_spAPI);
+    // The A-/A+ bar governs the whole help tab, not just the content pane:
+    // the topic lists and their filter fields scale with it too, so someone
+    // who needs larger text can actually read the list they navigate with.
+    connect(tutorialPane, &TutorialPane::zoomChanged, this, [this](int zoom) {
+        gui_settings->setValue("prefs/docs-zoom", zoom);
+        applyDocsNavZoom();
+    });
     tutorialPane->setUserZoom(gui_settings->value("prefs/docs-zoom", 0).toInt());
 
     // Stack rather than a third splitter pane: QSplitter restores persisted
@@ -1364,6 +1376,7 @@ void MainWindow::namedTitleBars()
     auto makeDockTitle = [](QDockWidget* dock) {
         auto* l = new QLabel(dock->windowTitle().toUpper());
         l->setObjectName("paneTitle");
+        ApplyFontRole(l, FontRole::PaneTitle);
         l->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         return l;
     };
@@ -1391,6 +1404,7 @@ QWidget* MainWindow::makeControlTitleBar(const QString& title, QLabel*& outLabel
     layout->setSpacing(ScaleWidthForDPI(4));
     outLabel = new QLabel(title.toUpper(), bar);
     outLabel->setObjectName("paneTitle");
+        ApplyFontRole(outLabel, FontRole::PaneTitle);
     outLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     layout->addWidget(outLabel);
     layout->addStretch(1);
@@ -3026,6 +3040,44 @@ void MainWindow::updateDocsFilterIcons()
         action->setIcon(icon);
 }
 
+// Scale the whole docs nav column — topic lists, filter fields and the
+// Tutorial / Examples / Synths / … chips — to the pane's A-/A+ step. The
+// lists are the primary way round the help, so leaving them at the resting
+// size while the content pane grows makes large-text users navigate with text
+// they can't read.
+//
+// With no font-size left in app.qss (see utils/fontroles.h) this is just a
+// setFont per widget; it used to need a different mechanism per widget
+// depending on which stylesheet rule happened to match.
+void MainWindow::applyDocsNavZoom()
+{
+    if (!tutorialPane || !docsNavTabs)
+        return;
+    const double scale = tutorialPane->fontScale();
+    const UiScale ui(scale);
+
+    for (QListWidget* list : helpLists)
+    {
+        ApplyFontRole(list, FontRole::Base, scale);
+        // Re-triggers the delayed items layout so the pill rows pick up their
+        // new heights (setFont alone leaves the delegate's cached hints).
+        list->setSpacing(ui.y(1));
+    }
+    for (QLineEdit* filter : docsNavTabs->findChildren<QLineEdit*>("docsFilter"))
+        ApplyFontRole(filter, FontRole::Base, scale);
+    ApplyFontRole(docsNavTabs->tabBar(), FontRole::Base, scale);
+
+    // Chip padding is fixed dx in the stylesheet — scale it too, or the larger
+    // label pinches inside an unchanged chip.
+    docsNavTabs->setStyleSheet(
+        QStringLiteral("QTabWidget#docsNavTabs > QTabBar::tab {"
+                       " padding-top: %1px; padding-bottom: %1px;"
+                       " padding-left: %2px; padding-right: %2px; }")
+            .arg(ui.y(3))
+            .arg(ui.x(9)));
+    updateDocsNavMinWidth();
+}
+
 void MainWindow::updateDocsNavMinWidth()
 {
     // The Tutorial / Examples / … chips must never collapse into scroll
@@ -4151,6 +4203,7 @@ void MainWindow::updateColourTheme()
                                         theme->color("ScrollBarHover"));
     updateHelpCloseIcon();   // re-tint the help ✕ for the new theme
     updateDocsFilterIcons(); // re-tint the docs filter magnifiers too
+    applyDocsNavZoom();      // reassert the zoom over the freshly applied qss
     updateDocsNavMinWidth(); // chip metrics may have changed with the theme
     update();   // repaint separators with the new colours
 

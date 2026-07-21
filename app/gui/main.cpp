@@ -25,6 +25,7 @@
 #include <QThread>
 
 #include "utils/dividerproxystyle.h"
+#include "utils/fontroles.h"
 
 #include "mainwindow.h"
 
@@ -94,6 +95,13 @@ int main(int argc, char* argv[])
     if (app.arguments().contains(QStringLiteral("--selftest-accessibility")))
         return SonicPi::runAccessibilitySelfTest();
 #endif
+
+    // The GUI's base type size. app.qss used to set `font-size: medium` on a
+    // dozen widget types to say exactly this; carrying it on the application
+    // font instead means those widgets inherit it, and — crucially — that a
+    // pane's A-/A+ can override it with setFont() (a stylesheet font-size
+    // cannot be overridden that way). See utils/fontroles.h.
+    app.setFont(RoleFont(FontRole::Base));
 
     // Registered before the splash is built so its strapline gets Hack.
     QFontDatabase::addApplicationFont(":/fonts/Hack-Regular.ttf");

@@ -15,6 +15,7 @@
 #include "tutorialwidgets.h"
 #include "tutscope.h"
 #include "dpi.h"
+#include "utils/fontroles.h"
 #include "model/sonicpitheme.h"
 #include "sonicpiscintilla.h"
 #include "utils/instrument_icons.h"
@@ -179,10 +180,11 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     // help dock's title row beside the HELP title (MainWindow places the
     // widget), like the Cards/Logs/Debug tabs' bars.
     m_zoomBar = new ZoomBar(m_theme, tr("documentation"), this);
-    connect(m_zoomBar, &ZoomBar::zoomStep, this, [this](int delta) {
-        m_userZoom = qBound(-4, m_userZoom + delta, 8);
-        applySizing();
-    });
+    // Through setUserZoom, not around it: it owns the clamp and the
+    // already-at-that-zoom guard, so pressing A+ at the ceiling is a no-op
+    // instead of rebuilding the page and resetting the scroll every time.
+    connect(m_zoomBar, &ZoomBar::zoomStep, this,
+            [this](int delta) { setUserZoom(m_userZoom + delta); });
 
     m_scroll = new QScrollArea(this);
     m_scroll->setWidgetResizable(true);
@@ -201,9 +203,9 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     // playground can use the full width.
     QWidget* columnWidget = new QWidget(m_content);
     m_column = new QVBoxLayout(columnWidget);
-    int inset = ScaleWidthForDPI(22);
-    m_column->setContentsMargins(inset, ScaleHeightForDPI(18), inset, ScaleHeightForDPI(26));
-    m_column->setSpacing(ScaleHeightForDPI(12));
+    int inset = sx(22);
+    m_column->setContentsMargins(inset, sy(18), inset, sy(26));
+    m_column->setSpacing(sy(12));
 
     QHBoxLayout* contentRow = new QHBoxLayout(m_content);
     contentRow->setContentsMargins(0, 0, 0, 0);
@@ -217,9 +219,9 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     // Examples full-file page: shell built now, the editor lazily on first use
     m_examplePage = new QWidget(this);
     QVBoxLayout* examplePage = new QVBoxLayout(m_examplePage);
-    int exInset = ScaleWidthForDPI(22);
-    examplePage->setContentsMargins(exInset, ScaleHeightForDPI(12), exInset, ScaleHeightForDPI(12));
-    examplePage->setSpacing(ScaleHeightForDPI(10));
+    int exInset = sx(22);
+    examplePage->setContentsMargins(exInset, sy(12), exInset, sy(12));
+    examplePage->setSpacing(sy(10));
     m_exampleTitle = new QLabel(m_examplePage);
     m_exampleTitle->setObjectName("tutH1");
     m_exampleTitle->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -228,12 +230,12 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     m_exampleFrame->setObjectName("tutCodeFrame");
     m_exampleFrame->setProperty("playing", false);
     m_exampleFrameLayout = new QVBoxLayout(m_exampleFrame);
-    int exPad = ScaleWidthForDPI(10);
+    int exPad = sx(10);
     m_exampleFrameLayout->setContentsMargins(exPad, exPad, exPad, exPad);
-    m_exampleFrameLayout->setSpacing(ScaleHeightForDPI(4));
+    m_exampleFrameLayout->setSpacing(sy(4));
     QHBoxLayout* exampleControls = new QHBoxLayout();
     exampleControls->setContentsMargins(0, 0, 0, 0);
-    exampleControls->setSpacing(ScaleWidthForDPI(8));
+    exampleControls->setSpacing(sx(8));
     // Jukebox transport (sits above the code): a filled play toggle that
     // flips to a filled stop while the example runs (only one example ever
     // plays at a time), a Load glyph that drops the code into the current
@@ -251,8 +253,8 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     m_exampleLoad->setAccessibleName(tr("Load example into buffer"));
     for (QPushButton* b : { m_examplePlay, m_exampleLoad })
     {
-        b->setFixedSize(ScaleForDPI(40, 40));
-        b->setIconSize(ScaleForDPI(24, 24));
+        b->setFixedSize(QSize(sx(40), sy(40)));
+        b->setIconSize(QSize(sx(24), sy(24)));
         b->setCursor(Qt::PointingHandCursor);
     }
     // Scope fills the width right of the buttons; the stretch spacer carries a
@@ -261,8 +263,8 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     // taller transport row.
     m_exampleScope = new TutScope(m_exampleFrame);
     m_exampleScope->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    m_exampleScope->setMinimumWidth(ScaleWidthForDPI(160));
-    m_exampleScope->setFixedHeight(ScaleHeightForDPI(46));
+    m_exampleScope->setMinimumWidth(sx(160));
+    m_exampleScope->setFixedHeight(sy(46));
     // Permanent fixture (flat midline while idle) so starting a run doesn't
     // resize the transport row and shove the code down.
     exampleControls->addWidget(m_examplePlay);
@@ -319,8 +321,9 @@ void TutorialPane::loadChapter(const SonicPi::TutorialChapter& chapter, const QS
     m_imagesRoot = imagesRoot;
     m_prevTitle = prevTitle;
     m_nextTitle = nextTitle;
+    m_pageKind = PageKind::Chapter;
     rebuild();
-    emit announceRequested(chapter.title);
+    announcePage(chapter.title);
 }
 
 void TutorialPane::showCodePage(const QString& title, const QString& code)
@@ -329,6 +332,9 @@ void TutorialPane::showCodePage(const QString& title, const QString& code)
     m_chapter = SonicPi::TutorialChapter();
     m_prevTitle.clear();
     m_nextTitle.clear();
+    m_pageKind = PageKind::Code;
+    m_codePageTitle = title;
+    m_codePageCode = code;
 
     ensureExampleEditor();
     m_exampleTitle->setText(title);
@@ -346,7 +352,16 @@ void TutorialPane::showCodePage(const QString& title, const QString& code)
 
     m_scroll->hide();
     m_examplePage->show();
-    emit announceRequested(title);
+    announcePage(title);
+}
+
+// Page titles are announced on navigation only. A zoom step rebuilds the
+// same page, and re-reading the title each time A+ is pressed would bury the
+// zoom feedback the ZoomBar itself announces.
+void TutorialPane::announcePage(const QString& title)
+{
+    if (!m_redisplaying)
+        emit announceRequested(title);
 }
 
 bool TutorialPane::playFirstSnippet()
@@ -369,12 +384,14 @@ void TutorialPane::endPage(const QString& announceTitle)
 {
     m_column->addStretch(1);
     m_scroll->verticalScrollBar()->setValue(0);
-    emit announceRequested(announceTitle);
+    announcePage(announceTitle);
 }
 
 void TutorialPane::showSampleGroupPage(const SonicPi::SampleGroup& group)
 {
     beginPage();
+    m_pageKind = PageKind::SampleGroup;
+    m_sampleGroupPage = group;
     addHeading(1, group.title);
     for (const QString& sample : group.samples)
         addSnippet("sample :" + sample);
@@ -384,6 +401,8 @@ void TutorialPane::showSampleGroupPage(const SonicPi::SampleGroup& group)
 void TutorialPane::showLangPage(const SonicPi::LangPage& page)
 {
     beginPage();
+    m_pageKind = PageKind::Lang;
+    m_langPage = page;
     addHeading(1, page.key);
     if (!page.summary.isEmpty())
     {
@@ -422,6 +441,8 @@ void TutorialPane::showLangPage(const SonicPi::LangPage& page)
 void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& page)
 {
     beginPage();
+    m_pageKind = PageKind::Instrument;
+    m_instrumentPage = page;
     m_pageIsFx = isFx;
     m_pageName = page.key;
 
@@ -443,16 +464,16 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     // (a squeeze pushed the snippet controls out under the card border).
     playground->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     QVBoxLayout* playLayout = new QVBoxLayout(playground);
-    int playPad = ScaleWidthForDPI(12);
-    playLayout->setContentsMargins(playPad, ScaleHeightForDPI(10), playPad, ScaleHeightForDPI(10));
-    playLayout->setSpacing(ScaleHeightForDPI(8));
+    int playPad = sx(12);
+    playLayout->setContentsMargins(playPad, sy(10), playPad, sy(10));
+    playLayout->setSpacing(sy(8));
 
     // Faceplate header inside the card: the instrument's glyph and name as
     // one left-aligned badge, like a hardware synth's silkscreened logo.
     QWidget* headerRow = new QWidget(playground);
     QHBoxLayout* header = new QHBoxLayout(headerRow);
     header->setContentsMargins(0, 0, 0, 0);
-    header->setSpacing(ScaleWidthForDPI(10));
+    header->setSpacing(sx(10));
     QLabel* icon = new QLabel(headerRow);
     icon->setObjectName("tutFxIcon");
     icon->setProperty("fxname", page.key);
@@ -473,8 +494,8 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     reset->setObjectName("tutReset");
     reset->setToolTip(tr("Reset all controls to their defaults"));
     reset->setAccessibleName(tr("Reset %1 controls").arg(title));
-    reset->setIconSize(ScaleForDPI(20, 20));
-    reset->setFixedSize(ScaleForDPI(28, 28));
+    reset->setIconSize(QSize(sx(20), sy(20)));
+    reset->setFixedSize(QSize(sx(28), sy(28)));
     reset->setCursor(Qt::PointingHandCursor);
     connect(reset, &QPushButton::clicked, this, [this]() {
         for (TutDial* dial : m_dials)
@@ -499,7 +520,7 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
 
     QWidget* dialsRow = new QWidget(playground);
     dialsRow->setObjectName("tutDials");
-    TutFlowLayout* dialFlow = new TutFlowLayout(ScaleWidthForDPI(4), ScaleHeightForDPI(6));
+    TutFlowLayout* dialFlow = new TutFlowLayout(sx(4), sy(6));
     dialsRow->setLayout(dialFlow);
 
     QColor dialFg = m_theme->color("Foreground");
@@ -509,7 +530,7 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     // Strong enough to read as a ring even at rest (0.18 washed out).
     QColor dialTrack = SonicPiTheme::blend(dialBg, dialFg, 0.28);
     reset->setIcon(TablerIcons::icon(TablerIcons::Glyph::Restore, dialMuted,
-                                     ScaleWidthForDPI(20), devicePixelRatioF()));
+                                     sx(20), devicePixelRatioF()));
 
     // Hardware-synth layout: dials cluster into labelled sections
     // (PITCH / ENVELOPE / FILTER / MOD / CHARACTER / OUT), each its own
@@ -549,9 +570,9 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
         QFrame* panel = new QFrame(dialsRow);
         panel->setObjectName("tutDialGroup");
         QVBoxLayout* panelLayout = new QVBoxLayout(panel);
-        panelLayout->setContentsMargins(ScaleWidthForDPI(6), ScaleHeightForDPI(2),
-                                        ScaleWidthForDPI(6), ScaleHeightForDPI(4));
-        panelLayout->setSpacing(ScaleHeightForDPI(2));
+        panelLayout->setContentsMargins(sx(6), sy(2),
+                                        sx(6), sy(4));
+        panelLayout->setSpacing(sy(2));
         QLabel* caption = new QLabel(QLatin1String(kGroupNames[g]), panel);
         caption->setObjectName("tutSection");
         caption->setAlignment(Qt::AlignHCenter);
@@ -570,13 +591,14 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
             {
                 QHBoxLayout* row = new QHBoxLayout();
                 row->setContentsMargins(0, 0, 0, 0);
-                row->setSpacing(ScaleWidthForDPI(2));
+                row->setSpacing(sx(2));
                 panelLayout->addLayout(row);
                 dialRows.append(row);
             }
             const SonicPi::InstrumentOpt& opt = groups[g][d];
             TutDial* dial = new TutDial(opt.name, opt.min, opt.max, opt.defaultNum, onChange,
                                         panel, opt.minExcl, opt.maxExcl);
+            dial->setUiScale(m_fontScale);   // painted widget: not reached by the pane qss
             dial->setColours(dialFg, dialMuted, dialAccent, dialTrack);
             dial->setDocText(opt.doc);   // hover popup: the opt's reference doc
             m_dials.append(dial);
@@ -614,7 +636,7 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     QWidget* pianoRow = new QWidget(playground);
     QHBoxLayout* pianoLayout = new QHBoxLayout(pianoRow);
     pianoLayout->setContentsMargins(0, 0, 0, 0);
-    pianoLayout->setSpacing(ScaleWidthForDPI(6));
+    pianoLayout->setSpacing(sx(6));
 
     addSnippet(QString(), true, playLayout, pianoLayout);
     // Reset joins Copy in the snippet's corner cluster.
@@ -624,19 +646,19 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
         QWidget* corner = new QWidget(demo.frame);
         QHBoxLayout* cornerRow = new QHBoxLayout(corner);
         cornerRow->setContentsMargins(0, 0, 0, 0);
-        cornerRow->setSpacing(ScaleWidthForDPI(2));
+        cornerRow->setSpacing(sx(2));
         demo.codeArea->removeWidget(demo.copy);
         cornerRow->addWidget(reset);
         cornerRow->addWidget(demo.copy);
         demo.codeArea->addWidget(corner, 0, 0, Qt::AlignTop | Qt::AlignRight);
     }
-    pianoLayout->addSpacing(ScaleWidthForDPI(12));
-    const int octIconPx = ScaleWidthForDPI(26);
+    pianoLayout->addSpacing(sx(12));
+    const int octIconPx = sx(26);
     const qreal octDpr = devicePixelRatioF();
     QPushButton* octDown = new QPushButton(pianoRow);
     octDown->setObjectName("tutOct");
     octDown->setProperty("octDir", -1);
-    octDown->setIconSize(ScaleForDPI(26, 26));
+    octDown->setIconSize(QSize(sx(26), sy(26)));
     octDown->setIcon(TablerIcons::icon(TablerIcons::Glyph::CircleMinus, dialMuted, octIconPx, octDpr));
     octDown->setToolTip(tr("Octave down (z)"));
     octDown->setAccessibleName(tr("Octave down"));
@@ -645,13 +667,14 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     QPushButton* octUp = new QPushButton(pianoRow);
     octUp->setObjectName("tutOct");
     octUp->setProperty("octDir", 1);
-    octUp->setIconSize(ScaleForDPI(26, 26));
+    octUp->setIconSize(QSize(sx(26), sy(26)));
     octUp->setIcon(TablerIcons::icon(TablerIcons::Glyph::CirclePlus, dialMuted, octIconPx, octDpr));
     octUp->setToolTip(tr("Octave up (x)"));
     octUp->setAccessibleName(tr("Octave up"));
     octUp->setCursor(Qt::PointingHandCursor);
     connect(octUp, &QPushButton::clicked, this, [this]() { shiftOctave(1); });
     m_piano = new TutPiano([this](int offset) { playKeyboardNote(offset); }, pianoRow);
+    m_piano->setUiScale(m_fontScale);
     m_piano->setColours(dialFg, dialBg, dialAccent, dialMuted);
     m_octaveLabel = new QLabel(pianoRow);
     m_octaveLabel->setObjectName("tutHint");
@@ -659,7 +682,9 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     pianoLayout->addWidget(m_piano, 1);   // keyboard grows into spare row width
     pianoLayout->addWidget(octUp, 0, Qt::AlignVCenter);
     pianoLayout->addWidget(m_octaveLabel, 0, Qt::AlignVCenter);
-    pianoLayout->addStretch(1);
+    // No trailing stretch: it carried the same factor as the keyboard, so the
+    // spare width split evenly between them and the board never got past half
+    // the row. Zooming then bought bigger keys at the cost of fewer octaves.
     playLayout->addWidget(pianoRow);
     shiftOctave(0);
 
@@ -673,12 +698,12 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
         QWidget* index = new QWidget(m_content);
         index->setObjectName("tutOptIndex");
         index->setAttribute(Qt::WA_StyledBackground, true);
-        index->setMaximumWidth(ScaleWidthForDPI(1200));
+        index->setMaximumWidth(sx(1200));
         QGridLayout* grid = new QGridLayout(index);
-        grid->setContentsMargins(ScaleWidthForDPI(10), ScaleHeightForDPI(6),
-                                 ScaleWidthForDPI(10), ScaleHeightForDPI(6));
-        grid->setHorizontalSpacing(ScaleWidthForDPI(22));
-        grid->setVerticalSpacing(ScaleHeightForDPI(2));
+        grid->setContentsMargins(sx(10), sy(6),
+                                 sx(10), sy(6));
+        grid->setHorizontalSpacing(sx(22));
+        grid->setVerticalSpacing(sy(2));
         const int kIndexCols = 4;
         int cellIndex = 0;
         for (const SonicPi::InstrumentOpt& opt : page.opts)
@@ -686,7 +711,7 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
             QWidget* cell = new QWidget(index);
             QHBoxLayout* cellRow = new QHBoxLayout(cell);
             cellRow->setContentsMargins(0, 0, 0, 0);
-            cellRow->setSpacing(ScaleWidthForDPI(5));
+            cellRow->setSpacing(sx(5));
             QPushButton* link = new QPushButton(opt.name + ":", cell);
             link->setObjectName("tutOptLink");
             link->setCursor(Qt::PointingHandCursor);
@@ -697,7 +722,7 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
                 if (!row)
                     return;
                 m_scroll->verticalScrollBar()->setValue(
-                    qMax(0, row->mapTo(m_content, QPoint(0, 0)).y() - ScaleHeightForDPI(8)));
+                    qMax(0, row->mapTo(m_content, QPoint(0, 0)).y() - sy(8)));
             });
             QLabel* def = new QLabel(opt.defaultText, cell);
             def->setObjectName("tutOptDefault");
@@ -1036,10 +1061,10 @@ void TutorialPane::openOptEditor(const QString& optName, const QPoint& globalPos
     editor->setObjectName("tutOptEditor");
     editor->setAccessibleName(tr("Edit %1").arg(optName));
     editor->setAlignment(Qt::AlignCenter);
-    editor->setFixedSize(ScaleWidthForDPI(70), ScaleHeightForDPI(26));
+    editor->setFixedSize(sx(70), sy(26));
     const QPoint local = mapFromGlobal(globalPos);
-    editor->move(qBound(0, local.x() - ScaleWidthForDPI(24), qMax(0, width() - editor->width())),
-                 qBound(0, local.y() - ScaleHeightForDPI(30), qMax(0, height() - editor->height())));
+    editor->move(qBound(0, local.x() - sx(24), qMax(0, width() - editor->width())),
+                 qBound(0, local.y() - sy(30), qMax(0, height() - editor->height())));
     editor->installEventFilter(this);   // Escape cancels (see eventFilter)
     QPointer<TutDial> dial(target);
     connect(editor, &QLineEdit::editingFinished, editor, [editor, dial]() {
@@ -1091,13 +1116,25 @@ void TutorialPane::rebuild()
 void TutorialPane::clearContent()
 {
     // Jukebox: an example only plays while its page is showing — stop it on the
-    // way out so at most one example is ever running
-    if (!m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay && m_snippets[0].jobId >= 0)
-        emit stopJobRequested(m_snippets[0].jobId);
+    // way out so at most one example is ever running. A zoom rebuild is not a
+    // way out: the same page comes straight back, so the run (and its scope)
+    // carries on and redisplayCurrentPage() reattaches the job id.
+    if (!m_redisplaying)
+    {
+        // Real navigation: drop any scroll position held for a zoom rebuild,
+        // so a restore still in flight can't scroll the incoming page.
+        m_pendingScrollFrac = -1.0;
+        if (!m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay
+            && m_snippets[0].jobId >= 0)
+            emit stopJobRequested(m_snippets[0].jobId);
+    }
     // The stop above is async; quiesce the scope now so it doesn't linger on
     // the next page (runEnded won't find the snippet once m_snippets is
-    // cleared). The panel itself stays — it's a permanent fixture.
-    if (m_exampleScope)
+    // cleared). The panel itself stays — it's a permanent fixture. The one
+    // case to leave it running is a zoom rebuild that is preserving a live run.
+    const bool keepingRunAlive =
+        m_redisplaying && !m_snippets.isEmpty() && m_snippets[0].jobId >= 0;
+    if (m_exampleScope && !keepingRunAlive)
         m_exampleScope->stop(false);
     m_snippets.clear();
     m_dials.clear();
@@ -1128,7 +1165,7 @@ void TutorialPane::addHeading(int level, const QString& text)
 {
     // Extra air above a heading so each section reads as its own group
     if (m_column->count() > 0)
-        m_column->addSpacing(ScaleHeightForDPI(level == 1 ? 12 : 8));
+        m_column->addSpacing(sy(level == 1 ? 12 : 8));
     QLabel* label = new QLabel(text, m_content);
     label->setObjectName(level == 1 ? "tutH1" : level == 2 ? "tutH2" : "tutH3");
     label->setWordWrap(true);
@@ -1141,7 +1178,7 @@ void TutorialPane::addProse(const QString& richText)
     TutProseText* label = new TutProseText(m_content);
     // Readable measure: prose wraps at a comfortable line length even when
     // the pane (and the interactive cards) run much wider.
-    label->setMaximumWidth(ScaleWidthForDPI(1200));
+    label->setMaximumWidth(sx(1200));
     label->setObjectName("tutProse");
     label->setProperty("mdtext", richText);
     label->setHtml(proseColoured(richText));
@@ -1174,7 +1211,7 @@ void TutorialPane::addImage(const SonicPi::TutorialBlock& block)
         pix = QPixmap(path);
         if (pix.isNull())
             return;
-        int maxW = ScaleWidthForDPI(560);
+        int maxW = sx(560);
         if (pix.width() > maxW)
             pix = pix.scaledToWidth(maxW, Qt::SmoothTransformation);
         cache.insert(path, pix);
@@ -1200,7 +1237,7 @@ void TutorialPane::addSnippet(const QString& code, bool runnable, QVBoxLayout* i
     // Standalone chapter/reference snippets share the prose measure; nested
     // playground snippets span their card.
     if (!into)
-        snippet.frame->setMaximumWidth(ScaleWidthForDPI(1200));
+        snippet.frame->setMaximumWidth(sx(1200));
     snippet.frame->setProperty("playing", false);
     // Nested inside another card: drop the card chrome (border/fill) and keep
     // only the playing tint, so cards don't stack inside cards.
@@ -1211,9 +1248,9 @@ void TutorialPane::addSnippet(const QString& code, bool runnable, QVBoxLayout* i
     QVBoxLayout* frameLayout = new QVBoxLayout(snippet.frame);
     // Nested snippets are a recessed text-area region; slightly tighter
     // padding than the standalone cards.
-    int pad = ScaleWidthForDPI(into ? 8 : 10);
+    int pad = sx(into ? 8 : 10);
     frameLayout->setContentsMargins(pad, pad, pad, pad);
-    frameLayout->setSpacing(ScaleHeightForDPI(4));
+    frameLayout->setSpacing(sy(4));
 
     // Same zero-margin text widget as prose, so the code's left edge lines up
     // exactly with the controls below it
@@ -1244,7 +1281,7 @@ void TutorialPane::addSnippet(const QString& code, bool runnable, QVBoxLayout* i
     {
         controls = new QHBoxLayout();
         controls->setContentsMargins(0, 0, 0, 0);
-        controls->setSpacing(ScaleWidthForDPI(4));
+        controls->setSpacing(sx(4));
     }
 
     int snippetNum = m_snippets.size() + 1;
@@ -1268,8 +1305,8 @@ void TutorialPane::addSnippet(const QString& code, bool runnable, QVBoxLayout* i
     // playground's trigger row, standard under chapter snippets. Copy is a
     // quiet glyph floating in the code area's corner.
     const bool bigTransport = transportInto != nullptr;
-    QSize buttonSize = bigTransport ? ScaleForDPI(56, 56) : ScaleForDPI(40, 40);
-    QSize glyphSize = bigTransport ? ScaleForDPI(44, 44) : ScaleForDPI(30, 30);
+    QSize buttonSize = bigTransport ? QSize(sx(56), sy(56)) : QSize(sx(40), sy(40));
+    QSize glyphSize = bigTransport ? QSize(sx(44), sy(44)) : QSize(sx(30), sy(30));
     snippet.play->setIcon(m_playIcon);
     snippet.stop->setIcon(m_stopIcon);
     for (QPushButton* b : { snippet.play, snippet.stop })
@@ -1279,8 +1316,8 @@ void TutorialPane::addSnippet(const QString& code, bool runnable, QVBoxLayout* i
         b->setCursor(Qt::PointingHandCursor);
     }
     snippet.copy->setIcon(m_copyIcon);
-    snippet.copy->setIconSize(ScaleForDPI(20, 20));
-    snippet.copy->setFixedSize(ScaleForDPI(28, 28));
+    snippet.copy->setIconSize(QSize(sx(20), sy(20)));
+    snippet.copy->setFixedSize(QSize(sx(28), sy(28)));
     snippet.copy->setCursor(Qt::PointingHandCursor);
     codeArea->addWidget(snippet.copy, 0, 0, Qt::AlignTop | Qt::AlignRight);
     // Syntax illustrations and output excerpts copy but don't play
@@ -1341,11 +1378,11 @@ void TutorialPane::addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts)
         nameW = qMax(nameW, nameMetrics.horizontalAdvance(opt.name + ":"));
         defW = qMax(defW, nameMetrics.horizontalAdvance(opt.defaultText));
     }
-    nameW += ScaleWidthForDPI(10);
-    defW += ScaleWidthForDPI(10);
+    nameW += sx(10);
+    defW += sx(10);
 
     QWidget* table = new QWidget(m_content);
-    table->setMaximumWidth(ScaleWidthForDPI(1200));   // shares the prose measure
+    table->setMaximumWidth(sx(1200));   // shares the prose measure
     table->setObjectName("tutOpts");
     QVBoxLayout* rows = new QVBoxLayout(table);
     rows->setContentsMargins(0, 0, 0, 0);
@@ -1359,9 +1396,9 @@ void TutorialPane::addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts)
         rowFrame->setProperty("alt", alt);
         alt = !alt;
         QHBoxLayout* row = new QHBoxLayout(rowFrame);
-        row->setContentsMargins(ScaleWidthForDPI(8), ScaleHeightForDPI(5),
-                                ScaleWidthForDPI(8), ScaleHeightForDPI(5));
-        row->setSpacing(ScaleWidthForDPI(10));
+        row->setContentsMargins(sx(8), sy(5),
+                                sx(8), sy(5));
+        row->setSpacing(sx(10));
 
         QLabel* name = new QLabel(opt.name + ":", rowFrame);
         name->setObjectName("tutOptName");
@@ -1376,8 +1413,8 @@ void TutorialPane::addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts)
         // Deterministic wrap width (its heightForWidth clamps to this), so
         // the row height always matches the rendered line count — layouts
         // sometimes query heights at the full row width otherwise.
-        doc->setMaximumWidth(ScaleWidthForDPI(1200) - nameW - defW
-                             - ScaleWidthForDPI(10) * 2 - ScaleWidthForDPI(8) * 2);
+        doc->setMaximumWidth(sx(1200) - nameW - defW
+                             - sx(10) * 2 - sx(8) * 2);
         // Backtick spans read as inline code (`60`, `:C2`), like the prose.
         QString docHtml = opt.doc.toHtmlEscaped();
         static const QRegularExpression ticks(QStringLiteral("`([^`]+)`"));
@@ -1406,7 +1443,7 @@ void TutorialPane::addNavFooter()
         return;
 
     QHBoxLayout* nav = new QHBoxLayout();
-    nav->setContentsMargins(0, ScaleHeightForDPI(10), 0, 0);
+    nav->setContentsMargins(0, sy(10), 0, 0);
 
     if (!m_prevTitle.isEmpty())
     {
@@ -1538,19 +1575,174 @@ bool TutorialPane::eventFilter(QObject* obj, QEvent* event)
 
 void TutorialPane::setUserZoom(int zoom)
 {
-    zoom = qBound(-4, zoom, 8);
+    zoom = qBound(kFontZoomMin, zoom, kFontZoomMax);
     if (zoom == m_userZoom)
         return;
     m_userZoom = zoom;
     applySizing();
 }
 
+// Content metrics: the DPI scale the whole GUI uses, times the pane's own
+// text zoom. Rounded through the DPI helper first so the 1x case is
+// bit-identical to the plain ScaleWidthForDPI these replaced.
+int TutorialPane::sx(int px) const
+{
+    return UiScale(m_fontScale).x(px);
+}
+
+int TutorialPane::sy(int px) const
+{
+    return UiScale(m_fontScale).y(px);
+}
+
 void TutorialPane::applySizing()
 {
-    m_fontScale = qBound(0.5, std::pow(1.1, m_userZoom), 3.0);
+    m_fontScale = FontZoomFactor(m_userZoom);
     if (m_exampleEditor)
         m_exampleEditor->zoomTo(kExampleZoom + m_userZoom);
+    applyShellSizing();
     applyTheme();
+    // Column widths, card padding and dial geometry are all computed while a
+    // page is being built, so restyling alone leaves them at the old zoom's
+    // measurements — rebuild the page to pick the new ones up.
+    redisplayCurrentPage();
+    emit zoomChanged(m_userZoom);
+}
+
+// Margins and spacing on the long-lived containers (built once in the ctor,
+// so they miss the per-page rebuild).
+void TutorialPane::applyShellSizing()
+{
+    const int inset = sx(22);
+    m_column->setContentsMargins(inset, sy(18), inset, sy(26));
+    m_column->setSpacing(sy(12));
+
+    if (QLayout* examplePage = m_examplePage->layout())
+    {
+        const int exInset = sx(22);
+        examplePage->setContentsMargins(exInset, sy(12), exInset, sy(12));
+        examplePage->setSpacing(sy(10));
+    }
+    if (m_exampleFrameLayout)
+    {
+        const int exPad = sx(10);
+        m_exampleFrameLayout->setContentsMargins(exPad, sy(8), exPad, sy(8));
+        m_exampleFrameLayout->setSpacing(sy(4));
+    }
+    for (QPushButton* b : { m_examplePlay, m_exampleLoad })
+    {
+        if (!b)
+            continue;
+        b->setFixedSize(sx(40), sy(40));
+        b->setIconSize(QSize(sx(24), sy(24)));
+    }
+    if (m_exampleScope)
+    {
+        m_exampleScope->setMinimumWidth(sx(160));
+        m_exampleScope->setFixedHeight(sy(46));
+    }
+}
+
+// Rebuild the visible page from its stored source. Dial values and the
+// scroll offset survive the round trip so a zoom step reads as the text
+// growing, not as the page resetting under the reader.
+void TutorialPane::redisplayCurrentPage()
+{
+    if (m_pageKind == PageKind::None)
+        return;
+
+    // Scroll as a fraction: the rebuilt page is a different height, so the
+    // raw offset would land somewhere unrelated. Only sample it when no
+    // restore is already outstanding — mid-flight the bar reads 0 (endPage
+    // reset it), so a second zoom step would capture that and lose the place.
+    QScrollBar* bar = m_scroll->verticalScrollBar();
+    if (m_pendingScrollFrac < 0.0)
+        m_pendingScrollFrac = bar->maximum() > 0
+                                  ? double(bar->value()) / double(bar->maximum())
+                                  : 0.0;
+    QHash<QString, double> dialValues;
+    for (TutDial* dial : m_dials)
+        dialValues.insert(dial->optName(), dial->value());
+    const int octave = m_octave;
+    // Anything mid-run keeps running: the rebuild is deterministic for a given
+    // page, so job ids reattach by snippet index and the stop buttons — and
+    // runEnded — still find their snippet.
+    QVector<int> jobIds;
+    QVector<QString> workspaces;
+    for (const Snippet& snippet : m_snippets)
+    {
+        jobIds.append(snippet.jobId);
+        workspaces.append(snippet.workspace);
+    }
+
+    // The show* calls below re-store their argument into the very member it
+    // came from, so hand them copies rather than aliases of pane state.
+    m_redisplaying = true;
+    switch (m_pageKind)
+    {
+    case PageKind::Chapter:
+        rebuild();
+        break;
+    case PageKind::Code:
+        showCodePage(QString(m_codePageTitle), QString(m_codePageCode));
+        break;
+    case PageKind::Instrument:
+        showInstrumentPage(m_pageIsFx, SonicPi::InstrumentPage(m_instrumentPage));
+        break;
+    case PageKind::SampleGroup:
+        showSampleGroupPage(SonicPi::SampleGroup(m_sampleGroupPage));
+        break;
+    case PageKind::Lang:
+        showLangPage(SonicPi::LangPage(m_langPage));
+        break;
+    case PageKind::None:
+        m_redisplaying = false;
+        return;
+    }
+    m_redisplaying = false;
+
+    for (int i = 0; i < m_snippets.size() && i < jobIds.size(); i++)
+    {
+        if (jobIds[i] < 0)
+            continue;
+        m_snippets[i].jobId = jobIds[i];
+        // The fresh build minted a new workspace name; keep the one the
+        // running job was launched under so runEnded still matches.
+        m_snippets[i].workspace = workspaces[i];
+        setSnippetPlaying(m_snippets[i], true);
+    }
+
+    m_octave = octave;
+    bool restored = false;
+    for (TutDial* dial : m_dials)
+    {
+        auto it = dialValues.constFind(dial->optName());
+        if (it != dialValues.constEnd() && !qFuzzyCompare(*it + 1.0, dial->value() + 1.0))
+        {
+            dial->setValue(*it, false);
+            restored = true;
+        }
+    }
+    if (restored)
+        regenerateInstrumentCode();
+
+    // After the layout has settled, or maximum() is still the old page's. One
+    // restore in flight at a time; holding A+ coalesces onto the fraction
+    // sampled before the first step, which is the position the reader had.
+    // `this` as the context object cancels it if the pane goes away.
+    if (!m_scrollRestoreQueued)
+    {
+        m_scrollRestoreQueued = true;
+        QTimer::singleShot(0, this, [this]() {
+            m_scrollRestoreQueued = false;
+            const double frac = m_pendingScrollFrac;
+            m_pendingScrollFrac = -1.0;
+            if (frac < 0.0)
+                return;
+            QScrollBar* bar = m_scroll->verticalScrollBar();
+            bar->setValue(qRound(frac * bar->maximum()));
+        });
+    }
 }
 
 QString TutorialPane::proseColoured(const QString& richText) const
@@ -1678,7 +1870,9 @@ void TutorialPane::applyTheme()
     };
     for (const auto& sub : subs)
         qss.replace(QLatin1String(sub.token), sub.value);
-    setStyleSheet(ScalePxInStyleSheet(qss));
+    // dx metrics ride the pane zoom too, so card padding and border radii keep
+    // their proportion to the type rather than pinching it at large sizes.
+    setStyleSheet(ScalePxInStyleSheet(qss, m_fontScale));
 
     applyContentTheme();
 }
@@ -1724,18 +1918,18 @@ void TutorialPane::applyContentTheme()
         QIcon icon;
         for (int side : { 30, 44 })
             icon.addPixmap(TablerIcons::discBadge(glyph, disc, m_theme->contrastingText(disc),
-                                                  ScaleWidthForDPI(side), dpr));
+                                                  sx(side), dpr));
         return icon;
     };
     m_playIcon = discIcon(TablerIcons::Glyph::PlayFilled, accent);
     m_stopIcon = discIcon(TablerIcons::Glyph::StopFilled, fg);
-    m_copyIcon = TablerIcons::icon(TablerIcons::Glyph::Copy, muted, ScaleWidthForDPI(24), dpr);
-    m_copiedIcon = TablerIcons::icon(TablerIcons::Glyph::Check, accent, ScaleWidthForDPI(24), dpr);
+    m_copyIcon = TablerIcons::icon(TablerIcons::Glyph::Copy, muted, sx(24), dpr);
+    m_copiedIcon = TablerIcons::icon(TablerIcons::Glyph::Check, accent, sx(24), dpr);
     // Jukebox transport: filled glyphs on the tabler 24 grid, both in the
     // accent so stop reads as the same transport the play started (the thin
     // outline square looked like a broken checkbox). Load (an upload into
     // the buffer) stays tinted like the other quiet flat controls.
-    const int exGlyphPx = ScaleWidthForDPI(24);
+    const int exGlyphPx = sx(24);
     m_exPlayIcon = TablerIcons::icon(TablerIcons::Glyph::PlayFilled, accent, exGlyphPx, dpr);
     m_exStopIcon = TablerIcons::icon(TablerIcons::Glyph::StopFilled, accent, exGlyphPx, dpr);
     if (m_exampleLoad)
@@ -1743,12 +1937,12 @@ void TutorialPane::applyContentTheme()
             TablerIcons::icon(TablerIcons::Glyph::Upload, muted, exGlyphPx, dpr));
     // Re-tint the per-page glyph icons (Reset / octave −+) for the new theme.
     for (QPushButton* b : m_content->findChildren<QPushButton*>("tutReset"))
-        b->setIcon(TablerIcons::icon(TablerIcons::Glyph::Restore, muted, ScaleWidthForDPI(20), dpr));
+        b->setIcon(TablerIcons::icon(TablerIcons::Glyph::Restore, muted, sx(20), dpr));
     for (QPushButton* b : m_content->findChildren<QPushButton*>("tutOct"))
         b->setIcon(TablerIcons::icon(b->property("octDir").toInt() < 0
                                          ? TablerIcons::Glyph::CircleMinus
                                          : TablerIcons::Glyph::CirclePlus,
-                                     muted, ScaleWidthForDPI(26), dpr));
+                                     muted, sx(26), dpr));
     for (Snippet& snippet : m_snippets)
     {
         if (snippet.codeView)
@@ -1780,9 +1974,15 @@ void TutorialPane::applyContentTheme()
 
     QColor dialTrack = SonicPiTheme::blend(editorBg, fg, 0.28);
     for (TutDial* dial : m_dials)
+    {
+        dial->setUiScale(m_fontScale);
         dial->setColours(fg, muted, accent, dialTrack);
+    }
     if (m_piano)
+    {
+        m_piano->setUiScale(m_fontScale);
         m_piano->setColours(fg, editorBg, accent, muted);
+    }
 
     const QList<QLabel*> icons = m_content->findChildren<QLabel*>("tutFxIcon");
     for (QLabel* iconLabel : icons)
@@ -1804,7 +2004,7 @@ void TutorialPane::renderFxIcon(QLabel* iconLabel)
         instrumentIconSvg(isFx, iconLabel->property("fxname").toString(), colour).toUtf8());
     // Badge-sized: sits beside the name at roughly its cap height, not a
     // banner illustration.
-    QSize size = ScaleForDPI(56, 32);
+    QSize size = QSize(sx(56), sy(32));
     qreal dpr = devicePixelRatioF();
     QPixmap pix(size * dpr);
     pix.fill(Qt::transparent);

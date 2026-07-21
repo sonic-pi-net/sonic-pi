@@ -318,7 +318,7 @@ void ScopeWindow::DrawSpectrumAnalysis(const ProcessedAudio& audio, QPainter& pa
         painter.save();
         painter.setPen(tickColor);
         QFont tickFont = painter.font();
-        tickFont.setPointSizeF(tickFont.pointSizeF() * 0.75);
+        SetFontSizeValue(tickFont, FontSizeValue(tickFont) * 0.75);
         painter.setFont(tickFont);
         int w = ScaleWidthForDPI(40);
         int h = ScaleHeightForDPI(14);

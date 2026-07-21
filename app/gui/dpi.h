@@ -1,8 +1,11 @@
 #pragma once
 
 #include <QGuiApplication>
+#include <QFont>
 #include <QScreen>
 #include <QRegularExpression>
+
+#include <cmath>
 
 // House corner radius (in dx) for pill-shaped controls: the docs/info nav
 // chips, the card-deck selector pills, the docs filter field and the pill
@@ -80,70 +83,200 @@ inline int ScaleWidthForDPI(int x)
   return (scale.width() * x) + 1;
 }
 
-inline QString ScalePxInStyleSheet(QString style)
+// ── Type scale ───────────────────────────────────────────────────────────
+// The GUI's font sizes, and the one zoom curve every A-/A+ control uses.
+//
+// These live here rather than in app.qss because a stylesheet `font-size`
+// silently beats setFont(), which made per-pane text zoom undiscoverable: a
+// widget was scalable or not depending on whether some unrelated rule
+// happened to match it. With no font-size in the stylesheet, setFont() is
+// always the answer and a pane's zoom composes by construction.
+//
+// The stylesheet's `small`/`medium`/… keywords resolve through this same
+// table (see ScalePxInStyleSheet below), so there is one set of numbers.
+enum class FontRole
 {
+    Tiny,      // 9px: the Link widget's per-control section labels
+    PaneTitle, // 11px Hack: DEBUG / TO SUPERSONIC / … strip titles
+    Small,     // subordinate notes, scope labels, dock chrome
+    Base,      // the app default — every ordinary label, button and field
+    Large,
+    XLarge,
+    XXLarge,
+    Arrow, // the cards deck's chevron glyphs
+};
 
-  // TODO: Need to figure out a nicer way to do all this in one pass.
-  // My c++ fu doesn't currently rise to the challenge
-  style = style.replace(QRegularExpression(":\\s*1dx"), QString(": %1px").arg(ScaleHeightForDPI(1)));
-  style = style.replace(QRegularExpression(":\\s*2dx"), QString(": %1px").arg(ScaleHeightForDPI(2)));
-  style = style.replace(QRegularExpression(":\\s*3dx"), QString(": %1px").arg(ScaleHeightForDPI(3)));
-  style = style.replace(QRegularExpression(":\\s*4dx"), QString(": %1px").arg(ScaleHeightForDPI(4)));
-  style = style.replace(QRegularExpression(":\\s*5dx"), QString(": %1px").arg(ScaleHeightForDPI(5)));
-  style = style.replace(QRegularExpression(":\\s*6dx"), QString(": %1px").arg(ScaleHeightForDPI(6)));
-  style = style.replace(QRegularExpression(":\\s*7dx"), QString(": %1px").arg(ScaleHeightForDPI(7)));
-  style = style.replace(QRegularExpression(":\\s*8dx"), QString(": %1px").arg(ScaleHeightForDPI(8)));
-  style = style.replace(QRegularExpression(":\\s*9dx"), QString(": %1px").arg(ScaleHeightForDPI(9)));
-  style = style.replace(QRegularExpression(":\\s*10dx"), QString(": %1px").arg(ScaleHeightForDPI(10)));
-  style = style.replace(QRegularExpression(":\\s*11dx"), QString(": %1px").arg(ScaleHeightForDPI(11)));
-  style = style.replace(QRegularExpression(":\\s*12dx"), QString(": %1px").arg(ScaleHeightForDPI(12)));
-  style = style.replace(QRegularExpression(":\\s*13dx"), QString(": %1px").arg(ScaleHeightForDPI(13)));
-  style = style.replace(QRegularExpression(":\\s*14dx"), QString(": %1px").arg(ScaleHeightForDPI(14)));
-  style = style.replace(QRegularExpression(":\\s*15dx"), QString(": %1px").arg(ScaleHeightForDPI(15)));
-  style = style.replace(QRegularExpression(":\\s*16dx"), QString(": %1px").arg(ScaleHeightForDPI(16)));
-  style = style.replace(QRegularExpression(":\\s*17dx"), QString(": %1px").arg(ScaleHeightForDPI(17)));
-  style = style.replace(QRegularExpression(":\\s*18dx"), QString(": %1px").arg(ScaleHeightForDPI(18)));
-  style = style.replace(QRegularExpression(":\\s*19dx"), QString(": %1px").arg(ScaleHeightForDPI(19)));
-  style = style.replace(QRegularExpression(":\\s*20dx"), QString(": %1px").arg(ScaleHeightForDPI(20)));
-  style = style.replace(QRegularExpression(":\\s*21dx"), QString(": %1px").arg(ScaleHeightForDPI(21)));
-  style = style.replace(QRegularExpression(":\\s*22dx"), QString(": %1px").arg(ScaleHeightForDPI(22)));
-  style = style.replace(QRegularExpression(":\\s*23dx"), QString(": %1px").arg(ScaleHeightForDPI(23)));
-  style = style.replace(QRegularExpression(":\\s*24dx"), QString(": %1px").arg(ScaleHeightForDPI(24)));
-  style = style.replace(QRegularExpression(":\\s*25dx"), QString(": %1px").arg(ScaleHeightForDPI(25)));
-  style = style.replace(QRegularExpression(":\\s*26dx"), QString(": %1px").arg(ScaleHeightForDPI(26)));
-  style = style.replace(QRegularExpression(":\\s*27dx"), QString(": %1px").arg(ScaleHeightForDPI(27)));
-  style = style.replace(QRegularExpression(":\\s*28dx"), QString(": %1px").arg(ScaleHeightForDPI(28)));
-  style = style.replace(QRegularExpression(":\\s*29dx"), QString(": %1px").arg(ScaleHeightForDPI(29)));
-  style = style.replace(QRegularExpression(":\\s*35dx"), QString(": %1px").arg(ScaleHeightForDPI(35)));
-  style = style.replace(QRegularExpression(":\\s*3\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(30)));
-  style = style.replace(QRegularExpression(":\\s*4\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(40)));
-  style = style.replace(QRegularExpression(":\\s*5\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(50)));
-  style = style.replace(QRegularExpression(":\\s*6\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(60)));
-  style = style.replace(QRegularExpression(":\\s*7\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(70)));
-  style = style.replace(QRegularExpression(":\\s*8\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(80)));
-  style = style.replace(QRegularExpression(":\\s*9\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(90)));
-  style = style.replace(QRegularExpression(":\\s*1[1]\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(110)));
-  style = style.replace(QRegularExpression(":\\s*1[234]\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(125)));
-  style = style.replace(QRegularExpression(":\\s*1[56789]\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(150)));
-  style = style.replace(QRegularExpression(":\\s*1\\d\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(100)));
-  style = style.replace(QRegularExpression(":\\s*2\\d\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(200)));
-  style = style.replace(QRegularExpression(":\\s*3\\d\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(300)));
-  style = style.replace(QRegularExpression(":\\s*4\\d\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(400)));
-  style = style.replace(QRegularExpression(":\\s*5\\d\\ddx"), QString(": %1px").arg(ScaleHeightForDPI(500)));
+// One curve for every pane that offers A-/A+ (docs, cards, …). Multiplicative
+// so a type hierarchy keeps its proportions as it grows — the cards pane's
+// old additive step (base + zoom) added the same pixel to every size, which
+// flattened a 17px heading toward a 13px pill the further you zoomed in.
+constexpr int kFontZoomMin = -4;
+constexpr int kFontZoomMax = 8;
 
+inline double FontZoomFactor(int step)
+{
+    if (step < kFontZoomMin)
+        step = kFontZoomMin;
+    if (step > kFontZoomMax)
+        step = kFontZoomMax;
+    const double f = std::pow(1.1, step);
+    return f < 0.5 ? 0.5 : (f > 3.0 ? 3.0 : f);
+}
+
+// Design sizes at 1x zoom. Tiny/PaneTitle were literal `px` in the stylesheet
+// (not `dx`), so they are deliberately not DPI-scaled — keeping the resting
+// appearance identical to the rules these replaced.
+inline int FontRolePx(FontRole role, double scale = 1.0)
+{
+    int px = 0;
+    switch (role)
+    {
+    case FontRole::Tiny:
+        px = 9;
+        break;
+    case FontRole::PaneTitle:
+        px = 11;
+        break;
+    case FontRole::Arrow:
+        px = ScaleHeightForDPI(26);
+        break;
 #ifdef __APPLE__
-  style = style.replace(QRegularExpression("font-size:\\s*small\\s*;"), QString("font-size: %1px; /*small*/").arg(ScaleHeightForDPI(13)));
-  style = style.replace(QRegularExpression("font-size:\\s*medium\\s*;"), QString("font-size: %1px; /*medium*/").arg(ScaleHeightForDPI(18)));
-  style = style.replace(QRegularExpression("font-size:\\s*large\\s*;"), QString("font-size: %1px; /*large*/").arg(ScaleHeightForDPI(21)));
-  style = style.replace(QRegularExpression("font-size:\\s*x-large\\s*;"), QString("font-size: %1px; /*x-large*/").arg(ScaleHeightForDPI(25)));
-  style = style.replace(QRegularExpression("font-size:\\s*xx-large\\s*;"), QString("font-size: %1px; /*xx-large*/").arg(ScaleHeightForDPI(31)));
+    case FontRole::Small:   px = ScaleHeightForDPI(13); break;
+    case FontRole::Base:    px = ScaleHeightForDPI(18); break;
+    case FontRole::Large:   px = ScaleHeightForDPI(21); break;
+    case FontRole::XLarge:  px = ScaleHeightForDPI(25); break;
+    case FontRole::XXLarge: px = ScaleHeightForDPI(31); break;
 #else
-  style = style.replace(QRegularExpression("font-size:\\s*small\\s*;"), QString("font-size: %1px; /*small*/").arg(ScaleHeightForDPI(14)));
-  style = style.replace(QRegularExpression("font-size:\\s*medium\\s*;"), QString("font-size: %1px; /*medium*/").arg(ScaleHeightForDPI(19)));
-  style = style.replace(QRegularExpression("font-size:\\s*large\\s*;"), QString("font-size: %1px; /*large*/").arg(ScaleHeightForDPI(22)));
-  style = style.replace(QRegularExpression("font-size:\\s*x-large\\s*;"), QString("font-size: %1px; /*x-large*/").arg(ScaleHeightForDPI(26)));
-  style = style.replace(QRegularExpression("font-size:\\s*xx-large\\s*;"), QString("font-size: %1px; /*xx-large*/").arg(ScaleHeightForDPI(32)));
+    case FontRole::Small:   px = ScaleHeightForDPI(14); break;
+    case FontRole::Base:    px = ScaleHeightForDPI(19); break;
+    case FontRole::Large:   px = ScaleHeightForDPI(22); break;
+    case FontRole::XLarge:  px = ScaleHeightForDPI(26); break;
+    case FontRole::XXLarge: px = ScaleHeightForDPI(32); break;
 #endif
+    }
+    const int scaled = int(px * scale + 0.5);
+    return scaled < 6 ? 6 : scaled;
+}
 
-  return style;
+// A QFont carries EITHER a point size or a pixel size; the unused one reads
+// back as -1. The app default is pixel-sized (FontRolePx above, matching what
+// the stylesheet used to set), so `f.setPointSizeF(f.pointSizeF() * 0.8)` on
+// an inherited font silently yields a negative size and a Qt warning. Derive
+// relative sizes through these instead — they work in whichever unit the font
+// actually uses.
+inline double FontSizeValue(const QFont& f)
+{
+    return f.pointSizeF() > 0 ? f.pointSizeF() : double(f.pixelSize());
+}
+
+inline void SetFontSizeValue(QFont& f, double value, double minimum = 6.0)
+{
+    if (value < minimum)
+        value = minimum;
+    if (f.pointSizeF() > 0)
+        f.setPointSizeF(value);
+    else
+        f.setPixelSize(int(value + 0.5));
+}
+
+// Convenience: the same font, resized by a factor of its current size.
+inline QFont ScaledFont(const QFont& base, double factor, double minimum = 6.0)
+{
+    QFont f = base;
+    SetFontSizeValue(f, FontSizeValue(base) * factor, minimum);
+    return f;
+}
+
+// Zoom-aware pixel metrics: the display DPI scale times a pane's own text
+// zoom. Lay every content size out through one of these and a page built at
+// 2x text gets 2x padding and column widths to sit in — scaling the font
+// alone is what left labels overlapping their neighbours.
+class UiScale
+{
+public:
+    UiScale() = default;
+    explicit UiScale(double factor)
+        : m_factor(factor)
+    {
+    }
+    static UiScale fromZoom(int step) { return UiScale(FontZoomFactor(step)); }
+
+    double factor() const { return m_factor; }
+
+    int x(int px) const { return px <= 0 ? 0 : scaled(ScaleWidthForDPI(px)); }
+    int y(int px) const { return px <= 0 ? 0 : scaled(ScaleHeightForDPI(px)); }
+    QSize size(int w, int h) const { return QSize(x(w), y(h)); }
+    int font(FontRole role) const { return FontRolePx(role, m_factor); }
+
+private:
+    int scaled(int px) const
+    {
+        const int v = int(px * m_factor + 0.5);
+        return v < 1 ? 1 : v;
+    }
+    double m_factor = 1.0;
+};
+
+// The stylesheet's `dx` unit: a design pixel scaled for the display. Values
+// above 29 are bucketed so the sheet reads in round numbers — the buckets are
+// preserved exactly from the sixty-line per-value replacement chain this
+// replaces (1-29 and 35 exact, then nearest 10, then the 100s stops).
+inline int ResolveDxToPx(int dx)
+{
+    if (dx <= 0)
+        return 0;
+    if (dx <= 29 || dx == 35)
+        return ScaleHeightForDPI(dx);
+    if (dx < 100)
+        return ScaleHeightForDPI((dx / 10) * 10);
+    if (dx < 110)
+        return ScaleHeightForDPI(100);
+    if (dx < 120)
+        return ScaleHeightForDPI(110);
+    if (dx < 150)
+        return ScaleHeightForDPI(125);
+    if (dx < 200)
+        return ScaleHeightForDPI(150);
+    return ScaleHeightForDPI((dx / 100) * 100);
+}
+
+// Resolve a stylesheet's `dx` lengths and font-size keywords to real pixels.
+//
+// extraScale is an additional multiplier for panes that carry their own text
+// zoom on top of the display DPI (the docs pane's A-/A+) — padding, radii and
+// rule weights then grow with the type instead of pinching it. One function
+// rather than two overloads so a value can't resolve differently depending on
+// which one happened to see it.
+inline QString ScalePxInStyleSheet(QString style, double extraScale = 1.0)
+{
+  static const QRegularExpression dxUnit(QStringLiteral(":\\s*(\\d+)dx"));
+  QString out;
+  int last = 0;
+  QRegularExpressionMatchIterator it = dxUnit.globalMatch(style);
+  while (it.hasNext())
+  {
+    const QRegularExpressionMatch match = it.next();
+    out += QStringView(style).mid(last, match.capturedStart() - last);
+    const int px = ResolveDxToPx(match.captured(1).toInt());
+    out += QString(": %1px").arg(px <= 0 ? 0 : qMax(1, qRound(px * extraScale)));
+    last = match.capturedEnd();
+  }
+  out += QStringView(style).mid(last);
+
+  // Keywords resolve through FontRolePx so the stylesheet and setFont() can
+  // never disagree about what `medium` means.
+  const struct { const char* keyword; FontRole role; } kFontKeywords[] = {
+    { "xx-large", FontRole::XXLarge },
+    { "x-large",  FontRole::XLarge  },
+    { "large",    FontRole::Large   },
+    { "medium",   FontRole::Base    },
+    { "small",    FontRole::Small   },
+  };
+  for (const auto& kw : kFontKeywords)
+  {
+    out = out.replace(
+        QRegularExpression(QString("font-size:\\s*%1\\s*;").arg(kw.keyword)),
+        QString("font-size: %1px; /*%2*/").arg(FontRolePx(kw.role, extraScale)).arg(kw.keyword));
+  }
+  return out;
 }

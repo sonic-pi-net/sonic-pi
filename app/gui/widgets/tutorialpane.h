@@ -80,6 +80,9 @@ public:
     // of the per-buffer editor zoom
     int userZoom() const { return m_userZoom; }
     void setUserZoom(int zoom);
+    // Font multiplier the current zoom step works out to; the docs nav lists
+    // track the same figure so the whole help tab scales as one.
+    double fontScale() const { return m_fontScale; }
 
     // The A-/A+ text-size buttons, packed in a standalone widget so the help
     // dock can host them in its title row beside the HELP title.
@@ -115,6 +118,9 @@ signals:
     void announceRequested(QString msg);
     void navigateRequested(int delta); // -1 previous chapter, +1 next
     void linkClicked(const QUrl& url);
+    // A-/A+ moved the pane's zoom: the help dock's nav lists follow it, and
+    // MainWindow persists the new step.
+    void zoomChanged(int zoom);
 
 private:
     struct Snippet
@@ -130,6 +136,23 @@ private:
         QString workspace;
         int jobId = -1;
     };
+
+    // Zoom-aware pixel metrics. Every content size is laid out through these
+    // rather than the bare DPI helpers, so a page built at 2x text gets 2x
+    // padding, column widths and glyphs to sit in — scaling the font alone is
+    // what left labels overlapping their neighbours.
+    int sx(int px) const;
+    int sy(int px) const;
+
+    // Re-render whatever page is showing at the current zoom, keeping the
+    // scroll position and the playground's dial values. Layout geometry is
+    // baked in at build time, so a zoom step has to rebuild, not just restyle.
+    void redisplayCurrentPage();
+    // Container margins/spacing that live outside the page build.
+    void applyShellSizing();
+
+    // Emits announceRequested unless this is a zoom rebuild of the same page.
+    void announcePage(const QString& title);
 
     void rebuild();
     void clearContent();
@@ -184,6 +207,27 @@ private:
     TutScope* m_exampleScope = nullptr;   // live scope, visible only while playing
     std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
 
+    // Enough of the last page's source to rebuild it on a zoom step (all
+    // cheap value types; the chapter lives in m_chapter as before).
+    enum class PageKind
+    {
+        None,
+        Chapter,
+        Code,
+        Instrument,
+        SampleGroup,
+        Lang
+    };
+    PageKind m_pageKind = PageKind::None;
+    // Set while redisplayCurrentPage() re-runs a page build: the content is
+    // unchanged, so it must not re-announce the title to the screen reader.
+    bool m_redisplaying = false;
+    SonicPi::InstrumentPage m_instrumentPage;
+    SonicPi::SampleGroup m_sampleGroupPage;
+    SonicPi::LangPage m_langPage;
+    QString m_codePageTitle;
+    QString m_codePageCode;
+
     SonicPi::TutorialChapter m_chapter;
     QVector<TutDial*> m_dials;
     QVector<class TutProseText*> m_proseLabels;
@@ -210,6 +254,12 @@ private:
     int m_demoNote = 50;      // FX demo's played note; follows the piano
     int m_userZoom = 0;      // pane zoom steps from A-/A+ (persisted as a pref)
     double m_fontScale = 1.0;
+    // Scroll position held across a zoom rebuild, restored once the layout has
+    // settled. Kept as pane state rather than captured per-rebuild: a second
+    // zoom step arriving before the restore fires would otherwise read the
+    // freshly-reset scrollbar and capture 0, throwing the position away.
+    double m_pendingScrollFrac = -1.0;
+    bool m_scrollRestoreQueued = false;
     int m_workspaceSeq = 0;
 };
 

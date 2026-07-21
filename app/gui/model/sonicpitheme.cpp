@@ -13,6 +13,7 @@
 
 
 #include "sonicpitheme.h"
+#include "utils/fontroles.h"
 #include <QApplication>
 #include <QImage>
 #include <QPainter>
@@ -1134,6 +1135,12 @@ void SonicPiTheme::reloadStylesheet() {
     // radius. The cached template has already been through ScalePxInStyleSheet,
     // so the radius goes in as a ready-scaled px value rather than a dx one.
     QString pillRadius = QString("%1px").arg(ScaleHeightForDPI(kPillRadiusDx));
+    // The only two font sizes left in the stylesheet. Both target sub-controls
+    // (QDockWidget::title, QHeaderView::section), which have no widget to call
+    // setFont() on — every other size now rides the widget font instead. They
+    // still come from the shared scale so they can't drift from it.
+    QString paneTitleFontPx = QString("%1px").arg(FontRolePx(FontRole::PaneTitle));
+    QString smallFontPx = QString("%1px").arg(FontRolePx(FontRole::Small));
 
     QString buttonColor = this->color("Button").name();
     QString buttonBorderColor = this->color("ButtonBorder").name();
@@ -1231,6 +1238,8 @@ void SonicPiTheme::reloadStylesheet() {
         .replace("windowBorderColor", windowBorderColor)
         .replace("windowInternalBorderColor", windowInternalBorderColor)
         .replace("pillRadius", pillRadius)
+        .replace("paneTitleFontPx", paneTitleFontPx)
+        .replace("smallFontPx", smallFontPx)
         .replace("buttonBackgroundColor", buttonBackgroundColor)
         .replace("buttonColor", buttonColor)
         .replace("metroButtonBorderColor", metroButtonBorderColor)
