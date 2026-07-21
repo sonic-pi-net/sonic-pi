@@ -5,7 +5,14 @@ behaviour of Sonic Pi. Have fun and happy live coding!
 
 On your system, these files are located in:
 - Linux, macOS: `~/.sonic-pi/config` (note that `~` means your home directory)
-- Windows: `<tbd>`
+- Windows: `%USERPROFILE%\.sonic-pi\config`, which is usually
+  `C:\Users\<your-username>\.sonic-pi\config`
+
+If the `SONIC_PI_HOME` environment variable is set, it takes the place of
+your home directory on every platform, so the config files live in
+`$SONIC_PI_HOME/.sonic-pi/config` instead. That is useful if your home
+directory isn't writable, or you want to keep your setup on a USB stick.
+
 
 ## init.rb
 
@@ -27,6 +34,21 @@ etc.
 This is a properties file which lets you override colour themes for the
 GUI. This is currently very experimental and is likely to significantly
 change.
+
+
+## v5-gui-settings.ini
+
+Unlike the files above, this one isn't an example that Sonic Pi copies in
+for you — Sonic Pi writes it itself, so it only appears once you've run
+Sonic Pi at least once. It remembers how you left the GUI: window position
+and size, which panes were showing, your preferences, and the text sizes
+you picked with the A-/A+ controls.
+
+There's normally no need to edit this by hand, and it's best not to while
+Sonic Pi is running: your current settings are written out when you quit,
+which would overwrite anything you'd changed. To reset the GUI back to its
+defaults, quit Sonic Pi and delete this file — you'll be met by the
+welcome screen again next time you start.
 
 
 ## Questions and Issues
