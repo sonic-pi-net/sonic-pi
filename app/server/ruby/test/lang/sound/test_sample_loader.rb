@@ -201,18 +201,24 @@ module SonicPi
                    @loader.find_candidates([@fake_sample_dir, -1.0]))
     end
 
-    # A fractional index truncates towards zero rather than raising: the index
-    # is already taken modulo the candidate count, so it is a "pick one of
-    # these" control, not an exact value.
-    def test_fractional_float_idx_truncates
-      assert_equal(@loader.find_candidates([@fake_sample_dir, 1]),
+    # A fractional index rounds to nearest rather than raising, matching how
+    # sample's own slice:/num_slices: opts treat floats (documented in the
+    # onset: docstring: "floats will be rounded to the nearest integer value").
+    def test_fractional_float_idx_rounds_to_nearest
+      assert_equal(@loader.find_candidates([@fake_sample_dir, 2]),
                    @loader.find_candidates([@fake_sample_dir, 1.7]))
+      assert_equal(@loader.find_candidates([@fake_sample_dir, 1]),
+                   @loader.find_candidates([@fake_sample_dir, 1.2]))
     end
 
-    # Rationals arrive from Sonic Pi's timing/arithmetic helpers too.
+    # Rationals arrive from Sonic Pi's timing/arithmetic helpers too. 7/4 is
+    # deliberately not a .5 tie, so this pins the rounding rather than
+    # whichever way ties happen to break.
     def test_rational_idx
+      assert_equal(@loader.find_candidates([@fake_sample_dir, 2]),
+                   @loader.find_candidates([@fake_sample_dir, Rational(7, 4)]))
       assert_equal(@loader.find_candidates([@fake_sample_dir, 1]),
-                   @loader.find_candidates([@fake_sample_dir, Rational(3, 2)]))
+                   @loader.find_candidates([@fake_sample_dir, Rational(5, 4)]))
     end
 
     # The reported bug, end to end (PR #3381): range/line coerce to float

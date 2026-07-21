@@ -140,7 +140,14 @@ module SonicPi
       @pitch_class = "#{m[2].capitalize}#{unify_sharp_flat_modifier(m[3])}".to_sym
 
       if o
-        raise InvalidOctaveError, "Invalid octave: #{o.inspect}, expecting a whole number such as 3 or 4!" unless o.is_a? Integer
+        # Any numeric with a whole value, not just an Integer: range/line
+        # coerce to float internally, so range(3, 5).tick yields 3.0 and a
+        # user reasonably expects that to name octave 3. A genuinely
+        # fractional octave stays an error — unlike an index it is an exact
+        # musical value, so 3.5 is more likely a slip than an intent.
+        unless o.is_a?(Numeric) && o == o.to_i
+          raise InvalidOctaveError, "Invalid octave: #{o.inspect}, expecting a whole number such as 3 or 4!"
+        end
         @octave = o.to_i
       else
         @octave = m[4].empty? ? DEFAULT_OCTAVE : m[4].to_i

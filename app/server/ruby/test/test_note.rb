@@ -159,13 +159,27 @@ module SonicPi
         Note.new(:Eb, :foo)
       end
 
+      # Genuinely fractional octaves stay an error: unlike an index, an octave
+      # is an exact musical value, so 3.5 is far more likely a slip in the
+      # user's arithmetic than an intent worth silently rounding away.
       assert_raises Note::InvalidOctaveError do
         Note.new(:Eb, 3.5)
       end
+    end
 
-      assert_raises Note::InvalidOctaveError do
-        Note.new(:Eb, 3.0)
-      end
+    # A whole-valued float is a whole number — and it is what ring fns hand you,
+    # since range/line coerce to float internally (`range(3, 5).tick` yields
+    # 3.0). The guard used to reject these even though the very next line does
+    # `o.to_i`, so the code was already prepared for them.
+    def test_init_whole_float_octave
+      n = Note.new(:Eb, 3.0)
+      assert_equal(3, n.octave)
+      assert_equal(Note.new(:Eb, 3).midi_note, n.midi_note)
+    end
+
+    def test_init_rational_octave
+      n = Note.new(:Eb, Rational(6, 2))
+      assert_equal(3, n.octave)
     end
 
     def test_c_flat_is_octave_lower

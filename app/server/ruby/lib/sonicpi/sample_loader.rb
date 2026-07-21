@@ -78,10 +78,11 @@ module SonicPi
           # would not, and changing what range returns would silently turn
           # `range(0, 10).tick / 10` into integer division.
           #
-          # to_i truncates: the index is taken modulo the candidate count, so
-          # it is a "pick one of these" control rather than an exact value.
+          # Rounded to nearest, matching how sample's own slice:/num_slices:
+          # opts treat a float ("floats will be rounded to the nearest integer
+          # value" — see the onset: docstring in lang/sound.rb).
           unless candidates.empty?
-            candidates = [candidates[f.to_i % candidates.size]]
+            candidates = [candidates[f.round % candidates.size]]
           end
         when NilClass
           # Do nothing

@@ -396,7 +396,14 @@ end
 
         raise ArgumentError, "with_swing shift should be a number. Got: #{shift.inspect}" unless shift.is_a?(Numeric)
         raise ArgumentError, "with_swing pulse should be a positive number. Got: #{pulse.inspect}" unless pulse.is_a?(Numeric) && pulse > 0
-        raise ArgumentError, "with_swing offset should be an integer. Got: #{offset.inspect}" unless offset.is_a?(Integer)
+        raise ArgumentError, "with_swing offset should be a number. Got: #{offset.inspect}" unless offset.is_a?(Numeric)
+
+        # Rounded to nearest, like the language's other index-like values
+        # (sample's slice:/num_slices:, a sample pack's numeric index). This
+        # also lets offset: take a ring value directly — range/line coerce to
+        # float internally, so range(0, 4).tick hands this a 0.0. shift: and
+        # pulse: above have always accepted any Numeric.
+        offset = offset.round
 
         use_shift = ((tick(key) + offset) % pulse) == 0
         if use_shift
