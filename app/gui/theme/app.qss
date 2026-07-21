@@ -1351,10 +1351,10 @@ QPushButton#qsDeckPill[current="true"]
 }
 
 /* Carousel nav: ‹ dots › grouped in a soft pill. */
+/* Radius set in code alongside the row's scaled height — see qsDot above. */
 QWidget#qsNav
 {
     background: subtleFillColor;
-    border-radius: 17dx;
 }
 
 QPushButton#qsArrow
@@ -1376,10 +1376,12 @@ QPushButton#qsArrow:disabled
 }
 
 /* One dot per card; the lit run is the cards currently on screen. */
+/* Radius is set per-dot in quickstartpane.cpp (rebuildDots): it must be half
+   the dot's size, and the size scales with the pane's A-/A+ zoom. A fixed
+   radius here would snap the dot from circle to square as it grew. */
 QPushButton#qsDot
 {
     border: none;
-    border-radius: 5dx;
     padding: 0;
     background: faintForegroundColor;
 }
@@ -1396,10 +1398,10 @@ QPushButton#qsDot[lit="true"]:hover
 }
 
 /* Deck description row: accent rail + muted one-liner. */
+/* Radius set in code alongside the rail's scaled width — see qsDot above. */
 QWidget#qsHeaderRail
 {
     background: highlightedBackgroundColor;
-    border-radius: 2dx;
 }
 
 QLabel#qsDeckDesc

@@ -1077,6 +1077,16 @@ void QuickstartPane::rebuild()
     navLay->setContentsMargins(uiScale().y(4), uiScale().y(2),
                                uiScale().y(4), uiScale().y(2));
     navLay->setSpacing(uiScale().y(2));
+    // Pin the height rather than deriving it: the radius has to be exactly half
+    // of what the widget ACTUALLY ends up as, and the layout was giving this
+    // row 30px where the contents-plus-margins calculation said 27 — leaving
+    // the pill a pixel-and-a-half short of round. Fixing the height makes the
+    // two agree by construction. Even, so the halving is exact.
+    int navH = uiScale().y(30) + 2 * uiScale().y(2);
+    navH += navH % 2;
+    nav->setFixedHeight(navH);
+    nav->setStyleSheet(
+        QStringLiteral("QWidget#qsNav { border-radius: %1px; }").arg(navH / 2));
     navLay->addWidget(m_prevArrow);
     navLay->addWidget(m_dotsHost);
     navLay->addWidget(m_nextArrow);
@@ -1099,7 +1109,11 @@ void QuickstartPane::rebuild()
         descLay->setSpacing(uiScale().y(10));
         QWidget* rail = new QWidget(descRow);
         rail->setObjectName(QStringLiteral("qsHeaderRail"));
-        rail->setFixedWidth(uiScale().y(4));
+        int railW = uiScale().y(4);
+        railW += railW % 2;   // even: the radius must be exactly half (see rebuildDots)
+        rail->setFixedWidth(railW);
+        rail->setStyleSheet(
+            QStringLiteral("QWidget#qsHeaderRail { border-radius: %1px; }").arg(railW / 2));
         descLay->addWidget(rail);
         m_headerRail = rail;
         QLabel* descLabel = new QLabel(desc, descRow);
@@ -1277,7 +1291,13 @@ void QuickstartPane::rebuildDots()
     }
     // One dot per card; every card currently on screen lights accent, so the
     // lit run of dots shows how many cards are visible and where you are.
-    const int dot = uiScale().y(10);
+    // Even, so the radius below is exactly half. Qt does not clamp a radius to
+    // half the box — it paints artifacts above that and visible corners below
+    // (see kPillRadiusDx in dpi.h) — so only an exact half renders a true
+    // circle. An odd box makes that impossible in integer pixels, which is why
+    // rounding either way alternated circle/square as zoom nudged the size.
+    int dot = uiScale().y(10);
+    dot += dot % 2;
     for (int i = 0; i < m_cardCount; ++i)
     {
         const int col = rows > 0 ? i / rows : i;
@@ -1287,6 +1307,9 @@ void QuickstartPane::rebuildDots()
         d->setProperty("lit", visible);
         d->setCursor(Qt::PointingHandCursor);
         d->setFixedSize(dot, dot);
+        // Exactly half the (even) box — see the size calculation above.
+        d->setStyleSheet(
+            QStringLiteral("QPushButton#qsDot { border-radius: %1px; }").arg(dot / 2));
         d->setAccessibleName(tr("Scroll to card %1 of %2").arg(i + 1).arg(m_cardCount));
         connect(d, &QPushButton::clicked, this,
                 [this, col, pages] { goToPage(qBound(0, col, pages - 1)); });
