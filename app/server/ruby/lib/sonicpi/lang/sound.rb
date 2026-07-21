@@ -4114,7 +4114,9 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           begin
             onsets = sample_buffer(path).onset_slices
           rescue Exception => e
-            raise "Unable to find onset for sample with path #{path}:\n#{e.message}\n#{e.backtrace}"
+            # Keep the raw backtrace out of the user-facing message - the error
+            # card shows the backtrace separately in its details pane.
+            raise "Unable to find onset for sample with path #{path}: #{e.message}"
           end
 
           if onset_idx.is_a? Numeric
