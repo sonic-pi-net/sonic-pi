@@ -109,7 +109,9 @@ constexpr int kFieldBufferBytes = 52;
 constexpr int kFieldCpuAvg      = 53; // DSP load %, centi (native_stats)
 constexpr int kFieldCpuPeak     = 54; // DSP load % peak, centi (native_stats)
 constexpr int kFieldOverruns    = 55; // audio callback overruns (native_stats)
-constexpr int kPanelFieldCount  = 56;
+constexpr int kFieldNrtMaxPass  = 56; // nativeStats[6]: longest control pass, ms
+constexpr int kFieldNrtInFlight = 57; // nativeStats[7]: control pass blocked now, ms
+constexpr int kPanelFieldCount  = 58;
 
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
@@ -240,6 +242,9 @@ const std::vector<PanelDef>& panelLayout()
           { ValRow("load", { Vn(kFieldCpuAvg, K_Normal, F_Centi), T("%") }),
             ValRow("peak", { Vn(kFieldCpuPeak, K_Dim, F_Centi), T("%") }),
             ValRow("overruns", { Vn(kFieldOverruns, K_Error) }) } },
+        { "Control",
+          { ValRow("blocked", { Vn(kFieldNrtInFlight, K_Error), T(" ms") }),
+            ValRow("worst", { Vn(kFieldNrtMaxPass, K_Dim), T(" ms") }) } },
         { "Link Audio",
           { ValRow("in", { V(32), T(" ch @ "), V(33, K_Muted), T(" Hz") },
                    composite("linkAudioChannelsRate")),
@@ -1179,6 +1184,8 @@ void MetricsPanel::refresh()
     v[kFieldCpuAvg]      = ns.cpu_load_avg_centi;
     v[kFieldCpuPeak]     = ns.cpu_load_peak_centi;
     v[kFieldOverruns]    = ns.callback_overruns;
+    v[kFieldNrtMaxPass]  = ns.nrt_max_pass_ms;
+    v[kFieldNrtInFlight] = ns.nrt_in_flight_ms;
     // Native-only metrics read "-" (not a misleading 0) when this segment
     // doesn't produce them (e.g. a web-origin engine).
     const bool nativeOk = m_api->AudioProcessor_HasNativeStats();
