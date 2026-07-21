@@ -120,24 +120,50 @@ phase_ruby() {
     # absent: it's referenced only by gitsave.rb, which falls back cleanly on
     # LoadError, and the AppImage strips it anyway (see linux-appimage.sh).
     setup_paths
-    gem install --no-document rake test-unit
+    gem install --no-document test-unit
+    # Ruby ships rake as a bundled gem, so the source build has already put a
+    # rake binary in the bundled tree — `gem install rake` then refuses with
+    # "rake conflicts with .../bin/rake" and takes the whole job down. Only
+    # install it where it is genuinely absent.
+    command -v rake >/dev/null 2>&1 || gem install --no-document rake
 }
 
 phase_rust() {
     # supersonic's MIDI/gamepad/OSC subsystems are cargo-built staticlibs, so
     # its CMake configure needs cargo on PATH. Debian's rustc is too old to
-    # track supersonic's toolchain, so use rustup — on an i386 userland it
-    # resolves the host triple to i686-unknown-linux-gnu, a tier-1 Rust target.
+    # track supersonic's toolchain, so use rustup.
+    #
+    # i686-unknown-linux-gnu is a tier-1 Rust target, but rustup-init has to be
+    # told: it infers the host triple from the KERNEL, which is x86_64 even in
+    # a 32-bit userland, and installs a 64-bit toolchain whose binaries cannot
+    # run here. That install reports success, and the failure only lands later
+    # as the shim saying "command failed: 'cargo'".
     #
     # Note this sets the CPU floor at SSE2 (Pentium 4 / Athlon 64 and later):
     # rustc enables SSE2 by default for i686, above Debian's own i686 baseline.
-    if command -v cargo >/dev/null 2>&1 || [ -x "${CARGO_HOME:-$HOME/.cargo}/bin/cargo" ]; then
+    local triple=i686-unknown-linux-gnu
+    setup_paths   # pick up a toolchain a previous phase already installed
+
+    if cargo --version >/dev/null 2>&1; then
         echo "=== rust: reusing existing toolchain ==="
-        return
+    else
+        echo "=== rust: installing toolchain ==="
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+            | sh -s -- -y --profile minimal \
+                --default-host "$triple" --default-toolchain stable
+        setup_paths
     fi
-    echo "=== rust: installing toolchain ==="
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
-        | sh -s -- -y --default-toolchain stable --profile minimal
+
+    # State the host and toolchain rather than trusting whatever the installer
+    # settled on: an image carrying a pre-existing ~/.rustup keeps the default
+    # from its own settings.toml and ignores the inferred one.
+    rustup set default-host "$triple"
+    rustup toolchain install "stable-$triple" --profile minimal
+    rustup default "stable-$triple"
+
+    # Fail here, with the toolchain in view, rather than deep into a build.
+    cargo --version
+    rustc --version
 }
 
 phase_build() {
