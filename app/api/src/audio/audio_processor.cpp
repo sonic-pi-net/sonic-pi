@@ -329,15 +329,30 @@ void AudioProcessor::AttachLocked()
     {
         m_shmClient.reset(new server_shared_memory_client(m_scSynthPort));
         m_shmReader = m_shmClient->get_scope_stream_reader(0);
+        m_lastAttachError.clear();   // a later recurrence is worth reporting again
     }
     catch (const std::exception& e)
     {
-        // Segment not yet created by supersonic — expected at boot races, and
-        // retried by Run(). A layout mismatch, though, is a build/staging
-        // error (test-profile engine staged as production): surface it.
-        if (std::string(e.what()).find("layout mismatch") != std::string::npos)
+        // Two very different failures land here.
+        //
+        // The segment simply not existing yet is the boot race Run() retries
+        // out of — silent by design, and the common case.
+        //
+        // But a segment that EXISTS and fails validation (bad MAGIC, wrong
+        // size, layout mismatch) is version skew between the engine binary and
+        // this reader. No amount of retrying resolves it: the scope, node
+        // tree, metrics and debug rings just stay silently empty while audio
+        // keeps working over OSC, which reads as a GUI bug rather than a build
+        // one. Say so, once.
+        const std::string what = e.what();
+        if (!sonic_pi::audio::IsShmAttachRetryable(what) && what != m_lastAttachError)
         {
-            LOG(ERR, e.what());
+            LOG(ERR, "Shared memory attach failed: "
+                         << what
+                         << " | The scope, node tree and debug panes will stay empty. "
+                            "The engine binary and this GUI were most likely built from "
+                            "different sources — rebuild both from the same tree.");
+            m_lastAttachError = what;
         }
         m_shmClient.reset();
         m_shmReader = shm_scope_stream_reader();

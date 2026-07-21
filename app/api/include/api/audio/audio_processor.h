@@ -23,6 +23,7 @@
 
 #include "kiss_fftr.h"
 
+#include "api/audio/shm_attach_diagnostics.hpp"
 #include "api/sonicpi_api.h"
 
 namespace SonicPi
@@ -101,6 +102,9 @@ private:
     std::chrono::steady_clock::time_point m_lastAttachAttempt{};
     // Previous validity for transition-only logging in Run().
     bool m_shmReaderLastValid = false;
+    // Last non-retryable attach failure, so a permanent one is reported once
+    // rather than on every retry tick (see AttachLocked).
+    std::string m_lastAttachError;
     // Slot-local cursor of the last emitted window (skip repaints when the
     // stream hasn't advanced) and the interleaved copy-out scratch.
     uint64_t m_lastEndCursor = 0;
