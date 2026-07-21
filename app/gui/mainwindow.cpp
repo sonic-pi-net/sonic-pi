@@ -1160,6 +1160,19 @@ void MainWindow::setupWindowStructure()
     updateHelpCloseIcon();
 
     docWidget = new QDockWidget(tr("Help"), this);
+    // Whatever reveals the help dock, land on a real page rather than an empty
+    // pane. Three call sites used to do this by hand (toggleHelp, the Help
+    // action, and a resize with the dock already visible) and all three missed
+    // the session restore: restoreState() brings the dock back visible without
+    // going through any of them, so a returning user with first_time=0 got a
+    // populated topic list, no selection, and a blank pane until they clicked
+    // a row. Hanging it off the dock's own visibility covers every path,
+    // including any added later. ensureDocsSelection() no-ops when a row is
+    // already current, so the repeats are free.
+    connect(docWidget, &QDockWidget::visibilityChanged, this, [this](bool visible) {
+        if (visible)
+            ensureDocsSelection();
+    });
     docWidget->setFocusPolicy(Qt::NoFocus);
     docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
     docWidget->setWidget(southTabs);
