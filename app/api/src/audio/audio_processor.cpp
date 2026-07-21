@@ -319,6 +319,12 @@ void AudioProcessor::ResetConnection()
     // Pairs with Run()'s lock: the reset destroys the client (unmapping the
     // segment), which must not interleave with the scope thread's reads.
     std::lock_guard<std::mutex> lock(m_mutex);
+    AttachLocked();
+}
+
+// Attach body. Caller holds m_mutex — Run() retries from inside its own lock.
+void AudioProcessor::AttachLocked()
+{
     try
     {
         m_shmClient.reset(new server_shared_memory_client(m_scSynthPort));
@@ -326,8 +332,8 @@ void AudioProcessor::ResetConnection()
     }
     catch (const std::exception& e)
     {
-        // Segment not yet created by supersonic — expected at boot races,
-        // retried quietly. A layout mismatch, though, is a build/staging
+        // Segment not yet created by supersonic — expected at boot races, and
+        // retried by Run(). A layout mismatch, though, is a build/staging
         // error (test-profile engine staged as production): surface it.
         if (std::string(e.what()).find("layout mismatch") != std::string::npos)
         {
@@ -359,6 +365,24 @@ void AudioProcessor::Run()
         // m_shmClient/m_shmReader; every access to them on this thread must
         // hold the lock or the client can be unmapped mid-call.
         std::unique_lock<std::mutex> lock(m_mutex);
+
+        // Unattached: keep trying, once a second. The lifecycle triggers
+        // (onSpiderReady / onSupersonicSetup) are one-shot, so a client that
+        // misses both — spider announcing ready before this processor exists,
+        // or supersonic restarting without a cold-swap setup — would otherwise
+        // stay detached forever, leaving scope, node tree, metrics and the
+        // ring readers permanently empty.
+        if (!m_shmClient)
+        {
+            const auto now = std::chrono::steady_clock::now();
+            if (now - m_lastAttachAttempt >= std::chrono::seconds(1))
+            {
+                m_lastAttachAttempt = now;
+                AttachLocked();
+                if (m_shmClient)
+                    LOG(INFO, "Shared memory segment attached");
+            }
+        }
 
         // Log validity transitions once per change. The buffer the
         // reader points at transitions free → initialized asynchronously

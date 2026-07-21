@@ -91,9 +91,14 @@ private:
     void CalculateFFT(ProcessedAudio& audio);
 
 private:
+    // Opens the segment and binds the scope reader. Caller holds m_mutex.
+    void AttachLocked();
+
     std::unique_ptr<server_shared_memory_client> m_shmClient;
     shm_scope_stream_reader m_shmReader;
 
+    // Rate-limits Run()'s reattach attempts while unattached.
+    std::chrono::steady_clock::time_point m_lastAttachAttempt{};
     // Previous validity for transition-only logging in Run().
     bool m_shmReaderLastValid = false;
     // Slot-local cursor of the last emitted window (skip repaints when the

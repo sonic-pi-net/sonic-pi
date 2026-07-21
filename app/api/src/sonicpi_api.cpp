@@ -684,6 +684,15 @@ bool SonicPiAPI::PingUntilServerCreated()
         // Create the audio processor
         m_spAudioProcessor = std::make_shared<AudioProcessor>(m_pClient, GetPort(SonicPiPortId::scsynth));
 
+        // Attach to the shm segment here rather than relying solely on the
+        // GUI's /spider/ready handler: spider announces itself as soon as it
+        // registers its endpoints, which is always before this ping loop gets
+        // its reply, so that handler's ResetConnection lands while the
+        // processor is still null and does nothing. Without this the scope,
+        // node tree, metrics and ring readers stay unattached until a cold
+        // swap happens to re-trigger it.
+        m_spAudioProcessor->ResetConnection();
+
         // All good
         m_state = State::Created;
         LOG(INFO, "API State set to: Created...");
