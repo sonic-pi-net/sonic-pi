@@ -154,12 +154,19 @@ phase_rust() {
         setup_paths
     fi
 
-    # State the host and toolchain rather than trusting whatever the installer
-    # settled on: an image carrying a pre-existing ~/.rustup keeps the default
-    # from its own settings.toml and ignores the inferred one.
-    rustup set default-host "$triple"
-    rustup toolchain install "stable-$triple" --profile minimal
-    rustup default "stable-$triple"
+    # Correct the toolchain only if it isn't already the right host — an image
+    # carrying a pre-existing ~/.rustup keeps the default from its own
+    # settings.toml and ignores the inferred one.
+    #
+    # --force-non-host is required for the same reason the triple has to be
+    # pinned: rustup reads the kernel (x86_64) and calls an i686 toolchain
+    # foreign, refusing with "may not be able to run on this system". Nothing is
+    # emulated here — 32-bit binaries run natively on this CPU.
+    if ! rustc -vV 2>/dev/null | grep -q "^host: $triple$"; then
+        rustup set default-host "$triple"
+        rustup toolchain install --force-non-host --profile minimal "stable-$triple"
+        rustup default --force-non-host "stable-$triple"
+    fi
 
     # Fail here, with the toolchain in view, rather than deep into a build.
     cargo --version
