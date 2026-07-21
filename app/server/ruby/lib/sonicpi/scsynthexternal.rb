@@ -24,6 +24,11 @@ module SonicPi
   class SCSynthExternal
     include Util
 
+    # Raised when SuperSonic never answers the boot handshake. Distinct from a
+    # missing process: the audio server may be running perfectly well and
+    # simply unable to drain OSC because its audio device stopped ticking.
+    class BootError < StandardError ; end
+
     attr_reader :version
 
     def initialize(events, scsynth_port, register_cue_event_lambda)
@@ -173,7 +178,17 @@ module SonicPi
       os == :raspberry
     end
 
-    def wait_for_boot
+    def boot_timeout_message(timeout)
+      "The SuperSonic audio server did not respond within #{timeout} seconds.\n" \
+        "It was started on port #{@send_port} but never answered the boot handshake.\n" \
+        "This usually means the audio device is not responding - another\n" \
+        "application may be holding it, or a virtual audio driver may be in a\n" \
+        "bad state. Try selecting a different audio device, or restarting your\n" \
+        "machine.\n" \
+        "See #{Paths.log_path}/supersonic.log for what the audio server was doing."
+    end
+
+    def wait_for_boot(timeout=30)
       puts "SuperSonic boot - Waiting for audio server..."
       p = Promise.new
       connected = false
@@ -201,10 +216,10 @@ module SonicPi
       end
 
       begin
-        p.get(30)
+        p.get(timeout)
       rescue Exception => e
-        puts "SuperSonic boot - Unable to connect (#{e.message}). Exiting..."
-        exit
+        puts "SuperSonic boot - Unable to connect (#{e.message})."
+        raise BootError, boot_timeout_message(timeout)
       ensure
         t.kill
         boot_s.stop
@@ -212,7 +227,7 @@ module SonicPi
 
       unless connected
         puts "SuperSonic boot - Unable to connect"
-        raise "SuperSonic boot - Unable to connect"
+        raise BootError, boot_timeout_message(timeout)
       end
 
       puts "SuperSonic boot - Connection established"

@@ -259,8 +259,15 @@ rescue Exception => e
   STDOUT.puts "Spider - Failed to start server: " + e.message
   STDOUT.puts e.backtrace.join("\n")
   STDOUT.flush
+  # A boot error already explains itself in user terms - a backtrace through
+  # the audio server's handshake tells the user nothing they can act on.
+  boot_error = defined?(SonicPi::SCSynthExternal::BootError) &&
+                 e.is_a?(SonicPi::SCSynthExternal::BootError)
+  gui_msg = boot_error ?
+              e.message :
+              "Server Exception:\n #{e.message}\n #{e.backtrace}"
   begin
-    gui.send("/exited-with-boot-error", "Server Exception:\n #{e.message}\n #{e.backtrace}")
+    gui.send("/exited-with-boot-error", gui_msg)
   rescue Errno::EPIPE
     STDOUT.puts "Spider - GUI not listening, exit anyway."
     STDOUT.flush
