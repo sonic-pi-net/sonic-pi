@@ -18,21 +18,38 @@ trap cleanup_function EXIT
 #   ./linux-appimage.sh --rebuild-dist   rerun linux-release.sh first
 #   VERSION=4.6.0 ./linux-appimage.sh    override version (else read from
 #                                         the repo-root VERSION file)
+#
+# Environment:
+#   SP_APPIMAGE_ARCH  override the detected arch (x86_64/aarch64/i686)
+#   SP_MAX_GLIBC      fail the build if the glibc floor rises above this
+#                     version — see check_glibc_floor()
 
 DIST_DIR="${SCRIPT_DIR}/build/linux_dist"
 APPDIR="${SCRIPT_DIR}/build/Sonic_Pi.AppDir"
 TOOLS_DIR="${SCRIPT_DIR}/build/_appimage_tools"
 ICON_SRC="${SCRIPT_DIR}/gui/images/icon.png"
 ICON_SIZE=256
-ARCH="$(uname -m)"
+ARCH="${SP_APPIMAGE_ARCH:-$(uname -m)}"
 
-# Display arch for the output filename — matches MSI/DMG conventions
-# (x64/arm64). appimagetool still gets the canonical ARCH ($ARCH) so its
-# runtime header is correct.
+# Canonicalise the ix86 family to i686. Which of i386/i486/i586/i686 `uname -m`
+# reports depends on the process personality, so a 32-bit build can arrive here
+# under any of them.
 case "$ARCH" in
-    x86_64)  ARCH_DISPLAY="x64"   ;;
-    aarch64) ARCH_DISPLAY="arm64" ;;
-    *)       ARCH_DISPLAY="$ARCH" ;;
+    i[3456]86) ARCH="i686" ;;
+esac
+
+# Three different arch spellings are needed per target:
+#   ARCH_DISPLAY      output filename — matches MSI/DMG conventions (x64/arm64/x86)
+#   LINUXDEPLOY_ARCH  linuxdeploy + linuxdeploy-plugin-qt release asset names
+#   APPIMAGETOOL_ARCH appimagetool release asset name, and the ARCH env var it
+#                     reads to pick the runtime embedded in the AppImage header
+# They agree on x86_64/aarch64 but not on 32-bit x86, where linuxdeploy ships
+# `-i386` assets and appimagetool ships `-i686` ones.
+case "$ARCH" in
+    x86_64)  ARCH_DISPLAY="x64"   ; LINUXDEPLOY_ARCH="x86_64"  ; APPIMAGETOOL_ARCH="x86_64" ;;
+    aarch64) ARCH_DISPLAY="arm64" ; LINUXDEPLOY_ARCH="aarch64" ; APPIMAGETOOL_ARCH="aarch64" ;;
+    i686)    ARCH_DISPLAY="x86"   ; LINUXDEPLOY_ARCH="i386"    ; APPIMAGETOOL_ARCH="i686"   ;;
+    *)       ARCH_DISPLAY="$ARCH" ; LINUXDEPLOY_ARCH="$ARCH"   ; APPIMAGETOOL_ARCH="$ARCH"  ;;
 esac
 
 # Pure-video codec libs aubio_onset transitively pulls in via libavcodec but
@@ -111,15 +128,15 @@ ensure_tool() {
 ensure_tools() {
     mkdir -p "${TOOLS_DIR}"
     LINUXDEPLOY="$(ensure_tool \
-        "linuxdeploy-${ARCH}.AppImage" \
-        "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${ARCH}.AppImage")"
+        "linuxdeploy-${LINUXDEPLOY_ARCH}.AppImage" \
+        "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${LINUXDEPLOY_ARCH}.AppImage")"
     local qt_plugin
     qt_plugin="$(ensure_tool \
-        "linuxdeploy-plugin-qt-${ARCH}.AppImage" \
-        "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-${ARCH}.AppImage")"
+        "linuxdeploy-plugin-qt-${LINUXDEPLOY_ARCH}.AppImage" \
+        "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-${LINUXDEPLOY_ARCH}.AppImage")"
     APPIMAGETOOL="$(ensure_tool \
-        "appimagetool-${ARCH}.AppImage" \
-        "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-${ARCH}.AppImage")"
+        "appimagetool-${APPIMAGETOOL_ARCH}.AppImage" \
+        "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-${APPIMAGETOOL_ARCH}.AppImage")"
 
     # linuxdeploy searches PATH for `linuxdeploy-plugin-qt*` to load the
     # `--plugin qt` argument. Put the symlink to the AppRun in a clean
@@ -136,15 +153,15 @@ ensure_tools() {
 
 ensure_dist() {
     if [ "$REBUILD_DIST" = true ] || [ ! -d "$DIST_DIR" ]; then
-        echo "[1/5] Staging linux_dist via linux-release.sh..."
+        echo "[1/6] Staging linux_dist via linux-release.sh..."
         "${SCRIPT_DIR}/linux-release.sh"
     else
-        echo "[1/5] Reusing existing linux_dist (pass --rebuild-dist to refresh)"
+        echo "[1/6] Reusing existing linux_dist (pass --rebuild-dist to refresh)"
     fi
 }
 
 stage_appdir() {
-    echo "[2/5] Staging AppDir..."
+    echo "[2/6] Staging AppDir..."
     rm -rf "$APPDIR"
     mkdir -p "$APPDIR/usr/bin" \
              "$APPDIR/usr/lib" \
@@ -264,7 +281,7 @@ EOF
 }
 
 write_metadata() {
-    echo "[3/5] Writing icon, .desktop, mime, AppRun..."
+    echo "[3/6] Writing icon, .desktop, mime, AppRun..."
     write_icon
     write_desktop
     write_mime
@@ -274,7 +291,7 @@ write_metadata() {
 # ── Bundling + packaging ─────────────────────────────────────────────────────
 
 bundle_deps() {
-    echo "[4/5] Bundling Qt + native deps via linuxdeploy..."
+    echo "[4/6] Bundling Qt + native deps via linuxdeploy..."
     local exclude_args=()
     for lib in "${EXCLUDED_LIBS[@]}"; do
         exclude_args+=(--exclude-library "${lib}*")
@@ -313,11 +330,57 @@ bundle_deps() {
     fi
 }
 
+# Report (and optionally enforce) the AppImage's glibc floor.
+#
+# The floor is the highest GLIBC_x.y symbol version referenced by anything we
+# bundle — NOT the build machine's glibc, which is only an upper bound. A
+# distro whose glibc predates the floor cannot run the AppImage at all: the
+# dynamic loader fails before main(). So this number, not the build container's
+# version, is what actually decides how many distros we support.
+#
+# Set SP_MAX_GLIBC=x.y to fail the build if the floor ever rises above a
+# budget — that catches a newly-added dependency silently dropping distros.
+check_glibc_floor() {
+    echo "[5/6] Checking glibc floor..."
+    if ! command -v objdump >/dev/null 2>&1; then
+        echo "    objdump not found (install binutils) — skipping"
+        return
+    fi
+
+    local versions
+    versions=$(find "$APPDIR" -type f \( -perm -u+x -o -name '*.so*' \) -print0 \
+        | xargs -0 -r objdump -T 2>/dev/null \
+        | grep -o 'GLIBC_[0-9][0-9.]*' \
+        | sed 's/^GLIBC_//; s/\.$//' \
+        | sort -Vu)
+
+    if [ -z "$versions" ]; then
+        echo "    no GLIBC_ symbol versions found — skipping"
+        return
+    fi
+
+    local floor
+    floor="$(echo "$versions" | tail -n1)"
+    echo "    glibc floor: ${floor} (highest symbol version referenced)"
+
+    if [ -n "${SP_MAX_GLIBC:-}" ]; then
+        # sort -V orders ascending, so the floor is over budget iff it, rather
+        # than the budget, sorts last.
+        if [ "$(printf '%s\n%s\n' "$SP_MAX_GLIBC" "$floor" | sort -V | tail -n1)" != "$SP_MAX_GLIBC" ]; then
+            echo "ERROR: glibc floor ${floor} exceeds SP_MAX_GLIBC=${SP_MAX_GLIBC}." >&2
+            echo "       Something newly bundled needs a newer glibc, which drops" >&2
+            echo "       support for distros that were previously able to run this." >&2
+            exit 1
+        fi
+    fi
+}
+
 package_appimage() {
-    echo "[5/5] Packaging AppImage..."
-    # appimagetool reads ARCH from the env to embed in the AppImage runtime
-    # header. Use `env` so the assignment doesn't conflict with our readonly ARCH.
-    env ARCH="$ARCH" "$APPIMAGETOOL" "$APPDIR" "$OUTPUT"
+    echo "[6/6] Packaging AppImage..."
+    # appimagetool reads ARCH from the env to pick the runtime it embeds in the
+    # AppImage header. Use `env` so the assignment is scoped to this one call
+    # and doesn't clobber the script's own ARCH.
+    env ARCH="$APPIMAGETOOL_ARCH" "$APPIMAGETOOL" "$APPDIR" "$OUTPUT"
 }
 
 # ── Main ─────────────────────────────────────────────────────────────────────

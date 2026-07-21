@@ -309,6 +309,7 @@ jobs:
             ~/.sonic-pi/log/*.log
 
   # Build distributable AppImages for Linux x86_64 and aarch64.
+  # (32-bit x86 can't share this job's shape — see package-linux-i386 below.)
   #
   # Each arch builds in the *oldest* container its Qt prebuilds tolerate,
   # because that container's glibc is the AppImage's runtime floor.
@@ -452,6 +453,121 @@ jobs:
       - name: Capture AppImage basename
         id: img
         shell: bash
+        run: |
+          f=$(ls "$GITHUB_WORKSPACE"/app/build/Sonic-Pi-*.AppImage | head -n1)
+          echo "name=$(basename "$f" .AppImage)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.img.outputs.name }}
+          path: ${{github.workspace}}/app/build/Sonic-Pi-*.AppImage
+          if-no-files-found: error
+
+  # Build, test and package 32-bit x86 (i686).
+  #
+  # This runs the same three suites the build matrix does (Spider, API, GUI),
+  # so 32-bit gets real test coverage rather than a build-only smoke check.
+  # The suites gate packaging: a failing test means no AppImage.
+  #
+  # This job is shaped differently from package-linux above, for two reasons:
+  #
+  #  1. No Qt prebuilds. aqtinstall carries linux_x64 and linux_arm64 only, so
+  #     Qt comes from Debian instead. bookworm is the oldest suite with a full
+  #     Qt 6 i386 stack; its glibc 2.36 is therefore the AppImage's runtime
+  #     floor, and its Qt 6.4 means the accessibility features gated on Qt 6.8+
+  #     in app/gui/CMakeLists.txt compile out of this build. Moving to
+  #     i386/debian:trixie gets Qt 6.8 back at the cost of a glibc 2.41 floor.
+  #
+  #  2. No `container:`. The runner injects its own x86_64 Node to execute JS
+  #     actions, and an i386 rootfs has no ld-linux-x86-64.so.2, so checkout /
+  #     cache / upload-artifact would all fail. Instead the job runs on the
+  #     normal x86_64 host — actions included — and only the build itself is
+  #     put inside a 32-bit container. Nothing is emulated: x86_64 CPUs run
+  #     32-bit code natively, so this costs roughly what the x86_64 job does.
+  package-linux-i386:
+    name: "Linux i686 (build, test, AppImage)"
+    runs-on: ubuntu-22.04
+    env:
+      RUBY_VERSION: 3.4.4
+      SP_I386_IMAGE: i386/debian:bookworm
+      # The build prints its glibc floor (the highest GLIBC_ symbol any bundled
+      # binary references), which is what actually decides distro coverage —
+      # it can sit well below the container's own 2.36. Once the first run
+      # reports it, pin it here as SP_MAX_GLIBC so a future dependency can't
+      # quietly raise the floor and drop distros:
+      #   SP_MAX_GLIBC: "2.34"
+    steps:
+      - uses: actions/checkout@v4
+
+      # Cache the bundled Ruby tree across runs — recompiling MRI takes ~3-5min.
+      - name: Restore bundled Ruby cache
+        id: ruby-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{github.workspace}}/_bundled_ruby
+          key: bundled-ruby-i686-${{env.RUBY_VERSION}}-debian12
+
+      # One long-lived container for every phase below. Running each phase as
+      # its own `docker exec` (rather than a single `docker run` doing the lot)
+      # keeps the apt install shared while still giving each stage its own CI
+      # step, so a failure names the stage that broke.
+      - name: Start 32-bit container
+        run: |
+          docker run -d --name sp32 \
+            --platform linux/386 \
+            -v "${GITHUB_WORKSPACE}:/src" \
+            -w /src/app \
+            -e RUBY_VERSION \
+            -e SP_MAX_GLIBC \
+            "${SP_I386_IMAGE}" sleep infinity
+
+      - name: Install dependencies
+        run: docker exec sp32 ./linux-appimage-i386-container.sh deps
+
+      - name: Build Ruby ${{env.RUBY_VERSION}}
+        run: docker exec sp32 ./linux-appimage-i386-container.sh ruby
+
+      - name: Setup Rust
+        run: docker exec sp32 ./linux-appimage-i386-container.sh rust
+
+      - name: Build
+        run: docker exec sp32 ./linux-appimage-i386-container.sh build
+
+      - name: Tests (Spider, API, GUI)
+        run: docker exec sp32 ./linux-appimage-i386-container.sh test
+
+      - name: Package AppImage
+        run: docker exec sp32 ./linux-appimage-i386-container.sh package
+
+      # Spider and API test failures are usually only diagnosable from the
+      # Sonic Pi logs, which land in the container's root home rather than the
+      # mounted workspace — copy them out before the container goes away.
+      - name: Collect logs from container
+        if: ${{ always() }}
+        run: docker cp sp32:/root/.sonic-pi/log "${GITHUB_WORKSPACE}/i686-logs" || true
+
+      - name: Stop 32-bit container
+        if: ${{ always() }}
+        run: docker rm -f sp32 || true
+
+      - name: Archive Logs
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: Logs_Linux_i686
+          path: ${{github.workspace}}/i686-logs/*.log
+          if-no-files-found: ignore
+
+      # The container builds as root, so everything it wrote is root-owned.
+      # Hand it back before the cache and artifact actions (which run as the
+      # unprivileged runner user) try to read it.
+      - name: Reclaim ownership of container-written files
+        if: ${{ always() }}
+        run: sudo chown -R "$(id -u):$(id -g)" "${GITHUB_WORKSPACE}"
+
+      - name: Capture AppImage basename
+        id: img
         run: |
           f=$(ls "$GITHUB_WORKSPACE"/app/build/Sonic-Pi-*.AppImage | head -n1)
           echo "name=$(basename "$f" .AppImage)" >> "$GITHUB_OUTPUT"
