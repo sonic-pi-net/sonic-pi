@@ -2256,7 +2256,11 @@ QString MainWindow::rootPath()
         return QString::fromLocal8Bit(envRoot);
 
     // diversity is the spice of life
-#if defined(Q_OS_MAC)
+#if defined(SONIC_PI_INSTALL_ROOT)
+    // A packaged build installed to a fixed prefix, where the executable no
+    // longer sits at a known depth below the tree it needs to find.
+    return QStringLiteral(SONIC_PI_INSTALL_ROOT);
+#elif defined(Q_OS_MAC)
     return QCoreApplication::applicationDirPath() + "/../Resources";
 #elif defined(Q_OS_WIN)
     // CMake builds, the exe is in build/debug/sonic-pi, etc.

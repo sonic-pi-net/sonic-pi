@@ -42,6 +42,10 @@ if (WIN32 OR APPLE)
             # propagate vcpkg information
             -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
             -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+            # a nested project starts from a bare cache, so hardening and
+            # reproducibility flags have to be handed down explicitly
+            -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
+            -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
         )
 endif()
 
@@ -71,6 +75,22 @@ if(UNIX)
         m)
 endif()
 
+# SuperSonic's system-library switches (used by distribution packagers) and
+# the FetchContent offline controls only act inside the nested build, so
+# forward any that were set on this configure.
+set(SUPERSONIC_FORWARD_ARGS "")
+foreach(opt
+    SUPERSONIC_SYSTEM_JUCE
+    SUPERSONIC_SYSTEM_SNDFILE
+    SUPERSONIC_SYSTEM_BOOST
+    SUPERSONIC_CARGO_OFFLINE
+    FETCHCONTENT_FULLY_DISCONNECTED
+    FETCHCONTENT_SOURCE_DIR_ABLETONLINK)
+    if(DEFINED ${opt})
+        list(APPEND SUPERSONIC_FORWARD_ARGS "-D${opt}=${${opt}}")
+    endif()
+endforeach()
+
 # SuperSonic — BUILD_ALWAYS ensures source changes are picked up
 # without needing to manually delete stamp files.
 ExternalProject_Add(supersonic
@@ -82,6 +102,11 @@ ExternalProject_Add(supersonic
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DBUILD_TESTS=OFF
         -DBUILD_NIF=OFF
+        # a nested project starts from a bare cache, so hardening and
+        # reproducibility flags have to be handed down explicitly
+        -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
+        -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
+        ${SUPERSONIC_FORWARD_ARGS}
     BUILD_COMMAND ${CMAKE_COMMAND} --build . --config ${CMAKE_BUILD_TYPE} --target SuperSonic
     INSTALL_COMMAND ""
 )

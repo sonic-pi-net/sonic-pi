@@ -15,8 +15,15 @@
 #include <reproc++/drain.hpp>
 #include <reproc++/reproc.hpp>
 #include <reproc++/run.hpp>
-#include <sago/platform_folders.h>
 #include <kissnet.hpp>
+
+#if defined(WIN32)
+#include <sago/platform_folders.h>
+#else
+#include <pwd.h>
+#include <unistd.h>
+#include <vector>
+#endif
 
 #include <api/file_utils.h>
 #include <api/logger.h>
@@ -158,7 +165,31 @@ fs::path SonicPiAPI::FindHomePath() const
         return fs::path(home);
     }
 
+#if defined(WIN32)
     return fs::path(sago::getDocumentsFolder()).parent_path();
+#else
+    // No HOME in the environment, so ask the password database. This is what
+    // the documents-folder lookup did internally on these platforms anyway,
+    // and going direct means a packaged build needs no extra library.
+    long bufSize = sysconf(_SC_GETPW_R_SIZE_MAX);
+    if (bufSize < 0)
+    {
+        bufSize = 16384;
+    }
+
+    std::vector<char> buffer(static_cast<size_t>(bufSize));
+    struct passwd pwd;
+    struct passwd* pResult = nullptr;
+    if (getpwuid_r(getuid(), &pwd, buffer.data(), buffer.size(), &pResult) != 0 || pResult == nullptr)
+    {
+        throw std::runtime_error("Unable to get passwd struct.");
+    }
+    if (pwd.pw_dir == nullptr)
+    {
+        throw std::runtime_error("User has no home directory");
+    }
+    return fs::path(pwd.pw_dir);
+#endif
 }
 
 std::error_code SonicPiAPI::RunProcess(const std::vector<std::string>& args, std::string* pOutput)

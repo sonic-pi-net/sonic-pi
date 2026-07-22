@@ -231,7 +231,10 @@ module SonicPi
       when :windows
         File.absolute_path("#{native_path}/sox/sox.exe")
       else
-        File.absolute_path("#{native_path}/sox/sox")
+        # Distribution packages depend on the system sox rather than shipping
+        # a copy, so fall back to the name and let PATH resolve it.
+        bundled = File.absolute_path("#{native_path}/sox/sox")
+        File.exist?(bundled) ? bundled : "sox"
       end
     end
 

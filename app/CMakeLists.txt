@@ -53,6 +53,13 @@ if (NOT APP_INSTALL_ROOT)
     set(APP_INSTALL_ROOT ${APP_ROOT})
 endif()
 
+# Absolute location of the installed Sonic Pi tree (the directory holding
+# etc/ and app/). Left empty for development and for the macOS/Windows
+# bundles, which locate their own resources relative to the executable.
+# Distribution packagers that split the tree across the filesystem set this
+# to the fixed install prefix, e.g. -DSONIC_PI_INSTALL_ROOT=/usr/lib/sonic-pi
+set(SONIC_PI_INSTALL_ROOT "" CACHE PATH "Absolute root of an installed Sonic Pi tree")
+
 list(APPEND CMAKE_MODULE_PATH ${APP_ROOT}/cmake)
 include(cmake/utils.cmake)
 include(cmake/common.cmake)

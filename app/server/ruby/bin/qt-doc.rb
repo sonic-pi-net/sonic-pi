@@ -99,6 +99,7 @@ FileUtils::mkdir "#{SonicPi::Paths.qt_gui_path}/book/"
 
 docs = []
 filenames = []
+booknames = []
 count = 0
 
 # valid names: lang, synths, fx, samples, examples
@@ -192,7 +193,9 @@ make_tab = lambda do |name, doc_items, titleize=false, should_sort=true, with_ke
   book_body = book[/<body.*?>/]
   book.gsub!(/<\/?body.*?>/, '')
   book.gsub!(/<meta http-equiv.*?>/, '')
-  File.open("#{SonicPi::Paths.qt_gui_path}/book/Sonic Pi - #{name.capitalize}" + (lang != "en" ? " (#{lang})" : "") + ".html", 'w') do |f|
+  bookname = "Sonic Pi - #{name.capitalize}" + (lang != "en" ? " (#{lang})" : "")
+  booknames << bookname
+  File.open("#{SonicPi::Paths.qt_gui_path}/book/#{bookname}.html", 'w') do |f|
     f << "<link rel=\"stylesheet\" href=\"../theme/light/doc-styles.css\" type=\"text/css\"/>\n"
     f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
     f << book_body << "\n"
@@ -635,6 +638,17 @@ File.open("#{SonicPi::Paths.qt_gui_path}/help_files.qrc", 'w') do |f|
   f << "<RCC>\n  <qresource prefix=\"/\">\n"
   f << filenames.map{|n| "    <file>#{n}</file>\n"}.join
   f << "  </qresource>\n</RCC>\n"
+end
+
+# Landing page for the generated books. The GUI reaches each book directly, but
+# an entry point is what makes the same directory usable as standalone HTML
+# documentation, which is how distribution packages present it.
+File.open("#{SonicPi::Paths.qt_gui_path}/book/index.html", 'w') do |f|
+  f << "<link rel=\"stylesheet\" href=\"../theme/light/doc-styles.css\" type=\"text/css\"/>\n"
+  f << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
+  f << "<body><ul>\n"
+  f << booknames.sort.map{|n| "<li><a href=\"#{n}.html\">#{n}</a></li>\n"}.join
+  f << "</ul></body>\n"
 end
 
 

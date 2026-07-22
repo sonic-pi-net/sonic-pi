@@ -27,7 +27,11 @@ if(WIN32)
 endif()
 
 # Specify unique binary directories for each vendored project.
-add_subdirectory("${VENDOR_DIR}/${PLATFORMFOLDERS_VERSION}" "${CMAKE_BINARY_DIR}/${PLATFORMFOLDERS_VERSION}")
+# PlatformFolders is only needed for the Windows home directory lookup; the
+# other platforms read the password database directly.
+if(WIN32)
+    add_subdirectory("${VENDOR_DIR}/${PLATFORMFOLDERS_VERSION}" "${CMAKE_BINARY_DIR}/${PLATFORMFOLDERS_VERSION}")
+endif()
 add_subdirectory("${VENDOR_DIR}/${REPROC_VERSION}" "${CMAKE_BINARY_DIR}/${REPROC_VERSION}")
 add_subdirectory("${VENDOR_DIR}/${KISSFFT_VERSION}" "${CMAKE_BINARY_DIR}/${KISSFFT_VERSION}")
 
@@ -93,8 +97,6 @@ target_include_directories(${PROJECT_NAME}
         ${VENDOR_DIR}/${GHC_FILESYSTEM_VERSION}/include
         ${VENDOR_DIR}/${KISSNET_VERSION}
         ${VENDOR_DIR}/${REPROC_VERSION}/reproc++/include
-        ${VENDOR_DIR}/${PLATFORMFOLDERS_VERSION}
-        ${VENDOR_DIR}/${KISSNET_VERSION}
         ${VENDOR_DIR}/${KISSFFT_VERSION}
 
     PRIVATE
@@ -104,11 +106,15 @@ target_include_directories(${PROJECT_NAME}
 # Link to the vendored targets
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
-        sago::platform_folders
         reproc
         reproc++
         kissfft
 )
+
+if(WIN32)
+    target_include_directories(${PROJECT_NAME} PUBLIC ${VENDOR_DIR}/${PLATFORMFOLDERS_VERSION})
+    target_link_libraries(${PROJECT_NAME} PUBLIC sago::platform_folders)
+endif()
 
 # Platform-specific link libraries
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
