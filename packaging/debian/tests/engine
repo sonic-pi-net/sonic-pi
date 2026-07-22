@@ -60,15 +60,25 @@ fi
 
 cat "$OUT"
 
-grep -q 'READY' "$OUT"                || { echo "engine never became ready" >&2; exit 1; }
-grep -q 'autopkgtest-marker-2' "$OUT" || { echo "user code did not evaluate" >&2; exit 1; }
-grep -q 'autopkgtest-finished' "$OUT" || { echo "user code did not complete" >&2; exit 1; }
+# The interesting detail of a boot failure is always in the daemon's own logs.
+fail() {
+    echo "$1" >&2
+    for f in "$HOME"/.sonic-pi/log/*.log; do
+        [ -f "$f" ] || continue
+        echo "=== $f ===" >&2
+        cat "$f" >&2
+    done
+    exit 1
+}
+
+grep -q 'READY' "$OUT"                || fail "engine never became ready"
+grep -q 'autopkgtest-marker-2' "$OUT" || fail "user code did not evaluate"
+grep -q 'autopkgtest-finished' "$OUT" || fail "user code did not complete"
 
 # Written as an if rather than `grep && exit 1`, whose non-match status would
 # trip set -e in the passing case.
 if grep -q 'SYNTAX ERROR\|ERROR run' "$OUT"; then
-    echo "errors reported during run" >&2
-    exit 1
+    fail "errors reported during run"
 fi
 
 echo "PASS: engine booted, evaluated code and shut down"

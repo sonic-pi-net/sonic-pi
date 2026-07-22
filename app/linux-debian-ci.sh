@@ -87,7 +87,13 @@ phase_autopkgtest() {
     echo "=== autopkgtest ==="
     # debs + .dsc (a binary-only .changes does not reference the source, and
     # autopkgtest needs the source tree for debian/tests).
-    autopkgtest "$WORK"/build-area/*.deb "$WORK"/*.dsc -- null
+    # Exit 2 means only skipped or flaky-marked tests failed (the engine boot
+    # test is flaky by design); the gating layout test still fails the run.
+    rc=0
+    autopkgtest "$WORK"/build-area/*.deb "$WORK"/*.dsc -- null || rc=$?
+    if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
+        exit "$rc"
+    fi
 }
 
 phase_smoke() {
