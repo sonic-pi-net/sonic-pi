@@ -17,9 +17,13 @@
 #include <QLine>
 #include <QImage>
 #include <QThread>
+#include <QElapsedTimer>
 
 #include <memory>
 #include <string>
+#include <vector>
+
+#include "api/audio/server_shm.hpp"
 
 class QTimer;
 
@@ -40,7 +44,8 @@ enum class ScopeWindowType
     Mono,
     Lissajous,
     MirrorStereo,
-    SpectrumAnalysis
+    SpectrumAnalysis,
+    Levels
 };
 
 struct ScopeWindowPanel
@@ -100,6 +105,9 @@ public:
     void SetSuspended(bool suspended);
     void SetColor(QColor c);
     void SetColor2(QColor c);
+    // Levels meter: the accent for the overdrive tip (the theme's attention
+    // colour).
+    void SetLevelHotColour(QColor hot);
     // Scope background (the faded-clear/phosphor colour). Set from the theme's
     // LogBackground so it's the dark content colour, not the window-chrome grey.
     void SetBackgroundColor(QColor c);
@@ -107,6 +115,7 @@ public:
     // the dock divider lines.
     void SetPauseButtonColor(QColor c);
 
+    void DrawLevels(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);
     void DrawWave(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);
     void DrawMirrorStereo(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);
     void DrawLissajous(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);
@@ -138,6 +147,11 @@ protected:
 private:
     void Layout();
     bool SnapshotSilent(const ProcessedAudio& audio) const;
+    // True while a visible Levels panel still has meter state above the
+    // floor — bars, peak-hold or gain reduction that hasn't run down yet.
+    // The ballistics only advance per paint, so the settle machinery must
+    // keep repainting until this clears.
+    bool LevelsRunningDown() const;
     // A zeroed snapshot matching the current one's geometry: what the settle
     // repaints draw so the phosphor trail fades to a flat line rather than
     // re-burning the last waveform (empty/missing frames leave m_audio stale).
@@ -157,6 +171,32 @@ private:
     bool m_paused = false;
     bool m_pendingPause = false;
     bool m_suspended = false;
+
+    // Levels panel: stereo RMS/peak ballistics state, advanced each paint
+    // (the pane repaints per audio frame; the settle window animates the
+    // final decay before pause-when-silent freezes it).
+    struct LevelChannel
+    {
+        float rmsDb = -60.0f;
+        float peakDb = -60.0f;
+        float holdDb = -60.0f;
+        qint64 holdUntilMs = 0;
+    };
+    LevelChannel m_levels[2];
+    qint64 m_levelLastMs = 0;
+    QElapsedTimer m_levelClock;
+    QColor m_levelHot = QColor(255, 20, 147);
+
+    // Overdrive / gain reduction: the mixer taps its limiter input into a
+    // reserved scope slot (see etc/synthdefs/designs/supercollider/mixer.scd).
+    // How far that input pushes past the ceiling is what the limiter must
+    // take off — drawn as the bar's tip crossing into the hot zone.
+    shm_scope_stream_reader m_preLimReader;
+    uint64_t m_preLimLastEnd = 0;
+    std::vector<float> m_grScratch;
+    float m_grTargetDb = 0.0f;    // latest window's dB past the ceiling
+    float m_grDb = 0.0f;          // displayed, bar ballistics, always >= 0
+    bool m_grAvailable = false;   // false until the tap produces a window
     // Pause/resume toggle (hosted in the scope dock title row); also freezes the
     // image for inspection (waveform shapes, spectrum peaks).
     ScopePauseButton* m_pauseButton = nullptr;

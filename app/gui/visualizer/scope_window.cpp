@@ -49,6 +49,15 @@ const float FFTDecibelRange = 70.0f;
 // fully fade, then stop repainting until real signal returns. ~20 frames
 // (~1/3 s at 60fps) is enough at the current decay rate.
 const int SilentSettleFrames = 20;
+// Bottom of the Levels meter's scale. Shared with LevelsRunningDown so
+// "settled" means exactly "drawn at zero width" — a threshold above the
+// floor would freeze the pane with a stub of bar still lit.
+const float LevelFloorDb = -60.0f;
+// Scope slot the mixer taps its limiter input into. Must match
+// pre_limiter_scope_num in etc/synthdefs/designs/supercollider/mixer.scd.
+// The top slot deliberately: user code picks scope_num: from the bottom
+// (scope_out defaults to 1), so a reservation up here won't be walked over.
+const unsigned int PreLimiterScopeSlot = 31;
 } // namespace
 
 // A small pause/resume chip floating in the scope's top-right corner: a quiet
@@ -170,6 +179,8 @@ ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<
     m_settleTimer->setInterval(33);
     connect(m_settleTimer, &QTimer::timeout, this, &ScopeWindow::SettleTick);
 
+    m_levelClock.start();
+    m_panels.push_back({ "Levels", tr("Levels"), ScopeWindowType::Levels });
     m_panels.push_back({ "Lissajous", tr("Lissajous"), ScopeWindowType::Lissajous });
     m_panels.push_back({ "Stereo", tr("Left"), ScopeWindowType::Left });
     m_panels.push_back({ "Stereo", tr("Right"), ScopeWindowType::Right });
@@ -226,6 +237,203 @@ void ScopeWindow::resizeEvent(QResizeEvent* pSize)
 QWidget* ScopeWindow::PauseButton() const
 {
     return m_pauseButton;
+}
+
+// Stereo master meter: an LED ladder per channel following peak level, with
+// 0 dBFS at kWallFrac of the run. Past that line the bar's tip continues in
+// the hot accent by the measured overdrive — how far the mixer's pre-limiter
+// signal exceeds the ceiling, which is what the master limiter takes off.
+void ScopeWindow::DrawLevels(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel)
+{
+    static const float kFloorDb = LevelFloorDb;
+    static const float kRmsAttackTauMs = 60.0f;
+    static const float kRmsReleaseTauMs = 300.0f;
+    static const float kPeakFallDbPerSec = 26.0f;
+    static const float kHoldMs = 1500.0f;
+    static const float kHoldFallDbPerSec = 36.0f;
+
+    const auto toDb = [](float v) {
+        return (v <= 1e-5f) ? kFloorDb : std::max(kFloorDb, 20.0f * std::log10(v));
+    };
+    // Fraction of the bar at which 0 dBFS sits; the run beyond it is the
+    // overdrive zone.
+    static const float kWallFrac = 0.78f;
+    // Piecewise up to the wall: -60..-18 dB compressed into 45% of the run,
+    // the top 18 dB (where level decisions live) gets the rest.
+    const auto dbToFrac = [](float db) {
+        db = std::min(0.0f, std::max(kFloorDb, db));
+        if (db <= -18.0f)
+            return kWallFrac * 0.45f * (db - kFloorDb) / (-18.0f - kFloorDb);
+        return kWallFrac * (0.45f + 0.55f * (db + 18.0f) / 18.0f);
+    };
+
+    const qint64 now = m_levelClock.elapsed();
+    qint64 dtClamped = now - m_levelLastMs;
+    if (dtClamped < 0) dtClamped = 0;
+    if (dtClamped > 200) dtClamped = 200;
+    const float dtMs = float(dtClamped);
+    m_levelLastMs = now;
+
+    bool snapshotSilent = true;   // this frame's audio, not the ballistics
+    for (int ch = 0; ch < 2; ch++)
+    {
+        const std::vector<float>& s = audio.m_samples[ch];
+        float framePeak = 0.0f;
+        double sumSq = 0.0;
+        for (float v : s)
+        {
+            framePeak = std::max(framePeak, std::fabs(v));
+            sumSq += double(v) * double(v);
+        }
+        const float rmsTarget = s.empty() ? kFloorDb : toDb(float(std::sqrt(sumSq / double(s.size()))));
+        const float peakTarget = s.empty() ? kFloorDb : toDb(framePeak);
+        if (peakTarget > kFloorDb + 0.5f)
+            snapshotSilent = false;
+
+        LevelChannel& c = m_levels[ch];
+        const float tau = (rmsTarget > c.rmsDb) ? kRmsAttackTauMs : kRmsReleaseTauMs;
+        c.rmsDb += (rmsTarget - c.rmsDb) * (1.0f - std::exp(-dtMs / tau));
+        c.peakDb = std::max(kFloorDb, c.peakDb - kPeakFallDbPerSec * dtMs / 1000.0f);
+        if (peakTarget > c.peakDb)
+            c.peakDb = peakTarget;   // instant attack
+        if (c.peakDb >= c.holdDb)
+        {
+            c.holdDb = c.peakDb;
+            c.holdUntilMs = now + qint64(kHoldMs);
+        }
+        else if (now > c.holdUntilMs)
+        {
+            c.holdDb = std::max(kFloorDb, c.holdDb - kHoldFallDbPerSec * dtMs / 1000.0f);
+        }
+        // The RMS release is exponential and never quite reaches the floor;
+        // snap the last half-dB shut or a sliver stays lit once the pane
+        // stops repainting.
+        const float kSnapDb = 0.5f;
+        if (c.rmsDb < kFloorDb + kSnapDb) c.rmsDb = kFloorDb;
+        if (c.peakDb < kFloorDb + kSnapDb) c.peakDb = kFloorDb;
+        if (c.holdDb < kFloorDb + kSnapDb) c.holdDb = kFloorDb;
+    }
+
+    // The mixer's pre-limiter tap. Re-fetch whenever the reader is invalid:
+    // the audio processor attaches asynchronously (and reattaches after a
+    // cold swap), and on the constrained memory profiles the tap slot
+    // doesn't exist at all — then the tip simply never lights.
+    if (m_spAPI && !m_preLimReader.valid())
+    {
+        m_preLimReader = m_spAPI->AudioProcessor_GetScopeReader(PreLimiterScopeSlot);
+        m_preLimLastEnd = 0;
+    }
+    if (m_spAPI && m_preLimReader.valid())
+    {
+        const uint64_t end = m_spAPI->AudioProcessor_GetSampleClock().audible_end(m_preLimReader);
+        if (end != m_preLimLastEnd)
+        {
+            m_preLimLastEnd = end;
+            const uint32_t frames = 1024;
+            m_grScratch.resize(size_t(frames) * SHM_SCOPE_STREAM_CHANNELS);
+            uint32_t chans = 1;
+            const uint32_t got = m_preLimReader.copy_window(end, frames, m_grScratch.data(), &chans);
+            float p = 0.0f;
+            for (size_t i = 0; i < size_t(got) * chans; i++)
+                p = std::max(p, std::fabs(m_grScratch[i]));
+            m_grTargetDb = std::min(12.0f, std::max(0.0f, toDb(p)));
+            m_grAvailable = true;
+        }
+    }
+
+    if (m_grAvailable)
+    {
+        // No fresh windows arrive once the engine pauses on silence, but the
+        // settle repaints keep coming — run the overdrive down with them
+        // rather than freezing mid-clamp.
+        const float target = snapshotSilent ? 0.0f : m_grTargetDb;
+        // Instant rise; falls at the same rate as the peak bar so tip and
+        // bar recede together.
+        m_grDb = std::max(target, m_grDb - kPeakFallDbPerSec * dtMs / 1000.0f);
+        // Reduction implies the output is pinned at the ceiling — clear the
+        // tip once the level has fallen away from it.
+        if (std::max(m_levels[0].peakDb, m_levels[1].peakDb) < -1.0f)
+            m_grDb = 0.0f;
+        if (m_grDb < 0.3f)
+            m_grDb = 0.0f;
+    }
+
+    // Opt out of the pane's phosphor persistence: a meter must not leave
+    // decaying ghosts, so clear the strip opaquely every frame.
+    painter.fillRect(panel.rc, m_backColor);
+
+    // Level in the second scope colour; the hot accent is reserved for
+    // overdrive, so it always means limiting rather than just loud.
+    const QColor level = panel.pen2.color();
+    const QColor neutral = QWidget::palette().color(QWidget::foregroundRole());
+    const QRect& g = panel.rcGraph;
+
+    const QRectF bars(g);
+    const qreal barH = std::min(qreal(ScaleHeightForDPI(7)), bars.height() * 0.2);
+    const qreal gap = std::max<qreal>(ScaleHeightForDPI(5), barH * 0.6);
+    const qreal top0 = bars.center().y() - gap / 2 - barH;
+
+    // Segment geometry: discrete cells, like a hardware bargraph.
+    const qreal cellW = ScaleWidthForDPI(4);
+    const qreal cellGap = std::max<qreal>(1.0, ScaleWidthForDPI(2));
+    const int cells = std::max(1, int((bars.width() + cellGap) / (cellW + cellGap)));
+
+    // +12 dB of overdrive spans the whole zone past the line.
+    const qreal overEnd = kWallFrac
+        + (m_grAvailable ? std::min<qreal>(1.0, m_grDb / 12.0) : 0.0) * (1.0 - kWallFrac);
+
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    for (int ch = 0; ch < 2; ch++)
+    {
+        const qreal barTop = top0 + ch * (barH + gap);
+        const qreal peakFrac = dbToFrac(m_levels[ch].peakDb);
+
+        painter.setPen(Qt::NoPen);
+        for (int i = 0; i < cells; i++)
+        {
+            const qreal frac = (i + 0.5) / cells;
+            const QRectF cell(bars.left() + i * (cellW + cellGap), barTop, cellW, barH);
+
+            const bool overLine = frac > kWallFrac;
+            const bool isLit = overLine ? (frac <= overEnd) : (frac <= peakFrac);
+            QColor c = overLine ? m_levelHot : level;
+            if (isLit)
+            {
+                QColor glow = c;
+                glow.setAlpha(55);
+                painter.setBrush(glow);
+                painter.drawRect(cell.adjusted(-cellGap * 0.5, -cellGap * 0.5, cellGap * 0.5, cellGap * 0.5));
+                painter.setBrush(c);
+                painter.drawRect(cell);
+            }
+            else
+            {
+                c.setAlpha(overLine ? 22 : 26);   // unlit LED, still a track
+                painter.setBrush(c);
+                painter.drawRect(cell);
+            }
+        }
+    }
+
+    // dB scale labels when scope labels are on.
+    if (panel.titleVisible)
+    {
+        QColor label = neutral;
+        label.setAlpha(140);
+        painter.setPen(label);
+        QFont f = painter.font();
+        SetFontSizeValue(f, FontSizeValue(f) * 0.75);
+        painter.setFont(f);
+        const qreal labelY = top0 + 2 * barH + gap;
+        for (float t : { -18.0f, -6.0f, -3.0f, 0.0f })
+        {
+            const qreal x = bars.left() + dbToFrac(t) * bars.width();
+            const int labelW = ScaleWidthForDPI(40);
+            painter.drawText(QRectF(x - labelW / 2.0, labelY, labelW, ScaleHeightForDPI(14)),
+                             Qt::AlignHCenter | Qt::AlignTop, QString::number(int(t)));
+        }
+    }
+
 }
 
 // Draw a Simple Stereo representation with a mirror of right/left stereo
@@ -584,6 +792,10 @@ void ScopeWindow::paintEvent(QPaintEvent* pEv)
                 DrawSpectrumAnalysis(processedAudio, painter, panel);
             }
         }
+        else if (panel.type == ScopeWindowType::Levels)
+        {
+            DrawLevels(processedAudio, painter, panel);
+        }
     }
 
     painter.end();
@@ -600,8 +812,24 @@ void ScopeWindow::Layout()
 
     int visibleCount = std::count_if(m_panels.begin(), m_panels.end(), [&visibleCount](ScopeWindowPanel& p) { return p.visible; });
 
-    QSize panelSize = QSize(rc.width() - (xMargin * 2), rc.height() - (yMargin * (visibleCount + 1)));
-    panelSize.setHeight(int(panelSize.height() / float(visibleCount)));
+    // The Levels meter is a strip, not a scope canvas: it takes a fixed slim
+    // height and the remaining panels share what's left.
+    const int levelsHeight = ScaleHeightForDPI(44);
+    int levelsCount = 0;
+    for (auto& p : m_panels)
+    {
+        if (p.visible && p.type == ScopeWindowType::Levels)
+            levelsCount++;
+    }
+    const int normalCount = visibleCount - levelsCount;
+
+    const int panelWidth = rc.width() - (xMargin * 2);
+    int totalHeight = rc.height() - (yMargin * (visibleCount + 1));
+    int normalHeight = totalHeight;
+    if (normalCount > 0)
+        normalHeight = int((totalHeight - levelsCount * levelsHeight) / float(normalCount));
+
+    QSize panelSize = QSize(panelWidth, normalHeight);
 
     QPoint currentTopLeft(xMargin, yMargin);
 
@@ -613,16 +841,17 @@ void ScopeWindow::Layout()
         {
             continue;
         }
-        panel.rc = QRect(currentTopLeft, panelSize);
+        const int h = (panel.type == ScopeWindowType::Levels) ? levelsHeight : normalHeight;
+        panel.rc = QRect(currentTopLeft, QSize(panelWidth, h));
         panel.rcGraph = panel.rc;
-        panel.rcTitle = QRect(currentTopLeft, QSize(panelSize.width(), 0));
+        panel.rcTitle = QRect(currentTopLeft, QSize(panelWidth, 0));
 
         if (panel.titleVisible)
         {
             panel.rcTitle.setHeight(metrics.height() + yFontMargin * 2);
             panel.rcGraph.setTop(panel.rcTitle.bottom());
         }
-        currentTopLeft.setY(currentTopLeft.y() + panelSize.height() + yMargin);
+        currentTopLeft.setY(currentTopLeft.y() + h + yMargin);
     }
 
     m_spAPI->AudioProcessor_SetMaxFFTBuckets(panelSize.width() / 4);
@@ -740,6 +969,29 @@ void ScopeWindow::ApplyProcessorEnable()
     m_spAPI->AudioProcessor_Enable(anyVisible && !m_paused && !m_suspended);
 }
 
+bool ScopeWindow::LevelsRunningDown() const
+{
+    for (const auto& panel : m_panels)
+    {
+        if (panel.visible && panel.type == ScopeWindowType::Levels)
+        {
+            if (m_grDb > 0.0f)
+            {
+                return true;
+            }
+            for (int ch = 0; ch < 2; ch++)
+            {
+                if (m_levels[ch].rmsDb > LevelFloorDb || m_levels[ch].peakDb > LevelFloorDb
+                    || m_levels[ch].holdDb > LevelFloorDb)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 // True when the sample window is (audibly) silent and, if a spectrum
 // panel is showing, its bars and peak markers have fully decayed.
 bool ScopeWindow::SnapshotSilent(const ProcessedAudio& audio) const
@@ -785,6 +1037,14 @@ bool ScopeWindow::SnapshotSilent(const ProcessedAudio& audio) const
             }
         }
     }
+
+    // A visible Levels panel is only settled once its bars, peak-hold and
+    // overdrive have run down to the floor — freezing earlier would trap a
+    // half-lit meter.
+    if (LevelsRunningDown())
+    {
+        return false;
+    }
     return true;
 }
 
@@ -809,6 +1069,12 @@ void ScopeWindow::SetColor2(QColor c)
         scope.pen2.setColor(c);
         scope.brush2 = QBrush(c);
     }
+}
+
+void ScopeWindow::SetLevelHotColour(QColor hot)
+{
+    m_levelHot = hot;
+    update();
 }
 
 void ScopeWindow::SetBackgroundColor(QColor c)
@@ -864,7 +1130,9 @@ void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
 
         // The engine pauses itself once its output is silent, which can stop
         // this frame stream mid-fade; the watchdog then finishes the settle.
-        if (m_silentFrames < SilentSettleFrames)
+        // The Levels ballistics can outlive the phosphor fade (peak fall is
+        // ~26dB/s), so the watchdog also runs until they reach the floor.
+        if (m_silentFrames < SilentSettleFrames || LevelsRunningDown())
         {
             m_settleTimer->start();
         }
@@ -883,15 +1151,19 @@ void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
 
 void ScopeWindow::SettleTick()
 {
-    if (m_paused || !isVisible() || m_silentFrames >= SilentSettleFrames)
+    const bool doneFading = m_silentFrames >= SilentSettleFrames && !LevelsRunningDown();
+    if (m_paused || !isVisible() || doneFading)
     {
         m_settleTimer->stop();
         return;
     }
     m_audio = MakeSilentSnapshot();
-    m_silentFrames++;
+    if (m_silentFrames < SilentSettleFrames)
+    {
+        m_silentFrames++;
+    }
     update();
-    if (m_silentFrames >= SilentSettleFrames)
+    if (m_silentFrames >= SilentSettleFrames && !LevelsRunningDown())
     {
         m_settleTimer->stop();
         if (m_pendingPause)

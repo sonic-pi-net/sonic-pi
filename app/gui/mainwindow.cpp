@@ -2446,7 +2446,7 @@ void MainWindow::update_check_updates()
 
 bool isScopeEnabledByDefault(const QString& name)
 {
-    if (name == "mono")
+    if (name == "mono" || name == "levels")
         return true;
     return false;
 }
@@ -4272,6 +4272,7 @@ void MainWindow::updateColourTheme()
     updateContextWithCurrentWs();
     scopeWindow->SetColor(theme->color("Scope"));
     scopeWindow->SetColor2(theme->color("Scope_2"));
+    scopeWindow->SetLevelHotColour(theme->color("MarkerBackground"));
     scopeWindow->SetBackgroundColor(theme->color("LogBackground"));
     scopeWindow->SetPauseButtonColor(theme->color("WindowBorder"));
     lexer->unhighlightAll();
