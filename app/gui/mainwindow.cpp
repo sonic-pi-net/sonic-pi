@@ -8268,16 +8268,22 @@ void MainWindow::maybeRestoreAudioIntent()
 
     // One atomic switch for output/input/rate/buffer — separate calls
     // race inside SuperSonic's 500ms debounce buffer
-    QString currentOutput;
-    if (m_lastAudioDevices.mode.empty() || m_lastAudioDevices.mode == "system") {
-        currentOutput = QString("__system__");
-    } else {
-        currentOutput = QString::fromStdString(m_lastAudioDevices.currentDevice);
-    }
+    const bool systemMode = m_lastAudioDevices.mode.empty()
+                         || m_lastAudioDevices.mode == "system";
+    const QString currentDeviceName =
+        QString::fromStdString(m_lastAudioDevices.currentDevice);
+    const QString currentOutput =
+        systemMode ? QStringLiteral("__system__") : currentDeviceName;
     const QString currentInput = QString::fromStdString(m_lastAudioInputDevices.currentDevice);
 
+    // In system mode the saved device also counts as current when it names
+    // the device actually open (the system default). Sending a switch there
+    // would tear down and reopen the same device — a reopen that can crash
+    // PipeWire's client libs at boot (#3550).
     const bool needOutput = !piSettings->audio_output_device.isEmpty()
-                         && piSettings->audio_output_device != currentOutput;
+                         && piSettings->audio_output_device != currentOutput
+                         && !(systemMode
+                              && piSettings->audio_output_device == currentDeviceName);
     const bool needInput  = !piSettings->audio_input_device.isEmpty()
                          && piSettings->audio_input_device != "__disabled__"
                          && piSettings->audio_input_device != "__none__"
