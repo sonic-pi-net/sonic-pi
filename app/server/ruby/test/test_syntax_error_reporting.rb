@@ -73,10 +73,13 @@ module SonicPi
 
     # Prism's recovery phrasing must not leak into the report: the run
     # failed, so telling the user the stray token was "ignored" is false.
+    # The diagnostic wording varies by Ruby parser ("unexpected ','" vs
+    # "cannot parse the expression") — accept either.
     def test_no_recovery_phrasing_in_message
       msg = report_for(", play 71, amp: 100\n")
       assert_equal :syntax_error, msg[:type]
-      assert_includes msg[:val], "unexpected ','"
+      assert msg[:val].include?("unexpected ','") || msg[:val].include?("cannot parse the expression"),
+             "expected the parser's own diagnostic in: #{msg[:val]}"
       refute_includes msg[:val], "ignoring it"
     end
   end

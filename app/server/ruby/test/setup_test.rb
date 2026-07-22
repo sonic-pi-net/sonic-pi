@@ -16,10 +16,16 @@ require 'minitest/autorun'
 
 # Mocha renamed its Minitest integration entry point in 1.5. The vendored copy
 # predates the rename; distribution builds run against a system gem that has
-# since dropped the old name, so accept whichever is present.
+# since dropped the old name, so accept whichever is present. The two must not
+# interleave: the vendored lib dir sits first on the load path, so a system
+# mocha would resolve its internal requires against the vendored 1.1.0 files.
+# Take the vendored copy off the path unless it is the one being used.
+vendored_mocha = $LOAD_PATH.find { |p| p.include?("vendor/mocha") }
+$LOAD_PATH.delete(vendored_mocha)
 begin
   require 'mocha/minitest'
 rescue LoadError
+  $LOAD_PATH.unshift(vendored_mocha) if vendored_mocha
   require 'mocha/setup'
 end
 
