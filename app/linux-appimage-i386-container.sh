@@ -30,6 +30,7 @@ trap cleanup_function EXIT
 #   build    prebuild + configure + compile
 #   test     Spider (Ruby), API and GUI test suites
 #   package  stage the AppDir and produce the AppImage
+#   deb      repackage that same AppDir as a .deb
 #
 # Environment:
 #   RUBY_VERSION       Ruby to bundle (default 3.4.4)
@@ -236,6 +237,17 @@ phase_package() {
     "${SCRIPT_DIR}/linux-appimage.sh"
 }
 
+phase_deb() {
+    echo "=== deb: repackaging the AppDir ==="
+    setup_paths
+
+    # dpkg reads the architecture from the process personality too, so pin it
+    # for the same reason SP_APPIMAGE_ARCH is pinned above.
+    export SP_DEB_ARCH=i386
+
+    "${SCRIPT_DIR}/linux-deb.sh"
+}
+
 main() {
     local phase="${1:-all}"
     check_arch
@@ -247,6 +259,7 @@ main() {
         build)   phase_build ;;
         test)    phase_test ;;
         package) phase_package ;;
+        deb)     phase_deb ;;
         all)
             cat <<EOF
 === Sonic Pi 32-bit x86 (i686) ===
@@ -260,6 +273,7 @@ EOF
             phase_build
             phase_test
             phase_package
+            phase_deb
             ;;
         -h|--help)
             sed -n '12,40p' "${BASH_SOURCE[0]}"

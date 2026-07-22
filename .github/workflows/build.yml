@@ -464,6 +464,80 @@ jobs:
           path: ${{github.workspace}}/app/build/Sonic-Pi-*.AppImage
           if-no-files-found: error
 
+      # The .deb repackages the AppDir staged above, so it carries the same
+      # self-contained tree and costs no extra build.
+      - name: Package deb
+        working-directory: ${{github.workspace}}/app
+        run: ./linux-deb.sh
+
+      - name: Capture deb basename
+        id: deb
+        shell: bash
+        run: |
+          f=$(ls "$GITHUB_WORKSPACE"/app/build/sonic-pi_*.deb | head -n1)
+          echo "name=$(basename "$f" .deb)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.deb.outputs.name }}
+          path: ${{github.workspace}}/app/build/sonic-pi_*.deb
+          if-no-files-found: error
+
+  # Installing the deb is only a real test on a machine that did not build it:
+  # the build container has every library installed, so both dependency
+  # resolution and ldd are guaranteed to succeed there. A fresh container of
+  # the same base image is what a user's apt actually faces — the package's
+  # Depends must pull in everything the bundled tree still leans on the
+  # system for. The GUI has no --version flag and opens a window immediately,
+  # so starting it would need an X server; resolving its shared libraries is
+  # the display-free equivalent and catches the failure a bundled-library
+  # layout is actually prone to.
+  verify-deb:
+    name: "Verify deb (${{matrix.arch}})"
+    needs: package-linux
+    runs-on: ${{matrix.runner}}
+    container:
+      image: ${{matrix.container}}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-22.04
+            container: ubuntu:22.04
+            deb_arch: amd64
+          - arch: aarch64
+            runner: ubuntu-22.04-arm
+            container: ubuntu:24.04
+            deb_arch: arm64
+    env:
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - name: Download deb
+        uses: actions/download-artifact@v4
+        with:
+          pattern: sonic-pi_*_${{matrix.deb_arch}}
+          merge-multiple: true
+
+      - name: Install and verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          apt-get update
+          apt-get install -y ./sonic-pi_*_${{matrix.deb_arch}}.deb
+          test -x /usr/bin/sonic-pi
+          test -x /usr/lib/sonic-pi/app/build/gui/sonic-pi
+          test -f /usr/share/applications/sonic-pi.desktop
+          missing=$(LD_LIBRARY_PATH=/usr/lib/sonic-pi/lib \
+            ldd /usr/lib/sonic-pi/app/build/gui/sonic-pi | grep 'not found' || true)
+          if [ -n "$missing" ]; then
+            echo "Unresolved libraries in the installed package:" >&2
+            echo "$missing" >&2
+            exit 1
+          fi
+          dpkg -s sonic-pi | head -n 14
+
   # Build, test and package 32-bit x86 (i686).
   #
   # This runs the same three suites the build matrix does (Spider, API, GUI),
@@ -540,6 +614,11 @@ jobs:
       - name: Package AppImage
         run: docker exec sp32 ./linux-appimage-i386-container.sh package
 
+      # Repackages the AppDir the step above staged, so 32-bit gets the same
+      # pair of artifacts the other architectures do.
+      - name: Package deb
+        run: docker exec sp32 ./linux-appimage-i386-container.sh deb
+
       # Spider and API test failures are usually only diagnosable from the
       # Sonic Pi logs, which land in the container's root home rather than the
       # mounted workspace — copy them out before the container goes away.
@@ -577,4 +656,17 @@ jobs:
         with:
           name: ${{ steps.img.outputs.name }}
           path: ${{github.workspace}}/app/build/Sonic-Pi-*.AppImage
+          if-no-files-found: error
+
+      - name: Capture deb basename
+        id: deb
+        run: |
+          f=$(ls "$GITHUB_WORKSPACE"/app/build/sonic-pi_*.deb | head -n1)
+          echo "name=$(basename "$f" .deb)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.deb.outputs.name }}
+          path: ${{github.workspace}}/app/build/sonic-pi_*.deb
           if-no-files-found: error
