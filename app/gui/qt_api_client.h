@@ -81,6 +81,14 @@ signals:
                                int line, int scopeNum);
     void LiveLoopScopeEndedReceived(int jobId, const QString& name);
 
+public:
+    // Last StartupError text received from the server (e.g. "SuperSonic
+    // Audio Server Boot Error\n…"). MainWindow reads this when the boot
+    // poll gives up so the boot-error dialog names the actual cause
+    // instead of the generic "unable to connect to the Ruby server".
+    // GUI-thread only (written by the marshalled ReportGui slot).
+    QString GetStartupErrorText() const { return m_startupErrorText; }
+
 public slots:
     virtual void ReportGui(const SonicPi::MessageInfo& message);
     virtual void CueGui(const SonicPi::CueInfo& info);
@@ -97,6 +105,7 @@ public slots:
 private:
     std::array<int, 20> last_incoming_path_lens;
     MainWindow* m_pMainWindow = nullptr;
+    QString m_startupErrorText;
 };
 
 } // namespace SonicPi

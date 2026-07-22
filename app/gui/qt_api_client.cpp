@@ -177,6 +177,9 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
         std::cout << std::endl
                   << "[GUI] - Sonic Pi Server failed to start with this error message: " << std::endl;
         std::cout << "      > " << info.text << std::endl;
+        // Keep the specific cause for the boot-error dialog shown when the
+        // ready-poll gives up — see MainWindow::pollServerReady.
+        m_startupErrorText = QString::fromStdString(info.text);
     }
     else if (info.type == MessageType::InfoText)
     {

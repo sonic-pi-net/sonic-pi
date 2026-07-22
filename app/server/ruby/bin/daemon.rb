@@ -283,7 +283,13 @@ module SonicPi
           @supersonic_booter.on_unexpected_exit { handle_supersonic_death }
         else
           Util.log "sending ERROR to gui"
-          @api_server.send("localhost", @ports["gui-listen-to-spider"], "/exited-with-boot-error", "SuperSonic Audio Server Boot Error\nSuperSonic failed to boot")
+          msg = "SuperSonic Audio Server Boot Error\nSuperSonic failed to boot"
+          detail = @supersonic_booter.boot_failure_description
+          msg = "#{msg}\n#{detail}" if detail
+          if Util.os == :macos && detail
+            msg = "#{msg}\nIf it crashed, macOS wrote a crash report to ~/Library/Logs/DiagnosticReports/supersonic-*.ips - please attach the most recent one when reporting this."
+          end
+          @api_server.send("localhost", @ports["gui-listen-to-spider"], "/exited-with-boot-error", msg)
           @safe_exit.exit
         end
 
@@ -820,6 +826,7 @@ module SonicPi
         end
 
         @boot_wait_mutex = Mutex.new
+        @boot_failure_description = nil
 
         begin
           toml_opts_hash = Tomlrb.load_file(Paths.user_audio_settings_path, symbolize_keys: true).freeze
@@ -930,6 +937,7 @@ module SonicPi
                   Util.log "Sending /supersonic/notify to SuperSonic"
                   boot_s.send("localhost", @port, "/supersonic/notify")
                 else
+                  log_boot_death
                   @success.deliver! false
                   continue_pinging = false
                 end
@@ -960,7 +968,54 @@ module SonicPi
         end
       end
 
+      # Human-readable description of how SuperSonic died during boot (nil
+      # if it didn't). Appended to the boot-error message the GUI displays,
+      # so bug reports carry the signal/exit code without log spelunking.
+      attr_reader :boot_failure_description
+
       private
+
+      # The boot failed because the SuperSonic process is gone — a very
+      # different failure from "running but not responding", so say so
+      # explicitly. The exit status distinguishes a crash (termination
+      # signal, or 128+sig from SuperSonic's own crash handler) from a
+      # clean error exit; on macOS the OS also writes a crash report worth
+      # attaching to bug reports.
+      def log_boot_death
+        status = begin
+                   @wait_thr && @wait_thr.value
+                 rescue StandardError
+                   nil
+                 end
+        desc = describe_exit_status(status)
+        @boot_failure_description = "SuperSonic process exited during boot: #{desc}"
+        Util.log "SuperSonic process exited during boot: #{desc}"
+        Util.log "The tail of #{@log_path} (dumped below) shows how far boot got - the last line typically names the audio device involved."
+        if Util.os == :macos
+          Util.log "If it crashed, macOS wrote a crash report to ~/Library/Logs/DiagnosticReports/supersonic-*.ips - please attach the most recent one when reporting this."
+        end
+      end
+
+      def describe_exit_status(status)
+        return "exit status unknown" unless status
+        if status.signaled?
+          sig = status.termsig
+          "killed by signal #{sig}#{signal_name_suffix(sig)}"
+        elsif status.exitstatus && status.exitstatus > 128
+          # SuperSonic's crash handler exits with 128 + signal number
+          sig = status.exitstatus - 128
+          "crashed with signal #{sig}#{signal_name_suffix(sig)}"
+        else
+          "exited with status #{status.exitstatus.inspect}"
+        end
+      end
+
+      def signal_name_suffix(sig)
+        name = Signal.signame(sig)
+        name ? " (SIG#{name})" : ""
+      rescue StandardError
+        ""
+      end
 
       def unify_toml_opts_hash(toml_opts_hash)
         opts = {}

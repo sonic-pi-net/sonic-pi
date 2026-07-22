@@ -333,7 +333,13 @@ void MainWindow::pollServerReady()
     {
         boot_poll_timer->stop();
         std::cout << "[GUI] - Critical Error. Unable to connect to server.." << std::endl;
-        startupError("GUI was unable to connect to the Ruby server.");
+        // Prefer the server's own boot-error report (e.g. "SuperSonic Audio
+        // Server Boot Error: crashed with signal …") — the generic connect
+        // failure is only accurate when no such report ever arrived.
+        QString serverError = m_spClient->GetStartupErrorText();
+        startupError(serverError.isEmpty()
+                         ? tr("GUI was unable to connect to the Ruby server.")
+                         : serverError);
         toggleOSCServer(1);
         editorTabWidget->currentWidget()->activateWindow();
     }
