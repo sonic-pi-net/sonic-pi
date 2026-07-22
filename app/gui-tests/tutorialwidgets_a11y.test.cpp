@@ -24,6 +24,28 @@
 
 #include "widgets/tutorialwidgets.h"
 
+namespace {
+// Whether QAccessible::updateAccessibility routes events to a test update
+// handler varies by Qt version and platform: older Qt requires accessibility
+// to be active first, and setActive(true) only sticks where the platform has
+// an accessibility backend (offscreen grew one in Qt 6.5; bookworm's 6.4.2 on
+// the i686 CI has none), while newer Qt calls the handler unconditionally.
+// Probe with a real event instead of pinning versions.
+bool a11yUpdateHandlerReceivesEvents()
+{
+    QAccessible::setActive(true);
+    static bool delivered;
+    delivered = false;
+    QAccessible::UpdateHandler prev =
+        QAccessible::installUpdateHandler([](QAccessibleEvent*) { delivered = true; });
+    QLabel probe;
+    QAccessibleEvent ev(&probe, QAccessible::NameChanged);
+    QAccessible::updateAccessibility(&ev);
+    QAccessible::installUpdateHandler(prev);
+    return delivered;
+}
+} // namespace
+
 TEST_CASE("prose blocks read as caret-navigable text to screen readers",
           "[tutorialwidgets][a11y]")
 {
@@ -71,9 +93,7 @@ TEST_CASE("arrow keys walk the prose caret and hand off at the edges",
           "[tutorialwidgets][a11y]")
 {
     registerTutorialWidgetAccessibility();
-    // Qt <= 6.4 only routes events to the test update handler while
-    // accessibility is active (bookworm's 6.4.2 on the i686 CI).
-    QAccessible::setActive(true);
+    const bool a11yEventsDeliverable = a11yUpdateHandlerReceivesEvents();
     TutProseText prose(nullptr);
     prose.resize(400, 60);
     prose.setHtml("<p>ab</p>");
@@ -91,7 +111,8 @@ TEST_CASE("arrow keys walk the prose caret and hand off at the edges",
     CHECK(prose.caretPosition() == 1);
     QTest::keyClick(&prose, Qt::Key_Right);
     CHECK(prose.caretPosition() == 2);
-    CHECK(caretEvents == QVector<int>({ 1, 2 }));
+    if (a11yEventsDeliverable)
+        CHECK(caretEvents == QVector<int>({ 1, 2 }));
 
     // Shift extends a selection as it moves.
     QTest::keyClick(&prose, Qt::Key_Left, Qt::ShiftModifier);
@@ -160,9 +181,7 @@ TEST_CASE("Return follows the link under the caret", "[tutorialwidgets][a11y]")
 TEST_CASE("dials expose the value interface", "[tutorialwidgets][a11y]")
 {
     registerTutorialWidgetAccessibility();
-    // Qt <= 6.4 only routes events to the test update handler while
-    // accessibility is active (bookworm's 6.4.2 on the i686 CI).
-    QAccessible::setActive(true);
+    const bool a11yEventsDeliverable = a11yUpdateHandlerReceivesEvents();
     TutDial dial("cutoff", 30, 130, 110, nullptr, nullptr);
 
     QAccessibleInterface* iface = QAccessible::queryAccessibleInterface(&dial);
@@ -189,9 +208,11 @@ TEST_CASE("dials expose the value interface", "[tutorialwidgets][a11y]")
             ++valueEvents;
     });
     dial.setValue(90.0);
-    CHECK(valueEvents == 1);
+    if (a11yEventsDeliverable)
+        CHECK(valueEvents == 1);
     dial.setValue(90.0); // unchanged: no re-announcement
-    CHECK(valueEvents == 1);
+    if (a11yEventsDeliverable)
+        CHECK(valueEvents == 1);
     QAccessible::installUpdateHandler(prev);
 }
 
