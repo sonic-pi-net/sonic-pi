@@ -1978,8 +1978,16 @@ void Editor::AddCharUTF(const char *s, unsigned int len, bool treatAsDBCS) {
 			// Also treats \0 and naked trail bytes 0x80 to 0xBF as valid
 			// characters representing themselves.
 		} else {
+			// An IME can commit several characters in one key event (e.g.
+			// macOS Pinyin maps shift+hyphen to "——"). NotifyChar
+			// only reports the first character, so decode just the first
+			// UTF-8 sequence — handing the whole string to UTF32FromUTF8
+			// with a one-element buffer throws and aborts the process.
 			unsigned int utf32[1] = { 0 };
-			UTF32FromUTF8(s, len, utf32, ELEMENTS(utf32));
+			unsigned int lenFirst = UTF8BytesOfLead[byte];
+			if (lenFirst > len)
+				lenFirst = len;
+			UTF32FromUTF8(s, lenFirst, utf32, ELEMENTS(utf32));
 			byte = utf32[0];
 		}
 		NotifyChar(byte);

@@ -11,6 +11,25 @@ list current when you touch the vendored source so the fork stays auditable
 
 ## Changes
 
+### 2026-07-22 — Fix abort when an IME commits multiple characters via a key event
+
+- **File:** `scintilla/src/Editor.cpp`
+- **What:** `Editor::AddCharUTF` decoded the *entire* inserted string into a
+  one-element `utf32[1]` buffer to fire `NotifyChar`; with two or more
+  non-ASCII characters `UTF32FromUTF8` throws
+  `std::runtime_error("attempted write beyond end")`, nothing in the Qt event
+  loop catches it, and the process aborts (SIGABRT). Now only the first UTF-8
+  sequence (length from `UTF8BytesOfLead`, clamped to the string length) is
+  decoded — `NotifyChar` only ever reported the first character anyway.
+- **Why:** the macOS Pinyin IME maps shift+hyphen to the two-em-dash string
+  "——" delivered as a single `keyPressEvent`, so typing it crashed Sonic Pi
+  deterministically (issue #3481). Any IME committing 2+ characters through
+  the key-event path on any platform hits the same abort; pasting was
+  unaffected (different code path). Later upstream Scintilla rewrote this
+  code (`InsertCharacter`) and does not have the bug.
+- **Reportable upstream:** yes (genuine crash), if Riverbank ever resumes
+  releases.
+
 ### 2026-07-19 — Blank left margin joins the text painting (chip padding at column 0)
 
 - **Files:** `scintilla/src/EditView.cpp`, `scintilla/src/Editor.cpp`,
