@@ -871,7 +871,11 @@ module SonicPi
           linenum = loc.start_line + info[:first_line_num] - 1
           col_start = loc.start_column
           col_end = loc.end_column
-          err_msg = perr.message
+          # Prism recovers and parses on, so its diagnostics can claim the
+          # problem was skipped ("unexpected ',', ignoring it"). We only
+          # borrow the message - the run itself failed - so drop the
+          # recovery clause.
+          err_msg = perr.message.sub(/, ignoring it\z/, "")
         end
       rescue Exception
       end

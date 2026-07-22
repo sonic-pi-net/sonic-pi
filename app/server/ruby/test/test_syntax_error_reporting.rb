@@ -70,5 +70,14 @@ module SonicPi
       assert_equal 41, msg[:linenum]
       assert_includes msg[:error_line], "play ]"
     end
+
+    # Prism's recovery phrasing must not leak into the report: the run
+    # failed, so telling the user the stray token was "ignored" is false.
+    def test_no_recovery_phrasing_in_message
+      msg = report_for(", play 71, amp: 100\n")
+      assert_equal :syntax_error, msg[:type]
+      assert_includes msg[:val], "unexpected ','"
+      refute_includes msg[:val], "ignoring it"
+    end
   end
 end
