@@ -52,6 +52,7 @@ endif
 	  -DSONIC_PI_INSTALL_ROOT=$(INSTALL_ROOT) \
 	  -DBUILD_IMGUI_INTERFACE=OFF \
 	  -DQSCINTILLA_ROOT=/usr/include/$(DEB_HOST_MULTIARCH)/qt6 \
+	  -DKISSFFT_STATIC=ON \
 	  $(SUPERSONIC_ARGS)
 
 override_dh_auto_test:

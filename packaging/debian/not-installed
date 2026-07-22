@@ -1,0 +1,19 @@
+# Dev artifacts of the vendored kissfft and reproc, which Sonic Pi links
+# directly (kissfft statically via -DKISSFFT_STATIC=ON in debian/rules).
+# Their subprojects' install rules still stage these under debian/tmp; none
+# belong in a binary package. reproc's are additionally switched off at
+# source (REPROC_INSTALL in app/api/CMakeLists.txt) — listed here anyway so
+# a vendored version bump cannot resurrect them.
+usr/include/kissfft
+usr/include/reproc
+usr/include/reproc++
+usr/lib/${DEB_HOST_MULTIARCH}/libkissfft-float.a
+usr/lib/${DEB_HOST_MULTIARCH}/libkissfft-float.so*
+usr/lib/${DEB_HOST_MULTIARCH}/libreproc.a
+usr/lib/${DEB_HOST_MULTIARCH}/libreproc++.a
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/kissfft
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/reproc
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/reproc++
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/kissfft-float.pc
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/reproc.pc
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/reproc++.pc

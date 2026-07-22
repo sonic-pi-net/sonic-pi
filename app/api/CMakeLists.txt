@@ -10,6 +10,9 @@ set(KISSFFT_TEST OFF CACHE BOOL "Disable kissfft tests" FORCE)
 # a hard error when pkg-config isn't installed (Windows default).
 set(KISSFFT_TOOLS OFF CACHE BOOL "Disable kissfft tools" FORCE)
 set(REPROC++ ON CACHE BOOL "Build reproc++" FORCE)
+# Sonic Pi links reproc directly; its headers, static libs and cmake/pkgconfig
+# files have no place in any install tree.
+set(REPROC_INSTALL OFF CACHE BOOL "Disable reproc install rules" FORCE)
 
 # Update these if vendored versions change.
 set(KISSFFT_VERSION "kissfft-131.1.0" CACHE INTERNAL "Version string for KissFFT")
