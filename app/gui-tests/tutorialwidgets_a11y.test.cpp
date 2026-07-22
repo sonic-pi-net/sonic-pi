@@ -71,6 +71,9 @@ TEST_CASE("arrow keys walk the prose caret and hand off at the edges",
           "[tutorialwidgets][a11y]")
 {
     registerTutorialWidgetAccessibility();
+    // Qt <= 6.4 only routes events to the test update handler while
+    // accessibility is active (bookworm's 6.4.2 on the i686 CI).
+    QAccessible::setActive(true);
     TutProseText prose(nullptr);
     prose.resize(400, 60);
     prose.setHtml("<p>ab</p>");
@@ -157,6 +160,9 @@ TEST_CASE("Return follows the link under the caret", "[tutorialwidgets][a11y]")
 TEST_CASE("dials expose the value interface", "[tutorialwidgets][a11y]")
 {
     registerTutorialWidgetAccessibility();
+    // Qt <= 6.4 only routes events to the test update handler while
+    // accessibility is active (bookworm's 6.4.2 on the i686 CI).
+    QAccessible::setActive(true);
     TutDial dial("cutoff", 30, 130, 110, nullptr, nullptr);
 
     QAccessibleInterface* iface = QAccessible::queryAccessibleInterface(&dial);
