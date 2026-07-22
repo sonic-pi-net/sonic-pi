@@ -877,7 +877,20 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           :attack_level => 1,
           :decay_level => :sustain_level,
           :sustain_level => 1,
-          :env_curve => 2
+          :env_curve => 2,
+
+          :phase_offset => 0
+        }
+      end
+
+      def specific_arg_info
+        {
+          :phase_offset =>
+          {
+            :doc => "Initial phase offset of the sine wave (a value between 0 and 1 representing a fraction of a complete cycle). For example, two sine synths panned hard left and hard right playing the same note with phase offsets 0 and 0.25 will draw a circle when viewed as a Lissajous figure.",
+            :validations => [v_between_inclusive(:phase_offset, 0, 1)],
+            :modulatable => false
+          }
         }
       end
     end
@@ -900,7 +913,8 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
       end
 
       def arg_defaults
-        super.merge({
+        # phase_offset is specific to the beep synthdef - saw doesn't have it
+        super.reject { |k, _v| k == :phase_offset }.merge({
           cutoff: 100,
           cutoff_slide: 0,
           cutoff_slide_shape: 1,
