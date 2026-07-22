@@ -1,4 +1,4 @@
-module RBeautify
+module RBeautifyLegacy
 
   class BlockEnd
 

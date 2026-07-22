@@ -41,7 +41,7 @@ require 'uri'
 require 'thread'
 require 'fileutils'
 require 'set'
-require 'ruby-beautify'
+require_relative '../../vendor/ruby-beautify/lib/ruby-beautify-legacy'
 require 'securerandom'
 require 'monitor'
 
@@ -1817,7 +1817,7 @@ module SonicPi
       # See https://github.com/samaaron/sonic-pi/issues/2435
       source = source.gsub(/\)\//, ') ___SONIC_PI_RND_TMP_PLACEHOLDER___ /')
       source = source.gsub(/]\//, '] ___SONIC_PI_SQR_TMP_PLACEHOLDER___ /')
-      res = RBeautify.beautify_string :ruby, source
+      res = RBeautifyLegacy.beautify_string :ruby, source
       res = res.gsub(') ___SONIC_PI_RND_TMP_PLACEHOLDER___ /', ')/')
       res = res.gsub('] ___SONIC_PI_SQR_TMP_PLACEHOLDER___ /', ']/')
     end

@@ -1,4 +1,4 @@
-module RBeautify
+module RBeautifyLegacy
 
   class BlockMatcher
 
@@ -77,7 +77,7 @@ module RBeautify
 
     def parse_block_start(string, parent_block, offset, line_number)
       if !string.empty? && (match = starts.match(string))
-        RBeautify::BlockStart.new(self, parent_block, line_number, offset + match.begin(0), match[0], match.post_match)
+        RBeautifyLegacy::BlockStart.new(self, parent_block, line_number, offset + match.begin(0), match[0], match.post_match)
       end
     end
 

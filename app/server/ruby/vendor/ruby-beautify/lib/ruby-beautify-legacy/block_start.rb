@@ -1,4 +1,4 @@
-module RBeautify
+module RBeautifyLegacy
 
   class BlockStart
 
@@ -103,11 +103,11 @@ module RBeautify
                 # the match then this match should be skipped
                 return parse_explicit_block_end(match.post_match, offset + escape_chars[0].size + match[0].length)
               else
-                return RBeautify::BlockEnd.new(self, offset + match.begin(0), match[0], match.post_match)
+                return RBeautifyLegacy::BlockEnd.new(self, offset + match.begin(0), match[0], match.post_match)
               end
             end
           elsif negate_ends_match?
-            return RBeautify::BlockEnd.new(self, offset, '', string)
+            return RBeautifyLegacy::BlockEnd.new(self, offset, '', string)
           end
 
         end

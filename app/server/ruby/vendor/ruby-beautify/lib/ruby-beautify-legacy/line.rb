@@ -1,4 +1,4 @@
-module RBeautify
+module RBeautifyLegacy
   class Line
 
     attr_reader :language, :content, :line_number, :original_block, :block, :indent_character

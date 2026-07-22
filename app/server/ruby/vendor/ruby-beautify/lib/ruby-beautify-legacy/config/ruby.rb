@@ -1,8 +1,8 @@
 # define ruby language
 
-unless RBeautify::Language.language(:ruby)
+unless RBeautifyLegacy::Language.language(:ruby)
 
-  ruby = RBeautify::Language.add_language(:ruby)
+  ruby = RBeautifyLegacy::Language.add_language(:ruby)
 
   pre_keyword_boundary = '(^|[^a-z0-9A-Z:._])' # like \b but with : , . _ all added to list of exceptions
   post_keyword_boundary = '([^a-z0-9A-Z:_]|$)' # like \b but with : _ added to list of exceptions
