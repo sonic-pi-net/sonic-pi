@@ -60,8 +60,9 @@ read_version() {
 # In dpkg's ordering "5.0.0-RC1" sorts ABOVE a final "5.0.0" (the suffix beats
 # the empty revision), so anyone on an RC would never be offered the release.
 # Tilde is dpkg's sorts-before-everything marker, and "5.0.0~RC1" < "5.0.0".
+# tr, not ${VERSION//-/~}: bash 5.2 tilde-expands the replacement to $HOME.
 deb_version() {
-    DEB_VERSION="${VERSION//-/~}"
+    DEB_VERSION="$(printf '%s' "$VERSION" | tr -- '-' '~')"
 }
 
 # dpkg spells the architectures differently from uname, and the AppImage
