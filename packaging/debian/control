@@ -1,0 +1,95 @@
+Source: sonic-pi
+Section: sound
+Priority: optional
+Maintainer: Sam Aaron <sam@sonic-pi.net>
+Build-Depends:
+ cargo,
+ cmake (>= 3.24),
+ debhelper-compat (= 13),
+ fonts-hack,
+ juce-modules-source (>= 8),
+ juce-tools (>= 8),
+ libasound2-dev,
+ libaubio-dev,
+ libboost-dev,
+ libflac-dev,
+ libfontconfig-dev,
+ libfreetype-dev,
+ libjack-jackd2-dev | libjack-dev,
+ libogg-dev,
+ libqscintilla2-qt6-dev,
+ libqt6opengl6-dev,
+ libsndfile1-dev,
+ libudev-dev,
+ libvorbis-dev,
+ libx11-dev,
+ libxcomposite-dev,
+ libxcursor-dev,
+ libxinerama-dev,
+ libxrandr-dev,
+ pkgconf,
+ qt6-base-dev,
+ qt6-l10n-tools,
+ qt6-svg-dev,
+ qt6-tools-dev,
+ qt6-tools-dev-tools,
+ rake,
+ ruby,
+ ruby-all-dev,
+ ruby-minitest,
+ ruby-mocha,
+ rustc,
+Standards-Version: 4.7.2
+Homepage: https://sonic-pi.net
+Rules-Requires-Root: no
+
+Package: sonic-pi
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+ sonic-pi-server (= ${binary:Version})
+Description: Live Coding for Everyone
+ A free live coding synth for everyone. Originally designed to support
+ computing and music lessons within schools. Use code to compose and
+ perform in classical and contemporary styles ranging from Canons to
+ Dubstep.
+
+Package: sonic-pi-server
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+ ruby,
+ ruby-concurrent,
+ ruby-kramdown,
+ ruby-memoist,
+ ruby-multi-json,
+ ruby-rugged,
+ ruby-tomlrb,
+ ruby-wavefile,
+ sonic-pi-samples (= ${source:Version}),
+ sox
+Suggests:
+ sonic-pi-server-doc
+Description: Backend server for Sonic Pi
+ The Sonic Pi backend server drives the built-in SuperSonic audio engine to
+ play synths and samples. Advanced users may want to use the server for
+ experiments without the graphical user interface provided by the sonic-pi
+ package.
+
+Package: sonic-pi-server-doc
+Architecture: all
+Section: doc
+Depends:
+ ${misc:Depends}
+Description: Documentation for the Sonic Pi server
+ Tutorial and reference documentation for Sonic Pi, in HTML form.
+
+Package: sonic-pi-samples
+Architecture: all
+Depends:
+ ${misc:Depends}
+Description: Audio samples for Sonic Pi
+ The sample library shipped with Sonic Pi, used by the sample and
+ sample_duration functions.

@@ -1,0 +1,67 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+INSTALL_ROOT = /usr/lib/sonic-pi
+
+# The nested SuperSonic build takes JUCE, libsndfile (with its codecs) and
+# Boost from the Debian archive via its SUPERSONIC_SYSTEM_* switches — see
+# docs/DEBIAN-PACKAGING.md in app/external/supersonic, whose own Debian
+# package proves this combination in CI.
+SUPERSONIC_ARGS = \
+  -DSUPERSONIC_SYSTEM_JUCE=ON \
+  -DSUPERSONIC_SYSTEM_SNDFILE=ON \
+  -DSUPERSONIC_SYSTEM_BOOST=ON
+
+# Fully offline when the source package carries the component trees the
+# supersonic repo's make-debian-source.sh produces: `link` (pristine Ableton
+# Link 4.0 — Debian's ableton-link-dev is 3.x) and `rust-vendor` (cargo
+# vendor for the committed lockfile). Building straight from the git tree
+# without them still works, but fetches both from the network.
+ifneq (,$(wildcard $(CURDIR)/link))
+SUPERSONIC_ARGS += \
+  -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+  -DFETCHCONTENT_SOURCE_DIR_ABLETONLINK=$(CURDIR)/link
+endif
+
+ifneq (,$(wildcard $(CURDIR)/rust-vendor))
+export CARGO_HOME = $(CURDIR)/debian/cargo-home
+export CARGO_NET_OFFLINE = true
+SUPERSONIC_ARGS += -DSUPERSONIC_CARGO_OFFLINE=ON
+endif
+
+%:
+	dh $@ --buildsystem=cmake --sourcedirectory=app --builddirectory=app
+
+override_dh_auto_configure:
+ifneq (,$(wildcard $(CURDIR)/rust-vendor))
+	mkdir -p $(CARGO_HOME)
+	printf '[source.crates-io]\nreplace-with = "vendored-sources"\n\n[source.vendored-sources]\ndirectory = "%s"\n' \
+		"$(CURDIR)/rust-vendor" > $(CARGO_HOME)/config.toml
+endif
+	# Use system fonts rather than the bundled Hack copies.
+	mkdir -p app/gui/fonts/
+	ln -sf /usr/share/fonts/truetype/hack/*.ttf app/gui/fonts/
+	# The steps linux-pre-translations.sh performs before configuring.
+	ruby app/server/ruby/bin/i18n-tool.rb -t
+	cp app/gui/utils/ruby_help.tmpl app/gui/utils/ruby_help.h
+	ruby app/server/ruby/bin/qt-doc.rb
+	dh_auto_configure -- \
+	  -DSONIC_PI_INSTALL_ROOT=$(INSTALL_ROOT) \
+	  -DBUILD_IMGUI_INTERFACE=OFF \
+	  -DQSCINTILLA_ROOT=/usr/include/$(DEB_HOST_MULTIARCH)/qt6 \
+	  $(SUPERSONIC_ARGS)
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	cd app/server/ruby && rake test
+	dh_auto_test
+endif
+
+override_dh_install:
+	dh_install
+	# Compiled Ruby C extensions are built against the Ruby that happens to be
+	# present; drop them so the pure-Ruby fallbacks are used instead.
+	rm -rf debian/sonic-pi-server$(INSTALL_ROOT)/app/server/ruby/rb-native

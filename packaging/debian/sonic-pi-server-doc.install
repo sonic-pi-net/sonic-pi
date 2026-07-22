@@ -1,0 +1,3 @@
+app/gui/book/*.html                   usr/share/doc/sonic-pi/tutorial/
+app/gui/theme/light/doc-styles.css    usr/share/doc/sonic-pi/theme/light
+etc/doc/images/tutorial/*.png         usr/share/doc/sonic-pi/images/tutorial

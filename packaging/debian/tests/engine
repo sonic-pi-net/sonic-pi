@@ -1,0 +1,66 @@
+#!/bin/sh
+# End-to-end check: boot the engine, evaluate a snippet of Sonic Pi code, see
+# the output come back, shut down.
+#
+# Deliberately marked flaky in tests/control. It depends on a working audio
+# stack and on how fast the runner is, and a test like this blocking another
+# package's migration is precisely what stalled a security update for Sonic Pi
+# in 2026. The deterministic checks in tests/layout are the ones that gate.
+set -e
+
+SERVER=/usr/lib/sonic-pi/app/server/ruby
+WORK="${AUTOPKGTEST_TMP:-/tmp}"
+SCRIPT="$WORK/smoke.rb"
+OUT="$WORK/headless.log"
+TIMEOUT=120
+
+cat > "$SCRIPT" <<'SPI'
+puts "autopkgtest-marker-#{1 + 1}"
+sleep 0.5
+puts "autopkgtest-finished"
+SPI
+
+# headless-run.rb boots the daemon, waits for the engine, runs the script for
+# the given number of seconds, then exits 0. No audio device is expected in a
+# test container: the engine idles rather than failing, so boot, evaluation and
+# shutdown are still exercised.
+ruby "$SERVER/bin/headless-run.rb" "$SCRIPT" 20 > "$OUT" 2>&1 &
+runner=$!
+
+# Poll for the completion marker rather than sleeping a fixed interval, so a
+# slow runner takes longer instead of failing.
+elapsed=0
+while [ "$elapsed" -lt "$TIMEOUT" ]; do
+    if grep -q 'autopkgtest-finished' "$OUT" 2>/dev/null; then
+        break
+    fi
+    if ! kill -0 "$runner" 2>/dev/null; then
+        break            # runner exited; the assertions below decide the verdict
+    fi
+    sleep 1
+    elapsed=$((elapsed + 1))
+done
+
+wait "$runner" 2>/dev/null || true
+
+if [ -n "$AUTOPKGTEST_ARTIFACTS" ]; then
+    cp "$OUT" "$AUTOPKGTEST_ARTIFACTS/" 2>/dev/null || true
+    if [ -d "$HOME/.sonic-pi" ]; then
+        cp -a "$HOME/.sonic-pi" "$AUTOPKGTEST_ARTIFACTS/server.sonic-pi" 2>/dev/null || true
+    fi
+fi
+
+cat "$OUT"
+
+grep -q 'READY' "$OUT"                || { echo "engine never became ready" >&2; exit 1; }
+grep -q 'autopkgtest-marker-2' "$OUT" || { echo "user code did not evaluate" >&2; exit 1; }
+grep -q 'autopkgtest-finished' "$OUT" || { echo "user code did not complete" >&2; exit 1; }
+
+# Written as an if rather than `grep && exit 1`, whose non-match status would
+# trip set -e in the passing case.
+if grep -q 'SYNTAX ERROR\|ERROR run' "$OUT"; then
+    echo "errors reported during run" >&2
+    exit 1
+fi
+
+echo "PASS: engine booted, evaluated code and shut down"

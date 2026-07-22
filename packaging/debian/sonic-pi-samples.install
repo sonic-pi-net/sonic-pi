@@ -1,0 +1,3 @@
+etc/buffers/*.wav        usr/share/sonic-pi/buffers
+etc/samples/*.flac       usr/share/sonic-pi/samples
+etc/samples/README.md    usr/share/doc/sonic-pi-samples

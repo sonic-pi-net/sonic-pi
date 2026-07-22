@@ -1,0 +1,77 @@
+#!/bin/sh
+# Deterministic check that the installed tree matches what the code expects.
+#
+# This is the test that should gate: packaging bugs are almost always a file
+# that did not get installed, or got installed somewhere the path resolver does
+# not look. Asking Paths for every location and checking it exists catches that
+# class exactly, with no audio device, no display and no timing involved.
+set -e
+
+SERVER=/usr/lib/sonic-pi/app/server/ruby
+
+ruby -e '
+require "/usr/lib/sonic-pi/app/server/ruby/paths"
+
+# Locations that the package must have shipped. User-writable state
+# (~/.sonic-pi and friends) is created on demand and so is not checked here.
+files = {
+  "piano wavetable" => SonicPi::Paths.piano_wavetable_path,
+  "supersonic"      => SonicPi::Paths.supersonic_path,
+  "aubio_onset"     => SonicPi::Paths.aubio_onset_path,
+  "daemon"          => SonicPi::Paths.daemon_path,
+}
+
+dirs = {
+  "root"       => SonicPi::Paths.root_path,
+  "etc"        => SonicPi::Paths.etc_path,
+  "samples"    => SonicPi::Paths.samples_path,
+  "buffers"    => SonicPi::Paths.buffers_path,
+  "synthdefs"  => SonicPi::Paths.synthdef_path,
+  "snippets"   => SonicPi::Paths.snippets_path,
+  "examples"   => SonicPi::Paths.examples_path,
+  "server"     => SonicPi::Paths.server_path,
+}
+
+executables = ["supersonic", "aubio_onset"]
+
+failed = []
+
+dirs.each do |name, path|
+  ok = Dir.exist?(path)
+  puts format("%-16s %-6s %s", name, ok ? "DIR" : "MISS", path)
+  failed << "#{name}: no directory at #{path}" unless ok
+end
+
+files.each do |name, path|
+  ok = File.exist?(path)
+  puts format("%-16s %-6s %s", name, ok ? "FILE" : "MISS", path)
+  failed << "#{name}: no file at #{path}" unless ok
+  if ok && executables.include?(name) && !File.executable?(path)
+    failed << "#{name}: #{path} is not executable"
+  end
+end
+
+# sox is a dependency rather than a shipped file, so what matters is that the
+# path the code will invoke actually resolves.
+sox = SonicPi::Paths.sox_path
+resolved = File.exist?(sox) || system("command -v #{sox} > /dev/null 2>&1")
+puts format("%-16s %-6s %s", "sox", resolved ? "OK" : "MISS", sox)
+failed << "sox: #{sox} is neither a file nor on PATH" unless resolved
+
+# A handful of samples and synthdefs, since an empty directory would otherwise
+# pass the directory checks above.
+%w[samples synthdefs].each do |what|
+  dir = what == "samples" ? SonicPi::Paths.samples_path : SonicPi::Paths.synthdef_path
+  count = Dir.exist?(dir) ? Dir.children(dir).length : 0
+  puts format("%-16s %-6s %d entries", what + " content", count > 0 ? "OK" : "EMPTY", count)
+  failed << "#{what}: #{dir} is empty" if count.zero?
+end
+
+unless failed.empty?
+  warn "\nFAILED:"
+  failed.each { |f| warn "  #{f}" }
+  exit 1
+end
+
+puts "\nPASS: every path the server resolves exists in the installed tree"
+'

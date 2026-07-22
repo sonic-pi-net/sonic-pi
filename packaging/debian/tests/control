@@ -1,0 +1,13 @@
+# Deterministic. Catches the packaging failure mode that actually happens: a
+# file that was not installed, or installed where the resolver does not look.
+# Safe to gate on.
+Tests: layout
+Depends: sonic-pi-server
+Restrictions: allow-stderr
+
+# End-to-end, and therefore dependent on an audio stack and on runner speed.
+# Marked flaky so a bad day here cannot block an unrelated package's migration
+# to testing.
+Tests: engine
+Depends: sonic-pi-server, pipewire-bin
+Restrictions: allow-stderr, flaky

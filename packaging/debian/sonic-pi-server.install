@@ -1,0 +1,14 @@
+app/server/ruby/*.rb                                               usr/lib/sonic-pi/app/server/ruby
+app/server/ruby/bin                                                usr/lib/sonic-pi/app/server/ruby
+app/server/ruby/lib                                                usr/lib/sonic-pi/app/server/ruby
+app/server/ruby/vendor/ruby-beautify/lib/ruby-beautify-legacy.rb   usr/lib/sonic-pi/app/server/ruby/vendor/ruby-beautify/lib/
+app/server/ruby/vendor/ruby-beautify/lib/ruby-beautify-legacy      usr/lib/sonic-pi/app/server/ruby/vendor/ruby-beautify/lib/
+app/server/ruby/vendor/titleize-*                                  usr/lib/sonic-pi/app/server/ruby/vendor/
+
+app/server/native/supersonic                                       usr/lib/sonic-pi/app/server/native/
+app/server/native/aubio_onset                                      usr/lib/sonic-pi/app/server/native/
+app/server/native/piano_wavetable.dat                              usr/lib/sonic-pi/app/server/native/
+
+etc/examples                                                       usr/share/sonic-pi
+etc/snippets                                                       usr/share/sonic-pi
+etc/synthdefs/compiled                                             usr/share/sonic-pi/synthdefs
