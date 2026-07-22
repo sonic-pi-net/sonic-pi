@@ -2543,6 +2543,18 @@ void SonicPiScintilla::updateCompletion(bool force)
             m_completion->hidePopup();
             return;
         }
+
+        // Directly after a closing bracket or quote the value expression is
+        // complete — e.g. `phase_offset: rand(1)`. Nothing is completable until
+        // a separator introduces the next argument, and accepting an entry here
+        // would glue it onto the value (`rand(1)note:`), turning Return into a
+        // garbage insert instead of a newline.
+        if (SonicPi::caretAfterClosedValue(upto, upto.length()))
+        {
+            endPreview();
+            m_completion->hidePopup();
+            return;
+        }
     }
 
     int pos = SendScintilla(SCI_GETCURRENTPOS);

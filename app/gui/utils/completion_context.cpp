@@ -131,6 +131,15 @@ ArgKind resolveArgKind(const QStringList& context, const ArgKindTable& table)
     return ArgKind::None;
 }
 
+bool caretAfterClosedValue(const QString& line, int caretCol)
+{
+    int i = caretCol < 0 ? 0 : caretCol;
+    if (i > line.length()) i = line.length();
+    if (i == 0) return false;
+    const QChar prev = line[i - 1];
+    return prev == ')' || prev == ']' || prev == '}' || prev == '"' || prev == '\'';
+}
+
 // Fuzzy subsequence match + rank (fzf / VS Code style). Every char of `pat` must
 // appear in `text` in order, case-insensitive — so "empo" matches "tempo". Scoring
 // is tiered so the common typing patterns sort intuitively:

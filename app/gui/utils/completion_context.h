@@ -54,6 +54,13 @@ using ArgKindTable = QHash<QString, QVector<ArgKind>>;
 // like `amp:` precedes it), or the position is past the function's positional args.
 ArgKind resolveArgKind(const QStringList& context, const ArgKindTable& table);
 
+// True when the caret sits directly after a char that closes a value expression
+// (a closing bracket or quote). At that position the expression is complete and
+// nothing is completable until a separator introduces the next argument — any
+// accepted entry would glue onto the value (`rand(1)note:`), so the completion
+// popup must not open.
+bool caretAfterClosedValue(const QString& line, int caretCol);
+
 // Fuzzy subsequence match + rank score for completion. Every char of `pat` must
 // appear in `text` in order (case-insensitive); returns false otherwise. Higher
 // `score` = better match. Used to filter + rank the completion list.

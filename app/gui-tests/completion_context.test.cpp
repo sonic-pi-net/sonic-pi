@@ -136,3 +136,27 @@ TEST_CASE("end-of-line partial is empty despite the trailing newline", "[complet
     CHECK(partialAt("pan: \n", 5) == "");
     CHECK(partialAt("sample :ambi_choir, pan: 0.5\n", 28) == "0.5");
 }
+
+TEST_CASE("caret directly after a closing bracket/quote suppresses completion", "[completion][closed]")
+{
+    using SonicPi::caretAfterClosedValue;
+    // The regression: typing the trailing ')' of `control s, phase_offset: rand(1)`
+    // popped the opts list, so Return inserted an opt instead of a newline.
+    const QString line = "control s, phase_offset: rand(1)";
+    CHECK(caretAfterClosedValue(line, line.length()));
+
+    CHECK(caretAfterClosedValue("play [60, 64]", 13));
+    CHECK(caretAfterClosedValue("puts({a: 1})", 12));
+    CHECK(caretAfterClosedValue("play \"foo\"", 10));
+    CHECK(caretAfterClosedValue("play 'foo'", 10));
+}
+
+TEST_CASE("ordinary positions do not read as a closed value", "[completion][closed]")
+{
+    using SonicPi::caretAfterClosedValue;
+    CHECK_FALSE(caretAfterClosedValue("", 0));
+    CHECK_FALSE(caretAfterClosedValue("synth :sine, ", 13));   // after ", " - opt slot
+    CHECK_FALSE(caretAfterClosedValue("control s, phase_offset: rand(1) ", 33)); // separator typed
+    CHECK_FALSE(caretAfterClosedValue("play (scale ", 12));    // inside an open call
+    CHECK_FALSE(caretAfterClosedValue("play 60", 7));          // after a plain value
+}
