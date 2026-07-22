@@ -11,8 +11,9 @@
 //    silence instead of passing them to the hardware.
 //
 // Chain: merge hardware bus + mix bus -> Sanitize -> pre_amp -> switchable
-// HPF/LPF -> force_mono -> invert_stereo -> amp -> LeakDC -> Limiter ->
-// hard clip at +-1 -> fixed 10Hz/20.5kHz safety filters -> ReplaceOut.
+// HPF/LPF -> force_mono -> invert_stereo -> amp -> LeakDC -> pre-limiter scope
+// tap -> Limiter -> hard clip at +-1 -> fixed 10Hz/20.5kHz safety filters ->
+// ReplaceOut.
 
 (
 SynthDef('sonic-pi-mixer', {|
@@ -22,7 +23,7 @@ SynthDef('sonic-pi-mixer', {|
   hpf = 22, hpf_bypass = 0, hpf_slide = 0.02, hpf_slide_shape = 1, hpf_slide_curve = 0,
   lpf = 136, lpf_bypass = 0, lpf_slide = 0.02, lpf_slide_shape = 1, lpf_slide_curve = 0,
   force_mono = 0, invert_stereo = 0, limiter_bypass = 0, leak_dc_bypass = 0,
-  out_bus = 0|
+  out_bus = 0, pre_limiter_scope_num = 31, pre_limiter_max_frames = 1024|
 
   var l, r, mono, mono_l, mono_r, pre_amp_v, amp_v, hpf_freq, lpf_freq;
 
@@ -53,6 +54,13 @@ SynthDef('sonic-pi-mixer', {|
 
   l = Select.ar(leak_dc_bypass, [LeakDC.ar(l), l]);
   r = Select.ar(leak_dc_bypass, [LeakDC.ar(r), r]);
+
+  // The limiter's input, tapped after amp so the reading doesn't move when the
+  // main volume does. Against the master output scope (slot 0) the difference
+  // is the limiter's gain reduction and nothing else — only clip2 and the
+  // fixed safety filters sit between this point and the output.
+  ScopeOut2.ar([l, r], pre_limiter_scope_num, pre_limiter_max_frames);
+
   l = Select.ar(limiter_bypass, [Limiter.ar(l, 0.99, 0.01), l]);
   r = Select.ar(limiter_bypass, [Limiter.ar(r, 0.99, 0.01), r]);
 
