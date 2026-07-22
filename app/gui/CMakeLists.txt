@@ -251,6 +251,10 @@ SET(TS_FILES
 )
 
 if(WIN32)
+  # Embedded alongside the linker's default manifest; gives the process a
+  # UTF-8 active code page so narrow-string paths survive non-ASCII home
+  # directories (see the manifest itself for details).
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/utf8.manifest)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/windows.h)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/windows_a11y.cpp)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/windows_a11y.h)

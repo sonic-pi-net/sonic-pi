@@ -43,6 +43,12 @@ if(TEST_SOURCES)
           ${CMAKE_THREAD_LIBS_INIT}
   )
 
+  if(WIN32)
+    # Same UTF-8 active-code-page manifest as the GUI exe, so the tests
+    # exercise the API under the identical narrow-string regime.
+    target_sources(${PROJECT_NAME} PRIVATE ${TESTS_ROOT}/../gui/platform/utf8.manifest)
+  endif()
+
   add_test(${PROJECT_NAME} ${PROJECT_NAME})
 
   SOURCE_GROUP(tests REGULAR_EXPRESSION ".*.test.(cpp|h)+")

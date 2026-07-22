@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstdlib>
 #include <iostream>
 #include <catch2/catch_test_macros.hpp>
 
@@ -115,4 +116,70 @@ TEST_CASE("Init", "API")
 
     // Require this later to ensure logs are dumped
     //REQUIRE(executeResult == true);
+}
+
+namespace
+{
+
+void SetHomeEnv(const char* value)
+{
+#if defined(WIN32)
+    _putenv_s("SONIC_PI_HOME", value);
+#else
+    if (*value)
+        setenv("SONIC_PI_HOME", value, 1);
+    else
+        unsetenv("SONIC_PI_HOME");
+#endif
+}
+
+} // namespace
+
+// A home directory containing non-ASCII characters must be usable end to
+// end: every layer that handles the path as narrow bytes has to agree on
+// the encoding (UTF-8), or the writability probe and the created
+// directories end up referring to differently-named locations.
+TEST_CASE("Init with non-ASCII home dir", "API")
+{
+    // "sptest-é-ü" as explicit UTF-8 bytes, so the assertion doesn't
+    // depend on this source file's execution charset.
+    const std::string dirName = "sptest-\xC3\xA9-\xC3\xBC";
+    fs::path home = fs::temp_directory_path() / dirName;
+
+    // Sweep every sptest-* entry, mangled leftovers included, so the
+    // sibling scan below starts from a known-clean state.
+    for (const auto& entry : fs::directory_iterator(home.parent_path()))
+    {
+        if (entry.path().filename().string().rfind("sptest-", 0) == 0)
+        {
+            fs::remove_all(entry.path());
+        }
+    }
+    fs::create_directories(home);
+    SetHomeEnv(home.string().c_str());
+
+    APIClient client;
+    SonicPiAPI api(&client, APIProtocol::UDP, LogOption::File);
+    APIInitResult result = api.Init(fs::path(APP_ROOT) / "..");
+    api.Shutdown();
+
+    SetHomeEnv("");
+
+    REQUIRE(result == APIInitResult::Successful);
+
+    // The probe must have created the log tree under the real directory,
+    // not under a mangled sibling.
+    REQUIRE(fs::exists(home / ".sonic-pi" / "log"));
+
+    fs::path parent = home.parent_path();
+    for (const auto& entry : fs::directory_iterator(parent))
+    {
+        auto name = entry.path().filename().string();
+        if (name.rfind("sptest-", 0) == 0)
+        {
+            REQUIRE(name == dirName);
+        }
+    }
+
+    fs::remove_all(home);
 }
