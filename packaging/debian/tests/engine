@@ -23,8 +23,9 @@ SPI
 # headless-run.rb boots the daemon, waits for the engine, runs the script for
 # the given number of seconds, then exits 0. No audio device is expected in a
 # test container: the engine idles rather than failing, so boot, evaluation and
-# shutdown are still exercised.
-ruby "$SERVER/bin/headless-run.rb" "$SCRIPT" 20 > "$OUT" 2>&1 &
+# shutdown are still exercised. setsid so the runner and everything it spawns
+# form one process group that can be killed as a unit on timeout.
+setsid ruby "$SERVER/bin/headless-run.rb" "$SCRIPT" 20 > "$OUT" 2>&1 &
 runner=$!
 
 # Poll for the completion marker rather than sleeping a fixed interval, so a
@@ -41,6 +42,13 @@ while [ "$elapsed" -lt "$TIMEOUT" ]; do
     elapsed=$((elapsed + 1))
 done
 
+# A wedged boot must fail the test, not hang it: kill the whole group before
+# waiting, or the wait below blocks forever on a runner that never exits.
+if kill -0 "$runner" 2>/dev/null; then
+    kill -- -"$runner" 2>/dev/null || kill "$runner" 2>/dev/null || true
+    sleep 2
+    kill -9 -- -"$runner" 2>/dev/null || true
+fi
 wait "$runner" 2>/dev/null || true
 
 if [ -n "$AUTOPKGTEST_ARTIFACTS" ]; then
