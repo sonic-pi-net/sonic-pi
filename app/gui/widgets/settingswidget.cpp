@@ -218,7 +218,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     volBox->setToolTip(tr("Use this dial to change the system volume."));
     system_vol_slider = new ArcDial(this);
     system_vol_slider->setWrapping(false);
-    system_vol_slider->setValueFontPt(20);
+    system_vol_slider->setValueFontRole(FontRole::XLarge);
     system_vol_slider->setMinimumSize(100, 100);
     system_vol_slider->setAccessibleName(tr("Main Volume"));
     system_vol_slider->setProperty("tipTitle", tr("Main Volume"));
@@ -1027,7 +1027,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     flash_brightness_slider->setWrapping(false);
     flash_brightness_slider->setRange(5, 100);
     flash_brightness_slider->setValueSuffix("%");
-    flash_brightness_slider->setValueFontPt(20);
+    flash_brightness_slider->setValueFontRole(FontRole::XLarge);
     flash_brightness_slider->setFixedSize(ScaleWidthForDPI(108), ScaleHeightForDPI(108));
     flash_brightness_slider->setAccessibleName(tr("Flash brightness"));
     flash_brightness_slider->setProperty("tipTitle", tr("Flash Brightness"));

@@ -20,8 +20,11 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QFont>
+#include <QFontMetrics>
 #include <QPen>
 #include <QColor>
+
+#include "dpi.h"
 
 // A rotary control (used for the prefs volume + hue dials). Grab it anywhere and
 // tune RELATIVELY: the click doesn't jump the value to the clicked angle — it
@@ -35,9 +38,9 @@ public:
     explicit ArcDial(QWidget* parent = nullptr) : QDial(parent) {
         setCursor(Qt::PointingHandCursor);
     }
-    // Point size of the centre value text (default suits the prefs volume dial;
-    // smaller dials should reduce it so the value fits).
-    void setValueFontPt(int pt) { m_valueFontPt = pt; update(); }
+    // Type-scale role for the centre value text (default suits the prefs volume
+    // dial; smaller dials should step down a role so the value fits).
+    void setValueFontRole(FontRole role) { m_valueRole = role; update(); }
     // Override the value-arc / text colour (default: the palette highlight). Used
     // by the hue dial to preview the (rotated) accent colour.
     void setArcColor(const QColor& c) { m_arcColor = c; update(); }
@@ -145,18 +148,26 @@ protected:
         p.setPen(QPen(accent, 6, Qt::SolidLine, Qt::RoundCap));
         p.drawArc(arc, 225 * 16, span);
 
-        // Value text
+        // Value text — shrink to fit the hub: the role size can still overflow
+        // the ring under font substitution / unusual DPI.
         if (m_showValue) {
+            const QString text = QString::number(value()) + m_valueSuffix;
+            QFont f("Hack", -1, QFont::Bold);
+            f.setPixelSize(FontRolePx(m_valueRole));
+            const int maxW = int(arc.width() * 0.72);
+            while (f.pixelSize() > FontRolePx(FontRole::Tiny)
+                   && QFontMetrics(f).horizontalAdvance(text) > maxW)
+                f.setPixelSize(f.pixelSize() - 1);
             p.setPen(accent);
-            p.setFont(QFont("Hack", m_valueFontPt, QFont::Bold));
-            p.drawText(rect(), Qt::AlignCenter, QString::number(value()) + m_valueSuffix);
+            p.setFont(f);
+            p.drawText(rect(), Qt::AlignCenter, text);
         }
     }
 private:
     double m_lastAngle = 0.0;     // last pointer angle during a relative drag
     bool m_haveAngle = false;     // false = re-anchor (drag start or near-hub)
     double m_pendingSteps = 0.0;  // fractional steps carried between move events
-    int m_valueFontPt = 14;
+    FontRole m_valueRole = FontRole::Base;
     bool m_showValue = true;
     QColor m_arcColor;
     QString m_valueSuffix;
