@@ -49,11 +49,17 @@ Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  sonic-pi-server (= ${binary:Version})
-Description: Live Coding for Everyone
- A free live coding synth for everyone. Originally designed to support
- computing and music lessons within schools. Use code to compose and
- perform in classical and contemporary styles ranging from Canons to
- Dubstep.
+Description: live coding music synth for everyone
+ Sonic Pi is a code-based music creation and performance tool. It is
+ simple enough for computing and music lessons in schools, yet powerful
+ enough for professional musicians to perform live with. Use code to
+ compose and perform in classical and contemporary styles ranging from
+ Canons to Dubstep.
+ .
+ Programs can be changed and re-run while the music keeps playing.
+ Synths, samples, studio effects, Ableton Link session sync (including
+ Link Audio streaming), MIDI, OSC and game controller input are all
+ built in, driven by SuperSonic.
 
 Package: sonic-pi-server
 Architecture: any
