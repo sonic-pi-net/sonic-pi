@@ -889,7 +889,7 @@ Also, note that audio in isn't yet supported on Raspberry Pi."
           {
             :doc => "Initial phase offset of the sine wave (a value between 0 and 1 representing a fraction of a complete cycle). For example, two sine synths panned hard left and hard right playing the same note with phase offsets 0 and 0.25 will draw a circle when viewed as a Lissajous figure.",
             :validations => [v_between_inclusive(:phase_offset, 0, 1)],
-            :modulatable => false
+            :modulatable => true
           }
         }
       end
