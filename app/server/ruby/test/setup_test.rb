@@ -14,6 +14,15 @@ require 'minitest'
 def (Minitest).load_plugins; end
 require 'minitest/autorun'
 
+# Mocha renamed its Minitest integration entry point in 1.5. The vendored copy
+# predates the rename; distribution builds run against a system gem that has
+# since dropped the old name, so accept whichever is present.
+begin
+  require 'mocha/minitest'
+rescue LoadError
+  require 'mocha/setup'
+end
+
 module SonicPi
   class MockStudio
 

@@ -16,7 +16,6 @@ require_relative "../../../lib/sonicpi/atom"
 require_relative "../../../lib/sonicpi/lang/core"
 require_relative "../../../lib/sonicpi/lang/sound"
 require_relative "../../../lib/sonicpi/runtime"
-require 'mocha/setup'
 require 'ostruct'
 
 module SonicPi

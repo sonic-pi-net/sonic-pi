@@ -71,6 +71,8 @@ module GetText
         erb = ERB.new(content, nil, "-")
       end
       src = erb.src
+      # ERB in Ruby 3.2+ returns a frozen string (fixed upstream post-3.4.3)
+      src = src.dup if src.frozen?
 
       # Force the src encoding back to the encoding in magic comment
       # or original content.

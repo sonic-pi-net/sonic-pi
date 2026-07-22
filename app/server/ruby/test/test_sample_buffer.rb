@@ -13,7 +13,6 @@
 
 require_relative './setup_test'
 require_relative '../lib/sonicpi/samplebuffer'
-require 'mocha/setup'
 
 module SonicPi
   class SampleBufferTester < Minitest::Test

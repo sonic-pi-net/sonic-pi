@@ -13,7 +13,6 @@
 
 require_relative "../../setup_test"
 require_relative "../../../lib/sonicpi/lang/core"
-require 'mocha/setup'
 
 module SonicPi
 
