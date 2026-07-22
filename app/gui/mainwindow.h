@@ -471,6 +471,7 @@ private slots:
     void helpScrollDown();
     void docPrevTab();
     void docNextTab();
+    void focusCurrentHelpList();
     void docScrollUp();
     void docScrollDown();
     void updateFullScreenMode();
@@ -539,6 +540,12 @@ private slots:
     void focusHelpListing();
     void focusHelpDetails();
     void focusErrors();
+    // Direct jumps to the remaining south-dock tabs (Docs is covered by the
+    // help listing/details pair above) — the screen-reader escape hatch from
+    // traversing the whole window.
+    void focusHelpCards();
+    void focusHelpLogs();
+    void focusHelpDebug();
     // F6/Shift+F6: walk keyboard focus through the panes currently on screen
     // (the platform pane-cycling convention on Windows).
     void cycleFocusForward();
@@ -790,7 +797,7 @@ private:
     SonicPiToolTipManager* toolTipManager;
 
     QToolBar* toolBar;
-    QAction *textUpcaseWordAct, *textDowncaseWordAct, *textDeleteWordRightAct, *textDeleteWordLeftAct, *textSelectAllAct, *textRedoAct, *textUndoAct, *textCenterCaretAct, *textWordLeftAct, *textWordRightAct, *textSelectLineStartAct, *textSelectLineEndAct, *textSelectWordLeftAct, *textSelectWordRightAct, *textSelectDocStartAct, *textSelectDocEndAct, *textDocEndAct, *textDocStartAct, *textLineEndAct, *textLineStartAct, *textDeleteBackAct, *textDeleteForwardAct, *textRightAct, *textLeftAct, *textCopyAct, *textCutAct, *textPasteAct, *textCutToEndOfLineAct, *textDownAct, *textUpAct, *textDownTenAct, *textUpTenAct, *logZoomInAct, *logZoomOutAct, *textSetMarkAct, *triggerAutocompleteAct, *readCompletionDetailsAct, *winShortcutModeAct, *emacsShortcutModeAct, *macShortcutModeAct, *userShortcutModeAct, *tabPrevAct, *tabNextAct, *tab1Act, *tab2Act, *tab3Act, *tab4Act, *tab5Act, *tab6Act, *tab7Act, *tab8Act, *tab9Act, *tab0Act, *cycleThemesAct, *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *loadSetAct, *saveSetAct, *saveSetAsAct, *clearAllBuffersAct, *recAct, *textAlignAct, *textCommentAct, *textTransposeAct, *textShiftLineUpAct, *textShiftLineDownAct, *contextHelpAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *focusBPMScrubberAct, *focusTimeWarpScrubberAct, *cycleFocusForwardAct, *cycleFocusBackAct, *showLineNumbersAct, *showAutoCompletionAct, *showCompletionHelpAct, *showContextAct, *flashCodeAct, *flashGutterAct, *showLoopScopesAct, *loopScopeScrollAct, *speakTransportAct, *reduceMotionAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *enableScsynthInputsAct, *midiEnabledAct, *gamepadEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *highContrastThemeAct, *mildThemeAct, *phosphorThemeAct, *signalThemeAct, *proIconsAct, *showScopeLabelsAct, *showTitlesAct, *hideMenuBarInFullscreenAct, *showMetroAct, *enableLinkAct, *linkTapTempoAct, *scopePausedAct, *focusModeAct, *checkUpdatesAct, *checkUpdatesNowAct, *findAct, *findNextAct, *findPrevAct, *showEditorToolbarAct;
+    QAction *textUpcaseWordAct, *textDowncaseWordAct, *textDeleteWordRightAct, *textDeleteWordLeftAct, *textSelectAllAct, *textRedoAct, *textUndoAct, *textCenterCaretAct, *textWordLeftAct, *textWordRightAct, *textSelectLineStartAct, *textSelectLineEndAct, *textSelectWordLeftAct, *textSelectWordRightAct, *textSelectDocStartAct, *textSelectDocEndAct, *textDocEndAct, *textDocStartAct, *textLineEndAct, *textLineStartAct, *textDeleteBackAct, *textDeleteForwardAct, *textRightAct, *textLeftAct, *textCopyAct, *textCutAct, *textPasteAct, *textCutToEndOfLineAct, *textDownAct, *textUpAct, *textDownTenAct, *textUpTenAct, *logZoomInAct, *logZoomOutAct, *textSetMarkAct, *triggerAutocompleteAct, *readCompletionDetailsAct, *winShortcutModeAct, *emacsShortcutModeAct, *macShortcutModeAct, *userShortcutModeAct, *tabPrevAct, *tabNextAct, *tab1Act, *tab2Act, *tab3Act, *tab4Act, *tab5Act, *tab6Act, *tab7Act, *tab8Act, *tab9Act, *tab0Act, *cycleThemesAct, *exitAct, *runAct, *stopAct, *saveAsAct, *loadFileAct, *loadSetAct, *saveSetAct, *saveSetAsAct, *clearAllBuffersAct, *recAct, *textAlignAct, *textCommentAct, *textTransposeAct, *textShiftLineUpAct, *textShiftLineDownAct, *contextHelpAct, *textIncAct, *textDecAct, *scopeAct, *infoAct, *helpAct, *prefsAct, *focusEditorAct, *focusLogsAct, *focusContextAct, *focusCuesAct, *focusPreferencesAct, *focusHelpListingAct, *focusHelpDetailsAct, *focusErrorsAct, *focusHelpCardsAct, *focusHelpLogsAct, *focusHelpDebugAct, *focusBPMScrubberAct, *focusTimeWarpScrubberAct, *cycleFocusForwardAct, *cycleFocusBackAct, *showLineNumbersAct, *showAutoCompletionAct, *showCompletionHelpAct, *showContextAct, *flashCodeAct, *flashGutterAct, *showLoopScopesAct, *loopScopeScrollAct, *speakTransportAct, *reduceMotionAct, *audioSafeAct, *audioTimingGuaranteesAct, *enableExternalSynthsAct, *mixerInvertStereoAct, *mixerForceMonoAct, *enableScsynthInputsAct, *midiEnabledAct, *gamepadEnabledAct, *enableOSCServerAct, *allowRemoteOSCAct, *showLogAct, *showCuesAct, *logAutoScrollAct, *logCuesAct, *logSynthsAct, *clearOutputOnRunAct, *autoIndentOnRunAct, *showButtonsAct, *showTabsAct, *fullScreenAct, *lightThemeAct, *darkThemeAct, *highContrastThemeAct, *mildThemeAct, *phosphorThemeAct, *signalThemeAct, *proIconsAct, *showScopeLabelsAct, *showTitlesAct, *hideMenuBarInFullscreenAct, *showMetroAct, *enableLinkAct, *linkTapTempoAct, *scopePausedAct, *focusModeAct, *checkUpdatesAct, *checkUpdatesNowAct, *findAct, *findNextAct, *findPrevAct, *showEditorToolbarAct;
 #ifdef Q_OS_MAC
     QAction *syphonPublishAct;
     QAction *syphonShowCursorAct;

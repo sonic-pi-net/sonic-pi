@@ -1021,11 +1021,10 @@ void MainWindow::setupWindowStructure()
     connect(tutorialPane, &TutorialPane::linkClicked, this, &MainWindow::docLinkClicked);
     connect(tutorialPane, &TutorialPane::navigateRequested, this, [this](int delta) {
         QListWidget* list = helpLists.value((int)DocTab::Tutorial);
-        if (!list)
+        if (!list || list->count() == 0)
             return;
-        int row = list->currentRow() + delta;
-        if (row >= 0 && row < list->count())
-            list->setCurrentRow(row);
+        // Wraps at both ends, matching the ring the footer buttons offer.
+        list->setCurrentRow((list->currentRow() + delta + list->count()) % list->count());
     });
     connect(m_spClient.get(), &SonicPi::QtAPIClient::RunStartedReceived,
             tutorialPane, &TutorialPane::runStarted);
@@ -1120,6 +1119,10 @@ void MainWindow::setupWindowStructure()
                     title.isEmpty() ? tr("Copied the card's code to the clipboard.")
                                     : tr("Copied %1 to the clipboard.").arg(title),
                     5000);
+            });
+    connect(quickstartPane, &QuickstartPane::announceRequested, this,
+            [this](const QString& msg) {
+                announce(msg, false, SonicPi::Announcement::Navigation);
             });
     connect(m_spClient.get(), &SonicPi::QtAPIClient::RunStartedReceived,
             quickstartPane, &QuickstartPane::runStarted);
@@ -3429,6 +3432,12 @@ void MainWindow::showHelpListTab(int tabIdx, int row)
     }
     if (!docWidget->isVisible())
         toggleDocPane();
+    // A browse request (no specific row) is an invitation to explore: land
+    // focus in the topics list so the arrow keys page through the entries —
+    // without this a screen-reader user is left wherever they were, hearing
+    // only whichever entry happened to be selected.
+    if (row < 0 && tabIdx >= 0 && tabIdx < helpLists.size())
+        focusPane(helpLists[tabIdx]);
 }
 
 void MainWindow::openExample(const QString& path, const QString& title, int helpRow)
@@ -3436,6 +3445,10 @@ void MainWindow::openExample(const QString& path, const QString& title, int help
     // Examples live in the help pane: show the example there and (optionally)
     // play it from the pane. Buffers are never touched.
     showExamplesHelpTab(helpRow);
+    // Choosing an example moves you to it, the same as the Focus menu's jump
+    // to a buffer: focus lands on the example's code, readable line by line.
+    if (tutorialPane)
+        tutorialPane->focusContent();
 
     if (!examplesPlayOnOpenAct->isChecked())
     {
@@ -3509,6 +3522,9 @@ void MainWindow::showQuickstartCards()
     southTabs->setCurrentWidget(quickstartPane);
     if (!docWidget->isVisible())
         docWidget->show();
+    // Choosing the menu item moves you to the cards (like Help/Examples/
+    // Preferences), with Left/Right paging live straight away.
+    quickstartPane->focusCarousel();
 }
 
 void MainWindow::zoomCurrentWorkspaceIn()
@@ -3666,12 +3682,17 @@ void MainWindow::scopeVisibilityChanged()
     // isVisible() gate.
     scopeWindow->SetSuspended(!piSettings->show_scopes);
     scopeAct->setIcon(theme->getScopeIcon(piSettings->show_scopes));
+    QSignalBlocker blocker(scopeAct);
+    scopeAct->setChecked(piSettings->show_scopes);
     emit settingsChanged();
 }
 
 void MainWindow::toggleScope()
 {
     piSettings->show_scopes = !piSettings->show_scopes;
+    showStatusAndAnnounce(piSettings->show_scopes ? tr("Showing audio oscilloscopes...")
+                                                  : tr("Hiding audio oscilloscopes..."),
+                          2000);
     emit settingsChanged();
     scope();
 }
@@ -3710,8 +3731,14 @@ void MainWindow::about()
     if (infoWidg->isVisible())
     {
         showStatusAndAnnounce(tr("Hiding about window..."), 2000);
+        const QWidget* focused = QApplication::focusWidget();
+        const bool hadFocus = focused && infoWidg->isAncestorOf(focused);
         infoWidg->hide();
         infoAct->setChecked(false);
+        // The tool window is gone; put focus somewhere useful again rather
+        // than leaving it to fall back to the window frame.
+        if (hadFocus)
+            focusPane(getCurrentWorkspace());
     }
     else
     {
@@ -3722,6 +3749,12 @@ void MainWindow::about()
         infoWidg->raise();
         infoWidg->show();
         infoAct->setChecked(true);
+        // Opening the window takes you into it: focus the visible page so
+        // its text is immediately caret-navigable.
+        infoWidg->activateWindow();
+        if (QTabWidget* tabs = infoWidg->findChild<QTabWidget*>("infoNavTabs"))
+            if (tabs->currentWidget())
+                focusPane(tabs->currentWidget());
     }
     infoAct->setIcon(theme->getInfoIcon(infoWidg->isVisible()));
 }
@@ -3729,6 +3762,10 @@ void MainWindow::about()
 void MainWindow::toggleHelpIcon()
 {
     helpAct->setIcon(theme->getHelpIcon(docWidget->isVisible()));
+    // The dock can be shown/hidden by paths that never touch helpAct (e.g.
+    // toggleDocPane); keep the checked state a screen reader announces true.
+    QSignalBlocker blocker(helpAct);
+    helpAct->setChecked(docWidget->isVisible());
 }
 void MainWindow::help()
 {
@@ -3738,15 +3775,27 @@ void MainWindow::help()
     if (docWidget->isVisible())
     {
         showStatusAndAnnounce(tr("Hiding help..."), 2000);
+        // If focus lives in the pane being hidden it would fall to the
+        // window itself — hand it back to the editor instead.
+        QWidget* focused = QApplication::focusWidget();
+        const bool hadFocus = focused && docWidget->isAncestorOf(focused);
         docWidget->hide();
         helpAct->setChecked(false);
+        if (hadFocus)
+            focusPane(getCurrentWorkspace());
     }
     else
     {
         showStatusAndAnnounce(tr("Showing help..."), 2000);
         docWidget->show();
+        southTabs->setCurrentWidget(docsplit); // may currently be on Debug/Cards
         ensureDocsSelection();   // never land on a blank page
         helpAct->setChecked(true);
+        // Opening help takes you to it: focus lands in the topics list so
+        // the chapters are immediately arrow-key navigable.
+        const int i = docsNavTabs->currentIndex();
+        if (i >= 0 && i < helpLists.size())
+            focusPane(helpLists[i]);
     }
     helpAct->setIcon(theme->getHelpIcon(docWidget->isVisible()));
 }
@@ -4578,8 +4627,13 @@ void MainWindow::togglePrefs()
     if (prefsWidget->isVisible())
     {
         showStatusAndAnnounce(tr("Hiding preferences..."), 2000);
+        QWidget* focused = QApplication::focusWidget();
+        const bool hadFocus = focused && prefsWidget->isAncestorOf(focused);
         slidePrefsWidgetOut();
         prefsAct->setChecked(false);
+        // Don't leave focus inside a pane that just slid away.
+        if (hadFocus)
+            focusPane(getCurrentWorkspace());
     }
     else
     {
@@ -4587,6 +4641,9 @@ void MainWindow::togglePrefs()
 
         slidePrefsWidgetIn();
         prefsAct->setChecked(true);
+        // Opening preferences takes you to them (same as Focus
+        // Preferences), so the options are reachable straight away.
+        focusPane(settingsWidget);
     }
     updatePrefsIcon();
 }
@@ -4594,6 +4651,8 @@ void MainWindow::togglePrefs()
 void MainWindow::updatePrefsIcon()
 {
     prefsAct->setIcon(theme->getPrefsIcon(prefsWidget->isVisible()));
+    QSignalBlocker blocker(prefsAct);
+    prefsAct->setChecked(prefsWidget->isVisible());
 }
 
 void MainWindow::wheelEvent(QWheelEvent* event)
@@ -4827,9 +4886,12 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "FocusContext", QT_TR_NOOP("Place focus on the context pane"), "CtrlShift+t", "CtrlShift+t", "CtrlShift+t", "Focus", &MainWindow::focusContextAct },
     { "FocusCues", QT_TR_NOOP("Place focus on the cue event pane"), "CtrlShift+c", "CtrlShift+c", "CtrlShift+c", "Focus", &MainWindow::focusCuesAct },
     { "FocusPrefs", QT_TR_NOOP("Place focus on preferences"), "Meta+,", "Meta+,", "CtrlShift+p", "Focus", &MainWindow::focusPreferencesAct },
-    { "FocusHelpListing", QT_TR_NOOP("Place focus on help listing"), "CtrlShift+h", "CtrlShift+h", "CtrlShift+h", "Focus", &MainWindow::focusHelpListingAct },
-    { "FocusHelpDetails", QT_TR_NOOP("Place focus on help details"), "CtrlShift+d", "CtrlShift+d", "CtrlShift+d", "Focus", &MainWindow::focusHelpDetailsAct },
+    { "FocusHelpListing", QT_TR_NOOP("Place focus on the help docs listing"), "CtrlShift+h", "CtrlShift+h", "CtrlShift+h", "Focus", &MainWindow::focusHelpListingAct },
+    { "FocusHelpDetails", QT_TR_NOOP("Place focus on the help docs details"), "CtrlShift+d", "CtrlShift+d", "CtrlShift+d", "Focus", &MainWindow::focusHelpDetailsAct },
     { "FocusErrors", QT_TR_NOOP("Place focus on errors"), "CtrlShift+R", "CtrlShift+R", "CtrlShift+R", "Focus", &MainWindow::focusErrorsAct },
+    { "FocusHelpCards", QT_TR_NOOP("Place focus on the help cards"), "CtrlShift+q", "CtrlShift+q", "CtrlShift+q", "Focus", &MainWindow::focusHelpCardsAct },
+    { "FocusHelpLogs", QT_TR_NOOP("Place focus on the help logs"), "CtrlShift+f", "CtrlShift+f", "CtrlShift+f", "Focus", &MainWindow::focusHelpLogsAct },
+    { "FocusHelpDebug", QT_TR_NOOP("Place focus on the help debug pane"), "CtrlShift+g", "CtrlShift+g", "CtrlShift+g", "Focus", &MainWindow::focusHelpDebugAct },
     { "FocusBPMScrubber", QT_TR_NOOP("Place focus on BPM Scrubber"), "CtrlShift+b", "CtrlShift+b", "CtrlShift+b", "Focus", &MainWindow::focusBPMScrubberAct },
     { "FocusTimeWarpScrubber", QT_TR_NOOP("Place focus on TimeWarp Scrubber"), "CtrlShift+w", "CtrlShift+w", "CtrlShift+w", "Focus", &MainWindow::focusTimeWarpScrubberAct },
     { "ShowButtons", QT_TR_NOOP("Show or hide the buttons"), "ShiftMeta+b", "ShiftMeta+b", "ShiftMeta+b", "View", &MainWindow::showButtonsAct },
@@ -5102,7 +5164,7 @@ void MainWindow::createToolBar()
     // Record
     recAct = new QAction(theme->getRecIcon(false, false), tr("Start Recording"), this);
     recAct->setCheckable(true);
-    connect(recAct, SIGNAL(triggered()), this, SLOT(toggleRecording()));
+    connect(recAct, &QAction::toggled, this, [this](bool) { toggleRecording(); }); // see scopeAct
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // Mode-selection actions shared by the IO menubar, the rec-button
@@ -5293,11 +5355,18 @@ void MainWindow::createToolBar()
     textDecAct = new QAction(theme->getTextDecIcon(), tr("Code Size Down"), this);
     connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceOut()));
 
+    // The checkable toolbar toggles connect to toggled(), not triggered():
+    // assistive technology activates a checkable button by flipping its
+    // checked state, which emits toggled but not necessarily triggered — on
+    // triggered alone a screen reader could "check" Show Help and have
+    // nothing happen. Every programmatic setChecked() sync in the slots runs
+    // under a QSignalBlocker, so this never recurses.
+
     // Scope
     scopeAct = new QAction(theme->getScopeIcon(false), tr("Show Scopes"), this);
     scopeAct->setCheckable(true);
     scopeAct->setChecked(piSettings->show_scopes);
-    connect(scopeAct, SIGNAL(triggered()), this, SLOT(toggleScope()));
+    connect(scopeAct, &QAction::toggled, this, [this](bool) { toggleScope(); });
 
     scopePausedAct = new QAction(tr("Pause or Resume Scopes"), this);
     connect(scopePausedAct, SIGNAL(triggered()), this, SLOT(toggleScopePaused()));
@@ -5329,13 +5398,13 @@ void MainWindow::createToolBar()
     infoAct = new QAction(theme->getInfoIcon(false), tr("Show Info"), this);
     infoAct->setCheckable(true);
     infoAct->setChecked(false);
-    connect(infoAct, SIGNAL(triggered()), this, SLOT(about()));
+    connect(infoAct, &QAction::toggled, this, [this](bool) { about(); }); // see scopeAct
 
     // Help
     helpAct = new QAction(theme->getHelpIcon(false), tr("Show Help"), this);
     helpAct->setCheckable(true);
     helpAct->setChecked(false);
-    connect(helpAct, SIGNAL(triggered()), this, SLOT(help()));
+    connect(helpAct, &QAction::toggled, this, [this](bool) { help(); }); // see scopeAct
     if (helpCloseButton)
     {
         const QString ks = helpAct->shortcut().toString(QKeySequence::NativeText);
@@ -5347,7 +5416,7 @@ void MainWindow::createToolBar()
     prefsAct = new QAction(theme->getPrefsIcon(false), tr("Show Preferences"), this);
     prefsAct->setCheckable(true);
     prefsAct->setChecked(false);
-    connect(prefsAct, SIGNAL(triggered()), this, SLOT(togglePrefs()));
+    connect(prefsAct, &QAction::toggled, this, [this](bool) { togglePrefs(); }); // see scopeAct
 
     // Tab Prev
     tabPrevAct = new QAction(tr("Previous Tab"), this);
@@ -5562,6 +5631,12 @@ void MainWindow::createToolBar()
     toolBar->addAction(infoAct);
     toolBar->addAction(helpAct);
     toolBar->addAction(prefsAct);
+
+    // Toolbar buttons join the Tab ring (they default to NoFocus on macOS,
+    // leaving the toolbar unreachable without a pointer).
+    for (QAction* action : toolBar->actions())
+        if (QToolButton* button = qobject_cast<QToolButton*>(toolBar->widgetForAction(action)))
+            button->setFocusPolicy(Qt::TabFocus);
 
     liveMenu = menuBar()->addMenu(tr("Live"));
     liveMenu->addAction(runAct);
@@ -5915,16 +5990,27 @@ void MainWindow::createToolBar()
     connect(focusPreferencesAct, SIGNAL(triggered()), this, SLOT(focusPreferences()));
 
     // Focus HelpListing
-    focusHelpListingAct = new QAction(tr("Focus Help Listing"), this);
+    focusHelpListingAct = new QAction(tr("Focus Help Docs Listing"), this);
     connect(focusHelpListingAct, SIGNAL(triggered()), this, SLOT(focusHelpListing()));
 
     // Focus HelpDetails
-    focusHelpDetailsAct = new QAction(tr("Focus Help Details"), this);
+    focusHelpDetailsAct = new QAction(tr("Focus Help Docs Details"), this);
     connect(focusHelpDetailsAct, SIGNAL(triggered()), this, SLOT(focusHelpDetails()));
 
     // Focus Errors
     focusErrorsAct = new QAction(tr("Focus Errors"), this);
     connect(focusErrorsAct, SIGNAL(triggered()), this, SLOT(focusErrors()));
+
+    // Direct jumps to the Help dock's other tabs (Docs has the two docs
+    // focus actions above)
+    focusHelpCardsAct = new QAction(tr("Focus Help Cards"), this);
+    connect(focusHelpCardsAct, SIGNAL(triggered()), this, SLOT(focusHelpCards()));
+
+    focusHelpLogsAct = new QAction(tr("Focus Help Logs"), this);
+    connect(focusHelpLogsAct, SIGNAL(triggered()), this, SLOT(focusHelpLogs()));
+
+    focusHelpDebugAct = new QAction(tr("Focus Help Debug"), this);
+    connect(focusHelpDebugAct, SIGNAL(triggered()), this, SLOT(focusHelpDebug()));
 
     // Cycle focus through visible panes (F6 — the standard pane-cycling key
     // on Windows, harmless elsewhere)
@@ -6111,6 +6197,9 @@ void MainWindow::createToolBar()
     focusMenu->addAction(focusPreferencesAct);
     focusMenu->addAction(focusHelpListingAct);
     focusMenu->addAction(focusHelpDetailsAct);
+    focusMenu->addAction(focusHelpCardsAct);
+    focusMenu->addAction(focusHelpLogsAct);
+    focusMenu->addAction(focusHelpDebugAct);
     focusMenu->addAction(focusErrorsAct);
     focusMenu->addAction(focusTimeWarpScrubberAct);
     focusMenu->addAction(focusBPMScrubberAct);
@@ -6327,6 +6416,10 @@ void MainWindow::createInfoPane()
         infoPanes.append(pane);
         addUniversalCopyShortcuts(pane);
         pane->setOpenExternalLinks(true);
+        // Arrow-key caret browsing on top of the default link navigation, so
+        // the text reads like a web page rather than one solid block.
+        pane->setTextInteractionFlags(Qt::TextBrowserInteraction
+                                      | Qt::TextSelectableByKeyboard);
         // Content is read and parsed lazily on first open (the changelog
         // alone is ~160KB of HTML) — see loadInfoPaneContent().
         pane->setProperty("infoSrc", urls[t]);
@@ -6355,10 +6448,12 @@ void MainWindow::createInfoPane()
 }
 
 // Keep the record action's label and checked state in sync with
-// is_recording so the toggle is visible to screen readers.
+// is_recording so the toggle is visible to screen readers. Blocked: the
+// action's toggled() drives toggleRecording, and this sync runs inside it.
 void MainWindow::updateRecordingUI()
 {
     recAct->setText(is_recording ? tr("Stop Recording") : tr("Start Recording"));
+    QSignalBlocker blocker(recAct);
     recAct->setChecked(is_recording);
 }
 
@@ -6964,8 +7059,18 @@ bool MainWindow::showInTutorialPane(int tabIdx, int row)
         if (!json.isEmpty())
         {
             SonicPi::TutorialChapter chapter = SonicPi::TutorialDocs::chapterFromJson(json.toUtf8());
-            QString prevTitle = row > 0 ? list->item(row - 1)->text() : QString();
-            QString nextTitle = row + 1 < list->count() ? list->item(row + 1)->text() : QString();
+            // Ring navigation: previous from the first chapter is the last
+            // and next from the last is the first, so both footer buttons
+            // always exist. Reaching an end never strands the reader — and
+            // never deletes the button they are focused on, which would
+            // otherwise dump focus (and a screen reader) on the title bar.
+            const int count = list->count();
+            QString prevTitle, nextTitle;
+            if (count > 1)
+            {
+                prevTitle = list->item((row - 1 + count) % count)->text();
+                nextTitle = list->item((row + 1) % count)->text();
+            }
             tutorialPane->loadChapter(chapter, rootPath() + "/etc/doc/images", prevTitle, nextTitle);
             built = true;
         }
@@ -7209,7 +7314,8 @@ QListWidget* MainWindow::createHelpTab(QString name)
     // current theme here and re-tinted on theme changes (updateDocsFilterIcons).
     docsFilterSearchActions.append(filter->addAction(QIcon(), QLineEdit::LeadingPosition));
     updateDocsFilterIcons();
-    connect(filter, &QLineEdit::textChanged, nameList, [nameList](const QString& q) {
+    connect(filter, &QLineEdit::textChanged, nameList, [this, nameList](const QString& q) {
+        int shown = 0;
         for (int i = 0; i < nameList->count(); i++)
         {
             QListWidgetItem* item = nameList->item(i);
@@ -7219,7 +7325,15 @@ QListWidget* MainWindow::createHelpTab(QString name)
                                || item->text().contains(q, Qt::CaseInsensitive)
                                || item->data(33).toString().contains(q, Qt::CaseInsensitive);
             item->setHidden(!match);
+            if (match)
+                ++shown;
         }
+        // Same counting feedback the autocomplete gives: each keystroke
+        // reports how many topics remain (politely, so fast typing
+        // coalesces). Only while actually filtering — clearing is silent.
+        if (!q.isEmpty())
+            announce(tr("%n topics", nullptr, shown), false,
+                     SonicPi::Announcement::Navigation);
     });
 
     QBoxLayout* layout = new QBoxLayout(QBoxLayout::TopToBottom);
@@ -7266,6 +7380,7 @@ void MainWindow::docPrevTab()
     int section = docsNavTabs->currentIndex();
     if (section > 0)
         docsNavTabs->setCurrentIndex(section - 1);
+    focusCurrentHelpList();
 }
 
 void MainWindow::docNextTab()
@@ -7273,6 +7388,20 @@ void MainWindow::docNextTab()
     int section = docsNavTabs->currentIndex();
     if (section < docsNavTabs->count() - 1)
         docsNavTabs->setCurrentIndex(section + 1);
+    focusCurrentHelpList();
+}
+
+// After an arrow-key tab switch, land on the new tab's topics list — the
+// widget that was focused (the previous tab's list) is now hidden, and
+// without this focus falls to the filter box, stranding keyboard browsing.
+void MainWindow::focusCurrentHelpList()
+{
+    const int i = docsNavTabs->currentIndex();
+    if (i >= 0 && i < helpLists.size())
+    {
+        ensureDocsSelection(); // never land on a blank page
+        focusPane(helpLists[i]);
+    }
 }
 
 void MainWindow::docScrollUp()
@@ -7797,7 +7926,32 @@ void MainWindow::focusHelpListing()
 void MainWindow::focusHelpDetails()
 {
     revealDocsTab();
-    focusPane(tutorialPane);
+    // Land on the page's content — the first prose block (with its caret)
+    // or the example editor — not the pane container, which a screen reader
+    // announces as an anonymous "split group" dead end.
+    tutorialPane->focusContent();
+}
+
+void MainWindow::focusHelpCards()
+{
+    showQuickstartCards(); // reveals the dock, selects the tab, focuses the carousel
+}
+
+void MainWindow::focusHelpLogs()
+{
+    docWidget->show();
+    southTabs->setCurrentWidget(debugLogPanel);
+    // The panel is a tab widget of log tails; focus the visible one so the
+    // arrow keys read it straight away.
+    QWidget* current = debugLogPanel->currentWidget();
+    focusPane(current ? current : static_cast<QWidget*>(debugLogPanel));
+}
+
+void MainWindow::focusHelpDebug()
+{
+    docWidget->show();
+    southTabs->setCurrentWidget(metricsPanel);
+    focusPane(metricsPanel);
 }
 
 void MainWindow::focusErrors()
@@ -7837,6 +7991,11 @@ void MainWindow::cycleFocus(int direction)
     add((helpIdx >= 0 && helpIdx < helpLists.size()) ? (QWidget*)helpLists[helpIdx]
                                                      : (QWidget*)docsNavTabs);
     add(tutorialPane);
+    // The other south-dock tabs; only the current one passes the visibility
+    // gate above.
+    add(quickstartPane); // focus proxies to its carousel
+    add(debugLogPanel ? debugLogPanel->currentWidget() : nullptr);
+    add(metricsPanel);
     add(settingsWidget);
     if (panes.isEmpty())
         return;

@@ -22,6 +22,13 @@ namespace SonicPi {
 
 void removeMacosSpecificMenuItems();
 
+// Teach Qt's accessibility elements the AXChildrenInNavigationOrder
+// attribute (tree order), so VoiceOver walks content in the designed
+// reading order rather than by screen position. Must run AFTER the
+// QApplication exists — the cocoa platform plugin's classes aren't loaded
+// before that.
+void installAccessibilityNavigationOrderShim();
+
 // Accessibility self-test (--selftest-accessibility CLI flag). Drives the real
 // macOS NSAccessibility bridge in-process to confirm the completion popup is
 // pruned from the AX tree and navigation announcements are delivered. Prints

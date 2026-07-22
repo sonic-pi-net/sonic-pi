@@ -307,7 +307,10 @@ void TutorialPane::ensureExampleEditor()
     m_exampleEditor = new SonicPiScintilla(m_lexer, m_theme, "sonic-pi-example-display", false);
     m_exampleEditor->setReadOnly(true);
     m_exampleEditor->setCaretLineVisible(false);
-    m_exampleEditor->setCaretWidth(0);
+    // The caret is hidden as pure chrome — unless a screen reader is
+    // connected, in which case it is the reading position and line-by-line
+    // navigation needs it visible and trackable.
+    m_exampleEditor->setCaretWidth(QAccessible::isActive() ? 2 : 0);
     m_exampleEditor->showAutoCompletion(false);
     m_exampleEditor->zoomTo(kExampleZoom + m_userZoom);
     // Below the transport controls (which were added to the frame first)
@@ -352,6 +355,7 @@ void TutorialPane::showCodePage(const QString& title, const QString& code)
 
     m_scroll->hide();
     m_examplePage->show();
+    restoreFocusAfterBuild();
     announcePage(title);
 }
 
@@ -384,6 +388,7 @@ void TutorialPane::endPage(const QString& announceTitle)
 {
     m_column->addStretch(1);
     m_scroll->verticalScrollBar()->setValue(0);
+    restoreFocusAfterBuild();
     announcePage(announceTitle);
 }
 
@@ -627,6 +632,25 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     else
     {
         playLayout->addWidget(dialsRow);
+        // Roving focus: the dial cluster is ONE Tab stop, however many
+        // knobs the instrument has. Tab enters at the first dial (only it
+        // is TabFocus), Left/Right move between dials, Up/Down adjust the
+        // focused one, and Tab moves on past the whole cluster.
+        for (int i = 0; i < m_dials.size(); ++i)
+        {
+            m_dials[i]->setFocusPolicy(i == 0 ? Qt::TabFocus : Qt::ClickFocus);
+            m_dials[i]->setNavigateHandler([this](TutDial* from, int direction) {
+                const int at = m_dials.indexOf(from);
+                const int to = at + direction;
+                if (at < 0 || to < 0 || to >= m_dials.size())
+                    return; // ends don't wrap: the cluster has clear edges
+                // The roving tab stop follows focus, so Shift+Tab back into
+                // the cluster returns to where the user left off.
+                from->setFocusPolicy(Qt::ClickFocus);
+                m_dials[to]->setFocusPolicy(Qt::TabFocus);
+                m_dials[to]->setFocus(Qt::OtherFocusReason);
+            });
+        }
     }
 
     // Generated snippet next (a recessed text area), then the trigger row at
@@ -1111,6 +1135,7 @@ void TutorialPane::rebuild()
     addNavFooter();
     m_column->addStretch(1);
     m_scroll->verticalScrollBar()->setValue(0);
+    restoreFocusAfterBuild();
 }
 
 void TutorialPane::clearContent()
@@ -1136,6 +1161,11 @@ void TutorialPane::clearContent()
         m_redisplaying && !m_snippets.isEmpty() && m_snippets[0].jobId >= 0;
     if (m_exampleScope && !keepingRunAlive)
         m_exampleScope->stop(false);
+    // The teardown below deletes whichever widget holds focus; note that now
+    // so the incoming page can take focus back instead of losing it to the
+    // window (which reads as "kicked to the title bar" in a screen reader).
+    QWidget* focused = QApplication::focusWidget();
+    m_restoreFocus = focused && isAncestorOf(focused);
     m_snippets.clear();
     m_dials.clear();
     // Labels deregister themselves on destruction, but that happens via
@@ -1143,6 +1173,7 @@ void TutorialPane::clearContent()
     // at widgets awaiting deletion
     m_selGroup->clearAll();
     m_proseLabels.clear();
+    m_readingOrder.clear();
     m_piano = nullptr;
     m_octaveLabel = nullptr;
     m_optRows.clear();
@@ -1166,7 +1197,8 @@ void TutorialPane::addHeading(int level, const QString& text)
     // Extra air above a heading so each section reads as its own group
     if (m_column->count() > 0)
         m_column->addSpacing(sy(level == 1 ? 12 : 8));
-    QLabel* label = new QLabel(text, m_content);
+    // TutHeading: reads as a real heading (with its level) to screen readers
+    QLabel* label = new TutHeading(text, level, m_content);
     label->setObjectName(level == 1 ? "tutH1" : level == 2 ? "tutH2" : "tutH3");
     label->setWordWrap(true);
     label->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -1186,7 +1218,70 @@ void TutorialPane::addProse(const QString& richText)
     label->setGroup(m_selGroup);
     m_selGroup->add(label);
     m_proseLabels.append(label);
+    wireProse(label);
     m_column->addWidget(label);
+}
+
+void TutorialPane::wireProse(TutProseText* label)
+{
+    m_readingOrder.append(label);
+    label->setCaretExitHandler(
+        [this](TutProseText* from, int direction) { focusAdjacentText(from, direction); });
+    label->setCaretVisibleHandler(
+        [this](const QRect& globalRect) { ensureGlobalRectVisible(globalRect); });
+    label->setAnnounceHandler([this](const QString& msg) { emit announceRequested(msg); });
+}
+
+void TutorialPane::focusAdjacentText(TutProseText* from, int direction)
+{
+    const int i = m_readingOrder.indexOf(from) + (direction < 0 ? -1 : 1);
+    if (i < 0 || i >= m_readingOrder.size())
+        return; // first/last block: the caret simply stops
+    TutProseText* next = m_readingOrder[i];
+    next->setFocus(Qt::OtherFocusReason);
+    // Entering forwards starts at the top, entering backwards at the end, so
+    // repeated arrow presses read straight through the page.
+    next->setCaretPosition(direction < 0 ? next->endPosition() : 0);
+}
+
+void TutorialPane::ensureGlobalRectVisible(const QRect& globalRect)
+{
+    if (!m_scroll || !m_scroll->isVisible())
+        return;
+    QWidget* vp = m_scroll->viewport();
+    const QRect view(vp->mapToGlobal(QPoint(0, 0)), vp->size());
+    const int margin = sy(24); // context line above/below the caret
+    QScrollBar* bar = m_scroll->verticalScrollBar();
+    if (globalRect.top() < view.top() + margin)
+        bar->setValue(bar->value() - (view.top() + margin - globalRect.top()));
+    else if (globalRect.bottom() > view.bottom() - margin)
+        bar->setValue(bar->value() + (globalRect.bottom() - (view.bottom() - margin)));
+}
+
+void TutorialPane::restoreFocusAfterBuild()
+{
+    if (!m_restoreFocus)
+        return;
+    m_restoreFocus = false;
+    focusContent();
+}
+
+void TutorialPane::focusContent()
+{
+    if (m_examplePage && m_examplePage->isVisible() && m_exampleEditor)
+    {
+        m_exampleEditor->setFocus(Qt::OtherFocusReason);
+        return;
+    }
+    if (!m_readingOrder.isEmpty())
+    {
+        TutProseText* first = m_readingOrder.first();
+        first->setFocus(Qt::OtherFocusReason);
+        first->setCaretPosition(0);
+        return;
+    }
+    if (m_scroll)
+        m_scroll->setFocus(Qt::OtherFocusReason);
 }
 
 void TutorialPane::addList(const SonicPi::TutorialBlock& block)
@@ -1261,6 +1356,7 @@ void TutorialPane::addSnippet(const QString& code, bool runnable, QVBoxLayout* i
     pinCodeViewHeight(codeView, code);
     codeView->setGroup(m_selGroup);
     m_selGroup->add(codeView);
+    wireProse(codeView); // code blocks join the caret reading path too
     // Grid cell shared by the code and the copy glyph, so copy floats in the
     // code area's top-right corner.
     QGridLayout* codeArea = new QGridLayout();
@@ -1426,6 +1522,7 @@ void TutorialPane::addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts)
         doc->setGroup(m_selGroup);
         m_selGroup->add(doc);
         m_proseLabels.append(doc);
+        wireProse(doc);
 
         row->addWidget(name, 0, Qt::AlignTop);
         row->addWidget(def, 0, Qt::AlignTop);

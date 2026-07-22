@@ -22,9 +22,11 @@
 #include "model/sonicpitheme.h"
 
 #include <QAbstractTextDocumentLayout>
+#include <QAccessible>
 #include <QApplication>
 #include <QClipboard>
 #include <QColor>
+#include <QLabel>
 #include <QLineEdit>
 #include <QLocale>
 #include <QMouseEvent>
@@ -66,6 +68,13 @@ inline bool parseOptValue(const QString& text, double* out)
 // show; this makes those calls O(1). Selection (drag, double-click, copy)
 // is coordinated by a shared TutSelectionGroup so a drag can span several
 // blocks. Links via callback so it needs no moc.
+//
+// Keyboard: the block carries a real text caret (arrows, word steps,
+// Home/End, Shift-selection) so the docs read like a web page rather than
+// one opaque label per paragraph — a screen reader tracks the caret and can
+// re-read or spell out at any granularity. Stepping off either end hands
+// the caret to the neighbouring block (see setCaretExitHandler), so a whole
+// chapter reads as one continuous document.
 class TutProseText : public QWidget
 {
     Q_OBJECT
@@ -79,7 +88,7 @@ public:
         policy.setHeightForWidth(true);
         setSizePolicy(policy);
         setMouseTracking(true);
-        setFocusPolicy(Qt::ClickFocus);
+        setFocusPolicy(Qt::StrongFocus); // Tab and click both land the caret
         setCursor(Qt::IBeamCursor);
     }
 
@@ -91,13 +100,27 @@ public:
     {
         m_doc.setHtml(html);
         m_selection = QTextCursor();
+        m_caret = 0;
         m_cachedWidth = -1;
         updateGeometry();
         update();
     }
 
-    // Plain text of the whole block, for assistive technology
-    QString plainText() const { return m_doc.toPlainText(); }
+    // Plain text of the whole block, for assistive technology. Normalised:
+    // toPlainText() keeps U+2028 line separators (from <br>) which screen
+    // readers speak as junk glyphs, so all separators become real newlines.
+    QString plainText() const
+    {
+        QString text = m_doc.toPlainText();
+        text.replace(QChar::LineSeparator, QLatin1Char('\n'));
+        text.replace(QChar::ParagraphSeparator, QLatin1Char('\n'));
+        text.replace(QChar(0xA0), QLatin1Char(' '));
+        return text;
+    }
+
+    // The block's document, for the accessible text interface (offsets there
+    // are document positions, so both sides index the same space).
+    QTextDocument* document() const { return &m_doc; }
 
     QString selectedText() const
     {
@@ -111,6 +134,58 @@ public:
     void setLinkHandler(std::function<void(const QString&)> handler)
     {
         m_linkHandler = std::move(handler);
+    }
+
+    // Called when the caret steps off the block's start (-1) or end (+1), so
+    // the owning pane can hand the caret to the neighbouring block and the
+    // page reads as one continuous document.
+    void setCaretExitHandler(std::function<void(TutProseText*, int)> handler)
+    {
+        m_caretExitHandler = std::move(handler);
+    }
+
+    // Called with the caret's global rect whenever it moves, so the owning
+    // scroll area can keep it on screen.
+    void setCaretVisibleHandler(std::function<void(const QRect&)> handler)
+    {
+        m_caretVisibleHandler = std::move(handler);
+    }
+
+    // Spoken feedback (e.g. "Link. Press Return to open.") relayed by the
+    // owning pane to the screen reader.
+    void setAnnounceHandler(std::function<void(const QString&)> handler)
+    {
+        m_announceHandler = std::move(handler);
+    }
+
+    // The anchor href at a document position (empty when none) — the caret
+    // equivalent of hovering a link.
+    QString anchorAtPosition(int pos) const;
+
+    // --- keyboard caret (document positions; see keyPressEvent) ---
+    int caretPosition() const { return m_caret; }
+    // Places the caret (clamped), extends or clears the selection, notifies
+    // assistive technology, and asks the pane to keep the caret visible.
+    void setCaretPosition(int pos, bool keepAnchor = false);
+    // Global-coordinate caret rect at the current position (line height).
+    QRect caretRectGlobal() const { return textRectGlobal(m_caret, true); }
+    // Global-coordinate cell of one character (the accessible text
+    // interface's characterRect).
+    QRect characterRectGlobal(int pos) const { return textRectGlobal(pos, false); }
+    // Ask the pane to scroll this document position on screen.
+    void ensureOffsetVisible(int pos)
+    {
+        if (m_caretVisibleHandler)
+            m_caretVisibleHandler(characterRectGlobal(pos));
+    }
+    // Selection bounds in document positions (-1/-1 when nothing is selected).
+    int selectionStart() const
+    {
+        return m_selection.hasSelection() ? m_selection.selectionStart() : -1;
+    }
+    int selectionEnd() const
+    {
+        return m_selection.hasSelection() ? m_selection.selectionEnd() : -1;
     }
 
     bool hasHeightForWidth() const override { return true; }
@@ -168,6 +243,11 @@ public:
         c.setPosition(qBound(0, pos, last), QTextCursor::KeepAnchor);
         m_selection = c;
         update();
+        // Screen readers track the selection as it changes (mouse drags
+        // included), the same as a native text view.
+        QAccessibleTextSelectionEvent ev(this, m_selection.selectionStart(),
+                                         m_selection.selectionEnd());
+        QAccessible::updateAccessibility(&ev);
     }
 
     // Character position under a global-coordinate point, clamped to the
@@ -204,6 +284,10 @@ protected:
         QAbstractTextDocumentLayout::PaintContext ctx;
         ctx.palette = palette();
         ctx.palette.setColor(QPalette::Text, palette().color(QPalette::WindowText));
+        // The caret only shows while the block holds focus, so a page of
+        // blocks never shows more than one.
+        if (hasFocus())
+            ctx.cursorPosition = m_caret;
         if (m_selection.hasSelection())
         {
             QAbstractTextDocumentLayout::Selection sel;
@@ -213,6 +297,18 @@ protected:
             ctx.selections.append(sel);
         }
         m_doc.documentLayout()->draw(&p, ctx);
+    }
+
+    void focusInEvent(QFocusEvent* e) override
+    {
+        QWidget::focusInEvent(e);
+        update(); // show the caret
+    }
+
+    void focusOutEvent(QFocusEvent* e) override
+    {
+        QWidget::focusOutEvent(e);
+        update(); // hide the caret
     }
 
     void resizeEvent(QResizeEvent*) override
@@ -246,6 +342,9 @@ private:
         return m_doc.documentLayout()->hitTest(pos, Qt::FuzzyHit);
     }
 
+    // Global rect of the character cell (or thin caret line) at `pos`.
+    QRect textRectGlobal(int pos, bool thin) const;
+
     // Underline the hovered editable-number anchor (opt:*) — rich text has
     // no :hover, so the underline is toggled on the fragment's char format.
     void applyAnchorHover(const QString& href);
@@ -255,8 +354,34 @@ private:
     mutable int m_cachedHeight = 0;
     QTextCursor m_selection;
     QString m_hoverAnchor;
+    int m_caret = 0;        // keyboard caret, as a document position
+    QString m_caretAnchor;  // anchor under the caret (announce on entry)
     std::shared_ptr<TutSelectionGroup> m_group;
     std::function<void(const QString&)> m_linkHandler;
+    std::function<void(TutProseText*, int)> m_caretExitHandler;
+    std::function<void(const QRect&)> m_caretVisibleHandler;
+    std::function<void(const QString&)> m_announceHandler;
+};
+
+// A section title. Its own class (rather than a bare QLabel) so the
+// accessible factory can key on the class name and expose it with the
+// Heading role and its level — which is what feeds a screen reader's
+// heading navigation (rotor / H key). Styling still keys on objectName
+// (tutH1/tutH2/tutH3, qsCardTitle) as before.
+class TutHeading : public QLabel
+{
+    Q_OBJECT
+public:
+    explicit TutHeading(const QString& text, int level, QWidget* parent = nullptr)
+        : QLabel(text, parent)
+        , m_level(level)
+    {
+    }
+
+    int headingLevel() const { return m_level; }
+
+private:
+    int m_level = 1;
 };
 
 // Coordinates click-drag text selection across the stack of per-block text
@@ -834,6 +959,10 @@ public:
         m_value = v;
         updateAccessibleValue();
         update();
+        // A screen reader speaks the new value as the dial turns — without
+        // this event the knob is silent to it.
+        QAccessibleValueChangeEvent ev(this, m_value);
+        QAccessible::updateAccessibility(&ev);
         if (notify && m_onChange)
             m_onChange();
     }
@@ -845,6 +974,15 @@ public:
     {
         m_doc = doc;
         updateToolTip();
+    }
+
+    // Roving focus across the playground's dial cluster: with a handler set,
+    // Left/Right move to the neighbouring dial instead of adjusting, so the
+    // whole cluster behaves as ONE Tab stop (arrows inside, Tab past). Set
+    // by TutorialPane, which owns the dial order.
+    void setNavigateHandler(std::function<void(TutDial*, int)> handler)
+    {
+        m_navigateHandler = std::move(handler);
     }
 
     void setColours(const QColor& fg, const QColor& dim, const QColor& accent, const QColor& track)
@@ -925,11 +1063,18 @@ protected:
         valFont.setFamily(QStringLiteral("Hack"));
         SetFontSizeValue(valFont, FontSizeValue(font()) * 0.9, 7.0);
         // Fit against a fixed worst-case ("00.00"), NOT the live value — so
-        // ints and floats share one size and it never jumps mid-drag.
+        // ints and floats share one size and it never jumps mid-drag. The
+        // loop counts down its own variable rather than reading the size
+        // back from the font: a pixel-sized font rounds a half-step back up
+        // to the same integer, which would spin this loop (and the GUI)
+        // forever.
         const QString widest = QStringLiteral("00.00");
-        while (FontSizeValue(valFont) > 6.0
-               && QFontMetricsF(valFont).horizontalAdvance(widest) > m_valRect.width())
-            SetFontSizeValue(valFont, FontSizeValue(valFont) - 0.5, 6.0);
+        double fit = FontSizeValue(valFont);
+        while (fit > 6.0 && QFontMetricsF(valFont).horizontalAdvance(widest) > m_valRect.width())
+        {
+            fit -= 0.5;
+            SetFontSizeValue(valFont, fit, 6.0);
+        }
         p.setFont(valFont);
         p.setPen(m_fg);
         p.drawText(m_valRect, Qt::AlignCenter, val);
@@ -1018,6 +1163,17 @@ protected:
     void keyPressEvent(QKeyEvent* e) override
     {
         closeEditor();
+        // In a cluster (navigate handler set): Left/Right walk the dials,
+        // Up/Down adjust — the standard slider-group interaction, so a
+        // keyboard user isn't forced to Tab through every knob.
+        if (m_navigateHandler
+            && (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right)
+            && !(e->modifiers() & Qt::ShiftModifier))
+        {
+            m_navigateHandler(this, e->key() == Qt::Key_Right ? +1 : -1);
+            e->accept();
+            return;
+        }
         double big = (m_hi - m_lo) / 10.0;
         switch (e->key())
         {
@@ -1152,6 +1308,7 @@ private:
     QString m_name;
     QString m_nameLine1, m_nameLine2; // label split for the two-row band
     QString m_doc;
+    std::function<void(TutDial*, int)> m_navigateHandler;
     double m_lo, m_hi, m_def, m_value, m_step;
     std::function<void()> m_onChange;
     QColor m_fg = Qt::white;

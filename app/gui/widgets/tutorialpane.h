@@ -75,6 +75,14 @@ public:
     // Trigger the first snippet's play button; false if there is none
     bool playFirstSnippet();
 
+    // Land keyboard/screen-reader focus on the page's content: the Examples
+    // editor when that page is showing, else the first readable block. Called
+    // by MainWindow when a menu/list action navigates here, and internally
+    // after a rebuild that destroyed the focused widget (without this, focus
+    // falls back to the window title bar and a screen-reader user is dumped
+    // at the top of the interface).
+    void focusContent();
+
     void applyTheme();
     // The pane owns its zoom (A-/A+, persisted) — deliberately independent
     // of the per-buffer editor zoom
@@ -181,6 +189,14 @@ private:
                     QHBoxLayout* transportInto = nullptr);
     void addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts);
     void addNavFooter();
+    // Caret plumbing for a prose/code block: continuous reading across
+    // blocks and keeping the caret scrolled into view.
+    void wireProse(class TutProseText* label);
+    void focusAdjacentText(class TutProseText* from, int direction);
+    void ensureGlobalRectVisible(const QRect& globalRect);
+    // Re-focus the page content when the widget that held focus was
+    // destroyed by a page (re)build.
+    void restoreFocusAfterBuild();
     void setSnippetPlaying(Snippet& snippet, bool playing);
     void ensureExampleEditor();
     void renderFxIcon(QLabel* iconLabel);
@@ -231,6 +247,11 @@ private:
     SonicPi::TutorialChapter m_chapter;
     QVector<TutDial*> m_dials;
     QVector<class TutProseText*> m_proseLabels;
+    // Every caret-navigable block (prose, code, opt docs) in page order —
+    // the path continuous reading follows across block boundaries.
+    QVector<class TutProseText*> m_readingOrder;
+    // Set by clearContent when the focused widget is about to be destroyed.
+    bool m_restoreFocus = false;
     std::shared_ptr<TutSelectionGroup> m_selGroup;
     class TutPiano* m_piano = nullptr;
     QLabel* m_octaveLabel = nullptr;

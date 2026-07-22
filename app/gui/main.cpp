@@ -88,6 +88,12 @@ int main(int argc, char* argv[])
 
     QApplication app(argc, argv);
 
+#if defined(Q_OS_DARWIN)
+    // After QApplication: the cocoa plugin's accessibility classes only
+    // exist once the platform plugin has loaded.
+    SonicPi::installAccessibilityNavigationOrderShim();
+#endif
+
 #if defined(Q_OS_DARWIN) || defined(Q_OS_WIN)
     // Local accessibility self-test: drive the real platform accessibility
     // bridge (NSAccessibility on macOS, UI Automation on Windows) and exit

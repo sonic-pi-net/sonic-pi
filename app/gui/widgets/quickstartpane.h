@@ -65,6 +65,11 @@ public:
 
     void applyTheme(); // rebuild in the current theme colours
 
+    // Land keyboard/screen-reader focus on the carousel and say where it is
+    // — the menu path in (Examples > Quickstart Cards...) calls this so
+    // arriving here behaves like the Focus menu's jumps.
+    void focusCarousel();
+
     // True if `path` is a readable card set with at least one deck. On failure
     // sets *error to a human-readable reason (used by the Load Card Set menu).
     static bool validateCardsFile(const QString& path, QString* error);
@@ -103,6 +108,9 @@ signals:
     void insertPreviewCleared();
     // A card drag finished (dropped or fumbled); commit any live preview.
     void dragEnded();
+    // Spoken feedback for screen readers (page changes, deck switches);
+    // MainWindow relays it through announce().
+    void announceRequested(const QString& msg);
 
 protected:
     // The hover poll runs only while the pane is visible.
@@ -131,7 +139,9 @@ private:
     void updateCarousel();       // recompute paging, grid, dots; snap
     void rebuildDots();          // repaint dots + arrow state for the current page
     void updateBackEdge();       // show/position the left-edge page-back scrim
-    void goToPage(int page);     // animate (or jump under reduce motion) to a page
+    void goToPage(int page);     // animate (or jump under reduce motion) to a page; wraps at the ends
+    void announcePage(bool wrapped); // tell a screen reader where paging landed
+    QWidget* firstVisibleCard() const; // the current page's lead card (focus entry point)
     void scrollCardIntoView(QWidget* frame); // page toward a partly-visible card
     void rebuild();
     QWidget* addCard(const SonicPi::QuickstartCard& card, const QString& workspace, int scopeSlot);
