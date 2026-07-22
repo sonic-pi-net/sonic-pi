@@ -159,8 +159,10 @@ if [ "$CHANGELOG_V" != "$DEBV" ]; then
     else
         entry="New upstream release $RAW_V (auto-generated entry; see git history)."
     fi
+    # -b: RC-era snapshots (5.0.0~RC1+git...) sort below the changelog's
+    # seeded final version (5.0.0-1), which dch otherwise refuses.
     (cd "$SRC" && DEBEMAIL="sam@sonic-pi.net" DEBFULLNAME="Sam Aaron" \
-        dch --newversion "$DEBV" --distribution unstable --force-distribution \
+        dch -b --newversion "$DEBV" --distribution unstable --force-distribution \
             "$entry")
 fi
 
