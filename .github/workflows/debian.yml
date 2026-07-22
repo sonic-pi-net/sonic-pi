@@ -1,0 +1,115 @@
+# Builds Sonic Pi as a real Debian-Policy package, the way a Debian
+# maintainer would: assemble a source package (.dsc + orig + component
+# tarballs, supersonic submodule spliced in), build it with dpkg-buildpackage
+# in a container whose NETWORK IS DISCONNECTED (proving the build needs
+# none) against Debian-archive dependency versions (system Qt, QScintilla,
+# JUCE, libsndfile, Boost), then lintian (failing on errors AND warnings),
+# autopkgtest (the layout gate + engine boot), and an install smoke test in
+# a pristine container.
+#
+# This package exists to remove the friction between upstream and the Debian
+# maintainers — packaging/debian is meant to be adoptable by the archive
+# with no patch stack. Keeping it green here is what keeps that true.
+#
+# Two targets: sid is where real maintainer uploads land; trixie (current
+# stable) proves the same source package builds for today's users.
+#
+# Same long-lived-container pattern as the supersonic repo's debian.yml: one
+# `docker run -d`, one `docker exec` per phase so failures point at the
+# stage that broke. See app/linux-debian-ci.sh for the phases.
+name: Debian Package
+
+on:
+  push:
+    branches: [dev, stable]
+    tags: ['v*']
+  # PRs are path-filtered (each dist leg is expensive); pushes to dev and
+  # tags always run so coverage stays complete where it counts. Tag pushes
+  # are deliberately unfiltered — path filters behave unpredictably on tag
+  # events and a silently skipped release build would lose the release deb.
+  pull_request:
+    branches: [dev]
+    paths:
+      - 'app/**'
+      - 'etc/synthdefs/**'
+      - 'packaging/**'
+      - 'VERSION'
+      - '.github/workflows/debian.yml'
+  workflow_dispatch:
+
+jobs:
+  deb:
+    strategy:
+      fail-fast: false
+      matrix:
+        dist: [trixie, sid]
+    name: debian-${{ matrix.dist }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Start ${{ matrix.dist }} container
+        run: |
+          docker run -d --name deb \
+            -v "${GITHUB_WORKSPACE}:/src" \
+            -w /src \
+            debian:${{ matrix.dist }} sleep infinity
+
+      - name: Packaging toolchain
+        run: docker exec deb app/linux-debian-ci.sh deps
+
+      - name: Install Build-Depends
+        run: docker exec deb app/linux-debian-ci.sh builddeps
+
+      - name: Assemble source package
+        run: docker exec deb app/linux-debian-ci.sh source
+
+      # From here the container has no network: the package build fetching
+      # anything is a bug, and this is what catches it.
+      - name: Disconnect network
+        run: docker network disconnect bridge deb
+
+      - name: Build package (offline, server test suite)
+        run: docker exec deb app/linux-debian-ci.sh build
+
+      - name: Reconnect network
+        run: docker network connect bridge deb
+
+      - name: lintian
+        run: docker exec deb app/linux-debian-ci.sh lintian
+
+      - name: autopkgtest
+        run: docker exec deb app/linux-debian-ci.sh autopkgtest
+
+      - name: Stop container
+        if: ${{ always() }}
+        run: docker rm -f deb || true
+
+      - name: Install smoke test (pristine container)
+        run: |
+          docker run --rm \
+            -v "${GITHUB_WORKSPACE}:/src" \
+            -w /src \
+            debian:${{ matrix.dist }} \
+            bash app/linux-debian-ci.sh smoke
+
+      - name: Upload package artifacts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: debian-${{ matrix.dist }}
+          # warn, not error: this step also runs on early-phase failures
+          # (if: always()), where zero artifacts is expected and an error
+          # here would bury the real failure.
+          if-no-files-found: warn
+          path: |
+            app/build/debian/*.dsc
+            app/build/debian/*.tar.xz
+            app/build/debian/build-area/*.deb
+            app/build/debian/build-area/*.changes
+            app/build/debian/build-area/*.buildinfo
