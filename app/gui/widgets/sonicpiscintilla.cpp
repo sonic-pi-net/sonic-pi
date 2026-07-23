@@ -656,9 +656,12 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     // Optional edit toolbar sharing the find bar's corner (MainWindow toggles
     // it via setEditorToolbarEnabled; hidden while the find bar is open).
     m_editorToolbar = new EditorToolbar(this);
-    m_editorToolbar->applyTheme(theme->color("Background"), theme->color("Foreground"),
+    m_editorToolbar->applyTheme(theme->color("Background"),
+                                theme->contrastingText(theme->color("Background")),
                                 SonicPiTheme::blend(theme->color("Foreground"),
-                                                    theme->color("Background"), 0.55));
+                                                    theme->color("Background"), 0.55),
+                                theme->color("ScrollBarHover"),
+                                theme->contrastingText(theme->color("ScrollBarHover")));
     connect(m_editorToolbar, &EditorToolbar::undoRequested, this, &SonicPiScintilla::undo);
     connect(m_editorToolbar, &EditorToolbar::redoRequested, this, &SonicPiScintilla::redo);
     connect(m_editorToolbar, &EditorToolbar::cutRequested, this, &SonicPiScintilla::sp_cut);
@@ -725,9 +728,12 @@ void SonicPiScintilla::redraw()
                            theme->contrastingText(accent));
     }
     if (m_editorToolbar)
-        m_editorToolbar->applyTheme(theme->color("Background"), theme->color("Foreground"),
+        m_editorToolbar->applyTheme(theme->color("Background"),
+                                    theme->contrastingText(theme->color("Background")),
                                     SonicPiTheme::blend(theme->color("Foreground"),
-                                                        theme->color("Background"), 0.55));
+                                                        theme->color("Background"), 0.55),
+                                    theme->color("ScrollBarHover"),
+                                    theme->contrastingText(theme->color("ScrollBarHover")));
     mutex->unlock();
 }
 
@@ -735,6 +741,12 @@ void SonicPiScintilla::setEditorToolbarEnabled(bool on)
 {
     m_editorToolbarEnabled = on;
     updateEditorToolbarVisibility();
+}
+
+void SonicPiScintilla::setEditorToolbarShortcuts(const QStringList& native)
+{
+    if (m_editorToolbar)
+        m_editorToolbar->setShortcuts(native);
 }
 
 void SonicPiScintilla::updateEditorToolbarVisibility()

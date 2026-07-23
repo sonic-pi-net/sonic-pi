@@ -199,6 +199,9 @@ public slots:
     // Optional floating edit toolbar (undo/redo, cut/copy/paste, find) in the
     // editor's top-right corner; the find bar takes the corner over while open.
     void setEditorToolbarEnabled(bool on);
+    // Shortcut display strings for the toolbar's tooltip key-cap chips, in
+    // button order (undo, redo, cut, copy, paste, find).
+    void setEditorToolbarShortcuts(const QStringList& native);
 
     void showAutoCompletion(bool val);
     void setCompletionHelp(bool val);   // show docstring/piano/slider helper panes

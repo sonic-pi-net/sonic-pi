@@ -1909,9 +1909,19 @@ void MainWindow::updateEditorToolbarVisibility()
 {
     QSignalBlocker blocker(showEditorToolbarAct);
     showEditorToolbarAct->setChecked(piSettings->show_editor_toolbar);
+    // Tooltip key-cap chips read the live action shortcuts, so remapped
+    // bindings stay truthful.
+    QStringList editShortcuts;
+    if (textUndoAct && findAct)
+    {
+        for (QAction* a : { textUndoAct, textRedoAct, textCutAct, textCopyAct,
+                            textPasteAct, findAct })
+            editShortcuts << a->shortcut().toString(QKeySequence::NativeText);
+    }
     for (int w = 0; w < workspace_max; w++)
     {
         workspaces[w]->setEditorToolbarEnabled(piSettings->show_editor_toolbar);
+        workspaces[w]->setEditorToolbarShortcuts(editShortcuts);
     }
 }
 
