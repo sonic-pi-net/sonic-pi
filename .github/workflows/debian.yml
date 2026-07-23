@@ -45,6 +45,10 @@ jobs:
         dist: [trixie, sid]
     name: debian-${{ matrix.dist }}
     runs-on: ubuntu-latest
+    # sid regularly breaks itself (archive transitions can leave the
+    # toolchain uninstallable) so treat it as an early warning, not a
+    # gate. Failures still show on the job. Trixie gates.
+    continue-on-error: ${{ matrix.dist == 'sid' }}
     timeout-minutes: 150
 
     steps:
