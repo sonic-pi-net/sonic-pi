@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic' RC1](#v5.0.0-rc1), To be released...
+- [v5.0.0 'SuperSonic' RC2](#v5.0.0-rc2), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,7 +35,72 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0-rc1"></a>
+<a name="v5.0.0-rc2"></a>
+
+## Version 5.0.0 'SuperSonic' RC2
+
+The second release candidate of v5 — fixes and polish across the board since RC1, plus a few new additions: in-editor search, native PipeWire support on Linux, new level scope and a new `phase_offset:` opt for drawing Lissajous figures.
+
+As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### Audio
+* New: native PipeWire support on Linux. SuperSonic can now talk to PipeWire directly which is now enabled by default.
+
+### GUI
+* New: in-editor search. Find, Find Next and Find Previous search the current buffer and highlight every match right in your code.
+* New: an optional floating editor toolbar with undo/redo, cut/copy/paste and find at your fingertips. It ghosts out of the way while your code runs beneath it.
+* New: oscilloscope-style scope triggering. Repeating waveforms now hold still on screen like on a hardware oscilloscope instead of scrolling past.
+* New: level scope for keeping an eye on your output levels.
+* New: a Lissajous deck for the Quickstart Cards — draw circles, ellipses and figure-eights on the scopes using pure sine waves. Card navigation has been polished throughout.
+* The colour theme now follows your operating system's light or dark mode on first launch.
+* Improved zooming behaviour
+
+### Accessibility
+* The Docs pane now reads naturally to screen readers — prose you can arrow through with the caret, headings that appear in rotor navigation, and dials that announce their values.
+* The Quickstart Cards are now screen-reader navigable — page through a deck with Left and Right and hear each card announced as you go.
+* Focus now follows you around the app: opening Help, Preferences, the Cards or the info window lands focus inside the new pane ready for arrow-key browsing, and closing a pane hands focus back to the editor rather than dropping it on the window frame.
+* The main toolbar is now reachable with Tab, and its toggle buttons respond correctly when activated by assistive technology.
+* Status updates such as showing or hiding the scopes are now spoken as well as shown.
+
+### Synths
+* New: `phase_offset:` opt for the `:beep` / `:sine` synth — set the sine wave's starting phase as a fraction of a cycle (0 to 1). Two panned sines playing the same note with offsets of 0 and 0.25 draw a circle as a Lissajous figure. It can also be changed while the synth is running via `control`.
+
+### Language
+* New: `ring.invert_around` reflects the notes of a ring around a pitch axis.
+* `set_sched_ahead_time!` and `set_control_delta!` now reset to their defaults when called with no arguments.
+* Clearer runtime errors: syntax errors name the offending buffer line, errors from `run_file` and `init.rb` include the file path, and an unresponsive audio engine is reported clearly rather than exiting silently.
+
+### Music Theory
+* More long-form chord aliases: `:minor6`, `:major6`, `:minor9`, `:major9`, `:minor11`, `:major11` and `:minor13`.
+
+### Misc
+* v5 now keeps its own configuration files, separate from v4 — running both side by side leaves your v4 settings untouched.
+* New: 32-bit Linux (i686) is now built and tested alongside the other platforms, with its own AppImage.
+* New: upstream Debian packaging, so distributions can build Sonic Pi against their own system libraries without patching.
+
+### Fixes
+* The code completion popup now sizes itself to match your editor font, so it stays readable at every zoom level. Its help pane leads with each function's canonical calling form in its own code card, and the docs prose has more room to breathe.
+* macOS now asks for Local Network permission on first launch — recent versions of macOS require this for Ableton Link and Link Audio to see other peers on your network.
+* Code completion no longer pops up directly after a closing bracket or quote.
+* The audio device dropdowns in the preferences now only offer devices that work with the selected audio driver.
+* If the audio engine fails to boot, the error dialog now names the actual cause rather than showing a generic message.
+* Copy now copies your selection in the help pane when the docs have focus, rather than the editor's.
+* The scope, log and cue panes now start with equal heights on first boot.
+* Fixed a crash when typing with an input method (IME) that commits several characters at once.
+* Fixed `:hoover` which was incorrectly writing six channels of audio, trampling neighbouring audio busses. It now mixes its three detuned voices down to stereo as intended.
+* Envelope curve fixes: exponential curves (`env_curve: 2`) now ramp cleanly from silence rather than clicking, and squared/cubed curves now slide correctly through negative values (such as `pan:` heading left).
+* `sample` now honours the `duration:` opt, just like `play` and `synth`.
+* `play_pattern_timed` now accepts lists for per-note opts such as `amp:`, and its `legato:` default matches the documentation again.
+* Calling `.map` on a ring, vector or ramp now returns the same kind of structure rather than a plain list. Thanks to Robert Bendun.
+* Envelope sustain time is now calculated correctly when attack, decay or release are left at their defaults. Thanks to Michael Schubmehl.
+* Sample packs can now be indexed by any number, not just Integers.
+* Octave shifts and `with_swing` offsets now accept whole numbers of any numeric type.
+* Function names inside strings and comments are no longer touched by the language preprocessor.
+* `defonce` and `kill` messages now respect `use_debug`.
+* Fixed an error in `onset_slices`.
+* Fixed Sonic Pi failing to start on Windows when the home directory contains non-ASCII characters.
+* Fixed the daemon failing to boot when Sonic Pi is launched from a terminal with Ruby gem environment variables set (e.g. rvm/rbenv). Thanks to Keenan Brock.
+* New users on Linux now get the Windows \| Linux shortcut mode by default rather than Emacs Live, matching the other platforms. The original Emacs Live mode is still available at any time in Preferences.
 
 ## Version 5.0.0 'SuperSonic' RC1
 
@@ -98,18 +163,6 @@ Note that this is a release candidate — please do report any issues you have t
 * Fixed the `:autotuner` FX, which emitted silence in its automatic pitch-correction mode, and taught it two new opts: `strength:` for gentler correction and `retune:` to glide onto the target pitch instead of snapping.
 * Fixed `:sc808_cymbal`, which played straight to the hardware output — bypassing the master mixer, recordings and the scopes.
 * Swept every synth and FX opt at its extreme values and fixed the ones that silenced the sound entirely: `threshold: 0` on `:compressor`, near-zero shelf slopes on `:eq`, `coef:` at ±1 on `:pluck` and `reverb_time: 0` on `:dark_ambience` are now rejected with a clear message instead of producing mysterious silence.
-
-### Music Theory
-* New scale: `:lydian_dominant` (also available as `:acoustic`).
-* New scale aliases with the names musicians usually reach for: `:altered` (same as `:super_locrian`), `:phrygian_dominant` (same as `:spanish`) and `:double_harmonic` / `:byzantine` (same as `:bhairav`).
-* New chords: `:minor_major7` (also available as `mM7` / `mmaj7`), `:maj13`, `9-5` and `7+9` — the latter a friendlier name for the Hendrix chord previously only available as `7-10`.
-* New chord aliases: `:maj7` and `:min7` for `:major7` and `:minor7`.
-* Fixed the `9+5` and `m9+5` chords which were missing their 3rd, sharpened 5th and 9th — a long-standing bug inherited from SuperCollider via Overtone.
-* Fixed `chord_degree` silently returning fewer notes than requested for higher degrees combined with larger chord sizes.
-* Fixed `degree` on scales which don't span exactly an octave (such as the makam `:evic`) — degrees beyond the scale's length now continue the scale's own interval pattern rather than assuming a 12 semitone octave.
-
-### Misc
-* New: `SONIC_PI_ROOT` and `SONIC_PI_ETC_PATH` environment variables let you point Sonic Pi at relocatable install and config locations, making life easier for packagers.
 
 ### Music Theory
 * New scale: `:lydian_dominant` (also available as `:acoustic`).
