@@ -22,8 +22,16 @@ ruby_api = RbConfig::CONFIG['ruby_version']
 
 
 ## Ensure all libs in vendor directory are available
-Dir["#{File.expand_path("../vendor", __FILE__)}/*/lib/"].each do |vendor_lib|
+vendor_dir = File.expand_path("../vendor", __FILE__)
+Dir["#{vendor_dir}/*/lib/"].each do |vendor_lib|
   $:.unshift vendor_lib
+end
+
+# Distribution builds strip most vendored gems in favour of system gem
+# packages, which need RubyGems to resolve — the boot-speed --disable=gems
+# only holds while the vendored copies are present.
+if !defined?(::Gem) && Dir["#{vendor_dir}/concurrent-ruby-*"].empty?
+  require 'rubygems'
 end
 
 begin
