@@ -90,8 +90,8 @@ While you're on a card:
 * `Space` plays or stops the card
 * `C` reads the card's code aloud
 * `I` inserts the card's code into your editor at the cursor
-* Left and Right arrows move through the deck, wrapping at the ends
-  (you'll hear when you've wrapped)
+* Left and Right arrows move through the deck one card at a time
+  (you'll hear "First card" or "Last card" at the ends)
 
 Stepping inside a card with your screen reader reads its contents in
 order: title, code, description, then the Run, Add and Copy buttons.

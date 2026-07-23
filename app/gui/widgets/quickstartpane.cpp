@@ -649,20 +649,23 @@ bool QuickstartPane::eventFilter(QObject* obj, QEvent* event)
         }
         return true;
     }
-    // Left/Right anywhere in the carousel pages it (with the glide animation)
-    // rather than nudging the scroll area pixel by pixel.
+    // Left/Right with focus on the scroll area drop the selection onto the
+    // leading visible card; from there each press moves the selection one
+    // card at a time (the selected-card branch below) and the deck scrolls
+    // to keep it in view — the nav bar follows the selection, not the other
+    // way round.
     if (event->type() == QEvent::KeyPress && m_scroll
         && (obj == m_scroll || obj == m_scroll->viewport()))
     {
         const int key = static_cast<QKeyEvent*>(event)->key();
-        if (key == Qt::Key_Left)
+        if (key == Qt::Key_Left || key == Qt::Key_Right)
         {
-            goToPage(m_pageIndex - 1);
-            return true;
-        }
-        if (key == Qt::Key_Right)
-        {
-            goToPage(m_pageIndex + 1);
+            if (QWidget* card = firstVisibleCard())
+            {
+                card->setFocus(Qt::OtherFocusReason);
+                return true;
+            }
+            goToPage(m_pageIndex + (key == Qt::Key_Right ? 1 : -1));
             return true;
         }
     }
@@ -690,7 +693,11 @@ bool QuickstartPane::eventFilter(QObject* obj, QEvent* event)
         const int move = (rel - m_clickPos).manhattanLength();
         m_clickFrame = nullptr;
         if (move < QApplication::startDragDistance())
+        {
             scrollCardIntoView(f);
+            // Clicking a card selects it, so the arrow keys walk on from here.
+            f->setFocus(Qt::OtherFocusReason);
+        }
     }
 
     if (!m_dragCode.contains(obj))
@@ -717,14 +724,27 @@ bool QuickstartPane::eventFilter(QObject* obj, QEvent* event)
             emit announceRequested(tr("Code: %1").arg(m_dragCode.value(obj).trimmed()));
             return true;
         }
-        // Paging from a focused card follows focus onto the new page's
-        // first card — otherwise focus is left stranded on a card that just
-        // scrolled out of view.
+        // Left/Right move the selection one card at a time — the focused
+        // card wears the selection ring and announces itself to a screen
+        // reader — and the deck scrolls whenever the selection walks past
+        // the visible edge, so every card (first and last included) is
+        // reachable. The deck is linear: the ends are hard stops.
         if (ke->key() == Qt::Key_Left || ke->key() == Qt::Key_Right)
         {
-            goToPage(m_pageIndex + (ke->key() == Qt::Key_Right ? 1 : -1));
-            if (QWidget* card = firstVisibleCard())
-                card->setFocus(Qt::OtherFocusReason);
+            const int idx = m_cardFrames.indexOf(qobject_cast<QWidget*>(obj));
+            if (idx < 0)
+                return true;
+            const int next = idx + (ke->key() == Qt::Key_Right ? 1 : -1);
+            if (next < 0 || next >= m_cardFrames.size())
+            {
+                emit announceRequested(next < 0 ? tr("First card.") : tr("Last card."));
+                return true;
+            }
+            QWidget* card = m_cardFrames.value(next);
+            if (!card)
+                return true;
+            scrollCardIntoView(card);
+            card->setFocus(Qt::OtherFocusReason);
             return true;
         }
     }
@@ -1219,7 +1239,7 @@ void QuickstartPane::rebuild()
     m_scroll->setFocusPolicy(Qt::StrongFocus); // hold focus so Left/Right page it
     m_scroll->setAccessibleName(tr("%1 cards").arg(decks[m_deckIdx].title));
     m_scroll->setAccessibleDescription(
-        tr("Left and Right arrow keys page through the cards, wrapping at the ends."));
+        tr("Left and Right arrow keys move through the cards."));
     // Focusing the pane (F6 cycling, focusPane) lands on the current card —
     // rebuildDots keeps the proxy pointing at the page's first card.
     setFocusProxy(m_scroll);
@@ -1440,10 +1460,8 @@ void QuickstartPane::rebuildDots()
     m_dotsHost->setVisible(pages > 1);
     m_prevArrow->setVisible(pages > 1);
     m_nextArrow->setVisible(pages > 1);
-    // Ring paging (see goToPage): the arrows always work, wrapping at the
-    // ends, so they are never disabled out from under the user.
-    m_prevArrow->setEnabled(pages > 1);
-    m_nextArrow->setEnabled(pages > 1);
+    m_prevArrow->setEnabled(m_pageIndex > 0);
+    m_nextArrow->setEnabled(m_pageIndex < pages - 1);
     // Keep the pane's focus entry point on the page's current card (see
     // focusCarousel for why a card, not the scroll area).
     QWidget* entry = firstVisibleCard();
@@ -1456,10 +1474,8 @@ void QuickstartPane::updateBackEdge()
     if (!m_backEdge)
         return;
     // The margin keeps its slot (fixed width, no layout shift); only its
-    // clickability and hover-reveal come and go with the page. Ring paging:
-    // back from the first page wraps to the last, so the zone works
-    // whenever there is more than one page.
-    const bool canBack = pageCount() > 1;
+    // clickability and hover-reveal come and go with the page.
+    const bool canBack = m_pageIndex > 0;
     BackZone* bz = static_cast<BackZone*>(m_backEdge);
     // Wash aligns with the cards' PAINTED extent: the frame reserves a 2px
     // transparent hover border top and bottom, so inset past it.
@@ -1549,7 +1565,7 @@ void QuickstartPane::focusCarousel()
     if (m_scroll)
     {
         m_scroll->setFocus(Qt::OtherFocusReason);
-        announcePage(false);
+        announcePage();
     }
 }
 
@@ -1559,26 +1575,7 @@ void QuickstartPane::goToPage(int page)
         return;
     const int step = cardWidth() + uiScale().y(14);
     const int pages = pageCount();
-    // Ring paging: stepping off either end wraps to the other, so the deck
-    // has no dead stop — one more Right from the last page is the first
-    // again, and Left from the first reaches the last without retraversing
-    // the whole deck. (It also means the arrows are never disabled, so the
-    // control a keyboard or screen-reader user is on can't vanish under
-    // them.)
-    bool wrapped = false;
-    if (pages > 1)
-    {
-        if (page < 0)
-        {
-            page = pages - 1;
-            wrapped = true;
-        }
-        else if (page >= pages)
-        {
-            page = 0;
-            wrapped = true;
-        }
-    }
+    // Linear deck: the ends are hard stops.
     const int prevIndex = m_pageIndex;
     m_pageIndex = qBound(0, page, pages - 1);
 
@@ -1601,37 +1598,26 @@ void QuickstartPane::goToPage(int page)
         anim->start(QAbstractAnimation::DeleteWhenStopped);
     }
     rebuildDots(); // recolour dots + arrow state for the page we moved to
-    if (m_pageIndex != prevIndex || wrapped)
-        announcePage(wrapped);
+    if (m_pageIndex != prevIndex)
+        announcePage();
 }
 
 // Tell a screen reader where paging landed. Always speaks per-card ("Card 6
 // of 10") — a screen reader experiences one card at a time, so the visual
-// page range ("cards 6 to 10") is meaningless to it. The wrap is called out
-// because an invisible jump from one end of the deck to the other is
-// thoroughly disorienting.
-void QuickstartPane::announcePage(bool wrapped)
+// page range ("cards 6 to 10") is meaningless to it.
+void QuickstartPane::announcePage()
 {
     if (m_cardCount <= 0)
         return;
     // When focus is riding the cards (keyboard/screen-reader paging), the
-    // newly focused card announces itself — only the wrap needs saying.
+    // newly focused card announces itself.
     QWidget* focused = QApplication::focusWidget();
     if (focused && m_frameWs.contains(focused))
-    {
-        if (wrapped)
-            emit announceRequested(m_pageIndex == 0 ? tr("Wrapped to the start.")
-                                                    : tr("Wrapped to the end."));
         return;
-    }
     const int lead = m_pageIndex * qMax(1, rowsThatFit());
     if (lead >= m_cardCount)
         return;
-    QString msg = tr("Card %1 of %2").arg(lead + 1).arg(m_cardCount);
-    if (wrapped)
-        msg = (m_pageIndex == 0 ? tr("Wrapped to the start. %1")
-                                : tr("Wrapped to the end. %1")).arg(msg);
-    emit announceRequested(msg);
+    emit announceRequested(tr("Card %1 of %2").arg(lead + 1).arg(m_cardCount));
 }
 
 void QuickstartPane::scrollCardIntoView(QWidget* frame)

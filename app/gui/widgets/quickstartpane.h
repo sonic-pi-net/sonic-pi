@@ -140,7 +140,7 @@ private:
     void rebuildDots();          // repaint dots + arrow state for the current page
     void updateBackEdge();       // show/position the left-edge page-back scrim
     void goToPage(int page);     // animate (or jump under reduce motion) to a page; wraps at the ends
-    void announcePage(bool wrapped); // tell a screen reader where paging landed
+    void announcePage();         // tell a screen reader where paging landed
     QWidget* firstVisibleCard() const; // the current page's lead card (focus entry point)
     void scrollCardIntoView(QWidget* frame); // page toward a partly-visible card
     void rebuild();

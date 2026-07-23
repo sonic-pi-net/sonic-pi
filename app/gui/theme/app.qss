@@ -1424,7 +1424,9 @@ QFrame#qsCard
     border-radius: 8dx;
 }
 
-QFrame#qsCard[cardHover="true"]
+/* The selected card: arrow keys move the selection one card at a time and
+   the deck scrolls to keep it in view. */
+QFrame#qsCard:focus
 {
     border-color: windowForegroundColor;
 }
