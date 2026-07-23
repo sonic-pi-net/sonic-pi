@@ -11,8 +11,10 @@
 # maintainers — packaging/debian is meant to be adoptable by the archive
 # with no patch stack. Keeping it green here is what keeps that true.
 #
-# Two targets: sid is where real maintainer uploads land; trixie (current
-# stable) proves the same source package builds for today's users.
+# Builds trixie (current stable) only: what today's users install on. sid
+# (where maintainer uploads land) is rolling and regularly breaks itself
+# mid-transition, so it doesn't gate pushes — build it on demand when
+# preparing a Debian upload.
 #
 # Same long-lived-container pattern as the supersonic repo's debian.yml: one
 # `docker run -d`, one `docker exec` per phase so failures point at the
@@ -42,13 +44,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dist: [trixie, sid]
+        dist: [trixie]
     name: debian-${{ matrix.dist }}
     runs-on: ubuntu-latest
-    # sid regularly breaks itself (archive transitions can leave the
-    # toolchain uninstallable) so treat it as an early warning, not a
-    # gate. Failures still show on the job. Trixie gates.
-    continue-on-error: ${{ matrix.dist == 'sid' }}
     timeout-minutes: 150
 
     steps:
