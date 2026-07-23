@@ -6781,7 +6781,7 @@ void MainWindow::restoreScopeState(std::vector<QString> names)
 
     for (auto name : names)
     {
-        bool def = (name.toLower() == "spectrum");
+        bool def = isScopeEnabledByDefault(name.toLower());
         piSettings->setScopeState(name, gui_settings->value("prefs/scope/show-" + name.toLower(), def).toBool());
     }
 }
