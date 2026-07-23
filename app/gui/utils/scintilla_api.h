@@ -26,6 +26,7 @@ struct CompletionItem
     QString text;
     QString kind;
     QString summary;          // one-line summary (header)
+    QString usage;            // canonical calling form (the detail pane's code card)
     QString doc;              // full docstring (markdown), for the detail pane
     int note = -1;            // MIDI note for kind=="note", or the tonic for chord/scale
     QList<int> intervals;     // chord/scale semitone offsets from `note` (the tonic)
@@ -61,6 +62,8 @@ class ScintillaAPI : public QsciAbstractAPIs
   void setSummary(const QString& name, const QString& summary);
   // Register the full docstring (markdown) for a completion entry.
   void setDoc(const QString& name, const QString& doc);
+  // Register the canonical calling form (shown as the detail pane's code card).
+  void setUsage(const QString& name, const QString& usage);
   // Register a numeric range for a bounded opt (e.g. "pan:", -1, 1, 0) so its
   // value position offers a slider instead of a list.
   void setOptRange(const QString& name, double lo, double hi, double def);
@@ -99,6 +102,7 @@ class ScintillaAPI : public QsciAbstractAPIs
   QHash<QString, QStringList> synthArgs;
   QHash<QString, QString> summaries;
   QHash<QString, QString> docs;
+  QHash<QString, QString> usages;
   struct OptRange { double lo, hi, def; };
   QHash<QString, OptRange> optRanges;
   QHash<QString, QStringList> optOptions;   // enum opt -> valid values

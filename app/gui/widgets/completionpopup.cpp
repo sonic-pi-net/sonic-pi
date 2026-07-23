@@ -19,6 +19,8 @@
 #include <QStandardItemModel>
 #include <QStyledItemDelegate>
 #include <QTextEdit>
+#include <QLabel>
+#include <QScrollBar>
 #include <QTextBrowser>
 #include <QTextDocumentFragment>
 #include <QDesktopServices>
@@ -1073,12 +1075,31 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     connect(m_closeButton, &QToolButton::clicked, this,
             [this]() { emit dismissRequested(); });
 
+    // Title + usage card sit above the prose browser as real widgets so the
+    // card gets true rounded corners and the vertical rhythm is exact. Their
+    // side margins match the browser's text inset (QSS padding + doc margin).
+    m_detailTitle = new QLabel;
+    m_detailTitle->setObjectName("completionDetailTitle");
+    m_detailTitle->setWordWrap(true);
+    m_detailTitle->setTextInteractionFlags(Qt::NoTextInteraction);
+    m_usageCard = new QLabel;
+    m_usageCard->setObjectName("completionUsageCard");
+    m_usageCard->setWordWrap(true);
+    m_usageCard->setTextInteractionFlags(Qt::NoTextInteraction);
+
     // Right column: the docstring above, the Docs button in a bottom row.
     m_detailPane = new QWidget(this);
     m_detailPane->setObjectName("completionDetailPane");
     auto* paneLayout = new QVBoxLayout(m_detailPane);
     paneLayout->setContentsMargins(0, 0, 0, 0);
     paneLayout->setSpacing(0);
+    const int textInset = 16 + ScaleWidthForDPI(20);   // align with the prose
+    auto* headLayout = new QVBoxLayout;
+    headLayout->setContentsMargins(textInset, 16, textInset, 0);
+    headLayout->setSpacing(16);
+    headLayout->addWidget(m_detailTitle);
+    headLayout->addWidget(m_usageCard);
+    paneLayout->addLayout(headLayout);
     paneLayout->addWidget(m_shapeIllo, 0);
     paneLayout->addWidget(m_detail, 1);
     auto* btnRow = new QHBoxLayout;
@@ -1247,8 +1268,8 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
         "#completionPopup { background: transparent; }"
         "#completionView { background: transparent; border: none; outline: none; }"
         "#completionDetailPane { background: transparent; border-left: 1px solid %2; }"
-        "#completionDetail { background: transparent; color: %3; padding: 12px 16px;"
-        " border: none; }"
+        "#completionDetail { background: transparent; color: %3;"
+        " padding: 0px 16px 12px 16px; border: none; }"
         "#completionPiano { background: transparent; border-top: 1px solid %2; }"
         "#completionIllo { background: transparent; border-top: 1px solid %2; }"
         "#completionDocsButton { background: transparent; color: %4; border: 1px solid %2;"
@@ -1265,20 +1286,45 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
     QColor grid = mix(fg, bg, 28);   // faint opts-table lines
     QColor codeBg = mix(fg, bg, 8);  // faint code-block background
     m_detail->document()->setDefaultStyleSheet(QString(
-        "h3 { color:%2; font-size:large; margin:0 0 14px 0; }"
-        "p { margin:0 0 12px 0; }"
+        "h3 { color:%2; font-size:large; margin:0 0 16px 0; }"
+        "p { margin:0 0 16px 0; line-height:140%; }"
+        "li { line-height:140%; }"
         "code { color:%2; }"
-        "pre { color:%1; background-color:%4; margin:0 0 14px 0; }"
+        "pre { color:%1; background-color:%4; margin:0 0 16px 0; line-height:130%; }"
         "a { color:%2; }"
-        "table { border-collapse: collapse; }"
+        "table { border-collapse: collapse; margin:0 0 18px 0; }"
         "td { border: 1px solid %3; }")
         .arg(fg.name(), selBg.name(), grid.name(), codeBg.name()));
+    restyleDetailHeader();
     if (m_piano) m_piano->setColors(fg, selBg, bg);
     if (m_rangeSlider) m_rangeSlider->setColors(fg, selBg);
     if (m_optIllo) m_optIllo->setColors(fg, selBg, bg);
     if (m_shapeIllo) m_shapeIllo->setColors(fg, selBg, bg);
     updateCloseIcon(m_closeIconPx);   // re-tint the cross for the new theme
     update();
+}
+
+void CompletionPopup::restyleDetailHeader()
+{
+    // Both labels are governed by stylesheets (fonts included — a styled
+    // widget resolves its font through the sheet, so setFont() is ignored).
+    // Re-composed on theme AND doc-font changes.
+    if (!m_detailTitle || !m_usageCard) return;
+    const int pt = m_docPointSize > 0 ? m_docPointSize : 12;
+    const QColor grid = mix(m_text, m_bg, 28);
+    const QColor codeBg = mix(m_text, m_bg, 8);
+    m_detailTitle->setStyleSheet(
+        QStringLiteral("background: transparent; color: %1;"
+                       " font-size: %2pt; font-weight: bold;")
+            .arg(m_selBg.name())
+            .arg(qRound(pt * 1.2)));
+    // Quiet neutral frame (accent borders mean playable, cf. the docs pane).
+    m_usageCard->setStyleSheet(
+        QStringLiteral("background-color: %1; color: %2; border: 1px solid %3;"
+                       " border-radius: 6px; padding: 10px 12px;"
+                       " font-family: 'Hack'; font-size: %4pt;")
+            .arg(codeBg.name(), m_selBg.name(), grid.name())
+            .arg(pt));
 }
 
 void CompletionPopup::updateCloseIcon(int side)
@@ -1362,6 +1408,7 @@ void CompletionPopup::setItemFont(const QFont& font, double docPointSize)
             // #completionDetail's colours/padding; these cascade together.
             m_detail->setStyleSheet(QStringLiteral("QTextBrowser { font-size: %1pt; }").arg(pt));
             m_detailKey.clear();  // force updateDetail() to re-render at the new size
+            restyleDetailHeader();
         }
     }
 
@@ -1427,6 +1474,7 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
         row->setData(it.text, InsertRole);
         row->setData(it.note, NoteRole);
         row->setData(it.doc, DocRole);
+        row->setData(it.usage, UsageRole);
         row->setData(QVariant::fromValue(it.intervals), IntervalsRole);
         row->setEditable(false);
         m_model->appendRow(row);
@@ -1548,22 +1596,23 @@ void CompletionPopup::updateDetail()
         } else {
             m_shapeIllo->setVisible(false);
         }
-        // Skip the re-render (parse + layout) when the row's content is unchanged.
-        const QString key = summary + QChar(0x1f) + doc;
+        // Title and usage card are widgets above the browser; the browser holds
+        // only the prose. Skip the re-render (parse + layout) when unchanged.
+        const QString usage = idx.isValid() ? idx.data(UsageRole).toString() : QString();
+        m_detailTitle->setText(summary);
+        m_detailTitle->setVisible(!summary.isEmpty());
+        m_usageCard->setText(usage);
+        m_usageCard->setVisible(!usage.isEmpty());
+        const QString key = summary + QChar(0x1f) + usage + QChar(0x1f) + doc;
         if (key != m_detailKey) {
             m_detailKey = key;
             // synth/fx docs are HTML (markdown can't colour code); else markdown.
             if (doc.trimmed().startsWith('<')) {
-                QString html;
-                if (!summary.isEmpty()) html += "<h3>" + summary.toHtmlEscaped() + "</h3>";
-                html += doc;
-                m_detail->setHtml(html);
+                m_detail->setHtml(doc);
             } else {
-                QString md;
-                if (!summary.isEmpty()) md += "### " + summary + "\n\n";
-                md += doc;
-                if (md.trimmed().isEmpty()) md = "_No documentation._";
-                m_detail->setMarkdown(md);
+                m_detail->setMarkdown(doc.trimmed().isEmpty()
+                                          ? QStringLiteral("_No documentation._")
+                                          : doc);
             }
             m_detail->moveCursor(QTextCursor::Start);
         }
@@ -1696,9 +1745,16 @@ void CompletionPopup::resizeEvent(QResizeEvent* e)
     // setPopupSize() tweens the popup between shapes.
     if (!m_closeButton) return;
     const int side = closeGlyphPx() + 6;
-    m_closeButton->setGeometry(width() - side - 8, 3, side, side);
+    m_closeButton->setGeometry(width() - side - 8, 6, side, side);
     const int glyph = closeGlyphPx();
-    if (glyph != m_closeIconPx) updateCloseIcon(glyph);
+    if (glyph != m_closeIconPx) {
+        updateCloseIcon(glyph);
+        // Keep the doc scrollbar's travel clear of the close cross's corner.
+        if (m_detail && m_detail->verticalScrollBar())
+            m_detail->verticalScrollBar()->setStyleSheet(
+                QStringLiteral("QScrollBar:vertical { margin-top: %1px; }")
+                    .arg(side + 10));
+    }
     m_closeButton->raise();
 }
 
@@ -1796,8 +1852,12 @@ QString CompletionPopup::currentDoc() const
     const QModelIndex idx = m_view->currentIndex();
     if (!idx.isValid()) return QString();
     const QString html = idx.data(DocRole).toString();
-    if (html.isEmpty()) return QString();
-    return QTextDocumentFragment::fromHtml(html).toPlainText().simplified();
+    const QString usage = idx.data(UsageRole).toString();
+    if (html.isEmpty() && usage.isEmpty()) return QString();
+    QString text;
+    if (!usage.isEmpty()) text = tr("Usage: %1. ").arg(usage);
+    text += QTextDocumentFragment::fromHtml(html).toPlainText().simplified();
+    return text.trimmed();
 }
 
 bool CompletionPopup::isShowing() const

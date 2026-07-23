@@ -17,6 +17,7 @@
 
 #include "utils/scintilla_api.h"
 
+class QLabel;
 class QListView;
 class QStandardItemModel;
 class QTextBrowser;
@@ -42,6 +43,7 @@ public:
         InsertRole,
         NoteRole,      // MIDI note for kind=="note", or the tonic for chord/scale
         DocRole,       // full docstring (markdown)
+        UsageRole,     // canonical calling form (the detail pane's code card)
         IntervalsRole  // chord/scale semitone offsets from the tonic (QList<int>)
     };
 
@@ -121,6 +123,7 @@ private:
     void resizeToContents();
     void computeColumns();
     void updateDetail();          // refresh the docstring/piano for the current row
+    void restyleDetailHeader();   // re-style the title/usage card (theme or font change)
     bool selectNote(int midi);    // highlight the (number) item for a MIDI note
     // Resize the popup to (w, h): instant on first show, otherwise a quick tween
     // so the popup grows/shrinks smoothly instead of snapping between shapes.
@@ -153,6 +156,8 @@ private:
     QListView* m_view = nullptr;
     QStandardItemModel* m_model = nullptr;
     QWidget* m_detailPane = nullptr;     // right-hand column: docstring + Docs button
+    QLabel* m_detailTitle = nullptr;     // the row's one-line summary, accent header
+    QLabel* m_usageCard = nullptr;       // canonical calling form in a rounded code card
     QTextBrowser* m_detail = nullptr;    // scrollable rich-text docstring (right of the list); QTextBrowser for in-doc anchor jumps
     QToolButton* m_docsButton = nullptr; // "Docs ↗" — opens the help pane for the row
     QToolButton* m_closeButton = nullptr; // "×" top-right — dismiss, same as Escape

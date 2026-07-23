@@ -511,10 +511,9 @@ fn_info.each do |name, info|
   if usage.empty? && (args = info[:args]) && !args.empty?
     usage = "#{name} #{args.map { |a| a[0] }.join(', ')}"
   end
-  usage_html = usage.empty? ? "" : "<p><code>#{usage.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')}</code></p>"
+  docs << "  autocomplete->setUsage(\"#{esc}\", QString::fromUtf8(\"#{usage.gsub(/[\\"]/) { |m| "\\" + m }}\"));\n" unless usage.empty?
   # HTML, like the synth/opt docs, for consistent block spacing.
-  body = usage_html + (d.empty? ? "" : Kramdown::Document.new(d).to_html)
-  docs << "  autocomplete->setDoc(\"#{esc}\", #{qutf8_doc.call(body)});\n" unless body.empty?
+  docs << "  autocomplete->setDoc(\"#{esc}\", #{qutf8_doc.call(Kramdown::Document.new(d).to_html)});\n" unless d.empty?
 end
 docs << "\n"
 

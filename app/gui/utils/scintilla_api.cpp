@@ -189,6 +189,10 @@ void ScintillaAPI::setDoc(const QString& name, const QString& doc) {
   docs.insert(name, doc);
 }
 
+void ScintillaAPI::setUsage(const QString& name, const QString& usage) {
+  usages.insert(name, usage);
+}
+
 void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double def) {
   optRanges.insert(name, {lo, hi, def});
 }
@@ -352,6 +356,7 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
     item.text = n;
     item.kind = lastKind;
     item.summary = summaries.value(n);
+    item.usage = usages.value(n);
     item.doc = docs.value(n);
     if (isChord || isScale) {
       const QList<int>& table = (isChord ? chordIntervals : scaleIntervals).value(bareName(n));
