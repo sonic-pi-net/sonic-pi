@@ -6669,7 +6669,8 @@ void MainWindow::restoreWindows()
         workspaces[w]->updatePlaceholder();
     }
 
-    restoreState(gui_settings->value("windowState").toByteArray());
+    const QByteArray savedWindowState = gui_settings->value("windowState").toByteArray();
+    restoreState(savedWindowState);
     docsplit->restoreState(gui_settings->value("docsplitState").toByteArray());
     restoreGeometry(gui_settings->value("windowGeom").toByteArray());
 
@@ -6677,6 +6678,15 @@ void MainWindow::restoreWindows()
 
     resize(size);
     move(pos);
+
+    // First boot (no saved layout): the scope, log and cue docks share the
+    // right column equally rather than inheriting their unequal size hints.
+    if (savedWindowState.isEmpty() && scopeWidget && outputWidget && incomingWidget)
+    {
+        const int h = qMax(1, size.height() / 3);
+        resizeDocks({ scopeWidget, outputWidget, incomingWidget },
+                    { h, h, h }, Qt::Vertical);
+    }
 
     // Clamp a restored Help/Debug dock that takes too much of the window height.
     if (docWidget && docWidget->isVisible())
