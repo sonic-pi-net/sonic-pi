@@ -505,8 +505,16 @@ fn_info.each do |name, info|
   s = (info[:summary] || info[:name]).to_s
   docs << "  autocomplete->setSummary(\"#{esc}\", QString::fromUtf8(\"#{summary_clean.call(s)}\"));\n" unless s.empty?
   d = info[:doc].to_s.strip
+  # Canonical calling form first — the fn's usage_example, falling back to the
+  # documented signature, mirroring the error card's __usage_hint.
+  usage = info[:usage_example].to_s.strip
+  if usage.empty? && (args = info[:args]) && !args.empty?
+    usage = "#{name} #{args.map { |a| a[0] }.join(', ')}"
+  end
+  usage_html = usage.empty? ? "" : "<p><code>#{usage.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')}</code></p>"
   # HTML, like the synth/opt docs, for consistent block spacing.
-  docs << "  autocomplete->setDoc(\"#{esc}\", #{qutf8_doc.call(Kramdown::Document.new(d).to_html)});\n" unless d.empty?
+  body = usage_html + (d.empty? ? "" : Kramdown::Document.new(d).to_html)
+  docs << "  autocomplete->setDoc(\"#{esc}\", #{qutf8_doc.call(body)});\n" unless body.empty?
 end
 docs << "\n"
 

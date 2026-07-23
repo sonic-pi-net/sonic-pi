@@ -2765,21 +2765,22 @@ void SonicPiScintilla::updateCompletion(bool force)
         return;
     }
 
-    // Track the editor's code font + live zoom. The list sits a touch below the
-    // editor text size and is clamped; the docstring reads like prose, so it
-    // tracks the editor's effective (zoomed) size directly — derived from the
-    // same zoomed value, NOT the clamped list size, so it keeps following zoom
-    // even once the list font saturates at its max. Notched down by a fixed
-    // offset so the prose sits comfortably below the editor text size.
-    constexpr double kDocFontOffset = 3.0;
+    // Track the editor's code font + live zoom 1:1 — the popup is part of the
+    // editing surface, so its text must never fall behind the editor's size.
     // Read the size in whatever unit the font carries: the lexer font is
     // point-sized, but the widget-font fallback inherits the application
     // font, which is pixel-sized (see FontRolePx) — pointSize() on that
     // returns -1 and would collapse this to the 8pt floor.
+    // The size Scintilla actually renders: the default style's fractional point
+    // size plus the live zoom. The lexer's no-arg defaultFont() is only its
+    // stored base and can disagree with the applied per-style fonts. The popup
+    // sits one zoom notch below the editor text.
     QFont codeFont = lexer() ? lexer()->defaultFont() : font();
-    const double zoomed = FontSizeValue(codeFont) + SendScintilla(SCI_GETZOOM);
-    SetFontSizeValue(codeFont, qBound(8.0, zoomed * 0.82, 15.0), 8.0);
-    m_completion->setItemFont(codeFont, zoomed - kDocFontOffset);
+    const double zoomed =
+        SendScintilla(SCI_STYLEGETSIZEFRACTIONAL, (unsigned long)STYLE_DEFAULT) / 100.0
+        + SendScintilla(SCI_GETZOOM) - 1.0;
+    SetFontSizeValue(codeFont, qMax(8.0, zoomed), 8.0);
+    m_completion->setItemFont(codeFont, zoomed);
 
     const int tokenEnd = tokenEndForCaret(pos);
     int wordStart = tokenEnd - partial.length();

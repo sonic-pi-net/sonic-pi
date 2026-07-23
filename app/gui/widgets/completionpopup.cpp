@@ -95,7 +95,7 @@ QString kindLabel(const QString& kind) {
     return kind == "fn" ? QString(QChar(0x03BB)) /* λ */ : kind;
 }
 
-const int kRowVPad = 5;
+const int kRowVPad = 7;
 const int kRowHPad = 8;
 const int kBadgeHPad = 6;
 const int kGap = 10;
@@ -157,10 +157,35 @@ public:
         const QPalette& pal = opt.palette;
 
         if (selected) {
-            QRect r = opt.rect.adjusted(2, 1, -2, -1);
+            // The highlight is a full-bleed band: flush to the left border's
+            // inner edge (1.5px stroke) and to the divider on the right, with
+            // square edges ("=") — except seated against the popup's top or
+            // bottom, where the outer corners curve concentrically with the
+            // 6px border corner ("n" / "u") so the band traces its contour.
+            const int vh = opt.widget ? opt.widget->height() : INT_MAX;
+            QRectF r(opt.rect);
+            r.setLeft(1.5);
+            const bool atTop = opt.rect.top() <= 0;
+            const bool atBottom = opt.rect.bottom() >= vh - 1;
+            if (atTop) r.setTop(1.5);
+            if (atBottom) r.setBottom(vh - 1.5);
+            const qreal rad = 4.5;
             p->setPen(Qt::NoPen);
             p->setBrush(m_popup->selectionBg());
-            p->drawRoundedRect(r, 4, 4);
+            if (atTop || atBottom) {
+                p->drawRoundedRect(r, rad, rad);
+                // Only the corners that touch the popup's curved border stay
+                // rounded (the left ones); the right corners abut the straight
+                // divider, and the edge facing the list interior is square.
+                p->drawRect(QRectF(r.right() - rad, r.top(), rad, rad));
+                p->drawRect(QRectF(r.right() - rad, r.bottom() - rad, rad, rad));
+                if (!atTop)
+                    p->drawRect(QRectF(r.left(), r.top(), r.width(), rad));
+                if (!atBottom)
+                    p->drawRect(QRectF(r.left(), r.bottom() - rad, r.width(), rad));
+            } else {
+                p->drawRect(r);
+            }
         }
 
         const QString kind = index.data(CompletionPopup::KindRole).toString();
@@ -1238,15 +1263,16 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
         .arg(bg.name(), border.name(), detail.name(), selBg.name()));
     // Accent-colour inline code + links so opt names stand out; code blocks stay neutral.
     QColor grid = mix(fg, bg, 28);   // faint opts-table lines
+    QColor codeBg = mix(fg, bg, 8);  // faint code-block background
     m_detail->document()->setDefaultStyleSheet(QString(
-        "h3 { color:%1; font-size:large; margin:0 0 14px 0; }"
+        "h3 { color:%2; font-size:large; margin:0 0 14px 0; }"
         "p { margin:0 0 12px 0; }"
         "code { color:%2; }"
-        "pre { color:%1; }"
+        "pre { color:%1; background-color:%4; margin:0 0 14px 0; }"
         "a { color:%2; }"
         "table { border-collapse: collapse; }"
         "td { border: 1px solid %3; }")
-        .arg(fg.name(), selBg.name(), grid.name()));
+        .arg(fg.name(), selBg.name(), grid.name(), codeBg.name()));
     if (m_piano) m_piano->setColors(fg, selBg, bg);
     if (m_rangeSlider) m_rangeSlider->setColors(fg, selBg);
     if (m_optIllo) m_optIllo->setColors(fg, selBg, bg);
@@ -1329,7 +1355,7 @@ void CompletionPopup::setItemFont(const QFont& font, double docPointSize)
     // the list font (and before the list early-return) so the docs keep tracking
     // zoom even when the list font is clamped at its max and stops changing.
     if (m_detail) {
-        const int pt = qRound(qBound(9.0, docPointSize, 22.0));
+        const int pt = qRound(qMax(9.0, docPointSize));
         if (pt != m_docPointSize) {
             m_docPointSize = pt;
             // Own stylesheet, font-size only — the popup-wide sheet keeps styling
@@ -1601,9 +1627,11 @@ void CompletionPopup::resizeToContents()
     // hand so nothing (e.g. the QTextEdit's size hint) can renegotiate the width.
     // Gate on the session-mode flags, not isVisible() — a child reports invisible
     // until the top-level popup is first shown, which would skip placement.
-    // Every mode leaves the closeBandH() strip above its regions for the close
-    // button (positioned in resizeEvent).
-    const int band = closeBandH();
+    // Content starts flush at the top; the top row's selection pill seats
+    // itself against the border (see the delegate) and the close cross floats
+    // over the top-right corner rather than reserving a strip of y space
+    // (positioned in resizeEvent).
+    const int band = 0;
     if (m_sliderMode) {
         // The slider — a compact value picker — with the illustration (if any)
         // stacked beneath it so the diagram tracks the slider live.
@@ -1623,7 +1651,7 @@ void CompletionPopup::resizeToContents()
         // (and its min height) grow with the docstring font so larger zoom levels
         // don't crowd the prose — baseline ~12pt keeps the default layout, capped
         // at 2x and never narrower than half the screen.
-        const double docScale = qBound(1.0, m_docPointSize / 12.0, 2.0);
+        const double docScale = qBound(1.0, m_docPointSize / 12.0, 3.0);
         int detailW = int(kDetailW * docScale);
         if (QScreen* scr = QApplication::screenAt(pos()))
             detailW = qMin(detailW, scr->availableGeometry().width() / 2);
@@ -1654,10 +1682,11 @@ void CompletionPopup::resizeToContents()
     }
 }
 
-int CompletionPopup::closeBandH() const
+int CompletionPopup::closeGlyphPx() const
 {
-    // Tracks the list font so the strip follows editor zoom and DPI.
-    return qMax(28, QFontMetrics(m_view->font()).height() + 12);
+    // Matches the size of the GUI's other close crosses (see FindPopup),
+    // tracking the list font so it follows editor zoom and DPI.
+    return qMax(12, QFontMetrics(m_view->font()).height() * 7 / 10);
 }
 
 void CompletionPopup::resizeEvent(QResizeEvent* e)
@@ -1666,9 +1695,10 @@ void CompletionPopup::resizeEvent(QResizeEvent* e)
     // Re-pinned on every resize so the button stays anchored top-right while
     // setPopupSize() tweens the popup between shapes.
     if (!m_closeButton) return;
-    const int side = closeBandH() - 6;
+    const int side = closeGlyphPx() + 6;
     m_closeButton->setGeometry(width() - side - 8, 3, side, side);
-    if (side != m_closeIconPx) updateCloseIcon(side);
+    const int glyph = closeGlyphPx();
+    if (glyph != m_closeIconPx) updateCloseIcon(glyph);
     m_closeButton->raise();
 }
 

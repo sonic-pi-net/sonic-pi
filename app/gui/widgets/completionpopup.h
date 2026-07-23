@@ -117,7 +117,7 @@ signals:
 private:
     void announceSelection();     // emit announceRequested() for the current row
     // Height of the strip reserved above all regions for the close button.
-    int closeBandH() const;
+    int closeGlyphPx() const;
     void resizeToContents();
     void computeColumns();
     void updateDetail();          // refresh the docstring/piano for the current row
