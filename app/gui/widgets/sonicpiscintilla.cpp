@@ -668,6 +668,13 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     connect(m_editorToolbar, &EditorToolbar::copyRequested, this, &SonicPiScintilla::copyClear);
     connect(m_editorToolbar, &EditorToolbar::pasteRequested, this, &SonicPiScintilla::sp_paste);
     connect(m_editorToolbar, &EditorToolbar::findRequested, this, &SonicPiScintilla::showFind);
+    // Re-test toolbar occlusion whenever the picture under the pill can have
+    // changed: SCN_UPDATEUI covers edits and both scroll axes in one hook, and
+    // the pill reports its own moves/resizes (zoom, viewport reshapes).
+    connect(this, &QsciScintillaBase::SCN_UPDATEUI, this,
+            [this](int) { updateEditorToolbarOcclusion(); });
+    connect(m_editorToolbar, &EditorToolbar::geometryChanged, this,
+            &SonicPiScintilla::updateEditorToolbarOcclusion);
     // Keep the highlights and counter live while the buffer is edited — but
     // never move the caret from under the user (interact = false).
     connect(this, &QsciScintilla::textChanged, this, [this] {
@@ -760,6 +767,41 @@ void SonicPiScintilla::updateEditorToolbarVisibility()
         m_editorToolbar->setZoom(currentZoom() - kDefaultZoom);
         m_editorToolbar->reposition();
     }
+}
+
+void SonicPiScintilla::updateEditorToolbarOcclusion()
+{
+    if (!m_editorToolbar || !m_editorToolbar->isVisible())
+        return;
+    // The pill's rect in viewport coordinates, padded on the left so a line
+    // that merely kisses the corner already counts as beneath it.
+    const QRect vp = viewport()->geometry();
+    QRect r = m_editorToolbar->geometry().translated(-vp.topLeft());
+    r.adjust(-ScaleWidthForDPI(8), 0, 0, 0);
+
+    // No wrap mode is set (SC_WRAP_NONE), so each visible row is one document
+    // line; DOCLINEFROMVISIBLE keeps the mapping honest across folds. A line
+    // reaches the pill when its end-of-line pixel x (already adjusted for
+    // horizontal scroll) crosses the padded left edge.
+    const int lineH = qMax(1, (int)SendScintilla(SCI_TEXTHEIGHT, (unsigned long)0));
+    const int firstVis = (int)SendScintilla(SCI_GETFIRSTVISIBLELINE);
+    const int lineCount = lines();
+    bool occluded = false;
+    for (int row = qMax(0, r.top() / lineH); row * lineH <= r.bottom(); ++row)
+    {
+        const int docLine = (int)SendScintilla(SCI_DOCLINEFROMVISIBLE,
+                                               (unsigned long)(firstVis + row));
+        if (docLine < 0 || docLine >= lineCount)
+            break;
+        const long endPos = (long)SendScintilla(SCI_GETLINEENDPOSITION,
+                                                (unsigned long)docLine);
+        if ((int)SendScintilla(SCI_POINTXFROMPOSITION, (unsigned long)0, endPos) >= r.left())
+        {
+            occluded = true;
+            break;
+        }
+    }
+    m_editorToolbar->setOccluded(occluded);
 }
 
 QString SonicPiScintilla::s_lastFindQuery;

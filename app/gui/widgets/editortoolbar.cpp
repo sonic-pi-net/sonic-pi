@@ -10,11 +10,15 @@
 #include "editortoolbar.h"
 
 #include <QAbstractScrollArea>
+#include <QCursor>
 #include <QEvent>
 #include <QHBoxLayout>
+#include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
+#include <QTimer>
 #include <QToolButton>
+#include <QVariantAnimation>
 
 #include "dpi.h"
 #include "model/sonicpitheme.h"
@@ -23,6 +27,30 @@ EditorToolbar::EditorToolbar(QWidget* parent)
     : QWidget(parent)
 {
     setObjectName("editorToolbar");
+
+    // Dwell-to-wake: a ghosted pill is mouse-transparent, so the wake gesture
+    // is watched on the viewport's pointer moves instead. The delay sits above
+    // a normal aim-and-click pause, so a quick click on the code beneath lands
+    // in the editor while a deliberate rest on the pill wakes the buttons.
+    m_dwellTimer = new QTimer(this);
+    m_dwellTimer->setSingleShot(true);
+    m_dwellTimer->setInterval(450);
+    connect(m_dwellTimer, &QTimer::timeout, this, &EditorToolbar::wakeFromGhost);
+
+    // One mix value fades the pill fill, border and glyph tints between the
+    // interactive chrome (0) and the faint ghost (1) — the fade doubles as the
+    // signal that the corner has changed hands.
+    m_ghostAnim = new QVariantAnimation(this);
+    m_ghostAnim->setDuration(180);
+    m_ghostAnim->setEasingCurve(QEasingCurve::OutCubic);
+    connect(m_ghostAnim, &QVariantAnimation::valueChanged, this, [this](const QVariant& v) {
+        m_ghostMix = v.toReal();
+        applyZoomMetrics();
+        update();
+    });
+
+    // The hide() below already delivers a QHideEvent, so every member the
+    // event handlers touch must exist by this point.
     hide();
 
     QHBoxLayout* row = new QHBoxLayout(this);
@@ -89,7 +117,11 @@ void EditorToolbar::applyZoomMetrics()
     // (m_fg) takes over on hover, when legibility over the frosted code matters.
     // The button whose section is hovered gets the colour contrast-picked
     // against the accent fill, exactly as buffer tab text does.
-    const QColor resting = m_hovered ? m_fg : SonicPiTheme::blend(m_fg, m_bg, 0.3);
+    // Ghosted, the glyphs sink most of the way into the background so the code
+    // beneath reads first; SVG tinting carries no alpha, so faintness is a
+    // deeper blend toward the editor background rather than transparency.
+    const qreal sink = 0.3 + 0.48 * m_ghostMix;
+    const QColor resting = m_hovered ? m_fg : SonicPiTheme::blend(m_fg, m_bg, sink);
     for (int i = 0; i < m_buttons.size(); ++i)
     {
         const Entry& e = m_buttons[i];
@@ -126,6 +158,49 @@ void EditorToolbar::reposition()
     if (auto* scroll = qobject_cast<QAbstractScrollArea*>(par))
         area = scroll->viewport()->geometry();   // clear of the vertical scrollbar
     move(area.right() - width() - ScaleWidthForDPI(12), area.top() + ScaleHeightForDPI(8));
+    emit geometryChanged();
+}
+
+void EditorToolbar::setOccluded(bool on)
+{
+    if (on == m_occluded)
+        return;
+    m_occluded = on;
+    // Pointer already resting on the pill as text arrives beneath it (e.g. a
+    // long line being typed): stay awake — ghosting under the mouse would
+    // yank the buttons away mid-reach. It ghosts on the next leave.
+    m_awake = on && rect().contains(mapFromGlobal(QCursor::pos()));
+    setAttribute(Qt::WA_TransparentForMouseEvents, ghosted());
+    if (ghosted())
+    {
+        m_hovered = false;
+        m_hoverIndex = -1;
+    }
+    else
+        m_dwellTimer->stop();
+    animateGhost(ghosted() ? 1.0 : 0.0);
+}
+
+void EditorToolbar::wakeFromGhost()
+{
+    if (!ghosted() || !isVisible())
+        return;
+    if (!rect().contains(mapFromGlobal(QCursor::pos())))
+        return;
+    m_awake = true;
+    m_hovered = true;
+    setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    animateGhost(0.0);
+}
+
+void EditorToolbar::animateGhost(qreal target)
+{
+    if (qFuzzyCompare(m_ghostMix, target))
+        return;
+    m_ghostAnim->stop();
+    m_ghostAnim->setStartValue(m_ghostMix);
+    m_ghostAnim->setEndValue(target);
+    m_ghostAnim->start();
 }
 
 void EditorToolbar::applyTheme(const QColor& surface, const QColor& surfaceText,
@@ -170,7 +245,9 @@ void EditorToolbar::paintEvent(QPaintEvent*)
     QPainterPath pill;
     pill.addRoundedRect(r, radius, radius);
     QColor frosted = m_bg;
-    frosted.setAlpha(216);   // ~85%: legible chrome, code still hinted beneath
+    // Interactive it frosts to ~85% — legible chrome, code still hinted
+    // beneath. Ghosted the fill thins right out so the code reads first.
+    frosted.setAlpha(qRound(216 - (216 - 48) * m_ghostMix));
     p.fillPath(pill, frosted);
 
     // Hover highlight: the hovered button's whole vertical section of the
@@ -190,7 +267,9 @@ void EditorToolbar::paintEvent(QPaintEvent*)
         p.restore();
     }
 
-    p.setPen(QPen(m_border, penW));
+    QColor edge = m_border;
+    edge.setAlpha(qRound(255 - (255 - 64) * m_ghostMix));
+    p.setPen(QPen(edge, penW));
     p.setBrush(Qt::NoBrush);
     p.drawRoundedRect(r, radius, radius);
 }
@@ -206,6 +285,14 @@ void EditorToolbar::leaveEvent(QEvent*)
 {
     m_hovered = false;
     m_hoverIndex = -1;
+    if (m_awake)
+    {
+        // A wake lasts exactly as long as the pointer stays: leaving an
+        // occluded pill hands the corner straight back to the code.
+        m_awake = false;
+        setAttribute(Qt::WA_TransparentForMouseEvents, m_occluded);
+        animateGhost(m_occluded ? 1.0 : 0.0);
+    }
     applyZoomMetrics();   // back to the subtle resting tint
     update();
 }
@@ -215,6 +302,18 @@ void EditorToolbar::showEvent(QShowEvent*)
     // Every show re-anchors: the corner may have moved while hidden (resizes
     // while the find bar owned the corner, buffer switches, ...).
     reposition();
+}
+
+void EditorToolbar::hideEvent(QHideEvent*)
+{
+    // A hidden pill can't be woken; drop any half-formed dwell and snap the
+    // fade so the next show starts from its resting state.
+    m_dwellTimer->stop();
+    m_awake = false;
+    setAttribute(Qt::WA_TransparentForMouseEvents, m_occluded);
+    m_ghostAnim->stop();
+    m_ghostMix = m_occluded ? 1.0 : 0.0;
+    applyZoomMetrics();
 }
 
 bool EditorToolbar::eventFilter(QObject* obj, QEvent* ev)
@@ -245,5 +344,20 @@ bool EditorToolbar::eventFilter(QObject* obj, QEvent* ev)
     // cheap move() and keeps the anchor correct for the next show.
     if (ev->type() == QEvent::Resize || ev->type() == QEvent::Move)
         reposition();
+
+    // Dwell-to-wake: while ghosted the pill is skipped by hit-testing, so the
+    // pointer's moves arrive here via the viewport. Resting inside the pill's
+    // rect for the dwell period wakes it; drifting out cancels the wake.
+    if (ghosted() && isVisible() && ev->type() == QEvent::MouseMove)
+    {
+        const auto* me = static_cast<QMouseEvent*>(ev);
+        if (rect().contains(mapFromGlobal(me->globalPosition().toPoint())))
+        {
+            if (!m_dwellTimer->isActive())
+                m_dwellTimer->start();
+        }
+        else
+            m_dwellTimer->stop();
+    }
     return false;
 }

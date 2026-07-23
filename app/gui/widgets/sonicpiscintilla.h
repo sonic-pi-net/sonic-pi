@@ -275,6 +275,9 @@ private:
     bool m_editorToolbarEnabled = false;
     // Visible = enabled and the find bar isn't occupying the corner.
     void updateEditorToolbarVisibility();
+    // Ghost the toolbar while visible code reaches under its pill (it goes
+    // faint and mouse-transparent — see EditorToolbar::setOccluded).
+    void updateEditorToolbarOcclusion();
 
     void addKeyBinding(QSettings& qs, int cmd, int key);
     void addOtherKeyBinding(QSettings& qs, int cmd, int key);

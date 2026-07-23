@@ -16,12 +16,19 @@
 
 #include "utils/tablericons.h"
 
+class QTimer;
 class QToolButton;
+class QVariantAnimation;
 
 // A small optional edit toolbar floated over the editor's top-right corner:
 // undo/redo, cut/copy/paste and find as tabler icon buttons in the same house
 // pill as the find bar (which takes over this corner while it is open —
 // SonicPiScintilla swaps the two). Never takes focus from the editor.
+//
+// While code runs beneath the pill it "ghosts": the chrome fades right down
+// and mouse events fall through to the editor, so the overlapped text stays
+// readable and clickable. Resting the pointer on the ghost for a beat wakes
+// it back to a full toolbar until the pointer leaves.
 class EditorToolbar : public QWidget
 {
     Q_OBJECT
@@ -47,6 +54,11 @@ public:
     // live QActions so remapped shortcuts stay truthful.
     void setShortcuts(const QStringList& native);
 
+    // Code runs beneath the pill (or no longer does). The owner runs the
+    // occlusion test — it knows the text layout — and pushes the result here;
+    // the pill handles the ghosting and dwell-to-wake itself.
+    void setOccluded(bool on);
+
 signals:
     void undoRequested();
     void redoRequested();
@@ -54,10 +66,14 @@ signals:
     void copyRequested();
     void pasteRequested();
     void findRequested();
+    // The pill moved or resized. Whether code sits beneath it depends on where
+    // it is, so the owner re-tests occlusion on this.
+    void geometryChanged();
 
 protected:
     void paintEvent(QPaintEvent*) override;   // frosted background + border
     void showEvent(QShowEvent*) override;     // anchor on every show
+    void hideEvent(QHideEvent*) override;     // cancel any half-formed dwell
     // Resting chrome is subtle; the whole bar snaps to full contrast under the
     // mouse (the same quiet-until-hover manner as the buffer tabs).
     void enterEvent(QEnterEvent*) override;
@@ -70,6 +86,10 @@ private:
     qreal zoomScale() const;
     void applyZoomMetrics();   // size + icon metrics at the current zoom
     void restyle();
+    // Ghost = occluded and not woken: mouse-transparent, chrome faded down.
+    bool ghosted() const { return m_occluded && !m_awake; }
+    void wakeFromGhost();          // dwell fired: back to an interactive pill
+    void animateGhost(qreal target);
 
     struct Entry
     {
@@ -81,6 +101,11 @@ private:
     int m_zoom = 0;
     bool m_hovered = false;
     int m_hoverIndex = -1;   // button whose full-height section is hovered
+    bool m_occluded = false;   // code currently runs beneath the pill
+    bool m_awake = false;      // a dwell-hover woke the ghosted pill
+    qreal m_ghostMix = 0.0;    // 0 = interactive chrome … 1 = faint ghost
+    QTimer* m_dwellTimer = nullptr;         // hover-to-wake delay
+    QVariantAnimation* m_ghostAnim = nullptr;   // drives m_ghostMix
     QColor m_bg = QColor(30, 30, 30);
     QColor m_fg = QColor(220, 220, 220);
     QColor m_border = QColor(127, 127, 127);
