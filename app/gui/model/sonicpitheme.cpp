@@ -1225,7 +1225,11 @@ void SonicPiTheme::reloadStylesheet() {
     appStyling.replace("fixedWidthFont", "\"Hack\"");
 
     #if defined(Q_OS_LINUX)
-    appStyling = "QWidget\n{\nbackground: paneColor;\n}\n" + appStyling;
+    // Theme the non-native Qt load/save dialog (Linux/RPi uses Qt's own),
+    // scoped to the dialog: a bare `QWidget` rule here would out-specify the
+    // stylesheet's global `*` transparent background and paint every unnamed
+    // widget opaque paneColor (e.g. the quickstart cards' scope widgets).
+    appStyling = "QFileDialog, QFileDialog QWidget\n{\nbackground: paneColor;\n}\n" + appStyling;
     #endif
 
     appStyling

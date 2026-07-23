@@ -66,7 +66,10 @@ Values 1->25 will be scaled in integer increments. Values 30 - 100 will be round
 
 *
 {
-  background-color: none;
+  /* `transparent`, not `none`: none is only valid for the `background`
+     shorthand — as a background-color brush it is undefined, and some Qt
+     builds (Linux distro Qt) paint it black instead of ignoring it. */
+  background-color: transparent;
   color:  windowForegroundColor;
 }
 
@@ -318,7 +321,7 @@ QMenuBar::item:selected {
 
 QMainWindow
 {
-    background-color: none;
+    background-color: transparent;
     color: windowColor;
 }
 
@@ -683,7 +686,7 @@ QToolButton
     padding-right: 5dx;
     margin-top: 6dx;
     margin-bottom: 6dx;
-    background-color: none;
+    background-color: transparent;
     border-radius: 0dx;
     border-bottom: 2px solid transparent;
     border-top: 2px solid transparent;
@@ -1572,4 +1575,5 @@ QPushButton#confirmPrimary:hover
 {
     background: accentHoverColor;
 }
+
 
