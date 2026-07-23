@@ -8217,6 +8217,12 @@ void MainWindow::updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& d
     maybeRestoreAudioIntent();
 }
 
+void MainWindow::updateAudioDeviceTable(const SonicPi::AudioDeviceTableInfo& table)
+{
+    m_lastAudioDeviceTable = table;
+    settingsWidget->updateAudioDeviceTable(table);
+}
+
 void MainWindow::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo)
 {
     m_lastAudioDeviceConfig = configInfo;

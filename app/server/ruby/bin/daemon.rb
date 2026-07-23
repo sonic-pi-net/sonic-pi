@@ -228,7 +228,7 @@ module SonicPi
           end
         end
 
-        ["/supersonic/statechange", "/supersonic/info", "/supersonic/devices", "/supersonic/input-devices", "/supersonic/devices/reopen.reply", "/supersonic/devices/reopen.done"].each do |path|
+        ["/supersonic/statechange", "/supersonic/info", "/supersonic/devices", "/supersonic/device-table", "/supersonic/input-devices", "/supersonic/devices/reopen.reply", "/supersonic/devices/reopen.done"].each do |path|
           @api_server.add_method(path) do |args|
             Util.log "Forwarding #{path} to GUI"
             begin

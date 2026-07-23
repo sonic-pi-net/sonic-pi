@@ -1964,10 +1964,36 @@ void SettingsWidget::updateScsynthInfo( QString scsynthInfo ) {
   }
 }
 
+// The Windows Audio mode variants (shared / exclusive / low-latency) expose
+// the same endpoint names, so they count as one family when scoping a device
+// list to the selected driver.
+static QString driverFamily(const QString& t)
+{
+    return t.startsWith("Windows Audio") ? QString("Windows Audio") : t;
+}
+
+// Locate the selected driver's group in the per-driver device table.
+// Returns nullptr when the table is absent (engine predates it) or the
+// driver has no entry — callers then fall back to filtering the flat list.
+static const SonicPi::AudioDeviceTableInfo::DriverDevices*
+tableGroupFor(const SonicPi::AudioDeviceTableInfo& table, bool hasTable,
+              const QString& selectedDriver)
+{
+    if (!hasTable || selectedDriver.isEmpty())
+        return nullptr;
+    for (const auto& g : table.drivers)
+        if (selectedDriver == QString::fromStdString(g.driver))
+            return &g;
+    return nullptr;
+}
+
 void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo) {
     // Skip rebuild if nothing changed — /supersonic/devices fires several
-    // times per boot and rebuilding invalidates the dropdown cache
+    // times per boot and rebuilding invalidates the dropdown cache. The
+    // deviceTypes compare matters: the driver filter below renders from
+    // types, and a driver switch can re-type devices without renaming them.
     if (devicesInfo.devices == m_lastAudioDevicesInfo.devices &&
+        devicesInfo.deviceTypes == m_lastAudioDevicesInfo.deviceTypes &&
         devicesInfo.currentDevice == m_lastAudioDevicesInfo.currentDevice &&
         devicesInfo.mode == m_lastAudioDevicesInfo.mode &&
         devicesInfo.sampleRate == m_lastAudioDevicesInfo.sampleRate) {
@@ -2002,21 +2028,34 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
         audio_output_combo->addItem(systemDefaultLabel, QString("__system__"));
     }
 
-    // Filter by selected driver. ASIO selection lists only ASIO
-    // devices; non-ASIO selections hide ASIO devices (the engine has
-    // already deduped Windows-Audio / DirectSound entries by name).
-    bool haveTypes = devicesInfo.deviceTypes.size() == devicesInfo.devices.size();
-    for (size_t i = 0; i < devicesInfo.devices.size(); ++i) {
-        const auto& dev = devicesInfo.devices[i];
-        if (haveTypes && !selectedDriver.isEmpty()) {
-            QString qt = QString::fromStdString(devicesInfo.deviceTypes[i]);
-            if (isAsio) {
-                if (qt != "ASIO") continue;
-            } else {
-                if (qt == "ASIO") continue;
+    // Prefer the per-driver table when the engine broadcasts one: it lists
+    // each driver's devices directly (un-deduped), so no client-side type
+    // inference is needed. Otherwise scope the flat list by its per-device
+    // types — same rule as the input combo below; keeps each driver's
+    // dropdown clean (e.g. Linux: PipeWire's friendly names never mix with
+    // the ALSA compat-layer entries). ASIO stays a coarse yes/no bucket
+    // (an ASIO driver is its own single device).
+    const auto* tableGroup =
+        tableGroupFor(m_audioDeviceTable, m_hasAudioDeviceTable, selectedDriver);
+    if (tableGroup) {
+        for (const auto& dev : tableGroup->outputs)
+            audio_output_combo->addItem(QString::fromStdString(dev));
+    } else {
+        bool haveTypes = devicesInfo.deviceTypes.size() == devicesInfo.devices.size();
+        for (size_t i = 0; i < devicesInfo.devices.size(); ++i) {
+            const auto& dev = devicesInfo.devices[i];
+            if (haveTypes && !selectedDriver.isEmpty()) {
+                QString qt = QString::fromStdString(devicesInfo.deviceTypes[i]);
+                if (isAsio) {
+                    if (qt != "ASIO") continue;
+                } else if (qt == "ASIO") {
+                    continue;
+                } else if (driverFamily(qt) != driverFamily(selectedDriver)) {
+                    continue;
+                }
             }
+            audio_output_combo->addItem(QString::fromStdString(dev));
         }
-        audio_output_combo->addItem(QString::fromStdString(dev));
     }
 
     // Selection priority:
@@ -2035,8 +2074,17 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
             selectedBySystem = true;
         }
     }
+    // With the per-driver table in play, a combo showing a driver the
+    // engine is NOT on represents a pending choice — selecting the engine's
+    // current device there would misrepresent state (the same endpoint
+    // name can exist under several drivers on Windows). Stay on the
+    // placeholder instead.
+    bool viewingActiveDriver = tableGroup == nullptr
+                            || m_engineActualDriver.isEmpty()
+                            || selectedDriver == m_engineActualDriver;
     bool selectByCurrent = !selectedBySystem
                         && !devicesInfo.currentDevice.empty()
+                        && viewingActiveDriver
                         && (!isAsio || engineIsOnAsio);
     if (selectByCurrent) {
         int idx = audio_output_combo->findText(QString::fromStdString(devicesInfo.currentDevice));
@@ -2073,36 +2121,59 @@ void SettingsWidget::updateAudioInputDevices(const SonicPi::AudioInputDevicesInf
     bool haveTypesIn = devicesInfo.deviceTypes.size() == devicesInfo.devices.size();
     // The engine resolves a swap's input name strictly within the active
     // driver, so an input typed under a different driver would be refused
-    // ("unknown input device") — don't offer it. The Windows Audio mode
-    // variants expose the same endpoint names, so they count as one family.
+    // ("unknown input device") — don't offer it. The per-driver table gives
+    // that scoping directly when present; otherwise filter the flat list.
     // ASIO stays a coarse yes/no bucket: an ASIO device is its own driver
     // and we can't probe its inputs from here.
-    auto driverFamily = [](const QString& t) {
-        return t.startsWith("Windows Audio") ? QString("Windows Audio") : t;
-    };
-    for (size_t i = 0; i < devicesInfo.devices.size(); ++i) {
-        const auto& dev = devicesInfo.devices[i];
-        if (haveTypesIn && !selDriver.isEmpty()) {
-            QString qt = QString::fromStdString(devicesInfo.deviceTypes[i]);
-            if (isAsioDr) {
-                if (qt != "ASIO") continue;
-            } else if (qt == "ASIO") {
-                continue;
-            } else if (driverFamily(qt) != driverFamily(selDriver)) {
-                continue;
+    const auto* tableGroupIn =
+        tableGroupFor(m_audioDeviceTable, m_hasAudioDeviceTable, selDriver);
+    if (tableGroupIn) {
+        for (const auto& dev : tableGroupIn->inputs)
+            audio_input_combo->addItem(QString::fromStdString(dev));
+    } else {
+        for (size_t i = 0; i < devicesInfo.devices.size(); ++i) {
+            const auto& dev = devicesInfo.devices[i];
+            if (haveTypesIn && !selDriver.isEmpty()) {
+                QString qt = QString::fromStdString(devicesInfo.deviceTypes[i]);
+                if (isAsioDr) {
+                    if (qt != "ASIO") continue;
+                } else if (qt == "ASIO") {
+                    continue;
+                } else if (driverFamily(qt) != driverFamily(selDriver)) {
+                    continue;
+                }
             }
+            audio_input_combo->addItem(QString::fromStdString(dev));
         }
-        audio_input_combo->addItem(QString::fromStdString(dev));
     }
 
-    if (!devicesInfo.currentDevice.empty()) {
+    // Same pending-choice rule as the output combo: only mirror the
+    // engine's current input while viewing the driver it is actually on.
+    bool viewingActiveDriver = tableGroupIn == nullptr
+                            || m_engineActualDriver.isEmpty()
+                            || selDriver == m_engineActualDriver;
+    if (!devicesInfo.currentDevice.empty() && viewingActiveDriver) {
         int idx = audio_input_combo->findText(QString::fromStdString(devicesInfo.currentDevice));
         audio_input_combo->setCurrentIndex(idx >= 0 ? idx : 0);
     } else {
-        // No active input — show None rather than a stale selection
+        // No active input (or viewing another driver) — show None rather
+        // than a stale selection
         audio_input_combo->setCurrentIndex(0);
     }
     (void)previousSelection;
+}
+
+void SettingsWidget::updateAudioDeviceTable(const SonicPi::AudioDeviceTableInfo& table) {
+    m_audioDeviceTable = table;
+    m_hasAudioDeviceTable = true;
+    // Relay order isn't guaranteed, so re-render both combos from the
+    // cached flat snapshots now that grouped data exists. Clear the output
+    // guard first — the flat payload can be unchanged while the grouping
+    // isn't.
+    auto lastOutputs = m_lastAudioDevicesInfo;
+    m_lastAudioDevicesInfo = {};
+    updateAudioDevices(lastOutputs);
+    updateAudioInputDevices(m_lastAudioInputDevicesInfo);
 }
 
 void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo) {

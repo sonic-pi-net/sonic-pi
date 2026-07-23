@@ -33,6 +33,7 @@ QtAPIClient::QtAPIClient(MainWindow* pMainWindow)
     last_incoming_path_lens.fill(0);
     qRegisterMetaType<SonicPi::AudioDevicesInfo>("SonicPi::AudioDevicesInfo");
     qRegisterMetaType<SonicPi::AudioInputDevicesInfo>("SonicPi::AudioInputDevicesInfo");
+    qRegisterMetaType<SonicPi::AudioDeviceTableInfo>("SonicPi::AudioDeviceTableInfo");
     qRegisterMetaType<SonicPi::AudioDeviceConfigInfo>("SonicPi::AudioDeviceConfigInfo");
     qRegisterMetaType<SonicPi::AudioSwitchOutcome>("SonicPi::AudioSwitchOutcome");
 }
@@ -371,6 +372,16 @@ void QtAPIClient::AudioInputDevices(const AudioInputDevicesInfo& devicesInfo)
 void QtAPIClient::AudioInputDevicesGui(const AudioInputDevicesInfo& devicesInfo)
 {
   m_pMainWindow->updateAudioInputDevices(devicesInfo);
+}
+
+void QtAPIClient::AudioDeviceTable(const AudioDeviceTableInfo& table)
+{
+  QMetaObject::invokeMethod(this, "AudioDeviceTableGui", Qt::QueuedConnection, Q_ARG(SonicPi::AudioDeviceTableInfo, table));
+}
+
+void QtAPIClient::AudioDeviceTableGui(const AudioDeviceTableInfo& table)
+{
+  m_pMainWindow->updateAudioDeviceTable(table);
 }
 
 void QtAPIClient::AudioDeviceConfigGui(const AudioDeviceConfigInfo& configInfo)

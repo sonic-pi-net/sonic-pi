@@ -200,6 +200,22 @@ struct AudioInputDevicesInfo {
     std::string currentDevice;
 };
 
+// Per-driver device table (/supersonic/device-table): the same devices as
+// AudioDevicesInfo/AudioInputDevicesInfo but grouped by driver and NOT
+// deduped across drivers, so a client can render any driver's device list
+// directly. Absent entirely when the engine predates the message — clients
+// then fall back to filtering the flat lists by deviceTypes.
+struct AudioDeviceTableInfo {
+    struct DriverDevices {
+        std::string driver;                 // exact JUCE type name
+        std::vector<std::string> outputs;
+        std::vector<std::string> inputs;
+    };
+    std::string currentDriver;
+    std::string intendedDriver;             // "" = no pending pick
+    std::vector<DriverDevices> drivers;
+};
+
 struct AudioDeviceConfigInfo {
     int sampleRate = 0;
     int bufferSize = 0;
@@ -326,6 +342,10 @@ struct IAPIClient
     virtual void Scsynth(const ScsynthInfo& scsynthInfo) = 0;
     virtual void AudioDevices(const AudioDevicesInfo& devicesInfo) = 0;
     virtual void AudioInputDevices(const AudioInputDevicesInfo& devicesInfo) = 0;
+    // Per-driver device table; only fires on engines that broadcast
+    // /supersonic/device-table. Default no-op so non-GUI consumers (and
+    // older clients) don't need to react.
+    virtual void AudioDeviceTable(const AudioDeviceTableInfo& /*table*/) {}
     virtual void AudioDeviceConfig(const AudioDeviceConfigInfo& configInfo) = 0;
     virtual void SupersonicSetup(int sampleRate, int bufferSize) = 0;
     virtual void SpiderReady() = 0;

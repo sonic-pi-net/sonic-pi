@@ -50,6 +50,11 @@ public:
     void updateScsynthInfo(QString scsynthInfo);
     void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
     void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
+    // Per-driver device table push (/supersonic/device-table). Stores the
+    // table and re-renders both device combos from it; absent on engines
+    // that predate the message, in which case the combos keep filtering
+    // the flat lists by deviceTypes.
+    void updateAudioDeviceTable(const SonicPi::AudioDeviceTableInfo& table);
     void updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo);
     // Apply (or remove) ASIO-specific input constraints based on the
     // currently-selected driver. Called whenever the driver dropdown
@@ -342,6 +347,10 @@ private:
     // re-render the input combo with the new driver's filter without
     // waiting for another /supersonic/input-devices push.
     SonicPi::AudioInputDevicesInfo m_lastAudioInputDevicesInfo;
+    // Per-driver device table; m_hasAudioDeviceTable stays false on engines
+    // that never broadcast it, keeping the combos on the flat-list path.
+    SonicPi::AudioDeviceTableInfo m_audioDeviceTable;
+    bool m_hasAudioDeviceTable = false;
     QLabel *mic_permission_label;
     QPushButton *mic_permission_settings_button;
     QTimer *m_micPermissionTimer = nullptr;

@@ -185,6 +185,7 @@ public:
     void updateScsynthInfo(QString description);
     void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
     void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
+    void updateAudioDeviceTable(const SonicPi::AudioDeviceTableInfo& table);
     void updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo);
     void homeDirWriteError();
     void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
@@ -225,6 +226,7 @@ private:
     bool m_audioDeviceConfigSeen = false;
     SonicPi::AudioDevicesInfo      m_lastAudioDevices;
     SonicPi::AudioInputDevicesInfo m_lastAudioInputDevices;
+    SonicPi::AudioDeviceTableInfo  m_lastAudioDeviceTable;
     SonicPi::AudioDeviceConfigInfo m_lastAudioDeviceConfig;
     // Device output latency in ms; visuals (flash, inline scopes) are
     // delayed by this to align with the audible sound.

@@ -324,6 +324,54 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 m_pClient->AudioDeviceConfig(config);
             }
         }
+        else if (msg->match("/supersonic/device-table"))
+        {
+            // Wire format (counts-first throughout):
+            //   currentDriver(str), intendedDriver(str), numDrivers(int32),
+            //   then per driver: name(str), numOutputs(int32), outputs...,
+            //   numInputs(int32), inputs...
+            AudioDeviceTableInfo table;
+            oscpkt::Message::ArgReader ar = msg->arg();
+            ar.popStr(table.currentDriver);
+            ar.popStr(table.intendedDriver);
+            int numDrivers = 0;
+            ar.popInt32(numDrivers);
+            bool ok = ar.isOk();
+            for (int d = 0; ok && d < numDrivers; d++)
+            {
+                AudioDeviceTableInfo::DriverDevices group;
+                ar.popStr(group.driver);
+                int n = 0;
+                ar.popInt32(n);
+                for (int i = 0; ar.isOk() && i < n; i++)
+                {
+                    std::string s;
+                    ar.popStr(s);
+                    group.outputs.push_back(s);
+                }
+                n = 0;
+                ar.popInt32(n);
+                for (int i = 0; ar.isOk() && i < n; i++)
+                {
+                    std::string s;
+                    ar.popStr(s);
+                    group.inputs.push_back(s);
+                }
+                ok = ar.isOk();
+                if (ok)
+                    table.drivers.push_back(std::move(group));
+            }
+            if (!ok)
+            {
+                LOG(ERR, "/supersonic/device-table: malformed message, discarding");
+            }
+            else
+            {
+                LOG(INFO, "/supersonic/device-table: " << table.drivers.size()
+                    << " drivers, current=" << table.currentDriver);
+                m_pClient->AudioDeviceTable(table);
+            }
+        }
         else if (msg->match("/supersonic/devices"))
         {
             // Wire format:

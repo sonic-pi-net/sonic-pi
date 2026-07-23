@@ -20,6 +20,7 @@ Q_DECLARE_METATYPE(SonicPi::BufferInfo);
 Q_DECLARE_METATYPE(SonicPi::ScsynthInfo);
 Q_DECLARE_METATYPE(SonicPi::AudioDevicesInfo);
 Q_DECLARE_METATYPE(SonicPi::AudioInputDevicesInfo);
+Q_DECLARE_METATYPE(SonicPi::AudioDeviceTableInfo);
 Q_DECLARE_METATYPE(SonicPi::AudioDeviceConfigInfo);
 // Qt 6 auto-registers metatypes for signal parameter types; an explicit
 // Q_DECLARE_METATYPE for SonicPi::AudioSwitchOutcome causes a double-
@@ -53,6 +54,7 @@ public:
     virtual void Scsynth(const SonicPi::ScsynthInfo& scsynthInfo) override;
     virtual void AudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo) override;
     virtual void AudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo) override;
+    virtual void AudioDeviceTable(const SonicPi::AudioDeviceTableInfo& table) override;
     virtual void AudioDeviceConfig(const SonicPi::AudioDeviceConfigInfo& configInfo) override;
     virtual void SupersonicSetup(int sampleRate, int bufferSize) override;
     virtual void SpiderReady() override;
@@ -100,6 +102,7 @@ public slots:
     virtual void ScsynthGui(const SonicPi::ScsynthInfo& scsynthInfo);
     virtual void AudioDevicesGui(const SonicPi::AudioDevicesInfo& devicesInfo);
     virtual void AudioInputDevicesGui(const SonicPi::AudioInputDevicesInfo& devicesInfo);
+    virtual void AudioDeviceTableGui(const SonicPi::AudioDeviceTableInfo& table);
     virtual void AudioDeviceConfigGui(const SonicPi::AudioDeviceConfigInfo& configInfo);
 
 private:
