@@ -1,3 +1,4 @@
+VERSION                                                            usr/lib/sonic-pi
 app/server/ruby/*.rb                                               usr/lib/sonic-pi/app/server/ruby
 app/server/ruby/bin                                                usr/lib/sonic-pi/app/server/ruby
 app/server/ruby/lib                                                usr/lib/sonic-pi/app/server/ruby
