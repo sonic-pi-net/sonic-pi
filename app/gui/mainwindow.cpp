@@ -4890,7 +4890,13 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "Scope", QT_TR_NOOP("Toggle visibility of audio oscilloscope"), "Meta+O", "Meta+O", "Meta+O", "Visuals", &MainWindow::scopeAct },
     { "CycleThemes", QT_TR_NOOP("Cycle through the available colour themes"), "ShiftMeta+M", "ShiftMeta+M", "ShiftMeta+M", "Visuals", &MainWindow::cycleThemesAct },
     { "Info", QT_TR_NOOP("Toggle information about Sonic Pi"), "Meta+n", "Meta+1", "Meta+1", "View", &MainWindow::infoAct },
+#if defined(Q_OS_MAC)
+    // ⌘I as an extra fallback keeps emacs-live help muscle memory working in
+    // Mac mode; off-mac Alt+I stays free for the IO menu mnemonic.
+    { "Help", QT_TR_NOOP("Toggle the visibility of the help pane"), "Meta+?", "F1", "Meta+i", "View", &MainWindow::helpAct, "F1,Meta+i" },
+#else
     { "Help", QT_TR_NOOP("Toggle the visibility of the help pane"), "Meta+?", "F1", "Meta+i", "View", &MainWindow::helpAct, "F1" },
+#endif
     { "Prefs", QT_TR_NOOP("Toggle the visibility of the preferences pane"), "Meta+p", "Meta+p", "Meta+p", "View", &MainWindow::prefsAct },
     { "TabPrev", QT_TR_NOOP("Switch to the previous tab"), "ShiftMeta+[", "ShiftMeta+[", "ShiftMeta+[", "Focus", &MainWindow::tabPrevAct },
     { "TabNext", QT_TR_NOOP("Switch to the next tab"), "ShiftMeta+]", "ShiftMeta+]", "ShiftMeta+]", "Focus", &MainWindow::tabNextAct },
@@ -5129,13 +5135,16 @@ void MainWindow::updateShortcuts()
         if (QAction* act = this->*(d.act))
         {
             updateShortcut(d.id, act, tr(d.desc));
-            // Optional secondary shortcut (undocumented fallback) — both trigger
-            // the same action, so setShortcuts() carries them without ambiguity.
-            // Skip it when the keymap's primary is already the same key, or when
-            // the key belongs to another action's primary.
-            if (d.secondary && d.secondary[0])
+            // Optional secondary shortcuts (undocumented fallbacks, comma
+            // separated) — all trigger the same action, so setShortcuts()
+            // carries them without ambiguity. Skip one when the keymap's
+            // primary is already the same key, or when the key belongs to
+            // another action's primary.
+            const QStringList secondaries =
+                QString::fromLatin1(d.secondary ? d.secondary : "").split(',', Qt::SkipEmptyParts);
+            for (const QString& sec : secondaries)
             {
-                const QKeySequence secondary = resolveShortcut(QString::fromLatin1(d.secondary));
+                const QKeySequence secondary = resolveShortcut(sec.trimmed());
                 const QString secondaryStr = secondary.toString(QKeySequence::PortableText);
                 const bool ownPrimary =
                     shortcutMap.value(d.id).toString(QKeySequence::PortableText) == secondaryStr;

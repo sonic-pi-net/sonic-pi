@@ -132,7 +132,7 @@ struct ShortcutDef
     const char* emacs;
     const char* group;
     QAction* MainWindow::* act;
-    const char* secondary = nullptr;  // optional extra shortcut (undocumented fallback), all keymaps
+    const char* secondary = nullptr;  // optional extra shortcut(s), comma separated (undocumented fallback), all keymaps
 };
 
 class MainWindow : public QMainWindow
