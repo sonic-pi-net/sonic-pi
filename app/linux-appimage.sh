@@ -388,7 +388,11 @@ package_appimage() {
 main() {
     parse_args "$@"
     resolve_version
-    OUTPUT="${SCRIPT_DIR}/build/Sonic-Pi-${VERSION}-${ARCH_DISPLAY}.AppImage"
+    # Filename matches the DMG/MSI convention (Sonic-Pi-for-Mac-arm64-v5.0.0-RC-2.dmg),
+    # including the "5.0.0-RC2" → "5.0.0-RC-2" pre-release hyphenation.
+    local version_dist
+    version_dist="$(printf '%s' "$VERSION" | sed -E 's/-([A-Za-z]+)([0-9]+)$/-\1-\2/')"
+    OUTPUT="${SCRIPT_DIR}/build/Sonic-Pi-for-Linux-${ARCH_DISPLAY}-v${version_dist}.AppImage"
 
     cd "${SCRIPT_DIR}"
 

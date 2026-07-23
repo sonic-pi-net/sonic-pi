@@ -26,7 +26,7 @@ trap cleanup_function EXIT
 # earlier ones (anything past `deps`) only work if the workspace already
 # carries their output. CI keeps one container alive across phases instead.
 #
-# Output lands in app/build/Sonic-Pi-<version>-x86.AppImage.
+# Output lands in app/build/Sonic-Pi-for-Linux-x86-v<version>.AppImage.
 
 REPO_DIR="$( cd "${SCRIPT_DIR}/.." && pwd )"
 IMAGE="${SP_I386_IMAGE:-i386/debian:bookworm}"
