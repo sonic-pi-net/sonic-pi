@@ -4812,6 +4812,12 @@ QKeySequence MainWindow::resolveShortcut(QString keySequence)
     {
         return ctrlShiftKey(keySequence.mid(10));
     }
+    else if (keySequence.startsWith("native+"))
+    {
+        // The platform's standard modifier: Qt's Ctrl is ⌘ on macOS, Ctrl
+        // elsewhere — bypasses the emacs Ctrl/Meta swap of the helpers above.
+        return QKeySequence(QString("Ctrl+%1").arg(keySequence.mid(7)));
+    }
     else if (keySequence.startsWith("meta+"))
     {
         return metaKey(keySequence.mid(5));
@@ -4928,9 +4934,9 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "UpTen", QT_TR_NOOP("Move Cursor Up 10 Lines"), "Meta+up", "PgUp", "ShiftMeta+u", "Code", &MainWindow::textUpTenAct },
     { "DownTen", QT_TR_NOOP("Move Cursor Down 10 Lines"), "Meta+down", "PgDown", "ShiftMeta+d", "Code", &MainWindow::textDownTenAct },
     { "CutToEnd", QT_TR_NOOP("Cut to the end of the line"), "Ctrl+k", "Ctrl+k", "Ctrl+k", "Code", &MainWindow::textCutToEndOfLineAct },
-    { "Copy", QT_TR_NOOP("Copy the current selection"), "Meta+c", "Ctrl+c", "Meta+]", "Code", &MainWindow::textCopyAct },
-    { "Cut", QT_TR_NOOP("Cut the current selection"), "Meta+x", "Ctrl+x", "Ctrl+]", "Code", &MainWindow::textCutAct },
-    { "Paste", QT_TR_NOOP("Paste the current selection"), "Meta+v", "Ctrl+v", "Ctrl+y", "Code", &MainWindow::textPasteAct },
+    { "Copy", QT_TR_NOOP("Copy the current selection"), "Meta+c", "Ctrl+c", "Meta+]", "Code", &MainWindow::textCopyAct, "Native+c" },
+    { "Cut", QT_TR_NOOP("Cut the current selection"), "Meta+x", "Ctrl+x", "Ctrl+]", "Code", &MainWindow::textCutAct, "Native+x" },
+    { "Paste", QT_TR_NOOP("Paste the current selection"), "Meta+v", "Ctrl+v", "Ctrl+y", "Code", &MainWindow::textPasteAct, "Native+v" },
     // Win column: Ctrl+f belongs to Find (the platform convention); arrow keys
     // cover the motion. Mac's Ctrl+f is the real Control key (Cmd+F is
     // "Meta+f"), i.e. macOS's native forward-char — no clash with Find.
@@ -4951,9 +4957,9 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "SelectDocStart", QT_TR_NOOP("Select to Start of Document"), "CtrlShift+Home", "CtrlShift+Home", "CtrlShift+Home", "Code", &MainWindow::textSelectDocStartAct },
     { "SelectDocEnd", QT_TR_NOOP("Select to End of Document"), "CtrlShift+End", "CtrlShift+End", "CtrlShift+End", "Code", &MainWindow::textSelectDocEndAct },
     { "CenterVertically", QT_TR_NOOP("Vertically center the caret in the editor"), "Ctrl+l", "Ctrl+l", "Ctrl+l", "Code", &MainWindow::textCenterCaretAct },
-    { "Undo", QT_TR_NOOP("Undo the last action"), "Meta+z", "Ctrl+z", "Meta+z", "Code", &MainWindow::textUndoAct },
-    { "Redo", QT_TR_NOOP("Redo the last undo"), "ShiftMeta+z", "ShiftCtrl+z", "ShiftMeta+z", "Code", &MainWindow::textRedoAct },
-    { "SelectAll", QT_TR_NOOP("Select all text"), "Meta+a", "Ctrl+a", "Meta+a", "Code", &MainWindow::textSelectAllAct },
+    { "Undo", QT_TR_NOOP("Undo the last action"), "Meta+z", "Ctrl+z", "Meta+z", "Code", &MainWindow::textUndoAct, "Native+z" },
+    { "Redo", QT_TR_NOOP("Redo the last undo"), "ShiftMeta+z", "ShiftCtrl+z", "ShiftMeta+z", "Code", &MainWindow::textRedoAct, "Native+Shift+z" },
+    { "SelectAll", QT_TR_NOOP("Select all text"), "Meta+a", "Ctrl+a", "Meta+a", "Code", &MainWindow::textSelectAllAct, "Native+a" },
     // Win column follows the native Windows editing conventions
     // (Ctrl+Backspace/Delete for word deletes, Visual Studio's Ctrl(+Shift)+U
     // for case) — this also frees Alt+letter combos for menu mnemonics.
