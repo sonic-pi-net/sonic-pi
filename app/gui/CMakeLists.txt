@@ -430,6 +430,14 @@ if (APPLE)
     POST_BUILD
     COMMAND plutil -replace NSScreenCaptureUsageDescription -string "Sonic Pi captures its own window when you publish it as a Syphon video feed for VJ apps like Resolume Avenue." ${MACOS_APP_NAME}.app/Contents/Info.plist
   )
+  # Without this key macOS never shows the Local Network prompt and
+  # silently denies multicast (DenyMulticast=1 in the networkextension
+  # policy), so Ableton Link can only see peers on this machine.
+  add_custom_command(
+    TARGET ${APP_NAME}
+    POST_BUILD
+    COMMAND plutil -replace NSLocalNetworkUsageDescription -string "Sonic Pi uses the local network to find and sync with Ableton Link peers - shared tempo, start/stop and audio streams - on other devices." ${MACOS_APP_NAME}.app/Contents/Info.plist
+  )
   # Register the .sonicpi set format so Finder double-clicks open Sonic Pi.
   add_custom_command(
     TARGET ${APP_NAME}

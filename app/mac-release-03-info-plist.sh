@@ -31,6 +31,7 @@ log_info "  CFBundleShortVersionString   ${VERSION_SHORT}"
 log_info "  LSMinimumSystemVersion       14"
 log_info "  LSApplicationCategoryType    public.app-category.music"
 log_info "  NSMicrophoneUsageDescription \"To code live audio\""
+log_info "  NSLocalNetworkUsageDescription \"To find and sync with Ableton Link peers on other devices\""
 log_info "  NSRequiresAquaSystemAppearance  false  (chrome follows macOS dark/light)"
 log_info "  NSHumanReadableCopyright     ${COPYRIGHT}"
 
@@ -55,6 +56,7 @@ plutil -replace LSApplicationCategoryType     -string  "public.app-category.musi
 plutil -replace NSHighResolutionCapable       -bool    true                             "$plist"
 plutil -replace NSRequiresAquaSystemAppearance -bool   false                            "$plist"
 plutil -replace NSMicrophoneUsageDescription  -string  "To code live audio"             "$plist"
+plutil -replace NSLocalNetworkUsageDescription -string "To find and sync with Ableton Link peers on other devices" "$plist"
 plutil -replace NSHumanReadableCopyright      -string  "${COPYRIGHT}"                   "$plist"
 
 # Drop tool-cruft if it leaks in from anywhere upstream.
