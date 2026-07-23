@@ -324,3 +324,90 @@ live_loop :groove do
   sleep 1
 end
 ```
+
+
+# Deck: Scope Art
+Draw with sound! Open the scope and pick the Lissajous view. The left speaker moves the beam sideways, the right moves it up and down - pure sine waves draw the cleanest shapes.
+
+## A Line of Light
+One sine panned centre sends the same wave to both speakers, so the beam sweeps a diagonal line. Try pan: -1 to lay it flat.
+```
+use_synth :sine
+play :a4, sustain: 4
+```
+
+## Draw a Circle
+The same note hard left and hard right, a quarter of a cycle apart. Sideways and up-down a quarter turn out of step is a circle.
+```
+use_synth :sine
+play :a4, pan: -1, sustain: 4
+play :a4, pan: 1, sustain: 4, phase_offset: 0.25
+```
+
+## Squash the Circle
+Offsets between 0 and 0.25 tilt and squash the circle into ellipses. Try 0.05, 0.125 and 0.2.
+```
+use_synth :sine
+play :a4, pan: -1, sustain: 4
+play :a4, pan: 1, sustain: 4, phase_offset: 0.125
+```
+
+## Spiral In
+A circle drawn by a fading note shrinks as it fades. Watch it spiral into the dark.
+```
+use_synth :sine
+play :a4, pan: -1, attack: 1, release: 6
+play :a4, pan: 1, attack: 1, release: 6, phase_offset: 0.25
+```
+
+## Figure of Eight
+An octave apart is a 2:1 ratio - the classic figure of eight. Swap the two pans to flip it on its side.
+```
+use_synth :sine
+play :a3, pan: -1, sustain: 4
+play :a4, pan: 1, sustain: 4, phase_offset: 0.25
+```
+
+## Tie a Knot
+A 3:2 ratio weaves a knot. hz_to_midi keeps the ratio exact so the knot holds still - try 275 (5:4) or 293.33 (4:3) too.
+```
+use_synth :sine
+play hz_to_midi(220), pan: -1, sustain: 4
+play hz_to_midi(330), pan: 1, sustain: 4, phase_offset: 0.25
+```
+
+## Tumbling Knot
+A fifth on a keyboard is almost - but not quite - 3:2, so the same knot slowly tumbles forever. That tiny gap is tuning made visible.
+```
+use_synth :sine
+play :a3, pan: -1, sustain: 8
+play :e4, pan: 1, sustain: 8
+```
+
+## Set it Spinning
+Detune one side by a fraction of a hertz and the shape rolls from line to circle and back, once every five seconds. Less detune, slower spin.
+```
+use_synth :sine
+play :a4, pan: -1, sustain: 8
+play hz_to_midi(440.2), pan: 1, sustain: 8
+```
+
+## Every Shape at Once
+Slide one side two octaves and the figure morphs through every ratio on the way - lines, eights, knots and tangles.
+```
+use_synth :sine
+play :a4, pan: -1, sustain: 6
+s = play :a3, pan: 1, sustain: 6, note_slide: 6
+control s, note: :a5
+```
+
+## Spin it Live
+A live loop nudging phase_offset a little further each beat spins the figure like a coin. Change steps: to spin faster or slower.
+```
+live_loop :spin do
+  p = (line 0, 1, steps: 64).tick
+  play :a4, pan: -1, sustain: 0.25
+  play :a4, pan: 1, sustain: 0.25, phase_offset: p
+  sleep 0.25
+end
+```
