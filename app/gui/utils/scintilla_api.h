@@ -65,8 +65,12 @@ class ScintillaAPI : public QsciAbstractAPIs
   // Register the canonical calling form (shown as the detail pane's code card).
   void setUsage(const QString& name, const QString& usage);
   // Register a numeric range for a bounded opt (e.g. "pan:", -1, 1, 0) so its
-  // value position offers a slider instead of a list.
-  void setOptRange(const QString& name, double lo, double hi, double def);
+  // value position offers a slider instead of a list. An exclusive bound
+  // (e.g. res: must be < 1) is pulled one display-grid step inside at
+  // registration, so the slider can never offer a value the engine's
+  // validations reject.
+  void setOptRange(const QString& name, double lo, double hi, double def,
+                   bool loExcl = false, bool hiExcl = false);
   // Register the valid values of an enum opt (e.g. "wave:", {"0","1","2"}) so its
   // value position offers a choice list.
   void setOptOptions(const QString& name, const QStringList& opts);

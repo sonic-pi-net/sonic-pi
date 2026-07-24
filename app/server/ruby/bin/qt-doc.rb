@@ -448,20 +448,24 @@ opt_summaries.each do |ak, info|
     docs << "  autocomplete->setOptRange(\"#{ak}:\", #{r[0].to_f}, #{r[1].to_f}, #{dv.to_f});\n"
   elsif bounds.key?(:min) && bounds.key?(:max)
     # Bounded by its validations (e.g. res, pulse_width) → a constraint-respecting
-    # slider, derived from the engine's own constraints rather than a hardcoded range.
+    # slider, derived from the engine's own constraints rather than a hardcoded
+    # range. Exclusivity rides along so an open bound (res: < 1) is never offered
+    # at its edge — setOptRange pulls it one slider step inside.
     lo, hi = bounds[:min].to_f, bounds[:max].to_f
     dv = info[:default].is_a?(Numeric) ? [[info[:default].to_f, lo].max, hi].min : (lo + hi) / 2.0
-    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv});\n"
+    lo_x, hi_x = bounds[:min_incl] == false, bounds[:max_incl] == false
+    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv}, #{lo_x}, #{hi_x});\n"
   elsif bounds.key?(:min) && info[:default].is_a?(Numeric)
     # One-sided (min only) → a soft slider anchored on the default; values beyond it
-    # are still allowed (the real constraint is shown in the opt's docs above).
+    # are still allowed (the real constraint is shown in the opt's docs above). The
+    # soft top is ours (always valid); only the engine's min can be exclusive.
     lo, dv = bounds[:min].to_f, info[:default].to_f
     hi = dv > lo ? lo + (dv - lo) * 4.0 : lo + 1.0
-    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv});\n"
+    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv}, #{bounds[:min_incl] == false}, false);\n"
   elsif bounds.key?(:max) && info[:default].is_a?(Numeric)
     hi, dv = bounds[:max].to_f, info[:default].to_f
     lo = dv < hi ? hi - (hi - dv) * 4.0 : hi - 1.0
-    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv});\n"
+    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv}, false, #{bounds[:max_incl] == false});\n"
   end
 end
 docs << "\n"

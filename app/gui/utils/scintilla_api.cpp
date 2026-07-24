@@ -193,8 +193,17 @@ void ScintillaAPI::setUsage(const QString& name, const QString& usage) {
   usages.insert(name, usage);
 }
 
-void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double def) {
-  optRanges.insert(name, {lo, hi, def});
+void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double def,
+                               bool loExcl, bool hiExcl) {
+  // The finest value the popup slider produces (drag rounding grid, see
+  // RangeSlider): two decades below the range's magnitude. Exclusive bounds
+  // retreat one grid step so the slider's edge is always a valid value.
+  const double grid = std::pow(10.0, std::floor(std::log10(hi - lo)) - 2.0);
+  if (loExcl)
+    lo += grid;
+  if (hiExcl)
+    hi -= grid;
+  optRanges.insert(name, {lo, hi, qBound(lo, def, hi)});
 }
 
 void ScintillaAPI::setOptOptions(const QString& name, const QStringList& opts) {

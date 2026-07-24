@@ -7523,7 +7523,7 @@ end
           :cutoff_min =>
           {
             :doc => "Minimum (MIDI) note that filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
-            :validations => [v_positive(:cutoff_min), v_less_than(:cutoff_min, 130)],
+            :validations => [v_positive(:cutoff_min), v_less_than_oet(:cutoff_min, 130)],
             :modulatable => true,
             :midi => true
           },
@@ -7539,7 +7539,7 @@ end
           :cutoff_max =>
           {
             :doc => "Maximum (MIDI) note that filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
-            :validations => [v_positive(:cutoff_max), v_less_than(:cutoff_max, 130)],
+            :validations => [v_positive(:cutoff_max), v_less_than_oet(:cutoff_max, 130)],
             :modulatable => true,
             :midi => true
           },
@@ -7920,7 +7920,7 @@ end
           :cutoff_min =>
           {
             :doc => "Minimum (MIDI) note that filter will move to whilst wobbling. Choose a lower note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
-            :validations => [v_positive(:cutoff_min), v_less_than(:cutoff_min, 130)],
+            :validations => [v_positive(:cutoff_min), v_less_than_oet(:cutoff_min, 130)],
             :modulatable => true,
             :midi => true
           },
@@ -7936,7 +7936,7 @@ end
           :cutoff_max =>
           {
             :doc => "Maximum (MIDI) note that filter will move to whilst wobbling. Choose a higher note for a higher range of movement. Full range of movement is the distance between cutoff_max and cutoff_min",
-            :validations => [v_positive(:cutoff_max), v_less_than(:cutoff_max, 130)],
+            :validations => [v_positive(:cutoff_max), v_less_than_oet(:cutoff_max, 130)],
             :modulatable => true,
             :midi => true
           },
