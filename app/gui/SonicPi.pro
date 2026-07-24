@@ -51,7 +51,6 @@ SOURCES += main.cpp \
            widgets/timewarpedit.cpp \
            widgets/tutorialpane.cpp \
            widgets/tutorialwidgets.cpp \
-           widgets/visualizer.cpp \
            widgets/welcomewidget.cpp \
            widgets/zoombar.cpp \
 
