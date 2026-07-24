@@ -429,6 +429,10 @@ private slots:
     void changeAutoIndentOnRun();
     void cycleThemes();
     void updateColourTheme();
+    // SONIC_PI_THEME_BENCH=1: measure repeated theme-scheme switches and hue
+    // rotations (the two re-theme triggers), print per-apply timings to stdout
+    // and exit. Runs without the audio server; see runThemeBench().
+    void runThemeBench();
     void colourThemeMenuChanged(int themeID);
     // Follow the OS contrast preference (Windows Contrast Themes, macOS
     // Increase Contrast): auto-switch to the high-contrast theme while the

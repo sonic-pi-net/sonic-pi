@@ -166,6 +166,10 @@ signals:
     void showTabsChanged();
     void logAutoScrollChanged();
     void themeChanged();
+    // A step-repeatable input changed the theme (hue dial via keyboard
+    // autorepeat / scroll wheel): unlike themeChanged, these can arrive in
+    // bursts, so the receiver debounces instead of applying immediately.
+    void themeStepChanged();
     void scopeChanged();
     void scopeLabelsChanged();
     void titlesChanged();

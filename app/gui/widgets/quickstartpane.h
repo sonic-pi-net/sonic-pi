@@ -231,6 +231,9 @@ private:
     };
     QHash<QWidget*, CardHoverFx> m_cardFx; // keyed by card frame
     QTimer* m_hoverTimer = nullptr;
+    // Theme changed while the pane was hidden: the deck rebuild (the
+    // expensive part of applyTheme) is deferred to the next showEvent.
+    bool m_themeDirty = false;
     QWidget* m_hoverCard = nullptr;        // card currently under the pointer
     QPushButton* m_hoverIcon = nullptr;    // icon button currently under the pointer
     // Icon-button glyph swap on hover (normal white glyph <-> contrasting ink).

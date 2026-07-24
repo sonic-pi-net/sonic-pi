@@ -2568,7 +2568,7 @@ void SettingsWidget::hueRotationChanged(int degrees) {
     piSettings->hue_rotation = degrees;
     updateHueDialTint(degrees);   // live feedback on the dial only (arc + centre value)
     if (!m_hueDial || !m_hueDial->isSliderDown())
-        emit themeChanged();      // keyboard/wheel step (not a drag): apply immediately
+        emit themeStepChanged();  // keyboard/wheel step (not a drag): can autorepeat, so debounced
 }
 
 // The three iconic Sonic Pi Greek glyphs (lambda, delta, pi), drawn in a centred

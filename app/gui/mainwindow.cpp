@@ -12,9 +12,11 @@
 //++
 
 // Standard stuff
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <unistd.h>
 
 // Qt stuff
 #include <QAction>
@@ -49,6 +51,7 @@
 #include <QSet>
 #include <QShortcut>
 #include <QTimer>
+#include <QElapsedTimer>
 #include <QSplitter>
 #include <QStackedWidget>
 #include <QStatusBar>
@@ -199,16 +202,22 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
 
     initPaths();
     readSettings();
-    bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
-    APIBootResult boot_success = m_spAPI->Boot(noScsynthInputs);
+    // Theme benchmark mode needs only the widget tree, not audio: skip the
+    // daemon boot so runs are fast and leave no server processes behind.
+    const bool themeBench = !qgetenv("SONIC_PI_THEME_BENCH").isEmpty();
+    if (!themeBench)
+    {
+        bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
+        APIBootResult boot_success = m_spAPI->Boot(noScsynthInputs);
 
-    if (boot_success == APIBootResult::Successful)
-    {
-        std::cout << "[GUI] - API Boot successful" << std::endl;
-    }
-    else
-    {
-        std::cout << "[GUI] - API Boot failed" << std::endl;
+        if (boot_success == APIBootResult::Successful)
+        {
+            std::cout << "[GUI] - API Boot successful" << std::endl;
+        }
+        else
+        {
+            std::cout << "[GUI] - API Boot failed" << std::endl;
+        }
     }
 
     const QRect rect = this->geometry();
@@ -293,7 +302,10 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
     }
 
     // Defer the blocking server wait to the live event loop.
-    QTimer::singleShot(0, this, &MainWindow::completeBoot);
+    if (themeBench)
+        QTimer::singleShot(0, this, &MainWindow::runThemeBench);
+    else
+        QTimer::singleShot(0, this, &MainWindow::completeBoot);
 }
 
 void MainWindow::completeBoot()
@@ -599,15 +611,20 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(showFullscreenChanged()), this, SLOT(updateFullScreenMode()));
     connect(settingsWidget, SIGNAL(showTabsChanged()), this, SLOT(updateTabsVisibility()));
     connect(settingsWidget, SIGNAL(logAutoScrollChanged()), this, SLOT(updateLogAutoScroll()));
-    // The full re-theme (stylesheet regen + repolish of every widget) is heavy
-    // and must not run while an input is being dragged (e.g. the hue dial), or
-    // the UI thread stutters. This timer debounces it off the input path: each
-    // change restarts it, so during a continuous drag nothing re-themes; the
-    // single apply fires once the dial settles (and reads the latest values).
+    // The full re-theme (stylesheet regen + repolish of every widget) is heavy,
+    // so step-repeatable inputs (hue dial via keyboard autorepeat or scroll
+    // wheel — themeStepChanged) must not apply it per step or the UI seizes up
+    // while the backlog drains. This timer debounces them: each step restarts
+    // it, so a held key or wheel flick re-themes once, when the input settles
+    // (reading the latest values). One-shot inputs (theme cards, toggles, dial
+    // drag release — themeChanged) have no burst to coalesce and apply
+    // immediately below.
     themeApplyTimer = new QTimer(this);
     themeApplyTimer->setSingleShot(true);
     themeApplyTimer->setInterval(60);
     connect(themeApplyTimer, &QTimer::timeout, this, [this]() { updateColourTheme(); });
+    connect(settingsWidget, &SettingsWidget::themeStepChanged, this,
+            [this]() { themeApplyTimer->start(); });
     connect(settingsWidget, &SettingsWidget::themeChanged, this, [this]() {
         // The theme buttons emit clicked() (and thus this signal) even when
         // the already-active theme is clicked; updateSettings() has run first
@@ -619,7 +636,9 @@ void MainWindow::setupWindowStructure()
         if (!themeEverApplied
             || static_cast<int>(piSettings->colourScheme) != appliedColourScheme)
             noteExplicitThemeChoice();
-        themeApplyTimer->start();   // debounce: only re-theme once the input settles
+        // Applying now supersedes any pending debounced step apply.
+        themeApplyTimer->stop();
+        updateColourTheme();
     });
     connect(settingsWidget, SIGNAL(scopeChanged()), this, SLOT(scope()));
     connect(settingsWidget, SIGNAL(scopeChanged(QString)), this, SLOT(changeScopeKindVisibility(QString)));
@@ -4229,30 +4248,16 @@ void MainWindow::updateColourTheme()
     if (southTabs)
         applySouthTabIcons();
 
-    // clear stylesheets
-    this->setStyleSheet("");
-    infoWidg->setStyleSheet("");
-    mainWidget->setStyleSheet("");
-    statusBar()->setStyleSheet("");
-    outputPane->setStyleSheet("");
-    outputWidget->setStyleSheet("");
-    prefsWidget->setStyleSheet("");
-    editorTabWidget->setStyleSheet("");
-    // TODO inject to settings Widget
-    // prefTabs->setStyleSheet("");
-    docsNavTabs->setStyleSheet("");
-    docWidget->setStyleSheet("");
-    toolBar->setStyleSheet("");
-    scopeWidget->setStyleSheet("");
-
     QPalette p = theme->createPalette();
     QApplication::setPalette(p);
     theme->reloadStylesheet();
     QString appStyling = theme->getAppStylesheet();
 
     this->setStyleSheet(appStyling);
+    // infoWidg is a separate top-level window, so the main-window stylesheet
+    // doesn't cascade to it; everything else (settings pane, editors, docks)
+    // descends from `this` and inherits the sheet from the single set above.
     infoWidg->setStyleSheet(appStyling);
-    settingsWidget->setStyleSheet(appStyling);
 
     // Re-tint the log history already on screen so it tracks the new theme
     // (scheme / hue / monochrome) instead of keeping the colours it was
@@ -4313,6 +4318,87 @@ void MainWindow::updateColourTheme()
         logsZoom->applyTheme();
     if (debugZoom)
         debugZoom->applyTheme();
+}
+
+void MainWindow::runThemeBench()
+{
+    // Reproduce the interactive setup: main window up with the prefs pane
+    // open (theme cards / hue dial live there), then drive the exact code
+    // path a settled themeApplyTimer fires — updateColourTheme() reading
+    // piSettings. "apply" is the synchronous re-theme cost; "events" is the
+    // event-loop drain afterwards (layout/paint work queued by the apply).
+    show();
+    prefsWidget->show();
+    QApplication::processEvents();
+    updateColourTheme(); // warm-up: first apply pays one-off cache fills
+    QApplication::processEvents();
+
+
+    struct Sample { qint64 apply; qint64 events; };
+    QVector<Sample> schemeSamples, hueSamples;
+    QElapsedTimer t;
+
+    const SonicPiTheme::ColourScheme schemes[] = {
+        SonicPiTheme::LightScheme, SonicPiTheme::DarkScheme,
+        SonicPiTheme::HighContrastScheme, SonicPiTheme::MildDarkScheme,
+        SonicPiTheme::PhosphorScheme, SonicPiTheme::SignalScheme
+    };
+    const int rounds = 5;
+    for (int r = 0; r < rounds; r++)
+    {
+        for (SonicPiTheme::ColourScheme s : schemes)
+        {
+            piSettings->colourScheme = s;
+            t.start();
+            updateColourTheme();
+            const qint64 apply = t.elapsed();
+            t.start();
+            QApplication::processEvents();
+            schemeSamples.append({ apply, t.elapsed() });
+            std::cout << "[THEME-BENCH] scheme apply=" << apply
+                      << "ms events=" << schemeSamples.last().events << "ms"
+                      << std::endl;
+        }
+    }
+
+    for (int r = 0; r < rounds; r++)
+    {
+        for (int hue = 30; hue <= 330; hue += 60)
+        {
+            piSettings->hue_rotation = hue;
+            t.start();
+            updateColourTheme();
+            const qint64 apply = t.elapsed();
+            t.start();
+            QApplication::processEvents();
+            hueSamples.append({ apply, t.elapsed() });
+            std::cout << "[THEME-BENCH] hue apply=" << apply
+                      << "ms events=" << hueSamples.last().events << "ms"
+                      << std::endl;
+        }
+    }
+
+    auto median = [](QVector<qint64> v) {
+        std::sort(v.begin(), v.end());
+        return v[v.size() / 2];
+    };
+    auto report = [&](const char* tag, const QVector<Sample>& samples) {
+        QVector<qint64> applies, events;
+        for (const Sample& s : samples)
+        {
+            applies.append(s.apply);
+            events.append(s.events);
+        }
+        std::cout << "[THEME-BENCH] " << tag << " n=" << samples.size()
+                  << " median_apply=" << median(applies)
+                  << "ms median_events=" << median(events) << "ms" << std::endl;
+    };
+    report("SCHEME", schemeSamples);
+    report("HUE", hueSamples);
+    std::cout.flush();
+    // Skip app/API teardown (nothing was booted) and the settings write —
+    // the bench must not persist the schemes/hues it cycled through.
+    ::_exit(0);
 }
 
 void MainWindow::showLineNumbersMenuChanged()

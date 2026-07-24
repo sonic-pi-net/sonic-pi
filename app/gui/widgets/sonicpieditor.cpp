@@ -90,10 +90,12 @@ void SonicPiEditor::showContext()
 
 void SonicPiEditor::updateColourTheme(QString appStyling,  SonicPiTheme::ColourScheme colourScheme)
 {
+  // No per-workspace stylesheet: the editors live inside the main window, so
+  // the app stylesheet set on it cascades here — a per-tab copy would just
+  // re-parse and re-polish the same sheet once per workspace.
+  Q_UNUSED(appStyling);
 
   m_workspace->setFrameShape(QFrame::NoFrame);
-  m_workspace->setStyleSheet("");
-  m_workspace->setStyleSheet(appStyling);
   m_context->setTextColor(QColor(m_theme->color("LogForeground")));
   if (colourScheme == SonicPiTheme::HighContrastScheme)
     {

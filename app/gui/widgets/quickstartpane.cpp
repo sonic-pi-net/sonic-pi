@@ -401,6 +401,11 @@ QuickstartPane::QuickstartPane(SonicPiTheme* theme, QWidget* parent)
 void QuickstartPane::showEvent(QShowEvent* event)
 {
     QWidget::showEvent(event);
+    if (m_themeDirty)
+    {
+        m_themeDirty = false;
+        rebuild();
+    }
     m_hoverTimer->start();
 }
 
@@ -419,7 +424,13 @@ void QuickstartPane::hideEvent(QHideEvent* event)
 
 void QuickstartPane::applyTheme()
 {
-    rebuild();
+    // The deck rebuild re-creates every card widget, so it's by far the
+    // heaviest single step of a whole-app re-theme. A hidden Cards tab can
+    // take it lazily on next show instead of on every theme/hue change.
+    if (isVisible())
+        rebuild();
+    else
+        m_themeDirty = true;
     if (m_zoomBar)
         m_zoomBar->applyTheme();
 }

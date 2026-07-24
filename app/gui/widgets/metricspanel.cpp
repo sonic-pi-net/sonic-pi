@@ -1295,6 +1295,14 @@ void MetricsPanel::setFontZoom(int level)
 void MetricsPanel::applyTheme(SonicPiTheme* theme)
 {
     m_theme = theme;
+    // Restyling the cell grid (the setStyleSheet below repolishes every cell)
+    // is expensive; a hidden panel takes the re-theme lazily on next show.
+    if (!isVisible())
+    {
+        m_themeDirty = true;
+        return;
+    }
+    m_themeDirty = false;
     m_textColor   = theme->color("LogForeground");
     m_bgColor     = theme->color("LogBackground");
     m_borderColor = theme->color("MarginForeground");
@@ -1419,6 +1427,8 @@ void MetricsPanel::seedMainSplit()
 void MetricsPanel::showEvent(QShowEvent* e)
 {
     QWidget::showEvent(e);
+    if (m_themeDirty && m_theme)
+        applyTheme(m_theme);
     seedMainSplit();
     reflowMetrics();   // snap rows by width + pin the metrics pane height
     revealColumns();

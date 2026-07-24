@@ -170,6 +170,8 @@ private:
     std::shared_ptr<SonicPi::SonicPiAPI> m_api;
     QTimer* m_timer = nullptr;
     SonicPiTheme* m_theme = nullptr;  // active theme, for syntax colours
+    // Theme changed while hidden: applyTheme deferred to the next showEvent.
+    bool m_themeDirty = false;
     int m_fontZoom = 0;               // px offset from the 11px base font
 
     ThinSplitter* m_mainSplit = nullptr; // left (tree + metrics) | right (logs)
