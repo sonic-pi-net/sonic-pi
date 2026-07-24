@@ -2485,7 +2485,7 @@ void MainWindow::update_check_updates()
 
 bool isScopeEnabledByDefault(const QString& name)
 {
-    if (name == "mono" || name == "levels")
+    if (name == "levels" || name == "spectrum")
         return true;
     return false;
 }
