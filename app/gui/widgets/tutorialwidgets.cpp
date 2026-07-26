@@ -390,7 +390,97 @@ public:
         return QString();
     }
 
+    // --- visual-line boundaries ------------------------------------------
+    // The inherited LineBoundary implementations derive "lines" from newline
+    // characters, so a word-wrapped paragraph (which has none) is one giant
+    // "line": VoiceOver's line navigation (plain Up/Down) then speaks the
+    // whole paragraph once per *visual* line it steps through — every block
+    // repeated 2-3 times. Answer with the laid-out QTextLines instead, so
+    // each visual line reads exactly once. Code blocks were never affected
+    // (one newline per line ≙ one visual line).
+    QString textAtOffset(int offset, QAccessible::TextBoundaryType boundaryType,
+                         int* startOffset, int* endOffset) const override
+    {
+        if (boundaryType != QAccessible::LineBoundary)
+            return QAccessibleTextInterface::textAtOffset(offset, boundaryType,
+                                                          startOffset, endOffset);
+        if (!visualLine(offset, startOffset, endOffset))
+        {
+            *startOffset = *endOffset = -1;
+            return QString();
+        }
+        return text(*startOffset, *endOffset);
+    }
+
+    QString textBeforeOffset(int offset, QAccessible::TextBoundaryType boundaryType,
+                             int* startOffset, int* endOffset) const override
+    {
+        if (boundaryType != QAccessible::LineBoundary)
+            return QAccessibleTextInterface::textBeforeOffset(offset, boundaryType,
+                                                              startOffset, endOffset);
+        int s = 0, e = 0;
+        if (!visualLine(offset, &s, &e) || s <= 0 || !visualLine(s - 1, startOffset, endOffset))
+        {
+            *startOffset = *endOffset = -1;
+            return QString();
+        }
+        return text(*startOffset, *endOffset);
+    }
+
+    QString textAfterOffset(int offset, QAccessible::TextBoundaryType boundaryType,
+                            int* startOffset, int* endOffset) const override
+    {
+        if (boundaryType != QAccessible::LineBoundary)
+            return QAccessibleTextInterface::textAfterOffset(offset, boundaryType,
+                                                             startOffset, endOffset);
+        int s = 0, e = 0, next = 0;
+        if (!visualLine(offset, &s, &e, &next) || next > characterCount()
+            || !visualLine(next, startOffset, endOffset))
+        {
+            *startOffset = *endOffset = -1;
+            return QString();
+        }
+        return text(*startOffset, *endOffset);
+    }
+
 private:
+    // Document-offset range [start, end) of the visual (wrapped) line
+    // containing `offset`, with `end` trimmed of the trailing space kept
+    // before a wrap so speech doesn't end on a stray blank. `nextStart` (when
+    // wanted) is where the following visual line begins — past this block's
+    // paragraph separator when the line is the block's last — and exceeds
+    // characterCount() on the document's final line. False when the document
+    // has no laid-out line there.
+    bool visualLine(int offset, int* start, int* end, int* nextStart = nullptr) const
+    {
+        QTextDocument* doc = prose()->document();
+        prose()->heightForWidth(prose()->width()); // ensure the layout is current
+        const int count = characterCount();
+        offset = qBound(0, offset, count);
+        QTextBlock block = doc->findBlock(qMin(offset, qMax(0, count - 1)));
+        if (!block.isValid() || !block.layout())
+            return false;
+        const QTextLayout* lay = block.layout();
+        QTextLine line = lay->lineForTextPosition(
+            qBound(0, offset - block.position(), qMax(0, block.length() - 2)));
+        if (!line.isValid() && lay->lineCount() > 0)
+            line = lay->lineAt(lay->lineCount() - 1);
+        if (!line.isValid())
+            return false;
+        *start = block.position() + line.textStart();
+        const int rawEnd = *start + line.textLength();
+        if (nextStart)
+        {
+            const bool lastInBlock = line.lineNumber() == lay->lineCount() - 1;
+            *nextStart = lastInBlock ? block.position() + block.length() : rawEnd;
+        }
+        *end = rawEnd;
+        // Trim the trailing space a wrapped line keeps before the break.
+        while (*end > *start && text(*end - 1, *end) == QLatin1String(" "))
+            --(*end);
+        return true;
+    }
+
     TutProseText* prose() const { return static_cast<TutProseText*>(widget()); }
 };
 

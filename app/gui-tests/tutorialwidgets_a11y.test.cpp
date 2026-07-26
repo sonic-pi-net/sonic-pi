@@ -251,3 +251,79 @@ TEST_CASE("the piano advertises its keyboard mapping", "[tutorialwidgets][a11y]"
     REQUIRE(iface != nullptr);
     CHECK(iface->text(QAccessible::Name).contains("Piano"));
 }
+
+TEST_CASE("line navigation yields each visual line once, not the paragraph",
+          "[tutorialwidgets][a11y]")
+{
+    // VoiceOver's plain Up/Down arrows read by *visual* line via the text
+    // interface's LineBoundary queries. The inherited implementations derive
+    // lines from newline characters, so a wrapped paragraph (which has none)
+    // came back whole for every visual line the cursor stepped through —
+    // spoken 2-3 times per paragraph (user report). Lines must instead map to
+    // the laid-out QTextLines.
+    registerTutorialWidgetAccessibility();
+    TutProseText prose(nullptr);
+    prose.setHtml(
+        "<p>One of the most exciting aspects of Sonic Pi is that it enables "
+        "you to write and modify code live to make music, just like you "
+        "might perform live with a guitar.</p>"
+        "<p>Second paragraph closes the page.</p>");
+    prose.resize(180, 800);   // narrow enough to force the first paragraph to wrap
+
+    QAccessibleInterface* iface = QAccessible::queryAccessibleInterface(&prose);
+    REQUIRE(iface != nullptr);
+    QAccessibleTextInterface* text = iface->textInterface();
+    REQUIRE(text != nullptr);
+
+    // Offset 0 must yield the first visual line — a fragment, not the paragraph.
+    int s = -1, e = -1;
+    const QString firstLine =
+        text->textAtOffset(0, QAccessible::LineBoundary, &s, &e);
+    REQUIRE(s == 0);
+    REQUIRE(e > 0);
+    CHECK(firstLine.size() < 60);   // the paragraph itself is ~160 chars
+
+    // Walk the whole document line by line: ranges advance strictly, nothing
+    // repeats, and both paragraphs are visited.
+    QStringList lines;
+    int offset = 0;
+    for (int guard = 0; guard < 100; ++guard) {
+        int ls = -1, le = -1;
+        const QString line =
+            text->textAtOffset(offset, QAccessible::LineBoundary, &ls, &le);
+        if (ls < 0)
+            break;
+        lines << line;
+        int as = -1, ae = -1;
+        text->textAfterOffset(offset, QAccessible::LineBoundary, &as, &ae);
+        if (as < 0)
+            break;
+        REQUIRE(as > ls);   // strictly forward - a repeat would loop here
+        offset = as;
+    }
+    CHECK(lines.size() >= 3);   // wrapped paragraph (2+) plus the second one
+    for (int i = 1; i < lines.size(); ++i)
+        CHECK(lines[i] != lines[i - 1]);
+    // Joined, the walk reconstructs both paragraphs (wrap points are
+    // font-dependent, so no exact per-line text assertions).
+    CHECK(lines.join(' ').contains("perform live with a guitar."));
+    CHECK(lines.join(' ').contains("Second paragraph closes the page."));
+
+    // An offset in the middle of the paragraph resolves to its own short
+    // line too (this is the exact query the repetition bug got wrong).
+    int ms = -1, me = -1;
+    const QString mid =
+        text->textAtOffset(text->characterCount() / 2, QAccessible::LineBoundary, &ms, &me);
+    CHECK(mid.size() < 60);
+    CHECK(ms > 0);
+
+    // Stepping backwards from the second line lands on the first.
+    int bs = -1, be = -1;
+    int l2s = -1, l2e = -1;
+    text->textAfterOffset(0, QAccessible::LineBoundary, &l2s, &l2e);
+    REQUIRE(l2s > 0);
+    const QString back =
+        text->textBeforeOffset(l2s, QAccessible::LineBoundary, &bs, &be);
+    CHECK(bs == 0);
+    CHECK(back == firstLine);
+}
