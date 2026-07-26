@@ -4375,8 +4375,11 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :detune =>
           {
             :doc => "Detune in MIDI notes of original pitch for the rimshot's timbre.",
-            :validations => [v_positive_not_zero(:detune)],
-            :modulatable => false
+            # A semitone offset (the default is -22), not a ratio like the conga/tom
+            # detunes — negative values are the norm, so no positivity constraint.
+            :validations => [],
+            :modulatable => false,
+            :type => :semitones
           },
           :decay_curve =>
           {
