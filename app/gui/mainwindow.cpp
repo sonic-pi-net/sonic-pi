@@ -343,12 +343,17 @@ void MainWindow::pollServerReady()
 
     if (m_spAPI->HasServerErrored() || --boot_poll_tries <= 0)
     {
+        // Prefer the server's own boot-error report (e.g. "SuperSonic Audio
+        // Server Boot Error: no audio device / crashed with signal …") — the
+        // generic connect failure is only accurate when no such report ever
+        // arrived. The daemon sends that report at the same moment its exit
+        // flips HasServerErrored, so the OSC can trail the flag by a few ms:
+        // give it a few more ticks to land before settling for the generic.
+        QString serverError = m_spClient->GetStartupErrorText();
+        if (serverError.isEmpty() && boot_poll_tries > 0 && ++boot_error_grace_ticks <= 5)
+            return;
         boot_poll_timer->stop();
         std::cout << "[GUI] - Critical Error. Unable to connect to server.." << std::endl;
-        // Prefer the server's own boot-error report (e.g. "SuperSonic Audio
-        // Server Boot Error: crashed with signal …") — the generic connect
-        // failure is only accurate when no such report ever arrived.
-        QString serverError = m_spClient->GetStartupErrorText();
         startupError(serverError.isEmpty()
                          ? tr("GUI was unable to connect to the Ruby server.")
                          : serverError);

@@ -714,6 +714,10 @@ private:
     SplashWidget* splash;
     QTimer* boot_poll_timer = nullptr;
     int boot_poll_tries = 0;
+    // Extra poll ticks granted after HasServerErrored() flips, so the daemon's
+    // /exited-with-boot-error report (which trails the flag by a few ms) can
+    // land and its specific message beat the generic connect error.
+    int boot_error_grace_ticks = 0;
 
     bool i18n;
     static const int workspace_max = 10;

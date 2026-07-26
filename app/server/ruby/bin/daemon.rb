@@ -279,7 +279,7 @@ module SonicPi
           msg = "SuperSonic Audio Server Boot Error\nSuperSonic failed to boot"
           detail = @supersonic_booter.boot_failure_description
           msg = "#{msg}\n#{detail}" if detail
-          if Util.os == :macos && detail
+          if Util.os == :macos && detail && detail.include?("exited during boot")
             msg = "#{msg}\nIf it crashed, macOS wrote a crash report to ~/Library/Logs/DiagnosticReports/supersonic-*.ips - please attach the most recent one when reporting this."
           end
           @api_server.send("localhost", @ports["gui-listen-to-spider"], "/exited-with-boot-error", msg)
@@ -915,6 +915,7 @@ module SonicPi
             else
               Util.log "Unable to connect to SuperSonic"
               log_tail_to_daemon_log
+              note_unresponsive_boot
               return false
             end
           rescue StandardError => e
@@ -922,6 +923,7 @@ module SonicPi
             @success.deliver! false, false
             t.kill
             log_tail_to_daemon_log
+            note_unresponsive_boot
             return false
           end
         end
@@ -933,6 +935,29 @@ module SonicPi
       attr_reader :boot_failure_description
 
       private
+
+      # The handshake timed out with the SuperSonic process still alive. The
+      # usual cause is that no audio device could be opened (the engine's OSC
+      # handling rides the audio callback, so a deviceless engine can't answer)
+      # — SuperSonic logs that explicitly, so read it back from the log tail
+      # and say so, instead of the GUI showing a generic connect error that
+      # reads as a server crash (sonic-pi#3551).
+      def note_unresponsive_boot
+        return if @boot_failure_description
+        no_device = begin
+                      File.readlines(@log_path).last(30)
+                          .any? { |l| l.include?("no audio device available") }
+                    rescue StandardError
+                      false
+                    end
+        @boot_failure_description =
+          if no_device
+            "SuperSonic could not find an audio device.\n" \
+            "Another application may be holding it, or no audio system (PipeWire / ALSA / CoreAudio / WASAPI) is available."
+          else
+            "SuperSonic is running but did not answer the boot handshake."
+          end
+      end
 
       # The boot failed because the SuperSonic process is gone — a very
       # different failure from "running but not responding", so say so
