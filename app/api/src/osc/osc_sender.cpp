@@ -41,6 +41,11 @@ bool OscSender::sendOSC(Message m)
     {
         PacketWriter pw;
         pw.addMessage(m);
+        if (pw.packetSize() > 65507)
+        {
+            LOG(ERR, "[OSC Sender] - Message too large for a UDP datagram (" << pw.packetSize() << " bytes): " << m.addressPattern());
+            return false;
+        }
         return sock.sendPacket(pw.packetData(), pw.packetSize());
     }
 }

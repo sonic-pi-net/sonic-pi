@@ -353,6 +353,16 @@ private:
       if (handle == -1)
         continue;
 
+      /* raise (never lower) the send buffer so datagrams up to the UDP
+         maximum (65507 bytes) can be sent -- macOS otherwise caps sends at
+         net.inet.udp.maxdgram (9216) */
+      int sndbuf = 0;
+      socklen_t sndbuf_len = sizeof(sndbuf);
+      if (getsockopt(handle, SOL_SOCKET, SO_SNDBUF, (char *)&sndbuf, &sndbuf_len) != 0 || sndbuf < 65535) {
+        sndbuf = 65535;
+        setsockopt(handle, SOL_SOCKET, SO_SNDBUF, (const char *)&sndbuf, sizeof(sndbuf));
+      }
+
       if (binding) {
         if (bind(handle, rp->ai_addr, (socklen_t)rp->ai_addrlen) != 0) {
           close();

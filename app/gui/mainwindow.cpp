@@ -3223,9 +3223,13 @@ void MainWindow::onErrorAnchorClicked(const QUrl& link)
     }
 }
 
+// Largest code payload that fits a single UDP datagram to the spider
+// (65507 bytes minus headroom for the OSC envelope and pref-wrapped code).
+static constexpr int kMaxRunnableBufferBytes = 65000;
+
 void MainWindow::showBufferCapacityError()
 {
-    showError("<h2 class=\"syntax_error_description\"><pre>GUI Error: Buffer Full</pre></h2><pre class=\"error_msg\"> Your code buffer has reached capacity. <br/> Please remove some code before continuing. <br/><span class=\"error_line\"> For working with very large buffers use: <br/> run_file \"/path/to/buffer.rb\"</span></pre>");
+    showError("<h2 class=\"syntax_error_description\"><pre>GUI Error: Buffer Full</pre></h2><pre class=\"error_msg\"> Your code buffer has reached capacity (max 64KB). <br/> Please remove some code before continuing. <br/><span class=\"error_line\"> For working with very large buffers use: <br/> run_file \"/path/to/buffer.rb\"</span></pre>");
 }
 
 void MainWindow::runCode()
@@ -7028,8 +7032,14 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
 
     // No wait cursor: the read is instant, and building the cursor image can
     // crash in Qt's Cocoa colorspace path (CGImageCreate PAC trap, 2026-07-02)
-    text->setText(in.readAll());
+    QString contents = in.readAll();
+    text->setText(contents);
     file.close();
+
+    if (contents.toUtf8().size() > kMaxRunnableBufferBytes)
+    {
+        showError("<h2 class=\"syntax_error_description\"><pre>GUI Warning: Large File</pre></h2><pre class=\"error_msg\"> This file is larger than a buffer can run (max 64KB). <br/> You can edit it here, but pressing Run will fail. <br/><span class=\"error_line\"> To run it directly use: <br/> run_file \"" + fileName.toHtmlEscaped() + "\"</span></pre>");
+    }
     showStatusAndAnnounce(tr("File loaded..."), 2000);
 }
 

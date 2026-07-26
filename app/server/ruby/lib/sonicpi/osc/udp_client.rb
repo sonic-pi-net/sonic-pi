@@ -25,6 +25,10 @@ module SonicPi
         @port = port
         @encoder = OscEncode.new(true)
         @so = UDPSocket.new
+        begin
+          @so.setsockopt(:SOCKET, :SNDBUF, 65535) if @so.getsockopt(:SOCKET, :SNDBUF).int < 65535
+        rescue StandardError
+        end
         @so.connect(host, port)
       end
 

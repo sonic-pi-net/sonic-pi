@@ -28,6 +28,10 @@ module SonicPi
         @port = port
         @opts = opts
         @socket = UDPSocket.new
+        begin
+          @socket.setsockopt(:SOCKET, :SNDBUF, 65535) if @socket.getsockopt(:SOCKET, :SNDBUF).int < 65535
+        rescue StandardError
+        end
         if open
           @socket.bind('', port )
         else
@@ -85,7 +89,7 @@ module SonicPi
       def start_listener(suppress_errors = true)
         Kernel.loop do
           begin
-            osc_data, sender_addrinfo = @socket.recvfrom( 16384 )
+            osc_data, sender_addrinfo = @socket.recvfrom( 65536 )
             address, args = @decoder.decode_single_message(osc_data)
           rescue Exception => e
             STDERR.puts "\n==========="
