@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic' RC2](#v5.0.0-rc2), To be released...
+- [v5.0.0 'SuperSonic' RC3](#v5.0.0-rc3), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,7 +35,25 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0-rc2"></a>
+<a name="v5.0.0-rc3"></a>
+
+## Version 5.0.0 'SuperSonic' RC3
+
+The third release candidate of v5 featuring further fixes and polish.
+
+As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### GUI
+* New: code completion for samples now shows each sample's details along with a preview player, so you can listen before you pick.
+
+### Accessibility
+* Screen readers now step through the Docs prose by visual line, rather than reading a whole paragraph for every line you arrow past.
+
+### Fixes
+* Further improvements to the doc zooming layout.
+* Code buffers can now hold much more code — up to 64KB (roughly 2,500 lines) on every platform. The previous limit was around 9KB on macOS and 16KB on Linux and Windows, where exceeding it made Run fail silently.
+* Correctly build PipeWire into Linux AppImages.
+* Fixed the audio engine crashing on boot on macOS 14 Sonoma while setting up gamepad support.
 
 ## Version 5.0.0 'SuperSonic' RC2
 
