@@ -13,10 +13,10 @@
 
 // Standard stuff
 #include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <unistd.h>
 
 // Qt stuff
 #include <QAction>
@@ -4403,7 +4403,7 @@ void MainWindow::runThemeBench()
     std::cout.flush();
     // Skip app/API teardown (nothing was booted) and the settings write —
     // the bench must not persist the schemes/hues it cycled through.
-    ::_exit(0);
+    std::_Exit(0);
 }
 
 void MainWindow::showLineNumbersMenuChanged()
