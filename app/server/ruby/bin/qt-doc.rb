@@ -554,6 +554,20 @@ sample_doc_opts.each do |ak, d|
   docs << "  autocomplete->setDoc(\"#{ak}:\", #{qutf8_doc.call("<p>#{opt_doc_html.call(d)}</p>")});\n" unless d.empty?
 end
 
+# Per-sample summary/usage/doc so the completion helper pane lights up for
+# sample rows like it does for synths: group blurb as the pane content, the
+# group name as the row's dimmed summary (the GUI appends duration/format info
+# it parses from the audio file headers at load).
+docs << "\n  // built-in sample summaries/docs for the completion helper pane\n"
+SonicPi::Synths::SynthInfo.grouped_samples.each do |_, v|
+  desc = v[:desc].to_s
+  v[:samples].each do |s|
+    docs << "  autocomplete->setSummary(\":#{s}\", QString::fromUtf8(\"#{desc}\"));\n"
+    docs << "  autocomplete->setUsage(\":#{s}\", \"sample :#{s}\");\n"
+    docs << "  autocomplete->setDoc(\":#{s}\", #{qutf8_doc.call("<p>One of the built-in <b>#{desc}</b> samples.</p>")});\n"
+  end
+end
+
 def generate_ui_lang_names
   # Define the language list map -----
   ui_languages = @lang_names.keys

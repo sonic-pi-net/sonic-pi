@@ -17,6 +17,7 @@
 #include <cmath>
 #include <QRegularExpression>
 #include "scintilla_api.h"
+#include "sampleheaderinfo.h"
 #include "completion_context.h"
 #include "completion_argkinds.gen.h"
 
@@ -127,6 +128,9 @@ void ScintillaAPI::loadSamples(QString sample_path) {
   QFileInfoList files = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
   foreach (QFileInfo file, files) {
     addSymbol(Sample, file.baseName());
+    const QString info = SonicPi::sampleHeaderInfo(file.filePath());
+    if (!info.isEmpty())
+      sampleInfo.insert(":" + file.baseName(), info);
   }
 }
 
@@ -367,6 +371,15 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
     item.summary = summaries.value(n);
     item.usage = usages.value(n);
     item.doc = docs.value(n);
+    if (lastKind == "sample") {
+      // Duration/format parsed from the audio file header at load: rides the
+      // dimmed row summary (browsable lengths) and the helper-pane prose.
+      const QString info = sampleInfo.value(n);
+      if (!info.isEmpty()) {
+        item.summary = item.summary.isEmpty() ? info : item.summary + " · " + info;
+        item.doc += "<p>" + info + "</p>";
+      }
+    }
     if (isChord || isScale) {
       const QList<int>& table = (isChord ? chordIntervals : scaleIntervals).value(bareName(n));
       if (!table.isEmpty()) { item.intervals = table; item.note = tonic; }

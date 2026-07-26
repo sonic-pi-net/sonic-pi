@@ -154,6 +154,8 @@ set(QT_SOURCES
 
 set(SOURCES
     ${QTAPP_ROOT}/main.cpp
+    ${QTAPP_ROOT}/utils/sampleheaderinfo.cpp
+    ${QTAPP_ROOT}/utils/sampleheaderinfo.h
     ${QTAPP_ROOT}/utils/scintilla_api.cpp
     ${QTAPP_ROOT}/utils/setbundle.cpp
     ${QTAPP_ROOT}/utils/setbundle.h

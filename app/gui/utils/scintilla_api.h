@@ -109,6 +109,7 @@ class ScintillaAPI : public QsciAbstractAPIs
   QHash<QString, QString> usages;
   struct OptRange { double lo, hi, def; };
   QHash<QString, OptRange> optRanges;
+  QHash<QString, QString> sampleInfo;   // ":name" -> "0.87s · stereo · 44.1 kHz"
   QHash<QString, QStringList> optOptions;   // enum opt -> valid values
   QHash<QString, QList<int>> chordIntervals;   // bare name -> semitone offsets
   QHash<QString, QList<int>> scaleIntervals;

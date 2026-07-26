@@ -14,6 +14,7 @@
 #include <QList>
 #include <QColor>
 #include <QIcon>
+#include <QModelIndex>
 
 #include "utils/scintilla_api.h"
 
@@ -87,6 +88,9 @@ public:
     QColor selectionFg() const { return m_selFg; }
     QColor textColor()   const { return m_text; }
     QColor backgroundColor() const { return m_bg; }
+    // Row whose inline ▶ glyph the pointer is over (-1: none) — sample rows
+    // paint the glyph hot when it's theirs. Read by the delegate.
+    int playHoverRow() const { return m_playHoverRow; }
 
 protected:
     void paintEvent(QPaintEvent*) override;   // rounded background + border
@@ -160,6 +164,13 @@ private:
     QLabel* m_usageCard = nullptr;       // canonical calling form in a rounded code card
     QTextBrowser* m_detail = nullptr;    // scrollable rich-text docstring (right of the list); QTextBrowser for in-doc anchor jumps
     QToolButton* m_docsButton = nullptr; // "Docs ↗" — opens the help pane for the row
+    QToolButton* m_playButton = nullptr; // "▶ Play" — auditions the highlighted sample
+    // Audition `:name` through the shared preview path (real-time, no log).
+    void auditionSample(const QString& name);
+    // The inline ▶ glyph's rect for a sample row (viewport coords), mirroring
+    // the delegate's paint math; null rect for non-sample rows.
+    QRect samplePlayRect(const QModelIndex& idx) const;
+    int m_playHoverRow = -1;
     QToolButton* m_closeButton = nullptr; // "×" top-right — dismiss, same as Escape
     int m_closeIconPx = -1;               // last icon size rendered (avoids re-render per tween frame)
     // Last global pointer position seen over the list. Hover only follows

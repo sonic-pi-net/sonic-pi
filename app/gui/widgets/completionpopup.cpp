@@ -9,6 +9,7 @@
 //++
 
 #include "completionpopup.h"
+#include <QAbstractItemView>
 #include "dpi.h"
 #include "utils/instrument_icons.h"
 #include "utils/reducedmotion.h"
@@ -148,6 +149,8 @@ public:
                     : m_popup->nameColumnX() + fm.horizontalAdvance(name);
         if (kind == "synth" || kind == "fx")
             w += (h - 6) * 32 / 18 + 16; // room for the right-aligned identity icon
+        if (kind == "sample")
+            w += kGap + (h - 10);        // room for the inline ▶ audition glyph
         return QSize(w + kRowHPad, h);
     }
 
@@ -223,6 +226,33 @@ public:
         p->setPen(selected ? m_popup->selectionFg() : m_popup->textColor());
         p->drawText(QRect(nameX, opt.rect.top(), fm.horizontalAdvance(name), opt.rect.height()),
                     Qt::AlignVCenter | Qt::AlignLeft, name);
+
+        // Sample rows carry an inline ▶ audition glyph, right-aligned so the
+        // glyphs form a column (like the synth/fx identity icons): outline
+        // circle at rest, filled while the pointer is over it (the popup
+        // tracks that row; clicks are routed in its eventFilter).
+        if (kind == "sample") {
+            const int d = opt.rect.height() - 10;
+            // Item rects are only as wide as their own content, so anchor to
+            // the viewport's right edge for a straight column.
+            const auto* view = qobject_cast<const QAbstractItemView*>(opt.widget);
+            const int right = view ? view->viewport()->width() : opt.rect.right();
+            const QRect g(right - kRowHPad - d, cy - d / 2, d, d);
+            const bool hot = m_popup->playHoverRow() == index.row();
+            const QColor c = selected ? m_popup->selectionFg() : m_popup->selectionBg();
+            p->setPen(QPen(c, 1.2));
+            p->setBrush(hot ? c : QColor(Qt::transparent));
+            p->drawEllipse(g);
+            // The triangle, nudged right of centre so it reads as ▶ not ◆.
+            const qreal s = d * 0.28;
+            const QPointF ctr(g.center().x() + s * 0.25 + 1, g.center().y() + 0.5);
+            QPolygonF tri({ QPointF(ctr.x() - s, ctr.y() - s),
+                            QPointF(ctr.x() - s, ctr.y() + s),
+                            QPointF(ctr.x() + s, ctr.y()) });
+            p->setPen(Qt::NoPen);
+            p->setBrush(hot ? (selected ? m_popup->selectionBg() : m_popup->backgroundColor()) : c);
+            p->drawPolygon(tri);
+        }
 
         // Synth/fx rows carry their identity icon, right-aligned
         if (kind == "synth" || kind == "fx") {
@@ -1059,6 +1089,18 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     m_docsButton->setCursor(Qt::PointingHandCursor);
     m_docsButton->setFocusPolicy(Qt::NoFocus);
     m_docsButton->setToolTip(tr("Open the help pane for this entry"));
+    m_playButton = new QToolButton;
+    m_playButton->setObjectName("completionPlayButton");
+    m_playButton->setText(tr("▶ Play"));
+    m_playButton->setCursor(Qt::PointingHandCursor);
+    m_playButton->setFocusPolicy(Qt::NoFocus);
+    m_playButton->setToolTip(tr("Play this sample"));
+    connect(m_playButton, &QToolButton::clicked, this, [this]() {
+        const QModelIndex idx = m_view->currentIndex();
+        if (idx.isValid())
+            auditionSample(idx.data(Qt::DisplayRole).toString());
+    });
+
     connect(m_docsButton, &QToolButton::clicked, this, [this]() {
         const QModelIndex idx = m_view->currentIndex();
         if (idx.isValid()) emit docsRequested(idx.data(Qt::DisplayRole).toString());
@@ -1105,8 +1147,10 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     auto* btnRow = new QHBoxLayout;
     btnRow->setContentsMargins(8, 6, 12, 10);
     btnRow->addStretch(1);
+    btnRow->addWidget(m_playButton);
     btnRow->addWidget(m_docsButton);
     paneLayout->addLayout(btnRow);
+    m_playButton->setVisible(false);
 
     m_detailPane->setVisible(false);
     m_piano->setVisible(false);
@@ -1275,6 +1319,10 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
         "#completionDocsButton { background: transparent; color: %4; border: 1px solid %2;"
         " border-radius: 4px; padding: 3px 10px; font-size: 11px; }"
         "#completionDocsButton:hover { background: %4; color: %1; border-color: %4; }"
+        // Accent border marks it playable (the docs pane's convention).
+        "#completionPlayButton { background: transparent; color: %4; border: 1px solid %4;"
+        " border-radius: 4px; padding: 3px 10px; font-size: 11px; }"
+        "#completionPlayButton:hover { background: %4; color: %1; }"
         // margin/padding zeroed explicitly: the app-wide QToolButton rule's 6dx
         // margins + 4dx padding would otherwise consume this tiny button's whole
         // box, leaving a hoverable but invisible widget.
@@ -1364,8 +1412,59 @@ bool CompletionPopup::eventFilter(QObject* obj, QEvent* ev)
                 m_hoverAnchorGlobal = g;   // re-anchor the triangle to the pointer
             }
         }
+        // Track the inline ▶ glyph under the pointer (hot repaint + cursor).
+        const QModelIndex idx = m_view->indexAt(me->position().toPoint());
+        const int row = (idx.isValid()
+                         && samplePlayRect(idx).contains(me->position().toPoint()))
+                            ? idx.row() : -1;
+        if (row != m_playHoverRow) {
+            m_playHoverRow = row;
+            m_view->viewport()->setCursor(row >= 0 ? Qt::PointingHandCursor
+                                                   : Qt::ArrowCursor);
+            m_view->viewport()->update();
+        }
+    }
+    else if (m_view && obj == m_view->viewport()
+             && (ev->type() == QEvent::MouseButtonPress
+                 || ev->type() == QEvent::MouseButtonDblClick)) {
+        // A press on a sample row's ▶ glyph auditions instead of accepting —
+        // swallowed here so the view never turns it into a clicked() accept.
+        auto* me = static_cast<QMouseEvent*>(ev);
+        const QModelIndex idx = m_view->indexAt(me->position().toPoint());
+        if (me->button() == Qt::LeftButton && idx.isValid()
+            && samplePlayRect(idx).contains(me->position().toPoint())) {
+            m_view->setCurrentIndex(idx);
+            auditionSample(idx.data(Qt::DisplayRole).toString());
+            return true;
+        }
+    }
+    else if (m_view && obj == m_view->viewport() && ev->type() == QEvent::Leave) {
+        if (m_playHoverRow != -1) {
+            m_playHoverRow = -1;
+            m_view->viewport()->setCursor(Qt::ArrowCursor);
+            m_view->viewport()->update();
+        }
     }
     return QWidget::eventFilter(obj, ev);
+}
+
+void CompletionPopup::auditionSample(const QString& name)
+{
+    if (!name.startsWith(':')) return;
+    // Same audition path as the synth/fx piano keys: real-time, no log spam.
+    emit auditionRequested("use_real_time\nuse_debug false\nsample " + name);
+}
+
+QRect CompletionPopup::samplePlayRect(const QModelIndex& idx) const
+{
+    if (!idx.isValid() || idx.data(KindRole).toString() != QLatin1String("sample"))
+        return QRect();
+    // The hit box is the row's whole right-hand end (full height, glyph
+    // column plus its padding) — a comfortable target, not just the circle.
+    const QRect row = m_view->visualRect(idx);
+    const int d = row.height() - 10;
+    const int left = m_view->viewport()->width() - kRowHPad - d - kGap;
+    return QRect(left, row.top(), m_view->viewport()->width() - left, row.height());
 }
 
 // True while the pointer is inside the triangle spanning from where the
@@ -1618,6 +1717,9 @@ void CompletionPopup::updateDetail()
         }
         // Offer a jump-to-docs affordance only when there's a real docstring.
         m_docsButton->setVisible(!doc.isEmpty());
+        // Sample rows get an audition affordance (the sample analogue of the
+        // synth rows' clickable piano).
+        m_playButton->setVisible(curKind == "sample");
         m_detailPane->setVisible(true);
     } else {
         m_detailPane->setVisible(false);
