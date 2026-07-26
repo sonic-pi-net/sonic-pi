@@ -161,7 +161,6 @@ module SonicPi
         # This is where the Daemon begins and ends.
 
         @spider_booter     = nil
-        @compton_booter    = nil
         @supersonic_booter = nil
 
         # Set (only) by cleanup_any_running_processes BEFORE it sends /quit to
@@ -173,9 +172,6 @@ module SonicPi
         else
           Util.log "SuperSonic inputs enabled by GUI"
         end
-
-        #start compton to handle transparency (needs to be after Util.open_log)
-        @compton_booter = ComptonBooter.new if Util.os == :raspberry
 
         # Get a map of port numbers to use
         #
@@ -324,7 +320,7 @@ module SonicPi
           end
         end
 
-        [@spider_booter, @supersonic_booter, @compton_booter].map do |p|
+        [@spider_booter, @supersonic_booter].map do |p|
           Thread.new do
             begin
               p.kill if p
@@ -683,7 +679,9 @@ module SonicPi
             Util.log "Process #{@pid.inspect} terminated"
           end
         else
-          Util.log "Process Booter - no need to kill #{@cmd} with pid #{@pid} and args #{@args.inspect} - already terminated, wait_thr status: #{@wait_thr}, #{@wait_thr.status}"
+          # @wait_thr is nil when boot itself failed (e.g. the binary doesn't
+          # exist) - this log must not raise or it aborts the cleanup sweep.
+          Util.log "Process Booter - no need to kill #{@cmd} with pid #{@pid} and args #{@args.inspect} - already terminated, wait_thr status: #{@wait_thr}, #{@wait_thr ? @wait_thr.status : 'never spawned'}"
         end
 
 
@@ -727,15 +725,6 @@ module SonicPi
         cmd = "jackd"
         args = ["-T", "-d", "dummy", "-r", "48000", "-p", "1024"]
         super(cmd, args, Paths.jackd_log_path)
-      end
-    end
-
-    class ComptonBooter < ProcessBooter
-      def initialize
-        cmd = "compton"
-        args = []
-        log_file = nil
-        super(cmd, args, log_file)
       end
     end
 
