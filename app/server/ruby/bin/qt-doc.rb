@@ -332,6 +332,12 @@ qutf8_doc = lambda do |raw|
 end
 # opt name -> short doc, collected across all synths/fx (first one wins).
 opt_summaries = {}
+# Every synth/FX that carries each opt, with its raw validations. The slider
+# range emitted further down is global per opt name (first definition wins),
+# but each synth validates independently — so every offered edge is checked
+# against every owner below, and the docs build aborts on a mismatch instead
+# of shipping a slider whose edge the engine rejects at runtime.
+opt_validations = {}
 
 # An opt's default value as a bare display string, or nil when there's no
 # meaningful one (consumers wrap it in backticks as needed).
@@ -386,6 +392,9 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   v.arg_info.each do |ak, av|
     docs << "<< \"#{ak}:\" ";
     opt_summaries[ak] ||= av if av[:doc]
+    if (vals = (v.info[ak] || {})[:validations])
+      (opt_validations[ak] ||= []) << [":#{safe_k}", av, vals]
+    end
   end
   docs << ";\n"
   docs << "  autocomplete->addFXArgs(\":#{safe_k}\", fxtmp);\n"
@@ -402,6 +411,9 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   v.arg_info.each do |ak, av|
     docs << "<< \"#{ak}:\" ";
     opt_summaries[ak] ||= av if av[:doc]
+    if (vals = (v.info[ak] || {})[:validations])
+      (opt_validations[ak] ||= []) << [":#{k}", av, vals]
+    end
   end
   docs << ";\n"
   docs << "  autocomplete->addSynthArgs(\":#{k}\", fxtmp);\n"
@@ -411,6 +423,78 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
 end
 
 docs << "  // opt headings (the opt name) + default/slidable + full docstrings\n"
+# One owner's slider range for an opt — [lo, hi, default, lo_excl, hi_excl] or
+# nil when there's nothing to hang a slider on. MIDI-note opts (flagged :midi:
+# cutoff, band_eq's freq) have no :type range but get a musical one rather
+# than the "4x the default" fallback, which offers ultrasonic values (a filter
+# fed midicps(186), roughly 384kHz, explodes into full-scale noise).
+derive_opt_range = lambda do |ak, info, prefer_bounds|
+  midi_ranges = { "cutoff" => [30.0, 130.0, 100.0] }
+  bounds = info[:bounds] || {}
+  # Bounded by its validations (e.g. res, pulse_width) → a constraint-respecting
+  # slider, derived from the engine's own constraints rather than a hardcoded
+  # range. Exclusivity rides along so an open bound (res: < 1) is never offered
+  # at its edge — setOptRange pulls it one slider step inside.
+  from_bounds = lambda do
+    if bounds.key?(:min) && bounds.key?(:max)
+      lo, hi = bounds[:min].to_f, bounds[:max].to_f
+      dv = info[:default].is_a?(Numeric) ? [[info[:default].to_f, lo].max, hi].min : (lo + hi) / 2.0
+      [lo, hi, dv, bounds[:min_incl] == false, bounds[:max_incl] == false]
+    elsif bounds.key?(:min) && info[:default].is_a?(Numeric)
+      # One-sided (min only) → a soft slider anchored on the default; values beyond
+      # it are still allowed (the real constraint is shown in the opt's docs). The
+      # soft top is ours (always valid); only the engine's min can be exclusive.
+      lo, dv = bounds[:min].to_f, info[:default].to_f
+      hi = dv > lo ? lo + (dv - lo) * 4.0 : lo + 1.0
+      [lo, hi, dv, bounds[:min_incl] == false, false]
+    elsif bounds.key?(:max) && info[:default].is_a?(Numeric)
+      hi, dv = bounds[:max].to_f, info[:default].to_f
+      lo = dv < hi ? hi - (hi - dv) * 4.0 : hi - 1.0
+      [lo, hi, dv, false, bounds[:max_incl] == false]
+    end
+  end
+  # Owner-scoped overrides exist because the semantic (:type/midi) range clashed
+  # with the owner's validations — there, the validation bounds must win. The
+  # global range keeps the semantic-first order (musical ranges beat wide-open
+  # or default-anchored ones).
+  if prefer_bounds && (early = from_bounds.call)
+    early
+  elsif (mr = midi_ranges[ak.to_s]) && !info[:range]
+    [mr[0], mr[1], mr[2], false, false]
+  elsif info[:midi] && !info[:range] && !(bounds.key?(:min) && bounds.key?(:max))
+    dv = info[:default].is_a?(Numeric) ? [[info[:default].to_f, 30.0].max, 130.0].min : 100.0
+    [30.0, 130.0, dv, false, false]
+  elsif (r = info[:range])
+    dv = info[:default].is_a?(Numeric) ? info[:default].to_f : ((r[0] + r[1]) / 2.0)
+    [r[0].to_f, r[1].to_f, dv, false, false]
+  else
+    from_bounds.call
+  end
+end
+
+# The first validation failure any value a slider range can offer (its
+# effective edges or its default) would hit under `validations`, or nil.
+# Mirrors scintilla_api.cpp's makeRange: an exclusive edge retreats one
+# display-grid step before it is offered, so that retreated value is what
+# must validate.
+range_violation = lambda do |ak, range, validations|
+  lo, hi, dv, lo_x, hi_x = range
+  grid = 10.0**(Math.log10(hi - lo).floor - 2)
+  lo_eff = lo_x ? lo + grid : lo
+  hi_eff = hi_x ? hi - grid : hi
+  validations.each do |fn, msg, _meta|
+    [lo_eff, hi_eff, dv].each do |edge|
+      ok = begin
+        fn.call({ ak.to_sym => edge })
+      rescue StandardError
+        true # validation needs other opts to evaluate — not checkable here
+      end
+      return [edge, msg] unless ok
+    end
+  end
+  nil
+end
+
 opt_summaries.each do |ak, info|
   # HTML, like the synth/fx docs, for consistent block spacing.
   meta = []
@@ -428,44 +512,32 @@ opt_summaries.each do |ak, info|
   docs << "  autocomplete->setSummary(\"#{ak}:\", QString::fromUtf8(\"#{ak}:\"));\n"
   docs << "  autocomplete->setDoc(\"#{ak}:\", #{qutf8_doc.call(body)});\n"
   # Bounded opt (inferred from its :type) → a value-picker slider in the GUI.
-  # MIDI-note opts (flagged :midi in their arg info: cutoff, band_eq's freq)
-  # have no :type range but get a musical one here rather than the "4x the
-  # default" fallback, which offers ultrasonic values (a filter fed
-  # midicps(186), roughly 384kHz, explodes into full-scale noise).
-  midi_ranges = { "cutoff" => [30.0, 130.0, 100.0] }
   bounds = info[:bounds] || {}
   if (opts = bounds[:options])
     # Enum opt (e.g. env_curve, wave) → a choice list of the valid values.
     list = opts.map { |o| "\"#{o}\"" }.join(", ")
     docs << "  autocomplete->setOptOptions(\"#{ak}:\", QStringList{#{list}});\n"
-  elsif (mr = midi_ranges[ak.to_s]) && !info[:range]
-    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{mr[0]}, #{mr[1]}, #{mr[2]});\n"
-  elsif info[:midi] && !info[:range] && !(bounds.key?(:min) && bounds.key?(:max))
-    dv = info[:default].is_a?(Numeric) ? [[info[:default].to_f, 30.0].max, 130.0].min : 100.0
-    docs << "  autocomplete->setOptRange(\"#{ak}:\", 30.0, 130.0, #{dv});\n"
-  elsif (r = info[:range])
-    dv = info[:default].is_a?(Numeric) ? info[:default] : ((r[0] + r[1]) / 2.0)
-    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{r[0].to_f}, #{r[1].to_f}, #{dv.to_f});\n"
-  elsif bounds.key?(:min) && bounds.key?(:max)
-    # Bounded by its validations (e.g. res, pulse_width) → a constraint-respecting
-    # slider, derived from the engine's own constraints rather than a hardcoded
-    # range. Exclusivity rides along so an open bound (res: < 1) is never offered
-    # at its edge — setOptRange pulls it one slider step inside.
-    lo, hi = bounds[:min].to_f, bounds[:max].to_f
-    dv = info[:default].is_a?(Numeric) ? [[info[:default].to_f, lo].max, hi].min : (lo + hi) / 2.0
-    lo_x, hi_x = bounds[:min_incl] == false, bounds[:max_incl] == false
+  elsif (range = derive_opt_range.call(ak, info, false))
+    lo, hi, dv, lo_x, hi_x = range
     docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv}, #{lo_x}, #{hi_x});\n"
-  elsif bounds.key?(:min) && info[:default].is_a?(Numeric)
-    # One-sided (min only) → a soft slider anchored on the default; values beyond it
-    # are still allowed (the real constraint is shown in the opt's docs above). The
-    # soft top is ours (always valid); only the engine's min can be exclusive.
-    lo, dv = bounds[:min].to_f, info[:default].to_f
-    hi = dv > lo ? lo + (dv - lo) * 4.0 : lo + 1.0
-    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv}, #{bounds[:min_incl] == false}, false);\n"
-  elsif bounds.key?(:max) && info[:default].is_a?(Numeric)
-    hi, dv = bounds[:max].to_f, info[:default].to_f
-    lo = dv < hi ? hi - (hi - dv) * 4.0 : hi - 1.0
-    docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv}, false, #{bounds[:max_incl] == false});\n"
+    # The range above is global per opt name (this loop sees each name once),
+    # but the same name can mean different things on different synths/FX
+    # (room: is a 0..1 mix on :reverb, metres on :gverb). Wherever the global
+    # range would offer a value an owner's validations reject, emit an
+    # owner-scoped override derived from that owner's own bounds — and abort
+    # the docs build if even that can't produce a valid range, rather than
+    # ship a slider whose values the engine errors on.
+    (opt_validations[ak] || []).each do |owner, oinfo, vals|
+      next unless range_violation.call(ak, range, vals)
+      own = derive_opt_range.call(ak, oinfo, true)
+      own_bad = own.nil? ? [nil, "no derivable range"] : range_violation.call(ak, own, vals)
+      if own_bad
+        abort "qt-doc.rb: the #{ak}: slider offers #{(own_bad[0] || 'nothing valid')}, but #{owner} " \
+              "requires it #{own_bad[1]}. Align the validations in synthinfo.rb (or the range tables here)."
+      end
+      olo, ohi, odv, olo_x, ohi_x = own
+      docs << "  autocomplete->setOptRangeFor(\"#{owner}\", \"#{ak}:\", #{olo}, #{ohi}, #{odv}, #{olo_x}, #{ohi_x});\n"
+    end
   end
 end
 docs << "\n"

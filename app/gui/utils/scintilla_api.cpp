@@ -197,8 +197,8 @@ void ScintillaAPI::setUsage(const QString& name, const QString& usage) {
   usages.insert(name, usage);
 }
 
-void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double def,
-                               bool loExcl, bool hiExcl) {
+ScintillaAPI::OptRange ScintillaAPI::makeRange(double lo, double hi, double def,
+                                               bool loExcl, bool hiExcl) {
   // The finest value the popup slider produces (drag rounding grid, see
   // RangeSlider): two decades below the range's magnitude. Exclusive bounds
   // retreat one grid step so the slider's edge is always a valid value.
@@ -207,7 +207,34 @@ void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double
     lo += grid;
   if (hiExcl)
     hi -= grid;
-  optRanges.insert(name, {lo, hi, qBound(lo, def, hi)});
+  return {lo, hi, qBound(lo, def, hi)};
+}
+
+void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double def,
+                               bool loExcl, bool hiExcl) {
+  optRanges.insert(name, makeRange(lo, hi, def, loExcl, hiExcl));
+}
+
+void ScintillaAPI::setOptRangeFor(const QString& owner, const QString& name, double lo,
+                                  double hi, double def, bool loExcl, bool hiExcl) {
+  ownerOptRanges.insert(owner + " " + name, makeRange(lo, hi, def, loExcl, hiExcl));
+}
+
+QString ScintillaAPI::ownerForContext(const QStringList& context) const {
+  if (context.isEmpty())
+    return QString();
+  const QString first = context.first();
+  const QString second = context.size() > 1 ? context[1] : QString();
+  if (first == "with_fx" && fxArgs.contains(second))
+    return second;
+  if (first == "synth" && synthArgs.contains(second))
+    return second;
+  if (first == "play" || first == "control") {
+    const QString synth = synthResolver ? synthResolver() : QString();
+    if (!synth.isEmpty())
+      return synth.startsWith(':') ? synth : (":" + synth);
+  }
+  return QString();
 }
 
 void ScintillaAPI::setOptOptions(const QString& name, const QStringList& opts) {
@@ -329,8 +356,11 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
     }
     return out;
   }
-  if (optRanges.contains(optBefore)) {
-    const OptRange r = optRanges.value(optBefore);
+  const QString rangeOwnerKey = ownerForContext(context) + " " + optBefore;
+  if (ownerOptRanges.contains(rangeOwnerKey) || optRanges.contains(optBefore)) {
+    const OptRange r = ownerOptRanges.contains(rangeOwnerKey)
+                           ? ownerOptRanges.value(rangeOwnerKey)
+                           : optRanges.value(optBefore);
     CompletionItem it;
     it.kind = "range";
     it.slider = true;
