@@ -6476,7 +6476,9 @@ void MainWindow::loadInfoPaneContent()
     foreach (QTextBrowser* pane, infoPanes)
     {
         QFile file(pane->property("infoSrc").toString());
-        file.open(QFile::ReadOnly | QFile::Text);
+        if (!file.open(QFile::ReadOnly | QFile::Text))
+            qFatal("info pane resource missing from build: %s",
+                   qPrintable(file.fileName()));
 
         QTextStream st(&file);
 
