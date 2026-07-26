@@ -723,13 +723,14 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
         index->setObjectName("tutOptIndex");
         index->setAttribute(Qt::WA_StyledBackground, true);
         index->setMaximumWidth(sx(1200));
-        QGridLayout* grid = new QGridLayout(index);
-        grid->setContentsMargins(sx(10), sy(6),
+        // Uniform cells flowed to the pane width, not a fixed column count:
+        // four hard columns of zoomed Hack exceeded the pane at high zoom and
+        // clipped unreachably (the scroll area has no horizontal scrollbar).
+        TutFlowLayout* flow = new TutFlowLayout(sx(22), sy(2));
+        flow->setContentsMargins(sx(10), sy(6),
                                  sx(10), sy(6));
-        grid->setHorizontalSpacing(sx(22));
-        grid->setVerticalSpacing(sy(2));
-        const int kIndexCols = 4;
-        int cellIndex = 0;
+        index->setLayout(flow);
+        QVector<QWidget*> cells;
         for (const SonicPi::InstrumentOpt& opt : page.opts)
         {
             QWidget* cell = new QWidget(index);
@@ -753,10 +754,14 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
             cellRow->addWidget(link);
             cellRow->addWidget(def);
             cellRow->addStretch(1);
-            grid->addWidget(cell, cellIndex / kIndexCols, cellIndex % kIndexCols);
-            cellIndex++;
+            flow->addWidget(cell);
+            cells.append(cell);
         }
-        grid->setColumnStretch(kIndexCols, 1);   // keep columns packed left
+        int cellW = 0;
+        for (QWidget* cell : cells)
+            cellW = qMax(cellW, cell->sizeHint().width());
+        for (QWidget* cell : cells)
+            cell->setFixedWidth(cellW);
         m_column->addWidget(index);
     }
 
