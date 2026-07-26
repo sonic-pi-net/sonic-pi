@@ -3336,9 +3336,12 @@ QString MainWindow::prefWrappedCode(QString code)
 
 QString MainWindow::cardsFileToLoad()
 {
-    const QString custom = gui_settings->value("prefs/quickstart-cards-file").toString();
-    if (!custom.isEmpty() && QFile::exists(custom))
-        return custom;
+    // Ignored while the Load Card Set / Reset to Default Cards menu entries
+    // are commented out — a set loaded by an older build would otherwise
+    // stick with no way back to the defaults.
+    // const QString custom = gui_settings->value("prefs/quickstart-cards-file").toString();
+    // if (!custom.isEmpty() && QFile::exists(custom))
+    //     return custom;
     const QString userCards =
         sonicPiConfigPath() + QDir::separator() + "v5-quickstart-cards.txt";
     if (QFile::exists(userCards))
