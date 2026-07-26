@@ -3354,37 +3354,37 @@ void MainWindow::createExamplesMenu()
     connect(quickstartAct, &QAction::triggered, this, &MainWindow::showQuickstartCards);
     examplesMenu->addAction(quickstartAct);
 
-    QAction* loadCardsAct = new QAction(tr("Load Card Set..."), this);
-    connect(loadCardsAct, &QAction::triggered, this, [this]() {
-        const QString start = gui_settings->value("lastCardsDir", QDir::homePath()).toString();
-        const QString path = QFileDialog::getOpenFileName(
-            this, tr("Load Card Set"), start, tr("Card sets (*.txt);;All files (*)"));
-        if (path.isEmpty())
-            return;
-        gui_settings->setValue("lastCardsDir", QFileInfo(path).absolutePath());
-        QString err;
-        if (!QuickstartPane::validateCardsFile(path, &err))
-        {
-            QMessageBox::warning(this, tr("Load Card Set"),
-                                 tr("\"%1\" is not a valid card set.\n\n%2")
-                                     .arg(QFileInfo(path).fileName(), err));
-            return; // keep the current cards
-        }
-        gui_settings->setValue("prefs/quickstart-cards-file", path);
-        quickstartPane->setCardsFile(path);
-        showQuickstartCards();
-        showStatusAndAnnounce(tr("Loaded card set: %1").arg(QFileInfo(path).fileName()), 5000);
-    });
-    examplesMenu->addAction(loadCardsAct);
+    // QAction* loadCardsAct = new QAction(tr("Load Card Set..."), this);
+    // connect(loadCardsAct, &QAction::triggered, this, [this]() {
+    //     const QString start = gui_settings->value("lastCardsDir", QDir::homePath()).toString();
+    //     const QString path = QFileDialog::getOpenFileName(
+    //         this, tr("Load Card Set"), start, tr("Card sets (*.txt);;All files (*)"));
+    //     if (path.isEmpty())
+    //         return;
+    //     gui_settings->setValue("lastCardsDir", QFileInfo(path).absolutePath());
+    //     QString err;
+    //     if (!QuickstartPane::validateCardsFile(path, &err))
+    //     {
+    //         QMessageBox::warning(this, tr("Load Card Set"),
+    //                              tr("\"%1\" is not a valid card set.\n\n%2")
+    //                                  .arg(QFileInfo(path).fileName(), err));
+    //         return; // keep the current cards
+    //     }
+    //     gui_settings->setValue("prefs/quickstart-cards-file", path);
+    //     quickstartPane->setCardsFile(path);
+    //     showQuickstartCards();
+    //     showStatusAndAnnounce(tr("Loaded card set: %1").arg(QFileInfo(path).fileName()), 5000);
+    // });
+    // examplesMenu->addAction(loadCardsAct);
 
-    QAction* resetCardsAct = new QAction(tr("Reset to Default Cards"), this);
-    connect(resetCardsAct, &QAction::triggered, this, [this]() {
-        gui_settings->remove("prefs/quickstart-cards-file");
-        quickstartPane->setCardsFile(cardsFileToLoad());
-        showQuickstartCards();
-        showStatusAndAnnounce(tr("Reset to the default card set."), 5000);
-    });
-    examplesMenu->addAction(resetCardsAct);
+    // QAction* resetCardsAct = new QAction(tr("Reset to Default Cards"), this);
+    // connect(resetCardsAct, &QAction::triggered, this, [this]() {
+    //     gui_settings->remove("prefs/quickstart-cards-file");
+    //     quickstartPane->setCardsFile(cardsFileToLoad());
+    //     showQuickstartCards();
+    //     showStatusAndAnnounce(tr("Reset to the default card set."), 5000);
+    // });
+    // examplesMenu->addAction(resetCardsAct);
 
     examplesMenu->addSeparator();
 
