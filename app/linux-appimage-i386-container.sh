@@ -83,7 +83,7 @@ phase_deps() {
     # tests' dummy audio backend).
     apt-get install -y \
         pulseaudio dbus-x11 libssl-dev \
-        alsa-utils libasound2-dev libjack-jackd2-dev jackd2 \
+        alsa-utils libasound2-dev libjack-jackd2-dev libpipewire-0.3-dev jackd2 \
         libudev-dev autoconf automake libtool-bin gettext \
         pkg-config m4 libaubio-dev libpng-dev libboost-dev \
         libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev \

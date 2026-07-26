@@ -147,7 +147,7 @@ jobs:
           CC: ${{ matrix.cc }}
           QT_INSTALL_LOCATION: ${{steps.qt-inst.outputs.qtPath}}
         run: |
-          sudo apt install -y pulseaudio dbus-x11 ruby-dev libssl-dev alsa-base alsa-utils libasound2-dev libjack-jackd2-dev libudev-dev autoconf automake libtool-bin gettext pkg-config m4 libaubio-dev libpng-dev libboost-dev libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev libfreetype6-dev libfontconfig1-dev libglu1-mesa-dev
+          sudo apt install -y pulseaudio dbus-x11 ruby-dev libssl-dev alsa-base alsa-utils libasound2-dev libjack-jackd2-dev libpipewire-0.3-dev libudev-dev autoconf automake libtool-bin gettext pkg-config m4 libaubio-dev libpng-dev libboost-dev libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev libfreetype6-dev libfontconfig1-dev libglu1-mesa-dev
           ./linux-prebuild.sh
         if: matrix.os == 'ubuntu-latest'
 
@@ -353,6 +353,7 @@ jobs:
           apt-get install -y \
             pulseaudio dbus-x11 ruby-dev libssl-dev \
             alsa-base alsa-utils libasound2-dev libjack-jackd2-dev \
+            libpipewire-0.3-dev \
             libudev-dev autoconf automake libtool-bin gettext \
             pkg-config m4 libaubio-dev libpng-dev libboost-dev \
             libxrandr-dev libxinerama-dev libxcursor-dev libxcomposite-dev libxext-dev libxrender-dev \
@@ -443,6 +444,17 @@ jobs:
       - name: Build GUI
         working-directory: ${{github.workspace}}/app
         run: ./linux-build-gui.sh
+
+      # The PipeWire backend is silently compiled out when libpipewire-0.3-dev
+      # is missing from this container (CMake pkg_check gate) - which shipped
+      # RC2 AppImages that fall back to ALSA and see no devices on
+      # PipeWire-only systems (fresh RPi OS). The dlopen target string only
+      # exists in the binary when the backend compiled in, so assert on it.
+      - name: Verify PipeWire backend compiled in
+        working-directory: ${{github.workspace}}/app
+        run: |
+          strings server/native/supersonic | grep -q "libpipewire-0.3.so" \
+            || { echo "PipeWire backend missing from supersonic binary"; exit 1; }
 
       - name: Package AppImage
         working-directory: ${{github.workspace}}/app
