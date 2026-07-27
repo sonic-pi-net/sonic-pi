@@ -1473,6 +1473,21 @@ bool MetricsPanel::eventFilter(QObject* obj, QEvent* e)
             if (m_logsToggle) m_logsToggle->setHovering(false);
         }
     }
+    // A minimised logs column must hold at zero width, but a restyle (the main
+    // window's stylesheet reapply on a theme change, or this panel's own in
+    // applyTheme) can relayout the splitters and pop it open — and can do so
+    // more than once per restyle, so a one-shot re-clamp at the restyle site
+    // isn't enough. Re-assert the collapsed state whenever the column opens
+    // while it should be minimised — except mid-toggle, when the animation is
+    // legitimately driving the width.
+    if (obj == m_rightSplit && e->type() == QEvent::Resize && m_logsMinimised
+        && m_rightSplit->width() > 0
+        && (!m_logsAnim || m_logsAnim->state() != QAbstractAnimation::Running))
+    {
+        m_rightSplit->setMaximumWidth(0);
+        const QList<int> s = m_mainSplit->sizes();
+        m_mainSplit->setSizes({ s.value(0) + s.value(1), 0 });
+    }
     if ((obj == m_leftSplit || obj == m_rightSplit) && e->type() == QEvent::Resize)
         revealColumns();
     // Re-flow the metric cards (snap 1/2 rows by width) as the pane resizes.
