@@ -496,7 +496,12 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     this->setMatchedBraceBackgroundColor(theme->color("MatchedBraceBackground"));
     this->setMatchedBraceForegroundColor(theme->color("MatchedBraceForeground"));
 
-    setIndentationWidth(ScaleHeightForDPI(2));
+    // Character counts, not pixels: the beautifier's 2-space house style.
+    // Governs the plain-Tab indent step (auto-align off) and the guides.
+    setIndentationWidth(2);
+    setTabWidth(2);
+    setIndentationsUseTabs(false);
+    setTabIndents(true);
     setIndentationGuides(true);
     setIndentationGuidesForegroundColor(theme->color("IndentationGuidesForeground"));
     setBraceMatching(SonicPiScintilla::SloppyBraceMatch);

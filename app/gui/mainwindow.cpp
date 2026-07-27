@@ -1960,9 +1960,16 @@ void MainWindow::completeSnippetListOrIndentLine(QObject* ws)
     {
         spws->tabCompleteifList();
     }
-    else
+    else if (piSettings->auto_indent_on_run)
     {
         completeSnippetOrIndentCurrentLineOrSelection(spws);
+    }
+    else
+    {
+        // Auto-align off: Tab is a plain tab key (indents the line or
+        // selection one step, Shift+Tab outdents). The aligner stays
+        // reachable via Code > Align Code.
+        spws->SendScintilla(QsciScintillaBase::SCI_TAB);
     }
 }
 
@@ -5744,6 +5751,7 @@ void MainWindow::createToolBar()
 
     autoIndentOnRunAct = new QAction(tr("Auto Indent Code Buffer"), this);
     autoIndentOnRunAct->setCheckable(true);
+    autoIndentOnRunAct->setStatusTip(tr("Automatically align code on Enter, Run and Tab. When disabled, Tab indents normally."));
     autoIndentOnRunAct->setChecked(piSettings->auto_indent_on_run);
     connect(autoIndentOnRunAct, SIGNAL(triggered()), this, SLOT(autoIndentOnRunMenuChanged()));
 
