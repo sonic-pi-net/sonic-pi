@@ -243,6 +243,11 @@ jobs:
         run: rake test
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
+      - name: Ruby Tests (Windows)
+        working-directory: ${{github.workspace}}/app/server/ruby
+        run: rake test
+        if: startsWith(matrix.os, 'windows')
+
       - name: API Tests - Mac
         working-directory: ${{github.workspace}}/app/build/api-tests
         env:
