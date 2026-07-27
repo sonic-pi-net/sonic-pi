@@ -76,6 +76,10 @@ public:
     QString currentDoc() const;
     bool isShowing() const;
     bool isSliderMode() const { return m_sliderMode; }  // value picker vs list
+    bool isNoteMode() const { return m_noteMode; }
+    // True once the user has actually moved the highlight (keys, hover, piano)
+    // since the list was (re)shown — the initial default highlight doesn't count.
+    bool hasUserSelection() const { return m_userPicked; }
     void hidePopup();
 
     // The name column's x (relative to a row's left), after the kind badge, so
@@ -151,6 +155,7 @@ private:
     // Per-session layout state, so width doesn't jitter while filtering/navigating.
     bool m_hasDetail = false;   // this list has docstrings → reserve the detail pane
     bool m_noteMode = false;    // this list is notes → show the piano
+    bool m_userPicked = false;  // see hasUserSelection()
     bool m_chordMode = false;   // this list is chords/scales → piano shows their notes
     bool m_auditionMode = false; // synth/fx row → piano clicks audition the instrument
     bool m_sliderMode = false;  // this is a bounded opt → show the value slider

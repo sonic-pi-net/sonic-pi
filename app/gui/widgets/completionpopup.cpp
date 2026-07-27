@@ -1182,6 +1182,7 @@ CompletionPopup::CompletionPopup(QWidget* parent)
     connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
             this, [this](const QModelIndex&, const QModelIndex&) {
                 m_noteOverride.clear();   // a real row selection supersedes any clicked-key override
+                m_userPicked = true;      // showItems' default highlight is signal-blocked
                 // However the selection moved (hover or keys), the safe
                 // triangle to the detail pane starts from the pointer's
                 // current position.
@@ -1531,6 +1532,7 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
     const bool wasChord = m_chordMode;
     const bool wasDetail = m_hasDetail;
     m_noteOverride.clear();
+    m_userPicked = false;
 
     const QString kind0 = items.isEmpty() ? QString() : items.first().kind;
     m_enumIllo = items.isEmpty() ? QString() : items.first().illo;

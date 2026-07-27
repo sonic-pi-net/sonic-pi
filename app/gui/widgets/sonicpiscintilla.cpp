@@ -2007,7 +2007,12 @@ void SonicPiScintilla::completeListOrNewlineAndIndent()
     // press.
     if (m_completion && m_completion->isShowing())
     {
-        if (!m_completion->isSliderMode())
+        // A note list under its untouched default highlight: the typed text
+        // (":c4") is already a complete value, so Return must not rewrite it
+        // as a MIDI number. Tab / navigation still commit the number.
+        const bool noteUntouched =
+            m_completion->isNoteMode() && !m_completion->hasUserSelection();
+        if (!m_completion->isSliderMode() && !noteUntouched)
         {
             acceptCompletion();
             return;
