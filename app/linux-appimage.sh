@@ -201,8 +201,8 @@ write_icon() {
         exit 1
     fi
     local canonical="$APPDIR/usr/share/icons/hicolor/${ICON_SIZE}x${ICON_SIZE}/apps/sonic-pi.png"
-    # Force exact size (the bang ignores aspect ratio); source icon is a near-square
-    # 2644x2666 so the squash is invisible. linuxdeploy rejects non-square icons.
+    # Force exact size (the bang ignores aspect ratio) — linuxdeploy rejects
+    # non-square icons, so any drift in the source dimensions must not leak in.
     convert "$ICON_SRC" -resize "${ICON_SIZE}x${ICON_SIZE}!" "$canonical"
     ln -sf "usr/share/icons/hicolor/${ICON_SIZE}x${ICON_SIZE}/apps/sonic-pi.png" "$APPDIR/sonic-pi.png"
     ln -sf "sonic-pi.png" "$APPDIR/.DirIcon"
