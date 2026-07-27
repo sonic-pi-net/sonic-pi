@@ -997,6 +997,10 @@ public:
         updateToolTip();
     }
 
+    // Test hook: the in-arc value rect (valid once painted) — where a click
+    // opens the inline editor, and where that editor must sit.
+    QRect valueRectForTest() const { return m_valRect; }
+
     // Roving focus across the playground's dial cluster: with a handler set,
     // Left/Right move to the neighbouring dial instead of adjusting, so the
     // whole cluster behaves as ONE Tab stop (arrows inside, Tab past). Set
@@ -1161,6 +1165,10 @@ protected:
             commitEditor(false);
             return true;
         }
+        // Qt only emits editingFinished on focus-out when the text changed,
+        // so an untouched editor would linger open; close on any focus-out.
+        if (obj == m_editor && ev->type() == QEvent::FocusOut)
+            commitEditor(m_editor->isModified());
         return QWidget::eventFilter(obj, ev);
     }
 
@@ -1238,11 +1246,10 @@ private:
         m_editor->setFont(labelFont());
         m_editor->setAlignment(Qt::AlignHCenter);
         m_editor->setAccessibleName(tr("%1 value").arg(m_name));
-        // Below the arc, over the name row: the editor's opaque field must
-        // not sit on the arc itself (the value stays readable in-arc while
-        // typing a replacement underneath).
+        // Centred on the in-arc value it replaces — editing in place, never
+        // sitting over the opt name below.
         const int editorH = QFontMetrics(labelFont()).height() + dy(6);
-        m_editor->setGeometry(dx(4), height() - editorH,
+        m_editor->setGeometry(dx(4), m_valRect.center().y() - editorH / 2,
                               width() - dx(8), editorH);
         m_editor->installEventFilter(this);
         QObject::connect(m_editor, &QLineEdit::editingFinished, m_editor,
@@ -1267,6 +1274,9 @@ private:
             return;
         QLineEdit* editor = m_editor;
         m_editor = nullptr;   // guard: editingFinished re-fires on focus-out
+        // Enter/Escape hand focus back to the dial; a focus-out commit must
+        // not steal it from wherever the user clicked.
+        const bool hadFocus = editor->hasFocus();
         if (apply)
         {
             double v = 0;
@@ -1274,6 +1284,8 @@ private:
                 setValue(v);
         }
         editor->deleteLater();
+        if (hadFocus)
+            setFocus();
     }
 
     // Uniform dial width — a tidy grid, whatever the opt names. Long names

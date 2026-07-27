@@ -638,7 +638,10 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
         // focused one, and Tab moves on past the whole cluster.
         for (int i = 0; i < m_dials.size(); ++i)
         {
-            m_dials[i]->setFocusPolicy(i == 0 ? Qt::TabFocus : Qt::ClickFocus);
+            // Every dial takes focus on click (an open value editor on
+            // another dial must lose focus and close); only the roving one
+            // is additionally tab-focusable.
+            m_dials[i]->setFocusPolicy(i == 0 ? Qt::StrongFocus : Qt::ClickFocus);
             m_dials[i]->setNavigateHandler([this](TutDial* from, int direction) {
                 const int at = m_dials.indexOf(from);
                 const int to = at + direction;
@@ -647,7 +650,7 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
                 // The roving tab stop follows focus, so Shift+Tab back into
                 // the cluster returns to where the user left off.
                 from->setFocusPolicy(Qt::ClickFocus);
-                m_dials[to]->setFocusPolicy(Qt::TabFocus);
+                m_dials[to]->setFocusPolicy(Qt::StrongFocus);
                 m_dials[to]->setFocus(Qt::OtherFocusReason);
             });
         }

@@ -16,10 +16,12 @@
 // replaced a QTextBrowser, which gave all of this for free), and dials
 // expose the standard value interface.
 
+#include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 #include <QAccessible>
 #include <QLabel>
+#include <QLineEdit>
 #include <QTest>
 
 #include "widgets/tutorialwidgets.h"
@@ -241,6 +243,42 @@ TEST_CASE("dials in a cluster navigate with Left/Right and adjust with Up/Down",
     const double before = dial.value();
     QTest::keyClick(&dial, Qt::Key_Left, Qt::ShiftModifier);
     CHECK(dial.value() < before);
+}
+
+TEST_CASE("the dial's value editor edits in place and closes on focus-out", "[tutorialwidgets]")
+{
+    TutDial dial("attack", 0, 4, 0.0, nullptr, nullptr);
+    dial.grab(); // force a paint so the in-arc value rect exists
+    const QRect valRect = dial.valueRectForTest();
+    REQUIRE(!valRect.isEmpty());
+
+    // A clean click on the value opens the inline editor, centred on the
+    // value it replaces — never down over the opt name (the name row starts
+    // below the value rect).
+    QTest::mouseClick(&dial, Qt::LeftButton, Qt::KeyboardModifiers(), valRect.center());
+    QLineEdit* editor = dial.findChild<QLineEdit*>();
+    REQUIRE(editor != nullptr);
+    CHECK(editor->geometry().center().y() == Catch::Approx(valRect.center().y()).margin(2));
+    CHECK(editor->geometry().bottom() <= valRect.bottom() + valRect.height());
+
+    // Focus-out without a modification must still close it: Qt only emits
+    // editingFinished when the text changed, and the untouched editor used
+    // to linger over the dial for good.
+    QFocusEvent out(QEvent::FocusOut);
+    QApplication::sendEvent(editor, &out);
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+    CHECK(dial.findChild<QLineEdit*>() == nullptr);
+    CHECK(dial.value() == 0.0);
+
+    // Typing a value and committing with Return applies it and closes.
+    QTest::mouseClick(&dial, Qt::LeftButton, Qt::KeyboardModifiers(), valRect.center());
+    editor = dial.findChild<QLineEdit*>();
+    REQUIRE(editor != nullptr);
+    QTest::keyClicks(editor, "2.5"); // replaces the select-all'd old value
+    QTest::keyClick(editor, Qt::Key_Return);
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+    CHECK(dial.findChild<QLineEdit*>() == nullptr);
+    CHECK(dial.value() == 2.5);
 }
 
 TEST_CASE("the piano advertises its keyboard mapping", "[tutorialwidgets][a11y]")
