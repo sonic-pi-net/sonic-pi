@@ -134,6 +134,10 @@ module SonicPi
     end
 
     def kill(now=false)
+      # :destroyed only ever comes from the server's own /n_end, so the
+      # node is confirmed gone — freeing it again would just draw a
+      # "Node not found" server error.
+      return self if destroyed?
       @comms.kill_node self, now
       self
     end
@@ -149,12 +153,14 @@ module SonicPi
     end
 
     def ctl(*args)
+      return self if destroyed?
       args_h = resolve_synth_opts_hash_or_array(args)
       @comms.node_ctl self, args_h
       self
     end
 
     def ctl_now(*args)
+      return self if destroyed?
       args_h = resolve_synth_opts_hash_or_array(args)
       @comms.node_ctl self, args_h, true
       self
