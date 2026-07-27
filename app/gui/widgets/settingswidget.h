@@ -8,7 +8,6 @@
 #include <QWidget>
 #include <QMap>
 
-class QSlider;
 class QDial;
 class QTabWidget;
 class QTreeWidget;
@@ -333,7 +332,7 @@ private:
     QGroupBox *supersonicBox;
 
     ArcDial *system_vol_slider;
-    QSlider *gui_transparency_slider;
+    ArcDial *gui_transparency_slider;
 
     QComboBox *audio_driver_combo;
     QComboBox *audio_output_combo;

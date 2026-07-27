@@ -165,7 +165,7 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
 
     QGroupBox *visualizationTab = createVisualizationPrefsTab();
     prefTabs->setTabToolTip(prefTabs->addTab(visualizationTab, tr("Visuals")),
-                            tr("Audio oscilloscopes and options useful when performing."));
+                            tr("Themes, transparency, audio oscilloscopes and options useful when performing."));
 
     QGroupBox *shortcuts_prefs_box = createKeyboardShortcutsTab();
     prefTabs->setTabToolTip(prefTabs->addTab(shortcuts_prefs_box, tr("Shortcuts")),
@@ -649,8 +649,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     editor_show_panels_box->setToolTip(tr("Show and hide information panes such as the scope and log."));
     QGroupBox *editor_display_box = new QGroupBox(tr("Show and Hide"));
     editor_display_box->setToolTip(tr("Configure editor display options."));
-    QGroupBox *editor_look_feel_box = new QGroupBox(tr("Theme"));
-    editor_look_feel_box->setToolTip(tr("Configure editor look and feel."));
     QGroupBox *automation_box = new QGroupBox(tr("Automation / Misc"));
     automation_box->setToolTip(tr("Configure automation and other features."));
 
@@ -712,6 +710,99 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     hide_menubar_in_fullscreen->setToolTip(tr("Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode."));
     hide_menubar_in_fullscreen->setChecked(false);
 
+    QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
+    QVBoxLayout *editor_show_panels_box_layout = new QVBoxLayout;
+    QVBoxLayout *automation_box_layout = new QVBoxLayout;
+
+    editor_show_panels_box_layout->addWidget(show_log);
+    editor_show_panels_box_layout->addWidget(show_cues);
+    editor_show_panels_box_layout->addWidget(show_context);
+    editor_show_panels_box_layout->addWidget(show_metro);
+
+    editor_display_box_layout->addWidget(show_line_numbers);
+    editor_display_box_layout->addWidget(show_autocompletion);
+    editor_display_box_layout->addWidget(show_completion_help);
+    editor_display_box_layout->addWidget(show_buttons);
+    editor_display_box_layout->addWidget(show_editor_toolbar);
+    editor_display_box_layout->addWidget(show_tabs);
+    editor_display_box_layout->addWidget(show_titles);
+#ifndef Q_OS_MAC
+    // Don't enable this on Mac as macOS autohides the menubar on
+    // fullscreen anyway
+    editor_display_box_layout->addWidget(hide_menubar_in_fullscreen);
+#endif
+
+    editor_show_panels_box->setLayout(editor_show_panels_box_layout);
+    editor_display_box->setLayout(editor_display_box_layout);
+
+    QGroupBox *accessibility_box = new QGroupBox(tr("Accessibility"));
+    accessibility_box->setToolTip(tr("Settings that support screen readers and other assistive tools."));
+    QVBoxLayout *accessibility_box_layout = new QVBoxLayout;
+    accessibility_box_layout->addWidget(speak_transport);
+    accessibility_box_layout->addWidget(reduce_motion);
+    accessibility_box->setLayout(accessibility_box_layout);
+
+
+    automation_box_layout->addWidget(auto_indent_on_run);
+    automation_box_layout->addWidget(full_screen);
+
+    automation_box->setLayout(automation_box_layout);
+
+    QGroupBox *debug_box = new QGroupBox(tr("Logging"));
+    debug_box->setToolTip(tr("Configure debug behaviour"));
+
+    log_synths = new QCheckBox(tr("Log synths"));
+    log_synths->setToolTip(tr("If disabled, activity such as synth and sample triggering will not be printed to the log by default."));
+
+    clear_output_on_run = new QCheckBox(tr("Clear log on run"));
+    clear_output_on_run->setToolTip(tr("If enabled, the log is cleared each time the run button is pressed."));
+
+    log_cues = new QCheckBox(tr("Log cues"));
+    log_cues->setToolTip(tr("If disabled, cues will still trigger. However, they will not be visible in the logs."));
+
+    log_auto_scroll = new QCheckBox(tr("Auto-scroll log"));
+    log_auto_scroll->setToolTip(tr("If enabled, the log is scrolled to the bottom after every new message is displayed."));
+
+    QVBoxLayout *debug_box_layout = new QVBoxLayout;
+    debug_box_layout->addWidget(log_synths);
+    debug_box_layout->addWidget(log_cues);
+    debug_box_layout->addWidget(log_auto_scroll);
+    debug_box_layout->addWidget(clear_output_on_run);
+    debug_box->setLayout(debug_box_layout);
+
+    // Two independent columns rather than a shared grid: grid rows take the
+    // taller of the two sides, stretching boxes to match their neighbours.
+    // Independent columns let each side pack to its own content, with any
+    // spare height left at the bottom of each column.
+    QVBoxLayout *leftEditorPrefs = new QVBoxLayout;
+    leftEditorPrefs->addWidget(editor_display_box);
+    leftEditorPrefs->addWidget(automation_box);
+    leftEditorPrefs->addStretch(1);
+
+    QVBoxLayout *rightEditorPrefs = new QVBoxLayout;
+    rightEditorPrefs->addWidget(debug_box);
+    rightEditorPrefs->addWidget(editor_show_panels_box);
+    rightEditorPrefs->addWidget(accessibility_box);
+    rightEditorPrefs->addStretch(1);
+
+    QHBoxLayout *editorPrefsColumns = new QHBoxLayout;
+    editorPrefsColumns->addLayout(leftEditorPrefs, 1);
+    editorPrefsColumns->addLayout(rightEditorPrefs, 1);
+
+    editor_box->setLayout(editorPrefsColumns);
+    return editor_box;
+}
+
+/**
+ * Create Visualization Preferences Tab of Settings Widget
+ */
+QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
+    QGroupBox *viz_box = new QGroupBox();
+    viz_box->setToolTip(tr("Themes, transparency and settings useful for performing with Sonic Pi"));
+
+    QGroupBox *theme_box = new QGroupBox(tr("Theme"));
+    theme_box->setToolTip(tr("Configure the Sonic Pi colour scheme and look and feel."));
+
     // One checkable button per colour scheme, made mutually exclusive by the
     // button group. Icons are a separate choice (proIconsCheck) so any scheme
     // can pair with either icon set.
@@ -765,7 +856,6 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     // filters change; iconSize here drives the card sizing below.
     const QSize iconSize(ScaleWidthForDPI(80), ScaleHeightForDPI(26));
 
-    // bg/fg: card background and text. border: resting border colour.
     // bg/fg: card background + name text. accent: the scheme's signature colour,
     // used to tint the glyphs so each card reads as its own theme. border: resting.
     struct ThemeSwatch { QPushButton* btn; const char* bg; const char* fg; const char* accent; const char* border; int row; int col; };
@@ -842,32 +932,10 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
         themeGridLayout->setColumnMinimumWidth(c, btnMinW);
     themeGridLayout->setColumnStretch(3, 1);
 
-    QVBoxLayout *editor_display_box_layout = new QVBoxLayout;
-    QVBoxLayout *editor_show_panels_box_layout = new QVBoxLayout;
-    QVBoxLayout *editor_box_look_feel_layout = new QVBoxLayout;
-    QVBoxLayout *automation_box_layout = new QVBoxLayout;
-
-    editor_show_panels_box_layout->addWidget(show_log);
-    editor_show_panels_box_layout->addWidget(show_cues);
-    editor_show_panels_box_layout->addWidget(show_context);
-    editor_show_panels_box_layout->addWidget(show_metro);
-
-    editor_display_box_layout->addWidget(show_line_numbers);
-    editor_display_box_layout->addWidget(show_autocompletion);
-    editor_display_box_layout->addWidget(show_completion_help);
-    editor_display_box_layout->addWidget(show_buttons);
-    editor_display_box_layout->addWidget(show_editor_toolbar);
-    editor_display_box_layout->addWidget(show_tabs);
-    editor_display_box_layout->addWidget(show_titles);
-#ifndef Q_OS_MAC
-    // Don't enable this on Mac as macOS autohides the menubar on
-    // fullscreen anyway
-    editor_display_box_layout->addWidget(hide_menubar_in_fullscreen);
-#endif
-
-    editor_box_look_feel_layout->addWidget(themeGrid);
+    QVBoxLayout *theme_box_layout = new QVBoxLayout;
+    theme_box_layout->addWidget(themeGrid);
     // Breathing room between the theme cards and the rotate-colour dial below.
-    editor_box_look_feel_layout->addSpacing(ScaleHeightForDPI(26));
+    theme_box_layout->addSpacing(ScaleHeightForDPI(26));
 
     // Colour hue-rotation dial (amp-style ArcDial). Drag vertically to set the
     // rotation; it stops hard at 0 and 359 (no wrap) and shows no value.
@@ -907,85 +975,12 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     QHBoxLayout* tweaks = new QHBoxLayout;
     tweaks->addLayout(toggleCol, 1);
     tweaks->addLayout(hueCol, 1);
-    editor_box_look_feel_layout->addLayout(tweaks);
-
-    editor_show_panels_box->setLayout(editor_show_panels_box_layout);
-    editor_display_box->setLayout(editor_display_box_layout);
-    editor_look_feel_box->setLayout(editor_box_look_feel_layout);
-
-    QGroupBox *accessibility_box = new QGroupBox(tr("Accessibility"));
-    accessibility_box->setToolTip(tr("Settings that support screen readers and other assistive tools."));
-    QVBoxLayout *accessibility_box_layout = new QVBoxLayout;
-    accessibility_box_layout->addWidget(speak_transport);
-    accessibility_box_layout->addWidget(reduce_motion);
-    accessibility_box->setLayout(accessibility_box_layout);
-
-
-    automation_box_layout->addWidget(auto_indent_on_run);
-    automation_box_layout->addWidget(full_screen);
-
-    automation_box->setLayout(automation_box_layout);
-
-    QGroupBox *debug_box = new QGroupBox(tr("Logging"));
-    debug_box->setToolTip(tr("Configure debug behaviour"));
-
-    log_synths = new QCheckBox(tr("Log synths"));
-    log_synths->setToolTip(tr("If disabled, activity such as synth and sample triggering will not be printed to the log by default."));
-
-    clear_output_on_run = new QCheckBox(tr("Clear log on run"));
-    clear_output_on_run->setToolTip(tr("If enabled, the log is cleared each time the run button is pressed."));
-
-    log_cues = new QCheckBox(tr("Log cues"));
-    log_cues->setToolTip(tr("If disabled, cues will still trigger. However, they will not be visible in the logs."));
-
-    log_auto_scroll = new QCheckBox(tr("Auto-scroll log"));
-    log_auto_scroll->setToolTip(tr("If enabled, the log is scrolled to the bottom after every new message is displayed."));
-
-    QVBoxLayout *debug_box_layout = new QVBoxLayout;
-    debug_box_layout->addWidget(log_synths);
-    debug_box_layout->addWidget(log_cues);
-    debug_box_layout->addWidget(log_auto_scroll);
-    debug_box_layout->addWidget(clear_output_on_run);
-    debug_box->setLayout(debug_box_layout);
-
-    // Two independent columns rather than a shared grid: grid rows take the
-    // taller of the two sides, which stretched Show and Hide to match the
-    // right-hand boxes and squeezed the theme cards. Independent columns let
-    // each side pack to its own content, with any spare height left at the
-    // bottom of each column.
-    QVBoxLayout *leftEditorPrefs = new QVBoxLayout;
-    leftEditorPrefs->addWidget(editor_look_feel_box);
-    leftEditorPrefs->addWidget(editor_display_box);
-    leftEditorPrefs->addStretch(1);
-
-    QVBoxLayout *rightEditorPrefs = new QVBoxLayout;
-    rightEditorPrefs->addWidget(debug_box);
-    rightEditorPrefs->addWidget(editor_show_panels_box);
-    rightEditorPrefs->addWidget(automation_box);
-    rightEditorPrefs->addWidget(accessibility_box);
-    rightEditorPrefs->addStretch(1);
-
-    QHBoxLayout *editorPrefsColumns = new QHBoxLayout;
-    editorPrefsColumns->addLayout(leftEditorPrefs, 1);
-    editorPrefsColumns->addLayout(rightEditorPrefs, 1);
-
-    editor_box->setLayout(editorPrefsColumns);
-    return editor_box;
-}
-
-/**
- * Create Visualization Preferences Tab of Settings Widget
- */
-QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
-    QGroupBox *viz_box = new QGroupBox();
-    viz_box->setToolTip(tr("Settings useful for performing with Sonic Pi"));
-
-    QGridLayout* viz_tab_layout = new QGridLayout();
+    theme_box_layout->addLayout(tweaks);
+    theme_box->setLayout(theme_box_layout);
 
     QGroupBox *scope_box = new QGroupBox(tr("Show and Hide Scope"));
     QGroupBox *scope_box_kinds = new QGroupBox(tr("Scope Kinds"));
 
-    //QVBoxLayout *scope_box_kinds_layout = new QVBoxLayout;
     scope_box_kinds_layout = new QVBoxLayout;
 
     QVBoxLayout *scope_box_layout = new QVBoxLayout;
@@ -1002,8 +997,6 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     scope_box_layout->addWidget(show_scopes);
     scope_box_layout->addWidget(show_scope_labels);
     scope_box->setLayout(scope_box_layout);
-    viz_tab_layout->addWidget(scope_box, 0, 0);
-    viz_tab_layout->addWidget(scope_box_kinds, 1, 0);
 
     // In-editor visuals driven by the running audio: trigger flashes and the
     // per-live_loop mini scopes.
@@ -1037,8 +1030,8 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     flash_brightness_label->setAlignment(Qt::AlignHCenter);
 
     // Checkboxes on the left, dial to their right — same arrangement as the
-    // hue dial in the look & feel section. The box hugs its content (the tab
-    // grid no longer stretches rows), so both columns centre naturally.
+    // hue dial in the Theme box. The box hugs its content (the columns pack
+    // to their content), so both halves centre naturally.
     QVBoxLayout *flash_checks_col = new QVBoxLayout;
     flash_checks_col->addStretch(1);
     flash_checks_col->addWidget(flash_code);
@@ -1058,39 +1051,42 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     editor_visuals_row->addStretch(1);
     editor_visuals_box_layout->addLayout(editor_visuals_row);
     editor_visuals_box->setLayout(editor_visuals_box_layout);
-    viz_tab_layout->addWidget(editor_visuals_box, 2, 0);
 
+    // Window transparency as an amp-style ArcDial (same feel as the volume,
+    // hue and flash dials), with the percentage shown in the hub.
     QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
-    QGridLayout *transparency_box_layout = new QGridLayout;
-    gui_transparency_slider = new QSlider(this);
+    QVBoxLayout *transparency_box_layout = new QVBoxLayout;
+    gui_transparency_slider = new ArcDial(this);
+    gui_transparency_slider->setWrapping(false);
+    gui_transparency_slider->setRange(0, 100);
+    gui_transparency_slider->setValueSuffix("%");
+    gui_transparency_slider->setValueFontRole(FontRole::XLarge);
+    gui_transparency_slider->setFixedSize(ScaleWidthForDPI(108), ScaleHeightForDPI(108));
     gui_transparency_slider->setAccessibleName(tr("Transparency"));
-    QLabel *transparency_value_label = new QLabel();
-    transparency_value_label->setAlignment(Qt::AlignHCenter);
-    connect(gui_transparency_slider, &QSlider::valueChanged, transparency_value_label,
-        [transparency_value_label](int v) {
-            transparency_value_label->setText(QString("%1%").arg(v));
-        });
-    transparency_value_label->setText(QString("%1%").arg(gui_transparency_slider->value()));
-    transparency_box_layout->addWidget(gui_transparency_slider, 0, 0, Qt::AlignHCenter);
-    transparency_box_layout->addWidget(transparency_value_label, 1, 0);
+    gui_transparency_slider->setProperty("tipTitle", tr("Transparency"));
+    gui_transparency_slider->setToolTip(tr("Drag or scroll to change how see-through the Sonic Pi window is."));
+    transparency_box_layout->addWidget(gui_transparency_slider, 0, Qt::AlignHCenter);
     transparency_box->setLayout(transparency_box_layout);
 
-//#if defined(Q_OS_LINUX)
-//    // do nothing
-//#else
-    // Framed like the other groups and spanning the left stack's three rows,
-    // so its frame bottom lines up with the Editor Visuals box.
-    viz_tab_layout->addWidget(transparency_box, 0, 1, 3, 1);
-//#endif
+    // Two independent columns, as on the Editor tab: appearance settings on
+    // the left, audio-driven visuals on the right, each packing to its own
+    // content.
+    QVBoxLayout *leftVizPrefs = new QVBoxLayout;
+    leftVizPrefs->addWidget(theme_box);
+    leftVizPrefs->addWidget(transparency_box);
+    leftVizPrefs->addStretch(1);
 
-    // Groups hug their content and stack from the top; leftover tab height
-    // goes to an empty stretch row, and leftover width to the left column —
-    // no more group boxes ballooning to fill the tab.
-    viz_tab_layout->setRowStretch(3, 1);
-    viz_tab_layout->setColumnStretch(0, 1);
-    viz_tab_layout->setHorizontalSpacing(ScaleWidthForDPI(24));
-    viz_tab_layout->setVerticalSpacing(ScaleHeightForDPI(18));
-    viz_box->setLayout(viz_tab_layout);
+    QVBoxLayout *rightVizPrefs = new QVBoxLayout;
+    rightVizPrefs->addWidget(scope_box);
+    rightVizPrefs->addWidget(scope_box_kinds);
+    rightVizPrefs->addWidget(editor_visuals_box);
+    rightVizPrefs->addStretch(1);
+
+    QHBoxLayout *vizPrefsColumns = new QHBoxLayout;
+    vizPrefsColumns->addLayout(leftVizPrefs, 1);
+    vizPrefsColumns->addLayout(rightVizPrefs, 1);
+
+    viz_box->setLayout(vizPrefsColumns);
 
     return viz_box;
 }
