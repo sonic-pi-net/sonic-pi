@@ -27,6 +27,7 @@ require_relative "version"
 require_relative "config/settings"
 require_relative "preparser"
 require_relative "event_history"
+require_relative "cuestamper"
 require_relative "thread_id"
 require_relative "osc_api"
 require_relative "link_api"
@@ -1888,6 +1889,7 @@ module SonicPi
       @user_state = EventHistory.new
       @event_history = EventHistory.new
       @system_init_thread_id = ThreadId.new(-1)
+      @system_cue_stamper = CueStamper.new
       @gui_cue_log_idxs = Counter.new
       @gui_heartbeats = {}
       @gui_last_heartbeat = nil
@@ -1929,7 +1931,7 @@ module SonicPi
         d = 0
         b = 0
         m = 60
-        @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
+        @register_cue_event_lambda.call(@system_cue_stamper.stamp, p, @system_init_thread_id, d, b, m, address, args, 0)
       end
 
       internal_cue_handler = lambda do |address, args|
@@ -1937,7 +1939,7 @@ module SonicPi
         d = 0
         b = 0
         m = 60
-        @register_cue_event_lambda.call(Time.now, p, @system_init_thread_id, d, b, m, address, args, 0)
+        @register_cue_event_lambda.call(@system_cue_stamper.stamp, p, @system_init_thread_id, d, b, m, address, args, 0)
       end
 
       # Device lists arrive as [name, enabled] pairs and are forwarded to the
