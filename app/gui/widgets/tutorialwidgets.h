@@ -669,8 +669,11 @@ private:
         m_blackW = px(20, false);
         m_blackH = px(42, true);
         // Width-adaptive: at least the 9 QWERTY-labelled whites, growing to
-        // fill whatever row width is available with more octaves.
+        // fill whatever row width is available with more octaves. Capped at
+        // keys()' 30-white clamp so the widget never outgrows the drawn
+        // board and whatever sits beside it in the row stays adjacent.
         setMinimumSize(m_whiteW * 9 + 2, m_whiteH + 2);
+        setMaximumWidth(m_whiteW * 30 + m_blackW / 2 + 2);
         setFixedHeight(m_whiteH + 2);
     }
 
@@ -865,20 +868,38 @@ protected:
 
     void mousePressEvent(QMouseEvent* e) override
     {
+        m_dragOffset = -1; // re-pressing the same key retriggers it
+        pressAt(e->position());
+    }
+
+    // Held drags sweep the board: every key the pointer crosses sounds once.
+    void mouseMoveEvent(QMouseEvent* e) override
+    {
+        if (e->buttons() & Qt::LeftButton)
+            pressAt(e->position());
+    }
+
+    void pressAt(const QPointF& pos)
+    {
         const QVector<Key> ks = keys();
         // Blacks hit-test first — they sit on top
         for (int pass = 0; pass < 2; pass++)
             for (const Key& k : ks)
-                if (k.black == (pass == 0) && k.rect.contains(e->position()))
+                if (k.black == (pass == 0) && k.rect.contains(pos))
                 {
-                    if (m_onKey)
-                        m_onKey(k.offset);
+                    if (k.offset != m_dragOffset)
+                    {
+                        m_dragOffset = k.offset;
+                        if (m_onKey)
+                            m_onKey(k.offset);
+                    }
                     return;
                 }
     }
 
 private:
     std::function<void(int)> m_onKey;
+    int m_dragOffset = -1; // key sounding under a held drag, -1 outside one
     double m_scale = 1.0;   // pane text zoom, see setUiScale
     int m_whiteW, m_whiteH, m_blackW, m_blackH;
     int m_flashOffset = -1;

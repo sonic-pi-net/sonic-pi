@@ -29,6 +29,9 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <QFile>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QPushButton>
 #include <QRegularExpression>
 #include <QString>
 #include <QStringList>
@@ -185,4 +188,40 @@ TEST_CASE("the piano keeps every QWERTY-labelled key at any width and zoom", "[t
             CHECK(piano.rightOverflowForTest() <= 0);
         }
     }
+}
+
+TEST_CASE("the piano row keeps octave-up against the board on wide panes", "[tutorialwidgets]")
+{
+    // Mirrors TutorialPane's trigger-row build: keyboard as the only stretch
+    // item, a zero-stretch tail after the octave label. Below the keyboard's
+    // 30-white cap all spare width goes to the board (the tail stays empty);
+    // past the cap the tail absorbs the rest, so octave-up hugs the board
+    // instead of drifting to the far pane edge.
+    QWidget host;
+    QHBoxLayout* row = new QHBoxLayout(&host);
+    row->setContentsMargins(0, 0, 0, 0);
+    row->setSpacing(6);
+    QPushButton* octDown = new QPushButton(&host);
+    QPushButton* octUp = new QPushButton(&host);
+    TutPiano* piano = new TutPiano(nullptr, &host);
+    QLabel* label = new QLabel("z/x: octave", &host);
+    row->addWidget(octDown);
+    row->addWidget(piano, 1);
+    row->addWidget(octUp);
+    row->addWidget(label);
+    row->addStretch(0);
+
+    // Mid width: the board takes every spare pixel, octave-up sits at the end.
+    // (No spacing is charged around the trailing spacer item.)
+    host.resize(piano->minimumWidth() + 300, piano->height());
+    row->activate();
+    const int chrome = octDown->width() + octUp->width() + label->width() + 3 * row->spacing();
+    CHECK(piano->width() == host.width() - chrome);
+
+    // Wide: the board stops at its cap and the tail soaks up the remainder.
+    host.resize(piano->maximumWidth() + chrome + 400, piano->height());
+    row->invalidate(); // hidden host: no resize event reaches the layout
+    row->activate();
+    CHECK(piano->width() == piano->maximumWidth());
+    CHECK(octUp->x() == piano->geometry().right() + 1 + row->spacing());
 }

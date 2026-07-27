@@ -665,6 +665,9 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     addSnippet(QString(), true, playLayout, pianoLayout);
     // Reset joins Copy in the snippet's corner cluster.
     Snippet& demo = m_snippets.last();
+    // The demo transport sounds as instantly as the piano keys do — both
+    // run on the use_real_time path rather than the default sched-ahead.
+    demo.realTime = true;
     if (demo.codeArea && demo.copy)
     {
         QWidget* corner = new QWidget(demo.frame);
@@ -706,9 +709,12 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
     pianoLayout->addWidget(m_piano, 1);   // keyboard grows into spare row width
     pianoLayout->addWidget(octUp, 0, Qt::AlignVCenter);
     pianoLayout->addWidget(m_octaveLabel, 0, Qt::AlignVCenter);
-    // No trailing stretch: it carried the same factor as the keyboard, so the
-    // spare width split evenly between them and the board never got past half
-    // the row. Zooming then bought bigger keys at the cost of fewer octaves.
+    // A zero-stretch tail: the keyboard (the only stretch item) wins all
+    // spare width until its 30-white cap, and only then does the spacer
+    // absorb the rest — so octave-up stays against the board on very wide
+    // panes instead of drifting to the pane edge. (An equal-stretch tail
+    // would split the spare width and halve the board at every width.)
+    pianoLayout->addStretch(0);
     playLayout->addWidget(pianoRow);
     shiftOctave(0);
 
@@ -1438,7 +1444,7 @@ void TutorialPane::addSnippet(const QString& code, bool runnable, QVBoxLayout* i
         if (index >= m_snippets.size())
             return;
         Snippet& s = m_snippets[index];
-        emit runRequested(s.code, s.workspace);
+        emit runRequested(s.realTime ? "use_real_time\n" + s.code : s.code, s.workspace);
     });
     connect(snippet.stop, &QPushButton::clicked, this, [this, index]() {
         if (index >= m_snippets.size())

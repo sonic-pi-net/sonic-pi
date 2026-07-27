@@ -140,6 +140,7 @@ private:
         QPushButton* copy = nullptr;
         QGridLayout* codeArea = nullptr; // grid hosting the code + corner controls
         bool commentsAside = false; // display-only example: comments in a right column
+        bool realTime = false; // run with use_real_time, like the piano keys
         QString code;
         QString workspace;
         int jobId = -1;
