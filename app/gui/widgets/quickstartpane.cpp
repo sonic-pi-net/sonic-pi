@@ -1938,7 +1938,10 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     run->setAccessibleName(playing ? tr("Stop %1").arg(card.title) : tr("Run %1").arg(card.title));
     run->setToolTip(tr("Play this card. Press again to stop."));
     hitLay->addWidget(run, 0, 0); // overlays the scope and takes the mouse
-    connect(run, &QPushButton::clicked, this, [this, title, snippet, workspace, scopeSlot] {
+    connect(run, &QPushButton::clicked, this, [this, title, snippet, workspace, scopeSlot, frame] {
+        // Playing a card also selects it (the click would otherwise leave
+        // focus — and the selection ring — on the button, not the card).
+        frame->setFocus(Qt::OtherFocusReason);
         if (m_jobs.contains(workspace))
             emit stopJobRequested(m_jobs.value(workspace));
         else
