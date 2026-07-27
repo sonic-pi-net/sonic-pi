@@ -4972,7 +4972,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :slope_intermediate =>
           {
             :doc => "The note where the frequency passes through after `:slope_length1`, typically much nearer to the final note.",
-            :validations => [v_positive(:slope_start)],
+            :validations => [v_positive(:slope_intermediate)],
             :modulatable => false
           },
           :slope_length1 =>
