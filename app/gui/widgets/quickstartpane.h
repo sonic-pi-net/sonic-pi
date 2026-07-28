@@ -217,6 +217,9 @@ private:
     QHash<QString, QPushButton*> m_runButtons;
     QHash<QString, CardScope*> m_scopes;
     QHash<QString, QVector<class QLabel*>> m_codeLines;
+    // The code body, which scrolls when a snippet overruns the card's fixed
+    // budget; held so a flashed line can be brought back into view.
+    QHash<QString, class QScrollArea*> m_codeScrolls;
     QHash<QString, QSet<QString>> m_cardLoops; // workspace -> live_loop names in its code
     QHash<QString, int> m_jobs;
     // Card hover: a high-contrast border lights up while the pointer is

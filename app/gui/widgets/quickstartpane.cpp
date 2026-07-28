@@ -487,16 +487,16 @@ void QuickstartPane::computeGlobalLayout()
     m_blurbW = codeAvail; // the description now spans the full card width
 
     // Code font: the requested (zoomed) size, capped so kMaxCols monospace
-    // columns fit the card width; guaranteeing authored lines never clip
-    // (there is no horizontal scroll).
+    // columns fit the card width. An authored line wider than that is still
+    // reachable (the body scrolls), but sizing to the budget is what keeps
+    // scrolling the exception rather than the reading experience.
     int codePx = qMax(8, qRound(ScaleHeightForDPI(15) * m_zoomFactor));
     QFont hack(QStringLiteral("Hack"));
     hack.setPixelSize(codePx);
     const qreal colW = QFontMetricsF(hack).horizontalAdvance(QLatin1Char('m'));
     if (colW * kMaxCols > codeAvail)
-        // Floor stays unscaled: it is the "never clip an authored line"
-        // backstop, so letting it rise with zoom would defeat the shrink-to-fit
-        // it guards.
+        // Floor stays unscaled: it is the "fit an authored line" backstop, so
+        // letting it rise with zoom would defeat the shrink-to-fit it guards.
         codePx = qMax(ScaleHeightForDPI(9), int(codePx * codeAvail / (colW * kMaxCols)));
     m_codeFontPx = codePx;
 
@@ -633,6 +633,30 @@ bool QuickstartPane::eventFilter(QObject* obj, QEvent* event)
     {
         goToPage(m_pageIndex - 1);
         return true;
+    }
+    // A card's code body only claims the wheel along an axis it can actually
+    // scroll; otherwise the gesture falls through to the carousel below, so a
+    // snippet that fits (almost all of them) still pages the deck from
+    // anywhere on the card.
+    if (event->type() == QEvent::Wheel && m_scroll)
+    {
+        if (QWidget* vp = qobject_cast<QWidget*>(obj))
+        {
+            QScrollArea* sa = qobject_cast<QScrollArea*>(vp->parentWidget());
+            if (sa && sa->objectName() == QLatin1String("qsCardBody")
+                && vp == sa->viewport())
+            {
+                QWheelEvent* we = static_cast<QWheelEvent*>(event);
+                const bool horizontal
+                    = qAbs(we->angleDelta().x()) > qAbs(we->angleDelta().y());
+                const QScrollBar* bar
+                    = horizontal ? sa->horizontalScrollBar() : sa->verticalScrollBar();
+                if (bar && bar->minimum() != bar->maximum())
+                    return false; // the body scrolls it
+                // Nothing to scroll along that axis: re-aim at the carousel.
+                obj = m_scroll;
+            }
+        }
     }
     // Side-scrolling pages the carousel one card at a time (never free-scrolls).
     // A cooldown absorbs a trackpad swipe's momentum so one gesture = one card.
@@ -1030,6 +1054,10 @@ void QuickstartPane::flashLine(const QString& workspace, int line)
     if (idx < 0 || idx >= lines.size())
         return;
     QLabel* label = lines[idx];
+    // A snippet that overruns the card's budget scrolls, so follow the run and
+    // keep the lit line in view.
+    if (QScrollArea* sa = m_codeScrolls.value(workspace))
+        sa->ensureWidgetVisible(label, 0, 0);
     label->setProperty("flashing", true);
     repolish(label);
     QPointer<QLabel> guard(label);
@@ -1101,6 +1129,7 @@ void QuickstartPane::rebuild()
     m_iconHover.clear();
     m_scopes.clear();
     m_codeLines.clear();
+    m_codeScrolls.clear();
     m_cardLoops.clear();
     m_dragCode.clear();
     m_dragFrames.clear();
@@ -1819,16 +1848,34 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // Card anatomy, top to bottom: accent header, code area, docs strip
     // (deeper tint), live scope strip. Code and docs sections are equalised
     // across the deck after all cards are built.
-    QWidget* body = new QWidget(frame);
+    // The card is a fixed-size format, but the budgets in computeGlobalLayout
+    // are a design target, not a guarantee: nothing validates a cards file, so
+    // an over-long or over-wide snippet used to be clipped away with no sign
+    // it was there. The body scrolls on both axes instead — the card keeps its
+    // uniform size (every paging calculation depends on that) and the overflow
+    // stays reachable. The body *is* the scroll area rather than holding one,
+    // so this adds no node to the accessibility tree.
+    QScrollArea* body = new QScrollArea(frame);
     body->setObjectName(QStringLiteral("qsCardBody"));
     body->setAccessibleName(tr("Code"));
     body->setFixedHeight(m_codeBodyH); // uniform across all decks
-    // Grid so the scope can overlay the same cell as the code, pinned to
-    // the bottom-right where the uniform code area leaves its slack.
-    QGridLayout* bodyLayout = new QGridLayout(body);
+    body->setFrameShape(QFrame::NoFrame);
+    body->setWidgetResizable(true);
+    // Unlike the deck's carousel (which is paged, never free-scrolled), the
+    // body scrolls normally — but only when the snippet actually overruns.
+    body->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    body->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    // The card owns focus and the arrow keys walk the deck, so the body must
+    // not become a tab stop of its own.
+    body->setFocusPolicy(Qt::NoFocus);
+    // Let the body's accent tint show through: a viewport fills its own
+    // background by default, which would paint over it.
+    body->viewport()->setAutoFillBackground(false);
+    // Wheel is shared with the carousel — see eventFilter.
+    body->viewport()->installEventFilter(this);
     const int pad = uiScale().y(14);
-    bodyLayout->setContentsMargins(pad, uiScale().y(10), pad, uiScale().y(10));
     cardLayout->addWidget(body);
+    m_codeScrolls[workspace] = body;
 
     SonicPi::CodeColours colours;
     colours.keyword = m_theme->color("KeywordForeground").name();
@@ -1838,10 +1885,11 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     colours.comment = m_theme->color("CommentForeground").name();
 
     // One label per code line so the trigger wash can light individual
-    // lines, mirroring the editor's flash.
+    // lines, mirroring the editor's flash. The block carries the body's
+    // padding, the scroll area itself having none.
     QWidget* codeBlock = new QWidget(body);
     QVBoxLayout* codeLayout = new QVBoxLayout(codeBlock);
-    codeLayout->setContentsMargins(0, 0, 0, 0);
+    codeLayout->setContentsMargins(pad, uiScale().y(10), pad, uiScale().y(10));
     codeLayout->setSpacing(0);
     QVector<QLabel*> lineLabels;
     const QStringList codeLines = card.code.split('\n');
@@ -1874,7 +1922,11 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     while (m.hasNext())
         loops.insert(m.next().captured(1));
     m_cardLoops[workspace] = loops;
-    bodyLayout->addWidget(codeBlock, 0, 0, Qt::AlignTop | Qt::AlignLeft);
+    // widgetResizable stretches the block to fill the viewport, so a tail
+    // stretch keeps a short snippet's lines packed at the top instead of
+    // spreading them down the body.
+    codeLayout->addStretch(1);
+    body->setWidget(codeBlock);
 
     QWidget* footer = new QWidget(frame);
     footer->setObjectName(QStringLiteral("qsCardFooter"));
