@@ -714,6 +714,7 @@ void SonicPiScintilla::redraw()
     setMarginsForegroundColor(theme->color("MarginForeground"));
     setSelectionBackgroundColor(theme->color("SelectionBackground"));
     setSelectionForegroundColor(theme->contrastingText(theme->color("SelectionBackground")));
+    setCaretForegroundColor(theme->color("CaretForeground"));
     setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
     setFoldMarginColors(theme->color("FoldMarginForeground"), theme->color("FoldMarginForeground"));
     setIndentationGuidesForegroundColor(theme->color("IndentationGuidesForeground"));
