@@ -131,6 +131,41 @@ ArgKind resolveArgKind(const QStringList& context, const ArgKindTable& table)
     return ArgKind::None;
 }
 
+static bool isOptKey(const QString& w)
+{
+    return w.length() > 1 && w.endsWith(':') && !w.startsWith(':');
+}
+
+QStringList resolveFnOpts(const QStringList& context, const FnOptsTable& table)
+{
+    if (context.isEmpty()) return {};
+    QStringList words;
+    for (int i = 0; i < context.length() - 1; ++i)
+        if (!context[i].isEmpty()) words << context[i];
+    if (words.isEmpty()) return {};
+    if (isOptKey(words.last())) return {};        // opt value slot
+    for (int i = words.length() - 1; i >= 0; --i) {
+        const auto it = table.constFind(words[i]);
+        if (it != table.constEnd())
+            // Found at the last position = the caret is on the function's first
+            // argument (its name slot), not in opt territory yet.
+            return i < words.length() - 1 ? it.value() : QStringList();
+    }
+    return {};
+}
+
+bool atOptKeySlot(const QStringList& context)
+{
+    bool seen = false;
+    QString last;
+    for (int i = 0; i < context.length() - 1; ++i) {
+        if (context[i].isEmpty()) continue;
+        if (isOptKey(context[i])) seen = true;
+        last = context[i];
+    }
+    return seen && !isOptKey(last);
+}
+
 bool caretAfterClosedValue(const QString& line, int caretCol)
 {
     int i = caretCol < 0 ? 0 : caretCol;

@@ -54,6 +54,24 @@ using ArgKindTable = QHash<QString, QVector<ArgKind>>;
 // like `amp:` precedes it), or the position is past the function's positional args.
 ArgKind resolveArgKind(const QStringList& context, const ArgKindTable& table);
 
+// Per-function documented opt keys ("live_audio" -> {"input:", "stereo:"}), for
+// plain lang functions with no synth/fx/sample-specific opt source. Generated
+// from the `opts:` maps in the lang docs (qt-doc.rb).
+using FnOptsTable = QHash<QString, QStringList>;
+
+// The opt keys completable at the caret: scan back to the governing function
+// (skipping args and earlier opt key/value pairs) and return its table entry.
+// Empty when the caret is still on the function's first argument (its name/value
+// slot), in an opt's value slot (the preceding word ends with ':'), or the
+// function isn't in the table.
+QStringList resolveFnOpts(const QStringList& context, const FnOptsTable& table);
+
+// True when the caret sits where another opt KEY goes: the argument list already
+// contains an opt key (`foo:`) and the caret isn't in an opt's value slot. There,
+// offering function names is noise — but a value slot can legitimately hold a
+// call (`delay: rrand(1, 2)`), so it is deliberately excluded.
+bool atOptKeySlot(const QStringList& context);
+
 // True when the caret sits directly after a char that closes a value expression
 // (a closing bracket or quote). At that position the expression is complete and
 // nothing is completable until a separator introduces the next argument — any

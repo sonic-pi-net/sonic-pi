@@ -20,6 +20,7 @@
 #include "sampleheaderinfo.h"
 #include "completion_context.h"
 #include "completion_argkinds.gen.h"
+#include "completion_fnopts.gen.h"
 
 using namespace std;
 
@@ -456,6 +457,8 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
   // aren't positional args so stay inline, as do the untagged examples/random/
   // tuning. Note slots resolve to Func here and fall through to the note handling.
   static const SonicPi::ArgKindTable s_argKinds = SonicPi::generatedArgKinds();
+  static const SonicPi::FnOptsTable s_fnOpts = SonicPi::generatedFnOpts();
+  const QStringList docOpts = SonicPi::resolveFnOpts(context, s_fnOpts);
   switch (SonicPi::resolveArgKind(context, s_argKinds)) {
     case SonicPi::ArgKind::Sample:           ctx = Sample; break;
     case SonicPi::ArgKind::CuePath:          ctx = CuePath; break;
@@ -528,7 +531,16 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
   } else if (words.length() >= 2 && first == "midi") {
     if (last.endsWith(':')) return; // don't try to complete parameters
     ctx = MidiParam;
+
+  // Documented opts of any other lang fn (live_audio's input:/stereo:, live_loop's
+  // sync:, …), from the generated fn-opts table.
+  } else if (!docOpts.isEmpty()) {
+    lastKind = "opt";
+    list = docOpts;
+    return;
   } else if (context.length() > 1) {
+    // Where another opt key goes, function names are noise.
+    if (SonicPi::atOptKeySlot(context)) return;
     if (partial.length() <= 2) {
       // don't attempt to autocomplete other words on the same line
       // unless we have a plausible match
