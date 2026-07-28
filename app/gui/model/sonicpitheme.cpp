@@ -19,7 +19,9 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QRegularExpression>
+#include <QSet>
 #include <QSvgRenderer>
+#include <algorithm>
 #include <iostream>
 #include <QtGlobal>
 
@@ -92,6 +94,9 @@ void SonicPiTheme::applyTheme(ColourScheme scheme, bool proIcons) {
     case LightScheme:
     default:                 lightMode();    break;
   }
+
+  // Anchors depend on the palette, not on the spread value.
+  rebuildHueSpreadMap();
 
   // Icons: the fully independent axis.
   applyIcons(scheme, proIcons);
@@ -877,13 +882,39 @@ static void paintDarkGroundBackgrounds(QMap<QString, QString>& t, const QString&
   for (const char* k : keys) t[QString::fromLatin1(k)] = bg;
 }
 
+// Base for the derived schemes: Dark with every value desaturated. Carries the
+// full key set, so a key a scheme does not override renders grey rather than the
+// black an absent key would paint, and the light/dark structure is preserved.
+// Deriving from Dark directly meant an unset key inherited a plausible colour
+// instead (Phosphor rendered Dark's blue indentation guides and red backticks).
+//
+// Does not detect achromatic leaks: desaturating white leaves white. White is
+// capped at 212 so it reads as unstyled; a palette test would cover the rest.
+QMap<QString, QString> SonicPiTheme::neutralBaseTheme() {
+  QMap<QString, QString> t = darkTheme();
+  for (auto it = t.begin(); it != t.end(); ++it) {
+    QColor c(it.value());
+    if (!c.isValid()) continue;
+    int y = qRound(0.2126 * c.red() + 0.7152 * c.green() + 0.0722 * c.blue());
+    y = qMin(y, 212);   // white -> a dull grey, so it doesn't pass as styled
+    QColor g(y, y, y, c.alpha());
+    it.value() = c.alpha() == 255 ? g.name() : g.name(QColor::HexArgb);
+  }
+  return t;
+}
+
 QMap<QString, QString> SonicPiTheme::mildDarkTheme() {
   // "Mild Dark" — low-contrast dark scheme adapted from community PR #3253.
   // Soft #1e1e1e ground, #d4d4d4 text, muted salmon accent, VS Code-ish syntax.
-  QMap<QString, QString> t = darkTheme();
+  QMap<QString, QString> t = neutralBaseTheme();
+  // Gold softened off Dark's #FBDE2D (82% saturation); the rest of this palette
+  // sits near 40%.
   const QString bg="#1e1e1e", fg="#d4d4d4", accent="#ce9178",
-                blue="#9cdcfe", green="#6A9955", gold="#FBDE2D",
+                blue="#9cdcfe", green="#6A9955", gold="#fad870",
                 comment="#6a7a6a", border="#4d4d4d", ctrl="#2e2e2e";
+  // Replaces the fully saturated #ff0000 / #ff8c00 / #4c83ff inherited from Dark
+  // in the slots below, at this palette's saturation.
+  const QString rose="#ff7396", roseDim="#6b3b47", amber="#ffdc73";
   paintDarkGroundBackgrounds(t, bg);
   t["WindowForeground"]=fg; t["Foreground"]=fg; t["DefaultForeground"]=fg; t["LogForeground"]=fg;
   t["HighlightedBackground"]=accent; t["PressedButton"]=accent; t["Slider"]=accent;
@@ -911,25 +942,33 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme() {
   // foreground instead of Dark's inherited white-on-grey.
   t["Tab"]=ctrl;               t["TabText"]=fg;
   t["LogInfoBackground"]=ctrl; t["LogInfoForeground"]=fg;
+  t["BackticksForeground"]=rose; t["BackticksBackground"]=roseDim;
+  t["PODBackground"]=roseDim;    t["LogForeground_3"]=rose;
+  t["CueDataBackground"]=amber;  t["LogBackground_2"]=amber; t["LogBackground_6"]=amber;
+  t["LogBackground_5"]=blue;     t["LogForeground_1"]=blue;
   return t;
 }
 
 QMap<QString, QString> SonicPiTheme::phosphorTheme() {
   // "Phosphor" — green-CRT dark scheme: near-black ground, phosphor-green text,
   // amber numbers/keywords. A nod to Sonic Pi's oscilloscope heritage.
-  QMap<QString, QString> t = darkTheme();
-  const QString bg="#0a0e0a", fg="#8bd450", accent="#39ff14",
-                number="#f5c451", string="#4fb477", comment="#3a5a3a", border="#1c2a1c";
+  QMap<QString, QString> t = neutralBaseTheme();
+  // All greens share hue 111 and differ only in saturation and value; amber is
+  // the only second hue. Previously spread across 93, 111, 120 and 144 degrees.
+  const QString bg="#0a0e0a", fg="#64d450", accent="#39ff14",
+                number="#f5c451", string="#5fb550", comment="#3e5939", border="#1d291b";
+  // Brightness ladder for slots that must be distinguishable without a second hue.
+  const QString greenDim="#2d5e24", greenMid="#3b7d2f", greenBright="#4a9c3b";
   paintDarkGroundBackgrounds(t, bg);
   t["WindowForeground"]=fg; t["Foreground"]=fg; t["DefaultForeground"]=fg; t["LogForeground"]=fg;
   t["HighlightedBackground"]=accent; t["PressedButton"]=accent; t["Slider"]=accent;
   t["TabSelected"]=accent; t["MenuSelected"]=accent; t["Link"]=accent; t["LinkVisited"]=accent;
-  t["Scope"]=accent; t["MarkerBackground"]=accent; t["SelectionBackground"]="#123012";
+  t["Scope"]=accent; t["MarkerBackground"]=accent; t["SelectionBackground"]="#173012";
   t["MarkerBackgroundSyntax"]=number;   // syntax-error accent (amber), distinct from the runtime green
   t["FindMatchBackground"]=accent; t["FindCurrentMatchBackground"]=accent;   // phosphor green, two intensities
   t["MatchedBraceForeground"]=accent; t["CaretForeground"]=accent;
   t["FunctionMethodNameForeground"]=accent; t["SymbolForeground"]=accent;
-  t["CuePathBackground"]="#123012";
+  t["CuePathBackground"]="#173012";
   t["NumberForeground"]=number; t["KeywordForeground"]=number; t["DemotedKeywordForeground"]=number;
   t["Scope_2"]=number; t["StatusBarText"]=number;
   t["DoubleQuotedStringForeground"]=string; t["SingleQuotedStringForeground"]=string;
@@ -937,22 +976,43 @@ QMap<QString, QString> SonicPiTheme::phosphorTheme() {
   t["PercentStringForeground"]=string; t["PercentStringQForeground"]=string;
   t["RegexForeground"]=string; t["PercentStringrForeground"]=string;
   t["CommentForeground"]=comment; t["MarginForeground"]=comment;
-  t["Button"]="#14210f"; t["ButtonBorder"]=border;
-  t["WindowBorder"]=border; t["WindowInternalBorder"]="#050805";
-  t["ScrollBar"]=border; t["ScrollBarBackground"]="#050805";
+  t["Button"]="#12210f"; t["ButtonBorder"]=border;
+  t["WindowBorder"]=border; t["WindowInternalBorder"]="#060706";
+  t["ScrollBar"]=border; t["ScrollBarBackground"]="#060706";
+  // Slots otherwise inherited from Dark as blue, red or orange.
+  t["IndentationGuidesForeground"]=comment;
+  t["BackticksForeground"]=number; t["BackticksBackground"]="#382c11";
+  t["PODBackground"]="#57441a";
+  t["CueDataBackground"]=number;
+  t["LogForeground_1"]=fg;       t["LogBackground_5"]=greenMid;
+  t["LogForeground_3"]=number;   t["LogBackground_2"]=greenDim;
+  t["LogBackground_6"]=greenBright;
+  // Slots otherwise inherited from Dark as white. White has zero saturation, so
+  // the hue spread and rotation stages skip it: it survives 0% spread unchanged.
+  t["ButtonText"]=fg; t["MenuText"]=fg; t["ToolTipText"]=fg;
+  t["MetroButtonBorder"]=accent; t["Light"]=string;
+  t["MatchedBraceBackground"]=greenDim;
+  t["CuePathForeground"]=fg; t["CueDataForeground"]=bg;
+  t["BraceForeground"]=fg; t["ClassNameForeground"]=fg; t["ClassVariableForeground"]=fg;
+  t["GlobalForeground"]=fg; t["InstanceVariableForeground"]=fg; t["ModuleNameForeground"]=fg;
+  t["DataSectionForeground"]=fg; t["HereDocumentDelimiterForeground"]=string;
+  t["PercentStringwForeground"]=string; t["PercentStringxForeground"]=string;
+  t["PODForeground"]=number;
+  t["LogForeground_2"]=fg; t["LogForeground_5"]=fg; t["LogForeground_6"]=bg;
+  t["LogBackground_3"]=greenDim;
   // Hover/reveal accent (scrollbar + tab hover, divider-hover reveal, prefs
   // border): the phosphor green, not Dark's inherited blue.
-  t["ScrollBarHover"]=accent; t["HoverButton"]="#2f7d32";   // mid green (white text stays legible)
+  t["ScrollBarHover"]=accent; t["HoverButton"]=greenMid;   // mid green (white text stays legible)
   // Tabs + log-info info lines: keep them in the green family (Dark's inherited
   // grey/white reads as white-on-grey here), and dim the selected tab off the
   // neon accent so it doesn't glare.
-  t["Tab"]="#14210f";      t["TabText"]="#6f9a5c";
-  t["TabSelected"]="#2f7d32";
-  t["LogInfoBackground"]="#14210f"; t["LogInfoForeground"]=fg;
+  t["Tab"]="#12210f";      t["TabText"]="#65995c";
+  t["TabSelected"]=greenMid;
+  t["LogInfoBackground"]="#12210f"; t["LogInfoForeground"]=fg;
   // Highlighted info / message lines (e.g. the boot welcome) — green, not Dark's
   // inherited pink; light text on the mid-green fill.
-  t["LogInfoBackground_1"]="#2f7d32"; t["LogInfoForeground_1"]="#eaffdf";
-  t["LogBackground_4"]="#2f7d32";     t["LogForeground_4"]="#eaffdf";
+  t["LogInfoBackground_1"]=greenMid; t["LogInfoForeground_1"]="#eaffdf";
+  t["LogBackground_4"]=greenMid;     t["LogForeground_4"]="#eaffdf";
   return t;
 }
 
@@ -960,7 +1020,7 @@ QMap<QString, QString> SonicPiTheme::signalTheme() {
   // "Signal" — high-contrast, blue-and-gold scheme (inspired by Tau5): pure
   // black ground, white text, Sonic Pi blue as the primary accent and gold as
   // the secondary. Two signature colours over stark black/white for legibility.
-  QMap<QString, QString> t = darkTheme();
+  QMap<QString, QString> t = neutralBaseTheme();
   const QString bg="#000000", fg="#ffffff",
                 blue="#1e90ff", gold="#ffd700",
                 comment="#8a8a8a", border="#2a2a2a", ctrl="#141414";
@@ -1004,6 +1064,11 @@ QMap<QString, QString> SonicPiTheme::signalTheme() {
   t["LogBackground_5"]=gold;     t["LogForeground_5"]=bg;
   t["CuePathBackground"]=blue;
   t["CueDataBackground"]=gold;    t["CueDataForeground"]=bg;
+  // Slots otherwise inherited from Dark as red, orange or gold.
+  t["BackticksForeground"]=gold;  t["BackticksBackground"]=ctrl;
+  t["PODBackground"]=ctrl;        t["PODForeground"]=gold;
+  t["LogForeground_3"]=gold;
+  t["LogBackground_2"]=blue;      t["LogBackground_6"]=gold;
   return t;
 }
 
@@ -1039,12 +1104,16 @@ QPalette SonicPiTheme::createPalette() {
     return p;
 }
 
-// Applies the global colour transforms (invert, then monochrome or hue rotation)
-// to an arbitrary colour. color() runs every theme value through this; callers
-// with a literal colour (e.g. the always-black button background) use it too so
-// their colour tracks the toggles the same way.
+// Global colour transforms, in order: invert, hue spread, rotation, greyscale.
+// color() runs every theme value through this; callers holding a literal colour
+// (e.g. the always-black button background) use it so their colour tracks the
+// toggles too. Spread is here rather than in the static pipeline below because
+// it needs the theme's hue anchors, not just the one colour.
 QColor SonicPiTheme::applyGlobalTransforms(QColor c) const {
-    return applyColourTransforms(c, m_invert, m_monochrome, m_hueRotation);
+    if (m_invert)
+        c = QColor(255 - c.red(), 255 - c.green(), 255 - c.blue(), c.alpha());
+    c = applyHueSpread(c, m_hueSpread);
+    return applyColourTransforms(c, false, m_monochrome, m_hueRotation);
 }
 
 // The transform pipeline itself, with the toggles supplied explicitly — for
@@ -1052,25 +1121,107 @@ QColor SonicPiTheme::applyGlobalTransforms(QColor c) const {
 // candidate rotation mid-drag).
 QColor SonicPiTheme::applyColourTransforms(QColor c, bool invert, bool monochrome, int hueRotation) {
     // Colour inversion (photo-negative): flips the RGB so a dark theme reads
-    // light and vice versa. Applied first, so any monochrome / hue rotation below
-    // operates on the inverted colour.
+    // light and vice versa. First, so the stages below act on the inverted colour.
     if (invert)
         c = QColor(255 - c.red(), 255 - c.green(), 255 - c.blue(), c.alpha());
     // Global hue rotation: spins the saturated colours (accent, syntax, tinted
     // icons) while leaving neutrals — greys/black/white — untouched, so darks
     // stay dark and legibility is preserved.
-    if (monochrome) {
-        // Perceptual greyscale (Rec.709 luma): neutral greys that preserve each
-        // colour's apparent brightness, so the dark/light structure is kept.
-        const int y = qRound(0.2126 * c.red() + 0.7152 * c.green() + 0.0722 * c.blue());
-        return QColor(y, y, y, c.alpha());
-    }
     if (hueRotation % 360 != 0) {
         int h, s, v, a;
         c.getHsv(&h, &s, &v, &a);
         if (h >= 0 && s > 0)
             c.setHsv((h + hueRotation) % 360, s, v, a);
     }
+    // After the hue stages, not before: the Rec.709 weights are uneven (green
+    // 0.7152 against blue 0.0722), so rotating a colour first changes which grey
+    // it collapses to. That makes the hue dial a tone control under greyscale.
+    if (monochrome) {
+        const int y = qRound(0.2126 * c.red() + 0.7152 * c.green() + 0.0722 * c.blue());
+        return QColor(y, y, y, c.alpha());
+    }
+    return c;
+}
+
+// Hues within this many degrees count as one colour family. Without bucketing,
+// the anchor set is every distinct hue in a ~130-key map.
+static const int kHueBucket = 15;
+
+static int hueBucketOf(int hue) { return ((hue + kHueBucket / 2) / kHueBucket) * kHueBucket % 360; }
+
+// Signed shortest arc, in (-180, 180]. Interpolating on the raw difference goes
+// the long way round the wheel.
+static int hueDelta(int from, int to) { return ((to - from + 540) % 360) - 180; }
+
+void SonicPiTheme::rebuildHueSpreadMap() {
+    m_hueBase = -1;
+    m_hueEven.clear();
+
+    int h, s, v;
+    QColor(theme.value("HighlightedBackground")).getHsv(&h, &s, &v);
+    if (h < 0 || s <= 0)
+        return;                       // an achromatic accent gives nothing to pivot on
+    m_hueBase = h;
+
+    // Near-neutrals are excluded: a barely tinted grey claiming a slot would
+    // compress the spacing of the real hues.
+    QSet<int> buckets;
+    for (auto it = theme.constBegin(); it != theme.constEnd(); ++it) {
+        QColor c(it.value());
+        if (!c.isValid()) continue;
+        int hh, ss, vv;
+        c.getHsv(&hh, &ss, &vv);
+        if (hh >= 0 && ss >= 25)
+            buckets.insert(hueBucketOf(hh));
+    }
+    if (buckets.isEmpty()) return;
+
+    // Ordered by forward distance from the base, then given evenly spaced slots
+    // in that order: the wheel's existing sequence is kept and only the gaps
+    // between neighbours are equalised.
+    //
+    // Pivots on the base's bucket, not its exact hue. An accent that rounds down
+    // into its bucket (Phosphor's 111 into 105) measures ~354 degrees forward
+    // rather than 0, sorts last, and is handed a slot most of the way round the
+    // wheel. Slot 0 is then pinned to the exact accent hue so spread leaves the
+    // primary fixed.
+    QList<int> ordered = buckets.values();
+    const int pivot = hueBucketOf(m_hueBase);
+    std::sort(ordered.begin(), ordered.end(), [pivot](int a, int b) {
+        return ((a - pivot + 360) % 360) < ((b - pivot + 360) % 360);
+    });
+    const int n = ordered.size();
+    for (int i = 0; i < n; ++i)
+        m_hueEven.insert(ordered[i], i == 0 ? m_hueBase : (m_hueBase + i * 360 / n) % 360);
+}
+
+QColor SonicPiTheme::applyHueSpread(QColor c, int percent) const {
+    if (percent == kHueSpreadDefault || m_hueBase < 0)
+        return c;
+    int h, s, v, a;
+    c.getHsv(&h, &s, &v, &a);
+    if (h < 0 || s <= 0)
+        return c;                     // neutrals have no hue to move
+
+    int target;
+    if (percent < kHueSpreadDefault) {
+        // Below default: hues slide toward the accent, reaching it at 0.
+        const double k = double(percent) / double(kHueSpreadDefault);
+        target = m_hueBase + qRound(hueDelta(m_hueBase, h) * k);
+    } else {
+        // Above default: hues move toward their evenly spaced slot. Colours
+        // blended between theme tokens land between anchors; the nearest stands in.
+        int anchor = hueBucketOf(h), best = 360;
+        for (auto it = m_hueEven.constBegin(); it != m_hueEven.constEnd(); ++it) {
+            const int d = qAbs(hueDelta(h, it.key()));
+            if (d < best) { best = d; anchor = it.key(); }
+        }
+        const int even = m_hueEven.value(anchor, h);
+        const double k = double(percent - kHueSpreadDefault)
+                       / double(kHueSpreadEven - kHueSpreadDefault);
+        target = h + qRound(hueDelta(h, even) * k);
+    }
+    c.setHsv(((target % 360) + 360) % 360, s, v, a);
     return c;
 }
 
@@ -1091,6 +1242,18 @@ QColor SonicPiTheme::contrastingText(const QColor& bg) const {
 void SonicPiTheme::setHueRotation(int degrees) {
     m_hueRotation = ((degrees % 360) + 360) % 360;
     m_recIconCache.clear();
+}
+
+void SonicPiTheme::setHueSpread(int percent) {
+    m_hueSpread = qBound(kHueSpreadMono, percent, kHueSpreadEven);
+    m_recIconCache.clear();
+}
+
+QColor SonicPiTheme::previewWithSpread(QColor c, int percent, int hueRotation) const {
+    if (m_invert)
+        c = QColor(255 - c.red(), 255 - c.green(), 255 - c.blue(), c.alpha());
+    c = applyHueSpread(c, qBound(kHueSpreadMono, percent, kHueSpreadEven));
+    return applyColourTransforms(c, false, m_monochrome, hueRotation);
 }
 
 QColor SonicPiTheme::rawColor(QString key) {

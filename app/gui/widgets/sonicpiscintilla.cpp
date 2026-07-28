@@ -591,6 +591,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     m_completion->applyTheme(theme->color("Background"), theme->color("Foreground"),
                              theme->color("HighlightedBackground"),
                              theme->contrastingText(theme->color("HighlightedBackground")));
+    m_completion->setColourFilter([t = theme](QColor c) { return t->applyGlobalTransforms(c); });
     // Clicking the mini piano accepts that note like Tab/Return.
     connect(m_completion, &CompletionPopup::accepted, this, [this]() { acceptCompletion(); });
     // The popup's close button cancels completion exactly like Escape.
@@ -725,6 +726,7 @@ void SonicPiScintilla::redraw()
         m_completion->applyTheme(theme->color("Background"), theme->color("Foreground"),
                                  theme->color("HighlightedBackground"),
                                  theme->contrastingText(theme->color("HighlightedBackground")));
+        m_completion->setColourFilter([t = theme](QColor c) { return t->applyGlobalTransforms(c); });
     }
     // Re-tint the error-line markers (gutter dot/washes + squiggle) so a visible
     // error tracks the new theme (applyErrorMarkers runs under the held mutex).

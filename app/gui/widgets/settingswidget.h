@@ -25,6 +25,7 @@ class QToolButton;
 class QRadioButton;
 class QLabel;
 class QLineEdit;
+class QSpinBox;
 class QButtonGroup;
 class QSignalMapper;
 class QPixmap;
@@ -67,6 +68,8 @@ public:
     void updateSelectedUILanguage(QString lang);
     // The base (un-rotated) accent colour used to preview the hue dial live.
     void setHuePreviewBase(const QColor& baseAccent);
+    // Spread leaves the primary fixed, so the dial previews a secondary.
+    void setSpreadPreviewBase(const QColor& secondary, SonicPiTheme* theme);
     // Re-preview each theme card through the active global colour filters (hue
     // rotation / monochrome / invert), so a card shows how its scheme would look
     // under the current toggles rather than its raw palette.
@@ -108,6 +111,7 @@ private slots:
     void toggleLogAutoScroll();
     void updateColourTheme();
     void hueRotationChanged(int degrees);
+    void hueSpreadChanged(int percent);
     void toggleScope();
     void toggleScopeLabels();
     void toggleScope( QObject* qo );
@@ -305,6 +309,20 @@ private:
     QTimer* m_hueTimer = nullptr;
     QColor m_huePreviewBase;   // base accent the dial tints from
     void updateHueDialTint(int degrees);
+
+    // Hue spread: how far the interface's hues sit from the theme's accent.
+    ArcDial* m_spreadDial = nullptr;
+    QColor m_spreadPreviewBase;               // secondary the spread dial tints from
+    SonicPiTheme* m_spreadPreviewTheme = nullptr;   // supplies the spread anchors
+    void updateSpreadDialTint(int percent);
+    // Captions under each dial; they swap to a release prompt mid-drag, since the
+    // interface only re-themes on release.
+    QLabel* m_hueCaption = nullptr;
+    QLabel* m_spreadCaption = nullptr;
+    QPushButton* m_resetModsButton = nullptr;
+    void setDialCaptionDragging(QLabel* caption, const QString& resting, bool dragging);
+    // Returns hue rotation, spread, monochrome and invert to their defaults.
+    void resetThemeMods();
 
     // Theme picker cards, re-previewed through the active global colour filters.
     struct ThemeCardInfo { QPushButton* card; QLabel* icon; QLabel* name; QColor bg, fg, accent, border; };

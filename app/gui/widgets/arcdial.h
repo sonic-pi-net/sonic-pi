@@ -23,6 +23,8 @@
 #include <QFontMetrics>
 #include <QPen>
 #include <QColor>
+#include <QLineEdit>
+#include <QIntValidator>
 
 #include "dpi.h"
 
@@ -48,7 +50,63 @@ public:
     void setValueSuffix(const QString& s) { m_valueSuffix = s; update(); }
     // Whether to draw the numeric value in the centre (default on).
     void setShowValue(bool b) { m_showValue = b; update(); }
+    // Double-click the centre value to type an exact one, since a relative drag
+    // cannot land on a specific value. The drawn value doubles as the edit field
+    // rather than adding a second control beside the dial.
+    void beginEdit() {
+        if (!m_showValue) return;
+        if (!m_edit) {
+            m_edit = new QLineEdit(this);
+            m_edit->setAlignment(Qt::AlignCenter);
+            m_edit->setValidator(new QIntValidator(minimum(), maximum(), m_edit));
+            m_edit->setAccessibleName(accessibleName());
+            m_edit->hide();
+            QObject::connect(m_edit, &QLineEdit::editingFinished, m_edit, [this]() { commitEdit(); });
+        }
+        m_edit->setValidator(new QIntValidator(minimum(), maximum(), m_edit));
+        QFont ef("Hack", -1, QFont::Bold);
+        ef.setPixelSize(FontRolePx(m_valueRole));
+        m_edit->setFont(ef);
+        const int w = qMax(width() / 2, 48), h = m_edit->sizeHint().height();
+        m_edit->setGeometry((width() - w) / 2, (height() - h) / 2, w, h);
+        m_edit->setText(QString::number(value()));
+        m_edit->selectAll();
+        m_edit->show();
+        m_edit->setFocus(Qt::MouseFocusReason);
+    }
 protected:
+    void commitEdit() {
+        if (!m_edit || !m_edit->isVisible()) return;
+        bool ok = false;
+        const int v = m_edit->text().toInt(&ok);
+        m_edit->hide();
+        if (ok) setValue(qBound(minimum(), v, maximum()));
+    }
+    void mouseDoubleClickEvent(QMouseEvent* e) override {
+        if (e->button() == Qt::LeftButton && m_showValue) {
+            setSliderDown(false);      // the first click of the pair armed a drag
+            m_haveAngle = false;
+            beginEdit();
+            e->accept();
+            return;
+        }
+        QDial::mouseDoubleClickEvent(e);
+    }
+    void keyPressEvent(QKeyEvent* e) override {
+        // Return opens the editor from the keyboard; Escape abandons it.
+        if (m_edit && m_edit->isVisible() && e->key() == Qt::Key_Escape) {
+            m_edit->hide();
+            setFocus(Qt::OtherFocusReason);
+            e->accept();
+            return;
+        }
+        if (m_showValue && (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)) {
+            beginEdit();
+            e->accept();
+            return;
+        }
+        QDial::keyPressEvent(e);
+    }
     void mousePressEvent(QMouseEvent* e) override {
         if (e->button() == Qt::LeftButton) {
             // Grab where you click WITHOUT changing the value — then tune from
@@ -171,6 +229,7 @@ private:
     bool m_showValue = true;
     QColor m_arcColor;
     QString m_valueSuffix;
+    QLineEdit* m_edit = nullptr;   // centre value editor, created on first use
 };
 
 #endif // ARCDIAL_H

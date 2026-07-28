@@ -58,6 +58,7 @@
 #include <iostream>
 #include <QLabel>
 #include <QPushButton>
+#include <QSpinBox>
 #include <QSignalMapper>
 #include <QVBoxLayout>
 #include <QMessageBox>
@@ -261,10 +262,10 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     synthsGroupLayout->addWidget(enable_external_synths_cb);
     synthsGroup->setLayout(synthsGroupLayout);
 
+    // The dial alone. The Audio and Synths groups were nested in here, under the
+    // "Main Volume" heading; they are siblings in the tab layout below instead.
     QVBoxLayout *vol_box = new QVBoxLayout;
     vol_box->addWidget(system_vol_slider, 1, Qt::AlignHCenter);
-    vol_box->addWidget(audioGroup);
-    vol_box->addWidget(synthsGroup);
     volBox->setLayout(vol_box);
 
     // --- Audio Device (driver, device, sample rate, buffer size) ---
@@ -474,7 +475,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     // --- Assemble grid layout ---
     // Col 0: Volume knob + all checkboxes (spans all rows)
-    // Col 1: Audio Device, Recording (mac/win), SuperSonic panel
+    // Col 0: Main Volume, Audio Device, SuperSonic panel.
+    // Col 1: Audio, Synths and FX, Recording (mac/win) pinned to the bottom.
     QGroupBox *audio_prefs_box = new QGroupBox();
     QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
@@ -482,17 +484,22 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // panel (centred art with top/bottom stretches) absorbs any slack so it
     // doesn't squeeze the device combos.
     audioDeviceBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    volBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     recordingGroup->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 #endif
     supersonicBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
-    audio_prefs_box_layout->addWidget(volBox, 0, 0, 3, 1);
-    audio_prefs_box_layout->addWidget(audioDeviceBox, 0, 1);
+    audio_prefs_box_layout->addWidget(volBox, 0, 0);
+    audio_prefs_box_layout->addWidget(audioDeviceBox, 1, 0);
+    audio_prefs_box_layout->addWidget(supersonicBox, 2, 0);
+
+    audio_prefs_box_layout->addWidget(audioGroup, 0, 1);
+    audio_prefs_box_layout->addWidget(synthsGroup, 1, 1);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    audio_prefs_box_layout->addWidget(recordingGroup, 1, 1);
+    // Row 2 carries the stretch, so align bottom or the switch floats at its top.
+    audio_prefs_box_layout->addWidget(recordingGroup, 2, 1, Qt::AlignBottom);
 #endif
-    audio_prefs_box_layout->addWidget(supersonicBox, 2, 1);
     audio_prefs_box_layout->setRowStretch(0, 0);
     audio_prefs_box_layout->setRowStretch(1, 0);
     audio_prefs_box_layout->setRowStretch(2, 1);
@@ -865,7 +872,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
         { darkModeCheck,         "#1a1a1a", "#ededed", "#ff1493", kGrey,     0, 1 },
         { highContrastModeCheck, "#ffffff", "#000000", "#99004a", "#000000", 0, 2 },
         { mildModeCheck,         "#1e1e1e", "#d4d4d4", "#ce9178", kGrey,     1, 0 },
-        { phosphorModeCheck,     "#0a0e0a", "#8bd450", "#39ff14", kGrey,     1, 1 },
+        { phosphorModeCheck,     "#0a0e0a", "#64d450", "#39ff14", kGrey,     1, 1 },
         { signalModeCheck,       "#000000", "#ffffff", "#1e90ff", "#ffd700", 1, 2 },   // black/white, blue + gold
     };
     // Card width is driven by the widest label (the icon sits above the name).
@@ -942,39 +949,86 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     m_hueDial = new ArcDial(this);
     m_hueDial->setRange(0, 359);
     m_hueDial->setWrapping(false);
-    m_hueDial->setShowValue(false);
+    m_hueDial->setValueSuffix("°");
+    m_hueDial->setValueFontRole(FontRole::XLarge);
     m_hueDial->setFixedSize(ScaleWidthForDPI(108), ScaleHeightForDPI(108));
+    m_hueDial->setAccessibleName(tr("Rotate hue"));
+    m_hueDial->setProperty("tipTitle", tr("Rotate Hue"));
+    m_hueDial->setToolTip(tr("Drag or scroll to rotate the hue of every colour in the interface. "
+                             "Double-click the value to type an exact one."));
     m_hueTimer = new QTimer(this);
     m_hueTimer->setSingleShot(true);
     connect(m_hueDial, &QDial::valueChanged, this, &SettingsWidget::hueRotationChanged);
     connect(m_hueDial, &QAbstractSlider::sliderReleased, this, [this]() { emit themeChanged(); });
 
-    // Left: the dial with its "Rotate Colour" label beneath it (a dial value of
-    // 0 is simply no rotation). Right: Pro icons, Monochrome, Invert.
-    QVBoxLayout* hueCol = new QVBoxLayout;
-    QLabel* rcTitle = new QLabel(tr("Rotate Hue"));
-    rcTitle->setAlignment(Qt::AlignHCenter);
-    rcTitle->setToolTip(tr("Drag the dial to rotate the hue of every colour in the interface."));
-    // Centre the dial + label in its half, both vertically and horizontally.
-    hueCol->addStretch(1);
-    hueCol->addWidget(m_hueDial, 0, Qt::AlignHCenter);
-    hueCol->addWidget(rcTitle, 0, Qt::AlignHCenter);
-    hueCol->addStretch(1);
+    // Hue spread: how far the other colours sit from the accent. 0 collapses them
+    // onto it, 100 is the theme as authored, the top is even spacing.
+    m_spreadDial = new ArcDial(this);
+    m_spreadDial->setRange(SonicPiTheme::kHueSpreadMono, SonicPiTheme::kHueSpreadEven);
+    m_spreadDial->setWrapping(false);
+    m_spreadDial->setValueSuffix("%");
+    m_spreadDial->setValueFontRole(FontRole::XLarge);
+    m_spreadDial->setFixedSize(ScaleWidthForDPI(108), ScaleHeightForDPI(108));
+    m_spreadDial->setAccessibleName(tr("Spread hue"));
+    m_spreadDial->setProperty("tipTitle", tr("Spread Hue"));
+    m_spreadDial->setToolTip(tr("Drag or scroll to set how far the interface's colours sit from the "
+                                "main colour. 100%% is the theme as designed, 0%% collapses "
+                                "everything to a single hue. Double-click the value to type an exact one."));
+    connect(m_spreadDial, &QDial::valueChanged, this, &SettingsWidget::hueSpreadChanged);
+    connect(m_spreadDial, &QAbstractSlider::sliderReleased, this, [this]() { emit themeChanged(); });
 
-    // Right column: the three toggles stacked tightly and centred vertically so
-    // they sit level with the dial beside them instead of floating at the top.
+    const QString kHueCaption = tr("Rotate Hue");
+    const QString kSpreadCaption = tr("Spread Hue");
+    m_hueCaption = new QLabel(kHueCaption);
+    m_hueCaption->setAlignment(Qt::AlignHCenter);
+    m_hueCaption->setToolTip(tr("Drag the dial to rotate the hue of every colour in the interface."));
+    m_spreadCaption = new QLabel(kSpreadCaption);
+    m_spreadCaption->setAlignment(Qt::AlignHCenter);
+    m_spreadCaption->setToolTip(m_spreadDial->toolTip());
+
+    // The re-theme is deferred to release (too expensive per drag step), so
+    // mid-drag only the dial tracks; the caption says so rather than looking dead.
+    connect(m_hueDial, &QAbstractSlider::sliderPressed, this,
+            [this, kHueCaption]() { setDialCaptionDragging(m_hueCaption, kHueCaption, true); });
+    connect(m_hueDial, &QAbstractSlider::sliderReleased, this,
+            [this, kHueCaption]() { setDialCaptionDragging(m_hueCaption, kHueCaption, false); });
+    connect(m_spreadDial, &QAbstractSlider::sliderPressed, this,
+            [this, kSpreadCaption]() { setDialCaptionDragging(m_spreadCaption, kSpreadCaption, true); });
+    connect(m_spreadDial, &QAbstractSlider::sliderReleased, this,
+            [this, kSpreadCaption]() { setDialCaptionDragging(m_spreadCaption, kSpreadCaption, false); });
+
+    auto dialColumn = [](ArcDial* dial, QLabel* caption) {
+        QVBoxLayout* col = new QVBoxLayout;
+        col->addStretch(1);
+        col->addWidget(dial, 0, Qt::AlignHCenter);
+        col->addWidget(caption, 0, Qt::AlignHCenter);
+        col->addStretch(1);
+        return col;
+    };
+
+    // Returns all four mods to their defaults; the scheme itself is kept.
+    m_resetModsButton = new QPushButton(tr("Reset Theme"));
+    m_resetModsButton->setToolTip(tr("Return hue rotation, hue spread, monochrome "
+                                     "and invert to their defaults. The chosen "
+                                     "scheme is kept."));
+    connect(m_resetModsButton, &QPushButton::clicked, this, &SettingsWidget::resetThemeMods);
+
+    // Toggles centred vertically so they sit level with the dials beside them.
     QVBoxLayout* toggleCol = new QVBoxLayout;
     toggleCol->setSpacing(ScaleHeightForDPI(4));
     toggleCol->addStretch(1);
     toggleCol->addWidget(proIconsCheck);
     toggleCol->addWidget(monochromeCheck);
     toggleCol->addWidget(invertCheck);
+    toggleCol->addSpacing(ScaleHeightForDPI(8));
+    toggleCol->addWidget(m_resetModsButton);
     toggleCol->addStretch(1);
 
-    // Two equal halves: toggles on the left, dial (+ label) on the right.
+    // Toggles left, the two dials sharing the right half.
     QHBoxLayout* tweaks = new QHBoxLayout;
     tweaks->addLayout(toggleCol, 1);
-    tweaks->addLayout(hueCol, 1);
+    tweaks->addLayout(dialColumn(m_hueDial, m_hueCaption), 1);
+    tweaks->addLayout(dialColumn(m_spreadDial, m_spreadCaption), 1);
     theme_box_layout->addLayout(tweaks);
     theme_box->setLayout(theme_box_layout);
 
@@ -2560,11 +2614,56 @@ void SettingsWidget::setHuePreviewBase(const QColor& baseAccent) {
     updateHueDialTint(piSettings ? piSettings->hue_rotation : 0);
 }
 
+void SettingsWidget::setSpreadPreviewBase(const QColor& secondary, SonicPiTheme* theme) {
+    m_spreadPreviewBase = secondary;
+    m_spreadPreviewTheme = theme;
+    updateSpreadDialTint(piSettings ? piSettings->hue_spread
+                                    : SonicPiTheme::kHueSpreadDefault);
+}
+
+// Tint the spread dial with the secondary as it renders at the dial's value:
+// converging on the accent below 100, opening away from it above.
+void SettingsWidget::updateSpreadDialTint(int percent) {
+    if (!m_spreadDial || !m_spreadPreviewBase.isValid() || !m_spreadPreviewTheme) return;
+    m_spreadDial->setArcColor(m_spreadPreviewTheme->previewWithSpread(
+        m_spreadPreviewBase, percent, piSettings ? piSettings->hue_rotation : 0));
+}
+
 void SettingsWidget::hueRotationChanged(int degrees) {
     piSettings->hue_rotation = degrees;
     updateHueDialTint(degrees);   // live feedback on the dial only (arc + centre value)
+    // Rotation moves the secondary too, so the spread swatch has to follow it.
+    updateSpreadDialTint(piSettings ? piSettings->hue_spread
+                                    : SonicPiTheme::kHueSpreadDefault);
     if (!m_hueDial || !m_hueDial->isSliderDown())
         emit themeStepChanged();  // keyboard/wheel step (not a drag): can autorepeat, so debounced
+}
+
+void SettingsWidget::hueSpreadChanged(int percent) {
+    piSettings->hue_spread = percent;
+    updateSpreadDialTint(percent);   // live feedback on the dial only
+    if (!m_spreadDial || !m_spreadDial->isSliderDown())
+        emit themeStepChanged();
+}
+
+// The interface only re-themes on release, so mid-drag the caption says so.
+void SettingsWidget::setDialCaptionDragging(QLabel* caption, const QString& resting, bool dragging) {
+    if (!caption) return;
+    caption->setText(dragging ? tr("Release to apply") : resting);
+}
+
+void SettingsWidget::resetThemeMods() {
+    piSettings->hue_rotation = 0;
+    piSettings->hue_spread = SonicPiTheme::kHueSpreadDefault;
+    piSettings->monochrome = false;
+    piSettings->invert_colours = false;
+    if (m_hueDial)     { QSignalBlocker b(m_hueDial);     m_hueDial->setValue(0); }
+    if (m_spreadDial)  { QSignalBlocker b(m_spreadDial);  m_spreadDial->setValue(SonicPiTheme::kHueSpreadDefault); }
+    if (monochromeCheck) { QSignalBlocker b(monochromeCheck); monochromeCheck->setChecked(false); }
+    if (invertCheck)     { QSignalBlocker b(invertCheck);     invertCheck->setChecked(false); }
+    updateHueDialTint(0);
+    updateSpreadDialTint(SonicPiTheme::kHueSpreadDefault);
+    emit themeChanged();
 }
 
 // The three iconic Sonic Pi Greek glyphs (lambda, delta, pi), drawn in a centred
@@ -2799,6 +2898,7 @@ void SettingsWidget::updateSettings() {
     piSettings->colourScheme = scheme;
     piSettings->proIcons = proIconsCheck->isChecked();
     if (m_hueDial) piSettings->hue_rotation = m_hueDial->value();
+    if (m_spreadDial) piSettings->hue_spread = m_spreadDial->value();
     if (monochromeCheck) piSettings->monochrome = monochromeCheck->isChecked();
     if (invertCheck) piSettings->invert_colours = invertCheck->isChecked();
 
@@ -2865,6 +2965,7 @@ void SettingsWidget::settingsChanged() {
     signalModeCheck->setChecked( scheme == SonicPiTheme::SignalScheme );
     proIconsCheck->setChecked( piSettings->proIcons );
     if (m_hueDial) { QSignalBlocker hb(m_hueDial); m_hueDial->setValue(piSettings->hue_rotation); }
+    if (m_spreadDial) { QSignalBlocker sb(m_spreadDial); m_spreadDial->setValue(piSettings->hue_spread); }
     if (monochromeCheck) monochromeCheck->setChecked(piSettings->monochrome);
     if (invertCheck) invertCheck->setChecked(piSettings->invert_colours);
 

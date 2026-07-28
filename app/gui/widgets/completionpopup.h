@@ -13,6 +13,7 @@
 #include <QWidget>
 #include <QList>
 #include <QColor>
+#include <functional>
 #include <QIcon>
 #include <QModelIndex>
 
@@ -53,6 +54,12 @@ public:
     // Match the editor's theme so the popup is legible on any colour scheme.
     void applyTheme(const QColor& bg, const QColor& fg,
                     const QColor& selBg, const QColor& selFg);
+
+    // Kind badges and instrument glyphs come from a fixed category palette, not
+    // theme tokens, so they miss the global colour filters (hue rotation, spread,
+    // monochrome, invert). The editor supplies the theme's transform to apply.
+    void setColourFilter(std::function<QColor(QColor)> filter);
+    QColor filtered(const QColor& c) const { return m_colourFilter ? m_colourFilter(c) : c; }
 
     // Show (or refresh) the popup with the given candidates. caretTopLeft is the
     // caret position in the parent editor's coordinates and lineHeight its line
@@ -205,6 +212,7 @@ private:
     QColor m_border = QColor(127, 127, 127); // painted border
     QColor m_selBg = QColor(0xff, 0x14, 0x93);   // selection fill (theme accent)
     QColor m_selFg = QColor(255, 255, 255);      // selected-row text
+    std::function<QColor(QColor)> m_colourFilter;   // theme's global colour transform
     QColor m_text  = QColor(220, 220, 220);      // normal row text
 };
 

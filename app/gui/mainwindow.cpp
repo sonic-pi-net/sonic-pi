@@ -4242,6 +4242,7 @@ void MainWindow::updateColourTheme()
 
     theme->applyTheme(piSettings->colourScheme, piSettings->proIcons);
     theme->setHueRotation(piSettings->hue_rotation);
+    theme->setHueSpread(piSettings->hue_spread);
     theme->setMonochrome(piSettings->monochrome);
     theme->setInvert(piSettings->invert_colours);
     appliedColourScheme = static_cast<int>(piSettings->colourScheme);
@@ -4311,6 +4312,9 @@ void MainWindow::updateColourTheme()
     // The hue dial previews the highlight colour; give the settings pane the
     // base (un-rotated) accent so its live tint matches the real accent.
     settingsWidget->setHuePreviewBase(theme->rawColor("HighlightedBackground"));
+    // Spread leaves the accent fixed, so the dial samples a secondary instead.
+    // The keyword colour is the second colour family in every scheme.
+    settingsWidget->setSpreadPreviewBase(theme->rawColor("KeywordForeground"), theme);
     settingsWidget->refreshThemeCards(theme);
 
     scopeWindow->Refresh();
@@ -7073,6 +7077,8 @@ void MainWindow::readSettings()
     piSettings->proIcons = gui_settings->value("prefs/pro-icons",
                                styleName.trimmed().endsWith(" Pro")).toBool();
     piSettings->hue_rotation = gui_settings->value("prefs/hue-rotation", 0).toInt();
+    piSettings->hue_spread = gui_settings->value("prefs/hue-spread",
+                                                 SonicPiTheme::kHueSpreadDefault).toInt();
     piSettings->monochrome = gui_settings->value("prefs/monochrome", false).toBool();
     piSettings->invert_colours = gui_settings->value("prefs/invert-colours", false).toBool();
     piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
@@ -7158,6 +7164,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/theme", SonicPiTheme::colourSchemeToName(piSettings->colourScheme));
     gui_settings->setValue("prefs/pro-icons", piSettings->proIcons);
     gui_settings->setValue("prefs/hue-rotation", piSettings->hue_rotation);
+    gui_settings->setValue("prefs/hue-spread", piSettings->hue_spread);
     gui_settings->setValue("prefs/monochrome", piSettings->monochrome);
     gui_settings->setValue("prefs/invert-colours", piSettings->invert_colours);
 

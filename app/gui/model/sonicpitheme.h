@@ -35,8 +35,24 @@ public:
     static QString colourSchemeToName(ColourScheme scheme);
     static ColourScheme colourSchemeFromName(QString name);
 
+    // Global filters layered over the active scheme. Grouped so they can be
+    // reset, and later saved as a preset, as one unit.
+    static constexpr int kHueSpreadDefault = 100;   // authored theme, unmodified
+    static constexpr int kHueSpreadEven    = 150;   // hues spaced evenly
+    static constexpr int kHueSpreadMono    = 0;     // every hue collapsed to one
+
     // Global hue rotation (degrees) applied to every colour the theme resolves.
     void setHueRotation(int degrees);
+    // How far each hue may sit from the accent. kHueSpreadDefault reproduces the
+    // theme exactly; below it hues converge, reaching a single hue at 0; above it
+    // they open out toward even spacing. Even spacing is the ceiling, so a hue
+    // cannot wrap past its neighbour at any setting.
+    void setHueSpread(int percent);
+    // A colour as it would render at a candidate spread, for the prefs dial
+    // preview. Spread leaves the primary fixed, so the dial samples a secondary.
+    // Spread and rotation are both passed in rather than read from stored state,
+    // which only updates on release, so the swatch tracks either dial mid-drag.
+    QColor previewWithSpread(QColor c, int percent, int hueRotation) const;
     // The theme colour for a key WITHOUT the global hue/monochrome transform
     // (e.g. for a preview that wants to apply its own rotation).
     QColor rawColor(QString key);
@@ -122,8 +138,16 @@ private:
     ColourScheme colourScheme;
     bool proIcons;
     int m_hueRotation = 0;
+    int m_hueSpread = kHueSpreadDefault;
     bool m_monochrome = false;
     bool m_invert = false;
+    // Rebuilt per theme: the base hues collapse toward (the accent), plus each
+    // authored hue mapped to its position under even spacing.
+    int m_hueBase = -1;
+    QMap<int, int> m_hueEven;
+    void rebuildHueSpreadMap();
+    // Interpolates one colour's hue along base -> authored -> evenly spaced.
+    QColor applyHueSpread(QColor c, int percent) const;
     QString stylesheet;
     QString m_cssTemplate;   // cached disk-read + DPI-scaled .qss (colours filled per re-theme)
     // Cached disk-read + DPI-scaled doc-styles .css per source file (the scaled
@@ -149,6 +173,9 @@ private:
     QMap<QString, QString> lightTheme();
     QMap<QString, QString> darkTheme();
     QMap<QString, QString> highContrastTheme();
+    // Dark, desaturated. Base for the derived schemes so an unset key renders
+    // grey rather than inheriting a plausible colour. See the definition.
+    QMap<QString, QString> neutralBaseTheme();
     QMap<QString, QString> mildDarkTheme();
     QMap<QString, QString> phosphorTheme();
     QMap<QString, QString> signalTheme();

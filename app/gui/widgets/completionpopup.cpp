@@ -210,7 +210,7 @@ public:
             int bw = bfm.horizontalAdvance(label) + 2 * kBadgeHPad;
             int bh = bfm.height() + 2;
             QRect badge(opt.rect.left() + kRowHPad, cy - bh / 2, bw, bh);
-            QColor c = kindColor(kind);
+            QColor c = m_popup->filtered(kindColor(kind));
             p->setPen(Qt::NoPen);
             p->setBrush(selected ? QColor(0, 0, 0, 90)
                                  : QColor(c.red(), c.green(), c.blue(), 70));
@@ -258,7 +258,7 @@ public:
         if (kind == "synth" || kind == "fx") {
             int ih = opt.rect.height() - 6;
             QString bare = name.startsWith(':') ? name.mid(1) : name;
-            QColor iconColour = selected ? m_popup->selectionFg() : kindColor(kind);
+            QColor iconColour = selected ? m_popup->selectionFg() : m_popup->filtered(kindColor(kind));
             QPixmap icon = instrumentRowIcon(kind, bare, iconColour, ih,
                                              m_popup->devicePixelRatioF());
             int iw = qRound(icon.width() / icon.devicePixelRatio());
@@ -1281,6 +1281,12 @@ bool CompletionPopup::selectNote(int midi)
         }
     }
     return false;
+}
+
+void CompletionPopup::setColourFilter(std::function<QColor(QColor)> filter)
+{
+    m_colourFilter = std::move(filter);
+    update();
 }
 
 void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
