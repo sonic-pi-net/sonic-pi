@@ -1460,7 +1460,7 @@ void QuickstartPane::rebuildDots()
         }
         // Even, so the radius below is exactly half. Qt does not clamp a
         // radius to half the box — it paints artifacts above that and visible
-        // corners below (see kPillRadiusDx in dpi.h) — so only an exact half
+        // corners below (see the scale in dpi.h) — so only an exact half
         // renders a true circle. An odd box makes that impossible in integer
         // pixels, which is why rounding either way alternated circle/square
         // as zoom nudged the size.

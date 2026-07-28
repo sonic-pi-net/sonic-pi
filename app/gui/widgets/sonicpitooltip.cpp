@@ -231,7 +231,7 @@ void SonicPiToolTip::layoutContent()
 {
     m_padX = ScaleWidthForDPI(13);
     m_padY = ScaleHeightForDPI(10);
-    m_radius = ScaleHeightForDPI(7);
+    m_radius = ScaleHeightForDPI(kRadiusMediumDx);
     m_caretW = ScaleWidthForDPI(14);
     m_caretH = ScaleHeightForDPI(7);
     m_shadow = ScaleHeightForDPI(14);
@@ -453,7 +453,7 @@ void SonicPiToolTip::paintEvent(QPaintEvent* event)
         const QColor chipText = highContrast ? fg : mix(fg, accent, 0.45);
         p.setPen(QPen(chipBorder, 1.0));
         p.setBrush(chipBg);
-        const qreal chipRadius = ScaleHeightForDPI(4);
+        const qreal chipRadius = ScaleHeightForDPI(kRadiusSmallDx);
         p.drawRoundedRect(chip, chipRadius, chipRadius);
         p.setFont(chipFont());
         p.setPen(chipText);

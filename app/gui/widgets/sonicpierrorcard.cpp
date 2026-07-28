@@ -276,7 +276,7 @@ void SonicPiErrorCard::applyTheme()
     // %11 btnBg %12 btnHoverText %13 btnPressedText
     // %14-%21 scaled font sizes
     QString qss = QString(
-        "#errCardFrame { background:%2; border:2px solid %1; border-radius:10px; }"
+        "#errCardFrame { background:%2; border:2px solid %1; border-radius:@radiusMedium; }"
         "#errHeader { background:transparent; color:%1; font-size:%14; font-weight:bold; }"
         "#errClose { background:transparent; border:none; color:%3; font-size:%15;"
         " padding:0 2px; }"
@@ -286,16 +286,16 @@ void SonicPiErrorCard::applyTheme()
         "#errLocation { color:%3; font-size:%17; }"
         "#errReason { color:%3; font-size:%18;"
         " font-family:'Hack','Courier New',monospace; }"
-        "#errCodeFrame { background:%5; border-radius:6px; border:1px solid %6; }"
+        "#errCodeFrame { background:%5; border-radius:@radiusMedium; border:1px solid %6; }"
         "#errBacktrace { color:%3; background:transparent; font-size:%19; }"
         "#errJump { background:%11; color:%7; border:2px solid %8;"
-        " border-radius:3px; padding:5px 12px; font-size:%20; }"
+        " border-radius:@radiusSmall; padding:5px 12px; font-size:%20; }"
         "#errJump:hover:!pressed { background:%9; color:%12; }"
         "#errJump:pressed { background:%10; color:%13; }"
         "#errDetails { background:transparent; border:none; color:%3;"
         " text-decoration:underline; font-size:%21; padding:0; text-align:left; }"
         "#errDetails:hover { color:%4; }"
-        "#errHintFrame { background:%22; border:1px solid %23; border-radius:6px; }"
+        "#errHintFrame { background:%22; border:1px solid %23; border-radius:@radiusMedium; }"
         "#errHintChip { background:transparent; color:%3; font-size:%24;"
         " border:none; padding:0; text-align:left; }"
         "#errHintChip:hover:enabled { color:%1; text-decoration:underline; }"
@@ -308,6 +308,11 @@ void SonicPiErrorCard::applyTheme()
         .arg(pt(15), pt(13), pt(14), pt(10), pt(9), pt(10), pt(10), pt(9))
         .arg(blend(cardBg, accent, 0.10).name(), blend(cardBg, accent, 0.45).name())
         .arg(pt(10), pt(11));
+    // Corner radii come from the shared scale (dpi.h) as named tokens rather
+    // than %N args — the numbered markers are already at %25, and one gap in
+    // that sequence silently shifts every later substitution.
+    qss.replace("@radiusMedium", QString::number(ScaleHeightForDPI(kRadiusMediumDx)) + "px");
+    qss.replace("@radiusSmall", QString::number(ScaleHeightForDPI(kRadiusSmallDx)) + "px");
     setStyleSheet(qss);
 
     QFont codeFont("Hack");

@@ -109,6 +109,14 @@ public:
     QIcon getInfoIcon(bool active);
     QIcon getScopeIcon(bool active);
 
+    // The square brand mark, rendered from vector at `devicePx` wide and
+    // tinted with the theme accent — the same mask treatment the boot splash
+    // uses (tile filled, glyphs punched through), except the fill tracks the
+    // live theme instead of the fixed brand pink. Because the accent already
+    // runs through the global colour transforms, the mark follows the
+    // monochrome / invert / hue settings for free.
+    QImage logoMark(int devicePx);
+
 private:
     QString name;
     ColourScheme colourScheme;

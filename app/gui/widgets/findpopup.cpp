@@ -275,9 +275,9 @@ void FindPopup::paintEvent(QPaintEvent*)
     const QColor pen = m_editFocused ? m_accent : m_border;
     const qreal penW = 2.0;
     const QRectF r = QRectF(rect()).adjusted(penW / 2, penW / 2, -penW / 2, -penW / 2);
-    // The shared pill radius every other pill uses (docsFilter, chips) — one
-    // visual identity, not a bespoke curve.
-    const qreal radius = ScaleHeightForDPI(kPillRadiusDx);
+    // The shared nav-chip radius (docsFilter, chips — see dpi.h): one visual
+    // identity, not a bespoke curve.
+    const qreal radius = ScaleHeightForDPI(kRadiusLargeDx);
     p.setPen(QPen(pen, penW));
     p.setBrush(m_bg);
     p.drawRoundedRect(r, radius, radius);

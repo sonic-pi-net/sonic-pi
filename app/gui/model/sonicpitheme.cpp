@@ -19,6 +19,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QRegularExpression>
+#include <QSvgRenderer>
 #include <iostream>
 #include <QtGlobal>
 
@@ -1131,10 +1132,13 @@ void SonicPiTheme::reloadStylesheet() {
                                     int(lf.blue()  * 0.45 + lb.blue()  * 0.55)).name();
     QString windowBorderColor = this->color("WindowBorder").name();
     QString windowInternalBorderColor = this->color("WindowInternalBorder").name();
-    // Pill-shaped controls (nav chips, pill rows, deck pills) share one corner
-    // radius. The cached template has already been through ScalePxInStyleSheet,
-    // so the radius goes in as a ready-scaled px value rather than a dx one.
-    QString pillRadius = QString("%1px").arg(ScaleHeightForDPI(kPillRadiusDx));
+    // The shared corner-radius scale (see kRadiusSmallDx in dpi.h). The cached
+    // template has already been through ScalePxInStyleSheet, so these go in as
+    // ready-scaled px values rather than dx ones.
+    QString radiusSmall = QString("%1px").arg(ScaleHeightForDPI(kRadiusSmallDx));
+    QString radiusMedium = QString("%1px").arg(ScaleHeightForDPI(kRadiusMediumDx));
+    QString radiusLarge = QString("%1px").arg(ScaleHeightForDPI(kRadiusLargeDx));
+    QString radiusLargeOuter = QString("%1px").arg(ScaleHeightForDPI(kRadiusLargeOuterDx));
     // The only two font sizes left in the stylesheet. Both target sub-controls
     // (QDockWidget::title, QHeaderView::section), which have no widget to call
     // setFont() on — every other size now rides the widget font instead. They
@@ -1147,7 +1151,18 @@ void SonicPiTheme::reloadStylesheet() {
     // Buttons are pure black by design (not the grey Button token). Run that
     // literal black through the global transforms so it still inverts / greys /
     // rotates with the toggles instead of staying stuck black.
-    QString buttonBackgroundColor = applyGlobalTransforms(QColor(0, 0, 0)).name();
+    QColor buttonFill = applyGlobalTransforms(QColor(0, 0, 0));
+    // Pure black reads as a calm resting fill, but its photo-negative — pure
+    // white — glares. When the transforms flip the fill light, ease it halfway
+    // toward the window surface so it stays a bright pill without the glare.
+    if (buttonFill.lightness() > 128)
+    {
+        const QColor bg = this->color("WindowBackground");
+        buttonFill = QColor((buttonFill.red() + bg.red()) / 2,
+                            (buttonFill.green() + bg.green()) / 2,
+                            (buttonFill.blue() + bg.blue()) / 2);
+    }
+    QString buttonBackgroundColor = buttonFill.name();
     // May be transparent (light themes), so keep the alpha channel —
     // .name() would drop it.
     const QColor metroBorder = this->color("MetroButtonBorder");
@@ -1241,7 +1256,12 @@ void SonicPiTheme::reloadStylesheet() {
         .replace("logBackgroundColor", logBackgroundColor)
         .replace("windowBorderColor", windowBorderColor)
         .replace("windowInternalBorderColor", windowInternalBorderColor)
-        .replace("pillRadius", pillRadius)
+        // radiusLargeOuter before radiusLarge: the shorter name is a prefix of
+        // the longer one, so the wrong order would rewrite half of it.
+        .replace("radiusLargeOuter", radiusLargeOuter)
+        .replace("radiusLarge", radiusLarge)
+        .replace("radiusSmall", radiusSmall)
+        .replace("radiusMedium", radiusMedium)
         .replace("paneTitleFontPx", paneTitleFontPx)
         .replace("smallFontPx", smallFontPx)
         .replace("buttonBackgroundColor", buttonBackgroundColor)
@@ -1846,6 +1866,36 @@ QIcon SonicPiTheme::getScopeIcon( bool visible) {
     if (!proIcons) return classicIcon(visible ? scopeIconActive : scopeIcon, true);
     return visible ? tintedIcon(":/images/toolbar/pro/scope-bordered.png", color("HighlightedBackground"))
                    : tintedIcon(":/images/toolbar/pro/scope.png",          color("WindowForeground"));
+}
+
+QImage SonicPiTheme::logoMark(int devicePx) {
+    // In the source SVG the tile is black and the glyphs are white, so a
+    // pixel's whiteness is how strongly it is punched out of the fill.
+    QSvgRenderer svg(QStringLiteral(":/images/logo-square.svg"));
+    const QSize logical = svg.defaultSize();
+    if (devicePx <= 0 || logical.isEmpty())
+        return QImage();
+    const QSize px(devicePx,
+                   qRound(devicePx * qreal(logical.height()) / logical.width()));
+    QImage src(px, QImage::Format_ARGB32_Premultiplied);
+    src.fill(Qt::transparent);
+    {
+        QPainter sp(&src);
+        sp.setRenderHint(QPainter::Antialiasing);
+        svg.render(&sp);
+    }
+    QImage tinted(px, QImage::Format_ARGB32);
+    QColor fill = color("HighlightedBackground");
+    for (int y = 0; y < src.height(); ++y)
+    {
+        for (int x = 0; x < src.width(); ++x)
+        {
+            const QColor s = src.pixelColor(x, y);
+            fill.setAlphaF(s.alphaF() * (1.0 - s.valueF()));
+            tinted.setPixelColor(x, y, fill);
+        }
+    }
+    return tinted;
 }
 
 QString SonicPiTheme::colourSchemeToName(ColourScheme scheme) {

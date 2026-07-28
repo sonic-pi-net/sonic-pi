@@ -204,8 +204,12 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     QWidget* columnWidget = new QWidget(m_content);
     m_column = new QVBoxLayout(columnWidget);
     int inset = sx(22);
-    m_column->setContentsMargins(inset, sy(18), inset, sy(26));
-    m_column->setSpacing(sy(12));
+    m_column->setContentsMargins(inset, sy(26), inset, sy(36));
+    // The gap between every block in the page — prose, code frames, cards. It
+    // is the page's base rhythm, so headings add their extra air on top of it
+    // (addHeading) rather than replacing it. Generous on purpose: this is a
+    // long read, and tight blocks make a chapter look like one wall of text.
+    m_column->setSpacing(sy(18));
 
     QHBoxLayout* contentRow = new QHBoxLayout(m_content);
     contentRow->setContentsMargins(0, 0, 0, 0);
@@ -1208,9 +1212,14 @@ void TutorialPane::clearContent()
 
 void TutorialPane::addHeading(int level, const QString& text)
 {
-    // Extra air above a heading so each section reads as its own group
+    // Extra air above a heading so each section reads as its own group. This
+    // sits on top of the column's own inter-block spacing, and wants to end up
+    // clearly greater than the gap *below* the heading — otherwise the title
+    // floats between two bodies of text instead of belonging to the one it
+    // introduces. Deeper levels get less, so the hierarchy is legible from the
+    // spacing alone.
     if (m_column->count() > 0)
-        m_column->addSpacing(sy(level == 1 ? 12 : 8));
+        m_column->addSpacing(sy(level == 1 ? 28 : level == 2 ? 20 : 12));
     // TutHeading: reads as a real heading (with its level) to screen readers
     QLabel* label = new TutHeading(text, level, m_content);
     label->setObjectName(level == 1 ? "tutH1" : level == 2 ? "tutH2" : "tutH3");
@@ -1902,14 +1911,14 @@ void TutorialPane::applyTheme()
         "#tutH2 { background:transparent; color:@h2; font-size:@h2Size; font-weight:bold; }"
         "#tutH3 { color:@fg; font-size:@proseSize; font-weight:bold; }"
         "#tutCode { color:@fg; font-family:'Hack'; font-size:@codeSize; background:transparent; }"
-        "#tutCodeFrame { background:@editorBg; border:1dx solid @accent; border-radius:8dx; }"
+        "#tutCodeFrame { background:@editorBg; border:1dx solid @accent; border-radius:@radiusMedium; }"
         // Display-only code: quiet neutral card — accent borders mean playable.
         "#tutCodeFrame[runnable=\"false\"] { border:1dx solid rgba(127,127,127,50);"
         " background:rgba(127,127,127,10); }"
         "#tutCodeFrame[playing=\"true\"] { border:1dx solid @accent; background:@playingTint; }"
         // Nested in the playground: a recessed text-area region, smaller code.
         "#tutCodeFrame[nested=\"true\"] { background:rgba(127,127,127,18);"
-        " border:1dx solid rgba(127,127,127,60); border-radius:6dx; }"
+        " border:1dx solid rgba(127,127,127,60); border-radius:@radiusMedium; }"
         // Playing: the border lights accent; the background stays put so the
         // code doesn't flood with colour while it runs.
         "#tutCodeFrame[nested=\"true\"][playing=\"true\"] { border:1dx solid @accent;"
@@ -1918,16 +1927,16 @@ void TutorialPane::applyTheme()
         // Quiet neutral card matching the display-code grammar; the badge
         // carries the instrument's identity, not a coloured border.
         "#tutPlayground { background:@editorBg; border:1dx solid rgba(127,127,127,60);"
-        " border-radius:8dx; }"
+        " border-radius:@radiusMedium; }"
         "#tutPlateName { background:transparent; color:@fg; font-size:@h1Size;"
         " font-weight:bold; }"
         // Synth-panel sections: each dial group is its own quiet region.
-        "#tutDialGroup { background:rgba(127,127,127,22); border:none; border-radius:6dx; }"
+        "#tutDialGroup { background:rgba(127,127,127,22); border:none; border-radius:@radiusMedium; }"
         "#tutSection { color:@muted; font-family:'Hack'; font-size:@hintSize;"
         " background:transparent; }"
         // Transport + load + octave + reset: flat tabler glyph buttons.
         "#tutPlay, #tutStop, #tutCopy, #tutLoad, #tutOct, #tutReset { background:transparent;"
-        " border:none; border-radius:6dx; padding:2dx; }"
+        " border:none; border-radius:@radiusSmall; padding:2dx; }"
         "#tutPlay:hover:!pressed, #tutStop:hover:!pressed, #tutCopy:hover:!pressed,"
         " #tutLoad:hover:!pressed, #tutOct:hover:!pressed, #tutReset:hover:!pressed"
         " { background:@hoverTint; }"
@@ -1940,11 +1949,11 @@ void TutorialPane::applyTheme()
         "#tutOptDefault { color:@sigColour; font-family:'Hack'; font-size:@buttonSize;"
         " background:transparent; }"
         // Zebra rows keep each opt's doc visually tied to its name.
-        "#tutOptRow { background:transparent; border:none; border-radius:4dx; }"
+        "#tutOptRow { background:transparent; border:none; border-radius:@radiusSmall; }"
         "#tutOptRow[alt=\"true\"] { background:rgba(127,127,127,16); }"
         // Opt quick-index: a quiet panel of name-links with their defaults.
         "#tutOptIndex { background:rgba(127,127,127,16); border:none;"
-        " border-radius:6dx; }"
+        " border-radius:@radiusMedium; }"
         "#tutOptLink { background:transparent; color:@h2; border:none;"
         " font-family:'Hack'; font-size:@buttonSize; text-decoration:underline;"
         " padding-top:1dx; padding-bottom:1dx; padding-left:0dx; padding-right:0dx; }"
@@ -1959,6 +1968,11 @@ void TutorialPane::applyTheme()
     // token is harmless — unlike the numbered QString::arg markers this
     // replaces, where one gap silently shifted every later substitution.
     const struct { const char* token; QString value; } subs[] = {
+        // The shared corner-radius scale (dpi.h), so the pane's frames and
+        // buttons curve exactly like the rest of the app instead of carrying
+        // their own near-miss values.
+        { "@radiusMedium", QString::number(kRadiusMediumDx) + "dx" },
+        { "@radiusSmall", QString::number(kRadiusSmallDx) + "dx" },
         { "@pressedTint", pressedTint.name() },
         { "@playingTint", playingTint.name() },
         { "@editorBg", editorBg.name() },

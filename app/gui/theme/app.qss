@@ -53,7 +53,16 @@ colours: blends and auto-contrast that plain QSS can't express):
 - focusWashColor          (translucent accent-contrast wash, rgba)
 
 - fixedWidthFont
-- pillRadius (shared pill corner radius, already DPI-scaled — see kPillRadiusDx)
+
+Corner radius. One scale, three steps, picked by the element's role so that
+elements of the same kind always agree (see dpi.h). Already DPI-scaled — use
+these rather than a literal, which is how the curvature drifted apart before:
+
+- radiusSmall  (controls: fields, buttons, combos, handles)
+- radiusMedium (surfaces: cards, frames, panels, list containers)
+- radiusLarge  (segmented navigation: nav chips, selection rows, deck selectors)
+- radiusLargeOuter (a container wrapping those rows — see "concentric" in dpi.h:
+                    a parent must curve wider than its child, never tighter)
 
 Note about auto scaling
 -----------------------
@@ -266,14 +275,14 @@ QSlider::groove:vertical
 {
     margin: 2dx;
     background: sliderBackgroundColor;
-    border-radius: 3dx;
+    border-radius: radiusSmall;
     border: 2dx solid sliderBorderColor;
 }
 
 QSlider::handle:vertical
 {
     border: 1dx solid black;
-    border-radius: 3dx;
+    border-radius: radiusSmall;
     height: 30dx;
     background-color: sliderColor;
 }
@@ -489,13 +498,16 @@ QWidget#docsNavPage
     background: windowColor;
 }
 
-/* Chapter list: borderless and padded, with full-width rounded "pill" rows.
-   The selected pill (auto-contrast text on the accent) doubles as the focus
+/* Chapter list: borderless and padded, with full-width rounded selection rows.
+   The selected row (auto-contrast text on the accent) doubles as the focus
    landmark; the rounded ring below appears when the list itself has focus. */
 QListWidget#docsNavList
 {
     border: 2dx solid transparent;
-    border-radius: 8dx;
+    /* Concentric with the rows inside it: the focus ring has to curve wider
+       than the rows it wraps, or their corners cut across it. Keep this
+       padding at kNavRowInsetDx — the token is derived from it. */
+    border-radius: radiusLargeOuter;
     background: transparent;
     padding: 4dx;
     min-width: 200dx;
@@ -510,7 +522,7 @@ QListWidget#docsNavList::item
 {
     background: transparent;
     color: windowForegroundColor;
-    border-radius: pillRadius;
+    border-radius: radiusLarge;
     padding-top: 4dx;
     padding-bottom: 4dx;
     padding-left: 9dx;
@@ -538,7 +550,7 @@ QLineEdit#docsFilter
     background: transparent;
     color: windowForegroundColor;
     border: 2dx solid transparent;
-    border-radius: pillRadius;
+    border-radius: radiusLarge;
     min-height: 20dx;
     padding-top: 2dx;
     padding-bottom: 2dx;
@@ -576,17 +588,18 @@ QTabWidget#docsNavTabs
     background: windowColor;
 }
 
-/* ── House style: "pill" ─────────────────────────────────────────────────
-   Outlined pill at rest, hover-accent border on hover, solid selected fill
+/* ── House style: "chip" ─────────────────────────────────────────────────
+   Outlined chip at rest, hover-accent border on hover, solid selected fill
    (no border) when current. Used by the docs/info nav chips here and the
-   Cards deck selector (#qsDeckPill below): one grammar, two sizes. */
+   Cards deck selector (#qsDeckPill below): one grammar, two sizes. Softened
+   corners, deliberately short of a capsule — see the scale in dpi.h. */
 QTabWidget#docsNavTabs > QTabBar::tab,
 QTabWidget#infoNavTabs > QTabBar::tab
 {
     background: transparent;
     color: windowForegroundColor;
     border: 2dx solid faintForegroundColor;
-    border-radius: pillRadius;
+    border-radius: radiusLarge;
     font-weight: 600;
     padding-top: 3dx;
     padding-bottom: 3dx;
@@ -618,12 +631,45 @@ QTabWidget#infoNavTabs > QTabBar::tab:focus
     border: 2dx solid hoverButtonColor;
 }
 
+/* ── Info window ─────────────────────────────────────────────────────────
+   A top-level tool window, so it carries its own chrome: the window surface
+   is the frame, and the page sits on it as a card. The card takes its form
+   from the fill contrast against that frame — no outline, which at 1dx only
+   reads as a seam. Radius matches the docs example frames. */
+QWidget#infoWindow
+{
+    background: windowColor;
+}
+
+QTextBrowser#infoPage
+{
+    background: paneColor;
+    border: none;
+    border-radius: radiusMedium;
+}
+
+/* Primary navigation for the window, so the chips are roomier than the docs
+   sub-nav they share a grammar with — but only in padding. The radius stays
+   on the shared pill step, so these read as the same control as the Help
+   pane's chips rather than a second, nearly-identical curve. */
+QTabWidget#infoNavTabs > QTabBar::tab
+{
+    padding-top: 6dx;
+    padding-bottom: 6dx;
+    padding-left: 16dx;
+    padding-right: 16dx;
+    margin-top: 12dx;
+    margin-bottom: 2dx;
+    margin-left: 3dx;
+    margin-right: 3dx;
+}
+
 QComboBox
 {
     /* No resting border (transparent keeps geometry stable against the 1dx
        hover/focus borders below). */
     border: 1dx solid transparent;
-    border-radius: 3dx;
+    border-radius: radiusSmall;
     /* min-height (not padding) gives the box its height — padding would push
        the text into a fixed content area and clip the glyphs. Row gaps come
        from the grid's vertical spacing, not from the combo. */
@@ -646,7 +692,7 @@ QComboBox::item
 
 QComboBox:hover
 {
-    border-radius: 3dx;
+    border-radius: radiusSmall;
     border-color: hoverButtonColor;
     background: hoverButtonColor;
 }
@@ -719,7 +765,7 @@ QPushButton#zoomBtn
 {
     background: transparent;
     border: none;
-    border-radius: 4dx;
+    border-radius: radiusSmall;
     padding: 2px;
 }
 
@@ -768,7 +814,7 @@ QScrollBar::handle:vertical,
 QScrollBar::handle:horizontal
 {
     background: scrollBarColor;
-    border-radius: 4dx;
+    border-radius: radiusSmall;
 }
 
 /* 2dx capsule inset off the trailing edge (right for vertical, bottom for
@@ -826,7 +872,7 @@ QPushButton
     background-color: buttonBackgroundColor;
     color: buttonTextColor;
     padding: 5dx;
-    border-radius: 3dx;
+    border-radius: radiusSmall;
     border: 2dx solid buttonBorderColor;
     height: 25dx;
 }
@@ -860,7 +906,7 @@ QMessageBox
 QWidget[segmented="true"]
 {
     background: rgba(127,127,127,70);
-    border-radius: 7px;
+    border-radius: radiusMedium;
 }
 
 /* QToolButton included: the recording picker uses tool buttons so a large
@@ -870,7 +916,7 @@ QWidget[segmented="true"] QToolButton
 {
     border: none;
     padding: 6px 16px;
-    border-radius: 5px;
+    border-radius: radiusSmall;
     background: transparent;
     color: palette(window-text);
     /* QToolButton isn't covered by the app-wide QPushButton font rule, so
@@ -976,7 +1022,7 @@ QPushButton#rowVisibility:focus
 }
 QLineEdit
 {
-    border-radius: 3dx;
+    border-radius: radiusSmall;
     border: 2dx solid transparent;
 }
 
@@ -1122,7 +1168,7 @@ QLineEdit#linkPeerName
     /* Match the Global Time Warp field: a soft grey (Button), not the harsh
        white of ButtonBorder. */
     border: 2dx solid buttonColor;
-    border-radius: 3dx;
+    border-radius: radiusSmall;
     /* Match the Global Time Warp field's text padding (uniform 5dx). */
     padding: 5dx;
     selection-color: selectionForegroundColor;
@@ -1209,7 +1255,7 @@ QSlider#linkLatencySlider::handle:horizontal
     width: 18dx;
     height: 25dx;
     margin: -5px 0;
-    border-radius: 1dx;
+    border-radius: radiusSmall;
 }
 
 QSlider#linkLatencySlider::handle:horizontal:hover
@@ -1238,7 +1284,7 @@ QTableWidget#linkPeersTable
     background-color: paneColor;
     color: windowForegroundColor;
     border: 1dx solid palette(mid);
-    border-radius: 3dx;
+    border-radius: radiusMedium;
     gridline-color: paneColor;
     alternate-background-color: windowColor;
     selection-background-color: selectionBackgroundColor;
@@ -1295,7 +1341,7 @@ QSlider#timeWarpSlider::handle:horizontal {
     height: 25dx;
     margin: -5px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
 
-    border-radius: 1dx;
+    border-radius: radiusSmall;
 }
 
 QSlider#timeWarpSlider::handle:horizontal:hover {
@@ -1328,7 +1374,7 @@ QPushButton#qsDeckPill
     background-color: transparent;
     color: windowForegroundColor;
     border: 2dx solid faintForegroundColor;
-    border-radius: pillRadius;
+    border-radius: radiusLarge;
     padding-top: 6dx;
     padding-bottom: 6dx;
     padding-left: 14dx;
@@ -1421,7 +1467,7 @@ QFrame#qsCard
 {
     background: transparent;
     border: 2dx solid transparent;
-    border-radius: 8dx;
+    border-radius: radiusMedium;
 }
 
 /* The selected card: arrow keys move the selection one card at a time and
@@ -1483,7 +1529,7 @@ QLabel#qsCodeLine
     color: windowForegroundColor;
     background: transparent;
     font-family: 'Hack';
-    border-radius: 3dx;
+    border-radius: radiusSmall;
 }
 
 /* Trigger flash: the same accent wash the editor uses. */
@@ -1552,7 +1598,7 @@ QLabel#confirmBody
 QDialog#confirmDialog QPushButton
 {
     padding: 6px 20px;
-    border-radius: 6px;
+    border-radius: radiusSmall;
     border: none;
 }
 

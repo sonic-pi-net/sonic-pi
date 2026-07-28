@@ -240,8 +240,8 @@ void EditorToolbar::paintEvent(QPaintEvent*)
     // while this keeps the editor faintly hinted.
     const qreal penW = 1.0;
     const QRectF r = QRectF(rect()).adjusted(penW / 2, penW / 2, -penW / 2, -penW / 2);
-    // The shared pill radius every other pill uses — one visual identity.
-    const qreal radius = ScaleHeightForDPI(kPillRadiusDx);
+    // The shared nav-chip radius (dpi.h) — one visual identity.
+    const qreal radius = ScaleHeightForDPI(kRadiusLargeDx);
     QPainterPath pill;
     pill.addRoundedRect(r, radius, radius);
     QColor frosted = m_bg;

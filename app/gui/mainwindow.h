@@ -756,6 +756,15 @@ private:
     bool infoPanesLoaded = false;             // info html read+parsed on first open, not at startup
     void loadInfoPaneContent();
     void rerenderInfoPanes();                 // re-render info panes, preserving scroll
+    // History page: adds the back-to-top links and records each release
+    // anchor's heading text (the jump target). Other pages pass through
+    // untouched, leaving releaseTitles empty.
+    static QString addReleaseNavigation(const QString& html, QVariantMap& releaseTitles);
+    // Brand mark for the About page, generated at the theme accent and given
+    // to the pane's document as an image resource. Returns its logical size.
+    QSize installInfoLogo(QTextBrowser* pane);
+    // Logical width (dx) of that mark on the About page.
+    static constexpr int kInfoLogoWidthDx = 230;
     QDockWidget* metroWidget;
     LogPanel* debugLogPanel = nullptr;
     MetricsPanel* metricsPanel = nullptr;

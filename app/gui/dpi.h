@@ -7,13 +7,32 @@
 
 #include <cmath>
 
-// House corner radius (in dx) for pill-shaped controls: the docs/info nav
-// chips, the card-deck selector pills, the docs filter field and the pill
-// selection rows. One value keeps every pill on the same curvature, sized so
-// the smallest pill stays above twice the radius (Qt paints artifacts once a
-// radius exceeds half the widget height). Stylesheets consume it via the
-// `pillRadius` token substituted in SonicPiTheme::reloadStylesheet().
-constexpr int kPillRadiusDx = 12;
+// House corner-radius scale (in dx). Three steps, chosen by the role of the
+// element rather than its size, so elements of the same kind always agree:
+//
+//   small  — controls you type in or click: fields, buttons, combos, handles
+//   medium — content surfaces: cards, frames, panels, list containers
+//   large  — segmented navigation: nav chips, selection rows, deck selectors
+//
+// The steps sit close together on purpose: these are softened rectangles, not
+// capsules. Taking the largest step up to roughly half a chip's height would
+// round the ends off into a true pill, which is a different look and not the
+// one this app wants.
+//
+// Stylesheets consume these via the `radiusSmall` / `radiusMedium` /
+// `radiusLarge` tokens substituted in SonicPiTheme::reloadStylesheet(); code
+// that paints its own geometry uses the constants directly. Prefer a token
+// over a literal — literals are how the curvature drifted apart before.
+constexpr int kRadiusSmallDx = 4;
+constexpr int kRadiusMediumDx = 6;
+constexpr int kRadiusLargeDx = 8;
+// Concentric corners: a container's curve has to be looser than the curve of
+// what sits inside it, or the child's corner cuts across the parent's. The
+// rule is outer = inner + the gap between them, so a list that insets its
+// rows by kNavRowInsetDx curves at this. Exposed as the `radiusLargeOuter`
+// token — which MUST be substituted before `radiusLarge`, being a prefix.
+constexpr int kNavRowInsetDx = 4;
+constexpr int kRadiusLargeOuterDx = kRadiusLargeDx + kNavRowInsetDx;
 
 inline QSizeF GetDisplayScale()
 {

@@ -60,7 +60,9 @@
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
 #include <QAccessibilityHints>
 #endif
+#include <QAbstractTextDocumentLayout>
 #include <QTextBrowser>
+#include <QTextCursor>
 #include <QTextDocument>
 #include <QTextEdit>
 #include <QTextStream>
@@ -1227,10 +1229,25 @@ void MainWindow::setupWindowStructure()
                             { docZoomControls, cardsZoomControls, logsZoom, debugZoom,
                               helpCloseButton }));
     auto syncDocZoomVisible = [this, docZoomControls, cardsZoomControls]() {
-        docZoomControls->setVisible(southTabs->currentWidget() == docsplit);
-        cardsZoomControls->setVisible(southTabs->currentWidget() == quickstartPane);
-        logsZoom->setVisible(southTabs->currentWidget() == debugLogPanel);
-        debugZoom->setVisible(southTabs->currentWidget() == metricsPanel);
+        QWidget* current = southTabs->currentWidget();
+        docZoomControls->setVisible(current == docsplit);
+        cardsZoomControls->setVisible(current == quickstartPane);
+        logsZoom->setVisible(current == debugLogPanel);
+        debugZoom->setVisible(current == metricsPanel);
+        // The title names the current tab so the row reads as a heading for
+        // what's actually on screen, not just the dock.
+        QString suffix;
+        if (current == quickstartPane)
+            suffix = tr("Quickstart Cards");
+        else if (current == docsplit)
+            suffix = tr("Documentation");
+        else if (current == debugLogPanel)
+            suffix = tr("Logs");
+        else if (current == metricsPanel)
+            suffix = tr("Debug");
+        titleBarDoc->setText(suffix.isEmpty()
+                                 ? docWidget->windowTitle().toUpper()
+                                 : (docWidget->windowTitle() + " - " + suffix).toUpper());
     };
     connect(southTabs, &QTabWidget::currentChanged, this,
             [syncDocZoomVisible](int) { syncDocZoomVisible(); });
@@ -4240,15 +4257,24 @@ void MainWindow::updateColourTheme()
     // coloured links, monospace code. (QTextDocument's CSS subset — no
     // borders/hover, so it's colour, size and weight doing the work.)
     QString infoCss = QString(
-        "body { color: %1; font-size: 12pt; }"
+        "body { color: %1; font-size: 11pt; }"
         "h1 { color: %2; font-size: 20pt; font-weight: bold; }"
         "h2 { color: %3; font-size: 15pt; font-weight: bold; }"
         "h3 { color: %1; font-size: 13pt; font-weight: bold; }"
         "a { color: %2; }"
-        "code, pre { font-family: 'Hack'; color: %2; }")
+        "code, pre { font-family: 'Hack'; color: %2; }"
+        // Back-to-top links close each History release: quieter and smaller
+        // than a body link, so they sit as navigation rather than content.
+        "a.totop { color: %3; font-size: 10pt; }"
+        // Core Team name plates. These carried an inline white-on-deeppink
+        // style, which no stylesheet can override — hence a class, so the
+        // plate tracks the accent (and with it the global colour filters)
+        // and its text auto-contrasts against whatever that accent is.
+        "span.name { background-color: %2; color: %4; }")
         .arg(theme->color("WindowForeground").name(),
              theme->color("HighlightedBackground").name(),
-             theme->color("NumberForeground").name());
+             theme->color("NumberForeground").name(),
+             theme->contrastingText(theme->color("HighlightedBackground")).name());
     foreach (QTextBrowser* pane, infoPanes)
         pane->document()->setDefaultStyleSheet(infoCss);
     // Re-rendering resets scroll/selection and re-parses the big changelog,
@@ -4273,10 +4299,8 @@ void MainWindow::updateColourTheme()
     QString appStyling = theme->getAppStylesheet();
 
     this->setStyleSheet(appStyling);
-    // infoWidg is a separate top-level window, so the main-window stylesheet
-    // doesn't cascade to it; everything else (settings pane, editors, docks)
-    // descends from `this` and inherits the sheet from the single set above.
-    infoWidg->setStyleSheet(appStyling);
+    // Everything — including the parented Info tool window — descends from
+    // `this` and inherits the sheet from the single set above.
 
     // Re-tint the log history already on screen so it tracks the new theme
     // (scheme / hue / monochrome) instead of keeping the colours it was
@@ -6507,6 +6531,17 @@ void MainWindow::loadInfoPaneContent()
         source = source.replace("268dx", QString("%1").arg(ScaleHeightForDPI(268)));
         source = source.replace("328dx", QString("%1").arg(ScaleHeightForDPI(328)));
         source = source.replace("__SONIC_PI_VERSION__", SONIC_PI_VERSION);
+        // The brand mark is generated per theme rather than loaded from a
+        // fixed PNG (see installInfoLogo), so the image arrives as a document
+        // resource and the page carries only its logical size.
+        const QSize logoSize = installInfoLogo(pane);
+        source = source.replace("__LOGO_W__", QString::number(logoSize.width()));
+        source = source.replace("__LOGO_H__", QString::number(logoSize.height()));
+        QVariantMap releaseTitles;
+        source = addReleaseNavigation(source, releaseTitles);
+        // Consulted by the link handler to turn an index link into a scroll
+        // position; empty for every page but History.
+        pane->setProperty("releaseTitles", releaseTitles);
         // Stashed for re-render on theme changes: setDefaultStyleSheet only
         // affects subsequently-set html, and reload() is a no-op for setHtml
         // content (no source URL).
@@ -6518,6 +6553,89 @@ void MainWindow::loadInfoPaneContent()
     infoPanesDirty = false;
 }
 
+// Prepares the History page's in-document navigation, keyed off the empty
+// <a name="..."></a> elements that mark the start of each release.
+//
+// Each release gains a link back to the index. A release ends where the next
+// one's anchor begins, so the link goes immediately before each anchor bar the
+// first, plus one closing the final release.
+//
+// It also records, per anchor, the text of the release heading that follows
+// it. Jumping is done by finding that heading in the rendered document rather
+// than by anchor name: Qt's rich-text importer hangs a named anchor on a text
+// fragment, and these anchors are empty elements with nothing to attach to, so
+// the names do not survive into the document and scrollToAnchor() has no
+// target. The heading is on screen by definition, so it can always be found.
+//
+// A page with no such anchors (every other info tab) comes back untouched.
+QString MainWindow::addReleaseNavigation(const QString& html, QVariantMap& releaseTitles)
+{
+    static const QRegularExpression releaseAnchor(
+        QStringLiteral("<p>\\s*<a name=\"([^\"]+)\"></a>\\s*</p>"));
+    static const QRegularExpression releaseHeading(
+        QStringLiteral("<h2[^>]*>(.*?)</h2>"), QRegularExpression::DotMatchesEverythingOption);
+    static const QRegularExpression anyTag(QStringLiteral("<[^>]*>"));
+    static const QString backToTop =
+        QStringLiteral("<p><a href=\"#top\" class=\"totop\">&#8593; Back to top</a></p>");
+
+    QRegularExpressionMatchIterator anchors = releaseAnchor.globalMatch(html);
+    if (!anchors.hasNext())
+        return html;
+
+    QString out;
+    int copiedTo = 0;
+    bool first = true;
+    while (anchors.hasNext())
+    {
+        const QRegularExpressionMatch m = anchors.next();
+        const QRegularExpressionMatch h = releaseHeading.match(html, m.capturedEnd());
+        if (h.hasMatch())
+        {
+            QString title = h.captured(1);
+            title.remove(anyTag);
+            releaseTitles.insert(m.captured(1), title.trimmed());
+        }
+        out += html.mid(copiedTo, m.capturedStart() - copiedTo);
+        if (!first)
+            out += backToTop;
+        out += html.mid(m.capturedStart(), m.capturedEnd() - m.capturedStart());
+        copiedTo = m.capturedEnd();
+        first = false;
+    }
+    out += html.mid(copiedTo);
+
+    const int bodyEnd = out.lastIndexOf(QStringLiteral("</body>"));
+    if (bodyEnd >= 0)
+        out.insert(bodyEnd, backToTop);
+    else
+        out += backToTop;
+    return out;
+}
+
+// Generates the brand mark at the current theme accent and hands it to the
+// pane's document as the image the page's <img src="sonicpi:logo"> resolves
+// to. Returns the mark's logical (unscaled) size for the page to lay out.
+// Re-run on every re-theme so the logo tracks the colour settings — including
+// the global monochrome / invert / hue filters, which the accent already
+// carries.
+QSize MainWindow::installInfoLogo(QTextBrowser* pane)
+{
+    const int logicalW = ScaleHeightForDPI(kInfoLogoWidthDx);
+    // Only the About page shows the mark. Generating it is a per-pixel pass
+    // over the rendered vector, and re-theming re-runs this for every pane —
+    // which the hue dial does live, once per drag step.
+    if (pane->property("infoSrc").toString() != ":/html/info.html")
+        return QSize(logicalW, logicalW);
+    // Rendered at device resolution and displayed at logical size, so the
+    // vector mark stays sharp on high-DPI displays.
+    const QImage mark = theme->logoMark(qRound(logicalW * pane->devicePixelRatioF()));
+    if (mark.isNull() || mark.width() == 0)
+        return QSize(logicalW, logicalW);
+    pane->document()->addResource(QTextDocument::ImageResource,
+                                  QUrl("sonicpi:logo"), mark);
+    return QSize(logicalW, qRound(logicalW * qreal(mark.height()) / mark.width()));
+}
+
 void MainWindow::rerenderInfoPanes()
 {
     // setDefaultStyleSheet only affects subsequently-set html, so restyling
@@ -6525,6 +6643,9 @@ void MainWindow::rerenderInfoPanes()
     foreach (QTextBrowser* pane, infoPanes)
     {
         const int scrollPos = pane->verticalScrollBar()->value();
+        // The accent may have moved with the theme, so re-generate the mark
+        // before re-rendering the page that references it.
+        installInfoLogo(pane);
         pane->setHtml(pane->property("infoHtml").toString());
         pane->verticalScrollBar()->setValue(scrollPos);
     }
@@ -6556,14 +6677,64 @@ void MainWindow::createInfoPane()
     for (int t = 0; t < urls.size(); t++)
     {
         QTextBrowser* pane = new QTextBrowser;
-        pane->document()->setDocumentMargin(ScaleWidthForDPI(20));  // text inset; keeps the scrollbar flush
+        pane->setObjectName("infoPage");   // card surface, see app.qss
+        // Text inset, applied via documentMargin so the scrollbar stays flush
+        // to the card edge. Wider than the docs panes: this is a short read on
+        // a small card, where a tight inset crowds the rounded corners.
+        pane->document()->setDocumentMargin(ScaleWidthForDPI(28));
         infoPanes.append(pane);
         addUniversalCopyShortcuts(pane);
-        pane->setOpenExternalLinks(true);
-        // Arrow-key caret browsing on top of the default link navigation, so
-        // the text reads like a web page rather than one solid block.
-        pane->setTextInteractionFlags(Qt::TextBrowserInteraction
-                                      | Qt::TextSelectableByKeyboard);
+        // A view, not an editor: no text caret to place or move. Qt draws (and
+        // lets you click around) a caret whenever the interaction flags carry
+        // TextSelectableByKeyboard, so leaving that out is what removes it —
+        // zeroing the cursor width only stops it being painted, and the
+        // invisible caret still moved. Plain TextBrowserInteraction keeps what
+        // a reader needs: links clickable and tab-navigable, text selectable
+        // by mouse for copying, arrow keys scrolling the page.
+        pane->setTextInteractionFlags(Qt::TextBrowserInteraction);
+        pane->setCursorWidth(0);
+        // Route links by hand. The pages are installed with setHtml(), so the
+        // browser has no source document to resolve a relative link against —
+        // left to itself it treats the History index's "#v4.6.0" anchors as
+        // documents to go and fetch, fails, and the link does nothing. An
+        // external URL goes to the system browser; a bare fragment scrolls
+        // this page to its <a name="..."> target.
+        pane->setOpenLinks(false);
+        connect(pane, &QTextBrowser::anchorClicked, this, [pane](const QUrl& url) {
+            if (!url.scheme().isEmpty())
+            {
+                QDesktopServices::openUrl(url);
+                return;
+            }
+            const QString fragment = url.fragment();
+            if (fragment.isEmpty())
+                return;
+            // "Back to top" is answered directly rather than via an anchor:
+            // the index is the top of the document by definition.
+            if (fragment == QLatin1String("top"))
+            {
+                pane->verticalScrollBar()->setValue(0);
+                return;
+            }
+            // Scroll to the release's heading, located by its text (see
+            // addReleaseNavigation for why not by anchor name). The block's
+            // top in document coordinates is exactly the scrollbar value that
+            // puts it at the top of the view.
+            const QString title =
+                pane->property("releaseTitles").toMap().value(fragment).toString();
+            if (!title.isEmpty())
+            {
+                const QTextCursor found = pane->document()->find(title);
+                if (!found.isNull())
+                {
+                    const QRectF block =
+                        pane->document()->documentLayout()->blockBoundingRect(found.block());
+                    pane->verticalScrollBar()->setValue(qRound(block.top()));
+                    return;
+                }
+            }
+            pane->scrollToAnchor(fragment);
+        });
         // Content is read and parsed lazily on first open (the changelog
         // alone is ~160KB of HTML) — see loadInfoPaneContent().
         pane->setProperty("infoSrc", urls[t]);
@@ -6573,15 +6744,33 @@ void MainWindow::createInfoPane()
     infoTabs->setTabPosition(QTabWidget::South);
 
     QHBoxLayout* infoLayout = new QHBoxLayout;
+    // The window surface frames the page card (see #infoPage in app.qss);
+    // without a margin the card would sit flush against the frame.
+    infoLayout->setContentsMargins(ScaleWidthForDPI(20), ScaleHeightForDPI(20),
+                                   ScaleWidthForDPI(20), ScaleHeightForDPI(14));
     infoLayout->addWidget(infoTabs);
 
-    infoWidg = new InfoWidget;
+    // Parented dialog: floats above the main window only (unparented with
+    // WindowStaysOnTopHint it sat over every other application), and takes a
+    // standard window caption — a Qt::Tool window gets the OS's small
+    // tool-window frame, whose close button is a different size and style to
+    // the main window's.
+    infoWidg = new InfoWidget(this);
+    infoWidg->setObjectName("infoWindow");
+    // Plain QWidget subclasses don't paint stylesheet backgrounds without
+    // this, leaving the window surface unpainted (black) in every theme.
+    infoWidg->setAttribute(Qt::WA_StyledBackground, true);
     infoWidg->setWindowIcon(QIcon(":images/icon-smaller.png"));
     infoWidg->setLayout(infoLayout);
-    infoWidg->setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+    infoWidg->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
     infoWidg->setWindowTitle(tr("Sonic Pi - Info"));
     infoWidg->setMinimumSize(ScaleForDPI(320, 240));
-    infoWidg->resize(ScaleForDPI(800, 800).boundedTo(screen()->availableGeometry().size()));
+    // Open generously — the About page is a full-height column of logo, prose
+    // and links, and the History tab is a long read. Capped at three-quarters
+    // of the available screen so it stays a window, not a takeover.
+    const QSize avail = screen()->availableGeometry().size();
+    infoWidg->resize(ScaleForDPI(1000, 1000)
+                         .boundedTo(QSize(avail.width() * 3 / 4, avail.height() * 3 / 4)));
 
     connect(infoWidg, SIGNAL(closed()), this, SLOT(about()));
 

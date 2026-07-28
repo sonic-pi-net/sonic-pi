@@ -1317,7 +1317,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     const QString winBorder = theme->color("WindowBorder").name();     // separator bar
     const int gridW = ScaleHeightForDPI(1);   // DPI-scaled grid line (a bare 1px reads as a faint hairline)
 
-    setStyleSheet(QString(
+    QString panelQss = QString(
         // Enforce the (small) panel font in the sheet itself — a setStyleSheet()
         // call otherwise resets fonts applied via setFont() back to the default.
         "MetricsPanel, MetricsPanel * { font-family:'Hack'; font-size:%8px; }"
@@ -1332,11 +1332,15 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         // line hard up against the scrollbar.
         "QFrame#ssCell[lastcol=\"true\"] { border-right:none; }"
         // #ssCardFlat is the same card without the border (node tree, logs).
-        "QFrame#ssCard { border:1px solid %3; border-radius:4px; }"
+        "QFrame#ssCard { border:1px solid %3; border-radius:@radiusMedium; }"
         "QLabel#ssCardTitle { color:%5; padding-bottom:1px; }"
         "QLabel[ssRole=\"rowlabel\"] { color:%4; }"
         "QTextEdit { color:%2; background:%1; border:none; }")
-        .arg(bg, fg, border, dim, muted, winBorder).arg(gridW).arg(qMax(6, 11 + m_fontZoom)));
+        .arg(bg, fg, border, dim, muted, winBorder).arg(gridW).arg(qMax(6, 11 + m_fontZoom));
+    // Card radius from the shared scale (dpi.h), as a named token rather than
+    // another %N arg in an already-crowded sequence.
+    panelQss.replace("@radiusMedium", QString::number(ScaleHeightForDPI(kRadiusMediumDx)) + "px");
+    setStyleSheet(panelQss);
 
     // The main/logs dividers paint themselves (ThinSplitter): a thin centre line
     // at rest, revealed full-width on hover (Qt's QSS can't do this). Push the
