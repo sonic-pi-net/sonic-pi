@@ -29,9 +29,12 @@
 #include <QAccessible>
 #include <QAction>
 #include <QFrame>
+#include <QKeyEvent>
 #include <QPoint>
 #include <QList>
+#include <QVector>
 #include <QToolBar>
+#include <QTextEdit>
 #include "completionpopup.h"
 #include "quickstartpane.h"
 #include "tutorialwidgets.h"
@@ -39,6 +42,16 @@
 #include "utils/scintilla_api.h"
 
 extern "C" pid_t responsibility_get_pid_responsible_for_pid(pid_t);
+
+// The text-reading half of NSAccessibility that Qt's elements answer with
+// modern protocol selectors (the action half is legacy — see Move 3). Declared
+// here so the self-test can call them on an untyped `id` element.
+@interface NSObject (SonicPiAXTextProbe)
+- (NSInteger)accessibilityInsertionPointLineNumber;
+- (NSInteger)accessibilityLineForIndex:(NSInteger)index;
+- (NSRange)accessibilityRangeForLine:(NSInteger)line;
+- (NSString*)accessibilityStringForRange:(NSRange)range;
+@end
 
 namespace SonicPi {
 
@@ -671,6 +684,243 @@ int runAccessibilitySelfTest()
             }
         }
         delete cards;
+    }
+
+    // ---- Move 6: docs prose line stepping ----------------------------------
+    // The layer the headless tests cannot reach. Reading a page with plain
+    // Up/Down, a screen reader asks the bridge which line the caret is on and
+    // what that line's range is, then speaks that range. Qt derives the line
+    // NUMBER by counting '\n' in our text (qcocoaaccessibilityelement.mm:
+    // accessibilityLineForIndex), while the line RANGE comes from our
+    // LineBoundary implementation. A word-wrapped paragraph carries no
+    // newlines, so the two disagree: the caret is reported on line 0 wherever
+    // it sits. Step the caret down the visual lines and record what the
+    // bridge actually says, rather than what we believe it says.
+    cout << "\n--- Move 6: docs prose line stepping ---" << endl;
+    {
+        registerTutorialWidgetAccessibility();
+        QWidget lineHost;
+        lineHost.setWindowTitle(QStringLiteral("SonicPi A11y Lines"));
+        lineHost.resize(260, 320);
+        lineHost.show();
+
+        TutProseText* prose = new TutProseText(&lineHost);
+        prose->setHtml(QStringLiteral(
+            "One of the most exciting aspects of Sonic Pi is that it enables you "
+            "to write and modify code live to make music, just like you might "
+            "perform live with a guitar."));
+        prose->resize(220, 300);
+        prose->show();
+        for (int i = 0; i < 15; ++i) { QApplication::processEvents(); usleep(20 * 1000); }
+
+        NSView* lineRoot = (__bridge NSView*)reinterpret_cast<void*>(lineHost.winId());
+        id area = axFindByRole(lineRoot, NSAccessibilityTextAreaRole);
+        if (!area)
+            area = axFindByRole(lineRoot, NSAccessibilityTextFieldRole);
+
+        QAccessibleInterface* iface = QAccessible::queryAccessibleInterface(prose);
+        QAccessibleTextInterface* qtText = iface ? iface->textInterface() : nullptr;
+
+        if (!area || !qtText)
+        {
+            cout << "  FAIL: no AX text element (" << (area ? "have" : "missing")
+                 << ") or no Qt text interface (" << (qtText ? "have" : "missing")
+                 << ") for the prose block" << endl;
+            ++failures;
+        }
+        else
+        {
+            // Legacy attribute access — Qt's elements answer through
+            // accessibilityAttributeValue:(forParameter:). Modern protocol
+            // selectors are probed too, so the transcript shows which path
+            // actually served the query instead of us assuming.
+            auto legacyAttr = [](id el, NSString* name) -> id {
+                if ([el respondsToSelector:@selector(accessibilityAttributeValue:)])
+                    return [el accessibilityAttributeValue:name];
+                return nil;
+            };
+            auto legacyParamAttr = [](id el, NSString* name, id param) -> id {
+                if ([el respondsToSelector:@selector(accessibilityAttributeValue:forParameter:)])
+                    return [el accessibilityAttributeValue:name forParameter:param];
+                return nil;
+            };
+
+            cout << "  responds to modern accessibilityLineForIndex: "
+                 << ([area respondsToSelector:@selector(accessibilityLineForIndex:)] ? "YES" : "NO")
+                 << ", legacy accessibilityAttributeValue:forParameter: "
+                 << ([area respondsToSelector:@selector(accessibilityAttributeValue:forParameter:)]
+                        ? "YES" : "NO")
+                 << endl;
+
+            // The visual line index our own LineBoundary implementation puts
+            // this offset on — what the bridge's line number ought to match.
+            auto visualLineIndex = [&](int caret) -> int {
+                int idx = 0, cur = 0;
+                for (int guard = 0; guard < 200; ++guard)
+                {
+                    int start = -1, end = -1;
+                    qtText->textAtOffset(cur, QAccessible::LineBoundary, &start, &end);
+                    if (start < 0)
+                        break;
+                    // end is exclusive and covers the line's newline, so a
+                    // caret sitting on a line start belongs to that line.
+                    if (caret < end)
+                        return idx;
+                    int ns = -1, ne = -1;
+                    qtText->textAfterOffset(cur, QAccessible::LineBoundary, &ns, &ne);
+                    if (ns < 0 || ns <= cur)
+                        break;
+                    cur = ns;
+                    ++idx;
+                }
+                return idx;
+            };
+
+            QVector<QString> spoken;
+            QVector<int> reportedLines;
+            QVector<int> carets;
+
+            prose->setCaretPosition(0);
+            for (int step = 0; step < 6; ++step)
+            {
+                if (step > 0)
+                {
+                    QKeyEvent down(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
+                    QApplication::sendEvent(prose, &down);
+                    for (int i = 0; i < 5; ++i) { QApplication::processEvents(); usleep(10 * 1000); }
+                }
+
+                // Accessible offsets, not document positions — the two differ
+                // by the newlines the laid-out text inserts at soft wraps.
+                const int caret = qtText->cursorPosition();
+
+                // What the bridge tells a screen reader, by the same route
+                // VoiceOver takes: which line is the caret on, what is that
+                // line's range, what text does that range hold.
+                long bridgeLine = -1;
+                if ([area respondsToSelector:@selector(accessibilityInsertionPointLineNumber)])
+                    bridgeLine = [area accessibilityInsertionPointLineNumber];
+                else if (id o = legacyAttr(area, @"AXInsertionPointLineNumber"))
+                    bridgeLine = [o isKindOfClass:[NSNumber class]] ? [(NSNumber*)o longValue] : -1;
+
+                long lineForCaret = -1;
+                if ([area respondsToSelector:@selector(accessibilityLineForIndex:)])
+                    lineForCaret = [area accessibilityLineForIndex:caret];
+
+                QString say;
+                NSRange r = NSMakeRange(NSNotFound, 0);
+                if (bridgeLine >= 0
+                    && [area respondsToSelector:@selector(accessibilityRangeForLine:)])
+                    r = [area accessibilityRangeForLine:bridgeLine];
+                else if (id ro = legacyParamAttr(area, @"AXRangeForLine", @(bridgeLine)))
+                    if ([ro isKindOfClass:[NSValue class]])
+                        r = [(NSValue*)ro rangeValue];
+                if (r.location != NSNotFound)
+                {
+                    NSString* s = nil;
+                    if ([area respondsToSelector:@selector(accessibilityStringForRange:)])
+                        s = [area accessibilityStringForRange:r];
+                    if (![s isKindOfClass:[NSString class]])
+                    {
+                        id so = legacyParamAttr(area, @"AXStringForRange",
+                                                [NSValue valueWithRange:r]);
+                        s = [so isKindOfClass:[NSString class]] ? (NSString*)so : nil;
+                    }
+                    if (s)
+                        say = QString::fromNSString(s);
+                }
+
+                carets << caret;
+                reportedLines << int(bridgeLine);
+                spoken << say;
+
+                cout << "  step " << step << ": caret=" << caret
+                     << " ourVisualLine=" << visualLineIndex(caret)
+                     << " bridgeLineNumber=" << bridgeLine
+                     << " bridgeLineForIndex=" << lineForCaret
+                     << " range=" << (r.location == NSNotFound ? -1 : long(r.location))
+                     << "+" << (r.location == NSNotFound ? 0 : long(r.length))
+                     << " speaks=\"" << say.toStdString() << "\"" << endl;
+            }
+
+            // A reader stepping down must hear a different line each time.
+            int repeats = 0;
+            for (int i = 1; i < spoken.size(); ++i)
+                if (!spoken[i].isEmpty() && spoken[i] == spoken[i - 1] && carets[i] != carets[i - 1])
+                    ++repeats;
+            bool lineNumberAdvanced = false;
+            for (int i = 1; i < reportedLines.size(); ++i)
+                if (reportedLines[i] != reportedLines[i - 1])
+                    lineNumberAdvanced = true;
+
+            cout << "  consecutive repeated lines: " << repeats
+                 << ", bridge line number ever advanced: "
+                 << (lineNumberAdvanced ? "YES" : "NO") << endl;
+
+            if (repeats == 0 && lineNumberAdvanced)
+            {
+                cout << "  PASS: each arrow step reports a new line" << endl;
+            }
+            else
+            {
+                cout << "  FAIL: the caret moves but the bridge keeps reporting the same line,"
+                     << " so a screen reader re-speaks it" << endl;
+                ++failures;
+            }
+
+            // Control: Qt's own QTextEdit carrying the same wrapped paragraph.
+            // If the stock widget reports a fresh line per visual line, our
+            // prose widget is built wrong and should be reworked to match it.
+            // If it reports line 0 throughout as well, the defect is in Qt's
+            // macOS bridge and is not reachable by anything we restructure.
+            cout << "  -- control: stock QTextEdit, same wrapped text --" << endl;
+            QWidget ctrlHost;
+            ctrlHost.setWindowTitle(QStringLiteral("SonicPi A11y Control"));
+            ctrlHost.resize(260, 320);
+            ctrlHost.show();
+            QTextEdit* ctrl = new QTextEdit(&ctrlHost);
+            ctrl->setPlainText(QStringLiteral(
+                "One of the most exciting aspects of Sonic Pi is that it enables you "
+                "to write and modify code live to make music, just like you might "
+                "perform live with a guitar."));
+            ctrl->resize(220, 300);
+            ctrl->show();
+            for (int i = 0; i < 15; ++i) { QApplication::processEvents(); usleep(20 * 1000); }
+
+            NSView* ctrlRoot = (__bridge NSView*)reinterpret_cast<void*>(ctrlHost.winId());
+            id ctrlArea = axFindByRole(ctrlRoot, NSAccessibilityTextAreaRole);
+            if (!ctrlArea)
+            {
+                cout << "    (control unavailable: no AXTextArea for QTextEdit)" << endl;
+            }
+            else
+            {
+                ctrl->moveCursor(QTextCursor::Start);
+                for (int step = 0; step < 5; ++step)
+                {
+                    if (step > 0)
+                    {
+                        QKeyEvent down(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
+                        QApplication::sendEvent(ctrl->viewport(), &down);
+                        for (int i = 0; i < 5; ++i) { QApplication::processEvents(); usleep(10 * 1000); }
+                    }
+                    const int caret = ctrl->textCursor().position();
+                    long line = -1;
+                    if ([ctrlArea respondsToSelector:@selector(accessibilityInsertionPointLineNumber)])
+                        line = [ctrlArea accessibilityInsertionPointLineNumber];
+                    NSRange r = NSMakeRange(NSNotFound, 0);
+                    if (line >= 0
+                        && [ctrlArea respondsToSelector:@selector(accessibilityRangeForLine:)])
+                        r = [ctrlArea accessibilityRangeForLine:line];
+                    cout << "    step " << step << ": caret=" << caret
+                         << " bridgeLineNumber=" << line
+                         << " range=" << (r.location == NSNotFound ? -1 : long(r.location))
+                         << "+" << (r.location == NSNotFound ? 0 : long(r.length)) << endl;
+                }
+            }
+
+        }
+        delete prose;
     }
 
     cout << "\n=== " << (failures == 0 ? "PASS" : "FAIL")

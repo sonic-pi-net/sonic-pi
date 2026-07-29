@@ -63,8 +63,17 @@ pressKey("d", {control down, shift down}) of me -- Focus Help Docs Details
 capture(t, "docs details focus", 2.0) of me
 pressCode(124, {}) of me
 capture(t, "docs char", 1.2) of me
+-- Several presses, not one: the repeated-speech bug shows up as the SAME
+-- phrase coming back on consecutive lines, which a single Down cannot reveal.
+-- Read these four back expecting four different lines.
 pressCode(125, {}) of me
-capture(t, "docs line down", 1.5) of me
+capture(t, "docs line down 1", 1.5) of me
+pressCode(125, {}) of me
+capture(t, "docs line down 2", 1.5) of me
+pressCode(125, {}) of me
+capture(t, "docs line down 3", 1.5) of me
+pressCode(125, {}) of me
+capture(t, "docs line down 4", 1.5) of me
 
 -- ===== examples: browse + line-by-line =====
 tell application "System Events" to tell process "Sonic Pi"

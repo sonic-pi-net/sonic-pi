@@ -343,9 +343,12 @@ TEST_CASE("line navigation yields each visual line once, not the paragraph",
     for (int i = 1; i < lines.size(); ++i)
         CHECK(lines[i] != lines[i - 1]);
     // Joined, the walk reconstructs both paragraphs (wrap points are
-    // font-dependent, so no exact per-line text assertions).
-    CHECK(lines.join(' ').contains("perform live with a guitar."));
-    CHECK(lines.join(' ').contains("Second paragraph closes the page."));
+    // font-dependent, so no exact per-line text assertions). Lines keep the
+    // space they wrapped on plus their terminating newline, so compare with
+    // whitespace collapsed rather than pinning where the breaks landed.
+    const QString walked = lines.join(' ').simplified();
+    CHECK(walked.contains("perform live with a guitar."));
+    CHECK(walked.contains("Second paragraph closes the page."));
 
     // An offset in the middle of the paragraph resolves to its own short
     // line too (this is the exact query the repetition bug got wrong).
@@ -364,4 +367,106 @@ TEST_CASE("line navigation yields each visual line once, not the paragraph",
         text->textBeforeOffset(l2s, QAccessible::LineBoundary, &bs, &be);
     CHECK(bs == 0);
     CHECK(back == firstLine);
+}
+
+// The laid-out-text contract. Every platform bridge decides which line the
+// caret is on by counting '\n' in the text this interface returns — macOS in
+// accessibilityLineForIndex/accessibilityInsertionPointLineNumber, Windows UIA
+// in isTextUnitSeparator, which treats '\n' as the only line separator and
+// never consults the layout. Before this, a wrapped paragraph held no newline,
+// so that count was 0 for every caret position: the caret appeared never to
+// leave line 0 and screen readers re-spoke the same line on each arrow press.
+TEST_CASE("the line number a bridge counts tracks the visual line",
+          "[tutorialwidgets][a11y]")
+{
+    registerTutorialWidgetAccessibility();
+    TutProseText prose(nullptr);
+    prose.setHtml(
+        "<p>One of the most exciting aspects of Sonic Pi is that it enables "
+        "you to write and modify code live to make music, just like you "
+        "might perform live with a guitar.</p>");
+    prose.resize(180, 800);   // narrow enough to wrap the paragraph
+
+    QAccessibleInterface* iface = QAccessible::queryAccessibleInterface(&prose);
+    REQUIRE(iface != nullptr);
+    QAccessibleTextInterface* text = iface->textInterface();
+    REQUIRE(text != nullptr);
+
+    prose.setCaretPosition(0);
+    QVector<int> lineNumbers;
+    int previousCaret = -1;
+    for (int step = 0; step < 20; ++step)
+    {
+        const int caret = text->cursorPosition();
+        if (caret == previousCaret)
+            break;   // last visual line: Down no longer moves
+        previousCaret = caret;
+        lineNumbers << text->text(0, caret).count(QLatin1Char('\n'));
+        QTest::keyClick(&prose, Qt::Key_Down);
+    }
+
+    REQUIRE(lineNumbers.size() >= 3);   // a wrapped paragraph, not one line
+    CHECK(lineNumbers.first() == 0);
+    for (int i = 1; i < lineNumbers.size(); ++i)
+        CHECK(lineNumbers[i] == lineNumbers[i - 1] + 1);
+}
+
+TEST_CASE("accessible offsets round-trip to document positions",
+          "[tutorialwidgets][a11y]")
+{
+    registerTutorialWidgetAccessibility();
+    TutProseText prose(nullptr);
+    prose.setHtml(
+        "<p>One of the most exciting aspects of Sonic Pi is that it enables "
+        "you to write and modify code live to make music.</p>");
+    prose.resize(180, 800);
+
+    QAccessibleInterface* iface = QAccessible::queryAccessibleInterface(&prose);
+    REQUIRE(iface != nullptr);
+    QAccessibleTextInterface* text = iface->textInterface();
+    REQUIRE(text != nullptr);
+
+    // The inserted newlines lengthen the text, so the count must match what
+    // text() actually returns or a screen reader indexes off the end.
+    CHECK(text->characterCount() == text->text(0, text->characterCount()).size());
+    CHECK(iface->text(QAccessible::Value).size() == text->characterCount());
+
+    // Every offset a screen reader can ask for maps to a caret and back.
+    for (int offset = 0; offset <= text->characterCount(); ++offset)
+    {
+        text->setCursorPosition(offset);
+        const int back = text->cursorPosition();
+        // Offsets landing on an inserted newline resolve to the following
+        // line's start, which is the caret position a reader expects there.
+        CHECK(qAbs(back - offset) <= 1);
+    }
+
+    // A selection set through the interface reads back as the same range.
+    text->setSelection(0, 5, 12);
+    int start = -1, end = -1;
+    text->selection(0, &start, &end);
+    CHECK(start == 5);
+    CHECK(end == 12);
+    CHECK(text->text(5, 12) == prose.selectedText());
+}
+
+TEST_CASE("real newlines are not doubled by the laid-out text",
+          "[tutorialwidgets][a11y]")
+{
+    registerTutorialWidgetAccessibility();
+    // Code blocks already carry one newline per line; nothing may be inserted
+    // for them, or a screen reader hears a blank line between every line.
+    TutProseText code(nullptr);
+    code.setHtml("<p>play 60<br>sleep 1<br>play 64</p>");
+    code.resize(600, 400);   // wide enough that nothing wraps
+
+    QAccessibleInterface* iface = QAccessible::queryAccessibleInterface(&code);
+    REQUIRE(iface != nullptr);
+    QAccessibleTextInterface* text = iface->textInterface();
+    REQUIRE(text != nullptr);
+
+    const QString all = text->text(0, text->characterCount());
+    CHECK(all == QStringLiteral("play 60\nsleep 1\nplay 64"));
+    CHECK(all.count(QLatin1Char('\n')) == 2);
+    CHECK(!all.contains(QStringLiteral("\n\n")));
 }

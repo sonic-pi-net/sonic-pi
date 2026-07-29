@@ -23,6 +23,8 @@
 #include <QMouseEvent>
 #include <QTextLayout>
 
+#include <algorithm>
+
 TutProseText::~TutProseText()
 {
     if (m_group)
@@ -316,68 +318,75 @@ public:
     QString text(QAccessible::Text t) const override
     {
         if (t == QAccessible::Value)
-            return prose()->plainText();
+            return laidOut().text;
         return QAccessibleWidget::text(t);
     }
 
     // --- QAccessibleTextInterface ---
+    // Offsets on this interface index the LAID-OUT text (see laidOut()), which
+    // is the document plus a newline at every soft wrap. Document positions
+    // and accessible offsets are therefore no longer the same number, so each
+    // entry point converts at the boundary.
     void selection(int selectionIndex, int* startOffset, int* endOffset) const override
     {
         const bool has = selectionIndex == 0 && prose()->selectionStart() >= 0;
-        *startOffset = has ? prose()->selectionStart() : 0;
-        *endOffset = has ? prose()->selectionEnd() : 0;
+        const LaidOut lo = laidOut();
+        *startOffset = has ? docToAx(prose()->selectionStart(), lo) : 0;
+        *endOffset = has ? docToAx(prose()->selectionEnd(), lo) : 0;
     }
 
     int selectionCount() const override { return prose()->selectionStart() >= 0 ? 1 : 0; }
 
     void addSelection(int startOffset, int endOffset) override
     {
-        prose()->setSelectionRange(startOffset, endOffset);
+        const LaidOut lo = laidOut();
+        prose()->setSelectionRange(axToDoc(startOffset, lo), axToDoc(endOffset, lo));
     }
 
     void removeSelection(int) override { prose()->clearSelection(); }
 
     void setSelection(int, int startOffset, int endOffset) override
     {
-        prose()->setSelectionRange(startOffset, endOffset);
+        const LaidOut lo = laidOut();
+        prose()->setSelectionRange(axToDoc(startOffset, lo), axToDoc(endOffset, lo));
     }
 
-    int cursorPosition() const override { return prose()->caretPosition(); }
+    int cursorPosition() const override
+    {
+        return docToAx(prose()->caretPosition(), laidOut());
+    }
 
-    void setCursorPosition(int position) override { prose()->setCaretPosition(position); }
+    void setCursorPosition(int position) override
+    {
+        prose()->setCaretPosition(axToDoc(position, laidOut()));
+    }
 
     QString text(int startOffset, int endOffset) const override
     {
-        const int count = characterCount();
-        QTextCursor c(prose()->document());
-        c.setPosition(qBound(0, startOffset, count));
-        c.setPosition(qBound(0, endOffset, count), QTextCursor::KeepAnchor);
-        QString t = c.selectedText();
-        t.replace(QChar::ParagraphSeparator, QLatin1Char('\n'));
-        t.replace(QChar::LineSeparator, QLatin1Char('\n'));
-        return t;
+        const QString all = laidOut().text;
+        const int s = qBound(0, startOffset, all.size());
+        const int e = qBound(s, endOffset, all.size());
+        return all.mid(s, e - s);
     }
 
-    int characterCount() const override
-    {
-        // characterCount() includes the document's terminal mark
-        return qMax(0, prose()->document()->characterCount() - 1);
-    }
+    int characterCount() const override { return laidOut().text.size(); }
 
     QRect characterRect(int offset) const override
     {
-        return prose()->characterRectGlobal(offset);
+        return prose()->characterRectGlobal(axToDoc(offset, laidOut()));
     }
 
     int offsetAtPoint(const QPoint& point) const override
     {
         const QPoint local = prose()->mapFromGlobal(point);
-        return prose()->document()->documentLayout()->hitTest(QPointF(local), Qt::ExactHit);
+        const int hit =
+            prose()->document()->documentLayout()->hitTest(QPointF(local), Qt::ExactHit);
+        return hit < 0 ? -1 : docToAx(hit, laidOut());
     }
 
     void scrollToSubstring(int startIndex, int) override
     {
-        prose()->ensureOffsetVisible(startIndex);
+        prose()->ensureOffsetVisible(axToDoc(startIndex, laidOut()));
     }
 
     QString attributes(int offset, int* startOffset, int* endOffset) const override
@@ -390,95 +399,86 @@ public:
         return QString();
     }
 
-    // --- visual-line boundaries ------------------------------------------
-    // The inherited LineBoundary implementations derive "lines" from newline
-    // characters, so a word-wrapped paragraph (which has none) is one giant
-    // "line": VoiceOver's line navigation (plain Up/Down) then speaks the
-    // whole paragraph once per *visual* line it steps through — every block
-    // repeated 2-3 times. Answer with the laid-out QTextLines instead, so
-    // each visual line reads exactly once. Code blocks were never affected
-    // (one newline per line ≙ one visual line).
-    QString textAtOffset(int offset, QAccessible::TextBoundaryType boundaryType,
-                         int* startOffset, int* endOffset) const override
-    {
-        if (boundaryType != QAccessible::LineBoundary)
-            return QAccessibleTextInterface::textAtOffset(offset, boundaryType,
-                                                          startOffset, endOffset);
-        if (!visualLine(offset, startOffset, endOffset))
-        {
-            *startOffset = *endOffset = -1;
-            return QString();
-        }
-        return text(*startOffset, *endOffset);
-    }
-
-    QString textBeforeOffset(int offset, QAccessible::TextBoundaryType boundaryType,
-                             int* startOffset, int* endOffset) const override
-    {
-        if (boundaryType != QAccessible::LineBoundary)
-            return QAccessibleTextInterface::textBeforeOffset(offset, boundaryType,
-                                                              startOffset, endOffset);
-        int s = 0, e = 0;
-        if (!visualLine(offset, &s, &e) || s <= 0 || !visualLine(s - 1, startOffset, endOffset))
-        {
-            *startOffset = *endOffset = -1;
-            return QString();
-        }
-        return text(*startOffset, *endOffset);
-    }
-
-    QString textAfterOffset(int offset, QAccessible::TextBoundaryType boundaryType,
-                            int* startOffset, int* endOffset) const override
-    {
-        if (boundaryType != QAccessible::LineBoundary)
-            return QAccessibleTextInterface::textAfterOffset(offset, boundaryType,
-                                                             startOffset, endOffset);
-        int s = 0, e = 0, next = 0;
-        if (!visualLine(offset, &s, &e, &next) || next > characterCount()
-            || !visualLine(next, startOffset, endOffset))
-        {
-            *startOffset = *endOffset = -1;
-            return QString();
-        }
-        return text(*startOffset, *endOffset);
-    }
-
 private:
-    // Document-offset range [start, end) of the visual (wrapped) line
-    // containing `offset`, with `end` trimmed of the trailing space kept
-    // before a wrap so speech doesn't end on a stray blank. `nextStart` (when
-    // wanted) is where the following visual line begins — past this block's
-    // paragraph separator when the line is the block's last — and exceeds
-    // characterCount() on the document's final line. False when the document
-    // has no laid-out line there.
-    bool visualLine(int offset, int* start, int* end, int* nextStart = nullptr) const
+    // --- laid-out text -----------------------------------------------------
+    // Every platform bridge decides where a line ends by looking for '\n' in
+    // the text this interface hands it. macOS counts them for AXLineForIndex
+    // and AXInsertionPointLineNumber (while taking the line's *range* from
+    // LineBoundary, so the two halves disagree); Windows UIA makes '\n' the
+    // only TextUnit_Line separator and never consults the layout at all. A
+    // word-wrapped paragraph holds no newline, so the caret is reported on
+    // line 0 wherever it sits and a screen reader re-speaks that same line on
+    // every arrow press — the bug the docs pane shipped with.
+    //
+    // Rather than work around each bridge in its own way (and macOS is the
+    // only one that even could be), expose the text AS LAID OUT: a real '\n'
+    // at every soft wrap. Line numbering and line boundaries then agree on
+    // all platforms, and the inherited boundary implementations become
+    // correct without overriding them. Code blocks are unaffected: their
+    // newlines are already real, so nothing is inserted.
+    struct LaidOut
     {
-        QTextDocument* doc = prose()->document();
+        QString text;      // document text, '\n' inserted at each soft wrap
+        QList<int> wraps;  // document offsets that a soft-wrapped line starts at
+    };
+
+    // Document offsets index plainText() one-for-one (block separators and
+    // U+2028/U+00A0 all normalise to a single character), which is what lets
+    // the wrap offsets below double as insertion points.
+    LaidOut laidOut() const
+    {
+        LaidOut lo;
+        lo.text = prose()->plainText();
         prose()->heightForWidth(prose()->width()); // ensure the layout is current
-        const int count = characterCount();
-        offset = qBound(0, offset, count);
-        QTextBlock block = doc->findBlock(qMin(offset, qMax(0, count - 1)));
-        if (!block.isValid() || !block.layout())
-            return false;
-        const QTextLayout* lay = block.layout();
-        QTextLine line = lay->lineForTextPosition(
-            qBound(0, offset - block.position(), qMax(0, block.length() - 2)));
-        if (!line.isValid() && lay->lineCount() > 0)
-            line = lay->lineAt(lay->lineCount() - 1);
-        if (!line.isValid())
-            return false;
-        *start = block.position() + line.textStart();
-        const int rawEnd = *start + line.textLength();
-        if (nextStart)
+        QTextDocument* doc = prose()->document();
+        for (QTextBlock b = doc->begin(); b.isValid(); b = b.next())
         {
-            const bool lastInBlock = line.lineNumber() == lay->lineCount() - 1;
-            *nextStart = lastInBlock ? block.position() + block.length() : rawEnd;
+            const QTextLayout* lay = b.layout();
+            if (!lay)
+                continue;
+            // Line 0 starts the block, so only lines 1.. are soft wraps.
+            for (int i = 1; i < lay->lineCount(); ++i)
+            {
+                const QTextLine ln = lay->lineAt(i);
+                if (!ln.isValid())
+                    continue;
+                const int at = b.position() + ln.textStart();
+                if (at <= 0 || at > lo.text.size())
+                    continue;
+                // A <br> starts a new QTextLine too, but it already carries a
+                // real newline — inserting there would speak a blank line
+                // between every line of a code block.
+                if (lo.text.at(at - 1) == QLatin1Char('\n'))
+                    continue;
+                lo.wraps << at;
+            }
         }
-        *end = rawEnd;
-        // Trim the trailing space a wrapped line keeps before the break.
-        while (*end > *start && text(*end - 1, *end) == QLatin1String(" "))
-            --(*end);
-        return true;
+        std::sort(lo.wraps.begin(), lo.wraps.end());
+        for (int i = lo.wraps.size() - 1; i >= 0; --i)
+            lo.text.insert(lo.wraps[i], QLatin1Char('\n'));
+        return lo;
+    }
+
+    int docToAx(int docOffset, const LaidOut& lo) const
+    {
+        int shift = 0;
+        for (int w : lo.wraps)
+            if (w <= docOffset)
+                ++shift;
+        return docOffset + shift;
+    }
+
+    int axToDoc(int axOffset, const LaidOut& lo) const
+    {
+        int shift = 0;
+        for (int i = 0; i < lo.wraps.size(); ++i)
+        {
+            // The i-th inserted newline sits at this accessible offset.
+            if (axOffset <= lo.wraps[i] + i)
+                break;
+            ++shift;
+        }
+        return qMax(0, axOffset - shift);
     }
 
     TutProseText* prose() const { return static_cast<TutProseText*>(widget()); }
