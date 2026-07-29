@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic' RC3](#v5.0.0-rc3), To be released...
+- [v5.0.0 'SuperSonic' RC4](#v5.0.0-rc4), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,7 +35,30 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0-rc3"></a>
+<a name="v5.0.0-rc4"></a>
+
+## Version 5.0.0 'SuperSonic' RC4
+
+The fourth release candidate of v5 — more fixes and polish, with new colour controls for the theme and a much smarter code completion.
+
+As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### GUI
+* New: a Spread Hue dial sits alongside Rotate Hue in the theme preferences. Wind it down to draw every colour in towards the main one until the whole interface shares a single hue, or up to open the colours out so each one is as distinct as it can be.
+* New: code completion now knows the options that ordinary functions take. Typing after the comma in `live_audio :foo,` offers `input:` and `stereo:` rather than a list of unrelated function names — and the same goes for around sixty other functions including `live_loop`, `use_bpm` and the whole `midi_*` family.
+* Colour theme preferences have moved to the Visuals tab.
+* With auto-align switched off, Tab now behaves as an ordinary tab key.
+* New Linux and Windows application icons, matching the macOS set.
+
+### Accessibility
+* Docs prose now exposes its laid-out text, so every screen-reader bridge steps through it by visual line rather than jumping a whole paragraph at a time.
+
+### Fixes
+* Events sharing an identical timestamp are now ordered consistently rather than arbitrarily.
+* Fixed the option validations on the `:gabberkick` synth.
+* The audio engine no longer complains about stopping or changing notes it has already freed — a common source of spurious errors when live coding.
+* Various layout and style refinements throughout the interface.
+* The editing cursor now follows monochrome mode and hue rotation like the rest of the interface.
 
 ## Version 5.0.0 'SuperSonic' RC3
 
