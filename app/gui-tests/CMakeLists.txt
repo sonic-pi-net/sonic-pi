@@ -24,7 +24,8 @@ endif()
 # produced by qt-doc.rb during pre-translations. If it hasn't been generated yet,
 # skip rather than fail with a cryptic missing-include error.
 if(NOT EXISTS ${GUI_ROOT}/utils/completion_argkinds.gen.h OR
-   NOT EXISTS ${GUI_ROOT}/utils/completion_fnopts.gen.h)
+   NOT EXISTS ${GUI_ROOT}/utils/completion_fnopts.gen.h OR
+   NOT EXISTS ${GUI_ROOT}/utils/completion_optowners.gen.h)
   message(WARNING "completion metadata not generated (run pre-translations); skipping gui-tests")
   return()
 endif()
@@ -41,6 +42,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/argkinds_generated.test.cpp
     ${GUI_TESTS_ROOT}/completion_detect.test.cpp
     ${GUI_TESTS_ROOT}/completion_fnopts.test.cpp
+    ${GUI_TESTS_ROOT}/completion_optowners.test.cpp
     ${GUI_TESTS_ROOT}/completion_rank.test.cpp
     ${GUI_TESTS_ROOT}/tutorialdocs.test.cpp
     ${GUI_TESTS_ROOT}/tutorialwidgets_a11y.test.cpp
@@ -54,6 +56,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_ROOT}/utils/tutorialdocs.cpp
     ${GUI_ROOT}/widgets/tutorialwidgets.cpp
     ${GUI_ROOT}/utils/setbundle.cpp
+    ${GUI_ROOT}/utils/scintilla_api.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -73,6 +76,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Svg
     Qt6::Test
     Catch2::Catch2
+    QScintilla
 )
 
 enable_testing()

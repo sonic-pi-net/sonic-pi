@@ -71,12 +71,6 @@ class ScintillaAPI : public QsciAbstractAPIs
   // validations reject.
   void setOptRange(const QString& name, double lo, double hi, double def,
                    bool loExcl = false, bool hiExcl = false);
-  // Owner-scoped override of the range above (e.g. ":gverb" × "room:"): the
-  // same opt name can mean different things on different synths/FX (room: is
-  // a 0..1 mix on :reverb but metres on :gverb). When the completion context
-  // names the owner, its override wins over the global range.
-  void setOptRangeFor(const QString& owner, const QString& name, double lo, double hi,
-                      double def, bool loExcl = false, bool hiExcl = false);
   // Register the valid values of an enum opt (e.g. "wave:", {"0","1","2"}) so its
   // value position offers a choice list.
   void setOptOptions(const QString& name, const QStringList& opts);
@@ -121,7 +115,6 @@ class ScintillaAPI : public QsciAbstractAPIs
   // `with_fx :gverb, ...`, the live use_synth for play/control), or empty.
   QString ownerForContext(const QStringList& context) const;
   QHash<QString, OptRange> optRanges;
-  QHash<QString, OptRange> ownerOptRanges;  // ":owner name:" -> override
   QHash<QString, QString> sampleInfo;   // ":name" -> "0.87s · stereo · 44.1 kHz"
   QHash<QString, QStringList> optOptions;   // enum opt -> valid values
   QHash<QString, QList<int>> chordIntervals;   // bare name -> semitone offsets

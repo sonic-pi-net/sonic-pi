@@ -338,6 +338,13 @@ opt_summaries = {}
 # against every owner below, and the docs build aborts on a mismatch instead
 # of shipping a slider whose edge the engine rejects at runtime.
 opt_validations = {}
+# Every synth/FX that carries each opt, validated or not. The tables above are
+# keyed by opt name alone and so can hold only the first owner's version of each
+# fact, but opt names are reused with different meanings (depth: is flange depth
+# on :flanger and carrier depth on :fm). Everything here that differs from the
+# global version is emitted as an owner-scoped entry — see
+# gui/utils/completion_optowners.h.
+opt_owners = {}
 
 # An opt's default value as a bare display string, or nil when there's no
 # meaningful one (consumers wrap it in backticks as needed).
@@ -392,6 +399,7 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   v.arg_info.each do |ak, av|
     docs << "<< \"#{ak}:\" ";
     opt_summaries[ak] ||= av if av[:doc]
+    (opt_owners[ak] ||= []) << [":#{safe_k}", av]
     if (vals = (v.info[ak] || {})[:validations])
       (opt_validations[ak] ||= []) << [":#{safe_k}", av, vals]
     end
@@ -411,6 +419,7 @@ SonicPi::Synths::SynthInfo.get_all.each do |k, v|
   v.arg_info.each do |ak, av|
     docs << "<< \"#{ak}:\" ";
     opt_summaries[ak] ||= av if av[:doc]
+    (opt_owners[ak] ||= []) << [":#{k}", av]
     if (vals = (v.info[ak] || {})[:validations])
       (opt_validations[ak] ||= []) << [":#{k}", av, vals]
     end
@@ -495,8 +504,12 @@ range_violation = lambda do |ak, range, validations|
   nil
 end
 
-opt_summaries.each do |ak, info|
-  # HTML, like the synth/fx docs, for consistent block spacing.
+# An opt's docstring as HTML (like the synth/fx docs, for consistent block
+# spacing): default + slidable, the prose, then the engine's own constraints so
+# the value is self-documenting — "must be zero or greater; must be less than 1".
+# Built per owner, so the global version and an owner's own read identically
+# apart from the facts that actually differ.
+opt_doc_body = lambda do |info|
   meta = []
   ds = fmt_default.call(info[:default])
   meta << "Default: <code>#{ds}</code>" if ds
@@ -505,28 +518,48 @@ opt_summaries.each do |ak, info|
   body += "<p>#{meta.join(' · ')}</p>" unless meta.empty?
   d = info[:doc].to_s.strip
   body += "<p>#{opt_doc_html.call(d)}</p>" unless d.empty?
-  # Describe the opt's constraints (straight from the engine's validations) so the
-  # value is self-documenting — e.g. "must be zero or greater; must be less than 1".
   cons = info[:constraints] || []
   body += "<p><i>#{opt_doc_html.call(cons.join('; '))}</i></p>" unless cons.empty?
+  body
+end
+
+# Owner-scoped entries for the generated table, as [owner, opt, kind, payload].
+optowner_docs = []
+optowner_options = []
+optowner_ranges = []
+
+opt_summaries.each do |ak, info|
+  body = opt_doc_body.call(info)
   docs << "  autocomplete->setSummary(\"#{ak}:\", QString::fromUtf8(\"#{ak}:\"));\n"
   docs << "  autocomplete->setDoc(\"#{ak}:\", #{qutf8_doc.call(body)});\n"
+  # The doc above is global per opt name (this loop sees each name once), so it
+  # states one owner's default, prose and constraints for every synth/FX that
+  # carries the name. Every owner that would be misdescribed by it gets its own.
+  (opt_owners[ak] || []).each do |owner, oinfo|
+    own_body = opt_doc_body.call(oinfo)
+    optowner_docs << [owner, ak, own_body] unless own_body == body
+  end
   # Bounded opt (inferred from its :type) → a value-picker slider in the GUI.
   bounds = info[:bounds] || {}
   if (opts = bounds[:options])
-    # Enum opt (e.g. env_curve, wave) → a choice list of the valid values.
+    # Enum opt (e.g. env_curve, wave) → a choice list of the valid values. The
+    # valid set is per owner (wave: reaches 4 on :tremolo but only 2 on :tb303),
+    # so an owner whose set differs gets its own — otherwise the popup offers
+    # values the engine rejects, and hides ones it accepts.
     list = opts.map { |o| "\"#{o}\"" }.join(", ")
     docs << "  autocomplete->setOptOptions(\"#{ak}:\", QStringList{#{list}});\n"
+    (opt_owners[ak] || []).each do |owner, oinfo|
+      own_opts = (oinfo[:bounds] || {})[:options]
+      optowner_options << [owner, ak, own_opts] if own_opts && own_opts != opts
+    end
   elsif (range = derive_opt_range.call(ak, info, false))
     lo, hi, dv, lo_x, hi_x = range
     docs << "  autocomplete->setOptRange(\"#{ak}:\", #{lo}, #{hi}, #{dv}, #{lo_x}, #{hi_x});\n"
-    # The range above is global per opt name (this loop sees each name once),
-    # but the same name can mean different things on different synths/FX
-    # (room: is a 0..1 mix on :reverb, metres on :gverb). Wherever the global
-    # range would offer a value an owner's validations reject, emit an
-    # owner-scoped override derived from that owner's own bounds — and abort
-    # the docs build if even that can't produce a valid range, rather than
-    # ship a slider whose values the engine errors on.
+    # Same again for the slider (room: is a 0..1 mix on :reverb, metres on
+    # :gverb). Wherever the global range would offer a value an owner's
+    # validations reject, derive one from that owner's own bounds — and abort
+    # the docs build if even that can't produce a valid range, rather than ship
+    # a slider whose values the engine errors on.
     (opt_validations[ak] || []).each do |owner, oinfo, vals|
       next unless range_violation.call(ak, range, vals)
       own = derive_opt_range.call(ak, oinfo, true)
@@ -535,8 +568,7 @@ opt_summaries.each do |ak, info|
         abort "qt-doc.rb: the #{ak}: slider offers #{(own_bad[0] || 'nothing valid')}, but #{owner} " \
               "requires it #{own_bad[1]}. Align the validations in synthinfo.rb (or the range tables here)."
       end
-      olo, ohi, odv, olo_x, ohi_x = own
-      docs << "  autocomplete->setOptRangeFor(\"#{owner}\", \"#{ak}:\", #{olo}, #{ohi}, #{odv}, #{olo_x}, #{ohi_x});\n"
+      optowner_ranges << [owner, ak, own]
     end
   end
 end
@@ -781,6 +813,41 @@ fnopts_h << fnopts_entries.sort.join("\n") << "\n"
 fnopts_h << "    return t;\n}\n\n} // namespace SonicPi\n\n#endif\n"
 File.open("#{SonicPi::Paths.qt_gui_utils_path}/completion_fnopts.gen.h", 'w') do |f|
   f << fnopts_h.join
+end
+
+# Owner-scoped opt metadata: the version of each fact belonging to a specific
+# synth/FX rather than to the opt name, for every owner the global tables above
+# would misdescribe. Consumed by ScintillaAPI (see completion_optowners.h) and
+# pinned by gui-tests/completion_optowners.test.cpp. Docs are grouped by body so
+# the owners that share one (most of them) share a single string literal.
+optowners_entries = []
+optowner_docs.group_by { |_owner, _ak, body| body }.each do |body, group|
+  optowners_entries << "    {\n        const QString d = #{qutf8_doc.call(body)};"
+  group.each do |owner, ak, _body|
+    optowners_entries << "        t.setDoc(\"#{owner}\", \"#{ak}:\", d);"
+  end
+  optowners_entries << "    }"
+end
+optowner_options.each do |owner, ak, opts|
+  list = opts.map { |o| "\"#{o}\"" }.join(", ")
+  optowners_entries << "    t.setOptions(\"#{owner}\", \"#{ak}:\", QStringList{ #{list} });"
+end
+optowner_ranges.each do |owner, ak, range|
+  lo, hi, dv, lo_x, hi_x = range
+  optowners_entries << "    t.setRange(\"#{owner}\", \"#{ak}:\", #{lo}, #{hi}, #{dv}, #{lo_x}, #{hi_x});"
+end
+
+optowners_h = []
+optowners_h << "// AUTO-GENERATED by qt-doc.rb — do not edit.\n"
+optowners_h << "#ifndef SONICPI_COMPLETION_OPTOWNERS_GEN_H\n"
+optowners_h << "#define SONICPI_COMPLETION_OPTOWNERS_GEN_H\n\n"
+optowners_h << "#include \"completion_optowners.h\"\n\n"
+optowners_h << "namespace SonicPi {\n\n"
+optowners_h << "inline OptOwnerTable generatedOptOwners()\n{\n    OptOwnerTable t;\n"
+optowners_h << optowners_entries.join("\n") << "\n"
+optowners_h << "    return t;\n}\n\n} // namespace SonicPi\n\n#endif\n"
+File.open("#{SonicPi::Paths.qt_gui_utils_path}/completion_optowners.gen.h", 'w') do |f|
+  f << optowners_h.join
 end
 
 File.open("#{SonicPi::Paths.qt_gui_path}/help_files.qrc", 'w') do |f|

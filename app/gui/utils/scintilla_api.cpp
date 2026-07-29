@@ -21,6 +21,7 @@
 #include "completion_context.h"
 #include "completion_argkinds.gen.h"
 #include "completion_fnopts.gen.h"
+#include "completion_optowners.gen.h"
 
 using namespace std;
 
@@ -216,11 +217,6 @@ void ScintillaAPI::setOptRange(const QString& name, double lo, double hi, double
   optRanges.insert(name, makeRange(lo, hi, def, loExcl, hiExcl));
 }
 
-void ScintillaAPI::setOptRangeFor(const QString& owner, const QString& name, double lo,
-                                  double hi, double def, bool loExcl, bool hiExcl) {
-  ownerOptRanges.insert(owner + " " + name, makeRange(lo, hi, def, loExcl, hiExcl));
-}
-
 QString ScintillaAPI::ownerForContext(const QStringList& context) const {
   if (context.isEmpty())
     return QString();
@@ -338,15 +334,20 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
   // Opt value slot. An enum opt (e.g. `wave: `) → a choice list of its values; a
   // bounded opt (e.g. `pan: `) → a single slider item.
   const QString optBefore = lastWordBeforePartial(context);
+  // Facts keyed by opt name alone hold only the first-registered owner's version;
+  // whenever the context names the owner, its own version wins (see
+  // completion_optowners.h).
+  static const SonicPi::OptOwnerTable s_optOwners = SonicPi::generatedOptOwners();
+  const QString owner = ownerForContext(context);
   if (optOptions.contains(optBefore)) {
     // Each value carries its meaning (parsed from the opt docs) inline, and the
     // full opt doc in the detail pane — so `wave: 0` reads "0 saw", not a bare 0.
-    const QString optDoc = docs.value(optBefore);
+    const QString optDoc = s_optOwners.doc(owner, optBefore, docs.value(optBefore));
     QString illo;
     if (optBefore == "wave:" || optBefore == "mod_wave:") illo = "wave";
     else if (optBefore.endsWith("env_curve:")) illo = "curve";
     QList<CompletionItem> out;
-    for (const QString& v : optOptions.value(optBefore)) {
+    for (const QString& v : s_optOwners.options(owner, optBefore, optOptions.value(optBefore))) {
       CompletionItem it;
       it.kind = "optval";
       it.text = v;
@@ -357,10 +358,10 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
     }
     return out;
   }
-  const QString rangeOwnerKey = ownerForContext(context) + " " + optBefore;
-  if (ownerOptRanges.contains(rangeOwnerKey) || optRanges.contains(optBefore)) {
-    const OptRange r = ownerOptRanges.contains(rangeOwnerKey)
-                           ? ownerOptRanges.value(rangeOwnerKey)
+  if (s_optOwners.hasRange(owner, optBefore) || optRanges.contains(optBefore)) {
+    const SonicPi::OptOwnerRange o = s_optOwners.range(owner, optBefore);
+    const OptRange r = s_optOwners.hasRange(owner, optBefore)
+                           ? makeRange(o.lo, o.hi, o.def, o.loExcl, o.hiExcl)
                            : optRanges.value(optBefore);
     CompletionItem it;
     it.kind = "range";
@@ -401,7 +402,9 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
     item.kind = lastKind;
     item.summary = summaries.value(n);
     item.usage = usages.value(n);
-    item.doc = docs.value(n);
+    // Completing an opt NAME inside a synth/FX: show that owner's doc for it,
+    // not whichever owner happened to register the name globally.
+    item.doc = s_optOwners.doc(owner, n, docs.value(n));
     if (lastKind == "sample") {
       // Duration/format parsed from the audio file header at load: rides the
       // dimmed row summary (browsable lengths) and the helper-pane prose.
