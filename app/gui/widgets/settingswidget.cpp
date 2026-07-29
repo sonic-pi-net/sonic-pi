@@ -475,8 +475,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     // --- Assemble grid layout ---
     // Col 0: Volume knob + all checkboxes (spans all rows)
-    // Col 0: Main Volume, Audio Device, SuperSonic panel.
-    // Col 1: Audio, Synths and FX, Recording (mac/win) pinned to the bottom.
+    // Col 0: Audio, Synths and FX, Recording (mac/win) pinned to the bottom.
+    // Col 1: Main Volume, Audio Device, SuperSonic panel.
     QGroupBox *audio_prefs_box = new QGroupBox();
     QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
@@ -490,15 +490,15 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 #endif
     supersonicBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
-    audio_prefs_box_layout->addWidget(volBox, 0, 0);
-    audio_prefs_box_layout->addWidget(audioDeviceBox, 1, 0);
-    audio_prefs_box_layout->addWidget(supersonicBox, 2, 0);
+    audio_prefs_box_layout->addWidget(audioGroup, 0, 0);
+    audio_prefs_box_layout->addWidget(synthsGroup, 1, 0);
 
-    audio_prefs_box_layout->addWidget(audioGroup, 0, 1);
-    audio_prefs_box_layout->addWidget(synthsGroup, 1, 1);
+    audio_prefs_box_layout->addWidget(volBox, 0, 1);
+    audio_prefs_box_layout->addWidget(audioDeviceBox, 1, 1);
+    audio_prefs_box_layout->addWidget(supersonicBox, 2, 1);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // Row 2 carries the stretch, so align bottom or the switch floats at its top.
-    audio_prefs_box_layout->addWidget(recordingGroup, 2, 1, Qt::AlignBottom);
+    audio_prefs_box_layout->addWidget(recordingGroup, 2, 0, Qt::AlignBottom);
 #endif
     audio_prefs_box_layout->setRowStretch(0, 0);
     audio_prefs_box_layout->setRowStretch(1, 0);
