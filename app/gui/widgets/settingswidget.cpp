@@ -1074,19 +1074,18 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     connect(m_hueDial, &QDial::valueChanged, this, &SettingsWidget::hueRotationChanged);
     connect(m_hueDial, &QAbstractSlider::sliderReleased, this, [this]() { emit themeChanged(); });
 
-    // Hue spread: how far the other colours sit from the accent. 0 collapses them
-    // onto it, 100 is the theme as authored, the top is even spacing.
+    // Hue spread: how far the other colours open out from the accent. 0 is the
+    // theme as authored, the top is even spacing.
     m_spreadDial = new ArcDial(this);
-    m_spreadDial->setRange(SonicPiTheme::kHueSpreadMono, SonicPiTheme::kHueSpreadEven);
+    m_spreadDial->setRange(SonicPiTheme::kHueSpreadDefault, SonicPiTheme::kHueSpreadEven);
     m_spreadDial->setWrapping(false);
-    m_spreadDial->setValueSuffix("%");
     m_spreadDial->setValueFontRole(FontRole::XLarge);
     m_spreadDial->setFixedSize(ScaleWidthForDPI(108), ScaleHeightForDPI(108));
     m_spreadDial->setAccessibleName(tr("Spread hue"));
     m_spreadDial->setProperty("tipTitle", tr("Spread Hue"));
-    m_spreadDial->setToolTip(tr("Drag or scroll to set how far the interface's colours sit from the "
-                                "main colour. 100%% is the theme as designed, 0%% collapses "
-                                "everything to a single hue. Double-click the value to type an exact one."));
+    m_spreadDial->setToolTip(tr("Drag or scroll to spread the interface's colours away from the "
+                                "main colour. 0 is the theme as designed, 100 spaces every colour "
+                                "evenly around the wheel. Double-click the value to type an exact one."));
     connect(m_spreadDial, &QDial::valueChanged, this, &SettingsWidget::hueSpreadChanged);
     connect(m_spreadDial, &QAbstractSlider::sliderReleased, this, [this]() { emit themeChanged(); });
 
@@ -1240,13 +1239,13 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     // content.
     QVBoxLayout *leftVizPrefs = new QVBoxLayout;
     leftVizPrefs->addWidget(theme_box);
-    leftVizPrefs->addWidget(transparency_box);
+    leftVizPrefs->addWidget(editor_visuals_box);
     leftVizPrefs->addStretch(1);
 
     QVBoxLayout *rightVizPrefs = new QVBoxLayout;
     rightVizPrefs->addWidget(scope_box);
     rightVizPrefs->addWidget(scope_box_kinds);
-    rightVizPrefs->addWidget(editor_visuals_box);
+    rightVizPrefs->addWidget(transparency_box);
     rightVizPrefs->addStretch(1);
 
     QHBoxLayout *vizPrefsColumns = new QHBoxLayout;
@@ -2793,11 +2792,11 @@ void SettingsWidget::setSpreadPreviewBase(const QColor& secondary, SonicPiTheme*
 }
 
 // Tint the spread dial with the secondary as it renders at the dial's value:
-// converging on the accent below 100, opening away from it above.
-void SettingsWidget::updateSpreadDialTint(int percent) {
+// as authored at 0, opening away from the accent as the dial rises.
+void SettingsWidget::updateSpreadDialTint(int amount) {
     if (!m_spreadDial || !m_spreadPreviewBase.isValid() || !m_spreadPreviewTheme) return;
     m_spreadDial->setArcColor(m_spreadPreviewTheme->previewWithSpread(
-        m_spreadPreviewBase, percent, piSettings ? piSettings->hue_rotation : 0));
+        m_spreadPreviewBase, amount, piSettings ? piSettings->hue_rotation : 0));
 }
 
 void SettingsWidget::hueRotationChanged(int degrees) {
@@ -2810,9 +2809,9 @@ void SettingsWidget::hueRotationChanged(int degrees) {
         emit themeStepChanged();  // keyboard/wheel step (not a drag): can autorepeat, so debounced
 }
 
-void SettingsWidget::hueSpreadChanged(int percent) {
-    piSettings->hue_spread = percent;
-    updateSpreadDialTint(percent);   // live feedback on the dial only
+void SettingsWidget::hueSpreadChanged(int amount) {
+    piSettings->hue_spread = amount;
+    updateSpreadDialTint(amount);   // live feedback on the dial only
     if (!m_spreadDial || !m_spreadDial->isSliderDown())
         emit themeStepChanged();
 }

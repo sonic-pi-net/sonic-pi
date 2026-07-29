@@ -988,7 +988,7 @@ QMap<QString, QString> SonicPiTheme::phosphorTheme() {
   t["LogForeground_3"]=number;   t["LogBackground_2"]=greenDim;
   t["LogBackground_6"]=greenBright;
   // Slots otherwise inherited from Dark as white. White has zero saturation, so
-  // the hue spread and rotation stages skip it: it survives 0% spread unchanged.
+  // the hue spread and rotation stages skip it: it survives any spread unchanged.
   t["ButtonText"]=fg; t["MenuText"]=fg; t["ToolTipText"]=fg;
   t["MetroButtonBorder"]=accent; t["Light"]=string;
   t["MatchedBraceBackground"]=greenDim;
@@ -1195,32 +1195,24 @@ void SonicPiTheme::rebuildHueSpreadMap() {
         m_hueEven.insert(ordered[i], i == 0 ? m_hueBase : (m_hueBase + i * 360 / n) % 360);
 }
 
-QColor SonicPiTheme::applyHueSpread(QColor c, int percent) const {
-    if (percent == kHueSpreadDefault || m_hueBase < 0)
+QColor SonicPiTheme::applyHueSpread(QColor c, int amount) const {
+    if (amount == kHueSpreadDefault || m_hueBase < 0)
         return c;
     int h, s, v, a;
     c.getHsv(&h, &s, &v, &a);
     if (h < 0 || s <= 0)
         return c;                     // neutrals have no hue to move
 
-    int target;
-    if (percent < kHueSpreadDefault) {
-        // Below default: hues slide toward the accent, reaching it at 0.
-        const double k = double(percent) / double(kHueSpreadDefault);
-        target = m_hueBase + qRound(hueDelta(m_hueBase, h) * k);
-    } else {
-        // Above default: hues move toward their evenly spaced slot. Colours
-        // blended between theme tokens land between anchors; the nearest stands in.
-        int anchor = hueBucketOf(h), best = 360;
-        for (auto it = m_hueEven.constBegin(); it != m_hueEven.constEnd(); ++it) {
-            const int d = qAbs(hueDelta(h, it.key()));
-            if (d < best) { best = d; anchor = it.key(); }
-        }
-        const int even = m_hueEven.value(anchor, h);
-        const double k = double(percent - kHueSpreadDefault)
-                       / double(kHueSpreadEven - kHueSpreadDefault);
-        target = h + qRound(hueDelta(h, even) * k);
+    // Hues move toward their evenly spaced slot. Colours blended between theme
+    // tokens land between anchors; the nearest stands in.
+    int anchor = hueBucketOf(h), best = 360;
+    for (auto it = m_hueEven.constBegin(); it != m_hueEven.constEnd(); ++it) {
+        const int d = qAbs(hueDelta(h, it.key()));
+        if (d < best) { best = d; anchor = it.key(); }
     }
+    const int even = m_hueEven.value(anchor, h);
+    const double k = double(amount) / double(kHueSpreadEven);
+    const int target = h + qRound(hueDelta(h, even) * k);
     c.setHsv(((target % 360) + 360) % 360, s, v, a);
     return c;
 }
@@ -1244,15 +1236,15 @@ void SonicPiTheme::setHueRotation(int degrees) {
     m_recIconCache.clear();
 }
 
-void SonicPiTheme::setHueSpread(int percent) {
-    m_hueSpread = qBound(kHueSpreadMono, percent, kHueSpreadEven);
+void SonicPiTheme::setHueSpread(int amount) {
+    m_hueSpread = qBound(kHueSpreadDefault, amount, kHueSpreadEven);
     m_recIconCache.clear();
 }
 
-QColor SonicPiTheme::previewWithSpread(QColor c, int percent, int hueRotation) const {
+QColor SonicPiTheme::previewWithSpread(QColor c, int amount, int hueRotation) const {
     if (m_invert)
         c = QColor(255 - c.red(), 255 - c.green(), 255 - c.blue(), c.alpha());
-    c = applyHueSpread(c, qBound(kHueSpreadMono, percent, kHueSpreadEven));
+    c = applyHueSpread(c, qBound(kHueSpreadDefault, amount, kHueSpreadEven));
     return applyColourTransforms(c, false, m_monochrome, hueRotation);
 }
 

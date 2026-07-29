@@ -112,7 +112,7 @@ private slots:
     void toggleLogAutoScroll();
     void updateColourTheme();
     void hueRotationChanged(int degrees);
-    void hueSpreadChanged(int percent);
+    void hueSpreadChanged(int amount);
     void toggleScope();
     void toggleScopeLabels();
     void toggleScope( QObject* qo );
@@ -316,7 +316,7 @@ private:
     ArcDial* m_spreadDial = nullptr;
     QColor m_spreadPreviewBase;               // secondary the spread dial tints from
     SonicPiTheme* m_spreadPreviewTheme = nullptr;   // supplies the spread anchors
-    void updateSpreadDialTint(int percent);
+    void updateSpreadDialTint(int amount);
     // Captions under each dial; they swap to a release prompt mid-drag, since the
     // interface only re-themes on release.
     QLabel* m_hueCaption = nullptr;

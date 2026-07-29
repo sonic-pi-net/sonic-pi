@@ -7176,8 +7176,13 @@ void MainWindow::readSettings()
     piSettings->proIcons = gui_settings->value("prefs/pro-icons",
                                styleName.trimmed().endsWith(" Pro")).toBool();
     piSettings->hue_rotation = gui_settings->value("prefs/hue-rotation", 0).toInt();
-    piSettings->hue_spread = gui_settings->value("prefs/hue-spread",
-                                                 SonicPiTheme::kHueSpreadDefault).toInt();
+    // Spread rescaled to 0-100 (0 = as authored). A legacy 0-150 value (100 = as
+    // authored, below it hues converged) maps onto the new scale when the
+    // dedicated pref is absent.
+    const int legacy_spread = gui_settings->value("prefs/hue-spread", 100).toInt();
+    piSettings->hue_spread = gui_settings->value("prefs/hue-spread-amount",
+        qBound(SonicPiTheme::kHueSpreadDefault, (legacy_spread - 100) * 2,
+               SonicPiTheme::kHueSpreadEven)).toInt();
     piSettings->monochrome = gui_settings->value("prefs/monochrome", false).toBool();
     piSettings->invert_colours = gui_settings->value("prefs/invert-colours", false).toBool();
     piSettings->show_autocompletion = gui_settings->value("prefs/show-autocompletion", true).toBool();
@@ -7263,7 +7268,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/theme", SonicPiTheme::colourSchemeToName(piSettings->colourScheme));
     gui_settings->setValue("prefs/pro-icons", piSettings->proIcons);
     gui_settings->setValue("prefs/hue-rotation", piSettings->hue_rotation);
-    gui_settings->setValue("prefs/hue-spread", piSettings->hue_spread);
+    gui_settings->setValue("prefs/hue-spread-amount", piSettings->hue_spread);
     gui_settings->setValue("prefs/monochrome", piSettings->monochrome);
     gui_settings->setValue("prefs/invert-colours", piSettings->invert_colours);
 

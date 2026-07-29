@@ -76,7 +76,7 @@ public:
     // Global filters layered over the scheme above. Reset returns all four to
     // their defaults; a saved preset would be the scheme plus this group.
     int hue_rotation;    // colour hue rotation dial value, 0-359 degrees (0 = none)
-    int hue_spread;      // how far hues sit from the accent, % (100 = as authored)
+    int hue_spread;      // how far hues open out from the accent, 0-100 (0 = as authored)
     bool monochrome;     // global greyscale toggle
     bool invert_colours; // global photo-negative toggle
 
