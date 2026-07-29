@@ -457,7 +457,7 @@ int QuickstartPane::preferredDockHeight() const
     if (m_deckDesc)
     {
         QFont descFont;
-        descFont.setPixelSize(fontPx(15));
+        descFont.setPixelSize(rolePx(FontRole::Base));
         chrome += 2 * QFontMetrics(descFont).height() + uiScale().y(12); // two lines
     }
     return m_cardHeight + chrome;
@@ -942,7 +942,7 @@ void QuickstartPane::updateHeaderForHeight()
     const int deckBarH = m_topBar ? m_topBar->sizeHint().height() : 0;
     const int cardRow = m_cardHeight + uiScale().y(20);
     QFont descFont;
-    descFont.setPixelSize(fontPx(15));
+    descFont.setPixelSize(rolePx(FontRole::Base));
     const int descH = 2 * QFontMetrics(descFont).height() + uiScale().y(12);
     const bool showDesc = height() - deckBarH - cardRow >= descH;
     m_deckDesc->setVisible(showDesc);
@@ -1080,9 +1080,9 @@ void QuickstartPane::setUserZoom(int zoom)
 // hierarchy holds its proportions as it zooms. The old `base + m_userZoom`
 // added the same pixel to every size, which pulled a 17px heading down
 // toward a 13px pill the further you zoomed in.
-int QuickstartPane::fontPx(int base) const
+int QuickstartPane::rolePx(FontRole role) const
 {
-    return qMax(8, qRound(ScaleHeightForDPI(base) * m_zoomFactor));
+    return qMax(8, qRound(FontRolePx(role) * m_zoomFactor));
 }
 
 void QuickstartPane::rebuild()
@@ -1170,7 +1170,8 @@ void QuickstartPane::rebuild()
         pill->setProperty("current", i == m_deckIdx);
         pill->setCursor(Qt::PointingHandCursor);
         pill->setAccessibleName(tr("%1 card deck").arg(decks[i].title));
-        pill->setStyleSheet(QString("font-size: %1px;").arg(fontPx(13)));
+        // Follows this pane's zoom, as the docs pills follow theirs.
+        pill->setStyleSheet(QString("font-size: %1px;").arg(rolePx(FontRole::Small)));
         connect(pill, &QPushButton::clicked, this, [this, i] {
             // Each deck keeps its own carousel position: stash where this deck
             // was, restore where the target deck last was (first card if new).
@@ -1261,7 +1262,7 @@ void QuickstartPane::rebuild()
         QLabel* descLabel = new QLabel(desc, descRow);
         descLabel->setObjectName(QStringLiteral("qsDeckDesc"));
         descLabel->setWordWrap(true);
-        descLabel->setStyleSheet(QString("font-size: %1px;").arg(fontPx(15)));
+        descLabel->setStyleSheet(QString("font-size: %1px;").arg(rolePx(FontRole::Base)));
         descLay->addWidget(descLabel, 1);
         m_deckDesc = descLabel;
         rightCol->addWidget(descRow);
@@ -1712,7 +1713,7 @@ QPixmap QuickstartPane::cardDragPixmap(QWidget* frame) const
     const QColor cardBg = m_theme->accentTint();
 
     QFont titleFont(QStringLiteral("Hack"));
-    titleFont.setPixelSize(qRound(fontPx(15) * dpr));
+    titleFont.setPixelSize(qRound(rolePx(FontRole::Base) * dpr));
     titleFont.setBold(true);
     const QFontMetrics fm(titleFont);
     const int titleHD = fm.height();
@@ -1793,12 +1794,12 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     // rotor navigation from card to card.
     QLabel* heading = new TutHeading(card.title, 2, frame);
     heading->setObjectName(QStringLiteral("qsCardTitle"));
-    heading->setStyleSheet(QString("font-size: %1px;").arg(fontPx(17)));
+    heading->setStyleSheet(QString("font-size: %1px;").arg(rolePx(FontRole::Large)));
     // Match the widget font to the stylesheet size so the bar height (and thus
     // the button height) is measured correctly; sizeHint uses the widget font.
     {
         QFont hf = heading->font();
-        hf.setPixelSize(fontPx(17));
+        hf.setPixelSize(rolePx(FontRole::Large));
         hf.setBold(true);
         heading->setFont(hf);
     }

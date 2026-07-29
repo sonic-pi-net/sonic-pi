@@ -324,9 +324,28 @@ QMenuBar::item:selected {
     color: menuSelectedTextColor;
 }
 
-/* Dock separators are custom-painted by DividerProxyStyle (dividerproxystyle.h).
-   Don't add a QMainWindow::separator rule here — it routes them through Qt's
-   stylesheet style and clobbers the thin-line paint and hover reveal. */
+/* Dock separators. These were painted by DividerProxyStyle (dividerproxystyle.h)
+   and styled here instead because that no longer runs: a298c42c5 changed the `*`
+   and QMainWindow rules above from `background-color: none` to `transparent` to
+   fix a Linux black-background bug, and `none` was undefined as a brush, so Qt's
+   stylesheet style had treated those rules as having nothing to draw and fell
+   through to the base style. With a real brush it claims the separator itself
+   and never calls the base style, so drawPrimitive stopped being reached at all
+   (verified: zero calls) and the hover reveal went with it.
+
+   Setting it here is the supported route — the width/height pair is what makes
+   the rule take effect, per Qt's own QMainWindow::separator example. */
+QMainWindow::separator
+{
+    background: windowColor;
+    width: 7dx;    /* vertical separators */
+    height: 7dx;   /* horizontal separators */
+}
+
+QMainWindow::separator:hover
+{
+    background: scrollBarHoverColor;
+}
 
 QMainWindow
 {
@@ -588,37 +607,51 @@ QTabWidget#docsNavTabs
     background: windowColor;
 }
 
-/* ── House style: "chip" ─────────────────────────────────────────────────
-   Outlined chip at rest, hover-accent border on hover, solid selected fill
-   (no border) when current. Used by the docs/info nav chips here and the
-   Cards deck selector (#qsDeckPill below): one grammar, two sizes. Softened
-   corners, deliberately short of a capsule — see the scale in dpi.h. */
+/* ── House style: "pill" ─────────────────────────────────────────────────
+   The section selector every pane uses: docs nav, info nav, and the Cards
+   deck bar (#qsDeckPill). Outlined at rest, hover-accent border on hover,
+   solid accent fill (no border) when current. Softened corners, deliberately
+   short of a capsule — see the scale in dpi.h.
+
+   One definition rather than one per pane: the metrics were duplicated at two
+   sizes and drifted, so the same control looked different depending on which
+   pane you opened it from. Sizing follows the deck bar, the largest of them.
+   Tab margins below are the QTabBar equivalent of the deck bar's layout
+   spacing, which a QTabBar cannot take directly. */
 QTabWidget#docsNavTabs > QTabBar::tab,
-QTabWidget#infoNavTabs > QTabBar::tab
+QTabWidget#infoNavTabs > QTabBar::tab,
+QPushButton#qsDeckPill
 {
     background: transparent;
     color: windowForegroundColor;
     border: 2dx solid faintForegroundColor;
     border-radius: radiusLarge;
     font-weight: 600;
-    padding-top: 3dx;
-    padding-bottom: 3dx;
-    padding-left: 9dx;
-    padding-right: 9dx;
-    margin-top: 2dx;
+    padding-top: 6dx;
+    padding-bottom: 6dx;
+    padding-left: 14dx;
+    padding-right: 14dx;
+}
+
+QTabWidget#docsNavTabs > QTabBar::tab,
+QTabWidget#infoNavTabs > QTabBar::tab
+{
+    margin-top: 8dx;
     margin-bottom: 3dx;
-    margin-left: 1dx;
-    margin-right: 1dx;
+    margin-left: 3dx;
+    margin-right: 3dx;
 }
 
 QTabWidget#docsNavTabs > QTabBar::tab:hover,
-QTabWidget#infoNavTabs > QTabBar::tab:hover
+QTabWidget#infoNavTabs > QTabBar::tab:hover,
+QPushButton#qsDeckPill:hover
 {
     border-color: hoverButtonColor;
 }
 
 QTabWidget#docsNavTabs > QTabBar::tab:selected,
-QTabWidget#infoNavTabs > QTabBar::tab:selected
+QTabWidget#infoNavTabs > QTabBar::tab:selected,
+QPushButton#qsDeckPill[current="true"]
 {
     background: tabSelectedColor;
     color: tabSelectedTextColor;
@@ -626,9 +659,10 @@ QTabWidget#infoNavTabs > QTabBar::tab:selected
 }
 
 QTabWidget#docsNavTabs > QTabBar::tab:focus,
-QTabWidget#infoNavTabs > QTabBar::tab:focus
+QTabWidget#infoNavTabs > QTabBar::tab:focus,
+QPushButton#qsDeckPill:focus
 {
-    border: 2dx solid hoverButtonColor;
+    border-color: hoverButtonColor;
 }
 
 /* ── Info window ─────────────────────────────────────────────────────────
@@ -1367,37 +1401,8 @@ QuickstartPane QScrollArea
     border: none;
 }
 
-/* Deck selector: the house pill grammar (see #docsNavTabs above), sized up
-   for the deck bar. `current` marks the active deck. */
-QPushButton#qsDeckPill
-{
-    background-color: transparent;
-    color: windowForegroundColor;
-    border: 2dx solid faintForegroundColor;
-    border-radius: radiusLarge;
-    padding-top: 6dx;
-    padding-bottom: 6dx;
-    padding-left: 14dx;
-    padding-right: 14dx;
-    font-weight: 600;
-}
-
-QPushButton#qsDeckPill:hover
-{
-    border-color: hoverButtonColor;
-}
-
-QPushButton#qsDeckPill:focus
-{
-    border-color: hoverButtonColor;
-}
-
-QPushButton#qsDeckPill[current="true"]
-{
-    background-color: tabSelectedColor;
-    color: tabSelectedTextColor;
-    border-color: transparent;
-}
+/* Deck selector pills are styled with the docs/info nav chips under the
+   house "pill" rule above — `current` marks the active deck. */
 
 /* Carousel nav: ‹ dots › grouped in a soft pill. */
 /* Radius set in code alongside the row's scaled height — see qsDot above. */

@@ -1324,11 +1324,11 @@ void CompletionPopup::applyTheme(const QColor& bg, const QColor& fg,
         "#completionPiano { background: transparent; border-top: 1px solid %2; }"
         "#completionIllo { background: transparent; border-top: 1px solid %2; }"
         "#completionDocsButton { background: transparent; color: %4; border: 1px solid %2;"
-        " border-radius: 4px; padding: 3px 10px; font-size: 11px; }"
+        " border-radius: 4px; padding: 3px 10px; font-size: " + QString::number(FontRolePx(FontRole::PaneTitle)) + "px; }"
         "#completionDocsButton:hover { background: %4; color: %1; border-color: %4; }"
         // Accent border marks it playable (the docs pane's convention).
         "#completionPlayButton { background: transparent; color: %4; border: 1px solid %4;"
-        " border-radius: 4px; padding: 3px 10px; font-size: 11px; }"
+        " border-radius: 4px; padding: 3px 10px; font-size: " + QString::number(FontRolePx(FontRole::PaneTitle)) + "px; }"
         "#completionPlayButton:hover { background: %4; color: %1; }"
         // margin/padding zeroed explicitly: the app-wide QToolButton rule's 6dx
         // margins + 4dx padding would otherwise consume this tiny button's whole

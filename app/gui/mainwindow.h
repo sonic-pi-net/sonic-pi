@@ -723,6 +723,12 @@ private:
     static const int workspace_max = 10;
     SonicPiScintilla* workspaces[workspace_max];
     QTabWidget* docsNavTabs;
+    // The section selector lives outside the splitter's nav column so it can run
+    // the full width of the pane, like the Cards deck bar. docsNavTabs keeps the
+    // pages and its own tab bar is hidden; these pills drive its current index.
+    QWidget* docsPane = nullptr;      // the southTabs page: pill row + docsplit
+    QWidget* docsPillRow = nullptr;
+    QVector<QPushButton*> docsPills;
     QTabWidget* southTabs;
 
     SonicPiLog* outputPane;
@@ -750,7 +756,9 @@ private:
     QList<QAction*> docsFilterSearchActions;  // leading magnifier glyph in each docs filter field
     void updateDocsFilterIcons();             // (re)tints the magnifiers for the current theme
     void applyDocsNavZoom();                  // scales the topic lists/filters to the docs A-/A+ step
-    void updateDocsNavMinWidth();             // keeps the Tutorial/Examples/… chips un-squashed
+    void updateDocsNavMinWidth();             // nav column minimum, independent of the pill row
+    void buildDocsPills();                    // one pill per docs section, built once tabs exist
+    void syncDocsPills();                     // marks the current pill after an index change
     void ensureDocsSelection();               // current docs tab always has a selected page
     bool infoPanesDirty = true;               // info html needs re-render (styles changed while hidden)
     bool infoPanesLoaded = false;             // info html read+parsed on first open, not at startup

@@ -146,7 +146,10 @@ private:
     void rebuild();
     QWidget* addCard(const SonicPi::QuickstartCard& card, const QString& workspace, int scopeSlot);
     void setCardPlaying(const QString& workspace, bool playing);
-    int fontPx(int base) const;
+    // Sizes come from the shared type scale (dpi.h), zoomed. Raw numbers here
+    // put the pane on its own ladder — 15 and 17 sat between the scale's steps,
+    // so this pane's text never lined up with anything else in the window.
+    int rolePx(FontRole role) const;
     // Cached FontZoomFactor(m_userZoom): uiScale()/fontPx() are called ~60
     // times per card rebuild and from hit-test paths, and recomputing a
     // std::pow each time is pure waste. Refreshed in setUserZoom().

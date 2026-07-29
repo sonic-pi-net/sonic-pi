@@ -22,6 +22,7 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QApplication>
+#include <QAbstractButton>
 #include <QStyleHints>
 #include <QClipboard>
 #include <QAccessible>
@@ -280,6 +281,8 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
     // be found in ruby_help.h:
     std::cout << "[GUI] - initialising documentation window" << std::endl;
     initDocsWindow();
+    // The tabs only exist now, so the pills that mirror them are built here.
+    buildDocsPills();
     // The lists only exist now, so the zoom restored above hasn't reached them.
     applyDocsNavZoom();
     updateDocsNavMinWidth();
@@ -971,7 +974,7 @@ void MainWindow::setupWindowStructure()
     // previous selection). NB the initial tab's signal fires before its list
     // exists, so every show-the-docs path also calls ensureDocsSelection().
     connect(docsNavTabs, &QTabWidget::currentChanged, this,
-            [this](int) { ensureDocsSelection(); });
+            [this](int) { ensureDocsSelection(); syncDocsPills(); });
     docsNavTabs->setTabsClosable(false);
     docsNavTabs->setMovable(false);
     // North: the section chips head the column; at the bottom they read as
@@ -1006,6 +1009,24 @@ void MainWindow::setupWindowStructure()
     docsplit->setHandleWidth(7);
     docsplit->addWidget(docsNavTabs);
     docsplit->addWidget(tutorialPane);
+
+    // Section pills head the whole pane rather than the nav column, matching the
+    // Cards deck bar. Inside the column they set its minimum width — six chips
+    // wide, and ~530px in verbose locales — which forced the topic list wider
+    // than it needs to be. docsNavTabs keeps the pages; its bar is hidden and the
+    // pills below drive it.
+    docsNavTabs->tabBar()->hide();
+    docsPillRow = new QWidget;
+    docsPillRow->setAccessibleName(tr("Documentation sections"));
+    QHBoxLayout* pillBar = new QHBoxLayout(docsPillRow);
+    pillBar->addStretch(1);
+
+    docsPane = new QWidget;
+    QVBoxLayout* docsPaneLayout = new QVBoxLayout(docsPane);
+    docsPaneLayout->setContentsMargins(0, 0, 0, 0);
+    docsPaneLayout->setSpacing(0);
+    docsPaneLayout->addWidget(docsPillRow);
+    docsPaneLayout->addWidget(docsplit, 1);
 
     // Chapter JSON is generated per language by qt-doc.rb with the same
     // filenames as the markdown sources (so rows align with the generated
@@ -1173,7 +1194,7 @@ void MainWindow::setupWindowStructure()
             });
     southTabs->setTabToolTip(southTabs->addTab(quickstartPane, tr("Cards")),
                              tr("Quickstart cards: small runnable snippets to get going."));
-    southTabs->setTabToolTip(southTabs->addTab(docsplit, "Docs"),
+    southTabs->setTabToolTip(southTabs->addTab(docsPane, "Docs"),
                              tr("Tutorial, examples and reference documentation."));
     southTabs->setAttribute(Qt::WA_StyledBackground, true);
     // Explicit minimum so the dock can always be shrunk (content scrolls):
@@ -1230,7 +1251,7 @@ void MainWindow::setupWindowStructure()
                               helpCloseButton }));
     auto syncDocZoomVisible = [this, docZoomControls, cardsZoomControls]() {
         QWidget* current = southTabs->currentWidget();
-        docZoomControls->setVisible(current == docsplit);
+        docZoomControls->setVisible(current == docsPane);
         cardsZoomControls->setVisible(current == quickstartPane);
         logsZoom->setVisible(current == debugLogPanel);
         debugZoom->setVisible(current == metricsPanel);
@@ -1239,7 +1260,7 @@ void MainWindow::setupWindowStructure()
         QString suffix;
         if (current == quickstartPane)
             suffix = tr("Quickstart Cards");
-        else if (current == docsplit)
+        else if (current == docsPane)
             suffix = tr("Documentation");
         else if (current == debugLogPanel)
             suffix = tr("Logs");
@@ -1456,10 +1477,29 @@ void MainWindow::namedTitleBars()
     if (metricsPanel) metricsPanel->setTitlesVisible(true);
 }
 
+// Dock title rows take double-clicks two ways. Docked, they swallow them:
+// QDockWidget reads one as "toggle floating", so double-tapping anything in the
+// row detaches the pane into a window, which is never what was meant. Floating,
+// they re-dock — the way back from an accidental detach, and the only obvious
+// one since a floated pane has no divider to double-click.
+class DockTitleBar : public QWidget
+{
+public:
+    using QWidget::QWidget;
+protected:
+    void mouseDoubleClickEvent(QMouseEvent* e) override
+    {
+        if (QDockWidget* dock = qobject_cast<QDockWidget*>(parentWidget()))
+            if (dock->isFloating())
+                dock->setFloating(false);
+        e->accept();
+    }
+};
+
 QWidget* MainWindow::makeControlTitleBar(const QString& title, QLabel*& outLabel,
                                          const QVector<QWidget*>& controls)
 {
-    QWidget* bar = new QWidget();
+    QWidget* bar = new DockTitleBar();
     bar->setObjectName("dockTitleBar");
     bar->setAttribute(Qt::WA_StyledBackground, true);
     QHBoxLayout* layout = new QHBoxLayout(bar);
@@ -3133,6 +3173,54 @@ void MainWindow::updateDocsFilterIcons()
 // With no font-size left in app.qss (see utils/fontroles.h) this is just a
 // setFont per widget; it used to need a different mechanism per widget
 // depending on which stylesheet rule happened to match.
+void MainWindow::buildDocsPills()
+{
+    if (!docsPillRow || !docsNavTabs)
+        return;
+    QHBoxLayout* bar = qobject_cast<QHBoxLayout*>(docsPillRow->layout());
+    if (!bar)
+        return;
+    // addTab re-shows the bar, so hiding it in the constructor does not stick.
+    docsNavTabs->tabBar()->hide();
+    qDeleteAll(docsPills);
+    docsPills.clear();
+    for (int i = 0; i < docsNavTabs->count(); ++i)
+    {
+        QPushButton* pill = new QPushButton(docsNavTabs->tabText(i), docsPillRow);
+        pill->setObjectName(QStringLiteral("qsDeckPill"));   // house pill, see app.qss
+        pill->setCursor(Qt::PointingHandCursor);
+        pill->setAccessibleName(tr("%1 documentation").arg(docsNavTabs->tabText(i)));
+        pill->setToolTip(docsNavTabs->tabToolTip(i));
+        connect(pill, &QPushButton::clicked, this, [this, i]() {
+            docsNavTabs->setCurrentIndex(i);
+            // Focus the topic list so Up/Down drives it straight after choosing
+            // a section, matching the deck pills handing off to the carousel.
+            if (i >= 0 && i < helpLists.size())
+                focusPane(helpLists[i]);
+        });
+        bar->insertWidget(i, pill);
+        docsPills.append(pill);
+    }
+    syncDocsPills();
+}
+
+void MainWindow::syncDocsPills()
+{
+    if (!docsNavTabs)
+        return;
+    const int current = docsNavTabs->currentIndex();
+    for (int i = 0; i < docsPills.size(); ++i)
+    {
+        QPushButton* pill = docsPills[i];
+        if (pill->property("current").toBool() == (i == current))
+            continue;
+        pill->setProperty("current", i == current);
+        // A dynamic property only reaches the stylesheet after a re-polish.
+        pill->style()->unpolish(pill);
+        pill->style()->polish(pill);
+    }
+}
+
 void MainWindow::applyDocsNavZoom()
 {
     if (!tutorialPane || !docsNavTabs)
@@ -3149,34 +3237,33 @@ void MainWindow::applyDocsNavZoom()
     }
     for (QLineEdit* filter : docsNavTabs->findChildren<QLineEdit*>("docsFilter"))
         ApplyFontRole(filter, FontRole::Base, scale);
-    ApplyFontRole(docsNavTabs->tabBar(), FontRole::Base, scale);
 
-    // Chip padding is fixed dx in the stylesheet — scale it too, or the larger
-    // label pinches inside an unchanged chip.
-    docsNavTabs->setStyleSheet(
-        QStringLiteral("QTabWidget#docsNavTabs > QTabBar::tab {"
-                       " padding-top: %1px; padding-bottom: %1px;"
-                       " padding-left: %2px; padding-right: %2px; }")
-            .arg(ui.y(3))
-            .arg(ui.x(9)));
+    // The section pills follow this pane's zoom, like the Cards deck bar follows
+    // its own: zooming the docs to read them should bring the selector with it.
+    // They match across panes at equal zoom and diverge only where one has been
+    // zoomed deliberately.
+    for (QPushButton* pill : docsPills)
+        pill->setStyleSheet(QStringLiteral("font-size: %1px;")
+                                .arg(FontRolePx(FontRole::Small, scale)));
+    if (QLayout* pillBar = docsPillRow ? docsPillRow->layout() : nullptr)
+    {
+        pillBar->setContentsMargins(ui.y(14), ui.y(8), ui.y(12), ui.y(3));
+        pillBar->setSpacing(ui.y(6));
+    }
     updateDocsNavMinWidth();
 }
 
 void MainWindow::updateDocsNavMinWidth()
 {
-    // The Tutorial / Examples / … chips must never collapse into scroll
-    // arrows: hold the nav pane at the tab bar's natural width so the
-    // splitter stretches to fit all chips whenever the window has room.
-    // (Recomputed on theme changes — chip metrics come from the stylesheet.)
-    // Clamped to 40% of the window so verbose locales (German chip labels
-    // run ~530px+) can't turn the chip row into a hard window minimum on
-    // small screens — beyond the clamp the bar falls back to scroll arrows.
+    // The nav column holds a filter field and a topic list, so it only needs to
+    // be wide enough to read titles in. It used to be held at the section chips'
+    // natural width, which in verbose locales (German labels run ~530px) made the
+    // column far wider than its contents needed; the pills head the pane now, so
+    // that constraint is gone.
     if (!docsNavTabs || docsNavTabs->count() == 0)
         return;
-    docsNavTabs->tabBar()->ensurePolished();
-    const int natural = docsNavTabs->tabBar()->sizeHint().width() + ScaleWidthForDPI(12);
-    const int cap = qMax(ScaleWidthForDPI(200), (width() * 2) / 5);
-    docsNavTabs->setMinimumWidth(qMin(natural, cap));
+    const double scale = tutorialPane ? tutorialPane->fontScale() : 1.0;
+    docsNavTabs->setMinimumWidth(qRound(ScaleWidthForDPI(180) * scale));
 }
 
 void MainWindow::ensureDocsSelection()
@@ -3495,7 +3582,7 @@ void MainWindow::showExamplesHelpTab(int row)
 
 void MainWindow::showHelpListTab(int tabIdx, int row)
 {
-    southTabs->setCurrentWidget(docsplit);
+    southTabs->setCurrentWidget(docsPane);
     docsNavTabs->setCurrentIndex(tabIdx);
     if (tabIdx < helpLists.size())
     {
@@ -3587,7 +3674,7 @@ void MainWindow::applySouthTabIcons()
         southTabs->tabBar()->setAccessibleTabName(idx, name);
     };
     set(quickstartPane, TablerIcons::pixmap(TablerIcons::Glyph::GridDots, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::GridDots, on, px, dpr), tr("Cards"));
-    set(docsplit, TablerIcons::pixmap(TablerIcons::Glyph::Book, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::Book, on, px, dpr), tr("Docs"));
+    set(docsPane, TablerIcons::pixmap(TablerIcons::Glyph::Book, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::Book, on, px, dpr), tr("Docs"));
     set(debugLogPanel, TablerIcons::pixmap(TablerIcons::Glyph::Radioactive, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::Radioactive, on, px, dpr), tr("Logs"));
     set(metricsPanel, TablerIcons::pixmap(TablerIcons::Glyph::BinaryTree, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::BinaryTree, on, px, dpr), tr("Debug"));
 }
@@ -3863,7 +3950,7 @@ void MainWindow::help()
     {
         showStatusAndAnnounce(tr("Showing help..."), 2000);
         docWidget->show();
-        southTabs->setCurrentWidget(docsplit); // may currently be on Debug/Cards
+        southTabs->setCurrentWidget(docsPane); // may currently be on Debug/Cards
         ensureDocsSelection();   // never land on a blank page
         helpAct->setChecked(true);
         // Opening help takes you to it: focus lands in the topics list so
@@ -4257,16 +4344,22 @@ void MainWindow::updateColourTheme()
     // Info window typography, mirroring the docs pane: accent headings,
     // coloured links, monospace code. (QTextDocument's CSS subset — no
     // borders/hover, so it's colour, size and weight doing the work.)
+    // Sizes come from the shared type scale (dpi.h) in px, not a private pt
+    // ladder: 11/13/15/17/22pt was a second scale in a different unit that
+    // never lined up with the rest of the window.
     QString infoCss = QString(
-        "body { color: %1; font-size: 11pt; }"
-        "h1 { color: %2; font-size: 20pt; font-weight: bold; }"
-        "h2 { color: %3; font-size: 15pt; font-weight: bold; }"
-        "h3 { color: %1; font-size: 13pt; font-weight: bold; }"
+        // No body font-size: the pane carries the application font (set below),
+        // so prose here is the same size as everywhere else by construction
+        // rather than by a number that has to be kept in step with it.
+        "body { color: %1; }"
+        "h1 { color: %2; font-size: " + QString::number(FontRolePx(FontRole::XXLarge)) + "px; font-weight: bold; }"
+        "h2 { color: %3; font-size: " + QString::number(FontRolePx(FontRole::XLarge)) + "px; font-weight: bold; }"
+        "h3 { color: %1; font-size: " + QString::number(FontRolePx(FontRole::Large)) + "px; font-weight: bold; }"
         "a { color: %2; }"
         "code, pre { font-family: 'Hack'; color: %2; }"
         // Back-to-top links close each History release: quieter and smaller
         // than a body link, so they sit as navigation rather than content.
-        "a.totop { color: %3; font-size: 10pt; }"
+        "a.totop { color: %3; font-size: " + QString::number(FontRolePx(FontRole::Small)) + "px; }"
         // Core Team name plates. These carried an inline white-on-deeppink
         // style, which no stylesheet can override — hence a class, so the
         // plate tracks the accent (and with it the global colour filters)
@@ -6686,6 +6779,9 @@ void MainWindow::createInfoPane()
         // to the card edge. Wider than the docs panes: this is a short read on
         // a small card, where a tight inset crowds the rounded corners.
         pane->document()->setDocumentMargin(ScaleWidthForDPI(28));
+        // Explicit, so the body matches the rest of the interface even though a
+        // QTextBrowser does not inherit the application font the way widgets do.
+        ApplyFontRole(pane, FontRole::Base);
         infoPanes.append(pane);
         addUniversalCopyShortcuts(pane);
         // A view, not an editor: no text caret to place or move. Qt draws (and
@@ -8059,14 +8155,26 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
 
     // Double-clicking anywhere on the editor / docks divider bar toggles the
     // dock open/closed.
-    if (event->type() == QEvent::MouseButtonDblClick && docWidget && mainWidget && docWidget->isVisible())
+    // Floating excluded: with no separator, sepBot below is the top of a
+    // detached window and the band spans everything between it and the central
+    // widget, so unrelated double-clicks toggle the pane.
+    if (event->type() == QEvent::MouseButtonDblClick && docWidget && mainWidget
+        && docWidget->isVisible() && !docWidget->isFloating())
     {
         const QPoint g = static_cast<QMouseEvent*>(event)->globalPosition().toPoint();
         const int sepTop = mainWidget->mapToGlobal(QPoint(0, mainWidget->height())).y();
         const int sepBot = docWidget->mapToGlobal(QPoint(0, 0)).y();
         const int dockL = docWidget->mapToGlobal(QPoint(0, 0)).x();
         const int dockR = dockL + docWidget->width();
-        if (g.y() >= qMin(sepTop, sepBot) - 4 && g.y() <= qMax(sepTop, sepBot) + 4 &&
+        // ...but not when the pointer is on one of the title row's buttons. The
+        // band has to stay generous enough to catch the separator itself, which
+        // means it reaches a few pixels into the dock, where the A-/A+ and close
+        // controls sit centred in a short row. Excluding just the buttons keeps
+        // the whole divider toggling while leaving those controls alone.
+        bool onButton = false;
+        for (QWidget* w = QApplication::widgetAt(g); w && w != docWidget; w = w->parentWidget())
+            if (qobject_cast<QAbstractButton*>(w)) { onButton = true; break; }
+        if (!onButton && g.y() >= qMin(sepTop, sepBot) - 4 && g.y() <= qMax(sepTop, sepBot) + 4 &&
             g.x() >= dockL && g.x() <= dockR)
         {
             toggleDocPane();
@@ -8184,7 +8292,7 @@ void MainWindow::focusPane(QWidget* pane)
 void MainWindow::revealDocsTab()
 {
     docWidget->show();
-    southTabs->setCurrentWidget(docsplit);   // may currently be on Debug or another tab
+    southTabs->setCurrentWidget(docsPane);   // may currently be on Debug or another tab
     updatePrefsIcon();
 }
 

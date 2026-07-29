@@ -142,19 +142,28 @@ inline double FontZoomFactor(int step)
     return f < 0.5 ? 0.5 : (f > 3.0 ? 3.0 : f);
 }
 
-// Design sizes at 1x zoom. Tiny/PaneTitle were literal `px` in the stylesheet
-// (not `dx`), so they are deliberately not DPI-scaled — keeping the resting
-// appearance identical to the rules these replaced.
+// Design sizes at 1x zoom. Every step is DPI-scaled: Tiny and PaneTitle used to
+// be exempt, carried over from the literal `px` rules they replaced, which made
+// the ladder non-monotonic wherever the display scale is below 1 (macOS reports
+// 72 logical DPI against a 96 baseline, so Small scaled down to 10px while an
+// unscaled PaneTitle stayed at 11 — the smaller step rendering larger).
+//
+// They keep their original design values (9 and 11) and simply get scaled like
+// the rest, which is what makes the ordering hold at every scale rather than
+// only at the one it was checked on: 9 < 11 < 13 stays true whatever it is
+// multiplied by. Sizing them to match a particular scale's output instead
+// inverts the ladder at every other scale — see the monotonicity test in
+// gui-tests/stylesheet_invariants.test.cpp.
 inline int FontRolePx(FontRole role, double scale = 1.0)
 {
     int px = 0;
     switch (role)
     {
     case FontRole::Tiny:
-        px = 9;
+        px = ScaleHeightForDPI(9);
         break;
     case FontRole::PaneTitle:
-        px = 11;
+        px = ScaleHeightForDPI(11);
         break;
     case FontRole::Arrow:
         px = ScaleHeightForDPI(26);

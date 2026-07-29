@@ -225,3 +225,39 @@ TEST_CASE("the piano row keeps octave-up against the board on wide panes", "[tut
     CHECK(piano->width() == piano->maximumWidth());
     CHECK(octUp->x() == piano->geometry().right() + 1 + row->spacing());
 }
+
+// The type scale must read in one direction. Tiny and PaneTitle were once
+// exempt from DPI scaling, carried over from the literal `px` rules they
+// replaced; wherever the display scale is below 1 (macOS reports 72 logical DPI
+// against a 96 baseline) that left the ladder inverted — Small scaled down to
+// 10px while an unscaled PaneTitle stayed at 11, so the smaller step rendered
+// larger. Each step looked right on its own, which is why nothing caught it.
+TEST_CASE("the type scale is monotonic", "[stylesheet][fontrole]")
+{
+    const FontRole ladder[] = { FontRole::Tiny, FontRole::PaneTitle, FontRole::Small,
+                                FontRole::Base, FontRole::Large, FontRole::XLarge,
+                                FontRole::XXLarge };
+    for (size_t i = 1; i < sizeof(ladder) / sizeof(ladder[0]); ++i)
+    {
+        const int prev = FontRolePx(ladder[i - 1]);
+        const int cur = FontRolePx(ladder[i]);
+        INFO("step " << i << ": " << prev << "px then " << cur
+                     << "px — a later step must never render smaller than an earlier one");
+        CHECK(cur >= prev);
+    }
+}
+
+// Zooming must not collapse the ladder either: a step that is larger at 1x has
+// to stay larger at every zoom level, or the hierarchy inverts as you zoom.
+TEST_CASE("the type scale stays ordered under zoom", "[stylesheet][fontrole]")
+{
+    for (int step = kFontZoomMin; step <= kFontZoomMax; ++step)
+    {
+        const double z = FontZoomFactor(step);
+        INFO("zoom step " << step);
+        CHECK(FontRolePx(FontRole::Base, z) >= FontRolePx(FontRole::Small, z));
+        CHECK(FontRolePx(FontRole::Large, z) >= FontRolePx(FontRole::Base, z));
+        CHECK(FontRolePx(FontRole::XLarge, z) >= FontRolePx(FontRole::Large, z));
+        CHECK(FontRolePx(FontRole::XXLarge, z) >= FontRolePx(FontRole::XLarge, z));
+    }
+}
