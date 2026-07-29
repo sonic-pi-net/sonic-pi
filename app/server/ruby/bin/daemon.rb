@@ -232,6 +232,12 @@ module SonicPi
           end
         end
 
+        # SuperSonic unicasts `.reply` back to whichever socket sent the
+        # request, and @supersonic_sender is write-only — nothing ever reads
+        # it. Requests whose reply is forwarded above must therefore go out
+        # via @api_server, the socket those forwarders listen on.
+        reply_bearing = ["/daemon/audio/reopen-device"]
+
         {
           "/daemon/audio/switch-device"   => "/supersonic/devices/switch",
           "/daemon/audio/switch-driver"   => "/supersonic/drivers/switch",
@@ -242,7 +248,11 @@ module SonicPi
             if args[0] && args[0] == @daemon_token
               Util.log "Forwarding #{daemon_path} to SuperSonic"
               begin
-                @supersonic_sender.send(supersonic_path, *args[1..-1])
+                if reply_bearing.include?(daemon_path)
+                  @api_server.send("localhost", @ports["scsynth"], supersonic_path, *args[1..-1])
+                else
+                  @supersonic_sender.send(supersonic_path, *args[1..-1])
+                end
               rescue => e
                 Util.log "Error forwarding #{daemon_path}: #{e.message}"
               end

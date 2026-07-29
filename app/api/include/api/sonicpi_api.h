@@ -367,6 +367,9 @@ struct IAPIClient
     // AudioSwitchOutcome. Default no-op so non-GUI consumers don't
     // need to react.
     virtual void AudioSwitchDone(const AudioSwitchOutcome& /*outcome*/) {}
+    // Immediate accept/reject for /supersonic/devices/reopen (the engine
+    // debounces: in-flight or <3s cooldown → rejected). Default no-op.
+    virtual void AudioDeviceReopenReply(bool /*accepted*/, const std::string& /*reason*/) {}
 };
 
 // Always UDP

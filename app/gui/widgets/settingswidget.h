@@ -28,6 +28,7 @@ class QLineEdit;
 class QSpinBox;
 class QButtonGroup;
 class QSignalMapper;
+class DevicePulseOverlay;
 class QPixmap;
 class SonicPiTheme;
 class QVBoxLayout;
@@ -140,6 +141,7 @@ private slots:
 #endif
 signals:
     void driverChanged(QString driver);
+    void audioDeviceResetRequested();
     void audioOutputDeviceChanged(QString device);
     void audioInputDeviceChangedSignal(QString device);
     void sampleRateChanged(int rate);
@@ -351,6 +353,28 @@ private:
 
     ArcDial *system_vol_slider;
     ArcDial *gui_transparency_slider;
+
+    // In-flight device/driver change feedback: pulsing Audio Device box
+    // border + fixed-footprint status line beneath the combos.
+    DevicePulseOverlay *m_devicePulse = nullptr;
+    QLabel *audio_status_label = nullptr;
+    QPushButton *reset_device_button = nullptr;
+    // A reopen we asked for is awaiting its accept/reject. The reply carries
+    // no request id, so without this a rejection would cancel the feedback
+    // (and safety timer) of whatever switch happened to be in flight.
+    bool m_reopenPending = false;
+    void beginDeviceSwitchFeedback();
+    // Status text is elided to the label's width — the untruncated string
+    // would widen the Audio Device column and shift the layout.
+    QString m_audioStatusText;
+    void setAudioStatus(const QString& text);
+
+public:
+    // The engine refused a /supersonic/devices/reopen (in-flight or
+    // cooldown) — cancel the in-progress feedback and say why.
+    void deviceReopenRejected(const QString& reason);
+
+private:
 
     QComboBox *audio_driver_combo;
     QComboBox *audio_output_combo;

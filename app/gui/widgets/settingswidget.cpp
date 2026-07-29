@@ -22,6 +22,8 @@
 #include <QMouseEvent>
 #include <QFocusEvent>
 #include <QStyle>
+#include <QStyleOption>
+#include <QVariantAnimation>
 #include <QScopedValueRollback>
 #include <memory>
 #if defined(Q_OS_DARWIN)
@@ -121,6 +123,81 @@ QIcon makeSvgToggleIcon(const char* svg, const QColor& off, const QColor& on, in
 
 } // namespace
 
+// Pulses the Audio Device group box border while a device/driver change is
+// in flight — cold swaps take a few seconds and instant-looking controls
+// would otherwise read as hung. A transparent, top-most child of the box
+// that retraces its frame in the theme accent, breathing via a looped
+// animation (held steady when reduced motion is preferred).
+class DevicePulseOverlay : public QWidget
+{
+public:
+    explicit DevicePulseOverlay(QGroupBox* box) : QWidget(box), m_box(box)
+    {
+        setAttribute(Qt::WA_TransparentForMouseEvents);
+        hide();
+        m_anim = new QVariantAnimation(this);
+        m_anim->setStartValue(0.25);
+        m_anim->setKeyValueAt(0.5, 1.0);
+        m_anim->setEndValue(0.25);
+        m_anim->setDuration(1600);
+        m_anim->setEasingCurve(QEasingCurve::InOutSine);
+        m_anim->setLoopCount(-1);
+        connect(m_anim, &QVariantAnimation::valueChanged, this,
+                [this](const QVariant&) { update(); });
+        box->installEventFilter(this);
+    }
+    void start()
+    {
+        setGeometry(m_box->rect());
+        raise();
+        show();
+        if (!SonicPi::prefersReducedMotion()
+            && m_anim->state() != QAbstractAnimation::Running)
+            m_anim->start();
+    }
+    void stop()
+    {
+        m_anim->stop();
+        hide();
+    }
+
+protected:
+    bool eventFilter(QObject* obj, QEvent* e) override
+    {
+        if (obj == m_box && e->type() == QEvent::Resize)
+            setGeometry(m_box->rect());
+        return QWidget::eventFilter(obj, e);
+    }
+    void paintEvent(QPaintEvent*) override
+    {
+        // The box's own frame/label geometry (QSS margins included), so the
+        // pulse hugs the drawn border and skips the title like the border
+        // itself does.
+        QStyleOptionGroupBox opt;
+        opt.initFrom(m_box);
+        opt.text = m_box->title();
+        opt.subControls = QStyle::SC_GroupBoxFrame | QStyle::SC_GroupBoxLabel;
+        const QRect frame = m_box->style()->subControlRect(
+            QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxFrame, m_box);
+        const QRect label = m_box->style()->subControlRect(
+            QStyle::CC_GroupBox, &opt, QStyle::SC_GroupBoxLabel, m_box);
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing);
+        p.setClipRegion(QRegion(rect()).subtracted(QRegion(label)));
+        QColor c = palette().color(QPalette::Highlight);
+        c.setAlphaF(m_anim->state() == QAbstractAnimation::Running
+                        ? m_anim->currentValue().toReal()
+                        : 0.9);
+        const qreal w = qMax(2, ScaleHeightForDPI(2));
+        p.setPen(QPen(c, w));
+        p.drawRect(QRectF(frame).adjusted(w / 2, w / 2, -w / 2, -w / 2));
+    }
+
+private:
+    QGroupBox* m_box;
+    QVariantAnimation* m_anim;
+};
+
 /**
  * Default Constructor
  */
@@ -138,11 +215,15 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
     m_switchTimeoutTimer->setSingleShot(true);
     connect(m_switchTimeoutTimer, &QTimer::timeout, this, [this]() {
         supersonic_version_label->setText(tr("Device switch timed out"));
+        if (m_devicePulse) m_devicePulse->stop();
+        m_reopenPending = false;
+        if (audio_status_label) setAudioStatus(tr("Device switch timed out"));
         audio_output_combo->setEnabled(true);
         audio_input_combo->setEnabled(true);
         audio_sample_rate_combo->setEnabled(true);
         audio_buffer_size_combo->setEnabled(true);
         audio_driver_combo->setEnabled(true);
+        if (reset_device_button) reset_device_button->setEnabled(true);
     });
     QSizePolicy prefsSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 
@@ -324,6 +405,37 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     remote_session_note->setVisible(isRemoteDesktopSession());
     audio_device_layout->addWidget(remote_session_note, 5, 0, 1, 2);
 
+    // Status line for in-flight or pending device changes, right-aligned
+    // under the Reset Device button. Always present at a fixed height so
+    // the message appearing/clearing never shifts the layout.
+    audio_status_label = new QLabel();
+    audio_status_label->setObjectName("audioStatusNote");   // muted note (app.qss)
+    ApplyFontRole(audio_status_label, FontRole::Small);
+    audio_status_label->setFixedHeight(FontRolePx(FontRole::Small) + ScaleHeightForDPI(6));
+    audio_status_label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    // Ignored horizontally so the message never contributes to the box's
+    // width; setAudioStatus elides to whatever width the combos settle on,
+    // and the label re-elides when that width changes.
+    audio_status_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    audio_status_label->installEventFilter(this);
+    audio_device_layout->addWidget(audio_status_label, 7, 0, 1, 2);
+
+    // Escape hatch: cold-swap the current device with its current settings —
+    // for when the audio path wedges (post-sleep, hardware churn) and nothing
+    // about the selection itself needs to change.
+    reset_device_button = new QPushButton(tr("Reset"));
+    reset_device_button->setFlat(true);
+    reset_device_button->setToolTip(tr("Close and re-open the current audio device with the same settings (a full cold swap). Useful if audio has stopped behaving after sleep or hardware changes."));
+    connect(reset_device_button, &QPushButton::clicked, this, [this] {
+        // Disable up front like the combos: the engine refuses a second
+        // reopen while one is running or inside its post-reopen cooldown.
+        reset_device_button->setEnabled(false);
+        m_reopenPending = true;
+        beginDeviceSwitchFeedback();
+        emit audioDeviceResetRequested();
+    });
+    audio_device_layout->addWidget(reset_device_button, 6, 0, 1, 2, Qt::AlignRight);
+
     // Fixed, uniform height so each combo's grey fill exactly matches its
     // focus/hover highlight (otherwise the widget floats taller than the
     // painted background) and every row is the same height (even spacing).
@@ -334,6 +446,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     }
 
     audioDeviceBox->setLayout(audio_device_layout);
+    m_devicePulse = new DevicePulseOverlay(audioDeviceBox);
 
     // activated(int) — user-interaction only. currentIndexChanged fires
     // on programmatic setCurrentIndex() too, which would emit spurious
@@ -2002,16 +2115,53 @@ void SettingsWidget::updateGamepadDevices( QString devices ) {
 
 void SettingsWidget::updateScsynthInfo( QString scsynthInfo ) {
   supersonicBox->setToolTip(scsynthInfo);
-  // Show "Switching audio device..." and disable controls during device changes
+  // Disable controls during device changes; the pulse + status line say why.
+  // The summary label is left alone — it keeps showing the engine's last
+  // known state rather than being hijacked as a busy indicator.
   if (scsynthInfo.contains("Switching audio")) {
-    supersonic_version_label->setText(tr("Switching audio device..."));
     audio_output_combo->setEnabled(false);
     audio_input_combo->setEnabled(false);
     audio_sample_rate_combo->setEnabled(false);
     audio_buffer_size_combo->setEnabled(false);
     audio_driver_combo->setEnabled(false);
-    m_switchTimeoutTimer->start(15000);
+    reset_device_button->setEnabled(false);
+    beginDeviceSwitchFeedback();
   }
+}
+
+// Immediate feedback for a device/driver change: pulse the Audio Device box
+// border and explain the wait — cold swaps take a few seconds, and without
+// a cue the delay reads as a hang. Runs both when the user picks something
+// (dropdown slots) and when the engine announces its own swap (statechange).
+void SettingsWidget::setAudioStatus(const QString& text) {
+    m_audioStatusText = text;
+    const int w = audio_status_label->width();
+    audio_status_label->setText(
+        w > 0 ? audio_status_label->fontMetrics().elidedText(text, Qt::ElideRight, w)
+              : text);
+    audio_status_label->setToolTip(text);
+}
+
+void SettingsWidget::beginDeviceSwitchFeedback() {
+    setAudioStatus(tr("Changing audio device. This can take a few moments..."));
+    m_devicePulse->start();
+    m_switchTimeoutTimer->start(15000);
+}
+
+void SettingsWidget::deviceReopenRejected(const QString& reason) {
+    std::cout << "[gui-audio] device reopen rejected: "
+              << reason.toUtf8().constData() << std::endl;
+    // Only our own reopen may cancel the feedback: the reply carries no
+    // request id, so a rejection arriving while an unrelated switch is
+    // running must not stop that switch's pulse or safety timer.
+    if (!m_reopenPending) return;
+    m_reopenPending = false;
+    m_switchTimeoutTimer->stop();
+    m_devicePulse->stop();
+    reset_device_button->setEnabled(true);
+    // The engine only refuses while a swap is in flight or settling
+    // (3s cooldown) — not an error, just "not yet".
+    setAudioStatus(tr("Audio device is still settling. Try again in a few seconds."));
 }
 
 // The Windows Audio mode variants (shared / exclusive / low-latency) expose
@@ -2311,11 +2461,27 @@ void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInf
 
     // Re-enable controls after device switch completes
     m_switchTimeoutTimer->stop();
+    m_devicePulse->stop();
+    m_reopenPending = false;
     audio_output_combo->setEnabled(true);
     audio_input_combo->setEnabled(true);
     audio_sample_rate_combo->setEnabled(true);
     audio_buffer_size_combo->setEnabled(true);
     audio_driver_combo->setEnabled(true);
+    reset_device_button->setEnabled(true);
+
+    // Status line: a pending driver pick (driver chosen, device not yet —
+    // the engine stays on its old driver meanwhile) is the one settled state
+    // where the Driver dropdown legitimately disagrees with the live summary
+    // below. Say so instead of looking like a mismatch bug.
+    const QString pendingDriver = QString::fromStdString(
+        configInfo.hasIntendedDriver ? configInfo.intendedDriver : std::string());
+    if (!pendingDriver.isEmpty()
+        && pendingDriver != QString::fromStdString(configInfo.currentDriver)) {
+        setAudioStatus(tr("%1 selected. Choose an Output device to switch.").arg(pendingDriver));
+    } else {
+        setAudioStatus(QString());
+    }
 
     // ASIO-driver constraints may have changed (e.g. driver swapped).
     // Re-apply so the input checkbox + dropdown reflect the new driver.
@@ -2356,6 +2522,7 @@ void SettingsWidget::audioDriverChanged(int index) {
         updateAudioInputDevices(m_lastAudioInputDevicesInfo);
     }
     applyAsioInputConstraints();
+    beginDeviceSwitchFeedback();
     emit driverChanged(audio_driver_combo->currentText());
 }
 
@@ -2484,6 +2651,7 @@ void SettingsWidget::audioDeviceChanged(int index) {
               << " text='" << audio_output_combo->currentText().toUtf8().constData()
               << "' data='" << data.toUtf8().constData()
               << "' emitting='" << emitted.toUtf8().constData() << "'" << std::endl;
+    beginDeviceSwitchFeedback();
     emit audioOutputDeviceChanged(emitted);
     // On ASIO, the input combo mirrors the output. Re-apply so the input
     // dropdown stays in sync with the just-picked output device.
@@ -2498,6 +2666,7 @@ void SettingsWidget::audioInputDeviceChanged(int index) {
               << " text='" << audio_input_combo->currentText().toUtf8().constData()
               << "' data='" << data.toUtf8().constData()
               << "' emitting='" << emitted.toUtf8().constData() << "'" << std::endl;
+    beginDeviceSwitchFeedback();
     emit audioInputDeviceChangedSignal(emitted);
 }
 
@@ -2506,6 +2675,7 @@ void SettingsWidget::audioSampleRateChanged(int index) {
     int rate = audio_sample_rate_combo->currentData().toInt();
     std::cout << "[gui-audio] sample-rate dropdown changed: index=" << index
               << " rate=" << rate << std::endl;
+    beginDeviceSwitchFeedback();
     emit sampleRateChanged(rate);
 }
 
@@ -2514,6 +2684,7 @@ void SettingsWidget::audioBufferSizeChanged(int index) {
     int bs = audio_buffer_size_combo->currentData().toInt();
     std::cout << "[gui-audio] buffer-size dropdown changed: index=" << index
               << " bs=" << bs << std::endl;
+    beginDeviceSwitchFeedback();
     emit bufferSizeChanged(bs);
 }
 
@@ -3126,6 +3297,12 @@ void SettingsWidget::connectAll() {
 
 bool SettingsWidget::eventFilter(QObject* obj, QEvent* event)
 {
+    // Re-elide the audio status message whenever the column resizes.
+    if (obj == audio_status_label && event->type() == QEvent::Resize) {
+        setAudioStatus(m_audioStatusText);
+        return false;
+    }
+
     // The checkbox focus ring (QCheckBox[kbFocus="true"] in app.qss) reads as a
     // pointless "selection box" when a mouse click draws it. Show it ONLY for
     // keyboard (Tab) focus: flip the kbFocus property by focus reason and repolish.

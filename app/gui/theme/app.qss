@@ -1176,6 +1176,7 @@ SonicPiMetro
    (dimmed-but-legible) foreground, replacing hardcoded 10px / "gray" inline. */
 QLabel#asioInputNote,
 QLabel#remoteSessionNote,
+QLabel#audioStatusNote,
 QLabel#poweredByLabel
 {
     color: palette(placeholder-text);

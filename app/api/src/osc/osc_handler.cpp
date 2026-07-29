@@ -474,6 +474,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             msg->arg().popInt32(accepted).popStr(reason);
             LOG(INFO, "/supersonic/devices/reopen.reply: accepted=" << accepted
                       << " reason='" << reason << "'");
+            m_pClient->AudioDeviceReopenReply(accepted != 0, reason);
         }
         else if (msg->match("/supersonic/devices/reopen.done"))
         {

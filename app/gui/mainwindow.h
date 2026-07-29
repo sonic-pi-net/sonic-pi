@@ -206,7 +206,9 @@ public slots:
     void onSupersonicSetup(int sampleRate, int bufferSize);
     void onSpiderReady();
     void onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome);
+    void onAudioDeviceReopenReply(bool accepted, QString reason);
     void changeBufferSize(int size);
+    void resetAudioDevice();
 
 private:
     // Empty inputDevice = leave SuperSonic's current input unchanged

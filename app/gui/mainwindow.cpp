@@ -677,6 +677,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(audioInputDeviceChangedSignal(QString)), this, SLOT(switchAudioInputDevice(QString)));
     connect(settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(changeSampleRate(int)));
     connect(settingsWidget, SIGNAL(bufferSizeChanged(int)), this, SLOT(changeBufferSize(int)));
+    connect(settingsWidget, SIGNAL(audioDeviceResetRequested()), this, SLOT(resetAudioDevice()));
     connect(this, SIGNAL(settingsChanged()), settingsWidget, SLOT(settingsChanged()));
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     connect(settingsWidget, SIGNAL(recordingModeChangedFromPrefs(int)),
@@ -737,6 +738,8 @@ void MainWindow::setupWindowStructure()
             this, &MainWindow::onSpiderReady);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioSwitchDoneReceived,
             this, &MainWindow::onAudioSwitchDone);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioDeviceReopenReplyReceived,
+            this, &MainWindow::onAudioDeviceReopenReply);
 
     scopeWindow->Pause();
     scopeWindow->setObjectName("scopes");
@@ -8791,6 +8794,22 @@ void MainWindow::sendDeviceSwitch(QString device, int sampleRate, int bufferSize
     // Fifth arg: input device (empty = leave unchanged)
     msg.pushStr(inputDevice.toStdString());
     m_spAPI->SendDaemonOSC(msg);
+}
+
+void MainWindow::resetAudioDevice()
+{
+    // Cold-swap the current device with its current settings — nothing about
+    // the selection changes, the device is just torn down and re-opened.
+    std::cout << "[gui-audio] OSC reopen-device (reset to current values)" << std::endl;
+    oscpkt::Message msg("/daemon/audio/reopen-device");
+    msg.pushInt32(m_spAPI->GetToken());
+    m_spAPI->SendDaemonOSC(msg);
+}
+
+void MainWindow::onAudioDeviceReopenReply(bool accepted, QString reason)
+{
+    if (!accepted)
+        settingsWidget->deviceReopenRejected(reason);
 }
 
 void MainWindow::switchAudioDriver(QString driver)
