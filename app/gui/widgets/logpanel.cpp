@@ -201,7 +201,7 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
 
         QLabel* label = new QLabel(src.name.toUpper(), pane);
         label->setObjectName("paneTitle");
-        ApplyFontRole(label, FontRole::PaneTitle);   // shared small/muted/left title style
+        ApplyFontRole(label, FontRole::Small);   // shared small/muted/left title style
         label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         paneLayout->addWidget(label);
 

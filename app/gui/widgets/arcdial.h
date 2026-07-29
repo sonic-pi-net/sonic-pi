@@ -213,7 +213,7 @@ protected:
             QFont f("Hack", -1, QFont::Bold);
             f.setPixelSize(FontRolePx(m_valueRole));
             const int maxW = int(arc.width() * 0.72);
-            while (f.pixelSize() > FontRolePx(FontRole::Tiny)
+            while (f.pixelSize() > kFontPxFloor
                    && QFontMetrics(f).horizontalAdvance(text) > maxW)
                 f.setPixelSize(f.pixelSize() - 1);
             p.setPen(accent);

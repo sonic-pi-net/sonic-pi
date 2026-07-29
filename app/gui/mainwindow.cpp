@@ -1463,7 +1463,7 @@ void MainWindow::namedTitleBars()
     auto makeDockTitle = [](QDockWidget* dock) {
         auto* l = new QLabel(dock->windowTitle().toUpper());
         l->setObjectName("paneTitle");
-        ApplyFontRole(l, FontRole::PaneTitle);
+        ApplyFontRole(l, FontRole::Small);
         l->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         return l;
     };
@@ -1510,7 +1510,7 @@ QWidget* MainWindow::makeControlTitleBar(const QString& title, QLabel*& outLabel
     layout->setSpacing(ScaleWidthForDPI(4));
     outLabel = new QLabel(title.toUpper(), bar);
     outLabel->setObjectName("paneTitle");
-        ApplyFontRole(outLabel, FontRole::PaneTitle);
+        ApplyFontRole(outLabel, FontRole::Small);
     outLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     layout->addWidget(outLabel);
     layout->addStretch(1);

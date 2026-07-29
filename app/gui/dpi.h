@@ -115,9 +115,9 @@ inline int ScaleWidthForDPI(int x)
 // table (see ScalePxInStyleSheet below), so there is one set of numbers.
 enum class FontRole
 {
-    Tiny,      // 9px: the Link widget's per-control section labels
-    PaneTitle, // 11px Hack: DEBUG / TO SUPERSONIC / … strip titles
-    Small,     // subordinate notes, scope labels, dock chrome
+    Small,     // subordinate notes, scope labels, dock chrome, and every pane
+               // or section title — a title reads as one by being uppercased
+               // and muted, not by having a size of its own
     Base,      // the app default — every ordinary label, button and field
     Large,
     XLarge,
@@ -132,6 +132,11 @@ enum class FontRole
 constexpr int kFontZoomMin = -4;
 constexpr int kFontZoomMax = 8;
 
+// The smallest size any text is allowed to reach: the ladder clamps here at the
+// bottom of the zoom range, and so does text that shrinks to fit a fixed box
+// (ArcDial's hub value). Below this it stops being readable.
+constexpr int kFontPxFloor = 6;
+
 inline double FontZoomFactor(int step)
 {
     if (step < kFontZoomMin)
@@ -142,29 +147,18 @@ inline double FontZoomFactor(int step)
     return f < 0.5 ? 0.5 : (f > 3.0 ? 3.0 : f);
 }
 
-// Design sizes at 1x zoom. Every step is DPI-scaled: Tiny and PaneTitle used to
-// be exempt, carried over from the literal `px` rules they replaced, which made
-// the ladder non-monotonic wherever the display scale is below 1 (macOS reports
-// 72 logical DPI against a 96 baseline, so Small scaled down to 10px while an
-// unscaled PaneTitle stayed at 11 — the smaller step rendering larger).
-//
-// They keep their original design values (9 and 11) and simply get scaled like
-// the rest, which is what makes the ordering hold at every scale rather than
-// only at the one it was checked on: 9 < 11 < 13 stays true whatever it is
-// multiplied by. Sizing them to match a particular scale's output instead
-// inverts the ladder at every other scale — see the monotonicity test in
-// gui-tests/stylesheet_invariants.test.cpp.
+// Design sizes at 1x zoom, in pre-scale units: every one goes through
+// ScaleHeightForDPI, so these are not the pixels that reach the screen. The
+// display scale is well below 1 on Windows and Linux (GetDisplayScale divides
+// by a padded baseline), so a step authored from a measured on-screen size —
+// rather than in the same space as its neighbours — has the scale applied twice
+// and lands far below the step beneath it. Keep the whole ladder in one space;
+// gui-tests/stylesheet_invariants.test.cpp pins the ordering.
 inline int FontRolePx(FontRole role, double scale = 1.0)
 {
     int px = 0;
     switch (role)
     {
-    case FontRole::Tiny:
-        px = ScaleHeightForDPI(9);
-        break;
-    case FontRole::PaneTitle:
-        px = ScaleHeightForDPI(11);
-        break;
     case FontRole::Arrow:
         px = ScaleHeightForDPI(26);
         break;
@@ -183,7 +177,7 @@ inline int FontRolePx(FontRole role, double scale = 1.0)
 #endif
     }
     const int scaled = int(px * scale + 0.5);
-    return scaled < 6 ? 6 : scaled;
+    return scaled < kFontPxFloor ? kFontPxFloor : scaled;
 }
 
 // A QFont carries EITHER a point size or a pixel size; the unused one reads

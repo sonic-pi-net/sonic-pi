@@ -210,13 +210,13 @@ QTabWidget#southTabs::pane
 
 QDockWidget::title
 {
-    /* Match the SuperSonic debug pane's log titles: 11px Hack, muted, left. */
+    /* Match the SuperSonic debug pane's log titles: small Hack, muted, left. */
     color: paneTitleColor;
     border: 0dx;
     text-align: left;
     background: logBackgroundColor;
     font-family: 'Hack';
-    font-size: paneTitleFontPx;
+    font-size: smallFontPx;
     padding-left: 6dx;
 }
 
@@ -324,27 +324,15 @@ QMenuBar::item:selected {
     color: menuSelectedTextColor;
 }
 
-/* Dock separators. These were painted by DividerProxyStyle (dividerproxystyle.h)
-   and styled here instead because that no longer runs: a298c42c5 changed the `*`
-   and QMainWindow rules above from `background-color: none` to `transparent` to
-   fix a Linux black-background bug, and `none` was undefined as a brush, so Qt's
-   stylesheet style had treated those rules as having nothing to draw and fell
-   through to the base style. With a real brush it claims the separator itself
-   and never calls the base style, so drawPrimitive stopped being reached at all
-   (verified: zero calls) and the hover reveal went with it.
-
-   Setting it here is the supported route — the width/height pair is what makes
-   the rule take effect, per Qt's own QMainWindow::separator example. */
+/* Dock separators: geometry only. DividerProxyStyle (dividerproxystyle.h) paints
+   them — a thin centre line at rest, full thickness on hover — to match the
+   custom QSplitter handles (thinsplitter.h). Declare no background, border or
+   image here: any drawable property makes Qt's stylesheet style claim the
+   separator and paint it flat, and the base style is then never reached. */
 QMainWindow::separator
 {
-    background: windowColor;
     width: 7dx;    /* vertical separators */
     height: 7dx;   /* horizontal separators */
-}
-
-QMainWindow::separator:hover
-{
-    background: scrollBarHoverColor;
 }
 
 QMainWindow

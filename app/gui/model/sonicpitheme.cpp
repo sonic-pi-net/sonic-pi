@@ -1302,11 +1302,10 @@ void SonicPiTheme::reloadStylesheet() {
     QString radiusMedium = QString("%1px").arg(ScaleHeightForDPI(kRadiusMediumDx));
     QString radiusLarge = QString("%1px").arg(ScaleHeightForDPI(kRadiusLargeDx));
     QString radiusLargeOuter = QString("%1px").arg(ScaleHeightForDPI(kRadiusLargeOuterDx));
-    // The only two font sizes left in the stylesheet. Both target sub-controls
+    // The only font size left in the stylesheet. It targets sub-controls
     // (QDockWidget::title, QHeaderView::section), which have no widget to call
-    // setFont() on — every other size now rides the widget font instead. They
-    // still come from the shared scale so they can't drift from it.
-    QString paneTitleFontPx = QString("%1px").arg(FontRolePx(FontRole::PaneTitle));
+    // setFont() on — every other size rides the widget font instead. It still
+    // comes from the shared scale so it can't drift from it.
     QString smallFontPx = QString("%1px").arg(FontRolePx(FontRole::Small));
 
     QString buttonColor = this->color("Button").name();
@@ -1425,7 +1424,6 @@ void SonicPiTheme::reloadStylesheet() {
         .replace("radiusLarge", radiusLarge)
         .replace("radiusSmall", radiusSmall)
         .replace("radiusMedium", radiusMedium)
-        .replace("paneTitleFontPx", paneTitleFontPx)
         .replace("smallFontPx", smallFontPx)
         .replace("buttonBackgroundColor", buttonBackgroundColor)
         .replace("buttonColor", buttonColor)

@@ -191,7 +191,7 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     auto makeSectionLabel = [this](const QString& text) {
         auto* l = new QLabel(text.toUpper(), this);
         l->setObjectName("linkSectionLabel");  // subordinate to the widget title
-        ApplyFontRole(l, FontRole::Tiny);
+        ApplyFontRole(l, FontRole::Small);
         l->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         return l;
     };

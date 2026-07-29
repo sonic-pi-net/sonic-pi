@@ -55,10 +55,9 @@ TEST_CASE("app.qss declares no font-size except the two sub-control tokens",
 {
     const QString qss = readAppQss();
 
-    // Only these may appear as a font-size value. Both are substituted from
+    // Only this may appear as a font-size value. It is substituted from
     // FontRolePx() at theme-load time (see SonicPiTheme::reloadStylesheet).
-    const QStringList allowed = { QStringLiteral("paneTitleFontPx"),
-                                  QStringLiteral("smallFontPx") };
+    const QStringList allowed = { QStringLiteral("smallFontPx") };
 
     static const QRegularExpression decl(QStringLiteral("font-size:\\s*([^;]+);"));
     QStringList offenders;
@@ -77,13 +76,12 @@ TEST_CASE("app.qss declares no font-size except the two sub-control tokens",
     CHECK(offenders.isEmpty());
 }
 
-TEST_CASE("both surviving font-size tokens are actually present", "[stylesheet][zoom]")
+TEST_CASE("the surviving font-size token is actually present", "[stylesheet][zoom]")
 {
     // Guards the other direction: if a rule is deleted or renamed, the
     // substitution in reloadStylesheet() becomes dead and the sub-control
     // silently falls back to an inherited size.
     const QString qss = readAppQss();
-    CHECK(qss.contains(QStringLiteral("font-size: paneTitleFontPx;")));
     CHECK(qss.contains(QStringLiteral("font-size: smallFontPx;")));
 }
 
@@ -226,17 +224,15 @@ TEST_CASE("the piano row keeps octave-up against the board on wide panes", "[tut
     CHECK(octUp->x() == piano->geometry().right() + 1 + row->spacing());
 }
 
-// The type scale must read in one direction. Tiny and PaneTitle were once
-// exempt from DPI scaling, carried over from the literal `px` rules they
-// replaced; wherever the display scale is below 1 (macOS reports 72 logical DPI
-// against a 96 baseline) that left the ladder inverted — Small scaled down to
-// 10px while an unscaled PaneTitle stayed at 11, so the smaller step rendered
-// larger. Each step looked right on its own, which is why nothing caught it.
+// The type scale must read in one direction. Ordering only holds when every
+// step is authored in the same pre-scale space (see FontRolePx): a step sized
+// from a value measured on one screen carries that screen's scale inside it,
+// gets scaled again, and inverts the ladder everywhere else. Each step still
+// looks plausible on its own, which is what makes it easy to miss.
 TEST_CASE("the type scale is monotonic", "[stylesheet][fontrole]")
 {
-    const FontRole ladder[] = { FontRole::Tiny, FontRole::PaneTitle, FontRole::Small,
-                                FontRole::Base, FontRole::Large, FontRole::XLarge,
-                                FontRole::XXLarge };
+    const FontRole ladder[] = { FontRole::Small, FontRole::Base, FontRole::Large,
+                                FontRole::XLarge, FontRole::XXLarge };
     for (size_t i = 1; i < sizeof(ladder) / sizeof(ladder[0]); ++i)
     {
         const int prev = FontRolePx(ladder[i - 1]);
@@ -245,6 +241,12 @@ TEST_CASE("the type scale is monotonic", "[stylesheet][fontrole]")
                      << "px — a later step must never render smaller than an earlier one");
         CHECK(cur >= prev);
     }
+
+    // Nothing sits on the legibility clamp at rest. A step that lands there has
+    // been scaled twice — the ladder's bottom is the smallest text in the app,
+    // and it carries pane and section titles.
+    INFO("Small resolves to " << FontRolePx(FontRole::Small) << "px, floor is " << kFontPxFloor);
+    CHECK(FontRolePx(FontRole::Small) > kFontPxFloor);
 }
 
 // Zooming must not collapse the ladder either: a step that is larger at 1x has
