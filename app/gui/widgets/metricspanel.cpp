@@ -109,9 +109,10 @@ constexpr int kFieldBufferBytes = 52;
 constexpr int kFieldCpuAvg      = 53; // DSP load %, centi (native_stats)
 constexpr int kFieldCpuPeak     = 54; // DSP load % peak, centi (native_stats)
 constexpr int kFieldOverruns    = 55; // audio callback overruns (native_stats)
-constexpr int kFieldNrtMaxPass  = 56; // nativeStats[6]: longest control pass, ms
-constexpr int kFieldNrtInFlight = 57; // nativeStats[7]: control pass blocked now, ms
-constexpr int kPanelFieldCount  = 58;
+constexpr int kFieldNrtMaxPass     = 56; // nativeStats[6]: longest control pass, µs
+constexpr int kFieldNrtInFlight    = 57; // nativeStats[7]: control pass blocked now, µs
+constexpr int kFieldNrtRecentWorst = 58; // nativeStats[8]: worst control pass in last ~60 s, µs
+constexpr int kPanelFieldCount     = 59;
 
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
@@ -135,7 +136,8 @@ enum Fmt
     F_Signed,
     F_Headroom,
     F_MilliBpm,   // raw is milli-BPM (bpm * 1000) → "X.X"
-    F_Centi       // raw is value * 100 → "X.XX"
+    F_Centi,      // raw is value * 100 → "X.XX"
+    F_MicroMs     // raw is microseconds → ms "X.XX" (control passes are µs-scale)
 };
 
 enum Kind
@@ -238,13 +240,13 @@ const std::vector<PanelDef>& panelLayout()
             ValRow("playing", { V(kFieldClockPlaying, K_Muted) }),
             ValRow("peers", { V(27) },
                    "Connected Ableton Link peers (0 = local session, not network-synced)") } },
-        { "DSP",
+        { "Performance",
           { ValRow("load", { Vn(kFieldCpuAvg, K_Normal, F_Centi), T("%") }),
             ValRow("peak", { Vn(kFieldCpuPeak, K_Dim, F_Centi), T("%") }),
-            ValRow("overruns", { Vn(kFieldOverruns, K_Error) }) } },
-        { "Control",
-          { ValRow("blocked", { Vn(kFieldNrtInFlight, K_Error), T(" ms") }),
-            ValRow("worst", { Vn(kFieldNrtMaxPass, K_Dim), T(" ms") }) } },
+            ValRow("overruns", { Vn(kFieldOverruns, K_Error) }),
+            ValRow("blocked", { Vn(kFieldNrtInFlight, K_Error, F_MicroMs), T(" ms") }),
+            ValRow("worst", { Vn(kFieldNrtRecentWorst, K_Normal, F_MicroMs), T(" | "), Vn(kFieldNrtMaxPass, K_Muted, F_MicroMs), T(" ms") },
+                   composite("nrtWorstRecentBoot")) } },
         { "Link Audio",
           { ValRow("in", { V(32), T(" ch @ "), V(33, K_Muted), T(" Hz") },
                    composite("linkAudioChannelsRate")),
@@ -304,6 +306,8 @@ QString formatField(uint32_t raw, Fmt fmt)
         return QString::number(raw / 1000.0, 'f', 1);
     case F_Centi:
         return QString::number(raw / 100.0, 'f', 2);
+    case F_MicroMs:
+        return QString::number(raw / 1000.0, 'f', 2);
     case F_Plain:
     default:
         return QString::number(raw);
@@ -542,7 +546,7 @@ void MetricsPanel::buildUi()
     }
     m_metricsGrid = grid;
     m_metricsScroll = scroll;
-    reflowMetricsGrid(5);   // initial: the full five-column grid
+    reflowMetricsGrid(4);   // initial: the 8 cards as two balanced rows
 
     scroll->setWidget(content);
     scroll->viewport()->installEventFilter(this);   // re-flow when the pane height changes
@@ -1184,8 +1188,9 @@ void MetricsPanel::refresh()
     v[kFieldCpuAvg]      = ns.cpu_load_avg_centi;
     v[kFieldCpuPeak]     = ns.cpu_load_peak_centi;
     v[kFieldOverruns]    = ns.callback_overruns;
-    v[kFieldNrtMaxPass]  = ns.nrt_max_pass_ms;
-    v[kFieldNrtInFlight] = ns.nrt_in_flight_ms;
+    v[kFieldNrtMaxPass]     = ns.nrt_max_pass_us;
+    v[kFieldNrtInFlight]    = ns.nrt_in_flight_us;
+    v[kFieldNrtRecentWorst] = ns.nrt_recent_worst_us;
     // Native-only metrics read "-" (not a misleading 0) when this segment
     // doesn't produce them (e.g. a web-origin engine).
     const bool nativeOk = m_api->AudioProcessor_HasNativeStats();
