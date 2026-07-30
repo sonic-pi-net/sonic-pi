@@ -34,7 +34,14 @@ if(QSCINTILLA_FOUND)
   set(QSCINTILLA_INCLUDE_DIRS ${QSCINTILLA_INCLUDE_DIR})
 
   if(NOT TARGET QScintilla)
-    add_library(QScintilla UNKNOWN IMPORTED)
+    # GLOBAL: this module is found from gui/, but gui-tests/ is a sibling
+    # directory and links QScintilla too. A non-global imported target is
+    # visible only at or below where it was created, so gui-tests would fall
+    # back to a plain -lQScintilla and fail to link (the system library is
+    # libqscintilla2_qt6). The vendored fallback defines a normal target,
+    # which is global already, which is why only system-QScintilla builds
+    # (Debian) hit this.
+    add_library(QScintilla UNKNOWN IMPORTED GLOBAL)
     set_target_properties(QScintilla PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES "${QSCINTILLA_INCLUDE_DIRS}"
       IMPORTED_LOCATION "${QSCINTILLA_LIBRARIES}")
