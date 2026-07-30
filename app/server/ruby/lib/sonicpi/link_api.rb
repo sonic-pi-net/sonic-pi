@@ -13,6 +13,8 @@
 
 require_relative "util"
 require_relative "supersonic_link_comms"
+# OSC::Int64 — the comms chain pulls in the codec but not the wrapper types.
+require_relative "osc/osc_types"
 
 module SonicPi
   # Spider-side Ableton Link API over SupersonicLinkComms: tempo,
@@ -187,9 +189,23 @@ module SonicPi
       res ? res[0].to_f : 0.0
     end
 
+    # Link's own beat unit (ableton/link/Beats.hpp).
+    MICROBEATS_PER_BEAT = 1_000_000
+
+    def self.beats_to_microbeats(beat)
+      (beat.to_f * MICROBEATS_PER_BEAT).round
+    end
+
+    def self.microbeats_to_beats(microbeats)
+      microbeats.to_i / MICROBEATS_PER_BEAT.to_f
+    end
+
+    # Microbeats, not a Float: the encoder emits float32, which loses ~2ms once
+    # the beat count passes 32768.
     def link_get_time_at_beat(beat, quantum = 4, tl: "link")
       res = @link_comms.rpc(clock_addr("rpc/time_at_beat", tl),
-                            beat.to_f, quantum.to_f,
+                            SonicPi::OSC::Int64.new(LinkAPI.beats_to_microbeats(beat)),
+                            quantum.to_f,
                             expect: clock_addr("rpc/time_at_beat.reply", tl))
       res ? res[0].to_i : 0
     end
