@@ -254,7 +254,7 @@ width: 100%;
     visibility: hidden;
 }
 
-#listingg > ul > li > a {
+#listingg ul.toc.top-level > li > a {
     color: var(--sidebar-link);
 }
 

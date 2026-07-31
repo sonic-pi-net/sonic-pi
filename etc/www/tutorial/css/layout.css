@@ -31,6 +31,10 @@ body {
   padding: 20px 30px 60px 30px;
 }
 
+/* The TOC is a disclosure so small screens can collapse it. On wide screens
+   it's always open, so the toggle itself is hidden. */
+#toc > summary { display: none; }
+
 /* Table of contents. */
 #listingg ul.toc {
   list-style: none;
@@ -79,13 +83,150 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
+  /* Matches the rule under the TOC: each pane is edged in the other's colour. */
+  border-top: 2px solid var(--sidebar-bg);
 }
 #doc-version { margin-left: auto; }
 #doc-nav { text-decoration: none; }
 
-/* Small screens: stack the TOC above the content, unpin the footer. */
+/* Wide screens show the full wording; the short forms are for phones. */
+#doc-footer .footer-short { display: none; }
+
+/* Touch devices never hover, so the copy buttons would never appear. */
+@media (hover: none) {
+  .copy-button { opacity: 0.9; }
+}
+
+/* Small screens: the page becomes two stacked panes — a "Contents" bar that
+   is always on screen, and the content scrolling in its own region below it.
+   The content never passes behind the TOC because it is a separate scroller,
+   not the page. The footer unpins so it can wrap. */
 @media (max-width: 820px) {
-  #listingg { position: static; width: 100%; height: auto; }
-  #contentss { margin-left: 0; }
-  #doc-footer { position: static; flex-wrap: wrap; }
+  /* The page itself does not scroll; the content pane does. dvh so the pane
+     tracks the visible area as mobile browser chrome comes and goes. */
+  html, body { height: 100%; }
+  body {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Always visible: sized by its content, never scrolled out of view. */
+  #listingg {
+    position: static;
+    flex: none;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    border-bottom: 2px solid var(--footer-bg);
+  }
+
+  /* The scrolling pane. min-height:0 is what lets a flex child actually
+     scroll rather than growing to fit its content. Only up and down: wide
+     children (code blocks) scroll inside themselves. */
+  #contentss {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overflow-wrap: break-word;
+  }
+
+  /* Anchor jumps scroll this pane, so a heading lands just below the TOC
+     rather than underneath it, with a little air above. */
+  #contentss h1,
+  #contentss h2,
+  #contentss h3 { scroll-margin-top: 0.5rem; }
+  #toc > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--sidebar-fg);
+    /* Drop the browser's own triangle; the chevron below replaces it. */
+    list-style: none;
+  }
+  #toc > summary::-webkit-details-marker { display: none; }
+
+  /* Chevron: points down when the contents are hidden, up when they're open. */
+  #toc > summary::after {
+    content: "";
+    flex: none;
+    width: 0.5em;
+    height: 0.5em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-0.12em) rotate(45deg);
+    transition: transform 0.25s ease;
+  }
+  #toc[open] > summary::after {
+    transform: translateY(0.12em) rotate(-135deg);
+  }
+  #toc[open] ul.toc.top-level {
+    max-height: 33vh;
+    max-height: 33dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Slide the contents open and shut. ::details-content is a progressive
+     enhancement — where it isn't supported the panel just snaps as before.
+     allow-discrete keeps the content painted for the closing half. */
+  #toc::details-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease, content-visibility 0.25s;
+    transition-behavior: allow-discrete;
+  }
+  #toc[open]::details-content {
+    max-height: 33vh;
+    max-height: 33dvh;
+  }
+  #listingg ul.toc.top-level { padding: 0 18px 18px 18px; }
+  #listingg a { line-height: 1.9; }
+
+  #contentss { margin-left: 0; padding: 18px 18px 24px 18px; }
+  #contentss h1 { margin-top: 36px; }
+
+  /* doc-styles.css indents content lists by 50px, which wastes a phone. */
+  #contentss ul { margin: 20px 0; padding-left: 24px; }
+
+  /* The footer is the third pane, pinned below the scrolling content, so the
+     theme switcher is reachable without scrolling the whole tutorial. It has
+     to stay a single thin row, so it never wraps and the labels drop to their
+     short forms. doc-styles.css pins it to 2em and pads the ends by 25px. */
+  #doc-footer {
+    position: static;
+    flex: none;
+    flex-wrap: nowrap;
+    height: auto;
+    gap: 8px;
+    padding: 4px 10px;
+    font-size: 0.72em;
+  }
+  #doc-footer .footer-long { display: none; }
+  #doc-footer .footer-short { display: inline; }
+  /* Shorthand also cancels the 25px padding-left from doc-styles.css. */
+  #doc-nav {
+    padding: 3px 16px;
+    font-size: 1.2em;
+    white-space: nowrap;
+  }
+  #doc-version {
+    margin-left: auto;
+    padding-right: 0;
+    white-space: nowrap;
+  }
+  /* Two ids to outrank the same selector in themes.css, which loads later. */
+  #doc-footer #theme-switch button { padding: 2px 13px; }
+}
+
+/* Respect a reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  #toc::details-content { transition: none; }
+  #toc > summary::after { transition: none; }
 }

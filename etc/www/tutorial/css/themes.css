@@ -61,7 +61,7 @@ em                  { color: var(--em); }
 
 /* Keep the logo at its native size rather than stretching it to the full
    content width (which upscales the 328px source and blurs it). */
-#contentss .image.fit img { width: auto; max-width: 320px; height: auto; }
+#contentss .image.fit img { width: auto; max-width: min(320px, 100%); height: auto; }
 
 /* Theme switcher in the footer bar: a single segmented control. */
 #theme-switch {

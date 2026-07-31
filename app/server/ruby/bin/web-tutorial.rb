@@ -86,6 +86,7 @@ head = <<~'HTML'
     <title>Sonic Pi - Tutorial</title>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Sonic Pi Tutorial - Learn how to code music." />
     <meta name="keywords" content="live coding music code programming learn teach tutorial" />
 
@@ -121,22 +122,34 @@ HTML
 page = +""
 page << head
 page << "\n  <body>\n\n\n"
-page << %{    <div id="listingg">\n\n}
+page << %{    <div id="listingg">\n}
+page << %{<details id="toc" open>\n}
+page << %{<summary>Contents</summary>\n\n}
 page << toc << "\n\n"
+page << %{</details>\n}
 page << %{    </div>\n\n}
 page << %{<div id="contentss">\n\n}
 page << %{  <span class="image fit"><img class="logo-light" src="media/logos/sonic-pi-logo.png" alt="Sonic Pi" /><img class="logo-dark" src="media/logos/sonic-pi-logo-dark.png" alt="Sonic Pi" /></span>\n}
 page << content << "\n\n"
 page << "<hr/>\n\n"
+page << %{</div>\n\n}
+# The footer is a sibling of the content, not inside it, so on small screens it
+# can be a pinned bottom bar (the theme switcher has to stay reachable without
+# scrolling the whole tutorial). On wide screens it's position:fixed anyway, so
+# where it sits in the DOM makes no visual difference.
 page << %{<div id="doc-footer">\n}
-page << %{  <a href="/" id="doc-nav"> &larr; Back to sonic-pi.net </a>\n}
+# Long/short label pairs so the footer collapses to a single thin row on a
+# phone. aria-label carries the full wording either way, so shortening the
+# visible text costs nothing for a screen reader.
+page << %{  <a href="/" id="doc-nav" aria-label="Back to sonic-pi.net">&larr;<span class="footer-long"> Back to sonic-pi.net</span></a>\n}
 page << %{  <span id="theme-switch" role="group" aria-label="Colour theme">}
 page << %{<button type="button" data-theme="light">Light</button>}
 page << %{<button type="button" data-theme="dark">Dark</button>}
-page << %{<button type="button" data-theme="hc">High Contrast</button></span>\n}
-page << %{  <p id="doc-version">  Sonic Pi Tutorial v#{version} </p>\n\n}
+page << %{<button type="button" data-theme="hc" aria-label="High Contrast">}
+page << %{<span class="footer-short">HC</span><span class="footer-long">High Contrast</span></button></span>\n}
+page << %{  <p id="doc-version"><span class="footer-long">Sonic Pi Tutorial </span>v#{version}</p>\n\n}
 page << "</div>\n"
-page << "</div>\n\n\n</body>\n</html>\n"
+page << "\n\n</body>\n</html>\n"
 
 # --- Assemble the self-contained bundle ----------------------------------
 FileUtils.mkdir_p(out_dir)
