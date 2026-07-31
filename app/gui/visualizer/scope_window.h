@@ -159,6 +159,13 @@ private:
     // Finishes the settle fade if audio frames stop arriving mid-decay (the
     // engine pauses itself once silent, taking the frame stream with it).
     void SettleTick();
+    // Snap every panel to its rest state: silent snapshot, Levels ballistics
+    // at the floor, phosphor trail cleared opaquely. Called when the feed
+    // (re)starts — unpause, unsuspend, a panel newly shown — so the scopes
+    // wake at rest instead of at whatever the last trace showed. Necessary
+    // because a silent engine sends no frames, which would otherwise leave
+    // the stale image on screen indefinitely.
+    void ResetToRest();
     // Single authority for AudioProcessor_Enable: on only when a panel is
     // visible, not user-paused and not suspended.
     void ApplyProcessorEnable();

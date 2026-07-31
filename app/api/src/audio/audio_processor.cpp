@@ -174,6 +174,9 @@ void AudioProcessor::CalculateFFT(ProcessedAudio& audio)
 
     GenFreqPartitions(buckets, sampleRate);
 
+    // Consumed once per frame, ahead of the per-channel loop.
+    const bool resetBallistics = m_resetSpectrum.exchange(false);
+
     audio.m_spectrumFreqMin = SpectrumFreqMin;
     audio.m_spectrumFreqMax = std::min(SpectrumFreqMaxLimit, sampleRate * 0.5f);
 
@@ -199,8 +202,9 @@ void AudioProcessor::CalculateFFT(ProcessedAudio& audio)
             m_fftPower[channel][i] = amp * amp;
         }
 
-        // Reset ballistics state when the bucket count changes
-        if (m_bucketSmoothed[channel].size() != buckets)
+        // Reset ballistics state when the bucket count changes, or when the
+        // feed has just (re)started with stale state left from the last run
+        if (m_bucketSmoothed[channel].size() != buckets || resetBallistics)
         {
             m_bucketSmoothed[channel].assign(buckets, 0.0f);
             m_bucketPeak[channel].assign(buckets, 0.0f);
@@ -488,13 +492,21 @@ void AudioProcessor::Run()
 void AudioProcessor::Enable(bool enable)
 {
     SetConsumed(true);
-    m_running.store(enable);
+    const bool was = m_running.exchange(enable);
+    if (enable && !was)
+    {
+        m_resetSpectrum.store(true);
+    }
 }
 
 void AudioProcessor::EnableFFT(bool enable)
 {
     SetConsumed(true);
-    m_calculateFFT.store(enable);
+    const bool was = m_calculateFFT.exchange(enable);
+    if (enable && !was)
+    {
+        m_resetSpectrum.store(true);
+    }
 }
 
 } // namespace SonicPi

@@ -877,13 +877,22 @@ std::vector<QString> ScopeWindow::GetScopeCategories() const
 bool ScopeWindow::EnableScope(const QString& category, bool on)
 {
     bool any = false;
+    bool shown = false;
     for (auto& scope : m_panels)
     {
         if (scope.category == category)
         {
+            shown |= on && !scope.visible;
             scope.visible = on;
             any = true;
         }
+    }
+
+    // A newly-shown panel would otherwise draw the stale snapshot left from
+    // when it was last visible — and keep drawing it if the engine is silent.
+    if (shown)
+    {
+        ResetToRest();
     }
 
     ApplyProcessorEnable();
@@ -915,6 +924,12 @@ void ScopeWindow::TogglePause()
     m_pendingPause = false;
     m_paused = !m_paused;
     ApplyProcessorEnable();
+    // Unpausing ends the frozen inspection image; start from rest rather
+    // than letting it linger (live signal refills on the next frame anyway).
+    if (!m_paused)
+    {
+        ResetToRest();
+    }
     emit PausedChanged(m_paused);
 }
 
@@ -943,7 +958,10 @@ void ScopeWindow::Resume()
     m_paused = false;
     ApplyProcessorEnable();
     if (was)
+    {
+        ResetToRest();
         emit PausedChanged(m_paused);
+    }
 }
 
 void ScopeWindow::SetSuspended(bool suspended)
@@ -951,6 +969,12 @@ void ScopeWindow::SetSuspended(bool suspended)
     if (m_suspended == suspended)
         return;
     m_suspended = suspended;
+    // Coming out of suspension the snapshot is as old as the hide was long;
+    // start the re-shown scopes at rest, not at the pre-hide trace.
+    if (!suspended && !m_paused)
+    {
+        ResetToRest();
+    }
     ApplyProcessorEnable();
 }
 
@@ -1210,6 +1234,26 @@ void ScopeWindow::SettleTick()
             Pause();
         }
     }
+}
+
+void ScopeWindow::ResetToRest()
+{
+    m_audio = MakeSilentSnapshot();
+    for (int ch = 0; ch < 2; ch++)
+    {
+        m_levels[ch].rmsDb = LevelFloorDb;
+        m_levels[ch].peakDb = LevelFloorDb;
+        m_levels[ch].holdDb = LevelFloorDb;
+        m_levels[ch].holdUntilMs = 0;
+    }
+    m_grDb = 0.0f;
+    m_grTargetDb = 0.0f;
+    // The opaque clear removes the trail in one paint, so no settle fade is
+    // owed; leaving m_silentFrames below the cap would just schedule idle
+    // repaints of an already-blank scope.
+    m_silentFrames = SilentSettleFrames;
+    m_fullClear = true;
+    update();
 }
 
 SonicPi::ProcessedAudioPtr ScopeWindow::MakeSilentSnapshot() const

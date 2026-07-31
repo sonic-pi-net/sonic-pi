@@ -136,6 +136,10 @@ private:
     std::vector<float> m_bucketSmoothed[2];
     std::vector<float> m_bucketPeak[2];
     std::vector<int> m_bucketPeakAge[2];
+    // One-shot: zero the ballistics before the next FFT pass. Set when the
+    // feed or FFT is (re)started, so the spectrum rises from rest instead of
+    // resuming the decay of whatever the previous session last showed.
+    std::atomic<bool> m_resetSpectrum = { false };
 
     // Output data, double buffered
     ProcessedAudio m_processedAudio;
