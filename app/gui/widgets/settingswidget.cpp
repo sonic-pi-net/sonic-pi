@@ -456,6 +456,28 @@ const char* kVideoSvg =
     "<path d='M3 8a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z'/>"
     "</svg>";
 
+// Window-publishing glyphs (Tabler icons, MIT). Send = cast (screen with
+// broadcast waves — the universal screen-casting mark); Off = the same
+// glyph struck through.
+const char* kCastOffSvg =
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+    "stroke='%1' stroke-width='2.75' stroke-linecap='round' stroke-linejoin='round'>"
+    "<path d='M3 19l.01 0'/>"
+    "<path d='M7 19a4 4 0 0 0 -4 -4'/>"
+    "<path d='M11 19a8 8 0 0 0 -8 -8'/>"
+    "<path d='M15 19h3a3 3 0 0 0 3 -3v-8a3 3 0 0 0 -3 -3h-12a3 3 0 0 0 -2.8 2'/>"
+    "<path d='M3 3l18 18'/>"
+    "</svg>";
+
+const char* kCastSvg =
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+    "stroke='%1' stroke-width='2.75' stroke-linecap='round' stroke-linejoin='round'>"
+    "<path d='M3 19l.01 0'/>"
+    "<path d='M7 19a4 4 0 0 0 -4 -4'/>"
+    "<path d='M11 19a8 8 0 0 0 -8 -8'/>"
+    "<path d='M15 19h3a3 3 0 0 0 3 -3v-8a3 3 0 0 0 -3 -3h-12a3 3 0 0 0 -2.8 2'/>"
+    "</svg>";
+
 // Render a tinted SVG glyph to a crisp (2x) pixmap of the given logical size.
 QPixmap makeSvgPixmap(const char* svg, const QColor& color, int px)
 {
@@ -783,15 +805,6 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow synths and FX loaded via load_synthdefs to be triggered.\n\nWhen disabled, Sonic Pi will complain when you attempt to use a synth or FX which isn't recognised."));
     setCheckIcon(enable_external_synths_cb, kExternalSynthsSvg);
 
-    // Channel routing. enable_scsynth_inputs and asio_input_note live in the
-    // Audio Device box instead: both are about which device is in use.
-    QGroupBox *audioGroup = new QGroupBox(tr("Audio"));
-    QVBoxLayout *audioGroupLayout = new QVBoxLayout;
-    audioGroupLayout->setSpacing(ScaleHeightForDPI(2));
-    audioGroupLayout->addWidget(mixer_invert_stereo);
-    audioGroupLayout->addWidget(mixer_force_mono);
-    audioGroup->setLayout(audioGroupLayout);
-
     QGroupBox *synthsGroup = new QGroupBox(tr("Synths and FX"));
     QVBoxLayout *synthsGroupLayout = new QVBoxLayout;
     synthsGroupLayout->setSpacing(ScaleHeightForDPI(2));
@@ -848,8 +861,6 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     vol_box->addLayout(strips_col);
     vol_box->addStretch(1);
 
-    // Channel routing under the level controls: both change what leaves the
-    // output, so they belong with it rather than in a group of their own.
     volBox->setLayout(vol_box);
 
     // --- Audio Device (driver, device, sample rate, buffer size) ---
@@ -880,13 +891,15 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_input_combo->setMinimumContentsLength(20);
     audio_input_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
     inputLabel->setBuddy(audio_input_combo);
-    // In the Audio Device box rather than with the mixer toggles, because
-    // choosing whether to take input at all is part of picking a device. Below
-    // the selectors and level with Reset, so the selectors stay an unbroken
-    // list. The ASIO note sits directly under the Input selector (only ever
-    // visible on those drivers), since it explains why that selection is
-    // locked.
-    audio_device_layout->addWidget(enable_scsynth_inputs, 7, 0);
+    // The input toggle sits below the selectors and level with Reset, so the
+    // selectors stay an unbroken list. The channel-routing toggles follow it:
+    // all three shape what the device carries, and living in here saves a
+    // group box of their own. The ASIO note sits directly under the Input
+    // selector (only ever visible on those drivers), since it explains why
+    // that selection is locked.
+    audio_device_layout->addWidget(enable_scsynth_inputs, 8, 0);
+    audio_device_layout->addWidget(mixer_invert_stereo, 9, 0);
+    audio_device_layout->addWidget(mixer_force_mono, 10, 0);
     audio_device_layout->addWidget(asio_input_note, 3, 0, 1, 2);
     audio_device_layout->addWidget(inputLabel, 2, 0);
     audio_device_layout->addWidget(audio_input_combo, 2, 1);
@@ -917,8 +930,9 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_device_layout->addWidget(remote_session_note, 6, 0, 1, 2);
 
     // Status line for in-flight or pending device changes, right-aligned
-    // under the Reset Device button. Always present at a fixed height so
-    // the message appearing/clearing never shifts the layout.
+    // between the selectors and the input/routing toggles. Always present
+    // at a fixed height so the message appearing/clearing never shifts the
+    // layout.
     audio_status_label = new QLabel();
     audio_status_label->setObjectName("audioStatusNote");   // muted note (app.qss)
     ApplyFontRole(audio_status_label, FontRole::Small);
@@ -929,7 +943,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // and the label re-elides when that width changes.
     audio_status_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     audio_status_label->installEventFilter(this);
-    audio_device_layout->addWidget(audio_status_label, 8, 0, 1, 2);
+    audio_device_layout->addWidget(audio_status_label, 7, 0, 1, 2);
 
     // Escape hatch: cold-swap the current device with its current settings —
     // for when the audio path wedges (post-sleep, hardware churn) and nothing
@@ -945,7 +959,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
         beginDeviceSwitchFeedback();
         emit audioDeviceResetRequested();
     });
-    audio_device_layout->addWidget(reset_device_button, 7, 1, Qt::AlignRight);
+    audio_device_layout->addWidget(reset_device_button, 8, 1, Qt::AlignRight);
 
     // Fixed, uniform height so each combo's grey fill exactly matches its
     // focus/hover highlight (otherwise the widget floats taller than the
@@ -958,7 +972,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     // The box's frame absorbs the column's slack (see the tab layout), so
     // pin the rows to the top rather than letting them drift apart.
-    audio_device_layout->setRowStretch(9, 1);
+    audio_device_layout->setRowStretch(11, 1);
     audioDeviceBox->setLayout(audio_device_layout);
     m_devicePulse = new DevicePulseOverlay(audioDeviceBox);
 
@@ -1056,7 +1070,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
             "\u2591\u2580\u2580\u2580\u2591\u2580\u2580\u2580\u2591\u2580\u2591\u2591\u2591\u2580\u2580\u2580\u2591\u2580\u2591\u2580\u2591\u2580\u2580\u2580\u2591\u2580\u2580\u2580\u2591\u2580\u2591\u2580\u2591\u2580\u2580\u2580\u2591\u2580\u2580\u2580"
         )
     );
-    supersonic_ascii_label->setFont(QFont("Hack", 7));
+    supersonic_ascii_label->setFont(QFont("Hack", 9));
     supersonic_ascii_label->setAlignment(Qt::AlignCenter);
 
     supersonic_version_label = new QLabel(tr("Waiting for SuperSonic..."));
@@ -1101,41 +1115,49 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 #endif
 
     // --- Assemble grid layout ---
-    // Col 0: Volume knob + all checkboxes (spans all rows)
-    // Col 0: Audio, Synths and FX, Recording (mac/win) pinned to the bottom.
-    // Col 1: Main Volume, Audio Device, SuperSonic panel.
+    // Col 0: Output, Synths and FX, Recording (mac/win).
+    // Col 1: Audio Device, SuperSonic panel.
     QGroupBox *audio_prefs_box = new QGroupBox();
     QGridLayout *audio_prefs_box_layout = new QGridLayout;
 
-    // Audio Device and Recording keep their natural height; the SuperSonic
-    // panel (centred art with top/bottom stretches) absorbs any slack so it
-    // doesn't squeeze the device combos.
+    // Every box keeps its natural height; each column's slack goes between
+    // and after the boxes, never inside a frame.
     audioDeviceBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     volBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     recordingGroup->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 #endif
-    supersonicBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    supersonicBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     // Two independent columns, not a grid: nothing on the left lines up with
     // anything on the right, and a grid row would stretch its shorter box to
     // the taller one's height. Each column packs its own content, and the
-    // tab is as tall as the taller of the two.
+    // tab is as tall as the taller of the two. Slack goes between the boxes,
+    // as on the Editor and Visuals tabs, so the shorter column ends level
+    // with the taller one while every box keeps its natural height.
+    // Boxes pack from the top with a steady rhythm — fixed gaps, one
+    // trailing stretch — rather than stretches between every box, which
+    // spread them out unevenly as the tab grows.
     QVBoxLayout *left_col = new QVBoxLayout;
-    left_col->addWidget(audioGroup);
+    left_col->addWidget(volBox);
+    left_col->addSpacing(ScaleHeightForDPI(14));
     left_col->addWidget(synthsGroup);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    left_col->addSpacing(ScaleHeightForDPI(14));
     left_col->addWidget(recordingGroup);
 #endif
-    // A credit rather than a control, so it follows the controls directly.
-    // It also absorbs the column's slack (Expanding policy, art centred by
-    // its internal stretches), so this column ends level with the settings
-    // opposite instead of leaving a hole at the bottom.
-    left_col->addWidget(supersonicBox, 1, Qt::AlignHCenter);
+    left_col->addStretch(1);
 
     QVBoxLayout *right_col = new QVBoxLayout;
-    right_col->addWidget(volBox);
-    right_col->addWidget(audioDeviceBox, 1);
+    right_col->addWidget(audioDeviceBox);
+    // Stretches, not a stretch factor on Audio Device: a stretch-grown box
+    // shows the column's slack as framed blank space under the routing
+    // toggles.
+    right_col->addStretch(1);
+    // A credit rather than a control, so it sits last, floating in its
+    // share of the column rather than glued to the tab's bottom edge.
+    right_col->addWidget(supersonicBox, 0, Qt::AlignHCenter);
+    right_col->addStretch(1);
 
     audio_prefs_box_layout->addLayout(left_col, 0, 0);
     audio_prefs_box_layout->addLayout(right_col, 0, 1);
@@ -1690,11 +1712,28 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     toggleCol->addWidget(m_resetModsButton);
     toggleCol->addStretch(1);
 
-    // Toggles left, the two dials sharing the right half.
+    // Window transparency as an amp-style ArcDial (same feel as the volume,
+    // hue and flash dials), with the percentage shown in the hub. In the
+    // Theme box beside the hue dials: all three are appearance dials.
+    gui_transparency_slider = new ArcDial(this);
+    gui_transparency_slider->setWrapping(false);
+    gui_transparency_slider->setRange(0, 100);
+    gui_transparency_slider->setValueSuffix("%");
+    gui_transparency_slider->setValueFontRole(FontRole::XLarge);
+    gui_transparency_slider->setFixedSize(ScaleWidthForDPI(108), ScaleHeightForDPI(108));
+    gui_transparency_slider->setAccessibleName(tr("Transparency"));
+    gui_transparency_slider->setProperty("tipTitle", tr("Transparency"));
+    gui_transparency_slider->setToolTip(tr("Drag or scroll to change how see-through the Sonic Pi window is."));
+    QLabel* transparencyCaption = new QLabel(tr("Transparency"));
+    transparencyCaption->setAlignment(Qt::AlignHCenter);
+    transparencyCaption->setToolTip(gui_transparency_slider->toolTip());
+
+    // Toggles left, the three dials sharing the rest.
     QHBoxLayout* tweaks = new QHBoxLayout;
     tweaks->addLayout(toggleCol, 1);
     tweaks->addLayout(dialColumn(m_hueDial, m_hueCaption), 1);
     tweaks->addLayout(dialColumn(m_spreadDial, m_spreadCaption), 1);
+    tweaks->addLayout(dialColumn(gui_transparency_slider, transparencyCaption), 1);
     theme_box_layout->addLayout(tweaks);
     theme_box->setLayout(theme_box_layout);
 
@@ -1778,21 +1817,73 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     editor_visuals_box_layout->addLayout(editor_visuals_row);
     editor_visuals_box->setLayout(editor_visuals_box_layout);
 
-    // Window transparency as an amp-style ArcDial (same feel as the volume,
-    // hue and flash dials), with the percentage shown in the hub.
-    QGroupBox *transparency_box = new QGroupBox(tr("Transparency"));
-    QVBoxLayout *transparency_box_layout = new QVBoxLayout;
-    gui_transparency_slider = new ArcDial(this);
-    gui_transparency_slider->setWrapping(false);
-    gui_transparency_slider->setRange(0, 100);
-    gui_transparency_slider->setValueSuffix("%");
-    gui_transparency_slider->setValueFontRole(FontRole::XLarge);
-    gui_transparency_slider->setFixedSize(ScaleWidthForDPI(108), ScaleHeightForDPI(108));
-    gui_transparency_slider->setAccessibleName(tr("Transparency"));
-    gui_transparency_slider->setProperty("tipTitle", tr("Transparency"));
-    gui_transparency_slider->setToolTip(tr("Drag or scroll to change how see-through the Sonic Pi window is."));
-    transparency_box_layout->addWidget(gui_transparency_slider, 0, Qt::AlignHCenter);
-    transparency_box->setLayout(transparency_box_layout);
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // --- Window publishing — the same switch as the IO menu's publish
+    // action. The technology (and so the name) differs per platform:
+    // Syphon on macOS, Spout on Windows; neither exists on Linux, so the
+    // group is absent there. MainWindow::setWindowPublishing owns the
+    // publisher and keeps both views in step. Segmented pill in the
+    // Recording control's style. ---
+#ifdef Q_OS_MAC
+    const QString publishTech = QStringLiteral("Syphon");
+#else
+    const QString publishTech = QStringLiteral("Spout");
+#endif
+    QGroupBox *publishGroup = new QGroupBox(tr("Publish Window via %1").arg(publishTech));
+    publishGroup->setToolTip(tr("Share the Sonic Pi window with other applications as a %1 video feed.").arg(publishTech));
+
+    const QColor pubIconColor = QApplication::palette().color(QPalette::WindowText);
+    const QColor pubIconOnColor = QApplication::palette().color(QPalette::HighlightedText);
+    const int pubIconPx = ScaleHeightForDPI(32);
+
+    publish_off_radio = new QToolButton();
+    publish_off_radio->setText(tr("Off"));
+    publish_off_radio->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    publish_off_radio->setIcon(makeSvgToggleIcon(kCastOffSvg, pubIconColor, pubIconOnColor, pubIconPx));
+    publish_off_radio->setIconSize(QSize(pubIconPx, pubIconPx));
+    publish_off_radio->setToolTip(tr("Stop sharing the Sonic Pi window."));
+
+    publish_send_radio = new QToolButton();
+    publish_send_radio->setText(tr("Publish via %1").arg(publishTech));
+    publish_send_radio->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    publish_send_radio->setIcon(makeSvgToggleIcon(kCastSvg, pubIconColor, pubIconOnColor, pubIconPx));
+    publish_send_radio->setIconSize(QSize(pubIconPx, pubIconPx));
+    publish_send_radio->setToolTip(tr("Publish the Sonic Pi window as a %1 video feed for other applications to receive.").arg(publishTech));
+
+    QWidget* publishSegControl = new QWidget();
+    publishSegControl->setObjectName("publishSegControl");
+    // Styled by the shared "segmented control" rule in app.qss (house metrics).
+    publishSegControl->setProperty("segmented", true);
+    QHBoxLayout* publishSegLayout = new QHBoxLayout(publishSegControl);
+    publishSegLayout->setContentsMargins(3, 3, 3, 3);
+    publishSegLayout->setSpacing(3);
+
+    // Button IDs 0/1 = off/sending, so idClicked(int) carries the choice
+    // directly. idClicked only fires on user clicks, so syncWindowPublishing's
+    // programmatic setChecked doesn't echo back.
+    window_publish_group = new QButtonGroup(this);
+    window_publish_group->setExclusive(true);
+    for (QToolButton* b : { publish_off_radio, publish_send_radio }) {
+        b->setCheckable(true);
+        b->setCursor(Qt::PointingHandCursor);
+        publishSegLayout->addWidget(b);
+    }
+    window_publish_group->addButton(publish_off_radio, 0);
+    window_publish_group->addButton(publish_send_radio, 1);
+    // Publishing is a live switch, not a persisted pref: every session
+    // starts with the feed off, matching the menubar action.
+    publish_off_radio->setChecked(true);
+    equalizePublishSegments();
+
+    QHBoxLayout *publishGroupLayout = new QHBoxLayout;
+    publishGroupLayout->addStretch(1);
+    publishGroupLayout->addWidget(publishSegControl);
+    publishGroupLayout->addStretch(1);
+    publishGroup->setLayout(publishGroupLayout);
+
+    connect(window_publish_group, SIGNAL(idClicked(int)),
+            this, SLOT(windowPublishingToggled(int)));
+#endif
 
     // Two independent columns, as on the Editor tab: appearance settings on
     // the left, audio-driven visuals on the right. Slack goes between the
@@ -1800,14 +1891,16 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     QVBoxLayout *leftVizPrefs = new QVBoxLayout;
     leftVizPrefs->addWidget(theme_box);
     leftVizPrefs->addStretch(1);
-    leftVizPrefs->addWidget(transparency_box);
+    leftVizPrefs->addWidget(editor_visuals_box);
 
     QVBoxLayout *rightVizPrefs = new QVBoxLayout;
-    rightVizPrefs->addWidget(scope_box);
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    rightVizPrefs->addWidget(publishGroup);
     rightVizPrefs->addStretch(1);
+#endif
     rightVizPrefs->addWidget(scope_box_kinds);
     rightVizPrefs->addStretch(1);
-    rightVizPrefs->addWidget(editor_visuals_box);
+    rightVizPrefs->addWidget(scope_box);
 
     QHBoxLayout *vizPrefsColumns = new QHBoxLayout;
     vizPrefsColumns->addLayout(leftVizPrefs, 1);
@@ -2782,21 +2875,21 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
 
     audio_output_combo->clear();
 
-    // System Default with resolved device as suffix — "__system__" sentinel
+    // OS Default with resolved device as suffix — "__system__" sentinel
     // in itemData is what gets sent to SuperSonic
     // ASIO has no OS-level "default device" concept \u2014 each ASIO driver IS
     // its single device. Substitute "-- None --" (sentinel `__none__`,
     // NO OSC fired when picked) so the user explicitly chooses an ASIO
-    // device. Other drivers keep the System Default behaviour.
+    // device. Other drivers keep the OS Default behaviour.
     QString selectedDriver = audio_driver_combo->currentText();
     bool isAsio = (selectedDriver == "ASIO");
     bool inSystemMode = (devicesInfo.mode.empty() || devicesInfo.mode == "system");
     if (isAsio) {
         audio_output_combo->addItem(tr("-- None --"), QString("__none__"));
     } else {
-        QString systemDefaultLabel = tr("System Default");
+        QString systemDefaultLabel = tr("OS Default");
         if (inSystemMode && !devicesInfo.currentDevice.empty()) {
-            systemDefaultLabel = tr("System Default (\u2192 %1)")
+            systemDefaultLabel = tr("OS Default (%1)")
                 .arg(QString::fromStdString(devicesInfo.currentDevice));
         }
         audio_output_combo->addItem(systemDefaultLabel, QString("__system__"));
@@ -2833,7 +2926,7 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
     }
 
     // Selection priority:
-    //   non-ASIO + mode==system → System Default sentinel
+    //   non-ASIO + mode==system → OS Default sentinel
     //   non-ASIO                → concrete device name
     //   ASIO, engine on ASIO    → concrete device name
     //   ASIO, engine not on ASIO yet → leave on "-- None --"
@@ -3141,7 +3234,7 @@ void SettingsWidget::applyAsioInputConstraints() {
         bool noOutputPicked = outName.isEmpty()
                               || outData == "__none__"
                               || outData == "__system__"
-                              || outName.startsWith(tr("System Default"));
+                              || outName.startsWith(tr("OS Default"));
         QSignalBlocker ib(audio_input_combo);
         if (noOutputPicked) {
             int idx = audio_input_combo->findText(tr("-- None --"));
@@ -3207,7 +3300,7 @@ void SettingsWidget::updateMicPermissionStatus() {
 void SettingsWidget::audioDeviceChanged(int index) {
     if (index < 0) return;
     // If the selected item carries a non-empty itemData string (e.g. the
-    // "System Default" sentinel stores "__system__"), emit that instead of
+    // "OS Default" sentinel stores "__system__"), emit that instead of
     // the user-visible text. Regular device entries have no itemData so
     // they fall through to currentText() as before.
     QString data = audio_output_combo->currentData().toString();
@@ -3268,6 +3361,34 @@ void SettingsWidget::recordingTypeChanged(int mode) {
     // mode is the enum value (button IDs were set to it directly).
     // Persistence + sync is owned by MainWindow::setRecordingMode.
     emit recordingModeChangedFromPrefs(mode);
+}
+#endif
+
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+void SettingsWidget::windowPublishingToggled(int id) {
+    if (id < 0) return;  // no button checked
+    // The publisher + menubar sync are owned by MainWindow::setWindowPublishing.
+    emit windowPublishingChangedFromPrefs(id == 1);
+}
+
+void SettingsWidget::syncWindowPublishing(bool on) {
+    // setChecked emits toggled, not idClicked, so this doesn't echo back.
+    (on ? publish_send_radio : publish_off_radio)->setChecked(true);
+}
+
+// Both segments share the wider natural width, so Off doesn't hug its short
+// caption. Measured from polished size hints (not font metrics): the font
+// and padding that set the hints come from the app stylesheet, which the
+// widgets only carry once polished — and which can change with the theme,
+// so refreshThemeCards re-runs this.
+void SettingsWidget::equalizePublishSegments() {
+    if (!publish_off_radio || !publish_send_radio) return;
+    publish_off_radio->ensurePolished();
+    publish_send_radio->ensurePolished();
+    const int w = qMax(publish_off_radio->sizeHint().width(),
+                       publish_send_radio->sizeHint().width());
+    publish_off_radio->setFixedWidth(w);
+    publish_send_radio->setFixedWidth(w);
 }
 #endif
 
@@ -3528,6 +3649,17 @@ void SettingsWidget::refreshThemeCards(SonicPiTheme* theme) {
         const QColor on = theme->contrastingText(theme->color("HighlightedBackground"));
         recording_type_audio_radio->setIcon(makeSvgToggleIcon(kWaveformSvg, off, on, px));
         recording_type_av_radio->setIcon(makeSvgToggleIcon(kVideoSvg, off, on, px));
+    }
+#endif
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // The window-publishing pill's icons bake their colours in the same way.
+    if (publish_off_radio && publish_send_radio) {
+        const int px = ScaleHeightForDPI(32);
+        const QColor off = theme->color("WindowForeground");
+        const QColor on = theme->contrastingText(theme->color("HighlightedBackground"));
+        publish_off_radio->setIcon(makeSvgToggleIcon(kCastOffSvg, off, on, px));
+        publish_send_radio->setIcon(makeSvgToggleIcon(kCastSvg, off, on, px));
+        equalizePublishSegments();
     }
 #endif
 }

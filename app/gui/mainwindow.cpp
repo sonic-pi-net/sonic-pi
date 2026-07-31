@@ -686,6 +686,8 @@ void MainWindow::setupWindowStructure()
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     connect(settingsWidget, SIGNAL(recordingModeChangedFromPrefs(int)),
             this, SLOT(setRecordingMode(int)));
+    connect(settingsWidget, SIGNAL(windowPublishingChangedFromPrefs(bool)),
+            this, SLOT(setWindowPublishing(bool)));
 #endif
 
     scopeWindow = new ScopeWindow(m_spClient, m_spAPI, this);
@@ -1729,25 +1731,53 @@ void MainWindow::showMetroChanged()
     updateMetroVisibility();
 }
 
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+// Single funnel for window publishing (Syphon on macOS, Spout on Windows)
+// from the menubar or the Visuals pill: starts/stops the feed and reflects
+// the actual outcome in both views (a failed start snaps them back to off).
+void MainWindow::setWindowPublishing(bool wantOn)
+{
+    bool actual = false;
+    if (wantOn) {
+#ifdef Q_OS_MAC
+        // winId() is an NSView* on macOS; the publisher walks to NSWindow.
+        // The async setup may still be negotiating permission, so a true
+        // here is optimistic; live state is in isSyphonPublishing().
+        WId wid = this->winId();
+        actual = SonicPi::startWindowSyphonPublishing(
+            reinterpret_cast<void*>(wid), "Sonic Pi",
+            piSettings->syphon_show_cursor);
+#else
+        // winId() is the HWND on Windows.
+        WId wid = this->winId();
+        actual = SonicPi::startWindowSpoutPublishing(
+            reinterpret_cast<void*>(wid), "Sonic Pi",
+            piSettings->spout_show_cursor);
+#endif
+    } else {
+#ifdef Q_OS_MAC
+        SonicPi::stopWindowSyphonPublishing();
+#else
+        SonicPi::stopWindowSpoutPublishing();
+#endif
+    }
+#ifdef Q_OS_MAC
+    QAction* publishAct = syphonPublishAct;
+#else
+    QAction* publishAct = spoutPublishAct;
+#endif
+    {
+        QSignalBlocker blocker(publishAct);
+        publishAct->setChecked(actual);
+    }
+    settingsWidget->syncWindowPublishing(actual);
+}
+#endif
+
 #ifdef Q_OS_MAC
 void MainWindow::syphonPublishMenuChanged()
 {
-    const bool wantOn = syphonPublishAct->isChecked();
-    if (wantOn) {
-        // winId() is an NSView* on macOS; the publisher walks to NSWindow.
-        WId wid = this->winId();
-        bool started = SonicPi::startWindowSyphonPublishing(
-            reinterpret_cast<void*>(wid), "Sonic Pi",
-            piSettings->syphon_show_cursor);
-        if (!started) {
-            QSignalBlocker blocker(syphonPublishAct);
-            syphonPublishAct->setChecked(false);
-        }
-        // Menu stays optimistically checked while the async setup
-        // negotiates permission; live state is in isSyphonPublishing().
-    } else {
-        SonicPi::stopWindowSyphonPublishing();
-    }
+    setWindowPublishing(syphonPublishAct->isChecked());
 }
 
 void MainWindow::syphonShowCursorMenuChanged()
@@ -1761,20 +1791,7 @@ void MainWindow::syphonShowCursorMenuChanged()
 #ifdef Q_OS_WIN
 void MainWindow::spoutPublishMenuChanged()
 {
-    const bool wantOn = spoutPublishAct->isChecked();
-    if (wantOn) {
-        // winId() is the HWND on Windows.
-        WId wid = this->winId();
-        bool started = SonicPi::startWindowSpoutPublishing(
-            reinterpret_cast<void*>(wid), "Sonic Pi",
-            piSettings->spout_show_cursor);
-        if (!started) {
-            QSignalBlocker blocker(spoutPublishAct);
-            spoutPublishAct->setChecked(false);
-        }
-    } else {
-        SonicPi::stopWindowSpoutPublishing();
-    }
+    setWindowPublishing(spoutPublishAct->isChecked());
 }
 
 void MainWindow::spoutShowCursorMenuChanged()

@@ -496,6 +496,9 @@ private slots:
     void spoutShowCursorMenuChanged();
 #endif
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // Single funnel for Syphon/Spout window publishing from the menubar
+    // or the Visuals pill; reflects the actual outcome into both views.
+    void setWindowPublishing(bool wantOn);
     void recordShowCursorMenuChanged();
     void recordFlashIconMenuChanged();
     void showRecordingModeMenu(const QPoint& pos);

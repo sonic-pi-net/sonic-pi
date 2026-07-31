@@ -86,6 +86,12 @@ public:
     void refreshThemeCards(SonicPiTheme* theme);
     // Re-render the preference checkbox glyphs for the current palette.
     void retintCheckIcons();
+#if defined(Q_OS_MAC) || defined(Q_OS_WIN)
+    // Reflects the live window-publishing state (Syphon/Spout) into the
+    // Visuals pill without re-emitting (MainWindow::setWindowPublishing
+    // owns the state).
+    void syncWindowPublishing(bool on);
+#endif
 
 protected:
     // Application-wide filter (installed on qApp) that shows the checkbox focus
@@ -150,6 +156,7 @@ private slots:
     void autoIndentOnRun();
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     void recordingTypeChanged(int index);
+    void windowPublishingToggled(int id);
 #endif
 signals:
     void driverChanged(QString driver);
@@ -212,6 +219,9 @@ signals:
     // Recording → Type radio toggled. MainWindow::setRecordingMode
     // owns persistence and cross-view sync.
     void recordingModeChangedFromPrefs(int mode);
+    // Visuals → window-publishing pill toggled. MainWindow::
+    // setWindowPublishing owns the publisher and cross-view sync.
+    void windowPublishingChangedFromPrefs(bool on);
 #endif
 
     // Keyboard Shortcuts tab. schemeChanged switches the active scheme
@@ -413,6 +423,12 @@ private:
     QToolButton *recording_type_audio_radio;
     QToolButton *recording_type_av_radio;
     QButtonGroup *recording_type_group;
+    // Window-publishing pill (Syphon on macOS, Spout on Windows).
+    QToolButton *publish_off_radio = nullptr;
+    QToolButton *publish_send_radio = nullptr;
+    QButtonGroup *window_publish_group = nullptr;
+    // Pins both pill segments to the wider one's polished size hint.
+    void equalizePublishSegments();
 #endif
     SonicPi::AudioDevicesInfo m_lastAudioDevicesInfo;
     // Cached input-devices payload, used by audioDriverChanged to
