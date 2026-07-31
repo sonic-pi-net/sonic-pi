@@ -483,7 +483,10 @@ void QuickstartPane::computeGlobalLayout()
     const int kBlurbLines = 2; // blurb runs full width, so it wraps in fewer lines
 
     const int pad = uiScale().y(14);
-    const int codeAvail = cardWidth() - 2 * pad;
+    // The frame's fixed width includes the 2dx #qsCard border (app.qss), so
+    // the body gets less than cardWidth() to lay out in.
+    const int border = ResolveDxToPx(2);
+    const int codeAvail = cardWidth() - 2 * pad - 2 * border;
     m_blurbW = codeAvail; // the description now spans the full card width
 
     // Code font: the requested (zoomed) size, capped so kMaxCols monospace
@@ -500,8 +503,17 @@ void QuickstartPane::computeGlobalLayout()
         codePx = qMax(ScaleHeightForDPI(9), int(codePx * codeAvail / (colW * kMaxCols)));
     m_codeFontPx = codePx;
 
-    hack.setPixelSize(m_codeFontPx);
-    const int lineH = QFontMetrics(hack).height();
+    // Code lines are rich-text QLabels, which lay out through QTextDocument
+    // and at some font sizes round a pixel taller than QFontMetrics::height();
+    // a 1px/line underestimate overflows the fixed body. Measure a label built
+    // exactly like a code line instead.
+    QLabel lineProbe;
+    lineProbe.setObjectName(QStringLiteral("qsCodeLine"));
+    lineProbe.setTextFormat(Qt::RichText);
+    lineProbe.setText(QStringLiteral("&nbsp;"));
+    lineProbe.setStyleSheet(QString("font-size: %1px;").arg(m_codeFontPx));
+    lineProbe.ensurePolished();
+    const int lineH = lineProbe.sizeHint().height();
     m_codeBodyH = 2 * uiScale().y(10) + kCodeLines * lineH;
 
     // Footer: a full-height scope on the left, and to its right the
@@ -1862,10 +1874,13 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
     body->setFixedHeight(m_codeBodyH); // uniform across all decks
     body->setFrameShape(QFrame::NoFrame);
     body->setWidgetResizable(true);
-    // Unlike the deck's carousel (which is paged, never free-scrolled), the
-    // body scrolls normally — but only when the snippet actually overruns.
-    body->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    body->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    // No visible scrollbars, ever: a bar steals viewport space, which can
+    // force the other bar and crush the text over a 1px rounding surprise.
+    // The budgets guarantee an in-budget card fits; over-budget authored
+    // content stays reachable by wheel (see eventFilter) and flashLine's
+    // ensureWidgetVisible.
+    body->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    body->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // The card owns focus and the arrow keys walk the deck, so the body must
     // not become a tab stop of its own.
     body->setFocusPolicy(Qt::NoFocus);
