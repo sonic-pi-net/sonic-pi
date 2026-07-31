@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic' RC4](#v5.0.0-rc4), To be released...
+- [v5.0.0 'SuperSonic' RC5](#v5.0.0-rc5), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,7 +35,33 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0-rc4"></a>
+<a name="v5.0.0-rc5"></a>
+
+## Version 5.0.0 'SuperSonic' RC5
+
+The fifth release candidate of v5 — final bits of polish, improvements to the main mixer and controls (new drive slider to control how much the limiter crushes the sound) and a new limiter which reduces audio latency by ~18ms (only noticeable when you're working with live_audio).
+
+As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### Audio
+* New limiter in the main mixer with much lower latench (1.5ms vs 20ms).
+* Volume and drive are now separate controls sitting on opposite sides of the limiter. Changing the volume mid-performance no longer alters your sound and mix, this is now the job of the drive control.
+
+### Language
+* New: `set_drive!` sets how hard the mix is driven into the main limiter, on a scale that is even in decibels: `0` is -12dB, `0.5` is unity and `1` is +12dB. `current_drive` returns the current value.
+* `set_volume!` now takes a value between `0` and `1` rather than between `0` and `5`, and is the fader after the limiter. Code that reached for `set_volume! 2` to get louder wants `set_drive!` now.
+
+### GUI
+* Preferences got new icons.
+* New: Volume and Drive controls in the audio preferences, alongside a Level meter that reaches into the accent colour when the limiter is working — so you can see what more drive is costing you.
+* New: a Reset button for the audio device, which closes and re-opens it with the same settings. Useful if audio stops behaving after your machine wakes from sleep or hardware comes and goes.
+* Changing audio device now says what it is doing while it happens, rather than appearing to hang.
+
+### Fixes
+* Code completion now shows the right documentation, values and ranges for opts whose names are shared between different synths and FX. Thanks to Edgar Delgado Vega for reporting this.
+
+### Misc
+* The acid example has been updated to match the website.
 
 ## Version 5.0.0 'SuperSonic' RC4
 
