@@ -48,6 +48,12 @@ These each cost a debugging session; they are baked into the harness now.
 - **Start every node in one bundle.** Sent as separate messages they can land
   in different control blocks, and two renders that should be identical end up
   offset.
+- **Never time a render by wall clock.** Headless paces itself with a real-time
+  timer and drops blocks when it falls behind, so a busy machine renders less
+  than a second of audio per second and the capture is cut short. The silent
+  tail then measures as -Infinity, and two renders truncated at different
+  points stop lining up. Wait for the source node's `/n_end` instead: that
+  tracks rendered time however slowly it arrives.
 - **Align before comparing two renders.** SC's `Limiter` delays the signal, so
   a limiter-bypassed reference arrives early; comparing without compensating
   measures the offset rather than the gain.

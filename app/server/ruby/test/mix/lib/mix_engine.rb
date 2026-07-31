@@ -97,6 +97,7 @@ module SonicPi
                            out: @log_path, err: [:child, :out])
       @server = OSC::UDPServer.new(@port + 1) { |addr, *args| @replies << [addr, args] }
       wait_for_boot
+      enable_notifications
       load_synthdefs
       self
     end
@@ -162,7 +163,12 @@ module SonicPi
         ["/s_new", "mixtest-source", SOURCE_NODE, 0, 0,
          "buf", SOURCE_BUF.to_f, "out_bus", SOURCE_BUS, "amp", 1.0])
 
-      sleep duration + 0.3
+      # Rendered time, not wall clock: headless drops blocks when it falls
+      # behind, so on a loaded machine `duration` of wall clock is less than
+      # `duration` of audio and the capture ends up cut short. The source
+      # frees itself at the end of its buffer, the same block the capture
+      # fills, so its /n_end is the render genuinely being finished.
+      await_node_end(SOURCE_NODE, timeout: duration * 10 + 30)
       send_osc("/n_free", MIXER_NODE)
       send_osc("/n_free", CAPTURE_NODE)
       sleep 0.2
@@ -233,6 +239,31 @@ module SonicPi
       loop { @replies.pop(true) }
     rescue ThreadError
       nil
+    end
+
+    # Node notifications are off by default, and /n_end is how a render knows
+    # it is done.
+    def enable_notifications
+      send_osc("/notify", 1)
+      await("/done")
+    end
+
+    # /n_end carries the node id as the first argument.
+    def await_node_end(node_id, timeout:)
+      deadline = Time.now + timeout
+      loop do
+        remaining = deadline - Time.now
+        raise EngineError, "render never finished: no /n_end for node #{node_id}; " \
+                           "see #{@log_path}" if remaining <= 0
+        begin
+          reply = Timeout.timeout(remaining) { @replies.pop }
+        rescue Timeout::Error
+          next
+        end
+        raise EngineError, "engine reported #{reply.inspect}" if reply.first == "/fail"
+        next unless reply.first == "/n_end"
+        return if reply.last.first.first == node_id
+      end
     end
 
     def await(address, timeout: 5)
