@@ -706,6 +706,19 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             LOG(ERR, "Unhandled OSC msg /link-bpm");
           }
         }
+        else if (msg->match("/mixer/settings"))
+        {
+          float drive, outputVolume;
+          if (msg->arg().popFloat(drive).popFloat(outputVolume).isOkNoMoreArgs())
+          {
+            m_pClient->MixerSettings((double)drive, (double)outputVolume);
+            LOG(DBG, "/mixer/settings: drive=" << drive << " outputVolume=" << outputVolume);
+          }
+          else
+          {
+            LOG(ERR, "Unhandled OSC msg /mixer/settings");
+          }
+        }
         else if (msg->partialMatch("/n_").isOk()
               || msg->partialMatch("/done").isOk()
               || msg->partialMatch("/fail").isOk()

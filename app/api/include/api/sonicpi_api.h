@@ -339,6 +339,11 @@ struct IAPIClient
     virtual void Buffer(const BufferInfo& info) = 0;
     virtual void ActiveLinks(const int numLinks) = 0;
     virtual void BPM(const double bpm) = 0;
+    // Mixer levels changed server-side (set_drive!/set_volume! from code,
+    // or a GUI change round-tripping). Both are linear gains: drive 0..4
+    // into the limiter, outputVolume 0..1 after it. Default no-op so
+    // non-GUI consumers don't need to react.
+    virtual void MixerSettings(double /*drive*/, double /*outputVolume*/) {}
     virtual void Scsynth(const ScsynthInfo& scsynthInfo) = 0;
     virtual void AudioDevices(const AudioDevicesInfo& devicesInfo) = 0;
     virtual void AudioInputDevices(const AudioInputDevicesInfo& devicesInfo) = 0;

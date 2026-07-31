@@ -344,6 +344,11 @@ void QtAPIClient::BPM(const double bpm)
   emit UpdateBPM(bpm);
 }
 
+void QtAPIClient::MixerSettings(double drive, double outputVolume)
+{
+  emit MixerSettingsReceived(drive, outputVolume);
+}
+
 void QtAPIClient::Scsynth(const ScsynthInfo& scsynthInfo)
 {
   QMetaObject::invokeMethod(this, "ScsynthGui", Qt::QueuedConnection, Q_ARG(SonicPi::ScsynthInfo, scsynthInfo));

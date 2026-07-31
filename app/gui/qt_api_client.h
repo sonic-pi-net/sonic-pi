@@ -51,6 +51,7 @@ public:
     virtual void Buffer(const BufferInfo& info) override;
     virtual void ActiveLinks(const int numLinks) override;
     virtual void BPM(const double bpm) override;
+    virtual void MixerSettings(double drive, double outputVolume) override;
     virtual void Scsynth(const SonicPi::ScsynthInfo& scsynthInfo) override;
     virtual void AudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo) override;
     virtual void AudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo) override;
@@ -71,6 +72,7 @@ signals:
     void ConsumeAudioData(SonicPi::ProcessedAudioPtr audio);
     void UpdateNumActiveLinks(const int numLinks);
     void UpdateBPM(const double bpm);
+    void MixerSettingsReceived(double drive, double outputVolume);
     void AudioDevicesReceived(const SonicPi::AudioDevicesInfo& devicesInfo);
     void AudioInputDevicesReceived(const SonicPi::AudioInputDevicesInfo& devicesInfo);
     void AudioDeviceConfigReceived(const SonicPi::AudioDeviceConfigInfo& configInfo);
