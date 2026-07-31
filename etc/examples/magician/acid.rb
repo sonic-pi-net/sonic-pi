@@ -1,57 +1,55 @@
 # Coded by Sam Aaron
 
-use_debug false
-load_sample :bd_fat
-
-8.times do
-  sample :bd_fat, amp: (line 0, 5, steps: 8).tick
-  sleep 0.5
-end
-
-live_loop :drums do
-  sample :bd_fat, amp: 5
-  sleep 0.5
-end
-
-live_loop :acid do
-  cue :foo
-  4.times do |i|
-    use_random_seed 667
-    16.times do
-      use_synth :tb303
-      play chord(:e3, :minor).choose, attack: 0, release: 0.1, cutoff: rrand_i(50, 90) + i * 10
-      sleep 0.125
-    end
+live_loop :drums_n_bass, delay: 2 do
+  use_synth :fm
+  28.times do
+    sample :drum_bass_hard, amp: 0.8
+    sleep 0.25
+    play :e2, release: 0.2
+    sample :elec_cymbal, rate: 12, amp: 0.6
+    sleep 0.25
   end
+  sleep 4
+end
 
-  cue :bar
-  32.times do |i|
+
+with_fx :reverb do |rev|
+  live_loop :walk  do
     use_synth :tb303
-    play chord(:a3, :minor).choose, attack: 0, release: 0.05, cutoff: rrand_i(70, 98) + i, res: rrand(0.9, 0.95)
-    sleep 0.125
-  end
+    control rev, mix: rrand(0, 0.3)
+    with_fx :slicer, phase: 0.125 do
+      sample :ambi_lunar_land, sustain: 0, release: 8, amp: 2
+    end
 
-  cue :baz
-  with_fx :reverb, mix: 0.3 do |r|
-    32.times do |m|
-      control r, mix: 0.3 + (0.5 * (m.to_f / 32.0)) unless m == 0 if m % 8 == 0
-      use_synth :prophet
-      play chord(:e3, :minor).choose, attack: 0, release: 0.08, cutoff: rrand_i(110, 130)
+    control rev, mix: rrand(0, 0.6)
+    r = rrand(0.05, 0.3)
+    64.times do
+      play chord(:e3, :minor).choose, release: r, cutoff: rrand(50, 90), amp: 0.5
       sleep 0.125
     end
-  end
 
-  cue :quux
-  in_thread do
-    use_random_seed 668
-    with_fx :echo, phase: 0.125 do
+    control rev, mix: rrand(0, 0.6)
+    r = rrand(0.1, 0.2)
+    with_synth :prophet do
+      32.times do
+        sleep 0.125
+        play chord(:a3, :m7).choose, release: r, cutoff: rrand(40, 130), amp: 0.7
+      end
+    end
+
+    control rev, mix: rrand(0, 0.6)
+    r = rrand(0.05, 0.3)
+    32.times do
+      play chord(:e3, :minor).choose, release: r, cutoff: rrand(110, 130), amp: 0.4
+      sleep 0.125
+    end
+
+    control rev, mix: rrand(0, 0.6)
+    with_fx :echo, phase: 0.25, decay: 8 do
       16.times do
-        use_synth :tb303
-        play chord(:e3, :minor).choose, attack: 0, release: 0.1, cutoff: rrand(50, 100)
-        sleep 0.25
+        play chord([:e2, :e3, :e4].choose, :m7).choose, release: 0.05, cutoff: rrand(50, 129), amp: 0.5
+        sleep 0.125
       end
     end
   end
-
-  sleep 4
 end
