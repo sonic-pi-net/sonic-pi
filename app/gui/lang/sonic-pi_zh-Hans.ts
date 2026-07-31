@@ -11,7 +11,7 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1034"/>
         <source>Open the help pane for this entry</source>
-        <translation type="unfinished">打开此条目的帮助窗格</translation>
+        <translation>打开此版面的帮助窗格</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1046"/>
