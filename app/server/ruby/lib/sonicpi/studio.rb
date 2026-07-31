@@ -336,11 +336,53 @@ module SonicPi
       @server.trigger_synth(pos, group, synth_name, args, info, now, t_minus_delta)
     end
 
+    # Drive: how hard the mix is pushed into the limiter. Sets the mixer's
+    # pre_amp, which sits before the limiter, so raising it makes the mix
+    # louder and denser rather than simply louder, and its meter is gain
+    # reduction, not level.
+    #
+    # `vol` is a plain linear gain: 1.0 is unity, and it reaches pre_amp
+    # unscaled so that one number describes what the control does.
+    def set_drive(vol, now=false, silent=false)
+      check_for_server_rebooting!(:set_drive)
+      @drive = vol
+      message "Setting drive to #{vol}" unless silent
+      @server.node_ctl @mixer, {"pre_amp" => vol}, now
+      notify_mixer_settings
+    end
+
+    # Both default to unity until explicitly set: the mixer is started with
+    # pre_amp and amp at 1 when no value has been pushed yet.
+    def drive
+      @drive || 1.0
+    end
+
+    def volume
+      @volume || 1.0
+    end
+
+    # Volume: the fader after the limiter, clamped to unity. Unlike drive
+    # it cannot change the sound or push anything into the ceiling: only
+    # how loud the result comes out. The synthdef clamps too; this clamp is
+    # so the stored value and the audible one agree.
     def set_volume(vol, now=false, silent=false)
-      check_for_server_rebooting!(:invert)
+      check_for_server_rebooting!(:set_volume)
+      vol = 0.0 if vol < 0.0
+      vol = 1.0 if vol > 1.0
       @volume = vol
-      message "Setting main volume to #{vol}" unless silent
-      @server.node_ctl @mixer, {"pre_amp" => vol * 0.2}, now
+      message "Setting volume to #{vol}" unless silent
+      @server.node_ctl @mixer, {"amp" => vol}, now
+      notify_mixer_settings
+    end
+
+    # Tell observers (the GUI's Volume and Drive dials) the mixer's levels,
+    # whoever changed them: dials and code share this state, and a dial
+    # showing a stale value silently reverts the newer one next time it is
+    # touched. Sent even for silent changes, which suppress only the log.
+    def notify_mixer_settings
+      @msg_queue.push({:type => :mixer_settings,
+                       :drive => drive,
+                       :output_volume => volume})
     end
 
     def mixer_invert_stereo(invert)
@@ -637,6 +679,7 @@ module SonicPi
           # updateAudioDeviceConfig targets the dead pre-swap node)
           begin
             start_mixer
+            set_drive(@drive, true, true) if @drive
             set_volume(@volume, true, true) if @volume
             mixer_invert_stereo(@mixer_invert_stereo) if @mixer_invert_stereo
             if @mixer_force_mono
@@ -824,12 +867,13 @@ module SonicPi
       # set_mixer! :default
       log_message "Starting mixer"
       mixer_synth = "sonic-pi-mixer"
-      # Pre-apply user's pre_amp — otherwise amp=6 * default pre_amp=1.0
-      # bursts at full blast for ~100ms before set_volume kicks in
-      initial_pre_amp = @volume ? @volume * 0.2 : 0.2
+      # Pre-apply the user's drive rather than starting at the synthdef
+      # default and correcting a moment later, otherwise the mix bursts at
+      # full blast for ~100ms before set_drive lands.
+      initial_pre_amp = @drive || 1.0
       @mixer = @server.trigger_synth(:head, @mixer_group, mixer_synth,
                                       {"in_bus" => @mixer_bus.to_i,
-                                       "amp" => 6,
+                                       "amp" => @volume || 1.0,
                                        "pre_amp" => initial_pre_amp},
                                       nil, true)
     end
@@ -895,7 +939,7 @@ module SonicPi
       load_sample free_sample free_all_samples
       start_amp_monitor
       kill_live_synth trigger_live_synth trigger_synth
-      set_volume mixer_invert_stereo mixer_control mixer_reset
+      set_volume set_drive mixer_invert_stereo mixer_control mixer_reset
       mixer_stereo_mode mixer_mono_mode
       status stop
       new_group new_synth_group new_fx_group new_fx_bus

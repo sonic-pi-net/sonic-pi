@@ -2296,16 +2296,38 @@ puts current_sample_defaults #=> Prints {amp: 0.5, cutoff: 80}"]
           introduced:    Version.new(2,0,0),
           summary:       "Get current volume",
           usage_example: "current_volume",
-          doc:           "Returns the current volume.
+          doc:           "Returns the current volume: the fader after the main limiter, a value between `0` and `1` where `1` is unity.
 
-This can be set via the fn `set_volume!`.",
+This can be set via the fn `set_volume!`. For the drive into the limiter, see `current_drive`.",
           args:          [],
           opts:          nil,
           accepts_block: false,
           examples:      ["
 puts current_volume # Print out the current volume",
-        "set_volume! 2
-puts current_volume #=> 2"]
+        "set_volume! 0.5
+puts current_volume #=> 0.5"]
+
+
+
+
+      def current_drive
+        # Inverse of set_drive!'s dB-linear mapping (gain = 0.25 * 16**amount).
+        Math.log(@mod_sound_studio.drive / 0.25) / Math.log(16)
+      end
+      doc name:          :current_drive,
+          introduced:    Version.new(5,0,0),
+          summary:       "Get current drive",
+          usage_example: "current_drive",
+          doc:           "Returns the current drive as a value between `0` and `1`, on the same scale as `set_drive!`: `0` is -12 dB into the main limiter, `0.5` is unity and `1` is +12 dB.
+
+This can be set via the fn `set_drive!`. For the volume fader after the limiter, see `current_volume`.",
+          args:          [],
+          opts:          nil,
+          accepts_block: false,
+          examples:      ["
+puts current_drive # Print out the current drive",
+        "set_drive! 0.75
+puts current_drive #=> 0.75"]
 
 
 
@@ -2352,31 +2374,55 @@ puts current_arg_checks # Print out the current arg check setting"]
 
 
       def set_volume!(vol, now=false, silent=false)
-        max_vol = 5
-        if (vol > max_vol)
-          new_vol = max_vol
-        elsif (vol < 0)
-          new_vol = 0
-        else
-          new_vol = vol
-        end
-        @mod_sound_studio.set_volume new_vol, now, silent
+        @mod_sound_studio.set_volume vol, now, silent
       end
       doc name:          :set_volume!,
           introduced:    Version.new(2,0,0),
-          summary:       "Set Volume globally",
-          usage_example: "set_volume! 2",
-          doc:           "Set the main system volume to `vol`. Accepts a value between `0` and `5` inclusive. Vols greater or smaller than the allowed values are trimmed to keep them within range. Default is `1`.",
+          summary:       "Set volume globally",
+          usage_example: "set_volume! 0.5",
+          doc:           "Set the volume to `vol`, a value between `0` and `1` inclusive. Values outside that range are trimmed. Default is `1`.
+
+This is the fader *after* the main limiter, so it cannot change how anything sounds, only how loud it comes out. Use it to match a PA or an audio interface without altering the mix. It matches the Volume dial in the audio preferences.
+
+To make the mix louder and denser instead, use `set_drive!`, which pushes the mix into the limiter.",
           args:          [[:vol, :number]],
           opts:          nil,
           accepts_block: false,
           modifies_env: true,
           examples:      ["
-set_volume! 2 # Set the main system volume to 2",
+set_volume! 0.5 # Halve the output level without changing the mix",
 
-        "set_volume! -1 # Out of range, so sets main system volume to 0",
+        "set_volume! 2 # Out of range, so sets volume to 1"
+      ]
 
-        "set_volume! 7 # Out of range, so sets main system volume to 5"
+
+      def set_drive!(amount, now=false, silent=false)
+        amount = 0 if amount < 0
+        amount = 1 if amount > 1
+        # Linear in dB across the Drive control's range: 0 is 0.25x
+        # (-12 dB), 0.5 is unity, 1 is 4x (+12 dB).
+        gain = 0.25 * (16 ** amount)
+        @mod_sound_studio.set_drive gain, now, silent
+      end
+      doc name:          :set_drive!,
+          introduced:    Version.new(5,0,0),
+          summary:       "Set drive globally",
+          usage_example: "set_drive! 0.75",
+          doc:           "Set the drive to `amount`, a value between `0` and `1` inclusive. Values outside that range are trimmed. Default is `0.5`.
+
+Drive is the gain into the main limiter, so it controls how hard the mix is pushed into it: raise it and the mix gets louder and denser, but its character changes too. The scale is even in decibels: `0` is a quarter of unity gain (-12 dB), `0.5` is unity and `1` is four times unity (+12 dB). It matches the Drive control in the audio preferences; watch the level meter there to see what it costs.
+
+To change how loud the output is without altering the mix at all, use `set_volume!`, which is the fader after the limiter.",
+          args:          [[:amount, :number]],
+          opts:          nil,
+          accepts_block: false,
+          modifies_env: true,
+          examples:      ["
+set_drive! 0.5 # Reset drive to unity gain",
+
+        "set_drive! 0.75 # Push the mix 6 dB harder into the limiter",
+
+        "set_drive! 1 # Maximum squash: 12 dB into the limiter"
       ]
 
 

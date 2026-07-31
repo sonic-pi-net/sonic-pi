@@ -607,14 +607,28 @@ register_api = lambda do |server|
     end
   end
 
-  server.add_method("/mixer-amp") do |args|
+  # The gain before the limiter; /mixer-output-volume below is the fader
+  # after it. The two are deliberately separate controls.
+  server.add_method("/mixer-drive") do |args|
     incoming_token = args[0]
     if incoming_token == token
       amp = args[1]
       silent = args[2] == 1
-      sp.set_volume!(amp, true, silent)
+      sp.set_drive!(amp, true, silent)
     else
-      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-amp call"
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-drive call"
+      STDOUT.flush
+    end
+  end
+
+  server.add_method("/mixer-output-volume") do |args|
+    incoming_token = args[0]
+    if incoming_token == token
+      vol = args[1]
+      silent = args[2] == 1
+      sp.set_volume!(vol, true, silent)
+    else
+      STDOUT.puts "Invalid token: #{incoming_token} - ignoring /mixer-output-volume call"
       STDOUT.flush
     end
   end
@@ -962,6 +976,8 @@ out_t = Thread.new do
           gui.send("/link-num-peers", message[:val])
         when :link_bpm
           gui.send("/link-bpm", message[:val])
+        when :mixer_settings
+          gui.send("/mixer/settings", message[:drive].to_f, message[:output_volume].to_f)
         when :info
           gui.send("/log/info", message[:style] || 0, message[:val] || "")
         when :flash

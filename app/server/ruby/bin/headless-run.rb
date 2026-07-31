@@ -54,7 +54,7 @@ module SonicPi
       end
       @server_started.get
       @engine_started.get
-      eval_client.send("/mixer-amp", token, 0.0, 0)  # silent: master amp 0
+      eval_client.send("/mixer-output-volume", token, 0.0, 0)  # silent: volume fader 0
       say "READY — running script for #{duration}s"
 
       @t0 = Time.now.to_f

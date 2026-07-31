@@ -89,7 +89,7 @@ module SonicPi
       @supercollider_started_prom.get
       force_puts "-- Sonic Pi Server started"
       force_puts "-- Setting amplitude to 0.3"
-      repl_eval_osc_client.send("/mixer-amp", daemon_token, 0.3, 1)
+      repl_eval_osc_client.send("/mixer-output-volume", daemon_token, 0.3, 1)
       print_ascii_art
       repl_eval_osc_client.send("/run-code", daemon_token, init_code) if init_code
       force_puts ""
@@ -126,7 +126,7 @@ module SonicPi
           exit
         when /^\.a\s+([0-9.]+)$/
           force_puts "Setting amplitude to #{$1}"
-          repl_eval_osc_client.send("/mixer-amp", daemon_token, $1.to_f, 1)
+          repl_eval_osc_client.send("/mixer-output-volume", daemon_token, $1.to_f, 1)
         when ","
           force_puts "Multiline edit mode. Finish with a comma on a new line."
           force_puts ""
