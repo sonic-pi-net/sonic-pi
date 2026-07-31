@@ -1171,7 +1171,7 @@ void QuickstartPane::rebuild()
         pill->setCursor(Qt::PointingHandCursor);
         pill->setAccessibleName(tr("%1 card deck").arg(decks[i].title));
         // Follows this pane's zoom, as the docs pills follow theirs.
-        pill->setStyleSheet(QString("font-size: %1px;").arg(rolePx(FontRole::Small)));
+        pill->setStyleSheet(QString("font-size: %1px;").arg(rolePx(FontRole::Base)));
         connect(pill, &QPushButton::clicked, this, [this, i] {
             // Each deck keeps its own carousel position: stash where this deck
             // was, restore where the target deck last was (first card if new).

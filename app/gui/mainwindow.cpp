@@ -3278,7 +3278,7 @@ void MainWindow::applyDocsNavZoom()
     // zoomed deliberately.
     for (QPushButton* pill : docsPills)
         pill->setStyleSheet(QStringLiteral("font-size: %1px;")
-                                .arg(FontRolePx(FontRole::Small, scale)));
+                                .arg(FontRolePx(FontRole::Base, scale)));
     if (QLayout* pillBar = docsPillRow ? docsPillRow->layout() : nullptr)
     {
         pillBar->setContentsMargins(ui.y(14), ui.y(8), ui.y(12), ui.y(3));
@@ -6055,8 +6055,6 @@ void MainWindow::createToolBar()
     codeMenu->addAction(textAlignAct);
     codeMenu->addAction(textCommentAct);
 
-    createExamplesMenu();
-
     audioMenu = menuBar()->addMenu(tr("Audio"));
     audioMenu->addAction(enableExternalSynthsAct);
     audioMenu->addAction(audioSafeAct);
@@ -6545,6 +6543,8 @@ void MainWindow::createToolBar()
     focusMenu->addAction(focusErrorsAct);
     focusMenu->addAction(focusTimeWarpScrubberAct);
     focusMenu->addAction(focusBPMScrubberAct);
+
+    createExamplesMenu();
 
     languageMenu = menuBar()->addMenu(tr("Language"));
     QStringList available_languages = sonicPii18n->getAvailableLanguages();
