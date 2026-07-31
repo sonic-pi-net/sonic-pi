@@ -162,6 +162,13 @@ private:
     // Single authority for AudioProcessor_Enable: on only when a panel is
     // visible, not user-paused and not suspended.
     void ApplyProcessorEnable();
+    // Single authority for AudioProcessor_EnableFFT and SetMaxFFTBuckets,
+    // aggregated across instances the same way as ApplyProcessorEnable.
+    void ApplyFFTSettings();
+    // Whether this instance alone wants the audio processor running.
+    bool WantsProcessor() const;
+    // Every live instance, so ApplyProcessorEnable can OR across them.
+    static QList<ScopeWindow*> s_instances;
 
 
 private:
@@ -171,6 +178,9 @@ private:
     bool m_paused = false;
     bool m_pendingPause = false;
     bool m_suspended = false;
+    // This instance's FFT resolution ask, set by Layout() from its panel
+    // width; ApplyFFTSettings takes the max across instances.
+    int m_fftBucketsWanted = 0;
 
     // Levels panel: stereo RMS/peak ballistics state, advanced each paint
     // (the pane repaints per audio frame; the settle window animates the

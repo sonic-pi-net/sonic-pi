@@ -146,11 +146,14 @@ private:
     QColor m_bg{ Qt::black };
 };
 
+QList<ScopeWindow*> ScopeWindow::s_instances;
+
 ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<SonicPiAPI> spAPI, QWidget* parent)
     : QWidget(parent)
     , m_spClient(spClient)
     , m_spAPI(spAPI)
 {
+    s_instances.append(this);
     // Raster widget: we repaint every pixel ourselves and rely on the backing
     // store being preserved between frames, so the faded background clear in
     // paintEvent leaves a decaying trace (phosphor persistence). Not a
@@ -218,6 +221,7 @@ ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<
 
 ScopeWindow::~ScopeWindow()
 {
+    s_instances.removeAll(this);
 }
 
 void ScopeWindow::ShutDown()
@@ -854,7 +858,8 @@ void ScopeWindow::Layout()
         currentTopLeft.setY(currentTopLeft.y() + h + yMargin);
     }
 
-    m_spAPI->AudioProcessor_SetMaxFFTBuckets(panelSize.width() / 4);
+    m_fftBucketsWanted = panelSize.width() / 4;
+    ApplyFFTSettings();
 
     update();
 }
@@ -872,7 +877,6 @@ std::vector<QString> ScopeWindow::GetScopeCategories() const
 bool ScopeWindow::EnableScope(const QString& category, bool on)
 {
     bool any = false;
-    bool doFFT = false;
     for (auto& scope : m_panels)
     {
         if (scope.category == category)
@@ -880,15 +884,10 @@ bool ScopeWindow::EnableScope(const QString& category, bool on)
             scope.visible = on;
             any = true;
         }
-
-        if (scope.visible && scope.requireFFT)
-        {
-            doFFT = true;
-        }
     }
 
     ApplyProcessorEnable();
-    m_spAPI->AudioProcessor_EnableFFT(doFFT);
+    ApplyFFTSettings();
 
     Layout();
     Refresh();
@@ -955,18 +954,58 @@ void ScopeWindow::SetSuspended(bool suspended)
     ApplyProcessorEnable();
 }
 
+bool ScopeWindow::WantsProcessor() const
+{
+    for (auto& scope : m_panels)
+        if (scope.visible)
+            return !m_paused && !m_suspended;
+    return false;
+}
+
 void ScopeWindow::ApplyProcessorEnable()
 {
-    bool anyVisible = false;
-    for (auto& scope : m_panels)
-    {
-        if (scope.visible)
+    // AudioProcessor_Enable is one global switch, but there is more than one
+    // ScopeWindow: the dock's, and the Levels copy in audio preferences. Each
+    // answering only for itself means the last to speak wins, and a suspended
+    // dock scope turns the feed off underneath a visible prefs meter. The
+    // answer is whether ANY live instance wants it.
+    bool wanted = false;
+    for (ScopeWindow* w : s_instances)
+        if (w->WantsProcessor())
         {
-            anyVisible = true;
+            wanted = true;
             break;
         }
+    m_spAPI->AudioProcessor_Enable(wanted);
+}
+
+void ScopeWindow::ApplyFFTSettings()
+{
+    // EnableFFT and SetMaxFFTBuckets are engine-wide, exactly like
+    // AudioProcessor_Enable above, so the same rule applies: aggregate over
+    // every instance rather than letting the last caller win. Otherwise the
+    // narrow Levels meter in audio preferences clamps the bucket count under
+    // the dock's Spectrum scope on every prefs-pane resize. FFT runs if any
+    // instance shows a panel that needs it, at the widest such ask.
+    bool fft = false;
+    int buckets = 0;
+    for (ScopeWindow* w : s_instances)
+    {
+        bool wants = false;
+        for (auto& panel : w->m_panels)
+            if (panel.visible && panel.requireFFT)
+            {
+                wants = true;
+                break;
+            }
+        if (!wants)
+            continue;
+        fft = true;
+        buckets = qMax(buckets, w->m_fftBucketsWanted);
     }
-    m_spAPI->AudioProcessor_Enable(anyVisible && !m_paused && !m_suspended);
+    m_spAPI->AudioProcessor_EnableFFT(fft);
+    if (fft && buckets > 0)
+        m_spAPI->AudioProcessor_SetMaxFFTBuckets(buckets);
 }
 
 bool ScopeWindow::LevelsRunningDown() const
