@@ -1351,6 +1351,29 @@ min-height: 20dx;
 min-width: 80dx;
 }
 
+/* The generic `QSlider { width: 35dx; }` above decides how wide the style
+   paints a slider, and would draw Drive's groove at a fraction of the widget
+   it sits in. Raw px (not dx) so it is not scaled, and matches the meter
+   above it exactly. Keep in step with kStripWidthPx in settingswidget.cpp. */
+QSlider#driveSlider
+{
+min-height: 20dx;
+min-width: 130px;
+max-width: 130px;
+width: 130px;
+}
+
+/* The Drive slider sits directly under the Levels meter, which is a solid
+   strip. A hairline groove beside it reads as a much smaller control even
+   though both are exactly the same width, so Drive gets a groove with
+   comparable weight. */
+QSlider#driveSlider::groove:horizontal {
+    height: 12dx;
+    background: windowBorderColor;
+    margin: 0;
+    border-radius: radiusSmall;
+}
+
 QSlider#timeWarpSlider::groove:horizontal {
     height: 4dx; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
     background: windowBorderColor;
@@ -1358,7 +1381,7 @@ QSlider#timeWarpSlider::groove:horizontal {
 
 }
 
-QSlider#timeWarpSlider::handle:horizontal {
+QSlider#timeWarpSlider::handle:horizontal, QSlider#driveSlider::handle:horizontal {
     background: highlightedBackgroundColor;
     width: 18dx;
     height: 25dx;
@@ -1367,11 +1390,11 @@ QSlider#timeWarpSlider::handle:horizontal {
     border-radius: radiusSmall;
 }
 
-QSlider#timeWarpSlider::handle:horizontal:hover {
+QSlider#timeWarpSlider::handle:horizontal:hover, QSlider#driveSlider::handle:horizontal:hover {
     background: hoverButtonColor;
 }
 
-QSlider#timeWarpSlider::handle:horizontal:focus {
+QSlider#timeWarpSlider::handle:horizontal:focus, QSlider#driveSlider::handle:horizontal:focus {
     background: hoverButtonColor;
 }
 

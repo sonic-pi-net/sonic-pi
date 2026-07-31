@@ -7,8 +7,11 @@
 
 #include <QWidget>
 #include <QMap>
+#include <QVector>
+#include <QPointer>
 
 class QDial;
+class QSlider;
 class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
@@ -66,6 +69,12 @@ public:
     // the output selection, and show an explanatory side note.
     void applyAsioInputConstraints();
     void updateScopeNames(std::vector<QString>);
+    // Receives the Levels meter built by MainWindow and drops it into the
+    // Level box above Drive.
+    void setLevelScope(QWidget* scope);
+    // Moves the Volume and Drive dials to server-reported values without
+    // re-emitting change signals (the round trip ends here).
+    void syncMixerControls(int volumePct, int drivePct);
     void updateSelectedUILanguage(QString lang);
     // The base (un-rotated) accent colour used to preview the hue dial live.
     void setHuePreviewBase(const QColor& baseAccent);
@@ -75,6 +84,8 @@ public:
     // rotation / monochrome / invert), so a card shows how its scheme would look
     // under the current toggles rather than its raw palette.
     void refreshThemeCards(SonicPiTheme* theme);
+    // Re-render the preference checkbox glyphs for the current palette.
+    void retintCheckIcons();
 
 protected:
     // Application-wide filter (installed on qApp) that shows the checkbox focus
@@ -99,6 +110,7 @@ private slots:
     void toggleMidi();
     void toggleGamepad();
     void changeMainVolume(int);
+    void changeMainDrive(int);
     void toggleLineNumbers();
     void showAutoCompletion();
     void showCompletionHelp();
@@ -159,6 +171,7 @@ signals:
     // SuperSonic-wide network visibility: 0=Off, 1=Loopback, 2=Network.
     void supersonicNetworkVisibilityChanged(int mode);
     void volumeChanged(int vol);
+    void driveChanged(int drive);
     void showLineNumbersChanged();
     void showAutoCompletionChanged();
     void showCompletionHelpChanged();
@@ -352,6 +365,20 @@ private:
     QGroupBox *supersonicBox;
 
     ArcDial *system_vol_slider;
+    QSlider *system_drive_slider = nullptr;
+    // Preference checkbox glyphs, kept so a theme change can re-tint them.
+    // QPointer, not a raw pointer: the per-scope checkboxes are created
+    // dynamically, so an entry can outlive the widget it refers to.
+    struct CheckIcon { QPointer<QCheckBox> box; const char* svg; };
+    QVector<CheckIcon> m_checkIcons;
+    void setCheckIcon(QCheckBox* box, const char* svg);
+    QColor checkIconColour() const;
+    QColor checkIconOnColour() const;
+    void applyCheckIcon(QCheckBox* box, const char* svg);
+
+    QLabel *level_scope_caption = nullptr;
+    // Holds the Levels meter MainWindow hands over; empty until it does.
+    QVBoxLayout *m_levelScopeSlot = nullptr;
     ArcDial *gui_transparency_slider;
 
     // In-flight device/driver change feedback: pulsing Audio Device box

@@ -205,6 +205,7 @@ public slots:
     void changeSampleRate(int rate);
     void onSupersonicSetup(int sampleRate, int bufferSize);
     void onSpiderReady();
+    void onMixerSettings(double drive, double outputVolume);
     void onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome);
     void onAudioDeviceReopenReply(bool accepted, QString reason);
     void changeBufferSize(int size);
@@ -368,7 +369,8 @@ private slots:
     void restartApp();
     void toggleRecording();
     void toggleRecordingOnIcon();
-    void changeSystemPreAmp(int val, int silent = 0);
+    void changeSystemVolume(int val, int silent = 0);
+    void changeSystemDrive(int pct, int silent = 0);
     void changeGUITransparency(int val);
     void changeShowLineNumbers();
     void showLineNumbersMenuChanged();
@@ -883,6 +885,8 @@ private:
     int guiID;
 
     SonicPi::ScopeWindow* scopeWindow;
+    // Levels-only duplicate embedded in the audio preferences Level box.
+    SonicPi::ScopeWindow* levelPrefsScope = nullptr;
     std::shared_ptr<SonicPi::QtAPIClient> m_spClient;
     std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
     std::shared_ptr<QRect> m_appWindowSizeRect;

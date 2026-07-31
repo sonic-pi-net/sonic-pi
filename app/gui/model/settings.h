@@ -15,7 +15,14 @@ public:
     };
 
     // Audio Settings
-    int main_volume;
+    //
+    // Two controls on opposite sides of the main limiter, both percentages
+    // of unity gain. main_volume is the fader after it, so it only ever
+    // changes how loud the output is. main_drive is the gain before it, so
+    // it changes how hard the limiter works and therefore how the mix
+    // sounds.
+    int main_volume;   // 0..100 %, unity at 100
+    int main_drive;    // 0..400 %, unity at 100; below it makes headroom
     bool mixer_invert_stereo;
     bool mixer_force_mono;
     bool check_args;

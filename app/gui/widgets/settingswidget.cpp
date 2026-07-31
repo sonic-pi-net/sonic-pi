@@ -75,6 +75,368 @@
 
 namespace {
 
+// The Level box. Volume keeps the dial and is the control you reach for; Drive
+// and the limiter meter are horizontal strips beside it, narrower than the box
+// so they read as subordinate rather than as the dominant controls.
+constexpr int kVolDialPx = 140;
+constexpr int kStripWidthPx = 130;
+// Enough for the Levels strip inside the Level box.
+constexpr int kLevelScopeHeightPx = 56;
+
+// Checkbox glyphs (Tabler icons, MIT), one per preference so a setting can be
+// found by its shape before its label is read. %1 = the render colour.
+// Wrapped in the same header the recording glyphs use so makeSvgPixmap can
+// tint them; the paths are the icon's own, unaltered.
+#define SP_TABLER_SVG(paths)                                                   \
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' " \
+    "stroke='%1' stroke-width='2' stroke-linecap='round' "                     \
+    "stroke-linejoin='round'>" paths "</svg>"
+
+// switch-horizontal: the two channels crossing over.
+const char* kInvertStereoSvg = SP_TABLER_SVG(
+    "<path d='M16 3l4 4l-4 4'/><path d='M10 7l10 0'/>"
+    "<path d='M8 13l-4 4l4 4'/><path d='M4 17l9 0'/>");
+
+// circle-dot: two channels collapsed to one point.
+const char* kForceMonoSvg = SP_TABLER_SVG(
+    "<path d='M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0'/>"
+    "<path d='M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0'/>");
+
+// shield: arguments checked before they reach a synth.
+const char* kSafeModeSvg = SP_TABLER_SVG(
+    "<path d='M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 "
+    "-15a12 12 0 0 0 8.5 -3' />");
+
+// clock-shield: protecting the clock from late triggers.
+const char* kTimingGuaranteesSvg = SP_TABLER_SVG(
+    "<path d='M21 12a9 9 0 1 0 -8.98 9' />"
+    "<path d='M12 7v5l1 1' />"
+    "<path d='M22 16c0 4 -2.5 6 -3.5 6s-3.5 -2 -3.5 -6c1 0 2.5 -.5 3.5 "
+    "-1.5c1 1 2.5 1.5 3.5 1.5' />");
+
+// microphone: sound coming in
+const char* kAudioInputsSvg = SP_TABLER_SVG(
+    "<path d='M9 5a3 3 0 0 1 3 -3a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3a3 3 0 0 1 -3 "
+    "-3l0 -5'/><path d='M5 10a7 7 0 0 0 14 0'/><path d='M8 21l8 0'/>"
+    "<path d='M12 17l0 4'/>");
+
+// package-import: synths and FX brought in from outside
+const char* kExternalSynthsSvg = SP_TABLER_SVG(
+    "<path d='M12 21l-8 -4.5v-9l8 -4.5l8 4.5v4.5' />"
+    "<path d='M12 12l8 -4.5' />"
+    "<path d='M12 12v9' />"
+    "<path d='M12 12l-8 -4.5' />"
+    "<path d='M22 18h-7' />"
+    "<path d='M18 15l-3 3l3 3' />"
+);
+
+// antenna: listening for OSC
+const char* kOscServerSvg = SP_TABLER_SVG(
+    "<path d='M20 4v8' />"
+    "<path d='M16 4.5v7' />"
+    "<path d='M12 5v16' />"
+    "<path d='M8 5.5v5' />"
+    "<path d='M4 6v4' />"
+    "<path d='M20 8h-16' />"
+);
+
+// world: OSC from beyond this machine
+const char* kOscPublicSvg = SP_TABLER_SVG(
+    "<path d='M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0' />"
+    "<path d='M3.6 9h16.8' />"
+    "<path d='M3.6 15h16.8' />"
+    "<path d='M11.5 3a17 17 0 0 0 0 18' />"
+    "<path d='M12.5 3a17 17 0 0 1 0 18' />");
+
+// piano: notes arriving from a MIDI instrument
+const char* kMidiCuesSvg = SP_TABLER_SVG(
+    "<path d='M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10' />"
+    "<path d='M9 19v-6' />"
+    "<path d='M8 5v8h2v-8' />"
+    "<path d='M15 19v-6' />"
+    "<path d='M14 5v8h2v-8' />"
+);
+
+// device-gamepad-2: gamepad input as cues
+const char* kGamepadCuesSvg = SP_TABLER_SVG(
+    "<path d='M12 5h3.5a5 5 0 0 1 0 10h-5.5l-4.015 4.227a2.3 2.3 0 0 1 -3.923 -2.035l1.634 -8.173a5 5 0 0 1 4.904 -4.019h3.4' />"
+    "<path d='M14 15l4.07 4.284a2.3 2.3 0 0 0 3.925 -2.023l-1.6 -8.232' />"
+    "<path d='M8 9v2' />"
+    "<path d='M7 10h2' />"
+    "<path d='M14 10h2' />"
+);
+
+// align-left: code aligned on run
+const char* kAutoAlignSvg = SP_TABLER_SVG(
+    "<path d='M4 6l16 0' />"
+    "<path d='M4 12l10 0' />"
+    "<path d='M4 18l14 0' />"
+);
+
+// list-numbers: numbered lines
+const char* kLineNumbersSvg = SP_TABLER_SVG(
+    "<path d='M11 6h9' />"
+    "<path d='M11 12h9' />"
+    "<path d='M12 18h8' />"
+    "<path d='M4 16a2 2 0 1 1 4 0c0 .591 -.5 1 -1 1.5l-3 2.5h4' />"
+    "<path d='M6 10v-6l-2 2' />"
+);
+
+// wand: completions offered as you type
+const char* kAutocompletionSvg = SP_TABLER_SVG(
+    "<path d='M6 21l15 -15l-3 -3l-15 15l3 3' />"
+    "<path d='M15 6l3 3' />"
+    "<path d='M9 3a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2' />"
+    "<path d='M19 13a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2' />"
+);
+
+// help-circle: help alongside a completion
+const char* kCompletionHelpSvg = SP_TABLER_SVG(
+    "<path d='M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0' />"
+    "<path d='M12 16v.01' />"
+    "<path d='M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483' />"
+);
+
+// info-circle: context for the code under the caret
+const char* kCodeContextSvg = SP_TABLER_SVG(
+    "<path d='M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0' />"
+    "<path d='M12 9h.01' />"
+    "<path d='M11 12h1v4h1' />"
+);
+
+// volume: run and stop spoken aloud
+const char* kSpeakTransportSvg = SP_TABLER_SVG(
+    "<path d='M15 8a5 5 0 0 1 0 8' />"
+    "<path d='M17.7 5a9 9 0 0 1 0 14' />"
+    "<path d='M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5' />"
+);
+
+// player-pause: animation held back
+const char* kReduceMotionSvg = SP_TABLER_SVG(
+    "<path d='M6 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -12' />"
+    "<path d='M14 6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -12' />"
+);
+
+// terminal-2: the run log
+const char* kShowLogSvg = SP_TABLER_SVG(
+    "<path d='M8 9l3 3l-3 3' />"
+    "<path d='M13 15l3 0' />"
+    "<path d='M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12' />"
+);
+
+// speakerphone: the cue log pane, matching the Log cues switch
+const char* kShowCuesSvg = SP_TABLER_SVG(
+    "<path d='M18 8a3 3 0 0 1 0 6' />"
+    "<path d='M10 8v11a1 1 0 0 1 -1 1h-1a1 1 0 0 1 -1 -1v-5' />"
+    "<path d='M12 8l4.524 -3.77a.9 .9 0 0 1 1.476 .692v12.156a.9 .9 0 0 1 "
+    "-1.476 .692l-4.524 -3.77h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h8' />"
+);
+
+// metronome: Link metronome controls
+const char* kShowMetroSvg = SP_TABLER_SVG(
+    "<path d='M14.153 8.188l-.72 -3.236a2.493 2.493 0 0 0 -4.867 0l-3.025 13.614a2 2 0 0 0 1.952 2.434h7.014a2 2 0 0 0 1.952 -2.434l-.524 -2.357m-4.935 1.791l9 -13' />"
+    "<path d='M19 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />"
+);
+
+// square-rounded: the toolbar buttons
+const char* kShowButtonsSvg = SP_TABLER_SVG(
+    "<path d='M12 3c7.2 0 9 1.8 9 9c0 7.2 -1.8 9 -9 9c-7.2 0 -9 -1.8 -9 -9c0 -7.2 1.8 -9 9 -9' />"
+);
+
+// layout-navbar: the editor toolbar strip
+const char* kEditorToolbarSvg = SP_TABLER_SVG(
+    "<path d='M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12' />"
+    "<path d='M4 9l16 0' />"
+);
+
+// browser: buffers as tabs across the top
+const char* kShowTabsSvg = SP_TABLER_SVG(
+    "<path d='M4 8h16' />"
+    "<path d='M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12' />"
+    "<path d='M8 4v4' />"
+);
+
+// maximize: filling the screen
+const char* kFullScreenSvg = SP_TABLER_SVG(
+    "<path d='M4 8v-2a2 2 0 0 1 2 -2h2' />"
+    "<path d='M4 16v2a2 2 0 0 0 2 2h2' />"
+    "<path d='M16 4h2a2 2 0 0 1 2 2v2' />"
+    "<path d='M16 20h2a2 2 0 0 0 2 -2v-2' />"
+);
+
+// text-caption: a caption naming each pane
+const char* kShowTitlesSvg = SP_TABLER_SVG(
+    "<path d='M4 15h16' />"
+    "<path d='M4 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4' />"
+    "<path d='M4 20h12' />"
+);
+
+// layout-navbar-collapse: menu bar folded away in full screen
+const char* kHideMenuBarSvg = SP_TABLER_SVG(
+    "<path d='M4 18v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2' />"
+    "<path d='M4 9h16' />"
+    "<path d='M10 16l2 -2l2 2' />"
+);
+
+// wave-sine: synth triggers in the log
+const char* kLogSynthsSvg = SP_TABLER_SVG(
+    "<path d='M21 12h-2c-.894 0 -1.662 -.857 -1.761 -2c-.296 -3.45 -.749 -6 -2.749 -6s-2.5 3.582 -2.5 8s-.5 8 -2.5 8s-2.452 -2.547 -2.749 -6c-.1 -1.147 -.867 -2 -1.763 -2h-2' />"
+);
+
+// eraser: log wiped at the start of a run
+const char* kClearLogSvg = SP_TABLER_SVG(
+    "<path d='M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3' />"
+    "<path d='M18 13.3l-6.3 -6.3' />"
+);
+
+// speakerphone: cues announcing themselves in the log
+const char* kLogCuesSvg = SP_TABLER_SVG(
+    "<path d='M18 8a3 3 0 0 1 0 6' />"
+    "<path d='M10 8v11a1 1 0 0 1 -1 1h-1a1 1 0 0 1 -1 -1v-5' />"
+    "<path d='M12 8l4.524 -3.77a.9 .9 0 0 1 1.476 .692v12.156a.9 .9 0 0 1 "
+    "-1.476 .692l-4.524 -3.77h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h8' />"
+);
+
+// arrow-autofit-down: log following the newest line
+const char* kAutoScrollSvg = SP_TABLER_SVG(
+    "<path d='M12 20h-6a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8' />"
+    "<path d='M18 4v17' />"
+    "<path d='M15 18l3 3l3 -3' />"
+);
+
+// icons: the alternative icon set
+const char* kProIconsSvg = SP_TABLER_SVG(
+    "<path d='M3 6.5a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0' />"
+    "<path d='M2.5 21h8l-4 -7l-4 7' />"
+    "<path d='M14 3l7 7' />"
+    "<path d='M14 10l7 -7' />"
+    "<path d='M14 14h7v7h-7l0 -7' />"
+);
+
+// contrast: colour drained from the theme
+const char* kMonochromeSvg = SP_TABLER_SVG(
+    "<path d='M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0' />"
+    "<path d='M12 17a5 5 0 0 0 0 -10v10' />"
+);
+
+// circle-half-2: half light, half dark
+const char* kInvertColoursSvg = SP_TABLER_SVG(
+    "<path d='M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0' />"
+    "<path d='M12 3v18' />"
+    "<path d='M12 14l7 -7' />"
+    "<path d='M12 19l8.5 -8.5' />"
+    "<path d='M12 9l4.5 -4.5' />"
+);
+
+// wave-square: the audio oscilloscopes
+const char* kShowScopesSvg = SP_TABLER_SVG(
+    "<path d='M3 12h5v8h4v-16h4v8h5' />"
+);
+
+// tag: names on each scope
+const char* kScopeLabelsSvg = SP_TABLER_SVG(
+    "<path d='M6.5 7.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />"
+    "<path d='M3 6v5.172a2 2 0 0 0 .586 1.414l7.71 7.71a2.41 2.41 0 0 0 3.408 0l5.592 -5.592a2.41 2.41 0 0 0 0 -3.408l-7.71 -7.71a2 2 0 0 0 -1.414 -.586h-5.172a3 3 0 0 0 -3 3' />"
+);
+
+// highlight: code lit up as it triggers
+const char* kFlashCodeSvg = SP_TABLER_SVG(
+    "<path d='M3 19h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4' />"
+    "<path d='M12.5 5.5l4 4' />"
+    "<path d='M4.5 13.5l4 4' />"
+    "<path d='M21 15v4h-8l4 -4l4 0' />"
+);
+
+// border-left: the gutter strip lit instead
+const char* kFlashGutterSvg = SP_TABLER_SVG(
+    "<path d='M4 20l0 -16' />"
+    "<path d='M8 4l0 .01' />"
+    "<path d='M12 4l0 .01' />"
+    "<path d='M16 4l0 .01' />"
+    "<path d='M20 4l0 .01' />"
+    "<path d='M12 8l0 .01' />"
+    "<path d='M20 8l0 .01' />"
+    "<path d='M8 12l0 .01' />"
+    "<path d='M12 12l0 .01' />"
+    "<path d='M16 12l0 .01' />"
+    "<path d='M20 12l0 .01' />"
+    "<path d='M12 16l0 .01' />"
+    "<path d='M20 16l0 .01' />"
+    "<path d='M8 20l0 .01' />"
+    "<path d='M12 20l0 .01' />"
+    "<path d='M16 20l0 .01' />"
+    "<path d='M20 20l0 .01' />"
+);
+
+// activity-heartbeat: a trace per live loop
+const char* kLoopScopesSvg = SP_TABLER_SVG(
+    "<path d='M3 12h4.5l1.5 -6l4 12l2 -9l1.5 3h4.5' />"
+);
+
+// chevrons-right: those traces travelling
+const char* kLoopScrollSvg = SP_TABLER_SVG(
+    "<path d='M7 7l5 5l-5 5' />"
+    "<path d='M13 7l5 5l-5 5' />"
+);
+
+// refresh: looking for a newer version
+const char* kCheckUpdatesSvg = SP_TABLER_SVG(
+    "<path d='M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4' />"
+    "<path d='M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4' />"
+);
+
+// zodiac-aquarius: two waves, one per channel
+const char* kScopeStereoSvg = SP_TABLER_SVG(
+    "<path d='M3 10l3 -3l3 3l3 -3l3 3l3 -3l3 3' />"
+    "<path d='M3 17l3 -3l3 3l3 -3l3 3l3 -3l3 3' />"
+);
+
+// whirl: the figure the two channels trace together
+const char* kScopeLissajousSvg = SP_TABLER_SVG(
+    "<path d='M14 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0' />"
+    "<path d='M12 21c-3.314 0 -6 -2.462 -6 -5.5s2.686 -5.5 6 -5.5' />"
+    "<path d='M21 12c0 3.314 -2.462 6 -5.5 6s-5.5 -2.686 -5.5 -6' />"
+    "<path d='M12 14c3.314 0 6 -2.462 6 -5.5s-2.686 -5.5 -6 -5.5' />"
+    "<path d='M14 12c0 -3.314 -2.462 -6 -5.5 -6s-5.5 2.686 -5.5 6' />"
+);
+
+// chart-column: frequency bands as columns
+const char* kScopeSpectrumSvg = SP_TABLER_SVG(
+    "<path d='M4 20h3' />"
+    "<path d='M17 20h3' />"
+    "<path d='M10.5 20h3' />"
+    "<path d='M4 16h3' />"
+    "<path d='M17 16h3' />"
+    "<path d='M10.5 16h3' />"
+    "<path d='M4 12h3' />"
+    "<path d='M17 12h3' />"
+    "<path d='M10.5 12h3' />"
+    "<path d='M4 8h3' />"
+    "<path d='M17 8h3' />"
+    "<path d='M4 4h3' />"
+);
+
+// chart-bar: level as a horizontal meter
+const char* kScopeLevelsSvg = SP_TABLER_SVG(
+    "<path d='M3 13a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -6' />"
+    "<path d='M15 9a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -10' />"
+    "<path d='M9 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -14' />"
+    "<path d='M4 20h14' />"
+);
+
+// flip-vertical: left mirrored above right
+const char* kScopeMirrorSvg = SP_TABLER_SVG(
+    "<path d='M3 12l18 0' />"
+    "<path d='M7 16l10 0l-10 5l0 -5' />"
+    "<path d='M7 8l10 0l-10 -5l0 5' />"
+);
+
+// zodiac-aquarius with one wave instead of two, centred: the same mark as
+// Stereo above with a channel taken away, which is what Mono is.
+const char* kScopeMonoSvg = SP_TABLER_SVG(
+    "<path d='M3 13.5l3 -3l3 3l3 -3l3 3l3 -3l3 3' />"
+);
+
 // Recording-selector glyphs (Tabler icons, MIT). %1 = the render colour.
 // Audio Only = a waveform; Audio + Video = a camcorder.
 const char* kWaveformSvg =
@@ -121,7 +483,68 @@ QIcon makeSvgToggleIcon(const char* svg, const QColor& off, const QColor& on, in
     return icon;
 }
 
+// Size a checkbox's glyph from its text, so the two scale together with the
+// type scale rather than the icon drifting as fonts change. A little over the
+// cap height: at exactly the type size the glyph reads smaller than the label
+// beside it, because a Tabler icon carries padding inside its 24px box.
+int checkIconPx()
+{
+    return FontRolePx(FontRole::Base) * 5 / 4;
+}
+
 } // namespace
+
+// Give a preference checkbox its glyph. QCheckBox inherits QAbstractButton, so
+// the icon is drawn between the tick box and the label with no extra widget or
+// layout of its own.
+void SettingsWidget::setCheckIcon(QCheckBox* box, const char* svg)
+{
+    if (!box) return;
+    m_checkIcons.append({ box, svg });
+    applyCheckIcon(box, svg);
+    // A two-state QIcon is no use here: QCommonStyle draws CE_CheckBoxLabel
+    // with a mode but no state, so a checkbox always takes the QIcon::Off
+    // pixmap and never the On one. (QToolButton, which the recording controls
+    // are, does pass the state, which is why the same trick works there.) So
+    // the glyph is re-rendered on each toggle instead.
+    connect(box, &QCheckBox::toggled, this,
+            [this, box, svg]() { applyCheckIcon(box, svg); });
+}
+
+// Render one glyph in the colour its current state calls for.
+void SettingsWidget::applyCheckIcon(QCheckBox* box, const char* svg)
+{
+    if (!box) return;
+    const int px = checkIconPx();
+    const QColor colour = box->isChecked() ? checkIconOnColour() : checkIconColour();
+    box->setIconSize(QSize(px, px));
+    box->setIcon(QIcon(makeSvgPixmap(svg, colour, px)));
+}
+
+// Unchecked: muted rather than full-strength, so a column of glyphs does not
+// compete with the ticks beside them for the eye.
+QColor SettingsWidget::checkIconColour() const
+{
+    QColor c = palette().color(QPalette::WindowText);
+    c.setAlpha(150);
+    return c;
+}
+
+// Checked: the accent, matching the tick. The glyph then carries the state as
+// well as the identity, so a lit row reads as on from its shape and its colour
+// at once rather than from the tick alone.
+QColor SettingsWidget::checkIconOnColour() const
+{
+    return palette().color(QPalette::Highlight);
+}
+
+// Re-render every glyph after a theme change; the pixmaps are baked at one
+// colour, so they do not follow the palette on their own.
+void SettingsWidget::retintCheckIcons()
+{
+    for (const auto& entry : m_checkIcons)
+        applyCheckIcon(entry.box, entry.svg);
+}
 
 // Pulses the Audio Device group box border while a device/driver change is
 // in flight — cold swaps take a few seconds and instant-looking controls
@@ -295,19 +718,46 @@ static bool isRemoteDesktopSession()
  */
 QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
-    // --- Main Volume + Audio settings ---
-    QGroupBox *volBox = new QGroupBox(tr("Main Volume"));
-    volBox->setToolTip(tr("Use this dial to change the system volume."));
+    // --- Level (Volume + Drive) + Audio settings ---
+    //
+    // Two dials, deliberately paired, because they sit on opposite sides of
+    // the main limiter and that is the whole distinction between them:
+    // Volume cannot change how anything sounds, only how loud it is. Drive
+    // can only change how it sounds, by pushing the limiter harder.
+    QGroupBox *volBox = new QGroupBox(tr("Output"));
+    volBox->setToolTip(tr("Configure output volume and how hard the mix drives the main limiter."));
+
     system_vol_slider = new ArcDial(this);
     system_vol_slider->setWrapping(false);
     system_vol_slider->setValueFontRole(FontRole::XLarge);
-    system_vol_slider->setMinimumSize(100, 100);
-    system_vol_slider->setAccessibleName(tr("Main Volume"));
-    system_vol_slider->setProperty("tipTitle", tr("Main Volume"));
-    system_vol_slider->setToolTip(tr("Drag or scroll to change Sonic Pi's overall volume."));
+    system_vol_slider->setFixedSize(kVolDialPx, kVolDialPx);
+    system_vol_slider->setRange(0, 100);
+    system_vol_slider->setValueSuffix(tr("%"));
+    system_vol_slider->setAccessibleName(tr("Volume"));
+    system_vol_slider->setProperty("tipTitle", tr("Volume"));
+    system_vol_slider->setToolTip(tr("Drag or scroll to change Sonic Pi's output volume. This is applied after the main limiter, so it changes how loud the output is without altering the mix."));
+
+    // Percent, like every other dial here; 100 leaves the mix untouched.
+    // Below 100 makes headroom, which is what layering a lot of sounds needs:
+    // the sum runs well over full scale.
+    // A horizontal slider rather than a second dial: Volume is the control you
+    // reach for and keeps the dial, while Drive reads as the subordinate one.
+    // Shares the global time-warp slider's styling (see app.qss) so it looks
+    // like the rest of the app's horizontal controls.
+    system_drive_slider = new QSlider(Qt::Horizontal, this);
+    system_drive_slider->setObjectName("driveSlider");
+    system_drive_slider->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    // Floor above zero: Drive is a pre-limiter gain, so 0 would mute Sonic Pi
+    // outright, which reads as the app being broken rather than as a control
+    // being turned down. Volume is the control that silences.
+    system_drive_slider->setRange(25, 400);
+    system_drive_slider->setAccessibleName(tr("Drive"));
+    system_drive_slider->setProperty("tipTitle", tr("Drive"));
+    system_drive_slider->setToolTip(tr("Slide to change how hard the mix is driven into the main limiter. At 100% the mix is left untouched.\n\nValues above 100% make things louder and denser, at the cost of more limiting. Values below 100% create headroom for layering many sounds together."));
 
     enable_scsynth_inputs = new QCheckBox(tr("Enable Audio Inputs"));
     enable_scsynth_inputs->setToolTip(tr("Toggle to enable or disable audio inputs."));
+    setCheckIcon(enable_scsynth_inputs, kAudioInputsSvg);
     asio_input_note = new QLabel(
         tr("ASIO uses one device for both input and output."));
     asio_input_note->setWordWrap(true);
@@ -316,37 +766,90 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     asio_input_note->setVisible(false);
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
     mixer_invert_stereo->setToolTip(tr("If enabled, audio sent to the left speaker will be routed to the right speaker and vice versa."));
+    setCheckIcon(mixer_invert_stereo, kInvertStereoSvg);
     mixer_force_mono = new QCheckBox(tr("Force mono"));
     mixer_force_mono->setToolTip(tr("If enabled, right and left audio is mixed and the same signal is sent to both speakers. Useful when working with external systems that can only handle mono."));
+    setCheckIcon(mixer_force_mono, kForceMonoSvg);
 
     check_args = new QCheckBox(tr("Safe mode"));
     check_args->setToolTip(tr("Checks synth arguments before triggering. If disabled, certain synth opt values may create unexpectedly loud or uncomfortable sounds."));
+    setCheckIcon(check_args, kSafeModeSvg);
 
     synth_trigger_timing_guarantees_cb = new QCheckBox(tr("Enforce timing guarantees"));
     synth_trigger_timing_guarantees_cb->setToolTip(tr("When enabled, Sonic Pi will refuse to trigger synths and FX if it is too late to do so.\n\nWhen disabled, Sonic Pi will always attempt to trigger synths and FX even when a little late."));
+    setCheckIcon(synth_trigger_timing_guarantees_cb, kTimingGuaranteesSvg);
 
     enable_external_synths_cb = new QCheckBox(tr("Enable external synths/FX"));
     enable_external_synths_cb->setToolTip(tr("When enabled, Sonic Pi will allow synths and FX loaded via load_synthdefs to be triggered.\n\nWhen disabled, Sonic Pi will complain when you attempt to use a synth or FX which isn't recognised."));
+    setCheckIcon(enable_external_synths_cb, kExternalSynthsSvg);
 
+    // Channel routing. enable_scsynth_inputs and asio_input_note live in the
+    // Audio Device box instead: both are about which device is in use.
     QGroupBox *audioGroup = new QGroupBox(tr("Audio"));
     QVBoxLayout *audioGroupLayout = new QVBoxLayout;
-    audioGroupLayout->addWidget(enable_scsynth_inputs);
-    audioGroupLayout->addWidget(asio_input_note);
+    audioGroupLayout->setSpacing(ScaleHeightForDPI(2));
     audioGroupLayout->addWidget(mixer_invert_stereo);
     audioGroupLayout->addWidget(mixer_force_mono);
     audioGroup->setLayout(audioGroupLayout);
 
     QGroupBox *synthsGroup = new QGroupBox(tr("Synths and FX"));
     QVBoxLayout *synthsGroupLayout = new QVBoxLayout;
+    synthsGroupLayout->setSpacing(ScaleHeightForDPI(2));
     synthsGroupLayout->addWidget(check_args);
     synthsGroupLayout->addWidget(synth_trigger_timing_guarantees_cb);
     synthsGroupLayout->addWidget(enable_external_synths_cb);
     synthsGroup->setLayout(synthsGroupLayout);
 
-    // The dial alone. The Audio and Synths groups were nested in here, under the
-    // "Main Volume" heading; they are siblings in the tab layout below instead.
-    QVBoxLayout *vol_box = new QVBoxLayout;
-    vol_box->addWidget(system_vol_slider, 1, Qt::AlignHCenter);
+    // The two dials side by side, each under its own label so which is which
+    // is unambiguous at a glance. The Audio and Synths groups are siblings in
+    // the tab layout below rather than nested in here.
+    // Captions follow the other dial columns in here (see the hue dial's
+    // dialColumn and Flash Brightness): default font, centred by the layout
+    // rather than by the label's own alignment.
+    QLabel *vol_label = new QLabel(tr("Volume"));
+    vol_label->setAlignment(Qt::AlignHCenter);
+    QLabel *drive_label = new QLabel(tr("Drive"));
+    drive_label->setAlignment(Qt::AlignHCenter);
+
+    // The Levels meter itself goes here: an actual ScopeWindow handed over by
+    // MainWindow, not a lookalike. Inserted by setLevelScope.
+    level_scope_caption = new QLabel(tr("Level"));
+    level_scope_caption->setAlignment(Qt::AlignHCenter);
+    m_levelScopeSlot = new QVBoxLayout;
+
+    // Raw pixels, as the volume dial has always been sized: ScaleWidthForDPI
+    // is a DPI correction, not an enlargement, so routing these through it
+    // can make the controls smaller than intended.
+    system_drive_slider->setFixedWidth(kStripWidthPx);
+
+    // Nested boxes rather than one grid: a dial spanning the strip rows makes
+    // the grid share its height out among them, which squashes the strips to
+    // whatever is left. Each side owning its own column keeps the strips at
+    // their natural height and lets the gap between them be set explicitly.
+    QVBoxLayout *volume_col = new QVBoxLayout;
+    volume_col->addWidget(system_vol_slider, 0, Qt::AlignHCenter);
+    volume_col->addWidget(vol_label, 0, Qt::AlignHCenter);
+
+    QVBoxLayout *strips_col = new QVBoxLayout;
+    strips_col->addStretch(1);
+    strips_col->addWidget(level_scope_caption, 0, Qt::AlignHCenter);
+    strips_col->addLayout(m_levelScopeSlot);
+    strips_col->addSpacing(4);
+    strips_col->addWidget(drive_label, 0, Qt::AlignHCenter);
+    strips_col->addWidget(system_drive_slider, 0, Qt::AlignHCenter);
+    strips_col->addStretch(1);
+
+    // Three equal gaps rather than one in the middle, so the dial and the
+    // strips sit spread across the box instead of meeting at its centre.
+    QHBoxLayout *vol_box = new QHBoxLayout;
+    vol_box->addStretch(1);
+    vol_box->addLayout(volume_col);
+    vol_box->addStretch(1);
+    vol_box->addLayout(strips_col);
+    vol_box->addStretch(1);
+
+    // Channel routing under the level controls: both change what leaves the
+    // output, so they belong with it rather than in a group of their own.
     volBox->setLayout(vol_box);
 
     // --- Audio Device (driver, device, sample rate, buffer size) ---
@@ -377,6 +880,14 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_input_combo->setMinimumContentsLength(20);
     audio_input_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
     inputLabel->setBuddy(audio_input_combo);
+    // In the Audio Device box rather than with the mixer toggles, because
+    // choosing whether to take input at all is part of picking a device. Below
+    // the selectors and level with Reset, so the selectors stay an unbroken
+    // list. The ASIO note sits directly under the Input selector (only ever
+    // visible on those drivers), since it explains why that selection is
+    // locked.
+    audio_device_layout->addWidget(enable_scsynth_inputs, 7, 0);
+    audio_device_layout->addWidget(asio_input_note, 3, 0, 1, 2);
     audio_device_layout->addWidget(inputLabel, 2, 0);
     audio_device_layout->addWidget(audio_input_combo, 2, 1);
 
@@ -385,16 +896,16 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_sample_rate_combo->setMinimumContentsLength(8);
     audio_sample_rate_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
     srLabel->setBuddy(audio_sample_rate_combo);
-    audio_device_layout->addWidget(srLabel, 3, 0);
-    audio_device_layout->addWidget(audio_sample_rate_combo, 3, 1);
+    audio_device_layout->addWidget(srLabel, 4, 0);
+    audio_device_layout->addWidget(audio_sample_rate_combo, 4, 1);
 
     QLabel *bsLabel = new QLabel(tr("Buffer Size"));
     audio_buffer_size_combo = new QComboBox();
     audio_buffer_size_combo->setMinimumContentsLength(8);
     audio_buffer_size_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
     bsLabel->setBuddy(audio_buffer_size_combo);
-    audio_device_layout->addWidget(bsLabel, 4, 0);
-    audio_device_layout->addWidget(audio_buffer_size_combo, 4, 1);
+    audio_device_layout->addWidget(bsLabel, 5, 0);
+    audio_device_layout->addWidget(audio_buffer_size_combo, 5, 1);
 
     remote_session_note = new QLabel(
         tr("Remote desktop session: local audio hardware is usually "
@@ -403,7 +914,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     remote_session_note->setObjectName("remoteSessionNote");   // styled by app.qss (muted note)
     ApplyFontRole(remote_session_note, FontRole::Small);
     remote_session_note->setVisible(isRemoteDesktopSession());
-    audio_device_layout->addWidget(remote_session_note, 5, 0, 1, 2);
+    audio_device_layout->addWidget(remote_session_note, 6, 0, 1, 2);
 
     // Status line for in-flight or pending device changes, right-aligned
     // under the Reset Device button. Always present at a fixed height so
@@ -418,7 +929,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // and the label re-elides when that width changes.
     audio_status_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     audio_status_label->installEventFilter(this);
-    audio_device_layout->addWidget(audio_status_label, 7, 0, 1, 2);
+    audio_device_layout->addWidget(audio_status_label, 8, 0, 1, 2);
 
     // Escape hatch: cold-swap the current device with its current settings —
     // for when the audio path wedges (post-sleep, hardware churn) and nothing
@@ -434,7 +945,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
         beginDeviceSwitchFeedback();
         emit audioDeviceResetRequested();
     });
-    audio_device_layout->addWidget(reset_device_button, 6, 0, 1, 2, Qt::AlignRight);
+    audio_device_layout->addWidget(reset_device_button, 7, 1, Qt::AlignRight);
 
     // Fixed, uniform height so each combo's grey fill exactly matches its
     // focus/hover highlight (otherwise the widget floats taller than the
@@ -445,6 +956,9 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
         c->setFixedHeight(comboHeight);
     }
 
+    // The box's frame absorbs the column's slack (see the tab layout), so
+    // pin the rows to the top rather than letting them drift apart.
+    audio_device_layout->setRowStretch(9, 1);
     audioDeviceBox->setLayout(audio_device_layout);
     m_devicePulse = new DevicePulseOverlay(audioDeviceBox);
 
@@ -564,7 +1078,8 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     });
 
     QVBoxLayout *supersonic_layout = new QVBoxLayout;
-    supersonic_layout->addStretch();
+    // No stretches around the content: this box is fixed-height and centred
+    // under both columns, so anything that pads it just makes the tab taller.
     supersonic_layout->addWidget(powered_by_label);
     supersonic_layout->addSpacing(ScaleHeightForDPI(8));
     supersonic_layout->addWidget(supersonic_ascii_label);
@@ -572,7 +1087,6 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     supersonic_layout->addWidget(mic_permission_label);
     supersonic_layout->addWidget(mic_permission_settings_button,
                                  0, Qt::AlignCenter);
-    supersonic_layout->addStretch();
     supersonicBox->setLayout(supersonic_layout);
 
 #if defined(Q_OS_DARWIN)
@@ -596,27 +1110,37 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // Audio Device and Recording keep their natural height; the SuperSonic
     // panel (centred art with top/bottom stretches) absorbs any slack so it
     // doesn't squeeze the device combos.
-    audioDeviceBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    audioDeviceBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     volBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     recordingGroup->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 #endif
     supersonicBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
-    audio_prefs_box_layout->addWidget(audioGroup, 0, 0);
-    audio_prefs_box_layout->addWidget(synthsGroup, 1, 0);
-
-    audio_prefs_box_layout->addWidget(volBox, 0, 1);
-    audio_prefs_box_layout->addWidget(audioDeviceBox, 1, 1);
-    audio_prefs_box_layout->addWidget(supersonicBox, 2, 1);
+    // Two independent columns, not a grid: nothing on the left lines up with
+    // anything on the right, and a grid row would stretch its shorter box to
+    // the taller one's height. Each column packs its own content, and the
+    // tab is as tall as the taller of the two.
+    QVBoxLayout *left_col = new QVBoxLayout;
+    left_col->addWidget(audioGroup);
+    left_col->addWidget(synthsGroup);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-    // Row 2 carries the stretch, so align bottom or the switch floats at its top.
-    audio_prefs_box_layout->addWidget(recordingGroup, 2, 0, Qt::AlignBottom);
+    left_col->addWidget(recordingGroup);
 #endif
-    audio_prefs_box_layout->setRowStretch(0, 0);
-    audio_prefs_box_layout->setRowStretch(1, 0);
-    audio_prefs_box_layout->setRowStretch(2, 1);
+    // A credit rather than a control, so it follows the controls directly.
+    // It also absorbs the column's slack (Expanding policy, art centred by
+    // its internal stretches), so this column ends level with the settings
+    // opposite instead of leaving a hole at the bottom.
+    left_col->addWidget(supersonicBox, 1, Qt::AlignHCenter);
+
+    QVBoxLayout *right_col = new QVBoxLayout;
+    right_col->addWidget(volBox);
+    right_col->addWidget(audioDeviceBox, 1);
+
+    audio_prefs_box_layout->addLayout(left_col, 0, 0);
+    audio_prefs_box_layout->addLayout(right_col, 0, 1);
     audio_prefs_box->setLayout(audio_prefs_box_layout);
+
     return audio_prefs_box;
 }
 
@@ -657,9 +1181,11 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     network_ip_label->setToolTip(all_ip_addresses);
 
     osc_public_check = new QCheckBox(tr("Allow OSC from other computers"));
+    setCheckIcon(osc_public_check, kOscPublicSvg);
     osc_public_check->setToolTip(tr("When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines. When unchecked, only sending and receiving from the local machine will be enabled."));
 
     osc_server_enabled_check = new QCheckBox(tr("Allow incoming OSC"));
+    setCheckIcon(osc_server_enabled_check, kOscServerSvg);
     osc_server_enabled_check->setToolTip(tr("When checked, Sonic Pi will listen for OSC messages. When unchecked, no OSC messages will be received."));
 
     QVBoxLayout *network_box_layout = new QVBoxLayout;
@@ -675,6 +1201,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     midi_ports_box->setToolTip(tr("List all connected MIDI Ports"));
 
     midi_enable_check = new QCheckBox(tr("Enable incoming MIDI cues"));
+    setCheckIcon(midi_enable_check, kMidiCuesSvg);
     midi_enable_check->setToolTip(tr("Enable or disable automatic conversion of incoming MIDI messages to cue events"));
 
     midi_default_channel_combo = new QComboBox();
@@ -735,6 +1262,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     gamepad_box->setToolTip(tr("Configure game controller behaviour"));
 
     gamepad_enable_check = new QCheckBox(tr("Enable incoming gamepad cues"));
+    setCheckIcon(gamepad_enable_check, kGamepadCuesSvg);
     gamepad_enable_check->setToolTip(tr("Enable or disable automatic conversion of game controller button and axis events to cue events."));
 
     gamepad_devices_list = new DeviceListWidget(tr("No connected game controllers"));
@@ -773,60 +1301,76 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     automation_box->setToolTip(tr("Configure automation and other features."));
 
     auto_indent_on_run = new QCheckBox(tr("Auto-align"));
+    setCheckIcon(auto_indent_on_run, kAutoAlignSvg);
     auto_indent_on_run->setToolTip(tr("Automatically align code on Enter, Run and Tab.\nWhen disabled, Tab indents normally and code is only aligned via Code > Align Code."));
 
     show_line_numbers = new QCheckBox(tr("Show line numbers"));
+    setCheckIcon(show_line_numbers, kLineNumbersSvg);
     show_line_numbers->setToolTip(tr("Toggle line number visibility."));
 
     show_autocompletion = new QCheckBox(tr("Show code completion"));
+    setCheckIcon(show_autocompletion, kAutocompletionSvg);
     show_autocompletion->setToolTip(tr("When enabled, Sonic Pi's editor will attempt to autocomplete your code with suggestions. When disabled, these suggestions will not be visible."));
 
     show_completion_help = new QCheckBox(tr("Show code completion help"));
+    setCheckIcon(show_completion_help, kCompletionHelpSvg);
     show_completion_help->setToolTip(tr("When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions."));
 
     show_context = new QCheckBox(tr("Show code context"));
+    setCheckIcon(show_context, kCodeContextSvg);
     show_context->setToolTip(tr("When enabled, Sonic Pi's editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor."));
 
     speak_transport = new QCheckBox(tr("Speak run and stop"));
+    setCheckIcon(speak_transport, kSpeakTransportSvg);
     speak_transport->setToolTip(tr("When enabled, a screen reader announces \"Run started\" and \"Stopped\". Disable this if you'd rather hear the very start of your audio without it being ducked by the announcement."));
 
     reduce_motion = new QCheckBox(tr("Reduce animations"));
+    setCheckIcon(reduce_motion, kReduceMotionSvg);
     reduce_motion->setToolTip(tr("When enabled, Sonic Pi keeps its interface still: panes and popups appear in place instead of sliding or gliding. Also switched on automatically while your operating system's reduce-animations accessibility setting is active."));
 
     show_log = new QCheckBox(tr("Show log"));
+    setCheckIcon(show_log, kShowLogSvg);
     show_log->setToolTip(tr("Toggle visibility of the log."));
     show_log->setProperty("tipShortcut", shortcutStrShiftMeta('L'));
     show_log->setChecked(true);
 
     show_cues = new QCheckBox(tr("Show cue log"));
+    setCheckIcon(show_cues, kShowCuesSvg);
     show_cues->setToolTip(tr("Toggle visibility of cue log which displays internal cues & incoming OSC/MIDI messages."));
     show_cues->setProperty("tipShortcut", shortcutStrShiftMeta('C'));
     show_cues->setChecked(true);
 
     show_metro = new QCheckBox(tr("Show Link metronome controls"));
+    setCheckIcon(show_metro, kShowMetroSvg);
     show_metro->setToolTip(tr("Toggle visibility of the Link metronome controls."));
     show_cues->setChecked(true);
 
     show_buttons = new QCheckBox(tr("Show buttons"));
+    setCheckIcon(show_buttons, kShowButtonsSvg);
     show_buttons->setToolTip(tr("Toggle visibility of the control buttons."));
     show_buttons->setProperty("tipShortcut", shortcutStrShiftMeta('B'));
     show_buttons->setChecked(true);
 
     show_editor_toolbar = new QCheckBox(tr("Show editor toolbar"));
+    setCheckIcon(show_editor_toolbar, kEditorToolbarSvg);
     show_editor_toolbar->setToolTip(tr("Toggle visibility of the editor's floating toolbar (undo/redo, cut/copy/paste, find)."));
     show_editor_toolbar->setChecked(true);
     show_tabs = new QCheckBox(tr("Show tabs"));
+    setCheckIcon(show_tabs, kShowTabsSvg);
     show_tabs->setChecked(true);
     show_tabs->setToolTip(tr("Toggle visibility of the buffer selection tabs."));
     full_screen = new QCheckBox(tr("Full screen"));
+    setCheckIcon(full_screen, kFullScreenSvg);
     full_screen->setToolTip(tr("Toggle full screen mode."));
     full_screen->setProperty("tipShortcut", shortcutStrShiftMeta('F'));
 
     show_titles = new QCheckBox(tr("Show titles"));
+    setCheckIcon(show_titles, kShowTitlesSvg);
     show_titles->setToolTip(tr("Toggle the title visibility for the scope, log, cue and other information panes"));
     show_titles->setChecked(true);
 
     hide_menubar_in_fullscreen = new QCheckBox(tr("Hide menu bar in full screen mode"));
+    setCheckIcon(hide_menubar_in_fullscreen, kHideMenuBarSvg);
     hide_menubar_in_fullscreen->setToolTip(tr("Automatically hide the menubar when the app is in full screen mode. Note that the menubar is always visible when not in full screen mode."));
     hide_menubar_in_fullscreen->setChecked(false);
 
@@ -872,15 +1416,19 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     debug_box->setToolTip(tr("Configure debug behaviour"));
 
     log_synths = new QCheckBox(tr("Log synths"));
+    setCheckIcon(log_synths, kLogSynthsSvg);
     log_synths->setToolTip(tr("If disabled, activity such as synth and sample triggering will not be printed to the log by default."));
 
     clear_output_on_run = new QCheckBox(tr("Clear log on run"));
+    setCheckIcon(clear_output_on_run, kClearLogSvg);
     clear_output_on_run->setToolTip(tr("If enabled, the log is cleared each time the run button is pressed."));
 
     log_cues = new QCheckBox(tr("Log cues"));
+    setCheckIcon(log_cues, kLogCuesSvg);
     log_cues->setToolTip(tr("If disabled, cues will still trigger. However, they will not be visible in the logs."));
 
     log_auto_scroll = new QCheckBox(tr("Auto-scroll log"));
+    setCheckIcon(log_auto_scroll, kAutoScrollSvg);
     log_auto_scroll->setToolTip(tr("If enabled, the log is scrolled to the bottom after every new message is displayed."));
 
     QVBoxLayout *debug_box_layout = new QVBoxLayout;
@@ -892,18 +1440,21 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     // Two independent columns rather than a shared grid: grid rows take the
     // taller of the two sides, stretching boxes to match their neighbours.
-    // Independent columns let each side pack to its own content, with any
-    // spare height left at the bottom of each column.
+    // Independent columns let each side pack to its own content. The slack
+    // goes between the boxes rather than below them, so the shorter column
+    // spreads to end level with the taller one instead of leaving a hole at
+    // the bottom.
     QVBoxLayout *leftEditorPrefs = new QVBoxLayout;
     leftEditorPrefs->addWidget(editor_display_box);
-    leftEditorPrefs->addWidget(automation_box);
     leftEditorPrefs->addStretch(1);
+    leftEditorPrefs->addWidget(automation_box);
 
     QVBoxLayout *rightEditorPrefs = new QVBoxLayout;
     rightEditorPrefs->addWidget(debug_box);
-    rightEditorPrefs->addWidget(editor_show_panels_box);
-    rightEditorPrefs->addWidget(accessibility_box);
     rightEditorPrefs->addStretch(1);
+    rightEditorPrefs->addWidget(editor_show_panels_box);
+    rightEditorPrefs->addStretch(1);
+    rightEditorPrefs->addWidget(accessibility_box);
 
     QHBoxLayout *editorPrefsColumns = new QHBoxLayout;
     editorPrefsColumns->addLayout(leftEditorPrefs, 1);
@@ -951,15 +1502,18 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     // compact Pro set. High Contrast keeps its own icons, so this has no effect
     // there (disabled while High Contrast is selected).
     proIconsCheck = new QCheckBox(tr("Pro icons"));
+    setCheckIcon(proIconsCheck, kProIconsSvg);
     proIconsCheck->setToolTip(tr("Use the compact Pro toolbar icon set instead of the classic icons."));
 
     // Global greyscale toggle: renders every interface colour as luma-matched
     // grey. Independent of the hue rotation above.
     monochromeCheck = new QCheckBox(tr("Monochrome"));
+    setCheckIcon(monochromeCheck, kMonochromeSvg);
     monochromeCheck->setToolTip(tr("Show the whole interface in greyscale."));
 
     // Global colour inversion (photo-negative) over the whole interface.
     invertCheck = new QCheckBox(tr("Invert colours"));
+    setCheckIcon(invertCheck, kInvertColoursSvg);
     invertCheck->setToolTip(tr("Invert every interface colour (photo-negative)."));
 
     // Theme picker: a grid of checkable cards, one per theme, each painted in its
@@ -1153,8 +1707,10 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
 
     scopeSignalMap = new QSignalMapper(this);
     show_scopes = new QCheckBox(tr("Show scopes"));
+    setCheckIcon(show_scopes, kShowScopesSvg);
     show_scopes->setToolTip(tr("Toggle the visibility of the audio oscilloscopes."));
     show_scope_labels = new QCheckBox(tr("Show scope labels"));
+    setCheckIcon(show_scope_labels, kScopeLabelsSvg);
     show_scope_labels->setToolTip(tr("Toggle the visibility of the labels for the audio oscilloscopes"));
     show_scope_labels->setChecked(true);
 
@@ -1170,14 +1726,18 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     QVBoxLayout *editor_visuals_box_layout = new QVBoxLayout;
 
     flash_code = new QCheckBox(tr("Flash code on sound trigger"));
+    setCheckIcon(flash_code, kFlashCodeSvg);
     flash_code->setToolTip(tr("When enabled, the editor briefly washes the code responsible for each sound as it is triggered."));
 
     flash_gutter = new QCheckBox(tr("Flash gutter on sound trigger"));
+    setCheckIcon(flash_gutter, kFlashGutterSvg);
     flash_gutter->setToolTip(tr("When enabled, the editor briefly shows a dot in the gutter next to the line responsible for each sound as it is triggered."));
 
     show_loop_scopes = new QCheckBox(tr("Show live loop scopes"));
+    setCheckIcon(show_loop_scopes, kLoopScopesSvg);
     show_loop_scopes->setToolTip(tr("When enabled, each running live loop shows a small oscilloscope and spectrum of its own audio next to its line in the editor."));
     loop_scope_scroll = new QCheckBox(tr("Scrolling live loop scopes"));
+    setCheckIcon(loop_scope_scroll, kLoopScrollSvg);
     loop_scope_scroll->setToolTip(tr("When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope."));
 
     // Brightness as an amp-style ArcDial (same feel as the volume + hue
@@ -1235,18 +1795,19 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     transparency_box->setLayout(transparency_box_layout);
 
     // Two independent columns, as on the Editor tab: appearance settings on
-    // the left, audio-driven visuals on the right, each packing to its own
-    // content.
+    // the left, audio-driven visuals on the right. Slack goes between the
+    // boxes, not below them, so both columns end level.
     QVBoxLayout *leftVizPrefs = new QVBoxLayout;
     leftVizPrefs->addWidget(theme_box);
-    leftVizPrefs->addWidget(editor_visuals_box);
     leftVizPrefs->addStretch(1);
+    leftVizPrefs->addWidget(transparency_box);
 
     QVBoxLayout *rightVizPrefs = new QVBoxLayout;
     rightVizPrefs->addWidget(scope_box);
-    rightVizPrefs->addWidget(scope_box_kinds);
-    rightVizPrefs->addWidget(transparency_box);
     rightVizPrefs->addStretch(1);
+    rightVizPrefs->addWidget(scope_box_kinds);
+    rightVizPrefs->addStretch(1);
+    rightVizPrefs->addWidget(editor_visuals_box);
 
     QHBoxLayout *vizPrefsColumns = new QHBoxLayout;
     vizPrefsColumns->addLayout(leftVizPrefs, 1);
@@ -1264,6 +1825,7 @@ QGroupBox* SettingsWidget::createUpdatePrefsTab() {
     QGroupBox *update_box = new QGroupBox(tr("Updates"));
     QSizePolicy updatesPrefSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     check_updates = new QCheckBox(tr("Check for updates"));
+    setCheckIcon(check_updates, kCheckUpdatesSvg);
     check_updates->setToolTip(tr("This check involves sending anonymous information about your platform and version."));
     check_updates_now = new QPushButton(tr("Check now"));
     check_updates_now->setFlat(true);
@@ -1962,9 +2524,22 @@ void SettingsWidget::updateScopeNames( std::vector<QString> names ) {
     scopeDescriptions["Mono"]          = tr("A combined view of the left and right channels (using RMS).");
     scopeDescriptions["Spectrum"]      = tr("The sound frequencies as a spectrum, from low to high.");
     scopeDescriptions["Stereo"]        = tr("Two independent scopes for the left and right channels.");
+    // A glyph per scope kind, so the list can be read by shape. Keyed off the
+    // same names the scope window publishes, so a kind without an entry simply
+    // gets no icon rather than the wrong one.
+    QMap<QString, const char*> scopeIcons;
+    scopeIcons["Levels"]        = kScopeLevelsSvg;
+    scopeIcons["Lissajous"]     = kScopeLissajousSvg;
+    scopeIcons["Mirror Stereo"] = kScopeMirrorSvg;
+    scopeIcons["Mono"]          = kScopeMonoSvg;
+    scopeIcons["Spectrum"]      = kScopeSpectrumSvg;
+    scopeIcons["Stereo"]        = kScopeStereoSvg;
+
     for( auto name : names ) {
         QCheckBox* cb = new QCheckBox( name );
         cb->setChecked( piSettings->isScopeActive(name));
+        if (const char* svg = scopeIcons.value(name, nullptr))
+            setCheckIcon(cb, svg);
         cb->setToolTip(scopeDescriptions.value(name,
             tr("Toggle the visibility of the %1 oscilloscope.").arg(name)));
         scope_box_kinds_layout->addWidget(cb);
@@ -2700,6 +3275,37 @@ void SettingsWidget::changeMainVolume(int vol) {
     emit volumeChanged(vol);
 }
 
+void SettingsWidget::changeMainDrive(int drive) {
+    emit driveChanged(drive);
+}
+
+void SettingsWidget::syncMixerControls(int volumePct, int drivePct) {
+    // Server-side truth arriving (set_volume! / set_drive! from code, or a
+    // GUI change round-tripping). Move the dials without re-emitting: the
+    // round trip must end here, and updateSettings would otherwise fire
+    // too.
+    {
+        QSignalBlocker block(system_vol_slider);
+        system_vol_slider->setValue(volumePct);
+    }
+    {
+        QSignalBlocker block(system_drive_slider);
+        system_drive_slider->setValue(drivePct);
+    }
+}
+
+void SettingsWidget::setLevelScope(QWidget* scope) {
+    if (!scope || !m_levelScopeSlot) return;
+    scope->setAccessibleName(tr("Level"));
+    scope->setProperty("tipTitle", tr("Level"));
+    scope->setToolTip(tr("Shows the output level of the left and right channels. The bar reaches into the accent colour when the main limiter is reducing the level."));
+    // A slim strip: same width as the Drive slider below it, and a height
+    // suited to one meter rather than a whole scope dock.
+    scope->setFixedWidth(kStripWidthPx);
+    scope->setFixedHeight(kLevelScopeHeightPx);
+    m_levelScopeSlot->addWidget(scope, 0, Qt::AlignHCenter);
+}
+
 void SettingsWidget::toggleLineNumbers() {
     emit showLineNumbersChanged();
 }
@@ -3010,6 +3616,7 @@ void SettingsWidget::updateSettings() {
     piSettings->synth_trigger_timing_guarantees = synth_trigger_timing_guarantees_cb->isChecked();
     piSettings->enable_external_synths = enable_external_synths_cb->isChecked();
     piSettings->main_volume = system_vol_slider->value();
+    piSettings->main_drive = system_drive_slider->value();
 
     piSettings->osc_server_enabled = osc_server_enabled_check->isChecked();
     piSettings->osc_public = osc_server_enabled_check->isChecked() && osc_public_check->isChecked();
@@ -3098,6 +3705,7 @@ void SettingsWidget::settingsChanged() {
     synth_trigger_timing_guarantees_cb->setChecked( piSettings->synth_trigger_timing_guarantees);
     enable_external_synths_cb->setChecked(piSettings->enable_external_synths);
     system_vol_slider->setValue(piSettings->main_volume);
+    system_drive_slider->setValue(piSettings->main_drive);
 
     osc_server_enabled_check->setChecked(piSettings->osc_server_enabled);
     if(piSettings->osc_server_enabled){
@@ -3176,9 +3784,11 @@ void SettingsWidget::connectAll() {
     connect(synth_trigger_timing_guarantees_cb, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(enable_external_synths_cb, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
+    connect(system_drive_slider, SIGNAL(valueChanged(int)), this, SLOT(updateSettings()));
     connect(mixer_invert_stereo, SIGNAL(clicked()), this, SLOT(update_mixer_invert_stereo()));
     connect(mixer_force_mono, SIGNAL(clicked()), this, SLOT(update_mixer_force_mono()));
     connect(system_vol_slider, SIGNAL(valueChanged(int)), this, SLOT(changeMainVolume(int)));
+    connect(system_drive_slider, SIGNAL(valueChanged(int)), this, SLOT(changeMainDrive(int)));
     connect(enable_scsynth_inputs, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(enable_scsynth_inputs, SIGNAL(clicked()), this, SLOT(updateEnableScsynthInputs()));
 

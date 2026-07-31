@@ -372,6 +372,8 @@ void MainWindow::onServerReady()
     // We have a connection! Finish up loading app...
 
     scopeWindow->Booted();
+    // Needs the same kick, or its audio processor never comes on.
+    if (levelPrefsScope) levelPrefsScope->Booted();
     std::cout << "[GUI] - restore windows" << std::endl;
     restoreWindows();
     std::cout << "[GUI] - honour prefs" << std::endl;
@@ -398,7 +400,8 @@ void MainWindow::onServerReady()
     loadWorkspaces();
     std::cout << "[GUI] - load request Version" << std::endl;
     requestVersion();
-    changeSystemPreAmp(piSettings->main_volume, 1);
+    changeSystemVolume(piSettings->main_volume, 1);
+    changeSystemDrive(piSettings->main_drive, 1);
 
     // Register GUI with SuperSonic for push notifications and get device info
     m_spAPI->RequestAudioDevices();
@@ -588,7 +591,8 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(restartApp()), this, SLOT(restartApp()));
     connect(settingsWidget, &SettingsWidget::shortcutsApplyRequested, this, &MainWindow::applyUserShortcuts);
     connect(settingsWidget, &SettingsWidget::shortcutSchemeChanged, this, &MainWindow::shortcutModeMenuChanged);
-    connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemPreAmp(int)));
+    connect(settingsWidget, SIGNAL(volumeChanged(int)), this, SLOT(changeSystemVolume(int)));
+    connect(settingsWidget, SIGNAL(driveChanged(int)), this, SLOT(changeSystemDrive(int)));
     connect(settingsWidget, SIGNAL(mixerSettingsChanged()), this, SLOT(mixerSettingsChanged()));
     connect(settingsWidget, SIGNAL(enableScsynthInputsChanged()), this, SLOT(changeEnableScsynthInputs()));
     connect(settingsWidget, SIGNAL(midiSettingsChanged()), this, SLOT(toggleMidi()));
@@ -686,6 +690,26 @@ void MainWindow::setupWindowStructure()
 
     scopeWindow = new ScopeWindow(m_spClient, m_spAPI, this);
 
+    // A second ScopeWindow showing only Levels, placed beside Drive in audio
+    // preferences. An actual instance rather than a lookalike, so it is the
+    // same meter with the same ballistics and overdrive tip. Drive lives in
+    // preferences and preferences covers the scope dock, so without this the
+    // reading you set Drive by is hidden exactly when you need it.
+    levelPrefsScope = new ScopeWindow(m_spClient, m_spAPI, this);
+    levelPrefsScope->setObjectName("prefsLevelScope");
+    for (const auto& cat : levelPrefsScope->GetScopeCategories())
+        levelPrefsScope->EnableScope(cat, cat == QStringLiteral("Levels"));
+    levelPrefsScope->SetScopeLabels(false);
+    if (QWidget* pause = levelPrefsScope->PauseButton())
+        pause->hide();
+    // Only feed the meter while the pane is on screen: the processor enable
+    // ORs across ScopeWindow instances, so an always-hungry instance would
+    // keep the whole scope feed running with every scope hidden. The event
+    // filter flips this on the pane's Show/Hide.
+    levelPrefsScope->SetSuspended(!prefsWidget->isVisible());
+    settingsWidget->setLevelScope(levelPrefsScope);
+
+
     connect(m_spClient.get(), &SonicPi::QtAPIClient::FlashReceived, this,
             [this](const QString& workspace, int line) {
                 if (!piSettings->flash_code && !piSettings->flash_gutter)
@@ -736,6 +760,8 @@ void MainWindow::setupWindowStructure()
             this, &MainWindow::onSupersonicSetup);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::SpiderReadyReceived,
             this, &MainWindow::onSpiderReady);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::MixerSettingsReceived,
+            this, &MainWindow::onMixerSettings);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioSwitchDoneReceived,
             this, &MainWindow::onAudioSwitchDone);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioDeviceReopenReplyReceived,
@@ -766,6 +792,11 @@ void MainWindow::setupWindowStructure()
     prefsLayout->addLayout(prefsButtonLayout);
     prefsWidget->setObjectName("prefs");
     prefsWidget->setLayout(prefsLayout);
+    // The pad covers the pane's own chrome on top of settingsWidget's hint,
+    // so it is not spare room to reclaim: any smaller and Qt squeezes the
+    // group boxes below their minimums until their labels clip. The pane's
+    // height is set by the tallest tab, which is where any real saving has
+    // to come from.
     prefsWidget->setMinimumHeight(qMax(settingsWidget->height(), settingsWidget->sizeHint().height()) + ScaleHeightForDPI(240));
     prefsWidget->setMinimumWidth(qMax(settingsWidget->width(), settingsWidget->sizeHint().width()) + ScaleWidthForDPI(200));
     QSizePolicy prefsSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -4017,17 +4048,53 @@ void MainWindow::changeGUITransparency(int val)
     setWindowOpacity((0.7 * ((100 - (float)val) / 100.0)) + 0.3);
 }
 
-void MainWindow::changeSystemPreAmp(int val, int silent)
+// Volume: the fader after the limiter, as a percentage. It cannot change how
+// anything sounds, only how loud it is, so it is safe to ride mid-performance.
+// The server and the synthdef both clamp it to unity.
+void MainWindow::changeSystemVolume(int val, int silent)
 {
-    std::cout << "[GUI] - Change Volume to " << val << std::endl;
-    float v = (float)val;
-    v = (v / 100.0) * 2.0;
-    oscpkt::Message msg("/mixer-amp");
+    std::cout << "[GUI] - Change Volume to " << val << "%" << std::endl;
+    float v = (float)val / 100.0f;
+    oscpkt::Message msg("/mixer-output-volume");
     msg.pushInt32(guiID);
     msg.pushFloat(v);
     msg.pushInt32(silent);
     sendOSC(msg);
-    statusBar()->showMessage(tr("Updating System Volume..."), 2000);
+    statusBar()->showMessage(tr("Updating Volume..."), 2000);
+}
+
+// Drive: the gain before the limiter, as a percentage where 100 is unity
+// and leaves the mix untouched. The wire carries set_drive!'s 0..1
+// dB-linear amount instead, converted below.
+//
+// The range reaches below 100 on purpose: summing many sounds lands well
+// over full scale, and drive below unity is what makes headroom for them.
+void MainWindow::changeSystemDrive(int pct, int silent)
+{
+    std::cout << "[GUI] - Change Drive to " << pct << "%" << std::endl;
+    // /mixer-drive lands on set_drive!, which takes the 0..1 dB-linear
+    // amount (0 = 0.25x, 0.5 = unity, 1 = 4x), not a linear gain.
+    float gain = (float)pct / 100.0f;
+    float amount = std::log(gain / 0.25f) / std::log(16.0f);
+    oscpkt::Message msg("/mixer-drive");
+    msg.pushInt32(guiID);
+    msg.pushFloat(amount);
+    msg.pushInt32(silent);
+    sendOSC(msg);
+    statusBar()->showMessage(tr("Updating Drive..."), 2000);
+}
+
+void MainWindow::onMixerSettings(double drive, double outputVolume)
+{
+    // The server reporting its mixer levels: set_volume! or set_drive! run
+    // from a buffer, or a dial change round-tripping. Adopt them as the
+    // new truth so the dials track code and a later dial touch doesn't
+    // silently revert what code set.
+    // Drive below the dial's 25% floor still displays as 25%; the audible
+    // value is whatever the server holds.
+    piSettings->main_volume = qBound(0, qRound(outputVolume * 100.0), 100);
+    piSettings->main_drive = qBound(25, qRound(drive * 100.0), 400);
+    settingsWidget->syncMixerControls(piSettings->main_volume, piSettings->main_drive);
 }
 
 void MainWindow::changeScopeKindVisibility(QString name)
@@ -4412,6 +4479,9 @@ void MainWindow::updateColourTheme()
     // The keyword colour is the second colour family in every scheme.
     settingsWidget->setSpreadPreviewBase(theme->rawColor("KeywordForeground"), theme);
     settingsWidget->refreshThemeCards(theme);
+    // The checkbox glyphs are baked pixmaps, so they need re-rendering for the
+    // new palette rather than following it.
+    settingsWidget->retintCheckIcons();
 
     scopeWindow->Refresh();
     scopeWidget->update();
@@ -4439,6 +4509,12 @@ void MainWindow::updateColourTheme()
 
     updateContextWithCurrentWs();
     scopeWindow->SetColor(theme->color("Scope"));
+    if (levelPrefsScope) {
+        levelPrefsScope->SetColor(theme->color("Scope"));
+        levelPrefsScope->SetColor2(theme->color("Scope_2"));
+        levelPrefsScope->SetLevelHotColour(theme->color("MarkerBackground"));
+        levelPrefsScope->SetBackgroundColor(theme->color("LogBackground"));
+    }
     scopeWindow->SetColor2(theme->color("Scope_2"));
     scopeWindow->SetLevelHotColour(theme->color("MarkerBackground"));
     scopeWindow->SetBackgroundColor(theme->color("LogBackground"));
@@ -7139,7 +7215,22 @@ void MainWindow::readSettings()
     piSettings->enable_external_synths = gui_settings->value("prefs/enable-external-synths", false).toBool();
     piSettings->synth_trigger_timing_guarantees = gui_settings->value("prefs/synth-trigger-timing-guarantees", false).toBool();
 
-    piSettings->main_volume = gui_settings->value("prefs/system-vol", 80).toInt();
+    // Volume is the output fader (0-100% of unity, after the limiter);
+    // drive is a percentage of unity, so 192% feeds the limiter 1.92x.
+    piSettings->main_volume = gui_settings->value("prefs/output-volume", 100).toInt();
+    piSettings->main_drive = gui_settings->value("prefs/drive-pct", 192).toInt();
+    // Migrate the old single dial once. prefs/system-vol was a 0-100
+    // position whose effective pre-limiter gain was value * 0.024, so its
+    // loudness-equivalent drive is value * 2.4 (old default 80 -> 192%).
+    // Drive's floor is 25%, so quieter settings keep their loudness via the
+    // output fader instead; in particular a muted install stays silent
+    // rather than booting at full default loudness.
+    if (!gui_settings->contains("prefs/drive-pct") && gui_settings->contains("prefs/system-vol"))
+    {
+        const double oldGainPct = gui_settings->value("prefs/system-vol").toInt() * 2.4;
+        piSettings->main_drive = qBound(25, qRound(oldGainPct), 400);
+        piSettings->main_volume = qBound(0, qRound(100.0 * oldGainPct / piSettings->main_drive), 100);
+    }
     piSettings->mixer_force_mono = gui_settings->value("prefs/mixer-force-mono", false).toBool();
     piSettings->mixer_invert_stereo = gui_settings->value("prefs/mixer-invert-stereo", false).toBool();
     piSettings->enable_scsynth_inputs = gui_settings->value("prefs/enable-scsynth-inputs", false).toBool();
@@ -7250,7 +7341,8 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/audio-input-device",  piSettings->audio_input_device);
     gui_settings->setValue("prefs/audio-sample-rate",   piSettings->audio_sample_rate);
     gui_settings->setValue("prefs/audio-buffer-size",   piSettings->audio_buffer_size);
-    gui_settings->setValue("prefs/system-vol", piSettings->main_volume);
+    gui_settings->setValue("prefs/output-volume", piSettings->main_volume);
+    gui_settings->setValue("prefs/drive-pct", piSettings->main_drive);
     gui_settings->setValue("prefs/rp/check-updates", piSettings->check_updates);
     gui_settings->setValue("prefs/auto-indent-on-run", piSettings->auto_indent_on_run);
     gui_settings->setValue("prefs/gui_transparency", piSettings->gui_transparency);
@@ -8140,6 +8232,14 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
                                                                 : m_helpCloseIcon);
     }
 
+    // The prefs Levels meter only needs the audio feed while its pane is on
+    // screen (see the SetSuspended call where it is created).
+    if (levelPrefsScope && obj == prefsWidget
+        && (event->type() == QEvent::Show || event->type() == QEvent::Hide))
+    {
+        levelPrefsScope->SetSuspended(event->type() == QEvent::Hide);
+    }
+
     if (event->type() == QEvent::FileOpen)
     {
         const QString file = static_cast<QFileOpenEvent*>(event)->file();
@@ -8899,7 +8999,8 @@ void MainWindow::onSupersonicSetup(int sampleRate, int bufferSize)
 void MainWindow::onSpiderReady()
 {
     honourPrefs();
-    changeSystemPreAmp(piSettings->main_volume, 1);
+    changeSystemVolume(piSettings->main_volume, 1);
+    changeSystemDrive(piSettings->main_drive, 1);
     // First-boot scope-reader attach. /supersonic/setup covers
     // subsequent cold-swap re-attaches; the two handlers are disjoint.
     m_spAPI->AudioProcessor_ResetConnection();
