@@ -392,8 +392,9 @@ module SonicPi
                   :ruby_version => RUBY_VERSION,
                   :ruby_patchlevel => RUBY_PATCHLEVEL,
                   :sonic_pi_version => @version.to_s}
-        ver_uri = URI.parse(url="http://sonic-pi.net/static/info/latest_version.txt")
-        msg_uri = URI.parse(url="http://sonic-pi.net/static/info/message.txt")
+        # Must be https — the site 301s http and Net::HTTP doesn't follow redirects
+        ver_uri = URI.parse(url="https://sonic-pi.net/static/info/latest_version.txt")
+        msg_uri = URI.parse(url="https://sonic-pi.net/static/info/message.txt")
         ver_uri.query = URI.encode_www_form( params )
         msg_uri.query = URI.encode_www_form( params )
         ver_prom = Promise.new
