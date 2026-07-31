@@ -430,7 +430,9 @@ module SonicPi
     end
 
     def __server_version
-      return Version.new(0) if @settings.get(:no_update_checking)
+      # Opt-in: no network activity unless the user has explicitly
+      # enabled update checking (an absent key means disabled).
+      return Version.new(0) if @settings.get(:no_update_checking, true)
 
       # Only check for updates at most once every 2 weeks
       last_update = @settings.get(:last_update_check_time).to_i
@@ -1315,7 +1317,7 @@ module SonicPi
     end
 
     def __enable_update_checker
-      @settings.del(:no_update_checking)
+      @settings.set(:no_update_checking, false)
     end
 
     def __set_default_system_thread_locals!

@@ -7239,7 +7239,7 @@ void MainWindow::readSettings()
     piSettings->audio_input_device  = gui_settings->value("prefs/audio-input-device", "").toString();
     piSettings->audio_sample_rate   = gui_settings->value("prefs/audio-sample-rate", 0).toInt();
     piSettings->audio_buffer_size   = gui_settings->value("prefs/audio-buffer-size", 0).toInt();
-    piSettings->check_updates = gui_settings->value("prefs/rp/check-updates", true).toBool();
+    piSettings->check_updates = gui_settings->value("prefs/rp/check-updates", false).toBool();
     piSettings->auto_indent_on_run = gui_settings->value("prefs/auto-indent-on-run", true).toBool();
     piSettings->gui_transparency = gui_settings->value("prefs/gui_transparency", 0).toInt();
     piSettings->show_scopes = gui_settings->value("prefs/scope/show-scopes", true).toBool();
