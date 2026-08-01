@@ -4535,7 +4535,9 @@ void MainWindow::updateColourTheme()
     scopeWindow->SetColor2(theme->color("Scope_2"));
     scopeWindow->SetLevelHotColour(theme->color("MarkerBackground"));
     scopeWindow->SetBackgroundColor(theme->color("LogBackground"));
-    scopeWindow->SetPauseButtonColor(theme->color("WindowBorder"));
+    scopeWindow->SetPauseButtonColors(SonicPiTheme::blend(theme->color("LogForeground"),
+                                                          theme->color("LogBackground"), 0.55),
+                                      theme->color("HighlightedBackground"));
     lexer->unhighlightAll();
     metroPane->updateColourTheme();
 

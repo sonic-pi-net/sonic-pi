@@ -34,8 +34,9 @@ enum class Glyph
     Book,            // Docs tab
     Radioactive,     // Logs tab
     BinaryTree,      // Debug tab (mirrored left-right)
-    PlayFilled,      // card play (solid)
+    PlayFilled,      // card play (solid); scope resume
     StopFilled,      // card stop (solid)
+    PauseFilled,     // scope pause (solid)
     Play,            // jukebox play (outline, pairs with SquareChevronsUp)
     Stop,            // jukebox stop (outline)
     SquareChevronsUp,// card insert-at-cursor
@@ -56,7 +57,8 @@ enum class Glyph
 // Solid glyphs are tinted via fill; everything else via stroke.
 inline bool glyphFilled(Glyph glyph)
 {
-    return glyph == Glyph::PlayFilled || glyph == Glyph::StopFilled;
+    return glyph == Glyph::PlayFilled || glyph == Glyph::StopFilled
+        || glyph == Glyph::PauseFilled;
 }
 
 // The inner <path> markup for each glyph, straight from tabler.io.
@@ -119,6 +121,12 @@ inline QString glyphPaths(Glyph glyph)
         return QStringLiteral(
             "<path d='M17 4h-10a3 3 0 0 0 -3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3 -3v-10a3 3 0 0 0 "
             "-3 -3z' />");
+    case Glyph::PauseFilled:
+        return QStringLiteral(
+            "<path d='M9 4h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h2a2 2 0 0 0 2 -2v-12a2 2 0 0 0 "
+            "-2 -2z' />"
+            "<path d='M17 4h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h2a2 2 0 0 0 2 -2v-12a2 2 0 0 0 "
+            "-2 -2z' />");
     case Glyph::Play:
         return QStringLiteral("<path d='M7 4v16l13 -8l-13 -8' />");
     case Glyph::Stop:

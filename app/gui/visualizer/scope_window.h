@@ -111,9 +111,9 @@ public:
     // Scope background (the faded-clear/phosphor colour). Set from the theme's
     // LogBackground so it's the dark content colour, not the window-chrome grey.
     void SetBackgroundColor(QColor c);
-    // Pause/resume chip colour. Set from the theme's WindowBorder so it matches
-    // the dock divider lines.
-    void SetPauseButtonColor(QColor c);
+    // Pause/resume glyph colours: muted at rest, accent on hover — the same
+    // flat treatment as the help-close and zoom glyphs.
+    void SetPauseButtonColors(QColor rest, QColor hover);
 
     void DrawLevels(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);
     void DrawWave(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel);

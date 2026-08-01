@@ -21,8 +21,8 @@
 #include <QKeySequence>
 #include <QPaintEvent>
 #include <QPainter>
-#include <QPolygonF>
 #include <QResizeEvent>
+#include <QSvgRenderer>
 #include <QTimer>
 #include <QToolButton>
 #include <QVBoxLayout>
@@ -34,6 +34,7 @@
 #include "dpi.h"
 
 #include "qt_api_client.h"
+#include "utils/tablericons.h"
 
 #include "scope_window.h"
 
@@ -60,11 +61,12 @@ const float LevelFloorDb = -60.0f;
 const unsigned int PreLimiterScopeSlot = 31;
 } // namespace
 
-// A small pause/resume chip floating in the scope's top-right corner: a quiet
-// pause glyph while the trace runs, a full-strength play triangle while it's
-// frozen. Freezing is useful in itself — it holds a waveform or spectrum
-// snapshot still for inspection. Custom-painted (no MOC: no new signals),
-// keyboard-reachable like ChevronButton.
+// A small pause/resume control floating in the scope's top-right corner: a
+// tabler pause glyph while the trace runs, a play glyph while it's frozen.
+// Freezing is useful in itself — it holds a waveform or spectrum snapshot
+// still for inspection. Flat like the help-close and zoom glyphs: muted at
+// rest, accent on hover, no backdrop. Custom-painted (no MOC: no new
+// signals), keyboard-reachable like ChevronButton.
 class ScopePauseButton : public QToolButton
 {
 public:
@@ -85,9 +87,10 @@ public:
         }
     }
 
-    void setBackgroundColor(const QColor& bg)
+    void setColors(const QColor& rest, const QColor& hover)
     {
-        m_bg = bg;
+        m_rest = rest;
+        m_hover = hover;
         update();
     }
 
@@ -101,36 +104,17 @@ protected:
         p.setRenderHint(QPainter::Antialiasing, true);
         const bool hover = underMouse();
 
-        // Quiet at rest, full strength on hover. The glyph flip (bars<->triangle)
-        // alone signals paused/running — brightness is a control affordance, not a
-        // status light. WindowText (not this button's own foregroundRole) so the
-        // glyph matches the panel titles.
-        QColor bg = m_bg;
-        bg.setAlpha(hover ? 220 : 150);
-        QColor fg = palette().color(QPalette::WindowText);
-        fg.setAlpha(hover ? 255 : 160);
-
-        p.setPen(Qt::NoPen);
-        p.setBrush(bg);
-        p.drawRoundedRect(QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5), 4, 4);
-
-        const qreal cx = width() / 2.0;
-        const qreal cy = height() / 2.0;
-        const qreal g = qMin(width(), height()) * 0.24; // glyph half-extent
-        p.setBrush(fg);
-        if (m_paused)
-        {
-            QPolygonF tri;
-            tri << QPointF(cx - g * 0.7, cy - g) << QPointF(cx - g * 0.7, cy + g)
-                << QPointF(cx + g, cy);
-            p.drawPolygon(tri);
-        }
-        else
-        {
-            const qreal barW = g * 0.7;
-            p.drawRect(QRectF(cx - g, cy - g, barW, 2 * g));
-            p.drawRect(QRectF(cx + g - barW, cy - g, barW, 2 * g));
-        }
+        // The glyph flip (bars<->triangle) alone signals paused/running — the
+        // colour shift is a control affordance, not a status light, and the
+        // trace's own motion (moving vs frozen) disambiguates the state.
+        const QColor fg = hover ? m_hover : m_rest;
+        const auto glyph = m_paused ? TablerIcons::Glyph::PlayFilled
+                                    : TablerIcons::Glyph::PauseFilled;
+        QSvgRenderer svg(TablerIcons::svgMarkup(glyph, fg).toUtf8());
+        // Same 26px logical glyph size as the title-row zoom/close icons
+        // (the button itself is 30).
+        const qreal gs = qMin(width(), height()) * (26.0 / 30.0);
+        svg.render(&p, QRectF((width() - gs) / 2.0, (height() - gs) / 2.0, gs, gs));
 
         if (hasFocus())
         {
@@ -143,7 +127,8 @@ protected:
 
 private:
     bool m_paused = false;
-    QColor m_bg{ Qt::black };
+    QColor m_rest{ Qt::gray };
+    QColor m_hover{ Qt::white };
 };
 
 QList<ScopeWindow*> ScopeWindow::s_instances;
@@ -1147,10 +1132,10 @@ void ScopeWindow::SetBackgroundColor(QColor c)
     update();
 }
 
-void ScopeWindow::SetPauseButtonColor(QColor c)
+void ScopeWindow::SetPauseButtonColors(QColor rest, QColor hover)
 {
     if (m_pauseButton)
-        m_pauseButton->setBackgroundColor(c);
+        m_pauseButton->setColors(rest, hover);
 }
 
 void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
