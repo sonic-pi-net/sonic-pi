@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic' RC5](#v5.0.0-rc5), To be released...
+- [v5.0.0 'SuperSonic' RC6](#v5.0.0-rc6), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,7 +35,21 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0-rc5"></a>
+<a name="v5.0.0-rc6"></a>
+
+## Version 5.0.0 'SuperSonic' RC6
+
+The sixth release candidate of v5 — specifically focussing on Linux multichannel audio and general polish.
+
+As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### Audio
+* New: a 16-in/16-out Patchbay device on Linux. Sonic Pi appears in PipeWire tools such as qpwgraph as an ordinary node with explicit ports, ready to wire to multichannel interfaces, DAWs and other apps. Pair with the `:sound_out` and `:sound_in` FX to route individual channels.
+* The audio engine now shows up as "Sonic Pi" in process lists and system permission prompts.
+
+### Fixes
+* The spectrum scope starts each run from silence instead of briefly redrawing the previous run's bars.
+* Quickstart cards now behave correctly when zooming.
 
 ## Version 5.0.0 'SuperSonic' RC5
 
