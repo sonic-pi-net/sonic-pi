@@ -134,6 +134,11 @@ module SonicPi
 
       def initialize(opts={})
         @no_scsynth_inputs = opts[:no_scsynth_inputs]
+        # GUI-saved device prefs, handed to SuperSonic's spawn args so its
+        # first open is already the user's device (no post-boot cold swap).
+        @audio_prefs = opts.slice(:audio_output, :audio_input,
+                                  :audio_sample_rate, :audio_buffer_size,
+                                  :audio_driver)
 
         @exit_prom = Promise.new
         # use a value within the valid range for a 32 bit signed complement integer
@@ -270,7 +275,7 @@ module SonicPi
         STDOUT.flush
 
         Util.log "Booting SuperSonic"
-        @supersonic_booter = SupersonicBooter.new(@ports, @no_scsynth_inputs)
+        @supersonic_booter = SupersonicBooter.new(@ports, @no_scsynth_inputs, @audio_prefs)
 
         # Spider boots concurrently — it self-syncs against SuperSonic
         # via its own /supersonic/notify ping loop.
@@ -788,7 +793,7 @@ module SonicPi
         :linux_pipewire_samplerate
       ].freeze
 
-      def initialize(ports, no_scsynth_inputs=false)
+      def initialize(ports, no_scsynth_inputs=false, audio_prefs={})
         @port = ports["scsynth"]
 
         if no_scsynth_inputs
@@ -817,9 +822,21 @@ module SonicPi
 
         toml_opts_hash.freeze
         Util.log "Got Audio Settings toml hash: #{toml_opts_hash.inspect}"
+
+        # GUI-saved device prefs from the daemon's spawn args. Merged last so
+        # they win over the TOML — the same precedence the GUI's post-boot
+        # restore switch used to enforce, minus the extra cold swap.
+        cli_opts = {}
+        cli_opts["__HO__"] = audio_prefs[:audio_output] if audio_prefs[:audio_output]
+        cli_opts["__HI__"] = audio_prefs[:audio_input]  if audio_prefs[:audio_input]
+        cli_opts["-S"] = audio_prefs[:audio_sample_rate].to_s if audio_prefs[:audio_sample_rate].to_i > 0
+        cli_opts["-Z"] = audio_prefs[:audio_buffer_size].to_s if audio_prefs[:audio_buffer_size].to_i > 0
+        cli_opts["--audio-driver"] = audio_prefs[:audio_driver] if audio_prefs[:audio_driver]
+        Util.log "Got GUI audio prefs: #{cli_opts.inspect}" unless cli_opts.empty?
+
         opts = unify_toml_opts_hash(toml_opts_hash)
         opts = inputs_hash.merge(opts)
-        opts = {"-u" => @port}.merge(DEFAULT_OPTS).merge(opts)
+        opts = {"-u" => @port}.merge(DEFAULT_OPTS).merge(opts).merge(cli_opts)
 
         sound_card_name = opts.delete("-H")
         input_sound_card_name = opts.delete("__HI__")
@@ -1167,11 +1184,21 @@ begin
   SonicPi::Daemon::Util.log "Welcome to the Daemon Booter"
   SonicPi::Daemon::Util.log "----------------------------\n"
 
-  if ARGV[0] == "--no-scsynth-inputs"
-    SonicPi::Daemon::Init.new(no_scsynth_inputs: true)
-  else
-    SonicPi::Daemon::Init.new
+  opts = {}
+  argv = ARGV.dup
+  until argv.empty?
+    case (arg = argv.shift)
+    when "--no-scsynth-inputs" then opts[:no_scsynth_inputs] = true
+    when "--audio-output"      then opts[:audio_output]      = argv.shift
+    when "--audio-input"       then opts[:audio_input]       = argv.shift
+    when "--audio-sample-rate" then opts[:audio_sample_rate] = argv.shift.to_i
+    when "--audio-buffer-size" then opts[:audio_buffer_size] = argv.shift.to_i
+    when "--audio-driver"      then opts[:audio_driver]      = argv.shift
+    else
+      SonicPi::Daemon::Util.log "Ignoring unknown daemon arg: #{arg}"
+    end
   end
+  SonicPi::Daemon::Init.new(opts)
 rescue StandardError => e
   SonicPi::Daemon::Util.log "[BUG] - ** Daemon Internal Error. **"
   SonicPi::Daemon::Util.log_error(e)

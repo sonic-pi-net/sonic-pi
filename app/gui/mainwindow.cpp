@@ -211,7 +211,16 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
     if (!themeBench)
     {
         bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
-        APIBootResult boot_success = m_spAPI->Boot(noScsynthInputs);
+        // Saved device prefs travel to the engine's first open via the
+        // daemon's spawn args; maybeRestoreAudioIntent stays as the
+        // reconciler for genuine drift (e.g. the device no longer exists).
+        SonicPi::SonicPiAPI::AudioBootPrefs audioPrefs;
+        audioPrefs.outputDevice = piSettings->audio_output_device.toStdString();
+        audioPrefs.inputDevice  = piSettings->audio_input_device.toStdString();
+        audioPrefs.sampleRate   = piSettings->audio_sample_rate;
+        audioPrefs.bufferSize   = piSettings->audio_buffer_size;
+        audioPrefs.audioDriver  = piSettings->audio_driver.toStdString();
+        APIBootResult boot_success = m_spAPI->Boot(noScsynthInputs, audioPrefs);
 
         if (boot_success == APIBootResult::Successful)
         {

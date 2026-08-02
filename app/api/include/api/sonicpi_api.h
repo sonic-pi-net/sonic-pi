@@ -448,9 +448,26 @@ public:
     explicit SonicPiAPI(IAPIClient* pClient, APIProtocol protocol = APIProtocol::UDP, LogOption logOption = LogOption::File);
     virtual ~SonicPiAPI();
 
+    // Saved audio-device preferences handed to the daemon at spawn so the
+    // engine's first open is already the user's device — otherwise the GUI's
+    // post-boot restore has to cold-swap to it, booting the studio twice.
+    // Empty/zero fields (and the GUI's __system__/__none__/__disabled__
+    // sentinels) are omitted from the spawn args and the engine boots on its
+    // defaults exactly as before.
+    struct AudioBootPrefs
+    {
+        std::string outputDevice;
+        std::string inputDevice;
+        int sampleRate = 0;
+        int bufferSize = 0;
+        std::string audioDriver;
+    };
+
     // Start the ruby server, connect the ports, find the paths.
     virtual APIInitResult Init(const fs::path& rootPath);
     virtual APIBootResult Boot(bool noScsynthInputs = false);
+    virtual APIBootResult Boot(bool noScsynthInputs,
+                               const AudioBootPrefs& audioPrefs);
 
     // Rotate the previous session's logs into the history dir and
     // truncate them ready for this run.
@@ -593,7 +610,8 @@ public:
 private:
     fs::path FindHomePath() const;
 
-    BootDaemonInitResult StartBootDaemon(bool noScsynthInputs);
+    BootDaemonInitResult StartBootDaemon(bool noScsynthInputs,
+                                         const AudioBootPrefs& audioPrefs);
     bool StartOscServer();
     void StopOscServer();
 

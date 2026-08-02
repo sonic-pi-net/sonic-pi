@@ -298,7 +298,8 @@ std::shared_ptr<reproc::process> SonicPiAPI::StartProcess(const std::vector<std:
     return spProcess;
 }
 
-BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
+BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs,
+                                                 const AudioBootPrefs& audioPrefs)
 {
     LOG(INFO, "Launching Sonic Pi Boot Daemon:");
 
@@ -310,6 +311,31 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs)
 
     if(noScsynthInputs) {
       args.push_back("--no-scsynth-inputs");
+    }
+
+    // GUI sentinels mean "no specific device" — they never name a real one,
+    // so they are filtered here and the flag simply isn't sent.
+    const std::string& out = audioPrefs.outputDevice;
+    if (!out.empty() && out != "__system__") {
+        args.push_back("--audio-output");
+        args.push_back(out);
+    }
+    const std::string& in = audioPrefs.inputDevice;
+    if (!in.empty() && in != "__none__" && in != "__disabled__") {
+        args.push_back("--audio-input");
+        args.push_back(in);
+    }
+    if (audioPrefs.sampleRate > 0) {
+        args.push_back("--audio-sample-rate");
+        args.push_back(std::to_string(audioPrefs.sampleRate));
+    }
+    if (audioPrefs.bufferSize > 0) {
+        args.push_back("--audio-buffer-size");
+        args.push_back(std::to_string(audioPrefs.bufferSize));
+    }
+    if (!audioPrefs.audioDriver.empty()) {
+        args.push_back("--audio-driver");
+        args.push_back(audioPrefs.audioDriver);
     }
 
     std::ostringstream str;
@@ -811,6 +837,11 @@ APIInitResult SonicPiAPI::Init(const fs::path& root)
 
 APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
 {
+    return Boot(noScsynthInputs, AudioBootPrefs());
+}
+
+APIBootResult SonicPiAPI::Boot(bool noScsynthInputs, const AudioBootPrefs& audioPrefs)
+{
     std::unique_lock<std::mutex> lock(m_osc_mtx);
 
     // Rotate logs before opening gui.log below so the previous
@@ -844,7 +875,7 @@ APIBootResult SonicPiAPI::Boot(bool noScsynthInputs)
     LOG(INFO, "Log Path: " + GetPath(SonicPiPath::LogPath).string());
     m_state = State::Initializing;
     // Start the Boot Daemon
-    BootDaemonInitResult boot_daemon_res = StartBootDaemon(noScsynthInputs);
+    BootDaemonInitResult boot_daemon_res = StartBootDaemon(noScsynthInputs, audioPrefs);
 
     if (boot_daemon_res != BootDaemonInitResult::Successful)
     {
