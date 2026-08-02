@@ -1,0 +1,37 @@
+# Allowlist for what may appear in the staged app/server/native root on macOS.
+# Mirrors install/windows/native-manifest.txt. Enforced by
+# verify_native_manifest() in mac-release-common.sh, called from
+# mac-release-00-stage.sh after the native tree is copied into the bundle.
+#
+#   <glob>          root file(s) that must ship - must match >= 1 staged file
+#   dir: <name>     directory tree that must ship (checked at root level only)
+#   ignore: <glob>  expected local build debris - allowed but never required
+#
+# Any entry in the staged native root not covered below FAILS the release:
+# add it here to ship it, add an ignore: entry to keep it tolerated, or fix
+# the build so it stops appearing. This is what stops a stale binary from a
+# prior build (e.g. the pre-rename `supersonic`) riding along in the bundle.
+#
+# macOS notes (differs from the Windows manifest):
+#   - the engine ships under a "Sonic Pi" name with NO .exe extension
+#   - no MSVC runtime DLLs: on macOS the engine's dylib deps are relocated
+#     into Contents/Frameworks/ by mac-release-02-bundle-dylibs.sh, so they
+#     never live in the native root
+#   - SuperSonic statically links its UGens and audio-file I/O, so no plugin
+#     bundles or codec libs ship here; scsynth is gone
+
+# Engine + tools (engine name per app/server/ruby/paths.rb + daemon.rb)
+Sonic Pi - SuperSonic
+aubio_onset
+piano_wavetable.dat
+
+# Bundled Ruby (vendor gems pruned to lib/ later by mac-release-01-prune.sh)
+dir: ruby
+
+# Local build debris - tolerated in the root, never shipped as payload
+ignore: .gitkeep
+ignore: *.bak
+ignore: *.bak-*
+ignore: *.known-good-*
+ignore: *.orig-backup
+ignore: *.log

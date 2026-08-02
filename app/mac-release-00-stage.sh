@@ -79,4 +79,14 @@ if [ ! -f "${resources}/app/server/native/piano_wavetable.dat" ]; then
     log_info "  WARNING: piano_wavetable.dat missing — :piano will be silent in this build"
 fi
 
+# Hygiene: app/server/native is wholesale-copied above, so verify nothing
+# unexpected (e.g. a stale engine binary from a prior build) rode along.
+# Fail-closed allowlist — the macOS counterpart to the Windows manifest in
+# install/windows/native-manifest.txt.
+log_step "verify native payload against manifest"
+verify_native_manifest \
+    "${resources}/app/server/native" \
+    "${APP_DIR}/mac-release-native-manifest.txt"
+log_ok "native payload matches manifest"
+
 log_ok "stage 00 done — ${RELEASE_APP}"

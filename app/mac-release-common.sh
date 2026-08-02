@@ -180,3 +180,95 @@ run() {
     fi
     "$@"
 }
+
+# ----------------------------------------------------------------------------
+# Native payload allowlist
+# ----------------------------------------------------------------------------
+# Verify the staged app/server/native root against an allowlist manifest.
+# Bash counterpart to install/windows/stage-native.ps1: the native root is
+# gitignored and wholesale-copied, so without a check a stale binary from a
+# prior build (e.g. the pre-rename `supersonic`) silently ships and gets
+# codesigned. Every top-level entry must be covered by a file glob, a
+# `dir:` entry, or an `ignore:` glob; each required file glob must match at
+# least one file and each `dir:` must exist. Anything else fails the release.
+#
+#   verify_native_manifest <staged-native-root> <manifest-path>
+verify_native_manifest() {
+    local native_root="$1"
+    local manifest="$2"
+    [ -d "$native_root" ] || die "native root not found: $native_root"
+    [ -f "$manifest" ]    || die "native manifest not found: $manifest"
+
+    local file_globs=() dir_entries=() ignore_globs=()
+    local line stripped
+    while IFS= read -r line || [ -n "$line" ]; do
+        stripped="${line%%#*}"                                   # drop comments
+        # trim leading/trailing whitespace
+        stripped="${stripped#"${stripped%%[![:space:]]*}"}"
+        stripped="${stripped%"${stripped##*[![:space:]]}"}"
+        [ -n "$stripped" ] || continue
+        case "$stripped" in
+            dir:*)
+                stripped="${stripped#dir:}"
+                stripped="${stripped#"${stripped%%[![:space:]]*}"}"
+                dir_entries+=("$stripped") ;;
+            ignore:*)
+                stripped="${stripped#ignore:}"
+                stripped="${stripped#"${stripped%%[![:space:]]*}"}"
+                ignore_globs+=("$stripped") ;;
+            *)
+                file_globs+=("$stripped") ;;
+        esac
+    done < "$manifest"
+
+    local errors=0 entry name matched g d
+    # Empty-array expansions abort under `set -u` on bash 3.2 (macOS), so guard
+    # every "${arr[@]}" with the ${arr[@]+...} form below.
+
+    # 1) Every entry in the native root must be accounted for. Include dotfiles.
+    shopt -s nullglob dotglob
+    for entry in "$native_root"/*; do
+        name="$(basename "$entry")"
+
+        # ignore: globs apply to both files and directories
+        matched=0
+        for g in ${ignore_globs[@]+"${ignore_globs[@]}"}; do
+            [[ "$name" == $g ]] && { matched=1; break; }
+        done
+        [ "$matched" = 1 ] && continue
+
+        if [ -d "$entry" ]; then
+            matched=0
+            for d in ${dir_entries[@]+"${dir_entries[@]}"}; do
+                [ "$d" = "$name" ] && { matched=1; break; }
+            done
+            [ "$matched" = 1 ] || { log_err "  native: unexpected directory not in manifest: ${name}/"; errors=$((errors+1)); }
+        else
+            matched=0
+            for g in ${file_globs[@]+"${file_globs[@]}"}; do
+                [[ "$name" == $g ]] && { matched=1; break; }
+            done
+            [ "$matched" = 1 ] || { log_err "  native: unexpected file not in manifest: ${name}"; errors=$((errors+1)); }
+        fi
+    done
+    shopt -u nullglob dotglob
+
+    # 2) Every required file glob must match >= 1 staged root file.
+    for g in ${file_globs[@]+"${file_globs[@]}"}; do
+        matched=0
+        shopt -s nullglob
+        for entry in "$native_root"/*; do
+            [ -f "$entry" ] || continue
+            [[ "$(basename "$entry")" == $g ]] && { matched=1; break; }
+        done
+        shopt -u nullglob
+        [ "$matched" = 1 ] || { log_err "  native: manifest requires '${g}' but no matching file was staged"; errors=$((errors+1)); }
+    done
+
+    # 3) Every dir: entry must exist.
+    for d in ${dir_entries[@]+"${dir_entries[@]}"}; do
+        [ -d "${native_root}/${d}" ] || { log_err "  native: manifest requires dir '${d}/' but it is missing"; errors=$((errors+1)); }
+    done
+
+    [ "$errors" = 0 ] || die "native payload failed manifest verification (${errors} problem(s)) — see above"
+}
