@@ -176,6 +176,8 @@ void AudioProcessor::CalculateFFT(ProcessedAudio& audio)
 
     // Consumed once per frame, ahead of the per-channel loop.
     const bool resetBallistics = m_resetSpectrum.exchange(false);
+    const int silentGap = m_pendingSilentFrames;
+    m_pendingSilentFrames = 0;
 
     audio.m_spectrumFreqMin = SpectrumFreqMin;
     audio.m_spectrumFreqMax = std::min(SpectrumFreqMaxLimit, sampleRate * 0.5f);
@@ -209,6 +211,23 @@ void AudioProcessor::CalculateFFT(ProcessedAudio& audio)
             m_bucketSmoothed[channel].assign(buckets, 0.0f);
             m_bucketPeak[channel].assign(buckets, 0.0f);
             m_bucketPeakAge[channel].assign(buckets, 0);
+        }
+        else if (silentGap > 0)
+        {
+            // The stream stalls while the engine is self-paused on silence;
+            // run the decay those frames would have delivered so the old
+            // run's bars and peaks don't reappear when frames resume.
+            for (uint32_t k = 0; k < buckets; k++)
+            {
+                float& s = m_bucketSmoothed[channel][k];
+                s = std::max(0.0f, s - silentGap * SpectrumReleasePerFrame);
+                int& age = m_bucketPeakAge[channel][k];
+                const int falling =
+                    std::max(0, age + silentGap - std::max(age, SpectrumPeakHoldFrames));
+                age += silentGap;
+                m_bucketPeak[channel][k] = std::max(
+                    s, m_bucketPeak[channel][k] - falling * SpectrumPeakFallPerFrame);
+            }
         }
 
         audio.m_spectrumQuantized[channel].resize(buckets);
@@ -362,6 +381,10 @@ void AudioProcessor::AttachLocked()
         m_shmReader = shm_scope_stream_reader();
     }
     m_lastEndCursor = 0;
+    m_stalledTicks = 0;
+    m_pendingSilentFrames = 0;
+    // A new session's spectrum starts from rest, not the old session's decay.
+    m_resetSpectrum.store(true);
 
     // Clear any stale consumed=false left from a prior torn-down session.
     SetConsumed(true);
@@ -454,6 +477,8 @@ void AudioProcessor::Run()
 
         if (endCursor != m_lastEndCursor)
         {
+            m_pendingSilentFrames = m_stalledTicks;
+            m_stalledTicks = 0;
             m_lastEndCursor = endCursor;
             // Scratch sized for the max stride; copy_window reports the one
             // it used (a separate channels() read would race re-activation).
@@ -480,6 +505,10 @@ void AudioProcessor::Run()
             // instead of copying it again through the queued connection.
             m_pClient->AudioDataAvailable(
                 std::make_shared<const ProcessedAudio>(m_processedAudio));
+        }
+        else if (m_stalledTicks < int(AudioProcessorRefreshRate) * 60)
+        {
+            m_stalledTicks++;
         }
 
         lock.unlock();

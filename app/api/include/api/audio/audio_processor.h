@@ -140,6 +140,12 @@ private:
     // feed or FFT is (re)started, so the spectrum rises from rest instead of
     // resuming the decay of whatever the previous session last showed.
     std::atomic<bool> m_resetSpectrum = { false };
+    // Consumer-thread only: ticks the frame stream has been stalled (the
+    // engine pauses its sample clock when silent, freezing the ballistics
+    // mid-decay). Handed to CalculateFFT when frames resume so the missed
+    // decay is applied instead of the old run's bars reappearing.
+    int m_stalledTicks = 0;
+    int m_pendingSilentFrames = 0;
 
     // Output data, double buffered
     ProcessedAudio m_processedAudio;
