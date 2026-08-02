@@ -1259,7 +1259,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
         <source>Load Sonic Pi Set</source>
-        <translation>Ŝarĝi Sonic Pi Aro</translation>
+        <translation>Ŝarĝi Sonic Pi Aron</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
@@ -1271,18 +1271,18 @@
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Cannot load set:
 %1.</source>
-        <translation>Ne eblas ŝargi aro:
+        <translation>Ne eblas ŝargi aron:
 %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2728"/>
         <source>Load the set %1?</source>
-        <translation>Ĉu ŝargi la aro %1?</translation>
+        <translation>Ĉu ŝargi la aron %1?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2729"/>
         <source>The current contents of all buffers will be replaced with the buffers stored in this set.</source>
-        <translation>iLa nuna enhavo de ĉiuj bufroj estos anstataŭigita per la bufroj konservitaj en ĉi tiu aro.</translation>
+        <translation>iLa nuna enhavo de ĉiuj bufroj estos anstataŭigita per la bufroj konservitaj en ĉi tiu aron.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
@@ -1297,7 +1297,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
         <source>Save Current Set</source>
-        <translation>Konservi Nunan Aro</translation>
+        <translation>Konservi Nunan Aron</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
@@ -1308,7 +1308,7 @@
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>Cannot save set:
 %1.</source>
-        <translation>Ne eblas konservi aro:
+        <translation>Ne eblas konservi aron:
 %1.</translation>
     </message>
     <message>
@@ -1324,7 +1324,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="2832"/>
         <source>The contents of all buffers will be emptied and their text size reset.</source>
-        <translation type="unfinished"></translation>
+        <translation>La enhavo de ĉiuj bufroj estos malplenigita kaj ilia teksta grandeco restartiĝos.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2833"/>
@@ -1350,7 +1350,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3169"/>
         <source>Quickstart Cards...</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapidaj Komencaj Kartoj...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
