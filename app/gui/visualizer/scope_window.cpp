@@ -32,6 +32,7 @@
 #include <set>
 
 #include "dpi.h"
+#include "utils/framepacer.h"
 
 #include "qt_api_client.h"
 #include "utils/tablericons.h"
@@ -167,6 +168,22 @@ ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<
     m_settleTimer->setInterval(33);
     connect(m_settleTimer, &QTimer::timeout, this, &ScopeWindow::SettleTick);
 
+    // Paced repaints: audio frames only mark the scope dirty; the actual
+    // update() lands on the shared tick (see requestFrameRepaint).
+    connect(FramePacer::instance(), &FramePacer::tick, this, [this] {
+        if (m_repaintPending)
+        {
+            m_repaintPending = false;
+            update();
+        }
+        else if (m_pacerHeld)
+        {
+            // One idle tick with nothing to draw: let the pacer stop.
+            m_pacerHeld = false;
+            FramePacer::instance()->release();
+        }
+    });
+
     m_levelClock.start();
     m_panels.push_back({ "Levels", tr("Levels"), ScopeWindowType::Levels });
     m_panels.push_back({ "Lissajous", tr("Lissajous"), ScopeWindowType::Lissajous });
@@ -206,7 +223,19 @@ ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<
 
 ScopeWindow::~ScopeWindow()
 {
+    if (m_pacerHeld)
+        FramePacer::instance()->release();
     s_instances.removeAll(this);
+}
+
+void ScopeWindow::requestFrameRepaint()
+{
+    m_repaintPending = true;
+    if (!m_pacerHeld)
+    {
+        m_pacerHeld = true;
+        FramePacer::instance()->retain();
+    }
 }
 
 void ScopeWindow::ShutDown()
@@ -965,10 +994,24 @@ void ScopeWindow::SetSuspended(bool suspended)
 
 bool ScopeWindow::WantsProcessor() const
 {
+    if (!isVisible())
+        return false;
     for (auto& scope : m_panels)
         if (scope.visible)
             return !m_paused && !m_suspended;
     return false;
+}
+
+void ScopeWindow::showEvent(QShowEvent* e)
+{
+    QWidget::showEvent(e);
+    ApplyProcessorEnable();
+}
+
+void ScopeWindow::hideEvent(QHideEvent* e)
+{
+    QWidget::hideEvent(e);
+    ApplyProcessorEnable();
 }
 
 void ScopeWindow::ApplyProcessorEnable()
@@ -1168,12 +1211,12 @@ void ScopeWindow::OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio)
         if (!silent)
         {
             m_silentFrames = 0;
-            update();
+            requestFrameRepaint();
         }
         else if (m_silentFrames < SilentSettleFrames)
         {
             m_silentFrames++;
-            update();
+            requestFrameRepaint();
         }
 
         // The engine pauses itself once its output is silent, which can stop
@@ -1210,7 +1253,7 @@ void ScopeWindow::SettleTick()
     {
         m_silentFrames++;
     }
-    update();
+    requestFrameRepaint();
     if (m_silentFrames >= SilentSettleFrames && !LevelsRunningDown())
     {
         m_settleTimer->stop();

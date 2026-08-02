@@ -143,6 +143,11 @@ public slots :
 protected:
     virtual void paintEvent(QPaintEvent* pEv) override;
     virtual void resizeEvent(QResizeEvent* pSize) override;
+    // Widget visibility feeds WantsProcessor: a hidden instance (prefs pane
+    // closed, dock collapsed, window minimised) must not keep the global
+    // audio processor running on its behalf.
+    virtual void showEvent(QShowEvent* e) override;
+    virtual void hideEvent(QHideEvent* e) override;
 
 private:
     void Layout();
@@ -239,6 +244,12 @@ private:
     // Watchdog for the settle fade: re-armed on every delivered frame, fires
     // only when delivery stops before the trail has fully decayed.
     QTimer* m_settleTimer = nullptr;
+    // Frame-path repaints ride the shared FramePacer (~30 Hz) instead of
+    // repainting per delivered ~60 Hz audio frame: newest frame wins, and the
+    // repaint lands in the same composite pass as the other paced widgets.
+    void requestFrameRepaint();
+    bool m_repaintPending = false;
+    bool m_pacerHeld = false;
 };
 
 } // namespace SonicPi
