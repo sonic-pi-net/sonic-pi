@@ -11,9 +11,6 @@ trap cleanup_function EXIT
 
 cd "${SCRIPT_DIR}"
 
-echo "Cleaning out native dir...."
-rm -rf "${SCRIPT_DIR}"/server/native/aubio_onset
-
 echo "Cleaning out vcpkg...."
 rm -rf vcpkg
 

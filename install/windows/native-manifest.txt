@@ -1,0 +1,40 @@
+# Allowlist for staging app\server\native into the MSI (see stage-native.ps1).
+#
+#   <glob>          root file(s) to ship - must match at least one file
+#   dir: <path>     directory tree to ship recursively (minus ignore: globs)
+#   ignore: <glob>  expected local build debris - never shipped
+#
+# Any file in the native root not covered by an entry FAILS the build:
+# add it here to ship it, add an ignore: entry to keep it local, or delete it.
+#
+# Derived from the v5 runtime analysis (Aug 2026): SuperSonic statically
+# links all UGens (STATIC_PLUGINS) and its audio-file I/O, so no .scx
+# plugins and no codec/fftw DLLs ship. scsynth is gone. Ruby's OpenSSL and
+# CA bundle live inside ruby\lib, not the native root or ruby\ssl.
+
+# Engine + tools (engine ships under a Sonic Pi name - paths.rb:244)
+Sonic Pi - SuperSonic.exe
+aubio_onset.exe
+piano_wavetable.dat
+
+# MSVC runtime - engine imports msvcp140/msvcp140_atomic_wait/vcruntime140;
+# the companions ship as a set with the redist
+concrt140.dll
+msvcp140.dll
+msvcp140_1.dll
+msvcp140_2.dll
+msvcp140_atomic_wait.dll
+msvcp140_codecvt_ids.dll
+vcruntime140.dll
+vcruntime140_1.dll
+
+# Bundled Ruby (ssl\ is redundant - Ruby 4 reads lib\ruby\4.0.0\etc\ssl)
+dir: ruby\bin
+dir: ruby\lib
+
+# Local debris - never shipped
+ignore: .gitkeep
+ignore: *.pdb
+ignore: *.log
+ignore: *.bak
+ignore: *.orig-backup

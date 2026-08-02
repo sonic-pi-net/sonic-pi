@@ -158,36 +158,75 @@ if not exist "vcredist_%ARCH%.exe" (
 
 REM ======================================================================
 REM Stage build output
+REM
+REM Hygiene: nothing reaches the installer from the working tree by
+REM accident.
+REM   - Tracked payload is extracted from git HEAD via `git archive`, so
+REM     uncommitted or untracked files cannot leak in. A dirty tree fails
+REM     the build (SP_ALLOW_DIRTY=1 skips the check - the MSI still
+REM     packages HEAD, never local edits).
+REM   - Generated payload (GUI build, compiled .qm translations,
+REM     etc\doc\generated) is staged explicitly with existence checks.
+REM   - The gitignored native tree is staged by stage-native.ps1 against
+REM     the allowlist in native-manifest.txt; unknown files fail the build.
 REM ======================================================================
-echo Staging build output...
+set GIT_PATHS=VERSION etc app/config app/gui/theme app/gui/lang app/server/ruby
 
-REM Clear previous staging
+if not defined SP_ALLOW_DIRTY (
+    set DIRTY=
+    for /f "delims=" %%S in ('git -C ..\.. status --porcelain -- %GIT_PATHS%') do set DIRTY=1
+    if defined DIRTY (
+        echo ERROR: Uncommitted changes in packaged paths:
+        git -C ..\.. status --short -- %GIT_PATHS%
+        echo The MSI packages git HEAD. Commit the changes, or set
+        echo SP_ALLOW_DIRTY=1 to build anyway ^(local edits still excluded^).
+        exit /b 1
+    )
+)
+
+echo Staging tracked payload from git HEAD...
 rmdir /S /Q app 2>nul
-mkdir app
 rmdir /S /Q etc 2>nul
-mkdir etc
+del /Q VERSION 2>nul
+REM rugged's vendored libgit2 test tree holds a symlink bsdtar can't create
+REM on Windows; it's pruned from staging anyway, so skip it at extraction
+REM (git archive doesn't honour exclude pathspecs) so a tar failure always
+REM means something real.
+git -C ..\.. archive HEAD %GIT_PATHS% | tar -xf - -C . --exclude */libgit2/tests/*
+if errorlevel 1 (
+    echo ERROR: git archive extraction failed.
+    exit /b 1
+)
+for %%S in ("VERSION" "etc\synthdefs" "app\config" "app\gui\theme" "app\gui\lang" "app\server\ruby\bin") do (
+    if not exist "%%~S" (
+        echo ERROR: "%%~S" missing after git archive extraction.
+        exit /b 1
+    )
+)
 
-REM GUI
+echo Staging generated payload...
 xcopy /Y /I /R /E ..\..\app\build\gui\Release app\gui\build\Release
-xcopy /Y /I /R /E ..\..\app\gui\theme app\gui\theme
-xcopy /Y /I /R /E ..\..\app\gui\lang app\gui\lang
+if errorlevel 1 (
+    echo ERROR: GUI build output missing - run app\win-build-all.bat first.
+    exit /b 1
+)
+xcopy /Y /Q ..\..\app\gui\lang\*.qm app\gui\lang\
+if errorlevel 1 (
+    echo ERROR: compiled translations ^(*.qm^) missing - run app\win-build-all.bat first.
+    exit /b 1
+)
+xcopy /Y /I /R /E /Q ..\..\etc\doc\generated etc\doc\generated
+if errorlevel 1 (
+    echo ERROR: etc\doc\generated missing - run app\win-prebuild.bat first.
+    exit /b 1
+)
 
-REM Etc (samples, synthdefs, etc.)
-xcopy /Y /I /R /E ..\..\etc etc\
-
-REM VERSION file (Spider runtime reads this from install root)
-copy /Y ..\..\VERSION VERSION
-
-REM Native components
-xcopy /Y /I /R /E ..\..\app\server\native\plugins app\server\native\plugins
-xcopy /Y /I /R /E ..\..\app\server\native\ruby\bin app\server\native\ruby\bin
-xcopy /Y /I /R /E ..\..\app\server\native\ruby\lib app\server\native\ruby\lib
-xcopy /Y /I /R /E ..\..\app\server\native\ruby\ssl app\server\native\ruby\ssl
-xcopy /Y /I /R /E ..\..\app\config app\config
-xcopy /Y ..\..\app\server\native\*.* app\server\native
-
-REM Ruby server
-xcopy /Y /I /R /E ..\..\app\server\ruby app\server\ruby
+echo Staging native payload from allowlist ^(native-manifest.txt^)...
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0stage-native.ps1" -Source "..\..\app\server\native" -Dest "app\server\native" -Manifest "%~dp0native-manifest.txt"
+if errorlevel 1 (
+    echo ERROR: native payload staging failed.
+    exit /b 1
+)
 
 REM ======================================================================
 REM Clean up unwanted files
@@ -195,6 +234,18 @@ REM ======================================================================
 echo Pruning staging area...
 rmdir /S /Q app\server\ruby\vendor\ruby-aubio-prerelease 2>nul
 "%RUBY%" prune.rb app/server/ruby/vendor
+
+REM Tracked in git but never read by the installed app (v5 runtime
+REM analysis, Aug 2026): wavetables are unused (see linux-release.sh),
+REM doc\lang + *.ts are translation build inputs, www is the website,
+REM .exp/.lib are MSVC link outputs, and Release\translations (qt_*.qm)
+REM is unreachable without a qt.conf.
+rmdir /S /Q etc\wavetables 2>nul
+rmdir /S /Q etc\doc\lang 2>nul
+rmdir /S /Q etc\www 2>nul
+del /Q app\gui\lang\*.ts 2>nul
+del /Q app\gui\build\Release\sonic-pi.exp app\gui\build\Release\sonic-pi.lib 2>nul
+rmdir /S /Q app\gui\build\Release\translations 2>nul
 
 REM ======================================================================
 REM Regenerate the EULA RTF from LICENSE.md so the installer never
