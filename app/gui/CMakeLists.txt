@@ -160,6 +160,8 @@ set(SOURCES
     ${QTAPP_ROOT}/utils/setbundle.cpp
     ${QTAPP_ROOT}/utils/setbundle.h
     ${QTAPP_ROOT}/utils/completion_context.cpp
+    ${QTAPP_ROOT}/utils/framepacer.cpp
+    ${QTAPP_ROOT}/utils/framepacer.h
     ${QTAPP_ROOT}/utils/reducedmotion.cpp
     ${QTAPP_ROOT}/utils/reducedmotion.h
     ${QTAPP_ROOT}/utils/sonicpi_i18n.cpp

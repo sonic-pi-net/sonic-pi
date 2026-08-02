@@ -12,6 +12,7 @@
 //++
 
 #include "nodetreegraph.h"
+#include "utils/framepacer.h"
 #include "utils/reducedmotion.h"
 
 #include <algorithm>
@@ -23,7 +24,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
-#include <QTimer>
+#include <QResizeEvent>
 #include <QToolTip>
 
 namespace
@@ -37,10 +38,41 @@ NodeTreeGraph::NodeTreeGraph(QWidget* parent) : QWidget(parent)
     // Small minimum so the pane can be collapsed; the graph scales to its size.
     setMinimumSize(80, 24);
     setMouseTracking(true);  // hover tooltips without a pressed button
-    m_anim = new QTimer(this);
-    m_anim->setInterval(16);  // ~60 fps easing
-    m_anim->setTimerType(Qt::PreciseTimer);  // steadier interval than the default coarse timer
-    connect(m_anim, &QTimer::timeout, this, &NodeTreeGraph::animateStep);
+    // Every paint covers the full rect, so Qt needn't repaint ancestors.
+    setAttribute(Qt::WA_OpaquePaintEvent);
+    // Animation frames ride the shared pacer (see FramePacer) so this widget
+    // and the scope dirty the window in the same composite pass. The easing
+    // is wall-clock-based, so motion speed is independent of the tick rate.
+    connect(SonicPi::FramePacer::instance(), &SonicPi::FramePacer::tick,
+            this, &NodeTreeGraph::animateStep);
+    m_renderThread = std::thread([this] { renderLoop(); });
+}
+
+NodeTreeGraph::~NodeTreeGraph()
+{
+    stopAnimating();
+    {
+        QMutexLocker lock(&m_snapshotMutex);
+        m_quit = true;
+    }
+    m_snapshotReady.wakeAll();
+    m_renderThread.join();
+}
+
+void NodeTreeGraph::startAnimating()
+{
+    if (m_animating) return;
+    m_animating = true;
+    m_clock.invalidate();
+    SonicPi::FramePacer::instance()->retain();
+}
+
+void NodeTreeGraph::stopAnimating()
+{
+    if (!m_animating) return;
+    m_animating = false;
+    m_clock.invalidate();
+    SonicPi::FramePacer::instance()->release();
 }
 
 QSize NodeTreeGraph::sizeHint() const
@@ -59,7 +91,8 @@ void NodeTreeGraph::applyTheme(const QColor& text, const QColor& bg, const QColo
     m_kindColor[Synth]  = synth;
     m_kindColor[Fx]     = fx;
     m_kindColor[Sample] = sample;
-    update();
+    requestRender();
+    update();  // empty-tree text repaints even with no frame in flight
 }
 
 void NodeTreeGraph::computeTargets()
@@ -154,18 +187,25 @@ void NodeTreeGraph::setTree(const QVector<Node>& nodes)
         // instead of easing. The tree still tracks the live synth graph;
         // only the decorative glide between layouts is dropped.
         for (auto& l : m_layout) { l.cx = l.tx; l.cy = l.ty; }
-        if (m_anim->isActive()) m_anim->stop();
-        m_clock.invalidate();
+        stopAnimating();
     }
-    else if (!m_anim->isActive())
+    else if (isVisible())
     {
-        m_anim->start();
+        startAnimating();
     }
-    update();
+    // While the animation ticks, the next step renders this tree; only snap
+    // mode and hidden (no tick coming) render here.
+    if (!m_animating) requestRender();
+    if (m_nodes.isEmpty()) update();  // paint the placeholder text directly
 }
 
 void NodeTreeGraph::animateStep()
 {
+    if (!m_animating) return;   // shared tick fires for all pacer clients
+    // Nothing to show and nothing driving new frames — stop ticking. setTree
+    // and showEvent restart the animation.
+    if (!isVisible()) { stopAnimating(); return; }
+
     // Ease by real elapsed time, not a fixed per-frame fraction, so motion speed
     // stays constant when frames arrive unevenly. Clamp dt so a long stall
     // (window hidden/backgrounded) catches up in one step rather than jumping.
@@ -187,79 +227,174 @@ void NodeTreeGraph::animateStep()
         if (std::abs(l.tx - l.cx) > 0.0005f || std::abs(l.ty - l.cy) > 0.0005f) moving = true;
         else { l.cx = l.tx; l.cy = l.ty; }
     }
-    if (!moving) { m_anim->stop(); m_clock.invalidate(); }
-    update();
+    requestRender();
+    if (!moving) stopAnimating();
 }
 
-void NodeTreeGraph::paintEvent(QPaintEvent*)
+void NodeTreeGraph::requestRender()
 {
-    QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing, true);
-    p.fillRect(rect(), m_bg);
-
     const int margin = 22;
     const int w = std::max(1, width() - 2 * margin);
     const int h = std::max(1, height() - 2 * margin);
     auto px = [&](float nx) { return margin + nx * w; };
     auto py = [&](float ny) { return margin + ny * h; };
 
-    if (m_nodes.isEmpty())
+    FrameSnapshot snap;
+    snap.size = size();
+    snap.dpr = devicePixelRatioF();
+    snap.bg = m_bg;
+    snap.text = m_text;
+    for (int k = 0; k < 4; ++k) snap.kindColor[k] = m_kindColor[k];
+    snap.dense = m_nodes.size() > kMaxAnimatedNodes;
+    snap.valid = true;
+
+    snap.edges.reserve(m_nodes.size());
+    snap.dots.reserve(m_nodes.size());
+    m_screenPos.clear();
+    for (const Node& n : m_nodes)
     {
-        p.setPen(QColor(m_text.red(), m_text.green(), m_text.blue(), 110));
-        p.drawText(rect(), Qt::AlignCenter, tr("(no active nodes)"));
-        return;
+        const Layout& l = m_layout[n.id];
+        const QPointF c(px(l.cx), py(l.cy));
+        m_screenPos.insert(n.id, c);   // hover hit-testing, GUI thread only
+        snap.dots.push_back({ c, n.kind });
+        if (n.parent >= 0 && m_index.contains(n.parent))
+        {
+            const Layout& a = m_layout[n.parent];
+            snap.edges.push_back({ QPointF(px(a.cx), py(a.cy)), c });
+        }
     }
 
-    const bool dense = m_nodes.size() > kMaxAnimatedNodes;
+    {
+        QMutexLocker lock(&m_snapshotMutex);
+        m_pending = std::move(snap);   // coalesce: newest snapshot wins
+    }
+    m_snapshotReady.wakeAll();
+}
+
+void NodeTreeGraph::renderLoop()
+{
+    QImage back;
+    for (;;)
+    {
+        FrameSnapshot snap;
+        {
+            QMutexLocker lock(&m_snapshotMutex);
+            while (!m_quit && !m_pending.valid)
+                m_snapshotReady.wait(&m_snapshotMutex);
+            if (m_quit) return;
+            snap = std::move(m_pending);
+            m_pending.valid = false;
+        }
+
+        QElapsedTimer t;
+        t.start();
+        const QSize pxSize = snap.size * snap.dpr;
+        if (back.size() != pxSize)
+            back = QImage(pxSize, QImage::Format_ARGB32_Premultiplied);
+        back.setDevicePixelRatio(snap.dpr);
+        renderFrame(back, snap);
+        m_lastRenderUs.store(static_cast<int>(t.nsecsElapsed() / 1000));
+
+        {
+            QMutexLocker lock(&m_frontMutex);
+            std::swap(m_front, back);
+        }
+        // Blit on the GUI thread. Queued: safe from the worker, and Qt drops
+        // the call if the widget is destroyed first.
+        QMetaObject::invokeMethod(this, qOverload<>(&QWidget::update),
+                                  Qt::QueuedConnection);
+    }
+}
+
+void NodeTreeGraph::renderFrame(QImage& target, const FrameSnapshot& snap)
+{
+    QPainter p(&target);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    p.fillRect(QRect(QPoint(0, 0), snap.size), snap.bg);
 
     // Edges first (parent → child), faint. S-curves when sparse, straight when
     // dense. All edges accumulate into one path and stroke in a single drawPath
     // — one antialiased pass instead of one (bezier) draw call per edge.
     QPainterPath edges;
-    for (const Node& n : m_nodes)
+    for (const FrameSnapshot::Edge& e : snap.edges)
     {
-        if (n.parent < 0 || !m_index.contains(n.parent)) continue;
-        const Layout& a = m_layout[n.parent];
-        const Layout& b = m_layout[n.id];
-        QPointF p0(px(a.cx), py(a.cy)), p1(px(b.cx), py(b.cy));
-        edges.moveTo(p0);
-        if (dense)
+        edges.moveTo(e.a);
+        if (snap.dense)
         {
-            edges.lineTo(p1);
+            edges.lineTo(e.b);
         }
         else
         {
-            const qreal midY = (p0.y() + p1.y()) / 2.0;    // vertical S-curve
-            edges.cubicTo(QPointF(p0.x(), midY), QPointF(p1.x(), midY), p1);
+            const qreal midY = (e.a.y() + e.b.y()) / 2.0;  // vertical S-curve
+            edges.cubicTo(QPointF(e.a.x(), midY), QPointF(e.b.x(), midY), e.b);
         }
     }
-    QPen edgePen(QColor(m_text.red(), m_text.green(), m_text.blue(), 90));
+    QPen edgePen(QColor(snap.text.red(), snap.text.green(), snap.text.blue(), 90));
     edgePen.setWidthF(1.2);
     p.setPen(edgePen);
     p.setBrush(Qt::NoBrush);
     p.drawPath(edges);
 
-    // Nodes (no labels; hover shows the name). Record screen centres for
-    // hit-testing. Drawn grouped by kind so brush/pen are set 4× rather than
-    // once per node; within a kind the radius is constant. Groups paint first
-    // (under leaves), matching their role as containers.
-    m_screenPos.clear();
+    // Nodes (no labels; hover shows the name). Drawn grouped by kind so
+    // brush/pen are set 4× rather than once per node; within a kind the
+    // radius is constant. Groups paint first (under leaves), matching their
+    // role as containers.
     for (int k = 0; k < 4; ++k)
     {
-        const qreal r = dense ? (k == Group ? 4.0 : 3.0)
-                              : (k == Group ? 6.0 : 4.5);
-        QColor col = m_kindColor[k];
+        const qreal r = snap.dense ? (k == Group ? 4.0 : 3.0)
+                                   : (k == Group ? 6.0 : 4.5);
+        QColor col = snap.kindColor[k];
         p.setBrush(col);
         p.setPen(QPen(col.darker(140), 1.0));
-        for (const Node& n : m_nodes)
+        for (const FrameSnapshot::Dot& d : snap.dots)
         {
-            if (n.kind != k) continue;
-            const Layout& l = m_layout[n.id];
-            QPointF c(px(l.cx), py(l.cy));
-            m_screenPos.insert(n.id, c);
-            p.drawEllipse(c, r, r);
+            if (d.kind != k) continue;
+            p.drawEllipse(d.c, r, r);
         }
     }
+}
+
+void NodeTreeGraph::paintEvent(QPaintEvent*)
+{
+    QPainter p(this);
+
+    if (m_nodes.isEmpty())
+    {
+        p.fillRect(rect(), m_bg);
+        p.setPen(QColor(m_text.red(), m_text.green(), m_text.blue(), 110));
+        p.drawText(rect(), Qt::AlignCenter, tr("(no active nodes)"));
+        return;
+    }
+
+    QMutexLocker lock(&m_frontMutex);
+    // A resize can outpace the worker by a frame; backfill so WA_OpaquePaintEvent
+    // never leaves stale pixels outside the blit.
+    if (m_front.isNull() || m_front.deviceIndependentSize() != size())
+        p.fillRect(rect(), m_bg);
+    if (!m_front.isNull())
+        p.drawImage(QPointF(0, 0), m_front);
+}
+
+void NodeTreeGraph::resizeEvent(QResizeEvent* e)
+{
+    QWidget::resizeEvent(e);
+    requestRender();
+}
+
+void NodeTreeGraph::showEvent(QShowEvent* e)
+{
+    QWidget::showEvent(e);
+    // Re-enter the animation loop (it stops itself while hidden); if the
+    // layout is already settled it stops again after one step.
+    if (m_nodes.size() <= kMaxAnimatedNodes && !SonicPi::prefersReducedMotion())
+        startAnimating();
+    requestRender();
+}
+
+void NodeTreeGraph::hideEvent(QHideEvent* e)
+{
+    QWidget::hideEvent(e);
+    stopAnimating();
 }
 
 void NodeTreeGraph::mouseMoveEvent(QMouseEvent* e)
