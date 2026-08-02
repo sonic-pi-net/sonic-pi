@@ -897,9 +897,15 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // group box of their own. The ASIO note sits directly under the Input
     // selector (only ever visible on those drivers), since it explains why
     // that selection is locked.
-    audio_device_layout->addWidget(enable_scsynth_inputs, 8, 0);
-    audio_device_layout->addWidget(mixer_invert_stereo, 9, 0);
-    audio_device_layout->addWidget(mixer_force_mono, 10, 0);
+    // One tight column (same spacing as the Synths and FX group) rather than
+    // a grid row each: Reset shares the first row, and its taller button would
+    // stretch that row and open up the gap under the first toggle.
+    QVBoxLayout* input_toggles_col = new QVBoxLayout;
+    input_toggles_col->setSpacing(ScaleHeightForDPI(2));
+    input_toggles_col->addWidget(enable_scsynth_inputs);
+    input_toggles_col->addWidget(mixer_invert_stereo);
+    input_toggles_col->addWidget(mixer_force_mono);
+    audio_device_layout->addLayout(input_toggles_col, 8, 0);
     audio_device_layout->addWidget(asio_input_note, 3, 0, 1, 2);
     audio_device_layout->addWidget(inputLabel, 2, 0);
     audio_device_layout->addWidget(audio_input_combo, 2, 1);
@@ -959,7 +965,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
         beginDeviceSwitchFeedback();
         emit audioDeviceResetRequested();
     });
-    audio_device_layout->addWidget(reset_device_button, 8, 1, Qt::AlignRight);
+    audio_device_layout->addWidget(reset_device_button, 8, 1, Qt::AlignRight | Qt::AlignTop);
 
     // Fixed, uniform height so each combo's grey fill exactly matches its
     // focus/hover highlight (otherwise the widget floats taller than the
