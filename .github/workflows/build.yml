@@ -458,7 +458,7 @@ jobs:
       - name: Verify PipeWire backend compiled in
         working-directory: ${{github.workspace}}/app
         run: |
-          strings server/native/supersonic | grep -q "libpipewire-0.3.so" \
+          strings server/native/sonic-pi-supersonic | grep -q "libpipewire-0.3.so" \
             || { echo "PipeWire backend missing from supersonic binary"; exit 1; }
 
       - name: Package AppImage
