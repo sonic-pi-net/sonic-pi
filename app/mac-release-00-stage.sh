@@ -79,6 +79,10 @@ if [ ! -f "${resources}/app/server/native/piano_wavetable.dat" ]; then
     log_info "  WARNING: piano_wavetable.dat missing — :piano will be silent in this build"
 fi
 
+# Finder debris never ships: strip it from the whole staged bundle before
+# the manifest check, so a browsed folder can't fail (or pollute) a release.
+find "${RELEASE_APP}" -name .DS_Store -delete
+
 # Hygiene: app/server/native is wholesale-copied above, so verify nothing
 # unexpected (e.g. a stale engine binary from a prior build) rode along.
 # Fail-closed allowlist — the macOS counterpart to the Windows manifest in
