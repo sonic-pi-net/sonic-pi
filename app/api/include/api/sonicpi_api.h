@@ -210,6 +210,17 @@ struct AudioDeviceTableInfo {
         std::string driver;                 // exact JUCE type name
         std::vector<std::string> outputs;
         std::vector<std::string> inputs;
+        // Per-device capability flags, parallel to outputs/inputs.
+        // Comma-separated tokens: "follows-default" (row tracks the OS/
+        // session default; render as the driver's default entry),
+        // "exclusive-duplex" (both sides live on one node; picking it
+        // anywhere selects it everywhere), "synthetic" (engine-contributed
+        // row, not a literal JUCE device — the engine translates picking
+        // it into a system-mode request). "" = plain device. The GUI
+        // renders rows and semantics from these instead of synthesizing
+        // an "OS Default" entry client-side.
+        std::vector<std::string> outputFlags;
+        std::vector<std::string> inputFlags;
     };
     std::string currentDriver;
     std::string intendedDriver;             // "" = no pending pick

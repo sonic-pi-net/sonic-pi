@@ -2839,6 +2839,17 @@ static QString driverFamily(const QString& t)
     return t.startsWith("Windows Audio") ? QString("Windows Audio") : t;
 }
 
+// Item role carrying a device row's capability flags (comma-separated
+// tokens from the engine's device table, e.g. "follows-default").
+static constexpr int kDeviceFlagsRole = Qt::UserRole + 1;
+
+// True when the combo row at idx carries the given capability token.
+static bool rowHasFlag(const QComboBox* combo, int idx, const QString& flag)
+{
+    return combo->itemData(idx, kDeviceFlagsRole).toString()
+        .split(',').contains(flag);
+}
+
 // Locate the selected driver's group in the per-driver device table.
 // Returns nullptr when the table is absent (engine predates it) or the
 // driver has no entry — callers then fall back to filtering the flat list.
@@ -2875,18 +2886,27 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
 
     audio_output_combo->clear();
 
-    // OS Default with resolved device as suffix — "__system__" sentinel
-    // in itemData is what gets sent to SuperSonic
-    // ASIO has no OS-level "default device" concept \u2014 each ASIO driver IS
+    // The device table is the single source of truth when the engine
+    // broadcasts capability flags: every row the user can pick comes from
+    // the engine (including each driver's default-follow entry, synthetic
+    // or native), rendered verbatim with semantics read from the flags —
+    // the GUI invents nothing and sends literal device names back.
+    // Pre-flags engines fall back to the legacy synthesized "OS Default"
+    // row with its "__system__" sentinel.
+    // ASIO has no OS-level "default device" concept — each ASIO driver IS
     // its single device. Substitute "-- None --" (sentinel `__none__`,
     // NO OSC fired when picked) so the user explicitly chooses an ASIO
-    // device. Other drivers keep the OS Default behaviour.
+    // device.
     QString selectedDriver = audio_driver_combo->currentText();
     bool isAsio = (selectedDriver == "ASIO");
     bool inSystemMode = (devicesInfo.mode.empty() || devicesInfo.mode == "system");
+    const auto* tableGroup =
+        tableGroupFor(m_audioDeviceTable, m_hasAudioDeviceTable, selectedDriver);
+    const bool tableHasFlags = tableGroup != nullptr
+        && tableGroup->outputFlags.size() == tableGroup->outputs.size();
     if (isAsio) {
         audio_output_combo->addItem(tr("-- None --"), QString("__none__"));
-    } else {
+    } else if (!tableHasFlags) {
         QString systemDefaultLabel = tr("OS Default");
         if (inSystemMode && !devicesInfo.currentDevice.empty()) {
             systemDefaultLabel = tr("OS Default (%1)")
@@ -2902,11 +2922,27 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
     // dropdown clean (e.g. Linux: PipeWire's friendly names never mix with
     // the ALSA compat-layer entries). ASIO stays a coarse yes/no bucket
     // (an ASIO driver is its own single device).
-    const auto* tableGroup =
-        tableGroupFor(m_audioDeviceTable, m_hasAudioDeviceTable, selectedDriver);
     if (tableGroup) {
-        for (const auto& dev : tableGroup->outputs)
-            audio_output_combo->addItem(QString::fromStdString(dev));
+        for (size_t i = 0; i < tableGroup->outputs.size(); ++i) {
+            const QString name = QString::fromStdString(tableGroup->outputs[i]);
+            const QString flags = tableHasFlags
+                ? QString::fromStdString(tableGroup->outputFlags[i]) : QString();
+            QString label = name;
+            // Default-follow rows show what the default currently
+            // resolves to when that is a different device (synthetic
+            // rows; the PipeWire native entry resolves to itself).
+            if (flags.contains(QStringLiteral("follows-default"))
+                && inSystemMode && !devicesInfo.currentDevice.empty()
+                && devicesInfo.currentDevice != tableGroup->outputs[i]) {
+                label = tr("%1 (%2)").arg(name,
+                    QString::fromStdString(devicesInfo.currentDevice));
+            }
+            // itemData carries the literal device name so the emit path
+            // sends exactly what the engine published, whatever the label.
+            audio_output_combo->addItem(label, name);
+            audio_output_combo->setItemData(audio_output_combo->count() - 1,
+                                            flags, kDeviceFlagsRole);
+        }
     } else {
         bool haveTypes = devicesInfo.deviceTypes.size() == devicesInfo.devices.size();
         for (size_t i = 0; i < devicesInfo.devices.size(); ++i) {
@@ -2935,7 +2971,17 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
     bool selectedBySystem = false;
     bool engineIsOnAsio   = (m_engineActualDriver == "ASIO");
     if (!isAsio && inSystemMode) {
+        // Legacy synthesized row first; otherwise the table's own
+        // default-follow entry (flagged by the engine).
         int idx = audio_output_combo->findData(QString("__system__"));
+        if (idx < 0) {
+            for (int i = 0; i < audio_output_combo->count(); ++i) {
+                if (rowHasFlag(audio_output_combo, i, QStringLiteral("follows-default"))) {
+                    idx = i;
+                    break;
+                }
+            }
+        }
         if (idx >= 0) {
             audio_output_combo->setCurrentIndex(idx);
             selectedBySystem = true;
@@ -2954,7 +3000,13 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
                         && viewingActiveDriver
                         && (!isAsio || engineIsOnAsio);
     if (selectByCurrent) {
-        int idx = audio_output_combo->findText(QString::fromStdString(devicesInfo.currentDevice));
+        // Table rows carry the literal device name as itemData (labels may
+        // be decorated); legacy rows carry none and match by text.
+        int idx = audio_output_combo->findData(
+            QString::fromStdString(devicesInfo.currentDevice));
+        if (idx < 0)
+            idx = audio_output_combo->findText(
+                QString::fromStdString(devicesInfo.currentDevice));
         if (idx >= 0) {
             audio_output_combo->setCurrentIndex(idx);
         }

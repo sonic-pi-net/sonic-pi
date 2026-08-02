@@ -328,8 +328,11 @@ void OscHandler::oscMessage(std::vector<char> buffer)
         {
             // Wire format (counts-first throughout):
             //   currentDriver(str), intendedDriver(str), numDrivers(int32),
-            //   then per driver: name(str), numOutputs(int32), outputs...,
-            //   numInputs(int32), inputs...
+            //   then per driver: name(str),
+            //   numOutputs(int32), then per output: name(str), flags(str),
+            //   numInputs(int32),  then per input:  name(str), flags(str).
+            //   Flags are comma-separated capability tokens (see
+            //   AudioDeviceTableInfo::DriverDevices), "" = plain device.
             AudioDeviceTableInfo table;
             oscpkt::Message::ArgReader ar = msg->arg();
             ar.popStr(table.currentDriver);
@@ -345,17 +348,21 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 ar.popInt32(n);
                 for (int i = 0; ar.isOk() && i < n; i++)
                 {
-                    std::string s;
+                    std::string s, f;
                     ar.popStr(s);
+                    ar.popStr(f);
                     group.outputs.push_back(s);
+                    group.outputFlags.push_back(f);
                 }
                 n = 0;
                 ar.popInt32(n);
                 for (int i = 0; ar.isOk() && i < n; i++)
                 {
-                    std::string s;
+                    std::string s, f;
                     ar.popStr(s);
+                    ar.popStr(f);
                     group.inputs.push_back(s);
+                    group.inputFlags.push_back(f);
                 }
                 ok = ar.isOk();
                 if (ok)
