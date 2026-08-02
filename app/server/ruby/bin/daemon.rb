@@ -754,7 +754,10 @@ module SonicPi
         # Sonic Pi's default tempo. Seeded at SuperSonic boot (not a post-boot
         # OSC tempo set) so bpm and beat origin are consistent from the first
         # clock read — SuperSonic's own default is 120.
-        "--default-bpm" => "60"
+        "--default-bpm" => "60",
+        # Name SuperSonic publishes to OS audio/MIDI registries (PipeWire
+        # nodes, MIDI client, Link peer) — users should see Sonic Pi there.
+        "--app-name" => "Sonic Pi"
       }.freeze
 
       OPTS_TOML_KEY_CONVERSION = {

@@ -30,10 +30,11 @@ module SonicPi
     # SONIC_PI_MIX_ENGINE overrides it, so a candidate build carrying new
     # UGens can be measured without overwriting the installed binary.
     ENGINE = ENV.fetch("SONIC_PI_MIX_ENGINE") do
-      [File.join(ROOT, "app/server/native/supersonic"),
-       File.join(ROOT, "app/server/native/supersonic.exe")]
+      [File.join(ROOT, "app/server/native/sonic-pi-supersonic"),
+       File.join(ROOT, "app/server/native/Sonic Pi - SuperSonic"),
+       File.join(ROOT, "app/server/native/Sonic Pi - SuperSonic.exe")]
         .find { |p| File.executable?(p) } ||
-        File.join(ROOT, "app/server/native/supersonic")
+        File.join(ROOT, "app/server/native/sonic-pi-supersonic")
     end
     SYNTHDEFS = File.join(ROOT, "etc/synthdefs/compiled")
     HARNESS_DEFS = File.expand_path("../synthdefs/compiled", __dir__)

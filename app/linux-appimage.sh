@@ -308,7 +308,7 @@ bundle_deps() {
         --appdir "$APPDIR" \
         --plugin qt \
         --executable "$APPDIR/usr/bin/sonic-pi" \
-        --executable "$APPDIR/usr/share/sonic-pi/app/server/native/supersonic" \
+        --executable "$APPDIR/usr/share/sonic-pi/app/server/native/sonic-pi-supersonic" \
         --executable "$APPDIR/usr/share/sonic-pi/app/server/native/aubio_onset" \
         "${extra_exes[@]}" \
         "${exclude_args[@]}" \

@@ -196,7 +196,7 @@ compute_depends() {
     local libs
     libs=$( { find "$root" -name '*.so*' -type f; \
               echo "$root/app/build/gui/sonic-pi"; \
-              echo "$root/app/server/native/supersonic"; \
+              echo "$root/app/server/native/sonic-pi-supersonic"; \
               echo "$root/app/server/native/aubio_onset"; \
               if [ -x "$root/ruby/bin/ruby" ]; then echo "$root/ruby/bin/ruby"; fi; } \
             | LD_LIBRARY_PATH="$root/lib:$root/ruby/lib" xargs -r ldd 2>/dev/null \

@@ -102,6 +102,9 @@ ExternalProject_Add(supersonic
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DBUILD_TESTS=OFF
         -DBUILD_NIF=OFF
+        # Published in OS-facing binary metadata (Windows version resource,
+        # macOS embedded Info.plist) so consent prompts name Sonic Pi.
+        "-DSUPERSONIC_PRODUCT_NAME=Sonic Pi - SuperSonic"
         # a nested project starts from a bare cache, so hardening and
         # reproducibility flags have to be handed down explicitly
         -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
@@ -123,14 +126,20 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:aubio_onset> ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
 )
 
-# Copy SuperSonic binary to server/native/ after every build
+# Copy SuperSonic binary to server/native/ after every build. It ships under
+# a Sonic Pi name because the OS identifies the process by its executable —
+# firewall consent prompts, Activity Monitor, ps, and PipeWire's ALSA-bridge
+# node name all display it — and users should see Sonic Pi there.
 ExternalProject_Get_Property(supersonic BINARY_DIR)
 if(WIN32)
     set(SUPERSONIC_BUILD_NAME "SuperSonic.exe")
-    set(SUPERSONIC_NATIVE_NAME "supersonic.exe")
+    set(SUPERSONIC_NATIVE_NAME "Sonic Pi - SuperSonic.exe")
+elseif(APPLE)
+    set(SUPERSONIC_BUILD_NAME "SuperSonic")
+    set(SUPERSONIC_NATIVE_NAME "Sonic Pi - SuperSonic")
 else()
     set(SUPERSONIC_BUILD_NAME "SuperSonic")
-    set(SUPERSONIC_NATIVE_NAME "supersonic")
+    set(SUPERSONIC_NATIVE_NAME "sonic-pi-supersonic")
 endif()
 add_custom_target(copy_supersonic ALL
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -146,11 +155,11 @@ add_custom_target(copy_supersonic ALL
     DEPENDS supersonic
 )
 
-# Keep the PDB next to supersonic.exe so a WER crash dump from this build can
-# be symbolicated. Not harvested into the MSI. Same file each build config —
-# dbghelp resolves it by the GUID in the exe's debug directory, and the
-# case-insensitive rename (SuperSonic.pdb -> supersonic.pdb) is transparent
-# to it.
+# Keep the PDB next to the shipped engine exe so a WER crash dump from this
+# build can be symbolicated. Not harvested into the MSI. Same file each build
+# config — dbghelp resolves it by the GUID in the exe's debug directory and
+# looks it up by the embedded name (SuperSonic.pdb, case-insensitive), which
+# is independent of the exe's shipped filename.
 if(WIN32)
     add_custom_command(TARGET copy_supersonic POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -160,7 +169,7 @@ if(WIN32)
         VERBATIM)
 endif()
 
-# Refresh the bundled MSVC runtime DLLs alongside supersonic.exe on every build.
+# Refresh the bundled MSVC runtime DLLs alongside the engine exe on every build.
 # app/server/native/ is gitignored and persists across builds, so when the
 # developer's MSVC toolchain updates (e.g. 14.29 -> 14.44) the freshly compiled
 # binary picks up the new headers while stale bundled DLLs remain. Since the

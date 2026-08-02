@@ -237,12 +237,18 @@ module SonicPi
       end
     end
 
+    # The binary ships under a Sonic Pi name because the OS identifies the
+    # process by its executable — firewall consent prompts, Activity
+    # Monitor, ps — and users should see Sonic Pi there, not the engine's
+    # internal name.
     def self.supersonic_path
       path = case os
              when :windows
-               File.absolute_path("#{native_path}/supersonic.exe")
+               File.absolute_path("#{native_path}/Sonic Pi - SuperSonic.exe")
+             when :macos
+               File.absolute_path("#{native_path}/Sonic Pi - SuperSonic")
              else
-               File.absolute_path("#{native_path}/supersonic")
+               File.absolute_path("#{native_path}/sonic-pi-supersonic")
              end
       raise "Unable to find SuperSonic. I looked here: #{path.inspect}" unless File.exist?(path)
       path

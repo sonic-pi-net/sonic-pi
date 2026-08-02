@@ -104,7 +104,7 @@ phase_smoke() {
     # way the build container, with its Build-Depends installed, cannot show.
     apt-get install -y "$WORK"/build-area/*.deb
     test -x /usr/bin/sonic-pi
-    test -x /usr/lib/sonic-pi/app/server/native/supersonic
+    test -x "/usr/lib/sonic-pi/app/server/native/sonic-pi-supersonic"
     # A Policy package links the system Qt and friends — every library must
     # resolve with no bundled paths and no display.
     missing=$(ldd /usr/bin/sonic-pi | grep 'not found' || true)
