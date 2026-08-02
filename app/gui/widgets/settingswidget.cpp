@@ -3623,6 +3623,7 @@ void SettingsWidget::resetThemeMods() {
     if (m_spreadDial)  { QSignalBlocker b(m_spreadDial);  m_spreadDial->setValue(SonicPiTheme::kHueSpreadDefault); }
     if (monochromeCheck) { QSignalBlocker b(monochromeCheck); monochromeCheck->setChecked(false); }
     if (invertCheck)     { QSignalBlocker b(invertCheck);     invertCheck->setChecked(false); }
+    if (gui_transparency_slider) gui_transparency_slider->setValue(0);
     updateHueDialTint(0);
     updateSpreadDialTint(SonicPiTheme::kHueSpreadDefault);
     emit themeChanged();
