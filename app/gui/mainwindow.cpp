@@ -794,13 +794,8 @@ void MainWindow::setupWindowStructure()
     prefsLayout->addLayout(prefsButtonLayout);
     prefsWidget->setObjectName("prefs");
     prefsWidget->setLayout(prefsLayout);
-    // The pad covers the pane's own chrome on top of settingsWidget's hint,
-    // so it is not spare room to reclaim: any smaller and Qt squeezes the
-    // group boxes below their minimums until their labels clip. The pane's
-    // height is set by the tallest tab, which is where any real saving has
-    // to come from.
-    prefsWidget->setMinimumHeight(qMax(settingsWidget->height(), settingsWidget->sizeHint().height()) + ScaleHeightForDPI(240));
-    prefsWidget->setMinimumWidth(qMax(settingsWidget->width(), settingsWidget->sizeHint().width()) + ScaleWidthForDPI(200));
+    // No size constraints here: the pane is sized on show/resize by
+    // movePrefsWidget — its content hint, capped by the window.
     QSizePolicy prefsSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     prefsWidget->setSizePolicy(prefsSizePolicy);
 
@@ -8657,6 +8652,12 @@ SonicPiTheme* MainWindow::GetTheme() const
 void MainWindow::movePrefsWidget()
 {
     int h = toolBar->size().height() + 20;
+    // Content-sized (the layout's hint: tallest/widest tab plus the pane's
+    // own chrome), capped by the space the window offers below the toolbar
+    // so an oversized tab clips inside the pane rather than off-window.
+    QSize avail(size().width() - ScaleWidthForDPI(20),
+                size().height() - h - ScaleHeightForDPI(20));
+    prefsWidget->resize(prefsWidget->sizeHint().boundedTo(avail));
     int full_width = this->size().width();
     int w = full_width - prefsWidget->size().width();
     prefsWidget->move(w, h);
@@ -8673,16 +8674,17 @@ static void cancelPrefsSlide(QWidget* prefsWidget)
 
 void MainWindow::slidePrefsWidgetIn()
 {
-    int h = toolBar->size().height() + 20;
+    // Sizes the pane to current content and places it at its resting spot.
+    movePrefsWidget();
+    const int h = prefsWidget->pos().y();
+    const int w = prefsWidget->pos().x();
     int full_width = this->size().width();
-    int w = full_width - prefsWidget->size().width();
 
     cancelPrefsSlide(prefsWidget);
 
     // With reduce motion preferred (in-app setting or OS accessibility
     // setting), place the pane directly instead of sliding it in.
     if (SonicPi::prefersReducedMotion()) {
-        prefsWidget->move(w, h);
         prefsWidget->show();
         prefsWidget->raise();
         return;

@@ -1222,11 +1222,10 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     network_box_layout->addWidget(network_ip_label);
     network_box->setLayout(network_box_layout);
 
-    QGroupBox *midi_config_box = new QGroupBox(tr("MIDI Configuration"));
-    midi_config_box->setToolTip(tr("Configure MIDI behaviour"));
-
-    QGroupBox *midi_ports_box = new QGroupBox(tr("MIDI Ports"));
-    midi_ports_box->setToolTip(tr("List all connected MIDI Ports"));
+    // One box, same shape as Game Controllers: the enable flag and default
+    // channel at the top, the connected ports below.
+    QGroupBox *midi_box = new QGroupBox(tr("MIDI"));
+    midi_box->setToolTip(tr("Configure MIDI behaviour and list all connected MIDI ports"));
 
     midi_enable_check = new QCheckBox(tr("Enable incoming MIDI cues"));
     setCheckIcon(midi_enable_check, kMidiCuesSvg);
@@ -1271,20 +1270,18 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     connect(midi_out_ports_list, &DeviceListWidget::deviceToggled, this,
             [this](const QString& name, bool enabled) { emit midiPortEnabledChanged("out", name, enabled); });
 
-    QVBoxLayout *midi_ports_box_layout = new QVBoxLayout;
-    QVBoxLayout *midi_config_box_layout = new QVBoxLayout;
-    midi_config_box_layout->addWidget(midi_enable_check);
-    midi_config_box_layout->addLayout(midi_default_channel_layout);
+    QVBoxLayout *midi_box_layout = new QVBoxLayout;
+    midi_box_layout->addWidget(midi_enable_check);
+    midi_box_layout->addLayout(midi_default_channel_layout);
+    midi_box_layout->addSpacing(8);
+    midi_box_layout->addWidget(midi_in_header);
+    midi_box_layout->addWidget(midi_in_ports_list);
+    midi_box_layout->addSpacing(8);
+    midi_box_layout->addWidget(midi_out_header);
+    midi_box_layout->addWidget(midi_out_ports_list);
+    midi_box_layout->addStretch(1);
 
-    midi_ports_box_layout->addWidget(midi_in_header);
-    midi_ports_box_layout->addWidget(midi_in_ports_list);
-    midi_ports_box_layout->addSpacing(8);
-    midi_ports_box_layout->addWidget(midi_out_header);
-    midi_ports_box_layout->addWidget(midi_out_ports_list);
-    midi_ports_box_layout->addStretch(1);
-
-    midi_ports_box->setLayout(midi_ports_box_layout);
-    midi_config_box->setLayout(midi_config_box_layout);
+    midi_box->setLayout(midi_box_layout);
 
     QGroupBox *gamepad_box = new QGroupBox(tr("Game Controllers"));
     gamepad_box->setToolTip(tr("Configure game controller behaviour"));
@@ -1307,10 +1304,9 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
     gamepad_box->setLayout(gamepad_box_layout);
 
     QGridLayout *io_tab_layout = new QGridLayout();
-    io_tab_layout->addWidget(midi_ports_box, 0, 0, 3, 1);
-    io_tab_layout->addWidget(midi_config_box, 0, 1);
-    io_tab_layout->addWidget(gamepad_box, 1, 1);
-    io_tab_layout->addWidget(network_box, 2, 1);
+    io_tab_layout->addWidget(midi_box, 0, 0, 2, 1);
+    io_tab_layout->addWidget(gamepad_box, 0, 1);
+    io_tab_layout->addWidget(network_box, 1, 1);
 
     ioTab->setLayout(io_tab_layout);
     return ioTab;
@@ -1680,6 +1676,14 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     m_spreadCaption->setAlignment(Qt::AlignHCenter);
     m_spreadCaption->setToolTip(m_spreadDial->toolTip());
 
+    // Reserve the wider of the two texts so the mid-drag swap to
+    // "Release to apply" never reflows the row.
+    const int dragCaptionW = m_hueCaption->fontMetrics().horizontalAdvance(tr("Release to apply"));
+    m_hueCaption->setMinimumWidth(
+        qMax(dragCaptionW, m_hueCaption->fontMetrics().horizontalAdvance(kHueCaption)));
+    m_spreadCaption->setMinimumWidth(
+        qMax(dragCaptionW, m_spreadCaption->fontMetrics().horizontalAdvance(kSpreadCaption)));
+
     // The re-theme is deferred to release (too expensive per drag step), so
     // mid-drag only the dial tracks; the caption says so rather than looking dead.
     connect(m_hueDial, &QAbstractSlider::sliderPressed, this,
@@ -1707,16 +1711,11 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
                                      "scheme is kept."));
     connect(m_resetModsButton, &QPushButton::clicked, this, &SettingsWidget::resetThemeMods);
 
-    // Toggles centred vertically so they sit level with the dials beside them.
     QVBoxLayout* toggleCol = new QVBoxLayout;
     toggleCol->setSpacing(ScaleHeightForDPI(4));
-    toggleCol->addStretch(1);
     toggleCol->addWidget(proIconsCheck);
     toggleCol->addWidget(monochromeCheck);
     toggleCol->addWidget(invertCheck);
-    toggleCol->addSpacing(ScaleHeightForDPI(8));
-    toggleCol->addWidget(m_resetModsButton);
-    toggleCol->addStretch(1);
 
     // Window transparency as an amp-style ArcDial (same feel as the volume,
     // hue and flash dials), with the percentage shown in the hub. In the
@@ -1734,13 +1733,21 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     transparencyCaption->setAlignment(Qt::AlignHCenter);
     transparencyCaption->setToolTip(gui_transparency_slider->toolTip());
 
-    // Toggles left, the three dials sharing the rest.
-    QHBoxLayout* tweaks = new QHBoxLayout;
-    tweaks->addLayout(toggleCol, 1);
-    tweaks->addLayout(dialColumn(m_hueDial, m_hueCaption), 1);
-    tweaks->addLayout(dialColumn(m_spreadDial, m_spreadCaption), 1);
-    tweaks->addLayout(dialColumn(gui_transparency_slider, transparencyCaption), 1);
-    theme_box_layout->addLayout(tweaks);
+    // The three dials in their own row directly beneath the theme cards,
+    // then the toggles below with Reset on the right (mirrors the Audio
+    // Device box).
+    QHBoxLayout* dials_row = new QHBoxLayout;
+    dials_row->addLayout(dialColumn(m_hueDial, m_hueCaption), 1);
+    dials_row->addLayout(dialColumn(m_spreadDial, m_spreadCaption), 1);
+    dials_row->addLayout(dialColumn(gui_transparency_slider, transparencyCaption), 1);
+    theme_box_layout->addLayout(dials_row);
+    theme_box_layout->addSpacing(ScaleHeightForDPI(12));
+
+    QHBoxLayout* mods_row = new QHBoxLayout;
+    mods_row->addLayout(toggleCol);
+    mods_row->addStretch(1);
+    mods_row->addWidget(m_resetModsButton, 0, Qt::AlignVCenter);
+    theme_box_layout->addLayout(mods_row);
     theme_box->setLayout(theme_box_layout);
 
     QGroupBox *scope_box = new QGroupBox(tr("Show and Hide Scope"));
@@ -1897,7 +1904,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
     QVBoxLayout *leftVizPrefs = new QVBoxLayout;
     leftVizPrefs->addWidget(theme_box);
     leftVizPrefs->addStretch(1);
-    leftVizPrefs->addWidget(editor_visuals_box);
+    leftVizPrefs->addWidget(scope_box);
 
     QVBoxLayout *rightVizPrefs = new QVBoxLayout;
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
@@ -1906,7 +1913,7 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
 #endif
     rightVizPrefs->addWidget(scope_box_kinds);
     rightVizPrefs->addStretch(1);
-    rightVizPrefs->addWidget(scope_box);
+    rightVizPrefs->addWidget(editor_visuals_box);
 
     QHBoxLayout *vizPrefsColumns = new QHBoxLayout;
     vizPrefsColumns->addLayout(leftVizPrefs, 1);
