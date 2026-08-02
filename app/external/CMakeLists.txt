@@ -105,6 +105,7 @@ ExternalProject_Add(supersonic
         # Published in OS-facing binary metadata (Windows version resource,
         # macOS embedded Info.plist) so consent prompts name Sonic Pi.
         "-DSUPERSONIC_PRODUCT_NAME=Sonic Pi - SuperSonic"
+        "-DSUPERSONIC_COMPANY_NAME=Sonic Pi"
         # a nested project starts from a bare cache, so hardening and
         # reproducibility flags have to be handed down explicitly
         -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
