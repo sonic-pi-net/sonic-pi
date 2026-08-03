@@ -81,11 +81,34 @@ module SonicPi
 
     attr_reader :port
 
-    def initialize(port: 57_190, log: nil)
-      @port = port
-      @log_path = log || File.join(Dir.tmpdir, "sonic-pi-mix-harness-#{port}.log")
+    def initialize(port: nil, log: nil)
+      # No fixed default: 57190 lives inside the Windows ephemeral port
+      # range, so any transient socket on a CI runner can land on it and
+      # fail every test in the suite with "port already in use".
+      @port = port || MixEngine.free_port_pair
+      @log_path = log || File.join(Dir.tmpdir, "sonic-pi-mix-harness-#{@port}.log")
       @replies = Queue.new
       @loaded_mixer = nil
+    end
+
+    # First base port from 57190 (stepping by 2: engine + reply) where both
+    # ports bind cleanly.
+    def self.free_port_pair(base = 57_190, tries = 64)
+      tries.times do |i|
+        candidate = base + (i * 2)
+        return candidate if [candidate, candidate + 1].all? do |p|
+          begin
+            probe = UDPSocket.new
+            probe.bind("127.0.0.1", p)
+            probe.close
+            true
+          rescue Errno::EADDRINUSE, SystemCallError
+            probe.close rescue nil
+            false
+          end
+        end
+      end
+      raise EngineError, "no free port pair found from #{base}"
     end
 
     def start
@@ -97,9 +120,16 @@ module SonicPi
       @pid = Process.spawn(ENGINE, "--headless", "-u", @port.to_s, "-o", "2", "-i", "0",
                            out: @log_path, err: [:child, :out])
       @server = OSC::UDPServer.new(@port + 1) { |addr, *args| @replies << [addr, args] }
-      wait_for_boot
-      enable_notifications
-      load_synthdefs
+      begin
+        wait_for_boot
+        enable_notifications
+        load_synthdefs
+      rescue StandardError
+        # A part-booted engine left running holds the port and turns one
+        # failure into an error for every test that follows.
+        stop
+        raise
+      end
       self
     end
 
