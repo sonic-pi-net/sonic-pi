@@ -860,7 +860,7 @@ void MainWindow::setupWindowStructure()
         SonicPiEditor* editor = new SonicPiEditor(workspace, theme, this);
         editor->getContext()->setAccessibleName(tr("Run Context"));
         editorTabWidget->setTabToolTip(editorTabWidget->addTab(editor, w),
-                                       tr("Code buffer %1. All buffers are saved automatically.").arg(ws));
+                                       tr("Code buffer %1").arg(ws));
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
         connect(workspace, &SonicPiScintilla::zoomLevelChanged, this, &MainWindow::updateErrorCardZoom);
