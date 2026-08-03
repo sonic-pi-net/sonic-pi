@@ -95,11 +95,37 @@ module SonicPi
       @udp_server.add_method(pattern, &blk)
     end
 
+    # Subscribe delivery is not guaranteed: the datagram is lost if the
+    # engine isn't receiving when it's sent (e.g. mid slow device open at
+    # boot), and with it every event this subsystem would ever push. So
+    # confirm in the background: the engine echoes the rpc correlation
+    # token on <verb>.reply, and we resend until it does. Subscribing is
+    # idempotent, so resends are harmless. The plain send up front keeps
+    # engines that predate the ack subscribing exactly as before — against
+    # one of those the confirm loop runs dry and logs, nothing more.
+    SUBSCRIBE_CONFIRM_ATTEMPTS = 30
+
     def subscribe_to_notifications!
       send("#{@address_space}/notify/subscribe")
+      my_gen = @reply_mut.synchronize { @subscribe_gen = (@subscribe_gen || 0) + 1 }
+      Thread.new do
+        res = nil
+        attempts = 0
+        while @subscribe_gen == my_gen && attempts < SUBSCRIBE_CONFIRM_ATTEMPTS && res.nil?
+          attempts += 1
+          res = rpc("#{@address_space}/notify/subscribe",
+                    expect: "#{@address_space}/notify/subscribe.reply",
+                    timeout: 1.0)
+        end
+        if res.nil? && @subscribe_gen == my_gen
+          STDERR.puts "#{@address_space} subscribe unconfirmed after #{attempts} attempts — subsystem events may not arrive"
+        end
+      end
     end
 
     def unsubscribe_from_notifications!
+      # Retire any in-flight confirm loop so it can't re-subscribe us.
+      @reply_mut.synchronize { @subscribe_gen = (@subscribe_gen || 0) + 1 }
       send("#{@address_space}/notify/unsubscribe")
     end
   end
