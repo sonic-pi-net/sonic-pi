@@ -1624,11 +1624,12 @@ QGroupBox* SettingsWidget::createVisualizationPrefsTab() {
 
         themeGridLayout->addWidget(s.btn, s.row, s.col);
     }
-    // Equal minimum width on the three columns; a trailing stretch column takes
-    // any remaining width.
-    for (int c = 0; c < 3; ++c)
+    // Equal minimum width and equal stretch on the three columns so the cards
+    // share the full box width, keeping the grid flush with the rows below.
+    for (int c = 0; c < 3; ++c) {
         themeGridLayout->setColumnMinimumWidth(c, btnMinW);
-    themeGridLayout->setColumnStretch(3, 1);
+        themeGridLayout->setColumnStretch(c, 1);
+    }
 
     QVBoxLayout *theme_box_layout = new QVBoxLayout;
     theme_box_layout->addWidget(themeGrid);
