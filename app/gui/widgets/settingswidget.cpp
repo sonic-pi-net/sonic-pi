@@ -2941,13 +2941,19 @@ void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devices
             const QString flags = tableHasFlags
                 ? QString::fromStdString(tableGroup->outputFlags[i]) : QString();
             QString label = name;
+            // The synthetic default-follow row's name is a wire sentinel
+            // ("System Default"); display the translatable label the
+            // legacy path always used. itemData still carries the wire
+            // name.
+            if (flags.contains(QStringLiteral("synthetic")))
+                label = tr("OS Default");
             // Default-follow rows show what the default currently
             // resolves to when that is a different device (synthetic
             // rows; the PipeWire native entry resolves to itself).
             if (flags.contains(QStringLiteral("follows-default"))
                 && inSystemMode && !devicesInfo.currentDevice.empty()
                 && devicesInfo.currentDevice != tableGroup->outputs[i]) {
-                label = tr("%1 (%2)").arg(name,
+                label = tr("%1 (%2)").arg(label,
                     QString::fromStdString(devicesInfo.currentDevice));
             }
             // itemData carries the literal device name so the emit path
