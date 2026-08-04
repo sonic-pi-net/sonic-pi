@@ -58,6 +58,7 @@ HEADERS += utils/ruby_help.h \
            widgets/tutorialwidgets.h \
 
 TRANSLATIONS = lang/sonic-pi_ar.ts \
+               lang/sonic-pi_az.ts \
                lang/sonic-pi_bg.ts \
                lang/sonic-pi_bn.ts \
                lang/sonic-pi_bs.ts \

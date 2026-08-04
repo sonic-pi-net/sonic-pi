@@ -202,6 +202,7 @@ endif()
 
 SET(TS_FILES
     ${QTAPP_ROOT}/lang/sonic-pi_ar.ts
+    ${QTAPP_ROOT}/lang/sonic-pi_az.ts
     ${QTAPP_ROOT}/lang/sonic-pi_bg.ts
     ${QTAPP_ROOT}/lang/sonic-pi_bn.ts
     ${QTAPP_ROOT}/lang/sonic-pi_bs.ts
