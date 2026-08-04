@@ -115,9 +115,10 @@ relevant licenses:
 - [TLSF](http://www.gii.upv.es/tlsf/) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 - [Syphon](https://github.com/Syphon/Syphon-Framework) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause) (macOS only)
 
-### Dynamically Linked Libraries for SuperSonic
+### Libraries compiled into SuperSonic
 
-- [JUCE](https://juce.com) - [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.html)
+- SuperSmoothy (SuperSonic's audio-device layer, a fork of the permissively-licensed modules of [JUCE](https://juce.com) 7) - [ISC License](https://opensource.org/licenses/ISC)
+- [libsndfile](https://libsndfile.github.io/libsndfile/) - [GNU Lesser General Public License v2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 - [boost (subset)](https://www.boost.org) - [Boost Software License 1.0 (BSL-1.0)](https://opensource.org/licenses/BSL-1.0)
 - [Ableton Link](https://github.com/Ableton/link) - [GNU General Public License v2](https://www.gnu.org/licenses/gpl-2.0.html)
 
