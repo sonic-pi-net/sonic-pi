@@ -2072,7 +2072,17 @@ play 60 # plays note 60 with an amp of 0.5, pan of -1 and defaults for rest of a
               # kill_job_group. Re-freeing it here would trigger a
               # spurious "/n_free Node XXX not found" server error, so
               # only kill if the group is still live.
-              fx_container_group.kill(true) unless fx_container_group.destroyed?
+              #
+              # Scheduled, not immediate. Synths are triggered as
+              # timestamped bundles, so the server orders them by its own
+              # clock; an immediate kill skips that queue entirely and can
+              # therefore overtake a trigger that has been sent but not yet
+              # run. The group is then gone when the synth is created and
+              # the server answers "/s_new failed - Group N not found" —
+              # the note is silently dropped. Routing the kill through the
+              # same timestamped path puts both on one clock, so the kill
+              # cannot be reordered ahead of work that was queued first.
+              fx_container_group.kill unless fx_container_group.destroyed?
             end
 
             gc_init_completed.deliver! true
