@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic' RC6](#v5.0.0-rc6), To be released...
+- [v5.0.0 'SuperSonic' RC7](#v5.0.0-rc7), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -34,6 +34,22 @@
 - [v2.1 'Core'](#v2.1), 21st Nov, 2014
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v5.0.0-rc7"></a>
+
+## Version 5.0.0 'SuperSonic' RC7
+
+The seventh release candidate of v5 — this largely focusses on audio device config and booting on all platforms.
+
+As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### GUI
+* The audio preferences now show the device the engine actually opened, and remember it correctly.
+* The Help pane reopens on the sub-tab you were last using.
+* Fixed: the audio preferences no longer squash their own controls, and behave better when ASIO is selected.
+
+### Fixes
+* Commands sent while the engine is still booting are now queued rather than dropped.
 
 <a name="v5.0.0-rc6"></a>
 
