@@ -83,6 +83,7 @@
 #include "widgets/sonicpitooltip.h"
 #include <QFileOpenEvent>
 
+#include "utils/audiodevicepolicy.h"
 #include "utils/reducedmotion.h"
 #include "utils/gui_settings.h"
 #include "utils/scintilla_api.h"
@@ -8877,42 +8878,41 @@ void MainWindow::maybeRestoreAudioIntent()
     m_audioIntentRestored = true;
 
     // One atomic switch for output/input/rate/buffer — separate calls
-    // race inside SuperSonic's 500ms debounce buffer
-    const bool systemMode = m_lastAudioDevices.mode.empty()
-                         || m_lastAudioDevices.mode == "system";
-    const QString currentDeviceName =
-        QString::fromStdString(m_lastAudioDevices.currentDevice);
-    const QString currentOutput =
-        systemMode ? QStringLiteral("__system__") : currentDeviceName;
-    const QString currentInput = QString::fromStdString(m_lastAudioInputDevices.currentDevice);
+    // race inside SuperSonic's 500ms debounce buffer. The decision itself is
+    // in audioRestorePlan (utils/audiodevicepolicy.h), where gui-tests covers
+    // it on every platform.
+    SonicPi::AudioSavedPrefs saved;
+    saved.output        = piSettings->audio_output_device.toStdString();
+    saved.input         = piSettings->audio_input_device.toStdString();
+    saved.sampleRate    = piSettings->audio_sample_rate;
+    saved.bufferSize    = piSettings->audio_buffer_size;
+    saved.inputsEnabled = piSettings->enable_scsynth_inputs;
 
-    // In system mode the saved device also counts as current when it names
-    // the device actually open (the system default). Sending a switch there
-    // would tear down and reopen the same device — a reopen that can crash
-    // PipeWire's client libs at boot (#3550).
-    const bool needOutput = !piSettings->audio_output_device.isEmpty()
-                         && piSettings->audio_output_device != currentOutput
-                         && !(systemMode
-                              && piSettings->audio_output_device == currentDeviceName);
-    const bool needInput  = !piSettings->audio_input_device.isEmpty()
-                         && piSettings->audio_input_device != "__disabled__"
-                         && piSettings->audio_input_device != "__none__"
-                         && piSettings->audio_input_device != currentInput;
-    const bool needRate   = piSettings->audio_sample_rate > 0
-                         && piSettings->audio_sample_rate != m_lastAudioDeviceConfig.sampleRate;
-    const bool needBuffer = piSettings->audio_buffer_size > 0
-                         && piSettings->audio_buffer_size != m_lastAudioDeviceConfig.bufferSize;
+    SonicPi::AudioEngineState engine;
+    engine.systemMode        = m_lastAudioDevices.mode.empty()
+                            || m_lastAudioDevices.mode == "system";
+    engine.currentDeviceName = m_lastAudioDevices.currentDevice;
+    engine.currentInput      = m_lastAudioInputDevices.currentDevice;
+    engine.sampleRate        = m_lastAudioDeviceConfig.sampleRate;
+    engine.bufferSize        = m_lastAudioDeviceConfig.bufferSize;
 
-    if (needOutput || needInput || needRate || needBuffer) {
-        const QString device = needOutput ? piSettings->audio_output_device : QString();
-        const QString input  = needInput  ? piSettings->audio_input_device  : QString();
-        const int     rate   = needRate   ? piSettings->audio_sample_rate   : 0;
-        const int     buffer = needBuffer ? piSettings->audio_buffer_size   : 0;
+    const auto plan = SonicPi::audioRestorePlan(saved, engine);
+    if (plan.send) {
         std::cout << "[gui-audio] restore: atomic switch device='"
-                  << device.toUtf8().constData()
-                  << "' input='" << input.toUtf8().constData()
-                  << "' rate=" << rate << " buffer=" << buffer << std::endl;
-        sendDeviceSwitch(device, rate, buffer, input);
+                  << plan.output
+                  << "' input='" << plan.input
+                  << "' rate=" << plan.sampleRate
+                  << " buffer=" << plan.bufferSize << std::endl;
+        // Record the ask, so the outcome is committed like any other switch the
+        // GUI makes. Without it a restore that the engine resolves elsewhere
+        // leaves the settings describing the device it declined to open, and
+        // the same request replays on every launch.
+        m_pendingAudioPrefs.output     = QString::fromStdString(plan.output);
+        m_pendingAudioPrefs.input      = QString::fromStdString(plan.input);
+        m_pendingAudioPrefs.sampleRate = plan.sampleRate;
+        m_pendingAudioPrefs.bufferSize = plan.bufferSize;
+        sendDeviceSwitch(QString::fromStdString(plan.output), plan.sampleRate,
+                         plan.bufferSize, QString::fromStdString(plan.input));
     }
 }
 
@@ -9059,23 +9059,39 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
     const PendingAudioPrefs pending = m_pendingAudioPrefs;
     m_pendingAudioPrefs = PendingAudioPrefs();
 
-    if (outcome.success) {
-        if (!pending.output.isEmpty()) {
-            piSettings->audio_output_device = pending.output;
-            gui_settings->setValue("prefs/audio-output-device", pending.output);
-        }
-        if (!pending.input.isEmpty() && !outcome.inputUnavailable) {
-            piSettings->audio_input_device = pending.input;
-            gui_settings->setValue("prefs/audio-input-device", pending.input);
-        }
-        if (pending.sampleRate > 0) {
-            piSettings->audio_sample_rate = pending.sampleRate;
-            gui_settings->setValue("prefs/audio-sample-rate", pending.sampleRate);
-        }
-        if (pending.bufferSize > 0) {
-            piSettings->audio_buffer_size = pending.bufferSize;
-            gui_settings->setValue("prefs/audio-buffer-size", pending.bufferSize);
-        }
+    // What lands on disk is the pair the engine reports having opened, not the
+    // one that was asked for — see audioPrefsDecision (utils/audiodevicepolicy.h),
+    // where gui-tests pins the rules on every platform.
+    SonicPi::AudioSwitchRequest request;
+    request.output     = pending.output.toStdString();
+    request.input      = pending.input.toStdString();
+    request.sampleRate = pending.sampleRate;
+    request.bufferSize = pending.bufferSize;
+
+    const auto decision = SonicPi::audioPrefsDecision(request, outcome);
+
+    auto applyString = [&](SonicPi::PrefAction action, const std::string& value,
+                           QString& setting, const char* key) {
+        if (action == SonicPi::PrefAction::Leave) return;
+        const QString next = action == SonicPi::PrefAction::Clear
+                                 ? QString()
+                                 : QString::fromStdString(value);
+        setting = next;
+        gui_settings->setValue(key, next);
+    };
+
+    applyString(decision.output, decision.outputValue,
+                piSettings->audio_output_device, "prefs/audio-output-device");
+    applyString(decision.input, decision.inputValue,
+                piSettings->audio_input_device, "prefs/audio-input-device");
+
+    if (decision.sampleRate == SonicPi::PrefAction::Save) {
+        piSettings->audio_sample_rate = decision.sampleRateValue;
+        gui_settings->setValue("prefs/audio-sample-rate", decision.sampleRateValue);
+    }
+    if (decision.bufferSize == SonicPi::PrefAction::Save) {
+        piSettings->audio_buffer_size = decision.bufferSizeValue;
+        gui_settings->setValue("prefs/audio-buffer-size", decision.bufferSizeValue);
     }
 
     // Two failure shapes from the engine. Surface both as a modal
@@ -9084,18 +9100,6 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
     if (outcome.success && !outcome.inputUnavailable) return;  // nothing to surface
 
     if (!outcome.success) {
-        // Drop the saved pref for whatever was requested. This also
-        // self-heals stale prefs replayed by maybeRestoreAudioIntent
-        // (requested* echoes the request even when nothing is pending).
-        if (!outcome.requestedOutput.empty()) {
-            piSettings->audio_output_device = "";
-            gui_settings->setValue("prefs/audio-output-device", "");
-        }
-        if (!outcome.requestedInput.empty()) {
-            piSettings->audio_input_device = "";
-            gui_settings->setValue("prefs/audio-input-device", "");
-        }
-
         QString device = QString::fromStdString(
             outcome.requestedOutput.empty()
                 ? outcome.requestedInput
@@ -9110,11 +9114,8 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
         return;
     }
 
-    // success == true && inputUnavailable: output opened, input fell back.
-    // Don't keep a pref that asks for the unavailable input on every boot.
-    piSettings->audio_input_device = "";
-    gui_settings->setValue("prefs/audio-input-device", "");
-
+    // success == true && inputUnavailable: output opened, input fell back. The
+    // decision above has already dropped the pref that asked for it.
     QString inputName = QString::fromStdString(outcome.requestedInput);
     QString reason    = QString::fromStdString(outcome.inputUnavailableReason);
     QMessageBox::warning(

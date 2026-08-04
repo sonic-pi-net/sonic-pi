@@ -37,6 +37,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/completionpopup_a11y.test.cpp
     ${GUI_TESTS_ROOT}/completionpopup_select.test.cpp
     ${GUI_TESTS_ROOT}/announcementpolicy.test.cpp
+    ${GUI_TESTS_ROOT}/audiodevicepolicy.test.cpp
     ${GUI_TESTS_ROOT}/completion_context.test.cpp
     ${GUI_TESTS_ROOT}/arg_kind.test.cpp
     ${GUI_TESTS_ROOT}/argkinds_generated.test.cpp
