@@ -46,6 +46,15 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/completion_rank.test.cpp
     ${GUI_TESTS_ROOT}/tutorialdocs.test.cpp
     ${GUI_TESTS_ROOT}/tutorialwidgets_a11y.test.cpp
+    ${GUI_TESTS_ROOT}/tutorialpane_clip.test.cpp
+    ${GUI_ROOT}/widgets/tutorialpane.cpp
+    ${GUI_ROOT}/widgets/sonicpiscintilla.cpp
+    ${GUI_ROOT}/widgets/sonicpilexer.cpp
+    ${GUI_ROOT}/widgets/sonicpilog.cpp
+    ${GUI_ROOT}/widgets/zoombar.cpp
+    ${GUI_ROOT}/model/sonicpitheme.cpp
+    ${GUI_ROOT}/widgets/editortoolbar.cpp
+    ${GUI_ROOT}/widgets/findpopup.cpp
     ${GUI_TESTS_ROOT}/sampleheaderinfo.test.cpp
     ${GUI_TESTS_ROOT}/setbundle.test.cpp
     ${GUI_TESTS_ROOT}/stylesheet_invariants.test.cpp
@@ -69,7 +78,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_BINARY_DIR}
 )
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    SP_ROOT="${SP_APP_ROOT}/..")
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    sonic-pi-api
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets

@@ -115,7 +115,16 @@ public:
     }
     Qt::Orientations expandingDirections() const override { return {}; }
     bool hasHeightForWidth() const override { return true; }
-    int heightForWidth(int w) const override { return doLayout(QRect(0, 0, w, 0), true); }
+    int heightForWidth(int w) const override
+    {
+        // Answer at the width the flow will actually render at: box layouts
+        // budget items at the full content width but apply geometry at the
+        // width-capped one, and a flow wraps into more (taller) lines at
+        // the cap — the difference would be stolen from a sibling.
+        if (QWidget* pw = parentWidget())
+            w = qMin(w, pw->maximumWidth());
+        return doLayout(QRect(0, 0, w, 0), true);
+    }
     void setGeometry(const QRect& rect) override
     {
         QLayout::setGeometry(rect);
@@ -776,6 +785,7 @@ void TutorialPane::showInstrumentPage(bool isFx, const SonicPi::InstrumentPage& 
         for (QWidget* cell : cells)
             cell->setFixedWidth(cellW);
         m_column->addWidget(index);
+        m_optIndex = index;
     }
 
     if (!page.docHtml.isEmpty())
@@ -1195,6 +1205,7 @@ void TutorialPane::clearContent()
     m_piano = nullptr;
     m_octaveLabel = nullptr;
     m_optRows.clear();
+    m_optIndex = nullptr;
     m_pianoBaseNote = 52;
     m_demoNote = 50;
     m_pageName.clear();
@@ -1489,7 +1500,7 @@ void TutorialPane::addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts)
     // font the labels render in (Hack at the button size, tracking zoom).
     QFont mono("Hack");
     mono.setBold(true);
-    mono.setPointSizeF(qMax(6.0, 10.0 * m_fontScale));   // the @buttonSize the labels render at
+    mono.setPointSizeF(qMax(6.0, 12.0 * m_fontScale));   // the @optNameSize the labels render at
     const QFontMetrics nameMetrics(mono);
     int nameW = 0, defW = 0;
     for (const SonicPi::InstrumentOpt& opt : opts)
@@ -1515,14 +1526,23 @@ void TutorialPane::addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts)
         rowFrame->setProperty("alt", alt);
         alt = !alt;
         QHBoxLayout* row = new QHBoxLayout(rowFrame);
-        row->setContentsMargins(sx(8), sy(5),
-                                sx(8), sy(5));
+        row->setContentsMargins(sx(8), sy(9),
+                                sx(8), sy(9));
         row->setSpacing(sx(10));
 
-        QLabel* name = new QLabel(opt.name + ":", rowFrame);
+        // The row's name links back up to the quick-index — the return leg
+        // of the index's jump-down links.
+        QPushButton* name = new QPushButton(opt.name + ":", rowFrame);
         name->setObjectName("tutOptName");
         name->setFixedWidth(nameW);
-        name->setTextInteractionFlags(Qt::TextSelectableByMouse);
+        name->setCursor(Qt::PointingHandCursor);
+        name->setAccessibleName(tr("Back to the options list from %1").arg(opt.name));
+        connect(name, &QPushButton::clicked, this, [this]() {
+            m_scroll->verticalScrollBar()->setValue(
+                m_optIndex
+                    ? qMax(0, m_optIndex->mapTo(m_content, QPoint(0, 0)).y() - sy(8))
+                    : 0);
+        });
         QLabel* def = new QLabel(opt.defaultText, rowFrame);
         def->setObjectName("tutOptDefault");
         def->setFixedWidth(defW);
@@ -1550,7 +1570,6 @@ void TutorialPane::addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts)
         row->addWidget(name, 0, Qt::AlignTop);
         row->addWidget(def, 0, Qt::AlignTop);
         row->addWidget(doc, 1);
-        row->addStretch(0);
         rows->addWidget(rowFrame);
         m_optRows.insert(opt.name, rowFrame);
     }
@@ -1890,6 +1909,8 @@ void TutorialPane::applyTheme()
     QColor pressedTint = SonicPiTheme::blend(editorBg, accent, 0.45);
     QColor playingTint = SonicPiTheme::blend(editorBg, accent, 0.16);
     QColor sigColour = SonicPiTheme::blend(fg, editorBg, 0.18);
+    QColor zebraTint = SonicPiTheme::blend(bg, fg, 0.10);
+    QColor zebraHover = SonicPiTheme::blend(bg, fg, 0.16);
 
     if (m_zoomBar)
         m_zoomBar->applyTheme();
@@ -1944,13 +1965,18 @@ void TutorialPane::applyTheme()
         " #tutOct:pressed, #tutReset:pressed { background:@pressedTint; }"
         "#tutSig { color:@sigColour; font-family:'Hack'; font-size:@buttonSize; }"
         "#tutHint { color:@muted; font-family:'Hack'; font-size:@hintSize; }"
-        "#tutOptName { color:@h2; font-family:'Hack'; font-size:@buttonSize; font-weight:bold;"
+        "#tutOptName { color:@h2; font-family:'Hack'; font-size:@optNameSize; font-weight:bold;"
+        " background:transparent; border:none; text-align:left; padding:0dx; }"
+        "#tutOptName:hover { color:@accent; text-decoration:underline; }"
+        "#tutOptDefault { color:@sigColour; font-family:'Hack'; font-size:@optNameSize;"
         " background:transparent; }"
-        "#tutOptDefault { color:@sigColour; font-family:'Hack'; font-size:@buttonSize;"
-        " background:transparent; }"
-        // Zebra rows keep each opt's doc visually tied to its name.
+        // Zebra rows keep each opt's doc visually tied to its name. The tint
+        // is a fg/bg blend, not a fixed grey — a grey wash vanishes against
+        // near-black themes. Hover adds a stronger neutral wash so the row
+        // under the pointer reads as one unit while scanning.
         "#tutOptRow { background:transparent; border:none; border-radius:@radiusSmall; }"
-        "#tutOptRow[alt=\"true\"] { background:rgba(127,127,127,16); }"
+        "#tutOptRow[alt=\"true\"] { background:@zebraTint; }"
+        "#tutOptRow:hover, #tutOptRow[alt=\"true\"]:hover { background:@zebraHover; }"
         // Opt quick-index: a quiet panel of name-links with their defaults.
         "#tutOptIndex { background:rgba(127,127,127,16); border:none;"
         " border-radius:@radiusMedium; }"
@@ -1977,9 +2003,12 @@ void TutorialPane::applyTheme()
         { "@playingTint", playingTint.name() },
         { "@editorBg", editorBg.name() },
         { "@hoverTint", hoverTint.name() },
+        { "@zebraTint", zebraTint.name() },
+        { "@zebraHover", zebraHover.name() },
         { "@sigColour", sigColour.name() },
         { "@proseSize", pt(13) },
         { "@buttonSize", pt(10) },
+        { "@optNameSize", pt(12) },
         { "@codeSmall", pt(9) },
         { "@codeSize", pt(12) },
         { "@hintSize", pt(9) },
