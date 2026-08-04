@@ -870,6 +870,12 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // Gap between rows so the combos read as separate fields, not one block.
     audio_device_layout->setVerticalSpacing(ScaleHeightForDPI(8));
 
+    // Fixed, uniform height so each combo's grey fill exactly matches its
+    // focus/hover highlight (otherwise the widget floats taller than the
+    // painted background) and every row is the same height (even spacing).
+    // The ASIO note shares this height too — see the Input row below.
+    const int comboHeight = ScaleHeightForDPI(28);
+
     QLabel *driverLabel = new QLabel(tr("Driver"));
     audio_driver_combo = new QComboBox();
     audio_driver_combo->setMinimumContentsLength(12);
@@ -878,37 +884,34 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_device_layout->addWidget(driverLabel, 0, 0);
     audio_device_layout->addWidget(audio_driver_combo, 0, 1);
 
-    QLabel *outputLabel = new QLabel(tr("Output"));
+    audio_output_label = new QLabel(tr("Output"));
     audio_output_combo = new QComboBox();
     audio_output_combo->setMinimumContentsLength(20);
     audio_output_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
-    outputLabel->setBuddy(audio_output_combo);
-    audio_device_layout->addWidget(outputLabel, 1, 0);
+    audio_output_label->setBuddy(audio_output_combo);
+    audio_device_layout->addWidget(audio_output_label, 1, 0);
     audio_device_layout->addWidget(audio_output_combo, 1, 1);
 
-    QLabel *inputLabel = new QLabel(tr("Input"));
+    audio_input_label = new QLabel(tr("Input"));
     audio_input_combo = new QComboBox();
     audio_input_combo->setMinimumContentsLength(20);
     audio_input_combo->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
-    inputLabel->setBuddy(audio_input_combo);
+    audio_input_label->setBuddy(audio_input_combo);
     // The input toggle sits below the selectors and level with Reset, so the
-    // selectors stay an unbroken list. The channel-routing toggles follow it:
-    // all three shape what the device carries, and living in here saves a
-    // group box of their own. The ASIO note sits directly under the Input
-    // selector (only ever visible on those drivers), since it explains why
-    // that selection is locked.
-    // One tight column (same spacing as the Synths and FX group) rather than
-    // a grid row each: Reset shares the first row, and its taller button would
-    // stretch that row and open up the gap under the first toggle.
-    QVBoxLayout* input_toggles_col = new QVBoxLayout;
-    input_toggles_col->setSpacing(ScaleHeightForDPI(2));
-    input_toggles_col->addWidget(enable_scsynth_inputs);
-    input_toggles_col->addWidget(mixer_invert_stereo);
-    input_toggles_col->addWidget(mixer_force_mono);
-    audio_device_layout->addLayout(input_toggles_col, 8, 0);
-    audio_device_layout->addWidget(asio_input_note, 3, 0, 1, 2);
-    audio_device_layout->addWidget(inputLabel, 2, 0);
+    // selectors stay an unbroken list. It lives in here because it genuinely
+    // reconfigures the device (opens input streams); the stereo-image
+    // toggles are mixer-stage and live in their own group below.
+    audio_device_layout->addWidget(enable_scsynth_inputs, 8, 0, Qt::AlignVCenter);
+    // The ASIO note occupies the SAME grid row as the Input selector, not
+    // one below it: on ASIO the selector is hidden and the note shown, and
+    // sharing one row means the row's spacing is counted once either way.
+    // Pinned to the combo height so the swap cannot change the row's height
+    // — a taller or shorter note would move every control below it as the
+    // driver changes.
+    asio_input_note->setFixedHeight(comboHeight);
+    audio_device_layout->addWidget(audio_input_label, 2, 0);
     audio_device_layout->addWidget(audio_input_combo, 2, 1);
+    audio_device_layout->addWidget(asio_input_note, 2, 0, 1, 2);
 
     QLabel *srLabel = new QLabel(tr("Sample Rate"));
     audio_sample_rate_combo = new QComboBox();
@@ -967,10 +970,6 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     });
     audio_device_layout->addWidget(reset_device_button, 8, 1, Qt::AlignRight | Qt::AlignTop);
 
-    // Fixed, uniform height so each combo's grey fill exactly matches its
-    // focus/hover highlight (otherwise the widget floats taller than the
-    // painted background) and every row is the same height (even spacing).
-    const int comboHeight = ScaleHeightForDPI(28);
     for (QComboBox* c : { audio_driver_combo, audio_output_combo, audio_input_combo,
                           audio_sample_rate_combo, audio_buffer_size_combo }) {
         c->setFixedHeight(comboHeight);
@@ -981,6 +980,21 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_device_layout->setRowStretch(11, 1);
     audioDeviceBox->setLayout(audio_device_layout);
     m_devicePulse = new DevicePulseOverlay(audioDeviceBox);
+
+    // --- Stereo (invert stereo, force mono) ---
+    // Mixer-stage transforms, not device settings: they shape the stereo
+    // image of whatever the mixer emits, survive any device switch, and
+    // behave identically on every driver — so they get their own group
+    // rather than riding in Audio Device, where they'd read as properties
+    // of the selected hardware.
+    QGroupBox *stereoBox = new QGroupBox(tr("Stereo"));
+    stereoBox->setToolTip(tr("Shape the stereo image of Sonic Pi's output. Applied in the mixer, independently of the selected audio device."));
+    QVBoxLayout *stereo_layout = new QVBoxLayout;
+    // Same tight spacing as the toggle columns elsewhere on this tab.
+    stereo_layout->setSpacing(ScaleHeightForDPI(2));
+    stereo_layout->addWidget(mixer_invert_stereo);
+    stereo_layout->addWidget(mixer_force_mono);
+    stereoBox->setLayout(stereo_layout);
 
     // activated(int) — user-interaction only. currentIndexChanged fires
     // on programmatic setCurrentIndex() too, which would emit spurious
@@ -1129,6 +1143,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // Every box keeps its natural height; each column's slack goes between
     // and after the boxes, never inside a frame.
     audioDeviceBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    stereoBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     volBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     recordingGroup->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
@@ -1156,9 +1171,10 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     QVBoxLayout *right_col = new QVBoxLayout;
     right_col->addWidget(audioDeviceBox);
-    // Stretches, not a stretch factor on Audio Device: a stretch-grown box
-    // shows the column's slack as framed blank space under the routing
-    // toggles.
+    right_col->addSpacing(ScaleHeightForDPI(14));
+    right_col->addWidget(stereoBox);
+    // Stretches, not a stretch factor on the boxes: a stretch-grown box
+    // shows the column's slack as framed blank space inside its frame.
     right_col->addStretch(1);
     // A credit rather than a control, so it sits last, floating in its
     // share of the column rather than glued to the tab's bottom edge.
@@ -3296,11 +3312,18 @@ void SettingsWidget::applyAsioInputConstraints() {
             tr("ASIO devices have linked input/output."));
         asio_input_note->setVisible(true);
 
-        // Input dropdown on ASIO mirrors the Output selection (ASIO is a
-        // single device on both directions). When the user hasn't yet
-        // picked a valid ASIO output device, the Output dropdown is on
-        // its "-- None --" entry — mirror that into the Input dropdown
-        // instead of leaving stale Windows Audio inputs visible.
+        // One ASIO device serves both directions, so there is nothing for a
+        // separate Input selector to choose: hide the row outright (its grid
+        // row collapses and the note above takes the space) and say so on the
+        // remaining selector by naming it Input/Output. A disabled combo
+        // mirroring Output would only invite the user to try to change it.
+        audio_output_label->setText(tr("Input/Output"));
+        audio_input_label->setVisible(false);
+        audio_input_combo->setVisible(false);
+
+        // The hidden combo still carries the selection the switch path
+        // reads, so keep it mirroring Output — including the "-- None --"
+        // case, where no valid ASIO device has been picked yet.
         QString outName     = audio_output_combo->currentText();
         QString outData     = audio_output_combo->currentData().toString();
         bool noOutputPicked = outName.isEmpty()
@@ -3327,6 +3350,9 @@ void SettingsWidget::applyAsioInputConstraints() {
             ? tr("Toggle to enable or disable audio inputs.")
             : asio_saved_input_tooltip);
         asio_input_note->setVisible(false);
+        audio_output_label->setText(tr("Output"));
+        audio_input_label->setVisible(true);
+        audio_input_combo->setVisible(true);
         audio_input_combo->setEnabled(true);
         audio_input_combo->setToolTip(QString());
         asio_constraint_applied = false;

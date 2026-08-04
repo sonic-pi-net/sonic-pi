@@ -416,6 +416,11 @@ private:
     QComboBox *audio_driver_combo;
     QComboBox *audio_output_combo;
     QComboBox *audio_input_combo;
+    // Held so the ASIO constraint can hide the Input row outright and
+    // relabel Output as "Input/Output": an ASIO driver is one device in
+    // both directions, so a separate Input selector has nothing to choose.
+    QLabel    *audio_output_label;
+    QLabel    *audio_input_label;
     QComboBox *audio_sample_rate_combo;
     QComboBox *audio_buffer_size_combo;
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
