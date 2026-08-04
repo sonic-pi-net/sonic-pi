@@ -5739,7 +5739,13 @@ msgid ""
 "ng contains numbers only)"
 msgstr ""
 
-#: 08.5-Ring-Chains.md:84
+#: 08.5-Ring-Chains.md:83
+msgid ""
+"`.invert_around(:e3)` - returns a new ring with each note reflected around the"
+" given pitch, turning a melody upside-down"
+msgstr ""
+
+#: 08.5-Ring-Chains.md:85
 msgid ""
 "Of course, those chain methods that take numbers can take other numbers too! S"
 "o feel free to call `.drop(5)` instead of `.drop(3)` if you want to drop the f"
@@ -13773,4 +13779,279 @@ msgid ""
 "Another great resource for exploring the live coding world is [Algorave](http:"
 "//algorave.com). Here you can find all about a specific strand of live coding "
 "for making music in nightclubs."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:1
+msgid "B.5 Using a Screen Reader"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:3
+msgid "Using a Screen Reader"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:5
+msgid ""
+"Sonic Pi is designed to be fully playable with a screen reader such as VoiceOv"
+"er, NVDA or JAWS. Everything you need — writing code, running it, reading the "
+"documentation, exploring the cards and changing your preferences — can be done"
+" from the keyboard, with spoken feedback along the way. This section is a tour"
+" of how it all fits together, so you can head straight to the good bits rather"
+" than discovering them by accident."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:12
+msgid ""
+"A quick note on names: in Sonic Pi's shortcut language, *Control* is the Contr"
+"ol key on all platforms, and *Meta* is Alt on Windows/Linux and Command on Mac"
+". See the section on Using Shortcuts for the full story."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:16
+msgid "Jumping Around: the Focus Menu"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:18
+msgid ""
+"The fastest way to move around Sonic Pi is not to walk the interface element b"
+"y element but to jump straight to where you want to be. The *Focus* menu (and "
+"its shortcuts) teleports your focus:"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:22
+msgid "`Control-Shift-e` — the code editor"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:23
+msgid "`Control-Shift-l` — the run log"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:24
+msgid "`Control-Shift-c` — the cue log"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:25
+msgid "`Control-Shift-h` — the help docs listing (table of contents)"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:26
+msgid "`Control-Shift-d` — the help docs details (the page content itself)"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:27
+msgid "`Control-Shift-q` — the quickstart cards"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:28
+msgid "`Control-Shift-f` — the help logs"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:29
+msgid "`Control-Shift-g` — the help debug pane"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:30
+msgid "`Meta-,` — the preferences"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:31
+msgid "`Control-Shift-r` — the most recent error"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:33
+msgid ""
+"You can also cycle through whichever panes are currently visible with `F6` (an"
+"d back again with `Shift-F6`)."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:36
+msgid "Writing Code"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:38
+msgid ""
+"The editor is a standard accessible text area: your screen reader will echo ch"
+"aracters and lines as you move and type, and each buffer announces itself by n"
+"ame when you switch to it."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:42
+msgid ""
+"The autocomplete popup is designed to stay out of your way: it never steals fo"
+"cus from the editor, so your typing echo is uninterrupted. When completions ar"
+"e available, press the down arrow to step through them — each one is announced"
+" with its name, its category (synth, sample, FX and so on) and its position in"
+" the list. Press Return to accept, and the characters that were inserted are r"
+"ead out so you always know the exact spelling. If you'd like the full document"
+"ation for the selected completion, press `Control-i` and it will be spoken in "
+"full."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:51
+msgid ""
+"When you run or stop code, that's announced too. If you'd rather not have \"Run"
+"\" and \"Stop\" spoken over the start of your music, you can turn just those anno"
+"uncements off with *Speak Run and Stop* in the Accessibility menu — errors are"
+" always spoken."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:56
+msgid "Reading the Documentation"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:58
+msgid ""
+"Open the help system with the Help toggle (or jump straight in with `Control-S"
+"hift-h`). You land in the table of contents: plain up and down arrows move thr"
+"ough the chapters, and each page is announced as it loads. `Control-Shift-d` t"
+"hen places you on the page content itself."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:63
+msgid ""
+"Documentation pages read like a web page: the text carries a real cursor, so t"
+"he plain arrow keys move through it — left and right by character, up and down"
+" by line, with word-by-word movement and Home/End also available. You can re-r"
+"ead or spell out anything, and holding Shift selects as you go for copying. Wh"
+"en you reach the end of one paragraph or code block, the cursor flows on to th"
+"e next, so a whole chapter reads as one continuous document. Headings are expo"
+"sed as real headings, so your screen reader's heading navigation can skim from"
+" section to section."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:73
+msgid "If the cursor crosses a link you'll hear \"Link\" — press Return to follow it."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:76
+msgid ""
+"Every chapter ends with Previous and Next buttons, and they wrap around: Next "
+"from the final chapter returns to the first, so there's never a dead end. The "
+"topic filter box above the table of contents announces how many topics match a"
+"s you type."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:81
+msgid "The Cards"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:83
+msgid ""
+"The quickstart cards (`Control-Shift-q`, or *Examples → Quickstart Cards...*) "
+"are small playable snippets of music code. Focus lands directly on the first c"
+"ard, which announces its name, its position in the deck and what it does."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:88
+msgid "While you're on a card:"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:90
+msgid "`Space` plays or stops the card"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:91
+msgid "`C` reads the card's code aloud"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:92
+msgid "`I` inserts the card's code into your editor at the cursor"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:93
+msgid ""
+"Left and Right arrows move through the deck one card at a time (you'll hear \"F"
+"irst card\" or \"Last card\" at the ends)"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:96
+msgid ""
+"Stepping inside a card with your screen reader reads its contents in order: ti"
+"tle, code, description, then the Run, Add and Copy buttons."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:99
+msgid "The Synth and FX Playgrounds"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:101
+msgid ""
+"Each synth and FX documentation page opens with a playable instrument: a panel"
+" of knobs for its options, a piano you can play with the QWERTY keys (the bott"
+"om row `a s d f g h j k l` are the white notes, with the black notes on the ro"
+"w above), and a code snippet that rewrites itself as you turn the knobs."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:107
+msgid ""
+"The knob panel is a single Tab stop, however many knobs the instrument has. Ta"
+"b into it and you land on the first knob, which announces its name and value. "
+"Then:"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:111
+msgid "Left and Right arrows move between the knobs"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:112
+msgid "Up and Down arrows turn the focused knob, with the new value spoken"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:113
+msgid "Shift with an arrow makes bigger jumps"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:114
+msgid "Tab moves on past the whole panel to the code snippet"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:116
+msgid ""
+"The snippet below the knobs is the code you'd write to get the sound you just "
+"dialled in — read it line by line, run it with the Run button, or copy it out."
+" And remember `Control-Shift-d` jumps straight to the page content from anywhe"
+"re, so you're never more than one shortcut from the code."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:122
+msgid "The Examples"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:124
+msgid ""
+"Choosing an example from the *Examples* menu takes you straight to its code, w"
+"hich reads line by line with the arrow keys just like an editor buffer. *Brows"
+"e Examples in Help...* places you in the examples list so you can arrow throug"
+"h them all, with each one loading as you go."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:129
+msgid "Preferences"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:131
+msgid ""
+"The Preferences toggle (or `Meta-,`) takes you directly into the preferences p"
+"anel: its tabs, checkboxes and controls all announce their names and states. T"
+"his is also where you'll find the audio, look and feel, and accessibility-rela"
+"ted options — including visual theme and contrast choices."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:137
+msgid "If You Get Lost"
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:139
+msgid ""
+"Focus is never intentionally dropped: opening a pane moves you into it, closin"
+"g it returns you to the editor, and navigating between documentation pages kee"
+"ps you on the content. If you do find yourself somewhere unexpected, `Control-"
+"Shift-e` always brings you home to the editor, and `F6` walks you through ever"
+"ything currently on screen."
+msgstr ""
+
+#: B.05-Using-a-Screen-Reader.md:145
+msgid ""
+"Found something that doesn't speak, or doesn't behave as this section promises"
+"? That's a bug — we'd love to hear about it at https://in-thread.sonic-pi.net "
+"so we can fix it."
 msgstr ""
