@@ -1136,10 +1136,10 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // under both columns, so anything that pads it just makes the tab taller.
     // Tight by design — this is a credit sharing a column with the audio
     // device selectors, and every pixel it takes comes off them.
-    supersonic_layout->setSpacing(0);
     supersonic_layout->setContentsMargins(ScaleWidthForDPI(8), ScaleHeightForDPI(4),
                                           ScaleWidthForDPI(8), ScaleHeightForDPI(4));
     supersonic_layout->addWidget(powered_by_label);
+    supersonic_layout->addSpacing(ScaleHeightForDPI(8));
     supersonic_layout->addWidget(supersonic_ascii_label);
     supersonic_layout->addWidget(supersonic_version_label);
     supersonic_layout->addWidget(mic_permission_label);
