@@ -6,14 +6,14 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 INSTALL_ROOT = /usr/lib/sonic-pi
 
-# The nested SuperSonic build takes JUCE, libsndfile (with its codecs) and
-# Boost from the Debian archive via its SUPERSONIC_SYSTEM_* switches — see
+# The nested SuperSonic build takes libsndfile (with its codecs) from the
+# Debian archive via its SUPERSONIC_SYSTEM_* switches — see
 # docs/DEBIAN-PACKAGING.md in app/external/supersonic, whose own Debian
-# package proves this combination in CI.
+# package proves this combination in CI. The audio-device layer is
+# supersmoothy, SuperSonic's vendored ISC fork of the JUCE 7 modules, so
+# there is no system JUCE to link.
 SUPERSONIC_ARGS = \
-  -DSUPERSONIC_SYSTEM_JUCE=ON \
-  -DSUPERSONIC_SYSTEM_SNDFILE=ON \
-  -DSUPERSONIC_SYSTEM_BOOST=ON
+  -DSUPERSONIC_SYSTEM_SNDFILE=ON
 
 # Fully offline when the source package carries the component trees the
 # supersonic repo's make-debian-source.sh produces: `link` (pristine Ableton
