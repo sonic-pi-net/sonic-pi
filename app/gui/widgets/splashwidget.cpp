@@ -17,6 +17,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPainter>
+#include <QPainterPath>
 #include <QPixmap>
 #include <QPropertyAnimation>
 #include <QScreen>
@@ -38,9 +39,11 @@ const QColor kAccent(255, 20, 147); // deeppink, the brand accent
 } // namespace
 
 SplashWidget::SplashWidget(QWidget* parent)
-    : QWidget(parent, Qt::SplashScreen)
+    : QWidget(parent, Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
+                          | Qt::NoDropShadowWindowHint)
 {
     setAttribute(Qt::WA_DeleteOnClose);
+    setAttribute(Qt::WA_TranslucentBackground);
     // The splash's visible text is brand English by design; only this screen
     // reader announcement is translated. Construction happens before the
     // translator is installed, so MainWindow re-resolves it via retranslate()
@@ -263,11 +266,26 @@ void SplashWidget::showEvent(QShowEvent* event)
 void SplashWidget::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
-    p.fillRect(rect(), kStageBg);
+    p.setRenderHint(QPainter::Antialiasing);
 
-    // Inset half the core width so the stroke isn't clipped by the edge.
-    const qreal inset = ScaleHeightForDPI(1);
+    // Sit the stroke by the GLOW width, not the core: the wide pass reaches
+    // furthest, and it is what decides where the pink ends. Overshoot the
+    // stage by a hair so the clip trims the glow on the curve — inset it fully
+    // and a sliver of bare stage shows outside the pink instead.
+    const qreal glowWidth = ScaleHeightForDPI(7);
+    const qreal coreWidth = ScaleHeightForDPI(2);
+    const qreal inset = glowWidth / 2.0 - ScaleHeightForDPI(1);
+    const qreal radius = ScaleHeightForDPI(kRadiusWindowDx);
     const QRectF border = QRectF(rect()).adjusted(inset, inset, -inset, -inset);
+    const qreal borderRadius = radius - inset;
+
+    QPainterPath stage;
+    stage.addRoundedRect(QRectF(rect()), radius, radius);
+    p.fillPath(stage, kStageBg);
+    // The glow is wider than the inset, so its outer half falls off the stage.
+    // Clipping to the silhouette cuts that bleed on the curve; against the raw
+    // widget rect it would keep a square corner outside the rounded core line.
+    p.setClipPath(stage);
     p.setBrush(Qt::NoBrush);
 
     if (!m_borderTimer || !m_borderTimer->isActive())
@@ -276,7 +294,7 @@ void SplashWidget::paintEvent(QPaintEvent*)
         QColor line = kAccent;
         line.setAlpha(110);
         p.setPen(QPen(line, ScaleHeightForDPI(1)));
-        p.drawRect(border);
+        p.drawRoundedRect(border, borderRadius, borderRadius);
         return;
     }
 
@@ -284,7 +302,6 @@ void SplashWidget::paintEvent(QPaintEvent*)
     // transparent everywhere except around the glow head, swept by rotating
     // the gradient itself. Angle 0 is at 3 o'clock and grows anticlockwise,
     // so start at the top and subtract to travel clockwise.
-    p.setRenderHint(QPainter::Antialiasing);
     QConicalGradient sweep(border.center(), 90.0 - m_borderPos * 360.0);
     auto accent = [](int alpha) {
         QColor c = kAccent;
@@ -301,11 +318,11 @@ void SplashWidget::paintEvent(QPaintEvent*)
     // Two strokes: a wide translucent pass for the glow bleed, then the
     // thin bright core on top.
     p.setOpacity(0.4);
-    p.setPen(QPen(QBrush(sweep), ScaleHeightForDPI(7)));
-    p.drawRect(border);
+    p.setPen(QPen(QBrush(sweep), glowWidth));
+    p.drawRoundedRect(border, borderRadius, borderRadius);
     p.setOpacity(1.0);
-    p.setPen(QPen(QBrush(sweep), ScaleHeightForDPI(2)));
-    p.drawRect(border);
+    p.setPen(QPen(QBrush(sweep), coreWidth));
+    p.drawRoundedRect(border, borderRadius, borderRadius);
 }
 
 void SplashWidget::startAnimation(bool reduceMotion)

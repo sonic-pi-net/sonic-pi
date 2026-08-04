@@ -33,6 +33,11 @@ constexpr int kRadiusLargeDx = 8;
 // token — which MUST be substituted before `radiusLarge`, being a prefix.
 constexpr int kNavRowInsetDx = 4;
 constexpr int kRadiusLargeOuterDx = kRadiusLargeDx + kNavRowInsetDx;
+// Frameless top-level windows that draw their own edge (the splash). Sits off
+// the scale above deliberately: it answers to the platform's window corner,
+// not to the in-app roles, and at window size the in-app steps read as an
+// antialiasing artefact rather than a curve.
+constexpr int kRadiusWindowDx = 12;
 
 inline QSizeF GetDisplayScale()
 {
