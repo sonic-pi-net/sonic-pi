@@ -326,7 +326,7 @@ thanks to the following developers who have donated their time and
 effort to help grow and improve the Sonic Pi code base:
 
 
-* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (6199)
+* [Sam Aaron](https://github.com/sonic-pi-net/sonic-pi/commits?author=samaaron) (6349)
 * [Ethan Crawford](https://github.com/sonic-pi-net/sonic-pi/commits?author=ethancrawford) (310)
 * [Hanno Zulla](https://github.com/sonic-pi-net/sonic-pi/commits?author=hzulla) (198)
 * [Joseph Wilk](https://github.com/sonic-pi-net/sonic-pi/commits?author=josephwilk) (160)
@@ -880,6 +880,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * anon (2)
 * anon (2)
 * classiqorecord (2)
+* fuzzySi (2)
 * gezhanling (2)
 * mintpi (2)
 * sharmer156 (2)
@@ -966,6 +967,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Martin Gondermann (1)
 * Matteo Giaccone (1)
 * Mattias Roos (1)
+* Mehrab Poladov (1)
 * Mehrad Mahmoudian (1)
 * Merlin Erdogmus (1)
 * Miguel García (1)
@@ -1010,6 +1012,7 @@ The following volunteers have generously helped to translate Sonic Pi into addit
 * Vitezslav Homolka (1)
 * Vladimir Knyazev (1)
 * Wim Jaap (1)
+* Xeon Z3alous (1)
 * Xubin Cao (1)
 * Zaiyi Wang (1)
 * Zhe Wang (1)
