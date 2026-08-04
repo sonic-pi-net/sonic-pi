@@ -16,12 +16,12 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1094"/>
         <source>▶ Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">▶ Afspelen</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1097"/>
         <source>Play this sample</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speel deze sample af</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1115"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1968"/>
         <source>Usage: %1. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gebruik: %1. </translation>
     </message>
 </context>
 <context>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../widgets/editortoolbar.cpp" line="68"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoeken</translation>
     </message>
 </context>
 <context>
@@ -85,42 +85,42 @@
     <message>
         <location filename="../widgets/findpopup.cpp" line="39"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoeken</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="40"/>
         <source>Find in buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoeken in buffer</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="50"/>
         <source>Aa</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aa</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="53"/>
         <source>Match case exactly (otherwise a lowercase search matches any case)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exact op hoofdlettergebruik zoeken (anders vindt een zoekopdracht in kleine letters elk hoofdlettergebruik)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="58"/>
         <source>Previous match (Up, Shift+F3 or Ctrl+R)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vorig resultaat (Pijl omhoog, Shift+F3 of Ctrl+R)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="63"/>
         <source>Next match (Down, F3 or Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volgend resultaat (Pijl omlaag, F3 of Ctrl+S)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="68"/>
         <source>Close find (Escape)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoeken sluiten (Escape)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="186"/>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geen resultaten</translation>
     </message>
 </context>
 <context>
@@ -1626,22 +1626,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3910"/>
         <source>Showing audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio-oscilloscopen tonen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3911"/>
         <source>Hiding audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio-oscilloscopen verbergen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4084"/>
         <source>Updating Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volume wordt bijgewerkt...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4105"/>
         <source>Updating Drive...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drive wordt bijgewerkt...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4740"/>
@@ -1656,17 +1656,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5204"/>
         <source>Find text in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tekst zoeken in het huidige buffer</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5205"/>
         <source>Jump to the next match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ga naar het volgende resultaat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Jump to the previous match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ga naar het vorige resultaat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5212"/>
@@ -1756,27 +1756,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="5250"/>
         <source>Place focus on the help docs listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Breng de focus naar de documentatielijst</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5251"/>
         <source>Place focus on the help docs details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Breng de focus naar de documentatiedetails</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5253"/>
         <source>Place focus on the help cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Breng de focus naar de hulpkaarten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5254"/>
         <source>Place focus on the help logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Breng de focus naar de hulplogs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5255"/>
         <source>Place focus on the help debug pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Breng de focus naar het debugpaneel van de hulp</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5258"/>
@@ -1969,17 +1969,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5632"/>
         <source>Find...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zoeken...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5635"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volgende zoeken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5638"/>
         <source>Find Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vorige zoeken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5641"/>
@@ -2189,7 +2189,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5887"/>
         <source>Scrolling Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scrollende Live Loop Scopes</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5892"/>
@@ -2214,7 +2214,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5977"/>
         <source>Automatically align code on Enter, Run and Tab. When disabled, Tab indents normally.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Code automatisch uitlijnen bij Enter, Run en Tab. Indien uitgeschakeld springt Tab normaal in.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5986"/>
@@ -2290,27 +2290,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="6356"/>
         <source>Focus Help Docs Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focus Documentatielijst</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6360"/>
         <source>Focus Help Docs Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focus Documentatiedetails</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6369"/>
         <source>Focus Help Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focus Hulpkaarten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6372"/>
         <source>Focus Help Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focus Hulplogs</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6375"/>
         <source>Focus Help Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focus Hulp Debug</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6380"/>
@@ -2336,7 +2336,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="6469"/>
         <source>Show Editor Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toon Editorwerkbalk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6532"/>
@@ -2378,8 +2378,8 @@
         <location filename="../mainwindow.cpp" line="7910"/>
         <source>%n topics</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n onderwerp</numerusform>
+            <numerusform>%n onderwerpen</numerusform>
         </translation>
     </message>
     <message>
@@ -2565,22 +2565,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="372"/>
         <source>GUI was unable to connect to the Ruby server.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">De GUI kon geen verbinding maken met de Ruby-server.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="863"/>
         <source>Code buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codebuffer %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1060"/>
         <source>Documentation sections</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Documentatiesecties</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1302"/>
         <source>Quickstart Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Snelstartkaarten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1939"/>
@@ -2590,7 +2590,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>%1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1-documentatie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6204"/>
@@ -3090,17 +3090,17 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="771"/>
         <source>Code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Code: %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>First card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eerste kaart.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>Last card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Laatste kaart.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1044"/>
@@ -3115,7 +3115,7 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1173"/>
         <source>Deck selector</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deckselectie</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1184"/>
@@ -3125,7 +3125,7 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1200"/>
         <source>%1 deck, %2 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deck %1, %2 kaarten</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1218"/>
@@ -3140,17 +3140,17 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1230"/>
         <source>Card navigation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaartnavigatie</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1293"/>
         <source>%1 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 kaarten</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1295"/>
         <source>Left and Right arrow keys move through the cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Met de pijltoetsen links en rechts blader je door de kaarten.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1300"/>
@@ -3160,7 +3160,7 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1329"/>
         <source>%1 card, %2 of %3. %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaart %1, %2 van %3. %4</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1491"/>
@@ -3175,7 +3175,7 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1673"/>
         <source>Card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kaart %1 van %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1873"/>
@@ -3205,7 +3205,7 @@ Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="2124"/>
         <source>Press Space to play or stop, C to hear the code, I to insert it into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Druk op spatie om af te spelen of te stoppen, C om de code te horen, I om deze in de editor in te voegen.</translation>
     </message>
     <message>
         <source>Drag %1 into the editor</source>
@@ -4427,55 +4427,57 @@ Wanneer inactief klaagt Sonic Pi wanneer je een synth of FX probeert te gebruike
     <message>
         <location filename="../widgets/settingswidget.cpp" line="695"/>
         <source>Themes, transparency, audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Thema&apos;s, transparantie, audio-oscilloscopen en opties die handig zijn bij optredens.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="750"/>
         <source>Configure output volume and how hard the mix drives the main limiter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stel het uitgangsvolume in en hoe hard de mix de hoofdlimiter aanstuurt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="757"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="758"/>
         <location filename="../widgets/settingswidget.cpp" line="759"/>
         <location filename="../widgets/settingswidget.cpp" line="822"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volume</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="760"/>
         <source>Drag or scroll to change Sonic Pi&apos;s output volume. This is applied after the main limiter, so it changes how loud the output is without altering the mix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sleep of scroll om het uitgangsvolume van Sonic Pi aan te passen. Dit wordt na de hoofdlimiter toegepast, dus het verandert hoe luid de uitvoer is zonder de mix te wijzigen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="776"/>
         <location filename="../widgets/settingswidget.cpp" line="777"/>
         <location filename="../widgets/settingswidget.cpp" line="824"/>
         <source>Drive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drive</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="778"/>
         <source>Slide to change how hard the mix is driven into the main limiter. At 100% the mix is left untouched.
 
 Values above 100% make things louder and denser, at the cost of more limiting. Values below 100% create headroom for layering many sounds together.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schuif om in te stellen hoe hard de mix de hoofdlimiter in wordt gestuurd. Bij 100% blijft de mix onaangeroerd.
+
+Waarden boven 100% maken het geluid luider en voller, ten koste van meer limiting. Waarden onder 100% creëren ruimte om veel geluiden over elkaar te leggen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="829"/>
         <location filename="../widgets/settingswidget.cpp" line="3492"/>
         <location filename="../widgets/settingswidget.cpp" line="3493"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Niveau</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="959"/>
         <source>Close and re-open the current audio device with the same settings (a full cold swap). Useful if audio has stopped behaving after sleep or hardware changes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sluit het huidige audioapparaat en open het opnieuw met dezelfde instellingen (een volledige koude wissel). Handig als de audio zich vreemd gedraagt na de slaapstand of na hardwarewijzigingen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1227"/>
@@ -4485,23 +4487,24 @@ Values above 100% make things louder and denser, at the cost of more limiting. V
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1228"/>
         <source>Configure MIDI behaviour and list all connected MIDI ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configureer MIDI functionaliteit en toon alle verbonden MIDI poorten</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1329"/>
         <source>Automatically align code on Enter, Run and Tab.
 When disabled, Tab indents normally and code is only aligned via Code &gt; Align Code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Code automatisch uitlijnen bij Enter, Run en Tab.
+Indien uitgeschakeld springt Tab normaal in en wordt code alleen uitgelijnd via Code &gt; Code uitlijnen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Show editor toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toon editorwerkbalk</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1380"/>
         <source>Toggle visibility of the editor&apos;s floating toolbar (undo/redo, cut/copy/paste, find).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schakel de zichtbaarheid van de zwevende werkbalk van de editor in/uit (ongedaan maken/opnieuw, knippen/kopiëren/plakken, zoeken).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1427"/>
@@ -4531,59 +4534,59 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1496"/>
         <source>Themes, transparency and settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Thema&apos;s, transparantie en instellingen die nuttig zijn bij het optreden met Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1499"/>
         <source>Configure the Sonic Pi colour scheme and look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configureer het kleurenschema en het uiterlijk van Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1647"/>
         <source>Rotate hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kleurtoon draaien</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1649"/>
         <source>Drag or scroll to rotate the hue of every colour in the interface. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sleep of scroll om de kleurtoon van elke kleur in de interface te draaien. Dubbelklik op de waarde om een exacte waarde te typen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1663"/>
         <source>Spread hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kleurtoon spreiden</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1664"/>
         <location filename="../widgets/settingswidget.cpp" line="1672"/>
         <source>Spread Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kleurtoon Spreiden</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1665"/>
         <source>Drag or scroll to spread the interface&apos;s colours away from the main colour. 0 is the theme as designed, 100 spaces every colour evenly around the wheel. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sleep of scroll om de kleuren van de interface verder van de hoofdkleur af te spreiden. 0 is het thema zoals ontworpen, 100 verdeelt elke kleur gelijkmatig over de kleurencirkel. Dubbelklik op de waarde om een exacte waarde te typen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1682"/>
         <location filename="../widgets/settingswidget.cpp" line="3621"/>
         <source>Release to apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Loslaten om toe te passen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1709"/>
         <source>Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Thema Herstellen</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1710"/>
         <source>Return hue rotation, hue spread, monochrome and invert to their defaults. The chosen scheme is kept.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zet kleurtoondraaiing, kleurspreiding, monochroom en omkeren terug naar hun standaardwaarden. Het gekozen schema blijft behouden.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1732"/>
         <source>Drag or scroll to change how see-through the Sonic Pi window is.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sleep of scroll om in te stellen hoe doorzichtig het Sonic Pi venster is.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1771"/>
@@ -4640,12 +4643,12 @@ Stereo - toont twee onafhankelijke scopes voor het linker- en rechterkanaal</tra
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1792"/>
         <source>Scrolling live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scrollende live loop scopes</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1794"/>
         <source>When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Indien ingeschakeld scrollen de live loop scopes hun recente audio als een strookdiagram. Indien uitgeschakeld tonen ze een stabiele golfvorm, net als de hoofdscope.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1804"/>
@@ -4666,12 +4669,12 @@ Stereo - toont twee onafhankelijke scopes voor het linker- en rechterkanaal</tra
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1846"/>
         <source>Publish Window via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Venster Publiceren via %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1847"/>
         <source>Share the Sonic Pi window with other applications as a %1 video feed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deel het Sonic Pi venster met andere applicaties als een %1-videofeed.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1854"/>
@@ -4681,17 +4684,17 @@ Stereo - toont twee onafhankelijke scopes voor het linker- en rechterkanaal</tra
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1858"/>
         <source>Stop sharing the Sonic Pi window.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stop met het delen van het Sonic Pi venster.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1861"/>
         <source>Publish via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publiceren via %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1865"/>
         <source>Publish the Sonic Pi window as a %1 video feed for other applications to receive.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publiceer het Sonic Pi venster als een %1-videofeed die andere applicaties kunnen ontvangen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
@@ -4773,29 +4776,29 @@ Stereo - toont twee onafhankelijke scopes voor het linker- en rechterkanaal</tra
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2827"/>
         <source>Changing audio device. This can take a few moments...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audioapparaat wisselen. Dit kan even duren...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2845"/>
         <source>Audio device is still settling. Try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Het audioapparaat is nog bezig met instellen. Probeer het over een paar seconden opnieuw.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2924"/>
         <location filename="../widgets/settingswidget.cpp" line="2950"/>
         <location filename="../widgets/settingswidget.cpp" line="3309"/>
         <source>OS Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Systeemstandaard</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2926"/>
         <source>OS Default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Systeemstandaard (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2957"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3196"/>
@@ -4805,12 +4808,12 @@ Stereo - toont twee onafhankelijke scopes voor het linker- en rechterkanaal</tra
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3220"/>
         <source>%1 selected. Choose an Output device to switch.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 geselecteerd. Kies een uitvoerapparaat om te wisselen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3494"/>
         <source>Shows the output level of the left and right channels. The bar reaches into the accent colour when the main limiter is reducing the level.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toont het uitgangsniveau van het linker- en rechterkanaal. De balk loopt door tot in de accentkleur wanneer de hoofdlimiter het niveau terugbrengt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="4151"/>
@@ -4920,7 +4923,7 @@ Dit omvat het verzenden van anonieme gegevens over het platform en de versie van
     <message>
         <location filename="../visualizer/scope_window.cpp" line="188"/>
         <source>Levels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Niveaus</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="189"/>
@@ -5300,7 +5303,7 @@ Link werkt alleen op deze computer of via je lokale netwerk. Wissel van modus me
     <message>
         <location filename="../widgets/tutorialwidgets.cpp" line="153"/>
         <source>Link. Press Return to open.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link. Druk op Return om te openen.</translation>
     </message>
 </context>
 <context>
@@ -5442,7 +5445,7 @@ Link werkt alleen op deze computer of via je lokale netwerk. Wissel van modus me
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1539"/>
         <source>Back to the options list from %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Terug naar de optielijst vanaf %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1562"/>

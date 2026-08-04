@@ -16,12 +16,12 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1094"/>
         <source>▶ Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">▶ Tocar</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1097"/>
         <source>Play this sample</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tocar este sample</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1115"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1968"/>
         <source>Usage: %1. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Uso: %1. </translation>
     </message>
 </context>
 <context>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../widgets/editortoolbar.cpp" line="68"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Localizar</translation>
     </message>
 </context>
 <context>
@@ -85,42 +85,42 @@
     <message>
         <location filename="../widgets/findpopup.cpp" line="39"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Localizar</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="40"/>
         <source>Find in buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Localizar no buffer</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="50"/>
         <source>Aa</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aa</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="53"/>
         <source>Match case exactly (otherwise a lowercase search matches any case)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Diferenciar maiúsculas de minúsculas (caso contrário, uma busca em minúsculas encontra qualquer caixa)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="58"/>
         <source>Previous match (Up, Shift+F3 or Ctrl+R)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ocorrência anterior (Seta para cima, Shift+F3 ou Ctrl+R)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="63"/>
         <source>Next match (Down, F3 or Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Próxima ocorrência (Seta para baixo, F3 ou Ctrl+S)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="68"/>
         <source>Close find (Escape)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fechar a busca (Escape)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="186"/>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nenhum resultado</translation>
     </message>
 </context>
 <context>
@@ -1593,22 +1593,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3910"/>
         <source>Showing audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrando osciloscópios de áudio...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3911"/>
         <source>Hiding audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escondendo osciloscópios de áudio...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4084"/>
         <source>Updating Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atualizando Volume...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4105"/>
         <source>Updating Drive...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Atualizando Drive...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4740"/>
@@ -1623,17 +1623,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5204"/>
         <source>Find text in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Localizar texto no buffer atual</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5205"/>
         <source>Jump to the next match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ir para a próxima ocorrência</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Jump to the previous match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ir para a ocorrência anterior</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5212"/>
@@ -1723,27 +1723,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="5250"/>
         <source>Place focus on the help docs listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colocar foco na lista de documentos de ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5251"/>
         <source>Place focus on the help docs details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colocar foco nos detalhes dos documentos de ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5253"/>
         <source>Place focus on the help cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colocar foco nos cartões de ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5254"/>
         <source>Place focus on the help logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colocar foco nos registros de ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5255"/>
         <source>Place focus on the help debug pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colocar foco no painel de depuração da ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5258"/>
@@ -1936,17 +1936,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5632"/>
         <source>Find...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Localizar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5635"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Localizar Próximo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5638"/>
         <source>Find Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Localizar Anterior</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5641"/>
@@ -2156,7 +2156,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5887"/>
         <source>Scrolling Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Osciloscópios de Live Loop com Rolagem</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5892"/>
@@ -2181,7 +2181,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5977"/>
         <source>Automatically align code on Enter, Run and Tab. When disabled, Tab indents normally.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alinhar o código automaticamente ao pressionar Enter, Executar e Tab. Quando desativado, Tab indenta normalmente.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5986"/>
@@ -2257,27 +2257,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="6356"/>
         <source>Focus Help Docs Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focar Lista de Documentos de Ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6360"/>
         <source>Focus Help Docs Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focar Detalhes dos Documentos de Ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6369"/>
         <source>Focus Help Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focar Cartões de Ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6372"/>
         <source>Focus Help Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focar Registros de Ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6375"/>
         <source>Focus Help Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Focar Depuração de Ajuda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6380"/>
@@ -2303,7 +2303,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="6469"/>
         <source>Show Editor Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar Barra de Ferramentas do Editor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6532"/>
@@ -2345,8 +2345,8 @@
         <location filename="../mainwindow.cpp" line="7910"/>
         <source>%n topics</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n tópico</numerusform>
+            <numerusform>%n tópicos</numerusform>
         </translation>
     </message>
     <message>
@@ -2532,22 +2532,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="372"/>
         <source>GUI was unable to connect to the Ruby server.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A GUI não conseguiu se conectar ao servidor Ruby.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="863"/>
         <source>Code buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buffer de código %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1060"/>
         <source>Documentation sections</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seções da documentação</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1302"/>
         <source>Quickstart Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cartões de Início Rápido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1939"/>
@@ -2557,7 +2557,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>%1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Documentação de %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6204"/>
@@ -3090,17 +3090,17 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="771"/>
         <source>Code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Código: %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>First card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Primeiro cartão.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>Last card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Último cartão.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1044"/>
@@ -3115,7 +3115,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1173"/>
         <source>Deck selector</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seletor de conjuntos de cartões</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1184"/>
@@ -3125,7 +3125,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1200"/>
         <source>%1 deck, %2 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conjunto %1, %2 cartões</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1218"/>
@@ -3140,17 +3140,17 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1230"/>
         <source>Card navigation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Navegação de cartões</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1293"/>
         <source>%1 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 cartões</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1295"/>
         <source>Left and Right arrow keys move through the cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">As setas para a esquerda e para a direita navegam pelos cartões.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1300"/>
@@ -3160,7 +3160,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1329"/>
         <source>%1 card, %2 of %3. %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cartão %1, %2 de %3. %4</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1491"/>
@@ -3175,7 +3175,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1673"/>
         <source>Card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cartão %1 de %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1873"/>
@@ -3205,7 +3205,7 @@ Baixar Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="2124"/>
         <source>Press Space to play or stop, C to hear the code, I to insert it into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pressione Espaço para tocar ou parar, C para ouvir o código, I para inseri-lo no editor.</translation>
     </message>
     <message>
         <source>Drag %1 into the editor</source>
@@ -4427,55 +4427,57 @@ Quando desativado, o Sonic Pi reclamará quando você tentar usar um sintetizado
     <message>
         <location filename="../widgets/settingswidget.cpp" line="695"/>
         <source>Themes, transparency, audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Temas, transparência, osciloscópios de áudio e opções úteis para apresentações.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="750"/>
         <source>Configure output volume and how hard the mix drives the main limiter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configure o volume de saída e a intensidade com que a mixagem é enviada ao limitador principal.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="757"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="758"/>
         <location filename="../widgets/settingswidget.cpp" line="759"/>
         <location filename="../widgets/settingswidget.cpp" line="822"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Volume</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="760"/>
         <source>Drag or scroll to change Sonic Pi&apos;s output volume. This is applied after the main limiter, so it changes how loud the output is without altering the mix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arraste ou role para alterar o volume de saída do Sonic Pi. Isso é aplicado depois do limitador principal, então altera o quão alto é o som de saída sem modificar a mixagem.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="776"/>
         <location filename="../widgets/settingswidget.cpp" line="777"/>
         <location filename="../widgets/settingswidget.cpp" line="824"/>
         <source>Drive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drive</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="778"/>
         <source>Slide to change how hard the mix is driven into the main limiter. At 100% the mix is left untouched.
 
 Values above 100% make things louder and denser, at the cost of more limiting. Values below 100% create headroom for layering many sounds together.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deslize para alterar a intensidade com que a mixagem é enviada ao limitador principal. Em 100% a mixagem permanece intacta.
+
+Valores acima de 100% deixam tudo mais alto e mais denso, ao custo de mais limitação. Valores abaixo de 100% criam espaço (headroom) para sobrepor muitos sons.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="829"/>
         <location filename="../widgets/settingswidget.cpp" line="3492"/>
         <location filename="../widgets/settingswidget.cpp" line="3493"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nível</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="959"/>
         <source>Close and re-open the current audio device with the same settings (a full cold swap). Useful if audio has stopped behaving after sleep or hardware changes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fechar e reabrir o dispositivo de áudio atual com as mesmas configurações (uma troca completa a frio). Útil se o áudio parou de funcionar corretamente após a suspensão ou mudanças de hardware.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1227"/>
@@ -4485,23 +4487,24 @@ Values above 100% make things louder and denser, at the cost of more limiting. V
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1228"/>
         <source>Configure MIDI behaviour and list all connected MIDI ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configure o comportamento MIDI e liste todas as portas MIDI conectadas</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1329"/>
         <source>Automatically align code on Enter, Run and Tab.
 When disabled, Tab indents normally and code is only aligned via Code &gt; Align Code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alinhar o código automaticamente ao pressionar Enter, Executar e Tab.
+Quando desativado, Tab indenta normalmente e o código só é alinhado via Código &gt; Alinhar Código.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Show editor toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar barra de ferramentas do editor</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1380"/>
         <source>Toggle visibility of the editor&apos;s floating toolbar (undo/redo, cut/copy/paste, find).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alternar visibilidade da barra de ferramentas flutuante do editor (desfazer/refazer, recortar/copiar/colar, localizar).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1427"/>
@@ -4531,59 +4534,59 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1496"/>
         <source>Themes, transparency and settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Temas, transparência e configurações úteis para se apresentar com o Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1499"/>
         <source>Configure the Sonic Pi colour scheme and look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configure o esquema de cores e a aparência do Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1647"/>
         <source>Rotate hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Girar matiz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1649"/>
         <source>Drag or scroll to rotate the hue of every colour in the interface. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arraste ou role para girar o matiz de todas as cores da interface. Dê um duplo clique no valor para digitar um valor exato.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1663"/>
         <source>Spread hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Espalhar matiz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1664"/>
         <location filename="../widgets/settingswidget.cpp" line="1672"/>
         <source>Spread Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Espalhar Matiz</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1665"/>
         <source>Drag or scroll to spread the interface&apos;s colours away from the main colour. 0 is the theme as designed, 100 spaces every colour evenly around the wheel. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arraste ou role para espalhar as cores da interface a partir da cor principal. 0 é o tema como foi projetado, 100 distribui todas as cores uniformemente pela roda de cores. Dê um duplo clique no valor para digitar um valor exato.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1682"/>
         <location filename="../widgets/settingswidget.cpp" line="3621"/>
         <source>Release to apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Solte para aplicar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1709"/>
         <source>Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Restaurar Tema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1710"/>
         <source>Return hue rotation, hue spread, monochrome and invert to their defaults. The chosen scheme is kept.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Retorna rotação de matiz, espalhamento de matiz, monocromático e inversão aos padrões. O esquema escolhido é mantido.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1732"/>
         <source>Drag or scroll to change how see-through the Sonic Pi window is.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arraste ou role para alterar o quão transparente é a janela do Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1771"/>
@@ -4640,12 +4643,12 @@ Estéreo - mostra dois osciloscópios independentes para os canais esquerdo e di
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1792"/>
         <source>Scrolling live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Osciloscópios de live loop com rolagem</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1794"/>
         <source>When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Quando ativado, os osciloscópios de live loop rolam o áudio recente como um gráfico contínuo. Quando desativado, mantêm uma forma de onda fixa como o osciloscópio principal.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1804"/>
@@ -4666,12 +4669,12 @@ Estéreo - mostra dois osciloscópios independentes para os canais esquerdo e di
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1846"/>
         <source>Publish Window via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publicar Janela via %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1847"/>
         <source>Share the Sonic Pi window with other applications as a %1 video feed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Compartilhar a janela do Sonic Pi com outros aplicativos como um feed de vídeo %1.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1854"/>
@@ -4681,17 +4684,17 @@ Estéreo - mostra dois osciloscópios independentes para os canais esquerdo e di
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1858"/>
         <source>Stop sharing the Sonic Pi window.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Parar de compartilhar a janela do Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1861"/>
         <source>Publish via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publicar via %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1865"/>
         <source>Publish the Sonic Pi window as a %1 video feed for other applications to receive.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Publicar a janela do Sonic Pi como um feed de vídeo %1 para outros aplicativos receberem.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
@@ -4773,29 +4776,29 @@ Estéreo - mostra dois osciloscópios independentes para os canais esquerdo e di
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2827"/>
         <source>Changing audio device. This can take a few moments...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alterando dispositivo de áudio. Isso pode levar alguns instantes...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2845"/>
         <source>Audio device is still settling. Try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">O dispositivo de áudio ainda está se estabilizando. Tente novamente em alguns segundos.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2924"/>
         <location filename="../widgets/settingswidget.cpp" line="2950"/>
         <location filename="../widgets/settingswidget.cpp" line="3309"/>
         <source>OS Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Padrão do Sistema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2926"/>
         <source>OS Default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Padrão do Sistema (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2957"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3196"/>
@@ -4805,12 +4808,12 @@ Estéreo - mostra dois osciloscópios independentes para os canais esquerdo e di
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3220"/>
         <source>%1 selected. Choose an Output device to switch.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 selecionado. Escolha um dispositivo de Saída para trocar.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3494"/>
         <source>Shows the output level of the left and right channels. The bar reaches into the accent colour when the main limiter is reducing the level.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostra o nível de saída dos canais esquerdo e direito. A barra atinge a cor de destaque quando o limitador principal está reduzindo o nível.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="4151"/>
@@ -4921,7 +4924,7 @@ Esta checagem envolve enviar informações anônimas sobre seu sistema e sua ver
     <message>
         <location filename="../visualizer/scope_window.cpp" line="188"/>
         <source>Levels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Níveis</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="189"/>
@@ -5301,7 +5304,7 @@ O Link funciona somente nesta máquina ou por toda a sua rede local. Alterne os 
     <message>
         <location filename="../widgets/tutorialwidgets.cpp" line="153"/>
         <source>Link. Press Return to open.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Link. Pressione Enter para abrir.</translation>
     </message>
 </context>
 <context>
@@ -5443,7 +5446,7 @@ O Link funciona somente nesta máquina ou por toda a sua rede local. Alterne os 
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1539"/>
         <source>Back to the options list from %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voltar de %1 para a lista de opções</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1562"/>

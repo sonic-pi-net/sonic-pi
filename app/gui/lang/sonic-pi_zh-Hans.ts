@@ -16,12 +16,12 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1094"/>
         <source>▶ Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">▶ 播放</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1097"/>
         <source>Play this sample</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">播放此采样</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1115"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1968"/>
         <source>Usage: %1. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">用法：%1。</translation>
     </message>
 </context>
 <context>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../widgets/editortoolbar.cpp" line="68"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">查找</translation>
     </message>
 </context>
 <context>
@@ -85,42 +85,42 @@
     <message>
         <location filename="../widgets/findpopup.cpp" line="39"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">查找</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="40"/>
         <source>Find in buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在缓冲区中查找</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="50"/>
         <source>Aa</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aa</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="53"/>
         <source>Match case exactly (otherwise a lowercase search matches any case)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">精确匹配大小写（否则小写搜索会匹配任意大小写）</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="58"/>
         <source>Previous match (Up, Shift+F3 or Ctrl+R)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">上一个匹配项（Up、Shift+F3 或 Ctrl+R）</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="63"/>
         <source>Next match (Down, F3 or Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">下一个匹配项（Down、F3 或 Ctrl+S）</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="68"/>
         <source>Close find (Escape)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">关闭查找（Escape）</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="186"/>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无结果</translation>
     </message>
 </context>
 <context>
@@ -822,27 +822,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="372"/>
         <source>GUI was unable to connect to the Ruby server.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GUI 无法连接到 Ruby 服务器。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="863"/>
         <source>Code buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">代码缓冲区 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1060"/>
         <source>Documentation sections</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">文档章节</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1302"/>
         <source>Quickstart Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">快速入门卡片</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>%1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 文档</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5212"/>
@@ -1957,22 +1957,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3910"/>
         <source>Showing audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示音频示波器...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3911"/>
         <source>Hiding audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">隐藏音频示波器...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4084"/>
         <source>Updating Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">更新音量...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4105"/>
         <source>Updating Drive...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">更新 Drive...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4740"/>
@@ -1987,17 +1987,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5204"/>
         <source>Find text in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在当前缓冲区中查找文本</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5205"/>
         <source>Jump to the next match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">跳转到下一个匹配项</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Jump to the previous match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">跳转到上一个匹配项</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5243"/>
@@ -2012,27 +2012,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="5250"/>
         <source>Place focus on the help docs listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将焦点放在帮助文档列表上</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5251"/>
         <source>Place focus on the help docs details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将焦点放在帮助文档详情上</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5253"/>
         <source>Place focus on the help cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将焦点放在帮助卡片上</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5254"/>
         <source>Place focus on the help logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将焦点放在帮助日志上</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5255"/>
         <source>Place focus on the help debug pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将焦点放在帮助调试窗格上</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5262"/>
@@ -2154,17 +2154,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5632"/>
         <source>Find...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">查找...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5635"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">查找下一个</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5638"/>
         <source>Find Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">查找上一个</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5641"/>
@@ -2369,7 +2369,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5887"/>
         <source>Scrolling Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">滚动 Live Loop 示波器</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5892"/>
@@ -2394,7 +2394,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5977"/>
         <source>Automatically align code on Enter, Run and Tab. When disabled, Tab indents normally.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在按下 Enter、运行和 Tab 时自动对齐代码。禁用时，Tab 正常缩进。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5986"/>
@@ -2480,27 +2480,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="6356"/>
         <source>Focus Help Docs Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">焦点帮助文档列表</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6360"/>
         <source>Focus Help Docs Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">焦点帮助文档详情</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6369"/>
         <source>Focus Help Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">焦点帮助卡片</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6372"/>
         <source>Focus Help Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">焦点帮助日志</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6375"/>
         <source>Focus Help Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">焦点帮助调试</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6380"/>
@@ -2546,7 +2546,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="6469"/>
         <source>Show Editor Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示编辑器工具栏</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6474"/>
@@ -2623,7 +2623,7 @@
         <location filename="../mainwindow.cpp" line="7910"/>
         <source>%n topics</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
+            <numerusform>%n 个主题</numerusform>
         </translation>
     </message>
     <message>
@@ -3078,17 +3078,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="771"/>
         <source>Code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">代码：%1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>First card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">第一张卡片。</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>Last card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最后一张卡片。</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1044"/>
@@ -3103,7 +3103,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1173"/>
         <source>Deck selector</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">卡组选择器</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1184"/>
@@ -3113,7 +3113,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1200"/>
         <source>%1 deck, %2 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 卡组，共 %2 张卡片</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1218"/>
@@ -3128,17 +3128,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1230"/>
         <source>Card navigation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">卡片导航</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1293"/>
         <source>%1 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 张卡片</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1295"/>
         <source>Left and Right arrow keys move through the cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">使用左右方向键在卡片间移动。</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1300"/>
@@ -3148,7 +3148,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1329"/>
         <source>%1 card, %2 of %3. %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 卡片，第 %2 张，共 %3 张。%4</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1491"/>
@@ -3163,7 +3163,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1673"/>
         <source>Card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">第 %1 张卡片（共 %2 张）</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1873"/>
@@ -3193,7 +3193,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="2124"/>
         <source>Press Space to play or stop, C to hear the code, I to insert it into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">按空格键播放或停止，按 C 朗读代码，按 I 将其插入编辑器。</translation>
     </message>
     <message>
         <source>Drag %1 into the editor</source>
@@ -3709,7 +3709,7 @@ When disabled, Sonic Pi will complain when you attempt to use a synth or FX whic
         <location filename="../widgets/settingswidget.cpp" line="3492"/>
         <location filename="../widgets/settingswidget.cpp" line="3493"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电平</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="930"/>
@@ -3719,7 +3719,7 @@ When disabled, Sonic Pi will complain when you attempt to use a synth or FX whic
     <message>
         <location filename="../widgets/settingswidget.cpp" line="959"/>
         <source>Close and re-open the current audio device with the same settings (a full cold swap). Useful if audio has stopped behaving after sleep or hardware changes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">以相同设置关闭并重新打开当前音频设备（完整的冷切换）。当睡眠或硬件变动后音频出现异常时很有用。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1010"/>
@@ -3759,7 +3759,7 @@ When disabled, Sonic Pi will complain when you attempt to use a synth or FX whic
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1228"/>
         <source>Configure MIDI behaviour and list all connected MIDI ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">配置 MIDI 行为并列出所有已连接的 MIDI 端口</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1230"/>
@@ -3850,7 +3850,8 @@ When disabled, Sonic Pi will complain when you attempt to use a synth or FX whic
         <location filename="../widgets/settingswidget.cpp" line="1329"/>
         <source>Automatically align code on Enter, Run and Tab.
 When disabled, Tab indents normally and code is only aligned via Code &gt; Align Code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在按下 Enter、运行和 Tab 时自动对齐代码。
+禁用时，Tab 正常缩进，代码只能通过“代码 &gt; 对齐代码”对齐。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1331"/>
@@ -3950,12 +3951,12 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Show editor toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示编辑器工具栏</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1380"/>
         <source>Toggle visibility of the editor&apos;s floating toolbar (undo/redo, cut/copy/paste, find).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示或隐藏编辑器的浮动工具栏（撤销/重做、剪切/复制/粘贴、查找）。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1382"/>
@@ -4257,120 +4258,122 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="695"/>
         <source>Themes, transparency, audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">主题、透明度、音频示波器以及现场演出时实用的选项。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="750"/>
         <source>Configure output volume and how hard the mix drives the main limiter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">配置输出音量以及混音推动主限制器的力度。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="757"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="758"/>
         <location filename="../widgets/settingswidget.cpp" line="759"/>
         <location filename="../widgets/settingswidget.cpp" line="822"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音量</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="760"/>
         <source>Drag or scroll to change Sonic Pi&apos;s output volume. This is applied after the main limiter, so it changes how loud the output is without altering the mix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">拖动或滚动以更改 Sonic Pi 的输出音量。该音量在主限制器之后生效，因此只改变输出的响度而不影响混音。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="776"/>
         <location filename="../widgets/settingswidget.cpp" line="777"/>
         <location filename="../widgets/settingswidget.cpp" line="824"/>
         <source>Drive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drive</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="778"/>
         <source>Slide to change how hard the mix is driven into the main limiter. At 100% the mix is left untouched.
 
 Values above 100% make things louder and denser, at the cost of more limiting. Values below 100% create headroom for layering many sounds together.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">滑动以更改混音推入主限制器的力度。为 100% 时混音保持原样。
+
+高于 100% 会让声音更响、更密集，但会带来更多限制。低于 100% 则为叠加多种声音留出动态余量。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1496"/>
         <source>Themes, transparency and settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">主题、透明度以及使用 Sonic Pi 现场演出时实用的设置</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1499"/>
         <source>Configure the Sonic Pi colour scheme and look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">配置 Sonic Pi 的配色方案与界面外观。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1647"/>
         <source>Rotate hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">旋转色相</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1649"/>
         <source>Drag or scroll to rotate the hue of every colour in the interface. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">拖动或滚动以旋转界面中所有颜色的色相。双击数值可直接输入精确值。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1663"/>
         <source>Spread hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">扩散色相</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1664"/>
         <location filename="../widgets/settingswidget.cpp" line="1672"/>
         <source>Spread Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">扩散色相</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1665"/>
         <source>Drag or scroll to spread the interface&apos;s colours away from the main colour. 0 is the theme as designed, 100 spaces every colour evenly around the wheel. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">拖动或滚动以让界面颜色向主色之外扩散。0 为主题原始设计，100 则将所有颜色均匀分布在色轮上。双击数值可直接输入精确值。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1682"/>
         <location filename="../widgets/settingswidget.cpp" line="3621"/>
         <source>Release to apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">松开以应用</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1709"/>
         <source>Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重置主题</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1710"/>
         <source>Return hue rotation, hue spread, monochrome and invert to their defaults. The chosen scheme is kept.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将色相旋转、色相扩散、单色和反转恢复为默认值。所选配色方案保持不变。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1732"/>
         <source>Drag or scroll to change how see-through the Sonic Pi window is.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">拖动或滚动以更改 Sonic Pi 窗口的透明程度。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1792"/>
         <source>Scrolling live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">滚动 Live Loop 示波器</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1794"/>
         <source>When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">启用时，Live Loop 示波器会像带状图一样滚动显示最近的音频。禁用时，则像主示波器一样保持稳定的波形。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1846"/>
         <source>Publish Window via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">通过 %1 发布窗口</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1847"/>
         <source>Share the Sonic Pi window with other applications as a %1 video feed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将 Sonic Pi 窗口作为 %1 视频流共享给其他应用程序。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1854"/>
@@ -4380,17 +4383,17 @@ Values above 100% make things louder and denser, at the cost of more limiting. V
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1858"/>
         <source>Stop sharing the Sonic Pi window.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">停止共享 Sonic Pi 窗口。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1861"/>
         <source>Publish via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">通过 %1 发布</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1865"/>
         <source>Publish the Sonic Pi window as a %1 video feed for other applications to receive.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将 Sonic Pi 窗口发布为 %1 视频流，供其他应用程序接收。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2270"/>
@@ -4766,39 +4769,39 @@ Values above 100% make things louder and denser, at the cost of more limiting. V
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2827"/>
         <source>Changing audio device. This can take a few moments...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">正在切换音频设备。这可能需要一点时间...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2845"/>
         <source>Audio device is still settling. Try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频设备仍在稳定中。请过几秒再试。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2924"/>
         <location filename="../widgets/settingswidget.cpp" line="2950"/>
         <location filename="../widgets/settingswidget.cpp" line="3309"/>
         <source>OS Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">系统默认</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2926"/>
         <source>OS Default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">系统默认 (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2957"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3220"/>
         <source>%1 selected. Choose an Output device to switch.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">已选择 %1。请选择一个输出设备进行切换。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3494"/>
         <source>Shows the output level of the left and right channels. The bar reaches into the accent colour when the main limiter is reducing the level.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">显示左右声道的输出电平。当主限制器正在压低电平时，条形会进入强调色区域。</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="4151"/>
@@ -4908,7 +4911,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../visualizer/scope_window.cpp" line="188"/>
         <source>Levels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">电平</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="189"/>
@@ -5288,7 +5291,7 @@ Link 可以仅在本机运行，也可以跨本地网络运行。使用本行末
     <message>
         <location filename="../widgets/tutorialwidgets.cpp" line="153"/>
         <source>Link. Press Return to open.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">链接。按回车键打开。</translation>
     </message>
 </context>
 <context>
@@ -5430,7 +5433,7 @@ Link 可以仅在本机运行，也可以跨本地网络运行。使用本行末
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1539"/>
         <source>Back to the options list from %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">从 %1 返回选项列表</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1562"/>

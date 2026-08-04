@@ -16,12 +16,12 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1094"/>
         <source>▶ Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">▶ இசைக்க</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1097"/>
         <source>Play this sample</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இந்த மாதிரியை இசைக்கவும்</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1115"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1968"/>
         <source>Usage: %1. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பயன்பாடு: %1. </translation>
     </message>
 </context>
 <context>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../widgets/editortoolbar.cpp" line="68"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தேடு</translation>
     </message>
 </context>
 <context>
@@ -85,42 +85,42 @@
     <message>
         <location filename="../widgets/findpopup.cpp" line="39"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தேடு</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="40"/>
         <source>Find in buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடையகத்தில் தேடு</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="50"/>
         <source>Aa</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aa</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="53"/>
         <source>Match case exactly (otherwise a lowercase search matches any case)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எழுத்து வடிவத்தை சரியாகப் பொருத்தவும் (இல்லையெனில் சிறிய எழுத்துத் தேடல் எந்த வடிவத்துடனும் பொருந்தும்)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="58"/>
         <source>Previous match (Up, Shift+F3 or Ctrl+R)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முந்தைய பொருத்தம் (Up, Shift+F3 அல்லது Ctrl+R)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="63"/>
         <source>Next match (Down, F3 or Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அடுத்த பொருத்தம் (Down, F3 அல்லது Ctrl+S)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="68"/>
         <source>Close find (Escape)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தேடலை மூடு (Escape)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="186"/>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முடிவுகள் இல்லை</translation>
     </message>
 </context>
 <context>
@@ -1546,27 +1546,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="372"/>
         <source>GUI was unable to connect to the Ruby server.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ரூபி சேவையகத்துடன் இணைக்க இடைமுகத்தால் முடியவில்லை.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="863"/>
         <source>Code buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீடு இடையகம் %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1060"/>
         <source>Documentation sections</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆவணப் பிரிவுகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1302"/>
         <source>Quickstart Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">விரைவுத் தொடக்க அட்டைகள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆவணம்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1941"/>
@@ -1689,7 +1689,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>%1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 ஆவணம்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3412"/>
@@ -1806,22 +1806,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3910"/>
         <source>Showing audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ அலைக்காட்டிகளைக் காட்டுகிறது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3911"/>
         <source>Hiding audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ அலைக்காட்டிகளை மறைக்கிறது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4084"/>
         <source>Updating Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒலியளவைப் புதுப்பிக்கிறது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4105"/>
         <source>Updating Drive...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">டிரைவ் புதுப்பிக்கிறது ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4740"/>
@@ -1836,17 +1836,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5204"/>
         <source>Find text in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தற்போதைய இடையகத்தில் உரையைத் தேடவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5205"/>
         <source>Jump to the next match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அடுத்த பொருத்தத்திற்குச் செல்லவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Jump to the previous match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முந்தைய பொருத்தத்திற்குச் செல்லவும்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5212"/>
@@ -1936,27 +1936,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="5250"/>
         <source>Place focus on the help docs listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி ஆவணப் பட்டியலில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5251"/>
         <source>Place focus on the help docs details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி ஆவண விவரங்களில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5253"/>
         <source>Place focus on the help cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி அட்டைகளில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5254"/>
         <source>Place focus on the help logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி பதிவுகளில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5255"/>
         <source>Place focus on the help debug pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி பிழைத்திருத்தப் பலகத்தில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5258"/>
@@ -2154,17 +2154,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5632"/>
         <source>Find...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தேடு ...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5635"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அடுத்ததைத் தேடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5638"/>
         <source>Find Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முந்தையதைத் தேடு</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5641"/>
@@ -2374,7 +2374,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5887"/>
         <source>Scrolling Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உருளும் நேரடி லூப் ச்கோப்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5892"/>
@@ -2399,7 +2399,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5977"/>
         <source>Automatically align code on Enter, Run and Tab. When disabled, Tab indents normally.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enter, Run மற்றும் Tab இல் குறியீட்டைத் தானாகவே சீரமைக்கவும். முடக்கப்பட்டால், Tab வழக்கமாக உள்தள்ளும்.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5986"/>
@@ -2449,39 +2449,39 @@
     <message>
         <location filename="../mainwindow.cpp" line="6356"/>
         <source>Focus Help Docs Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி ஆவணப் பட்டியலில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6360"/>
         <source>Focus Help Docs Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி ஆவண விவரங்களில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6369"/>
         <source>Focus Help Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி அட்டைகளில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6372"/>
         <source>Focus Help Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி பதிவுகளில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6375"/>
         <source>Focus Help Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உதவி பிழைத்திருத்தத்தில் கவனம் செலுத்துங்கள்</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6469"/>
         <source>Show Editor Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடிட்டர் கருவிப்பட்டியைக் காட்டு</translation>
     </message>
     <message numerus="yes">
         <location filename="../mainwindow.cpp" line="7910"/>
         <source>%n topics</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n தலைப்பு</numerusform>
+            <numerusform>%n தலைப்புகள்</numerusform>
         </translation>
     </message>
     <message>
@@ -3150,17 +3150,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="771"/>
         <source>Code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">குறியீடு: %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>First card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">முதல் அட்டை.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>Last card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கடைசி அட்டை.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1044"/>
@@ -3175,7 +3175,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1173"/>
         <source>Deck selector</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">டெக் தேர்வி</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1184"/>
@@ -3185,7 +3185,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1200"/>
         <source>%1 deck, %2 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 டெக், %2 அட்டைகள்</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1218"/>
@@ -3200,17 +3200,17 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1230"/>
         <source>Card navigation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அட்டை வழிசெலுத்தல்</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1293"/>
         <source>%1 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 அட்டைகள்</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1295"/>
         <source>Left and Right arrow keys move through the cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடது மற்றும் வலது அம்புக்குறி விசைகள் அட்டைகளினூடே நகர்த்துகின்றன.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1300"/>
@@ -3220,7 +3220,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1329"/>
         <source>%1 card, %2 of %3. %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 அட்டை, %3 இல் %2. %4</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1491"/>
@@ -3235,7 +3235,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1673"/>
         <source>Card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%2 இல் அட்டை %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1873"/>
@@ -3265,7 +3265,7 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="2124"/>
         <source>Press Space to play or stop, C to hear the code, I to insert it into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இசைக்க அல்லது நிறுத்த Space ஐ அழுத்தவும், குறியீட்டைக் கேட்க C ஐ, அதை எடிட்டரில் செருக I ஐ அழுத்தவும்.</translation>
     </message>
     <message>
         <source>Drag %1 into the editor</source>
@@ -3966,7 +3966,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3220"/>
         <source>%1 selected. Choose an Output device to switch.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 தேர்ந்தெடுக்கப்பட்டது. மாற்ற ஒரு வெளியீட்டு சாதனத்தைத் தேர்வுசெய்க.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3296"/>
@@ -3996,7 +3996,7 @@ on https://hosted.weblate.org/projects/sonic-pi/. Thank you! :)</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3494"/>
         <source>Shows the output level of the left and right channels. The bar reaches into the accent colour when the main limiter is reducing the level.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடது மற்றும் வலது சேனல்களின் வெளியீட்டு அளவைக் காட்டுகிறது. பிரதான லிமிட்டர் அளவைக் குறைக்கும்போது பட்டை அழுத்த வண்ணத்திற்குள் செல்கிறது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3902"/>
@@ -4125,50 +4125,52 @@ When disabled, Sonic Pi will complain when you attempt to use a synth or FX whic
     <message>
         <location filename="../widgets/settingswidget.cpp" line="695"/>
         <source>Themes, transparency, audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கருப்பொருள்கள், வெளிப்படைத்தன்மை, ஆடியோ அலைக்காட்டிகள் மற்றும் நிகழ்ச்சி நடத்தும்போது பயனுள்ள விருப்பங்கள்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="750"/>
         <source>Configure output volume and how hard the mix drives the main limiter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">வெளியீட்டு ஒலியளவையும், கலவை பிரதான லிமிட்டரை எவ்வளவு வலுவாக இயக்குகிறது என்பதையும் உள்ளமைக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="757"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="758"/>
         <location filename="../widgets/settingswidget.cpp" line="759"/>
         <location filename="../widgets/settingswidget.cpp" line="822"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஒலியளவு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="760"/>
         <source>Drag or scroll to change Sonic Pi&apos;s output volume. This is applied after the main limiter, so it changes how loud the output is without altering the mix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பையின் வெளியீட்டு ஒலியளவை மாற்ற இழுக்கவும் அல்லது உருட்டவும். இது பிரதான லிமிட்டருக்குப் பிறகு பயன்படுத்தப்படுகிறது, எனவே கலவையை மாற்றாமல் வெளியீடு எவ்வளவு சத்தமாக இருக்கிறது என்பதை மாற்றுகிறது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="776"/>
         <location filename="../widgets/settingswidget.cpp" line="777"/>
         <location filename="../widgets/settingswidget.cpp" line="824"/>
         <source>Drive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">டிரைவ்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="778"/>
         <source>Slide to change how hard the mix is driven into the main limiter. At 100% the mix is left untouched.
 
 Values above 100% make things louder and denser, at the cost of more limiting. Values below 100% create headroom for layering many sounds together.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கலவை பிரதான லிமிட்டருக்குள் எவ்வளவு வலுவாக இயக்கப்படுகிறது என்பதை மாற்ற சறுக்கவும். 100% இல் கலவை தொடப்படாமல் விடப்படுகிறது.
+
+100% க்கு மேல் உள்ள மதிப்புகள் ஒலியை சத்தமாகவும் அடர்த்தியாகவும் ஆக்குகின்றன, ஆனால் அதிக லிமிட்டிங் ஏற்படும். 100% க்குக் கீழ் உள்ள மதிப்புகள் பல ஒலிகளை ஒன்றாக அடுக்குவதற்கு இடம் உருவாக்குகின்றன.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="829"/>
         <location filename="../widgets/settingswidget.cpp" line="3492"/>
         <location filename="../widgets/settingswidget.cpp" line="3493"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அளவு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="889"/>
@@ -4193,7 +4195,7 @@ Values above 100% make things louder and denser, at the cost of more limiting. V
     <message>
         <location filename="../widgets/settingswidget.cpp" line="959"/>
         <source>Close and re-open the current audio device with the same settings (a full cold swap). Useful if audio has stopped behaving after sleep or hardware changes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">தற்போதைய ஆடியோ சாதனத்தை அதே அமைப்புகளுடன் மூடி மீண்டும் திறக்கவும் (முழு குளிர் மாற்றம்). உறக்கம் அல்லது வன்பொருள் மாற்றங்களுக்குப் பிறகு ஆடியோ சரியாக இயங்கவில்லை என்றால் பயனுள்ளது.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="998"/>
@@ -4277,7 +4279,7 @@ GPU-முடுக்கப்பட்ட திரைப் பிடிப�
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1228"/>
         <source>Configure MIDI behaviour and list all connected MIDI ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மிடி நடத்தையை உள்ளமைத்து இணைக்கப்பட்ட அனைத்து மிடி துறைமுகங்களையும் பட்டியலிடவும்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1257"/>
@@ -4348,7 +4350,8 @@ GPU-முடுக்கப்பட்ட திரைப் பிடிப�
         <location filename="../widgets/settingswidget.cpp" line="1329"/>
         <source>Automatically align code on Enter, Run and Tab.
 When disabled, Tab indents normally and code is only aligned via Code &gt; Align Code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enter, Run மற்றும் Tab இல் குறியீட்டைத் தானாகவே சீரமைக்கவும்.
+முடக்கப்பட்டால், Tab வழக்கமாக உள்தள்ளும், மேலும் குறியீடு Code &gt; Align Code வழியாக மட்டுமே சீரமைக்கப்படும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1339"/>
@@ -4383,12 +4386,12 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Show editor toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடிட்டர் கருவிப்பட்டியைக் காட்டு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1380"/>
         <source>Toggle visibility of the editor&apos;s floating toolbar (undo/redo, cut/copy/paste, find).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">எடிட்டரின் மிதக்கும் கருவிப்பட்டியின் தெரிவுநிலையை மாற்றவும் (செயல்தவிர்/மீண்டுச்செய், வெட்டு/நகலெடு/ஒட்டு, தேடு).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1396"/>
@@ -4398,12 +4401,12 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1496"/>
         <source>Themes, transparency and settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கருப்பொருள்கள், வெளிப்படைத்தன்மை மற்றும் சோனிக் பையுடன் நிகழ்ச்சி நடத்த பயனுள்ள அமைப்புகள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1499"/>
         <source>Configure the Sonic Pi colour scheme and look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பையின் வண்ணத் திட்டத்தையும் தோற்றத்தையும் உள்ளமைக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1508"/>
@@ -4483,7 +4486,7 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1647"/>
         <source>Rotate hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிறத்தைச் சுழற்று</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1648"/>
@@ -4494,23 +4497,23 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1649"/>
         <source>Drag or scroll to rotate the hue of every colour in the interface. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடைமுகத்தில் உள்ள ஒவ்வொரு வண்ணத்தின் நிறத்தைச் சுழற்ற இழுக்கவும் அல்லது உருட்டவும். சரியான மதிப்பைத் தட்டச்சு செய்ய மதிப்பை இரட்டை சொடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1663"/>
         <source>Spread hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிறத்தைப் பரப்பு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1664"/>
         <location filename="../widgets/settingswidget.cpp" line="1672"/>
         <source>Spread Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிறத்தைப் பரப்பு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1665"/>
         <source>Drag or scroll to spread the interface&apos;s colours away from the main colour. 0 is the theme as designed, 100 spaces every colour evenly around the wheel. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இடைமுகத்தின் வண்ணங்களை பிரதான வண்ணத்திலிருந்து விலகிப் பரப்ப இழுக்கவும் அல்லது உருட்டவும். 0 என்பது வடிவமைக்கப்பட்டபடி கருப்பொருள், 100 ஒவ்வொரு வண்ணத்தையும் சக்கரத்தைச் சுற்றி சமமாக இடைவெளி விடுகிறது. சரியான மதிப்பைத் தட்டச்சு செய்ய மதிப்பை இரட்டை சொடுக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1675"/>
@@ -4520,29 +4523,29 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2827"/>
         <source>Changing audio device. This can take a few moments...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ சாதனத்தை மாற்றுகிறது. இதற்குச் சில நொடிகள் ஆகலாம் ...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2845"/>
         <source>Audio device is still settling. Try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ஆடியோ சாதனம் இன்னும் நிலைபெறுகிறது. சில விநாடிகளில் மீண்டும் முயற்சிக்கவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2924"/>
         <location filename="../widgets/settingswidget.cpp" line="2950"/>
         <location filename="../widgets/settingswidget.cpp" line="3309"/>
         <source>OS Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OS இயல்புநிலை</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2926"/>
         <source>OS Default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">OS இயல்புநிலை (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2957"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1426"/>
@@ -4695,42 +4698,42 @@ Stereo - shows two independent scopes for left and right channels</source>
         <location filename="../widgets/settingswidget.cpp" line="1682"/>
         <location filename="../widgets/settingswidget.cpp" line="3621"/>
         <source>Release to apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">பயன்படுத்த விடுவிக்கவும்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1709"/>
         <source>Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">கருப்பொருளை மீட்டமை</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1710"/>
         <source>Return hue rotation, hue spread, monochrome and invert to their defaults. The chosen scheme is kept.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">நிறச் சுழற்சி, நிறப் பரப்பு, ஒற்றைநிறம் மற்றும் தலைகீழ் ஆகியவற்றை அவற்றின் இயல்புநிலைகளுக்குத் திருப்பவும். தேர்ந்தெடுக்கப்பட்ட திட்டம் அப்படியே வைக்கப்படும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1732"/>
         <source>Drag or scroll to change how see-through the Sonic Pi window is.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை சாளரம் எவ்வளவு ஊடுருவிப் பார்க்கக்கூடியது என்பதை மாற்ற இழுக்கவும் அல்லது உருட்டவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1792"/>
         <source>Scrolling live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">உருளும் நேரடி லூப் ச்கோப்கள்</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1794"/>
         <source>When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இயக்கப்பட்டால், நேரடி லூப் ச்கோப்கள் தமது சமீபத்திய ஆடியோவை ஒரு ச்ட்ரிப் விளக்கப்படம் போல உருட்டுகின்றன. முடக்கப்பட்டால், பிரதான ச்கோப்பைப் போல நிலையான அலைவடிவத்தை வைத்திருக்கும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1846"/>
         <source>Publish Window via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 வழியாகச் சாளரத்தை வெளியிடு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1847"/>
         <source>Share the Sonic Pi window with other applications as a %1 video feed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை சாளரத்தை %1 வீடியோ ஊட்டமாக மற்ற பயன்பாடுகளுடன் பகிரவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1854"/>
@@ -4740,17 +4743,17 @@ Stereo - shows two independent scopes for left and right channels</source>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1858"/>
         <source>Stop sharing the Sonic Pi window.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">சோனிக் பை சாளரத்தைப் பகிர்வதை நிறுத்தவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1861"/>
         <source>Publish via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 வழியாக வெளியிடு</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1865"/>
         <source>Publish the Sonic Pi window as a %1 video feed for other applications to receive.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">மற்ற பயன்பாடுகள் பெறுவதற்காகச் சோனிக் பை சாளரத்தை %1 வீடியோ ஊட்டமாக வெளியிடவும்.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2270"/>
@@ -5010,7 +5013,7 @@ This check involves sending anonymous information about your platform and versio
     <message>
         <location filename="../visualizer/scope_window.cpp" line="188"/>
         <source>Levels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">அளவுகள்</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="189"/>
@@ -5390,7 +5393,7 @@ Link இந்தக் கணினியில் மட்டுமோ அல
     <message>
         <location filename="../widgets/tutorialwidgets.cpp" line="153"/>
         <source>Link. Press Return to open.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">இணைப்பு. திறக்க Return ஐ அழுத்தவும்.</translation>
     </message>
 </context>
 <context>
@@ -5532,7 +5535,7 @@ Link இந்தக் கணினியில் மட்டுமோ அல
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1539"/>
         <source>Back to the options list from %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 இலிருந்து விருப்பங்கள் பட்டியலுக்குத் திரும்பு</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1562"/>

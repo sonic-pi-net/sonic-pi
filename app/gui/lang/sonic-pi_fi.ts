@@ -16,12 +16,12 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1094"/>
         <source>▶ Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">▶ Soita</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1097"/>
         <source>Play this sample</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Soita tämä sample</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1115"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1968"/>
         <source>Usage: %1. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Käyttö: %1. </translation>
     </message>
 </context>
 <context>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../widgets/editortoolbar.cpp" line="68"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Etsi</translation>
     </message>
 </context>
 <context>
@@ -85,42 +85,42 @@
     <message>
         <location filename="../widgets/findpopup.cpp" line="39"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Etsi</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="40"/>
         <source>Find in buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Etsi puskurista</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="50"/>
         <source>Aa</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aa</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="53"/>
         <source>Match case exactly (otherwise a lowercase search matches any case)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Huomioi kirjainkoko tarkasti (muuten pienillä kirjaimilla tehty haku löytää kaikki kirjainkoot)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="58"/>
         <source>Previous match (Up, Shift+F3 or Ctrl+R)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Edellinen osuma (Ylös, Shift+F3 tai Ctrl+R)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="63"/>
         <source>Next match (Down, F3 or Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seuraava osuma (Alas, F3 tai Ctrl+S)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="68"/>
         <source>Close find (Escape)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sulje haku (Escape)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="186"/>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ei tuloksia</translation>
     </message>
 </context>
 <context>
@@ -1626,22 +1626,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="3910"/>
         <source>Showing audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Näytetään äänioskilloskoopit...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3911"/>
         <source>Hiding audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Piilotetaan äänioskilloskoopit...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4084"/>
         <source>Updating Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Päivitetään äänenvoimakkuutta...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4105"/>
         <source>Updating Drive...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Päivitetään Drive-arvoa...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4740"/>
@@ -1656,17 +1656,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5204"/>
         <source>Find text in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Etsi tekstiä nykyisestä puskurista</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5205"/>
         <source>Jump to the next match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Siirry seuraavaan osumaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Jump to the previous match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Siirry edelliseen osumaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5212"/>
@@ -1756,27 +1756,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="5250"/>
         <source>Place focus on the help docs listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aseta fokus ohjeen dokumentaatiolistaan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5251"/>
         <source>Place focus on the help docs details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aseta fokus ohjeen dokumentaatiotietoihin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5253"/>
         <source>Place focus on the help cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aseta fokus ohjeen kortteihin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5254"/>
         <source>Place focus on the help logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aseta fokus ohjeen lokeihin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5255"/>
         <source>Place focus on the help debug pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aseta fokus ohjeen debug-paneeliin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5258"/>
@@ -1969,17 +1969,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="5632"/>
         <source>Find...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Etsi...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5635"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Etsi seuraava</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5638"/>
         <source>Find Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Etsi edellinen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5641"/>
@@ -2189,7 +2189,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5887"/>
         <source>Scrolling Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vierivät live loop -skoopit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5892"/>
@@ -2214,7 +2214,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5977"/>
         <source>Automatically align code on Enter, Run and Tab. When disabled, Tab indents normally.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tasaa koodi automaattisesti Enterillä, ajettaessa ja Tabilla. Kun pois käytöstä, Tab sisentää normaalisti.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5986"/>
@@ -2290,27 +2290,27 @@
     <message>
         <location filename="../mainwindow.cpp" line="6356"/>
         <source>Focus Help Docs Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusoi ohjeen dokumentaatiolista</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6360"/>
         <source>Focus Help Docs Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusoi ohjeen dokumentaatiotiedot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6369"/>
         <source>Focus Help Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusoi ohjeen kortit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6372"/>
         <source>Focus Help Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusoi ohjeen lokit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6375"/>
         <source>Focus Help Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokusoi ohjeen debug-paneeli</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6380"/>
@@ -2336,7 +2336,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="6469"/>
         <source>Show Editor Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Näytä editorin työkalupalkki</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6532"/>
@@ -2378,8 +2378,8 @@
         <location filename="../mainwindow.cpp" line="7910"/>
         <source>%n topics</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n aihe</numerusform>
+            <numerusform>%n aihetta</numerusform>
         </translation>
     </message>
     <message>
@@ -2565,22 +2565,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="372"/>
         <source>GUI was unable to connect to the Ruby server.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Käyttöliittymä ei saanut yhteyttä Ruby-palvelimeen.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="863"/>
         <source>Code buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Koodipuskuri %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1060"/>
         <source>Documentation sections</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentaation osiot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1302"/>
         <source>Quickstart Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pikaopaskortit</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1939"/>
@@ -2590,7 +2590,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>%1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 dokumentaatio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6204"/>
@@ -3090,17 +3090,17 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="771"/>
         <source>Code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Koodi: %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>First card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ensimmäinen kortti.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>Last card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Viimeinen kortti.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1044"/>
@@ -3115,7 +3115,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1173"/>
         <source>Deck selector</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Korttipakan valinta</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1184"/>
@@ -3125,7 +3125,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1200"/>
         <source>%1 deck, %2 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pakka %1, %2 korttia</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1218"/>
@@ -3140,17 +3140,17 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1230"/>
         <source>Card navigation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Korttien selaus</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1293"/>
         <source>%1 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 korttia</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1295"/>
         <source>Left and Right arrow keys move through the cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vasen ja oikea nuolinäppäin selaavat kortteja.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1300"/>
@@ -3160,7 +3160,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1329"/>
         <source>%1 card, %2 of %3. %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kortti %1, %2 / %3. %4</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1491"/>
@@ -3175,7 +3175,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1673"/>
         <source>Card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kortti %1 / %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1873"/>
@@ -3205,7 +3205,7 @@ Lataa Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="2124"/>
         <source>Press Space to play or stop, C to hear the code, I to insert it into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Paina välilyöntiä soittaaksesi tai pysäyttääksesi, C kuullaksesi koodin ja I lisätäksesi sen editoriin.</translation>
     </message>
     <message>
         <source>Drag %1 into the editor</source>
@@ -4427,55 +4427,57 @@ Kun pois käytöstä, Sonic Pi valittaa, jos yrität käyttää syntetisaattoria
     <message>
         <location filename="../widgets/settingswidget.cpp" line="695"/>
         <source>Themes, transparency, audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Teemat, läpinäkyvyys, äänioskilloskoopit ja esiintymisessä hyödylliset asetukset.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="750"/>
         <source>Configure output volume and how hard the mix drives the main limiter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Määritä ulostulon äänenvoimakkuus ja se, kuinka voimakkaasti miksaus ajetaan päärajoittimeen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="757"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="758"/>
         <location filename="../widgets/settingswidget.cpp" line="759"/>
         <location filename="../widgets/settingswidget.cpp" line="822"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Äänenvoimakkuus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="760"/>
         <source>Drag or scroll to change Sonic Pi&apos;s output volume. This is applied after the main limiter, so it changes how loud the output is without altering the mix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vedä tai vieritä muuttaaksesi Sonic Pi:n ulostulon äänenvoimakkuutta. Tämä tehdään päärajoittimen jälkeen, joten se muuttaa ulostulon voimakkuutta miksausta muuttamatta.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="776"/>
         <location filename="../widgets/settingswidget.cpp" line="777"/>
         <location filename="../widgets/settingswidget.cpp" line="824"/>
         <source>Drive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drive</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="778"/>
         <source>Slide to change how hard the mix is driven into the main limiter. At 100% the mix is left untouched.
 
 Values above 100% make things louder and denser, at the cost of more limiting. Values below 100% create headroom for layering many sounds together.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Liu&apos;uta muuttaaksesi, kuinka voimakkaasti miksaus ajetaan päärajoittimeen. Arvolla 100% miksaus jätetään koskematta.
+
+Yli 100% arvot tekevät äänestä kovemman ja tiiviimmän, mutta rajoitusta tulee enemmän. Alle 100% arvot jättävät tilaa monen äänen kerrostamiselle.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="829"/>
         <location filename="../widgets/settingswidget.cpp" line="3492"/>
         <location filename="../widgets/settingswidget.cpp" line="3493"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Taso</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="959"/>
         <source>Close and re-open the current audio device with the same settings (a full cold swap). Useful if audio has stopped behaving after sleep or hardware changes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sulje ja avaa nykyinen äänilaite uudelleen samoilla asetuksilla (täysi kylmävaihto). Hyödyllinen, jos ääni on lakannut toimimasta lepotilan tai laitemuutosten jälkeen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1227"/>
@@ -4485,23 +4487,24 @@ Values above 100% make things louder and denser, at the cost of more limiting. V
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1228"/>
         <source>Configure MIDI behaviour and list all connected MIDI ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Määritä MIDI-toiminta ja listaa kaikki kytketyt MIDI-portit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1329"/>
         <source>Automatically align code on Enter, Run and Tab.
 When disabled, Tab indents normally and code is only aligned via Code &gt; Align Code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tasaa koodi automaattisesti Enterillä, ajettaessa ja Tabilla.
+Kun pois käytöstä, Tab sisentää normaalisti ja koodi tasataan vain valinnalla Koodi &gt; Tasaa koodi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Show editor toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Näytä editorin työkalupalkki</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1380"/>
         <source>Toggle visibility of the editor&apos;s floating toolbar (undo/redo, cut/copy/paste, find).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vaihda editorin kelluvan työkalupalkin näkyvyyttä (kumoa/tee uudelleen, leikkaa/kopioi/liitä, etsi).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1427"/>
@@ -4531,59 +4534,59 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1496"/>
         <source>Themes, transparency and settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Teemat, läpinäkyvyys ja Sonic Pi:llä esiintymisessä hyödylliset asetukset</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1499"/>
         <source>Configure the Sonic Pi colour scheme and look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Määritä Sonic Pi:n värimaailma ja ulkoasu.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1647"/>
         <source>Rotate hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kierrä sävyä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1649"/>
         <source>Drag or scroll to rotate the hue of every colour in the interface. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vedä tai vieritä kiertääksesi käyttöliittymän jokaisen värin sävyä. Kaksoisnapsauta arvoa kirjoittaaksesi tarkan arvon.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1663"/>
         <source>Spread hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Levitä sävyjä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1664"/>
         <location filename="../widgets/settingswidget.cpp" line="1672"/>
         <source>Spread Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Levitä sävyjä</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1665"/>
         <source>Drag or scroll to spread the interface&apos;s colours away from the main colour. 0 is the theme as designed, 100 spaces every colour evenly around the wheel. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vedä tai vieritä levittääksesi käyttöliittymän värejä pois pääväristä. 0 on teema alkuperäisenä, 100 jakaa jokaisen värin tasaisin välein väriympyrälle. Kaksoisnapsauta arvoa kirjoittaaksesi tarkan arvon.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1682"/>
         <location filename="../widgets/settingswidget.cpp" line="3621"/>
         <source>Release to apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vapauta ottaaksesi käyttöön</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1709"/>
         <source>Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palauta teema</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1710"/>
         <source>Return hue rotation, hue spread, monochrome and invert to their defaults. The chosen scheme is kept.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Palauta sävyn kierto, sävyjen levitys, mustavalkoisuus ja käänteisyys oletusarvoihin. Valittu väriteema säilyy.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1732"/>
         <source>Drag or scroll to change how see-through the Sonic Pi window is.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vedä tai vieritä muuttaaksesi Sonic Pi -ikkunan läpinäkyvyyttä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1771"/>
@@ -4640,12 +4643,12 @@ Stereo - näyttää kaksi erillistä skooppia vasemmalle ja oikealle kanavalle</
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1792"/>
         <source>Scrolling live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vierivät live loop -skoopit</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1794"/>
         <source>When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kun valittuna, live loop -skoopit vierittävät viimeaikaista ääntä piirturin tapaan. Kun pois käytöstä, ne näyttävät vakaan aaltomuodon kuten pääskooppi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1804"/>
@@ -4666,12 +4669,12 @@ Stereo - näyttää kaksi erillistä skooppia vasemmalle ja oikealle kanavalle</
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1846"/>
         <source>Publish Window via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Julkaise ikkuna %1:n kautta</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1847"/>
         <source>Share the Sonic Pi window with other applications as a %1 video feed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jaa Sonic Pi -ikkuna muille sovelluksille %1-videosyötteenä.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1854"/>
@@ -4681,17 +4684,17 @@ Stereo - näyttää kaksi erillistä skooppia vasemmalle ja oikealle kanavalle</
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1858"/>
         <source>Stop sharing the Sonic Pi window.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lopeta Sonic Pi -ikkunan jakaminen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1861"/>
         <source>Publish via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Julkaise %1:n kautta</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1865"/>
         <source>Publish the Sonic Pi window as a %1 video feed for other applications to receive.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Julkaise Sonic Pi -ikkuna %1-videosyötteenä muiden sovellusten vastaanotettavaksi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
@@ -4773,29 +4776,29 @@ Stereo - näyttää kaksi erillistä skooppia vasemmalle ja oikealle kanavalle</
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2827"/>
         <source>Changing audio device. This can take a few moments...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vaihdetaan äänilaitetta. Tämä voi kestää hetken...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2845"/>
         <source>Audio device is still settling. Try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Äänilaite asettuu vielä. Yritä uudelleen muutaman sekunnin kuluttua.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2924"/>
         <location filename="../widgets/settingswidget.cpp" line="2950"/>
         <location filename="../widgets/settingswidget.cpp" line="3309"/>
         <source>OS Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Käyttöjärjestelmän oletus</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2926"/>
         <source>OS Default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Käyttöjärjestelmän oletus (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2957"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3196"/>
@@ -4805,12 +4808,12 @@ Stereo - näyttää kaksi erillistä skooppia vasemmalle ja oikealle kanavalle</
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3220"/>
         <source>%1 selected. Choose an Output device to switch.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 valittu. Vaihda valitsemalla ulostulolaite.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3494"/>
         <source>Shows the output level of the left and right channels. The bar reaches into the accent colour when the main limiter is reducing the level.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Näyttää vasemman ja oikean kanavan ulostulotason. Palkki yltää korostusväriin, kun päärajoitin laskee tasoa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="4151"/>
@@ -4920,7 +4923,7 @@ Tämä tarkistus sisältää anonyymin tiedon lähettämisen ympäristöstäsi j
     <message>
         <location filename="../visualizer/scope_window.cpp" line="188"/>
         <source>Levels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tasot</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="189"/>
@@ -5300,7 +5303,7 @@ Link toimii joko vain tällä koneella tai koko paikallisverkossasi. Vaihda tila
     <message>
         <location filename="../widgets/tutorialwidgets.cpp" line="153"/>
         <source>Link. Press Return to open.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Linkki. Avaa painamalla Return.</translation>
     </message>
 </context>
 <context>
@@ -5442,7 +5445,7 @@ Link toimii joko vain tällä koneella tai koko paikallisverkossasi. Vaihda tila
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1539"/>
         <source>Back to the options list from %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Takaisin asetuslistaan kohdasta %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1562"/>

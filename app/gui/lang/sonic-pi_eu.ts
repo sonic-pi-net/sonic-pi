@@ -16,12 +16,12 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1094"/>
         <source>▶ Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">▶ Erreproduzitu</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1097"/>
         <source>Play this sample</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erreproduzitu lagin hau</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1115"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1968"/>
         <source>Usage: %1. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erabilera: %1. </translation>
     </message>
 </context>
 <context>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../widgets/editortoolbar.cpp" line="68"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilatu</translation>
     </message>
 </context>
 <context>
@@ -85,42 +85,42 @@
     <message>
         <location filename="../widgets/findpopup.cpp" line="39"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilatu</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="40"/>
         <source>Find in buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilatu bufferrean</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="50"/>
         <source>Aa</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aa</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="53"/>
         <source>Match case exactly (otherwise a lowercase search matches any case)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bereizi maiuskulak eta minuskulak zehazki (bestela, minuskulazko bilaketa batek edozein letra-tamainarekin bat egiten du)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="58"/>
         <source>Previous match (Up, Shift+F3 or Ctrl+R)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aurreko emaitza (Gora, Shift+F3 edo Ctrl+R)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="63"/>
         <source>Next match (Down, F3 or Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hurrengo emaitza (Behera, F3 edo Ctrl+S)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="68"/>
         <source>Close find (Escape)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Itxi bilaketa (Escape)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="186"/>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Emaitzarik ez</translation>
     </message>
 </context>
 <context>
@@ -1177,17 +1177,17 @@ Sentitzen dugu, errore kritikoa gertatu da abioan</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5204"/>
         <source>Find text in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilatu testua uneko bufferrean</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5205"/>
         <source>Jump to the next match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Joan hurrengo emaitzara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Jump to the previous match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Joan aurreko emaitzara</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5207"/>
@@ -1303,27 +1303,27 @@ Sentitzen dugu, errore kritikoa gertatu da abioan</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5250"/>
         <source>Place focus on the help docs listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jarri fokua laguntzako dokumentuen zerrendan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5251"/>
         <source>Place focus on the help docs details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jarri fokua laguntzako dokumentuen xehetasunetan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5253"/>
         <source>Place focus on the help cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jarri fokua laguntzako txarteletan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5254"/>
         <source>Place focus on the help logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jarri fokua laguntzako erregistroetan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5255"/>
         <source>Place focus on the help debug pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Jarri fokua laguntzako arazketa panelean</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5256"/>
@@ -1564,64 +1564,64 @@ Sentitzen dugu, errore kritikoa gertatu da abioan</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5632"/>
         <source>Find...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilatu...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5635"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilatu hurrengoa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5638"/>
         <source>Find Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilatu aurrekoa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5887"/>
         <source>Scrolling Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Live loop osziloskopio korritzaileak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5977"/>
         <source>Automatically align code on Enter, Run and Tab. When disabled, Tab indents normally.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lerrokatu kodea automatikoki Enter, Exekutatu eta Tab sakatzean. Desgaituta dagoenean, Tab-ek modu arruntean indentatzen du.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6356"/>
         <source>Focus Help Docs Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokatu laguntzako dokumentuen zerrenda</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6360"/>
         <source>Focus Help Docs Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokatu laguntzako dokumentuen xehetasunak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6369"/>
         <source>Focus Help Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokatu laguntzako txartelak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6372"/>
         <source>Focus Help Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokatu laguntzako erregistroak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6375"/>
         <source>Focus Help Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fokatu laguntzako arazketa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6469"/>
         <source>Show Editor Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erakutsi editorearen tresna-barra</translation>
     </message>
     <message numerus="yes">
         <location filename="../mainwindow.cpp" line="7910"/>
         <source>%n topics</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n gai</numerusform>
+            <numerusform>%n gai</numerusform>
         </translation>
     </message>
     <message>
@@ -1758,52 +1758,52 @@ Sentitzen dugu, errore kritikoa gertatu da abioan</translation>
     <message>
         <location filename="../mainwindow.cpp" line="372"/>
         <source>GUI was unable to connect to the Ruby server.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GUIa ezin izan da Ruby zerbitzarira konektatu.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="863"/>
         <source>Code buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 kode-bufferra</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1060"/>
         <source>Documentation sections</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentazio-atalak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1302"/>
         <source>Quickstart Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hasiera azkarreko txartelak</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokumentazioa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>%1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 dokumentazioa</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3910"/>
         <source>Showing audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio osziloskopioak erakusten...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3911"/>
         <source>Hiding audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio osziloskopioak ezkutatzen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4084"/>
         <source>Updating Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bolumena eguneratzen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4105"/>
         <source>Updating Drive...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drive eguneratzen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5540"/>
@@ -3118,17 +3118,17 @@ Lortu Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="771"/>
         <source>Code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kodea: %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>First card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lehen txartela.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>Last card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Azken txartela.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1044"/>
@@ -3143,7 +3143,7 @@ Lortu Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1173"/>
         <source>Deck selector</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sorta hautatzailea</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1184"/>
@@ -3153,7 +3153,7 @@ Lortu Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1200"/>
         <source>%1 deck, %2 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 sorta, %2 txartel</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1218"/>
@@ -3168,17 +3168,17 @@ Lortu Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1230"/>
         <source>Card navigation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Txartelen nabigazioa</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1293"/>
         <source>%1 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 txartel</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1295"/>
         <source>Left and Right arrow keys move through the cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ezkerreko eta eskuineko gezi-teklek txarteletan zehar mugitzen dute.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1300"/>
@@ -3188,7 +3188,7 @@ Lortu Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1329"/>
         <source>%1 card, %2 of %3. %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 txartela, %2/%3. %4</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1491"/>
@@ -3203,7 +3203,7 @@ Lortu Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1673"/>
         <source>Card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1/%2 txartela</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1873"/>
@@ -3233,7 +3233,7 @@ Lortu Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="2124"/>
         <source>Press Space to play or stop, C to hear the code, I to insert it into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sakatu Zuriunea erreproduzitzeko edo gelditzeko, C kodea entzuteko, I editorean txertatzeko.</translation>
     </message>
     <message>
         <source>Drag %1 into the editor</source>
@@ -3718,50 +3718,52 @@ Desgaituta dagoenean, Sonic Pi-k kexatu egingo da ezagutzen ez den sintetizadore
     <message>
         <location filename="../widgets/settingswidget.cpp" line="695"/>
         <source>Themes, transparency, audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gaiak, gardentasuna, audio osziloskopioak eta zuzenean jotzean baliagarriak diren aukerak.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="750"/>
         <source>Configure output volume and how hard the mix drives the main limiter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Konfiguratu irteerako bolumena eta nahasketak limitagailu nagusia zenbateraino bultzatzen duen.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="757"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="758"/>
         <location filename="../widgets/settingswidget.cpp" line="759"/>
         <location filename="../widgets/settingswidget.cpp" line="822"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bolumena</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="760"/>
         <source>Drag or scroll to change Sonic Pi&apos;s output volume. This is applied after the main limiter, so it changes how loud the output is without altering the mix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arrastatu edo korritu Sonic Pi-ren irteerako bolumena aldatzeko. Limitagailu nagusiaren ondoren aplikatzen da, beraz irteera zenbat entzuten den aldatzen du nahasketa aldatu gabe.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="776"/>
         <location filename="../widgets/settingswidget.cpp" line="777"/>
         <location filename="../widgets/settingswidget.cpp" line="824"/>
         <source>Drive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drive</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="778"/>
         <source>Slide to change how hard the mix is driven into the main limiter. At 100% the mix is left untouched.
 
 Values above 100% make things louder and denser, at the cost of more limiting. Values below 100% create headroom for layering many sounds together.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Irristatu nahasketa limitagailu nagusira zenbateraino bultzatzen den aldatzeko. 100%-ean nahasketa ukitu gabe geratzen da.
+
+100% baino balio handiagoek soinua ozenago eta trinkoago egiten dute, limitazio gehiagoren truke. 100% baino balio txikiagoek tartea uzten dute soinu asko elkarren gainean geruzatzeko.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="829"/>
         <location filename="../widgets/settingswidget.cpp" line="3492"/>
         <location filename="../widgets/settingswidget.cpp" line="3493"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maila</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="889"/>
@@ -3786,7 +3788,7 @@ Values above 100% make things louder and denser, at the cost of more limiting. V
     <message>
         <location filename="../widgets/settingswidget.cpp" line="959"/>
         <source>Close and re-open the current audio device with the same settings (a full cold swap). Useful if audio has stopped behaving after sleep or hardware changes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Itxi eta berriro ireki uneko audio gailua ezarpen berberekin (aldaketa hotz osoa). Erabilgarria audioak ondo funtzionatzeari utzi badio lo egin ondoren edo hardware-aldaketen ondoren.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="998"/>
@@ -3875,7 +3877,7 @@ GPU bidez azeleratutako pantaila-kaptura erabiliz</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1228"/>
         <source>Configure MIDI behaviour and list all connected MIDI ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Konfiguratu MIDI portaera eta zerrendatu konektatutako MIDI ataka guztiak</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1230"/>
@@ -3891,17 +3893,18 @@ GPU bidez azeleratutako pantaila-kaptura erabiliz</translation>
         <location filename="../widgets/settingswidget.cpp" line="1329"/>
         <source>Automatically align code on Enter, Run and Tab.
 When disabled, Tab indents normally and code is only aligned via Code &gt; Align Code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lerrokatu kodea automatikoki Enter, Exekutatu eta Tab sakatzean.
+Desgaituta dagoenean, Tab-ek modu arruntean indentatzen du eta kodea Kodea &gt; Lerrokatu kodea bidez soilik lerrokatzen da.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Show editor toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erakutsi editorearen tresna-barra</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1380"/>
         <source>Toggle visibility of the editor&apos;s floating toolbar (undo/redo, cut/copy/paste, find).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Txandakatu editorearen tresna-barra flotagarriaren ikusgaitasuna (desegin/berregin, ebaki/kopiatu/itsatsi, bilatu).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1444"/>
@@ -3926,59 +3929,59 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1496"/>
         <source>Themes, transparency and settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gaiak, gardentasuna eta Sonic Pi-rekin zuzenean jotzeko baliagarriak diren ezarpenak</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1499"/>
         <source>Configure the Sonic Pi colour scheme and look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Konfiguratu Sonic Pi-ren kolore-eskema eta itxura.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1647"/>
         <source>Rotate hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Biratu tonua</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1649"/>
         <source>Drag or scroll to rotate the hue of every colour in the interface. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arrastatu edo korritu interfazeko kolore guztien tonua biratzeko. Egin klik bikoitza balioan zehatz bat idazteko.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1663"/>
         <source>Spread hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zabaldu tonua</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1664"/>
         <location filename="../widgets/settingswidget.cpp" line="1672"/>
         <source>Spread Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zabaldu Tonua</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1665"/>
         <source>Drag or scroll to spread the interface&apos;s colours away from the main colour. 0 is the theme as designed, 100 spaces every colour evenly around the wheel. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arrastatu edo korritu interfazeko koloreak kolore nagusitik urruntzeko. 0 gaia diseinatu bezala da, 100ek kolore guztiak berdin banatzen ditu gurpilaren inguruan. Egin klik bikoitza balioan zehatz bat idazteko.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1682"/>
         <location filename="../widgets/settingswidget.cpp" line="3621"/>
         <source>Release to apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Askatu aplikatzeko</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1709"/>
         <source>Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Berrezarri gaia</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1710"/>
         <source>Return hue rotation, hue spread, monochrome and invert to their defaults. The chosen scheme is kept.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Itzuli tonu-biraketa, tonu-zabalpena, monokromoa eta alderantzikatzea balio lehenetsietara. Aukeratutako eskema mantendu egiten da.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1732"/>
         <source>Drag or scroll to change how see-through the Sonic Pi window is.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arrastatu edo korritu Sonic Pi leihoaren gardentasuna aldatzeko.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1762"/>
@@ -4040,12 +4043,12 @@ Stereo - bi bistaratzaile independente erakusten ditu ezkerreko eta eskuineko ka
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1792"/>
         <source>Scrolling live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Live loop osziloskopio korritzaileak</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1794"/>
         <source>When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gaituta dagoenean, live loop osziloskopioek beren azken audioa korritzen dute banda-grafiko baten antzera. Desgaituta dagoenean, uhin-forma egonkorra mantentzen dute osziloskopio nagusiak bezala.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1804"/>
@@ -4066,12 +4069,12 @@ Stereo - bi bistaratzaile independente erakusten ditu ezkerreko eta eskuineko ka
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1846"/>
         <source>Publish Window via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Argitaratu leihoa %1 bidez</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1847"/>
         <source>Share the Sonic Pi window with other applications as a %1 video feed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Partekatu Sonic Pi leihoa beste aplikazioekin %1 bideo-jario gisa.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1854"/>
@@ -4081,17 +4084,17 @@ Stereo - bi bistaratzaile independente erakusten ditu ezkerreko eta eskuineko ka
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1858"/>
         <source>Stop sharing the Sonic Pi window.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Utzi Sonic Pi leihoa partekatzeari.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1861"/>
         <source>Publish via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Argitaratu %1 bidez</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1865"/>
         <source>Publish the Sonic Pi window as a %1 video feed for other applications to receive.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Argitaratu Sonic Pi leihoa %1 bideo-jario gisa, beste aplikazioek jaso dezaten.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
@@ -4166,29 +4169,29 @@ https://hosted.weblate.org/projects/sonic-pi/ gunean. Eskerrik asko! :)</transla
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2827"/>
         <source>Changing audio device. This can take a few moments...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio gailua aldatzen. Honek une batzuk behar ditzake...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2845"/>
         <source>Audio device is still settling. Try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Audio gailua egonkortzen ari da oraindik. Saiatu berriro segundo batzuk barru.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2924"/>
         <location filename="../widgets/settingswidget.cpp" line="2950"/>
         <location filename="../widgets/settingswidget.cpp" line="3309"/>
         <source>OS Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistemaren lehenetsia</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2926"/>
         <source>OS Default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistemaren lehenetsia (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2957"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="957"/>
@@ -4412,7 +4415,7 @@ https://hosted.weblate.org/projects/sonic-pi/ gunean. Eskerrik asko! :)</transla
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3220"/>
         <source>%1 selected. Choose an Output device to switch.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 hautatuta. Aukeratu irteera gailu bat aldatzeko.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3296"/>
@@ -4442,7 +4445,7 @@ https://hosted.weblate.org/projects/sonic-pi/ gunean. Eskerrik asko! :)</transla
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3494"/>
         <source>Shows the output level of the left and right channels. The bar reaches into the accent colour when the main limiter is reducing the level.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ezkerreko eta eskuineko kanalen irteera maila erakusten du. Barra azentu-kolorera iristen da limitagailu nagusia maila murrizten ari denean.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3902"/>
@@ -4989,7 +4992,7 @@ Egiaztapen honek zure plataforma eta bertsioari buruzko informazio anonimoa bida
     <message>
         <location filename="../visualizer/scope_window.cpp" line="188"/>
         <source>Levels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mailak</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="189"/>
@@ -5376,7 +5379,7 @@ Link makina honetan soilik edo zure tokiko sarean dabil. Aldatu modua lerro hone
     <message>
         <location filename="../widgets/tutorialwidgets.cpp" line="153"/>
         <source>Link. Press Return to open.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Esteka. Sakatu Return irekitzeko.</translation>
     </message>
 </context>
 <context>
@@ -5518,7 +5521,7 @@ Link makina honetan soilik edo zure tokiko sarean dabil. Aldatu modua lerro hone
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1539"/>
         <source>Back to the options list from %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Itzuli aukeren zerrendara %1 aukeratik</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1562"/>

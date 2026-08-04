@@ -16,12 +16,12 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1094"/>
         <source>▶ Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">▶ Cluich</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1097"/>
         <source>Play this sample</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cluich an sampall seo</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1115"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1968"/>
         <source>Usage: %1. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cleachdadh: %1. </translation>
     </message>
 </context>
 <context>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../widgets/editortoolbar.cpp" line="68"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lorg</translation>
     </message>
 </context>
 <context>
@@ -85,42 +85,42 @@
     <message>
         <location filename="../widgets/findpopup.cpp" line="39"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lorg</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="40"/>
         <source>Find in buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lorg san tasgadan</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="50"/>
         <source>Aa</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aa</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="53"/>
         <source>Match case exactly (otherwise a lowercase search matches any case)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Co-fhreagair litrichean mòra is beaga gu mionaideach (air neo maidsidh lorg le litrichean beaga gach cùis)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="58"/>
         <source>Previous match (Up, Shift+F3 or Ctrl+R)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A&apos; cho-fhreagairt roimhe (Suas, Shift+F3 no Ctrl+R)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="63"/>
         <source>Next match (Down, F3 or Ctrl+S)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">An ath cho-fhreagairt (Sìos, F3 no Ctrl+S)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="68"/>
         <source>Close find (Escape)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dùin an lorg (Escape)</translation>
     </message>
     <message>
         <location filename="../widgets/findpopup.cpp" line="186"/>
         <source>No results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chan eil toradh ann</translation>
     </message>
 </context>
 <context>
@@ -1177,17 +1177,17 @@ Gabh ar leisgeul, thachair mearachd mhòr aig àm tòiseachaidh</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5204"/>
         <source>Find text in the current buffer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lorg teacsa anns an tasgadan gnàthach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5205"/>
         <source>Jump to the next match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Leum gun ath cho-fhreagairt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5206"/>
         <source>Jump to the previous match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Leum gun cho-fhreagairt roimhe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5207"/>
@@ -1303,27 +1303,27 @@ Gabh ar leisgeul, thachair mearachd mhòr aig àm tòiseachaidh</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5250"/>
         <source>Place focus on the help docs listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cuir fòcas air liosta docamaideadh na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5251"/>
         <source>Place focus on the help docs details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cuir fòcas air mion-fhiosrachadh docamaideadh na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5253"/>
         <source>Place focus on the help cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cuir fòcas air cairtean na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5254"/>
         <source>Place focus on the help logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cuir fòcas air logaichean na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5255"/>
         <source>Place focus on the help debug pane</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cuir fòcas air panail dì-bhugachaidh na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5256"/>
@@ -1564,66 +1564,66 @@ Gabh ar leisgeul, thachair mearachd mhòr aig àm tòiseachaidh</translation>
     <message>
         <location filename="../mainwindow.cpp" line="5632"/>
         <source>Find...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lorg...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5635"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lorg an ath fhear</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5638"/>
         <source>Find Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lorg am fear roimhe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5887"/>
         <source>Scrolling Live Loop Scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sgòpan nan lùban beò a&apos; sgroladh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5977"/>
         <source>Automatically align code on Enter, Run and Tab. When disabled, Tab indents normally.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Co-thaobhaich an còd gu fèin-obrachail le Enter, Ruith agus Tab. Nuair a tha seo dheth, nì Tab eag mar as àbhaist.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6356"/>
         <source>Focus Help Docs Listing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fòcas air liosta docamaideadh na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6360"/>
         <source>Focus Help Docs Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fòcas air mion-fhiosrachadh docamaideadh na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6369"/>
         <source>Focus Help Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fòcas air cairtean na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6372"/>
         <source>Focus Help Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fòcas air logaichean na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6375"/>
         <source>Focus Help Debug</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fòcas air dì-bhugachadh na cobhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6469"/>
         <source>Show Editor Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seall bàr-inneal an deasaiche</translation>
     </message>
     <message numerus="yes">
         <location filename="../mainwindow.cpp" line="7910"/>
         <source>%n topics</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n chuspair</numerusform>
+            <numerusform>%n chuspair</numerusform>
+            <numerusform>%n cuspairean</numerusform>
+            <numerusform>%n cuspair</numerusform>
         </translation>
     </message>
     <message>
@@ -1760,52 +1760,52 @@ Gabh ar leisgeul, thachair mearachd mhòr aig àm tòiseachaidh</translation>
     <message>
         <location filename="../mainwindow.cpp" line="372"/>
         <source>GUI was unable to connect to the Ruby server.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cha b&apos; urrainn dhan GUI ceangal ris an fhrithealaiche Ruby.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="863"/>
         <source>Code buffer %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tasgadan còd %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1060"/>
         <source>Documentation sections</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Earrannan an docamaideid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1302"/>
         <source>Quickstart Cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cairtean grad-tòiseachaidh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1304"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Docamaideadh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3247"/>
         <source>%1 documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Docamaideadh %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3910"/>
         <source>Showing audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A&apos; sealltainn nan oscilloscopes fuaime...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3911"/>
         <source>Hiding audio oscilloscopes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A&apos; falach nan oscilloscopes fuaime...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4084"/>
         <source>Updating Volume...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ag ùrachadh na h-àirde fuaime...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4105"/>
         <source>Updating Drive...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ag ùrachadh Drive...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5540"/>
@@ -3120,17 +3120,17 @@ Faigh Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="771"/>
         <source>Code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Còd: %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>First card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A&apos; chiad chairt.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="787"/>
         <source>Last card.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A&apos; chairt mu dheireadh.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1044"/>
@@ -3145,7 +3145,7 @@ Faigh Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1173"/>
         <source>Deck selector</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Taghadair nan deic</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1184"/>
@@ -3155,7 +3155,7 @@ Faigh Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1200"/>
         <source>%1 deck, %2 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deic %1, %2 cairtean</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1218"/>
@@ -3170,17 +3170,17 @@ Faigh Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1230"/>
         <source>Card navigation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seòladh nan cairtean</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1293"/>
         <source>%1 cards</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 cairtean</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1295"/>
         <source>Left and Right arrow keys move through the cards.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gluaisidh na h-iuchraichean saighead chlì is dheas tro na cairtean.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1300"/>
@@ -3190,7 +3190,7 @@ Faigh Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1329"/>
         <source>%1 card, %2 of %3. %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cairt %1, %2 à %3. %4</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1491"/>
@@ -3205,7 +3205,7 @@ Faigh Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1673"/>
         <source>Card %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cairt %1 à %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1873"/>
@@ -3235,7 +3235,7 @@ Faigh Sonic Pi %1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="2124"/>
         <source>Press Space to play or stop, C to hear the code, I to insert it into the editor.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Put air Space gus cluich no stad, C gus an còd a chluinntinn, I gus a chur a-steach dhan deasaiche.</translation>
     </message>
     <message>
         <source>Drag %1 into the editor</source>
@@ -3720,50 +3720,52 @@ Nuair a tha seo dheth, gearainidh Sonic Pi nuair a dh&apos;fheuchas tu ri sintei
     <message>
         <location filename="../widgets/settingswidget.cpp" line="695"/>
         <source>Themes, transparency, audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cùisean datha, trìd-shoilleireachd, oscilloscopes fuaime agus roghainnean feumail nuair a bhios tu a&apos; cluich beò.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="750"/>
         <source>Configure output volume and how hard the mix drives the main limiter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rèitich àirde fuaim an as-chuir agus dè cho làidir &apos;s a bhios am measgachadh a&apos; draibheadh a&apos; phrìomh chuingealaiche.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="757"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="758"/>
         <location filename="../widgets/settingswidget.cpp" line="759"/>
         <location filename="../widgets/settingswidget.cpp" line="822"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Àirde fuaime</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="760"/>
         <source>Drag or scroll to change Sonic Pi&apos;s output volume. This is applied after the main limiter, so it changes how loud the output is without altering the mix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slaod no sgrolaich gus àirde fuaim as-chur Sonic Pi atharrachadh. Thèid seo a chur an sàs às dèidh a&apos; phrìomh chuingealaiche, mar sin atharraichidh e cho àrd &apos;s a tha an as-chur gun am measgachadh atharrachadh.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="776"/>
         <location filename="../widgets/settingswidget.cpp" line="777"/>
         <location filename="../widgets/settingswidget.cpp" line="824"/>
         <source>Drive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drive</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="778"/>
         <source>Slide to change how hard the mix is driven into the main limiter. At 100% the mix is left untouched.
 
 Values above 100% make things louder and denser, at the cost of more limiting. Values below 100% create headroom for layering many sounds together.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slaod gus atharrachadh dè cho làidir &apos;s a thèid am measgachadh a dhraibheadh a-steach dhan phrìomh chuingealaiche. Aig 100% thèid am measgachadh fhàgail mar a tha e.
+
+Bidh luachan os cionn 100% nas àirde agus nas dùmhaile, ach le barrachd cuingealachaidh. Fàgaidh luachan fo 100% rùm airson iomadh fuaim a chur air muin a chèile.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="829"/>
         <location filename="../widgets/settingswidget.cpp" line="3492"/>
         <location filename="../widgets/settingswidget.cpp" line="3493"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ìre</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="889"/>
@@ -3788,7 +3790,7 @@ Values above 100% make things louder and denser, at the cost of more limiting. V
     <message>
         <location filename="../widgets/settingswidget.cpp" line="959"/>
         <source>Close and re-open the current audio device with the same settings (a full cold swap). Useful if audio has stopped behaving after sleep or hardware changes.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dùin agus fosgail an t-uidheam fuaime gnàthach a-rithist leis na h-aon roghainnean (làn-atharrachadh fuar). Feumail ma sguir an fhuaim a dh&apos;obrachadh mar bu chòir às dèidh cadal no atharraichean bathair-chruaidh.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="998"/>
@@ -3877,7 +3879,7 @@ a&apos; cleachdadh glacadh-sgrìn le luathachadh GPU</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1228"/>
         <source>Configure MIDI behaviour and list all connected MIDI ports</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rèitich giùlan MIDI agus seall gach port MIDI ceangailte</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1230"/>
@@ -3893,17 +3895,18 @@ a&apos; cleachdadh glacadh-sgrìn le luathachadh GPU</translation>
         <location filename="../widgets/settingswidget.cpp" line="1329"/>
         <source>Automatically align code on Enter, Run and Tab.
 When disabled, Tab indents normally and code is only aligned via Code &gt; Align Code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Co-thaobhaich an còd gu fèin-obrachail le Enter, Ruith agus Tab.
+Nuair a tha seo dheth, nì Tab eag mar as àbhaist agus cha tèid an còd a cho-thaobhadh ach tro Còd &gt; Co-thaobhaich an còd.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1378"/>
         <source>Show editor toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seall bàr-inneal an deasaiche</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1380"/>
         <source>Toggle visibility of the editor&apos;s floating toolbar (undo/redo, cut/copy/paste, find).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Togail faicsinneachd bàr-inneal fleòdraidh an deasaiche (neo-dhèan/ath-dhèan, gearr/lethbhreac/cuir ann, lorg).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1444"/>
@@ -3928,59 +3931,59 @@ When disabled, Tab indents normally and code is only aligned via Code &gt; Align
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1496"/>
         <source>Themes, transparency and settings useful for performing with Sonic Pi</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cùisean datha, trìd-shoilleireachd agus roghainnean feumail airson cluich beò le Sonic Pi</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1499"/>
         <source>Configure the Sonic Pi colour scheme and look and feel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rèitich sgeama datha Sonic Pi agus coltas an eadar-aghaidh.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1647"/>
         <source>Rotate hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cuairtich an tuar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1649"/>
         <source>Drag or scroll to rotate the hue of every colour in the interface. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slaod no sgrolaich gus tuar gach dath san eadar-aghaidh a chuairteachadh. Dèan briogadh dùbailte air an luach gus fear mionaideach a chur a-steach.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1663"/>
         <source>Spread hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sgaoil an tuar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1664"/>
         <location filename="../widgets/settingswidget.cpp" line="1672"/>
         <source>Spread Hue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sgaoil an tuar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1665"/>
         <source>Drag or scroll to spread the interface&apos;s colours away from the main colour. 0 is the theme as designed, 100 spaces every colour evenly around the wheel. Double-click the value to type an exact one.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slaod no sgrolaich gus dathan an eadar-aghaidh a sgaoileadh air falbh bhon phrìomh dhath. &apos;S e 0 a&apos; chùis datha mar a chaidh a dhealbhadh, cuiridh 100 gach dath gu cothromach timcheall na cuibhle. Dèan briogadh dùbailte air an luach gus fear mionaideach a chur a-steach.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1682"/>
         <location filename="../widgets/settingswidget.cpp" line="3621"/>
         <source>Release to apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Leig às gus a chur an sàs</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1709"/>
         <source>Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ath-shuidhich a&apos; chùis datha</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1710"/>
         <source>Return hue rotation, hue spread, monochrome and invert to their defaults. The chosen scheme is kept.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cuir cuairteachadh an tuair, sgaoileadh an tuair, aon-dath agus bun-os-cionn air ais gu na bun-roghainnean aca. Thèid an sgeama a thagh thu a chumail.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1732"/>
         <source>Drag or scroll to change how see-through the Sonic Pi window is.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slaod no sgrolaich gus atharrachadh cho trìd-shoilleir &apos;s a tha uinneag Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1762"/>
@@ -4042,12 +4045,12 @@ Stereo - a&apos; sealltainn dà sgòp neo-eisimeileach airson seanailean clì is
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1792"/>
         <source>Scrolling live loop scopes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sgòpan nan lùban beò a&apos; sgroladh</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1794"/>
         <source>When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nuair a tha seo air, sgrolaichidh sgòpan nan lùban beò an fhuaim as ùire mar chairt-stiall. Nuair a tha seo dheth, cumaidh iad cruth-tuinne seasmhach mar a&apos; phrìomh sgòp.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1804"/>
@@ -4068,12 +4071,12 @@ Stereo - a&apos; sealltainn dà sgòp neo-eisimeileach airson seanailean clì is
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1846"/>
         <source>Publish Window via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Foillsich an uinneag tro %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1847"/>
         <source>Share the Sonic Pi window with other applications as a %1 video feed.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Co-roinn uinneag Sonic Pi le prògraman eile mar inbhir video %1.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1854"/>
@@ -4083,17 +4086,17 @@ Stereo - a&apos; sealltainn dà sgòp neo-eisimeileach airson seanailean clì is
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1858"/>
         <source>Stop sharing the Sonic Pi window.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sguir de cho-roinn uinneag Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1861"/>
         <source>Publish via %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Foillsich tro %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1865"/>
         <source>Publish the Sonic Pi window as a %1 video feed for other applications to receive.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Foillsich uinneag Sonic Pi mar inbhir video %1 gus an gabh prògraman eile ris.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1936"/>
@@ -4168,29 +4171,29 @@ air https://hosted.weblate.org/projects/sonic-pi/. Mòran taing! :)</translation
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2827"/>
         <source>Changing audio device. This can take a few moments...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ag atharrachadh an uidheim fuaime. Faodaidh seo greis a thoirt...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2845"/>
         <source>Audio device is still settling. Try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tha an t-uidheam fuaime fhathast a&apos; socrachadh. Feuch ris a-rithist an ceann diog no dhà.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2924"/>
         <location filename="../widgets/settingswidget.cpp" line="2950"/>
         <location filename="../widgets/settingswidget.cpp" line="3309"/>
         <source>OS Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bun-roghainn an t-siostaim</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2926"/>
         <source>OS Default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bun-roghainn an t-siostaim (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2957"/>
         <source>%1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="957"/>
@@ -4414,7 +4417,7 @@ air https://hosted.weblate.org/projects/sonic-pi/. Mòran taing! :)</translation
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3220"/>
         <source>%1 selected. Choose an Output device to switch.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 air a thaghadh. Tagh uidheam as-chuir gus atharrachadh.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3296"/>
@@ -4444,7 +4447,7 @@ air https://hosted.weblate.org/projects/sonic-pi/. Mòran taing! :)</translation
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3494"/>
         <source>Shows the output level of the left and right channels. The bar reaches into the accent colour when the main limiter is reducing the level.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seallaidh seo ìre as-chuir nan seanailean clì is deas. Ruigidh am bàr an dath sònrachaidh nuair a bhios am prìomh chuingealaiche a&apos; lùghdachadh na h-ìre.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="3902"/>
@@ -4991,7 +4994,7 @@ Tha an sgrùdadh seo a&apos; cur fiosrachadh gun urra mu do àrd-ùrlar agus tio
     <message>
         <location filename="../visualizer/scope_window.cpp" line="188"/>
         <source>Levels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ìrean</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="189"/>
@@ -5378,7 +5381,7 @@ Obraichidh Link air an uidheam seo a-mhàin no thar an lìonraidh ionadail agad.
     <message>
         <location filename="../widgets/tutorialwidgets.cpp" line="153"/>
         <source>Link. Press Return to open.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ceangal. Put air Return gus fhosgladh.</translation>
     </message>
 </context>
 <context>
@@ -5520,7 +5523,7 @@ Obraichidh Link air an uidheam seo a-mhàin no thar an lìonraidh ionadail agad.
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1539"/>
         <source>Back to the options list from %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Air ais gu liosta nan roghainnean o %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1562"/>
