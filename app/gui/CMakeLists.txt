@@ -608,7 +608,7 @@ target_link_libraries(${APP_NAME}
 # Compile options and OS specific libraries
 if(WIN32)
     # Workaround Qt + MSVC 19 compile issue in release build.
-    target_compile_options(${APP_NAME} PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/bigobj /wd4005 /W3 /D_CRT_SECURE_NO_WARNINGS /D_WINSOCK_DEPRECATED_NO_WARNINGS /DBOOST_DATE_TIME_NO_LIB>)
+    target_compile_options(${APP_NAME} PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/bigobj /wd4005 /W3 /D_CRT_SECURE_NO_WARNINGS /D_WINSOCK_DEPRECATED_NO_WARNINGS>)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES Linux)
     # Link librt
     target_link_libraries(${APP_NAME} PRIVATE rt)
@@ -648,4 +648,4 @@ source_group(OldApi FILES ${OLD_API_SOURCES})
 source_group(NewApi FILES ${NEW_API_SOURCES})
 
 source_group(Qt\\AutoMoc FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_automoc.cpp )
-source_group(Qt\\AutoMoc REGULAR_EXPRESSION "(mocs_*|qrc_.*|QtAwesome.*)" )
+source_group(Qt\\AutoMoc REGULAR_EXPRESSION "(mocs_*|qrc_.*)" )

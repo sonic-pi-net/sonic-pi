@@ -6,7 +6,7 @@
 #
 #   1. Bundled dylibs in Contents/Frameworks/*.dylib  (libssl, libcrypto, …)
 #   2. Qt frameworks under Contents/Frameworks/*.framework
-#   3. Every Mach-O under Contents/Resources/        (Ruby/BEAM NIFs, supersonic, …)
+#   3. Every Mach-O under Contents/Resources/        (Ruby native exts, supersonic, …)
 #   4. Every Mach-O under Contents/PlugIns/          (Qt platform plugins)
 #   5. The main executable Contents/MacOS/<name>     (with entitlements)
 #   6. The outer .app                                (with entitlements)

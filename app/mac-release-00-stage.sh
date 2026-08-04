@@ -7,7 +7,7 @@
 # (dylibs are still external — fixed in stage 02).
 #
 # Layout produced under Sonic\ Pi.app/Contents/Resources/:
-#   app/server/             # ruby + beam + native binaries
+#   app/server/             # ruby + native binaries
 #   app/config/
 #   app/gui/theme/
 #   app/gui/lang/

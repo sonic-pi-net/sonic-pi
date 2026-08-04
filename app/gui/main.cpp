@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
         // Pause for a couple of seconds to enable the previous instance
         // of Sonic Pi to complete before starting this new replacement
         // instance. This is to ensure that the two processes don't
-        // conflict with the SingleApplication constraint.
+        // conflict with the single-instance constraint.
         QThread::msleep(2000);
     }
     else
