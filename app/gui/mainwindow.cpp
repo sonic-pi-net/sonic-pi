@@ -1939,7 +1939,13 @@ void MainWindow::createDebugAndLogTabs()
                              tr("A live view of Sonic Pi's log files."));
     southTabs->setTabToolTip(southTabs->addTab(metricsPanel, tr("Debug")),
                              tr("Live metrics, node tree and message logs for the SuperSonic audio engine."));
-    southTabs->setCurrentWidget(metricsPanel);
+    // Reopen on whichever tab was last in use; Docs is the fallback for a
+    // profile that has never set one.
+    {
+        const int fallback = southTabs->indexOf(docsPane);
+        const int saved = gui_settings->value("prefs/help-tab", fallback).toInt();
+        southTabs->setCurrentIndex((saved >= 0 && saved < southTabs->count()) ? saved : fallback);
+    }
 
     // Wire the title-row A-/A+ bars (built earlier) to the Logs/Debug panels,
     // restoring the saved level and persisting each step.
@@ -4005,14 +4011,18 @@ void MainWindow::help()
     {
         showStatusAndAnnounce(tr("Showing help..."), 2000);
         docWidget->show();
-        southTabs->setCurrentWidget(docsPane); // may currently be on Debug/Cards
         ensureDocsSelection();   // never land on a blank page
         helpAct->setChecked(true);
-        // Opening help takes you to it: focus lands in the topics list so
-        // the chapters are immediately arrow-key navigable.
+        // Opening help takes you to it. On Docs that means the topics list, so
+        // the chapters are immediately arrow-key navigable; on any other tab it
+        // means that tab's own pane.
         const int i = docsNavTabs->currentIndex();
-        if (i >= 0 && i < helpLists.size())
+        if (southTabs->currentWidget() == docsPane && i >= 0 && i < helpLists.size())
             focusPane(helpLists[i]);
+        else if (southTabs->currentWidget() == quickstartPane)
+            quickstartPane->focusCarousel(); // as the Cards menu item does
+        else
+            focusPane(southTabs->currentWidget());
     }
     helpAct->setIcon(theme->getHelpIcon(docWidget->isVisible()));
 }
@@ -7339,6 +7349,9 @@ void MainWindow::writeSettings()
     gui_settings->setValue("pos", pos());
     gui_settings->setValue("size", size());
     gui_settings->setValue("first_time", 0);
+
+    if (southTabs)
+        gui_settings->setValue("prefs/help-tab", southTabs->currentIndex());
 
     gui_settings->setValue("prefs/language", piSettings->language);
 
