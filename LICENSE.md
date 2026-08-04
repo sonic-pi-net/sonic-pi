@@ -138,7 +138,6 @@ relevant licenses:
 - [FLAC](https://github.com/xiph/flac), [ogg](https://github.com/xiph/ogg), [vorbis](https://github.com/xiph/vorbis), [opus](https://github.com/xiph/opus) - [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
 - [Ableton Link](https://github.com/Ableton/link) (with local patches, conveyed in the SuperSonic repo) - [GPL-2.0-or-later](https://www.gnu.org/licenses/gpl-2.0.html)
 - [asio (standalone)](https://think-async.com/Asio/) (vendored within Link) - [Boost Software License 1.0](https://opensource.org/licenses/BSL-1.0)
-- [boost (subset)](https://www.boost.org) 1.86 - [Boost Software License 1.0 (BSL-1.0)](https://opensource.org/licenses/BSL-1.0)
 - [TLSF](http://www.gii.upv.es/tlsf/) 2.4.6 - dual [GPL-2.0](https://www.gnu.org/licenses/gpl-2.0.html) / [LGPL-2.1](https://www.gnu.org/licenses/lgpl-2.1.html)
 - [oscpack](http://www.rossbencina.com/code/oscpack) - permissive (MIT-style) licence
 - Rust subsystems (MIDI / gamepad / OSC networking): [midir](https://github.com/Boddlnagg/midir) fork ([MIT](http://opensource.org/licenses/MIT)) plus permissively-licensed crates (MIT / Apache-2.0 / BSD / ISC / Zlib), enforced by a cargo-deny licence allowlist
