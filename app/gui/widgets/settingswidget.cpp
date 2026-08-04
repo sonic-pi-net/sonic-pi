@@ -780,11 +780,22 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     enable_scsynth_inputs = new QCheckBox(tr("Enable Audio Inputs"));
     enable_scsynth_inputs->setToolTip(tr("Toggle to enable or disable audio inputs."));
     setCheckIcon(enable_scsynth_inputs, kAudioInputsSvg);
+    // Carries the "pick a device" prompt too: ASIO is the only driver that
+    // records a pending pick without opening anything (it has no default
+    // device), so this note is on screen exactly when that prompt applies —
+    // no need for a second, competing line in the status row.
     asio_input_note = new QLabel(
-        tr("ASIO uses one device for both input and output."));
+        tr("ASIO uses one device for both input and output. Select device."));
     asio_input_note->setWordWrap(true);
     asio_input_note->setObjectName("asioInputNote");   // styled by app.qss (muted note)
     ApplyFontRole(asio_input_note, FontRole::Small);
+    // Ignored horizontally, like the status line below: a wrapped label's
+    // width hint is its whole text on one line, so a note that appears only
+    // on ASIO would widen the grid's columns as it comes and goes — the
+    // selectors would slide sideways on every driver change. Ignored means
+    // it wraps into whatever width the selectors settle on instead of
+    // driving that width.
+    asio_input_note->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     asio_input_note->setVisible(false);
     mixer_invert_stereo = new QCheckBox(tr("Invert stereo"));
     mixer_invert_stereo->setToolTip(tr("If enabled, audio sent to the left speaker will be routed to the right speaker and vice versa."));
@@ -902,16 +913,18 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // reconfigures the device (opens input streams); the stereo-image
     // toggles are mixer-stage and live in their own group below.
     audio_device_layout->addWidget(enable_scsynth_inputs, 8, 0, Qt::AlignVCenter);
-    // The ASIO note occupies the SAME grid row as the Input selector, not
-    // one below it: on ASIO the selector is hidden and the note shown, and
-    // sharing one row means the row's spacing is counted once either way.
-    // Pinned to the combo height so the swap cannot change the row's height
-    // — a taller or shorter note would move every control below it as the
-    // driver changes.
+    // The note keeps its own row, directly under Input. Sharing Input's row
+    // looks tidier on paper but puts a column-spanning item in a cell that
+    // already holds two single-cell ones, and the grid then drops that row's
+    // spacing — Input sits flush under Output, and the gap reappears when the
+    // note takes over, moving everything below by exactly one spacing.
+    // Pinning the note to the combo height is what actually matters: it is
+    // what makes the collapsed-Input row and the shown-note row measure the
+    // same, so the swap moves nothing.
     asio_input_note->setFixedHeight(comboHeight);
     audio_device_layout->addWidget(audio_input_label, 2, 0);
     audio_device_layout->addWidget(audio_input_combo, 2, 1);
-    audio_device_layout->addWidget(asio_input_note, 2, 0, 1, 2);
+    audio_device_layout->addWidget(asio_input_note, 3, 0, 1, 2);
 
     QLabel *srLabel = new QLabel(tr("Sample Rate"));
     audio_sample_rate_combo = new QComboBox();
@@ -935,6 +948,14 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     remote_session_note->setWordWrap(true);
     remote_session_note->setObjectName("remoteSessionNote");   // styled by app.qss (muted note)
     ApplyFontRole(remote_session_note, FontRole::Small);
+    // Pinned to the two lines it actually wraps to, like the status line
+    // below. A wrapped label's sizeHint is measured as though it had a long
+    // single line, so an unpinned one under-reports its height — the box
+    // then asks the column for less than it needs, the column obliges and
+    // hands the slack to the stretches, and every row inside is squeezed
+    // while blank space sits below the box.
+    remote_session_note->setFixedHeight(
+        2 * FontRolePx(FontRole::Small) + ScaleHeightForDPI(8));
     remote_session_note->setVisible(isRemoteDesktopSession());
     audio_device_layout->addWidget(remote_session_note, 6, 0, 1, 2);
 
@@ -977,24 +998,23 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     // The box's frame absorbs the column's slack (see the tab layout), so
     // pin the rows to the top rather than letting them drift apart.
-    audio_device_layout->setRowStretch(11, 1);
+    audio_device_layout->setRowStretch(9, 1);
     audioDeviceBox->setLayout(audio_device_layout);
     m_devicePulse = new DevicePulseOverlay(audioDeviceBox);
 
-    // --- Stereo (invert stereo, force mono) ---
-    // Mixer-stage transforms, not device settings: they shape the stereo
-    // image of whatever the mixer emits, survive any device switch, and
-    // behave identically on every driver — so they get their own group
-    // rather than riding in Audio Device, where they'd read as properties
-    // of the selected hardware.
-    QGroupBox *stereoBox = new QGroupBox(tr("Stereo"));
-    stereoBox->setToolTip(tr("Shape the stereo image of Sonic Pi's output. Applied in the mixer, independently of the selected audio device."));
-    QVBoxLayout *stereo_layout = new QVBoxLayout;
+    // --- Mix (invert stereo, force mono) ---
+    // Mixer-stage transforms, not device settings: they shape what the mixer
+    // emits, survive any device switch, and behave identically on every
+    // driver — so they get their own group rather than riding in Audio
+    // Device, where they'd read as properties of the selected hardware.
+    QGroupBox *mixBox = new QGroupBox(tr("Mix"));
+    mixBox->setToolTip(tr("Shape Sonic Pi's mix. Applied in the mixer, independently of the selected audio device."));
+    QVBoxLayout *mix_layout = new QVBoxLayout;
     // Same tight spacing as the toggle columns elsewhere on this tab.
-    stereo_layout->setSpacing(ScaleHeightForDPI(2));
-    stereo_layout->addWidget(mixer_invert_stereo);
-    stereo_layout->addWidget(mixer_force_mono);
-    stereoBox->setLayout(stereo_layout);
+    mix_layout->setSpacing(ScaleHeightForDPI(2));
+    mix_layout->addWidget(mixer_invert_stereo);
+    mix_layout->addWidget(mixer_force_mono);
+    mixBox->setLayout(mix_layout);
 
     // activated(int) — user-interaction only. currentIndexChanged fires
     // on programmatic setCurrentIndex() too, which would emit spurious
@@ -1114,8 +1134,12 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     QVBoxLayout *supersonic_layout = new QVBoxLayout;
     // No stretches around the content: this box is fixed-height and centred
     // under both columns, so anything that pads it just makes the tab taller.
+    // Tight by design — this is a credit sharing a column with the audio
+    // device selectors, and every pixel it takes comes off them.
+    supersonic_layout->setSpacing(0);
+    supersonic_layout->setContentsMargins(ScaleWidthForDPI(8), ScaleHeightForDPI(4),
+                                          ScaleWidthForDPI(8), ScaleHeightForDPI(4));
     supersonic_layout->addWidget(powered_by_label);
-    supersonic_layout->addSpacing(ScaleHeightForDPI(8));
     supersonic_layout->addWidget(supersonic_ascii_label);
     supersonic_layout->addWidget(supersonic_version_label);
     supersonic_layout->addWidget(mic_permission_label);
@@ -1143,7 +1167,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // Every box keeps its natural height; each column's slack goes between
     // and after the boxes, never inside a frame.
     audioDeviceBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-    stereoBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    mixBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     volBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     recordingGroup->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
@@ -1159,7 +1183,12 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     // Boxes pack from the top with a steady rhythm — fixed gaps, one
     // trailing stretch — rather than stretches between every box, which
     // spread them out unevenly as the tab grows.
+    // Spacing 0 on both columns: the gap between boxes is the explicit
+    // addSpacing below, and the layout's own default spacing was silently
+    // adding itself on top of it — every gap was the intended 14dx plus a
+    // style-provided one, which is height the tab cannot spare.
     QVBoxLayout *left_col = new QVBoxLayout;
+    left_col->setSpacing(0);
     left_col->addWidget(volBox);
     left_col->addSpacing(ScaleHeightForDPI(14));
     left_col->addWidget(synthsGroup);
@@ -1170,11 +1199,12 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     left_col->addStretch(1);
 
     QVBoxLayout *right_col = new QVBoxLayout;
+    right_col->setSpacing(0);
     right_col->addWidget(audioDeviceBox);
     right_col->addSpacing(ScaleHeightForDPI(14));
-    right_col->addWidget(stereoBox);
+    right_col->addWidget(mixBox);
     // Stretches, not a stretch factor on the boxes: a stretch-grown box
-    // shows the column's slack as framed blank space inside its frame.
+    // shows the column's slack as framed blank space under its last row.
     right_col->addStretch(1);
     // A credit rather than a control, so it sits last, floating in its
     // share of the column rather than glued to the tab's bottom edge.
@@ -3225,18 +3255,13 @@ void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInf
     audio_driver_combo->setEnabled(true);
     reset_device_button->setEnabled(true);
 
-    // Status line: a pending driver pick (driver chosen, device not yet —
-    // the engine stays on its old driver meanwhile) is the one settled state
-    // where the Driver dropdown legitimately disagrees with the live summary
-    // below. Say so instead of looking like a mismatch bug.
-    const QString pendingDriver = QString::fromStdString(
-        configInfo.hasIntendedDriver ? configInfo.intendedDriver : std::string());
-    if (!pendingDriver.isEmpty()
-        && pendingDriver != QString::fromStdString(configInfo.currentDriver)) {
-        setAudioStatus(tr("%1 selected. Choose an Output device to switch.").arg(pendingDriver));
-    } else {
-        setAudioStatus(QString());
-    }
+    // A pending driver pick (driver chosen, device not yet — the engine stays
+    // on its old driver meanwhile) is the one settled state where the Driver
+    // dropdown legitimately disagrees with the live summary below. Only ASIO
+    // reaches it, since every other driver auto-selects a default device, and
+    // the ASIO note already says "Select device" — so the status row stays
+    // clear rather than carrying a second line saying the same thing.
+    setAudioStatus(QString());
 
     // ASIO-driver constraints may have changed (e.g. driver swapped).
     // Re-apply so the input checkbox + dropdown reflect the new driver.
@@ -3302,12 +3327,26 @@ void SettingsWidget::applyAsioInputConstraints() {
         // Style label AND indicator. Sonic Pi's theme keeps the
         // indicator vivid when setEnabled(false), so the label
         // greying alone doesn't read as non-interactive.
+        // Size-neutral by construction. Styling ::indicator at all switches
+        // that sub-control to stylesheet box-model sizing, which need not
+        // match the native indicator — the checkbox then changes size as the
+        // constraint comes and goes, sliding every selector in column 0
+        // sideways and nudging the rows below. Giving the indicator the
+        // style's own metrics (less the border, which the box model adds
+        // outside the content box) keeps it exactly the size it was. Colour
+        // only, no italic: italic changes the text metrics for the same
+        // reason.
+        const int indW = enable_scsynth_inputs->style()->pixelMetric(
+            QStyle::PM_IndicatorWidth, nullptr, enable_scsynth_inputs);
+        const int indH = enable_scsynth_inputs->style()->pixelMetric(
+            QStyle::PM_IndicatorHeight, nullptr, enable_scsynth_inputs);
         enable_scsynth_inputs->setStyleSheet(
-            "QCheckBox { color: gray; font-style: italic; }"
-            "QCheckBox::indicator {"
-            " background-color: rgba(128, 128, 128, 80);"
-            " border: 1px solid rgba(128, 128, 128, 140);"
-            "}");
+            QString("QCheckBox { color: gray; }"
+                    "QCheckBox::indicator {"
+                    " width: %1px; height: %2px;"
+                    " background-color: rgba(128, 128, 128, 80);"
+                    " border: 1px solid rgba(128, 128, 128, 140);"
+                    "}").arg(qMax(1, indW - 2)).arg(qMax(1, indH - 2)));
         enable_scsynth_inputs->setToolTip(
             tr("ASIO devices have linked input/output."));
         asio_input_note->setVisible(true);
@@ -3357,7 +3396,9 @@ void SettingsWidget::applyAsioInputConstraints() {
         audio_input_combo->setToolTip(QString());
         asio_constraint_applied = false;
     }
+
 }
+
 
 void SettingsWidget::updateMicPermissionStatus() {
 #if defined(Q_OS_DARWIN)
