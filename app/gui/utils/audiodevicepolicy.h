@@ -191,4 +191,112 @@ inline AudioPrefsDecision audioPrefsDecision(const AudioSwitchRequest& request,
     return d;
 }
 
+// ── 3. Booting with saved prefs ──────────────────────────────────────────────
+
+// Saved audio prefs are handed to the engine's first open. A pref that names
+// a device which cannot be brought up leaves the user with an app that never
+// finishes starting — and no way to fix it, because the setting that breaks
+// startup can only be changed from a window that startup never reaches. That
+// has to be impossible, whatever the cause.
+//
+// So the check is not "is this device good?" — we cannot know that in advance,
+// and the interesting failures are the ones we have not thought of. It is
+// "did the last attempt with these prefs ever finish?". A marker is written
+// before the prefs are used and cleared once startup completes; finding it
+// still set means the previous run died somewhere in between.
+//
+// One failure is enough to stop honouring them, and it costs the user only
+// their device selection for one launch: the prefs stay on disk, the marker
+// is rewritten, and the next launch tries them again. A device that is merely
+// absent today therefore recovers by itself, while one that genuinely wedges
+// startup can never trap the app more than once in a row.
+
+struct AudioBootDecision {
+    bool useSavedPrefs = true;
+    // Set when the previous attempt did not complete, so the caller can say
+    // why the device selection is being ignored this time.
+    bool previousAttemptIncomplete = false;
+};
+
+inline AudioBootDecision audioBootDecision(bool bootMarkerPresent)
+{
+    AudioBootDecision d;
+    d.previousAttemptIncomplete = bootMarkerPresent;
+    d.useSavedPrefs = !bootMarkerPresent;
+    return d;
+}
+
+// ── 4. Picking an input from the dropdown ────────────────────────────────────
+
+// An input-only switch names no output, so the engine resolves it against the
+// output it already holds. That pairing is only coherent while the input
+// belongs to the driver the engine is actually on. The dropdown, though, is
+// populated for the driver SELECTED in the combo, and the two differ during the
+// pending-driver state — driver picked, device not chosen yet — which is
+// precisely when someone goes looking at the input list. Every pick then
+// resolves cross-driver: the carried-over output cannot be found under the new
+// driver and the engine refuses the whole switch, reporting an error that names
+// an output the user never touched.
+//
+// So an input pick either travels with an output that agrees with it, or it
+// does not travel at all.
+
+struct AudioInputPick {
+    std::string input;                 // what was picked (device name or sentinel)
+    std::string inputDriver;           // driver whose list it came from
+    std::string engineDriver;          // driver the engine actually has open
+    std::string selectedOutput;        // output currently chosen in the combo
+    std::string selectedOutputDriver;  // driver that output belongs to
+};
+
+struct AudioInputPickPlan {
+    bool        send = false;
+    std::string input;
+    std::string output;         // empty = leave the engine's output alone
+    std::string refusalReason;  // set when send == false
+};
+
+inline AudioInputPickPlan audioInputPickPlan(const AudioInputPick& pick)
+{
+    AudioInputPickPlan plan;
+    plan.input = pick.input;
+
+    // Sentinels open no device, so they have no driver to agree with and are
+    // always safe to send on their own.
+    if (pick.input.empty()
+        || pick.input == kAudioNoInput
+        || pick.input == kAudioDisabledInput) {
+        plan.send = true;
+        return plan;
+    }
+
+    // Nothing to reason about when either driver is unknown (a pre-flags
+    // engine, or before the first config broadcast): behave as before and let
+    // the engine arbitrate.
+    if (pick.inputDriver.empty() || pick.engineDriver.empty()
+        || pick.inputDriver == pick.engineDriver) {
+        plan.send = true;
+        return plan;
+    }
+
+    // Cross-driver. It is still coherent if an output on the SAME driver as the
+    // input has been chosen — send the pair so the engine resolves both names
+    // under one driver instead of carrying the old one across. "__system__"
+    // names no device and resolves under any driver, so it pairs with anything.
+    const bool outputAgrees =
+        !pick.selectedOutput.empty()
+        && (pick.selectedOutput == kAudioSystemOutput
+            || pick.selectedOutputDriver == pick.inputDriver);
+    if (outputAgrees) {
+        plan.send = true;
+        plan.output = pick.selectedOutput;
+        return plan;
+    }
+
+    // Otherwise the pick cannot be honoured yet. Say which end is missing
+    // rather than letting the engine refuse and blame the output.
+    plan.refusalReason = "Choose a " + pick.inputDriver + " output first";
+    return plan;
+}
+
 } // namespace SonicPi

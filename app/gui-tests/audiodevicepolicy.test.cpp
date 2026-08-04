@@ -19,6 +19,8 @@ using SonicPi::AudioSwitchRequest;
 using SonicPi::PrefAction;
 using SonicPi::audioPrefsDecision;
 using SonicPi::audioRestorePlan;
+using SonicPi::AudioInputPick;
+using SonicPi::audioInputPickPlan;
 
 // ── Boot restore ─────────────────────────────────────────────────────────────
 
@@ -302,4 +304,125 @@ TEST_CASE("persist: saved pair always matches the engine's reported pair",
         CHECK(d.outputValue == c.out);
         CHECK(d.inputValue == c.in);
     }
+}
+
+// -- Input picks ------------------------------------------------------------
+//
+// An input-only switch carries no output, so the engine pairs it with whatever
+// output it already holds. Shipped bug: with the driver combo moved to Windows
+// Audio while the engine was still on DirectSound, the input list showed
+// Windows Audio inputs; picking one made the swap cross-driver, the carried
+// over DirectSound output could not resolve under Windows Audio, and the engine
+// refused the switch with "No such device: Primary Sound Driver" -- naming an
+// output the user had not touched.
+
+TEST_CASE("input pick: same driver as the engine sends input alone",
+          "[audio][inputpick]")
+{
+    AudioInputPick pick;
+    pick.input        = "In 1-2 (2- MOTU Pro Audio)";
+    pick.inputDriver  = "Windows Audio";
+    pick.engineDriver = "Windows Audio";
+
+    const auto plan = audioInputPickPlan(pick);
+    REQUIRE(plan.send);
+    CHECK(plan.input == "In 1-2 (2- MOTU Pro Audio)");
+    CHECK(plan.output.empty());          // leave the engine's output alone
+    CHECK(plan.refusalReason.empty());
+}
+
+TEST_CASE("input pick: cross-driver with no output chosen is refused",
+          "[audio][inputpick]")
+{
+    // The shipped failure, exactly: driver combo on Windows Audio, engine still
+    // on DirectSound, no Windows Audio output picked yet.
+    AudioInputPick pick;
+    pick.input        = "In 1-2 (2- MOTU Pro Audio)";
+    pick.inputDriver  = "Windows Audio";
+    pick.engineDriver = "DirectSound";
+
+    const auto plan = audioInputPickPlan(pick);
+    REQUIRE_FALSE(plan.send);
+    CHECK(plan.refusalReason.find("Windows Audio") != std::string::npos);
+}
+
+TEST_CASE("input pick: cross-driver travels with an agreeing output",
+          "[audio][inputpick]")
+{
+    // Output already chosen on the same driver as the input: send the pair so
+    // the engine resolves both names under one driver.
+    AudioInputPick pick;
+    pick.input                = "In 1-2 (2- MOTU Pro Audio)";
+    pick.inputDriver          = "Windows Audio";
+    pick.engineDriver         = "DirectSound";
+    pick.selectedOutput       = "Speakers (2- MOTU Pro Audio)";
+    pick.selectedOutputDriver = "Windows Audio";
+
+    const auto plan = audioInputPickPlan(pick);
+    REQUIRE(plan.send);
+    CHECK(plan.input  == "In 1-2 (2- MOTU Pro Audio)");
+    CHECK(plan.output == "Speakers (2- MOTU Pro Audio)");
+}
+
+TEST_CASE("input pick: an output on a third driver does not count as agreeing",
+          "[audio][inputpick]")
+{
+    AudioInputPick pick;
+    pick.input                = "In 1-2 (2- MOTU Pro Audio)";
+    pick.inputDriver          = "Windows Audio";
+    pick.engineDriver         = "DirectSound";
+    pick.selectedOutput       = "MOTU Pro Audio";
+    pick.selectedOutputDriver = "ASIO";
+
+    const auto plan = audioInputPickPlan(pick);
+    REQUIRE_FALSE(plan.send);
+}
+
+TEST_CASE("input pick: the system-default output pairs with any driver",
+          "[audio][inputpick]")
+{
+    // "__system__" names no device, so it resolves wherever the swap lands.
+    AudioInputPick pick;
+    pick.input          = "In 1-2 (2- MOTU Pro Audio)";
+    pick.inputDriver    = "Windows Audio";
+    pick.engineDriver   = "DirectSound";
+    pick.selectedOutput = SonicPi::kAudioSystemOutput;
+
+    const auto plan = audioInputPickPlan(pick);
+    REQUIRE(plan.send);
+    CHECK(plan.output == SonicPi::kAudioSystemOutput);
+}
+
+TEST_CASE("input pick: sentinels always send, whatever the drivers say",
+          "[audio][inputpick]")
+{
+    for (const char* sentinel : { SonicPi::kAudioNoInput,
+                                  SonicPi::kAudioDisabledInput }) {
+        AudioInputPick pick;
+        pick.input        = sentinel;
+        pick.inputDriver  = "Windows Audio";
+        pick.engineDriver = "DirectSound";
+
+        const auto plan = audioInputPickPlan(pick);
+        INFO("sentinel " << sentinel);
+        REQUIRE(plan.send);
+        CHECK(plan.output.empty());
+    }
+}
+
+TEST_CASE("input pick: an unknown driver on either side is left to the engine",
+          "[audio][inputpick]")
+{
+    // Pre-flags engines, and the window before the first config broadcast:
+    // refusing here would block input selection outright, so preserve the
+    // previous behaviour and let the engine arbitrate.
+    AudioInputPick noEngine;
+    noEngine.input       = "In 1-2 (2- MOTU Pro Audio)";
+    noEngine.inputDriver = "Windows Audio";
+    REQUIRE(audioInputPickPlan(noEngine).send);
+
+    AudioInputPick noInputDriver;
+    noInputDriver.input        = "In 1-2 (2- MOTU Pro Audio)";
+    noInputDriver.engineDriver = "DirectSound";
+    REQUIRE(audioInputPickPlan(noInputDriver).send);
 }

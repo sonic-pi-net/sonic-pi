@@ -202,6 +202,7 @@ public slots:
     void switchAudioDriver(QString driver);
     void switchAudioDevice(QString device);
     void switchAudioInputDevice(QString device);
+    void switchAudioDeviceAndInput(QString device, QString input);
     void changeSampleRate(int rate);
     void onSupersonicSetup(int sampleRate, int bufferSize);
     void onSpiderReady();
@@ -224,6 +225,9 @@ private:
     // has reported back.
     bool m_audioIntentRestored = false;
     bool m_audioDriverRestoreSent = false;
+    // The saved device prefs were ignored this launch because the previous
+    // startup never finished (see audioBootDecision); say so once we are up.
+    bool m_audioPrefsSkippedAtBoot = false;
     bool m_audioDevicesSeen = false;
     bool m_audioInputDevicesSeen = false;
     bool m_audioDeviceConfigSeen = false;

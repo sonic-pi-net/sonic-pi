@@ -163,6 +163,10 @@ signals:
     void audioDeviceResetRequested();
     void audioOutputDeviceChanged(QString device);
     void audioInputDeviceChangedSignal(QString device);
+    // Both sides in one switch, for an input picked on a driver the engine is
+    // not on yet: sending the input alone would leave the engine pairing it
+    // with an output from the old driver, which cannot resolve.
+    void audioDeviceAndInputChanged(QString device, QString input);
     void sampleRateChanged(int rate);
     void bufferSizeChanged(int size);
     void restartApp();
@@ -404,9 +408,17 @@ private:
     // Status text is elided to the label's width — the untruncated string
     // would widen the Audio Device column and shift the layout.
     QString m_audioStatusText;
-    void setAudioStatus(const QString& text);
+    // Set for messages that must not be wiped by the routine clear which
+    // follows every device-config broadcast (see setAudioStatus).
+    bool m_audioStatusSticky = false;
 
 public:
+    // Device-switch outcomes report here rather than through a modal: the
+    // line sits directly under the selectors the user just used, needs no
+    // dismissing, and does not sound the system warning beep. Pass
+    // sticky=true for anything the user must actually get a chance to read.
+    void setAudioStatus(const QString& text, bool sticky = false);
+
     // The engine refused a /supersonic/devices/reopen (in-flight or
     // cooldown) — cancel the in-progress feedback and say why.
     void deviceReopenRejected(const QString& reason);

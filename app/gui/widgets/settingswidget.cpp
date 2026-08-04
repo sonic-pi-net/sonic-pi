@@ -26,6 +26,7 @@
 #include <QVariantAnimation>
 #include <QScopedValueRollback>
 #include <memory>
+#include "utils/audiodevicepolicy.h"
 #if defined(Q_OS_DARWIN)
 #include "platform/macos.h"
 #endif
@@ -967,7 +968,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
     audio_status_label->setObjectName("audioStatusNote");   // muted note (app.qss)
     ApplyFontRole(audio_status_label, FontRole::Small);
     audio_status_label->setFixedHeight(FontRolePx(FontRole::Small) + ScaleHeightForDPI(6));
-    audio_status_label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    audio_status_label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     // Ignored horizontally so the message never contributes to the box's
     // width; setAudioStatus elides to whatever width the combos settle on,
     // and the label re-elides when that width changes.
@@ -2860,7 +2861,15 @@ void SettingsWidget::updateScsynthInfo( QString scsynthInfo ) {
 // border and explain the wait — cold swaps take a few seconds, and without
 // a cue the delay reads as a hang. Runs both when the user picks something
 // (dropdown slots) and when the engine announces its own swap (statechange).
-void SettingsWidget::setAudioStatus(const QString& text) {
+void SettingsWidget::setAudioStatus(const QString& text, bool sticky) {
+    // A failure notice has to outlive the routine clear that follows every
+    // device-config broadcast: the engine reports its new config immediately
+    // after a switch, success or not, and that clear would otherwise wipe the
+    // explanation before it could be read. Sticky text is only replaced by
+    // the next message with something to say — in practice the next attempt,
+    // which starts with "Changing audio device...".
+    if (text.isEmpty() && m_audioStatusSticky) return;
+    m_audioStatusSticky = sticky && !text.isEmpty();
     m_audioStatusText = text;
     const int w = audio_status_label->width();
     audio_status_label->setText(
@@ -3468,12 +3477,55 @@ void SettingsWidget::audioInputDeviceChanged(int index) {
     if (index < 0) return;
     QString data = audio_input_combo->currentData().toString();
     QString emitted = data.isEmpty() ? audio_input_combo->currentText() : data;
+
+    // The list is populated for the driver SELECTED in the combo, but an
+    // input-only switch is resolved by the engine against the output it
+    // currently holds. Those disagree while a driver pick is pending, so ask
+    // the policy whether this pick can travel as-is, needs to carry an output
+    // to agree with, or cannot be honoured yet (see audioInputPickPlan).
+    SonicPi::AudioInputPick pick;
+    pick.input        = emitted.toStdString();
+    pick.inputDriver  = audio_driver_combo->currentText().toStdString();
+    pick.engineDriver = m_engineActualDriver.toStdString();
+    {
+        const QString outData = audio_output_combo->currentData().toString();
+        const QString outName = outData.isEmpty()
+                              ? audio_output_combo->currentText() : outData;
+        // "-- None --" is "no ASIO device picked yet", not an output.
+        if (outName != QLatin1String(SonicPi::kAudioNoInput)) {
+            pick.selectedOutput = outName.toStdString();
+            pick.selectedOutputDriver = pick.inputDriver;
+        }
+    }
+    const auto plan = SonicPi::audioInputPickPlan(pick);
+
     std::cout << "[gui-audio] input dropdown changed: index=" << index
               << " text='" << audio_input_combo->currentText().toUtf8().constData()
               << "' data='" << data.toUtf8().constData()
-              << "' emitting='" << emitted.toUtf8().constData() << "'" << std::endl;
+              << "' emitting='" << emitted.toUtf8().constData()
+              << "' send=" << (plan.send ? 1 : 0)
+              << " withOutput='" << plan.output.c_str() << "'" << std::endl;
+
+    if (!plan.send) {
+        // Say what is missing, here, instead of firing a switch the engine
+        // will refuse with an error naming an output the user never touched.
+        setAudioStatus(QString::fromStdString(plan.refusalReason), true);
+        // Put the dropdown back: nothing was applied, so it must not read as
+        // though it was.
+        QSignalBlocker b(audio_input_combo);
+        audio_input_combo->setCurrentIndex(0);
+        return;
+    }
+
     beginDeviceSwitchFeedback();
-    emit audioInputDeviceChangedSignal(emitted);
+    if (!plan.output.empty()) {
+        // Cross-driver but coherent: send both names so the engine resolves
+        // them under one driver.
+        emit audioDeviceAndInputChanged(QString::fromStdString(plan.output),
+                                        QString::fromStdString(plan.input));
+        return;
+    }
+    emit audioInputDeviceChangedSignal(QString::fromStdString(plan.input));
 }
 
 void SettingsWidget::audioSampleRateChanged(int index) {
@@ -4180,7 +4232,8 @@ bool SettingsWidget::eventFilter(QObject* obj, QEvent* event)
 {
     // Re-elide the audio status message whenever the column resizes.
     if (obj == audio_status_label && event->type() == QEvent::Resize) {
-        setAudioStatus(m_audioStatusText);
+        // Re-eliding must not demote a sticky notice to a clearable one.
+        setAudioStatus(m_audioStatusText, m_audioStatusSticky);
         return false;
     }
 

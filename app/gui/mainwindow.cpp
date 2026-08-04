@@ -215,12 +215,36 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
         // Saved device prefs travel to the engine's first open via the
         // daemon's spawn args; maybeRestoreAudioIntent stays as the
         // reconciler for genuine drift (e.g. the device no longer exists).
+        // A marker written before the saved prefs are used and cleared once
+        // startup completes. Finding it still set means the previous attempt
+        // with these prefs never finished — so skip them this once and come
+        // up on whatever the engine chooses, rather than repeating a startup
+        // the user cannot escape without hand-editing the settings file.
+        // See audioBootDecision.
+        const bool bootMarker =
+            gui_settings->value("prefs/audio-boot-pending", false).toBool();
+        const auto bootDecision = SonicPi::audioBootDecision(bootMarker);
+        m_audioPrefsSkippedAtBoot = bootDecision.previousAttemptIncomplete;
+
         SonicPi::SonicPiAPI::AudioBootPrefs audioPrefs;
-        audioPrefs.outputDevice = piSettings->audio_output_device.toStdString();
-        audioPrefs.inputDevice  = piSettings->audio_input_device.toStdString();
-        audioPrefs.sampleRate   = piSettings->audio_sample_rate;
-        audioPrefs.bufferSize   = piSettings->audio_buffer_size;
-        audioPrefs.audioDriver  = piSettings->audio_driver.toStdString();
+        if (bootDecision.useSavedPrefs) {
+            audioPrefs.outputDevice = piSettings->audio_output_device.toStdString();
+            audioPrefs.inputDevice  = piSettings->audio_input_device.toStdString();
+            audioPrefs.sampleRate   = piSettings->audio_sample_rate;
+            audioPrefs.bufferSize   = piSettings->audio_buffer_size;
+            audioPrefs.audioDriver  = piSettings->audio_driver.toStdString();
+        } else {
+            std::cout << "[gui-audio] previous startup did not complete — "
+                         "ignoring saved audio device prefs for this launch"
+                      << std::endl;
+        }
+
+        // Armed for the whole of startup, not just the engine's open: the
+        // failures worth catching include ones later than that (a device that
+        // opens and is then found broken, taking Spider's handshake with it).
+        gui_settings->setValue("prefs/audio-boot-pending", true);
+        gui_settings->sync();
+
         APIBootResult boot_success = m_spAPI->Boot(noScsynthInputs, audioPrefs);
 
         if (boot_success == APIBootResult::Successful)
@@ -426,6 +450,16 @@ void MainWindow::onServerReady()
     statusBar()->showMessage(tr("Sonic Pi is ready"));
     announce(tr("Sonic Pi is ready"));
     std::cout << "[GUI] - boot sequence completed." << std::endl;
+
+    // Startup finished, so whatever prefs it used are safe to try again.
+    // Cleared here rather than at engine-open so the marker also covers the
+    // rest of startup — a device can open and only then be found broken.
+    gui_settings->setValue("prefs/audio-boot-pending", false);
+    gui_settings->sync();
+    if (m_audioPrefsSkippedAtBoot && settingsWidget) {
+        settingsWidget->setAudioStatus(
+            tr("Saved audio device skipped: last startup did not finish"), true);
+    }
 
     toggleOSCServer(1);
 
@@ -689,6 +723,8 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(driverChanged(QString)), this, SLOT(switchAudioDriver(QString)));
     connect(settingsWidget, SIGNAL(audioOutputDeviceChanged(QString)), this, SLOT(switchAudioDevice(QString)));
     connect(settingsWidget, SIGNAL(audioInputDeviceChangedSignal(QString)), this, SLOT(switchAudioInputDevice(QString)));
+    connect(settingsWidget, SIGNAL(audioDeviceAndInputChanged(QString,QString)),
+            this, SLOT(switchAudioDeviceAndInput(QString,QString)));
     connect(settingsWidget, SIGNAL(sampleRateChanged(int)), this, SLOT(changeSampleRate(int)));
     connect(settingsWidget, SIGNAL(bufferSizeChanged(int)), this, SLOT(changeBufferSize(int)));
     connect(settingsWidget, SIGNAL(audioDeviceResetRequested()), this, SLOT(resetAudioDevice()));
@@ -8976,6 +9012,17 @@ void MainWindow::switchAudioDevice(QString device)
     sendDeviceSwitch(device, 0, 0);
 }
 
+// One switch naming both sides, for an input picked on a driver the engine is
+// not on yet. Sent as a pair so the engine resolves both names under the same
+// driver — an input-only switch would leave it pairing the new input with the
+// output it still holds on the old driver, which cannot resolve there.
+void MainWindow::switchAudioDeviceAndInput(QString device, QString input)
+{
+    m_pendingAudioPrefs.output = device;
+    m_pendingAudioPrefs.input  = input;
+    sendDeviceSwitch(device, 0, 0, input);
+}
+
 void MainWindow::switchAudioInputDevice(QString device)
 {
     // "-- DISABLED --" carries __disabled__ as item data (from the greyed-
@@ -9100,15 +9147,11 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
     if (outcome.success && !outcome.inputUnavailable) return;  // nothing to surface
 
     if (!outcome.success) {
-        QString device = QString::fromStdString(
-            outcome.requestedOutput.empty()
-                ? outcome.requestedInput
-                : outcome.requestedOutput);
-        QString error  = QString::fromStdString(outcome.error);
-        QMessageBox::warning(
-            this,
-            tr("Audio device switch failed"),
-            tr("Could not switch to:\n\n  %1\n\n%2").arg(device, error));
+        // The engine's own words, nothing added. The dropdowns already show
+        // which device was being asked for, so naming it again just makes
+        // the line too long for the row it has to fit in.
+        settingsWidget->setAudioStatus(
+            QString::fromStdString(outcome.error), true);
         // Engine has rolled back to whatever it was on; the next
         // /supersonic/devices push refreshes the dropdowns to match.
         return;
@@ -9116,12 +9159,8 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
 
     // success == true && inputUnavailable: output opened, input fell back. The
     // decision above has already dropped the pref that asked for it.
-    QString inputName = QString::fromStdString(outcome.requestedInput);
-    QString reason    = QString::fromStdString(outcome.inputUnavailableReason);
-    QMessageBox::warning(
-        this,
-        tr("Audio input device unavailable"),
-        tr("Could not open the audio input device:\n\n  %1\n\n%2").arg(inputName, reason));
+    settingsWidget->setAudioStatus(
+        QString::fromStdString(outcome.inputUnavailableReason), true);
     // Settings widget reverts the input dropdown when the next
     // /supersonic/input-devices push arrives carrying currentInput="".
 }
