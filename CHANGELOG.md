@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic' RC7](#v5.0.0-rc7), To be released...
+- [v5.0.0 'SuperSonic' RC8](#v5.0.0-rc8), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,7 +35,19 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0-rc7"></a>
+<a name="v5.0.0-rc8"></a>
+
+## Version 5.0.0 'SuperSonic' RC8
+
+The eighth release candidate of v5 — this fixes an issue observed on macOS with Bluetooth headphones.
+
+As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### Audio
+* Fixed: Sonic Pi could crash on startup when Bluetooth headphones were the system's default device.
+
+### GUI
+* Fixed: the boot error window no longer disappears before it can be read.
 
 ## Version 5.0.0 'SuperSonic' RC7
 
@@ -50,8 +62,6 @@ As ever, please report any issues you find to [Github Issues](https://github.com
 
 ### Fixes
 * Commands sent while the engine is still booting are now queued rather than dropped.
-
-<a name="v5.0.0-rc6"></a>
 
 ## Version 5.0.0 'SuperSonic' RC6
 
