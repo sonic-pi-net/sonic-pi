@@ -31,6 +31,7 @@
 #include <api/string_utils.h>
 
 #include <api/osc/osc_sender.h>
+#include <api/osc/tcp_osc_sender.h>
 #include <api/osc/udp.hh>
 #include <api/osc/udp_osc_server.h>
 
@@ -408,8 +409,10 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs,
     LOG(INFO, "Setting up OSC sender to Daemon on port " << m_ports[SonicPiPortId::daemon]);
     m_spOscDaemonSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon]);
 
-    LOG(INFO, "Setting up OSC sender to SuperSonic on port " << m_ports[SonicPiPortId::scsynth]);
-    m_spOscSupersonicSender   = std::make_shared<OscSender>(m_ports[SonicPiPortId::scsynth]);
+    LOG(INFO, "Setting up TCP OSC sender to SuperSonic on port " << m_ports[SonicPiPortId::scsynth]);
+    // TCP (framed): connects lazily on first send — the engine only binds
+    // its stream transport once device init completes.
+    m_spOscSupersonicSender   = std::make_shared<TcpOscSender>(m_ports[SonicPiPortId::scsynth]);
     LOG(INFO, "Setting up Boot Daemon keep alive loop");
     m_bootDaemonSockPingLoopThread = std::thread([&]() {
       while(m_keep_alive.load())
@@ -651,11 +654,17 @@ bool SonicPiAPI::SupersonicSendOSC(oscpkt::Message m)
 
 void SonicPiAPI::RequestAudioDevices()
 {
-    // /supersonic/devices/report registers the GUI port as a notify
-    // target AND triggers an immediate device report.
-    oscpkt::Message msg("/supersonic/devices/report");
-    msg.pushInt32(m_ports[SonicPiPortId::gui_listen_to_spider]);
-    SupersonicSendOSC(msg);
+    // Routed via the daemon: its TCP connection to the engine is the
+    // registered notify target, and it forwards /supersonic/devices etc.
+    // onward to our gui_listen_to_spider port. (Registering our own
+    // engine connection instead would leave pushes unread on a socket
+    // nothing drains for replies — see TcpOscSender.)
+    if (m_spOscDaemonSender)
+    {
+        oscpkt::Message msg("/daemon/audio/request-devices");
+        msg.pushInt32(m_token);
+        m_spOscDaemonSender->sendOSC(msg);
+    }
 }
 
 bool SonicPiAPI::IsServerReady()

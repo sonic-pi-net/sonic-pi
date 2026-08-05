@@ -48,6 +48,7 @@ namespace SonicPi
 class AudioProcessor;
 struct ProcessedAudio;
 class OscSender;
+class TcpOscSender;
 class OscServer;
 
 enum class APIInitResult
@@ -649,7 +650,7 @@ private:
     std::shared_ptr<OscServer> m_spOscSpiderServer;
     std::shared_ptr<OscSender> m_spOscSpiderSender;
     std::shared_ptr<OscSender> m_spOscDaemonSender;
-    std::shared_ptr<OscSender> m_spOscSupersonicSender;
+    std::shared_ptr<TcpOscSender> m_spOscSupersonicSender;
     std::shared_ptr<AudioProcessor> m_spAudioProcessor;
     int m_token;
 

@@ -12,7 +12,7 @@
 #++
 
 require_relative "promise"
-require_relative "osc/udp_server"
+require_relative "osc/tcp_osc_client"
 
 module SonicPi
   # OSC client for one SuperSonic subsystem (an address space such as /midi,
@@ -25,7 +25,15 @@ module SonicPi
       @host = supersonic_host.freeze
       @port = Integer(supersonic_port)
       @address_space = address_space.freeze
-      @udp_server = SonicPi::OSC::UDPServer.new(0, name: name)
+      # TCP: reliable, connection-oriented — no silent datagram loss (the
+      # cause of sporadic 1s rpc timeouts convoying into scheduler LATEs;
+      # see the 2026-08-05 investigation), and on Windows MRI ~100x lower
+      # receive latency than the UDP path. Engine-side subscriptions are
+      # per-connection, so a reconnect must resubscribe (idempotent).
+      @udp_server = SonicPi::OSC::TcpOscClient.new(@host, @port, name: name)
+      @udp_server.on_reconnect do
+        subscribe_to_notifications! if @subscribed
+      end
       # Each rpc request carries a correlation token as its last int32
       # argument, which SuperSonic echoes as the last argument of the reply
       # (see "Correlation tokens" in SuperSonic's docs/OSC_API.md). A reply
@@ -106,6 +114,7 @@ module SonicPi
     SUBSCRIBE_CONFIRM_ATTEMPTS = 30
 
     def subscribe_to_notifications!
+      @subscribed = true   # reconnects resubscribe (see initialize)
       send("#{@address_space}/notify/subscribe")
       my_gen = @reply_mut.synchronize { @subscribe_gen = (@subscribe_gen || 0) + 1 }
       Thread.new do
@@ -125,6 +134,7 @@ module SonicPi
 
     def unsubscribe_from_notifications!
       # Retire any in-flight confirm loop so it can't re-subscribe us.
+      @subscribed = false
       @reply_mut.synchronize { @subscribe_gen = (@subscribe_gen || 0) + 1 }
       send("#{@address_space}/notify/unsubscribe")
     end

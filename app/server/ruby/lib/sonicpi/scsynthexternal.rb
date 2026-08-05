@@ -97,7 +97,25 @@ module SonicPi
         return false
       end
 
-      @osc_server = OSC::UDPServer.new(0, use_decoder_cache: true, use_encoder_cache: true, name: "Scsynth Comms Server")
+      # TCP to the engine's command port (same number as the shm segment /
+      # legacy UDP port — the daemon boots SuperSonic with `--tcp <port>`).
+      # Connection establishment doubles as the boot handshake: the engine
+      # only starts its stream transport once init (including a possibly
+      # >10s Windows ASIO device open) has completed, so a successful
+      # connect means the server is up — no ack polling needed.
+      begin
+        @osc_server = OSC::TcpOscClient.new(@hostname, @send_port,
+                                            use_decoder_cache: true,
+                                            use_encoder_cache: true,
+                                            name: "Scsynth Comms Server",
+                                            connect_timeout: 60)
+      rescue StandardError
+        raise BootError, boot_timeout_message(60)
+      end
+      # Engine-side notify registrations are per-connection: after any
+      # reconnect they are gone and must be re-established before replies
+      # (/done, /synced, /n_go…) flow again.
+      @osc_server.on_reconnect { register_for_notifications!(timeout: 5.0) }
 
       @osc_server.add_global_method do |address, args, info|
         case address
@@ -126,11 +144,11 @@ module SonicPi
         @register_cue_event_lambda.call(Time.now, p, @scsynth_thread_id, d, b, m, address, args) if address == "/supersonic/statechange" || address == "/supersonic/setup"
       end
 
-      wait_for_boot
-
       # Initial notify registration so /done, /synced, /n_go etc. flow
       # back to Spider. MUST happen before Server.new sends /d_loadDir.
-      register_for_notifications!(timeout: 5.0)
+      # Over TCP this also stands in for the old boot-ack handshake: the
+      # reply carries the engine version and proves full req/reply flow.
+      raise BootError, boot_timeout_message(30) unless register_for_notifications!(timeout: 30.0)
 
       true
     end
@@ -153,7 +171,10 @@ module SonicPi
       registered = Promise.new
       @osc_server.add_method("/supersonic/notify.reply") do |args|
         puts "Spider OSC: /supersonic/notify.reply confirmed"
-        registered.deliver! true
+        if args[1].is_a?(String) && !args[1].empty?
+          @version = "v#{args[1]}".freeze
+        end
+        registered.deliver! true unless registered.delivered?
       end
 
       begin
@@ -186,51 +207,6 @@ module SonicPi
         "bad state. Try selecting a different audio device, or restarting your\n" \
         "machine.\n" \
         "See #{Paths.log_path}/supersonic.log for what the audio server was doing."
-    end
-
-    def wait_for_boot(timeout=30)
-      puts "SuperSonic boot - Waiting for audio server..."
-      p = Promise.new
-      connected = false
-
-      boot_s = OSC::UDPServer.new(0, name: "SuperSonic ack server") do |address, args, info|
-        puts "SuperSonic boot - Receiving ack"
-        if address == "/supersonic/notify.reply" && args[1].is_a?(String) && !args[1].empty?
-          @version = "v#{args[1]}".freeze
-        end
-        p.deliver! true unless connected
-        connected = true
-      end
-
-      t = Thread.new do
-        __system_thread_locals.set_local(:sonic_pi_local_thread_group, :scsynth_external_boot_ack)
-        Kernel.loop do
-          begin
-            puts "SuperSonic boot - Sending /supersonic/notify"
-            boot_s.send(@hostname, @send_port, "/supersonic/notify")
-          rescue Exception => e
-            puts "SuperSonic boot - Error: #{e.message}"
-          end
-          sleep 0.25
-        end
-      end
-
-      begin
-        p.get(timeout)
-      rescue Exception => e
-        puts "SuperSonic boot - Unable to connect (#{e.message})."
-        raise BootError, boot_timeout_message(timeout)
-      ensure
-        t.kill
-        boot_s.stop
-      end
-
-      unless connected
-        puts "SuperSonic boot - Unable to connect"
-        raise BootError, boot_timeout_message(timeout)
-      end
-
-      puts "SuperSonic boot - Connection established"
     end
 
   end

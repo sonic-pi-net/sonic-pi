@@ -13,6 +13,7 @@
 
 require_relative 'udp_client'
 require_relative 'udp_server'
+require_relative 'tcp_osc_client'
 require_relative 'osc_types'
 require_relative 'oscencode'
 require_relative 'oscdecode'

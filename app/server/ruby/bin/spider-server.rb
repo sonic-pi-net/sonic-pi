@@ -820,14 +820,30 @@ register_api = lambda do |server|
   setup_cv = ConditionVariable.new
   setup_thread = nil
 
+  # /supersonic/setup carries [sample_rate, buffer_size, generation] where
+  # generation increments only on a real World rebuild (cold swap). The
+  # engine also REPLAYS the current setup to each new notify registrant
+  # (stream transports connect after boot and miss the boot broadcast) —
+  # dedup by generation so a replay never triggers a spurious reinit.
+  last_setup_generation = nil
+
   server.add_method("/supersonic/setup") do |args|
+    generation = args[2]
     unless spider_boot_complete
-      STDOUT.puts "Spider - received /supersonic/setup (boot) - skipping"
+      STDOUT.puts "Spider - received /supersonic/setup gen #{generation} (boot) - skipping"
       STDOUT.flush
+      last_setup_generation = generation if generation
       next
     end
 
-    STDOUT.puts "Spider - received /supersonic/setup"
+    if generation && generation == last_setup_generation
+      STDOUT.puts "Spider - received /supersonic/setup replay (gen #{generation}) - already current, skipping"
+      STDOUT.flush
+      next
+    end
+    last_setup_generation = generation if generation
+
+    STDOUT.puts "Spider - received /supersonic/setup gen #{generation}"
     STDOUT.flush
     setup_mutex.synchronize do
       last_setup_time = Time.now

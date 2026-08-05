@@ -212,51 +212,43 @@ module SonicPi
           end
         end
 
-        # The sender to SuperSonic can be created before SuperSonic has
-        # booted - it's just a UDP client pointed at a known port.
-        @supersonic_sender = SonicPi::OSC::UDPClient.new('localhost', @ports["scsynth"])
+        # The engine connection is TCP and can only be established once
+        # SuperSonic has finished init and bound its stream transport —
+        # created in connect_to_supersonic! after wait_for_boot succeeds.
+        # Until then it is nil and engine-bound forwards are dropped with a
+        # log line (the GUI can't meaningfully drive the engine pre-boot).
+        @engine_conn = nil
 
-        # Forward /supersonic/setup to Spider for cold-swap reinit
-        @api_server.add_method("/supersonic/setup") do |args|
-          Util.log "Forwarding /supersonic/setup to Spider"
-          begin
-            @api_server.send("localhost", @ports["gui-send-to-spider"], "/supersonic/setup", *args)
-          rescue => e
-            Util.log "Error forwarding /supersonic/setup: #{e.message}"
-          end
-        end
-
-        ["/supersonic/statechange", "/supersonic/info", "/supersonic/devices", "/supersonic/device-table", "/supersonic/input-devices", "/supersonic/devices/reopen.reply", "/supersonic/devices/reopen.done"].each do |path|
-          @api_server.add_method(path) do |args|
-            Util.log "Forwarding #{path} to GUI"
-            begin
-              @api_server.send("localhost", @ports["gui-listen-to-spider"], path, *args)
-            rescue => e
-              Util.log "Error forwarding #{path}: #{e.message}"
-            end
-          end
-        end
-
-        # SuperSonic unicasts `.reply` back to whichever socket sent the
-        # request, and @supersonic_sender is write-only — nothing ever reads
-        # it. Requests whose reply is forwarded above must therefore go out
-        # via @api_server, the socket those forwarders listen on.
-        reply_bearing = ["/daemon/audio/reopen-device"]
-
+        # GUI → engine forwards. All engine traffic rides the daemon's TCP
+        # connection (@engine_conn); replies and notifies come back on that
+        # same connection and are forwarded onward by the handlers wired in
+        # connect_to_supersonic!. Requests arriving before the engine has
+        # booted (no connection yet) are dropped with a log line.
         {
           "/daemon/audio/switch-device"   => "/supersonic/devices/switch",
           "/daemon/audio/switch-driver"   => "/supersonic/drivers/switch",
-          "/daemon/audio/request-devices" => "/supersonic/devices/list",
+          # devices/report (portless): registers this daemon connection as
+          # the report audience and triggers a device table broadcast, which
+          # the conn handlers forward to the GUI — the stream-transport
+          # equivalent of the GUI's old direct UDP-port registration.
+          "/daemon/audio/request-devices" => "/supersonic/devices/report",
           "/daemon/audio/reopen-device"   => "/supersonic/devices/reopen"
         }.each do |daemon_path, supersonic_path|
           @api_server.add_method(daemon_path) do |args|
             if args[0] && args[0] == @daemon_token
-              Util.log "Forwarding #{daemon_path} to SuperSonic"
               begin
-                if reply_bearing.include?(daemon_path)
-                  @api_server.send("localhost", @ports["scsynth"], supersonic_path, *args[1..-1])
+                if @engine_conn
+                  Util.log "Forwarding #{daemon_path} to SuperSonic"
+                  @engine_conn.send(nil, nil, supersonic_path, *args[1..-1])
                 else
-                  @supersonic_sender.send(supersonic_path, *args[1..-1])
+                  # Engine still booting (TCP connects only after init).
+                  # Queue bounded; flushed by connect_to_supersonic! — e.g.
+                  # the GUI requests the device list before the engine is up.
+                  Util.log "Queueing #{daemon_path} until SuperSonic is connected"
+                  @pending_engine_forwards ||= []
+                  if @pending_engine_forwards.size < 64
+                    @pending_engine_forwards << [supersonic_path, args[1..-1]]
+                  end
                 end
               rescue => e
                 Util.log "Error forwarding #{daemon_path}: #{e.message}"
@@ -285,9 +277,7 @@ module SonicPi
         success = @supersonic_booter.wait_for_boot
         if success
           Util.log "SuperSonic booted successfully"
-          # Send from @api_server so SuperSonic records its port as the notify target
-          @api_server.send("localhost", @ports["scsynth"], "/supersonic/notify")
-          Util.log "Sent /supersonic/notify to SuperSonic, registering daemon on port #{@ports["daemon"]}"
+          connect_to_supersonic!
           @supersonic_booter.on_unexpected_exit { handle_supersonic_death }
         else
           Util.log "sending ERROR to gui"
@@ -324,12 +314,64 @@ module SonicPi
         Util.log_error(e)
       end
 
+      # Establish the daemon's TCP connection to SuperSonic and wire the
+      # engine → GUI / Spider forwarders onto it. Engine-side notify
+      # registration is per-connection, so on_reconnect re-registers (the
+      # TcpOscClient reconnects by itself if the engine is restarted on the
+      # same port, e.g. by handle_supersonic_death).
+      def connect_to_supersonic!
+        conn = SonicPi::OSC::TcpOscClient.new('localhost', @ports["scsynth"],
+                                              name: "Daemon SuperSonic Conn",
+                                              connect_timeout: 15)
+
+        # Forward /supersonic/setup to Spider for cold-swap reinit
+        conn.add_method("/supersonic/setup") do |args|
+          Util.log "Forwarding /supersonic/setup to Spider"
+          begin
+            @api_server.send("localhost", @ports["gui-send-to-spider"], "/supersonic/setup", *args)
+          rescue => e
+            Util.log "Error forwarding /supersonic/setup: #{e.message}"
+          end
+        end
+
+        ["/supersonic/statechange", "/supersonic/info", "/supersonic/devices", "/supersonic/device-table", "/supersonic/input-devices", "/supersonic/devices/reopen.reply", "/supersonic/devices/reopen.done"].each do |path|
+          conn.add_method(path) do |args|
+            Util.log "Forwarding #{path} to GUI"
+            begin
+              @api_server.send("localhost", @ports["gui-listen-to-spider"], path, *args)
+            rescue => e
+              Util.log "Error forwarding #{path}: #{e.message}"
+            end
+          end
+        end
+
+        conn.on_reconnect do
+          Util.log "SuperSonic connection re-established - re-registering daemon notify"
+          conn.send(nil, nil, "/supersonic/notify")
+        end
+
+        conn.send(nil, nil, "/supersonic/notify")
+        Util.log "Sent /supersonic/notify to SuperSonic over TCP, registering daemon connection"
+        @engine_conn = conn
+
+        # Flush forwards that arrived while the engine was still booting.
+        (@pending_engine_forwards || []).each do |path, fargs|
+          Util.log "Flushing queued forward #{path} to SuperSonic"
+          begin
+            conn.send(nil, nil, path, *fargs)
+          rescue => e
+            Util.log "Error flushing queued forward #{path}: #{e.message}"
+          end
+        end
+        @pending_engine_forwards = nil
+      end
+
       def cleanup_any_running_processes
         @exiting = true
-        if @supersonic_sender && @supersonic_booter && @supersonic_booter.process_running?
+        if @engine_conn && @supersonic_booter && @supersonic_booter.process_running?
           begin
             Util.log "Sending /quit to SuperSonic"
-            @supersonic_sender.send("/quit")
+            @engine_conn.send(nil, nil, "/quit")
           rescue => e
             Util.log "Error sending /quit: #{e.message}"
           end
@@ -836,7 +878,15 @@ module SonicPi
 
         opts = unify_toml_opts_hash(toml_opts_hash)
         opts = inputs_hash.merge(opts)
-        opts = {"-u" => @port}.merge(DEFAULT_OPTS).merge(opts).merge(cli_opts)
+        # --tcp on the same port number as -u: the command plane is TCP
+        # (reliable — no silent datagram loss, see the 2026-08-05 LATE
+        # investigation) while -u still names the shm segment
+        # (SuperSonic_<port>) that the GUI attaches for metrics/scope; the
+        # UDP command port itself is left unbound. --max-conns covers
+        # Spider (scsynth comms + 4 subsystem comms) + daemon + GUI + slack.
+        opts = {"-u" => @port,
+                "--tcp" => @port,
+                "--max-connections" => "16"}.merge(DEFAULT_OPTS).merge(opts).merge(cli_opts)
 
         sound_card_name = opts.delete("-H")
         input_sound_card_name = opts.delete("__HI__")
@@ -912,26 +962,31 @@ module SonicPi
           connected = false
           continue_pinging = true
 
-          boot_s = OSC::UDPServer.new(0, name: "SuperSonic ack server") do |a, b, info|
-            Util.log "Receiving ack from SuperSonic"
-            @success.deliver! true unless connected
-            continue_pinging = false
-            connected = true
-          end
-
+          # The engine binds its TCP command port only after init completes
+          # (device open included), so a successful connect IS the boot ack.
+          # Probe with short-lived connects; the daemon's real connection is
+          # established afterwards by Daemon#connect_to_supersonic!.
           t = Thread.new do
             while continue_pinging
               begin
                 if process_running?
-                  Util.log "Sending /supersonic/notify to SuperSonic"
-                  boot_s.send("localhost", @port, "/supersonic/notify")
+                  begin
+                    probe = TCPSocket.new('127.0.0.1', @port)
+                    probe.close
+                    Util.log "SuperSonic TCP port open - boot complete"
+                    @success.deliver! true unless connected
+                    connected = true
+                    continue_pinging = false
+                  rescue StandardError
+                    # not accepting yet - keep waiting
+                  end
                 else
                   log_boot_death
                   @success.deliver! false
                   continue_pinging = false
                 end
               rescue Exception => e
-                Util.log "Error sending to SuperSonic: #{e.message}"
+                Util.log "Error probing SuperSonic: #{e.message}"
               end
               sleep 0.25
             end

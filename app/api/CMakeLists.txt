@@ -59,6 +59,7 @@ set(API_SRC
 set(OSC_SRC
     ${API_ROOT}/src/osc/osc_handler.cpp
     ${API_ROOT}/src/osc/osc_sender.cpp
+    ${API_ROOT}/src/osc/tcp_osc_sender.cpp
     ${API_ROOT}/src/osc/osc_server.cpp
     ${API_ROOT}/src/osc/tcp_osc_server.cpp
     ${API_ROOT}/src/osc/udp_osc_server.cpp
