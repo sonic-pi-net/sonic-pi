@@ -58,6 +58,8 @@ add_executable(${PROJECT_NAME}
     ${GUI_ROOT}/widgets/findpopup.cpp
     ${GUI_TESTS_ROOT}/sampleheaderinfo.test.cpp
     ${GUI_TESTS_ROOT}/setbundle.test.cpp
+    ${GUI_TESTS_ROOT}/splash_quit_policy.test.cpp
+    ${GUI_ROOT}/widgets/splashwidget.cpp
     ${GUI_TESTS_ROOT}/stylesheet_invariants.test.cpp
     ${GUI_ROOT}/widgets/completionpopup.cpp
     ${GUI_ROOT}/utils/sampleheaderinfo.cpp

@@ -44,6 +44,14 @@ SplashWidget::SplashWidget(QWidget* parent)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setAttribute(Qt::WA_TranslucentBackground);
+    // Never let closing the splash quit the app. Qt clears this for
+    // Qt::SplashScreen windows automatically, but this is a Qt::Window (the
+    // splash type can't be translucent on macOS), so it counts towards
+    // last-window accounting unless we say otherwise. Boot hides the main
+    // window, so without this the splash's own closure quits Sonic Pi —
+    // taking down any boot-error dialog already on screen, since
+    // QCoreApplication::exit unwinds nested event loops too (#3555).
+    setAttribute(Qt::WA_QuitOnClose, false);
     // The splash's visible text is brand English by design; only this screen
     // reader announcement is translated. Construction happens before the
     // translator is installed, so MainWindow re-resolves it via retranslate()

@@ -2701,6 +2701,10 @@ void MainWindow::setMessageBoxStyle()
 
 void MainWindow::startupError(QString msg)
 {
+    // This dialog is the only report the user ever sees, and the main
+    // window is still hidden — so no other window closing may quit us out
+    // from under it. We exit explicitly below.
+    qApp->setQuitOnLastWindowClosed(false);
     splashClose();
     setMessageBoxStyle();
 
@@ -9167,6 +9171,8 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
 
 void MainWindow::homeDirWriteError()
 {
+    // Same reasoning as startupError: this report must outlive the splash.
+    qApp->setQuitOnLastWindowClosed(false);
     splashClose();
     setMessageBoxStyle();
 
