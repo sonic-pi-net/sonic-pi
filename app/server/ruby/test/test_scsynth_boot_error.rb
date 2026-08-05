@@ -33,13 +33,13 @@ module SonicPi
 
     def test_boot_timeout_raises_boot_error_rather_than_exiting
       assert_raises(SCSynthExternal::BootError) do
-        unbooted_scsynth.__send__(:wait_for_boot, 0.2)
+        unbooted_scsynth.__send__(:connect_to_server, 0.2)
       end
     end
 
     def test_boot_error_names_the_audio_server_and_the_log
       e = assert_raises(SCSynthExternal::BootError) do
-        unbooted_scsynth.__send__(:wait_for_boot, 0.2)
+        unbooted_scsynth.__send__(:connect_to_server, 0.2)
       end
 
       assert_includes e.message, "audio server"
@@ -49,7 +49,7 @@ module SonicPi
 
     def test_boot_error_reports_the_timeout_it_actually_waited
       e = assert_raises(SCSynthExternal::BootError) do
-        unbooted_scsynth.__send__(:wait_for_boot, 0.2)
+        unbooted_scsynth.__send__(:connect_to_server, 0.2)
       end
 
       assert_includes e.message, "0.2 seconds"

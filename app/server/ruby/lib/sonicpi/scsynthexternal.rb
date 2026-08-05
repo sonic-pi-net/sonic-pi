@@ -103,15 +103,7 @@ module SonicPi
       # only starts its stream transport once init (including a possibly
       # >10s Windows ASIO device open) has completed, so a successful
       # connect means the server is up — no ack polling needed.
-      begin
-        @osc_server = OSC::TcpOscClient.new(@hostname, @send_port,
-                                            use_decoder_cache: true,
-                                            use_encoder_cache: true,
-                                            name: "Scsynth Comms Server",
-                                            connect_timeout: 60)
-      rescue StandardError
-        raise BootError, boot_timeout_message(60)
-      end
+      @osc_server = connect_to_server(60)
       # Engine-side notify registrations are per-connection: after any
       # reconnect they are gone and must be re-established before replies
       # (/done, /synced, /n_go…) flow again.
@@ -194,6 +186,16 @@ module SonicPi
       end
     end
     public :register_for_notifications!
+
+    def connect_to_server(timeout)
+      OSC::TcpOscClient.new(@hostname, @send_port,
+                            use_decoder_cache: true,
+                            use_encoder_cache: true,
+                            name: "Scsynth Comms Server",
+                            connect_timeout: timeout)
+    rescue StandardError
+      raise BootError, boot_timeout_message(timeout)
+    end
 
     def raspberry?
       os == :raspberry
