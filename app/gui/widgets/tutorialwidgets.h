@@ -26,6 +26,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QColor>
+#include <QHash>
 #include <QLabel>
 #include <QLineEdit>
 #include <QLocale>
@@ -680,15 +681,18 @@ private:
 public:
 
     // Lights the key for `ms`; callers pass the note's release time so the
-    // key stays lit for as long as the note sounds.
+    // key stays lit for as long as the note sounds. Polyphonic: each key
+    // clears on its own timer, and the generation count stops an earlier
+    // press's timer from dousing a retrigger's fresh light.
     void flash(int offset, int ms = 180)
     {
-        m_flashOffset = offset;
+        const int gen = ++m_lit[offset];
         update();
-        QTimer::singleShot(ms, this, [this, offset]() {
-            if (m_flashOffset == offset)
+        QTimer::singleShot(ms, this, [this, offset, gen]() {
+            auto it = m_lit.find(offset);
+            if (it != m_lit.end() && it.value() == gen)
             {
-                m_flashOffset = -1;
+                m_lit.erase(it);
                 update();
             }
         });
@@ -836,7 +840,7 @@ protected:
         {
             if (k.black)
                 continue;
-            bool lit = k.offset == m_flashOffset;
+            bool lit = m_lit.contains(k.offset);
             p.setPen(QPen(lit ? m_accent : traceDim, 1));
             p.setBrush(lit ? m_accent : whiteFill);
             p.drawRoundedRect(k.rect, 1, 1);
@@ -852,7 +856,7 @@ protected:
         {
             if (!k.black)
                 continue;
-            bool lit = k.offset == m_flashOffset;
+            bool lit = m_lit.contains(k.offset);
             p.setPen(QPen(lit ? m_accent : traceHot, 1));
             p.setBrush(lit ? m_accent : blackFill);
             p.drawRoundedRect(k.rect, 1, 1);
@@ -902,7 +906,7 @@ private:
     int m_dragOffset = -1; // key sounding under a held drag, -1 outside one
     double m_scale = 1.0;   // pane text zoom, see setUiScale
     int m_whiteW, m_whiteH, m_blackW, m_blackH;
-    int m_flashOffset = -1;
+    QHash<int, int> m_lit; // lit key offset -> flash generation
     QColor m_fg = Qt::white;
     QColor m_bg = Qt::black;
     QColor m_accent = QColor("#ff1493");
