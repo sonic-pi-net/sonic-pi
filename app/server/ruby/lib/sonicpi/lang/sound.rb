@@ -2866,7 +2866,7 @@ sample_paths \"/path/to/samples/\", \"foo\" #=> ring of all samples in /path/to/
           res = Promise.new
           in_thread do
             node = trigger_sampler path, args_h
-            __delayed_flash(flash_ws, flash_line) if flash_ws
+            __delayed_flash(flash_ws, flash_line) if flash_ws && !node.is_a?(BlankNode)
             res.deliver!(node)
           end
           res_node = LazyNode.new(res)
@@ -3422,7 +3422,7 @@ puts status # Returns something similar to:
           end
         end
         node.control args_h
-        __delayed_flash_from_caller unless node.is_a?(BlankNode)
+        __delayed_flash_from_caller unless node.is_a?(BlankNode) || node.destroyed?
 
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "control node #{node.id}, #{arg_h_pp(args_h)}" unless node.is_a?(BlankNode)
@@ -3912,10 +3912,11 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
 
           end
         end
-        __delayed_flash_from_caller
         add_arg_slide_times!(args_h, info)
         args_h[:buf] = buf_id
-        return trigger_synth(sn, args_h, group, info)
+        node = trigger_synth(sn, args_h, group, info)
+        __delayed_flash_from_caller unless node.is_a?(BlankNode)
+        return node
       end
 
 
@@ -3936,11 +3937,11 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{synth_name.inspect}, #{arg_h_pp(processed_args)}"
         end
-        __delayed_flash_from_caller
-
         add_arg_slide_times!(processed_args, info) if info
         out_bus = current_out_bus
-        trigger_synth(synth_name, processed_args, group, info, false, out_bus)
+        node = trigger_synth(synth_name, processed_args, group, info, false, out_bus)
+        __delayed_flash_from_caller unless node.is_a?(BlankNode)
+        node
       end
 
       def trigger_chord(synth_name, notes, args_a_or_h, group=current_group)
@@ -3966,8 +3967,6 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
         unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
           __delayed_message "synth #{sn.inspect}, #{arg_h_pp({note: notes}.merge(args_h))}"
         end
-        __delayed_flash_from_caller
-
         # Scale down amplitude based on number of notes in chord
         amp = args_h[:amp] || 1.0
         args_h[:amp] = amp.to_f / notes.size
@@ -3981,6 +3980,7 @@ If you wish your synth to work with Sonic Pi's automatic stereo sound infrastruc
           end
         end
         cg.sub_nodes = nodes
+        __delayed_flash_from_caller if nodes.any? { |n| !n.is_a?(BlankNode) }
 
         # TODO: ensure this behaviour gets moved to the group functionality once built
         __thread_locals.set(:sonic_pi_local_last_triggered_node, cg)
