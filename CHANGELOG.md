@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic' RC8](#v5.0.0-rc8), To be released...
+- [v5.0.0 'SuperSonic' RC9](#v5.0.0-rc9), To be released...
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,7 +35,17 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0-rc8"></a>
+<a name="v5.0.0-rc9"></a>
+
+## Version 5.0.0 'SuperSonic' RC9
+
+The ninth release candidate of v5 — final polish.
+
+As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+
+### GUI
+* Fixed: the editor line flash now only fires when a sound is actually triggered — synths, samples and controls with `on:` set to false no longer flash.
+* Fixed: the Help pane's piano keyboard now lights up polyphonically — playing two or more keys together illuminates them all.
 
 ## Version 5.0.0 'SuperSonic' RC8
 
