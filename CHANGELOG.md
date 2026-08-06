@@ -44,8 +44,10 @@ The ninth release candidate of v5 — final polish.
 As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
 
 ### GUI
-* Fixed: the editor line flash now only fires when a sound is actually triggered — synths, samples and controls with `on:` set to false no longer flash.
-* Fixed: the Help pane's piano keyboard now lights up polyphonically — playing two or more keys together illuminates them all.
+
+- Fixed: the editor line flash now only fires when a sound is actually triggered — synths, samples and controls with `on:` set to false no longer flash.
+- Fixed: the Help pane's piano keyboard now lights up polyphonically — playing two or more keys together illuminates them all.
+- Fixed: improvements to preferences pane for lower resolution monitors.
 
 ## Version 5.0.0 'SuperSonic' RC8
 
