@@ -98,6 +98,7 @@ protected:
     // ring only for keyboard (Tab) navigation, not clicks — covering every
     // checkbox in the app, including ones created after startup.
     bool eventFilter(QObject* obj, QEvent* event) override;
+    void showEvent(QShowEvent* event) override;
 
 public slots:
     void updateUILanguage(int index);
@@ -236,6 +237,8 @@ signals:
     void shortcutsApplyRequested(QString base, QMap<QString, QString> diffs);
 
 private:
+    void updateSupersonicBannerForScreen();
+
     SonicPiSettings* piSettings;
     SonicPii18n* sonicPii18n;
     std::map<QString, QString> localeNames;
@@ -376,7 +379,9 @@ private:
     DeviceListWidget *gamepad_devices_list;
     QLabel *supersonic_ascii_label;
     QLabel *supersonic_version_label;
+    QLabel *powered_by_label;
     QGroupBox *supersonicBox;
+    bool m_bannerCompact = false;
 
     ArcDial *system_vol_slider;
     QSlider *system_drive_slider = nullptr;

@@ -13,6 +13,7 @@
 #include <QColorDialog>
 #include <QListWidget>
 #include <QDial>
+#include <QScrollArea>
 #include "arcdial.h"
 #include "theme_card.h"
 #include <QDialog>
@@ -647,6 +648,38 @@ private:
 /**
  * Default Constructor
  */
+namespace {
+// Scroll container for one prefs tab. Its natural size is the page's own
+// hint, so the pane still opens content-sized — but unlike a bare page it
+// can shrink far below that, growing scrollbars instead of letting the
+// form rows overlap (short 768px laptop screens).
+class PrefsTabScroller : public QScrollArea
+{
+public:
+    explicit PrefsTabScroller(QWidget* page)
+    {
+        setWidget(page);
+        setWidgetResizable(true);
+        setFrameShape(QFrame::NoFrame);
+        viewport()->setAutoFillBackground(false);
+        page->setAutoFillBackground(false);
+    }
+    QSize sizeHint() const override
+    {
+        return widget() ? widget()->sizeHint() : QScrollArea::sizeHint();
+    }
+    QSize minimumSizeHint() const override
+    {
+        return QSize(ScaleWidthForDPI(220), ScaleHeightForDPI(160));
+    }
+};
+
+QWidget* wrapTabInScroller(QWidget* page)
+{
+    return new PrefsTabScroller(page);
+}
+} // namespace
+
 SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings *piSettings, SonicPii18n *sonicPii18n, const QString& shortcutConfigPath, QWidget *parent) {
     this->piSettings = piSettings;
     this->i18n = i18n;
@@ -680,32 +713,32 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
     grid->addWidget(prefTabs, 0, 0);
 
     QGroupBox *audio_prefs_box = createAudioPrefsTab();
-    prefTabs->setTabToolTip(prefTabs->addTab(audio_prefs_box, tr("Audio")),
+    prefTabs->setTabToolTip(prefTabs->addTab(wrapTabInScroller(audio_prefs_box), tr("Audio")),
                             tr("Volume, audio inputs and outputs, safety checks and recording."));
 
     QGroupBox *ioTab = createIoPrefsTab();
-    prefTabs->setTabToolTip(prefTabs->addTab(ioTab, tr("IO")),
+    prefTabs->setTabToolTip(prefTabs->addTab(wrapTabInScroller(ioTab), tr("IO")),
                             tr("OSC networking, MIDI devices and game controllers."));
 
     QGroupBox *editorTab = createEditorPrefsTab();
-    prefTabs->setTabToolTip(prefTabs->addTab(editorTab, tr("Editor")),
+    prefTabs->setTabToolTip(prefTabs->addTab(wrapTabInScroller(editorTab), tr("Editor")),
                             tr("Editor display, code completion, accessibility and pane visibility."));
 
     QGroupBox *visualizationTab = createVisualizationPrefsTab();
-    prefTabs->setTabToolTip(prefTabs->addTab(visualizationTab, tr("Visuals")),
+    prefTabs->setTabToolTip(prefTabs->addTab(wrapTabInScroller(visualizationTab), tr("Visuals")),
                             tr("Themes, transparency, audio oscilloscopes and options useful when performing."));
 
     QGroupBox *shortcuts_prefs_box = createKeyboardShortcutsTab();
-    prefTabs->setTabToolTip(prefTabs->addTab(shortcuts_prefs_box, tr("Shortcuts")),
+    prefTabs->setTabToolTip(prefTabs->addTab(wrapTabInScroller(shortcuts_prefs_box), tr("Shortcuts")),
                             tr("View and customise the keyboard shortcuts."));
 
     QGroupBox *language_prefs_box = createLanguagePrefsTab();
-    prefTabs->setTabToolTip(prefTabs->addTab(language_prefs_box, tr("Language")),
+    prefTabs->setTabToolTip(prefTabs->addTab(wrapTabInScroller(language_prefs_box), tr("Language")),
                             tr("Change the language of the interface and tutorial."));
 
     // Updates last — it's the least-visited tab.
     QGroupBox *update_prefs_box = createUpdatePrefsTab();
-    prefTabs->setTabToolTip(prefTabs->addTab(update_prefs_box, tr("Updates")),
+    prefTabs->setTabToolTip(prefTabs->addTab(wrapTabInScroller(update_prefs_box), tr("Updates")),
                             tr("Version information and update checking."));
 
 
@@ -717,6 +750,34 @@ SettingsWidget::SettingsWidget(int tau_osc_cues_port, bool i18n, SonicPiSettings
 /**
  * Destructor
  */
+void SettingsWidget::showEvent(QShowEvent* event)
+{
+    QWidget::showEvent(event);
+    updateSupersonicBannerForScreen();
+}
+
+// On monitors too short for the full pane, trade the SuperSonic ascii art
+// for a plain two-line credit ("Powered by SuperSonic" + the info line) so
+// the audio device controls keep the height. Decided per show against the
+// monitor the window is on; m_bannerCompact keeps the needed-height maths
+// stable once the art is hidden (the hint no longer includes it).
+void SettingsWidget::updateSupersonicBannerForScreen()
+{
+    QScreen* screen = window() ? window()->screen() : nullptr;
+    if (!screen || !supersonic_ascii_label)
+        return;
+    const int artH = supersonic_ascii_label->sizeHint().height() + ScaleHeightForDPI(8);
+    int need = sizeHint().height() + ScaleHeightForDPI(140);
+    if (m_bannerCompact)
+        need += artH;
+    const bool compact = screen->availableGeometry().height() < need;
+    if (compact == m_bannerCompact)
+        return;
+    m_bannerCompact = compact;
+    supersonic_ascii_label->setVisible(!compact);
+    powered_by_label->setText(compact ? tr("Powered by SuperSonic") : tr("Powered by"));
+}
+
 SettingsWidget::~SettingsWidget() {
 }
 
@@ -1100,7 +1161,7 @@ QGroupBox* SettingsWidget::createAudioPrefsTab() {
 
     // --- SuperSonic info panel (ASCII art + version, tooltip = detailed info) ---
     supersonicBox = new QGroupBox();
-    QLabel *powered_by_label = new QLabel(tr("Powered by"));
+    powered_by_label = new QLabel(tr("Powered by"));
     powered_by_label->setAlignment(Qt::AlignCenter);
     powered_by_label->setObjectName("poweredByLabel");   // styled by app.qss (muted note)
     ApplyFontRole(powered_by_label, FontRole::Small);

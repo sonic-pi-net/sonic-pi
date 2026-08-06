@@ -8715,12 +8715,20 @@ SonicPiTheme* MainWindow::GetTheme() const
 void MainWindow::movePrefsWidget()
 {
     int h = toolBar->size().height() + 20;
+    // The pane is sized from its hint before it has ever been shown; an
+    // unpolished layout reports a stale hint (the pane then opened at the
+    // wrong size until something re-laid it out).
+    prefsWidget->ensurePolished();
+    if (prefsWidget->layout())
+        prefsWidget->layout()->activate();
     // Content-sized (the layout's hint: tallest/widest tab plus the pane's
-    // own chrome), capped by the space the window offers below the toolbar
-    // so an oversized tab clips inside the pane rather than off-window.
+    // own chrome), capped by the space the window offers below the toolbar.
+    // Floored at the minimum hint: below that the tab scrollers take over,
+    // so a short screen scrolls rather than overlapping the form rows.
     QSize avail(size().width() - ScaleWidthForDPI(20),
                 size().height() - h - ScaleHeightForDPI(20));
-    prefsWidget->resize(prefsWidget->sizeHint().boundedTo(avail));
+    prefsWidget->resize(prefsWidget->sizeHint().boundedTo(avail)
+                            .expandedTo(prefsWidget->minimumSizeHint()));
     int full_width = this->size().width();
     int w = full_width - prefsWidget->size().width();
     prefsWidget->move(w, h);
@@ -8750,6 +8758,9 @@ void MainWindow::slidePrefsWidgetIn()
     if (SonicPi::prefersReducedMotion()) {
         prefsWidget->show();
         prefsWidget->raise();
+        // The animated path re-sizes when the slide finishes; this path
+        // showed the pane at its pre-show hint and never corrected it.
+        QTimer::singleShot(0, this, [this]() { movePrefsWidget(); });
         return;
     }
 
