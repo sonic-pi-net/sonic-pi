@@ -1,5 +1,5 @@
 # History
-- [v5.0.0 'SuperSonic' RC9](#v5.0.0-rc9), To be released...
+- [v5.0.0 'SuperSonic'](#v5.0.0), 7th August, 2026
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
 - [v4.5.0 '808'](#v4.5.0), 18th Oct, 2023
@@ -35,270 +35,130 @@
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
 
-<a name="v5.0.0-rc9"></a>
+<a name="v5.0.0"></a>
 
-## Version 5.0.0 'SuperSonic' RC9
+## Version 5.0.0 'SuperSonic'
 
-The ninth release candidate of v5 — final polish.
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v5.0.0):
 
-As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
+Since its very inception Sonic Pi has used the incredibly powerful SuperCollider scsynth audio engine to produce sound. That power came at a significant ergonomic cost: scsynth is built for sophisticated audio synthesis research, not beginner-friendly education software, so Sonic Pi has always had to do a lot of hidden work to make things run smoothly. This mostly worked, but some rough edges remained, like not being able to plug headphones into a Mac without needing to restart.
 
-### GUI
+For the past year Sam Aaron has been working on [SuperSonic](https://sonic-pi.net/supersonic/demo.html) - a friendly port of scsynth designed to solve these issues. In v5 scsynth is now fully replaced by SuperSonic. The headline benefit is the ability to change audio settings directly in the GUI - hot-swapping your input device, output device, sample rate or buffer size on the fly, without rebooting Sonic Pi or losing your running music. So go ahead, plug those headphones in mid-jam!
 
-- Fixed: the editor line flash now only fires when a sound is actually triggered — synths, samples and controls with `on:` set to false no longer flash.
-- Fixed: the Help pane's piano keyboard now lights up polyphonically — playing two or more keys together illuminates them all.
-- Fixed: improvements to preferences pane for lower resolution monitors.
+v5 also brings a host of new ways to play together and perform: stream live audio from other Ableton Link peers with `link_audio`, lock your tempo to an incoming MIDI clock with `use_bpm :midi`, jam with a game controller, record your sessions to video, and stream the Sonic Pi window straight into Syphon/Spout-aware visuals software.
 
-## Version 5.0.0 'SuperSonic' RC8
+The GUI has had an overhaul of its own: a redesigned code completion popup with inline documentation and live previews, a rebuilt Docs pane with runnable examples and interactive synth playgrounds, Quickstart Cards, Sets for saving all ten buffers together, in-editor search, a Keyboard Shortcuts preferences tab, new scopes and colour themes, and wide-ranging accessibility work throughout.
 
-The eighth release candidate of v5 — this fixes an issue observed on macOS with Bluetooth headphones.
+Enjoy v5 and Happy Live Coding!
 
-As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
-
-### Audio
-* Fixed: Sonic Pi could crash on startup when Bluetooth headphones were the system's default device.
-
-### GUI
-* Fixed: the boot error window no longer disappears before it can be read.
-
-## Version 5.0.0 'SuperSonic' RC7
-
-The seventh release candidate of v5 — this largely focusses on audio device config and booting on all platforms.
-
-As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
-
-### GUI
-* The audio preferences now show the device the engine actually opened, and remember it correctly.
-* The Help pane reopens on the sub-tab you were last using.
-* Fixed: the audio preferences no longer squash their own controls, and behave better when ASIO is selected.
-
-### Fixes
-* Commands sent while the engine is still booting are now queued rather than dropped.
-
-## Version 5.0.0 'SuperSonic' RC6
-
-The sixth release candidate of v5 — specifically focussing on Linux multichannel audio and general polish.
-
-As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
-
-### Audio
-* New: a 16-in/16-out Patchbay device on Linux. Sonic Pi appears in PipeWire tools such as qpwgraph as an ordinary node with explicit ports, ready to wire to multichannel interfaces, DAWs and other apps. Pair with the `:sound_out` and `:sound_in` FX to route individual channels.
-* The audio engine now shows up as "Sonic Pi" in process lists and system permission prompts.
-
-### Fixes
-* The spectrum scope starts each run from silence instead of briefly redrawing the previous run's bars.
-* Quickstart cards now behave correctly when zooming.
-
-## Version 5.0.0 'SuperSonic' RC5
-
-The fifth release candidate of v5 — final bits of polish, improvements to the main mixer and controls (new drive slider to control how much the limiter crushes the sound) and a new limiter which reduces audio latency by ~18ms (only noticeable when you're working with live_audio).
-
-As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
-
-### Audio
-* New limiter in the main mixer with much lower latench (1.5ms vs 20ms).
-* Volume and drive are now separate controls sitting on opposite sides of the limiter. Changing the volume mid-performance no longer alters your sound and mix, this is now the job of the drive control.
-
-### Language
-* New: `set_drive!` sets how hard the mix is driven into the main limiter, on a scale that is even in decibels: `0` is -12dB, `0.5` is unity and `1` is +12dB. `current_drive` returns the current value.
-* `set_volume!` now takes a value between `0` and `1` rather than between `0` and `5`, and is the fader after the limiter. Code that reached for `set_volume! 2` to get louder wants `set_drive!` now.
-
-### GUI
-* Preferences got new icons.
-* New: Volume and Drive controls in the audio preferences, alongside a Level meter that reaches into the accent colour when the limiter is working — so you can see what more drive is costing you.
-* New: a Reset button for the audio device, which closes and re-opens it with the same settings. Useful if audio stops behaving after your machine wakes from sleep or hardware comes and goes.
-* Changing audio device now says what it is doing while it happens, rather than appearing to hang.
-
-### Fixes
-* Code completion now shows the right documentation, values and ranges for opts whose names are shared between different synths and FX. Thanks to Edgar Delgado Vega for reporting this.
-
-### Misc
-* The acid example has been updated to match the website.
-
-## Version 5.0.0 'SuperSonic' RC4
-
-The fourth release candidate of v5 — more fixes and polish, with new colour controls for the theme and a much smarter code completion.
-
-As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
-
-### GUI
-* New: a Spread Hue dial sits alongside Rotate Hue in the theme preferences. Wind it down to draw every colour in towards the main one until the whole interface shares a single hue, or up to open the colours out so each one is as distinct as it can be.
-* New: code completion now knows the options that ordinary functions take. Typing after the comma in `live_audio :foo,` offers `input:` and `stereo:` rather than a list of unrelated function names — and the same goes for around sixty other functions including `live_loop`, `use_bpm` and the whole `midi_*` family.
-* Colour theme preferences have moved to the Visuals tab.
-* With auto-align switched off, Tab now behaves as an ordinary tab key.
-* New Linux and Windows application icons, matching the macOS set.
-
-### Accessibility
-* Docs prose now exposes its laid-out text, so every screen-reader bridge steps through it by visual line rather than jumping a whole paragraph at a time.
-
-### Fixes
-* Events sharing an identical timestamp are now ordered consistently rather than arbitrarily.
-* Fixed the option validations on the `:gabberkick` synth.
-* The audio engine no longer complains about stopping or changing notes it has already freed — a common source of spurious errors when live coding.
-* Various layout and style refinements throughout the interface.
-* The editing cursor now follows monochrome mode and hue rotation like the rest of the interface.
-
-## Version 5.0.0 'SuperSonic' RC3
-
-The third release candidate of v5 featuring further fixes and polish.
-
-As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
-
-### GUI
-* New: code completion for samples now shows each sample's details along with a preview player, so you can listen before you pick.
-
-### Accessibility
-* Screen readers now step through the Docs prose by visual line, rather than reading a whole paragraph for every line you arrow past.
-
-### Fixes
-* Further improvements to the doc zooming layout.
-* Code buffers can now hold much more code — up to 64KB (roughly 2,500 lines) on every platform. The previous limit was around 9KB on macOS and 16KB on Linux and Windows, where exceeding it made Run fail silently.
-* Correctly build PipeWire into Linux AppImages.
-* Fixed the audio engine crashing on boot on macOS 14 Sonoma while setting up gamepad support.
-
-## Version 5.0.0 'SuperSonic' RC2
-
-The second release candidate of v5 — fixes and polish across the board since RC1, plus a few new additions: in-editor search, native PipeWire support on Linux, new level scope and a new `phase_offset:` opt for drawing Lissajous figures.
-
-As ever, please report any issues you find to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
-
-### Audio
-* New: native PipeWire support on Linux. SuperSonic can now talk to PipeWire directly which is now enabled by default.
-
-### GUI
-* New: in-editor search. Find, Find Next and Find Previous search the current buffer and highlight every match right in your code.
-* New: an optional floating editor toolbar with undo/redo, cut/copy/paste and find at your fingertips. It ghosts out of the way while your code runs beneath it.
-* New: oscilloscope-style scope triggering. Repeating waveforms now hold still on screen like on a hardware oscilloscope instead of scrolling past.
-* New: level scope for keeping an eye on your output levels.
-* New: a Lissajous deck for the Quickstart Cards — draw circles, ellipses and figure-eights on the scopes using pure sine waves. Card navigation has been polished throughout.
-* The colour theme now follows your operating system's light or dark mode on first launch.
-* Improved zooming behaviour
-
-### Accessibility
-* The Docs pane now reads naturally to screen readers — prose you can arrow through with the caret, headings that appear in rotor navigation, and dials that announce their values.
-* The Quickstart Cards are now screen-reader navigable — page through a deck with Left and Right and hear each card announced as you go.
-* Focus now follows you around the app: opening Help, Preferences, the Cards or the info window lands focus inside the new pane ready for arrow-key browsing, and closing a pane hands focus back to the editor rather than dropping it on the window frame.
-* The main toolbar is now reachable with Tab, and its toggle buttons respond correctly when activated by assistive technology.
-* Status updates such as showing or hiding the scopes are now spoken as well as shown.
-
-### Synths
-* New: `phase_offset:` opt for the `:beep` / `:sine` synth — set the sine wave's starting phase as a fraction of a cycle (0 to 1). Two panned sines playing the same note with offsets of 0 and 0.25 draw a circle as a Lissajous figure. It can also be changed while the synth is running via `control`.
-
-### Language
-* New: `ring.invert_around` reflects the notes of a ring around a pitch axis.
-* `set_sched_ahead_time!` and `set_control_delta!` now reset to their defaults when called with no arguments.
-* Clearer runtime errors: syntax errors name the offending buffer line, errors from `run_file` and `init.rb` include the file path, and an unresponsive audio engine is reported clearly rather than exiting silently.
-
-### Music Theory
-* More long-form chord aliases: `:minor6`, `:major6`, `:minor9`, `:major9`, `:minor11`, `:major11` and `:minor13`.
-
-### Misc
-* v5 now keeps its own configuration files, separate from v4 — running both side by side leaves your v4 settings untouched.
-* New: 32-bit Linux (i686) is now built and tested alongside the other platforms, with its own AppImage.
-* New: upstream Debian packaging, so distributions can build Sonic Pi against their own system libraries without patching.
-
-### Fixes
-* The code completion popup now sizes itself to match your editor font, so it stays readable at every zoom level. Its help pane leads with each function's canonical calling form in its own code card, and the docs prose has more room to breathe.
-* macOS now asks for Local Network permission on first launch — recent versions of macOS require this for Ableton Link and Link Audio to see other peers on your network.
-* Code completion no longer pops up directly after a closing bracket or quote.
-* The audio device dropdowns in the preferences now only offer devices that work with the selected audio driver.
-* If the audio engine fails to boot, the error dialog now names the actual cause rather than showing a generic message.
-* Copy now copies your selection in the help pane when the docs have focus, rather than the editor's.
-* The scope, log and cue panes now start with equal heights on first boot.
-* Fixed a crash when typing with an input method (IME) that commits several characters at once.
-* Fixed `:hoover` which was incorrectly writing six channels of audio, trampling neighbouring audio busses. It now mixes its three detuned voices down to stereo as intended.
-* Envelope curve fixes: exponential curves (`env_curve: 2`) now ramp cleanly from silence rather than clicking, and squared/cubed curves now slide correctly through negative values (such as `pan:` heading left).
-* `sample` now honours the `duration:` opt, just like `play` and `synth`.
-* `play_pattern_timed` now accepts lists for per-note opts such as `amp:`, and its `legato:` default matches the documentation again.
-* Calling `.map` on a ring, vector or ramp now returns the same kind of structure rather than a plain list. Thanks to Robert Bendun.
-* Envelope sustain time is now calculated correctly when attack, decay or release are left at their defaults. Thanks to Michael Schubmehl.
-* Sample packs can now be indexed by any number, not just Integers.
-* Octave shifts and `with_swing` offsets now accept whole numbers of any numeric type.
-* Function names inside strings and comments are no longer touched by the language preprocessor.
-* `defonce` and `kill` messages now respect `use_debug`.
-* Fixed an error in `onset_slices`.
-* Fixed Sonic Pi failing to start on Windows when the home directory contains non-ASCII characters.
-* Fixed the daemon failing to boot when Sonic Pi is launched from a terminal with Ruby gem environment variables set (e.g. rvm/rbenv). Thanks to Keenan Brock.
-* New users on Linux now get the Windows \| Linux shortcut mode by default rather than Emacs Live, matching the other platforms. The original Emacs Live mode is still available at any time in Preferences.
-
-## Version 5.0.0 'SuperSonic' RC1
-
-Welcome to the first release candidate of Sonic Pi v5 — the culmination of the v5 beta series gathered into one release.
-
-v5 includes one of the biggest architectural changes Sonic Pi has ever undergone. Since its very inception Sonic Pi has used the incredibly powerful SuperCollider scsynth audio engine to produce sound. That power came at a significant ergonomic cost: scsynth is built for sophisticated audio synthesis research, not beginner-friendly education software, so Sonic Pi has always had to do a lot of hidden work to make things run smoothly. This mostly worked, but some rough edges remained — like not being able to plug headphones into a Mac without needing to restart.
-
-For the past year Sam Aaron has been working on [SuperSonic](https://sonic-pi.net/supersonic/demo.html) — a friendly port of scsynth designed to solve these issues. In v5 scsynth is now fully replaced by SuperSonic. The headline benefit is the ability to change audio settings directly in the GUI — hot-swapping your input device, output device, sample rate or buffer size on the fly, without rebooting Sonic Pi or losing your running music. So go ahead, plug those headphones in mid-jam!
-
-This release also brings a host of new ways to play together and perform: stream live audio from other Ableton Link peers with `link_audio`, lock your tempo to an incoming MIDI clock with `use_bpm :midi`, jam with a game controller, record your sessions to video, and stream the Sonic Pi window straight into Syphon/Spout-aware visuals software. The GUI gains a redesigned code completion popup, a Keyboard Shortcuts preferences tab, a reworked SuperSonic debug panel and much more.
-
-Note that this is a release candidate — please do report any issues you have to [Github Issues](https://github.com/sonic-pi-net/sonic-pi/issues)
-
-### Audio
-* New: SuperSonic replaces scsynth as the audio engine. Change audio input, output, buffer size and sample rate live from the GUI, without restarting and without losing your running music.
-* New: `link_audio` streams live audio from another Ableton Link peer straight into Sonic Pi. Subscribe to a remote peer's published channel — for example Ableton Live's "Main" or "Drums" — as a named live audio source and use it just like `live_audio`: add FX, pan it, and run several streams side by side. Each `(peer, channel)` pair is its own independent stream.
-* Session recording is now capped to stereo to match the master mix.
-* The master mixer's internal FX chain has been reordered for cleaner, better-balanced output.
-
-### MIDI & Sync
-* New: follow an incoming external MIDI clock with `use_bpm :midi`. The current thread tracks the live tempo and aligns to the next bar; pass a port name to follow a specific device (`use_bpm :midi, "launchpad"`) and `quantum:` to set the bar length. Use `midi_clock_sources` to see which ports are sending clock. Following is now accurate even with jittery real-world clocks.
-
-### Inputs
-* New: game controller support. Connect a game controller and respond to its buttons and sticks as live events with `sync` and `get`, just like incoming MIDI.
-* New: switch individual MIDI and game controller devices on and off from the new IO menu and the preferences.
-
-### GUI
-* New: a redesigned code completion popup. Suggestions now come with inline documentation, a mini note keyboard for choosing pitches, and value sliders for ranged options such as `pan:`. The highlighted suggestion is previewed live in your code as you move through the list, and you can accept it with `Tab`, `Return` or `Space`. A new "Show Code Completion Help" toggle — in the View menu and the editor preferences — switches between a plain list of suggestions and these richer helper panes.
-* The code editor now autocompletes Link Audio peer and channel names for `link_audio`, the same way it completes MIDI ports and cue names.
-* You can now trigger the code completion popup and read the highlighted suggestion's documentation using dedicated keyboard shortcuts.
-* New: a Keyboard Shortcuts preferences tab. See every shortcut in one place, switch between the Mac, Windows \| Linux and Emacs Live presets, or choose Custom to record your own bindings. Clashing shortcuts are flagged as you edit, and you can import and export your custom set to share it or carry it between machines.
-* The default keyboard shortcut mode now follows the host operating system on first launch. New users on macOS get the Mac shortcut mode, new users on Windows get the Windows shortcut mode, and Linux continues to default to the original Emacs Live mode. You can still change this at any time in Preferences.
-* Improved Windows shortcuts. Jump-to-document-start and jump-to-document-end are now `Ctrl+Home` and `Ctrl+End` to match the standard Windows conventions. Thanks to Henri Vilminko for the suggestion.
-* New: session recording for macOS and Windows. Capture the Sonic Pi window plus the master audio mix to a single video file.
-* New: GUI streaming for macOS and Windows. Stream the Sonic Pi window via Syphon (macOS) or Spout (Windows) to other Syphon/Spout-aware applications (Resolume, VDMX, OBS, etc.) without going through screen capture.
-* ASIO-aware audio preferences on Windows. Audio device selection exposes ASIO-specific options when an ASIO driver is present.
-* New: a live SuperSonic debug panel, with engine metrics, a node-tree visualiser and a tidy layout for keeping an eye on the audio engine as you play.
-* The main help section of the GUI now has three tabs — Docs, Debug (the SuperSonic panel) and Logs (live log files for all the internal components).
-* New: a rebuilt Docs help pane. Tutorial and reference pages now render natively with syntax-highlighted, runnable examples — play a snippet and stop it right there in the help pane, without copying it into a buffer first, and any error it raises stays in the help pane rather than marking lines in your code. Synth and FX pages gain an interactive playground: dials for exploring each ranged option (offering only values the engine accepts) and an on-screen keyboard that updates the demo code as you play.
-* New: an Examples menu. Load and play a bundled example in one step straight from the menu bar. It opens into your first empty buffer and never overwrites work you already have.
-* New: Quickstart Cards. A deck of small runnable code cards in the help pane — play a musical idea and watch its waveform on the card's own mini-scope, then drag the card (or hover its insert button to preview, and click) straight into your code. Ships with decks covering the basics, synths, FX and live loops.
-* New: a boot splash, and a friendlier welcome window for first-time users.
-* New: Sets. Save and load all ten buffers together as a single `.sonicpi` file — Load Set, Save Set, Save Set As and a recent-sets list live in the Live menu, alongside Clear All Buffers for a fresh start. A set remembers which buffer you were working in and each buffer's text size. The file itself is plain text, so it can be shared, diffed and version-controlled like any other code, and double-clicking a `.sonicpi` file opens it straight into Sonic Pi.
-* New: live visual feedback in the editor. Runs briefly flash the code they trigger, and each `live_loop` gains an inline mini-oscilloscope next to the code showing its own audio as it plays. Both can be switched off in the editor preferences.
+### Breaking Changes
+* `set_volume!` now takes a value between `0` and `1` rather than between `0` and `5`, and is the fader after the limiter. If you used `set_volume! 2`, check out `set_drive!` instead.
+* The main mixer has a new limiter and its internal FX chain has been reordered, so an existing piece may sound a little different - generally cleaner and better balanced. Use `set_drive!` to push it harder if you liked the old crunch.
+* v5 keeps its own configuration files, separate from v4 - running both side by side leaves your v4 settings untouched, but your v4 preferences won't carry over either.
 * The load and save toolbar icons have swapped: `+` now means load (add a file's contents into the current buffer) and the arrow means save (write the buffer out to a file), better matching what each action does. Their menu items are now named "Load into Buffer..." and "Save Buffer As..." to match.
-* New: a Link Audio Streams panel showing the peers and channels currently published on the network, so you can see what is available to stream. The Link metronome panel has been tidied up, including the Link Audio controls and peer list.
-* New: more colour themes, including a low-contrast "Mild Dark" theme that is kinder on the eyes for those with light sensitivity or migraines, plus display filters such as hue rotation. Mild Dark grew out of a community contribution from Chris Prosser.
-* Friendlier microphone-permission notice on macOS. The message is clearer, and it now only appears when audio inputs are enabled.
-* Friendlier, clearer error messages. Error reports have been restyled for readability and the error text now scales with the editor zoom level.
-* Editor tabs now take keyboard focus when you switch to them.
-* Wider accessibility improvements: keyboard navigation and screen-reader feedback across the GUI, high-contrast detection, WCAG colour fixes, visible focus rings and a reduced-motion option. Errors are now announced and code buffers are named. Windows gains its own contrast detection, screen-reader feedback and reduced-motion support.
-* Faster boot times.
-* The help pane's macOS shortcut is now the standard `Cmd+?` (F1 still works everywhere).
-* The editor's horizontal scrollbar now only appears when a line is actually wider than the window.
-* Fixed shift-based text selection so holding Shift with the navigation shortcuts once again selects text, including `Shift`+`Cmd`+`Left`/`Right` and `Shift`+`Option`+`Left`/`Right` on macOS. (Fixes #3537 and #955)
 
-### Synths
+### New
+* SuperSonic replaces scsynth as the audio engine. Change audio input, output, buffer size and sample rate live from the GUI, without restarting and without losing your running music.
+* Native PipeWire support on Linux. SuperSonic talks to PipeWire directly, and this is now enabled by default.
+* A 16-in/16-out Patchbay device on Linux. Sonic Pi appears in PipeWire tools such as qpwgraph as an ordinary node with explicit ports, ready to wire to multichannel interfaces, DAWs and other apps.
+* ASIO-aware audio preferences on Windows.
+* New limiter in the main mixer with much lower latency (1.5ms vs 20ms) - noticeable when you're working with `live_audio`.
+* Volume and drive are now separate controls sitting on opposite sides of the limiter. Changing the volume no longer alters both the sound and mix - that is now the job of the drive control.
+* New fn `set_drive!` which sets how hard the mix is driven into the main limiter, on a scale that is even in decibels: `0` is -12dB, `0.5` is unity and `1` is +12dB. `current_drive` returns the current value.
+* Follow an incoming external MIDI clock with `use_bpm :midi`. The current thread tracks the live tempo and aligns to the next bar. Each thread or live loop may follow a different external clock by specifying a device: `use_bpm :midi, "launchpad"`. Use `quantum:` to set the bar length. Use `midi_clock_sources` to see which ports are sending clock. Following is accurate even with jittery real-world clocks.
+* New fn `link_audio` which streams live audio from another Ableton Link peer straight into Sonic Pi. Subscribe to a remote peer's published channel - for example Ableton Live's "Main" or "Drums" - as a named live audio source and use it just like `live_audio`.
+* New support for game controllers - such as Xbox controllers. Connect a game controller and respond to its buttons and sticks as live events with `sync` and `get`, just like incoming MIDI.
+* Switch individual MIDI and game controller devices on and off from the new IO menu and the preferences.
+* New fn `ring.invert_around` which reflects the notes of a ring around a pitch axis.
+
+### GUI
+* Friendlier, clearer error messages. Error reports have been restyled for readability and the error text now scales with the editor zoom level.
+* New: Quickstart Cards. A deck of small runnable code cards in the help pane - play a musical idea and watch its waveform on the card's own mini-scope, then drag the card (or hover its insert button to preview, and click) straight into your code. Ships with decks covering the basics, synths, FX, live loops and Lissajous figures.
+* New: a redesigned code completion popup. Suggestions come with inline documentation, a mini note keyboard for choosing pitches, and value sliders for ranged options such as `pan:`. The highlighted suggestion is previewed live in your code as you move through the list, and you can accept it with `Tab`, `Return` or `Space`.
+* A new "Show Code Completion Help" toggle (in the View menu and the editor preferences) switches the new autocomplete between a plain list of suggestions and these richer helper panes.
+* Code completion for samples shows each sample's details along with a preview player.
+* Code completion autocompletes Link Audio peer and channel names for `link_audio`, the same way it completes MIDI ports and cue names.
+* New: a rebuilt Docs help pane. Tutorial and reference pages render natively with syntax-highlighted, runnable examples - play and stop code examples directly from the help pane.
+* New interactive playable "synths" in the Synth and FX documentation pages. These contain dials for exploring each ranged option and an on-screen keyboard that updates the demo code as you play.
+* New: an Examples menu. Load and play a bundled example straight from the menu bar.
+* New: Sets. Save and load all ten buffers together as a single `.sonicpi` file - Load Set, Save Set, Save Set As and a recent-sets list live in the Live menu, alongside Clear All Buffers for a fresh start. A set remembers which buffer you were working in and each buffer's text size. The file itself is plain text, so it can be shared, diffed and version-controlled like any other code, and double-clicking a `.sonicpi` file opens it straight into Sonic Pi.
+* New: an optional floating editor toolbar with undo/redo, cut/copy/paste and find. It fades back while your code runs beneath it.
+* New: in-editor search. Find, Find Next and Find Previous search the current buffer and highlight every match right in your code.
+* New: a Keyboard Shortcuts preferences tab. See every shortcut in one place, switch between the Mac, Windows \| Linux and Emacs Live presets, or choose Custom to record your own bindings. Clashing shortcuts are flagged as you edit, and you can import and export your custom set to share it or carry it between machines.
+* The default keyboard shortcut mode now follows the host operating system on first launch - new users on macOS get the Mac mode, and new users on Windows and Linux get the Windows \| Linux mode. The original Emacs Live mode is still available at any time in Preferences.
+* Improved Windows shortcuts. Jump-to-document-start and jump-to-document-end are now `Ctrl+Home` and `Ctrl+End` to match the standard Windows conventions. Thanks to Henri Vilminko for the suggestion.
+* New: session recording for macOS and Windows. Capture the Sonic Pi window plus the main audio mix to a single video file.
+* New: GUI streaming for macOS and Windows. Stream the Sonic Pi window via Syphon (macOS) or Spout (Windows) to other Syphon/Spout-aware applications (Resolume, VDMX, OBS, etc.) without going through screen capture.
+* New: live visual feedback in the editor. Runs briefly flash the code they trigger, and each `live_loop` gains an inline mini-oscilloscope next to the code showing its own audio as it plays. Both can be switched off in the editor preferences.
+* New: oscilloscope-style scope triggering. Repeating waveforms hold still on screen like on a hardware oscilloscope instead of scrolling past. There's also a new level scope showing your output levels.
+* New: a live SuperSonic debug panel, with engine metrics and a node-tree visualiser.
+* New: a Link Audio Streams panel showing the peers and channels currently published on the network.
+* New: Volume and Drive controls in the audio preferences, alongside a new Level meter.
+* New: a Reset button for the audio device.
+* New: more colour themes, including a low-contrast "Mild Dark" theme that is kinder on the eyes for those with light sensitivity or migraines, plus display filters such as hue rotation. Mild Dark grew out of a community contribution from Chris Prosser. Thanks Chris!
+* New application icons for all platforms.
+* Friendlier microphone-permission notice on macOS. The message is clearer, and it now only appears when audio inputs are enabled.
+* With auto-align switched off, Tab now behaves as an ordinary tab key.
+* The help pane's macOS shortcut is now the standard `Cmd+?` (F1 still works everywhere).
+
+### Accessibility
+* The Docs pane now reads naturally to screen readers - prose you can arrow through with the caret, headings that appear in rotor navigation, and dials that announce their values. Docs prose exposes its laid-out text, so every screen-reader bridge steps through it by visual line rather than jumping a whole paragraph at a time.
+* The Quickstart Cards are screen-reader navigable - page through a deck with Left and Right and hear each card announced as you go.
+* Focus now follows you around the app: opening Help, Preferences, the Cards or the info window lands focus inside the new pane ready for arrow-key browsing, and closing a pane hands focus back to the editor rather than dropping it on the window frame.
+* The main toolbar is reachable with Tab, and its toggle buttons respond correctly when activated by assistive technology.
+* Status updates such as showing or hiding the scopes are now spoken as well as shown.
+* Wider accessibility improvements throughout: keyboard navigation and screen-reader feedback across the GUI, high-contrast detection, WCAG colour fixes, visible focus rings and a reduced-motion option. Errors are announced and code buffers are named. Windows gains its own contrast detection, screen-reader feedback and reduced-motion support.
+
+### Synths & FX
+* New: `phase_offset:` opt for the `:beep` / `:sine` synth - set the sine wave's starting phase as a fraction of a cycle (0 to 1). Two panned sines playing the same note with offsets of 0 and 0.25 draw a circle as a Lissajous figure. It can also be changed while the synth is running via `control`.
 * Fixed `:tech_saws` which was incorrectly outputting four channels of audio. It now correctly outputs stereo as originally intended.
+* Fixed `:hoover` which was incorrectly writing six channels of audio. It now mixes its three detuned voices down to stereo as intended.
 * Fixed the `:krush` FX which was adding a constant DC offset to its output.
 * Fixed the `:autotuner` FX, which emitted silence in its automatic pitch-correction mode, and taught it two new opts: `strength:` for gentler correction and `retune:` to glide onto the target pitch instead of snapping.
-* Fixed `:sc808_cymbal`, which played straight to the hardware output — bypassing the master mixer, recordings and the scopes.
-* Swept every synth and FX opt at its extreme values and fixed the ones that silenced the sound entirely: `threshold: 0` on `:compressor`, near-zero shelf slopes on `:eq`, `coef:` at ±1 on `:pluck` and `reverb_time: 0` on `:dark_ambience` are now rejected with a clear message instead of producing mysterious silence.
+* Fixed `:sc808_cymbal`, which played straight to the hardware output - bypassing the main mixer, recordings and the scopes.
+* Fixed the option validations on the `:gabberkick` synth.
+* Envelope curve fixes: exponential curves (`env_curve: 2`) now ramp cleanly from silence rather than clicking, and squared/cubed curves now slide correctly through negative values (such as `pan:` heading left).
 
 ### Music Theory
 * New scale: `:lydian_dominant` (also available as `:acoustic`).
 * New scale aliases with the names musicians usually reach for: `:altered` (same as `:super_locrian`), `:phrygian_dominant` (same as `:spanish`) and `:double_harmonic` / `:byzantine` (same as `:bhairav`).
-* New chords: `:minor_major7` (also available as `mM7` / `mmaj7`), `:maj13`, `9-5` and `7+9` — the latter a friendlier name for the Hendrix chord previously only available as `7-10`.
-* New chord aliases: `:maj7` and `:min7` for `:major7` and `:minor7`.
-* Fixed the `9+5` and `m9+5` chords which were missing their 3rd, sharpened 5th and 9th — a long-standing bug inherited from SuperCollider via Overtone.
+* New chords: `:minor_major7` (also available as `mM7` / `mmaj7`), `:maj13`, `9-5` and `7+9` - the latter a friendlier name for the Hendrix chord previously only available as `7-10`.
+* New chord aliases: `:maj7` and `:min7` for `:major7` and `:minor7`, plus more long-form aliases: `:minor6`, `:major6`, `:minor9`, `:major9`, `:minor11`, `:major11` and `:minor13`.
+* Fixed the `9+5` and `m9+5` chords which were missing their 3rd, sharpened 5th and 9th - a long-standing bug inherited from SuperCollider via Overtone.
 * Fixed `chord_degree` silently returning fewer notes than requested for higher degrees combined with larger chord sizes.
-* Fixed `degree` on scales which don't span exactly an octave (such as the makam `:evic`) — degrees beyond the scale's length now continue the scale's own interval pattern rather than assuming a 12 semitone octave.
+* Fixed `degree` on scales which don't span exactly an octave (such as the makam `:evic`) - degrees beyond the scale's length now continue the scale's own interval pattern rather than assuming a 12 semitone octave.
 
-### Misc
-* New: `SONIC_PI_ROOT` and `SONIC_PI_ETC_PATH` environment variables let you point Sonic Pi at relocatable install and config locations, making life easier for packagers.
+### Improvements
+* Code buffers can now hold much more code - up to 64KB (roughly 2,500 lines) on every platform. The previous limit was around 9KB on macOS and 16KB on Linux and Windows, where exceeding it made Run fail silently.
+* Clearer runtime errors: syntax errors name the offending buffer line, errors from `run_file` and `init.rb` include the file path, and an unresponsive audio engine is reported clearly rather than exiting silently.
+* `sample` now honours the `duration:` opt, just like `play` and `synth`.
+* `play_pattern_timed` now accepts lists for per-note opts such as `amp:`, and its `legato:` default matches the documentation again.
+* `set_sched_ahead_time!` and `set_control_delta!` now reset to their defaults when called with no arguments.
+* Calling `.map` on a ring, vector or ramp now returns the same kind of structure rather than a plain list. Thanks to Robert Bendun.
+* Sample packs can now be indexed by any number, not just Integers.
+* Octave shifts and `with_swing` offsets now accept whole numbers of any numeric type.
+* 32-bit Linux (i686) is now built and tested alongside the other platforms, with its own AppImage.
+* Upstream Debian packaging, so distributions can build Sonic Pi against their own system libraries without patching.
+* New `SONIC_PI_ROOT` and `SONIC_PI_ETC_PATH` environment variables let you point Sonic Pi at relocatable install and config locations, making life easier for packagers.
+
+### Bugfixes
+* Events sharing an identical timestamp are now ordered consistently rather than arbitrarily.
+* Envelope sustain time is now calculated correctly when attack, decay or release are left at their defaults. Thanks to Michael Schubmehl.
+* Fixed a crash when typing with an input method (IME) that commits several characters at once.
+* Fixed Sonic Pi failing to start on Windows when the home directory contains non-ASCII characters.
+* Fixed the daemon failing to boot when Sonic Pi is launched from a terminal with Ruby gem environment variables set (e.g. rvm/rbenv). Thanks to Keenan Brock.
+* Fixed shift-based text selection so holding Shift with the navigation shortcuts once again selects text, including `Shift`+`Cmd`+`Left`/`Right` and `Shift`+`Option`+`Left`/`Right` on macOS. (Fixes #3537 and #955)
+* Function names inside strings and comments are no longer touched by the language preprocessor.
+* `defonce` and `kill` messages now respect `use_debug`.
+* Fixed an error in `onset_slices`.
+* Copy now copies your selection in the help pane when the docs have focus, rather than the editor's.
+* The editor's horizontal scrollbar now only appears when a line is actually wider than the window.
+* The scope, log and cue panes now start with equal heights on first boot.
+* The preferences pane behaves better on lower resolution monitors.
 
 ### Translations
 * New: complete Spanish GUI translation.
 * Translation updates across many languages, including German, Irish, Hebrew, Turkish, Norwegian, Hindi, Persian, Greek, Catalan, Chinese and French.
-
 
 <a name="v4.6.0"></a>
 
