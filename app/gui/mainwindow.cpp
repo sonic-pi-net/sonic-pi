@@ -8722,13 +8722,13 @@ void MainWindow::movePrefsWidget()
     if (prefsWidget->layout())
         prefsWidget->layout()->activate();
     // Content-sized (the layout's hint: tallest/widest tab plus the pane's
-    // own chrome), capped by the space the window offers below the toolbar.
-    // Floored at the minimum hint: below that the tab scrollers take over,
-    // so a short screen scrolls rather than overlapping the form rows.
+    // own chrome), capped by the space the window offers below the toolbar —
+    // never larger, or the pane's tail is clipped off-window. Below the
+    // content hint the per-tab scrollers take over, so a short window
+    // scrolls rather than overlapping the form rows.
     QSize avail(size().width() - ScaleWidthForDPI(20),
                 size().height() - h - ScaleHeightForDPI(20));
-    prefsWidget->resize(prefsWidget->sizeHint().boundedTo(avail)
-                            .expandedTo(prefsWidget->minimumSizeHint()));
+    prefsWidget->resize(prefsWidget->sizeHint().boundedTo(avail));
     int full_width = this->size().width();
     int w = full_width - prefsWidget->size().width();
     prefsWidget->move(w, h);
