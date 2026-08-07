@@ -1,0 +1,6 @@
+# Sonic Pi's Debian packaging is maintained upstream so that distributions can
+# build from our own tree (see docs/DEBIAN-PACKAGING.md). It has never been
+# uploaded to the Debian archive, so there is no ITP bug for the initial
+# release entry to close. Lintian only raises this on a release build, where
+# the changelog distribution is rewritten from UNRELEASED to unstable.
+sonic-pi-server: initial-upload-closes-no-bugs
