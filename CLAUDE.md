@@ -2,18 +2,11 @@
 
 Guidance for AI coding agents (Claude Code, Copilot, Cursor) working in **sonic-pi**.
 
-<!-- TODO: one paragraph — what this project is, who it serves, and what "done" looks like here. -->
+This is bamr87's fork of [Sonic Pi](https://github.com/sonic-pi-net/sonic-pi), the live-coding music synthesizer. The fork tracks the upstream `dev` branch (upstream has no `main`); changes here are occasional fork-local tweaks, not a divergent product.
 
-## Stack & commands
+## Build & run
 
-<!-- TODO: fill in the real commands; delete rows that don't apply. -->
-
-```bash
-# install dependencies:
-# run the dev server / build:
-# run tests:
-# lint:
-```
+Do not duplicate build instructions here — they live upstream in the platform-specific build docs at the repo root: `BUILD-LINUX.md`, `BUILD-MAC.md`, `BUILD-RASPBERRY-PI.md`, and `BUILD-WINDOWS.md`. See also `TESTING.md` and `CONTRIBUTING.md` for the upstream test and contribution workflow.
 
 ## Conventions
 
