@@ -2467,10 +2467,14 @@ bool SonicPiScintilla::event(QEvent* evt)
         // The backstop below would otherwise run the full completion pipeline a
         // second time off this edit's textChanged, before the caret settles.
         m_keyEditGuard = true;
-        SendScintilla(SCI_BEGINUNDOACTION);
-        // Drop the preview first so the keystroke edits the user's typed text (or,
-        // for a slider, leaves its committed value), then let the editor process it.
-        if (m_pvStart >= 0) clearPreview();
+        if (m_pvLive)
+        {
+            SendScintilla(SCI_BEGINUNDOACTION);
+            // Drop the preview first so the keystroke edits the user's typed text
+            // (or, for a slider, leaves its committed value), then let the editor
+            // process it.
+            if (m_pvStart >= 0) clearPreview();
+        }
 
         // Let the editor insert/delete the character, then refresh the popup. This
         // path runs after the edit fully settles (cursor advanced), so the context
@@ -2510,7 +2514,10 @@ bool SonicPiScintilla::event(QEvent* evt)
                 break;
             }
         }
-        SendScintilla(SCI_ENDUNDOACTION);
+        if (m_pvLive)
+        {
+            SendScintilla(SCI_ENDUNDOACTION);
+        }
         m_keyEditGuard = false;
         return res;
     }
