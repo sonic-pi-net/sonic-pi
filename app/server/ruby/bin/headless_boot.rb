@@ -21,6 +21,14 @@ module SonicPi
       @server_started = Promise.new
       @engine_started = Promise.new
       @errors = []
+      @log_listeners = []
+    end
+
+    # Register a listener for messages emitted by Spider. This lets headless
+    # front-ends consume logs without replacing the OSC handlers that manage
+    # the boot handshake and console output.
+    def add_log_listener(&listener)
+      @log_listeners << listener if listener
     end
 
     def boot!
@@ -90,6 +98,7 @@ module SonicPi
 
       osc.add_method("/log/info") do |m|
         say "LOG  #{m[1]}"
+        notify_log_listeners(:info, m)
         # The engine no longer pushes /supersonic/info unprompted (it now
         # replies to the GUI's /supersonic/setup), so treat the spider's
         # final boot message as engine-ready too.
@@ -104,19 +113,30 @@ module SonicPi
         texts = []
         msgs.each_slice(2) { |_c, t| texts << t if t }
         label = (thread.to_s.empty? || thread == "\"\"") ? "run" : thread
-        texts.each { |t| say "#{label}: #{t}" }
+        texts.each do |t|
+          say "#{label}: #{t}"
+          notify_log_listeners(:log, [label, t])
+        end
       end
 
       osc.add_method("/error") do |m|
         @errors << "run #{m[0]} line #{m[3]}: #{m[1]}"
         say "ERROR run #{m[0]} line #{m[3]}: #{m[1]}"
         say "  #{m[2]}"
+        notify_log_listeners(:error, m)
       end
 
       osc.add_method("/syntax_error") do |m|
         @errors << "syntax run #{m[0]} line #{m[3]}: #{m[1]}"
         say "SYNTAX ERROR run #{m[0]} line #{m[3]}: #{m[1]} | #{m[2]}"
+        notify_log_listeners(:syntax_error, m)
       end
+    end
+
+    def notify_log_listeners(type, message)
+      @log_listeners.each { |listener| listener.call(type, message) }
+    rescue StandardError => e
+      warn "HeadlessBoot log listener failed: #{e.message}"
     end
   end
 end
