@@ -706,8 +706,7 @@ void ScopeWindow::DrawWave(const ProcessedAudio& audio, QPainter& painter, Scope
 
 void ScopeWindow::DrawLissajous(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel)
 {
-    float yScale = float(panel.rcGraph.height() / 2.0f);
-    float xScale = float(panel.rcGraph.width() / 2.0f);
+    float scale = float(std::min(panel.rcGraph.height(), panel.rcGraph.width()) / 2.0f);
 
     QPoint center = panel.rcGraph.center();
 
@@ -720,7 +719,7 @@ void ScopeWindow::DrawLissajous(const ProcessedAudio& audio, QPainter& painter, 
     {
         auto left = audio.m_samples[0][offset + sample];
         auto right = audio.m_samples[1][offset + sample];
-        panel.wavePoints[sample] = center + QPoint(left * xScale, right * yScale);
+        panel.wavePoints[sample] = center + QPoint(left * scale, right * scale);
     }
     // The only diagonal-line panel; AA is cheap here and removes the jaggies.
     painter.setRenderHint(QPainter::Antialiasing, true);
