@@ -297,9 +297,18 @@ int TracksPanel::deviceWidth() const
 
 // A device is as wide as its name needs, the way Live sizes a device to its
 // title: the house width, or wider when the name and the header's buttons
-// want more, up to half again — past that the name ends in an ellipsis and
-// the tooltip has it whole. Measured in the header's own font, so a zoom
-// re-fits it.
+// want more, up to twice — past that the name ends in an ellipsis and the
+// tooltip has it whole. Measured in the header's own font, so a zoom re-fits
+// it.
+//
+// Twice, not half again, because the header's font is the platform's and the
+// platforms disagree by a third: bold, at the base size (dpi.h: 18px on macOS,
+// 19px elsewhere), "ValhallaSupermassive" is 180px in macOS's San Francisco
+// and 235px in DejaVu Sans, Linux's default. With the six header buttons (five
+// glyphs at 28px, Configure as wide as its word) that name needs ~440px on
+// macOS and ~515px on Linux, and a cap of 450px (half again on the 300px
+// house) wrote it out whole on one and elided it on the other.
+// trackspanel_look.test.cpp pins the whole name, on every platform CI runs.
 void TracksPanel::fitDeviceTitle(Device* dev)
 {
     if (!dev || !dev->frame || !dev->title) return;
@@ -314,7 +323,7 @@ void TracksPanel::fitDeviceTitle(Device* dev)
         if (b) chrome += (b->minimumWidth() == b->maximumWidth()) ? b->minimumWidth()
                                                                    : b->sizeHint().width();
     const int house = deviceWidth();
-    const int most = house + house / 2;
+    const int most = house * 2;
     const int width = qBound(house, chrome + fm.horizontalAdvance(name), most);
     dev->frame->setFixedWidth(width);
     dev->title->setText(fm.elidedText(name, Qt::ElideRight, width - chrome));

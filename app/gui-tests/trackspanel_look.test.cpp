@@ -167,7 +167,10 @@ TEST_CASE("a device card carries its plugin's whole name", "[tracks][style]")
     {
         if (!l->isVisible()) continue;
         ++seen;
-        INFO("title: " << l->text().toStdString());
+        INFO("title: " << l->text().toStdString()
+             << " (label " << l->width() << "px, text "
+             << l->fontMetrics().horizontalAdvance(l->text()) << "px in "
+             << l->font().family().toStdString() << ")");
         CHECK_FALSE(l->text().contains(QChar(0x2026)));
         // Room for the text in the label's own (styled) font, not just ours.
         CHECK(l->width() >= l->fontMetrics().horizontalAdvance(l->text()));
