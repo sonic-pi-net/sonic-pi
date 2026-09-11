@@ -683,6 +683,13 @@ module SonicPi
         @vec.index(*args, &block)
       end
 
+      # Ruby's other name for it: a ring is asked `find_index` as often as
+      # `index`, and answering only one read as "Sonic Pi doesn't know a
+      # function called `find_index`".
+      def find_index(*args, &block)
+        @vec.index(*args, &block)
+      end
+
       def join(*args)
         @vec.join(*args)
       end

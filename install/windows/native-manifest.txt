@@ -12,8 +12,11 @@
 # plugins and no codec/fftw DLLs ship. scsynth is gone. Ruby's OpenSSL and
 # CA bundle live inside ruby\lib, not the native root or ruby\ssl.
 
-# Engine + tools (engine ships under a Sonic Pi name - paths.rb:244)
+# Engine + tools (engine ships under a Sonic Pi name - paths.rb:244). The
+# plugin bridge is the engine's second process: it hosts VST3 and CLAP
+# plugins and is spawned by the engine from beside its own binary.
 Sonic Pi - SuperSonic.exe
+Sonic Pi - Plugins.exe
 aubio_onset.exe
 piano_wavetable.dat
 

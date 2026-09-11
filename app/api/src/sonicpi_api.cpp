@@ -440,14 +440,14 @@ SonicPiAPI::~SonicPiAPI()
 bool SonicPiAPI::LinkEnable()
 {
     // visibility 2 = NetworkWide (peer discovery + Link Audio).
-    oscpkt::Message msg("/clock/visibility");
+    oscpkt::Message msg("/clockwork/clock/visibility");
     msg.pushInt32(2);
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkBPM(double bpm)
 {
-    oscpkt::Message msg("/clock/tempo/set");
+    oscpkt::Message msg("/clockwork/clock/tempo/set");
     msg.pushFloat((float) bpm);
     return SupersonicSendOSC(msg);
 }
@@ -455,28 +455,28 @@ bool SonicPiAPI::SetLinkBPM(double bpm)
 bool SonicPiAPI::LinkDisable()
 {
     // visibility 0 = Off.
-    oscpkt::Message msg("/clock/visibility");
+    oscpkt::Message msg("/clockwork/clock/visibility");
     msg.pushInt32(0);
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkVisibility(LinkVisibility mode)
 {
-    oscpkt::Message msg("/clock/visibility");
+    oscpkt::Message msg("/clockwork/clock/visibility");
     msg.pushInt32(static_cast<int32_t>(mode));
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkAudioPublish(bool enabled)
 {
-    oscpkt::Message msg("/clock/audio/publish/set");
+    oscpkt::Message msg("/clockwork/clock/audio/publish/set");
     msg.pushInt32(enabled ? 1 : 0);
     return SupersonicSendOSC(msg);
 }
 
 bool SonicPiAPI::SetLinkPeerName(const std::string& name)
 {
-    oscpkt::Message msg("/clock/peer_name/set");
+    oscpkt::Message msg("/clockwork/clock/peer_name/set");
     msg.pushStr(name);
     return SupersonicSendOSC(msg);
 }
@@ -655,7 +655,7 @@ bool SonicPiAPI::SupersonicSendOSC(oscpkt::Message m)
 void SonicPiAPI::RequestAudioDevices()
 {
     // Routed via the daemon: its TCP connection to the engine is the
-    // registered notify target, and it forwards /supersonic/devices etc.
+    // registered notify target, and it forwards /clockwork/devices etc.
     // onward to our gui_listen_to_spider port. (Registering our own
     // engine connection instead would leave pushes unread on a socket
     // nothing drains for replies — see TcpOscSender.)

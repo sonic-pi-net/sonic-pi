@@ -1366,6 +1366,9 @@ void SonicPiTheme::reloadStylesheet() {
     QString selectionForegroundColor = contrastingText(this->color("SelectionBackground")).name();
     QString selectionBackgroundColor = this->color("SelectionBackground").name();
     QString errorBackgroundColor = this->color("ErrorBackground").name();
+    // The log's error ink, for the one line in a pane that says what went
+    // wrong. Every theme sets it; there is no separate "error text" key.
+    QString errorForegroundColor = this->color("LogForeground_3").name();
     QString highlightedBackgroundColor = this->color("HighlightedBackground").name();   // the accent
 
     // Derived colour-role tokens (single definitions: the accessors below).
@@ -1449,6 +1452,7 @@ void SonicPiTheme::reloadStylesheet() {
         .replace("selectionForegroundColor", selectionForegroundColor)
         .replace("selectionBackgroundColor", selectionBackgroundColor)
         .replace("errorBackgroundColor", errorBackgroundColor)
+        .replace("errorForegroundColor", errorForegroundColor)
         .replace("highlightedBackgroundColor", highlightedBackgroundColor)
         .replace("accentContrastTextColor", accentContrastTextColor)
         .replace("accentHoverColor", accentHoverColor)

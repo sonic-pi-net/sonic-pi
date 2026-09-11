@@ -26,20 +26,20 @@ module SonicPi
 
     # Lang MIDI out-path → SuperSonic /midi/* address.
     OUT_MAP = {
-      "/note_on"         => "/midi/out/note_on",
-      "/note_off"        => "/midi/out/note_off",
-      "/control_change"  => "/midi/out/control_change",
-      "/aftertouch"      => "/midi/out/poly_pressure",   # poly key pressure
-      "/channel_pressure"=> "/midi/out/channel_pressure",
-      "/pitch_bend"      => "/midi/out/pitch_bend",
-      "/program_change"  => "/midi/out/program_change",
-      "/raw"             => "/midi/out/raw",
-      "/sysex"           => "/midi/out/sysex",
-      "/clock"           => "/midi/out/clock",
-      "/clock_beat"      => "/midi/clock/beat",
-      "/start"           => "/midi/out/start",
-      "/stop"            => "/midi/out/stop",
-      "/continue"        => "/midi/out/continue",
+      "/note_on"         => "/clockwork/midi/out/note_on",
+      "/note_off"        => "/clockwork/midi/out/note_off",
+      "/control_change"  => "/clockwork/midi/out/control_change",
+      "/aftertouch"      => "/clockwork/midi/out/poly_pressure",   # poly key pressure
+      "/channel_pressure"=> "/clockwork/midi/out/channel_pressure",
+      "/pitch_bend"      => "/clockwork/midi/out/pitch_bend",
+      "/program_change"  => "/clockwork/midi/out/program_change",
+      "/raw"             => "/clockwork/midi/out/raw",
+      "/sysex"           => "/clockwork/midi/out/sysex",
+      "/clock"           => "/clockwork/midi/out/clock",
+      "/clock_beat"      => "/clockwork/midi/clock/beat",
+      "/start"           => "/clockwork/midi/out/start",
+      "/stop"            => "/clockwork/midi/out/stop",
+      "/continue"        => "/clockwork/midi/out/continue",
     }.freeze
 
     # Out-paths whose 2nd arg is the channel (so channel '*' → -1 fans to 1..16).
@@ -70,12 +70,12 @@ module SonicPi
       @midi_comms.subscribe_to_notifications!
       # sp_midi opened every port; preserve that — open all in + out,
       # then mute the user's disabled ports before any events can cue.
-      @midi_comms.send("/midi/in/enable", "*", 1)
-      @midi_comms.send("/midi/out/enable", "*", 1)
+      @midi_comms.send("/clockwork/midi/in/enable", "*", 1)
+      @midi_comms.send("/clockwork/midi/out/enable", "*", 1)
       @disabled_ports.each do |dir, names|
-        names.each { |n| @midi_comms.send("/midi/#{dir}/enable", n, 0) }
+        names.each { |n| @midi_comms.send("/clockwork/midi/#{dir}/enable", n, 0) }
       end
-      @midi_comms.send("/midi/ports/list")   # prime the device lists
+      @midi_comms.send("/clockwork/midi/ports/list")   # prime the device lists
     end
 
     # Schedule outgoing MIDI at spider time `t` (seconds). `midi_path` is the
@@ -107,11 +107,11 @@ module SonicPi
     # deferred-event scheduler, so flush there (the same scheduler-level /sched/
     # flush the OSC path uses; tag "default" matches scheduled MIDI + OSC).
     def midi_flush!
-      @midi_comms.send("/sched/flush", "default")
+      @midi_comms.send("/clockwork/sched/flush", "default")
     end
 
     def midi_refresh_devices!
-      @midi_comms.send("/midi/refresh")
+      @midi_comms.send("/clockwork/midi/refresh")
     end
 
     # Mute/unmute a single port. The engine applies it to the live session
@@ -125,7 +125,7 @@ module SonicPi
         @disabled_ports[dir] << port unless @disabled_ports[dir].include?(port)
       end
       @disabled_ports_changed_handler.call(@disabled_ports) if @disabled_ports_changed_handler
-      @midi_comms.send("/midi/#{dir}/enable", port, enabled ? 1 : 0)
+      @midi_comms.send("/clockwork/midi/#{dir}/enable", port, enabled ? 1 : 0)
     end
 
     def set_global_timewarp!(time)
@@ -139,7 +139,7 @@ module SonicPi
       tt = SonicPi::OSC.osc_timetag(t + @global_timewarp)
       # /schedule <timetag> <inner /midi/* blob>: the scheduler re-ingests the
       # inner message on time through the same dispatch an immediate one hits.
-      @midi_comms.send("/schedule",
+      @midi_comms.send("/clockwork/schedule",
                        SonicPi::OSC::Int64.new(tt),
                        SonicPi::OSC::Blob.new(inner))
     end
@@ -155,13 +155,13 @@ module SonicPi
     def add_supersonic_midi_handlers!
       # Channel-voice events: args = [port, channel, data…].
       {
-        "/midi/in/note_on"          => :note_on,
-        "/midi/in/note_off"         => :note_off,
-        "/midi/in/control_change"   => :control_change,
-        "/midi/in/poly_pressure"    => :aftertouch,       # Sonic Pi's name
-        "/midi/in/channel_pressure" => :channel_pressure,
-        "/midi/in/pitch_bend"       => :pitch_bend,
-        "/midi/in/program_change"   => :program_change,
+        "/clockwork/midi/in/note_on"          => :note_on,
+        "/clockwork/midi/in/note_off"         => :note_off,
+        "/clockwork/midi/in/control_change"   => :control_change,
+        "/clockwork/midi/in/poly_pressure"    => :aftertouch,       # Sonic Pi's name
+        "/clockwork/midi/in/channel_pressure" => :channel_pressure,
+        "/clockwork/midi/in/pitch_bend"       => :pitch_bend,
+        "/clockwork/midi/in/program_change"   => :program_change,
       }.each do |addr, event|
         @midi_comms.add_method(addr) do |args|
           port = args[0]
@@ -172,15 +172,15 @@ module SonicPi
 
       # System events: args = [port, data…], no channel.
       {
-        "/midi/in/start"         => :start,
-        "/midi/in/continue"      => :continue,
-        "/midi/in/stop"          => :stop,
-        "/midi/in/reset"         => :reset,
-        "/midi/in/song_position" => :song_position_pointer,
-        "/midi/in/song_select"   => :song_select,
-        "/midi/in/time_code"     => :time_code_quarter_frame,
-        "/midi/in/tune_request"  => :tune_request,
-        "/midi/in/sysex"         => :sysex,
+        "/clockwork/midi/in/start"         => :start,
+        "/clockwork/midi/in/continue"      => :continue,
+        "/clockwork/midi/in/stop"          => :stop,
+        "/clockwork/midi/in/reset"         => :reset,
+        "/clockwork/midi/in/song_position" => :song_position_pointer,
+        "/clockwork/midi/in/song_select"   => :song_select,
+        "/clockwork/midi/in/time_code"     => :time_code_quarter_frame,
+        "/clockwork/midi/in/tune_request"  => :tune_request,
+        "/clockwork/midi/in/sysex"         => :sysex,
       }.each do |addr, event|
         @midi_comms.add_method(addr) do |args|
           cue(args[0], nil, event, args[1..-1])
@@ -188,12 +188,12 @@ module SonicPi
       end
 
       # Derived tempo from an external MIDI clock.
-      @midi_comms.add_method("/midi/in/clock_bpm") do |args|
+      @midi_comms.add_method("/clockwork/midi/in/clock_bpm") do |args|
         cue(args[0], nil, "clock_bpm", args[1..-1])
       end
 
       # Device list: /midi/ports[.reply] = nIn [name enabled]* nOut [name enabled]*.
-      ["/midi/ports", "/midi/ports.reply"].each do |addr|
+      ["/clockwork/midi/ports", "/clockwork/midi/ports.reply"].each do |addr|
         @midi_comms.add_method(addr) do |args|
           ins, outs = parse_ports(args)
           reassert_disabled_ports!(:in, ins)
@@ -211,7 +211,7 @@ module SonicPi
     def reassert_disabled_ports!(dir, pairs)
       pairs.each do |name, enabled|
         if enabled == 1 && @disabled_ports[dir].include?(name)
-          @midi_comms.send("/midi/#{dir}/enable", name, 0)
+          @midi_comms.send("/clockwork/midi/#{dir}/enable", name, 0)
         end
       end
     end

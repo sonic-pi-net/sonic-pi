@@ -81,6 +81,21 @@ module SonicPi
         write_framed(@encoder.encode_single_bundle(ts, pattern, args))
       end
 
+      # A HARNESS message for a moment in time. A timestamped bundle is the
+      # DSP's: the engine parks it in scsynth's queue and the DSP answers
+      # "Command not found" when a /clockwork/ address comes due there. The
+      # harness's own scheduler takes "/clockwork/schedule <timetag> <blob>"
+      # and re-ingests the inner message on its frame, through the same
+      # dispatch an immediate one hits — this is how MidiAPI sends timed
+      # MIDI, and how a track is played on time.
+      def send_scheduled(ts, pattern, *args)
+        inner = @encoder.encode_single_message(pattern, args)
+        tt = SonicPi::OSC.osc_timetag(ts.to_f)
+        write_framed(@encoder.encode_single_message("/clockwork/schedule",
+                                                    [SonicPi::OSC::Int64.new(tt),
+                                                     SonicPi::OSC::Blob.new(inner)]))
+      end
+
       def add_method(address_pattern, &proc)
         @matchers[address_pattern] = proc
       end

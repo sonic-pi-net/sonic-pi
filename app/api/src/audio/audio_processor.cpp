@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "api/audio/audio_processor.h"
+#include <shm_attach.hpp>
 #include "api/logger.h"
 #include "api/sonicpi_api.h"
 
@@ -319,7 +320,7 @@ ring_view AudioProcessor::GetDebugRing()
 node_tree_view AudioProcessor::GetNodeTree()
 {
     if (!m_shmClient) return node_tree_view{};
-    return m_shmClient->get_node_tree();
+    return node_tree_of(*m_shmClient);
 }
 
 native_stats AudioProcessor::GetNativeStats()
@@ -350,7 +351,16 @@ void AudioProcessor::AttachLocked()
 {
     try
     {
-        m_shmClient.reset(new server_shared_memory_client(m_scSynthPort));
+        // The segment is anonymous; the engine hands it over on its attach
+        // endpoint, derived from the port it was booted on (the daemon passes
+        // no --shm-endpoint). A refused connect is the boot race — the engine
+        // is not serving yet — and reads as retryable below.
+        std::string err;
+        const auto handle = shm_attach::receive(
+            shm_attach::default_endpoint(static_cast<unsigned>(m_scSynthPort)), &err);
+        if (!detail_shm_segment::shm_handle_valid(handle))
+            throw std::runtime_error("shm attach: " + err);
+        m_shmClient.reset(new shm_segment_client(handle));
         m_shmReader = m_shmClient->get_scope_stream_reader(0);
         m_lastAttachError.clear();   // a later recurrence is worth reporting again
     }

@@ -131,6 +131,8 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/logpanel.h
     ${QTAPP_ROOT}/widgets/metricspanel.cpp
     ${QTAPP_ROOT}/widgets/metricspanel.h
+    ${QTAPP_ROOT}/widgets/trackspanel.cpp
+    ${QTAPP_ROOT}/widgets/trackspanel.h
     ${QTAPP_ROOT}/widgets/nodetreegraph.cpp
     ${QTAPP_ROOT}/widgets/nodetreegraph.h
     ${QTAPP_ROOT}/widgets/tutorialpane.cpp
@@ -146,6 +148,7 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/zoombar.cpp
     ${QTAPP_ROOT}/widgets/zoombar.h
     ${QTAPP_ROOT}/widgets/tutscope.h
+    ${QTAPP_ROOT}/widgets/cardscope.h
     ${QTAPP_ROOT}/widgets/icontabbar.h
     ${QTAPP_ROOT}/utils/flash_style.h
     ${QTAPP_ROOT}/utils/tutorialdocs.cpp
@@ -270,6 +273,7 @@ if(WIN32)
 elseif(APPLE)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.mm)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/macos.h)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/capture_target.mm)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/syphon_publisher.mm)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/recorder.mm)
 
@@ -296,6 +300,8 @@ elseif(APPLE)
   # Syphon sources expect Syphon_Prefix.pch; we substitute syphon_prefix.h.
   set_source_files_properties(${SYPHON_SOURCES}
     PROPERTIES COMPILE_FLAGS "-fobjc-arc -include ${QTAPP_ROOT}/platform/syphon_prefix.h")
+  set_source_files_properties(${QTAPP_ROOT}/platform/capture_target.mm
+    PROPERTIES COMPILE_FLAGS "-fobjc-arc")
   set_source_files_properties(${QTAPP_ROOT}/platform/syphon_publisher.mm
     PROPERTIES COMPILE_FLAGS "-fobjc-arc")
   set_source_files_properties(${QTAPP_ROOT}/platform/recorder.mm
@@ -592,6 +598,13 @@ target_link_libraries(${APP_NAME}
     SonicPi::API
     QScintilla
     Threads::Threads)
+
+# ─── The Tracks tab ──────────────────────────────────────────────────────────
+#
+# Drives the engine's plugin process over OSC and links nothing of the plugin
+# host: scanning, loading and the editor windows all happen in that process,
+# which is the one built to be crashed. No plugin code ever runs in the GUI,
+# so the app needs no entitlement to load it. See widgets/trackspanel.h.
 
 
 target_link_libraries(${APP_NAME}

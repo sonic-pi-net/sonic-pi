@@ -224,7 +224,10 @@ private:
     // budget; held so a flashed line can be brought back into view.
     QHash<QString, class QScrollArea*> m_codeScrolls;
     QHash<QString, QSet<QString>> m_cardLoops; // workspace -> live_loop names in its code
-    QHash<QString, int> m_jobs;
+    // Jobs a card must stop. A card taking over another's live_loop inherits
+    // its jobs: live_loop redefines the running named thread rather than
+    // starting one, so the sound stays with the job that first started it.
+    QHash<QString, QSet<int>> m_jobs;
     // Card hover: a high-contrast border lights up while the pointer is
     // anywhere over the card ([cardHover] in app.qss). Poll-driven (see
     // updateHover) so crossing child widgets never flickers or sticks.

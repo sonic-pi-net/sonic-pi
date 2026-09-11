@@ -37,7 +37,6 @@ class QVBoxLayout;
 class QFrame;
 class QGridLayout;
 class QScrollArea;
-class QUdpSocket;
 class QVariantAnimation;
 class ChevronButton;
 class NodeTreeGraph;
@@ -161,7 +160,7 @@ private:
     // build/runtime summary down the debug channel so it shows in the Info pane.
     void requestSupersonicSummary();
     void drainOscRing(bool outgoing);   // outgoing = IN ring (sent), else OUT ring (replies)
-    void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /supersonic/debug → Debug pane, rest → From-SuperSonic
+    void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /clockwork/debug → Debug pane, rest → From-SuperSonic
     void updateNodeTree();
     QVector<LogRun> stampRuns() const;   // bracketed hi-res timestamp, alternating grey shades
     QVector<LogRun> formatOscRuns(const uint8_t* data, uint32_t size,
@@ -210,7 +209,6 @@ private:
     RingCursor m_inCursor;
     RingCursor m_outCursor;
     RingCursor m_debugCursor;
-    QUdpSocket* m_summarySocket = nullptr;  // sends the one-shot /supersonic/summary request
     bool m_summaryRequested = false;
     std::vector<uint8_t> m_scratch;
     uint32_t m_lastTreeVersion = 0xFFFFFFFFu;

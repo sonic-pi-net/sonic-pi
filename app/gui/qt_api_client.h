@@ -16,6 +16,10 @@ Q_DECLARE_METATYPE(SonicPi::ProcessedAudioPtr);
 Q_DECLARE_METATYPE(SonicPi::StatusInfo);
 Q_DECLARE_METATYPE(SonicPi::MidiInfo);
 Q_DECLARE_METATYPE(SonicPi::VersionInfo);
+Q_DECLARE_METATYPE(std::vector<SonicPi::TrackInfo>);
+Q_DECLARE_METATYPE(std::vector<SonicPi::TrackParamInfo>);
+Q_DECLARE_METATYPE(std::vector<SonicPi::TrackPluginInfo>);
+Q_DECLARE_METATYPE(std::vector<std::string>);
 Q_DECLARE_METATYPE(SonicPi::BufferInfo);
 Q_DECLARE_METATYPE(SonicPi::ScsynthInfo);
 Q_DECLARE_METATYPE(SonicPi::AudioDevicesInfo);
@@ -47,6 +51,18 @@ public:
     virtual void Status(const SonicPi::StatusInfo& info) override;
     virtual void Midi(const SonicPi::MidiInfo& info) override;
     virtual void GamepadDevices(const std::string& devices) override;
+    virtual void Tracks(int laneBase, const std::vector<SonicPi::TrackInfo>& tracks) override;
+    virtual void TrackState(int id, float gain, bool mute) override;
+    virtual void TrackFolders(const std::vector<std::string>& extra,
+                              const std::vector<std::string>& platform) override;
+    virtual void LinkAudioChannels(const std::vector<SonicPi::LinkAudioChannelInfo>& channels) override;
+    virtual void LinkAudioInputs(const std::vector<SonicPi::LinkAudioInputInfo>& inputs) override;
+    virtual void TrackPlugins(uint32_t total, uint32_t offset,
+                              const std::vector<SonicPi::TrackPluginInfo>& plugins) override;
+    virtual void TrackParams(int handle, uint32_t total, uint32_t offset,
+                             const std::vector<SonicPi::TrackParamInfo>& params) override;
+    virtual void TrackParamEdit(int handle, uint32_t id, double normalized, bool own) override;
+    virtual void TrackError(const std::string& verb, const std::string& detail, int handle) override;
     virtual void Version(const SonicPi::VersionInfo& info) override;
     virtual void Buffer(const BufferInfo& info) override;
     virtual void ActiveLinks(const int numLinks) override;
@@ -101,6 +117,18 @@ public slots:
     virtual void StatusGui(const SonicPi::StatusInfo& info);
     virtual void MidiGui(const SonicPi::MidiInfo& info);
     virtual void GamepadDevicesGui(const QString& devices);
+    virtual void TracksGui(int laneBase, const std::vector<SonicPi::TrackInfo>& tracks);
+    virtual void TrackStateGui(int id, float gain, bool mute);
+    virtual void TrackFoldersGui(const std::vector<std::string>& extra,
+                                 const std::vector<std::string>& platform);
+    virtual void LinkAudioChannelsGui(const std::vector<SonicPi::LinkAudioChannelInfo>& channels);
+    virtual void LinkAudioInputsGui(const std::vector<SonicPi::LinkAudioInputInfo>& inputs);
+    virtual void TrackPluginsGui(unsigned int total, unsigned int offset,
+                                 const std::vector<SonicPi::TrackPluginInfo>& plugins);
+    virtual void TrackParamsGui(int handle, unsigned int total, unsigned int offset,
+                                const std::vector<SonicPi::TrackParamInfo>& params);
+    virtual void TrackParamEditGui(int handle, unsigned int id, double normalized, bool own);
+    virtual void TrackErrorGui(const QString& verb, const QString& detail, int handle);
     virtual void VersionGui(const SonicPi::VersionInfo& info);
     virtual void BufferGui(const SonicPi::BufferInfo& info);
     virtual void ScsynthGui(const SonicPi::ScsynthInfo& scsynthInfo);

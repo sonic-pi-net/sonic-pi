@@ -90,6 +90,7 @@ class SonicPiContext;
 class SonicPiMetro;
 class LogPanel;
 class MetricsPanel;
+class TracksPanel;
 class QuickstartPane;
 class ZoomBar;
 
@@ -182,6 +183,21 @@ public:
     void updateMIDIInPorts(QString port_info);
     void updateMIDIOutPorts(QString port_info);
     void updateGamepadDevices(QString devices);
+    // The plugin host's tracks: everything below goes to the Tracks panel,
+    // which is the only thing that cares.
+    void updateTracks(int laneBase, const std::vector<SonicPi::TrackInfo>& tracks);
+    void updateTrackState(int id, float gain, bool mute);
+    void updateTrackFolders(const std::vector<std::string>& extra,
+                            const std::vector<std::string>& platform);
+    // Link Audio, for the streams panel in the metro pane.
+    void updateLinkAudioChannels(const std::vector<SonicPi::LinkAudioChannelInfo>& channels);
+    void updateLinkAudioInputs(const std::vector<SonicPi::LinkAudioInputInfo>& inputs);
+    void updateTrackPlugins(unsigned int total, unsigned int offset,
+                            const std::vector<SonicPi::TrackPluginInfo>& plugins);
+    void updateTrackParams(int handle, unsigned int total, unsigned int offset,
+                           const std::vector<SonicPi::TrackParamInfo>& params);
+    void updateTrackParamEdit(int handle, unsigned int id, double normalized, bool own);
+    void updateTrackError(QString verb, QString detail, int handle);
     void updateScsynthInfo(QString description);
     void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
     void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
@@ -585,6 +601,10 @@ private:
     // The synth in effect at the cursor (last use_synth/with_synth before it),
     // defaulting to "beep". Drives synth-aware `play` autocompletion.
     QString currentSynthForCompletion();
+    // The track in effect at the cursor (last use_track/with_track before
+    // it), or empty. Drives the plugin-parameter completion of the track
+    // verbs when no track: is written.
+    QString currentTrackForCompletion();
     void resizeEvent(QResizeEvent* e) override;
     void movePrefsWidget();
     void slidePrefsWidgetIn();
@@ -606,10 +626,6 @@ private:
     // file; rename or delete it once the user picks a save location.
     void startSessionRecordingFlow();
     void stopSessionRecordingFlow();
-    // Spawn / free the supersonic-audio-out synth that feeds the
-    // session recorder's audio track.
-    void spawnRecordAudioOutSynth();
-    void freeRecordAudioOutSynth();
 #endif
 
     void clearOutputPanels();
@@ -761,6 +777,7 @@ private:
     QPushButton* helpCloseButton = nullptr;  // ✕ = persistent close, top-right of the help pane
     ZoomBar* logsZoom = nullptr;             // Logs/Debug tab text-size controls in the title row
     ZoomBar* debugZoom = nullptr;
+    ZoomBar* tracksZoom = nullptr;
     QIcon m_helpCloseIcon;                    // tabler-x, theme-tinted (rest / hover)
     QIcon m_helpCloseIconHover;
     void updateHelpCloseIcon();               // (re)renders the ✕ for the current theme
@@ -787,6 +804,7 @@ private:
     QDockWidget* metroWidget;
     LogPanel* debugLogPanel = nullptr;
     MetricsPanel* metricsPanel = nullptr;
+    TracksPanel*  tracksPanel = nullptr;
     int m_savedDockH = 0;                    // dock height to restore when re-opening via double-click
     int m_dockHBeforeSteal = -1;             // help-dock height before an error stole from it (-1: nothing stolen)
 

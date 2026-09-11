@@ -66,7 +66,8 @@ for required in \
     "app/server/ruby/bin/daemon.rb" \
     "app/server/ruby/bin/fetch-url.rb" \
     "app/server/ruby/bin/clear-logs.rb" \
-    "app/server/native/Sonic Pi - SuperSonic"; do
+    "app/server/native/Sonic Pi - SuperSonic" \
+    "app/server/native/Sonic Pi - Plugins.app/Contents/MacOS/Sonic Pi - Plugins"; do
     if [ ! -f "${resources}/${required}" ]; then
         die "Required runtime file missing after stage: Resources/${required}"
     fi

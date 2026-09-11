@@ -70,6 +70,13 @@ module SonicPi
       @osc_server.send_ts(ts, @hostname, @send_port, address, *args)
     end
 
+    # A /clockwork/ message for a moment in time — see TcpOscClient#send_scheduled.
+    def send_scheduled(ts, *all_args)
+      address, *args = *all_args
+      log "SCH #{ts.to_f} ~ #{address} #{args.inspect}" if osc_debug_mode
+      @osc_server.send_scheduled(ts, address, *args)
+    end
+
     def reboot
       shutdown
       boot
@@ -82,7 +89,7 @@ module SonicPi
     def shutdown
       # Just unregister — the daemon owns SuperSonic's lifecycle
       begin
-        @osc_server.send(@hostname, @send_port, "/supersonic/notify/unregister")
+        @osc_server.send(@hostname, @send_port, "/clockwork/notify/unregister")
       rescue => e
         puts "Error unregistering from SuperSonic: #{e.message}"
       end
@@ -133,7 +140,7 @@ module SonicPi
         d = 0
         b = 0
         m = 60
-        @register_cue_event_lambda.call(Time.now, p, @scsynth_thread_id, d, b, m, address, args) if address == "/supersonic/statechange" || address == "/supersonic/setup"
+        @register_cue_event_lambda.call(Time.now, p, @scsynth_thread_id, d, b, m, address, args) if address == "/clockwork/statechange" || address == "/clockwork/setup"
       end
 
       # Initial notify registration so /done, /synced, /n_go etc. flow
@@ -145,7 +152,7 @@ module SonicPi
       true
     end
 
-    # Register Spider as a /supersonic/notify target. Safe to call any
+    # Register Spider as a /clockwork/notify target. Safe to call any
     # number of times — needed at boot AND after every driver-switch /
     # cold-swap because supersonic builds a fresh World whose subscribers
     # list is empty. Without this, /sync, /done and /n_go replies are
@@ -161,8 +168,8 @@ module SonicPi
       return false unless @osc_server
 
       registered = Promise.new
-      @osc_server.add_method("/supersonic/notify.reply") do |args|
-        puts "Spider OSC: /supersonic/notify.reply confirmed"
+      @osc_server.add_method("/clockwork/notify.reply") do |args|
+        puts "Spider OSC: /clockwork/notify.reply confirmed"
         if args[1].is_a?(String) && !args[1].empty?
           @version = "v#{args[1]}".freeze
         end
@@ -170,10 +177,10 @@ module SonicPi
       end
 
       begin
-        puts "Sending /supersonic/notify to register Spider comms server"
-        @osc_server.send(@hostname, @send_port, "/supersonic/notify")
+        puts "Sending /clockwork/notify to register Spider comms server"
+        @osc_server.send(@hostname, @send_port, "/clockwork/notify")
       rescue => e
-        puts "Error sending /supersonic/notify: #{e.message}"
+        puts "Error sending /clockwork/notify: #{e.message}"
         registered.deliver! false
       end
 
@@ -181,7 +188,7 @@ module SonicPi
         registered.get(timeout)
         true
       rescue
-        puts "Warning: /supersonic/notify registration timed out (#{timeout}s)"
+        puts "Warning: /clockwork/notify registration timed out (#{timeout}s)"
         false
       end
     end

@@ -137,6 +137,25 @@ TEST_CASE("end-of-line partial is empty despite the trailing newline", "[complet
     CHECK(partialAt("sample :ambi_choir, pan: 0.5\n", 28) == "0.5");
 }
 
+TEST_CASE("a string is one token, spaces and all", "[completion][token]")
+{
+    // A plugin parameter or MIDI port is named `"Filter 1 Cutoff"`: the
+    // string being typed is the partial to replace, whole, and a finished
+    // one counts as a single argument.
+    const QString typing = "track_control \"Filter 1 Cut";
+    CHECK(lineToContext(typing, typing.length())
+          == QStringList{ "track_control", "\"Filter 1 Cut" });
+    const QString done = "track_control \"Filter 1 Cutoff\", ";
+    CHECK(lineToContext(done, done.length())
+          == QStringList{ "track_control", "\"Filter 1 Cutoff\"", "" });
+    // An escaped quote stays inside; a single-quoted string is one token too.
+    const QString esc = "midi_note_on 60, port: \"say \\\"hi\\\" (loud)\", ";
+    CHECK(lineToContext(esc, esc.length())
+          == QStringList{ "midi_note_on", "60", "port:", "\"say \\\"hi\\\" (loud)\"", "" });
+    const QString single = "puts 'a b', ";
+    CHECK(lineToContext(single, single.length()) == QStringList{ "puts", "'a b'", "" });
+}
+
 TEST_CASE("caret directly after a closing bracket/quote suppresses completion", "[completion][closed]")
 {
     using SonicPi::caretAfterClosedValue;

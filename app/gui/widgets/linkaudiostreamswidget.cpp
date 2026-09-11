@@ -24,7 +24,6 @@
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QStyle>
-#include <QHostAddress>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -34,149 +33,12 @@
 #include <QSlider>
 #include <QTableWidget>
 #include <QTimer>
-#include <QUdpSocket>
 #include <QVBoxLayout>
-#include <QtEndian>
 
 #include <cmath>
-#include <cstring>
 
 using SonicPi::SonicPiAPI;
-using SonicPi::SonicPiPortId;
 
-namespace {
-
-// Append an OSC string + mandatory NUL + pad to 4-byte boundary.
-void appendOscString(QByteArray& p, const char* s) {
-    p.append(s);
-    p.append('\0');
-    while (p.size() % 4 != 0) p.append('\0');
-}
-
-QByteArray buildOscRequest(const char* addr) {
-    QByteArray pkt;
-    appendOscString(pkt, addr);
-    appendOscString(pkt, ",");
-    return pkt;
-}
-
-QByteArray buildOscInt32Request(const char* addr, int32_t value) {
-    QByteArray pkt;
-    appendOscString(pkt, addr);
-    appendOscString(pkt, ",i");
-    const auto be = qToBigEndian<qint32>(value);
-    pkt.append(reinterpret_cast<const char*>(&be), 4);
-    return pkt;
-}
-
-// /clock/audio/input/latency/set <peer:str> <chan:str> <seconds:float>
-QByteArray buildOscInputLatencyRequest(const char* addr, const QString& peer,
-                                       const QString& chan, float seconds) {
-    QByteArray pkt;
-    appendOscString(pkt, addr);
-    appendOscString(pkt, ",ssf");
-    appendOscString(pkt, peer.toUtf8().constData());
-    appendOscString(pkt, chan.toUtf8().constData());
-    quint32 bits = 0;
-    std::memcpy(&bits, &seconds, sizeof(bits));
-    const auto be = qToBigEndian<quint32>(bits);
-    pkt.append(reinterpret_cast<const char*>(&be), 4);
-    return pkt;
-}
-
-// Reader helpers — return false on truncation.
-struct OscReader {
-    const QByteArray& data;
-    int p = 0;
-    bool readStr(QString& s) {
-        int end = p;
-        while (end < data.size() && data[end] != '\0') ++end;
-        if (end >= data.size()) return false;
-        s = QString::fromUtf8(data.constData() + p, end - p);
-        p = ((end + 4) / 4) * 4;
-        return true;
-    }
-    bool readInt32(int32_t& v) {
-        if (p + 4 > data.size()) return false;
-        v = qFromBigEndian<qint32>(data.constData() + p);
-        p += 4;
-        return true;
-    }
-    bool readFloat(float& v) {
-        if (p + 4 > data.size()) return false;
-        const auto bits = qFromBigEndian<quint32>(data.constData() + p);
-        std::memcpy(&v, &bits, sizeof(v));
-        p += 4;
-        return true;
-    }
-};
-
-// /clock/audio/channels.reply <count> [channelId channelName peerId peerName]*
-// One (peerName, channelName) per channel; Live publishes several per peer.
-QVector<LinkAudioStreamsWidget::PeerChannel>
-parseChannelsReply(const QByteArray& data) {
-    QVector<LinkAudioStreamsWidget::PeerChannel> out;
-    OscReader r{data};
-    QString addr, typetag;
-    if (!r.readStr(addr) || addr != "/clock/audio/channels.reply") return out;
-    if (!r.readStr(typetag) || typetag.isEmpty() || typetag[0] != ',') return out;
-    int32_t count = 0;
-    if (!r.readInt32(count)) return out;
-    for (int i = 0; i < count; ++i) {
-        QString channelId, channelName, peerId, peerName;
-        if (!r.readStr(channelId) || !r.readStr(channelName)
-            || !r.readStr(peerId) || !r.readStr(peerName)) break;
-        out.push_back({ peerName, channelName });
-    }
-    // Sort by peer, then channel.
-    std::sort(out.begin(), out.end(),
-              [](const LinkAudioStreamsWidget::PeerChannel& a,
-                 const LinkAudioStreamsWidget::PeerChannel& b) {
-        const int p = a.peerName.compare(b.peerName, Qt::CaseInsensitive);
-        if (p != 0) return p < 0;
-        return a.channelName.compare(b.channelName, Qt::CaseInsensitive) < 0;
-    });
-    return out;
-}
-
-// /clock/audio/inputs.reply <count>
-//   [peerName:s channelName:s busIdx:i sampleRate:i sourceNumChannels:i
-//    bufferedMs:f connectionState:i droppedSourceBuffers:i
-//    networkGapBuffers:i totalSourceBufferCalls:i duplicateCountCalls:i
-//    latencySeconds:f]*
-// One entry per active subscription; the four diagnostic counters are skipped.
-QVector<LinkAudioStreamsWidget::InputStatus>
-parseInputsReply(const QByteArray& data) {
-    QVector<LinkAudioStreamsWidget::InputStatus> out;
-    OscReader r{data};
-    QString addr, typetag;
-    if (!r.readStr(addr) || addr != "/clock/audio/inputs.reply") return out;
-    if (!r.readStr(typetag) || typetag.isEmpty() || typetag[0] != ',') return out;
-    int32_t count = 0;
-    if (!r.readInt32(count)) return out;
-    for (int i = 0; i < count; ++i) {
-        LinkAudioStreamsWidget::InputStatus s;
-        int32_t busIdx = -1, sampleRate = 0, srcCh = 0, state = 0;
-        int32_t dropped = 0, gaps = 0, total = 0, dup = 0;
-        float bufferedMs = 0.0f, latencySeconds = 0.0f;
-        if (!r.readStr(s.peerName) || !r.readStr(s.channelName)
-            || !r.readInt32(busIdx) || !r.readInt32(sampleRate)
-            || !r.readInt32(srcCh) || !r.readFloat(bufferedMs)
-            || !r.readInt32(state) || !r.readInt32(dropped)
-            || !r.readInt32(gaps) || !r.readInt32(total)
-            || !r.readInt32(dup) || !r.readFloat(latencySeconds)) break;
-        s.busIdx = busIdx;
-        s.sampleRate = sampleRate;
-        s.numChannels = srcCh;
-        s.bufferedMs = bufferedMs;
-        s.state = state;
-        s.latencySeconds = latencySeconds;
-        out.push_back(s);
-    }
-    return out;
-}
-
-} // namespace
 
 LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI,
                                                QWidget* parent)
@@ -359,11 +221,6 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     connect(m_shareAudioBox, &QPushButton::toggled,
             this, &LinkAudioStreamsWidget::onShareAudioToggled);
 
-    m_socket = new QUdpSocket(this);
-    m_socket->bind(QHostAddress::LocalHost, 0);
-    connect(m_socket, &QUdpSocket::readyRead,
-            this, &LinkAudioStreamsWidget::readPendingDatagrams);
-
     m_pollTimer = new QTimer(this);
     m_pollTimer->setInterval(2000);
     connect(m_pollTimer, &QTimer::timeout, this, &LinkAudioStreamsWidget::refresh);
@@ -467,54 +324,66 @@ int LinkAudioStreamsWidget::controlsNaturalWidth() const
 void LinkAudioStreamsWidget::refresh()
 {
     if (!m_spAPI) return;
-    const int port = m_spAPI->GetPort(SonicPiPortId::scsynth);
-    if (port <= 0) {
+    // Two queries per poll: announced channel list, and active
+    // subscriptions (carries per-input status + latency). Over the API's
+    // command connection; the answers arrive through onChannels/onInputs.
+    if (!m_spAPI->SupersonicSendOSC(oscpkt::Message("/clockwork/clock/audio/channels/get"))) {
         showEmptyMessage(tr("SuperSonic not connected"));
         return;
     }
-    // Two queries per poll: announced channel list, and active
-    // subscriptions (carries per-input status + latency).
-    m_socket->writeDatagram(buildOscRequest("/clock/audio/channels/get"),
-                            QHostAddress::LocalHost, static_cast<quint16>(port));
-    m_socket->writeDatagram(buildOscRequest("/clock/audio/inputs/get"),
-                            QHostAddress::LocalHost, static_cast<quint16>(port));
+    m_spAPI->SupersonicSendOSC(oscpkt::Message("/clockwork/clock/audio/inputs/get"));
 }
 
-void LinkAudioStreamsWidget::readPendingDatagrams()
+void LinkAudioStreamsWidget::onChannels(const std::vector<SonicPi::LinkAudioChannelInfo>& channels)
 {
-    while (m_socket->hasPendingDatagrams()) {
-        QByteArray buf;
-        buf.resize(static_cast<int>(m_socket->pendingDatagramSize()));
-        m_socket->readDatagram(buf.data(), buf.size());
-
-        // Dispatch by reply address (two outstanding queries).
-        OscReader peek{buf};
-        QString addr;
-        if (!peek.readStr(addr)) continue;
-
-        if (addr == "/clock/audio/channels.reply") {
-            QVector<PeerChannel> incoming = parseChannelsReply(buf);
-            if (incoming != m_channels) {
-                m_channels = incoming;
-                // Surface deduped peer / channel names to the editor autocompletion.
-                QStringList peers, channels;
-                for (const PeerChannel& pc : m_channels) {
-                    const QString p = QStringLiteral("\"%1\"").arg(pc.peerName);
-                    const QString c = QStringLiteral("\"%1\"").arg(pc.channelName);
-                    if (!peers.contains(p)) peers << p;
-                    if (!channels.contains(c)) channels << c;
-                }
-                emit linkAudioStreamsChanged(peers, channels);
-            }
-            renderPeersTable();
-        } else if (addr == "/clock/audio/inputs.reply") {
-            m_inputs = parseInputsReply(buf);
-            // Slider is the source of truth; pull any drifted input back
-            // (e.g. a stream added by Ruby at SuperSonic's default).
-            enforceEngineLatency();
-            renderPeersTable();
-        }
+    // One row per (peer, channel), sorted by peer then channel.
+    QVector<PeerChannel> incoming;
+    incoming.reserve(static_cast<int>(channels.size()));
+    for (const auto& c : channels) {
+        incoming.push_back({ QString::fromStdString(c.peerName),
+                             QString::fromStdString(c.channelName) });
     }
+    std::sort(incoming.begin(), incoming.end(),
+              [](const PeerChannel& a, const PeerChannel& b) {
+        const int p = a.peerName.compare(b.peerName, Qt::CaseInsensitive);
+        if (p != 0) return p < 0;
+        return a.channelName.compare(b.channelName, Qt::CaseInsensitive) < 0;
+    });
+    if (incoming != m_channels) {
+        m_channels = incoming;
+        // Surface deduped peer / channel names to the editor autocompletion.
+        QStringList peers, names;
+        for (const PeerChannel& pc : m_channels) {
+            const QString p = QStringLiteral("\"%1\"").arg(pc.peerName);
+            const QString c = QStringLiteral("\"%1\"").arg(pc.channelName);
+            if (!peers.contains(p)) peers << p;
+            if (!names.contains(c)) names << c;
+        }
+        emit linkAudioStreamsChanged(peers, names);
+    }
+    renderPeersTable();
+}
+
+void LinkAudioStreamsWidget::onInputs(const std::vector<SonicPi::LinkAudioInputInfo>& inputs)
+{
+    m_inputs.clear();
+    m_inputs.reserve(static_cast<int>(inputs.size()));
+    for (const auto& in : inputs) {
+        InputStatus s;
+        s.peerName = QString::fromStdString(in.peerName);
+        s.channelName = QString::fromStdString(in.channelName);
+        s.busIdx = in.busIdx;
+        s.sampleRate = in.sampleRate;
+        s.numChannels = in.numChannels;
+        s.bufferedMs = in.bufferedMs;
+        s.state = in.state;
+        s.latencySeconds = in.latencySeconds;
+        m_inputs.push_back(s);
+    }
+    // Slider is the source of truth; pull any drifted input back
+    // (e.g. a stream added by Ruby at SuperSonic's default).
+    enforceEngineLatency();
+    renderPeersTable();
 }
 
 void LinkAudioStreamsWidget::onLatencySliderChanged(int ms)
@@ -530,16 +399,16 @@ void LinkAudioStreamsWidget::onLatencySliderChanged(int ms)
 void LinkAudioStreamsWidget::enforceEngineLatency()
 {
     if (!m_spAPI || !m_latencySlider) return;
-    const int port = m_spAPI->GetPort(SonicPiPortId::scsynth);
-    if (port <= 0) return;
     const float target = m_latencySlider->value() / 1000.0f;
     for (const auto& in : m_inputs) {
         // ~1 ms deadband; avoids float round-trips re-pushing every poll.
         if (std::fabs(in.latencySeconds - target) > 0.001f) {
-            m_socket->writeDatagram(
-                buildOscInputLatencyRequest("/clock/audio/input/latency/set",
-                                            in.peerName, in.channelName, target),
-                QHostAddress::LocalHost, static_cast<quint16>(port));
+            // /clockwork/clock/audio/input/latency/set <peer:s> <chan:s> <seconds:f>
+            oscpkt::Message m("/clockwork/clock/audio/input/latency/set");
+            m.pushStr(in.peerName.toStdString());
+            m.pushStr(in.channelName.toStdString());
+            m.pushFloat(target);
+            m_spAPI->SupersonicSendOSC(m);
         }
     }
 }
@@ -564,7 +433,7 @@ void LinkAudioStreamsWidget::renderPeersTable()
         tr("Channel"), tr("Status"), tr("Buffered"), tr("Rate"), tr("Bus") });
 
     // Float active subscriptions to the top; within each group the
-    // peer-then-channel sort from parseChannelsReply is preserved.
+    // peer-then-channel sort from onChannels is preserved.
     auto findInput = [this](const PeerChannel& ch) -> const InputStatus* {
         for (const auto& in : m_inputs) {
             if (in.peerName == ch.peerName && in.channelName == ch.channelName)

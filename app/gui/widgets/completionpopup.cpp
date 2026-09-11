@@ -85,8 +85,10 @@ QColor kindColor(const QString& kind) {
     if (kind == "synth")   return QColor(0x9B, 0x59, 0xB6); // purple
     if (kind == "fx")      return QColor(0x34, 0x98, 0xDB); // blue
     if (kind == "sample")  return QColor(0xE6, 0x7E, 0x22); // orange
-    if (kind == "opt")     return QColor(0x95, 0xA5, 0xA6); // grey
-    if (kind == "cue" || kind == "peer" || kind == "channel" || kind == "port")
+    if (kind == "opt" || kind == "param")
+                           return QColor(0x95, 0xA5, 0xA6); // grey
+    if (kind == "cue" || kind == "peer" || kind == "channel" || kind == "port"
+        || kind == "track")
                            return QColor(0x16, 0xA0, 0x85); // teal
     if (kind == "chord" || kind == "scale" || kind == "tuning")
                            return QColor(0xE0, 0xA8, 0x00); // amber
@@ -139,13 +141,10 @@ public:
         const int h = fm.height() + 2 * kRowVPad;
         const QString name = index.data(Qt::DisplayRole).toString();
         const QString kind = index.data(CompletionPopup::KindRole).toString();
-        const QString summary = index.data(CompletionPopup::SummaryRole).toString();
-        // Notes and enum opt-values carry an inline summary (note pitch, or what an
-        // enum value means); other kinds show their docstring in the pane instead.
-        const bool inlineSummary = (kind == "note" || kind == "optval") && !summary.isEmpty();
-        int w = inlineSummary
+        const QString inl = inlineText(index);
+        int w = !inl.isEmpty()
                     ? m_popup->nameColumnX() + fm.horizontalAdvance(name) + 18
-                          + fm.horizontalAdvance(summary)
+                          + fm.horizontalAdvance(inl)
                     : m_popup->nameColumnX() + fm.horizontalAdvance(name);
         if (kind == "synth" || kind == "fx")
             w += (h - 6) * 32 / 18 + 16; // room for the right-aligned identity icon
@@ -195,7 +194,7 @@ public:
 
         const QString kind = index.data(CompletionPopup::KindRole).toString();
         const QString name = index.data(Qt::DisplayRole).toString();
-        const QString summary = index.data(CompletionPopup::SummaryRole).toString();
+        const QString inl = inlineText(index);
 
         QFontMetrics fm(opt.font);
         const int cy = opt.rect.center().y();
@@ -265,9 +264,9 @@ public:
             p->drawPixmap(QPoint(opt.rect.right() - kRowHPad - iw, cy - ih / 2), icon);
         }
 
-        // Inline summary (notes only) — readable secondary tone, placed right
-        // after the number with a small gap (not a far column) so it reads tight.
-        if ((kind == "note" || kind == "optval") && !summary.isEmpty()) {
+        // Inline text — readable secondary tone, placed right after the name
+        // with a small gap (not a far column) so it reads tight.
+        if (!inl.isEmpty()) {
             const int sx = nameX + fm.horizontalAdvance(name) + 18;
             int avail = opt.rect.right() - kRowHPad - sx;
             if (avail > 20) {
@@ -275,7 +274,7 @@ public:
                     ? m_popup->selectionFg()
                     : mix(m_popup->textColor(), m_popup->backgroundColor(), 60);
                 p->setPen(dim);
-                QString elided = fm.elidedText(summary, Qt::ElideRight, avail);
+                QString elided = fm.elidedText(inl, Qt::ElideRight, avail);
                 p->drawText(QRect(sx, opt.rect.top(), avail, opt.rect.height()),
                             Qt::AlignVCenter | Qt::AlignLeft, elided);
             }
@@ -285,6 +284,19 @@ public:
     }
 
 private:
+    // What a row says beside its name. Notes and enum opt-values carry their
+    // summary inline (note pitch, or what an enum value means); other kinds
+    // show their docstring in the pane instead, and a row with a tag — an
+    // opt that belongs to one plugin of several on a track — names it here.
+    static QString inlineText(const QModelIndex& index) {
+        const QString tag = index.data(CompletionPopup::TagRole).toString();
+        if (!tag.isEmpty()) return tag;
+        const QString kind = index.data(CompletionPopup::KindRole).toString();
+        if (kind == "note" || kind == "optval")
+            return index.data(CompletionPopup::SummaryRole).toString();
+        return QString();
+    }
+
     CompletionPopup* m_popup;
 };
 
@@ -1583,6 +1595,7 @@ bool CompletionPopup::showItems(const QList<CompletionItem>& items,
         row->setData(it.doc, DocRole);
         row->setData(it.usage, UsageRole);
         row->setData(QVariant::fromValue(it.intervals), IntervalsRole);
+        row->setData(it.tag, TagRole);
         row->setEditable(false);
         m_model->appendRow(row);
     }

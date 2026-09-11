@@ -62,6 +62,7 @@ module SonicPi
       @osc_path_b_alloc     = "/b_alloc".freeze
       @osc_path_b_free      = "/b_free".freeze
       @osc_path_b_write     = "/b_write".freeze
+      @osc_path_piano_wavetable = "/supersonic/piano/wavetable".freeze
       @osc_path_b_close     = "/b_close".freeze
       @osc_path_b_info      = "/b_info".freeze
       @osc_path_b_query     = "/b_query".freeze
@@ -163,7 +164,7 @@ module SonicPi
     end
 
     # Re-register Spider against supersonic's process-level
-    # /supersonic/notify list (handled by OscUdpServer, survives World
+    # /clockwork/notify list (handled by OscUdpServer, survives World
     # rebuilds — separate from scsynth's per-World /notify list managed
     # by request_notifications below). Used by Studio#cold_swap_reinit!
     # as Phase 1.5 to keep device-event push notifications flowing after
@@ -593,6 +594,15 @@ module SonicPi
       @BUFFER_ALLOCATOR.release! buf.to_i
     end
 
+    # MdaPiano's sample table, handed to the plugin as a buffer the way a
+    # sample is handed to the engine. The plugin keeps its own copy, so the
+    # buffer may be freed once this returns.
+    def piano_wavetable(buf)
+      with_done_sync [@osc_path_piano_wavetable] do
+        osc @osc_path_piano_wavetable, buf.to_i
+      end
+    end
+
     def buffer_write(buf, path, extension="wav", sample_format="int16", synchronous=true)
       path = File.expand_path(path)
 
@@ -748,6 +758,25 @@ module SonicPi
       @scsynth.send(*args)
     end
 
+    # Send a message and wait (up to timeout seconds) for the reply at
+    # reply_addr, returning its args, or nil if none came. For the verbs
+    # SuperSonic answers with a <addr>.reply rather than /done — the
+    # recording verbs among them — so a caller that then moves the file
+    # knows the file is finished.
+    def osc_with_reply(reply_addr, timeout, *args)
+      prom = Promise.new
+      @osc_events.add_handler(reply_addr, @osc_events.gensym("/sonicpi/server/reply")) do |pl|
+        prom.deliver!(pl.to_a) unless prom.delivered?
+        :remove_handler
+      end
+      osc(*args)
+      begin
+        prom.get(timeout)
+      rescue Exception
+        nil
+      end
+    end
+
     def osc_bundle(ts, *args)
 #      log "--> oscb at #{ts}, #{args}"
       # In real-time mode a stamp at or behind the wall clock means "as soon
@@ -806,6 +835,63 @@ module SonicPi
     # this is for global timewarp and is matched with outgoing OSC and MIDI
     def set_global_timewarp!(time)
       @global_timewarp = time.to_f / 1000.0
+    end
+
+    # ── Tracks ───────────────────────────────────────────────────────────────
+    # Events for the plugins on a track. Sent through osc_bundle at
+    # sched_time, exactly like /s_new, so a note lands where the beat says
+    # rather than whenever the message happens to arrive; immediate sends
+    # would jitter against every other sound in the run. `track` is the name;
+    # the engine resolves it. Velocities and controller values are MIDI ints
+    # (0..127), channels 0-based on the wire — the language layer takes the
+    # 1-based number a MIDI user expects and subtracts one here.
+    #
+    # `at` overrides the stamp, for a release whose time is known when the
+    # note starts.
+
+    def track_note_on(track, note, vel, channel, at=nil)
+      track_send at || sched_time, "/clockwork/track/note", track.to_s, 1, note.to_i, vel.to_i, channel.to_i - 1
+    end
+
+    def track_note_off(track, note, vel, channel, at=nil)
+      track_send at || sched_time, "/clockwork/track/note", track.to_s, 0, note.to_i, vel.to_i, channel.to_i - 1
+    end
+
+    def track_cc(track, number, value, channel, at=nil)
+      track_send at || sched_time, "/clockwork/track/cc", track.to_s, number.to_i, value.to_i, channel.to_i - 1
+    end
+
+    # bend is -1..1, 0 at rest.
+    def track_pitch_bend(track, bend, channel, at=nil)
+      track_send at || sched_time, "/clockwork/track/bend", track.to_s, bend.to_f, channel.to_i - 1
+    end
+
+    # No track: every track, now — the stop button's case.
+    def track_all_notes_off(track, at=nil)
+      return @scsynth.send("/clockwork/track/notes_off", "*") if track.nil?
+      track_send at || sched_time, "/clockwork/track/notes_off", track.to_s
+    end
+
+    # A plugin parameter by its own name, in the plugin's own range.
+    # A handle names the plugin the parameter is on; without one the first
+    # in the chain with a parameter so called takes it.
+    def track_param(track, name, value, at=nil, handle=nil)
+      args = [track.to_s, name.to_s, value.to_f]
+      args << handle.to_i if handle
+      track_send at || sched_time, "/clockwork/track/param", *args
+    end
+
+    # The track verbs are the HARNESS's, not the DSP's, so they cannot ride
+    # a timestamped bundle the way a synth trigger does: the engine hands a
+    # bundle to scsynth's queue, which knows no /clockwork/ address. They go
+    # through the harness's own scheduler instead, which fires them in the
+    # block their time falls in. Same real-time-mode shortcut as osc_bundle.
+    def track_send(ts, *args)
+      if __system_thread_locals.get(:sonic_pi_spider_real_time_mode) && ts.to_f <= Time.now.to_f
+        @scsynth.send(*args)
+      else
+        @scsynth.send_scheduled(ts, *args)
+      end
     end
 
     def sched_time

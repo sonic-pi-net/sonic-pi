@@ -20,8 +20,11 @@
 #   - SuperSonic statically links its UGens and audio-file I/O, so no plugin
 #     bundles or codec libs ship here; scsynth is gone
 
-# Engine + tools (engine name per app/server/ruby/paths.rb + daemon.rb)
+# Engine + tools (engine name per app/server/ruby/paths.rb + daemon.rb).
+# The plugin bridge is the engine's second process: it hosts VST3 and CLAP
+# plugins and is spawned by the engine from beside its own binary.
 Sonic Pi - SuperSonic
+Sonic Pi - Plugins
 aubio_onset
 piano_wavetable.dat
 

@@ -858,6 +858,657 @@ with_arg_bpm_scaling false do
 end"]
 
 
+      # ── Tracks ─────────────────────────────────────────────────────────────
+      #
+      # A track is a named lane through the plugin host: a chain of VST3 or
+      # CLAP plugins, made and arranged in the Tracks panel, that code only
+      # ever names. Audio reaches a track with `with_send`, an instrument on
+      # it takes the events a MIDI synth would - `track_midi` is `midi` for
+      # the track set by `use_track` (or named with `track:`) - and the track
+      # is heard on the main mix unless `live_track` has taken it somewhere
+      # else (a with_fx, say).
+      #
+      # Names are resolved by the engine on every event, so a track renamed in
+      # the panel keeps working for code that names it by the new name and
+      # errors clearly for the old one; the channels behind `live_track` and
+      # `with_send` come from the studio's registry (studio.rb), which the
+      # engine keeps current.
+
+      def live_track(*params)
+        args, opts = split_params_and_merge_opts_array(params)
+        # The name comes first, as live_audio's does, unless it is given as
+        # track: or left to use_track; `live_track :stop` stops the current one.
+        named = !opts.key?(:track) && (args[0].is_a?(Symbol) || args[0].is_a?(String)) && args[0] != :stop
+        rest  = named ? args[1..-1] : args
+        stopping = !rest.empty? && (rest[0].nil? || rest[0] == :stop)
+        name = __track_name!(opts, :live_track, named ? args[0] : nil, check: !stopping)
+        # Keyed apart from live_audio so `live_track :foo` and `live_audio :foo`
+        # are two streams, as link_audio keys its own.
+        id = [:track, name]
+
+        if stopping
+          res = @mod_sound_studio.kill_live_synth(id)
+          # Code asked for the stream to go while code still runs: the
+          # track is handed straight back to the main mix.
+          # track_info, not track_id: the name was not checked above, and
+          # stopping a stream of a track that has gone is not an error.
+          t = @mod_sound_studio.track_info(name)
+          @mod_sound_studio.track_monitor_release(t[:id]) if t
+          return res
+        end
+
+        synth_name = "sonic-pi-live_audio_stereo"
+        info = Synths::SynthInfo.get_info(synth_name.to_sym)
+        synth_name = info ? info.scsynth_name : synth_name
+
+        opts = opts.dup
+        opts.delete(:stereo)
+        opts.delete(:input)
+        opts.delete(:track)
+        # The stream's own opts are the synth's; the rest are the track's
+        # plugin parameters, set as the stream starts.
+        own = [:on, :stereo, :input] + (info ? info.arg_info.keys : [:amp, :pan])
+        plugin_opts = opts.reject { |k, _| own.include?(k) }
+        opts = opts.select { |k, _| own.include?(k) }
+        will_trigger = !opts.key?(:on) || truthy?(opts[:on])
+        track_id = nil
+        if will_trigger
+          opts[:input] = @mod_sound_studio.track_return_channel(name)
+          track_id = @mod_sound_studio.track_id(name)
+          __track_set_params(name, plugin_opts)
+        end
+
+        unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
+          shown = opts.reject { |k, _| k == :input }.merge(plugin_opts)
+          __delayed_message "live_track :#{name}#{shown.empty? ? "" : ", #{arg_h_pp(shown)}"}"
+        end
+
+        # The track is heard on the main mix until a live_track takes it
+        # (studio.rb, track monitors). This one takes it now, and the
+        # stream is its: when Stop kills it the track falls silent rather
+        # than switching to the main mix, until something next plays or
+        # sends into the track. The :stop branch above is the one way the
+        # track is handed straight back.
+        @mod_sound_studio.track_monitor_claim(track_id) if track_id
+        node = trigger_live_synth(synth_name, opts, current_group, info, false, current_out_bus, false, :tail, id)
+        if track_id && node.respond_to?(:on_destroyed)
+          stud = @mod_sound_studio
+          node.on_destroyed(:sonic_pi_track_monitor) { stud.track_monitor_park(track_id) }
+        end
+        node
+      end
+      doc name:           :live_track,
+          introduced:     Version.new(5,1,0),
+          summary:        "A named audio stream live from a track",
+          usage_example:  "live_track :surge",
+          args:           [[:name, :symbol]],
+          arg_kinds:     [:track],
+          returns:        :SynthNode,
+          opts:           {:amp => "Amplitude of the stream (default 1)",
+                           :pan => "Stereo position of the stream (default 0)",
+                           :track => "The track, instead of naming it first"},
+          accepts_block:  false,
+          args_size:      0,
+          opts_keys:      [:amp, :pan],
+          doc:            "Brings the output of a track into the current FX context, as `live_audio` brings a soundcard input. A track is made and arranged in the Tracks panel; here it is only named - first, as `live_audio` names its stream, or by `track:`, or not at all after `use_track`.
+
+Any other opt is a parameter of a plugin on the track, by its key: the plugin's own name for it in lower case with underscores between the words, so Surge's \"Filter 1 Cutoff\" is `filter_1_cutoff:`. The value is in the range the plugin reports - 0 to 1 for many, Surge XT among them - and one outside it is refused. The editor's autocompletion lists them with their ranges once the track's plugins are running.
+
+Like `live_audio`, only one `live_track` of a given name exists at a time: calling it again moves the existing stream into the current FX context rather than starting a second one, so you can live code the FX around a track. Stop it with `live_track :name, :stop`.
+
+A track is heard on the main mix as soon as it exists, so you do not need `live_track` to hear one: `track_midi` on an instrument, or `with_send` into an effect, sounds on its own. `live_track` is for taking the track somewhere else - into a `with_fx`, or under an `amp:` and `pan:` of your own. Once it has the track, the track's audio is its: it is heard only through the `live_track`, and when Stop ends the run the audio stops with it - a plugin still ringing or sequencing is not heard until something next plays or sends into the track, which puts it back on the main mix. `live_track :name, :stop` hands the track straight back to the main mix while your code goes on.",
+          examples:       ["
+with_fx :reverb do
+  live_track :surge              # move the track's audio into a reverb
+end
+
+use_track :surge
+live_loop :keys do
+  track_midi :e3, sustain: 0.5
+  sleep 0.5
+end",
+        "
+live_track :surge, amp: 0.5, pan: -1   # quieter, and on the left",
+        "
+live_track :surge, filter_1_cutoff: 0.3    # and set a parameter of the plugin as it starts",
+        "
+live_track :surge, :stop         # hand the track back to the main mix"]
+
+
+      def with_send(*params, &block)
+        raise ArgumentError, "with_send must be called with a do/end block" unless block
+        args, opts = split_params_and_merge_opts_array(params)
+        named = !opts.key?(:track) && (args[0].is_a?(Symbol) || args[0].is_a?(String))
+        name = __track_name!(opts, :with_send, named ? args[0] : nil)
+        @mod_sound_studio.track_touched(name)
+        # Routing only. A track's plugins are shared state - set from the
+        # panel, from track_control, by every block that sends to it - so
+        # setting them as a side effect of routing would have two blocks on
+        # one track quietly fighting over a knob.
+        extra = opts.keys - [:amp, :mix, :track]
+        unless extra.empty?
+          raise "with_send takes amp:, mix: and track:, not #{extra.map(&:inspect).join(", ")}. A plugin's parameter is set with track_control - track_control #{extra.first}: 0.5 - before the block."
+        end
+        amp = opts.fetch(:amp, 1).to_f
+        # mix: is with_fx's word for the same question - how much of this is
+        # the effect and how much the original - and takes with_fx's default:
+        # 1, wholly through the track. What goes to the track is amp * mix;
+        # what stays is 1 - mix, so mix: 0.5 is both at half and mix: 0 sends
+        # nothing at all.
+        mix  = opts.fetch(:mix, 1).to_f.min(0).max(1)
+        sent = amp * mix
+        kept = 1 - mix
+        # The block's audio leaves through sound_out_stereo, which puts
+        # pre_amp * input on its output channels and passes amp * pre_amp *
+        # input on downstream (etc/synthdefs .../fx.clj). So the send level
+        # is pre_amp and the kept level is amp * pre_amp; dividing gives the
+        # amp that makes them what was asked for. At a send of zero there is
+        # nothing to divide by and nothing to send: the block runs through a
+        # plain level instead.
+        if sent <= 0
+          return with_fx(:level, amp: kept, &block)
+        end
+        output = @mod_sound_studio.track_send_channel(name)
+        unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
+          __delayed_message "with_send :#{name}, amp: #{amp}, mix: #{mix}"
+        end
+        with_fx(:sound_out_stereo, output: output, pre_amp: sent, amp: kept / sent, &block)
+      end
+      doc name:           :with_send,
+          introduced:     Version.new(5,1,0),
+          summary:        "Send the block's audio to a track",
+          usage_example:  "with_send :verb do ... end",
+          args:           [[:name, :symbol]],
+          arg_kinds:     [:track],
+          opts:           {:amp  => "Level sent to the track, 0 for none (default 1)",
+                           :mix  => "How much of the block is heard through the track and how much as itself, as with_fx's mix: 1 (the default) wholly through the track, 0 wholly as itself and nothing sent, 0.5 both at half",
+                           :track => "The track, instead of naming it first"},
+          accepts_block:  true,
+          requires_block: true,
+          doc:            "Everything played inside the block is sent to the named track, at `amp:`, where its chain of plugins runs on it, and the track's output is what you hear - on the main mix, or wherever `live_track` has put it. `mix:` is `with_fx`'s question asked of a track: at 1, the default, the block is heard only through the track and a plugin's own balance of dry and wet is the plugin's to set; at 0.5 the block is heard as itself at half and sent at half; at 0 nothing is sent.
+
+A track is made and arranged in the Tracks panel; here it is only named - first, or by `track:`, or not at all after `use_track`. The block's audio is copied to the track rather than handed over to it, which is what lets several blocks share one reverb.
+
+This routes and nothing more: the track's plugins are set with `track_control`, which can go before the block or anywhere else, because a track's knobs belong to the track and not to any one block sending to it.",
+          examples:       ["
+with_send :verb do               # the drums, heard through a track carrying a reverb plugin
+  sample :loop_amen
+end",
+        "
+with_send :verb, mix: 0.5 do     # half of it through the reverb, half as it is
+  play :e3
+end",
+        "
+live_loop :drums do
+  with_send :crush, amp: (line 0, 1, steps: 8).tick do  # ride the send level
+    sample :bd_haus
+  end
+  sleep 0.5
+end",
+        "
+track_control decay_time: 4, track: :verb   # the track's plugins are set separately
+with_send :verb do
+  play :e3
+end"]
+
+
+      def use_track(name, *args, &block)
+        raise ArgumentError, "use_track does not accept opts such as #{arg_h_pp(resolve_synth_opts_hash_or_array(args))}." unless args.empty?
+        raise ArgumentError, "use_track does not work with a do/end block. Perhaps you meant with_track" if block
+        __set_current_track!(name, :use_track)
+        nil
+      end
+      doc name:           :use_track,
+          introduced:     Version.new(5,1,0),
+          summary:        "Use the named track from now on",
+          usage_example:  "use_track :surge",
+          args:           [[:name, :symbol]],
+          arg_kinds:     [:track],
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "Sets the track that `track_midi`, `track_control` and the rest of the `track_*` functions act on from here on, in this thread and the live loops started from it - as `use_synth` sets the synth for `play`. A track is made in the Tracks panel; here it is only named, and a name the panel does not have is an error. Any of them can still reach another track with `track:`.",
+          examples:       ["
+use_track :surge
+track_midi :e3, sustain: 0.5        # on surge
+track_control filter_1_cutoff: 0.4  # also on surge",
+        "
+use_track :surge
+live_loop :keys do
+  track_midi :e3, sustain: 0.5             # the live loop keeps the track it was started with
+  track_midi :e2, sustain: 0.5, track: :bass  # and can reach another
+  sleep 1
+end"]
+
+
+      def with_track(name, *args, &block)
+        raise ArgumentError, "with_track does not accept opts such as #{arg_h_pp(resolve_synth_opts_hash_or_array(args))}." unless args.empty?
+        raise ArgumentError, "with_track must be called with a do/end block. Perhaps you meant use_track" unless block
+        orig = __thread_locals.get(:sonic_pi_mod_sound_current_track)
+        __set_current_track!(name, :with_track)
+        begin
+          block.call
+        ensure
+          __thread_locals.set(:sonic_pi_mod_sound_current_track, orig)
+        end
+      end
+      doc name:           :with_track,
+          introduced:     Version.new(5,1,0),
+          summary:        "Use the named track for the block",
+          usage_example:  "with_track :surge do ... end",
+          args:           [[:name, :symbol]],
+          arg_kinds:     [:track],
+          opts:           nil,
+          accepts_block:  true,
+          requires_block: true,
+          doc:            "Sets the track that `track_midi`, `track_control` and the rest of the `track_*` functions act on inside the block, as `with_synth` sets the synth for `play`; afterwards the track is what it was before.",
+          examples:       ["
+use_track :surge
+with_track :bass do
+  track_midi :e2, sustain: 1     # on bass
+end
+track_midi :e4, sustain: 0.5     # on surge again"]
+
+
+      def current_track
+        t = __thread_locals.get(:sonic_pi_mod_sound_current_track)
+        t ? t.to_sym : nil
+      end
+      doc name:           :current_track,
+          introduced:     Version.new(5,1,0),
+          summary:        "Get the current track",
+          usage_example:  "current_track",
+          args:           [],
+          returns:        :symbol,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "The name of the track the `track_*` functions act on, set by `use_track` or `with_track`; nil when none has been set.",
+          examples:       ["
+use_track :surge
+puts current_track   # :surge"]
+
+
+      def track_midi(*params)
+        name, args, opts = __track_split(params, :track_midi)
+        n, vel = *args
+        return __track_rest(:track_midi, name) if rest?(n)
+        n   = __track_note(n, opts)
+        vel = __resolve_midi_velocity(vel, opts)
+        sus = opts.fetch(:sustain, 1).to_f
+        rel = opts.fetch(:release_velocity, 127)
+        ch  = __track_channel(opts)
+        plugin_opts = __track_plugin_opts(opts, [:sustain, :release_velocity])
+        if truthy?(opts.fetch(:on, 1))
+          __track_set_params(name, plugin_opts)
+          @mod_sound_studio.server.track_note_on(name, n, vel, ch)
+          time_warp sus - 0.01 do
+            @mod_sound_studio.server.track_note_off(name, n, rel, ch)
+          end
+          __track_message "track_midi #{n}, #{vel}, sustain: #{sus}, channel: #{ch}#{__track_opts_pp(plugin_opts)}, track: :#{name}"
+        else
+          __track_message "track_midi #{n}, #{vel}, sustain: #{sus}, channel: #{ch}#{__track_opts_pp(plugin_opts)}, track: :#{name}, on: 0"
+        end
+        nil
+      end
+      doc name:           :track_midi,
+          introduced:     Version.new(5,1,0),
+          summary:        "Play a note on a track's instrument",
+          usage_example:  "track_midi :e3, sustain: 0.3",
+          args:           [[:note, :number], [:velocity, :number]],
+          arg_kinds:     [:note],
+          returns:        :nil,
+          opts:           {sustain: "Duration of the note in beats (default 1)",
+                           vel:     "Velocity as a MIDI number, 0->127 (default 127)",
+                           vel_f:   "Velocity as a float, 0->1",
+                           channel: "Which of the track's instruments hear it, 1->16 (default 1). Every instrument does unless it has been set to listen on one channel in the Tracks panel; then only those on that channel do.",
+                           track:   "The track to play, instead of the current one from use_track",
+                           on:      "If specified and false/nil/0 will stop the note being sent. (Ensures all opts are evaluated in this call regardless of value)."},
+          accepts_block:  false,
+          doc:            "Sends a note on to the instrument on the current track, then a note off after `sustain:` beats - `midi` for a track instead of a MIDI port. The track is set by `use_track` or `with_track`, or named here with `track:`; it is made in the Tracks panel. Lands on the beat with everything else Sonic Pi plays, and co-operates with `time_warp`.
+
+The note reaches every instrument on the track, in chain order. A track with more than one instrument can share them out: set an instrument's channel on its device in the Tracks panel and it takes only the notes sent with that `channel:` - the way a rack in a DAW addresses one instrument of several. The track is heard on the main mix as it is, or wherever `live_track` puts it.
+
+Any other opt is a parameter of a plugin on the track, set just before the note, by its key: the plugin's own name for it in lower case with underscores between the words, so Surge's \"Filter 1 Cutoff\" is `filter_1_cutoff:`; a name two plugins share goes to the first, and the key under the plugin's own name - `surge_xt_effects_mix:` - to the other. The value is in the range the plugin reports - 0 to 1 for many, Surge XT among them - and one outside it is refused; it stays set - a parameter is the plugin's state, not the note's. The editor's autocompletion lists them with their ranges once the track's plugins are running; a parameter whose key is one of this function's own opts is reached by `track_control` with its full name instead.",
+          examples:       ["
+use_track :surge
+live_loop :arp do
+  track_midi (octs :e1, 3).tick, sustain: 0.1
+  sleep 0.125
+end",
+        "
+track_midi :e3, vel_f: 0.5, channel: 2, sustain: 2, track: :surge",
+        "
+use_track :surge
+live_loop :sweep do
+  track_midi :e2, sustain: 0.2, filter_1_cutoff: (range 0.2, 0.8, 0.05).tick   # a plugin parameter with each note
+  sleep 0.25
+end"]
+
+
+      def track_midi_note_on(*params)
+        name, args, opts = __track_split(params, :track_midi_note_on)
+        n, vel = *args
+        return __track_rest(:track_midi_note_on, name) if rest?(n)
+        n   = __track_note(n, opts)
+        vel = __resolve_midi_velocity(vel, opts)
+        ch  = __track_channel(opts)
+        plugin_opts = __track_plugin_opts(opts, [])
+        if truthy?(opts.fetch(:on, 1))
+          __track_set_params(name, plugin_opts)
+          @mod_sound_studio.server.track_note_on(name, n, vel, ch)
+          __track_message "track_midi_note_on #{n}, #{vel}, channel: #{ch}#{__track_opts_pp(plugin_opts)}, track: :#{name}"
+        else
+          __track_message "track_midi_note_on #{n}, #{vel}, channel: #{ch}#{__track_opts_pp(plugin_opts)}, track: :#{name}, on: 0"
+        end
+        nil
+      end
+      doc name:           :track_midi_note_on,
+          introduced:     Version.new(5,1,0),
+          summary:        "Start a note on a track's instrument",
+          usage_example:  "track_midi_note_on :e3, 100",
+          args:           [[:note, :number], [:velocity, :number]],
+          arg_kinds:     [:note],
+          returns:        :nil,
+          opts:           {vel:     "Velocity as a MIDI number, 0->127 (default 127)",
+                           vel_f:   "Velocity as a float, 0->1",
+                           channel: "Which of the track's instruments hear it, 1->16 (default 1). Every instrument does unless it has been set to listen on one channel in the Tracks panel; then only those on that channel do.",
+                           track:   "The track, instead of the current one from use_track",
+                           on:      "If specified and false/nil/0 will stop the note being sent."},
+          accepts_block:  false,
+          doc:            "Starts a note on the instrument on the current track and leaves it sounding, as `midi_note_on` does on a MIDI port. Release it with `track_midi_note_off`. Use `track_midi` when the duration is known up front.",
+          examples:       ["
+use_track :surge
+track_midi_note_on :c4
+sleep 2
+track_midi_note_off :c4"]
+
+
+      def track_midi_note_off(*params)
+        name, args, opts = __track_split(params, :track_midi_note_off)
+        n, vel = *args
+        return __track_rest(:track_midi_note_off, name) if rest?(n)
+        n   = __track_note(n, opts)
+        vel = __resolve_midi_velocity(vel, opts)
+        ch  = __track_channel(opts)
+        if truthy?(opts.fetch(:on, 1))
+          @mod_sound_studio.server.track_note_off(name, n, vel, ch)
+          __track_message "track_midi_note_off #{n}, #{vel}, channel: #{ch}, track: :#{name}"
+        else
+          __track_message "track_midi_note_off #{n}, #{vel}, channel: #{ch}, track: :#{name}, on: 0"
+        end
+        nil
+      end
+      doc name:           :track_midi_note_off,
+          introduced:     Version.new(5,1,0),
+          summary:        "Stop a note on a track's instrument",
+          usage_example:  "track_midi_note_off :e3",
+          args:           [[:note, :number], [:release_velocity, :number]],
+          arg_kinds:     [:note],
+          returns:        :nil,
+          opts:           {vel:     "Release velocity as a MIDI number, 0->127 (default 127)",
+                           vel_f:   "Release velocity as a float, 0->1",
+                           channel: "Which of the track's instruments hear it, 1->16 (default 1). Every instrument does unless it has been set to listen on one channel in the Tracks panel; then only those on that channel do.",
+                           track:   "The track, instead of the current one from use_track",
+                           on:      "If specified and false/nil/0 will stop the note off being sent."},
+          accepts_block:  false,
+          doc:            "Releases a note started with `track_midi_note_on`.",
+          examples:       ["
+use_track :surge
+track_midi_note_on :c4
+sleep 2
+track_midi_note_off :c4"]
+
+
+      def track_midi_cc(*params)
+        name, args, opts = __track_split(params, :track_midi_cc)
+        num, val = *args
+        return __track_rest(:track_midi_cc, name) if rest?(num)
+        num = note(num).round.min(0).max(127)
+        val = __resolve_midi_val(val, opts)
+        ch  = __track_channel(opts)
+        if truthy?(opts.fetch(:on, 1))
+          @mod_sound_studio.server.track_cc(name, num, val, ch)
+          __track_message "track_midi_cc #{num}, #{val}, channel: #{ch}, track: :#{name}"
+        else
+          __track_message "track_midi_cc #{num}, #{val}, channel: #{ch}, track: :#{name}, on: 0"
+        end
+        nil
+      end
+      doc name:           :track_midi_cc,
+          introduced:     Version.new(5,1,0),
+          summary:        "Send a MIDI control change to a track",
+          usage_example:  "track_midi_cc 1, 64",
+          args:           [[:control, :number], [:value, :number]],
+          returns:        :nil,
+          opts:           {val:     "Value as a MIDI number, 0->127 (default 127)",
+                           val_f:   "Value as a float, 0->1",
+                           channel: "Which of the track's instruments hear it, 1->16 (default 1). Every instrument does unless it has been set to listen on one channel in the Tracks panel; then only those on that channel do.",
+                           track:   "The track, instead of the current one from use_track",
+                           on:      "If specified and false/nil/0 will stop the message being sent."},
+          accepts_block:  false,
+          doc:            "Sends a control change to every plugin on the current track, as `midi_cc` sends one to a MIDI port. What a controller number does is the plugin's business - for a parameter by name use `track_control`.",
+          examples:       ["
+use_track :surge
+track_midi_cc 1, val_f: 0.5    # mod wheel to halfway"]
+
+
+      def track_midi_pitch_bend(*params)
+        name, args, opts = __track_split(params, :track_midi_pitch_bend)
+        delta = args[0]
+        return __track_rest(:track_midi_pitch_bend, name) if rest?(delta)
+        delta, delta_midi = __resolve_midi_deltas(delta, opts)
+        ch = __track_channel(opts)
+        if truthy?(opts.fetch(:on, 1))
+          @mod_sound_studio.server.track_pitch_bend(name, delta * 2.0 - 1.0, ch)
+          __track_message "track_midi_pitch_bend #{delta}, channel: #{ch}, track: :#{name}"
+        else
+          __track_message "track_midi_pitch_bend #{delta}, channel: #{ch}, track: :#{name}, on: 0"
+        end
+        nil
+      end
+      doc name:           :track_midi_pitch_bend,
+          introduced:     Version.new(5,1,0),
+          summary:        "Send a pitch bend to a track",
+          usage_example:  "track_midi_pitch_bend 0.75",
+          args:           [[:delta, :float01]],
+          returns:        :nil,
+          opts:           {delta:      "Bend as a float 0->1, 0.5 at rest (default 0.5)",
+                           delta_midi: "Bend as a MIDI number 0->16383, 8192 at rest",
+                           channel:    "Which of the track's instruments hear it, 1->16 (default 1): those set to listen on that channel in the Tracks panel, or all of them when none is.",
+                           track:      "The track, instead of the current one from use_track",
+                           on:         "If specified and false/nil/0 will stop the message being sent."},
+          accepts_block:  false,
+          doc:            "Sends a pitch bend to every plugin on the current track, as `midi_pitch_bend` sends one to a MIDI port: 0.5 is no bend, 0 is all the way down and 1 all the way up.",
+          examples:       ["
+use_track :surge
+track_midi_note_on :e3
+(line 0.5, 1, steps: 20).each do |d|
+  track_midi_pitch_bend d
+  sleep 0.05
+end
+track_midi_note_off :e3"]
+
+
+      def track_midi_all_notes_off(*params)
+        name, _args, opts = __track_split(params, :track_midi_all_notes_off)
+        if truthy?(opts.fetch(:on, 1))
+          @mod_sound_studio.server.track_all_notes_off(name)
+          __track_message "track_midi_all_notes_off track: :#{name}"
+        else
+          __track_message "track_midi_all_notes_off track: :#{name}, on: 0"
+        end
+        nil
+      end
+      doc name:           :track_midi_all_notes_off,
+          introduced:     Version.new(5,1,0),
+          summary:        "Release every note on a track",
+          usage_example:  "track_midi_all_notes_off",
+          args:           [],
+          returns:        :nil,
+          opts:           {track: "The track, instead of the current one from use_track",
+                           on:    "If specified and false/nil/0 will stop the message being sent."},
+          accepts_block:  false,
+          doc:            "Releases every note sounding on every instrument on the current track, on every channel, as `midi_all_notes_off` does on a MIDI port. The way out of a note whose `track_midi_note_off` got lost.",
+          examples:       ["
+use_track :surge
+track_midi_all_notes_off",
+        "
+track_midi_all_notes_off track: :surge"]
+
+
+      def track_control(*params)
+        name, args, opts = __track_split(params, :track_control)
+        param, value = *args
+        plugin_opts = opts.reject { |k, _| k == :on }
+        if param.nil? && plugin_opts.empty?
+          raise "track_control needs a parameter and a value: track_control filter_1_cutoff: 0.5 - or by the plugin's own spelling, track_control \"Filter 1 Cutoff\", 0.5"
+        end
+        raise "track_control needs a value after the parameter name: track_control #{param.inspect}, 0.5" if param && value.nil?
+        head = param ? "#{param.to_s.inspect}, #{value}" : ""
+        shown = "#{head}#{__track_opts_pp(plugin_opts)}".sub(/\A, /, "")
+        if truthy?(opts.fetch(:on, 1))
+          __track_set_param(name, param, value) if param
+          __track_set_params(name, plugin_opts)
+          __track_message "track_control #{shown}, track: :#{name}"
+        else
+          __track_message "track_control #{shown}, track: :#{name}, on: 0"
+        end
+        nil
+      end
+      doc name:           :track_control,
+          introduced:     Version.new(5,1,0),
+          summary:        "Set plugin parameters on a track",
+          usage_example:  "track_control filter_1_cutoff: 0.5",
+          args:           [[:parameter, :string], [:value, :number]],
+          returns:        :nil,
+          opts:           {track: "The track, instead of the current one from use_track",
+                           on:    "If specified and false/nil/0 will stop the message being sent."},
+          accepts_block:  false,
+          doc:            "Sets parameters of the plugins on the current track, without a note - the track from `use_track` or `with_track`, or the one named with `track:`. Each opt is a parameter by its key: the plugin's own name for it in lower case with underscores between the words, so Surge's \"Filter 1 Cutoff\" is `filter_1_cutoff:`. A parameter can also be given by the plugin's own spelling as a string, then its value - the way to reach one whose key is taken by `on:` or `track:`. Either way it goes to the first plugin in the chain that has it; when two plugins share a name, the key under the plugin's own name reaches the other - `surge_xt_effects_mix:` for the Mix on Surge XT Effects when a Valhalla before it has one too. The value is in the range the plugin reports, which for many plugins - Surge XT among them - is 0 to 1 for every parameter whatever its window shows; a value outside the range is refused rather than clamped, so a sweep cannot quietly pin a knob at one end. The names, keys and ranges are shown in the Tracks panel and by the editor's autocompletion. Lands on the beat, so it can be sequenced like a note.
+
+Names match exactly first, then without regard to case, then by key.",
+          examples:       ["
+use_track :verb
+live_loop :sweep do
+  track_control mix: (range 0, 1, 0.1).tick
+  sleep 0.25
+end",
+        "
+track_control filter_1_cutoff: 0.4, filter_1_resonance: 0.7, track: :surge   # several at once, on a named track",
+        "
+use_track :surge
+track_control \"Filter 1 Cutoff\", 0.4    # by the plugin's own spelling"]
+
+
+      def tracks
+        @mod_sound_studio.track_names.map(&:to_sym).ring
+      end
+      doc name:           :tracks,
+          introduced:     Version.new(5,1,0),
+          summary:        "The names of the tracks",
+          usage_example:  "puts tracks",
+          args:           [],
+          returns:        :ring,
+          opts:           nil,
+          accepts_block:  false,
+          doc:            "A ring of the names of the tracks made in the Tracks panel, in the order shown there - the names `use_track`, `live_track`, `with_send` and `track:` take.",
+          examples:       ["
+with_fx :reverb do
+  tracks.each do |t|
+    live_track t            # every track into one reverb
+  end
+end"]
+
+
+      # The track a verb acts on: `track:` if given, else the name in front
+      # for the two verbs that take one, else the current track. A name the
+      # engine does not know is dropped on its audio thread without a word;
+      # refuse it here, with the names that exist.
+      def __track_name!(opts, fn, positional = nil, check: true)
+        name = opts[:track] || positional || __thread_locals.get(:sonic_pi_mod_sound_current_track)
+        if name.nil?
+          raise "#{fn} needs a track: use_track :surge first, or pass track: :surge"
+        end
+        unless name.is_a?(Symbol) || name.is_a?(String)
+          raise "#{fn} needs a track name as a Symbol or String, got #{name.inspect}"
+        end
+        @mod_sound_studio.track_lookup!(name) if check
+        name.to_s
+      end
+
+      def __set_current_track!(name, fn)
+        unless name.is_a?(Symbol) || name.is_a?(String)
+          raise ArgumentError, "#{fn} needs a track name as a Symbol or String, got #{name.inspect}"
+        end
+        @mod_sound_studio.track_lookup!(name)
+        __thread_locals.set(:sonic_pi_mod_sound_current_track, name.to_sym)
+      end
+
+      # For the functions that play or send into a track (track_midi and
+      # kin, track_control, with_send): a track parked by Stop is heard
+      # again. Choosing a track - use_track, live_track - is not touching
+      # it, so a run that names a track and then takes it with live_track
+      # never has it on the main mix in between.
+      def __track_split(params, fn)
+        args, opts = split_params_and_merge_opts_array(params)
+        name = __track_name!(opts, fn)
+        @mod_sound_studio.track_touched(name)
+        [name, args, opts.reject { |k, _| k == :track }]
+      end
+
+      def __track_note(n, opts)
+        n = normalise_transpose_and_tune_note_from_args(n, opts)
+        n.round.min(0).max(127)
+      end
+
+      # Tracks take a single channel, 1-based as a MIDI user counts.
+      def __track_channel(opts)
+        (opts[:channel] || opts[:chan] || 1).to_i.min(1).max(16)
+      end
+
+      # The opts a note verb does not take itself are plugin parameters.
+      # What every note verb takes; `extra` is what this one adds.
+      TRACK_NOTE_OPTS = [:vel, :vel_f, :velocity, :velocity_f, :channel, :chan, :on, :note].freeze
+      def __track_plugin_opts(opts, extra)
+        own = TRACK_NOTE_OPTS + extra
+        opts.reject { |k, _| own.include?(k) }
+      end
+
+      # Set each plugin parameter, by key or name, at the current time -
+      # ahead of whatever the verb sends next, so a note lands on a plugin
+      # already set. An unknown one is refused with the names that exist.
+      def __track_set_params(name, plugin_opts)
+        plugin_opts.each { |k, v| __track_set_param(name, k, v) }
+      end
+
+      # One parameter, by key or by the plugin's own name, checked against
+      # the range the plugin reports before it goes. Refused rather than
+      # clamped, as `play cutoff: 200` is: a value past the end of the range
+      # would sit at the end, and so would every later value past it - a knob
+      # that has stopped moving under a sweep that sounds like it is working
+      # (Surge XT reports 0..1 for every parameter, so `line 3, 120` pinned
+      # its cutoff open and the editor's knob never moved again).
+      def __track_set_param(name, key, value)
+        param, handle, min, max = @mod_sound_studio.track_param_lookup!(name, key)
+        v = value.to_f
+        if min && max && (v < min || v > max)
+          raise "#{param.inspect} on track :#{name} takes a value between #{min} and #{max}, not #{value}. Every parameter's range is on its device in the Tracks panel."
+        end
+        @mod_sound_studio.server.track_param(name, param.to_s, v, nil, handle)
+      end
+
+      def __track_opts_pp(plugin_opts)
+        plugin_opts.empty? ? "" : ", #{arg_h_pp(plugin_opts)}"
+      end
+
+      def __track_rest(fn, name)
+        __track_message "#{fn} :rest, track: :#{name}"
+        nil
+      end
+
+      def __track_message(m)
+        __delayed_message m unless __thread_locals.get(:sonic_pi_mod_sound_synth_silent)
+      end
+
       def set_audio_latency!(delta_ms)
         @mod_sound_studio.set_audio_latency!(delta_ms.to_f)
       end

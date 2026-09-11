@@ -45,10 +45,9 @@ void setSpoutShowCursor(bool showCursor);
 // unavailable, the D3D11/MF stack can't be brought up, or the window
 // can't be located.
 //
-// audioSlot points at the shm_audio_buffer slot to read for the audio
-// track (slot 0 = master output). The caller /s_new's a
-// `supersonic-audio-out` synth feeding this slot before calling, and
-// /n_free's it after stopSessionRecording. Pass nullptr for video-only.
+// audioSlot points at the engine's OUT tap (SHM_AUDIO_OUT_SLOT): the
+// master mix, written by the engine from boot, read here for the audio
+// track from its live position. Pass nullptr for video-only.
 bool startSessionRecording(void* hwndPtr, const std::string& filePath,
                            bool showCursor,
                            shm_audio_buffer* audioSlot);

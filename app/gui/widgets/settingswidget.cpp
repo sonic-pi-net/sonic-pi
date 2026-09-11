@@ -2863,7 +2863,7 @@ void SettingsWidget::updateEnableScsynthInputs() {
         audio_input_combo->setCurrentIndex(0);
         audio_input_combo->setEnabled(false);
     } else {
-        // Next /supersonic/input-devices broadcast will populate
+        // Next /clockwork/input-devices broadcast will populate
         audio_input_combo->setEnabled(true);
     }
     emit enableScsynthInputsChanged();
@@ -2996,7 +2996,7 @@ tableGroupFor(const SonicPi::AudioDeviceTableInfo& table, bool hasTable,
 }
 
 void SettingsWidget::updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo) {
-    // Skip rebuild if nothing changed — /supersonic/devices fires several
+    // Skip rebuild if nothing changed — /clockwork/devices fires several
     // times per boot and rebuilding invalidates the dropdown cache. The
     // deviceTypes compare matters: the driver filter below renders from
     // types, and a driver switch can re-type devices without renaming them.
@@ -3340,7 +3340,7 @@ void SettingsWidget::updateAudioDeviceConfig(const SonicPi::AudioDeviceConfigInf
     // Force a re-render of the device dropdowns. activated(int) only
     // fires on user-interaction — programmatic setCurrentIndex above
     // doesn't trigger audioDriverChanged, so without a manual re-run
-    // any /supersonic/devices message that arrived before the driver
+    // any /clockwork/devices message that arrived before the driver
     // combo was populated would have been processed with an empty
     // selectedDriver and bypassed the driver filter.
     {

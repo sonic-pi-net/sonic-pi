@@ -6,3 +6,7 @@
 # of each contributor's local core.autocrlf setting.
 *.bat text eol=crlf
 *.cmd text eol=crlf
+
+# The piano wavetable (app/external/piano) is raw little-endian int16 PCM.
+# Named explicitly so no autocrlf setting can ever treat it as text.
+*.dat binary

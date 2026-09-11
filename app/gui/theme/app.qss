@@ -1536,6 +1536,41 @@ QPushButton#qsCardBtn[corner="tr"]
     border-top-right-radius: 6dx;
 }
 
+/* Text on the card's accent bar. The rule above is padding:0, which is exactly
+   right for the fixed-size glyph buttons it was written for and renders two
+   text buttons as one run of letters ("WindowConfigure"). A property rather
+   than a parallel rule, so both kinds stay one style. */
+QPushButton#qsCardBtn[cardText="true"]
+{
+    padding: 0 10dx;
+}
+
+/* A device's header glyphs: hover is a small rounded chip inset from the
+   button's edges — the toolbar idiom — where the quickstart card's full-height
+   wash, on a row of six glyphs, read as a paler stripe of the bar. The
+   translucent border keeps the chip off the edges; the glyph stays centred. */
+QPushButton#qsCardBtn[device="true"]
+{
+    border: 3dx solid transparent;
+    border-radius: radiusSmall;
+    background-clip: padding;
+}
+
+QPushButton#qsCardBtn[device="true"]:hover,
+QPushButton#qsCardBtn[device="true"]:focus
+{
+    background: focusWashColor;
+}
+
+/* A device's Configure, armed: the bar's colours turned inside out (the glyph
+   takes the accent, in trackspanel.cpp), so a mode the user is in reads from
+   across the room, as Live's lit Configure does. */
+QPushButton#qsCardBtn[armed="true"],
+QPushButton#qsCardBtn[armed="true"]:hover
+{
+    background: accentContrastTextColor;
+}
+
 QWidget#qsCardBody
 {
     background-color: accentTintColor;
@@ -1641,4 +1676,97 @@ QPushButton#confirmPrimary:hover
     background: accentHoverColor;
 }
 
+
+
+/* ── Tracks panel ─────────────────────────────────────────────────────────
+   Nearly all of it is the house styles it is built from (#docsNavPage and
+   friends for the two columns, #qsCard* for a device, #tutDialGroup for the
+   code block). What is here is the little that has no existing name. */
+
+/* The pane's ground, the same way the Cards pane gets its own. */
+TracksPanel
+{
+    background-color: paneColor;
+}
+
+TracksPanel QScrollArea
+{
+    background: transparent;
+    border: none;
+}
+
+/* How many plugins were found: a footnote to the list, in the same quiet ink
+   the rest of the nav column uses. */
+QLabel#tracksBrowserCount
+{
+    background: transparent;
+    color: faintForegroundColor;
+    padding-left: 9dx;
+}
+
+/* The selected track's name, and the line under it saying where its lanes go. */
+QLabel#tracksTitle
+{
+    background: transparent;
+    color: windowForegroundColor;
+}
+
+QLabel#tracksDetail
+{
+    background: transparent;
+    color: faintForegroundColor;
+}
+
+/* The line at the foot of the panel saying what just happened; an error is
+   the log's own error ink, on a device's footer or here. */
+QLabel#tracksStatus
+{
+    background: transparent;
+    color: faintForegroundColor;
+}
+
+QLabel#tracksStatus[tracksError="true"],
+QLabel#qsCardBlurb[tracksError="true"]
+{
+    color: errorForegroundColor;
+}
+
+/* A device's header toggles (on/off, window, configure) show their state in
+   the glyph's ink — full when on, faded when off — painted in trackspanel.cpp
+   (tintDeviceGlyph). No :checked fill: a wash on the accent bar read as a
+   second colour, not a state. */
+
+/* ── Synth-panel dial groups ──────────────────────────────────────────────
+   Each cluster of knobs is its own quiet region with a caption above it —
+   the arrangement the synth docs use for :bass_foundation and the one the
+   plugin rack uses for a hosted plugin's parameter groups.
+
+   THESE LIVED IN tutorialpane.cpp's OWN SCOPED STYLESHEET, which meant the
+   names worked in exactly one widget. The rack set #tutDialGroup on its
+   panels, got nothing, and the fix looked like "write a similar rule" — which
+   is how a house style turns into three house styles. Defined once, here,
+   where every pane can reach them. */
+QFrame#tutDialGroup
+{
+    background: rgba(127, 127, 127, 22);
+    border: none;
+    border-radius: radiusMedium;
+}
+
+QLabel#tutSection
+{
+    color: faintForegroundColor;
+    background: transparent;
+    font-weight: bold;
+}
+
+/* The empty chain, and the panel with no tracks. It fills the space the
+   chain will fill and says the one thing worth saying. */
+QLabel#tracksEmptyLane
+{
+    background: transparent;
+    color: faintForegroundColor;
+    border: 2dx dashed windowBorderColor;
+    border-radius: radiusLargeOuter;
+}
 

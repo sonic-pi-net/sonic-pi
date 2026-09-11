@@ -39,7 +39,7 @@ module SonicPi
       @osc_comms.subscribe_to_notifications!
       # Defaults: forwarding on, loopback-restricted on; the GUI overrides at
       # boot / on pref change via start_stop_cue_server! / cue_server_internal!.
-      @osc_comms.send("/osc/cue-server/config", @osc_cues_port, 1, 1)
+      @osc_comms.send("/clockwork/osc/cue-server/config", @osc_cues_port, 1, 1)
     end
 
     # Schedule an outgoing OSC message to host:port at spider time `t` (seconds).
@@ -49,9 +49,9 @@ module SonicPi
       # On fire the scheduler re-ingests /osc/send through the same dispatch an
       # immediate send hits — the host/port ride inside the blob, not the wrapper.
       send_msg = @osc_comms.encoder.encode_single_message(
-        "/osc/send", [host.to_s, Integer(port), SonicPi::OSC::Blob.new(inner)])
+        "/clockwork/osc/send", [host.to_s, Integer(port), SonicPi::OSC::Blob.new(inner)])
       tt = SonicPi::OSC.osc_timetag(t + @global_timewarp)
-      @osc_comms.send("/schedule",
+      @osc_comms.send("/clockwork/schedule",
                       SonicPi::OSC::Int64.new(tt),
                       SonicPi::OSC::Blob.new(send_msg))
     end
@@ -59,19 +59,19 @@ module SonicPi
     # Toggle whether inbound external OSC is forwarded as cues ("Enable OSC
     # server" pref). `stop` true → forwarding off.
     def start_stop_cue_server!(stop)
-      @osc_comms.send("/osc/cue-server/cues-on", stop ? 0 : 1)
+      @osc_comms.send("/clockwork/osc/cue-server/cues-on", stop ? 0 : 1)
     end
 
     # Toggle loopback restriction ("Allow OSC from other computers" pref).
     # `internal` true → loopback only.
     def cue_server_internal!(internal)
-      @osc_comms.send("/osc/cue-server/loopback", internal ? 1 : 0)
+      @osc_comms.send("/clockwork/osc/cue-server/loopback", internal ? 1 : 0)
     end
 
     # Cancel pending scheduled OSC on run stop (the scheduler-level flush also
     # covers scheduled MIDI — see MidiAPI#midi_flush!).
     def osc_flush!
-      @osc_comms.send("/sched/flush", "default")
+      @osc_comms.send("/clockwork/sched/flush", "default")
     end
 
     def set_global_timewarp!(time)

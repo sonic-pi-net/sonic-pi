@@ -42,7 +42,7 @@ QStringList lineToContext(const QString& line, int caretCol);
 // (see ArgKindTable); the completion engine maps these to its keyword lists.
 enum class ArgKind {
     None, Note, Sample, CuePath, MidiPort, LinkAudioPeer, LinkAudioChannel,
-    Fx, Synth, Scale, Chord, Tuning,
+    Fx, Synth, Scale, Chord, Tuning, Track,
 };
 
 // Per-function positional argument kinds: function name -> kind of each positional

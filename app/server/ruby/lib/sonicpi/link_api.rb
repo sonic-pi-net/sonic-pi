@@ -56,55 +56,55 @@ module SonicPi
     end
 
     def link_is_on?
-      res = @link_comms.rpc("/clock/enabled/get",
-                            expect: "/clock/enabled.reply")
+      res = @link_comms.rpc("/clockwork/clock/enabled/get",
+                            expect: "/clockwork/clock/enabled.reply")
       res ? (res[0].to_i != 0) : false
     end
 
     def link_disable
-      @link_comms.send("/clock/visibility", 0)
+      @link_comms.send("/clockwork/clock/visibility", 0)
     end
 
     def link_enable
       # 2 = NetworkWide; use /clock/visibility 1 for loopback-only.
-      @link_comms.send("/clock/visibility", 2)
+      @link_comms.send("/clockwork/clock/visibility", 2)
     end
 
     def link_reset
-      @link_comms.send("/clock/reset")
+      @link_comms.send("/clockwork/clock/reset")
     end
 
     # Visibility shortcut: 0 = Off, 1 = LoopbackOnly, 2 = NetworkWide.
     def link_set_visibility!(mode)
-      @link_comms.send("/clock/visibility", mode.to_i)
+      @link_comms.send("/clockwork/clock/visibility", mode.to_i)
     end
 
     def link_get_visibility
-      res = @link_comms.rpc("/clock/visibility/get",
-                            expect: "/clock/visibility.reply")
+      res = @link_comms.rpc("/clockwork/clock/visibility/get",
+                            expect: "/clockwork/clock/visibility.reply")
       res ? res[0].to_i : 0
     end
 
     # Link Audio publish gate; defaults off in SuperSonic, opt-in. While
     # off, channels aren't advertised even with the Link mesh up.
     def link_audio_publish_set!(enabled)
-      @link_comms.send("/clock/audio/publish/set", enabled ? 1 : 0)
+      @link_comms.send("/clockwork/clock/audio/publish/set", enabled ? 1 : 0)
     end
 
     def link_audio_publish_get
-      res = @link_comms.rpc("/clock/audio/publish/get",
-                            expect: "/clock/audio/publish.reply")
+      res = @link_comms.rpc("/clockwork/clock/audio/publish/get",
+                            expect: "/clockwork/clock/audio/publish.reply")
       res ? (res[0].to_i != 0) : false
     end
 
     # Peer name advertised to other Link apps (Sonic Pi sets it on boot).
     def link_peer_name_set!(name)
-      @link_comms.send("/clock/peer_name/set", name.to_s)
+      @link_comms.send("/clockwork/clock/peer_name/set", name.to_s)
     end
 
     def link_peer_name_get
-      res = @link_comms.rpc("/clock/peer_name/get",
-                            expect: "/clock/peer_name.reply")
+      res = @link_comms.rpc("/clockwork/clock/peer_name/get",
+                            expect: "/clockwork/clock/peer_name.reply")
       res ? res[0].to_s : ""
     end
 
@@ -112,39 +112,39 @@ module SonicPi
     # stereo into bus and bus+1. Idempotent per (peer, channel): re-issuing
     # remaps the bus. Subscriptions are concurrent, each into its own pair.
     def link_audio_input_set!(peer, channel, bus)
-      @link_comms.send("/clock/audio/input/add",
+      @link_comms.send("/clockwork/clock/audio/input/add",
                        peer.to_s, channel.to_s, bus.to_i)
     end
 
     def link_audio_input_remove!(peer, channel)
-      @link_comms.send("/clock/audio/input/remove",
+      @link_comms.send("/clockwork/clock/audio/input/remove",
                        peer.to_s, channel.to_s)
     end
 
     def link_audio_inputs_clear!
-      @link_comms.send("/clock/audio/input/clear")
+      @link_comms.send("/clockwork/clock/audio/input/clear")
     end
 
     # Per-input receive latency in seconds (0-2 s typical). The GUI's
     # latency slider sets this for every active input.
     def link_audio_input_latency_set!(peer, channel, seconds)
-      @link_comms.send("/clock/audio/input/latency/set",
+      @link_comms.send("/clockwork/clock/audio/input/latency/set",
                        peer.to_s, channel.to_s, seconds.to_f)
     end
 
     def link_get_start_stop_sync_enabled
-      res = @link_comms.rpc("/clock/start_stop_sync/get",
-                            expect: "/clock/start_stop_sync.reply")
+      res = @link_comms.rpc("/clockwork/clock/start_stop_sync/get",
+                            expect: "/clockwork/clock/start_stop_sync.reply")
       res ? (res[0].to_i != 0) : false
     end
 
     def link_set_start_stop_sync_enabled!(enabled)
-      @link_comms.send("/clock/start_stop_sync/set", enabled ? 1 : 0)
+      @link_comms.send("/clockwork/clock/start_stop_sync/set", enabled ? 1 : 0)
     end
 
     def link_num_peers
-      res = @link_comms.rpc("/clock/peers/count/get",
-                            expect: "/clock/peers/count.reply")
+      res = @link_comms.rpc("/clockwork/clock/peers/count/get",
+                            expect: "/clockwork/clock/peers/count.reply")
       res ? res[0].to_i : 0
     end
 
@@ -152,7 +152,7 @@ module SonicPi
     # wire back-compat (the engine treats omitted == link). <verb> may be a
     # request ("tempo/get") or a reply suffix ("tempo.reply").
     def clock_addr(verb, tl)
-      tl == "link" ? "/clock/#{verb}" : "/clock/#{tl}/#{verb}"
+      tl == "link" ? "/clockwork/clock/#{verb}" : "/clockwork/clock/#{tl}/#{verb}"
     end
 
     # tl: "link" (default), "midi" (engine resolves to the primary midi
@@ -168,7 +168,7 @@ module SonicPi
     end
 
     def link_set_bpm!(bpm)
-      @link_comms.send("/clock/tempo/set", bpm.to_f)
+      @link_comms.send("/clockwork/clock/tempo/set", bpm.to_f)
       # Wait up to 100ms for the notify-push.
       @incoming_tempo_change_mut.synchronize do
         @incoming_tempo_change_cv.wait(@incoming_tempo_change_mut, 0.1)
@@ -261,7 +261,7 @@ module SonicPi
     end
 
     def link_set_is_playing!(enabled)
-      @link_comms.send("/clock/transport/set", enabled ? 1 : 0)
+      @link_comms.send("/clockwork/clock/transport/set", enabled ? 1 : 0)
     end
 
     def link_is_playing?(tl: "link")
@@ -283,8 +283,8 @@ module SonicPi
     # active midi:<port> follower. One hash per row; `name` is the wire id
     # ("link" / "midi:<handle>"), `raw` the friendly OS device name.
     def clock_timelines
-      res = @link_comms.rpc("/clock/timelines/get",
-                            expect: "/clock/timelines.reply")
+      res = @link_comms.rpc("/clockwork/clock/timelines/get",
+                            expect: "/clockwork/clock/timelines.reply")
       return [] unless res
       res.each_slice(6).map do |name, raw, bpm, clocking, stale, primary|
         { name: name.to_s, raw: raw.to_s, bpm: bpm.to_f,
@@ -294,14 +294,14 @@ module SonicPi
     end
 
     def link_get_time_for_is_playing
-      res = @link_comms.rpc("/clock/transport/time/get",
-                            expect: "/clock/transport/time.reply")
+      res = @link_comms.rpc("/clockwork/clock/transport/time/get",
+                            expect: "/clockwork/clock/transport/time.reply")
       res ? res[0].to_i : 0
     end
 
     def link_current_time
-      res = @link_comms.rpc("/clock/time/now/get",
-                            expect: "/clock/time/now.reply")
+      res = @link_comms.rpc("/clockwork/clock/time/now/get",
+                            expect: "/clockwork/clock/time/now.reply")
       res ? res[0].to_i : 0
     end
 
@@ -353,7 +353,7 @@ module SonicPi
 
     def add_supersonic_link_handlers!
       # Session tempo changed (locally or by a peer).
-      @link_comms.add_method("/clock/notify/tempo") do |args|
+      @link_comms.add_method("/clockwork/clock/notify/tempo") do |args|
         tempo = args[0].to_f
         @timeline_tempos["link"] = tempo
         @updated_link_bpm_handler.call(tempo) if @updated_link_bpm_handler
@@ -362,7 +362,7 @@ module SonicPi
       end
 
       # Visible peer count changed.
-      @link_comms.add_method("/clock/notify/peers") do |args|
+      @link_comms.add_method("/clockwork/clock/notify/peers") do |args|
         n = args[0].to_i
         @updated_link_num_peers_handler.call(n) if @updated_link_num_peers_handler
         @internal_cue_handler.call("/link/num-peers", [n]) if @internal_cue_handler
@@ -381,19 +381,19 @@ module SonicPi
       # name(s) raw(s) bpm(f) clocking(i) stale(i) primary(i). Refresh the
       # per-timeline tempo cache and wake clock-mode sleeps so midi riders
       # re-anchor immediately — the midi analog of /clock/notify/tempo.
-      @link_comms.add_method("/clock/timelines") do |args|
+      @link_comms.add_method("/clockwork/clock/timelines") do |args|
         args.each_slice(6) do |name, _raw, bpm, _clocking, _stale, _primary|
           @timeline_tempos[name.to_s] = bpm.to_f if name
         end
         @incoming_tempo_change_cv.broadcast
-        @internal_cue_handler.call("/midi/clock-change", []) if @internal_cue_handler
+        @internal_cue_handler.call("/clockwork/midi/clock-change", []) if @internal_cue_handler
       end
 
       # Transport state changed. Args: <int> playing, <int64> at-NTP-micros
       # (the engine converts out of the Link clock domain before broadcast).
       # The cue carries the transition's clock time so waiters can align to
       # the actual transport edge rather than cue-delivery time.
-      @link_comms.add_method("/clock/notify/transport") do |args|
+      @link_comms.add_method("/clockwork/clock/notify/transport") do |args|
         playing = args[0].to_i != 0
         cue = playing ? "/link/start" : "/link/stop"
         t = args[1] ? link_micros_to_clock_time(args[1].to_i) : nil

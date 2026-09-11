@@ -1,6 +1,5 @@
 #include "completion_context.h"
 
-#include <QRegularExpression>
 #include <QList>
 
 namespace SonicPi {
@@ -101,8 +100,37 @@ QStringList lineToContext(const QString& fullLine, int caretCol)
         if (!fn.isEmpty()) line = fn + " " + line;
     }
 
-    static const QRegularExpression splitRe("[ ,(){}]+");
-    return line.split(splitRe);
+    // Split on spaces, commas and brackets — except inside a string, which
+    // stays one token: a plugin parameter or MIDI port is named `"Filter 1
+    // Cutoff"`, and the completer can only replace what it was handed as the
+    // partial. A string still open at the caret runs to the caret. A run of
+    // separators yields one split, and a leading or trailing separator an
+    // empty token, exactly as the regex split this replaces did.
+    QStringList out;
+    QString cur;
+    QChar quote;
+    bool inSeparators = false;
+    for (int i = 0; i < line.length(); ++i)
+    {
+        const QChar c = line[i];
+        if (!quote.isNull())
+        {
+            cur += c;
+            if (c == '\\' && i + 1 < line.length()) { cur += line[++i]; continue; }
+            if (c == quote) quote = QChar();
+            continue;
+        }
+        if (c == ' ' || c == ',' || c == '(' || c == ')' || c == '{' || c == '}')
+        {
+            if (!inSeparators) { out << cur; cur.clear(); inSeparators = true; }
+            continue;
+        }
+        inSeparators = false;
+        if (c == '"' || c == '\'') quote = c;
+        cur += c;
+    }
+    out << cur;
+    return out;
 }
 
 ArgKind resolveArgKind(const QStringList& context, const ArgKindTable& table)

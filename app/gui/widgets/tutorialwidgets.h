@@ -1112,12 +1112,12 @@ protected:
         p.setPen(isDefault() ? m_dim : m_accent);
         QRect nameRect(0, qRound(arcRect.bottom()) + dy(2), width(), nameH);
         p.drawText(nameRect, Qt::AlignHCenter | Qt::AlignTop,
-                   p.fontMetrics().elidedText(m_nameLine1, Qt::ElideMiddle, nameRect.width()));
+                   p.fontMetrics().elidedText(m_nameLine1, Qt::ElideRight, nameRect.width()));
         if (!m_nameLine2.isEmpty())
         {
             QRect nameRect2(0, nameRect.bottom(), width(), nameH);
             p.drawText(nameRect2, Qt::AlignHCenter | Qt::AlignTop,
-                       p.fontMetrics().elidedText(m_nameLine2, Qt::ElideMiddle, nameRect2.width()));
+                       p.fontMetrics().elidedText(m_nameLine2, Qt::ElideRight, nameRect2.width()));
         }
 
         if (hasFocus())
@@ -1302,15 +1302,23 @@ private:
         const int avail = w - dx(4);
         m_nameLine1 = m_name;
         m_nameLine2.clear();
-        if (fm.horizontalAdvance(m_name) > avail && m_name.contains('_'))
+        // A long name breaks at the separator nearest its middle: an
+        // underscore, which stays on the first line (it is part of the opt),
+        // or a space, which goes — a plugin's "Filter 1 Cutoff" breaks the
+        // way a phrase does.
+        if (fm.horizontalAdvance(m_name) > avail)
         {
             int best = -1;
             const int mid = m_name.length() / 2;
-            for (int i = m_name.indexOf('_'); i >= 0; i = m_name.indexOf('_', i + 1))
-                if (best < 0 || std::abs(i - mid) < std::abs(best - mid))
+            for (int i = 0; i < m_name.length(); ++i)
+                if ((m_name[i] == '_' || m_name[i] == ' ')
+                    && (best < 0 || std::abs(i - mid) < std::abs(best - mid)))
                     best = i;
-            m_nameLine1 = m_name.left(best + 1);
-            m_nameLine2 = m_name.mid(best + 1);
+            if (best >= 0)
+            {
+                m_nameLine1 = m_name.left(m_name[best] == ' ' ? best : best + 1);
+                m_nameLine2 = m_name.mid(best + 1);
+            }
         }
         const int nameLines = m_nameLine2.isEmpty() ? 1 : 2;
         const int h = dy(8) + dx(54) + dy(2)

@@ -25,9 +25,11 @@
 #include <cstring>
 #include <vector>
 
-// Generated from SuperSonic's canonical metrics schema
-// (js/lib/metrics_schema.js) — metric descriptions shared by every GUI.
-#include "supersonic/src/metrics_schema.h"
+// Generated from the engine's canonical metrics schema
+// (tau-supersonic/harness/js/lib/metrics_schema.js) — metric descriptions
+// shared by every GUI. Found on the api target's include path.
+#include <metrics_schema.h>
+#include <shared_memory.h>   // ring sizes
 
 #include <QBrush>
 #include <QEasingCurve>
@@ -57,7 +59,6 @@
 #include <QTextFrameFormat>
 #include <QDateTime>
 #include <QTime>
-#include <QUdpSocket>
 #include <QTimer>
 #include <QVariantAnimation>
 #include <QToolButton>
@@ -76,9 +77,9 @@ static constexpr int RoleProp = QTextFormat::UserProperty + 1;
 
 // ─── Static layout model ────────────────────────────────────────────────
 //
-// Transcribed from the canonical SuperSonic web schema
-// (external/supersonic/js/lib/metrics_offsets.js). Field indices 0-49 are
-// the PerformanceMetrics struct (see external/supersonic/src/shared_memory.h):
+// Transcribed from the canonical web schema (tau-supersonic/harness/js/lib/
+// metrics_offsets.js). Field indices 0-49 are the PerformanceMetrics struct
+// (see tau-supersonic/harness/src/shared_memory.h):
 // 0-8 scsynth, 9-10 OSC out, 11-14 OSC in, 15-16 debug, 17-22 ring usage/peak,
 // 23-25 late timing, 26 direct-write fails, 27-38 Link, 39-45 version/audio
 // config, 46-49 SuperClock readouts. Cells whose source has no native writer
@@ -103,16 +104,16 @@ constexpr int kFieldClockPhase     = 48; // phase * 100
 constexpr int kFieldClockPlaying   = 49;
 // Native-only live stats appended after the struct fields in the panel's value
 // array (sourced from AudioProcessor_GetNativeStats, not the metrics struct).
-constexpr int kFieldSynthDefs   = 50;
-constexpr int kFieldBuffers     = 51;
-constexpr int kFieldBufferBytes = 52;
-constexpr int kFieldCpuAvg      = 53; // DSP load %, centi (native_stats)
-constexpr int kFieldCpuPeak     = 54; // DSP load % peak, centi (native_stats)
-constexpr int kFieldOverruns    = 55; // audio callback overruns (native_stats)
-constexpr int kFieldNrtMaxPass     = 56; // nativeStats[6]: longest control pass, µs
-constexpr int kFieldNrtInFlight    = 57; // nativeStats[7]: control pass blocked now, µs
-constexpr int kFieldNrtRecentWorst = 58; // nativeStats[8]: worst control pass in last ~60 s, µs
-constexpr int kPanelFieldCount     = 59;
+// The harness publishes what the harness measures: synthdef and buffer
+// counts were the engine's nouns and left this region on 2026-09-01.
+constexpr int kFieldNativeFirst = 50;
+constexpr int kFieldCpuAvg      = 50; // DSP load %, centi (native_stats)
+constexpr int kFieldCpuPeak     = 51; // DSP load % peak, centi (native_stats)
+constexpr int kFieldOverruns    = 52; // audio callback overruns (native_stats)
+constexpr int kFieldNrtMaxPass     = 53; // nativeStats[3]: longest control pass, µs
+constexpr int kFieldNrtInFlight    = 54; // nativeStats[4]: control pass blocked now, µs
+constexpr int kFieldNrtRecentWorst = 55; // nativeStats[5]: worst control pass in last ~60 s, µs
+constexpr int kPanelFieldCount     = 56;
 
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
@@ -123,11 +124,11 @@ constexpr int kRefreshMs = 150;
 // the two-row layout is preferred until the pane is genuinely wide.
 constexpr int kCardMinW = 112;
 
-// Ring capacities, mirrored from external/supersonic/src/memory_profile.h
-// (IN/OUT/NRT_OUT_BUFFER_SIZE); used to scale the ring usage % readouts.
-constexpr uint32_t kInBufferCap = 786432;  // 768 KB
-constexpr uint32_t kOutBufferCap = 131072; // 128 KB
-constexpr uint32_t kNrtOutBufferCap = 65536; // 64 KB
+// Ring capacities, from the engine's own memory profile (the header the
+// reader in api/ is built against); used to scale the ring usage % readouts.
+constexpr uint32_t kInBufferCap = IN_BUFFER_SIZE;
+constexpr uint32_t kOutBufferCap = OUT_BUFFER_SIZE;
+constexpr uint32_t kNrtOutBufferCap = NRT_OUT_BUFFER_SIZE;
 
 enum Fmt
 {
@@ -210,12 +211,12 @@ RowDef AgeRow(const char* label, int nowF, int thenF, const char* tip = "")
 // fails) are omitted (no native writer).
 const std::vector<PanelDef>& panelLayout()
 {
-    // All row tooltips come from SuperSonic's canonical metrics schema (see
-    // supersonic/js/lib/metrics_schema.js → generated metrics_schema.h): a
+    // All row tooltips come from the engine's canonical metrics schema (see
+    // harness/js/lib/metrics_schema.js → generated metrics_schema.h): a
     // row with no tip falls back to the schema description of its first
     // metric field, and rows combining several fields name a schema
     // composite — mirroring the <supersonic-metrics> web component.
-    const auto composite = supersonic::metrics_schema::descriptionForComposite;
+    const auto composite = clockwork::metrics_schema::descriptionForComposite;
     static const std::vector<PanelDef> panels = {
         { "Engine",
           { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) },
@@ -265,10 +266,6 @@ const std::vector<PanelDef>& panelLayout()
                    "Process calls since the last scheduler late (larger = longer ago; - = none this session)"),
             ValRow("debug", { V(15, K_Muted), T(" ("), V(16, K_Muted, F_Bytes), T(")") },
                    composite("debugCountBytes")) } },
-        { "Buffers",
-          { ValRow("synthdefs", { Vn(kFieldSynthDefs) }),
-            ValRow("buffers", { Vn(kFieldBuffers) }),
-            ValRow("buf bytes", { Vn(kFieldBufferBytes, K_Muted, F_Bytes) }) } },
         { "Errors",
           { ValRow("dropped", { V(2, K_Error) }),
             ValRow("q drop", { V(5, K_Error) }),
@@ -462,7 +459,7 @@ void MetricsPanel::buildUi()
         // Tooltip explaining the metric, applied to every widget in the row.
         // Title is "card · row" so the popup names the (cryptic) metric.
         // Body: the row's explicit tip, else the schema description of its
-        // first metric field (fields >= kFieldSynthDefs live in the
+        // first metric field (fields >= kFieldNativeFirst live in the
         // NATIVE_STATS segment — see the panel's field remapping above).
         const char* tip = (row.tip && *row.tip) ? row.tip : nullptr;
         if (!tip)
@@ -481,10 +478,10 @@ void MetricsPanel::buildUi()
                         break;
                     }
                 }
-            if (f >= kFieldSynthDefs)
-                tip = supersonic::metrics_schema::descriptionForNativeStat(f - kFieldSynthDefs);
+            if (f >= kFieldNativeFirst)
+                tip = clockwork::metrics_schema::descriptionForNativeStat(f - kFieldNativeFirst);
             else if (f >= 0)
-                tip = supersonic::metrics_schema::descriptionForOffset(f);
+                tip = clockwork::metrics_schema::descriptionForOffset(f);
         }
         const QString tipBody = tip ? QString::fromUtf8(tip) : QString();
         const QString tipTitle = QString::fromUtf8(panelTitle)
@@ -1009,7 +1006,7 @@ void MetricsPanel::drainOscRing(bool outgoing)
     appendLogBatch(view, lines);
 }
 
-// Drain one engine→host ring, splitting by type: /supersonic/debug → Debug pane
+// Drain one engine→host ring, splitting by type: /clockwork/debug → Debug pane
 // (text + local timestamp), everything else → From-SuperSonic pane (formatted
 // OSC). Parse as OSC; never dump raw bytes.
 void MetricsPanel::drainEgressRing(bool nrt)
@@ -1030,7 +1027,7 @@ void MetricsPanel::drainEgressRing(bool nrt)
 
             oscpkt::PacketReader pr(osc, oscN);
             oscpkt::Message* msg = pr.isOk() ? pr.popMessage() : nullptr;
-            if (msg && msg->addressPattern() == "/supersonic/debug") {
+            if (msg && msg->addressPattern() == "/clockwork/debug") {
                 oscpkt::Message::ArgReader ar = msg->arg();
                 if (ar.isStr() && m_debugView) {
                     std::string s; ar.popStr(s);
@@ -1075,8 +1072,7 @@ void MetricsPanel::updateNodeTree()
         }
         return;
     }
-    uint32_t version = reinterpret_cast<const std::atomic<uint32_t>*>(nt.header + 4)
-                           ->load(std::memory_order_relaxed);
+    const uint32_t version = nt.header->version.load(std::memory_order_relaxed);
     if (version == m_lastTreeVersion) return;   // unchanged — skip rebuild
     m_lastTreeVersion = version;
 
@@ -1085,18 +1081,18 @@ void MetricsPanel::updateNodeTree()
 
     for (uint32_t i = 0; i < nt.max_nodes; ++i)
     {
-        const uint8_t* e = nt.entries + static_cast<size_t>(i) * nt.entry_bytes;
-        int32_t id = *reinterpret_cast<const int32_t*>(e + 0);
+        const NodeEntry& e = nt.entries[i];
+        const int32_t id = e.id;
         if (id < 0) continue;                            // empty slot
-        int32_t parent  = *reinterpret_cast<const int32_t*>(e + 4);
-        int32_t isGroup = *reinterpret_cast<const int32_t*>(e + 8);
-        // prev_id @12, next_id @16, head_id @20 — the scsynth sibling chain that
-        // encodes true execution order. Slot/array order here is allocation
-        // order, not sibling order, so the graph must follow this chain.
-        int32_t nextId  = *reinterpret_cast<const int32_t*>(e + 16);
-        int32_t headId  = *reinterpret_cast<const int32_t*>(e + 20);
-        const char* nm  = reinterpret_cast<const char*>(e + 24);
-        QString name = QString::fromUtf8(nm, qstrnlen(nm, 32));
+        const int32_t parent  = e.parent_id;
+        const int32_t isGroup = e.is_group;
+        // The scsynth sibling chain encodes true execution order. Slot order
+        // here is allocation order, not sibling order, so the graph must
+        // follow the chain.
+        const int32_t nextId  = e.next_id;
+        const int32_t headId  = e.head_id;
+        const char* nm = e.def_name;
+        QString name = QString::fromUtf8(nm, qstrnlen(nm, NODE_TREE_DEF_NAME_SIZE));
 
         const bool isFx     = name.contains("-fx_") || name.contains("-fx-");
         const bool isSample = name.contains("stereo_player") || name.contains("mono_player");
@@ -1182,9 +1178,6 @@ void MetricsPanel::refresh()
 
     // Native stats live in a separate region; appended after the struct fields.
     const native_stats ns = m_api->AudioProcessor_GetNativeStats();
-    v[kFieldSynthDefs]   = ns.synthdefs;
-    v[kFieldBuffers]     = ns.buffers;
-    v[kFieldBufferBytes] = ns.buffer_bytes;
     v[kFieldCpuAvg]      = ns.cpu_load_avg_centi;
     v[kFieldCpuPeak]     = ns.cpu_load_peak_centi;
     v[kFieldOverruns]    = ns.callback_overruns;
@@ -1252,8 +1245,8 @@ void MetricsPanel::refresh()
 
     // Tail the rings + node tree.
     drainOscRing(/*outgoing=*/true);   // IN ring     → To SuperSonic (what Sonic Pi sent)
-    drainEgressRing(/*nrt=*/false);    // OUT ring     → /supersonic/debug → Debug, rest → From SuperSonic
-    drainEgressRing(/*nrt=*/true);     // NRT-out ring → /supersonic/debug → Debug, rest → From SuperSonic
+    drainEgressRing(/*nrt=*/false);    // OUT ring     → /clockwork/debug → Debug, rest → From SuperSonic
+    drainEgressRing(/*nrt=*/true);     // NRT-out ring → /clockwork/debug → Debug, rest → From SuperSonic
     updateNodeTree();
 
     // Now that the debug cursor is primed (tailing live), ask SuperSonic once
@@ -1265,25 +1258,14 @@ void MetricsPanel::refresh()
 
 void MetricsPanel::requestSupersonicSummary()
 {
-    const int port = m_api ? m_api->GetPort(SonicPi::SonicPiPortId::scsynth) : 0;
-    if (port <= 0)
-        return;
-    if (!m_summarySocket)
-    {
-        m_summarySocket = new QUdpSocket(this);
-        m_summarySocket->bind(QHostAddress::LocalHost, 0);
-    }
-    // OSC "/supersonic/summary" with an empty (",") type tag, 4-byte padded.
-    QByteArray pkt;
-    auto pad = [&pkt](const char* str) {
-        pkt.append(str);
-        pkt.append('\0');
-        while (pkt.size() % 4 != 0) pkt.append('\0');
-    };
-    pad("/supersonic/summary");
-    pad(",");
-    m_summarySocket->writeDatagram(pkt, QHostAddress::LocalHost, static_cast<quint16>(port));
-    m_summaryRequested = true;
+    // Through the API's command connection, like every other verb: the
+    // engine serves one command transport, and a datagram to the port the
+    // daemon calls "scsynth" reaches nothing when that transport is a
+    // stream. The banner comes back down the debug channel the panel is
+    // already tailing.
+    if (!m_api) return;
+    if (m_api->SupersonicSendOSC(oscpkt::Message("/clockwork/summary")))
+        m_summaryRequested = true;
 }
 
 void MetricsPanel::setFontZoom(int level)

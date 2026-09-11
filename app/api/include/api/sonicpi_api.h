@@ -183,6 +183,91 @@ struct MessageInfo : MessageData
    std::string currentDriver;
  };
 
+// One plugin on a track, as /clockwork/track/list reports it.
+struct TrackNodeInfo
+{
+    int handle = 0;          // names the instance in every later verb
+    bool instrument = false; // takes notes and makes sound; else an effect
+    bool bypass = false;
+    int channel = 0;         // MIDI channel it listens on, 1..16; 0 is all
+    std::string name;
+    std::string vendor;
+    std::string format;      // "vst3" or "clap"
+    std::string path;
+    int index = 0;           // which plugin in a bundle that holds several
+    int latency = 0;         // frames the plugin reports it delays by
+};
+
+// One track: a named lane pair through the plugin host with a chain on it.
+// Channels are the engine's 0-based; code that names the track adds one.
+struct TrackInfo
+{
+    int id = 0;
+    int slot = 0;
+    std::string name;
+    int sendChannel = 0;
+    int returnChannel = 0;
+    float gain = 1.0f;
+    bool mute = false;
+    int scopeSlot = -1;                 // scope stream carrying the track's return, or -1
+    std::vector<TrackNodeInfo> nodes;   // chain order is signal order
+    std::string timeline;               // which clock the track's plugins follow ("link", "midi:<port>")
+};
+
+// One Link Audio channel another peer announces, as
+// /clockwork/clock/audio/channels.reply lists them. Live publishes several
+// independently subscribable channels (Main, 1, 2, …) under one peer name.
+struct LinkAudioChannelInfo
+{
+    std::string channelId;   // hex, stable for the channel's life
+    std::string channelName;
+    std::string peerId;
+    std::string peerName;
+};
+
+// One active Link Audio subscription, as /clockwork/clock/audio/inputs.reply
+// reports it. `state` is the engine's LinkAudioConnectionState: 0 not
+// subscribed, 1 connecting, 2 connected, 3 dropout.
+struct LinkAudioInputInfo
+{
+    std::string peerName;
+    std::string channelName;
+    int busIdx = -1;             // the input channel pair's first channel; -1 unknown
+    int sampleRate = 0;          // Hz; 0 until the first buffer
+    int numChannels = 0;         // source channels, 1 or 2; 0 until the first buffer
+    float bufferedMs = 0.0f;
+    int state = 0;
+    float latencySeconds = 0.0f;
+};
+
+// One plugin installed on this machine, from /clockwork/track/plugins: what
+// the engine found when asked to scan its folders. `path` and `index` are
+// what track/plugin/add takes.
+struct TrackPluginInfo
+{
+    std::string name;
+    std::string vendor;
+    std::string format;      // "vst3" or "clap"
+    std::string path;
+    int index = 0;
+    bool instrument = false;
+};
+
+// One parameter of a plugin, from /clockwork/track/plugin/params. `value` is
+// in the plugin's own range (min..max), which is what track/plugin/param
+// takes; the plugin's own editor reports edits normalized 0..1.
+struct TrackParamInfo
+{
+    uint32_t id = 0;
+    std::string name;
+    float min = 0.0f;
+    float max = 1.0f;
+    float value = 0.0f;
+    int group = 0;
+    std::string groupName;
+    bool automatable = true;
+};
+
 struct AudioDevicesInfo {
     std::vector<std::string> devices;
     // Driver type (e.g. "ASIO", "Windows Audio", "DirectSound") for each
@@ -201,7 +286,7 @@ struct AudioInputDevicesInfo {
     std::string currentDevice;
 };
 
-// Per-driver device table (/supersonic/device-table): the same devices as
+// Per-driver device table (/clockwork/device-table): the same devices as
 // AudioDevicesInfo/AudioInputDevicesInfo but grouped by driver and NOT
 // deduped across drivers, so a client can render any driver's device list
 // directly. Absent entirely when the engine predates the message — clients
@@ -248,7 +333,7 @@ struct AudioDeviceConfigInfo {
     bool hasIntendedDriver = false;
 };
 
-// Carries the truthful outcome of a debounced /supersonic/devices/switch
+// Carries the truthful outcome of a debounced /clockwork/devices/switch
 // from the engine. Two failure shapes are surfaced separately:
 //   - success == false: the entire switch failed (no device opened, or
 //     the engine rolled back). `error` carries the engine/JUCE message
@@ -346,6 +431,45 @@ struct IAPIClient
     // "enabled<TAB>name" (empty = none). Default no-op so non-GUI
     // consumers don't need to react.
     virtual void GamepadDevices(const std::string& devices) {}
+    // The engine's tracks, in display order, after any change to any of
+    // them. The WHOLE list every time: it is shared state, and a client
+    // that accumulated deltas would eventually disagree with the engine
+    // about what is loaded. `laneBase` is 0 until the engine has lanes for
+    // tracks at all.
+    virtual void Tracks(int /*laneBase*/, const std::vector<TrackInfo>& /*tracks*/) {}
+    // A track's gain or mute moved; cheaper than the whole list.
+    virtual void TrackState(int /*id*/, float /*gain*/, bool /*mute*/) {}
+    // The Link Audio channels other peers announce, and our active
+    // subscriptions to them — the answers to /clockwork/clock/audio/
+    // channels/get and inputs/get, which the GUI's streams panel polls.
+    // Through here, not a socket of the panel's own: the engine serves one
+    // command transport, and it is the API's.
+    virtual void LinkAudioChannels(const std::vector<LinkAudioChannelInfo>& /*channels*/) {}
+    virtual void LinkAudioInputs(const std::vector<LinkAudioInputInfo>& /*inputs*/) {}
+    // The folders the engine looks in for plugins: the user's own, then the
+    // platform's.
+    virtual void TrackFolders(const std::vector<std::string>& /*extra*/,
+                              const std::vector<std::string>& /*platform*/) {}
+    // Every plugin the engine found in those folders, after a track/scan,
+    // a page at a time: `total` in all, this page from `offset`. The
+    // engine's plugin process does the looking: a scan runs each plugin's
+    // own code, and no GUI should.
+    virtual void TrackPlugins(uint32_t /*total*/, uint32_t /*offset*/,
+                              const std::vector<TrackPluginInfo>& /*plugins*/) {}
+    // One page of a plugin's parameters, `offset` into `total`. The list
+    // comes in pages because a synth publishes thousands and the wire is
+    // a datagram.
+    virtual void TrackParams(int /*handle*/, uint32_t /*total*/, uint32_t /*offset*/,
+                             const std::vector<TrackParamInfo>& /*params*/) {}
+    // A hosted plugin's parameter moved. `own`: the plugin's OWN edit —
+    // someone turned a knob in its floating editor — as against a set by
+    // name from code, echoed so a panel drawing the parameter can follow.
+    // `normalized` is 0..1, the form both plugin formats use for this.
+    virtual void TrackParamEdit(int /*handle*/, uint32_t /*id*/, double /*normalized*/,
+                                bool /*own*/) {}
+    // A track verb failed in a way the user must see: a name already taken,
+    // a plugin that would not load, a rig that saved or loaded wrong.
+    virtual void TrackError(const std::string& /*verb*/, const std::string& /*detail*/, int /*handle*/) {}
     virtual void Version(const VersionInfo& info) = 0;
     virtual void AudioDataAvailable(ProcessedAudioPtr audio) = 0;
     virtual void Buffer(const BufferInfo& info) = 0;
@@ -360,7 +484,7 @@ struct IAPIClient
     virtual void AudioDevices(const AudioDevicesInfo& devicesInfo) = 0;
     virtual void AudioInputDevices(const AudioInputDevicesInfo& devicesInfo) = 0;
     // Per-driver device table; only fires on engines that broadcast
-    // /supersonic/device-table. Default no-op so non-GUI consumers (and
+    // /clockwork/device-table. Default no-op so non-GUI consumers (and
     // older clients) don't need to react.
     virtual void AudioDeviceTable(const AudioDeviceTableInfo& /*table*/) {}
     virtual void AudioDeviceConfig(const AudioDeviceConfigInfo& configInfo) = 0;
@@ -384,7 +508,7 @@ struct IAPIClient
     // AudioSwitchOutcome. Default no-op so non-GUI consumers don't
     // need to react.
     virtual void AudioSwitchDone(const AudioSwitchOutcome& /*outcome*/) {}
-    // Immediate accept/reject for /supersonic/devices/reopen (the engine
+    // Immediate accept/reject for /clockwork/devices/reopen (the engine
     // debounces: in-flight or <3s cooldown → rejected). Default no-op.
     virtual void AudioDeviceReopenReply(bool /*accepted*/, const std::string& /*reason*/) {}
 };
@@ -546,10 +670,9 @@ public:
 
     std::vector<LogSource> GetLogSources();
 
-    // Direct pointer to a slot in the cross-process shm_audio_buffer
-    // array. Used by the session recorder to read the master output mix
-    // (slot 0) while a supersonic-audio-out synth is feeding it. Returns
-    // nullptr if the audio processor hasn't been initialised.
+    // Direct pointer to one of the engine's audio taps (SHM_AUDIO_OUT_SLOT
+    // is the master mix, flowing from boot). Used by the session recorder.
+    // Returns nullptr if the audio processor hasn't been initialised.
     virtual shm_audio_buffer* AudioProcessor_GetAudioBufferSlot(unsigned int slot);
 
     // Reader onto scope stream slot `scope_num`. Slot 0 is the master scope

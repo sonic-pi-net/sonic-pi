@@ -159,15 +159,34 @@ into a folder on your hard drive such as `C:\dev\sonic-pi`:
 git clone --recurse-submodules https://github.com/sonic-pi-net/sonic-pi.git C:\dev\sonic-pi
 ```
 
-(The `--recurse-submodules` flag fetches the SuperSonic audio engine at
-`app/external/supersonic`. If you forget it, the `win-prebuild.bat`
-script will run `git submodule update --init --recursive` for you on
-first run.)
+(The `--recurse-submodules` flag fetches the submodules under
+`app/external/`. If you forget it, the `win-prebuild.bat` script will run
+`git submodule update --init --recursive` for you on first run.)
+
+The audio engine this builds is **SuperSonic**
+(https://github.com/samaaron/supersonic), the `app/external/supersonic`
+submodule — scsynth running on
+[clockwork](https://github.com/samaaron/clockwork), which is where VST3 and
+CLAP hosting, MIDI, Ableton Link and the audio device IO come from.
+
+SuperSonic has a submodule of its own, `clockwork`, so `--recurse-submodules`
+is **not optional** here — a one-level clone leaves
+`app/external/supersonic/clockwork` empty and CMake fails early on a missing
+`CMakeLists.txt`. If you have already cloned without it:
+
+```
+git submodule update --init --recursive
+```
 
 If you don't have Git installed you should be able to download a `.zip`
 file of the latest commit or specific release you'd like to build:
 
 https://github.com/sonic-pi-net/sonic-pi/archive/main.zip
+
+A `.zip` will not carry the repository's symlinks — `app/gui/images/tutorial`
+in particular, which points at `etc/doc/images/tutorial` and leaves the built-in
+tutorial with broken images if it is missing. Re-create it with
+`mklink /j app\gui\images\tutorial etc\doc\images\tutorial`. Cloning avoids this.
 
 From now on these instructions will assume you downloaded the source
 into `C:\dev\sonic-pi`. If you used a different location be sure to
@@ -248,12 +267,24 @@ from source for ARM64; there is nothing to prebuild by hand.
 
 **Goal**: every binary runs as native ARM64 — no x86/x64 emulation.
 
+> **Run the build scripts from cmd or PowerShell, not from git-bash.**
+> `win-config.bat` picks the vcpkg triplet and the generator flag from
+> `%PROCESSOR_ARCHITECTURE%`. Native cmd and PowerShell report `ARM64`;
+> git-bash is an x64 build running under emulation and reports `AMD64`, so the
+> same command there quietly configures an **x64** build on an ARM64 machine.
+> Nothing fails — you just get the thing this section exists to avoid.
+
 Only the prerequisites differ from the x64 steps above:
 
 * **Visual Studio 2026** — under Individual Components, add **MSVC
-  ARM64/ARM64EC build tools**. Note that on ARM64 Windows, VS installs to
-  `C:\Program Files (x86)\`, not `C:\Program Files\` — anything that hunts
-  for `vcvarsall.bat` must check both locations.
+  ARM64/ARM64EC build tools**. Don't assume an install location: VS 2026 is
+  typically under `C:\Program Files\Microsoft Visual Studio\18\`, possibly in an
+  edition subdirectory of its own (`...\18\Insiders\`), while
+  `C:\Program Files (x86)\Microsoft Visual Studio\` may hold nothing but an
+  older VS and the shared Installer. Anything hunting for `vcvarsall.bat` or
+  `vcvarsarm64.bat` must check both roots — and note that `vswhere.exe` does not
+  necessarily report an Insiders install, so a script relying on it needs a
+  fallback that globs the directories.
 * **Ruby** — install the ARM64 RubyInstaller build and verify with
   `ruby -e "puts RUBY_PLATFORM"` (should print `aarch64-mingw-ucrt`). Link
   it the same way, e.g. `mklink /j ruby C:\Ruby40-arm`. ARM64 Ruby ships

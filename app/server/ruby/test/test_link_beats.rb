@@ -78,13 +78,13 @@ module SonicPi
     def test_beat_is_encoded_as_int64_on_the_wire
       encoder = ::SonicPi::OSC::OscEncode.new
       msg = encoder.encode_single_message(
-        "/clock/rpc/time_at_beat",
+        "/clockwork/clock/rpc/time_at_beat",
         [::SonicPi::OSC::Int64.new(LinkAPI.beats_to_microbeats(LARGE_BEAT)), 4.0, 1])
       # Type tag string follows the padded address; ",hfi" = int64, float32, int32.
       assert_includes msg, ",hfi", "expected an int64 beat, float32 quantum, int32 token"
 
       decoded = ::SonicPi::OSC::OscDecode.new.decode_single_message(msg)
-      assert_equal "/clock/rpc/time_at_beat", decoded[0]
+      assert_equal "/clockwork/clock/rpc/time_at_beat", decoded[0]
       assert_equal 40_000_001_000, decoded[1][0]
       assert_in_delta LARGE_BEAT, LinkAPI.microbeats_to_beats(decoded[1][0]), 1e-6
     end

@@ -20,7 +20,7 @@ module SonicPi
   class SupersonicMidiComms < SupersonicComms
     def initialize(supersonic_host, supersonic_port)
       super(supersonic_host, supersonic_port,
-            address_space: "/midi",
+            address_space: "/clockwork/midi",
             name: "SuperSonic MIDI Comms")
     end
 

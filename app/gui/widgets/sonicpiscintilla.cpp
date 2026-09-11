@@ -2438,8 +2438,10 @@ bool SonicPiScintilla::event(QEvent* evt)
             // context after the move.
             case Qt::Key_Space:
                 // Space commits a previewed entry, then types the space; a plain
-                // space otherwise (no preview shown yet).
-                if (m_pvLive)
+                // space otherwise (no preview shown yet) — and always inside a
+                // string, where a space is part of the name being typed
+                // (`"Filter 1 …`).
+                if (m_pvLive && !m_pvInString)
                 {
                     SendScintilla(SCI_BEGINUNDOACTION);
                     acceptCompletion();
@@ -2583,28 +2585,18 @@ void SonicPiScintilla::updateCompletion(bool force)
     // Work against the user's typed text / current value, not a stale preview.
     clearPreview();
 
-    // Don't pop up inside a comment or a string literal: scan the line up to the
-    // caret tracking quote state; bail on an unquoted '#' (comment) or if the
-    // caret sits inside an unterminated string.
+    // Nothing pops up in a comment. A string is closed to completion too —
+    // except where the language takes a name as a string (track_control's
+    // parameter, spaces and all); whether this string is such a slot is only
+    // known once the API has looked at the context, below.
+    bool inString = false;
     {
         int gl, gc;
         getCursorPosition(&gl, &gc);
         const QString upto = text(gl).left(gc);
-        QChar q;
-        bool suppress = false;
-        for (int i = 0; i < upto.length(); ++i)
-        {
-            const QChar c = upto[i];
-            if (!q.isNull())
-            {
-                if (c == '\\') { ++i; continue; }   // skip escaped char in string
-                if (c == q) q = QChar();
-                continue;
-            }
-            if (c == '"' || c == '\'') { q = c; continue; }
-            if (c == '#') { suppress = true; break; }   // comment to end of line
-        }
-        if (suppress || !q.isNull())
+        const SonicPi::LineScan scan = SonicPi::scanLineToCaret(upto, upto.length());
+        inString = scan.inString;
+        if (scan.inComment)
         {
             endPreview();
             m_completion->hidePopup();
@@ -2615,8 +2607,9 @@ void SonicPiScintilla::updateCompletion(bool force)
         // complete — e.g. `phase_offset: rand(1)`. Nothing is completable until
         // a separator introduces the next argument, and accepting an entry here
         // would glue it onto the value (`rand(1)note:`), turning Return into a
-        // garbage insert instead of a newline.
-        if (SonicPi::caretAfterClosedValue(upto, upto.length()))
+        // garbage insert instead of a newline. An opening quote is not a
+        // closing one.
+        if (!inString && SonicPi::caretAfterClosedValue(upto, upto.length()))
         {
             endPreview();
             m_completion->hidePopup();
@@ -2665,6 +2658,15 @@ void SonicPiScintilla::updateCompletion(bool force)
     const QString afterCursor = text(curLine).mid(curCol);
 
     QList<CompletionItem> items = api->completionsFor(context, afterCursor);
+
+    // Inside a string, only a slot that takes a name as a string goes on.
+    if (inString && (items.isEmpty() || items.first().kind != QLatin1String("param")))
+    {
+        endPreview();
+        m_completion->hidePopup();
+        return;
+    }
+    m_pvInString = inString;
 
     // Offer names defined in this buffer: user functions at a call position, and
     // live_loop/cue/set names where a cue symbol is expected (sync/cue/get/set).

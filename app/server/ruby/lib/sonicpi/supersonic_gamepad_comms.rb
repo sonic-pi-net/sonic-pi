@@ -20,7 +20,7 @@ module SonicPi
   class SupersonicGamepadComms < SupersonicComms
     def initialize(supersonic_host, supersonic_port)
       super(supersonic_host, supersonic_port,
-            address_space: "/gamepad",
+            address_space: "/clockwork/gamepad",
             name: "SuperSonic Gamepad Comms")
     end
   end

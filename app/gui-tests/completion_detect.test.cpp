@@ -49,3 +49,16 @@ TEST_CASE("opt positions and arbitrary calls are not value slots", "[completion]
     CHECK(detect("play 60, ")         == ArgKind::None);   // not a value-slot fn
     CHECK(detect("puts ")             == ArgKind::None);
 }
+
+TEST_CASE("track functions detect the track slot and the note slot", "[completion][detect]")
+{
+    CHECK(detect("live_track ")             == ArgKind::Track);
+    CHECK(detect("with_send ")              == ArgKind::Track);
+    CHECK(detect("use_track ")              == ArgKind::Track);
+    CHECK(detect("with_track ")             == ArgKind::Track);
+    CHECK(detect("track_midi ")             == ArgKind::Note);
+    CHECK(detect("track_midi_note_on ")     == ArgKind::Note);
+    CHECK(detect("track_midi :e3, ")        == ArgKind::None);    // velocity, a number
+    CHECK(detect("track_control ")          == ArgKind::None);    // a parameter name
+    CHECK(detect("live_track :surge, amp: ") == ArgKind::None);   // in opts
+}

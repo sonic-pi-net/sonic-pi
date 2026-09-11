@@ -16,6 +16,7 @@
 #include <Qsci/qsciabstractapis.h>
 #include <QHash>
 #include <QList>
+#include "utils/trackparam.h"
 #include <functional>
 
 // A single completion candidate for the custom popup: the text inserted/shown,
@@ -34,12 +35,13 @@ struct CompletionItem
     bool slider = false;
     double rmin = 0, rmax = 0, rdefault = 0;
     QString illo;             // enum-value shape tag ("wave"/"curve"), else empty
+    QString tag;              // inline label beside the name: which plugin a track opt is on
 };
 
 class ScintillaAPI : public QsciAbstractAPIs
 {
  public:
-  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam, Tuning, Examples, MidiParam, MidiOuts, CuePath, RandomSource, LinkAudioPeer, LinkAudioChannel, NContext};
+  enum { Func, FX, Synth, Sample, Chord, Scale, MCBlock, PlayParam, SampleParam, Tuning, Examples, MidiParam, MidiOuts, CuePath, RandomSource, LinkAudioPeer, LinkAudioChannel, Track, NContext};
 
   ScintillaAPI(QsciLexer *lexer);
 
@@ -51,11 +53,24 @@ class ScintillaAPI : public QsciAbstractAPIs
   void loadSamples(QString sample_path);
   void updateMidiOuts(QString port_info);
   void updateLinkAudioStreams(const QStringList& peers, const QStringList& channels);
+  // The plugin host's tracks by name, as the engine last listed them: what
+  // use_track, live_track, with_send and a `track:` opt complete to.
+  void updateTracks(const QStringList& names);
+  // The parameters of the plugins running on one track, in chain order.
+  // Offered two ways, as the language takes them: as opt keys on the track
+  // verbs (`track_midi :e3, filter_1_cutoff: 0.5`, with a slider
+  // over the plugin's range), and as the quoted name in track_control's
+  // parameter slot.
+  void updateTrackParams(const QString& track, const QList<SonicPi::TrackParam>& params);
   void setPlayArgs(const QStringList& args);
   void setSampleArgs(const QStringList& args);
   // Resolver returning the synth in effect at the cursor (e.g. "dsaw" set by
   // use_synth), so `play` completes only that synth's opts. Empty = unknown.
   void setSynthResolver(std::function<QString()> resolver);
+  // Resolver returning the track in effect at the cursor ("surge" set by
+  // use_track / with_track), so a track verb with no `track:` completes
+  // that track's plugin parameters. Empty = none.
+  void setTrackResolver(std::function<QString()> resolver);
 
   // Register a one-line summary for a completion entry (name as it appears in
   // the list, e.g. ":reverb" / "play"). Used by the custom completion popup.
@@ -104,6 +119,17 @@ class ScintillaAPI : public QsciAbstractAPIs
   QStringList keywords[NContext];
   QHash<QString, QStringList> fxArgs;
   QHash<QString, QStringList> synthArgs;
+  // A parameter as an opt: its key, the plugin's name for it, the popup's
+  // summary line, and the plugin's range with the value it has now.
+  struct TrackOpt { QString key, name, detail, plugin; double lo, hi, def; };
+  QHash<QString, QList<SonicPi::TrackParam>> trackParams;   // by ":track"
+  QHash<QString, QStringList> trackParamStrings;            // by ":track", quoted names
+  QHash<QString, QStringList> trackOptKeys;                 // by ":track", "key:" in chain order
+  QHash<QString, QHash<QString, TrackOpt>> trackOpts;       // by ":track", then "key:"
+  // ":track" when the context is a track verb on a track that has
+  // parameters - the `track:` opt, the name in front of live_track and
+  // with_send, or the current track from use_track; empty otherwise.
+  QString trackForContext(const QStringList& context) const;
   QHash<QString, QString> summaries;
   QHash<QString, QString> docs;
   QHash<QString, QString> usages;
@@ -120,5 +146,6 @@ class ScintillaAPI : public QsciAbstractAPIs
   QHash<QString, QList<int>> chordIntervals;   // bare name -> semitone offsets
   QHash<QString, QList<int>> scaleIntervals;
   std::function<QString()> synthResolver;
+  std::function<QString()> trackResolver;
   QString lastKind; // kind resolved by the most recent updateAutoCompletionList
 };

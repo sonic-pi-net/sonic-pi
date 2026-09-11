@@ -24,6 +24,8 @@ rm -rf "${SCRIPT_DIR}"/**/CMakeCache.txt
 # the separately deployed bundle) and must survive the clean.
 echo "Cleaning deployed build outputs out of server/native...."
 rm -rf "${SCRIPT_DIR}"/server/native/"Sonic Pi - SuperSonic" \
+       "${SCRIPT_DIR}"/server/native/"Sonic Pi - Plugins" \
+       "${SCRIPT_DIR}"/server/native/"Sonic Pi - Plugins.app" \
        "${SCRIPT_DIR}"/server/native/sonic-pi-supersonic \
        "${SCRIPT_DIR}"/server/native/supersonic \
        "${SCRIPT_DIR}"/server/native/aubio_onset \

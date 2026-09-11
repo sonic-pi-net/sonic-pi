@@ -225,14 +225,14 @@ module SonicPi
         # connect_to_supersonic!. Requests arriving before the engine has
         # booted (no connection yet) are dropped with a log line.
         {
-          "/daemon/audio/switch-device"   => "/supersonic/devices/switch",
-          "/daemon/audio/switch-driver"   => "/supersonic/drivers/switch",
+          "/daemon/audio/switch-device"   => "/clockwork/devices/switch",
+          "/daemon/audio/switch-driver"   => "/clockwork/drivers/switch",
           # devices/report (portless): registers this daemon connection as
           # the report audience and triggers a device table broadcast, which
           # the conn handlers forward to the GUI — the stream-transport
           # equivalent of the GUI's old direct UDP-port registration.
-          "/daemon/audio/request-devices" => "/supersonic/devices/report",
-          "/daemon/audio/reopen-device"   => "/supersonic/devices/reopen"
+          "/daemon/audio/request-devices" => "/clockwork/devices/report",
+          "/daemon/audio/reopen-device"   => "/clockwork/devices/reopen"
         }.each do |daemon_path, supersonic_path|
           @api_server.add_method(daemon_path) do |args|
             if args[0] && args[0] == @daemon_token
@@ -270,7 +270,7 @@ module SonicPi
         @supersonic_booter = SupersonicBooter.new(@ports, @no_scsynth_inputs, @audio_prefs)
 
         # Spider boots concurrently — it self-syncs against SuperSonic
-        # via its own /supersonic/notify ping loop.
+        # via its own /clockwork/notify ping loop.
         Util.log "Booting Spider Server"
         @spider_booter = SpiderBooter.new(@ports, @daemon_token)
 
@@ -324,19 +324,29 @@ module SonicPi
                                               name: "Daemon SuperSonic Conn",
                                               connect_timeout: 15)
 
-        # Forward /supersonic/setup to Spider for cold-swap reinit
-        conn.add_method("/supersonic/setup") do |args|
-          Util.log "Forwarding /supersonic/setup to Spider"
+        # Forward /clockwork/setup to Spider for cold-swap reinit
+        conn.add_method("/clockwork/setup") do |args|
+          Util.log "Forwarding /clockwork/setup to Spider"
           begin
-            @api_server.send("localhost", @ports["gui-send-to-spider"], "/supersonic/setup", *args)
+            @api_server.send("localhost", @ports["gui-send-to-spider"], "/clockwork/setup", *args)
           rescue => e
-            Util.log "Error forwarding /supersonic/setup: #{e.message}"
+            Util.log "Error forwarding /clockwork/setup: #{e.message}"
           end
         end
 
-        ["/supersonic/statechange", "/supersonic/info", "/supersonic/devices", "/supersonic/device-table", "/supersonic/input-devices", "/supersonic/devices/reopen.reply", "/supersonic/devices/reopen.done"].each do |path|
+        # A CLOSED LIST, and anything not on it is dropped here without a trace.
+        # The engine broadcasts to its notify targets; this connection is the
+        # registered one, and the GUI only ever sees what this loop forwards.
+        # The first plugin broadcasts were sent correctly by the engine and
+        # died at this line, which looked from the GUI exactly like a plugin
+        # that never loaded. The track addresses are everything the Tracks
+        # panel hears (harness/docs/TRACKS.md, "The OSC surface").
+        ["/clockwork/statechange", "/clockwork/info", "/clockwork/devices", "/clockwork/device-table", "/clockwork/input-devices", "/clockwork/devices/reopen.reply", "/clockwork/devices/reopen.done",
+         "/clockwork/track/list", "/clockwork/track/state", "/clockwork/track/folders", "/clockwork/track/plugins", "/clockwork/track/plugin/params", "/clockwork/track/plugin/param/edit", "/clockwork/track/error"].each do |path|
           conn.add_method(path) do |args|
-            Util.log "Forwarding #{path} to GUI"
+            # The parameter pages and knob edits come by the hundred; logging
+            # each would be the slowest thing in the loop.
+            Util.log "Forwarding #{path} to GUI" unless path.start_with?("/clockwork/track/plugin/param")
             begin
               @api_server.send("localhost", @ports["gui-listen-to-spider"], path, *args)
             rescue => e
@@ -347,11 +357,11 @@ module SonicPi
 
         conn.on_reconnect do
           Util.log "SuperSonic connection re-established - re-registering daemon notify"
-          conn.send(nil, nil, "/supersonic/notify")
+          conn.send(nil, nil, "/clockwork/notify")
         end
 
-        conn.send(nil, nil, "/supersonic/notify")
-        Util.log "Sent /supersonic/notify to SuperSonic over TCP, registering daemon connection"
+        conn.send(nil, nil, "/clockwork/notify")
+        Util.log "Sent /clockwork/notify to SuperSonic over TCP, registering daemon connection"
         @engine_conn = conn
 
         # Flush forwards that arrived while the engine was still booting.
@@ -903,15 +913,6 @@ module SonicPi
           args << "-H" << output_sound_card_name
         elsif sound_card_name
           args << "-H" << sound_card_name
-        end
-
-        # Point SuperSonic at the MdaPiano sample table (the :piano synth). The
-        # table ships as an external asset rather than being compiled into the
-        # engine; if it's missing, :piano just plays silence.
-        if File.exist?(Paths.piano_wavetable_path)
-          args << "--piano-wavetable" << Paths.piano_wavetable_path
-        else
-          Util.log "Piano wavetable not found at #{Paths.piano_wavetable_path} — :piano will be silent"
         end
 
         cmd = Paths.supersonic_path

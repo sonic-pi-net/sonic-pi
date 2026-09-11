@@ -24,6 +24,8 @@
 #include "api/logger.h"
 #include "api/string_utils.h"
 
+#include "memory_profile.h"   // the scope slots the plugin tracks write
+
 #undef max
 #undef min
 
@@ -237,19 +239,19 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 LOG(ERR, "Unhandled OSC msg /exited-with-boot-error");
             }
         }
-        else if (msg->match("/supersonic/info"))
+        else if (msg->match("/clockwork/info"))
         {
             ScsynthInfo message;
             oscpkt::Message::ArgReader ar = msg->arg();
 
             if (!ar.popStr(message.text).isOk())
             {
-                LOG(ERR, "/supersonic/info: failed to pop text arg");
+                LOG(ERR, "/clockwork/info: failed to pop text arg");
             }
             else if (ar.isOkNoMoreArgs())
             {
                 // Simple format: text only
-                LOG(INFO, "/supersonic/info (simple): > " << message.text);
+                LOG(INFO, "/clockwork/info (simple): > " << message.text);
                 m_pClient->Scsynth(message);
             }
             else
@@ -302,7 +304,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 std::string intendedDriver;
                 bool hasIntendedDriver = ar.popStr(intendedDriver).isOk();
 
-                LOG(INFO, "/supersonic/info (extended): > " << message.text
+                LOG(INFO, "/clockwork/info (extended): > " << message.text
                     << " sr=" << message.sampleRate
                     << " bs=" << message.bufferSize
                     << " out=" << outCh << " in=" << inCh
@@ -324,7 +326,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 m_pClient->AudioDeviceConfig(config);
             }
         }
-        else if (msg->match("/supersonic/device-table"))
+        else if (msg->match("/clockwork/device-table"))
         {
             // Wire format (counts-first throughout):
             //   currentDriver(str), intendedDriver(str), numDrivers(int32),
@@ -370,16 +372,16 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             }
             if (!ok)
             {
-                LOG(ERR, "/supersonic/device-table: malformed message, discarding");
+                LOG(ERR, "/clockwork/device-table: malformed message, discarding");
             }
             else
             {
-                LOG(INFO, "/supersonic/device-table: " << table.drivers.size()
+                LOG(INFO, "/clockwork/device-table: " << table.drivers.size()
                     << " drivers, current=" << table.currentDriver);
                 m_pClient->AudioDeviceTable(table);
             }
         }
-        else if (msg->match("/supersonic/devices"))
+        else if (msg->match("/clockwork/devices"))
         {
             // Wire format:
             //   mode(str), current(str),
@@ -420,12 +422,12 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 devicesInfo.deviceTypes.push_back(t);
             }
 
-            LOG(INFO, "/supersonic/devices: " << devicesInfo.devices.size()
+            LOG(INFO, "/clockwork/devices: " << devicesInfo.devices.size()
                 << " devices, mode=" << devicesInfo.mode
                 << ", current=" << devicesInfo.currentDevice);
             m_pClient->AudioDevices(devicesInfo);
         }
-        else if (msg->match("/supersonic/input-devices"))
+        else if (msg->match("/clockwork/input-devices"))
         {
             // Wire format:
             //   currentInput(str), numDevices(int32),
@@ -451,15 +453,15 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 info.deviceTypes.push_back(t);
             }
 
-            LOG(INFO, "/supersonic/input-devices: " << info.devices.size()
+            LOG(INFO, "/clockwork/input-devices: " << info.devices.size()
                 << " devices, current=" << info.currentDevice);
             m_pClient->AudioInputDevices(info);
         }
-        else if (msg->match("/supersonic/statechange"))
+        else if (msg->match("/clockwork/statechange"))
         {
             std::string state, reason;
             msg->arg().popStr(state).popStr(reason);
-            LOG(INFO, "/supersonic/statechange: " << state << " (" << reason << ")");
+            LOG(INFO, "/clockwork/statechange: " << state << " (" << reason << ")");
             if (state == "restarting") {
                 // Show "switching" status in GUI while device change is in progress
                 ScsynthInfo info;
@@ -467,35 +469,35 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 m_pClient->Scsynth(info);
             }
         }
-        else if (msg->match("/supersonic/setup"))
+        else if (msg->match("/clockwork/setup"))
         {
             int sampleRate = 0, bufferSize = 0;
             msg->arg().popInt32(sampleRate).popInt32(bufferSize);
-            LOG(DBG, "/supersonic/setup: sr=" << sampleRate << " bs=" << bufferSize);
+            LOG(DBG, "/clockwork/setup: sr=" << sampleRate << " bs=" << bufferSize);
             m_pClient->SupersonicSetup(sampleRate, bufferSize);
         }
-        else if (msg->match("/supersonic/devices/reopen.reply"))
+        else if (msg->match("/clockwork/devices/reopen.reply"))
         {
             int accepted = 0;
             std::string reason;
             msg->arg().popInt32(accepted).popStr(reason);
-            LOG(INFO, "/supersonic/devices/reopen.reply: accepted=" << accepted
+            LOG(INFO, "/clockwork/devices/reopen.reply: accepted=" << accepted
                       << " reason='" << reason << "'");
             m_pClient->AudioDeviceReopenReply(accepted != 0, reason);
         }
-        else if (msg->match("/supersonic/devices/reopen.done"))
+        else if (msg->match("/clockwork/devices/reopen.done"))
         {
             int success = 0, bufferSize = 0;
             std::string deviceName, error;
             float sampleRate = 0;
             msg->arg().popInt32(success).popStr(deviceName).popFloat(sampleRate)
                       .popInt32(bufferSize).popStr(error);
-            LOG(INFO, "/supersonic/devices/reopen.done: success=" << success
+            LOG(INFO, "/clockwork/devices/reopen.done: success=" << success
                       << " device='" << deviceName << "'"
                       << " sr=" << sampleRate << " bs=" << bufferSize
                       << (error.empty() ? "" : (" error='" + error + "'")));
         }
-        else if (msg->match("/supersonic/devices/switch.done"))
+        else if (msg->match("/clockwork/devices/switch.done"))
         {
             // Wire format (see OscUdpServer::sendSwitchDone):
             //   success(int32),
@@ -515,7 +517,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                       .popStr(outcome.inputUnavailableReason);
             outcome.success          = (success != 0);
             outcome.inputUnavailable = (inputUnavailable != 0);
-            LOG(INFO, "/supersonic/devices/switch.done: success=" << success
+            LOG(INFO, "/clockwork/devices/switch.done: success=" << success
                       << " out req='" << outcome.requestedOutput << "' actual='" << outcome.actualOutput << "'"
                       << " in req='"  << outcome.requestedInput  << "' actual='" << outcome.actualInput  << "'"
                       << (outcome.error.empty() ? "" : (" error='" + outcome.error + "'"))
@@ -542,13 +544,13 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 LOG(ERR, "Unhandled OSC msg /ack ");
             }
         }
-        else if (msg->match("/midi/out-ports"))
+        else if (msg->match("/clockwork/midi/out-ports"))
         {
             MidiInfo midi;
             midi.type = MidiType::Out;
             if (msg->arg().popStr(midi.portInfo).isOkNoMoreArgs())
             {
-                LOG(DBG, "/midi/out-ports/: " << midi.portInfo);
+                LOG(DBG, "/clockwork/midi/out-ports/: " << midi.portInfo);
                 m_pClient->Midi(midi);
             }
             else
@@ -556,13 +558,13 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 LOG(ERR, "Unhandled OSC msg /midi/out-ports");
             }
         }
-        else if (msg->match("/midi/in-ports"))
+        else if (msg->match("/clockwork/midi/in-ports"))
         {
             MidiInfo midi;
             midi.type = MidiType::In;
             if (msg->arg().popStr(midi.portInfo).isOkNoMoreArgs())
             {
-                LOG(DBG, "/midi/in-ports/: " << midi.portInfo);
+                LOG(DBG, "/clockwork/midi/in-ports/: " << midi.portInfo);
                 m_pClient->Midi(midi);
             }
             else
@@ -570,12 +572,262 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 LOG(ERR, "Unhandled OSC msg /midi/in-ports");
             }
         }
-        else if (msg->match("/gamepad/devices-list"))
+        else if (msg->match("/clockwork/track/list"))
+        {
+            // <lane_base> <count> then per track <id> <slot> <name> <send>
+            // <return> <gain> <mute> <node_count>, then per node <handle>
+            // <is_instrument> <bypass> <channel> <name> <vendor> <format>
+            // <path> <index> <latency>; then, after the last track, per
+            // track again: <timeline>. clockwork/docs/TRACKS.md, "The OSC
+            // surface". The timelines trail the message; a message with one
+            // track is a message with one more argument than its tracks and
+            // nodes account for, and it must be read, not rejected.
+            int32_t laneBase = 0, count = 0;
+            auto arg = msg->arg().popInt32(laneBase).popInt32(count);
+            std::vector<TrackInfo> tracks;
+            bool ok = arg.isOk();
+            for (int32_t i = 0; ok && i < count; ++i)
+            {
+                TrackInfo t;
+                int32_t id = 0, slot = 0, send = 0, ret = 0, mute = 0, nodeCount = 0;
+                float gain = 1.0f;
+                arg = arg.popInt32(id).popInt32(slot).popStr(t.name).popInt32(send).popInt32(ret)
+                         .popFloat(gain).popInt32(mute).popInt32(nodeCount);
+                ok = arg.isOk();
+                t.id = id; t.slot = slot; t.sendChannel = send; t.returnChannel = ret;
+                t.gain = gain; t.mute = mute != 0;
+                if (slot >= 0 && slot < SHM_SCOPE_TRACK_SLOTS)
+                    t.scopeSlot = SHM_SCOPE_TRACK_SLOT_BASE + slot;
+                for (int32_t k = 0; ok && k < nodeCount; ++k)
+                {
+                    TrackNodeInfo n;
+                    int32_t h = 0, inst = 0, byp = 0, ch = 0, index = 0, latency = 0;
+                    arg = arg.popInt32(h).popInt32(inst).popInt32(byp).popInt32(ch).popStr(n.name)
+                             .popStr(n.vendor).popStr(n.format).popStr(n.path).popInt32(index)
+                             .popInt32(latency);
+                    ok = arg.isOk();
+                    n.handle = h; n.instrument = inst != 0; n.bypass = byp != 0; n.channel = ch;
+                    n.index = index; n.latency = latency;
+                    if (ok) t.nodes.push_back(n);
+                }
+                if (ok) tracks.push_back(t);
+            }
+            for (size_t i = 0; ok && i < tracks.size(); ++i)
+            {
+                arg = arg.popStr(tracks[i].timeline);
+                ok = arg.isOk();
+            }
+            if (ok && arg.isOkNoMoreArgs())
+            {
+                m_pClient->Tracks(laneBase, tracks);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /clockwork/track/list");
+            }
+        }
+        else if (msg->match("/clockwork/track/state"))
+        {
+            // <id> <gain> <mute> <timeline>
+            int32_t id = 0, mute = 0;
+            float gain = 1.0f;
+            std::string timeline;
+            if (msg->arg().popInt32(id).popFloat(gain).popInt32(mute).popStr(timeline).isOkNoMoreArgs())
+            {
+                (void)timeline;   // read so the message parses; the panel does not show it yet
+                m_pClient->TrackState(id, gain, mute != 0);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /clockwork/track/state");
+            }
+        }
+        else if (msg->match("/clockwork/track/folders"))
+        {
+            // <n_extra> <dir…> <n_platform> <dir…>
+            int32_t n = 0;
+            auto arg = msg->arg().popInt32(n);
+            std::vector<std::string> extra, platform;
+            bool ok = arg.isOk();
+            for (int32_t i = 0; ok && i < n; ++i)
+            {
+                std::string d;
+                arg = arg.popStr(d);
+                ok = arg.isOk();
+                if (ok) extra.push_back(d);
+            }
+            arg = arg.popInt32(n);
+            ok = ok && arg.isOk();
+            for (int32_t i = 0; ok && i < n; ++i)
+            {
+                std::string d;
+                arg = arg.popStr(d);
+                ok = arg.isOk();
+                if (ok) platform.push_back(d);
+            }
+            if (ok && arg.isOkNoMoreArgs())
+            {
+                m_pClient->TrackFolders(extra, platform);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /clockwork/track/folders");
+            }
+        }
+        else if (msg->match("/clockwork/clock/audio/channels.reply"))
+        {
+            // <count> then per channel <channelId> <channelName> <peerId>
+            // <peerName>. The answer to /clockwork/clock/audio/channels/get.
+            int32_t count = 0;
+            auto arg = msg->arg().popInt32(count);
+            std::vector<LinkAudioChannelInfo> channels;
+            bool ok = arg.isOk();
+            for (int32_t i = 0; ok && i < count; ++i)
+            {
+                LinkAudioChannelInfo c;
+                arg = arg.popStr(c.channelId).popStr(c.channelName).popStr(c.peerId).popStr(c.peerName);
+                ok = arg.isOk();
+                if (ok) channels.push_back(c);
+            }
+            if (ok && arg.isOkNoMoreArgs())
+            {
+                m_pClient->LinkAudioChannels(channels);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /clockwork/clock/audio/channels.reply");
+            }
+        }
+        else if (msg->match("/clockwork/clock/audio/inputs.reply"))
+        {
+            // <count> then per subscription <peerName> <channelName> <busIdx>
+            // <sampleRate> <sourceNumChannels> <bufferedMs> <connectionState>
+            // <droppedSourceBuffers> <networkGapBuffers>
+            // <totalSourceBufferCalls> <duplicateCountCalls> <latencySeconds>.
+            // The four counters are read so the message parses; nothing
+            // shows them yet.
+            int32_t count = 0;
+            auto arg = msg->arg().popInt32(count);
+            std::vector<LinkAudioInputInfo> inputs;
+            bool ok = arg.isOk();
+            for (int32_t i = 0; ok && i < count; ++i)
+            {
+                LinkAudioInputInfo in;
+                int32_t bus = -1, rate = 0, srcCh = 0, state = 0;
+                int32_t dropped = 0, gaps = 0, total = 0, dup = 0;
+                arg = arg.popStr(in.peerName).popStr(in.channelName).popInt32(bus).popInt32(rate)
+                         .popInt32(srcCh).popFloat(in.bufferedMs).popInt32(state).popInt32(dropped)
+                         .popInt32(gaps).popInt32(total).popInt32(dup).popFloat(in.latencySeconds);
+                ok = arg.isOk();
+                in.busIdx = bus; in.sampleRate = rate; in.numChannels = srcCh; in.state = state;
+                if (ok) inputs.push_back(in);
+            }
+            if (ok && arg.isOkNoMoreArgs())
+            {
+                m_pClient->LinkAudioInputs(inputs);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /clockwork/clock/audio/inputs.reply");
+            }
+        }
+        else if (msg->match("/clockwork/track/plugin/params"))
+        {
+            // <handle> <total> <offset> <count> then per param <id> <name>
+            // <min> <max> <value> <group> <group_name> <automatable>
+            int32_t handle = 0, total = 0, offset = 0, count = 0;
+            auto arg = msg->arg().popInt32(handle).popInt32(total).popInt32(offset).popInt32(count);
+            std::vector<TrackParamInfo> params;
+            bool ok = arg.isOk();
+            for (int32_t i = 0; ok && i < count; ++i)
+            {
+                TrackParamInfo p;
+                int32_t id = 0, group = 0, automatable = 1;
+                arg = arg.popInt32(id).popStr(p.name).popFloat(p.min).popFloat(p.max).popFloat(p.value)
+                         .popInt32(group).popStr(p.groupName).popInt32(automatable);
+                ok = arg.isOk();
+                p.id = static_cast<uint32_t>(id); p.group = group; p.automatable = automatable != 0;
+                if (ok) params.push_back(p);
+            }
+            if (ok && arg.isOkNoMoreArgs())
+            {
+                m_pClient->TrackParams(handle, static_cast<uint32_t>(total),
+                                       static_cast<uint32_t>(offset), params);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /clockwork/track/plugin/params");
+            }
+        }
+        else if (msg->match("/clockwork/track/plugin/param/edit")
+                 || msg->match("/clockwork/track/plugin/param/value"))
+        {
+            // A parameter moved: the mirror image of /clockwork/track/plugin/param,
+            // so a control the GUI draws agrees with the plugin. `edit` is the
+            // plugin's own editor being used; `value` is code setting it by
+            // name (track_control), which the GUI follows but does not treat
+            // as someone reaching for a knob.
+            const bool own = msg->match("/clockwork/track/plugin/param/edit");
+            int32_t handle = 0, id = 0;
+            float normalized = 0.0f;
+            if (msg->arg().popInt32(handle).popInt32(id).popFloat(normalized).isOkNoMoreArgs())
+            {
+                m_pClient->TrackParamEdit(handle, static_cast<uint32_t>(id),
+                                          static_cast<double>(normalized), own);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /clockwork/track/plugin/param/*");
+            }
+        }
+        else if (msg->match("/clockwork/track/plugins"))
+        {
+            // <total> <offset> <count> then per plugin <name> <vendor>
+            // <format> <path> <index> <is_instrument> — a page, like
+            // plugin/params
+            int32_t total = 0, offset = 0, count = 0;
+            auto arg = msg->arg().popInt32(total).popInt32(offset).popInt32(count);
+            std::vector<TrackPluginInfo> plugins;
+            bool ok = arg.isOk();
+            for (int32_t i = 0; ok && i < count; ++i)
+            {
+                TrackPluginInfo p;
+                int32_t index = 0, inst = 0;
+                arg = arg.popStr(p.name).popStr(p.vendor).popStr(p.format).popStr(p.path)
+                         .popInt32(index).popInt32(inst);
+                ok = arg.isOk();
+                p.index = index; p.instrument = inst != 0;
+                if (ok) plugins.push_back(p);
+            }
+            if (ok && arg.isOkNoMoreArgs())
+            {
+                m_pClient->TrackPlugins(static_cast<uint32_t>(total),
+                                        static_cast<uint32_t>(offset), plugins);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /clockwork/track/plugins");
+            }
+        }
+        else if (msg->match("/clockwork/track/error"))
+        {
+            std::string verb, detail;
+            int handle = 0;
+            if (msg->arg().popStr(verb).popStr(detail).popInt32(handle).isOkNoMoreArgs())
+            {
+                m_pClient->TrackError(verb, detail, handle);
+            }
+            else
+            {
+                LOG(ERR, "Unhandled OSC msg /clockwork/track/error");
+            }
+        }
+        else if (msg->match("/clockwork/gamepad/devices-list"))
         {
             std::string devices;
             if (msg->arg().popStr(devices).isOkNoMoreArgs())
             {
-                LOG(DBG, "/gamepad/devices-list: " << devices);
+                LOG(DBG, "/clockwork/gamepad/devices-list: " << devices);
                 m_pClient->GamepadDevices(devices);
             }
             else

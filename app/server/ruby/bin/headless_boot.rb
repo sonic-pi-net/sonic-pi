@@ -85,13 +85,13 @@ module SonicPi
     end
 
     def add_handlers!(osc)
-      osc.add_method("/supersonic/info") { |_m| @engine_started.deliver!(true) rescue nil }
+      osc.add_method("/clockwork/info") { |_m| @engine_started.deliver!(true) rescue nil }
       osc.add_method("/ack")             { @server_started.deliver!(true) rescue nil }
 
       osc.add_method("/log/info") do |m|
         say "LOG  #{m[1]}"
-        # The engine no longer pushes /supersonic/info unprompted (it now
-        # replies to the GUI's /supersonic/setup), so treat the spider's
+        # The engine no longer pushes /clockwork/info unprompted (it now
+        # replies to the GUI's /clockwork/setup), so treat the spider's
         # final boot message as engine-ready too.
         @engine_started.deliver!(true) rescue nil if m[1].to_s.include?("Live Coding begin")
       end

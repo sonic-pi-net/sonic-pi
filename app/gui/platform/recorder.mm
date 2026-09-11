@@ -25,14 +25,20 @@
 #import <ScreenCaptureKit/ScreenCaptureKit.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
 
+#import "capture_target.h"
+
 #include <atomic>
+#include <iostream>
 #include <sstream>
 #include <thread>
 #include <vector>
 
+// NSLog for the unified log; std::cout for gui.log, which is always
+// readable (see capture_target.mm).
 #define RECORDER_LOG(expr) do { \
     std::ostringstream _ss; _ss << expr; \
     NSLog(@"[recorder] %s", _ss.str().c_str()); \
+    std::cout << "[recorder] " << _ss.str() << std::endl; \
 } while (0)
 
 @interface SonicPiRecorder : NSObject <SCStreamDelegate, SCStreamOutput>
@@ -47,6 +53,13 @@
     CMAudioFormatDescriptionRef _audioFormat;
     NSWindow *_window;
     NSURL *_fileURL;
+    // What the picture shows and how it follows the window (capture_target.h).
+    SonicPiCaptureTarget *_target;
+    // The file's frame size, fixed at start: AVAssetWriter cannot change
+    // it. The crop is the same size in points, so a window resized during
+    // the recording is clipped or padded rather than stretched.
+    size_t _width, _height;
+    CGSize _cropSize;
     // Held for the recording's lifetime to block display dim / sleep.
     IOPMAssertionID _powerAssertion;
     BOOL _showCursor;
@@ -60,6 +73,9 @@
     // from the cross-process shm; the dispatch source pulls on a tight
     // cadence and feeds CMSampleBuffers into _audioInput.
     shm_audio_buffer_reader _audioReader;
+    // The tap's live channel count (the device's, up to the ring's ceiling):
+    // the recording's channels and the stride of every pulled frame.
+    uint32_t _audioChannels;
     dispatch_queue_t _audioQueue;
     dispatch_source_t _audioTimer;
     // Audio session anchor — host-time captured at the first non-empty
@@ -84,9 +100,11 @@
     _window = window;
     _fileURL = fileURL;
     _showCursor = showCursor;
+    _target = [[SonicPiCaptureTarget alloc] initWithWindow:window tag:@"recorder"];
     _running = false;
     _writerStarted = 0;  // kIdle
     _audioReader = shm_audio_buffer_reader(audioSlot);
+    _audioChannels = audioSlot ? audioSlot->channels : 0;
     _audioAnchorPTS = kCMTimeInvalid;
     _audioAnchorFrame = 0;
     _powerAssertion = kIOPMNullAssertionID;
@@ -141,13 +159,12 @@
     }
     [_writer addInput:_videoInput];
 
-    // Audio input — fed from the shm_audio_buffer reader on a dispatch
-    // timer. AAC stereo 256kbps is the same default the audio Rec
+    // Audio input — fed from the engine's OUT tap on a dispatch timer. AAC stereo 256kbps is the same default the audio Rec
     // button uses for WAV-equivalent quality after encoding.
-    if (_audioReader.valid()) {
+    if (_audioReader.valid() && _audioChannels > 0) {
         NSDictionary *audioSettings = @{
             AVFormatIDKey:         @(kAudioFormatMPEG4AAC),
-            AVNumberOfChannelsKey: @(SHM_AUDIO_CHANNELS),
+            AVNumberOfChannelsKey: @(_audioChannels),
             AVSampleRateKey:       @(SHM_AUDIO_SAMPLE_RATE),
             AVEncoderBitRateKey:   @(256 * 1024),
         };
@@ -164,10 +181,10 @@
             asbd.mFormatID         = kAudioFormatLinearPCM;
             asbd.mFormatFlags      = kAudioFormatFlagIsFloat |
                                      kAudioFormatFlagIsPacked;
-            asbd.mChannelsPerFrame = SHM_AUDIO_CHANNELS;
+            asbd.mChannelsPerFrame = _audioChannels;
             asbd.mBitsPerChannel   = 32;
             asbd.mFramesPerPacket  = 1;
-            asbd.mBytesPerFrame    = SHM_AUDIO_CHANNELS * sizeof(float);
+            asbd.mBytesPerFrame    = _audioChannels * sizeof(float);
             asbd.mBytesPerPacket   = asbd.mBytesPerFrame;
             OSStatus st = CMAudioFormatDescriptionCreate(
                 kCFAllocatorDefault, &asbd, 0, NULL, 0, NULL, NULL,
@@ -191,7 +208,7 @@
     if (!_audioInput || !_audioFormat || numFrames == 0) return NO;
     if (!_audioInput.isReadyForMoreMediaData) return NO;
 
-    const size_t bytes = (size_t)numFrames * SHM_AUDIO_CHANNELS * sizeof(float);
+    const size_t bytes = (size_t)numFrames * _audioChannels * sizeof(float);
     CMBlockBufferRef block = NULL;
     OSStatus st = CMBlockBufferCreateWithMemoryBlock(
         kCFAllocatorDefault, NULL, bytes, kCFAllocatorDefault, NULL,
@@ -330,32 +347,23 @@
             return;
         }
 
-        SCWindow *foundWindow = nil;
-        for (SCWindow *w in content.windows) {
-            if (w.windowID == targetWindowNumber) {
-                foundWindow = w;
-                break;
-            }
-        }
-        if (!foundWindow) {
-            RECORDER_LOG("target window " << targetWindowNumber
-                         << " not in shareable content");
+        SCContentFilter *filter = [self->_target filterIn:content];
+        if (!filter) {
+            RECORDER_LOG("no display in shareable content");
             return;
         }
-
-        SCContentFilter *filter = [[SCContentFilter alloc]
-            initWithDesktopIndependentWindow:foundWindow];
-
-        size_t width  = (size_t)(filter.contentRect.size.width  * filter.pointPixelScale);
-        size_t height = (size_t)(filter.contentRect.size.height * filter.pointPixelScale);
+        CGRect rect = [self->_target sourceRect];
+        CGFloat scale = [self->_target scale];
+        self->_cropSize = rect.size;
+        self->_width  = (size_t)(rect.size.width  * scale);
+        self->_height = (size_t)(rect.size.height * scale);
+        size_t width = self->_width, height = self->_height;
 
         if (![self prepareWriterWithWidth:width height:height]) {
             return;
         }
 
-        SCStreamConfiguration *config = [self makeStreamConfigWithWidth:width
-                                                                 height:height
-                                                             showsCursor:self->_showCursor];
+        SCStreamConfiguration *config = [self configuration];
 
         self->_stream = [[SCStream alloc] initWithFilter:filter
                                             configuration:config
@@ -382,8 +390,17 @@
             }
             self->_running = true;
             RECORDER_LOG("recording window " << targetWindowNumber
-                         << " to " << [[self->_fileURL path] UTF8String]
+                         << " and the plugin windows over it to "
+                         << [[self->_fileURL path] UTF8String]
                          << " (" << width << "x" << height << ")");
+
+            // Follow the window and the bridge from here on (main thread:
+            // the window is read on delivery).
+            dispatch_async(dispatch_get_main_queue(), ^{
+                SCStream *s = self->_stream;
+                if (!s) return;
+                [self->_target followStream:s configuration:^{ return [self configuration]; }];
+            });
 
             // PreventUserIdleDisplaySleep blocks both display dim and
             // system idle sleep. Released in stopWithCompletion. Lid
@@ -395,10 +412,9 @@
                 CFSTR("Sonic Pi session recording"),
                 &self->_powerAssertion);
 
-            // Snap the audio reader to "live now" so we only capture
-            // frames the supersonic-audio-out synth produces from this
-            // moment onward — any pre-roll the synth may have written
-            // before the recorder started is discarded.
+            // Snap the audio reader to "live now": the tap has been
+            // flowing since the engine booted, and the recording is of
+            // what happens from this moment on.
             if (self->_audioReader.valid()) {
                 self->_audioReader.seek_to_live();
                 self->_audioQueue = dispatch_queue_create(
@@ -440,6 +456,7 @@
     _audioTimer = nil;
     _audioQueue = nil;
 
+    [_target stop];
     SCStream *s = _stream;
     _stream = nil;
 
@@ -491,23 +508,23 @@
     return _running.load();
 }
 
-// Build the SCStreamConfiguration shared by initial setup and live
-// cursor-toggle reconfiguration. `width` and `height` are only honoured
-// by startAsync; updateConfiguration: ignores zero dimensions so we omit
-// them on the live-toggle path by passing 0.
-- (SCStreamConfiguration *)makeStreamConfigWithWidth:(size_t)width
-                                              height:(size_t)height
-                                          showsCursor:(BOOL)showsCursor
+// The configuration for the initial setup and every live update (cursor
+// toggle, window moved). The output size is the file's, fixed; the crop
+// follows the window's top-left at that same size in points.
+- (SCStreamConfiguration *)configuration
 {
     SCStreamConfiguration *config = [[SCStreamConfiguration alloc] init];
     config.pixelFormat = kCVPixelFormatType_32BGRA;
     config.colorSpaceName = kCGColorSpaceSRGB;
     config.queueDepth = 5;
     config.capturesAudio = NO;  // Audio comes from SuperSonic, not SCK.
-    config.showsCursor = showsCursor;
+    config.showsCursor = _showCursor;
     config.minimumFrameInterval = CMTimeMake(1, 60);
-    if (width)  config.width  = width;
-    if (height) config.height = height;
+    CGRect rect = [_target sourceRect];
+    rect.size = _cropSize;
+    config.sourceRect = rect;
+    config.width  = _width;
+    config.height = _height;
     return config;
 }
 
@@ -516,10 +533,7 @@
     _showCursor = showCursor;
     SCStream *s = _stream;
     if (!s) return;
-    SCStreamConfiguration *config = [self makeStreamConfigWithWidth:0
-                                                             height:0
-                                                         showsCursor:showCursor];
-    [s updateConfiguration:config completionHandler:^(NSError * _Nullable err) {
+    [s updateConfiguration:[self configuration] completionHandler:^(NSError * _Nullable err) {
         if (err) {
             RECORDER_LOG("updateConfiguration failed: "
                          << [[err localizedDescription] UTF8String]);

@@ -751,6 +751,7 @@ argkind_sym = {
   nil => "None", sample: "Sample", cue: "CuePath", fx: "Fx", synth: "Synth",
   note: "Note", scale: "Scale", chord: "Chord",
   link_peer: "LinkAudioPeer", link_channel: "LinkAudioChannel",
+  track: "Track",
 }
 # DocSystem stores docs in a shared class variable, so every module's `.docs`
 # returns the same full hash — collect by name to dedup (as the fn_info loop does).

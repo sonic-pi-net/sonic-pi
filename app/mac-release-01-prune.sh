@@ -56,7 +56,9 @@ log_step "prune supersonic backups"
 rm -f "${resources}/app/server/native/"supersonic.bak-* \
       "${resources}/app/server/native/"supersonic.known-good-* \
       "${resources}/app/server/native/Sonic Pi - SuperSonic".bak-* \
-      "${resources}/app/server/native/Sonic Pi - SuperSonic".known-good-*
+      "${resources}/app/server/native/Sonic Pi - SuperSonic".known-good-* \
+      "${resources}/app/server/native/Sonic Pi - Plugins".bak-* \
+      "${resources}/app/server/native/Sonic Pi - Plugins".known-good-*
 
 # ---------------------------------------------------------------------------
 # Flatten symlinks (skip anything inside .framework/Versions/)

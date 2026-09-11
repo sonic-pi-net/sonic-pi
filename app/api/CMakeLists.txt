@@ -78,10 +78,11 @@ set(BUFFER_SRC
     ${API_ROOT}/include/api/audio/audio_processor.h
     ${API_ROOT}/include/api/audio/shm_audio_buffer.hpp
     ${API_ROOT}/include/api/audio/server_shm.hpp
-    ${API_ROOT}/include/api/audio/relative_ptr.hpp
 )
 
 # Create the static library target
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/supersonic.cmake)
+
 add_library(${PROJECT_NAME} STATIC ${API_SRC} ${OSC_SRC} ${BUFFER_SRC})
 add_library(SonicPi::API ALIAS ${PROJECT_NAME})
 
@@ -92,11 +93,16 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${API_ROOT}/include
 
-        # The shm segment layout + reader come straight from supersonic (the
-        # api/audio shm headers are thin shims over these) — one source of
-        # truth, no hand-synced mirror to drift.
-        ${API_ROOT}/../external/supersonic
-        ${API_ROOT}/../external/supersonic/src
+        # The shm segment layout + reader come straight from the engine tree
+        # (the api/audio shm headers are thin shims over these) — one source
+        # of truth, no hand-synced mirror to drift. The layout is checked
+        # against the engine's self-described geometry when the segment is
+        # opened, so a stale reader fails loudly rather than reading garbage.
+        # clockwork/src: the substrate's own tree inside the engine checkout,
+        # where shm_segment.hpp lives. dsp/scsynth: SuperSonic's own, where
+        # node_tree.h says what the guest publishes in its window.
+        ${SUPERSONIC_SOURCE_DIR}/clockwork/src
+        ${SUPERSONIC_SOURCE_DIR}/dsp/scsynth
 
         ${VENDOR_DIR}/${GHC_FILESYSTEM_VERSION}/include
         ${VENDOR_DIR}/${KISSNET_VERSION}
@@ -138,6 +144,19 @@ if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
 endif()
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
+    # The segment is named "<product>_<port>" by the engine, and the reader
+    # spells the product the same way or opens nothing.
+    #
+    # HARD-CODED to match the engine's COMPILED product name. The engine gets
+    # its name via ExternalProject_Add's -DCLOCKWORK_PRODUCT_NAME, but the
+    # spaces in SUPERSONIC_PRODUCT_NAME ("Sonic Pi - SuperSonic") do not survive
+    # that hand-off, so the engine falls back to its own default,
+    # "SuperSonic". The reader must spell it identically or the shm
+    # client attaches to nothing and every shm panel (metrics, scope, node
+    # tree) is blank. This is a stopgap: the durable fix is to carry the segment
+    # identity through the connect handshake so no side reconstructs it from a
+    # build-time constant.
+    CLOCKWORK_PRODUCT_NAME="SuperSonic"
     _CRT_SECURE_NO_WARNINGS
     _WINSOCK_DEPRECATED_NO_WARNINGS
     WIN32_LEAN_AND_MEAN

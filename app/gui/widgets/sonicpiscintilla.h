@@ -221,6 +221,7 @@ private:
     void acceptCompletion();   // insert the highlighted entry, replacing the partial
     CompletionPopup* m_completion = nullptr;
     bool m_completionEnabled = true;
+    bool m_pvInString = false;   // the popup is over a string-valued name slot
 
     // Live preview: while the popup is open, the selected entry (or slider value)
     // is written into the buffer in place of the typed word. A list preview is

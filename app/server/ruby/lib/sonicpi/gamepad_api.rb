@@ -50,8 +50,8 @@ module SonicPi
       add_supersonic_gamepad_handlers!
       @gamepad_comms.subscribe_to_notifications!
       # Mute the user's disabled pads before any events can cue.
-      @disabled_pads.each { |n| @gamepad_comms.send("/gamepad/enable", n, 0) }
-      @gamepad_comms.send("/gamepad/devices/list")   # prime the device list
+      @disabled_pads.each { |n| @gamepad_comms.send("/clockwork/gamepad/enable", n, 0) }
+      @gamepad_comms.send("/clockwork/gamepad/devices/list")   # prime the device list
     end
 
     def gamepad_system_start!
@@ -63,7 +63,7 @@ module SonicPi
     end
 
     def gamepad_refresh_devices!
-      @gamepad_comms.send("/gamepad/refresh")
+      @gamepad_comms.send("/clockwork/gamepad/refresh")
     end
 
     # Mute/unmute a single pad ("*" = all). The engine applies it to the live
@@ -78,18 +78,18 @@ module SonicPi
         end
         @disabled_pads_changed_handler.call(@disabled_pads) if @disabled_pads_changed_handler
       end
-      @gamepad_comms.send("/gamepad/enable", pad, enabled ? 1 : 0)
+      @gamepad_comms.send("/clockwork/gamepad/enable", pad, enabled ? 1 : 0)
     end
 
     # Dual-motor rumble (magnitudes 0..1), best-effort: pads or platforms
     # without force feedback ignore it. duration_ms <= 0 plays until
     # gamepad_rumble_stop!. Immediate (controllers have no scheduled out path).
     def gamepad_rumble!(pad, strong, weak, duration_ms)
-      @gamepad_comms.send("/gamepad/out/rumble", pad.to_s, strong.to_f, weak.to_f, duration_ms.to_i)
+      @gamepad_comms.send("/clockwork/gamepad/out/rumble", pad.to_s, strong.to_f, weak.to_f, duration_ms.to_i)
     end
 
     def gamepad_rumble_stop!(pad)
-      @gamepad_comms.send("/gamepad/out/rumble_stop", pad.to_s)
+      @gamepad_comms.send("/clockwork/gamepad/out/rumble_stop", pad.to_s)
     end
 
     private
@@ -102,7 +102,7 @@ module SonicPi
       # Buttons: /gamepad/in/button <pad> <button> <pressed> <value>.
       # Every change re-emits as the raw cue; press/release transitions also
       # emit /down and /up so a `sync` can wait on a specific edge.
-      @gamepad_comms.add_method("/gamepad/in/button") do |args|
+      @gamepad_comms.add_method("/clockwork/gamepad/in/button") do |args|
         pad, button, pressed, value = args
         base = "/gamepad:#{pad}/button/#{button}"
         cue(base, [pressed, value])
@@ -118,7 +118,7 @@ module SonicPi
       end
 
       # Axes: /gamepad/in/axis <pad> <axis> <value>.
-      @gamepad_comms.add_method("/gamepad/in/axis") do |args|
+      @gamepad_comms.add_method("/clockwork/gamepad/in/axis") do |args|
         pad, axis, value = args
         cue("/gamepad:#{pad}/axis/#{axis}", [value])
       end
@@ -126,7 +126,7 @@ module SonicPi
       # Device list: /gamepad/devices[.reply] = n [name enabled]*. Pushed on
       # connect/disconnect; also re-emitted as a cue so code can react to a
       # controller appearing.
-      ["/gamepad/devices", "/gamepad/devices.reply"].each do |addr|
+      ["/clockwork/gamepad/devices", "/clockwork/gamepad/devices.reply"].each do |addr|
         @gamepad_comms.add_method(addr) do |args|
           pads = parse_devices(args)
           names = pads.map(&:first)
@@ -136,7 +136,7 @@ module SonicPi
           # swallow the first /down after a reconnect.
           @pressed.delete_if { |(pad, _button), _| !names.include?(pad) }
           @updated_gamepads_handler.call(pads) if @updated_gamepads_handler
-          cue("/gamepad/devices", names) if addr == "/gamepad/devices"
+          cue("/clockwork/gamepad/devices", names) if addr == "/clockwork/gamepad/devices"
         end
       end
     end
@@ -148,7 +148,7 @@ module SonicPi
     def reassert_disabled_pads!(pairs)
       pairs.each do |name, enabled|
         if enabled == 1 && @disabled_pads.include?(name)
-          @gamepad_comms.send("/gamepad/enable", name, 0)
+          @gamepad_comms.send("/clockwork/gamepad/enable", name, 0)
         end
       end
     end

@@ -235,6 +235,13 @@ module SonicPi
       assert_equal(a.index {|x| x == "b"}, 1)
     end
 
+    def test_find_index
+      a = [ "a", "b", "c" ].to_spv
+      assert_equal(a.find_index("b"), 1)
+      assert_equal(a.find_index("z"), nil)
+      assert_equal(a.find_index {|x| x == "b"}, 1)
+    end
+
     def test_join
       assert_equal([ "a", "b", "c" ].to_spv.join, "abc")
       assert_equal([ "a", "b", "c" ].to_spv.join("-"), "a-b-c")

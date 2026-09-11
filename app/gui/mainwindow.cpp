@@ -117,6 +117,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/linkaudiostreamswidget.h"
 #include "widgets/logpanel.h"
 #include "widgets/metricspanel.h"
+#include "widgets/trackspanel.h"
 #include "widgets/zoombar.h"
 #include "widgets/thinsplitter.h"
 #include "utils/dividerproxystyle.h"
@@ -944,6 +945,7 @@ void MainWindow::setupWindowStructure()
     // Let `play` completion show only the active synth's opts by resolving the
     // in-effect use_synth from the focused buffer at completion time.
     autocomplete->setSynthResolver([this]() { return currentSynthForCompletion(); });
+    autocomplete->setTrackResolver([this]() { return currentTrackForCompletion(); });
     // adding universal shortcuts to outputpane seems to
     // steal events from doc system!?
     // addUniversalCopyShortcuts(outputPane);
@@ -1322,16 +1324,18 @@ void MainWindow::setupWindowStructure()
     QWidget* cardsZoomControls = quickstartPane->zoomControls();
     logsZoom = new ZoomBar(theme, tr("logs"), this);
     debugZoom = new ZoomBar(theme, tr("metrics"), this);
+    tracksZoom = new ZoomBar(theme, tr("tracks"), this);
     docWidget->setTitleBarWidget(
         makeControlTitleBar(docWidget->windowTitle(), titleBarDoc,
                             { docZoomControls, cardsZoomControls, logsZoom, debugZoom,
-                              helpCloseButton }));
+                              tracksZoom, helpCloseButton }));
     auto syncDocZoomVisible = [this, docZoomControls, cardsZoomControls]() {
         QWidget* current = southTabs->currentWidget();
         docZoomControls->setVisible(current == docsPane);
         cardsZoomControls->setVisible(current == quickstartPane);
         logsZoom->setVisible(current == debugLogPanel);
         debugZoom->setVisible(current == metricsPanel);
+        tracksZoom->setVisible(tracksPanel && current == tracksPanel);
         // The title names the current tab so the row reads as a heading for
         // what's actually on screen, not just the dock.
         QString suffix;
@@ -1343,6 +1347,8 @@ void MainWindow::setupWindowStructure()
             suffix = tr("Logs");
         else if (current == metricsPanel)
             suffix = tr("Debug");
+        else if (tracksPanel && current == tracksPanel)
+            suffix = tr("Tracks");
         titleBarDoc->setText(suffix.isEmpty()
                                  ? docWidget->windowTitle().toUpper()
                                  : (docWidget->windowTitle() + " - " + suffix).toUpper());
@@ -1844,34 +1850,6 @@ void MainWindow::spoutShowCursorMenuChanged()
 #endif
 
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
-// Fixed scsynth node id for the supersonic-audio-out synth that feeds
-// the screen recorder's audio track. Chosen high enough to be outside
-// the range Sonic Pi normally allocates for user code.
-static constexpr int32_t kRecordAudioOutNodeId = 999100;
-
-// /s_new + /n_free for the supersonic-audio-out synth that feeds the
-// session recorder's audio track. Called from the start/rollback paths
-// in toggleRecording, the stop path, and onExitCleanup.
-void MainWindow::spawnRecordAudioOutSynth()
-{
-    if (!m_spAPI) return;
-    oscpkt::Message snew("/s_new");
-    snew.pushStr("supersonic-audio-out");
-    snew.pushInt32(kRecordAudioOutNodeId);
-    snew.pushInt32(1);  // addAction = TAIL
-    snew.pushInt32(0);  // targetGroup = root — reads bus 0 after the
-                        // mixer has written this cycle's mix.
-    m_spAPI->SupersonicSendOSC(snew);
-}
-
-void MainWindow::freeRecordAudioOutSynth()
-{
-    if (!m_spAPI) return;
-    oscpkt::Message nfree("/n_free");
-    nfree.pushInt32(kRecordAudioOutNodeId);
-    m_spAPI->SupersonicSendOSC(nfree);
-}
-
 // Pops the IO → Recording Mode actions as a context menu, reusing the
 // same QActions (and QActionGroup) so the right-click and the menubar
 // stay in lock-step.
@@ -1976,6 +1954,48 @@ void MainWindow::createDebugAndLogTabs()
                              tr("A live view of Sonic Pi's log files."));
     southTabs->setTabToolTip(southTabs->addTab(metricsPanel, tr("Debug")),
                              tr("Live metrics, node tree and message logs for the SuperSonic audio engine."));
+
+    // Tracks: the plugin host's named lanes, each with a chain of VST3 or
+    // CLAP plugins arranged here and played from code by name
+    // (live_track, with_send, use_track and track_midi).
+    tracksPanel = new TracksPanel(m_spAPI, this);
+    tracksPanel->applyTheme(theme);
+    tracksPanel->setUserZoom(gui_settings->value("prefs/tracks-zoom", 0).toInt());
+    connect(tracksZoom, &ZoomBar::zoomStep, this,
+            [this](int delta) { tracksPanel->setUserZoom(tracksPanel->userZoom() + delta); });
+    southTabs->setTabToolTip(southTabs->addTab(tracksPanel, tr("Tracks")),
+                             tr("VST3 and CLAP plugins hosted by the SuperSonic audio engine, "
+                                "on tracks your code plays by name."));
+    // The same editor and status contract the cards use.
+    connect(tracksPanel, &TracksPanel::insertRequested, this,
+            [this](const QString& title, const QString& code) {
+                SonicPiScintilla* ws = getCurrentWorkspace();
+                if (!ws)
+                    return;
+                for (int i = 0; i < workspace_max; i++)
+                    workspaces[i]->cancelInsertPreview();
+                ws->previewInsertAtCursor(code, title);
+                ws->finaliseDropPreview();
+                ws->setFocus();
+                showStatusAndAnnounce(tr("Inserted %1 at the cursor.").arg(title), 5000);
+            });
+    connect(tracksPanel, &TracksPanel::copyRequested, this,
+            [this](const QString& title, const QString& code) {
+                QApplication::clipboard()->setText(code);
+                showStatusAndAnnounce(tr("Copied %1 to the clipboard.").arg(title), 5000);
+            });
+    connect(tracksPanel, &TracksPanel::announceRequested, this,
+            [this](const QString& msg) {
+                announce(msg, false, SonicPi::Announcement::Navigation);
+            });
+    // The plugins' own parameters, so `track_midi :e3, ` on the track from
+    // use_track offers `filter_1_cutoff:` with a slider over its range, and
+    // `track_control "` completes "Filter 1 Cutoff" rather than leaving it
+    // to memory.
+    connect(tracksPanel, &TracksPanel::trackParamsChanged, this,
+            [this](const QString& track, const QList<SonicPi::TrackParam>& params) {
+                if (autocomplete) autocomplete->updateTrackParams(track, params);
+            });
     // Reopen on whichever tab was last in use; Docs is the fallback for a
     // profile that has never set one.
     {
@@ -2579,7 +2599,7 @@ void MainWindow::changeEnableScsynthInputs()
     // Send live input channel change to SuperSonic (triggers cold swap)
     // -1 = enable (SuperSonic resolves to boot value or default), 0 = disable.
     int inputChannels = piSettings->enable_scsynth_inputs ? -1 : 0;
-    oscpkt::Message msg("/supersonic/inputs/enable");
+    oscpkt::Message msg("/clockwork/inputs/enable");
     msg.pushInt32(inputChannels);
     m_spAPI->SupersonicSendOSC(msg);
 
@@ -3779,6 +3799,7 @@ void MainWindow::applySouthTabIcons()
     set(docsPane, TablerIcons::pixmap(TablerIcons::Glyph::Book, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::Book, on, px, dpr), tr("Docs"));
     set(debugLogPanel, TablerIcons::pixmap(TablerIcons::Glyph::Radioactive, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::Radioactive, on, px, dpr), tr("Logs"));
     set(metricsPanel, TablerIcons::pixmap(TablerIcons::Glyph::BinaryTree, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::BinaryTree, on, px, dpr), tr("Debug"));
+    set(tracksPanel, TablerIcons::pixmap(TablerIcons::Glyph::Plug, fg, px, dpr), TablerIcons::pixmap(TablerIcons::Glyph::Plug, on, px, dpr), tr("Tracks"));
 }
 
 void MainWindow::showQuickstartCards()
@@ -4607,8 +4628,13 @@ void MainWindow::updateColourTheme()
         metricsPanel->applyTheme(theme);
     }
 
+    if (tracksPanel)
+        tracksPanel->applyTheme(theme);
+
     if (logsZoom)
         logsZoom->applyTheme();
+    if (tracksZoom)
+        tracksZoom->applyTheme();
     if (debugZoom)
         debugZoom->applyTheme();
 }
@@ -7133,13 +7159,13 @@ void MainWindow::startSessionRecordingFlow()
              QUuid::createUuid().toString(QUuid::WithoutBraces),
              ext);
 
+    // The engine's OUT tap: the master mix, flowing since boot. Nothing to
+    // ask the engine for; the recorder reads it from its live position.
     shm_audio_buffer* audioSlot = m_spAPI
-        ? m_spAPI->AudioProcessor_GetAudioBufferSlot(SHM_AUDIO_MASTER_SLOT)
+        ? m_spAPI->AudioProcessor_GetAudioBufferSlot(SHM_AUDIO_OUT_SLOT)
         : nullptr;
-    if (audioSlot) {
-        spawnRecordAudioOutSynth();
-    } else {
-        std::cout << "[GUI] - Session recording: no audio slot available — recording video-only" << std::endl;
+    if (!audioSlot) {
+        std::cout << "[GUI] - Session recording: no audio tap available — recording video-only" << std::endl;
     }
 
     WId wid = this->winId();
@@ -7149,7 +7175,6 @@ void MainWindow::startSessionRecordingFlow()
         piSettings->record_show_cursor,
         audioSlot);
     if (!started) {
-        if (audioSlot) freeRecordAudioOutSynth();
         is_recording = false;
         updateRecordingUI();
         statusBar()->showMessage(tr("Recording failed to start"), 2000);
@@ -7163,7 +7188,6 @@ void MainWindow::startSessionRecordingFlow()
 void MainWindow::stopSessionRecordingFlow()
 {
     SonicPi::stopSessionRecording();
-    freeRecordAudioOutSynth();
 
 #if defined(Q_OS_MAC)
     const QString ext    = "mov";
@@ -7460,6 +7484,8 @@ void MainWindow::writeSettings()
         gui_settings->setValue("prefs/docs-zoom", tutorialPane->userZoom());
     if (quickstartPane)
         gui_settings->setValue("prefs/quickstart-zoom", quickstartPane->userZoom());
+    if (tracksPanel)
+        gui_settings->setValue("prefs/tracks-zoom", tracksPanel->userZoom());
     gui_settings->setValue("prefs/reduce-motion", piSettings->reduce_motion);
     gui_settings->setValue("prefs/shortcut-mode", piSettings->shortcut_mode);
     gui_settings->setValue("prefs/log-zoom", outputPane->currentZoomLevel());
@@ -7582,7 +7608,6 @@ void MainWindow::onExitCleanup()
     if (SonicPi::isSessionRecording()) {
         std::cout << "[GUI] - finalising in-progress session recording..." << std::endl;
         SonicPi::stopSessionRecording();
-        freeRecordAudioOutSynth();
     }
 #endif
 
@@ -8464,6 +8489,61 @@ void MainWindow::updateGamepadDevices(QString devices)
                        [this](const QString& name, bool enabled) { setGamepadDeviceEnabled(name, enabled); });
 }
 
+void MainWindow::updateTracks(int laneBase, const std::vector<SonicPi::TrackInfo>& tracks)
+{
+    if (tracksPanel) tracksPanel->onTracks(laneBase, tracks);
+    if (autocomplete) {
+        QStringList names;
+        for (const auto& t : tracks) names << QString::fromStdString(t.name);
+        autocomplete->updateTracks(names);
+    }
+}
+
+void MainWindow::updateTrackState(int id, float gain, bool mute)
+{
+    if (tracksPanel) tracksPanel->onTrackState(id, gain, mute);
+}
+
+void MainWindow::updateTrackFolders(const std::vector<std::string>& extra,
+                                    const std::vector<std::string>& platform)
+{
+    if (tracksPanel) tracksPanel->onTrackFolders(extra, platform);
+}
+
+void MainWindow::updateLinkAudioChannels(const std::vector<SonicPi::LinkAudioChannelInfo>& channels)
+{
+    if (!metroPane) return;
+    if (auto* lasw = metroPane->findChild<LinkAudioStreamsWidget*>()) lasw->onChannels(channels);
+}
+
+void MainWindow::updateLinkAudioInputs(const std::vector<SonicPi::LinkAudioInputInfo>& inputs)
+{
+    if (!metroPane) return;
+    if (auto* lasw = metroPane->findChild<LinkAudioStreamsWidget*>()) lasw->onInputs(inputs);
+}
+
+void MainWindow::updateTrackPlugins(unsigned int total, unsigned int offset,
+                            const std::vector<SonicPi::TrackPluginInfo>& plugins)
+{
+    if (tracksPanel) tracksPanel->onTrackPlugins(total, offset, plugins);
+}
+
+void MainWindow::updateTrackParams(int handle, unsigned int total, unsigned int offset,
+                                   const std::vector<SonicPi::TrackParamInfo>& params)
+{
+    if (tracksPanel) tracksPanel->onTrackParams(handle, total, offset, params);
+}
+
+void MainWindow::updateTrackParamEdit(int handle, unsigned int id, double normalized, bool own)
+{
+    if (tracksPanel) tracksPanel->onTrackParamEdit(handle, id, normalized, own);
+}
+
+void MainWindow::updateTrackError(QString verb, QString detail, int handle)
+{
+    if (tracksPanel) tracksPanel->onTrackError(verb, detail, handle);
+}
+
 void MainWindow::focusPane(QWidget* pane)
 {
     if (!pane) return;
@@ -8842,6 +8922,26 @@ QString MainWindow::currentSynthForCompletion()
     return synth;
 }
 
+QString MainWindow::currentTrackForCompletion()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    if (!ws) return QString();
+    int line = 0, index = 0;
+    ws->getCursorPosition(&line, &index);
+    QString preceding;
+    for (int i = 0; i <= line; ++i)
+        preceding += ws->text(i);
+    // The last literal use_track / with_track before the cursor wins; there
+    // is no default track, so none written means none known.
+    static const QRegularExpression re(
+        QStringLiteral("(?:use_track|with_track)\\s+:([A-Za-z0-9_]+)"));
+    QString track;
+    auto it = re.globalMatch(preceding);
+    while (it.hasNext())
+        track = it.next().captured(1);
+    return track;
+}
+
 void MainWindow::updateScsynthInfo(QString description)
 {
     settingsWidget->updateScsynthInfo(description);
@@ -9095,10 +9195,11 @@ void MainWindow::changeBufferSize(int size)
 void MainWindow::onSupersonicSetup(int sampleRate, int bufferSize)
 {
     m_spAPI->RequestAudioDevices();
-    // Cold-swap re-attach. /supersonic/setup fires on cold swaps but
+    // Cold-swap re-attach. /clockwork/setup fires on cold swaps but
     // not initial boot (SupersonicEngine gates the emit on mWorldRebuilt);
     // first-boot attach is handled by onSpiderReady.
     m_spAPI->AudioProcessor_ResetConnection();
+    if (tracksPanel) tracksPanel->onEngineReady();
 }
 
 void MainWindow::onSpiderReady()
@@ -9106,9 +9207,10 @@ void MainWindow::onSpiderReady()
     honourPrefs();
     changeSystemVolume(piSettings->main_volume, 1);
     changeSystemDrive(piSettings->main_drive, 1);
-    // First-boot scope-reader attach. /supersonic/setup covers
+    // First-boot scope-reader attach. /clockwork/setup covers
     // subsequent cold-swap re-attaches; the two handlers are disjoint.
     m_spAPI->AudioProcessor_ResetConnection();
+    if (tracksPanel) tracksPanel->onEngineReady();
 }
 
 void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
@@ -9168,7 +9270,7 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
         settingsWidget->setAudioStatus(
             QString::fromStdString(outcome.error), true);
         // Engine has rolled back to whatever it was on; the next
-        // /supersonic/devices push refreshes the dropdowns to match.
+        // /clockwork/devices push refreshes the dropdowns to match.
         return;
     }
 
@@ -9177,7 +9279,7 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
     settingsWidget->setAudioStatus(
         QString::fromStdString(outcome.inputUnavailableReason), true);
     // Settings widget reverts the input dropdown when the next
-    // /supersonic/input-devices push arrives carrying currentInput="".
+    // /clockwork/input-devices push arrives carrying currentInput="".
 }
 
 void MainWindow::homeDirWriteError()

@@ -23,22 +23,32 @@
 #import <ScreenCaptureKit/ScreenCaptureKit.h>
 
 #import "SyphonMetalServer.h"
+#import "capture_target.h"
 
 #include <atomic>
+#include <iostream>
 #include <sstream>
 
 // NSLog goes to the unified system log (visible in Console.app /
 // `log show --process "Sonic Pi"`) regardless of whether std::cout has
 // been rewired to gui.log. Syphon's own SYPHONLOG also routes to NSLog,
 // so all Syphon diagnostics (ours + upstream's) end up in one place.
+// Also to std::cout, which IS gui.log: the unified log is not always
+// readable (a machine with log collection off shows nothing), and a feed
+// that is black or missing a window is diagnosed from what is written here.
 #define SYPHONPUB_LOG(expr) do { \
     std::ostringstream _ss; _ss << expr; \
     NSLog(@"[syphon] %s", _ss.str().c_str()); \
+    std::cout << "[syphon] " << _ss.str() << std::endl; \
 } while (0)
 
 @interface SonicPiSyphonPublisher : NSObject <SCStreamDelegate, SCStreamOutput>
 @end
 
+// What is published — the main window's area showing Sonic Pi's and the
+// plugin bridge's windows — and how it follows the window is
+// SonicPiCaptureTarget's (capture_target.h); this file turns the frames
+// into a Syphon server.
 @implementation SonicPiSyphonPublisher
 {
     SCStream *_stream;
@@ -50,6 +60,7 @@
     NSString *_name;
     std::atomic<bool> _running;
     BOOL _showCursor;
+    SonicPiCaptureTarget *_target;
 }
 
 - (instancetype)initWithWindow:(NSWindow *)window
@@ -61,6 +72,7 @@
     _window = window;
     _name = [name copy];
     _showCursor = showCursor;
+    _target = [[SonicPiCaptureTarget alloc] initWithWindow:window tag:@"syphon"];
     _device = MTLCreateSystemDefaultDevice();
     if (!_device) {
         SYPHONPUB_LOG("no Metal device available");
@@ -78,10 +90,33 @@
 
 - (void)dealloc
 {
+    [_target stop];
     if (_textureCache) {
         CFRelease(_textureCache);
         _textureCache = NULL;
     }
+}
+
+#pragma mark - What to capture
+
+- (SCStreamConfiguration *)configuration
+{
+    SCStreamConfiguration *config = [[SCStreamConfiguration alloc] init];
+    config.pixelFormat = kCVPixelFormatType_32BGRA;
+    config.colorSpaceName = kCGColorSpaceSRGB;
+    config.queueDepth = 5;
+    config.capturesAudio = NO;
+    // Cursor overlay is opt-in via the View menu. SCK defaults to YES
+    // but for VJ use a stray cursor on stage is rarely wanted, so the
+    // app default is NO. Live-updateable via -setShowCursor:.
+    config.showsCursor = _showCursor;
+    CGRect rect = [_target sourceRect];
+    CGFloat scale = [_target scale];
+    config.sourceRect = rect;
+    config.width  = (size_t)(rect.size.width  * scale);
+    config.height = (size_t)(rect.size.height * scale);
+    config.minimumFrameInterval = CMTimeMake(1, 60);
+    return config;
 }
 
 - (void)startAsync
@@ -99,35 +134,12 @@
                           << [[error localizedDescription] UTF8String]);
             return;
         }
-
-        SCWindow *foundWindow = nil;
-        for (SCWindow *w in content.windows) {
-            if (w.windowID == targetWindowNumber) {
-                foundWindow = w;
-                break;
-            }
-        }
-        if (!foundWindow) {
-            SYPHONPUB_LOG("target window " << targetWindowNumber
-                          << " not in shareable content");
+        SCContentFilter *filter = [self->_target filterIn:content];
+        if (!filter) {
+            SYPHONPUB_LOG("no display in shareable content");
             return;
         }
-
-        SCContentFilter *filter = [[SCContentFilter alloc]
-            initWithDesktopIndependentWindow:foundWindow];
-
-        SCStreamConfiguration *config = [[SCStreamConfiguration alloc] init];
-        config.pixelFormat = kCVPixelFormatType_32BGRA;
-        config.colorSpaceName = kCGColorSpaceSRGB;
-        config.queueDepth = 5;
-        config.capturesAudio = NO;
-        // Cursor overlay is opt-in via the View menu. SCK defaults to YES
-        // but for VJ use a stray cursor on stage is rarely wanted, so the
-        // app default is NO. Live-updateable via -setShowCursor:.
-        config.showsCursor = self->_showCursor;
-        config.width  = (size_t)(filter.contentRect.size.width  * filter.pointPixelScale);
-        config.height = (size_t)(filter.contentRect.size.height * filter.pointPixelScale);
-        config.minimumFrameInterval = CMTimeMake(1, 60);
+        SCStreamConfiguration *config = [self configuration];
 
         self->_stream = [[SCStream alloc] initWithFilter:filter
                                             configuration:config
@@ -164,16 +176,26 @@
             }
             self->_running = true;
             SYPHONPUB_LOG("publishing window " << targetWindowNumber
-                          << " as '" << [self->_name UTF8String] << "' ("
+                          << " and the plugin windows over it as '"
+                          << [self->_name UTF8String] << "' ("
                           << (size_t)config.width << "x"
                           << (size_t)config.height << ")");
         }];
+
+        // Follow the window and the bridge from here on (main thread: the
+        // window is read on delivery). Registered once the stream exists.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SCStream *s = self->_stream;
+            if (!s) return;
+            [self->_target followStream:s configuration:^{ return [self configuration]; }];
+        });
     }];
 }
 
 - (void)stop
 {
     _running = false;
+    [_target stop];
     SCStream *s = _stream;
     SyphonMetalServer *sv = _server;
     _stream = nil;
@@ -202,14 +224,7 @@
     _showCursor = showCursor;
     SCStream *s = _stream;
     if (!s) return;
-    SCStreamConfiguration *config = [[SCStreamConfiguration alloc] init];
-    config.pixelFormat = kCVPixelFormatType_32BGRA;
-    config.colorSpaceName = kCGColorSpaceSRGB;
-    config.queueDepth = 5;
-    config.capturesAudio = NO;
-    config.showsCursor = showCursor;
-    config.minimumFrameInterval = CMTimeMake(1, 60);
-    [s updateConfiguration:config completionHandler:^(NSError * _Nullable err) {
+    [s updateConfiguration:[self configuration] completionHandler:^(NSError * _Nullable err) {
         if (err) {
             SYPHONPUB_LOG("updateConfiguration failed: "
                           << [[err localizedDescription] UTF8String]);

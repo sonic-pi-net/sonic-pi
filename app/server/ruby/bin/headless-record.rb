@@ -77,11 +77,11 @@ script << code
 boot = SonicPi::HeadlessBoot.new.boot!
 boot.say "READY — recording #{duration}s to #{out_path}"
 
-boot.engine_client.send("/supersonic/record/start", out_path, "wav", 24)
+boot.engine_client.send("/clockwork/record/start", out_path, "wav", 24)
 boot.run(script)
 
 sleep duration
-boot.engine_client.send("/supersonic/record/stop")
+boot.engine_client.send("/clockwork/record/stop")
 sleep FLUSH_WAIT
 boot.stop_all
 sleep 1

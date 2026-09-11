@@ -96,6 +96,7 @@ public:
         m_fragmentedPath  = filePath + L".frag";
         m_showCursor      = showCursor;
         m_audioReader     = shm_audio_buffer_reader(audioSlot);
+        m_audioChannels   = audioSlot ? audioSlot->channels : 0;
 
         // MFStartup is refcounted; balanced by MFShutdown in Stop().
         HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_LITE);
@@ -138,7 +139,7 @@ public:
         m_running.store(true);
 
         if (m_hasAudioStream) {
-            m_audioPullBuf.assign(kAudioPullFrames * SHM_AUDIO_CHANNELS, 0.0f);
+            m_audioPullBuf.assign(kAudioPullFrames * m_audioChannels, 0.0f);
             // Discard any pre-roll written between /s_new and now.
             m_audioReader.seek_to_live();
             m_audioThreadStop.store(false);
@@ -365,7 +366,7 @@ private:
         out->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_AAC);
         out->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
         out->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, SHM_AUDIO_SAMPLE_RATE);
-        out->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, SHM_AUDIO_CHANNELS);
+        out->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_audioChannels);
         out->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, kAacBytesPerSec);
         out->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, 1);
         // Required by the MS AAC encoder MFT — without these the encoder
@@ -471,11 +472,11 @@ private:
         in->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
         in->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
         in->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, SHM_AUDIO_SAMPLE_RATE);
-        in->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, SHM_AUDIO_CHANNELS);
+        in->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_audioChannels);
         in->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT,
-                      SHM_AUDIO_CHANNELS * sizeof(int16_t));
+                      m_audioChannels * sizeof(int16_t));
         in->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND,
-                      SHM_AUDIO_SAMPLE_RATE * SHM_AUDIO_CHANNELS * sizeof(int16_t));
+                      SHM_AUDIO_SAMPLE_RATE * m_audioChannels * sizeof(int16_t));
         const HRESULT setAudioInHr = m_writer->SetInputMediaType(
             m_audioStreamIdx, in.get(), nullptr);
         if (FAILED(setAudioInHr)) {
@@ -696,9 +697,8 @@ private:
             }
 
             // The fMP4 sink normalises each stream's first written sample
-            // to PTS 0, collapsing any anchor offset (the ~1s delay
-            // between recorder start and supersonic-audio-out actually
-            // producing audio). To preserve the offset we explicitly
+            // to PTS 0, collapsing any anchor offset between recorder
+            // start and the first pulled frame. To preserve the offset we explicitly
             // pre-fill the audio stream with silence from PTS 0 to
             // PTS anchorRel — the first sample is then at 0 and the
             // sink has nothing to collapse.
@@ -706,7 +706,7 @@ private:
                 m_audioPrerollWritten = true;
                 if (anchorRel > 0) {
                     std::vector<float> silence(
-                        kAudioPullFrames * SHM_AUDIO_CHANNELS, 0.0f);
+                        kAudioPullFrames * m_audioChannels, 0.0f);
                     constexpr LONGLONG kChunk100ns =
                         (LONGLONG)kAudioPullFrames * 10000000LL
                         / SHM_AUDIO_SAMPLE_RATE;
@@ -742,13 +742,13 @@ private:
                           LONGLONG pts, LONGLONG duration)
     {
         // Convert float [-1, 1] → S16 PCM for the AAC encoder.
-        const DWORD bytes = frames * SHM_AUDIO_CHANNELS * sizeof(int16_t);
+        const DWORD bytes = frames * m_audioChannels * sizeof(int16_t);
         winrt::com_ptr<IMFMediaBuffer> buf;
         if (FAILED(MFCreateMemoryBuffer(bytes, buf.put()))) return;
         BYTE* dst = nullptr;
         if (FAILED(buf->Lock(&dst, nullptr, nullptr))) return;
         int16_t* dst16 = reinterpret_cast<int16_t*>(dst);
-        const uint32_t samples = frames * SHM_AUDIO_CHANNELS;
+        const uint32_t samples = frames * m_audioChannels;
         for (uint32_t i = 0; i < samples; ++i) {
             const float f = std::clamp(data[i], -1.0f, 1.0f);
             dst16[i] = static_cast<int16_t>(std::lrintf(f * 32767.0f));
@@ -794,6 +794,9 @@ private:
 
     // Audio
     shm_audio_buffer_reader                m_audioReader;
+    // The tap's live channel count (the device's, up to the ring's ceiling):
+    // the recording's channels and the stride of every pulled frame.
+    uint32_t                               m_audioChannels = 0;
     std::thread                            m_audioThread;
     std::atomic<bool>                      m_audioThreadStop{ false };
     LONGLONG                               m_audioAnchor100ns{ LLONG_MIN };

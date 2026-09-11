@@ -35,11 +35,18 @@ namespace sonic_pi::audio
 // tree, metrics and debug panes sit silently empty. That reads as a GUI bug
 // and costs hours to trace, so it must be reported.
 //
-// Matched against the messages server_shm.hpp's client constructor throws.
+// Matched against what clockwork's shm_attach.hpp reports (wrapped as
+// "shm attach: ..." by AudioProcessor::AttachLocked) and what
+// shm_segment_client's constructor throws (shm_segment.hpp).
 inline bool IsShmAttachRetryable(const std::string& what)
 {
-    return what.find("shm_open(open) failed") != std::string::npos
-           || what.find("OpenFileMapping failed") != std::string::npos;
+    // The engine is not serving its attach endpoint yet: nothing at the socket
+    // path, or a pipe that is not there. Everything else — a hand-off that
+    // arrived malformed, an engine running as another user, a segment whose
+    // layout this reader does not recognise — is not going to change by
+    // waiting.
+    return what.find("connect ") != std::string::npos
+           || what.find("open ") != std::string::npos;
 }
 
 } // namespace sonic_pi::audio

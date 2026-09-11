@@ -31,6 +31,14 @@ QtAPIClient::QtAPIClient(MainWindow* pMainWindow)
     : m_pMainWindow(pMainWindow)
 {
     last_incoming_path_lens.fill(0);
+    // Queued across the OSC reader thread, so the whole vector has to be a
+    // known metatype — not just the element.
+    qRegisterMetaType<std::vector<SonicPi::TrackInfo>>("std::vector<SonicPi::TrackInfo>");
+    qRegisterMetaType<std::vector<SonicPi::TrackParamInfo>>("std::vector<SonicPi::TrackParamInfo>");
+    qRegisterMetaType<std::vector<SonicPi::TrackPluginInfo>>("std::vector<SonicPi::TrackPluginInfo>");
+    qRegisterMetaType<std::vector<std::string>>("std::vector<std::string>");
+    qRegisterMetaType<std::vector<SonicPi::LinkAudioChannelInfo>>("std::vector<SonicPi::LinkAudioChannelInfo>");
+    qRegisterMetaType<std::vector<SonicPi::LinkAudioInputInfo>>("std::vector<SonicPi::LinkAudioInputInfo>");
     qRegisterMetaType<SonicPi::AudioDevicesInfo>("SonicPi::AudioDevicesInfo");
     qRegisterMetaType<SonicPi::AudioInputDevicesInfo>("SonicPi::AudioInputDevicesInfo");
     qRegisterMetaType<SonicPi::AudioDeviceTableInfo>("SonicPi::AudioDeviceTableInfo");
@@ -260,6 +268,54 @@ void QtAPIClient::GamepadDevicesGui(const QString& devices)
     m_pMainWindow->updateGamepadDevices(devices);
 }
 
+
+void QtAPIClient::TracksGui(int laneBase, const std::vector<SonicPi::TrackInfo>& tracks)
+{
+    m_pMainWindow->updateTracks(laneBase, tracks);
+}
+
+void QtAPIClient::TrackStateGui(int id, float gain, bool mute)
+{
+    m_pMainWindow->updateTrackState(id, gain, mute);
+}
+
+void QtAPIClient::TrackFoldersGui(const std::vector<std::string>& extra,
+                                  const std::vector<std::string>& platform)
+{
+    m_pMainWindow->updateTrackFolders(extra, platform);
+}
+
+void QtAPIClient::LinkAudioChannelsGui(const std::vector<SonicPi::LinkAudioChannelInfo>& channels)
+{
+    m_pMainWindow->updateLinkAudioChannels(channels);
+}
+
+void QtAPIClient::LinkAudioInputsGui(const std::vector<SonicPi::LinkAudioInputInfo>& inputs)
+{
+    m_pMainWindow->updateLinkAudioInputs(inputs);
+}
+
+void QtAPIClient::TrackPluginsGui(unsigned int total, unsigned int offset,
+                                  const std::vector<SonicPi::TrackPluginInfo>& plugins)
+{
+    m_pMainWindow->updateTrackPlugins(total, offset, plugins);
+}
+
+void QtAPIClient::TrackParamsGui(int handle, unsigned int total, unsigned int offset,
+                                 const std::vector<SonicPi::TrackParamInfo>& params)
+{
+    m_pMainWindow->updateTrackParams(handle, total, offset, params);
+}
+
+void QtAPIClient::TrackParamEditGui(int handle, unsigned int id, double normalized, bool own)
+{
+    m_pMainWindow->updateTrackParamEdit(handle, id, normalized, own);
+}
+
+void QtAPIClient::TrackErrorGui(const QString& verb, const QString& detail, int handle)
+{
+    m_pMainWindow->updateTrackError(verb, detail, handle);
+}
 void QtAPIClient::VersionGui(const VersionInfo& info)
 {
     QDate date = QDate(info.lastCheckedYear, info.lastCheckedMonth, info.lastCheckedDay);
@@ -323,6 +379,75 @@ void QtAPIClient::GamepadDevices(const std::string& devices)
     QMetaObject::invokeMethod(this, "GamepadDevicesGui", Qt::QueuedConnection,
                               Q_ARG(QString, QString::fromStdString(devices)));
 }
+
+
+// Arrives on the OSC reader thread; every widget it ends up touching is the
+// GUI thread's. Queued, like every other callback here.
+void QtAPIClient::Tracks(int laneBase, const std::vector<SonicPi::TrackInfo>& tracks)
+{
+    QMetaObject::invokeMethod(this, "TracksGui", Qt::QueuedConnection,
+                              Q_ARG(int, laneBase),
+                              Q_ARG(std::vector<SonicPi::TrackInfo>, tracks));
+}
+
+void QtAPIClient::TrackState(int id, float gain, bool mute)
+{
+    QMetaObject::invokeMethod(this, "TrackStateGui", Qt::QueuedConnection,
+                              Q_ARG(int, id), Q_ARG(float, gain), Q_ARG(bool, mute));
+}
+
+void QtAPIClient::TrackFolders(const std::vector<std::string>& extra,
+                               const std::vector<std::string>& platform)
+{
+    QMetaObject::invokeMethod(this, "TrackFoldersGui", Qt::QueuedConnection,
+                              Q_ARG(std::vector<std::string>, extra),
+                              Q_ARG(std::vector<std::string>, platform));
+}
+
+void QtAPIClient::LinkAudioChannels(const std::vector<SonicPi::LinkAudioChannelInfo>& channels)
+{
+    QMetaObject::invokeMethod(this, "LinkAudioChannelsGui", Qt::QueuedConnection,
+                              Q_ARG(std::vector<SonicPi::LinkAudioChannelInfo>, channels));
+}
+
+void QtAPIClient::LinkAudioInputs(const std::vector<SonicPi::LinkAudioInputInfo>& inputs)
+{
+    QMetaObject::invokeMethod(this, "LinkAudioInputsGui", Qt::QueuedConnection,
+                              Q_ARG(std::vector<SonicPi::LinkAudioInputInfo>, inputs));
+}
+
+void QtAPIClient::TrackPlugins(uint32_t total, uint32_t offset,
+                               const std::vector<SonicPi::TrackPluginInfo>& plugins)
+{
+    QMetaObject::invokeMethod(this, "TrackPluginsGui", Qt::QueuedConnection,
+                              Q_ARG(unsigned int, total), Q_ARG(unsigned int, offset),
+                              Q_ARG(std::vector<SonicPi::TrackPluginInfo>, plugins));
+}
+
+void QtAPIClient::TrackParams(int handle, uint32_t total, uint32_t offset,
+                              const std::vector<SonicPi::TrackParamInfo>& params)
+{
+    QMetaObject::invokeMethod(this, "TrackParamsGui", Qt::QueuedConnection,
+                              Q_ARG(int, handle), Q_ARG(unsigned int, total),
+                              Q_ARG(unsigned int, offset),
+                              Q_ARG(std::vector<SonicPi::TrackParamInfo>, params));
+}
+
+void QtAPIClient::TrackParamEdit(int handle, uint32_t id, double normalized, bool own)
+{
+    QMetaObject::invokeMethod(this, "TrackParamEditGui", Qt::QueuedConnection,
+                              Q_ARG(int, handle), Q_ARG(unsigned int, id),
+                              Q_ARG(double, normalized), Q_ARG(bool, own));
+}
+
+void QtAPIClient::TrackError(const std::string& verb, const std::string& detail, int handle)
+{
+    QMetaObject::invokeMethod(this, "TrackErrorGui", Qt::QueuedConnection,
+                              Q_ARG(QString, QString::fromStdString(verb)),
+                              Q_ARG(QString, QString::fromStdString(detail)),
+                              Q_ARG(int, handle));
+}
+
 
 void QtAPIClient::Version(const VersionInfo& info)
 {

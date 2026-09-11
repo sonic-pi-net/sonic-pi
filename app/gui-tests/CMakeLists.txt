@@ -45,9 +45,13 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/completion_fnopts.test.cpp
     ${GUI_TESTS_ROOT}/completion_optowners.test.cpp
     ${GUI_TESTS_ROOT}/completion_rank.test.cpp
+    ${GUI_TESTS_ROOT}/completion_trackparams.test.cpp
+    ${GUI_TESTS_ROOT}/completion_trackparams_editor.test.cpp
     ${GUI_TESTS_ROOT}/tutorialdocs.test.cpp
     ${GUI_TESTS_ROOT}/tutorialwidgets_a11y.test.cpp
     ${GUI_TESTS_ROOT}/tutorialpane_clip.test.cpp
+    ${GUI_TESTS_ROOT}/trackspanel_look.test.cpp
+    ${GUI_ROOT}/widgets/trackspanel.cpp
     ${GUI_ROOT}/widgets/tutorialpane.cpp
     ${GUI_ROOT}/widgets/sonicpiscintilla.cpp
     ${GUI_ROOT}/widgets/sonicpilexer.cpp
@@ -75,9 +79,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${GUI_ROOT}
     ${GUI_ROOT}/widgets
     ${GUI_ROOT}/QScintilla_src-2.14.1/src   # <Qsci/...> headers (declarations only)
-    ${SP_APP_ROOT}/api/include              # api/audio/shm_audio_buffer.hpp via platform/macos.h
-    ${SP_APP_ROOT}/external/supersonic      # the api/audio shm headers shim to supersonic's
-    ${SP_APP_ROOT}/external/supersonic/src
+    ${SP_APP_ROOT}/api/include              # the shm headers shim to the harness's, which sonic-pi-api exports
     ${CMAKE_BINARY_DIR}
 )
 

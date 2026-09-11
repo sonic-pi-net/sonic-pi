@@ -46,7 +46,8 @@ public:
         NoteRole,      // MIDI note for kind=="note", or the tonic for chord/scale
         DocRole,       // full docstring (markdown)
         UsageRole,     // canonical calling form (the detail pane's code card)
-        IntervalsRole  // chord/scale semitone offsets from the tonic (QList<int>)
+        IntervalsRole, // chord/scale semitone offsets from the tonic (QList<int>)
+        TagRole        // short inline label beside the name (which plugin an opt belongs to)
     };
 
     explicit CompletionPopup(QWidget* parent = nullptr);

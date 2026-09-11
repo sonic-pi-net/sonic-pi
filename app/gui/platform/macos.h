@@ -68,9 +68,11 @@ void openSystemMicrophonePane();
 
 // Syphon — publish the window backing nsViewPtr (cast from QWidget::winId())
 // as a Syphon video server named serverName so apps like Resolume Avenue
-// can pick it up. Uses ScreenCaptureKit to capture the window's pixels and
-// SyphonMetalServer to publish them. Returns true on successful start;
-// false if permission is missing or the window can't be located.
+// can pick it up. Uses ScreenCaptureKit to capture the window's area of its
+// screen showing Sonic Pi's and the plugin bridge's windows only — so a
+// plugin editor floating over Sonic Pi is in the feed — and SyphonMetalServer
+// to publish the frames. Returns true on successful start; false if
+// permission is missing or the window can't be located.
 //
 // First call triggers a Screen Recording permission prompt (one-time).
 // showCursor controls whether ScreenCaptureKit overlays the system mouse
@@ -90,17 +92,17 @@ bool isSyphonPublishing();
 void setSyphonShowCursor(bool showCursor);
 
 // Session recording — capture the window backing nsViewPtr (cast from
-// QWidget::winId()) plus the app's audio output, mux to a single .mov
-// at filePath via ScreenCaptureKit + AVAssetWriter. Returns true on
+// QWidget::winId()) — the same picture as the Syphon feed: its area of the
+// screen showing Sonic Pi's and the plugin bridge's windows, so plugin
+// editors are in the recording — plus the app's audio output, mux to a
+// single .mov at filePath via ScreenCaptureKit + AVAssetWriter. Returns true on
 // successful start kick-off; false if the window can't be located or
 // the writer can't be created. Same Screen Recording TCC permission as
 // Syphon — first call may prompt.
 //
-// audioSlot points at the shm_audio_buffer slot the recorder should
-// read for the .mov's audio track (slot 0 = master output). The caller
-// is responsible for /s_new'ing a `supersonic-audio-out` synth that
-// feeds this slot before calling startSessionRecording, and /n_free'ing
-// it after stopSessionRecording. Pass nullptr for video-only.
+// audioSlot points at the engine's OUT tap (SHM_AUDIO_OUT_SLOT): the
+// master mix, written by the engine from boot, read here for the .mov's
+// audio track from its live position. Pass nullptr for video-only.
 //
 // API is intentionally platform-neutral (void* window handle, std::string
 // path) — Windows / Linux implementations would land in sibling files.

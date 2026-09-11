@@ -37,3 +37,19 @@ TEST_CASE("the whole sample family completes sample names", "[completion][argkin
                             "use_sample_bpm", "with_sample_bpm" })
         CHECK(t.value(QString::fromUtf8(fn)) == QVector<ArgKind>{ ArgKind::Sample });
 }
+
+TEST_CASE("the track functions complete track names where one is named, and notes where a note goes", "[completion][argkind][gen]")
+{
+    const SonicPi::ArgKindTable t = SonicPi::generatedArgKinds();
+    // the verbs that name a track first: use_track sets it, live_track and
+    // with_send are about one
+    for (const char* fn : { "use_track", "with_track", "live_track", "with_send" })
+        CHECK(t.value(QString::fromUtf8(fn)) == QVector<ArgKind>{ ArgKind::Track });
+    // the midi family takes a note first, like play; the track is track: or use_track's
+    for (const char* fn : { "track_midi", "track_midi_note_on", "track_midi_note_off" })
+        CHECK(t.value(QString::fromUtf8(fn)) == QVector<ArgKind>{ ArgKind::Note });
+    // and the rest have no positional slot to list
+    for (const char* fn : { "track_midi_cc", "track_midi_pitch_bend", "track_midi_all_notes_off",
+                            "track_control", "track_note" })
+        CHECK_FALSE(t.contains(QString::fromUtf8(fn)));
+}

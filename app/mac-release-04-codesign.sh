@@ -75,11 +75,26 @@ shopt -u nullglob
 # the runtime aborts at startup with "jit: Failed to allocate executable+
 # writable memory" and Sonic Pi never finishes booting. We sign these specific
 # binaries with the full entitlements file.
+#
+# The plugin bridge is the other one: it is the process that loads VST3 and
+# CLAP plugins, which are signed by whoever wrote them, and the hardened
+# runtime refuses a library from another team without
+# disable-library-validation. The bridge being its own process is what
+# keeps that entitlement OFF the engine and the app — a plugin gets a
+# process that may load anything, and nothing else does.
+#
+# The bridge is a nested app bundle ("Sonic Pi - Plugins.app", so that it has
+# a bundle identifier for OBS and ScreenCaptureKit to select it by). A bundle
+# is signed as a bundle — codesign seals its Info.plist and signs the
+# executable inside in one go — so its contents are skipped here and it is
+# signed whole, with the entitlements, in the step after.
 # ---------------------------------------------------------------------------
-needs_jit_entitlements() {
+BRIDGE_APP="${RELEASE_APP}/Contents/Resources/app/server/native/Sonic Pi - Plugins.app"
+
+needs_entitlements() {
     case "$1" in
-        */ruby/bin/ruby)               return 0 ;;
-        *)                             return 1 ;;
+        */ruby/bin/ruby)  return 0 ;;
+        *)                return 1 ;;
     esac
 }
 
@@ -87,7 +102,8 @@ log_step "sign Mach-O under Contents/Resources/"
 count=0
 jit_count=0
 while IFS= read -r -d '' f; do
-    if needs_jit_entitlements "$f"; then
+    case "$f" in "${BRIDGE_APP}"/*) continue ;; esac
+    if needs_entitlements "$f"; then
         sign_one "$f" --entitlements "${RELEASE_ENTITLEMENTS}"
         jit_count=$((jit_count + 1))
     else
@@ -95,7 +111,11 @@ while IFS= read -r -d '' f; do
     fi
     count=$((count + 1))
 done < <(list_macho_files "${RELEASE_APP}/Contents/Resources")
-log_info "  ${count} files (${jit_count} with JIT entitlements: ruby)"
+log_info "  ${count} files (${jit_count} with entitlements: ruby)"
+
+log_step "sign the plugin bridge bundle with entitlements"
+[ -d "${BRIDGE_APP}" ] || die "Plugin bridge bundle missing: ${BRIDGE_APP}"
+sign_one "${BRIDGE_APP}" --entitlements "${RELEASE_ENTITLEMENTS}"
 
 # ---------------------------------------------------------------------------
 # 4. Mach-O files under PlugIns/ (Qt platform plugins)

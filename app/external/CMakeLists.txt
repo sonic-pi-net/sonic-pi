@@ -93,19 +93,59 @@ endforeach()
 
 # SuperSonic — BUILD_ALWAYS ensures source changes are picked up
 # without needing to manually delete stamp files.
+# SOURCE_DIR is the supersonic submodule (see cmake/supersonic.cmake, which
+# also names the engine and its bridge). It is scsynth hosted on clockwork
+# (AGPL-3.0-or-later, or a commercial licence — see clockwork/LICENSE), which
+# is what brings VST3 hosting with it, and it builds its own `clockwork`
+# submodule: a recursive checkout is required, not just a shallow one.
+#
+# The option names are clockwork's: the product name is CLOCKWORK_PRODUCT_NAME
+# and plugin hosting is CLOCKWORK_PLUGINS.
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/supersonic.cmake)
+#
+# PREFIX and BINARY_DIR are deliberately SHORT, and on Windows that is not
+# cosmetic. Left to itself ExternalProject builds under
+# external/supersonic-prefix/src/supersonic-build — 47 characters — and the
+# engine's own build then nests FetchContent under that: the VST3 SDK's
+# populate stamp lands at
+#   .../_deps/vst3_pluginterfaces-subbuild/vst3_pluginterfaces-populate-prefix
+#   /src/vst3_pluginterfaces-populate-stamp/<config>/...-mkdir
+# which reached 263 characters from a checkout in a home directory and failed
+# the whole build with MSB4023, "exceeds the OS max path limit". MAX_PATH is
+# 260, long paths are off by default on Windows, and MSBuild enforces the
+# limit itself regardless. Those 47 characters become 4 here, which buys back
+# the margin for everyone — the clone's own path is the part we do not
+# control.
 ExternalProject_Add(supersonic
-    PREFIX supersonic-prefix
-    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/supersonic
+    PREFIX ${CMAKE_BINARY_DIR}/ss
+    SOURCE_DIR ${SUPERSONIC_SOURCE_DIR}
+    BINARY_DIR ${CMAKE_BINARY_DIR}/ss/b
     DOWNLOAD_COMMAND ""
     BUILD_ALWAYS ON
     CMAKE_ARGS
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DBUILD_TESTS=OFF
-        -DBUILD_NIF=OFF
-        # Published in OS-facing binary metadata (Windows version resource,
-        # macOS embedded Info.plist) so consent prompts name Sonic Pi.
-        "-DSUPERSONIC_PRODUCT_NAME=Sonic Pi - SuperSonic"
-        "-DSUPERSONIC_COMPANY_NAME=Sonic Pi"
+        "-DCLOCKWORK_PRODUCT_NAME=${SUPERSONIC_PRODUCT_NAME}"
+        # VST3 + CLAP hosting. ON by default in the harness, named here because
+        # it is the whole reason for the swap and should not be silent.
+        -DCLOCKWORK_PLUGINS=ON
+        # Ableton Link. Sonic Pi has always shipped it (link_sync, the peer
+        # count, the GUI's tempo scrub), and clockwork's default is OFF: an
+        # engine built without it changed tempo as a session of one.
+        -DCLOCKWORK_LINK=ON
+        # The AUDIO half of Link, which is a separate opt-in and defaults OFF:
+        # CLOCKWORK_LINK alone gives tempo, transport and peers (the clock's
+        # LinkSession) and compiles the peer-audio renderer and endpoint out
+        # entirely. Sonic Pi's Link audio streams widget has no engine behind it
+        # without this, and the failure is silent — the streams simply never
+        # appear, on a build whose banner used to claim Link-Audio anyway.
+        -DCLOCKWORK_LINK_AUDIO=ON
+        "-DCLOCKWORK_PLUGIN_BRIDGE_NAME=${SUPERSONIC_BRIDGE_NAME}"
+        # The app icon, for the bridge's editor windows and the taskbar.
+        "-DCLOCKWORK_PRODUCT_ICON=${CMAKE_CURRENT_SOURCE_DIR}/../gui/images/app.ico"
+        # How macOS knows the bridge: what OBS's application capture and the
+        # Syphon publisher (gui/platform/syphon_publisher.mm) select it by.
+        -DCLOCKWORK_PLUGIN_BRIDGE_BUNDLE_ID=net.sonic-pi.plugins
         # a nested project starts from a bare cache, so hardening and
         # reproducibility flags have to be handed down explicitly
         -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
@@ -142,17 +182,76 @@ else()
     set(SUPERSONIC_BUILD_NAME "SuperSonic")
     set(SUPERSONIC_NATIVE_NAME "sonic-pi-supersonic")
 endif()
+# The binary sits directly in the build dir, not under SuperSonic_artefacts/.
+# That path was JUCE's: the old project built the host through JUCE's
+# add_executable wrapper, which interposes an artefacts directory. clockwork
+# links the engine with a plain add_executable, so the binary lands where
+# CMake normally puts one.
+#
+# "Where CMake normally puts one" is not one place, though. The nested build
+# inherits this generator, and a multi-config generator — the Visual Studio one
+# Sonic Pi uses on Windows — puts its artefacts under a per-config
+# subdirectory, while Ninja and Makefiles put them straight in the build dir.
+# Ask which shape this is rather than assuming, and name the config the
+# ExternalProject is actually built with above (--config ${CMAKE_BUILD_TYPE}),
+# so the two cannot drift apart.
+if(CMAKE_CONFIGURATION_TYPES)
+    set(SUPERSONIC_OUT_DIR "${BINARY_DIR}/${CMAKE_BUILD_TYPE}")
+else()
+    set(SUPERSONIC_OUT_DIR "${BINARY_DIR}")
+endif()
+#
+# The piano wavetable is OURS (external/piano — see its README). The engine
+# carries no table at all: MdaPiano is handed one at runtime through
+# /supersonic/piano/wavetable, from a buffer the client loaded like any
+# sample, so which table the piano plays is the client's business. The studio
+# does that at boot (Studio#load_piano_wavetable), reading the file from
+# beside the engine binary, which is what this copy puts there.
+# Still guarded: a tree without the asset configures, and :piano is silent.
+set(_ss_piano "${CMAKE_CURRENT_LIST_DIR}/piano/piano_wavetable.dat")
+if(EXISTS "${_ss_piano}")
+    set(_ss_piano_cmd COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${_ss_piano}" ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/piano_wavetable.dat)
+else()
+    set(_ss_piano_cmd "")
+endif()
+
+# The bridge is built under its shipped name already (clockwork sets
+# OUTPUT_NAME from CLOCKWORK_PLUGIN_BRIDGE_NAME) and lands beside the engine binary,
+# so it is copied as it is. It must sit beside the engine in server/native/
+# too: that is where the engine looks for it. On macOS it is an app bundle,
+# "Sonic Pi - Plugins.app", so the process has a bundle identifier (OBS's
+# application capture and the Syphon publisher select it by that); the
+# directory is copied whole, and a flat binary left by an older build is
+# removed so the engine cannot pick the stale one.
+if(WIN32)
+    set(SUPERSONIC_BRIDGE_FILE "${SUPERSONIC_BRIDGE_NAME}.exe")
+elseif(APPLE)
+    set(SUPERSONIC_BRIDGE_FILE "${SUPERSONIC_BRIDGE_NAME}.app")
+else()
+    set(SUPERSONIC_BRIDGE_FILE "${SUPERSONIC_BRIDGE_NAME}")
+endif()
+if(APPLE)
+    set(_ss_bridge_cmd
+        COMMAND ${CMAKE_COMMAND} -E rm -f
+            "${CMAKE_CURRENT_SOURCE_DIR}/../server/native/${SUPERSONIC_BRIDGE_NAME}"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${SUPERSONIC_OUT_DIR}/${SUPERSONIC_BRIDGE_FILE}"
+            "${CMAKE_CURRENT_SOURCE_DIR}/../server/native/${SUPERSONIC_BRIDGE_FILE}")
+else()
+    set(_ss_bridge_cmd
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SUPERSONIC_OUT_DIR}/${SUPERSONIC_BRIDGE_FILE}"
+            "${CMAKE_CURRENT_SOURCE_DIR}/../server/native/${SUPERSONIC_BRIDGE_FILE}")
+endif()
+
 add_custom_target(copy_supersonic ALL
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${BINARY_DIR}/SuperSonic_artefacts/${CMAKE_BUILD_TYPE}/${SUPERSONIC_BUILD_NAME}
+        ${SUPERSONIC_OUT_DIR}/${SUPERSONIC_BUILD_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/${SUPERSONIC_NATIVE_NAME}
-    # MdaPiano sample table — an optional SuperSonic asset, not compiled into the
-    # engine. Copied next to the binary so the :piano synth works in the bundle;
-    # if absent the engine just plays :piano silent.
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_CURRENT_LIST_DIR}/supersonic/assets/piano/piano_wavetable.dat
-        ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/piano_wavetable.dat
-    COMMENT "Copying SuperSonic binary + piano wavetable to server/native/"
+    ${_ss_bridge_cmd}
+    ${_ss_piano_cmd}
+    COMMENT "Copying SuperSonic, the plugin bridge and the piano wavetable to server/native/"
     DEPENDS supersonic
 )
 
@@ -164,7 +263,7 @@ add_custom_target(copy_supersonic ALL
 if(WIN32)
     add_custom_command(TARGET copy_supersonic POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${BINARY_DIR}/SuperSonic_artefacts/${CMAKE_BUILD_TYPE}/SuperSonic.pdb
+            ${SUPERSONIC_OUT_DIR}/SuperSonic.pdb
             ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/supersonic.pdb
         COMMENT "Copying SuperSonic PDB to server/native/"
         VERBATIM)

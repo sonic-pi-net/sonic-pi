@@ -34,8 +34,8 @@ module SonicPi
       api = make_api
       api.start_stop_cue_server!(false)   # enabled (GUI /cue-port-start)
       api.start_stop_cue_server!(true)    # disabled (GUI /cue-port-stop)
-      assert_equal ["/osc/cue-server/cues-on", [1]], sent(api)[0]
-      assert_equal ["/osc/cue-server/cues-on", [0]], sent(api)[1]
+      assert_equal ["/clockwork/osc/cue-server/cues-on", [1]], sent(api)[0]
+      assert_equal ["/clockwork/osc/cue-server/cues-on", [0]], sent(api)[1]
     end
 
     # "Allow OSC From Other Computers": internal=true is loopback-only, false is
@@ -44,15 +44,15 @@ module SonicPi
       api = make_api
       api.cue_server_internal!(true)      # loopback only (GUI /cue-port-internal)
       api.cue_server_internal!(false)     # all interfaces (GUI /cue-port-external)
-      assert_equal ["/osc/cue-server/loopback", [1]], sent(api)[0]
-      assert_equal ["/osc/cue-server/loopback", [0]], sent(api)[1]
+      assert_equal ["/clockwork/osc/cue-server/loopback", [1]], sent(api)[0]
+      assert_equal ["/clockwork/osc/cue-server/loopback", [0]], sent(api)[1]
     end
 
     # Flush on run-stop hits the shared scheduler flush.
     def test_osc_flush_uses_scheduler_flush
       api = make_api
       api.osc_flush!
-      assert_equal ["/sched/flush", ["default"]], sent(api).first
+      assert_equal ["/clockwork/sched/flush", ["default"]], sent(api).first
     end
 
     # Outgoing osc maps to /schedule <timetag> <blob: /osc/send <host> <port> <inner>>.
@@ -62,13 +62,13 @@ module SonicPi
       api = make_api
       api.send_osc_at(0.0, "127.0.0.1", 4560, "/foo", 1, "bar")
       pattern, args = sent(api).first
-      assert_equal "/schedule", pattern
+      assert_equal "/clockwork/schedule", pattern
       assert_kind_of SonicPi::OSC::Int64, args[0]
       assert_kind_of SonicPi::OSC::Blob, args[1]
 
       # The blob is a self-routing /osc/send carrying the destination + inner message.
       blob = args[1].to_s
-      assert_includes blob, "/osc/send"
+      assert_includes blob, "/clockwork/osc/send"
       assert_includes blob, "127.0.0.1"
       assert_includes blob, "/foo"      # the user's inner address survives the wrap
     end

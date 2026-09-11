@@ -967,6 +967,10 @@ module SonicPi
       # Flush pending MIDI (handled by SuperSonic's MIDI subsystem)
       __midi_flush!
 
+      # The flush above took the tracks' note-offs with it: silence every
+      # hosted instrument, or a note struck just before Stop rings on.
+      __track_flush!
+
       # Force a GC collection now everything has stopped
       GC.start
       GC.compact if RUBY_VERSION >= "2.7.0"
@@ -974,6 +978,10 @@ module SonicPi
 
     def __midi_flush!
       @midi_api.midi_flush!
+    end
+
+    def __track_flush!
+      @mod_sound_studio.server.track_all_notes_off(nil) if @mod_sound_studio
     end
 
     def __midi_system_start(silent=false)

@@ -68,9 +68,9 @@ class TcpOscClientIntegrationTest < Minitest::Test
 
   def test_clock_rpc_token_round_trip
     p = SonicPi::Promise.new
-    @client.add_method('/clock/rpc/time_at_beat.reply') { |args| p.deliver!(args) unless p.delivered? }
+    @client.add_method('/clockwork/clock/rpc/time_at_beat.reply') { |args| p.deliver!(args) unless p.delivered? }
     token = 424_242
-    @client.send(nil, nil, '/clock/rpc/time_at_beat',
+    @client.send(nil, nil, '/clockwork/clock/rpc/time_at_beat',
                  SonicPi::OSC::Int64.new(4_000_000), 4.0, token)
     args = await(p)
     assert_equal token, args.last, 'engine must echo the correlation token'
@@ -92,8 +92,8 @@ class TcpOscClientIntegrationTest < Minitest::Test
 
   def test_notify_subscribe_receives_reply_on_connection
     p = SonicPi::Promise.new
-    @client.add_method('/clock/notify/subscribe.reply') { |args| p.deliver!(args) unless p.delivered? }
-    @client.send(nil, nil, '/clock/notify/subscribe', 99)
+    @client.add_method('/clockwork/clock/notify/subscribe.reply') { |args| p.deliver!(args) unless p.delivered? }
+    @client.send(nil, nil, '/clockwork/clock/notify/subscribe', 99)
     args = await(p)
     assert_equal 99, args.last
   end

@@ -16,6 +16,7 @@
 #include <iostream>
 #include <cmath>
 #include <QRegularExpression>
+#include <QSet>
 #include "scintilla_api.h"
 #include "sampleheaderinfo.h"
 #include "completion_context.h"
@@ -37,7 +38,11 @@ QString lastWordBeforePartial(const QStringList& context) {
 // chord (their tonic), or a note: opt value (e.g. `synth :saw, note: `).
 bool isNoteContext(const QStringList& context) {
     const QString lw = lastWordBeforePartial(context);
-    return lw == "play" || lw == "scale" || lw == "chord" || lw == "note:";
+    if (lw == "play" || lw == "scale" || lw == "chord" || lw == "note:") return true;
+    // Functions whose docs tag a positional slot as a note (track_midi :e3):
+    // the table knows which slot the caret is in.
+    static const SonicPi::ArgKindTable s_argKinds = SonicPi::generatedArgKinds();
+    return SonicPi::resolveArgKind(context, s_argKinds) == SonicPi::ArgKind::Note;
 }
 
 // Note completions. MIDI NUMBERS come first — no music theory needed to pick a
@@ -175,6 +180,106 @@ void ScintillaAPI::updateLinkAudioStreams(const QStringList& peers, const QStrin
   keywords[LinkAudioChannel] = channels;
 }
 
+void ScintillaAPI::updateTracks(const QStringList& names) {
+  // Tracks are addressed by symbol in code (`live_track :surge`), so each name
+  // is offered with its colon, like synths and samples.
+  keywords[Track].clear();
+  for (const QString& n : names) addSymbol(Track, n);
+  // A track that has gone takes its parameter names with it.
+  for (auto it = trackParams.begin(); it != trackParams.end();)
+  {
+    if (names.contains(it.key().mid(1))) { ++it; continue; }
+    trackParamStrings.remove(it.key());
+    trackOptKeys.remove(it.key());
+    trackOpts.remove(it.key());
+    it = trackParams.erase(it);
+  }
+}
+
+static QString plainNumber(double v) {
+  return QString::number(v, 'g', 5);
+}
+
+void ScintillaAPI::updateTrackParams(const QString& track, const QList<SonicPi::TrackParam>& params) {
+  const QString key = ":" + track;
+  trackParams.insert(key, params);
+  QStringList quoted, keys;
+  QSet<QString> quotedSeen, plugins;
+  QHash<QString, TrackOpt> opts;
+  for (const SonicPi::TrackParam& p : params) plugins.insert(p.plugin);
+  // The plugin's name rides the row only when there is more than one plugin
+  // for a key to belong to; with one, it is noise.
+  const bool several = plugins.size() > 1;
+  for (const SonicPi::TrackParam& p : params)
+  {
+    QStringList parts;
+    if (several && !p.plugin.isEmpty()) parts << p.plugin;
+    if (!p.group.isEmpty()) parts << p.group;
+    parts << QStringLiteral("%1 – %2").arg(plainNumber(p.min), plainNumber(p.max));
+    const QString detail = parts.join(QStringLiteral(" · "));
+
+    // The string track_control takes: `track_control "Cutoff", 0.5`.
+    // A name two plugins share goes to the first, so it is offered once.
+    QString q = p.name;
+    q.replace('\\', "\\\\").replace('"', "\\\"");
+    q = '"' + q + '"';
+    if (!quotedSeen.contains(q))
+    {
+      quotedSeen.insert(q);
+      quoted << q;
+      summaries.insert(q, detail);
+    }
+
+    // The opt key: the first parameter to claim a key keeps it, as the
+    // language resolves it. A later PLUGIN with a parameter of the same
+    // name gets the key under its own name — surge_xt_effects_mix: — which
+    // is how code reaches the second Mix on a track; the same plugin
+    // naming two parameters alike is the plugin's to sort out.
+    const QString base = SonicPi::trackParamKey(p.name);
+    if (base.isEmpty()) continue;
+    QString k = base + ':';
+    const QString tag = several ? p.plugin : QString();
+    if (opts.contains(k) && opts[k].plugin != p.plugin)
+      k = SonicPi::trackParamKey(p.plugin) + '_' + base + ':';
+    if (!opts.contains(k))
+    {
+      keys << k;
+      opts.insert(k, TrackOpt{ k, p.name, detail, tag, p.min, p.max, p.value });
+    }
+  }
+  trackParamStrings.insert(key, quoted);
+  trackOptKeys.insert(key, keys);
+  trackOpts.insert(key, opts);
+}
+
+// The verbs that act on a track: the two that name it in front, and the
+// track_midi family and track_control, which take `track:` or the current
+// track from use_track.
+static bool isTrackVerb(const QString& w) {
+  return w == QLatin1String("with_send") || w == QLatin1String("live_track") ||
+         w == QLatin1String("track_control") || w.startsWith(QLatin1String("track_midi"));
+}
+
+QString ScintillaAPI::trackForContext(const QStringList& context) const {
+  QStringList words;
+  for (int i = 0; i < context.length() - 1; i++)
+    if (!context[i].isEmpty()) words.append(context[i]);
+  if (words.isEmpty() || !isTrackVerb(words[0])) return QString();
+  // `track:` wins wherever it is in the call.
+  for (int i = 1; i + 1 < words.size(); ++i)
+    if (words[i] == QLatin1String("track:"))
+      return trackParams.contains(words[i + 1]) ? words[i + 1] : QString();
+  // live_track and with_send name the track first.
+  if ((words[0] == QLatin1String("live_track") || words[0] == QLatin1String("with_send")) &&
+      words.size() > 1 && words[1].startsWith(':'))
+    return trackParams.contains(words[1]) ? words[1] : QString();
+  // Otherwise the track use_track set, as the code above the cursor reads.
+  const QString cur = trackResolver ? trackResolver() : QString();
+  if (cur.isEmpty()) return QString();
+  const QString key = cur.startsWith(':') ? cur : (":" + cur);
+  return trackParams.contains(key) ? key : QString();
+}
+
 void ScintillaAPI::setPlayArgs(const QStringList& args) {
   keywords[PlayParam] = args;
 }
@@ -185,6 +290,10 @@ void ScintillaAPI::setSampleArgs(const QStringList& args) {
 
 void ScintillaAPI::setSynthResolver(std::function<QString()> resolver) {
   synthResolver = resolver;
+}
+
+void ScintillaAPI::setTrackResolver(std::function<QString()> resolver) {
+  trackResolver = resolver;
 }
 
 void ScintillaAPI::setSummary(const QString& name, const QString& summary) {
@@ -305,6 +414,7 @@ QString ScintillaAPI::kindForContext(int ctx) {
     case CuePath:         return "cue";
     case LinkAudioPeer:   return "peer";
     case LinkAudioChannel:return "channel";
+    case Track:           return "track";
     case PlayParam:
     case SampleParam:
     case MidiParam:
@@ -339,6 +449,24 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
   // completion_optowners.h).
   static const SonicPi::OptOwnerTable s_optOwners = SonicPi::generatedOptOwners();
   const QString owner = ownerForContext(context);
+  const QString track = trackForContext(context);
+  if (!track.isEmpty() && trackOpts[track].contains(optBefore)) {
+    // A plugin parameter's value: a slider over the plugin's own range,
+    // starting where the plugin is now.
+    const TrackOpt& o = trackOpts[track][optBefore];
+    if (o.hi > o.lo) {
+      CompletionItem it;
+      it.kind = "range";
+      it.slider = true;
+      it.rmin = o.lo;
+      it.rmax = o.hi;
+      bool ok = false;
+      const double typed = context.isEmpty() ? 0.0 : context.last().toDouble(&ok);
+      it.rdefault = ok ? typed : qBound(o.lo, o.def, o.hi);
+      it.text = optBefore;
+      return { it };
+    }
+  }
   if (optOptions.contains(optBefore)) {
     // Each value carries its meaning (parsed from the opt docs) inline, and the
     // full opt doc in the detail pane — so `wave: 0` reads "0 saw", not a bare 0.
@@ -405,6 +533,18 @@ QList<CompletionItem> ScintillaAPI::completionsFor(const QStringList& context,
     // Completing an opt NAME inside a synth/FX: show that owner's doc for it,
     // not whichever owner happened to register the name globally.
     item.doc = s_optOwners.doc(owner, n, docs.value(n));
+    if (!track.isEmpty()) {
+      // A plugin parameter offered as an opt: what the plugin calls it, and
+      // its range, in place of whatever a synth opt of the same key says.
+      const auto o = trackOpts[track].constFind(n);
+      if (o != trackOpts[track].constEnd()) {
+        item.summary = o->detail;
+        item.tag = o->plugin;
+        item.doc = QStringLiteral("<p><b>%1</b> — %2</p><p>%3</p>")
+                       .arg(o->name.toHtmlEscaped(), o->detail.toHtmlEscaped(),
+                            QStringLiteral("A parameter of a plugin on %1, in the plugin's own range.").arg(track));
+      }
+    }
     if (lastKind == "sample") {
       // Duration/format parsed from the audio file header at load: rides the
       // dimmed row summary (browsable lengths) and the helper-pane prose.
@@ -442,6 +582,7 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
   QString last = words.isEmpty() ? "" : words.last();
   QString first = words.isEmpty() ? "" : words.first();
   QString second = words.length() < 2 ? "" : words[1];
+  QString track;   // ":track" once the context proves to be a track verb's
 
   /* // debug
   for (int i=0; i<context.length(); i++)
@@ -471,6 +612,7 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
     case SonicPi::ArgKind::Chord:            ctx = Chord; break;
     case SonicPi::ArgKind::LinkAudioPeer:    ctx = LinkAudioPeer; break;
     case SonicPi::ArgKind::LinkAudioChannel: ctx = LinkAudioChannel; break;
+    case SonicPi::ArgKind::Track:            ctx = Track; break;
     default: break;
   }
 
@@ -478,6 +620,9 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
     // resolved from the metadata table above
   } else if (last == "sync:") {
     ctx = CuePath;
+  // A track verb's `track:` takes a track name, wherever it comes in the call.
+  } else if (last == "track:" && isTrackVerb(first)) {
+    ctx = Track;
   } else if ((first == "midi" || first.startsWith("midi_") || first == "use_midi_defaults" || first == "with_midi_defaults") && last == "port:") {
     ctx = MidiOuts;
   } else if (last == "load_example") {
@@ -496,6 +641,30 @@ void ScintillaAPI::updateAutoCompletionList(const QStringList &context,
       list = fxArgs[second];
       return;
     }
+
+  // A track verb's opts: the verb's own, then the parameters of the plugins
+  // on the track as opt keys (`filter_1_cutoff:`) — every one that is not
+  // shadowed by an opt of the verb's own. The names come from the running
+  // instances by way of the Tracks panel, so the list is exactly what the
+  // track can do. In track_control's parameter slot an opening quote asks
+  // for the string form instead: the name as the plugin spells it.
+  } else if (!(track = trackForContext(context)).isEmpty()) {
+    if (last.endsWith(':')) return; // the value: a slider, or nothing to list
+    if (first == "track_control" && partial.startsWith('"')) {
+      lastKind = "param";
+      list = trackParamStrings[track];
+      return;
+    }
+    lastKind = "opt";
+    // The generic rule keeps a function's first slot for its name; these two
+    // have no positional, so their opts are on from the first slot.
+    list = docOpts;
+    if (list.isEmpty() && words.length() == 1 &&
+        (first == "track_control" || first == "track_midi_all_notes_off"))
+      list = s_fnOpts.value(first);
+    for (const QString& k : trackOptKeys[track])
+      if (!list.contains(k)) list << k;
+    return;
 
   // Synth params
   } else if (words.length() >= 2 && first == "synth") {

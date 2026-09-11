@@ -55,7 +55,7 @@
 #include "model/sonicpitheme.h"
 #include "utils/tablericons.h"
 #include "widgets/tutorialwidgets.h" // TutHeading (accessible section titles)
-#include "widgets/tutscope.h" // ScopeSampler: the shared SHM reader/poll base
+#include "widgets/cardscope.h" // the ring scope, shared with the tracks panel
 #include "widgets/zoombar.h"
 #include "utils/flash_style.h"
 #include "utils/reducedmotion.h"
@@ -73,130 +73,7 @@ void repolish(QWidget* w)
     w->style()->polish(w);
     w->update();
 }
-} // namespace
 
-// Circular stereo mini scope for a playing card: the waveform wrapped
-// around a ring (left channel on the outer ring, right on the inner)
-// radius modulated by amplitude. No panel or box: just the rings, so an
-// idle card shows nothing at all. Decorative (mouse-transparent, no
-// focus, no accessible role; the Run/Stop button conveys running state).
-class CardScope : public ScopeSampler
-{
-public:
-    explicit CardScope(QWidget* parent = nullptr)
-        : ScopeSampler(parent)
-    {
-        // The scope is the play/stop control (an overlaid button fills it), so
-        // it must accept mouse events (no WA_TransparentForMouseEvents here).
-        setFocusPolicy(Qt::NoFocus);
-    }
-
-    void setColours(const QColor& outer, const QColor& inner)
-    {
-        m_outer = outer;
-        m_inner = inner;
-        update();
-    }
-
-    // Hover lights idle rings at full strength (the resting fade says "not
-    // playing"; hover says "click me", matching the glyph's hover colour).
-    void setLit(bool lit)
-    {
-        m_lit = lit;
-        update();
-    }
-
-    // The scope-buffer slot this card taps (its own, isolated from others).
-    void setSlot(unsigned int slot) { m_slot = slot; }
-
-    void start(SonicPi::SonicPiAPI* api)
-    {
-        m_left.clear();
-        m_right.clear();
-        m_active = true;
-        startSampling(api, m_slot);
-        update();
-    }
-
-    // Stays visible when stopped: the rings settle back to faint circles.
-    void stop()
-    {
-        stopSampling();
-        m_left.clear();
-        m_right.clear();
-        m_active = false;
-        update();
-    }
-
-protected:
-    void paintEvent(QPaintEvent*) override
-    {
-        QPainter p(this);
-        p.setRenderHint(QPainter::Antialiasing);
-        const qreal side = qMin(width(), height());
-        const QPointF centre(width() / 2.0, height() / 2.0);
-
-        auto ring = [&](const std::vector<float>& samples, qreal baseR, QColor colour) {
-            const qreal radius = baseR * side;
-            const qreal amp = 0.04 * side; // rings kept clear of the centre play icon
-            if (!m_active && !m_lit)
-                colour.setAlphaF(0.22);
-            QPen pen(colour, side * 0.028, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-            p.setPen(pen);
-            p.setBrush(Qt::NoBrush);
-            if (samples.size() < 8)
-            {
-                p.drawEllipse(centre, radius, radius);
-                return;
-            }
-            QPainterPath path;
-            const size_t n = samples.size();
-            for (size_t i = 0; i <= n; i++)
-            {
-                const qreal theta = (qreal)(i % n) / n * 2.0 * M_PI;
-                const qreal v = qBound(-1.0, (double)samples[i % n], 1.0);
-                const qreal r = radius + v * amp;
-                const QPointF pt(centre.x() + r * std::cos(theta),
-                                 centre.y() + r * std::sin(theta));
-                if (i == 0)
-                    path.moveTo(pt);
-                else
-                    path.lineTo(pt);
-            }
-            p.drawPath(path);
-        };
-        ring(m_left, 0.42, m_outer);
-        ring(m_right, 0.30, m_inner);
-    }
-
-    // One tap block's worth of the newest audible audio per revolution.
-    unsigned int windowFrames() const override { return 1024; }
-
-    void storeWindow(const float* interleaved, unsigned int frames,
-                     unsigned int ch) override
-    {
-        m_left.resize(frames);
-        m_right.resize(frames);
-        for (unsigned int i = 0; i < frames; i++)
-        {
-            m_left[i] = interleaved[(size_t)i * ch];
-            m_right[i] = interleaved[(size_t)i * ch + (ch - 1)];
-        }
-    }
-
-private:
-    QColor m_outer;
-    QColor m_inner;
-    std::vector<float> m_left;
-    std::vector<float> m_right;
-    bool m_active = false;
-    bool m_lit = false;
-    unsigned int m_slot = 0;
-};
-
-
-namespace
-{
 struct Deck
 {
     QString title;
@@ -966,7 +843,7 @@ void QuickstartPane::runStarted(int jobId, const QString& workspace)
 {
     if (!workspace.startsWith("sonic-pi-quickstart"))
         return;
-    m_jobs[workspace] = jobId;
+    m_jobs[workspace].insert(jobId);
     setCardPlaying(workspace, true);
 
     // Focus follows the loop: when this card starts a live_loop, the server
@@ -987,7 +864,9 @@ void QuickstartPane::runStarted(int jobId, const QString& workspace)
         theirs.subtract(mine);
         if (theirs.isEmpty()) // every loop this card owned is now owned by us
         {
-            m_jobs.remove(ws);
+            // Inherit rather than drop: their job still owns the running
+            // thread, so it is the one our stop button has to kill.
+            m_jobs[workspace].unite(m_jobs.take(ws));
             setCardPlaying(ws, false);
         }
     }
@@ -997,13 +876,17 @@ void QuickstartPane::runEnded(int jobId)
 {
     for (auto it = m_jobs.begin(); it != m_jobs.end(); ++it)
     {
-        if (it.value() == jobId)
+        if (!it.value().remove(jobId))
+            continue;
+        // A card only stops once every job it owns has ended — a hot-swapped
+        // card outlives its own job, which ends as soon as the redefine lands.
+        if (it.value().isEmpty())
         {
             const QString workspace = it.key();
             m_jobs.erase(it);
             setCardPlaying(workspace, false);
-            return;
         }
+        return;
     }
 }
 
@@ -2011,7 +1894,10 @@ QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QStr
         // focus — and the selection ring — on the button, not the card).
         frame->setFocus(Qt::OtherFocusReason);
         if (m_jobs.contains(workspace))
-            emit stopJobRequested(m_jobs.value(workspace));
+        {
+            for (int jobId : m_jobs.value(workspace))
+                emit stopJobRequested(jobId);
+        }
         else
             emit runRequested(title, snippet, workspace, scopeSlot);
     });

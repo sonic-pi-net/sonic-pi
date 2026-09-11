@@ -23,7 +23,7 @@ module SonicPi
     StudioCurrentlyRebootingError = ::SonicPi::StudioCurrentlyRebootingError
     include Util
 
-    attr_reader :synth_group, :fx_group, :mixer_group, :monitor_group, :mixer_id, :mixer_bus, :mixer, :rand_buf_id, :amp, :rebooting, :last_cold_swap_completed_at
+    attr_reader :synth_group, :fx_group, :mixer_group, :monitor_group, :mixer_id, :mixer_bus, :mixer, :rand_buf_id, :amp, :rebooting, :last_cold_swap_completed_at, :server
 
     attr_accessor :cent_tuning
 
@@ -56,6 +56,46 @@ module SonicPi
       # wipes the bus allocator, so these references would dangle).
       @link_audio_subs = {}
       @link_audio_mut  = Mutex.new
+      # The engine's tracks, by name, as last broadcast on /clockwork/track/list.
+      # A track is studio state made in the GUI; code only names it, so this
+      # is the whole of what the language needs: which harness channels a
+      # name sends to and returns on. @track_lane_base is 0 until the engine
+      # has lanes for tracks at all.
+      @tracks = {}
+      @track_lane_base = 0
+      @tracks_mut = Mutex.new
+      @tracks_cv = ConditionVariable.new
+      @tracks_generation = 0
+      # Each plugin's parameter names, by handle, as the engine pages them
+      # out on /clockwork/track/plugin/params. Filled on demand: the first
+      # track_control on a track asks for its plugins' lists, so an unknown
+      # name can be refused with the names that would have worked instead of
+      # doing nothing in silence on the audio thread.
+      @track_params = {}
+      @track_param_cache = {}
+      # A TRACK IS HEARD WITHOUT BEING ASKED. Every track the engine lists
+      # has a monitor here, by id: a live_audio_stereo on the track's return
+      # into the mixer, so `track_midi :e3, track: :surge` sounds with nothing else
+      # written, and a plugin's own keyboard sounds from its window with no
+      # code running at all. That is a DAW's rule - a track's output reaches
+      # the master until it is routed somewhere else - and `live_track` is
+      # the routing: it takes the monitor's place while it runs
+      # (track_monitor_claim). The stream is then the live_track's: when
+      # Stop kills it, the track's audio goes with it - Stop means silence,
+      # not a switch to the main mix - and the track is heard again when
+      # something next plays or sends into it (track_monitor_park /
+      # track_touched). Only `live_track :name, :stop`, code asking for the
+      # stream to go while code still runs, hands the track straight back
+      # (track_monitor_release). @track_claimed holds the ids a live_track
+      # has or had; @track_parked the ones whose live_track has gone.
+      @track_monitors = {}
+      @track_claimed = Set.new
+      @track_parked = Set.new
+      @track_monitor_mut = Mutex.new
+      # Made here, not in init_studio: the first track list can arrive, and
+      # the monitors with it, before init_studio has run.
+      @recorders = {}
+      @recording_mutex = Mutex.new
       # Reader-writer gate. Studio-touching methods (trigger_synth,
       # new_group, allocate_buffer, etc.) hold the read lock for the
       # duration of their work; cold_swap_reinit holds the write lock
@@ -107,12 +147,70 @@ module SonicPi
       message "Initialised SuperSonic #{@server.version}"
     end
 
+    # The :piano synth's sample table reaches the plugin the way a sample
+    # reaches the engine: as a buffer, which /supersonic/piano/wavetable points
+    # the plugin at. The asset ships as raw 16-bit integers and the engine
+    # reads audio files, so it is given a WAV header once, in the user's
+    # Sonic Pi directory (the app's own tree may be read-only).
+    def load_piano_wavetable
+      dat = Paths.piano_wavetable_path
+      unless File.exist?(dat)
+        message "Piano wavetable not found at #{dat} — :piano will be silent"
+        return
+      end
+      cache = File.join(Paths.home_dir_path, "cache")
+      FileUtils.mkdir_p(cache)
+      wav = File.join(cache, "piano_wavetable.wav")
+      Studio.write_piano_wavetable_wav(dat, wav)
+      buf = @server.buffer_alloc_read(wav)
+      buf.wait_for_allocation
+      @server.piano_wavetable(buf)
+      @server.buffer_free(buf)
+    end
+
+    # The raw table as a mono 16-bit WAV, rewritten only when the asset is
+    # newer than the last copy. The rate is nominal: the plugin indexes the
+    # table itself and never asks.
+    def self.write_piano_wavetable_wav(dat, wav)
+      return wav if File.exist?(wav) && File.mtime(wav) >= File.mtime(dat)
+      data = File.binread(dat)
+      rate = 44100
+      header = ["RIFF", 36 + data.bytesize, "WAVE",
+                "fmt ", 16, 1, 1, rate, rate * 2, 2, 16,
+                "data", data.bytesize].pack("a4Va4a4VvvVVvva4V")
+      File.binwrite(wav, header + data)
+      wav
+    end
+
     def init_studio
       @server.load_synthdefs(Paths.synthdef_path)
+      load_piano_wavetable
       @amp = [0.0, 1.0]
       @server.add_event_handler("/sonic-pi/amp", "/sonic-pi/amp") do |payload|
         @amp = [payload[2], payload[3]]
       end
+
+      # The engine broadcasts the track list on every edit, and answers a
+      # request with the same payload under .reply; both keep the registry.
+      ["/clockwork/track/list", "/clockwork/track/list.reply"].each do |addr|
+        @server.add_event_handler(addr, addr) do |payload|
+          __receive_track_list(payload)
+        end
+      end
+      @server.add_event_handler("/clockwork/track/state", "/clockwork/track/state") do |payload|
+        id, gain, mute = payload[0], payload[1], payload[2]
+        @tracks_mut.synchronize do
+          t = @tracks.values.find { |x| x[:id] == id }
+          if t
+            t[:gain] = gain.to_f
+            t[:mute] = mute.to_i == 1
+          end
+        end
+      end
+      @server.add_event_handler("/clockwork/track/plugin/params", "/clockwork/track/plugin/params") do |payload|
+        __receive_track_params(payload)
+      end
+      request_track_list
 
       old_synthdefs = @loaded_synthdefs
       @loaded_synthdefs = Set.new
@@ -142,7 +240,6 @@ module SonicPi
       end
 
       @recorders = {}
-      @recording_mutex = Mutex.new
 
       rand_buf.wait_for_allocation
       @rand_buf_id = rand_buf.to_i
@@ -270,6 +367,338 @@ module SonicPi
     def trigger_live_synth(name_id, synth_name, group, args, info, now=false, t_minus_delta=false, pos=:tail, pre_trig, on_move_blk)
       check_for_server_rebooting!(:trigger_live_synth)
       @server.trigger_live_synth(name_id, pos, group, synth_name, args, info, now, t_minus_delta, pre_trig, on_move_blk)
+    end
+
+    # ── Tracks ──────────────────────────────────────────────────────────────
+
+    def request_track_list
+      @server.osc "/clockwork/track/list"
+    rescue Exception => e
+      STDOUT.puts "Studio - track list request failed: #{e.message}"
+    end
+
+    # /clockwork/track/list <lane_base> <count> then per track
+    #   <id> <slot> <name> <send_ch> <return_ch> <gain> <mute> <node_count>
+    #   then per node <handle> <is_instrument> <bypass> <channel> <name>
+    #   <vendor> <format> <path> <index> <latency>
+    # The field counts here ARE the wire format: one field out and every
+    # track after the first with a plugin reads as garbage (a track once
+    # showed up as :1 - its id, where its name should have been).
+    # Channels are the engine's 0-based; the language wants 1-based bus
+    # numbers, added on the way out (track_send_channel).
+    def __receive_track_list(payload)
+      p = payload.to_a
+      lane_base = p[0].to_i
+      count     = p[1].to_i
+      i = 2
+      tracks = {}
+      count.times do
+        id, slot, name, send_ch, return_ch, gain, mute, node_count = p[i, 8]
+        i += 8
+        nodes = []
+        node_count.to_i.times do
+          handle, is_inst, bypass, channel, nname, vendor, format, path, index, latency = p[i, 10]
+          i += 10
+          nodes << {handle: handle.to_i, instrument: is_inst.to_i == 1, bypass: bypass.to_i == 1,
+                    channel: channel.to_i,
+                    name: nname.to_s, vendor: vendor.to_s, format: format.to_s,
+                    path: path.to_s, index: index.to_i, latency: latency.to_i}
+        end
+        tracks[name.to_s] = {id: id.to_i, slot: slot.to_i, name: name.to_s,
+                             send: send_ch.to_i, return: return_ch.to_i,
+                             gain: gain.to_f, mute: mute.to_i == 1, nodes: nodes}
+      end
+      @tracks_mut.synchronize do
+        @tracks = tracks
+        @track_lane_base = lane_base
+        @track_param_cache.clear
+        @tracks_generation += 1
+        @tracks_cv.broadcast
+      end
+      __sync_track_monitors
+    rescue Exception => e
+      STDOUT.puts "Studio - malformed track list: #{e.message}"
+    end
+
+    # The level a run's own mixer gives everything it plays (job_mixer in
+    # lang/sound.rb), so a track sounds the same by default as it does
+    # through live_track.
+    TRACK_MONITOR_AMP = 0.3
+
+    # Bring the monitors into line with the track list: one for every
+    # track no live_track has, none for a track that has gone. Reads the
+    # registry rather than taking a list, so it serves the list's arrival,
+    # a live_track's release and a rebuilt server alike.
+    def __sync_track_monitors
+      return if @rebooting || @mixer_group.nil?
+      wanted = @tracks_mut.synchronize do
+        @tracks.values.map { |t| [t[:id], t[:return]] }.to_h
+      end
+      @track_monitor_mut.synchronize do
+        @track_claimed &= wanted.keys.to_set
+        @track_parked &= @track_claimed
+        @track_monitors.each do |id, m|
+          # Gone, or moved to another return: its monitor reads the wrong lane.
+          next if wanted[id] == m[:return]
+          m[:node].kill(true)
+          @track_monitors.delete(id)
+        end
+        wanted.each do |id, ret|
+          next if @track_monitors.key?(id) || @track_claimed.include?(id)
+          info = Synths::SynthInfo.get_info(:live_audio_stereo)
+          node = @server.trigger_synth(:head, @mixer_group, "sonic-pi-live_audio_stereo",
+                                       {"input" => ret + 1, "out_bus" => @mixer_bus.to_i,
+                                        "amp" => TRACK_MONITOR_AMP}, info, true)
+          @track_monitors[id] = {node: node, return: ret}
+        end
+      end
+      # A track made while nothing ran must be heard now, not on the next
+      # run: the graph was paused for want of anything to play.
+      @recording_mutex.synchronize do
+        @server.node_run(0, true) if @paused && tracks?
+      end
+    rescue Exception => e
+      STDOUT.puts "Studio - track monitor sync failed: #{e.message}"
+    end
+
+    def tracks?
+      @tracks_mut.synchronize { !@tracks.empty? }
+    end
+
+    # A live_track is taking the track's audio into a run. The monitor goes
+    # at spider time, when the live synth starts, so the track neither
+    # doubles nor drops out at the handover.
+    def track_monitor_claim(id)
+      @track_monitor_mut.synchronize do
+        @track_claimed << id
+        m = @track_monitors.delete(id)
+        m[:node].kill(false) if m
+      end
+    end
+
+    # The live_track's node has gone - Stop, or a kill. The track stays
+    # silent: the stream was the live_track's.
+    def track_monitor_park(id)
+      @track_monitor_mut.synchronize do
+        @track_parked << id if @track_claimed.include?(id)
+      end
+    end
+
+    # `live_track :name, :stop`: the track is heard on the main mix again.
+    # Order-proof against the node's own park: a released id is not
+    # claimed, so a park arriving later does nothing.
+    def track_monitor_release(id)
+      @track_monitor_mut.synchronize do
+        @track_claimed.delete(id)
+        @track_parked.delete(id)
+      end
+      __sync_track_monitors
+    end
+
+    # Something is playing or sending into the track. A parked one is heard
+    # on the main mix again; any other is left as it is.
+    def track_touched(name)
+      t = track_info(name)
+      return unless t
+      id = t[:id]
+      parked = @track_monitor_mut.synchronize do
+        @track_parked.delete?(id) && @track_claimed.delete(id)
+      end
+      __sync_track_monitors if parked
+    end
+
+    def track_id(name)
+      track_lookup!(name)[:id]
+    end
+
+    def track_names
+      @tracks_mut.synchronize { @tracks.keys.dup }
+    end
+
+    def track_info(name)
+      @tracks_mut.synchronize { t = @tracks[name.to_s]; t && t.dup }
+    end
+
+    # The track's picture, or a fresh one from the engine. A name the
+    # registry doesn't know is first asked about — a broadcast may have
+    # been missed, or the track made a moment ago — and only then refused,
+    # with the names that would have worked.
+    def track_lookup!(name)
+      key = name.to_s
+      t = track_info(key)
+      return t if t
+      gen = @tracks_mut.synchronize { @tracks_generation }
+      request_track_list
+      @tracks_mut.synchronize do
+        deadline = Time.now + 1.0
+        while @tracks_generation == gen && (rem = deadline - Time.now) > 0
+          @tracks_cv.wait(@tracks_mut, rem)
+        end
+        t = @tracks[key]
+        return t.dup if t
+        if @track_lane_base == 0
+          raise "This SuperSonic has no track lanes, so :#{key} cannot be reached from code. Tracks need a build with plugin hosting."
+        end
+        known = @tracks.keys
+        hint = known.empty? ? "There are no tracks yet - make one in the Tracks panel." :
+                              "Tracks: #{known.map { |k| ":#{k}" }.join(", ")}"
+        raise "Unknown track :#{key}. #{hint}"
+      end
+    end
+
+    # /clockwork/track/plugin/params <handle> <total> <offset> <count>
+    #   per param: <id> <name> <min> <max> <value> <group> <group_name> <automatable>
+    # One page. Only the names are kept; the values belong to the GUI.
+    #
+    # THE PAGES ARE BROADCAST, AND THE GUI HEARS THEM TOO. Every page is
+    # taken in, wherever it came from - a list the panel fetched is a list
+    # track_control need not - but the NEXT page is asked for only when this
+    # one is new, and only for a list this side asked for. Two listeners
+    # that each continued every page they heard made two requests per page,
+    # four per page after that, and Surge's sixty pages became seventeen
+    # thousand.
+    def __receive_track_params(payload)
+      p = payload.to_a
+      handle, total, offset, count = p[0].to_i, p[1].to_i, p[2].to_i, p[3].to_i
+      names = count.times.map { |k| p[4 + k * 8 + 1].to_s }
+      # min and max, by name: what a value is checked against before it is
+      # sent. A plugin's range is whatever its own controller says — a JUCE
+      # plugin such as Surge XT says 0..1 for every knob.
+      ranges = {}
+      count.times { |k| ranges[names[k]] = [p[4 + k * 8 + 2].to_f, p[4 + k * 8 + 3].to_f] }
+      advance = false
+      @tracks_mut.synchronize do
+        list = (@track_params[handle] ||= {total: total, names: [], ranges: {}, got: 0, wanted: false})
+        list[:total] = total
+        if offset == 0 && list[:got] > 0
+          list[:names] = []
+          list[:ranges] = {}
+          list[:got] = 0
+        end
+        if offset == list[:got]
+          list[:names].concat(names)
+          list[:ranges].merge!(ranges)
+          list[:got] = offset + count
+          advance = list[:wanted] && count > 0 && list[:got] < total
+        end
+        @track_param_cache.clear
+        @tracks_generation += 1
+        @tracks_cv.broadcast
+      end
+      __request_track_params(handle, offset + count) if advance
+    rescue Exception => e
+      STDOUT.puts "Studio - malformed track parameter page: #{e.message}"
+    end
+
+    def __request_track_params(handle, offset = 0)
+      @tracks_mut.synchronize do
+        list = (@track_params[handle] ||= {total: 0, names: [], ranges: {}, got: 0, wanted: false})
+        list[:wanted] = true
+      end
+      @server.osc "/clockwork/track/plugin/params", handle.to_i, offset.to_i
+    rescue Exception => e
+      STDOUT.puts "Studio - track parameter request failed: #{e.message}"
+    end
+
+    # True once every plugin on the track has its whole parameter list.
+    def __track_params_complete?(t)
+      t[:nodes].all? do |n|
+        l = @track_params[n[:handle]]
+        l && l[:got] >= l[:total]
+      end
+    end
+
+    # The opt key a plugin parameter goes by in code: "Filter 1 Cutoff" is
+    # filter_1_cutoff:. Lower case, every run of anything but a letter or
+    # digit made one underscore, none at the ends; a leading digit gets an
+    # underscore in front so it can be a symbol. The editor's completion
+    # applies the same rule (app/gui/utils/trackparam.h); they must agree.
+    def self.track_param_key(name)
+      k = name.to_s.downcase.gsub(/[^a-z0-9]+/, "_").gsub(/\A_+|_+\z/, "")
+      k = "_" + k if k =~ /\A\d/
+      k
+    end
+
+    # A parameter the track's plugins know by that name — exactly, ignoring
+    # case (the engine's own rule), or by its opt key — resolved to the name
+    # the plugin uses, from the first plugin in the chain that has it, with
+    # that plugin's handle and the parameter's min and max.
+    # Refused, with the nearest names, when none does: a knob that does not
+    # exist is the commonest way for a control to do nothing. Looked up on
+    # every note that carries a parameter, so the answers are kept; the
+    # cache goes whenever the tracks or a list change.
+    def track_param_lookup!(name, param)
+      t = track_lookup!(name)
+      key = param.to_s
+      raise "Track :#{t[:name]} has no plugins yet, so there is no parameter to set. Add one in the Tracks panel." if t[:nodes].empty?
+      cached = @tracks_mut.synchronize { @track_param_cache[[t[:name], key]] }
+      return cached if cached
+      complete = @tracks_mut.synchronize { __track_params_complete?(t) }
+      unless complete
+        t[:nodes].each do |n|
+          l = @tracks_mut.synchronize { @track_params[n[:handle]] }
+          __request_track_params(n[:handle], l ? l[:got] : 0) if l.nil? || l[:got] < l[:total]
+        end
+        @tracks_mut.synchronize do
+          deadline = Time.now + 2.0
+          while !__track_params_complete?(t) && (rem = deadline - Time.now) > 0
+            @tracks_cv.wait(@tracks_mut, rem)
+          end
+        end
+      end
+      # Each plugin's names, in chain order, with the plugin they belong to.
+      # The answer is a name AND a handle: the engine sets that plugin's
+      # parameter, not the first in the chain that happens to share the name.
+      per_node = @tracks_mut.synchronize do
+        t[:nodes].map { |n| [n, (@track_params[n[:handle]] || {names: []})[:names]] }
+      end
+      with_range = lambda do |f, node|
+        r = @tracks_mut.synchronize { (@track_params[node[:handle]] || {})[:ranges].to_h[f] }
+        [f, node[:handle], *r]
+      end
+      k = Studio.track_param_key(key)
+      resolve = lambda do |names|
+        names.find { |n| n == key } || names.find { |n| n.casecmp?(key) } ||
+          (k.empty? ? nil : names.find { |n| Studio.track_param_key(n) == k })
+      end
+      found = nil
+      per_node.each do |node, names|
+        f = resolve.call(names)
+        found = with_range.call(f, node) if f
+        break if found
+      end
+      # A key under the plugin's own name — surge_xt_effects_mix: — reaches a
+      # plugin further down the chain than the first to have a Mix.
+      unless found || k.empty?
+        per_node.each do |node, names|
+          pk = Studio.track_param_key(node[:name])
+          next if pk.empty? || !k.start_with?("#{pk}_")
+          rest = k[(pk.length + 1)..-1]
+          f = names.find { |n| Studio.track_param_key(n) == rest }
+          found = with_range.call(f, node) if f
+          break if found
+        end
+      end
+      if found
+        @tracks_mut.synchronize { @track_param_cache[[t[:name], key]] = found }
+        return found
+      end
+      # Unknown. The plugin's names are a better answer than "no".
+      names = per_node.flat_map { |_, ns| ns }
+      words = key.downcase.split(/[\s_]+/).reject(&:empty?)
+      near = names.select { |n| d = n.downcase; words.any? { |w| d.include?(w) } }.uniq.first(8)
+      hint = near.empty? ? "The parameter names are on the device in the Tracks panel, or in its own window." :
+                           "Did you mean: #{near.map { |n| "#{Studio.track_param_key(n)}: (#{n.inspect})" }.join(", ")}"
+      raise "Unknown parameter #{key.inspect} on track :#{t[:name]}. #{hint}"
+    end
+
+    # 1-based, as the sound_out_stereo FX and live_audio synths count.
+    def track_send_channel(name)
+      track_lookup!(name)[:send] + 1
+    end
+
+    def track_return_channel(name)
+      track_lookup!(name)[:return] + 1
     end
 
     # Ensure a Link Audio subscription is active for (peer, channel) and
@@ -502,7 +931,18 @@ module SonicPi
         if bus != 0
           message "recording: bus=#{bus} ignored — only main output (bus 0) is recorded"
         end
-        @server.osc "/supersonic/record/start", path, "wav", 24
+        # The front (SuperSonic's process) records the master tap and
+        # answers record/start.reply <ok> <path|error>; wait for it so a
+        # refusal is reported here rather than discovered at save time.
+        t0 = Time.now
+        reply = @server.osc_with_reply("/clockwork/record/start.reply", 2, "/clockwork/record/start", path, "wav", 24)
+        log_message "recording: start -> #{reply.inspect} (#{((Time.now - t0) * 1000).round} ms)"
+        if reply.nil?
+          message "recording: no reply from the engine to record/start"
+        elsif reply[0].to_i != 1
+          message "recording: could not start — #{reply[1]}"
+          return false
+        end
         @recorders[bus] = [path]
         true
       end
@@ -517,11 +957,16 @@ module SonicPi
       return false unless @recorders[bus]
       @recording_mutex.synchronize do
         return false unless @recorders[bus]
-        @server.osc "/supersonic/record/stop"
+        # Wait for record/stop.reply: the file is finished only once the
+        # front has closed it, and a save moves it straight after this.
+        t0 = Time.now
+        reply = @server.osc_with_reply("/clockwork/record/stop.reply", 5, "/clockwork/record/stop")
+        log_message "recording: stop -> #{reply.inspect} (#{((Time.now - t0) * 1000).round} ms)"
+        message "recording: no reply from the engine to record/stop" if reply.nil?
         @recorders.delete bus
 
         # ensure nodes are all paused if we are in a paused state
-        @server.node_pause(0, true) if @paused
+        __pause_graph if @paused
 
         true
       end
@@ -614,7 +1059,7 @@ module SonicPi
         # Rebuild needs Studio methods to work — open the gate
         @rebooting = false
 
-        # Phase 1.5: Re-register Spider as a /supersonic/notify target.
+        # Phase 1.5: Re-register Spider as a /clockwork/notify target.
         # supersonic builds a fresh World on driver-switch / cold-swap, and
         # the new World's notify-subscribers list is empty. If we skip this,
         # Phase 2's /d_loadDir and Phase 3's /sync (in clear_scsynth!) send
@@ -628,6 +1073,9 @@ module SonicPi
           ok = @server.register_for_notifications!(timeout: 5.0)
           STDOUT.puts "Studio - Phase 1.5: Notify re-register #{ok ? 'OK' : 'TIMEOUT'} (#{(Time.now - start).round(2)}s)"
           STDOUT.flush
+          # The lanes may sit at a new base after a device change; the
+          # list carries it.
+          request_track_list
         rescue Exception => e
           log_phase_err.call("re-registering notify target", e)
         end
@@ -660,12 +1108,12 @@ module SonicPi
 
         # Phases 4-6 all need the mixer group, which Phase 3's
         # reset_and_setup_groups_and_busses creates. It's nil when a reply
-        # was lost mid-swap (a second /supersonic/setup wiping the /notify
+        # was lost mid-swap (a second /clockwork/setup wiping the /notify
         # subscribers list, or Phase 3's fetch_scsynth_info! /sync timing
         # out), so running them anyway just produces noisy `nil.subnode_add`
         # NoMethodErrors. Skip cleanly: __cold_swap_reinit! reports the pass
         # as incomplete and the debounce thread in spider-server.rb schedules
-        # its own retry pass — it must not wait for another /supersonic/setup,
+        # its own retry pass — it must not wait for another /clockwork/setup,
         # which never comes when the timeout was the swap's last event. Runs
         # arriving in the window get StudioCurrentlyRebootingError from
         # trigger_synth's nil-group guard.
@@ -755,11 +1203,22 @@ module SonicPi
     def pause(silent=true)
       @recording_mutex.synchronize do
         unless recording? || @paused
-          @server.node_pause(0, true)
+          __pause_graph
           message "Pausing SuperSonic Audio Server" unless silent
         end
         @paused = true
       end
+    end
+
+    # Nothing is running: rest the graph. Unless a track is on it - a track
+    # is heard whether or not code runs (its plugin's own keyboard, a
+    # reverb's tail after Stop), so with tracks present the graph stays up
+    # and what stops is the NOTES. Every instrument gets its notes off,
+    # which is what Stop means on a DAW, and what a note needs when the
+    # thread holding its note-off has just been killed.
+    def __pause_graph
+      @server.track_all_notes_off(nil) if tracks?
+      @server.node_pause(0, true) unless tracks?
     end
 
     def start(silent=true)
@@ -843,6 +1302,13 @@ module SonicPi
       # AudioBus allocator is about to be wiped; drop subscription records
       # so a post-reset link_audio call allocates fresh.
       @link_audio_mut.synchronize { @link_audio_subs.clear }
+      # Every live_track is gone with the server, and none is coming back
+      # to claim: every track is heard on the main mix from the restart.
+      @track_monitor_mut.synchronize do
+        @track_monitors.clear
+        @track_claimed.clear
+        @track_parked.clear
+      end
       @server.reset!
       log_message "Allocating audio bus"
       @mixer_bus = @server.allocate_audio_bus
@@ -859,6 +1325,7 @@ module SonicPi
       reset_and_setup_groups_and_busses
       start_mixer
       start_scope
+      __sync_track_monitors
     end
 
     def start_mixer

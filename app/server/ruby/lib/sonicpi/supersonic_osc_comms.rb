@@ -20,7 +20,7 @@ module SonicPi
   class SupersonicOscComms < SupersonicComms
     def initialize(supersonic_host, supersonic_port)
       super(supersonic_host, supersonic_port,
-            address_space: "/osc",
+            address_space: "/clockwork/osc",
             name: "SuperSonic OSC Comms")
     end
 

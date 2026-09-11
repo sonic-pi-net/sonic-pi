@@ -54,7 +54,7 @@ public:
     void updateScsynthInfo(QString scsynthInfo);
     void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
     void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
-    // Per-driver device table push (/supersonic/device-table). Stores the
+    // Per-driver device table push (/clockwork/device-table). Stores the
     // table and re-renders both device combos from it; absent on engines
     // that predate the message, in which case the combos keep filtering
     // the flat lists by deviceTypes.
@@ -270,7 +270,7 @@ private:
     bool       asio_saved_input_checked = false;
     bool       asio_constraint_applied  = false;
     // The driver the engine actually has open right now (last reported
-    // by /supersonic/info → updateAudioDeviceConfig). Used by
+    // by /clockwork/info → updateAudioDeviceConfig). Used by
     // updateAudioDevices to detect "user picked Driver=ASIO but engine
     // hasn't actually moved there yet" — in which case the Output
     // dropdown shows -- None -- instead of the current device name
@@ -424,7 +424,7 @@ public:
     // sticky=true for anything the user must actually get a chance to read.
     void setAudioStatus(const QString& text, bool sticky = false);
 
-    // The engine refused a /supersonic/devices/reopen (in-flight or
+    // The engine refused a /clockwork/devices/reopen (in-flight or
     // cooldown) — cancel the in-progress feedback and say why.
     void deviceReopenRejected(const QString& reason);
 
@@ -455,7 +455,7 @@ private:
     SonicPi::AudioDevicesInfo m_lastAudioDevicesInfo;
     // Cached input-devices payload, used by audioDriverChanged to
     // re-render the input combo with the new driver's filter without
-    // waiting for another /supersonic/input-devices push.
+    // waiting for another /clockwork/input-devices push.
     SonicPi::AudioInputDevicesInfo m_lastAudioInputDevicesInfo;
     // Per-driver device table; m_hasAudioDeviceTable stays false on engines
     // that never broadcast it, keeping the combos on the flat-list path.

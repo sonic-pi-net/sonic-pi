@@ -15,6 +15,7 @@
 #include <QVector>
 #include <QWidget>
 #include <memory>
+#include <vector>
 
 class QTableWidget;
 class QGridLayout;
@@ -22,14 +23,25 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 class QSlider;
-class QUdpSocket;
 class QTimer;
 class LinkVisibilityToggle;
 
-namespace SonicPi { class SonicPiAPI; }
+namespace SonicPi {
+class SonicPiAPI;
+struct LinkAudioChannelInfo;
+struct LinkAudioInputInfo;
+}
 
 // Panel: peer-name field, Share-Audio toggle, and the list of Link Audio
 // channels announced by other peers. Persists peer-name + share-audio to QSettings.
+//
+// It asks the engine through the API's command connection
+// (SupersonicSendOSC) and the answers come back through the API's client
+// (IAPIClient::LinkAudioChannels / LinkAudioInputs → MainWindow → onChannels /
+// onInputs). Not through a socket of its own: the engine serves one command
+// transport, and a datagram to the port the daemon calls "scsynth" reaches
+// nothing when that transport is a stream — which is how this table stayed
+// empty with peers in the session.
 class LinkAudioStreamsWidget : public QWidget
 {
     Q_OBJECT
@@ -78,6 +90,10 @@ public slots:
     void applyMasterVisibility(int mode);
     // Called by SonicPiMetro when the Link button toggles.
     void applyLinkEnabled(bool enabled);
+    // The engine's answers, via MainWindow: every channel other peers
+    // announce, and our active subscriptions.
+    void onChannels(const std::vector<SonicPi::LinkAudioChannelInfo>& channels);
+    void onInputs(const std::vector<SonicPi::LinkAudioInputInfo>& inputs);
 
 signals:
     // In-panel visibility toggle changed; MainWindow handles it via the
@@ -90,7 +106,6 @@ signals:
 
 private slots:
     void refresh();
-    void readPendingDatagrams();
     void onPeerNameEdited();
     void onShareAudioToggled(bool checked);
     void onLatencySliderChanged(int ms);
@@ -108,13 +123,13 @@ private:
     QLabel*               m_latencyValueLabel = nullptr;
     QTableWidget*         m_peersTable = nullptr;
     QGridLayout*          m_idGrid = nullptr;   // the identity controls row
-    QUdpSocket*   m_socket = nullptr;
     QTimer*       m_pollTimer = nullptr;
     int           m_currentVisibility = 1;  // 1 = Local, 2 = Network
     bool          m_linkEnabled = false;
 
+    // Announced channels, sorted by peer then channel, refreshed each poll.
     QVector<PeerChannel> m_channels;
-    // Active subscriptions, refreshed each poll from /clock/audio/inputs.reply.
+    // Active subscriptions, refreshed each poll.
     QVector<InputStatus> m_inputs;
 
     void renderPeersTable();

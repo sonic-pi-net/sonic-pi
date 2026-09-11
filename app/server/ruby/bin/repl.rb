@@ -217,7 +217,7 @@ module SonicPi
 
 
     def add_incoming_osc_handlers!(osc)
-      osc.add_method("/supersonic/info") do |msg|
+      osc.add_method("/clockwork/info") do |msg|
         async_puts "SuperSonic Info:", :blue
         async_puts "================", :blue
         async_puts ""

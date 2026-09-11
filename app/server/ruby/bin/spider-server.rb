@@ -814,36 +814,36 @@ register_api = lambda do |server|
     end
   end
 
-  # Debounce /supersonic/setup bursts — reinit once after 1s quiet
+  # Debounce /clockwork/setup bursts — reinit once after 1s quiet
   last_setup_time = nil
   setup_mutex = Mutex.new
   setup_cv = ConditionVariable.new
   setup_thread = nil
 
-  # /supersonic/setup carries [sample_rate, buffer_size, generation] where
+  # /clockwork/setup carries [sample_rate, buffer_size, generation] where
   # generation increments only on a real World rebuild (cold swap). The
   # engine also REPLAYS the current setup to each new notify registrant
   # (stream transports connect after boot and miss the boot broadcast) —
   # dedup by generation so a replay never triggers a spurious reinit.
   last_setup_generation = nil
 
-  server.add_method("/supersonic/setup") do |args|
+  server.add_method("/clockwork/setup") do |args|
     generation = args[2]
     unless spider_boot_complete
-      STDOUT.puts "Spider - received /supersonic/setup gen #{generation} (boot) - skipping"
+      STDOUT.puts "Spider - received /clockwork/setup gen #{generation} (boot) - skipping"
       STDOUT.flush
       last_setup_generation = generation if generation
       next
     end
 
     if generation && generation == last_setup_generation
-      STDOUT.puts "Spider - received /supersonic/setup replay (gen #{generation}) - already current, skipping"
+      STDOUT.puts "Spider - received /clockwork/setup replay (gen #{generation}) - already current, skipping"
       STDOUT.flush
       next
     end
     last_setup_generation = generation if generation
 
-    STDOUT.puts "Spider - received /supersonic/setup gen #{generation}"
+    STDOUT.puts "Spider - received /clockwork/setup gen #{generation}"
     STDOUT.flush
     setup_mutex.synchronize do
       last_setup_time = Time.now
@@ -885,7 +885,7 @@ register_api = lambda do |server|
             reinit_retries = 0
           elsif (reinit_retries += 1) <= 4
             # An aborted reinit (Phase 2 timeout) used to wait for the next
-            # /supersonic/setup to retry — but if the World has already
+            # /clockwork/setup to retry — but if the World has already
             # settled, none is coming and the studio stays broken (nil mixer
             # group) until relaunch. Queue our own pass instead.
             STDOUT.puts "Spider - reinit incomplete, scheduling retry #{reinit_retries}/4"
@@ -983,11 +983,11 @@ out_t = Thread.new do
         when :multi_message
           gui.send("/log/multi_message", message[:jobid], message[:thread_name].inspect, message[:runtime].to_s, message[:val].size, *message[:val].flatten)
         when :midi_out_ports
-          gui.send("/midi/out-ports", message[:val])
+          gui.send("/clockwork/midi/out-ports", message[:val])
         when :midi_in_ports
-          gui.send("/midi/in-ports", message[:val])
+          gui.send("/clockwork/midi/in-ports", message[:val])
         when :gamepad_devices
-          gui.send("/gamepad/devices-list", message[:val])
+          gui.send("/clockwork/gamepad/devices-list", message[:val])
         when :link_num_peers
           gui.send("/link-num-peers", message[:val])
         when :link_bpm
