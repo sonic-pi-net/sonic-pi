@@ -2,12 +2,15 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Sonic Pi
 Upstream-Contact: Sam Aaron <sam@sonic-pi.net>
 Source: https://github.com/sonic-pi-net/sonic-pi
-Files-Excluded: app/external/supersonic/external_libs/ASIOSDK2.3.4
+Files-Excluded: app/external/supersonic/clockwork/external/ASIOSDK2.3.4
 Comment: The Steinberg ASIO SDK (Windows-only; dual-licensed proprietary or
  GPL-3) is excluded from the Debian source tarball because the directory also
  carries non-free documentation PDFs and trademark-encumbered logo artwork.
  It is not used on Linux. This mirrors the exclusion in the supersonic
- repository's own Debian packaging.
+ repository's own Debian packaging. The SDK lives in clockwork, the substrate
+ supersonic runs on: a submodule of the supersonic submodule, which the orig
+ tarball carries under app/external/supersonic/clockwork (git archive of the
+ pinned commit) so the source package is the whole program.
 
 Files: *
 Copyright: 2012-2026 Sam Aaron and contributors

@@ -53,7 +53,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: true
+          # recursive, not true: the engine (app/external/supersonic) carries
+          # clockwork as a submodule of its own, and the source assembly
+          # archives both trees and vendors the Rust crates across both.
+          submodules: recursive
 
       - name: Start ${{ matrix.dist }} container
         run: |

@@ -75,15 +75,16 @@ if(UNIX)
         m)
 endif()
 
-# SuperSonic's system-library switches (used by distribution packagers) and
-# the FetchContent offline controls only act inside the nested build, so
-# forward any that were set on this configure.
+# clockwork's distro switches (system zlib and stb, cargo offline, an
+# installed bridge directory — the ones packaging/debian/rules sets) and the
+# FetchContent offline controls only act inside the nested build, so forward
+# any that were set on this configure.
 set(SUPERSONIC_FORWARD_ARGS "")
 foreach(opt
-    SUPERSONIC_SYSTEM_JUCE
-    SUPERSONIC_SYSTEM_SNDFILE
-    SUPERSONIC_SYSTEM_BOOST
-    SUPERSONIC_CARGO_OFFLINE
+    CLOCKWORK_SYSTEM_ZLIB
+    CLOCKWORK_SYSTEM_STB
+    CLOCKWORK_CARGO_OFFLINE
+    CLOCKWORK_PLUGIN_BRIDGE_DIR
     FETCHCONTENT_FULLY_DISCONNECTED
     FETCHCONTENT_SOURCE_DIR_ABLETONLINK)
     if(DEFINED ${opt})
@@ -102,6 +103,13 @@ endforeach()
 # The option names are clockwork's: the product name is CLOCKWORK_PRODUCT_NAME
 # and plugin hosting is CLOCKWORK_PLUGINS.
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/supersonic.cmake)
+
+# VST3 + CLAP hosting: the whole reason for the engine swap, so ON here and
+# named rather than inherited. It is an option, not a constant, because the
+# SDKs are fetched at configure time and Debian ships neither: the package
+# build (packaging/debian/rules) turns it off, and with it goes the plugin
+# bridge — the copy step below knows.
+option(CLOCKWORK_PLUGINS "Host VST3 and CLAP plugins in the engine (fetches the SDKs at configure time)" ON)
 #
 # PREFIX and BINARY_DIR are deliberately SHORT, and on Windows that is not
 # cosmetic. Left to itself ExternalProject builds under
@@ -126,9 +134,8 @@ ExternalProject_Add(supersonic
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DBUILD_TESTS=OFF
         "-DCLOCKWORK_PRODUCT_NAME=${SUPERSONIC_PRODUCT_NAME}"
-        # VST3 + CLAP hosting. ON by default in the harness, named here because
-        # it is the whole reason for the swap and should not be silent.
-        -DCLOCKWORK_PLUGINS=ON
+        # VST3 + CLAP hosting (the option above).
+        -DCLOCKWORK_PLUGINS=${CLOCKWORK_PLUGINS}
         # Ableton Link. Sonic Pi has always shipped it (link_sync, the peer
         # count, the GUI's tempo scrub), and clockwork's default is OFF: an
         # engine built without it changed tempo as a session of one.
@@ -224,6 +231,9 @@ endif()
 # application capture and the Syphon publisher select it by that); the
 # directory is copied whole, and a flat binary left by an older build is
 # removed so the engine cannot pick the stale one.
+#
+# No plugins, no bridge: clockwork only builds it under CLOCKWORK_PLUGINS, so a
+# build with hosting off (the Debian package) has nothing to copy.
 if(WIN32)
     set(SUPERSONIC_BRIDGE_FILE "${SUPERSONIC_BRIDGE_NAME}.exe")
 elseif(APPLE)
@@ -231,7 +241,9 @@ elseif(APPLE)
 else()
     set(SUPERSONIC_BRIDGE_FILE "${SUPERSONIC_BRIDGE_NAME}")
 endif()
-if(APPLE)
+if(NOT CLOCKWORK_PLUGINS)
+    set(_ss_bridge_cmd "")
+elseif(APPLE)
     set(_ss_bridge_cmd
         COMMAND ${CMAKE_COMMAND} -E rm -f
             "${CMAKE_CURRENT_SOURCE_DIR}/../server/native/${SUPERSONIC_BRIDGE_NAME}"

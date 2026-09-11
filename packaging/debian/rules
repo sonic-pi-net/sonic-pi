@@ -6,20 +6,25 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 INSTALL_ROOT = /usr/lib/sonic-pi
 
-# The nested SuperSonic build takes libsndfile (with its codecs) from the
-# Debian archive via its SUPERSONIC_SYSTEM_* switches — see
-# docs/DEBIAN-PACKAGING.md in app/external/supersonic, whose own Debian
-# package proves this combination in CI. The audio-device layer is
-# supersmoothy, SuperSonic's vendored ISC fork of the JUCE 7 modules, so
-# there is no system JUCE to link.
+# The engine is SuperSonic, scsynth hosted on clockwork (app/external/
+# supersonic and its clockwork submodule). Its distro switches are
+# clockwork's, and this is the combination supersonic's own Debian package
+# proves in CI (app/external/supersonic/packaging/debian/rules): zlib and
+# stb (stb_vorbis) from the archive, and plugin hosting off — the CLAP and
+# VST3 SDKs are fetched at configure time and Debian ships neither, so the
+# packaged engine has no plugin bridge and no tracks. app/external/
+# CMakeLists.txt forwards these into the nested build.
 SUPERSONIC_ARGS = \
-  -DSUPERSONIC_SYSTEM_SNDFILE=ON
+  -DCLOCKWORK_PLUGINS=OFF \
+  -DCLOCKWORK_SYSTEM_ZLIB=ON \
+  -DCLOCKWORK_SYSTEM_STB=ON
 
-# Fully offline when the source package carries the component trees the
-# supersonic repo's make-debian-source.sh produces: `link` (pristine Ableton
-# Link 4.0 — Debian's ableton-link-dev is 3.x) and `rust-vendor` (cargo
-# vendor for the committed lockfile). Building straight from the git tree
-# without them still works, but fetches both from the network.
+# Fully offline when the source package carries the component trees
+# linux-debian-source.sh produces (mirroring the supersonic repo's
+# make-debian-source.sh): `link` (pristine Ableton Link 4.0 — Debian's
+# ableton-link-dev is 3.x) and `rust-vendor` (cargo vendor for the committed
+# lockfile). Building straight from the git tree without them still works,
+# but fetches both from the network.
 ifneq (,$(wildcard $(CURDIR)/link))
 SUPERSONIC_ARGS += \
   -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
@@ -29,7 +34,7 @@ endif
 ifneq (,$(wildcard $(CURDIR)/rust-vendor))
 export CARGO_HOME = $(CURDIR)/debian/cargo-home
 export CARGO_NET_OFFLINE = true
-SUPERSONIC_ARGS += -DSUPERSONIC_CARGO_OFFLINE=ON
+SUPERSONIC_ARGS += -DCLOCKWORK_CARGO_OFFLINE=ON
 endif
 
 %:

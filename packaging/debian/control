@@ -9,16 +9,15 @@ Build-Depends:
  fonts-hack,
  libasound2-dev,
  libaubio-dev,
- libflac-dev,
  libfontconfig-dev,
  libfreetype-dev,
  libjack-jackd2-dev | libjack-dev,
- libogg-dev,
+ libpipewire-0.3-dev,
  libqscintilla2-qt6-dev,
  libqt6opengl6-dev,
  libsndfile1-dev,
+ libstb-dev,
  libudev-dev,
- libvorbis-dev,
  libx11-dev,
  libxcomposite-dev,
  libxcursor-dev,
@@ -36,6 +35,7 @@ Build-Depends:
  ruby-minitest,
  ruby-mocha,
  rustc,
+ zlib1g-dev,
 Standards-Version: 4.7.2
 Homepage: https://sonic-pi.net
 Rules-Requires-Root: no

@@ -6,7 +6,9 @@
 # Layout produced (in app/build/debian/):
 #   sonic-pi_<uv>.orig.tar.xz             git archive of HEAD with the
 #                                         supersonic submodule tree spliced
-#                                         in, minus the Files-Excluded set in
+#                                         in, and clockwork (supersonic's own
+#                                         submodule) spliced into that, minus
+#                                         the Files-Excluded set in
 #                                         packaging/debian/copyright
 #   sonic-pi_<uv>.orig-link.tar.xz        pristine Ableton Link 4.0 with its
 #                                         asio-standalone submodule
@@ -17,9 +19,10 @@
 # The Link and rust-vendor components mirror the ones the supersonic repo's
 # scripts/make-debian-source.sh produces (packaging/debian/rules consumes
 # them at the source root) — keep the sanitising logic in sync with that
-# script. The four Link patches stay single-sourced in the submodule's
-# external/*.patch; they are path-shifted under link/ into debian/patches
-# here so dpkg-source applies them to the component tree.
+# script. The four Link patches are clockwork's (single-sourced in
+# app/external/supersonic/clockwork/external/link-*.patch); they are
+# path-shifted under link/ into debian/patches here so dpkg-source applies
+# them to the component tree.
 #
 # Versioning: releases (HEAD == tag v<VERSION>) get <version>-1; anything
 # else gets <version>+git<date>.<sha>-1~ci1 so snapshot packages sort below
@@ -28,7 +31,7 @@
 #
 # Needs network (Link clone + crates.io) — run it in the *networked* CI
 # phase; the package build itself then proves it needs none. Archives HEAD
-# (and the submodule's HEAD), so uncommitted changes are not included.
+# (and each submodule's HEAD), so uncommitted changes are not included.
 #
 # Usage: ./linux-debian-source.sh [workdir]   (default: app/build/debian)
 
@@ -37,6 +40,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SUPERSONIC="$SCRIPT_DIR/external/supersonic"
+CLOCKWORK="$SUPERSONIC/clockwork"
 WORK="${1:-$SCRIPT_DIR/build/debian}"
 
 LINK_TAG="Link-4.0"
@@ -72,14 +76,22 @@ mkdir -p "$WORK"
 touch "$WORK/.sonic-pi-debian-work"
 SRC="$WORK/sonic-pi-$UV"
 
-# ── Main orig tarball: HEAD + supersonic submodule, minus Files-Excluded ────
+# ── Main orig tarball: HEAD + supersonic + clockwork, minus Files-Excluded ──
 echo "=== orig tarball ==="
 git archive --format=tar --prefix="sonic-pi-$UV/" HEAD | tar -x -C "$WORK"
-# git archive records the submodule as a bare gitlink; splice the real tree in.
-mkdir -p "$SRC/app/external/supersonic"
+# git archive stops at a submodule boundary and records a bare gitlink, so
+# splice each real tree in: supersonic into the main tree, then clockwork
+# (supersonic's own submodule, the substrate the engine runs on) into that.
+# Both must be populated in the checkout — a recursive submodule update.
+[ -f "$CLOCKWORK/CMakeLists.txt" ] || {
+    echo "ERROR: $CLOCKWORK is empty — run: git submodule update --init --recursive" >&2
+    exit 1
+}
+mkdir -p "$SRC/app/external/supersonic/clockwork"
 git -C "$SUPERSONIC" archive --format=tar HEAD | tar -x -C "$SRC/app/external/supersonic"
+git -C "$CLOCKWORK" archive --format=tar HEAD | tar -x -C "$SRC/app/external/supersonic/clockwork"
 # Keep in sync with Files-Excluded in packaging/debian/copyright.
-rm -rf "$SRC/app/external/supersonic/external_libs/ASIOSDK2.3.4"
+rm -rf "$SRC/app/external/supersonic/clockwork/external/ASIOSDK2.3.4"
 tar -C "$WORK" -cJf "$WORK/sonic-pi_$UV.orig.tar.xz" "sonic-pi-$UV"
 
 # ── Link component: pristine upstream incl. submodules ──────────────────────
@@ -90,6 +102,9 @@ find "$WORK/link" -name .git -prune -exec rm -rf {} +
 tar -C "$WORK" -cJf "$WORK/sonic-pi_$UV.orig-link.tar.xz" link
 
 # ── Rust vendor component ───────────────────────────────────────────────────
+# supersonic's workspace is the one the engine build runs cargo in
+# (CLOCKWORK_RUST_WORKSPACE); its crates path-depend on clockwork's, so one
+# vendor of this lockfile covers the whole graph.
 echo "=== orig-rust-vendor tarball ==="
 (cd "$SUPERSONIC/rust" && cargo vendor "$WORK/rust-vendor")
 
@@ -141,7 +156,7 @@ cp -a "$PROJECT_ROOT/packaging/debian" "$SRC/debian"
 # Path-shift the Link patches under the link/ component.
 mkdir -p "$SRC/debian/patches"
 : > "$SRC/debian/patches/series"
-for p in "$SUPERSONIC"/external/link-*.patch; do
+for p in "$CLOCKWORK"/external/link-*.patch; do
     name="$(basename "$p")"
     sed -e 's|^--- a/|--- a/link/|' -e 's|^+++ b/|+++ b/link/|' \
         "$p" > "$SRC/debian/patches/$name"
