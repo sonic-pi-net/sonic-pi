@@ -49,8 +49,19 @@ std::vector<SonicPi::TrackInfo> sampleTracks()
     verb.name = "ValhallaSupermassive"; verb.vendor = "Valhalla DSP, LLC"; verb.format = "vst3";
     verb.path = "/Library/Audio/Plug-Ins/VST3/ValhallaSupermassive.vst3";
 
+    // A name long enough to widen its card, whose width in macOS's San
+    // Francisco has a fraction QFontMetrics rounds DOWN (261.31 -> 261): the
+    // card must still write it out whole. ValhallaSupermassive rounds down
+    // the same way in Linux's DejaVu Sans, so between them the two names
+    // pin the rounding on every platform CI runs (see fitDeviceTitle).
+    SonicPi::TrackNodeInfo massive;
+    massive.handle = 3; massive.instrument = true; massive.channel = 0;
+    massive.name = "Native Instruments Massive X"; massive.vendor = "Native Instruments";
+    massive.format = "vst3";
+    massive.path = "/Library/Audio/Plug-Ins/VST3/Massive X.vst3";
+
     SonicPi::TrackInfo a; a.id = 1; a.slot = 0; a.name = "surge";
-    a.sendChannel = 32; a.returnChannel = 32; a.nodes = { surge, verb };
+    a.sendChannel = 32; a.returnChannel = 32; a.nodes = { surge, verb, massive };
     SonicPi::TrackInfo b; b.id = 2; b.slot = 1; b.name = "verb";
     b.sendChannel = 34; b.returnChannel = 34; b.nodes = { verb };
     SonicPi::TrackInfo c; c.id = 3; c.slot = 2; c.name = "drums";

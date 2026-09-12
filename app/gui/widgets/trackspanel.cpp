@@ -22,6 +22,9 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QFont>
+#include <QFontMetrics>
+#include <QFontMetricsF>
+#include <QtMath>
 #include <QFrame>
 #include <QGraphicsOpacityEffect>
 #include <QGridLayout>
@@ -316,6 +319,14 @@ void TracksPanel::fitDeviceTitle(Device* dev)
     QFont f = RoleFont(FontRole::Base, m_fontScale);
     f.setBold(true);   // #qsCardTitle is 700
     const QFontMetrics fm(f);
+    // The name's width, rounded UP. QFontMetrics::horizontalAdvance rounds to
+    // the nearest pixel, but elidedText compares against the exact fractional
+    // width — so a name given exactly its rounded-down advance (193.98 fits
+    // in 194; 235.4 does not fit in 235) loses its last letter to an ellipsis
+    // in the font whose rounding went the other way. Which font that is
+    // depends on the platform: it was Linux's DejaVu Sans for
+    // "ValhallaSupermassive", and macOS's San Francisco for "Vital".
+    const int need = qCeil(QFontMetricsF(f).horizontalAdvance(name));
     int chrome = ScaleWidthForDPI(10) + ScaleWidthForDPI(6);
     for (QPushButton* b : { dev->bypassBtn, dev->editorBtn, dev->configureBtn, dev->leftBtn,
                             dev->rightBtn, dev->removeBtn })
@@ -324,7 +335,7 @@ void TracksPanel::fitDeviceTitle(Device* dev)
                                                                    : b->sizeHint().width();
     const int house = deviceWidth();
     const int most = house * 2;
-    const int width = qBound(house, chrome + fm.horizontalAdvance(name), most);
+    const int width = qBound(house, chrome + need, most);
     dev->frame->setFixedWidth(width);
     dev->title->setText(fm.elidedText(name, Qt::ElideRight, width - chrome));
 }
