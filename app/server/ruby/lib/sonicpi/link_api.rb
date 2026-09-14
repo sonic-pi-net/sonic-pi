@@ -13,6 +13,7 @@
 
 require_relative "util"
 require_relative "supersonic_link_comms"
+require_relative "clockwork_clock_reader"
 # OSC::Int64 — the comms chain pulls in the codec but not the wrapper types.
 require_relative "osc/osc_types"
 
@@ -30,11 +31,26 @@ module SonicPi
     # measured, so there's nothing to drift or go stale across a sleep/wake.
     NTP_EPOCH_OFFSET = 2_208_988_800
 
-    def initialize(supersonic_host, supersonic_port, handlers)
+    # comms: the engine's command transport (a test hands in a fake).
+    # clock_reader: the shared-memory clock (ClockworkClockReader by default,
+    # nil for an RPC-only API, or a fake). The Link timeline's beat <-> time
+    # questions are answered from its snapshot and never reach the engine;
+    # without a snapshot they go over the RPC as they always did, and the
+    # midi timelines — not in shared memory — always do.
+    #
+    # SONIC_PI_LINK_CLOCK_RPC=1 in the environment turns the shared-memory
+    # clock off for the session, so a wrong beat in the field can be laid at
+    # the door of the reader or of the engine rather than argued about.
+    def initialize(supersonic_host, supersonic_port, handlers, comms: nil, clock_reader: :default)
       @incoming_tempo_change_cv = ConditionVariable.new
       @incoming_tempo_change_mut = Mutex.new
 
-      @link_comms = SonicPi::SupersonicLinkComms.new(supersonic_host, supersonic_port)
+      @link_comms = comms || SonicPi::SupersonicLinkComms.new(supersonic_host, supersonic_port)
+      if clock_reader == :default
+        clock_reader = ENV["SONIC_PI_LINK_CLOCK_RPC"] == "1" ? nil : ClockworkClockReader.new(port: supersonic_port)
+      end
+      @clock_reader = clock_reader
+      @clock_attach_attempted_at = nil
       @internal_cue_handler = handlers[:internal_cue]
       @updated_link_num_peers_handler = handlers[:updated_link_num_peers]
       @updated_link_bpm_handler = handlers[:updated_link_bpm]
@@ -53,6 +69,34 @@ module SonicPi
       @link_comms.subscribe_to_notifications!
       # Peer play/stop drives the /link/start and /link/stop cues link_sync waits on.
       link_set_start_stop_sync_enabled!(true)
+      attach_clock_reader!
+    end
+
+    # Attach (or attach again) to the engine's shared-memory clock. Called at
+    # start and whenever the engine may be a new process. Never raises: a
+    # failure is logged once and the RPC path carries on.
+    def reattach_clock_reader!
+      attach_clock_reader!
+    end
+
+    def clock_reader_attached?
+      !!@clock_reader&.attached?
+    end
+
+    # The Link timeline's clock, read from shared memory; nil when there is
+    # none to read (no reader, not attached, the arena mid-relayout), which
+    # is the cue to ask the engine instead. Only "link" lives in the arena.
+    def clock_snapshot(tl = "link")
+      return nil unless tl == "link" && @clock_reader
+      unless @clock_reader.attached?
+        # The engine may have come up after us: try again now and then.
+        now = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        if @clock_attach_attempted_at.nil? || now - @clock_attach_attempted_at > 5.0
+          attach_clock_reader!
+        end
+        return nil unless @clock_reader.attached?
+      end
+      @clock_reader.snapshot
     end
 
     def link_is_on?
@@ -160,6 +204,9 @@ module SonicPi
     # is cached in @timeline_tempos (kept fresh by the /clock/notify pushes); on
     # a miss we read live and, on RPC failure, keep the prior value over 60.0.
     def link_tempo(force_api_call=false, tl: "link")
+      if !force_api_call && (snap = clock_snapshot(tl))
+        return snap.bpm
+      end
       cached = @timeline_tempos[tl]
       return cached if cached && !force_api_call
       res = @link_comms.rpc(clock_addr("tempo/get", tl),
@@ -176,6 +223,9 @@ module SonicPi
     end
 
     def link_get_beat_at_time(time, quantum = 4, tl: "link")
+      if (snap = clock_snapshot(tl))
+        return snap.beat_at_time(time.to_i / 1e6)
+      end
       res = @link_comms.rpc(clock_addr("rpc/beat_at_time", tl),
                             SonicPi::OSC::Int64.new(time), quantum.to_f,
                             expect: clock_addr("rpc/beat_at_time.reply", tl))
@@ -183,6 +233,9 @@ module SonicPi
     end
 
     def link_get_phase_at_time(time, quantum = 4, tl: "link")
+      if (snap = clock_snapshot(tl))
+        return snap.phase_at_time(time.to_i / 1e6, quantum.to_f)
+      end
       res = @link_comms.rpc(clock_addr("rpc/phase_at_time", tl),
                             SonicPi::OSC::Int64.new(time), quantum.to_f,
                             expect: clock_addr("rpc/phase_at_time.reply", tl))
@@ -203,6 +256,11 @@ module SonicPi
     # Microbeats, not a Float: the encoder emits float32, which loses ~2ms once
     # the beat count passes 32768.
     def link_get_time_at_beat(beat, quantum = 4, tl: "link")
+      # Locally: origin + beat * 60 / bpm, to the nearest microsecond — the
+      # engine's llround(seconds * 1e6).
+      if (snap = clock_snapshot(tl))
+        return (snap.time_at_beat(beat.to_f) * 1e6).round
+      end
       res = @link_comms.rpc(clock_addr("rpc/time_at_beat", tl),
                             SonicPi::OSC::Int64.new(LinkAPI.beats_to_microbeats(beat)),
                             quantum.to_f,
@@ -213,6 +271,13 @@ module SonicPi
     # Engine "now" (NTP micros) plus beat and phase at that instant, in a
     # single round-trip (was three serial RPCs: time/now + beat + phase).
     def link_get_now_beat_and_phase(quantum = 4, tl: "link")
+      # The engine's "now" is the wall clock in NTP, which is this process's
+      # wall clock too: same reading, no round trip.
+      if (snap = clock_snapshot(tl))
+        t = now_ntp_micros
+        beat = snap.beat_at_time(t / 1e6)
+        return [t, beat, ClockworkArena::ClockState.wrap_phase(beat, quantum.to_f)]
+      end
       res = @link_comms.rpc(clock_addr("rpc/beat_phase_now", tl),
                             quantum.to_f,
                             expect: clock_addr("rpc/beat_phase_now.reply", tl))
@@ -253,6 +318,10 @@ module SonicPi
     end
 
     def link_get_beat_and_phase_at_clock_time(clock_time, quantum = 4, tl: "link")
+      if (snap = clock_snapshot(tl))
+        beat = snap.beat_at_time(clock_time_to_link_micros(clock_time) / 1e6)
+        return [beat, ClockworkArena::ClockState.wrap_phase(beat, quantum.to_f)]
+      end
       res = @link_comms.rpc(clock_addr("rpc/beat_phase_at_time", tl),
                             SonicPi::OSC::Int64.new(clock_time_to_link_micros(clock_time)),
                             quantum.to_f,
@@ -273,6 +342,10 @@ module SonicPi
     # session grid exists independent of transport. midi_sync gates on both
     # flags. An unclaimed timeline (no clock seen yet) reports false/false.
     def link_transport_state(tl: "link")
+      if (snap = clock_snapshot(tl))
+        return { playing: snap.is_playing, anchored: true,
+                 at: snap.is_playing_at_ntp - NTP_EPOCH_OFFSET }
+      end
       res = @link_comms.rpc(clock_addr("transport/get", tl),
                             expect: clock_addr("transport.reply", tl))
       { playing:  res ? (res[0].to_i != 0) : false,
@@ -300,6 +373,7 @@ module SonicPi
     end
 
     def link_current_time
+      return now_ntp_micros if clock_snapshot("link")
       res = @link_comms.rpc("/clockwork/clock/time/now/get",
                             expect: "/clockwork/clock/time/now.reply")
       res ? res[0].to_i : 0
@@ -328,6 +402,23 @@ module SonicPi
     end
 
     private
+
+    def attach_clock_reader!
+      return false unless @clock_reader
+      @clock_attach_attempted_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      ok = @clock_reader.attach!
+      unless ok || @clock_attach_failure_logged
+        @clock_attach_failure_logged = true
+        STDOUT.puts "Spider - LINK clock: shared memory unavailable (#{@clock_reader.last_error}); using RPC"
+        STDOUT.flush
+      end
+      ok
+    end
+
+    # Wall-clock now in NTP microseconds, as the engine measures it.
+    def now_ntp_micros
+      ((Time.now.to_f + NTP_EPOCH_OFFSET) * 1_000_000).round
+    end
 
     # The engine answers time queries in the NTP (wall-clock) domain, so the only
     # conversion to Ruby's Unix time is the fixed NTP<->Unix epoch constant — no

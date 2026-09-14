@@ -203,6 +203,11 @@ module SonicPi
         @mod_sound_studio.kill_all_link_audio(@link_api)
         __nuke_job_scsynth_state!
         @mod_sound_studio.cold_swap_reinit!
+        # The engine's clock in shared memory survives a swap (same segment,
+        # re-laid-out), but this is also the path an engine that came back
+        # takes, and a new engine is a new segment: attach again, keeping the
+        # mapping we have if the hand-off fails.
+        @link_api.reattach_clock_reader!
         # Phase 2 can time out mid-swap, leaving the studio with no mixer
         # group (every trigger would nil-crash). Report it so the caller can
         # schedule a retry.

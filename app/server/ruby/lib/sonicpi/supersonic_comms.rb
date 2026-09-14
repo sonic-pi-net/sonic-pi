@@ -47,13 +47,19 @@ module SonicPi
       @pending = {}
       @rpc_token = 0
       @reply_handlers_installed = {}
+      @rpc_count = 0
     end
+
+    # Round trips made so far. A diagnostic: the Link clock's shared-memory
+    # path exists so that this stops climbing with every sleep.
+    attr_reader :rpc_count
 
     def send(pattern, *args)
       @udp_server.send(@host, @port, pattern, *args)
     end
 
     def rpc(req_pattern, *args, expect:, timeout: 1.0)
+      @rpc_count += 1
       # Serialise per expect-address (see initialize). Racing callers queue
       # on the lock; these RPCs are sub-millisecond on loopback, so the
       # serialisation cost is negligible next to unambiguous reply matching.
