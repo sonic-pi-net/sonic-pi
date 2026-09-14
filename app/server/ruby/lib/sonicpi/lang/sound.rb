@@ -938,7 +938,7 @@ end"]
         node
       end
       doc name:           :live_track,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "A named audio stream live from a track",
           usage_example:  "live_track :surge",
           args:           [[:name, :symbol]],
@@ -1015,7 +1015,7 @@ live_track :surge, :stop         # hand the track back to the main mix"]
         with_fx(:sound_out_stereo, output: output, pre_amp: sent, amp: kept / sent, &block)
       end
       doc name:           :with_send,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Send the block's audio to a track",
           usage_example:  "with_send :verb do ... end",
           args:           [[:name, :symbol]],
@@ -1059,7 +1059,7 @@ end"]
         nil
       end
       doc name:           :use_track,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Use the named track from now on",
           usage_example:  "use_track :surge",
           args:           [[:name, :symbol]],
@@ -1092,7 +1092,7 @@ end"]
         end
       end
       doc name:           :with_track,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Use the named track for the block",
           usage_example:  "with_track :surge do ... end",
           args:           [[:name, :symbol]],
@@ -1114,7 +1114,7 @@ track_midi :e4, sustain: 0.5     # on surge again"]
         t ? t.to_sym : nil
       end
       doc name:           :current_track,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Get the current track",
           usage_example:  "current_track",
           args:           [],
@@ -1150,7 +1150,7 @@ puts current_track   # :surge"]
         nil
       end
       doc name:           :track_midi,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Play a note on a track's instrument",
           usage_example:  "track_midi :e3, sustain: 0.3",
           args:           [[:note, :number], [:velocity, :number]],
@@ -1202,7 +1202,7 @@ end"]
         nil
       end
       doc name:           :track_midi_note_on,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Start a note on a track's instrument",
           usage_example:  "track_midi_note_on :e3, 100",
           args:           [[:note, :number], [:velocity, :number]],
@@ -1238,7 +1238,7 @@ track_midi_note_off :c4"]
         nil
       end
       doc name:           :track_midi_note_off,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Stop a note on a track's instrument",
           usage_example:  "track_midi_note_off :e3",
           args:           [[:note, :number], [:release_velocity, :number]],
@@ -1274,7 +1274,7 @@ track_midi_note_off :c4"]
         nil
       end
       doc name:           :track_midi_cc,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Send a MIDI control change to a track",
           usage_example:  "track_midi_cc 1, 64",
           args:           [[:control, :number], [:value, :number]],
@@ -1306,7 +1306,7 @@ track_midi_cc 1, val_f: 0.5    # mod wheel to halfway"]
         nil
       end
       doc name:           :track_midi_pitch_bend,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Send a pitch bend to a track",
           usage_example:  "track_midi_pitch_bend 0.75",
           args:           [[:delta, :float01]],
@@ -1339,7 +1339,7 @@ track_midi_note_off :e3"]
         nil
       end
       doc name:           :track_midi_all_notes_off,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Release every note on a track",
           usage_example:  "track_midi_all_notes_off",
           args:           [],
@@ -1375,7 +1375,7 @@ track_midi_all_notes_off track: :surge"]
         nil
       end
       doc name:           :track_control,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "Set plugin parameters on a track",
           usage_example:  "track_control filter_1_cutoff: 0.5",
           args:           [[:parameter, :string], [:value, :number]],
@@ -1403,7 +1403,7 @@ track_control \"Filter 1 Cutoff\", 0.4    # by the plugin's own spelling"]
         @mod_sound_studio.track_names.map(&:to_sym).ring
       end
       doc name:           :tracks,
-          introduced:     Version.new(5,1,0),
+          introduced:     Version.new(6,0,0),
           summary:        "The names of the tracks",
           usage_example:  "puts tracks",
           args:           [],
