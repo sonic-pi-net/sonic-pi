@@ -5377,7 +5377,14 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "DeleteWordRight", QT_TR_NOOP("Delete word to the right"), "Alt+Shift+Backspace", "Ctrl+Delete", "Meta+d", "Code", &MainWindow::textDeleteWordRightAct },
     { "DeleteWordLeft", QT_TR_NOOP("Delete word to the left"), "Alt+Backspace", "Ctrl+Backspace", "Meta+Backspace", "Code", &MainWindow::textDeleteWordLeftAct },
     { "UpcaseWord", QT_TR_NOOP("Uppercase word or selection"), "Meta+u", "CtrlShift+u", "Meta+u", "Code", &MainWindow::textUpcaseWordAct },
+#if defined(Q_OS_MAC)
+    // ⌥L as a fallback, Emacs's M-l: Safari keeps ⌘L for its address bar, so on
+    // the web it is the Mac's one working key; off-mac Alt+letters stay free for
+    // menu mnemonics.
+    { "DowncaseWord", QT_TR_NOOP("Lowercase word or selection"), "Meta+l", "Ctrl+u", "Meta+l", "Code", &MainWindow::textDowncaseWordAct, "Alt+l" },
+#else
     { "DowncaseWord", QT_TR_NOOP("Lowercase word or selection"), "Meta+l", "Ctrl+u", "Meta+l", "Code", &MainWindow::textDowncaseWordAct },
+#endif
     { "FullScreen", QT_TR_NOOP("Toggle fullscreen mode"), "ShiftMeta+f", "F11", "ShiftMeta+f", "View", &MainWindow::fullScreenAct },
     // F10 reserved for menu bar access on Windows/Linux (used by screen readers)
     { "FocusMode", QT_TR_NOOP("Toggle focus mode (fullscreen editor with all distractions hidden)"), "F10", "Ctrl+F10", "Ctrl+F10", "View", &MainWindow::focusModeAct },
