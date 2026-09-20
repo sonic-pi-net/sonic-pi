@@ -729,7 +729,25 @@ end
 
 
 cpp = "#{SonicPi::Paths.qt_gui_utils_path}/ruby_help.h"
-content = File.readlines(cpp)
+# The file is generated, and not kept in the repository: on a first run — a fresh checkout, or one where the GUI
+# has not been built — there is none of it to read, and all that is kept of it anyway is the notice above the
+# generated docs.
+NOTICE = <<~HEADER
+  //--
+  // This file is part of Sonic Pi: http://sonic-pi.net
+  // Full project source: https://github.com/samaaron/sonic-pi
+  // License: https://github.com/samaaron/sonic-pi/blob/main/LICENSE.md
+  //
+  // Copyright 2013, 2014 by Sam Aaron (http://sam.aaron.name).
+  // All rights reserved.
+  //
+  // Permission is granted for use, copying, modification, distribution,
+  // and distribution of modified versions of this work as long as this
+  // notice is included.
+  //++
+
+HEADER
+content = File.exist?(cpp) ? File.readlines(cpp) : NOTICE.lines
 new_content = content.take_while { |line| !line.start_with?("// AUTO-GENERATED-DOCS")}
 new_content << "// AUTO-GENERATED-DOCS\n"
 new_content << "// Do not manually add any code below this comment\n"
