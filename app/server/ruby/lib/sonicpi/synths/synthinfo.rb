@@ -12,6 +12,7 @@
 #++
 require_relative "../version"
 require_relative "../util"
+require_relative "../validation"
 
 module SonicPi
   module Synths
@@ -159,8 +160,10 @@ module SonicPi
           k_sym = k.to_sym
           #        raise "Value of argument #{k_sym.inspect} must be a number, got #{v.inspect}." unless v.is_a? Numeric
 
-          arg_validations(k_sym).each do |v_fn, msg|
-            raise "Value of opt #{k_sym.inspect} #{msg}, got #{v.inspect}." unless v_fn.call(args_h)
+          # the rule rides along with the lambda (v, in this file): the error carries it, so a GUI can say what the
+          # opt will take rather than parse the sentence
+          arg_validations(k_sym).each do |v_fn, msg, _bounds, rule|
+            raise SonicPi::Validation.error(k_sym, rule || msg, v, { :synth => synth_name }) unless v_fn.call(args_h)
           end
         end
       end
@@ -241,6 +244,7 @@ module SonicPi
             new_info[:default] = default_info[:default] || default
             new_info[:bpm_scale] = default_info[:bpm_scale]
             new_info[:constraints] = constraints
+            new_info[:rules] = validations.map { |el| el[3] }.compact   # validation.rb's own rules, as data
             new_info[:bounds] = merge_validation_bounds(validations)
             new_info[:modulatable] = default_info[:modulatable]
             new_info[:midi] = default_info[:midi]
@@ -275,36 +279,26 @@ module SonicPi
 
       private
 
-      def v_buffer_like(arg)
-        l = lambda do |args|
-          a = args[arg]
-          a &&
-            (
-            # straight up buffer
-            a.is_a?(Buffer)  ||
-
-            # string or symbol representing the
-            # buffers name
-            a.is_a?(String)  ||
-            a.is_a?(Symbol)  ||
-
-            # vector description of buffer consisting of two
-            # arguments, name and size:
-            # [:foo, 3]
-            # (A buffer called foo of duration 3)
-            (
-              is_list_like?(a) &&
-              a.size == 2 &&
-              (a[0].is_a?(Symbol) || a[0].is_a?(String)) &&
-              a[1].is_a?(Numeric)
-              ))
-        end
-        [l, "must be a buffer description, such as a buffer, :foo, \"foo\", or [:foo, 4]"]
+      # Every v_* below is one of validation.rb's rules, pinned to an opt. That file is the only place that says
+      # whether a value keeps a rule and the only place that puts a rule into words, so the check and its sentence
+      # cannot drift apart; the rule travels as the 4th element, for a runtime that cannot carry a lambda (Sonic Pi
+      # for the web runs the same file over the same rules).
+      def v(arg, rule)
+        [lambda { |args| SonicPi::Validation.ok?(rule, args[arg], args) },
+         SonicPi::Validation.message(rule),
+         SonicPi::Validation.bounds(rule),
+         rule]
       end
+
+      def v_buffer_like(arg)
+        v(arg, SonicPi::Validation.buffer_like)
+      end
+
 
       def v_sum_less_than_oet(arg1, arg2, max)
-        [lambda{|args| (args[arg1] + args[arg2]) <= max}, "added to #{arg2.to_sym} must be less than or equal to #{max}"]
+        v(arg1, SonicPi::Validation.sum_less_than_oet(arg2, max))
       end
+
 
       # Combine the machine-readable bounds (3rd element) of an opt's validations
       # into one hash the GUI can build a constraint-respecting selector from: the
@@ -332,44 +326,54 @@ module SonicPi
       # machine-readable hash (:min/:max with :min_incl/:max_incl, :options, or
       # :exclude) so the GUI can derive a constraint-respecting value selector.
       def v_positive(arg)
-        [lambda{|args| args[arg] >= 0}, "must be zero or greater", {:min => 0, :min_incl => true}]
+        v(arg, SonicPi::Validation.positive)
       end
+
 
       def v_positive_not_zero(arg)
-        [lambda{|args| args[arg] > 0}, "must be greater than zero", {:min => 0, :min_incl => false}]
+        v(arg, SonicPi::Validation.positive_not_zero)
       end
+
 
       def v_between_inclusive(arg, min, max)
-        [lambda{|args| args[arg] >= min && args[arg] <= max}, "must be a value between #{min} and #{max} inclusively", {:min => min, :max => max, :min_incl => true, :max_incl => true}]
+        v(arg, SonicPi::Validation.between_inclusive(min, max))
       end
+
 
       def v_between_exclusive(arg, min, max)
-        [lambda{|args| args[arg] > min && args[arg] < max}, "must be a value between #{min} and #{max} exclusively", {:min => min, :max => max, :min_incl => false, :max_incl => false}]
+        v(arg, SonicPi::Validation.between_exclusive(min, max))
       end
 
-      def v_less_than(arg,  max)
-        [lambda{|args| args[arg] < max}, "must be a value less than #{max}", {:max => max, :max_incl => false}]
+
+      def v_less_than(arg, max)
+        v(arg, SonicPi::Validation.less_than(max))
       end
 
-      def v_less_than_oet(arg,  max)
-        [lambda{|args| args[arg] <= max}, "must be a value less than or equal to #{max}", {:max => max, :max_incl => true}]
+
+      def v_less_than_oet(arg, max)
+        v(arg, SonicPi::Validation.less_than_oet(max))
       end
 
-      def v_greater_than(arg,  min)
-        [lambda{|args| args[arg] > min}, "must be a value greater than #{min}", {:min => min, :min_incl => false}]
+
+      def v_greater_than(arg, min)
+        v(arg, SonicPi::Validation.greater_than(min))
       end
 
-      def v_greater_than_oet(arg,  min)
-        [lambda{|args| args[arg] >= min}, "must be a value greater than or equal to #{min}", {:min => min, :min_incl => true}]
+
+      def v_greater_than_oet(arg, min)
+        v(arg, SonicPi::Validation.greater_than_oet(min))
       end
+
 
       def v_one_of(arg, valid_options)
-        [lambda{|args| valid_options.include?(args[arg])}, "must be one of the following values: #{valid_options.inspect}", {:options => valid_options}]
+        v(arg, SonicPi::Validation.one_of(valid_options))
       end
 
+
       def v_not_zero(arg)
-        [lambda{|args| args[arg] != 0}, "must not be zero", {:exclude => 0}]
+        v(arg, SonicPi::Validation.not_zero)
       end
+
 
       def default_arg_info
         {
@@ -5251,7 +5255,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :sustain =>
           {
             :doc => "Duration of the sustain phase of the envelope. When -1 (the default) will auto-stretch.",
-            :validations => [[lambda{|args| v = args[:sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+            :validations => [v(:sustain, SonicPi::Validation.positive_or(-1))],
 
             :modulatable => false,
             :default => -1
@@ -5394,7 +5398,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :lpf_sustain =>
           {
             :doc => "Amount of time for low pass filter envelope value to remain at sustain level in beats. This envelope is bypassed if no lpf env opts are specified.  When -1 (the default) will auto-stretch.",
-            :validations => [[lambda{|args| v = args[:lpf_sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+            :validations => [v(:lpf_sustain, SonicPi::Validation.positive_or(-1))],
             :modulatable => false,
             :default => "sustain"
           },
@@ -5498,7 +5502,7 @@ Disable the rotary speaker by setting `:rs_freq` to 0. Note that while `:rs_freq
           :hpf_sustain =>
           {
             :doc => "Amount of time for hpf cutoff value to remain at hpf sustain level in beats. When -1 (the default) will auto-stretch.",
-            :validations => [[lambda{|args| v = args[:hpf_sustain] ; (v == -1) || (v >= 0)}, "must either be a positive value or -1"]],
+            :validations => [v(:hpf_sustain, SonicPi::Validation.positive_or(-1))],
             :modulatable => false,
             :default => "sustain"
           },
