@@ -191,7 +191,10 @@ module SonicPi
       def self.receive(endpoint)
         name = endpoint.start_with?("\\\\.\\pipe\\") ? endpoint : "\\\\.\\pipe\\#{endpoint}"
         wide = (name + "\0").encode("UTF-16LE")
-        create = fn("CreateFileW", [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP,
+        # dwDesiredAccess is a DWORD, and must be declared wider than
+        # Fiddle::TYPE_INT: on 64-bit Windows that marshals as a signed 32 bit
+        # C long, which cannot hold GENERIC_READ (0x80000000).
+        create = fn("CreateFileW", [Fiddle::TYPE_VOIDP, Fiddle::TYPE_LONG_LONG, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP,
                                     Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_VOIDP)
         wait   = fn("WaitNamedPipeW", [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
         last   = fn("GetLastError", [], Fiddle::TYPE_INT)
