@@ -68,11 +68,15 @@ fi
 # tables and the built-in sounds when it is not told; this checkout, since
 # that is what the specs are run from.
 if [ "$MODE" != "--wasm" ]; then
-  CONFIG="$MRUBY_BUILD_DIR/host/bin/mruby-config"
+  # mruby's flags, read from the file its mruby-config is made from: a shell script elsewhere, but a .bat on Windows,
+  # which bash cannot run, so the file itself (its $(MRUBY_PACKAGE_DIR) the host build, its quotes dropped: the
+  # words go to the compiler as they are)
+  FLAGS="$MRUBY_BUILD_DIR/host/lib/libmruby.flags.mak"
+  mruby_flag() { sed -n "s/^MRUBY_$1 = *//p" "$FLAGS" | sed -e "s|\$(MRUBY_PACKAGE_DIR)|$MRUBY_BUILD_DIR/host|g" -e 's/"//g'; }
   EXE=""
   case "$(uname -s 2>/dev/null || echo)" in MINGW*|MSYS*|CYGWIN*) EXE=".exe";; esac
-  "${CC:-cc}" $("$CONFIG" --cflags) -DSP_ASSET_ROOT="\"$ROOT\"" -O2 \
+  "${CC:-cc}" $(mruby_flag CFLAGS) -DSP_ASSET_ROOT="\"$ROOT\"" -O2 \
     "$ROOT/runtime/host/sp_host.c" "$ROOT/runtime/host/sp_trace_main.c" "$OUT/runtime_irep.c" \
-    $("$CONFIG" --ldflags) $("$CONFIG" --libs) -o "$OUT/sp-trace$EXE"
+    $(mruby_flag LDFLAGS) $(mruby_flag LIBS) -o "$OUT/sp-trace$EXE"
   ls -la "$OUT/sp-trace$EXE"
 fi
