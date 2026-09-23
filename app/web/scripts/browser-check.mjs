@@ -270,8 +270,11 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("pointing at a note names it, its synth and its line", /^[A-G][♯♭]?\d \(\d+\) · :tb303 · amp 1 · 0\.2 s · :bass · line 7$/.test(tipText), tipText);
     await page.mouse.move(0, 0);
     await page.locator(".insight-pause", { hasText: "Resume" }).click();
-    await page.waitForTimeout(300);
-    const ahead = await page.evaluate(() => { const now = window.sonicPi.session.clockNow(); return window.sonicPi.pianoRoll().notes.filter((n) => n.start > now).length; });
+    // the roll has notes still to sound (the bass is a second ahead) once it has drawn again after the resume: waited
+    // for, not a fixed pause, which a slow machine's drawing can outlast
+    const aheadNow = () => { const now = window.sonicPi.session.clockNow(); return window.sonicPi.pianoRoll().notes.filter((n) => n.start > now).length; };
+    await page.waitForFunction(aheadNow, null, { timeout: 5000 }).catch(() => {});
+    const ahead = await page.evaluate(aheadNow);
     const stoppedAt = await page.evaluate(() => { document.getElementById("btn-stop").click(); return window.sonicPi.session.clockNow(); });
     await page.waitForTimeout(300);
     const rollStopped = await page.evaluate(() => window.sonicPi.pianoRoll());
