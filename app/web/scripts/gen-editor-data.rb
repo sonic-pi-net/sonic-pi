@@ -667,7 +667,7 @@ write.call("completion.json", {
 
 # ── What was made ─────────────────────────────────────────────────────────
 
-version = `git -C #{File.join(ROOT, '../..')} describe --tags 2>/dev/null`.strip
+version = File.read(File.join(ROOT, "../../VERSION")).strip   # the release's (VERSION), not git's: the same on every commit and in a checkout with no tags
 # last, and with the manifest the next run reads: everything written above, and what is no longer written is gone
 (previous - written).each do |rel|
   path = File.join(OUT, rel)

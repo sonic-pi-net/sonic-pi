@@ -15,6 +15,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SP="$(cd "$ROOT/../.." && pwd)"
 BUILD="$ROOT/build/aubio"
 OUT="$ROOT/oracle/bin"
+mkdir -p "$ROOT/build"   # a fresh checkout has none: the configure log goes there
 [ -f "$SP/app/external/aubio/aubioonset.c" ] || { echo "no Sonic Pi sources: git submodule update --init --depth 1" >&2; exit 1; }
 
 cmake -S "$SP/app/external/aubio-0.4.9" -B "$BUILD" -DCMAKE_BUILD_TYPE=Release \

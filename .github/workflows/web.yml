@@ -64,7 +64,7 @@ jobs:
         shell: bash
         run: |
           bare=$(echo "$PATH" | tr ':' '\n' | grep -v -i -E 'ruby|rbenv|rvm' | paste -sd: -)
-          PATH="$bare" build/runtime/sp-trace specs/play/note.rb > /dev/null
+          PATH="$bare" build/runtime/sp-trace specs/play/amp_and_pan.rb > /dev/null
           echo "traced with no ruby on PATH"
 
   # ── the same runtime as the browser loads it ───────────────────────────────────────────────────────────────
