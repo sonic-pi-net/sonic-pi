@@ -1,0 +1,24 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "1"
+    }
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, on: 0.0, amp: 1, release: 0.5}"
+    }
+  ]
+}

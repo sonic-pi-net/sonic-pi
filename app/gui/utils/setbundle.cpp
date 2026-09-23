@@ -22,7 +22,8 @@
 namespace SonicPi
 {
 
-static const QString headerLine = QStringLiteral("#-- Sonic Pi Set v1");
+static const QString headerLine = QStringLiteral("#-- Sonic Pi Set v%1").arg(SetBundle::Version);
+static const QRegularExpression headerMarker(QStringLiteral("^#-- Sonic Pi Set v(\\d+)$"));
 static const QString metaPrefix = QStringLiteral("#-- meta ");
 // Content lines starting "#--" are written behind this prefix so they can't
 // be mistaken for markers; the reader strips exactly one.
@@ -37,14 +38,14 @@ static int clampZoom(int zoom)
 }
 
 QString SetBundle::serialise(const QVector<QString>& buffers, int currentBuffer,
-                             const QVector<int>& zooms)
+                             const QVector<int>& zooms, const QJsonObject& keep)
 {
     QJsonArray metaZooms;
     for (int i = 0; i < MaxBuffers; i++)
     {
         metaZooms.append(clampZoom(i < zooms.size() ? zooms[i] : DefaultZoom));
     }
-    QJsonObject meta;
+    QJsonObject meta = keep;
     meta[QStringLiteral("current")] = currentBuffer;
     meta[QStringLiteral("zooms")] = metaZooms;
 
@@ -112,12 +113,20 @@ SetBundle::Load SetBundle::deserialise(const QString& text)
         }
         if (currentBuffer < 0)
         {
+            const auto header = headerMarker.match(line);
+            if (header.hasMatch() && header.captured(1).toInt() > Version)
+            {
+                load.error = QStringLiteral("it was made by a newer version of Sonic Pi (set format v%1, where this one reads up to v%2): update Sonic Pi to open it")
+                    .arg(header.captured(1)).arg(Version);
+                return load;
+            }
             if (line.startsWith(metaPrefix))
             {
                 const QJsonDocument doc = QJsonDocument::fromJson(line.mid(metaPrefix.size()).toUtf8());
                 if (doc.isObject())
                 {
                     const QJsonObject meta = doc.object();
+                    load.meta = meta;
                     const int current = meta[QStringLiteral("current")].toInt(0);
                     load.currentBuffer = (current >= 0 && current < MaxBuffers) ? current : 0;
                     const QJsonArray zooms = meta[QStringLiteral("zooms")].toArray();
@@ -151,14 +160,14 @@ SetBundle::Load SetBundle::deserialise(const QString& text)
 }
 
 QString SetBundle::write(const QString& path, const QVector<QString>& buffers, int currentBuffer,
-                         const QVector<int>& zooms)
+                         const QVector<int>& zooms, const QJsonObject& meta)
 {
     QFile f(path);
     if (!f.open(QFile::WriteOnly))
     {
         return QStringLiteral("could not write %1: %2").arg(path, f.errorString());
     }
-    f.write(serialise(buffers, currentBuffer, zooms).toUtf8());
+    f.write(serialise(buffers, currentBuffer, zooms, meta).toUtf8());
     return QString();
 }
 

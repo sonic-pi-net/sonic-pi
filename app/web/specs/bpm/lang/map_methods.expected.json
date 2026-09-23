@@ -1,0 +1,91 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(map a:  1)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(map a:  1,\n       b:  2)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(map a:  1,\n       c:  nil)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "3"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(map 1   => :a,\n       2   => :b)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": ":b"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(map a:  1,\n       b:  2)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "[1, 2]"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "true"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "true"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "true"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "true"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "true"
+    }
+  ],
+  "log": [
+
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.05,
+      "beat": 0.1,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 64.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.1,
+      "beat": 0.2,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 67.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.15,
+      "beat": 0.3,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.2,
+      "beat": 0.4,
+      "thread": "0.0.0",
+      "name": "",
+      "path": "bd_haus.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.2,
+      "beat": 0.4,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "start": 0.0,
+        "finish": 1.0,
+        "buf": "bd_haus.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "start": 0.0,
+        "finish": 1.0,
+        "buf": "bd_haus.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.3,
+      "beat": 0.6,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "start": 0.0,
+        "finish": 1.0,
+        "buf": "bd_haus.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.35,
+      "beat": 0.7,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "start": 0.0,
+        "finish": 1.0,
+        "buf": "bd_haus.flac"
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    },
+    {
+      "t": 0.05,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 64.0, release: 0.5}"
+    },
+    {
+      "t": 0.1,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 67.0, release: 0.5}"
+    },
+    {
+      "t": 0.15,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    },
+    {
+      "t": 0.2,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {onset: 0, start: 0.0, finish: 1.0}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {onset: 0, start: 0.0, finish: 1.0}"
+    },
+    {
+      "t": 0.3,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {onset: 0, start: 0.0, finish: 1.0}"
+    },
+    {
+      "t": 0.35,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {onset: 0, start: 0.0, finish: 1.0}"
+    }
+  ]
+}

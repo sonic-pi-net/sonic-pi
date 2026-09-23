@@ -1,0 +1,50 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "release": 3.0,
+        "note": 60.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "amp": 0.5,
+        "note": 60.0
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {release: 3.0, note: 60.0}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {amp: 0.5, note: 60.0}"
+    }
+  ]
+}

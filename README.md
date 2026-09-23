@@ -98,6 +98,7 @@ Sonic Pi is under active development, and welcomes new contributors:
   - [Mac](BUILD-MAC.md)
   - [Windows](BUILD-WINDOWS.md)
   - [Raspberry Pi](BUILD-RASPBERRY-PI.md)
+  - [The web](BUILD-WEB.md)
 * [License](LICENSE.md)
 * [Testing](TESTING.md)
 * [Translation](TRANSLATION.md)

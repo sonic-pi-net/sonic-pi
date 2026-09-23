@@ -1,0 +1,390 @@
+/* The live cards on the site's pages (site.js), inside the site's shadow root on
+   top of the site's own card styles (css/landing.css: .qs-card and its parts,
+   the deeppink bar, the pale body, the scope as the play control). Only what
+   a live card adds is here: the code box that can be typed in, Reset beside
+   Copy, the link into the app, the levels' tabs, a card's error line, and the
+   videos' facades. The site's type throughout (Open Sans, Menlo); its colours
+   the app's theme tokens, as scripts/lib/theme-css.mjs makes the site's own. */
+/* the site's type is the app's, and its pages sit beside a sub-navigation of their sections (.ic-side, in the docs
+   pane's list) — the same two columns as the docs pane */
+.site-body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }   /* the pages too: iOS inflates text it judges hard to read, block by block */
+.site-body { --qs-code-size: var(--t-code); zoom: var(--site-zoom, 1); }   /* the pages a couple of steps up on a wide screen (style.css sets --site-zoom), as the docs pane starts two steps up */
+.site-body, .site-body h1, .site-body h2, .site-body h3, .site-body h4, .site-body .button, .qs-level { font-family: var(--prose-font); }
+.site-body { font-size: var(--t-body); line-height: 1.55; }
+.site-body em, .site-body h1, .site-body h2, .site-body h3 { font-style: normal; }   /* the app does not italicise */
+/* two columns as the docs pane has them: the list stands still on the left, the page scrolls on the right */
+.site-body { height: 100%; }
+.ic-page.ic-split { display: grid; grid-template-columns: 320px minmax(0, 1fr); height: 100%; }
+.ic-main { min-width: 0; min-height: 0; overflow: auto; scroll-behavior: smooth; }
+.ic-main header h1 { border: none; padding: 0; margin: 0.35em 0 0.3em; font-size: var(--t-title); color: var(--WindowForeground); }   /* the site's section titles in the app's scale */
+.ic-main header:not(.qs-card-head) h2:not(.sub) { margin: 0; font-weight: 400; font-size: var(--t-lead); color: var(--softForeground); }
+/* the site's kickers (shared.css), and its groups' names in the lists, in the second colour: the detail over a title */
+.ic-page { --kicker-color: var(--second); }
+.ic-main #intro header .hero-title { font-size: var(--t-display); color: var(--WindowForeground); }
+/* the card has no nav of the site's (its tabs are the app's), so the hero keeps no room clear for one; the hero is
+   the first screen entire, its two columns centred in it, with air around the type */
+.wrapper.style1.first { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; min-height: 100%; box-sizing: border-box; padding: 2em 0 3em !important; }
+#intro.container { max-width: min(100% - 2.5em, 860px); }   /* the hero sits centred in its column, not spread along it */
+.ic-main > .wrapper.style1.first { min-height: 100%; }
+/* every section the same room: one measure of padding, its title and strapline set alike (the hero keeps its own) */
+.ic-main > .wrapper:not(.first) { padding: 64px 0; box-shadow: none; border-top: 1px solid var(--WindowBorder); background: var(--PaneBackground); }
+.ic-main > .wrapper:nth-child(even) { background: var(--surface1); }   /* every other section a shade off the page: the site's rhythm, made regular and subtle */
+.ic-main header p { max-width: 40em; margin: 0.75em auto 0; color: var(--softForeground); }   /* one strapline measure under every title */
+#connectivity .row { align-items: center; }
+/* the course's two cards (site/pages/learn.html): the page's card, with a picture where the code would be */
+/* Learn's tutorial teaser: a live loop to play now beside the chapters, each a way straight in */
+.tut-teaser { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1.4em; align-items: start; margin: 1.6em 0 1.8em; text-align: left; }
+.tut-chapters { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
+.tut-chapter { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border: 1px solid var(--WindowBorder); border-radius: var(--r-pill); background: var(--surface1); color: var(--Foreground); font: 600 var(--t-small) var(--prose-font); text-decoration: none; transition: border-color 0.15s, background-color 0.15s; }
+.tut-chapter:hover, .tut-chapter:focus-visible { border-color: var(--HighlightedBackground); background: var(--accentTint); outline: none; }
+.tut-num { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; padding: 0 4px; box-sizing: border-box; border-radius: var(--r-pill); background: var(--secondTint); color: var(--second); font: 700 var(--t-label) var(--code-font); }   /* a chapter's number: a figure, in the second colour */
+@container (max-width: 820px) { .tut-teaser { grid-template-columns: minmax(0, 1fr); } }
+.course-cards { margin-top: 2em; align-items: stretch; }
+.course-card { margin: 0; text-align: left; }   /* the site's section margin would leave the first card short */
+/* the picture leads: the lesson's frame, the stage; the card's name set over its foot on a fade, like a poster */
+.course-media { position: relative; aspect-ratio: 16 / 9; background: var(--PaneBackground); overflow: hidden; }
+.course-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.course-media .videoWrapper { position: absolute; inset: 0; padding: 0; height: 100%; }
+.course-media .videoWrapper .yt-lite { border-radius: 0; }
+/* a video's facade (build-site.mjs, info.js facade): its thumbnail filling the frame — YouTube's carry bars, the cover
+   crops them — and a play button in the accent at its middle; a tap plays it in place */
+.videoWrapper > .yt-lite, .videoWrapper > iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.yt-lite { display: block; overflow: hidden; border-radius: var(--r-m); background: #000 center / cover no-repeat; cursor: pointer; }
+.yt-play { position: absolute; left: 50%; top: 50%; display: flex; align-items: center; justify-content: center; width: 64px; height: 44px; border-radius: var(--r-m); background: var(--HighlightedBackground); transform: translate(-50%, -50%); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35); transition: transform 0.15s ease-out, background-color 0.15s; }
+.yt-play svg { width: 22px; height: 22px; fill: var(--accentContrastText); }
+.yt-lite:hover .yt-play, .yt-lite:focus-visible .yt-play { transform: translate(-50%, -50%) scale(1.06); }
+.course-media .yt-play { top: 40%; }   /* over the picture, clear of the title at its foot */
+.course-cover { position: absolute; left: 0; right: 0; bottom: 0; padding: 64px 20px 16px; background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.55) 45%, rgba(0, 0, 0, 0) 100%); pointer-events: none; text-align: left; }
+.course-cover .course-kicker { display: block; margin: 0 0 10px; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7); }   /* a kicker (shared.css), over the picture */
+.course-cover h2 { margin: 0; font-size: var(--t-title); color: #fff; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7); text-align: left; }   /* the title voice (shared.css), over the picture */
+.course-copy { flex: 1; max-height: none; overflow: visible; padding: 14px 20px 10px; }
+.site-body .course-copy p, .site-body .course-card .qs-blurb { margin: 0; padding: 0; }   /* landing.css pads every p: these line up with the poster's title */
+.course-copy p { font-size: var(--t-body); line-height: 1.5; color: var(--softForeground); text-shadow: none; }
+.course-card .qs-card-foot { flex-wrap: wrap; justify-content: space-between; gap: 10px 14px; padding: 10px 20px 14px; }   /* on a phone the line and the button take a row each */
+.course-card .qs-card-foot .button { flex: none; margin: 0; padding: 0.6em 1.2em; font-size: var(--t-body); }   /* two filled calls: watch, then buy */
+.ic-main [id] { scroll-margin-top: 40px; }   /* a jump from the list lands with room above the section's title, as the page's top has */
+.funding { max-width: 40em; margin: 0 auto 2.4em; text-align: center; }
+.funding p { margin: 0 0 1em; font-size: var(--t-lead); line-height: 1.55; color: var(--softForeground); }
+.funding strong, .funding a { font-weight: 600; text-decoration: none; }
+.funding a { color: var(--HighlightedBackground); }   /* its links in the accent; its highlighted words the second colour, as everywhere (landing.css) */
+.funding a:hover { text-decoration: underline; }
+.funding .funding-sign { font-size: var(--t-body); color: var(--mutedForeground); }
+.patreon-word { display: inline-flex; align-items: center; justify-content: center; gap: 0.3em; height: 100px; margin: 0 auto 1em; color: var(--Foreground); font: 800 var(--t-display) var(--prose-font); letter-spacing: 0.18em; text-transform: uppercase; }
+.patreon-word .tb-icon { width: 40px; height: 40px; stroke-width: 2.4; }
+.ic-support p { max-width: 34em; margin: 0 auto; font-size: var(--t-lead); line-height: 1.5; color: var(--softForeground); }
+.ic-support a { font-weight: 600; color: var(--HighlightedBackground); text-decoration: none; }
+.ic-support a:hover { text-decoration: underline; }
+#intro .row { align-items: center; }
+#intro .hero-title { font-size: var(--t-display); margin-top: 0; margin-bottom: 0.5em; }
+#intro .hero-title strong { font-weight: 500; }   /* the site's strong weight (not h1 strong's 400) */
+#intro .hero-title br { display: block; }   /* the two lines as written: "Experience the", then "sound of code." */
+#intro .u8 > p.tagline { font-size: var(--t-lead); font-weight: 400; line-height: 1.45; margin-bottom: 1.2em; color: var(--softForeground); max-width: 34em; }
+#intro .facets { font-size: var(--t-body); }
+#intro .credit { margin: 0 0 1.4em; }
+.ic-page[hidden] { display: none !important; }   /* whatever layout a page takes, hidden is hidden */
+/* the hero's mark, native's splash treatment: the tile in the accent, the glyphs punched through to the page behind
+   (square: not landing.css's disc crop) */
+#intro .image.logo { border-radius: 0; height: auto; padding-top: 1.2em; }
+.logo-tile { position: relative; display: block; width: 100%; }
+.logo-tile .logo-punched { position: relative; display: block; width: 100%; height: auto; color: var(--HighlightedBackground); }
+.image.logo .logo-mark { display: block; width: 100%; height: auto; color: var(--Foreground); }
+/* About's left column: the mark, then the two ways in beneath it, one above the other; the page scrolls beside them */
+#intro header .image.logo { width: 150px; height: auto; margin: 0 auto 1em; padding: 0; }   /* the mark heads the hero */
+#intro .row { grid-template-columns: 1fr; }
+#intro .u8 { grid-column: 1 / -1; width: auto; }
+/* the ways in, About's left column: one button to play, and beneath it the desktop app as a list in the app's own
+   list vocabulary (the docs pane's, the other pages' sub-navigation), a brand icon by each platform */
+.ways { display: flex; flex-direction: column; gap: 8px; margin-top: 0; text-align: left; }
+.browser-list { display: none; }   /* the button to play is in the hero (info.js moves it) */
+.ways .launch { display: block; width: calc(100% - 24px); box-sizing: border-box; margin: 2px 12px 8px; text-align: center; font-size: var(--t-body); padding: 0.75em 1em; }
+.launch-note { margin: 0 0 10px; font-size: 0.92em; line-height: 1.4; color: var(--softForeground); text-align: center; }
+.desktop-list { flex: none; padding: 0; }
+.desktop-list .docs-group .short { display: inline; }
+.desktop-list .docs-group .long { display: none; }
+.desktop-list .docs-item { display: flex; align-items: center; gap: 10px; font-size: var(--t-body); padding: 7px 12px; }
+.desktop-list .docs-item.sub { padding-left: 42px; }   /* a chapter's section, unmarked, its words under the chapter's (12 + the icon's 20 + the gap's 10) */
+.desktop-list .docs-item .tb-icon { margin: 0; width: 20px; height: 20px; color: var(--mutedForeground); vertical-align: middle; }
+.desktop-list .docs-item:hover .tb-icon { color: inherit; }
+#intro .u8 > p.credit { margin: 1.4em auto 0; font-size: var(--t-small); color: var(--mutedForeground); text-align: center; }
+#intro, #intro .u8, #intro header { text-align: center; }
+#intro .u8 > p.tagline { margin-left: auto; margin-right: auto; }
+.ic-main > .wrapper.style1.first { display: block; min-height: 0; padding: 2.5em 0 3em !important; }   /* the hero starts at the top; the page flows on */
+/* the four words in a row, all in view: the one whose turn it is takes the accent and a bar fills beneath it for the
+   length of its turn — the timing you can see, an invitation to watch the next — while its line shows below the row;
+   a word pressed takes its turn at once (info.js runs it) */
+.facets { --facet-gap: 18px; max-width: 40em; margin: 0 auto 1.6em; padding: 1.1em 1.4em var(--facet-gap); text-align: center; }   /* the words on the page itself: no panel, so the hero is not a stack of boxes */
+.facet-words { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 0.2em 1.6em; margin: 0; padding: 0; }
+.facet-word { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.25em; padding: 0.15em 0 0.2em; border: none; background: none; font: 600 var(--t-lead) var(--prose-font); line-height: 1.3; color: var(--faintText); cursor: pointer; transition: color 0.5s ease; }
+.facet-word .sp-glyph { display: block; width: 32px; height: 32px; background: currentColor; -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; }   /* the toolbar's own glyph, in the word's colour */
+.facet-word:hover, .facet-word:focus-visible { color: var(--softForeground); }
+.facet-word.on { color: var(--WindowForeground); }   /* the word lit plainly; its icon and its bar, filling, carry the accent */
+.facet-word.on .sp-glyph { background: var(--HighlightedBackground); }
+/* the bar as far under its word as the bar's tabs' underline is under theirs (style.css #site-nav .ic-tab): 11px from the
+   baseline, 3px thick, on screen at every width. The word's box is its font's height, whose foot is 0.125em below the
+   baseline; the bar comes after the word's gap (0.25em), and the page's zoom (--site-zoom) is taken back out */
+.facet-word > span { line-height: 1; }
+.facet-bar { position: relative; align-self: stretch; flex: none; height: calc(3px / var(--site-zoom, 1)); margin-top: calc(11px / var(--site-zoom, 1) - 0.375em); border-radius: var(--r-pill); background: var(--subtleFill); overflow: hidden; }
+.facet-bar::after { content: ""; position: absolute; inset: 0; width: 0; background: var(--HighlightedBackground); }
+.facet-word.on .facet-bar::after { animation: facet-fill var(--facet-turn, 4.2s) linear forwards; }
+.facets.paused .facet-word.on .facet-bar::after { animation-play-state: paused; }   /* the turn holds where it is while the keyboard's focus is on the words */
+@keyframes facet-fill { from { width: 0; } to { width: 100%; } }
+.facet-lines { display: grid; margin-top: var(--facet-gap);   /* the same room over the line as under it, to the panel's edge: centred between the words and the foot */ font-size: var(--t-lead); font-style: italic; line-height: 1.45; color: var(--Foreground); }
+.facet-line { grid-area: 1 / 1; align-self: center; opacity: 0; transform: translateY(0.3em); transition: opacity 0.7s ease-in, transform 0.7s ease-in; }   /* a line leaves in 0.7s, ending as its word's turn ends; the next arrives over 1.4s, gently, as its word lights (info.js) */
+.facet-line.on { opacity: 1; transform: none; transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), transform 1.4s cubic-bezier(0.4, 0, 0.2, 1); }
+/* the button to play, under the words: the page's one big ask, in the middle of the eye */
+#intro .u8 > p { font-size: var(--t-lead); line-height: 1.5; max-width: 34em; margin: 0 auto; text-align: center; color: var(--softForeground); }   /* the tagline's size (#intro .tagline) */
+.hero-launch { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; margin: 2.2em 0 0; }   /* the way in; the ask follows the code (info.js) */
+/* the opening view: the words, and the code — stacked, or side by side once the page is wide enough for both */
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 5em; }   /* the hero ends before the code begins: room enough to read as two things */
+.hero-grid #hear { max-width: 760px; width: 100%; margin: 0 auto; }
+.hero-grid #hear header { margin-bottom: 1.2em; }
+.ic-open-source .button { display: inline-flex; align-items: center; gap: 10px; }
+.ic-open-source .button .tb-icon { width: 20px; height: 20px; }
+.hero-after { text-align: center; }
+.hero-after a { text-decoration: none; }
+.hero-after a:hover { text-decoration: underline; }
+.hero-after .hero-launch { flex-direction: row; flex-wrap: wrap; gap: 14px; margin: 1.6em 0 0; }   /* the way to Learn, and the ask beside it */
+.hero-after header p { max-width: 40em; margin: 0.75em auto 0; }
+.hero-after .hero-launch .button { margin: 0; }
+.hero-after .credit { margin-top: 1.4em; }
+/* beside Launch: the ask, outlined, with Tabler's heart */
+.hero-support { display: inline-flex; align-items: center; gap: 7px; padding: 0.55em 1em; border: 2px solid var(--Button); border-radius: var(--r-m); color: var(--WindowForeground); font: 600 var(--t-body) var(--prose-font); text-decoration: none; }
+.hero-support .tb-icon { width: 18px; height: 18px; color: var(--HighlightedBackground); }
+.hero-support:hover, .hero-support:focus-visible { border-color: var(--HoverButton); color: var(--HoverButton); outline: none; }
+#intro .facets { margin-bottom: 0; }
+#intro .hero-launch { margin-top: 1.1em; gap: 10px; }   /* Launch, the app and the link close under the panel: one group, not three */
+/* under Launch, one quiet line: the app, the marks of where it runs beside its words. Launch is the one button */
+.hero-alt { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 20px; }
+.hero-app { display: inline-flex; align-items: center; gap: 8px; color: var(--mutedForeground); font: 600 var(--t-small) var(--prose-font); line-height: 1.3; text-decoration: none; }
+.hero-oses { display: inline-flex; gap: 6px; }
+.hero-oses .tb-icon { width: 15px; height: 15px; }
+.hero-app:hover, .hero-app:focus-visible { color: var(--HoverButton); }
+.hero-app { padding: 4px 0; margin: -4px 0; }
+.hero-app { flex-direction: column; gap: 4px; }   /* where it runs, then the words directly under */   /* 24px tall to the touch (WCAG 2.5.8), in the space it had */
+/* the supporters' strip at a page's foot: a title, the line, the button */
+.ic-support h2 { margin: 0 0 0.4em; font-size: var(--t-title); font-weight: 700; color: var(--WindowForeground); }
+.ic-support .button { display: inline-block; margin-top: 1.2em; }
+.hero-launch .button.medium { font-size: var(--t-body); padding: 0.75em 2em; }
+/* the live example under the hero: a quickstart card, as the Examples tab has them, one card wide */
+#hear { text-align: center; }
+.hero-example { max-width: 760px; margin: 0 auto; text-align: left; }
+.hero-example .qs-grid { grid-template-columns: minmax(0, 1fr); }
+.hero-example .qs-card { margin: 0; }
+#intro .qs-card-title, #hear .qs-card-title { margin: 0; padding: 0.6em 0; font-size: var(--t-body); font-weight: 700; color: var(--accentContrastText); text-align: left; max-width: none; }
+/* the list items' icons: ui/submenu.css */
+.way-web { border-color: var(--HighlightedBackground); }
+a.way-web:hover, a.way-web:focus-visible { border-color: var(--HoverButton); }
+a.way-web:hover .button { background: var(--HoverButton); border-color: var(--HoverButton); }
+.way-kicker { }   /* a kicker (shared.css) */
+.way-title { font-size: 1.2em; font-weight: 600; color: var(--WindowForeground); }
+.way-note { color: var(--softForeground); }
+.way-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.way .button.medium { font-size: 0.95em; padding: 0.6em 1.1em; }
+/* the buttons: shared.css, the app's and the site's one language, loaded after this */
+
+
+/* below the site's own cards, the rest by level: a heading in the site's h3 weight, its tabs as
+   small buttons of the site's kind (outlined, the shown one filled), one level's grid at a time */
+/* the levels: a heading over each group of cards, the docs list's group label at a heading's size */
+.qs-levels { display: block; }
+.qs-level { margin: 2.2em 0 0.9em; padding: 0; font: 600 var(--t-lead) var(--prose-font); color: var(--second); text-align: left; text-shadow: none; }
+.qs-level:first-child { margin-top: 0; }
+
+/* Reset sits before Copy in the bar, the same bare white glyph; it is there only once the code differs */
+/* the cards: ui/card.css */
+
+/* the examples one at a time (ui/flip.js), at every width as on a phone: the page's words brief, so a card and its bar
+   have the room */
+/* one screen: the bar, the words, the card — the download prompt and the support section are the other pages'
+   (Home has both), not a scroll below the examples */
+.wrapper:has(> #examples .flip) { display: flex; flex-direction: column; box-sizing: border-box; height: calc(100cqh / var(--site-zoom, 1)); padding: 0 0 12px; }   /* the screen's height, under the pages' zoom (.site-body) */   /* the screen, no more: a long card scrolls inside itself */
+.wrapper:has(> #examples .flip) > #examples { display: flex; flex: 1 1 0; min-height: 0; flex-direction: column; }
+#examples:has(.flip) > .container { display: contents; }
+#examples .flip-bar { order: -1; }   /* the bar first, right under the tabs; the words under it; the cards */
+#examples .flip { margin-inline: 0; }   /* the container's gutter is gone with it: bar and row are the screen's width as they are */
+#examples .flip { flex: 1 1 0; min-height: 0; }
+#examples:has(.flip) > footer, .ic-main:has(#examples .flip) > .ic-support { display: none; }
+#examples:has(.flip) > header { display: none; }   /* the bar says where you are; words that folded away past the first card would change the column's size under a scroll, and the snap would jump */
+#examples .flip .qs-card { width: 100%; max-width: 820px; margin-inline: auto; }   /* a wide column: the card a readable width, centred */
+
+/* a wide screen: the page bar (main.js) stands over the page's column; the column starts under it */
+@container (min-width: 821px) {
+  .ic-main { padding-top: var(--strip-h, 0px); scroll-padding-top: var(--strip-h, 0px); }
+}
+/* a phone: one column; the page's list folds behind a chip above the page (info.js adds it), About's mark and ways stack on top */
+@container (max-width: 820px) {   /* the fold itself: shared.css */
+  .ic-page.ic-split { display: block; height: auto; }
+  .ic-main { overflow: visible; height: auto; }
+  .ic-main > .wrapper.style1.first { min-height: 0; padding: 1em 0 1.5em !important; }   /* no first-screen height on a phone: the page just flows */
+  #intro { text-align: center; }
+  #intro header { margin: 0; }
+  .ic-main article > header { padding-left: 18px; padding-right: 18px; }   /* a section's title and strapline keep off the phone's edges */
+  .site-body .ic-fold-bar { position: static; z-index: auto; padding: 0; border-bottom: none; }   /* the shell's one strip folds the list (main.js): a page's own fold is the list's anchor only */
+  /* the list drops from under the shell's strip wherever the page has scrolled to (--ic-top: main.js placeInfo), and
+     no sticky layer stands between it and the page: Safari's blur sees only what shares the layer it samples, so a
+     list hung from a sticky strip would frost nothing and read as opaque */
+  .site-body .ic-fold-bar:not(.ic-dropdown) > .ic-side { position: fixed; top: var(--list-top, var(--ic-top, 0px)); left: 0; right: 0; z-index: 50; overscroll-behavior: contain; touch-action: pan-y; }   /* a swipe scrolls the list, never the page behind it */
+  .site-body .ic-fold-bar:not(.ic-dropdown) > .ic-fold { display: none; }
+  /* the support table at a phone's width: the rows wrap, the two value columns narrow, the header its words alone */
+  #connectivity .row > .u6 { width: auto; max-width: 100%; margin: 0; }
+  :is(#connectivity, #web-or-app) .conn-table { table-layout: fixed; width: 100%; font-size: var(--t-ui); }
+  :is(#connectivity, #web-or-app) .conn-table th, :is(#connectivity, #web-or-app) .conn-table td { padding: 0.5em 0.3em; white-space: normal; }
+  :is(#connectivity, #web-or-app) .conn-table th:not(:first-child), :is(#connectivity, #web-or-app) .conn-table td:not(:first-child) { width: 6.2em; }   /* room for a note's one word (multichannel) under its tick */
+  :is(#connectivity, #web-or-app) .conn-table th { font-size: var(--t-label); letter-spacing: 0.08em; }
+  :is(#connectivity, #web-or-app) .conn-table th .tb-icon { display: none; }
+  :is(#connectivity, #web-or-app) .conn-table tbody th { font-size: inherit; letter-spacing: normal; }
+  :is(#connectivity, #web-or-app) .conn-note { white-space: normal; }
+  #intro .hero-title { font-size: var(--t-title); line-height: 1.15; margin: 0.2em 0 0.45em; }
+  #intro .u8 > p.tagline { font-size: var(--t-body); line-height: 1.4; margin: 0 auto 0.6em; max-width: 30ch; }
+  #intro .facets { --facet-gap: 14px; margin: 1.2em 0; padding: 0.9em 0.6em var(--facet-gap); }
+  .facet-words { gap: 0.2em 0.9em; }   /* the four words on one row at a phone's width */
+  .facet-word { font-size: var(--t-ui); }
+  .facet-word .sp-glyph { width: 26px; height: 26px; }
+  .facet-lines { font-size: var(--t-body); }
+  #intro .facet-words { justify-content: center; gap: 0 0.9em; }
+  #intro .facet-word { font-size: var(--t-body); }
+  #intro .facet-word .sp-glyph { width: 26px; height: 26px; }
+  #intro .facet-lines { font-size: var(--t-body); }   /* as tall as its longest line (the lines share one cell), each centred in it: the same room above a short one as below */
+  #intro .credit { display: none; }
+  #intro header .image.logo { width: 110px; margin: 0 auto 0.8em; }
+  .ways { margin-top: 10px; }
+}
+
+.connectivity-diagram { display: block; width: 100%; height: auto; color: var(--Foreground); }
+/* what each build has, beside the diagram: the app's column and the browser's */
+.conn-table { width: 100%; margin: 0.8em 0 0; border-collapse: collapse; table-layout: fixed; font-size: var(--t-body); line-height: 1.35; text-align: left; }   /* the list's size, not the prose's; a long row wraps, the columns hold */
+#connectivity .row > .u6 { min-width: 0; }
+.conn-table th, .conn-table td { padding: 0.55em 0.5em; border: none; border-bottom: 1px solid var(--WindowBorder); vertical-align: middle; }
+.conn-table th:not(:first-child), .conn-table td:not(:first-child) { white-space: nowrap; }
+.conn-table th { white-space: nowrap; }   /* a kicker (shared.css) */
+.conn-table th .tb-icon { display: block; width: 16px; height: 16px; margin: 0 auto 4px; }   /* over its word, which then fits the column (a kicker's spaced capitals are wide) */
+.conn-table th:not(:first-child), .conn-table td:not(:first-child) { width: 6.5em; text-align: center; }
+.conn-table tbody th { font: inherit; font-weight: inherit; letter-spacing: normal; text-transform: none; color: inherit; white-space: normal; text-align: left; }   /* a feature: its row's header, for a screen reader, set as the cells beside it */
+.conn-table tbody tr:last-child :is(th, td) { border-bottom: none; }
+#web-or-app { max-width: 36em; margin: 1.6em auto 0; }   /* Get Sonic Pi's: which one, before the downloads */
+.conn-more { margin: 1em 0 0; color: var(--softForeground); font-size: var(--t-small); text-align: center; }
+.conn-yes .tb-icon, .conn-no .tb-icon { width: 20px; height: 20px; vertical-align: middle; }
+.conn-yes { color: var(--second); }   /* a fact: the second colour */
+.conn-no { color: var(--mutedForeground); }
+.conn-note { display: block; margin-top: -2px; font-size: var(--t-label); line-height: 1.2; color: var(--mutedForeground); white-space: nowrap; }
+
+/* the Patreon page's supporters (site/pages/support.html): the names plain, in columns, as credits roll */
+/* small and close-set, as a film's credits: as many columns as fit (two on a phone), the block centred under the title */
+#supporters header { margin-bottom: 1.6em; }
+#supporters header p { font-size: var(--t-body); line-height: 1.55; }   /* a paragraph, not a strapline: the body's size */
+.supporter-names { columns: 4 9.5em; column-gap: 1.5em; max-width: 54em; margin: 0 auto; padding: 0 18px; list-style: none; text-align: left; font-size: var(--t-small); line-height: 1.35; color: var(--softForeground); }
+.supporter-names li { break-inside: avoid; margin: 0; padding: 0 0 0.5em; }
+
+/* the list beside the pages in their own colour, a hairline its edge: one surface with the page and the nav above it
+   (style.css: the page bar and the foot likewise). A phone's list, opening over the page, keeps its frost. */
+@media (min-width: 761px) { .site-body .ic-fold-bar:not(.ic-dropdown) > .ic-side { background: var(--Background); } }
+
+/* Getting Sonic Pi (site/pages/home.html): each platform its name and a line, then one rounded group with a row
+   per download — a chip tag, what it runs on with its version and needs on a line under, the file it is at the end,
+   the whole row the link, the most common filled — and a line of small print under. The same at every width. */
+.wrapper:has(> .dl) { padding: 1.8em 0 1.6em; }
+.container.dl { width: auto; max-width: 44em; box-sizing: border-box; text-align: left; }   /* the site's .container is a fixed width: a phone's would overflow */
+.dl > header { display: flex; align-items: center; gap: 16px; margin: 0 0 14px; text-align: left; }
+.dl-platform { flex: none; width: 56px; height: 56px; color: var(--second); fill: none; stroke: currentColor; stroke-width: 1.5; }   /* the platform's own mark, as the list beside names it */
+.dl > header h1 { margin: 0; font-size: var(--t-heading); line-height: 1.2; }
+.dl > header p { margin: 4px 0 0; font-size: var(--t-body); line-height: 1.4; color: var(--mutedForeground); }
+.dl-rows { display: flex; flex-direction: column; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); overflow: hidden; }
+.dl-row { display: flex; align-items: center; gap: 14px; padding: 12px 14px; color: var(--Foreground); text-decoration: none; border: none; }
+.dl-row + .dl-row { border-top: 1px solid var(--WindowBorder); }
+.dl-row:hover, .dl-row:focus-visible { background: color-mix(in srgb, var(--HighlightedBackground) 8%, transparent); outline: none; }
+.dl-chiptag { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 4.4em; box-sizing: border-box; height: 2.2em; padding: 0 6px; border: 1.5px solid var(--WindowBorder); border-radius: var(--r-s); font: 600 var(--t-small) var(--code-font); color: var(--softForeground, var(--Foreground)); }
+.dl-chiptag .dl-glyph { width: 1.4em; height: 1.4em; color: var(--second); fill: none; stroke: currentColor; stroke-width: 2; }
+.dl-what { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.dl-what strong { font: 600 var(--t-body)/1.3 var(--prose-font); color: var(--Foreground); }
+.dl-meta { font-size: var(--t-small); line-height: 1.35; color: var(--mutedForeground); overflow-wrap: anywhere; }
+.dl-go { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1.5px solid var(--HighlightedBackground); border-radius: var(--r-m); font: 600 var(--t-small) var(--prose-font); color: var(--HighlightedBackground); white-space: nowrap; }
+.dl-row.main .dl-go { background: var(--HighlightedBackground); color: var(--accentContrastText, #fff); }
+.dl-go .dl-mark { display: block; width: 1.1em; height: 1.1em; }
+.dl-hint { margin: 10px 2px 0; font-size: var(--t-small); line-height: 1.5; color: var(--mutedForeground); }
+.dl-hint code { padding: 1px 6px; border-radius: var(--r-s); background: color-mix(in srgb, var(--Foreground) 8%, transparent); font: var(--t-small) var(--code-font); white-space: nowrap; }
+@media (max-width: 760px) {
+  .wrapper:has(> .dl) { padding: 1.3em 0 1.1em; }
+  .container.dl { padding: 0 16px; }
+  .dl-chiptag { width: 3.9em; }
+  .dl-hint code { white-space: normal; overflow-wrap: anywhere; }
+  .dl > header h1 { font-size: var(--t-lead); }
+  .dl > header { gap: 12px; }
+  .dl-platform { width: 40px; height: 40px; }
+  .dl > header p { font-size: var(--t-small); }
+  .dl-row { gap: 10px; padding: 10px 12px; }
+  .dl-go { padding: 6px 8px; }
+  .dl-go { font-size: 0; gap: 0; padding: 8px; }   /* a phone: the arrow alone (its words still there for a screen reader), the row says the rest */
+  .dl-go .dl-mark { width: 18px; height: 18px; }
+}
+
+/* Free and open source (site/pages/home.html): what it has made, as four figures, then the ways into it */
+.os-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr));   /* as many columns as there are figures, the row filled */ gap: 12px; margin: 1.6em 0 1.4em; padding: 0; }
+.os-stats > div { padding: 14px 10px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); text-align: center; }
+.os-stats dt { font: 700 var(--t-heading)/1.1 var(--prose-font); color: var(--second); font-variant-numeric: tabular-nums; }   /* a figure: the second colour, as a number in code is */
+.os-stats dd { margin: 4px 0 0; font-size: var(--t-small); line-height: 1.35; color: var(--mutedForeground); }
+.os-ways { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.os-ways a { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1.5px solid var(--HighlightedBackground); border-radius: var(--r-m); color: var(--HighlightedBackground); font: 600 var(--t-small) var(--prose-font); text-decoration: none; }
+.os-ways a:hover, .os-ways a:focus-visible { filter: brightness(1.1); outline: none; }
+.os-ways .tb-icon { width: 1.2em; height: 1.2em; }
+@media (max-width: 760px) { .os-stats { gap: 8px; } .os-stats dt { font-size: var(--t-lead); } }
+/* the code behind each part (site/pages/home.html): the download rows' shape, a repo to a row */
+.os-repos { margin: 0 0 1.4em; text-align: left; }
+.os-repos .dl-chiptag .tb-icon { width: 1.4em; height: 1.4em; color: var(--second); }
+.os-repos .dl-chiptag .os-logo { width: 1.6em; height: 1.6em; object-fit: contain; }   /* a project with a mark of its own: its mark, as it has it */
+
+/* the Learn page's heading (site/pages/learn.html): Sonic Pi above it, as its mark; one heading to a
+   screen reader ("Sonic Pi is Made for Learning") */
+.learn-mark { display: block; margin: 0 0 0.1em; font: 700 clamp(40px, 7vw, 64px)/1.05 var(--prose-font); letter-spacing: -0.01em; color: var(--HighlightedBackground); }
+
+/* Learn's ways in (site/pages/learn.html): the paths spaced out, each its own step, not a sentence of links */
+.learn-paths { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 1.6em 0 0.4em; }
+.learn-paths a { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; width: 7.6em; padding: 16px 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); color: var(--Foreground); font: 600 var(--t-small) var(--prose-font); text-decoration: none; }
+.learn-paths a:hover, .learn-paths a:focus-visible { border-color: var(--HighlightedBackground); color: var(--HighlightedBackground); outline: none; }
+.learn-paths .tb-icon { width: 26px; height: 26px; color: var(--HighlightedBackground); }
+@media (max-width: 760px) { .learn-paths { gap: 8px; } .learn-paths a { width: 6.4em; padding: 12px 6px; } .learn-paths .tb-icon { width: 22px; height: 22px; } }
+/* a phone: the hero's code card inset from the screen's edges, as the live synth's card below it is */
+@media (max-width: 760px) { .hero-example { margin-inline: 12px; } }
+/* the site's cards at their own size from the start: a card is skipped while off screen (card.css content-visibility,
+   for the docs pane's hundreds), standing in at a guess, and a page's few dozen cards would grow as a scroll passed them —
+   an anchor scrolled to from the top would land short of it (Learn's course cards: 260px guessed, 700 real) */
+.site-body .qs-card { content-visibility: visible; }
+/* ── the tutorial's pages (scripts/build-site.mjs tutorialBody): a book's to read, not a landing page's — left-aligned
+   at a reading width, the prose face at body size, each part's parts stepping down from its title, every program a
+   card, and the chapter before and after at the foot ── */
+.tut-page .tut-wrap { padding: 2.2em 0 0.6em; text-align: left; background: none; box-shadow: none; }
+.tut-page .tut-part { width: auto; max-width: 46em; margin: 0 auto; padding: 0 24px; text-align: left; }   /* width: landing.css's .container sets one, fixed */
+.tut-page .tut-part header { margin: 0 0 0.9em; text-align: left; }
+.tut-page .tut-part p.tut-note { padding: 0.7em 1em; border-left: 3px solid var(--HighlightedBackground); border-radius: var(--r-s); background: var(--accentTint); }
+.tut-page .tut-part h1 { margin: 0; font-size: var(--t-title); text-align: left; }
+.tut-page .tut-part > :is(h2, h3, h4) { margin: 1.3em 0 0.4em; font: 700 var(--t-body) var(--prose-font); color: var(--Foreground); text-align: left; }
+.tut-page .tut-part > p, .tut-page .tut-part > :is(ul, ol) > li { margin: 0 0 0.9em; font: var(--t-body)/1.6 var(--prose-font); color: var(--Foreground); text-align: left; }
+.tut-page .tut-part > :is(ul, ol) { margin: 0 0 1em; padding-left: 1.4em; text-align: left; }
+.tut-page .tut-part > :is(ul, ol) > li { margin-bottom: 0.35em; }
+/* the code in a sentence: the editor's face and colours (build-site.mjs highlights it), on the code cards' own tint, so a
+   word of code reads as the code under it does */
+.tut-page .tut-part > p code, .tut-page .tut-part > :is(ul, ol) > li code { padding: 0.12em 0.4em; border-radius: var(--r-s); background: var(--accentTint); color: var(--Foreground); font: 500 0.88em var(--code-font); white-space: nowrap; }
+.tut-page .tut-part .qs-card { margin: 1em 0 1.4em; }
+.tut-page .tut-part img { display: block; max-width: 100%; height: auto; margin: 1.2em auto; border-radius: var(--r-m); }
+.tut-page .tut-next { max-width: 46em; margin: 2.4em auto 3em; padding: 0 24px; }
+.tut-page a.tut-step { text-decoration: none; }
+@media (max-width: 760px) { .tut-page .tut-part, .tut-page .tut-next { padding: 0 16px; } .tut-page .tut-wrap { padding-top: 1.6em; } }
+/* the course's cards crisp in either theme: the page's own ground inside a clean edge (the card's tint would wash the light
+   theme's out), the words full strength, the poster's title white on its shade. Its #id: landing.css's course card
+   pads and colours every p and h2 in one, and its rules would otherwise win. */
+.site-body #course .course-card { padding-bottom: 0; border: 1px solid var(--WindowBorder); background: var(--PaneBackground); }
+.site-body #course .course-card .qs-card-foot { background: none; border-top: 1px solid var(--WindowBorder); }
+.site-body #course .course-copy p { padding: 0; font-size: var(--t-body); color: var(--Foreground); }
+.site-body #course .course-cover h2 { padding: 0; font-weight: 700; color: #fff; }
+.site-body #course .course-media img { height: 100%; border-radius: 0; }
+
+/* The home page's highlights (#story): a thumbnail, a name and a line each, every one a link out. The thumbnails
+   are all one shape (site/media/images/home/highlights, cropped to 480 × 354), so the grid's rows line up. */
+.highlights { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px 20px; text-align: left; }
+.highlights a { display: flex; flex-direction: column; gap: 6px; color: inherit; text-decoration: none; border-radius: var(--r-m); }
+.highlights img { display: block; width: 100%; height: auto; aspect-ratio: 480 / 354; object-fit: cover; border-radius: var(--r-m);
+  border: 1px solid var(--WindowBorder); margin-bottom: 4px; }
+.highlights strong { font: 600 var(--t-body) var(--prose-font); color: var(--Foreground); }
+.highlights span { font: var(--t-small) var(--prose-font); line-height: 1.45; color: var(--softForeground); }
+.highlights a:hover strong { text-decoration: underline; text-decoration-color: var(--HighlightedBackground); text-underline-offset: 3px; }
+.highlights a:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: 6px; }
+.highlights-more { margin-top: 28px; font: var(--t-body) var(--prose-font); color: var(--softForeground); }

@@ -1,0 +1,84 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-mod_saw",
+      "args": {
+        "note": 33.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-mod_saw",
+      "args": {
+        "note": 81.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-mod_saw",
+      "args": {
+        "note": 60.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-mod_saw",
+      "args": {
+        "note": 69.0
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :mod_saw, {note: 33.0}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :mod_saw, {note: 81.0}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :mod_saw, {note: 60.0}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :mod_saw, {note: 69.0}"
+    }
+  ]
+}

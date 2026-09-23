@@ -1,0 +1,54 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.5,
+      "beat": 2.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.25
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+    {
+      "t": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "text": "240.0"
+    }
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sync :now"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "synced \"/{cue,set,live_loop}/now\". Inheriting bpm of 240.0 "
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "cue :now, []"
+    },
+    {
+      "t": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.25}"
+    }
+  ]
+}

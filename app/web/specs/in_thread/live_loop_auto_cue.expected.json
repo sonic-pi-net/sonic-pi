@@ -1,0 +1,97 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_a",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 10,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.3,
+      "beat": 0.3,
+      "thread": "0.0.1",
+      "name": "live_loop_b",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 11,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.3,
+      "beat": 0.3,
+      "thread": "0.0.1",
+      "name": "live_loop_b",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0
+      },
+      "now": false,
+      "fx": {
+        "t": 0.3,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 0.3531,
+      "thread": "0.0.0",
+      "name": "live_loop_a",
+      "synth": "sonic-pi-fx_scope_out",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.3018,
+      "thread": "0.0.1",
+      "name": "live_loop_b",
+      "synth": "sonic-pi-fx_scope_out",
+      "of": {
+        "t": 0.3,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_b",
+      "text": "sync :a"
+    },
+    {
+      "t": 0.3,
+      "thread": "0.0.1",
+      "name": "live_loop_b",
+      "text": "synced \"/{cue,set,live_loop}/a\" "
+    },
+    {
+      "t": 0.3,
+      "thread": "0.0.1",
+      "name": "live_loop_b",
+      "text": "synth :beep, {note: 60.0}"
+    }
+  ]
+}

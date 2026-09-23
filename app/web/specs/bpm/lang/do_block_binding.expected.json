@@ -1,0 +1,202 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "mix": 0.1,
+        "reps": 1,
+        "decay": 1.0,
+        "max_phase": 1.0,
+        "phase": 0.125
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_reverb",
+      "args": {
+        "room": 0.8,
+        "reps": 1
+      },
+      "now": true
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 62.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_reverb"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "a",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 64.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.25,
+        "reps": 1,
+        "decay": 1.0,
+        "max_phase": 1.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 66.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.25,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0.1",
+      "name": "c_voice",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 67.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.5045,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.755,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 0.25,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 9.5052,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_reverb",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_reverb"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 62.0, release: 0.5}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "a",
+      "text": "synth :beep, {note: 64.0, release: 0.5}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 66.0, release: 0.5}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.1",
+      "name": "c_voice",
+      "text": "synth :beep, {note: 67.0, release: 0.5}"
+    }
+  ]
+}

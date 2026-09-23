@@ -1,0 +1,38 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_level",
+      "args": {
+        "kill_delay": 0.25,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "fx_free",
+      "t": 0.2162,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_level",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_level"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+
+  ]
+}

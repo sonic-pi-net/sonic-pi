@@ -1,0 +1,69 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_blip.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_level",
+      "args": {
+        "kill_delay": 0.25,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "rate": 0.5,
+        "buf": "elec_blip.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.25,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_level"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 0.8222,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_level",
+      "of": {
+        "t": 0.25,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_level"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"elec_blip.flac\", {rate: 0.5}"
+    }
+  ]
+}

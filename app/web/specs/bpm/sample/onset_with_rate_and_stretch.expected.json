@@ -1,0 +1,87 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_amen.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "rate": 2,
+        "start": 0.1209243775947026,
+        "finish": 0.2489364894401262,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "beat_stretch": 2,
+        "rate": 1.753310657596372,
+        "start": 0.1209243775947026,
+        "finish": 0.2489364894401262,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "rate": -1,
+        "start": 0.1209243775947026,
+        "finish": 0.2489364894401262,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 1, rate: 2, start: 0.1209, finish: 0.2489}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 1, beat_stretch: 2, rate: 1.7533, start: 0.1209, finish: 0.2489}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 1, rate: -1, start: 0.1209, finish: 0.2489}"
+    }
+  ]
+}

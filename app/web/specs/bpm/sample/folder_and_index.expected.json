@@ -1,0 +1,1732 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_choir.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_dark_woosh.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_drone.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_glass_hum.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_glass_rub.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_haunted_hum.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_lunar_land.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_piano.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_sauna.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_soft_buzz.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ambi_swoosh.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "arovane_beat_a.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "arovane_beat_b.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "arovane_beat_c.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "arovane_beat_d.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "arovane_beat_e.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bass_dnb_f.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bass_drop_c.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bass_hard_c.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bass_hit_c.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bass_thick_c.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bass_trance_c.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bass_voxy_c.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bass_voxy_hit_c.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bass_woodsy_c.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_808.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_ada.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_boom.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_chip.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_fat.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_gas.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_haus.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_jazz.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_klub.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_mehackit.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_pure.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_sone.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_tek.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_zome.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_zum.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_bass_hard.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_bass_soft.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_cowbell.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_cymbal_closed.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_cymbal_hard.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_cymbal_open.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_cymbal_pedal.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_cymbal_soft.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_heavy_kick.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_roll.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_snare_hard.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_snare_soft.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_splash_hard.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_splash_soft.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_tom_hi_hard.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_tom_hi_soft.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_tom_lo_hard.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_tom_lo_soft.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_tom_mid_hard.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "drum_tom_mid_soft.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_beep.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_bell.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_blip.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_blip2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_blup.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_bong.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_chime.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_cymbal.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_filt_snare.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_flip.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_fuzz_tom.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_hi_snare.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_hollow_kick.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_lo_snare.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_mid_snare.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_ping.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_plip.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_pop.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_snare.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_soft_kick.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_tick.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_triangle.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_twang.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_twip.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "elec_wood.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "glitch_bass_g.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "glitch_perc1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "glitch_perc2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "glitch_perc3.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "glitch_perc4.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "glitch_perc5.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "glitch_robot1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "glitch_robot2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "guit_e_fifths.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "guit_e_slide.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "guit_em9.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "guit_harmonics.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_bdu.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_cab.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_cats.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_gem.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_gnu.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_gump.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_hier.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_len.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_mess.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_metal.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_noiz.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_psych.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_raw.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_sci.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_snap.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_star.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_tap.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_yosh.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_zan.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_zap.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "hat_zild.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_3d_printer.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_amen.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_amen_full.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_breakbeat.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_compus.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_drone_g_97.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_electric.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_garzul.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_industrial.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_mehackit1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_mehackit2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_mika.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_perc1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_perc2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_safari.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_tabla.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_weirdo.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_phone1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_phone2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_phone3.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_phone4.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_robot1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_robot2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_robot3.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_robot4.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_robot5.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_robot6.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "mehackit_robot7.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "misc_burp.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "misc_cineboom.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "misc_crow.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_bell.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_bell2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_door.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_impact1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_impact2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_snap.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_snap2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_swash.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_swoosh.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "perc_till.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ride_tri.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "ride_via.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "sn_dolf.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "sn_dub.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "sn_generic.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "sn_zome.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_dhec.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ghe1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ghe2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ghe3.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ghe4.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ghe5.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ghe6.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ghe7.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ghe8.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ke1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ke2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_ke3.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_na.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_na_o.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_na_s.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_re.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_tas1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_tas2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_tas3.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_te1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_te2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_te_m.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_te_ne.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_tun1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_tun2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tabla_tun3.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_fxbed_loop.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_highkey_c4.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_pad_1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_pad_2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_pad_3.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_pad_4.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_perc_blip.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_perc_hat.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_perc_tap_1.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_perc_tap_2.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "tbd_voctone.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "vinyl_backspin.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "vinyl_hiss.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "vinyl_rewind.flac"
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "vinyl_scratch.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "buf": "ambi_choir.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "buf": "ambi_dark_woosh.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "buf": "vinyl_scratch.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "buf": "ambi_choir.flac"
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"ambi_choir.flac\""
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"ambi_dark_woosh.flac\""
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"vinyl_scratch.flac\""
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"ambi_choir.flac\""
+    }
+  ]
+}

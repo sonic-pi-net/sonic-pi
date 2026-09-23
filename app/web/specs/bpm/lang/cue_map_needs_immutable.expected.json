@@ -1,0 +1,20 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "ArgumentError",
+      "message": "Invalid cue argument \"c\" with key :n due to unrecognised type: (String). Must be immutable -  currently accepted types: numbers, symbols, booleans, nil and frozen strings, or vectors/rings/frozen arrays/maps of immutable values",
+      "line": 3,
+      "thread": "0.0",
+      "name": ""
+    }
+  ],
+  "output": [
+
+  ],
+  "log": [
+
+  ]
+}

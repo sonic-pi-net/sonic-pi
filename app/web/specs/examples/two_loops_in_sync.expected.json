@@ -1,0 +1,398 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 10,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 62.0,
+        "amp": 0.5,
+        "release": 0.2,
+        "cutoff": 90
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 11,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 52.0,
+        "amp": 0.5,
+        "release": 0.2,
+        "cutoff": 90
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "synth": "sonic-pi-tb303",
+      "args": {
+        "note": 40.0,
+        "release": 0.45,
+        "cutoff": 70,
+        "res": 0.3,
+        "cutoff_attack": 0.0,
+        "cutoff_decay": 0.0,
+        "cutoff_sustain": 0.0,
+        "cutoff_release": 0.45
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.5,
+      "beat": 1.0,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 59.0,
+        "amp": 0.5,
+        "release": 0.2,
+        "cutoff": 90
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.75,
+      "beat": 1.5,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 52.0,
+        "amp": 0.5,
+        "release": 0.2,
+        "cutoff": 90
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.0,
+      "beat": 2.0,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 52.0,
+        "amp": 0.5,
+        "release": 0.2,
+        "cutoff": 90
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.0,
+      "beat": 2.0,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "synth": "sonic-pi-tb303",
+      "args": {
+        "note": 40.0,
+        "release": 0.45,
+        "cutoff": 70,
+        "res": 0.3,
+        "cutoff_attack": 0.0,
+        "cutoff_decay": 0.0,
+        "cutoff_sustain": 0.0,
+        "cutoff_release": 0.45
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.25,
+      "beat": 2.5,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 52.0,
+        "amp": 0.5,
+        "release": 0.2,
+        "cutoff": 90
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.5,
+      "beat": 3.0,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 55.0,
+        "amp": 0.5,
+        "release": 0.2,
+        "cutoff": 90
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.75,
+      "beat": 3.5,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 62.0,
+        "amp": 0.5,
+        "release": 0.2,
+        "cutoff": 90
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.75,
+      "beat": 3.5,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "synth": "sonic-pi-tb303",
+      "args": {
+        "note": 40.0,
+        "release": 0.45,
+        "cutoff": 70,
+        "res": 0.3,
+        "cutoff_attack": 0.0,
+        "cutoff_decay": 0.0,
+        "cutoff_sustain": 0.0,
+        "cutoff_release": 0.45
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.0,
+      "beat": 4.0,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 62.0,
+        "amp": 0.5,
+        "release": 0.2,
+        "cutoff": 90
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "text": "synth :saw, {note: 62.0, amp: 0.5, release: 0.2, cutoff: 90}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "text": "sync :melody"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "text": "synth :saw, {note: 52.0, amp: 0.5, release: 0.2, cutoff: 90}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "text": "synced \"/{cue,set,live_loop}/melody\" "
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "text": "synth :tb303, {note: 40.0, release: 0.45, cutoff: 70, res: 0.3, cutoff_attack: 0.0, cutoff_decay: 0.0, cutoff_sustain: 0.0, cutoff_release: 0.45}"
+    },
+    {
+      "t": 0.5,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "text": "synth :saw, {note: 59.0, amp: 0.5, release: 0.2, cutoff: 90}"
+    },
+    {
+      "t": 0.75,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "text": "synth :saw, {note: 52.0, amp: 0.5, release: 0.2, cutoff: 90}"
+    },
+    {
+      "t": 0.75,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "text": "sync :melody"
+    },
+    {
+      "t": 1.0,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "text": "synth :saw, {note: 52.0, amp: 0.5, release: 0.2, cutoff: 90}"
+    },
+    {
+      "t": 1.0,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "text": "synced \"/{cue,set,live_loop}/melody\" "
+    },
+    {
+      "t": 1.0,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "text": "synth :tb303, {note: 40.0, release: 0.45, cutoff: 70, res: 0.3, cutoff_attack: 0.0, cutoff_decay: 0.0, cutoff_sustain: 0.0, cutoff_release: 0.45}"
+    },
+    {
+      "t": 1.25,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "text": "synth :saw, {note: 52.0, amp: 0.5, release: 0.2, cutoff: 90}"
+    },
+    {
+      "t": 1.5,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "text": "synth :saw, {note: 55.0, amp: 0.5, release: 0.2, cutoff: 90}"
+    },
+    {
+      "t": 1.5,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "text": "sync :melody"
+    },
+    {
+      "t": 1.75,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "text": "synth :saw, {note: 62.0, amp: 0.5, release: 0.2, cutoff: 90}"
+    },
+    {
+      "t": 1.75,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "text": "synced \"/{cue,set,live_loop}/melody\" "
+    },
+    {
+      "t": 1.75,
+      "thread": "0.0.1",
+      "name": "live_loop_bass",
+      "text": "synth :tb303, {note: 40.0, release: 0.45, cutoff: 70, res: 0.3, cutoff_attack: 0.0, cutoff_decay: 0.0, cutoff_sustain: 0.0, cutoff_release: 0.45}"
+    },
+    {
+      "t": 2.0,
+      "thread": "0.0.0",
+      "name": "live_loop_melody",
+      "text": "synth :saw, {note: 62.0, amp: 0.5, release: 0.2, cutoff: 90}"
+    }
+  ]
+}

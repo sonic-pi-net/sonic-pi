@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- iOS alone keeps the page from zooming in when a field or the editor takes focus: it lets people pinch to zoom
+     whatever the tag says, where another browser would take maximum-scale as zoom turned off (WCAG 1.4.4) -->
+<script>if (/iP(hone|ad|od)/.test(navigator.userAgent) || (/Mac/.test(navigator.platform) && navigator.maxTouchPoints > 1)) document.querySelector('meta[name="viewport"]').content += ", maximum-scale=1";</script>
+<!-- installable: from an iPad's Home Screen it opens full screen -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sonic Pi">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="data/icon-256.png">
+<link rel="icon" href="data/icon-256.png">
+<title>Sonic Pi</title>
+<meta name="description" content="Sonic Pi in the browser: the language on mruby, the sound from SuperSonic.">
+<link rel="stylesheet" href="simple-keyboard.css">
+<link rel="stylesheet" href="app.css">
+<script>
+  // Scripts run here: what only they drive may be laid out from the first paint (the page bar, style.css)
+  document.documentElement.classList.add("js");
+  // The pages' and the panels' zoom before the first paint, or the site draws at full size and shrinks a moment
+  // later: the steps saved, or the defaults (main.js zooms, which applies the same again), 1.1× a step.
+  try { var z = Object.assign({ help: -2, site: 1 }, JSON.parse(localStorage.getItem("sp-zooms") || "{}")); if (z.help == null && z.docs != null) z.help = z.docs; for (var k in z) if (typeof z[k] === "number") document.documentElement.style.setProperty("--" + k + "-zoom", String(Math.min(3, Math.max(0.5, Math.pow(1.1, z[k]))))); } catch (e) {}
+  // The saved editor size before the editor draws, so it doesn't jump.
+  try { var px = parseInt(localStorage.getItem("sp-font-size"), 10); if (px >= 8 && px <= 40) document.documentElement.style.setProperty("--editor-font-size", px + "px"); } catch (e) {}
+  // The theme last applied (theme.js saves it), before the first paint: a chosen theme does not flash the default.
+  // A first visit has none, and paints in the default app.css carries.
+  try { var t = JSON.parse(localStorage.getItem("sp-theme-vars")), r = document.documentElement; if (t && t.vars) { for (var i = 0; i < t.vars.length; i++) r.style.setProperty(t.vars[i][0], t.vars[i][1]); r.style.colorScheme = t.colorScheme; r.dataset.scheme = t.scheme; } } catch (e) {}
+</script>
+</head>
+<body>
+<!-- a keyboard's or a screen reader's first stop: past the bar to the page (the build points it at the page's <main>) -->
+<a class="skip-link" href="#app">Skip to content</a>
+<!-- the website's bar (main.js): sonic-pi.net's nav across the top of the app, opening its pages under it; × folds it to its wordmark at the top left -->
+<nav id="site-nav" aria-label="sonic-pi.net">
+  <a class="sn-brand" href="#about">sonic-pi.net</a>
+  <!-- stops everything, quietly, while anything sounds; its room is kept when it is not, so nothing moves (main.js showJobs) -->
+  <button class="sn-stop" type="button" title="Stop everything" aria-label="Stop everything"><canvas class="sn-stop-rings" aria-hidden="true"></canvas><svg class="tb-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/></svg></button>
+  <div class="ic-tabs"></div>
+  <!-- in the app, everything playing as one thin scope across the bar's spare room, after the tabs (loopscope.js draws it) -->
+  <canvas class="sn-scope" aria-hidden="true"></canvas>
+  <!-- the colour theme, a click away wherever you are: its menu (main.js buildThemeMenu) -->
+  <!-- Code: the editor, code.html (the site's pages' words are its tabs; this, beside the palette, is the app) -->
+  <a class="sn-code" href="code.html" data-tab="code" title="Code: the editor, write and run your own music" aria-label="Code"><svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8l-4 4l4 4" /> <path d="M17 8l4 4l-4 4" /> <path d="M14 4l-4 16" /></svg></a>
+  <button class="sn-theme" type="button" title="Colour theme" aria-label="Colour theme" aria-haspopup="dialog" aria-expanded="false" aria-controls="theme-menu"><svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.58 13.79c.27 .68 .42 1.43 .42 2.21c0 1.77 -.77 3.37 -2 4.46a5.93 5.93 0 0 1 -4 1.54c-3.31 0 -6 -2.69 -6 -6c0 -2.76 1.88 -5.1 4.42 -5.79"/><path d="M17.58 10.21c2.54 .69 4.42 3.03 4.42 5.79c0 3.31 -2.69 6 -6 6a5.93 5.93 0 0 1 -4 -1.54"/><path d="M6 8a6 6 0 1 0 12 0a6 6 0 1 0 -12 0"/></svg></button>
+  <button class="sn-close" title="Hide the sonic-pi.net bar" aria-label="Hide the sonic-pi.net bar"><svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6 -6l6 6"/></svg></button>
+</nav>
+<!-- a phone: the page bar for whatever page shows, under the tabs (main.js, ui/pagebar.js); each page's own fold
+     stays hidden and only anchors the list it drops (site.css) -->
+<div id="site-strip">
+</div>
+<div class="toolbar-region" role="region" aria-label="Controls">
+<div id="toolbar" role="toolbar" aria-label="Sonic Pi">
+  <!-- native Sonic Pi's toolbar (MainWindow::createToolBar), in its order, with its "pro" icons
+       (app/gui/images/toolbar/pro), tinted as SonicPiTheme::tintedIcon tints
+       them: the window's foreground, and when toggled the bordered icon in the accent -->
+  <button id="btn-run" class="tb-icon" title="Run (Cmd/Ctrl+Enter or Alt+R)" aria-label="Run"><i class="tb-glyph" style="--icon: url(data/toolbar/run.png)"></i></button>
+  <button id="btn-stop" class="tb-icon" title="Stop everything (Cmd/Ctrl+. or Alt+S)" aria-label="Stop"><i class="tb-glyph" style="--icon: url(data/toolbar/stop.png)"></i></button>
+  <button id="btn-record" class="tb-icon tb-rec" title="Start recording to a WAV audio file (Shift+Cmd/Ctrl+R)" aria-label="Record"><i class="tb-glyph" style="--icon: url(data/toolbar/rec.png)"></i></button>
+  <button id="btn-load" class="tb-icon" title="Load a file into this buffer" aria-label="Load"><i class="tb-glyph" style="--icon: url(data/toolbar/load.png)"></i></button>
+  <button id="btn-share" class="tb-icon" title="Share this buffer: a link to copy, a QR code, or the link to copy by hand" aria-label="Share this buffer" aria-haspopup="menu" aria-expanded="false" aria-controls="share-menu"><i class="tb-glyph" style="--icon: url(data/toolbar/save.png)"></i></button>
+  <span id="toast" class="toast" hidden></span>
+  <div class="tb-spacer"></div>
+  <div class="tb-spacer"></div>
+  <button id="btn-size-down" class="tb-icon" title="Code size down (Cmd/Ctrl+-)" aria-label="Code size down"><i class="tb-glyph" style="--icon: url(data/toolbar/size-down.png)"></i></button>
+  <button id="btn-size-up" class="tb-icon" title="Code size up (Cmd/Ctrl+=)" aria-label="Code size up"><i class="tb-glyph" style="--icon: url(data/toolbar/size-up.png)"></i></button>
+  <button id="btn-scope" class="tb-icon" title="Show or hide the scope" aria-label="Scope"><i class="tb-glyph" style="--icon: url(data/toolbar/scope.png); --icon-on: url(data/toolbar/scope-bordered.png)"></i></button>
+  <button id="btn-info" class="tb-icon" title="Info about Sonic Pi" aria-label="Info"><i class="tb-glyph" style="--icon: url(data/toolbar/info.png); --icon-on: url(data/toolbar/info-bordered.png)"></i></button>
+  <button id="btn-help" class="tb-icon" title="Help: cards, docs and threads (Cmd/Ctrl+I on a word)" aria-label="Help"><i class="tb-glyph" style="--icon: url(data/toolbar/help.png); --icon-on: url(data/toolbar/help-bordered.png)"></i></button>
+  <button id="btn-prefs" class="tb-icon" title="Preferences" aria-label="Preferences"><i class="tb-glyph" style="--icon: url(data/toolbar/prefs.png); --icon-on: url(data/toolbar/prefs-bordered.png)"></i></button>
+  <!-- full screen -->
+  <button id="btn-zen" class="tb-icon tb-zen" title="Full screen" aria-label="Full screen"><i class="tb-glyph" style="--icon: url(data/toolbar/zen.png); --icon-on: url(data/toolbar/unzen.png)"></i></button>
+</div>
+</div>   <!-- .toolbar-region: a landmark around the toolbar, laid out as if it were not there (style.css) -->
+<!-- the Share button's menu (share-menu.js): copy the link, a QR code, or the link itself -->
+<div id="share-menu" role="dialog" aria-label="Share" hidden></div>
+<div id="sets-menu" role="dialog" aria-label="Switch sets" hidden></div>
+<!-- the colour theme's menu, under its button in the bar (main.js buildThemeMenu) -->
+<div id="theme-menu" role="dialog" aria-label="Colour theme" hidden></div>
+
+<input id="load-file" type="file" accept=".rb,.txt,.sonicpi,text/plain,text/x-ruby" hidden>
+<div id="main">
+  <!-- sonic-pi.net as a view of this area, in place of the editor and its panels (site.js, main.js setSiteView) -->
+  <div id="editor-column" role="main">
+    <h1 class="sr-only">Sonic Pi: the code editor</h1>
+    <div id="editor-mount"></div>
+    <!-- the error, where the error pane cannot be seen (a phone with the keyboard up or a drawer open): main.js showError -->
+    <div id="error-strip" hidden><button type="button" class="es-go"><span class="es-title"></span><span class="es-msg"></span></button><button type="button" class="es-fix" hidden></button></div>
+    <div id="editor-foot">
+      <span id="caret-pos" role="region" aria-label="Run context">Line: 1,  Position: 1</span>
+      <div id="buffer-tabs"></div>
+    </div>
+    <!-- the error, as Sonic Pi explains it (main.js showError, friendly.js): what went wrong, the line with the place
+         marked, the fix when there is a sure one, and the parser's own words under Details -->
+    <section id="error-pane" class="err-card" aria-label="Error" tabindex="-1" hidden>
+      <div class="err-head">
+        <span id="err-title"></span><span id="err-where"></span>
+        <button id="err-close" class="icon-btn" title="Dismiss (Esc)" aria-label="Dismiss"><svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <p id="err-message"></p>
+      <p id="err-hint" hidden></p>
+      <div id="err-code" hidden></div>
+      <p id="err-example" hidden><span class="err-example-lead">For example</span><code></code></p>
+      <pre id="err-details" hidden></pre>
+      <div class="err-actions">
+        <button id="err-more" type="button" class="err-link">Details</button>
+        <button id="err-copy" type="button" class="err-link">Copy</button>
+        <span class="spacer"></span>
+        <button id="err-jump" type="button">Jump to error</button>
+        <button id="err-fix" type="button" hidden></button>
+      </div>
+    </section>
+  </div>
+  <div id="panel-divider" title="Drag to resize"></div>
+  <aside id="sidebar" aria-label="Scope, log and cues">
+    <section id="scope-section" class="pane" aria-label="Scope">
+      <div class="pane-head"><span>Scope</span><button id="btn-scope-mode" class="icon-btn" title="Scope view: bars, wave, stereo, Lissajous or a line across the top bar">Bars</button></div>
+      <div id="scope-container" title="Tap to resize" role="button" tabindex="0" aria-label="Scope at half height" aria-pressed="false">
+        <canvas id="scope-canvas" role="img" aria-label="Audio oscilloscope"></canvas>
+        <div id="scope-boot">booting SuperSonic</div>
+      </div>
+    </section>
+    <!-- a phone (style.css): one of the log and the cues at a time, picked here; a wide screen shows both -->
+    <div id="strip-head"><div class="seg strip-tabs" role="tablist"><button type="button" data-strip="log" class="active" role="tab" aria-selected="true">Log</button><button type="button" data-strip="cues" role="tab" aria-selected="false">Cues</button></div><span class="spacer"></span><button id="strip-clear" class="icon-btn" title="Clear">clear</button></div>
+    <section id="log-section" class="pane">
+      <div class="pane-head"><span>Log</span><button class="icon-btn" id="log-clear" aria-label="Clear the log">clear</button></div>
+      <div id="log" class="pane-body" role="region" aria-label="Log"></div>
+    </section>
+    <section id="cue-section" class="pane">
+      <div class="pane-head"><span>Cues</span><button class="icon-btn" id="cue-clear" aria-label="Clear the cues">clear</button></div>
+      <div id="cues" class="pane-body" role="region" aria-label="Cues"></div>
+    </section>
+    <section id="link-section" class="pane" aria-label="Metronome and global time warp">
+      <div class="pane-head"><span>Metronome &amp; global time warp</span></div>
+      <!-- native's SonicPiMetro. Joining a Link network and start/stop sync are native-only (SuperSonic
+           ignores Link on the web), so those two buttons are not here; the tempo, tapping it and the
+           time warp work, on the runtime's and SuperSonic's shared timeline. -->
+      <div class="link-bar">
+        <button type="button" id="lk-tap" class="lk-btn lk-square" title="Tap tempo (Shift+Return)">Tap</button>
+        <input id="lk-bpm" class="lk-field lk-scrub" value="60 bpm" aria-label="Metronome tempo" title="Metronome - click and drag or edit to change">
+        <input id="lk-warp-slider" class="lk-slider" type="range" min="-250" max="999" step="1" value="0" aria-label="Global time warp" title="Global time warp: every sound, OSC and MIDI message later or earlier">
+        <input id="lk-warp" class="lk-field lk-ms lk-scrub" value="0 ms" aria-label="Global time warp in ms" title="Global time warp in ms: type it, drag up or down, the arrow keys or the wheel; double-click for 0">
+      </div>
+    </section>
+    <section id="prefs-pane" aria-label="Preferences"></section>
+  </aside>
+  <div id="drawer-divider" title="Drag to resize">
+    <!-- the chevron: tap to hide what is below the divider, tap again to bring it back -->
+    <!-- and beside it, up: the help panel full size, over the code's room; its down chevron then steps back -->
+    <div id="divider-full" class="divider-grip divider-full" role="button" tabindex="0" title="Make the help panel full size" aria-label="Make the help panel full size"><svg viewBox="0 0 16 16"><polyline points="3,10 8,5 13,10"/></svg></div>
+    <div id="divider-grip" class="divider-grip" role="button" tabindex="0" title="Hide the documentation and information panel" aria-label="Hide the documentation and information panel"><svg viewBox="0 0 16 16"><polyline points="3,6 8,11 13,6"/></svg></div>
+  </div>
+  <div id="drawer">
+    <!-- native's south tabs (MainWindow::applySouthTabIcons): tabler's grid-dots, book, radioactive and binary-tree (mirrored) -->
+    <nav id="drawer-rail" aria-label="Help panes">
+      <button data-drawer="quickstart" title="Cards" aria-label="Cards"><svg viewBox="0 0 24 24"><path d="M4 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M18 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M18 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M18 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/></svg></button>
+      <button data-drawer="docs" title="Docs" aria-label="Docs"><svg viewBox="0 0 24 24"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"/><path d="M3 6l0 13"/><path d="M12 6l0 13"/><path d="M21 6l0 13"/></svg></button>
+      <!-- a phone: the scope, log and cues (the sidebar on a wide screen) as a pane of the drawer's, so they have the rail too (tabler's activity) -->
+      <button data-drawer="output" title="Scope, log and cues" aria-label="Scope, log and cues"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8l4 -16l3 8h4"/></svg></button>
+      <button data-drawer="insight" title="Threads" aria-label="Threads"><svg viewBox="0 0 24 24"><g transform="translate(24 0) scale(-1 1)"><path d="M6 20a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M16 4a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M16 20a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M11 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M21 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0"/><path d="M5.058 18.306l2.88 -4.606"/><path d="M10.061 10.303l2.877 -4.604"/><path d="M10.065 13.705l2.876 4.6"/><path d="M15.063 5.7l2.881 4.61"/></g></svg></button>
+      <button data-drawer="debug" title="Debug: the SuperSonic engine's live metrics" aria-label="Debug"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M13.41 10.59l2.59 -2.59"/><path d="M7 12a5 5 0 0 1 5 -5"/></svg></button>
+      <button data-drawer="logs" title="System log: the GUI, the runtime, the host and SuperSonic" aria-label="System log"><svg viewBox="0 0 24 24"><path d="M13.5 14.6l3 5.19a9 9 0 0 0 4.5 -7.79h-6a3 3 0 0 1 -1.5 2.6"/><path d="M13.5 9.4l3 -5.19a9 9 0 0 0 -9 0l3 5.19a3 3 0 0 1 3 0"/><path d="M10.5 14.6l-3 5.19a9 9 0 0 1 -4.5 -7.79h6a3 3 0 0 0 1.5 2.6"/></svg></button>   <!-- the logs last: the places to learn first, the record of what ran at the foot -->
+      <!-- the panel's ZoomBar, hung under the place icons on every screen: its text a step smaller or larger (Tabler's
+           circle-minus and circle-plus), and the circle-chevrons that size the panel, pointing the way it goes: up to
+           the whole of the code's room, down a step (from the whole room to beside the code, from there away) -->
+      <div class="rail-zoom">
+        <button id="rail-smaller" class="zoom-btn" title="Make the help text smaller" aria-label="Make the help text smaller"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12h6"/></svg></button>
+        <button id="rail-bigger" class="zoom-btn" title="Make the help text larger" aria-label="Make the help text larger"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg></button>
+      </div>
+    </nav>
+    <div id="drawer-column">
+      <div id="drawer-head">
+        <span id="drawer-title"></span>
+      </div>
+      <div id="drawer-panes">
+        <div id="docs-pane" role="region" aria-label="Documentation"></div>
+        <div id="logs-pane" role="region" aria-label="Logs"></div>
+        <div id="quickstart-pane" role="region" aria-label="Quickstart cards"></div>
+        <div id="insight-pane" role="region" aria-label="Threads"></div>
+        <!-- native's Debug pane: the engine's live metrics, read from SuperSonic itself (main.js showDebug) -->
+        <div id="debug-pane" role="region" aria-label="Debug"><p class="debug-idle">Press Run to start the engine: its live metrics show here.</p><clockwork-metrics hidden></clockwork-metrics><div class="debug-logs" role="region" aria-label="OSC to and from SuperSonic"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- the code keyboard (keyboard.js), docked at the bottom while it is up -->
+<div id="input-dock" hidden><div id="code-keyboard"></div></div>
+<footer id="statusbar" aria-label="Status">
+  <span id="status-engine">loading</span>
+  <span id="status-jobs"></span>
+  <span class="spacer"></span>
+  <!-- the flight recorder's count of trouble: shown only when it has some (main.js); its buttons are in Preferences too -->
+  <span id="status-version" class="status-version">Sonic Pi v5.0 on Web</span>
+</footer>
+<!-- Info, native's λ, with sonic-pi.net as its pages (info.js): the pages in a shadow root under the bar, the build's versions -->
+<div id="info-card" hidden>
+  <div id="info-body" class="ic-body"></div>
+  <footer class="ic-foot">
+    <!-- the pages' zoom, as the help pane's: − and + a step of 1.1× (main.js zoomPane "site") -->
+    <span class="ic-zoom"><button id="site-smaller" class="zoom-btn" title="Make the pages smaller" aria-label="Make the pages smaller"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12h6"/></svg></button><button id="site-bigger" class="zoom-btn" title="Make the pages larger" aria-label="Make the pages larger"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg></button></span>
+    <span id="info-versions"></span>
+  </footer>
+</div>
+<!-- Info, as native's λ (MainWindow::createInfoPane): About, Supporters, License —
+     the About page the app's own, the rest native's texts (scripts/build-info.mjs → web/info/) -->
+<div id="about-overlay" hidden>
+  <div class="install-card info-dialog" role="dialog" aria-modal="true" aria-labelledby="about-title">
+    <div class="info-head">
+      <div class="seg info-tabs" role="tablist" aria-label="Info">
+        <button type="button" class="active" data-info="about" role="tab" aria-selected="true">About</button>
+        <button type="button" data-info="supporters" role="tab" aria-selected="false">Supporters</button>
+        <button type="button" data-info="license" role="tab" aria-selected="false">License</button>
+      </div>
+      <button id="about-close" class="zoom-btn" title="Close" aria-label="Close"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 10l4 4m0 -4l-4 4"/></svg></button>
+    </div>
+    <div class="info-page" id="info-page">
+      <section id="info-about">
+        <div class="info-lockup">
+          <img class="info-mark" src="data/icon-256.png" alt="">
+          <div><h3 id="about-title">Sonic Pi</h3><p class="info-lead">Lowering the many barriers of entry for creative experiences with code.</p></div>
+        </div>
+        <dl class="info-versions">
+          <div><dt>Language</dt><dd>Sonic Pi v5.0.0</dd></div>
+          <div><dt>Sound</dt><dd id="about-v-sound">SuperSonic</dd></div>
+        </dl>
+        <div class="info-panels">
+          <div class="info-panel">
+            <div class="info-k">Get the app</div>
+            <p>For Windows, macOS and Linux.</p>
+            <ul class="info-checks">
+              <li>No network needed</li>
+              <li>Multi-channel audio in and out</li>
+              <li>ASIO and pro audio interfaces</li>
+              <li>MIDI clock</li>
+              <li>OSC to and from other apps and devices</li>
+              <li>Link and Link Audio</li>
+            </ul>
+            <div class="info-dl"><a href="#windows"><svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.8 20l-12 -1.5c-1 -.1 -1.8 -.9 -1.8 -1.9v-9.2c0 -1 .8 -1.8 1.8 -1.9l12 -1.5c1.2 -.1 2.2 .8 2.2 1.9v12.1c0 1.2 -1.1 2.1 -2.2 1.9l0 .1"/><path d="M12 5l0 14"/><path d="M4 12l16 0"/></svg><span>Windows</span></a><a href="#mac"><svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.286 7.008c-3.216 0 -4.286 3.23 -4.286 5.92c0 3.229 2.143 8.072 4.286 8.072c1.165 -.05 1.799 -.538 3.214 -.538c1.406 0 1.607 .538 3.214 .538s4.286 -3.229 4.286 -5.381c-.03 -.011 -2.649 -.434 -2.679 -3.23c-.02 -2.335 2.589 -3.179 2.679 -3.228c-1.096 -1.606 -3.162 -2.113 -3.75 -2.153c-1.535 -.12 -3.032 1.077 -3.75 1.077c-.729 0 -2.036 -1.077 -3.214 -1.077"/><path d="M12 4a2 2 0 0 0 2 -2a2 2 0 0 0 -2 2"/></svg><span>macOS</span></a><a href="#rp"><svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17.723 7.41a7.992 7.992 0 0 0 -3.74 -2.162m-3.971 0a7.993 7.993 0 0 0 -3.789 2.216m-1.881 3.215a8 8 0 0 0 -.342 2.32c0 .738 .1 1.453 .287 2.132m1.96 3.428a7.993 7.993 0 0 0 3.759 2.19m4 0a7.993 7.993 0 0 0 3.747 -2.186m1.962 -3.43a8.008 8.008 0 0 0 .287 -2.131c0 -.764 -.107 -1.503 -.307 -2.203"/><path d="M3 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/></svg><span>Linux</span></a></div>
+          </div>
+          <div class="info-panel">
+            <div class="info-k">Keep it free</div>
+            <p>Sonic Pi is free because it is supported by the community. Please consider helping from the price of a coffee a month.</p>
+            <div class="info-dl"><a class="info-support" href="#support"><svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"/></svg><span>Support on Patreon</span></a></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<!-- The sound paused by the browser (a call, another app, the tab away): only a tap may start it again, so it asks
+     for one, and the tap is the resume (main.js, resume card) -->
+<div id="resume-overlay" hidden>
+  <div class="install-card resume-card" role="alertdialog" aria-modal="true" aria-labelledby="resume-title" aria-describedby="resume-why">
+    <h3 id="resume-title">Sound paused</h3>
+    <p id="resume-why">The browser paused Sonic Pi's sound.</p>
+    <button id="resume-go" type="button" class="resume-go">Tap to resume</button>
+  </div>
+</div>
+<div id="install-overlay" hidden>
+  <div class="install-card" role="dialog" aria-labelledby="install-title">
+    <h3 id="install-title">Install Sonic Pi</h3>
+    <p>For the best experience on iPad, install Sonic Pi as an app. It runs full screen with no browser chrome.</p>
+    <ol>
+      <li>Tap <svg class="install-share" viewBox="0 0 50 50" aria-label="Share"><rect x="10" y="18" width="30" height="25" rx="4"/><path d="M25 4v26M17 12l8-8 8 8"/></svg> in Safari's toolbar</li>
+      <li>Scroll down and tap <strong>Add to Home Screen</strong></li>
+      <li>Tap <strong>Add</strong> to confirm</li>
+    </ol>
+    <p>Then open Sonic Pi from your Home Screen: it will launch full screen.</p>
+    <div class="install-actions"><button id="install-close" class="sp-mini-btn">Got it</button></div>
+  </div>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

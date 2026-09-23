@@ -1,0 +1,20 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "RuntimeError",
+      "message": "Unknown synth :nonesuch",
+      "line": 3,
+      "thread": "0.0",
+      "name": ""
+    }
+  ],
+  "output": [
+
+  ],
+  "log": [
+
+  ]
+}

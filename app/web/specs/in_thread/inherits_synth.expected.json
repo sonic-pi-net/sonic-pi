@@ -1,0 +1,66 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-tri",
+      "args": {
+        "note": 62.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 60.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.25,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-saw",
+      "args": {
+        "note": 60.0
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :tri, {note: 62.0}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :saw, {note: 60.0}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :saw, {note: 60.0}"
+    }
+  ]
+}

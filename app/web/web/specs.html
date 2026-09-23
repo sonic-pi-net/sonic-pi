@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sonic Pi specs</title>
+<style>
+  :root {
+    --bg: #14161a; --panel: #1c1f25; --line: #2a2e36; --fg: #e6e6e6; --dim: #8b93a1;
+    --accent: #ff7f50; --pass: #4cc38a; --fail: #ff5f5f; --warn: #f2c14e; --run: #6ab0ff;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.45 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 2; }
+  header h1 { font-size: 16px; margin: 0 8px 0 0; font-weight: 600; }
+  header .status { color: var(--dim); flex: 1 1 200px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  header .status.err { color: var(--fail); }
+  button { background: #2b3038; color: var(--fg); border: 1px solid #3a404a; border-radius: 6px; padding: 6px 12px; font: inherit; cursor: pointer; }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:disabled { opacity: .45; cursor: default; }
+  button.primary { background: var(--accent); color: #111; border-color: transparent; font-weight: 600; }
+  .layout { display: grid; grid-template-columns: 300px 1fr; min-height: calc(100vh - 53px); }
+  nav { border-right: 1px solid var(--line); overflow-y: auto; max-height: calc(100vh - 53px); position: sticky; top: 53px; }
+  /* the list's entries are buttons, so a keyboard reaches and opens every one: drawn as the rows they were */
+  nav :is(.playground, .spec) { width: 100%; margin: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; }
+  nav :is(.playground, .spec):focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  nav .playground { display: flex; align-items: center; gap: 8px; padding: 10px 12px; cursor: pointer; border-left: 3px solid transparent; border-bottom: 1px solid var(--line); font-weight: 600; }
+  nav .playground:hover { background: #22262d; }
+  nav .playground.selected { background: #262b33; border-left-color: var(--accent); }
+  textarea { width: 100%; min-height: 220px; background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font: 13px/1.5 var(--mono); resize: vertical; tab-size: 2; }
+  textarea:focus { outline: none; border-color: var(--accent); }
+  nav h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); margin: 14px 12px 4px; display: flex; justify-content: space-between; }
+  nav .spec { display: flex; align-items: center; gap: 8px; padding: 5px 12px; cursor: pointer; border-left: 3px solid transparent; }
+  nav .spec:hover { background: #22262d; }
+  nav .spec.selected { background: #262b33; border-left-color: var(--accent); }
+  nav .spec .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--mono); font-size: 12.5px; }
+  .badge { width: 9px; height: 9px; border-radius: 50%; background: #3a404a; flex: none; }
+  .badge.pass { background: var(--pass); } .badge.fail { background: var(--fail); } .badge.running { background: var(--run); animation: pulse 1s infinite; } .badge.error { background: var(--warn); }
+  @keyframes pulse { 50% { opacity: .3; } }
+  main { padding: 16px 20px 60px; min-width: 0; }
+  main h2 { margin: 0 0 2px; font-size: 18px; font-family: var(--mono); }
+  main .title { color: var(--dim); margin-bottom: 12px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; align-items: center; }
+  .verdict { padding: 4px 10px; border-radius: 6px; font-weight: 600; }
+  .verdict.pass { background: rgba(76,195,138,.15); color: var(--pass); } .verdict.fail { background: rgba(255,95,95,.15); color: var(--fail); } .verdict.error { background: rgba(242,193,78,.15); color: var(--warn); }
+  section { margin-bottom: 18px; }
+  section h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); margin: 0 0 6px; }
+  pre { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 0; overflow-x: auto; font: 12.5px/1.5 var(--mono); }
+  table { border-collapse: collapse; width: 100%; font: 12.5px/1.4 var(--mono); }
+  th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--dim); font-weight: 500; }
+  tr.playing td { background: rgba(255,127,80,.18); }
+  tr.skipped td { color: var(--dim); }
+  td.t { white-space: nowrap; color: var(--accent); }
+  .diff { font: 12.5px/1.5 var(--mono); }
+  .diff .minus { color: var(--fail); } .diff .plus { color: var(--pass); }
+  .empty { color: var(--dim); font-style: italic; }
+  .errors { background: rgba(255,95,95,.12); border: 1px solid var(--fail); border-radius: 8px; padding: 8px 12px; margin-bottom: 10px; font: 12.5px/1.5 var(--mono); color: var(--fail); }
+  .errors .where { color: var(--dim); }
+  .kv { color: var(--dim); }
+  a.kv { display: inline-block; padding: 2px 0; }   /* 24px to the touch */
+  @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } nav { position: static; max-height: 40vh; border-right: 0; border-bottom: 1px solid var(--line); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sonic Pi specs</h1>
+  <a href="./" class="kv" style="text-decoration:none">← the app</a>
+  <button id="boot" class="primary">Boot engine</button>
+  <button id="evalAll">Evaluate all</button>
+  <button id="stop" disabled>Stop sound</button>
+  <span id="counts" class="kv"></span>
+  <span id="engineBadge" class="kv">loading the runtime…</span>
+  <span id="status" class="status">Loading specs…</span>
+</header>
+<div class="layout">
+  <nav id="nav"></nav>
+  <main id="main"><p class="empty">Pick a spec.</p></main>
+</div>
+
+<script type="module">
+import { loadRuntime as loadSonicPiRuntime, bootEngine, Bridge, LiveSession, escapeHTML as escape, traceHTML as renderTrace } from "./sonic_pi.js";
+const $ = (id) => document.getElementById(id);
+const status = (s, err = false) => { $("status").textContent = s; $("status").classList.toggle("err", err); };
+
+// ── The mruby runtime, in the browser ────────────────────────────────────
+let runtime = null;            // from sonic_pi.js: { module, version, trace(code, file) }
+let runtimeError = null;
+
+async function loadRuntime() {
+  try {
+    runtime = await loadSonicPiRuntime("./");
+    $("engineBadge").textContent = `mruby ${runtime.version} in the browser`;
+  } catch (e) {
+    runtimeError = e;
+    $("engineBadge").textContent = "no in-browser runtime (build it with scripts/build-runtime.sh)";
+    console.error(e);
+  }
+  refreshButtons();
+  refreshLiveButtons();
+}
+
+// Runs a program on a runtime: the mruby one here, or the oracle on the server.
+async function runProgram(code, file, engine) {
+  if (engine === "mruby") {
+    if (!runtime) return { ok: false, error: runtimeError ? String(runtimeError.message) : "runtime still loading" };
+    try {
+      const { trace, ms } = runtime.trace(code, file);
+      return { ok: true, trace, ms, engine };
+    } catch (e) {
+      return { ok: false, error: String(e.message || e), engine };
+    }
+  }
+  try {
+    const res = file === "playground"
+      ? await (await fetch("/api/eval", { method: "POST", body: code })).json()
+      : await (await fetch(`/api/run?spec=${encodeURIComponent(file)}`)).json();
+    return { ...res, engine };
+  } catch (e) {
+    return { ok: false, error: String(e), engine };
+  }
+}
+
+function refreshButtons() {
+  $("evalAll").disabled = !runtime;
+  const ev = $("evaluate"); if (ev) ev.disabled = !runtime;
+  const run = $("run"); if (run) run.disabled = !runtime;
+  const chk = $("checkOracle"); if (chk) chk.disabled = !(runtime && server && playgroundTrace);
+}
+
+// ── Live: the runtime against SuperSonic's clock (sonic_pi.js) ───────────
+let live = null;   // LiveSession
+let bridge = null; // Bridge, shared with trace playback
+
+function liveConsole(line, cls = "") {
+  const box = $("liveConsole");
+  if (!box) return;
+  const div = document.createElement("div");
+  div.className = cls;
+  div.textContent = line;
+  box.appendChild(div);
+  while (box.childElementCount > 400) box.removeChild(box.firstChild);
+  box.scrollTop = box.scrollHeight;
+}
+
+async function liveStart(code) {
+  if (!runtime || !engine) return;
+  if (!live) {
+    live = new LiveSession(runtime, engine, {
+      output: (r, at) => liveConsole(`${at.toFixed(3)}  ${r.text}`),
+      log: (r, at) => liveConsole(`${at.toFixed(3)}  ${r.text}`, "kv"),
+      error: (r, at) => { liveConsole(`${at.toFixed(3)}  ${r.class}: ${r.message} (line ${r.line}, thread ${r.thread})`, "minus"); liveError(r, at.toFixed(3)); },
+      sent: (n) => { if ($("liveSends")) $("liveSends").textContent = `${n} sent`; },
+      state: () => refreshLiveButtons(),
+    }, bridge);
+    bridge = live.bridge;
+  }
+  if ($("liveErrors")) { $("liveErrors").hidden = true; $("liveErrors").innerHTML = ""; }
+  try {
+    const job = await live.run(code);
+    liveConsole(`run ${job} started`, "kv");
+  } catch (e) {
+    liveConsole(String(e.message || e), "minus");
+  }
+  refreshLiveButtons();
+}
+
+function liveStop() {
+  if (!live) return;
+  live.stop();
+  liveConsole("stopped", "kv");
+  refreshLiveButtons();
+}
+
+// A thread's death is not a log line: it stays on screen until the next run.
+function liveError(r, at) {
+  const box = $("liveErrors");
+  if (!box) return;
+  const div = document.createElement("div");
+  const where = r.name ? `${r.name} (thread ${r.thread})` : `thread ${r.thread}`;
+  div.innerHTML = `${escape(r.class)}: ${escape(r.message)} <span class="where">— line ${r.line}, ${escape(where)}, at ${at} s</span>`;
+  box.appendChild(div);
+  box.hidden = false;
+  status(`${r.class} in ${where}, line ${r.line}: ${r.message}`, true);
+}
+
+function refreshLiveButtons() {
+  const on = $("runLive"), off = $("stopLive");
+  if (!on) return;
+  on.disabled = !(runtime && engine);
+  off.disabled = !(live && live.running);
+  on.title = engine ? "run this program live: it plays until Stop" : "boot the engine first";
+  if ($("liveSends") && bridge) $("liveSends").textContent = `${bridge.sent} sent`;
+}
+
+// ── The specs ────────────────────────────────────────────────────────────
+let specs = [];                 // [{verb, name, path, title, source, expected, result?, verdict?}]
+let selected = null;
+let server = null;              // the dev server, when there is one: Evaluate and Run need it
+
+async function loadSpecs() {
+  specs = await (await fetch("./specs.json")).json();
+  try { server = await (await fetch("/api/ping")).json(); } catch { server = null; }
+  renderNav();
+  status(`${specs.length} specs, each with the oracle's recording. Boot the engine to hear them; Evaluate runs a spec on the mruby runtime here and compares.`);
+  $("evalAll").disabled = true;
+  loadRuntime();
+  const want = location.hash.slice(1);
+  select(want === "playground" ? PLAYGROUND : (specs.find((s) => s.path === want) || specs[0]));
+}
+
+const details = (spec) => spec;
+
+function renderNav() {
+  const nav = $("nav");
+  nav.innerHTML = "";
+  const pg = document.createElement("button");
+  pg.type = "button";
+  pg.className = "playground" + (selected === PLAYGROUND ? " selected" : "");
+  if (selected === PLAYGROUND) pg.setAttribute("aria-current", "true");
+  pg.innerHTML = `<span>✎ Playground</span>`;
+  pg.onclick = () => select(PLAYGROUND);
+  nav.appendChild(pg);
+  const verbs = [...new Set(specs.map((s) => s.verb))];
+  for (const verb of verbs) {
+    const group = specs.filter((s) => s.verb === verb);
+    const h = document.createElement("h2");
+    h.innerHTML = `<span>${verb}</span><span>${group.length}</span>`;
+    nav.appendChild(h);
+    for (const spec of group) {
+      const el = document.createElement("button");
+      el.type = "button";
+      el.className = "spec" + (spec === selected ? " selected" : "");
+      if (spec === selected) el.setAttribute("aria-current", "true");
+      el.dataset.path = spec.path;
+      // the verdict in words as well as its colour (a screen reader hears it before the name)
+      el.innerHTML = `<span class="badge ${spec.verdict || ""}" role="img" aria-label="${spec.verdict || "not run"}"></span><span class="name">${spec.name}</span>`;
+      el.title = spec.title;
+      el.onclick = () => select(spec);
+      nav.appendChild(el);
+    }
+  }
+  updateCounts();
+}
+
+function updateBadge(spec) {
+  const el = document.querySelector(`nav .spec[data-path="${spec.path}"] .badge`);
+  if (el) { el.className = "badge " + (spec.verdict || ""); el.setAttribute("aria-label", spec.verdict || "not run"); }
+  updateCounts();
+}
+
+function updateCounts() {
+  const n = (v) => specs.filter((s) => s.verdict === v).length;
+  const parts = [];
+  if (n("pass")) parts.push(`${n("pass")} pass`);
+  if (n("fail")) parts.push(`${n("fail")} fail`);
+  if (n("error")) parts.push(`${n("error")} error`);
+  $("counts").textContent = parts.join(" · ");
+}
+
+// ── Showing one spec ─────────────────────────────────────────────────────
+async function select(spec) {
+  if (!spec) return;
+  selected = spec;
+  location.hash = spec === PLAYGROUND ? "playground" : spec.path;
+  document.querySelectorAll("nav .spec").forEach((el) => { const on = el.dataset.path === spec.path; el.classList.toggle("selected", on); if (on) el.setAttribute("aria-current", "true"); else el.removeAttribute("aria-current"); });
+  const pgEl = document.querySelector("nav .playground");
+  pgEl?.classList.toggle("selected", spec === PLAYGROUND);
+  if (spec === PLAYGROUND) pgEl?.setAttribute("aria-current", "true"); else pgEl?.removeAttribute("aria-current");
+  if (spec === PLAYGROUND) return showPlayground();
+  const { source, expected } = details(spec);
+  const main = $("main");
+  main.innerHTML = `
+    <h2>${spec.verb}/${spec.name}</h2>
+    <div class="title">${escape(spec.title)}</div>
+    <div class="toolbar">
+      <button id="playExpected" ${engine ? "" : "disabled"}>▶ Play expected</button>
+      <button id="evaluate" ${runtime ? "" : "disabled"} title="run this spec on the mruby runtime here and compare with the oracle's recording">Evaluate on mruby</button>
+      <button id="playResult" disabled>▶ Play result</button>
+      <span id="verdict"></span>
+      <span id="evalInfo" class="kv"></span>
+    </div>
+    <section><h3>Program</h3><pre tabindex="0">${escape(source)}</pre></section>
+    <section><h3>Expected trace <span class="kv">(what Sonic Pi's runtime sent to the audio server)</span></h3>
+      <div id="expectedTrace">${expected ? renderTrace(expected, "expected") : '<p class="empty">no expected trace</p>'}</div></section>
+    <section id="resultSection" hidden><h3>Result</h3><div id="resultBody"></div></section>
+  `;
+  $("playExpected").onclick = () => expected && playTrace(expected, "expected");
+  $("evaluate").onclick = () => evaluate(spec, "mruby");
+  $("playResult").onclick = () => spec.result?.trace && playTrace(spec.result.trace, "result");
+  if (spec.result) showResult(spec);
+}
+
+// ── The playground: type a program, run it through the oracle, hear it ───
+const PLAYGROUND = { path: "playground", verb: "", name: "playground" };
+let playgroundCode = (() => { try { return localStorage.getItem("playground") } catch { return null } })() ||
+`use_synth :pluck
+in_thread do
+  4.times do
+    sample :drum_heavy_kick
+    sleep 0.5
+  end
+end
+play_pattern_timed [60, 64, 67, 72], 0.25
+sleep 0.25
+play chord(:c4, :major), release: 1
+`;
+let playgroundTrace = null;
+
+function showPlayground() {
+  const main = $("main");
+  main.innerHTML = `
+    <h2>Playground</h2>
+    <div class="title">A program, run on the mruby runtime here in the browser; the trace is what it sent, and the engine plays it.${server ? " Check against the oracle runs the same program through Sonic Pi's own runtime on the server and compares." : ""}</div>
+    <textarea id="code" spellcheck="false"></textarea>
+    <div class="toolbar">
+      <button id="runLive" class="primary" ${(runtime && engine) ? "" : "disabled"} title="${engine ? "run this program live: it plays until Stop" : "boot the engine first"}">▶ Run live</button>
+      <button id="stopLive" ${(live && live.running) ? "" : "disabled"}>■ Stop</button>
+      <span id="liveSends" class="kv">${bridge && bridge.sent ? bridge.sent + " sent" : ""}</span>
+      <span class="kv" style="margin: 0 8px">·</span>
+      <button id="run" ${runtime ? "" : "disabled"} title="⌘/Ctrl + Enter: trace the program (NRT), show and play the trace">Trace</button>
+      <button id="replay" disabled>▶ Play again</button>
+      <label class="kv"><input type="checkbox" id="autoplay" checked> play when the trace arrives</label>
+      <span id="evalInfo" class="kv"></span>
+      ${server ? '<button id="checkOracle" disabled title="run the same program through Sonic Pi\'s runtime on the server and compare">Check against the oracle</button><span id="oracleVerdict"></span>' : ""}
+    </div>
+    <section id="oracleSection" hidden><h3>The oracle's view</h3><div id="oracleBody"></div></section>
+    <section><h3>Live <span class="kv">(output, log and errors as they happen; time from the first record)</span></h3>
+      <div id="liveErrors" class="errors" hidden></div>
+      <pre id="liveConsole" tabindex="0" style="min-height:60px;max-height:260px;overflow:auto"></pre></section>
+    <section id="resultSection" ${playgroundTrace ? "" : "hidden"}><h3>Trace</h3><div id="resultBody">${playgroundTrace ? renderTrace(playgroundTrace, "result") : ""}</div></section>
+  `;
+  const code = $("code");
+  code.value = playgroundCode;
+  code.oninput = () => { playgroundCode = code.value; try { localStorage.setItem("playground", playgroundCode) } catch {} };
+  code.onkeydown = (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); runPlayground(); }
+    if (e.key === "Tab") { e.preventDefault(); const [a, b] = [code.selectionStart, code.selectionEnd]; code.value = code.value.slice(0, a) + "  " + code.value.slice(b); code.selectionStart = code.selectionEnd = a + 2; code.oninput(); }
+  };
+  $("run").onclick = runPlayground;
+  $("runLive").onclick = () => liveStart(playgroundCode);
+  $("stopLive").onclick = liveStop;
+  $("replay").disabled = !(engine && playgroundTrace);
+  $("replay").onclick = () => playgroundTrace && playTrace(playgroundTrace, "result");
+  const chk = $("checkOracle");
+  if (chk) { chk.disabled = !playgroundTrace; chk.onclick = checkOracle; }
+}
+
+// The extra step: Sonic Pi's own runtime, on the server, on the same program.
+async function checkOracle() {
+  $("checkOracle").disabled = true;
+  $("oracleVerdict").textContent = "asking the oracle…";
+  const res = await runProgram(playgroundCode, "playground", "oracle");
+  $("checkOracle").disabled = false;
+  $("oracleSection").hidden = false;
+  const v = $("oracleVerdict");
+  if (!res.ok || !res.trace) {
+    v.className = "verdict error"; v.textContent = "oracle error";
+    $("oracleBody").innerHTML = `<pre tabindex="0">${escape(res.error || "")}\n${escape(res.stderr || "")}</pre>`;
+    return;
+  }
+  const hard = diff(res.trace, playgroundTrace, STRICT);
+  const soft = diff(res.trace, playgroundTrace, ["log"]);
+  v.className = "verdict " + (hard.length ? "fail" : "pass");
+  v.textContent = hard.length ? "differs from Sonic Pi" : "same as Sonic Pi";
+  const render = (lines) => lines.map((l) => l.head ? `<div>${l.head}:</div>` : l.minus ? `<div class="minus">  - ${escape(l.minus)}</div>` : `<div class="plus">  + ${escape(l.plus)}</div>`).join("");
+  $("oracleBody").innerHTML = `
+    <p class="kv">${(res.ms / 1000).toFixed(1)} s on the server</p>
+    ${hard.length ? `<div class="diff"><div class="minus">- the oracle</div><div class="plus">+ mruby</div>${render(hard)}</div>` : `<p class="empty">events, errors and output match</p>`}
+    ${soft.length ? `<details><summary class="kv">runtime log differs</summary><div class="diff">${render(soft)}</div></details>` : ""}
+    <details><summary class="kv">the oracle's trace</summary>${renderTrace(res.trace, "oracle")}</details>
+    <button id="playOracle" ${engine ? "" : "disabled"}>▶ Play the oracle's trace</button>`;
+  $("playOracle").onclick = () => playTrace(res.trace, "oracle");
+}
+
+async function runPlayground() {
+  $("run").disabled = true;
+  $("evalInfo").textContent = "running…";
+  stopHighlights();
+  const engine = "mruby";
+  const res = await runProgram(playgroundCode, "playground", engine);
+  $("run").disabled = false;
+  if ($("oracleSection")) { $("oracleSection").hidden = true; $("oracleVerdict").textContent = ""; $("oracleVerdict").className = ""; }
+  $("resultSection").hidden = false;
+  if (!res.ok || !res.trace) {
+    playgroundTrace = null;
+    $("evalInfo").textContent = "";
+    $("resultBody").innerHTML = `<pre tabindex="0">${escape(res.error || "no trace")}\n${escape(res.stderr || "")}</pre>`;
+    return;
+  }
+  playgroundTrace = res.trace;
+  const t = res.trace;
+  $("evalInfo").textContent = (engine === "mruby" ? `${res.ms.toFixed(1)} ms on mruby` : `${(res.ms / 1000).toFixed(1)} s on the oracle`) + ` · ${t.events.length} event(s)` + (t.errors.length ? ` · ${t.errors.length} error(s)` : "");
+  $("resultBody").innerHTML = renderTrace(t, "result");
+  $("replay").disabled = !engine;
+  if ($("checkOracle")) $("checkOracle").disabled = false;
+  if (engine && $("autoplay").checked) playTrace(t, "result");
+  else if (!engine) status("Boot the engine to hear it.");
+}
+
+// ── Evaluating: the server runs the spec through the oracle (or ADAPTER) ─
+const STRICT = ["events", "errors", "output"];
+
+// An fx's free is timed by the oracle's wall clock, not by the logical time everything else in a trace is
+// measured in, so it lands a few milliseconds after the time meant. A recording says 1.2601 where a runtime says
+// 1.25, and neither is wrong: scripts/check.rb allows the same few milliseconds, and a spec that passes there
+// should not read as a failure here.
+const FREE_TOLERANCE = 0.03;
+
+function sameItem(x, y) {
+  if (x?.kind !== "fx_free" || y?.kind !== "fx_free") return JSON.stringify(x) === JSON.stringify(y);
+  const { t: tx, ...restX } = x, { t: ty, ...restY } = y;
+  return Math.abs(tx - ty) <= FREE_TOLERANCE && JSON.stringify(restX) === JSON.stringify(restY);
+}
+
+function diff(expected, actual, keys) {
+  const lines = [];
+  for (const k of keys) {
+    const e = expected[k] || [], a = actual[k] || [];
+    const missing = e.filter((x) => !a.some((y) => sameItem(x, y)));
+    const extra = a.filter((y) => !e.some((x) => sameItem(x, y)));
+    if (!missing.length && !extra.length) continue;
+    lines.push({ head: k });
+    for (const x of missing) lines.push({ minus: JSON.stringify(x) });
+    for (const y of extra) lines.push({ plus: JSON.stringify(y) });
+  }
+  return lines;
+}
+
+async function evaluate(spec, engine = "mruby") {
+  if (!runtime) return;
+  spec.verdict = "running"; updateBadge(spec);
+  if (spec === selected) { $("verdict").innerHTML = ""; $("evalInfo").textContent = engine === "mruby" ? "running on mruby…" : "running the oracle…"; }
+  const { expected, source } = details(spec);
+  const res = await runProgram(source, spec.path, engine);
+  if (!res.ok || !res.trace) {
+    spec.verdict = "error"; spec.result = { error: res.error || "no trace", stderr: res.stderr, ms: res.ms, engine };
+  } else {
+    const hard = expected ? diff(expected, res.trace, STRICT) : [];
+    const soft = expected ? diff(expected, res.trace, ["log"]) : [];
+    spec.verdict = hard.length ? "fail" : "pass";
+    spec.result = { trace: res.trace, hard, soft, ms: res.ms, engine };
+  }
+  updateBadge(spec);
+  if (spec === selected) showResult(spec);
+}
+
+function showResult(spec) {
+  const r = spec.result;
+  $("resultSection").hidden = false;
+  $("playResult").disabled = !(engine && r.trace);
+  const v = $("verdict");
+  v.className = "verdict " + spec.verdict;
+  v.textContent = { pass: "pass", fail: "FAIL", error: "ERROR" }[spec.verdict] || "";
+  $("evalInfo").textContent = r.engine === "mruby" ? `${r.ms.toFixed(1)} ms on mruby, here` : (r.ms ? `${(r.ms / 1000).toFixed(1)} s on the oracle, on the server` : "");
+  const body = $("resultBody");
+  if (!r.trace) {
+    body.innerHTML = `<pre tabindex="0">${escape(r.error || "")}\n${escape(r.stderr || "")}</pre>`;
+    return;
+  }
+  const render = (lines) => lines.map((l) => l.head ? `<div>${l.head}:</div>` : l.minus ? `<div class="minus">  - ${escape(l.minus)}</div>` : `<div class="plus">  + ${escape(l.plus)}</div>`).join("");
+  body.innerHTML = `
+    ${r.hard.length ? `<div class="diff"><div class="minus">- expected (the oracle)</div><div class="plus">+ this run (${r.engine})</div>${render(r.hard)}</div>` : `<p class="empty">events, errors and output match the expected trace</p>`}
+    ${r.soft.length ? `<details><summary class="kv">runtime log differs (not counted)</summary><div class="diff">${render(r.soft)}</div></details>` : ""}
+    <details ${r.hard.length ? "open" : ""}><summary class="kv">this run's trace</summary>${renderTrace(r.trace, "result")}</details>
+  `;
+}
+
+$("evalAll").onclick = async () => {
+  $("evalAll").disabled = true;
+  let done = 0;
+  const t0 = performance.now();
+  for (const spec of specs) {
+    await evaluate(spec, "mruby");
+    status(`Evaluated ${++done}/${specs.length} on mruby`);
+    await new Promise((r) => setTimeout(r, 0));   // let the page paint between specs
+  }
+  status(`All ${specs.length} specs on mruby in ${((performance.now() - t0) / 1000).toFixed(1)} s: ${$("counts").textContent}`);
+  $("evalAll").disabled = false;
+};
+
+// ── Hearing: the trace replayed through SuperSonic (sonic_pi.js) ─────────
+let engine = null;
+let timers = [];
+
+$("boot").onclick = async () => {
+  $("boot").disabled = true;
+  status("Booting scsynth…");
+  try {
+    engine = await bootEngine();
+    engine.on("error", (e) => status(`Engine error: ${e?.message ?? e}`, true));
+    bridge ??= new Bridge(engine);
+    $("boot").textContent = "Engine running";
+    $("stop").disabled = false;
+    document.querySelectorAll("#playExpected").forEach((b) => (b.disabled = false));
+    if (selected?.result?.trace) $("playResult").disabled = false;
+    if (selected === PLAYGROUND && playgroundTrace) $("replay").disabled = false;
+    refreshLiveButtons();
+    status("Engine running. Play a trace to hear it.");
+  } catch (e) {
+    status(`Boot failed: ${e?.message ?? e}`, true);
+    $("boot").disabled = false;
+    console.error(e);
+  }
+};
+
+$("stop").onclick = () => { stopHighlights(); if (live?.running) liveStop(); bridge?.silence(); };
+
+function stopHighlights() {
+  timers.forEach(clearTimeout); timers = [];
+  document.querySelectorAll("tr.playing").forEach((tr) => tr.classList.remove("playing"));
+}
+
+async function playTrace(trace, id) {
+  if (!engine) return;
+  stopHighlights();
+  bridge ??= new Bridge(engine);
+  const n = await bridge.playTrace(trace, 0.3, (e, i) => {
+    const tr = document.getElementById(`${id}-ev-${i}`);
+    if (tr) { tr.classList.add("playing"); timers.push(setTimeout(() => tr.classList.remove("playing"), 350)); }
+  });
+  const last = Math.max(0, ...trace.events.filter((e) => e.kind === "synth").map((e) => e.t));
+  status(`Playing ${n} synth(s) over ${last.toFixed(2)} s`);
+}
+
+loadSpecs().catch((e) => status(`Could not load specs: ${e.message}`, true));
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Sonic Pi",
+  "short_name": "Sonic Pi",
+  "description": "Sonic Pi in the browser: the language on mruby, the sound from SuperSonic.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    { "src": "data/icon-256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "data/icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" }
+  ]
+}

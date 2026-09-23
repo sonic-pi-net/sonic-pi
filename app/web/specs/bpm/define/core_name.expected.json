@@ -1,0 +1,20 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "ArgumentError",
+      "message": "A function called play is already part of Sonic Pi's core API. Please choose another name.",
+      "line": 3,
+      "thread": "0.0",
+      "name": ""
+    }
+  ],
+  "output": [
+
+  ],
+  "log": [
+
+  ]
+}

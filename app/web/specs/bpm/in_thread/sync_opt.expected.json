@@ -1,0 +1,49 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.125,
+      "beat": 0.25,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "sync :start"
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0",
+      "name": "",
+      "text": "cue :start, []"
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synced \"/{cue,set,live_loop}/start\" "
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    }
+  ]
+}

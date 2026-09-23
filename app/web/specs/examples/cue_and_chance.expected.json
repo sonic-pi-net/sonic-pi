@@ -1,0 +1,615 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 10,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0.0",
+      "name": "",
+      "path": "drum_heavy_kick.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "buf": "drum_heavy_kick.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.2",
+      "name": "live_loop_sparkle",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 12,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "buf": "drum_heavy_kick.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 11,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.1.0",
+      "name": "",
+      "path": "drum_cymbal_closed.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.1.0",
+      "name": "",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.2",
+      "name": "live_loop_sparkle",
+      "synth": "sonic-pi-pretty_bell",
+      "args": {
+        "note": 83.0,
+        "release": 0.46153846153846156,
+        "amp": 0.4
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.576923,
+      "beat": 1.25,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.692308,
+      "beat": 1.5,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.807692,
+      "beat": 1.75,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.923077,
+      "beat": 2.0,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "buf": "drum_heavy_kick.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.923077,
+      "beat": 2.0,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.038462,
+      "beat": 2.25,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.153846,
+      "beat": 2.5,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.269231,
+      "beat": 2.75,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.384615,
+      "beat": 3.0,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "buf": "drum_heavy_kick.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.384615,
+      "beat": 3.0,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.5,
+      "beat": 3.25,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.615385,
+      "beat": 3.5,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.730769,
+      "beat": 3.75,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "buf": "drum_heavy_kick.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.961538,
+      "beat": 4.25,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "amp": 0.4,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "text": "cue :beat, []"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"drum_heavy_kick.flac\""
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sync :beat"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.2",
+      "name": "live_loop_sparkle",
+      "text": "sync :beat"
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"drum_heavy_kick.flac\""
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "text": "cue :beat, []"
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "synced \"/{cue,set,live_loop}/beat\" "
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.1.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.2",
+      "name": "live_loop_sparkle",
+      "text": "synced \"/{cue,set,live_loop}/beat\" "
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.2",
+      "name": "live_loop_sparkle",
+      "text": "synth :pretty_bell, {note: 83.0, release: 0.4615, amp: 0.4}"
+    },
+    {
+      "t": 0.5769,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 0.6923,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 0.8077,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"drum_heavy_kick.flac\""
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "text": "cue :beat, []"
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.2",
+      "name": "live_loop_sparkle",
+      "text": "sync :beat"
+    },
+    {
+      "t": 1.0385,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 1.1538,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 1.2692,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 1.3846,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"drum_heavy_kick.flac\""
+    },
+    {
+      "t": 1.3846,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "text": "cue :beat, []"
+    },
+    {
+      "t": 1.3846,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 1.3846,
+      "thread": "0.0.2",
+      "name": "live_loop_sparkle",
+      "text": "synced \"/{cue,set,live_loop}/beat\" "
+    },
+    {
+      "t": 1.5,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 1.6154,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 1.7308,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"drum_heavy_kick.flac\""
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.0",
+      "name": "live_loop_kick",
+      "text": "cue :beat, []"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.2",
+      "name": "live_loop_sparkle",
+      "text": "sync :beat"
+    },
+    {
+      "t": 1.9615,
+      "thread": "0.0.1",
+      "name": "live_loop_hat",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.4}"
+    }
+  ]
+}

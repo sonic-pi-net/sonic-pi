@@ -1,0 +1,25 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "SonicPi::OptError",
+      "message": "Value of opt :amp must be zero or greater, got -1.",
+      "line": 4,
+      "thread": "0.0",
+      "name": ""
+    }
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, amp: -1, release: 0.5}"
+    }
+  ]
+}

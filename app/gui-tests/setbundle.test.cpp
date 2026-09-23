@@ -5,6 +5,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <QFile>
+#include <QJsonArray>
 #include <QTemporaryDir>
 
 #include "utils/setbundle.h"
@@ -196,4 +197,41 @@ TEST_CASE("a hand-edited file without a final newline still parses", "[setbundle
     const auto load = SetBundle::deserialise("#-- buffer 0\nplay 60");
     REQUIRE(load.ok);
     CHECK(load.buffers[0] == "play 60");
+}
+
+TEST_CASE("the header names the format's version", "[setbundle]")
+{
+    auto buffers = emptyBuffers();
+    buffers[0] = "play 60";
+    CHECK(SetBundle::serialise(buffers, 0, defaultZooms()).startsWith(QString("#-- Sonic Pi Set v%1\n").arg(SetBundle::Version)));
+}
+
+TEST_CASE("a set from a newer version is refused, not misread", "[setbundle]")
+{
+    const auto load = SetBundle::deserialise(QString("#-- Sonic Pi Set v%1\n#-- buffer 0\nplay 60\n").arg(SetBundle::Version + 1));
+    CHECK_FALSE(load.ok);
+    CHECK(load.error.contains("newer version of Sonic Pi"));
+
+    // this version, and the files of versions before it, still open
+    CHECK(SetBundle::deserialise(QString("#-- Sonic Pi Set v%1\n#-- buffer 0\nplay 60\n").arg(SetBundle::Version)).ok);
+    CHECK(SetBundle::deserialise("#-- Sonic Pi Set v0\n#-- buffer 0\nplay 60\n").ok);
+}
+
+TEST_CASE("meta keys this version does not know are kept through a load and a save", "[setbundle]")
+{
+    const auto load = SetBundle::deserialise(
+        "#-- Sonic Pi Set v1\n"
+        "#-- meta {\"current\":1,\"names\":[\"drums\",\"bass\"],\"web\":{\"fontSize\":20},\"zooms\":[2,3]}\n"
+        "#-- buffer 1\nplay 60\n");
+    REQUIRE(load.ok);
+    CHECK(load.meta.value("web").toObject().value("fontSize").toInt() == 20);
+
+    // written back beside the current buffer and zooms, which the save sets afresh
+    const auto again = SetBundle::deserialise(SetBundle::serialise(load.buffers, 4, load.zooms, load.meta));
+    REQUIRE(again.ok);
+    CHECK(again.currentBuffer == 4);
+    CHECK(again.zooms[1] == 3);
+    CHECK(again.meta.value("names").toArray().size() == 2);
+    CHECK(again.meta.value("names").toArray().at(1).toString() == "bass");
+    CHECK(again.meta.value("web").toObject().value("fontSize").toInt() == 20);
 }

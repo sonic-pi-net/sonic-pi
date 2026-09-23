@@ -1,0 +1,20 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "NameError",
+      "message": "undefined local variable or method 'nosuchthing'",
+      "line": 3,
+      "thread": "0.0.0",
+      "name": "fragile"
+    }
+  ],
+  "output": [
+
+  ],
+  "log": [
+
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "SonicPi::Core::NotThreadSafeError",
+      "message": "Sorry, unable to make a Proc thread safe",
+      "line": 3,
+      "thread": "0.0",
+      "name": ""
+    }
+  ],
+  "output": [
+
+  ],
+  "log": [
+
+  ]
+}

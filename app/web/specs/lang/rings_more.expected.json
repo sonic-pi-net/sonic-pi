@@ -1,0 +1,145 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring true, false, true, false, false, true)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring :e3, :e3, :e3, :c3, :c3)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 1, 1, 1, 2, 2, 2, :e2, :c3)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring true, false, false, true, false, false, true, false)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring true, false, true, false, false, true, false, true, false, false, true, false, false)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring false, false, false, false)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring true, true, true, true)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 1.0, 2.0, 3.0, 4.0)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 1.0, 2.0, 3.0, 4.0, 5.0)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 1.0, 1.25, 1.5, 1.75)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 10.0, 7.0, 4.0)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 60.0, 61.0, 62.0, 63.0, 64.0)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 60.0, 61.0, 62.0, 63.0, 64.0, 65.0)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 60.0, 30.0, 15.0, 7.5)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 60.0, 120.0, 240.0)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 1.0, 2.0, 4.0)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 48, 60, 72)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(ring 50, 62, 62)"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "3"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "4 2"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "true false false"
+    }
+  ],
+  "log": [
+
+  ]
+}

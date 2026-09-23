@@ -1,0 +1,75 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "path": "loop_amen.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.125,
+      "beat": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.125,
+      "beat": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 0.5,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\""
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\""
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {amp: 0.5}"
+    }
+  ]
+}

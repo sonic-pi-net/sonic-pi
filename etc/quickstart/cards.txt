@@ -19,7 +19,7 @@
 
 
 # Deck: Basics
-Welcome! Each card is a useful snippet of music code. Press play to hear what it sounds like. If you want to use a card in your code, drag it into your editor or insert at point.
+Welcome friend :-) This is a deck of QuickStart cards. Each one is a little piece of music with one new idea in its code. Press play to hear it, then change the code and play again. When you're ready, move on to the next card...
 
 ## Your First Note
 Use play to make a beep. Change 60 to a bigger number for a higher note or a smaller number for a lower note.

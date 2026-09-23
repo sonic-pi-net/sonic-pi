@@ -2,7 +2,8 @@
 
 ## Main Source Code
 
-(contents of [app/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app) directory)
+(contents of [app/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app) directory, except
+[app/web/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/web) - see "Sonic Pi for the Web" below)
 
 The MIT License (MIT)
 
@@ -30,6 +31,33 @@ THE SOFTWARE.
 
 As Sonic Pi links with and contains GPLv3-licensed software, distributors of
 Sonic Pi GUI binaries must comply with the terms of the GPL.
+
+## Sonic Pi for the Web
+
+(contents of [app/web/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/web) directory)
+
+Copyright (c) 2012 - 2026 Samuel Aaron and contributors (sam@sonic-pi.net)
+
+Licensed under the [GNU Affero General Public License v3.0 or later](https://www.gnu.org/licenses/agpl-3.0.html)
+(AGPL-3.0-or-later).
+
+Code ported from the Main Source Code above, and the data generated from it in
+`app/web/runtime/data/` and `app/web/web/data/`, remains available under the MIT License.
+Samples, synthdefs, the tutorial, examples and icons are covered by their own sections below.
+
+## SuperSonic and Clockwork
+
+Sonic Pi's audio engine, [SuperSonic](https://github.com/samaaron/supersonic), and
+[Clockwork](https://github.com/samaaron/clockwork), which it runs on, are licensed under the
+[GNU Affero General Public License v3.0 or later](https://www.gnu.org/licenses/agpl-3.0.html)
+(AGPL-3.0-or-later).
+
+Their source code, including any changes, is available from:
+
+- SuperSonic: [github.com/samaaron/supersonic](https://github.com/samaaron/supersonic)
+- Clockwork: [github.com/samaaron/clockwork](https://github.com/samaaron/clockwork)
+
+If you host Sonic Pi for the Web for other people, you must also offer them this source.
 
 ## Samples
 
@@ -110,7 +138,7 @@ relevant licenses:
 ### Standalone bundled programs (separate processes, not linked to the GUI)
 
 - [Ruby](http://ruby-lang.org) 4.0 - dual [Ruby License](https://www.ruby-lang.org/en/about/license.txt) / [BSD 2-Clause](https://opensource.org/licenses/BSD-2-Clause)
-- [SuperSonic](https://github.com/sonic-pi-net/supersonic) - SuperSonic's own code is [MIT](http://opensource.org/licenses/MIT) OR [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.html); it contains the [SuperCollider](https://supercollider.github.io)-derived scsynth engine core ([GPL-2.0-or-later](https://www.gnu.org/licenses/gpl-2.0.html), Copyright (c) James McCartney), so the combined binary is distributed under GPL terms. Its full component list is below.
+- [SuperSonic](https://github.com/samaaron/supersonic) - [AGPL-3.0-or-later](https://www.gnu.org/licenses/agpl-3.0.html), (c) Sam Aaron. It contains the [SuperCollider](https://supercollider.github.io)-derived scsynth engine core ([GPL-2.0-or-later](https://www.gnu.org/licenses/gpl-2.0.html), Copyright (c) James McCartney) and [Clockwork](https://github.com/samaaron/clockwork) ([AGPL-3.0-or-later](https://www.gnu.org/licenses/agpl-3.0.html), (c) Sam Aaron), so the combined program is AGPL. See "SuperSonic and Clockwork" above. Its full component list is below.
 - aubio_onset (built from [aubio](http://aubio.org) 0.4.9) - [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.html); statically includes [libsndfile](https://libsndfile.github.io/libsndfile/) ([LGPL-2.1](https://www.gnu.org/licenses/lgpl-2.1.html)) and [FLAC](https://github.com/xiph/flac), [ogg](https://github.com/xiph/ogg), [vorbis](https://github.com/xiph/vorbis), [opus](https://github.com/xiph/opus) (all [BSD 3-Clause](http://opensource.org/licenses/BSD-3-Clause))
 
 ### Compiled into or shipped with the GUI
@@ -142,6 +170,20 @@ relevant licenses:
 - [oscpack](http://www.rossbencina.com/code/oscpack) - permissive (MIT-style) licence
 - Rust subsystems (MIDI / gamepad / OSC networking): [midir](https://github.com/Boddlnagg/midir) fork ([MIT](http://opensource.org/licenses/MIT)) plus permissively-licensed crates (MIT / Apache-2.0 / BSD / ISC / Zlib), enforced by a cargo-deny licence allowlist
 - [Steinberg ASIO SDK](https://www.steinberg.net/developers/) 2.3.4 - used under its [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html) option (Windows only)
+
+### Sonic Pi for the Web
+
+(loaded into the browser by [app/web/](https://github.com/sonic-pi-net/sonic-pi/tree/stable/app/web); SuperSonic's own
+components are listed under "Compiled into SuperSonic" above)
+
+- [SuperSonic](https://github.com/samaaron/supersonic) and [Clockwork](https://github.com/samaaron/clockwork) - [AGPL-3.0-or-later](https://www.gnu.org/licenses/agpl-3.0.html), (c) Sam Aaron
+- UGens from the [sc3-plugins](https://github.com/supercollider/sc3-plugins) collection - [GPL-2.0-or-later](https://www.gnu.org/licenses/gpl-2.0.html); the mda plug-ins they include are MIT or GPL, (c) Paul Kellett
+- [mruby](https://mruby.org) - [MIT License](http://opensource.org/licenses/MIT), (c) mruby developers
+- [CodeMirror 6](https://codemirror.net) and [Lezer](https://lezer.codemirror.net) - [MIT License](http://opensource.org/licenses/MIT)
+- [fflate](https://github.com/101arrowz/fflate) - [MIT License](http://opensource.org/licenses/MIT)
+- [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) - [MIT License](http://opensource.org/licenses/MIT)
+- [simple-keyboard](https://github.com/hodgef/simple-keyboard) - [MIT License](http://opensource.org/licenses/MIT)
+- [w3c-keyname](https://github.com/marijnh/w3c-keyname) - [MIT License](http://opensource.org/licenses/MIT)
 
 ### Included Ruby Libraries for Spider Language Server
 

@@ -20,6 +20,7 @@
 #include <QDate>
 #include <QFuture>
 #include <QIcon>
+#include <QJsonObject>
 #include <QMainWindow>
 #include <QSet>
 #include <QSettings>
@@ -211,6 +212,7 @@ public:
     QSet<QString> initialWorkspaceLoads;
     QString pendingSetPath;
     QString currentSetPath;
+    QJsonObject currentSetMeta;   // the set's meta as loaded, kept on save (SetBundle::Load::meta)
     QString hash_salt;
     QString ui_language;
 

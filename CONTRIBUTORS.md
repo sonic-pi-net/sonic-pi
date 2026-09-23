@@ -202,7 +202,7 @@ especially the following individuals who have been remarkably generous:
 * Samuel Gikandi
 * [Sean Raser](https://twitter.com/sraser88)
 * Sci.Phi
-* [Scott Fleckenstein](http://nullstyle.com))
+* [Scott Fleckenstein](http://nullstyle.com)
 * Scott Hanes
 * [Scott Turner](https://twitter.com/scottturneruon)
 * sudara

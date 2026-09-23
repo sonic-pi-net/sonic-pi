@@ -1,0 +1,103 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.75,
+      "beat": 3.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 51.1,
+        "release": 0.25
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "0 0 0"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "3 -1 10"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "true"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "false"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "44"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": ":white"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": ":pink"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "0.25"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "4.0 0.25"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "1.0 0.25"
+    },
+    {
+      "t": 0.75,
+      "thread": "0.0",
+      "name": "",
+      "text": "(1/2)"
+    },
+    {
+      "t": 0.75,
+      "thread": "0.0",
+      "name": "",
+      "text": "false"
+    },
+    {
+      "t": 0.875,
+      "thread": "0.0",
+      "name": "",
+      "text": "true"
+    }
+  ],
+  "log": [
+
+  ]
+}

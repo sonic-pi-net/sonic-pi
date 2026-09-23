@@ -1,0 +1,102 @@
+{
+ "name": "whoosh",
+ "title": "Whoosh",
+ "summary": "Sonic Pi's beep by another name.",
+ "description": "A test synth: Sonic Pi's beep by another name, described by its own metadata. Its opts say their type, range and what they do.",
+ "opts": {
+  "note": {
+   "default": 60,
+   "range": [
+    0,
+    127
+   ],
+   "slidable": true,
+   "type": "note",
+   "doc": "The note to play: a MIDI number or a note's name."
+  },
+  "amp": {
+   "default": 1,
+   "range": [
+    0,
+    4
+   ],
+   "slidable": true,
+   "type": "number",
+   "doc": "How loud it is."
+  },
+  "pan": {
+   "default": 0,
+   "range": [
+    -1,
+    1
+   ],
+   "slidable": true,
+   "type": "number",
+   "doc": "Where in the stereo field: -1 left, 1 right."
+  },
+  "attack": {
+   "default": 0,
+   "range": [
+    0,
+    null
+   ],
+   "type": "time",
+   "doc": "How long it takes to reach its full level."
+  },
+  "decay": {
+   "default": 0,
+   "range": [
+    0,
+    null
+   ],
+   "type": "time",
+   "doc": "How long it takes to fall from the attack level to the sustain level."
+  },
+  "sustain": {
+   "default": 0,
+   "range": [
+    0,
+    null
+   ],
+   "type": "time",
+   "doc": "How long it holds at the sustain level."
+  },
+  "release": {
+   "default": 0.5,
+   "range": [
+    0,
+    null
+   ],
+   "type": "time",
+   "doc": "How long it takes to fade out."
+  },
+  "attack_level": {
+   "default": 1,
+   "range": [
+    0,
+    1
+   ],
+   "type": "number",
+   "doc": "The level it reaches at the end of the attack."
+  },
+  "sustain_level": {
+   "default": 1,
+   "range": [
+    0,
+    1
+   ],
+   "type": "number",
+   "doc": "The level it holds during the sustain."
+  },
+  "decay_level": {
+   "default": "sustain_level",
+   "doc": "The level it falls to at the end of the decay: the sustain level unless set."
+  }
+ },
+ "gui": {
+  "basic": [
+   "attack",
+   "sustain_level"
+  ]
+ }
+}

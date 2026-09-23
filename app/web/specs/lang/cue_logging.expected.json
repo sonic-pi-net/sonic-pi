@@ -1,0 +1,36 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "1 2"
+    }
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "cue :a, []"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "cue :c, []"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "set :y, 2"
+    }
+  ]
+}

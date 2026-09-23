@@ -1,0 +1,181 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 10,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0625,
+      "beat": 0.125,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 63.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.125,
+      "beat": 0.25,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 67.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.1875,
+      "beat": 0.375,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 70.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.3125,
+      "beat": 0.625,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 63.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 0.8137,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_scope_out",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    },
+    {
+      "t": 0.0625,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 63.0, release: 0.5}"
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 67.0, release: 0.5}"
+    },
+    {
+      "t": 0.1875,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 70.0, release: 0.5}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    },
+    {
+      "t": 0.3125,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 63.0, release: 0.5}"
+    }
+  ]
+}

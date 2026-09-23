@@ -1,0 +1,30 @@
+/* The page bar (ui/pagebar.js): where you are in a page and the way through it, the same on every page — quiet:
+   ‹ and › bare chevrons that show their disc only under the finger, the words small and centred, the line a hair. */
+.pb { display: flex; flex-direction: column; gap: 5px; padding: 6px 8px 7px; }
+.pb-row { display: grid; grid-template-columns: 36px minmax(0, 1fr) 36px; align-items: center; }
+.pb-nav { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin: 0; padding: 0; border: none; border-radius: 50%; background: none; color: var(--mutedForeground); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 0.15s, color 0.15s, opacity 0.2s; }
+.pb-nav svg { width: 20px; height: 20px; stroke-width: 2; }
+.pb-nav:active { background: var(--surface3); color: var(--Foreground); }
+@media (hover: hover) { .pb-nav:not(:disabled):hover { color: var(--Foreground); } }
+.pb-nav:disabled { opacity: 0.25; cursor: default; }
+.pb-nav:focus-visible, .pb-now:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: -2px; }
+.pb-now { display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 0; margin: 0; padding: 2px 4px; border: none; border-radius: var(--r-s); background: none; color: var(--Foreground); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.pb-now:active { background: var(--surface3); }
+.pb-words { display: flex; flex-direction: column; align-items: center; min-width: 0; line-height: 1.25; }
+.pb-eyebrow { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 var(--t-label) var(--prose-font); letter-spacing: 0.12em; text-transform: uppercase; color: var(--second); }   /* a kicker: the second colour (shared.css) */
+.pb-main { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 var(--t-small) var(--prose-font); color: var(--Foreground); font-variant-numeric: tabular-nums; }
+.pb-jump { flex: none; width: 13px; height: 13px; color: var(--mutedForeground); transition: transform 0.2s; }
+.pb-now.open .pb-jump { transform: rotate(180deg); }
+.pb-said { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.pb-extra:empty { display: none; }
+/* the line: a tick an entry, the ticks of a group close, the groups a little further apart; filled as far as you
+   have come, the group you are in brighter */
+.pb-line { display: flex; gap: 5px; height: 10px; margin: 0 6px; align-items: center; }
+.pb-line[hidden] { display: none; }
+.pb-grp { display: flex; gap: 1.5px; flex: 1 1 0; min-width: 0; height: 100%; }
+.pb-tick { position: relative; flex: 1 1 0; min-width: 0; height: 100%; margin: 0; padding: 0; border: none; background: none; cursor: pointer; }
+.pb-tick::before, .pb-tick > i { content: ""; position: absolute; left: 0; top: 4px; height: 2px; border-radius: 1px; }
+.pb-tick::before { right: 0; background: var(--surface3); }
+.pb-tick > i { width: 0; background: color-mix(in srgb, var(--HighlightedBackground) 50%, transparent); transition: background-color 0.25s; }
+.pb-grp.here .pb-tick > i { background: var(--HighlightedBackground); }
+.pb.pb-eased .pb-tick > i { transition: width 0.25s ease-out, background-color 0.25s; }   /* a page steps an entry at a time: it eases; a flip's swipe sets it frame by frame */

@@ -1,0 +1,25 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "ArgumentError",
+      "message": "wrong number of arguments (given 2, expected 1)",
+      "line": 3,
+      "thread": "0.0",
+      "name": ""
+    }
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "1"
+    }
+  ],
+  "log": [
+
+  ]
+}

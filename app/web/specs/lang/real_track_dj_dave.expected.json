@@ -1,0 +1,2827 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "mix": 0.2,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231,
+        "phase": 0.11538461538461539
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_reverb",
+      "args": {
+        "mix": 0.2,
+        "room": 0.5,
+        "reps": 1
+      },
+      "now": true,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_reverb",
+      "args": {
+        "mix": 0.2,
+        "reps": 1
+      },
+      "now": true
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_panslicer",
+      "args": {
+        "mix": 0.2,
+        "reps": 1,
+        "phase": 0.11538461538461539
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_reverb"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_reverb",
+      "args": {
+        "mix": 0.7,
+        "reps": 1
+      },
+      "now": true
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_reverb",
+      "args": {
+        "mix": 0.7,
+        "reps": 1
+      },
+      "now": true
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_panslicer",
+      "args": {
+        "mix": 0.4,
+        "reps": 1,
+        "phase": 0.11538461538461539
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_reverb",
+      "args": {
+        "mix": 0.75,
+        "reps": 1
+      },
+      "now": true,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_panslicer"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_met1",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 10,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 11,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.1.0",
+      "name": "",
+      "path": "bd_tek.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.1.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 12,
+        "reps": 1
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_reverb"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 13,
+        "reps": 1
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_panslicer"
+      }
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.3.0",
+      "name": "",
+      "path": "drum_cymbal_closed.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.3.0",
+      "name": "",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 14,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.5",
+      "name": "live_loop_crash",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 15,
+        "reps": 1
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_reverb"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 16,
+        "reps": 1
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_reverb"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.1,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 76.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.678125,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.7",
+      "name": "live_loop_synthbass",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 17,
+        "reps": 1
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_reverb"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.7",
+      "name": "live_loop_synthbass",
+      "synth": "sonic-pi-tech_saws",
+      "args": {
+        "note": 55.0,
+        "sustain": 2.769230769230769,
+        "cutoff": 60,
+        "amp": 0.75,
+        "attack": 0.0,
+        "release": 0.46153846153846156
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.7",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.576923,
+      "beat": 1.25,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.692308,
+      "beat": 1.5,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.692308,
+      "beat": 1.5,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 1.2,
+        "start": 0.01,
+        "finish": 0.5,
+        "amp": 1.25,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.4",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.807692,
+      "beat": 1.75,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.807692,
+      "beat": 1.75,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.807692,
+      "beat": 1.75,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.12109375,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.807692,
+      "beat": 1.75,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 71.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.6124999999999999,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 0.807692,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.923077,
+      "beat": 2.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 2.2,
+        "start": 0.02,
+        "pan": 0.2,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.923077,
+      "beat": 2.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 2,
+        "start": 0.04,
+        "pan": -0.2,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.923077,
+      "beat": 2.0,
+      "thread": "0.0.2.0",
+      "name": "",
+      "path": "drum_snare_hard.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.923077,
+      "beat": 2.0,
+      "thread": "0.0.2.0",
+      "name": "",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "rate": 2.5,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.923077,
+      "beat": 2.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.038462,
+      "beat": 2.25,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.153846,
+      "beat": 2.5,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.153846,
+      "beat": 2.5,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.153846,
+      "beat": 2.5,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 1.2,
+        "start": 0.01,
+        "finish": 0.5,
+        "amp": 1.25,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.4",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.153846,
+      "beat": 2.5,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.14218750000000002,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.153846,
+      "beat": 2.5,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 74.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.546875,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 1.153846,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.269231,
+      "beat": 2.75,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.384615,
+      "beat": 3.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.442308,
+      "beat": 3.125,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.5,
+      "beat": 3.25,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.5,
+      "beat": 3.25,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.16328125,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.5,
+      "beat": 3.25,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 71.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.48124999999999996,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 1.5,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.5099,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.615385,
+      "beat": 3.5,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.615385,
+      "beat": 3.5,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.615385,
+      "beat": 3.5,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 1.2,
+        "start": 0.01,
+        "finish": 0.5,
+        "amp": 1.25,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.4",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.730769,
+      "beat": 3.75,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "rate": 2.5,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 2.2,
+        "start": 0.02,
+        "pan": 0.2,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 2,
+        "start": 0.04,
+        "pan": -0.2,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.184375,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 79.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.41562499999999997,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 1.846154,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.8551,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 0.807692,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.961538,
+      "beat": 4.25,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.961538,
+      "beat": 4.25,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.076923,
+      "beat": 4.5,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.076923,
+      "beat": 4.5,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 1.2,
+        "start": 0.01,
+        "finish": 0.5,
+        "amp": 1.25,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.4",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.192308,
+      "beat": 4.75,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.192308,
+      "beat": 4.75,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.20546875,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.192308,
+      "beat": 4.75,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 79.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.35,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 2.192308,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 2.2033,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 1.153846,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.307692,
+      "beat": 5.0,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.307692,
+      "beat": 5.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.423077,
+      "beat": 5.25,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.538462,
+      "beat": 5.5,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.538462,
+      "beat": 5.5,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 1.2,
+        "start": 0.01,
+        "finish": 0.5,
+        "amp": 1.25,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.4",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.538462,
+      "beat": 5.5,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.2265625,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.538462,
+      "beat": 5.5,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 71.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.284375,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 2.538462,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 2.5499,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 1.5,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.653846,
+      "beat": 5.75,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.653846,
+      "beat": 5.75,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.769231,
+      "beat": 6.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "rate": 2.5,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.769231,
+      "beat": 6.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 2.2,
+        "start": 0.02,
+        "pan": 0.2,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.769231,
+      "beat": 6.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 2,
+        "start": 0.04,
+        "pan": -0.2,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.769231,
+      "beat": 6.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.884615,
+      "beat": 6.25,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.884615,
+      "beat": 6.25,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.24765625000000002,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 2.884615,
+      "beat": 6.25,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 71.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.21875,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 2.884615,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 2.8922,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 1.846154,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.0,
+      "beat": 6.5,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.0,
+      "beat": 6.5,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.0,
+      "beat": 6.5,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 1.2,
+        "start": 0.01,
+        "finish": 0.5,
+        "amp": 1.25,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.4",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.115385,
+      "beat": 6.75,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.230769,
+      "beat": 7.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.230769,
+      "beat": 7.0,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.26875000000000004,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.230769,
+      "beat": 7.0,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 71.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.15312499999999996,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 3.230769,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.230769,
+      "beat": 7.0,
+      "thread": "0.0.7",
+      "name": "live_loop_synthbass",
+      "synth": "sonic-pi-tech_saws",
+      "args": {
+        "note": 50.0,
+        "sustain": 0.9230769230769231,
+        "cutoff": 60,
+        "amp": 0.75,
+        "attack": 0.0,
+        "release": 0.46153846153846156
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.7",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 3.2393,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 2.192308,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.288462,
+      "beat": 7.125,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.346154,
+      "beat": 7.25,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.461538,
+      "beat": 7.5,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.461538,
+      "beat": 7.5,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.461538,
+      "beat": 7.5,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 1.2,
+        "start": 0.01,
+        "finish": 0.5,
+        "amp": 1.25,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.4",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.576923,
+      "beat": 7.75,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.576923,
+      "beat": 7.75,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.28984375,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.576923,
+      "beat": 7.75,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 79.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.08750000000000002,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 3.576923,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 3.5872,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 2.538462,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.692308,
+      "beat": 8.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "rate": 2.5,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.692308,
+      "beat": 8.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 2.2,
+        "start": 0.02,
+        "pan": 0.2,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.692308,
+      "beat": 8.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 2,
+        "start": 0.04,
+        "pan": -0.2,
+        "amp": 0.75,
+        "lpf": 130,
+        "buf": "drum_snare_hard.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.692308,
+      "beat": 8.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": 0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.807692,
+      "beat": 8.25,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "amp": 1.5,
+        "lpf": 130,
+        "buf": "bd_tek.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.807692,
+      "beat": 8.25,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 3.9087,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "synth": "sonic-pi-fx_scope_out",
+      "of": {
+        "t": 0.461538,
+        "thread": "0.0.2",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 3.9088,
+      "thread": "0.0.0",
+      "name": "live_loop_met1",
+      "synth": "sonic-pi-fx_scope_out",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.923077,
+      "beat": 8.5,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "amp": 0.75,
+        "rate": 2.5,
+        "finish": 0.5,
+        "pan": -0.3,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.923077,
+      "beat": 8.5,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "rate": 1.2,
+        "start": 0.01,
+        "finish": 0.5,
+        "amp": 1.25,
+        "lpf": 130,
+        "buf": "drum_cymbal_closed.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.4",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.923077,
+      "beat": 8.5,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "phase": 0.46153846153846156,
+        "mix": 0.3109375,
+        "reps": 1,
+        "decay": 0.9230769230769231,
+        "max_phase": 0.9230769230769231
+      },
+      "now": false,
+      "fx": {
+        "t": 0.461538,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 3.923077,
+      "beat": 8.5,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 69.0,
+        "amp": 0.6,
+        "release": 0.11538461538461539,
+        "cutoff": 130,
+        "pan": -0.021874999999999978,
+        "attack": 0.004615384615384616
+      },
+      "now": false,
+      "fx": {
+        "t": 3.923077,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 3.9333,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 2.884615,
+        "thread": "0.0.6",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 3.9656,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "synth": "sonic-pi-fx_scope_out",
+      "of": {
+        "t": 0.461538,
+        "thread": "0.0.3",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sync :met1"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sync :met1"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sync :met1"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "sync :met1"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.5",
+      "name": "live_loop_crash",
+      "text": "sync :met1"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "sync :met1"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.7",
+      "name": "live_loop_synthbass",
+      "text": "sync :met1"
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "synced \"/{cue,set,live_loop}/met1\" "
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.1.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "synced \"/{cue,set,live_loop}/met1\" "
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "synced \"/{cue,set,live_loop}/met1\" "
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.3.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "synced \"/{cue,set,live_loop}/met1\" "
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.5",
+      "name": "live_loop_crash",
+      "text": "synced \"/{cue,set,live_loop}/met1\" "
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synced \"/{cue,set,live_loop}/met1\" "
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 76.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.6781, attack: 0.0046}"
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.7",
+      "name": "live_loop_synthbass",
+      "text": "synced \"/{cue,set,live_loop}/met1\" "
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.7",
+      "name": "live_loop_synthbass",
+      "text": "synth :tech_saws, {note: 55.0, sustain: 2.7692, cutoff: 60, amp: 0.75, attack: 0.0, release: 0.4615}"
+    },
+    {
+      "t": 0.5769,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 0.6923,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 0.6923,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {rate: 1.2, start: 0.01, finish: 0.5, amp: 1.25, lpf: 130}"
+    },
+    {
+      "t": 0.8077,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 0.8077,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 0.8077,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 71.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.6125, attack: 0.0046}"
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2.2, start: 0.02, pan: 0.2, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2, start: 0.04, pan: -0.2, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.2.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2.5, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 1.0385,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 1.1538,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 1.1538,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 1.1538,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {rate: 1.2, start: 0.01, finish: 0.5, amp: 1.25, lpf: 130}"
+    },
+    {
+      "t": 1.1538,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 74.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.5469, attack: 0.0046}"
+    },
+    {
+      "t": 1.2692,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 1.3846,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 1.4423,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 1.5,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 1.5,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 71.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.4813, attack: 0.0046}"
+    },
+    {
+      "t": 1.6154,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 1.6154,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 1.6154,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {rate: 1.2, start: 0.01, finish: 0.5, amp: 1.25, lpf: 130}"
+    },
+    {
+      "t": 1.7308,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2.5, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2.2, start: 0.02, pan: 0.2, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2, start: 0.04, pan: -0.2, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 79.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.4156, attack: 0.0046}"
+    },
+    {
+      "t": 1.9615,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 1.9615,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 2.0769,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 2.0769,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {rate: 1.2, start: 0.01, finish: 0.5, amp: 1.25, lpf: 130}"
+    },
+    {
+      "t": 2.1923,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 2.1923,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 79.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.35, attack: 0.0046}"
+    },
+    {
+      "t": 2.3077,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 2.3077,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 2.4231,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 2.5385,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 2.5385,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {rate: 1.2, start: 0.01, finish: 0.5, amp: 1.25, lpf: 130}"
+    },
+    {
+      "t": 2.5385,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 71.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.2844, attack: 0.0046}"
+    },
+    {
+      "t": 2.6538,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 2.6538,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 2.7692,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2.5, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 2.7692,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2.2, start: 0.02, pan: 0.2, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 2.7692,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2, start: 0.04, pan: -0.2, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 2.7692,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 2.8846,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 2.8846,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 71.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.2188, attack: 0.0046}"
+    },
+    {
+      "t": 3.0,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 3.0,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 3.0,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {rate: 1.2, start: 0.01, finish: 0.5, amp: 1.25, lpf: 130}"
+    },
+    {
+      "t": 3.1154,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 3.2308,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 3.2308,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 71.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.1531, attack: 0.0046}"
+    },
+    {
+      "t": 3.2308,
+      "thread": "0.0.7",
+      "name": "live_loop_synthbass",
+      "text": "synth :tech_saws, {note: 50.0, sustain: 0.9231, cutoff: 60, amp: 0.75, attack: 0.0, release: 0.4615}"
+    },
+    {
+      "t": 3.2885,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 3.3462,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 3.4615,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 3.4615,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 3.4615,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {rate: 1.2, start: 0.01, finish: 0.5, amp: 1.25, lpf: 130}"
+    },
+    {
+      "t": 3.5769,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 3.5769,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 79.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.0875, attack: 0.0046}"
+    },
+    {
+      "t": 3.6923,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2.5, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 3.6923,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2.2, start: 0.02, pan: 0.2, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 3.6923,
+      "thread": "0.0.2",
+      "name": "live_loop_clap",
+      "text": "sample \"<samples>\",\n           \"drum_snare_hard.flac\", {rate: 2, start: 0.04, pan: -0.2, amp: 0.75, lpf: 130}"
+    },
+    {
+      "t": 3.6923,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: 0.3, lpf: 130}"
+    },
+    {
+      "t": 3.8077,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_tek.flac\", {amp: 1.5, lpf: 130}"
+    },
+    {
+      "t": 3.8077,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 3.9231,
+      "thread": "0.0.3",
+      "name": "live_loop_hhc1",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {amp: 0.75, rate: 2.5, finish: 0.5, pan: -0.3, lpf: 130}"
+    },
+    {
+      "t": 3.9231,
+      "thread": "0.0.4",
+      "name": "live_loop_hhc2",
+      "text": "sample \"<samples>\",\n           \"drum_cymbal_closed.flac\", {rate: 1.2, start: 0.01, finish: 0.5, amp: 1.25, lpf: 130}"
+    },
+    {
+      "t": 3.9231,
+      "thread": "0.0.6",
+      "name": "live_loop_arp",
+      "text": "synth :beep, {note: 69.0, amp: 0.6, release: 0.1154, cutoff: 130, pan: -0.0219, attack: 0.0046}"
+    }
+  ]
+}

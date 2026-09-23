@@ -1,0 +1,903 @@
+@charset "UTF-8";
+
+/* The site's stylesheet reaches the site alone: the pages share their document with the app (build-site.mjs), and
+   the tutorial, a page of its own, has its own stylesheet. Nested under :where(), which adds nothing to a rule's
+   specificity, so the app's stylesheets, linked after this one, win a tie. */
+:where(.site-body:not(.site-tutorial)) {
+
+/*
+  sonic-pi.net's stylesheet. Its design derives from the Miniport template
+  (HTML5 UP, CCA 3.0), laid out with CSS grid.
+*/
+
+/* ------------------------------------------------------------------ */
+/* Base                                                               */
+/* ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+&.site-body {
+  scroll-behavior: smooth;
+  /* keep anchor targets clear of the fixed nav */
+  scroll-padding-top: 4.5em;
+}
+
+&.site-body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 13pt;
+  line-height: 1.85em;
+  color: var(--softForeground);
+  font-weight: 300;
+}
+
+a {
+  color: var(--Link);
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--HighlightedBackground);
+}
+
+a img {
+  border: 0;
+}
+
+/* a highlighted word: the second colour (shared.css), apart from a link's accent */
+b,
+strong {
+  font-weight: 500;
+  color: var(--second);
+}
+
+a b,
+a strong {
+  color: inherit;
+}
+
+i,
+em {
+  font-style: italic;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--WindowForeground);
+  margin: 0 0 0.75em 0;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 3.25em;
+  letter-spacing: -0.025em;
+  line-height: 1.25em;
+}
+
+h1 strong {
+  font-weight: 400;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 2em;
+  letter-spacing: -0.015em;
+}
+
+h3,
+h4 {
+  font-weight: 300;
+  font-style: italic;
+  color: var(--Foreground);
+}
+
+h3 {
+  font-size: 1.5em;
+  letter-spacing: -0.015em;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  text-decoration: none;
+  color: var(--Link);
+}
+
+h3 a:hover {
+  color: var(--HighlightedBackground);
+}
+
+hr {
+  border: 0;
+  border-top: solid 1px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 1px 0px 0px color-mix(in srgb, var(--PaneBackground) 30%, transparent);
+  height: 1px;
+  margin: 3em 0;
+}
+
+p,
+ul,
+ol,
+dl,
+table {
+  margin: 0 0 2em 0;
+}
+
+section,
+article {
+  margin-bottom: 3em;
+}
+
+section > :last-child,
+article > :last-child,
+section:last-child,
+article:last-child {
+  margin-bottom: 0;
+}
+
+header {
+  margin: 0 0 2.5em 0;
+}
+
+header > p {
+  font-size: 1.2em;
+  margin: 0 auto;
+  max-width: 44em;
+}
+
+footer {
+  margin: 3em 0 0 0;
+}
+
+footer > p {
+  font-size: 1.25em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--HighlightedBackground);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout: container + grid                                           */
+/* ------------------------------------------------------------------ */
+
+.container {
+  width: 1200px;
+  max-width: calc(100% - 2.5em);
+  margin: 0 auto;
+}
+
+.container.small {
+  width: 900px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 25px;
+  align-items: start;
+}
+
+.row.stretch {
+  align-items: stretch;
+}
+
+.row + .row {
+  margin-top: 25px;
+}
+
+.u3 {
+  grid-column: span 3;
+}
+.u4 {
+  grid-column: span 4;
+}
+.u6 {
+  grid-column: span 6;
+}
+.u8 {
+  grid-column: span 8;
+}
+.u12 {
+  grid-column: span 12;
+}
+
+.row .centered-cell {
+  align-self: center;
+  justify-self: center;
+}
+
+@container (max-width: 980px) {
+  .u3,
+  .u4,
+  .u6,
+  .u8 {
+    grid-column: span 12;
+  }
+}
+
+ul.plain {
+  list-style: none;
+  padding: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Image                                                              */
+/* ------------------------------------------------------------------ */
+
+.image {
+  display: inline-block;
+  position: relative;
+}
+
+.image img {
+  display: block;
+  width: 100%;
+}
+
+.image.fit {
+  display: block;
+  width: 100%;
+}
+
+.image.featured {
+  display: block;
+  width: 100%;
+  margin: 0 0 2em 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Button                                                             */
+/* ------------------------------------------------------------------ */
+
+.button {
+  position: relative;
+  display: inline-block;
+  color: var(--accentContrastText) !important;
+  text-decoration: none;
+  font-weight: 600;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  border-radius: var(--r-m);
+  background-color: var(--HighlightedBackground);
+  text-shadow: none;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--HighlightedBackground) 25%, transparent);
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out,
+    transform 0.1s ease-in-out;
+  padding: 0.85em 2em;
+  font-size: 1.05em;
+}
+
+.button:hover {
+  background-color: var(--HighlightedBackground);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--HighlightedBackground) 35%, transparent);
+}
+
+.button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--HighlightedBackground) 30%, transparent);
+}
+
+.button.big {
+  font-size: 1.3em;
+  letter-spacing: -0.025em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Boxes                                                              */
+/* ------------------------------------------------------------------ */
+
+/* rows of boxes get equal heights, with trailing notes tucked below */
+.row:has(> * > .box),
+.row:has(> * > .dark-box) {
+  align-items: stretch;
+}
+
+.row:has(> * > .box) > *,
+.row:has(> * > .dark-box) > * {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+}
+
+.box {
+  background: var(--PaneBackground);
+  box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.12),
+    0px 2px 6px 0px rgba(0, 0, 0, 0.07);
+  border-radius: var(--r-s);
+  text-align: center;
+  flex: 1;
+  padding: 2em;
+}
+
+.box.style1 {
+  padding: 2.5em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.box.style1 h3 {
+  margin-bottom: 0.5em;
+}
+
+.box.style2 h3 {
+  margin-bottom: 0.25em;
+}
+
+/* news boxes: the featured image fills the card edge-to-edge, with a
+   uniform crop so the rows line up */
+.box.style2 {
+  padding: 1.75em 1.75em 2em;
+  text-align: left;
+}
+
+.box.style2 .image.featured {
+  margin: -1.75em -1.75em 1.5em;
+  width: calc(100% + 3.5em);
+  border-radius: var(--r-s) var(--r-s) 0 0;
+  overflow: hidden;
+}
+
+.box.style2 .image.featured img {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+/* logo-style news images sit inside the frame instead of filling it */
+.box.style2 .image.featured img[src*="google"],
+.box.style2 .image.featured img[src*="rollingstone"],
+.box.style2 .image.featured img[src*="mt-awardlogo"],
+.box.style2 .image.featured img[src*="naked_scientists"],
+.box.style2 .image.featured img[src*="mehackit"],
+.box.style2 .image.featured img[src*="newsround"] {
+  object-fit: contain;
+  padding: 1.5em;
+}
+
+.box.style2 h3 {
+  font-size: 1.2em;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.box.style2 p {
+  font-size: 0.95em;
+  margin-bottom: 0;
+}
+
+.dark-box {
+  background: var(--raisedSurface);
+  box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.15),
+    0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  border-radius: var(--r-s);
+  text-align: center;
+  flex: 1;
+  color: var(--Foreground);
+  padding: 2.5em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dark-box .button {
+  margin-top: auto;
+}
+
+.dark-box h3 {
+  color: var(--WindowForeground);
+  font-style: normal;
+}/* ------------------------------------------------------------------ */
+/* Wrappers                                                           */
+/* ------------------------------------------------------------------ */
+
+.wrapper {
+  background-image: url("images/bg.png");
+  box-shadow: inset 0px 1px 0px 0px rgba(0, 0, 0, 0.05),
+    inset 0px 2px 3px 0px rgba(0, 0, 0, 0.1);
+  padding: clamp(4em, 10vh, 6.5em) 0;
+  text-align: center;
+}
+
+.wrapper.first {
+  box-shadow: none;
+  padding-top: clamp(7em, 16vh, 10em);
+}
+
+.wrapper.style1 {
+  background-image: none;
+  background-color: var(--PaneBackground);
+}
+
+.wrapper.style2 {
+  background-color: var(--raisedSurface);
+}
+
+.wrapper.style3 {
+  background-color: var(--subtleFill);
+}
+
+.wrapper.style4 {
+  background-color: var(--subtleFill);
+  color: var(--mutedForeground);
+  text-shadow: -1px -1px 0px transparent;
+}
+
+.wrapper.style4 h1,
+.wrapper.style4 h2,
+.wrapper.style4 h3,
+.wrapper.style4 h4,
+.wrapper.style4 h5,
+.wrapper.style4 h6 {
+  color: var(--WindowForeground);
+}
+
+.wrapper.style4 h3 a {
+  color: var(--HighlightedBackground);
+}
+
+.wrapper.style4 p {
+  color: var(--Foreground);
+}
+
+@container (max-width: 736px) {
+  .wrapper {
+    padding: 3em 0 3em 0;
+  }
+  .wrapper.first {
+    padding-top: 6em;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Nav                                                                */
+/* ------------------------------------------------------------------ */
+
+#nav {
+  background-color: var(--WindowForeground);
+  text-align: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 10000;
+  cursor: default;
+}
+
+#nav ul {
+  margin: 0;
+  padding: 0;
+  color: var(--mutedForeground);
+}
+
+#nav li {
+  display: inline-block;
+  list-style: none;
+}
+
+#nav a {
+  position: relative;
+  display: block;
+  color: var(--Foreground);
+  text-decoration: none;
+  outline: 0;
+  padding: 0.2em 1em 0.2em 1em;
+  margin: 0.6em 0.2em 0.6em 0.2em;
+  font-weight: 600;
+  border-radius: var(--r-m);
+  transition: background-color 0.2s ease-in-out;
+}
+
+#nav a:hover {
+  background: var(--mutedForeground);
+  color: var(--Foreground);
+}
+
+#nav a:active {
+  background: var(--mutedForeground);
+}
+
+#nav a.active::before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: -0.6em;
+  left: 50%;
+  margin-left: -0.75em;
+  border-left: solid 0.75em transparent;
+  border-right: solid 0.75em transparent;
+  border-top: solid 0.6em var(--WindowForeground);
+}
+
+@container (max-width: 736px) {
+  #nav {
+    font-size: 0.85em;
+  }
+  #nav a {
+    padding: 0.2em 0.5em;
+  }
+}
+
+/* footer social nav */
+
+#nav3 {
+  text-align: center;
+  position: relative;
+  font-size: 1.8em;
+  width: 100%;
+  cursor: default;
+  padding: 1.5em 0 0.75em;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--faintForeground);
+  font-size: 0.85em;
+  padding: 0 1em 2.5em;
+  margin: 0;
+}
+
+.site-footer a {
+  color: var(--softForeground);
+}
+
+#nav3 ul {
+  margin: 0;
+  padding: 0;
+  color: var(--faintForeground);
+}
+
+#nav3 li {
+  display: inline-block;
+  list-style: none;
+}
+
+#nav3 a {
+  position: relative;
+  display: inline-block;
+  color: var(--WindowForeground);
+  outline: 0;
+  padding: 0 0.5em;
+}
+
+#nav3 a svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: -0.125em;
+}
+
+#nav3 a:hover {
+  color: var(--HighlightedBackground);
+}
+
+#nav3 .label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* Intro                                                              */
+/* ------------------------------------------------------------------ */
+
+#intro {
+  text-align: left;
+}
+
+#intro .image {
+  border-radius: 50%;
+  width: 20em;
+  height: 20em;
+  margin: 0;
+  max-width: 100%;
+}
+
+#intro .image img {
+  border-radius: 50%;
+}
+
+#intro h1 {
+  margin-top: 0.35em;
+}
+
+#intro p {
+  font-size: 1.5em;
+  line-height: 1.75em;
+}
+
+#intro p a {
+  text-decoration: none;
+}
+
+#intro em h2,
+#intro h2 {
+  font-weight: 400;
+}
+
+@container (max-width: 980px) {
+  #intro {
+    text-align: center;
+  }
+  #intro .image {
+    width: 14em;
+    height: 14em;
+  }
+  #intro p {
+    font-size: 1.2em;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Code highlighting (base16-ish)                                      */
+/* ------------------------------------------------------------------ */
+
+code {
+  font-size: 0.6em;
+  text-align: left;
+  font-family: Menlo, "DejaVu LGC Sans Mono", "DejaVu Sans Mono", Consolas,
+    Pragmata, "Everson Mono", "Lucida Console", "Andale Mono", "Nimbus Mono L",
+    "Liberation Mono", FreeMono, "Osaka Monospaced", Courier, "New Courier",
+    monospace;
+}
+
+code span {
+  font-size: 1.2em;
+}
+
+pre {
+  margin: 0;
+}
+
+.highlight,
+.highlight .w {
+  color: var(--Foreground);
+}
+.highlight .err {
+  color: var(--WindowForeground);
+  background-color: var(--ErrorBackground);
+}
+.highlight .c,
+.highlight .cd,
+.highlight .cm,
+.highlight .c1,
+.highlight .cs {
+  color: var(--CommentForeground);
+}
+.highlight .cp,
+.highlight .nt {
+  color: var(--KeywordForeground);
+}
+.highlight .o,
+.highlight .ow,
+.highlight .p,
+.highlight .pi {
+  color: var(--faintForeground);
+}
+.highlight .gi {
+  color: var(--DoubleQuotedStringForeground);
+}
+.highlight .gd {
+  color: var(--ErrorBackground);
+}
+.highlight .gh {
+  color: var(--Link);
+  background-color: var(--WindowForeground);
+  font-weight: bold;
+}
+.highlight .k,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kv {
+  color: var(--KeywordForeground);
+}
+.highlight .kc,
+.highlight .kt,
+.highlight .kd {
+  color: var(--KeywordForeground);
+}
+.highlight .s,
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .s2,
+.highlight .sh,
+.highlight .sx,
+.highlight .s1 {
+  color: var(--DoubleQuotedStringForeground);
+}
+.highlight .sr {
+  color: var(--Foreground);
+}
+.highlight .si,
+.highlight .se {
+  color: var(--Foreground);
+}
+.highlight .nn,
+.highlight .nc,
+.highlight .no {
+  color: var(--KeywordForeground);
+}
+.highlight .na {
+  color: var(--Link);
+}
+.highlight .m,
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .il,
+.highlight .mo,
+.highlight .mb,
+.highlight .mx {
+  color: var(--Link);
+}
+.highlight .ss {
+  color: var(--HighlightedBackground);
+}
+
+/* ------------------------------------------------------------------ */
+/* Misc                                                               */
+/* ------------------------------------------------------------------ */
+
+#in_thread_img {
+  border-radius: var(--r-m);
+  box-shadow: 0px 0px 30px 0px rgba(0, 255, 0, 0.67);
+}
+
+.sponsor-tier-community {
+  height: 120px;
+  border-radius: var(--r-m);
+}
+
+.sponsor-tier-gold-wide {
+  width: 220px;
+  border-radius: var(--r-m);
+  padding: 15px;
+}
+
+.sponsors {
+  margin: auto;
+  width: 50%;
+}
+
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+
+.videoWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+iframe {
+  border: 0;
+  max-width: 100%;
+}
+
+/* course card */
+
+.course-card {
+  width: 100%;
+  border-radius: var(--r-m);
+  border: 1px solid var(--WindowBorder);
+  padding-bottom: 16px;
+  word-break: break-word;
+  background: var(--PaneBackground);
+  text-align: left;
+  text-shadow: none;
+}
+
+.course-card img {
+  object-fit: cover;
+  width: 100%;
+  height: 274.5px;
+  border-radius: var(--r-m) var(--r-m) 0 0;
+  display: block;
+}
+
+.course-card h2,
+.wrapper.style4 .course-card h2 {
+  font-weight: 400;
+  font-size: 32px;
+  letter-spacing: 0;
+  padding: 16px 16px 0;
+  margin: 0;
+  color: var(--WindowForeground);
+}
+
+.course-card p,
+.wrapper.style4 .course-card p {
+  font-weight: 400;
+  font-size: 16px;
+  padding: 16px;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--Foreground);
+}
+
+.course-card .course-card-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 16px;
+}
+
+/* the post-download course upsell, revealed by js */
+
+.download-thanks {
+  overflow: hidden;
+  max-height: 0;
+  transform: translateY(-12px);
+  opacity: 0;
+  transition: max-height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease-out;
+}
+
+.download-thanks.open {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.download-thanks .course-card {
+  margin-top: 16px;
+}
+
+.download-thanks .course-card h2:first-child {
+  padding-bottom: 16px;
+}
+
+.download-thanks .course-card h2,
+.download-thanks .course-card p {
+  text-align: center;
+  text-wrap: balance;
+}
+
+.terminal-command {
+  display: inline-block;
+  overflow-x: auto;
+  max-width: 100%;
+  white-space: nowrap;
+}
+}

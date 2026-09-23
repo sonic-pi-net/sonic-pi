@@ -1,0 +1,36 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+    {
+      "class": "SonicPi::Lang::Core::ZeroTimeLoopError",
+      "message": "loop did not sleep or sync!",
+      "line": 3,
+      "thread": "0.0.0",
+      "name": ""
+    }
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0}"
+    }
+  ]
+}

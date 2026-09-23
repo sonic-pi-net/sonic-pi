@@ -1,0 +1,36 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "SonicPi::Lang::Core::MapArgError"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "\"odd number of arguments for Hash\""
+    },
+    {
+      "t": 1.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "\"Sadly, you may not time_warp into the future to call get, then bring the result back in time to now.\""
+    }
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "set :x, 1"
+    }
+  ]
+}

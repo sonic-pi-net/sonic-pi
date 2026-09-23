@@ -1,0 +1,112 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "decay": 0.25,
+        "reps": 1,
+        "max_phase": 0.5,
+        "phase": 0.0625
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.125
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_level",
+      "args": {
+        "kill_delay": 1,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 62.0,
+        "release": 0.125
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_level"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 0.3818,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.1283,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_level",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_level"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.125}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 62.0, release: 0.125}"
+    }
+  ]
+}

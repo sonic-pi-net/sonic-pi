@@ -1,0 +1,112 @@
+/* What the app and the site share (loaded last by both): one button
+   language, one list (the docs pane's, the site pages' sub-navigation) and one set of
+   headings.
+
+   Buttons.
+   A button is a chip: a 2px border in the theme's Button colour on nothing, the window's foreground, rounded, 600
+   weight. Hovered, its border and text take the theme's hover colour; pressed, its pressed colour. A primary or
+   selected button is filled with the accent, its text the accent's contrasting one; hovered it fills with the
+   theme's hover colour, pressed with its pressed one — as every chip's border does, so a hover is one thing. Sizes stay each context's own (a chip in the drawer, a button on the site). */
+
+/* A tap is a tap: no control waits to see whether it was half of a double-tap, and none zooms the page when tapped twice
+   quickly (Safari's double-tap zoom, over Play pressed again and again). Pinching still zooms. */
+button, a, [role="button"], .hg-button, label, summary { touch-action: manipulation; }
+/* the chips' one size: the docs pane's tabs, the bar's, the cards' (the big site buttons and mini buttons size themselves) */
+.seg button, .ic-tab { padding: 4px 12px; font: 600 var(--t-ui) var(--prose-font); line-height: normal; white-space: nowrap; }
+.sp-mini-btn { padding: 3px 10px; font: 600 var(--t-tiny) var(--prose-font); line-height: normal; white-space: nowrap; }   /* the same chip, small: the docs pane's play, insert and copy */
+.seg button, .ic-tab, .sp-mini-btn, .site-body .button {
+  border: 2px solid var(--Button); border-radius: var(--r-m); background: none; color: var(--WindowForeground);
+  font-weight: 600; text-decoration: none; cursor: pointer; box-shadow: none; text-shadow: none;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+/* hovered (only where there is a pointer that hovers: a finger leaves a tapped chip "hovered" on iOS, and the tab
+   just chosen would stay in the hover colour instead of the selected one) and focused from the keyboard */
+@media (hover: hover) {
+  .seg button:hover, .ic-tab:hover, .sp-mini-btn:hover { border-color: var(--HoverButton); color: var(--HoverButton); background: none; outline: none; }
+}
+.seg button:focus-visible, .ic-tab:focus-visible, .sp-mini-btn:focus-visible { border-color: var(--HoverButton); color: var(--HoverButton); background: none; outline: none; }
+.seg button:active, .ic-tab:active, .sp-mini-btn:active { border-color: var(--PressedButton); color: var(--PressedButton); }
+/* filled: the primary and the selected */
+.seg button.active, .ic-tab.active, .sp-mini-btn.primary, .site-body .button {
+  background: var(--HighlightedBackground); border-color: var(--HighlightedBackground); color: var(--accentContrastText) !important;
+}
+@media (hover: hover) {
+  .seg button.active:hover, .ic-tab.active:hover, .sp-mini-btn.primary:hover, .site-body .button:hover {
+    background: var(--HoverButton); border-color: var(--HoverButton); color: var(--accentContrastText) !important; filter: none; transform: none;
+  }
+}
+.seg button.active:focus-visible, .ic-tab.active:focus-visible, .sp-mini-btn.primary:focus-visible, .site-body .button:focus-visible {
+  background: var(--HoverButton); border-color: var(--HoverButton); color: var(--accentContrastText) !important; filter: none; transform: none;
+}
+.seg button.active:active, .ic-tab.active:active, .sp-mini-btn.primary:active, .site-body .button:active {
+  background: var(--PressedButton); border-color: var(--PressedButton); box-shadow: none; transform: none;
+}
+
+/* said to a screen reader, seen by no one */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* the first thing a keyboard reaches: past the bar to the page, shown only while it has the focus */
+.skip-link { position: fixed; top: 6px; left: 6px; z-index: 1000; padding: 8px 14px; border-radius: var(--r-m); background: var(--HighlightedBackground); color: var(--accentContrastText); font: 600 var(--t-ui) var(--prose-font); text-decoration: none; transform: translateY(-200%); }
+.skip-link:focus { transform: none; outline: 2px solid var(--Foreground); outline-offset: 2px; }
+
+/* the list, its filter and its fold: ui/submenu.css */
+
+/* One type scale, the app's, for the app and the site: a display size for the one headline, then the docs pane's
+   h1 and h2, body, small, label and code. Nothing on the site sets a size outside these. */
+/* The type scale: ten sizes, each with a job, and no others anywhere (the editor's own size is the player's).
+     display 40  the hero's headline            heading 22  a dialog's or a doc page's heading
+     title   30  a section's or a poster's title    lead   19  a strapline, a dialog's subheading
+     body    16  prose                          ui      15  chips, tabs, list rows, buttons, fields, the wordmark
+     small   13  secondary text, code in a pane, a log line    tiny 12  dense panes: prefs, tables, hints
+     label   11  kickers and column heads       micro    9  a key's label on a piano, a dial's value */
+/* The second colour: each theme's own (its numbers' in code, the blue under the pointer; blue in Sonic Pi's), apart
+   from the accent. The accent is Sonic Pi's voice: where you are, what to press, a link, the brand. The second is the
+   detail: the small labels over things, the highlighted words, the figures and facts, the marks beside them. Only the
+   palette's own colour, never a mix of it: --secondTint is a wash of it behind a figure. */
+:root, .site-body { --second: var(--NumberForeground); --secondTint: color-mix(in srgb, var(--NumberForeground) 14%, transparent); }
+:root, .site-body { --t-display: 40px; --t-title: 30px; --t-heading: 22px; --t-lead: 19px; --t-body: 16px; --t-ui: 15px; --t-small: 13px; --t-tiny: 12px; --t-label: 11px; --t-micro: 9px; --t-code: var(--t-small);
+  /* corners, three and no more: s for the small and dense (keys, tags, marks, a dial, a dense chip), m for every
+     other thing with a corner (buttons, chips, tabs, rows, cards, panels, popups, dialogs), pill for round ends
+     (a toggle, a switch, the find bar, a bar or an underline); a circle is 50% */
+  --r-s: 4px; --r-m: 8px; --r-pill: 999px;
+  --pop-bg: var(--Background); --pop-border: 2px solid var(--Button); --pop-shadow: none; }   /* a popup as native's and as every chip: the editor's own ground inside the controls' outline, no shadow to float it */
+/* a thing floating over the page (a menu, a tooltip, a dropdown list): --pop-* above, one surface */
+/* the one voice for a title, wherever it stands (a section's, a poster's, the hero's): heavy, tight, close-set */
+.site-body .ic-main header h1, .site-body .course-cover h2, .site-body #intro .hero-title { font-weight: 800; letter-spacing: -0.015em; line-height: 1.1; color: var(--WindowForeground); }   /* in the text's own colour: the accent marks where you are and what you can press, the hover colour what is under the pointer, and a title is neither */
+
+/* A kicker: the small uppercase label over a title, a group's name in a list, a table's column heads, a pane's
+   name — one voice, in the accent unless a site says otherwise (--kicker-color). */
+.kicker, .tut-step-k, #theme-menu .tm-title, .course-kicker, .way-kicker, .conn-table th, .docs-group, .info-k, .info-versions dt, .pane-head, #drawer-head, .logs-title, .insight-table th, .pg-subhead, .sc-group, #prefs-pane h3 {
+  font: 700 var(--t-label) / 1.4 var(--prose-font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--kicker-color, var(--HighlightedBackground));
+}
+/* every scrolling thing: native's bar (theme/app.qss) — 10px, no arrows, the track clear, the handle the theme's grey
+   (ScrollBar) with square ends, 2px off the outer edge, and the hover colour (ScrollBarHover) under the pointer. The
+   standard scrollbar-width and scrollbar-color are Firefox's only: set, Chromium drops these for its plain bar. */
+::-webkit-scrollbar { width: 10px; height: 10px; background: transparent; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+::-webkit-scrollbar-thumb { background: var(--ScrollBar); background-clip: padding-box; border: 0 solid transparent; border-radius: 0; }
+::-webkit-scrollbar-thumb:vertical { min-height: 24px; border-right-width: 2px; }
+::-webkit-scrollbar-thumb:horizontal { min-width: 24px; border-bottom-width: 2px; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--ScrollBarHover); }
+@supports not selector(::-webkit-scrollbar) { * { scrollbar-width: thin; scrollbar-color: var(--ScrollBar) transparent; } }
+/* a row of chips that scrolls sideways without a bar (the bar's tabs, the toolbar on a phone) */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Headings, the docs pane's: the accent, a rule under an h1 (--heading-color: a place's own) */
+.sp-doc h1, .ic-main h1 { background: none; color: var(--heading-color, var(--HighlightedBackground)); border-bottom: 2px solid var(--heading-color, var(--HighlightedBackground)); padding: 0 0 6px; margin: 16px 0 14px; font: 700 var(--t-heading) var(--prose-font); }
+/* a heading inside a section — a video's title, a panel's — in the one voice the docs have too */
+:is(.sp-doc, .ic-main) h2:not(.qs-card-title) {   /* a card's title is its bar's (ui/card.css) */
+ background: none; color: var(--heading-color, var(--HighlightedBackground)); padding: 0; margin: 22px 0 10px; font: 700 var(--t-lead) var(--prose-font); }
+
+/* a search's matches in the text: the app's find colours, the current one the accent */
+mark.hit { background: var(--FindMatchBackground, var(--accentTintStrong)); color: inherit; border-radius: var(--r-s); }
+mark.hit.current { background: var(--FindCurrentMatchBackground, var(--HighlightedBackground)); color: var(--accentContrastText); }
+
+/* The keyboard's ring, where a control's own focus look can say nothing: a word already lit, a colour focus would not
+   change (WCAG 2.4.7). A control with a ring of its own (the bar's code icon and palette) keeps it */
+#site-nav :is(.ic-tab, .sn-stop, .sn-brand):focus-visible, .facet-word:focus-visible, .hero-app:focus-visible,
+.site-body .button:focus-visible, .site-body a:focus-visible {
+  outline: 2px solid var(--HighlightedBackground);
+  outline-offset: 3px;
+}

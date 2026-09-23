@@ -1,0 +1,104 @@
+{
+  "events": [
+    {
+      "kind": "fx_free",
+      "t": -0.0345,
+      "thread": "0.0.0",
+      "name": "live_loop_leader",
+      "synth": "sonic-pi-fx_scope_out",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_leader",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 10,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.125,
+      "beat": 0.25,
+      "thread": "0.0.1",
+      "name": "live_loop_follower",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 11,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.125,
+      "beat": 0.25,
+      "thread": "0.0.1",
+      "name": "live_loop_follower",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.125,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 0.6267,
+      "thread": "0.0.1",
+      "name": "live_loop_follower",
+      "synth": "sonic-pi-fx_scope_out",
+      "of": {
+        "t": 0.125,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_follower",
+      "text": "sync :go"
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0.0",
+      "name": "live_loop_leader",
+      "text": "cue :go, []"
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0.1",
+      "name": "live_loop_follower",
+      "text": "synced \"/{cue,set,live_loop}/go\" "
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0.1",
+      "name": "live_loop_follower",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    }
+  ]
+}

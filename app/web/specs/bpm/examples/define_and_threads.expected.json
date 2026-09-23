@@ -1,0 +1,233 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 52.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "synth": "sonic-pi-dark_ambience",
+      "args": {
+        "note": 40.0,
+        "sustain": 1.3333333333333333,
+        "release": 0.6666666666666666,
+        "amp": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.083333,
+      "beat": 0.25,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 55.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.166667,
+      "beat": 0.5,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 57.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.75,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 59.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.333333,
+      "beat": 1.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 62.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.75,
+      "beat": 2.25,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 57.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.833333,
+      "beat": 2.5,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 60.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.916667,
+      "beat": 2.75,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 62.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 1.0,
+      "beat": 3.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 64.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 1.083333,
+      "beat": 3.25,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-piano",
+      "args": {
+        "note": 67.0,
+        "release": 0.06666666666666667,
+        "sustain": 0.016666666666666663
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 52.0, release: 0.0667, sustain: 0.0167}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "text": "synth :dark_ambience, {note: 40.0, sustain: 1.3333, release: 0.6667, amp: 0.5}"
+    },
+    {
+      "t": 0.0833,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 55.0, release: 0.0667, sustain: 0.0167}"
+    },
+    {
+      "t": 0.1667,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 57.0, release: 0.0667, sustain: 0.0167}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 59.0, release: 0.0667, sustain: 0.0167}"
+    },
+    {
+      "t": 0.3333,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 62.0, release: 0.0667, sustain: 0.0167}"
+    },
+    {
+      "t": 0.75,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 57.0, release: 0.0667, sustain: 0.0167}"
+    },
+    {
+      "t": 0.8333,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 60.0, release: 0.0667, sustain: 0.0167}"
+    },
+    {
+      "t": 0.9167,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 62.0, release: 0.0667, sustain: 0.0167}"
+    },
+    {
+      "t": 1.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 64.0, release: 0.0667, sustain: 0.0167}"
+    },
+    {
+      "t": 1.0833,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :piano, {note: 67.0, release: 0.0667, sustain: 0.0167}"
+    }
+  ]
+}

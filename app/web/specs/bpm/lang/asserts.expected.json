@@ -1,0 +1,32 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "SonicPi::Lang::Core::AssertionError",
+      "message": "Assert failed! [1, 2] is not equal to [1, 3]. lists",
+      "line": 13,
+      "thread": "0.0.0",
+      "name": ""
+    },
+    {
+      "class": "SonicPi::Lang::Core::AssertionError",
+      "message": "Assert failed!",
+      "line": 17,
+      "thread": "0.0.1",
+      "name": ""
+    }
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": ":still_here"
+    }
+  ],
+  "log": [
+
+  ]
+}

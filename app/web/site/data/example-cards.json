@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Haunted Bells",
+    "blurb": "Listen to the coded bells..."
+  },
+  {
+    "title": "Pentatonic Bleeps",
+    "blurb": "Code with scales and chords...",
+    "code": "with_fx :reverb, mix: 0.2 do\n  live_loop :bleeps do\n    play scale(:Eb2, :major_pentatonic, num_octaves: 3).choose, release: 0.1, amp: rand\n    sleep 0.1\n  end\nend\n"
+  },
+  {
+    "title": "Tron Bikes",
+    "blurb": "Listen to bikes from the future..."
+  },
+  {
+    "title": "Wob Rhythm",
+    "blurb": "Hear the rhythmic wobble..."
+  },
+  {
+    "title": "Ocean Waves",
+    "blurb": "Hear the digital waves crash..."
+  },
+  {
+    "title": "IDM Breakbeat",
+    "blurb": "Listen to crazy coded beats..."
+  },
+  {
+    "title": "Acid Walk",
+    "blurb": "Start producing longer tracks...",
+    "wide": true
+  }
+]

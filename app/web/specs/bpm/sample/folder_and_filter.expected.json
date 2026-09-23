@@ -1,0 +1,96 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "path": "bd_haus.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "buf": "bd_haus.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "path": "loop_amen.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.2",
+      "name": "",
+      "path": "loop_amen_full.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.2",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "buf": "loop_amen_full.flac"
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample [\"<samples>\", /^loop_amen\\.flac/]\n           - no match found, skipping."
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\""
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\""
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.2",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen_full.flac\""
+    }
+  ]
+}

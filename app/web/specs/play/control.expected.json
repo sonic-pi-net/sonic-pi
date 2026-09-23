@@ -1,0 +1,285 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "bd_haus.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 2.0,
+        "cutoff": 80
+      },
+      "now": false
+    },
+    {
+      "kind": "control",
+      "t": 0.5,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0"
+      },
+      "args": {
+        "note": 65.0,
+        "cutoff": 100
+      }
+    },
+    {
+      "kind": "control",
+      "t": 1.0,
+      "beat": 1.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0"
+      },
+      "args": {
+        "note": 67.0
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.0,
+      "beat": 1.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "rate": 0.5,
+        "buf": "bd_haus.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "control",
+      "t": 1.25,
+      "beat": 1.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "of": {
+        "t": 1.0,
+        "thread": "0.0"
+      },
+      "args": {
+        "rate": 1
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.25,
+      "beat": 1.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "release": 2.0,
+        "amp": 0.3333333333333333,
+        "note": 52.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 1.25,
+      "beat": 1.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "release": 2.0,
+        "amp": 0.3333333333333333,
+        "note": 55.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 1.25,
+      "beat": 1.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "release": 2.0,
+        "amp": 0.3333333333333333,
+        "note": 59.0
+      },
+      "now": false
+    },
+    {
+      "kind": "control",
+      "t": 1.5,
+      "beat": 1.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 1.25,
+        "thread": "0.0"
+      },
+      "args": {
+        "amp": 0.19999999999999998,
+        "note": 57.0
+      }
+    },
+    {
+      "kind": "control",
+      "t": 1.5,
+      "beat": 1.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 1.25,
+        "thread": "0.0"
+      },
+      "args": {
+        "amp": 0.19999999999999998,
+        "note": 60.0
+      }
+    },
+    {
+      "kind": "control",
+      "t": 1.5,
+      "beat": 1.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 1.25,
+        "thread": "0.0"
+      },
+      "args": {
+        "amp": 0.19999999999999998,
+        "note": 64.0
+      }
+    },
+    {
+      "kind": "kill",
+      "t": 1.75,
+      "beat": 1.75,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.75,
+      "beat": 1.75,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 50.0,
+        "release": 2.0,
+        "note_slide": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "control",
+      "t": 1.75,
+      "beat": 1.75,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 1.75,
+        "thread": "0.0"
+      },
+      "args": {
+        "note": 55.0,
+        "note_slide": 1.0
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 2.0, cutoff: 80}"
+    },
+    {
+      "t": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "text": "control node 1005, {note: 65.0, cutoff: 100}"
+    },
+    {
+      "t": 1.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "control node 1005, {note: 67.0}"
+    },
+    {
+      "t": 1.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {rate: 0.5}"
+    },
+    {
+      "t": 1.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "control node 1006, {rate: 1}"
+    },
+    {
+      "t": 1.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: (ring 52.0, 55.0, 59.0), release: 2.0}"
+    },
+    {
+      "t": 1.5,
+      "thread": "0.0",
+      "name": "",
+      "text": "control node 1007, {amp: 0.6, notes: [57.0, 60.0, 64.0]}"
+    },
+    {
+      "t": 1.75,
+      "thread": "0.0",
+      "name": "",
+      "text": "killing sound 1005"
+    },
+    {
+      "t": 1.75,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 50.0, release: 2.0, note_slide: 0.5}"
+    },
+    {
+      "t": 1.75,
+      "thread": "0.0",
+      "name": "",
+      "text": "control node 1011, {note: 55.0, note_slide: 1.0}"
+    }
+  ]
+}

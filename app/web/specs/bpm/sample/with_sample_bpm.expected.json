@@ -1,0 +1,58 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "loop_amen.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 1.753311,
+      "beat": 1.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 1.753310657596372
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 2.253311,
+      "beat": 2.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 62.0,
+        "release": 0.5
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 1.7533,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 1.7533}"
+    },
+    {
+      "t": 2.2533,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 62.0, release: 0.5}"
+    }
+  ]
+}

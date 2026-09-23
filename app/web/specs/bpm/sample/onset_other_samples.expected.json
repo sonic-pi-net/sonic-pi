@@ -1,0 +1,128 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "path": "drum_heavy_kick.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-mono_player",
+      "args": {
+        "onset": 0,
+        "start": 0.0,
+        "finish": 1.0,
+        "buf": "drum_heavy_kick.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "path": "loop_breakbeat.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 2,
+        "start": 0.122642625,
+        "finish": 0.18729742500000002,
+        "buf": "loop_breakbeat.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.2",
+      "name": "",
+      "path": "loop_garzul.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.2",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 4,
+        "start": 0.077905375,
+        "finish": 0.109107125,
+        "buf": "loop_garzul.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.3",
+      "name": "",
+      "path": "ambi_choir.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.3",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "start": 0.009061164418151647,
+        "finish": 1.0,
+        "buf": "ambi_choir.flac"
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"drum_heavy_kick.flac\", {onset: 0, start: 0.0, finish: 1.0}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_breakbeat.flac\", {onset: 2, start: 0.1226, finish: 0.1873}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.2",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_garzul.flac\", {onset: 4, start: 0.0779, finish: 0.1091}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.3",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"ambi_choir.flac\", {onset: 1, start: 0.0091, finish: 1.0}"
+    }
+  ]
+}

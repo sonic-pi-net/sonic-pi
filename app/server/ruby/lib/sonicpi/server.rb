@@ -897,13 +897,9 @@ module SonicPi
     def sched_time
       t = @current_spider_time_lambda.call || Time.now
 
-      sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time)
-      return t + sat + @latency + @global_timewarp if sat
-
-      i = __system_thread_locals.get(:sonic_pi_spider_thread_id_path, @server_thread_id)
-      res = @state.get(t, 0, i, 0, 0, 60, :sched_ahead_time)
-      raise "sched_ahead_time, can't get time. Is this a Sonic Pi thread? " unless res
-      return t + res.val + @latency + @global_timewarp
+      # the thread's own schedule-ahead, else the session's (EventHistory#sched_ahead_time), as the language reads it
+      sat = __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) || @state.sched_ahead_time_at(t)
+      return t + sat + @latency + @global_timewarp
     end
 
   end

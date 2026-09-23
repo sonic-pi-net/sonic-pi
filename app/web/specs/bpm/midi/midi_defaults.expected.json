@@ -1,0 +1,131 @@
+{
+  "events": [
+    {
+      "kind": "midi",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "/note_on",
+      "args": [
+        "p",
+        5,
+        70,
+        127
+      ]
+    },
+    {
+      "kind": "midi",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "/note_off",
+      "args": [
+        "*",
+        6,
+        70,
+        127
+      ]
+    },
+    {
+      "kind": "midi",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "/note_on",
+      "args": [
+        "p",
+        5,
+        71,
+        20
+      ]
+    },
+    {
+      "kind": "midi",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "/control_change",
+      "args": [
+        "p",
+        5,
+        1,
+        2
+      ]
+    },
+    {
+      "kind": "midi",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "path": "/note_on",
+      "args": [
+        "p",
+        5,
+        72,
+        20
+      ]
+    },
+    {
+      "kind": "midi",
+      "t": 0.12,
+      "beat": 0.24,
+      "thread": "0.0",
+      "name": "",
+      "path": "/note_off",
+      "args": [
+        "p",
+        5,
+        72,
+        127
+      ]
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "(map channel:  5,\n       port:     \"p\",\n       vel:      20)"
+    }
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "midi_note_on 70, 127, channel: 5, port: \"p\""
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "midi_note_off 70, 127, channel: 6, port: \"*\""
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "midi_note_on 71, 20, channel: 5, port: \"p\""
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "midi_note_on :rest"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "midi_cc :rest, on: 0"
+    }
+  ]
+}

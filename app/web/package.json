@@ -1,0 +1,35 @@
+{
+  "name": "sonic-pi-web",
+  "private": true,
+  "supersonicVersion": "0.85.0",
+  "type": "module",
+  "description": "Sonic Pi on mruby and SuperSonic, in the browser; judged against Sonic Pi's own runtime",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "build:web": "node scripts/build-web.mjs",
+    "check:browser": "node scripts/browser-check.mjs",
+    "check:examples": "node scripts/gen-example-specs.mjs --check",
+    "check:bpm": "ruby scripts/gen-bpm-specs.rb --check"
+  },
+  "devDependencies": {
+    "@tabler/icons": "^3.46.0",
+    "axe-core": "^4.13.0",
+    "esbuild": "^0.28.2",
+    "marked": "^15.0.12",
+    "playwright": "^1.62.1"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.20.3",
+    "@codemirror/commands": "^6.11.0",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/legacy-modes": "^6.5.4",
+    "@codemirror/search": "^6.7.2",
+    "@codemirror/state": "^6.7.4",
+    "@codemirror/view": "^6.43.11",
+    "@lezer/highlight": "^1.2.3",
+    "fflate": "^0.8.3",
+    "qrcode-generator": "^2.0.4",
+    "simple-keyboard": "^3.8.132",
+    "w3c-keyname": "^2.2.8"
+  }
+}

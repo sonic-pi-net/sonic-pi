@@ -3077,6 +3077,7 @@ void MainWindow::loadSetFromFile(const QString& path)
     saveWorkspaces();
 
     currentSetPath = QFileInfo(path).absoluteFilePath();
+    currentSetMeta = set.meta;
     rememberRecentSet(path);
     showStatusAndAnnounce(tr("Set %1 loaded...").arg(QFileInfo(path).completeBaseName()), 2000);
 }
@@ -3131,7 +3132,7 @@ bool MainWindow::saveSetToPath(const QString& path)
         buffers[i] = workspaces[i]->text();
         zooms[i] = workspaces[i]->currentZoom();
     }
-    const QString err = SonicPi::SetBundle::write(path, buffers, editorTabWidget->currentIndex(), zooms);
+    const QString err = SonicPi::SetBundle::write(path, buffers, editorTabWidget->currentIndex(), zooms, currentSetMeta);
     if (!err.isEmpty())
     {
         QMessageBox::warning(this, tr("Sonic Pi"),
@@ -3178,6 +3179,7 @@ void MainWindow::clearAllBuffers()
     saveWorkspaces();
     // Detach so a later Save Set can't overwrite the old set with new material.
     currentSetPath.clear();
+    currentSetMeta = QJsonObject();
     showStatusAndAnnounce(tr("All buffers cleared..."), 2000);
 }
 

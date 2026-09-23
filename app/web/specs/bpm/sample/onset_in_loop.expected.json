@@ -1,0 +1,188 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "path": "loop_amen.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "start": 0.0,
+        "finish": 0.1209243775947026,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.05,
+      "beat": 0.1,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "start": 0.1209243775947026,
+        "finish": 0.2489364894401262,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.1,
+      "beat": 0.2,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 2,
+        "start": 0.24893648944012622,
+        "finish": 0.37937943120239004,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.15,
+      "beat": 0.3,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 3,
+        "start": 0.37937943120239004,
+        "finish": 0.5063438108663881,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.2,
+      "beat": 0.4,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 4,
+        "start": 0.5063438108663881,
+        "finish": 0.6248886900065959,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 5,
+        "start": 0.6248886900065959,
+        "finish": 0.7459813207278746,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.3,
+      "beat": 0.6,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 6,
+        "start": 0.7459813207278746,
+        "finish": 0.8765793975763375,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.35,
+      "beat": 0.7,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 7,
+        "start": 0.8765793975763375,
+        "finish": 1.0,
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 0, start: 0.0, finish: 0.1209}"
+    },
+    {
+      "t": 0.05,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 1, start: 0.1209, finish: 0.2489}"
+    },
+    {
+      "t": 0.1,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 2, start: 0.2489, finish: 0.3794}"
+    },
+    {
+      "t": 0.15,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 3, start: 0.3794, finish: 0.5063}"
+    },
+    {
+      "t": 0.2,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 4, start: 0.5063, finish: 0.6249}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 5, start: 0.6249, finish: 0.746}"
+    },
+    {
+      "t": 0.3,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 6, start: 0.746, finish: 0.8766}"
+    },
+    {
+      "t": 0.35,
+      "thread": "0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 7, start: 0.8766, finish: 1.0}"
+    }
+  ]
+}

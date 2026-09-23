@@ -1,0 +1,85 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_level",
+      "args": {
+        "kill_delay": 0.25,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.125
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_level"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.125,
+      "beat": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.125
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_level"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 0.5065,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_level",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_level"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.125}"
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.125}"
+    }
+  ]
+}

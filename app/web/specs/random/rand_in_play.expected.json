@@ -1,0 +1,72 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 57.0,
+        "amp": 0.61785888671875,
+        "pan": -0.03692626953125
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.1,
+      "beat": 0.1,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "amp": 0.0400390625,
+        "pan": 0.322021484375
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.2,
+      "beat": 0.2,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "amp": 0.688262939453125,
+        "pan": 0.685791015625
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 57.0, amp: 0.6179, pan: -0.0369}"
+    },
+    {
+      "t": 0.1,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, amp: 0.04, pan: 0.322}"
+    },
+    {
+      "t": 0.2,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, amp: 0.6883, pan: 0.6858}"
+    }
+  ]
+}

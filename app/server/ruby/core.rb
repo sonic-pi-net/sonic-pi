@@ -690,6 +690,11 @@ module SonicPi
         @vec.index(*args, &block)
       end
 
+      # membership: note_range's pitches: opt asks a ring whether it holds a note, and a ring had no answer
+      def include?(*args)
+        @vec.include?(*args)
+      end
+
       def join(*args)
         @vec.join(*args)
       end

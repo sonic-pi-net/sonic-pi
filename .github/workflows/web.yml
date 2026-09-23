@@ -1,0 +1,258 @@
+# Sonic Pi on the web, and the mruby runtime the app will carry: what has to be true before either is published.
+#
+# A spec is a trace: which synth, with which opts, at which moment — which is the OSC the engine is sent, so a
+# spec that passes is the same sound. The runtime is one set of Ruby files that runs in three places: under MRI
+# here, compiled into mruby and linked into a program (where Sonic Pi itself is going), and compiled again to
+# wasm for the browser. Each of the three is held to the same traces, and the mruby one on every operating
+# system Sonic Pi ships on, because that is the build the app will carry.
+name: Web
+
+on:
+  push:
+    paths: ["app/web/**", "app/server/ruby/lib/**", "etc/**", ".github/workflows/web.yml"]
+  pull_request:
+    paths: ["app/web/**", "app/server/ruby/lib/**", "etc/**", ".github/workflows/web.yml"]
+
+env:
+  EMSDK_VERSION: "4.0.14"   # what the wasm is built with
+
+defaults:
+  run:
+    working-directory: app/web
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── the runtime as the app will carry it: mruby, linked, on all three ──────────────────────────────────────
+  runtime:
+    name: specs · mruby · ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false        # a difference on one operating system is the thing worth seeing
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive   # app/web/runtime/mruby, to build the interpreter
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"     # rake builds mruby; scripts/check.rb compares the traces
+      - id: pins
+        shell: bash
+        run: echo "mruby=$(git rev-parse HEAD:app/web/runtime/mruby)" >> "$GITHUB_OUTPUT"
+      - name: Cache mruby
+        uses: actions/cache@v4
+        with:
+          path: app/web/build/mruby   # an action's paths are the repository's, not the run steps' working directory
+          key: mruby-${{ runner.os }}-${{ steps.pins.outputs.mruby }}-${{ hashFiles('app/web/runtime/build_config.rb') }}
+      - name: Build the runtime
+        shell: bash
+        run: scripts/build-runtime.sh --native
+      - name: The specs, through mruby itself
+        shell: bash
+        run: ADAPTER="$PWD/build/runtime/sp-trace" ruby scripts/check.rb
+      - name: Safe mode plays the music
+        shell: bash
+        run: ADAPTER="$PWD/build/runtime/sp-trace" ruby scripts/check-corpus.rb
+      - name: The runtime needs no interpreter beside it
+        # what the app will be asked to prove: it carries its own language, so there is nothing to find on the
+        # machine it is installed on, and nothing to launch
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          bare=$(echo "$PATH" | tr ':' '\n' | grep -v -i -E 'ruby|rbenv|rvm' | paste -sd: -)
+          PATH="$bare" build/runtime/sp-trace specs/play/note.rb > /dev/null
+          echo "traced with no ruby on PATH"
+
+  # ── the same runtime as the browser loads it ───────────────────────────────────────────────────────────────
+  wasm:
+    name: specs · wasm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Emscripten ${{ env.EMSDK_VERSION }}
+        # pinned, and installed from its own repository: a compiler that changes under us changes the module
+        run: |
+          git clone --depth 1 https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          "$RUNNER_TEMP/emsdk/emsdk" install "$EMSDK_VERSION"
+          "$RUNNER_TEMP/emsdk/emsdk" activate "$EMSDK_VERSION"
+          echo "$RUNNER_TEMP/emsdk/upstream/emscripten" >> "$GITHUB_PATH"
+      - id: pins
+        run: echo "mruby=$(git rev-parse HEAD:app/web/runtime/mruby)" >> "$GITHUB_OUTPUT"
+      - name: Cache mruby
+        uses: actions/cache@v4
+        with:
+          path: app/web/build/mruby   # an action's paths are the repository's, not the run steps' working directory
+          key: mruby-wasm-${{ steps.pins.outputs.mruby }}-${{ env.EMSDK_VERSION }}-${{ hashFiles('app/web/runtime/build_config.rb') }}
+      - name: Build the runtime
+        run: scripts/build-runtime.sh
+      - name: The specs, through the module the page loads
+        run: ADAPTER="node $PWD/runtime/bin/trace-wasm.mjs" ruby scripts/check.rb
+      - name: A live session
+        run: node runtime/bin/live-check.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sp_runtime
+          path: |
+            app/web/build/runtime/sp_runtime.wasm
+            app/web/build/runtime/sp_runtime.mjs
+          if-no-files-found: error
+
+  # ── the app's rules and the server's are one file ──────────────────────────────────────────────────────
+  data:
+    name: data follows native
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+      - name: The generated data still comes out of the server unchanged
+        run: |
+          ruby scripts/gen-synth-data.rb     # reads ../server/ruby, writes runtime/data
+          ruby scripts/gen-editor-data.rb    # reads the docs and etc/, writes web/data
+          git diff --exit-code runtime/data web/data \
+            || { echo "::error::the data no longer matches the server it is generated from — regenerate and commit it"; exit 1; }
+      - name: Every opt's rule agrees with native's own checking
+        run: ruby scripts/check-validations.rb
+
+  # ── the page itself, in both engines ───────────────────────────────────────────────────────────────────────
+  app:
+    name: the app in a browser
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: app/web/package-lock.json
+      - name: Emscripten ${{ env.EMSDK_VERSION }}
+        # pinned, and installed from its own repository: a compiler that changes under us changes the module
+        run: |
+          git clone --depth 1 https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          "$RUNNER_TEMP/emsdk/emsdk" install "$EMSDK_VERSION"
+          "$RUNNER_TEMP/emsdk/emsdk" activate "$EMSDK_VERSION"
+          echo "$RUNNER_TEMP/emsdk/upstream/emscripten" >> "$GITHUB_PATH"
+      - run: npm ci
+      - name: Cache Playwright's browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('app/web/package-lock.json') }}
+      - run: npx playwright install --with-deps chromium webkit
+      - name: The tutorial, from the documentation in this repository
+        # qt-doc.rb writes the book from etc/doc/tutorial and web-tutorial.rb makes a web root of it, so the Info
+        # card shows this repository's tutorial rather than the one on the website.
+        working-directory: app/server/ruby
+        run: |
+          ruby bin/qt-doc.rb
+          ruby bin/web-tutorial.rb
+      - name: Build the runtime, the site and the app
+        run: |
+          scripts/build-runtime.sh
+          node scripts/build-site.mjs
+          node scripts/build-app.mjs
+      - name: The examples are the specs they say they are
+        run: npm run check:examples
+      - name: Serve it
+        # plain http: a browser counts localhost as secure, so the audio worklet boots, and the server sends the
+        # cross-origin isolation headers itself (--https is for a phone on the LAN)
+        run: |
+          node scripts/serve.mjs > serve.log 2>&1 &
+          until curl -s http://localhost:8460/web/ -o /dev/null; do sleep 1; done
+      - name: Chromium and WebKit
+        run: node scripts/browser-check.mjs http://localhost:8460/web/
+      - if: failure()
+        run: cat serve.log
+
+  # ── the site as it is deployed, to download ────────────────────────────────────────────────────────────────
+  #
+  # What sonic-pi.net serves: build-web.mjs's site (SuperSonic at the version package.json pins, from the CDN) in
+  # package-web.mjs's zip, sonic-pi-web/ and the nginx.conf lines it needs. Made only once the runtime and the app
+  # have passed, so a site to download is one that was checked.
+  site:
+    name: the site, packaged
+    needs: [wasm, app]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0          # git describe names the package (v5.1-beta1-12-gabc1234)
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: app/web/package-lock.json
+      - name: Emscripten ${{ env.EMSDK_VERSION }}
+        run: |
+          git clone --depth 1 https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          "$RUNNER_TEMP/emsdk/emsdk" install "$EMSDK_VERSION"
+          "$RUNNER_TEMP/emsdk/emsdk" activate "$EMSDK_VERSION"
+          echo "$RUNNER_TEMP/emsdk/upstream/emscripten" >> "$GITHUB_PATH"
+      - run: npm ci
+      - name: The tutorial, from the documentation in this repository
+        working-directory: app/server/ruby
+        run: |
+          ruby bin/qt-doc.rb
+          ruby bin/web-tutorial.rb
+      - name: Build the runtime
+        run: scripts/build-runtime.sh
+      - name: Build and package the site
+        id: package
+        run: |
+          node scripts/package-web.mjs
+          zip=$(ls build/sonic-pi-web-*.zip)
+          echo "name=$(basename "$zip" .zip)" >> "$GITHUB_OUTPUT"
+          # unpacked again: an artifact is a zip of its own, so it is uploaded as the folder the zip holds
+          rm -rf build/site && mkdir -p build/site && unzip -q "$zip" -d build/site
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.package.outputs.name }}   # sonic-pi-web-<git describe>: sonic-pi-web/ and nginx.conf
+          path: app/web/build/site/
+          if-no-files-found: error
+
+  # ── the server's own traces ───────────────────────────────────────────────────────────────────────────────
+  #
+  # Re-running the Ruby server over every spec says whether the traces the runtime is held to are still what the
+  # server does. Change the server's behaviour and this is what fails, which is the point: the runtime and the
+  # recording have to move together. A spec the server races on says so in its own header and is run again before
+  # its failure is believed, and the tolerance for an fx's free is raised because its time is a wall clock's, not
+  # a logical one, and a busy runner is later than a laptop.
+  oracle:
+    name: the traces are still the server's
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+      - name: Sonic Pi's aubio_onset, which the server runs to find a sample's onsets
+        run: |
+          sudo apt-get update && sudo apt-get install -y cmake libsndfile1-dev
+          scripts/build-oracle.sh
+      - run: FREE_TOLERANCE=0.5 ruby scripts/check.rb

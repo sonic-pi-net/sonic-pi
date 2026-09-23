@@ -1,0 +1,75 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 4.0,
+        "cutoff": 80
+      },
+      "now": false
+    },
+    {
+      "kind": "control",
+      "t": 0.5,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0"
+      },
+      "args": {
+        "note": 67,
+        "cutoff": 100
+      }
+    },
+    {
+      "kind": "control",
+      "t": 1.0,
+      "beat": 1.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0"
+      },
+      "args": {
+        "note": 72
+      }
+    },
+    {
+      "kind": "kill",
+      "t": 1.5,
+      "beat": 1.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 4.0, cutoff: 80}"
+    }
+  ]
+}

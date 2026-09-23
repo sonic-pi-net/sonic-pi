@@ -1,0 +1,2308 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later
+ * Sonic Pi for the web, laid out as native Sonic Pi v5 lays itself out:
+ * the toolbar, the editor beside the scope, log, cues and Link strip, the
+ * help drawer below. Painted only with native Sonic Pi's theme keys
+ * (--Foreground, --HighlightedBackground ...), which theme.js sets from the
+ * scheme and its transforms. */
+
+/* Hack, native Sonic Pi's code font (app/gui/fonts), served from web/fonts as WOFF2: the code looks as it does in the
+   app, on any device, with nothing to install and no third party asked for it. Its licence: web/fonts/Hack-License.md */
+@font-face { font-family: "Hack"; src: url("fonts/Hack-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-Bold.woff2") format("woff2"); font-weight: 600 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-BoldItalic.woff2") format("woff2"); font-weight: 600 700; font-style: italic; font-display: swap; }
+
+:root {
+  /* two faces: the code face for code, logs and anything that lines up in columns; the prose face for everything else */
+  --code-font: "Hack", "Cascadia Mono", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --prose-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --editor-font-size: 18px;
+  --drawer-size: 42vh;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; height: 100%; overflow: clip; }   /* text as set, never inflated: iOS Safari enlarges some blocks and not others (one code card bigger than the next); clip, not hidden: the window is never a scroller, so no scrollIntoView (a page's list, a link) can lift the bar off the top */
+body {
+  margin: 0;
+  background: var(--WindowBackground);
+  color: var(--WindowForeground);
+  font: var(--t-small)/1.4 var(--prose-font);
+  display: flex;
+  flex-direction: column;
+  height: var(--app-height, 100dvh);        /* the visible height: less the on-screen keyboard (main.js) */
+  overflow: clip;
+  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+code { font-family: var(--code-font); }
+
+/* ── Toolbar: native's big icons ── */
+/* landmarks and lists laid out as if they were not there: the toolbar's region (index.html), the buffers' tablist (main.js) */
+.toolbar-region, .buffer-tabs-list { display: contents; }
+#toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px max(14px, env(safe-area-inset-right)) 8px max(14px, env(safe-area-inset-left));   /* the site bar above has the status bar's inset */
+  background: var(--WindowBackground);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+button.tb-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: var(--r-m);
+  color: var(--WindowForeground);
+  cursor: pointer;
+  transition: transform 0.12s cubic-bezier(0, 0.8, 0.2, 1.4), background 0.1s, color 0.1s;
+}
+button.tb-icon svg { width: 24px; height: 24px; fill: currentColor; }
+button.tb-icon.stroke svg { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+button.tb-icon:hover:not(:disabled) { color: var(--HoverButton); }
+button.tb-icon:active:not(:disabled) { transform: scale(0.9); }
+button.tb-icon:disabled { opacity: 0.35; cursor: not-allowed; }
+/* native's pro icons, tinted as SonicPiTheme::tintedIcon tints them: the icon's
+ * shape (its alpha) in the window's foreground; toggled, its bordered form in the
+ * accent; the record button always in the accent */
+.tb-glyph {
+  display: block;
+  width: 30px;
+  height: 30px;
+  background: var(--WindowForeground);
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+.tb-icon.on .tb-glyph { background: var(--HighlightedBackground); -webkit-mask-image: var(--icon-on, var(--icon)); mask-image: var(--icon-on, var(--icon)); }
+.tb-icon:hover:not(:disabled) .tb-glyph { background: var(--HoverButton); }
+.tb-icon.on:hover .tb-glyph, .tb-rec .tb-glyph { background: var(--HighlightedBackground); }
+/* recording: the glyph blinks, as native's does (MainWindow::toggleRecordingOnIcon) */
+#btn-record.on .tb-glyph { animation: rec-blink 1s steps(1, end) infinite; }
+@keyframes rec-blink { 50% { opacity: 0.25; } }
+body.reduce-motion #btn-record.on .tb-glyph { animation: none; }
+/* a run going: the Run glyph lit in the accent, fading back (main.js flashRunButton) */
+#btn-run.run-flash-a .tb-glyph { animation: run-flash-a 420ms ease-out; }
+#btn-run.run-flash-b .tb-glyph { animation: run-flash-b 420ms ease-out; }
+@keyframes run-flash-a { from { background: var(--HighlightedBackground); transform: scale(1.18); } 30% { background: var(--HighlightedBackground); } }
+@keyframes run-flash-b { from { background: var(--HighlightedBackground); transform: scale(1.18); } 30% { background: var(--HighlightedBackground); } }
+/* Help's echo, while a first visit is pointed at it (main.js showHelpHint): the Δ's own shape, behind it, swelling
+   out from it and fading, so it grows out of the glyph's ink wherever that sits in its box; the glyph stays over it */
+#btn-help.hinting { position: relative; }
+#btn-help.hinting .tb-glyph { position: relative; }
+#btn-help.hinting::before { content: ""; position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; translate: -50% -50%; background: var(--HighlightedBackground); -webkit-mask: var(--echo) center / contain no-repeat; mask: var(--echo) center / contain no-repeat; pointer-events: none; animation: help-echo 1.6s ease-out infinite; }
+@keyframes help-echo { from { transform: scale(1); opacity: 0.9; } to { transform: scale(2.3); opacity: 0; } }
+body.reduce-motion #btn-help.hinting::before { animation: none; transform: scale(1.35); opacity: 0.5; }   /* still: a halo of the Δ's shape round it */
+.tb-spacer { flex: 1; }
+/* sonic-pi.net as a card over the app, under the site's bar (#info-card, info.js), so it is the site and still the
+   app. The page scrolls in the card; its width queries are container queries on it (build-site.mjs), so narrow, it
+   lays out as on a phone. */
+/* the website's bar: sonic-pi.net's nav across the top of the app, in the app's theme — the window's own colours, a
+   rule under it, the current tab the accent */
+#site-nav { position: relative; display: flex; align-items: center; gap: 4px; height: calc(38px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) max(10px, env(safe-area-inset-right)) 0 max(14px, env(safe-area-inset-left)); background: var(--WindowBackground); color: var(--WindowForeground); border-bottom: 1px solid var(--WindowBorder); font-family: var(--prose-font); flex-shrink: 0; }
+.sn-brand { margin-right: 0; color: var(--HighlightedBackground); font: 700 var(--t-ui) var(--prose-font); text-decoration: none; white-space: nowrap; }
+.sn-scope { flex: 1 1 0; min-width: 0; height: 18px; margin: 0 12px 0 16px; display: none; }   /* the app's, after the tabs: the pages have Try it! there */
+/* the bar's thin scope: the Line kind of scope (below), and a phone's only scope (further below); never while the scopes are off */
+body.scope-line:not(.info-open, .no-scope) .sn-scope { display: block; }   /* the Line kind of scope (main.js SCOPE_MODES), and only while the scopes are on */
+#site-nav.folded .sn-scope { height: 14px; margin: 0 10px; }
+.sn-close { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; margin-left: 6px; padding: 0; border: none; border-radius: var(--r-m); background: none; color: var(--faintText); cursor: pointer; }
+.sn-close svg { width: 18px; height: 18px; }
+body.info-open .sn-close { display: none; }
+#site-nav .sn-contents, #site-strip { display: none; }   /* the page's fold chip: only on a phone, while a page shows (below) */
+@media (hover: hover) { .sn-close:hover { color: var(--WindowForeground); background: var(--subtleFill); } }
+
+/* under the site bar: where it ends, as main.js measures it (--ic-top), and its usual height before then or with no
+   script at all, so the bar and its links are never under the page */
+:root { --nav-h: 38px; }
+@media (max-width: 760px) { :root { --nav-h: 45px; } }
+#info-card { position: fixed; z-index: 90; inset: var(--ic-top, var(--nav-h)) 0 0 0; display: flex; flex-direction: column; background: var(--PaneBackground); }
+.ic-tabs { display: flex; flex: 1; min-width: 0; gap: 6px; overflow-x: auto; scrollbar-width: none; }   /* the .seg's gap */
+.ic-tabs::-webkit-scrollbar { display: none; }
+.ic-tab { flex-shrink: 0; }   /* the shared chip (shared.css): its size, colours and states are the docs pane's tabs' */
+.ic-body { flex: 1; min-height: 0; overflow: auto; background: var(--PaneBackground); isolation: isolate; container-type: size; scroll-behavior: smooth; overscroll-behavior: contain; }
+.ic-foot { padding: 4px 12px; border-top: 1px solid var(--WindowBorder); background: var(--raisedSurface); font: var(--t-label) var(--code-font); color: var(--mutedForeground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; }
+.ic-foot { display: flex; align-items: center; gap: 2px; }
+.ic-foot .ic-zoom { display: inline-flex; gap: 2px; margin-right: auto; }   /* the pages' − and +, at the left; the version at the right */
+.ic-foot .zoom-btn { width: 24px; height: 24px; }
+.ic-foot .zoom-btn svg { width: 20px; height: 20px; }
+@media (max-width: 760px) { #info-body { --site-zoom: 1 !important; } .ic-foot .ic-zoom { display: none; } }   /* a phone: the pages as they are; no room for the zoom */
+/* the bar folded: a slim strip with the wordmark alone at the top left, where the site and the bar have it — the way back */
+#site-nav.folded { height: calc(24px + env(safe-area-inset-top)); }
+#site-nav.folded .sn-brand { margin: 0; font-size: var(--t-tiny); translate: 0 0.08em; }   /* the font centres its line, not its letters, which ride high in it: down by the font's own share, at any size */
+/* the quiet stop beside the wordmark: there while anything sounds, its room kept while nothing does, so the bar never shifts */
+.sn-stop { position: relative; display: block; flex: none; width: 20px; height: 20px; margin: 0 10px 0 2px; padding: 0; border: none; border-radius: 50%; background: none; color: var(--mutedForeground); cursor: pointer; visibility: hidden; }
+.sn-stop-rings { position: absolute; inset: 0; width: 100%; height: 100%; }   /* the mix's rings (main.js stopRings) */
+.sn-stop .tb-icon { position: absolute; left: 25%; top: 25%; width: 50%; height: 50%; }
+body.sounding .sn-stop { visibility: visible; }
+.sn-stop:hover, .sn-stop:focus-visible { color: var(--HighlightedBackground); }
+#site-nav.folded .sn-stop { width: 16px; height: 16px; margin: 0 6px 0 2px; }
+#site-nav.folded .ic-tabs, #site-nav.folded .sn-close { display: none; }
+/* The bar's tabs, at every width as on a phone: words, the one showing in the accent with a bar under it; the code
+   icon after them lit as they are (index.html's .sn-code: the editor), the theme's palette at the right; the stop everything first, always there,
+   quiet until anything sounds.
+   One bar, one look, whatever the width. */
+#site-nav .ic-tabs { gap: 0 22px; align-items: stretch; }
+#site-nav .ic-tab { position: relative; display: flex; align-items: center; padding: 4px 0 8px; border: none; border-radius: 0; background: none; color: var(--softForeground); font-size: var(--t-small); font-weight: 600; }
+#site-nav .ic-tab::after, #site-nav .sn-code::after { content: ""; position: absolute; left: 0; right: 0; bottom: 2px; height: 3px; border-radius: var(--r-pill); background: transparent; }
+@media (hover: hover) { #site-nav .ic-tab:hover { color: var(--WindowForeground); } }
+#site-nav .ic-tab.active { background: none; color: var(--HighlightedBackground) !important; }   /* the shared chip rule fills it; here it is a word */
+#site-nav .ic-tab.active::after, #site-nav .sn-code.active::after { background: var(--HighlightedBackground); }
+body.scope-line:not(.info-open, .no-scope) #site-nav .ic-tabs { flex: 0 1 auto; }   /* the scope takes the room between the tabs and the palette */
+/* the colour theme's palette, the bar's last word before its fold; there when it is folded too */
+.sn-code { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 30px; height: 30px; margin: 0 0 4px 14px; border-radius: var(--r-m); color: var(--softForeground); text-decoration: none; }   /* the editor's code, beside the palette */
+.sn-code .tb-icon { width: 20px; height: 20px; }
+.sn-code { position: relative; }
+.sn-code:focus-visible, .sn-code.active { color: var(--HighlightedBackground); outline: none; }
+@media (hover: hover) { .sn-code:hover { color: var(--HighlightedBackground); } }   /* not on a touch screen, where a tap leaves :hover behind */
+.sn-code:focus-visible { box-shadow: 0 0 0 2px var(--HighlightedBackground); }
+#site-nav.folded .sn-code { display: none; }
+.sn-code + .sn-theme { margin-left: 4px; }
+.sn-theme { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 30px; height: 30px; margin: 0 0 4px 14px; padding: 0; border: none; border-radius: var(--r-m); background: none; color: var(--softForeground); cursor: pointer; }
+.sn-theme .tb-icon { width: 20px; height: 20px; }
+.sn-theme:focus-visible, .sn-theme.on { color: var(--HighlightedBackground); outline: none; }   /* lit while its menu is open */
+@media (hover: hover) { .sn-theme:hover { color: var(--HighlightedBackground); } }   /* not on a touch screen, where a tap leaves :hover behind */
+.sn-theme:focus-visible { box-shadow: 0 0 0 2px var(--HighlightedBackground); }
+#site-nav.folded .sn-theme { width: 22px; height: 22px; margin: 0 0 0 auto; }
+#site-nav.folded .sn-theme .tb-icon { width: 15px; height: 15px; }
+/* its menu: the picker's surface, hung from the button's right edge */
+#theme-menu { position: fixed; z-index: 400; top: var(--picker-top, 60px); right: var(--menu-right, 12px); width: min(360px, calc(100vw - 24px)); max-height: calc(100dvh - var(--picker-top, 60px) - 24px); overflow: auto; padding: 12px 14px; box-sizing: border-box; background: var(--pop-bg); border: var(--pop-border); border-radius: var(--r-m); box-shadow: var(--pop-shadow); color: var(--WindowForeground); font: var(--t-ui) var(--prose-font); }
+#theme-menu .tm-title { margin: 0 0 10px; }
+#theme-menu .scheme-grid { margin-bottom: 10px; }
+#theme-menu .pref-row > span:first-child { flex-basis: 6.5em; }
+#site-nav .sn-stop { order: -1; visibility: visible; width: 24px; height: 24px; margin: 0 14px 4px 0; color: var(--faintText); }
+#site-nav .sn-stop::before { content: ""; position: absolute; inset: 6.6%; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--Foreground) 22%, transparent); pointer-events: none; }   /* the ring at rest, as a card's transport has it (card.css) */
+#site-nav .sn-stop .tb-icon { left: 20%; top: 20%; width: 60%; height: 60%; }
+body.sounding #site-nav .sn-stop { color: var(--HighlightedBackground); }
+body.sounding #site-nav .sn-stop::before { border-color: color-mix(in srgb, var(--HighlightedBackground) 45%, transparent); }   /* lit, the mix's rings moving over it */
+#site-nav .sn-brand { order: -1; margin-right: 26px; padding: 4px 0 8px; }   /* the tabs' own padding (their underline's room), so the wordmark's words sit on the tabs' line */
+#site-nav .sn-stop { order: -2; }
+
+.tb-sep { width: 1px; height: 22px; background: var(--WindowBorder); margin: 0 6px; }
+/* the Share button's menu (share-menu.js), the picker's surface under the button */
+#share-menu, #sets-menu { position: fixed; z-index: 400; top: var(--picker-top, 60px); left: var(--menu-left, 12px); width: min(340px, calc(100vw - 24px)); max-height: calc(100dvh - var(--picker-top, 60px) - 24px); overflow: auto; padding: 6px; background: var(--pop-bg); border: var(--pop-border); border-radius: var(--r-m); box-shadow: var(--pop-shadow); }
+/* Share (share-menu.js): a quickstart card (ui/card.css) with tabs. The chosen tab is the card's bar, in the accent
+   with its contrast, joined to the card; the other a tint. The body, the card's tint, holds what it is and what it's
+   called; the foot, the stronger tint, the four ways to share it. One colour, the accent, throughout. */
+.sm-top { display: flex; align-items: center; justify-content: space-between; }
+#share-menu .sm-close { display: none; }   /* a phone's (below) */
+.sm-backdrop { display: none; }
+@media (max-width: 760px) {
+  /* a phone: Share as About is there, a dialog over the page, dimmed and blurred behind it, its close at the right */
+  .sm-backdrop:not([hidden]) { position: fixed; inset: 0; z-index: 399; display: block; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(7px) saturate(0.8); -webkit-backdrop-filter: blur(7px) saturate(0.8); }
+  #share-menu { top: 50%; left: 50%; width: min(94vw, 460px); max-height: 88dvh; padding: 8px 8px 10px; translate: -50% -50%; }
+  #share-menu .sm-close { display: inline-flex; }
+}
+.sm-step { padding: 8px 8px 8px; font: 700 var(--t-label) / 1.4 var(--prose-font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--mutedForeground); }
+.sm-what { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 0 4px; }
+.sm-what-opt { display: flex; align-items: center; gap: 9px; min-width: 0; padding: 9px 11px; border: none; border-radius: var(--r-m) var(--r-m) 0 0; background: var(--accentTint); color: var(--softForeground); text-align: left; cursor: pointer; }
+.sm-what-opt .sm-glyph { color: var(--softForeground); }
+.sm-what-opt[aria-checked="true"] { background: var(--HighlightedBackground); color: var(--accentContrastText); }
+.sm-what-opt[aria-checked="true"] .sm-glyph, .sm-what-opt[aria-checked="true"] .sm-what-sum { color: var(--accentContrastText); }
+.sm-what-opt:focus-visible { outline: 2px solid var(--WindowForeground); outline-offset: -3px; }
+@media (hover: hover) { .sm-what-opt:not([aria-checked="true"]):hover { background: var(--accentTintStrong); color: var(--WindowForeground); } }
+.sm-what-words { display: flex; flex-direction: column; min-width: 0; }
+.sm-what-name { overflow: hidden; font: 700 var(--t-small) var(--prose-font); text-overflow: ellipsis; white-space: nowrap; }
+.sm-what-sum { overflow: hidden; color: var(--mutedForeground); font: var(--t-tiny) var(--prose-font); text-overflow: ellipsis; white-space: nowrap; }
+.sm-glyph { display: inline-flex; flex: none; }
+.sm-glyph .tb-icon { width: 22px; height: 22px; }
+/* the card: the chosen tab's bar joins it square, the rest of it rounded as a quickstart card */
+.sm-card { margin: 0 4px 4px; overflow: hidden; border-top: 3px solid var(--HighlightedBackground); border-radius: var(--r-m); background: var(--accentTint); }
+.sm-card.first { border-top-left-radius: 0; }
+.sm-card.last { border-top-right-radius: 0; }
+.sm-panel { padding: 10px 12px 12px; }
+.sm-view { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box; }   /* a QR code or the link, in the body's place and its size */
+.sm-view[hidden], .sm-body[hidden] { display: none; }
+.sm-view .sm-url { flex: 1; }
+.sm-about { min-height: calc(2 * 1.4em); margin: 0 0 8px; color: var(--softForeground); font: var(--t-tiny) / 1.4 var(--prose-font); }   /* two lines' room held: the card one height */
+.sm-about.said { color: var(--WindowForeground); font-weight: 600; }   /* what was just done, said in its place (share-menu.js done) */
+/* the foot: the four ways, equal columns whatever their words, so nothing moves as the choice above changes */
+.sm-how { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 8px 6px 6px; background: var(--accentTintStrong); }
+.sm-act { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 6px 2px; border: none; border-radius: var(--r-m); background: none; color: var(--WindowForeground); cursor: pointer; }
+.sm-act .sm-glyph { align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: var(--pop-bg); color: var(--softForeground); }
+.sm-act-label { max-width: 100%; overflow: hidden; font: 600 var(--t-tiny) var(--prose-font); text-overflow: ellipsis; white-space: nowrap; }
+.sm-act[aria-pressed="true"] .sm-glyph { background: var(--HighlightedBackground); color: var(--accentContrastText); }
+.sm-act:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: -2px; }
+@media (hover: hover) { .sm-act:not([aria-pressed="true"], .done):hover .sm-glyph { background: var(--HighlightedBackground); color: var(--accentContrastText); } }   /* the widget's own colour under the pointer */
+/* its name, and a set's description or a buffer's code: inside the panel */
+.sm-fields { display: grid; gap: 5px; }
+.sm-field-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 2px; }
+.sm-field-label { color: var(--softForeground); font: 600 var(--t-tiny) var(--prose-font); }
+.sm-field-hint { color: var(--mutedForeground); font: var(--t-tiny) var(--prose-font); }
+.sm-field { box-sizing: border-box; width: 100%; margin: 0; padding: 7px 9px; border: 1px solid var(--WindowBorder); border-radius: var(--r-s); background: var(--pop-bg); color: var(--WindowForeground); font: 600 var(--t-small) var(--prose-font); }
+.sm-field-about, .sm-preview { height: calc(5 * 1.4 * var(--t-small) + 16px); line-height: 1.4; }   /* the same room, a description or a buffer's code */
+.sm-field-about { resize: none; overflow-x: hidden; overflow-y: auto; font-weight: 400; }
+.sm-field::placeholder { color: var(--mutedForeground); font-style: italic; opacity: 1; }   /* a prompt, not a value: grey and italic */
+#share-menu .sm-preview { overflow: auto; background: var(--Background); color: var(--DefaultForeground, var(--Foreground)); font: var(--t-small) / 1.4 var(--code-font); white-space: pre; }   /* the editor's own colours; scrolls for the rest */
+.sm-preview:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: -1px; }
+.sm-field:focus { outline: 2px solid var(--HighlightedBackground); outline-offset: -1px; }
+/* done: the button a tick in the theme's own green (its strings'), readable on light and dark alike, and a line saying what happened */
+#share-menu { --done: color-mix(in srgb, var(--DoubleQuotedStringForeground) 70%, var(--WindowForeground)); }
+.sm-act.done .sm-glyph { background: color-mix(in srgb, var(--DoubleQuotedStringForeground) 24%, transparent); color: var(--done); }
+.sm-act.done .sm-act-label { color: var(--done); }
+.sm-url { width: 100%; box-sizing: border-box; resize: none; padding: 6px 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: var(--subtleFill); color: var(--WindowForeground); font: var(--t-tiny) var(--code-font); word-break: break-all; }
+.sm-url:focus { outline: 2px solid var(--HighlightedBackground); outline-offset: -1px; }
+.sm-qr { display: block; width: var(--qr-size, 240px); height: var(--qr-size, 240px); max-width: 100%; border-radius: var(--r-m); background: #fff; image-rendering: pixelated; }
+.sm-note { font: var(--t-tiny) var(--prose-font); color: var(--mutedForeground); text-align: center; }
+.sm-save { padding: 5px 12px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: none; color: var(--WindowForeground); font: var(--t-small) var(--prose-font); cursor: pointer; }
+.sm-save:hover { border-color: var(--HighlightedBackground); color: var(--HighlightedBackground); }
+/* where there is no status bar (a phone, focus mode) a message floats: one line, centred under the toolbar, over the
+   editor's top (main.js toast) — out of the toolbar's row, which on a phone scrolls and has no room for it */
+.toast {
+  position: fixed;
+  top: var(--toast-top, 60px);
+  left: 50%;
+  z-index: 450;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 32px);
+  overflow: hidden;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  background: var(--HighlightedBackground);
+  color: var(--accentContrastText);
+  font-size: var(--t-small);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* ── Main grid ── */
+#main {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  --editor-size: 2.1fr;
+  grid-template-columns: var(--editor-size) 6px minmax(260px, 1fr);
+  grid-template-rows: minmax(0, 1fr) 0 0;
+  grid-template-areas:
+    "editor divider sidebar"
+    "hdiv hdiv hdiv"
+    "drawer drawer drawer";
+}
+body[data-drawer]:not([data-drawer=""]) #main { grid-template-rows: minmax(80px, 1fr) 6px var(--drawer-size); }
+body.zen #main { grid-template-columns: 1fr 0 0; }
+body.zen #sidebar, body.zen #panel-divider { display: none; }
+
+#editor-column { grid-area: editor; min-width: 0; min-height: 0; display: flex; flex-direction: column; background: var(--Background); }
+#editor-mount { flex: 1; min-height: 0; overflow: visible; position: relative; }   /* not hidden: the editor inside fills it and scrolls itself, and Safari's completion popup is positioned absolutely within it (CodeMirror's Safari fallback), so a clip here would cut the popup at the editor's foot */
+#editor-mount .cm-scroller, .qs-card-body { overscroll-behavior: none; }   /* code stops at its edges: no rubber band past them (iOS) — long lines still scroll, never wrap */
+#editor-mount .cm-editor { height: 100%; }
+#editor-mount .cm-editor.cm-focused { outline: none; }
+
+/* Under the editor: where the caret is, and the ten buffers */
+#editor-foot {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 14px 8px;
+  flex-shrink: 0;
+}
+#caret-pos { font: var(--t-small) var(--code-font); color: var(--mutedForeground); white-space: pre; overflow: hidden; text-overflow: ellipsis; min-width: 0; }   /* small and quiet: where the caret is, not what to read */
+body.no-caret-pos #caret-pos { visibility: hidden; }   /* hidden until the preference shows it (main.js); its room is kept, so the buffer pads stay centred */
+body.no-metro #link-section { display: none; }   /* hidden until the preference shows it (main.js) */
+/* The buffer tabs, in the theme's colours. Pads 0-9 between thin bars, each a small pill behind its digit, the
+   active one filled; one with code in it brighter than an empty one. The jam toggle at the row's end; with jam on
+   the pads grow to drum-pad size and the run / show / exec picker sits above them. */
+#buffer-tabs { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.buffer-tabs-row { display: flex; align-items: center; justify-content: center; min-width: 0; }
+/* sets have a colour of their own, everywhere they show (the chip, the list, the Share panel's set): the theme's
+   second colour, numbers' in the code and native's second swatch, where a buffer has the accent */
+:root { --set-colour: var(--NumberForeground); }
+.set-slot { display: contents; }   /* the chip's place in the tab row (buffer-tabs.js): the chip lays out as one of the row's own */
+/* the set showing, named, before the tabs once there is more than one set: it opens the list of sets (main.js paintSetChip) */
+.set-chip { margin-right: 10px; }   /* the row's two ends: SET and JAM a pair, one size and weight (below) */
+.set-chip[aria-expanded="true"], .set-chip:focus-visible { border-color: var(--set-colour); color: var(--WindowForeground); outline: none; }
+#sets-menu.up { top: auto; bottom: var(--picker-bottom); max-height: calc(100dvh - var(--picker-bottom) - 24px); }   /* opened over its chip */
+/* the sets: each named, how many buffers have code and when it was last used, its first line; rename, and delete for any not showing */
+/* The sets' popover (sets-view.js): views, as a menu that goes deeper does. The list: the set showing, a card in the
+   sets' colour with its Edit; the others, quiet rows, a tap to switch and ⋯ for their details; New set at the foot. A
+   set's details: the way back and a title, labelled fields, the actions at the foot. */
+#sets-menu { padding: 8px; }
+.sv-kicker { padding: 6px 8px 6px; font: 700 var(--t-label) / 1.4 var(--prose-font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--faintText); }
+.sv-kicker ~ .sv-kicker { margin-top: 8px; }
+.sv-mark { display: inline-flex; flex: none; color: var(--set-colour); }
+.sv-mark .tb-icon { width: 20px; height: 20px; }
+.sv-words { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
+.sv-name { overflow: hidden; font: 600 var(--t-ui) / 1.3 var(--prose-font); color: var(--WindowForeground); text-overflow: ellipsis; white-space: nowrap; }
+.sv-about { display: -webkit-box; overflow: hidden; color: var(--softForeground); font: var(--t-small) / 1.4 var(--prose-font); -webkit-box-orient: vertical; -webkit-line-clamp: 2; }   /* two lines at most */
+.sv-empty { font-style: italic; color: var(--mutedForeground); }
+.sv-meta { color: var(--mutedForeground); font: var(--t-tiny) / 1.4 var(--prose-font); }
+.sv-first { overflow: hidden; color: var(--mutedForeground); font: var(--t-tiny) / 1.5 var(--code-font); text-overflow: ellipsis; white-space: nowrap; }
+/* the set showing */
+.sv-current { display: flex; align-items: flex-start; gap: 12px; padding: 12px; border: 1px solid color-mix(in srgb, var(--set-colour) 40%, transparent); border-radius: var(--r-m); background: color-mix(in srgb, var(--set-colour) 10%, transparent); }
+.sv-current .sv-mark { padding-top: 1px; }
+.sv-edit { flex: none; padding: 4px 12px; border: 1px solid color-mix(in srgb, var(--set-colour) 50%, transparent); border-radius: var(--r-m); background: none; color: var(--WindowForeground); font: 600 var(--t-small) var(--prose-font); cursor: pointer; }
+@media (hover: hover) { .sv-edit:hover { border-color: var(--set-colour); color: var(--set-colour); } }
+/* the others */
+.sv-list { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.sv-row { display: flex; align-items: center; border-radius: var(--r-m); }
+@media (hover: hover) { .sv-row:hover { background: var(--subtleFill); } }
+.sv-pick { display: flex; flex: 1 1 auto; align-items: flex-start; gap: 12px; min-width: 0; padding: 9px 4px 9px 12px; border: none; border-radius: var(--r-m); background: none; text-align: left; cursor: pointer; }
+.sv-top { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.sv-when { flex: none; margin-left: auto; color: var(--mutedForeground); font: var(--t-tiny) var(--prose-font); }
+.sv-more { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 32px; height: 32px; margin-right: 4px; padding: 0; border: none; border-radius: var(--r-m); background: none; color: var(--mutedForeground); cursor: pointer; }
+.sv-more .tb-icon { width: 18px; height: 18px; }
+@media (hover: hover) { .sv-more:hover { color: var(--set-colour); } }
+/* a new set, at the foot */
+.sv-new { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 8px; padding: 11px 12px; border: none; border-top: 1px solid var(--WindowBorder); border-radius: 0 0 var(--r-m) var(--r-m); background: none; color: var(--WindowForeground); font: 600 var(--t-ui) var(--prose-font); text-align: left; cursor: pointer; }
+.sv-plus { display: inline-flex; color: var(--set-colour); }
+.sv-plus .tb-icon { width: 20px; height: 20px; }
+@media (hover: hover) { .sv-new:hover { background: var(--subtleFill); } }
+/* a set's details */
+.sv-head { display: flex; align-items: center; gap: 4px; padding: 0 0 6px; margin-bottom: 8px; border-bottom: 1px solid var(--WindowBorder); }
+.sv-back { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: none; border-radius: var(--r-m); background: none; color: var(--softForeground); cursor: pointer; }
+.sv-back .tb-icon { width: 20px; height: 20px; }
+@media (hover: hover) { .sv-back:hover { color: var(--set-colour); } }
+.sv-title { margin: 0; font: 600 var(--t-ui) var(--prose-font); color: var(--WindowForeground); }
+.sv-form { display: flex; flex-direction: column; gap: 6px; padding: 0 4px 4px; }
+.sv-label { margin-top: 6px; font: 600 var(--t-small) var(--prose-font); color: var(--softForeground); }
+.sv-note { margin-left: 6px; font-weight: 400; color: var(--mutedForeground); }
+.sv-input { box-sizing: border-box; width: 100%; padding: 8px 10px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: color-mix(in srgb, var(--WindowForeground) 4%, var(--pop-bg)); color: var(--WindowForeground); font: 600 var(--t-ui) var(--prose-font); }
+.sv-textarea { overflow-x: hidden; overflow-y: auto; resize: none; font: var(--t-small) / 1.45 var(--prose-font); scrollbar-width: thin; }   /* no bar along its foot: its words wrap */
+.sv-input::placeholder { color: var(--mutedForeground); font-weight: 400; opacity: 1; }
+.sv-textarea::placeholder { font-style: italic; }
+.sv-input:focus { border-color: var(--set-colour); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--set-colour) 25%, transparent); }
+.sv-foot { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+.sv-foot button { padding: 7px 14px; border-radius: var(--r-m); font: 600 var(--t-small) var(--prose-font); cursor: pointer; }
+.sv-cancel { border: 1px solid transparent; background: none; color: var(--softForeground); }
+@media (hover: hover) { .sv-cancel:hover { color: var(--WindowForeground); background: var(--subtleFill); } }
+.sv-save { border: 1px solid var(--set-colour); background: var(--set-colour); color: var(--Background); }
+@media (hover: hover) { .sv-save:hover { filter: brightness(1.08); } }
+.sv-delete { --danger: var(--MarkerBackground, var(--HighlightedBackground)); margin-right: auto; border: 1px solid transparent; background: none; color: var(--danger); }   /* the error's colour, as the error pane's */
+.sv-delete.armed { border-color: var(--danger); background: var(--danger); color: var(--accentContrastText); }
+#sets-menu :is(button, .sv-input):focus-visible { outline: 2px solid var(--set-colour); outline-offset: 1px; }
+.buffer-tab-sep { padding: 0 2px; color: var(--WindowBorder); font: 300 var(--t-small) var(--code-font); pointer-events: none; user-select: none; }
+.buffer-tab { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; flex: 1 1 34px; min-width: 0; padding: 7px 4px; border: none; background: none; color: var(--faintText); font: var(--t-body)/1 var(--code-font); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: font-size 0.25s ease 0.1s, padding 0.25s ease 0.1s; }
+.buffer-tab.has-code { color: var(--softForeground); }
+.buffer-tab::before { content: ""; position: absolute; z-index: -1; top: 50%; left: 50%; width: 30px; height: 26px; border-radius: var(--r-s); background: var(--PaneBackground); transform: translate(-50%, -50%); transition: width 0.25s ease, height 0.25s ease 0.25s, background 0.15s, border-color 0.12s, transform 0.05s ease-out; }
+.buffer-tab:active::before { transform: translate(-50%, -50%) scale(0.9); }
+.buffer-tab:focus-visible { outline: none; }
+.buffer-tab:focus-visible::before { outline: 2px solid var(--HighlightedBackground); outline-offset: 1px; }
+.buffer-tab.active, .buffer-tab.active:hover { color: var(--accentContrastText); }
+.buffer-tab.active::before { background: var(--HighlightedBackground); }
+@media (hover: hover) {
+  .buffer-tab:hover { color: var(--Foreground); }
+  .buffer-tab:not(.active):hover::before { background: var(--accentTint); }
+}
+/* the jam toggle: a quiet pill, filled and glowing when on */
+/* SET and JAM, the row's two ends: one pill, the same size in every layout and state (a width that holds JAM's grid
+   mark too), the same words' weight; what they say apart is only their colour: SET's the sets', JAM's the accent */
+:is(.set-chip, .jam-toggle) { flex: none; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; width: 64px; height: 26px; margin-block: -3px; padding: 0 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-pill); background: none; color: var(--mutedForeground); font: 600 var(--t-label)/1 var(--prose-font); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background 0.18s, color 0.18s, border-color 0.18s; }
+.jam-toggle { margin-left: 10px; }
+/* jam on: the pair in the accent together, framing the pads; the set's list open, a shade brighter */
+:is(.jam-toggle.on, #buffer-tabs.jam-on .set-chip) { border-color: var(--HighlightedBackground); background: var(--HighlightedBackground); color: var(--accentContrastText); }
+#buffer-tabs.jam-on .set-chip[aria-expanded="true"] { filter: brightness(1.12); }
+#buffer-tabs.jam-on .set-chip:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: 2px; }   /* the keyboard's ring, outside the fill */
+@media (hover: hover) { :is(#buffer-tabs:not(.jam-on) .set-chip, .jam-toggle:not(.on)):hover { border-color: var(--HoverButton); color: var(--HoverButton); } }   /* the pair's hover, one */
+/* the mode picker: run | show | exec, only while jam is on */
+.jam-modes { display: none; overflow: hidden; border: 1px solid var(--HighlightedBackground); border-radius: var(--r-s); }
+#buffer-tabs.jam-on .jam-modes { display: inline-flex; }
+.jam-mode { min-width: 40px; padding: 5px 8px; border: none; border-right: 1px solid var(--HighlightedBackground); background: none; color: var(--HighlightedBackground); font: 600 var(--t-label)/1 var(--prose-font); letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; }
+.jam-mode:last-child { border-right: none; }
+.jam-mode.on { background: var(--HighlightedBackground); color: var(--accentContrastText); }
+/* jam on: drum pads — big, bordered, the active one filled, a flash on every hit */
+#buffer-tabs.jam-on .buffer-tab { flex: none; width: 58px; padding: 26px 0; color: var(--HighlightedBackground); font: 500 24px/1 var(--code-font); }   /* square pads */
+#buffer-tabs.jam-on .buffer-tab.active { color: var(--accentContrastText); }
+#buffer-tabs.jam-on .buffer-tab::before { width: min(52px, calc(100% - 6px)); height: auto; aspect-ratio: 1; border: 2px solid var(--HighlightedBackground); border-radius: var(--r-m); background: transparent; box-sizing: border-box; }
+#buffer-tabs.jam-on .buffer-tab.active::before { background: var(--HighlightedBackground); }
+#buffer-tabs.jam-on .buffer-tab-sep { display: none; }
+/* jam on: the row a grid, the modes right against the pads, no room between (buffer-tabs.js puts them in the row). Two
+   shapes. Jam's row: the modes over the pads, the chip and JAM either side of the pads. Jam's grid (JAM's third step),
+   and a phone's either way: the chip, the modes and JAM on one line, the pads under it, half in each row (--pad-cols).
+   That line's items are one height, and as far from the pads as the pads are from each other. */
+#buffer-tabs.jam-on .buffer-tabs-row { display: grid; align-items: center; justify-content: center; --line-gap: 8px; row-gap: var(--line-gap); }
+#buffer-tabs.jam-on .buffer-tabs-row::before { display: none; }   /* a phone's line break (the row's flex) is no item of the grid's */
+@media (min-width: 761px) {   /* a phone has the line's shape for both (below) */
+  #buffer-tabs.jam-on:not(.jam-grid) .buffer-tabs-row { grid-template-columns: auto repeat(var(--pads), auto) auto; }
+  #buffer-tabs.jam-on:not(.jam-grid) .jam-modes { grid-row: 1; grid-column: 2 / -2; justify-self: center; }
+  #buffer-tabs.jam-on:not(.jam-grid) .set-chip { grid-row: 2; grid-column: 1; }
+  #buffer-tabs.jam-on:not(.jam-grid) .buffer-tab { grid-row: 2; padding: 14px 0; }   /* the button its square's height: the gap over it is the row's own */
+  #buffer-tabs.jam-on:not(.jam-grid) .jam-toggle { grid-row: 2; grid-column: -2; }
+}
+#buffer-tabs.jam-grid .buffer-tabs-row { grid-template-columns: repeat(var(--pad-cols), 72px); column-gap: var(--line-gap); margin: 0 auto; }
+#buffer-tabs.jam-grid :is(.set-chip, .jam-modes, .jam-toggle) { grid-row: 1; grid-column: 1 / -1; box-sizing: border-box; height: 26px; margin: 0; }
+#buffer-tabs.jam-grid .set-chip { justify-self: start; }
+#buffer-tabs.jam-grid .jam-modes { justify-self: center; }
+#buffer-tabs.jam-grid .jam-toggle { justify-self: end; }
+#buffer-tabs.jam-grid .jam-mode { height: 100%; }
+#buffer-tabs.jam-grid .buffer-tab { width: 72px; padding: 0; aspect-ratio: 1; font-size: 28px; }
+#buffer-tabs.jam-grid .buffer-tab::before { width: 100%; }
+.jam-toggle .jam-grid-glyph { width: 12px; height: 12px; margin-left: 3px; vertical-align: -1px; fill: none; stroke: currentColor; stroke-width: 2.4; }
+@keyframes pad-flash { 0%, 100% { background: var(--HighlightedBackground); } 40% { background: var(--Foreground); } }
+@keyframes pad-flash-outline { 0%, 100% { background: transparent; } 40% { background: var(--HighlightedBackground); } }
+#buffer-tabs.jam-on .buffer-tab.active.tab-tapped::before { animation: pad-flash 0.28s ease-out; }
+#buffer-tabs.jam-on .buffer-tab.tab-tapped:not(.active)::before { animation: pad-flash-outline 0.2s ease-out; }
+@media (prefers-reduced-motion: reduce) { #buffer-tabs.jam-on .buffer-tab.tab-tapped::before { animation: none; } }
+@media (pointer: coarse) {
+  .buffer-tab { padding: 10px 4px; flex-basis: 40px; }
+  #buffer-tabs.jam-on:not(.jam-grid) .buffer-tab { width: 34px; padding: 5px 0; font-size: 18px; }   /* jam's row: the button its square's height (28px); the grid's pads keep their size */
+}
+
+#panel-divider, #drawer-divider { background: var(--WindowBorder); touch-action: none; user-select: none; }
+#panel-divider { grid-area: divider; cursor: col-resize; }
+#drawer-divider { grid-area: hdiv; cursor: row-resize; }
+#panel-divider:hover, #drawer-divider:hover, .dragging { background: var(--HighlightedBackground) !important; }
+body.resizing { user-select: none; -webkit-user-select: none; }   /* a divider being dragged: nothing selects, nothing under the pointer reacts (main.js dragDivider) */
+body.resizing #main > :not(#drawer-divider):not(#panel-divider), body.resizing #info-card { pointer-events: none; }
+
+/* The chevron on the drawer's divider: tap it to hide what is below
+ * (the editor takes the room), tap again or open a pane to bring it back. */
+#drawer-divider { position: relative; z-index: 3; }
+#drawer-divider::after { content: ""; position: absolute; left: 0; right: 0; top: -10px; bottom: -10px; }   /* a finger's worth */
+.divider-grip {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 16px;
+  border-radius: var(--r-m);
+  background: var(--WindowBorder);
+  color: var(--mutedForeground);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s;
+}
+.divider-grip svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s; }
+#drawer-divider:hover .divider-grip, .divider-grip:hover, .divider-grip:focus-visible { background: var(--HighlightedBackground); color: var(--accentContrastText); outline: none; }
+/* the chevron points the way it acts: down to put the panel away, up to bring it back (main.js: one state) */
+body:not(.panel-open) #divider-grip svg { transform: rotate(180deg); }
+/* up, beside it: the help panel full size — only while a help pane shows, and not once it is full */
+.divider-full { right: 68px; }
+body:is([data-drawer=""], .prefs-open, .panel-full) .divider-full, body:not([data-drawer]) .divider-full { display: none; }
+body[data-drawer=""] #drawer { display: none; }
+
+/* While the on-screen keyboard is up for the editor, the panel below the editor
+ * gives it the room (main.js: the keyboard) */
+body.keyboard-open #main, body.kbd-open #main { grid-template-rows: minmax(0, 1fr) 0 0 !important; }
+body.keyboard-open #drawer, body.keyboard-open #drawer-divider,
+body.kbd-open #drawer, body.kbd-open #drawer-divider { display: none !important; }
+@media (max-width: 760px) { body.keyboard-open #sidebar, body.kbd-open #sidebar { display: none !important; } }
+/* ...unless it is a card's code in the panel being typed: then the panel has the room, as full size does (main.js) */
+body.editing-card:is(.keyboard-open, .kbd-open) #main { grid-template-rows: 0 0 minmax(0, 1fr) !important; }
+body.editing-card:is(.keyboard-open, .kbd-open) #drawer { display: flex !important; }
+body.editing-card:is(.keyboard-open, .kbd-open) :is(#editor-column, #panel-divider, #main > #sidebar, #drawer-divider) { display: none !important; }
+@media (max-width: 760px) { body.editing-card:is(.keyboard-open, .kbd-open) #main { grid-template-rows: 0 0 0 minmax(0, 1fr) !important; } }
+
+/* ── The code keyboard (keyboard.js) ──
+ * Docked at the bottom; the app sits above it (--kbd-h, measured). Its keys
+ * painted with the theme's keys. */
+#input-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background: var(--PaneBackground);
+  border-top: 1px solid var(--WindowBorder);
+  --kbd-key: color-mix(in srgb, var(--Foreground) 12%, var(--PaneBackground));
+  --kbd-letter: color-mix(in srgb, var(--Foreground) 20%, var(--PaneBackground));
+}
+body.kbd-open { height: calc(var(--app-height, 100dvh) - var(--kbd-h, 250px)); padding-bottom: 0; }
+body.kbd-open #info-card { bottom: var(--kbd-h, 250px); }   /* a site page's card being edited on a phone: the keyboard docks under the page, not over it */
+#code-keyboard.hg-theme-default {
+  display: flex !important;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 100% !important;
+  padding: 4px 2px !important;
+  border-radius: 0 !important;
+  background: var(--PaneBackground) !important;
+  font-family: var(--code-font) !important;
+  font-style: italic;
+}
+#code-keyboard { --kbd-gap: 3px; }
+#code-keyboard .hg-row { flex: 1 !important; gap: var(--kbd-gap); align-items: stretch !important; justify-content: center; }
+#code-keyboard .hg-row:not(:last-child) { margin-bottom: 3px !important; }
+#code-keyboard .hg-row:last-child { flex: 1.3 !important; }       /* chunky arrows */
+#code-keyboard.hg-theme-default .hg-row > .hg-button { flex: 1 1 0 !important; min-width: 0; }
+#code-keyboard .hg-row .hg-button:not(:last-child), #code-keyboard .hg-row .hg-button-container { margin-right: 0 !important; }
+/* hold space (keyboard.js): the keys fade, the space key lights as the trackpad */
+#code-keyboard.kbd-trackpad .hg-button { color: transparent !important; transition: color 0.15s; }
+#code-keyboard.kbd-trackpad .hg-button[data-skbtn="{space}"] { background: var(--accentTintStrong) !important; box-shadow: inset 0 0 0 2px var(--HighlightedBackground); }
+#code-keyboard .hg-button {
+  height: auto !important;
+  min-height: 36px;
+  min-width: 0;
+  border-bottom: none !important;
+  border-radius: var(--r-s);
+  box-shadow: none !important;
+  background: var(--kbd-key) !important;
+  color: var(--Foreground) !important;
+  font-family: var(--code-font) !important;
+  font-size: var(--t-body);
+  -webkit-tap-highlight-color: transparent;
+}
+#code-keyboard .hg-button.kbd-letter { background: var(--kbd-letter) !important; }
+#code-keyboard .hg-button.hg-functionBtn { background: var(--kbd-key) !important; font-size: var(--t-small); }
+#code-keyboard .hg-button:active, #code-keyboard .hg-button.hg-activeButton {
+  background: var(--HighlightedBackground) !important;
+  color: var(--accentContrastText) !important;
+  transform: scale(1.08);
+}
+#code-keyboard .hg-button[data-skbtn="{bksp}"] { font-size: var(--t-lead); }
+#code-keyboard .hg-button[data-skbtn="{hide}"] { font-size: var(--t-heading); }
+/* the stepped 123 pillar: two keys, abutted, one label */
+#code-keyboard .hg-button[data-skbtn="{shift2}"] { margin-top: -3px !important; }
+#code-keyboard .hg-button[data-skbtn="{shift}"] > span, #code-keyboard .hg-button[data-skbtn="{shift2}"] > span { visibility: hidden; }
+#code-keyboard .hg-button[data-skbtn="{shift}"] { position: relative; overflow: visible !important; }
+#code-keyboard .hg-button[data-skbtn="{shift}"]::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  z-index: 2;
+  text-align: center;
+  color: var(--accentContrastText);
+  pointer-events: none;
+  font-family: var(--code-font);
+}
+#code-keyboard .hg-button[data-skbtn="{shift}"]::after { content: "123"; font-size: var(--t-small); font-style: italic; top: calc(115% + 1.5px); }   /* the pillar's middle: this key and the bottom row's, 1.3 of it (.hg-row:last-child), and the gap between */
+#code-keyboard.hg-theme-default .hg-button[data-skbtn="{shift}"], #code-keyboard.hg-theme-default .hg-button[data-skbtn="{shift2}"],
+#code-keyboard.hg-theme-default .hg-button[data-skbtn="{enter}"],
+#code-keyboard .hg-button[data-skbtn="{caps}"].caps-locked {
+  background: var(--HighlightedBackground) !important;
+  color: var(--accentContrastText) !important;
+}
+/* arrows in one tint, the editor's verbs in another, easy to find without looking */
+#code-keyboard.hg-theme-default .hg-button[data-skbtn="{left}"], #code-keyboard.hg-theme-default .hg-button[data-skbtn="{right}"],
+#code-keyboard.hg-theme-default .hg-button[data-skbtn="{up}"], #code-keyboard.hg-theme-default .hg-button[data-skbtn="{down}"] {
+  background: color-mix(in srgb, var(--NumberForeground) 26%, var(--PaneBackground)) !important;
+  color: var(--NumberForeground) !important;
+}
+#code-keyboard.hg-theme-default .hg-button[data-skbtn="{undo}"], #code-keyboard.hg-theme-default .hg-button[data-skbtn="{redo}"],
+#code-keyboard.hg-theme-default .hg-button[data-skbtn="{comment}"], #code-keyboard.hg-theme-default .hg-button[data-skbtn="{selectall}"],
+#code-keyboard.hg-theme-default .hg-button[data-skbtn="{cut}"], #code-keyboard.hg-theme-default .hg-button[data-skbtn="{copy}"],
+#code-keyboard.hg-theme-default .hg-button[data-skbtn="{paste}"], #code-keyboard.hg-theme-default .hg-button[data-skbtn="{tab}"] {
+  background: color-mix(in srgb, var(--KeywordForeground) 24%, var(--PaneBackground)) !important;
+  color: var(--KeywordForeground) !important;
+}
+/* a phone on its side: smaller keys */
+@media (max-height: 450px) and (orientation: landscape) {
+  #code-keyboard .hg-button { font-size: var(--t-small); min-height: 30px; }
+  #code-keyboard .hg-row:not(:last-child) { margin-bottom: 2px !important; }
+}
+
+/* The help pane's zoom: native's ZoomBar, circle-minus and circle-plus at 26px
+ * with a finger-sized target; the pane's text scales with it */
+.zoom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--mutedForeground);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.zoom-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.zoom-btn:active { color: var(--HighlightedBackground); }
+@media (hover: hover) { .zoom-btn:hover { color: var(--HighlightedBackground); } }
+/* a finger (an iPad, a phone): the − and + each a 44px target with room between them, the glyph the same size */
+@media (pointer: coarse) {
+  .zoom-btn, .ic-foot .zoom-btn { width: 44px; height: 44px; }
+  .ic-foot .ic-zoom, body #drawer-head { gap: 10px; }   /* body: past the drawer head's own gap, set further down */
+  .ic-foot { padding-top: 2px; padding-bottom: 2px; }
+}
+#docs-pane { zoom: var(--help-zoom, 1); container-type: size; }   /* the fold's container queries (shared.css) ask the pane's width */
+#quickstart-pane { zoom: var(--help-zoom, 1); }   /* one zoom for the whole help panel: its tabs, its chips and its cards the same size in each (the cards' type the docs' own, style.css #docs-pane) */
+#docs-pane, #quickstart-pane { --qs-code-size: 15px; }   /* the cards' code, the same in each tab */
+.docs-content .qs-card { margin: 10px 0 18px; }
+#logs-pane { zoom: var(--help-zoom, 1); }
+#insight-pane, #debug-pane { zoom: var(--help-zoom, 1); }
+
+/* Installing on an iPad */
+#install-overlay, #about-overlay, #resume-overlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(7px) saturate(0.8); -webkit-backdrop-filter: blur(7px) saturate(0.8); }   /* frosted, as the shortcuts' (.sc-overlay) */
+.info-versions { color: var(--mutedForeground); font: var(--t-tiny)/1.5 var(--code-font); }
+.install-card a { color: var(--HighlightedBackground); }
+#resume-overlay { z-index: 120; }   /* over everything, the other dialogs too: nothing sounds until it is answered */
+.resume-card { max-width: 340px; text-align: center; padding: 26px 24px 22px; }
+.resume-card p { margin: 0 0 18px; color: var(--softForeground, var(--Foreground)); }
+.resume-go { width: 100%; padding: 0.8em 1em; border: 0; border-radius: var(--r-m); background: var(--HighlightedBackground); color: var(--HighlightedForeground, #fff); font: 700 var(--t-lead, 1.15em) var(--prose-font); cursor: pointer; }
+.resume-go:hover, .resume-go:focus-visible { filter: brightness(1.1); outline: 2px solid var(--Foreground); outline-offset: 2px; }
+.resume-go:disabled { opacity: 0.6; cursor: progress; }
+/* the Info dialog: native's tabs across the top, a page beneath that scrolls */
+.install-card.info-dialog { display: flex; flex-direction: column; width: min(760px, 94vw); height: min(84vh, 760px); max-width: none; padding: 0; overflow: hidden; }   /* one size whichever page is showing (a page scrolls in it), so the tabs never move under the pointer */
+.info-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px 10px 18px; border-bottom: 1px solid var(--WindowBorder); }
+.info-tabs { flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; }
+.info-tabs::-webkit-scrollbar { display: none; }
+@media (max-width: 760px) { .info-tabs { gap: 4px; } .info-tabs button { padding: 3px 9px; font-size: var(--t-small); } .info-head { gap: 8px; padding: 12px 10px 8px 12px; } }   /* the four tabs and the close in a phone's width */
+.info-page { flex: 1 1 auto; min-height: 0; overflow: auto; padding: 18px 26px 28px; font: var(--t-ui)/1.55 var(--prose-font); color: var(--Foreground); }
+.info-page h1 { margin: 0 0 12px; font: 700 var(--t-heading) var(--prose-font); color: var(--HighlightedBackground); }
+.info-page h2 { margin: 26px 0 8px; font: 700 var(--t-lead) var(--prose-font); color: var(--HighlightedBackground); }
+.info-page h3 { margin: 18px 0 6px; font: 700 var(--t-ui) var(--prose-font); color: var(--WindowForeground); }
+.info-page p { margin: 0 0 12px; }
+.info-page ul, .info-page ol { margin: 0 0 12px; padding-left: 22px; }
+.info-page li { margin: 2px 0; }
+.info-page code { font: var(--t-small) var(--code-font); color: var(--HighlightedBackground); }
+.info-page pre { padding: 10px 12px; border-radius: var(--r-m); background: var(--raisedSurface); font: var(--t-tiny)/1.5 var(--code-font); white-space: pre-wrap; }
+.info-page img { max-width: 100%; }
+.info-page table { border-collapse: collapse; }
+.info-page td { vertical-align: top; padding: 6px 10px 6px 0; }
+.info-page td img { width: 72px; height: 72px; border-radius: var(--r-m); object-fit: cover; }
+.info-page font[size] { font-size: var(--t-lead); font-weight: 700; }
+.info-page hr { border: none; border-top: 1px solid var(--WindowBorder); margin: 18px 0; }
+#info-about { display: flex; flex-direction: column; gap: 22px; max-width: 640px; margin: 6px auto 0; text-align: left; }
+.info-lockup { display: flex; align-items: center; gap: 18px; }
+.info-mark { flex: none; width: 72px; height: 72px; border-radius: 16px; }
+.info-lockup h3 { margin: 0 0 4px; font: 700 var(--t-heading) var(--prose-font); color: var(--HighlightedBackground); }
+.info-lead { margin: 0; font-size: var(--t-ui); line-height: 1.45; color: var(--softForeground); }
+.info-versions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 12px 16px; border-radius: var(--r-m); background: var(--raisedSurface); }
+.info-versions div { min-width: 0; }
+.info-versions dt { --kicker-color: var(--mutedForeground); }
+.info-versions dd { margin: 2px 0 0; font: var(--t-small)/1.4 var(--code-font); color: var(--WindowForeground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* the app's benefits, each ticked (Tabler's square-check, in the accent) */
+.info-checks { display: grid; gap: 5px; margin: 6px 0 12px; padding: 0; list-style: none; }
+.info-panel .info-checks { padding: 0; margin-inline: 0; }
+.info-panel .info-checks li { display: flex; align-items: center; gap: 8px; margin: 0; padding: 0; line-height: 1.3; }
+.info-checks li::before { content: ""; flex: none; width: 18px; height: 18px; background: var(--HighlightedBackground);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14'/%3E%3Cpath d='M9 12l2 2l4 -4'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14'/%3E%3Cpath d='M9 12l2 2l4 -4'/%3E%3C/svg%3E") center / contain no-repeat; }
+.info-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.info-panel { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px 18px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); }
+.info-k { }
+.info-panel p { flex: 1; margin: 0; font-size: var(--t-ui); line-height: 1.5; color: var(--softForeground); }
+.info-dl { display: flex; flex-wrap: wrap; gap: 8px; }   /* the panel's chips share its width, three platforms or the one ask, each at least its own words' width: a narrow panel wraps them rather than cut one */
+.info-panel .info-dl > a { flex: 1 0 auto; gap: 4px; padding-inline: 4px; }   /* a little tighter inside: the three platforms share one line where they can */
+.info-dl a { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; padding: 7px 8px; border: 2px solid var(--Button); border-radius: var(--r-m); color: var(--WindowForeground); font-size: var(--t-small); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.info-dl a:hover, .info-dl a:focus-visible { border-color: var(--HoverButton); color: var(--HoverButton); outline: none; }
+.info-dl .tb-icon { flex: 0 0 18px; width: 18px; height: 18px; color: var(--mutedForeground); }   /* a fixed basis: WebKit shrinks a flex item's svg to nothing otherwise */
+.info-dl a:hover .tb-icon, .info-dl a:focus-visible .tb-icon { color: inherit; }
+.info-dl .info-support .tb-icon { color: var(--HighlightedBackground); }
+/* the supporters (build-info.mjs, from native's CONTRIBUTORS.md): the names in columns, as credits roll, and the ask */
+.info-names ul { columns: 3 12em; column-gap: 24px; margin: 14px 0 20px; padding: 0; list-style: none; }
+.info-page .info-names li { break-inside: avoid; margin: 0; padding: 0 0 6px; }   /* the room below only, so every column's first name lines up */
+.info-join { max-width: 260px; margin: 0 auto 8px; }
+@media (max-width: 600px) { .info-panels { grid-template-columns: 1fr; } .info-versions { grid-template-columns: 1fr; gap: 8px; } .info-lockup { align-items: flex-start; } }
+.install-card { max-width: 420px; padding: 22px 24px 16px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: var(--PaneBackground); color: var(--Foreground); font: var(--t-ui)/1.5 var(--prose-font); }
+.install-card h3 { margin: 0 0 10px; color: var(--HighlightedBackground); font: 700 var(--t-heading) var(--prose-font); }
+.install-card ol { padding-left: 1.4em; }
+.install-card li { margin: 6px 0; }
+.install-share { width: 18px; height: 18px; vertical-align: -3px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linejoin: round; }
+.install-actions { display: flex; justify-content: flex-end; }
+
+/* What native's View menu and shortcuts show and hide (main.js: the keys):
+ * the log, the cues, the toolbar's buttons, and focus mode, the editor alone */
+body.no-log #log-section, body.no-cues #cue-section { display: none; }
+/* empty, the log and the cues say what they are for */
+#log:empty::before { content: "Run the code and the sounds it makes are logged here."; }
+#cues:empty::before { content: "Cues from your code and from MIDI show here."; }
+#log:empty::before, #cues:empty::before { display: block; padding: 10px 4px; color: var(--faintText); font: var(--t-small)/1.5 var(--prose-font); }
+body.no-buttons #toolbar > .tb-icon, body.no-buttons #toolbar > .tb-spacer { display: none; }
+#log, #cues { zoom: var(--sidebar-zoom, 1); }
+body.focus-mode #toolbar, body.focus-mode #statusbar, body.focus-mode #editor-foot, body.focus-mode #sidebar,
+body.focus-mode #panel-divider, body.focus-mode #drawer-divider, body.focus-mode #drawer { display: none !important; }
+body.focus-mode #main { grid-template-columns: 1fr 0 0 !important; grid-template-rows: minmax(0, 1fr) 0 0 !important; }
+
+/* ── Keyboard shortcuts (shortcuts-ui.js): native's Preferences tab, as a sheet ──
+ * The commands are what the sheet is for, so the chrome above them is one head
+ * row, one row of tools and one line of hint; the list then runs in two columns
+ * where there is room. Prose for what a command does, native's code face for the
+ * keys themselves, and a key is a quiet fill rather than a box, so a screenful of
+ * them reads as a list and not as a grid of cards. */
+/* The page goes soft behind it, and the sheet's own ground steps toward the
+ * text (lighter on a dark theme, darker on a light one), so it sits above the
+ * page instead of continuing it — a shadow alone is invisible on native's black. */
+.sc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(7px) saturate(0.8);
+  -webkit-backdrop-filter: blur(7px) saturate(0.8);
+}
+.sc-dialog {
+  --sc-surface: color-mix(in srgb, var(--PaneBackground) 89%, var(--Foreground) 11%);
+  width: min(1060px, 100%);
+  height: min(82vh, 880px);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid color-mix(in srgb, var(--WindowBorder) 45%, var(--Foreground) 55%);
+  border-radius: var(--r-m);
+  background: var(--sc-surface);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.6);
+  color: var(--Foreground);
+  font: var(--t-small)/1.5 var(--prose-font);
+  overflow: hidden;
+}
+.sc-head { display: flex; align-items: center; gap: 18px; padding: 18px 22px 12px; }
+.sc-title { margin: 0; color: var(--HighlightedBackground); font: 700 var(--t-lead) var(--prose-font); white-space: nowrap; }
+.sc-close { width: 28px; height: 28px; border-color: color-mix(in srgb, var(--Foreground) 40%, transparent); color: var(--Foreground); }
+.sc-close svg { width: 16px; height: 16px; }
+.sc-close:hover, .sc-close:focus-visible { border-color: var(--HighlightedBackground); background: var(--accentTint); color: var(--HighlightedBackground); outline: none; }
+.sc-done { min-width: 5.5em; }
+.sc-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 0 22px 10px; }
+.sc-bar[hidden] { display: none; }
+.sc-label, .sc-changed, .sc-foot-note { color: var(--mutedForeground); font-size: var(--t-tiny); }
+.sc-changed { font-style: italic; }
+.sc-spacer { flex: 1; }
+.sc-dialog .seg { gap: 4px; }
+.sc-dialog .seg button { padding: 3px 11px; border-width: 1px; border-radius: var(--r-s); font: 500 var(--t-tiny) var(--prose-font); }
+.sc-search, .sc-select {
+  padding: 4px 10px;
+  border: 1px solid var(--WindowBorder);
+  border-radius: var(--r-m);
+  background: var(--Background);
+  color: var(--Foreground);
+  font: var(--t-tiny) var(--prose-font);
+}
+.sc-search { flex: 1 1 200px; min-width: 0; max-width: 320px; }
+.sc-search:focus-visible, .sc-select:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: -1px; }
+.sc-bykey { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 26px; padding: 0; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: none; color: var(--mutedForeground); cursor: pointer; }
+.sc-bykey svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sc-bykey:hover { border-color: var(--HoverButton); color: var(--Foreground); }
+.sc-bykey.listening { border-color: var(--HighlightedBackground); background: var(--HighlightedBackground); color: var(--accentContrastText); }
+.sc-chip { padding: 2px 10px; border: 1px solid var(--HighlightedBackground); border-radius: var(--r-pill); background: var(--accentTint); color: var(--Foreground); font: var(--t-tiny) var(--code-font); cursor: pointer; }
+.sc-quiet { padding: 3px 9px; border: 1px solid transparent; border-radius: var(--r-s); background: none; color: var(--mutedForeground); font: var(--t-tiny) var(--prose-font); cursor: pointer; }
+.sc-quiet:hover:not(:disabled), .sc-quiet:focus-visible { border-color: var(--WindowBorder); color: var(--Foreground); outline: none; }
+.sc-quiet:disabled { opacity: 0.45; cursor: default; }
+.sc-confirm { display: inline-flex; align-items: center; gap: 8px; font-size: var(--t-tiny); }
+.sc-hint { margin: 0; padding: 0 22px 14px; color: var(--faintText); font-size: var(--t-tiny); }
+.sc-hint .sc-warn { color: var(--mutedForeground); }
+
+.sc-list {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 0 30px;
+  align-content: start;
+  padding: 0 22px 18px;
+  border-top: 1px solid var(--WindowBorder);
+}
+.sc-group {
+  grid-column: 1 / -1;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0 -22px;
+  padding: 18px 22px 6px;
+  background: var(--sc-surface);
+  color: var(--HighlightedBackground);
+  font: 600 var(--t-label) var(--prose-font);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.sc-row { display: flex; align-items: center; gap: 10px; padding: 4px 8px; border-radius: var(--r-m); }
+.sc-row:hover { background: var(--subtleFill); }
+.sc-desc { flex: 1; min-width: 0; font-size: var(--t-tiny); }
+.sc-row.unavailable .sc-desc { color: var(--faintText); }
+.sc-tag { margin-left: 6px; padding: 0 5px; border-radius: var(--r-s); background: var(--subtleFill); color: var(--faintText); font-size: var(--t-label); cursor: help; }
+.sc-keys { display: flex; flex-shrink: 0; align-items: center; gap: 4px; }
+.sc-key {
+  min-width: 5.5em;
+  padding: 2px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--r-s);
+  background: var(--subtleFill);
+  color: var(--Foreground);
+  font: var(--t-tiny) var(--code-font);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.sc-key:hover { border-color: var(--HoverButton); }
+.sc-key:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: 1px; }
+.sc-key.none { background: none; color: var(--ghostForeground); }
+.sc-key.off { color: var(--faintText); text-decoration: line-through; }
+.sc-row.changed .sc-key { color: var(--HighlightedBackground); }
+.sc-row.clash .sc-key { border-color: var(--ErrorBackground); color: var(--ErrorBackground); }
+.sc-row .sc-key.recording { border-color: var(--HighlightedBackground); background: var(--HighlightedBackground); color: var(--accentContrastText); font-weight: 700; }
+.sc-flag { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: var(--mutedForeground); color: var(--PaneBackground); font: 700 var(--t-label) var(--prose-font); cursor: help; }
+.sc-flag.bad { background: var(--ErrorBackground); color: #fff; }
+.sc-reset, .sc-reset-gap { flex-shrink: 0; width: 20px; }
+.sc-reset { height: 20px; padding: 0; border: none; border-radius: var(--r-s); background: none; color: var(--mutedForeground); font: var(--t-ui) var(--prose-font); cursor: pointer; }
+.sc-reset:hover, .sc-reset:focus-visible { background: var(--accentTint); color: var(--HighlightedBackground); outline: none; }
+.sc-inline {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin: 4px 0 8px 8px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--HighlightedBackground);
+  border-radius: 0 var(--r-m) var(--r-m) 0;
+  background: var(--accentTint);
+  font-size: var(--t-tiny);
+}
+.sc-inline.sc-clash { border-left-color: var(--ErrorBackground); }
+.sc-actions { display: inline-flex; gap: 6px; }
+.sc-empty { grid-column: 1 / -1; padding: 40px 0; color: var(--faintText); text-align: center; }
+.sc-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px 22px; border-top: 1px solid var(--WindowBorder); }
+@media (max-width: 760px) {
+  .sc-overlay { padding: 0; }
+  .sc-dialog { height: 100%; border-radius: 0; }
+  .sc-head { flex-wrap: wrap; gap: 10px; }
+  .sc-foot-note { display: none; }
+}
+
+/* Native's inline live loop scope (editor.js, loopscope.js): after the loop's
+ * header line, a line tall, drawn from the loop's own scope stream */
+.sp-loop-scope { display: inline-block; width: 230px; height: calc(var(--editor-font-size, 18px) * 1.25); margin-left: 12px; vertical-align: middle; pointer-events: none; }
+
+/* Find: native's FindPopup — an editor-coloured pill with a full-contrast ring,
+ * anchored to the editor's top right, under the edit toolbar (editor.js findPanel) */
+/* CodeMirror pins .cm-panels left: 0 and right: 0, so the container must let go of the left edge to sit at the right */
+.cm-panels.cm-panels-top { position: absolute; top: 52px; left: auto; right: 22px; width: auto; z-index: 300; border: none !important; background: none !important; }
+.sp-find {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 390px;
+  max-width: calc(100vw - 60px);
+  height: 44px;
+  padding: 4px 8px 4px 12px;
+  border: 2px solid var(--Foreground);
+  border-radius: var(--r-pill);
+  background: var(--Background);
+  color: var(--Foreground);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  font: var(--t-ui) var(--prose-font);
+  animation: sp-find-in 0.14s ease-out;
+}
+@keyframes sp-find-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .sp-find { animation: none; } }
+.sp-find:focus-within { border-color: var(--HighlightedBackground); }   /* native's accent ring while the field has focus */
+.sp-find-icon { display: inline-flex; flex-shrink: 0; color: color-mix(in srgb, var(--Foreground) 45%, var(--Background)); }
+.sp-find-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.sp-find-input { flex: 1; min-width: 0; height: 100%; padding: 0; border: none; outline: none; background: none; color: inherit; font: var(--t-body)/1 var(--prose-font); }
+.sp-find-input::placeholder { color: color-mix(in srgb, var(--Foreground) 45%, var(--Background)); }
+.sp-find-count { flex-shrink: 0; color: var(--mutedForeground); font-size: var(--t-tiny); white-space: nowrap; }
+.sp-find-count.none { color: var(--HighlightedBackground); }
+.sp-find-aa, .sp-find-nav, .sp-find-close {
+  flex-shrink: 0;
+  height: 28px;
+  min-width: 28px;
+  padding: 0 6px;
+  border: none;
+  border-radius: var(--r-s);
+  background: none;
+  color: var(--Foreground);
+  font: 600 var(--t-small) var(--prose-font);
+  cursor: pointer;
+}
+/* as native's FindPopup: Tabler's chevrons and X, a soft square highlight on hover (not a ring), Aa and X muted */
+.sp-find-nav, .sp-find-close { display: inline-flex; align-items: center; justify-content: center; padding: 0 3px; }
+.sp-find-nav svg, .sp-find-close svg { width: 18px; height: 18px; }
+.sp-find-aa, .sp-find-close { color: color-mix(in srgb, var(--Foreground) 55%, var(--Background)); }
+.sp-find-aa:hover, .sp-find-nav:hover, .sp-find-close:hover, .sp-find-aa:focus-visible, .sp-find-nav:focus-visible, .sp-find-close:focus-visible { background: color-mix(in srgb, var(--Foreground) 15%, var(--Background)); color: var(--Foreground); outline: none; }
+.sp-find-aa.on { background: var(--HighlightedBackground); color: var(--accentContrastText); }
+@media (max-width: 760px) { .cm-panels.cm-panels-top { top: 8px; right: 8px; } .sp-find { width: calc(100vw - 32px); } }
+
+/* ── Tooltips (tooltip.js): native's SonicPiToolTip ──
+ * A neutral bubble in the divider colour with a caret at the control, the body
+ * a little muted under an optional bold title, and the shortcut as a chip —
+ * the one spot of theme colour. High contrast: the tooltip palette, a strong border. */
+.sp-tip {
+  --tip-bg: var(--WindowBorder);
+  --tip-fg: var(--ToolTipText, var(--WindowForeground));
+  --tip-border: color-mix(in srgb, var(--tip-bg) 60%, var(--tip-fg));
+  position: fixed;
+  z-index: 400;
+  max-width: 356px;
+  padding: 10px 13px;
+  border: 1px solid var(--tip-border);
+  border-radius: var(--r-m);
+  background: var(--tip-bg);
+  color: var(--tip-fg);
+  box-shadow: var(--pop-shadow);
+  font: var(--t-small)/1.18 var(--prose-font);
+  pointer-events: none;
+  opacity: 0;
+}
+.sp-tip.in { opacity: 1; transition: opacity 0.14s cubic-bezier(0.33, 1, 0.68, 1); }
+.sp-tip.interactive { pointer-events: auto; }   /* one with a link on it can be reached (tooltip.js) */
+.sp-tip-link { display: inline-block; margin-top: 8px; color: var(--HighlightedBackground); font-weight: 700; text-decoration: none; }
+.sp-tip-link:hover, .sp-tip-link:focus-visible { text-decoration: underline; }
+.sp-tip-chip + .sp-tip-link { margin-left: 10px; }
+.sp-tip.high-contrast { --tip-bg: var(--ToolTipBase); --tip-border: var(--tip-fg); border-width: 2px; box-shadow: none; }
+.sp-tip-title { margin-bottom: 5px; font-size: var(--t-lead); font-weight: 700; }   /* a control's name, readable (a dial's panel label is small) */
+.sp-tip-body { color: color-mix(in srgb, var(--tip-fg) 78%, var(--tip-bg)); white-space: pre-line; }
+.sp-tip.high-contrast .sp-tip-body { color: var(--tip-fg); }
+.sp-tip-chip {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 7px;
+  border: 1px solid color-mix(in srgb, var(--tip-bg) 45%, var(--HighlightedBackground));
+  border-radius: var(--r-s);
+  background: color-mix(in srgb, var(--tip-bg) 92%, var(--tip-fg));
+  color: color-mix(in srgb, var(--tip-fg) 55%, var(--HighlightedBackground));
+  font-size: var(--t-small);
+  white-space: nowrap;
+}
+.sp-tip.high-contrast .sp-tip-chip { border-color: var(--tip-fg); color: var(--tip-fg); }
+/* the caret: a square turned through 45°, clipped to its outer half — and a little past the
+   diagonal, so it paints over the bubble's border where the two meet and reads as one shape */
+.sp-tip::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--caret-x, 20px) - 7px);
+  top: -7px;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--tip-border);
+  border-right: none;
+  border-bottom: none;
+  background: var(--tip-bg);
+  transform: rotate(45deg);
+  transform-origin: 50% 50%;
+  clip-path: polygon(-2px -2px, calc(100% + 6px) -2px, -2px calc(100% + 6px));
+}
+.sp-tip.above::before { top: auto; bottom: -7px; transform: rotate(225deg); }
+.sp-tip.high-contrast::before { border-width: 2px; }
+
+/* The editor's own toolbar, floating top right as native's does */
+.sp-edit-toolbar {
+  position: absolute;
+  top: 10px;
+  right: 22px;
+  z-index: 5;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--WindowBorder);
+  border-radius: var(--r-m);
+  background: var(--PaneBackground);
+  overflow: hidden;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+.sp-edit-toolbar:hover, .sp-edit-toolbar:focus-within { opacity: 1; }
+/* code runs under it: faint, and the pointer goes through to the code (editor.js ghostToolbar) */
+.sp-edit-toolbar.ghost { opacity: 0.12; pointer-events: none; transition-duration: 0.18s; }
+.sp-edit-toolbar.ghost:focus-within { opacity: 1; pointer-events: auto; }
+.sp-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--WindowForeground);
+  cursor: pointer;
+}
+.sp-edit-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+/* as native's (editortoolbar.cpp): no button filled at rest; the one pointed at lit its whole height */
+.sp-edit-btn:hover, .sp-edit-btn:focus-visible { background: var(--HoverButton); color: var(--ButtonText); outline: none; }
+.sp-edit-gap { width: 8px; }
+
+/* ── Sidebar: errors, scope, log, cues, Link, prefs ── */
+#sidebar {
+  grid-area: sidebar;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--PaneBackground);
+  position: relative;
+  overflow: hidden;
+}
+.pane { display: flex; flex-direction: column; min-height: 0; }
+.pane + .pane { border-top: 1px solid var(--WindowBorder); }
+#scope-section { flex: 0 0 auto; }
+body.no-scope #scope-section { display: none; }
+body.scope-line #scope-container { display: none; }   /* Line: the scope is the top bar's; its pane keeps its head, to choose another kind */
+body.scope-line #scope-section { flex: none !important; height: auto !important; min-height: 0 !important; }
+#log-section { flex: 1.6; }
+#cue-section { flex: 1; }
+/* a short sidebar: the log and the cues keep their heads at least, each in its own box (so a head never spills out
+   over the metronome below it), and the scope gives up height before they do */
+#log-section, #cue-section { min-height: 30px; overflow: hidden; }
+#scope-section { flex-shrink: 1; min-height: 60px; overflow: hidden; }
+#link-section { flex: 0 0 auto; }
+.pane-head { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px 3px; --kicker-color: var(--faintText); }   /* a kicker (shared.css), muted */
+.icon-btn { background: none; border: none; color: var(--faintText); cursor: pointer; font-size: var(--t-label); padding: 0 2px; text-transform: lowercase; letter-spacing: 0; }
+.icon-btn:hover { color: var(--HoverButton); }
+.pane-body { flex: 1; overflow: auto; padding: 4px 10px 10px; font: var(--t-small)/1.35 var(--code-font); }
+
+/* Scope: native's panel, above the log */
+#scope-container {
+  height: clamp(60px, 22vh, 230px);        /* on a short screen (an iPad with the help pane open) the log keeps its room */
+  position: relative;
+  background: var(--PaneBackground);
+  cursor: pointer;
+  transition: height 0.2s ease;
+}
+#scope-container.half { height: 110px; }
+#scope-container:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: -2px; }
+#scope-canvas { display: block; width: 100%; height: 100%; }
+#scope-boot {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--HighlightedBackground);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: var(--t-label);
+  background: var(--PaneBackground);
+  animation: crt-on 0.3s ease-out both;
+}
+#scope-container.booting #scope-boot { display: flex; }
+@keyframes crt-on {
+  0% { clip-path: inset(50% 50% 50% 50%); }
+  30% { clip-path: inset(48% 4% 48% 4%); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+/* Log: native's run header, then each thing it did */
+.log-head { margin-top: 14px; color: var(--LogForeground); white-space: pre-wrap; }
+.log-head:first-child { margin-top: 2px; }
+.log-line { color: var(--LogForeground); white-space: pre-wrap; padding-left: 2.6em; text-indent: -1.6em; }
+.log-line::before { content: "└─ "; }
+.log-line.mid::before { content: "├─ "; }
+.log-out { color: var(--LogForeground_1); }
+.log-info { margin-top: 14px; color: var(--LogInfoForeground_1); }
+.log-info span { background: var(--LogInfoBackground_1); padding: 0 6px; }
+
+/* Cues: native's pink paths beside their data */
+/* the address as wide as it is, up to most of the pane; the value beside it has the rest and wraps in it. A long
+   address wraps rather than being cut, at its slashes (addCue), so its end always shows (/gamepad:<pad>/axis/left_x) */
+#cues { display: grid; grid-template-columns: fit-content(70%) minmax(0, 1fr); column-gap: 8px; align-content: start; }
+.cue-row { display: contents; }
+.cue-t, .log-row { display: none; }   /* a phone's compact rows (below) */
+.cue-path { background: var(--CuePathBackground); color: var(--CuePathForeground); padding: 0 8px; overflow-wrap: anywhere; }   /* anywhere: only a part with no slash in it that is too long alone */
+.cue-data { justify-self: start; color: var(--CueDataBackground); border-left: 2px solid var(--CueDataBackground); border-right: 2px solid var(--CueDataBackground); padding: 0 3px; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* Link metronome and time warp, drawn as native draws it */
+.link-bar { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; margin: 0; padding: 8px 10px 14px; border: none; min-width: 0; }
+.lk-btn { cursor: pointer; }
+.lk-btn:hover { border-color: var(--HoverButton); color: var(--HoverButton); }
+.lk-btn.lk-flash { background: var(--HighlightedBackground); border-color: var(--HighlightedBackground); color: var(--accentContrastText); }
+.lk-scrub { cursor: ns-resize; touch-action: none; }
+.lk-scrub:focus { cursor: text; outline: none; background: var(--subtleFill); }
+.lk-field.lk-cue { background: var(--accentTintStrong); }
+.lk-btn { background: none; border: 2px solid var(--WindowForeground); border-radius: var(--r-s); color: var(--WindowForeground); padding: 4px 18px; font: var(--t-ui) var(--prose-font); }
+.lk-btn.lk-square { flex: none; padding: 4px 6px; min-width: 34px; }   /* its word whole: the slider is what gives way */
+.lk-field { flex: none; width: 6.2em; background: none; border: 2px solid var(--HighlightedBackground); border-radius: var(--r-s); color: var(--HighlightedBackground); padding: 4px 8px; font: var(--t-ui) var(--prose-font); }
+.lk-field.lk-ms { width: 5em; }
+/* the time warp slider, and the preferences' too, as native's (app.qss QSlider#timeWarpSlider): a thin groove in the
+   theme's slider groove colour, no fill, a handle in the accent that takes the hover colour under the pointer or with
+   the focus. A fixed width, as the preferences' sliders, not the whole of whatever room the pane has */
+.lk-slider { flex: 1 1 200px; min-width: 40px; max-width: 200px; }   /* 200px at most; in a narrow pane it gives up its width, the row stays one row */
+.lk-slider, .pref-row input[type="range"] { height: 26px; margin: 0; background: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
+:is(.lk-slider, .pref-row input[type="range"])::-webkit-slider-runnable-track { box-sizing: border-box; height: 6px; border: 1px solid var(--SliderBorder, var(--SliderBackground)); border-radius: 3px; background: var(--SliderBackground, var(--WindowBorder)); }   /* native's groove: its fill and its border (app.qss), which high contrast darkens on white */
+:is(.lk-slider, .pref-row input[type="range"])::-moz-range-track { box-sizing: border-box; height: 6px; border: 1px solid var(--SliderBorder, var(--SliderBackground)); border-radius: 3px; background: var(--SliderBackground, var(--WindowBorder)); }   /* native's groove: its fill and its border (app.qss), which high contrast darkens on white */
+:is(.lk-slider, .pref-row input[type="range"])::-moz-range-progress { background: none; }
+:is(.lk-slider, .pref-row input[type="range"])::-webkit-slider-thumb { width: 14px; height: 22px; margin-top: -9px; border: none; border-radius: var(--r-s); background: var(--HighlightedBackground); -webkit-appearance: none; appearance: none; }
+:is(.lk-slider, .pref-row input[type="range"])::-moz-range-thumb { width: 14px; height: 22px; border: none; border-radius: var(--r-s); background: var(--HighlightedBackground); }
+:is(.lk-slider, .pref-row input[type="range"]):is(:hover, :focus-visible)::-webkit-slider-thumb { background: var(--HoverButton); }
+:is(.lk-slider, .pref-row input[type="range"]):is(:hover, :focus-visible)::-moz-range-thumb { background: var(--HoverButton); }
+:is(.lk-slider, .pref-row input[type="range"]):focus { outline: none; }
+
+/* The error card (main.js showError, friendly.js), under the editor as native's: one bordered card in the error's
+   colour (a syntax error blue, one while running pink), what went wrong in words first, then the line with the place
+   marked, the fix, an example, and the parser's own words only under Details */
+#error-pane {
+  --err: var(--MarkerBackground, var(--HighlightedBackground));
+  flex-shrink: 0;
+  max-height: 50%;
+  overflow: auto;
+  margin: 4px 12px 10px;
+  padding: 10px 14px;
+  border: 2px solid var(--err);
+  border-radius: var(--r-m);
+  background: color-mix(in srgb, var(--Foreground) 5%, var(--Background));
+  font: var(--t-body)/1.45 var(--prose-font);
+  color: var(--Foreground);
+}
+#error-pane.syntax { --err: var(--MarkerBackgroundSyntax, var(--HighlightedBackground)); }
+#error-pane.warning { --err: var(--KeywordForeground, var(--HighlightedBackground)); }   /* a heads-up: the code plays on */
+#error-pane:focus { outline: none; }
+.err-head { display: flex; align-items: baseline; gap: 10px; }
+#err-title { color: var(--err); font-weight: 700; }
+#err-where { color: var(--mutedForeground); font-size: var(--t-small); }
+.err-head .icon-btn { margin-left: auto; display: inline-flex; padding: 0; align-self: center; color: var(--mutedForeground); }
+.err-head .icon-btn:hover { color: var(--Foreground); }
+.err-head .icon-btn svg { width: 16px; height: 16px; }
+#err-message { margin: 6px 0 0; font-weight: 700; }
+#err-hint { margin: 4px 0 0; color: var(--softForeground, var(--Foreground)); }
+#error-pane code { font-family: var(--code-font); font-size: 0.9em; color: var(--err); }
+/* in a bold line (the message, the fix): the code a step lighter and tighter than the words, so a mono face's wide
+   letters and spaces sit in the sentence instead of shouting out of it */
+:is(#err-message, #err-fix) code { font-weight: 600; letter-spacing: -0.02em; word-spacing: -0.2em; }
+/* the line as it ran: the rest of it recedes, the words the error is about full strength with the error's wavy line */
+#err-code {
+  display: flex; gap: 12px; margin: 8px 0 0; padding: 6px 12px 12px; overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--Foreground) 16%, var(--Background)); border-radius: var(--r-s);
+  background: var(--Background); font: var(--t-small)/1.6 var(--code-font); white-space: pre;
+}
+.err-code-num { flex: none; padding-right: 10px; border-right: 1px solid color-mix(in srgb, var(--Foreground) 16%, var(--Background)); color: var(--mutedForeground); }
+.err-code-text { color: var(--CommentForeground, var(--mutedForeground)); }
+.err-code-mark { color: var(--Foreground); font-weight: 700; text-decoration: underline wavy var(--err); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.err-code-point { position: relative; color: var(--Foreground); font-weight: 700; }
+.err-code-caret { position: relative; display: inline-block; width: 0; height: 1.2em; vertical-align: text-bottom; }
+#error-pane .err-code-point::after, #error-pane .err-code-caret::after { border-color: var(--err); }
+/* the fix, the card's one strong button, named for what it does; Jump beside it plain */
+#err-fix, #err-jump { flex: none; padding: 4px 12px; border: 2px solid var(--err); border-radius: var(--r-s); background: var(--err); color: var(--Background); font: 700 var(--t-small) var(--prose-font); cursor: pointer; }
+#err-fix code { color: inherit; }
+#err-fix:hover { filter: brightness(1.1); }
+#err-jump { background: none; color: var(--Foreground); border-color: var(--Button); font-weight: 400; }
+#err-jump:hover { border-color: var(--err); color: var(--err); }
+#err-example { margin: 8px 0 0; font-size: var(--t-small); color: var(--mutedForeground); }
+.err-example-lead { margin-right: 8px; }
+#err-example code { color: var(--Foreground); }
+#err-details { margin: 8px 0 0; padding: 8px 10px; white-space: pre-wrap; font: var(--t-small)/1.45 var(--code-font); color: var(--mutedForeground); background: var(--Background); border-radius: var(--r-s); }
+.err-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 8px; }
+.err-actions .spacer { flex: 1; }
+.err-link { padding: 0; border: none; background: none; color: var(--mutedForeground); font: var(--t-small) var(--prose-font); text-decoration: underline; cursor: pointer; }
+.err-link:hover { color: var(--Foreground); }
+/* the error strip (main.js showError): the pane's look in one line under the editor, shown only
+   where the pane itself cannot be (the phone layout below); a tap goes to the line */
+#error-strip { display: none; flex-shrink: 0; align-items: center; gap: 10px; width: 100%; min-width: 0; padding: 6px 10px 6px 12px; border-left: 4px solid var(--err-mark, var(--HighlightedBackground)); background: color-mix(in srgb, var(--err-mark, var(--HighlightedBackground)) 14%, var(--Background)); color: var(--Foreground); }
+#error-strip .es-go { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding: 0; border: none; background: none; color: inherit; text-align: left; cursor: pointer; }
+#error-strip .es-title { color: var(--err-mark, var(--HighlightedBackground)); font: 700 var(--t-small) var(--prose-font); }
+/* the card's fix, reachable here too: the strip is all of the error a phone shows while the keyboard or a drawer is up */
+#error-strip .es-fix { flex: none; max-width: 45%; padding: 6px 10px; border: none; border-radius: var(--r-s); background: var(--err-mark, var(--HighlightedBackground)); color: var(--Background); font: 700 var(--t-small) var(--prose-font); cursor: pointer; }
+#error-strip .es-fix code { font-family: var(--code-font); }
+#error-strip .es-msg { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font: var(--t-small)/1.4 var(--code-font); overflow-wrap: anywhere; }
+
+#prefs-pane {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  background: var(--PaneBackground);
+  padding: 8px 16px 24px;
+  display: none;
+  z-index: 5;
+}
+body.prefs-open #prefs-pane { display: block; }
+/* One column of settings, capped at a readable measure and centred, as every
+ * settings pane worth copying does it: a wide pane gives margin either side
+ * rather than a stretched row, and nothing moves between columns as it resizes. */
+.pref-body { max-width: 640px; margin-inline: auto; }
+.pref-group { margin: 0 0 18px; }
+#prefs-pane .pref-group h3 { margin-top: 0; }
+/* Each setting is a row of its own, so the sections are told apart by the air
+ * between them; the notes are prose, small and quiet, under the rows they are about */
+#prefs-pane h3 {
+  margin: 26px 0 10px;
+  font: 600 var(--t-label) var(--prose-font);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--HighlightedBackground);
+}
+#prefs-pane h3:first-child { margin-top: 6px; }
+.pref-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+/* one label column, so every track starts and every value ends on the same line down the pane */
+.pref-row > span:first-child { flex: 0 0 8.5em; color: var(--mutedForeground); }
+/* A slider is as long as the range it covers deserves: capped, so a six-step
+ * setting is not a track the width of the pane, and its label, track and value
+ * stay one group. It still gives way on a narrow pane. */
+.pref-row input[type="range"] { flex: 1 1 140px; min-width: 0; max-width: 280px; }
+.pref-val { min-width: 3em; text-align: right; color: var(--NumberForeground); }
+.pref-note { max-width: 46em; margin: 6px 0 2px; color: var(--faintText); font: var(--t-tiny)/1.5 var(--prose-font); }
+/* native's theme cards (settingswidget.cpp ThemeCard): each scheme in its own colours, the toolbar's λ Δ π glyphs
+   tinted in its accent above its name (main.js buildThemeMenu) */
+.scheme-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.scheme-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  border: 1px solid color-mix(in srgb, var(--card-border, var(--WindowBorder)) 60%, transparent);
+  border-radius: var(--r-m);
+  padding: 8px 6px 7px;
+  cursor: pointer;
+  font: 600 var(--t-small) var(--prose-font);
+  transition: transform 0.12s;
+}
+.scheme-btn:hover { transform: translateY(-1px); }
+.scheme-btn.active { outline: 2px solid var(--HighlightedBackground); outline-offset: 2px; }
+.scheme-glyphs { display: flex; gap: 6px; }
+.scheme-glyph { display: block; width: 20px; height: 20px; -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; }
+.scheme-name { white-space: nowrap; }
+.seg-glyphs button { display: inline-flex; align-items: center; gap: 6px; }
+.seg-glyphs button .tb-icon { width: 18px; height: 18px; flex: none; }
+.seg-glyphs button:not(.active) .seg-label { display: none; }   /* the chosen view says its name; the rest are their glyphs */
+#theme-menu .tm-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }   /* the switches, and Reset beside them */
+#theme-menu .tm-foot .pref-row { margin: 6px 0; }
+@media (prefers-reduced-motion: reduce) { .scheme-btn:hover { transform: none; } }
+body.reduce-motion .scheme-btn:hover { transform: none; }
+.switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; background: none; border: none; padding: 0; color: var(--WindowForeground); }
+.switch .track { width: 28px; height: 14px; border-radius: var(--r-pill); background: var(--WindowBorder); position: relative; transition: background 0.15s; }
+.switch .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--WindowForeground); transition: transform 0.15s; }
+.switch.on .track { background: var(--HighlightedBackground); }
+.switch.on .track::after { transform: translateX(14px); background: var(--accentContrastText); }
+/* the preference's glyph, native v5's: between the switch and its words, quiet at rest, lit while on (main.js toggle) */
+.switch .pref-icon { display: inline-flex; flex: none; width: 1.25em; height: 1.25em; color: var(--mutedForeground); transition: color 0.15s; }
+.switch .pref-icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.switch.on .pref-icon { color: var(--HighlightedBackground); }
+.switch:disabled { opacity: 0.45; cursor: default; }   /* a preference this browser cannot have (no Web MIDI, no Gamepad API): the words under it say why */
+.device-list { color: var(--mutedForeground); font-size: var(--t-tiny); margin: 4px 0; }
+.about { color: var(--mutedForeground); font-size: var(--t-tiny); line-height: 1.6; }
+
+/* Tabs and segmented buttons: native's rounded outlines, the chosen one filled */
+.seg { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+/* .seg button: the shared chip (shared.css) */
+#prefs-pane .seg button { font-size: var(--t-tiny); padding: 2px 9px; border-width: 1px; border-radius: var(--r-s); }   /* the preferences' settings: small; the help panel's tabs are the chip itself (shared.css) */
+
+/* ── Status bar ── */
+#statusbar {
+  flex-shrink: 0;
+  display: flex;
+  gap: 16px;
+  padding: 3px 12px;
+  background: var(--StatusBar);
+  color: var(--StatusBarText);
+  font-size: var(--t-tiny);
+  white-space: nowrap;
+  overflow: hidden;
+}
+#statusbar .spacer { flex: 1; }
+.status-version { color: var(--mutedForeground); }   /* the version, at the bar's right */
+#status-engine { min-width: 0; overflow: hidden; text-overflow: ellipsis; }   /* a long message keeps the version in view */
+#status-engine.err { color: var(--HighlightedBackground); }
+
+/* ── Drawer: the help pane — its rail, its title, docs, cards, threads ── */
+#drawer { grid-area: drawer; min-height: 0; display: none; background: var(--PaneBackground); }
+body[data-drawer="docs"] #drawer, body[data-drawer="quickstart"] #drawer, body[data-drawer="logs"] #drawer, body[data-drawer="insight"] #drawer, body[data-drawer="debug"] #drawer, body[data-drawer="output"] #drawer { display: flex; }
+#drawer-rail [data-drawer="output"] { display: none; }   /* a phone's (main.js placeSidebar): a wide screen has the sidebar beside the editor */
+#strip-head { display: none; }   /* a phone's (below): the log and the cues share the strip's room, one at a time */
+/* native's south tabs (IconTabBar): square tabs the chrome unit (34dp) a side, stacked from the top on
+   the pane's background, each tab on the theme's Tab colour; the glyph 65% of the side, a tabler 2px round stroke in TabText; the selected
+   tab filled with TabSelected, its glyph in the contrasting text */
+#drawer-rail { display: flex; flex-direction: column; justify-content: flex-start; flex-shrink: 0; width: 34px; background: var(--PaneBackground); }
+#drawer-rail button { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border: none; background: var(--Tab); color: var(--TabText); cursor: pointer; }
+#drawer-rail svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }   /* the glyph a little over half the tab's side */
+#drawer-rail button.on { background: var(--TabSelected); color: var(--tabSelectedText); }
+#drawer-rail .rail-zoom { display: flex; flex-direction: column; align-items: center; margin-top: 6px; }   /* hung under the place icons, on every screen */
+#drawer-rail .rail-zoom .zoom-btn { width: 34px; height: 36px; }
+#drawer-rail .rail-zoom svg { width: 20px; height: 20px; stroke-width: 1.8; }
+#drawer-rail .rail-zoom button { margin: 0; background: none; color: var(--mutedForeground); }
+/* the help panel full size (main.js setPanelFull): the code's room is the panel's; up has nowhere further to go */
+body.panel-full:not([data-drawer=""]) #main { grid-template-rows: 0 6px minmax(0, 1fr); }   /* the divider kept: its down chevron is the way back */
+body.panel-full #editor-column, body.panel-full #panel-divider, body.panel-full #main > #sidebar { display: none; }   /* the sidebar beside the code (a phone has it as a pane of the panel) */
+#drawer-column { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+#drawer-head { display: none; align-items: center; gap: 4px; padding: 4px 8px 0 10px; --kicker-color: var(--faintText); }   /* no title over the panes: the rail's lit icon says which, each pane is named for a screen reader (index.html), and the status line says it as it opens */
+#drawer-head .spacer { flex: 1; }
+.round-btn { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; border: none; background: none; color: var(--mutedForeground); font: var(--t-heading)/1 var(--prose-font); cursor: pointer; }
+.round-btn.square { border-radius: var(--r-s); }
+.round-btn:hover { border-color: var(--HoverButton); color: var(--HoverButton); }
+#drawer-panes { flex: 1; min-height: 0; display: flex; }
+#docs-pane, #quickstart-pane, #logs-pane, #insight-pane, #debug-pane { flex: 1; min-width: 0; min-height: 0; display: none; }
+body[data-drawer="docs"] #docs-pane { display: flex; }
+body[data-drawer="quickstart"] #quickstart-pane { display: flex; }
+body[data-drawer="insight"] #insight-pane { display: flex; }
+/* the metrics at the top, sized by their panels (and scrolling if the pane is short); the OSC logs under them take the rest */
+body[data-drawer="debug"] #debug-pane { display: flex; flex-direction: column; gap: 10px; padding: 10px 12px; }
+#debug-pane > clockwork-metrics { flex: 0 1 auto; min-height: 0; max-height: 55%; overflow: auto; }
+#debug-pane .debug-logs { display: flex; flex: 1 1 0; min-height: 140px; margin: 0 -12px -10px; border-top: 1px solid var(--WindowBorder); background: var(--LogBackground); }
+/* SuperSonic's metrics (its <clockwork-metrics>, ssm- classes), in the app's own look rather than the element's
+   themes: panels as the app's surfaces, titles as its kickers, numbers in the code face, bars in the accent */
+.debug-idle { margin: 12px 4px; color: var(--mutedForeground); font: var(--t-ui) var(--prose-font); }
+clockwork-metrics { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+clockwork-metrics[hidden] { display: none; }
+.ssm-panel { padding: 8px 10px 10px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: var(--surface1); font: var(--t-small) var(--prose-font); color: var(--Foreground); }
+.ssm-title { margin: 0 0 6px; color: var(--HighlightedBackground); font: 700 var(--t-label) var(--prose-font); letter-spacing: 0.1em; text-transform: uppercase; }
+.ssm-row { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; }
+.ssm-label { color: var(--softForeground); }
+.ssm-value { font-family: var(--code-font, ui-monospace, monospace); font-variant-numeric: tabular-nums; color: var(--WindowForeground); }
+/* a count of trouble (lates, drops, errors): the accent once it is not 0, so what went wrong stands out and a quiet
+   engine reads quiet (main.js marks the zeros). Not ErrorBackground: that is a card's ground, and reads as nothing here */
+.ssm-value[data-kind="error"] { color: var(--HighlightedBackground); font-weight: 700; }
+.ssm-value[data-kind="error"][data-zero] { color: var(--faintText); font-weight: inherit; }
+.ssm-value[data-kind="dim"], .ssm-sep { color: var(--faintText); }
+.ssm-value[data-kind="muted"] { color: var(--mutedForeground); }
+.ssm-bar { display: flex; align-items: center; gap: 6px; padding: 2px 0; }
+.ssm-bar-label, .ssm-bar-value { width: 24px; color: var(--mutedForeground); font: var(--t-label) var(--code-font, ui-monospace, monospace); }
+.ssm-bar-value { width: 30px; text-align: right; }
+.ssm-bar-track { position: relative; flex: 1; height: 4px; overflow: hidden; border-radius: var(--r-pill); background: var(--surface3); }
+.ssm-bar-fill { height: 100%; background: var(--HighlightedBackground); transition: width 0.3s; }
+.ssm-bar-peak { position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: var(--WindowForeground); }
+body[data-drawer="logs"] #logs-pane { display: flex; }
+
+/* ── Logs: native's LogPanel. One source a pane, side by side on the log background: a small muted title
+   over a monospace tail, the time of each line halfway between text and background, the dividers
+   invisible until hovered. On a narrow screen the sources scroll sideways rather than squeeze. ── */
+#logs-pane { background: var(--LogBackground); }
+.logs-source { flex: 1 1 0; min-width: 80px; min-height: 0; display: flex; flex-direction: column; }
+.logs-title { padding: 6px 8px 2px; --kicker-color: var(--faintText); }
+.logs-body { flex: 1; min-height: 0; overflow: auto; padding: 6px; outline: none; color: var(--LogForeground); font: var(--t-label)/1.4 var(--code-font); white-space: pre; user-select: text; -webkit-user-select: text; }
+.logs-time { color: color-mix(in srgb, var(--LogForeground) 50%, var(--LogBackground)); }
+.logs-more { padding-left: 2ch; }
+.logs-divider { position: relative; flex: 0 0 7px; cursor: col-resize; touch-action: none; }
+.logs-divider::after { content: ""; position: absolute; inset: 0 3px; }
+.logs-divider:hover::after, .logs-divider.dragging::after { background: color-mix(in srgb, var(--LogForeground) 50%, var(--LogBackground)); }
+/* a phone: the sources stacked, each its own scrolling column, lines wrapping */
+@media (max-width: 760px) {
+  #logs-pane, #debug-pane .debug-logs { flex-direction: column; overflow: hidden; }
+  .logs-source { flex: 1 1 0; min-width: 0; min-height: 0; border-top: 1px solid color-mix(in srgb, var(--LogForeground) 20%, var(--LogBackground)); }
+  .logs-source:first-child { border-top: none; }
+  .logs-divider { display: none; }
+  .logs-body { white-space: pre-wrap; overflow-wrap: anywhere; }
+}
+
+/* ── Threads ── */
+.insight { flex-direction: column; }
+.insight-legend { margin-left: auto; color: var(--faintText); font-size: var(--t-tiny); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.insight-legend i { display: inline-block; width: 12px; height: 4px; margin-left: 6px; }
+.insight-legend .lg-note { background: var(--HighlightedBackground); }
+.insight-legend .lg-sample { width: 7px; height: 7px; background: var(--NumberForeground); transform: rotate(45deg); }
+.insight-legend .lg-sleep { height: 2px; background: var(--mutedForeground); }
+.insight-legend .lg-wait { height: 0; border-top: 2px dashed var(--HoverButton); }
+.insight-legend .lg-cue { width: 2px; height: 12px; background: var(--CuePathBackground); }
+.insight-body { flex: 1; min-height: 0; display: grid; grid-template-rows: minmax(90px, 1.5fr) minmax(60px, 1fr); }
+.insight[data-view="processes"] .insight-body, .insight[data-view="processes"] .insight-timeline-controls { display: none; }
+.insight[data-view="timeline"] .insight-processes { display: none; }
+.insight[data-view="roll"] .insight-body, .insight[data-view="roll"] .insight-processes, .insight[data-view="roll"] .insight-legend { display: none; }
+.insight-timeline-controls { display: contents; }
+.insight-processes { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.ptree-head { display: flex; align-items: center; gap: 12px; padding: 4px 12px; flex-wrap: wrap; }
+.ptree-stats { display: flex; gap: 14px; flex-wrap: wrap; font: var(--t-tiny) var(--code-font); color: var(--mutedForeground); flex: 1; }
+.ptree-stat i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: 0; }
+.ptree-waiting { color: var(--HoverButton); }
+.ptree-labels.on { border-color: var(--HighlightedBackground); color: var(--HighlightedBackground); }
+.ptree-canvas { position: relative; flex: 1; min-height: 0; }
+.ptree-canvas canvas { position: absolute; inset: 0; }
+/* a readout following the pointer over a canvas (the thread tree's, the piano roll's): the floating surface, in the code font */
+.ptree-tip, .roll-tip { position: absolute; z-index: 2; pointer-events: none; white-space: pre; padding: 4px 8px; font: var(--t-tiny)/1.45 var(--code-font); color: var(--Foreground); background: var(--pop-bg); border: var(--pop-border); border-radius: var(--r-m); box-shadow: var(--pop-shadow); }
+.insight-canvas { position: relative; min-height: 0; border-bottom: 1px solid var(--WindowBorder); }
+.insight-canvas canvas { position: absolute; inset: 0; }
+.insight-table { overflow: auto; }
+.insight-table table { border-collapse: collapse; width: 100%; table-layout: fixed; font: var(--t-small) var(--code-font); }   /* fixed: the columns keep their widths whatever the values (insight.js renderTable) */
+.insight-table col.ic-thread { width: 18ch; }
+.insight-table col.ic-state { width: 17ch; }
+.insight-table col:is(.ic-line, .ic-bpm) { width: 7ch; }
+.insight-table col:is(.ic-beat, .ic-total) { width: 9ch; }
+.insight-table col.ic-rate { width: 10ch; }
+.insight-table th { text-align: left; --kicker-color: var(--faintText); padding: 5px 10px; position: sticky; top: 0; background: var(--PaneBackground); }
+.insight-table td { height: 24px; padding: 3px 10px; border-top: 1px solid var(--WindowBorder); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.insight-table :is(th, td).num { text-align: right; font-variant-numeric: tabular-nums; }
+.insight-table th.num + th:not(.num), .insight-table td.num + td:not(.num) { padding-left: 24px; }   /* a gap after the numbers before the words */
+.insight-table tr.jump { cursor: pointer; }
+.insight-table tr.jump:hover td { background: var(--accentTint); }
+.insight-chip { display: inline-block; width: 8px; height: 8px; border-radius: var(--r-s); margin-right: 6px; }
+.insight-state.sleeping { color: var(--mutedForeground); }
+.insight-state.sync { color: var(--HoverButton); }
+.insight-state.error { color: var(--HighlightedBackground); }
+.insight-state.finished { color: var(--ghostForeground); }
+.insight-last { color: var(--softForeground); }
+.insight-empty { color: var(--faintText); padding: 12px !important; }
+.insight-roll { display: none; flex: 1; min-height: 0; flex-direction: column; }
+.insight[data-view="roll"] .insight-roll { display: flex; }
+.roll-threads { display: flex; gap: 10px; align-items: center; padding: 4px 12px; min-height: 26px; border-bottom: 1px solid var(--WindowBorder); }
+.roll-chips { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; min-width: 0; }
+.roll-info { margin-left: auto; color: var(--faintText); font-size: var(--t-tiny); white-space: nowrap; }
+.roll-chip { display: flex; align-items: center; gap: 5px; font: var(--t-tiny) var(--code-font); color: var(--Foreground); background: none; border: 1px solid var(--WindowBorder); border-radius: var(--r-s); padding: 1px 6px; cursor: pointer; }
+.roll-chip:hover { background: var(--accentTint); }
+.roll-chip i { width: 8px; height: 8px; border-radius: var(--r-s); }
+.roll-chip.off { color: var(--ghostForeground); }
+.roll-chip.off i { opacity: 0.25; }
+.roll-hint { color: var(--faintText); font-size: var(--t-tiny); }
+.roll-canvas { position: relative; flex: 1; min-height: 0; }
+.roll-canvas canvas { position: absolute; inset: 0; }
+
+/* ── Live lines ── */
+/* a thread held on a sync (editor.js WaitWidget): after the sync line, a hollow dot that breathes and the word */
+.sp-wait { display: inline-flex; align-items: center; gap: 5px; margin-left: 14px; vertical-align: middle; font: italic 0.78em var(--prose-font); color: var(--mutedForeground); pointer-events: none; user-select: none; }
+.sp-wait i { width: 7px; height: 7px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px currentColor; animation: sp-wait-breathe 1.6s ease-in-out infinite; }
+@keyframes sp-wait-breathe { 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { .sp-wait i { animation: none; } }
+@keyframes sp-flash-a { from { background-color: var(--flashWash); } to { background-color: transparent; } }
+@keyframes sp-flash-b { from { background-color: var(--flashWash); } to { background-color: transparent; } }
+.cm-line.sp-flash-a { animation: sp-flash-a 0.45s ease-out; }
+.cm-line.sp-flash-b { animation: sp-flash-b 0.45s ease-out; }
+/* indentation guides, as native's QScintilla draws them inside blocks */
+.cm-editor { --sp-guide: color-mix(in srgb, var(--IndentationGuidesForeground) 45%, transparent); }
+
+/* ── Docs ── */
+.docs { flex-direction: column; }
+/* The help panel's tabs, one header for every one of them (the cards, the docs, the threads): the same row of chips
+   in the same place, whichever tab is up — nothing of a tab's own moves them */
+:is(.docs-head, .qs-head, .insight-head) { display: flex; gap: 10px; align-items: center; margin: 0; padding: 10px 16px 8px; flex-wrap: wrap; border: none; background: none; }
+.docs-body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(170px, 300px) 1fr; }
+/* the docs' list column: ui/submenu.css (.ic-side) */
+@container (max-width: 820px) { .docs-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); } }
+/* .docs-search-wrap and .docs-search: shared.css */
+/* .docs-list, .docs-group and .docs-item: shared.css */
+.doc-unsupported { border-left: 3px solid var(--LogBackground_2); background: var(--subtleFill); padding: 6px 12px; font-size: var(--t-ui); }
+.docs-content { overflow: auto; padding: 4px 28px 40px; min-width: 0; }
+.docs-content .sp-doc { max-width: 1100px; font-family: var(--prose-font); font-size: var(--t-body); line-height: 1.55; }
+/* .sp-doc h1, h2: shared.css's, the one heading rule */
+.sp-doc img.doc-image { max-width: 100%; border-radius: var(--r-s); border: 1px solid var(--WindowBorder); }
+.sp-doc img { max-width: 100%; height: auto; }
+.sp-doc p a, .sp-doc li a { text-decoration: underline; text-underline-offset: 2px; }   /* a link in the text says so by more than its colour */
+.sp-tutorial { --heading-color: var(--WindowForeground); }   /* the tutorial's headings in the text's colour, as the site's section titles */
+/* the tutorial's way on: the chapter before at the left, the one after at the right */
+.tut-next { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 36px 0 8px; }
+.tut-step { display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: none; color: var(--Foreground); font: 600 var(--t-body) var(--prose-font); text-align: left; cursor: pointer; }
+.tut-step.next { text-align: right; }
+.tut-step:hover, .tut-step:focus-visible { border-color: var(--HighlightedBackground); outline: none; }
+.tut-step-k { --kicker-color: var(--faintText); }
+.sp-doc code { font-size: 0.92em; }
+.doc-summary { font-size: var(--t-lead); color: var(--softForeground); }
+.doc-meta { color: var(--faintText); font-size: var(--t-small); }
+.doc-usage { background: var(--subtleFill); border-radius: var(--r-s); padding: 2px 4px; margin: 8px 0; }
+.doc-usage pre.sp-code { background: transparent; }
+.table-wrap { overflow-x: auto; }
+
+/* Snippets */
+pre.sp-code {
+  margin: 0;
+  padding: 10px 12px;
+  overflow: auto;
+  font: var(--t-ui)/1.5 var(--code-font);
+  color: var(--DefaultForeground);
+  background: var(--Background);
+  white-space: pre;
+  tab-size: 2;
+}
+.sp-mini-icon { display: inline-flex; align-items: center; justify-content: center; }
+.sp-mini-icon svg { width: 14px; height: 14px; }
+/* .sp-mini-btn: the shared chip (shared.css), at its small size */
+.sp-mini-btn:disabled { opacity: 0.4; cursor: default; }
+
+/* Highlighting: native lexer styles → theme keys */
+.sp-keyword { color: var(--KeywordForeground); }
+.sp-symbol { color: var(--SymbolForeground); }
+.sp-number { color: var(--NumberForeground); }
+.sp-string { color: var(--DoubleQuotedStringForeground); }
+.sp-regex { color: var(--RegexForeground); }
+.sp-comment { color: var(--CommentForeground); font-style: italic; }
+.sp-def { color: var(--FunctionMethodNameForeground); }
+.sp-ivar { color: var(--InstanceVariableForeground); }
+.sp-const { color: var(--ClassNameForeground); }
+
+/* Editor states */
+/* the run's kick (editor.js flash): the line numbers flare to the accent and snap back from a little larger with an
+   overshoot, the gutter's edge thumps like a kick drum, and the code itself lights in the accent a moment, behind its letters as
+   a highlighter would. Each gutter cell fades from the accent to its own background (the keyframes leave its end to
+   it), so the caret's line's takes part rather than covering it. Still, the numbers and the code only light up a moment */
+@keyframes sp-number-kick { 0% { color: var(--HighlightedBackground); transform: scale(1.32); } 45% { color: var(--HighlightedBackground); transform: scale(0.94); } 100% { transform: scale(1); } }
+@keyframes sp-cell-kick { from { background-color: color-mix(in srgb, var(--HighlightedBackground) 30%, var(--MarginBackground, var(--Background))); } }
+@keyframes sp-edge-kick { from { opacity: 1; } to { opacity: 0; } }
+@keyframes sp-kick-a { from { background-color: color-mix(in srgb, var(--HighlightedBackground) 32%, transparent); } }
+@keyframes sp-kick-b { from { background-color: color-mix(in srgb, var(--HighlightedBackground) 32%, transparent); } }   /* the same, by another name: a Run straight after another starts it again */
+.cm-editor.sp-run-flash .cm-lineNumbers .cm-gutterElement { transform-origin: 70% 50%; animation: sp-number-kick 260ms ease-out; }
+/* the gutter tinted as one, the caret's line's cell (which has a background of its own) with it */
+.cm-editor.sp-run-flash .cm-gutters { animation: sp-cell-kick 280ms cubic-bezier(0.2, 0.7, 0.3, 1); }
+.cm-editor.sp-run-flash .cm-lineNumbers .cm-activeLineGutter { animation: sp-number-kick 260ms ease-out, sp-cell-kick 280ms cubic-bezier(0.2, 0.7, 0.3, 1); }   /* its number's kick and its cell's tint both */
+/* the gutter's edge, thumped: a bar over it, so no cell covers it */
+.cm-editor .cm-gutters::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 3px; background: var(--HighlightedBackground); opacity: 0; pointer-events: none; }
+.cm-editor.sp-run-flash .cm-gutters::after { animation: sp-edge-kick 280ms cubic-bezier(0.2, 0.7, 0.3, 1); }
+/* the code itself lit, as by a highlighter (editor.js kickField): behind its letters only, fading */
+.cm-editor .sp-kick-a { animation: sp-kick-a 320ms ease-out; border-radius: 2px; }
+.cm-editor .sp-kick-b { animation: sp-kick-b 320ms ease-out; border-radius: 2px; }
+body.reduce-motion .cm-editor.sp-run-flash .cm-lineNumbers .cm-gutterElement { color: var(--HighlightedBackground); }
+body.reduce-motion .cm-editor :is(.sp-kick-a, .sp-kick-b) { background-color: color-mix(in srgb, var(--HighlightedBackground) 22%, transparent); }
+/* the error's line as native marks it, in the error's colour (main.js showError sets --err-mark: a syntax error blue,
+   one while running pink): the line number a block with an arrow into the line, the line tinted, and on it a zigzag
+   under a word or a ^ beneath a single character or a point */
+.cm-sp-error-line { background-color: color-mix(in srgb, var(--err-mark, var(--HighlightedBackground)) 13%, var(--Background)) !important; }
+/* the block's right edge an arrow into the line, inside the gutter's own padding (the code starts at its edge) */
+.cm-gutterElement.cm-sp-error-gutter { background: var(--err-mark, var(--HighlightedBackground)); color: var(--Background) !important; font-weight: 700; clip-path: polygon(0 0, calc(100% - 0.4em) 0, 100% 50%, calc(100% - 0.4em) 100%, 0 100%); }
+.cm-sp-error-span { text-decoration: underline wavy var(--err-mark, var(--HighlightedBackground)); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.cm-sp-error-point, .cm-sp-error-caret { position: relative; }
+.cm-sp-error-caret { display: inline-block; width: 0; height: 1.1em; vertical-align: text-bottom; }
+:is(.cm-sp-error-point, .cm-sp-error-caret)::after, :is(.err-code-point, .err-code-caret)::after {
+  content: ""; position: absolute; left: 50%; top: calc(100% + 1px); width: 0.36em; height: 0.36em;
+  border-left: 2px solid var(--err-mark, var(--err, var(--HighlightedBackground))); border-top: 2px solid var(--err-mark, var(--err, var(--HighlightedBackground)));
+  transform: translateX(-50%) rotate(45deg); pointer-events: none;
+}
+
+/* Instrument pages: native's faceplate, program, transport and opts */
+.pg-face { padding: 14px 16px 16px; }   /* the synth: the card's panel (docs.js createInstrument), its groups the wells */
+.pg-title { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.pg-title .pg-view { margin-left: auto; }
+.pg-face [hidden] { display: none !important; }   /* the dials Basic leaves out, and their emptied groups */
+/* Basic: the five knobs on one line, in two regions of their own (docs.js paintView): the core three, and the synth's
+   own pair in the secondary colour, each its well */
+.pg-basic { display: flex; gap: 10px; flex-wrap: wrap; }
+.pg-face .pg-region-spare { border-color: color-mix(in srgb, var(--NumberForeground) 40%, transparent); }
+/* a synth's own expressive knobs (instrument-knobs.js) in the secondary colour, apart from the core three */
+.dial.pg-spare .dial-fill { stroke: var(--NumberForeground); }
+.dial.paired .dial-fill { stroke-dasharray: 3 3; }   /* tracking another dial (decay_level with sustain_level): its arc dashed until it is turned */
+.dial.pg-spare .dial-pointer { fill: var(--NumberForeground); }
+.dial.pg-spare.changed .dial-label { color: var(--NumberForeground); }
+/* a phone's full set: a screen of its own (docs.js fullScreen) — the rack scrolls, the transport, display and keys at its foot */
+.qs-card.pg-card.fullscreen { position: fixed; inset: 0; z-index: 600; margin: 0 !important; border-radius: 0; border: none;
+  padding-top: env(safe-area-inset-top, 0px); overflow: hidden; background: var(--PaneBackground); }
+.pg-card.fullscreen > .pg-face { flex: 1 1 auto; min-height: 0; padding: 10px; }
+.pg-card.fullscreen > .qs-card-body { flex: none; }   /* the code the knobs make, under the keys as on the page: the rack gives way first */
+.pg-card.fullscreen > .qs-card-foot { padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
+.pg-face.fullscreen > .pg-pad { flex: 0 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.pg-face.fullscreen > .pg-pad > :is(.pg-modules, .pg-universal) { flex: 0 0 auto; }   /* the rack the height it needs, not a share of the screen (its modules still wrap to its width) */
+html.pg-fullscreen, html.pg-fullscreen body { overflow: hidden; }
+html.pg-fullscreen :is(#site-nav, #site-strip, #statusbar) { visibility: hidden; }   /* nothing of the page's over it */
+/* a synth, as a panel is laid out (docs.js createInstrument): the rack of modules on top — each a framed module, its
+   name on a tab, the universal Out at its right end — then Play, Stop and the octaves beside the program's display, then
+   the keys across the whole width; one gap between them all */
+.pg-face { display: flex; flex-direction: column; gap: 12px; padding: 14px 16px 16px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--surface1) 70%, var(--PaneBackground)), var(--PaneBackground) 60%);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--Foreground) 8%, transparent); }
+.pg-face > * { margin: 0 !important; }
+.pg-face .pg-title { margin: 0; }
+.pg-pad { display: flex; gap: 10px; align-items: stretch; }
+.pg-modules { flex: 1 1 auto; min-width: 0; display: flex; }
+.pg-modules > .pg-groups, .pg-modules > .pg-basic { flex: 1 1 auto; align-items: flex-end; justify-content: flex-start; gap: 10px; }   /* a synth's modules stand on one floor, under its keys */
+/* An FX's modules start at the top of the panel in both views, so In — the head of the rack — is in the same place
+   whichever view is showing, rather than jumping when Basic is switched off. */
+.pg-face.pg-fx .pg-modules > :is(.pg-groups, .pg-basic) { align-items: flex-start; gap: 8px; }
+.pg-face.pg-fx .pg-deck.rack-in { align-items: flex-start; }
+.pg-face :is(.pg-group, .pg-region, .pg-universal) { position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px 10px 8px;
+  border: 1px solid color-mix(in srgb, var(--Foreground) 12%, transparent); border-radius: var(--r-s); background: color-mix(in srgb, var(--Background) 55%, var(--surface1)); }
+.pg-face .pg-region { flex-direction: row; align-items: flex-end; gap: 4px; }
+.pg-face .pg-universal { flex: none; flex-direction: row; align-items: flex-end; gap: 4px; border-color: color-mix(in srgb, var(--HighlightedBackground) 30%, transparent); }
+.pg-universal:not(:has(.dial)) { display: none; }
+.pg-universal > .dial, .pg-region > .dial { width: 64px; }
+.pg-face :is(.pg-group .pg-group-name, .pg-module-name) { position: absolute; top: 5px; left: 9px; margin: 0; padding: 0; border: none; text-align: left;
+  font: 700 9px/1 var(--code-font); letter-spacing: 0.16em; text-transform: uppercase; color: var(--HighlightedBackground); }
+.pg-face .pg-region-spare .pg-module-name { color: var(--NumberForeground); }
+.pg-deck { display: flex; align-items: stretch; gap: 12px; }
+.pg-face > .pg-program { min-width: 0; }
+.pg-face > .pg-program pre { white-space: pre-wrap; overflow-wrap: anywhere; }   /* a long program wraps: nothing to scroll sideways */
+.pg-deck { justify-content: space-between; }
+.pg-deck.rack-in { flex-wrap: nowrap; gap: 10px; }   /* the rack in the row (docs.js placeRack): at its natural width, so a row it overruns shows it */
+.pg-deck.rack-in { justify-content: flex-start; }
+.pg-deck.rack-in > .pg-pad { flex: 0 0 auto; margin: 0; }
+.pg-deck.rack-in > .pg-universal { margin-left: auto; }   /* the synth's own modules beside the octaves, Out at the row's end */
+.pg-deck.rack-in > .pg-pad .pg-modules, .pg-deck.rack-in > .pg-pad :is(.pg-basic, .pg-groups) { flex: 0 0 auto; flex-wrap: nowrap; }
+.pg-deck.rack-in > .pg-deck-left { flex: 0 0 auto; }
+.pg-deck-left, .pg-octaves { display: flex; align-items: center; gap: 12px; }
+.pg-deck-left { align-self: flex-end; }   /* Play and Stop on the row's floor, level with the dials' feet (the modules anchor theirs to the bottom too) */
+.pg-octaves { gap: 6px; }
+@media (max-width: 760px) {
+  .pg-pad { flex-direction: column; gap: 8px; }
+  .pg-face { gap: 10px; padding: 10px 10px 12px; }
+  .pg-deck { flex-wrap: wrap; }
+
+  .pg-universal > .dial, .pg-region > .dial { width: 56px; }
+  .pg-face .pg-universal { justify-content: center; }
+}
+
+/* the keys the whole width (the octave buttons are in the row above, beside Play and Stop) */
+.pg-face > .pg-keys { display: block; }
+.pg-face > .pg-keys > .pg-piano { width: 100%; }
+@media (max-width: 760px) { .pg-deck-left { gap: 4px; } .pg-octaves { gap: 2px; } .pg-octaves kbd { display: none; } }
+.pg-title .pg-view { font-size: var(--t-small); }
+@keyframes pg-in { from { opacity: 0; transform: translateY(6px) scale(0.96); } }
+.dial.pg-in, .choice.pg-in { animation: pg-in 0.22s ease-out; }   /* the full set's dials arriving */
+@media (prefers-reduced-motion: reduce) { .dial.pg-in, .choice.pg-in { animation: none; } }
+body.reduce-motion :is(.dial, .choice).pg-in { animation: none; }
+   /* Basic | All, at the row's end beside the kind */
+.pg-title .pg-view + .pg-kind { margin-left: 0; }
+:is(.docs-content .sp-doc, .home-synth) .pg-title .pg-name { margin: 0; padding: 0; border: none; text-decoration: none; font: 700 var(--t-heading) var(--prose-font); color: var(--Foreground); }
+/* the home page's live synth (info.js): the docs pane's instrument, kept from the site's own article styles — its
+   centred text, its sections' spacing */
+.home-synth { margin: 22px 0 0; text-align: left; }
+.home-synth .pg-face { margin: 0; }
+.home-synth :is(.pg-group, .pg-groups, .pg-pad, .pg-program) { margin: 0; }
+.home-synth .pg-program pre { text-align: left; }
+.home-synth .pg-pad { margin-top: 10px; }
+.pg-face .pg-piano { flex: 1 1 auto; overflow: hidden; }   /* fitted to its room (createInstrument fit): the keys fill it */
+.home-synth .pg-group { flex: 1 1 auto; }   /* the groups fill each row they share: no row left ragged */
+.home-synth .pg-dials { justify-content: center; }
+
+@media (max-width: 760px) { .home-synth .pg-dials { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 6px; } .home-synth .pg-dials > * { flex: none; width: 64px; } }   /* a phone: the dials wrap, centred, however few Basic leaves */
+.pg-icon svg { display: block; width: 44px; height: 26px; fill: none; stroke: var(--HighlightedBackground); stroke-width: 2.4; stroke-linecap: round; }
+.pg-key { color: var(--SymbolForeground); font-size: var(--t-ui); }
+.pg-kind { margin-left: auto; font: var(--t-label) var(--code-font); letter-spacing: 0.2em; color: var(--HighlightedBackground); border: 1px solid var(--HighlightedBackground); border-radius: var(--r-s); padding: 1px 6px; }
+.pg-pad { outline: none; }
+.pg-pad:focus-visible { box-shadow: 0 0 0 1px color-mix(in srgb, var(--Foreground) 16%, transparent); border-radius: var(--r-m); }   /* the instrument has the keys: a quiet edge, not the accent */
+.pg-groups { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
+/* An FX's rack: each module as wide as what it holds, the boxes on a row all one height. It works here because an
+   FX has few modules and they are full ones (docs.js merges the thin ones), so the row does not stagger. */
+.pg-face.pg-fx .pg-groups { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+/* where the rack's planner breaks a row (app/src/rack.js): a line of no height that fills the row it is on */
+.pg-break { flex: 0 0 100%; height: 0; margin: 0; }
+.pg-face.pg-fx .pg-groups > .pg-group { flex: 0 1 auto; }
+.pg-group { border-radius: var(--r-m); padding: 6px 8px 8px; background: var(--surface1); }
+:is(.docs-content .sp-doc, .home-synth, .pg-face) .pg-group .pg-group-name { position: absolute; top: 5px; left: 9px; margin: 0; padding: 0; border: none; text-align: left; text-transform: uppercase; font: 700 9px/1 var(--code-font); letter-spacing: 0.16em; color: var(--HighlightedBackground); }   /* a module's name, on its tab */
+.pg-dials { display: grid; grid-template-columns: repeat(var(--cols, 3), 68px); gap: 4px 6px; }
+.dial { position: relative; text-align: center; cursor: ns-resize; user-select: none; touch-action: none; outline: none; border-radius: var(--r-s); padding: 2px 0; }
+.dial:focus-visible { background: color-mix(in srgb, var(--Foreground) 7%, transparent); }   /* the dial the arrows turn: a faint wash */
+.dial svg { width: 48px; height: 48px; display: block; margin: 0 auto; }
+.dial-track { fill: none; stroke: var(--surface3); stroke-width: 3; stroke-linecap: round; }
+.dial-fill { fill: none; stroke: var(--HighlightedBackground); stroke-width: 3.5; stroke-linecap: round; }
+.dial-pointer { fill: var(--HighlightedBackground); stroke: var(--PaneBackground); stroke-width: 1.5; }
+.dial-val { position: absolute; left: 0; right: 0; top: 20px; font: var(--t-label)/1.1 var(--code-font); color: var(--Foreground); pointer-events: none; }
+/* a ship's console: every label one line, small, uppercase and spaced in the code face — a panel's heights never
+   depend on a long name (docs.js dial; its tip shows the name whole, large) */
+.dial-label { margin-top: 3px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 9.5px/1.2 var(--code-font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--mutedForeground); }
+.dial-label.long { letter-spacing: 0.02em; }   /* MAX DLY TIME: tighter, to stay whole */
+.dial.changed .dial-label { color: var(--HighlightedBackground); }
+.pg-choices { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 6px; width: 0; min-width: 100%; }   /* the choices under the dials (docs.js choice), as wide as the dials make the group and no wider: their chips wrap */
+.pg-group:not(:has(.pg-dials)) .pg-choices { width: auto; }
+.choice .seg { flex-wrap: wrap; }
+.choice .seg { gap: 3px; justify-content: center; }
+.choice .seg button { padding: 2px 8px; border-width: 1px; border-radius: var(--r-s); font: 500 var(--t-tiny) var(--code-font); }
+.choice .dial-label { text-align: center; }
+/* the chips beside what they set, not under a line of their own: the label leads, they wrap after it */
+.pg-face.pg-fx .choice:not(.choice-toggle) { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 2px 6px; }
+.pg-face.pg-fx .choice:not(.choice-toggle) > .dial-label { order: -1; text-align: left; }
+/* a switch and what it switches, on one line: stacked, each would cost two lines of the faceplate's height */
+.choice-toggle { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px; }
+.choice-toggle .dial-label { text-align: left; }
+/* an opt's switch is the app's switch (shared.css): one control, one size, wherever it is */
+.choice.changed .dial-label { color: var(--HighlightedBackground); }
+.pg-program { display: flex; align-items: flex-start; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: var(--Background); margin: 14px 0 12px; }
+.pg-program pre.sp-code { flex: 1; min-width: 0; padding: 10px 14px; font-size: var(--t-small); background: transparent; }
+.pg-program-actions { display: flex; gap: 2px; padding: 6px; }
+.pg-icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; border: none; border-radius: var(--r-s); background: none; color: var(--mutedForeground); cursor: pointer; }
+.pg-icon-btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pg-icon-btn:hover, .pg-icon-btn.done { color: var(--HighlightedBackground); }
+.pg-keys { display: flex; align-items: center; gap: 14px; margin-top: 12px; }   /* one row: the piano gives way (it scrolls), the octave buttons stay beside it */
+.pg-transport { display: inline-flex; flex: none; }
+/* the instrument on a phone: its name on one line, the dials small and packed across the width (the envelope two
+   short rows), groups side by side where they fit, the choices small; Play, Stop and the octave above a piano the
+   width of the screen that scrolls, rather than a sliver of keys squeezed between them */
+@media (max-width: 760px) {
+  .pg-face { padding: 10px 10px 12px; margin: 8px 0 12px; }
+  .pg-title { flex-wrap: nowrap; gap: 8px; margin-bottom: 8px; min-width: 0; }
+  .pg-title .pg-name { flex: 0 1 auto; min-width: 0; margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: var(--t-lead) !important; }
+  .pg-icon svg { width: 28px; height: 18px; }
+  .pg-key { flex: 0 1 auto; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: var(--t-small); }   /* the name and the key share the line, each cut short rather than the name to a letter */
+  .pg-kind { flex: none; font-size: 9px; padding: 1px 4px; letter-spacing: 0.12em; }
+  .pg-groups { gap: 6px; }
+  .pg-group { flex: 1 1 auto; padding: 4px 4px 6px; }
+  .pg-group:has(.pg-dials > :nth-child(3)) { flex-basis: 100%; }   /* three dials or more: the width, the dials packed across it */
+
+  .pg-dials { grid-template-columns: repeat(auto-fill, 44px); justify-content: center; gap: 2px 2px; }
+  .pg-group:not(:has(.pg-dials > :nth-child(3))) .pg-dials { grid-template-columns: repeat(var(--cols, 2), 44px); }   /* one or two: their own size, side by side with the next */
+  .dial svg { width: 34px; height: 34px; }
+  .dial-val { top: 14px; font-size: 8.5px; }
+  .dial-label { font-size: 8.5px; letter-spacing: 0.06em; }
+  .choice .seg button { padding: 1px 6px; font-size: var(--t-label); }
+  .pg-program { margin: 10px 0 8px; }
+  .pg-program pre.sp-code { padding: 8px 10px; font-size: var(--t-tiny); }
+  .pg-keys { flex-wrap: wrap; gap: 8px 10px; }
+  .pg-keys > .pg-octave { order: 2; }
+  .pg-keys > .pg-octave:first-of-type { margin-left: auto; }
+  .pg-keys > .pg-piano { order: 5; flex: 1 1 100%; }
+}
+.pg-transport .qs-state:empty { display: none; }
+.pg-piano { flex: 0 1 auto; min-width: 0; overflow-x: auto; }
+.pg-keys > .pg-octave, .pg-keys > .pg-transport { flex: none; }
+.pg-octave { display: inline-flex; flex-direction: column; align-items: center; gap: 0; }
+.pg-octave kbd { color: var(--faintText); font: var(--t-tiny)/1 var(--code-font); }   /* the key that does it, as the piano's keys are labelled */
+.pg-doc { color: var(--softForeground); }
+.pg-subhead { margin: 28px 0 10px; --kicker-color: var(--faintText); }
+.opt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.opt-card { border: 1px solid var(--WindowBorder); border-radius: var(--r-m); padding: 8px 10px; font-size: var(--t-ui); scroll-margin-top: 12px; }
+.opt-card:focus { outline: none; }
+@keyframes tip-landed { from { border-color: var(--HighlightedBackground); box-shadow: 0 0 0 3px color-mix(in srgb, var(--HighlightedBackground) 35%, transparent); } }
+.opt-card.tip-landed { animation: tip-landed 1.6s ease-out; }   /* the opt a dial's Docs link went to */
+body.reduce-motion .opt-card.tip-landed { animation: none; border-color: var(--HighlightedBackground); }
+.opt-card p { margin: 4px 0 0; color: var(--softForeground); }
+.opt-name code { color: var(--SymbolForeground); font-size: var(--t-ui); }
+.opt-slidable { font: var(--t-micro) var(--code-font); color: var(--HighlightedBackground); letter-spacing: 0.1em; text-transform: uppercase; }
+.opt-default { color: var(--faintText); font-size: var(--t-small); }
+.sample-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 4px 16px; }
+.sample-row { display: flex; align-items: center; gap: 6px; }
+.sample-row pre.sp-code { flex: 1; padding: 2px 6px; background: transparent; }
+
+/* Pianos */
+.sp-piano { position: relative; height: 46px; flex-shrink: 0; margin: 6px 0; }
+.sp-key { position: absolute; top: 0; padding: 0; cursor: pointer; border-radius: 0 0 var(--r-s) var(--r-s); }
+.sp-key-white { width: 14px; height: 46px; background: #f2f2f2; border: 1px solid #777; }
+.sp-key-black { width: 9px; height: 28px; background: #1b1b1b; border: 1px solid #000; z-index: 1; }
+.sp-key.lit { background: var(--HighlightedBackground); }
+.sp-key.root { background: var(--HoverButton); }
+.sp-key:active, .sp-key.down { filter: brightness(0.8); }   /* pressed, or swept onto (ui/piano.js) */
+.sp-piano { touch-action: none; user-select: none; -webkit-user-select: none; }   /* a finger drawn across the keys plays them, not scrolls */
+.sp-key-label { position: absolute; bottom: 2px; left: 0; right: 0; font: var(--t-micro) var(--code-font); color: #555; text-align: center; pointer-events: none; }
+.sp-key-black .sp-key-label { color: #bbb; bottom: 3px; }
+/* the instrument page's keyboard, in the theme's colours as native's is */
+.sp-piano-large { height: var(--key-h, 78px); margin: 0; }
+.sp-piano-large .sp-key-white { height: var(--key-h, 78px); background: var(--Background); border-color: var(--Button); }
+.sp-piano-large .sp-key-black { height: calc(var(--key-h, 78px) * 0.62); background: var(--Button); border-color: var(--Button); }
+.sp-piano-large .sp-key.lit { background: var(--HighlightedBackground); }
+.sp-piano-large .sp-key-label { font: var(--t-tiny) var(--code-font); color: var(--mutedForeground); bottom: 5px; }
+.sp-piano-large .sp-key-black .sp-key-label { color: var(--ButtonText); bottom: 5px; }
+
+/* ── Completion popup: native's list and detail pane ──
+ * (under .cm-editor, to outrank CodeMirror's own theme: a 10em list, a 400px pane) */
+/* the popup and its pane float over the code: the panels' surface (a step off the editor's in
+   every theme), a firmer edge than a pane's, and a shadow, so they read as temporary */
+body.info-open > .cm-tooltip, body.info-open #main .cm-tooltip { display: none; }   /* the editor's popups stay under the site's pages */
+body:has(#about-overlay:not([hidden]), #install-overlay:not([hidden])) .cm-tooltip { display: none; }   /* and under the dialogs */
+.cm-tooltip { background: var(--pop-bg) !important; color: var(--Foreground); border: var(--pop-border) !important; border-radius: var(--r-m); box-shadow: var(--pop-shadow); }
+/* the completion box frosted, as the site's strip and lists are: the code shows faintly through, blurred */
+.cm-editor .cm-tooltip.cm-tooltip-autocomplete { background: transparent !important; }   /* the frost is its halves' own: a frosted box inside a frosted box blurs nothing */
+.cm-editor .cm-tooltip.cm-tooltip-autocomplete > ul, .cm-editor .cm-tooltip.cm-tooltip-autocomplete > .cm-completionInfo, .cm-editor .cm-tooltip.cm-tooltip-autocomplete > .sp-cpiano { background: color-mix(in srgb, var(--Background) 86%, transparent) !important; -webkit-backdrop-filter: blur(24px) saturate(1.2); backdrop-filter: blur(24px) saturate(1.2); }
+.cm-editor .cm-tooltip.cm-tooltip-autocomplete { display: flex; flex-direction: column; }
+.cm-editor .cm-tooltip.cm-tooltip-autocomplete > ul { flex: 1 1 auto; border-radius: inherit; }   /* the list's frost the whole height of the box, when the pane beside it is the taller */
+/* the list and its detail pane one box, as native's: side by side, the same height; CodeMirror places the pane on the
+   list's own right border, so the two borders lie on each other as one dividing line; square corners at the join */
+/* its scrollbar's room kept, there or not: a bar coming and going narrows the text, which rewraps, which takes the bar
+   away again — the pane flickering between two widths */
+.cm-tooltip.cm-tooltip-autocomplete > .cm-completionInfo { scrollbar-gutter: stable; }
+.cm-tooltip.cm-tooltip-autocomplete > .cm-completionInfo.cm-completionInfo-right { margin-left: 0; box-sizing: border-box; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.cm-tooltip.cm-tooltip-autocomplete > .cm-completionInfo.cm-completionInfo-left { margin-right: 0; box-sizing: border-box; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.cm-tooltip.cm-tooltip-autocomplete:has(> .cm-completionInfo-right) { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.cm-tooltip.cm-tooltip-autocomplete:has(> .cm-completionInfo-left) { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+/* a list of a row or two, its pane under it (or over it) the same width: the one box again, joined along the width */
+.cm-tooltip.cm-tooltip-autocomplete > .cm-completionInfo:is(.sp-cinfo-under, .sp-cinfo-over) { margin: 0; box-sizing: border-box; }
+.cm-tooltip.cm-tooltip-autocomplete > .cm-completionInfo.sp-cinfo-under { border-top-left-radius: 0; border-top-right-radius: 0; }
+.cm-tooltip.cm-tooltip-autocomplete > .cm-completionInfo.sp-cinfo-over { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.cm-tooltip.cm-tooltip-autocomplete:has(> .sp-cinfo-under) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.cm-tooltip.cm-tooltip-autocomplete:has(> .sp-cinfo-over) { border-top-left-radius: 0; border-top-right-radius: 0; }
+.cm-editor .cm-tooltip.cm-tooltip-autocomplete > ul { font: var(--editor-font-size, 18px) var(--code-font); max-height: 470px; min-width: 18em; }   /* the words offered the size of the code they go into, as the Code size preference sets it */
+.cm-editor .cm-tooltip.cm-tooltip-autocomplete > ul > li { padding: 5px 14px 5px 8px; line-height: 1.3; display: flex; align-items: center; gap: 10px; }
+.cm-editor .cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected] { background: var(--HighlightedBackground); color: var(--accentContrastText); }
+.cm-completionLabel { flex: 1; }
+.cm-completionMatchedText { text-decoration: none; font-weight: 700; }
+.cm-completionDetail { margin-left: 1.2em; color: var(--faintText); font-style: normal; }
+li[aria-selected] .cm-completionDetail { color: inherit; opacity: 0.8; }
+/* each row's kind, as native's icon before the name */
+.sp-kind-icon {
+  order: -1;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;   /* the badge scales with the words beside it (the code's size) */
+  height: 1.15em;
+  border-radius: var(--r-s);
+  font: 700 0.72em/1 var(--prose-font);
+  color: var(--DoubleQuotedStringForeground);
+  background: color-mix(in srgb, var(--DoubleQuotedStringForeground) 25%, var(--Background));
+}
+.sp-kind-icon.k-synth, .sp-kind-icon.k-fx, .sp-kind-icon.k-sample { color: var(--SymbolForeground); background: color-mix(in srgb, var(--SymbolForeground) 22%, var(--Background)); }
+.sp-kind-icon.k-note, .sp-kind-icon.k-range, .sp-kind-icon.k-chord, .sp-kind-icon.k-scale { color: var(--NumberForeground); background: color-mix(in srgb, var(--NumberForeground) 22%, var(--Background)); }
+.sp-kind-icon.k-opt, .sp-kind-icon.k-optval { color: var(--KeywordForeground); background: color-mix(in srgb, var(--KeywordForeground) 20%, var(--Background)); }
+.sp-opt-synth .cm-completionLabel, .sp-opt-fx .cm-completionLabel, .sp-opt-sample .cm-completionLabel { color: var(--SymbolForeground); }
+.sp-opt-range .cm-completionLabel { color: var(--NumberForeground); }
+/* a note's row: the number it inserts, then its name as the code writes it (a symbol, in the code's symbol colour);
+   a hairline over each C, so the octaves read as groups */
+.sp-opt-note .cm-completionLabel { flex: 0 0 3.4ch; color: var(--Foreground); font-variant-numeric: tabular-nums; }
+.cm-editor .cm-tooltip .sp-opt-note .cm-completionDetail { order: 1; flex: 1; margin-left: 0; color: var(--SymbolForeground); font-style: normal; }
+.cm-editor .cm-tooltip .sp-opt-note[aria-selected] .cm-completionDetail { color: inherit; opacity: 1; }
+/* a row offered by its name (:c3, its number beside it) reads the same way round: the number first */
+.cm-editor .cm-tooltip .sp-opt-note.sp-by-name .cm-completionLabel { order: 1; flex: 1; color: var(--SymbolForeground); }
+.cm-editor .cm-tooltip .sp-opt-note.sp-by-name .cm-completionDetail { order: 0; flex: 0 0 3.4ch; color: var(--Foreground); font-variant-numeric: tabular-nums; }
+.cm-editor .cm-tooltip .sp-opt-note.sp-by-name[aria-selected] .cm-completionDetail { color: inherit; }
+.cm-editor .cm-tooltip.cm-tooltip-autocomplete > ul > li.sp-octave:not(:first-child) { border-top: 1px solid var(--WindowBorder); }
+/* Native's note keyboard, under the list in the popup itself (completion/cm.js notePiano): two octaves in the popup's
+   own colours, ◀ ▶ an octave either way, a label at each C; the note selected lit, the list's notes washed */
+.sp-cpiano { display: flex; align-items: center; gap: 4px; padding: 8px 6px 4px; border-top: 1px solid var(--WindowBorder); user-select: none; }
+.sp-cpiano-board { flex: 1; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.sp-cpiano .sp-piano, .sp-cpiano .sp-piano-large { margin: 0; height: 58px; }
+.sp-cpiano .sp-key-white { height: 58px; background: var(--Background); border-color: var(--Button); }
+.sp-cpiano .sp-key-black { height: 36px; background: var(--Button); border-color: var(--Button); }
+.sp-cpiano .sp-key { border-radius: 0 0 var(--r-s) var(--r-s); }
+.sp-cpiano .sp-key.in-list:not(.lit) { background: color-mix(in srgb, var(--HighlightedBackground) 16%, var(--Background)); }
+.sp-cpiano .sp-key-black.in-list:not(.lit) { background: color-mix(in srgb, var(--HighlightedBackground) 35%, var(--Button)); }
+.sp-cpiano .sp-key.lit, .sp-cpiano .sp-key.root { background: var(--HighlightedBackground); border-color: var(--HighlightedBackground); }
+@media (hover: hover) { .sp-cpiano .sp-key:not(.lit):hover { background: color-mix(in srgb, var(--HighlightedBackground) 40%, var(--Background)); } }
+.sp-cpiano-labels { position: relative; height: 16px; margin-top: 2px; }
+.sp-cpiano-labels span { position: absolute; top: 0; transform: translateX(-50%); font: var(--t-tiny) var(--code-font); color: var(--mutedForeground); }
+.sp-cpiano-labels span.here { color: var(--Foreground); }
+.sp-cpiano-nav { flex: none; width: 22px; height: 58px; align-self: flex-start; padding: 0; border: none; background: none; color: var(--mutedForeground); font-size: 16px; cursor: pointer; }
+.sp-cpiano-nav:hover:not(:disabled) { color: var(--Foreground); }
+.sp-cpiano-nav:disabled { opacity: 0.25; cursor: default; }
+li[aria-selected] .cm-completionLabel { color: inherit !important; }
+.cm-editor .cm-tooltip.cm-completionInfo { display: flex; flex-direction: column; width: min(560px, 60vw); max-width: none; max-height: 470px; overflow: hidden; padding: 0; white-space: normal; }
+.sp-cinfo { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+.sp-cinfo-scroll { flex: 1 1 auto; min-height: 0; overflow: auto; padding: 18px 22px 12px; }   /* the words scroll; the actions' row under them stays */
+.sp-cinfo-title { color: var(--HighlightedBackground); font: 700 var(--t-heading)/1.25 var(--prose-font); margin-bottom: 12px; }
+.sp-cinfo-usage { background: var(--Background); border: 1px solid var(--WindowBorder); border-radius: var(--r-s); margin: 0 0 14px; }
+.sp-cinfo-usage { container-type: inline-size; }
+.sp-cinfo-usage pre.sp-code { background: transparent; padding: 8px 18px; font-size: clamp(12px, calc((100cqi - 36px) / (var(--chars, 30) * 0.61)), var(--t-body)); overflow-x: auto; }   /* the usage a size that fits its longest line (a monospace character ≈ 0.6em), down to 12px, then scrolling */
+/* a docstring's own code blocks (the SynthDef in load_synthdef's): a box the width of the page that scrolls sideways
+   on its own, its bar in view, rather than a long line widening the whole doc */
+.sp-doc pre:not(.sp-code) { box-sizing: border-box; max-width: 100%; margin: 8px 0 14px; padding: 10px 14px; overflow-x: auto; white-space: pre; border: 1px solid var(--WindowBorder); border-radius: var(--r-s); background: color-mix(in srgb, var(--Foreground) 4%, transparent); font: var(--t-small)/1.5 var(--code-font); }
+.sp-doc pre:not(.sp-code) code { font: inherit; color: inherit; background: none; white-space: pre; }
+
+.sp-cinfo-scroll, .sp-doc { min-width: 0; }
+
+.cm-completionInfo .sp-cinfo-doc { font: var(--t-body)/1.6 var(--prose-font); color: var(--Foreground); background: none; }
+.cm-completionInfo .sp-cinfo-doc p { margin: 4px 0 10px; }
+.cm-completionInfo .sp-cinfo-doc code { color: var(--SymbolForeground); font: var(--t-ui) var(--code-font); }
+.sp-cinfo-actions { flex: none; display: flex; justify-content: flex-end; gap: 6px; margin: 0; padding: 10px 22px 12px; border-top: 1px solid var(--WindowBorder); }   /* a row of its own under the words, not over them */
+.sp-cinfo-actions .sp-mini-btn { background: var(--Background); }
+.sp-cinfo-range { font: var(--t-tiny) var(--code-font); color: var(--NumberForeground); margin-top: 6px; }
+.sp-rangebar { position: relative; height: 4px; background: var(--WindowBorder); border-radius: var(--r-pill); margin: 8px 0; }
+.sp-rangebar i { position: absolute; top: -4px; width: 3px; height: 12px; margin-left: -1px; background: var(--HighlightedBackground); }
+.sp-slider { display: flex; align-items: center; gap: 8px; padding: 4px 10px; font: var(--t-small) var(--code-font); }
+/* the value's slider over its line: two-thirds of a line's height, and clear of the line it edits, so it floats rather
+   than filling the room between the lines */
+.cm-tooltip.sp-slider { box-sizing: border-box; height: 21px; padding: 0 9px; line-height: 1; translate: 0 -4px; }
+.cm-tooltip.sp-slider input { height: 14px; margin: 0; background: none; -webkit-appearance: none; appearance: none; cursor: pointer; }   /* native's slider, as the metronome's and the preferences': a thin groove, the accent's handle */
+.cm-tooltip.sp-slider input::-webkit-slider-runnable-track { box-sizing: border-box; height: 5px; border: 1px solid var(--SliderBorder, var(--SliderBackground)); border-radius: 3px; background: var(--SliderBackground, var(--WindowBorder)); }
+.cm-tooltip.sp-slider input::-moz-range-track { box-sizing: border-box; height: 5px; border: 1px solid var(--SliderBorder, var(--SliderBackground)); border-radius: 3px; background: var(--SliderBackground, var(--WindowBorder)); }
+.cm-tooltip.sp-slider input::-webkit-slider-thumb { width: 9px; height: 13px; margin-top: -5px; border: none; border-radius: var(--r-s); background: var(--HighlightedBackground); -webkit-appearance: none; appearance: none; }
+.cm-tooltip.sp-slider input::-moz-range-thumb { width: 9px; height: 13px; border: none; border-radius: var(--r-s); background: var(--HighlightedBackground); }
+/* at rest while the caret sits on a value: faded, out of the code's way; pointed at, or held (Tab), it is all there
+   (completion/cm.js holdSlider) */
+.cm-tooltip.sp-slider { opacity: 0.3; transition: opacity 0.15s; }   /* the slider is the tooltip itself (CodeMirror adds cm-tooltip to it) */
+.cm-tooltip.sp-slider:hover, .cm-tooltip.sp-slider.held, .cm-tooltip.sp-slider:focus-within { opacity: 1; }
+.cm-tooltip.sp-slider.held { border-color: var(--HighlightedBackground) !important; }
+@media (prefers-reduced-motion: reduce) { .cm-tooltip.sp-slider { transition: none; } }
+body.reduce-motion .cm-tooltip.sp-slider { transition: none; }
+.sp-slider input { width: 200px; }
+.sp-slider-opt { color: var(--SymbolForeground); }
+.sp-slider-val { min-width: 3.5em; text-align: right; color: var(--NumberForeground); }
+
+/* ── Quickstart: native's cards ── */
+.qs { flex-direction: column; min-height: 0; overflow-y: auto; }   /* a short pane scrolls: the cards keep their height, the pager stays under them, never over */
+.qs-head { flex-direction: column; align-items: flex-start; }   /* the chips, then the deck's words under them */
+.qs-desc { display: flex; flex-direction: column; gap: 3px; margin: 0; padding-left: 12px; border-left: 5px solid var(--HighlightedBackground); color: var(--Foreground); font: var(--t-lead)/1.45 var(--prose-font); }
+.qs-desc-lead { font: 700 var(--t-heading)/1.25 var(--prose-font); }   /* the deck's first sentence */
+.qs-desc-body { max-width: 62ch; color: var(--softForeground); }
+.qs-desc-glyph { display: inline-flex; align-items: center; justify-content: center; width: 1.5em; height: 1.5em; margin: 0 0.15em 0 0.3em; vertical-align: -0.35em; border-radius: var(--r-s); background: var(--HighlightedBackground); color: var(--accentContrastText); }   /* the card's control the words name, as on the card */
+.qs-desc-glyph svg { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* The deck's intro card (quickstart.js introCard): its words in the card's body, the body as tall as the other cards'
+   code (scrolling if the words ever run longer), and Start in its foot */
+.qs .qs-intro .qs-card-body { padding: 16px 18px 8px; }
+/* the intro, drawn as the next-card tile is: dashed, in the accent, and one big play (.qs-next-card) */
+.qs .qs-card.qs-intro { border: 2px dashed color-mix(in srgb, var(--HighlightedBackground) 55%, transparent); background: color-mix(in srgb, var(--HighlightedBackground) 6%, transparent); }
+.qs .qs-intro .qs-card-foot { display: flex; align-items: center; justify-content: flex-start; padding: 6px 18px 18px; background: none; }
+@media (hover: hover) { .qs .qs-card.qs-intro:has(.qs-start:hover) { border-color: var(--HighlightedBackground); background: color-mix(in srgb, var(--HighlightedBackground) 12%, transparent); } }   /* lights as the tile does */
+.qs-intro-label { margin: 0 0 8px; font: 600 var(--t-label) var(--prose-font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--HighlightedBackground); }   /* at least the cards' height (.qs .qs-card-body); words that need more make the row taller, never scroll */
+.qs-intro .qs-desc { display: flex; padding: 0; border: none; font-size: var(--t-body); }
+.qs-intro .qs-desc-lead { font-size: var(--t-heading); }
+.qs-start { display: flex; align-items: center; gap: 14px; margin: 0; padding: 0; border: none; background: none; color: var(--Foreground); text-align: left; cursor: pointer; }
+.qs-start-disc { display: flex; flex: none; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; background: var(--HighlightedBackground); color: var(--accentContrastText); box-shadow: 0 0 0 5px color-mix(in srgb, var(--HighlightedBackground) 22%, transparent); transition: transform 0.15s, box-shadow 0.15s; }
+.qs-start-disc svg { width: 50%; height: 50%; margin-left: 8%; fill: currentColor; stroke: none; }   /* the triangle a little right of centre, where it looks centred */
+.qs-start-words { display: flex; flex-direction: column; gap: 2px; }
+.qs-start-say { font: 700 var(--t-heading)/1.15 var(--prose-font); }
+.qs-start-sub { font: var(--t-small) var(--code-font); color: var(--mutedForeground); }
+.qs-start:hover .qs-start-disc, .qs-start:focus-visible .qs-start-disc { transform: scale(1.06); box-shadow: 0 0 0 7px color-mix(in srgb, var(--HighlightedBackground) 32%, transparent); }   /* grows about its own centre: nothing moves */
+.qs-start:focus-visible { outline: none; }
+/* a phone: one card to a page, so nothing beside the intro to match: its words as tall as they are, a smaller disc */
+@media (max-width: 760px) {
+  .qs .qs-intro .qs-card-body { height: auto; min-height: 0; padding: 12px 14px 6px; }
+  .qs .qs-intro .qs-card-foot { padding: 4px 14px 14px; }
+  .qs-start-disc { width: 60px; height: 60px; box-shadow: 0 0 0 4px color-mix(in srgb, var(--HighlightedBackground) 22%, transparent); }
+  .qs-start-say { font-size: var(--t-lead); }
+}
+.qs-carousel { flex: 1 0 auto; display: flex; padding: 10px 16px 6px; }
+.qs-track { flex: 1; min-width: 0; min-height: 0; display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - (var(--per, 3) - 1) * 18px) / var(--per, 3)); gap: 18px; align-content: start; }
+/* the cards: ui/card.css (the pane sets their sizes below) */
+/* the next card, not yet dealt: a card-sized tile in the accent, what comes next and a disc to tap (quickstart.js) */
+.qs-next-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 220px; padding: 24px 16px; border: 2px dashed color-mix(in srgb, var(--HighlightedBackground) 55%, transparent); border-radius: var(--r-m); background: color-mix(in srgb, var(--HighlightedBackground) 6%, transparent); color: var(--Foreground); cursor: pointer; font: inherit; transition: background 0.15s, border-color 0.15s; }
+.qs-next-disc { display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; margin-bottom: 6px; border-radius: 50%; background: var(--HighlightedBackground); color: var(--accentContrastText); transition: transform 0.15s; }
+.qs-next-disc svg { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.qs-next-label { font: 600 var(--t-label) var(--prose-font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--HighlightedBackground); }
+.qs-next-title { font: 700 var(--t-heading)/1.2 var(--prose-font); text-align: center; }
+.qs-next-count { font: var(--t-small) var(--code-font); color: var(--mutedForeground); }
+@media (hover: hover) { .qs-next-card:hover { border-color: var(--HighlightedBackground); background: color-mix(in srgb, var(--HighlightedBackground) 12%, transparent); } }   /* the tile lights; nothing in it moves (a nudged disc would sit off-centre over its words) */
+/* one card to a page (a phone): the cards stack, and the tile is a slim bar under the card — the way on in view */
+.qs-track.qs-single { grid-auto-flow: row; grid-auto-columns: 100%; gap: 10px; }
+/* every card's code the height the deck's longest program needs (quickstart.js --deck-lines: 1.5em a line, and the
+   body's and the code's padding), so dealing a card never resizes the ones beside it */
+.qs .qs-card-body { flex: none; min-height: calc(var(--deck-lines, 1) * 1.5em + 24px); }
+.qs .qs-card-foot { flex: 1 1 auto; }   /* the foot takes what is left: the code areas one height, the feet line up in a row */
+.qs-pager[hidden], .qs-bar[hidden], .qs-decks[hidden], .qs-decks > button[hidden] { display: none; }
+/* in a deck: its carousel where the chips were (quickstart.js): out to the decks, the deck's name, its pages */
+.qs-head.in-deck { flex-direction: row; }
+.qs-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px; width: 100%; min-height: 34px; }   /* the pages' pill at the bar's centre, whatever the deck's name */
+.qs-bar-start { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.qs-exit { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px 4px 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-pill); background: none; color: var(--Foreground); font: 600 var(--t-ui) var(--prose-font); cursor: pointer; }
+.qs-exit svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.qs-exit:hover, .qs-exit:focus-visible { border-color: var(--HighlightedBackground); color: var(--HighlightedBackground); }
+.qs-bar-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 700 var(--t-lead) var(--prose-font); }
+.qs-bar .qs-pager-pill { flex: none; }
+.qs-single .qs-next-card { flex-direction: row; justify-content: flex-start; min-height: 0; padding: 10px 14px; gap: 10px; }
+.qs-single .qs-next-disc { width: 36px; height: 36px; margin: 0; order: 3; margin-left: auto; }
+.qs-single .qs-next-disc svg { width: 20px; height: 20px; }
+.qs-single .qs-next-title { font-size: var(--t-body); }
+.qs-single .qs-next-count { order: 2; }
+.qs-next-card:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: 2px; }
+.qs-next-card:active .qs-next-disc { transform: scale(0.94); }
+@keyframes qs-deal { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+.qs-card.qs-dealt { animation: qs-deal 0.35s ease-out; }
+@media (prefers-reduced-motion: reduce) { .qs-card.qs-dealt { animation: none; } }
+.qs-pager { display: flex; justify-content: center; padding: 4px 0 12px; }
+.qs-pager-pill { display: flex; align-items: center; gap: 12px; padding: 5px 14px; border: 1px solid var(--WindowBorder); border-radius: var(--r-pill); background: var(--subtleFill); }
+.qs-nav { display: inline-flex; align-items: center; justify-content: center; width: 22px; padding: 0; border: none; background: none; color: var(--Foreground); cursor: pointer; }
+.qs-nav svg { width: 18px; height: 18px; }
+.qs-nav:hover:not(:disabled) { color: var(--HighlightedBackground); }
+.qs-nav:disabled { opacity: 0.25; cursor: default; }
+.qs-dots { display: flex; gap: 9px; }
+.qs-dots.qs-count { min-width: 5.5em; justify-content: center; font: 600 var(--t-small) var(--code-font); color: var(--Foreground); white-space: nowrap; }   /* where you are, in words, when there are too many pages for dots */
+.qs-dot { width: 11px; height: 11px; padding: 0; border: none; border-radius: 50%; background: var(--mutedForeground); cursor: pointer; }
+.qs-dot.seen, .qs-dot.active { background: var(--HighlightedBackground); }
+.qs-dot.active { box-shadow: 0 0 0 2px var(--Foreground); }
+
+/* ── Phones: one column ──
+ * The editor on top; under it the open drawer, or with none open a strip of
+ * scope and log. The selectors match the desktop's drawer rule in weight
+ * (body[data-drawer]:not(...) #main) so these win, not it. */
+@media (max-width: 760px) {
+  :root { --editor-font-size: 14px; --drawer-size: 45dvh; }   /* sizes the player chose (inline) still win */
+
+  /* the toolbar on one row, scrolling sideways when it must */
+  #toolbar { flex-wrap: nowrap; overflow-x: auto; gap: 2px; padding: 4px max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left)); scrollbar-width: none; }
+  #toolbar::-webkit-scrollbar { display: none; }
+  button.tb-icon { width: 36px; height: 36px; flex-shrink: 0; }
+  button.tb-icon svg { width: 21px; height: 21px; }
+  /* the desktop's toolbar, as far as a phone's width goes: run, stop, record, load and share; info, help and prefs.
+     Code size is pinch and prefs; the scope has its own pane in the drawer */
+  #btn-size-up, #btn-size-down, #btn-scope, .tb-sep { display: none; }
+  /* a tap leaves :hover behind on touch screens: no hover colours there */
+  .tb-icon:hover:not(:disabled) .tb-glyph { background: var(--WindowForeground); }
+  .tb-icon.on:hover .tb-glyph { background: var(--HighlightedBackground); }
+  .tb-spacer { flex: 1 0 4px; }
+
+  /* The stack: the editor, the divider with its chevron, then one
+     panel (the open drawer, or the scope and log); the chevron hides it. */
+  #main, body[data-drawer]:not([data-drawer=""]) #main, body.zen #main {
+    grid-template-columns: minmax(0, 1fr);        /* never wider than the phone, whatever a pane holds */
+    grid-template-areas: "editor" "hdiv" "sidebar" "drawer";
+  }
+  /* the divider's row is the chevron's height, so it is whole even at the bottom edge; with no pane chosen the
+     code has the rest (the scope, log and cues are a pane of their own here, not what is left behind) */
+  #main { grid-template-rows: minmax(0, 1fr) 18px 0 0; }
+  /* the preferences live in the sidebar's box: with them open, that row is the panel */
+  body.prefs-open #main { grid-template-rows: minmax(0, 1fr) 18px min(var(--drawer-size), calc(100% - 130px)) 0; }
+  body.zen #main { grid-template-rows: minmax(0, 1fr) 0 0 0; }
+  body[data-drawer]:not([data-drawer=""]) #main { grid-template-rows: minmax(0, 1fr) 18px 0 min(var(--drawer-size), calc(100% - 130px)); }
+  body.panel-full[data-drawer]:not([data-drawer=""]) #main { grid-template-rows: 0 18px 0 minmax(0, 1fr); }
+
+  /* the scope, log and cues as the drawer's pane: the same strip, in the drawer's column beside the rail */
+  #drawer-rail [data-drawer="output"] { display: flex; }
+  body[data-drawer="output"] #drawer-panes > #sidebar { display: flex; flex: 1; min-height: 0; }
+  #panel-divider { display: none; }
+  /* The strip: the scope as a band across the top, then the log, or the cues, picked by the chips of the
+     strip's head — one at a time, at the phone's whole width. It is a pane of the drawer's here (the rail's
+     "Scope, log and cues"), so the chevron hides it with the rest of the panel: with no pane chosen the code has
+     the screen, and the rail brings this back. */
+  #sidebar { display: none; flex-direction: column; }
+  body:is([data-drawer="output"], .prefs-open) #sidebar { display: flex; }
+  #scope-section { display: none; }   /* the bar's thin scope has the mix (.sn-scope); the log takes the room */
+  body:not(.info-open, .no-scope) .sn-scope { display: block; }   /* a phone's only scope, whichever kind; off when the scopes are */
+  #log-section .pane-head, #cue-section .pane-head { display: none; }
+  #strip-head { display: flex; align-items: center; gap: 8px; padding: 8px 12px 6px; }
+  #strip-head .spacer { flex: 1; }
+  #strip-head .seg button { font-size: var(--t-tiny); padding: 3px 12px; }
+  #log-section, #cue-section { flex: 1; min-height: 0; }
+  body.strip-cues #log-section, body:not(.strip-cues) #cue-section { display: none; }
+  /* The log: one line an event, the time and the thread in their columns, the call after, unwrapped */
+  #log, #cues { padding: 4px 12px 12px; font-size: var(--t-label); overflow: auto; }
+  .log-head, .log-line, .log-info { display: none; }
+  .log-row { display: flex; gap: 10px; align-items: baseline; white-space: nowrap; line-height: 1.75; }
+  .log-t { flex: 0 0 5.5ch; text-align: right; color: var(--faintText); }
+  .log-th { flex: 0 0 auto; color: var(--mutedForeground); font-style: italic; }
+  .log-msg { color: var(--LogForeground); }
+  .log-num { color: var(--HighlightedBackground); }
+  .log-row-out .log-msg { color: var(--WindowForeground); font-weight: 600; }
+  #cues { display: block; }
+  .cue-row { display: flex; gap: 10px; align-items: center; margin: 4px 0; white-space: nowrap; }
+  .cue-t { display: inline; flex: 0 0 5.5ch; text-align: right; color: var(--faintText); }
+  .cue-path { border-radius: var(--r-s); padding: 1px 8px; }
+  .cue-data { display: none; }
+  #link-section { display: none; }
+
+  /* the editor: touch brings its own undo, copy and paste */
+  .sp-edit-toolbar { display: none; }
+  /* the buffer: the pads alone under the code, across the width (the caret's line and position are a desktop's);
+     gone while the code keyboard is up, where a row of digits over its keys would read as more keys */
+  #editor-foot { display: flex; justify-content: center; padding: 4px 8px 6px; }
+  #caret-pos { display: none; }
+  body.kbd-open #editor-foot { display: none; }
+  #buffer-tabs, .buffer-tabs-row { width: 100%; }
+  .buffer-tab { flex: 1 1 20px; padding: 10px 0; font-size: var(--t-ui); }   /* a width to start from: the ten on the line under the break, not one squeezed beside it */
+  .buffer-tab::before { width: min(26px, 100%); height: 24px; }
+  .buffer-tab-sep { flex: none; padding: 0; }
+  .jam-toggle { margin-left: 6px; }
+  /* the set and JAM on a line of their own over the buffers: the set left, JAM right; the buffers the whole width under */
+  .buffer-tabs-row { flex-wrap: wrap; row-gap: 6px; }
+  .buffer-tabs-row .set-chip { order: -3; margin-right: auto; }
+  .buffer-tabs-row .jam-toggle { order: -2; margin-left: auto; }
+  .buffer-tabs-row::before { content: ""; order: -1; flex-basis: 100%; height: 0; }   /* the line break under them */
+  /* jam's row: the pads the width of the screen, one row, squares; its grid, two rows of them (below), wider */
+  #buffer-tabs.jam-on .buffer-tabs-row { width: 100%; grid-template-columns: repeat(var(--pads), minmax(0, 1fr)); column-gap: 4px; row-gap: var(--line-gap); --line-gap: 6px; }
+  #buffer-tabs.jam-grid .buffer-tabs-row { grid-template-columns: repeat(var(--pad-cols), minmax(0, 1fr)); column-gap: 6px; }
+  #buffer-tabs.jam-on :is(.set-chip, .jam-modes, .jam-toggle) { grid-row: 1; grid-column: 1 / -1; box-sizing: border-box; height: 26px; margin: 0; }
+  #buffer-tabs.jam-on .set-chip { justify-self: start; }
+  #buffer-tabs.jam-on .jam-modes { justify-self: center; }
+  #buffer-tabs.jam-on .jam-toggle { justify-self: end; }
+  #buffer-tabs.jam-on .jam-mode { height: 100%; }
+  #buffer-tabs.jam-on .buffer-tab, #buffer-tabs.jam-on:not(.jam-grid) .buffer-tab { width: auto; padding: 0; aspect-ratio: 1; font-size: 18px; }
+  #buffer-tabs.jam-grid .buffer-tab { font-size: 30px; }
+  #buffer-tabs.jam-on .buffer-tab::before { width: 100%; }
+  /* the margin: the desktop's room around the line numbers (editor.js's theme) is a tenth of a phone's width */
+  #editor-mount .cm-lineNumbers .cm-gutterElement { padding: 0 0.4em 0 0.45em; }
+  /* where the error card would squeeze the code (the code keyboard up, a drawer open, the panels folded away), the
+     one-line strip under the editor stands in for it */
+  body:is(.kbd-open, .panel-open) #error-strip:not([hidden]) { display: flex; }
+  body:is(.kbd-open, .panel-open) #error-pane { display: none; }
+  #error-pane { margin: 4px 8px 8px; padding: 10px 12px; max-height: 45%; }
+  /* the list short enough (six rows; it scrolls) to leave the detail pane, under it, its room (completion/cm.js positionInfo) */
+  .cm-editor .cm-tooltip.cm-tooltip-autocomplete > ul { font-size: var(--editor-font-size, 15px); max-height: 152px; min-width: 13em; }
+  .cm-editor .cm-tooltip.cm-tooltip-autocomplete > ul > li { padding: 4px 10px 4px 6px; gap: 8px; }
+  /* the pane in the little room under it: tighter type */
+  .cm-editor .cm-tooltip.cm-completionInfo { padding: 0; }
+  .sp-cinfo-scroll { padding: 10px 12px 8px; }
+  .cm-completionInfo .sp-cinfo-title { font-size: var(--t-body); margin-bottom: 8px; }
+  .cm-completionInfo .sp-cinfo-usage { margin-bottom: 8px; }
+  .cm-completionInfo .sp-cinfo-usage pre.sp-code { padding: 5px 10px; font-size: clamp(11px, calc((100cqi - 20px) / (var(--chars, 30) * 0.61)), var(--t-small)); }
+  .cm-completionInfo .sp-cinfo-doc { font-size: var(--t-small); line-height: 1.45; }
+  .cm-completionInfo .sp-cinfo-doc code { font-size: var(--t-small); }
+  .cm-completionInfo .sp-cinfo-doc p { margin: 2px 0 6px; }
+  .cm-completionInfo .sp-cinfo-actions { padding: 6px 12px 8px; }
+
+  /* less chrome: Help opens and closes the help pane, its rail picks cards, docs or
+     threads, and the chevron hides it; so no pane titles or −/+/×, no pane labels, no status bar */
+  #statusbar, #drawer-head { display: none; }
+  /* the strip's panes keep their labels: empty, scope, log and cues still read as what they are */
+  #sidebar .pane-head { padding: 5px 10px 2px; }
+  /* the rail a touch smaller, its pane buttons then the zoom pair under them */
+  #drawer-rail { width: 30px; }
+  #drawer-rail button { width: 30px; height: 30px; }
+  #drawer-rail svg { width: 16px; height: 16px; }
+  #drawer-rail .rail-zoom svg { width: 20px; height: 20px; stroke-width: 1.8; }
+
+  /* nothing a pane holds may widen the page, nor scroll it sideways (clip, unlike hidden, cannot be scrolled) */
+  html, body, #main, #drawer { overflow: clip; }
+
+  /* the drawer */
+  .docs, .docs-head, .docs-body, .docs-content, .qs { min-width: 0; }
+  .docs-content { padding: 0 14px 30px; }
+  :is(.docs-head, .qs-head, .insight-head) { padding: 6px 10px 4px; }
+  /* a drawer's tabs on one row that scrolls, so its content keeps the room */
+  .seg { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+  .seg::-webkit-scrollbar { display: none; }
+  .seg > button { flex-shrink: 0; padding: 3px 10px; font-size: var(--t-ui); }
+  .qs-desc { display: none; }
+  .qs-track { align-content: start; align-items: start; }   /* a card is as tall as its code, never the pane's height */
+  .qs-card { min-height: 180px; }
+  #quickstart-pane { --qs-code-size: 15px; }
+  .qs-carousel { padding: 8px 10px 4px; }
+  #quickstart-pane { --qs-title-size: 17px; }
+}
+
+/* The page bar (ui/pagebar.js) under the tabs, while a page shows: over the page's column, from its list's edge (a wide
+   screen; main.js --strip-left) or the screen's (a phone), frosted over the page */
+body.info-open #site-strip.on { display: block; position: fixed; top: var(--nav-bottom, var(--nav-h)); left: var(--strip-left, calc(320px * var(--site-zoom, 1))); right: 0; z-index: 95; padding: 0 max(4px, env(safe-area-inset-right)) 0 max(4px, env(safe-area-inset-left)); border-bottom: 1px solid var(--WindowBorder); background: color-mix(in srgb, var(--raisedSurface) 62%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2); }
+#info-body, .ic-main { scroll-padding-top: var(--strip-h, 0px); scroll-padding-bottom: 56px; }   /* what the keyboard reaches is scrolled clear of the strip above and the foot below (.ic-foot: WCAG 2.4.11) */
+/* The page bar is in the page from its build (scripts/build-site.mjs), so where it stands and the room under it are
+   known before a script has measured them (main.js placeInfo, which then says the same): it sits under the bar at the
+   list's edge (320px, the pages' zoom), 64px tall at that zoom with its rule under it. Without a script the bar has
+   nothing to do, and is not shown. */
+html:not(.js) #site-strip { display: none !important; }
+@media (min-width: 761px) { html.js body.info-open:has(#site-strip.on) { --strip-h: calc(64px * var(--site-zoom, 1) + 1px); } }
+@media (min-width: 761px) { #site-strip .pb-jump { display: none; } #site-strip .pb { zoom: var(--site-zoom, 1); } }   /* the list is always open beside it: the middle shows where in it you are; the bar the pages' size, as the examples' is */
+
+/* Reduce animations (Preferences, Accessibility; on when the system asks): nothing moves on its own */
+body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after { animation: none !important; transition: none !important; }
+
+/* a phone: the website's bar puts its tabs on a second row under the wordmark, Try it! and × */
+@media (max-width: 760px) {
+  #site-nav { flex-wrap: wrap; height: auto; padding: calc(env(safe-area-inset-top) + 6px) max(10px, env(safe-area-inset-right)) 8px max(14px, env(safe-area-inset-left)); row-gap: 6px; }
+  #site-nav .sn-brand { margin-right: 0; }
+  #site-strip { display: none; }
+  /* the one contents list, under the tabs, floating over the page's top as frosted glass: the page scrolls on under it */
+  body.info-open #info-body { padding-top: var(--strip-h, 0px); scroll-padding-top: var(--strip-h, 0px); }
+  body.contents-open #info-body { overflow: hidden; }   /* the list open: the page holds still under it */
+  #site-nav .sn-brand { flex: none; margin-right: 0; }
+  #site-nav .sn-stop { margin-right: auto; }   /* the wordmark and its stop left, the fold or Try it! right; the chip stands centred on its own */
+  #site-nav .sn-close { flex: none; width: 30px; margin-left: 0; }   /* its basis is the stop's room (22px and its margins), so the two sides of the chip stay equal */
+  #site-nav .ic-tabs { order: 10; flex: 1 0 100%; flex-wrap: nowrap; justify-content: space-between; overflow: visible; gap: 0 6px; }   /* one row: six words spaced across it */
+  #site-nav .sn-theme { margin: 0 0 4px; }
+  #site-nav.folded { height: calc(24px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) max(10px, env(safe-area-inset-right)) 0 max(14px, env(safe-area-inset-left)); }
+  /* One row: the site's tabs, the code icon after them, and the stop at the end while anything sounds.
+     The wordmark, the bar's contents chip (the page keeps its own, the grey strip under the bar), the fold and the
+     bar's scope go. */
+  #site-nav { flex-wrap: nowrap; row-gap: 0; padding-right: max(14px, env(safe-area-inset-right)); }
+  #site-nav .sn-brand, #site-nav .sn-contents, body.info-open #site-nav .sn-contents:not([hidden]), #site-nav .sn-close, body #site-nav > .sn-scope { display: none; }
+  /* in the editor the code icon's place is the fold's (the up chevron): the tabs and the icons fold away as a wide
+     screen's do, the wordmark left to bring them back; on the site's pages it is the code icon, and there is no fold */
+  body:not(.info-open) #site-nav .sn-code { display: none; }
+  body:not(.info-open) #site-nav:not(.folded) .sn-close { display: inline-flex; width: 24px; height: 24px; margin: 0 0 4px; color: var(--softForeground); }   /* as the icons beside it */
+  #site-nav .sn-theme { order: 1; }   /* the palette last, after the code icon or the fold */
+  #site-nav.folded .sn-brand { display: inline; order: -1; }
+  #site-nav.folded .sn-stop { order: -2; }   /* folded, as a wide screen's: the stop, then the wordmark */
+  #site-nav { justify-content: space-between; }
+  #site-nav .ic-tabs { display: contents; }   /* the stop and the tabs one row of equals, spread edge to edge: the stop hard at the left */
+  /* the stop everything: quiet at rest and lit with the mix's rings while anything sounds — one place for it, not a
+     mark that comes and goes at the screen's edge */
+  #site-nav .sn-stop { order: -1; visibility: visible; width: 26px; height: 26px; margin: 0 0 4px; color: var(--faintText); }   /* first, hard at the left: stop everything, before anywhere to go */
+  #site-nav .sn-stop::before { content: ""; position: absolute; inset: 6.6%; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--Foreground) 22%, transparent); pointer-events: none; }   /* the ring at rest, as a card's transport has it (card.css) */
+  #site-nav .sn-stop .tb-icon { left: 20%; top: 20%; width: 60%; height: 60%; }
+  body.sounding #site-nav .sn-stop { color: var(--HighlightedBackground); }
+  body.sounding #site-nav .sn-stop::before { border-color: color-mix(in srgb, var(--HighlightedBackground) 45%, transparent); }   /* lit, the mix's rings moving over it */
+}
+
+/* The site's pages as one surface with the nav: the list beside them, the page bar over them and the foot under them
+   in the page's own colour, told apart by hairlines, not a frame of grey round a black page (a boxed-in look), and the
+   list continuing down from the nav as one column with it (site.css). A phone's
+   list, which opens over the page, keeps its frost. */
+@media (min-width: 761px) {
+  body.info-open #site-strip.on { background: color-mix(in srgb, var(--Background) 82%, transparent); }
+  #info-card .ic-foot { background: var(--Background); }
+}
+
+/* what a cue last carried, in the completion pane: the value as the cue log shows it */
+.sp-cinfo-cue-val { font: var(--t-small)/1.5 var(--code-font); color: var(--HighlightedForeground); }
+
+/* a first visit's pointer to Help (main.js showHelpHint): a ring round the Δ, centred on the button as measured, and
+   a note beneath it, its arrow at the button, in the app's own popup look; gone once Help is opened or the note put
+   away (a still ring for reduced motion) */
+#help-hint { position: fixed; left: var(--x); top: var(--y); z-index: 95; width: 0; height: 0; pointer-events: none; }
+#help-hint[hidden] { display: none; }
+#help-hint .hh-note { position: absolute; top: 30px; right: -28px; width: 250px; padding: 12px 14px; box-sizing: border-box; pointer-events: auto; background: var(--pop-bg); border: var(--pop-border); border-radius: var(--r-m); box-shadow: var(--pop-shadow); color: var(--Foreground); font: var(--t-ui)/1.45 var(--prose-font); }
+#help-hint .hh-note::before { content: ""; position: absolute; top: -8px; right: 22px; width: 12px; height: 12px; background: var(--pop-bg); border-left: var(--pop-border); border-top: var(--pop-border); transform: rotate(45deg); }   /* its arrow, under the button's centre */
+#help-hint .hh-note p { margin: 0 0 10px; }
+#help-hint .hh-note strong { color: var(--HighlightedBackground); }
+#help-hint .hh-note button { float: right; }
+#help-hint .hh-note::after { content: ""; display: block; clear: both; }
+
+/* a phone's compact synth (Basic, on the page): its height the least it can be — the modules on one line of smaller
+   knobs, Play, Stop and the octaves small, the program beside them as the display, then the keys */
+@media (max-width: 760px) {
+  .pg-face.basic { gap: 8px; padding: 8px 8px 10px; }
+  .pg-face.basic .pg-title { margin: 0; }
+  .pg-face.basic .pg-pad { flex-direction: row; gap: 4px; }
+  .pg-face.basic .pg-modules { flex: 0 1 auto; }
+  .pg-face.basic .pg-basic { flex-wrap: nowrap; gap: 4px; }
+  .pg-face.basic :is(.pg-region, .pg-universal) { padding: 15px 2px 3px; gap: 0; flex: 0 0 auto; }
+  .pg-face.basic :is(.pg-region, .pg-universal) > .dial { width: 48px; }
+  .pg-face.basic .pg-universal { flex: 1 1 auto; justify-content: space-evenly; }
+  .pg-face.basic .pg-module-name { top: 4px; left: 6px; font-size: 8px; }
+  .pg-face.basic .pg-deck { flex-wrap: nowrap; align-items: center; gap: 6px; }
+  .pg-face.basic .pg-octaves .zoom-btn svg { width: 22px; height: 22px; }
+
+  .pg-face.basic .pg-program pre { padding: 6px 8px; font-size: 11px; }
+
+
+}
+/* a synth is played, not read: a drag across it turns a dial or sweeps the keys and selects nothing; its code alone is text */
+.pg-face { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.pg-face .pg-program pre { -webkit-user-select: text; user-select: text; }
+/* a phone: Play, Stop, the octaves and Out on one line over the keys, compact or full screen (docs.js createInstrument) */
+@media (max-width: 760px) {
+  .pg-face:is(.basic, .fullscreen) .pg-deck { flex-wrap: nowrap; gap: 6px; }
+  .pg-face:is(.basic, .fullscreen) .pg-deck-left { gap: 2px; }
+  .pg-face:is(.basic, .fullscreen) .pg-octaves .zoom-btn { width: 38px; height: 38px; min-width: 0; }
+  .pg-face:is(.basic, .fullscreen) .pg-universal { flex: 1 1 auto; min-width: 0; justify-content: space-evenly; padding: 15px 2px 3px; gap: 0; }
+  /* an FX's In has names to read, not knobs to fit: on a phone it takes the line above Play, Stop and Out */
+  .pg-face:is(.basic, .fullscreen) .pg-deck:has(.pg-region-in) { flex-wrap: wrap; }
+  .pg-deck-left:has(.pg-region-in) { flex: 1 1 100%; min-width: 0; order: -1; }
+  .pg-region-in { flex: 1 1 auto; min-width: 0; }
+  .pg-face:is(.basic, .fullscreen) .pg-universal > .dial { width: 48px; }
+  .pg-face.fullscreen .pg-universal .pg-module-name { top: 4px; left: 6px; font-size: 8px; }
+}
+/* the synth is a code card (ui/card.js, docs.js createInstrument): the card's bar, border and foot; its panel the synth */
+.qs-card.pg-card { content-visibility: visible; }   /* measured as it lays out (docs.js placeRack): never skipped */
+.docs-content .qs-card.pg-card { margin: 12px 0 14px; }
+.home-synth .qs-card.pg-card { margin: 0; }
+/* the Basic switch in the card's bar: in the bar's contrast, as its actions are */
+.qs-card-head .pg-view { flex: none; margin: 0 6px 0 0; color: inherit; font-size: var(--t-small); }
+.qs-card-head .pg-view .track { background: color-mix(in srgb, var(--accentContrastText) 30%, transparent); }
+.qs-card-head .pg-view.on .track { background: var(--accentContrastText); }
+.qs-card-head .pg-view.on .track::after { background: var(--HighlightedBackground); }
+.qs-card-head .pg-view .track::after { background: var(--accentContrastText); }
+@media (max-width: 760px) { .pg-card .qs-blurb { display: none; } }   /* a phone: the page around it says what it is; the room is the controls' */
+.pg-deck-left:empty, .pg-deck-left:not(:has(> :not([hidden]))) { display: none; }   /* an FX with no keys hides its octave buttons: the empty box would still take the row's gap, and shift the rack */
+.pg-deck.rack-in > .pg-universal { flex: 0 0 auto; }   /* its own width while the row is tried (docs.js placeRack), so a row it overruns shows it */
+@media (max-width: 760px) {
+  .pg-foot .qs-blurb { display: none; }   /* the page around it says what it is; the room is the controls' */
+  .pg-face > .pg-foot { padding-block: 6px; }
+}
+@media (max-width: 380px) { .pg-title .pg-kind { display: none; } }   /* a small phone: the synth's name has the title row */
+/* the octave buttons in a slim bar over the keys (docs.js placeRack), when the row over the keys is every knob's: − over
+   the low end, + over the high, the keys the full width under them */
+.pg-octave-bar { display: flex; justify-content: space-between; margin: 0 0 4px; }
+.pg-octave-bar > .pg-octave { flex: none; }
+.pg-octave-bar kbd { display: none; }
+.pg-octave-bar .zoom-btn { width: 30px; height: 30px; min-width: 0; }
+.pg-octave-bar .zoom-btn svg { width: 22px; height: 22px; }
+/* the card's actions in its title row, at the top right */
+.pg-title .pg-program-actions { flex: none; padding: 0; }
+@media (max-width: 760px) { .pg-title .pg-kind { display: none; } .pg-title .pg-program-actions { gap: 0; } }   /* a phone: the kind gives way to them */
+/* Basic's row over the keys (docs.js basicMode): Pitch (the octave buttons and the note) at its left, release and amp at
+   its right, the synth's own between */
+.pg-face .pg-region-pitch { flex: none; }
+.pg-region-pitch .pg-octave { align-self: center; }
+.pg-region-pitch .zoom-btn { min-width: 0; }
+.pg-face .pg-region[hidden] { display: none; }
+@media (max-width: 760px) {
+  .pg-region-pitch kbd { display: none; }
+  .pg-region-pitch .zoom-btn { width: 28px; height: 28px; }
+  .pg-face.pg-basic-row .pg-deck { gap: 4px; }
+  .pg-region-pitch .zoom-btn svg { width: 22px; height: 22px; }
+}
+.qs-card.pg-card .qs-card-body .cm-editor .cm-content { white-space: pre-wrap; overflow-wrap: anywhere; }   /* the synth's program wraps: its dials make long lines, and nothing scrolls sideways */
+/* the synth card's bar: its name in the bar's contrast whatever heading it is (the docs page's h1 has a style of its
+   own), and the Basic switch at the bar's centre, still as Reset comes and goes at its right */
+.qs-card.pg-card > .qs-card-head { position: relative; }
+.qs-card.pg-card .qs-card-title { max-width: calc(50% - 64px); margin: 0; padding: 0.55em 0; border: none; background: none; color: inherit; font: 700 var(--qs-title-size, var(--t-body))/1.3 var(--prose-font); }
+.qs-card.pg-card > .qs-card-head > .pg-view { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); margin: 0; }
+.qs-card.pg-card .qs-card-title { margin-right: auto; }   /* the actions at the bar's right end, whatever the name's length */
+/* the phone's full set: the keys give up height before the rack does, and the rack scrolls in its own box, a bar down
+   its side saying so (its dials take a drag to turn: the gaps and the bar scroll it) */
+.pg-face.fullscreen > .pg-pad { scrollbar-width: thin; scrollbar-gutter: stable; }
+.pg-face.fullscreen > .pg-pad::-webkit-scrollbar { width: 6px; }
+/* over everything of the page's (the site's nav and bar have their own layers), and as tall as what shows: set from the
+   visual viewport (docs.js fullScreen), not the layout viewport's inset, which runs under Safari's floating toolbar */
+.qs-card.pg-card.fullscreen { z-index: 100000; top: auto; bottom: 0; height: auto; max-height: 100%; border-radius: var(--r-m) var(--r-m) 0 0; }   /* a sheet at the screen's foot, as tall as it needs (docs.js fullScreen) */
+html.pg-fullscreen .sn-stop { visibility: hidden; }   /* the nav's stop shows itself while anything sounds: not over the synth */
+/* the full screen in the top layer (docs.js fullScreen): the popover's own box undone — its centring, its border and
+   padding, its fit-content size, its canvas colours */
+.qs-card.pg-card.fullscreen:popover-open { width: auto; max-width: none; margin: 0; border: none; padding: 0; inset: auto 0 0 0; color: var(--Foreground); background: var(--PaneBackground); overflow: hidden; }
+.qs-card.pg-card.fullscreen::backdrop { background: rgb(0 0 0 / 0.55); }   /* the page behind the sheet, dimmed */
+.pg-card.fullscreen > .pg-face { flex: 0 1 auto; }   /* its content's height; the rack scrolls when that is more than the screen */
+/* the quickstart pane's cards painted whatever the browser guesses of their place: content-visibility (card.css) skips
+   a card it takes to be off screen, and under the pane's zoom it can take one in plain view to be (a dealt card left
+   a blank box, its content skipped). A deck's handful of cards needs no skipping; the docs pane's hundreds keep it. */
+#quickstart-pane .qs-card { content-visibility: visible; }
+/* Home in the bar: Sonic Pi's mark (build-site.mjs tab), lit as a word tab is */
+#site-nav .ic-tab-home { padding-inline: 2px; }
+#site-nav .ic-tab-home .home-glyph { display: block; width: 22px; height: 22px; color: var(--softForeground); transition: color 0.15s; }   /* a house (build-site.mjs tab) */
+#site-nav .ic-tab-home:hover .home-glyph, #site-nav .ic-tab-home.active .home-glyph { color: var(--HighlightedBackground); }
+/* the icons either side alike: the stop's box the tablet's and the palette's size, as far from the mark as they are from each other */
+#site-nav .sn-stop { width: 30px; height: 30px; margin-right: 0; }
+/* the words between the bar's icons, spread by main.js (SPREAD_MAX): the row's own gap off while it spaces them */
+#site-nav .ic-tabs.spread { gap: 0; }
+@media (max-width: 760px) { #site-nav .sn-code { margin-left: 0; } }   /* a phone: the room after the last word the code icon's edge, as before the first */
+/* a small phone (an iPhone SE): the bar's four icons a size down together, so the row still fits its width */
+@media (max-width: 360px) {
+  #site-nav .sn-stop, #site-nav .sn-code, #site-nav .sn-theme { width: 24px; height: 24px; }
+  #site-nav .sn-code .tb-icon, #site-nav .sn-theme .tb-icon { width: 18px; height: 18px; }
+  #site-nav .ic-tab-home .home-glyph { width: 18px; height: 18px; }
+  #site-nav { padding-left: 10px; padding-right: 10px; }
+  #site-nav .ic-tab:not(.ic-tab-home) { font-size: 0.92em; }   /* the four words a touch smaller, so the longest (Tutorial) fits */
+}
+/* a wide screen: the wordmark is Home (the π mark is the phone's, where there is no wordmark) */
+@media (min-width: 761px) { #site-nav .ic-tab-home { display: none; } }
+/* a wide screen's editor as a phone's: the code icon's place is the fold's (the up chevron), in the code icon's size and
+   colour, before the palette; on the site's pages it is the code icon, and there is no fold */
+@media (min-width: 761px) {
+  body:not(.info-open) #site-nav:not(.folded) .sn-code { display: none; }
+  body:not(.info-open) #site-nav:not(.folded) .sn-close { order: 0; width: 30px; height: 30px; margin: 0 0 4px 14px; color: var(--softForeground); }
+  body:not(.info-open) #site-nav:not(.folded) .sn-close svg { width: 20px; height: 20px; }
+  #site-nav .sn-theme { order: 1; }
+  body:not(.info-open) #site-nav:not(.folded) .sn-theme { margin-left: 4px; }   /* as close to the fold as to the code icon (.sn-code + .sn-theme) */
+}
+/* a wide screen's wordmark: clear of the stop's ring, and set apart from the tabs by more than they are from each other, so it reads as the site's name, not a first tab */
+@media (min-width: 761px) { #site-nav .sn-stop { margin-right: 8px; } #site-nav .sn-brand { margin-right: 36px; } }
+/* an FX's In: the sounds to put through it and the FX's own switch (docs.js), in a module of the rack's kind */
+.pg-region-in { flex: none; flex-direction: column; align-items: stretch; justify-content: center; gap: 0; padding: 20px 10px 8px; }
+.pg-inputs { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; }
+/* the sounds: a module's own kind of picker (a dial's choice segments), not chips from elsewhere on the page */
+.pg-region-in .pg-inputs button { padding: 2px 8px; border-width: 1px; border-radius: var(--r-s); font: 500 var(--t-tiny) var(--code-font); }
+/* the FX's own switch, in the module's top corner beside its name: the unit engaged, or the sound passing through dry */
+.pg-region-in .pg-fx-on { position: absolute; top: 3px; right: 8px; gap: 5px; font: 600 var(--t-label) var(--prose-font);
+  letter-spacing: .06em; text-transform: uppercase; color: var(--mutedForeground); }
+.pg-region-in .pg-fx-on .track { width: 22px; height: 12px; }
+.pg-region-in .pg-fx-on .track::after { width: 8px; height: 8px; }
+.pg-region-in .pg-fx-on.on .track::after { transform: translateX(10px); }
+.pg-region-in .pg-fx-on.on { color: var(--Foreground); }
+@media (max-width: 760px) { .pg-region-in { padding: 16px 6px 5px; } .pg-region-in .pg-inputs button { padding: 1px 6px; } .pg-region-in .pg-fx-on { right: 6px; gap: 3px; } }
+/* the small controls 24px to the touch (WCAG 2.5.8): the room above and below given back, so nothing moves */
+.icon-btn { min-height: 24px; margin-block: -3px; }

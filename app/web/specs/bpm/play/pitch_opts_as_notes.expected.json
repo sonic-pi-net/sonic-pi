@@ -1,0 +1,127 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "cutoff": 0.0,
+        "release": 1.0
+      },
+      "now": false
+    },
+    {
+      "kind": "control",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0"
+      },
+      "args": {
+        "cutoff": 0.0
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_rlpf",
+      "args": {
+        "cutoff": 67,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 64.0,
+        "cutoff": 0.0,
+        "release": 0.5
+      },
+      "now": false,
+      "fx": {
+        "t": 0.25,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_rlpf"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-tb303",
+      "args": {
+        "note": 36.0,
+        "cutoff": 84,
+        "release": 0.5,
+        "cutoff_attack": 0.0,
+        "cutoff_decay": 0.0,
+        "cutoff_sustain": 0.0,
+        "cutoff_release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.7539,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_rlpf",
+      "of": {
+        "t": 0.25,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_rlpf"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, cutoff: 0.0, release: 1.0}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "control node 1004, {cutoff: 0.0}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 64.0, cutoff: 0.0, release: 0.5}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :tb303, {note: 36.0, cutoff: 84, release: 0.5, cutoff_attack: 0.0, cutoff_decay: 0.0, cutoff_sustain: 0.0, cutoff_release: 0.5}"
+    }
+  ]
+}

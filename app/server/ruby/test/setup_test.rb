@@ -198,7 +198,7 @@ module SonicPi
         end
       end
 
-      @system_state.set 0, 0, ThreadId.new(-2), 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
+      @system_state.sched_ahead_time = default_sched_ahead_time
 
       __info "Welcome to Sonic Pi #{version}", 1
 

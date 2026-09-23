@@ -1,0 +1,64 @@
+{
+  "events": [
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "path": "loop_amen.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "buf": "loop_amen.flac"
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.125,
+      "beat": 0.25,
+      "thread": "0.0.0.0",
+      "name": "",
+      "path": "drum_heavy_kick.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.125,
+      "beat": 0.25,
+      "thread": "0.0.0.0",
+      "name": "",
+      "synth": "sonic-pi-basic_mono_player",
+      "args": {
+        "buf": "drum_heavy_kick.flac"
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\""
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0.0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"drum_heavy_kick.flac\""
+    }
+  ]
+}

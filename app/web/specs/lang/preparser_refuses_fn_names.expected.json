@@ -1,0 +1,20 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "SonicPi::PreParser::PreParseError",
+      "message": "You may not use the built-in fn names as variable names.",
+      "line": -1,
+      "thread": "0",
+      "name": ""
+    }
+  ],
+  "output": [
+
+  ],
+  "log": [
+
+  ]
+}

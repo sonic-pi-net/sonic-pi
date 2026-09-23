@@ -1,0 +1,331 @@
+    <div class="wrapper style1 first">
+      <div class="hero-grid">
+        <div class="hero-words">
+          <article class="container" id="intro" data-title="Sonic Pi" data-icon="logo">
+            <div class="row">
+              <div class="u8">
+                <header>
+                  <span class="image fit logo"><span class="logo-tile">{{logo}}</span></span>
+                  <h1 class="hero-title">Experience the<br><strong>sound of code</strong>.</h1>
+                </header>
+                <p class="tagline">Sonic Pi is your free code-based music creation and performance tool.</p>
+                <div class="facets">
+                  <div class="facet-words" aria-label="What Sonic Pi is">
+                    <button type="button" class="facet-word on" aria-pressed="true"><i class="sp-glyph" style="--icon: url(data/toolbar/scope.png)" aria-hidden="true"></i><span>Powerful</span><i class="facet-bar" aria-hidden="true"></i></button>
+                    <button type="button" class="facet-word" aria-pressed="false"><i class="sp-glyph" style="--icon: url(data/toolbar/run.png)" aria-hidden="true"></i><span>Expressive</span><i class="facet-bar" aria-hidden="true"></i></button>
+                    <button type="button" class="facet-word" aria-pressed="false"><i class="sp-glyph" style="--icon: url(data/toolbar/help.png)" aria-hidden="true"></i><span>Accessible</span><i class="facet-bar" aria-hidden="true"></i></button>
+                    <button type="button" class="facet-word" aria-pressed="false"><i class="sp-glyph" style="--icon: url(data/toolbar/prefs.png)" aria-hidden="true"></i><span>Simple</span><i class="facet-bar" aria-hidden="true"></i></button>
+                  </div>
+                  <div class="facet-lines">
+                    <span class="facet-line on">for professional musicians and DJs.</span>
+                    <span class="facet-line">for composition and performance.</span>
+                    <span class="facet-line">for blind and partially sighted people.</span>
+                    <span class="facet-line">for computing and music lessons.</span>
+                  </div>
+                </div>
+                <div class="hero-launch">
+                  <a class="button medium launch" href="code.html">Launch Sonic Pi</a>
+                  <!-- the other way in, quieter than the ask: the app, marked with where it runs -->
+                  <div class="hero-alt">
+                    <a class="hero-app" href="#get-sonic-pi"><span class="hero-oses" aria-hidden="true">{{icon brand-windows}}{{icon brand-apple}}{{icon brand-ubuntu}}</span><span>or Get App<span class="sr-only"> for Windows, macOS and Linux</span></span></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <article class="container small" id="hear" data-icon="code-circle">
+          <header>
+            <h1>Code as Music</h1>
+            <p>Compose and perform using the incredible expressive power of algorithms and code</p>
+          </header>
+          <div class="hero-example"><div class="qs-grid" id="sp-hero-card">{{hero-example}}</div></div>
+        </article>
+      </div>
+    </div>
+    <div class="wrapper style2">
+      <article class="container small" id="synths-to-code" data-icon="piano">
+        <header>
+          <h1>Synths as Code</h1>
+          <p>In Sonic Pi synths are code, giving you incredible algorithmic precision and control over the sound.</p>
+        </header>
+        <!-- a live synth, the docs pane's (info.js mounts it): keys to play, dials to turn, the code they make -->
+        <div class="home-synth" data-synth="pluck">
+          <p class="home-synth-static">Every synth has its own page <a href="code.html#docs/synths/pluck">in the docs</a>, to play from its keys and shape with its dials.</p>
+        </div>
+      </article>
+    </div>
+    <div class="wrapper style1">
+      <article class="container small hero-after" id="learn-to-code" data-icon="blend-mode">
+        <header>
+          <h1>Learn Code and Music Together</h1>
+          <p>Rather than learning to code in a distant, abstract way, Sonic Pi lets you learn by making music.</p>
+          <p>Instead of sequencing, you write melodies. Instead of iteration, repeating rhythms. Instead of lists, bass lines and riffs.</p>
+          <p>Explore, experiment and have fun!</p>
+        </header>
+        <div class="hero-launch">
+          <a class="button medium" href="learn.html">Start learning</a>
+        </div>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article id="connectivity" class="container small" data-icon="plug-connected">
+        <header>
+          <h1>Compose and Connect</h1>
+          <p>Sonic Pi lets you use <strong>simple code</strong> to turn your computer into a fully networked live coding <strong>music studio</strong>.</p>
+        </header>
+
+        <div class="row">
+          <div class="u6">
+            <section>
+              {{svg media/images/home/sonic-pi-connectivity.svg}}
+            </section>
+          </div>
+          <div class="u6 centered-cell">
+            <section>
+              <table class="conn-table">
+                <thead><tr><th><span class="sr-only">Feature</span></th><th>{{icon device-desktop}}App</th><th>{{icon browser}}Web</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><strong>Gamepad</strong> input</th><td>{{yes}}</td><td>{{yes}}</td></tr>
+                  <tr><th scope="row">Live <strong>audio</strong> in and out</th><td>{{partly "multichannel"}}</td><td>{{partly "stereo"}}</td></tr>
+                  <tr><th scope="row">Well-timed <strong>MIDI</strong> in and out</th><td>{{yes}}</td><td>{{partly "not Safari"}}</td></tr>
+                  <tr><th scope="row"><strong>Low-latency</strong> audio through your interface (ASIO, Core Audio, PipeWire)</th><td>{{yes}}</td><td>{{no}}</td></tr>
+                  <tr><th scope="row">Well-timed <strong>OSC</strong> in and out</th><td>{{yes}}</td><td>{{no}}</td></tr>
+                  <tr><th scope="row">Ableton <strong>Link</strong> and <strong>Link Audio</strong></th><td>{{yes}}</td><td>{{no}}</td></tr>
+                </tbody>
+              </table>
+            </section>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="wrapper style3">
+      <article id="perf" class="container small" data-icon="video">
+        <header>
+          <h1>Live Coded Performances</h1>
+          <p>
+            Sonic Pi is a <strong>new kind of musical instrument</strong>.<br />
+            Watch how you can use it for live performances from ambient sets to
+            dance music in nightclubs....
+          </p>
+        </header>
+
+        <div>
+          <div class="row">
+            <div class="u6">
+              <section>
+                <div class="videoWrapper">{{youtube w2s1DK1w3WI "Array by DJ_Dave"}}</div>
+
+                <h2 class="sub">Array by DJ_Dave</h2>
+              </section>
+            </div>
+
+            <div class="u6">
+              <section>
+                <div class="videoWrapper">{{youtube zdc94RAX9UY "Sonic Pi Band - Sam Aaron and Ben Smith"}}</div>
+
+                <h2 class="sub">Sonic Pi Band - Sam Aaron &amp; Ben Smith</h2>
+              </section>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="u6">
+              <section>
+                <div class="videoWrapper">{{youtube eq_jNF34-qQ "alsoknownasrox at The Lot Radio"}}</div>
+                <h2 class="sub">alsoknownasrox @ The Lot Radio</h2>
+              </section>
+            </div>
+
+            <div class="u6">
+              <section>
+                <div class="videoWrapper">{{youtube cydH_JAgSfg "Daft Punk - Aerodynamic coded by Sébastien Rannou"}}</div>
+
+                <h2 class="sub">Daft Punk - Aerodynamic<br />coded by Sébastien Rannou</h2>
+              </section>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="wrapper style1">
+      <!-- highlights from Sonic Pi's news: undated, so they read as a story rather than as old news -->
+      <article id="story" class="container small" data-icon="prism-light">
+        <header>
+          <h1>The Sonic Pi Story</h1>
+          <p>Initially a Computer Lab research project at Cambridge University in collaboration with Raspberry Pi.</p>
+          <p>Now independent, open source and community supported, Sonic Pi has been seen from school assemblies to the Royal Albert Hall, and all the way up to the International Space Station.</p>
+        </header>
+        <ul class="highlights">
+          <li><a href="https://vimeo.com/328673793#t=3534s" target="_blank" rel="noopener">
+            <img src="site/media/images/home/highlights/convo.jpg" alt="" width="480" height="354" loading="lazy">
+            <strong>Convo at the Royal Albert Hall</strong>
+            <span>1,000 young musicians playing traditional instruments, accompanied by a Sonic Pi quartet.</span>
+          </a></li>
+          <li><a href="https://www.youtube.com/watch?v=UqzDW-OdFJI" target="_blank" rel="noopener">
+            <img src="site/media/images/home/highlights/codebus-africa.jpg" alt="" width="480" height="354" loading="lazy">
+            <strong>Codebus Africa</strong>
+            <span>Creative coding workshops for nearly 2,000 children across 10 African countries.</span>
+          </a></li>
+          <li><a href="https://www.rollingstone.com/music/music-live-reviews/moogfest-2016-was-it-actually-the-future-of-music-58300/" target="_blank" rel="noopener">
+            <img src="site/media/images/home/highlights/rolling-stone.jpg" alt="" width="480" height="354" loading="lazy">
+            <strong>Rolling Stone at Moogfest</strong>
+            <span>Sam Aaron's live coded set at Moogfest 2016 “transcended the present”.</span>
+          </a></li>
+          <li><a href="https://www.bbc.co.uk/newsround/av/30151730" target="_blank" rel="noopener">
+            <img src="site/media/images/home/highlights/newsround.jpg" alt="" width="480" height="354" loading="lazy">
+            <strong>BBC Newsround</strong>
+            <span>Sonic Pi on the BBC's news programme for children.</span>
+          </a></li>
+          <li><a href="https://www.musicmark.org.uk/news/full-list-of-winners-at-the-music-teacher-awards-for-excellence/" target="_blank" rel="noopener">
+            <img src="site/media/images/home/highlights/music-teacher-awards.jpg" alt="" width="480" height="354" loading="lazy">
+            <strong>Music Teacher Awards</strong>
+            <span>A finalist for the Awards for Excellence, alongside Boss and Korg.</span>
+          </a></li>
+          <li><a href="https://web.archive.org/web/20200817011601/https://astro-pi.org/principia/sonic-pi-winners/" target="_blank" rel="noopener">
+            <img src="site/media/images/home/highlights/space.jpg" alt="" width="480" height="354" loading="lazy">
+            <strong>Music in Space</strong>
+            <span>Students' Sonic Pi compositions played aboard the International Space Station by astronaut Tim Peake.</span>
+          </a></li>
+        </ul>
+        <p class="highlights-more">Sonic Pi has also won a <strong>Google Open Source</strong> award.</p>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article id="get-sonic-pi" class="container small" data-icon="download" data-group="Get Sonic Pi">
+        <header>
+          <h1>Get Sonic Pi</h1>
+          <p>Launch Sonic Pi right now in your browser or download the app to run offline.</p>
+        </header>
+        <!-- which one: what both do, and what each does that the other does not; what each connects to is Compose and
+             Connect's table -->
+        <section id="web-or-app">
+          <table class="conn-table">
+            <thead><tr><th><span class="sr-only">Feature</span></th><th>{{icon device-desktop}}App</th><th>{{icon browser}}Web</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><strong>Live loops</strong>, synths, samples and FX</th><td>{{yes}}</td><td>{{yes}}</td></tr>
+              <tr><th scope="row"><strong>Deterministic</strong> randomness: a program plays exactly the same every time</th><td>{{yes}}</td><td>{{yes}}</td></tr>
+              <tr><th scope="row">Nothing to <strong>install</strong></th><td>{{no}}</td><td>{{yes}}</td></tr>
+              <tr><th scope="row">Runs on a <strong>phone</strong> or tablet</th><td>{{no}}</td><td>{{yes}}</td></tr>
+              <tr><th scope="row">Works <strong>offline</strong></th><td>{{yes}}</td><td>{{no}}</td></tr>
+            </tbody>
+          </table>
+          <p class="conn-more">App and Web differ in <a href="#connectivity">IO functionality</a> (MIDI, OSC, Link) too.</p>
+        </section>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article id="web" class="container small dl" data-icon="browser">
+        <header>
+          {{icon browser class="dl-glyph dl-platform" label="Web"}}
+          <div><h1>Web</h1><p>Sonic Pi running in the browser on your computer, tablet or phone. Nothing to install.</p></div>
+        </header>
+        <div class="dl-rows">
+          <a class="dl-row main" href="code.html">
+            <span class="dl-chiptag">{{icon browser class="dl-glyph" label="A browser"}}</span>
+            <span class="dl-what"><strong>Sonic Pi in your browser</strong><span class="dl-meta">v{{version}} · Chrome, Safari, Edge or Firefox</span></span>
+            <span class="dl-go">Launch{{icon chevron-right class="dl-mark"}}</span>
+          </a>
+        </div>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article id="windows" class="container small dl" data-icon="brand-windows">
+        <header>
+          {{icon brand-windows class="dl-glyph dl-platform" label="Windows"}}
+          <div><h1>Windows</h1><p>Turn any PC into a full Sonic Pi workstation.</p></div>
+        </header>
+        <div class="dl-rows">
+          <a class="dl-row main" href="https://sonic-pi.net/files/releases/v{{version}}/Sonic-Pi-for-Win-x64-v{{version}}.msi" rel="noopener">
+            <span class="dl-chiptag">x64</span>
+            <span class="dl-what"><strong>Intel or AMD</strong><span class="dl-meta">v{{version}} · Windows 10 or 11 · most PCs</span></span>
+            <span class="dl-go">.msi{{icon download class="dl-mark"}}</span>
+          </a>
+          <a class="dl-row" href="https://sonic-pi.net/files/releases/v{{version}}/Sonic-Pi-for-Win-arm64-v{{version}}.msi" rel="noopener">
+            <span class="dl-chiptag">Arm64</span>
+            <span class="dl-what"><strong>Arm</strong><span class="dl-meta">v{{version}} · Windows 11 · Snapdragon and other Arm PCs</span></span>
+            <span class="dl-go">.msi{{icon download class="dl-mark"}}</span>
+          </a>
+        </div>
+        <p class="dl-hint">Which chip? Settings › System › About. Both are signed MSI installers.</p>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article id="mac" class="container small dl" data-icon="brand-apple">
+        <header>
+          {{icon brand-apple class="dl-glyph dl-platform" label="macOS"}}
+          <div><h1>macOS</h1><p>Use the full power of your Mac to take Sonic Pi to the next level.</p></div>
+        </header>
+        <div class="dl-rows">
+          <a class="dl-row main" href="https://sonic-pi.net/files/releases/v{{version}}/Sonic-Pi-for-Mac-arm64-v{{version}}.dmg" rel="noopener">
+            <span class="dl-chiptag">Apple</span>
+            <span class="dl-what"><strong>Apple silicon</strong><span class="dl-meta">v{{version}} · macOS 13 Ventura or later · M series Macs</span></span>
+            <span class="dl-go">.dmg{{icon download class="dl-mark"}}</span>
+          </a>
+          <a class="dl-row" href="https://sonic-pi.net/files/releases/v{{version}}/Sonic-Pi-for-Mac-x64-v{{version}}.dmg" rel="noopener">
+            <span class="dl-chiptag">x64</span>
+            <span class="dl-what"><strong>Intel</strong><span class="dl-meta">v{{version}} · macOS 13 Ventura or later · older Macs</span></span>
+            <span class="dl-go">.dmg{{icon download class="dl-mark"}}</span>
+          </a>
+        </div>
+        <p class="dl-hint">Which chip? Apple menu › About This Mac. On macOS 12 or earlier, <a href="https://github.com/sonic-pi-net/sonic-pi/releases" rel="noopener" target="_blank">an earlier release</a>.</p>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article id="rp" class="container small dl" data-icon="brand-ubuntu">
+        <header>
+          {{icon brand-ubuntu class="dl-glyph dl-platform" label="Linux"}}
+          <div><h1>Linux</h1><p>Live code everything from a Raspberry Pi to a powerful desktop.</p></div>
+        </header>
+        <div class="dl-rows">
+          <a class="dl-row main" href="https://sonic-pi.net/files/releases/v{{version}}/Sonic-Pi-for-Linux-x64-v{{version}}.AppImage" rel="noopener">
+            <span class="dl-chiptag">x64</span>
+            <span class="dl-what"><strong>Intel or AMD</strong><span class="dl-meta">v{{version}} · AppImage · most PCs</span></span>
+            <span class="dl-go">AppImage{{icon download class="dl-mark"}}</span>
+          </a>
+          <a class="dl-row" href="https://sonic-pi.net/files/releases/v{{version}}/Sonic-Pi-for-Linux-arm64-v{{version}}.AppImage" rel="noopener">
+            <span class="dl-chiptag">Arm64</span>
+            <span class="dl-what"><strong>Arm</strong><span class="dl-meta">v{{version}} · AppImage · Raspberry Pi and other Arm devices</span></span>
+            <span class="dl-go">AppImage{{icon download class="dl-mark"}}</span>
+          </a>
+          <a class="dl-row" href="https://sonic-pi.net/files/releases/v{{version}}/Sonic-Pi-for-Linux-x86-v{{version}}.AppImage" rel="noopener">
+            <span class="dl-chiptag">x86</span>
+            <span class="dl-what"><strong>32 bit</strong><span class="dl-meta">v{{version}} · AppImage · older 32 bit PCs</span></span>
+            <span class="dl-go">AppImage{{icon download class="dl-mark"}}</span>
+          </a>
+        </div>
+        <p class="dl-hint">No installing: make it executable and run it. <code>chmod +x Sonic-Pi-*.AppImage</code> then <code>./Sonic-Pi-*.AppImage</code></p>
+      </article>
+    </div>
+    <div class="wrapper style1 ic-open-source">
+      <article class="container small" id="open-source" data-icon="brand-github">
+        <header>
+          <h1>Free and open source</h1>
+          <p>Sonic Pi is free and open source software made by over 200 contributors all over the world, in development since 2012.</p>
+        </header>
+        {{stats}}
+        <div class="dl-rows os-repos">
+          <a class="dl-row" href="https://github.com/sonic-pi-net/sonic-pi" target="_blank" rel="noopener">
+            <span class="dl-chiptag"><img class="os-logo" src="data/icon-256.png" alt=""></span>
+            <span class="dl-what"><strong>Sonic Pi</strong><span class="dl-meta">Code. Music. Live.</span></span>
+            <span class="dl-go">GitHub{{icon external-link class="dl-mark"}}</span>
+          </a>
+          <a class="dl-row" href="https://github.com/samaaron/supersonic" target="_blank" rel="noopener">
+            <span class="dl-chiptag"><img class="os-logo" src="site/media/images/home/supersonic.png" alt=""></span>
+            <span class="dl-what"><strong>SuperSonic</strong><span class="dl-meta">A Clockwork scsynth</span></span>
+            <span class="dl-go">GitHub{{icon external-link class="dl-mark"}}</span>
+          </a>
+          <a class="dl-row" href="https://github.com/samaaron/clockwork" target="_blank" rel="noopener">
+            <span class="dl-chiptag">{{icon settings-cog}}</span>
+            <span class="dl-what"><strong>Clockwork</strong><span class="dl-meta">Clockwork-like infrastructure for hosting realtime DSP engines.</span></span>
+            <span class="dl-go">GitHub{{icon external-link class="dl-mark"}}</span>
+          </a>
+        </div>
+        <div class="os-ways">
+          <a href="https://github.com/sonic-pi-net/sonic-pi/issues" target="_blank" rel="noopener">{{icon bug}}<span>Report a bug</span></a>
+          <a href="https://github.com/sonic-pi-net/sonic-pi/blob/dev/TRANSLATION.md" target="_blank" rel="noopener">{{icon language}}<span>Help translate</span></a>
+          <a href="https://github.com/sonic-pi-net/sonic-pi/blob/dev/LICENSE.md" target="_blank" rel="noopener">{{icon license}}<span>License</span></a>
+          <a href="https://github.com/sonic-pi-net/sonic-pi/blob/dev/CONTRIBUTING.md" target="_blank" rel="noopener">{{icon git-pull-request}}<span>Contribute</span></a>
+        </div>
+      </article>
+    </div>

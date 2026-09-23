@@ -501,10 +501,9 @@ module SonicPi
       __enqueue_multi_message(2, s)
     end
 
+    # the thread's own (use_sched_ahead_time, with_sched_ahead_time), else the session's (EventHistory#sched_ahead_time)
     def __current_sched_ahead_time
-      #TODO: insert thread id and delta correctly
-      __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) ||
-        @system_state.get(__get_spider_time, 0, __current_thread_id, 0, __get_spider_beat, __get_spider_bpm, :sched_ahead_time,).val
+      __system_thread_locals.get(:sonic_pi_spider_sched_ahead_time) || @system_state.sched_ahead_time_at(__get_spider_time)
     end
 
     # Editor line flash (pulse the source line of a sound as it plays). Queued
@@ -2058,7 +2057,7 @@ module SonicPi
         end
       end
 
-      @system_state.set 0, 0, ThreadId.new(-2), 0, 0, 60, :sched_ahead_time, default_sched_ahead_time
+      @system_state.sched_ahead_time = default_sched_ahead_time
 
       __info "Welcome to Sonic Pi #{version}", 1
 

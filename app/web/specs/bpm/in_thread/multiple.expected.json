@@ -1,0 +1,126 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 48.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 72.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.15,
+      "beat": 0.3,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.225,
+      "beat": 0.45,
+      "thread": "0.0.1",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 72.0,
+        "release": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.3,
+      "beat": 0.6,
+      "thread": "0.0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.5
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 48.0, release: 0.5}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "",
+      "text": "synth :beep, {note: 72.0, release: 0.5}"
+    },
+    {
+      "t": 0.15,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    },
+    {
+      "t": 0.225,
+      "thread": "0.0.1",
+      "name": "",
+      "text": "synth :beep, {note: 72.0, release: 0.5}"
+    },
+    {
+      "t": 0.3,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.5}"
+    }
+  ]
+}

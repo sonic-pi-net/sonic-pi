@@ -1,0 +1,132 @@
+/* The code card (ui/card.js): every rule the card needs, wherever it stands — the app's panes, a site page's
+   shadow root, the web tutorial's. Colours are the theme's tokens; two sizes are the host's to set:
+     --qs-code-size    the code's size (default 15px)
+     --qs-title-size   the bar's title (default 16px)
+   and a grid of cards is the host's (.qs-grid here is the common one). */
+
+.qs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: 2em; text-align: left; text-shadow: none; }
+.qs-wide { grid-column: 1 / -1; }
+
+/* a card off screen is not laid out or painted until it nears the view: a page of hundreds of cards opens at once */
+.qs-card { content-visibility: auto; contain-intrinsic-size: auto 260px; }
+.qs-card { display: flex; flex-direction: column; min-height: 0; min-width: 0; margin: 0; overflow: hidden; border: 2px solid transparent; border-radius: var(--r-m); background: var(--accentTint); text-align: left; text-shadow: none; transition: border-color 0.15s ease-in-out; }
+.qs-card:not(.qs-still):hover, .qs-card:not(.qs-still):focus-within, .qs-card.playing { border-color: var(--Foreground); }   /* a card that plays lights up under the pointer; one that only reads does not */
+.qs-card.booting .qs-scope > canvas { opacity: 0.6; }   /* a previous run's rings, quiet while the next one starts */
+
+/* the bar: the title, then the actions as bare glyphs */
+.qs-card-head { display: flex; align-items: center; gap: 4px; margin: 0; padding: 0 8px 0 14px; background: var(--HighlightedBackground); color: var(--accentContrastText); }
+.qs-card-title { flex: 1; min-width: 0; margin: 0; padding: 0.55em 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 700 var(--qs-title-size, var(--t-body))/1.3 var(--prose-font); color: inherit; text-align: left; text-shadow: none; }
+.qs-card-action { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 32px; height: 32px; padding: 0; border: none; border-radius: var(--r-s); background: none; color: inherit; cursor: pointer; }
+.qs-card-action svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.qs-card-action:hover, .qs-card-action.done, .qs-card-action:focus-visible { background: color-mix(in srgb, var(--accentContrastText) 18%, transparent); outline: none; }
+.qs-card-drag { cursor: grab; }
+.qs-card-reset { display: none; }
+.qs-card.edited .qs-card-reset { display: inline-flex; }
+
+/* the body: the still block, or the editor that takes its place — one tree of elements either way (highlight.js
+   renderLines draws the block as CodeMirror draws the editor), laid out by these rules alone. CodeMirror's own
+   theme lands after this with two-class selectors, so these carry three or four and say everything that sizes. */
+.qs-card-body { position: relative; flex: 1 1 auto; min-height: 0; padding: 6px 8px; overflow: auto; font-size: var(--qs-code-size, var(--t-ui)); }   /* the code's one scroll container, both ways: a thin bar along the bottom for a long line, down the side only when the card cannot grow */
+.qs-card .qs-card-body .cm-editor { position: relative; display: flex; flex-direction: column; box-sizing: border-box; margin: 0; padding: 0; border: none; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; font-family: var(--code-font); font-size: inherit; line-height: 1.5; color: var(--Foreground); }
+.qs-card .qs-card-body .cm-editor.cm-focused, .qs-card .qs-card-body .cm-content:focus, .qs-card .qs-card-body .cm-content:focus-visible { outline: none; }
+.qs-card .qs-card-body .cm-editor .cm-scroller { display: flex; align-items: flex-start; position: relative; height: auto; margin: 0; padding: 0; font-family: var(--code-font); font-size: inherit; line-height: 1.5; overflow: visible; }   /* no scroll container of its own: the body scrolls the code both ways, so no bar can ever stand inside the code and size the block and the editor apart (as a browser with bars that take room would) */
+.qs-card .qs-card-body .cm-editor .cm-content { display: block; flex-grow: 2; flex-shrink: 0; box-sizing: border-box; margin: 0; padding: 6px 8px; min-height: 3em; white-space: pre; word-wrap: normal; outline: none; caret-color: var(--HighlightedBackground); }
+.qs-card .qs-card-body .cm-editor .cm-line { display: block; margin: 0; padding: 0; }
+.qs-card .qs-card-body .cm-editor.qs-static { cursor: default; }
+.qs-card .qs-card-body .cm-editor.qs-static .cm-content { user-select: text; }
+.qs-card .qs-card-body .cm-editor .cm-content ::selection { background: color-mix(in srgb, var(--HighlightedBackground) 28%, transparent); }
+/* editing: the pencil lit in the bar's contrast — the code is yours to change */
+.qs-card-action.on { background: var(--accentContrastText); color: var(--HighlightedBackground); }
+.qs-card-action.on:hover, .qs-card-action.on:focus-visible { background: var(--accentContrastText); color: var(--HighlightedBackground); opacity: 0.85; }
+/* the highlighter's classes (highlight.js), in the theme's colours: as the editor paints them */
+.qs-card-body .sp-keyword { color: var(--KeywordForeground); }
+.qs-card-body .sp-symbol { color: var(--SymbolForeground); }
+.qs-card-body .sp-number { color: var(--NumberForeground); }
+.qs-card-body .sp-string { color: var(--DoubleQuotedStringForeground); }
+.qs-card-body .sp-regex { color: var(--RegexForeground); }
+.qs-card-body .sp-comment { color: var(--CommentForeground); font-style: italic; }
+.qs-card-body .sp-def { color: var(--FunctionMethodNameForeground); }
+.qs-card-body .sp-ivar { color: var(--InstanceVariableForeground); }
+.qs-card-body .sp-const { color: var(--ClassNameForeground); }
+/* the line a sound came from: the editor's flash (editor.js flashField), or a wash over the block */
+@keyframes sp-flash-a { from { background-color: var(--flashWash); } to { background-color: transparent; } }
+@keyframes sp-flash-b { from { background-color: var(--flashWash); } to { background-color: transparent; } }
+.qs-card-body .cm-line.sp-flash-a { animation: sp-flash-a 0.45s ease-out; }
+.qs-card-body .cm-line.sp-flash-b { animation: sp-flash-b 0.45s ease-out; }
+.qs-line-flash { position: absolute; left: 0; right: 0; pointer-events: none; animation: sp-flash-a 0.45s ease-out; }
+
+/* the footer: the blurb and the way out, the error strip, the scope that plays */
+.qs-card-foot { position: relative; isolation: isolate; display: flex; align-items: center; gap: 12px; margin: 0; padding: 8px 14px; background: var(--accentTintStrong); }   /* isolated: the strip goes behind what is in it, not behind the card */
+.qs-foot-main { display: flex; flex-direction: column; flex: 1; align-self: stretch; min-width: 0; min-height: 0; }
+.qs-blurb { flex: none; min-width: 0; margin: 0; padding: 0; font: italic var(--t-body)/1.35 var(--prose-font); color: var(--softForeground); text-shadow: none; }
+.qs-out { flex: none; margin: 3px 0 0; font: var(--t-tiny)/1.35 var(--code-font); color: var(--softForeground); white-space: pre-wrap; overflow-wrap: anywhere; }   /* what the program puts (card.js), the last lines */
+.qs-out:empty { display: none; }
+.qs-out-line:last-child { color: var(--Foreground); }
+.qs-strip { position: absolute; inset: 0; z-index: -1; display: block; width: 100%; height: 100%; margin: 0; opacity: 0.55; pointer-events: none; }   /* the card's sounds scrolling by (ui/strip.js), behind the whole foot: the words and the transport over them, the foot as low as it likes */
+.qs-state { display: none; }
+.qs-card.errored .qs-state { display: block; margin-top: 8px; padding: 6px 12px; border-left: 4px solid var(--HighlightedBackground); background: var(--accentTintStrong); color: var(--Foreground); font: var(--t-small)/1.45 var(--code-font); font-style: normal; white-space: pre-wrap; }
+/* The transport: two scopes side by side, as native's quickstart card has one — the transport disc in the middle,
+   a ring round it on the canvas (card.js cardRings: the left channel round Play, the right round Stop), the whole
+   square the hit box. The disc is placed, not centred by a layout a button may not honour. */
+.qs-transport { display: flex; align-items: center; flex: none; gap: 0; --qs-scope: 66px; }   /* a low foot, the words beside it with the room; the disc still a thumb's size */
+.qs-scope { position: relative; flex: none; width: var(--qs-scope); height: var(--qs-scope); }
+/* the ring at rest, in CSS: the canvas's own proportions (card.js RING: radius 0.42, stroke 0.028), faint, lit
+   under the pointer or the keyboard; the canvas takes over once the card has played */
+.qs-scope::before { content: ""; position: absolute; inset: 6.6%; border-radius: 50%; border: calc(var(--qs-scope) * 0.028) solid color-mix(in srgb, var(--Foreground) 22%, transparent); pointer-events: none; }
+.qs-scope:has(> canvas)::before { display: none; }
+@media (hover: hover) { .qs-scope:hover::before { border-color: var(--HighlightedBackground); } }
+.qs-scope:focus-within::before { border-color: var(--HighlightedBackground); }
+/* busy (waiting on the engine: starting, or loading what the program names): an arc going round the play button, on
+   the ring it sits in, until the run starts */
+.qs-transport.busy .qs-scope-play::after { content: ""; position: absolute; inset: 6.6%; border-radius: 50%; border: calc(var(--qs-scope) * 0.028) solid transparent; border-top-color: var(--HighlightedBackground); border-right-color: var(--HighlightedBackground); opacity: 0; animation: qs-busy 0.8s linear infinite, qs-busy-show 0.2s ease-out 0.15s forwards; pointer-events: none; }
+@keyframes qs-busy { to { transform: rotate(1turn); } }
+.qs-transport.busy .qs-scope-play::before { display: block; border-color: color-mix(in srgb, var(--HighlightedBackground) 22%, transparent); }   /* the ring it goes round stays faint (focus would light it all, and hide the arc) */
+@keyframes qs-busy-show { to { opacity: 1; } }   /* only a wait worth showing: a start that is quick (a key on the piano) shows nothing */
+@media (prefers-reduced-motion: reduce) { .qs-transport.busy .qs-scope-play::after { animation: none; opacity: 1; border-color: color-mix(in srgb, var(--HighlightedBackground) 60%, transparent); } }   /* still: the whole ring, lit */
+.qs-rings { position: absolute; inset: 0; width: 100%; height: 100%; }
+.qs-run { position: absolute; inset: 0; display: block; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
+.qs-run svg { position: absolute; left: 24%; top: 24%; width: 52%; height: 52%; display: block; }   /* native: the disc is 0.52 of the scope's side */
+.qs-disc { fill: var(--HighlightedBackground); stroke: var(--HighlightedBackground); stroke-width: 2; transition: fill 0.15s, stroke 0.15s; }
+.qs-glyph { fill: var(--accentContrastText); stroke: var(--accentContrastText); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.qs-run:enabled:hover .qs-disc, .qs-run:focus-visible .qs-disc { fill: var(--Foreground); stroke: var(--Foreground); }
+.qs-run:enabled:hover .qs-glyph, .qs-run:focus-visible .qs-glyph { fill: var(--Background); stroke: var(--Background); }
+.qs-run:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: -2px; }
+.qs-stop:disabled { cursor: default; }
+.qs-stop:disabled .qs-disc { fill: var(--mutedForeground); stroke: var(--mutedForeground); opacity: 0.35; }
+.qs-stop:disabled .qs-glyph { opacity: 0.7; }
+
+@media (max-width: 760px) { .qs-transport { --qs-scope: 60px; } .qs-card-action { width: 36px; height: 36px; } }
+
+/* A flip (ui/flip.js): at a phone's width the cards one at a time, down a column that snaps each to the screen as
+   the rest of a page scrolls — down for the next, the next one's top showing at the foot to say there is more; the
+   page bar (pagebar.css) over it the way through — at every width. */
+.flip { position: relative; }
+.qs-levels.flip { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0 16px; overflow-x: hidden; overflow-y: auto; scroll-padding-top: 0; overscroll-behavior-y: contain; scrollbar-width: none; outline: none; }
+.qs-levels.flip::-webkit-scrollbar { display: none; }
+@media (pointer: coarse) { .qs-levels.flip { scroll-snap-type: y mandatory; } }   /* a finger's swipe snaps; a wheel, a trackpad or a pick from the list is stepped by flip.js, which a snap would fight */
+.flip > .qs-level { display: none; }   /* the level is the bar's to name */
+.flip > .qs-grid { display: contents; }
+/* a card the column's height less a sliver: the next one's head shows under it */
+.flip .qs-card { flex: 0 0 auto; height: calc(100% - 28px); scroll-snap-align: start; scroll-snap-stop: always; content-visibility: visible; transition: opacity 0.35s ease; }
+.flip .qs-card:last-child, .flip > .qs-grid:last-child > .qs-card:last-child { margin-bottom: 28px; }   /* the last one snaps to the top too */
+.flip .qs-card:not(.flip-front) { cursor: pointer; }
+.flip .qs-card:not(.flip-front) > :not(.qs-card-head) { opacity: 0.45; }   /* the next card peeking: its body dimmed, its name (a way to it) as legible as any card's */
+[data-scheme="high_contrast"] .flip .qs-card:not(.flip-front) > * { opacity: 1; }   /* High Contrast dims nothing: every word at its full ratio */
+.qs-levels.flip .qs-card { scroll-margin-top: 0; }   /* a card rests flush with the column's top: a page's room above an anchor (site.css .ic-main [id]) would move every snap down by it */
+.flip .qs-card .qs-card-body { flex: 1 1 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior-y: auto; }   /* a long program scrolls through its code, then on to the next card */
+.flip .qs-card .qs-card-body .cm-editor .cm-content { flex-shrink: 1; min-width: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.flip .qs-card .qs-card-body .cm-editor .cm-line { padding-left: 2ch; text-indent: -2ch; }   /* a wrapped line hangs under its start, so it reads as the same line */
+.flip-bar.pb { display: flex; position: relative; z-index: 5; margin: 0 0 10px; border-bottom: 1px solid var(--WindowBorder); background: var(--raisedSurface); }   /* the page bar over the cards, under the tabs */
+@media (prefers-reduced-motion: reduce) { .flip .qs-card { transition: none; } }
+@container (min-width: 821px) { .flip-bar .pb-jump { display: none; } }   /* a wide screen's list is open beside the cards: nothing to drop */
+body.reduce-motion .qs-transport.busy .qs-scope-play::after { opacity: 1 !important; border-color: color-mix(in srgb, var(--HighlightedBackground) 60%, transparent); }   /* the app's Reduce animations: the ring still, lit */
+/* a live loop's scope on its line (ui/card.js cardLoopScopes), as the editor has it, sized to the card's code */
+.qs-card-body .sp-loop-scope { width: 120px; height: 1.25em; margin-left: 10px; }
+/* a long line's scrollbar: thin, and only while the pointer is over the code (the app's own bars are square and solid,
+   a card's would lie across it like a rule) */
+.qs-card-body { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+.qs-card-body:hover { scrollbar-color: var(--ScrollBar) transparent; }
+.qs-card-body::-webkit-scrollbar { width: 6px; height: 6px; background: transparent; }
+.qs-card-body::-webkit-scrollbar-thumb { background: transparent; border: none; }
+.qs-card-body:hover::-webkit-scrollbar-thumb { background: var(--ScrollBar); }
+.qs-card-body::-webkit-scrollbar-track, .qs-card-body::-webkit-scrollbar-corner { background: transparent; }

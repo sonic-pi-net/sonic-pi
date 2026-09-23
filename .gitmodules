@@ -1,3 +1,7 @@
 [submodule "app/external/supersonic"]
 	path = app/external/supersonic
 	url = https://github.com/samaaron/supersonic
+[submodule "app/web/runtime/mruby"]
+	path = app/web/runtime/mruby
+	url = https://github.com/mruby/mruby
+	branch = master

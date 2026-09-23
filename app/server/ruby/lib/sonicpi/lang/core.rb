@@ -4498,11 +4498,7 @@ puts beat    #=> 109255.703125"]
 "]
 
       def set_sched_ahead_time!(sat = default_sched_ahead_time)
-        t = __get_spider_time
-        b = __get_spider_beat
-        i = __current_thread_id
-        m = current_bpm_mode
-        @system_state.set(t, 0, i, 0, b, m, :sched_ahead_time, sat)
+        @system_state.sched_ahead_time = sat
         __info "Schedule ahead time set to #{sat}"
       end
       doc name:          :set_sched_ahead_time!,

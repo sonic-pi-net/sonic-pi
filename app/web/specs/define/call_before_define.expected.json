@@ -1,0 +1,25 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "NoMethodError",
+      "message": "undefined method 'later'",
+      "line": 7,
+      "thread": "0.0",
+      "name": ""
+    }
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "\"NameError\""
+    }
+  ],
+  "log": [
+
+  ]
+}

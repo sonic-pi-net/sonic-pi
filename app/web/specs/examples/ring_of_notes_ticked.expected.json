@@ -1,0 +1,415 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 10,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 60.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_drone",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 11,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_drone",
+      "synth": "sonic-pi-organ_tonewheel",
+      "args": {
+        "note": 48.0,
+        "attack": 1.2,
+        "sustain": 1.2,
+        "release": 1.2,
+        "amp": 0.2
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.15,
+      "beat": 0.25,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 64.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.3,
+      "beat": 0.5,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 67.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.45,
+      "beat": 0.75,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 71.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.6,
+      "beat": 1.0,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 72.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.75,
+      "beat": 1.25,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 71.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.9,
+      "beat": 1.5,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 67.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.05,
+      "beat": 1.75,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 64.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.2,
+      "beat": 2.0,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 60.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.35,
+      "beat": 2.25,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 64.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.5,
+      "beat": 2.5,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 67.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.65,
+      "beat": 2.75,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 71.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.8,
+      "beat": 3.0,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 72.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.95,
+      "beat": 3.25,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "synth": "sonic-pi-pluck",
+      "args": {
+        "note": 71.0,
+        "amp": 0.5,
+        "release": 0.18
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 60.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_drone",
+      "text": "synth :organ_tonewheel, {note: 48.0, attack: 1.2, sustain: 1.2, release: 1.2, amp: 0.2}"
+    },
+    {
+      "t": 0.15,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 64.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 0.3,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 67.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 0.45,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 71.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 0.6,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 72.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 0.75,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 71.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 0.9,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 67.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 1.05,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 64.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 1.2,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 60.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 1.35,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 64.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 1.5,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 67.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 1.65,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 71.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 1.8,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 72.0, amp: 0.5, release: 0.18}"
+    },
+    {
+      "t": 1.95,
+      "thread": "0.0.0",
+      "name": "live_loop_arp",
+      "text": "synth :pluck, {note: 71.0, amp: 0.5, release: 0.18}"
+    }
+  ]
+}

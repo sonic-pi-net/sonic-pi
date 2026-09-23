@@ -1,0 +1,1215 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 10,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0.0",
+      "name": "",
+      "path": "loop_amen.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0.0",
+      "name": "",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "amp": 0.8,
+        "start": 0.0,
+        "finish": 0.1209243775947026,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 11,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "sample_load",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1.0",
+      "name": "",
+      "path": "bd_haus.flac"
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.1.0",
+      "name": "",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "lpf": 70,
+        "buf": "bd_haus.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.057692,
+      "beat": 0.125,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "amp": 0.8,
+        "start": 0.1209243775947026,
+        "finish": 0.2489364894401262,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.115385,
+      "beat": 0.25,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 2,
+        "amp": 0.8,
+        "start": 0.24893648944012622,
+        "finish": 0.37937943120239004,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.173077,
+      "beat": 0.375,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 3,
+        "amp": 0.8,
+        "start": 0.37937943120239004,
+        "finish": 0.5063438108663881,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.230769,
+      "beat": 0.5,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 4,
+        "amp": 0.8,
+        "start": 0.5063438108663881,
+        "finish": 0.6248886900065959,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.230769,
+      "beat": 0.5,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "lpf": 70,
+        "buf": "bd_haus.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.288462,
+      "beat": 0.625,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 5,
+        "amp": 0.8,
+        "start": 0.6248886900065959,
+        "finish": 0.7459813207278746,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.346154,
+      "beat": 0.75,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 6,
+        "amp": 0.8,
+        "start": 0.7459813207278746,
+        "finish": 0.8765793975763375,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.403846,
+      "beat": 0.875,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 7,
+        "amp": 0.8,
+        "start": 0.8765793975763375,
+        "finish": 1.0,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "amp": 0.8,
+        "start": 0.0,
+        "finish": 0.1209243775947026,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.461538,
+      "beat": 1.0,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "lpf": 70,
+        "buf": "bd_haus.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.519231,
+      "beat": 1.125,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "amp": 0.8,
+        "start": 0.1209243775947026,
+        "finish": 0.2489364894401262,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.576923,
+      "beat": 1.25,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 2,
+        "amp": 0.8,
+        "start": 0.24893648944012622,
+        "finish": 0.37937943120239004,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.634615,
+      "beat": 1.375,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 3,
+        "amp": 0.8,
+        "start": 0.37937943120239004,
+        "finish": 0.5063438108663881,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.692308,
+      "beat": 1.5,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 4,
+        "amp": 0.8,
+        "start": 0.5063438108663881,
+        "finish": 0.6248886900065959,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.692308,
+      "beat": 1.5,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "lpf": 70,
+        "buf": "bd_haus.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.75,
+      "beat": 1.625,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 5,
+        "amp": 0.8,
+        "start": 0.6248886900065959,
+        "finish": 0.7459813207278746,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.807692,
+      "beat": 1.75,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 6,
+        "amp": 0.8,
+        "start": 0.7459813207278746,
+        "finish": 0.8765793975763375,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.865385,
+      "beat": 1.875,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 7,
+        "amp": 0.8,
+        "start": 0.8765793975763375,
+        "finish": 1.0,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.923077,
+      "beat": 2.0,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "amp": 0.8,
+        "start": 0.0,
+        "finish": 0.1209243775947026,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.923077,
+      "beat": 2.0,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "lpf": 70,
+        "buf": "bd_haus.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.980769,
+      "beat": 2.125,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "amp": 0.8,
+        "start": 0.1209243775947026,
+        "finish": 0.2489364894401262,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.038462,
+      "beat": 2.25,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 2,
+        "amp": 0.8,
+        "start": 0.24893648944012622,
+        "finish": 0.37937943120239004,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.096154,
+      "beat": 2.375,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 3,
+        "amp": 0.8,
+        "start": 0.37937943120239004,
+        "finish": 0.5063438108663881,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.153846,
+      "beat": 2.5,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 4,
+        "amp": 0.8,
+        "start": 0.5063438108663881,
+        "finish": 0.6248886900065959,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.153846,
+      "beat": 2.5,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "lpf": 70,
+        "buf": "bd_haus.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.211538,
+      "beat": 2.625,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 5,
+        "amp": 0.8,
+        "start": 0.6248886900065959,
+        "finish": 0.7459813207278746,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.269231,
+      "beat": 2.75,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 6,
+        "amp": 0.8,
+        "start": 0.7459813207278746,
+        "finish": 0.8765793975763375,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.326923,
+      "beat": 2.875,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 7,
+        "amp": 0.8,
+        "start": 0.8765793975763375,
+        "finish": 1.0,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.384615,
+      "beat": 3.0,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "amp": 0.8,
+        "start": 0.0,
+        "finish": 0.1209243775947026,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.384615,
+      "beat": 3.0,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "lpf": 70,
+        "buf": "bd_haus.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.442308,
+      "beat": 3.125,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "amp": 0.8,
+        "start": 0.1209243775947026,
+        "finish": 0.2489364894401262,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.5,
+      "beat": 3.25,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 2,
+        "amp": 0.8,
+        "start": 0.24893648944012622,
+        "finish": 0.37937943120239004,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.557692,
+      "beat": 3.375,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 3,
+        "amp": 0.8,
+        "start": 0.37937943120239004,
+        "finish": 0.5063438108663881,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.615385,
+      "beat": 3.5,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 4,
+        "amp": 0.8,
+        "start": 0.5063438108663881,
+        "finish": 0.6248886900065959,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.615385,
+      "beat": 3.5,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "lpf": 70,
+        "buf": "bd_haus.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.673077,
+      "beat": 3.625,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 5,
+        "amp": 0.8,
+        "start": 0.6248886900065959,
+        "finish": 0.7459813207278746,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.730769,
+      "beat": 3.75,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 6,
+        "amp": 0.8,
+        "start": 0.7459813207278746,
+        "finish": 0.8765793975763375,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.788462,
+      "beat": 3.875,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 7,
+        "amp": 0.8,
+        "start": 0.8765793975763375,
+        "finish": 1.0,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 0,
+        "amp": 0.8,
+        "start": 0.0,
+        "finish": 0.1209243775947026,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.846154,
+      "beat": 4.0,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "synth": "sonic-pi-basic_stereo_player",
+      "args": {
+        "lpf": 70,
+        "buf": "bd_haus.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.1",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.903846,
+      "beat": 4.125,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 1,
+        "amp": 0.8,
+        "start": 0.1209243775947026,
+        "finish": 0.2489364894401262,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 1.961538,
+      "beat": 4.25,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "synth": "sonic-pi-stereo_player",
+      "args": {
+        "onset": 2,
+        "amp": 0.8,
+        "start": 0.24893648944012622,
+        "finish": 0.37937943120239004,
+        "buf": "loop_amen.flac"
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 0, amp: 0.8, start: 0.0, finish: 0.1209}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0.1.0",
+      "name": "",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {lpf: 70}"
+    },
+    {
+      "t": 0.0577,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 1, amp: 0.8, start: 0.1209, finish: 0.2489}"
+    },
+    {
+      "t": 0.1154,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 2, amp: 0.8, start: 0.2489, finish: 0.3794}"
+    },
+    {
+      "t": 0.1731,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 3, amp: 0.8, start: 0.3794, finish: 0.5063}"
+    },
+    {
+      "t": 0.2308,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 4, amp: 0.8, start: 0.5063, finish: 0.6249}"
+    },
+    {
+      "t": 0.2308,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {lpf: 70}"
+    },
+    {
+      "t": 0.2885,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 5, amp: 0.8, start: 0.6249, finish: 0.746}"
+    },
+    {
+      "t": 0.3462,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 6, amp: 0.8, start: 0.746, finish: 0.8766}"
+    },
+    {
+      "t": 0.4038,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 7, amp: 0.8, start: 0.8766, finish: 1.0}"
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 0, amp: 0.8, start: 0.0, finish: 0.1209}"
+    },
+    {
+      "t": 0.4615,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {lpf: 70}"
+    },
+    {
+      "t": 0.5192,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 1, amp: 0.8, start: 0.1209, finish: 0.2489}"
+    },
+    {
+      "t": 0.5769,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 2, amp: 0.8, start: 0.2489, finish: 0.3794}"
+    },
+    {
+      "t": 0.6346,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 3, amp: 0.8, start: 0.3794, finish: 0.5063}"
+    },
+    {
+      "t": 0.6923,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 4, amp: 0.8, start: 0.5063, finish: 0.6249}"
+    },
+    {
+      "t": 0.6923,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {lpf: 70}"
+    },
+    {
+      "t": 0.75,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 5, amp: 0.8, start: 0.6249, finish: 0.746}"
+    },
+    {
+      "t": 0.8077,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 6, amp: 0.8, start: 0.746, finish: 0.8766}"
+    },
+    {
+      "t": 0.8654,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 7, amp: 0.8, start: 0.8766, finish: 1.0}"
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 0, amp: 0.8, start: 0.0, finish: 0.1209}"
+    },
+    {
+      "t": 0.9231,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {lpf: 70}"
+    },
+    {
+      "t": 0.9808,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 1, amp: 0.8, start: 0.1209, finish: 0.2489}"
+    },
+    {
+      "t": 1.0385,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 2, amp: 0.8, start: 0.2489, finish: 0.3794}"
+    },
+    {
+      "t": 1.0962,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 3, amp: 0.8, start: 0.3794, finish: 0.5063}"
+    },
+    {
+      "t": 1.1538,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 4, amp: 0.8, start: 0.5063, finish: 0.6249}"
+    },
+    {
+      "t": 1.1538,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {lpf: 70}"
+    },
+    {
+      "t": 1.2115,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 5, amp: 0.8, start: 0.6249, finish: 0.746}"
+    },
+    {
+      "t": 1.2692,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 6, amp: 0.8, start: 0.746, finish: 0.8766}"
+    },
+    {
+      "t": 1.3269,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 7, amp: 0.8, start: 0.8766, finish: 1.0}"
+    },
+    {
+      "t": 1.3846,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 0, amp: 0.8, start: 0.0, finish: 0.1209}"
+    },
+    {
+      "t": 1.3846,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {lpf: 70}"
+    },
+    {
+      "t": 1.4423,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 1, amp: 0.8, start: 0.1209, finish: 0.2489}"
+    },
+    {
+      "t": 1.5,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 2, amp: 0.8, start: 0.2489, finish: 0.3794}"
+    },
+    {
+      "t": 1.5577,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 3, amp: 0.8, start: 0.3794, finish: 0.5063}"
+    },
+    {
+      "t": 1.6154,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 4, amp: 0.8, start: 0.5063, finish: 0.6249}"
+    },
+    {
+      "t": 1.6154,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {lpf: 70}"
+    },
+    {
+      "t": 1.6731,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 5, amp: 0.8, start: 0.6249, finish: 0.746}"
+    },
+    {
+      "t": 1.7308,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 6, amp: 0.8, start: 0.746, finish: 0.8766}"
+    },
+    {
+      "t": 1.7885,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 7, amp: 0.8, start: 0.8766, finish: 1.0}"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 0, amp: 0.8, start: 0.0, finish: 0.1209}"
+    },
+    {
+      "t": 1.8462,
+      "thread": "0.0.1",
+      "name": "live_loop_kick",
+      "text": "sample \"<samples>\",\n           \"bd_haus.flac\", {lpf: 70}"
+    },
+    {
+      "t": 1.9038,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 1, amp: 0.8, start: 0.1209, finish: 0.2489}"
+    },
+    {
+      "t": 1.9615,
+      "thread": "0.0.0",
+      "name": "live_loop_amen",
+      "text": "sample \"<samples>\",\n           \"loop_amen.flac\", {onset: 2, amp: 0.8, start: 0.2489, finish: 0.3794}"
+    }
+  ]
+}

@@ -647,6 +647,82 @@ module SonicPi
       def prefix
         "sonic-pi-"
       end
+
+      # How a GUI shows the synth at first (the "gui" of a synth's metadata, the same field a user's synth has in the
+      # .json beside its .scsyndef): its Basic line is the note, release, amp and pan every synth has, and these of
+      # its own opts, its most expressive, chosen by ear.
+      GUI_BASIC = {
+        bass_foundation: [:cutoff, :res],
+        bass_highend: [:cutoff, :drive],
+        beep: [],
+        blade: [:cutoff, :vibrato_depth],
+        bnoise: [:cutoff, :res],
+        chipbass: [:note_resolution],
+        chiplead: [:note_resolution],
+        chipnoise: [:freq_band],
+        cnoise: [:cutoff, :res],
+        dark_ambience: [:cutoff, :ring],
+        dpulse: [:pulse_width, :detune],
+        dsaw: [:cutoff, :detune],
+        dtri: [:cutoff, :detune],
+        dull_bell: [],
+        fm: [:divisor, :depth],
+        gabberkick: [:cutoff, :boost],
+        gnoise: [:cutoff, :res],
+        growl: [:cutoff, :res],
+        hollow: [:cutoff, :res],
+        hoover: [:cutoff, :res],
+        kalimba: [:clickiness],
+        mod_beep: [:mod_phase, :mod_range],
+        mod_dsaw: [:mod_phase, :detune],
+        mod_fm: [:depth, :mod_phase],
+        mod_pulse: [:mod_phase, :pulse_width],
+        mod_saw: [:mod_phase, :mod_range],
+        mod_sine: [:mod_phase, :mod_range],
+        mod_tri: [:mod_phase, :mod_range],
+        noise: [:cutoff, :res],
+        organ_tonewheel: [:bass, :rs_freq],
+        piano: [:vel, :hard],
+        pluck: [:coef, :noise_amp],
+        pnoise: [:cutoff, :res],
+        pretty_bell: [],
+        prophet: [:cutoff, :res],
+        pulse: [:cutoff, :pulse_width],
+        rhodey: [:mod_index, :lfo_rate],
+        rodeo: [:cutoff],
+        saw: [:cutoff],
+        sc808_bassdrum: [:decay_curve, :attenuation],
+        sc808_clap: [:rev, :hpf],
+        sc808_claves: [:click],
+        sc808_closed_hihat: [:hpf],
+        sc808_congahi: [:click, :detune1],
+        sc808_congalo: [:click, :detune1],
+        sc808_congamid: [:click, :detune1],
+        sc808_cowbell: [:detune],
+        sc808_cymbal: [:tone],
+        sc808_maracas: [:hpf],
+        sc808_open_hihat: [:hpf],
+        sc808_rimshot: [:click, :detune],
+        sc808_snare: [:click, :head_hpf],
+        sc808_tomhi: [:click, :detune1],
+        sc808_tomlo: [:click, :detune1],
+        sc808_tommid: [:click, :detune1],
+        sine: [],
+        sound_in: [],
+        sound_in_stereo: [],
+        square: [:cutoff],
+        subpulse: [:pulse_width, :sub_amp],
+        supersaw: [:cutoff, :res],
+        tb303: [:cutoff, :res],
+        tech_saws: [:cutoff, :res],
+        tri: [:cutoff, :pulse_width],
+        winwood_lead: [:cutoff, :lfo_rate],
+        zawa: [:phase, :range],
+      }.freeze
+
+      def gui_basic
+        GUI_BASIC.fetch(synth_name.to_sym, [])
+      end
     end
 
     class SonicPiSynth < SynthInfo

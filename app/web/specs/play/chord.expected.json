@@ -1,0 +1,115 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "amp": 0.3333333333333333,
+        "note": 52.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "amp": 0.3333333333333333,
+        "note": 55.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "amp": 0.3333333333333333,
+        "note": 59.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.5,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "amp": 0.125,
+        "note": 60.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.5,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "amp": 0.125,
+        "note": 64.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.5,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "amp": 0.125,
+        "note": 67.0
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.5,
+      "beat": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "amp": 0.125,
+        "note": 71.0
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: (ring 52.0, 55.0, 59.0)}"
+    },
+    {
+      "t": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: (ring 60.0, 64.0, 67.0, 71.0), amp: 0.5}"
+    }
+  ]
+}

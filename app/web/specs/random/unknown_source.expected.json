@@ -1,0 +1,20 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+    {
+      "class": "ArgumentError",
+      "message": "invalid noise type 'brown' - please use one of :white, :pink, :light_pink, :dark_pink or :perlin instead",
+      "line": 2,
+      "thread": "0.0",
+      "name": ""
+    }
+  ],
+  "output": [
+
+  ],
+  "log": [
+
+  ]
+}

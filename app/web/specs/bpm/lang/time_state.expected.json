@@ -1,0 +1,90 @@
+{
+  "events": [
+
+  ],
+  "errors": [
+
+  ],
+  "output": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "1"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "nil"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "7"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "1"
+    },
+    {
+      "t": 0.125,
+      "thread": "0.0",
+      "name": "",
+      "text": "1"
+    },
+    {
+      "t": 0.375,
+      "thread": "0.0",
+      "name": "",
+      "text": "2"
+    },
+    {
+      "t": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "text": "[1, 2]"
+    },
+    {
+      "t": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "text": "nil"
+    }
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "set :foo, 1"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "set :foo, 2"
+    },
+    {
+      "t": 0.375,
+      "thread": "0.0",
+      "name": "",
+      "text": "sync :baz"
+    },
+    {
+      "t": 0.5,
+      "thread": "0.0",
+      "name": "",
+      "text": "synced \"/{cue,set,live_loop}/baz\" "
+    },
+    {
+      "t": 0.5,
+      "thread": "0.0.0",
+      "name": "",
+      "text": "set :baz, [1, 2]"
+    }
+  ]
+}

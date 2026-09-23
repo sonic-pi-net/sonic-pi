@@ -1,0 +1,126 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "sustain": 0.25
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 62.0,
+        "sustain": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.75,
+      "beat": 0.75,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 64.0,
+        "sustain": 0.25
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 1.0,
+      "beat": 1.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 65.0,
+        "sustain": 0.5
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 1.75,
+      "beat": 1.75,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 67.0,
+        "sustain": 0.125
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 1.875,
+      "beat": 1.875,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 69.0,
+        "sustain": 0.125
+      },
+      "now": false
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, sustain: 0.25}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 62.0, sustain: 0.5}"
+    },
+    {
+      "t": 0.75,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 64.0, sustain: 0.25}"
+    },
+    {
+      "t": 1.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 65.0, sustain: 0.5}"
+    },
+    {
+      "t": 1.75,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 67.0, sustain: 0.125}"
+    },
+    {
+      "t": 1.875,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 69.0, sustain: 0.125}"
+    }
+  ]
+}

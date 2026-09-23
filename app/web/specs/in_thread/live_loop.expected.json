@@ -1,0 +1,106 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_beat",
+      "synth": "sonic-pi-fx_scope_out",
+      "args": {
+        "scope_num": 10,
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_beat",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 36.0
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.25,
+      "beat": 0.25,
+      "thread": "0.0.0",
+      "name": "live_loop_beat",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 36.0
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.5,
+      "beat": 0.5,
+      "thread": "0.0.0",
+      "name": "live_loop_beat",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 36.0
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.5013,
+      "thread": "0.0.0",
+      "name": "live_loop_beat",
+      "synth": "sonic-pi-fx_scope_out",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0.0",
+        "synth": "sonic-pi-fx_scope_out"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0.0",
+      "name": "live_loop_beat",
+      "text": "synth :beep, {note: 36.0}"
+    },
+    {
+      "t": 0.25,
+      "thread": "0.0.0",
+      "name": "live_loop_beat",
+      "text": "synth :beep, {note: 36.0}"
+    },
+    {
+      "t": 0.5,
+      "thread": "0.0.0",
+      "name": "live_loop_beat",
+      "text": "synth :beep, {note: 36.0}"
+    }
+  ]
+}

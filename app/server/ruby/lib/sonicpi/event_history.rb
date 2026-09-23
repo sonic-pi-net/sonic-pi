@@ -157,6 +157,22 @@ module SonicPi
     include EventMatcherUtil
     include Util
 
+    # The session's schedule-ahead (set_sched_ahead_time!): a plain global, not an event on the timeline. Read by
+    # time, a thread whose logical time is behind the moment it was set (a sleep on the Link timeline subtracts it)
+    # saw the value from before, and scheduled against that: a note could land before the one ahead of it. A
+    # thread's own use_sched_ahead_time / with_sched_ahead_time still wins (Runtime#__current_sched_ahead_time).
+    attr_writer :sched_ahead_time
+    def sched_ahead_time
+      @sched_ahead_time || default_sched_ahead_time
+    end
+
+    # the session's schedule-ahead, read by a thread at vt as it read the timeline before: the other threads have their
+    # moment first (wait_for_threads), which is part of how native's threads interleave, so it is kept
+    def sched_ahead_time_at(vt)
+      wait_for_threads(vt)
+      sched_ahead_time
+    end
+
     attr_accessor :event_matchers
 
     def initialize
