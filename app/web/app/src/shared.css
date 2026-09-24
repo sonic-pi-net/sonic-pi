@@ -12,8 +12,8 @@
    quickly (Safari's double-tap zoom, over Play pressed again and again). Pinching still zooms. */
 button, a, [role="button"], .hg-button, label, summary { touch-action: manipulation; }
 /* the chips' one size: the docs pane's tabs, the bar's, the cards' (the big site buttons and mini buttons size themselves) */
-.seg button, .ic-tab { padding: 4px 12px; font: 600 var(--t-ui) var(--prose-font); line-height: normal; white-space: nowrap; }
-.sp-mini-btn { padding: 3px 10px; font: 600 var(--t-tiny) var(--prose-font); line-height: normal; white-space: nowrap; }   /* the same chip, small: the docs pane's play, insert and copy */
+.seg button, .ic-tab { padding: 4px 12px; font: 600 var(--t-ui) var(--prose-font); white-space: nowrap; }   /* font: its line-height normal too */
+.sp-mini-btn { padding: 3px 10px; font: 600 var(--t-tiny) var(--prose-font); white-space: nowrap; }   /* the same chip, small: the docs pane's play, insert and copy */
 .seg button, .ic-tab, .sp-mini-btn, .site-body .button {
   border: 2px solid var(--Button); border-radius: var(--r-m); background: none; color: var(--WindowForeground);
   font-weight: 600; text-decoration: none; cursor: pointer; box-shadow: none; text-shadow: none;
@@ -84,7 +84,7 @@ button, a, [role="button"], .hg-button, label, summary { touch-action: manipulat
 ::-webkit-scrollbar { width: 10px; height: 10px; background: transparent; }
 ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
 ::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
-::-webkit-scrollbar-thumb { background: var(--ScrollBar); background-clip: padding-box; border: 0 solid transparent; border-radius: 0; }
+::-webkit-scrollbar-thumb { background: none; background-color: var(--ScrollBar); background-clip: padding-box; border: 0 solid transparent; border-radius: 0; }
 ::-webkit-scrollbar-thumb:vertical { min-height: 24px; border-right-width: 2px; }
 ::-webkit-scrollbar-thumb:horizontal { min-width: 24px; border-bottom-width: 2px; }
 ::-webkit-scrollbar-thumb:hover { background-color: var(--ScrollBarHover); }

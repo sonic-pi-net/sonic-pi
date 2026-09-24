@@ -84,8 +84,8 @@ button.tb-icon:disabled { opacity: 0.35; cursor: not-allowed; }
   width: 30px;
   height: 30px;
   background: var(--WindowForeground);
-  -webkit-mask: var(--icon) center / contain no-repeat;
-  mask: var(--icon) center / contain no-repeat;
+  -webkit-mask-image: var(--icon); -webkit-mask-position: center; -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat;
+  mask-image: var(--icon); mask-position: center; mask-size: contain; mask-repeat: no-repeat;
 }
 .tb-icon.on .tb-glyph { background: var(--HighlightedBackground); -webkit-mask-image: var(--icon-on, var(--icon)); mask-image: var(--icon-on, var(--icon)); }
 .tb-icon:hover:not(:disabled) .tb-glyph { background: var(--HoverButton); }
@@ -103,7 +103,7 @@ body.reduce-motion #btn-record.on .tb-glyph { animation: none; }
    out from it and fading, so it grows out of the glyph's ink wherever that sits in its box; the glyph stays over it */
 #btn-help.hinting { position: relative; }
 #btn-help.hinting .tb-glyph { position: relative; }
-#btn-help.hinting::before { content: ""; position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; translate: -50% -50%; background: var(--HighlightedBackground); -webkit-mask: var(--echo) center / contain no-repeat; mask: var(--echo) center / contain no-repeat; pointer-events: none; animation: help-echo 1.6s ease-out infinite; }
+#btn-help.hinting::before { content: ""; position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; translate: -50% -50%; background: var(--HighlightedBackground); -webkit-mask-image: var(--echo); -webkit-mask-position: center; -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: var(--echo); mask-position: center; mask-size: contain; mask-repeat: no-repeat; pointer-events: none; animation: help-echo 1.6s ease-out infinite; }
 body.info-open #btn-help.hinting::before { animation: none; visibility: hidden; }   /* under the site's pages: nothing to see, so nothing drawn */
 @keyframes help-echo { from { transform: scale(1); opacity: 0.9; } to { transform: scale(2.3); opacity: 0; } }
 body.reduce-motion #btn-help.hinting::before { animation: none; transform: scale(1.35); opacity: 0.5; }   /* still: a halo of the Δ's shape round it */
@@ -972,9 +972,8 @@ body.focus-mode #main { grid-template-columns: 1fr 0 0 !important; grid-template
   top: -7px;
   width: 12px;
   height: 12px;
-  border: 1px solid var(--tip-border);
-  border-right: none;
-  border-bottom: none;
+  border-top: 1px solid var(--tip-border);   /* two sides of a square, turned: the caret */
+  border-left: 1px solid var(--tip-border);
   background: var(--tip-bg);
   transform: rotate(45deg);
   transform-origin: 50% 50%;
@@ -1163,7 +1162,7 @@ body.scope-line #scope-section { flex: none !important; height: auto !important;
 }
 .err-code-num { flex: none; padding-right: 10px; border-right: 1px solid color-mix(in srgb, var(--Foreground) 16%, var(--Background)); color: var(--mutedForeground); }
 .err-code-text { color: var(--CommentForeground, var(--mutedForeground)); }
-.err-code-mark { color: var(--Foreground); font-weight: 700; text-decoration: underline wavy var(--err); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.err-code-mark { color: var(--Foreground); font-weight: 700; text-decoration-line: underline; text-decoration-style: wavy; text-decoration-color: var(--err); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
 .err-code-point { position: relative; color: var(--Foreground); font-weight: 700; }
 .err-code-caret { position: relative; display: inline-block; width: 0; height: 1.2em; vertical-align: text-bottom; }
 #error-pane .err-code-point::after, #error-pane .err-code-caret::after { border-color: var(--err); }
@@ -1241,7 +1240,7 @@ body.prefs-open #prefs-pane { display: block; }
 .scheme-btn:hover { transform: translateY(-1px); }
 .scheme-btn.active { outline: 2px solid var(--HighlightedBackground); outline-offset: 2px; }
 .scheme-glyphs { display: flex; gap: 6px; }
-.scheme-glyph { display: block; width: 20px; height: 20px; -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; }
+.scheme-glyph { display: block; width: 20px; height: 20px; -webkit-mask-image: var(--icon); -webkit-mask-position: center; -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: var(--icon); mask-position: center; mask-size: contain; mask-repeat: no-repeat; }
 .scheme-name { white-space: nowrap; }
 .seg-glyphs button { display: inline-flex; align-items: center; gap: 6px; }
 .seg-glyphs button .tb-icon { width: 18px; height: 18px; flex: none; }
@@ -1524,7 +1523,7 @@ body.reduce-motion .cm-editor :is(.sp-kick-a, .sp-kick-b) { background-color: co
 .cm-sp-error-line { background-color: color-mix(in srgb, var(--err-mark, var(--HighlightedBackground)) 13%, var(--Background)) !important; }
 /* the block's right edge an arrow into the line, inside the gutter's own padding (the code starts at its edge) */
 .cm-gutterElement.cm-sp-error-gutter { background: var(--err-mark, var(--HighlightedBackground)); color: var(--Background) !important; font-weight: 700; clip-path: polygon(0 0, calc(100% - 0.4em) 0, 100% 50%, calc(100% - 0.4em) 100%, 0 100%); }
-.cm-sp-error-span { text-decoration: underline wavy var(--err-mark, var(--HighlightedBackground)); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.cm-sp-error-span { text-decoration-line: underline; text-decoration-style: wavy; text-decoration-color: var(--err-mark, var(--HighlightedBackground)); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
 .cm-sp-error-point, .cm-sp-error-caret { position: relative; }
 .cm-sp-error-caret { display: inline-block; width: 0; height: 1.1em; vertical-align: text-bottom; }
 :is(.cm-sp-error-point, .cm-sp-error-caret)::after, :is(.err-code-point, .err-code-caret)::after {

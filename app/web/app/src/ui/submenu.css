@@ -15,7 +15,7 @@
 .docs-item.active { background: var(--HighlightedBackground); color: var(--accentContrastText); }
 /* an item's icon, from the app's set (Tabler, the toolbar's glyphs, the app's own mark): muted until the item is lit */
 .docs-item .tb-icon { width: 18px; height: 18px; margin-right: 8px; vertical-align: -4px; color: var(--mutedForeground); }
-.docs-item .sp-glyph { display: inline-block; width: 18px; height: 18px; margin-right: 8px; vertical-align: -4px; background: var(--mutedForeground); -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; }
+.docs-item .sp-glyph { display: inline-block; width: 18px; height: 18px; margin-right: 8px; vertical-align: -4px; background: var(--mutedForeground); -webkit-mask-image: var(--icon); -webkit-mask-position: center; -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: var(--icon); mask-position: center; mask-size: contain; mask-repeat: no-repeat; }
 .docs-item.active .tb-icon { color: inherit; }
 .docs-item.active .sp-glyph { background: currentColor; }
 .docs-item .logo-icon { width: 18px; height: 18px; margin-right: 8px; vertical-align: -4px; }
@@ -50,7 +50,7 @@
 
 /* a dropdown wherever it stands (the toolbar's buffer picker): the chip, and the list dropped under it, over the page */
 .ic-fold-bar.ic-dropdown { position: relative; display: inline-block; min-width: 0; }
-.ic-fold-bar.ic-dropdown > .ic-side { display: none; position: absolute; z-index: 400; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); width: max-content; min-width: 240px; max-width: calc(100vw - 24px); max-height: min(60vh, 460px); overflow: auto; padding: 6px; border: var(--pop-border); border-right: var(--pop-border); border-radius: var(--r-m); background: var(--pop-bg); box-shadow: var(--pop-shadow); }
+.ic-fold-bar.ic-dropdown > .ic-side { display: none; position: absolute; z-index: 400; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); width: max-content; min-width: 240px; max-width: calc(100vw - 24px); max-height: min(60vh, 460px); overflow: auto; padding: 6px; border: var(--pop-border); border-radius: var(--r-m); background: var(--pop-bg); box-shadow: var(--pop-shadow); }
 .ic-fold-bar.ic-dropdown > .ic-side.open { display: block; }
 
 /* a phone: the strip stays at the top as the page scrolls, and the list drops open beneath its chip, over the page

@@ -64,7 +64,7 @@
 .qs-out-line:last-child { color: var(--Foreground); }
 .qs-strip { position: absolute; inset: 0; z-index: -1; display: block; width: 100%; height: 100%; margin: 0; opacity: 0.55; pointer-events: none; }   /* the card's sounds scrolling by (ui/strip.js), behind the whole foot: the words and the transport over them, the foot as low as it likes */
 .qs-state { display: none; }
-.qs-card.errored .qs-state { display: block; margin-top: 8px; padding: 6px 12px; border-left: 4px solid var(--HighlightedBackground); background: var(--accentTintStrong); color: var(--Foreground); font: var(--t-small)/1.45 var(--code-font); font-style: normal; white-space: pre-wrap; }
+.qs-card.errored .qs-state { display: block; margin-top: 8px; padding: 6px 12px; border-left: 4px solid var(--HighlightedBackground); background: var(--accentTintStrong); color: var(--Foreground); font: var(--t-small)/1.45 var(--code-font); white-space: pre-wrap; }   /* font: upright too */
 /* The transport: two scopes side by side, as native's quickstart card has one — the transport disc in the middle,
    a ring round it on the canvas (card.js cardRings: the left channel round Play, the right round Stop), the whole
    square the hit box. The disc is placed, not centred by a layout a button may not honour. */
@@ -78,7 +78,7 @@
 .qs-scope:focus-within::before { border-color: var(--HighlightedBackground); }
 /* busy (waiting on the engine: starting, or loading what the program names): an arc going round the play button, on
    the ring it sits in, until the run starts */
-.qs-transport.busy .qs-scope-play::after { content: ""; position: absolute; inset: 6.6%; border-radius: 50%; border: calc(var(--qs-scope) * 0.028) solid transparent; border-top-color: var(--HighlightedBackground); border-right-color: var(--HighlightedBackground); opacity: 0; animation: qs-busy 0.8s linear infinite, qs-busy-show 0.2s ease-out 0.15s forwards; pointer-events: none; }
+.qs-transport.busy .qs-scope-play::after { content: ""; position: absolute; inset: 6.6%; border-radius: 50%; border-width: calc(var(--qs-scope) * 0.028); border-style: solid; border-color: var(--HighlightedBackground) var(--HighlightedBackground) transparent transparent; opacity: 0; animation: qs-busy 0.8s linear infinite, qs-busy-show 0.2s ease-out 0.15s forwards; pointer-events: none; }
 @keyframes qs-busy { to { transform: rotate(1turn); } }
 .qs-transport.busy .qs-scope-play::before { display: block; border-color: color-mix(in srgb, var(--HighlightedBackground) 22%, transparent); }   /* the ring it goes round stays faint (focus would light it all, and hide the arc) */
 @keyframes qs-busy-show { to { opacity: 1; } }   /* only a wait worth showing: a start that is quick (a key on the piano) shows nothing */

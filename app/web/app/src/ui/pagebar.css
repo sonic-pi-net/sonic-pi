@@ -12,7 +12,8 @@
 .pb-now:active { background: var(--surface3); }
 .pb-words { display: flex; flex-direction: column; align-items: center; min-width: 0; line-height: 1.25; }
 .pb-eyebrow { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 var(--t-label) var(--prose-font); letter-spacing: 0.12em; text-transform: uppercase; color: var(--second); }   /* a kicker: the second colour (shared.css) */
-.pb-main { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 var(--t-small) var(--prose-font); color: var(--Foreground); font-variant-numeric: tabular-nums; }
+.pb-main { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 var(--t-small) var(--prose-font); color: var(--Foreground); }
+.pb-main { font-variant-numeric: tabular-nums; }   /* a rule of its own: after a font with a var() in the same rule, it is lost when the rule is read back (shadow.js) */
 .pb-jump { flex: none; width: 13px; height: 13px; color: var(--mutedForeground); transition: transform 0.2s; }
 .pb-now.open .pb-jump { transform: rotate(180deg); }
 .pb-said { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
