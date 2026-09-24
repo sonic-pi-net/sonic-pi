@@ -2030,11 +2030,17 @@ body.reduce-motion .cm-tooltip.sp-slider { transition: none; }
   .buffer-tab::before { width: min(26px, 100%); height: 24px; }
   .buffer-tab-sep { flex: none; padding: 0; }
   .jam-toggle { margin-left: 6px; }
-  /* the set and JAM on a line of their own over the buffers: the set left, JAM right; the buffers the whole width under */
-  .buffer-tabs-row { flex-wrap: wrap; row-gap: 6px; }
-  .buffer-tabs-row .set-chip { order: -3; margin-right: auto; }
-  .buffer-tabs-row .jam-toggle { order: -2; margin-left: auto; }
-  .buffer-tabs-row::before { content: ""; order: -1; flex-basis: 100%; height: 0; }   /* the line break under them */
+  /* the set and JAM either side of the buffers, all on one line: a line saved under the code (jam's layouts, below,
+     have lines of their own) */
+  .buffer-tabs-row .set-chip { margin-right: 6px; }
+  /* a narrow phone (an SE's 320): the pads would be too thin to tap beside them, so the set and JAM take a line of
+     their own over them, the set left, JAM right, the pads the whole width under */
+  @media (max-width: 359px) {
+    .buffer-tabs-row { flex-wrap: wrap; row-gap: 6px; }
+    .buffer-tabs-row .set-chip { order: -3; margin-right: auto; }
+    .buffer-tabs-row .jam-toggle { order: -2; margin-left: auto; }
+    .buffer-tabs-row::before { content: ""; order: -1; flex-basis: 100%; height: 0; }   /* the line break under them */
+  }
   /* jam's row: the pads the width of the screen, one row, squares; its grid, two rows of them (below), wider */
   #buffer-tabs.jam-on .buffer-tabs-row { width: 100%; grid-template-columns: repeat(var(--pads), minmax(0, 1fr)); column-gap: 4px; row-gap: var(--line-gap); --line-gap: 6px; }
   #buffer-tabs.jam-grid .buffer-tabs-row { grid-template-columns: repeat(var(--pad-cols), minmax(0, 1fr)); column-gap: 6px; }
