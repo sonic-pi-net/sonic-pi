@@ -44,14 +44,20 @@ const RELEASE = "5.0.0";
 
 // ── the pages, in the order of the bar's tabs ──
 const PAGES = [
-  { key: "about", title: "Home", tip: "Discover Sonic Pi", file: "index.html", lead: "Discover", description: "Sonic Pi is a new kind of code-based instrument for a new generation of musicians. Use the same code for both composition and performance. Sonic Pi is free and open source software." },
+  { key: "about", title: "Home", tip: "Discover Sonic Pi", file: "index.html", lead: "Discover", description: "Your free code-based music creation and performance tool." },
   { key: "examples", title: "Examples", tip: "Pieces of music to play, change and learn from", file: "examples.html", list: "All examples", description: "Explore some of the different ways to work with Sonic Pi" },
   { key: "learn", title: "Learn", tip: "The tutorial, lessons, books and talks", file: "learn.html", lead: "Start here", description: "Learn Sonic Pi: the tutorial, the video course, the book, and Sonic Pi in the classroom." },
   { key: "support", title: "Support", tip: "Help keep Sonic Pi free for everyone", file: "support.html", lead: "Support", description: "Sonic Pi is free because it is supported by the community." },
 ];
 
 // the editor's own document: the app with Home in its card, put away (the Code tab's, and the tutorial's, in its docs)
-const CODE = { file: "code.html", title: "Code · Sonic Pi", tip: "The editor: write and run your own music", description: "Sonic Pi's code editor: write and live code music in your browser." };
+// where the site lives, for what must be absolute (a shared link's tags, below)
+const SITE_ORIGIN = "https://sonic-pi.net/";
+// the picture every link to the site shows (scripts/build-social-card.mjs, its logo-name design): its size as drawn
+const SOCIAL_CARD = { url: `${SITE_ORIGIN}site/media/images/social-card.png`, width: "2400", height: "1260", alt: "Sonic Pi's logo, a pink square with a π and three sound waves, above the name Sonic Pi and the address sonic-pi.net" };
+const CODE = { file: "code.html", title: "Code · Sonic Pi", tip: "The editor: write and run your own music", description: "Sonic Pi's code editor: write and live code music in your browser.",
+  // what a link to the editor says where it is shared: nearly always a program someone has shared (the Share menu)
+  shared: { title: "Sonic Pi Code Link", description: "Open to view, play and modify the code in this link." } };
 
 // ── what the pages are filled in with ──
 const mark = logo(path.join(NATIVE, "app/gui/images/logo-square.svg"));
@@ -323,6 +329,22 @@ function document(page, { code = false } = {}) {
   let html = shell;
   html = swap(html, "<title>Sonic Pi</title>", `<title>${esc(code ? CODE.title : page.key === "about" ? "Sonic Pi" : `${page.title} · Sonic Pi`)}</title>`);
   html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(code ? CODE.description : page.description)}">`);
+  // what a link to the page shows where it is shared (Open Graph, and X's twitter: tags): the page's own title and
+  // words, and the one picture every Sonic Pi link carries (site/media/images/social-card.png, from
+  // scripts/build-social-card.mjs) — a shared program's too, whose code is after the # where no crawler looks.
+  // Absolute, as the networks' crawlers need them.
+  {
+    const title = code ? CODE.shared.title : page.key === "about" ? "Sonic Pi" : `${page.title} · Sonic Pi`;
+    const words = code ? CODE.shared.description : page.description;
+    const file = code ? CODE.file : page.file;
+    const url = SITE_ORIGIN + (file === "index.html" ? "" : file);
+    const meta = (k, v, attr = "property") => `<meta ${attr}="${k}" content="${esc(v)}">`;
+    html = swap(html, "</head>", [
+      meta("og:site_name", "Sonic Pi"), meta("og:type", "website"), meta("og:url", url), meta("og:title", title), meta("og:description", words),
+      meta("og:image", SOCIAL_CARD.url), meta("og:image:width", SOCIAL_CARD.width), meta("og:image:height", SOCIAL_CARD.height), meta("og:image:alt", SOCIAL_CARD.alt),
+      meta("twitter:card", "summary_large_image", "name"), meta("twitter:image", SOCIAL_CARD.url, "name"), meta("twitter:image:alt", SOCIAL_CARD.alt, "name"),
+      "</head>"].join("\n"));
+  }
   // the page's own stylesheet ahead of the app's: the app's win a tie
   html = swap(html, '<link rel="stylesheet" href="app.css">', '<link rel="stylesheet" href="site/css/landing.css">\n<link rel="stylesheet" href="app.css">');
   const head = [`<script type="application/json" id="site-map">${JSON.stringify({ ...map, page: page.key })}</script>`];
