@@ -1384,7 +1384,7 @@ function showHelpHint() {
   const btn = $("btn-help"), glyph = btn.querySelector(".tb-glyph");
   const el = document.createElement("div");
   el.id = "help-hint";
-  el.innerHTML = `<div class="hh-note" role="note"><p><strong>Welcome to the Sonic Pi code editor!</strong> Toggle the documentation by clicking this glyph.</p><button type="button" class="sp-mini-btn primary">Got it</button></div>`;
+  el.innerHTML = `<div class="hh-note" role="note"><p><strong>Welcome to Sonic Pi!</strong><br>Toggle the documentation by clicking this glyph.</p><button type="button" class="sp-mini-btn primary">Got it</button></div>`;
   btn.style.setProperty("--echo", glyph.style.getPropertyValue("--icon"));
   btn.classList.add("hinting");
   document.body.appendChild(el);
