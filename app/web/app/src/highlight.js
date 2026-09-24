@@ -74,6 +74,20 @@ export function highlightHTML(code) {
   return pieces(code).map(([text, cls]) => (cls ? `<span class="${cls}">${esc(text)}</span>` : esc(text))).join("");
 }
 
+/** `code` highlighted as HTML, a line at a time: a token that runs over a line's end (a string, a comment) is closed at
+ *  it and opened again on the next, so each line stands alone as the editor's .cm-line does (ui/card-html.js). */
+export function highlightLinesHTML(code) {
+  const esc = (x) => x.replace(/[&<>"]/g, (c) => ESC[c]);
+  const lines = [""];
+  for (const [text, cls] of pieces(code)) {
+    text.split("\n").forEach((part, i) => {
+      if (i) lines.push("");
+      if (part) lines[lines.length - 1] += cls ? `<span class="${cls}">${esc(part)}</span>` : esc(part);
+    });
+  }
+  return lines;
+}
+
 /**
  * Highlights `code` as a still copy of the editor: the same tree of elements CodeMirror draws (.cm-editor >
  * .cm-scroller > .cm-content > .cm-line, an empty line holding a <br>) with the same token classes, so the same

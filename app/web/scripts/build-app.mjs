@@ -35,17 +35,25 @@ const externals = {
   name: "web-externals",
   setup(build) {
     build.onResolve({ filter: /sonic_pi\.js$/ }, () => ({ path: "./sonic_pi.js", external: true }));
+    build.onResolve({ filter: /^\.\/runtime\.js$/ }, () => ({ path: "./runtime.js", external: true }));   // web/runtime.js: the one sonic_pi.js imports, so one copy of its state
     build.onResolve({ filter: /^https:\/\// }, (args) => ({ path: args.path, external: true }));
     build.onResolve({ filter: /^fonts\/.*\.woff2$/ }, (args) => ({ path: args.path, external: true }));   // web/fonts/, beside app.css (checked in)
   },
 };
+
+fs.rmSync(path.join(WEB, "chunks"), { recursive: true, force: true });   // the last build's: their names change with their contents
 
 const options = {
   entryPoints: [path.join(SRC, "main.js")],
   bundle: true,
   format: "esm",
   target: "es2022",
-  outfile: path.join(WEB, "app.js"),
+  // app.js and app.css, and beside them in chunks/ what the app loads only when it is first used (the code keyboard,
+  // the QR codes): named for their contents, so a server can keep them for good (package-web.mjs's nginx lines)
+  outdir: WEB,
+  entryNames: "app",
+  chunkNames: "chunks/[name]-[hash]",
+  splitting: true,
   sourcemap: true,
   minify: !process.argv.includes("--watch") && !process.argv.includes("--raw"),   // --raw: names kept, for profiling
   plugins: [externals, { name: "static", setup(b) { b.onEnd(async (r) => { if (!r.errors.length) { await copyStatic(); console.log("built web/app.js, web/app.css"); } }); } }],

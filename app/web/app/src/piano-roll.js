@@ -6,6 +6,7 @@
 // new pitch and a kill cuts it short. Samples get drum-map rows beneath.
 // Keys light as their notes sound, in the colour of the thread playing them.
 import { css } from "./theme.js";
+import { animateWhileShown } from "./ui/shown.js";
 import { perfAdd } from "./perf.js";
 
 const NAMES = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "A♭", "A", "B♭", "B"];
@@ -699,14 +700,13 @@ export function createPianoRoll(root, hooks) {
     if (mouse) showTip();
   }
 
+  // drawn each frame while the roll is on screen, and not at all otherwise (ui/shown.js)
   function draw() {
-    requestAnimationFrame(draw);
-    if (!wrap.offsetParent) return;
     const t0 = performance.now();
     try { drawFrame(); } finally { perfAdd("pianoRoll", performance.now() - t0); }
   }
-  requestAnimationFrame(draw);
-  setInterval(() => { if (wrap.offsetParent) renderChips(); }, 500);
+  const shown = animateWhileShown(wrap, draw);
+  setInterval(() => { if (shown.shown) renderChips(); }, 500);
   renderChips();
 
   return {

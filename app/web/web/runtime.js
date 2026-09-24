@@ -25,6 +25,27 @@ export function supersonicInfo() {
   }));
 }
 export const supersonicVersion = () => supersonicInfo().then(() => SUPERSONIC_VERSION);
+
+/** A runtime worker's first word: its ready (or failed) message, or its error, as { type, … }. Listened for from the
+ *  moment this is called, so it must be called as the worker is made (main.js startWorker, loadLiveRuntime). */
+export function workerSettled(worker) {
+  return new Promise((resolve) => {
+    const said = ({ data }) => { if (data?.type === "ready" || data?.type === "failed") { stop(); resolve(data); } };
+    const broke = (e) => { stop(); resolve({ type: "failed", error: e.message || "the runtime's worker did not start" }); };
+    const stop = () => { worker.removeEventListener("message", said); worker.removeEventListener("error", broke); };
+    worker.addEventListener("message", said);
+    worker.addEventListener("error", broke);
+  });
+}
+// The engine's wasm (SuperSonic's scsynth, 1.6 MB): fetched by the page as soon as sound is wanted, beside the runtime,
+// and handed to the engine as its bytes (bootEngine's wasmBytes) rather than asked for once SuperSonic's own code has
+// arrived and started. Where SuperSonic would look for it itself: the core package's wasm/ (the CDN), else the dist's
+// (a local build). Null if it could not be fetched: the engine then fetches its own.
+let engineWasmBytes = null;
+export const engineWasm = () => (engineWasmBytes ??= supersonicInfo()
+  .then((v) => fetch(`${v.core ? `${v.core}wasm/` : `${v.base ?? SUPERSONIC_BASE}wasm/`}scsynth-nrt.wasm`))
+  .then((r) => (r.ok ? r.arrayBuffer() : null))
+  .catch(() => null));
 export const SAMPLES_DIR = "/samples";
 const TABLES = { white: "rand-stream.wav", pink: "rand-stream-pink.wav", light_pink: "rand-stream-light-pink.wav",
                  dark_pink: "rand-stream-dark-pink.wav", perlin: "rand-stream-perlin.wav" };
@@ -52,8 +73,13 @@ export const PROCESS_FIELDS = ["uid", "parent", "job", "kind", "state", "line", 
  */
 export async function loadRuntime(base = "./", { sources = Object.keys(TABLES) } = {}) {
   const root = new URL(base, location.href);
-  const { default: load } = await import(new URL("runtime/sp_runtime.mjs", root).href);
-  const m = await load();
+  // the glue, its wasm and the samples' facts all asked for at once: over a slow link each is a round trip, and one
+  // after another they add up to seconds (the glue would only ask for its wasm once it had itself arrived)
+  const wasm = fetch(new URL("runtime/sp_runtime.wasm", root)).then((r) => (r.ok ? r.arrayBuffer() : null)).catch(() => null);
+  const samplesFacts = fetch(new URL("samples.json", root)).then((r) => r.json());
+  samplesFacts.catch(() => {});   // awaited below: a failure is reported there
+  const [{ default: load }, wasmBinary] = await Promise.all([import(new URL("runtime/sp_runtime.mjs", root).href), wasm]);
+  const m = await load(wasmBinary ? { wasmBinary } : {});   // no bytes (the fetch failed): the glue fetches its own
   if (m._sp_init() !== 0) throw new Error("the runtime did not boot");
   const installed = new Map();          // source -> the promise that put it there, so it is fetched once
   const installTable = (source) => {
@@ -71,7 +97,7 @@ export async function loadRuntime(base = "./", { sources = Object.keys(TABLES) }
   };
   await Promise.all(sources.map(installTable));
   m.ccall("sp_set_samples_dir", "number", ["string"], [SAMPLES_DIR]);
-  const samples = await (await fetch(new URL("samples.json", root))).json();
+  const samples = await samplesFacts;
   for (const s of samples) {
     m.ccall("sp_install_sample", "number", ["string", "number", "number", "number", "number", "number"], [`${SAMPLES_DIR}/${s.file}`, s.frames, s.chans, s.rate, 0, 0]);
   }

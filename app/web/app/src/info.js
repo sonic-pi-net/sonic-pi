@@ -38,6 +38,8 @@ export function createInfo(card, hooks) {
   // lifts within a few pixels of where it landed is a tap, taken on the lift; the click after it is ignored.
   let down = null, tapped = -Infinity;
   tabsEl.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") down = { x: e.clientX, y: e.clientY, tab: e.target.closest(".ic-tab") }; });
+  // a finger on a tab, or the pointer over one: its page fetched now, ahead of the tap it is about to be
+  for (const type of ["pointerdown", "pointerover"]) tabsEl.addEventListener(type, (e) => { const k = e.target.closest?.(".ic-tab[data-tab]")?.dataset.tab; if (k && fileOf(k) && !pages.has(k)) textOf(k).catch(() => {}); }, { passive: true });
   tabsEl.addEventListener("pointercancel", () => { down = null; });
   tabsEl.addEventListener("pointerup", (e) => {
     const d = down; down = null;
@@ -61,12 +63,25 @@ export function createInfo(card, hooks) {
   const skip = document.querySelector(".skip-link");
 
   // ── another page: its document fetched, its content taken into the card ──
+  // its document's text, fetched (ahead, by prefetch, or when it is gone to): kept as text, not a parsed document, so
+  // a page fetched ahead and never visited holds only its bytes
+  const texts = new Map();   // key → the promise of its text
+  const textOf = (key) => {
+    const t0 = performance.now();
+    if (!texts.has(key)) texts.set(key, fetch(fileOf(key)).then(async (r) => {
+      if (!r.ok) throw new Error(`${fileOf(key)}: ${r.status}`);
+      const headers = performance.now();
+      const text = await r.text();
+      hooks.log?.(`${fileOf(key)} fetched: headers ${(headers - t0).toFixed(0)} ms, body ${(performance.now() - headers).toFixed(0)} ms (${Math.round(text.length / 1024)} KB)`);
+      return text;
+    }).catch((e) => { texts.delete(key); throw e; }));
+    return texts.get(key);
+  };
   const fetched = new Map();   // key → the promise of its .site-body
   function fetchPage(key) {
     if (!fetched.has(key)) fetched.set(key, (async () => {
-      const r = await fetch(fileOf(key));
-      if (!r.ok) throw new Error(`${fileOf(key)}: ${r.status}`);
-      const doc = new DOMParser().parseFromString(await r.text(), "text/html");
+      const doc = new DOMParser().parseFromString(await textOf(key), "text/html");
+      texts.delete(key);   // parsed, taken in below: the text is done with
       // what the page's head asks for that this one's has not yet: its stylesheet, its scripts
       const loads = [];
       for (const l of doc.head.querySelectorAll('link[rel="stylesheet"]')) {
@@ -94,10 +109,16 @@ export function createInfo(card, hooks) {
     if (current) current.settled = false;   // on its way: what moves under the page now is not a section being read
     let p = pages.get(key);
     if (!p) {
+      lightTab(key);   // the tap answered at once: the tab lit while its page is fetched
+      const t0 = performance.now();
       const { body, title } = await fetchPage(key);
+      const t1 = performance.now();
       body.hidden = true;
       host.appendChild(body);
       p = adopt(body, key, title);
+      // how long a first visit took, and where: the network, or the making live (the Logs pane says, on any device)
+      const t2 = performance.now();
+      requestAnimationFrame(() => requestAnimationFrame(() => hooks.log?.(`${key}: first visit, waited ${(t1 - t0).toFixed(0)} ms for the page, ${(t2 - t1).toFixed(0)} ms making it live, drawn ${(performance.now() - t2).toFixed(0)} ms later`)));
     }
     const moved = current && current !== p;
     if (current !== p) {
@@ -164,7 +185,7 @@ export function createInfo(card, hooks) {
     for (const a of page.querySelectorAll(".yt-lite")) facade(a);
 
     // a page's own playable blocks (Learn's tutorial teaser): cards
-    const teaser = [...page.querySelectorAll(".tut-teaser pre.sp-card, .tut-page pre.sp-card")];   // and the tutorial's, every code block a card
+    const teaser = [...page.querySelectorAll(".tut-teaser .sp-card, .tut-page .sp-card")];   // and the tutorial's, every code block a card
     if (teaser.length) p.mounts.push(mountSnippets(teaser, hooks, host, document));
 
     // the hero's words: they take turns while the hero is on show; a word pressed takes its turn now and the turns go
@@ -197,12 +218,12 @@ export function createInfo(card, hooks) {
     // the examples: the hero's one, and the Examples page's, by level
     // a live synth (the home page's, under Code. Music. Live.): the docs pane's instrument, in place of its static words
     for (const s of page.querySelectorAll(".home-synth[data-synth]")) { const m = hooks.instrument?.(s, s.dataset.synth, host); if (m) p.mounts.push(m); }
-    const heroPre = page.querySelector("#sp-hero-card pre.sp-card");
+    const heroPre = page.querySelector("#sp-hero-card .sp-card");
     if (heroPre) p.mounts.push(mountExamples([heroPre], hooks, host, document));
     const grid = page.querySelector("#sp-live-cards");
     if (grid) {
-      const levels = [...grid.querySelectorAll(":scope > h3.qs-level")].map((h) => ({ title: h.textContent, keys: [...h.nextElementSibling.querySelectorAll("pre.sp-card")].map((e) => e.dataset.key) }));
-      const examples = mountExamples([...grid.querySelectorAll("pre.sp-card")], hooks, host, document);
+      const levels = [...grid.querySelectorAll(":scope > h3.qs-level")].map((h) => ({ title: h.textContent, keys: [...h.nextElementSibling.querySelectorAll(".sp-card")].map((e) => e.dataset.key) }));
+      const examples = mountExamples([...grid.querySelectorAll(".sp-card")], hooks, host, document);
       p.mounts.push(examples);
       // a phone's width: one card at a time, swiped or stepped through (ui/flip.js), the list lit with the card at the front
       const flip = createFlip(grid, {
@@ -211,7 +232,9 @@ export function createInfo(card, hooks) {
         onJump: () => menu?.toggleFold(),   // the bar's place, tapped: the whole list, to go anywhere
       });
       p.bare = () => flip.on;   // flipping, the card and the bar name where you are: the strip's chip would only say it again
-      grid.before(flip.el);   // over the cards, under the tabs: a phone's foot is its browser's own ‹ › and the cards' Play
+      // the bar the page was written with (scripts/build-site.mjs) is this one's place: taken over, not doubled
+      const written = grid.previousElementSibling?.classList.contains("flip-bar") ? grid.previousElementSibling : null;
+      if (written) written.replaceWith(flip.el); else grid.before(flip.el);   // over the cards, under the tabs: a phone's foot is its browser's own ‹ › and the cards' Play
       let look;   // the list's items pin their card in it
       for (const k of menu?.keys() ?? []) {
         const ex = k.replace(/^example-/, "");
@@ -453,6 +476,12 @@ export function createInfo(card, hooks) {
     /** The page is showing again. */
     focus() { current.stage?.start(); lightTab(current.key); },
     get current() { return current.key; },
+    /** The other tabs' pages fetched ahead (a few tens of kilobytes each), so a first visit to one is not a wait on the
+     *  network, only its making live (adopt). Not where the browser has been asked to save data. */
+    prefetch() {
+      if (navigator.connection?.saveData) return;
+      for (const b of tabsEl.querySelectorAll(".ic-tab[data-tab]")) { const k = b.dataset.tab; if (fileOf(k) && !pages.has(k) && k !== current?.key) textOf(k).catch(() => {}); }
+    },
     // every page's live cards: a card playing on a page left behind still hears the session
     groups: (live) => all().forEach((m) => m.groups(live)),
     error: (r) => all().forEach((m) => m.error(r)),

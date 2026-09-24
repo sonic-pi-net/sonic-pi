@@ -27,6 +27,7 @@ import { icon as appIcon } from "../app/src/icons.js";
 import { logo } from "./lib/site/logo.mjs";
 import { patreonSupporters } from "./lib/supporters.mjs";
 import { highlightHTML } from "../app/src/highlight.js";
+import { cardHTML } from "../app/src/ui/card-html.js";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback; };
@@ -93,6 +94,25 @@ const WEB_NOTES = { "03.6-External-Samples": WEB_ONLY_NOTE, "03.7-Sample-Packs":
 // it reads the same with no script at all
 const unescape = (x) => x.replace(/&(amp|lt|gt|quot|#39);/g, (_, e) => ({ amp: "&", lt: "<", gt: ">", quot: '"', "#39": "'" })[e]);
 const inlineCode = (html) => html.replace(/<code>([^<]*)<\/code>/g, (_, c) => `<code class="sp-inline">${highlightHTML(unescape(c))}</code>`);
+// Every <pre class="sp-card"> of a page written as the card it becomes (app/src/ui/card-html.js), so the page looks as
+// it will before its script has run and nothing moves when the script's card takes its place. The script reads it as
+// it read the <pre>: its data-* and its code (app/src/site.js). An example (data-kind="example") is named as it is; a
+// page's code block is numbered within its section, the page through, as site.js mountSnippets numbers it.
+function staticCards(html) {
+  const counts = new Map();
+  return html.replace(/<pre class="sp-card"([^>]*)><code>([\s\S]*?)<\/code><\/pre>/g, (_, attrText, body) => {
+    const a = {};
+    for (const m of attrText.matchAll(/\s([\w-]+)(?:="([^"]*)")?/g)) a[m[1]] = m[2] != null ? unescape(m[2]) : true;
+    const code = unescape(body.replace(/<[^>]+>/g, "")).replace(/^\n/, "").replace(/\n$/, "");
+    const section = a["data-title"] ?? "Example";
+    let title = section;
+    if (a["data-kind"] !== "example") { const n = (counts.get(section) ?? 0) + 1; counts.set(section, n); if (n > 1) title = `${section} · ${n}`; }
+    const wide = "data-wide" in a, still = "data-still" in a;
+    return cardHTML({ title, code, id: a.id ?? null, blurb: a["data-blurb"] ?? "", wide, playable: !still,
+      attrs: { key: a["data-key"], title: section, blurb: a["data-blurb"], wide, still, kind: a["data-kind"] } });
+  });
+}
+
 function tutorialBlocks(part) {
   let n = 0, heading = part.title.replace(/^\S+ /, "");   // a card is named for the heading over it, the part's own at first
   return tutorialPart(part.key).blocks.map((b, i) => {
@@ -123,7 +143,7 @@ function tutorialBody(page) {
   // the way on, as a book's: the chapter before and the one after
   const at = TUTORIAL.indexOf(page), step = (t, cls, label) => (t ? `<a class="tut-step ${cls}" href="${t.file}"><span class="tut-step-k">${label}</span><span>${esc(`${t.n} ${t.name}`)}</span></a>` : "<span></span>");
   const way = `<nav class="tut-next" aria-label="The tutorial, before and after this chapter">${step(TUTORIAL[at - 1], "prev", "Previous chapter")}${step(TUTORIAL[at + 1], "next", "Next chapter")}</nav>`;
-  return `<div class="ic-page ic-split" data-tab="tutorial">${sideList(entries, "The tutorial")}<main class="ic-main tut-page" id="${page.key}-content" tabindex="-1" aria-label="${esc(page.title)}">\n${main}\n${way}\n</main></div>`;
+  return `<div class="ic-page ic-split" data-tab="tutorial">${sideList(entries, "The tutorial")}<main class="ic-main tut-page" id="${page.key}-content" tabindex="-1" aria-label="${esc(page.title)}">\n${staticCards(main)}\n${way}\n</main></div>`;
 }
 
 const supporters = patreonSupporters(NATIVE);
@@ -156,10 +176,13 @@ const exampleLevels = (() => {
     ],
   }));
 })();
-const example = (e, { id = true } = {}) => `<pre class="sp-card"${id ? ` id="example-${e.key}"` : ""} data-key="${e.key}" data-title="${esc(e.title)}"${e.blurb ? ` data-blurb="${esc(e.blurb)}"` : ""}${e.wide ? " data-wide" : ""}><code>${esc(e.code.replace(/\n$/, ""))}</code></pre>`;
+const example = (e, { id = true } = {}) => `<pre class="sp-card"${id ? ` id="example-${e.key}"` : ""} data-kind="example" data-key="${e.key}" data-title="${esc(e.title)}"${e.blurb ? ` data-blurb="${esc(e.blurb)}"` : ""}${e.wide ? " data-wide" : ""}><code>${esc(e.code.replace(/\n$/, ""))}</code></pre>`;
 const levelId = (title) => `level-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 
 const videos = new Set();
+// a video's still: WebP at the widths a card shows it (cwebp: brew install webp, apt install webp), else YouTube's JPEG
+const YT_WIDTHS = [480, 960];
+const YT_WEBP = (() => { try { execFileSync("cwebp", ["-version"], { stdio: "ignore" }); return true; } catch { console.warn("no cwebp: the videos' stills are YouTube's JPEGs (brew install webp, apt install webp)"); return false; } })();
 const tick = icon("check");
 const helpers = {
   version: RELEASE,
@@ -171,6 +194,13 @@ const helpers = {
   chapters: () => TUTORIAL.filter((t) => /^\d+$/.test(t.code)).map((t) => `<a class="tut-chapter" href="${t.file}"><span class="tut-num">${esc(t.code.replace(/^0/, ""))}</span>${esc(t.name)}</a>`).join(""),
   "supporters-intro": () => esc(supporters?.intro ?? "").replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" rel="noopener" target="_blank">$1</a>'),
   supporters: () => (supporters?.names ?? []).map((n) => `          <li>${esc(n)}</li>`).join("\n"),
+  // a live synth's own page of the reference, in the page (a <script type="application/json">): the home page's synth
+  // made from it at once, not from the whole reference fetched (a megabyte, for one synth's keys and dials)
+  "synth-page": (key) => {
+    const page = JSON.parse(read(ROOT, "web/data/reference/synths.json")).pages.find((x) => x.key === key);
+    if (!page) throw new Error(`synth-page: no synth ${key} in the reference`);
+    return `<script type="application/json" class="synth-page">${JSON.stringify(page).replace(/</g, "\\u003c")}</script>`;
+  },
   // the hero's example: Pentatonic Bleeps, the site's own first card
   "hero-example": () => example({ ...exampleLevels.flatMap((g) => g.examples).find((e) => e.key === "pentatonicbleeps"), wide: true }, { id: false }),
   examples: () => exampleLevels.filter((g) => g.examples.length).map((g) => `<h3 class="qs-level" id="${levelId(g.title)}">${g.title}</h3>\n<div class="qs-grid">\n${g.examples.map((e) => example(e)).join("\n")}\n</div>`).join("\n"),
@@ -182,7 +212,10 @@ const helpers = {
   // disc, opening YouTube
   youtube: (id, title) => {
     videos.add(id);
-    return `<a class="yt-lite" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener" data-yt="${id}" title="${title}" style="background-image: url('site/media/yt/${id}.jpg')"><span class="yt-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z"/></svg></span><span class="sr-only">${title} (YouTube)</span></a>`;
+    // the still an <img> (a background cannot wait until it is near the screen: every one on a page would load with
+    // it), at the widths a card shows it (481px at most, 350 on a phone: YT_WIDTHS), in WebP where the build can
+    const still = YT_WEBP ? `<img src="site/media/yt/${id}-${YT_WIDTHS[0]}.webp" srcset="${YT_WIDTHS.map((w) => `site/media/yt/${id}-${w}.webp ${w}w`).join(", ")}" sizes="(max-width: 520px) 90vw, 481px"` : `<img src="site/media/yt/${id}.jpg"`;
+    return `<a class="yt-lite" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener" data-yt="${id}" title="${title}">${still} alt="" loading="lazy" decoding="async"><span class="yt-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z"/></svg></span><span class="sr-only">${title} (YouTube)</span></a>`;
   },
 };
 
@@ -224,7 +257,16 @@ function pageBody(page) {
     for (const s of sections(main, where)) { if (s.group) entries.push({ group: s.group }); entries.push(s); }
   }
   if (page.key !== "examples") bars.set(page.key, pageBar(entries));   // the examples have their own, over their cards
-  return `<div class="ic-page ic-split" data-tab="${page.key}">${sideList(entries, page.list ?? "Contents")}<main class="ic-main" id="${page.key}-content" tabindex="-1" aria-label="${esc(page.title)}">\n${main}\n</main></div>`;
+  let body = staticCards(main);
+  // the examples as they will be: a flip (app/src/ui/flip.js), one card at a time under its bar, the level and the count,
+  // which flip.js takes over — so nothing moves or changes size when the page's script arrives
+  if (page.key === "examples") {
+    const count = entries.filter((e) => e.id != null).length;
+    const bar = pageBar(entries).replace('class="pb pb-eased"', 'class="pb pb-eased flip-bar"').replace(/<span class="pb-main">[^<]*<\/span>/, `<span class="pb-main">1 of ${count}</span>`);
+    if (!body.includes('<div class="qs-grid qs-levels" id="sp-live-cards">')) throw new Error("examples: no #sp-live-cards to flip");
+    body = body.replace('<div class="qs-grid qs-levels" id="sp-live-cards">', `${bar}<div class="qs-grid qs-levels flip" id="sp-live-cards">`);
+  }
+  return `<div class="ic-page ic-split" data-tab="${page.key}">${sideList(entries, page.list ?? "Contents")}<main class="ic-main" id="${page.key}-content" tabindex="-1" aria-label="${esc(page.title)}">\n${body}\n</main></div>`;
 }
 
 // The page bar a page opens with (app/src/ui/pagebar.js makes the same, and takes this one over): at its first
@@ -284,6 +326,15 @@ function document(page, { code = false } = {}) {
   // the page's own stylesheet ahead of the app's: the app's win a tie
   html = swap(html, '<link rel="stylesheet" href="app.css">', '<link rel="stylesheet" href="site/css/landing.css">\n<link rel="stylesheet" href="app.css">');
   const head = [`<script type="application/json" id="site-map">${JSON.stringify({ ...map, page: page.key })}</script>`];
+  // a card's Play pressed before the page's script has run (a phone on a slow first load): which card is remembered
+  // for the script to play once it has made the card (app/src/site.js), and it shows busy meanwhile, as a card starting
+  // does. A few bytes, on the page itself, so it is there from the first paint.
+  // and the site's zoom, if it has been changed from its step up (main.js zooms), before the first paint
+  if (!code) head.push(`<script>try{var z=JSON.parse(localStorage.getItem("sp-zooms")||"{}").site;if(z!=null)document.documentElement.style.setProperty("--site-zoom",String(Math.min(3,Math.max(.5,Math.pow(1.1,z)))))}catch(e){}</script>`);
+  // and the audio context started in that press: iOS allows it only inside one, and the play itself runs once the
+  // script has arrived (app/src/main.js audioInGesture takes this one); its options are SuperSonic's (48 kHz, the
+  // latency preference, low unless the player turned it off)
+  if (!code) head.push(`<script>addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".sp-card .qs-run:not(.qs-stop)");if(!b)return;window.spPendingPlay=b.closest(".sp-card").dataset.key;b.closest(".qs-transport").classList.add("busy");try{if(!window.spAudioContext){var l=null;try{l=JSON.parse(localStorage.getItem("sp-low-latency"))}catch(x){}window.spAudioContext=new AudioContext({latencyHint:l===false?"interactive":0,sampleRate:48000})}window.spAudioContext.resume()}catch(x){}},true)</script>`);
   html = swap(html, "</head>", `${head.join("\n")}\n</head>`);
   html = swap(html, '<div class="ic-tabs"></div>', `<div class="ic-tabs">${tabs(code ? "code" : page.tab ?? page.key)}</div>`);
   if (code) html = swap(html, '<a class="sn-code"', '<a class="sn-code active" aria-current="page"');   // the bar's code icon, lit in the editor
@@ -321,8 +372,13 @@ for (const id of videos) {
       if (r?.ok) { fs.writeFileSync(f, Buffer.from(await r.arrayBuffer())); break; }
     }
   }
-  if (fs.existsSync(f)) fs.copyFileSync(f, path.join(OUT, "media/yt", `${id}.jpg`));
-  else console.warn(`no thumbnail for video ${id}`);
+  if (!fs.existsSync(f)) { console.warn(`no thumbnail for video ${id}`); continue; }
+  if (!YT_WEBP) { fs.copyFileSync(f, path.join(OUT, "media/yt", `${id}.jpg`)); continue; }
+  for (const w of YT_WIDTHS) {
+    const webp = path.join(CACHE, "yt", `${id}-${w}.webp`);
+    if (!fs.existsSync(webp)) execFileSync("cwebp", ["-quiet", "-q", "72", "-resize", String(w), "0", f, "-o", webp]);
+    fs.copyFileSync(webp, path.join(OUT, "media/yt", `${id}-${w}.webp`));
+  }
 }
 
 // The tutorial's article pictures the pages show live in this repository, under etc/doc/images: taken from there

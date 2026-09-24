@@ -102,12 +102,28 @@ function kindForContext(ctx) {
   }
 }
 
+// what an API offers before its data has arrived: nothing, in the shapes the data has
+const EMPTY_DATA = { synths: {}, fx: {}, entries: {}, argKinds: {}, fnOpts: {}, chordIntervals: {}, scaleIntervals: {}, optOptions: {},
+                     optRanges: {}, optOwners: { docs: [], options: [], ranges: [] }, playArgs: [], sampleArgs: [] };
+const EMPTY_REF = { lang: [], synths: [], fx: [], samples: [] };
+
 export class CompletionAPI {
   /**
-   * @param data completion.json
+   * @param data completion.json, or nothing yet: an API that offers nothing until load() is given it (the page need
+   *             not wait for the editor's data to start)
    * @param ref { lang, synths, fx, samples } reference pages, for the name lists
    */
-  constructor(data, ref) {
+  constructor(data = null, ref = null) {
+    this.synthResolver = () => "";
+    this.lastKind = "";
+    this.ownSynths = new Map();   // a program's own synths (addSynth), kept to be offered again after a load
+    this.load(data ?? EMPTY_DATA, ref ?? EMPTY_REF);
+  }
+
+  /** The data arrived: completion.json and the reference pages. What was added meanwhile (a program's own synths, the
+   *  cue paths seen, the MIDI outputs) is kept. */
+  load(data, ref) {
+    const cues = this.keywords?.CuePath ?? [], outs = this.keywords?.MidiOuts ?? [];
     this.synthArgs = data.synths;
     this.fxArgs = data.fx;
     this.entries = data.entries;
@@ -118,7 +134,7 @@ export class CompletionAPI {
     this.optOptions = data.optOptions;
     this.optRanges = {};
     for (const [k, r] of Object.entries(data.optRanges)) this.optRanges[k] = makeRange(...r);
-    const key = (owner, opt) => `${owner} ${opt}`;
+    const key = (owner, opt) => `${owner} ${opt}`;
     this.ownerDocs = new Map(data.optOwners.docs.map((o) => [key(o.owner, o.opt), o.doc]));
     this.ownerOptions = new Map(data.optOwners.options.map((o) => [key(o.owner, o.opt), o.options]));
     this.ownerRanges = new Map(data.optOwners.ranges.map((o) => [key(o.owner, o.opt), makeRange(...o.range)]));
@@ -131,10 +147,9 @@ export class CompletionAPI {
       Chord: CHORDS, Scale: SCALES, Examples: EXAMPLES, Tuning: TUNINGS,
       MidiParam: MIDI_PARAMS, RandomSource: RANDOM_SOURCES,
       PlayParam: data.playArgs, SampleParam: data.sampleArgs,
-      CuePath: [], MidiOuts: [],
+      CuePath: cues, MidiOuts: outs,
     };
-    this.synthResolver = () => "";
-    this.lastKind = "";
+    for (const page of this.ownSynths.values()) this.addSynth(page);
   }
 
   setSynthResolver(fn) { this.synthResolver = fn; }
@@ -142,6 +157,7 @@ export class CompletionAPI {
   /** A synth of the program's own (load_synthdef, its metadata: synth-meta.js), offered as a built-in one is: its
    *  name after use_synth and synth, its opts after its name, its doc in the detail pane. */
   addSynth(page) {
+    this.ownSynths.set(page.key, page);
     const name = ":" + page.key;
     if (!this.keywords.Synth.includes(name)) this.keywords.Synth.push(name);
     this.synthArgs[name] = page.opts.map((o) => `${o.name}:`);

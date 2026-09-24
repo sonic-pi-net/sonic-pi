@@ -7,6 +7,7 @@
 // state, the line it is at, its beat, tempo and rate of sounds. And a piano
 // roll: the notes themselves.
 import { css } from "./theme.js";
+import { animateWhileShown } from "./ui/shown.js";
 import { createProcessTree } from "./process-tree.js";
 import { createPianoRoll } from "./piano-roll.js";
 import { perfAdd } from "./perf.js";
@@ -235,9 +236,8 @@ export function createInsight(root, hooks) {
     table.appendChild(tbody);
   }
 
+  // drawn each frame while the timeline is on screen, and not at all otherwise (ui/shown.js)
   function draw() {
-    requestAnimationFrame(draw);
-    if (!root.offsetParent) return;
     const t0 = performance.now();
     try { drawFrame(); } finally { perfAdd("timeline", performance.now() - t0); }
   }
@@ -395,8 +395,8 @@ export function createInsight(root, hooks) {
     ctx.fillStyle = css("HighlightedBackground");
     ctx.fillText("now", x(now) + 4, h - 4);
   }
-  requestAnimationFrame(draw);
-  setInterval(() => { if (root.offsetParent && !paused) renderTable(); }, 500);
+  const shown = animateWhileShown(root, draw);
+  setInterval(() => { if (shown.shown && !paused) renderTable(); }, 500);   // the table as it stands, twice a second, while it can be seen
   renderTable();
 
   return {

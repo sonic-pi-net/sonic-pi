@@ -49,7 +49,8 @@
 /* a video's facade (build-site.mjs, info.js facade): its thumbnail filling the frame — YouTube's carry bars, the cover
    crops them — and a play button in the accent at its middle; a tap plays it in place */
 .videoWrapper > .yt-lite, .videoWrapper > iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.yt-lite { display: block; overflow: hidden; border-radius: var(--r-m); background: #000 center / cover no-repeat; cursor: pointer; }
+.yt-lite { position: relative; display: block; overflow: hidden; border-radius: var(--r-m); background: #000; cursor: pointer; }
+.yt-lite > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .yt-play { position: absolute; left: 50%; top: 50%; display: flex; align-items: center; justify-content: center; width: 64px; height: 44px; border-radius: var(--r-m); background: var(--HighlightedBackground); transform: translate(-50%, -50%); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35); transition: transform 0.15s ease-out, background-color 0.15s; }
 .yt-play svg { width: 22px; height: 22px; fill: var(--accentContrastText); }
 .yt-lite:hover .yt-play, .yt-lite:focus-visible .yt-play { transform: translate(-50%, -50%) scale(1.06); }
@@ -124,10 +125,10 @@
    baseline; the bar comes after the word's gap (0.25em), and the page's zoom (--site-zoom) is taken back out */
 .facet-word > span { line-height: 1; }
 .facet-bar { position: relative; align-self: stretch; flex: none; height: calc(3px / var(--site-zoom, 1)); margin-top: calc(11px / var(--site-zoom, 1) - 0.375em); border-radius: var(--r-pill); background: var(--subtleFill); overflow: hidden; }
-.facet-bar::after { content: ""; position: absolute; inset: 0; width: 0; background: var(--HighlightedBackground); }
+.facet-bar::after { content: ""; position: absolute; inset: 0; transform: scaleX(0); transform-origin: left; background: var(--HighlightedBackground); }   /* grown by a transform, not its width: the compositor's alone, no layout a frame */
 .facet-word.on .facet-bar::after { animation: facet-fill var(--facet-turn, 4.2s) linear forwards; }
 .facets.paused .facet-word.on .facet-bar::after { animation-play-state: paused; }   /* the turn holds where it is while the keyboard's focus is on the words */
-@keyframes facet-fill { from { width: 0; } to { width: 100%; } }
+@keyframes facet-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .facet-lines { display: grid; margin-top: var(--facet-gap);   /* the same room over the line as under it, to the panel's edge: centred between the words and the foot */ font-size: var(--t-lead); font-style: italic; line-height: 1.45; color: var(--Foreground); }
 .facet-line { grid-area: 1 / 1; align-self: center; opacity: 0; transform: translateY(0.3em); transition: opacity 0.7s ease-in, transform 0.7s ease-in; }   /* a line leaves in 0.7s, ending as its word's turn ends; the next arrives over 1.4s, gently, as its word lights (info.js) */
 .facet-line.on { opacity: 1; transform: none; transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), transform 1.4s cubic-bezier(0.4, 0, 0.2, 1); }

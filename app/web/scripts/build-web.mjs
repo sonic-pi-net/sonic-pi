@@ -31,6 +31,7 @@ execFileSync(process.execPath, [path.join(ROOT, "scripts/build-app.mjs")], { std
 if (OUT.startsWith(path.join(ROOT, "build") + path.sep)) fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 for (const f of ["app.js", "app.js.map", "app.css", "specs.html", "sonic_pi.js", "runtime.js", "live-core.js", "live-worker.js", "osc.js", "gui-stream.js", "examples.js", "manifest.webmanifest", "simple-keyboard.css"]) fs.copyFileSync(path.join(ROOT, "web", f), path.join(OUT, f));
+fs.cpSync(path.join(ROOT, "web/chunks"), path.join(OUT, "chunks"), { recursive: true });   // what app.js loads when first used (build-app.mjs)
 for (const d of ["data", "theme", "info", "fonts"]) {   // info: the About, Supporters and License pages (build-info.mjs); fonts: Hack, the code's
   const from = path.join(ROOT, "web", d);
   if (fs.existsSync(from)) fs.cpSync(from, path.join(OUT, d), { recursive: true });
@@ -51,8 +52,8 @@ fs.writeFileSync(path.join(ssDir, "version.json"), supersonicVersionJSON(ss));
 execFileSync(process.execPath, [path.join(ROOT, "scripts/build-site.mjs"), "--out", path.join(OUT, "site")], { stdio: "inherit" });
 const json = specsJSON(ROOT);
 fs.writeFileSync(path.join(OUT, "specs.json"), json);
-const synthdefs = copySynthdefs(ROOT, OUT);   // Sonic Pi's own synths, which the page loads in place of SuperSonic's bundled set
+const synthdefs = copySynthdefs(ROOT, OUT, ss);   // Sonic Pi's own synths: all, or those the CDN does not hold as they are here
 const withRuntime = copyRuntime(ROOT, OUT);
-console.log(`built ${OUT}: the app, its data and themes, ${synthdefs} synthdefs, specs.html + specs.json (${JSON.parse(json).length} specs, ${(json.length / 1024).toFixed(0)} KB)` +
+console.log(`built ${OUT}: the app, its data and themes, ${synthdefs} synthdefs${ss.synthdefs ? ` (the other ${fs.readdirSync(path.resolve(ROOT, "../../etc/synthdefs/compiled")).filter((f) => f.endsWith(".scsyndef")).length - synthdefs} from the CDN)` : ""}, specs.html + specs.json (${JSON.parse(json).length} specs, ${(json.length / 1024).toFixed(0)} KB)` +
   (withRuntime ? " + the mruby runtime (wasm, random tables, sample facts)" : "; no build/runtime yet, so no in-browser runtime (scripts/build-runtime.sh)"));
 console.log(describeSupersonic(ss));

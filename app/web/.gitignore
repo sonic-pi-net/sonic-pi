@@ -10,6 +10,7 @@ web/support.html
 web/code.html
 web/app.js
 web/app.js.map
+web/chunks/
 web/app.css
 web/simple-keyboard.css
 web/site/

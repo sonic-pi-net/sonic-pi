@@ -26,6 +26,7 @@ import { flashField, addFlash, dropFlash, loopScopeField, setLoopScopes, loopSco
 import { LoopScopeState, drawLoopScope, SCROLL_WINDOW, SWEEP_WINDOW, SWEEP_SEARCH } from "../loopscope.js";
 import { css, colour, blend, cssColour } from "../theme.js";
 import { createEventStrip } from "./strip.js";
+import { TRANSPORT, TRANSPORT_STOP } from "./card-html.js";
 
 // The classes CodeMirror puts on an editor in a root (its base theme's, the highlighter's): a still block wears
 // them too, so CodeMirror's own rules lay both out alike. Asked once per root, of a throwaway editor, which
@@ -51,14 +52,7 @@ const store = {
 import { icon, paths } from "../icons.js";   // the cards' action glyphs, from the one registry
 
 // native's transportRing: the disc, and the glyph cut out of it
-export const TRANSPORT = `<svg viewBox="0 0 24 24" aria-hidden="true">
-  <path class="qs-disc" d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-  <path class="qs-glyph qs-glyph-play" d="M15.5 12l-5 -4v8l5 -4" />
-</svg>`;
-export const TRANSPORT_STOP = `<svg viewBox="0 0 24 24" aria-hidden="true">
-  <path class="qs-disc" d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-  <path class="qs-glyph qs-glyph-stop" d="M9.5 9.5h5v5h-5z" />
-</svg>`;
+export { TRANSPORT, TRANSPORT_STOP } from "./card-html.js";   // the one Play and Stop, the build's cards' too
 
 // native's CardScope (widgets/cardscope.h), to the same proportions, on a scope slot of the card's own as
 // native's is; gain is its setDrive's default

@@ -23,6 +23,8 @@ export function createFlip(track, { levels, card, title, onChange = null, onJump
   const keys = levels.flatMap((l) => l.keys);
   const levelOf = new Map(levels.flatMap((l, i) => l.keys.map((k) => [k, i])));
   let at = -1;
+  // from the start, the first card at the front: the rest far (paint, below) before the page first lays them out
+  keys.forEach((k, j) => card(k)?.classList.toggle("flip-far", j > 2));
 
   const pb = createPageBar({ onPrev: () => step(-1), onNext: () => step(1), onJump, onGroup: (i) => go(levels[i].keys[0]), label: "All examples" });
   const bar = pb.el;
@@ -45,7 +47,9 @@ export function createFlip(track, { levels, card, title, onChange = null, onJump
     const k = keys[i];
     pb.set({ eyebrow: levels[levelOf.get(k)].title, main: `${i + 1} of ${keys.length}`, prev: i > 0, next: i < keys.length - 1, prevTitle: i > 0 ? title(keys[i - 1]) : "", nextTitle: i < keys.length - 1 ? title(keys[i + 1]) : "", said: `${title(k)}, ${i + 1} of ${keys.length}` });
     if (!on()) pb.fill(i);
-    for (const [j, key] of keys.entries()) card(key)?.classList.toggle("flip-front", j === i);
+    // the cards more than two from the front drawn without their code (./card.css .flip-far): a card's height is the
+    // column's, so nothing moves, and the page styles and lays out a few cards' code, not thirty
+    for (const [j, key] of keys.entries()) { const c = card(key); c?.classList.toggle("flip-front", j === i); c?.classList.toggle("flip-far", Math.abs(j - i) > 2); }
     onChange?.(k);
   }
   // once the column is still, the card it came to rest on is the one on show; where it rests is the browser's snap

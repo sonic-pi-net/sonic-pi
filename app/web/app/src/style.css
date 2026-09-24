@@ -7,10 +7,18 @@
 
 /* Hack, native Sonic Pi's code font (app/gui/fonts), served from web/fonts as WOFF2: the code looks as it does in the
    app, on any device, with nothing to install and no third party asked for it. Its licence: web/fonts/Hack-License.md */
-@font-face { font-family: "Hack"; src: url("fonts/Hack-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: "Hack"; src: url("fonts/Hack-Bold.woff2") format("woff2"); font-weight: 600 700; font-style: normal; font-display: swap; }
-@font-face { font-family: "Hack"; src: url("fonts/Hack-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
-@font-face { font-family: "Hack"; src: url("fonts/Hack-BoldItalic.woff2") format("woff2"); font-weight: 600 700; font-style: italic; font-display: swap; }
+/* Hack, each face twice: the whole font, and its core (the Latin, the punctuation, the arrows and keys the pages use;
+   a third of the size: web/fonts/*-core.woff2, pyftsubset). The core is declared last, so it is the one asked for any
+   character it has; the whole font is fetched only for a character it has not (a box drawing in a log, say): not for
+   an emoji or a variation selector (U+FE0E), which it has not either. */
+@font-face { font-family: "Hack"; src: url("fonts/Hack-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0000-FDFF, U+FE10-FFFF; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-Bold.woff2") format("woff2"); font-weight: 600 700; font-style: normal; font-display: swap; unicode-range: U+0000-FDFF, U+FE10-FFFF; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; unicode-range: U+0000-FDFF, U+FE10-FFFF; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-BoldItalic.woff2") format("woff2"); font-weight: 600 700; font-style: italic; font-display: swap; unicode-range: U+0000-FDFF, U+FE10-FFFF; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-Regular-core.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0020-007E, U+00A0-017F, U+0394, U+03BB, U+2010-2027, U+2030-203A, U+20AC, U+2190-21FF, U+2212, U+2303-2304, U+2318, U+2325-2326, U+232B, U+238B, U+25A0-25FF; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-Bold-core.woff2") format("woff2"); font-weight: 600 700; font-style: normal; font-display: swap; unicode-range: U+0020-007E, U+00A0-017F, U+0394, U+03BB, U+2010-2027, U+2030-203A, U+20AC, U+2190-21FF, U+2212, U+2303-2304, U+2318, U+2325-2326, U+232B, U+238B, U+25A0-25FF; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-Italic-core.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; unicode-range: U+0020-007E, U+00A0-017F, U+0394, U+03BB, U+2010-2027, U+2030-203A, U+20AC, U+2190-21FF, U+2212, U+2303-2304, U+2318, U+2325-2326, U+232B, U+238B, U+25A0-25FF; }
+@font-face { font-family: "Hack"; src: url("fonts/Hack-BoldItalic-core.woff2") format("woff2"); font-weight: 600 700; font-style: italic; font-display: swap; unicode-range: U+0020-007E, U+00A0-017F, U+0394, U+03BB, U+2010-2027, U+2030-203A, U+20AC, U+2190-21FF, U+2212, U+2303-2304, U+2318, U+2325-2326, U+232B, U+238B, U+25A0-25FF; }
 
 :root {
   /* two faces: the code face for code, logs and anything that lines up in columns; the prose face for everything else */
@@ -96,6 +104,7 @@ body.reduce-motion #btn-record.on .tb-glyph { animation: none; }
 #btn-help.hinting { position: relative; }
 #btn-help.hinting .tb-glyph { position: relative; }
 #btn-help.hinting::before { content: ""; position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; translate: -50% -50%; background: var(--HighlightedBackground); -webkit-mask: var(--echo) center / contain no-repeat; mask: var(--echo) center / contain no-repeat; pointer-events: none; animation: help-echo 1.6s ease-out infinite; }
+body.info-open #btn-help.hinting::before { animation: none; visibility: hidden; }   /* under the site's pages: nothing to see, so nothing drawn */
 @keyframes help-echo { from { transform: scale(1); opacity: 0.9; } to { transform: scale(2.3); opacity: 0; } }
 body.reduce-motion #btn-help.hinting::before { animation: none; transform: scale(1.35); opacity: 0.5; }   /* still: a halo of the Δ's shape round it */
 .tb-spacer { flex: 1; }
@@ -130,6 +139,7 @@ body.info-open .sn-close { display: none; }
 .ic-foot .ic-zoom { display: inline-flex; gap: 2px; margin-right: auto; }   /* the pages' − and +, at the left; the version at the right */
 .ic-foot .zoom-btn { width: 24px; height: 24px; }
 .ic-foot .zoom-btn svg { width: 20px; height: 20px; }
+:root { --site-zoom: 1.1; }   /* the site's pages a step up on a wide screen, before the script says (main.js zooms.site: one step, 1.1×), so a page is drawn at its size from the first paint */
 @media (max-width: 760px) { #info-body { --site-zoom: 1 !important; } .ic-foot .ic-zoom { display: none; } }   /* a phone: the pages as they are; no room for the zoom */
 /* the bar folded: a slim strip with the wordmark alone at the top left, where the site and the bar have it — the way back */
 #site-nav.folded { height: calc(24px + env(safe-area-inset-top)); }

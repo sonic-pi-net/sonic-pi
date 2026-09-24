@@ -18,13 +18,17 @@ const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls)
  * @param host   the scrolling element they live in (Escape there stops a playing card)
  * @param root   the document or shadow root the cards live in
  */
+// a block's code: a card the build wrote (scripts/build-site.mjs, ui/card-html.js) a line to a .cm-line, or a <pre>'s <code>
+const codeOf = (block) => (block.matches("pre") ? (block.querySelector("code") ?? block).textContent : [...block.querySelectorAll(".cm-line")].map((l) => l.textContent).join("\n"));
+
 export function mountExamples(pres, hooks, host, root = document) {
   const deck = createDeck(hooks, host);
   for (const pre of pres) {
     const d = pre.dataset;
-    const card = deck.add(createCard({ title: d.title, code: (pre.querySelector("code") ?? pre).textContent, blurb: d.blurb ?? "", key: d.key, actions: ["edit", "reset", "copy"], open: hooks.open, hooks, remember: STORE, root, wide: "wide" in d }));
+    const card = deck.add(createCard({ title: d.title, code: codeOf(pre), blurb: d.blurb ?? "", key: d.key, actions: ["edit", "reset", "copy"], open: hooks.open, hooks, remember: STORE, root, wide: "wide" in d }));
     if (pre.id) card.el.id = pre.id;
     pre.replaceWith(card.el);
+    playIfPressed(card);
   }
   return withReveal(deck);
 }
@@ -38,7 +42,6 @@ export function mountSnippets(pres, hooks, host, root) {
   const deck = createDeck(hooks, host);
   const counts = new Map();
   pres.forEach((pre, i) => {
-    const codeEl = pre.querySelector("code") ?? pre;
     let h = pre.previousElementSibling;
     while (h && !/^H[1-4]$/.test(h.tagName)) h = h.previousElementSibling;
     const section = pre.dataset.title ?? h?.textContent.trim().replace(/\s+/g, " ") ?? "Example";   // a block may name itself (a page's teaser)
@@ -46,10 +49,19 @@ export function mountSnippets(pres, hooks, host, root) {
     pre.querySelectorAll(".copy-button").forEach((b) => b.remove());   // the page's own copy button: the card has one
     const slot = el("div");   // the card takes the block into its body, so the block's place is held first
     pre.replaceWith(slot);
-    const card = deck.add(createCard({ title: n > 1 ? `${section} · ${n}` : section, code: codeEl.textContent.replace(/^\n/, "").replace(/\n$/, ""), key: pre.dataset.key ?? `snippet-${i}`, hooks, actions: ["edit", "reset", "copy"], open: hooks.open, root, playable: !("still" in pre.dataset) }));   // a fragment (data-still) to read, not a program to play   // a <pre><code> keeps a leading newline the page never shows
+    const card = deck.add(createCard({ title: n > 1 ? `${section} · ${n}` : section, code: codeOf(pre).replace(/^\n/, "").replace(/\n$/, ""), key: pre.dataset.key ?? `snippet-${i}`, hooks, actions: ["edit", "reset", "copy"], open: hooks.open, root, playable: !("still" in pre.dataset) }));   // a fragment (data-still) to read, not a program to play   // a <pre><code> keeps a leading newline the page never shows
     slot.replaceWith(card.el);
+    playIfPressed(card);
   });
   return withReveal(deck);
+}
+
+// a card whose Play was pressed before the script had made it (the page's own few lines, scripts/build-site.mjs): played
+// now, as the press asked
+function playIfPressed(card) {
+  if (!window.spPendingPlay || window.spPendingPlay !== card.key) return;
+  window.spPendingPlay = null;
+  queueMicrotask(() => card.onRun?.());
 }
 
 // the deck's api as the pages know it, with the card element for a key

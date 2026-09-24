@@ -5,7 +5,11 @@
 //
 // The web build has no OSC in or out. MIDI comes in through Web MIDI and
 // shows as cues. Time is one global timeline every thread shares.
-import { loadLiveRuntime, createLiveSession, bootEngine, SUPERSONIC_VERSION, supersonicVersion, PROCESS_FIELDS, oscSchedule } from "./sonic_pi.js";
+import { SUPERSONIC_VERSION, supersonicVersion, PROCESS_FIELDS, engineWasm, workerSettled } from "./runtime.js";
+// the engine's side (sonic_pi.js, and with it SuperSonic): loaded with the runtime (startRuntime), so a page only read
+// never fetches it; `sp` is the module once it has arrived, for what runs only with an engine (oscSchedule)
+let sp = null;
+const needEngineModule = () => import("./sonic_pi.js").then((m) => (sp = m));
 import { cardRings } from "./ui/card.js";
 import { createCodeKeyboard } from "./keyboard.js";
 import * as theme from "./theme.js";
@@ -16,6 +20,7 @@ import { createEditor, NUM_BUFFERS, STARTER, FORMER_STARTERS } from "./editor.js
 import { createWorkspace, NAME_MAX, DESCRIPTION_MAX } from "./workspace.js";
 import { createBufferTabs } from "./buffer-tabs.js";
 import { createSetsView } from "./sets-view.js";
+import { animateWhileShown } from "./ui/shown.js";
 import { isSet } from "./set-bundle.js";
 import { createDocs, createInstrument } from "./docs.js";
 import { createDeck } from "./ui/deck.js";
@@ -80,21 +85,38 @@ document.addEventListener("visibilitychange", () => logs.add("Host", `page ${doc
 
 // ── Data and themes ───────────────────────────────────────────────────────
 
-const [themes, completion, lang, synths, fx, samples, examples, quickstartData] = await Promise.all([
-  theme.loadThemes("./"),
-  json("data/completion.json"),
+// The themes first: the page's colours are the one thing it cannot draw without. The rest is fetched the first time
+// something needs it, and a page that never does never fetches it: the reference (the docs pane, the quickstart,
+// load_example, a page's live synth: needReference) and, with it, the completion (the editor, once it shows:
+// needEditorData). Until then the completion offers nothing and a synth's defaults are unknown.
+await theme.loadThemes("./");
+let lang = { pages: [] }, synths = { pages: [] }, fx = { pages: [] }, samples = { groups: [] }, examples = { groups: [] }, quickstartData = null, support = null;
+const ref = {};
+const api = new CompletionAPI();
+// each synth's documented defaults, for how long a note it plays lasts
+const synthOpts = new Map();
+// what the docs say exists, for an error's "did you mean" (friendly.js): nothing, until the editor's data is in
+let known = makeKnown({});
+const once = (what, fn) => { let p = null; return () => (p ??= fn().catch((e) => { p = null; logs.add("Host", `${what} did not load: ${describe(e)}`); throw e; })); };
+const needReference = once("the reference", () => Promise.all([
   json("data/reference/lang.json"),
   json("data/reference/synths.json"),
   json("data/reference/fx.json"),
   json("data/reference/samples.json"),
   json("data/reference/examples.json"),
   json("data/reference/quickstart.json"),
-]);
-const support = await json("data/runtime-support.json").catch(() => null);
-const ref = { lang, synths, fx, samples, examples, support };
-const api = new CompletionAPI(completion, { lang: lang.pages, synths: synths.pages, fx: fx.pages, samples: samples.groups });
-// each synth's documented defaults, for how long a note it plays lasts
-const synthOpts = new Map(synths.pages.map((p) => [p.key, Object.fromEntries((p.opts || []).map((o) => [o.name, o.default]))]));
+  json("data/runtime-support.json").catch(() => null),
+]).then((all) => {
+  [lang, synths, fx, samples, examples, quickstartData, support] = all;
+  Object.assign(ref, { lang, synths, fx, samples, examples, support });
+  for (const p of synths.pages) synthOpts.set(p.key, Object.fromEntries((p.opts || []).map((o) => [o.name, o.default])));
+}));
+const needEditorData = once("the editor's completion", () => Promise.all([json("data/completion.json"), needReference()]).then(([completion]) => {
+  api.load(completion, { lang: lang.pages, synths: synths.pages, fx: fx.pages, samples: samples.groups });
+  known = makeKnown(completion);
+}));
+// the docs pane, made once the reference it is made of has arrived; fn is given it
+const withDocs = (fn = null) => needReference().then(() => { docs ??= createDocs($("docs-pane"), ref, paneHooks); fn?.(docs); });
 
 // ── Status ────────────────────────────────────────────────────────────────
 
@@ -125,7 +147,32 @@ let booting = null;
 let engineRef = null;    // the engine itself: the inline scopes read the loop taps out of its shared memory
 const jobBuffer = new Map(); // job → the buffer it ran from
 const programs = new Map();  // job → what it ran, for flight reports
-const runtimeReady = loadLiveRuntime("./").then((r) => {
+// The runtime's worker and its wasm (1.7 MB, compiled on arrival): started when the editor shows or something is about
+// to play (a card pointed at, touched or focused on a page of the site), so a page that is only read never loads it
+let runtimeReady = null;
+// The runtime's worker, started at once: its module and its wasm on their way while sonic_pi.js (and SuperSonic's
+// client with it) is still arriving, not after. `alive` resolves true once the worker's module runs (live-worker.js
+// says so first thing), false if it cannot: the engine hands its egress only to a worker that is there to take it.
+let liveWorker;
+function startWorker() {
+  if (liveWorker !== undefined) return liveWorker;
+  liveWorker = null;
+  if (typeof Worker !== "function") return null;
+  try {
+    const worker = new Worker(new URL("live-worker.js", location.href), { type: "module", name: "sonic-pi runtime" });
+    const alive = new Promise((ok) => {
+      worker.addEventListener("message", ({ data }) => { if (data?.type === "alive") ok(true); });
+      worker.addEventListener("error", () => ok(false));
+    });
+    liveWorker = { worker, alive, settled: workerSettled(worker) };   // its ready, heard from now (loadLiveRuntime)
+  } catch { /* no module workers: the runtime runs on the page (loadLiveRuntime) */ }
+  return liveWorker;
+}
+const startRuntime = () => runtimeReady ??= (() => {
+  engineWasm();   // the engine's wasm too: whatever starts the runtime is a sign that sound is wanted
+  const w = startWorker();
+  return needEngineModule().then((m) => m.loadLiveRuntime("./", { worker: w?.worker ?? null, settled: w?.settled ?? null }));
+})().then((r) => {
   versions.runtime = r.version;
   logs.add("Runtime", `mruby runtime ${r.version} loaded, ${r.worker ? "in a worker of its own" : "on the page"}`);
   paintVersions();
@@ -139,6 +186,8 @@ const runtimeReady = loadLiveRuntime("./").then((r) => {
   showError({ class: "RuntimeLoadError", message: String(e.message ?? e) });
   throw e;
 });
+// the editor showing: its runtime, and its completion, on their way
+const wakeEditor = () => { startRuntime().catch(() => {}); needEditorData().catch(() => {}); };
 
 const scopeBox = $("scope-container");
 const scope = new Scope($("scope-canvas"), { mode: window.matchMedia("(max-width: 760px)").matches ? "wave" : "bars", ...store.get("sp-scope", {}) });   // a phone's band is a wave: bars at that height read as dashes
@@ -336,22 +385,54 @@ const audioIn = (() => {
   };
 })();
 
+// The audio context, made and started inside the tap that first asks for sound, before anything is awaited: a browser
+// (iOS above all) lets audio start only within a gesture, and the engine's code (sonic_pi.js, SuperSonic, the runtime)
+// arrives long after the tap has ended. The engine is handed this one (bootEngine's audioContext) rather than making
+// its own too late. A tap on a card's Play before the page's script had run made it already (build-site.mjs:
+// window.spAudioContext). Its options are the ones SuperSonic's own would have (48 kHz, the latency preference).
+let audioContext = null;
+function audioInGesture() {
+  if (audioContext?.state === "closed") audioContext = null;
+  try { audioContext ??= window.spAudioContext ?? new AudioContext({ latencyHint: lowLatency.on ? 0 : "interactive", sampleRate: 48000 }); }
+  catch (e) { logs.add("Host", `no audio context: ${describe(e)}`); return null; }
+  if (audioContext.state !== "running") audioContext.resume().catch(() => {});
+  return audioContext;
+}
+// A context made in a press that is not yet a gesture to iOS (a touch's pointerdown: a live synth's key plays on it)
+// starts on the lift that follows. Only while the engine boots: after that, sound that stops asks for its tap on the
+// resume card, and a tap meant for the code is never taken as one.
+for (const type of ["pointerup", "touchend", "click", "keydown"]) addEventListener(type, () => {
+  if (booting && !engineRef && audioContext && audioContext.state !== "running") audioContext.resume().catch(() => {});
+}, { capture: true, passive: true });
+
 // A tap that heads for the code (Launch Sonic Pi, the Code tab) starts the engine while it is a tap: a browser only
 // lets audio start inside a gesture, and by the first Run it has booted, so that Run sounds at once
 function warmEngine() { if (!session) ensureSession().catch(() => {}); }
 async function ensureSession() {
   if (session) return session;
+  audioInGesture();   // now, in the press, before anything is awaited
   booting ??= (async () => {
     scopeBox.classList.add("booting");
     setEngineStatus("booting SuperSonic...");
     status("Starting the audio engine…");   // native's splash says "Sonic Pi is starting": the first Run's wait is not silence
-    const runtime = await runtimeReady;
+    // The runtime and the engine start side by side: over a slow link each is seconds of downloads and round trips,
+    // and neither needs the other until the engine hands its egress to the runtime's worker (bootEngine), which holds
+    // it until its runtime is up (live-worker.js). The engine's wasm is fetched now, beside everything else.
+    const wasmBytes = engineWasm();
+    const w = startWorker();
+    const runtimeP = startRuntime();
+    runtimeP.catch(() => {});   // awaited below, once the engine is up
+    const m = await needEngineModule();
+    const worker = w && (await w.alive) ? w.worker : null;
+    const bytes = await wasmBytes;
     // SuperSonic reserves its shared memory's whole ceiling up front (maxInboxSize, 768 MB by default, is
     // most of it). A phone's browser gives a page far less, and iOS says "Out of memory" at the reservation
     // — a reload, with the last page's memory not yet let go, the more so. The inbox carries loads in
     // flight, so a phone reserves a slice of that and still loads any sample it has room to play.
     const phone = window.matchMedia("(max-width: 760px)").matches || (navigator.maxTouchPoints > 1 && /iPhone|iPad|Android/.test(navigator.userAgent));
-    const engine = await bootEngine({
+    const engine = await m.bootEngine({
+      ...(bytes ? { wasmBytes: bytes } : {}),   // fetched above, beside the runtime (no bytes: SuperSonic fetches its own)
+      ...(audioInGesture() ? { audioContext } : {}),   // the one the press started (above)
       ...(phone ? { memory: { maxInboxSize: 96 * 1024 * 1024 } } : {}),
       // a phone's hidden tab is one the system may freeze or kill at any moment: its sound suspends while hidden, and
       // coming back asks for the tap that resumes it (the resume card), rather than playing on with no page to stop it
@@ -359,13 +440,17 @@ async function ensureSession() {
       // the smallest output buffer the browser allows, in place of its "interactive" one: less delay, more risk of
       // glitches on a loaded machine
       ...(lowLatency.on ? { audioContextOptions: { latencyHint: 0 } } : {}),
-    }, { beforeInit: listenEngine, runtime });
+    }, { beforeInit: listenEngine, runtime: worker ? { worker } : null });
+    const runtime = await runtimeP;
+    // the worker's runtime could not load and the page's runs instead: the engine's egress went to a worker with no
+    // runtime behind it, so what the engine says back (MIDI in, a controller) does not reach it. Rare; said, not hidden
+    if (worker && runtime.worker !== worker) logs.add("Host", "the runtime runs on the page, not in its worker: MIDI and controller input will not arrive");
     const ac = engine.audioContext ?? engine.node?.context;
     const ms = (x) => (x == null ? "?" : `${(x * 1000).toFixed(1)} ms`);
     // outputLatency reads 0 until the audio has run a moment
     setTimeout(() => logs.add("Host", `audio: ${ac?.sampleRate ?? "?"} Hz, ${lowLatency.on ? "low latency" : "interactive"}; base latency ${ms(ac?.baseLatency)}, output latency ${ms(ac?.outputLatency)}`), 1000);
     groupsDeclared.clear();   // the runtime is new: its groups are told again as they are used
-    session = createLiveSession(runtime, engine, {
+    session = sp.createLiveSession(runtime, engine, {
       output, log, error: showError, status: showJobs, state: () => {}, record: onRecord, midi: midiSend,
       host: (address, number, name) => {
         if (address === "/sonic-pi/audio-in") return audioIn.want(number);   // live_audio: the sound card's input, opened on first use
@@ -513,7 +598,7 @@ const hooks = {
   stop: () => stop(),
   showDocs: (word, hint) => {
     openDrawer("docs");
-    if (!docs.showFor(word, hint)) toast(`no docs for ${word}`);
+    withDocs((d) => { if (!d.showFor(word, hint)) toast(`no docs for ${word}`); });
   },
   onBuffer: () => { paintLoopScopes(); paintWaits(); if (shownError) paintFix(); },   // the tabs draw themselves (buffer-tabs.js)
   onCaret: (line, position) => { $("caret-pos").textContent = `Line: ${line},  Position: ${position}`; },
@@ -813,7 +898,6 @@ $("cue-clear").addEventListener("click", () => { forgetPending(cueBox); cueBox.t
 
 let errorLine = null;
 let shownError = null;   // what the card says (friendly.js), for Jump, Fix it and Copy
-const known = makeKnown(completion);
 // backticked code in an explanation, set as code; the rest as text
 function codeSpans(node, text) {
   node.replaceChildren();
@@ -998,6 +1082,10 @@ const flight = createFlightRecorder({
   programs: () => [...programs.values()],
   versions: () => ({ language: "Sonic Pi v5.0.0", runtime: versions.runtime, supersonic: SUPERSONIC_VERSION }),
 });
+// off unless Preferences says otherwise: while it records, the page samples its clocks ten times a second
+if (store.get("sp-flight", false)) flight.start();
+// a mark or a report asked for with the recorder off: said so, and where it is turned on
+const flightOff = () => { if (flight.recording) return false; toast("the flight recorder is off: turn it on in Preferences"); return true; };
 // the status bar stays quiet about it: the report keeps the counts, and Preferences (Flight recorder) and the web's
 // own keys, FlightMark and FlightSave (at the end), mark a moment and save a report
 
@@ -1052,6 +1140,7 @@ const FLASHES = new Set(["synth", "control", "kill", "midi", "output", "cue"]);
 const cardDecks = () => [docs, quickstart, infoApi].filter(Boolean);
 
 function onRecord(r, at, stale = false) {
+  if (r.kind === "synth") navScope.wake?.();   // the bar's scope, resting in silence, draws the sound
   flight.record(r);
   insight.record(r);
   if (stale) return;   // the past, after the page was held: kept above, painted nowhere (sonic_pi.js deliver)
@@ -1084,7 +1173,8 @@ function onRecord(r, at, stale = false) {
   setTimeout(() => { if (editor.active === buffer) editor.flashLine(r.line); }, delay);
 }
 
-function loadExample(name) {
+async function loadExample(name) {
+  await needReference();   // the examples are the reference's (above)
   for (const g of examples.groups) {
     const e = g.examples.find((x) => x.key === name);
     if (e) {
@@ -1120,7 +1210,7 @@ function midiSend(r) {
   const verb = MIDI_OUT[r.path];
   const [port, ...rest] = r.args;
   const at = r.time;
-  const at_ = (time, kind, args) => { try { engineRef.sendOSC(oscSchedule(time, `/clockwork/midi/out/${kind}`, [String(port), ...args])); } catch { /* the engine is being rebuilt */ } };
+  const at_ = (time, kind, args) => { try { engineRef.sendOSC(sp.oscSchedule(time, `/clockwork/midi/out/${kind}`, [String(port), ...args])); } catch { /* the engine is being rebuilt */ } };
   const send = (time, args) => at_(time, verb, args);
   if (r.path === "/clock_beat") {
     const beat = rest[0] / 24;
@@ -1214,9 +1304,8 @@ function setPanel(next) {
   if (!isPane(next)) setPanelFull(false);   // full size is a help pane's: gone with it
   if (now !== next) status(next ? `Showing ${DRAWER_TITLES[next] ?? "the panel"}...` : "Hiding the panel...");
   if (next === "prefs") buildPrefs();
-  if (next === "docs" && !docs) docs = createDocs($("docs-pane"), ref, paneHooks);
-  if (next === "quickstart" && !quickstart) quickstart = createQuickstart($("quickstart-pane"), quickstartData, paneHooks);
-  if (next === "quickstart") requestAnimationFrame(() => quickstart.render());
+  if (next === "docs") withDocs();
+  if (next === "quickstart") needReference().then(() => { quickstart ??= createQuickstart($("quickstart-pane"), quickstartData, paneHooks); requestAnimationFrame(() => quickstart.render()); });
   if (next === "logs") requestAnimationFrame(() => logs.shown());
   showDebug(next === "debug");
 }
@@ -1279,7 +1368,7 @@ function panelNow() { return document.body.classList.contains("prefs-open") ? "p
 /** The panel shows this pane (or nothing, for ""); the help pane's own API. */
 const openDrawer = (which) => setPanel(which);
 /** The docs pane at a section (synths, fx, …) and a page of it. */
-function showDocs(section, key = null) { openDrawer("docs"); docs?.show(section, key); }
+function showDocs(section, key = null) { openDrawer("docs"); withDocs((d) => d.show(section, key)); }
 /** A pane's own button: it opens its pane, or puts it away when that is what shows. */
 const toggleDrawer = (which) => setPanel(panelNow() === which ? "" : which);
 /** The preferences, as a panel like the panes. */
@@ -1295,28 +1384,28 @@ function showHelpHint() {
   const btn = $("btn-help"), glyph = btn.querySelector(".tb-glyph");
   const el = document.createElement("div");
   el.id = "help-hint";
-  el.innerHTML = `<div class="hh-note" role="note"><p><strong>Welcome!</strong> Toggle the documentation by clicking this glyph.</p><button type="button" class="sp-mini-btn primary">Got it</button></div>`;
+  el.innerHTML = `<div class="hh-note" role="note"><p><strong>Welcome to the Sonic Pi code editor!</strong> Toggle the documentation by clicking this glyph.</p><button type="button" class="sp-mini-btn primary">Got it</button></div>`;
   btn.style.setProperty("--echo", glyph.style.getPropertyValue("--icon"));
   btn.classList.add("hinting");
   document.body.appendChild(el);
   // followed each frame, not placed once: the toolbar's other parts change width (the engine's state, the time), so
-  // the button moves along it with nothing resized to say so
-  let frame = 0, at = "";
+  // the button moves along it with nothing resized to say so. Only while it can be seen (ui/shown.js), and resting
+  // while the site's pages cover the editor: closing them wakes it (closeInfo)
+  let at = "";
   const place = () => {
+    if (infoOpen()) { el.hidden = true; at = ""; loop.rest(); return; }   // the editor's, not the site's pages'
     const r = glyph.getBoundingClientRect();
-    const hide = infoOpen() || !btn.offsetParent;   // the editor's, not the site's pages'
-    const now = `${hide} ${r.left + r.width / 2} ${r.top + r.height / 2} ${r.width}`;
+    const now = `${r.left + r.width / 2} ${r.top + r.height / 2} ${r.width}`;
     if (now !== at) {
       at = now;
-      el.hidden = hide;
+      el.hidden = false;
       el.style.setProperty("--x", `${r.left + r.width / 2}px`);
       el.style.setProperty("--y", `${r.top + r.height / 2}px`);
     }
-    frame = requestAnimationFrame(place);
   };
+  const loop = animateWhileShown(btn, place, { onStop: () => { el.hidden = true; at = ""; } });
   el.querySelector("button").addEventListener("click", () => helpHint.done());
-  helpHint = { done() { cancelAnimationFrame(frame); el.remove(); btn.classList.remove("hinting"); helpHint = null; store.set("sp-help-seen", true); } };
-  place();
+  helpHint = { wake: () => loop.wake(), done() { loop.stop(); el.remove(); btn.classList.remove("hinting"); helpHint = null; store.set("sp-help-seen", true); } };
 }
 
 $("btn-prefs").addEventListener("click", () => setPanel(panelNow() === "prefs" ? "" : "prefs"));
@@ -1806,6 +1895,7 @@ function ensureInfo() {
   return info ??= Promise.resolve().then(() => createInfo(infoCard, {
     tabs: siteNav.querySelector(".ic-tabs"),
     pick: pickTab,
+    log: (text) => logs.add("Host", text),   // a page's first visit, timed (info.js)
     play: (code, opts) => play(code, opts),
     stopGroup: (group, fade) => session?.stopGroup(group, fade),
   group: nextCardGroup,
@@ -1819,13 +1909,19 @@ function ensureInfo() {
     // a live synth on a page (the home page's): the docs pane's instrument, its Play a card of a deck of its own, its
     // QWERTY keys the instrument's while focus is in it
     instrument: (host, key, scroller) => {
-      const p = synths.pages.find((x) => x.key === key);
-      if (!p) return null;
+      // the deck at once (the page keeps it); the instrument once the synth's page has arrived (the editor's data)
       const deck = createDeck({ play: (code, opts) => play(code, opts), stopGroup: (group, fade) => session?.stopGroup(group, fade), group: nextCardGroup, scopeFrame }, scroller);
-      const inst = createInstrument(p, false, paneHooks, deck, { fit: true, place: "home", heading: 2, open: openFromInfo });   // an h2, under the home page's section
-      host.replaceChildren(inst.face);
-      host.classList.add("live");
-      host.addEventListener("keydown", inst.keyHandler);
+      // the synth's page of the reference: the page's own copy (scripts/build-site.mjs synth-page), else the reference's
+      const own = host.querySelector("script.synth-page");
+      const page = own ? Promise.resolve(JSON.parse(own.textContent)) : needReference().then(() => synths.pages.find((x) => x.key === key));
+      page.then((p) => {
+        if (!p) return;
+        if (!synthOpts.has(p.key)) synthOpts.set(p.key, Object.fromEntries((p.opts || []).map((o) => [o.name, o.default])));
+        const inst = createInstrument(p, false, paneHooks, deck, { fit: true, place: "home", heading: 2, open: openFromInfo });   // an h2, under the home page's section
+        host.replaceChildren(inst.face);
+        host.classList.add("live");
+        host.addEventListener("keydown", inst.keyHandler);
+      });
       return deck;
     },
     onTheme: (fn) => theme.onChange(fn),
@@ -1837,7 +1933,15 @@ function ensureInfo() {
       const u = new URL(want, location.href);
       if (u.pathname !== location.pathname || u.hash !== location.hash) history.replaceState(null, "", want);
     },
-  })).then((api) => { infoApi = api; if (!infoOpen()) api.blur(); return api; }).catch((e) => { logs.add("Host", `the site did not load: ${describe(e)}`); return null; });
+  })).then((api) => {
+    infoApi = api;
+    if (!infoOpen()) api.blur();
+    else {   // once the page has loaded, while it is idle: the other tabs ready for a first tap
+      const soon = () => (window.requestIdleCallback ?? ((f) => setTimeout(f, 200)))(() => api.prefetch(), { timeout: 1000 });
+      if (document.readyState === "complete") soon(); else addEventListener("load", soon, { once: true });
+    }
+    return api;
+  }).catch((e) => { logs.add("Host", `the site did not load: ${describe(e)}`); return null; });
 }
 const infoOpen = () => !infoCard.hidden;
 // the card sits under the website's bar (or the top of the window), the whole app under it — toolbar, icons and all — blurred behind
@@ -1881,6 +1985,8 @@ function closeInfo({ push = true } = {}) {
   infoCard.hidden = true;
   document.body.classList.remove("info-open");
   editorReachable(true);
+  helpHint?.wake?.();   // the first visit's pointer at Help, resting while the pages covered it
+  wakeEditor();
   paintContentsChip(null);   // the page's fold chip goes with the page
   infoApi?.blur();
   editor.focus();
@@ -1941,16 +2047,20 @@ function attachNavScope(engine) {
   engine.node.connect(navScope.analyser);
   stopRings.attach(ac, engine.node);
   if (!first) return;   // the draw loop reads navScope.analyser as it stands: one loop, whatever context
-  const tick = () => {
-    const c = navScope.canvas;
-    if (c.offsetParent) {
-      navScope.analyser.getFloatTimeDomainData(navScope.buf);
-      const frame = { frames: navScope.buf.length, channels: 1, interleaved: navScope.buf, writePosition: ++navScope.cursor };
-      if (navScope.state.feed(frame, false) || !c.dataset.painted) { drawLoopScope(c, navScope.state); c.dataset.painted = "1"; }
-    }
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
+  // drawn while the bar's scope is on screen (ui/shown.js), and resting once it has drawn half a second of silence: a
+  // sound starting wakes it (onRecord)
+  let quiet = 0;
+  navScope.loop = animateWhileShown(navScope.canvas, () => {
+    const c = navScope.canvas, buf = navScope.buf;
+    navScope.analyser.getFloatTimeDomainData(buf);
+    const frame = { frames: buf.length, channels: 1, interleaved: buf, writePosition: ++navScope.cursor };
+    if (navScope.state.feed(frame, false) || !c.dataset.painted) { drawLoopScope(c, navScope.state); c.dataset.painted = "1"; }
+    let loud = false;
+    for (let i = 0; i < buf.length; i += 8) if (Math.abs(buf[i]) > 1e-4) { loud = true; break; }
+    quiet = loud ? 0 : quiet + 1;
+    if (quiet > 30) navScope.loop.rest();
+  });
+  navScope.wake = () => { quiet = 0; navScope.loop.wake(); };   // a sound: half a second more before it rests again
 }
 phoneMedia.addEventListener("change", () => { if (!phoneMedia.matches && document.body.dataset.drawer === "output") openDrawer(""); });
 // Info, as native's λ: a dialog about this Sonic Pi. The site is the bar's (sonic-pi.net, or the dialog's link).
@@ -2483,13 +2593,16 @@ function buildPrefs() {
   }
 
   h("Flight recorder");
+  box.appendChild(toggle("Record performance", flight.recording, (on) => { store.set("sp-flight", on); if (on) flight.start(); else flight.stop(); buildPrefs(); },
+    "For chasing a glitch or a stutter: while on, the page samples every clock ten times a second, for a report to share. Off, it costs nothing"));
   const flightRow = el("div", "pref-row");
   const markBtn = el("button", "sp-mini-btn", "Mark this moment");
   markBtn.title = keys.title("Mark a significant moment of time in the flight recorder", "FlightMark");
-  markBtn.addEventListener("click", () => { flight.mark("heard", "the player heard something"); toast("marked"); });
+  markBtn.addEventListener("click", () => { if (flightOff()) return; flight.mark("heard", "the player heard something"); toast("marked"); });
   const saveBtn = el("button", "sp-mini-btn", "Save report");
   saveBtn.title = keys.title("Save a flight report to share when something goes wrong", "FlightSave");
-  saveBtn.addEventListener("click", () => flight.save());
+  saveBtn.addEventListener("click", () => { if (!flightOff()) flight.save(); });
+  markBtn.disabled = saveBtn.disabled = !flight.recording;
   flightRow.append(markBtn, saveBtn);
   box.appendChild(flightRow);
 
@@ -2687,8 +2800,8 @@ const COMMANDS = {
   ScopePaused: () => { scope.paused = !scope.paused; toast(scope.paused ? "scope paused" : "scope running"); },
   ContextualDocs: () => editor.command("ContextualDocs"),
   ReadCompletionDetails: () => editor.command("ReadCompletionDetails"),
-  FlightMark: () => { flight.mark("heard", "the player heard something"); toast("marked"); },
-  FlightSave: () => flight.save(),
+  FlightMark: () => { if (flightOff()) return; flight.mark("heard", "the player heard something"); toast("marked"); },
+  FlightSave: () => { if (!flightOff()) flight.save(); },
 };
 
 // the platform's own clipboard, undo and select-all keys stay the browser's and the editor's, so a paste needs no permission
@@ -2788,6 +2901,9 @@ function shortcutPrefs(pane) {
   pane.appendChild(row2);
 }
 
-// Everything is up: the editor gets the keys.
+// Everything is up: the editor gets the keys. Showing, it is woken (its runtime and completion on their way); a page of
+// the site wakes the runtime once a card is reached for, so a Play is not kept waiting on it
 editor.focus();
+if (!infoOpen()) wakeEditor();
+else for (const type of ["pointerover", "pointerdown", "focusin"]) infoCard.addEventListener(type, (e) => { if (e.target.closest?.(".qs-card, .home-synth")) startRuntime().catch(() => {}); }, { passive: true });
 window.sonicPi = { editor, workspace, keyboard: codeKeyboard, api, theme, get session() { return session; }, docs: () => docs, quickstart: () => quickstart, scope, processTree: () => insight.tree.snapshot(), pianoRoll: () => insight.roll.snapshot(), flight, keys, shortcuts: shortcutEditor, get engine() { return engineRef; } };

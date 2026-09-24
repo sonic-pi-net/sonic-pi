@@ -5,6 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import crypto from "node:crypto";
 import { flacInfo } from "./flac-info.mjs";
 
 export const TABLES = ["rand-stream.wav", "rand-stream-pink.wav", "rand-stream-light-pink.wav", "rand-stream-dark-pink.wav", "rand-stream-perlin.wav"];
@@ -104,7 +105,36 @@ export async function resolveSupersonic(ROOT, want = "auto", assets = null) {
     else if (akind === "local") { if (r.source === "cdn") throw new Error("local assets need the local build"); delete r.synthdefs; delete r.samples; }
     else throw new Error(`assets from where? "${assets}" is not local, cdn or cdn@<version>`);
   }
+  // Synthdefs from the CDN only where the CDN's copy is Sonic Pi's, byte for byte: the rest (one SuperSonic leaves
+  // out, one that has drifted) are served beside the app as before. Unknown (offline, the CDN's list unreadable): all
+  // of them beside the app.
+  if (r.synthdefs) {
+    const own = await synthdefsNotOnCdn(ROOT, r.synthdefs);
+    if (own) r.ownSynthdefs = own;
+    else { console.warn(`could not compare the synthdefs with ${r.synthdefs}: all of them are served beside the app`); delete r.synthdefs; }
+  }
   return r;
+}
+
+/** Sonic Pi's synthdefs (etc/synthdefs/compiled) that the CDN's synthdefs package does not hold as they are here:
+ *  missing there, or different. Their names (sonic-pi-…), or null when the CDN's list could not be read. jsDelivr's
+ *  package listing gives each file's SHA-256, so nothing is downloaded to compare. */
+async function synthdefsNotOnCdn(ROOT, base) {
+  const pkg = /\/npm\/([^/]+@[^/]+)\/synthdefs\/$/.exec(base)?.[1];
+  const from = path.resolve(ROOT, "../../etc/synthdefs/compiled");
+  if (!pkg || !fs.existsSync(from)) return null;
+  let listed;
+  try {
+    const res = await fetch(`https://data.jsdelivr.com/v1/packages/npm/${pkg}?structure=flat`, { signal: AbortSignal.timeout(10000) });
+    if (!res.ok) return null;
+    listed = new Map((await res.json()).files.map((f) => [f.name.split("/").pop(), f.hash]));
+  } catch { return null; }
+  const own = [];
+  for (const f of fs.readdirSync(from).filter((x) => x.endsWith(".scsyndef")).sort()) {
+    const hash = crypto.createHash("sha256").update(fs.readFileSync(path.join(from, f))).digest("base64");
+    if (listed.get(f) !== hash) own.push(f.replace(/\.scsyndef$/, ""));
+  }
+  return own;
 }
 
 /** A line saying what was resolved. */
@@ -114,9 +144,9 @@ export const describeSupersonic = (r) => r.source === "local"
 
 /** version.json for the page: the source, its version, and the bases it does not derive itself. */
 export function supersonicVersionJSON(r) {
-  const { source, version, commit, base, core, synthdefs, samples } = r;
+  const { source, version, commit, base, core, synthdefs, ownSynthdefs, samples } = r;
   const built = r.dist ? fs.statSync(path.join(r.dist, "supersonic.js")).mtime.toISOString() : undefined;
-  return JSON.stringify({ source, version, commit, built, base, core, synthdefs, samples });
+  return JSON.stringify({ source, version, commit, built, base, core, synthdefs, ownSynthdefs, samples });
 }
 
 /** The modules the page and its workers import by path (supersonic/<name>): on the CDN, re-exported from there.
@@ -166,11 +196,13 @@ export function trimTable(wav) {
 }
 
 /** Sonic Pi's own synthdefs (etc/synthdefs/compiled) into the build, as web/sonic_pi.js asks for them: the web plays
- *  the same build of each synth as the desktop app, rather than the set SuperSonic bundles (which drifts). */
-export function copySynthdefs(ROOT, OUT) {
+ *  the same build of each synth as the desktop app. With the CDN's synthdefs (ss.synthdefs), only those it does not
+ *  hold as they are here (ss.ownSynthdefs, resolveSupersonic); without, all of them. */
+export function copySynthdefs(ROOT, OUT, ss = null) {
   const from = path.resolve(ROOT, "../../etc/synthdefs/compiled");
   if (!fs.existsSync(from)) return 0;
-  const names = fs.readdirSync(from).filter((f) => f.endsWith(".scsyndef"));
+  const only = ss?.synthdefs && ss.ownSynthdefs ? new Set(ss.ownSynthdefs.map((n) => `${n}.scsyndef`)) : null;
+  const names = fs.readdirSync(from).filter((f) => f.endsWith(".scsyndef") && (!only || only.has(f)));
   fs.mkdirSync(path.join(OUT, "synthdefs"), { recursive: true });
   for (const f of names) fs.copyFileSync(path.join(from, f), path.join(OUT, "synthdefs", f));
   return names.length;

@@ -21,6 +21,7 @@
 // It reads the runtime's process table (web/sonic_pi.js processTable): rows
 // of numbers straight out of the runtime's memory, every frame.
 import { css } from "./theme.js";
+import { animateWhileShown } from "./ui/shown.js";
 import { perfAdd } from "./perf.js";
 
 export const KIND = { run: 0, main: 1, liveLoop: 2, named: 3, thread: 4, session: 5, fx: 6, synth: 7, sample: 8, group: 9 };   // group: a container the runs hang from (Scheduler#stop_group)
@@ -183,9 +184,8 @@ export function createProcessTree(root, hooks) {
     }
   }
 
+  // drawn each frame while the tree is on screen, and not at all otherwise (ui/shown.js); its easing starts afresh
   function draw() {
-    requestAnimationFrame(draw);
-    if (!root.offsetParent) { lastStep = null; return; }
     const t0 = performance.now();
     try { drawFrame(); } finally { perfAdd("processTree", performance.now() - t0); }
   }
@@ -392,7 +392,7 @@ export function createProcessTree(root, hooks) {
     if (n.line > 0) hooks.jump(n.line, n.job);
   });
 
-  requestAnimationFrame(draw);
+  animateWhileShown(root, draw, { onStop: () => { lastStep = null; } });
   return {
     /** The tree as drawn: [{uid, parent, label, kind, state, x, y}]. */
     snapshot: () => nodes.map((n) => ({ uid: n.uid, parent: n.parent, label: processLabel(n), kind: n.kind, state: n.state, line: n.line, ...(screen.get(n.uid) ?? {}) })),

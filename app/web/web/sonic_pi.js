@@ -19,7 +19,7 @@
 import { SuperSonic } from "./supersonic/supersonic.js";
 import { decode } from "./osc.js";
 import { createRecordReader } from "./gui-stream.js";
-import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, programNeeds } from "./runtime.js";
+import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, programNeeds, workerSettled } from "./runtime.js";
 import { LiveCore, freshPerf, addPerf, countHeadroom } from "./live-core.js";
 
 const JOB_MIXER_NODE = 1003;   // the run mixer, sonic-pi-basic_mixer (Scheduler::JOB_MIXER_NODE): what a Stop fades
@@ -46,10 +46,21 @@ export function oscSchedule(time, address, args) {
   ]);
 }
 
+// Sonic Pi's synthdefs served beside the app, and which of them are loaded from here rather than the CDN (bootEngine)
+const OWN_SYNTHDEFS = new URL("./synthdefs/", import.meta.url).href;
+let ownSynthdefs = null;
+
 /** SuperSonic, from where version.json says it is (runtime.js supersonicInfo), playing Sonic Pi's own synthdefs. */
 /** beforeInit(engine): listen before it boots, to hear what it says while booting. */
 export async function bootEngine(opts = {}, { beforeInit, runtime } = {}) {
   const info = await supersonicInfo();
+  // The synths are Sonic Pi's own (etc/synthdefs/compiled), always: what the desktop app plays, the web plays. From
+  // the CDN where its copy is that one byte for byte, which the build checked (scripts/lib/runtime-assets.mjs); the
+  // rest (ownSynthdefs: one SuperSonic leaves out, one that has drifted) and all of them without that check, beside
+  // the app. A stale copy plays differently or not at all: 0.85.0's autotuner predates the pitch tracker's fix, and
+  // is silent.
+  const cdnDefs = info.synthdefs && Array.isArray(info.ownSynthdefs);
+  ownSynthdefs = cdnDefs ? new Set(info.ownSynthdefs) : null;
   // ONE READER for the engine's OUT ring, and it is the runtime's worker when there is one. The transport
   // speaks its init/start/stop protocol down this port rather than spawning the pump worker it would
   // otherwise own, so a cue from a controller is acted on in the worker instead of being handed to this
@@ -65,10 +76,7 @@ export async function bootEngine(opts = {}, { beforeInit, runtime } = {}) {
     // the core package holds the wasm and the worklet; the client derives its wasm path from baseURL, so it is named too
     ...(info.core ? { coreBaseURL: info.core, wasmBaseURL: `${info.core}wasm/` } : {}),
     ...(info.samples ? { sampleBaseURL: info.samples } : {}),
-    // The synths are Sonic Pi's own (etc/synthdefs/compiled, served beside the app), not the set SuperSonic bundles:
-    // the two drift, and a stale copy plays differently or not at all — its autotuner predates the pitch tracker's
-    // first-reading fix, and is silent. This repo is what the desktop app plays; the web plays it too.
-    synthdefBaseURL: new URL("./synthdefs/", import.meta.url).href,
+    synthdefBaseURL: cdnDefs ? info.synthdefs : OWN_SYNTHDEFS,   // above; Bridge#synthDef names the app's own
     // SAB mode where the page is cross-origin isolated (scripts/serve.mjs sends the
     // headers): the scope streams and audio capture read the engine's shared memory,
     // as native's client does. Elsewhere postMessage, which needs no headers.
@@ -174,7 +182,9 @@ export class Bridge {
       // :piano's synthdef is not enough on its own: its plugin needs its table too (below); one from a URL
       // (load_synthdef) is fetched from there, and its own name read from it
       const url = this.#urls.get(name);
-      this.#defs.set(name, this.#engine.loadSynthDef(url ?? name).then(async (r) => {
+      // one of Sonic Pi's the CDN does not hold as it is here: from beside the app (bootEngine)
+      const own = !url && ownSynthdefs?.has(name) ? `${OWN_SYNTHDEFS}${name}.scsyndef` : null;
+      this.#defs.set(name, this.#engine.loadSynthDef(url ?? own ?? name).then(async (r) => {
         if (name === "sonic-pi-piano") await this.pianoTable();
         if (url && r?.name && r.name !== name) this.#errors.set(name, `${url} holds a synthdef named :${r.name}, not :${name}: play :${r.name}, or name the file ${r.name}.scsyndef`);
         return true;
@@ -413,17 +423,19 @@ const clampBpm = (bpm) => Math.min(999, Math.max(20, bpm));   // native's BPMScr
  * on the page (loadRuntime). Either way: {version, samples}, and a worker or
  * the runtime's module for createLiveSession.
  */
-export async function loadLiveRuntime(base = "./") {
-  if (typeof Worker === "function") {
+export async function loadLiveRuntime(base = "./", { worker: started = null, settled = null } = {}) {
+  if (started || typeof Worker === "function") {
+    let worker = started;
     try {
-      const worker = new Worker(new URL("live-worker.js", new URL(base, location.href)), { type: "module", name: "sonic-pi runtime" });
-      const info = await new Promise((resolve, reject) => {
-        worker.onmessage = ({ data }) => (data.type === "ready" ? resolve(data) : data.type === "failed" ? reject(new Error(data.error)) : null);
-        worker.onerror = (e) => reject(new Error(e.message || "the runtime's worker did not start"));
-      });
-      worker.onmessage = worker.onerror = null;
+      // the page's worker, started at the first sign of sound, before this module had arrived (main.js), with
+      // `settled` its first word (ready or failed), heard from its start: a worker quicker than this module would
+      // otherwise say "ready" to no one, and the runtime would load for ever. Else a worker now, heard from now.
+      worker ??= new Worker(new URL("live-worker.js", new URL(base, location.href)), { type: "module", name: "sonic-pi runtime" });
+      const info = await (started && settled ? settled : workerSettled(worker))
+        .then((d) => (d.type === "ready" ? d : Promise.reject(new Error(d.error))));
       return { worker, version: info.version, samples: info.samples };
     } catch (e) {
+      worker?.terminate();
       console.warn(`the runtime could not run in a worker, so it runs on the page: ${e.message}`);
     }
   }

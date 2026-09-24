@@ -21,6 +21,7 @@ import { highlighting } from "./highlight.js";
 import { completionExtensions, completionDocText, hideSlider, moveCompletion } from "./completion/cm.js";
 import { announce, Announcement } from "./announce.js";
 import { LoopScopeState, drawLoopScope, SWEEP_WINDOW, SWEEP_SEARCH, SCROLL_WINDOW } from "./loopscope.js";
+import { animateWhileShown } from "./ui/shown.js";
 
 export const NUM_BUFFERS = 10;   // the most a set can have (workspace.js MAX_BUFFERS); each set its own number
 // the first buffer on a first visit (workspace.js puts it there): notes to hear, change and hear again — short lines,
@@ -389,13 +390,13 @@ function loopScopePlugin(hooks) {
     constructor(view) {
       this.view = view;
       this.states = new Map();      // slot → LoopScopeState
-      this.frame = this.frame.bind(this);
-      this.raf = requestAnimationFrame(this.frame);
+      // frames only while there are loops' scopes to draw and the editor is on screen: none behind the site's pages
+      this.loop = animateWhileShown(view.scrollDOM, () => this.frame());
     }
+    update(u) { if (u.state.field(loopScopeField, false)?.size) this.loop.wake(); }
     frame() {
-      this.raf = requestAnimationFrame(this.frame);
       const canvases = this.view.dom.querySelectorAll(".sp-loop-scope");
-      if (!canvases.length) { if (this.states.size) this.states.clear(); return; }
+      if (!canvases.length) { if (this.states.size) this.states.clear(); this.loop.rest(); return; }
       const scroll = !!hooks.loopScopeScroll?.();
       const seen = new Set();
       for (const c of canvases) {
@@ -408,7 +409,7 @@ function loopScopePlugin(hooks) {
       }
       for (const k of this.states.keys()) if (!seen.has(k)) this.states.delete(k);
     }
-    destroy() { cancelAnimationFrame(this.raf); }
+    destroy() { this.loop.stop(); }
   });
 }
 

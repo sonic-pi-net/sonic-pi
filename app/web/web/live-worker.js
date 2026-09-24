@@ -22,15 +22,24 @@ import { loadRuntime, programTables, programSynthdefUrls, SUPERSONIC_BASE } from
 import { LiveCore } from "./live-core.js";
 import { decode } from "./osc.js";
 
+// What the page says before the runtime is up (the engine's egress: SuperSonic hands it over as it boots, beside
+// this worker's own start rather than after it) is held here, and handled in order once it is (the foot)
+const early = [];
+self.onmessage = (e) => early.push(e);
+postMessage({ type: "alive" });   // a worker that runs modules: the engine may hand its egress here (main.js)
+
 const fail = (e) => postMessage({ type: "failed", error: String(e?.message ?? e) });
 let OscChannel, runOscInPump, midiInDecode, runtime;
 try {
-  ({ OscChannel } = await import(`${SUPERSONIC_BASE}osc_channel.js`));
-  ({ runOscInPump } = await import(`${SUPERSONIC_BASE}osc_in_pump.js`));
-  ({ midiInDecode } = await import(`${SUPERSONIC_BASE}midi_event.js`));
+  // all at once: over a slow link each is a round trip or two, and one after another they are seconds.
   // No random tables yet: :white arrives with the engine (the "live" message), the rest only if a program asks
   // for them. They are 840 kB each, and most programs draw from :white alone.
-  runtime = await loadRuntime("./", { sources: [] });
+  [{ OscChannel }, { runOscInPump }, { midiInDecode }, runtime] = await Promise.all([
+    import(`${SUPERSONIC_BASE}osc_channel.js`),
+    import(`${SUPERSONIC_BASE}osc_in_pump.js`),
+    import(`${SUPERSONIC_BASE}midi_event.js`),
+    loadRuntime("./", { sources: [] }),
+  ]);
 } catch (e) {
   fail(e);
   throw e;
@@ -266,10 +275,12 @@ async function installSynths(code) {
 // its shared memory first: fromTransferable resolves, though its typings say it returns)
 let live = null;
 
-self.onmessage = async ({ data: d }) => {
+const handle = async ({ data: d }) => {
   try {
     switch (d.type) {
-      case "egress": return startEgress(d.port);   // the engine's reader lives here (bootEngine)
+      case "egress":   // the engine's reader lives here (bootEngine); the engine is booting, so :white is wanted
+        runtime.installTable("white").catch(() => {});   // on its way now, beside the engine's own start ("live" awaits it)
+        return startEgress(d.port);
       case "live":
         anchor = d.clock;
         core = new LiveCore(runtime, deps);
@@ -314,4 +325,6 @@ self.onmessage = async ({ data: d }) => {
   }
 };
 
+self.onmessage = handle;
+for (const e of early.splice(0)) handle(e);   // what came while the runtime was loading, in the order it came
 postMessage({ type: "ready", version: runtime.version, samples: runtime.samples });

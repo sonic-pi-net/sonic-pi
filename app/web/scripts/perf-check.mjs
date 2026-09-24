@@ -178,7 +178,7 @@ async function browserPass() {
   const pageErrors = [];
   page.on("pageerror", (e) => pageErrors.push(e.message));
   await page.goto(BASE);
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => { localStorage.clear(); localStorage.setItem("sp-flight", "true"); });   // the recorder on: this reads it (off by default)
   await page.goto(BASE);
   await page.waitForFunction(() => /ready/.test(document.getElementById("status-engine").textContent), null, { timeout: 60000 });
   const rows = [];

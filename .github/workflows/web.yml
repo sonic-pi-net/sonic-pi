@@ -212,6 +212,8 @@ jobs:
           "$RUNNER_TEMP/emsdk/emsdk" install "$EMSDK_VERSION"
           "$RUNNER_TEMP/emsdk/emsdk" activate "$EMSDK_VERSION"
           echo "$RUNNER_TEMP/emsdk/upstream/emscripten" >> "$GITHUB_PATH"
+      - name: WebP, for the videos' stills
+        run: sudo apt-get install -y webp
       - run: npm ci
       - name: The tutorial, from the documentation in this repository
         working-directory: app/server/ruby

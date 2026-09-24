@@ -10,15 +10,16 @@
 // (after the delay the player chose), or when the iOS magnifier drags the
 // caret; ⌄, in the corner, puts it away. A preference switches back to the
 // system keyboard.
-import * as simpleKeyboard from "simple-keyboard";
 import { undo, redo, cursorCharLeft, cursorCharRight, cursorLineUp, cursorLineDown, deleteCharBackward } from "@codemirror/commands";
 import { acceptCompletion, completionStatus, startCompletion, moveCompletionSelection } from "@codemirror/autocomplete";
 import { EditorView } from "@codemirror/view";
 import { newlineAndIndent, toggleComment } from "./editor.js";
 
-// simple-keyboard's main build is CommonJS with its class on `default`, which a
-// bundler wraps once more: take the constructor wherever it lands.
-const Keyboard = simpleKeyboard.default?.default ?? simpleKeyboard.SimpleKeyboard ?? simpleKeyboard.default;
+// simple-keyboard, fetched the first time the keyboard opens (a page never typed on by touch never loads it). Its
+// main build is CommonJS with its class on `default`, which a bundler wraps once more: take the constructor wherever
+// it lands.
+let keyboardClass = null;
+const loadKeyboard = () => (keyboardClass ??= import("simple-keyboard").then((m) => m.default?.default ?? m.SimpleKeyboard ?? m.default));
 
 // the 123 pillar bottom-left, as a phone's is, Tab above it where a keyboard has it; ← and → side by side (under
 // ↑ ↓, which walk a completion list), nothing between them; ⌄ in the corner, under return
@@ -79,7 +80,9 @@ export function createCodeKeyboard({ editor, dock, mount, store }) {
   const selecting = () => { const { from, to } = view.state.selection.main; return from !== to; };
   const insert = (text) => view.dispatch({ ...view.state.replaceSelection(text), userEvent: "input.type", scrollIntoView: true });
 
-  const kbd = new Keyboard(".code-kbd", {
+  // built the first time it opens (setOpen): its keys are hundreds of elements no one may ever touch
+  let kbd = null;
+  const build = (Keyboard) => (kbd ??= new Keyboard(".code-kbd", {
     layout: LAYOUT,
     display: DISPLAY,
     buttonTheme: [{ class: "kbd-letter", buttons: LETTERS }],
@@ -164,7 +167,7 @@ export function createCodeKeyboard({ editor, dock, mount, store }) {
       }
       view.focus();
     },
-  });
+  }));
 
   // ── Hold space to move the caret, as iOS's keyboard does ──
   // A press on space held still for a moment turns the keyboard into a trackpad:
@@ -231,6 +234,7 @@ export function createCodeKeyboard({ editor, dock, mount, store }) {
   function setOpen(on) {
     if (on && !virtual) return;
     if (isOpen() === on) return;
+    if (on && !kbd) { loadKeyboard().then((Keyboard) => { build(Keyboard); setOpen(true); }); return; }
     dock.hidden = !on;
     document.body.classList.toggle("kbd-open", on);
     if (on) requestAnimationFrame(() => { measure(); view.dispatch({ effects: [], scrollIntoView: true }); });

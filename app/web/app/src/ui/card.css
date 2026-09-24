@@ -110,6 +110,7 @@
 .flip .qs-card { flex: 0 0 auto; height: calc(100% - 28px); scroll-snap-align: start; scroll-snap-stop: always; content-visibility: visible; transition: opacity 0.35s ease; }
 .flip .qs-card:last-child, .flip > .qs-grid:last-child > .qs-card:last-child { margin-bottom: 28px; }   /* the last one snaps to the top too */
 .flip .qs-card:not(.flip-front) { cursor: pointer; }
+.flip .qs-card.flip-far .qs-card-body { display: none; }   /* far from the front (flip.js): its code is not drawn until the column comes near it (the body, not the editor in it: CodeMirror holds its display with !important) */
 .flip .qs-card:not(.flip-front) > :not(.qs-card-head) { opacity: 0.45; }   /* the next card peeking: its body dimmed, its name (a way to it) as legible as any card's */
 [data-scheme="high_contrast"] .flip .qs-card:not(.flip-front) > * { opacity: 1; }   /* High Contrast dims nothing: every word at its full ratio */
 .qs-levels.flip .qs-card { scroll-margin-top: 0; }   /* a card rests flush with the column's top: a page's room above an anchor (site.css .ic-main [id]) would move every snap down by it */

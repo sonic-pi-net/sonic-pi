@@ -8,7 +8,6 @@
 // A QR code carries the link's digits form (share.js encodeDigits) in the code's numeric mode, a third more than
 // the text link would hold, and stops at a size a phone reads off a screen (QR_MAX): past it, it says so and points
 // at the link or the file, rather than show a code too dense to scan.
-import qrcode from "qrcode-generator";
 import { icon } from "./icons.js";
 import { renderCode } from "./highlight.js";
 
@@ -186,6 +185,7 @@ export function createShareMenu({ button, menu, scopes, clipboard }) {
   }
   // a QR code or the link, shown in the panel in place of its body; the same one pressed again puts the body back
   function show(act) {
+    qrTurn++;   // a QR on its way is for the view it was asked in only
     const s = scopes[scope];
     const again = menu.querySelector(`.sm-act[data-act=${act}]`)?.getAttribute("aria-pressed") === "true";
     for (const r of menu.querySelectorAll(".sm-act")) r.setAttribute("aria-pressed", String(!again && r.dataset.act === act));
@@ -209,6 +209,13 @@ export function createShareMenu({ button, menu, scopes, clipboard }) {
       return;
     }
     const url = s.qrLink();
+    // the QR library, fetched the first time a code is asked for; a view changed before it arrives is left alone
+    const turn = ++qrTurn;
+    loadQR().then(() => { if (turn === qrTurn && !view.hidden) showQR(url, s, room); });
+  }
+  let qrTurn = 0;
+  function showQR(url, s, room) {
+    const detailOf = view;
     const qr = makeQR(url);
     if (!qr) {
       detailOf.append(el("div", "sm-note", `${scope === "set" ? "this set is" : "this program is"} too big for a QR code a phone can read: copy the link or save it as a file instead`));
@@ -233,6 +240,9 @@ export function createShareMenu({ button, menu, scopes, clipboard }) {
   document.addEventListener("keydown", (e) => { if ((e.key === "Escape" || (e.key === "g" && e.ctrlKey)) && !menu.hidden) { e.stopPropagation(); e.preventDefault(); close(); } }, true);   // Escape, or Emacs's Ctrl-G
   return { open, close };
 }
+
+let qrcode = null;
+const loadQR = () => (qrcode ? Promise.resolve() : import("qrcode-generator").then((m) => { qrcode = m.default ?? m; }));
 
 // A QR of a link: the address up to the program in the byte mode, the program's digits (share.js encodeDigits,
 // after "#code=N<format>") in the numeric mode. Medium error correction while it fits (a phone reads a marked

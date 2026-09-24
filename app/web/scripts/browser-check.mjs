@@ -14,6 +14,10 @@
 // Needs Playwright (npm install); PLAYWRIGHT=/path/to/playwright/index.mjs
 // points at another copy.
 import { quiet } from "./lib/quiet.mjs";
+import fs from "node:fs";
+import path from "node:path";
+// Sonic Pi's own synthdefs, which every synthdef the page fetches must be byte for byte
+const COMPILED = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../etc/synthdefs/compiled");
 const BASE = process.argv[2] ?? "http://127.0.0.1:8460/web/";
 const { chromium, webkit, devices } = await import(process.env.PLAYWRIGHT ?? "playwright");
 
@@ -37,13 +41,15 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     page.on("pageerror", (e) => pageErrors.push(e.message));
     // where each synthdef is fetched from: the engine loads them in a worker, so this watches the whole context
     // rather than the page's own resource timings, which Chromium leaves those out of
-    const defURLs = [];
+    const defURLs = [], defBodies = [];
     page.context().on("request", (r) => { if (r.url().includes(".scsyndef")) defURLs.push(new URL(r.url()).pathname); });
+    // and what came back: Sonic Pi's own build of each, byte for byte, whether from beside the app or the CDN
+    page.context().on("response", (r) => { if (r.url().includes(".scsyndef") && r.ok()) defBodies.push(r.body().then((b) => ({ file: new URL(r.url()).pathname.split("/").pop(), b }), () => null)); });
     // a clean slate before app.js runs, rather than a load-clear-reload: the reload cancels the first load's own
     // requests, and WebKit calls the runtime's module worker going with them an uncaught error
     // (and the first visit's pointer to Help already seen: it floats over the panel the checks click in; the phone
     // page below checks it)
-    await page.addInitScript(() => { try { localStorage.clear(); localStorage.setItem("sp-help-seen", "true"); } catch {} });
+    await page.addInitScript(() => { try { localStorage.clear(); localStorage.setItem("sp-help-seen", "true"); localStorage.setItem("sp-flight", "true"); } catch {} });   // the recorder on: the checks read it (it is off by default)
     await page.goto(BASE + "#app");   // the site lands over the editor; the checks are the editor's
     await page.waitForFunction(() => /ready|Error/.test(document.getElementById("status-engine").textContent), null, { timeout: 60000 });
     // the runtime says its version as it loads, in the Logs pane (the status line only says it is ready)
@@ -151,10 +157,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.waitForFunction(() => /redefined/.test(document.getElementById("log").textContent), null, { timeout: 10000 }).catch(() => {});
     const jobs2 = await page.locator("#status-jobs").getAttribute("title");
     check("a second Run redefines a live loop in place", (await page.locator("#log").textContent()).includes("redefined") && /:hat/.test(jobs2), jobs2);
-    // The synths are this repo's build of each one (web/sonic_pi.js synthdefBaseURL), not the set SuperSonic bundles:
-    // those drift, and a stale one plays differently or not at all. The autotuner is what this listens to — the
-    // engine's copy predates the fix for the pitch tracker's first reading, and makes no sound at all — so a sour saw
-    // through it must come out audible, and in tune.
+    // The synths are this repo's build of each one (web/sonic_pi.js bootEngine), from the CDN only where its copy is
+    // this one: SuperSonic's set drifts, and a stale one plays differently or not at all. The autotuner is what this
+    // listens to — 0.85.0's copy predates the fix for the pitch tracker's first reading, and makes no sound at all — so
+    // a sour saw through it must come out audible, and in tune.
     await setCode("live_loop :sour do\n  with_fx :autotuner do\n    synth :saw, note: 60.4, sustain: 2\n  end\n  sleep 2\nend");
     await page.click("#btn-run");
     await page.evaluate(() => {   // the tap first, so it has a window of sound to report on
@@ -170,8 +176,11 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       return peak > 0.02 ? peak : false;
     }, null, { timeout: 15000 }).then((h) => h.jsonValue()).catch(() => 0)
       .then((peak) => ({ peak: +Number(peak).toFixed(3), defs: defURLs.length, from: defURLs[0] ?? "" }));
-    tuned.own = defURLs.length > 0 && defURLs.every((u) => u.startsWith(new URL("synthdefs/", BASE).pathname));
-    check("an FX plays this repo's build of its synthdef, not the engine's bundled copy", tuned.own && tuned.peak > 0.02, JSON.stringify(tuned));
+    const bodies = (await Promise.all(defBodies)).filter(Boolean);
+    const differ = bodies.filter(({ file, b }) => { try { return !b.equals(fs.readFileSync(path.join(COMPILED, file))); } catch { return true; } }).map(({ file }) => file);
+    tuned.own = bodies.length > 0 && !differ.length;
+    if (differ.length) tuned.differ = differ;
+    check("an FX plays this repo's build of its synthdef, byte for byte, wherever it is served from", tuned.own && tuned.peak > 0.02, JSON.stringify(tuned));
     await page.click("#btn-stop");
     await setCode("live_loop :broken do\n  play [60, 64].tock\n  sleep 0.25\nend");
     await page.click("#btn-run");
@@ -676,6 +685,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     ph.on("pageerror", (e) => phoneErrors.push(e.message));
     await ph.goto(BASE + "#app");
     await ph.waitForFunction(() => window.sonicPi?.keys, null, { timeout: 60000 });
+    // a visit as anyone makes it: the flight recorder off, taking no frames and no timer
+    check("the flight recorder is off until it is asked for", await ph.evaluate(() => window.sonicPi.flight.recording === false && window.sonicPi.flight.latest() === null));
     const apart = (a, b) => !(a && b && a.top < b.bottom && b.top < a.bottom && a.left < b.right && b.left < a.right);
     const complete = async () => {
       await ph.click('#input-dock .hg-button[data-skbtn="{tab}"]');

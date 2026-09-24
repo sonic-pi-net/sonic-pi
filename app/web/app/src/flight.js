@@ -9,6 +9,9 @@
 // player ("I heard that"). A report is the whole buffer, the marks, the
 // programs that were running, and the runtime's records around each mark,
 // all on the engine's clock so a crackle lines up with what played.
+//
+// Off until asked for (start(): Preferences' Flight recorder, main.js): off, it watches nothing and keeps nothing — no
+// timer, no frame counter, no observer — so a page that is not being recorded pays nothing for it.
 import { perfTake } from "./perf.js";
 
 const SAMPLE_MS = 100;
@@ -37,24 +40,41 @@ export function createFlightRecorder(hooks) {
   let frames = 0;
   let lastFrame = null;
   const listeners = new Set();
-
-  // stalls on the page's one thread, where the browser reports them
-  try {
-    new PerformanceObserver((list) => {
-      for (const e of list.getEntries()) longTasks.push({ at: e.startTime, ms: e.duration });
-    }).observe({ type: "longtask", buffered: true });
-  } catch { /* not in this browser */ }
+  let on = false, observer = null, raf = 0, timer = 0;
 
   // frame gaps: the page's paint cadence, as a player sees jank
   const onFrame = (t) => {
     if (lastFrame != null) frameMax = Math.max(frameMax, t - lastFrame);
     lastFrame = t;
     frames++;
-    requestAnimationFrame(onFrame);
+    raf = requestAnimationFrame(onFrame);
   };
-  requestAnimationFrame(onFrame);
+
+  function start() {
+    if (on) return;
+    on = true;
+    // stalls on the page's one thread, where the browser reports them
+    try {
+      observer = new PerformanceObserver((list) => {
+        for (const e of list.getEntries()) longTasks.push({ at: e.startTime, ms: e.duration });
+      });
+      observer.observe({ type: "longtask", buffered: true });
+    } catch { observer = null; /* not in this browser */ }
+    lastFrame = null; frames = 0; frameMax = 0;
+    raf = requestAnimationFrame(onFrame);
+    timer = setInterval(sample, SAMPLE_MS);
+  }
+  function stop() {
+    if (!on) return;
+    on = false;
+    observer?.disconnect(); observer = null;
+    cancelAnimationFrame(raf); raf = 0;
+    clearInterval(timer); timer = 0;
+    longTasks = [];
+  }
 
   function mark(kind, detail = "", clock = null) {
+    if (!on) return null;
     const session = hooks.session();
     const m = { at: performance.now(), clock: clock ?? session?.clockNow() ?? null, kind, detail };
     marks.push(m);
@@ -131,10 +151,9 @@ export function createFlightRecorder(hooks) {
     if (samples.length > KEEP_SAMPLES) samples.shift();
     for (const fn of listeners) fn({ type: "sample", sample: s });
   }
-  setInterval(sample, SAMPLE_MS);
-
   /** One runtime record, kept compactly for the report. */
   function record(r) {
+    if (!on) return;
     const c = { time: r.time, kind: r.kind, job: r.job, thread: r.thread, name: r.name || undefined, line: r.line };
     if (r.kind === "synth") { c.synth = r.synth; c.note = r.args?.note; c.buf = r.args?.buf; }
     else if (r.kind === "midi") { c.path = r.path; }
@@ -244,6 +263,10 @@ export function createFlightRecorder(hooks) {
   }
 
   return {
+    /** Recording: sampling, marking and keeping records. Off to begin with. */
+    get recording() { return on; },
+    start,
+    stop,
     mark,
     record,
     summary,
