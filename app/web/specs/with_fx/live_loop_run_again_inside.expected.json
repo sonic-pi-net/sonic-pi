@@ -51,8 +51,8 @@
     },
     {
       "kind": "synth",
-      "t": 1.0,
-      "beat": 1.0,
+      "t": 2.0,
+      "beat": 2.0,
       "thread": "0.0.0",
       "name": "live_loop_a",
       "synth": "sonic-pi-beep",
@@ -69,8 +69,8 @@
     },
     {
       "kind": "synth",
-      "t": 2.0,
-      "beat": 2.0,
+      "t": 4.0,
+      "beat": 4.0,
       "thread": "0.0.0",
       "name": "live_loop_a",
       "synth": "sonic-pi-beep",
@@ -100,13 +100,13 @@
       "text": "synth :beep, {note: 60.0, release: 0.1}"
     },
     {
-      "t": 1.0,
+      "t": 2.0,
       "thread": "0.0.0",
       "name": "live_loop_a",
       "text": "synth :beep, {note: 62.0, release: 0.1}"
     },
     {
-      "t": 2.0,
+      "t": 4.0,
       "thread": "0.0.0",
       "name": "live_loop_a",
       "text": "synth :beep, {note: 62.0, release: 0.1}"
