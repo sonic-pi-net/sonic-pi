@@ -28,7 +28,10 @@ const ACTS = [
   ["file", "download", "Save file", (s) => `Save it as a ${s.fileKind} file`],
 ];
 
-export function createShareMenu({ button, menu, scopes, clipboard }) {
+export function createShareMenu({ button, menu, scopes, clipboard, ready = null }) {
+  // what the links need (share.js loadShareCodec), fetched as a pointer or the focus reaches the button: in long
+  // before a tap lands, and the menu opens once it is (its link is written as it opens)
+  for (const type of ["pointerover", "pointerdown", "focus"]) button.addEventListener(type, () => { ready?.()?.catch?.(() => {}); }, { passive: true });
   let scope = "buffer", body = null, view = null;
   // a phone's: the panel as About is there, a dialog over the page dimmed and blurred behind it (style.css); a tap on
   // the page behind closes it, as a click outside the menu does
@@ -235,7 +238,10 @@ export function createShareMenu({ button, menu, scopes, clipboard }) {
     detailOf.append(canvas, el("div", "sm-note", `QR version ${qr.typeNumber}, ${qr.getModuleCount()}×${qr.getModuleCount()}`), save);
   }
 
-  button.addEventListener("click", () => (menu.hidden ? open() : close()));
+  button.addEventListener("click", () => {
+    if (!menu.hidden) return close();
+    Promise.resolve(ready?.()).then(open, (e) => console.error("the share links could not load:", e));
+  });
   document.addEventListener("pointerdown", (e) => { if (!menu.hidden && !menu.contains(e.target) && !button.contains(e.target)) close(); }, true);
   document.addEventListener("keydown", (e) => { if ((e.key === "Escape" || (e.key === "g" && e.ctrlKey)) && !menu.hidden) { e.stopPropagation(); e.preventDefault(); close(); } }, true);   // Escape, or Emacs's Ctrl-G
   return { open, close };

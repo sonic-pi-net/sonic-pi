@@ -33,7 +33,7 @@ import { createShortcuts, DEF, MODES, parseChord } from "./shortcuts.js";
 import { createShortcutEditor } from "./shortcuts-ui.js";
 import { createPageBar } from "./ui/pagebar.js";
 import { installTooltips } from "./tooltip.js";
-import { encodeCode, encodeDigits, decodeCode } from "./share.js";
+import { encodeCode, encodeDigits, decodeCode, loadShareCodec } from "./share.js";
 import { createShareMenu } from "./share-menu.js";
 import { createInfo } from "./info.js";
 import { announce, Announcement, setSpeakTransport } from "./announce.js";
@@ -1776,7 +1776,7 @@ function arrive(text, name, from, bufferName = "") {
 // Share or save (share-menu.js): the buffer showing or the whole set, as a link, a QR code or a file
 const linkTo = (code) => new URL(`${infoApi?.code.file ?? "code.html"}#code=${code}`, location.href).href;
 createShareMenu({
-  button: $("btn-share"), menu: $("share-menu"), clipboard,
+  button: $("btn-share"), menu: $("share-menu"), clipboard, ready: loadShareCodec,
   scopes: {
     buffer: {
       icon: "file-code", fileKind: ".txt",
@@ -2175,13 +2175,11 @@ function loadFromHash() {
   // a link's code is the point: no pane beside it (the cards are for a fresh, empty opening)
   openDrawer("");
   editorFillsPhone();
-  try {
-    arrive(decodeCode(m[1]), "", "the link");
-  } catch (e) {
+  history.replaceState(null, "", location.pathname + location.search);
+  loadShareCodec().then(() => arrive(decodeCode(m[1]), "", "the link")).catch((e) => {
     toast(`that link's code could not be read: ${describe(e)}`);
     logs.add("Host", `the link's code could not be read: ${describe(e)}`);
-  }
-  history.replaceState(null, "", location.pathname + location.search);
+  });
 }
 loadFromHash();
 window.addEventListener("hashchange", loadFromHash);

@@ -7,12 +7,15 @@
 // Format 1 packs the source as a token stream (share-table.js: Sonic Pi's
 // vocabulary — its functions, synths, fx, samples, opts and Ruby's words — as
 // one, two or three bytes each; a newline with its indent as one) and
-// deflates that against a preset dictionary of the language's most common
-// lines. The table and the dictionary are fixed for the format character; a
-// new table is a new character, and every link stays readable.
+// deflates that (raw DEFLATE, RFC 1951) against a preset dictionary: 32 KB of
+// that token stream, the pieces Sonic Pi programs share most, trained on the
+// language's own examples and thousands of its players' programs
+// (scripts/build-share-table.mjs). The table and the dictionary are fixed for
+// the format character; a new table is a new character, and every link stays
+// readable. The whole format is written down in docs/share-link-format.md.
 import { deflateSync, inflateSync } from "fflate";
-import table from "./share-table.js";
 
+const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
 export const b64url = (bytes) => btoa(String.fromCharCode(...bytes)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 export const unb64url = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
 
@@ -22,7 +25,9 @@ export const unb64url = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace
 // would otherwise read as one of these; every other byte is the source's own.
 const ONE = 112, TWO = 256;
 const isWord = (c) => /[A-Za-z0-9_]/.test(c);
-export function makeCodec({ vocab, dict }) {
+// A codec from a table: { vocab, dictionary (the dictionary's bytes, base64) } as share-table.js has it, or, while a
+// table is being made (scripts/build-share-table.mjs), { vocab, dict (text, packed here) }.
+export function makeCodec({ vocab, dict = "", dictionary: dictionaryB64 = null }) {
   const byFirst = new Map();   // first character → its tokens, longest first
   vocab.forEach((t, k) => { const l = byFirst.get(t[0]) ?? []; l.push([t, k]); byFirst.set(t[0], l); });
   for (const l of byFirst.values()) l.sort((a, b) => b[0].length - a[0].length);
@@ -78,7 +83,7 @@ export function makeCodec({ vocab, dict }) {
     return s;
   }
 
-  const dictionary = pack(dict);
+  const dictionary = dictionaryB64 != null ? unb64(dictionaryB64) : pack(dict);
   return {
     pack, unpack,
     encode: (src) => deflateSync(pack(src), { level: 9, mem: 12, dictionary }),
@@ -119,13 +124,25 @@ export function fromDigits(s) {
 // A link's program: a buffer's code or a whole set (set-bundle.js: the .sonicpi file, whose header tells it
 // apart), packed the same way. The format character first; a link for a QR code puts N before it and the bytes in
 // digits after, so the digits can go in the code's numeric mode.
-const formats = { [table.version]: makeCodec(table) };
-export const FORMAT = table.version;
-export const encodeCode = (code) => FORMAT + b64url(formats[FORMAT].encode(code));
-export const encodeDigits = (code) => "N" + FORMAT + toDigits(formats[FORMAT].encode(code));
+// The table (share-table.js: the vocabulary and a dictionary that fills most of deflate's window) is fetched the
+// first time a link is made or read: most visits do neither, and making the codec costs a moment at startup too.
+// loadShareCodec() starts it (the Share button, as a pointer reaches it; a page opened on a link); the rest below
+// need it loaded.
+export const FORMAT = "1";
+let formats = null, loading = null;
+export const loadShareCodec = () => (loading ??= import("./share-table.js").then(({ default: table }) => {
+  if (table.version !== FORMAT) throw new Error(`share-table.js is format ${table.version}, the codec writes ${FORMAT}`);
+  formats = { [table.version]: makeCodec(table) };
+}));
+const codec = (f) => {
+  if (!formats) throw new Error("the share codec is not loaded (share.js loadShareCodec)");
+  return formats[f];
+};
+export const encodeCode = (code) => FORMAT + b64url(codec(FORMAT).encode(code));
+export const encodeDigits = (code) => "N" + FORMAT + toDigits(codec(FORMAT).encode(code));
 export function decodeCode(s) {
   const digits = s[0] === "N", f = digits ? s[1] : s[0];
-  const codec = formats[f];
-  if (!codec) throw new Error(`a link from a newer Sonic Pi (format ${JSON.stringify(f ?? "")})`);
-  return codec.decode(digits ? fromDigits(s.slice(2)) : unb64url(s.slice(1)));
+  const c = codec(f);
+  if (!c) throw new Error(`a link from a newer Sonic Pi (format ${JSON.stringify(f ?? "")})`);
+  return c.decode(digits ? fromDigits(s.slice(2)) : unb64url(s.slice(1)));
 }

@@ -7,7 +7,8 @@
 // long, up to the 4096 X shortens).
 //
 //   node scripts/share-check.mjs [--all]   # --all lists every program, not just the examples
-import { encodeCode, decodeCode } from "../app/src/share.js";
+import { encodeCode, decodeCode, loadShareCodec } from "../app/src/share.js";
+await loadShareCodec();
 import { corpus } from "./build-share-table.mjs";
 
 const HOME = "https://sonic-pi.net/#code=";
