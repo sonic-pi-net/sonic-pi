@@ -194,18 +194,18 @@ body.sounding #site-nav .sn-stop::before { border-color: color-mix(in srgb, var(
 
 .tb-sep { width: 1px; height: 22px; background: var(--WindowBorder); margin: 0 6px; }
 /* the Share button's menu (share-menu.js), the picker's surface under the button */
-#share-menu, #sets-menu { position: fixed; z-index: 400; top: var(--picker-top, 60px); left: var(--menu-left, 12px); width: min(340px, calc(100vw - 24px)); max-height: calc(100dvh - var(--picker-top, 60px) - 24px); overflow: auto; padding: 6px; background: var(--pop-bg); border: var(--pop-border); border-radius: var(--r-m); box-shadow: var(--pop-shadow); }
+#link-menu, #sets-menu { position: fixed; z-index: 400; top: var(--picker-top, 60px); left: var(--menu-left, 12px); width: min(340px, calc(100vw - 24px)); max-height: calc(100dvh - var(--picker-top, 60px) - 24px); overflow: auto; padding: 6px; background: var(--pop-bg); border: var(--pop-border); border-radius: var(--r-m); box-shadow: var(--pop-shadow); }
 /* Share (share-menu.js): a quickstart card (ui/card.css) with tabs. The chosen tab is the card's bar, in the accent
    with its contrast, joined to the card; the other a tint. The body, the card's tint, holds what it is and what it's
    called; the foot, the stronger tint, the four ways to share it. One colour, the accent, throughout. */
 .sm-top { display: flex; align-items: center; justify-content: space-between; }
-#share-menu .sm-close { display: none; }   /* a phone's (below) */
+#link-menu .sm-close { display: none; }   /* a phone's (below) */
 .sm-backdrop { display: none; }
 @media (max-width: 760px) {
   /* a phone: Share as About is there, a dialog over the page, dimmed and blurred behind it, its close at the right */
   .sm-backdrop:not([hidden]) { position: fixed; inset: 0; z-index: 399; display: block; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(7px) saturate(0.8); -webkit-backdrop-filter: blur(7px) saturate(0.8); }
-  #share-menu { top: 50%; left: 50%; width: min(94vw, 460px); max-height: 88dvh; padding: 8px 8px 10px; translate: -50% -50%; }
-  #share-menu .sm-close { display: inline-flex; }
+  #link-menu { top: 50%; left: 50%; width: min(94vw, 460px); max-height: 88dvh; padding: 8px 8px 10px; translate: -50% -50%; }
+  #link-menu .sm-close { display: inline-flex; }
 }
 .sm-step { padding: 8px 8px 8px; font: 700 var(--t-label) / 1.4 var(--prose-font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--mutedForeground); }
 .sm-what { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 0 4px; }
@@ -247,11 +247,11 @@ body.sounding #site-nav .sn-stop::before { border-color: color-mix(in srgb, var(
 .sm-field-about, .sm-preview { height: calc(5 * 1.4 * var(--t-small) + 16px); line-height: 1.4; }   /* the same room, a description or a buffer's code */
 .sm-field-about { resize: none; overflow-x: hidden; overflow-y: auto; font-weight: 400; }
 .sm-field::placeholder { color: var(--mutedForeground); font-style: italic; opacity: 1; }   /* a prompt, not a value: grey and italic */
-#share-menu .sm-preview { overflow: auto; background: var(--Background); color: var(--DefaultForeground, var(--Foreground)); font: var(--t-small) / 1.4 var(--code-font); white-space: pre; }   /* the editor's own colours; scrolls for the rest */
+#link-menu .sm-preview { overflow: auto; background: var(--Background); color: var(--DefaultForeground, var(--Foreground)); font: var(--t-small) / 1.4 var(--code-font); white-space: pre; }   /* the editor's own colours; scrolls for the rest */
 .sm-preview:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: -1px; }
 .sm-field:focus { outline: 2px solid var(--HighlightedBackground); outline-offset: -1px; }
 /* done: the button a tick in the theme's own green (its strings'), readable on light and dark alike, and a line saying what happened */
-#share-menu { --done: color-mix(in srgb, var(--DoubleQuotedStringForeground) 70%, var(--WindowForeground)); }
+#link-menu { --done: color-mix(in srgb, var(--DoubleQuotedStringForeground) 70%, var(--WindowForeground)); }
 .sm-act.done .sm-glyph { background: color-mix(in srgb, var(--DoubleQuotedStringForeground) 24%, transparent); color: var(--done); }
 .sm-act.done .sm-act-label { color: var(--done); }
 .sm-url { width: 100%; box-sizing: border-box; resize: none; padding: 6px 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: var(--subtleFill); color: var(--WindowForeground); font: var(--t-tiny) var(--code-font); word-break: break-all; }

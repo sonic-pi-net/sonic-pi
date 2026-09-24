@@ -62,7 +62,7 @@
   <button id="btn-stop" class="tb-icon" title="Stop everything (Cmd/Ctrl+. or Alt+S)" aria-label="Stop"><i class="tb-glyph" style="--icon: url(data/toolbar/stop.png)"></i></button>
   <button id="btn-record" class="tb-icon tb-rec" title="Start recording to a WAV audio file (Shift+Cmd/Ctrl+R)" aria-label="Record"><i class="tb-glyph" style="--icon: url(data/toolbar/rec.png)"></i></button>
   <button id="btn-load" class="tb-icon" title="Load a file into this buffer" aria-label="Load"><i class="tb-glyph" style="--icon: url(data/toolbar/load.png)"></i></button>
-  <button id="btn-share" class="tb-icon" title="Share this buffer: a link to copy, a QR code, or the link to copy by hand" aria-label="Share this buffer" aria-haspopup="menu" aria-expanded="false" aria-controls="share-menu"><i class="tb-glyph" style="--icon: url(data/toolbar/save.png)"></i></button>
+  <button id="btn-share" class="tb-icon" title="Share this buffer: a link to copy, a QR code, or the link to copy by hand" aria-label="Share this buffer" aria-haspopup="menu" aria-expanded="false" aria-controls="link-menu"><i class="tb-glyph" style="--icon: url(data/toolbar/save.png)"></i></button>
   <span id="toast" class="toast" hidden></span>
   <div class="tb-spacer"></div>
   <div class="tb-spacer"></div>
@@ -77,7 +77,7 @@
 </div>
 </div>   <!-- .toolbar-region: a landmark around the toolbar, laid out as if it were not there (style.css) -->
 <!-- the Share button's menu (share-menu.js): copy the link, a QR code, or the link itself -->
-<div id="share-menu" role="dialog" aria-label="Share" hidden></div>
+<div id="link-menu" role="dialog" aria-label="Share" hidden></div>
 <div id="sets-menu" role="dialog" aria-label="Switch sets" hidden></div>
 <!-- the colour theme's menu, under its button in the bar (main.js buildThemeMenu) -->
 <div id="theme-menu" role="dialog" aria-label="Colour theme" hidden></div>

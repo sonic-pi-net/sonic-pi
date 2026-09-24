@@ -1776,7 +1776,7 @@ function arrive(text, name, from, bufferName = "") {
 // Share or save (share-menu.js): the buffer showing or the whole set, as a link, a QR code or a file
 const linkTo = (code) => new URL(`${infoApi?.code.file ?? "code.html"}#code=${code}`, location.href).href;
 createShareMenu({
-  button: $("btn-share"), menu: $("share-menu"), clipboard, ready: loadShareCodec,
+  button: $("btn-share"), menu: $("link-menu"), clipboard, ready: loadShareCodec,
   scopes: {
     buffer: {
       icon: "file-code", fileKind: ".txt",
