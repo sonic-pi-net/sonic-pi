@@ -34,6 +34,22 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
   engine = name;
   // Chromium wants telling that a page may make a sound unasked; WebKit has no such switch
   const browser = quiet(await engineType.launch(name === "chromium" ? { args: ["--autoplay-policy=no-user-gesture-required", "--mute-audio"] } : {}));
+  // Silent: Chromium has --mute-audio, WebKit nothing like it, so there every page's way to the speakers goes through
+  // a gain of 0 instead. The checks listen before it (the engine's own node, an analyser on it), so they hear it all.
+  if (name === "webkit") {
+    const mute = () => {
+      const connect = AudioNode.prototype.connect, silent = new WeakMap();
+      AudioNode.prototype.connect = function (to, ...rest) {
+        if (!(to instanceof AudioDestinationNode)) return connect.call(this, to, ...rest);
+        let g = silent.get(to);
+        if (!g) { g = to.context.createGain(); g.gain.value = 0; connect.call(g, to); silent.set(to, g); }
+        return connect.call(this, g, ...rest);
+      };
+    };
+    const newContext = browser.newContext.bind(browser), newPage = browser.newPage.bind(browser);
+    browser.newContext = async (...a) => { const c = await newContext(...a); await c.addInitScript(mute); return c; };
+    browser.newPage = async (...a) => { const p = await newPage(...a); await p.context().addInitScript(mute); return p; };
+  }
   try {
     // ── the app ──
     const page = await browser.newPage({ ...HTTPS, viewport: { width: 1400, height: 900 } });
