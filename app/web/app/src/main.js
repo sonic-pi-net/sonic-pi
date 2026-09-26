@@ -966,7 +966,7 @@ function showError(r, { warning = false } = {}) {
   const e = explainError({ syntax, cls: r.class, message, line: atLine ?? 0, col: atCol, code: code ?? "", thread: r.name, fault: r.fault }, known);
   const line = code != null && e.line ? e.line : atLine;
   const where = [buffer != null ? `buffer ${buffer}` : null, line ? `line ${line}` : null].filter(Boolean).join(", ");
-  const title = warning ? "Heads up" : syntax ? "Syntax Error" : "Runtime Error";
+  const title = r.title ?? (warning ? "Heads up" : syntax ? "Syntax Error" : "Runtime Error");   // a link's own: Link Error (loadFromHash)
   shownError = { ...e, buffer, line, where, title, code, thread: r.name, warning };
 
   const card = $("error-pane");
@@ -1747,7 +1747,8 @@ let toastTimer = null;
 // said as it is shown (politely; assertive for a failure), or, with null, only shown: something else has said it
 function toast(text, assertive = false, ms = 2000) {
   if (assertive !== null) status(text, assertive);
-  // in the status bar, as native's, for two seconds; where there is none (a phone, focus mode) it floats
+  ms = Math.max(ms, 1200 + String(text).length * 55);   // time to read it: about 18 characters a second
+  // in the status bar, as native's, for two seconds or its reading time; where there is none (a phone, focus mode) it floats
   if ($("statusbar").offsetParent !== null) {
     $("status-engine").textContent = text;
     $("status-engine").classList.remove("err");
@@ -1760,7 +1761,7 @@ function toast(text, assertive = false, ms = 2000) {
   t.style.setProperty("--toast-top", `${Math.round($("toolbar").getBoundingClientRect().bottom) + 8}px`);
   t.hidden = false;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => (t.hidden = true), 1800);
+  toastTimer = setTimeout(() => (t.hidden = true), ms);
 }
 
 // ── Code arriving (workspace.js) ────────────────────────────────────────
@@ -2189,8 +2190,10 @@ function loadFromHash() {
   openDrawer("");
   editorFillsPhone();
   history.replaceState(null, "", location.pathname + location.search);
+  // one that can't be read says so on the error card, as a program's error does, until it's put away: what happened
+  // to it and what to do (friendly.js explainLink), not a line gone before it could be read
   loadShareCodec().then(() => arrive(decodeCode(m[1]), "", "the link")).catch((e) => {
-    toast(`that link's code could not be read: ${describe(e)}`);
+    showError({ class: "LinkError", title: "Link Error", message: e?.message ?? String(e) });
     logs.add("Host", `the link's code could not be read: ${describe(e)}`);
   });
 }

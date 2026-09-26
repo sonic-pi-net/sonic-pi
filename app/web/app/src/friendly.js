@@ -341,6 +341,15 @@ function explainSyntax(raw, code, line, col, known) {
 
 // ── Runtime errors: the code was read, then something went wrong running it ─
 
+// A link's code that could not be read (share.js decodeCode, main.js loadFromHash): what happened to it on its way,
+// and what to do. No line: it is the link's fault, not the code's.
+function explainLink(raw) {
+  const said = (headline, hint) => ({ headline, hint, line: 0, from: 0, to: 0 });
+  if (/cut short/.test(raw)) return said("This link is missing part of its code: it was cut short on its way here.", "A copy that missed the end, or a message that clipped a long link. Ask for the link again, or for the program as a file.");
+  if (/newer Sonic Pi/.test(raw)) return said("This link was made by a newer Sonic Pi than this page.", "Reload the page for the latest Sonic Pi, then open the link again.");
+  return said("This link's code could not be read: part of it is missing or changed.", "Ask for the link again, or for the program as a file. From another Sonic Pi? Reload this page first: the link may be newer than it.");
+}
+
 function explainRuntime(cls, raw, code, line, thread, known, fault) {
   const lines = code.split("\n");
   const L = lines[line - 1] ?? "";
@@ -569,6 +578,7 @@ function explainRuntime(cls, raw, code, line, thread, known, fault) {
 
 export function explainError({ syntax, cls, message, line, col, code, thread, fault }, known) {
   const reason = syntax ? String(message) : `${cls ? `${cls}: ` : ""}${message}`;
+  if (cls === "LinkError") return { ...explainLink(String(message)), reason };
   try {
     const e = syntax ? explainSyntax(String(message), code ?? "", line, col, known) : explainRuntime(cls ?? "", String(message), code ?? "", line, thread, known, fault);
     return { ...e, reason };
