@@ -189,7 +189,8 @@
       "name": "",
       "synth": "sonic-pi-gabberkick",
       "args": {
-        "note": 60.0
+        "note": 60.0,
+        "rand_buf": "rand-stream.wav"
       },
       "now": false
     },
@@ -441,7 +442,8 @@
       "name": "",
       "synth": "sonic-pi-rhodey",
       "args": {
-        "note": 60.0
+        "note": 60.0,
+        "rand_buf": "rand-stream.wav"
       },
       "now": false
     },
@@ -757,7 +759,8 @@
       "name": "",
       "synth": "sonic-pi-winwood_lead",
       "args": {
-        "note": 60.0
+        "note": 60.0,
+        "rand_buf": "rand-stream.wav"
       },
       "now": false
     },

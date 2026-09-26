@@ -5527,7 +5527,8 @@ SYNTHS = {
     kill_delay: 1,
     logical_clock: nil,
     aliases: {},
-    midi_args: [:note, :cutoff]
+    midi_args: [:note, :cutoff],
+    rand_buf: true
   },
   bass_foundation: {
     scsynth_name: "sonic-pi-bass_foundation",
@@ -6211,7 +6212,8 @@ SYNTHS = {
     kill_delay: 1,
     logical_clock: nil,
     aliases: {},
-    midi_args: [:note]
+    midi_args: [:note],
+    rand_buf: true
   },
   sc808_bassdrum: {
     scsynth_name: "sonic-pi-sc808_bassdrum",
@@ -7581,7 +7583,8 @@ SYNTHS = {
     kill_delay: 1,
     logical_clock: nil,
     aliases: {},
-    midi_args: [:note, :cutoff]
+    midi_args: [:note, :cutoff],
+    rand_buf: true
   },
   sound_in: {
     scsynth_name: "sonic-pi-sound_in",
@@ -10508,7 +10511,8 @@ FX = {
     kill_delay: 1,
     logical_clock: true,
     aliases: {},
-    midi_args: []
+    midi_args: [],
+    rand_buf: true
   },
   panslicer: {
     scsynth_name: "sonic-pi-fx_panslicer",
@@ -10736,7 +10740,8 @@ FX = {
     kill_delay: 1,
     logical_clock: true,
     aliases: {},
-    midi_args: []
+    midi_args: [],
+    rand_buf: true
   },
   wobble: {
     scsynth_name: "sonic-pi-fx_wobble",
@@ -10984,7 +10989,8 @@ FX = {
     kill_delay: 1,
     logical_clock: true,
     aliases: {},
-    midi_args: [:cutoff_min, :cutoff_max]
+    midi_args: [:cutoff_min, :cutoff_max],
+    rand_buf: true
   },
   ixi_techno: {
     scsynth_name: "sonic-pi-fx_ixi_techno",

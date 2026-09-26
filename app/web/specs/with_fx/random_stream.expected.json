@@ -1,0 +1,212 @@
+{
+  "events": [
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_slicer",
+      "args": {
+        "probability": 0.5,
+        "seed": 3,
+        "reps": 1,
+        "rand_buf": "rand-stream.wav"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 60.0,
+        "release": 0.25
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_slicer"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_panslicer",
+      "args": {
+        "probability": 0.25,
+        "reps": 1,
+        "rand_buf": "rand-stream.wav"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 62.0,
+        "release": 0.25
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_panslicer"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_wobble",
+      "args": {
+        "probability": 0.75,
+        "phase": 0.25,
+        "reps": 1,
+        "rand_buf": "rand-stream.wav"
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 64.0,
+        "release": 0.25
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_wobble"
+      }
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_echo",
+      "args": {
+        "reps": 1
+      },
+      "now": false
+    },
+    {
+      "kind": "synth",
+      "t": 0.0,
+      "beat": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-beep",
+      "args": {
+        "note": 65.0,
+        "release": 0.25
+      },
+      "now": false,
+      "fx": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_echo"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.2536,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_panslicer",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_panslicer"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.2537,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_wobble",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_wobble"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 1.263,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_slicer",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_slicer"
+      }
+    },
+    {
+      "kind": "fx_free",
+      "t": 2.2536,
+      "thread": "0.0",
+      "name": "",
+      "synth": "sonic-pi-fx_echo",
+      "of": {
+        "t": 0.0,
+        "thread": "0.0",
+        "synth": "sonic-pi-fx_echo"
+      }
+    }
+  ],
+  "errors": [
+
+  ],
+  "output": [
+
+  ],
+  "log": [
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 60.0, release: 0.25}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 62.0, release: 0.25}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 64.0, release: 0.25}"
+    },
+    {
+      "t": 0.0,
+      "thread": "0.0",
+      "name": "",
+      "text": "synth :beep, {note: 65.0, release: 0.25}"
+    }
+  ]
+}

@@ -53,6 +53,15 @@ def aliases(info)
   res
 end
 
+# Whether a synth is given the studio's random stream as it starts (its on_start sets rand_buf: slicer, panslicer
+# and wobble toss their probability: coins with it, winwood_lead sets its lfo's phase), found by asking on_start.
+RandStudio = Struct.new(:rand_buf_id)
+def rand_buf?(info)
+  args = {}
+  info.on_start(RandStudio.new(:rand_stream), args) rescue nil   # the recorder's wants a buffer: it has no coins
+  args[:rand_buf] == :rand_stream
+end
+
 def describe(info)
   # From where native's own validate! reads (arg_validations), not from arg_info: the documentation view leaves out
   # the slide opts, and native checks those too — reading the other place would let the browser allow what the
@@ -70,6 +79,7 @@ def describe(info)
   { scsynth_name: info.scsynth_name, defaults: info.arg_defaults, bpm_scale_args: info.bpm_scale_args,
     slide_args: info.slide_args, rules: rules, kill_delay: (info.kill_delay(info.arg_defaults) rescue nil),
     logical_clock: (info.trigger_with_logical_clock? rescue nil), aliases: aliases(info), midi_args: info.midi_args }
+    .merge(rand_buf?(info) ? { rand_buf: true } : {})
 end
 
 synths = {}

@@ -58,7 +58,8 @@
       "args": {
         "mix": 0.2,
         "reps": 1,
-        "phase": 0.057692307692307696
+        "phase": 0.057692307692307696,
+        "rand_buf": "rand-stream.wav"
       },
       "now": false,
       "fx": {
@@ -103,7 +104,8 @@
       "args": {
         "mix": 0.4,
         "reps": 1,
-        "phase": 0.057692307692307696
+        "phase": 0.057692307692307696,
+        "rand_buf": "rand-stream.wav"
       },
       "now": false
     },

@@ -225,8 +225,9 @@ static void begin_message(const char *fixed_tags) {
   put(&tags, fixed_tags, strlen(fixed_tags));
 }
 
-// A synth's opt as its name and its number (buf as the buffer's number);
-// anything that is not a number has no place in the message.
+// A synth's opt as its name and its number (buf, and rand_buf named by its
+// file, as the buffer's number: Scheduler#audio_buffer); anything that is
+// not a number has no place in the message.
 static int put_opt(mrb_state *m, mrb_value key, mrb_value val, void *ud) {
   mrb_int bufnum = *(mrb_int *)ud;
   const char *name;
@@ -234,7 +235,7 @@ static int put_opt(mrb_state *m, mrb_value key, mrb_value val, void *ud) {
   if (mrb_symbol_p(key)) name = mrb_sym_name_len(m, mrb_symbol(key), &len);
   else if (mrb_string_p(key)) { name = RSTRING_PTR(key); len = RSTRING_LEN(key); }
   else return 0;
-  if (len == 3 && memcmp(name, "buf", 3) == 0) {
+  if ((len == 3 && memcmp(name, "buf", 3) == 0) || (len == 8 && memcmp(name, "rand_buf", 8) == 0 && mrb_string_p(val))) {
     if (bufnum < 0) return 0;
     put_tag('s'); put_str(&data, name, (size_t)len);
     put_tag('i'); put_i32(&data, bufnum);

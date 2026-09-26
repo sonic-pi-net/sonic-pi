@@ -19,7 +19,7 @@
 import { SuperSonic } from "./supersonic/supersonic.js";
 import { decode } from "./osc.js";
 import { createRecordReader } from "./gui-stream.js";
-import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, programNeeds, workerSettled } from "./runtime.js";
+import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, programNeeds, workerSettled, TABLES } from "./runtime.js";
 import { LiveCore, freshPerf, addPerf, countHeadroom } from "./live-core.js";
 
 const JOB_MIXER_NODE = 1003;   // the run mixer, sonic-pi-basic_mixer (Scheduler::JOB_MIXER_NODE): what a Stop fades
@@ -49,6 +49,8 @@ export function oscSchedule(time, address, args) {
 // Sonic Pi's synthdefs served beside the app, and which of them are loaded from here rather than the CDN (bootEngine)
 const OWN_SYNTHDEFS = new URL("./synthdefs/", import.meta.url).href;
 let ownSynthdefs = null;
+// Sonic Pi's random streams, beside the app (runtime.js loadRuntime): the white one is also the studio's rand_buf
+const OWN_BUFFERS = new URL("./buffers/", import.meta.url).href;
 
 /** SuperSonic, from where version.json says it is (runtime.js supersonicInfo), playing Sonic Pi's own synthdefs. */
 /** beforeInit(engine): listen before it boots, to hear what it says while booting. */
@@ -162,6 +164,7 @@ export class Bridge {
   #buffersReady = new Set();
   #nextOwnBuffer = 1023;      // numbered here, counting down, only when no runtime numbers them
   #piano = null;              // the :piano synth's sample table, handed to the engine once (pianoTable)
+  #randAt = null;             // the buffer the studio's random stream is in, once a synth has asked for it (randStream)
   #fade = null;               // a Stop's fade in progress: { started, done, cut } (fadeOut)
   /** file → bufnum from a live runtime on the page (LiveSession sets it), so a preload and the runtime's sounds agree. */
   numberBuffer = null;
@@ -174,7 +177,7 @@ export class Bridge {
     // SuperSonic's own puts the synthdefs and sample buffers back. What is
     // this bridge's — the piano table, in the plugin's memory — goes back after.
     const base = engine.restoreClientState?.bind(engine);
-    engine.restoreClientState = async () => { await base?.(); await this.restorePiano(); };
+    engine.restoreClientState = async () => { await base?.(); await this.restorePiano(); await this.restoreRandStream(); };
   }
 
   synthDef(name) {
@@ -220,6 +223,41 @@ export class Bridge {
   synthDefProblem(name) { return this.#errors.get(name) ?? null; }
 
   synthDefReady(name) { return this.#defsReady.has(name); }
+
+  /**
+   * The studio's random stream into a buffer, as native's studio loads it at boot: a synth's rand_buf (slicer,
+   * panslicer and wobble toss their probability: coins with it; Scheduler#audio_buffer). The table the runtime draws
+   * rand from, the same file, so the browser has it already. Its values must be the ones native's scsynth reads, each
+   * 16-bit sample over 32768, and a browser's decoder is not to be trusted with them: at a rate other than the
+   * context's it resamples, each value blended with its neighbours, and Chromium's divides the positive ones by
+   * 32767. So they go to it as floats, divided here, at the context's rate.
+   */
+  async randStream(bufnum) {
+    const res = await fetch(new URL(TABLES.white, OWN_BUFFERS));
+    if (!res.ok) throw new Error(`${TABLES.white}: ${res.status}`);
+    const src = new DataView(await res.arrayBuffer());
+    let at = 12, size = 0;
+    for (; at + 8 <= src.byteLength; at += 8 + size + (size & 1)) {   // the data chunk, past any others
+      size = src.getUint32(at + 4, true);
+      if (src.getUint32(at, false) === 0x64617461) break;             // "data"
+    }
+    if (at + 8 > src.byteLength) throw new Error(`${TABLES.white}: no samples`);
+    const n = size >> 1, rate = Math.round(this.#engine.audioContext?.sampleRate ?? 44100);
+    const wav = new DataView(new ArrayBuffer(44 + n * 4)), str = (o, t) => { for (let i = 0; i < t.length; i++) wav.setUint8(o + i, t.charCodeAt(i)); };
+    str(0, "RIFF"); wav.setUint32(4, 36 + n * 4, true); str(8, "WAVE");
+    str(12, "fmt "); wav.setUint32(16, 16, true); wav.setUint16(20, 3, true); wav.setUint16(22, 1, true);   // IEEE float, mono
+    wav.setUint32(24, rate, true); wav.setUint32(28, rate * 4, true); wav.setUint16(32, 4, true); wav.setUint16(34, 32, true);
+    str(36, "data"); wav.setUint32(40, n * 4, true);
+    for (let i = 0; i < n; i++) wav.setFloat32(44 + i * 4, src.getInt16(at + 8 + i * 2, true) / 32768, true);
+    const loaded = await this.#engine.loadSample(bufnum, wav.buffer);
+    this.#randAt = bufnum;
+    return loaded;
+  }
+
+  // after an engine reload: postMessage's restore loads again only the samples it loaded from a file
+  restoreRandStream() {
+    return this.#randAt == null ? Promise.resolve(null) : this.randStream(this.#randAt);
+  }
 
   /** After the engine reloads: its plugin memory is new, so a piano table it had is handed over again. */
   restorePiano() {
@@ -267,11 +305,11 @@ export class Bridge {
     return this.#piano;
   }
 
-  /** A sample file into a buffer number, once. */
+  /** A sample file into a buffer number, once: or the studio's random stream, which the runtime names as one. */
   loadBuffer(bufnum, file) {
     this.#buffers.set(file, bufnum);
     if (!this.#loads.has(bufnum)) {
-      this.#loads.set(bufnum, this.#engine.loadSample(bufnum, file)
+      this.#loads.set(bufnum, (file === TABLES.white ? this.randStream(bufnum) : this.#engine.loadSample(bufnum, file))
         .then(() => { this.#buffersReady.add(bufnum); return true; })
         .catch((e) => { console.warn("sample", file, e); return false; }));
     }

@@ -308,12 +308,15 @@ module Oracle
       @mu.synchronize { @events << rec; @pending_fx -= 1 }
       end_node_at(fx[:node], now + SonicPi::DEFAULT_SCHED_AHEAD)
     end
-    # A synth's args as the program set them: the studio's own busses and
-    # noise buffer left out, a sample named rather than numbered.
+    # A synth's args as the program set them: the studio's own busses left
+    # out, and the buffers named rather than numbered, as the runtime names
+    # them: a sample by its file, and the studio's random stream (the
+    # rand_buf a synth's on_start gives it) by the stream's.
     def program_args(args_h)
       args = args_h.transform_keys(&:to_s)
-      args.delete_if { |k, _| k.end_with?("_bus") || k == "rand_buf" }
+      args.delete_if { |k, _| k.end_with?("_bus") }
       args["buf"] = @buffer_names[args["buf"]] if args.key?("buf")
+      args["rand_buf"] = RAND_STREAM if args.key?("rand_buf") && args["rand_buf"] == rand_buf_id
       args
     end
     def server = @server
@@ -328,6 +331,7 @@ module Oracle
     def new_fx_bus = Bus.new(next_id)
     def start; end
     def pause(*); end
+    RAND_STREAM = "rand-stream.wav"         # native's etc/buffers file, loaded as that buffer
     def rand_buf_id = 0                      # the studio's random-noise buffer; a synth arg the program never chose
     def new_group(pos, parent, name)
       g = Group.new(next_id, name)

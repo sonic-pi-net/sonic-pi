@@ -1298,8 +1298,10 @@ module SonicPi
     BUS_LAST = 1024       # as many as web/sonic_pi.js boots SuperSonic with
     FREE_LEAD = 1.0       # an fx's free leaves this long before it is due
 
+    # the buffer a sound names by its file: a player's sample (buf), or the random stream a synth tosses its coins
+    # with (rand_buf, which no player takes). The host sends it as its number, and the sound waits for it to load.
     def audio_buffer(args)
-      file = args["buf"] || args[:buf]
+      file = args["buf"] || args[:buf] || args["rand_buf"] || args[:rand_buf]
       file.is_a?(String) ? EngineIds.buffer(file) : -1
     end
 

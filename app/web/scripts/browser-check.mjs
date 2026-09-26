@@ -18,6 +18,9 @@ import fs from "node:fs";
 import path from "node:path";
 // Sonic Pi's own synthdefs, which every synthdef the page fetches must be byte for byte
 const COMPILED = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../etc/synthdefs/compiled");
+// the studio's random stream's first values, as native's scsynth reads them: 16-bit samples over 32768
+const RAND_STREAM = fs.readFileSync(path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../etc/buffers/rand-stream.wav"));
+const RAND_FIRST = Array.from({ length: 8 }, (_, i) => Math.fround(RAND_STREAM.readInt16LE(44 + 2 * i) / 32768));
 const BASE = process.argv[2] ?? "http://127.0.0.1:8460/web/";
 const { chromium, webkit, devices } = await import(process.env.PLAYWRIGHT ?? "playwright");
 
@@ -244,6 +247,53 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const aliasDefs = defURLs.map((u) => u.split("/").pop());
     check("a synth alias loads the synthdef it plays (:sine → sonic-pi-beep, :mod_beep → sonic-pi-mod_sine), and no made-up one",
       aliasDefs.includes("sonic-pi-mod_sine.scsyndef") && !aliasDefs.some((f) => /sonic-pi-(sine|mod_beep)\.scsyndef/.test(f)), aliasDefs.join(" "));
+    // The studio's random stream, as native's studio loads it (web/sonic_pi.js randStream): slicer, panslicer and wobble
+    // toss their probability: coins with it, given as rand_buf. In the engine it is the values native's scsynth reads
+    // (a browser's decoder resamples at any rate but the context's, and Chromium's divides by 32767), and a slicer
+    // with probability: 0.5 keeps about half its slices. Without it every coin reads 0, below any probability, and
+    // every slice is kept: heard as the share of the time the slicer sounds, against the same slicer tossing none.
+    await page.evaluate(() => {
+      const bridge = window.sonicPi.session.bridge, load = bridge.loadBuffer.bind(bridge);
+      bridge.loadBuffer = (bufnum, file) => { if (file === "rand-stream.wav") window.__randAt = bufnum; return load(bufnum, file); };
+    });
+    const slicing = async (opts) => {
+      await setCode(`with_fx :slicer, phase: 0.04, wave: 1${opts} do\n  synth :saw, note: 48, sustain: 4, release: 0\nend`);
+      await page.click("#btn-run");
+      const share = await page.evaluate(async () => {
+        const e = window.sonicPi.engine;
+        const tap = Object.assign(e.audioContext.createAnalyser(), { fftSize: 256, smoothingTimeConstant: 0 });
+        e.node.connect(tap);
+        const buf = new Float32Array(256), peaks = [], until = performance.now() + 8000;
+        while (performance.now() < until && peaks.length < 400) {   // 400 looks from the first sound, 5ms each
+          tap.getFloatTimeDomainData(buf);
+          let peak = 0;
+          for (const v of buf) peak = Math.max(peak, Math.abs(v));
+          if (peak > 0.01 || peaks.length) peaks.push(peak);
+          await new Promise((r) => setTimeout(r, 5));
+        }
+        e.node.disconnect(tap);
+        const top = Math.max(0, ...peaks);
+        return peaks.length ? peaks.filter((p) => p > top * 0.1).length / peaks.length : 0;
+      });
+      await page.click("#btn-stop");
+      await page.waitForTimeout(600);
+      return +share.toFixed(2);
+    };
+    const tossing = { none: await slicing(""), half: await slicing(", probability: 0.5") };
+    tossing.kept = +(tossing.half / tossing.none).toFixed(2);
+    const coins = await page.evaluate(() => new Promise((resolve) => {
+      const n = window.__randAt, e = window.sonicPi.engine;
+      if (n == null) return resolve(null);
+      const h = (m) => { if (m?.[0] === "/b_setn" && m[1] === n) { e.off?.("in", h); resolve({ bufnum: n, values: m.slice(4, 12) }); } };
+      e.on?.("in", h);
+      e.send("/b_getn", n, 0, 8);
+      setTimeout(() => { e.off?.("in", h); resolve({ bufnum: n, values: null }); }, 3000);
+    }));
+    const own = !!coins?.values && coins.values.length === 8 && coins.values.every((v, i) => Math.abs(v - RAND_FIRST[i]) < 1e-6);
+    check("the random stream is in the engine as the file's own values, the one rand_buf a slicer is given",
+      own, JSON.stringify({ ...coins, file: RAND_FIRST.map((v) => +v.toFixed(4)) }));
+    check("a slicer's probability: 0.5 keeps about half its slices, tossing its coins with the random stream",
+      tossing.none > 0.3 && tossing.kept > 0.25 && tossing.kept < 0.75, JSON.stringify(tossing));
     // the browser pausing the sound (a call, another app, the tab away): a card asks for the one tap that may start it
     // again, and that tap is the recovery — no other tap or key on the page doubles as a resume
     await page.evaluate(() => window.sonicPi.engine.audioContext.suspend());

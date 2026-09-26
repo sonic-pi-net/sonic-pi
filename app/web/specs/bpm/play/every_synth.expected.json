@@ -208,7 +208,8 @@
         "attack": 0.0005,
         "decay": 0.005,
         "sustain": 0.15,
-        "release": 0.01
+        "release": 0.01,
+        "rand_buf": "rand-stream.wav"
       },
       "now": false
     },
@@ -495,7 +496,8 @@
         "note": 60.0,
         "attack": 0.0005,
         "decay": 0.5,
-        "release": 0.5
+        "release": 0.5,
+        "rand_buf": "rand-stream.wav"
       },
       "now": false
     },
@@ -824,7 +826,8 @@
       "args": {
         "note": 60.0,
         "release": 0.5,
-        "ramp_length": 0.1
+        "ramp_length": 0.1,
+        "rand_buf": "rand-stream.wav"
       },
       "now": false
     },

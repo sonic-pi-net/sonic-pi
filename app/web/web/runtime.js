@@ -47,7 +47,7 @@ export const engineWasm = () => (engineWasmBytes ??= supersonicInfo()
   .then((r) => (r.ok ? r.arrayBuffer() : null))
   .catch(() => null));
 export const SAMPLES_DIR = "/samples";
-const TABLES = { white: "rand-stream.wav", pink: "rand-stream-pink.wav", light_pink: "rand-stream-light-pink.wav",
+export const TABLES = { white: "rand-stream.wav", pink: "rand-stream-pink.wav", light_pink: "rand-stream-light-pink.wav",
                  dark_pink: "rand-stream-dark-pink.wav", perlin: "rand-stream-perlin.wav" };
 const PLAYERS = ["basic_stereo_player", "basic_mono_player", "stereo_player", "mono_player"];
 
