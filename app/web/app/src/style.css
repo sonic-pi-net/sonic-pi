@@ -1396,6 +1396,7 @@ body[data-drawer="logs"] #logs-pane { display: flex; }
 .ptree-stats { display: flex; gap: 14px; flex-wrap: wrap; font: var(--t-tiny) var(--code-font); color: var(--mutedForeground); flex: 1; }
 .ptree-stat i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: 0; }
 .ptree-waiting { color: var(--HoverButton); }
+.ptree-n { display: inline-block; min-width: 3ch; font-variant-numeric: tabular-nums; }   /* room for 999: a count's digits move nothing after it */
 .ptree-labels.on { border-color: var(--HighlightedBackground); color: var(--HighlightedBackground); }
 .ptree-canvas { position: relative; flex: 1; min-height: 0; }
 .ptree-canvas canvas { position: absolute; inset: 0; }
@@ -1418,7 +1419,6 @@ body[data-drawer="logs"] #logs-pane { display: flex; }
 .insight-table tr.jump:hover td { background: var(--accentTint); }
 .insight-chip { display: inline-block; width: 8px; height: 8px; border-radius: var(--r-s); margin-right: 6px; }
 .insight-state.sleeping { color: var(--mutedForeground); }
-.ptree-n { display: inline-block; min-width: 3ch; font-variant-numeric: tabular-nums; }   /* room for 999: a count's digits move nothing after it */
 .insight-state.sync { color: var(--HoverButton); }
 .insight-state.error { color: var(--HighlightedBackground); }
 .insight-state.finished { color: var(--ghostForeground); }
