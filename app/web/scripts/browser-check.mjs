@@ -187,6 +187,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.waitForTimeout(1200);
     const jobs = await page.locator("#status-jobs").getAttribute("title");
     check("Run plays both live loops", /:kick/.test(jobs) && /:hat/.test(jobs), jobs);
+    // every refusal from scsynth from here on, in its own words, for the check that there are none (all session long)
+    await page.evaluate(() => { window.__refused = []; window.sonicPi.engine.on?.("in", (m) => { if (m?.[0] === "/fail") window.__refused.push(m.map(String).join(" ").slice(0, 200)); }); });
     // The page stays still as a program plays (stillness, above): what changes as it plays is in shadow roots
     // (app/src/shadow.js), or drawn on a canvas, or said only as it changes. Here the editor, the log and the cues;
     // below, the Threads pane open, a docs card, a quickstart card, a site page's card and the phone's page.
@@ -392,7 +394,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.waitForFunction(() => /\(ring 64, 67, 72\)/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(() => {});
     const newVerbs = await logText();
     check("control, set and get, spread, MIDI and chord_invert run", /control node/.test(newVerbs) && /42/.test(newVerbs) && /\(ring true, false, false, true/.test(newVerbs) && /\(ring 64, 67, 72\)/.test(newVerbs), newVerbs.slice(-200));
-    check("controls and samples all session long: scsynth has refused nothing", (await page.evaluate(() => window.sonicPi.session.failures)) === 0);
+    const refused = await page.evaluate(() => ({ failures: window.sonicPi.session.failures, said: window.__refused ?? [] }));
+    check("controls and samples all session long: scsynth has refused nothing", refused.failures === 0, refused.failures ? JSON.stringify(refused) : "");
     const bent = (await page.evaluate(() => window.sonicPi.pianoRoll())).notes.filter((n) => n.notes[0] === 60);
     check("the piano roll bends a controlled note to its new pitch", bent.some((n) => n.notes.includes(72)), JSON.stringify(bent.map((n) => n.notes)));
     // and a refusal is seen: control a synth that has already ended
