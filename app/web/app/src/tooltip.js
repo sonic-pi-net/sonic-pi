@@ -133,14 +133,18 @@ export function installTooltips(root = document.body) {
     timer = setTimeout(() => { pending = null; show(parts.target, parts); }, crossing ? Math.max(250, warm ? 0 : delay) : warm ? 0 : delay);
   }
 
-  // A root watched: the document's body, and each shadow root the site's pages and cards live in (an event
-  // leaving a shadow root is retargeted to its host, so a listener on the body never sees the control inside)
+  // A root watched: the document's body, and each shadow root (the editor's and the panes': shadow.js, main.js). An event
+  // leaving a shadow root is retargeted to its host, so a listener on the body never sees the control inside, nor
+  // where the pointer went within it: each root's own listeners see those, and each watcher takes only the events of
+  // its own tree (where the target is where the event began), or the body's would put away a tip the root's just armed
+  const own = (e) => e.composedPath()[0] === e.target;
   function watch(r) {
     // Nothing is armed while a button is down: turning a dial drags the pointer over its parts and focuses it, and a
     // tip that opened mid-turn would cover the very controls being turned (and the code under them)
-    r.addEventListener("pointerover", (e) => { if (e.pointerType !== "touch" && !e.buttons) { pointerX = e.clientX; arm(e.target, HOVER_DELAY); } });
-    r.addEventListener("pointermove", (e) => { if (e.pointerType !== "touch" && !anchor) pointerX = e.clientX; }, { passive: true });   // until the tip shows: it doesn't chase the pointer after
+    r.addEventListener("pointerover", (e) => { if (own(e) && e.pointerType !== "touch" && !e.buttons) { pointerX = e.clientX; arm(e.target, HOVER_DELAY); } });
+    r.addEventListener("pointermove", (e) => { if (own(e) && e.pointerType !== "touch" && !anchor) pointerX = e.clientX; }, { passive: true });   // until the tip shows: it doesn't chase the pointer after
     r.addEventListener("pointerout", (e) => {
+      if (!own(e)) return;
       const to = e.relatedTarget;
       const t = e.target.closest?.("[data-tip], [title]");
       if (to && tip.contains(to)) return;   // onto the tip itself (one with a link on)
@@ -150,8 +154,8 @@ export function installTooltips(root = document.body) {
         else if (timer) { clearTimeout(timer); timer = 0; }
       }
     });
-    r.addEventListener("focusin", (e) => { if (e.target.matches?.(":focus-visible")) { pointerX = null; arm(e.target, FOCUS_DELAY); } });
-    r.addEventListener("focusout", (e) => { if (!(e.relatedTarget && tip.contains(e.relatedTarget))) hide(); });   // focus into the tip (its link, pressed) is not away
+    r.addEventListener("focusin", (e) => { if (own(e) && e.target.matches?.(":focus-visible")) { pointerX = null; arm(e.target, FOCUS_DELAY); } });
+    r.addEventListener("focusout", (e) => { if (own(e) && !(e.relatedTarget && tip.contains(e.relatedTarget))) hide(); });   // focus into the tip (its link, pressed) is not away
     for (const type of ["pointerdown", "keydown", "wheel"]) r.addEventListener(type, (e) => { if (!tip.contains(e.target)) { hide(); hiddenAt = 0; } }, { capture: true, passive: true });   // hiddenAt: a tip put away to get on with something waits the full delay to come back, rather than the warm window's none
     r.addEventListener("pointerdown", (e) => { if (!tip.contains(e.target)) down = true; }, { capture: true, passive: true });   // down: a control is being worked, and no tip opens over it
   }

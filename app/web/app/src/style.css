@@ -3,7 +3,15 @@
  * the toolbar, the editor beside the scope, log, cues and Link strip, the
  * help drawer below. Painted only with native Sonic Pi's theme keys
  * (--Foreground, --HighlightedBackground ...), which theme.js sets from the
- * scheme and its transforms. */
+ * scheme and its transforms.
+ *
+ * The editor, the log, the cues and the Threads and Logs panes draw their
+ * insides in shadow roots (shadow.js), with this stylesheet adopted, out of
+ * sight of a page-wide watcher's (an ad blocker's). A rule reaching their
+ * insides from outside names the host, :host(#editor-mount), or the page's
+ * state as the host has it, :host([data-page~="reduce-motion"]) beside
+ * body.reduce-motion. And no rule puts a longhand after a shorthand with a
+ * var() in it: their copy loses it (the browser check says so). */
 
 /* Hack, native Sonic Pi's code font (app/gui/fonts), served from web/fonts as WOFF2: the code looks as it does in the
    app, on any device, with nothing to install and no third party asked for it. Its licence: web/fonts/Hack-License.md */
@@ -299,10 +307,12 @@ body.zen #main { grid-template-columns: 1fr 0 0; }
 body.zen #sidebar, body.zen #panel-divider { display: none; }
 
 #editor-column { grid-area: editor; min-width: 0; min-height: 0; display: flex; flex-direction: column; background: var(--Background); }
+.shadow-pane { display: contents; }   /* a part's insides, in its shadow root, laid out as its host's own children (shadow.js) */
 #editor-mount { flex: 1; min-height: 0; overflow: visible; position: relative; }   /* not hidden: the editor inside fills it and scrolls itself, and Safari's completion popup is positioned absolutely within it (CodeMirror's Safari fallback), so a clip here would cut the popup at the editor's foot */
-#editor-mount .cm-scroller, .qs-card-body { overscroll-behavior: none; }   /* code stops at its edges: no rubber band past them (iOS) — long lines still scroll, never wrap */
-#editor-mount .cm-editor { height: 100%; }
-#editor-mount .cm-editor.cm-focused { outline: none; }
+:host(#editor-mount) .cm-scroller, .qs-card-body { overscroll-behavior: none; }   /* code stops at its edges: no rubber band past them (iOS) — long lines still scroll, never wrap */
+/* the editor's insides are in a shadow root on its mount (shadow.js): its rules name the mount as their :host */
+:host(#editor-mount) .cm-editor { height: 100%; }
+:host(#editor-mount) .cm-editor.cm-focused { outline: none; }
 
 /* Under the editor: where the caret is, and the ten buffers */
 #editor-foot {
@@ -711,9 +721,10 @@ body.kbd-open #info-card { bottom: var(--kbd-h, 250px); }   /* a site page's car
  * the log, the cues, the toolbar's buttons, and focus mode, the editor alone */
 body.no-log #log-section, body.no-cues #cue-section { display: none; }
 /* empty, the log and the cues say what they are for */
-#log:empty::before { content: "Run the code and the sounds it makes are logged here."; }
-#cues:empty::before { content: "Cues from your code and from MIDI show here."; }
-#log:empty::before, #cues:empty::before { display: block; padding: 10px 4px; color: var(--faintText); font: var(--t-small)/1.5 var(--prose-font); }
+/* their lines are drawn in their shadow roots (main.js drawPane), which say when there are none (data-empty) */
+#log[data-empty]::before { content: "Run the code and the sounds it makes are logged here."; }
+#cues[data-empty]::before { content: "Cues from your code and from MIDI show here."; }
+#log[data-empty]::before, #cues[data-empty]::before { display: block; padding: 10px 4px; color: var(--faintText); font: var(--t-small)/1.5 var(--prose-font); }
 body.no-buttons #toolbar > .tb-icon, body.no-buttons #toolbar > .tb-spacer { display: none; }
 #log, #cues { zoom: var(--sidebar-zoom, 1); }
 body.focus-mode #toolbar, body.focus-mode #statusbar, body.focus-mode #editor-foot, body.focus-mode #sidebar,
@@ -1364,7 +1375,10 @@ body[data-drawer="logs"] #logs-pane { display: flex; }
 }
 
 /* ── Threads ── */
-.insight { flex-direction: column; }
+/* the pane's insides, in its shadow root (shadow.js): a box of their own, not display: contents, as the timeline draws only
+   while its element is seen (ui/shown.js), and an element with no box is never seen */
+#insight-pane, .shadow-pane.insight { flex-direction: column; }
+.shadow-pane.insight { display: flex; flex: 1; min-width: 0; min-height: 0; }
 .insight-legend { margin-left: auto; color: var(--faintText); font-size: var(--t-tiny); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .insight-legend i { display: inline-block; width: 12px; height: 4px; margin-left: 6px; }
 .insight-legend .lg-note { background: var(--HighlightedBackground); }
@@ -1515,8 +1529,8 @@ pre.sp-code {
 /* the code itself lit, as by a highlighter (editor.js kickField): behind its letters only, fading */
 .cm-editor .sp-kick-a { animation: sp-kick-a 320ms ease-out; border-radius: 2px; }
 .cm-editor .sp-kick-b { animation: sp-kick-b 320ms ease-out; border-radius: 2px; }
-body.reduce-motion .cm-editor.sp-run-flash .cm-lineNumbers .cm-gutterElement { color: var(--HighlightedBackground); }
-body.reduce-motion .cm-editor :is(.sp-kick-a, .sp-kick-b) { background-color: color-mix(in srgb, var(--HighlightedBackground) 22%, transparent); }
+body.reduce-motion .cm-editor.sp-run-flash .cm-lineNumbers .cm-gutterElement, :host([data-page~="reduce-motion"]) .cm-editor.sp-run-flash .cm-lineNumbers .cm-gutterElement { color: var(--HighlightedBackground); }
+body.reduce-motion .cm-editor :is(.sp-kick-a, .sp-kick-b), :host([data-page~="reduce-motion"]) .cm-editor :is(.sp-kick-a, .sp-kick-b) { background-color: color-mix(in srgb, var(--HighlightedBackground) 22%, transparent); }
 /* the error's line as native marks it, in the error's colour (main.js showError sets --err-mark: a syntax error blue,
    one while running pink): the line number a block with an arrow into the line, the line tinted, and on it a zigzag
    under a word or a ^ beneath a single character or a point */
@@ -1746,8 +1760,8 @@ body.reduce-motion .opt-card.tip-landed { animation: none; border-color: var(--H
  * (under .cm-editor, to outrank CodeMirror's own theme: a 10em list, a 400px pane) */
 /* the popup and its pane float over the code: the panels' surface (a step off the editor's in
    every theme), a firmer edge than a pane's, and a shadow, so they read as temporary */
-body.info-open > .cm-tooltip, body.info-open #main .cm-tooltip { display: none; }   /* the editor's popups stay under the site's pages */
-body:has(#about-overlay:not([hidden]), #install-overlay:not([hidden])) .cm-tooltip { display: none; }   /* and under the dialogs */
+body.info-open > .cm-tooltip, body.info-open #main .cm-tooltip, :host([data-page~="info-open"]) .cm-tooltip { display: none; }   /* the editor's popups stay under the site's pages */
+body.dialog-open .cm-tooltip, :host([data-page~="dialog-open"]) .cm-tooltip { display: none; }   /* and under the dialogs (main.js showDialog) */
 .cm-tooltip { background: var(--pop-bg) !important; color: var(--Foreground); border: var(--pop-border) !important; border-radius: var(--r-m); box-shadow: var(--pop-shadow); }
 /* the completion box frosted, as the site's strip and lists are: the code shows faintly through, blurred */
 .cm-editor .cm-tooltip.cm-tooltip-autocomplete { background: transparent !important; }   /* the frost is its halves' own: a frosted box inside a frosted box blurs nothing */
@@ -1861,7 +1875,7 @@ li[aria-selected] .cm-completionLabel { color: inherit !important; }
 .cm-tooltip.sp-slider:hover, .cm-tooltip.sp-slider.held, .cm-tooltip.sp-slider:focus-within { opacity: 1; }
 .cm-tooltip.sp-slider.held { border-color: var(--HighlightedBackground) !important; }
 @media (prefers-reduced-motion: reduce) { .cm-tooltip.sp-slider { transition: none; } }
-body.reduce-motion .cm-tooltip.sp-slider { transition: none; }
+body.reduce-motion .cm-tooltip.sp-slider, :host([data-page~="reduce-motion"]) .cm-tooltip.sp-slider { transition: none; }
 .sp-slider input { width: 200px; }
 .sp-slider-opt { color: var(--SymbolForeground); }
 .sp-slider-val { min-width: 3.5em; text-align: right; color: var(--NumberForeground); }
@@ -2052,7 +2066,7 @@ body.reduce-motion .cm-tooltip.sp-slider { transition: none; }
   #buffer-tabs.jam-grid .buffer-tab { font-size: 30px; }
   #buffer-tabs.jam-on .buffer-tab::before { width: 100%; }
   /* the margin: the desktop's room around the line numbers (editor.js's theme) is a tenth of a phone's width */
-  #editor-mount .cm-lineNumbers .cm-gutterElement { padding: 0 0.4em 0 0.45em; }
+  :host(#editor-mount) .cm-lineNumbers .cm-gutterElement { padding: 0 0.4em 0 0.45em; }
   /* where the error card would squeeze the code (the code keyboard up, a drawer open, the panels folded away), the
      one-line strip under the editor stands in for it */
   body:is(.kbd-open, .panel-open) #error-strip:not([hidden]) { display: flex; }

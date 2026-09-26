@@ -39,10 +39,9 @@ export function createLogs(root, names) {
     body.addEventListener("keydown", (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "a") {
         e.preventDefault();
-        const range = document.createRange();
-        range.selectNodeContents(body);
-        getSelection().removeAllRanges();
-        getSelection().addRange(range);
+        // selectAllChildren, not a range added: the pane is in a shadow root (shadow.js), and WebKit adds no range
+        // from inside one to the page's selection (it takes this, and a drag, as Chromium does)
+        getSelection().selectAllChildren(body);
       }
     });
     const source = { pane, body, pending: [], lines: 0, following: true };

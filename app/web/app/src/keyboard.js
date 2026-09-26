@@ -14,6 +14,7 @@ import { undo, redo, cursorCharLeft, cursorCharRight, cursorLineUp, cursorLineDo
 import { acceptCompletion, completionStatus, startCompletion, moveCompletionSelection } from "@codemirror/autocomplete";
 import { EditorView } from "@codemirror/view";
 import { newlineAndIndent, toggleComment } from "./editor.js";
+import { deepActive } from "./shadow.js";
 
 // simple-keyboard, fetched the first time the keyboard opens (a page never typed on by touch never loads it). Its
 // main build is CommonJS with its class on `default`, which a bundler wraps once more: take the constructor wherever
@@ -298,7 +299,7 @@ export function createCodeKeyboard({ editor, dock, mount, store }) {
   });
 
   // ── Aim: a card's editor (ui/card.js) takes the keys while its code has focus ──
-  // Focus is a composed event, so a card in the docs pane and one in a site page's shadow root alike are seen;
+  // Focus is a composed event, so a card's editor and the buffer's, in its shadow root (shadow.js), alike are seen;
   // the editor is found from its content element. On a touch screen the keyboard comes up for it as it does
   // for the buffer's; the buffer's editor takes the keys back when it is focused again.
   function aim(v) {
@@ -328,7 +329,7 @@ export function createCodeKeyboard({ editor, dock, mount, store }) {
     if (!on) {
       setOpen(false);
       // the system keyboard comes up for an editor that is focused again
-      if (refocus && document.activeElement === content) setTimeout(() => { content.blur(); content.focus(); }, 100);
+      if (refocus && deepActive() === content) setTimeout(() => { content.blur(); content.focus(); }, 100);
     }
   }
   applyMode(virtual, false);

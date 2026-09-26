@@ -22,6 +22,7 @@ import { completionExtensions, completionDocText, hideSlider, moveCompletion } f
 import { announce, Announcement } from "./announce.js";
 import { LoopScopeState, drawLoopScope, SWEEP_WINDOW, SWEEP_SEARCH, SCROLL_WINDOW } from "./loopscope.js";
 import { animateWhileShown } from "./ui/shown.js";
+import { shadowFor } from "./shadow.js";
 
 export const NUM_BUFFERS = 10;   // the most a set can have (workspace.js MAX_BUFFERS); each set its own number
 // the first buffer on a first visit (workspace.js puts it there): notes to hear, change and hear again — short lines,
@@ -405,7 +406,7 @@ function loopScopePlugin(hooks) {
         let st = this.states.get(slot);
         if (!st) this.states.set(slot, (st = new LoopScopeState()));
         const frame = hooks.scopeFrame?.(slot, scroll ? SCROLL_WINDOW : SWEEP_WINDOW + SWEEP_SEARCH) ?? null;
-        if (st.feed(frame, scroll) || !c.dataset.painted) { drawLoopScope(c, st, { scroll }); c.dataset.painted = "1"; }
+        if (st.feed(frame, scroll) || !c.dataset.painted) { drawLoopScope(c, st, { scroll }); c.dataset.painted ||= "1"; }   // said once: a write is a change to the page, even of the same value
       }
       for (const k of this.states.keys()) if (!seen.has(k)) this.states.delete(k);
     }
@@ -762,14 +763,17 @@ export function createEditor(mount, { api, hooks, workspace }) {
   // the editor's name for a screen reader, as native's "Code Editor Buffer 0", and how to leave it (Tab indents here, as in native)
   const named = (i) => EditorView.contentAttributes.of({ "aria-label": `Code Editor Buffer ${i}`, "aria-description": "Tab indents. F6 moves to the next pane, Shift+F6 to the previous." });
   const makeState = (doc, i) => EditorState.create({ doc, extensions: [extensions, named(i)] });
-  const view = new EditorView({ state: makeState(workspace.text(shownBuffer), shownBuffer), parent: mount });
+  // the editor lives in a shadow root on its mount (./shadow.js): its flashes and scopes, changing as a program
+  // plays, are out of sight of a page-wide watcher (an ad blocker's), whose scans of the page otherwise freeze it
+  const root = shadowFor(mount);
+  const view = new EditorView({ state: makeState(workspace.text(shownBuffer), shownBuffer), parent: root, root });
   // the line numbers are laid out from line heights the editor measured: whatever changes them without the editor
   // hearing of it (a font arriving late, the page's zoom, a text size set while the editor was out of sight) would
   // leave the numbers drifting from their lines, so any change in the code's own size has it measure again
   new ResizeObserver(() => view.requestMeasure()).observe(view.contentDOM);
   document.fonts?.addEventListener?.("loadingdone", () => view.requestMeasure());
   const toolbar = editToolbar(view);
-  mount.appendChild(toolbar);
+  root.appendChild(toolbar);
   toolbarCheck = ghostToolbar(view, toolbar);
   reportCaret(view.state);
 
@@ -951,7 +955,7 @@ export function createEditor(mount, { api, hooks, workspace }) {
     },
     /** The edit toolbar's titles with their shortcuts: title(text, command) gives each one. */
     titleKeys(title) {
-      for (const b of mount.querySelectorAll(".sp-edit-btn")) {
+      for (const b of root.querySelectorAll(".sp-edit-btn")) {
         b.title = title(b.dataset.text, b.dataset.command);
         b.setAttribute("aria-label", b.title);
       }

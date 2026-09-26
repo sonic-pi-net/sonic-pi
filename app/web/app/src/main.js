@@ -37,6 +37,7 @@ import { encodeCode, encodeDigits, decodeCode, loadShareCodec } from "./share.js
 import { createShareMenu } from "./share-menu.js";
 import { createInfo } from "./info.js";
 import { announce, Announcement, setSpeakTransport } from "./announce.js";
+import { origin, deepActive, shadowPane, eachShadowRoot } from "./shadow.js";
 import { icon } from "./icons.js";
 import { explainError, makeKnown } from "./friendly.js";
 
@@ -49,6 +50,7 @@ const store = {
 for (const t of [window, document.body]) t.addEventListener("scroll", () => { if (document.scrollingElement.scrollTop || document.body.scrollTop) { document.scrollingElement.scrollTop = 0; document.body.scrollTop = 0; } }, { passive: true });
 // native's tooltips, in place of the browser's, for every control with a title (tooltip.js)
 const tips = installTooltips(document.body);
+eachShadowRoot((root) => tips.watch(root));   // and in the editor's and the panes' shadow roots (shadow.js)
 // native's keyboard shortcuts, in the keymap the player picked (shortcuts.js; the keys, at the end)
 const keys = createShortcuts({ store });
 const json = async (path) => {
@@ -65,7 +67,7 @@ const el = (tag, cls, text) => {
 
 // ── Logs (native's Logs tab): each source says what it did from the moment the page loads ──
 
-const logs = createLogs($("logs-pane"), ["GUI", "Runtime", "Host", "SuperSonic"]);
+const logs = createLogs(shadowPane($("logs-pane")), ["GUI", "Runtime", "Host", "SuperSonic"]);   // in its shadow root (shadow.js)
 const describe = (v) => {   // a value as a line of log: a string as is, an error with its stack, anything else as JSON
   if (typeof v === "string") return v;
   if (v instanceof Error) return v.stack || `${v.name}: ${v.message}`;
@@ -733,10 +735,13 @@ const MAX_LOG = 4000;        // lines a pane remembers: nearly free, as only WIN
 const WINDOW = 150;          // lines in the document at once: a tall pane shows ~40
 
 // An entry is a line's data and how to build it; its node exists only while the line is in the window.
-const panes = new Map();     // box → { rows, first, pending, following, built }
+// The window is drawn in the box's shadow root (shadow.js: lines arriving as a program plays are out of sight of a
+// page-wide watcher's), and the box itself scrolls. It says when it has nothing to show (data-empty), and the box
+// shows its placeholder (style.css).
+const panes = new Map();     // box → { rows, first, pending, following, built, inner }
 const paneOf = (box) => {
   let pane = panes.get(box);
-  if (!pane) panes.set(box, (pane = { rows: [], first: 0, pending: [], following: true, built: new Set() }));
+  if (!pane) panes.set(box, (pane = { rows: [], first: 0, pending: [], following: true, built: new Set(), inner: shadowPane(box) }));
   return pane;
 };
 let painting = false;
@@ -747,13 +752,14 @@ function drawPane(box, pane) {
   const first = pane.following ? Math.max(0, rows.length - WINDOW) : Math.min(pane.first, Math.max(0, rows.length - WINDOW));
   pane.first = first;
   const want = rows.slice(first, first + WINDOW);
-  const have = box.children;
+  box.toggleAttribute("data-empty", !rows.length);   // only as it changes: the same state is no change to the page
+  const have = pane.inner.children;
   let same = have.length === want.length;
   for (let i = 0; same && i < want.length; i++) same = have[i] === want[i].node;
   if (same) return;
   const batch = document.createDocumentFragment();
   for (const e of want) batch.appendChild(e.node ??= e.make());
-  box.replaceChildren(batch);
+  pane.inner.replaceChildren(batch);
   // a line that has left the window gives its node back; the buffer keeps only what the line says
   const keep = new Set(want);
   for (const e of pane.built) if (!keep.has(e)) e.node = null;
@@ -791,6 +797,7 @@ function append(box, entry) {
 // while the lines go on arriving underneath.
 const USER_SCROLL_MS = 1000;
 for (const box of [logBox, cueBox]) {
+  paneOf(box);   // its shadow root, from the start
   let userAt = -Infinity;
   const byUser = () => { userAt = performance.now(); };
   for (const ev of ["wheel", "touchmove", "pointerdown"]) box.addEventListener(ev, byUser, { passive: true });
@@ -811,7 +818,7 @@ for (const box of [logBox, cueBox]) {
 }
 
 // Clearing a pane drops its buffer too, or what it was keeping would come back on the next line.
-const forgetPending = (box) => { const p = panes.get(box); if (p) { p.rows.length = 0; p.pending.length = 0; p.first = 0; p.following = true; p.built.clear(); } };
+const clearPane = (box) => { const p = paneOf(box); p.rows.length = 0; p.pending.length = 0; p.first = 0; p.following = true; p.built.clear(); drawPane(box, p); };
 
 // Native's times: to four places, trimmed, a whole second as 270.0
 const fmtTime = (t) => { const x = Math.round(t * 10000) / 10000; return Number.isInteger(x) ? x.toFixed(1) : String(x); };
@@ -893,8 +900,8 @@ function addCue(path, data, t = null) {
   } });
 }
 
-$("log-clear").addEventListener("click", () => { forgetPending(logBox); logBox.textContent = ""; breakLog(); });
-$("cue-clear").addEventListener("click", () => { forgetPending(cueBox); cueBox.textContent = ""; });
+$("log-clear").addEventListener("click", () => { clearPane(logBox); breakLog(); });
+$("cue-clear").addEventListener("click", () => clearPane(cueBox));
 
 let errorLine = null;
 let shownError = null;   // what the card says (friendly.js), for Jump, Fix it and Copy
@@ -1122,7 +1129,7 @@ function readProcesses() {
 // the flight recorder's marks (glitches, late bundles, stalls) are the host's news
 flight.on((e) => { if (e.type === "mark") logs.add("Host", `${e.mark.kind}: ${e.mark.detail}`); });
 
-const insight = createInsight($("insight-pane"), {
+const insight = createInsight(shadowPane($("insight-pane")), {   // in its shadow root (shadow.js)
   processes: readProcesses,
   stop: (uid) => session?.stopSubtree(uid, 0.25),   // the threads view: a node and everything under it, faded (Scheduler#stop_subtree)
   synthDefaults: (synth) => synthOpts.get(synth.replace(/^sonic-pi-/, "")) ?? null,
@@ -1316,7 +1323,7 @@ function setPanel(next) {
 // written out here with the page's own decoder, since out:text leaves bundles out and everything the runtime sends
 // is one; and what came back to this page (in:text). Both cost something only while listened to, so the logs start
 // when the pane is first opened, and keep on after. The node tree native has there is the Threads pane's.
-const oscLogs = createLogs($("debug-pane").querySelector(".debug-logs"), ["To SuperSonic", "From SuperSonic"]);
+const oscLogs = createLogs(shadowPane($("debug-pane").querySelector(".debug-logs")), ["To SuperSonic", "From SuperSonic"]);
 let oscLogged = null;   // the engine the logs listen to
 async function logOsc(engine) {
   if (!engine || oscLogged === engine) return;
@@ -1662,7 +1669,7 @@ document.body.classList.toggle("standalone", standalone);
 if (standalone || isIPhone) $("btn-zen").hidden = true;
 const fullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement;
 $("btn-zen").addEventListener("click", () => {
-  if (isIPad && !standalone) { editor.aside(); $("install-overlay").hidden = false; return; }
+  if (isIPad && !standalone) { editor.aside(); showDialog("install-overlay", true); return; }
   if (fullscreenElement()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
   else {
     const root = document.documentElement;
@@ -1677,7 +1684,7 @@ const paintFullscreen = () => {
 };
 document.addEventListener("fullscreenchange", paintFullscreen);
 document.addEventListener("webkitfullscreenchange", paintFullscreen);
-$("install-close").addEventListener("click", () => { $("install-overlay").hidden = true; });
+$("install-close").addEventListener("click", () => showDialog("install-overlay", false));
 
 
 // Load, as native's, and its Load Set too: a buffer's code into a free buffer, a set (.sonicpi) as a set of its own
@@ -1690,7 +1697,7 @@ $("load-file").addEventListener("change", async () => {
   const base = file.name.replace(/\.(rb|txt|sonicpi)$/i, "");
   arrive(await file.text(), base, file.name, base);
 });
-$("install-overlay").addEventListener("click", (e) => { if (e.target === $("install-overlay")) $("install-overlay").hidden = true; });
+$("install-overlay").addEventListener("click", (e) => { if (e.target === $("install-overlay")) showDialog("install-overlay", false); });
 
 // ── The on-screen keyboard ────────────────────────────────────────────────
 // On an iPad or a phone the keyboard covers the page without resizing it:
@@ -1717,7 +1724,7 @@ const vv = window.visualViewport;
 if (vv) {
   const fitKeyboard = () => {
     const covered = window.innerHeight - vv.height;
-    const typing = !!document.activeElement?.closest?.(".cm-editor") || (!!editedCard && covered > 120);   // a caret tap's moment away from the card's code is still typing
+    const typing = !!deepActive()?.closest?.(".cm-editor") || (!!editedCard && covered > 120);   // a caret tap's moment away from the card's code is still typing
     document.documentElement.style.setProperty("--app-height", `${Math.round(vv.height)}px`);
     document.body.classList.toggle("keyboard-open", covered > 120 && typing);
     if (vv.offsetTop > 0) window.scrollTo(0, 0);
@@ -2054,7 +2061,7 @@ function attachNavScope(engine) {
     const c = navScope.canvas, buf = navScope.buf;
     navScope.analyser.getFloatTimeDomainData(buf);
     const frame = { frames: buf.length, channels: 1, interleaved: buf, writePosition: ++navScope.cursor };
-    if (navScope.state.feed(frame, false) || !c.dataset.painted) { drawLoopScope(c, navScope.state); c.dataset.painted = "1"; }
+    if (navScope.state.feed(frame, false) || !c.dataset.painted) { drawLoopScope(c, navScope.state); c.dataset.painted ||= "1"; }   // said once: a write is a change to the page, even of the same value
     let loud = false;
     for (let i = 0; i < buf.length; i += 8) if (Math.abs(buf[i]) > 1e-4) { loud = true; break; }
     quiet = loud ? 0 : quiet + 1;
@@ -2065,9 +2072,15 @@ function attachNavScope(engine) {
 phoneMedia.addEventListener("change", () => { if (!phoneMedia.matches && document.body.dataset.drawer === "output") openDrawer(""); });
 // Info, as native's λ: a dialog about this Sonic Pi. The site is the bar's (sonic-pi.net, or the dialog's link).
 let aboutFrom = null;   // what had focus when the dialog opened: it gets it back on closing
+// A dialog up or down (about, install): <body> says whether one is (dialog-open), and so the editor's popups, in its
+// shadow root, stay under it (style.css)
+function showDialog(id, on) {
+  $(id).hidden = !on;
+  document.body.classList.toggle("dialog-open", !$("about-overlay").hidden || !$("install-overlay").hidden);
+}
 function showAbout(on) {
   const was = !$("about-overlay").hidden;
-  $("about-overlay").hidden = !on;
+  showDialog("about-overlay", on);
   $("btn-info").classList.toggle("on", on);
   if (!on) {
     if (was) editorReachable(true);
@@ -2076,7 +2089,7 @@ function showAbout(on) {
     aboutFrom = null;
     return;
   }
-  if (!was) aboutFrom = document.activeElement;
+  if (!was) aboutFrom = deepActive();   // the editor's content, in its shadow root, not its mount
   editorReachable(false);   // a modal dialog: Tab and a screen reader's cursor stay in it (aria-modal, index.html)
   editor.aside();   // its completion would float over the dialog
   $("about-v-sound").textContent = `SuperSonic ${SUPERSONIC_VERSION}`;
@@ -2846,7 +2859,8 @@ document.addEventListener("keydown", (e) => {
   if (infoOpen()) return;     // the Info card is up: its cards have their own keys
   const hit = keys.match(e);
   if (!hit) return;
-  const target = e.target instanceof Element ? e.target : null;
+  const began = origin(e);   // inside the editor's shadow root, not its mount (shadow.js)
+  const target = began instanceof Element ? began : null;
   const kind = entryKind(target);
   const inSearch = !!target?.closest(".cm-search");
   if (kind && takesKey(kind, hit.chord, inSearch)) return;

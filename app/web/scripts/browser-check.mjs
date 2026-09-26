@@ -73,6 +73,16 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const versions = await page.locator("#info-versions").textContent();   // the corner says which Sonic Pi this is
     check("the runtime loads in the page", /mruby runtime \S+ loaded/.test(runtimeSaid) || /Sonic Pi v\d/.test(versions), versions);
     const setCode = (code) => page.evaluate((c) => window.sonicPi.editor.setCode(c), code);
+    // the log's lines are in its shadow root (app/src/shadow.js): the box's own text is only its placeholder's
+    const logText = () => page.evaluate(() => document.getElementById("log").shadowRoot.textContent);
+    // the shadow roots' copy of app.css is its rules read back (app/src/shadow.js), and a rule that comes back without
+    // some of what it says (a shorthand with a var() in it, then a longhand of it in the same rule) is missed in them
+    const lostCss = await page.evaluate(() => {
+      const own = [...document.styleSheets].find((s) => /\/app\.css(\?|$)/.test(s.href ?? ""));
+      const text = [...own.cssRules].map((r) => r.cssText).join("\n");
+      return [...text.matchAll(/([^{}]*)\{[^{}]*?([\w-]+):\s*;/g)].map((m) => `${m[1].trim()} (${m[2]})`);
+    });
+    check("app.css reads back whole, so the editor's and the panes' shadow roots have all of it", lostCss.length === 0, lostCss.join(", "));
     // as native: Help opens the help pane, and its rail picks cards, docs or threads
     const openPane = async (name) => {
       if (!(await page.evaluate(() => document.body.dataset.drawer))) await page.click("#btn-help");
@@ -82,9 +92,9 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
 
     // highlighting: native's lexer keys. A cleared buffer has none of them in it, so the code is put there first
     await setCode("live_loop :beat do    # a comment\n  sample :bd_haus, amp: 2\n  sleep 1\nend");
-    await page.waitForSelector(".cm-content .sp-keyword", { timeout: 5000 });
+    await page.waitForSelector("#editor-mount .cm-content .sp-keyword", { timeout: 5000 });   // the buffer's, in its shadow root: not a card's
     const colours = await page.evaluate(() => {
-      const get = (sel) => getComputedStyle(document.querySelector(sel)).color;
+      const get = (sel) => getComputedStyle(window.sonicPi.editor.view.root.querySelector(sel)).color;   // in the editor's shadow root
       return { keyword: get(".cm-content .sp-keyword"), symbol: get(".cm-content .sp-symbol"), number: get(".cm-content .sp-number"), comment: get(".cm-content .sp-comment") };
     });
     check("the editor highlights with the theme's lexer colours", new Set(Object.values(colours)).size === 4, JSON.stringify(colours));
@@ -106,7 +116,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const optRows = await page.locator(".cm-tooltip-autocomplete li").allTextContents();
     check("after a sample and a comma the popup offers sample opts", optRows.some((t) => t.startsWith("rate:")), `${optRows.length} rows`);
     await page.keyboard.type("amp");
-    await page.waitForFunction(() => /^amp:/.test(document.querySelector(".cm-tooltip-autocomplete li")?.textContent ?? ""), null, { timeout: 3000 }).catch(() => {});
+    await page.waitForFunction(() => /^amp:/.test(window.sonicPi.editor.view.root.querySelector(".cm-tooltip-autocomplete li")?.textContent ?? ""), null, { timeout: 3000 }).catch(() => {});
     await page.keyboard.press("Tab");
     await page.waitForSelector(".cm-tooltip-autocomplete .sp-opt-range", { timeout: 3000 }).catch(() => {});
     await page.waitForTimeout(200);
@@ -127,15 +137,15 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.evaluate(() => window.sonicPi.editor.view.focus());
     await page.keyboard.press("Escape");
     await page.waitForTimeout(150);
-    const gone = await page.evaluate(() => !document.querySelector(".sp-slider"));
+    const gone = await page.evaluate(() => !window.sonicPi.editor.view.root.querySelector(".sp-slider"));
     await page.keyboard.press("ArrowLeft");
     await page.waitForTimeout(150);
-    const stays = await page.evaluate(() => !document.querySelector(".sp-slider"));
+    const stays = await page.evaluate(() => !window.sonicPi.editor.view.root.querySelector(".sp-slider"));
     check("Escape puts the value's slider away, and it stays away on that value", hasSlider && gone && stays, `${gone} ${stays}`);
     await setCode("use_synth :prophet\nplay 60, ");
     await caretToEnd();
     await page.keyboard.type("res");
-    await page.waitForFunction(() => [...document.querySelectorAll(".cm-tooltip-autocomplete li")].some((li) => li.textContent.startsWith("res:")), null, { timeout: 3000 }).catch(() => {});
+    await page.waitForFunction(() => [...window.sonicPi.editor.view.root.querySelectorAll(".cm-tooltip-autocomplete li")].some((li) => li.textContent.startsWith("res:")), null, { timeout: 3000 }).catch(() => {});
     const synthOpts = await page.locator(".cm-tooltip-autocomplete li").allTextContents();
     check("play offers the current synth's opts", synthOpts.some((t) => t.startsWith("res:")), `${synthOpts.length} rows`);
     // a screen reader, as native: the list is not in the accessibility tree (the code keeps the reader), and each
@@ -144,7 +154,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.keyboard.press("ArrowUp");
     await page.keyboard.press("ArrowDown");
     await page.waitForTimeout(150);
-    const speech = await page.evaluate(() => ({ said: window.__said, hidden: document.querySelector(".cm-tooltip-autocomplete")?.getAttribute("aria-hidden"), combobox: document.querySelector("#editor-mount .cm-content").hasAttribute("aria-activedescendant") }));
+    const speech = await page.evaluate(() => ({ said: window.__said, hidden: window.sonicPi.editor.view.root.querySelector(".cm-tooltip-autocomplete")?.getAttribute("aria-hidden"), combobox: window.sonicPi.editor.view.contentDOM.hasAttribute("aria-activedescendant") }));
     check("the completion list speaks each move (name, kind, summary, place), silent at its ends, out of the accessibility tree",
       speech.said.length === 1 && / 2 of \d+$/.test(speech.said[0]) && speech.said[0].split(", ").length >= 3 && speech.hidden === "true" && !speech.combobox, JSON.stringify(speech));
     await page.keyboard.press("Escape");
@@ -163,6 +173,17 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.waitForTimeout(1200);
     const jobs = await page.locator("#status-jobs").getAttribute("title");
     check("Run plays both live loops", /:kick/.test(jobs) && /:hat/.test(jobs), jobs);
+    // A page-wide watcher hears nothing as a program plays: an ad blocker's (AdBlock's element hiding: a
+    // MutationObserver on the document, then every hiding rule tried against the whole page a second after any
+    // change) otherwise scans back to back, freezing the page. What changes as it plays is in shadow roots
+    // (app/src/shadow.js): the editor's flashes, the log, the cues, the Threads and Logs panes.
+    const heard = await page.evaluate(() => new Promise((resolve) => {
+      const by = {};
+      const mo = new MutationObserver((list) => { for (const m of list) { let e = m.target.nodeType === 1 ? m.target : m.target.parentElement; while (e && !e.id) e = e.parentElement; const k = `${e ? "#" + e.id : "the page"} ${m.type}`; by[k] = (by[k] ?? 0) + 1; } });
+      mo.observe(document, { childList: true, attributes: true, subtree: true, characterData: true });
+      setTimeout(() => { mo.disconnect(); resolve(by); }, 2500);
+    }));
+    check("the page stays still as a program plays: a page-wide watcher (an ad blocker's) hears nothing", !Object.keys(heard).length, JSON.stringify(heard));
     const runs = await page.locator("#status-jobs").textContent();
     check("the status bar says the runs going as their ids alone", /^\[\d+(, \d+)*\]$/.test(runs), runs);
     check("the log shows what played", (await page.locator("#log .log-line").count()) > 3);
@@ -170,9 +191,9 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("sounds reach the engine as the runtime's own OSC, and scsynth refuses none", audio.sent > 3 && audio.failures === 0, JSON.stringify(audio));
     await setCode("live_loop :kick do\n  sample :bd_haus\n  puts :redefined\n  sleep 0.5\nend");
     await page.click("#btn-run");
-    await page.waitForFunction(() => /redefined/.test(document.getElementById("log").textContent), null, { timeout: 10000 }).catch(() => {});
+    await page.waitForFunction(() => /redefined/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(() => {});
     const jobs2 = await page.locator("#status-jobs").getAttribute("title");
-    check("a second Run redefines a live loop in place", (await page.locator("#log").textContent()).includes("redefined") && /:hat/.test(jobs2), jobs2);
+    check("a second Run redefines a live loop in place", (await logText()).includes("redefined") && /:hat/.test(jobs2), jobs2);
     // The synths are this repo's build of each one (web/sonic_pi.js bootEngine), from the CDN only where its copy is
     // this one: SuperSonic's set drifts, and a stale one plays differently or not at all. The autotuner is what this
     // listens to — 0.85.0's copy predates the fix for the pitch tracker's first reading, and makes no sound at all — so
@@ -203,7 +224,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.waitForSelector("#error-pane:not([hidden])", { timeout: 10000 }).catch(() => {});
     const errors = await page.locator("#error-pane").textContent();
     check("an error in a thread shows in the error pane with its line", /NoMethodError/.test(errors) && /line 2/.test(errors), errors.trim());
-    check("the error's line is marked in the editor", (await page.locator(".cm-sp-error-line").count()) === 1);
+    check("the error's line is marked in the editor", (await page.locator("#editor-mount .cm-sp-error-line").count()) === 1);
     await page.click("#btn-stop");
     await page.waitForTimeout(800);
     check("Stop stops everything", (await page.locator("#status-jobs").textContent()) === "");
@@ -230,7 +251,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     // live lines, the threads view, and more of the runtime's verbs
     await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend\nlive_loop :bass do\n  use_synth :tb303; use_sched_ahead_time 1\n  play rrand_i(40, 52), release: 0.2\n  sleep 0.25\nend");   // the bass a second ahead: notes on the roll still to sound when Stop is pressed (the default lead is too short to be sure of one)
     await page.click("#btn-run");
-    const flashed = await page.waitForSelector(".cm-line.sp-flash-a, .cm-line.sp-flash-b", { timeout: 10000 }).then(() => true).catch(() => false);
+    const flashed = await page.waitForSelector("#editor-mount .cm-line.sp-flash-a, #editor-mount .cm-line.sp-flash-b", { timeout: 10000 }).then(() => true).catch(() => false);
     check("a sounding line flashes, as native's code flash", flashed);
     // Debug, as native's: the engine's metrics, and under them what went to SuperSonic (the runtime's bundles too) and
     // what came back
@@ -238,8 +259,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     // a synth not heard yet: its synthdef loads, and the engine's answer to that comes back
     await setCode("use_synth :zawa\nplay 60, release: 0.1");
     await page.click("#btn-run");
-    await page.waitForFunction(() => { const [to, from] = document.querySelectorAll("#debug-pane .logs-source"); return to?.textContent.includes("/s_new") && from?.querySelector(".logs-line"); }, null, { timeout: 8000 }).catch(() => {});
-    const osc = await page.evaluate(() => [...document.querySelectorAll("#debug-pane .logs-source")].map((s) => ({ title: s.querySelector(".logs-title").textContent, lines: s.querySelectorAll(".logs-line").length, s_new: /\+\d+\.\d+s \/s_new "sonic-pi-/.test(s.textContent) })));
+    await page.waitForFunction(() => { const [to, from] = document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source"); return to?.textContent.includes("/s_new") && from?.querySelector(".logs-line"); }, null, { timeout: 8000 }).catch(() => {});
+    const osc = await page.evaluate(() => [...document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source")].map((s) => ({ title: s.querySelector(".logs-title").textContent, lines: s.querySelectorAll(".logs-line").length, s_new: /\+\d+\.\d+s \/s_new "sonic-pi-/.test(s.textContent) })));
     check("the Debug pane logs the OSC to SuperSonic (the runtime's bundles, when each is due) and from it", osc.length === 2 && osc[0].s_new && osc[1].lines > 0, JSON.stringify(osc));
     await openPane("insight");
     await page.waitForTimeout(1500);
@@ -259,14 +280,14 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     // a loop held on a sync says so in its scope
     await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend\nlive_loop :held do\n  sync :never_cued\n  play 60\nend");
     await page.click("#btn-run");
-    const held = await page.waitForSelector(".sp-wait", { timeout: 10000 }).then((h) => h.evaluate((el) => `${el.title} @ line ${[...el.closest(".cm-content").querySelectorAll(".cm-line")].indexOf(el.closest(".cm-line")) + 1}`)).catch(() => null);
+    const held = await page.waitForSelector("#editor-mount .sp-wait", { timeout: 10000 }).then((h) => h.evaluate((el) => `${el.title} @ line ${[...el.closest(".cm-content").querySelectorAll(".cm-line")].indexOf(el.closest(".cm-line")) + 1}`)).catch(() => null);
     check("a thread held on a sync is marked at its sync line", held != null && /waiting on sync :never_cued @ line 6$/.test(held), String(held));
     await page.click(".insight-views button[data-view='timeline']");
     await page.waitForTimeout(800);
     const threadRows = await page.locator(".insight-table tbody tr").allTextContents();
     check("the Threads view has a row per thread with its state", threadRows.some((t) => t.includes(":kick") && /sleeping/.test(t)) && threadRows.some((t) => t.includes(":bass")), threadRows.slice(0, 3).join(" | "));
     const painted = await page.evaluate(() => {
-      const c = document.querySelector(".insight-canvas canvas");
+      const c = document.getElementById("insight-pane").shadowRoot.querySelector(".insight-canvas canvas");   // in the Threads pane's shadow root
       const d = c.getContext("2d").getImageData(0, 0, c.width, c.height).data;
       const seen = new Set();
       for (let i = 0; i < d.length; i += 97 * 4) seen.add(`${d[i]},${d[i + 1]},${d[i + 2]}`);
@@ -306,8 +327,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("Stop takes the notes that will now never sound off the piano roll", ahead > 0 && rollStopped.notes.every((n) => n.start <= stoppedAt && n.end <= stoppedAt + 1e-6) && rollStopped.hits.every((h) => h.time <= stoppedAt), `${ahead} ahead before, ${rollStopped.notes.filter((n) => n.start > stoppedAt).length} after the stop`);
     await setCode("n = play 60, release: 2\nsleep 0.25\ncontrol n, note: 72\nset :answer, 42\nputs get(:answer)\nputs spread(3, 8)\nmidi_note_on 60\nputs chord_invert(chord(:c4, :major), 1)");
     await page.click("#btn-run");
-    await page.waitForFunction(() => /\(ring 64, 67, 72\)/.test(document.getElementById("log").textContent), null, { timeout: 10000 }).catch(() => {});
-    const newVerbs = await page.locator("#log").textContent();
+    await page.waitForFunction(() => /\(ring 64, 67, 72\)/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(() => {});
+    const newVerbs = await logText();
     check("control, set and get, spread, MIDI and chord_invert run", /control node/.test(newVerbs) && /42/.test(newVerbs) && /\(ring true, false, false, true/.test(newVerbs) && /\(ring 64, 67, 72\)/.test(newVerbs), newVerbs.slice(-200));
     check("controls and samples all session long: scsynth has refused nothing", (await page.evaluate(() => window.sonicPi.session.failures)) === 0);
     const bent = (await page.evaluate(() => window.sonicPi.pianoRoll())).notes.filter((n) => n.notes[0] === 60);
@@ -332,8 +353,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     else {
       await setCode(`load_synthdef "${whoosh}"\nsynth :whoosh, note: 64, release: 0.2`);
       await page.click("#btn-run");
-      await page.waitForFunction(() => /synth :whoosh/.test(document.getElementById("log").textContent), null, { timeout: 15000 }).catch(() => {});
-      const played = await page.evaluate(() => ({ log: /synth :whoosh, \{note: 64\.0, release: 0\.2\}/.test(document.getElementById("log").textContent), err: !document.getElementById("error-pane").hidden }));
+      await page.waitForFunction(() => /synth :whoosh/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 15000 }).catch(() => {});
+      const played = await page.evaluate(() => ({ log: /synth :whoosh, \{note: 64\.0, release: 0\.2\}/.test(document.getElementById("log").shadowRoot.textContent), err: !document.getElementById("error-pane").hidden }));
       await setCode("synth :whoosh, release: -1");
       await page.click("#btn-run");
       await page.waitForSelector("#error-pane:not([hidden])", { timeout: 5000 }).catch(() => {});
@@ -362,8 +383,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("turning a dial writes the program", /use_synth :prophet\nplay \d+, cutoff: \d+/.test(program), program);
     // the page's demo runs on the quickstart card's transport (ui/card.js): Play is its first button, Stop the second
     await page.click("#docs-pane .pg-card .qs-card-foot .qs-run:not(.qs-stop)");
-    await page.waitForFunction(() => /synth :prophet, \{note: 52\.0, cutoff: 115/.test(document.getElementById("log").textContent), null, { timeout: 5000 }).catch(() => {});
-    check("the instrument page plays its program", /synth :prophet, \{note: 52\.0, cutoff: 115/.test(await page.locator("#log").textContent()));
+    await page.waitForFunction(() => /synth :prophet, \{note: 52\.0, cutoff: 115/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 5000 }).catch(() => {});
+    check("the instrument page plays its program", /synth :prophet, \{note: 52\.0, cutoff: 115/.test(await logText()));
     // an FX's live demo keeps its FX node in Time State for the knobs to steer (set :docs_fx, fx): a node is thread safe,
     // as native has it, so the demo runs with no error, and one that fails says so on its own card, not over the code
     await page.click(".docs-tabs button:has-text('FX')");
@@ -687,8 +708,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       await gp.evaluate(() => { Object.assign(__pad.buttons[0], { pressed: true, value: 1 }); __pad.timestamp++; });
       await gp.waitForTimeout(300);
       await gp.evaluate(() => { Object.assign(__pad.buttons[0], { pressed: false, value: 0 }); __pad.axes[0] = 0.8; __pad.timestamp++; });
-      await gp.waitForFunction(() => /pressed/.test(document.getElementById("log").textContent) && /\/axis\/left_x/.test(document.getElementById("cues").textContent) && /\/south\/up/.test(document.getElementById("cues").textContent), null, { timeout: 5000 }).catch(() => {});
-      const pad = await gp.evaluate(() => ({ cues: [...document.querySelectorAll("#cues > *")].map((e) => e.textContent.trim()).filter((t) => t.startsWith("/gamepad:")).map((t) => t.replace(/\[.*$/, "")), synced: /pressed/.test(document.getElementById("log").textContent) }));
+      await gp.waitForFunction(() => /pressed/.test(document.getElementById("log").shadowRoot.textContent) && /\/axis\/left_x/.test(document.getElementById("cues").shadowRoot.textContent) && /\/south\/up/.test(document.getElementById("cues").shadowRoot.textContent), null, { timeout: 5000 }).catch(() => {});
+      const pad = await gp.evaluate(() => ({ cues: [...document.getElementById("cues").shadowRoot.querySelectorAll(".shadow-pane > *")].map((e) => e.textContent.trim()).filter((t) => t.startsWith("/gamepad:")).map((t) => t.replace(/\[.*$/, "")), synced: /pressed/.test(document.getElementById("log").shadowRoot.textContent) }));
       const want = ["button/south", "button/south/down", "button/south/up", "axis/left_x"].every((w) => pad.cues.some((c) => c.endsWith(`/${w}`)));
       check("a game controller's buttons and sticks are cues, as native's, and a sync on a press wakes", want && pad.synced, JSON.stringify(pad));
       await ctx.close();
@@ -718,7 +739,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       const r = await ph.evaluate(() => {
         const rect = (el) => { const b = el?.getBoundingClientRect(); return b ? { top: b.top, bottom: b.bottom, left: b.left, right: b.right } : null; };
         const v = window.sonicPi.editor.view, c = v.coordsAtPos(v.state.selection.main.head);
-        return { list: rect(document.querySelector(".cm-tooltip-autocomplete > ul")), info: rect(document.querySelector(".cm-completionInfo")), dock: rect(document.querySelector("#input-dock")),
+        return { list: rect(window.sonicPi.editor.view.root.querySelector(".cm-tooltip-autocomplete > ul")), info: rect(window.sonicPi.editor.view.root.querySelector(".cm-completionInfo")), dock: rect(document.querySelector("#input-dock")),
                  caret: c && { top: c.top, bottom: c.bottom, left: 0, right: innerWidth }, vw: innerWidth };
       });
       check(`on a phone the completion pane keeps off the caret line, the list and the keyboard (caret ${where})`,
@@ -729,7 +750,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await complete();
     await ph.waitForSelector(".cm-completionInfo", { timeout: 10000 });
     await ph.waitForTimeout(300);
-    const selected = () => ph.evaluate(() => document.querySelector(".cm-tooltip-autocomplete li[aria-selected]")?.textContent);
+    const selected = () => ph.evaluate(() => window.sonicPi.editor.view.root.querySelector(".cm-tooltip-autocomplete li[aria-selected]")?.textContent);
     const s0 = await selected();
     await ph.click('#input-dock .hg-button[data-skbtn="{down}"]'); await ph.waitForTimeout(120);
     const s1 = await selected();

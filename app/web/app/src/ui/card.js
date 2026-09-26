@@ -265,7 +265,7 @@ function cardLoopScopes(body, hooks) {
       let st = states.get(slot);
       if (!st) states.set(slot, (st = new LoopScopeState()));
       const frame = hooks.scopeFrame?.(slot, scroll ? SCROLL_WINDOW : SWEEP_WINDOW + SWEEP_SEARCH) ?? null;
-      if (st.feed(frame, scroll) || !c.dataset.painted) { drawLoopScope(c, st, { scroll }); c.dataset.painted = "1"; }
+      if (st.feed(frame, scroll) || !c.dataset.painted) { drawLoopScope(c, st, { scroll }); c.dataset.painted ||= "1"; }   // said once: a write is a change to the page, even of the same value
     }
   }
   return {
