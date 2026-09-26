@@ -1316,7 +1316,7 @@ body[data-drawer="docs"] #drawer, body[data-drawer="quickstart"] #drawer, body[d
 #drawer-rail button { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border: none; background: var(--Tab); color: var(--TabText); cursor: pointer; }
 #drawer-rail svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }   /* the glyph a little over half the tab's side */
 #drawer-rail button.on { background: var(--TabSelected); color: var(--tabSelectedText); }
-#drawer-rail .rail-zoom { display: flex; flex-direction: column; align-items: center; margin-top: 6px; }   /* hung under the place icons, on every screen */
+#drawer-rail .rail-zoom { display: flex; flex-direction: column; align-items: center; margin-top: auto; padding-bottom: 6px; }   /* at the rail's foot, on every screen */
 #drawer-rail .rail-zoom .zoom-btn { width: 34px; height: 36px; }
 #drawer-rail .rail-zoom svg { width: 20px; height: 20px; stroke-width: 1.8; }
 #drawer-rail .rail-zoom button { margin: 0; background: none; color: var(--mutedForeground); }
