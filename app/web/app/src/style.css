@@ -1676,6 +1676,12 @@ body.reduce-motion :is(.dial, .choice).pg-in { animation: none; }
 .dial-label { margin-top: 3px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 9.5px/1.2 var(--code-font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--mutedForeground); }
 .dial-label.long { letter-spacing: 0.02em; }   /* MAX DLY TIME: tighter, to stay whole */
 .dial.changed .dial-label { color: var(--HighlightedBackground); }
+/* a dial switched off (docs.js switchedDial: an opt whose 0 is the synth's off): dimmed, "off" where its value goes, and
+   its switch on its corner */
+.dial.off svg { opacity: 0.4; }
+.dial.off .dial-val { color: var(--faintText); }
+.dial-switched { position: relative; }
+.dial-switched > .dial-switch { position: absolute; top: 0; right: 0; transform: scale(0.8); transform-origin: top right; }
 .pg-choices { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 6px; width: 0; min-width: 100%; }   /* the choices under the dials (docs.js choice), as wide as the dials make the group and no wider: their chips wrap */
 .pg-group:not(:has(.pg-dials)) .pg-choices { width: auto; }
 .choice .seg { flex-wrap: wrap; }

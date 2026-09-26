@@ -258,6 +258,10 @@ instrument_pages = lambda do |klass|
         o["max"] = num.call(mm[1])
         o["min_excl"] = true if mm[2]
         o["max_excl"] = true if mm[3]
+        # a default of 0 below its dial's range is the synth's off, not a value to turn to: fx_bitcrusher's cutoff,
+        # whose synthdef filters only while cutoff > 0 (fx.clj: use-filter). The GUI gives it a switch, and the dial
+        # for when it's on (docs.js switchedDial)
+        o["off"] = 0 if d == 0 && mm[0] > 0
       end
       if (options = (info[:bounds] || {})[:options])
         o["options"] = options.map { |x| num.call(x) }

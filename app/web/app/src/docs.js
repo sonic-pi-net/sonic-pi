@@ -125,7 +125,7 @@ const panelLabel = (name) => {
 /** TutDial::valueText: whole numbers on an integer step, else two places, trimmed. */
 export const dialText = (value, step) => (step >= 1 ? String(Math.round(value)) : String(Number(value.toFixed(2))));
 
-function dial(opt, onChange) {
+function dial(opt, onChange, { off = null } = {}) {   // off(): switched off (switchedDial): it says so, and is changed only when on
   let lo = opt.min, hi = opt.max;
   const step = Math.min(1, gridFor(lo, hi));
   if (opt.min_excl) lo += step;
@@ -172,17 +172,20 @@ function dial(opt, onChange) {
   label.setAttribute("aria-hidden", "true");   // the slider is named by aria-label already
   root.append(svg, val, label);
 
+  const isOff = () => !!off?.();
+  const changedNow = () => (off ? !isOff() : follows ? !paired : Math.abs(value - def) > step / 2);
   const paint = () => {
     const frac = (value - lo) / (hi - lo || 1);
     const angle = 135 + frac * 270;
-    fill.setAttribute("d", frac > 0.001 ? arc(135, angle) : "");
+    fill.setAttribute("d", frac > 0.001 && !isOff() ? arc(135, angle) : "");
     const a = (angle * Math.PI) / 180;
     pointer.setAttribute("cx", 24 + 18 * Math.cos(a));
     pointer.setAttribute("cy", 24 + 18 * Math.sin(a));
-    val.textContent = dialText(value, step);
+    val.textContent = isOff() ? "off" : dialText(value, step);
     root.setAttribute("aria-valuenow", String(value));
-    root.setAttribute("aria-valuetext", paired ? `${dialText(value, step)}, tracking ${follows}` : dialText(value, step));
-    root.classList.toggle("changed", follows ? !paired : Math.abs(value - def) > step / 2);
+    root.setAttribute("aria-valuetext", isOff() ? "off" : paired ? `${dialText(value, step)}, tracking ${follows}` : dialText(value, step));
+    root.classList.toggle("changed", changedNow());
+    root.classList.toggle("off", isOff());
     root.classList.toggle("paired", paired);
   };
   const set = (v, notify = true) => {
@@ -218,8 +221,9 @@ function dial(opt, onChange) {
     root,
     name: opt.name,
     get value() { return value; },
-    get changed() { return follows ? !paired : Math.abs(value - def) > step / 2; },
+    get changed() { return changedNow(); },
     text: () => dialText(value, step),
+    repaint: paint,
     reset: () => { if (follows) { paired = true; if (partner) set(partner.value, false); paint(); } else set(def, false); },
     set,
     follows,
@@ -227,6 +231,38 @@ function dial(opt, onChange) {
     pair(d) { partner = d; if (paired) { value = Math.min(hi, Math.max(lo, d.value)); paint(); } },
     /** Its partner has moved: paired, it moves with it. */
     follow() { if (paired && partner) set(partner.value, false); },
+  };
+}
+
+// An opt whose 0 is the synth's off, not a value to turn to (the data's "off": fx_bitcrusher's cutoff, whose filter
+// works only while cutoff > 0): its dial, with a switch on its corner. Off, the dial says so and the program leaves the
+// opt out, the synth's own default; on, the program says the dial's value. Turning the dial turns it on, from the top
+// of its range, the nearest to off. The switch is the dial's sibling, not inside it: two controls to a screen reader.
+function switchedDial(opt, onChange) {
+  let on = false;
+  const knob = dial({ ...opt, default: opt.max }, () => { if (!on) { on = true; paint(); } onChange(); }, { off: () => !on });
+  const sw = el("button", "switch pg-toggle dial-switch");
+  sw.type = "button";
+  sw.setAttribute("role", "switch");
+  sw.setAttribute("aria-label", `${opt.name} on`);
+  sw.title = `${opt.name}: on or off (off is the synth's own default)`;
+  sw.appendChild(el("span", "track")).setAttribute("aria-hidden", "true");
+  const root = el("div", "dial-switched");
+  root.append(knob.root, sw);
+  const paint = () => { sw.classList.toggle("on", on); sw.setAttribute("aria-checked", String(on)); knob.repaint(); };
+  sw.addEventListener("click", () => { on = !on; paint(); onChange(); });
+  paint();
+  return {
+    root,
+    name: opt.name,
+    get value() { return on ? knob.value : opt.off; },
+    get changed() { return on; },
+    text: () => (on ? knob.text() : String(opt.off)),   // off: 0, the synth's own off, should anything send it
+    reset: () => { on = false; knob.reset(); paint(); },
+    set: (v, notify = true) => { on = v !== opt.off; if (on) knob.set(v, false); paint(); if (notify) onChange(); },
+    follows: null,
+    pair() {},
+    follow() {},
   };
 }
 
@@ -384,7 +420,7 @@ export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = tr
       row.style.setProperty("--cols", opts.length <= 3 ? opts.length : Math.ceil(opts.length / 2));   // at most two rows: the faceplate stays short
       row.style.setProperty("--n", opts.length);   // all in one row, where a layout wants it (the home page's)
       for (const o of opts) {
-        const d = dial(o, update);
+        const d = o.off != null ? switchedDial(o, update) : dial(o, update);
         dials.push(d);
         row.appendChild(d.root);
       }
