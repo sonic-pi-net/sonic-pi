@@ -38,6 +38,7 @@ import { createShareMenu } from "./share-menu.js";
 import { createInfo } from "./info.js";
 import { announce, Announcement, setSpeakTransport } from "./announce.js";
 import { origin, deepActive, shadowPane, eachShadowRoot } from "./shadow.js";
+import { createLoadingStop } from "./loading-stop.js";
 import { icon } from "./icons.js";
 import { explainError, makeKnown } from "./friendly.js";
 
@@ -217,8 +218,8 @@ function listenEngine(engine) {
   on("resumed", audioBack);
   on("reload:start", audioReloading);
   on("reload:complete", (d) => { if (d?.success !== false) audioReloaded(); else audioBroken(); });
-  on("loading:start", (d) => logs.add("Host", `loading ${d?.type} ${d?.name}`));
-  on("loading:complete", (d) => logs.add("Host", `loaded ${d?.type} ${d?.name}${d?.size ? ` (${bytes(d.size)})` : ""}`));
+  on("loading:start", (d) => { logs.add("Host", `loading ${d?.type} ${d?.name}`); if (d?.type !== "wasm") loadingStop?.begin(`${d?.type}:${d?.name}`, loadWeight(d)); });
+  on("loading:complete", (d) => { logs.add("Host", `loaded ${d?.type} ${d?.name}${d?.size ? ` (${bytes(d.size)})` : ""}`); loadingStop?.end(`${d?.type}:${d?.name}`); });
   on("buffer:pool:grown", (d) => logs.add("Host", `buffer pool grew to ${bytes(d?.totalCapacity ?? 0)}`));
 }
 
@@ -407,6 +408,12 @@ for (const type of ["pointerup", "touchend", "click", "keydown"]) addEventListen
   if (booting && !engineRef && audioContext && audioContext.state !== "running") audioContext.resume().catch(() => {});
 }, { capture: true, passive: true });
 
+// The bar's stop while a run waits on what it needs (loading-stop.js): the engine and the runtime (a weight of 3 each,
+// their megabytes), each synth (small) and each sample (by its size, where SuperSonic knows it). Made with the stop's
+// rings, below; a Stop pressed while it loads calls off the run it was loading for (play: stops)
+let loadingStop = null, stops = 0;
+const loadWeight = (d) => (d?.type === "sample" ? (d.size ? Math.min(3, Math.max(0.4, d.size / 400000)) : 1) : 0.3);
+
 // A tap that heads for the code (Launch Sonic Pi, the Code tab) starts the engine while it is a tap: a browser only
 // lets audio start inside a gesture, and by the first Run it has booted, so that Run sounds at once
 function warmEngine() { if (!session) ensureSession().catch(() => {}); }
@@ -415,6 +422,8 @@ async function ensureSession() {
   audioInGesture();   // now, in the press, before anything is awaited
   booting ??= (async () => {
     scopeBox.classList.add("booting");
+    loadingStop?.begin("engine", 3);
+    loadingStop?.begin("runtime", 3);
     setEngineStatus("booting SuperSonic...");
     status("Starting the audio engine…");   // native's splash says "Sonic Pi is starting": the first Run's wait is not silence
     // The runtime and the engine start side by side: over a slow link each is seconds of downloads and round trips,
@@ -423,7 +432,7 @@ async function ensureSession() {
     const wasmBytes = engineWasm();
     const w = startWorker();
     const runtimeP = startRuntime();
-    runtimeP.catch(() => {});   // awaited below, once the engine is up
+    runtimeP.then(() => loadingStop?.end("runtime"), () => {});   // awaited below, once the engine is up
     const m = await needEngineModule();
     const worker = w && (await w.alive) ? w.worker : null;
     const bytes = await wasmBytes;
@@ -443,6 +452,7 @@ async function ensureSession() {
       // glitches on a loaded machine
       ...(lowLatency.on ? { audioContextOptions: { latencyHint: 0 } } : {}),
     }, { beforeInit: listenEngine, runtime: worker ? { worker } : null });
+    loadingStop?.end("engine");
     const runtime = await runtimeP;
     // the worker's runtime could not load and the page's runs instead: the engine's egress went to a worker with no
     // runtime behind it, so what the engine says back (MIDI in, a controller) does not reach it. Rare; said, not hidden
@@ -484,6 +494,7 @@ async function ensureSession() {
     return await booting;
   } catch (e) {
     booting = null;
+    loadingStop?.cancel();
     setEngineStatus("Error - SuperSonic failed to boot", true);
     showError({ class: "BootError", message: String(e.message ?? e) });
     return null;
@@ -518,8 +529,10 @@ const unknownOpts = { warn: store.get("sp-warn-unknown-opts", true) };
 // gives its smallest buffer either way.
 const lowLatency = { on: store.get("sp-low-latency", true) };   // read at the engine's boot
 async function play(code, { buffer = null, scopeSlot = null, group = buffer != null ? BUFFER_GROUP + buffer : 0 } = {}) {
+  const asked = stops;
+  loadingStop?.expect();   // this run waits for its first sound: what loads under it holds the comet till then
   const s = await ensureSession();
-  if (!s) return null;
+  if (!s || stops !== asked) return null;   // Stop, pressed while it was starting, calls the run off
   try {
     startingBuffer = buffer;
     if (buffer != null) declareGroup(s, group, BUFFERS_GROUP); else if (group > CARDS_GROUP) declareGroup(s, group, CARDS_GROUP);
@@ -681,6 +694,8 @@ async function run() {
 }
 
 function stop() {
+  stops++;   // a run still waiting for the engine to start does not start (play)
+  loadingStop?.cancel();
   insight.stopped(session?.clockNow() ?? null);
   session?.stop();
   loopScopes.clear();
@@ -1056,6 +1071,7 @@ $("err-copy").addEventListener("click", () => {
 });
 
 let lastJobs = "";
+let soundAt = -Infinity;   // the last sound sent (onRecord): a run's first note sounds before the status says it has a job
 let liveJobs = 0;   // for the leave prompt: a reload mid-performance asks first (Safari keeps Cmd+R for itself: a page cannot take it)
 let liveGroups = [];   // the runtime's live groups, as the last status said (a reload plays the buffers' again)
 function showJobs(s) {
@@ -1063,8 +1079,10 @@ function showJobs(s) {
   liveGroups = s.groups;
   // sounding: a thread of any run still going, or a group still live — which counts a card's one-shot while its note
   // rings out and a reverb's tail, where no thread is left (the runtime's word, in the status)
-  const sounding = liveJobs > 0 || s.groups.length > 0;
-  if (document.body.classList.toggle("sounding", sounding) !== stopRings.live) stopRings.set(sounding);   // the bar's quiet stop shows, its rings on the mix
+  const sounding = liveJobs > 0 || s.groups.length > 0 || performance.now() - soundAt < 1000;
+  document.body.classList.toggle("sounding", sounding);   // the bar's quiet stop shows, its rings on the mix
+  const rings = sounding && !loadingStop?.showing;          // once the load's comet is off it (the first sound: onRecord)
+  if (rings !== stopRings.live) stopRings.set(rings);
   let pruned = false;
   for (const [node, sc] of loopScopes) if (!s.jobs.includes(sc.job)) { loopScopes.delete(node); pruned = true; }
   if (pruned) paintLoopScopes();
@@ -1147,7 +1165,12 @@ const FLASHES = new Set(["synth", "control", "kill", "midi", "output", "cue"]);
 const cardDecks = () => [docs, quickstart, infoApi].filter(Boolean);
 
 function onRecord(r, at, stale = false) {
-  if (r.kind === "synth") navScope.wake?.();   // the bar's scope, resting in silence, draws the sound
+  if (r.kind === "synth") {
+    navScope.wake?.();   // the bar's scope, resting in silence, draws the sound
+    soundAt = performance.now();
+    if (!document.body.classList.contains("sounding")) refreshJobs();   // the first sound lights the stop now, not at the next status
+    loadingStop?.sounding();   // and its comet gives way to its rings
+  }
   flight.record(r);
   insight.record(r);
   if (stale) return;   // the past, after the page was held: kept above, painted nowhere (sonic_pi.js deliver)
@@ -2044,8 +2067,15 @@ const stopRings = (() => {
       taps = { l: tap(0), r: tap(1), bufL: new Float32Array(1024), bufR: new Float32Array(1024), out: new Float32Array(2048) };
     },
     set(on) { live = on; if (on) rings.play(read); else rings.stop(); },
+    repaint: () => rings.repaint(),
   };
 })();
+loadingStop = createLoadingStop({
+  box: document.querySelector("#site-nav .sn-stop"), canvas: document.querySelector("#site-nav .sn-stop-rings"),
+  playing: () => stopRings.live,
+  // the load over: the rings take the canvas if anything sounds, else the stop is drawn at rest again
+  after: () => { const on = document.body.classList.contains("sounding"); if (on !== stopRings.live) stopRings.set(on); else if (!on) stopRings.repaint(); },
+});
 function attachNavScope(engine) {
   const ac = engine.audioContext ?? engine.node?.context;
   if (!ac || !engine.node || navScope.analyser?.context === ac) return;   // tapped already, unless a reload made the context new

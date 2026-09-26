@@ -157,6 +157,9 @@ body.info-open .sn-close { display: none; }
 .sn-stop-rings { position: absolute; inset: 0; width: 100%; height: 100%; }   /* the mix's rings (main.js stopRings) */
 .sn-stop .tb-icon { position: absolute; left: 25%; top: 25%; width: 50%; height: 50%; }
 body.sounding .sn-stop { visibility: visible; }
+/* loading (loading-stop.js): the stop shows, a comet round its ring and its square filling, both drawn on its canvas */
+body.loading .sn-stop { visibility: visible; }
+body.loading .sn-stop .tb-icon { visibility: hidden; }
 .sn-stop:hover, .sn-stop:focus-visible { color: var(--HighlightedBackground); }
 #site-nav.folded .sn-stop { width: 16px; height: 16px; margin: 0 6px 0 2px; }
 #site-nav.folded .ic-tabs, #site-nav.folded .sn-close { display: none; }
