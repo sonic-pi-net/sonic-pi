@@ -227,7 +227,7 @@ function listenEngine(engine) {
 // a card over everything, and that tap is the recovery: SuperSonic's recover(), inside it — a resume if the worklet
 // still answers, else a reload. One way back, asked for plainly: a tap or key meant for the code is never taken as a
 // resume. What the engine itself does on the page's lifecycle is Clockwork's (pageLifecycle, bootEngine).
-const RESUME_LABEL = globalThis.matchMedia?.("(pointer: coarse)").matches ? "Tap to resume" : "Resume sound";
+const RESUME_LABEL = globalThis.matchMedia?.("(pointer: coarse)").matches ? "Tap to resume" : "Resume audio";
 $("resume-go").textContent = RESUME_LABEL;
 const resumeCard = {
   why: "",
@@ -236,14 +236,14 @@ const resumeCard = {
     this.why = why;
     this.broken = broken;
     $("resume-why").textContent = why;
-    $("resume-title").textContent = broken ? "Sound stopped" : "Sound paused";
+    $("resume-title").textContent = broken ? "Audio stopped" : "Audio paused";
     $("resume-go").textContent = broken ? "Restart Sonic Pi" : RESUME_LABEL;
     $("resume-go").disabled = false;
     if ($("resume-overlay").hidden) {
       $("resume-overlay").hidden = false;
       $("resume-go").focus({ preventScroll: true });
-      setEngineStatus("sound paused: tap to resume", true);
-      logs.add("Host", `sound paused (${why}): asking for a tap`);
+      setEngineStatus("audio paused: tap to resume", true);
+      logs.add("Host", `audio paused (${why}): asking for a tap`);
     }
   },
   hide() {
@@ -263,18 +263,18 @@ $("resume-go").addEventListener("click", async () => {
   logs.add("Host", `resume on a tap: ${ok ? "sound back" : "failed"}`);
   if (ok && engineRef.audioContext?.state === "running") audioBack();
   else if (engineRef.getEngineState?.() === "error" || engineRef.audioContext?.state === "closed") audioBroken();
-  else resumeCard.show("The sound did not come back yet. Try again.");
+  else resumeCard.show("The audio did not come back yet. Try again.");
 });
 function audioLost(how) {
   if (!engineRef) return;
-  resumeCard.show(how === "interrupted" ? "Another app or a call took the sound."
-    : how === "stopped" ? "The browser stopped Sonic Pi's sound."
-    : "The browser paused Sonic Pi's sound.");
+  resumeCard.show(how === "interrupted" ? "Another app or a call took the audio."
+    : how === "stopped" ? "The browser stopped Sonic Pi's audio."
+    : "The browser paused Sonic Pi's audio.");
 }
 // A reload that failed (Clockwork took down what it built): nothing left to resume. Starting the page again is the
 // way back, and says so rather than offering a tap that cannot work.
 function audioBroken() {
-  resumeCard.show("The browser's audio could not be restarted. Your code is kept.", { broken: true });
+  resumeCard.show("Audio systems restarted.", { broken: true });
 }
 function audioBack() {
   resumeCard.hide();
