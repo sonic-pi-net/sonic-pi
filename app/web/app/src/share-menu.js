@@ -11,7 +11,8 @@
 import { icon } from "./icons.js";
 import { renderCode } from "./highlight.js";
 
-const QR_MAX = 25;   // the largest QR version offered: 117×117 modules, still read off a laptop's screen at arm's length
+const QR_MAX = 25;   // the largest QR version offered: 117×117 modules, still read off a laptop's screen at arm's length, full screen
+const SCAN_MIN = 3;  // CSS px a module needs to be read off a screen by a phone's camera: finer, the panel says to make it larger
 
 /**
  * scopes: { buffer: {...}, set: {...} }, each { icon, kind (its tile's words, e.g. "This buffer"), summary (its name
@@ -56,8 +57,9 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
   // what to share (the buffer or the set, two tabs), its panel (what it is, what it's called), then the four ways
   function render() {
     const s = scopes[scope];
+    unlarge();
     menu.innerHTML = "";
-    // its head: the word, and a close as About's (shown on a phone, where the panel is a dialog)
+    // its head: the word, and a close as About's
     const top = el("div", "sm-top"), shut = el("button", "zoom-btn sm-close");
     shut.type = "button"; shut.title = "Close"; shut.setAttribute("aria-label", "Close");
     shut.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 10l4 4m0 -4l-4 4"/></svg>';
@@ -171,6 +173,7 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
     about.classList.add("said");
   }
   function close() {
+    unlarge();
     if (menu.hidden) return;
     menu.hidden = true;
     backdrop.hidden = true;
@@ -189,6 +192,7 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
   // a QR code or the link, shown in the panel in place of its body; the same one pressed again puts the body back
   function show(act) {
     qrTurn++;   // a QR on its way is for the view it was asked in only
+    unlarge();
     const s = scopes[scope];
     const again = menu.querySelector(`.sm-act[data-act=${act}]`)?.getAttribute("aria-pressed") === "true";
     for (const r of menu.querySelectorAll(".sm-act")) r.setAttribute("aria-pressed", String(!again && r.dataset.act === act));
@@ -211,6 +215,7 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
       field.focus();
       return;
     }
+    view.style.height = "";   // a code takes the panel's width, and the card grows under it
     const url = s.qrLink();
     // the QR library, fetched the first time a code is asked for; a view changed before it arrives is left alone
     const turn = ++qrTurn;
@@ -224,19 +229,47 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
       detailOf.append(el("div", "sm-note", `${scope === "set" ? "this set is" : "this program is"} too big for a QR code a phone can read: copy the link or save it as a file instead`));
       return;
     }
-    const canvas = drawQR(qr);
-    const save = el("button", "sm-save", "Save the image");
-    save.addEventListener("click", () => canvas.toBlob((blob) => {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `sonic-pi-${s.title.replace(/[^\w-]+/g, "-")}.png`;
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-    }));
-    // as large as the panel's room allows, beside its note and its button
-    canvas.style.setProperty("--qr-size", `${Math.max(120, Math.min(240, room - 72))}px`);
-    detailOf.append(canvas, el("div", "sm-note", `QR version ${qr.typeNumber}, ${qr.getModuleCount()}×${qr.getModuleCount()}`), save);
+    // As wide as the panel, or larger: the whole panel, over the dimmed page, as much of the screen as it can have
+    // (a big program's code is too fine to scan at the panel's width, and Larger is lit). A click on it, or
+    // Larger, makes it so; Smaller, or a click again, puts it back.
+    const n = qr.getModuleCount();
+    const draw = () => {
+      detailOf.replaceChildren();
+      menu.classList.toggle("sm-large", large);
+      backdrop.classList.toggle("sm-dim", large);
+      menu.style.width = "";
+      const fine = !large && view.clientWidth / (n + 8) < SCAN_MIN;
+      const bigger = el("button", fine ? "sm-save primary" : "sm-save", large ? "Smaller" : "Larger");
+      bigger.setAttribute("aria-pressed", String(large));
+      bigger.addEventListener("click", () => { large = !large; draw(); menu.querySelector(".sm-qr-buttons .sm-save")?.focus(); });
+      const save = el("button", "sm-save", "Save the image");
+      save.addEventListener("click", () => drawQR(qr, 8).toBlob((blob) => {   // for printing: 8 pixels a module, whatever the screen
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `sonic-pi-${s.title.replace(/[^\w-]+/g, "-")}.png`;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      }));
+      const buttons = el("div", "sm-qr-buttons");
+      buttons.append(bigger, save);
+      detailOf.append(buttons);
+      // larger: the height the screen leaves once the rest of the panel has its own, and the panel as wide as that
+      let size = view.clientWidth;
+      if (large) {
+        const around = menu.offsetWidth - view.clientWidth;
+        size = Math.floor(Math.min(window.innerHeight * 0.96 - menu.offsetHeight - 8, window.innerWidth * 0.96 - around));
+        menu.style.width = `${size + around}px`;
+      }
+      const canvas = fitQR(qr, size);
+      canvas.title = large ? "Make it smaller" : "Make it larger";
+      canvas.classList.toggle("large", large);
+      canvas.addEventListener("click", () => { large = !large; draw(); });
+      detailOf.prepend(canvas);
+    };
+    draw();
   }
+  let large = false;   // the QR code the size of the screen, and the panel around it
+  const unlarge = () => { large = false; menu.classList.remove("sm-large"); backdrop.classList.remove("sm-dim"); menu.style.width = ""; };
 
   button.addEventListener("click", () => {
     if (!menu.hidden) return close();
@@ -266,10 +299,9 @@ export function makeQR(url) {
   }
   return null;
 }
-function drawQR(qr) {
-  const n = qr.getModuleCount(), quiet = 4, size = 240;
-  const scale = Math.max(1, Math.floor((size * devicePixelRatio) / (n + quiet * 2)));
-  const px = scale * (n + quiet * 2);
+// A code drawn modulePx pixels a module, in white with its quiet zone of 4 modules.
+function drawQR(qr, modulePx) {
+  const n = qr.getModuleCount(), quiet = 4, px = modulePx * (n + quiet * 2);
   const canvas = document.createElement("canvas");
   canvas.className = "sm-qr";
   canvas.width = canvas.height = px;
@@ -279,6 +311,15 @@ function drawQR(qr) {
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, px, px);
   ctx.fillStyle = "#000";
-  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) ctx.fillRect((c + quiet) * scale, (r + quiet) * scale, scale, scale);
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) ctx.fillRect((c + quiet) * modulePx, (r + quiet) * modulePx, modulePx, modulePx);
+  return canvas;
+}
+// A code to show, up to cssSize across: drawn at the size it is shown, a whole number of the screen's pixels a module.
+// Drawn at one size and shown at another, the browser scales it, and a module comes out a pixel wider or narrower
+// here and there: an uneven grid, which a camera reads badly.
+function fitQR(qr, cssSize) {
+  const dpr = window.devicePixelRatio || 1, n = qr.getModuleCount();
+  const canvas = drawQR(qr, Math.max(1, Math.floor((cssSize * dpr) / (n + 8))));
+  canvas.style.width = canvas.style.height = `${canvas.width / dpr}px`;
   return canvas;
 }

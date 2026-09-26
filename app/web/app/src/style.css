@@ -207,13 +207,14 @@ body.sounding #site-nav .sn-stop::before { border-color: color-mix(in srgb, var(
    with its contrast, joined to the card; the other a tint. The body, the card's tint, holds what it is and what it's
    called; the foot, the stronger tint, the four ways to share it. One colour, the accent, throughout. */
 .sm-top { display: flex; align-items: center; justify-content: space-between; }
-#link-menu .sm-close { display: none; }   /* a phone's (below) */
 .sm-backdrop { display: none; }
+/* larger (share-menu.js showQR): the panel over the dimmed page, the size its QR code is drawn */
+#link-menu.sm-large { top: 50%; left: 50%; max-width: 96vw; max-height: 96dvh; translate: -50% -50%; }
+.sm-backdrop.sm-dim:not([hidden]) { position: fixed; inset: 0; z-index: 399; display: block; background: rgba(0, 0, 0, 0.45); }
 @media (max-width: 760px) {
   /* a phone: Share as About is there, a dialog over the page, dimmed and blurred behind it, its close at the right */
   .sm-backdrop:not([hidden]) { position: fixed; inset: 0; z-index: 399; display: block; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(7px) saturate(0.8); -webkit-backdrop-filter: blur(7px) saturate(0.8); }
   #link-menu { top: 50%; left: 50%; width: min(94vw, 460px); max-height: 88dvh; padding: 8px 8px 10px; translate: -50% -50%; }
-  #link-menu .sm-close { display: inline-flex; }
 }
 .sm-step { padding: 8px 8px 8px; font: 700 var(--t-label) / 1.4 var(--prose-font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--mutedForeground); }
 .sm-what { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 0 4px; }
@@ -264,10 +265,15 @@ body.sounding #site-nav .sn-stop::before { border-color: color-mix(in srgb, var(
 .sm-act.done .sm-act-label { color: var(--done); }
 .sm-url { width: 100%; box-sizing: border-box; resize: none; padding: 6px 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: var(--subtleFill); color: var(--WindowForeground); font: var(--t-tiny) var(--code-font); word-break: break-all; }
 .sm-url:focus { outline: 2px solid var(--HighlightedBackground); outline-offset: -1px; }
-.sm-qr { display: block; width: var(--qr-size, 240px); height: var(--qr-size, 240px); max-width: 100%; border-radius: var(--r-m); background: #fff; image-rendering: pixelated; }
+.sm-qr { display: block; flex: none; border-radius: var(--r-m); background: #fff; image-rendering: pixelated; cursor: zoom-in; }   /* sized as drawn (share-menu.js fitQR): never scaled */
+.sm-qr.large { cursor: zoom-out; }
+.sm-qr-buttons { display: flex; gap: 8px; }
 .sm-note { font: var(--t-tiny) var(--prose-font); color: var(--mutedForeground); text-align: center; }
 .sm-save { padding: 5px 12px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); background: none; color: var(--WindowForeground); font: var(--t-small) var(--prose-font); cursor: pointer; }
 .sm-save:hover { border-color: var(--HighlightedBackground); color: var(--HighlightedBackground); }
+/* the one to press (a code too fine to scan: Larger), in the accent, and its words in the accent's contrast under the pointer too */
+.sm-save.primary, .sm-save.primary:hover { border-color: var(--HighlightedBackground); background: var(--HighlightedBackground); color: var(--accentContrastText); }
+.sm-save.primary:hover { filter: brightness(1.08); }
 /* where there is no status bar (a phone, focus mode) a message floats: one line, centred under the toolbar, over the
    editor's top (main.js toast) — out of the toolbar's row, which on a phone scrolls and has no room for it */
 .toast {
