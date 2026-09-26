@@ -55,7 +55,7 @@ const PAGES = [
 const SITE_ORIGIN = "https://sonic-pi.net/";
 // the picture every link to the site shows (scripts/build-social-card.mjs, its logo-name design): its size as drawn
 const SOCIAL_CARD = { url: `${SITE_ORIGIN}site/media/images/social-card.png`, width: "2400", height: "1260", alt: "Sonic Pi's logo, a pink square with a π and three sound waves, above the name Sonic Pi and the address sonic-pi.net" };
-const CODE = { file: "code.html", title: "Code · Sonic Pi", tip: "The editor: write and run your own music", description: "Sonic Pi's code editor: write and live code music in your browser.",
+const CODE = { file: "code.html", title: "Code · Sonic Pi", tip: "Open the Sonic Pi code editor", description: "Sonic Pi's code editor: write and live code music in your browser.",
   // what a link to the editor says where it is shared: nearly always a program someone has shared (the Share menu)
   shared: { title: "Sonic Pi Code Link", description: "Open to view, play and modify the code in this link." } };
 
@@ -318,7 +318,7 @@ const tab = (key, file, title, tip, current) => key === "about"
 function tabs(current) {
   // Home, Examples, Learn, the Tutorial (its first chapter; every chapter lights it), Support; the editor is the code
   // icon beside the palette (index.html)
-  const row = [...PAGES.slice(0, 3), { key: "tutorial", file: TUTORIAL[0].file, title: "Tutorial", tip: "From your first beep to live coding a set, a chapter at a time" }, ...PAGES.slice(3)];
+  const row = [...PAGES.slice(0, 3), { key: "tutorial", file: TUTORIAL[0].file, title: "Tutorial", tip: "From your first beep to live coding a set" }, ...PAGES.slice(3)];
   return row.map((p) => tab(p.key, p.file, p.title, p.tip, current)).join("");
 }
 
