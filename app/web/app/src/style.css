@@ -1601,7 +1601,7 @@ html.pg-fullscreen :is(#site-nav, #site-strip, #statusbar) { visibility: hidden;
 .pg-universal:not(:has(.dial)) { display: none; }
 .pg-universal > .dial, .pg-region > .dial { width: 64px; }
 .pg-face :is(.pg-group .pg-group-name, .pg-module-name) { position: absolute; top: 5px; left: 9px; margin: 0; padding: 0; border: none; text-align: left;
-  font: 700 9px/1 var(--code-font); letter-spacing: 0.16em; text-transform: uppercase; color: var(--HighlightedBackground); }
+  font: 700 var(--t-label)/1 var(--code-font); letter-spacing: 0.16em; text-transform: uppercase; color: var(--HighlightedBackground); }   /* all-caps no smaller than a kicker: readable */
 .pg-face .pg-region-spare .pg-module-name { color: var(--NumberForeground); }
 .pg-deck { display: flex; align-items: stretch; gap: 12px; }
 .pg-face > .pg-program { min-width: 0; }
@@ -1662,7 +1662,7 @@ body.reduce-motion :is(.dial, .choice).pg-in { animation: none; }
 .pg-break { flex: 0 0 100%; height: 0; margin: 0; }
 .pg-face.pg-fx .pg-groups > .pg-group { flex: 0 1 auto; }
 .pg-group { border-radius: var(--r-m); padding: 6px 8px 8px; background: var(--surface1); }
-:is(.docs-content .sp-doc, .home-synth, .pg-face) .pg-group .pg-group-name { position: absolute; top: 5px; left: 9px; margin: 0; padding: 0; border: none; text-align: left; text-transform: uppercase; font: 700 9px/1 var(--code-font); letter-spacing: 0.16em; color: var(--HighlightedBackground); }   /* a module's name, on its tab */
+:is(.docs-content .sp-doc, .home-synth, .pg-face) .pg-group .pg-group-name { position: absolute; top: 5px; left: 9px; margin: 0; padding: 0; border: none; text-align: left; text-transform: uppercase; font: 700 var(--t-label)/1 var(--code-font); letter-spacing: 0.16em; color: var(--HighlightedBackground); }   /* a module's name, on its tab: all-caps no smaller than a kicker */
 .pg-dials { display: grid; grid-template-columns: repeat(var(--cols, 3), 68px); gap: 4px 6px; }
 .dial { position: relative; text-align: center; cursor: ns-resize; user-select: none; touch-action: none; outline: none; border-radius: var(--r-s); padding: 2px 0; }
 .dial:focus-visible { background: color-mix(in srgb, var(--Foreground) 7%, transparent); }   /* the dial the arrows turn: a faint wash */
@@ -1746,7 +1746,7 @@ body.reduce-motion :is(.dial, .choice).pg-in { animation: none; }
 body.reduce-motion .opt-card.tip-landed { animation: none; border-color: var(--HighlightedBackground); }
 .opt-card p { margin: 4px 0 0; color: var(--softForeground); }
 .opt-name code { color: var(--SymbolForeground); font-size: var(--t-ui); }
-.opt-slidable { font: var(--t-micro) var(--code-font); color: var(--HighlightedBackground); letter-spacing: 0.1em; text-transform: uppercase; }
+.opt-slidable { font: var(--t-label) var(--code-font); color: var(--HighlightedBackground); letter-spacing: 0.1em; text-transform: uppercase; }
 .opt-default { color: var(--faintText); font-size: var(--t-small); }
 .sample-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 4px 16px; }
 .sample-row { display: flex; align-items: center; gap: 6px; }
