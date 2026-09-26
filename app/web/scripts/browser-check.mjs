@@ -25,6 +25,17 @@ const results = [];
 let engine = "";
 const say = (mark, name, detail) => console.log(`${engine.padEnd(8)} ${mark} ${name}${detail ? ` — ${detail}` : ""}`);
 const check = (name, ok, detail = "") => { results.push({ engine, name, ok }); say(ok ? "ok  " : "FAIL", name, detail); };
+// What a page-wide watcher hears in ms: an ad blocker's (AdBlock's element hiding: a MutationObserver on the document,
+// then every hiding rule tried against the whole page a second after any change), which a page changing as a program
+// plays keeps scanning back to back, the page frozen through each. Each change by the nearest element with an id, and
+// its kind, counted: nothing, where the page is still (app/src/shadow.js says what may change, and where).
+const stillness = (pg, ms = 2500) => pg.evaluate((ms) => new Promise((resolve) => {
+  const by = {};
+  const mo = new MutationObserver((list) => { for (const m of list) { let e = m.target.nodeType === 1 ? m.target : m.target.parentElement; while (e && !e.id) e = e.parentElement; const k = `${e ? "#" + e.id : "the page"} ${m.type}`; by[k] = (by[k] ?? 0) + 1; } });
+  mo.observe(document, { childList: true, attributes: true, subtree: true, characterData: true });
+  setTimeout(() => { mo.disconnect(); resolve(by); }, ms);
+}), ms);
+const still = (heard) => !Object.keys(heard).length;
 // what only one engine can be asked: said with its reason, and counted apart from what passed
 const skip = (name, why) => { results.push({ engine, name, ok: true, skipped: true }); say("skip", name, why); };
 // the dev server speaks https with a certificate it signed itself (scripts/serve.mjs): the browser is told to go on
@@ -173,17 +184,11 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.waitForTimeout(1200);
     const jobs = await page.locator("#status-jobs").getAttribute("title");
     check("Run plays both live loops", /:kick/.test(jobs) && /:hat/.test(jobs), jobs);
-    // A page-wide watcher hears nothing as a program plays: an ad blocker's (AdBlock's element hiding: a
-    // MutationObserver on the document, then every hiding rule tried against the whole page a second after any
-    // change) otherwise scans back to back, freezing the page. What changes as it plays is in shadow roots
-    // (app/src/shadow.js): the editor's flashes, the log, the cues, the Threads and Logs panes.
-    const heard = await page.evaluate(() => new Promise((resolve) => {
-      const by = {};
-      const mo = new MutationObserver((list) => { for (const m of list) { let e = m.target.nodeType === 1 ? m.target : m.target.parentElement; while (e && !e.id) e = e.parentElement; const k = `${e ? "#" + e.id : "the page"} ${m.type}`; by[k] = (by[k] ?? 0) + 1; } });
-      mo.observe(document, { childList: true, attributes: true, subtree: true, characterData: true });
-      setTimeout(() => { mo.disconnect(); resolve(by); }, 2500);
-    }));
-    check("the page stays still as a program plays: a page-wide watcher (an ad blocker's) hears nothing", !Object.keys(heard).length, JSON.stringify(heard));
+    // The page stays still as a program plays (stillness, above): what changes as it plays is in shadow roots
+    // (app/src/shadow.js), or drawn on a canvas, or said only as it changes. Here the editor, the log and the cues;
+    // below, the Threads pane open, a docs card, a quickstart card, a site page's card and the phone's page.
+    const heard = await stillness(page);
+    check("the page stays still as a program plays: a page-wide watcher (an ad blocker's) hears nothing", still(heard), JSON.stringify(heard));
     const runs = await page.locator("#status-jobs").textContent();
     check("the status bar says the runs going as their ids alone", /^\[\d+(, \d+)*\]$/.test(runs), runs);
     check("the log shows what played", (await page.locator("#log .log-line").count()) > 3);
@@ -264,6 +269,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("the Debug pane logs the OSC to SuperSonic (the runtime's bundles, when each is due) and from it", osc.length === 2 && osc[0].s_new && osc[1].lines > 0, JSON.stringify(osc));
     await openPane("insight");
     await page.waitForTimeout(1500);
+    const heardThreads = await stillness(page);
+    check("the page stays still as a program plays with the Threads pane open", still(heardThreads), JSON.stringify(heardThreads));
     const tree = await page.evaluate(() => window.sonicPi.processTree());
     const labelOf = (uid) => tree.find((n) => n.uid === uid)?.label;
     // threads stopped by the last Stop linger a moment, fading: look at the live ones
@@ -391,6 +398,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.click("#docs-pane .docs-item[data-key='autotuner']");
     await page.locator("#docs-pane .pg-card .qs-card-foot .qs-transport button").first().click();
     await page.waitForTimeout(3000);
+    const heardDocs = await stillness(page);
+    check("the page stays still as a docs card's live demo plays", still(heardDocs), JSON.stringify(heardDocs));
     const fxDemo = await page.evaluate(() => ({ pane: /thread safe|docs_fx/.test(document.getElementById("error-pane").hidden ? "" : document.getElementById("error-pane").textContent), card: document.querySelector("#docs-pane .pg-card.errored .qs-state")?.textContent ?? null }));   // the pane may hold an earlier check's error: only this demo's counts
     // and its loop's scope is fed while it plays: the canvas is placed from the records, so one drawn but starved
     // (the card not given scopeFrame) still looks like a scope — it is a flat line under a synth plainly playing
@@ -416,6 +425,18 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("the tutorial is the site's, a page a chapter: an old link lands at its part, runnable cards, the Tutorial tab lit, the next chapter on, and none in the help pane", tut.at === "tutorial-02.html#tut-02-1-your-first-beeps" && tut.cards > 0 && tut.title === "2.1 Your First Beeps" && tut.book && !tut.inHelp && /3 Samples/.test(tut.next ?? ""), JSON.stringify(tut));
     await page.evaluate(() => { location.hash = "#app"; });
     await page.waitForFunction(() => document.getElementById("info-card").hidden, null, { timeout: 5000 }).catch(() => {});
+    if (siteBuilt) {
+      const sp = await page.context().newPage();
+      await sp.goto(BASE + "tutorial-09.html");
+      const siteCard = sp.locator(".site-body:not([hidden]) .qs-card", { hasText: "live_loop" }).first();
+      await siteCard.locator(".qs-transport button").first().click({ timeout: 30000 }).catch(() => {});
+      const sounding = await sp.waitForFunction(() => document.querySelector(".site-body:not([hidden]) .qs-card .qs-transport.playing"), null, { timeout: 30000 }).then(() => true).catch(() => false);
+      await sp.waitForTimeout(1000);
+      const heardSite = await stillness(sp);
+      await siteCard.locator(".qs-transport button").nth(1).click({ timeout: 2000 }).catch(() => {});
+      await sp.close();
+      check("the page stays still as a site page's card plays its live loop", sounding && still(heardSite), JSON.stringify({ sounding, heard: heardSite }));
+    }
 
     // quickstart cards
     await openPane("quickstart");
@@ -459,9 +480,16 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const loopCard = qp.locator("#quickstart-pane .qs-card:not(.qs-intro)", { hasText: "live_loop" }).first();
     await loopCard.locator(".qs-transport button").first().click({ timeout: 5000 }).catch(() => {});
     const loopScope = await qp.waitForFunction(() => document.querySelector("#quickstart-pane .qs-card:not(.qs-intro) .sp-loop-scope[data-painted]")?.closest(".cm-line")?.textContent.trim() ?? false, null, { timeout: 15000 }).then((h) => h.jsonValue()).catch(() => null);
+    const heardCard = await stillness(qp);
+    // and opened to edit as it plays: its lines flash in its editor now, not over its block (ui/card.js flash)
+    const editBtn = loopCard.locator(".qs-card-edit");
+    const editing = (await editBtn.count()) > 0 && await editBtn.click({ timeout: 2000 }).then(() => true).catch(() => false);
+    await qp.waitForTimeout(1000);
+    const heardEdited = await stillness(qp);
     await loopCard.locator(".qs-transport button").nth(1).click({ timeout: 2000 }).catch(() => {});
     await qp.close();
     check("a quickstart card's live loop has its scope on its line while it plays", /^live_loop :\w+ do/.test(loopScope ?? ""), String(loopScope));
+    check("the page stays still as a quickstart card's live loop plays, and as it is edited playing", still(heardCard) && editing && still(heardEdited), JSON.stringify({ heard: heardCard, editing, heardEdited }));
 
     // themes: the bar's palette, not the preferences
     await page.click("#btn-prefs");
@@ -790,6 +818,14 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await ph.waitForTimeout(100);
     const rz1 = await railZoom(), railDrawer = await ph.evaluate(() => document.body.dataset.drawer);
     check("on a phone the rail's zoom buttons zoom the docs and keep the drawer open", railDrawer === "docs" && rz1 < rz0, `drawer ${railDrawer}, zoom ${rz0} → ${rz1}`);
+    if (await ph.evaluate(() => !!document.body.dataset.drawer)) await ph.click("#btn-help");
+    await ph.evaluate(() => window.sonicPi.editor.setCode("live_loop :still do\n  play 60, release: 0.1\n  sleep 0.25\nend"));
+    await ph.click("#btn-run");
+    const phonePlays = await ph.waitForFunction(() => /:still/.test(document.getElementById("status-jobs")?.getAttribute("title") ?? ""), null, { timeout: 30000 }).then(() => true).catch(() => false);
+    await ph.waitForTimeout(1000);
+    const heardPhone = await stillness(ph);
+    await ph.click("#btn-stop");
+    check("the phone's page stays still as a program plays", phonePlays && still(heardPhone), JSON.stringify({ plays: phonePlays, heard: heardPhone }));
     check("no uncaught errors on the phone page", phoneErrors.length === 0, phoneErrors.slice(0, 3).join(" | "));
     await phone.close();
   } finally {

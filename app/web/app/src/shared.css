@@ -44,6 +44,10 @@ button, a, [role="button"], .hg-button, label, summary { touch-action: manipulat
 
 /* said to a screen reader, seen by no one */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* a message said goes quiet after 10s (announce.js QUIET_AFTER): hidden from the reader by its own animation, which
+   changes nothing in the page, and taken out when the next is said */
+.sr-news > * { animation: sr-said 0s linear 10s forwards; }
+@keyframes sr-said { to { visibility: hidden; } }
 /* the first thing a keyboard reaches: past the bar to the page, shown only while it has the focus */
 .skip-link { position: fixed; top: 6px; left: 6px; z-index: 1000; padding: 8px 14px; border-radius: var(--r-m); background: var(--HighlightedBackground); color: var(--accentContrastText); font: 600 var(--t-ui) var(--prose-font); text-decoration: none; transform: translateY(-200%); }
 .skip-link:focus { transform: none; outline: 2px solid var(--Foreground); outline-offset: 2px; }

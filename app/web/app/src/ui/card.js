@@ -22,7 +22,7 @@ import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirro
 import { indentUnit } from "@codemirror/language";
 import { highlighting } from "../highlight.js";
 import { renderLines } from "../highlight.js";
-import { flashField, addFlash, dropFlash, loopScopeField, setLoopScopes, loopScopeCanvas } from "../editor.js";
+import { loopScopeField, setLoopScopes, loopScopeCanvas } from "../editor.js";
 import { LoopScopeState, drawLoopScope, SCROLL_WINDOW, SWEEP_WINDOW, SWEEP_SEARCH } from "../loopscope.js";
 import { css, colour, blend, cssColour } from "../theme.js";
 import { createEventStrip } from "./strip.js";
@@ -343,7 +343,7 @@ export function createCard(o) {
       state: EditorState.create({
         doc: text,
         extensions: [
-          history(), indentUnit.of("  "), highlighting, flashField, loopScopeField,   // the platform's own caret: it is right under a pane's zoom, where a drawn one can go astray
+          history(), indentUnit.of("  "), highlighting, loopScopeField,   // the platform's own caret: it is right under a pane's zoom, where a drawn one can go astray
           keymap.of([{ key: "Mod-Enter", run: () => (api.onRun?.(), true) }, { key: "Mod-.", run: () => (api.onStop?.(), true) }, indentWithTab, ...defaultKeymap, ...historyKeymap]),
           EditorView.updateListener.of((u) => { if (u.docChanged) changed(); }),
         ],
@@ -385,23 +385,28 @@ export function createCard(o) {
   }
   if (saved != null && saved !== original) art.classList.add("edited");
 
-  // the line a sound came from flashes: in the editor by its field; over the block by a wash laid on that line
-  let flashSeq = 0;
+  // the line a sound came from flashes: a wash laid on that line, over the block or the editor alike. Animated (Web
+  // Animations), never added, taken out or restyled: a playing card changes nothing in the page, where a page-wide
+  // watcher (an ad blocker's) would hear every note (../shadow.js). A few, laid ready, for lines that flash together.
+  const washes = Array.from({ length: 4 }, () => { const w = el("div", "qs-line-flash"); w.setAttribute("aria-hidden", "true"); body.appendChild(w); return w; });
+  let nextWash = 0;
   function flash(line) {
-    if (view && editing) { const id = ++flashSeq; view.dispatch({ effects: addFlash.of({ line, id }) }); setTimeout(() => view.dispatch({ effects: dropFlash.of({ line, id }) }), 500); return; }
-    if (!block?.isConnected) return;
-    const row = block.querySelectorAll(".cm-line")[line - 1];
+    let row = null;
+    if (view && editing) {
+      if (line < 1 || line > view.state.doc.lines) return;
+      const at = view.domAtPos(view.state.doc.line(line).from).node;
+      row = (at.nodeType === 1 ? at : at.parentElement)?.closest(".cm-line");
+    } else if (block?.isConnected) row = block.querySelectorAll(".cm-line")[line - 1];
     if (!row) return;
     // the line's place in the body, in the body's own pixels: where it is on screen, over the body's scale there (a
     // pane's or a page's zoom). Summed offsetTops would do the same in one engine and not in another: how offsetTop
     // meets CSS zoom differs between Safari's versions, and in one of them the wash would land half a line off.
     const b = body.getBoundingClientRect(), r = row.getBoundingClientRect();
     const scale = body.offsetHeight ? b.height / body.offsetHeight : 1;
-    const wash = el("div", "qs-line-flash");
-    wash.style.top = `${(r.top - b.top) / scale - body.clientTop}px`; wash.style.height = `${r.height / scale}px`;
-    body.appendChild(wash);
-    wash.addEventListener("animationend", () => wash.remove(), { once: true });
-    setTimeout(() => wash.remove(), 700);
+    const top = `${(r.top - b.top) / scale - body.clientTop}px`, height = `${r.height / scale}px`;
+    const wash = washes[nextWash++ % washes.length], lit = getComputedStyle(body).getPropertyValue("--flashWash");
+    for (const a of wash.getAnimations()) a.cancel();
+    wash.animate([{ top, height, backgroundColor: lit }, { top, height, backgroundColor: "transparent" }], { duration: 450, easing: "ease-out" });
   }
 
   // ── the footer: the blurb, the way out, the error strip; the transport — the scope round Play, and Stop beside it ──

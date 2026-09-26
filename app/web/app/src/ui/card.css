@@ -48,12 +48,8 @@
 .qs-card-body .sp-def { color: var(--FunctionMethodNameForeground); }
 .qs-card-body .sp-ivar { color: var(--InstanceVariableForeground); }
 .qs-card-body .sp-const { color: var(--ClassNameForeground); }
-/* the line a sound came from: the editor's flash (editor.js flashField), or a wash over the block */
-@keyframes sp-flash-a { from { background-color: var(--flashWash); } to { background-color: transparent; } }
-@keyframes sp-flash-b { from { background-color: var(--flashWash); } to { background-color: transparent; } }
-.qs-card-body .cm-line.sp-flash-a { animation: sp-flash-a 0.45s ease-out; }
-.qs-card-body .cm-line.sp-flash-b { animation: sp-flash-b 0.45s ease-out; }
-.qs-line-flash { position: absolute; left: 0; right: 0; pointer-events: none; animation: sp-flash-a 0.45s ease-out; }
+/* the line a sound came from: a wash laid on it, over the block or the editor, its flash animated from card.js flash */
+.qs-line-flash { position: absolute; left: 0; right: 0; height: 0; pointer-events: none; }
 
 /* the footer: the blurb and the way out, the error strip, the scope that plays */
 .qs-card-foot { position: relative; isolation: isolate; display: flex; align-items: center; gap: 12px; margin: 0; padding: 8px 14px; background: var(--accentTintStrong); }   /* isolated: the strip goes behind what is in it, not behind the card */

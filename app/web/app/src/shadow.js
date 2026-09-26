@@ -1,6 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Shadow roots for the parts of the app that change as it plays: the editor (its line flashes, its loop scopes),
-// and after it the log, the cues and the Threads pane.
+// Shadow roots for the parts of the app that change as it plays. The page is to stay still while a program plays and
+// nobody touches it (the browser check listens: "the page stays still …"), and what would change it goes, in order:
+//
+//   1. in the page, when it changes only as the player does something (a drawer, a dialog, Run, a card's Play): one
+//      change is one scan, once;
+//   2. in the page, when it can change without changing the page: drawn on a canvas (the scope, the stop's loading
+//      comet), animated (a card's line flash, ui/card.js), hidden by its own animation (an announcement gone quiet,
+//      announce.js), or written only as what it says changes (a scope's data-painted);
+//   3. in a shadow root, when it must change the page as it plays: text to be read, selected and copied as it
+//      arrives, and what a library draws as elements (CodeMirror's flashes). The smallest part that holds it, whole.
+//
+// The parts in shadow roots, each for the third reason; a new one is added here, with its reason, when 1 and 2 cannot do:
+//
+//   #editor-mount                 the buffer's editor: CodeMirror's line flashes, loop scopes and marks (editor.js)
+//   #log, #cues                   their lines, as they arrive (main.js drawPane)
+//   #insight-pane                 the Threads pane: its tree and timeline (insight.js)
+//   #logs-pane, .debug-logs       the Logs, and the OSC to and from SuperSonic (logs.js)
 //
 // Why: a page-wide watcher neither hears a change inside a shadow root nor searches one. AdBlock's element hiding
 // is such a watcher (eyeo's tracer, ewe-content.js): a MutationObserver on the whole document, and a second after
