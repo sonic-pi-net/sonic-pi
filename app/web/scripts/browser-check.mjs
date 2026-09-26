@@ -328,12 +328,15 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("the process tree hangs each live loop from its run's main thread", loops.length === 2 && loops.every((n) => labelOf(n.parent) === "main" && /^run \d+$/.test(labelOf(tree.find((m) => m.uid === n.parent)?.parent))), tree.map((n) => `${n.label}<${labelOf(n.parent) ?? "-"}`).join(" "));
     check("the process tree shows sleeping loops", loops.every((n) => n.state === 1 || n.state === 0), loops.map((n) => n.state).join(","));
     // a node the program has just made is in the tree before the next layout has placed it, and a snapshot taken
-    // in between catches it without coordinates: the wait is for the drawing to catch up, not for the check to pass
+    // in between catches it without coordinates: the wait is for the drawing to catch up, not for the check to pass.
+    // Every live one (state under 3): one that has ended lingers in the table while it fades, and once faded out is
+    // not drawn, so has none (process-tree.js drawFrame), however long the wait
     const drawn = await page.waitForFunction(() => {
       const t = window.sonicPi.processTree();
-      return t.length >= 4 && t.every((n) => n.x != null) ? t.length : false;
+      return t.length >= 4 && t.every((n) => n.x != null || n.state >= 3) ? t.length : false;
     }, null, { timeout: 5000 }).then((h) => h.jsonValue()).catch(() => null);
-    check("the process tree draws its nodes", drawn != null, drawn != null ? `${drawn} nodes` : "a node was left unplaced");
+    const unplaced = drawn != null ? [] : await page.evaluate(() => window.sonicPi.processTree().filter((n) => n.x == null && n.state < 3).map((n) => `${n.label} (state ${n.state})`));
+    check("the process tree draws its nodes", drawn != null, drawn != null ? `${drawn} nodes` : `live and unplaced: ${unplaced.join(", ")}`);
     // a loop held on a sync says so in its scope
     await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend\nlive_loop :held do\n  sync :never_cued\n  play 60\nend");
     await page.click("#btn-run");
@@ -381,7 +384,9 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const stoppedAt = await page.evaluate(() => { document.getElementById("btn-stop").click(); return window.sonicPi.session.clockNow(); });
     await page.waitForTimeout(300);
     const rollStopped = await page.evaluate(() => window.sonicPi.pianoRoll());
-    check("Stop takes the notes that will now never sound off the piano roll", ahead > 0 && rollStopped.notes.every((n) => n.start <= stoppedAt && n.end <= stoppedAt + 1e-6) && rollStopped.hits.every((h) => h.time <= stoppedAt), `${ahead} ahead before, ${rollStopped.notes.filter((n) => n.start > stoppedAt).length} after the stop`);
+    // none ahead: say what the roll had, and when, for a machine where it fails
+    const rollSaid = ahead > 0 ? "" : ` (stopped at ${stoppedAt}: the roll had ${rollStopped.notes.length} notes, the latest starting ${Math.max(...rollStopped.notes.map((n) => n.start))})`;
+    check("Stop takes the notes that will now never sound off the piano roll", ahead > 0 && rollStopped.notes.every((n) => n.start <= stoppedAt && n.end <= stoppedAt + 1e-6) && rollStopped.hits.every((h) => h.time <= stoppedAt), `${ahead} ahead before, ${rollStopped.notes.filter((n) => n.start > stoppedAt).length} after the stop${rollSaid}`);
     await setCode("n = play 60, release: 2\nsleep 0.25\ncontrol n, note: 72\nset :answer, 42\nputs get(:answer)\nputs spread(3, 8)\nmidi_note_on 60\nputs chord_invert(chord(:c4, :major), 1)");
     await page.click("#btn-run");
     await page.waitForFunction(() => /\(ring 64, 67, 72\)/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(() => {});

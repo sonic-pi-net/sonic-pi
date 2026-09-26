@@ -94,7 +94,10 @@ function audioDiff(records, frames) {
       || (address === "/n_free" && handedOver.has(id));
   };
   sounds.splice(0, sounds.length, ...sounds.filter((s) => !studio(s) && !handover(s)));
-  const opts = (args) => Object.entries(args || {}).filter(([k, v]) => (k === "buf" ? typeof v === "string" : typeof v === "number"));
+  // the buffers a sound names by their files, a player's sample (buf) and the random stream a synth tosses its coins
+  // with (rand_buf): either goes as the number of the buffer the sound waits on (Scheduler#audio_buffer)
+  const BUFS = new Set(["buf", "rand_buf"]);
+  const opts = (args) => Object.entries(args || {}).filter(([k, v]) => (BUFS.has(k) ? typeof v === "string" : typeof v === "number"));
   const want = records.filter((r) => ["synth", "control", "kill"].includes(r.kind) && (r.kind !== "control" || opts(r.args).length));
   const problems = [...studioProblems];
   soundsHeard += sounds.length;
@@ -123,7 +126,7 @@ function audioDiff(records, frames) {
     const expect = opts(r.args);
     if (got.size !== expect.length) say(`${got.size} opts sent, ${expect.length} recorded`);
     for (const [k, v] of expect) {
-      if (k === "buf") { if (s.file !== v || got.get("buf") !== s.buf) say(`buf ${got.get("buf")} holds ${s.file}, recorded ${v}`); }
+      if (BUFS.has(k)) { if (s.file !== v || got.get(k) !== s.buf) say(`${k} ${got.get(k)} holds ${s.file}, recorded ${v}`); }
       else if (got.get(k) !== (Number.isInteger(v) ? v : Math.fround(v))) say(`${k} ${got.get(k)}, recorded ${v}`);
     }
   }
