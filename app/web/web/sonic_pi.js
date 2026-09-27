@@ -230,9 +230,11 @@ export class Bridge {
    * The studio's random stream into a buffer, as native's studio loads it at boot: a synth's rand_buf (slicer,
    * panslicer and wobble toss their probability: coins with it; Scheduler#audio_buffer). The table the runtime draws
    * rand from, the same file, so the browser has it already. Its values must be the ones native's scsynth reads, each
-   * 16-bit sample over 32768, and a browser's decoder is not to be trusted with them: at a rate other than the
-   * context's it resamples, each value blended with its neighbours, and Chromium's divides the positive ones by
-   * 32767. So they go to it as floats, divided here, at the context's rate.
+   * 16-bit sample over 32768, so no browser's decoder is let near them: they are read here and written into an empty
+   * buffer (/b_setn), exactly. A decoder resamples at any rate but the context's, and Chromium's divides the positive
+   * ones by 32767. And a run waits for the buffers its first sounds need, so a load that never ends is a run that
+   * never plays: on an iPhone a program with a panslicer stopped after its first notes (a flight report, 2026-09-27),
+   * most likely its decode of the float file this loaded then never ending.
    */
   async randStream(bufnum) {
     const res = await fetch(new URL(TABLES.white, OWN_BUFFERS));
@@ -244,16 +246,16 @@ export class Bridge {
       if (src.getUint32(at, false) === 0x64617461) break;             // "data"
     }
     if (at + 8 > src.byteLength) throw new Error(`${TABLES.white}: no samples`);
-    const n = size >> 1, rate = Math.round(this.#engine.audioContext?.sampleRate ?? 44100);
-    const wav = new DataView(new ArrayBuffer(44 + n * 4)), str = (o, t) => { for (let i = 0; i < t.length; i++) wav.setUint8(o + i, t.charCodeAt(i)); };
-    str(0, "RIFF"); wav.setUint32(4, 36 + n * 4, true); str(8, "WAVE");
-    str(12, "fmt "); wav.setUint32(16, 16, true); wav.setUint16(20, 3, true); wav.setUint16(22, 1, true);   // IEEE float, mono
-    wav.setUint32(24, rate, true); wav.setUint32(28, rate * 4, true); wav.setUint16(32, 4, true); wav.setUint16(34, 32, true);
-    str(36, "data"); wav.setUint32(40, n * 4, true);
-    for (let i = 0; i < n; i++) wav.setFloat32(44 + i * 4, src.getInt16(at + 8 + i * 2, true) / 32768, true);
-    const loaded = await this.#engine.loadSample(bufnum, wav.buffer);
+    const n = size >> 1, values = new Float32Array(n);
+    for (let i = 0; i < n; i++) values[i] = src.getInt16(at + 8 + i * 2, true) / 32768;
+    const made = await this.#engine.allocSample(bufnum, n, 1);
+    for (let from = 0; from < n; from += 512) {
+      const part = values.subarray(from, Math.min(n, from + 512));
+      this.#engine.send("/b_setn", bufnum, from, part.length, ...part);
+    }
+    await this.#engine.sync();   // every part in before a sound reads it
     this.#randAt = bufnum;
-    return loaded;
+    return made;
   }
 
   // after an engine reload: postMessage's restore loads again only the samples it loaded from a file
