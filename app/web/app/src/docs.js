@@ -1002,11 +1002,20 @@ export function createDocs(root, ref, hooks) {
     const grid = el("div", "sample-grid");
     for (const s of g.samples) {
       const row = el("div", "sample-row");
-      const play = button("sp-mini-btn sp-mini-icon", "", () => hooks.playSample(s));
+      // its button says it is loading until the sample is in (a first play fetches it): a wait worth showing only (style.css)
+      const preview = () => {
+        if (play.classList.contains("loading")) return;
+        play.classList.add("loading");
+        play.setAttribute("aria-busy", "true");
+        Promise.resolve(hooks.playSample(s)).finally(() => { play.classList.remove("loading"); play.removeAttribute("aria-busy"); });
+      };
+      const play = button("sp-mini-btn sp-mini-icon", "", preview);
       play.innerHTML = icon("player-play");
       play.title = `sample :${s}`;
       const code = renderCode(`sample :${s}`);
       row.append(play, code, button("sp-mini-btn", "Insert", () => hooks.insert(`sample :${s}`)));
+      // the whole row plays it, a bigger target than its button: all but Insert, and a selection being made in it
+      row.addEventListener("click", (e) => { if (!e.target.closest("button") && !String(getSelection()).trim()) preview(); });
       grid.appendChild(row);
     }
     page.appendChild(grid);

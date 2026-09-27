@@ -1749,7 +1749,16 @@ body.reduce-motion .opt-card.tip-landed { animation: none; border-color: var(--H
 .opt-slidable { font: var(--t-label) var(--code-font); color: var(--HighlightedBackground); letter-spacing: 0.1em; text-transform: uppercase; }
 .opt-default { color: var(--faintText); font-size: var(--t-small); }
 .sample-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 4px 16px; }
-.sample-row { display: flex; align-items: center; gap: 6px; }
+.sample-row { display: flex; align-items: center; gap: 6px; border-radius: var(--r-s); cursor: pointer; }   /* the whole row plays its sample (docs.js renderSamples) */
+@media (hover: hover) { .sample-row:hover { background: var(--accentTint); } }
+/* its button while the sample loads (a first play fetches it): the play glyph gives way to a turning arc, as a card's
+   transport's (card.css qs-busy), and only for a wait worth showing */
+.sp-mini-btn.loading { position: relative; }
+.sp-mini-btn.loading svg { animation: sp-give-way 0s linear 0.15s forwards; }
+.sp-mini-btn.loading::after { content: ""; position: absolute; top: 50%; left: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; box-sizing: border-box; border-radius: 50%; border: 2px solid; border-color: var(--HighlightedBackground) var(--HighlightedBackground) transparent transparent; opacity: 0; animation: qs-busy 0.8s linear infinite, qs-busy-show 0.2s ease-out 0.15s forwards; pointer-events: none; }
+@keyframes sp-give-way { to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .sp-mini-btn.loading::after { animation: qs-busy-show 0.2s ease-out 0.15s forwards; border-color: color-mix(in srgb, var(--HighlightedBackground) 60%, transparent); } }   /* still: the whole ring, lit */
+body.reduce-motion .sp-mini-btn.loading::after { animation: qs-busy-show 0.2s ease-out 0.15s forwards; border-color: color-mix(in srgb, var(--HighlightedBackground) 60%, transparent); }
 .sample-row pre.sp-code { flex: 1; padding: 2px 6px; background: transparent; }
 
 /* Pianos */

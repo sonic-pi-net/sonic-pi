@@ -624,7 +624,8 @@ const hooks = {
   },
   playChord: (notes) => play(`${realTime}play [${notes.join(", ")}], release: 1`),
   playScale: (notes) => play(`${realTime}[${notes.join(", ")}].each do |n|\n  play n, release: 0.2\n  sleep 0.15\nend`),
-  playSample: (name) => play(`${realTime}sample :${name}`),
+  // resolved once the sample is in, for the button that plays it to stop saying it is loading (docs.js renderSamples)
+  playSample: async (name) => { const job = await play(`${realTime}sample :${name}`); if (job != null) await session?.bridge?.sampleReady?.(name); return job; },
 };
 
 // ── Editor and buffers ────────────────────────────────────────────────────

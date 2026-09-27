@@ -51,6 +51,7 @@ const OWN_SYNTHDEFS = new URL("./synthdefs/", import.meta.url).href;
 let ownSynthdefs = null;
 // Sonic Pi's random streams, beside the app (runtime.js loadRuntime): the white one is also the studio's rand_buf
 const OWN_BUFFERS = new URL("./buffers/", import.meta.url).href;
+const sampleName = (file) => String(file).split("/").pop().replace(/\.[^.]+$/, "");   // bd_haus.flac: bd_haus
 
 /** SuperSonic, from where version.json says it is (runtime.js supersonicInfo), playing Sonic Pi's own synthdefs. */
 /** beforeInit(engine): listen before it boots, to hear what it says while booting. */
@@ -165,6 +166,7 @@ export class Bridge {
   #nextOwnBuffer = 1023;      // numbered here, counting down, only when no runtime numbers them
   #piano = null;              // the :piano synth's sample table, handed to the engine once (pianoTable)
   #randAt = null;             // the buffer the studio's random stream is in, once a synth has asked for it (randStream)
+  #asked = [];                // [name, resolve]: a sample waited on before the runtime has asked for its file (sampleReady)
   #fade = null;               // a Stop's fade in progress: { started, done, cut } (fadeOut)
   /** file → bufnum from a live runtime on the page (LiveSession sets it), so a preload and the runtime's sounds agree. */
   numberBuffer = null;
@@ -313,7 +315,25 @@ export class Bridge {
         .then(() => { this.#buffersReady.add(bufnum); return true; })
         .catch((e) => { console.warn("sample", file, e); return false; }));
     }
+    for (let i = this.#asked.length - 1; i >= 0; i--) {
+      if (this.#asked[i][0] === sampleName(file)) { this.#asked[i][1](this.#loads.get(bufnum)); this.#asked.splice(i, 1); }
+    }
     return this.#loads.get(bufnum);
+  }
+
+  /**
+   * A sample, by its name (bd_haus), in the engine: its load come in, once the runtime has asked for its file (the
+   * docs' sample buttons say they are loading until then: a first play fetches it). False if it could not be loaded,
+   * or was not asked for in time.
+   */
+  sampleReady(name, wait = 30000) {
+    const file = [...this.#buffers.keys()].find((f) => sampleName(f) === name);
+    if (file != null) return this.bufferLoaded(this.#buffers.get(file));
+    return new Promise((resolve) => {
+      const w = [name, resolve];
+      this.#asked.push(w);
+      setTimeout(() => { const i = this.#asked.indexOf(w); if (i >= 0) { this.#asked.splice(i, 1); resolve(false); } }, wait);
+    });
   }
 
   // a buffer this bridge never loaded was loaded before it was made: ready
