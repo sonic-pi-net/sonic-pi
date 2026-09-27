@@ -1055,8 +1055,16 @@ body.focus-mode #main { grid-template-columns: 1fr 0 0 !important; grid-template
 body.no-scope #scope-section { display: none; }
 body.scope-line #scope-container { display: none; }   /* Line: the scope is the top bar's; its pane keeps its head, to choose another kind */
 body.scope-line #scope-section { flex: none !important; height: auto !important; min-height: 0 !important; }
-#log-section { flex: 1.6; }
-#cue-section { flex: 1; }
+#log-section { flex: var(--log-share, 1.6); }
+#cue-section { flex: var(--cue-share, 1); }
+/* the sidebar's splitters, as native's (main.js): the scope's height, and how the log and the cues share the rest. A
+   line, with a finger's worth to grab either side of it */
+.side-divider { position: relative; z-index: 2; flex: 0 0 1px; background: var(--WindowBorder); cursor: row-resize; touch-action: none; user-select: none; outline: none; }
+.side-divider::after { content: ""; position: absolute; left: 0; right: 0; top: -4px; bottom: -4px; }
+.side-divider:hover, .side-divider:focus-visible { background: var(--HighlightedBackground); }
+body.resizing #sidebar .side-divider { pointer-events: auto; }   /* the sidebar under the drag takes none (body.resizing), its own dividers still do */
+body.resizing #scope-container { transition: none; }   /* dragged, it follows the pointer */
+body:is(.no-scope, .scope-line) #scope-divider, body:is(.no-log, .no-cues) #log-divider { display: none; }   /* nothing either side to share */
 /* a short sidebar: the log and the cues keep their heads at least, each in its own box (so a head never spills out
    over the metronome below it), and the scope gives up height before they do */
 #log-section, #cue-section { min-height: 30px; overflow: hidden; }
@@ -1069,7 +1077,7 @@ body.scope-line #scope-section { flex: none !important; height: auto !important;
 
 /* Scope: native's panel, above the log */
 #scope-container {
-  height: clamp(60px, 22vh, 230px);        /* on a short screen (an iPad with the help pane open) the log keeps its room */
+  height: var(--scope-height, clamp(60px, 22vh, 230px));        /* on a short screen (an iPad with the help pane open) the log keeps its room; dragged, its own (main.js) */
   position: relative;
   background: var(--PaneBackground);
   cursor: pointer;
@@ -2039,6 +2047,7 @@ body.reduce-motion .cm-tooltip.sp-slider, :host([data-page~="reduce-motion"]) .c
   #strip-head .seg button { font-size: var(--t-tiny); padding: 3px 12px; }
   #log-section, #cue-section { flex: 1; min-height: 0; }
   body.strip-cues #log-section, body:not(.strip-cues) #cue-section { display: none; }
+  .side-divider { display: none; }   /* one pane at a time, the scope in the bar: nothing to share */
   /* The log: one line an event, the time and the thread in their columns, the call after, unwrapped */
   #log, #cues { padding: 4px 12px 12px; font-size: var(--t-label); overflow: auto; }
   .log-head, .log-line, .log-info { display: none; }

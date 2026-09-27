@@ -1515,6 +1515,50 @@ dragDivider($("drawer-divider"), (m) => {
   store.set("sp-sizes", sizes);
   quickstart?.render();
 }, (target) => { if ($("divider-grip").contains(target)) toggleBottom(); else if ($("divider-full").contains(target)) growBottom(); });
+// The sidebar's splitters, as native's: the scope's height, and the log's share of the room the log and the cues have,
+// remembered. Dragged, or from the keyboard, its arrows a step at a time (each a separator a screen reader can move).
+const sidebar = $("sidebar"), scopeDivider = $("scope-divider"), logDivider = $("log-divider");
+const laidOut = (id) => $(id).offsetHeight > 0;
+// the scope as tall as leaves the panes under it their heads: the metronome's whole height, the log's and cues' least
+const scopeMax = () => sidebar.clientHeight - ($("scope-section").offsetHeight - scopeBox.offsetHeight) - $("link-section").offsetHeight
+  - (laidOut("log-section") ? 30 : 0) - (laidOut("cue-section") ? 30 : 0) - 2;
+function setScopeHeight(px) {
+  const max = Math.max(40, scopeMax());
+  sizes.scope = Math.round(Math.max(40, Math.min(max, px)));
+  scopeBox.classList.remove("half");   // a height of its own, not the tap's half (the tap halves it again)
+  scopeBox.setAttribute("aria-pressed", "false");
+  sidebar.style.setProperty("--scope-height", `${sizes.scope}px`);
+  scopeDivider.setAttribute("aria-valuemin", "40");
+  scopeDivider.setAttribute("aria-valuemax", String(Math.round(max)));
+  scopeDivider.setAttribute("aria-valuenow", String(sizes.scope));
+  scopeDivider.setAttribute("aria-valuetext", `Scope ${sizes.scope} pixels high`);
+}
+function setLogShare(f) {
+  sizes.logShare = Math.round(Math.max(0.05, Math.min(0.95, f)) * 100) / 100;
+  sidebar.style.setProperty("--log-share", String(sizes.logShare));
+  sidebar.style.setProperty("--cue-share", String(1 - sizes.logShare));
+  logDivider.setAttribute("aria-valuemin", "0");
+  logDivider.setAttribute("aria-valuemax", "100");
+  logDivider.setAttribute("aria-valuenow", String(Math.round(sizes.logShare * 100)));
+  logDivider.setAttribute("aria-valuetext", `Log ${Math.round(sizes.logShare * 100)}%, cues ${Math.round((1 - sizes.logShare) * 100)}%`);
+}
+if (sizes.scope) sidebar.style.setProperty("--scope-height", `${sizes.scope}px`);
+if (sizes.logShare) setLogShare(sizes.logShare);
+const logShareAt = (y) => { const a = $("log-section").getBoundingClientRect(), b = $("cue-section").getBoundingClientRect(); return (y - a.top) / Math.max(1, b.bottom - a.top); };
+dragDivider(scopeDivider, (m) => setScopeHeight(m.clientY - scopeBox.getBoundingClientRect().top), () => store.set("sp-sizes", sizes));
+dragDivider(logDivider, (m) => setLogShare(logShareAt(m.clientY)), () => store.set("sp-sizes", sizes));
+for (const [divider, nudge] of [
+  [scopeDivider, (d) => setScopeHeight(scopeBox.offsetHeight + d * 10)],
+  [logDivider, (d) => setLogShare(logShareAt($("log-divider").getBoundingClientRect().top) + d * 0.05)],
+]) {
+  divider.addEventListener("keydown", (e) => {
+    const d = { ArrowUp: -1, ArrowDown: 1 }[e.key];
+    if (!d) return;
+    e.preventDefault();
+    nudge(d);
+    store.set("sp-sizes", sizes);
+  });
+}
 // The help pane's − and +, as native's ZoomBar: the open pane's text a step
 // smaller or larger, 1.1× a step from −4 to +8 (dpi.h FontZoomFactor), each
 // panel one zoom for all its tabs, remembered.

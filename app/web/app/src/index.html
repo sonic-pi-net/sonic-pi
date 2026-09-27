@@ -124,12 +124,15 @@
         <div id="scope-boot">booting SuperSonic</div>
       </div>
     </section>
+    <!-- the sidebar's splitters, as native's: the scope's height, and how the log and the cues share the rest (main.js) -->
+    <div id="scope-divider" class="side-divider" role="separator" aria-orientation="horizontal" aria-controls="scope-section" aria-label="Scope height" tabindex="0" title="Drag to resize"></div>
     <!-- a phone (style.css): one of the log and the cues at a time, picked here; a wide screen shows both -->
     <div id="strip-head"><div class="seg strip-tabs" role="tablist"><button type="button" data-strip="log" class="active" role="tab" aria-selected="true">Log</button><button type="button" data-strip="cues" role="tab" aria-selected="false">Cues</button></div><span class="spacer"></span><button id="strip-clear" class="icon-btn" title="Clear">clear</button></div>
     <section id="log-section" class="pane">
       <div class="pane-head"><span>Log</span><button class="icon-btn" id="log-clear" aria-label="Clear the log">clear</button></div>
       <div id="log" class="pane-body" role="region" aria-label="Log" data-empty></div>
     </section>
+    <div id="log-divider" class="side-divider" role="separator" aria-orientation="horizontal" aria-controls="log-section cue-section" aria-label="Log and cues heights" tabindex="0" title="Drag to resize"></div>
     <section id="cue-section" class="pane">
       <div class="pane-head"><span>Cues</span><button class="icon-btn" id="cue-clear" aria-label="Clear the cues">clear</button></div>
       <div id="cues" class="pane-body" role="region" aria-label="Cues" data-empty></div>
