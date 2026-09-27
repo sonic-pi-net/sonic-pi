@@ -282,16 +282,23 @@ $("resume-go").addEventListener("click", async () => {
   go.textContent = "Resuming…";
   const t0 = performance.now();
   audioTrail.note("tap", audioState());
-  const ok = await engineRef.recover().catch((e) => { logs.add("Host", `recovery failed: ${describe(e)}`); audioTrail.note("recover threw", { error: describe(e) }); return false; });
+  recovering = true;   // the card stays until the recovery has finished, whatever the context says on the way (audioBack)
+  const ok = await engineRef.recover().catch((e) => { logs.add("Host", `recovery failed: ${describe(e)}`); audioTrail.note("recover threw", { error: describe(e) }); return false; })
+    .finally(() => { recovering = false; });
   audioTrail.note("tapped", { ok, ms: Math.round(performance.now() - t0), ...audioState() });
   logs.add("Host", `resume on a tap: ${ok ? "sound back" : "failed"} (${Math.round(performance.now() - t0)} ms; ${JSON.stringify(audioState())})`);
   if (ok && engineRef.audioContext?.state === "running") audioBack();
   else if (engineRef.getEngineState?.() === "error" || engineRef.audioContext?.state === "closed") audioBroken();
   else resumeCard.show("The audio did not come back yet. Try again.");
 });
+// A recovery under way (the tap on the card): the card stays up, saying Resuming…, until it has finished. The context
+// can say it is running long before the audio is (iOS, after an interruption: running, and nothing rendering), and
+// a card put away then has the player pressing Run into an engine still being rebuilt, or one that never comes back.
+let recovering = false;
 function audioLost(how) {
   if (!engineRef) return;
   audioTrail.note("lost", { how, ...audioState() });
+  if (recovering) return;   // the tap's own answer says what comes next
   resumeCard.show(how === "interrupted" ? "Another app or a call took the audio."
     : how === "stopped" ? "The browser stopped Sonic Pi's audio."
     : "The browser paused Sonic Pi's audio.");
@@ -324,6 +331,7 @@ function keepAudioTrail(why) {
   audioTrail.keep({ why, state: { ...audioState(), userAgent: navigator.userAgent }, logs: Object.fromEntries(["Host", "SuperSonic", "Runtime", "GUI"].map((n) => [n, logs.recent(n, 150)])) });
 }
 function audioBack() {
+  if (recovering) return;   // the context running is not yet the audio back: the tap's recovery says when it is
   resumeCard.hide();
   if (replayAfterReload.length) replayLost();   // a reload that came back suspended, now resumed
 }
@@ -351,6 +359,7 @@ function audioReloaded() {
   scope.attach(engineRef);
   attachNavScope(engineRef);   // the reload made a new audio context: the bar's scope and the stop's rings tap it
   audioIn.reconnect();          // and live_audio's input goes into the new engine
+  if (recovering) return;   // a reload the tap's recovery asked for: its answer puts the card away, or not
   // a context made without a gesture (iOS) starts suspended and says nothing: the card asks for the tap
   if (engineRef.audioContext?.state !== "running") { audioLost("suspended"); return; }
   resumeCard.hide();
