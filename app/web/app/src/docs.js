@@ -740,18 +740,26 @@ export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = tr
     card.el.classList.toggle("edited", dials.some((d) => d.changed));   // the card's Reset shows
     if (isFx && demo.job != null) steerDemo();
   }
-  // The FX demo playing: a dial turned reaches the running FX at once (control, its slidable opts); one that cannot
-  // slide (a choice, a buffer size) starts the demo again with it. Throttled, so a drag is a stream, not a flood.
-  let steerTimer = null, steerRestart = false;
+  // The FX demo playing: a dial turned reaches the running FX at once (control, its slidable opts), throttled, so a
+  // drag is a stream, not a flood. One that cannot slide (a choice, a buffer size) starts the demo again with it, once,
+  // when it has come to rest: a drag through its values is one restart, not one a step, each cut off by the next.
+  let steerTimer = null, restartTimer = null;
+  const SETTLE = 300;   // ms a dial that cannot slide is left alone before the demo starts again with it
   const slides = new Set(p.opts.filter((o) => o.slidable).map((o) => o.name));
   const sent = new Map();
+  const moved = () => dials.some((d) => !slides.has(d.name) && sent.has(d.name) && sent.get(d.name) !== d.text());   // from what the demo started with
   function steerDemo() {
-    for (const d of dials) if (!slides.has(d.name) && sent.has(d.name) && sent.get(d.name) !== d.text()) steerRestart = true;
+    if (moved()) {
+      clearTimeout(restartTimer);
+      restartTimer = setTimeout(() => {
+        restartTimer = null;
+        if (demo.job != null && moved()) { demo.onStop?.(); setTimeout(() => demo.onRun?.(), 320); }   // a fresh FX with the new setting, once the old one has faded
+      }, SETTLE);
+    }
     if (steerTimer) return;
     steerTimer = setTimeout(() => {
       steerTimer = null;
-      if (demo.job == null) return;
-      if (steerRestart) { steerRestart = false; demo.onStop?.(); setTimeout(() => demo.onRun?.(), 320); return; }   // a fresh FX with the new setting, once the old one has faded
+      if (demo.job == null || restartTimer) return;   // a restart on its way takes every setting with it
       const args = dials.filter((d) => slides.has(d.name)).map((d) => `${d.name}: ${d.text()}`).join(", ");
       if (args) hooks.run(`use_real_time\nuse_debug false\ncontrol get(:docs_fx), ${args}`, { quiet: true });
     }, 40);
