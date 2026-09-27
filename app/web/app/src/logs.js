@@ -22,8 +22,9 @@ const stamp = (d) => `[${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSe
 /**
  * @param root the pane the sources sit in, left to right
  * @param names the sources, as their titles
- * @returns {{add(name, text), shown()}} add: a line (or lines) to a source;
- *   shown: the pane has just been shown, so the tails that follow the end go there
+ * @returns {{add(name, text), shown(), recent(name, n)}} add: a line (or lines) to a source;
+ *   shown: the pane has just been shown, so the tails that follow the end go there;
+ *   recent: a source's last n lines, each with its time, as text (what a restart carries over: audio-trail.js)
  */
 export function createLogs(root, names) {
   const sources = new Map();
@@ -117,6 +118,13 @@ export function createLogs(root, names) {
     },
     shown() {
       for (const s of sources.values()) if (s.following) s.body.scrollTop = s.body.scrollHeight;
+    },
+    recent(name, n = 100) {
+      const s = sources.get(name);
+      if (!s) return [];
+      const drawn = [...s.body.children].slice(-n).map((l) => l.textContent);
+      const waiting = s.pending.map(([at, text]) => `${stamp(at)} ${text}`);
+      return [...drawn, ...waiting].slice(-n);
     },
   };
 }

@@ -28,7 +28,7 @@ const ENGINE_KEYS = [
 ];
 
 /**
- * @param hooks { session() → the LiveSession or null, programs() → [{job, buffer, code}], versions() → {} }
+ * @param hooks { session() → the LiveSession or null, programs() → [{job, buffer, code}], versions() → {}, extra() → {} }
  */
 export function createFlightRecorder(hooks) {
   const samples = [];
@@ -249,6 +249,7 @@ export function createFlightRecorder(hooks) {
       programs: hooks.programs(),
       samples,
       records: keep,
+      ...hooks.extra?.(),   // the page's own: the audio's trail, and what a restart carried over (main.js)
     };
   }
 

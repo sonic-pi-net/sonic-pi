@@ -28,6 +28,7 @@ import { pageFromMeta, pageFromSynthdef } from "./synth-meta.js";
 import { createQuickstart } from "./quickstart.js";
 import { createInsight, threadLabel } from "./insight.js";
 import { createFlightRecorder } from "./flight.js";
+import { createAudioTrail, trailText } from "./audio-trail.js";
 import { createLogs } from "./logs.js";
 import { createShortcuts, DEF, MODES, parseChord } from "./shortcuts.js";
 import { createShortcutEditor } from "./shortcuts-ui.js";
@@ -69,6 +70,19 @@ const el = (tag, cls, text) => {
 // ── Logs (native's Logs tab): each source says what it did from the moment the page loads ──
 
 const logs = createLogs(shadowPane($("logs-pane")), ["GUI", "Runtime", "Host", "SuperSonic"]);   // in its shadow root (shadow.js)
+// What happened to the audio (audio-trail.js), kept on every page; and what the page before this one kept, when its
+// audio would not come back and Restart Sonic Pi reloaded it: its trail and its logs' last lines, shown here
+const audioTrail = createAudioTrail();
+const beforeRestart = audioTrail.taken();
+if (beforeRestart) {
+  for (const [name, lines] of Object.entries(beforeRestart.logs ?? {})) {
+    logs.add(name, `── before the restart (kept ${beforeRestart.kept}) ──`);
+    for (const line of lines) logs.add(name, `  ${line}`);
+    logs.add(name, "── this page ──");
+  }
+  logs.add("Host", `── the audio's trail before the restart: ${JSON.stringify(beforeRestart.state ?? {})} ──`);
+  for (const line of beforeRestart.trail ?? []) logs.add("Host", `  ${trailText(line)}`);
+}
 const describe = (v) => {   // a value as a line of log: a string as is, an error with its stack, anything else as JSON
   if (typeof v === "string") return v;
   if (v instanceof Error) return v.stack || `${v.name}: ${v.message}`;
@@ -202,7 +216,13 @@ function listenEngine(engine) {
   on("error", (e) => logs.add("SuperSonic", `error: ${describe(e)}`));
   on("shutdown", () => logs.add("SuperSonic", "shutting down"));
   on("reload:start", () => logs.add("SuperSonic", "reloading"));
-  on("reload:complete", (d) => logs.add("SuperSonic", `reloaded${d?.success === false ? ": failed" : ""}`));
+  on("reload:complete", (d) => logs.add("SuperSonic", `reloaded${d?.success === false ? `: failed${d?.error ? ` (${describe(d.error)})` : ""}` : ""}`));
+  on("audiocontext:statechange", (d) => audioTrail.note("context", { state: d?.state }));
+  on("statechange", (d) => audioTrail.note("engine", { state: d?.state, previous: d?.previous, reason: d?.reason, ...(d?.error ? { error: describe(d.error) } : {}) }));
+  on("reload:start", () => audioTrail.note("reload", { context: engine.audioContext?.state ?? null }));
+  on("reload:complete", (d) => audioTrail.note("reloaded", { success: d?.success !== false, ...(d?.error ? { error: describe(d.error) } : {}), context: engine.audioContext?.state ?? null }));
+  on("resumed", () => audioTrail.note("resumed"));
+  on("error", (e) => audioTrail.note("error", { error: describe(e) }));
   on("ready", (d) => logs.add("Host", `SuperSonic ready: ${describe(d?.bootStats ?? {})}`));
   on("audiocontext:statechange", (d) => logs.add("Host", `audio context ${d?.state}`));
   on("audiocontext:interrupted", () => logs.add("Host", "audio context interrupted"));
@@ -255,19 +275,23 @@ const resumeCard = {
   get shown() { return !$("resume-overlay").hidden; },
 };
 $("resume-go").addEventListener("click", async () => {
-  if (resumeCard.broken) { location.reload(); return; }   // the buffers are kept (the editor's store): the page comes back as it was
+  if (resumeCard.broken) { keepAudioTrail("restart"); location.reload(); return; }   // the buffers are kept (the editor's store): the page comes back as it was
   if (!engineRef) return resumeCard.hide();
   const go = $("resume-go");
   go.disabled = true;
   go.textContent = "Resuming…";
-  const ok = await engineRef.recover().catch((e) => { logs.add("Host", `recovery failed: ${describe(e)}`); return false; });
-  logs.add("Host", `resume on a tap: ${ok ? "sound back" : "failed"}`);
+  const t0 = performance.now();
+  audioTrail.note("tap", audioState());
+  const ok = await engineRef.recover().catch((e) => { logs.add("Host", `recovery failed: ${describe(e)}`); audioTrail.note("recover threw", { error: describe(e) }); return false; });
+  audioTrail.note("tapped", { ok, ms: Math.round(performance.now() - t0), ...audioState() });
+  logs.add("Host", `resume on a tap: ${ok ? "sound back" : "failed"} (${Math.round(performance.now() - t0)} ms; ${JSON.stringify(audioState())})`);
   if (ok && engineRef.audioContext?.state === "running") audioBack();
   else if (engineRef.getEngineState?.() === "error" || engineRef.audioContext?.state === "closed") audioBroken();
   else resumeCard.show("The audio did not come back yet. Try again.");
 });
 function audioLost(how) {
   if (!engineRef) return;
+  audioTrail.note("lost", { how, ...audioState() });
   resumeCard.show(how === "interrupted" ? "Another app or a call took the audio."
     : how === "stopped" ? "The browser stopped Sonic Pi's audio."
     : "The browser paused Sonic Pi's audio.");
@@ -275,7 +299,29 @@ function audioLost(how) {
 // A reload that failed (Clockwork took down what it built): nothing left to resume. Starting the page again is the
 // way back, and says so rather than offering a tap that cannot work.
 function audioBroken() {
+  audioTrail.note("broken", audioState());
   resumeCard.show("Audio systems restarted.", { broken: true });
+  keepAudioTrail("broken");   // Restart Sonic Pi reloads the page: what led here goes with it, to the page after
+}
+// The audio as it stands, for the trail: the context's state and clock, the engine's state, and its audio thread's
+// process count (moving on, it is running)
+function audioState() {
+  const ac = engineRef?.audioContext;
+  return {
+    context: ac?.state ?? null,
+    contextTime: ac ? Math.round(ac.currentTime * 1000) / 1000 : null,
+    engine: engineRef?.getEngineState?.() ?? null,
+    processed: engineRef?.getMetricsArray?.()?.[0] ?? null,
+    visible: document.visibilityState,
+  };
+}
+// What the page after this one takes (audio-trail.js): the trail, the logs' last lines, and where the audio stands.
+// Kept again as the page goes (pagehide), with the last lines, under the reason it was first kept for
+let keptFor = null;
+function keepAudioTrail(why) {
+  keptFor ??= why;
+  why = keptFor;
+  audioTrail.keep({ why, state: { ...audioState(), userAgent: navigator.userAgent }, logs: Object.fromEntries(["Host", "SuperSonic", "Runtime", "GUI"].map((n) => [n, logs.recent(n, 150)])) });
 }
 function audioBack() {
   resumeCard.hide();
@@ -324,14 +370,20 @@ function replayLost() {
 // state change to tell of it), the card asks for the tap that recovers it. Nothing is started here: without a tap it
 // would be refused, or build a context born suspended.
 document.addEventListener("visibilitychange", async () => {
+  audioTrail.note(document.hidden ? "hidden" : "shown", engineRef ? audioState() : {});
   if (document.hidden || !engineRef || resumeCard.shown) return;
   if (engineRef.audioContext && engineRef.audioContext.state !== "running") { audioLost(engineRef.audioContext.state); return; }
-  if (!(await audioThreadAlive())) { logs.add("Host", "back to the tab: the audio thread has stopped"); audioLost("stopped"); }
+  const alive = await audioThreadAlive();
+  audioTrail.note("thread check", { alive, ...audioState() });
+  if (!alive) { logs.add("Host", "back to the tab: the audio thread has stopped"); audioLost("stopped"); }
 });
 // Back from the browser's back/forward cache: the engine was shut down when the page went (Clockwork's pagehide, so
 // nothing plays on with no page), and this page's session is built on it. The page starts again: the buffers are
 // kept, and the next tap boots the sound as a first visit's does.
+// the page going (a reload by hand, the tab closed) while a card says the audio has gone: what led there goes too
+window.addEventListener("pagehide", () => { audioTrail.note("pagehide"); if (resumeCard.shown) keepAudioTrail("pagehide"); });
 window.addEventListener("pageshow", (e) => {
+  if (e.persisted) audioTrail.note("pageshow", { persisted: true });
   if (e.persisted && engineRef?.getEngineState?.() === "stopped") location.reload();
 });
 /** Whether the engine's audio thread is running: its process count (Clockwork's metrics, slot 0) moving on. */
@@ -1107,6 +1159,7 @@ const flight = createFlightRecorder({
   session: () => session,
   programs: () => [...programs.values()],
   versions: () => ({ language: "Sonic Pi v5.0.0", runtime: versions.runtime, supersonic: SUPERSONIC_VERSION }),
+  extra: () => ({ audioTrail: audioTrail.lines, ...(beforeRestart ? { beforeRestart } : {}) }),   // what happened to the audio (audio-trail.js)
 });
 // off unless Preferences says otherwise: while it records, the page samples its clocks ten times a second
 if (store.get("sp-flight", false)) flight.start();
