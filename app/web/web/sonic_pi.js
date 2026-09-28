@@ -658,7 +658,7 @@ export class LiveSession {
 export class WorkerSession {
   #worker; #engine; #on; #records = createRecordReader(); #lastStatus = "";
   #table = new Float64Array(0); #heap = 0; #t0 = null;
-  #calls = new Map(); #nextCall = 1; #clock = null;
+  #calls = new Map(); #nextCall = 1;
   #stopping = Promise.resolve();   // a Run waits for the Stop before it (stop)
   #engineGen = 0;                  // the engine made again (engineLost): a Stop under way leaves the new one alone
   /** Timings since the last takePerf(): the worker's ticks and sounds, the page's records. */
@@ -678,15 +678,11 @@ export class WorkerSession {
     this.bridge = bridge ?? new Bridge(engine);
     this.#worker.onmessage = ({ data }) => this.#message(data);
     this.#worker.onerror = (e) => console.error(`the runtime's worker: ${e.message ?? e}`);
+    // The worker reads the engine's clock through this channel (live-worker.js now): the page's reading goes with it
+    // only for the moment before the engine has rendered a block of its own
     const channel = engine.createOscChannel();
     this.#call("live", { channel: channel.transferable, clock: this.#anchor() }, channel.transferList)
       .catch((e) => console.error(`the runtime's worker did not take the engine: ${e.message}`));
-    // the engine's clock for the worker to count from: it cannot read the audio context. Only a running engine's:
-    // one being rebuilt reads its new context's bare time, not the session's. And at once when it runs again, so a
-    // Run as the audio comes back starts on its clock, not on the one from before it went.
-    const anchor = () => { if ((engine.getEngineState?.() ?? "running") === "running") this.#worker.postMessage({ type: "clock", clock: this.#anchor() }); };
-    this.#clock = setInterval(anchor, 1000);
-    engine.on?.("statechange", (d) => { if (d?.state === "running") anchor(); });
     engine.on?.("in", (msg) => { if (msg?.[0] === "/fail") { this.failures++; on.fail?.(msg); } });
   }
 

@@ -5,13 +5,12 @@
  * drawing and layout, a busy or throttled tab) never stands between a program
  * and its sounds. The mruby runtime ticks here on the worker's own timers,
  * which browsers do not throttle as they do a page's, and each sound goes straight to SuperSonic's
- * AudioWorklet through the OscChannel the page hands over. The page keeps what
- * only it can do: loading synthdefs and samples, which this worker asks for; the
- * engine's clock, which it posts here as anchors, since a worker cannot read an
- * AudioContext; and every view of the records, which it gets in batches.
+ * AudioWorklet through the OscChannel the page hands over, which also reads it the
+ * engine's clock. The page keeps what only it can do: loading synthdefs and samples,
+ * which this worker asks for, and every view of the records, which it gets in batches.
  * sonic_pi.js WorkerSession is the page's half.
  *
- * Page → worker: live {channel, clock}, clock {clock}, run {code, group},
+ * Page → worker: live {channel, clock}, run {code, group},
  * stop, silence {fade, since}, lost, stopJob {job}, stopGroup {group, fade}, cue {address, args}, groupUnder {group, parent}, stopSubtree {uid, fade}, linkBpm {bpm}, timeWarp {ms}, loaded {synthdef|bufnum, ok}.
  * Worker → page: ready {version, samples} or failed {error}; reply {id, value|error};
  * batch {records, table, heap, perf, started, host, running, t0};
@@ -58,12 +57,14 @@ try {
   throw e;
 }
 
-// ── The engine's clock, counted from the page's last anchor ──────────────
-// performance.timeOrigin + performance.now() is the same clock on the page
-// and here, so an anchor stays true however late its message arrives.
+// ── The engine's clock ─────────────────────────────────────────────────────
+// The channel reads it from the audio thread itself (Clockwork's OscChannel#now): the time the engine has reached,
+// once a block, standing still while the audio does, and the new engine's after a reload. It reads 0 until the engine
+// has rendered a block of its own; until then the page's reading as it handed the channel over stands in, counted on
+// by the wall clock (performance.timeOrigin + performance.now() is the same clock on the page and here).
 let anchor = null;
 const wall = () => performance.timeOrigin + performance.now();
-const now = () => anchor.ntp + (wall() - anchor.wall) / 1000;
+const now = () => channel?.now() || anchor.ntp + (wall() - anchor.wall) / 1000;
 
 // ── Loads, asked of the page: the Bridge's interface, answered by message ──
 class RemoteLoader {
@@ -301,7 +302,6 @@ const handle = async ({ data: d }) => {
         setInterval(flushSoon, 250);          // the process table lingers and prunes as time goes on
         await live;
         return reply(d.id, true);
-      case "clock": anchor = d.clock; return;
       case "loaded": return loader.loaded(d);
     }
     await live;                               // everything else waits for the engine
