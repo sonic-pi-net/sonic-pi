@@ -85,7 +85,10 @@ if (beforeRestart) {
 }
 const describe = (v) => {   // a value as a line of log: a string as is, an error with its stack, anything else as JSON
   if (typeof v === "string") return v;
-  if (v instanceof Error) return v.stack || `${v.name}: ${v.message}`;
+  if (v instanceof Error) {   // its name and message, then its stack: WebKit's stack leaves the message out
+    const stack = v.stack ?? "";
+    return v.message && stack.includes(v.message) ? stack : `${v.name}: ${v.message}${stack ? `\n${stack}` : ""}`;
+  }
   try { return JSON.stringify(v); } catch { return String(v); }
 };
 const bytes = (n) => (n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.round(n / 1024)} KB`);
