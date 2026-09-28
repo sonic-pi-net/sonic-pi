@@ -222,6 +222,7 @@ private:
     CompletionPopup* m_completion = nullptr;
     bool m_completionEnabled = true;
     bool m_pvInString = false;   // the popup is over a string-valued name slot
+    int closedStringEnd(int tokenEnd, QChar quote);
 
     // Live preview: while the popup is open, the selected entry (or slider value)
     // is written into the buffer in place of the typed word. A list preview is

@@ -2590,12 +2590,14 @@ void SonicPiScintilla::updateCompletion(bool force)
     // parameter, spaces and all); whether this string is such a slot is only
     // known once the API has looked at the context, below.
     bool inString = false;
+    QChar stringQuote;   // the quote that opened it, while inString
     {
         int gl, gc;
         getCursorPosition(&gl, &gc);
         const QString upto = text(gl).left(gc);
         const SonicPi::LineScan scan = SonicPi::scanLineToCaret(upto, upto.length());
         inString = scan.inString;
+        stringQuote = scan.quote;
         if (scan.inComment)
         {
             endPreview();
@@ -2658,14 +2660,6 @@ void SonicPiScintilla::updateCompletion(bool force)
     const QString afterCursor = text(curLine).mid(curCol);
 
     QList<CompletionItem> items = api->completionsFor(context, afterCursor);
-
-    // Inside a string, only a slot that takes a name as a string goes on.
-    if (inString && (items.isEmpty() || items.first().kind != QLatin1String("param")))
-    {
-        endPreview();
-        m_completion->hidePopup();
-        return;
-    }
     m_pvInString = inString;
 
     // Offer names defined in this buffer: user functions at a call position, and
@@ -2684,6 +2678,25 @@ void SonicPiScintilla::updateCompletion(bool force)
             static const QRegularExpression reCue(
                 QStringLiteral("\\b(?:live_loop|cue|set)\\s+:([A-Za-z_][A-Za-z0-9_]*)"));
             addBufferDefs(items, text(), reCue, true);
+        }
+    }
+
+    // Inside a string, only names offered as the strings they are go on: track_control's parameter (spaces and all),
+    // a cue path, a MIDI port, a Link Audio peer or channel. The quote already typed begins each of them, so it is
+    // where the match, and the replacement, start. Anything else — a symbol, a function — would land inside the
+    // quotes. (Typing the quote after `sync ` used to close the cue paths, the one list a string is written for.)
+    if (inString)
+    {
+        QList<CompletionItem> strings;
+        for (const CompletionItem& it : items)
+            if (it.text.length() > 1 && it.text.startsWith(stringQuote))
+                strings << it;
+        items = strings;
+        if (items.isEmpty())
+        {
+            endPreview();
+            m_completion->hidePopup();
+            return;
         }
     }
 
@@ -2817,7 +2830,9 @@ void SonicPiScintilla::updateCompletion(bool force)
     int sepStart;
     m_pvPrefix = nowSlider ? QString() : argSeparatorBefore(context, wordStart, sepStart);
     if (m_pvPrefix.isEmpty()) sepStart = wordStart;
-    const QString original = text(sepStart, tokenEnd);   // whitespace + typed partial
+    // In a string already closed (`sync "/mi|"`), its closing quote is the chosen string's own: the span takes it in
+    const int spanEnd = closedStringEnd(tokenEnd, inString ? stringQuote : QChar());
+    const QString original = text(sepStart, spanEnd);   // whitespace + typed partial (+ the quote that closes it)
     if (m_pvStart < 0 || nowSlider != m_pvSlider) m_pvOriginal = original;
     m_pvStart = sepStart;
     m_pvLen = original.length();
@@ -2887,8 +2902,18 @@ void SonicPiScintilla::acceptCompletion()
 
     int selStart;
     QString insert = argSeparatorBefore(context, wordStart, selStart) + chosen;
-    SendScintilla(SCI_SETSEL, selStart, tokenEnd);
+    // a string chosen inside one already closed: the quote that closed it is the chosen string's own
+    const bool chosenString = m_pvInString && chosen.length() > 1 && chosen.endsWith(chosen[0]);
+    SendScintilla(SCI_SETSEL, selStart, closedStringEnd(tokenEnd, chosenString ? chosen[0] : QChar()));
     replaceSelectedText(insert);
+}
+
+// Where a string being completed ends: past the quote that closes it when that is what follows the token under the
+// caret (`sync "/mi|"`), else the token's end. No quote given: the token's end.
+int SonicPiScintilla::closedStringEnd(int tokenEnd, QChar quote)
+{
+    if (quote.isNull() || tokenEnd >= SendScintilla(SCI_GETLENGTH)) return tokenEnd;
+    return (char)SendScintilla(SCI_GETCHARAT, tokenEnd) == quote.toLatin1() ? tokenEnd + 1 : tokenEnd;
 }
 
 bool SonicPiScintilla::completionActive() const

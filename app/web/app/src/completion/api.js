@@ -169,9 +169,12 @@ export class CompletionAPI {
       if (Array.isArray(o.options)) this.ownerOptions.set(at, o.options);
     }
   }
+  /** A cue path seen: offered as code writes it, the string it is (`"/midi:…/note_on"`, as native's MainWindow::addCuePath
+   *  has it), so after `sync ` it goes in quoted, and after the quote that opens one it is what is matched. */
   addCuePath(path, val) {
-    if (!this.keywords.CuePath.includes(path)) this.keywords.CuePath.push(path);
-    if (val !== undefined) (this.cueValues ??= new Map()).set(path, val);   // what it last carried, for the panel
+    const offered = String(path).startsWith(":") ? String(path) : `"${path}"`;
+    if (!this.keywords.CuePath.includes(offered)) this.keywords.CuePath.push(offered);
+    if (val !== undefined) (this.cueValues ??= new Map()).set(offered, val);   // what it last carried, for the panel
   }
   cueValue(path) { return this.cueValues?.get(path); }
   updateMidiOuts(names) { this.keywords.MidiOuts = names.map((n) => `"${n}"`); }

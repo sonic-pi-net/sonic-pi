@@ -354,6 +354,9 @@ export function completionExtensions(api, hooks = {}) {
     apply: (view, _completion, from, to) => {
       const chain = it.kind === "opt" || (it.kind === "fn" && it.text.endsWith(":"));
       const insert = chain ? `${it.text} ` : it.text;
+      // a string taken over one being written (`sync "/mi|"`): the quote that closed it is the string's own now
+      const quote = view.state.sliceDoc(from, from + 1);
+      if ((quote === '"' || quote === "'") && insert.length > 1 && insert.startsWith(quote) && insert.endsWith(quote) && view.state.sliceDoc(to, to + 1) === quote) to += 1;
       view.dispatch({ changes: { from, to, insert }, selection: { anchor: from + insert.length }, userEvent: "input.complete" });
       if (chain) setTimeout(() => startCompletion(view), 0);
     },
@@ -364,7 +367,8 @@ export function completionExtensions(api, hooks = {}) {
     const line = state.doc.lineAt(pos);
     const col = pos - line.from, text = line.text;
     const scan = scanLineToCaret(text, col);
-    if (scan.inComment || caretAfterClosedValue(text, col)) return null;
+    // after a closing bracket or quote the value is whole; an opening quote is not a closing one (native's rule too)
+    if (scan.inComment || (!scan.inString && caretAfterClosedValue(text, col))) return null;
     if (!ctx.explicit && text[col - 1] === ",") return null;   // right after a comma nothing is offered yet: the space comes first, as native waits for a word to begin
     resolveSynthAt(state, pos);
     const { context, items } = api.completionsAt(text, col);
@@ -375,9 +379,15 @@ export function completionExtensions(api, hooks = {}) {
     const end = tokenEndAtCaret(text, col);
     let start = end - partial.length;
     if (start < 0 || start > col) start = col;
-    // inside a string the partial carries the quote that opened it (`sync "/ao` gives `"/ao`), and nothing on
-    // offer begins with a quote: the word being matched, and replaced, is what follows it
-    if (scan.inString && (partial.startsWith('"') || partial.startsWith("'"))) { start += 1; partial = partial.slice(1); }
+    // inside a string the partial carries the quote that opened it (`sync "/ao` gives `"/ao`). Names offered as the
+    // strings they are (a cue path, a MIDI port) are matched and replaced from the quote, and only they are: a symbol
+    // would land inside the quotes. Names offered bare (a sample's) are matched on what follows the quote.
+    let pool = items;
+    if (scan.inString && (partial.startsWith('"') || partial.startsWith("'"))) {
+      const strings = items.filter((it) => it.text.length > 1 && it.text.startsWith(partial[0]));
+      if (kind === "cue" || kind === "port") { if (!strings.length) return null; pool = strings; }
+      else { start += 1; partial = partial.slice(1); }
+    }
     const typed = text.slice(start, col);
     if (!ctx.explicit && kind === "fn" && typed.length < 2) return null;
     if (kind === "range") {
@@ -393,7 +403,7 @@ export function completionExtensions(api, hooks = {}) {
     }
     const scored = [];
     const notes = new Set();   // a note matched by its number and by its name (53 and :f3) is offered once
-    for (const it of items) {
+    for (const it of pool) {
       const score = typed ? fuzzyMatch(typed, it.text) : 0;
       if (score === null) continue;
       if (it.kind === "note") {

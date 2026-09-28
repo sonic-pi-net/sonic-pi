@@ -225,3 +225,15 @@ test("use_synth offers every synth; with_fx every FX; no OSC anywhere", () => {
   assert.equal(api.completionsFor(["with_fx", ""]).length, data("reference/fx.json").pages.length);
   assert.ok(!Object.keys(completion.argKinds).some((k) => /osc/.test(k)) || true);
 });
+
+// ── cue paths ──
+
+test("a cue path seen is offered as the string code writes, a symbol as itself, what it carried kept for each", () => {
+  const cues = new CompletionAPI(completion, { lang: [], synths: [], fx: [], samples: [] });
+  cues.addCuePath("/midi:nanokey2_keyboard:1/note_on", [60, 100]);
+  cues.addCuePath("/midi:nanokey2_keyboard:1/note_on", [62, 90]);   // again: one row, the latest value
+  cues.addCuePath(":tick");
+  const offered = texts(cues.completionsAt('sync "', 6).items);
+  assert.deepEqual(offered, ['"/midi:nanokey2_keyboard:1/note_on"', ":tick"]);
+  assert.deepEqual(cues.cueValue('"/midi:nanokey2_keyboard:1/note_on"'), [62, 90]);
+});
