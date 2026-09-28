@@ -329,7 +329,7 @@ export function createShortcutEditor({ keys, unavailable = {}, standalone = fals
     setCustomKeys({ [id]: notation });
     focusIn(id);
     say(chord ? `${name(id)}: ${fmt(chord)}` : `${name(id)}: no shortcut`);
-    if (chord && !standalone && keys.reserved(chord)) toast(`${fmt(chord)} is the browser's: it reaches Sonic Pi installed as an app`);
+    if (chord && !standalone && keys.reserved(chord)) toast(`${fmt(chord)} is a browser-owned combination and is unavailable for use`);
   }
 
   // The recorder and the key search take every key first, before any shortcut sees it

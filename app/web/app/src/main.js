@@ -392,7 +392,7 @@ function sayRestarted() {
   restartToSay = false;
   audioRestarted = true;
   setEngineStatus("ready");
-  toast("the browser restarted the audio: press Run", true);
+  toast("Welcome back!", true);
   logs.add("Host", "audio restarted: press Run to play again");
 }
 // Back to the tab: if the context says running but the audio thread has stopped counting (the worklet gone, with no
@@ -1137,7 +1137,7 @@ $("err-fix").addEventListener("click", () => {
   if (!f || shownError.buffer !== editor.active || editor.lineText(f.line) !== shownError.code?.split("\n")[f.line - 1]) return paintFix();
   editor.applyFix(f);
   clearError();
-  toast(`Fixed line ${f.line}: Run to hear it`);
+  toast(`Fixed line ${f.line}`);
 });
 $("err-more").addEventListener("click", () => {
   const d = $("err-details");
@@ -1916,18 +1916,15 @@ function toast(text, assertive = false, ms = 2000) {
 
 // ── Code arriving (workspace.js) ────────────────────────────────────────
 // From a link, a file or a card, it never goes over code that is there: a buffer's code takes a free buffer (or a set
-// of its own when every buffer has code), a set goes on top as a set of its own. Each says where it went, and what
-// it left alone.
+// of its own when every buffer has code), a set goes on top as a set of its own. Where it went is shown, not said: the
+// buffer or set opens under the caret (a toast saying so hid the code it opened, on a phone especially).
 function arrive(text, name, from, bufferName = "") {
   if (isSet(text)) {
     const r = workspace.openSet(text, { fallbackName: name || "Shared Set" });
     if (!r.ok) { toast(`${from} could not be opened: ${r.error}`, true, 8000); logs.add("Host", `${from} could not be opened: ${r.error}`); return false; }
-    toast(`opened the set "${r.name}"${r.description ? `: ${r.description.length > 90 ? r.description.slice(0, 89) + "…" : r.description}` : ""} · your other sets are under Sets`, false, r.description ? 6000 : 4000);
     return true;
   }
-  const was = workspace.active, r = workspace.openProgram(text, { name: name || "Shared Code", bufferName });
-  if (r.set) toast(`opened in a new set, "${r.set}": every buffer had code · your other sets are under Sets`, false, 5000);
-  else toast(r.buffer === was ? `opened in buffer ${r.buffer}` : `opened in buffer ${r.buffer} · buffer ${was} is as you left it`, false, 4000);
+  workspace.openProgram(text, { name: name || "Shared Code", bufferName });
   return true;
 }
 
@@ -2429,7 +2426,7 @@ async function enableMidi() {
   if (midi) { store.set("sp-midi", true); midiPorts_(true); buildPrefs(); return midi; }
   if (!navigator.requestMIDIAccess) { toast("this browser has no Web MIDI"); return null; }
   if (!engineRef) await ensureSession().catch(() => {});      // MIDI hangs off the engine's front
-  if (!engineRef) { toast("MIDI needs the engine"); return null; }
+  if (!engineRef) { toast("MIDI error - audio engine isn't available"); return null; }
   try {
     // sysex is not asked for: it is what raises the browser's permission prompt, and nothing here reads or sends it
     midi = await engineRef.enableMidi({ requestAccess: () => navigator.requestMIDIAccess() });
@@ -2508,8 +2505,7 @@ function recordingUnavailable() {
 }
 async function toggleRecording() {
   if (recording) return stopRecording();
-  const why = recordingUnavailable();
-  if (why) return toast(why);
+  if (recordingUnavailable()) return toast("Recording error");   // the reason is the button's tooltip
   const s = await ensureSession();
   if (!s || !engineRef) return;
   try { engineRef.startCapture(); } catch (e) { return toast(`Recording: ${describe(e)}`, true); }   // assertive, as native's
@@ -2804,9 +2800,10 @@ function buildPrefs() {
 // focused; a text field or a button keeps the keys it types or presses with;
 // a key on two commands runs neither, as in Qt, and says so.
 
-// native's commands the web build cannot do, so their keys say why
+// native's commands the web build cannot do: their keys are left to the browser (there is nothing to do, and nothing
+// worth a toast), and Preferences says why against each
 const UNAVAILABLE = {
-  Link: "Joining a Link network is native-only; the tempo and time warp work",
+  Link: "Link is a native-app only feature",
 };
 
 // the log, the cues and the toolbar's buttons, shown or hidden as native's View menu has them
@@ -3041,18 +3038,18 @@ document.addEventListener("keydown", (e) => {
   if (kind && takesKey(kind, hit.chord, inSearch)) return;
   if (hit.ids.length > 1) {
     e.preventDefault();
-    if (!e.repeat) toast(`${keys.format(hit.chord)} is on ${hit.ids.length} commands, so none runs: see Preferences, Shortcuts`);
+    if (!e.repeat) toast(`${keys.format(hit.chord)} is already assigned to ${hit.ids.length} commands`);
     return;
   }
   const [id] = hit.ids;
   const editing = DEF.get(id).group === "Code";
   if (editing && !target?.closest(".cm-content") && !(inSearch && id.startsWith("Find"))) return;
   if (PLATFORM_KEYS[id] && keys.resolve(PLATFORM_KEYS[id]) === hit.chord) return;
+  if (UNAVAILABLE[id]) return;   // not the web's: the key stays the browser's
   e.preventDefault();
   e.stopPropagation();
   if (e.repeat && !editing && !REPEATS.has(id)) return;
-  if (UNAVAILABLE[id]) toast(UNAVAILABLE[id]);
-  else if (editing) editor.command(id, { inSearch });
+  if (editing) editor.command(id, { inSearch });
   else COMMANDS[id]?.();
 }, true);
 
