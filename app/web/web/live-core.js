@@ -155,7 +155,10 @@ export class LiveCore {
     p.tickMs += t1 - t0;
     p.tickMsMax = Math.max(p.tickMsMax, t1 - t0);
     p.statusMsMax = Math.max(p.statusMsMax, t2 - t1);
-    if (next < 0) { this.running = false; this.#deps.state?.(false); return; }
+    // Nothing scheduled, so nothing that could lose time: the last tick is forgotten. Kept, a tick long after (a
+    // Run, a cue) would take the clock's move since then for time lost, and hold the new run back by it: an engine
+    // rebuilt after the audio was away has its clock move on by the time away (a phone, 2026-09-28).
+    if (next < 0) { this.running = false; this.#lastNow = null; this.#deps.state?.(false); return; }
     const delay = Math.max(0, (next - now) * 1000);
     this.#expectedWake = performance.now() + delay;
     this.#timer = setTimeout(() => this.tick(), delay);

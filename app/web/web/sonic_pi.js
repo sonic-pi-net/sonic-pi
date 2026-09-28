@@ -681,8 +681,12 @@ export class WorkerSession {
     const channel = engine.createOscChannel();
     this.#call("live", { channel: channel.transferable, clock: this.#anchor() }, channel.transferList)
       .catch((e) => console.error(`the runtime's worker did not take the engine: ${e.message}`));
-    // the engine's clock for the worker to count from: it cannot read the audio context
-    this.#clock = setInterval(() => this.#worker.postMessage({ type: "clock", clock: this.#anchor() }), 1000);
+    // the engine's clock for the worker to count from: it cannot read the audio context. Only a running engine's:
+    // one being rebuilt reads its new context's bare time, not the session's. And at once when it runs again, so a
+    // Run as the audio comes back starts on its clock, not on the one from before it went.
+    const anchor = () => { if ((engine.getEngineState?.() ?? "running") === "running") this.#worker.postMessage({ type: "clock", clock: this.#anchor() }); };
+    this.#clock = setInterval(anchor, 1000);
+    engine.on?.("statechange", (d) => { if (d?.state === "running") anchor(); });
     engine.on?.("in", (msg) => { if (msg?.[0] === "/fail") { this.failures++; on.fail?.(msg); } });
   }
 

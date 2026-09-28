@@ -166,3 +166,21 @@ test("nothing overtakes a sound held back for a load: a control goes after its s
   assert.deepEqual(order.slice(0, 3), ["/s_new", "/n_set", "/n_set"]);
   core.stop();
 });
+
+test("a Run after the clock has moved on with nothing playing starts now, not held back by the move", { skip, timeout: 10000 }, async () => {
+  // A phone, 2026-09-28: the audio away for six seconds, the engine rebuilt on the tap, and its clock six seconds on.
+  // The rebuilt engine's first word (its controllers) is a cue, which ticks the idle core on the clock from before;
+  // the Run after it took the move for time lost, and started six seconds late.
+  const loader = slowLoader(new Set(["sonic-pi-beep", "sonic-pi-mixer", "sonic-pi-basic_mixer", "sonic-pi-fx_scope_out"]));
+  const { core, sent, advance, now } = await session(loader);
+  await core.run("play 60");
+  core.stop();
+  core.cue("/gamepad/devices", []);
+  advance(6);
+  const t = now();
+  await core.run("live_loop :a do\n  play 62\n  sleep 0.25\nend");
+  const s = synths(sent).filter((x) => x.def === "sonic-pi-beep" && x.time > t);
+  assert.ok(s.length, "the loop's beep went");
+  assert.ok(Math.abs(s[0].time - (t + core.schedAhead)) < 1e-6, `the loop's first beep ${(s[0].time - t).toFixed(3)} s after the Run`);
+  core.stop();
+});
