@@ -2333,6 +2333,10 @@ html.pg-fullscreen .sn-stop { visibility: hidden; }   /* the nav's stop shows it
 /* the words between the bar's icons, spread by main.js (SPREAD_MAX): the row's own gap off while it spaces them */
 #site-nav .ic-tabs.spread { gap: 0; }
 @media (max-width: 760px) { #site-nav .sn-code { margin-left: 0; } }   /* a phone: the room after the last word the code icon's edge, as before the first */
+/* Code as a word, after the site's: a wide screen's, and only while the row has room for it (main.js fitCode); the
+   code icon is the editor's way in whatever the width */
+@media (max-width: 760px) { #site-nav .ic-tab-code { display: none; } }
+#site-nav .ic-tab-code.cramped { display: none; }
 /* a small phone (an iPhone SE): the bar's four icons a size down together, so the row still fits its width */
 @media (max-width: 360px) {
   #site-nav .sn-stop, #site-nav .sn-code, #site-nav .sn-theme { width: 24px; height: 24px; }

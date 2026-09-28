@@ -1994,7 +1994,7 @@ const SPREAD_MAX = 48;
   const phoneWidth = matchMedia("(max-width: 760px)");
   phoneWidth.addEventListener("change", () => spread());
   const spread = () => {
-    const words = [...row.querySelectorAll(".ic-tab:not(.ic-tab-home)")];
+    const words = [...row.querySelectorAll(".ic-tab:not(.ic-tab-home, .ic-tab-code)")];   // a phone's: Code is a wide screen's word
     for (const w of words) w.style.marginLeft = w.style.marginRight = "";
     row.classList.remove("spread");
     if (!words.length || !phoneWidth.matches || getComputedStyle(row).flexGrow === "0" || !row.clientWidth) return;   // a wide screen: the words after the wordmark, left-aligned
@@ -2008,7 +2008,22 @@ const SPREAD_MAX = 48;
     words.forEach((w, i) => { w.style.marginLeft = `${i === 0 ? left : gap}px`; });
     words.at(-1).style.marginRight = `${Math.max(0, left - past)}px`;
   };
-  if (row) { new ResizeObserver(() => requestAnimationFrame(spread)).observe(row); document.fonts?.ready.then(spread); }
+  // Code as a word, a wide screen's: shown while the row has room for it, and put away when it has not (the bar's code
+  // icon is the way in either way). Measured with it in, so a window grown wide enough has it back. The bar is watched
+  // as well as the row: where the row takes only its words' room (the editor's, its scope after them), a wider
+  // window leaves the row as it was.
+  const fitCode = () => {
+    const code = row.querySelector(".ic-tab-code");
+    if (!code) return;
+    code.classList.remove("cramped");
+    if (!phoneWidth.matches && row.scrollWidth > row.clientWidth + 1) code.classList.add("cramped");
+  };
+  if (row) {
+    const fit = new ResizeObserver(() => requestAnimationFrame(() => { fitCode(); spread(); }));
+    fit.observe(row);
+    fit.observe(siteNav);
+    document.fonts?.ready.then(() => { fitCode(); spread(); });
+  }
 }
 let info = null, infoApi = null;   // the promise of the page made live, and what it resolved to
 function showSiteNav(on) {

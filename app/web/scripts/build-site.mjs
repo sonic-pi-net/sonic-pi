@@ -316,10 +316,12 @@ const tab = (key, file, title, tip, current) => key === "about"
   ? `<a class="ic-tab ic-tab-home${key === current ? " active" : ""}" href="${file}" data-tab="${key}" title="${esc(`${title}: ${tip}`)}" aria-label="${esc(title)}"${key === current ? ' aria-current="page"' : ""}>${icon("wave-sine", { class: "tb-icon home-glyph" })}</a>`
   : `<a class="ic-tab${key === current ? " active" : ""}" href="${file}" data-tab="${key}" title="${esc(tip)}"${key === current ? ' aria-current="page"' : ""}>${title}</a>`;
 function tabs(current) {
-  // Home, Examples, Learn, the Tutorial (its first chapter; every chapter lights it), Support; the editor is the code
-  // icon beside the palette (index.html)
+  // Home, Examples, Learn, the Tutorial (its first chapter; every chapter lights it), Support, and Code: the editor, a
+  // word too on a wide screen while the row has room for it (style.css, main.js fitCode). The code icon beside the
+  // palette (index.html) is the editor's way in at every width, and a phone's only one
   const row = [...PAGES.slice(0, 3), { key: "tutorial", file: TUTORIAL[0].file, title: "Tutorial", tip: "From your first beep to live coding a set" }, ...PAGES.slice(3)];
-  return row.map((p) => tab(p.key, p.file, p.title, p.tip, current)).join("");
+  const code = tab("code", CODE.file, "Code", CODE.tip, current).replace('class="ic-tab', 'class="ic-tab ic-tab-code');
+  return row.map((p) => tab(p.key, p.file, p.title, p.tip, current)).join("") + code;
 }
 
 // a page's document, or the editor's (code.html): the same shell, the editor's with Home in its card, put away, so λ

@@ -691,10 +691,13 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       check("Back returns to the page before, at the section it was at", w.at === "learn.html#talks" && w.lit === "talks", JSON.stringify(w));
       // Code: the editor at its own address, in the same document, and Back the page again
       const loadsCode = loads;
-      await site.click('#site-nav [data-tab="code"]');   // the code icon beside the palette
+      await site.click("#site-nav .ic-tab-code");   // Code, the word after the site's (a wide screen's)
       await site.waitForFunction(() => location.pathname.endsWith("code.html"), null, { timeout: 5000 }).catch(() => {});
-      const ed = await site.evaluate(() => ({ at: location.pathname.split("/").pop() + location.hash, title: document.title, lit: document.querySelector('#site-nav [aria-current="page"]')?.dataset.tab, card: !document.getElementById("info-card").hidden, inert: document.getElementById("main").inert }));
-      check("Code is the editor at its own address (code.html), nothing reloaded, the Code tab lit", ed.at === "code.html" && ed.title === "Code · Sonic Pi" && ed.lit === "code" && !ed.card && !ed.inert && loads === loadsCode, `${JSON.stringify(ed)}, ${loads - loadsCode} loads`);
+      const shown = (sel) => `(() => { const e = document.querySelector("${sel}"); return !!e && e.offsetParent !== null; })()`;
+      const ed = await site.evaluate(`({ at: location.pathname.split("/").pop() + location.hash, title: document.title, lit: document.querySelector('#site-nav [aria-current="page"]')?.dataset.tab,
+        word: document.querySelector("#site-nav .ic-tab-code").classList.contains("active"), icon: ${shown("#site-nav .sn-code")}, fold: ${shown("#site-nav .sn-close")},
+        card: !document.getElementById("info-card").hidden, inert: document.getElementById("main").inert })`);
+      check("Code is the editor at its own address (code.html), nothing reloaded, the Code word lit and the code icon folded to ^", ed.at === "code.html" && ed.title === "Code · Sonic Pi" && ed.lit === "code" && ed.word && !ed.icon && ed.fold && !ed.card && !ed.inert && loads === loadsCode, `${JSON.stringify(ed)}, ${loads - loadsCode} loads`);
       await site.goBack();
       await site.waitForTimeout(1500);
       w = await where();
@@ -702,8 +705,15 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       // the bar's words in order, Support among them before Code, and the palette last
       await site.click('#site-nav .ic-tab[data-tab="support"]');
       await site.waitForFunction(() => location.pathname.endsWith("support.html"), null, { timeout: 10000 }).catch(() => {});
-      const sup = await site.evaluate(() => ({ at: location.pathname.split("/").pop(), lit: document.querySelector('#site-nav [aria-current="page"]')?.dataset.tab, order: [...document.querySelectorAll("#site-nav .sn-brand, #site-nav .ic-tab, #site-nav .sn-code, #site-nav .sn-theme")].filter((e) => e.offsetParent).map((e) => e.dataset.tab ?? (e.classList.contains("sn-brand") ? "brand" : "palette")).join(" ") }));
-      check("the bar reads the wordmark (Home), Examples, Learn, Tutorial, Support, then the code icon and the palette; Support lit on its page", sup.at === "support.html" && sup.lit === "support" && sup.order === "brand examples learn tutorial support code palette", JSON.stringify(sup));
+      const sup = await site.evaluate(() => ({ at: location.pathname.split("/").pop(), lit: document.querySelector('#site-nav [aria-current="page"]')?.dataset.tab, order: [...document.querySelectorAll("#site-nav .sn-brand, #site-nav .ic-tab, #site-nav .sn-code, #site-nav .sn-theme")].filter((e) => e.offsetParent).map((e) => (e.classList.contains("sn-code") ? "code-icon" : e.dataset.tab ?? (e.classList.contains("sn-brand") ? "brand" : "palette"))).join(" ") }));
+      check("the bar reads the wordmark (Home), Examples, Learn, Tutorial, Support, Code, then the code icon and the palette; Support lit on its page", sup.at === "support.html" && sup.lit === "support" && sup.order === "brand examples learn tutorial support code code-icon palette", JSON.stringify(sup));
+      // the code icon: the editor too, the way in at every width
+      await site.click("#site-nav .sn-code");
+      await site.waitForFunction(() => location.pathname.endsWith("code.html"), null, { timeout: 5000 }).catch(() => {});
+      const byIcon = await site.evaluate(() => ({ at: location.pathname.split("/").pop(), word: document.querySelector("#site-nav .ic-tab-code").classList.contains("active") }));
+      check("the code icon beside the palette is the editor too, the Code word lit", byIcon.at === "code.html" && byIcon.word, JSON.stringify(byIcon));
+      await site.goBack();
+      await site.waitForTimeout(1500);
       await site.goBack();
       await site.waitForTimeout(1500);
       // a page gone back to by its tab opens at its top, wherever it was left: WebKit keeps a hidden column's scroll
