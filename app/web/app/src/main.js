@@ -354,21 +354,18 @@ function keepAudioTrail(why) {
 function audioBack() {
   if (recovering) return;   // the context running is not yet the audio back: the tap's recovery says when it is
   resumeCard.hide();
-  if (replayAfterReload.length) replayLost();   // a reload that came back suspended, now resumed
+  if (restartToSay) sayRestarted();   // a reload that came back suspended, now resumed
 }
 // The engine is reloading: everything that was playing went with the old
 // worklet, and the runtime must not keep scheduling into the one being built
 // (each sound would be refused, its groups gone), so a Stop now — which also
-// has the runtime make its studio again on the next Run.
+// has the runtime make its studio again on the next Run. Nothing is played again
+// by itself once the audio is back: a Run starts the code from its beginning, not
+// where it was, and that is the player's to ask for; the page says so (sayRestarted).
 let audioRestarted = false;
-let replayAfterReload = [];   // the buffers' runs that were sounding when the engine went: played again once it is back
+let restartToSay = false;   // the engine was rebuilt: once the audio is back, the page says to press Run
 function audioReloading() {
-  replayAfterReload = [];
-  for (let n = 0; n < NUM_BUFFERS; n++) {
-    if (!liveGroups.includes(BUFFER_GROUP + n)) continue;
-    const last = [...programs.values()].reverse().find((p) => p.buffer === n);
-    if (last) replayAfterReload.push(last);
-  }
+  restartToSay = true;
   stop();
   setEngineStatus("audio restarting…", true);
 }
@@ -384,17 +381,15 @@ function audioReloaded() {
   // a context made without a gesture (iOS) starts suspended and says nothing: the card asks for the tap
   if (engineRef.audioContext?.state !== "running") { audioLost("suspended"); return; }
   resumeCard.hide();
-  replayLost();
+  sayRestarted();
 }
-// What was playing from the buffers, played again: the music carries on rather than the page asking for Run
-function replayLost() {
-  const again = replayAfterReload;
-  replayAfterReload = [];
-  if (!again.length) { audioRestarted = true; setEngineStatus("ready"); toast("the browser restarted the audio: press Run", true); return; }   // the status just says ready: the toast says what happened
-  for (const p of again) play(p.code, { buffer: p.buffer });
-  setEngineStatus("running");
-  toast("the browser restarted the audio: playing again");
-  logs.add("Host", `audio restarted: ${again.length} buffer${again.length > 1 ? "s" : ""} playing again`);
+// The audio back after the engine was rebuilt: the status just says ready, the toast says what happened
+function sayRestarted() {
+  restartToSay = false;
+  audioRestarted = true;
+  setEngineStatus("ready");
+  toast("the browser restarted the audio: press Run", true);
+  logs.add("Host", "audio restarted: press Run to play again");
 }
 // Back to the tab: if the context says running but the audio thread has stopped counting (the worklet gone, with no
 // state change to tell of it), the card asks for the tap that recovers it. Nothing is started here: without a tap it
@@ -1156,10 +1151,8 @@ $("err-copy").addEventListener("click", () => {
 let lastJobs = "";
 let soundAt = -Infinity;   // the last sound sent (onRecord): a run's first note sounds before the status says it has a job
 let liveJobs = 0;   // for the leave prompt: a reload mid-performance asks first (Safari keeps Cmd+R for itself: a page cannot take it)
-let liveGroups = [];   // the runtime's live groups, as the last status said (a reload plays the buffers' again)
 function showJobs(s) {
   liveJobs = s.jobs.length;
-  liveGroups = s.groups;
   // sounding: a thread of any run still going, or a group still live — which counts a card's one-shot while its note
   // rings out and a reverb's tail, where no thread is left (the runtime's word, in the status)
   const sounding = liveJobs > 0 || s.groups.length > 0 || performance.now() - soundAt < 1000;
