@@ -219,7 +219,7 @@ function listenEngine(engine) {
   on("reload:complete", (d) => logs.add("SuperSonic", `reloaded${d?.success === false ? `: failed${d?.error ? ` (${describe(d.error)})` : ""}` : ""}`));
   on("audiocontext:statechange", (d) => audioTrail.note("context", { state: d?.state }));
   on("statechange", (d) => audioTrail.note("engine", { state: d?.state, previous: d?.previous, reason: d?.reason, ...(d?.error ? { error: describe(d.error) } : {}) }));
-  on("reload:start", () => audioTrail.note("reload", { context: engine.audioContext?.state ?? null }));
+  on("reload:start", () => { audioTrail.note("reload", { context: engine.audioContext?.state ?? null, ours: engine.audioContext === audioContext }); watchReload(engine); });
   on("reload:complete", (d) => audioTrail.note("reloaded", { success: d?.success !== false, ...(d?.error ? { error: describe(d.error) } : {}), context: engine.audioContext?.state ?? null }));
   on("resumed", () => audioTrail.note("resumed"));
   on("error", (e) => audioTrail.note("error", { error: describe(e) }));
@@ -309,6 +309,27 @@ function audioBroken() {
   audioTrail.note("broken", audioState());
   resumeCard.show("Audio systems restarted.", { broken: true });
   keepAudioTrail("broken");   // Restart Sonic Pi reloads the page: what led here goes with it, to the page after
+}
+// A reload the tap's recovery asked for: the quick resume failed, so our context is past saving, and the engine moves
+// to one Clockwork's recover() made in the tap. Ours is closed, as the engine's own would be: iOS, after an
+// interruption, lets no new context render while the dead one is still open (a phone's flight reports, 2026-09-28:
+// with ours left open the new one never started; closed, the audio was back a second after the tap). Clockwork leaves a
+// context the host made to the host. And the reload is watched for the trail: the context it leaves and the one it
+// moves to, each's state and clock, every half second until it ends.
+function watchReload(engine) {
+  const old = engine.audioContext, t0 = performance.now();
+  if (recovering && old && old === audioContext) {
+    audioTrail.note("closing ours", { state: old.state, clock: Math.round(old.currentTime * 1000) / 1000 });
+    old.close().then(() => audioTrail.note("closed ours"), (e) => audioTrail.note("closing ours failed", { error: describe(e) }));
+    audioContext = null;
+  }
+  const look = () => {
+    const now = engine.audioContext, t = (c) => (c ? Math.round(c.currentTime * 1000) / 1000 : null);
+    audioTrail.note("reloading", { ms: Math.round(performance.now() - t0), engine: engine.getEngineState?.() ?? null, moved: !!now && now !== old,
+      now: now?.state ?? null, nowTime: t(now), old: old?.state ?? null, oldTime: t(old), processed: engine.getMetricsArray?.()?.[0] ?? null });
+    if (engine.getEngineState?.() === "restarting" && performance.now() - t0 < 20000) setTimeout(look, 500);
+  };
+  setTimeout(look, 250);
 }
 // The audio as it stands, for the trail: the context's state and clock, the engine's state, and its audio thread's
 // process count (moving on, it is running)
