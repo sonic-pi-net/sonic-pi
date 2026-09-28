@@ -1186,7 +1186,9 @@ const flight = createFlightRecorder({
   session: () => session,
   programs: () => [...programs.values()],
   versions: () => ({ language: "Sonic Pi v5.0.0", runtime: versions.runtime, supersonic: SUPERSONIC_VERSION }),
-  extra: () => ({ audioTrail: audioTrail.lines, ...(beforeRestart ? { beforeRestart } : {}) }),   // what happened to the audio (audio-trail.js)
+  // what happened to the audio (audio-trail.js); what a run is still waiting to load, and the Host log's last lines (the
+  // loads asked and answered): a Run that made no sound on a phone (2026-09-28) was one held by its gate
+  extra: () => ({ audioTrail: audioTrail.lines, pendingLoads: session?.bridge?.pending?.() ?? null, hostLog: logs.recent("Host", 80), ...(beforeRestart ? { beforeRestart } : {}) }),
 });
 // off unless Preferences says otherwise: while it records, the page samples its clocks ten times a second
 if (store.get("sp-flight", false)) flight.start();

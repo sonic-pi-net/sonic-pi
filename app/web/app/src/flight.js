@@ -123,6 +123,10 @@ export function createFlightRecorder(hooks) {
         const all = session.engineMetrics();
         s.engine = {};
         for (const k of ENGINE_KEYS) if (all[k] !== undefined) s.engine[k] = all[k];
+        // the rings' fill comes as {bytes, percentage}: the bytes, under the key ENGINE_KEYS names; and what the page and
+        // its workers have written to the engine, against what it has taken (engineMessagesProcessed)
+        for (const k of ["inBufferUsed", "inBufferPeak", "outBufferUsed", "outBufferPeak"]) if (all[k]?.bytes !== undefined) s.engine[`${k}Bytes`] = all[k].bytes;
+        if (all.oscOutMessagesSent !== undefined) s.engine.oscOutMessagesSent = all.oscOutMessagesSent;
       } catch (e) {
         s.engine = { error: String(e.message ?? e) };
       }

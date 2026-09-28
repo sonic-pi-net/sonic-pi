@@ -348,6 +348,12 @@ export class Bridge {
     return this.loadBuffer(bufnum, file);
   }
 
+  /** What is asked for and not in yet: the synthdefs, and the buffers (number:file) — what a run's gate waits on. */
+  pending() {
+    return { synthdefs: [...this.#defs.keys()].filter((n) => !this.#defsReady.has(n)),
+             buffers: [...this.#buffers].filter(([, n]) => this.#loads.has(n) && !this.#buffersReady.has(n)).map(([f, n]) => `${n}:${f}`) };
+  }
+
   /** A buffer freed: the engine lets it go, and the next use loads it again. */
   freeBuffer(bufnum, file) {
     this.#engine.send("/b_free", bufnum);
