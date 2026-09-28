@@ -523,9 +523,27 @@ module SonicPi
       @fx_open -= gone
       @fx_pending -= gone
       sent, @fx_frees = @fx_frees.partition { |(_, f)| f.owner.path[0] == id }
-      (gone + sent.map { |(_, f)| f }).each { |f| free_fx_now(f) }
+      frames = gone + sent.map { |(_, f)| f }
+      frames.each { |f| held_by?(f, frames) ? free_fx_with(f, @now || 0.0, 0.0) : free_fx_now(f) }
       settle_fx
       nil
+    end
+
+    # An fx block inside another of `frames` (its group is in that one's, however deep): it goes when that one does,
+    # and a free of its own after would name a group already gone.
+    def held_by?(f, frames)
+      q = f.parent
+      while q
+        return true if q.group && q.bus && frames.include?(q)
+        q = q.parent
+      end
+      false
+    end
+
+    # an fx block that goes with the one it is in: at `at`, its bus back from `from`
+    def free_fx_with(f, at, from)
+      f.gone_at = at
+      release_bus(f.bus, from)
     end
 
     # RT: a group stops — every thread born into it or moved into it, wherever its run began. What is sounding
@@ -600,19 +618,22 @@ module SonicPi
         frames.each do |f|
           next unless f.group
           Native.n_set(0.0, -1, NODE_BASE + f.node.id, { "amp" => 0.0, "amp_slide" => fade }) if f.node
+          next free_fx_with(f, at, at) if held_by?(f, frames)
           f.gone_at = at
           @fx_frees << [at, f]
         end
-        # a sound outside any fx of its own plays into its run's place: turned down itself, and freed after
+        # a sound outside any fx of its own plays into its run's place: turned down itself, and freed after, unless it
+        # ends by itself first (a free then would name a node gone)
         @sounds.each do |(_, p, frame, node, _, _)|
           next unless inside.call(p, frame) && node.ends_at > now
-          node.ends_at = at
+          outlives = node.ends_at > at
+          node.ends_at = at if outlives
           next if frame && frames.include?(frame)   # inside one of the group's fx: it goes with the fx
           Native.n_set(0.0, -1, NODE_BASE + node.id, { "amp" => 0.0, "amp_slide" => fade })
-          @node_frees << [at, node.id]
+          @node_frees << [at, node.id] if outlives
         end
       else
-        frames.each { |f| free_fx_now(f, now) }
+        frames.each { |f| held_by?(f, frames) ? free_fx_with(f, now, 0.0) : free_fx_now(f, now) }
         @sounds.each { |(_, p, frame, node, _, _)| node.ends_at = now if inside.call(p, frame) && node.ends_at > now }
       end
       settle_fx

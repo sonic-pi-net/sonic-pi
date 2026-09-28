@@ -688,6 +688,19 @@ for (const spec of specs) {
     if (late < 3) t.problems.push(`the loop should play on: ${late} in the last second`);
   });
 
+  scenario("a card's faded stop, then its run goes from the engine too", (t) => {
+    t.run(PLAYING, t.now, 1);
+    t.run("live_loop :other do\n  play 50, release: 0.1\n  sleep 0.5\nend", t.now, 2);
+    t.tickUntil(t.now + 2);
+    t.stop(1, 0.25);
+    t.tickUntil(t.now + 4);
+    const all = timed(), tree = engineTree(all);
+    if (tree.problems.length) t.problems.push(...tree.problems.slice(0, 3));
+    const mixers = all.filter((x) => x.msg[1] === "sonic-pi-basic_mixer").map((x) => x.msg[4]);
+    if (tree.parent.has(mixers[0])) t.problems.push("the stopped card's run is still in the engine");
+    if (!tree.parent.has(mixers[1])) t.problems.push("the other card's run went too");
+  });
+
   scenario("set_volume! reaches the studio's mixer at once, the studio made or not", (t) => {
     t.run("set_volume! 0.5\nplay 60, release: 0.1\nsleep 0.5\nset_volume! 0.25\nplay 60, release: 0.1", t.now, 0);
     t.tickUntil(t.now + 2);
