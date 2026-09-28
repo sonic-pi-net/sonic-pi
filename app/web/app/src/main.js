@@ -361,8 +361,8 @@ function audioBack() {
 }
 // The engine is reloading: everything that was playing went with the old
 // worklet, and the runtime must not keep scheduling into the one being built
-// (each sound would be refused, its groups gone), so a Stop now — which also
-// has the runtime make its studio again on the next Run. Nothing is played again
+// (each sound would be refused, its groups gone), so a Stop now, and the runtime
+// told that its studio went too: the next Run makes it again. Nothing is played again
 // by itself once the audio is back: a Run starts the code from its beginning, not
 // where it was, and that is the player's to ask for; the page says so (sayRestarted).
 let audioRestarted = false;
@@ -370,6 +370,7 @@ let restartToSay = false;   // the engine was rebuilt: once the audio is back, t
 function audioReloading() {
   restartToSay = true;
   stop();
+  session?.engineLost();
   setEngineStatus("audio restarting…", true);
 }
 // The engine reloaded. Its own state came back through restoreClientState

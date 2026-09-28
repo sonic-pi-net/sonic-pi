@@ -30,6 +30,7 @@ module SonicPi
     # when the synth ends (logical time), or for an fx, its with_fx frame
     attr_accessor :ends_at, :frame
     attr_accessor :frame_place   # live_audio's: the fx it sounds into (Scheduler#live_place)
+    attr_accessor :job           # live: the run whose place in the engine it is in (Scheduler#track)
     def initialize(name, args, info = nil, id = nil, ref = nil)
       @name = name
       @args = args

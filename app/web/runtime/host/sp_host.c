@@ -329,6 +329,17 @@ static mrb_value native_n_free(mrb_state *m, mrb_value self) {
   return mrb_nil_value();
 }
 
+// Native.g_free_all(time, group): everything in a group goes, the group stays (a Stop's runs, Scheduler#silence).
+static mrb_value native_g_free_all(mrb_state *m, mrb_value self) {
+  mrb_float time;
+  mrb_int group;
+  mrb_get_args(m, "fi", &time, &group);
+  begin_message("i");
+  put_i32(&data, group);
+  send_sound(time, "/g_freeAll", -1, -1);
+  return mrb_nil_value();
+}
+
 // Native.n_run(time, node, flag): a synth paused (0) or run again (1), as native's node.pause and node.run.
 static mrb_value native_n_run(mrb_state *m, mrb_value self) {
   mrb_float time;
@@ -500,6 +511,7 @@ SP_EXPORT int sp_live_boot(void) {
   mrb_define_module_function(mrb, native, "s_new", native_s_new, MRB_ARGS_ARG(6, 2));
   mrb_define_module_function(mrb, native, "n_set", native_n_set, MRB_ARGS_REQ(4));
   mrb_define_module_function(mrb, native, "n_free", native_n_free, MRB_ARGS_REQ(2));
+  mrb_define_module_function(mrb, native, "g_free_all", native_g_free_all, MRB_ARGS_REQ(2));
   mrb_define_module_function(mrb, native, "n_run", native_n_run, MRB_ARGS_REQ(3));
   mrb_define_module_function(mrb, native, "g_new", native_g_new, MRB_ARGS_REQ(4));
   mrb_define_module_function(mrb, native, "n_order", native_n_order, MRB_ARGS_REQ(4));
@@ -668,13 +680,31 @@ SP_EXPORT void sp_stop_job(int job) {
   if (mrb->exc) report_exception("stopping a job");
 }
 
-// Every job stops where it stands.
+// Every job stops where it stands. Nothing goes to the engine: the host empties its schedule, then sp_silence.
 SP_EXPORT void sp_stop_all(void) {
   outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
   mrb_funcall(mrb, live_module(), "stop_all", 0);
   mrb_gc_arena_restore(mrb, ai);
   if (mrb->exc) report_exception("stopping");
+}
+
+// After a Stop, once the host has emptied the engine's schedule: what the runs are sounding fades out over `fade`
+// seconds and goes, and the studio stays. `since`: the engine's clock before the schedule was emptied.
+SP_EXPORT void sp_silence(double fade, double since, double now) {
+  outbox.len = 0;
+  int ai = mrb_gc_arena_save(mrb);
+  mrb_funcall(mrb, live_module(), "silence", 3, mrb_float_value(mrb, fade), mrb_float_value(mrb, since), mrb_float_value(mrb, now));
+  mrb_gc_arena_restore(mrb, ai);
+  if (mrb->exc) report_exception("silencing");
+}
+
+// The engine was made again (a recovery rebuilt it): nothing the runtime made in the old one is in it.
+SP_EXPORT void sp_engine_lost(void) {
+  int ai = mrb_gc_arena_save(mrb);
+  mrb_funcall(mrb, live_module(), "engine_lost", 0);
+  mrb_gc_arena_restore(mrb, ai);
+  if (mrb->exc) report_exception("forgetting the engine");
 }
 
 // The audio stream the last call left (see "The audio stream"): where it

@@ -22,8 +22,8 @@ import { createRecordReader } from "./gui-stream.js";
 import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, programNeeds, workerSettled, TABLES } from "./runtime.js";
 import { LiveCore, freshPerf, addPerf, countHeadroom } from "./live-core.js";
 
-const JOB_MIXER_NODE = 1003;   // the run mixer, sonic-pi-basic_mixer (Scheduler::JOB_MIXER_NODE): what a Stop fades
-const STOP_FADE = 1;           // seconds
+const STOP_FADE = 1;           // seconds a Stop fades over (Scheduler#silence)
+const TRACE_GROUP = 999;       // a trace's synths (Bridge#playTrace), by hand, clear of the runtime's own: the spec page's Stop frees them
 
 export { loadRuntime, programNeeds, PROCESS_FIELDS, SAMPLES_DIR, SUPERSONIC_VERSION, supersonicVersion } from "./runtime.js";
 
@@ -167,7 +167,7 @@ export class Bridge {
   #piano = null;              // the :piano synth's sample table, handed to the engine once (pianoTable)
   #randAt = null;             // the buffer the studio's random stream is in, once a synth has asked for it (randStream)
   #asked = [];                // [name, resolve]: a sample waited on before the runtime has asked for its file (sampleReady)
-  #fade = null;               // a Stop's fade in progress: { started, done, cut } (fadeOut)
+  #traces = false;            // TRACE_GROUP is in the engine
   /** file → bufnum from a live runtime on the page (LiveSession sets it), so a preload and the runtime's sounds agree. */
   numberBuffer = null;
   sent = 0;
@@ -179,7 +179,7 @@ export class Bridge {
     // SuperSonic's own puts the synthdefs and sample buffers back. What is
     // this bridge's — the piano table, in the plugin's memory — goes back after.
     const base = engine.restoreClientState?.bind(engine);
-    engine.restoreClientState = async () => { await base?.(); await this.restorePiano(); await this.restoreRandStream(); };
+    engine.restoreClientState = async () => { this.#traces = false; await base?.(); await this.restorePiano(); await this.restoreRandStream(); };
   }
 
   synthDef(name) {
@@ -371,7 +371,8 @@ export class Bridge {
       if (k === "buf") { await this.sample(v); args.push("buf", this.#buffers.get(v) ?? 0); }
       else if (typeof v === "number") args.push(k, v);
     }
-    this.#engine.sendOSC(SuperSonic.osc.encodeBundle(time, [["/s_new", ev.synth, -1, 0, 0, ...args]]));
+    if (!this.#traces) { this.#traces = true; this.#engine.send("/g_new", TRACE_GROUP, 0, 0); }
+    this.#engine.sendOSC(SuperSonic.osc.encodeBundle(time, [["/s_new", ev.synth, -1, 0, TRACE_GROUP, ...args]]));
     this.sent++;
     return true;
   }
@@ -391,18 +392,6 @@ export class Bridge {
     return n;
   }
 
-  /**
-   * Everything stops: what the engine still holds scheduled, then what is
-   * sounding. In that order, and awaited: the purge clears the scheduler and
-   * the IN ring, and in SAB mode a free-all sent before it has landed goes
-   * into that ring and is wiped with it (the old job mixer then lives on, and
-   * the next Run's first bundles can go the same way). Resolves once the
-   * free-all is sent.
-   */
-  silence() {
-    return this.purge().then(() => { try { this.#engine.send("/g_freeAll", 0); } catch { /* being rebuilt: nothing to free */ } });
-  }
-
   /** What the engine still holds scheduled is dropped; what sounds carries on. */
   purge() {
     // an engine mid-reload has no worklet to purge nor a channel to send on: the runtime still stops
@@ -410,24 +399,19 @@ export class Bridge {
   }
 
   /**
-   * A Stop as the ear wants it: nothing more is scheduled, what is sounding
-   * fades to silence through the run mixer over STOP_FADE seconds, and then
-   * everything is freed. started resolves once the fade is under way, done
-   * once the free-all is sent; cut() frees at once instead (a Run mid-fade
-   * takes the silence now, so its studio is not made beside the old one).
+   * Once the engine has taken everything sent to it so far, the runtime's worker's too (a /sync after them: in SAB
+   * mode one ring holds both), or a second has passed (an engine being rebuilt does not answer). A purge after it
+   * empties only the schedule: a message still in the ring as the purge lands is dropped with it, and a group made
+   * or freed at once is one the runtime would then be wrong about.
    */
-  fadeOut(seconds = STOP_FADE) {
-    if (this.#fade) return this.#fade;
-    let settle, timer;
-    const done = new Promise((r) => (settle = r));
-    const fade = { done, cut: () => { if (this.#fade !== fade) return; clearTimeout(timer); this.#fade = null; this.silence().then(settle, settle); } };
-    fade.started = this.purge().then(() => { try { this.#engine.send("/n_set", JOB_MIXER_NODE, "amp", 0, "amp_slide", seconds); } catch { /* being rebuilt */ } });
-    timer = setTimeout(fade.cut, seconds * 1000 + 80);
-    return (this.#fade = fade);
+  settle() {
+    return Promise.race([Promise.resolve().then(() => this.#engine.sync()), new Promise((r) => setTimeout(r, 1000))]).catch(() => {});
   }
 
-  /** A fade in progress ends now: silence at once. */
-  cutFade() { this.#fade?.cut(); }
+  /** A trace's synths stop (playTrace): the runtime's are its own to stop. */
+  silenceTraces() {
+    if (this.#traces) this.#engine.send("/g_freeAll", TRACE_GROUP);
+  }
 }
 
 // ── Live ─────────────────────────────────────────────────────────────────
@@ -517,6 +501,8 @@ export function createLiveSession(runtime, engine, on = {}, bridge = null) {
  */
 export class LiveSession {
   #runtime; #engine; #on; #core; #records = createRecordReader(); #lastStatus = "";
+  #stopping = Promise.resolve();   // a Run waits for the Stop before it (stop)
+  #engineGen = 0;                  // the engine made again (engineLost): a Stop under way leaves the new one alone
   /** scsynth's /fail replies since the session began: messages the engine refused. */
   failures = 0;
   bridge;
@@ -557,7 +543,7 @@ export class LiveSession {
 
   /** Runs a program as a new job (LiveCore#run), in a group (0: none in particular); the job id. */
   async run(code, { group = 0 } = {}) {
-    this.bridge.cutFade();   // a Run mid-fade takes the silence now
+    await this.#stopping;   // its sounds follow the Stop's; the fade plays on beside them, as native's does
     // a random source other than :white is fetched before the run, never during it
     const { programTables, programSynthdefUrls } = await import("./runtime.js");
     await Promise.all(programTables(code).map((t) => this.#runtime.installTable(t)));
@@ -601,10 +587,26 @@ export class LiveSession {
   /** A subtree stops (LiveCore#stopSubtree): a thread and everything under it, or an fx block's threads and sounds. */
   stopSubtree(uid, fade = 0) { this.#core.stopSubtree(uid, fade); }
 
-  /** Every job stops where it stands, and what is sounding fades out (Bridge#fadeOut). */
+  /**
+   * Every job stops where it stands, and what is sounding fades out over STOP_FADE seconds, as native's Stop: once
+   * the engine has taken what was already sent (Bridge#settle), its schedule is emptied, then the runtime fades its
+   * runs and frees them as the fade ends (Scheduler#silence). The studio stays.
+   */
   stop() {
     this.#core.stop();
-    this.bridge.fadeOut();
+    const gen = this.#engineGen;
+    this.#stopping = this.#stopping.then(async () => {
+      await this.bridge.settle();
+      const since = this.clockNow();
+      await this.bridge.purge();
+      if (gen === this.#engineGen) this.#core.silence(STOP_FADE, since);
+    }).catch((e) => console.warn("stop", e));
+  }
+
+  /** The engine was made again (a recovery rebuilt it): what the runtime made in the old one is gone, the studio too. */
+  engineLost() {
+    this.#engineGen++;
+    this.#core.engineLost();
   }
 
   /** The process table (LiveCore#processTable): a view, read it before the next call. */
@@ -650,15 +652,15 @@ export class LiveSession {
  * A live session whose runtime runs in a worker (live-worker.js), with the
  * same face as LiveSession. The worker ticks the runtime on its own timers
  * and sends every sound straight to the engine; this half loads what it asks
- * for, posts it the engine's clock, silences the engine on a Stop, and turns
- * its batches back into records, status and timings for the page.
+ * for, posts it the engine's clock, empties the engine's schedule on a Stop,
+ * and turns its batches back into records, status and timings for the page.
  */
 export class WorkerSession {
   #worker; #engine; #on; #records = createRecordReader(); #lastStatus = "";
   #table = new Float64Array(0); #heap = 0; #t0 = null;
   #calls = new Map(); #nextCall = 1; #clock = null;
-  #stopping = Promise.resolve();   // a Run waits for the Stop before it to be silenced
-  #runWaiting = false;             // a Run is waiting on that: the Stop's fade is cut, not played out
+  #stopping = Promise.resolve();   // a Run waits for the Stop before it (stop)
+  #engineGen = 0;                  // the engine made again (engineLost): a Stop under way leaves the new one alone
   /** Timings since the last takePerf(): the worker's ticks and sounds, the page's records. */
   perf = freshPerf();
   /** scsynth's /fail replies since the session began: messages the engine refused. */
@@ -761,10 +763,7 @@ export class WorkerSession {
 
   /** Runs a program as a new job in the worker; the job id. */
   async run(code, { group = 0 } = {}) {
-    // a Run mid-fade takes the silence now; one before the fade has begun asks for the same
-    this.#runWaiting = true;
-    this.bridge.cutFade();
-    try { await this.#stopping; } finally { this.#runWaiting = false; }
+    await this.#stopping;   // its sounds follow the Stop's; the fade plays on beside them, as native's does
     const { job, t0 } = await this.#call("run", { code, group });
     this.#t0 ??= t0;
     if (!this.running) { this.running = true; this.#on.state?.(true); }
@@ -810,21 +809,27 @@ export class WorkerSession {
 
 
   /**
-   * Every job stops where it stands, and what is sounding fades out
-   * (Bridge#fadeOut): the engine's schedule is purged at once, and the fade
-   * begins once the worker has stopped — it purges again first, for anything
-   * the worker sent before it heard, and only then slides the mixer (a purge
-   * wipes the IN ring, a message just sent with it); the free-all comes as
-   * the fade ends. A Run after cuts the fade and waits for that free-all.
+   * Every job stops where it stands, and what is sounding fades out over STOP_FADE seconds, as native's Stop. In
+   * order, each on the last: the worker stops, so it sends nothing more; the engine takes what it had already sent
+   * (Bridge#settle); the engine's schedule is emptied, dropping what was still to sound; and the worker's runtime
+   * fades its runs and frees them as the fade ends (Scheduler#silence), on its own channel, after all it sent
+   * before. The studio stays. A Run waits for this, not for the fade.
    */
   stop() {
-    const first = this.bridge.purge();
     if (this.running) { this.running = false; this.#on.state?.(false); }
-    this.#stopping = Promise.all([first, this.#call("stop").catch(() => {})]).then(() => {
-      const fade = this.bridge.fadeOut();
-      if (this.#runWaiting) fade.cut();
-      return fade.done;
-    });
+    const gen = this.#engineGen;
+    this.#stopping = this.#stopping.then(() => this.#call("stop")).then(async () => {
+      await this.bridge.settle();
+      const since = this.clockNow();
+      await this.bridge.purge();
+      if (gen === this.#engineGen) await this.#call("silence", { fade: STOP_FADE, since });
+    }).catch((e) => console.warn("stop", e));
+  }
+
+  /** The engine was made again (a recovery rebuilt it): what the worker's runtime made in the old one is gone, the studio too. */
+  engineLost() {
+    this.#engineGen++;
+    this.#stopping = this.#stopping.then(() => this.#call("lost")).catch((e) => console.warn("engine lost", e));
   }
 
   /** The process table as the worker last posted it: PROCESS_FIELDS.length doubles per row. */

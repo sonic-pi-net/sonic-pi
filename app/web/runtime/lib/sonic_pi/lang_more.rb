@@ -1412,6 +1412,7 @@ module SonicPi
       vol = 0.0 if vol < 0
       vol = 5.0 if vol > 5
       @sched.volume = vol.to_f
+      @sched.mixer_set(__p, { "amp" => vol.to_f }, now)
       @sched.rt_record(__p, { kind: "studio", op: "volume", value: vol.to_f })
       nil
     end
@@ -1420,6 +1421,7 @@ module SonicPi
       amount = 0 if amount < 0
       amount = 1 if amount > 1
       @sched.drive = 0.25 * (16 ** amount)
+      @sched.mixer_set(__p, { "pre_amp" => @sched.drive.to_f }, now)
       @sched.rt_record(__p, { kind: "studio", op: "drive", value: @sched.drive })
       nil
     end

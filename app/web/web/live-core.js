@@ -215,7 +215,10 @@ export class LiveCore {
     if (!this.running) { this.running = true; this.#deps.state?.(true); this.tick(); }   // the frees at the fade's end are the runtime's to send
   }
 
-  /** Every job stops where it stands; a sound still waiting on a load never goes. The session silences the engine. */
+  /**
+   * Every job stops where it stands; a sound still waiting on a load never goes, and nothing is sent. The session
+   * empties the engine's schedule, then silence().
+   */
   stop() {
     clearTimeout(this.#timer);
     this.#expectedWake = null;
@@ -229,6 +232,18 @@ export class LiveCore {
     this.#deps.ticked?.();
     this.#deps.state?.(false);
   }
+
+  /**
+   * After a Stop, once the engine's schedule is empty: what the runs are sounding fades out over `fade` seconds and
+   * goes, and the studio stays (Scheduler#silence). since: the engine's clock before the schedule was emptied.
+   */
+  silence(fade, since) {
+    this.#runtime.module._sp_silence(fade, since, this.#deps.now());
+    this.#drain();
+  }
+
+  /** The engine was made again: nothing the runtime made in the old one is in it (Scheduler#engine_lost). */
+  engineLost() { this.#runtime.module._sp_engine_lost(); }
 
   /** Link's tempo, changing a schedule-ahead from now, where the next sounds are made. */
   setLinkBpm(bpm) {

@@ -206,6 +206,8 @@ module SonicPi
     attr_accessor :first_node
     # RT, for the threads view: its row, its line, when it opened (engine clock)
     attr_accessor :uid, :line, :opened_at
+    # RT: when a stop freed it (Scheduler#stop_where, stop_job), on the engine's clock: its end, where no free_at is
+    attr_accessor :gone_at
 
     def initialize(owner, parent)
       @owner = owner
@@ -217,7 +219,7 @@ module SonicPi
     attr_accessor :block_end
     alias body_end block_end   # the walk's name for the end of the block's own code
 
-    def node_end = @free_at && @free_at + @owner.sched_ahead   # heard a schedule-ahead after, its thread's
+    def node_end = @gone_at || (@free_at && @free_at + @owner.sched_ahead)   # heard a schedule-ahead after, its thread's
   end
 
   # What a sound needs from the engine, numbered here so the sound's OSC can
@@ -252,6 +254,23 @@ module SonicPi
     def self.free_buffer(file) = @buffers.delete(file)
   end
 
+  # RT: a run, as the engine has it (Scheduler#job_place). Its threads, each until it is over; and, once it has
+  # sounded, its place in the engine: its group, holding the group its sounds go in (a with_fx block's groups inside
+  # that) and then its basic_mixer, which takes its own bus down to the studio's mixer, as native's job mixer does.
+  class Job
+    attr_reader :id, :threads
+    attr_accessor :group, :synths, :mixer, :bus
+    attr_accessor :ended        # the latest end of its threads that are over
+    attr_accessor :hold_until   # not freed before this (engine clock): something is still leaving it
+    attr_accessor :free_at      # when it goes, once every thread is over
+
+    def initialize(id)
+      @id = id
+      @threads = []
+      @ended = 0.0
+    end
+  end
+
   class Scheduler
     attr_reader :events, :errors, :output, :log, :current
 
@@ -281,7 +300,10 @@ module SonicPi
       @group_parent = {}    # group → the group it sits in (group_under): a stop reaches a group and every group under it
       @group_uid = {}       # group → its uid in the process table, where it is a row of its own (KIND_GROUP), the runs hanging from it
       @busses = []          # RT: [bus, free from] busses to use again
+      @bus_used = {}        # RT: the busses handed out and not given back
       @next_bus = BUS_FIRST
+      @jobs = {}            # RT: job id → Job, until it has gone from the engine
+      @epoch = nil          # RT: the group every run since the last Stop is in (job_place)
       @fx_gone = []         # RT: fx freed a moment ago, still shown
       @sounds = []          # RT: [uid, thread, frame, node, line, start] sounds shown
     end
@@ -349,6 +371,7 @@ module SonicPi
     end
 
     def start_job_process(id, start, file, group = 0, &program)
+      @jobs[id] = Job.new(id) if @live
       job = Process.new([id], nil, nil)
       job.group = group
       register(job, group_uid(group) || -1)   # a run hangs from its group in the table
@@ -389,6 +412,7 @@ module SonicPi
         resume(@lang, p, nil)
       end
       send_fx_frees(now)
+      free_jobs(now) if @live
       prune_history!
       nexts = @queue.map { |(wake, _, p)| p.start + wake } + @fx_frees.map { |(at, _)| at - FREE_LEAD } + @node_frees.map { |(at, _)| at - FREE_LEAD }
       nexts.min
@@ -425,12 +449,17 @@ module SonicPi
       @procs.each_value { |p| p.start += seconds }
       @fx_frees.each { |entry| entry[0] += seconds }
       @node_frees.each { |entry| entry[0] += seconds }
+      @jobs.each_value do |j|
+        j.free_at += seconds if j.free_at
+        j.hold_until += seconds if j.hold_until
+      end
       SonicPi.link_origin += seconds if SonicPi.link_origin
       SonicPi.link_anchor = [SonicPi.link_anchor[0] + seconds, SonicPi.link_anchor[1]] if SonicPi.link_anchor
       nil
     end
 
-    # RT: every job stops where it stands; nothing is resumed again.
+    # RT: every job stops where it stands; nothing is resumed again. Nothing is sent: the host empties the engine's
+    # schedule, and then what the runs are sounding fades out and goes (silence).
     def stop_all
       @procs.each_value { |p| __stopped(p) }
       @queue.clear
@@ -438,16 +467,49 @@ module SonicPi
       @named.clear
       @scope_slots.clear
       @pending = {}
-      @fx_open.clear            # the page frees every node (Bridge#silence), groups and fx with them
+      @fx_open.clear            # their groups are in the runs' places, which silence frees, and their busses with them
       @fx_pending.clear
       @fx_frees.clear
       @node_frees.clear
-      @busses.clear
-      @next_bus = BUS_FIRST
       @fx_gone.clear
       @sounds.clear
-      @studio = false           # the page freed the studio with everything else
-      SonicPi.live_audio_nodes&.clear   # live_audio's synths went too: the next call starts one afresh
+      SonicPi.live_audio_nodes&.clear   # live_audio's synths go with the runs: the next call starts one afresh
+    end
+
+    # RT: after a Stop, once the host has emptied the engine's schedule: what the runs are sounding fades out over
+    # `fade` seconds and goes, as native's Stop does it: each run's mixer turned down, and every run since the last
+    # Stop (its epoch) moved into DYING, which is emptied as the fade ends. The studio stays. Emptied after every
+    # Stop, DYING needs no word of what an earlier Stop left in it: the schedule that held that one's free was
+    # emptied with this. `since`: the engine's clock before the host emptied the schedule. What was due after it (an
+    # fx's free, a run's) never happened, so its bus waits for DYING too.
+    def silence(fade, since, now)
+      return unless @live && @studio
+      at = now + fade + GROUP_FREE_GRACE
+      if @epoch
+        @jobs.each_value do |j|
+          Native.n_set(IMMEDIATE, -1, NODE_BASE + j.mixer, { "amp" => 0.0, "amp_slide" => fade }) if j.mixer
+        end
+        Native.n_order(IMMEDIATE, 1, DYING, NODE_BASE + @epoch)
+        @epoch = nil
+      end
+      Native.g_free_all(at, DYING)
+      @bus_used.each_key { |b| @busses << [b, at] }
+      @bus_used.clear
+      @busses.each { |entry| entry[1] = at if entry[1] > since }
+      @jobs.clear
+      nil
+    end
+
+    # RT: the engine was made again (a recovery rebuilt it): nothing made in the old one is in it, the studio
+    # included, so the next sound makes it again.
+    def engine_lost
+      @studio = false
+      @epoch = nil
+      @jobs.clear
+      @busses.clear
+      @bus_used.clear
+      @next_bus = BUS_FIRST
+      nil
     end
 
     # RT: one job stops where it stands; the others carry on.
@@ -538,9 +600,10 @@ module SonicPi
         frames.each do |f|
           next unless f.group
           Native.n_set(0.0, -1, NODE_BASE + f.node.id, { "amp" => 0.0, "amp_slide" => fade }) if f.node
+          f.gone_at = at
           @fx_frees << [at, f]
         end
-        # a sound outside any fx of its own plays into the studio: turned down itself, and freed after
+        # a sound outside any fx of its own plays into its run's place: turned down itself, and freed after
         @sounds.each do |(_, p, frame, node, _, _)|
           next unless inside.call(p, frame) && node.ends_at > now
           node.ends_at = at
@@ -549,7 +612,7 @@ module SonicPi
           @node_frees << [at, node.id]
         end
       else
-        frames.each { |f| free_fx_now(f) }
+        frames.each { |f| free_fx_now(f, now) }
         @sounds.each { |(_, p, frame, node, _, _)| node.ends_at = now if inside.call(p, frame) && node.ends_at > now }
       end
       settle_fx
@@ -745,6 +808,7 @@ module SonicPi
       parent.spawned += 1
       child = Process.new(path, name, parent)
       register(child, parent.uid)
+      @jobs[path[0]]&.threads&.push(child) if @live   # its run is not over while it is not
       prune_threads(parent.members, parent.wall) if parent.members.size > 64
       parent.members << child
       # every with_fx block the parent is in, of its own, waits for the child
@@ -1104,6 +1168,7 @@ module SonicPi
     # A sound the thread made: its thread, and the with_fx block the thread
     # is in of its own, wait for it to end.
     def track(p, node)
+      node.job = p.path[0] if @live
       @sounds << [(@uid += 1), p, p.fx, node, line_of(p), live_time(p)] if @live && !node.frame
       prune_nodes(p.nodes, p.wall) if p.nodes.size > 64
       p.nodes << node
@@ -1214,7 +1279,7 @@ module SonicPi
         # When the fx it moves into starts: a Run's sounds, that fx among them,
         # are scheduled sched_ahead out, and moved at once the loop would play
         # into a bus nothing reads until then (a hit cut, the next one lost).
-        handover_fx(own, into, live_time(caller)) if own && own.bus && own.node
+        handover_fx(own, into, live_time(caller), job_place(loop, caller.start + caller.time)) if own && own.bus && own.node
         Native.gui(:loop_move, caller.uid, live_time(caller), caller.path[0], line_of(caller), caller.time.round(6), caller.beat.round(6), loop.id,
                    to && to.ref && to.ref[:t], to && to.ref && to.ref[:thread], to && to.ref && to.ref[:synth], loop.uid)
       else
@@ -1235,9 +1300,9 @@ module SonicPi
     # before the fx it was in is freed. The page keys the loop's scope on the
     # node it first saw (first_node), so the slot carries on unbroken.
     HANDOVER = 0.03
-    def handover_fx(own, into, at)
-      out = into ? into.bus : JOB_BUS
-      target = into ? NODE_BASE + into.synths : STUDIO_SYNTHS
+    def handover_fx(own, into, at, place)
+      out = into ? into.bus : place.bus
+      target = into ? NODE_BASE + into.synths : NODE_BASE + place.synths
       old_node, old_group = own.node, own.group
       group = next_node_id
       node = SynthNode.new(old_node.name, old_node.args, old_node.info, next_node_id, old_node.ref)
@@ -1267,33 +1332,116 @@ module SonicPi
     # starts now go at the thread's moment, so they are there before the
     # block's first sound.
     #
-    # Nothing plays straight to the speakers. As in Sonic Pi's studio, a run's
-    # sounds go to its bus, a basic_mixer takes that down to 0.3 into the
-    # mixer bus, and sonic-pi-mixer (pre_amp, filters, limiter) plays that
-    # out; the mixers are in a group after the synths. Sonic Pi gives each
-    # run its own bus and basic_mixer; mixers sum, so one of each for every
-    # run sounds the same.
+    # Nothing plays straight to the speakers. As in Sonic Pi's studio, each
+    # run has a bus of its own, its basic_mixer takes that down to 0.3 into
+    # the mixer bus, and sonic-pi-mixer (pre_amp, filters, limiter) plays that
+    # out. The studio is made once for the engine and stays, as native's does:
+    # a Stop fades and frees the runs, never the studio (silence), and a run
+    # that is over goes by itself (free_jobs). Only an engine made again has
+    # it made again (engine_lost). The tree:
+    #
+    #   STUDIO_SYNTHS    DYING (the runs a Stop is fading), then the epoch (every run since the last Stop)
+    #     a run's group  the group its sounds go in (with_fx blocks' groups inside it), then its basic_mixer
+    #   STUDIO_MIXER     sonic-pi-mixer
     NODE_BASE = 10000     # the runtime's node ids, clear of SuperSonic's own
-    BUS_FIRST = 16        # the busses fx use, clear of the engine's ins and outs
-    STUDIO_SYNTHS = 1001  # the group every run's sounds and fx are in
-    STUDIO_MIXER = 1000   # the group the mixers are in, after it
+    BUS_FIRST = 16        # the busses fx and runs use, clear of the engine's ins and outs
+    STUDIO_SYNTHS = 1001  # the group every run is in
+    STUDIO_MIXER = 1000   # the group the studio's mixer is in, after it
     MIXER_NODE = 1002     # sonic-pi-mixer
-    JOB_MIXER_NODE = 1003 # sonic-pi-basic_mixer
+    DYING = 1003          # the runs a Stop is fading, freed together as the fade ends
     MIXER_BUS = 10        # into sonic-pi-mixer
-    JOB_BUS = 12          # every run's sounds, into the basic_mixer
     JOB_MIXER_AMP = 0.3   # Lang::Sound#job_mixer's
+    JOB_FREE_DELAY = 1.0  # a run that is over goes this long after its last sound: native fades its mixer for a second first
 
-    # The studio, before a session's first sound and again after a Stop (the
-    # page frees every node in the engine then).
+    # The studio, before the engine's first sound: once, however many Stops there are.
     def ensure_studio(now)
       return if @studio
       @studio = true
       Native.g_new(studio_time(now), STUDIO_SYNTHS, 0, 0)
       Native.g_new(studio_time(now), STUDIO_MIXER, 3, STUDIO_SYNTHS)
+      Native.g_new(studio_time(now), DYING, 0, STUDIO_SYNTHS)
       Native.s_new(studio_time(now), EngineIds.synthdef("sonic-pi-mixer"), -1, "sonic-pi-mixer", MIXER_NODE,
                    { "in_bus" => MIXER_BUS, "amp" => @volume.to_f, "pre_amp" => @drive.to_f }, 0, STUDIO_MIXER)
-      Native.s_new(studio_time(now), EngineIds.synthdef("sonic-pi-basic_mixer"), -1, "sonic-pi-basic_mixer", JOB_MIXER_NODE,
-                   { "in_bus" => JOB_BUS, "out_bus" => MIXER_BUS, "amp" => JOB_MIXER_AMP }, 0, STUDIO_MIXER)
+    end
+
+    # The studio's mixer set from a program (set_volume!, set_drive!): at the thread's moment, as native's node_ctl
+    # is, or at once (now). A studio not made yet is made with the values.
+    def mixer_set(p, opts, now = false)
+      return unless @live && @studio
+      Native.n_set(now ? IMMEDIATE : audio_time(p), -1, MIXER_NODE, opts)
+    end
+
+    # The place in the engine of a thread's run, made before the run's first sound: its group, at the tail of the
+    # epoch's, holding the group its sounds go in and then its basic_mixer, on a bus of its own. A thread's run is
+    # the one it began in, wherever it has moved since, as a thread's job is natively.
+    def job_place(p, now)
+      id = p.path[0]
+      j = @jobs[id]
+      unless j
+        # an engine made again under a run still going (engine_lost with no Stop): that run is kept to the next Stop
+        j = @jobs[id] = Job.new(id)
+        j.hold_until = Language::LIVE_AUDIO_FOREVER
+      end
+      return j if j.group
+      ensure_studio(now)
+      bus = alloc_bus(now) or raise "All busses allocated - unable to create audio bus for job"
+      unless @epoch
+        @epoch = next_node_id
+        Native.g_new(studio_time(now), NODE_BASE + @epoch, 1, STUDIO_SYNTHS)
+      end
+      j.bus = bus
+      j.group = next_node_id
+      j.synths = next_node_id
+      j.mixer = next_node_id
+      Native.g_new(studio_time(now), NODE_BASE + j.group, 1, NODE_BASE + @epoch)
+      Native.g_new(studio_time(now), NODE_BASE + j.synths, 0, NODE_BASE + j.group)
+      Native.s_new(studio_time(now), EngineIds.synthdef("sonic-pi-basic_mixer"), -1, "sonic-pi-basic_mixer", NODE_BASE + j.mixer,
+                   { "in_bus" => bus, "out_bus" => MIXER_BUS, "amp" => JOB_MIXER_AMP }, 1, NODE_BASE + j.group)
+      j
+    end
+
+    # A run is over once every thread of it is, its sounds and fx included, wherever they sounded; JOB_FREE_DELAY
+    # later its group goes with everything in it, and its bus comes back. Seen as the host ticks: a run over while
+    # nothing ticks goes at the next tick, or with the next Stop.
+    def free_jobs(now)
+      @jobs.delete_if do |_, j|
+        unless j.free_at
+          e = job_end(j) or next false
+          e = j.hold_until if j.hold_until && j.hold_until > e
+          j.free_at = e + JOB_FREE_DELAY + (@time_warp > 0 ? @time_warp : 0.0)
+        end
+        next false if j.free_at > now
+        if j.group
+          Native.n_free(IMMEDIATE, NODE_BASE + j.group)
+          release_bus(j.bus, now)
+        end
+        true
+      end
+    end
+
+    # When a run's last thread is over, or nil while one is not. A thread that is over is let go of, its end kept.
+    def job_end(j)
+      j.threads.reject! do |p|
+        e = thread_end(p) or next false
+        j.ended = e if e > j.ended
+        true
+      end
+      j.threads.empty? ? j.ended : nil
+    end
+
+    # When a thread is over: its own code, and every sound and fx it made (subtree_end without the threads it
+    # started, which are its run's threads too), or nil while it is not.
+    def thread_end(p)
+      t = p.body_end or return nil
+      p.nodes.each { |n| e = node_end(n) or return nil; t = e if e > t }
+      t
+    end
+
+    # Something is still leaving a run's place until `at` (a live_audio moved on to another run's): the run is not
+    # freed before then.
+    def hold_job(id, at)
+      j = @jobs[id] or return
+      j.hold_until = at if j.hold_until.nil? || at > j.hold_until
     end
     BUS_LAST = 1024       # as many as web/sonic_pi.js boots SuperSonic with
     FREE_LEAD = 1.0       # an fx's free leaves this long before it is due
@@ -1330,21 +1478,31 @@ module SonicPi
 
     def alloc_bus(now)
       i = @busses.index { |(_, from)| from <= now }
-      return @busses.delete_at(i)[0] if i
-      return nil if @next_bus + 1 >= BUS_LAST
-      bus = @next_bus
-      @next_bus += 2
+      if i
+        bus = @busses.delete_at(i)[0]
+      else
+        return nil if @next_bus + 1 >= BUS_LAST
+        bus = @next_bus
+        @next_bus += 2
+      end
+      @bus_used[bus] = true
       bus
+    end
+
+    # a bus back for use once its node is gone: `from`, when the free reaches the engine
+    def release_bus(bus, from)
+      return unless bus && @bus_used.delete(bus)
+      @busses << [bus, from]
     end
 
     def audio_s_new(p, h, node, frame = nil)
       synth = h[:synth]
       args = h[:args]
       now = p.start + p.time
-      ensure_studio(now)
+      job = job_place(p, now)
       into = sink(p.fx)
-      out = into ? into.bus : JOB_BUS
-      target = into ? NODE_BASE + into.synths : STUDIO_SYNTHS
+      out = into ? into.bus : job.bus
+      target = into ? NODE_BASE + into.synths : NODE_BASE + job.synths
       if frame
         return unless frame.bus
         Native.g_new(studio_time(now), NODE_BASE + frame.group, 1, target)
@@ -1352,7 +1510,7 @@ module SonicPi
         Native.s_new(h[:now] ? studio_time(now) : audio_time(p), EngineIds.synthdef(synth), audio_buffer(args), synth, NODE_BASE + node,
                      args.merge("in_bus" => frame.bus, "out_bus" => out), 1, NODE_BASE + frame.group)
       else
-        # inside a block, at the tail of its synths; outside any, at the head of the studio's
+        # inside a block, at the tail of its synths; outside any, at the head of its run's
         Native.s_new(audio_time(p), EngineIds.synthdef(synth), audio_buffer(args), synth, NODE_BASE + node, args.merge("out_bus" => out), into ? 1 : 0, target)
       end
     end
@@ -1372,16 +1530,17 @@ module SonicPi
       due, @fx_frees = @fx_frees.partition { |(at, _)| at - FREE_LEAD <= now }
       due.each do |(at, f)|
         Native.n_free(at, NODE_BASE + f.group)
-        @busses << [f.bus, at] if f.bus
+        release_bus(f.bus, at)
       end
       nodes, @node_frees = @node_frees.partition { |(at, _)| at - FREE_LEAD <= now }
       nodes.each { |(at, id)| Native.n_free(at, NODE_BASE + id) }
     end
 
-    def free_fx_now(f)
+    def free_fx_now(f, now = @now || 0.0)
       return unless @live && f.group
+      f.gone_at = now
       Native.n_free(0.0, NODE_BASE + f.group)
-      @busses << [f.bus, 0.0] if f.bus
+      release_bus(f.bus, 0.0)
     end
 
     # A sample freed: the page hears of it, and the engine lets its buffer go.
@@ -1430,8 +1589,10 @@ module SonicPi
     def live_move(p, node, place)
       return unless @live
       at = audio_time(p)
-      Native.n_set(at, -1, NODE_BASE + node.id, { "out_bus" => (place ? place.bus : JOB_BUS).to_f })
-      Native.n_order(at, place ? 1 : 0, place ? NODE_BASE + place.synths : STUDIO_SYNTHS, NODE_BASE + node.id)
+      job = job_place(p, p.start + p.time)   # outside any fx: into the caller's run, which has it from now on
+      hold_job(node.job, at + GROUP_FREE_GRACE) if node.job && node.job != job.id   # the run it leaves keeps it until it has gone
+      Native.n_set(at, -1, NODE_BASE + node.id, { "out_bus" => (place ? place.bus : job.bus).to_f })
+      Native.n_order(at, place ? 1 : 0, NODE_BASE + (place ? place.synths : job.synths), NODE_BASE + node.id)
     end
 
     # The page opens the sound card's input (getUserMedia) for live_audio: this many channels, from input 1

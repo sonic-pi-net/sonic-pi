@@ -101,6 +101,10 @@ module SonicPi
       # the host lost this much time: the schedule moves on by it
       def hold(seconds) = @sched.hold(seconds.to_f)
       def stop_all = @sched.stop_all
+      # after a Stop, once the host has emptied the engine's schedule: the runs fade out and go (Scheduler#silence)
+      def silence(fade, since, now) = @sched.silence(fade.to_f, since.to_f, now.to_f)
+      # the engine was made again: nothing made in the old one is in it (Scheduler#engine_lost)
+      def engine_lost = @sched.engine_lost
       def stop_job(id) = @sched.stop_job(id)
       def stop_group(group, fade, now) = @sched.stop_group(group, fade, now)
       def group_under(group, parent) = @sched.group_under(group, parent)

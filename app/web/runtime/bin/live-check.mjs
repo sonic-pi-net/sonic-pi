@@ -43,17 +43,18 @@ const reader = createRecordReader();
 // sample buffer announced before it. The numbering outlives a session, as
 // the page's does.
 let audio = [];
+let drainAt = null;   // the clock at this drain: when an immediate message reaches the engine (engineTree)
 const drain = () => {
   const len = m._sp_out_len();
   if (!len) return;
   const heap = m.HEAPU8;
   forEachFrame(heap, m._sp_out_ptr(), len, (kind, start, size) => {
     if (kind === FRAME_GUI) records.push(reader.read(decode(heap.subarray(start, start + size))));
-    else audio.push({ kind, msg: decode(heap.slice(start, start + size)) });
+    else audio.push({ kind, msg: decode(heap.slice(start, start + size)), at: drainAt });
   });
 };
 const NODE_BASE = 10000;
-const STUDIO_SYNTHS = 1001;     // the group every sound outside a with_fx starts at the head of (Scheduler::STUDIO_SYNTHS)
+const STUDIO = new Set([1000, 1001, 1002, 1003]);   // the studio's groups and sonic-pi-mixer (Scheduler::STUDIO_SYNTHS …), made once
 const synthdefs = new Map(), buffers = new Map();
 let soundsHeard = 0;
 function audioDiff(records, frames) {
@@ -71,18 +72,23 @@ function audioDiff(records, frames) {
     sounds.push({ address, def: def < 0 ? null : synthdefs.get(def) ?? `unannounced ${def}`, buf, file: buf < 0 ? null : buffers.get(buf) ?? `unannounced ${buf}`, time: bundle.timeTag, packet: bundle.packets[0] });
   }
   // with_fx's own node tree is no record's: its groups, a group freed, a
-  // live loop's fx moved to another block (re-routed and reordered)
+  // live loop's fx moved to another block (re-routed and reordered); nor is the
+  // studio, nor a run's place in the engine (its group and its basic_mixer)
   const groups = new Set(sounds.filter((s) => s.packet[0] === "/g_new").map((s) => s.packet[1]));
+  const isMixer = (s) => s.packet[0] === "/s_new" && (s.packet[1] === "sonic-pi-mixer" || s.packet[1] === "sonic-pi-basic_mixer");
   const studio = (s) => {
     const [address, id, ...rest] = s.packet;
-    return address === "/g_new" || address === "/n_order" || (address === "/n_free" && groups.has(id))
+    return address === "/g_new" || address === "/n_order" || address === "/g_freeAll" || (address === "/n_free" && groups.has(id))
       || (address === "/n_set" && rest.length === 2 && rest[0] === "out_bus")
-      || (address === "/s_new" && rest[0] < NODE_BASE);        // the studio's own mixers
+      || isMixer(s);
   };
-  // the studio is made before a session's first sound: its groups, then sonic-pi-mixer and basic_mixer into it
-  const mixers = sounds.filter((s) => s.packet[0] === "/s_new" && s.packet[2] < NODE_BASE).map((s) => s.packet[1]);
-  const studioProblems = sounds.length && !(mixers.includes("sonic-pi-mixer") && mixers.includes("sonic-pi-basic_mixer"))
-    ? [`the studio's mixers were not made (${JSON.stringify(mixers)})`] : [];
+  // the studio is made before the engine's first sound, once: its groups and sonic-pi-mixer; and each run that
+  // sounds has its own basic_mixer, at the tail of its group, after the group its sounds go in
+  const mixers = sounds.filter(isMixer).map((s) => s.packet[1]);
+  const studioProblems = sounds.length && !(mixers.filter((m) => m === "sonic-pi-mixer").length === 1 && mixers.includes("sonic-pi-basic_mixer"))
+    ? [`the studio's mixer, and a run's, were not made once each (${JSON.stringify(mixers)})`] : [];
+  const runGroups = new Set(sounds.filter((s) => s.packet[1] === "sonic-pi-basic_mixer").map((s) => s.packet[4]));
+  const runSynths = new Set(sounds.filter((s) => s.packet[0] === "/g_new" && s.packet[2] === 0 && runGroups.has(s.packet[3])).map((s) => s.packet[1]));
   // a live loop's own fx handed over to another block (Scheduler#handover_fx): a second
   // scope_out made silent, the two crossfaded by amp slides, then the old one freed
   const handedOver = new Set();
@@ -111,7 +117,7 @@ function audioDiff(records, frames) {
     // does a real-time thread's every sound (Scheduler#audio_time): its record says so (immediate)
     if (r.now || r.immediate ? s.time >= 1 : Math.abs(s.time - r.time) > 1e-9) say(`time ${s.time}`);
     if (r.kind === "synth") {
-      const where = (args[2] === 0 && args[3] === STUDIO_SYNTHS) || (r.fx && args[2] === 1) || (r.synth.startsWith("sonic-pi-fx_") && args[2] === 1);
+      const where = (args[2] === 0 && runSynths.has(args[3])) || (r.fx && args[2] === 1) || (r.synth.startsWith("sonic-pi-fx_") && args[2] === 1);
       if (address !== "/s_new" || args[0] !== r.synth || args[1] !== id || !where) say(`message ${JSON.stringify(s.packet)}`);
       if (s.def !== r.synth) say(`needs synthdef ${s.def}`);
     } else if (r.kind === "control") {
@@ -353,7 +359,7 @@ for (const spec of specs) {
     let now = at;
     for (let i = 0; i < 1000; i++) { const next = m._sp_tick(now); drain(); if (next < 0) break; now = Math.max(now, next); }
     m._sp_set_time_warp(0);
-    const bundles = audio.filter((a) => a.kind !== FRAME_HOST).map((a) => decode(a.msg[3])).filter((b) => b.packets[0][0] === "/s_new" && b.packets[0][2] >= NODE_BASE).map((b) => b.timeTag);
+    const bundles = audio.filter((a) => a.kind !== FRAME_HOST).map((a) => decode(a.msg[3])).filter((b) => b.packets[0][0] === "/s_new" && b.packets[0][2] >= NODE_BASE && b.packets[0][1] !== "sonic-pi-basic_mixer").map((b) => b.timeTag);
     return { bundles, records: records.filter((r) => r.kind === "synth").map((r) => r.time) };
   };
   const plain = soundTimes(0), warped = soundTimes(250);
@@ -417,9 +423,9 @@ for (const spec of specs) {
   const live = (now, g) => { const t = table(now); const out = []; for (let i = 0; i + FIELDS <= t.length; i += FIELDS) { if (t[i + GROUP] !== g) continue; const k = t[i + KIND], st = t[i + STATE]; if ((k >= 1 && k <= 5 && st <= 2) || (k === 6 && st < 3) || ((k === 7 || k === 8) && st === 0)) out.push(k); } return out; };
   // the group's own row: live (0) while anything of it or under it is; a run's row hangs from it
   const groupRow = (now, g) => { const t = table(now); for (let i = 0; i + FIELDS <= t.length; i += FIELDS) if (t[i + KIND] === 9 && t[i + GROUP] === g) return { uid: t[i], parent: t[i + 1], state: t[i + STATE] }; return null; };
-  const run = (code, now, g) => { const job = m.ccall("sp_run_group", "number", ["string", "number", "number"], [code, now, g]); drain(); return job; };
+  const run = (code, now, g) => { drainAt = now; const job = m.ccall("sp_run_group", "number", ["string", "number", "number"], [code, now, g]); drain(); return job; };
   const osc = () => audio.map(({ msg }) => { const [, , , bytes] = msg; const b = decode(bytes); const pk = b.packets?.[0] ?? b; return { t: b.timeTag, msg: pk }; });
-  const scenario = (name, body) => { records = []; audio = []; m._sp_live_boot(); m._sp_live_stop_after(-1); let now = 1000; const tickUntil = (until) => { for (let i = 0; i < 100000 && now < until; i++) { const next = m._sp_tick(now); drain(); now = next < 0 ? until : Math.min(Math.max(now, next), until); } }; const problems = []; body({ run, tickUntil, get now() { return now; }, set now(v) { now = v; }, live, osc, problems, stop: (g, fade) => { m._sp_stop_group(g, fade, now); drain(); } }); m._sp_stop_all(); drain(); const ok = problems.length === 0; console.log(`${ok ? "pass" : "FAIL"} ${name}${ok ? "" : ": " + problems.join("; ")}`); if (ok) pass++; else fail++; };
+  const scenario = (name, body) => { records = []; audio = []; m._sp_live_boot(); m._sp_live_stop_after(-1); let now = 1000; const tickUntil = (until) => { for (let i = 0; i < 100000 && now < until; i++) { drainAt = now; const next = m._sp_tick(now); drain(); now = next < 0 ? until : Math.min(Math.max(now, next), until); } }; const problems = []; body({ run, tickUntil, get now() { return now; }, set now(v) { now = v; }, live, osc, problems, stop: (g, fade) => { drainAt = now; m._sp_stop_group(g, fade, now); drain(); } }); m._sp_stop_all(); drain(); const ok = problems.length === 0; console.log(`${ok ? "pass" : "FAIL"} ${name}${ok ? "" : ": " + problems.join("; ")}`); if (ok) pass++; else fail++; };
   const CARD = (code, slot = 1) => `with_fx :scope_out, scope_num: ${slot} do\n${code}\nend\n`;
   const LOOP = CARD("live_loop :flibble do\n  sample :bd_haus\n  sleep 0.5\nend");
 
@@ -567,6 +573,129 @@ for (const spec of specs) {
     if (!t.live(t.now, 1).length) t.problems.push("the group should be live while the note sounds");
     t.tickUntil(t.now + 3);
     if (t.live(t.now, 1).length) t.problems.push(`the group should be over once the note has ended: kinds ${t.live(t.now, 1)}`);
+  });
+
+  // ── Stop, as native's: the runs fade and go, the studio stays ───────────────────────────────────────────────
+  // The engine's node tree as the OSC builds it, each message at its time (an immediate one as it arrives): what a
+  // message names must be there, as scsynth would refuse it otherwise. `at` is the clock at each drain.
+  const engineTree = (msgs) => {
+    const parent = new Map([[0, null]]), kids = new Map([[0, []]]), problems = [];
+    const gone = (id) => { for (const k of kids.get(id) ?? []) gone(k); kids.delete(id); const p = parent.get(id); parent.delete(id); if (p != null) kids.set(p, kids.get(p).filter((x) => x !== id)); };
+    const place = (id, action, target) => {
+      const into = action <= 1 ? target : parent.get(target);
+      const list = kids.get(into), i = list.indexOf(target);
+      if (action === 0) list.unshift(id); else if (action === 1) list.push(id); else list.splice(action === 2 ? i : i + 1, 0, id);
+      parent.set(id, into);
+      if (!kids.has(id)) kids.set(id, []);
+    };
+    const order = msgs.map((x, i) => ({ ...x, when: x.t < 1 ? x.at : x.t, i })).sort((a, b) => a.when - b.when || a.i - b.i);
+    for (const { msg: [address, ...args], when } of order) {
+      const need = (...ids) => ids.every((id) => parent.has(id) || (problems.push(`${address} ${args.slice(0, 4).join(" ")} at ${when.toFixed(3)}: no node ${id}`), false));
+      if (address === "/g_new") { if (parent.has(args[0])) problems.push(`/g_new ${args[0]}: already there`); else if (need(args[2])) place(args[0], args[1], args[2]); }
+      else if (address === "/s_new") { if (parent.has(args[1])) problems.push(`/s_new ${args[0]} ${args[1]}: already there`); else if (need(args[3])) place(args[1], args[2], args[3]); }
+      else if (address === "/n_free") { if (need(args[0])) gone(args[0]); }
+      else if (address === "/g_freeAll") { if (need(args[0])) for (const k of [...kids.get(args[0])]) gone(k); }
+      else if (address === "/n_order") { if (need(args[1], args[2])) { const p = parent.get(args[2]); kids.set(p, kids.get(p).filter((x) => x !== args[2])); parent.delete(args[2]); place(args[2], args[0], args[1]); } }
+      else if (address === "/n_set" || address === "/n_run") need(args[0]);
+    }
+    return { problems, parent, kids };
+  };
+  const timed = () => audio.filter((a) => a.kind !== FRAME_HOST).map(({ msg, at }) => { const b = decode(msg[3]); return { t: b.timeTag, at, msg: b.packets[0] }; });
+  const silence = (t, fade = 1) => { drainAt = t.now; m._sp_silence(fade, t.now, t.now); drain(); };
+  const PLAYING = CARD("live_loop :a do\n  with_fx :reverb do\n    play 60, release: 0.2\n  end\n  sleep 0.25\nend\nlive_loop :b do\n  sample :bd_haus\n  sleep 0.5\nend");
+
+  scenario("Stop fades each run's mixer and frees the runs as the fade ends; the studio stays, and the next Run makes none", (t) => {
+    t.run(PLAYING, t.now, 0)
+    t.run("live_loop :c do\n  play 72, release: 0.1\n  sleep 0.5\nend", t.now, 0)
+    t.tickUntil(t.now + 2);
+    m._sp_stop_all(); drain()
+    const stoppedAt = t.now, before = timed().length;
+    silence(t)
+    const stop = timed().slice(before);
+    const fades = stop.filter((x) => x.msg[0] === "/n_set" && x.msg.includes("amp_slide"));
+    const moved = stop.filter((x) => x.msg[0] === "/n_order" && x.msg[2] === 1003);
+    const freed = stop.filter((x) => x.msg[0] === "/g_freeAll" && x.msg[1] === 1003);
+    if (fades.length !== 2) t.problems.push(`${fades.length} mixers faded, not the two runs'`);
+    if (moved.length !== 1) t.problems.push(`the runs were not moved into DYING as one (${moved.length})`);
+    if (freed.length !== 1 || freed[0].t < stoppedAt + 1) t.problems.push(`DYING not emptied as the fade ends: ${freed.map((f) => (f.t - stoppedAt).toFixed(3)).join(" ")}`);
+    if (stop.some((x) => x.msg[0] === "/n_free" || (x.msg[0] === "/g_freeAll" && x.msg[1] !== 1003))) t.problems.push("the stop freed more than DYING");
+    t.now += 0.3;   // a Run during the fade: its own place, beside the fading ones
+    t.run(PLAYING, t.now, 0)
+    t.tickUntil(t.now + 2);
+    const all = timed();
+    const made = (id) => all.filter((x) => (x.msg[0] === "/g_new" && x.msg[1] === id) || (x.msg[0] === "/s_new" && x.msg[2] === id)).length;
+    for (const id of STUDIO) if (made(id) !== 1) t.problems.push(`studio node ${id} made ${made(id)} times`);
+    const tree = engineTree(all);
+    if (tree.problems.length) t.problems.push(...tree.problems.slice(0, 3));
+    if ((tree.kids.get(1003) ?? []).length) t.problems.push(`DYING still holds ${tree.kids.get(1003)}`);
+    const after = all.slice(before).filter((x) => x.msg[1] === "sonic-pi-basic_mixer").length;
+    if (after !== 1) t.problems.push(`the Run after the Stop made ${after} run mixers, not its own one`);
+  });
+
+  scenario("a run that is over goes from the engine a second after its last sound, and its bus comes back", (t) => {
+    t.run("with_fx :echo, decay: 1 do\n  play 60, release: 0.5\nend", t.now, 0)
+    const started = t.now;
+    t.tickUntil(t.now + 1);
+    t.run("live_loop :keep do\n  sleep 0.5\n  play 50, release: 0.1\nend", t.now, 0)   // the host ticks on
+    t.tickUntil(t.now + 6);
+    const all = timed();
+    const place = all.find((x) => x.msg[1] === "sonic-pi-basic_mixer"), group = place?.msg[4];
+    const fxFree = all.find((x) => x.msg[0] === "/n_free" && x.msg[1] !== group && x.t > 1);
+    const gone = all.find((x) => x.msg[0] === "/n_free" && x.msg[1] === group);
+    if (!gone) t.problems.push("the first run's group was never freed");
+    else if (fxFree && gone.at < fxFree.t + 1 - 1e-6) t.problems.push(`freed ${(gone.at - fxFree.t).toFixed(3)}s after its fx, not a second`);
+    const tree = engineTree(all);
+    if (tree.problems.length) t.problems.push(...tree.problems.slice(0, 3));
+    // the next run, while the loop plays on: its bus and its fx's are the first run's and its echo's, back for use
+    const firsts = new Set(all.filter((x) => x.msg[0] === "/s_new" && (x.t < 1 ? x.at : x.t) < started + 0.5 && x.msg.includes("in_bus")).map((x) => x.msg[x.msg.indexOf("in_bus") + 1]));
+    const before = timed().length;
+    t.run("with_fx :lpf do\n  play 60, release: 0.1\nend", t.now, 0);
+    const next = timed().slice(before).filter((x) => x.msg[0] === "/s_new" && x.msg.includes("in_bus")).map((x) => x.msg[x.msg.indexOf("in_bus") + 1]);
+    if (next.length !== 2 || !next.every((b) => firsts.has(b))) t.problems.push(`the next run's busses ${next.join(" ")}, not the first run's ${[...firsts].join(" ")} back`);
+  });
+
+  scenario("two Stops in one fade: DYING is emptied again after the second, whatever the first's free met", (t) => {
+    t.run(PLAYING, t.now, 0)
+    t.tickUntil(t.now + 1);
+    m._sp_stop_all(); drain(); silence(t)
+    t.now += 0.4;
+    t.run(PLAYING, t.now, 0)
+    t.tickUntil(t.now + 0.5);
+    const at = t.now, before = timed().length;
+    m._sp_stop_all(); drain(); silence(t)   // the host emptied the schedule first: the first free went with it
+    const frees = timed().slice(before).filter((x) => x.msg[0] === "/g_freeAll" && x.msg[1] === 1003);
+    if (frees.length !== 1 || frees[0].t < at + 1) t.problems.push(`the second Stop's free of DYING: ${frees.map((f) => (f.t - at).toFixed(3)).join(" ")}`);
+    const tree = engineTree(timed().filter((x) => !(x.msg[0] === "/g_freeAll" && x.t > 1 && x.t < at + 1)));   // as though the first free was dropped
+    if (tree.problems.length) t.problems.push(...tree.problems.slice(0, 3));
+    if ((tree.kids.get(1003) ?? []).length) t.problems.push(`DYING still holds ${tree.kids.get(1003)}`);
+  });
+
+  scenario("a loop moved between runs keeps its first run's place; runs come and go, and nothing names a node that is gone", (t) => {
+    t.run("with_fx :lpf do\n  live_loop :d do\n    play 60, release: 0.1\n    sleep 0.25\n  end\nend", t.now, 0);
+    t.tickUntil(t.now + 1.5);
+    t.run("with_fx :level do\n  live_loop :d do\n    play 62, release: 0.1\n    sleep 0.25\n  end\nend", t.now, 0);   // into this run's fx
+    t.tickUntil(t.now + 1.5);
+    t.run("with_fx :echo, decay: 0.5 do\n  play 72, release: 0.2\nend", t.now, 0);                                     // a one-shot, over soon
+    t.tickUntil(t.now + 1.5);
+    t.run("live_loop :d do\n  play 64, release: 0.1\n  sleep 0.25\nend", t.now, 0);                                   // out of every fx: its own run's place
+    t.tickUntil(t.now + 6);
+    const all = timed(), tree = engineTree(all);
+    if (tree.problems.length) t.problems.push(...tree.problems.slice(0, 3));
+    const mixers = all.filter((x) => x.msg[1] === "sonic-pi-basic_mixer").map((x) => x.msg[4]);
+    const standing = mixers.filter((g) => tree.parent.has(g));
+    if (standing.length !== 1 || standing[0] !== mixers[0]) t.problems.push(`the runs standing ${standing}, not only the loop's first run ${mixers[0]} (of ${mixers})`);
+    const late = records.filter((r) => r.kind === "synth" && r.name === "live_loop_d" && r.time > t.now - 1).length;
+    if (late < 3) t.problems.push(`the loop should play on: ${late} in the last second`);
+  });
+
+  scenario("set_volume! reaches the studio's mixer at once, the studio made or not", (t) => {
+    t.run("set_volume! 0.5\nplay 60, release: 0.1\nsleep 0.5\nset_volume! 0.25\nplay 60, release: 0.1", t.now, 0);
+    t.tickUntil(t.now + 2);
+    const all = timed();
+    const mixer = all.find((x) => x.msg[1] === "sonic-pi-mixer");
+    const set = all.filter((x) => x.msg[0] === "/n_set" && x.msg[1] === 1002);
+    if (!mixer || mixer.msg[mixer.msg.indexOf("amp") + 1] !== 0.5) t.problems.push(`the studio was made at ${mixer && mixer.msg[mixer.msg.indexOf("amp") + 1]}, not 0.5`);
+    if (set.length !== 1 || set[0].msg[3] !== 0.25) t.problems.push(`the second set_volume! reached the mixer as ${JSON.stringify(set.map((x) => x.msg))}`);
   });
 
   scenario("a group's stop leaves a bare sound of another group alone and fades its own", (t) => {

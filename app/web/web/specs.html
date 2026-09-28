@@ -505,7 +505,7 @@ $("boot").onclick = async () => {
   }
 };
 
-$("stop").onclick = () => { stopHighlights(); if (live?.running) liveStop(); bridge?.silence(); };
+$("stop").onclick = () => { stopHighlights(); if (live?.running) liveStop(); bridge?.silenceTraces(); };
 
 function stopHighlights() {
   timers.forEach(clearTimeout); timers = [];
