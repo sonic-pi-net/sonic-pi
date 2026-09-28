@@ -2612,7 +2612,14 @@ const themeButton = siteNav.querySelector(".sn-theme"), themeMenu = $("theme-men
 function buildThemeMenu() {
   const st = theme.settings();
   themeMenu.textContent = "";
-  themeMenu.append(el("h2", "tm-title", "Colour theme"));
+  // its head: the title, and a close as the Share menu's (share-menu.js): the X at the top right closes it, and the
+  // focus goes back to the palette, as Escape's does
+  const top = el("div", "tm-top"), shut = el("button", "zoom-btn tm-close");
+  shut.type = "button"; shut.title = "Close"; shut.setAttribute("aria-label", "Close");
+  shut.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 10l4 4m0 -4l-4 4"/></svg>';
+  shut.addEventListener("click", () => { showThemeMenu(false); themeButton.focus(); });
+  top.append(el("h2", "tm-title", "Colour theme"), shut);
+  themeMenu.append(top);
   const grid = el("div", "scheme-grid");
   for (const s of theme.schemes()) {
     const b = el("button", `scheme-btn${s.id === st.scheme ? " active" : ""}`);

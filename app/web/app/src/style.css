@@ -192,7 +192,8 @@ body.scope-line:not(.info-open, .no-scope) #site-nav .ic-tabs { flex: 0 1 auto; 
 #site-nav.folded .sn-theme .tb-icon { width: 15px; height: 15px; }
 /* its menu: the picker's surface, hung from the button's right edge */
 #theme-menu { position: fixed; z-index: 400; top: var(--picker-top, 60px); right: var(--menu-right, 12px); width: min(360px, calc(100vw - 24px)); max-height: calc(100dvh - var(--picker-top, 60px) - 24px); overflow: auto; padding: 12px 14px; box-sizing: border-box; background: var(--pop-bg); border: var(--pop-border); border-radius: var(--r-m); box-shadow: var(--pop-shadow); color: var(--WindowForeground); font: var(--t-ui) var(--prose-font); }
-#theme-menu .tm-title { margin: 0 0 10px; }
+#theme-menu .tm-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }   /* the title, and the close at the right (as .sm-top) */
+#theme-menu .tm-title { margin: 0; }
 #theme-menu .scheme-grid { margin-bottom: 10px; }
 #theme-menu .pref-row > span:first-child { flex-basis: 6.5em; }
 #site-nav .sn-stop { order: -1; visibility: visible; width: 24px; height: 24px; margin: 0 14px 4px 0; color: var(--faintText); }
