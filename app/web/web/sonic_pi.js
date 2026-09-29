@@ -91,8 +91,13 @@ export async function bootEngine(opts = {}, { beforeInit, runtime } = {}) {
     // Safari too, which has no Web MIDI). Their events are the runtime worker's cues (live-worker.js padIn)
     gamepad: !!globalThis.navigator?.getGamepads,
     ...opts,
-    // with_fx blocks take a pair each (the runtime's Scheduler::BUS_LAST)
-    scsynthOptions: { numAudioBusChannels: 1024, ...opts.scsynthOptions },
+    // with_fx blocks take a pair each (the runtime's Scheduler::BUS_LAST). And the real-time pool every node is made
+    // from, in KB: SuperSonic's own 8 MB is 80 reverbs (FreeVerb2 holds its delay lines in the node, 100 KB of them),
+    // and a with_fx :reverb around each note of a fast line is 90 alive at once, each until its kill_delay has passed:
+    // scsynth then refuses every node after ("/fail /s_new out of real time memory") and the line drops out. Native
+    // boots scsynth with 128 MB (daemon.rb, -m 131072); 64 MB here is what a phone is asked for too, committed at
+    // boot (SuperSonic sizes its arena to hold the pool)
+    scsynthOptions: { numAudioBusChannels: 1024, realTimeMemorySize: 65536, ...opts.scsynthOptions },
   });
   beforeInit?.(engine);
   await engine.init();

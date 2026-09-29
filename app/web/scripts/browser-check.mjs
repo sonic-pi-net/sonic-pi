@@ -199,6 +199,15 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("the log shows what played", (await page.locator("#log .log-line").count()) > 3);
     const audio = await page.evaluate(() => ({ sent: window.sonicPi.session.bridge.sent, failures: window.sonicPi.session.failures }));
     check("sounds reach the engine as the runtime's own OSC, and scsynth refuses none", audio.sent > 3 && audio.failures === 0, JSON.stringify(audio));
+    // the pool every node is made from is the 64 MB the page boots the engine with (web/sonic_pi.js bootEngine), not
+    // SuperSonic's own 8 MB, which a reverb around each note of a fast line fills in eight seconds
+    const pool = await page.evaluate(() => new Promise((resolve) => {
+      const e = window.sonicPi.engine;
+      e.on("in", (m) => { if (m?.[0] === "/rtMemoryStatus.reply") resolve({ freeMB: Math.round(m[1] / 1048576) }); });
+      e.send("/rtMemoryStatus");
+      setTimeout(() => resolve({ freeMB: 0, unanswered: true }), 5000);
+    }));
+    check("the engine's real-time pool is the 64 MB it is booted with", pool.freeMB > 56 && pool.freeMB <= 64, JSON.stringify(pool));
     await setCode("live_loop :kick do\n  sample :bd_haus\n  puts :redefined\n  sleep 0.5\nend");
     await page.click("#btn-run");
     await page.waitForFunction(() => /redefined/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(() => {});
@@ -311,8 +320,13 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const flashed = await page.waitForSelector("#editor-mount .cm-line.sp-flash-a, #editor-mount .cm-line.sp-flash-b", { timeout: 10000 }).then(() => true).catch(() => false);
     check("a sounding line flashes, as native's code flash", flashed);
     // Debug, as native's: the engine's metrics, and under them what went to SuperSonic (the runtime's bundles too) and
-    // what came back
+    // what came back. The logs listen from the engine's boot, held in memory while the pane is closed: opened now, with
+    // the kick and bass playing since before, they already show what went (the bass's s_new) and what came back (the
+    // synthdefs' loads answered) before anyone was looking — a refusal from scsynth is heard first and looked for after
     await openPane("debug");
+    await page.waitForTimeout(300);   // shown() draws what waited on the next frame
+    const debugBefore = await page.evaluate(() => [...document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source")].map((s) => s.querySelectorAll(".logs-line").length));
+    check("the Debug pane opened after a program started shows the OSC that went before it was opened, both ways", debugBefore.length === 2 && debugBefore[0] > 0 && debugBefore[1] > 0, JSON.stringify(debugBefore));
     // a synth not heard yet: its synthdef loads, and the engine's answer to that comes back
     await setCode("use_synth :zawa\nplay 60, release: 0.1");
     await page.click("#btn-run");
