@@ -42,6 +42,11 @@ const escapeHTML = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "
 const optDocHTML = (s) => escapeHTML(s ?? "").replace(/`([^`]+)`/g, "<code>$1</code>");
 /** Native lists synths and FX by name: :dark_ambience is Dark Ambience. */
 export const titleCase = (key) => key.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+// A synth's or FX's name as shown, the same everywhere it is named (the list, the card's title, its module): its own
+// title, as native's docs have it (SC-808 Closed Hi-Hat), unless that runs words together, when its key is spelt out
+// instead. The list once made its names from the keys alone, and read "Sc808 Closed Hihat" beside a card saying
+// "SC-808 Closed Hi-Hat" (a reader's report, 2026-09-28).
+export const displayName = (p) => (/[a-z][A-Z]/.test(p.title) ? titleCase(p.key) : p.title);
 
 const svgIcon = (name) => icon({ play: "player-play", stop: "player-stop" }[name] ?? name, "");   // the one registry (icons.js)
 
@@ -391,7 +396,7 @@ export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = tr
   // synth itself — its knobs and keys — the card's panel, the code they make the card's code, and the card's foot
   // (the words, Play and Stop with their rings, the strip of its sounds). `face` is the panel.
   const face = el("div", `pg-face${isFx ? " pg-fx" : ""}`);   // an FX's rack is a grid (style.css): few modules, no keys under them
-  const name = /[a-z][A-Z]/.test(p.title) ? titleCase(p.key) : p.title;
+  const name = displayName(p);
   const numeric = p.opts.map((o) => ranged(o, p.opts)).filter((o) => typeof o.min === "number" && typeof o.max === "number" && o.max > o.min && !o.name.endsWith("_slide") && !o.options);
   let shown = numeric;
   if (isFx) shown = [...numeric.filter((o) => o.name !== "mix" && o.name !== "amp"), ...numeric.filter((o) => o.name === "mix" || o.name === "amp")];
@@ -507,7 +512,10 @@ export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = tr
   coreRegion.setAttribute("role", "group"); coreRegion.setAttribute("aria-label", "The basics");
   coreRegion.appendChild(el("span", "pg-module-name", isFx ? "Mix" : "Env"));   // a synth's core is its envelope; an FX's is how much of it is heard
   spareRegion.setAttribute("role", "group"); spareRegion.setAttribute("aria-label", `${isFx ? "The FX's" : "The synth's"} own`);
-  spareRegion.appendChild(el("span", "pg-module-name", titleCase(p.key)));
+  // named for its role, as the other modules are (Env, Out, In): the synth's own dials. The synth's name is the card's
+  // title; on the module it was one word too many, and a long one (SC-808 Closed Hi-Hat) either wrapped over the
+  // dials or, kept to a line, made the module a wide empty box
+  spareRegion.appendChild(el("span", "pg-module-name", isFx ? "FX" : "Synth"));
   basicLine.append(coreRegion, spareRegion);
   // note, amp and pan: every synth's, so every synth has them in the same place — beside Play and Stop, over the keys,
   // in Basic and All alike; the panel above is what differs from synth to synth. An FX's Out is the same idea: how
@@ -926,7 +934,7 @@ export function createDocs(root, ref, hooks) {
     switch (section) {
       case "synths": case "fx": {
         // a program's own synths (load_synthdef, their metadata: synth-meta.js) first, under their own heading
-        const all = ref[section].pages.map((p) => ({ key: p.key, title: p.user ? p.title : titleCase(p.key), user: !!p.user })).sort((a, b) => a.key.localeCompare(b.key));
+        const all = ref[section].pages.map((p) => ({ key: p.key, title: p.user ? p.title : displayName(p), user: !!p.user })).sort((a, b) => a.key.localeCompare(b.key));
         const mine = all.filter((i) => i.user);
         return mine.length ? [{ group: "Your synths" }, ...mine, { group: "Sonic Pi's" }, ...all.filter((i) => !i.user)] : all;
       }
