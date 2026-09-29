@@ -215,6 +215,7 @@ const scope = new Scope($("scope-canvas"), { mode: window.matchMedia("(max-width
 // what SuperSonic says, from before it boots
 function listenEngine(engine) {
   const on = (event, fn) => engine.on?.(event, fn);
+  logOsc(engine);   // the Debug pane's OSC logs, from the boot on (oscLogs)
   on("debug", (m) => logs.add("SuperSonic", String(m?.text ?? "").replace(/\n$/, "")));
   on("error", (e) => logs.add("SuperSonic", `error: ${describe(e)}`));
   on("shutdown", () => logs.add("SuperSonic", "shutting down"));
@@ -1427,9 +1428,12 @@ function setPanel(next) {
 // engine to read: until it runs, the pane says how to start it. Under them native's two OSC logs: what was sent in,
 // every sender's (SuperSonic's out:osc, from its watcher on the ingress ring: the runtime's worker's sends too),
 // written out here with the page's own decoder, since out:text leaves bundles out and everything the runtime sends
-// is one; and what came back to this page (in:text). Both cost something only while listened to, so the logs start
-// when the pane is first opened, and keep on after. The node tree native has there is the Threads pane's.
-const oscLogs = createLogs(shadowPane($("debug-pane").querySelector(".debug-logs")), ["To SuperSonic", "From SuperSonic"]);
+// is one; and what came back to this page (in, written out the same way). Both listen from the engine's boot
+// (listenEngine), so what happened before the pane was opened is there to read when it is: a refusal from scsynth
+// (/fail "/s_new", "out of real time memory") is heard as a sound missing, and the pane is opened after. Hidden, the
+// logs keep the last 5000 entries a side and draw nothing (logs.js). The node tree native has there is the Threads
+// pane's.
+const oscLogs = createLogs(shadowPane($("debug-pane").querySelector(".debug-logs")), ["To SuperSonic", "From SuperSonic"], { shown: false });
 let oscLogged = null;   // the engine the logs listen to
 async function logOsc(engine) {
   if (!engine || oscLogged === engine) return;
@@ -1440,7 +1444,7 @@ async function logOsc(engine) {
     try { oscLogs.add("To SuperSonic", oscText(decode(d.oscData), d.timestamp)); }
     catch (e) { oscLogs.add("To SuperSonic", `<${d.oscData?.length ?? "?"} bytes: ${describe(e)}>`); }
   });
-  engine.on?.("in:text", (m) => { if (oscLogged === engine) oscLogs.add("From SuperSonic", m?.text ?? ""); });
+  engine.on?.("in", (m) => { if (oscLogged === engine) oscLogs.add("From SuperSonic", Array.isArray(m) ? oscText(m) : String(m)); });
 }
 // a message as SuperSonic writes one (/s_new "sonic-pi-beep", 1001, …; a blob by its size); a bundle its messages,
 // one a line, the first marked with how far ahead of its sending it is to sound (none: immediately)
@@ -1464,9 +1468,8 @@ let debugOn = false, debugLoaded = null;
 function showDebug(on) {
   debugOn = on;
   const el = $("debug-pane").querySelector("clockwork-metrics");
-  if (!on) return el.disconnect?.();
-  logOsc(engineRef);
-  requestAnimationFrame(() => oscLogs.shown());   // the tails that follow the end go there
+  if (!on) { oscLogs.hidden(); return el.disconnect?.(); }
+  requestAnimationFrame(() => { if (debugOn) oscLogs.shown(); });   // what waited while the pane was hidden, and the tails that follow the end go there
   debugLoaded ??= import(new URL("supersonic/metrics_component.js", location.href).href).catch((e) => { logs.add("Host", `the metrics did not load: ${describe(e)}`); });
   debugLoaded.then(() => {
     if (!debugOn || !engineRef) return;
