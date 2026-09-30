@@ -11,7 +11,7 @@
  * sonic_pi.js WorkerSession is the page's half.
  *
  * Page → worker: live {channel, clock}, run {code, group},
- * stop, silence {fade, since}, lost, stopJob {job}, stopGroup {group, fade}, stopRun {job, fade}, cue {address, args}, groupUnder {group, parent}, stopSubtree {uid, fade}, linkBpm {bpm}, timeWarp {ms}, loaded {synthdef|bufnum, ok}.
+ * stop, silence {fade, since}, lost, stopJob {job}, stopGroup {group, fade}, stopRun {job, fade}, cue {address, args}, groupUnder {group, parent}, linkBpm {bpm}, timeWarp {ms}, loaded {synthdef|bufnum, ok}.
  * Worker → page: ready {version, samples} or failed {error}; reply {id, value|error};
  * batch {records, table, heap, perf, started, host, running, t0};
  * load {ops: [["synthdef", name, url?] | ["sample", bufnum, file] | ["free", bufnum, file]]};
@@ -325,7 +325,6 @@ const handle = async ({ data: d }) => {
       // coming seconds after the knob stops. The table is a view; it goes out with the next frame.
       case "cue": core.cue(d.address, d.args); flushSoon(); return;
       case "groupUnder": core.groupUnder(d.group, d.parent); return;
-      case "stopSubtree": core.stopSubtree(d.uid, d.fade); flush(); return;
       case "linkBpm": core.setLinkBpm(d.bpm); return;
       case "timeWarp": core.setTimeWarp(d.ms); return;
       case "hold": core.hold(d.seconds); return;

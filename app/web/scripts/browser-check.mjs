@@ -353,6 +353,18 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     }, null, { timeout: 5000 }).then((h) => h.jsonValue()).catch(() => null);
     const unplaced = drawn != null ? [] : await page.evaluate(() => window.sonicPi.processTree().filter((n) => n.x == null && n.state < 3).map((n) => `${n.label} (state ${n.state})`));
     check("the process tree draws its nodes", drawn != null, drawn != null ? `${drawn} nodes` : `live and unplaced: ${unplaced.join(", ")}`);
+    // The Threads view is for looking and for finding a line, never for changing what plays: a shift-click on a node
+    // (what once stopped it, and everything under it) is a click like any other, and the loop plays on
+    const kickNode = await page.evaluate(() => {
+      const n = window.sonicPi.processTree().find((x) => x.label === "live_loop :kick" && x.state <= 2 && x.x != null);
+      const c = document.getElementById("insight-pane").shadowRoot?.querySelector("canvas") ?? document.querySelector("#insight-pane canvas");
+      const r = c?.getBoundingClientRect();
+      return n && r ? { x: r.left + n.x, y: r.top + n.y } : null;
+    });
+    if (kickNode) { await page.keyboard.down("Shift"); await page.mouse.click(kickNode.x, kickNode.y); await page.keyboard.up("Shift"); }
+    await page.waitForTimeout(1500);
+    const kickAfter = await page.evaluate(() => ({ named: window.sonicPi.session.status().named, tree: window.sonicPi.processTree().filter((x) => x.label === "live_loop :kick").map((x) => x.state) }));
+    check("a shift-click on a node of the Threads view stops nothing: the view changes no state", kickNode != null && kickAfter.named.includes("live_loop_kick") && kickAfter.tree.some((st) => st <= 2), JSON.stringify({ node: kickNode, after: kickAfter }));
     // a loop held on a sync says so in its scope
     await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend\nlive_loop :held do\n  sync :never_cued\n  play 60\nend");
     await page.click("#btn-run");

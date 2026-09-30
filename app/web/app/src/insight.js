@@ -107,7 +107,7 @@ export function createInsight(root, hooks) {
   body.append(canvasWrap, tableWrap);
   const processes = el("div", "insight-processes");
   root.append(head, processes, body);
-  const tree = createProcessTree(processes, { read: () => (paused ? frozenRows : hooks.processes()), now: () => (paused ? frozenNow : hooks.now()), jump: hooks.jump, stop: hooks.stop });
+  const tree = createProcessTree(processes, { read: () => (paused ? frozenRows : hooks.processes()), now: () => (paused ? frozenNow : hooks.now()), jump: hooks.jump });
   const rollPane = el("div");
   root.insertBefore(rollPane, body);
   const roll = createPianoRoll(rollPane, {

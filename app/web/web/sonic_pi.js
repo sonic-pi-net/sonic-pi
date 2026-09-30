@@ -598,8 +598,6 @@ export class LiveSession {
   /** A group sits under another: the parent's stop takes it too. */
   groupUnder(group, parent) { this.#core.groupUnder(group, parent); }
 
-  /** A subtree stops (LiveCore#stopSubtree): a thread and everything under it, or an fx block's threads and sounds. */
-  stopSubtree(uid, fade = 0) { this.#core.stopSubtree(uid, fade); }
 
   /**
    * Every job stops where it stands, and what is sounding fades out over STOP_FADE seconds, as native's Stop: once
@@ -821,7 +819,6 @@ export class WorkerSession {
   groupUnder(group, parent) { this.#worker.postMessage({ type: "groupUnder", group, parent }); }
 
   /** A subtree stops in the worker: a thread and everything under it, or an fx block's threads and sounds. */
-  stopSubtree(uid, fade = 0) { this.#worker.postMessage({ type: "stopSubtree", uid, fade }); }
 
 
   /**

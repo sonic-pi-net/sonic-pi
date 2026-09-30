@@ -178,14 +178,6 @@ export class LiveCore {
     this.#deps.ticked?.();
   }
 
-  /** A subtree stops (Scheduler#stop_subtree): a thread with everything under it, or an fx block's threads and sounds. */
-  stopSubtree(uid, fade = 0) {
-    this.#runtime.module._sp_stop_subtree(uid, fade, this.#deps.now());
-    this.#drain();
-    this.#deps.ticked?.();
-    if (!this.running) { this.running = true; this.#deps.state?.(true); this.tick(); }
-  }
-
   /**
    * A cue from outside the program (MIDI in, a game controller): into the Time State now, waking the syncs that
    * wait on it.

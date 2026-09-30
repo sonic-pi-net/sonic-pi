@@ -1231,7 +1231,6 @@ flight.on((e) => { if (e.type === "mark") logs.add("Host", `${e.mark.kind}: ${e.
 
 const insight = createInsight(shadowPane($("insight-pane")), {   // in its shadow root (shadow.js)
   processes: readProcesses,
-  stop: (uid) => session?.stopSubtree(uid, 0.25),   // the threads view: a node and everything under it, faded (Scheduler#stop_subtree)
   synthDefaults: (synth) => synthOpts.get(synth.replace(/^sonic-pi-/, "")) ?? null,
   now: () => session?.clockNow() ?? null,
   jump: (line, job) => {
