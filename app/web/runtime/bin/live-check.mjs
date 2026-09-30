@@ -413,7 +413,7 @@ for (const spec of specs) {
   console.log(`${ok ? "pass" : "FAIL"} a live loop moved into another run's with_fx keeps sounding, and its old fx goes after the move${ok ? "" : ": " + problems.slice(0, 4).join("; ")}`);
   if (ok) pass++; else fail++;
 }
-// ── Groups: the unit the GUI plays and stops by (Scheduler#stop_group). A card's runs are one group, a buffer's
+// ── Groups: the unit the GUI plays and stops by (Scheduler#stop_group). The cards' runs are one group, a buffer's
 // another. Each scenario drives the runtime as the page does — sp_run_group, ticks, sp_stop_group — and reads the
 // process table (a group column, the 15th) and the OSC the engine gets.
 {
@@ -425,7 +425,7 @@ for (const spec of specs) {
   const groupRow = (now, g) => { const t = table(now); for (let i = 0; i + FIELDS <= t.length; i += FIELDS) if (t[i + KIND] === 9 && t[i + GROUP] === g) return { uid: t[i], parent: t[i + 1], state: t[i + STATE] }; return null; };
   const run = (code, now, g) => { drainAt = now; const job = m.ccall("sp_run_group", "number", ["string", "number", "number"], [code, now, g]); drain(); return job; };
   const osc = () => audio.map(({ msg }) => { const [, , , bytes] = msg; const b = decode(bytes); const pk = b.packets?.[0] ?? b; return { t: b.timeTag, msg: pk }; });
-  const scenario = (name, body) => { records = []; audio = []; m._sp_live_boot(); m._sp_live_stop_after(-1); let now = 1000; const tickUntil = (until) => { for (let i = 0; i < 100000 && now < until; i++) { drainAt = now; const next = m._sp_tick(now); drain(); now = next < 0 ? until : Math.min(Math.max(now, next), until); } }; const problems = []; body({ run, tickUntil, get now() { return now; }, set now(v) { now = v; }, live, osc, problems, stop: (g, fade) => { drainAt = now; m._sp_stop_group(g, fade, now); drain(); } }); m._sp_stop_all(); drain(); const ok = problems.length === 0; console.log(`${ok ? "pass" : "FAIL"} ${name}${ok ? "" : ": " + problems.join("; ")}`); if (ok) pass++; else fail++; };
+  const scenario = (name, body) => { records = []; audio = []; m._sp_live_boot(); m._sp_live_stop_after(-1); let now = 1000; const tickUntil = (until) => { for (let i = 0; i < 100000 && now < until; i++) { drainAt = now; const next = m._sp_tick(now); drain(); now = next < 0 ? until : Math.min(Math.max(now, next), until); } }; const problems = []; body({ run, tickUntil, get now() { return now; }, set now(v) { now = v; }, live, osc, problems, stop: (g, fade) => { drainAt = now; m._sp_stop_group(g, fade, now); drain(); }, stopRun: (job, fade) => { if (!m._sp_stop_run) { problems.push("the runtime has no sp_stop_run"); return; } drainAt = now; m._sp_stop_run(job, fade, now); drain(); } }); m._sp_stop_all(); drain(); const ok = problems.length === 0; console.log(`${ok ? "pass" : "FAIL"} ${name}${ok ? "" : ": " + problems.join("; ")}`); if (ok) pass++; else fail++; };
   const CARD = (code, slot = 1) => `with_fx :scope_out, scope_num: ${slot} do\n${code}\nend\n`;
   const LOOP = CARD("live_loop :flibble do\n  sample :bd_haus\n  sleep 0.5\nend");
 
@@ -528,6 +528,107 @@ for (const spec of specs) {
     for (const g of [10, 11]) if (t.live(t.now, g).length) t.problems.push(`group ${g} still live after the parent's stop`);
     const after = records.filter((r) => r.kind === "synth" && r.time > t.now - 1).length;
     if (after) t.problems.push(`${after} sounds still triggered after the parent's stop`);
+  });
+
+  // ── Runs: a card is its runs (ui/deck.js). Each Play of a card is a run in the cards' one group, and the card's
+  // Stop stops each run it started, as a subtree: the run's threads and every thread under them, its fx and its
+  // sounds (Scheduler#stop_run). A loop a later run redefined has moved under that run (Scheduler#move_loop), so
+  // it goes with the run that last said what it plays, whichever run it was born in. No card has a group of its
+  // own, so none is left behind it: fourteen plays of a card were fourteen groups in the table for good.
+  const CARDS = 2000;
+  const hits = (t, name, within = 1) => records.filter((r) => r.kind === "synth" && r.name === name && r.time > t.now - within).length;
+  const sounding = (t, job) => { const tb = table(t.now); let n = 0; for (let i = 0; i + FIELDS <= tb.length; i += FIELDS) if ((tb[i + KIND] === 7 || tb[i + KIND] === 8) && tb[i + STATE] === 0 && tb[i + 2] === job) n++; return n; };
+  const groupsIn = (t) => { const tb = table(t.now); const out = []; for (let i = 0; i + FIELDS <= tb.length; i += FIELDS) if (tb[i + KIND] === 9) out.push(tb[i + GROUP]); return out.sort((a, b) => a - b); };
+
+  scenario("a run stops as one by its job: its loop and its sounds go, another run of the same group plays on", (t) => {
+    const a = t.run(LOOP, t.now, CARDS);
+    const b = t.run(CARD("live_loop :other do\n  play 60, release: 0.1\n  sleep 0.5\nend", 2), t.now, CARDS);
+    t.tickUntil(t.now + 2);
+    if (hits(t, "live_loop_flibble") < 1 || hits(t, "live_loop_other") < 1) t.problems.push("both loops should be playing before the stop");
+    t.stopRun(a, 0);
+    t.tickUntil(t.now + 1.5);
+    if (hits(t, "live_loop_flibble")) t.problems.push(`:flibble still triggered ${hits(t, "live_loop_flibble")} times after its run's stop`);
+    if (hits(t, "live_loop_other") < 1) t.problems.push(":other, the other run's, should play on");
+    if (!t.live(t.now, CARDS).length) t.problems.push("the group both are in should still be live");
+    t.stopRun(b, 0);
+    t.tickUntil(t.now + 1.5);
+    if (hits(t, "live_loop_other")) t.problems.push(":other still plays after its own run's stop");
+  });
+
+  scenario("a card played again: the loop goes with the run that redefined it, a note still sounding with the run that played it", (t) => {
+    const first = t.run(CARD("play 50, release: 8\nlive_loop :l do\n  play 60, release: 0.1\n  sleep 0.5\nend"), t.now, CARDS);
+    t.tickUntil(t.now + 1.5);
+    const second = t.run(CARD("live_loop :l do\n  play 72, release: 0.1\n  sleep 0.25\nend"), t.now, CARDS);   // Play again: the loop takes the new code
+    t.tickUntil(t.now + 1.5);
+    if (hits(t, "live_loop_l") < 3) t.problems.push(`the redefined loop should be playing faster: ${hits(t, "live_loop_l")} hits in the last second`);
+    if (!sounding(t, first)) t.problems.push("the first run's long note should still be sounding");
+    t.stopRun(first, 0);
+    t.tickUntil(t.now + 1.5);
+    if (sounding(t, first)) t.problems.push("the first run's note still sounds after that run's stop");
+    if (hits(t, "live_loop_l") < 3) t.problems.push(`the loop is the second run's now, and should play on after the first's stop: ${hits(t, "live_loop_l")} hits in the last second`);
+    t.stopRun(second, 0);
+    t.tickUntil(t.now + 1.5);
+    if (hits(t, "live_loop_l")) t.problems.push(`the loop still triggered ${hits(t, "live_loop_l")} times after the stop of the run that redefined it`);
+    if (t.live(t.now, CARDS).length) t.problems.push(`the group should be over with both runs stopped: kinds ${t.live(t.now, CARDS)}`);
+  });
+
+  scenario("a run's stop takes a loop it redefined from a buffer's run; the buffer's run's stop, and its group's, leave it", (t) => {
+    const buffer = t.run("live_loop :m do\n  play 60, release: 0.1\n  sleep 0.5\nend\n", t.now, 1001);   // the editor's, in its buffer's group
+    t.tickUntil(t.now + 1.5);
+    const card = t.run(CARD("live_loop :m do\n  play 72, release: 0.1\n  sleep 0.25\nend"), t.now, CARDS);
+    t.tickUntil(t.now + 1.5);
+    t.stopRun(buffer, 0);
+    t.stop(1001, 0);
+    t.tickUntil(t.now + 1.5);
+    if (hits(t, "live_loop_m") < 3) t.problems.push(`the loop is the card's run's now, and should play on: ${hits(t, "live_loop_m")} hits in the last second`);
+    t.stopRun(card, 0);
+    t.tickUntil(t.now + 1.5);
+    if (hits(t, "live_loop_m")) t.problems.push(`the loop still triggered ${hits(t, "live_loop_m")} times after the stop of the run that redefined it`);
+  });
+
+  scenario("a run's stop with a fade turns its fx down first and frees them as the fade ends", (t) => {
+    const job = t.run(LOOP, t.now, CARDS);
+    t.tickUntil(t.now + 2);
+    audio = [];
+    const at = t.now;
+    t.stopRun(job, 0.25);
+    t.tickUntil(t.now + 1);
+    const msgs = t.osc();
+    const fades = msgs.filter((x) => x.msg[0] === "/n_set" && x.msg.includes("amp_slide"));
+    const frees = msgs.filter((x) => x.msg[0] === "/n_free");
+    if (!fades.length) t.problems.push("no amp fade was sent");
+    if (!frees.length) t.problems.push("no free was sent");
+    if (frees.some((f) => f.t < at + 0.25)) t.problems.push(`a free left before the fade's end: ${frees.map((f) => (f.t - at).toFixed(3)).join(" ")}`);
+    if (hits(t, "live_loop_flibble", 0.7)) t.problems.push("the loop still plays after the faded stop");
+  });
+
+  scenario("the stop of a run that is over, or of one there never was, does nothing and says nothing", (t) => {
+    const done = t.run(CARD("play 60, release: 0.1"), t.now, CARDS);
+    const loop = t.run(CARD("live_loop :on do\n  play 64, release: 0.1\n  sleep 0.5\nend", 2), t.now, CARDS);
+    t.tickUntil(t.now + 5);   // the one-shot is over, and gone from the table
+    audio = [];
+    const errorsBefore = records.filter((r) => r.kind === "error").length;
+    t.stopRun(done, 0.25);
+    t.stopRun(4242, 0);
+    t.tickUntil(t.now + 1);
+    if (records.filter((r) => r.kind === "error").length !== errorsBefore) t.problems.push("the stop raised an error");
+    if (t.osc().some((x) => x.msg[0] === "/n_free" && x.t < 1)) t.problems.push("the stop freed something at once");
+    if (hits(t, "live_loop_on") < 1) t.problems.push("the run beside it should play on");
+    t.stopRun(loop, 0);
+  });
+
+  scenario("fourteen plays of a card leave no group behind them: the table has the cards' group, and no other", (t) => {
+    for (let i = 0; i < 14; i++) {
+      const job = t.run(CARD(`live_loop :card do\n  play ${60 + i}, release: 0.1\n  sleep 0.25\nend`), t.now, CARDS);
+      t.tickUntil(t.now + 0.5);
+      if (i === 0 && groupsIn(t).join() !== String(CARDS)) t.problems.push(`the groups in the table as the first plays: ${groupsIn(t).join()}`);
+      t.stopRun(job, 0);
+      t.tickUntil(t.now + 0.3);
+    }
+    t.tickUntil(t.now + 4);
+    if (groupsIn(t).join() !== String(CARDS)) t.problems.push(`the groups in the table after fourteen plays: ${groupsIn(t).join()}`);
+    const tb = table(t.now); let rows = 0; for (let i = 0; i + FIELDS <= tb.length; i += FIELDS) if (tb[i + KIND] !== 9) rows++;
+    if (rows) t.problems.push(`${rows} rows of the runs are still in the table once they are over`);
   });
 
   scenario("a subtree stops: one live loop by its uid, its sibling plays on; an fx block by its uid takes the loops inside it", (t) => {

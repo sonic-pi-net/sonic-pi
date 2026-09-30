@@ -64,6 +64,28 @@ const PLAYERS = ["basic_stereo_player", "basic_mono_player", "stereo_player", "m
 export const PROCESS_FIELDS = ["uid", "parent", "job", "kind", "state", "line", "wake", "beat", "bpm", "active", "events", "redefs", "ended", "node", "group"];   // group: the run's (Scheduler#stop_group)
 
 /**
+ * The runs with something of theirs live, from the process table: a thread running, sleeping or waiting, an fx
+ * block not yet freed, a sound sounding. Whose a row is is read up the tree, from the row to the run it hangs
+ * under, not from its job column, which is the run it was born in: a live loop a later run redefined hangs
+ * under that run (Scheduler#move_loop), and that is the run it keeps live, and the run whose stop takes it
+ * (Scheduler#stop_run). A row whose parent is not in the table is nobody's.
+ * @returns the runs' job ids, in order
+ */
+export function liveRuns(table) {
+  const width = PROCESS_FIELDS.length, rows = new Map();
+  for (let i = 0; i + width <= table.length; i += width) rows.set(table[i], i);
+  const live = new Set();
+  for (let i = 0; i + width <= table.length; i += width) {
+    const kind = table[i + 3], state = table[i + 4];
+    if (!((kind >= 1 && kind <= 5 && state <= 2) || (kind === 6 && state < 3) || ((kind === 7 || kind === 8) && state === 0))) continue;
+    let at = i;
+    for (let steps = 0; at != null && table[at + 3] !== 0 && steps < 64; steps++) at = rows.get(table[at + 1]);
+    if (at != null && table[at + 3] === 0) live.add(table[at + 2]);
+  }
+  return [...live].sort((a, b) => a - b);
+}
+
+/**
  * The mruby runtime: its wasm, the random tables and the built-in samples' facts.
  *
  * The tables are 840 kB each and there are five of them, which is most of what a first visit weighs. `sources`

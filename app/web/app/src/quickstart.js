@@ -337,7 +337,7 @@ export function createQuickstart(root, data, hooks) {
 
   return {
     render,
-    groups: (live) => cards.groups(live),
+    runs: (live) => cards.runs(live),
     error: (r) => cards.error(r),
     flash: (job, line) => cards.flash(job, line),
     release: (job) => cards.release(job),

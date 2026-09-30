@@ -58,7 +58,7 @@ if [ "$MODE" != "--native" ]; then
     "$ROOT/runtime/host/sp_host.c" "$OUT/runtime_irep.c" $("$CONFIG" --libs) \
     -O2 -g0 -o "$OUT/sp_runtime.mjs" \
     -sMODULARIZE=1 -sEXPORT_ES6=1 -sENVIRONMENT=node,web,worker -sALLOW_MEMORY_GROWTH=1 \
-    -sEXPORTED_FUNCTIONS=_sp_init,_sp_install_table,_sp_install_synth,_sp_set_samples_dir,_sp_install_sample,_sp_trace,_sp_version,_sp_live_boot,_sp_run,_sp_tick,_sp_stop_all,_sp_silence,_sp_engine_lost,_sp_stop_job,_sp_run_group,_sp_stop_group,_sp_group_under,_sp_stop_subtree,_sp_process_table,_sp_process_table_len,_sp_live_stop_after,_sp_set_link_bpm,_sp_set_time_warp,_sp_hold,_sp_sched_ahead,_sp_cue,_sp_out_ptr,_sp_out_len,_sp_buffer_for,_sp_synthdef_for,_malloc,_free \
+    -sEXPORTED_FUNCTIONS=_sp_init,_sp_install_table,_sp_install_synth,_sp_set_samples_dir,_sp_install_sample,_sp_trace,_sp_version,_sp_live_boot,_sp_run,_sp_tick,_sp_stop_all,_sp_silence,_sp_engine_lost,_sp_stop_job,_sp_run_group,_sp_stop_group,_sp_group_under,_sp_stop_subtree,_sp_stop_run,_sp_process_table,_sp_process_table_len,_sp_live_stop_after,_sp_set_link_bpm,_sp_set_time_warp,_sp_hold,_sp_sched_ahead,_sp_cue,_sp_out_ptr,_sp_out_len,_sp_buffer_for,_sp_synthdef_for,_malloc,_free \
     -sEXPORTED_RUNTIME_METHODS=ccall,cwrap,UTF8ToString,HEAPU8,HEAPF64
   ls -la "$OUT/sp_runtime.mjs" "$OUT/sp_runtime.wasm"
 fi

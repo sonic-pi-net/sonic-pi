@@ -19,7 +19,7 @@
 import { SuperSonic } from "./supersonic/supersonic.js";
 import { decode } from "./osc.js";
 import { createRecordReader } from "./gui-stream.js";
-import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, programNeeds, workerSettled, TABLES } from "./runtime.js";
+import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, liveRuns, programNeeds, workerSettled, TABLES } from "./runtime.js";
 import { LiveCore, freshPerf, addPerf, countHeadroom } from "./live-core.js";
 
 const STOP_FADE = 1;           // seconds a Stop fades over (Scheduler#silence)
@@ -448,7 +448,8 @@ function statusFrom(table, records) {
     threads.push({ id: t?.id ?? "", name: t?.name ?? "", job, state: state === 1 ? "sleeping" : "waiting",
       beat: table[i + 7], bpm: table[i + 8], wake: state === 1 ? table[i + 6] : undefined, on: state === 2 ? t?.on ?? undefined : undefined, line: line >= 0 ? line : undefined });
   }
-  return { jobs: [...jobs].sort((a, b) => a - b), named: named.sort(), sleeping, waiting, threads, groups: [...groups].sort((a, b) => a - b) };
+  // runs: the runs with something of theirs live, by the tree (liveRuns): a card is over when none of its is
+  return { jobs: [...jobs].sort((a, b) => a - b), named: named.sort(), sleeping, waiting, threads, groups: [...groups].sort((a, b) => a - b), runs: liveRuns(table) };
 }
 
 // A record more than two seconds behind the engine's clock is the past: the page was held (a dialog, a
@@ -589,6 +590,8 @@ export class LiveSession {
 
   /** A group stops (LiveCore#stopGroup): its threads now, its sounds faded over `fade` seconds and freed after. */
   stopGroup(group, fade = 0) { this.#core.stopGroup(group, fade); }
+  /** A run stops, by its job (LiveCore#stopRun): everything under it in the tree, a loop it redefined among it. */
+  stopRun(job, fade = 0) { this.#core.stopRun(job, fade); }
   /** A cue from outside the program (MIDI in): LiveCore#cue. */
   cue(address, args = []) { this.#core.cue(address, args); }
 
@@ -810,6 +813,8 @@ export class WorkerSession {
 
   /** A group stops in the worker: its threads now, its sounds faded over `fade` seconds and freed after. */
   stopGroup(group, fade = 0) { this.#worker.postMessage({ type: "stopGroup", group, fade }); }
+  /** A run stops, by its job (LiveCore#stopRun): everything under it in the tree, a loop it redefined among it. */
+  stopRun(job, fade = 0) { this.#worker.postMessage({ type: "stopRun", job, fade }); }
   cue(address, args = []) { this.#worker.postMessage({ type: "cue", address, args }); }
 
   /** A group sits under another: the parent's stop takes it too. */

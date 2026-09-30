@@ -918,7 +918,7 @@ export function createDocs(root, ref, hooks) {
   }
 
   // ── Snippets: the code card (ui/card.js), named for the heading above it, numbered within its section ──
-  const deck = createDeck({ play: (code, opts) => hooks.play?.(code, opts) ?? hooks.run(code), stopGroup: hooks.stopGroup, group: hooks.group, scopeFrame: hooks.scopeFrame }, root);
+  const deck = createDeck({ play: (code, opts) => hooks.play?.(code, opts) ?? hooks.run(code), stopRun: hooks.stopRun, scopeFrame: hooks.scopeFrame }, root);
   const counts = new Map();
   function snippet(page, code, { runnable = true } = {}) {
     let h = page.lastElementChild;
@@ -1110,7 +1110,7 @@ export function createDocs(root, ref, hooks) {
     flash: (job, line) => deck.flash(job, line),
     release: (job) => deck.release(job),
     get playing() { return deck.playing; },
-    groups: (live) => deck.groups(live),
+    runs: (live) => deck.runs(live),
     owns: (job) => deck.owns(job),
     record: (r) => deck.record(r),
     get starting() { return deck.starting; },

@@ -11,7 +11,7 @@
  * sonic_pi.js WorkerSession is the page's half.
  *
  * Page → worker: live {channel, clock}, run {code, group},
- * stop, silence {fade, since}, lost, stopJob {job}, stopGroup {group, fade}, cue {address, args}, groupUnder {group, parent}, stopSubtree {uid, fade}, linkBpm {bpm}, timeWarp {ms}, loaded {synthdef|bufnum, ok}.
+ * stop, silence {fade, since}, lost, stopJob {job}, stopGroup {group, fade}, stopRun {job, fade}, cue {address, args}, groupUnder {group, parent}, stopSubtree {uid, fade}, linkBpm {bpm}, timeWarp {ms}, loaded {synthdef|bufnum, ok}.
  * Worker → page: ready {version, samples} or failed {error}; reply {id, value|error};
  * batch {records, table, heap, perf, started, host, running, t0};
  * load {ops: [["synthdef", name, url?] | ["sample", bufnum, file] | ["free", bufnum, file]]};
@@ -319,6 +319,7 @@ const handle = async ({ data: d }) => {
       case "lost": core.engineLost(); return reply(d.id, true);
       case "stopJob": core.stopJob(d.job); return;
       case "stopGroup": core.stopGroup(d.group, d.fade); flush(); return;
+      case "stopRun": core.stopRun(d.job, d.fade); flush(); return;
       // flushSoon, not flush: a flush builds the whole process table, and doing that for every message a
       // controller sends would put the worker behind its own inbox — messages queue up unseen and the sounds keep
       // coming seconds after the knob stops. The table is a view; it goes out with the next frame.

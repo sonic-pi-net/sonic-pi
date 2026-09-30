@@ -46,6 +46,7 @@ ADAPTER="node $PWD/runtime/bin/trace-wasm.mjs" ruby scripts/check.rb # through t
 ruby scripts/check-validations.rb                   # every opt's rule, against the server's own checking
 ruby scripts/check-corpus.rb                        # every example and tutorial snippet, with Safe mode on
 node runtime/bin/live-check.mjs                     # a live session, and the OSC it sends
+node scripts/deck-check.mjs                         # the cards' deck and the status's live runs, with no browser
 node scripts/browser-check.mjs                      # the pages themselves, in Chromium and WebKit
 node scripts/share-check.mjs                        # every shipped program through the share link and back
 ```

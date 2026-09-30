@@ -562,6 +562,15 @@ SP_EXPORT void sp_stop_subtree(int uid, double fade, double now) {
   if (mrb->exc) report_exception("stopping a subtree");
 }
 
+// A run stops, by its job, as a subtree: what is under it in the tree now, a loop it redefined among it.
+SP_EXPORT void sp_stop_run(int job, double fade, double now) {
+  outbox.len = 0;
+  int ai = mrb_gc_arena_save(mrb);
+  mrb_funcall(mrb, live_module(), "stop_run", 3, mrb_int_value(mrb, job), mrb_float_value(mrb, fade), mrb_float_value(mrb, now));
+  mrb_gc_arena_restore(mrb, ai);
+  if (mrb->exc) report_exception("stopping a run");
+}
+
 // A group sits under another: stopping the parent stops it too.
 SP_EXPORT void sp_group_under(int group, int parent) {
   int ai = mrb_gc_arena_save(mrb);

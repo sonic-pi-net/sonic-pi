@@ -483,7 +483,7 @@ export function createInfo(card, hooks) {
       for (const b of tabsEl.querySelectorAll(".ic-tab[data-tab]")) { const k = b.dataset.tab; if (fileOf(k) && !pages.has(k) && k !== current?.key) textOf(k).catch(() => {}); }
     },
     // every page's live cards: a card playing on a page left behind still hears the session
-    groups: (live) => all().forEach((m) => m.groups(live)),
+    runs: (live) => all().forEach((m) => m.runs(live)),
     error: (r) => all().forEach((m) => m.error(r)),
     release: (job) => all().forEach((m) => m.release(job)),
     flash: (job, line) => all().forEach((m) => m.flash(job, line)),

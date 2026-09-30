@@ -548,10 +548,10 @@ module SonicPi
 
     # RT: a group stops — every thread born into it or moved into it, wherever its run began. What is sounding
     # goes gently: its fx and its bare sounds are turned down over `fade` seconds and freed as the fade ends (at
-    # once when fade is 0). A group is the unit the GUI plays and stops by: a card's runs are one group, a
-    # buffer's runs another, so Stop on a card reaches a loop its second run redefined and nothing else.
+    # once when fade is 0). A group is a unit the GUI stops by: a buffer's runs are one, so its Stop reaches a loop
+    # a second run of it redefined and nothing else. The cards' runs share one; a card stops by its runs (stop_run).
     GROUP_FREE_GRACE = 0.05
-    # Groups nest: a group under another goes when that one is stopped (a card's under the cards', a buffer's
+    # Groups nest: a group under another goes when that one is stopped (a buffer's
     # under the buffers', a track's buffers under the track).
     def group_under(group, parent)
       @group_parent[group] = parent
@@ -588,6 +588,16 @@ module SonicPi
         root = @procs[uid] or return nil
         stop_where(->(p) { descends?(p, root) }, fade, now)
       end
+    end
+
+    # A run stops, by its job: the run's threads and every thread under them, with their fx and their sounds, as any
+    # subtree does. What is under a run is what the tree says: a live loop a later run redefined has moved under
+    # that run (move_loop), so it goes with the run that last said what it plays, and not with the run it was born
+    # in — which is what stop_job goes by. A card is its runs, and its Stop is this, for each (ui/deck.js). A run
+    # that is over and gone from the table, or that never was, is nothing to stop.
+    def stop_run(id, fade, now)
+      root = @procs.each_value.find { |p| p.path.size == 1 && p.path[0] == id } or return nil
+      stop_where(->(p) { descends?(p, root) }, fade, now)
     end
 
     def descends?(p, root)

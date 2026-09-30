@@ -101,6 +101,8 @@ jobs:
         run: ADAPTER="node $PWD/runtime/bin/trace-wasm.mjs" ruby scripts/check.rb
       - name: A live session
         run: node runtime/bin/live-check.mjs
+      - name: The cards' deck, and the runs the status calls live
+        run: node scripts/deck-check.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: sp_runtime

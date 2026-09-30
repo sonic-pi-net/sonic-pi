@@ -483,7 +483,23 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       for (let i = 3; i < d.length; i += 4) if (d[i] > 8) lit++;
       return { w: c.width, lit };
     });
+    // a card is its runs (ui/deck.js): each Play a run in the cards' one group (2000), live while anything of it is,
+    // and no group of the card's own to outlive it — fourteen plays of a card were fourteen groups in the Threads
+    // pane for good. The groups in the runtime's table (kind 9, the group its 15th column) and the runs the status
+    // calls live as the demo plays; then its Stop, which stops the card's runs, and the card at rest
+    const cardNow = () => page.evaluate(() => {
+      const t = window.sonicPi.session.processTable(), groups = [];
+      for (let i = 0; i + 15 <= t.length; i += 15) if (t[i + 3] === 9) groups.push(t[i + 14]);
+      return { groups: groups.sort((a, b) => a - b), runs: window.sonicPi.session.status().runs ?? null,
+               playing: !!document.querySelector("#docs-pane .pg-card .qs-transport.playing") };
+    });
+    const cardPlaying = await cardNow();
     await page.locator("#docs-pane .pg-card .qs-card-foot .qs-transport button").nth(1).click();
+    await page.waitForFunction(() => (window.sonicPi.session.status().runs ?? [0]).length === 0, null, { timeout: 8000 }).catch(() => {});
+    const cardStopped = await cardNow();
+    check("a card plays as a run in the cards' group with no group of its own, and its Stop stops that run",
+      cardPlaying.playing && cardPlaying.groups.includes(2000) && !cardPlaying.groups.some((g) => g > 2000) && cardPlaying.runs?.length === 1
+        && !cardStopped.playing && cardStopped.runs?.length === 0 && !cardStopped.groups.some((g) => g > 2000), JSON.stringify({ playing: cardPlaying, stopped: cardStopped }));
     check("an FX page's live demo runs, its FX node kept in Time State for its knobs", !fxDemo.pane && !fxDemo.card, JSON.stringify(fxDemo));
     check("the demo's live loop draws its scope, not a flat line", loopLit != null && loopLit.lit > loopLit.w * 1.4, JSON.stringify(loopLit));
     // the tutorial is the site's, a page a chapter (scripts/build-site.mjs): an old link into the docs pane's tutorial

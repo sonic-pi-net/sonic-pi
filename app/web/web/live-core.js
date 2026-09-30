@@ -207,6 +207,14 @@ export class LiveCore {
     else { this.running = true; this.#deps.state?.(true); this.tick(); }
   }
 
+  /** A run stops, by its job (Scheduler#stop_run): what is under it in the tree, faded over `fade` seconds and freed after. */
+  stopRun(job, fade = 0) {
+    this.#runtime.module._sp_stop_run(job, fade, this.#deps.now());
+    this.#drain();
+    this.#deps.ticked?.();
+    if (!this.running) { this.running = true; this.#deps.state?.(true); this.tick(); }   // the frees at the fade's end are the runtime's to send
+  }
+
   /** A group sits under another (Scheduler#group_under): the parent's stop takes it too. */
   groupUnder(group, parent) { this.#runtime.module._sp_group_under(group, parent); }
 

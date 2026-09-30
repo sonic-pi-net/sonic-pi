@@ -589,14 +589,12 @@ async function ensureSession() {
 let startingBuffer = null; // the buffer of a run whose head is running now
 let lastRun = null;        // { buffer, code, prefix } of the last run started
 // Groups (Scheduler#stop_group): a run belongs to one, and a group stops as one, with every group under it. A
-// buffer's runs are its own group under the buffers'; a card's runs are the card's (ui/deck.js asks for a fresh
-// one) under the cards'.
+// buffer's runs are its own group under the buffers', there for the session. The cards' runs are all in the one
+// group, the cards': a card has none of its own, and stops by its runs (ui/deck.js, Scheduler#stop_run).
 const BUFFERS_GROUP = 999, BUFFER_GROUP = 1000;   // buffer n's group is 1000 + n, under 999
-const CARDS_GROUP = 2000;                          // the cards count up from 2001, under 2000
-let cardGroups = CARDS_GROUP;
+const CARDS_GROUP = 2000;                          // every card's runs
 const groupsDeclared = new Set();   // told to this session (a new session starts over)
 const declareGroup = (s, group, parent) => { if (!groupsDeclared.has(group)) { groupsDeclared.add(group); s.groupUnder(group, parent); } };
-const nextCardGroup = () => ++cardGroups;
 // native's "Enable external synths and FX" (Studio preferences): every run starts use_external_synths true, on the
 // program's first line, so its line numbers stay its own
 const externalSynths = { on: store.get("sp-external-synths", false) };
@@ -610,14 +608,14 @@ const unknownOpts = { warn: store.get("sp-warn-unknown-opts", true) };
 // buffer, which is the cure for a machine that crackles under a heavy patch — and nothing at all in Safari, which
 // gives its smallest buffer either way.
 const lowLatency = { on: store.get("sp-low-latency", true) };   // read at the engine's boot
-async function play(code, { buffer = null, scopeSlot = null, group = buffer != null ? BUFFER_GROUP + buffer : 0 } = {}) {
+async function play(code, { buffer = null, scopeSlot = null, group = buffer != null ? BUFFER_GROUP + buffer : scopeSlot != null ? CARDS_GROUP : 0 } = {}) {   // a card's run is the one with a scope slot of its own
   const asked = stops;
   loadingStop?.expect();   // this run waits for its first sound: what loads under it holds the comet till then
   const s = await ensureSession();
   if (!s || stops !== asked) return null;   // Stop, pressed while it was starting, calls the run off
   try {
     startingBuffer = buffer;
-    if (buffer != null) declareGroup(s, group, BUFFERS_GROUP); else if (group > CARDS_GROUP) declareGroup(s, group, CARDS_GROUP);
+    if (buffer != null) declareGroup(s, group, BUFFERS_GROUP);
     // native's cards: the program inside a scope_out of its own, so the card's rings draw its own sound. A program
     // that opens with use_real_time (a live synth's key) keeps it ahead of the wrap: the scope_out made on the
     // sched-ahead clock (0.5s) would hold the note's sound back that long. The lines only swap places, so a line of the
@@ -786,7 +784,7 @@ function stop() {
   paintWaits([]);
   lastJobs = "";
   docs?.jobs([]);
-  for (const d of cardDecks()) d.groups([]);
+  for (const d of cardDecks()) d.runs([]);
   logInfo("Stopping all runs");
   logs.add("Runtime", "stopped all runs");
   announce("Stopped", false, Announcement.Transport);
@@ -1169,7 +1167,7 @@ function showJobs(s) {
   if (pruned) paintLoopScopes();
   paintWaits(s.threads || []);
   docs?.jobs(s.jobs);
-  for (const d of cardDecks()) d.groups(s.groups);   // a card's group gone quiet: the runtime says
+  for (const d of cardDecks()) d.runs(s.runs);   // a card's runs gone quiet: the runtime says
   insight.status(s);
   const key = JSON.stringify([s.jobs, s.named]);
   if (key === lastJobs) return;
@@ -1212,7 +1210,7 @@ function readProcesses() {
     for (let f = 0; f < width; f++) row[PROCESS_FIELDS[f]] = table[i + f];
     if (row.kind === 9) {          // a group: one of the page's own, named for what it holds
       row.id = ""; row.name = "";
-      row.label = row.group === BUFFERS_GROUP ? "buffers" : row.group === CARDS_GROUP ? "cards" : row.group > CARDS_GROUP ? `card ${row.group - CARDS_GROUP}` : row.group >= BUFFER_GROUP ? `buffer ${row.group - BUFFER_GROUP}` : `group ${row.group}`;
+      row.label = row.group === BUFFERS_GROUP ? "buffers" : row.group === CARDS_GROUP ? "cards" : row.group >= BUFFER_GROUP ? `buffer ${row.group - BUFFER_GROUP}` : `group ${row.group}`;
     } else if (row.kind >= 6) {           // an fx or a sound, named by the record that started its synth
       const n = session.nodeName(row.node);
       row.id = "";
@@ -1346,8 +1344,7 @@ const clipboard = async (text) => { try { await navigator.clipboard.writeText(te
 const paneHooks = {
   run: (code) => play(code),
   stop: (job) => session?.stopJob(job),   // the docs pane's sample buttons: one job
-  stopGroup: (group, fade) => session?.stopGroup(group, fade),
-  group: nextCardGroup,
+  stopRun: (job, fade) => session?.stopRun(job, fade),
   insert: (code) => { editor.insertAtCursor(code); status("Inserted at the cursor"); },
   copy: clipboard,
   playSample: hooks.playSample,
@@ -2070,8 +2067,7 @@ function ensureInfo() {
     pick: pickTab,
     log: (text) => logs.add("Host", text),   // a page's first visit, timed (info.js)
     play: (code, opts) => play(code, opts),
-    stopGroup: (group, fade) => session?.stopGroup(group, fade),
-  group: nextCardGroup,
+    stopRun: (job, fade) => session?.stopRun(job, fade),
     scopeFrame,
     loopScopes: () => loopScopePrefs,   // the site's cards' loop scopes, as the preferences say
     now: () => session?.clockNow() ?? null,
@@ -2083,7 +2079,7 @@ function ensureInfo() {
     // QWERTY keys the instrument's while focus is in it
     instrument: (host, key, scroller) => {
       // the deck at once (the page keeps it); the instrument once the synth's page has arrived (the editor's data)
-      const deck = createDeck({ play: (code, opts) => play(code, opts), stopGroup: (group, fade) => session?.stopGroup(group, fade), group: nextCardGroup, scopeFrame }, scroller);
+      const deck = createDeck({ play: (code, opts) => play(code, opts), stopRun: (job, fade) => session?.stopRun(job, fade), scopeFrame }, scroller);
       // the synth's page of the reference: the page's own copy (scripts/build-site.mjs synth-page), else the reference's
       const own = host.querySelector("script.synth-page");
       const page = own ? Promise.resolve(JSON.parse(own.textContent)) : needReference().then(() => synths.pages.find((x) => x.key === key));
