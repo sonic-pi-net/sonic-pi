@@ -730,11 +730,8 @@ body.kbd-open #info-card { bottom: var(--kbd-h, 250px); }   /* a site page's car
 /* What native's View menu and shortcuts show and hide (main.js: the keys):
  * the log, the cues, the toolbar's buttons, and focus mode, the editor alone */
 body.no-log #log-section, body.no-cues #cue-section { display: none; }
-/* empty, the log and the cues say what they are for */
-/* their lines are drawn in their shadow roots (main.js drawPane), which say when there are none (data-empty) */
-#log[data-empty]::before { content: "Run the code and the sounds it makes are logged here."; }
-#cues[data-empty]::before { content: "Cues from your code and from MIDI show here."; }
-#log[data-empty]::before, #cues[data-empty]::before { display: block; padding: 10px 4px; color: var(--faintText); font: var(--t-small)/1.5 var(--prose-font); }
+/* the log's and the cues' lines are drawn in their shadow roots (main.js drawPane), which say when there are none
+   (data-empty); an empty pane is left blank, with no line of prose to read before the first sound */
 body.no-buttons #toolbar > .tb-icon, body.no-buttons #toolbar > .tb-spacer { display: none; }
 #log, #cues { zoom: var(--sidebar-zoom, 1); }
 body.focus-mode #toolbar, body.focus-mode #statusbar, body.focus-mode #editor-foot, body.focus-mode #sidebar,

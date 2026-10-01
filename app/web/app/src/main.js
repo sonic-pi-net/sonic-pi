@@ -832,8 +832,8 @@ const WINDOW = 150;          // lines in the document at once: a tall pane shows
 
 // An entry is a line's data and how to build it; its node exists only while the line is in the window.
 // The window is drawn in the box's shadow root (shadow.js: lines arriving as a program plays are out of sight of a
-// page-wide watcher's), and the box itself scrolls. It says when it has nothing to show (data-empty), and the box
-// shows its placeholder (style.css).
+// page-wide watcher's), and the box itself scrolls. It says when it has nothing to show (data-empty); an empty
+// pane stays blank.
 const panes = new Map();     // box → { rows, first, pending, following, built, inner }
 const paneOf = (box) => {
   let pane = panes.get(box);
