@@ -104,7 +104,7 @@ before believing a failure, and only when it is the server being rerun.
 
 ## The sound
 
-SuperSonic is served as `/web/supersonic/`. By default it comes from its
+SuperSonic is served as `/web/engine/`. By default it comes from its
 released packages on the CDN, at the version `package.json` pins
 (`supersonicVersion`), so a host serves none of the engine and a deploy needs
 no engine build. While the engine itself is being worked on,

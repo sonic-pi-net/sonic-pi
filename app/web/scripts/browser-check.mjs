@@ -825,6 +825,36 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       await first.close();
     }
 
+    // SuperSonic's folder is the page's own, engine/ (web/runtime.js). On sonic-pi.net the site's supersonic/ is
+    // SuperSonic's demo, and a deploy of the demo once left the page asking there for its files and given the home
+    // page: nothing played, and what failed was a worklet's MIME type. So: with supersonic/ someone else's, a program
+    // plays; and with engine/version.json answered by a page, the boot fails saying where it looked
+    {
+      const AWAY = "<!doctype html><html><head><title>Someone else's page</title></head><body>not the app's</body></html>";
+      const boot = async (route) => {
+        const ctx = await browser.newContext({ ...HTTPS, viewport: { width: 1280, height: 900 } });
+        await ctx.addInitScript(() => { try { localStorage.setItem("sp-help-seen", "true"); } catch {} });
+        await ctx.route(new URL(route, BASE).href, (r) => r.fulfill({ status: 200, contentType: "text/html", body: AWAY }));
+        const pg = await ctx.newPage();
+        await pg.goto(BASE + "code.html");
+        await pg.waitForFunction(() => window.sonicPi?.editor, null, { timeout: 30000 });
+        await pg.evaluate(() => window.sonicPi.editor.setCode("play 60, release: 0.1\nputs :engine_up"));
+        await pg.click("#btn-run");
+        await pg.waitForFunction(() => /engine_up/.test(document.getElementById("log").shadowRoot.textContent) || /Error/.test(document.getElementById("status-engine").textContent), null, { timeout: 60000 }).catch(() => {});
+        const out = await pg.evaluate(() => ({
+          played: /engine_up/.test(document.getElementById("log").shadowRoot.textContent),
+          status: document.getElementById("status-engine").textContent,
+          error: document.getElementById("error-pane").hidden ? "" : document.getElementById("err-message").textContent,
+        }));
+        await ctx.close();
+        return out;
+      };
+      const elsewhere = await boot("supersonic/**");
+      check("with the site's supersonic/ someone else's (SuperSonic's demo, on sonic-pi.net), a program still plays", elsewhere.played && !/Error/.test(elsewhere.status), JSON.stringify(elsewhere));
+      const unread = await boot("engine/version.json");
+      check("with engine/version.json answered by a page, the engine's boot fails and says where it looked", !unread.played && /Error/.test(unread.status) && /engine\/version\.json/.test(unread.error), JSON.stringify(unread));
+    }
+
     // a game controller, as native's: its buttons and sticks as cues, a press and a release as their own edges. The
     // browser's Gamepad API stood in for by a pad the check presses (the engine's front polls getGamepads)
     {

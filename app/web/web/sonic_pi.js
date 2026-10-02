@@ -16,7 +16,7 @@
  *
  * Shared by the app (index.html) and the spec browser (specs.html).
  */
-import { SuperSonic } from "./supersonic/supersonic.js";
+import { SuperSonic } from "./engine/supersonic.js";   // SUPERSONIC_BASE (runtime.js)
 import { decode } from "./osc.js";
 import { createRecordReader } from "./gui-stream.js";
 import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, liveRuns, programNeeds, workerSettled, TABLES } from "./runtime.js";

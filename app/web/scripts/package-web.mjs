@@ -24,7 +24,7 @@ execFileSync(process.execPath, [path.join(ROOT, "scripts/build-web.mjs"), ...pro
 
 let version = "dev";
 try { version = execFileSync("git", ["describe", "--tags", "--always"], { cwd: ROOT, encoding: "utf8" }).trim(); } catch {}
-const supersonic = JSON.parse(fs.readFileSync(path.join(WEB, "supersonic/version.json"), "utf8"));
+const supersonic = JSON.parse(fs.readFileSync(path.join(WEB, "engine/version.json"), "utf8"));
 
 fs.rmSync(STAGE, { recursive: true, force: true });
 fs.mkdirSync(STAGE, { recursive: true });

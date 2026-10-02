@@ -5,7 +5,7 @@
 //
 // The web build has no OSC in or out. MIDI comes in through Web MIDI and
 // shows as cues. Time is one global timeline every thread shares.
-import { SUPERSONIC_VERSION, supersonicVersion, PROCESS_FIELDS, engineWasm, workerSettled } from "./runtime.js";
+import { SUPERSONIC_BASE, SUPERSONIC_VERSION, supersonicVersion, PROCESS_FIELDS, engineWasm, workerSettled } from "./runtime.js";
 // the engine's side (sonic_pi.js, and with it SuperSonic): loaded with the runtime (startRuntime), so a page only read
 // never fetches it; `sp` is the module once it has arrived, for what runs only with an engine (oscSchedule)
 let sp = null;
@@ -158,7 +158,7 @@ const versions = { runtime: null };
 // the foot, as native's status bar says it ("Sonic Pi v5.0 on Mac"): the version and where it runs, the rest in About
 const paintVersions = () => { $("info-versions").textContent = "Sonic Pi v5.0 on Web"; };
 paintVersions();
-supersonicVersion().then(paintVersions);   // the local build's version.json
+supersonicVersion().then(paintVersions, () => {});   // the local build's version.json (unreadable: the engine's boot says so)
 
 // ── Sound: the runtime loads now, the engine boots on the first gesture ───
 
@@ -1420,7 +1420,7 @@ function setPanel(next) {
   showDebug(next === "debug");
 }
 // Debug, as native's: the engine's live metrics, SuperSonic's own <clockwork-metrics> reading its shared memory, a
-// few times a second and only while the pane shows. The element comes with the engine (supersonic/), and wants the
+// few times a second and only while the pane shows. The element comes with the engine (engine/), and wants the
 // engine to read: until it runs, the pane says how to start it. Under them native's two OSC logs: what was sent in,
 // every sender's (SuperSonic's out:osc, from its watcher on the ingress ring: the runtime's worker's sends too),
 // written out here with the page's own decoder, since out:text leaves bundles out and everything the runtime sends
@@ -1466,7 +1466,7 @@ function showDebug(on) {
   const el = $("debug-pane").querySelector("clockwork-metrics");
   if (!on) { oscLogs.hidden(); return el.disconnect?.(); }
   requestAnimationFrame(() => { if (debugOn) oscLogs.shown(); });   // what waited while the pane was hidden, and the tails that follow the end go there
-  debugLoaded ??= import(new URL("supersonic/metrics_component.js", location.href).href).catch((e) => { logs.add("Host", `the metrics did not load: ${describe(e)}`); });
+  debugLoaded ??= import(`${SUPERSONIC_BASE}metrics_component.js`).catch((e) => { logs.add("Host", `the metrics did not load: ${describe(e)}`); });
   debugLoaded.then(() => {
     if (!debugOn || !engineRef) return;
     el.hidden = false;

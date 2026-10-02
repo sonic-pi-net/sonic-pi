@@ -22,7 +22,7 @@ export function samplesJSON(ROOT) {
 }
 
 // ── SuperSonic: from its released packages on the CDN, or the local build ──
-// The page imports ./supersonic/supersonic.js and reads ./supersonic/version.json
+// The page imports ./engine/supersonic.js and reads ./engine/version.json
 // beside it, which says where the rest is (web/runtime.js). "local" is the
 // dist/ that scripts/build-web.sh writes in a SuperSonic checkout (see
 // SUPERSONIC_DISTS below, or SUPERSONIC_DIST) — for developing the engine.
@@ -149,7 +149,7 @@ export function supersonicVersionJSON(r) {
   return JSON.stringify({ source, version, commit, built, base, core, synthdefs, ownSynthdefs, samples });
 }
 
-/** The modules the page and its workers import by path (supersonic/<name>): on the CDN, re-exported from there.
+/** The modules the page and its workers import by path (engine/<name>): on the CDN, re-exported from there.
  *  A module missing here is a 404 on the CDN build only, where the local dist serves everything: a new import
  *  of SuperSonic's (live-worker.js) is added here too. */
 const SHIMMED = ["supersonic.js", "osc_channel.js", "osc_in_pump.js", "midi_event.js", "metrics_component.js"];

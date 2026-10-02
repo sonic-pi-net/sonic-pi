@@ -9,7 +9,7 @@
 // through SuperSonic. Only the oracle needs scripts/serve.mjs.
 //
 // SuperSonic comes from its released packages on the CDN, at the version
-// package.json pins (supersonicVersion), unless the build says otherwise: supersonic/ then holds only version.json and two re-exporting
+// package.json pins (supersonicVersion), unless the build says otherwise: engine/ then holds only version.json and two re-exporting
 // modules, and a public host serves none of the engine's bytes. --supersonic
 // local copies the local build in instead, for a deployment that needs an
 // unreleased engine; --assets cdn[@version] still leaves the synthdefs and
@@ -36,10 +36,10 @@ for (const d of ["data", "theme", "info", "fonts"]) {   // info: the About, Supp
   const from = path.join(ROOT, "web", d);
   if (fs.existsSync(from)) fs.cpSync(from, path.join(OUT, d), { recursive: true });
 }
-// SuperSonic: the page's supersonic/ is version.json and, from the CDN, two re-exporting
+// SuperSonic: the page's engine/ (web/runtime.js says why not supersonic/) is version.json and, from the CDN, two re-exporting
 // modules; a local build is copied in (its type stubs stay behind, and so do the assets the CDN serves)
 const ss = await resolveSupersonic(ROOT, flagValue(process.argv, "--supersonic") || "cdn", flagValue(process.argv, "--assets"));
-const ssDir = path.join(OUT, "supersonic");
+const ssDir = path.join(OUT, "engine");
 fs.rmSync(ssDir, { recursive: true, force: true });
 fs.mkdirSync(ssDir, { recursive: true });
 if (ss.dist) {

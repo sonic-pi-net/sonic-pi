@@ -10,7 +10,7 @@
 //   node scripts/serve.mjs --host 0.0.0.0 --https        # on the LAN
 //   ADAPTER="$PWD/build/runtime/sp-trace" node scripts/serve.mjs
 //
-// Open http://127.0.0.1:8460/web/ . SuperSonic is served as /web/supersonic/:
+// Open http://127.0.0.1:8460/web/ . SuperSonic is served as /web/engine/:
 // the local build when there is one (the sibling checkout's dist/, or
 // SUPERSONIC_DIST), else its released packages on the CDN at package.json's
 // supersonicVersion; --supersonic
@@ -87,7 +87,7 @@ function runFile(abs, label, res, done = () => {}) {
 // The sound's data — synthdefs, samples, the random streams — changes only when SuperSonic or the oracle is rebuilt,
 // and a new session would otherwise fetch it all again (the rest is no-store: the app is edited live). The browser
 // keeps these a week; past that, or on a hard reload, it asks again with the ETag and a 304 costs next to nothing.
-const CACHEABLE = /^\/web\/((supersonic\/)?(synthdefs|samples)\/|buffers\/[^/]+\.wav$)/;
+const CACHEABLE = /^\/web\/((engine\/)?(synthdefs|samples)\/|buffers\/[^/]+\.wav$)/;
 /** Cache headers for a sound-data file; true when the browser's copy is current (a 304 has been sent). */
 function cached(req, res, abs) {
   const st = fs.statSync(abs);
@@ -109,7 +109,7 @@ function serveSupersonic(rel, res, req = null) {
   const dist = SUPERSONIC.dist;
   const abs = dist && path.join(dist, path.normalize(rel));
   if (!abs || !abs.startsWith(dist + path.sep) || !fs.existsSync(abs) || fs.statSync(abs).isDirectory()) { res.writeHead(404); return res.end("not found"); }
-  if (req && CACHEABLE.test(`/web/supersonic/${rel}`) && cached(req, res, abs)) return;
+  if (req && CACHEABLE.test(`/web/engine/${rel}`) && cached(req, res, abs)) return;
   res.writeHead(200, { "content-type": TYPES[path.extname(abs)] || "application/octet-stream" });
   fs.createReadStream(abs).pipe(res);
 }
@@ -135,7 +135,7 @@ const handler = (req, res) => {
   }
   // The page's relative runtime paths, served from where the build puts them
   let p0 = decodeURIComponent(url.pathname);
-  if (p0.startsWith("/web/supersonic/")) return serveSupersonic(p0.slice("/web/supersonic/".length), res, req);
+  if (p0.startsWith("/web/engine/")) return serveSupersonic(p0.slice("/web/engine/".length), res, req);
   const soundData = CACHEABLE.test(p0);   // the random streams, before their path is mapped to the oracle's
   if (p0.startsWith("/web/runtime/")) p0 = "/build/runtime/" + p0.slice("/web/runtime/".length);
   // the synths are Sonic Pi's own too, in etc/synthdefs/compiled: what the desktop app plays, so the web plays the

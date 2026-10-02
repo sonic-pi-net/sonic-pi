@@ -7,21 +7,35 @@
  * a worker loads it as the page does (live-worker.js).
  */
 
-// SuperSonic is supersonic/ beside this page: the client module the page
+// SuperSonic is engine/ beside this page: the client module the page
 // imports, and version.json, which says where the rest is — the local build
 // of the vendored source (the dev server maps it there, a build copies it),
 // or its released packages on the CDN, which supersonic.js then re-exports
 // and version.json names as base, core, synthdefs and samples
 // (scripts/lib/runtime-assets.mjs). SUPERSONIC_VERSION says which once
-// supersonicInfo() has read it.
-export const SUPERSONIC_BASE = new URL("./supersonic/", import.meta.url).href;
+// supersonicInfo() has read it. Not supersonic/: on sonic-pi.net that is
+// SuperSonic's own (its demo), on the same host as this page, and a deploy
+// of the demo took the page's files with it.
+export const SUPERSONIC_BASE = new URL("./engine/", import.meta.url).href;
 export let SUPERSONIC_VERSION = "…";
 let info = null;
-/** version.json, read once: { source, version, commit?, built?, base?, core?, synthdefs?, samples? } (empty when there is none). */
+/** version.json, read once: { source, version, commit?, built?, base?, core?, synthdefs?, samples? }. Unreadable, it
+ *  fails, saying where it was looked for, and is asked for again the next time: without it SuperSonic would be looked
+ *  for in the wrong place, and what failed then is a worklet's MIME type, far from the cause. */
 export function supersonicInfo() {
-  return (info ??= fetch(`${SUPERSONIC_BASE}version.json`).then((r) => r.json()).catch(() => ({})).then((v) => {
+  const url = `${SUPERSONIC_BASE}version.json`;
+  const failed = (why) => new Error(`the engine's details (${url}) did not load: ${why}. Is the build's engine/ folder on the server?`);
+  return (info ??= fetch(url).catch((e) => { throw failed(e.message); }).then(async (r) => {
+    if (!r.ok) throw failed(`${r.status} ${r.statusText}`.trim());
+    const text = await r.text();
+    try { return JSON.parse(text); } catch { throw failed(`the server sent ${r.redirected ? `${r.url} (${r.headers.get("content-type") ?? "?"})` : r.headers.get("content-type") ?? "something else"} in its place`); }
+  }).then((v) => {
     SUPERSONIC_VERSION = `${v.version ?? "?"}${v.commit ? ` @ ${v.commit}` : ""} (${v.source === "cdn" ? "CDN" : "local build"})`;
     return v;
+  }, (e) => {
+    info = null;
+    SUPERSONIC_VERSION = "?";
+    throw e;
   }));
 }
 export const supersonicVersion = () => supersonicInfo().then(() => SUPERSONIC_VERSION);

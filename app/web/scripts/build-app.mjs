@@ -3,7 +3,7 @@
 // Builds the web GUI: app/src → web/app.js, web/app.css. The pages themselves,
 // the app's document with a page of the site in each, are scripts/build-site.mjs's.
 // CodeMirror and the GUI's own modules are bundled; web/sonic_pi.js (the
-// runtime, engine and bridge) and SuperSonic (served as web/supersonic/, from
+// runtime, engine and bridge) and SuperSonic (served as web/engine/, from
 // the CDN or a local build) stay separate.
 //
 //   node scripts/build-app.mjs            # once
