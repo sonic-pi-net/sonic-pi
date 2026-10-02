@@ -54,5 +54,27 @@ module SonicPi
 
       assert_includes e.message, "0.2 seconds"
     end
+
+    # Regression: with SuperSonic 0.89.0 on macOS, scsynth's 128 MB real-time
+    # pool did not fit the engine's heap, so the engine came up with no synth
+    # inside it. Spider waited 30 s for a handshake that never came and blamed
+    # the audio device. The engine now answers, and its state replay says
+    # "error" with the reason - spider must stop at once and pass that on.
+    def test_an_engine_in_error_fails_the_boot_with_its_reason
+      reason = "scsynth did not start: World_New: RT pool of 134217728 bytes " \
+               "was asked for and the host cannot provide it"
+      e = assert_raises(SCSynthExternal::BootError) do
+        unbooted_scsynth.__send__(:raise_if_engine_failed!, ["error", reason])
+      end
+
+      assert_includes e.message, reason
+      assert_includes e.message, "supersonic.log"
+      refute_includes e.message, "audio device is not responding"
+    end
+
+    def test_a_running_engine_does_not_fail_the_boot
+      unbooted_scsynth.__send__(:raise_if_engine_failed!, ["running", "snapshot"])
+      unbooted_scsynth.__send__(:raise_if_engine_failed!, nil)
+    end
   end
 end

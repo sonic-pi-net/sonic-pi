@@ -30,11 +30,18 @@ struct node_tree_view {
     uint32_t              max_nodes = 0;
 };
 
-inline node_tree_view node_tree_of(shm_segment_client& client)
+// The tree holds as many entries as the window does, after the header — the
+// sum the engine does when it binds the window. A window too small for one
+// entry is one the engine leaves alone, so it has no tree to read.
+inline node_tree_view node_tree_in(const uint8_t* window, size_t bytes)
 {
-    uint8_t* window = client.get_window();
-    if (!window) return {};
+    if (!window || bytes < NODE_TREE_HEADER_SIZE + NODE_TREE_ENTRY_SIZE) return {};
     return { reinterpret_cast<const NodeTreeHeader*>(window),
              reinterpret_cast<const NodeEntry*>(window + NODE_TREE_HEADER_SIZE),
-             NODE_TREE_MIRROR_MAX_NODES };
+             static_cast<uint32_t>((bytes - NODE_TREE_HEADER_SIZE) / NODE_TREE_ENTRY_SIZE) };
+}
+
+inline node_tree_view node_tree_of(shm_segment_client& client)
+{
+    return node_tree_in(client.get_window(), client.get_window_size());
 }

@@ -148,6 +148,9 @@ module SonicPi
       # Over TCP this also stands in for the old boot-ack handshake: the
       # reply carries the engine version and proves full req/reply flow.
       raise BootError, boot_timeout_message(30) unless register_for_notifications!(timeout: 30.0)
+      # The engine answered - but an engine whose synth did not start answers
+      # too, and says so in the state it replays to us.
+      raise_if_engine_failed!(@engine_state)
 
       true
     end
@@ -176,6 +179,13 @@ module SonicPi
         registered.deliver! true unless registered.delivered?
       end
 
+      # The engine follows its reply with the state it is in, and when that
+      # is "error" the reason comes with it (a synth that could not start).
+      replayed = Promise.new
+      @osc_server.add_method("/clockwork/statechange") do |args|
+        replayed.deliver!([args[0].to_s, args[1].to_s]) unless replayed.delivered?
+      end
+
       begin
         puts "Sending /clockwork/notify to register Spider comms server"
         @osc_server.send(@hostname, @send_port, "/clockwork/notify")
@@ -186,13 +196,36 @@ module SonicPi
 
       begin
         registered.get(timeout)
-        true
       rescue
         puts "Warning: /clockwork/notify registration timed out (#{timeout}s)"
-        false
+        return false
       end
+
+      # Sent straight after the reply, so it is here or nearly; the wait is
+      # only a bound for an engine that does not replay its state.
+      @engine_state = begin
+                        replayed.get(2.0)
+                      rescue
+                        nil
+                      end
+      true
     end
     public :register_for_notifications!
+
+    # An engine in error at boot has no synth to make sound with, so the boot
+    # stops here with what the engine said rather than going on to load
+    # synthdefs into nothing and timing out further along.
+    def raise_if_engine_failed!(state)
+      return unless state && state[0] == "error"
+      raise BootError, engine_failed_message(state[1])
+    end
+
+    def engine_failed_message(reason)
+      "The SuperSonic audio server started, but its synth engine did not:\n" \
+        "  #{reason}\n" \
+        "Sonic Pi cannot make any sound until it does.\n" \
+        "See #{Paths.log_path}/supersonic.log for what the audio server was doing."
+    end
 
     def connect_to_server(timeout)
       OSC::TcpOscClient.new(@hostname, @send_port,
