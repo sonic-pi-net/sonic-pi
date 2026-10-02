@@ -43,7 +43,7 @@ SUPERSONIC="$SCRIPT_DIR/external/supersonic"
 CLOCKWORK="$SUPERSONIC/clockwork"
 WORK="${1:-$SCRIPT_DIR/build/debian}"
 
-LINK_TAG="Link-4.0"
+LINK_TAG="Link-4.1"
 LINK_REPO="https://github.com/Ableton/link.git"
 
 cd "$PROJECT_ROOT"
