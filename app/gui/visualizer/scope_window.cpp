@@ -714,18 +714,34 @@ void ScopeWindow::DrawLissajous(const ProcessedAudio& audio, QPainter& painter, 
     // Use the newest tail of the rolling window, not the oldest — the
     // figure tracks the live sound instead of lagging ~64ms behind.
     auto samples = std::min(LissajousSamples, int(m_audioFrameSamples));
-    int offset = int(m_audioFrameSamples) - samples;
-    panel.wavePoints.resize(samples);
-    for (int sample = 0; sample < samples; sample++)
+    if (samples < 2)
     {
-        auto left = audio.m_samples[0][offset + sample];
-        auto right = audio.m_samples[1][offset + sample];
-        panel.wavePoints[sample] = center + QPoint(left * xScale, right * yScale);
+        return;
     }
-    // The only diagonal-line panel; AA is cheap here and removes the jaggies.
+    int offset = int(m_audioFrameSamples) - samples;
+    auto point = [&](int sample) {
+        return center + QPoint(audio.m_samples[0][offset + sample] * xScale,
+                               audio.m_samples[1][offset + sample] * yScale);
+    };
+
+    // One line per sample step, not one polyline. Qt strokes a polyline as a
+    // single outline and antialiases it whole, which costs with how often the
+    // figure crosses itself: decorrelated stereo (noise, reverb tails, wide
+    // pads) crosses everywhere, taking 0.2-0.5s a frame on a Retina dock and
+    // freezing the whole GUI in bursts. Separate segments look the same and
+    // stay in single-digit milliseconds on any signal.
+    panel.waveLines.resize(samples - 1);
+    QPoint from = point(0);
+    for (int sample = 1; sample < samples; sample++)
+    {
+        QPoint to = point(sample);
+        panel.waveLines[sample - 1] = QLine(from, to);
+        from = to;
+    }
+    // The only diagonal-line panel; AA removes the jaggies.
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(panel.pen);
-    painter.drawPolyline(&panel.wavePoints[0], int(panel.wavePoints.size()));
+    painter.drawLines(panel.waveLines.data(), int(panel.waveLines.size()));
     painter.setRenderHint(QPainter::Antialiasing, false);
 }
 

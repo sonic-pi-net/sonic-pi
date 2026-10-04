@@ -71,7 +71,6 @@ struct ScopeWindowPanel
     bool titleVisible = true;
     bool requireFFT = false;
 
-    std::vector<QPoint> wavePoints;
     std::vector<QLine> waveLines;
     std::vector<QRect> waveRects;
     QLinearGradient redBlueGradient;
