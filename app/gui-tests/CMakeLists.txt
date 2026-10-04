@@ -54,6 +54,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/trackspanel_look.test.cpp
     ${GUI_TESTS_ROOT}/nodetreemotion.test.cpp
     ${GUI_TESTS_ROOT}/nodetreegraph_look.test.cpp
+    ${GUI_TESTS_ROOT}/loopscope_lifecycle.test.cpp
     ${GUI_ROOT}/widgets/nodetreegraph.cpp
     ${GUI_ROOT}/widgets/trackspanel.cpp
     ${GUI_ROOT}/widgets/tutorialpane.cpp

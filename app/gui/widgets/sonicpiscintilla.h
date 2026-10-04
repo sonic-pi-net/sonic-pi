@@ -137,9 +137,14 @@ public slots:
     void flashRunLine(int runLine, bool codeWash = true, bool gutterDot = false);
     // Pin a mini oscilloscope to a live_loop's header line (runLine is the
     // 0-based line at run time, mapped through the same edit-tracking anchors
-    // as the flashes). Re-registering an existing name updates its line and
-    // reader; endLiveLoopScope removes it when the loop dies.
-    void setLiveLoopScope(const QString& name, int runLine, const shm_scope_stream_reader& reader);
+    // as the flashes), reading scope slot scopeNum. Re-registering an existing
+    // name updates its line and reader; endLiveLoopScope removes it when the
+    // loop dies. A slot belongs to one loop: another loop's scope on the same
+    // slot goes.
+    void setLiveLoopScope(const QString& name, int runLine, int scopeNum, const shm_scope_stream_reader& reader);
+    // Let go of the scopes for a loop that now lives in another buffer: any
+    // named `name`, and any on slot scopeNum.
+    void dropLiveLoopScopesFor(int scopeNum, const QString& name);
     // Roll-mode (scrolling strip) vs the default triggered sweep; applies to
     // current and future loop scopes (preference: loop_scope_scroll).
     void setLiveLoopScopeScroll(bool scroll);
@@ -350,6 +355,7 @@ public:
     QHash<QString, class LiveLoopScopeWidget*> m_loopScopes;
     bool m_loopScopeScroll = false;
     QHash<QString, int> m_loopScopeLines;
+    QHash<QString, int> m_loopScopeSlots;   // name → the scope slot it reads
     QTimer* m_loopScopeTimer = nullptr;
     SonicPi::SonicPiAPI* m_audioApi = nullptr;
     void positionLiveLoopScopes();

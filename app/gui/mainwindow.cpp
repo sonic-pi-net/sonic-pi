@@ -789,9 +789,18 @@ void MainWindow::setupWindowStructure()
                 if (!piSettings->show_loop_scopes || !workspace.startsWith("workspace_") || !m_spAPI)
                     return;
                 SonicPiScintilla* ws = filenameToWorkspace(workspace.toStdString());
-                if (ws)
-                    ws->setLiveLoopScope(name, line - 1,
-                                         m_spAPI->AudioProcessor_GetScopeReader((unsigned int)scopeNum));
+                if (!ws)
+                    return;
+                // The loop lives in this buffer now: no other buffer keeps a
+                // scope for it, or for its slot.
+                for (int i = 0; i < editorTabWidget->count(); i++)
+                {
+                    SonicPiScintilla* other = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
+                    if (other != ws)
+                        other->dropLiveLoopScopesFor(scopeNum, name);
+                }
+                ws->setLiveLoopScope(name, line - 1, scopeNum,
+                                     m_spAPI->AudioProcessor_GetScopeReader((unsigned int)scopeNum));
             });
     connect(m_spClient.get(), &SonicPi::QtAPIClient::LiveLoopScopeEndedReceived, this,
             [this](int, const QString& name) {

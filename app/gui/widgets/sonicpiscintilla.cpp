@@ -31,6 +31,7 @@
 #include <QLabel>
 #include <QKeyEvent>
 #include <QTimer>
+#include <QElapsedTimer>
 #include <QFocusEvent>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -133,6 +134,8 @@ public:
     {
         m_reader = r;
         m_lastEnd = 0;
+        m_wasLive = false;
+        m_released.invalidate();
     }
 
     void setColours(const QColor& wave, const QColor& quiet, const QColor& panel)
@@ -146,13 +149,28 @@ public:
     // Sample-clock access for audible-time alignment (see poll()).
     void setApi(SonicPi::SonicPiAPI* api) { m_api = api; }
 
-    void poll()
+    // True once the loop has gone: its slot was live and has been released
+    // for longer than a re-run takes to release and re-take it.
+    // /live_loop/scope-ended normally removes the scope first; this is for
+    // when that word never comes, so a gone loop's scope cannot stay for the
+    // rest of the session. A slot not yet live (a loop waiting on its sync)
+    // is not gone.
+    bool poll()
     {
         if (!m_reader.valid())
         {
+            if (m_wasLive)
+            {
+                if (!m_released.isValid())
+                    m_released.start();
+                else if (m_released.elapsed() >= kReleasedGraceMs)
+                    return true;
+            }
             decayTick(); // slot released (loop ended mid-life): cool down
-            return;
+            return false;
         }
+        m_wasLive = true;
+        m_released.invalidate();
 
         // End the display window at the sample the listener is hearing,
         // via the engine's sample clock.
@@ -162,7 +180,7 @@ public:
         if (end == m_lastEnd)
         {
             decayTick(); // stream stalled (loop silent/stopped): cool down
-            return;
+            return false;
         }
         m_lastEnd = end;
 
@@ -202,7 +220,7 @@ public:
         if (peak >= kQuietFloor)
             m_settled = false;
         if (m_settled)
-            return; // silent scroll of a flatline — nothing to repaint
+            return false; // silent scroll of a flatline — nothing to repaint
         updateSpectrum();
         if (m_level < 0.001f && barsSettled() && peak < kQuietFloor)
         {
@@ -211,6 +229,7 @@ public:
             m_settled = true; // final flatline paint, then stop repainting
         }
         update();
+        return false;
     }
 
 protected:
@@ -430,7 +449,10 @@ private:
     // assumes ~48k — close enough for a decorative scope.
     static constexpr float kQuietFloor = 0.008f;
     static constexpr int kScrollWindow = 12000; // ~250ms of scroll history
+    static constexpr int kReleasedGraceMs = 2000;
     bool m_scroll = false;
+    bool m_wasLive = false;          // the slot has been live since this reader was set
+    QElapsedTimer m_released;        // how long it has been released, once it was live
     SonicPi::SonicPiAPI* m_api = nullptr;
     uint64_t m_lastEnd = 0;
     std::vector<float> m_scratch;
@@ -1163,19 +1185,30 @@ void SonicPiScintilla::setLiveLoopScopeScroll(bool scroll)
     }
 }
 
-void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine,
+void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine, int scopeNum,
                                         const shm_scope_stream_reader& reader)
 {
+    // A slot belongs to one loop: a scope left on it by a loop that has gone
+    // without saying so would otherwise draw this one's audio.
+    QStringList others;
+    for (auto it = m_loopScopeSlots.constBegin(); it != m_loopScopeSlots.constEnd(); ++it)
+        if (it.value() == scopeNum && it.key() != name)
+            others << it.key();
+    for (const QString& other : others)
+        endLiveLoopScope(other);
+
     LiveLoopScopeWidget* w = m_loopScopes.value(name);
     if (!w)
     {
         w = new LiveLoopScopeWidget(viewport());
+        w->setObjectName(QStringLiteral("liveLoopScope:") + name);
         w->setScroll(m_loopScopeScroll);
         m_loopScopes[name] = w;
     }
     w->setReader(reader);
     w->setApi(m_audioApi);
     m_loopScopeLines[name] = runLine;
+    m_loopScopeSlots[name] = scopeNum;
     applyLoopScopeColours();
 
     if (!m_loopScopeTimer)
@@ -1188,8 +1221,12 @@ void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine,
             if (!isVisible())
                 return;
             positionLiveLoopScopes();
-            for (LiveLoopScopeWidget* s : m_loopScopes)
-                s->poll();
+            QStringList gone;
+            for (auto it = m_loopScopes.constBegin(); it != m_loopScopes.constEnd(); ++it)
+                if (it.value()->poll())
+                    gone << it.key();
+            for (const QString& name : gone)
+                endLiveLoopScope(name);
         });
     }
     // 16ms is purely the display frame rate: the stream is lossless at any
@@ -1206,11 +1243,22 @@ void SonicPiScintilla::setAudioApi(SonicPi::SonicPiAPI* api)
         s->setApi(api);
 }
 
+void SonicPiScintilla::dropLiveLoopScopesFor(int scopeNum, const QString& name)
+{
+    QStringList gone;
+    for (auto it = m_loopScopeSlots.constBegin(); it != m_loopScopeSlots.constEnd(); ++it)
+        if (it.value() == scopeNum || it.key() == name)
+            gone << it.key();
+    for (const QString& n : gone)
+        endLiveLoopScope(n);
+}
+
 void SonicPiScintilla::endLiveLoopScope(const QString& name)
 {
     if (LiveLoopScopeWidget* w = m_loopScopes.take(name))
         w->deleteLater();
     m_loopScopeLines.remove(name);
+    m_loopScopeSlots.remove(name);
     if (m_loopScopes.isEmpty() && m_loopScopeTimer)
         m_loopScopeTimer->stop();
 }
@@ -1221,8 +1269,33 @@ void SonicPiScintilla::clearLiveLoopScopes()
         w->deleteLater();
     m_loopScopes.clear();
     m_loopScopeLines.clear();
+    m_loopScopeSlots.clear();
     if (m_loopScopeTimer)
         m_loopScopeTimer->stop();
+}
+
+// Whether `line` is the header of the live_loop called `name`: live_loop, then
+// that name as a symbol or a string (:foo, "foo", 'foo'). A name worked out at
+// run time (live_loop n, in an each) cannot be read off the line, so the Run's
+// word for it stands.
+static bool isLiveLoopHeader(const QString& line, const QString& name)
+{
+    const int at = line.indexOf(QLatin1String("live_loop"));
+    if (at < 0)
+        return false;
+    int i = at + 9;
+    while (i < line.size() && (line.at(i).isSpace() || line.at(i) == '('))
+        ++i;
+    if (i >= line.size())
+        return true;
+    const QChar quote = line.at(i);
+    if (quote != ':' && quote != '"' && quote != '\'')
+        return true;
+    if (line.mid(i + 1, name.size()) != name)
+        return false;
+    const int end = i + 1 + name.size();
+    const QChar next = end < line.size() ? line.at(end) : QChar(' ');
+    return !(next.isLetterOrNumber() || next == '_' || next == '?' || next == '!');
 }
 
 void SonicPiScintilla::positionLiveLoopScopes()
@@ -1239,6 +1312,15 @@ void SonicPiScintilla::positionLiveLoopScopes()
     {
         int cur = runLineToCurrent(m_loopScopeLines.value(it.key(), -1));
         if (cur < 0 || cur >= lines())
+        {
+            it.value()->hide();
+            continue;
+        }
+        // Only beside its loop's header. The line is followed through edits by
+        // position, which a paste over the buffer carries to the end of what
+        // was pasted, and an edit can take the header away: until a Run says
+        // where the loop is now, a line that is not its header gets no scope.
+        if (!isLiveLoopHeader(text(cur), it.key()))
         {
             it.value()->hide();
             continue;
