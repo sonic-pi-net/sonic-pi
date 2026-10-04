@@ -16,22 +16,17 @@
 #include "utils/reducedmotion.h"
 
 #include <algorithm>
-#include <functional>
-#include <vector>
+#include <cmath>
+#include <unordered_set>
 
-#include <api/audio/node_tree_order.hpp>
-
+#include <QFontMetricsF>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QResizeEvent>
 #include <QToolTip>
 
-namespace
-{
-// Above this count, easing is skipped (positions snap) and edges draw straight.
-constexpr int kMaxAnimatedNodes = 200;
-}
+namespace Motion = SonicPi::NodeTreeMotion;
 
 NodeTreeGraph::NodeTreeGraph(QWidget* parent) : QWidget(parent)
 {
@@ -40,9 +35,11 @@ NodeTreeGraph::NodeTreeGraph(QWidget* parent) : QWidget(parent)
     setMouseTracking(true);  // hover tooltips without a pressed button
     // Every paint covers the full rect, so Qt needn't repaint ancestors.
     setAttribute(Qt::WA_OpaquePaintEvent);
+    m_epoch.start();
     // Animation frames ride the shared pacer (see FramePacer) so this widget
     // and the scope dirty the window in the same composite pass. The easing
-    // is wall-clock-based, so motion speed is independent of the tick rate.
+    // and the fades are wall-clock-based, so their speed is independent of the
+    // tick rate.
     connect(SonicPi::FramePacer::instance(), &SonicPi::FramePacer::tick,
             this, &NodeTreeGraph::animateStep);
     m_renderThread = std::thread([this] { renderLoop(); });
@@ -57,6 +54,19 @@ NodeTreeGraph::~NodeTreeGraph()
     }
     m_snapshotReady.wakeAll();
     m_renderThread.join();
+}
+
+double NodeTreeGraph::now() const
+{
+    return static_cast<double>(m_epoch.nsecsElapsed()) / 1e9;
+}
+
+bool NodeTreeGraph::snapping() const
+{
+    // A large tree (or the reduce-motion preference) snaps to its targets
+    // instead of easing: the tree still tracks the live synth graph, and what
+    // ends still fades; only the decorative glide between layouts is dropped.
+    return static_cast<int>(m_tree.nodes().size()) > Motion::kMaxAnimated || SonicPi::prefersReducedMotion();
 }
 
 void NodeTreeGraph::startAnimating()
@@ -80,123 +90,96 @@ QSize NodeTreeGraph::sizeHint() const
     return QSize(220, 150);
 }
 
-void NodeTreeGraph::applyTheme(const QColor& text, const QColor& bg, const QColor& border,
+void NodeTreeGraph::applyTheme(const QColor& text, const QColor& bg, const QColor& outline, const QColor& labels,
                                const QColor& group, const QColor& synth,
                                const QColor& fx, const QColor& sample)
 {
     m_text = text;
     m_bg = bg;
-    m_border = border;
-    m_kindColor[Group]  = group;
-    m_kindColor[Synth]  = synth;
-    m_kindColor[Fx]     = fx;
-    m_kindColor[Sample] = sample;
+    m_outline = outline;
+    m_labelColor = labels;
+    m_kindColor[static_cast<int>(Kind::Group)]  = group;
+    m_kindColor[static_cast<int>(Kind::Synth)]  = synth;
+    m_kindColor[static_cast<int>(Kind::Fx)]     = fx;
+    m_kindColor[static_cast<int>(Kind::Sample)] = sample;
     requestRender();
     update();  // empty-tree text repaints even with no frame in flight
 }
 
+void NodeTreeGraph::setLabelsShown(bool on)
+{
+    if (m_labelsShown == on) return;
+    m_labelsShown = on;
+    requestRender();
+}
+
 void NodeTreeGraph::computeTargets()
 {
-    m_index.clear();
-    for (int i = 0; i < m_nodes.size(); ++i)
-        m_index.insert(m_nodes[i].id, i);
+    // Where everything goes: NodeTreeMotion's layout, over scsynth's sibling
+    // order with the freed nodes kept in their places.
+    const auto targets = m_tree.targets();
 
-    // Children in true scsynth execution order. The mirror's array/slot order is
-    // allocation order (slots are freed and reused across runs), NOT sibling
-    // order — relying on it makes identical sub-trees render in different orders.
-    // order_children() walks each group's sibling chain (head → next → …) exactly
-    // as the engine's depth-first audio traversal does. Shared with its tests so
-    // the drawn order and the tested order can't drift apart.
-    std::vector<sonic_pi::node_tree::OrderNode> flat;
-    flat.reserve(m_nodes.size());
-    for (const Node& n : m_nodes)
-        flat.push_back({ n.id, n.parent, n.head, n.next, n.kind == Group });
-    const sonic_pi::node_tree::OrderedTree ordered = sonic_pi::node_tree::order_children(flat);
-
-    QHash<int, QVector<int>> children;
-    for (const auto& kv : ordered.children)
-    {
-        QVector<int>& vec = children[kv.first];
-        vec.reserve(static_cast<int>(kv.second.size()));
-        for (int c : kv.second) vec.append(c);
-    }
-    QVector<int> roots;
-    roots.reserve(static_cast<int>(ordered.roots.size()));
-    for (int r : ordered.roots) roots.append(r);
-
-    // Level-by-depth layout: leaves take sequential slots, parents centre over
-    // their children.
-    QHash<int, int> depth;
-    QHash<int, double> xpos;
-    double leaf = 0.0;
-    int maxDepth = 0;
-    std::function<void(int, int)> dfs = [&](int id, int d) {
-        depth.insert(id, d);
-        maxDepth = std::max(maxDepth, d);
-        const QVector<int>& ch = children.value(id);
-        if (ch.isEmpty())
-        {
-            xpos.insert(id, leaf);
-            leaf += 1.0;
-        }
-        else
-        {
-            double sum = 0;
-            for (int c : ch) { dfs(c, d + 1); sum += xpos.value(c); }
-            xpos.insert(id, sum / ch.size());
-        }
-    };
-    for (int r : roots) dfs(r, 0);
-
-    const double maxX = std::max(1.0, leaf - 1.0);
-    const int md = std::max(1, maxDepth);
-
-    // Drop layout entries for nodes that no longer exist.
+    // Drop layout entries for nodes no longer drawn.
     for (auto it = m_layout.begin(); it != m_layout.end();)
-        it = m_index.contains(it.key()) ? std::next(it) : m_layout.erase(it);
+        it = targets.count(it.key()) ? std::next(it) : m_layout.erase(it);
 
-    for (const Node& n : m_nodes)
+    // Parents before children, so a new node can start from where its parent
+    // is now.
+    m_order.clear();
+    m_order.reserve(m_tree.nodes().size());
+    std::vector<int32_t> stack(m_tree.roots().rbegin(), m_tree.roots().rend());
+    std::unordered_set<int32_t> seen;
+    while (!stack.empty())
     {
-        Layout& l = m_layout[n.id];
-        l.tx = static_cast<float>(xpos.value(n.id, 0.0) / maxX);
-        l.ty = static_cast<float>(static_cast<double>(depth.value(n.id, 0)) / md);
+        const int32_t id = stack.back();
+        stack.pop_back();
+        if (!seen.insert(id).second) continue;
+        m_order.push_back(id);
+        const std::vector<int32_t>& ch = m_tree.children(id);
+        for (auto c = ch.rbegin(); c != ch.rend(); ++c) stack.push_back(*c);
+    }
+
+    for (int32_t id : m_order)
+    {
+        const auto t = targets.find(id);
+        const auto n = m_tree.nodes().find(id);
+        if (t == targets.end() || n == m_tree.nodes().end()) continue;
+        Layout& l = m_layout[id];
+        l.tx = t->second.tx;
+        l.ty = t->second.ty;
         // Per-type viscosity (higher = stickier): root pinned, then groups, FX,
         // then synth/sample.
-        l.visc = (n.id == 0)            ? 1.00f
-               : (n.kind == Group)      ? 0.98f
-               : (n.kind == Fx)         ? 0.96f
-                                        : 0.90f;   // synth / sample
+        l.visc = (id == 0)                         ? 1.00f
+               : (n->second.kind == Kind::Group)   ? 0.98f
+               : (n->second.kind == Kind::Fx)      ? 0.96f
+                                                   : 0.90f;   // synth / sample
         if (!l.seeded)
         {
-            // New node eases in from its parent's current spot if there is one.
-            auto pit = m_layout.find(n.parent);
-            if (pit != m_layout.end()) { l.cx = pit->cx; l.cy = pit->cy; }
-            else                       { l.cx = l.tx; l.cy = l.ty; }
+            // A new node eases in from its parent's current spot if there is one.
+            auto pit = m_layout.find(n->second.parent);
+            if (pit != m_layout.end() && pit->seeded) { l.cx = pit->cx; l.cy = pit->cy; }
+            else                                     { l.cx = l.tx; l.cy = l.ty; }
             l.seeded = true;
         }
     }
 }
 
-void NodeTreeGraph::setTree(const QVector<Node>& nodes)
+void NodeTreeGraph::setTree(const std::vector<LiveNode>& live)
 {
-    m_nodes = nodes;
-    computeTargets();
-    if (m_nodes.size() > kMaxAnimatedNodes || SonicPi::prefersReducedMotion())
-    {
-        // Large tree (or the reduce-motion preference): snap to targets
-        // instead of easing. The tree still tracks the live synth graph;
-        // only the decorative glide between layouts is dropped.
+    if (m_tree.observe(live, now())) computeTargets();
+    kick();
+}
+
+void NodeTreeGraph::kick()
+{
+    if (snapping())
         for (auto& l : m_layout) { l.cx = l.tx; l.cy = l.ty; }
-        stopAnimating();
-    }
-    else if (isVisible())
-    {
-        startAnimating();
-    }
-    // While the animation ticks, the next step renders this tree; only snap
-    // mode and hidden (no tick coming) render here.
+    // While the animation ticks, the next step renders this tree, and the
+    // animation stops itself once nothing moves or fades; hidden (no tick
+    // coming), render here.
+    if (isVisible()) startAnimating();
     if (!m_animating) requestRender();
-    if (m_nodes.isEmpty()) update();  // paint the placeholder text directly
+    if (m_tree.nodes().empty()) update();  // paint the placeholder text directly
 }
 
 void NodeTreeGraph::animateStep()
@@ -216,9 +199,14 @@ void NodeTreeGraph::animateStep()
     dtMs = std::clamp<qint64>(dtMs, 1, 100);
     const float frames = static_cast<float>(dtMs) / 16.6667f;
 
+    // What has faded goes, and what is left closes up.
+    if (m_tree.expire(now())) computeTargets();
+
+    const bool snap = snapping();
     bool moving = false;
     for (auto& l : m_layout)
     {
+        if (snap) { l.cx = l.tx; l.cy = l.ty; continue; }
         // visc^frames: the per-frame retained fraction compounded over real
         // elapsed time — same curve as a fixed 60fps step, correct off-cadence.
         const float step = 1.0f - std::pow(l.visc, frames);
@@ -228,14 +216,32 @@ void NodeTreeGraph::animateStep()
         else { l.cx = l.tx; l.cy = l.ty; }
     }
     requestRender();
-    if (!moving) stopAnimating();
+    if (!moving && !m_tree.fading()) stopAnimating();
 }
 
 void NodeTreeGraph::requestRender()
 {
-    const int margin = 22;
-    const int w = std::max(1, width() - 2 * margin);
-    const int h = std::max(1, height() - 2 * margin);
+    const double t = now();
+    const int count = static_cast<int>(m_tree.nodes().size());
+    const bool dense = count > Motion::kMaxAnimated;
+
+    // Labels while few enough to read them.
+    int labelled = 0;
+    for (const auto& kv : m_tree.nodes())
+        if (Motion::labelled(kv.second.kind)) ++labelled;
+    const bool wasHidden = labelsHidden();
+    m_crowded = Motion::crowded(labelled, m_crowded);
+    m_dense = dense;
+    const bool labels = m_labelsShown && !labelsHidden();
+    if (labelsHidden() != wasHidden) emit labelsHiddenChanged(labelsHidden());
+
+    // Room under the lowest row for its labels while they are switched on, so
+    // the plot does not jump as they hide and show with the count.
+    const QFont labelFont = font();
+    const qreal labelRoom = m_labelsShown ? QFontMetricsF(labelFont).height() : 0.0;
+    const qreal margin = 26;
+    const qreal w = std::max<qreal>(1, width() - 2 * margin);
+    const qreal h = std::max<qreal>(1, height() - 2 * margin - labelRoom);
     auto px = [&](float nx) { return margin + nx * w; };
     auto py = [&](float ny) { return margin + ny * h; };
 
@@ -244,25 +250,47 @@ void NodeTreeGraph::requestRender()
     snap.dpr = devicePixelRatioF();
     snap.bg = m_bg;
     snap.text = m_text;
+    snap.outline = m_outline;
+    snap.labelColor = m_labelColor;
     for (int k = 0; k < 4; ++k) snap.kindColor[k] = m_kindColor[k];
-    snap.dense = m_nodes.size() > kMaxAnimatedNodes;
+    snap.font = labelFont;
+    snap.dense = dense;
     snap.valid = true;
 
-    snap.edges.reserve(m_nodes.size());
-    snap.dots.reserve(m_nodes.size());
+    const std::unordered_set<int32_t> under = m_tree.parentsOfLive();
+    snap.edges.reserve(count);
+    snap.dots.reserve(count);
+    QVector<FrameSnapshot::Dot> leaves;   // painted after the groups, over them
+    leaves.reserve(count);
     m_screenPos.clear();
-    for (const Node& n : m_nodes)
+    m_drawn.clear();
+    for (int32_t id : m_order)
     {
-        const Layout& l = m_layout[n.id];
-        const QPointF c(px(l.cx), py(l.cy));
-        m_screenPos.insert(n.id, c);   // hover hit-testing, GUI thread only
-        snap.dots.push_back({ c, n.kind });
-        if (n.parent >= 0 && m_index.contains(n.parent))
+        const auto it = m_tree.nodes().find(id);
+        const auto lit = m_layout.constFind(id);
+        if (it == m_tree.nodes().end() || lit == m_layout.constEnd()) continue;
+        const Motion::Node& n = it->second;
+        const QPointF c(px(lit->cx), py(lit->cy));
+        const auto pit = m_layout.constFind(n.parent);
+        if (n.parent >= 0 && pit != m_layout.constEnd())
+            snap.edges.push_back({ QPointF(px(pit->cx), py(pit->cy)), c });
+
+        const bool parentOfLive = under.count(id) > 0;
+        const qreal alpha = Motion::fade(n, t, parentOfLive);
+        if (alpha <= 0) continue;
+        const qreal r = Motion::drawnRadius(n, dense, alpha, parentOfLive);
+        m_screenPos.insert(id, c);   // hover hit-testing, GUI thread only
+        (n.kind == Kind::Group ? snap.dots : leaves).push_back({ c, n.kind, r, alpha });
+        QString text;
+        if (labels)
         {
-            const Layout& a = m_layout[n.parent];
-            snap.edges.push_back({ QPointF(px(a.cx), py(a.cy)), c });
+            text = QString::fromStdString(Motion::label(n));
+            if (!text.isEmpty())
+                snap.labels.push_back({ QPointF(c.x(), c.y() + r + 3), text, alpha });
         }
+        m_drawn.push_back({ id, n.kind, c, r, alpha, text });
     }
+    snap.dots += leaves;
 
     {
         QMutexLocker lock(&m_snapshotMutex);
@@ -335,30 +363,59 @@ void NodeTreeGraph::renderFrame(QImage& target, const FrameSnapshot& snap)
     p.setBrush(Qt::NoBrush);
     p.drawPath(edges);
 
-    // Nodes (no labels; hover shows the name). Drawn grouped by kind so
-    // brush/pen are set 4× rather than once per node; within a kind the
-    // radius is constant. Groups paint first (under leaves), matching their
-    // role as containers.
-    for (int k = 0; k < 4; ++k)
+    // Nodes: groups are circles, fx squares, sounds small diamonds, each in
+    // its kind's colour with a thin outline, faded as it ends. Groups come
+    // first in the list (under what they hold); the brush changes only when
+    // the kind does.
+    p.setPen(QPen(snap.outline, 1.0));
+    int brushKind = -1;
+    for (const FrameSnapshot::Dot& d : snap.dots)
     {
-        const qreal r = snap.dense ? (k == Group ? 4.0 : 3.0)
-                                   : (k == Group ? 6.0 : 4.5);
-        QColor col = snap.kindColor[k];
-        p.setBrush(col);
-        p.setPen(QPen(col.darker(140), 1.0));
-        for (const FrameSnapshot::Dot& d : snap.dots)
+        if (static_cast<int>(d.kind) != brushKind)
         {
-            if (d.kind != k) continue;
+            brushKind = static_cast<int>(d.kind);
+            p.setBrush(snap.kindColor[brushKind]);
+        }
+        p.setOpacity(d.alpha);
+        const qreal x = d.c.x(), y = d.c.y(), r = d.r;
+        switch (d.kind)
+        {
+        case Kind::Fx:
+            p.drawRect(QRectF(x - r, y - r, 2 * r, 2 * r));
+            break;
+        case Kind::Synth:
+        case Kind::Sample:
+        {
+            const QPointF diamond[4] = { { x, y - r - 1 }, { x + r + 1, y }, { x, y + r + 1 }, { x - r - 1, y } };
+            p.drawPolygon(diamond, 4);
+            break;
+        }
+        case Kind::Group:
             p.drawEllipse(d.c, r, r);
+            break;
         }
     }
+
+    // Labels, centred under their nodes.
+    if (!snap.labels.isEmpty())
+    {
+        p.setFont(snap.font);
+        p.setPen(snap.labelColor);
+        const QFontMetricsF fm(snap.font);
+        for (const FrameSnapshot::Label& l : snap.labels)
+        {
+            p.setOpacity(l.alpha);
+            p.drawText(QPointF(l.top.x() - fm.horizontalAdvance(l.text) / 2.0, l.top.y() + fm.ascent()), l.text);
+        }
+    }
+    p.setOpacity(1.0);
 }
 
 void NodeTreeGraph::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
 
-    if (m_nodes.isEmpty())
+    if (m_tree.nodes().empty())
     {
         p.fillRect(rect(), m_bg);
         p.setPen(QColor(m_text.red(), m_text.green(), m_text.blue(), 110));
@@ -384,10 +441,9 @@ void NodeTreeGraph::resizeEvent(QResizeEvent* e)
 void NodeTreeGraph::showEvent(QShowEvent* e)
 {
     QWidget::showEvent(e);
-    // Re-enter the animation loop (it stops itself while hidden); if the
-    // layout is already settled it stops again after one step.
-    if (m_nodes.size() <= kMaxAnimatedNodes && !SonicPi::prefersReducedMotion())
-        startAnimating();
+    // Re-enter the animation loop (it stops itself while hidden); if nothing
+    // is moving or fading it stops again after one step.
+    startAnimating();
     requestRender();
 }
 
@@ -402,25 +458,23 @@ void NodeTreeGraph::mouseMoveEvent(QMouseEvent* e)
     const QPointF pos = e->position();
     int best = -1;
     qreal bestD2 = 100.0;  // within ~10px
-    for (const Node& n : m_nodes)
+    for (auto it = m_screenPos.constBegin(); it != m_screenPos.constEnd(); ++it)
     {
-        auto it = m_screenPos.find(n.id);
-        if (it == m_screenPos.end()) continue;
         const QPointF d = it.value() - pos;
         const qreal d2 = d.x() * d.x() + d.y() * d.y();
-        if (d2 < bestD2) { bestD2 = d2; best = n.id; }
+        if (d2 < bestD2) { bestD2 = d2; best = it.key(); }
     }
-    if (best >= 0)
+    const auto n = m_tree.nodes().find(best);
+    if (best >= 0 && n != m_tree.nodes().end())
     {
-        auto idx = m_index.find(best);
-        if (idx != m_index.end())
-        {
-            const Node& n = m_nodes[idx.value()];
-            QString name = n.label.isEmpty() ? QStringLiteral("node") : n.label;
-            QToolTip::showText(e->globalPosition().toPoint(),
-                               QStringLiteral("%1 (%2)").arg(name).arg(n.id), this);
-            return;
-        }
+        const Motion::Node& node = n->second;
+        const QString name = !node.defName.empty() ? QString::fromStdString(node.defName)
+                           : node.kind == Kind::Group ? QStringLiteral("group")
+                                                      : QStringLiteral("node");
+        const QString text = node.ended >= 0 ? tr("%1 (%2), freed").arg(name).arg(node.id)
+                                             : QStringLiteral("%1 (%2)").arg(name).arg(node.id);
+        QToolTip::showText(e->globalPosition().toPoint(), text, this);
+        return;
     }
     QToolTip::hideText();
 }

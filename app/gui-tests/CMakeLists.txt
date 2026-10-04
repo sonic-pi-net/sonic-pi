@@ -52,6 +52,9 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/tutorialwidgets_a11y.test.cpp
     ${GUI_TESTS_ROOT}/tutorialpane_clip.test.cpp
     ${GUI_TESTS_ROOT}/trackspanel_look.test.cpp
+    ${GUI_TESTS_ROOT}/nodetreemotion.test.cpp
+    ${GUI_TESTS_ROOT}/nodetreegraph_look.test.cpp
+    ${GUI_ROOT}/widgets/nodetreegraph.cpp
     ${GUI_ROOT}/widgets/trackspanel.cpp
     ${GUI_ROOT}/widgets/tutorialpane.cpp
     ${GUI_ROOT}/widgets/sonicpiscintilla.cpp
@@ -70,6 +73,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_ROOT}/utils/sampleheaderinfo.cpp
     ${GUI_ROOT}/utils/completion_context.cpp
     ${GUI_ROOT}/utils/reducedmotion.cpp
+    ${GUI_ROOT}/utils/framepacer.cpp
     ${GUI_ROOT}/utils/tutorialdocs.cpp
     ${GUI_ROOT}/widgets/tutorialwidgets.cpp
     ${GUI_ROOT}/utils/setbundle.cpp

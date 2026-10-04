@@ -14,6 +14,7 @@
 #include "metricspanel.h"
 #include "nodetreegraph.h"
 #include "model/sonicpitheme.h"
+#include "utils/framepacer.h"
 
 #include <api/sonicpi_api.h>
 #include <api/audio/server_shm.hpp>
@@ -714,14 +715,36 @@ void MetricsPanel::buildNodeColumn(QSplitter* topRow)
     title->setFont(mono);
     m_rowLabels.append(title);
 
-    // Legend + live counts (populated in updateNodeTree()).
+    // Legend + live counts (populated in updateNodeTree()), and the labels'
+    // switch beside them, as the web's tree has it.
     m_treeStats = new QLabel(card);
     m_treeStats->setFont(mono);
     m_treeStats->setTextFormat(Qt::RichText);
-    body->addWidget(m_treeStats);
+    m_treeLabels = new QToolButton(card);
+    m_treeLabels->setObjectName("ssTreeLabels");
+    m_treeLabels->setText(tr("Labels"));
+    m_treeLabels->setCheckable(true);
+    m_treeLabels->setChecked(true);
+    m_treeLabels->setFocusPolicy(Qt::StrongFocus);
+    m_treeLabels->setToolTip(tr("Name the fx under them"));
+    m_treeLabels->setAccessibleName(tr("Node tree labels"));
+    auto* head = new QHBoxLayout;
+    head->setContentsMargins(0, 0, 0, 0);
+    head->addWidget(m_treeStats, 1);
+    head->addWidget(m_treeLabels, 0, Qt::AlignVCenter);
+    body->addLayout(head);
 
     m_nodeGraph = new NodeTreeGraph(card);
+    m_nodeGraph->setAccessibleName(tr("Node tree"));
     body->addWidget(m_nodeGraph, 1);
+    connect(m_treeLabels, &QToolButton::toggled, m_nodeGraph, &NodeTreeGraph::setLabelsShown);
+    // The switch says when there are too many to label, so it never looks dead.
+    connect(m_nodeGraph, &NodeTreeGraph::labelsHiddenChanged, this, [this](bool hidden) {
+        const QString why = hidden ? tr("Too many to label at once: the labels come back when there are fewer")
+                                   : QString();
+        m_treeLabels->setToolTip(hidden ? why : tr("Name the fx under them"));
+        m_treeLabels->setAccessibleDescription(why);
+    });
     topRow->addWidget(card);
 }
 
@@ -1076,7 +1099,8 @@ void MetricsPanel::updateNodeTree()
     if (version == m_lastTreeVersion) return;   // unchanged — skip rebuild
     m_lastTreeVersion = version;
 
-    QVector<NodeTreeGraph::Node> nodes;
+    std::vector<NodeTreeGraph::LiveNode> nodes;
+    nodes.reserve(nt.header->node_count.load(std::memory_order_relaxed));
     int groups = 0, fx = 0, samples = 0, synths = 0;
 
     for (uint32_t i = 0; i < nt.max_nodes; ++i)
@@ -1092,25 +1116,18 @@ void MetricsPanel::updateNodeTree()
         const int32_t nextId  = e.next_id;
         const int32_t headId  = e.head_id;
         const char* nm = e.def_name;
-        QString name = QString::fromUtf8(nm, qstrnlen(nm, NODE_TREE_DEF_NAME_SIZE));
+        std::string name(nm, qstrnlen(nm, NODE_TREE_DEF_NAME_SIZE));
 
-        const bool isFx     = name.contains("-fx_") || name.contains("-fx-");
-        const bool isSample = name.contains("stereo_player") || name.contains("mono_player");
-        NodeTreeGraph::Kind kind;
-        if (isGroup)       { kind = NodeTreeGraph::Group;  ++groups; }
-        else if (isFx)     { kind = NodeTreeGraph::Fx;     ++fx; ++synths; }
-        else if (isSample) { kind = NodeTreeGraph::Sample; ++samples; ++synths; }
-        else               { kind = NodeTreeGraph::Synth;  ++synths; }
+        const NodeTreeGraph::Kind kind = SonicPi::NodeTreeMotion::kindOf(isGroup != 0, name);
+        switch (kind)
+        {
+        case NodeTreeGraph::Kind::Group:  ++groups; break;
+        case NodeTreeGraph::Kind::Fx:     ++fx; ++synths; break;
+        case NodeTreeGraph::Kind::Sample: ++samples; ++synths; break;
+        case NodeTreeGraph::Kind::Synth:  ++synths; break;
+        }
 
-        NodeTreeGraph::Node node;
-        node.id = id;
-        node.parent = parent;
-        node.head = headId;
-        node.next = nextId;
-        node.kind = kind;
-        node.label = isGroup ? (name.isEmpty() ? QStringLiteral("group") : name)
-                             : name;
-        nodes.append(node);
+        nodes.push_back({ id, parent, headId, nextId, kind, isGroup ? std::string() : std::move(name) });
     }
 
     const int pureSynths = synths - fx - samples;
@@ -1118,18 +1135,19 @@ void MetricsPanel::updateNodeTree()
     m_nodeGraph->setTree(nodes);
     if (m_treeStats)
     {
-        // Swatch colours match the graph's node colours (set in applyTheme).
-        auto sw = [&](const char* themeName, const char* label, int n) {
+        // Swatches in the graph's node colours (set in applyTheme) and shapes:
+        // groups circles, fx squares, synths and samples diamonds.
+        auto sw = [&](const char* themeName, const char* shape, const char* label, int n) {
             const QString dot = m_theme ? m_theme->color(themeName).name() : m_textColor.name();
-            return QStringLiteral("<span style=\"color:%1\">&#9679;</span> "
-                                  "<span style=\"color:%2\">%3 %4</span>")
-                .arg(dot, kindColor(K_Dim).name(), QString::fromUtf8(label), QString::number(n));
+            return QStringLiteral("<span style=\"color:%1\">%2</span> "
+                                  "<span style=\"color:%3\">%4 %5</span>")
+                .arg(dot, QString::fromUtf8(shape), kindColor(K_Dim).name(), QString::fromUtf8(label), QString::number(n));
         };
         const QString gap = QStringLiteral("&nbsp;&nbsp;&nbsp;");
-        m_treeStats->setText(sw("NumberForeground", "Groups", groups) + gap
-                             + sw("FunctionMethodNameForeground", "Synths", pureSynths) + gap
-                             + sw("KeywordForeground", "FX", fx) + gap
-                             + sw("DoubleQuotedStringForeground", "Samples", samples));
+        m_treeStats->setText(sw("NumberForeground", "&#9679;", "Groups", groups) + gap
+                             + sw("FunctionMethodNameForeground", "&#9670;", "Synths", pureSynths) + gap
+                             + sw("KeywordForeground", "&#9632;", "FX", fx) + gap
+                             + sw("DoubleQuotedStringForeground", "&#9670;", "Samples", samples));
     }
 }
 
@@ -1243,11 +1261,10 @@ void MetricsPanel::refresh()
         }
     }
 
-    // Tail the rings + node tree.
+    // Tail the rings. (The node tree is read on the frame tick: startTreeTicks.)
     drainOscRing(/*outgoing=*/true);   // IN ring     → To SuperSonic (what Sonic Pi sent)
     drainEgressRing(/*nrt=*/false);    // OUT ring     → /clockwork/debug → Debug, rest → From SuperSonic
     drainEgressRing(/*nrt=*/true);     // NRT-out ring → /clockwork/debug → Debug, rest → From SuperSonic
-    updateNodeTree();
 
     // Now that the debug cursor is primed (tailing live), ask SuperSonic once
     // for its build/runtime summary — it replies down the debug ring, so the
@@ -1324,6 +1341,17 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QLabel[ssRole=\"rowlabel\"] { color:%4; }"
         "QTextEdit { color:%2; background:%1; border:none; }")
         .arg(bg, fg, border, dim, muted, winBorder).arg(gridW).arg(qMax(6, 11 + m_fontZoom));
+    // The node tree's Labels switch, as the web's: a small chip with a 2px
+    // border in the button colour, lit in the accent while on. Hover and focus
+    // take the hover colour, focus last so the keyboard's place always shows.
+    const QString hoverCol = theme->color("HoverButton").name();
+    panelQss += QString(
+        "QToolButton#ssTreeLabels { color:%1; background:transparent; border:2px solid %2;"
+        " border-radius:@radiusMedium; padding:0px 8px; margin:0px; font-weight:600; }"
+        "QToolButton#ssTreeLabels:hover { color:%3; border-color:%3; }"
+        "QToolButton#ssTreeLabels:checked { color:%4; border-color:%4; }"
+        "QToolButton#ssTreeLabels:focus { color:%3; border-color:%3; }")
+        .arg(fg, theme->color("Button").name(), hoverCol, theme->color("HighlightedBackground").name());
     // Card radius from the shared scale (dpi.h), as a named token rather than
     // another %N arg in an already-crowded sequence.
     panelQss.replace("@radiusMedium", QString::number(ScaleHeightForDPI(kRadiusMediumDx)) + "px");
@@ -1372,7 +1400,9 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     }
 
     if (m_nodeGraph)
-        m_nodeGraph->applyTheme(m_textColor, m_bgColor, m_borderColor,
+        m_nodeGraph->applyTheme(m_textColor, m_bgColor,
+                                theme->color("Background"),                   // each node's outline
+                                theme->mutedForeground(),                     // labels
                                 theme->color("NumberForeground"),             // group  (blue)
                                 theme->color("FunctionMethodNameForeground"), // synth  (pink)
                                 theme->color("KeywordForeground"),            // fx     (yellow)
@@ -1430,12 +1460,35 @@ void MetricsPanel::showEvent(QShowEvent* e)
     positionLogsToggle();
     refresh();
     m_timer->start();
+    startTreeTicks();
 }
 
 void MetricsPanel::hideEvent(QHideEvent* e)
 {
     QWidget::hideEvent(e);
     m_timer->stop();
+    stopTreeTicks();
+}
+
+void MetricsPanel::startTreeTicks()
+{
+    if (m_treeTicking) return;
+    m_treeTicking = true;
+    // A read is one word when nothing has changed (updateNodeTree's version
+    // gate), so a tick costs nothing while the tree is still.
+    connect(SonicPi::FramePacer::instance(), &SonicPi::FramePacer::tick,
+            this, &MetricsPanel::updateNodeTree, Qt::UniqueConnection);
+    SonicPi::FramePacer::instance()->retain();
+    updateNodeTree();
+}
+
+void MetricsPanel::stopTreeTicks()
+{
+    if (!m_treeTicking) return;
+    m_treeTicking = false;
+    disconnect(SonicPi::FramePacer::instance(), &SonicPi::FramePacer::tick,
+               this, &MetricsPanel::updateNodeTree);
+    SonicPi::FramePacer::instance()->release();
 }
 
 bool MetricsPanel::eventFilter(QObject* obj, QEvent* e)

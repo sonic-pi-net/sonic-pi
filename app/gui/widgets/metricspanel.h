@@ -162,6 +162,10 @@ private:
     void drainOscRing(bool outgoing);   // outgoing = IN ring (sent), else OUT ring (replies)
     void drainEgressRing(bool nrt);     // OUT (false) / NRT-out (true): /clockwork/debug → Debug pane, rest → From-SuperSonic
     void updateNodeTree();
+    // The node tree is read on every FramePacer tick while the panel shows, so
+    // a short sound is seen, and its end, when it happens.
+    void startTreeTicks();
+    void stopTreeTicks();
     QVector<LogRun> stampRuns() const;   // bracketed hi-res timestamp, alternating grey shades
     QVector<LogRun> formatOscRuns(const uint8_t* data, uint32_t size,
                                   uint32_t sourceId);
@@ -205,6 +209,8 @@ private:
     QTextEdit* m_debugView = nullptr;    // engine debug/log text
     NodeTreeGraph* m_nodeGraph = nullptr;
     QLabel* m_treeStats = nullptr;       // node-tree legend + counts
+    QToolButton* m_treeLabels = nullptr; // node-tree labels on / off
+    bool m_treeTicking = false;          // reading the node tree on the shared frame tick (while shown)
 
     RingCursor m_inCursor;
     RingCursor m_outCursor;
