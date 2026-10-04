@@ -9067,6 +9067,7 @@ void MainWindow::maybeRestoreAudioIntent()
         // GUI makes. Without it a restore that the engine resolves elsewhere
         // leaves the settings describing the device it declined to open, and
         // the same request replays on every launch.
+        m_pendingAudioPrefs            = PendingAudioPrefs();
         m_pendingAudioPrefs.output     = QString::fromStdString(plan.output);
         m_pendingAudioPrefs.input      = QString::fromStdString(plan.input);
         m_pendingAudioPrefs.sampleRate = plan.sampleRate;
@@ -9133,6 +9134,7 @@ void MainWindow::switchAudioDriver(QString driver)
 void MainWindow::switchAudioDevice(QString device)
 {
     m_pendingAudioPrefs.output = device;
+    m_pendingAudioPrefs.outputFollowsDefault = settingsWidget->selectedOutputFollowsDefault();
     sendDeviceSwitch(device, 0, 0);
 }
 
@@ -9143,6 +9145,7 @@ void MainWindow::switchAudioDevice(QString device)
 void MainWindow::switchAudioDeviceAndInput(QString device, QString input)
 {
     m_pendingAudioPrefs.output = device;
+    m_pendingAudioPrefs.outputFollowsDefault = settingsWidget->selectedOutputFollowsDefault();
     m_pendingAudioPrefs.input  = input;
     sendDeviceSwitch(device, 0, 0, input);
 }
@@ -9240,6 +9243,7 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
     request.input      = pending.input.toStdString();
     request.sampleRate = pending.sampleRate;
     request.bufferSize = pending.bufferSize;
+    request.outputFollowsDefault = pending.outputFollowsDefault;
 
     const auto decision = SonicPi::audioPrefsDecision(request, outcome);
 

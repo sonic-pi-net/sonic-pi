@@ -105,6 +105,10 @@ struct AudioSwitchRequest {
     std::string input;
     int sampleRate = 0;
     int bufferSize = 0;
+    // The output picked was the device table's default-follow row (flag
+    // "follows-default"). Its name is how the engine resolves it, not what to
+    // save: the choice is to follow the default.
+    bool outputFollowsDefault = false;
 
     bool guiInitiated() const {
         return !output.empty() || !input.empty() || sampleRate > 0 || bufferSize > 0;
@@ -152,10 +156,11 @@ inline AudioPrefsDecision audioPrefsDecision(const AudioSwitchRequest& request,
         return d;
     }
 
-    // A request to follow the OS default resolves to a concrete device name.
-    // Saving that name would pin the user to the device that happened to be
-    // default at the time, silently dropping the follow behaviour.
-    if (request.output == kAudioSystemOutput) {
+    // A request to follow the OS default — the sentinel, or the default-follow
+    // row picked by name — resolves to a concrete device name. Saving that name
+    // would pin the user to the device that happened to be default at the time,
+    // silently dropping the follow behaviour.
+    if (request.output == kAudioSystemOutput || request.outputFollowsDefault) {
         d.output = PrefAction::Save;
         d.outputValue = kAudioSystemOutput;
     } else if (!outcome.actualOutput.empty()) {

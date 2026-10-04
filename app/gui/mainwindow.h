@@ -267,6 +267,7 @@ private:
         QString input;
         int sampleRate = 0;
         int bufferSize = 0;
+        bool outputFollowsDefault = false;   // the default-follow row was picked
     };
     PendingAudioPrefs m_pendingAudioPrefs;
 

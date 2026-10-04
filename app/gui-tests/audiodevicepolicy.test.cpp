@@ -209,6 +209,31 @@ TEST_CASE("persist: following the system default is kept as the sentinel",
     CHECK(d.outputValue == SonicPi::kAudioSystemOutput);
 }
 
+// The dropdown's default-follow row goes out under its own name — "System
+// Default" for the engine's synthetic row, the PipeWire device's name on Linux
+// — and the engine resolves it. What is saved is the following, not the name:
+// with Sonic Pi 5.0.0 an "OS Default" pick was saved as the device it happened
+// to open, and every launch after it booted pinned to that device.
+TEST_CASE("persist: a pick of the default-follow row is kept as the sentinel, "
+          "whatever the row is called", "[audio][persist]")
+{
+    for (const char* row : { "System Default", "PipeWire Default" }) {
+        AudioSwitchRequest request;
+        request.output = row;
+        request.outputFollowsDefault = true;
+
+        AudioSwitchOutcome outcome;
+        outcome.success = true;
+        outcome.requestedOutput = row;
+        outcome.actualOutput = "MacBook Pro Speakers";
+
+        const auto d = audioPrefsDecision(request, outcome);
+        INFO(row);
+        REQUIRE(d.output == PrefAction::Save);
+        CHECK(d.outputValue == SonicPi::kAudioSystemOutput);
+    }
+}
+
 TEST_CASE("persist: an unavailable input is cleared, not remembered",
           "[audio][persist]")
 {

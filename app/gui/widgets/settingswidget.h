@@ -53,6 +53,9 @@ public:
     void updateGamepadDevices( QString devices );
     void updateScsynthInfo(QString scsynthInfo);
     void updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo);
+    // Whether the selected output row follows the system default (the device
+    // table's "follows-default" flag) — such a pick is saved as following.
+    bool selectedOutputFollowsDefault() const;
     void updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo);
     // Per-driver device table push (/clockwork/device-table). Stores the
     // table and re-renders both device combos from it; absent on engines

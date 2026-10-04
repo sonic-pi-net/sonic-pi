@@ -341,7 +341,7 @@ module SonicPi
         # died at this line, which looked from the GUI exactly like a plugin
         # that never loaded. The track addresses are everything the Tracks
         # panel hears (harness/docs/TRACKS.md, "The OSC surface").
-        ["/clockwork/statechange", "/clockwork/info", "/clockwork/devices", "/clockwork/device-table", "/clockwork/input-devices", "/clockwork/devices/reopen.reply", "/clockwork/devices/reopen.done",
+        ["/clockwork/statechange", "/clockwork/info", "/clockwork/devices", "/clockwork/device-table", "/clockwork/input-devices", "/clockwork/devices/reopen.reply", "/clockwork/devices/reopen.done", "/clockwork/devices/switch.done",
          "/clockwork/track/list", "/clockwork/track/state", "/clockwork/track/folders", "/clockwork/track/plugins", "/clockwork/track/plugin/params", "/clockwork/track/plugin/param/edit", "/clockwork/track/error"].each do |path|
           conn.add_method(path) do |args|
             # The parameter pages and knob edits come by the hundred; logging

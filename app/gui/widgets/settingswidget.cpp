@@ -2980,6 +2980,12 @@ static bool rowHasFlag(const QComboBox* combo, int idx, const QString& flag)
         .split(',').contains(flag);
 }
 
+bool SettingsWidget::selectedOutputFollowsDefault() const
+{
+    return rowHasFlag(audio_output_combo, audio_output_combo->currentIndex(),
+                      QStringLiteral("follows-default"));
+}
+
 // Locate the selected driver's group in the per-driver device table.
 // Returns nullptr when the table is absent (engine predates it) or the
 // driver has no entry — callers then fall back to filtering the flat list.
