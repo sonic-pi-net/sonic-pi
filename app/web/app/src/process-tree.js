@@ -9,7 +9,10 @@
 // a new node grows out of its parent; past 200 nodes positions snap and
 // edges go straight. On top, what a thread is doing: filled while sleeping,
 // hollow while waiting on a sync, a pulse when it wakes, fading when it ends,
-// ringed red when it failed.
+// ringed red when it failed. Under reduce motion — the system's, or the app's
+// own Reduce animations — positions snap and a thread wakes without a pulse,
+// as native's tree does (utils/reducedmotion.h): what changes still shows, only
+// the movement goes.
 //
 // Beside the threads, what they make: a with_fx block is a square hanging from
 // the thread that opened it (hollow once its block has ended and it waits on
@@ -131,6 +134,8 @@ export function createProcessTree(root, hooks) {
   let hover = null;
   const screen = new Map();   // id → {x, y, r}
   const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+  // the system's setting, or the app's Reduce animations (main.js setReduceMotion: body.reduce-motion)
+  const still = () => !!reduceMotion?.matches || document.body.classList.contains("reduce-motion");
 
   root.textContent = "";
   root.classList.add("ptree");
@@ -164,7 +169,7 @@ export function createProcessTree(root, hooks) {
     lastKey = key;
     const targets = layoutTargets(nodes.map((n) => ({ id: n.uid, parent: n.uid === 0 ? null : n.parent })));
     for (const id of [...layout.keys()]) if (!targets.has(id)) layout.delete(id);
-    const snap = nodes.length > MAX_ANIMATED || reduceMotion?.matches;
+    const snap = nodes.length > MAX_ANIMATED || still();
     for (const n of nodes) {
       const t = targets.get(n.uid);
       let l = layout.get(n.uid);
@@ -185,7 +190,9 @@ export function createProcessTree(root, hooks) {
     const dt = lastStep == null ? 16 : Math.min(100, Math.max(1, t - lastStep));
     lastStep = t;
     const frames = dt / 16.6667;
+    const snap = still();   // switched on mid-glide: what is moving lands now
     for (const l of layout.values()) {
+      if (snap) { l.cx = l.tx; l.cy = l.ty; continue; }
       const step = 1 - Math.pow(l.visc, frames);
       l.cx += (l.tx - l.cx) * step;
       l.cy += (l.ty - l.cy) * step;
@@ -229,6 +236,7 @@ export function createProcessTree(root, hooks) {
       return;
     }
     const dense = nodes.length > MAX_ANIMATED;
+    const moveless = still();   // read once a frame
     const labelled = nodes.reduce((k, n) => k + (isSound(n) ? 0 : 1), 0);
     crowded = labelled > (crowded ? LABELS_ON : LABELS_OFF);
     const margin = 26;
@@ -284,11 +292,12 @@ export function createProcessTree(root, hooks) {
       if (alpha <= 0) continue;
       if (n.ended >= 0 && !sound && !parentOfLive.has(n.uid)) r *= 0.6 + 0.4 * alpha;
       const colour = css(KIND_COLOUR[n.kind]);
-      screen.set(n.uid, { x, y, r });
+      // a pulse as a thread wakes: it ran just now (k, how far the ring has grown)
+      const pulse = !group && !moveless && n.active >= 0 && now != null && now >= n.active && now - n.active < 0.35 && n.ended < 0 ? (now - n.active) / 0.35 : null;
+      screen.set(n.uid, { x, y, r, pulse });
       ctx.globalAlpha = alpha;
-      // a pulse as a thread wakes: it ran just now
-      if (!group && n.active >= 0 && now != null && now >= n.active && now - n.active < 0.35 && n.ended < 0) {
-        const k = (now - n.active) / 0.35;
+      if (pulse != null) {
+        const k = pulse;
         ctx.beginPath();
         ctx.arc(x, y, r + 2 + k * 10, 0, Math.PI * 2);
         ctx.strokeStyle = colour;
@@ -400,7 +409,7 @@ export function createProcessTree(root, hooks) {
 
   animateWhileShown(root, draw, { onStop: () => { lastStep = null; } });
   return {
-    /** The tree as drawn: [{uid, parent, label, kind, state, x, y}]. */
+    /** The tree as drawn: [{uid, parent, label, kind, state, line, x, y, r, pulse}] (pulse: how far a waking ring has grown, 0..1, or null). */
     snapshot: () => nodes.map((n) => ({ uid: n.uid, parent: n.parent, label: processLabel(n), kind: n.kind, state: n.state, line: n.line, ...(screen.get(n.uid) ?? {}) })),
   };
 }

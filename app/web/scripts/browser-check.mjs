@@ -353,6 +353,33 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     }, null, { timeout: 5000 }).then((h) => h.jsonValue()).catch(() => null);
     const unplaced = drawn != null ? [] : await page.evaluate(() => window.sonicPi.processTree().filter((n) => n.x == null && n.state < 3).map((n) => `${n.label} (state ${n.state})`));
     check("the process tree draws its nodes", drawn != null, drawn != null ? `${drawn} nodes` : `live and unplaced: ${unplaced.join(", ")}`);
+    // A thread waking is a ring growing out of it, and reduce motion keeps the tree still: the system's setting, or
+    // the app's own Reduce animations (body.reduce-motion). The loops wake several times a second; a ring lasts 0.35 s.
+    const pulses = async () => {
+      let seen = 0;
+      for (let i = 0; i < 30; i++) {
+        seen += await page.evaluate(() => window.sonicPi.processTree().filter((n) => n.pulse != null).length);
+        await page.waitForTimeout(50);
+      }
+      return seen;
+    };
+    // Each switch is waited on: main.js mirrors the system's setting onto body.reduce-motion when it hears the change
+    // (setReduceMotion), which comes a moment after emulateMedia; and the snapshot is the last frame drawn, so a frame
+    // is let draw before sampling.
+    const reduceClass = (on) => page.waitForFunction((v) => document.body.classList.contains("reduce-motion") === v, on, { timeout: 3000 }).then(() => true, () => false);
+    const pulsing = await pulses();
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    const heardOs = await reduceClass(true);
+    await page.waitForTimeout(100);
+    const stillOs = await pulses();
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    const heardOff = await reduceClass(false);
+    await page.evaluate(() => document.body.classList.add("reduce-motion"));   // the app's Reduce animations, as setReduceMotion sets it
+    await page.waitForTimeout(100);
+    const stillApp = await pulses();
+    const appHeld = await page.evaluate(() => document.body.classList.contains("reduce-motion"));
+    await page.evaluate(() => document.body.classList.remove("reduce-motion"));
+    check("a thread waking pulses in the process tree, and reduce motion (the system's or the app's) keeps it still", pulsing > 0 && heardOs && stillOs === 0 && heardOff && appHeld && stillApp === 0, JSON.stringify({ pulsing, heardOs, stillOs, heardOff, appHeld, stillApp }));
     // The Threads view is for looking and for finding a line, never for changing what plays: a shift-click on a node
     // (what once stopped it, and everything under it) is a click like any other, and the loop plays on
     const kickNode = await page.evaluate(() => {
