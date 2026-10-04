@@ -12,11 +12,13 @@
 // The GUI's streams panel used to parse these itself, off a UDP socket of its
 // own aimed at the port the daemon calls "scsynth" — and the engine, given a
 // stream transport, binds no UDP port at all, so the panel sat on "Waiting
-// for Link Audio peers" with peers in the session. The replies now come
-// through the API's command connection and are parsed here, once, where the
-// track replies are; these cases hold the parse to the engine's wire format
-// (clockwork/src/native/EngineControl.cpp, clock/audio/channels/get and
-// clock/audio/inputs/get).
+// for Link Audio peers" with peers in the session. The replies are now parsed
+// here, once, where the track replies are; these cases hold the parse to the
+// engine's wire format (clockwork/src/native/EngineControl.cpp,
+// clock/audio/channels/get and clock/audio/inputs/get). They reach the
+// listener through the daemon, which asks on its own engine connection — the
+// API's command connection discards whatever comes back on it
+// (test/test_engine_forwards.rb in the server holds that route).
 
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>

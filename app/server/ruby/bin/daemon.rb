@@ -26,6 +26,7 @@ ENV.delete("GEM_HOME")
 
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/promise"
+require_relative "../lib/sonicpi/engine_forwards"
 
 
 # Make sure vendored tomlrb lib is on the Ruby path so it can be required
@@ -223,22 +224,13 @@ module SonicPi
         # connection (@engine_conn); replies and notifies come back on that
         # same connection and are forwarded onward by the handlers wired in
         # connect_to_supersonic!. Requests arriving before the engine has
-        # booted (no connection yet) are dropped with a log line.
-        {
-          "/daemon/audio/switch-device"   => "/clockwork/devices/switch",
-          "/daemon/audio/switch-driver"   => "/clockwork/drivers/switch",
-          # devices/report (portless): registers this daemon connection as
-          # the report audience and triggers a device table broadcast, which
-          # the conn handlers forward to the GUI — the stream-transport
-          # equivalent of the GUI's old direct UDP-port registration.
-          "/daemon/audio/request-devices" => "/clockwork/devices/report",
-          "/daemon/audio/reopen-device"   => "/clockwork/devices/reopen"
-        }.each do |daemon_path, supersonic_path|
+        # booted (no connection yet) are queued, bounded.
+        SonicPi::GUI_TO_ENGINE_REQUESTS.each do |daemon_path, supersonic_path|
           @api_server.add_method(daemon_path) do |args|
             if args[0] && args[0] == @daemon_token
               begin
                 if @engine_conn
-                  Util.log "Forwarding #{daemon_path} to SuperSonic"
+                  Util.log "Forwarding #{daemon_path} to SuperSonic" unless quiet_forward?(daemon_path)
                   @engine_conn.send(nil, nil, supersonic_path, *args[1..-1])
                 else
                   # Engine still booting (TCP connects only after init).
@@ -314,6 +306,14 @@ module SonicPi
         Util.log_error(e)
       end
 
+      # Traffic too frequent to log each time: the plugin parameter pages and
+      # knob edits come by the hundred, and the Link Audio panel polls its
+      # channels and inputs every 2 s while it is open.
+      def quiet_forward?(path)
+        path.start_with?("/clockwork/track/plugin/param", "/clockwork/clock/audio/",
+                         "/daemon/clock/audio/")
+      end
+
       # Establish the daemon's TCP connection to SuperSonic and wire the
       # engine → GUI / Spider forwarders onto it. Engine-side notify
       # registration is per-connection, so on_reconnect re-registers (the
@@ -324,33 +324,28 @@ module SonicPi
                                               name: "Daemon SuperSonic Conn",
                                               connect_timeout: 15)
 
-        # Forward /clockwork/setup to Spider for cold-swap reinit
-        conn.add_method("/clockwork/setup") do |args|
-          Util.log "Forwarding /clockwork/setup to Spider"
-          begin
-            @api_server.send("localhost", @ports["gui-send-to-spider"], "/clockwork/setup", *args)
-          rescue => e
-            Util.log "Error forwarding /clockwork/setup: #{e.message}"
-          end
-        end
-
-        # A CLOSED LIST, and anything not on it is dropped here without a trace.
-        # The engine broadcasts to its notify targets; this connection is the
-        # registered one, and the GUI only ever sees what this loop forwards.
-        # The first plugin broadcasts were sent correctly by the engine and
-        # died at this line, which looked from the GUI exactly like a plugin
-        # that never loaded. The track addresses are everything the Tracks
-        # panel hears (harness/docs/TRACKS.md, "The OSC surface").
-        ["/clockwork/statechange", "/clockwork/info", "/clockwork/devices", "/clockwork/device-table", "/clockwork/input-devices", "/clockwork/devices/reopen.reply", "/clockwork/devices/reopen.done", "/clockwork/devices/switch.done",
-         "/clockwork/track/list", "/clockwork/track/state", "/clockwork/track/folders", "/clockwork/track/plugins", "/clockwork/track/plugin/params", "/clockwork/track/plugin/param/edit", "/clockwork/track/error"].each do |path|
+        # Closed lists: anything on neither is dropped here without a trace.
+        # One handler per address (a second add_method replaces the first), so
+        # an address both hear is sent to each from the same one. See
+        # ENGINE_TO_GUI_FORWARDS.
+        @setup_generations ||= SonicPi::SetupGenerations.new
+        (SonicPi::ENGINE_TO_GUI_FORWARDS | SonicPi::ENGINE_TO_SPIDER_FORWARDS).each do |path|
+          audiences = []
+          audiences << ["Spider", @ports["gui-send-to-spider"]] if SonicPi::ENGINE_TO_SPIDER_FORWARDS.include?(path)
+          audiences << ["GUI", @ports["gui-listen-to-spider"]] if SonicPi::ENGINE_TO_GUI_FORWARDS.include?(path)
           conn.add_method(path) do |args|
-            # The parameter pages and knob edits come by the hundred; logging
-            # each would be the slowest thing in the loop.
-            Util.log "Forwarding #{path} to GUI" unless path.start_with?("/clockwork/track/plugin/param")
-            begin
-              @api_server.send("localhost", @ports["gui-listen-to-spider"], path, *args)
-            rescue => e
-              Util.log "Error forwarding #{path}: #{e.message}"
+            # The GUI hears of a rebuild, not of the replay a registration gets.
+            to = audiences
+            if path == "/clockwork/setup" && !@setup_generations.rebuild?(args[2])
+              to = audiences.reject { |name, _| name == "GUI" }
+            end
+            to.each do |name, port|
+              Util.log "Forwarding #{path} to #{name}" unless quiet_forward?(path)
+              begin
+                @api_server.send("localhost", port, path, *args)
+              rescue => e
+                Util.log "Error forwarding #{path} to #{name}: #{e.message}"
+              end
             end
           end
         end

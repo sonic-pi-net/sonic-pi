@@ -667,6 +667,22 @@ void SonicPiAPI::RequestAudioDevices()
     }
 }
 
+bool SonicPiAPI::RequestLinkAudioChannels()
+{
+    if (!m_spOscDaemonSender) return false;
+    oscpkt::Message msg("/daemon/clock/audio/channels");
+    msg.pushInt32(m_token);
+    return m_spOscDaemonSender->sendOSC(msg);
+}
+
+bool SonicPiAPI::RequestLinkAudioInputs()
+{
+    if (!m_spOscDaemonSender) return false;
+    oscpkt::Message msg("/daemon/clock/audio/inputs");
+    msg.pushInt32(m_token);
+    return m_spOscDaemonSender->sendOSC(msg);
+}
+
 bool SonicPiAPI::IsServerReady()
 {
     return m_state == State::Created;

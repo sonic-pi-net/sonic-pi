@@ -718,6 +718,12 @@ public:
     virtual bool SendDaemonOSC(oscpkt::Message m);
     virtual bool SupersonicSendOSC(oscpkt::Message m);
     virtual void RequestAudioDevices();
+    // The Link Audio streams panel's two questions: the channels peers
+    // announce, and the inputs subscribed. Asked through the daemon, whose
+    // connection to the engine gets the answers (ours discards what comes
+    // back) and relays them here. False when the daemon is not there to ask.
+    virtual bool RequestLinkAudioChannels();
+    virtual bool RequestLinkAudioInputs();
     virtual int GetToken() const;
 
     virtual void LoadWorkspaces();

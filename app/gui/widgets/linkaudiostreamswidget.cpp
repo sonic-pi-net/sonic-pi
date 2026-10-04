@@ -325,13 +325,13 @@ void LinkAudioStreamsWidget::refresh()
 {
     if (!m_spAPI) return;
     // Two queries per poll: announced channel list, and active
-    // subscriptions (carries per-input status + latency). Over the API's
-    // command connection; the answers arrive through onChannels/onInputs.
-    if (!m_spAPI->SupersonicSendOSC(oscpkt::Message("/clockwork/clock/audio/channels/get"))) {
+    // subscriptions (carries per-input status + latency). Asked through the
+    // daemon, which relays the answers to onChannels/onInputs.
+    if (!m_spAPI->RequestLinkAudioChannels()) {
         showEmptyMessage(tr("SuperSonic not connected"));
         return;
     }
-    m_spAPI->SupersonicSendOSC(oscpkt::Message("/clockwork/clock/audio/inputs/get"));
+    m_spAPI->RequestLinkAudioInputs();
 }
 
 void LinkAudioStreamsWidget::onChannels(const std::vector<SonicPi::LinkAudioChannelInfo>& channels)
