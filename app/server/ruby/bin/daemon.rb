@@ -328,18 +328,12 @@ module SonicPi
         # One handler per address (a second add_method replaces the first), so
         # an address both hear is sent to each from the same one. See
         # ENGINE_TO_GUI_FORWARDS.
-        @setup_generations ||= SonicPi::SetupGenerations.new
         (SonicPi::ENGINE_TO_GUI_FORWARDS | SonicPi::ENGINE_TO_SPIDER_FORWARDS).each do |path|
           audiences = []
           audiences << ["Spider", @ports["gui-send-to-spider"]] if SonicPi::ENGINE_TO_SPIDER_FORWARDS.include?(path)
           audiences << ["GUI", @ports["gui-listen-to-spider"]] if SonicPi::ENGINE_TO_GUI_FORWARDS.include?(path)
           conn.add_method(path) do |args|
-            # The GUI hears of a rebuild, not of the replay a registration gets.
-            to = audiences
-            if path == "/clockwork/setup" && !@setup_generations.rebuild?(args[2])
-              to = audiences.reject { |name, _| name == "GUI" }
-            end
-            to.each do |name, port|
+            audiences.each do |name, port|
               Util.log "Forwarding #{path} to #{name}" unless quiet_forward?(path)
               begin
                 @api_server.send("localhost", port, path, *args)

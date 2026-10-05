@@ -34,7 +34,8 @@ module SonicPi
     "/clockwork/devices/reopen.reply",
     "/clockwork/devices/reopen.done",
     "/clockwork/devices/switch.done",
-    # Rebuilds only: see SetupGenerations.
+    # A rebuild (a cold swap): the GUI re-attaches its view of the engine.
+    # An event, never replayed to a registrant, so every one is a rebuild.
     "/clockwork/setup",
     # Answers to the GUI's /daemon/clock/audio/* requests, which the daemon
     # asks on its own connection so the answers come back here.
@@ -69,33 +70,8 @@ module SonicPi
     "/daemon/clock/audio/inputs"    => "/clockwork/clock/audio/inputs/get",
   }.freeze
 
-  # Spider rebuilds the studio after a cold swap, and dedups the setups itself.
+  # Spider rebuilds the studio after every cold swap.
   ENGINE_TO_SPIDER_FORWARDS = [
     "/clockwork/setup",
   ].freeze
-
-  # /clockwork/setup carries [sample_rate, buffer_size, generation], and the
-  # generation moves only when the engine rebuilds its world (a cold swap).
-  # The engine also replays its current setup to every connection that
-  # registers for notifications, the daemon's included. The GUI re-attaches
-  # on a rebuild (its first attach is on Spider's ready), so it is told of a
-  # setup only when the generation has moved since the last one the daemon
-  # saw — whenever the GUI itself came up.
-  class SetupGenerations
-    def initialize
-      @current = nil
-      @seen = false
-    end
-
-    # Whether a setup with this generation is a rebuild. One without a
-    # generation can't be told from a replay, so it is passed on.
-    def rebuild?(generation)
-      return true if generation.nil?
-      first = !@seen
-      changed = generation != @current
-      @seen = true
-      @current = generation
-      !first && changed
-    end
-  end
 end

@@ -78,25 +78,15 @@ module SonicPi
     end
 
     # The GUI re-attaches its scope, refreshes its device list and readies the
-    # Tracks panel on a rebuild; its first attach is on Spider's ready.
-
-    def test_the_setup_replayed_on_connecting_is_not_a_rebuild
-      setups = SetupGenerations.new
-      refute setups.rebuild?(7), "the replay the engine sends a new registrant"
-      refute setups.rebuild?(7), "and again, on a reconnect to the same engine"
+    # Tracks panel on a rebuild. The engine never replays a setup to a
+    # registrant, so the first one the daemon sees is a real cold swap too.
+    def test_the_gui_hears_every_setup
+      assert_includes ENGINE_TO_GUI_FORWARDS, "/clockwork/setup"
     end
 
-    def test_a_cold_swap_is_a_rebuild_once
-      setups = SetupGenerations.new
-      setups.rebuild?(7)
-      assert setups.rebuild?(8)
-      refute setups.rebuild?(8)
-      assert setups.rebuild?(9)
-    end
-
-    def test_a_setup_without_a_generation_is_passed_on
-      setups = SetupGenerations.new
-      assert setups.rebuild?(nil)
+    def test_the_daemon_forwards_every_setup_unfiltered
+      daemon = File.read(File.join(__dir__, "../bin/daemon.rb"))
+      refute_match(/SetupGenerations|rebuild\?/, daemon)
     end
   end
 end
