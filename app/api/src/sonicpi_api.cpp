@@ -1140,13 +1140,13 @@ void SonicPiAPI::AudioProcessor_ConsumedAudio()
     }
 }
 
-shm_audio_buffer* SonicPiAPI::AudioProcessor_GetAudioBufferSlot(unsigned int slot)
+shm_audio_buffer_reader SonicPiAPI::AudioProcessor_GetAudioBufferReader(unsigned int slot)
 {
     if (m_spAudioProcessor)
     {
-        return m_spAudioProcessor->GetAudioBufferSlot(slot);
+        return m_spAudioProcessor->GetAudioBufferReader(slot);
     }
-    return nullptr;
+    return shm_audio_buffer_reader();
 }
 
 shm_scope_stream_reader SonicPiAPI::AudioProcessor_GetScopeReader(unsigned int scope_num)

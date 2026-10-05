@@ -93,7 +93,7 @@
 - (instancetype)initWithWindow:(NSWindow *)window
                        fileURL:(NSURL *)fileURL
                     showCursor:(BOOL)showCursor
-                     audioSlot:(shm_audio_buffer *)audioSlot
+                         audio:(shm_audio_buffer_reader)audio
 {
     self = [super init];
     if (!self) return nil;
@@ -103,8 +103,8 @@
     _target = [[SonicPiCaptureTarget alloc] initWithWindow:window tag:@"recorder"];
     _running = false;
     _writerStarted = 0;  // kIdle
-    _audioReader = shm_audio_buffer_reader(audioSlot);
-    _audioChannels = audioSlot ? audioSlot->channels : 0;
+    _audioReader = std::move(audio);
+    _audioChannels = _audioReader.channels();
     _audioAnchorPTS = kCMTimeInvalid;
     _audioAnchorFrame = 0;
     _powerAssertion = kIOPMNullAssertionID;
@@ -596,7 +596,7 @@ static SonicPiRecorder *gRecorder = nil;
 namespace SonicPi {
 
 bool startSessionRecording(void *nsViewPtr, const std::string &filePath,
-                           bool showCursor, shm_audio_buffer *audioSlot)
+                           bool showCursor, shm_audio_buffer_reader audio)
 {
     if (!nsViewPtr) {
         RECORDER_LOG("null view pointer");
@@ -639,7 +639,7 @@ bool startSessionRecording(void *nsViewPtr, const std::string &filePath,
     gRecorder = [[SonicPiRecorder alloc] initWithWindow:window
                                                 fileURL:fileURL
                                              showCursor:showCursor ? YES : NO
-                                              audioSlot:audioSlot];
+                                                  audio:std::move(audio)];
     if (!gRecorder) return false;
     [gRecorder startAsync];
     return true;

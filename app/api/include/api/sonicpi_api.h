@@ -670,10 +670,11 @@ public:
 
     std::vector<LogSource> GetLogSources();
 
-    // Direct pointer to one of the engine's audio taps (SHM_AUDIO_OUT_SLOT
-    // is the master mix, flowing from boot). Used by the session recorder.
-    // Returns nullptr if the audio processor hasn't been initialised.
-    virtual shm_audio_buffer* AudioProcessor_GetAudioBufferSlot(unsigned int slot);
+    // Reader onto one of the engine's audio taps (SHM_AUDIO_OUT_SLOT is the
+    // master mix, flowing from boot). Used by the session recorder. Keeps
+    // the mapping it reads alive across a cold swap; invalid if the audio
+    // processor hasn't attached.
+    virtual shm_audio_buffer_reader AudioProcessor_GetAudioBufferReader(unsigned int slot);
 
     // Reader onto scope stream slot `scope_num`. Slot 0 is the master scope
     // (full mix); higher slots are independent fx_scope_out taps (inline

@@ -90,13 +90,13 @@ public:
     ~SonicPiSessionRecorder() { Stop(); }
 
     bool Start(HWND hwnd, const std::wstring& filePath, bool showCursor,
-               shm_audio_buffer* audioSlot)
+               shm_audio_buffer_reader audio)
     {
         m_filePath        = filePath;
         m_fragmentedPath  = filePath + L".frag";
         m_showCursor      = showCursor;
-        m_audioReader     = shm_audio_buffer_reader(audioSlot);
-        m_audioChannels   = audioSlot ? audioSlot->channels : 0;
+        m_audioReader     = std::move(audio);
+        m_audioChannels   = m_audioReader.channels();
 
         // MFStartup is refcounted; balanced by MFShutdown in Stop().
         HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_LITE);
@@ -839,7 +839,7 @@ std::wstring Utf8ToWide(const std::string& s)
 namespace SonicPi {
 
 bool startSessionRecording(void* hwndPtr, const std::string& filePath,
-                           bool showCursor, shm_audio_buffer* audioSlot)
+                           bool showCursor, shm_audio_buffer_reader audio)
 {
     if (!hwndPtr) {
         RECORDER_LOG("null HWND");
@@ -860,7 +860,7 @@ bool startSessionRecording(void* hwndPtr, const std::string& filePath,
         g_recorder.reset();
     }
     auto rec = std::make_unique<SonicPiSessionRecorder>();
-    if (!rec->Start(hwnd, Utf8ToWide(filePath), showCursor, audioSlot)) {
+    if (!rec->Start(hwnd, Utf8ToWide(filePath), showCursor, std::move(audio))) {
         return false;
     }
     g_recorder = std::move(rec);

@@ -100,15 +100,16 @@ void setSyphonShowCursor(bool showCursor);
 // the writer can't be created. Same Screen Recording TCC permission as
 // Syphon — first call may prompt.
 //
-// audioSlot points at the engine's OUT tap (SHM_AUDIO_OUT_SLOT): the
+// audio reads the engine's OUT tap (SHM_AUDIO_OUT_SLOT): the
 // master mix, written by the engine from boot, read here for the .mov's
-// audio track from its live position. Pass nullptr for video-only.
+// audio track from its live position. An invalid reader records video only.
+// The reader keeps its mapping alive, so a recording survives a cold swap.
 //
 // API is intentionally platform-neutral (void* window handle, std::string
 // path) — Windows / Linux implementations would land in sibling files.
 bool startSessionRecording(void* nsViewPtr, const std::string& filePath,
                            bool showCursor,
-                           shm_audio_buffer* audioSlot);
+                           shm_audio_buffer_reader audio);
 
 // Stop and finalise the recording. Asynchronous — the file isn't valid
 // until AVAssetWriter's finishWriting completion fires. Safe to call

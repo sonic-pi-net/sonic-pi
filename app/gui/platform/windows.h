@@ -45,12 +45,13 @@ void setSpoutShowCursor(bool showCursor);
 // unavailable, the D3D11/MF stack can't be brought up, or the window
 // can't be located.
 //
-// audioSlot points at the engine's OUT tap (SHM_AUDIO_OUT_SLOT): the
+// audio reads the engine's OUT tap (SHM_AUDIO_OUT_SLOT): the
 // master mix, written by the engine from boot, read here for the audio
-// track from its live position. Pass nullptr for video-only.
+// track from its live position. An invalid reader records video only. The
+// reader keeps its mapping alive, so a recording survives a cold swap.
 bool startSessionRecording(void* hwndPtr, const std::string& filePath,
                            bool showCursor,
-                           shm_audio_buffer* audioSlot);
+                           shm_audio_buffer_reader audio);
 
 // Stop and finalise the recording. Blocks until IMFSinkWriter::Finalize
 // completes so the file is closed by the time this returns.

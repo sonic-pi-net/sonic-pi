@@ -50,19 +50,18 @@ public:
     // invoke after a cold-swap device change to refresh the stale reader.
     void ResetConnection();
 
-    // Direct pointer to one of the engine's audio taps: SHM_AUDIO_OUT_SLOT
-    // is the master mix as it left for the device, SHM_AUDIO_IN_SLOT what
-    // arrived from it, both written by the engine from boot. Returns
-    // nullptr if the shm client is not initialised. The pointer is into
-    // the engine's shm mapping, so callers must keep the owning
-    // AudioProcessor alive for its lifetime.
-    shm_audio_buffer* GetAudioBufferSlot(unsigned int slot);
+    // Reader onto one of the engine's audio taps: SHM_AUDIO_OUT_SLOT is the
+    // master mix as it left for the device, SHM_AUDIO_IN_SLOT what arrived
+    // from it, both written by the engine from boot. Invalid if the shm
+    // client is not attached. The reader keeps the mapping it reads alive,
+    // so it outlives a ResetConnection (every cold swap) and this
+    // AudioProcessor.
+    shm_audio_buffer_reader GetAudioBufferReader(unsigned int slot);
 
     // Reader onto scope stream slot `index`. Slot 0 is the master scope
     // (the full mix); slots 1..N are fed by fx_scope_out / ScopeOut2 taps.
     // Invalid reader if the shm client is not connected or the index is out
-    // of range. Same lifetime caveat as GetAudioBufferSlot — points into
-    // supersonic's shm mapping.
+    // of range. Like the audio tap reader, it keeps its mapping alive.
     shm_scope_stream_reader GetScopeReader(unsigned int index);
 
     // Seqlock snapshot of the engine sample clock (sample position ↔ DAC NTP);
@@ -71,8 +70,9 @@ public:
 
     // Flat pointer to the PerformanceMetrics region in supersonic's shm
     // mapping (METRICS_FIELD_COUNT contiguous uint32 fields), or nullptr
-    // if the shm client is not connected. Same lifetime caveat as
-    // GetAudioBufferSlot — the pointer is owned by this AudioProcessor.
+    // if the shm client is not connected. The pointer is into this
+    // AudioProcessor's mapping: valid until the next ResetConnection, on the
+    // GUI thread that calls it.
     const std::atomic<uint32_t>* GetMetrics();
 
     // Passive views onto the OSC/debug transport rings and the node-tree

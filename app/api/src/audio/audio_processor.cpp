@@ -275,14 +275,17 @@ void AudioProcessor::CalculateFFT(ProcessedAudio& audio)
     }
 }
 
-shm_audio_buffer* AudioProcessor::GetAudioBufferSlot(unsigned int slot)
+// m_mutex: Run() attaches (assigns m_shmClient) on its own thread.
+shm_audio_buffer_reader AudioProcessor::GetAudioBufferReader(unsigned int slot)
 {
-    if (!m_shmClient) return nullptr;
-    return m_shmClient->get_audio_buffer(slot);
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (!m_shmClient) return shm_audio_buffer_reader();
+    return m_shmClient->get_audio_buffer_reader(slot);
 }
 
 shm_scope_stream_reader AudioProcessor::GetScopeReader(unsigned int index)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     if (!m_shmClient) return shm_scope_stream_reader();
     return m_shmClient->get_scope_stream_reader(index);
 }
