@@ -7191,16 +7191,31 @@ void MainWindow::startSessionRecordingFlow()
         reinterpret_cast<void*>(wid),
         m_videoTempPath.toStdString(),
         piSettings->record_show_cursor,
-        std::move(audio));
-    if (!started) {
-        is_recording = false;
-        updateRecordingUI();
-        statusBar()->showMessage(tr("Recording failed to start"), 2000);
-        announce(tr("Recording failed to start"), true);
-        rec_flash_timer->stop();
-        recAct->setIcon(theme->getRecIcon(false, false));
-        m_videoTempPath.clear();
-    }
+        std::move(audio),
+        [this](const std::string& reason) {
+            const QString why = QString::fromStdString(reason);
+            QMetaObject::invokeMethod(this, [this, why] { recordingFailed(why); }, Qt::QueuedConnection);
+        });
+    if (!started)
+        recordingFailed(QString());
+}
+
+// The recording never started, or died setting itself up: the Record
+// control goes back to rest and says why, so the user is not left watching
+// a red light record nothing.
+void MainWindow::recordingFailed(const QString& reason)
+{
+    if (!is_recording)
+        return;
+    is_recording = false;
+    updateRecordingUI();
+    const QString message = reason.isEmpty() ? tr("Recording failed to start")
+                                             : tr("Recording failed: %1").arg(reason);
+    statusBar()->showMessage(message, 4000);
+    announce(message, true);
+    rec_flash_timer->stop();
+    recAct->setIcon(theme->getRecIcon(false, false));
+    m_videoTempPath.clear();
 }
 
 void MainWindow::stopSessionRecordingFlow()
@@ -7346,6 +7361,8 @@ void MainWindow::readSettings()
         const double oldGainPct = gui_settings->value("prefs/system-vol").toInt() * 2.4;
         piSettings->main_drive = qBound(25, qRound(oldGainPct), 400);
         piSettings->main_volume = qBound(0, qRound(100.0 * oldGainPct / piSettings->main_drive), 100);
+    // The capture is set up asynchronously: a failure after this returns
+    // true arrives through onFailed, on the GUI thread.
     }
     piSettings->mixer_force_mono = gui_settings->value("prefs/mixer-force-mono", false).toBool();
     piSettings->mixer_invert_stereo = gui_settings->value("prefs/mixer-invert-stereo", false).toBool();

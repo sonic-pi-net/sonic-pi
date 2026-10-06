@@ -12,6 +12,7 @@
 //++
 
 #include "macos.h"
+#import "objc_guard.h"
 #import <AppKit/AppKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <ApplicationServices/ApplicationServices.h>   // AXUIElement / AXObserver
@@ -103,9 +104,9 @@ void installAccessibilityNavigationOrderShim()
     {
         if (Method children = class_getInstanceMethod(cls, @selector(accessibilityChildren)))
         {
-            IMP imp = imp_implementationWithBlock(^NSArray*(id element) {
+            IMP imp = imp_implementationWithBlock(SonicPi::objc::guardedOr("accessibility children", ^NSArray*(id element) {
                 return [element accessibilityChildren];
-            });
+            }, (NSArray*)nil));
             class_addMethod(cls, navSel, imp, method_getTypeEncoding(children));
         }
     }
@@ -189,10 +190,10 @@ std::string requestMicrophoneAccess()
     if (s == AVAuthorizationStatusNotDetermined) {
         std::cout << "[gui-mic] requesting access (user should see prompt)" << std::endl;
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio
-                                 completionHandler:^(BOOL granted) {
+                                 completionHandler:SonicPi::objc::guarded("microphone access", ^(BOOL granted) {
             std::cout << "[gui-mic] request result: "
                       << (granted ? "GRANTED" : "DENIED") << std::endl;
-        }];
+        })];
     }
 
     return statusStr;

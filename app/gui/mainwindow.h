@@ -632,6 +632,7 @@ private:
 #endif
 
     void clearOutputPanels();
+    void recordingFailed(const QString& reason);   // the recorder could not start or died: Record goes back
     void createToolBar();
     void createExamplesMenu();
     void openExample(const QString& path, const QString& title, int helpRow);

@@ -24,6 +24,9 @@
 
 #import "SyphonMetalServer.h"
 #import "capture_target.h"
+#import "objc_guard.h"
+
+using namespace SonicPi::objc;
 
 #include <atomic>
 #include <iostream>
@@ -128,7 +131,7 @@
     }
 
     // First call to getShareableContent triggers the screen-recording prompt.
-    [SCShareableContent getShareableContentWithCompletionHandler:^(SCShareableContent * _Nullable content, NSError * _Nullable error) {
+    [SCShareableContent getShareableContentWithCompletionHandler:guarded("shareable content", ^(SCShareableContent * _Nullable content, NSError * _Nullable error) {
         if (error) {
             SYPHONPUB_LOG("SCShareableContent failed: "
                           << [[error localizedDescription] UTF8String]);
@@ -165,7 +168,7 @@
             return;
         }
 
-        [self->_stream startCaptureWithCompletionHandler:^(NSError * _Nullable startErr) {
+        [self->_stream startCaptureWithCompletionHandler:guarded("start capture", ^(NSError * _Nullable startErr) {
             if (startErr) {
                 SYPHONPUB_LOG("startCapture failed: "
                               << [[startErr localizedDescription] UTF8String]);
@@ -180,16 +183,19 @@
                           << [self->_name UTF8String] << "' ("
                           << (size_t)config.width << "x"
                           << (size_t)config.height << ")");
-        }];
+        })];
 
         // Follow the window and the bridge from here on (main thread: the
         // window is read on delivery). Registered once the stream exists.
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), guarded("follow the window", ^{
             SCStream *s = self->_stream;
             if (!s) return;
-            [self->_target followStream:s configuration:^{ return [self configuration]; }];
-        });
-    }];
+            [self->_target followStream:s
+                         configuration:guardedOr("stream configuration",
+                                                 ^SCStreamConfiguration *{ return [self configuration]; },
+                                                 (SCStreamConfiguration *)nil)];
+        }));
+    })];
 }
 
 - (void)stop
@@ -201,12 +207,12 @@
     _stream = nil;
     _server = nil;
     if (s) {
-        [s stopCaptureWithCompletionHandler:^(NSError * _Nullable error) {
+        [s stopCaptureWithCompletionHandler:guarded("stop capture", ^(NSError * _Nullable error) {
             if (error) {
                 SYPHONPUB_LOG("stop error: "
                               << [[error localizedDescription] UTF8String]);
             }
-        }];
+        })];
     }
     if (sv) {
         [sv stop];
@@ -224,12 +230,12 @@
     _showCursor = showCursor;
     SCStream *s = _stream;
     if (!s) return;
-    [s updateConfiguration:[self configuration] completionHandler:^(NSError * _Nullable err) {
+    [s updateConfiguration:[self configuration] completionHandler:guarded("update configuration", ^(NSError * _Nullable err) {
         if (err) {
             SYPHONPUB_LOG("updateConfiguration failed: "
                           << [[err localizedDescription] UTF8String]);
         }
-    }];
+    })];
 }
 
 #pragma mark - SCStreamOutput

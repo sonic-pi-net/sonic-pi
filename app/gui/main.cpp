@@ -132,6 +132,12 @@ int main(int argc, char* argv[])
     qRegisterMetaType<SonicPiLog::MultiMessage>("SonicPiLog::MultiMessage");
 
     app.setApplicationName(QObject::tr("Sonic Pi"));
+#if defined(Q_OS_MAC)
+    // An Objective-C exception that escapes a system callback is fatal; the
+    // blocks are guarded (platform/objc_guard.h), and this logs any that
+    // still escapes, so gui.log explains the crash.
+    SonicPi::installUncaughtExceptionLog();
+#endif
 
     // Wrap Fusion in a proxy so QMainWindow dock separators get the same
     // thin-line/hover-reveal as the custom QSplitter handles (ThinSplitter).

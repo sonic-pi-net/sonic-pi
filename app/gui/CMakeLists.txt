@@ -277,6 +277,11 @@ elseif(APPLE)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/syphon_publisher.mm)
   SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/recorder.mm)
 
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/objc_guard.mm)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/objc_guard.h)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/recorder_limits.h)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/recorder_audio_mix.h)
+  SET (SOURCES ${SOURCES} ${QTAPP_ROOT}/platform/recorder_settings.h)
   # Syphon-Framework — vendored, server-side Metal subset only (no GL,
   # no client). Compiled into the app binary as ARC Objective-C.
   set(SYPHON_DIR ${APP_ROOT}/external/Syphon-Framework)
@@ -307,6 +312,8 @@ elseif(APPLE)
   set_source_files_properties(${QTAPP_ROOT}/platform/recorder.mm
     PROPERTIES COMPILE_FLAGS "-fobjc-arc")
 endif()
+  set_source_files_properties(${QTAPP_ROOT}/platform/objc_guard.mm
+    PROPERTIES COMPILE_FLAGS "-fobjc-arc")
 
 set(ALL_SOURCES ${QT_SOURCES} ${SOURCES} ${EDITOR_SOURCES} ${OLD_API_SOURCES} ${NEW_API_SOURCES})
 

@@ -14,6 +14,9 @@
 // Compiled with -fobjc-arc.
 
 #import "capture_target.h"
+#import "objc_guard.h"
+
+using namespace SonicPi::objc;
 
 #include <iostream>
 #include <set>
@@ -158,7 +161,7 @@ static NSString *const kPluginBridgeBundleID = @"net.sonic-pi.plugins";
     _poll = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
     dispatch_source_set_timer(_poll, dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC),
                               2 * NSEC_PER_SEC, NSEC_PER_SEC / 2);
-    dispatch_source_set_event_handler(_poll, ^{ [self pollApplications]; });
+    dispatch_source_set_event_handler(_poll, guarded("poll applications", ^{ [self pollApplications]; }));
     dispatch_resume(_poll);
 }
 
@@ -178,12 +181,12 @@ static NSString *const kPluginBridgeBundleID = @"net.sonic-pi.plugins";
 {
     SCStream *s = _stream;
     if (!s || !_configuration) return;
-    [s updateConfiguration:_configuration() completionHandler:^(NSError * _Nullable err) {
+    [s updateConfiguration:_configuration() completionHandler:guarded("update configuration", ^(NSError * _Nullable err) {
         if (err) {
             TARGET_LOG("updateConfiguration failed: "
                        << [[err localizedDescription] UTF8String]);
         }
-    }];
+    })];
 }
 
 // The window moved or resized: move the crop with it. Its screen changed:
@@ -212,35 +215,35 @@ static NSString *const kPluginBridgeBundleID = @"net.sonic-pi.plugins";
 - (void)pollApplications
 {
     if (!_stream) return;
-    [SCShareableContent getShareableContentWithCompletionHandler:^(SCShareableContent * _Nullable content, NSError * _Nullable error) {
+    [SCShareableContent getShareableContentWithCompletionHandler:guarded("poll shareable content", ^(SCShareableContent * _Nullable content, NSError * _Nullable error) {
         if (!self->_stream || error || !content) return;
         std::set<pid_t> now;
         for (SCRunningApplication *app in [self applicationsIn:content]) {
             now.insert(app.processID);
         }
         if (now == self->_pids) return;
-        dispatch_async(dispatch_get_main_queue(), ^{ [self refreshFilter]; });
-    }];
+        dispatch_async(dispatch_get_main_queue(), guarded("refresh filter", ^{ [self refreshFilter]; }));
+    })];
 }
 
 - (void)refreshFilter
 {
     if (!_stream) return;
-    [SCShareableContent getShareableContentWithCompletionHandler:^(SCShareableContent * _Nullable content, NSError * _Nullable error) {
+    [SCShareableContent getShareableContentWithCompletionHandler:guarded("refresh shareable content", ^(SCShareableContent * _Nullable content, NSError * _Nullable error) {
         SCStream *s = self->_stream;
         if (!s || error || !content) return;
         SCContentFilter *filter = [self filterIn:content];
         if (!filter) return;
-        [s updateContentFilter:filter completionHandler:^(NSError * _Nullable err) {
+        [s updateContentFilter:filter completionHandler:guarded("update content filter", ^(NSError * _Nullable err) {
             if (err) {
                 TARGET_LOG("updateContentFilter failed: "
                            << [[err localizedDescription] UTF8String]);
                 return;
             }
             TARGET_LOG("filter updated");
-            dispatch_async(dispatch_get_main_queue(), ^{ [self applyConfiguration]; });
-        }];
-    }];
+            dispatch_async(dispatch_get_main_queue(), guarded("apply configuration", ^{ [self applyConfiguration]; }));
+        })];
+    })];
 }
 
 @end

@@ -26,8 +26,15 @@
 #import <IOKit/pwr_mgt/IOPMLib.h>
 
 #import "capture_target.h"
+#import "objc_guard.h"
+#import "recorder_audio_mix.h"
+#import "recorder_limits.h"
+#import "recorder_settings.h"
+
+using namespace SonicPi::objc;
 
 #include <atomic>
+#include <functional>
 #include <iostream>
 #include <sstream>
 #include <thread>
@@ -87,10 +94,14 @@
     uint64_t _audioAnchorFrame;
     // Scratch buffer for pumpAudioOnce — hoisted out of the 5ms hot path
     // so we don't malloc/free 8KB 200×/sec when there's nothing to drain.
-    std::vector<float> _audioPullBuf;
+    std::vector<float> _audioPullBuf;   // the tap's frames, every device channel
+    std::vector<float> _audioMixBuf;    // the recorded channels of them (recorder_audio_mix.h)
+    void (^_onFailed)(NSString *);      // the recording could not start or died: once
+    bool _failed;
 }
 
 - (instancetype)initWithWindow:(NSWindow *)window
+                      onFailed:(void (^)(NSString *))onFailed
                        fileURL:(NSURL *)fileURL
                     showCursor:(BOOL)showCursor
                          audio:(shm_audio_buffer_reader)audio
@@ -103,14 +114,30 @@
     _target = [[SonicPiCaptureTarget alloc] initWithWindow:window tag:@"recorder"];
     _running = false;
     _writerStarted = 0;  // kIdle
+    _onFailed = onFailed;
+    _failed = false;
     _audioReader = std::move(audio);
-    _audioChannels = _audioReader.channels();
+    // The stereo mix, however wide the device (recorder_audio_mix.h).
+    _audioChannels = SonicPi::recordedChannels(_audioReader.channels());
     _audioAnchorPTS = kCMTimeInvalid;
     _audioAnchorFrame = 0;
     _powerAssertion = kIOPMNullAssertionID;
     static constexpr uint32_t kPullFrames = 1024;
     _audioPullBuf.resize((size_t)kPullFrames * SHM_AUDIO_CHANNELS);
+    _audioMixBuf.resize((size_t)kPullFrames * SonicPi::kRecordedChannelsMax);
     return self;
+}
+
+// The recording is over before it began, or died: say so once, on the main
+// thread, so the GUI can take its Record control back.
+- (void)failWith:(NSString *)reason
+{
+    RECORDER_LOG("failed: " << [reason UTF8String]);
+    if (_failed) return;
+    _failed = true;
+    void (^onFailed)(NSString *) = _onFailed;
+    if (!onFailed) return;
+    dispatch_async(dispatch_get_main_queue(), guarded("recording failed", ^{ onFailed(reason); }));
 }
 
 - (void)dealloc
@@ -140,18 +167,8 @@
     // playable up to the last flushed fragment.
     _writer.movieFragmentInterval = CMTimeMake(1, 1);
 
-    NSDictionary *videoSettings = @{
-        AVVideoCodecKey: AVVideoCodecTypeH264,
-        AVVideoWidthKey: @(width),
-        AVVideoHeightKey: @(height),
-        AVVideoCompressionPropertiesKey: @{
-            AVVideoAverageBitRateKey: @((width * height * 60 * 4) / 100),
-            AVVideoMaxKeyFrameIntervalKey: @60,
-            AVVideoExpectedSourceFrameRateKey: @60,
-        }
-    };
     _videoInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
-                                                     outputSettings:videoSettings];
+                                                     outputSettings:SonicPi::recorderVideoSettings(width, height)];
     _videoInput.expectsMediaDataInRealTime = YES;
     if (![_writer canAddInput:_videoInput]) {
         RECORDER_LOG("can't add video input");
@@ -162,12 +179,7 @@
     // Audio input — fed from the engine's OUT tap on a dispatch timer. AAC stereo 256kbps is the same default the audio Rec
     // button uses for WAV-equivalent quality after encoding.
     if (_audioReader.valid() && _audioChannels > 0) {
-        NSDictionary *audioSettings = @{
-            AVFormatIDKey:         @(kAudioFormatMPEG4AAC),
-            AVNumberOfChannelsKey: @(_audioChannels),
-            AVSampleRateKey:       @(SHM_AUDIO_SAMPLE_RATE),
-            AVEncoderBitRateKey:   @(256 * 1024),
-        };
+        NSDictionary *audioSettings = SonicPi::recorderAudioSettings(_audioChannels, SHM_AUDIO_SAMPLE_RATE);
         _audioInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio
                                                          outputSettings:audioSettings];
         _audioInput.expectsMediaDataInRealTime = YES;
@@ -310,6 +322,9 @@
             RECORDER_LOG("audio reader gap: " << gap << " frames dropped");
         }
         if (got == 0) break;
+        // The tap is as wide as the device; the recording is its stereo mix.
+        SonicPi::pickRecordedChannels(_audioPullBuf.data(), got, _audioReader.channels(),
+                                      _audioMixBuf.data());
 
         // First non-empty pull anchors the audio PTS to host-time-now.
         // Aligns audio to the video stream's CMClockHostTime PTS.
@@ -322,7 +337,7 @@
         // streams will line up regardless of which one starts the session.
         if (![self maybeStartWriterAtPTS:_audioAnchorPTS]) return;
         const uint64_t startFrame = _audioReader.last_read_position() - got;
-        [self appendAudioFrames:_audioPullBuf.data() frames:got startFrameNum:startFrame];
+        [self appendAudioFrames:_audioMixBuf.data() frames:got startFrameNum:startFrame];
     }
 }
 
@@ -340,26 +355,40 @@
         return;
     }
 
-    [SCShareableContent getShareableContentWithCompletionHandler:^(SCShareableContent * _Nullable content, NSError * _Nullable error) {
+    [SCShareableContent getShareableContentWithCompletionHandler:guarded("shareable content", ^(SCShareableContent * _Nullable content, NSError * _Nullable error) {
         if (error) {
-            RECORDER_LOG("SCShareableContent failed: "
-                         << [[error localizedDescription] UTF8String]);
+            [self failWith:[NSString stringWithFormat:@"the screen could not be captured: %@",
+                            [error localizedDescription]]];
             return;
         }
 
         SCContentFilter *filter = [self->_target filterIn:content];
         if (!filter) {
-            RECORDER_LOG("no display in shareable content");
+            [self failWith:@"the window's display was not found"];
             return;
         }
         CGRect rect = [self->_target sourceRect];
         CGFloat scale = [self->_target scale];
         self->_cropSize = rect.size;
-        self->_width  = (size_t)(rect.size.width  * scale);
-        self->_height = (size_t)(rect.size.height * scale);
+        // At most 4K, aspect kept (recorder_limits.h); the stream scales.
+        const SonicPi::RecordingSize fit =
+            SonicPi::fitRecordingSize(rect.size.width * scale, rect.size.height * scale);
+        self->_width  = fit.width;
+        self->_height = fit.height;
         size_t width = self->_width, height = self->_height;
+        if (width == 0 || height == 0) {
+            [self failWith:@"the window has no size to record"];
+            return;
+        }
 
-        if (![self prepareWriterWithWidth:width height:height]) {
+        // AVFoundation throws for settings it refuses; a throw here is a
+        // failed recording, not a dead app.
+        __block BOOL prepared = NO;
+        const bool ran = guard("prepare writer", ^{
+            prepared = [self prepareWriterWithWidth:width height:height];
+        });
+        if (!ran || !prepared) {
+            [self failWith:@"the recording file could not be prepared"];
             return;
         }
 
@@ -378,14 +407,16 @@
             RECORDER_LOG("add screen output failed: "
                          << [[addErr localizedDescription] UTF8String]);
             self->_stream = nil;
+            [self failWith:@"the screen capture could not be set up"];
             return;
         }
 
-        [self->_stream startCaptureWithCompletionHandler:^(NSError * _Nullable startErr) {
+        [self->_stream startCaptureWithCompletionHandler:guarded("start capture", ^(NSError * _Nullable startErr) {
             if (startErr) {
                 RECORDER_LOG("startCapture failed: "
                              << [[startErr localizedDescription] UTF8String]);
                 self->_stream = nil;
+                [self failWith:@"the screen capture could not start"];
                 return;
             }
             self->_running = true;
@@ -396,11 +427,14 @@
 
             // Follow the window and the bridge from here on (main thread:
             // the window is read on delivery).
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), guarded("follow the window", ^{
                 SCStream *s = self->_stream;
                 if (!s) return;
-                [self->_target followStream:s configuration:^{ return [self configuration]; }];
-            });
+                [self->_target followStream:s
+                             configuration:guardedOr("stream configuration",
+                                                     ^SCStreamConfiguration *{ return [self configuration]; },
+                                                     (SCStreamConfiguration *)nil)];
+            }));
 
             // PreventUserIdleDisplaySleep blocks both display dim and
             // system idle sleep. Released in stopWithCompletion. Lid
@@ -428,13 +462,13 @@
                     dispatch_time(DISPATCH_TIME_NOW, 0),
                     5 * NSEC_PER_MSEC, 1 * NSEC_PER_MSEC);
                 __weak SonicPiRecorder *weakSelf = self;
-                dispatch_source_set_event_handler(self->_audioTimer, ^{
+                dispatch_source_set_event_handler(self->_audioTimer, guarded("audio pump", ^{
                     [weakSelf pumpAudioOnce];
-                });
+                }));
                 dispatch_resume(self->_audioTimer);
             }
-        }];
-    }];
+        })];
+    })];
 }
 
 - (void)stopWithCompletion:(void (^)(NSError * _Nullable))completion
@@ -460,44 +494,44 @@
     SCStream *s = _stream;
     _stream = nil;
 
-    void (^finishWriter)(void) = ^{
+    void (^finishWriter)(void) = guarded("finish writer", ^{
         if (!self->_writer || self->_writer.status != AVAssetWriterStatusWriting) {
             if (completion) completion(self->_writer.error);
             return;
         }
         [self->_videoInput markAsFinished];
         if (self->_audioInput) [self->_audioInput markAsFinished];
-        [self->_writer finishWritingWithCompletionHandler:^{
+        [self->_writer finishWritingWithCompletionHandler:guarded("finish writing", ^{
             RECORDER_LOG("recording finalised: "
                          << [[self->_fileURL path] UTF8String]
                          << " status=" << (long)self->_writer.status);
             if (completion) completion(self->_writer.error);
-        }];
-    };
+        })];
+    });
 
-    void (^stopVideo)(void) = ^{
+    void (^stopVideo)(void) = guarded("stop video", ^{
         if (s) {
-            [s stopCaptureWithCompletionHandler:^(NSError * _Nullable error) {
+            [s stopCaptureWithCompletionHandler:guarded("stop capture", ^(NSError * _Nullable error) {
                 if (error) {
                     RECORDER_LOG("stopCapture error: "
                                  << [[error localizedDescription] UTF8String]);
                 }
                 finishWriter();
-            }];
+            })];
         } else {
             finishWriter();
         }
-    };
+    });
 
     if (audioTimer) {
         dispatch_source_cancel(audioTimer);
         // One last ungated drain on the audio queue picks up any tail
         // frames between the final timer tick and the cancel, then we
         // continue the stop sequence on the same queue.
-        dispatch_async(audioQueue, ^{
+        dispatch_async(audioQueue, guarded("final audio drain", ^{
             [self drainAudio];
             stopVideo();
-        });
+        }));
     } else {
         stopVideo();
     }
@@ -533,12 +567,12 @@
     _showCursor = showCursor;
     SCStream *s = _stream;
     if (!s) return;
-    [s updateConfiguration:[self configuration] completionHandler:^(NSError * _Nullable err) {
+    [s updateConfiguration:[self configuration] completionHandler:guarded("update configuration", ^(NSError * _Nullable err) {
         if (err) {
             RECORDER_LOG("updateConfiguration failed: "
                          << [[err localizedDescription] UTF8String]);
         }
-    }];
+    })];
 }
 
 #pragma mark - SCStreamOutput
@@ -596,7 +630,8 @@ static SonicPiRecorder *gRecorder = nil;
 namespace SonicPi {
 
 bool startSessionRecording(void *nsViewPtr, const std::string &filePath,
-                           bool showCursor, shm_audio_buffer_reader audio)
+                           bool showCursor, shm_audio_buffer_reader audio,
+                           std::function<void(const std::string&)> onFailed)
 {
     if (!nsViewPtr) {
         RECORDER_LOG("null view pointer");
@@ -636,7 +671,12 @@ bool startSessionRecording(void *nsViewPtr, const std::string &filePath,
     NSURL *fileURL = [NSURL fileURLWithPath:
         [NSString stringWithUTF8String:filePath.c_str()]];
 
+    void (^failed)(NSString *) = nil;
+    if (onFailed) {
+        failed = guarded("report failure", ^(NSString *reason) { onFailed(std::string([reason UTF8String])); });
+    }
     gRecorder = [[SonicPiRecorder alloc] initWithWindow:window
+                                               onFailed:failed
                                                 fileURL:fileURL
                                              showCursor:showCursor ? YES : NO
                                                   audio:std::move(audio)];
