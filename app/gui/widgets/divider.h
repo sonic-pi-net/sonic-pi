@@ -15,6 +15,7 @@
 #define DIVIDER_H
 
 #include <QColor>
+#include <QCursor>
 #include <QEvent>
 #include <QPainter>
 #include <QPaintEvent>
@@ -26,9 +27,11 @@
 // rest and reveals its full width in the hover colour when pointed at. QSS
 // can't do this (a gradient handle renders solid), so each kind of divider
 // — a QSplitter handle (ThinSplitter), a QMainWindow dock separator
-// (DividerProxyStyle), a bar of its own (DividerBar) — calls Divider::paint
+// (DividerProxyStyle) — calls Divider::paint
 // and nothing else: a change here changes them all. The grips that sit on a
-// divider are ChevronButton, the one chevron control.
+// divider are ChevronButton, the one chevron control, and every grip sits at
+// its divider's trailing end — the right of a horizontal divider, the top of
+// a vertical one — as editors and DAWs place theirs.
 namespace Divider
 {
 // Fixed px, not DPI-scaled, so the reveal stays clearly wider than the resting
@@ -73,25 +76,21 @@ inline void paint(QPainter& p, const QRect& r, Qt::Orientation bar, bool hover, 
 }
 } // namespace Divider
 
-// A divider that is a widget of its own, where there is no splitter or dock
-// separator to paint: the bar at the foot of the editor while the help panel
-// is away, which the web keeps there as the way back. Its grips overlay it
-// (ChevronButton); setForcedHover lets them reveal it as one control.
-class DividerBar : public QWidget
+// A divider painted where Qt lays one out but paints nothing: the separator
+// beside a fixed-size dock (awaydock.h) — Qt reserves its extent and skips
+// the paint, QDockAreaLayoutInfo::paintSeparators' `!item.hasFixedSize(o)`.
+// Laid over that very rect, it is the one divider to the pixel, hover
+// included; setForcedHover lets the grip on it reveal it as one control.
+class DividerOverlay : public QWidget
 {
 public:
-    explicit DividerBar(Qt::Orientation bar, QWidget* parent = nullptr)
+    explicit DividerOverlay(Qt::Orientation bar, QWidget* parent = nullptr)
         : QWidget(parent), m_bar(bar)
     {
         setAttribute(Qt::WA_Hover, true);
-        if (bar == Qt::Horizontal)
-            setFixedHeight(Divider::kExtent);
-        else
-            setFixedWidth(Divider::kExtent);
     }
 
     void setColours(const Divider::Colours& c) { m_colours = c; update(); }
-    void setLineVisible(bool v) { if (m_lineVisible != v) { m_lineVisible = v; update(); } }
     void setForcedHover(bool v) { if (m_forcedHover != v) { m_forcedHover = v; update(); } }
     Qt::Orientation bar() const { return m_bar; }
 
@@ -104,6 +103,11 @@ protected:
         case QEvent::HoverEnter: m_hover = true;  update(); break;
         case QEvent::Leave:
         case QEvent::HoverLeave: m_hover = false; update(); break;
+        // A widget placed, moved or shown out from under the pointer gets no
+        // Leave: the pointer's real position decides.
+        case QEvent::Move:
+        case QEvent::Resize:
+        case QEvent::Show:       m_hover = rect().contains(mapFromGlobal(QCursor::pos())); update(); break;
         default: break;
         }
         return QWidget::event(e);
@@ -111,7 +115,7 @@ protected:
     void paintEvent(QPaintEvent*) override
     {
         QPainter p(this);
-        Divider::paint(p, rect(), m_bar, m_hover || m_forcedHover, m_lineVisible, m_colours);
+        Divider::paint(p, rect(), m_bar, m_hover || m_forcedHover, true, m_colours);
     }
 
 private:
@@ -119,7 +123,6 @@ private:
     Divider::Colours m_colours;
     bool m_hover = false;
     bool m_forcedHover = false;
-    bool m_lineVisible = true;
 };
 
 #endif // DIVIDER_H

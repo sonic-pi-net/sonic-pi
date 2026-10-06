@@ -128,6 +128,9 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/devicelistwidget.cpp
     ${QTAPP_ROOT}/widgets/devicelistwidget.h
     ${QTAPP_ROOT}/widgets/chevronbutton.h
+    ${QTAPP_ROOT}/model/helppanelmodel.h
+    ${QTAPP_ROOT}/model/sidecolumnmodel.h
+    ${QTAPP_ROOT}/widgets/awaydock.h
     ${QTAPP_ROOT}/widgets/logpanel.cpp
     ${QTAPP_ROOT}/widgets/logpanel.h
     ${QTAPP_ROOT}/widgets/metricspanel.cpp

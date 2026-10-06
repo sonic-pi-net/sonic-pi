@@ -13,6 +13,7 @@
 
 #include "chevronbutton.h"
 
+#include <QCursor>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPen>
@@ -84,7 +85,9 @@ void ChevronButton::paintEvent(QPaintEvent*)
     QPainter p(this);
     if (!isEnabled())
         p.setOpacity(0.4);
-    const bool hover = isEnabled() && (underMouse() || m_extHover);
+    // The pointer's real position, not underMouse(): a grip moved out from
+    // under the pointer gets no Leave and would stay lit.
+    const bool hover = isEnabled() && (rect().contains(mapFromGlobal(QCursor::pos())) || m_extHover);
 
     // The knob is a pill — the web's divider grips, and every grip here — and
     // the glyph is Tabler's chevron, stroked. One drawing for all of them:

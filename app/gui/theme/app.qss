@@ -233,6 +233,14 @@ QDockWidget
   background: paneColor;
 }
 
+/* The placeholders that keep a divider while the help panel or the side
+   column is away (widgets/awaydock.h): no frame; their pixel takes the
+   divider's background from the palette (setAwayDockColour). */
+QDockWidget#helpAwayDock, QDockWidget#sideAwayDock
+{
+  border: none;
+}
+
 /* Shared "section title" look, matching the SuperSonic debug pane's log titles
    (DEBUG / TO SUPERSONIC / FROM SUPERSONIC): small, muted, left-aligned Hack.
    Text is uppercased by the code that creates the label. */

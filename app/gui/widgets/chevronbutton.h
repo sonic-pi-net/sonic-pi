@@ -17,6 +17,7 @@
 #include <QColor>
 #include <QEnterEvent>
 #include <QEvent>
+#include <QMoveEvent>
 #include <QPointF>
 #include <QToolButton>
 
@@ -57,6 +58,7 @@ public:
 protected:
     void enterEvent(QEnterEvent*) override { update(); }
     void leaveEvent(QEvent*) override { update(); }
+    void moveEvent(QMoveEvent*) override { update(); }   // the pointer may no longer be over it
     void paintEvent(QPaintEvent*) override;
 
 private:
