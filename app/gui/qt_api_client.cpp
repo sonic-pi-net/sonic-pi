@@ -534,6 +534,11 @@ void QtAPIClient::AudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
   emit AudioSwitchDoneReceived(outcome);
 }
 
+void QtAPIClient::AudioStateChanged(const std::string& state, const std::string& reason)
+{
+  emit AudioStateChangedReceived(QString::fromStdString(state), QString::fromStdString(reason));
+}
+
 void QtAPIClient::AudioDeviceReopenReply(bool accepted, const std::string& reason)
 {
   emit AudioDeviceReopenReplyReceived(accepted, QString::fromStdString(reason));

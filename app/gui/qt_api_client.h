@@ -76,6 +76,7 @@ public:
     virtual void SupersonicSetup(int sampleRate, int bufferSize) override;
     virtual void SpiderReady() override;
     virtual void AudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome) override;
+    virtual void AudioStateChanged(const std::string& state, const std::string& reason) override;
     virtual void AudioDeviceReopenReply(bool accepted, const std::string& reason) override;
     virtual void RunStarted(int jobId, const std::string& workspace) override;
     virtual void RunEnded(int jobId) override;
@@ -95,6 +96,7 @@ signals:
     void SupersonicSetupReceived(int sampleRate, int bufferSize);
     void SpiderReadyReceived();
     void AudioSwitchDoneReceived(const SonicPi::AudioSwitchOutcome& outcome);
+    void AudioStateChangedReceived(const QString& state, const QString& reason);
     void AudioDeviceReopenReplyReceived(bool accepted, const QString& reason);
     void RunStartedReceived(int jobId, const QString& workspace);
     void RunEndedReceived(int jobId);

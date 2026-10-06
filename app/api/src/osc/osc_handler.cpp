@@ -462,6 +462,7 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             std::string state, reason;
             msg->arg().popStr(state).popStr(reason);
             LOG(INFO, "/clockwork/statechange: " << state << " (" << reason << ")");
+            m_pClient->AudioStateChanged(state, reason);
             if (state == "restarting") {
                 // Show "switching" status in GUI while device change is in progress
                 ScsynthInfo info;

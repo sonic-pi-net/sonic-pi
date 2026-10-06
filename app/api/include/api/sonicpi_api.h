@@ -508,6 +508,9 @@ struct IAPIClient
     // AudioSwitchOutcome. Default no-op so non-GUI consumers don't
     // need to react.
     virtual void AudioSwitchDone(const AudioSwitchOutcome& /*outcome*/) {}
+    // The engine's state and why it changed (/clockwork/statechange: "boot",
+    // "rate-change", "snapshot", "swap-failed-rollback"). Default no-op.
+    virtual void AudioStateChanged(const std::string& /*state*/, const std::string& /*reason*/) {}
     // Immediate accept/reject for /clockwork/devices/reopen (the engine
     // debounces: in-flight or <3s cooldown → rejected). Default no-op.
     virtual void AudioDeviceReopenReply(bool /*accepted*/, const std::string& /*reason*/) {}

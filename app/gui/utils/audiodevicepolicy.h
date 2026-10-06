@@ -117,7 +117,16 @@ struct AudioSwitchRequest {
 
 enum class PrefAction { Leave, Save, Clear };
 
+// What the user must hear about the swap, on the status bar and to a screen
+// reader — not only inside the preferences pane, which may not be open:
+// the output they asked for could not be opened (its pref is dropped, so
+// the next boot follows the system default), or the system default was
+// followed and resolved to a particular device, which may be in another room.
+enum class AudioNotice { None, OutputUnavailable, FollowingSystemDefault };
+
 struct AudioPrefsDecision {
+    AudioNotice notice = AudioNotice::None;
+    std::string noticeDevice;   // the output asked for, or the one now followed
     PrefAction  output = PrefAction::Leave;
     std::string outputValue;
     PrefAction  input = PrefAction::Leave;
@@ -150,8 +159,12 @@ inline AudioPrefsDecision audioPrefsDecision(const AudioSwitchRequest& request,
 
     if (!outcome.success) {
         // Drop the saved value for whatever was asked for, so a device that no
-        // longer exists isn't replayed on every boot.
-        if (!request.output.empty()) d.output = PrefAction::Clear;
+        // longer exists isn't replayed on every boot — and say so.
+        if (!request.output.empty()) {
+            d.output = PrefAction::Clear;
+            d.notice = AudioNotice::OutputUnavailable;
+            d.noticeDevice = request.output;
+        }
         if (!request.input.empty())  d.input  = PrefAction::Clear;
         return d;
     }
@@ -163,6 +176,8 @@ inline AudioPrefsDecision audioPrefsDecision(const AudioSwitchRequest& request,
     if (request.output == kAudioSystemOutput || request.outputFollowsDefault) {
         d.output = PrefAction::Save;
         d.outputValue = kAudioSystemOutput;
+        d.notice = AudioNotice::FollowingSystemDefault;
+        d.noticeDevice = outcome.actualOutput;
     } else if (!outcome.actualOutput.empty()) {
         d.output = PrefAction::Save;
         d.outputValue = outcome.actualOutput;
@@ -194,6 +209,14 @@ inline AudioPrefsDecision audioPrefsDecision(const AudioSwitchRequest& request,
     }
 
     return d;
+}
+
+// The engine's own state change that means it lost the device it was on and
+// fell back by itself (no request from the GUI, so audioPrefsDecision never
+// sees it): the device-list push that follows names where the sound went.
+inline bool audioStateLostDevice(const std::string& state, const std::string& reason)
+{
+    return state == "running" && reason == "swap-failed-rollback";
 }
 
 // ── 3. Booting with saved prefs ──────────────────────────────────────────────

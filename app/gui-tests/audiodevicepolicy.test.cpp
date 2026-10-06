@@ -451,3 +451,64 @@ TEST_CASE("input pick: an unknown driver on either side is left to the engine",
     noInputDriver.engineDriver = "DirectSound";
     REQUIRE(audioInputPickPlan(noInputDriver).send);
 }
+
+// ── 4. Telling the user ────────────────────────────────────────────────────
+//
+// On 2026-10-06 the MOTU was absent at boot: the restore asked for it, the
+// engine refused, the pref was cleared to "follow system" (rightly, so a dead
+// device is not replayed every boot) — and nothing on screen said so. The next
+// boot followed the system default to a streamer in another room, again
+// silently. The decision now says what the user must hear.
+
+TEST_CASE("notice: a failed request names the output that isn't available", "[audio][notice]")
+{
+    SonicPi::AudioSwitchRequest request;
+    request.output = "motu-xaero";
+    SonicPi::AudioSwitchOutcome outcome;
+    outcome.success = false;
+    outcome.error = "No such device: motu-xaero";
+    const auto d = SonicPi::audioPrefsDecision(request, outcome);
+    CHECK(d.notice == SonicPi::AudioNotice::OutputUnavailable);
+    CHECK(d.noticeDevice == "motu-xaero");
+}
+
+TEST_CASE("notice: following the system default names the device it resolved to", "[audio][notice]")
+{
+    SonicPi::AudioSwitchRequest request;
+    request.output = SonicPi::kAudioSystemOutput;
+    SonicPi::AudioSwitchOutcome outcome;
+    outcome.success = true;
+    outcome.actualOutput = "DMP-A6(Kitchen)";
+    const auto d = SonicPi::audioPrefsDecision(request, outcome);
+    CHECK(d.notice == SonicPi::AudioNotice::FollowingSystemDefault);
+    CHECK(d.noticeDevice == "DMP-A6(Kitchen)");
+
+    SonicPi::AudioSwitchRequest byRow;
+    byRow.output = "Some Default Row";
+    byRow.outputFollowsDefault = true;
+    const auto r = SonicPi::audioPrefsDecision(byRow, outcome);
+    CHECK(r.notice == SonicPi::AudioNotice::FollowingSystemDefault);
+}
+
+TEST_CASE("notice: a device the user named and got raises none, nor does an engine-initiated swap", "[audio][notice]")
+{
+    SonicPi::AudioSwitchRequest request;
+    request.output = "motu-xaero";
+    SonicPi::AudioSwitchOutcome outcome;
+    outcome.success = true;
+    outcome.actualOutput = "motu-xaero";
+    CHECK(SonicPi::audioPrefsDecision(request, outcome).notice == SonicPi::AudioNotice::None);
+    SonicPi::AudioSwitchRequest engineInitiated;   // nothing asked: the engine's own reopen
+    CHECK(SonicPi::audioPrefsDecision(engineInitiated, outcome).notice == SonicPi::AudioNotice::None);
+}
+
+TEST_CASE("notice: the engine falling back on its own, mid-session, is a lost device", "[audio][notice]")
+{
+    // The engine's own swap rolled back (a device unplugged, a reopen refused):
+    // the next device-list push names where the sound went, and the user hears it.
+    CHECK(SonicPi::audioStateLostDevice("running", "swap-failed-rollback"));
+    CHECK_FALSE(SonicPi::audioStateLostDevice("running", "rate-change"));   // a swap the user asked for
+    CHECK_FALSE(SonicPi::audioStateLostDevice("running", "boot"));
+    CHECK_FALSE(SonicPi::audioStateLostDevice("running", "snapshot"));
+    CHECK_FALSE(SonicPi::audioStateLostDevice("restarting", "swap-failed-rollback"));   // not until it is running again
+}

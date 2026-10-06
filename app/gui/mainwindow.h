@@ -632,6 +632,8 @@ private:
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
     // A+V session-recorder branch of toggleRecording. Write to a temp
     // file; rename or delete it once the user picks a save location.
+    void onAudioStateChanged(const QString& state, const QString& reason);   // the engine's own fallback: say where the sound went
+    bool m_announceDeviceAfterRollback = false;
     void startSessionRecordingFlow();
     void stopSessionRecordingFlow();
     void recordingFailed(const QString& reason);   // the recorder could not start or died: Record goes back

@@ -847,6 +847,8 @@ void MainWindow::setupWindowStructure()
             this, &MainWindow::onMixerSettings);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioSwitchDoneReceived,
             this, &MainWindow::onAudioSwitchDone);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioStateChangedReceived,
+            this, &MainWindow::onAudioStateChanged, Qt::QueuedConnection);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioDeviceReopenReplyReceived,
             this, &MainWindow::onAudioDeviceReopenReply);
 
@@ -9349,7 +9351,21 @@ void MainWindow::updateAudioDevices(const SonicPi::AudioDevicesInfo& devicesInfo
     m_lastAudioDevices = devicesInfo;
     m_audioDevicesSeen = true;
     settingsWidget->updateAudioDevices(devicesInfo);
+    // The engine lost its device and fell back on its own: this push names
+    // where the sound went (audiodevicepolicy.h, audioStateLostDevice).
+    if (m_announceDeviceAfterRollback)
+    {
+        m_announceDeviceAfterRollback = false;
+        showStatusAndAnnounce(tr("Audio device lost — output is now %1")
+                                  .arg(QString::fromStdString(devicesInfo.currentDevice)), 8000);
+    }
     maybeRestoreAudioIntent();
+}
+
+void MainWindow::onAudioStateChanged(const QString& state, const QString& reason)
+{
+    if (SonicPi::audioStateLostDevice(state.toStdString(), reason.toStdString()))
+        m_announceDeviceAfterRollback = true;
 }
 
 void MainWindow::updateAudioInputDevices(const SonicPi::AudioInputDevicesInfo& devicesInfo)
@@ -9657,6 +9673,22 @@ void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)
     if (decision.bufferSize == SonicPi::PrefAction::Save) {
         piSettings->audio_buffer_size = decision.bufferSizeValue;
         gui_settings->setValue("prefs/audio-buffer-size", decision.bufferSizeValue);
+    }
+
+    // Where the sound now goes, when it is not where the user pointed: on
+    // the status bar and to a screen reader, whether or not the preferences
+    // are open (audiodevicepolicy.h, AudioNotice).
+    switch (decision.notice) {
+    case SonicPi::AudioNotice::OutputUnavailable:
+        showStatusAndAnnounce(tr("Audio output '%1' isn't available — following the system default")
+                                  .arg(QString::fromStdString(decision.noticeDevice)), 8000);
+        break;
+    case SonicPi::AudioNotice::FollowingSystemDefault:
+        showStatusAndAnnounce(tr("Audio output: %1 (the system default)")
+                                  .arg(QString::fromStdString(decision.noticeDevice)), 6000);
+        break;
+    case SonicPi::AudioNotice::None:
+        break;
     }
 
     // Two failure shapes from the engine. Surface both as a modal
