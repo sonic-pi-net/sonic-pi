@@ -118,6 +118,9 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/logpanel.h"
 #include "widgets/metricspanel.h"
 #include "widgets/trackspanel.h"
+#include <QEnterEvent>
+#include "widgets/chevronbutton.h"
+#include "widgets/divider.h"
 #include "widgets/zoombar.h"
 #include "widgets/thinsplitter.h"
 #include "utils/dividerproxystyle.h"
@@ -157,6 +160,27 @@ using namespace oscpkt; // OSC specific stuff
 using namespace std::chrono;
 
 using namespace SonicPi;
+
+// Dock title rows take double-clicks two ways. Docked, they swallow them:
+// QDockWidget reads one as "toggle floating", so double-tapping anything in the
+// row detaches the pane into a window, which is never what was meant. Floating,
+// they re-dock — the way back from an accidental detach, and the only obvious
+// one since a floated pane has no divider to double-click.
+class DockTitleBar : public QWidget
+{
+public:
+    using QWidget::QWidget;
+protected:
+    void mouseDoubleClickEvent(QMouseEvent* e) override
+    {
+        if (QDockWidget* dock = qobject_cast<QDockWidget*>(parentWidget()))
+            if (dock->isFloating())
+                dock->setFloating(false);
+        e->accept();
+    }
+};
+
+
 
 MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
 {
@@ -1291,17 +1315,42 @@ void MainWindow::setupWindowStructure()
     // the central area entirely.
     southTabs->setMinimumHeight(ScaleHeightForDPI(60));
 
-    // A persistent close ✕ for the help pane, placed in the dock title row
-    // (see makeControlTitleBar below) so it stays put across tabs and floats.
-    // Its #helpCloseButton chip stays legible on any background; eventFilter()
-    // swaps its tint on hover. (Tooltip gains the shortcut once helpAct exists.)
-    helpCloseButton = new QPushButton(southTabs);
-    helpCloseButton->setObjectName("helpCloseButton");
-    helpCloseButton->setCursor(Qt::PointingHandCursor);
-    helpCloseButton->setFocusPolicy(Qt::NoFocus);
-    helpCloseButton->setAccessibleName(tr("Close the help pane"));
-    connect(helpCloseButton, &QPushButton::clicked, this, &MainWindow::toggleDocPane);
-    updateHelpCloseIcon();
+    // The help pane's chevrons, in the dock title row (see makeControlTitleBar
+    // below) so they stay put across tabs and floats, as the web's sit on its
+    // divider: up makes the pane full size over the editor's room, down hides
+    // it (from full size, first back beside the editor). Flat glyphs;
+    // eventFilter() swaps their tint on hover. (Tooltips gain the shortcut once
+    // helpAct exists.)
+    // The web's grips: 36x16 pills in the window border colour sitting on the
+    // divider at its right, the glyph muted; the accent and its contrast text
+    // under the pointer. Laid over the dock separator (positionHelpChevrons),
+    // so the pane has no title row of its own, as the web's has none.
+    helpChevrons = new QWidget(this);
+    helpChevrons->setObjectName("helpDividerGrips");
+    helpChevrons->setAttribute(Qt::WA_StyledBackground, true);
+    QHBoxLayout* gripRow = new QHBoxLayout(helpChevrons);
+    gripRow->setContentsMargins(0, 0, 0, 0);
+    gripRow->setSpacing(ScaleWidthForDPI(8));
+    auto makeHelpChevron = [this, gripRow](ChevronButton::Dir dir, const QString& accessible) {
+        auto* b = new ChevronButton(helpChevrons);
+        b->setObjectName("helpGrip");
+        b->setFixedSize(ScaleForDPI(36, 16));
+        b->setDir(dir);
+        b->setAccessibleName(accessible);
+        gripRow->addWidget(b);
+        return b;
+    };
+    helpFullButton = makeHelpChevron(ChevronButton::Up, tr("Make the help panel full size"));
+    helpHideButton = makeHelpChevron(ChevronButton::Down, tr("Hide the documentation and information panel"));
+    // Down: from full size, back beside the editor; else away, or back — the
+    // same action as the toolbar's Help icon, so the two never disagree. Up:
+    // full size.
+    connect(helpFullButton, &QToolButton::clicked, this, [this] { setHelpFull(true); });
+    connect(helpHideButton, &QToolButton::clicked, this, [this] {
+        if (m_helpFull) setHelpFull(false);
+        else            help();
+    });
+    updateHelpChevronIcons();
 
     docWidget = new QDockWidget(tr("Help"), this);
     // Whatever reveals the help dock, land on a real page rather than an empty
@@ -1322,22 +1371,39 @@ void MainWindow::setupWindowStructure()
     docWidget->setWidget(southTabs);
     docWidget->setObjectName("help");
 
-    // Help dock title row: HELP + docs text-size (A-/A+) + the persistent close
-    // ✕, so all three sit on the same row as the title. The row stays put
-    // whether or not pane titles are shown (only the HELP label toggles).
-    // Every help tab has A-/A+ text-size controls; they share the title row so
-    // they line up beside the always-present close ✕. Only the current tab's
-    // pair is shown. (The Logs/Debug panels are built further down, so their
-    // bars are wired to the panels once those exist.)
+    // No title row: the help pane starts right under the dock separator, which
+    // is its divider, as on the web. The HELP label still exists for the code
+    // that shows and names pane titles, inside a row of no height.
+    {
+        auto* bar = new DockTitleBar();
+        bar->setObjectName("dockTitleBar");
+        bar->setFixedHeight(0);
+        titleBarDoc = new QLabel(docWidget->windowTitle().toUpper(), bar);
+        titleBarDoc->setObjectName("paneTitle");
+        titleBarDoc->hide();
+        docWidget->setTitleBarWidget(bar);
+        docWidget->installEventFilter(this);
+        connect(docWidget, &QDockWidget::topLevelChanged, this, [this](bool) { positionHelpChevrons(); });
+    }
+
+    // Every help tab has A-/A+ text-size controls, at the foot of the tab rail
+    // as the web has them at the foot of its: only the current tab's pair is
+    // shown. (The Logs/Debug panels are built further down, so their bars are
+    // wired to the panels once those exist.)
     QWidget* docZoomControls = tutorialPane->zoomControls();
     QWidget* cardsZoomControls = quickstartPane->zoomControls();
     logsZoom = new ZoomBar(theme, tr("logs"), this);
     debugZoom = new ZoomBar(theme, tr("metrics"), this);
     tracksZoom = new ZoomBar(theme, tr("tracks"), this);
-    docWidget->setTitleBarWidget(
-        makeControlTitleBar(docWidget->windowTitle(), titleBarDoc,
-                            { docZoomControls, cardsZoomControls, logsZoom, debugZoom,
-                              tracksZoom, helpCloseButton }));
+    QWidget* helpZoomFoot = new QWidget;
+    QVBoxLayout* helpZoomLayout = new QVBoxLayout(helpZoomFoot);
+    helpZoomLayout->setContentsMargins(0, 0, 0, ScaleHeightForDPI(6));
+    helpZoomLayout->setSpacing(0);
+    for (QWidget* zoom : { docZoomControls, cardsZoomControls,
+                           static_cast<QWidget*>(logsZoom), static_cast<QWidget*>(debugZoom),
+                           static_cast<QWidget*>(tracksZoom) })
+        helpZoomLayout->addWidget(zoom, 0, Qt::AlignHCenter);
+    southTabs->setFootWidget(helpZoomFoot);
     auto syncDocZoomVisible = [this, docZoomControls, cardsZoomControls]() {
         QWidget* current = southTabs->currentWidget();
         docZoomControls->setVisible(current == docsPane);
@@ -1403,6 +1469,15 @@ void MainWindow::setupWindowStructure()
     mainWidgetLayout->addWidget(editorTabWidget);
     mainWidgetLayout->addWidget(errorPane);
     mainWidgetLayout->addWidget(errorCard);
+    // With the help panel away its dock separator goes with it; the web keeps
+    // its divider at the foot of the editor as the way back, so this bar takes
+    // the separator's place there (updateHelpChevronState shows it), the one
+    // divider (Divider::paint) with the grips laid over it (positionHelpChevrons).
+    helpAwayBar = new DividerBar(Qt::Horizontal);
+    helpAwayBar->setObjectName("helpAwayBar");
+    helpAwayBar->hide();
+    helpAwayBar->installEventFilter(this);
+    mainWidgetLayout->addWidget(helpAwayBar);
     mainWidget = new QWidget;
     mainWidget->setFocusPolicy(Qt::NoFocus);
     errorPane->hide();
@@ -1422,6 +1497,7 @@ void MainWindow::toggleDocPane()
         return;
     if (docWidget->isVisible())
     {
+        if (m_helpFull) setHelpFull(false);   // the editor back first
         m_savedDockH = docWidget->height();   // remember for re-open
         docWidget->hide();
     }
@@ -1568,25 +1644,6 @@ void MainWindow::namedTitleBars()
     if (titleBarDoc)   titleBarDoc->show();
     if (metricsPanel) metricsPanel->setTitlesVisible(true);
 }
-
-// Dock title rows take double-clicks two ways. Docked, they swallow them:
-// QDockWidget reads one as "toggle floating", so double-tapping anything in the
-// row detaches the pane into a window, which is never what was meant. Floating,
-// they re-dock — the way back from an accidental detach, and the only obvious
-// one since a floated pane has no divider to double-click.
-class DockTitleBar : public QWidget
-{
-public:
-    using QWidget::QWidget;
-protected:
-    void mouseDoubleClickEvent(QMouseEvent* e) override
-    {
-        if (QDockWidget* dock = qobject_cast<QDockWidget*>(parentWidget()))
-            if (dock->isFloating())
-                dock->setFloating(false);
-        e->accept();
-    }
-};
 
 QWidget* MainWindow::makeControlTitleBar(const QString& title, QLabel*& outLabel,
                                          const QVector<QWidget*>& controls)
@@ -3265,22 +3322,118 @@ void MainWindow::dismissErrorCard()
     focusEditor();
 }
 
-void MainWindow::updateHelpCloseIcon()
+void MainWindow::updateHelpChevronIcons()
 {
-    if (!helpCloseButton)
+    if (!helpFullButton || !helpHideButton)
         return;
-    const int px = ScaleWidthForDPI(26);
-    const qreal dpr = devicePixelRatioF();
-    // Flat button (no chip): muted at rest, accent on hover — matching the
-    // A-/A+ zoom glyphs sharing the title row.
-    const QColor rest = SonicPiTheme::blend(theme->color("LogForeground"),
-                                            theme->color("LogBackground"), 0.55);
-    const QColor hover = theme->color("HighlightedBackground");
-    helpCloseButton->setIconSize(QSize(px, px));
-    m_helpCloseIcon = TablerIcons::icon(TablerIcons::Glyph::SquareX, rest, px, dpr);
-    m_helpCloseIconHover = TablerIcons::icon(TablerIcons::Glyph::SquareX, hover, px, dpr);
-    helpCloseButton->setIcon(helpCloseButton->underMouse() ? m_helpCloseIconHover
-                                                           : m_helpCloseIcon);
+    // The divider grips' palette, the web's: the window border colour at rest
+    // with the muted foreground on it, the accent and its contrast text under
+    // the pointer. ChevronButton draws them; so do the metrics dividers' knobs.
+    const QColor border = theme->color("WindowBorder");
+    const QColor accent = theme->color("HighlightedBackground");
+    const QColor rest   = SonicPiTheme::blend(theme->color("LogForeground"),
+                                              theme->color("LogBackground"), 0.30);
+    const QColor hover  = theme->contrastingText(accent);
+    // The hide chevron points the way it acts: down to put the panel away, up
+    // to bring it back.
+    const bool away = docWidget && !docWidget->isVisible();
+    helpHideButton->setDir(away ? ChevronButton::Up : ChevronButton::Down);
+    for (ChevronButton* b : { helpFullButton, helpHideButton })
+        b->setColors(border, accent, rest, hover);
+    if (helpChevrons)
+        helpChevrons->setStyleSheet(QStringLiteral("#helpDividerGrips { background: transparent; }"));
+}
+
+// The up grip shows only while there is a pane to make full size: not while
+// the panel is away, and not once it is full.
+void MainWindow::updateHelpChevronState()
+{
+    const bool away = docWidget && !docWidget->isVisible();
+    if (helpAwayBar)
+        helpAwayBar->setVisible(away);
+    if (helpFullButton)
+        helpFullButton->setVisible(!away && !m_helpFull);
+    if (helpHideButton)
+        helpHideButton->setAccessibleName(away
+            ? tr("Show the documentation and information panel")
+            : tr("Hide the documentation and information panel"));
+    updateHelpChevronIcons();
+    positionHelpChevrons();
+}
+
+// The grips sit on the separator above the help pane, centred on it, 24px in
+// from the pane's right edge, as the web's sit on its divider. With the pane
+// away they sit on the bar that takes the separator's place at the foot of
+// the editor (helpAwayBar) as the way back, as the web's divider stays; a
+// floating pane has them hidden.
+void MainWindow::positionHelpChevrons()
+{
+    if (!helpChevrons || !docWidget)
+        return;
+    if (docWidget->isFloating())
+    {
+        helpChevrons->hide();
+        return;
+    }
+    helpChevrons->adjustSize();
+    int cy, right;
+    if (docWidget->isVisible())
+    {
+        const QRect pane = docWidget->geometry();
+        const int sep = style()->pixelMetric(QStyle::PM_DockWidgetSeparatorExtent, nullptr, this);
+        cy    = pane.top() - sep / 2;
+        right = pane.right();
+    }
+    else if (helpAwayBar && helpAwayBar->isVisible())
+    {
+        const QRect bar(helpAwayBar->mapTo(this, QPoint(0, 0)), helpAwayBar->size());
+        cy    = bar.center().y();
+        right = bar.right();
+    }
+    else
+    {
+        helpChevrons->hide();
+        return;
+    }
+    helpChevrons->move(right - ScaleWidthForDPI(24) - helpChevrons->width(),
+                       cy - helpChevrons->height() / 2);
+    helpChevrons->show();
+    helpChevrons->raise();
+}
+
+
+// Full size: the editor's room given to the help pane, as the web's up chevron
+// gives it; back: the editor returns at its old share. Hiding the pane while
+// full steps back first (toggleDocPane), so the editor is never left hidden.
+void MainWindow::setHelpFull(bool on)
+{
+    if (!docWidget || on == m_helpFull)
+        return;
+    if (on && !docWidget->isVisible())
+        toggleDocPane();
+    m_helpFull = on;
+    if (QWidget* editorArea = centralWidget())
+        editorArea->setVisible(!on);
+    // The web hides its editor column and the sidebar beside it: here the
+    // central editor and every other pane that was showing, which come back
+    // as they were.
+    if (on)
+    {
+        m_hiddenForHelpFull.clear();
+        for (QDockWidget* dock : findChildren<QDockWidget*>())
+            if (dock != docWidget && dock->isVisible() && !dock->isFloating())
+            {
+                m_hiddenForHelpFull.append(dock);
+                dock->hide();
+            }
+    }
+    else
+    {
+        for (QDockWidget* dock : m_hiddenForHelpFull)
+            dock->show();
+        m_hiddenForHelpFull.clear();
+    }
+    updateHelpChevronState();
 }
 
 void MainWindow::updateDocsFilterIcons()
@@ -4601,11 +4754,16 @@ void MainWindow::updateColourTheme()
                                theme->color("WindowBorder"),
                                theme->color("ScrollBarHover"));
 
-    // Same reveal for the QMainWindow dock separators (painted by the proxy style).
+    // The same divider for the QMainWindow dock separators (painted by the
+    // proxy style) and the bar that stands in for the help's while it is away.
     DividerProxyStyle::setDividerColors(theme->color("WindowBackground"),
                                         theme->color("WindowBorder"),
                                         theme->color("ScrollBarHover"));
-    updateHelpCloseIcon();   // re-tint the help ✕ for the new theme
+    if (helpAwayBar)
+        helpAwayBar->setColours({ theme->color("WindowBackground"),
+                                  theme->color("WindowBorder"),
+                                  theme->color("ScrollBarHover") });
+    updateHelpChevronIcons();   // re-tint the help chevrons for the new theme
     updateDocsFilterIcons(); // re-tint the docs filter magnifiers too
     applyDocsNavZoom();      // reassert the zoom over the freshly applied qss
     updateDocsNavMinWidth(); // chip metrics may have changed with the theme
@@ -5864,11 +6022,12 @@ void MainWindow::createToolBar()
     helpAct->setCheckable(true);
     helpAct->setChecked(false);
     connect(helpAct, &QAction::toggled, this, [this](bool) { help(); }); // see scopeAct
-    if (helpCloseButton)
+    if (helpHideButton)
     {
         const QString ks = helpAct->shortcut().toString(QKeySequence::NativeText);
-        helpCloseButton->setToolTip(ks.isEmpty() ? tr("Close Help")
-                                                 : tr("Close Help (%1)").arg(ks));
+        helpHideButton->setToolTip(ks.isEmpty() ? tr("Hide the documentation and information panel")
+                                                : tr("Hide the documentation and information panel (%1)").arg(ks));
+        helpFullButton->setToolTip(tr("Make the help panel full size"));
     }
 
     // Preferences
@@ -7187,6 +7346,8 @@ void MainWindow::startSessionRecordingFlow()
     }
 
     WId wid = this->winId();
+    // The capture is set up asynchronously: a failure after this returns
+    // true arrives through onFailed, on the GUI thread.
     const bool started = SonicPi::startSessionRecording(
         reinterpret_cast<void*>(wid),
         m_videoTempPath.toStdString(),
@@ -8361,12 +8522,30 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
         update();
     }
 
-    // Swap the help ✕ glyph to its accent hover tint (flat button, no chip).
-    if (helpCloseButton && obj == helpCloseButton
-        && (event->type() == QEvent::Enter || event->type() == QEvent::Leave))
+
+    // The help grips follow the pane wherever it goes, and the bar that stands
+    // in for its separator while it is away.
+    if (docWidget && obj == docWidget)
     {
-        helpCloseButton->setIcon(event->type() == QEvent::Enter ? m_helpCloseIconHover
-                                                                : m_helpCloseIcon);
+        if (event->type() == QEvent::Show || event->type() == QEvent::Hide)
+            updateHelpChevronState();   // which way the grip points, and where it sits
+        else if (event->type() == QEvent::Resize || event->type() == QEvent::Move)
+            positionHelpChevrons();
+    }
+    if (helpAwayBar && obj == helpAwayBar)
+    {
+        if (event->type() == QEvent::Resize || event->type() == QEvent::Move
+            || event->type() == QEvent::Show)
+            positionHelpChevrons();
+        // The bar and its grip reveal together, as the web's divider and grip do.
+        else if (event->type() == QEvent::Enter || event->type() == QEvent::HoverEnter)
+        {
+            if (helpHideButton) helpHideButton->setHovering(true);
+        }
+        else if (event->type() == QEvent::Leave || event->type() == QEvent::HoverLeave)
+        {
+            if (helpHideButton) helpHideButton->setHovering(false);
+        }
     }
 
     // The prefs Levels meter only needs the audio feed while its pane is on
@@ -8921,6 +9100,7 @@ void MainWindow::slidePrefsWidgetOut()
 
 void MainWindow::resizeEvent(QResizeEvent* e)
 {
+    positionHelpChevrons();
     movePrefsWidget();
     QMainWindow::resizeEvent(e);
 }

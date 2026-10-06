@@ -193,6 +193,13 @@ QTabWidget::tab-bar
 
 }
 
+/* The help's tab rail: its icons from the top, under the divider, as the
+   web's rail has them. */
+QTabWidget#southTabs::tab-bar
+{
+    alignment: left;
+}
+
 QTabWidget::pane
 {
     border: 0dx;
@@ -778,11 +785,11 @@ QToolButton:focus
     border-top: 2px solid hoverButtonColor;
 }
 
-/* Dock-title-row icon buttons: the help pane's persistent close ✕ and the
-   A-/A+ zoom pairs (zoombar.cpp). Flat: the glyphs carry their own form, so
-   the buttons draw no chip; hover brightens the glyph in code. One shared
-   rule so all their boxes are identical and the row's icons space evenly. */
-QPushButton#helpCloseButton,
+/* The help pane's flat icon buttons: its persistent close ✕ in the dock
+   title row, and the A-/A+ zoom pairs at the foot of its tab rail
+   (zoombar.cpp). Flat: the glyphs carry their own form, so the buttons draw
+   no chip; hover brightens the glyph in code. One shared rule so all their
+   boxes are identical. */
 QPushButton#zoomBtn
 {
     background: transparent;
@@ -1421,24 +1428,6 @@ QuickstartPane QScrollArea
 QWidget#qsNav
 {
     background: subtleFillColor;
-}
-
-QPushButton#qsArrow
-{
-    background: transparent;
-    border: none;
-    color: mutedForegroundColor;
-    font-weight: 700;
-}
-
-QPushButton#qsArrow:hover:enabled
-{
-    color: highlightedBackgroundColor;
-}
-
-QPushButton#qsArrow:disabled
-{
-    color: ghostForegroundColor;
 }
 
 /* One dot per card; the lit run is the cards currently on screen. */

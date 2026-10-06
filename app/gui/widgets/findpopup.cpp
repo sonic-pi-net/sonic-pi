@@ -18,6 +18,7 @@
 #include <QPainter>
 #include <QPropertyAnimation>
 #include <QToolButton>
+#include "chevronbutton.h"
 
 #include "dpi.h"
 #include "model/sonicpitheme.h"
@@ -53,13 +54,19 @@ FindPopup::FindPopup(QWidget* parent)
     m_case->setToolTip(tr("Match case exactly (otherwise a lowercase search matches any case)"));
     m_case->setFocusPolicy(Qt::NoFocus);
 
-    m_prev = new QToolButton(this);
+    // The chevrons are the one chevron control (ChevronButton), as every
+    // chevron here is: the divider grips, the tracks' move buttons, these.
+    m_prev = new ChevronButton(this);
     m_prev->setObjectName("findPrevBtn");
+    m_prev->setDir(ChevronButton::Up);
+    m_prev->setFixedSize(ScaleForDPI(36, 16));
     m_prev->setToolTip(tr("Previous match (Up, Shift+F3 or Ctrl+R)"));
     m_prev->setFocusPolicy(Qt::NoFocus);
 
-    m_next = new QToolButton(this);
+    m_next = new ChevronButton(this);
     m_next->setObjectName("findNextBtn");
+    m_next->setDir(ChevronButton::Down);
+    m_next->setFixedSize(ScaleForDPI(36, 16));
     m_next->setToolTip(tr("Next match (Down, F3 or Ctrl+S)"));
     m_next->setFocusPolicy(Qt::NoFocus);
 
@@ -220,12 +227,12 @@ void FindPopup::applyTheme(const QColor& surface, const QColor& surfaceText,
     const qreal dpr = devicePixelRatioF();
     const QColor muted = SonicPiTheme::blend(m_fg, m_bg, 0.45);
     m_icon->setPixmap(TablerIcons::pixmap(TablerIcons::Glyph::Search, muted, px, dpr));
-    m_prev->setIconSize(QSize(px, px));
-    m_next->setIconSize(QSize(px, px));
     m_close->setIconSize(QSize(px, px));
-    m_prev->setIcon(TablerIcons::icon(TablerIcons::Glyph::ChevronUp, m_fg, px, dpr));
-    m_next->setIcon(TablerIcons::icon(TablerIcons::Glyph::ChevronDown, m_fg, px, dpr));
     m_close->setIcon(TablerIcons::icon(TablerIcons::Glyph::X, muted, px, dpr));
+    // The grips' shared palette: the border colour under the muted glyph at
+    // rest, the accent with its contrast text under the pointer.
+    for (ChevronButton* b : { m_prev, m_next })
+        b->setColors(m_border, m_accent, SonicPiTheme::blend(m_fg, m_bg, 0.30), m_accentText);
 
     restyle();
     update();
@@ -249,11 +256,10 @@ void FindPopup::restyle()
         " selection-background-color: %4; selection-color: %5; }"
         "#findCount { background: transparent; margin: 0; padding: 0 2px; color: %2;"
         " font-size: %8px; }"
-        "#findPrevBtn, #findNextBtn, #findCloseBtn, #findCaseBtn { margin: 0; padding: 3px;"
+        "#findCloseBtn, #findCaseBtn { margin: 0; padding: 3px;"
         " background: transparent; border: none; border-radius: 4px; }"
-        "#findPrevBtn:hover, #findNextBtn:hover, #findCloseBtn:hover, #findCaseBtn:hover"
-        " { background: %3; }"
-        "#findPrevBtn:disabled, #findNextBtn:disabled { background: transparent; }"
+        "#findCloseBtn:hover, #findCaseBtn:hover { background: %3; }"
+        "#findPrevBtn, #findNextBtn { margin: 0; padding: 0; background: transparent; border: none; }"
         "#findCaseBtn { color: %6; font-weight: 600; font-size: %8px; }"
         "#findCaseBtn:checked { background: %4; color: %5; }")
         .arg(m_fg.name(),

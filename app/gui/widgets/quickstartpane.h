@@ -20,6 +20,7 @@
 #include "dpi.h"
 #include "utils/tablericons.h"
 
+class ChevronButton;
 class SonicPiTheme;
 class QGridLayout;
 class QPushButton;
@@ -82,8 +83,8 @@ public:
     // sizing); cards carousel horizontally, so no more height is needed.
     int preferredDockHeight() const;
 
-    // The A-/A+ zoom controls (circle -/+), created once and displayed in the
-    // dock title row (like the Docs tab), so all tabs' controls share a row.
+    // The A-/A+ zoom controls (circle -/+), created once and displayed at the
+    // foot of the help's tab rail (like the Docs tab), where every tab's are.
     QWidget* zoomControls();
 
     // Wire to QtAPIClient's RunStartedReceived/RunEndedReceived/FlashReceived
@@ -175,7 +176,7 @@ private:
     void updateHover();
     void setCardHover(QWidget* frame, bool on);
 
-    // The A-/A+ zoom controls, shown in the dock title row (see zoomControls()).
+    // The A-/A+ zoom controls, shown at the foot of the help's tab rail (see zoomControls()).
     // Persistent across rebuilds; retinted on theme change.
     class ZoomBar* m_zoomBar = nullptr;
 
@@ -194,8 +195,8 @@ private:
     QVector<QWidget*> m_cardFrames;      // card frames in deck order
     QWidget* m_gridSpacer = nullptr;     // trailing pad so the last page snaps clean
     int m_gridRows = 0;                  // rows the grid is currently laid out with
-    QPushButton* m_prevArrow = nullptr;
-    QPushButton* m_nextArrow = nullptr;
+    ChevronButton* m_prevArrow = nullptr;   // the one chevron control, as every chevron is
+    ChevronButton* m_nextArrow = nullptr;
     QWidget* m_backEdge = nullptr; // invisible left-margin "page back" click zone
     QWidget* m_dotsHost = nullptr;
     class QHBoxLayout* m_dotsLayout = nullptr;

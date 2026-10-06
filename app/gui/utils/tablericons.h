@@ -46,14 +46,10 @@ enum class Glyph
     Check,           // copied! confirmation tick
     Search,          // docs filter
     Restore,         // reset dials
-    ChevronUp,       // find bar: previous match
-    ChevronDown,     // find bar: next match
     Scissors,        // editor toolbar: cut
     Clipboard,       // editor toolbar: paste
     ArrowBackUp,     // editor toolbar: undo
     ArrowForwardUp,  // editor toolbar: redo
-    ChevronLeft,     // tracks: move a device earlier in the chain
-    ChevronRight,    // tracks: move a device later in the chain
     Power,           // tracks: a device's bypass
     AppWindow,       // tracks: a plugin's own window
     Adjustments,     // tracks: configure a device's face
@@ -173,10 +169,6 @@ inline QString glyphPaths(Glyph glyph)
             "<path d='M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />");
     case Glyph::Check:
         return QStringLiteral("<path d='M5 12l5 5l10 -10' />");
-    case Glyph::ChevronUp:
-        return QStringLiteral("<path d='M6 15l6 -6l6 6' />");
-    case Glyph::ChevronDown:
-        return QStringLiteral("<path d='M6 9l6 6l6 -6' />");
     case Glyph::Scissors:
         return QStringLiteral(
             "<path d='M6 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0' />"
@@ -195,10 +187,6 @@ inline QString glyphPaths(Glyph glyph)
     case Glyph::ArrowForwardUp:
         return QStringLiteral(
             "<path d='M15 14l4 -4l-4 -4' /><path d='M19 10h-11a4 4 0 1 0 0 8h1' />");
-    case Glyph::ChevronLeft:
-        return QStringLiteral("<path d='M15 6l-6 6l6 6' />");
-    case Glyph::ChevronRight:
-        return QStringLiteral("<path d='M9 6l6 6l-6 6' />");
     case Glyph::Power:
         return QStringLiteral("<path d='M7 6a7.75 7.75 0 1 0 10 0' /><path d='M12 4l0 8' />");
     case Glyph::AppWindow:

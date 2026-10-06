@@ -127,7 +127,6 @@ enum class FontRole
     Large,
     XLarge,
     XXLarge,
-    Arrow, // the cards deck's chevron glyphs
 };
 
 // One curve for every pane that offers A-/A+ (docs, cards, …). Multiplicative
@@ -164,9 +163,6 @@ inline int FontRolePx(FontRole role, double scale = 1.0)
     int px = 0;
     switch (role)
     {
-    case FontRole::Arrow:
-        px = ScaleHeightForDPI(26);
-        break;
 #ifdef __APPLE__
     case FontRole::Small:   px = ScaleHeightForDPI(13); break;
     case FontRole::Base:    px = ScaleHeightForDPI(18); break;

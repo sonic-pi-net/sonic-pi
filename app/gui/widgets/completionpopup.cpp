@@ -9,6 +9,8 @@
 //++
 
 #include "completionpopup.h"
+
+#include "chevronbutton.h"
 #include <QAbstractItemView>
 #include "dpi.h"
 #include "utils/instrument_icons.h"
@@ -566,16 +568,12 @@ private:
             p.setBrush(m_accent);
             p.drawRoundedRect(pill, 5, 5);
         }
-        const double s = qBound(5.0, kb.height() * 0.14, 7.0);
-        const double x = cxp + dir * s * 0.5;
-        QPolygonF tri;
-        tri << QPointF(x - dir * s, cy - s) << QPointF(x + dir * s, cy)
-            << QPointF(x - dir * s, cy + s);
+        // The one chevron design (ChevronButton), on the zone.
         QColor rest = m_fg;
         rest.setAlpha(190);
-        p.setPen(Qt::NoPen);
-        p.setBrush(hov ? m_bg : rest);
-        p.drawPolygon(tri);
+        ChevronButton::paintChevron(p, QPointF(cxp, cy),
+                                    dir < 0 ? ChevronButton::Left : ChevronButton::Right,
+                                    hov ? m_bg : rest);
     }
 
     // The MIDI note under a point, or -1. Black keys (drawn on top) win ties.

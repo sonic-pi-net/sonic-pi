@@ -12,6 +12,7 @@
 
 #include <QWidget>
 #include <QColor>
+class ChevronButton;
 
 class QLineEdit;
 class QLabel;
@@ -85,8 +86,8 @@ private:
     QLineEdit* m_edit = nullptr;
     QLabel* m_icon = nullptr;
     QLabel* m_count = nullptr;
-    QToolButton* m_prev = nullptr;
-    QToolButton* m_next = nullptr;
+    ChevronButton* m_prev = nullptr;
+    ChevronButton* m_next = nullptr;
     QToolButton* m_case = nullptr;
     QToolButton* m_close = nullptr;
     QPropertyAnimation* m_slide = nullptr;

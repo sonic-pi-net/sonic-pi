@@ -50,9 +50,12 @@ class QString;
 class QSlider;
 class QSplitter;
 class QPushButton;
+class ChevronButton;
+class DividerBar;
 class QStackedWidget;
 class ThinSplitter;
 class TutorialPane;
+class IconTabWidget;
 
 namespace SonicPi
 {
@@ -629,10 +632,10 @@ private:
     // file; rename or delete it once the user picks a save location.
     void startSessionRecordingFlow();
     void stopSessionRecordingFlow();
+    void recordingFailed(const QString& reason);   // the recorder could not start or died: Record goes back
 #endif
 
     void clearOutputPanels();
-    void recordingFailed(const QString& reason);   // the recorder could not start or died: Record goes back
     void createToolBar();
     void createExamplesMenu();
     void openExample(const QString& path, const QString& title, int helpRow);
@@ -760,7 +763,7 @@ private:
     QWidget* docsPane = nullptr;      // the southTabs page: pill row + docsplit
     QWidget* docsPillRow = nullptr;
     QVector<QPushButton*> docsPills;
-    QTabWidget* southTabs;
+    IconTabWidget* southTabs;
 
     SonicPiLog* outputPane;
     SonicPiLog* incomingPane;
@@ -777,14 +780,24 @@ private:
     QWidget* prefsWidget;
 
     QDockWidget* hudWidget;
-    QDockWidget* docWidget;
-    QPushButton* helpCloseButton = nullptr;  // ✕ = persistent close, top-right of the help pane
+    QDockWidget* docWidget = nullptr;
+    // The help pane's chevrons, top right, as the web's on its divider: up makes
+    // the pane full size over the editor's room; down hides it, and from full
+    // size first steps back beside the editor.
+    ChevronButton* helpFullButton = nullptr;
+    ChevronButton* helpHideButton = nullptr;
+    QWidget*     helpChevrons = nullptr;      // the two grips, laid over the dock separator (positionHelpChevrons)
+    DividerBar*  helpAwayBar = nullptr;       // the divider at the foot of the editor while the help is away, the way back
+    bool m_helpFull = false;
+    QList<QDockWidget*> m_hiddenForHelpFull;  // the panes the full-size help took the room from
+
     ZoomBar* logsZoom = nullptr;             // Logs/Debug tab text-size controls in the title row
     ZoomBar* debugZoom = nullptr;
     ZoomBar* tracksZoom = nullptr;
-    QIcon m_helpCloseIcon;                    // tabler-x, theme-tinted (rest / hover)
-    QIcon m_helpCloseIconHover;
-    void updateHelpCloseIcon();               // (re)renders the ✕ for the current theme
+    void updateHelpChevronIcons();            // (re)renders the chevrons for the current theme
+    void setHelpFull(bool on);                // the help pane over the editor's room, or beside it
+    void updateHelpChevronState();            // which chevron shows, which way it points
+    void positionHelpChevrons();              // over the separator above the help pane, at its right
     QList<QAction*> docsFilterSearchActions;  // leading magnifier glyph in each docs filter field
     void updateDocsFilterIcons();             // (re)tints the magnifiers for the current theme
     void applyDocsNavZoom();                  // scales the topic lists/filters to the docs A-/A+ step

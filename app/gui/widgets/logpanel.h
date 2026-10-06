@@ -72,7 +72,7 @@ public:
     void applyTheme(const QColor& textColor, const QColor& bgColor);
 
     // Text-size zoom (level is a point-size offset from the 7pt base), driven by
-    // the shared ZoomBar in the dock title row.
+    // the shared ZoomBar at the foot of the help's tab rail.
     void setFontZoom(int level);
 
     // Add a non-log tab (e.g. the live metrics panel). It is not backed by

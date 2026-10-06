@@ -33,6 +33,7 @@
 #include "model/sonicpitheme.h"
 #include "utils/fontroles.h"
 #include "widgets/cardscope.h"
+#include "widgets/chevronbutton.h"
 #include "widgets/trackspanel.h"
 
 namespace
@@ -141,6 +142,9 @@ TEST_CASE("the Tracks panel is dressed only in house styles", "[tracks][style]")
     {
         // A QLineEdit's clear button is Qt's own, styled with the field.
         if (qobject_cast<QLineEdit*>(b->parentWidget())) continue;
+        // A chevron is the one chevron control, painted by its own code
+        // (chevronbutton.cpp), not dressed by app.qss.
+        if (qobject_cast<ChevronButton*>(b)) continue;
         if (!house.contains(b->objectName()))
             strays << QStringLiteral("button '%1' (#%2)").arg(b->text(), b->objectName());
     }

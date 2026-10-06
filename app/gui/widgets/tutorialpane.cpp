@@ -185,9 +185,9 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     outer->setContentsMargins(0, 0, 0, 0);
     outer->setSpacing(0);
 
-    // Docs text-size controls (A- / A+): the shared ZoomBar, displayed in the
-    // help dock's title row beside the HELP title (MainWindow places the
-    // widget), like the Cards/Logs/Debug tabs' bars.
+    // Docs text-size controls (A- / A+): the shared ZoomBar, displayed at the
+    // foot of the help's tab rail (MainWindow places the widget), like the
+    // Cards/Logs/Debug tabs' bars.
     m_zoomBar = new ZoomBar(m_theme, tr("documentation"), this);
     // Through setUserZoom, not around it: it owns the clamp and the
     // already-at-that-zoom guard, so pressing A+ at the ceiling is a no-op

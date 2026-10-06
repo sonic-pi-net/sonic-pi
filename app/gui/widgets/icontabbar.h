@@ -10,10 +10,13 @@
 #ifndef ICONTABBAR_H
 #define ICONTABBAR_H
 
+#include <QEvent>
 #include <QStyleOptionTab>
 #include <QStylePainter>
 #include <QTabBar>
 #include <QTabWidget>
+
+#include <algorithm>
 
 // Tab bar for icon-only tabs: the style draws each tab's shape (so the
 // theme stylesheet still applies), then the icon is painted dead-centre in
@@ -72,7 +75,11 @@ private:
     }
 };
 
-// QTabWidget wired to an IconTabBar (setTabBar is protected).
+// QTabWidget wired to an IconTabBar (setTabBar is protected), with an
+// optional foot: a widget kept at the foot of the tab bar's column, as the
+// web keeps the help's text-size controls at the foot of its rail. It sits
+// as low as the column allows, centred across it, and never over a tab:
+// when the column is too short it follows straight on from the last one.
 class IconTabWidget : public QTabWidget
 {
 public:
@@ -80,6 +87,53 @@ public:
         : QTabWidget(parent)
     {
         setTabBar(new IconTabBar(this));
+        tabBar()->installEventFilter(this);
+    }
+
+    void setFootWidget(QWidget* foot)
+    {
+        m_foot = foot;
+        m_foot->setParent(this);
+        m_foot->installEventFilter(this);
+        m_foot->show();
+        placeFoot();
+    }
+
+    QWidget* footWidget() const { return m_foot; }
+
+protected:
+    void resizeEvent(QResizeEvent* event) override
+    {
+        QTabWidget::resizeEvent(event);
+        placeFoot();
+    }
+
+    // The tab bar moves or resizes as tabs come and go or its tabs change
+    // size; the foot's size changes as the controls in it are shown and
+    // hidden. Either way the foot is placed again.
+    bool eventFilter(QObject* obj, QEvent* event) override
+    {
+        const bool moved = obj == tabBar()
+            && (event->type() == QEvent::Resize || event->type() == QEvent::Move);
+        const bool refit = m_foot && obj == m_foot && event->type() == QEvent::LayoutRequest;
+        if (moved || refit)
+            placeFoot();
+        return QTabWidget::eventFilter(obj, event);
+    }
+
+private:
+    QWidget* m_foot = nullptr;
+
+    void placeFoot()
+    {
+        if (!m_foot)
+            return;
+        const QRect bar = tabBar()->geometry();
+        const QSize size = m_foot->sizeHint();
+        const int x = bar.x() + (bar.width() - size.width()) / 2;
+        const int y = std::max(bar.y() + bar.height(), height() - size.height());
+        m_foot->setGeometry(x, y, size.width(), size.height());
+        m_foot->raise();
     }
 };
 

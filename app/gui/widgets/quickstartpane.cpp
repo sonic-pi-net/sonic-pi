@@ -9,6 +9,8 @@
 
 #include "quickstartpane.h"
 
+#include "chevronbutton.h"
+
 #include <QApplication>
 #include <QCursor>
 #include <QDateTime>
@@ -772,16 +774,8 @@ protected:
         p.setBrush(fill);
         const qreal rad = ScaleHeightForDPI(6);
         p.drawRoundedRect(r, rad, rad);
-        QPen pen(chev, ScaleHeightForDPI(2), Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-        p.setPen(pen);
-        p.setBrush(Qt::NoBrush);
-        const qreal cx = r.center().x();
-        const qreal cy = r.center().y();
-        const qreal s = ScaleHeightForDPI(5);
-        QPolygonF ch;
-        ch << QPointF(cx + s * 0.5, cy - s) << QPointF(cx - s * 0.5, cy)
-           << QPointF(cx + s * 0.5, cy + s);
-        p.drawPolyline(ch);
+        // The one chevron design (ChevronButton), on the bar.
+        ChevronButton::paintChevron(p, r.center(), ChevronButton::Left, chev);
     }
 
 private:
@@ -1088,20 +1082,25 @@ void QuickstartPane::rebuild()
     }
     deckBar->addStretch(1);
 
-    // Carousel controls: prev arrow, page dots and next arrow in one grouped pill.
-    auto makeArrow = [&](const QString& glyph, const QString& a11y) {
-        QPushButton* b = new QPushButton(glyph, m_topBar);
+    // Carousel controls: prev chevron, page dots and next chevron in one
+    // grouped pill. The chevrons are the one chevron control (ChevronButton),
+    // as every chevron is: no knob of their own inside the pill, the muted
+    // ink at rest and the accent under the pointer.
+    const QColor arrowInk = SonicPiTheme::blend(m_theme->color("Foreground"),
+                                                m_theme->color("PaneBackground"), 0.45);
+    auto makeArrow = [&](ChevronButton::Dir dir, const QString& a11y) {
+        auto* b = new ChevronButton(m_topBar);
         b->setObjectName(QStringLiteral("qsArrow"));
-        ApplyFontRole(b, FontRole::Arrow);
-        b->setCursor(Qt::PointingHandCursor);
+        b->setDir(dir);
+        b->setColors(Qt::transparent, Qt::transparent, arrowInk, m_theme->color("HighlightedBackground"));
         b->setAccessibleName(a11y);
         b->setFixedSize(uiScale().size(30, 30));
         return b;
     };
-    m_prevArrow = makeArrow(QStringLiteral("‹"), tr("Previous cards"));
-    m_nextArrow = makeArrow(QStringLiteral("›"), tr("More cards"));
-    connect(m_prevArrow, &QPushButton::clicked, this, [this] { goToPage(m_pageIndex - 1); });
-    connect(m_nextArrow, &QPushButton::clicked, this, [this] { goToPage(m_pageIndex + 1); });
+    m_prevArrow = makeArrow(ChevronButton::Left, tr("Previous cards"));
+    m_nextArrow = makeArrow(ChevronButton::Right, tr("More cards"));
+    connect(m_prevArrow, &QAbstractButton::clicked, this, [this] { goToPage(m_pageIndex - 1); });
+    connect(m_nextArrow, &QAbstractButton::clicked, this, [this] { goToPage(m_pageIndex + 1); });
 
     m_dotsHost = new QWidget(m_topBar);
     m_dotsLayout = new QHBoxLayout(m_dotsHost);
@@ -1129,7 +1128,7 @@ void QuickstartPane::rebuild()
     navLay->addWidget(m_dotsHost);
     navLay->addWidget(m_nextArrow);
     // nav is added to its own centred row below the cards (see below).
-    // A-/A+ zoom lives in the dock title row (zoomControls()), not here.
+    // A-/A+ zoom lives at the foot of the help's tab rail (zoomControls()), not here.
     rightCol->addWidget(m_topBar);
 
     // Description row: a small accent rail and the deck's one-line description.

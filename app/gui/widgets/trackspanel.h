@@ -28,6 +28,7 @@
 #include "api/sonicpi_api.h"
 #include "utils/trackparam.h"
 
+class ChevronButton;
 class QButtonGroup;
 class QComboBox;
 class QGridLayout;
@@ -98,8 +99,8 @@ public:
     void applyTheme(SonicPiTheme* theme);
 
     // Pane-local text zoom, the A-/A+ steps every help tab offers. The
-    // buttons are the dock title row's (MainWindow's ZoomBar, beside the
-    // other tabs' pairs); the level is a pref MainWindow persists.
+    // buttons are at the foot of the help's tab rail (MainWindow's ZoomBar,
+    // where the other tabs' pairs are); the level is a pref MainWindow persists.
     int userZoom() const { return m_userZoom; }
     void setUserZoom(int zoom);
 
@@ -203,8 +204,8 @@ private:
         QPushButton* bypassBtn = nullptr;
         QPushButton* editorBtn = nullptr;
         QPushButton* configureBtn = nullptr;
-        QPushButton* leftBtn = nullptr;
-        QPushButton* rightBtn = nullptr;
+        ChevronButton* leftBtn = nullptr;    // the one chevron control, as every chevron is
+        ChevronButton* rightBtn = nullptr;
         QPushButton* removeBtn = nullptr;
         QComboBox*   channel = nullptr;     // instruments: the listen channel
 
@@ -242,6 +243,7 @@ private:
     QString deviceStatusText(const Device* dev) const;
     void refreshDeviceButtons(Device* dev, int index, int count);
     void tintDeviceGlyph(QPushButton* b, bool hover);
+    void tintDeviceChevron(ChevronButton* b);
     void setConfiguring(Device* dev, bool on);
     void sendParamFromDial(const Device* dev, uint32_t id);
     void setEditorVisible(Device* dev, bool show);

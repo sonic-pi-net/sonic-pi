@@ -16,9 +16,11 @@
 #include <QSplitter>
 #include <QSplitterHandle>
 
-// A splitter with a wide (grab-friendly) handle that paints only a thin centre
-// line at rest and reveals its full width on hover. QSS can't do this (a gradient
-// handle renders solid). Colours come from ThinSplitter::setDividerColors.
+#include "divider.h"
+
+// A splitter whose handles are the one divider (Divider::paint): a wide grab
+// band with a thin centre line at rest, revealed full width on hover. Colours
+// come from ThinSplitter::setDividerColors.
 
 class ThinSplitter;
 
@@ -60,9 +62,7 @@ public:
     // hover fills the whole handle when pointed at.
     void setDividerColors(const QColor& bg, const QColor& line, const QColor& hover)
     {
-        m_bg = bg;
-        m_line = line;
-        m_hoverCol = hover;
+        m_colours = { bg, line, hover };
         for (int i = 0; i < count(); ++i)
             if (QSplitterHandle* h = handle(i))
                 h->update();
@@ -88,9 +88,7 @@ public:
                 h->update();
     }
 
-    QColor bgColor() const    { return m_bg; }
-    QColor lineColor() const  { return m_line; }
-    QColor hoverColor() const { return m_hoverCol; }
+    const Divider::Colours& colours() const { return m_colours; }
     bool lineVisible() const  { return m_lineVisible; }
     bool forcedHover() const  { return m_forcedHover; }
 
@@ -101,9 +99,7 @@ protected:
     }
 
 private:
-    QColor m_bg;
-    QColor m_line{ 128, 128, 128 };
-    QColor m_hoverCol{ 170, 170, 170 };
+    Divider::Colours m_colours;
     bool m_lineVisible = true;
     bool m_forcedHover = false;
 };
@@ -112,31 +108,9 @@ inline void ThinSplitterHandle::paintEvent(QPaintEvent*)
 {
     auto* s = static_cast<ThinSplitter*>(splitter());
     QPainter p(this);
-
-    if (m_hover || s->forcedHover())
-    {
-        p.fillRect(rect(), s->hoverColor());   // reveal full thickness
-        return;
-    }
-
-    if (s->bgColor().isValid())
-        p.fillRect(rect(), s->bgColor());      // blend the wide grab area
-
-    if (!s->lineVisible())
-        return;                                // collapsed pane: no resting line
-
-    const QColor line = s->lineColor();        // thin centred line at rest
-    constexpr int kThin = 2;
-    if (orientation() == Qt::Horizontal)
-    {
-        const int lw = qMin(kThin, width());
-        p.fillRect((width() - lw) / 2, 0, lw, height(), line);
-    }
-    else
-    {
-        const int lh = qMin(kThin, height());
-        p.fillRect(0, (height() - lh) / 2, width(), lh, line);
-    }
+    // A Horizontal splitter's handle is a bar running up and down.
+    const Qt::Orientation bar = orientation() == Qt::Horizontal ? Qt::Vertical : Qt::Horizontal;
+    Divider::paint(p, rect(), bar, m_hover || s->forcedHover(), s->lineVisible(), s->colours());
 }
 
 #endif // THINSPLITTER_H

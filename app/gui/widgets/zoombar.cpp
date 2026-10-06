@@ -1,8 +1,8 @@
 #include "widgets/zoombar.h"
 
 #include <QEvent>
-#include <QHBoxLayout>
 #include <QPushButton>
+#include <QVBoxLayout>
 
 #include "dpi.h"
 #include "model/sonicpitheme.h"
@@ -12,11 +12,11 @@ ZoomBar::ZoomBar(SonicPiTheme* theme, const QString& subject, QWidget* parent)
     : QWidget(parent)
     , m_theme(theme)
 {
-    QHBoxLayout* lay = new QHBoxLayout(this);
+    // Larger over smaller, one above the other: the help's tab rail is one
+    // icon wide.
+    QVBoxLayout* lay = new QVBoxLayout(this);
     lay->setContentsMargins(0, 0, 0, 0);
-    // Match the title row's control spacing so the gap between -/+ equals the
-    // gap on to the shared close ✕: three evenly spaced buttons in a row.
-    lay->setSpacing(ScaleWidthForDPI(4));
+    lay->setSpacing(ScaleHeightForDPI(4));
     // Flat chrome comes from the #zoomBtn rule in app.qss, which keeps the
     // app-wide QPushButton padding/height/border from leaking in.
 
@@ -33,8 +33,8 @@ ZoomBar::ZoomBar(SonicPiTheme* theme, const QString& subject, QWidget* parent)
         connect(btn, &QPushButton::clicked, this, [this, delta] { emit zoomStep(delta); });
         lay->addWidget(btn);
     };
-    make(m_out, tr("Make %1 text smaller").arg(subject), -1);
     make(m_in, tr("Make %1 text larger").arg(subject), 1);
+    make(m_out, tr("Make %1 text smaller").arg(subject), -1);
     applyTheme();
 }
 

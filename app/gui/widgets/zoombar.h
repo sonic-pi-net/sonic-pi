@@ -7,10 +7,11 @@
 class SonicPiTheme;
 class QPushButton;
 
-// A flat circle -/+ text-size control shown in the help dock's title row. Every
-// help tab (Cards, Docs, Logs, Debug) uses one so their controls line up in the
-// same row, evenly spaced and beside the shared close ✕. Emits zoomStep(±1);
-// the owning panel keeps its own zoom level and applies the font change.
+// A flat circle -/+ text-size control, the two stacked, shown at the foot of
+// the help's tab rail (IconTabWidget::setFootWidget) as the web shows its
+// own. Every help tab (Cards, Docs, Logs, Debug, Tracks) has one, and only
+// the current tab's is shown. Emits zoomStep(±1); the owning panel keeps its
+// own zoom level and applies the font change.
 class ZoomBar : public QWidget
 {
     Q_OBJECT

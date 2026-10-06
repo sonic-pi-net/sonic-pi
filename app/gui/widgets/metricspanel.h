@@ -178,7 +178,7 @@ private:
     int m_fontZoom = 0;               // px offset from the 11px base font
 
     ThinSplitter* m_mainSplit = nullptr; // left (tree + metrics) | right (logs)
-    QSplitter* m_leftSplit = nullptr;    // node tree / metrics (chevron paints line)
+    ThinSplitter* m_leftSplit = nullptr; // node tree / metrics
     ThinSplitter* m_rightSplit = nullptr;// debug / to / from logs
 
     QVector<QFrame*> m_metricsCards;  // metric cards, in order, re-flowed by height
