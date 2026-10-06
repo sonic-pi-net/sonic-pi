@@ -192,6 +192,14 @@ module SonicPi
         STDOUT.flush
       end
 
+      # The engine rebuilt its world: send nothing more into it. Jobs stop and
+      # the bundles already scheduled ahead are dropped, at once — the rebuild
+      # (below) waits for the swap to settle.
+      def __cold_swap_halt!
+        __stop_jobs
+        @mod_sound_studio.server.clear_schedule
+      end
+
       # Stop jobs, then rebuild Studio after SuperSonic cold swap
       def __cold_swap_reinit!
         STDOUT.puts "Spider - cold swap reinit starting"

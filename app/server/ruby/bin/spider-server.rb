@@ -24,6 +24,7 @@ require_relative "../lib/sonicpi/studio"
 
 require_relative "../lib/sonicpi/server"
 require_relative "../lib/sonicpi/util"
+require_relative "../lib/sonicpi/cold_swap_reinit"
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/lang/core"
 require_relative "../lib/sonicpi/lang/midi"
@@ -814,96 +815,21 @@ register_api = lambda do |server|
     end
   end
 
-  # Debounce /clockwork/setup bursts — reinit once after 1s quiet
-  last_setup_time = nil
-  setup_mutex = Mutex.new
-  setup_cv = ConditionVariable.new
-  setup_thread = nil
-
-  # /clockwork/setup carries [sample_rate, buffer_size, generation] where
-  # generation increments only on a real World rebuild (cold swap). The
-  # engine also REPLAYS the current setup to each new notify registrant
-  # (stream transports connect after boot and miss the boot broadcast) —
-  # dedup by generation so a replay never triggers a spurious reinit.
-  last_setup_generation = nil
+  # /clockwork/setup carries [sample_rate, buffer_size, generation] and is
+  # sent only when the engine rebuilds its world (a cold swap). It is an
+  # event, never replayed to a registrant, so every one after boot is a
+  # rebuild: halt at once, rebuild once the swap settles (ColdSwapReinit).
+  cold_swap = SonicPi::ColdSwapReinit.new(halt:    -> { sp.__cold_swap_halt! },
+                                          rebuild: -> { sp.__cold_swap_reinit! })
 
   server.add_method("/clockwork/setup") do |args|
     generation = args[2]
     unless spider_boot_complete
       STDOUT.puts "Spider - received /clockwork/setup gen #{generation} (boot) - skipping"
       STDOUT.flush
-      last_setup_generation = generation if generation
       next
     end
-
-    if generation && generation == last_setup_generation
-      STDOUT.puts "Spider - received /clockwork/setup replay (gen #{generation}) - already current, skipping"
-      STDOUT.flush
-      next
-    end
-    last_setup_generation = generation if generation
-
-    STDOUT.puts "Spider - received /clockwork/setup gen #{generation}"
-    STDOUT.flush
-    setup_mutex.synchronize do
-      last_setup_time = Time.now
-      setup_cv.broadcast
-    end
-
-    unless setup_thread&.alive?
-      setup_thread = Thread.new do
-        reinit_retries = 0
-        loop do
-          # Wait for 1s quiet — CV broadcast on each event pushes the wait out
-          setup_mutex.synchronize do
-            loop do
-              remaining = 1.0 - (Time.now - last_setup_time)
-              break if remaining <= 0
-              setup_cv.wait(setup_mutex, remaining)
-            end
-          end
-
-          reinit_started_at = Time.now
-          STDOUT.puts "Spider - setup settled, reinitialising..."
-          STDOUT.flush
-          reinit_ok = false
-          begin
-            # The swap rebuilt the World, so every running job's synth/fx
-            # graph is gone; their threads would keep scheduling into dead
-            # busses (silent loops, orphaned scope taps). Stop them like an
-            # explicit Stop press — teardown also releases loop scope slots
-            # and clears the GUI's per-loop scope widgets.
-            sp.__stop_jobs
-            reinit_ok = sp.__cold_swap_reinit!
-          rescue Exception => e
-            STDOUT.puts "Spider - cold swap reinit error: #{e.message}"
-            STDOUT.puts e.backtrace.first(5).join("\n")
-            STDOUT.flush
-          end
-
-          if reinit_ok
-            reinit_retries = 0
-          elsif (reinit_retries += 1) <= 4
-            # An aborted reinit (Phase 2 timeout) used to wait for the next
-            # /clockwork/setup to retry — but if the World has already
-            # settled, none is coming and the studio stays broken (nil mixer
-            # group) until relaunch. Queue our own pass instead.
-            STDOUT.puts "Spider - reinit incomplete, scheduling retry #{reinit_retries}/4"
-            STDOUT.flush
-            Kernel.sleep 2
-            setup_mutex.synchronize { last_setup_time = Time.now }
-          else
-            STDOUT.puts "Spider - reinit still incomplete after 4 retries - waiting for next device event"
-            STDOUT.flush
-          end
-
-          # Loop if an event arrived mid-reinit (or a retry was queued) so it
-          # gets its own pass
-          new_event_during_reinit = setup_mutex.synchronize { last_setup_time > reinit_started_at }
-          break unless new_event_during_reinit
-        end
-      end
-    end
+    cold_swap.setup!(generation)
   end
 end
 
