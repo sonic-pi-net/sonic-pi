@@ -196,8 +196,13 @@ const startRuntime = () => runtimeReady ??= (() => {
   versions.runtime = r.version;
   logs.add("Runtime", `mruby runtime ${r.version} loaded, ${r.worker ? "in a worker of its own" : "on the page"}`);
   paintVersions();
-  setEngineStatus("ready");
-  announce("Sonic Pi is ready");
+  // Ready only over the first "loading": the runtime loads beside the engine (ensureSession), and once the engine
+  // has said booting, running or failed, that is what the status shows. A runtime that finished after a failed boot
+  // said ready over the error, and a screen reader heard it too.
+  if (engineShown.text === "loading") {
+    setEngineStatus("ready");
+    announce("Sonic Pi is ready");
+  }
   bootAnnouncementsReady = true;
   return r;
 }).catch((e) => {
@@ -3095,4 +3100,4 @@ function shortcutPrefs(pane) {
 editor.focus();
 if (!infoOpen()) wakeEditor();
 else for (const type of ["pointerover", "pointerdown", "focusin"]) infoCard.addEventListener(type, (e) => { if (e.target.closest?.(".qs-card, .home-synth")) startRuntime().catch(() => {}); }, { passive: true });
-window.sonicPi = { editor, workspace, keyboard: codeKeyboard, api, theme, get session() { return session; }, docs: () => docs, quickstart: () => quickstart, scope, processTree: () => insight.tree.snapshot(), pianoRoll: () => insight.roll.snapshot(), flight, keys, shortcuts: shortcutEditor, get engine() { return engineRef; } };
+window.sonicPi = { editor, workspace, keyboard: codeKeyboard, api, theme, get session() { return session; }, get runtimeVersion() { return versions.runtime; }, docs: () => docs, quickstart: () => quickstart, scope, processTree: () => insight.tree.snapshot(), pianoRoll: () => insight.roll.snapshot(), flight, keys, shortcuts: shortcutEditor, get engine() { return engineRef; } };
