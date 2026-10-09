@@ -49,6 +49,11 @@ module SonicPi
     end
 
     def teardown
+      # A failure here is the engine's story as much as the studio's, and on
+      # CI its log is otherwise left behind on the runner.
+      unless passed? || !File.exist?(@log.to_s)
+        puts "\n--- #{name}: the engine's log, #{@log} ---", File.read(@log).lines.last(80).join
+      end
       @server&.shutdown rescue nil
       return unless @engine
       Process.kill("TERM", @engine) rescue nil
