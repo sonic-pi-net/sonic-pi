@@ -13,7 +13,7 @@
 #   sonic-pi_<uv>.orig-link.tar.xz        pristine Ableton Link 4.0 with its
 #                                         asio-standalone submodule
 #   sonic-pi_<uv>.orig-rust-vendor.tar.xz `cargo vendor` output for the
-#                                         supersonic rust/Cargo.lock
+#                                         clockwork rust/Cargo.lock
 #   sonic-pi_<dv>.dsc + .debian.tar.xz    via dpkg-buildpackage -S
 #
 # The Link and rust-vendor components mirror the ones the supersonic repo's
@@ -102,11 +102,10 @@ find "$WORK/link" -name .git -prune -exec rm -rf {} +
 tar -C "$WORK" -cJf "$WORK/sonic-pi_$UV.orig-link.tar.xz" link
 
 # ── Rust vendor component ───────────────────────────────────────────────────
-# supersonic's workspace is the one the engine build runs cargo in
-# (CLOCKWORK_RUST_WORKSPACE); its crates path-depend on clockwork's, so one
-# vendor of this lockfile covers the whole graph.
+# clockwork's workspace is the one the engine build runs cargo in
+# (CLOCKWORK_RUST_WORKSPACE), so one vendor of its lockfile covers the graph.
 echo "=== orig-rust-vendor tarball ==="
-(cd "$SUPERSONIC/rust" && cargo vendor "$WORK/rust-vendor")
+(cd "$SUPERSONIC/clockwork/rust" && cargo vendor "$WORK/rust-vendor")
 
 # Sanitise the vendor tree so it survives Debian's source-package machinery
 # and lintian — same rules as supersonic's make-debian-source.sh, see there

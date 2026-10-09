@@ -19,6 +19,7 @@
 #include "windows.h"
 #include "wgc_d3d_interop.h"
 #include "mp4_soft_remux.h"
+#include "recorder_audio_mix.h"
 
 #include <d3d11_4.h>
 #include <windows.graphics.capture.interop.h>
