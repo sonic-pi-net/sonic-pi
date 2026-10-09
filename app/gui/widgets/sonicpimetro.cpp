@@ -251,6 +251,7 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
   metro_layout->addStretch(1);
   metro_layout->addWidget(linkColumn, 0, Qt::AlignLeft);
   setLayout(metro_layout);
+  fitHeightToContent(false);
 
   // Restore visibility scope from QSettings (Local default). Link enable
   // is not persisted: joining a mesh is a per-session opt-in.
@@ -520,12 +521,23 @@ void SonicPiMetro::setFocusTimeWarpScrubber()
   timeWarpLineEdit->setVisible(true);
 }
 
+// Compact unless the streams panel is open: no taller than the row of controls
+// needs, so the dock it sits in is as tall as its title and that row, whatever
+// the font and zoom, and no band of empty space opens above the controls. Open,
+// the panel may take what the dock can give it.
+void SonicPiMetro::fitHeightToContent(bool streamsOpen)
+{
+  setSizePolicy(QSizePolicy::Preferred, streamsOpen ? QSizePolicy::Preferred : QSizePolicy::Maximum);
+  updateGeometry();
+}
+
 void SonicPiMetro::toggleLinkAudioStreams()
 {
   if (!linkStreamsWidget) return;
   const bool nowVisible = !linkStreamsWidget->isVisible();
   linkStreamsWidget->setVisible(nowVisible);
   linkStreamsButton->setChecked(nowVisible);
+  fitHeightToContent(nowVisible);
   // ↓ when expanded, ↑ when collapsed.
   linkStreamsButton->setText(nowVisible
       ? QString::fromUtf8("\xe2\x86\x93")
@@ -533,5 +545,4 @@ void SonicPiMetro::toggleLinkAudioStreams()
   linkStreamsButton->setAccessibleName(nowVisible
       ? tr("Hide Link Audio streams panel")
       : tr("Show Link Audio streams panel"));
-  emit linkAudioStreamsExpandedChanged(nowVisible);
 }

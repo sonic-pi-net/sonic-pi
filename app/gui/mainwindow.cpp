@@ -1060,14 +1060,7 @@ void MainWindow::setupWindowStructure()
     metroWidget->setFocusPolicy(Qt::NoFocus);
     metroWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     metroWidget->setAllowedAreas(Qt::RightDockWidgetArea);
-    metroWidget->setMaximumHeight(ScaleHeightForDPI(110));
-    metroWidget->setWidget(metroPane);
-    // Let the dock grow when the streams panel expands, shrink on collapse.
-    connect(metroPane, &SonicPiMetro::linkAudioStreamsExpandedChanged, this,
-            [this](bool expanded) {
-                metroWidget->setMaximumHeight(
-                    expanded ? QWIDGETSIZE_MAX : ScaleHeightForDPI(110));
-            });
+    metroWidget->setWidget(metroPane);   // as tall as the pane needs (SonicPiMetro::fitHeightToContent)
 
     addDockWidget(Qt::RightDockWidgetArea, outputWidget);
     addDockWidget(Qt::RightDockWidgetArea, incomingWidget);
