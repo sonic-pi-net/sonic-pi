@@ -152,12 +152,23 @@ module SonicPi
       res ? res[0].to_s : ""
     end
 
-    # Subscribe to a remote (peer, channel) Link Audio stream, rendered
-    # stereo into bus and bus+1. Idempotent per (peer, channel): re-issuing
-    # remaps the bus. Subscriptions are concurrent, each into its own pair.
-    def link_audio_input_set!(peer, channel, bus)
-      @link_comms.send("/clockwork/clock/audio/input/add",
-                       peer.to_s, channel.to_s, bus.to_i)
+    # Subscribe to a remote (peer, channel) Link Audio stream. The engine
+    # chooses where it arrives, a stereo pair of its input channels, and
+    # answers with the first; nil when it refused (no peer publishes that
+    # channel, or every pair is in use). The same (peer, channel) again keeps
+    # its pair. Subscriptions are concurrent, each on its own pair.
+    def link_audio_input_add!(peer, channel)
+      res = @link_comms.rpc("/clockwork/clock/audio/input/add", peer.to_s, channel.to_s,
+                            expect: "/clockwork/clock/audio/input/add.reply")
+      res && res[0].to_i == 1 ? res[1].to_i : nil
+    end
+
+    # The Link Audio channels peers are publishing, as [peer, channel] pairs.
+    def link_audio_channels
+      res = @link_comms.rpc("/clockwork/clock/audio/channels/get",
+                            expect: "/clockwork/clock/audio/channels.reply")
+      return [] unless res
+      res.drop(1).each_slice(4).map { |_id, channel, _peer_id, peer| [peer.to_s, channel.to_s] }
     end
 
     def link_audio_input_remove!(peer, channel)

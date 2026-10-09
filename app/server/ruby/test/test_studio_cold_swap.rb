@@ -13,10 +13,7 @@
 
 require_relative "./setup_test"
 require_relative "../lib/sonicpi/studio"
-require_relative "./mix/lib/mix_engine"
-require 'socket'
-require 'tmpdir'
-require 'timeout'
+require_relative "./lib/headless_engine"
 
 module SonicPi
   # Regression guarded against: changing audio device while code ran left
@@ -30,45 +27,26 @@ module SonicPi
   # A real Studio against a headless engine. Skipped when the engine is not
   # built, as the mix tests are.
   class StudioColdSwapTester < Minitest::Test
-    class State
-      def sched_ahead_time_at(_t)
-        0.5
-      end
-    end
-
     def setup
-      skip "engine not built at #{MixEngine::ENGINE}" unless File.executable?(MixEngine::ENGINE)
-      port = free_port
-      @log = File.join(Dir.tmpdir, "sonic-pi-cold-swap-test-#{port}.log")
-      @engine = Process.spawn(MixEngine::ENGINE, "--headless", "-u", port.to_s, "--tcp", port.to_s,
-                              "-o", "2", "-i", "0", "-a", "1024", "-b", "4096", "-B", "127.0.0.1",
-                              out: @log, err: [:child, :out])
-      @studio = Studio.new({scsynth_port: port, scsynth_send_port: port}, Queue.new, State.new,
-                           ->(*) {}, -> { nil })
+      skip "engine not built at #{MixEngine::ENGINE}" unless HeadlessEngine.available?
+      @engine = HeadlessEngine.new("cold-swap-test")
+      @studio = Studio.new({scsynth_port: @engine.port, scsynth_send_port: @engine.port}, Queue.new,
+                           HeadlessEngine::State.new, ->(*) {}, -> { nil })
       @server = @studio.server
     end
 
     def teardown
       # A failure here is the engine's story as much as the studio's, and on
       # CI its log is otherwise left behind on the runner.
-      unless passed? || !File.exist?(@log.to_s)
-        puts "\n--- #{name}: the engine's log, #{@log} ---", File.read(@log).lines.last(80).join
-      end
+      puts "\n--- #{name}: the engine's log, #{@engine.log} ---", @engine.log_tail unless passed? || @engine.nil?
       @server&.shutdown rescue nil
-      return unless @engine
-      Process.kill("TERM", @engine) rescue nil
-      begin
-        Timeout.timeout(5) { Process.wait(@engine) }
-      rescue Timeout::Error
-        Process.kill("KILL", @engine) rescue nil
-        Process.wait(@engine) rescue nil
-      end
+      @engine&.stop
     end
 
     def test_a_rebuild_comes_through_a_pause_that_reached_the_new_world_first
       @studio.pause
       @studio.cold_swap_reinit!
-      refute_nil @studio.mixer_group, "the rebuild ended with no mixer; see #{@log}"
+      refute_nil @studio.mixer_group, "the rebuild ended with no mixer; see #{@engine.log}"
       refute root_runs?, "nothing is playing, so the rebuilt graph should rest"
     end
 
@@ -79,7 +57,7 @@ module SonicPi
         Timeout.timeout(5) { Thread.pass until !pause.alive? || waiting_on_the_studio_gate?(pause) }
       end
       @studio.cold_swap_reinit!
-      refute_nil @studio.mixer_group, "the rebuild ended with no mixer; see #{@log}"
+      refute_nil @studio.mixer_group, "the rebuild ended with no mixer; see #{@engine.log}"
       assert pause.join(5), "the pause never went ahead after the rebuild"
       refute root_runs?, "the pause that waited for the rebuild should still rest the graph"
     end
@@ -90,7 +68,7 @@ module SonicPi
     def test_a_rebuild_never_gives_a_new_node_an_old_ones_number
       before = @studio.mixer_group.to_i
       @studio.cold_swap_reinit!
-      refute_nil @studio.mixer_group, "the rebuild ended with no mixer; see #{@log}"
+      refute_nil @studio.mixer_group, "the rebuild ended with no mixer; see #{@engine.log}"
       assert_operator @studio.mixer_group.to_i, :>, before
     end
 
@@ -101,17 +79,6 @@ module SonicPi
     end
 
     private
-
-    # A UDP and a TCP port, the same number, as the engine takes them.
-    def free_port
-      tcp = TCPServer.new("127.0.0.1", 0)
-      port = tcp.addr[1]
-      tcp.close
-      udp = UDPSocket.new
-      udp.bind("127.0.0.1", port)
-      udp.close
-      port
-    end
 
     # The server-info probe answers only from a running graph.
     def root_runs?

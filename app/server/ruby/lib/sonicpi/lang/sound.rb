@@ -225,6 +225,24 @@ module SonicPi
         ok
       end
 
+      # Why the engine would not open (peer, channel), and what to do about it.
+      # It refuses a channel no peer publishes and one it has no input left
+      # for, and says only that it refused, so ask which channels are there.
+      def __link_audio_refused(peer, channel)
+        published = @link_api.link_audio_channels
+        if published.include?([peer, channel])
+          "link_audio can't open #{peer.inspect}, #{channel.inspect}: every Link Audio input is in use. " \
+            "Stop a stream you no longer need with link_audio \"<peer>\", :stop"
+        elsif published.empty?
+          "link_audio can't hear #{peer.inspect}: no Link peer is publishing audio. " \
+            "Check Link is on in both apps, and that #{peer.inspect} is publishing its audio."
+        else
+          there = published.map { |p, c| "#{p.inspect}, #{c.inspect}" }.join("; ")
+          "link_audio can't hear #{peer.inspect}, #{channel.inspect}: no Link peer publishes that. " \
+            "Publishing now: #{there}"
+        end
+      end
+
       def link_audio(*params)
         args, opts = split_params_and_merge_opts_array(params)
         raise "link_audio requires a peer name, e.g. link_audio \"Live\"" if args.empty?
@@ -262,6 +280,7 @@ module SonicPi
         will_trigger = !opts.key?(:on) || truthy?(opts[:on])
         if will_trigger
           in_bus = @mod_sound_studio.ensure_link_audio_input(peer, channel, @link_api)
+          raise __link_audio_refused(peer, channel) unless in_bus
           opts   = opts.merge(in_bus: in_bus)
         end
 

@@ -43,7 +43,8 @@ module SonicPi
     def link_get_beat_at_clock_time(*); 0.0; end
     def link_get_clock_time_at_beat(*); Time.now.to_f; end
     def link_get_next_beat_and_clock_time_at_phase(*); [0.0, Time.now.to_f]; end
-    def link_audio_input_set!(*); end
+    def link_audio_input_add!(*); 0; end
+    def link_audio_channels(*); []; end
     def link_audio_input_remove!(*); end
     def link_audio_inputs_clear!(*); end
   end
