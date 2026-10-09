@@ -13,6 +13,7 @@
 
 require_relative "util"
 require_relative "supersonic_midi_comms"
+require_relative "osc/osc_types"
 require_relative "osc/timetag"
 
 module SonicPi
@@ -152,6 +153,12 @@ module SonicPi
       @internal_cue_handler.call(path, args) if @internal_cue_handler
     end
 
+    # The engine ends every event with the moment it arrived, as an OSC
+    # timetag. A cue carries the event's fields.
+    def event_fields(args)
+      args.last.is_a?(SonicPi::OSC::TimeTag) ? args[0...-1] : args
+    end
+
     def add_supersonic_midi_handlers!
       # Channel-voice events: args = [port, channel, data…].
       {
@@ -164,6 +171,7 @@ module SonicPi
         "/clockwork/midi/in/program_change"   => :program_change,
       }.each do |addr, event|
         @midi_comms.add_method(addr) do |args|
+          args = event_fields(args)
           port = args[0]
           chan = args[1]
           cue(port, chan, event, args[2..-1])
@@ -183,6 +191,7 @@ module SonicPi
         "/clockwork/midi/in/sysex"         => :sysex,
       }.each do |addr, event|
         @midi_comms.add_method(addr) do |args|
+          args = event_fields(args)
           cue(args[0], nil, event, args[1..-1])
         end
       end

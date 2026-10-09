@@ -50,5 +50,28 @@ module SonicPi
         @val.inspect
       end
     end
+
+    # An OSC timetag ('t'): seconds since 1900 over 32 bits of fraction, as
+    # one 64-bit integer. Its own type, not an Int64, so a reader can tell a
+    # time on the end of a message from an argument that is a number.
+    class TimeTag
+      attr_reader :binary
+      def initialize(val)
+        @val = val
+        @binary = [val].pack('Q>')
+      end
+
+      def to_i
+        @val
+      end
+
+      def ==(other)
+        other.is_a?(TimeTag) && other.to_i == @val
+      end
+
+      def inspect
+        "#<TimeTag #{@val}>"
+      end
+    end
   end
 end

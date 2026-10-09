@@ -17,6 +17,30 @@ module SonicPi
 
   class OSCTester < Minitest::Test
 
+    # OSC's own type for a time. clockwork puts one on the end of every MIDI
+    # and gamepad event: the moment it arrived. A decoder that refused it
+    # dropped the whole event.
+    def test_a_timetag_argument_decodes_as_a_timetag
+      decoder = ::SonicPi::OSC::OscDecode.new(true)
+      tt = 0xE000_0000_8000_0001
+      m = "/x\0\0,it\0".b + [7].pack("N") + [tt].pack("Q>")
+      address, args = decoder.decode_single_message(m)
+      assert_equal("/x", address)
+      assert_equal(7, args[0])
+      assert_kind_of(::SonicPi::OSC::TimeTag, args[1])
+      assert_equal(tt, args[1].to_i)
+    end
+
+    def test_a_timetag_round_trips
+      decoder = ::SonicPi::OSC::OscDecode.new(true)
+      encoder = ::SonicPi::OSC::OscEncode.new(true)
+      tt = 0xE123_4567_89AB_CDEF
+      m = encoder.encode_single_message("/t", [1, ::SonicPi::OSC::TimeTag.new(tt)])
+      _, args = decoder.decode_single_message(m)
+      assert_equal(1, args[0])
+      assert_equal(tt, args[1].to_i)
+    end
+
     def test_basic_address_encoding
       decoder = ::SonicPi::OSC::OscDecode.new(true)
       encoder = ::SonicPi::OSC::OscEncode.new(true)

@@ -28,6 +28,7 @@ module SonicPi
         @literal_low_s = 's'.freeze
         @literal_low_b = 'b'.freeze
         @literal_low_h = 'h'.freeze
+        @literal_low_t = 't'.freeze
         @literal_cap_f = 'F'.freeze
         @literal_cap_t = 'T'.freeze
         @literal_empty_str = ''.freeze
@@ -104,6 +105,9 @@ module SonicPi
             args_encoded << arg.binary
           when SonicPi::OSC::Int64
             tags << @literal_low_h
+            args_encoded << arg.binary
+          when SonicPi::OSC::TimeTag
+            tags << @literal_low_t
             args_encoded << arg.binary
           when true
             tags << @literal_cap_t

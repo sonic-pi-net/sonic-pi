@@ -29,6 +29,7 @@ module SonicPi
         @s_tag = "s".freeze
         @d_tag = "d".freeze
         @h_tag = "h".freeze
+        @t_tag = "t".freeze
         @b_tag = "b".freeze
         @ut_tag = "T".freeze
         @uf_tag = "F".freeze
@@ -37,6 +38,7 @@ module SonicPi
         @cap_g = 'G'.freeze
         @low_g = 'g'.freeze
         @q_lt = 'q>'.freeze
+        @cap_q_lt = 'Q>'.freeze
         @binary_encoding = "BINARY".freeze
       end
 
@@ -104,6 +106,9 @@ module SonicPi
             when @h_tag
               # int64
               arg, idx = m[idx, 8].unpack(@q_lt)[0], idx + 8
+            when @t_tag
+              # OSC timetag (unsigned 64-bit)
+              arg, idx = TimeTag.new(m[idx, 8].unpack(@cap_q_lt)[0]), idx + 8
             when @b_tag
               # binary blob
               l = m[idx, 4].unpack(@cap_n)[0]
