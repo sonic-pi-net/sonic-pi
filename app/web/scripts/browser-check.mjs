@@ -41,6 +41,39 @@ const stillness = (pg, ms = 2500) => pg.evaluate((ms) => new Promise((resolve) =
 const still = (heard) => !Object.keys(heard).length;
 // what only one engine can be asked: said with its reason, and counted apart from what passed
 const skip = (name, why) => { results.push({ engine, name, ok: true, skipped: true }); say("skip", name, why); };
+// The editor's foot (the caret readout, the buffers) floats over the code's last lines rather than taking a row of its
+// own (style.css #editor-foot): the code is padded by the foot's measured height (main.js --editor-foot-h), so its last
+// line, and the caret on it, scroll clear of the foot, and a tap in the foot's gaps reaches the code. Asked of a long
+// program with the caret at its end; the buffer is put back as it was.
+const footFloats = async (pg, where) => {
+  const r = await pg.evaluate(async () => {
+    const ed = window.sonicPi.editor, view = ed.view;
+    const before = view.state.doc.toString();
+    ed.setCode(Array.from({ length: 150 }, (_, i) => `# line ${i + 1}`).join("\n"));
+    view.focus();
+    view.dispatch({ selection: { anchor: view.state.doc.length }, scrollIntoView: true });
+    await new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+    const foot = document.getElementById("editor-foot"), column = document.getElementById("editor-column");
+    const f = foot.getBoundingClientRect();
+    const caret = view.coordsAtPos(view.state.doc.length);
+    // the foot's padding strip above its chips: the foot itself, not a chip, is under the pointer there
+    const hit = document.elementFromPoint(f.left + f.width / 2, f.top + 1);
+    const out = {
+      position: getComputedStyle(foot).position, footBottom: f.bottom, columnBottom: column.getBoundingClientRect().bottom,
+      footTop: f.top, footH: parseFloat(getComputedStyle(column).getPropertyValue("--editor-foot-h")), measured: foot.offsetHeight,
+      pad: parseFloat(getComputedStyle(view.contentDOM).paddingBottom), caretBottom: caret?.bottom ?? null, hit: hit?.id || hit?.tagName,
+    };
+    ed.setCode(before);
+    return out;
+  });
+  check(`${where}: the editor's foot floats over the code's last lines`, r.position === "absolute" && Math.abs(r.footBottom - r.columnBottom) < 1,
+    `${r.position}, foot ends at ${r.footBottom}, the column at ${r.columnBottom}`);
+  check(`${where}: the code is padded by the foot's height, as measured`, r.footH === r.measured && r.pad === r.footH,
+    `--editor-foot-h ${r.footH}, foot ${r.measured}, padding ${r.pad}`);
+  check(`${where}: the last line, and the caret on it, scroll clear of the foot`, r.caretBottom !== null && r.caretBottom <= r.footTop + 0.5,
+    `caret ends at ${r.caretBottom}, the foot starts at ${r.footTop}`);
+  check(`${where}: a tap in the foot's gaps reaches the code`, r.hit === "editor-mount", `under the pointer: ${r.hit}`);
+};
 // the dev server speaks https with a certificate it signed itself (scripts/serve.mjs): the browser is told to go on
 const HTTPS = { ignoreHTTPSErrors: BASE.startsWith("https:") };
 
@@ -103,6 +136,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       if ((await page.evaluate(() => document.body.dataset.drawer)) !== name) await page.click(`#drawer-rail button[data-drawer='${name}']`);   // a pane already open stays so (its rail button would shut it)
     };
     const caretToEnd = () => page.evaluate(() => { const v = window.sonicPi.editor.view; v.focus(); v.dispatch({ selection: { anchor: v.state.doc.length } }); });
+
+    await footFloats(page, "desktop");
 
     // highlighting: native's lexer keys. A cleared buffer has none of them in it, so the code is put there first
     await setCode("live_loop :beat do    # a comment\n  sample :bd_haus, amp: 2\n  sleep 1\nend");
@@ -990,6 +1025,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const lit = await ph.locator("#buffer-tabs .buffer-tab.active").getAttribute("data-idx");
     check("on a phone the buffers are pads across the foot, and a tap switches",
           !caretShown && pads === size && activeBuffer === 2 && lit === "2", `caret ${caretShown}, ${pads} pads of ${size}, active ${activeBuffer}, lit ${lit}`);
+    await footFloats(ph, "on a phone");
     // the rail's zoom pair (the drawer head, with native's ZoomBar, is hidden on a phone) zooms the pane and leaves it open
     await ph.evaluate(() => document.querySelector("#drawer-rail [data-drawer=docs]").click());   // Help would toggle whatever pane is open
     await ph.waitForFunction(() => document.body.dataset.drawer === "docs");

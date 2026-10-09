@@ -698,6 +698,9 @@ export function createEditor(mount, { api, hooks, workspace }) {
 
   let nudgeSlider = () => false;   // slider mode's keyboard step (completion/cm.js), once the completion is set up
   const extensions = [
+    // The foot floats over the code's last lines (style.css #editor-foot, its height in --editor-foot-h on the
+    // column): the caret is kept above it when the editor scrolls it into view
+    EditorView.scrollMargins.of(() => ({ bottom: parseFloat(getComputedStyle(mount).getPropertyValue("--editor-foot-h")) || 0 })),
     // Native's shortcuts, in whichever keymap the player picked, are main.js's
     // (shortcuts.js), and run the editor's commands through command() below.
     // These are the keys every keymap leaves to the editor.

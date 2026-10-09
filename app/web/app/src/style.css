@@ -316,7 +316,7 @@ body[data-drawer]:not([data-drawer=""]) #main { grid-template-rows: minmax(80px,
 body.zen #main { grid-template-columns: 1fr 0 0; }
 body.zen #sidebar, body.zen #panel-divider { display: none; }
 
-#editor-column { grid-area: editor; min-width: 0; min-height: 0; display: flex; flex-direction: column; background: var(--Background); }
+#editor-column { grid-area: editor; min-width: 0; min-height: 0; display: flex; flex-direction: column; background: var(--Background); position: relative; --editor-foot-h: 48px; }   /* the foot floats over the code's last lines (below); its height is measured into --editor-foot-h (main.js) */
 .shadow-pane { display: contents; }   /* a part's insides, in its shadow root, laid out as its host's own children (shadow.js) */
 #editor-mount { flex: 1; min-height: 0; overflow: visible; position: relative; }   /* not hidden: the editor inside fills it and scrolls itself, and Safari's completion popup is positioned absolutely within it (CodeMirror's Safari fallback), so a clip here would cut the popup at the editor's foot */
 :host(#editor-mount) .cm-scroller, .qs-card-body { overscroll-behavior: none; }   /* code stops at its edges: no rubber band past them (iOS) — long lines still scroll, never wrap */
@@ -324,7 +324,9 @@ body.zen #sidebar, body.zen #panel-divider { display: none; }
 :host(#editor-mount) .cm-editor { height: 100%; }
 :host(#editor-mount) .cm-editor.cm-focused { outline: none; }
 
-/* Under the editor: where the caret is, and the ten buffers */
+/* Over the foot of the editor: where the caret is, and the ten buffers. It floats on the code's last lines,
+   transparent, rather than taking a row of its own, and the code is padded by its height (--editor-foot-h) so the
+   last line can always scroll clear of it. */
 #editor-foot {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -332,8 +334,14 @@ body.zen #sidebar, body.zen #panel-divider { display: none; }
   gap: 12px;
   padding: 6px 14px 8px;
   flex-shrink: 0;
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  background: transparent;   /* the code shows through whole: the chips carry their own pills and borders */
+  pointer-events: none;      /* the gaps between the chips are the code's: a click there reaches it */
 }
-#caret-pos { font: var(--t-small) var(--code-font); color: var(--mutedForeground); white-space: pre; overflow: hidden; text-overflow: ellipsis; min-width: 0; }   /* small and quiet: where the caret is, not what to read */
+#editor-foot > * { pointer-events: auto; }
+:host(#editor-mount) .cm-content { padding-bottom: var(--editor-foot-h, 48px); }   /* the room under the code for the foot */
+#error-strip:not([hidden]) { margin-bottom: var(--editor-foot-h, 48px); }   /* the strip, when shown, sits above the foot, not under it */
+#caret-pos { font: var(--t-small) var(--code-font); color: var(--mutedForeground); white-space: pre; overflow: hidden; text-overflow: ellipsis; min-width: 0; justify-self: start; padding: 2px 8px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--Background) 90%, transparent); }   /* a solid pill, as the chips: readable over the code the foot floats on (a blur of code text smears) */   /* small and quiet: where the caret is, not what to read */
 body.no-caret-pos #caret-pos { visibility: hidden; }   /* hidden until the preference shows it (main.js); its room is kept, so the buffer pads stay centred */
 body.no-metro #link-section { display: none; }   /* hidden until the preference shows it (main.js) */
 /* The buffer tabs, in the theme's colours. Pads 0-9 between thin bars, each a small pill behind its digit, the
@@ -341,6 +349,11 @@ body.no-metro #link-section { display: none; }   /* hidden until the preference 
    the pads grow to drum-pad size and the run / show / exec picker sits above them. */
 #buffer-tabs { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
 .buffer-tabs-row { display: flex; align-items: center; justify-content: center; min-width: 0; }
+/* the ten digits as one solid capsule, like the chips beside it: each digit's own pill is the pane's colour, which
+   over the code the foot floats on is no pill at all, and the code read between the numbers. Solid, not frosted:
+   a blur of the code's bright text behind came out as milky smears wherever there was text, and nothing elsewhere */
+#buffer-tabs:not(.jam-on) .buffer-tabs-list { display: flex; align-items: center; flex: 1 1 auto; min-width: 0; border-radius: var(--r-pill); padding: 0 6px; background: color-mix(in srgb, var(--Background) 90%, transparent); }   /* a box of its own here (elsewhere display: contents, above): the capsule needs one; jam's square pads are frosted each */
+#buffer-tabs:not(.jam-on) .buffer-tab:not(.active):not(:hover)::before { background: transparent; }   /* one surface: a digit's own pill would be a box in the box; the active buffer alone keeps its accent */
 /* sets have a colour of their own, everywhere they show (the chip, the list, the Share panel's set): the theme's
    second colour, numbers' in the code and native's second swatch, where a buffer has the accent */
 :root { --set-colour: var(--NumberForeground); }
@@ -423,7 +436,7 @@ body.no-metro #link-section { display: none; }   /* hidden until the preference 
 /* the jam toggle: a quiet pill, filled and glowing when on */
 /* SET and JAM, the row's two ends: one pill, the same size in every layout and state (a width that holds JAM's grid
    mark too), the same words' weight; what they say apart is only their colour: SET's the sets', JAM's the accent */
-:is(.set-chip, .jam-toggle) { flex: none; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; width: 64px; height: 26px; margin-block: -3px; padding: 0 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-pill); background: none; color: var(--mutedForeground); font: 600 var(--t-label)/1 var(--prose-font); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background 0.18s, color 0.18s, border-color 0.18s; }
+:is(.set-chip, .jam-toggle) { flex: none; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; width: 64px; height: 26px; margin-block: -3px; padding: 0 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-pill); background: color-mix(in srgb, var(--Background) 90%, transparent); color: var(--mutedForeground); font: 600 var(--t-label)/1 var(--prose-font); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background 0.18s, color 0.18s, border-color 0.18s; }
 .jam-toggle { margin-left: 10px; }
 /* jam on: the pair in the accent together, framing the pads; the set's list open, a shade brighter */
 :is(.jam-toggle.on, #buffer-tabs.jam-on .set-chip) { border-color: var(--HighlightedBackground); background: var(--HighlightedBackground); color: var(--accentContrastText); }
@@ -431,7 +444,7 @@ body.no-metro #link-section { display: none; }   /* hidden until the preference 
 #buffer-tabs.jam-on .set-chip:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: 2px; }   /* the keyboard's ring, outside the fill */
 @media (hover: hover) { :is(#buffer-tabs:not(.jam-on) .set-chip, .jam-toggle:not(.on)):hover { border-color: var(--HoverButton); color: var(--HoverButton); } }   /* the pair's hover, one */
 /* the mode picker: run | show | exec, only while jam is on */
-.jam-modes { display: none; overflow: hidden; border: 1px solid var(--HighlightedBackground); border-radius: var(--r-s); }
+.jam-modes { display: none; overflow: hidden; border: 1px solid var(--HighlightedBackground); border-radius: var(--r-s); background: color-mix(in srgb, var(--Background) 90%, transparent); }   /* solid, as the chips beside it */
 #buffer-tabs.jam-on .jam-modes { display: inline-flex; }
 .jam-mode { min-width: 40px; padding: 5px 8px; border: none; border-right: 1px solid var(--HighlightedBackground); background: none; color: var(--HighlightedBackground); font: 600 var(--t-label)/1 var(--prose-font); letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; }
 .jam-mode:last-child { border-right: none; }
@@ -439,7 +452,7 @@ body.no-metro #link-section { display: none; }   /* hidden until the preference 
 /* jam on: drum pads — big, bordered, the active one filled, a flash on every hit */
 #buffer-tabs.jam-on .buffer-tab { flex: none; width: 58px; padding: 26px 0; color: var(--HighlightedBackground); font: 500 24px/1 var(--code-font); }   /* square pads */
 #buffer-tabs.jam-on .buffer-tab.active { color: var(--accentContrastText); }
-#buffer-tabs.jam-on .buffer-tab::before { width: min(52px, calc(100% - 6px)); height: auto; aspect-ratio: 1; border: 2px solid var(--HighlightedBackground); border-radius: var(--r-m); background: transparent; box-sizing: border-box; }
+#buffer-tabs.jam-on .buffer-tab::before { width: min(52px, calc(100% - 6px)); height: auto; aspect-ratio: 1; border: 2px solid var(--HighlightedBackground); border-radius: var(--r-m); background: color-mix(in srgb, var(--Background) 90%, transparent);   /* solid, as the chips: the pad floats on the code */ box-sizing: border-box; }
 #buffer-tabs.jam-on .buffer-tab.active::before { background: var(--HighlightedBackground); }
 #buffer-tabs.jam-on .buffer-tab-sep { display: none; }
 /* jam on: the row a grid, the modes right against the pads, no room between (buffer-tabs.js puts them in the row). Two

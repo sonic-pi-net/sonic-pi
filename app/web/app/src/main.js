@@ -2133,6 +2133,15 @@ const placeInfo = () => {
 let lastStripH = 0;
 window.addEventListener("resize", () => { if (infoOpen()) placeInfo(); });
 { const ro = new ResizeObserver(() => { if (infoOpen()) placeInfo(); }); ro.observe(siteNav); ro.observe($("site-strip")); }   // the bar grows a row on a phone once its tabs are in
+// The editor's foot floats over the code (style.css #editor-foot): the code is padded by the foot's height, as it
+// stands — a phone's row, focus mode's none — so its last line can always scroll clear of the buffers
+{
+  const foot = $("editor-foot"), column = $("editor-column");
+  const fit = () => column.style.setProperty("--editor-foot-h", `${foot.offsetHeight}px`);
+  new ResizeObserver(fit).observe(foot);
+  new MutationObserver(fit).observe(document.body, { attributes: true, attributeFilter: ["class"] });   // focus mode and the keyboard hide it
+  fit();
+}
 setInterval(() => { if (infoOpen()) placeInfo(); }, 500);                        // and, belt and braces, the pages check where the bar ends
 /** The card at a page (the one on show, if none) or at the page holding an id; history: how the address follows
  *  ("push" a step Back undoes, "replace" in place of an old link, "none" when the address is where Back went). */
