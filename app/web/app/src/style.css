@@ -357,6 +357,8 @@ body.no-metro #link-section { display: none; }   /* hidden until the preference 
 /* sets have a colour of their own, everywhere they show (the chip, the list, the Share panel's set): the theme's
    second colour, numbers' in the code and native's second swatch, where a buffer has the accent */
 :root { --set-colour: var(--NumberForeground); }
+/* the danger colour, for what cannot be brought back (ui/ask-twice.js): the error's, as the error pane's */
+:root { --danger: var(--MarkerBackground, var(--HighlightedBackground)); }
 .set-slot { display: contents; }   /* the chip's place in the tab row (buffer-tabs.js): the chip lays out as one of the row's own */
 /* the set showing, named, before the tabs once there is more than one set: it opens the list of sets (main.js paintSetChip) */
 .set-chip { margin-right: 10px; }   /* the row's two ends: SET and JAM a pair, one size and weight (below) */
@@ -417,8 +419,9 @@ body.no-metro #link-section { display: none; }   /* hidden until the preference 
 @media (hover: hover) { .sv-cancel:hover { color: var(--WindowForeground); background: var(--subtleFill); } }
 .sv-save { border: 1px solid var(--set-colour); background: var(--set-colour); color: var(--Background); }
 @media (hover: hover) { .sv-save:hover { filter: brightness(1.08); } }
-.sv-delete { --danger: var(--MarkerBackground, var(--HighlightedBackground)); margin-right: auto; border: 1px solid transparent; background: none; color: var(--danger); }   /* the error's colour, as the error pane's */
-.sv-delete.armed { border-color: var(--danger); background: var(--danger); color: var(--accentContrastText); }
+.sv-delete { margin-right: auto; border: 1px solid transparent; background: none; color: var(--danger); }
+/* asked a second time (ui/ask-twice.js): filled in the danger colour */
+.sv-delete.armed, .seg button.insight-clear.armed { border-color: var(--danger); border-style: solid; background: var(--danger); color: var(--accentContrastText); }
 #sets-menu :is(button, .sv-input):focus-visible { outline: 2px solid var(--set-colour); outline-offset: 1px; }
 .buffer-tab-sep { padding: 0 2px; color: var(--WindowBorder); font: 300 var(--t-small) var(--code-font); pointer-events: none; user-select: none; }
 .buffer-tab { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; flex: 1 1 34px; min-width: 0; padding: 7px 4px; border: none; background: none; color: var(--faintText); font: var(--t-body)/1 var(--code-font); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: font-size 0.25s ease 0.1s, padding 0.25s ease 0.1s; }
@@ -1421,6 +1424,16 @@ body[data-drawer="logs"] #logs-pane { display: flex; }
 .insight[data-view="timeline"] .insight-processes { display: none; }
 .insight[data-view="roll"] .insight-body, .insight[data-view="roll"] .insight-processes, .insight[data-view="roll"] .insight-legend { display: none; }
 .insight-timeline-controls { display: contents; }
+/* the head: what to look at, how much of it, and holding it still; at the far end, the legend and Clear (insight.js) */
+.insight-legend, .insight-clear-seg { order: 1; }
+.insight-clear-seg { margin-left: 4px; }
+.insight[data-view="roll"] .insight-clear-seg { margin-left: auto; }   /* no legend there to carry it to the end */
+:is(.insight-pause, .insight-clear) { display: inline-flex; align-items: center; gap: 6px; }
+:is(.insight-pause, .insight-clear) .tb-icon { width: 14px; height: 14px; flex: none; }
+/* Clear throws the record away: quieter than the ways of looking, and the danger colour once it is pointed at */
+.seg button.insight-clear { border-style: dashed; color: var(--mutedForeground); }
+.seg button.insight-clear:not(.armed):focus-visible { border-color: var(--danger); color: var(--danger); }
+@media (hover: hover) { .seg button.insight-clear:not(.armed):hover { border-color: var(--danger); color: var(--danger); } }
 .insight-processes { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .ptree-head { display: flex; align-items: center; gap: 12px; padding: 4px 12px; flex-wrap: wrap; }
 .ptree-stats { display: flex; gap: 14px; flex-wrap: wrap; font: var(--t-tiny) var(--code-font); color: var(--mutedForeground); flex: 1; }

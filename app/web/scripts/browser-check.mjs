@@ -465,7 +465,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const tipText = (await page.locator(".roll-tip:not([hidden])").textContent().catch(() => "")) ?? "";
     check("pointing at a note names it, its synth and its line", /^[A-G][♯♭]?\d \(\d+\) · :tb303 · amp 1 · 0\.2 s · :bass · line 7$/.test(tipText), tipText);
     await page.mouse.move(0, 0);
-    await page.locator(".insight-pause", { hasText: "Resume" }).click();
+    // Pause is a toggle: pressed while it holds, its name the same either way
+    const pauseHeld = await pause.evaluate((b) => ({ pressed: b.getAttribute("aria-pressed"), text: b.textContent.trim() }));
+    check("Pause is a toggle, pressed while it holds and named the same", pauseHeld.pressed === "true" && pauseHeld.text === "Pause", JSON.stringify(pauseHeld));
+    await pause.click();
     // the roll has notes still to sound (the bass is a second ahead) once it has drawn again after the resume: waited
     // for, not a fixed pause, which a slow machine's drawing can outlast
     const aheadNow = () => { const now = window.sonicPi.session.clockNow(); return window.sonicPi.pianoRoll().notes.filter((n) => n.start > now).length; };
@@ -477,6 +480,23 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     // none ahead: say what the roll had, and when, for a machine where it fails
     const rollSaid = ahead > 0 ? "" : ` (stopped at ${stoppedAt}: the roll had ${rollStopped.notes.length} notes, the latest starting ${Math.max(...rollStopped.notes.map((n) => n.start))})`;
     check("Stop takes the notes that will now never sound off the piano roll", ahead > 0 && rollStopped.notes.every((n) => n.start <= stoppedAt && n.end <= stoppedAt + 1e-6) && rollStopped.hits.every((h) => h.time <= stoppedAt), `${ahead} ahead before, ${rollStopped.notes.filter((n) => n.start > stoppedAt).length} after the stop${rollSaid}`);
+    // Clear drops the record and cannot bring it back, so it asks twice (ui/ask-twice.js): the first press arms it,
+    // left alone it settles back with the record kept, and only a second press clears
+    {
+      const clearBtn = page.locator(".insight-clear");
+      const rows = () => page.locator(".insight-table tbody .insight-chip").count();   // a thread's row; not the empty table's line
+      const state = () => clearBtn.evaluate((b) => ({ armed: b.classList.contains("armed"), text: b.textContent.trim() }));
+      const before = await rows();
+      await clearBtn.click();
+      const armed = await state(), keptArmed = await rows();
+      await page.waitForTimeout(3300);   // a finished thread may leave the table meanwhile, as it would anyway
+      const settled = await state(), keptSettled = await rows();
+      // the two presses and the count in one task: a record arriving a moment later is the next one's, not the cleared
+      const after = await clearBtn.evaluate((b) => { b.click(); b.click(); return b.getRootNode().querySelectorAll(".insight-table tbody .insight-chip").length; });
+      check("Clear asks twice: armed by a press, settled back if left, the record gone only with a second press",
+        before > 0 && armed.armed && armed.text === "Clear for good" && keptArmed === before && !settled.armed && settled.text === "Clear" && keptSettled > 0 && after === 0,
+        `rows ${before} → armed ${keptArmed} (${armed.text}) → settled ${keptSettled} (${settled.text}) → ${after}`);
+    }
     await setCode("n = play 60, release: 2\nsleep 0.25\ncontrol n, note: 72\nset :answer, 42\nputs get(:answer)\nputs spread(3, 8)\nmidi_note_on 60\nputs chord_invert(chord(:c4, :major), 1)");
     await page.click("#btn-run");
     await page.waitForFunction(() => /\(ring 64, 67, 72\)/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(() => {});

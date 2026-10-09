@@ -11,6 +11,8 @@ import { animateWhileShown } from "./ui/shown.js";
 import { createProcessTree } from "./process-tree.js";
 import { createPianoRoll } from "./piano-roll.js";
 import { perfAdd } from "./perf.js";
+import { icon } from "./icons.js";
+import { askTwice } from "./ui/ask-twice.js";
 
 const PALETTE = ["HighlightedBackground", "NumberForeground", "KeywordForeground", "DoubleQuotedStringForeground", "Scope_2", "HoverButton", "LogBackground_2", "SymbolForeground"];
 const MAX_EVENTS = 600;
@@ -200,24 +202,37 @@ export function createInsight(root, hooks) {
     b.addEventListener("click", () => { windowTarget = secs; [...windows.children].forEach((c) => { c.classList.toggle("active", c === b); c.setAttribute("aria-pressed", String(c === b)); }); });
     windows.appendChild(b);
   }
-  // Pause holds every view where it is — the tree's rows, the timeline's clock, the roll — to explore it
+  // Pause holds every view where it is — the tree's rows, the timeline's clock, the roll — to explore it. A toggle,
+  // the size of the chips beside it: lit while it holds, its name the same either way
   let frozenRows = null;
-  const pause = el("button", "sp-mini-btn insight-pause", "Pause");
+  const pauseSeg = el("div", "seg");
+  const pause = el("button", "insight-pause");
+  pause.type = "button";
+  pause.innerHTML = `${icon("player-pause")}Pause`;
+  pause.setAttribute("aria-pressed", "false");
+  pause.title = "Hold every view where it is, to look around it";
   pause.addEventListener("click", () => {
     paused = !paused;
     frozenNow = paused ? hooks.now() : null;
     frozenRows = paused ? hooks.processes() : null;
-    pause.textContent = paused ? "Resume" : "Pause";
-    pause.classList.toggle("on", paused);
+    pause.classList.toggle("active", paused);
+    pause.setAttribute("aria-pressed", String(paused));
   });
-  head.appendChild(pause);
-  const clear = el("button", "sp-mini-btn", "Clear");
+  pauseSeg.appendChild(pause);
+  // Clear drops the record every view has drawn, which cannot be brought back: at the far end, after the legend,
+  // away from the controls that are only ways of looking, quieter than they are, and it asks twice (ui/ask-twice.js)
+  const clearSeg = el("div", "seg insight-clear-seg");
+  const clear = el("button", "insight-clear");
+  clear.type = "button";
+  clear.innerHTML = `${icon("trash")}<span class="ask-label">Clear</span>`;
+  clear.title = "Clear what every view has drawn so far: it cannot be brought back";
   const clearAll = () => { threads.clear(); lanes.clear(); cues = []; beatAnchor = null; roll.clear(); renderTable(); };
-  clear.addEventListener("click", clearAll);
+  askTwice(clear, { label: "Clear", armedLabel: "Clear for good", act: clearAll, settle: 3000 });
+  clearSeg.appendChild(clear);
   const legend = el("span", "insight-legend");
   legend.innerHTML = '<i class="lg-note"></i>note <i class="lg-sample"></i>sample <i class="lg-sleep"></i>sleep <i class="lg-wait"></i>sync <i class="lg-cue"></i>cue';
-  timelineControls.append(windows, clear, legend);
-  head.appendChild(timelineControls);
+  timelineControls.append(windows, legend, clearSeg);   // Clear only where there is a record to clear: not the tree's
+  head.append(timelineControls, pauseSeg);
 
   const body = el("div", "insight-body");
   const canvasWrap = el("div", "insight-canvas");

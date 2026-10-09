@@ -6,6 +6,7 @@
 // a new set's name and description, or a set's own, and for a set not showing, Delete. The list draws again whenever
 // the workspace says something changed; a set's details are left alone while they are being typed.
 import { icon } from "./icons.js";
+import { askTwice } from "./ui/ask-twice.js";
 import { NAME_MAX, DESCRIPTION_MAX } from "./workspace.js";
 
 const ago = (t) => {
@@ -125,13 +126,11 @@ export function createSetsView({ slot, menu, workspace, toast }) {
       // delete: asked twice, in its own place, the second time in the danger colour
       const del = el("button", "sv-delete", "Delete");
       del.type = "button";
-      let armed = false;
-      del.addEventListener("click", () => {
-        if (!armed) { armed = true; del.textContent = "Delete for good"; del.classList.add("armed"); return; }
+      askTwice(del, { label: "Delete", armedLabel: "Delete for good", act: () => {
         workspace.removeSet(s.id);
         toast(`deleted "${s.name}"`);
         toList();
-      });
+      } });
       foot.append(del);
     }
     const cancel = el("button", "sv-cancel", "Cancel"), save = el("button", "sv-save", s ? "Save" : "Create");
