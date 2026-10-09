@@ -115,6 +115,23 @@ TEST_CASE("the help's text-size controls sit at the foot of its tab rail", "[hel
     CHECK(buttons[0]->x() == buttons[1]->x());
 }
 
+// The rail's width is the tabs' plus whatever frame the style draws, and the
+// foot's is its buttons', so whether one fits the other used to depend on the
+// platform: on Linux the rail came out a pixel narrower and the foot hung over.
+// A rail made deliberately narrower than its foot shows that on every platform.
+TEST_CASE("a rail narrower than its foot widens to it", "[helprail][style]")
+{
+    HelpRail h;
+    static_cast<IconTabBar*>(h.tabs.tabBar())->setSquareSide(h.foot().width() / 2);
+    h.tabs.resize(480, 360);
+    h.tabs.show();
+    settle();
+
+    INFO("rail " << h.rail().width() << " wide; foot " << h.foot().left() << ".." << h.foot().right());
+    CHECK(h.foot().left() >= h.rail().left());
+    CHECK(h.foot().right() <= h.rail().right());
+}
+
 TEST_CASE("a help dock too short for the rail's foot keeps it off the tabs", "[helprail][style]")
 {
     HelpRail h;

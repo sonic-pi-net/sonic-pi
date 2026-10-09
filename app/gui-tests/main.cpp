@@ -4,6 +4,7 @@
 // the suite runs headless in CI on every OS.
 
 #include <QApplication>
+#include <QTemporaryDir>
 #include <catch2/catch_session.hpp>
 
 #include <cstdio>
@@ -55,6 +56,12 @@ int main(int argc, char** argv)
 {
     if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM"))
         qputenv("QT_QPA_PLATFORM", "offscreen");
+    // Qt wants a private runtime directory and warns when it has to make one
+    // up, as it does in a container running as root with no XDG_RUNTIME_DIR.
+    // The run gets one of its own instead, for its lifetime.
+    QTemporaryDir runtimeDir;
+    if (qEnvironmentVariableIsEmpty("XDG_RUNTIME_DIR") && runtimeDir.isValid())
+        qputenv("XDG_RUNTIME_DIR", runtimeDir.path().toLocal8Bit());
     qInstallMessageHandler(failOnQtWarning);
     QApplication app(argc, argv);
     return Catch::Session().run(argc, argv);

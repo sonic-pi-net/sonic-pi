@@ -35,6 +35,17 @@ public:
         updateGeometry();
     }
 
+    // A vertical rail is never narrower than what sits at its foot
+    // (IconTabWidget::setFootWidget): the tabs widen to it rather than the
+    // foot hanging over the edge, which it does wherever the style draws the
+    // rail a pixel narrower than the foot's buttons.
+    void setMinimumRailWidth(int px)
+    {
+        if (px == m_railMin) return;
+        m_railMin = px;
+        updateGeometry();
+    }
+
 protected:
     // Force square tabs: the style's sizeHint (and QSS padding) transpose
     // awkwardly on a vertical (West) bar, so size each tab explicitly.
@@ -42,13 +53,16 @@ protected:
     {
         Q_UNUSED(index);
         const int side = m_side > 0 ? m_side : iconSize().width() * 3 / 2;
-        return QSize(side, side);
+        const bool vertical = shape() == RoundedWest || shape() == RoundedEast
+                           || shape() == TriangularWest || shape() == TriangularEast;
+        return QSize(vertical ? std::max(side, m_railMin) : side, side);
     }
 
     QSize minimumTabSizeHint(int index) const override { return tabSizeHint(index); }
 
 private:
     int m_side = 0;
+    int m_railMin = 0;
 
     void paintEvent(QPaintEvent*) override
     {
@@ -128,8 +142,12 @@ private:
     {
         if (!m_foot)
             return;
-        const QRect bar = tabBar()->geometry();
+        // Polished first, so the foot is measured with the stylesheet that will
+        // draw it, before the rail lays out its tabs to fit it.
+        m_foot->ensurePolished();
         const QSize size = m_foot->sizeHint();
+        static_cast<IconTabBar*>(tabBar())->setMinimumRailWidth(size.width());
+        const QRect bar = tabBar()->geometry();
         const int x = bar.x() + (bar.width() - size.width()) / 2;
         const int y = std::max(bar.y() + bar.height(), height() - size.height());
         m_foot->setGeometry(x, y, size.width(), size.height());
