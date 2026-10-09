@@ -63,8 +63,11 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/nodetreemotion.test.cpp
     ${GUI_TESTS_ROOT}/nodetreegraph_look.test.cpp
     ${GUI_TESTS_ROOT}/loopscope_lifecycle.test.cpp
+    ${GUI_TESTS_ROOT}/linkaudio_engine_ready.test.cpp
     ${GUI_ROOT}/widgets/nodetreegraph.cpp
     ${GUI_ROOT}/widgets/trackspanel.cpp
+    ${GUI_ROOT}/widgets/linkaudiostreamswidget.cpp
+    ${GUI_ROOT}/widgets/linkvisibilitytoggle.cpp
     ${GUI_ROOT}/widgets/tutorialpane.cpp
     ${GUI_ROOT}/widgets/sonicpiscintilla.cpp
     ${GUI_ROOT}/widgets/sonicpilexer.cpp

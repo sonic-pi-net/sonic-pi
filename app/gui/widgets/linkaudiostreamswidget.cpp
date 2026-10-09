@@ -225,14 +225,16 @@ LinkAudioStreamsWidget::LinkAudioStreamsWidget(std::shared_ptr<SonicPiAPI> spAPI
     m_pollTimer->setInterval(2000);
     connect(m_pollTimer, &QTimer::timeout, this, &LinkAudioStreamsWidget::refresh);
 
-    // Push the loaded publish flag so SuperSonic starts matching the UI.
-    if (m_spAPI) m_spAPI->SetLinkAudioPublish(m_shareAudioBox->isChecked());
-
     // Initial visibility from QSettings (Local default); Link is session-only,
     // always off on launch.
     applyMasterVisibility(
         SonicPi::guiSettings().value("supersonic/networkVisibility", 1).toInt());
     applyLinkEnabled(false);
+}
+
+void LinkAudioStreamsWidget::onEngineReady()
+{
+    if (m_spAPI) m_spAPI->SetLinkAudioPublish(m_shareAudioBox->isChecked());
 }
 
 void LinkAudioStreamsWidget::setVisibilityColors(const QColor& thumb,

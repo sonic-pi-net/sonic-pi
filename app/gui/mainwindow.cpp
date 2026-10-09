@@ -9608,7 +9608,7 @@ void MainWindow::onSupersonicSetup(int sampleRate, int bufferSize)
     // not initial boot (SupersonicEngine gates the emit on mWorldRebuilt);
     // first-boot attach is handled by onSpiderReady.
     m_spAPI->AudioProcessor_ResetConnection();
-    if (tracksPanel) tracksPanel->onEngineReady();
+    onEngineReady();
 }
 
 void MainWindow::onSpiderReady()
@@ -9619,7 +9619,13 @@ void MainWindow::onSpiderReady()
     // First-boot scope-reader attach. /clockwork/setup covers
     // subsequent cold-swap re-attaches; the two handlers are disjoint.
     m_spAPI->AudioProcessor_ResetConnection();
+    onEngineReady();
+}
+
+void MainWindow::onEngineReady()
+{
     if (tracksPanel) tracksPanel->onEngineReady();
+    if (metroPane) metroPane->onEngineReady();
 }
 
 void MainWindow::onAudioSwitchDone(const SonicPi::AudioSwitchOutcome& outcome)

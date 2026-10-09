@@ -47,6 +47,10 @@ public:
   void setFocusTimeWarpScrubber();
   void toggleLink();   // Flips the Link button.
 
+  // The Link settings, sent whenever an engine is ready: on first boot and
+  // after every restart. A new engine starts with none of them.
+  void onEngineReady();
+
   // Expand or collapse the inline Link Audio Streams panel below the
   // main metro row.
   void toggleLinkAudioStreams();

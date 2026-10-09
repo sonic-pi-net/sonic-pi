@@ -85,6 +85,11 @@ public:
     // reach the theme itself). Called by SonicPiMetro, which owns the theme.
     void setVisibilityColors(const QColor& thumb, const QColor& activeIcon);
 
+    // Share Audio, sent whenever an engine is ready: on first boot and after
+    // every restart. A new engine starts with it off, and this panel is built
+    // before there is one to hear it.
+    void onEngineReady();
+
 public slots:
     // Called by SonicPiMetro when Visibility scope (Local/Net) changes.
     void applyMasterVisibility(int mode);

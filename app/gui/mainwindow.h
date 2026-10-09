@@ -569,6 +569,9 @@ private slots:
     void setMidiPortEnabled(QString direction, QString name, bool enabled);
     void setGamepadDeviceEnabled(QString name, bool enabled);
     void honourPrefs();
+    // An engine is ready: on first boot, and after every restart. The panels
+    // that talk to it catch up with it here.
+    void onEngineReady();
 
     // Toggle the bottom Help/Debug dock (double-clicking the divider bar).
 

@@ -262,7 +262,6 @@ SonicPiMetro::SonicPiMetro(std::shared_ptr<SonicPi::QtAPIClient> spClient, std::
       m_networkMode = static_cast<SonicPi::SonicPiAPI::LinkVisibility>(savedNet);
     }
     m_linkEnabled = false;
-    pushLinkConfigToServer();
     updateLinkButtonDisplay();
     updateRowVisibility();
   }
@@ -384,6 +383,14 @@ void SonicPiMetro::linkDisable()
 void SonicPiMetro::toggleLink()
 {
   if (m_linkEnabled) linkDisable(); else linkEnable();
+}
+
+void SonicPiMetro::onEngineReady()
+{
+  mutex->lock();
+  pushLinkConfigToServer();
+  mutex->unlock();
+  if (linkStreamsWidget) linkStreamsWidget->onEngineReady();
 }
 
 void SonicPiMetro::pushLinkConfigToServer()
