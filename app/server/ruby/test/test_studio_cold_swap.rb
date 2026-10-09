@@ -84,6 +84,16 @@ module SonicPi
       refute root_runs?, "the pause that waited for the rebuild should still rest the graph"
     end
 
+    # /synced says the commands before it are done, not that the notifications
+    # they caused have arrived: an old node's /n_end can come after it. A new
+    # node with the old one's number would take that end as its own.
+    def test_a_rebuild_never_gives_a_new_node_an_old_ones_number
+      before = @studio.mixer_group.to_i
+      @studio.cold_swap_reinit!
+      refute_nil @studio.mixer_group, "the rebuild ended with no mixer; see #{@log}"
+      assert_operator @studio.mixer_group.to_i, :>, before
+    end
+
     def test_a_probe_that_got_no_answer_leaves_nothing_behind
       @server.node_pause(0, true)
       assert_raises(StandardError) { @server.fetch_scsynth_info!(1) }
