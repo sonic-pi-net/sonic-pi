@@ -389,3 +389,18 @@ TEST_CASE("a panel away under the app's theme and stylesheet leaves one divider"
         across(false);
     }
 }
+
+// Qt 6.4 sets a dock's minimum straight from its layout and warns at a
+// negative one; later Qt quietly sets only the valid half. So the
+// placeholder's minimum has to be a size Qt can set, whatever the version.
+TEST_CASE("a panel's placeholder asks for a minimum Qt can set", "[divider]")
+{
+    QMainWindow w;
+    for (const auto area : { Qt::RightDockWidgetArea, Qt::BottomDockWidgetArea })
+    {
+        QDockWidget* dock = SonicPi::makeAwayDock(&w, "awayDock", area);
+        const QSize min = dock->layout()->totalMinimumSize();
+        INFO("area " << int(area) << ": minimum " << min.width() << "x" << min.height());
+        CHECK(min.isValid());
+    }
+}

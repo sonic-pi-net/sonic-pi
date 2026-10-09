@@ -38,22 +38,22 @@ class AwayDockBody : public QWidget
 public:
     // Fixed at a pixel across the divider; free along it, so the dock — and
     // the separator Qt reserves beside it — runs the whole of its area.
-    explicit AwayDockBody(Qt::Orientation across, QWidget* parent = nullptr)
-        : QWidget(parent), m_across(across)
+    explicit AwayDockBody(Qt::Orientation across, QWidget* parent = nullptr) : QWidget(parent)
     {
         if (across == Qt::Vertical) setFixedWidth(1);    // a column at the side
         else                        setFixedHeight(1);   // a row at the foot
         setAutoFillBackground(true);   // the divider's background, set by setAwayDockColour
     }
+};
 
-    // A size of its own. A widget without a layout answers an invalid -1,
-    // and Qt 6.4's dock layout took the dock's minimum from it: (1, -1),
-    // which it then refused with a warning.
-    QSize sizeHint() const override { return m_across == Qt::Vertical ? QSize(1, 0) : QSize(0, 1); }
-    QSize minimumSizeHint() const override { return sizeHint(); }
-
-private:
-    Qt::Orientation m_across;
+// No title row: a row of no height. The dock adds its title's size hint to
+// its own minimum, and a widget without a layout hints -1, which made the
+// minimum (1, -1). Qt 6.4 sets that as it is, and warns.
+class AwayDockTitle : public QWidget
+{
+public:
+    explicit AwayDockTitle(QWidget* parent = nullptr) : QWidget(parent) { setFixedHeight(0); }
+    QSize sizeHint() const override { return QSize(0, 0); }
 };
 
 inline QDockWidget* makeAwayDock(QMainWindow* window, const QString& name, Qt::DockWidgetArea area)
@@ -62,9 +62,7 @@ inline QDockWidget* makeAwayDock(QMainWindow* window, const QString& name, Qt::D
     dock->setObjectName(name);
     dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     dock->setAllowedAreas(area);
-    auto* title = new QWidget(dock);   // no title row: a row of no height
-    title->setFixedHeight(0);
-    dock->setTitleBarWidget(title);
+    dock->setTitleBarWidget(new AwayDockTitle(dock));
     const bool vertical = (area == Qt::LeftDockWidgetArea || area == Qt::RightDockWidgetArea);
     dock->setWidget(new AwayDockBody(vertical ? Qt::Vertical : Qt::Horizontal, dock));
     if (vertical) dock->setFixedWidth(1);
