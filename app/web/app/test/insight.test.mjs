@@ -5,7 +5,7 @@
 // program's own beats.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { threadLabel, laneKey, threadState, beatTicks, easeWindow, foldsInto, flashAt, cueLabel, cueLabelsThatFit, endLanesAt, laneRetired } from "../src/insight.js";
+import { threadLabel, laneKey, threadState, beatTicks, easeWindow, foldsInto, flashAt, cueLabel, cueIsNamed, placeCueNames, endLanesAt, laneRetired } from "../src/insight.js";
 
 // The threads of the conductor example (a live loop :song starting four
 // in_threads a phrase): 0.0 is the run's main thread, 0.0.0 the loop, and its
@@ -104,13 +104,28 @@ test("a live loop's own cue is named as the loop; any other cue keeps its addres
   assert.equal(cueLabel("/drop"), "/drop");
 });
 
-test("cue names are drawn only where they start clear of the last one drawn: a fast loop shows a name every so often, never a pile", () => {
-  // eight cues 20 px apart, names 50 px wide: the first, then the first past 56 px, then the first past 116
-  assert.deepEqual(cueLabelsThatFit([0, 20, 40, 60, 80, 100, 120, 140], Array(8).fill(50)), [true, false, false, true, false, false, true, false]);
-  // spaced out, every name fits
-  assert.deepEqual(cueLabelsThatFit([0, 100, 200], [50, 50, 50]), [true, true, true]);
-  // two close, then room
-  assert.deepEqual(cueLabelsThatFit([0, 30, 200], [50, 50, 50]), [true, false, true]);
+// a monospace measure, as the canvas's 11px code font: 6 px a character
+const mono = (text) => text.length * 6;
+
+test("only a cue the program sends is named: not a loop's own each time round, nor one from no thread of the program", () => {
+  assert.equal(cueIsNamed("/cue/chorus", true), true);
+  assert.equal(cueIsNamed("/live_loop/kick", true), false);                 // its lane names it
+  assert.equal(cueIsNamed("/clockwork/gamepad/devices", false), false);     // Sonic Pi's own, or from outside
+});
+
+test("a cue's name stands whole at its line, before the now line, or is left off", () => {
+  const x = (t) => t * 100;   // 100 px a second
+  const cues = [
+    { time: 1, name: ":drop" },        // at 103
+    { time: 1.2, name: ":verse" },     // 123: inside :drop's name (103 + 30 + 6), left off
+    { time: 2, name: ":chorus" },      // 203
+    { time: 4, name: ":outro" },       // 403: would cross the now line at 420, left off
+    { time: 5, name: ":soon" },        // still to come, left off
+  ];
+  assert.deepEqual(placeCueNames(cues, x, 420, mono), [
+    { x: 103, text: ":drop" }, { x: 123, text: null }, { x: 203, text: ":chorus" },
+    { x: 403, text: null }, { x: 503, text: null },
+  ]);
 });
 
 test("Stop ends every lane still going and drops the sounds it had scheduled past that moment", () => {

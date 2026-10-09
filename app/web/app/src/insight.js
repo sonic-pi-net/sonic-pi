@@ -102,21 +102,29 @@ export function beatTicks(anchor, start, secs) {
 export const cueLabel = (address) => (String(address).startsWith("/live_loop/") ? `:${String(address).slice(11)}` : String(address));
 
 /**
- * Which cues get their name drawn: the first, then each whose name starts
- * clear of the last name drawn, so a loop cueing eight times a second shows
- * eight lines and a name every so often, never names over each other. The
- * name sits on a patch of background, so the lines it spans do not strike it.
- * `xs` are the cues' x positions in time order, `widths` their names' widths.
+ * Whether a cue's name goes in the strip: only a cue the program sends. A live
+ * loop's own, each time round, is named by its lane; one from no thread of the
+ * program (Sonic Pi's own, such as a controller connecting, or MIDI and OSC
+ * from outside) is the system's, not the program's. Both are drawn faint.
  */
-export function cueLabelsThatFit(xs, widths, gap = 6) {
-  const show = [];
-  let lastEnd = -Infinity;
-  for (let i = 0; i < xs.length; i++) {
-    const fits = xs[i] >= lastEnd;
-    show.push(fits);
-    if (fits) lastEnd = xs[i] + widths[i] + gap;
-  }
-  return show;
+export const cueIsNamed = (address, fromProgram) => fromProgram && !String(address).startsWith("/live_loop/");
+
+/**
+ * Where the names of the cues a program sends go ({ x, text }, one per cue,
+ * in time order): whole, at the cue's own line, or left off (text null) where
+ * the name before is still in the way, or where it would reach the now line
+ * `nowX`: a cue still to come is not named until it has sounded. `measure` is
+ * the canvas's text width.
+ */
+export function placeCueNames(cues, x, nowX, measure, gap = 6) {
+  let free = -Infinity;
+  return cues.map((c) => {
+    const at = Math.round(x(c.time)) + 3;
+    const width = measure(c.name);
+    if (at < free || x(c.time) >= nowX || at + width > nowX - gap) return { x: at, text: null };
+    free = at + width + gap;
+    return { x: at, text: c.name };
+  });
 }
 
 /**
@@ -408,7 +416,10 @@ export function createInsight(root, hooks) {
     if (!w || !hWrap) return;
     const now = paused ? frozenNow : hooks.now();
     if (!paused) windowSecs = easeWindow(windowSecs, windowTarget);
-    const top = 18;
+    // the seconds along the top, then a strip of the cues' names, then the lanes: the cue lines run through the
+    // lanes only, so a line never crosses a name
+    const AXIS = 18, STRIP = 14;
+    const top = AXIS + STRIP;
     const visible = now == null ? [] : [...lanes.values()].filter((t) => t.ended == null || t.ended > now - windowSecs * 0.8 || soundingAfter(t, now)).sort((a, b) => a.index - b.index);
     // the canvas is as tall as its lanes need, and the pane scrolls: a lane is never squeezed to fit
     const h = Math.max(hWrap, top + visible.length * LANE_H + 6);
@@ -466,8 +477,8 @@ export function createInsight(root, hooks) {
     for (let sec = Math.ceil(start); sec < start + windowSecs; sec++) {
       const gx = Math.round(x(sec)) + 0.5;
       ctx.beginPath();
-      ctx.moveTo(gx, top - 4);
-      ctx.lineTo(gx, top);
+      ctx.moveTo(gx, AXIS - 4);
+      ctx.lineTo(gx, AXIS);
       ctx.stroke();
       ctx.fillText(`${Math.round(sec - now) >= 0 ? "+" : ""}${Math.round(sec - now)}s`, gx + 3, 11);
     }
@@ -568,27 +579,30 @@ export function createInsight(root, hooks) {
       ctx.stroke();
     });
 
-    // cues: a line through every lane, from the thread that sent it, named where the name has room
+    // cues: a line through every lane, in the colour of the thread that sent it. A cue the program sends is named in
+    // the strip above the lanes, at its line (placeCueNames): never over a line, another name or the now line. Any
+    // other (a live loop's own, each time round; one from no thread of the program) is faint and unnamed (cueIsNamed)
     const shownCues = cues.filter((c) => c.time >= start && c.time <= start + windowSecs).sort((a, b) => a.time - b.time);
-    const cueNames = shownCues.map((c) => cueLabel(c.address));
-    const labelled = cueLabelsThatFit(shownCues.map((c) => x(c.time) + 3), cueNames.map((n) => ctx.measureText(n).width));
-    ctx.strokeStyle = css("CuePathBackground");
-    shownCues.forEach((c, i) => {
+    const cueColour = (c) => { const t = threads.get(c.thread); return t ? colourOf(t) : css("CuePathBackground"); };
+    const named = (c) => cueIsNamed(c.address, threads.has(c.thread));
+    for (const c of shownCues) {
       const cx = Math.round(x(c.time)) + 0.5;
-      ctx.globalAlpha = c.time <= now ? 0.9 : 0.45;
+      ctx.strokeStyle = cueColour(c);
+      ctx.globalAlpha = (named(c) ? 0.9 : 0.35) * (c.time <= now ? 1 : 0.5);
       ctx.beginPath();
       ctx.moveTo(cx, top);
       ctx.lineTo(cx, lanesBottom);
       ctx.stroke();
-      if (labelled[i]) {
-        const tw = ctx.measureText(cueNames[i]).width;
-        ctx.fillStyle = css("Background");
-        ctx.fillRect(cx + 2, top + 1, tw + 3, 11);   // a patch under the name: the lines it spans do not strike it
-        ctx.fillStyle = css("CuePathBackground");
-        ctx.fillText(cueNames[i], cx + 3, top + 10);
-      }
-      ctx.globalAlpha = 1;
-    });
+    }
+    const sent = shownCues.filter(named);
+    ctx.globalAlpha = 0.9;
+    placeCueNames(sent.map((c) => ({ time: c.time, name: cueLabel(c.address) })), x, Math.round(x(now)), (t) => ctx.measureText(t).width)
+      .forEach((p, i) => {
+        if (!p.text) return;
+        ctx.fillStyle = cueColour(sent[i]);
+        ctx.fillText(p.text, p.x, AXIS + 11);
+      });
+    ctx.globalAlpha = 1;
 
     // now
     ctx.strokeStyle = css("HighlightedBackground");
