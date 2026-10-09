@@ -30,7 +30,7 @@ constexpr uint32_t kRecordedChannelsMax = 2;
 
 inline uint32_t recordedChannels(uint32_t tapChannels)
 {
-    return std::min(tapChannels, kRecordedChannelsMax);
+    return (std::min)(tapChannels, kRecordedChannelsMax);   // parenthesised: windows.h's min macro
 }
 
 // Copies the recorded channels of `frames` interleaved tap frames into `out`

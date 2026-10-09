@@ -25,12 +25,18 @@ module SonicPi
     OSC_HANDLER = File.join(ROOT, "app/api/src/osc/osc_handler.cpp")
     SPIDER      = File.join(ROOT, "app/server/ruby/bin/spider-server.rb")
 
+    # The sources are UTF-8 whatever the locale says: Debian's build runs
+    # under C, where a plain read stops at the first non-ASCII byte.
+    def source(path)
+      File.read(path, encoding: "UTF-8")
+    end
+
     def gui_handled
-      File.read(OSC_HANDLER).scan(%r{match\("(/clockwork/[^"]+)"\)}).flatten.uniq
+      source(OSC_HANDLER).scan(%r{match\("(/clockwork/[^"]+)"\)}).flatten.uniq
     end
 
     def sent_to_gui_by_spider
-      File.read(SPIDER).scan(%r{gui\.send\("(/clockwork/[^"]+)"}).flatten.uniq
+      source(SPIDER).scan(%r{gui\.send\("(/clockwork/[^"]+)"}).flatten.uniq
     end
 
     def test_the_gui_handlers_are_found
@@ -67,7 +73,7 @@ module SonicPi
       sources = Dir[File.join(ROOT, "app/gui/**/*.{cpp,h}")] +
                 Dir[File.join(ROOT, "app/api/src/**/*.{cpp,h}")]
       direct = GUI_TO_ENGINE_REQUESTS.values.flat_map do |request|
-        sources.select { |f| File.read(f).include?("\"#{request}\"") }
+        sources.select { |f| source(f).include?("\"#{request}\"") }
                .map { |f| "#{request} in #{f.delete_prefix(ROOT + '/')}" }
       end
       assert_empty direct, "answers to these are discarded: ask through the daemon"
@@ -85,7 +91,7 @@ module SonicPi
     end
 
     def test_the_daemon_forwards_every_setup_unfiltered
-      daemon = File.read(File.join(__dir__, "../bin/daemon.rb"))
+      daemon = source(File.join(__dir__, "../bin/daemon.rb"))
       refute_match(/SetupGenerations|rebuild\?/, daemon)
     end
   end

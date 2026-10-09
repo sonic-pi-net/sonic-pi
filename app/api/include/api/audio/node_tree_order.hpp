@@ -14,6 +14,7 @@
 #ifndef SONIC_PI_NODE_TREE_ORDER_HPP
 #define SONIC_PI_NODE_TREE_ORDER_HPP
 
+#include <cstddef>
 #include <cstdint>
 #include <unordered_map>
 #include <unordered_set>
@@ -63,9 +64,9 @@ inline OrderedTree order_children(const std::vector<OrderNode>& nodes)
 {
     OrderedTree out;
 
-    std::unordered_map<int32_t, size_t> index; // id -> position in `nodes`
+    std::unordered_map<int32_t, std::size_t> index; // id -> position in `nodes`
     index.reserve(nodes.size() * 2);
-    for (size_t i = 0; i < nodes.size(); ++i)
+    for (std::size_t i = 0; i < nodes.size(); ++i)
         index[nodes[i].id] = i;
 
     std::unordered_set<int32_t> placed;
@@ -77,7 +78,7 @@ inline OrderedTree order_children(const std::vector<OrderNode>& nodes)
         if (!n.is_group)
             continue;
         int32_t childId = n.head;
-        for (size_t guard = 0;
+        for (std::size_t guard = 0;
              childId >= 0 && index.count(childId) && guard <= nodes.size();
              ++guard)
         {
