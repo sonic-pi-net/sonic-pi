@@ -19,6 +19,7 @@
 #include <QColor>
 #include <QMainWindow>
 #include <QRect>
+#include <QSize>
 #include <QString>
 #include <QWidget>
 
@@ -37,12 +38,22 @@ class AwayDockBody : public QWidget
 public:
     // Fixed at a pixel across the divider; free along it, so the dock — and
     // the separator Qt reserves beside it — runs the whole of its area.
-    explicit AwayDockBody(Qt::Orientation across, QWidget* parent = nullptr) : QWidget(parent)
+    explicit AwayDockBody(Qt::Orientation across, QWidget* parent = nullptr)
+        : QWidget(parent), m_across(across)
     {
         if (across == Qt::Vertical) setFixedWidth(1);    // a column at the side
         else                        setFixedHeight(1);   // a row at the foot
         setAutoFillBackground(true);   // the divider's background, set by setAwayDockColour
     }
+
+    // A size of its own. A widget without a layout answers an invalid -1,
+    // and Qt 6.4's dock layout took the dock's minimum from it: (1, -1),
+    // which it then refused with a warning.
+    QSize sizeHint() const override { return m_across == Qt::Vertical ? QSize(1, 0) : QSize(0, 1); }
+    QSize minimumSizeHint() const override { return sizeHint(); }
+
+private:
+    Qt::Orientation m_across;
 };
 
 inline QDockWidget* makeAwayDock(QMainWindow* window, const QString& name, Qt::DockWidgetArea area)
