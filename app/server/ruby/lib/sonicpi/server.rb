@@ -130,7 +130,14 @@ module SonicPi
         info_prom.deliver! payload
       end
       osc @osc_path_s_new, "sonic-pi-server-info", 1, 0, 0
-      server_info = info_prom.get(timeout)
+      begin
+        server_info = info_prom.get(timeout)
+      ensure
+        # The probe answers twice a second until it is freed, and only from
+        # a running graph. Free it whether it answered or not: one left
+        # behind takes node 1, and every probe after it collides.
+        osc @osc_path_n_free, 1
+      end
       raise "Timed out waiting for server info" unless server_info
       @scsynth_info = SonicPi::Core::SPMap.new({
         :sample_rate => server_info[2],

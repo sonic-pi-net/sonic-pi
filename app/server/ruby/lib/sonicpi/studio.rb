@@ -1098,6 +1098,12 @@ module SonicPi
         # device channel count changed (mic feedback, synths bypassing
         # the mixer).
         begin
+          # Make sure the graph is running before the probe goes in. The
+          # jobs stopped by the device change pause it when they finish,
+          # and that pause can reach the new World before we get here. A
+          # probe in a paused graph never answers. If the studio should be
+          # paused, it's paused again at the end of the rebuild.
+          @server.node_run(0, true)
           @server.fetch_scsynth_info!(5)
           reset_and_setup_groups_and_busses
           STDOUT.puts "Studio - Phase 3: Server info + Groups (#{(Time.now - start).round(2)}s)"
@@ -1156,6 +1162,12 @@ module SonicPi
           rescue Exception => e
             log_phase_err.call("in init_studio", e)
           end
+
+          # Phase 3 left the graph running. If nothing is playing, pause it
+          # again, as Studio#pause would have. A pause or start that arrived
+          # during the rebuild has been waiting at the gate, and runs once
+          # the rebuild finishes.
+          @recording_mutex.synchronize { __pause_graph if @paused }
 
           message "Reinitialisation complete (#{(Time.now - start).round(2)}s)"
         end
@@ -1412,6 +1424,7 @@ module SonicPi
       new_group new_synth_group new_fx_group new_fx_bus
       recording_start recording_stop
       control_bus
+      pause start
     ].freeze
 
     _gate_module = Module.new
