@@ -857,7 +857,9 @@ module SonicPi
       child.rand.source ||= :white
       @named[name] = child if name
       child.spawn_line = line_of(child)   # asked in the parent's fiber: the line the thread starts from
-      Native.gui(:thread_start, child.uid, live_time(child), child.path[0], line_of(child), child.time.round(6), child.beat.round(6), child.id, child.name, parent.id) if @live
+      # the last field: 1 for a thread the runtime starts for itself (a sample's loading, a play's block), which a
+      # view shows as part of its parent, not as a thread of the program's
+      Native.gui(:thread_start, child.uid, live_time(child), child.path[0], line_of(child), child.time.round(6), child.beat.round(6), child.id, child.name, parent.id, opts[:internal] ? 1 : 0) if @live
       delay = opts[:delay]
       sync_sym = opts[:sync_bpm] ? nil : opts[:sync]
       sync_bpm_sym = opts[:sync_bpm]

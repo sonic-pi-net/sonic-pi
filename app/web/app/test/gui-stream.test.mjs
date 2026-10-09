@@ -15,6 +15,14 @@ test("a thread is named by its start, and its records carry its id and name afte
   assert.deepEqual(r.thread(3), { id: "0.0.1", name: "live_loop_kick", parent: "0.0", on: null, ended: null });
 });
 
+test("a thread the runtime starts for itself says so, and one the program wrote says nothing", () => {
+  const r = createRecordReader();
+  const own = r.read(["/sonic-pi/thread_start", 4, 100.5, 0, 75, 0, 0, "0.0.1.0", null, "0.0.1", 1]);
+  assert.equal(own.internal, true);
+  const theirs = r.read(["/sonic-pi/thread_start", 5, 100.5, 0, 111, 0, 0, "0.0.1.1", null, "0.0.1", 0]);
+  assert.equal("internal" in theirs, false);
+});
+
 test("no line leaves no line key; an error's line is always there, even -1", () => {
   const r = createRecordReader();
   r.read(["/sonic-pi/thread_start", 1, 1, 0, null, 0, 0, "0.0", null, "0"]);

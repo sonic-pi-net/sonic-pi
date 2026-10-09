@@ -295,7 +295,7 @@ module SonicPi
       name = name.to_sym
       if args_h[:override] || !__user_methods.include?(name)
         define(name) { :undefined }
-        in_thread do
+        in_thread(internal: true) do   # the runtime's, not the program's: a view folds it into its parent
           val = block.call
           define(name) { val }
         end
@@ -758,7 +758,7 @@ module SonicPi
       args_h[:note] = __resolve_note(n, args_h)
       res_node = __trigger_inst(sn_sym, args_h, info)
       if blk
-        in_thread { blk.call(res_node) }
+        in_thread(internal: true) { blk.call(res_node) }
       end
       res_node
     end
@@ -1195,9 +1195,9 @@ module SonicPi
         # Sonic Pi loads a new sample in a thread of its own and plays it
         # from there; the thread's path is part of what programs can see.
         res_node = nil
-        in_thread { res_node = __trigger_sampler(path, args_h) }
+        in_thread(internal: true) { res_node = __trigger_sampler(path, args_h) }   # the runtime's: a view folds it into its parent
       end
-      in_thread { blk.call(res_node) } if blk
+      in_thread(internal: true) { blk.call(res_node) } if blk
       res_node
     end
 

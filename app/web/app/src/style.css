@@ -1417,11 +1417,11 @@ body[data-drawer="logs"] #logs-pane { display: flex; }
 .ptree-canvas canvas { position: absolute; inset: 0; }
 /* a readout following the pointer over a canvas (the thread tree's, the piano roll's): the floating surface, in the code font */
 .ptree-tip, .roll-tip { position: absolute; z-index: 2; pointer-events: none; white-space: pre; padding: 4px 8px; font: var(--t-tiny)/1.45 var(--code-font); color: var(--Foreground); background: var(--pop-bg); border: var(--pop-border); border-radius: var(--r-m); box-shadow: var(--pop-shadow); }
-.insight-canvas { position: relative; min-height: 0; border-bottom: 1px solid var(--WindowBorder); }
-.insight-canvas canvas { position: absolute; inset: 0; }
+.insight-canvas { position: relative; min-height: 0; border-bottom: 1px solid var(--WindowBorder); overflow: hidden auto; }   /* taller than the pane with many lanes: scrolls, never squeezes (insight.js LANE_H) */
+.insight-canvas canvas { position: absolute; top: 0; left: 0; }
 .insight-table { overflow: auto; }
 .insight-table table { border-collapse: collapse; width: 100%; table-layout: fixed; font: var(--t-small) var(--code-font); }   /* fixed: the columns keep their widths whatever the values (insight.js renderTable) */
-.insight-table col.ic-thread { width: 18ch; }
+.insight-table col.ic-thread { width: 22ch; }
 .insight-table col.ic-state { width: 17ch; }
 .insight-table col:is(.ic-line, .ic-bpm) { width: 7ch; }
 .insight-table col:is(.ic-beat, .ic-total) { width: 9ch; }

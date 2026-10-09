@@ -90,7 +90,11 @@ export function createRecordReader() {
         }
         return r;
       }
-      case "thread_start": return tail({ kind: "thread", t: f[0], beat: f[1], thread, name, event: "start", parent: f[4] });
+      case "thread_start": {
+        const r = tail({ kind: "thread", t: f[0], beat: f[1], thread, name, event: "start", parent: f[4] });
+        if (f[5] === 1) r.internal = true;   // the runtime's own thread (scheduler.rb spawn): a view folds it into its parent
+        return r;
+      }
       case "thread_end":
         if (t) t.ended = time;
         if (++finished > 500) forget(time);

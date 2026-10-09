@@ -115,7 +115,8 @@ export function processLabel(row) {
   if (row.kind === KIND.synth) return `synth :${(row.name ?? "").replace(/^sonic-pi-/, "")}`;
   if (row.name?.startsWith("live_loop_")) return `live_loop :${row.name.slice(10)}`;
   if (row.name) return `in_thread :${row.name}`;
-  return `in_thread ${row.id}`;
+  // an unnamed thread: its number under its parent, which the tree draws above it (the whole id is in its tip)
+  return `in_thread ${String(row.id).split(".").pop()}`;
 }
 
 const STATE_WORDS = ["running", "sleeping", "waiting on sync", "done", "failed", "stopped"];

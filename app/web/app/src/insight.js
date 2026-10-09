@@ -22,12 +22,124 @@ const el = (tag, cls, text) => {
   return e;
 };
 
-/** A thread's name as a program calls it. */
-export function threadLabel(id, name) {
+/**
+ * A thread's name as a musician reads it. A named thread is its name (a live
+ * loop's without the live_loop_ the runtime puts on it); a run's main thread
+ * is main; any other is whose it is and which: ":song › 256" for the 257th
+ * thread the loop :song started, "main › 7", and a thread started inside an
+ * unnamed thread shows that thread's number, "256 › 1". A thread's id is its
+ * path in the spawn tree (0.0.0.256); the path never shows, however deep.
+ * `lookup(id)` gives a known thread ({ name }) or null, for the parent's name.
+ */
+export function threadLabel(id, name, lookup = () => null) {
   if (name && name.startsWith("live_loop_")) return `:${name.slice(10)}`;
   if (name) return `:${name}`;
-  const depth = String(id).split(".").length;
-  return depth <= 2 ? "main" : `thread ${id}`;
+  const path = String(id).split(".");
+  if (path.length <= 2) return "main";
+  const parentId = path.slice(0, -1).join(".");
+  const parent = lookup(parentId);
+  const parentLabel = parent?.name ? threadLabel(parentId, parent.name, lookup)
+    : path.length <= 3 ? "main"
+    : path[path.length - 2];
+  return `${parentLabel} › ${path[path.length - 1]}`;
+}
+
+/**
+ * The lane a record belongs in. A thread's lane is the place in the program
+ * it was started from — its parent and the line of the in_thread — so the
+ * thread the next phrase starts from the same line takes over the same lane,
+ * and a part keeps its place on the timeline for as long as the song runs.
+ * A thread whose start was not seen is a lane of its own.
+ */
+export function laneKey(r) {
+  if (r.kind === "thread" && r.event === "start" && r.parent != null && r.line) return `${r.parent}@${r.line}`;
+  return String(r.thread);
+}
+
+/**
+ * The thread a record's thread folds into, or null: a thread the runtime
+ * started for itself (a sample's loading, a play's block) is shown as part
+ * of its parent, since the program never wrote it.
+ */
+export const foldsInto = (r) => (r.kind === "thread" && r.event === "start" && r.internal && r.parent != null ? String(r.parent) : null);
+
+/** How lit a sound is as it sounds: 1 at its onset, fading over 150 ms; 0 before and after. */
+export function flashAt(e, now) {
+  if (now == null || e.time == null) return 0;
+  const since = now - e.time;
+  return since < 0 || since > 0.15 ? 0 : 1 - since / 0.15;
+}
+
+/** What a lane's thread is doing, in words: the status where there is one, and after the end whether it still sounds. */
+export function threadState(lane, s, now) {
+  if (lane.error) return "error";
+  if (s?.state === "sleeping") return now != null ? `sleeping ${Math.max(0, s.wake - now).toFixed(2)}s` : "sleeping";
+  if (s?.state === "waiting") return `sync ${s.on}`;
+  if (lane.ended != null) return soundingAfter(lane, now) ? "ended · sounding" : "ended";
+  return "running";
+}
+
+/** Whether a lane has sounds still to play, or playing, at `now`: a thread that ends in a time_warp leaves a bar's worth. */
+export const soundingAfter = (lane, now) => now != null && lane.events.some((e) => e.time + (e.dur || 0) > now);
+
+/**
+ * The beat grid: every beat from an anchor the program gave (a sleep at a
+ * beat and a time, at a tempo), across a window from `start` for `secs`;
+ * bars every four beats from beat 0, as a 4/4 ear counts them. No anchor, no
+ * grid: seconds are still there above.
+ */
+export function beatTicks(anchor, start, secs) {
+  if (!anchor || !(anchor.bpm > 0)) return [];
+  const beatLen = 60 / anchor.bpm;
+  const first = Math.ceil(anchor.beat + (start - anchor.time) / beatLen);
+  const last = Math.floor(anchor.beat + (start + secs - anchor.time) / beatLen);
+  const ticks = [];
+  for (let b = first; b <= last; b++) ticks.push({ beat: b, time: anchor.time + (b - anchor.beat) * beatLen, bar: ((b % 4) + 4) % 4 === 0 });
+  return ticks;
+}
+
+/** A cue's name as a musician reads it: a live loop's own, each time round, is the loop's name. */
+export const cueLabel = (address) => (String(address).startsWith("/live_loop/") ? `:${String(address).slice(11)}` : String(address));
+
+/**
+ * Which cues get their name drawn: the first, then each whose name starts
+ * clear of the last name drawn, so a loop cueing eight times a second shows
+ * eight lines and a name every so often, never names over each other. The
+ * name sits on a patch of background, so the lines it spans do not strike it.
+ * `xs` are the cues' x positions in time order, `widths` their names' widths.
+ */
+export function cueLabelsThatFit(xs, widths, gap = 6) {
+  const show = [];
+  let lastEnd = -Infinity;
+  for (let i = 0; i < xs.length; i++) {
+    const fits = xs[i] >= lastEnd;
+    show.push(fits);
+    if (fits) lastEnd = xs[i] + widths[i] + gap;
+  }
+  return show;
+}
+
+/**
+ * Stop: every lane still going ends now, and the sounds it had scheduled
+ * past now never play, so they leave the record (the roll does the same).
+ */
+export function endLanesAt(lanes, time) {
+  if (time == null) return;
+  for (const t of lanes) {
+    if (t.ended == null) t.ended = time;
+    t.events = t.events.filter((e) => e.time <= time);
+    for (const w of t.waits) if (w.to == null) w.to = time;
+    for (const sl of t.sleeps) if (sl.to > time) sl.to = time;
+  }
+}
+
+/** Whether a lane of an earlier run has nothing more to show once a new run starts: ended, and no sound left to play. */
+export const laneRetired = (lane, job, now) => lane.job !== job && lane.ended != null && !soundingAfter(lane, now);
+
+/** One frame of a window change: a fifth of the way to the target, settling exactly once close. */
+export function easeWindow(current, target) {
+  const next = current + (target - current) * 0.2;
+  return Math.abs(target - next) < 0.01 ? target : next;
 }
 
 const round = (v, places = 2) => (typeof v === "number" ? String(Math.round(v * 10 ** places) / 10 ** places) : String(v));
@@ -38,9 +150,12 @@ const round = (v, places = 2) => (typeof v === "number" ? String(Math.round(v * 
  *                synthDefaults(synth) → a synth's opt defaults }
  */
 export function createInsight(root, hooks) {
-  const threads = new Map();
+  const threads = new Map();   // thread id → its lane
+  const lanes = new Map();     // lane key (laneKey) → lane
   let cues = [];
-  let windowSecs = 8;
+  let windowSecs = 8;          // what is drawn: eases to windowTarget frame by frame (easeWindow)
+  let windowTarget = 8;
+  let beatAnchor = null;       // the latest sleep: { time, beat, bpm }, what the beat grid hangs from
   let paused = false;
   let frozenNow = null;
   let lastStatus = null;
@@ -74,7 +189,7 @@ export function createInsight(root, hooks) {
     b.type = "button";
     b.setAttribute("aria-label", `${secs} seconds`);
     b.setAttribute("aria-pressed", String(secs === windowSecs));
-    b.addEventListener("click", () => { windowSecs = secs; [...windows.children].forEach((c) => { c.classList.toggle("active", c === b); c.setAttribute("aria-pressed", String(c === b)); }); });
+    b.addEventListener("click", () => { windowTarget = secs; [...windows.children].forEach((c) => { c.classList.toggle("active", c === b); c.setAttribute("aria-pressed", String(c === b)); }); });
     windows.appendChild(b);
   }
   // Pause holds every view where it is — the tree's rows, the timeline's clock, the roll — to explore it
@@ -89,7 +204,8 @@ export function createInsight(root, hooks) {
   });
   head.appendChild(pause);
   const clear = el("button", "sp-mini-btn", "Clear");
-  clear.addEventListener("click", () => { threads.clear(); cues = []; roll.clear(); renderTable(); });
+  const clearAll = () => { threads.clear(); lanes.clear(); cues = []; beatAnchor = null; roll.clear(); renderTable(); };
+  clear.addEventListener("click", clearAll);
   const legend = el("span", "insight-legend");
   legend.innerHTML = '<i class="lg-note"></i>note <i class="lg-sample"></i>sample <i class="lg-sleep"></i>sleep <i class="lg-wait"></i>sync <i class="lg-cue"></i>cue';
   timelineControls.append(windows, clear, legend);
@@ -115,18 +231,45 @@ export function createInsight(root, hooks) {
     still: () => paused,
     windowSecs: () => windowSecs,
     colourOf: (id) => (threads.has(id) ? colourOf(threads.get(id)) : css("HighlightedBackground")),
-    label: (id, name) => threadLabel(id, threads.get(id)?.name || name),
+    label: (id, name) => threadLabel(id, nameOf(id) || name, lookup),
     jump: hooks.jump,
     defaults: hooks.synthDefaults,
   });
 
+  const names = new Map();     // thread id → its name, for labels: a parent's name outlives its lane
+  const nameOf = (id) => names.get(id) ?? threads.get(id)?.name ?? "";
+  const lookup = (id) => (names.has(id) || threads.has(id) ? { id, name: nameOf(id) } : null);
+  const labelOf = (t) => threadLabel(t.id, nameOf(t.id), lookup);
+
+  // A lane: the threads started from one place, one after another, drawn as
+  // one row. `id` and `name` are the thread in it now; `segments` every
+  // thread it has held, with when each took over, for the marks on the lane.
   const lane = (r) => {
     let t = threads.get(r.thread);
     if (!t) {
-      t = { id: r.thread, name: r.name, job: r.job, index: threads.size, events: [], sleeps: [], waits: [], count: 0, recent: [], last: "", line: null, started: r.time, ended: null, error: null };
+      // the runtime's own thread: its records go to its parent's lane
+      const into = foldsInto(r);
+      if (into != null && threads.has(into)) {
+        t = threads.get(into);
+        threads.set(r.thread, t);
+        return t;
+      }
+      const key = laneKey(r);
+      t = lanes.get(key);
+      if (!t) {
+        t = { key, id: r.thread, name: r.name, job: r.job, index: lanes.size, events: [], sleeps: [], waits: [], segments: [], count: 0, recent: [], last: "", line: null, started: r.time, ended: null, error: null };
+        lanes.set(key, t);
+      }
+      if (t.id !== r.thread || !t.segments.length) {
+        t.id = r.thread;
+        t.name = r.name;
+        t.ended = null;
+        t.error = null;
+        push(t.segments, { id: r.thread, from: r.time });
+      }
       threads.set(r.thread, t);
     }
-    if (r.name) t.name = r.name;
+    if (r.name) { t.name = r.name; names.set(r.thread, r.name); }
     t.job = r.job;
     if (t.ended != null && r.kind !== "thread") t.ended = null;
     const open = t.waits[t.waits.length - 1];
@@ -168,12 +311,27 @@ export function createInsight(root, hooks) {
         break;
       }
       case "output": push(lane(r).events, { time: r.time, kind: "output", text: r.text, line: r.line }); lane(r).last = `puts ${r.text}`; break;
-      case "sleep": push(lane(r).sleeps, { from: r.time, to: r.time + (r.until - r.t), beats: r.beats }); break;
+      case "sleep": {
+        const secs = r.until - r.t;
+        push(lane(r).sleeps, { from: r.time, to: r.time + secs, beats: r.beats });
+        // the grid's anchor: this beat was at this time, and the tempo is what this sleep says
+        if (r.beat != null && r.beats > 0 && secs > 0) beatAnchor = { time: r.time, beat: r.beat, bpm: (r.beats * 60) / secs };
+        break;
+      }
       case "sync": push(lane(r).waits, { from: r.time, to: null, on: (r.on || [])[0] }); break;
       case "cue": push(cues, { time: r.time, address: r.address, thread: r.thread }); lane(r); break;
       case "thread": {
+        if (r.name) names.set(r.thread, r.name);
+        // a new run: the lanes of earlier runs that have ended and fallen silent make way for it
+        if (r.event === "start" && r.job != null) {
+          for (const [k, t] of lanes) {
+            if (!laneRetired(t, r.job, r.time)) continue;
+            lanes.delete(k);
+            for (const [id, l] of threads) if (l === t) threads.delete(id);
+          }
+        }
         const t = lane(r);
-        if (r.event === "end") t.ended = r.time;
+        if (r.event === "end" && t.id === r.thread) t.ended = r.time;
         break;
       }
       case "error": lane(r).error = `${r.class}: ${r.message}`; break;
@@ -193,7 +351,7 @@ export function createInsight(root, hooks) {
     const live = new Map((lastStatus?.threads ?? []).map((t) => [t.id, t]));
     const now = hooks.now();
     // a thread that has finished leaves the table once it has left the timeline
-    const rows = [...threads.values()].filter((t) => t.ended == null || now == null || t.ended > now - windowSecs).sort((a, b) => a.index - b.index);
+    const rows = [...lanes.values()].filter((t) => t.ended == null || now == null || t.ended > now - windowSecs || soundingAfter(t, now)).sort((a, b) => a.index - b.index);
     table.textContent = "";
     const thead = el("thead");
     // fixed columns, each as wide as its values get: a countdown or a new count redrawn every status never moves
@@ -209,16 +367,16 @@ export function createInsight(root, hooks) {
       const chip = el("i", "insight-chip");
       chip.style.background = colourOf(t);
       const name = el("td");
-      name.append(chip, el("span", "", threadLabel(t.id, t.name)));
-      let state = t.error ? "error" : t.ended != null ? "finished" : "running";
-      if (s?.state === "sleeping") state = now != null ? `sleeping ${Math.max(0, s.wake - now).toFixed(2)}s` : "sleeping";
-      if (s?.state === "waiting") state = `sync ${s.on}`;
+      name.append(chip, el("span", "", labelOf(t)));
+      name.title = `thread ${t.id}`;   // the id as the runtime has it, for anyone who wants it
+      const state = threadState(t, s, now);
       const line = s?.line ?? t.events[t.events.length - 1]?.line ?? null;
       t.line = line;
-      const recent = now != null ? t.recent.filter((x) => x > now - 4 && x <= now).length / 4 : 0;
+      // sounds a second over the last four seconds, while the thread runs: blank once it has ended
+      const recent = now != null && t.ended == null ? t.recent.filter((x) => x > now - 4 && x <= now).length / 4 : null;
       const num = (text) => el("td", "num", text);
-      tr.append(name, el("td", `insight-state ${state.split(" ")[0]}`, state), num(line ?? ""), num(s ? s.beat.toFixed(2) : ""), num(s ? round(s.bpm, 1) : ""), num(recent.toFixed(1)), num(String(t.count)), el("td", "insight-last", t.error ?? t.last));
-      for (const td of [tr.children[0], tr.children[1], tr.lastChild]) td.title = td.textContent;   // a name, a sync or a last event cut short by its column: the whole of it on hover
+      tr.append(name, el("td", `insight-state ${state.split(" ")[0]}`, state), num(line ?? ""), num(s ? s.beat.toFixed(2) : ""), num(s ? round(s.bpm, 1) : ""), num(recent == null ? "" : recent.toFixed(1)), num(String(t.count)), el("td", "insight-last", t.error ?? t.last));
+      for (const td of [tr.children[1], tr.lastChild]) td.title = td.textContent;   // a sync or a last event cut short by its column: the whole of it on hover
       if (line) {
         tr.classList.add("jump");
         tr.title = `Go to line ${line}`;
@@ -242,10 +400,18 @@ export function createInsight(root, hooks) {
     try { drawFrame(); } finally { perfAdd("timeline", performance.now() - t0); }
   }
 
+  const LANE_H = 26;   // a lane's height never changes: lanes come and go, nothing else moves
+
   function drawFrame() {
     const dpr = window.devicePixelRatio || 1;
-    const w = canvasWrap.clientWidth, h = canvasWrap.clientHeight;
-    if (!w || !h) return;
+    const w = canvasWrap.clientWidth, hWrap = canvasWrap.clientHeight;
+    if (!w || !hWrap) return;
+    const now = paused ? frozenNow : hooks.now();
+    if (!paused) windowSecs = easeWindow(windowSecs, windowTarget);
+    const top = 18;
+    const visible = now == null ? [] : [...lanes.values()].filter((t) => t.ended == null || t.ended > now - windowSecs * 0.8 || soundingAfter(t, now)).sort((a, b) => a.index - b.index);
+    // the canvas is as tall as its lanes need, and the pane scrolls: a lane is never squeezed to fit
+    const h = Math.max(hWrap, top + visible.length * LANE_H + 6);
     if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
@@ -256,34 +422,54 @@ export function createInsight(root, hooks) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = css("Background");
     ctx.fillRect(0, 0, w, h);
-    const now = paused ? frozenNow : hooks.now();
-    const labelW = 110, top = 18;
-    const plotW = w - labelW - 8;
     ctx.font = "11px ui-monospace, Menlo, monospace";
     if (now == null) {
       ctx.fillStyle = css("faintForeground");
-      ctx.fillText("Press Run: each thread will get a lane here.", labelW, 30);
+      ctx.fillText("Press Run: each thread will get a lane here.", 110, 30);
       return;
     }
+    // the label column fits the longest label on show, and no label is ever cut
+    const labels = visible.map((t) => labelOf(t));
+    const labelW = Math.max(90, Math.min(220, 24 + Math.max(0, ...labels.map((l) => ctx.measureText(l).width))));
+    const plotW = w - labelW - 8;
     const start = now - windowSecs * 0.8;
     const x = (time) => labelW + ((time - start) / windowSecs) * plotW;
-    const visible = [...threads.values()].filter((t) => t.ended == null || t.ended > start).sort((a, b) => a.index - b.index);
-    const laneH = Math.max(18, Math.min(56, (h - top - 4) / Math.max(1, visible.length)));
+    const laneH = LANE_H;
+    const lanesBottom = top + visible.length * laneH;
 
     // the future: what is already scheduled, ahead of the sound
     ctx.fillStyle = css("subtleFill");
     ctx.fillRect(x(now), 0, w - x(now), h);
-    // seconds
-    ctx.strokeStyle = css("WindowBorder");
-    ctx.fillStyle = css("faintForeground");
+    // the program's beats: a faint line each, a firmer one every bar, numbered as the program counts them
     ctx.lineWidth = 1;
-    for (let s = Math.ceil(start); s < start + windowSecs; s++) {
-      const gx = Math.round(x(s)) + 0.5;
+    const ticks = beatTicks(beatAnchor, start, windowSecs);
+    const bars = ticks.filter((k) => k.bar).length;
+    const everyBeat = ticks.length <= plotW / 14;   // closer than that, bars alone
+    for (const tk of ticks) {
+      if (!tk.bar && !everyBeat) continue;
+      const gx = Math.round(x(tk.time)) + 0.5;
+      ctx.strokeStyle = tk.bar ? css("mutedForeground") : css("WindowBorder");
+      ctx.globalAlpha = tk.bar ? 0.55 : 0.5;
       ctx.beginPath();
-      ctx.moveTo(gx, top - 4);
+      ctx.moveTo(gx, top);
       ctx.lineTo(gx, h);
       ctx.stroke();
-      ctx.fillText(`${Math.round(s - now) >= 0 ? "+" : ""}${Math.round(s - now)}s`, gx + 3, 11);
+      ctx.globalAlpha = 1;
+      if (tk.bar && plotW / (bars || 1) > 36) {
+        ctx.fillStyle = css("mutedForeground");
+        ctx.fillText(String(tk.beat), gx + 3, Math.min(h - 4, lanesBottom + 14));
+      }
+    }
+    // seconds, along the top
+    ctx.strokeStyle = css("WindowBorder");
+    ctx.fillStyle = css("faintForeground");
+    for (let sec = Math.ceil(start); sec < start + windowSecs; sec++) {
+      const gx = Math.round(x(sec)) + 0.5;
+      ctx.beginPath();
+      ctx.moveTo(gx, top - 4);
+      ctx.lineTo(gx, top);
+      ctx.stroke();
+      ctx.fillText(`${Math.round(sec - now) >= 0 ? "+" : ""}${Math.round(sec - now)}s`, gx + 3, 11);
     }
 
     visible.forEach((t, i) => {
@@ -295,13 +481,22 @@ export function createInsight(root, hooks) {
       }
       ctx.fillStyle = colour;
       ctx.fillRect(4, y + laneH / 2 - 4, 8, 8);
-      ctx.fillStyle = t.ended != null ? css("faintForeground") : css("Foreground");
-      ctx.fillText(threadLabel(t.id, t.name).slice(0, 14), 16, y + laneH / 2 + 4);
+      // the label fades only once the thread has ended and its sounds are over
+      ctx.fillStyle = t.ended != null && !soundingAfter(t, now) ? css("faintForeground") : css("Foreground");
+      ctx.fillText(labels[i], 16, y + laneH / 2 + 4);
 
       ctx.save();
       ctx.beginPath();
       ctx.rect(labelW, y, plotW + 8, laneH);
       ctx.clip();
+      // where another thread took the lane over: a mark, with the thread's number
+      ctx.fillStyle = css("faintForeground");
+      for (const seg of t.segments.slice(1)) {
+        if (seg.from < start || seg.from > start + windowSecs) continue;
+        const sx = Math.round(x(seg.from));
+        ctx.fillRect(sx, y + 1, 1, 6);
+        ctx.fillText(String(seg.id).split(".").pop(), sx + 3, y + 8);
+      }
       // sleeps: a thin line along the lane's foot
       ctx.strokeStyle = css("mutedForeground");
       ctx.lineWidth = 2;
@@ -333,18 +528,22 @@ export function createInsight(root, hooks) {
         const ex = x(e.time);
         const past = e.time <= now;
         ctx.globalAlpha = past ? 1 : 0.55;
+        const lit = flashAt(e, now);   // as it sounds: brighter and bigger for a moment, so the eye gets the beat the ear does
         if (e.kind === "note" || (e.kind === "midi" && e.note != null)) {
           const n = Math.min(108, Math.max(24, e.note ?? 60));
           const ny = y + 3 + (1 - (n - 24) / 84) * (laneH - 10);
           ctx.fillStyle = colour;
-          ctx.fillRect(ex, ny, Math.max(3, (e.dur / windowSecs) * plotW), e.kind === "midi" ? 3 : 4);
+          const th = (e.kind === "midi" ? 3 : 4) + lit * 3;
+          ctx.fillRect(ex, ny - lit * 1.5, Math.max(3, (e.dur / windowSecs) * plotW), th);
+          if (lit > 0) { ctx.fillStyle = css("Foreground"); ctx.globalAlpha = lit * 0.8; ctx.fillRect(ex, ny - lit * 1.5, 3 + lit * 3, th); ctx.globalAlpha = 1; }
         } else if (e.kind === "sample") {
-          ctx.fillStyle = colour;
+          const r = 5 + lit * 4;
+          ctx.fillStyle = lit > 0.5 ? css("Foreground") : colour;
           ctx.beginPath();
-          ctx.moveTo(ex, y + laneH / 2 - 5);
-          ctx.lineTo(ex + 5, y + laneH / 2);
-          ctx.lineTo(ex, y + laneH / 2 + 5);
-          ctx.lineTo(ex - 5, y + laneH / 2);
+          ctx.moveTo(ex, y + laneH / 2 - r);
+          ctx.lineTo(ex + r, y + laneH / 2);
+          ctx.lineTo(ex, y + laneH / 2 + r);
+          ctx.lineTo(ex - r, y + laneH / 2);
           ctx.fill();
         } else if (e.kind === "control" || e.kind === "kill") {
           ctx.strokeStyle = colour;
@@ -369,21 +568,27 @@ export function createInsight(root, hooks) {
       ctx.stroke();
     });
 
-    // cues: a line through every lane, from the thread that sent it
-    ctx.fillStyle = css("CuePathForeground");
-    for (const c of cues) {
-      if (c.time < start || c.time > start + windowSecs) continue;
+    // cues: a line through every lane, from the thread that sent it, named where the name has room
+    const shownCues = cues.filter((c) => c.time >= start && c.time <= start + windowSecs).sort((a, b) => a.time - b.time);
+    const cueNames = shownCues.map((c) => cueLabel(c.address));
+    const labelled = cueLabelsThatFit(shownCues.map((c) => x(c.time) + 3), cueNames.map((n) => ctx.measureText(n).width));
+    ctx.strokeStyle = css("CuePathBackground");
+    shownCues.forEach((c, i) => {
       const cx = Math.round(x(c.time)) + 0.5;
-      ctx.strokeStyle = css("CuePathBackground");
       ctx.globalAlpha = c.time <= now ? 0.9 : 0.45;
       ctx.beginPath();
       ctx.moveTo(cx, top);
-      ctx.lineTo(cx, top + visible.length * laneH);
+      ctx.lineTo(cx, lanesBottom);
       ctx.stroke();
+      if (labelled[i]) {
+        const tw = ctx.measureText(cueNames[i]).width;
+        ctx.fillStyle = css("Background");
+        ctx.fillRect(cx + 2, top + 1, tw + 3, 11);   // a patch under the name: the lines it spans do not strike it
+        ctx.fillStyle = css("CuePathBackground");
+        ctx.fillText(cueNames[i], cx + 3, top + 10);
+      }
       ctx.globalAlpha = 1;
-      ctx.fillStyle = css("CuePathBackground");
-      ctx.fillText(c.address, cx + 3, top + 10);
-    }
+    });
 
     // now
     ctx.strokeStyle = css("HighlightedBackground");
@@ -393,7 +598,7 @@ export function createInsight(root, hooks) {
     ctx.lineTo(x(now), h);
     ctx.stroke();
     ctx.fillStyle = css("HighlightedBackground");
-    ctx.fillText("now", x(now) + 4, h - 4);
+    ctx.fillText("now", x(now) + 4, Math.min(h - 4, lanesBottom + 14));
   }
   const shown = animateWhileShown(root, draw);
   setInterval(() => { if (shown.shown && !paused) renderTable(); }, 500);   // the table as it stands, twice a second, while it can be seen
@@ -406,7 +611,7 @@ export function createInsight(root, hooks) {
     tree,
     roll,
     /** Everything stopped at this time: sounds scheduled after it never play. */
-    stopped: (time) => { if (time != null) roll.stop(time); },
-    clear: () => { threads.clear(); cues = []; roll.clear(); renderTable(); },
+    stopped: (time) => { if (time != null) { roll.stop(time); endLanesAt(lanes.values(), time); renderTable(); } },
+    clear: clearAll,
   };
 }
