@@ -31,9 +31,11 @@ if(NOT EXISTS ${GUI_ROOT}/utils/completion_argkinds.gen.h OR
 endif()
 
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)   # the app's images and themes, compiled in below: a widget under test loads them as the app does
 
 add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/main.cpp
+    ${GUI_ROOT}/SonicPi.qrc
     ${GUI_TESTS_ROOT}/completionpopup_a11y.test.cpp
     ${GUI_TESTS_ROOT}/completionpopup_select.test.cpp
     ${GUI_TESTS_ROOT}/announcementpolicy.test.cpp
