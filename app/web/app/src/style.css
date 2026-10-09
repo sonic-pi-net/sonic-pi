@@ -490,7 +490,8 @@ body.no-metro #link-section { display: none; }   /* hidden until the preference 
 #panel-divider, #drawer-divider { background: var(--WindowBorder); touch-action: none; user-select: none; }
 #panel-divider { grid-area: divider; cursor: col-resize; }
 #drawer-divider { grid-area: hdiv; cursor: row-resize; }
-#panel-divider:hover, #drawer-divider:hover, .dragging { background: var(--HighlightedBackground) !important; }
+.dragging { background: var(--HighlightedBackground) !important; }
+@media (hover: hover) { #panel-divider:hover, #drawer-divider:hover { background: var(--HighlightedBackground) !important; } }   /* not on a touch screen, where a tap leaves :hover behind: the bar stayed lit after the chevron was touched */
 body.resizing { user-select: none; -webkit-user-select: none; }   /* a divider being dragged: nothing selects, nothing under the pointer reacts (main.js dragDivider) */
 body.resizing #main > :not(#drawer-divider):not(#panel-divider), body.resizing #info-card { pointer-events: none; }
 
@@ -517,7 +518,8 @@ body.resizing #main > :not(#drawer-divider):not(#panel-divider), body.resizing #
   transition: background 0.15s, color 0.15s;
 }
 .divider-grip svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.2s; }
-#drawer-divider:hover .divider-grip, .divider-grip:hover, .divider-grip:focus-visible { background: var(--HighlightedBackground); color: var(--accentContrastText); outline: none; }
+.divider-grip:focus-visible { background: var(--HighlightedBackground); color: var(--accentContrastText); outline: none; }
+@media (hover: hover) { #drawer-divider:hover .divider-grip, .divider-grip:hover { background: var(--HighlightedBackground); color: var(--accentContrastText); } }
 /* the chevron points the way it acts: down to put the panel away, up to bring it back (main.js: one state) */
 body:not(.panel-open) #divider-grip svg { transform: rotate(180deg); }
 /* up, beside it: the help panel full size — only while a help pane shows, and not once it is full */

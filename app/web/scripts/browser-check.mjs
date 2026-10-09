@@ -1026,6 +1026,33 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("on a phone the buffers are pads across the foot, and a tap switches",
           !caretShown && pads === size && activeBuffer === 2 && lit === "2", `caret ${caretShown}, ${pads} pads of ${size}, active ${activeBuffer}, lit ${lit}`);
     await footFloats(ph, "on a phone");
+    // a tap on the divider's chevron leaves neither it nor the bar lit: a touch screen keeps :hover on what was tapped,
+    // so the highlight is only for a pointer that hovers (style.css, @media (hover: hover))
+    {
+      const name = "on a phone a tapped divider is not left lit";
+      if (await ph.evaluate(() => matchMedia("(hover: hover)").matches)) skip(name, "this engine's phone reports a pointer that hovers");
+      else {
+        if (!(await ph.evaluate(() => !!document.body.dataset.drawer))) await ph.click("#btn-help");
+        const shown = await ph.waitForFunction(() => document.getElementById("divider-grip").getBoundingClientRect().height > 0, null, { timeout: 3000 }).then(() => true).catch(() => false);
+        if (!shown) skip(name, "no divider shows on a phone");
+        else {
+          await ph.tap("#divider-grip");
+          await ph.waitForTimeout(300);
+          const lit = await ph.evaluate(() => {
+            const probe = document.createElement("div");
+            probe.style.background = "var(--HighlightedBackground)";
+            document.body.append(probe);
+            const hi = getComputedStyle(probe).backgroundColor;
+            probe.remove();
+            const bg = (id) => getComputedStyle(document.getElementById(id)).backgroundColor;
+            return { hi, bar: bg("drawer-divider"), grip: bg("divider-grip") };
+          });
+          check(name, lit.bar !== lit.hi && lit.grip !== lit.hi, JSON.stringify(lit));
+          await ph.tap("#divider-grip");   // the panel back, as it was
+          await ph.waitForTimeout(300);
+        }
+      }
+    }
     // the rail's zoom pair (the drawer head, with native's ZoomBar, is hidden on a phone) zooms the pane and leaves it open
     await ph.evaluate(() => document.querySelector("#drawer-rail [data-drawer=docs]").click());   // Help would toggle whatever pane is open
     await ph.waitForFunction(() => document.body.dataset.drawer === "docs");
