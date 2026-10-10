@@ -27,6 +27,7 @@ ENV.delete("GEM_HOME")
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/promise"
 require_relative "../lib/sonicpi/engine_forwards"
+require_relative "../lib/sonicpi/plugins"
 
 
 # Make sure vendored tomlrb lib is on the Ruby path so it can be required
@@ -906,6 +907,7 @@ module SonicPi
 
         cmd = Paths.supersonic_path
         Util.log "SuperSonic opts: #{opts.inspect}"
+        Util.log "Plugin hosting: #{SonicPi::Plugins.available? ? 'in this build' : 'not in this build'}"
 
         # Linux: set PIPEWIRE_QUANTUM from v5-audio-settings.toml
         env = nil

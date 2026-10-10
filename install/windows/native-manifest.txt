@@ -2,6 +2,8 @@
 #
 #   <glob>          root file(s) to ship - must match at least one file
 #   dir: <path>     directory tree to ship recursively (minus ignore: globs)
+#   plugins: <glob> root file(s) that ship only in a build hosting plugins
+#                   (CLOCKWORK_PLUGINS): required there, refused otherwise
 #   ignore: <glob>  expected local build debris - never shipped
 #
 # Any file in the native root not covered by an entry FAILS the build:
@@ -16,7 +18,7 @@
 # plugin bridge is the engine's second process: it hosts VST3 and CLAP
 # plugins and is spawned by the engine from beside its own binary.
 Sonic Pi - SuperSonic.exe
-Sonic Pi - Plugins.exe
+plugins: Sonic Pi - Plugins.exe
 aubio_onset.exe
 piano_wavetable.dat
 

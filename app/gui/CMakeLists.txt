@@ -335,6 +335,11 @@ else()
   add_executable(${APP_NAME} WIN32 ${ALL_SOURCES} ${RESOURCES}) # Win32 ignored on non-windows
 endif()
 
+# Plugin hosting is the build's (CLOCKWORK_PLUGINS, external/CMakeLists.txt):
+# only a build with it shows the Tracks tab and the track functions, and tells
+# Spider so (utils/plugins.h).
+target_compile_definitions(${APP_NAME} PRIVATE SONIC_PI_PLUGINS=$<BOOL:${CLOCKWORK_PLUGINS}>)
+
 # Translations: Convert the .ts files into .qm files
 set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${QTAPP_ROOT}/lang)
 

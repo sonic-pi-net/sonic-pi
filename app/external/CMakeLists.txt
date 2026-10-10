@@ -104,12 +104,14 @@ endforeach()
 # and plugin hosting is CLOCKWORK_PLUGINS.
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/supersonic.cmake)
 
-# VST3 + CLAP hosting: the whole reason for the engine swap, so ON here and
-# named rather than inherited. It is an option, not a constant, because the
-# SDKs are fetched at configure time and Debian ships neither: the package
-# build (packaging/debian/rules) turns it off, and with it goes the plugin
-# bridge — the copy step below knows.
-option(CLOCKWORK_PLUGINS "Host VST3 and CLAP plugins in the engine (fetches the SDKs at configure time)" ON)
+# VST3 + CLAP hosting, on plugin tracks: off until Sonic Pi ships it, so a
+# build hosts plugins only when asked (-DCLOCKWORK_PLUGINS=ON). With it go the
+# plugin bridge (the copy step below), the GUI's Tracks tab and Spider's track
+# functions (gui/CMakeLists.txt, gui/utils/plugins.h); the release staging
+# reads it from this build's cache to know whether the bridge must ship. The
+# SDKs are fetched at configure time, and Debian ships neither: the package
+# build (packaging/debian/rules) says off too.
+option(CLOCKWORK_PLUGINS "Host VST3 and CLAP plugins in the engine (fetches the SDKs at configure time)" OFF)
 #
 # PREFIX and BINARY_DIR are deliberately SHORT, and on Windows that is not
 # cosmetic. Left to itself ExternalProject builds under
@@ -233,7 +235,8 @@ endif()
 # removed so the engine cannot pick the stale one.
 #
 # No plugins, no bridge: clockwork only builds it under CLOCKWORK_PLUGINS, so a
-# build with hosting off (the Debian package) has nothing to copy.
+# build with hosting off has nothing to copy, and one an earlier build left in
+# server/native is removed, so it cannot ship with this one.
 if(WIN32)
     set(SUPERSONIC_BRIDGE_FILE "${SUPERSONIC_BRIDGE_NAME}.exe")
 elseif(APPLE)
@@ -242,7 +245,10 @@ else()
     set(SUPERSONIC_BRIDGE_FILE "${SUPERSONIC_BRIDGE_NAME}")
 endif()
 if(NOT CLOCKWORK_PLUGINS)
-    set(_ss_bridge_cmd "")
+    set(_ss_bridge_cmd
+        COMMAND ${CMAKE_COMMAND} -E rm -rf
+            "${CMAKE_CURRENT_SOURCE_DIR}/../server/native/${SUPERSONIC_BRIDGE_FILE}"
+            "${CMAKE_CURRENT_SOURCE_DIR}/../server/native/${SUPERSONIC_BRIDGE_NAME}")
 elseif(APPLE)
     set(_ss_bridge_cmd
         COMMAND ${CMAKE_COMMAND} -E rm -f

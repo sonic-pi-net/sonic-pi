@@ -9,6 +9,7 @@ require_relative "server"
 require_relative "note"
 require_relative "samplebuffer"
 require_relative "studio_ready_gate"
+require_relative "plugins"
 
 require 'set'
 require 'fileutils'
@@ -370,7 +371,9 @@ module SonicPi
 
     # ── Tracks ──────────────────────────────────────────────────────────────
 
+    # Only in a build with plugin hosting: without it there are no tracks.
     def request_track_list
+      return unless Plugins.available?
       @server.osc "/clockwork/track/list"
     rescue Exception => e
       STDOUT.puts "Studio - track list request failed: #{e.message}"

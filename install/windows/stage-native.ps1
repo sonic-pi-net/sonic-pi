@@ -8,6 +8,9 @@
 
     - a plain glob entry must match >= 1 root file  -> staged (else FAIL)
     - a "dir:" entry is copied recursively, minus ignore: globs (missing -> FAIL)
+    - a "plugins:" glob ships only in a build that hosts plugins (-Plugins):
+      there it must match >= 1 root file and is staged, otherwise any match
+      FAILS the build
     - an "ignore:" glob marks expected local debris  -> skipped
     - anything else in the native root               -> FAIL the build
 #>
@@ -15,7 +18,9 @@
 param(
     [Parameter(Mandatory = $true)][string]$Source,
     [Parameter(Mandatory = $true)][string]$Dest,
-    [Parameter(Mandatory = $true)][string]$Manifest
+    [Parameter(Mandatory = $true)][string]$Manifest,
+    # The build hosts plugins (CLOCKWORK_PLUGINS): the plugin bridge ships.
+    [switch]$Plugins
 )
 
 $ErrorActionPreference = "Stop"
@@ -27,12 +32,13 @@ New-Item -ItemType Directory -Force -Path $Dest | Out-Null
 $Dest = (Resolve-Path $Dest).Path
 
 # --- Parse manifest -----------------------------------------------------------
-$fileGlobs = @(); $dirEntries = @(); $ignoreGlobs = @()
+$fileGlobs = @(); $dirEntries = @(); $ignoreGlobs = @(); $pluginGlobs = @()
 foreach ($raw in Get-Content $Manifest) {
     $line = ($raw -replace '(^|\s)#.*$', '').Trim()
     if (-not $line) { continue }
     if ($line -match '^dir:\s*(.+)$') { $dirEntries += $Matches[1].Trim() }
     elseif ($line -match '^ignore:\s*(.+)$') { $ignoreGlobs += $Matches[1].Trim() }
+    elseif ($line -match '^plugins:\s*(.+)$') { $pluginGlobs += $Matches[1].Trim() }
     else { $fileGlobs += $line }
 }
 
@@ -50,6 +56,24 @@ $stagedCount = 0
 foreach ($glob in $fileGlobs) {
     $hits = @($rootFiles | Where-Object { $_.Name -like $glob })
     if ($hits.Count -eq 0) { $errors += "manifest entry matched no file: $glob"; continue }
+    foreach ($f in $hits) {
+        [void]$matched.Add($f.Name)
+        Copy-Item -Path $f.FullName -Destination (Join-Path $Dest $f.Name)
+        $stagedCount++
+    }
+}
+
+# --- Root files that ship only with plugin hosting -----------------------------
+foreach ($glob in $pluginGlobs) {
+    $hits = @($rootFiles | Where-Object { $_.Name -like $glob })
+    if (-not $Plugins) {
+        foreach ($f in $hits) {
+            [void]$matched.Add($f.Name)
+            $errors += "ships only in a build that hosts plugins, and this one does not: $($f.Name)"
+        }
+        continue
+    }
+    if ($hits.Count -eq 0) { $errors += "a build that hosts plugins must ship: $glob"; continue }
     foreach ($f in $hits) {
         [void]$matched.Add($f.Name)
         Copy-Item -Path $f.FullName -Destination (Join-Path $Dest $f.Name)

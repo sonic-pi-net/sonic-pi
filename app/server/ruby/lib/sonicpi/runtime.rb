@@ -22,6 +22,7 @@ require_relative "lang/sound"
 require_relative "gitsave"
 require_relative "lifecyclehooks"
 require_relative "version"
+require_relative "plugins"
 require_relative "sthread"
 require_relative "version"
 require_relative "config/settings"
@@ -980,6 +981,7 @@ module SonicPi
     end
 
     def __track_flush!
+      return unless Plugins.available?
       @mod_sound_studio.server.track_all_notes_off(nil) if @mod_sound_studio
     end
 

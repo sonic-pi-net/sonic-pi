@@ -156,6 +156,7 @@ QVector<LangPage> TutorialDocs::langPagesFromJson(const QByteArray& json)
         page.usage = p.value("usage").toString();
         page.docHtml = p.value("doc_html").toString();
         page.introduced = p.value("introduced").toString();
+        page.needs = p.value("needs").toString();
         for (const QJsonValue& e : p.value("examples").toArray())
         {
             const QJsonObject ex = e.toObject();

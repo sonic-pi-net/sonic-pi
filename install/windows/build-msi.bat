@@ -221,8 +221,12 @@ if errorlevel 1 (
     exit /b 1
 )
 
+REM Plugin hosting is the build's (CLOCKWORK_PLUGINS in app\build's CMake
+REM cache): the plugin bridge ships only in a build that hosts plugins.
+set "PLUGINS_ARG="
+findstr /B /I /C:"CLOCKWORK_PLUGINS:BOOL=ON" /C:"CLOCKWORK_PLUGINS:BOOL=TRUE" /C:"CLOCKWORK_PLUGINS:BOOL=YES" /C:"CLOCKWORK_PLUGINS:BOOL=1" "..\..\app\build\CMakeCache.txt" >nul 2>&1 && set "PLUGINS_ARG=-Plugins"
 echo Staging native payload from allowlist ^(native-manifest.txt^)...
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0stage-native.ps1" -Source "..\..\app\server\native" -Dest "app\server\native" -Manifest "%~dp0native-manifest.txt"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0stage-native.ps1" -Source "..\..\app\server\native" -Dest "app\server\native" -Manifest "%~dp0native-manifest.txt" %PLUGINS_ARG%
 if errorlevel 1 (
     echo ERROR: native payload staging failed.
     exit /b 1

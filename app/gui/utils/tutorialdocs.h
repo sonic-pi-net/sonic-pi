@@ -94,6 +94,7 @@ struct LangPage
     QString usage;
     QString docHtml;
     QString introduced;
+    QString needs;   // what a build must have for it to be there: "plugins", or nothing
     QVector<CodeExample> examples;
 };
 

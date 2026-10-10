@@ -113,9 +113,12 @@ while IFS= read -r -d '' f; do
 done < <(list_macho_files "${RELEASE_APP}/Contents/Resources")
 log_info "  ${count} files (${jit_count} with entitlements: ruby)"
 
-log_step "sign the plugin bridge bundle with entitlements"
-[ -d "${BRIDGE_APP}" ] || die "Plugin bridge bundle missing: ${BRIDGE_APP}"
-sign_one "${BRIDGE_APP}" --entitlements "${RELEASE_ENTITLEMENTS}"
+# Only a build that hosts plugins has the bridge (staging refused it otherwise).
+if build_hosts_plugins; then
+    log_step "sign the plugin bridge bundle with entitlements"
+    [ -d "${BRIDGE_APP}" ] || die "Plugin bridge bundle missing: ${BRIDGE_APP}"
+    sign_one "${BRIDGE_APP}" --entitlements "${RELEASE_ENTITLEMENTS}"
+fi
 
 # ---------------------------------------------------------------------------
 # 4. Mach-O files under PlugIns/ (Qt platform plugins)

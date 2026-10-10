@@ -1204,7 +1204,7 @@ SonicPi::Lang::Core.docs.each do |k, v|
   usage_args = (v[:args] || []).map { |arg| n, t = *arg; "#{n} (#{t})" }
   usage = v[:name].to_s
   usage = "#{usage} #{usage_args.join(', ')}" unless usage_args.empty?
-  native_lang_pages << {
+  page = {
     "key" => k.to_s,
     "summary" => summary,
     "usage" => usage,
@@ -1215,6 +1215,10 @@ SonicPi::Lang::Core.docs.each do |k, v|
       { "code" => code, "runnable" => native_code_runnable.call(code) }
     end
   }
+  # What a build must have for the function to be there (plugins): the GUI
+  # leaves it out of a build without it.
+  page["needs"] = v[:needs].to_s if v[:needs]
+  native_lang_pages << page
 end
 native_lang_pages.sort_by! { |p| p["key"] }
 write_native_json.call(File.join(native_docs_root, "reference", "lang.json"),

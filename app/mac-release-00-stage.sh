@@ -66,12 +66,17 @@ for required in \
     "app/server/ruby/bin/daemon.rb" \
     "app/server/ruby/bin/fetch-url.rb" \
     "app/server/ruby/bin/clear-logs.rb" \
-    "app/server/native/Sonic Pi - SuperSonic" \
-    "app/server/native/Sonic Pi - Plugins.app/Contents/MacOS/Sonic Pi - Plugins"; do
+    "app/server/native/Sonic Pi - SuperSonic"; do
     if [ ! -f "${resources}/${required}" ]; then
         die "Required runtime file missing after stage: Resources/${required}"
     fi
 done
+# The plugin bridge only in a build that hosts plugins (the manifest check
+# below refuses it in one that does not).
+if build_hosts_plugins; then
+    required="app/server/native/Sonic Pi - Plugins.app/Contents/MacOS/Sonic Pi - Plugins"
+    [ -f "${resources}/${required}" ] || die "Required runtime file missing after stage: Resources/${required}"
+fi
 
 # The :piano synth needs its wavetable asset (built-copied from the SuperSonic
 # submodule). Not fatal — :piano degrades to silence — but warn loudly since
@@ -91,7 +96,8 @@ find "${RELEASE_APP}" -name .DS_Store -delete
 log_step "verify native payload against manifest"
 verify_native_manifest \
     "${resources}/app/server/native" \
-    "${APP_DIR}/mac-release-native-manifest.txt"
+    "${APP_DIR}/mac-release-native-manifest.txt" \
+    "$(build_hosts_plugins && echo 1 || echo 0)"
 log_ok "native payload matches manifest"
 
 log_ok "stage 00 done — ${RELEASE_APP}"

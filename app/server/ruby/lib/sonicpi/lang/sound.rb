@@ -26,6 +26,7 @@ require_relative "../fxreplacenode"
 require_relative "../lazynode"
 require_relative "../synthtracker"
 require_relative "../version"
+require_relative "../plugins"
 require_relative "../tuning"
 require_relative "../sample_loader"
 require_relative "support/docsystem"
@@ -907,6 +908,7 @@ end"]
       # engine keeps current.
 
       def live_track(*params)
+        Plugins.require!(:live_track)
         args, opts = split_params_and_merge_opts_array(params)
         # The name comes first, as live_audio's does, unless it is given as
         # track: or left to use_track; `live_track :stop` stops the current one.
@@ -971,6 +973,7 @@ end"]
       end
       doc name:           :live_track,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "A named audio stream live from a track",
           usage_example:  "live_track :surge",
           args:           [[:name, :symbol]],
@@ -1008,6 +1011,7 @@ live_track :surge, :stop         # hand the track back to the main mix"]
 
 
       def with_send(*params, &block)
+        Plugins.require!(:with_send)
         raise ArgumentError, "with_send must be called with a do/end block" unless block
         args, opts = split_params_and_merge_opts_array(params)
         named = !opts.key?(:track) && (args[0].is_a?(Symbol) || args[0].is_a?(String))
@@ -1048,6 +1052,7 @@ live_track :surge, :stop         # hand the track back to the main mix"]
       end
       doc name:           :with_send,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Send the block's audio to a track",
           usage_example:  "with_send :verb do ... end",
           args:           [[:name, :symbol]],
@@ -1085,6 +1090,7 @@ end"]
 
 
       def use_track(name, *args, &block)
+        Plugins.require!(:use_track)
         raise ArgumentError, "use_track does not accept opts such as #{arg_h_pp(resolve_synth_opts_hash_or_array(args))}." unless args.empty?
         raise ArgumentError, "use_track does not work with a do/end block. Perhaps you meant with_track" if block
         __set_current_track!(name, :use_track)
@@ -1092,6 +1098,7 @@ end"]
       end
       doc name:           :use_track,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Use the named track from now on",
           usage_example:  "use_track :surge",
           args:           [[:name, :symbol]],
@@ -1113,6 +1120,7 @@ end"]
 
 
       def with_track(name, *args, &block)
+        Plugins.require!(:with_track)
         raise ArgumentError, "with_track does not accept opts such as #{arg_h_pp(resolve_synth_opts_hash_or_array(args))}." unless args.empty?
         raise ArgumentError, "with_track must be called with a do/end block. Perhaps you meant use_track" unless block
         orig = __thread_locals.get(:sonic_pi_mod_sound_current_track)
@@ -1125,6 +1133,7 @@ end"]
       end
       doc name:           :with_track,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Use the named track for the block",
           usage_example:  "with_track :surge do ... end",
           args:           [[:name, :symbol]],
@@ -1142,11 +1151,13 @@ track_midi :e4, sustain: 0.5     # on surge again"]
 
 
       def current_track
+        Plugins.require!(:current_track)
         t = __thread_locals.get(:sonic_pi_mod_sound_current_track)
         t ? t.to_sym : nil
       end
       doc name:           :current_track,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Get the current track",
           usage_example:  "current_track",
           args:           [],
@@ -1160,6 +1171,7 @@ puts current_track   # :surge"]
 
 
       def track_midi(*params)
+        Plugins.require!(:track_midi)
         name, args, opts = __track_split(params, :track_midi)
         n, vel = *args
         return __track_rest(:track_midi, name) if rest?(n)
@@ -1183,6 +1195,7 @@ puts current_track   # :surge"]
       end
       doc name:           :track_midi,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Play a note on a track's instrument",
           usage_example:  "track_midi :e3, sustain: 0.3",
           args:           [[:note, :number], [:velocity, :number]],
@@ -1217,6 +1230,7 @@ end"]
 
 
       def track_midi_note_on(*params)
+        Plugins.require!(:track_midi_note_on)
         name, args, opts = __track_split(params, :track_midi_note_on)
         n, vel = *args
         return __track_rest(:track_midi_note_on, name) if rest?(n)
@@ -1235,6 +1249,7 @@ end"]
       end
       doc name:           :track_midi_note_on,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Start a note on a track's instrument",
           usage_example:  "track_midi_note_on :e3, 100",
           args:           [[:note, :number], [:velocity, :number]],
@@ -1255,6 +1270,7 @@ track_midi_note_off :c4"]
 
 
       def track_midi_note_off(*params)
+        Plugins.require!(:track_midi_note_off)
         name, args, opts = __track_split(params, :track_midi_note_off)
         n, vel = *args
         return __track_rest(:track_midi_note_off, name) if rest?(n)
@@ -1271,6 +1287,7 @@ track_midi_note_off :c4"]
       end
       doc name:           :track_midi_note_off,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Stop a note on a track's instrument",
           usage_example:  "track_midi_note_off :e3",
           args:           [[:note, :number], [:release_velocity, :number]],
@@ -1291,6 +1308,7 @@ track_midi_note_off :c4"]
 
 
       def track_midi_cc(*params)
+        Plugins.require!(:track_midi_cc)
         name, args, opts = __track_split(params, :track_midi_cc)
         num, val = *args
         return __track_rest(:track_midi_cc, name) if rest?(num)
@@ -1307,6 +1325,7 @@ track_midi_note_off :c4"]
       end
       doc name:           :track_midi_cc,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Send a MIDI control change to a track",
           usage_example:  "track_midi_cc 1, 64",
           args:           [[:control, :number], [:value, :number]],
@@ -1324,6 +1343,7 @@ track_midi_cc 1, val_f: 0.5    # mod wheel to halfway"]
 
 
       def track_midi_pitch_bend(*params)
+        Plugins.require!(:track_midi_pitch_bend)
         name, args, opts = __track_split(params, :track_midi_pitch_bend)
         delta = args[0]
         return __track_rest(:track_midi_pitch_bend, name) if rest?(delta)
@@ -1339,6 +1359,7 @@ track_midi_cc 1, val_f: 0.5    # mod wheel to halfway"]
       end
       doc name:           :track_midi_pitch_bend,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Send a pitch bend to a track",
           usage_example:  "track_midi_pitch_bend 0.75",
           args:           [[:delta, :float01]],
@@ -1361,6 +1382,7 @@ track_midi_note_off :e3"]
 
 
       def track_midi_all_notes_off(*params)
+        Plugins.require!(:track_midi_all_notes_off)
         name, _args, opts = __track_split(params, :track_midi_all_notes_off)
         if truthy?(opts.fetch(:on, 1))
           @mod_sound_studio.server.track_all_notes_off(name)
@@ -1372,6 +1394,7 @@ track_midi_note_off :e3"]
       end
       doc name:           :track_midi_all_notes_off,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Release every note on a track",
           usage_example:  "track_midi_all_notes_off",
           args:           [],
@@ -1388,6 +1411,7 @@ track_midi_all_notes_off track: :surge"]
 
 
       def track_control(*params)
+        Plugins.require!(:track_control)
         name, args, opts = __track_split(params, :track_control)
         param, value = *args
         plugin_opts = opts.reject { |k, _| k == :on }
@@ -1408,6 +1432,7 @@ track_midi_all_notes_off track: :surge"]
       end
       doc name:           :track_control,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "Set plugin parameters on a track",
           usage_example:  "track_control filter_1_cutoff: 0.5",
           args:           [[:parameter, :string], [:value, :number]],
@@ -1432,10 +1457,12 @@ track_control \"Filter 1 Cutoff\", 0.4    # by the plugin's own spelling"]
 
 
       def tracks
+        Plugins.require!(:tracks)
         @mod_sound_studio.track_names.map(&:to_sym).ring
       end
       doc name:           :tracks,
           introduced:     Version.new(6,0,0),
+          needs:          :plugins,
           summary:        "The names of the tracks",
           usage_example:  "puts tracks",
           args:           [],

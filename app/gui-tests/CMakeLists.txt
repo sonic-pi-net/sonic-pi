@@ -64,6 +64,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/nodetreegraph_look.test.cpp
     ${GUI_TESTS_ROOT}/loopscope_lifecycle.test.cpp
     ${GUI_TESTS_ROOT}/linkaudio_engine_ready.test.cpp
+    ${GUI_TESTS_ROOT}/plugins.test.cpp
     ${GUI_ROOT}/widgets/nodetreegraph.cpp
     ${GUI_ROOT}/widgets/trackspanel.cpp
     ${GUI_ROOT}/widgets/linkaudiostreamswidget.cpp
@@ -128,7 +129,8 @@ endif()
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-    SP_ROOT="${SP_APP_ROOT}/..")
+    SP_ROOT="${SP_APP_ROOT}/.."
+    SONIC_PI_PLUGINS=$<BOOL:${CLOCKWORK_PLUGINS}>)   # as the GUI's (gui/CMakeLists.txt)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     sonic-pi-api

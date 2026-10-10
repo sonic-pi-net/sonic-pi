@@ -28,7 +28,11 @@ module SonicPi
       end
     end
 
+    # The track functions need plugin hosting (test_tracks_without_plugins.rb):
+    # these run as a build with it.
     def setup
+      @plugins_before = ENV["SONIC_PI_PLUGINS"]
+      ENV["SONIC_PI_PLUGINS"] = "1"
       @server = mock
       @studio = mock
       @studio.stubs(:cent_tuning).returns(0)
@@ -51,6 +55,10 @@ module SonicPi
       @sound.use_bpm 60
       # Thread-local, so one test's use_track would be the next test's current track.
       @sound.__thread_locals.set(:sonic_pi_mod_sound_current_track, nil)
+    end
+
+    def teardown
+      @plugins_before.nil? ? ENV.delete("SONIC_PI_PLUGINS") : ENV["SONIC_PI_PLUGINS"] = @plugins_before
     end
 
     def test_track_midi_needs_a_track

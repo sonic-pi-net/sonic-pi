@@ -184,22 +184,32 @@ run() {
 # ----------------------------------------------------------------------------
 # Native payload allowlist
 # ----------------------------------------------------------------------------
+# Whether the build being released hosts plugins: CLOCKWORK_PLUGINS in the GUI
+# build's CMake cache (app/external/CMakeLists.txt). The plugin bridge ships
+# only then.
+build_hosts_plugins() {
+    grep -qiE '^CLOCKWORK_PLUGINS:BOOL=(ON|TRUE|YES|Y|1)$' "${APP_DIR}/build/CMakeCache.txt" 2>/dev/null
+}
+
 # Verify the staged app/server/native root against an allowlist manifest.
 # Bash counterpart to install/windows/stage-native.ps1: the native root is
 # gitignored and wholesale-copied, so without a check a stale binary from a
 # prior build (e.g. the pre-rename `supersonic`) silently ships and gets
 # codesigned. Every top-level entry must be covered by a file glob, a
 # `dir:` entry, or an `ignore:` glob; each required file glob must match at
-# least one file and each `dir:` must exist. Anything else fails the release.
+# least one file and each `dir:` must exist. A `plugins:` entry (a file or a
+# directory) ships only in a build that hosts plugins: there it is required,
+# and in one that does not it is refused. Anything else fails the release.
 #
-#   verify_native_manifest <staged-native-root> <manifest-path>
+#   verify_native_manifest <staged-native-root> <manifest-path> <plugins: 1|0>
 verify_native_manifest() {
     local native_root="$1"
     local manifest="$2"
+    local plugins="$3"
     [ -d "$native_root" ] || die "native root not found: $native_root"
     [ -f "$manifest" ]    || die "native manifest not found: $manifest"
 
-    local file_globs=() dir_entries=() ignore_globs=()
+    local file_globs=() dir_entries=() ignore_globs=() plugin_entries=()
     local line stripped
     while IFS= read -r line || [ -n "$line" ]; do
         stripped="${line%%#*}"                                   # drop comments
@@ -216,6 +226,10 @@ verify_native_manifest() {
                 stripped="${stripped#ignore:}"
                 stripped="${stripped#"${stripped%%[![:space:]]*}"}"
                 ignore_globs+=("$stripped") ;;
+            plugins:*)
+                stripped="${stripped#plugins:}"
+                stripped="${stripped#"${stripped%%[![:space:]]*}"}"
+                plugin_entries+=("$stripped") ;;
             *)
                 file_globs+=("$stripped") ;;
         esac
@@ -236,6 +250,16 @@ verify_native_manifest() {
             [[ "$name" == $g ]] && { matched=1; break; }
         done
         [ "$matched" = 1 ] && continue
+
+        # plugins: entries ship only with plugins
+        matched=0
+        for g in ${plugin_entries[@]+"${plugin_entries[@]}"}; do
+            [[ "$name" == $g ]] && { matched=1; break; }
+        done
+        if [ "$matched" = 1 ]; then
+            [ "$plugins" = 1 ] || { log_err "  native: ${name} ships only in a build that hosts plugins, and this one does not"; errors=$((errors+1)); }
+            continue
+        fi
 
         if [ -d "$entry" ]; then
             matched=0
@@ -269,6 +293,19 @@ verify_native_manifest() {
     for d in ${dir_entries[@]+"${dir_entries[@]}"}; do
         [ -d "${native_root}/${d}" ] || { log_err "  native: manifest requires dir '${d}/' but it is missing"; errors=$((errors+1)); }
     done
+
+    # 4) In a build that hosts plugins, every plugins: entry must be there.
+    if [ "$plugins" = 1 ]; then
+        for g in ${plugin_entries[@]+"${plugin_entries[@]}"}; do
+            matched=0
+            shopt -s nullglob dotglob
+            for entry in "$native_root"/*; do
+                [[ "$(basename "$entry")" == $g ]] && { matched=1; break; }
+            done
+            shopt -u nullglob dotglob
+            [ "$matched" = 1 ] || { log_err "  native: a build that hosts plugins must ship '${g}', and it is missing"; errors=$((errors+1)); }
+        done
+    fi
 
     [ "$errors" = 0 ] || die "native payload failed manifest verification (${errors} problem(s)) — see above"
 }

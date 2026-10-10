@@ -88,6 +88,7 @@
 #include "utils/gui_settings.h"
 #include "utils/scintilla_api.h"
 #include "utils/setbundle.h"
+#include "utils/plugins.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
 #include "widgets/sonicpierrorcard.h"
@@ -507,6 +508,9 @@ void MainWindow::initPaths()
     QString settings_path = sonicPiConfigPath() + QDir::separator() + "v5-gui-settings.ini";
     SonicPi::setGuiSettingsPath(settings_path);
     gui_settings = new QSettings(settings_path, QSettings::IniFormat);
+    // Before anything is started: whether this build hosts plugins is read by
+    // all of it.
+    SonicPi::adoptPluginsBuild();
 
     QString root_path = rootPath();
 
@@ -1399,7 +1403,8 @@ void MainWindow::setupWindowStructure()
     QWidget* cardsZoomControls = quickstartPane->zoomControls();
     logsZoom = new ZoomBar(theme, tr("logs"), this);
     debugZoom = new ZoomBar(theme, tr("metrics"), this);
-    tracksZoom = new ZoomBar(theme, tr("tracks"), this);
+    if (SonicPi::kPluginsBuilt)
+        tracksZoom = new ZoomBar(theme, tr("tracks"), this);
     QWidget* helpZoomFoot = new QWidget;
     QVBoxLayout* helpZoomLayout = new QVBoxLayout(helpZoomFoot);
     helpZoomLayout->setContentsMargins(0, 0, 0, ScaleHeightForDPI(6));
@@ -1407,7 +1412,7 @@ void MainWindow::setupWindowStructure()
     for (QWidget* zoom : { docZoomControls, cardsZoomControls,
                            static_cast<QWidget*>(logsZoom), static_cast<QWidget*>(debugZoom),
                            static_cast<QWidget*>(tracksZoom) })
-        helpZoomLayout->addWidget(zoom, 0, Qt::AlignHCenter);
+        if (zoom) helpZoomLayout->addWidget(zoom, 0, Qt::AlignHCenter);
     southTabs->setFootWidget(helpZoomFoot);
     auto syncDocZoomVisible = [this, docZoomControls, cardsZoomControls]() {
         QWidget* current = southTabs->currentWidget();
@@ -1415,7 +1420,7 @@ void MainWindow::setupWindowStructure()
         cardsZoomControls->setVisible(current == quickstartPane);
         logsZoom->setVisible(current == debugLogPanel);
         debugZoom->setVisible(current == metricsPanel);
-        tracksZoom->setVisible(tracksPanel && current == tracksPanel);
+        if (tracksZoom) tracksZoom->setVisible(tracksPanel && current == tracksPanel);
         // The title names the current tab so the row reads as a heading for
         // what's actually on screen, not just the dock.
         QString suffix;
@@ -2171,47 +2176,52 @@ void MainWindow::createDebugAndLogTabs()
     southTabs->setTabToolTip(southTabs->addTab(metricsPanel, tr("Debug")),
                              tr("Live metrics, node tree and message logs for the SuperSonic audio engine."));
 
-    // Tracks: the plugin host's named lanes, each with a chain of VST3 or
-    // CLAP plugins arranged here and played from code by name
-    // (live_track, with_send, use_track and track_midi).
-    tracksPanel = new TracksPanel(m_spAPI, this);
-    tracksPanel->applyTheme(theme);
-    tracksPanel->setUserZoom(gui_settings->value("prefs/tracks-zoom", 0).toInt());
-    connect(tracksZoom, &ZoomBar::zoomStep, this,
-            [this](int delta) { tracksPanel->setUserZoom(tracksPanel->userZoom() + delta); });
-    southTabs->setTabToolTip(southTabs->addTab(tracksPanel, tr("Tracks")),
-                             tr("VST3 and CLAP plugins hosted by the SuperSonic audio engine, "
-                                "on tracks your code plays by name."));
-    // The same editor and status contract the cards use.
-    connect(tracksPanel, &TracksPanel::insertRequested, this,
-            [this](const QString& title, const QString& code) {
-                SonicPiScintilla* ws = getCurrentWorkspace();
-                if (!ws)
-                    return;
-                for (int i = 0; i < workspace_max; i++)
-                    workspaces[i]->cancelInsertPreview();
-                ws->previewInsertAtCursor(code, title);
-                ws->finaliseDropPreview();
-                ws->setFocus();
-                showStatusAndAnnounce(tr("Inserted %1 at the cursor.").arg(title), 5000);
-            });
-    connect(tracksPanel, &TracksPanel::copyRequested, this,
-            [this](const QString& title, const QString& code) {
-                QApplication::clipboard()->setText(code);
-                showStatusAndAnnounce(tr("Copied %1 to the clipboard.").arg(title), 5000);
-            });
-    connect(tracksPanel, &TracksPanel::announceRequested, this,
-            [this](const QString& msg) {
-                announce(msg, false, SonicPi::Announcement::Navigation);
-            });
-    // The plugins' own parameters, so `track_midi :e3, ` on the track from
-    // use_track offers `filter_1_cutoff:` with a slider over its range, and
-    // `track_control "` completes "Filter 1 Cutoff" rather than leaving it
-    // to memory.
-    connect(tracksPanel, &TracksPanel::trackParamsChanged, this,
-            [this](const QString& track, const QList<SonicPi::TrackParam>& params) {
-                if (autocomplete) autocomplete->updateTrackParams(track, params);
-            });
+    // Tracks need plugin hosting: a build without it has no panel, so no
+    // plugin scan and no rig to restore.
+    if (SonicPi::kPluginsBuilt)
+    {
+        // Tracks: the plugin host's named lanes, each with a chain of VST3 or
+        // CLAP plugins arranged here and played from code by name
+        // (live_track, with_send, use_track and track_midi).
+        tracksPanel = new TracksPanel(m_spAPI, this);
+        tracksPanel->applyTheme(theme);
+        tracksPanel->setUserZoom(gui_settings->value("prefs/tracks-zoom", 0).toInt());
+        connect(tracksZoom, &ZoomBar::zoomStep, this,
+                [this](int delta) { tracksPanel->setUserZoom(tracksPanel->userZoom() + delta); });
+        southTabs->setTabToolTip(southTabs->addTab(tracksPanel, tr("Tracks")),
+                                 tr("VST3 and CLAP plugins hosted by the SuperSonic audio engine, "
+                                    "on tracks your code plays by name."));
+        // The same editor and status contract the cards use.
+        connect(tracksPanel, &TracksPanel::insertRequested, this,
+                [this](const QString& title, const QString& code) {
+                    SonicPiScintilla* ws = getCurrentWorkspace();
+                    if (!ws)
+                        return;
+                    for (int i = 0; i < workspace_max; i++)
+                        workspaces[i]->cancelInsertPreview();
+                    ws->previewInsertAtCursor(code, title);
+                    ws->finaliseDropPreview();
+                    ws->setFocus();
+                    showStatusAndAnnounce(tr("Inserted %1 at the cursor.").arg(title), 5000);
+                });
+        connect(tracksPanel, &TracksPanel::copyRequested, this,
+                [this](const QString& title, const QString& code) {
+                    QApplication::clipboard()->setText(code);
+                    showStatusAndAnnounce(tr("Copied %1 to the clipboard.").arg(title), 5000);
+                });
+        connect(tracksPanel, &TracksPanel::announceRequested, this,
+                [this](const QString& msg) {
+                    announce(msg, false, SonicPi::Announcement::Navigation);
+                });
+        // The plugins' own parameters, so `track_midi :e3, ` on the track from
+        // use_track offers `filter_1_cutoff:` with a slider over its range, and
+        // `track_control "` completes "Filter 1 Cutoff" rather than leaving it
+        // to memory.
+        connect(tracksPanel, &TracksPanel::trackParamsChanged, this,
+                [this](const QString& track, const QList<SonicPi::TrackParam>& params) {
+                    if (autocomplete) autocomplete->updateTrackParams(track, params);
+                });
+    }
     // Reopen on whichever tab was last in use; Docs is the fallback for a
     // profile that has never set one.
     {
@@ -8190,8 +8200,20 @@ void MainWindow::addHelpPage(QListWidget* nameList,
     struct help_entry entry;
     entry.pageIndex = docsNavTabs->count() - 1;
 
+    // The Lang functions that need plugin hosting are offered only by a build
+    // with it: not listed, not completed. Which they are is in the generated
+    // Lang reference.
+    QSet<QString> needPlugins;
+    if ((DocTab)entry.pageIndex == DocTab::Lang && !SonicPi::kPluginsBuilt)
+    {
+        loadNativeDocs();
+        needPlugins = SonicPi::pluginLangKeywords(langDocPages);
+    }
+
     for (i = 0; i < len; i++)
     {
+        if (needPlugins.contains(QString(helpPages[i].keyword)))
+            continue;
         QListWidgetItem* item = new QListWidgetItem(helpPages[i].title);
         item->setData(32, QVariant(helpPages[i].url));
         // Searchable symbol (bass_foundation) alongside the display title

@@ -5,6 +5,9 @@
 #
 #   <glob>          root file(s) that must ship - must match >= 1 staged file
 #   dir: <name>     directory tree that must ship (checked at root level only)
+#   plugins: <glob> a file or directory that ships only in a build hosting
+#                   plugins (CLOCKWORK_PLUGINS): required there, refused
+#                   otherwise
 #   ignore: <glob>  expected local build debris - allowed but never required
 #
 # Any entry in the staged native root not covered below FAILS the release:
@@ -22,9 +25,10 @@
 
 # Engine + tools (engine name per app/server/ruby/paths.rb + daemon.rb).
 # The plugin bridge is the engine's second process: it hosts VST3 and CLAP
-# plugins and is spawned by the engine from beside its own binary.
+# plugins and is spawned by the engine from beside its own binary. On macOS it
+# is an app bundle, so it has a bundle identifier.
 Sonic Pi - SuperSonic
-Sonic Pi - Plugins
+plugins: Sonic Pi - Plugins.app
 aubio_onset
 piano_wavetable.dat
 
