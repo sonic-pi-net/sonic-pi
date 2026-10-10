@@ -175,6 +175,47 @@ QString TutProseText::anchorAtPosition(int pos) const
     return QString();
 }
 
+// The washed line's rectangle: every visual line the source line wraps to,
+// the whole block wide.
+void TutProseText::paintWash(QPainter& p) const
+{
+    // plainText() turns each separator into one '\n', so its offsets are the
+    // document's positions.
+    const QString text = plainText();
+    int start = 0;
+    for (int i = 0; i < m_washLine; ++i)
+    {
+        start = text.indexOf(QLatin1Char('\n'), start);
+        if (start < 0)
+            return;
+        ++start;
+    }
+    int end = text.indexOf(QLatin1Char('\n'), start);
+    if (end < 0)
+        end = text.size();
+    QRectF lit;
+    for (QTextBlock block = m_doc.begin(); block.isValid(); block = block.next())
+    {
+        if (block.position() > end)
+            break;
+        const QTextLayout* layout = block.layout();
+        const QPointF origin = m_doc.documentLayout()->blockBoundingRect(block).topLeft();
+        for (int i = 0; i < layout->lineCount(); ++i)
+        {
+            const QTextLine line = layout->lineAt(i);
+            const int from = block.position() + line.textStart();
+            // Half-open: a line ends where the next begins, its separator its own.
+            if (from <= end && from + line.textLength() > start)
+                lit |= line.rect().translated(origin);
+        }
+    }
+    if (lit.isNull())
+        return;
+    lit.setLeft(0);
+    lit.setRight(width());
+    p.fillRect(lit, m_washColour);
+}
+
 QRect TutProseText::textRectGlobal(int pos, bool thin) const
 {
     heightForWidth(width()); // the rect must come from the rendered layout

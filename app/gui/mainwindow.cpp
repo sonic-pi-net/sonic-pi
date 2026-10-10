@@ -1099,7 +1099,7 @@ void MainWindow::setupWindowStructure()
     right->setContext(Qt::WidgetWithChildrenShortcut);
     connect(right, SIGNAL(activated()), this, SLOT(docNextTab()));
 
-    tutorialPane = new TutorialPane(lexer, theme);
+    tutorialPane = new TutorialPane(theme);
     tutorialPane->setAudioApi(m_spAPI);
     // The A-/A+ bar governs the whole help tab, not just the content pane:
     // the topic lists and their filter fields scale with it too, so someone
@@ -1183,6 +1183,11 @@ void MainWindow::setupWindowStructure()
     });
     connect(tutorialPane, &TutorialPane::announceRequested, this,
             [this](const QString& msg) { announce(msg); });
+    connect(tutorialPane, &TutorialPane::dragEnded, this, &MainWindow::cancelCardPreview);
+    connect(tutorialPane, &TutorialPane::insertPreviewRequested, this, &MainWindow::previewCardCode);
+    connect(tutorialPane, &TutorialPane::insertPreviewCleared, this, &MainWindow::cancelCardPreview);
+    connect(tutorialPane, &TutorialPane::insertRequested, this, &MainWindow::insertCardCode);
+    connect(tutorialPane, &TutorialPane::copyRequested, this, &MainWindow::copyCardCode);
     connect(tutorialPane, &TutorialPane::linkClicked, this, &MainWindow::docLinkClicked);
     connect(tutorialPane, &TutorialPane::navigateRequested, this, [this](int delta) {
         QListWidget* list = helpLists.value((int)DocTab::Tutorial);
@@ -1195,6 +1200,10 @@ void MainWindow::setupWindowStructure()
             tutorialPane, &TutorialPane::runStarted);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::RunEndedReceived,
             tutorialPane, &TutorialPane::runEnded);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunOutputReceived,
+            tutorialPane, &TutorialPane::runOutput);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunErrorReceived,
+            tutorialPane, &TutorialPane::runError);
     // Job -> workspace, so errors can tell an editor run from a help-system
     // one (help errors must never scribble markers on the editor).
     connect(m_spClient.get(), &SonicPi::QtAPIClient::RunStartedReceived, this,
@@ -1239,52 +1248,13 @@ void MainWindow::setupWindowStructure()
             });
     connect(quickstartPane, &QuickstartPane::stopJobRequested, this,
             [this](int jobId) { m_spAPI->StopJob(jobId); });
-    connect(quickstartPane, &QuickstartPane::dragEnded, this, [this] {
-        // A drop on the editor already committed (dropEvent). Anything still
-        // previewing here means the card was released off the editor: cancel it,
-        // don't turn a fumbled drag into real code.
-        for (int i = 0; i < workspace_max; i++)
-            workspaces[i]->cancelInsertPreview();
-    });
-    connect(quickstartPane, &QuickstartPane::insertPreviewRequested, this,
-            [this](const QString& title, const QString& code) {
-                if (SonicPiScintilla* ws = getCurrentWorkspace())
-                    ws->previewInsertAtCursor(code, title);
-            });
-    connect(quickstartPane, &QuickstartPane::insertPreviewCleared, this, [this] {
-        // All workspaces, not just the current one: the preview went into
-        // whichever buffer was current at hover time, and the user may have
-        // switched buffers since (cancel is a no-op where nothing previews).
-        for (int i = 0; i < workspace_max; i++)
-            workspaces[i]->cancelInsertPreview();
-    });
-    connect(quickstartPane, &QuickstartPane::insertRequested, this,
-            [this](const QString& title, const QString& code) {
-                SonicPiScintilla* ws = getCurrentWorkspace();
-                if (!ws)
-                    return;
-                // Drop any stale hover preview everywhere (it may live in
-                // another buffer after a switch), then place + commit fresh in
-                // the current one.
-                for (int i = 0; i < workspace_max; i++)
-                    workspaces[i]->cancelInsertPreview();
-                ws->previewInsertAtCursor(code, title);
-                ws->finaliseDropPreview();
-                ws->setFocus();
-                showStatusAndAnnounce(
-                    title.isEmpty()
-                        ? tr("Inserted the card's code at the cursor. Press Run to hear it.")
-                        : tr("Inserted %1 at the cursor. Press Run to hear it.").arg(title),
-                    5000);
-            });
-    connect(quickstartPane, &QuickstartPane::copyRequested, this,
-            [this](const QString& title, const QString& code) {
-                QApplication::clipboard()->setText(code);
-                showStatusAndAnnounce(
-                    title.isEmpty() ? tr("Copied the card's code to the clipboard.")
-                                    : tr("Copied %1 to the clipboard.").arg(title),
-                    5000);
-            });
+    // A drop on the editor already committed (dropEvent): a preview still
+    // showing when a drag ends means the card was released off the editor.
+    connect(quickstartPane, &QuickstartPane::dragEnded, this, &MainWindow::cancelCardPreview);
+    connect(quickstartPane, &QuickstartPane::insertPreviewRequested, this, &MainWindow::previewCardCode);
+    connect(quickstartPane, &QuickstartPane::insertPreviewCleared, this, &MainWindow::cancelCardPreview);
+    connect(quickstartPane, &QuickstartPane::insertRequested, this, &MainWindow::insertCardCode);
+    connect(quickstartPane, &QuickstartPane::copyRequested, this, &MainWindow::copyCardCode);
     connect(quickstartPane, &QuickstartPane::announceRequested, this,
             [this](const QString& msg) {
                 announce(msg, false, SonicPi::Announcement::Navigation);
@@ -1293,16 +1263,23 @@ void MainWindow::setupWindowStructure()
             quickstartPane, &QuickstartPane::runStarted);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::RunEndedReceived,
             quickstartPane, &QuickstartPane::runEnded);
-    connect(m_spClient.get(), &SonicPi::QtAPIClient::FlashReceived, quickstartPane,
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunOutputReceived,
+            quickstartPane, &QuickstartPane::runOutput);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::RunErrorReceived,
+            quickstartPane, &QuickstartPane::runError);
+    connect(m_spClient.get(), &SonicPi::QtAPIClient::FlashReceived, this,
             [this](const QString& workspace, int line) {
                 // Same pref gate and output-latency delay as the editor flash.
                 if (!piSettings->flash_code)
                     return;
-                if (m_visualLatencyMs > 0)
-                    QTimer::singleShot(m_visualLatencyMs, quickstartPane,
-                                       [this, workspace, line]() { quickstartPane->flashLine(workspace, line); });
-                else
+                auto flash = [this, workspace, line] {
                     quickstartPane->flashLine(workspace, line);
+                    tutorialPane->flashLine(workspace, line);
+                };
+                if (m_visualLatencyMs > 0)
+                    QTimer::singleShot(m_visualLatencyMs, this, flash);
+                else
+                    flash();
             });
     southTabs->setTabToolTip(southTabs->addTab(quickstartPane, tr("Cards")),
                              tr("Quickstart cards: small runnable snippets to get going."));
@@ -3992,7 +3969,12 @@ void MainWindow::createExamplesMenu()
     };
 
     // Same glob + sort as qt-doc.rb, so the running row index lines up with
-    // the entries in the help pane's Examples tab.
+    // the entries in the help pane's Examples tab; named as qt-doc.rb and the
+    // web name them, from the examples' cards.
+    QHash<QString, SonicPi::ExampleCard> cards;
+    QFile cardsFile(rootPath() + "/etc/examples/cards.json");
+    if (cardsFile.open(QIODevice::ReadOnly))
+        cards = SonicPi::TutorialDocs::exampleCardsFromJson(cardsFile.readAll());
     int helpRow = 0;
     for (const auto& category : categories)
     {
@@ -4003,16 +3985,11 @@ void MainWindow::createExamplesMenu()
         {
             QString base = fname;
             base.chop(3);
-            QStringList words = base.split('_');
-            for (QString& word : words)
-            {
-                if (!word.isEmpty())
-                    word[0] = word[0].toUpper();
-            }
-            QString title = words.join(' ');
+            const QString title = SonicPi::TutorialDocs::exampleTitle(base, cards);
             QString path = dir.filePath(fname);
             examplePaths << path;
             exampleTitles << title;
+            exampleBlurbs << cards.value(base).blurb;
             int row = helpRow++;
             QAction* act = categoryMenu->addAction(title);
             connect(act, &QAction::triggered, this, [this, path, title, row]() {
@@ -4045,6 +4022,46 @@ void MainWindow::createExamplesMenu()
         showHelpListTab((int)DocTab::Fx, -1);
     });
     examplesMenu->addAction(browseFxAct);
+}
+
+void MainWindow::insertCardCode(const QString& title, const QString& code)
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    if (!ws)
+        return;
+    // Drop any stale hover preview everywhere (it may live in another buffer
+    // after a switch), then place + commit fresh in the current one.
+    cancelCardPreview();
+    ws->previewInsertAtCursor(code, title);
+    ws->finaliseDropPreview();
+    ws->setFocus();
+    showStatusAndAnnounce(title.isEmpty()
+                              ? tr("Inserted the card's code at the cursor. Press Run to hear it.")
+                              : tr("Inserted %1 at the cursor. Press Run to hear it.").arg(title),
+                          5000);
+}
+
+void MainWindow::previewCardCode(const QString& title, const QString& code)
+{
+    if (SonicPiScintilla* ws = getCurrentWorkspace())
+        ws->previewInsertAtCursor(code, title);
+}
+
+void MainWindow::cancelCardPreview()
+{
+    // All workspaces, not just the current one: the preview went into
+    // whichever buffer was current at hover time, and the user may have
+    // switched buffers since (cancel is a no-op where nothing previews).
+    for (int i = 0; i < workspace_max; i++)
+        workspaces[i]->cancelInsertPreview();
+}
+
+void MainWindow::copyCardCode(const QString& title, const QString& code)
+{
+    QApplication::clipboard()->setText(code);
+    showStatusAndAnnounce(title.isEmpty() ? tr("Copied the card's code to the clipboard.")
+                                          : tr("Copied %1 to the clipboard.").arg(title),
+                          5000);
 }
 
 void MainWindow::showExamplesHelpTab(int row)
@@ -8103,7 +8120,8 @@ bool MainWindow::showInTutorialPane(int tabIdx, int row)
         QString code = readFile(examplePaths[row]);
         if (!code.isEmpty())
         {
-            tutorialPane->showCodePage(exampleTitles.value(row), code);
+            tutorialPane->showExamplePage(QFileInfo(examplePaths[row]).completeBaseName(),
+                                          exampleTitles.value(row), code, exampleBlurbs.value(row));
             built = true;
         }
     }

@@ -166,19 +166,21 @@ function stats() {
   return `<dl class="os-stats">${figures.filter(([v]) => v).map(([v, what]) => `<div><dt>${v}</dt><dd>${what}</dd></div>`).join("")}</dl>`;
 }
 
-// The examples: the app's own, in its levels, each with its site card's blurb and width; a site card the
-// app has no example for (its own code in the data) leads the first level. Each is its code in a <pre>, which the
-// page's script makes a card to play and edit (site.js); without a script it is the code to read.
+// The examples: the app's own, in its levels, each named and described as its card is in the app
+// (etc/examples/cards.json, which the GUI reads too) and as wide as the site lays it out; the site's own cards
+// (their code in the site's data) lead the first level. Each is its code in a <pre>, which the page's script makes
+// a card to play and edit (site.js); without a script it is the code to read.
 const norm = (s) => s.toLowerCase().replace(/[^a-z]/g, "");
 const exampleLevels = (() => {
   const levels = JSON.parse(read(ROOT, "web/data/reference/examples.json")).groups;
-  const cards = JSON.parse(read(SITE, "data/example-cards.json"));
-  const cardFor = (e) => cards.find((c) => norm(c.title).startsWith(norm(e.title)));   // "Haunted" is the site's "Haunted Bells"
+  const named = JSON.parse(read(NATIVE, "etc/examples/cards.json"));
+  const site = JSON.parse(read(SITE, "data/example-cards.json"));   // { own: [{ title, blurb, code }], wide: [key] }
+  const wide = new Set(site.wide);
   return levels.map((g, i) => ({
     title: g.title,
     examples: [
-      ...(i === 0 ? cards.filter((c) => c.code).map((c) => ({ key: norm(c.title), title: c.title, code: c.code, blurb: c.blurb, wide: !!c.wide })) : []),
-      ...g.examples.map((e) => { const c = cardFor(e); return { key: e.key || norm(e.title), title: c?.title ?? e.title, code: e.code, blurb: c?.blurb ?? "", wide: !!c?.wide }; }),
+      ...(i === 0 ? site.own.map((c) => ({ key: norm(c.title), title: c.title, code: c.code, blurb: c.blurb, wide: wide.has(norm(c.title)) })) : []),
+      ...g.examples.map((e) => { const key = e.key || norm(e.title); return { key, title: named[key]?.title ?? e.title, code: e.code, blurb: named[key]?.blurb ?? "", wide: wide.has(key) }; }),
     ],
   }));
 })();

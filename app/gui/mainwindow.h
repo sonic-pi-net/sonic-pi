@@ -503,6 +503,12 @@ private slots:
     // Status-bar message that is also spoken — for state changes whose only
     // other feedback is visual.
     void showStatusAndAnnounce(const QString& message, int timeoutMs = 2000);
+    // A code card's code (the Cards tab's, the docs'): into the editor at the
+    // cursor, previewed there while its Add is hovered, onto the clipboard.
+    void insertCardCode(const QString& title, const QString& code);
+    void previewCardCode(const QString& title, const QString& code);
+    void cancelCardPreview();
+    void copyCardCode(const QString& title, const QString& code);
     void updateRecordingUI();
     void addMenuBarMnemonics();
     // Reveal the Help dock and bring its tab strip to the Docs tab.
@@ -722,6 +728,7 @@ private:
     QStringList tutorialJsonPaths; // sorted generated chapter JSON, row-aligned with the Tutorial help list
     QStringList examplePaths;      // qt-doc glob order, row-aligned with the Examples help list
     QStringList exampleTitles;
+    QStringList exampleBlurbs;     // each card's line, as the web's Examples page has it
     // Generated reference docs (loaded lazily from etc/doc/generated/native)
     QVector<SonicPi::InstrumentPage> synthDocPages;
     QVector<SonicPi::InstrumentPage> fxDocPages;

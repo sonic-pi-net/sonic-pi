@@ -14,6 +14,7 @@
 
 require 'cgi'
 require 'fileutils'
+require 'json'
 
 require_relative "../core.rb"
 require_relative "../paths"
@@ -237,12 +238,16 @@ make_tutorial = lambda do |lang|
 end
 
 
+# An example is named as its card names it (etc/examples/cards.json, which
+# the GUI and the web's Examples page read too); any other for its file, a word
+# a part.
+example_cards = JSON.parse(File.read(File.join(SonicPi::Paths.examples_path, "cards.json")))
 example_html_map = {}
 example_dirs = ["Apprentice", "Illusionist", "Magician", "Sorcerer", "Wizard", "Algomancer"]
 example_dirs.each do |ex_dir|
   Dir["#{SonicPi::Paths.examples_path}/#{ex_dir.downcase}/*.rb"].sort.each do |path|
-    bname = File.basename(path, ".rb")
-    bname = bname.titleize
+    key = File.basename(path, ".rb")
+    bname = example_cards.dig(key, "title") || key.split("_").map(&:capitalize).join(" ")
     name = "[#{ex_dir}] #{bname}"
     lines = IO.readlines(path).map(&:chop).map{|s| CGI.escapeHTML(s)}
     html = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\n\n"
@@ -968,7 +973,6 @@ generate_ui_lang_names()
 # etc/doc/generated/native/.
 ###
 
-require 'json'
 require 'ripper'
 
 native_docs_root = File.join(SonicPi::Paths.docs_generated_path, "native")

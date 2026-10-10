@@ -57,7 +57,8 @@
 #include "model/sonicpitheme.h"
 #include "utils/tablericons.h"
 #include "widgets/tutorialwidgets.h" // TutHeading (accessible section titles)
-#include "widgets/cardscope.h" // the ring scope, shared with the tracks panel
+#include "widgets/carddeck.h"
+#include "widgets/codecard.h"
 #include "widgets/zoombar.h"
 #include "utils/flash_style.h"
 #include "utils/reducedmotion.h"
@@ -187,78 +188,22 @@ static const QVector<Deck>& quickstartDecks(const QString& path)
     cachedPath = path;
     cachedMtime = mtime;
     cached.clear();
-    QFile f(path);
-    if (f.open(QFile::ReadOnly | QFile::Text))
-        cached = parseDecks(QString::fromUtf8(f.readAll()));
+    // The pane is built before MainWindow names its file: no path yet is
+    // nothing to open, not a file that failed to.
+    if (!path.isEmpty())
+    {
+        QFile f(path);
+        if (f.open(QFile::ReadOnly | QFile::Text))
+            cached = parseDecks(QString::fromUtf8(f.readAll()));
+    }
     if (cached.isEmpty()) cached = fallbackDecks();
     return cached;
 }
-namespace
-{
-
-// Card frames read as a named group ("Play a note card, 1 of 8"). A QFrame's
-// default accessible role is Border, which the platform bridges prune from
-// the tree — the name and the Space/I keyboard hint would never be spoken.
-class QsCardAccessible : public QAccessibleWidget
-{
-public:
-    explicit QsCardAccessible(QWidget* w)
-        : QAccessibleWidget(w, QAccessible::Grouping)
-    {
-    }
-};
-
-// Pointer-only affordances (the drag handle) are pruned from the
-// accessibility tree: to a screen reader they are dead stops with no
-// keyboard equivalent of their own. Same idiom as the completion popup's
-// IgnoredAccessible.
-class QsIgnoredAccessible : public QAccessibleWidget
-{
-public:
-    explicit QsIgnoredAccessible(QWidget* w)
-        : QAccessibleWidget(w, QAccessible::NoRole)
-    {
-    }
-    QAccessible::State state() const override
-    {
-        QAccessible::State st = QAccessibleWidget::state();
-        st.invisible = true;
-        st.offscreen = true;
-        return st;
-    }
-    int childCount() const override { return 0; }
-    QAccessibleInterface* child(int) const override { return nullptr; }
-};
-
-QAccessibleInterface* quickstartAccessibleFactory(const QString& className, QObject* object)
-{
-    Q_UNUSED(className);
-    QWidget* widget = qobject_cast<QWidget*>(object);
-    if (!widget)
-        return nullptr;
-    if (widget->property("a11yIgnored").toBool())
-        return new QsIgnoredAccessible(widget);
-    if (widget->objectName() == QLatin1String("qsCard"))
-        return new QsCardAccessible(widget);
-    return nullptr;
-}
-
-void registerQuickstartAccessibility()
-{
-    static bool installed = false;
-    if (installed)
-        return;
-    installed = true;
-    QAccessible::installFactory(quickstartAccessibleFactory);
-}
-
-} // namespace
 
 QuickstartPane::QuickstartPane(SonicPiTheme* theme, QWidget* parent)
     : QWidget(parent), m_theme(theme)
 {
-    registerQuickstartAccessibility();
-    registerTutorialWidgetAccessibility(); // card titles are TutHeadings
+    registerTutorialWidgetAccessibility(); // deck titles are TutHeadings
     setAttribute(Qt::WA_StyledBackground, true);
     // Deck switcher runs down the left as a side column, so it costs no
     // vertical space and more card rows are visible.
@@ -266,15 +211,19 @@ QuickstartPane::QuickstartPane(SonicPiTheme* theme, QWidget* parent)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
-    // Poll the pointer for hover feedback instead of tracking Enter/Leave
-    // across every child widget (which sticks and flickers). Runs only while
-    // the pane is shown (see showEvent/hideEvent) so a hidden Cards tab costs
-    // nothing.
-    m_hoverTimer = new QTimer(this);
-    m_hoverTimer->setInterval(50);
-    connect(m_hoverTimer, &QTimer::timeout, this, &QuickstartPane::updateHover);
+    // The cards' runs: layered, as a performance deck's loops stack. Their
+    // hover too, polled only while the pane shows.
+    m_deck = new CardDeck(this, CardDeck::Playing::Layered);
+    connect(m_deck, &CardDeck::runRequested, this, &QuickstartPane::runRequested);
+    connect(m_deck, &CardDeck::stopJobRequested, this, &QuickstartPane::stopJobRequested);
 
     rebuild();
+}
+
+void QuickstartPane::setAudioApi(std::shared_ptr<SonicPi::SonicPiAPI> api)
+{
+    m_spAPI = api; // kept: the deck's rings borrow it
+    m_deck->setAudioApi(m_spAPI.get());
 }
 
 void QuickstartPane::showEvent(QShowEvent* event)
@@ -285,20 +234,6 @@ void QuickstartPane::showEvent(QShowEvent* event)
         m_themeDirty = false;
         rebuild();
     }
-    m_hoverTimer->start();
-}
-
-void QuickstartPane::hideEvent(QHideEvent* event)
-{
-    QWidget::hideEvent(event);
-    m_hoverTimer->stop();
-    // Don't leave a hover state stuck while hidden.
-    if (m_hoverCard)
-        setCardHover(m_hoverCard, false);
-    m_hoverCard = nullptr;
-    if (m_hoverIcon && m_addCode.contains(m_hoverIcon))
-        emit insertPreviewCleared();
-    m_hoverIcon = nullptr;
 }
 
 void QuickstartPane::applyTheme()
@@ -382,18 +317,10 @@ void QuickstartPane::computeGlobalLayout()
         codePx = qMax(ScaleHeightForDPI(9), int(codePx * codeAvail / (colW * kMaxCols)));
     m_codeFontPx = codePx;
 
-    // Code lines are rich-text QLabels, which lay out through QTextDocument
-    // and at some font sizes round a pixel taller than QFontMetrics::height();
-    // a 1px/line underestimate overflows the fixed body. Measure a label built
-    // exactly like a code line instead.
-    QLabel lineProbe;
-    lineProbe.setObjectName(QStringLiteral("qsCodeLine"));
-    lineProbe.setTextFormat(Qt::RichText);
-    lineProbe.setText(QStringLiteral("&nbsp;"));
-    lineProbe.setStyleSheet(QString("font-size: %1px;").arg(m_codeFontPx));
-    lineProbe.ensurePolished();
-    const int lineH = lineProbe.sizeHint().height();
-    m_codeBodyH = 2 * uiScale().y(10) + kCodeLines * lineH;
+    // The code lays out through a QTextDocument, which at some font sizes
+    // rounds a pixel taller than QFontMetrics::height(); a 1px/line
+    // underestimate overflows the fixed body. Measured as a card lays it out.
+    m_codeBodyH = 2 * uiScale().y(10) + CodeCard::codeLinesHeight(kCodeLines, m_codeFontPx);
 
     // Footer: a full-height scope on the left, and to its right the
     // description (two lines) over the Run/Add buttons.
@@ -409,103 +336,6 @@ void QuickstartPane::computeGlobalLayout()
     // The blurb yields the full hit-box width (scope + its surrounding
     // margin), not just the scope square — see the scopeHit box in addCard.
     m_blurbW = codeAvail - innerH - uiScale().y(12);
-}
-
-void QuickstartPane::setCardHover(QWidget* frame, bool on)
-{
-    if (!m_cardFx.contains(frame))
-        return;
-    frame->setProperty("cardHover", on);
-    repolish(frame);
-}
-
-void QuickstartPane::updateHover()
-{
-    const QPoint gp = QCursor::pos();
-    // Short-circuit the common case: pointer nowhere near the pane. The cheap
-    // geometric test can't see occlusion (a completion popup or dialog over the
-    // dock), so once it passes, confirm via widgetAt that the pane really is
-    // what's under the pointer; hover must never fire beneath another window.
-    bool onPane = isVisible() && window()->isActiveWindow()
-        && rect().contains(mapFromGlobal(gp));
-    if (onPane)
-    {
-        QWidget* under = QApplication::widgetAt(gp);
-        onPane = under && (under == this || isAncestorOf(under));
-    }
-
-    QWidget* card = nullptr;
-    if (onPane)
-    {
-        for (auto it = m_cardFx.constBegin(); it != m_cardFx.constEnd(); ++it)
-        {
-            QWidget* f = it.key();
-            if (!f || !f->isVisible())
-                continue;
-            const QPoint lp = f->mapFromGlobal(gp);
-            if (!f->rect().contains(lp)) // cheap test before the region maths
-                continue;
-            // Only a meaningfully-visible card can hover-activate: layout
-            // rounding can leave a 1-2px sliver of an off-page card visible at
-            // the viewport edge, and its hover border would paint there.
-            const QRect vis = f->visibleRegion().boundingRect();
-            if (vis.width() > uiScale().y(8) && vis.contains(lp))
-            {
-                card = f;
-                break;
-            }
-        }
-    }
-    if (card != m_hoverCard)
-    {
-        if (m_hoverCard)
-            setCardHover(m_hoverCard, false);
-        m_hoverCard = card;
-        if (m_hoverCard)
-            setCardHover(m_hoverCard, true);
-    }
-
-    // Icon-button glyph swap for the card play/add/drag buttons. (The dock-row
-    // zoom controls handle their own hover in eventFilter, being off the pane.)
-    QPushButton* icon = nullptr;
-    if (onPane)
-    {
-        for (auto it = m_iconHover.constBegin(); it != m_iconHover.constEnd(); ++it)
-        {
-            QPushButton* b = qobject_cast<QPushButton*>(it.key());
-            if (!b || !b->isVisible())
-                continue;
-            const QPoint lp = b->mapFromGlobal(gp);
-            if (!b->rect().contains(lp)) // cheap test before the region maths
-                continue;
-            if (b->visibleRegion().contains(lp))
-            {
-                icon = b;
-                break;
-            }
-        }
-    }
-    if (icon != m_hoverIcon)
-    {
-        if (m_hoverIcon)
-        {
-            if (m_iconNormal.contains(m_hoverIcon))
-                m_hoverIcon->setIcon(m_iconNormal.value(m_hoverIcon));
-            if (m_addCode.contains(m_hoverIcon)) // leaving an add button: revert its preview
-                emit insertPreviewCleared();
-            setScopeHover(m_hoverIcon, false); // run button: settle its rings
-        }
-        m_hoverIcon = icon;
-        if (m_hoverIcon)
-        {
-            if (m_iconHover.contains(m_hoverIcon))
-                m_hoverIcon->setIcon(m_iconHover.value(m_hoverIcon));
-            if (m_addCode.contains(m_hoverIcon)) // entering an add button: project the code
-                emit insertPreviewRequested(m_addTitle.value(m_hoverIcon),
-                                            m_addCode.value(m_hoverIcon));
-            setScopeHover(m_hoverIcon, true); // run button: rings follow the glyph
-        }
-    }
 }
 
 bool QuickstartPane::eventFilter(QObject* obj, QEvent* event)
@@ -595,135 +425,8 @@ bool QuickstartPane::eventFilter(QObject* obj, QEvent* event)
             return true;
         }
     }
-    // A plain click (not a drag, not a button) on a partly-visible card scrolls
-    // it fully into view; the same as pressing the arrow toward it.
-    if (event->type() == QEvent::MouseButtonPress
-        && static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton
-        && !qobject_cast<QPushButton*>(obj))
-    {
-        QWidget* f = qobject_cast<QWidget*>(obj);
-        while (f && !m_frameWs.contains(f))
-            f = f->parentWidget();
-        // Only when it's actually a card: the press propagates child->parent, so
-        // a later delivery to a non-card ancestor must not clear a found frame.
-        if (f)
-        {
-            m_clickFrame = f;
-            m_clickPos = static_cast<QMouseEvent*>(event)->globalPosition().toPoint();
-        }
-    }
-    else if (event->type() == QEvent::MouseButtonRelease && m_clickFrame)
-    {
-        QWidget* f = m_clickFrame;
-        const QPoint rel = static_cast<QMouseEvent*>(event)->globalPosition().toPoint();
-        const int move = (rel - m_clickPos).manhattanLength();
-        m_clickFrame = nullptr;
-        if (move < QApplication::startDragDistance())
-        {
-            scrollCardIntoView(f);
-            // Clicking a card selects it, so the arrow keys walk on from here.
-            f->setFocus(Qt::OtherFocusReason);
-        }
-    }
-
-    if (!m_dragCode.contains(obj))
-        return QWidget::eventFilter(obj, event);
-    if (event->type() == QEvent::KeyPress && m_frameWs.contains(obj))
-    {
-        QKeyEvent* ke = static_cast<QKeyEvent*>(event);
-        const QString ws = m_frameWs.value(obj);
-        if (ke->key() == Qt::Key_Space || ke->key() == Qt::Key_Return)
-        {
-            if (m_runButtons.contains(ws))
-                m_runButtons.value(ws)->click();
-            return true;
-        }
-        if (ke->key() == Qt::Key_I)
-        {
-            emit insertRequested(QString(), m_dragCode.value(obj));
-            return true;
-        }
-        // Speak the card's code outright — the same on-demand pattern as the
-        // autocomplete's read-details key. No group-diving required.
-        if (ke->key() == Qt::Key_C && ke->modifiers() == Qt::NoModifier)
-        {
-            emit announceRequested(tr("Code: %1").arg(m_dragCode.value(obj).trimmed()));
-            return true;
-        }
-        // Left/Right move the selection one card at a time — the focused
-        // card wears the selection ring and announces itself to a screen
-        // reader — and the deck scrolls whenever the selection walks past
-        // the visible edge, so every card (first and last included) is
-        // reachable. The deck is linear: the ends are hard stops.
-        if (ke->key() == Qt::Key_Left || ke->key() == Qt::Key_Right)
-        {
-            const int idx = m_cardFrames.indexOf(qobject_cast<QWidget*>(obj));
-            if (idx < 0)
-                return true;
-            const int next = idx + (ke->key() == Qt::Key_Right ? 1 : -1);
-            if (next < 0 || next >= m_cardFrames.size())
-            {
-                emit announceRequested(next < 0 ? tr("First card.") : tr("Last card."));
-                return true;
-            }
-            QWidget* card = m_cardFrames.value(next);
-            if (!card)
-                return true;
-            scrollCardIntoView(card);
-            card->setFocus(Qt::OtherFocusReason);
-            return true;
-        }
-    }
-    if (event->type() == QEvent::MouseButtonPress)
-    {
-        QMouseEvent* me = static_cast<QMouseEvent*>(event);
-        if (me->button() == Qt::LeftButton)
-        {
-            m_dragStart = me->pos();
-            m_dragSource = obj;
-        }
-    }
-    else if (event->type() == QEvent::MouseMove && obj == m_dragSource)
-    {
-        QMouseEvent* me = static_cast<QMouseEvent*>(event);
-        if ((me->buttons() & Qt::LeftButton)
-            && (me->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance())
-        {
-            m_dragSource = nullptr;
-            m_clickFrame = nullptr; // it's a drag, not a click
-            QDrag* drag = new QDrag(this);
-            QMimeData* mime = new QMimeData;
-            mime->setText(m_dragCode.value(obj));
-            // Carry the card title so the editor's drop preview can label its
-            // box the same way the drag projection does.
-            if (QWidget* f = m_dragFrames.value(obj))
-                mime->setData(QStringLiteral("application/x-sonic-pi-card-title"),
-                              m_cardFx.value(f).title.toUtf8());
-            drag->setMimeData(mime);
-            if (QWidget* frame = m_dragFrames.value(obj))
-            {
-                // Drag projection: a bordered code card with the title drawn on
-                // its top border; what you pick up reads as a titled card.
-                QPixmap flat = cardDragPixmap(frame).scaledToWidth(
-                    qRound(ScaleHeightForDPI(240) * devicePixelRatioF()), Qt::SmoothTransformation);
-                // Tilt the lifted card a few degrees, like it's been picked up.
-                QTransform tilt;
-                tilt.rotate(-5);
-                QPixmap pm = flat.transformed(tilt, Qt::SmoothTransformation);
-                drag->setPixmap(pm);
-                drag->setHotSpot(QPoint(pm.width() / 2, ScaleHeightForDPI(16)));
-            }
-            drag->exec(Qt::CopyAction);
-            // A fumbled release outside the editor still commits any
-            // live preview at its last position.
-            emit dragEnded();
-            return true;
-        }
-    }
-    else if (event->type() == QEvent::MouseButtonRelease)
-    {
-        m_dragSource = nullptr;
-    }
+    // Everything else about a card — a click, its keys, being dragged — is
+    // the card's own (CodeCard).
     return QWidget::eventFilter(obj, event);
 }
 
@@ -835,127 +538,45 @@ void QuickstartPane::updateHeaderForHeight()
 
 void QuickstartPane::runStarted(int jobId, const QString& workspace)
 {
-    if (!workspace.startsWith("sonic-pi-quickstart"))
-        return;
-    m_jobs[workspace].insert(jobId);
-    setCardPlaying(workspace, true);
-
-    // Focus follows the loop: when this card starts a live_loop, the server
-    // redefines that loop away from any other card that owns it. Release
-    // those cards here so their Run button and scope track the handover.
-    // (Cards with different loop names, as in a layering deck, keep playing.)
-    const QSet<QString>& mine = m_cardLoops.value(workspace);
-    if (mine.isEmpty())
-        return;
-    const QList<QString> others = m_jobs.keys();
-    for (const QString& ws : others)
-    {
-        if (ws == workspace)
-            continue;
-        QSet<QString> theirs = m_cardLoops.value(ws);
-        if (theirs.isEmpty())
-            continue;
-        theirs.subtract(mine);
-        if (theirs.isEmpty()) // every loop this card owned is now owned by us
-        {
-            // Inherit rather than drop: their job still owns the running
-            // thread, so it is the one our stop button has to kill.
-            m_jobs[workspace].unite(m_jobs.take(ws));
-            setCardPlaying(ws, false);
-        }
-    }
+    m_deck->runStarted(jobId, workspace);
 }
 
 void QuickstartPane::runEnded(int jobId)
 {
-    for (auto it = m_jobs.begin(); it != m_jobs.end(); ++it)
-    {
-        if (!it.value().remove(jobId))
-            continue;
-        // A card only stops once every job it owns has ended — a hot-swapped
-        // card outlives its own job, which ends as soon as the redefine lands.
-        if (it.value().isEmpty())
-        {
-            const QString workspace = it.key();
-            m_jobs.erase(it);
-            setCardPlaying(workspace, false);
-        }
-        return;
-    }
-}
-
-void QuickstartPane::setScopeHover(QPushButton* button, bool hover)
-{
-    const QString workspace = m_runButtons.key(button);
-    if (workspace.isEmpty())
-        return;
-    CardScope* scope = m_scopes.value(workspace);
-    if (!scope)
-        return;
-    const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor fg = m_theme->color("Foreground");
-    // A playing card keeps its rings in the full resting colours — the live
-    // trace is the point; only the glyph tracks hover during playback.
-    const bool idleHover = hover && !m_jobs.contains(workspace);
-    if (idleHover)
-        scope->setColours(fg, fg);
-    else // the resting pair from addCard
-        scope->setColours(accent, SonicPiTheme::blend(fg, accent, 0.5));
-    // Hover also lifts the idle fade, so the rings match the glyph at full
-    // strength rather than a washed-out version of it.
-    scope->setLit(idleHover);
-}
-
-void QuickstartPane::setCardPlaying(const QString& workspace, bool playing)
-{
-    QPushButton* button = m_runButtons.value(workspace);
-    if (button)
-    {
-        // The run control is the scope disc: refresh both hover variants and
-        // show the one matching the current pointer state.
-        const int d = button->iconSize().width();
-        m_iconNormal[button] = QIcon(playDisc(playing, d, false));
-        m_iconHover[button] = QIcon(playDisc(playing, d, true));
-        button->setIcon(button->underMouse() ? m_iconHover.value(button)
-                                             : m_iconNormal.value(button));
-        button->setAccessibleName(playing ? tr("Stop this card") : tr("Run this card"));
-        // Re-derive the ring colours for the new playback state: starting
-        // under the pointer settles them to full colour, stopping under the
-        // pointer lets them pick the hover tint back up.
-        setScopeHover(button, button == m_hoverIcon);
-    }
-    CardScope* scope = m_scopes.value(workspace);
-    if (scope)
-    {
-        if (playing)
-            scope->start(m_spAPI.get());
-        else
-            scope->stop();
-    }
+    m_deck->runEnded(jobId);
 }
 
 void QuickstartPane::flashLine(const QString& workspace, int line)
 {
-    // Runtime lines are 1-based and the run is wrapped in one leading
-    // with_fx :scope_out line, so the card's own code starts at line 2.
-    const int idx = line - 2;
-    const QVector<QLabel*> lines = m_codeLines.value(workspace);
-    if (idx < 0 || idx >= lines.size())
+    m_deck->flashLine(workspace, line);
+}
+
+void QuickstartPane::runOutput(int jobId, const QString& text)
+{
+    m_deck->runOutput(jobId, text);
+}
+
+void QuickstartPane::runError(int jobId, const QString& message, int line)
+{
+    m_deck->runError(jobId, message, line);
+}
+
+void QuickstartPane::stepFrom(QWidget* card, int delta)
+{
+    const int idx = m_cardFrames.indexOf(card);
+    if (idx < 0)
         return;
-    QLabel* label = lines[idx];
-    // A snippet that overruns the card's budget scrolls, so follow the run and
-    // keep the lit line in view.
-    if (QScrollArea* sa = m_codeScrolls.value(workspace))
-        sa->ensureWidgetVisible(label, 0, 0);
-    label->setProperty("flashing", true);
-    repolish(label);
-    QPointer<QLabel> guard(label);
-    QTimer::singleShot(SonicPi::kFlashHoldMs, this, [guard] {
-        if (!guard)
-            return;
-        guard->setProperty("flashing", false);
-        repolish(guard);
-    });
+    const int next = idx + delta;
+    if (next < 0 || next >= m_cardFrames.size())
+    {
+        emit announceRequested(next < 0 ? tr("First card.") : tr("Last card."));
+        return;
+    }
+    QWidget* to = m_cardFrames.value(next);
+    if (!to)
+        return;
+    scrollCardIntoView(to);
+    to->setFocus(Qt::OtherFocusReason);
 }
 
 void QuickstartPane::setUserZoom(int zoom)
@@ -1008,24 +629,7 @@ void QuickstartPane::rebuild()
     m_headerRail = nullptr;
     m_deckTitle = nullptr;
     m_deckDesc = nullptr;
-    m_runButtons.clear();
-    m_cardFx.clear();
-    m_hoverCard = nullptr; // frames about to be destroyed; drop dangling refs
-    if (m_hoverIcon && m_addCode.contains(m_hoverIcon))
-        emit insertPreviewCleared(); // don't orphan a hover preview across a rebuild
-    m_hoverIcon = nullptr;
-    m_iconNormal.clear();
-    m_iconHover.clear();
-    m_scopes.clear();
-    m_codeLines.clear();
-    m_codeScrolls.clear();
-    m_cardLoops.clear();
-    m_dragCode.clear();
-    m_dragFrames.clear();
-    m_addCode.clear();
-    m_addTitle.clear();
-    m_frameWs.clear();
-    m_dragSource = nullptr;
+    m_deck->clear();
 
     const QVector<Deck>& decks = quickstartDecks(m_cardsPath);
     if (decks.isEmpty())
@@ -1200,9 +804,12 @@ void QuickstartPane::rebuild()
         // Each card gets its own scope slot, wrapping within the cards' slot
         // budget so a user-authored deck with more cards than slots shares
         // slots between cards rather than colliding with the live_loop range.
+        // An edit is kept by the deck's and the card's names, so it follows
+        // the card when a set is reordered.
         QWidget* f = addCard(cards[i],
                              QString("sonic-pi-quickstart-%1-%2").arg(m_deckIdx).arg(i),
-                             kFirstScopeSlot + (i % kCardScopeSlots));
+                             kFirstScopeSlot + (i % kCardScopeSlots),
+                             QStringLiteral("quickstart/%1/%2").arg(decks[m_deckIdx].title, cards[i].title));
         // The name carries the blurb: a screen reader always speaks the name
         // on focus, whereas the description (AXHelp) is at the mercy of the
         // user's hint-verbosity settings.
@@ -1547,7 +1154,7 @@ void QuickstartPane::announcePage()
     // When focus is riding the cards (keyboard/screen-reader paging), the
     // newly focused card announces itself.
     QWidget* focused = QApplication::focusWidget();
-    if (focused && m_frameWs.contains(focused))
+    if (focused && m_cardFrames.contains(focused))
         return;
     const int lead = m_pageIndex * qMax(1, rowsThatFit());
     if (lead >= m_cardCount)
@@ -1572,467 +1179,39 @@ void QuickstartPane::scrollCardIntoView(QWidget* frame)
         goToPage(col - cpv + 1);
 }
 
-QIcon QuickstartPane::svgIcon(TablerIcons::Glyph glyph, const QColor& colour, int px) const
+CodeCard* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QString& workspace,
+                                  int scopeSlot, const QString& key)
 {
-    return TablerIcons::icon(glyph, colour, px, devicePixelRatioF());
-}
+    CodeCard::Spec spec;
+    spec.title = card.title;
+    spec.code = card.code;
+    spec.blurb = card.blurb;
+    spec.scopeSlot = static_cast<unsigned int>(scopeSlot);
+    spec.key = key;
+    // One card size for every deck: the sizes computeGlobalLayout settled on.
+    CodeCard::Metrics metrics;
+    metrics.width = cardWidth();
+    metrics.codeBodyHeight = m_codeBodyH;
+    metrics.footerHeight = m_footerH;
+    metrics.scopeSide = m_scopeSide;
+    metrics.blurbWidth = m_blurbW;
+    metrics.codeFontPx = m_codeFontPx;
+    metrics.titlePx = rolePx(FontRole::Large);
+    metrics.zoomFactor = m_zoomFactor;
+    CodeCard* c = new CodeCard(spec, metrics, m_theme);
+    m_deck->add(c, workspace);
+    connect(c, &CodeCard::insertRequested, this, &QuickstartPane::insertRequested);
+    connect(c, &CodeCard::copyRequested, this, &QuickstartPane::copyRequested);
+    connect(c, &CodeCard::insertPreviewRequested, this, &QuickstartPane::insertPreviewRequested);
+    connect(c, &CodeCard::insertPreviewCleared, this, &QuickstartPane::insertPreviewCleared);
+    connect(c, &CodeCard::announceRequested, this, &QuickstartPane::announceRequested);
+    connect(c, &CodeCard::dragEnded, this, &QuickstartPane::dragEnded);
+    connect(c, &CodeCard::stepRequested, this, [this, c](int delta) { stepFrom(c, delta); });
+    // A plain click on a partly-visible card scrolls it fully into view; the
+    // same as pressing the arrow toward it.
+    connect(c, &CodeCard::clicked, this, [this, c] { scrollCardIntoView(c); });
+    // The wheel over a card's code is shared with the carousel (eventFilter).
+    c->body()->viewport()->installEventFilter(this);
 
-QPixmap QuickstartPane::playDisc(bool playing, int d, bool hover) const
-{
-    const qreal dpr = devicePixelRatioF();
-    const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor fg = m_theme->color("Foreground");
-    // The disc is a solid accent ring, flipping to the same foreground the
-    // scope rings light up in on hover (see setScopeHover). The glyph is
-    // always the plain dark pane grey — a clean cut-out in the logo rather
-    // than a tinted blend.
-    const QColor bg = m_theme->color("PaneBackground");
-    const QColor disc = hover ? fg : accent;
-    return TablerIcons::transportRing(playing, disc, bg, d, dpr);
-}
-
-QPixmap QuickstartPane::cardDragPixmap(QWidget* frame) const
-{
-    const CardHoverFx fx = m_cardFx.value(frame);
-    if (!fx.body)
-        return frame->grab();
-
-    // Paint in device pixels; set the DPR at the end.
-    const qreal dpr = frame->devicePixelRatioF();
-    const QPixmap code = fx.body->grab(); // highlighted code area
-    const int cwD = code.width();
-    const int chD = code.height();
-
-    const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor cardBg = m_theme->accentTint();
-
-    QFont titleFont(QStringLiteral("Hack"));
-    titleFont.setPixelSize(qRound(rolePx(FontRole::Base) * dpr));
-    titleFont.setBold(true);
-    const QFontMetrics fm(titleFont);
-    const int titleHD = fm.height();
-    const int textWD = fm.horizontalAdvance(fx.title);
-
-    const int strokeD = qMax(1, qRound(2 * dpr));
-    const int radiusD = qRound(uiScale().y(8) * dpr);
-    const int cpadD = qRound(uiScale().y(12) * dpr);
-    const int titlePadD = qRound(uiScale().y(6) * dpr);
-    const int borderTopD = titleHD / 2;
-    const int titleX = strokeD + cpadD;
-    const int WD = strokeD + cpadD + qMax(cwD, textWD + 2 * titlePadD) + cpadD + strokeD;
-    const int HD = borderTopD + cpadD + chD + cpadD + strokeD;
-
-    QPixmap pm(WD, HD);
-    pm.fill(Qt::transparent);
-    QPainter p(&pm);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.setRenderHint(QPainter::SmoothPixmapTransform);
-
-    // Bordered card body.
-    QPainterPath path;
-    path.addRoundedRect(QRectF(strokeD / 2.0, borderTopD, WD - strokeD,
-                               HD - borderTopD - strokeD / 2.0),
-                        radiusD, radiusD);
-    p.fillPath(path, cardBg);
-    p.setPen(QPen(accent, strokeD));
-    p.drawPath(path);
-
-    p.drawPixmap(QRect(titleX, borderTopD + cpadD, cwD, chD), code);
-
-    // Title straddling the top border: clear the border behind it, then draw.
-    p.fillRect(QRectF(titleX - titlePadD, 0, textWD + 2 * titlePadD, titleHD), cardBg);
-    p.setPen(accent);
-    p.setFont(titleFont);
-    p.drawText(QRectF(titleX, 0, textWD, titleHD), Qt::AlignVCenter | Qt::AlignLeft, fx.title);
-    p.end();
-
-    pm.setDevicePixelRatio(dpr);
-    return pm;
-}
-
-QWidget* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QString& workspace,
-                                 int scopeSlot)
-{
-    const QColor accent = m_theme->color("HighlightedBackground");
-    const QColor fg = m_theme->color("Foreground");
-
-    // Cheat-sheet-style card: solid accent header bar, tinted body below,
-    // like the printed Sonic Pi cheat sheets. Chrome is styled in app.qss
-    // (#qsCard and friends); only the zoomed font sizes are set here.
-    const int cardW = cardWidth();
-    QFrame* frame = new QFrame;
-    frame->setObjectName(QStringLiteral("qsCard"));
-    frame->setFixedWidth(cardW);
-    QVBoxLayout* cardLayout = new QVBoxLayout(frame);
-    cardLayout->setContentsMargins(0, 0, 0, 0);
-    cardLayout->setSpacing(0);
-
-    // Header bar: accent strip, title on the left, action buttons on the
-    // right. The bar background and title are created now but the buttons
-    // are created LAST — after the code and description — and only PLACED
-    // here: assistive technology reads widgets in creation order, so the
-    // card must read content first and actions after, even though the
-    // buttons render at the top. The grid makes that possible (where a
-    // widget lands is independent of when it was made). No vertical margin
-    // so the icon buttons fill the bar top to bottom; the outer button's
-    // corner is rounded to match the card.
-    QGridLayout* headerGrid = new QGridLayout();
-    headerGrid->setContentsMargins(0, 0, 0, 0);
-    headerGrid->setSpacing(0);
-    QWidget* header = new QWidget(frame);
-    header->setObjectName(QStringLiteral("qsCardHeader"));
-    headerGrid->addWidget(header, 0, 0, 1, 6);
-    headerGrid->setColumnMinimumWidth(0, uiScale().y(14)); // title padded on the left
-    headerGrid->setColumnStretch(2, 1);
-    // TutHeading: a real heading (level 2, under the deck) for screen-reader
-    // rotor navigation from card to card.
-    QLabel* heading = new TutHeading(card.title, 2, frame);
-    heading->setObjectName(QStringLiteral("qsCardTitle"));
-    heading->setStyleSheet(QString("font-size: %1px;").arg(rolePx(FontRole::Large)));
-    // Match the widget font to the stylesheet size so the bar height (and thus
-    // the button height) is measured correctly; sizeHint uses the widget font.
-    {
-        QFont hf = heading->font();
-        hf.setPixelSize(rolePx(FontRole::Large));
-        hf.setBold(true);
-        heading->setFont(hf);
-    }
-    // Copy/Add/Drag are round icon buttons on the right of the card's header
-    // bar (styled for the accent background); the title sits on the left. The
-    // rest of the card (and the header around the buttons) stays a drag
-    // surface onto the editor.
-    const QString title = card.title;
-    const QString snippet = card.code;
-    const bool playing = m_jobs.contains(workspace);
-    // What lands in the editor for every path (drag, Add, menu, keyboard):
-    // just the card's code with blank lines around it; the title rides on the
-    // drag image, not as a comment left behind in the editor.
-    const QString payload = QStringLiteral("\n%1\n\n").arg(card.code);
-    const QString addTitle = card.title;
-
-    const QColor onAccent = m_theme->accentContrastText();
-    // Fill the whole header-bar height: the title sets the bar height (measured
-    // via the font above), so the buttons match it exactly.
-    const int btnH = heading->sizeHint().height() + uiScale().y(22);
-    const int iconPx = uiScale().y(24);
-    // Width snug around the glyph so the two icons sit close together (a wide
-    // button padded the icons far apart); still a comfortable click target.
-    const int btnW = iconPx + uiScale().y(14);
-    // Icon buttons: a white glyph on the accent bar. On hover the button fills
-    // with the near-white code-body colour and the glyph flips to a dark
-    // contrasting ink; a strong, legible contrast (done on Enter/Leave in the
-    // eventFilter).
-    const QColor codeBg = m_theme->accentTint();
-    const QColor hoverInk = m_theme->contrastingText(codeBg);
-    auto setupIconBtn = [this, iconPx, &hoverInk, &onAccent](QPushButton* b,
-                                                             TablerIcons::Glyph svg) {
-        // Tab reaches the button (the :focus wash is for keyboard users), but a
-        // click must not take focus; the wash would linger after the click.
-        b->setFocusPolicy(Qt::TabFocus);
-        const QIcon normal = svgIcon(svg, onAccent, iconPx);
-        b->setIcon(normal);
-        m_iconNormal[b] = normal;
-        m_iconHover[b] = svgIcon(svg, hoverInk, iconPx);
-    };
-
-    // Play/Stop is the scope in the footer, not a header button; the header
-    // action buttons are created after the content (see below).
-    headerGrid->addWidget(heading, 0, 1, Qt::AlignVCenter);
-    cardLayout->addLayout(headerGrid);
-
-    // Card anatomy, top to bottom: accent header, code area, docs strip
-    // (deeper tint), live scope strip. Code and docs sections are equalised
-    // across the deck after all cards are built.
-    // The card is a fixed-size format, but the budgets in computeGlobalLayout
-    // are a design target, not a guarantee: nothing validates a cards file, so
-    // an over-long or over-wide snippet used to be clipped away with no sign
-    // it was there. The body scrolls on both axes instead — the card keeps its
-    // uniform size (every paging calculation depends on that) and the overflow
-    // stays reachable. The body *is* the scroll area rather than holding one,
-    // so this adds no node to the accessibility tree.
-    QScrollArea* body = new QScrollArea(frame);
-    body->setObjectName(QStringLiteral("qsCardBody"));
-    body->setAccessibleName(tr("Code"));
-    body->setFixedHeight(m_codeBodyH); // uniform across all decks
-    body->setFrameShape(QFrame::NoFrame);
-    body->setWidgetResizable(true);
-    // No visible scrollbars, ever: a bar steals viewport space, which can
-    // force the other bar and crush the text over a 1px rounding surprise.
-    // The budgets guarantee an in-budget card fits; over-budget authored
-    // content stays reachable by wheel (see eventFilter) and flashLine's
-    // ensureWidgetVisible.
-    body->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    body->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    // The card owns focus and the arrow keys walk the deck, so the body must
-    // not become a tab stop of its own.
-    body->setFocusPolicy(Qt::NoFocus);
-    // Let the body's accent tint show through: a viewport fills its own
-    // background by default, which would paint over it.
-    body->viewport()->setAutoFillBackground(false);
-    // Wheel is shared with the carousel — see eventFilter.
-    body->viewport()->installEventFilter(this);
-    const int pad = uiScale().y(14);
-    cardLayout->addWidget(body);
-    m_codeScrolls[workspace] = body;
-
-    SonicPi::CodeColours colours;
-    colours.keyword = m_theme->color("KeywordForeground").name();
-    colours.symbol = m_theme->color("SymbolForeground").name();
-    colours.number = m_theme->color("NumberForeground").name();
-    colours.string = m_theme->color("DoubleQuotedStringForeground").name();
-    colours.comment = m_theme->color("CommentForeground").name();
-
-    // One label per code line so the trigger wash can light individual
-    // lines, mirroring the editor's flash. The block carries the body's
-    // padding, the scroll area itself having none.
-    QWidget* codeBlock = new QWidget(body);
-    QVBoxLayout* codeLayout = new QVBoxLayout(codeBlock);
-    codeLayout->setContentsMargins(pad, uiScale().y(10), pad, uiScale().y(10));
-    codeLayout->setSpacing(0);
-    QVector<QLabel*> lineLabels;
-    const QStringList codeLines = card.code.split('\n');
-    for (const QString& lineText : codeLines)
-    {
-        QLabel* line = new QLabel(
-            lineText.isEmpty() ? QString("&nbsp;")
-                               : SonicPi::TutorialDocs::highlightCode(lineText, colours),
-            codeBlock);
-        line->setObjectName(QStringLiteral("qsCodeLine"));
-        line->setTextFormat(Qt::RichText);
-        // A rich-text label exposes its raw markup to assistive technology;
-        // the accessible name must be the plain code line. (Blank spacer
-        // lines stay unnamed and are pruned from the tree.)
-        line->setAccessibleName(lineText);
-        // Not selectable: selection would swallow the mouse press, and the
-        // whole card is a drag surface.
-        line->setStyleSheet(QString("font-size: %1px;").arg(m_codeFontPx));
-        codeLayout->addWidget(line);
-        lineLabels << line;
-    }
-    m_codeLines[workspace] = lineLabels;
-
-    // Record the live_loop names this card defines, so focus can follow a
-    // loop when another card redefines it.
-    QSet<QString> loops;
-    static const QRegularExpression llRe(
-        QStringLiteral("live_loop\\s+[:\"]([A-Za-z0-9_]+)"));
-    auto m = llRe.globalMatch(card.code);
-    while (m.hasNext())
-        loops.insert(m.next().captured(1));
-    m_cardLoops[workspace] = loops;
-    // widgetResizable stretches the block to fill the viewport, so a tail
-    // stretch keeps a short snippet's lines packed at the top instead of
-    // spreading them down the body.
-    codeLayout->addStretch(1);
-    body->setWidget(codeBlock);
-
-    QWidget* footer = new QWidget(frame);
-    footer->setObjectName(QStringLiteral("qsCardFooter"));
-    footer->setFixedHeight(m_footerH); // uniform across all decks
-    // Footer: the description filling the left, a full-height scope on the
-    // right (the Run/Add buttons live in the header).
-    QHBoxLayout* footerLayout = new QHBoxLayout(footer);
-    footerLayout->setContentsMargins(pad, uiScale().y(8), pad, uiScale().y(8));
-    footerLayout->setSpacing(uiScale().y(12));
-
-    // Italic description at the code's size. Top-aligned so every card's
-    // description starts at the same spot however many lines it wraps to.
-    QLabel* blurb = new QLabel(card.blurb, footer);
-    blurb->setObjectName(QStringLiteral("qsCardBlurb"));
-    blurb->setTextFormat(Qt::RichText);
-    // Plain prose for assistive technology (rich-text labels expose markup).
-    blurb->setAccessibleName(
-        QTextDocumentFragment::fromHtml(card.blurb).toPlainText().simplified());
-    blurb->setWordWrap(true);
-    blurb->setMaximumWidth(m_blurbW);
-    blurb->setStyleSheet(QString("font-size: %1px;").arg(m_codeFontPx));
-    footerLayout->addWidget(blurb, 1, Qt::AlignTop);
-
-    // The scope sits centred in a hit box spanning the footer's full inner
-    // height: the scope square is inset so its rings never clip, but the
-    // whole region reads as the control, so the click/hover target must not
-    // stop at the drawn rings.
-    QWidget* scopeHit = new QWidget(footer);
-    const int hitSide = m_footerH - 2 * uiScale().y(8); // footer inner height
-    scopeHit->setFixedSize(hitSide, hitSide);
-    QGridLayout* hitLay = new QGridLayout(scopeHit);
-    hitLay->setContentsMargins(0, 0, 0, 0);
-    CardScope* scope = new CardScope(scopeHit);
-    scope->setFixedSize(m_scopeSide, m_scopeSide);
-    scope->setColours(accent, SonicPiTheme::blend(fg, accent, 0.5));
-    scope->setSlot(scopeSlot);
-    m_scopes[workspace] = scope;
-    hitLay->addWidget(scope, 0, 0, Qt::AlignCenter);
-    footerLayout->addWidget(scopeHit, 0, Qt::AlignVCenter);
-
-    // The scope IS the play/stop control: a transparent button fills the hit
-    // box, with an outline play/stop ring in the centre and the audio rings
-    // drawn around it. Clicking anywhere on or around the rings toggles the
-    // card. The tabler ring spans 18 of its 24 grid, so the icon box is sized
-    // up to keep the drawn circle smaller than the audio rings with a clear
-    // gap.
-    const int discD = int(m_scopeSide * 0.52);
-    QPushButton* run = new QPushButton(scopeHit);
-    run->setObjectName(QStringLiteral("qsCardRun"));
-    run->setCursor(Qt::PointingHandCursor);
-    // A QPushButton's vertical size policy is Fixed, so a layout never
-    // stretches it to the cell — pin it to the hit box explicitly or the
-    // clickable area collapses to a button-height band across the middle.
-    run->setFixedSize(hitSide, hitSide);
-    run->setIconSize(QSize(discD, discD));
-    // Register normal + hover discs so the polling hover swaps them like the
-    // other icon buttons.
-    m_iconNormal[run] = QIcon(playDisc(playing, discD, false));
-    m_iconHover[run] = QIcon(playDisc(playing, discD, true));
-    run->setIcon(m_iconNormal.value(run));
-    run->setAccessibleName(playing ? tr("Stop %1").arg(card.title) : tr("Run %1").arg(card.title));
-    run->setToolTip(tr("Play this card. Press again to stop."));
-    hitLay->addWidget(run, 0, 0); // overlays the scope and takes the mouse
-    connect(run, &QPushButton::clicked, this, [this, title, snippet, workspace, scopeSlot, frame] {
-        // Playing a card also selects it (the click would otherwise leave
-        // focus — and the selection ring — on the button, not the card).
-        frame->setFocus(Qt::OtherFocusReason);
-        if (m_jobs.contains(workspace))
-        {
-            for (int jobId : m_jobs.value(workspace))
-                emit stopJobRequested(jobId);
-        }
-        else
-            emit runRequested(title, snippet, workspace, scopeSlot);
-    });
-    m_runButtons[workspace] = run;
-
-    // The header's action buttons, created after the content so a screen
-    // reader meets the card as title → code → description → actions, then
-    // placed into the header bar's grid (they still render at the top).
-
-    // Add: a plus that drops the card's code into the editor. Hovering
-    // projects a live preview into the editor (see updateHover); the click
-    // commits it.
-    QPushButton* add = new QPushButton(frame);
-    add->setObjectName(QStringLiteral("qsCardBtn"));
-    add->setCursor(Qt::PointingHandCursor);
-    add->setFixedSize(btnW, btnH);
-    add->setIconSize(QSize(iconPx, iconPx));
-    add->setAccessibleName(tr("Add %1 to the editor at the cursor").arg(card.title));
-    add->setToolTip(tr("Add this card to your code at the cursor."));
-    setupIconBtn(add, TablerIcons::Glyph::SquareChevronsUp);
-    m_addCode[add] = payload;
-    m_addTitle[add] = addTitle;
-    connect(add, &QPushButton::clicked, this,
-            [this, addTitle, payload] { emit insertRequested(addTitle, payload); });
-
-    // Copy: the card's code (unwrapped) onto the clipboard. The glyph flashes
-    // to a tick so the copy visibly registered right where it was clicked.
-    QPushButton* copy = new QPushButton(frame);
-    copy->setObjectName(QStringLiteral("qsCardBtn"));
-    copy->setCursor(Qt::PointingHandCursor);
-    copy->setFixedSize(btnW, btnH);
-    copy->setIconSize(QSize(iconPx, iconPx));
-    copy->setAccessibleName(tr("Copy %1 to the clipboard").arg(card.title));
-    copy->setToolTip(tr("Copy this card's code to the clipboard."));
-    setupIconBtn(copy, TablerIcons::Glyph::Copy);
-    connect(copy, &QPushButton::clicked, this,
-            [this, addTitle, snippet, copy, iconPx, hoverInk, onAccent] {
-                emit copyRequested(addTitle, snippet);
-                const QIcon prevN = m_iconNormal.value(copy);
-                const QIcon prevH = m_iconHover.value(copy);
-                m_iconNormal[copy] = svgIcon(TablerIcons::Glyph::Check, onAccent, iconPx);
-                m_iconHover[copy] = svgIcon(TablerIcons::Glyph::Check, hoverInk, iconPx);
-                copy->setIcon(copy->underMouse() ? m_iconHover.value(copy)
-                                                 : m_iconNormal.value(copy));
-                QPointer<QPushButton> alive(copy);
-                QTimer::singleShot(1400, this, [this, alive, prevN, prevH] {
-                    if (!alive || !m_iconNormal.contains(alive))
-                        return; // rebuilt (deck/zoom/theme change) meanwhile
-                    m_iconNormal[alive] = prevN;
-                    m_iconHover[alive] = prevH;
-                    alive->setIcon(alive->underMouse() ? prevH : prevN);
-                });
-            });
-
-    // Drag: an explicit drag handle in the top-left corner with its own
-    // tooltip. The whole card is draggable, but this makes it obvious. Wired
-    // into the drag system like the card body so grabbing it drops the card's
-    // code on the editor.
-    QPushButton* drag = new QPushButton(frame);
-    drag->setObjectName(QStringLiteral("qsCardBtn"));
-    drag->setProperty("corner", "tr"); // outer corner rounded to match the card
-    drag->setCursor(Qt::OpenHandCursor);
-    drag->setFixedSize(btnW, btnH);
-    drag->setIconSize(QSize(iconPx, iconPx));
-    drag->setToolTip(tr("Drag me into your editor."));
-    setupIconBtn(drag, TablerIcons::Glyph::Texture);
-    // A drag handle only means something to a pointer: keep it out of the
-    // Tab ring (it does nothing on Enter) and out of the accessibility tree
-    // (the Add button and the I shortcut are its keyboard equivalents).
-    drag->setFocusPolicy(Qt::NoFocus);
-    drag->setProperty("a11yIgnored", true);
-    // Buttons accept the press, so the frame's filter never sees it; the
-    // handle needs its own filter to start drags.
-    drag->installEventFilter(this);
-    m_dragCode[drag] = payload;
-    m_dragFrames[drag] = frame;
-
-    headerGrid->addWidget(copy, 0, 3, Qt::AlignVCenter);
-    headerGrid->addWidget(add, 0, 4, Qt::AlignVCenter);
-    headerGrid->addWidget(drag, 0, 5, Qt::AlignVCenter);
-
-    CardHoverFx fx;
-    fx.footer = footer;
-    fx.blurb = blurb;
-    fx.body = body;
-    fx.title = card.title;
-    m_cardFx[frame] = fx;
-
-    // Cards are picked up anywhere on their face and dropped on the editor:
-    // the drop preview makes the insertion point visible, so no clipboard
-    // or cursor concepts are needed.
-    frame->setCursor(Qt::OpenHandCursor);
-    header->setCursor(Qt::OpenHandCursor);
-    // No whole-card tooltip: the drag handle button carries the "drag me" hint
-    // (a small widget the tooltip manager anchors to, not the big card frame).
-    for (QObject* handle : { (QObject*)header, (QObject*)heading, (QObject*)frame })
-    {
-        handle->installEventFilter(this);
-        m_dragCode[handle] = payload;
-        m_dragFrames[handle] = frame;
-    }
-
-    // Keyboard/screen-reader path: the card itself is focusable; Space
-    // plays or stops it and I inserts the code at the editor's cursor, the
-    // accessible equivalent of the drag. The context menu offers the same
-    // actions for discoverability. The name — "<title> card, n of m. <blurb>"
-    // — is set by rebuild, which knows the card's position in the deck; the
-    // code is read from the child widgets.
-    frame->setFocusPolicy(Qt::TabFocus);
-    frame->setAccessibleDescription(tr(
-        "Press Space to play or stop, C to hear the code, I to insert it into the editor."));
-    m_frameWs[frame] = workspace;
-    frame->setContextMenuPolicy(Qt::CustomContextMenu);
-    const QString cardTitle = card.title;
-    const QString cardCode = payload;
-    connect(frame, &QWidget::customContextMenuRequested, this,
-            [this, frame, workspace, cardTitle, cardCode](const QPoint& pos) {
-                QMenu menu(frame);
-                QAction* runAct =
-                    menu.addAction(m_jobs.contains(workspace) ? tr("Stop") : tr("Run"));
-                QAction* insertAct = menu.addAction(tr("Insert at Cursor in Editor"));
-                QAction* chosen = menu.exec(frame->mapToGlobal(pos));
-                if (chosen == runAct && m_runButtons.contains(workspace))
-                    m_runButtons.value(workspace)->click();
-                else if (chosen == insertAct)
-                    emit insertRequested(cardTitle, cardCode);
-            });
-
-    cardLayout->addWidget(footer);
-    if (playing)
-        scope->start(m_spAPI.get());
-
-    // No blanket child filters: hover is poll-driven, and presses on the
-    // (mouse-ignoring) labels/body propagate up to the frame's own filter.
-    // Only widgets that ACCEPT the press (the drag handle, installed above)
-    // need their own filter.
-
-    return frame;
+    return c;
 }

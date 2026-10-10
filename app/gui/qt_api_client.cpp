@@ -27,6 +27,19 @@ static void splitErrorText(const QString& full, const QString& fallbackPrefix,
     reason = (nl >= 0) ? det.mid(nl + 1) : QString();
 }
 
+// A card's footer has room for one line of an error: its headline without the
+// tag the error card already wears, or the raw reason when there is no
+// friendlier one.
+static QString cardErrorLine(const QString& header, const QString& reason)
+{
+    static const QRegularExpression kTag(QStringLiteral("^\\s*(Runtime|Syntax) Error:?\\s*"));
+    QString line = header.section(QLatin1Char('\n'), 0, 0);
+    line.remove(kTag);
+    if (line.trimmed().isEmpty())
+        line = reason.trimmed().section(QLatin1Char('\n'), 0, 0);
+    return line.trimmed();
+}
+
 QtAPIClient::QtAPIClient(MainWindow* pMainWindow)
     : m_pMainWindow(pMainWindow)
 {
@@ -66,6 +79,8 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
             message.msg_type = msg.style;
             message.s = msg.text;
             mm.messages.push_back(message);
+            if (msg.style == 1) // the program's own (puts, print)
+                emit RunOutputReceived(info.jobId, QString::fromStdString(msg.text));
         }
         m_pMainWindow->GetOutputPane()->handleMultiMessage(mm);
     }
@@ -150,6 +165,7 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
             }
         }
 
+        emit RunErrorReceived(info.jobId, cardErrorLine(header, reason), info.line);
         m_pMainWindow->showErrorCard(false, header, location, reason,
                                      QString::fromStdString(info.errorLineString), info.line,
                                      colStart, colEnd,
@@ -176,6 +192,7 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
             header = QStringLiteral("Syntax Error ") + msg;
             reason.clear();
         }
+        emit RunErrorReceived(info.jobId, cardErrorLine(header, reason), info.line);
         m_pMainWindow->showErrorCard(true, header, location, reason,
                                      QString::fromStdString(info.errorLineString), info.line,
                                      info.errorColStart, info.errorColEnd,

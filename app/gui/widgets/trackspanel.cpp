@@ -53,6 +53,7 @@
 #include "widgets/cardscope.h"      // the quickstart cards' ring scope
 #include "widgets/thinsplitter.h"
 #include "utils/tutorialdocs.h"        // highlightCode — the editor's colours
+#include "utils/code_colours.h"
 #include "widgets/tutorialwidgets.h"   // TutDial — the synth docs' own rotary
 
 #ifdef Q_OS_WIN
@@ -1252,13 +1253,7 @@ void TracksPanel::setCodeLine(QLabel* label, const QString& code)
         label->setText(code.toHtmlEscaped());
         return;
     }
-    SonicPi::CodeColours colours;
-    colours.keyword = m_theme->color("KeywordForeground").name();
-    colours.symbol  = m_theme->color("SymbolForeground").name();
-    colours.number  = m_theme->color("NumberForeground").name();
-    colours.string  = m_theme->color("DoubleQuotedStringForeground").name();
-    colours.comment = m_theme->color("CommentForeground").name();
-    label->setText(SonicPi::TutorialDocs::highlightCode(code, colours));
+    label->setText(SonicPi::TutorialDocs::highlightCode(code, SonicPi::codeColours(m_theme)));
 }
 
 void TracksPanel::onTrackSelectionChanged()

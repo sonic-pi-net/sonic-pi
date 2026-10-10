@@ -65,8 +65,14 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/loopscope_lifecycle.test.cpp
     ${GUI_TESTS_ROOT}/linkaudio_engine_ready.test.cpp
     ${GUI_TESTS_ROOT}/plugins.test.cpp
+    ${GUI_TESTS_ROOT}/card_deck.test.cpp
+    ${GUI_TESTS_ROOT}/quickstart_card.test.cpp
+    ${GUI_TESTS_ROOT}/tutorial_cards.test.cpp
     ${GUI_ROOT}/widgets/nodetreegraph.cpp
     ${GUI_ROOT}/widgets/trackspanel.cpp
+    ${GUI_ROOT}/widgets/quickstartpane.cpp
+    ${GUI_ROOT}/widgets/codecard.cpp
+    ${GUI_ROOT}/widgets/carddeck.cpp
     ${GUI_ROOT}/widgets/linkaudiostreamswidget.cpp
     ${GUI_ROOT}/widgets/linkvisibilitytoggle.cpp
     ${GUI_ROOT}/widgets/tutorialpane.cpp

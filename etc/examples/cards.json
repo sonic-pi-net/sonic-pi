@@ -1,0 +1,8 @@
+{
+  "haunted": { "title": "Haunted Bells", "blurb": "Listen to the coded bells..." },
+  "ocean": { "title": "Ocean Waves", "blurb": "Hear the digital waves crash..." },
+  "acid": { "title": "Acid Walk", "blurb": "Start producing longer tracks..." },
+  "idm_breakbeat": { "title": "IDM Breakbeat", "blurb": "Listen to crazy coded beats..." },
+  "tron_bike": { "title": "Tron Bikes", "blurb": "Listen to bikes from the future..." },
+  "wob_rhyth": { "title": "Wob Rhythm", "blurb": "Hear the rhythmic wobble..." }
+}

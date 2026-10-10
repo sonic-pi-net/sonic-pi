@@ -29,11 +29,8 @@ class QLabel;
 class QPushButton;
 class QScrollArea;
 class QVBoxLayout;
-class SonicPiLexer;
-class SonicPiScintilla;
 class SonicPiTheme;
 class TutDial;
-class TutScope;
 class TutSelectionGroup;
 
 namespace SonicPi
@@ -49,7 +46,7 @@ class TutorialPane : public QFrame
 {
     Q_OBJECT
 public:
-    TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* parent = nullptr);
+    explicit TutorialPane(SonicPiTheme* theme, QWidget* parent = nullptr);
 
     // The jukebox scope reads an isolated scope-buffer slot straight from the
     // engine shm; the pane needs the API handle to fetch a reader per play.
@@ -60,9 +57,10 @@ public:
     void loadChapter(const SonicPi::TutorialChapter& chapter, const QString& imagesRoot,
                      const QString& prevTitle, const QString& nextTitle);
 
-    // Full-file playable code page (Examples tab): one persistent read-only
-    // editor instance so long examples get real lexing + scrolling
-    void showCodePage(const QString& title, const QString& code);
+    // An example (the Examples tab): one card, as the web's Examples page
+    // has it, its edit kept under `key`.
+    void showExamplePage(const QString& key, const QString& title, const QString& code,
+                         const QString& blurb);
 
     // Interactive FX/synth pages: icon + doc + per-opt dials (true per-synth
     // defaults) that live-regenerate a playable snippet
@@ -72,7 +70,7 @@ public:
     // Lang reference page: usage, doc, runnable examples
     void showLangPage(const SonicPi::LangPage& page);
 
-    // Trigger the first snippet's play button; false if there is none
+    // Play the page's first card (or snippet); false if there is none
     bool playFirstSnippet();
 
     // Land keyboard/screen-reader focus on the page's content: the Examples
@@ -108,6 +106,11 @@ public:
     // Wire these to QtAPIClient's RunStartedReceived/RunEndedReceived
     void runStarted(int jobId, const QString& workspace);
     void runEnded(int jobId);
+    // A card's sounding line, what its run puts and the error that ended it
+    // (QtAPIClient's FlashReceived, RunOutputReceived, RunErrorReceived).
+    void flashLine(const QString& workspace, int line);
+    void runOutput(int jobId, const QString& text);
+    void runError(int jobId, const QString& message, int line);
 
 protected:
     // Instrument pages are playable: Space toggles the demo, QWERTY piano
@@ -115,6 +118,8 @@ protected:
     void keyPressEvent(QKeyEvent* event) override;
     // Hover recolour for the zoom -/+ glyph buttons.
     bool eventFilter(QObject* obj, QEvent* event) override;
+    // An example's card keeps fitting the pane.
+    void resizeEvent(QResizeEvent* event) override;
 
 signals:
     // scopeTap wraps the run in an fx_scope_out tap so the jukebox scope can
@@ -123,6 +128,14 @@ signals:
                       bool scopeTap = false);
     void stopJobRequested(int jobId);
     void loadRequested(const QString& code); // load into the current editor buffer
+    // A card's code into the editor, as the Cards tab's go: at the cursor
+    // (Add), previewed there while Add is hovered, or dragged; and onto the
+    // clipboard.
+    void insertRequested(const QString& title, const QString& code);
+    void insertPreviewRequested(const QString& title, const QString& code);
+    void insertPreviewCleared();
+    void dragEnded();
+    void copyRequested(const QString& title, const QString& code);
     void announceRequested(QString msg);
     void navigateRequested(int delta); // -1 previous chapter, +1 next
     void linkClicked(const QUrl& url);
@@ -139,7 +152,6 @@ private:
         QPushButton* stop = nullptr;
         QPushButton* copy = nullptr;
         QGridLayout* codeArea = nullptr; // grid hosting the code + corner controls
-        bool commentsAside = false; // display-only example: comments in a right column
         bool realTime = false; // run with use_real_time, like the piano keys
         QString code;
         QString workspace;
@@ -175,9 +187,6 @@ private:
     void setSnippetCode(int index, const QString& code, const QString& html = QString());
     // Inline editor for one opt value, wired to its dial (from code anchors).
     void openOptEditor(const QString& optName, const QPoint& globalPos);
-    // Two-column rendering for display-only examples: code left, comments
-    // gathered in a muted right column (the old doc system's layout).
-    QString exampleTableHtml(const QString& code) const;
     void addHeading(int level, const QString& text);
     void addProse(const QString& richText);
     void addList(const SonicPi::TutorialBlock& block);
@@ -188,6 +197,16 @@ private:
     // trigger row) instead of a strip under the code.
     void addSnippet(const QString& code, bool runnable = true, QVBoxLayout* into = nullptr,
                     QHBoxLayout* transportInto = nullptr);
+    // A code block as a card, as the web's tutorial and docs have them: named
+    // for the heading over it, numbered after the first under one heading.
+    // Its code joins the page's reading path.
+    class CodeCard* addCard(const QString& code, bool runnable, int actions,
+                            const QString& blurb = QString(), const QString& key = QString());
+    // The example's card, its code given the room the pane has.
+    void fitExampleCard();
+    // The px a stylesheet pt size comes to at the pane's zoom (the cards are
+    // sized in px).
+    int zoomedPtPx(int basePt) const;
     void addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts);
     void addNavFooter();
     // Caret plumbing for a prose/code block: continuous reading across
@@ -199,7 +218,6 @@ private:
     // destroyed by a page (re)build.
     void restoreFocusAfterBuild();
     void setSnippetPlaying(Snippet& snippet, bool playing);
-    void ensureExampleEditor();
     void renderFxIcon(QLabel* iconLabel);
     void toggleDemo();
     void playKeyboardNote(int semitoneOffset);
@@ -207,21 +225,11 @@ private:
     QString instrumentOpts() const; // ", opt: val" for the non-default dials (excl. note)
     QString proseColoured(const QString& richText) const;
 
-    SonicPiLexer* m_lexer = nullptr;
     SonicPiTheme* m_theme = nullptr;
     QScrollArea* m_scroll = nullptr;
     QWidget* m_content = nullptr;
     QVBoxLayout* m_column = nullptr;
 
-    // Examples full-file page (built once, reused)
-    QWidget* m_examplePage = nullptr;
-    QLabel* m_exampleTitle = nullptr;
-    QFrame* m_exampleFrame = nullptr;
-    QVBoxLayout* m_exampleFrameLayout = nullptr;
-    SonicPiScintilla* m_exampleEditor = nullptr;
-    QPushButton* m_examplePlay = nullptr; // jukebox transport: toggles play/stop
-    QPushButton* m_exampleLoad = nullptr;
-    TutScope* m_exampleScope = nullptr;   // live scope, visible only while playing
     std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;
 
     // Enough of the last page's source to rebuild it on a zoom step (all
@@ -230,7 +238,7 @@ private:
     {
         None,
         Chapter,
-        Code,
+        Example,
         Instrument,
         SampleGroup,
         Lang
@@ -242,8 +250,11 @@ private:
     SonicPi::InstrumentPage m_instrumentPage;
     SonicPi::SampleGroup m_sampleGroupPage;
     SonicPi::LangPage m_langPage;
-    QString m_codePageTitle;
-    QString m_codePageCode;
+    QString m_exampleKey;
+    QString m_exampleTitle;
+    QString m_exampleCode;
+    QString m_exampleBlurb;
+    class CodeCard* m_exampleCard = nullptr;
 
     SonicPi::TutorialChapter m_chapter;
     QVector<TutDial*> m_dials;
@@ -263,12 +274,17 @@ private:
     QString m_prevTitle;
     QString m_nextTitle;
     QVector<Snippet> m_snippets;
+    // The page's cards' runs, one card at a time; a run outlives its card, so
+    // a zoom's rebuild finds it playing.
+    class CardDeck* m_deck = nullptr;
+    QString m_pageId;                 // names the page's cards' workspaces
+    QString m_cardSection;            // the heading the next card is named for
+    QHash<QString, int> m_cardCounts; // cards so far under each heading
+    int m_cardIndex = 0;              // cards so far on the page
     class ZoomBar* m_zoomBar = nullptr; // shared A-/A+ bar, hosted at the foot of the help's tab rail
     SonicPi::CodeColours m_codeColours;
     QIcon m_playIcon;
     QIcon m_stopIcon;
-    QIcon m_exPlayIcon; // jukebox transport: outline glyphs on the tabler 24
-    QIcon m_exStopIcon; // grid, sized to sit as equals beside the Load glyph
     QIcon m_copyIcon;
     QIcon m_copiedIcon; // check-mark flash after a successful copy
     QHash<QString, QWidget*> m_optRows; // opt name → its doc-table row, for jump links

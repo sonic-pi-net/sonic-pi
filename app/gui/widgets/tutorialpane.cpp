@@ -12,12 +12,13 @@
 //++
 
 #include "tutorialpane.h"
+#include "carddeck.h"
+#include "codecard.h"
+#include "utils/code_colours.h"
 #include "tutorialwidgets.h"
-#include "tutscope.h"
 #include "dpi.h"
 #include "utils/fontroles.h"
 #include "model/sonicpitheme.h"
-#include "sonicpiscintilla.h"
 #include "utils/instrument_icons.h"
 #include "utils/tablericons.h"
 #include "widgets/zoombar.h"
@@ -60,10 +61,6 @@
 
 namespace
 {
-
-// Examples sit beside 13pt prose; the editor's default 12pt Hack reads
-// oversized next to it, so the example editor runs two points down.
-constexpr int kExampleZoom = SonicPiScintilla::kDefaultZoom - 2;
 
 void repolish(QWidget* w)
 {
@@ -171,15 +168,23 @@ private:
 
 } // namespace
 
-TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* parent)
+TutorialPane::TutorialPane(SonicPiTheme* theme, QWidget* parent)
     : QFrame(parent)
-    , m_lexer(lexer)
     , m_theme(theme)
 {
     registerTutorialWidgetAccessibility();
     setObjectName("tutorialPane");
 
     m_selGroup = std::make_shared<TutSelectionGroup>();
+
+    // A page's cards play one at a time, as the web's do. Each run goes
+    // through a scope tap on the jukebox's slot, for the card's rings.
+    m_deck = new CardDeck(this, CardDeck::Playing::OneAtATime);
+    connect(m_deck, &CardDeck::runRequested, this,
+            [this](const QString&, const QString& code, const QString& workspace, int) {
+                emit runRequested(code, workspace, false, true);
+            });
+    connect(m_deck, &CardDeck::stopJobRequested, this, &TutorialPane::stopJobRequested);
 
     QVBoxLayout* outer = new QVBoxLayout(this);
     outer->setContentsMargins(0, 0, 0, 0);
@@ -229,105 +234,13 @@ TutorialPane::TutorialPane(SonicPiLexer* lexer, SonicPiTheme* theme, QWidget* pa
     m_scroll->setWidget(m_content);
     outer->addWidget(m_scroll, 1);
 
-    // Examples full-file page: shell built now, the editor lazily on first use
-    m_examplePage = new QWidget(this);
-    QVBoxLayout* examplePage = new QVBoxLayout(m_examplePage);
-    int exInset = sx(22);
-    examplePage->setContentsMargins(exInset, sy(12), exInset, sy(12));
-    examplePage->setSpacing(sy(10));
-    m_exampleTitle = new QLabel(m_examplePage);
-    m_exampleTitle->setObjectName("tutH1");
-    m_exampleTitle->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    examplePage->addWidget(m_exampleTitle);
-    m_exampleFrame = new QFrame(m_examplePage);
-    m_exampleFrame->setObjectName("tutCodeFrame");
-    m_exampleFrame->setProperty("playing", false);
-    m_exampleFrameLayout = new QVBoxLayout(m_exampleFrame);
-    int exPad = sx(10);
-    m_exampleFrameLayout->setContentsMargins(exPad, exPad, exPad, exPad);
-    m_exampleFrameLayout->setSpacing(sy(4));
-    QHBoxLayout* exampleControls = new QHBoxLayout();
-    exampleControls->setContentsMargins(0, 0, 0, 0);
-    exampleControls->setSpacing(sx(8));
-    // Jukebox transport (sits above the code): a filled play toggle that
-    // flips to a filled stop while the example runs (only one example ever
-    // plays at a time), a Load glyph that drops the code into the current
-    // buffer, and a live scope that animates while it is playing so it's
-    // obvious the sound is coming from here. The glyphs share the tabler 24
-    // grid so play/stop and Load sit together as equals — a solid disc badge
-    // here dwarfed the Load glyph at the same pixel size.
-    m_examplePlay = new QPushButton(m_exampleFrame);
-    m_examplePlay->setObjectName("tutPlay");
-    m_examplePlay->setToolTip(tr("Run this example"));
-    m_examplePlay->setAccessibleName(tr("Run example"));
-    m_exampleLoad = new QPushButton(m_exampleFrame);
-    m_exampleLoad->setObjectName("tutLoad");
-    m_exampleLoad->setToolTip(tr("Load this example into the current buffer"));
-    m_exampleLoad->setAccessibleName(tr("Load example into buffer"));
-    for (QPushButton* b : { m_examplePlay, m_exampleLoad })
-    {
-        b->setFixedSize(QSize(sx(40), sy(40)));
-        b->setIconSize(QSize(sx(24), sy(24)));
-        b->setCursor(Qt::PointingHandCursor);
-    }
-    // Scope fills the width right of the buttons; the stretch spacer carries a
-    // much smaller factor so it only takes over when the scope is hidden (and
-    // then keeps the fixed-size buttons from spreading out). It centres in the
-    // taller transport row.
-    m_exampleScope = new TutScope(m_exampleFrame);
-    m_exampleScope->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    m_exampleScope->setMinimumWidth(sx(160));
-    m_exampleScope->setFixedHeight(sy(46));
-    // Permanent fixture (flat midline while idle) so starting a run doesn't
-    // resize the transport row and shove the code down.
-    exampleControls->addWidget(m_examplePlay);
-    exampleControls->addWidget(m_exampleLoad);
-    exampleControls->addStretch(1);
-    exampleControls->addWidget(m_exampleScope, 20);
-    m_exampleFrameLayout->addLayout(exampleControls);
-    examplePage->addWidget(m_exampleFrame, 1);
-    m_examplePage->hide();
-    outer->addWidget(m_examplePage, 1);
-
-    // The example page always occupies m_snippets[0] while visible
-    connect(m_examplePlay, &QPushButton::clicked, this, [this]() {
-        if (m_snippets.isEmpty() || m_snippets[0].play != m_examplePlay)
-            return;
-        Snippet& s = m_snippets[0];
-        if (s.jobId >= 0)
-            emit stopJobRequested(s.jobId);
-        else
-            emit runRequested(s.code, s.workspace, false, true); // scope-tapped
-    });
-    connect(m_exampleLoad, &QPushButton::clicked, this, [this]() {
-        if (m_snippets.isEmpty() || m_snippets[0].play != m_examplePlay)
-            return;
-        emit loadRequested(m_snippets[0].code);
-    });
-
     applyTheme();
 }
 
 void TutorialPane::setAudioApi(std::shared_ptr<SonicPi::SonicPiAPI> api)
 {
     m_spAPI = api;
-}
-
-void TutorialPane::ensureExampleEditor()
-{
-    if (m_exampleEditor)
-        return;
-    m_exampleEditor = new SonicPiScintilla(m_lexer, m_theme, "sonic-pi-example-display", false);
-    m_exampleEditor->setReadOnly(true);
-    m_exampleEditor->setCaretLineVisible(false);
-    // The caret is hidden as pure chrome — unless a screen reader is
-    // connected, in which case it is the reading position and line-by-line
-    // navigation needs it visible and trackable.
-    m_exampleEditor->setCaretWidth(QAccessible::isActive() ? 2 : 0);
-    m_exampleEditor->showAutoCompletion(false);
-    m_exampleEditor->zoomTo(kExampleZoom + m_userZoom);
-    // Below the transport controls (which were added to the frame first)
-    m_exampleFrameLayout->addWidget(m_exampleEditor, 1);
+    m_deck->setAudioApi(m_spAPI.get());
 }
 
 void TutorialPane::loadChapter(const SonicPi::TutorialChapter& chapter, const QString& imagesRoot,
@@ -342,34 +255,47 @@ void TutorialPane::loadChapter(const SonicPi::TutorialChapter& chapter, const QS
     announcePage(chapter.title);
 }
 
-void TutorialPane::showCodePage(const QString& title, const QString& code)
+// An example, as the web's Examples page has it: one card, fitted to the
+// pane so its transport always shows; a long example scrolls inside it. An
+// edit is kept until Reset.
+void TutorialPane::showExamplePage(const QString& key, const QString& title, const QString& code,
+                                   const QString& blurb)
 {
-    clearContent();
-    m_chapter = SonicPi::TutorialChapter();
-    m_prevTitle.clear();
-    m_nextTitle.clear();
-    m_pageKind = PageKind::Code;
-    m_codePageTitle = title;
-    m_codePageCode = code;
+    beginPage();
+    m_pageKind = PageKind::Example;
+    m_exampleKey = key;
+    m_exampleTitle = title;
+    m_exampleCode = code;
+    m_exampleBlurb = blurb;
+    m_pageId = QStringLiteral("example:") + key;
+    m_cardSection = title;
+    QString shown = code;
+    if (shown.endsWith(QLatin1Char('\n')))
+        shown.chop(1);
+    m_exampleCard = addCard(shown, true,
+                            CodeCard::Edit | CodeCard::Reset | CodeCard::Copy | CodeCard::Open
+                                | CodeCard::Drag,
+                            blurb, QStringLiteral("examples/") + key);
+    endPage(title);
+    fitExampleCard();
+}
 
-    ensureExampleEditor();
-    m_exampleTitle->setText(title);
-    m_exampleEditor->setReadOnly(false);
-    m_exampleEditor->setText(code);
-    m_exampleEditor->setReadOnly(true);
+void TutorialPane::fitExampleCard()
+{
+    if (m_pageKind != PageKind::Example || !m_exampleCard)
+        return;
+    // The room the column leaves, less what of the card isn't its code.
+    const QMargins margins = m_column->contentsMargins();
+    const int room = m_scroll->viewport()->height() - margins.top() - margins.bottom();
+    m_exampleCard->ensurePolished();
+    const int chrome = m_exampleCard->sizeHint().height() - m_exampleCard->body()->height();
+    m_exampleCard->setCodeBodyHeight(qMax(sy(80), room - chrome));
+}
 
-    Snippet snippet;
-    snippet.frame = m_exampleFrame;
-    snippet.play = m_examplePlay;
-    snippet.code = code;
-    snippet.workspace = QString("sonic-pi-tutorial-%1").arg(++m_workspaceSeq);
-    m_snippets.append(snippet);
-    setSnippetPlaying(m_snippets[0], false);
-
-    m_scroll->hide();
-    m_examplePage->show();
-    restoreFocusAfterBuild();
-    announcePage(title);
+void TutorialPane::resizeEvent(QResizeEvent* event)
+{
+    QFrame::resizeEvent(event);
+    fitExampleCard();
 }
 
 // Page titles are announced on navigation only. A zoom step rebuilds the
@@ -383,6 +309,12 @@ void TutorialPane::announcePage(const QString& title)
 
 bool TutorialPane::playFirstSnippet()
 {
+    for (CodeCard* card : m_deck->cards())
+        if (card->playButton())
+        {
+            card->playButton()->click();
+            return true;
+        }
     if (m_snippets.isEmpty())
         return false;
     m_snippets[0].play->click();
@@ -421,6 +353,7 @@ void TutorialPane::showLangPage(const SonicPi::LangPage& page)
     beginPage();
     m_pageKind = PageKind::Lang;
     m_langPage = page;
+    m_pageId = QStringLiteral("lang:") + page.key;
     addHeading(1, page.key);
     if (!page.summary.isEmpty())
     {
@@ -435,21 +368,14 @@ void TutorialPane::showLangPage(const SonicPi::LangPage& page)
         addProse(page.docHtml);
     if (!page.examples.isEmpty())
     {
+        // Cards, as the web's docs have them: each plays if the reference
+        // says it can stand alone (one that raises shows its error on the
+        // card), and goes into the editor by Add or a drag.
         addHeading(2, tr("Examples"));
-        // Reference illustrations, not demos: never runnable (some — assert,
-        // stop, defonce — would raise or wedge if played standalone). Comments
-        // sit in their own right-hand column, like the old doc system.
-        int exampleNum = 0;
         for (const SonicPi::CodeExample& example : page.examples)
-        {
-            QLabel* caption = new QLabel(tr("Example %1").arg(++exampleNum), m_content);
-            caption->setObjectName("tutHint");
-            m_column->addWidget(caption);
-            addSnippet(example.code, false);
-            Snippet& snippet = m_snippets.last();
-            snippet.commentsAside = true;
-            snippet.codeView->setHtml(exampleTableHtml(example.code));
-        }
+            addCard(example.code, example.runnable,
+                    CodeCard::Edit | CodeCard::Reset | CodeCard::Copy | CodeCard::Add
+                        | CodeCard::Drag);
     }
     if (!page.introduced.isEmpty())
         addProse("<i>" + tr("Introduced in %1").arg(page.introduced).toHtmlEscaped() + "</i>");
@@ -1027,69 +953,6 @@ void TutorialPane::regenerateInstrumentCode()
     setSnippetCode(0, text, html);
 }
 
-QString TutorialPane::exampleTableHtml(const QString& code) const
-{
-    // Index of a line's trailing comment, skipping # inside string literals
-    // (covers "#{...}" interpolation too); -1 when the line has none.
-    auto commentStart = [](const QString& line) {
-        QChar quote;
-        bool inString = false;
-        for (int i = 0; i < line.size(); i++)
-        {
-            const QChar c = line[i];
-            if (inString)
-            {
-                if (c == '\\')   // escaped char (\" etc.) can't close the string
-                    i++;
-                else if (c == quote)
-                    inString = false;
-                continue;
-            }
-            if (c == '"' || c == '\'')
-            {
-                inString = true;
-                quote = c;
-                continue;
-            }
-            if (c == '#')
-                return i;
-        }
-        return -1;
-    };
-
-    QString html = QStringLiteral("<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">");
-    const QStringList lines = code.split('\n');
-    for (const QString& line : lines)
-    {
-        const int split = commentStart(line);
-        const QString codePart = split < 0 ? line : line.left(split);
-        // Only TRAILING comments move to the right column. Full-line comments
-        // are narrative — they stay in the code column, indentation intact.
-        const bool fullLineComment = split >= 0 && codePart.trimmed().isEmpty();
-        QString codeHtml, commentHtml;
-        if (fullLineComment)
-        {
-            codeHtml = SonicPi::TutorialDocs::highlightCode(line, m_codeColours);
-        }
-        else
-        {
-            // Whitespace-only cells keep the row's height (blank lines).
-            codeHtml = codePart.trimmed().isEmpty()
-                           ? QStringLiteral("&nbsp;")
-                           : SonicPi::TutorialDocs::highlightCode(codePart, m_codeColours);
-            if (split >= 0)
-                commentHtml = QStringLiteral("<i><span style=\"color:%1\">%2</span></i>")
-                                  .arg(m_codeColours.comment, line.mid(split).toHtmlEscaped());
-        }
-        // Middle cell is a fixed gutter: wrapped comment lines stay flush
-        // with the comment's own left edge (an &nbsp; prefix hung outdented).
-        html += "<tr><td>" + codeHtml + "</td><td width=\"18\"></td><td>"
-                + commentHtml + "</td></tr>";
-    }
-    html += QStringLiteral("</table>");
-    return html;
-}
-
 void TutorialPane::setSnippetCode(int index, const QString& code, const QString& html)
 {
     if (index >= m_snippets.size())
@@ -1137,6 +1000,7 @@ void TutorialPane::openOptEditor(const QString& optName, const QPoint& globalPos
 void TutorialPane::rebuild()
 {
     clearContent();
+    m_pageId = QStringLiteral("chapter:") + m_chapter.title;
 
     for (const SonicPi::TutorialBlock& block : m_chapter.blocks)
     {
@@ -1149,7 +1013,9 @@ void TutorialPane::rebuild()
             addProse(block.text);
             break;
         case SonicPi::TutorialBlock::Code:
-            addSnippet(block.source, block.runnable);
+            addCard(block.source, block.runnable,
+                    CodeCard::Edit | CodeCard::Reset | CodeCard::Copy | CodeCard::Open
+                        | CodeCard::Drag);
             break;
         case SonicPi::TutorialBlock::List:
             addList(block);
@@ -1168,33 +1034,22 @@ void TutorialPane::rebuild()
 
 void TutorialPane::clearContent()
 {
-    // Jukebox: an example only plays while its page is showing — stop it on the
-    // way out so at most one example is ever running. A zoom rebuild is not a
-    // way out: the same page comes straight back, so the run (and its scope)
-    // carries on and redisplayCurrentPage() reattaches the job id.
+    // Real navigation drops any scroll position held for a zoom rebuild, so
+    // a restore still in flight can't scroll the incoming page. (A page's
+    // cards' runs outlive it, as the web's do: the next card played stops
+    // them, and a zoom's rebuild of the same page finds them playing.)
     if (!m_redisplaying)
-    {
-        // Real navigation: drop any scroll position held for a zoom rebuild,
-        // so a restore still in flight can't scroll the incoming page.
         m_pendingScrollFrac = -1.0;
-        if (!m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay
-            && m_snippets[0].jobId >= 0)
-            emit stopJobRequested(m_snippets[0].jobId);
-    }
-    // The stop above is async; quiesce the scope now so it doesn't linger on
-    // the next page (runEnded won't find the snippet once m_snippets is
-    // cleared). The panel itself stays — it's a permanent fixture. The one
-    // case to leave it running is a zoom rebuild that is preserving a live run.
-    const bool keepingRunAlive =
-        m_redisplaying && !m_snippets.isEmpty() && m_snippets[0].jobId >= 0;
-    if (m_exampleScope && !keepingRunAlive)
-        m_exampleScope->stop(false);
     // The teardown below deletes whichever widget holds focus; note that now
     // so the incoming page can take focus back instead of losing it to the
     // window (which reads as "kicked to the title bar" in a screen reader).
     QWidget* focused = QApplication::focusWidget();
     m_restoreFocus = focused && isAncestorOf(focused);
     m_snippets.clear();
+    m_deck->clear();
+    m_cardSection.clear();
+    m_cardCounts.clear();
+    m_cardIndex = 0;
     m_dials.clear();
     // Labels deregister themselves on destruction, but that happens via
     // deleteLater — drop any live selection now so the group never points
@@ -1210,9 +1065,7 @@ void TutorialPane::clearContent()
     m_demoNote = 50;
     m_pageName.clear();
     m_pageIsFx = false;
-    if (m_examplePage)
-        m_examplePage->hide();
-    m_scroll->show();
+    m_exampleCard = nullptr;
     while (QLayoutItem* item = m_column->takeAt(0))
     {
         if (QWidget* w = item->widget())
@@ -1232,6 +1085,7 @@ void TutorialPane::addHeading(int level, const QString& text)
     if (m_column->count() > 0)
         m_column->addSpacing(sy(level == 1 ? 28 : level == 2 ? 20 : 12));
     // TutHeading: reads as a real heading (with its level) to screen readers
+    m_cardSection = text; // the cards below are named for it
     QLabel* label = new TutHeading(text, level, m_content);
     label->setObjectName(level == 1 ? "tutH1" : level == 2 ? "tutH2" : "tutH3");
     label->setWordWrap(true);
@@ -1302,11 +1156,6 @@ void TutorialPane::restoreFocusAfterBuild()
 
 void TutorialPane::focusContent()
 {
-    if (m_examplePage && m_examplePage->isVisible() && m_exampleEditor)
-    {
-        m_exampleEditor->setFocus(Qt::OtherFocusReason);
-        return;
-    }
     if (!m_readingOrder.isEmpty())
     {
         TutProseText* first = m_readingOrder.first();
@@ -1492,6 +1341,61 @@ void TutorialPane::addSnippet(const QString& code, bool runnable, QVBoxLayout* i
     (into ? into : m_column)->addWidget(snippet.frame);
 }
 
+CodeCard* TutorialPane::addCard(const QString& code, bool runnable, int actions,
+                                const QString& blurb, const QString& key)
+{
+    const QString section = m_cardSection.isEmpty() ? tr("Example") : m_cardSection;
+    const int n = ++m_cardCounts[section];
+    CodeCard::Spec spec;
+    spec.title = n > 1 ? QStringLiteral("%1 · %2").arg(section).arg(n) : section;
+    spec.code = code;
+    spec.blurb = blurb.toHtmlEscaped();
+    spec.actions = actions;
+    spec.runnable = runnable;
+    spec.readable = true;
+    spec.key = key;
+    spec.scopeSlot = kJukeboxScopeSlot;
+    // As tall as its code; the type at the page's code size, the title at its
+    // prose size.
+    CodeCard::Metrics metrics;
+    metrics.codeFontPx = zoomedPtPx(12);
+    metrics.titlePx = zoomedPtPx(13);
+    metrics.scopeSide = sy(56);
+    metrics.zoomFactor = m_fontScale;
+    CodeCard* card = new CodeCard(spec, metrics, m_theme, m_content);
+    card->setMaximumWidth(sx(1200)); // the prose's measure
+
+    // The code reads on from the prose above and into the prose below, and a
+    // selection may run through it.
+    TutProseText* text = card->codeText();
+    text->setGroup(m_selGroup);
+    m_selGroup->add(text);
+    wireProse(text);
+
+    connect(card, &CodeCard::openRequested, this,
+            [this](const QString&, const QString& code) { emit loadRequested(code); });
+    connect(card, &CodeCard::insertRequested, this, &TutorialPane::insertRequested);
+    connect(card, &CodeCard::insertPreviewRequested, this, &TutorialPane::insertPreviewRequested);
+    connect(card, &CodeCard::insertPreviewCleared, this, &TutorialPane::insertPreviewCleared);
+    connect(card, &CodeCard::dragEnded, this, &TutorialPane::dragEnded);
+    connect(card, &CodeCard::copyRequested, this, &TutorialPane::copyRequested);
+    connect(card, &CodeCard::announceRequested, this, &TutorialPane::announceRequested);
+    // Stable across a zoom's rebuild of the same page, so the deck finds a
+    // playing card's runs again.
+    m_deck->add(card, QStringLiteral("sonic-pi-tutorial-card-%1-%2")
+                          .arg(qHash(m_pageId), 0, 16)
+                          .arg(++m_cardIndex));
+    m_column->addWidget(card);
+    return card;
+}
+
+int TutorialPane::zoomedPtPx(int basePt) const
+{
+    QFont f;
+    f.setPointSize(qMax(6, qRound(basePt * m_fontScale)));
+    return QFontInfo(f).pixelSize();
+}
+
 // Native option reference: one self-contained zebra-striped row per opt
 // (name / default / doc), so a tall doc can never bleed into the next row.
 void TutorialPane::addOptsGrid(const QVector<SonicPi::InstrumentOpt>& opts)
@@ -1609,6 +1513,7 @@ void TutorialPane::addNavFooter()
 
 void TutorialPane::runStarted(int jobId, const QString& workspace)
 {
+    m_deck->runStarted(jobId, workspace);
     for (Snippet& snippet : m_snippets)
     {
         if (snippet.workspace == workspace)
@@ -1637,6 +1542,7 @@ void TutorialPane::runStarted(int jobId, const QString& workspace)
 
 void TutorialPane::runEnded(int jobId)
 {
+    m_deck->runEnded(jobId);
     for (Snippet& snippet : m_snippets)
     {
         if (snippet.jobId == jobId)
@@ -1648,26 +1554,23 @@ void TutorialPane::runEnded(int jobId)
     }
 }
 
+void TutorialPane::flashLine(const QString& workspace, int line)
+{
+    m_deck->flashLine(workspace, line);
+}
+
+void TutorialPane::runOutput(int jobId, const QString& text)
+{
+    m_deck->runOutput(jobId, text);
+}
+
+void TutorialPane::runError(int jobId, const QString& message, int line)
+{
+    m_deck->runError(jobId, message, line);
+}
+
 void TutorialPane::setSnippetPlaying(Snippet& snippet, bool playing)
 {
-    if (snippet.play == m_examplePlay)
-    {
-        // Jukebox toggle: the single transport button flips between filled
-        // play and filled stop. The frame keeps its idle card look — running
-        // state lives in the transport glyph and the animating scope, not a
-        // colour flood over the code.
-        snippet.play->setIcon(playing ? m_exStopIcon : m_exPlayIcon);
-        snippet.play->setToolTip(playing ? tr("Stop this example") : tr("Run this example"));
-        snippet.play->setAccessibleName(playing ? tr("Stop example") : tr("Run example"));
-        if (m_exampleScope)
-        {
-            if (playing)
-                m_exampleScope->start(m_spAPI.get(), kJukeboxScopeSlot);
-            else
-                m_exampleScope->stop(false);
-        }
-        return;
-    }
     if (snippet.stop)
         snippet.stop->setEnabled(playing);
     snippet.frame->setProperty("playing", playing);
@@ -1683,11 +1586,6 @@ void TutorialPane::scrollStep(int direction)
 
 void TutorialPane::copySelection()
 {
-    if (m_exampleEditor && m_exampleEditor->hasFocus() && m_exampleEditor->hasSelectedText())
-    {
-        m_exampleEditor->copy();
-        return;
-    }
     if (m_selGroup)
         m_selGroup->copy();
 }
@@ -1737,8 +1635,6 @@ int TutorialPane::sy(int px) const
 void TutorialPane::applySizing()
 {
     m_fontScale = FontZoomFactor(m_userZoom);
-    if (m_exampleEditor)
-        m_exampleEditor->zoomTo(kExampleZoom + m_userZoom);
     applyShellSizing();
     applyTheme();
     // Column widths, card padding and dial geometry are all computed while a
@@ -1755,31 +1651,6 @@ void TutorialPane::applyShellSizing()
     const int inset = sx(22);
     m_column->setContentsMargins(inset, sy(18), inset, sy(26));
     m_column->setSpacing(sy(12));
-
-    if (QLayout* examplePage = m_examplePage->layout())
-    {
-        const int exInset = sx(22);
-        examplePage->setContentsMargins(exInset, sy(12), exInset, sy(12));
-        examplePage->setSpacing(sy(10));
-    }
-    if (m_exampleFrameLayout)
-    {
-        const int exPad = sx(10);
-        m_exampleFrameLayout->setContentsMargins(exPad, sy(8), exPad, sy(8));
-        m_exampleFrameLayout->setSpacing(sy(4));
-    }
-    for (QPushButton* b : { m_examplePlay, m_exampleLoad })
-    {
-        if (!b)
-            continue;
-        b->setFixedSize(sx(40), sy(40));
-        b->setIconSize(QSize(sx(24), sy(24)));
-    }
-    if (m_exampleScope)
-    {
-        m_exampleScope->setMinimumWidth(sx(160));
-        m_exampleScope->setFixedHeight(sy(46));
-    }
 }
 
 // Rebuild the visible page from its stored source. Dial values and the
@@ -1822,8 +1693,9 @@ void TutorialPane::redisplayCurrentPage()
     case PageKind::Chapter:
         rebuild();
         break;
-    case PageKind::Code:
-        showCodePage(QString(m_codePageTitle), QString(m_codePageCode));
+    case PageKind::Example:
+        showExamplePage(QString(m_exampleKey), QString(m_exampleTitle), QString(m_exampleCode),
+                        QString(m_exampleBlurb));
         break;
     case PageKind::Instrument:
         showInstrumentPage(m_pageIsFx, SonicPi::InstrumentPage(m_instrumentPage));
@@ -1955,13 +1827,13 @@ void TutorialPane::applyTheme()
         "#tutDialGroup { background:rgba(127,127,127,22); border:none; border-radius:@radiusMedium; }"
         "#tutSection { color:@muted; font-family:'Hack'; font-size:@hintSize;"
         " background:transparent; }"
-        // Transport + load + octave + reset: flat tabler glyph buttons.
-        "#tutPlay, #tutStop, #tutCopy, #tutLoad, #tutOct, #tutReset { background:transparent;"
+        // Transport + octave + reset: flat tabler glyph buttons.
+        "#tutPlay, #tutStop, #tutCopy, #tutOct, #tutReset { background:transparent;"
         " border:none; border-radius:@radiusSmall; padding:2dx; }"
         "#tutPlay:hover:!pressed, #tutStop:hover:!pressed, #tutCopy:hover:!pressed,"
-        " #tutLoad:hover:!pressed, #tutOct:hover:!pressed, #tutReset:hover:!pressed"
+        " #tutOct:hover:!pressed, #tutReset:hover:!pressed"
         " { background:@hoverTint; }"
-        "#tutPlay:pressed, #tutStop:pressed, #tutCopy:pressed, #tutLoad:pressed,"
+        "#tutPlay:pressed, #tutStop:pressed, #tutCopy:pressed,"
         " #tutOct:pressed, #tutReset:pressed { background:@pressedTint; }"
         "#tutSig { color:@sigColour; font-family:'Hack'; font-size:@buttonSize; }"
         "#tutHint { color:@muted; font-family:'Hack'; font-size:@hintSize; }"
@@ -2055,11 +1927,7 @@ void TutorialPane::applyContentTheme()
             label->setHtml(proseColoured(md));
         label->setPalette(pal);
     }
-    m_codeColours.keyword = m_theme->color("KeywordForeground").name();
-    m_codeColours.symbol = m_theme->color("SymbolForeground").name();
-    m_codeColours.number = m_theme->color("NumberForeground").name();
-    m_codeColours.string = m_theme->color("DoubleQuotedStringForeground").name();
-    m_codeColours.comment = m_theme->color("CommentForeground").name();
+    m_codeColours = SonicPi::codeColours(m_theme);
 
     // Tabler transport glyphs, matching the title-bar controls' icon family.
     const qreal dpr = devicePixelRatioF();
@@ -2079,16 +1947,6 @@ void TutorialPane::applyContentTheme()
     m_stopIcon = discIcon(TablerIcons::Glyph::StopFilled, fg);
     m_copyIcon = TablerIcons::icon(TablerIcons::Glyph::Copy, muted, sx(24), dpr);
     m_copiedIcon = TablerIcons::icon(TablerIcons::Glyph::Check, accent, sx(24), dpr);
-    // Jukebox transport: filled glyphs on the tabler 24 grid, both in the
-    // accent so stop reads as the same transport the play started (the thin
-    // outline square looked like a broken checkbox). Load (an upload into
-    // the buffer) stays tinted like the other quiet flat controls.
-    const int exGlyphPx = sx(24);
-    m_exPlayIcon = TablerIcons::icon(TablerIcons::Glyph::PlayFilled, accent, exGlyphPx, dpr);
-    m_exStopIcon = TablerIcons::icon(TablerIcons::Glyph::StopFilled, accent, exGlyphPx, dpr);
-    if (m_exampleLoad)
-        m_exampleLoad->setIcon(
-            TablerIcons::icon(TablerIcons::Glyph::Upload, muted, exGlyphPx, dpr));
     // Re-tint the per-page glyph icons (Reset / octave −+) for the new theme.
     for (QPushButton* b : m_content->findChildren<QPushButton*>("tutReset"))
         b->setIcon(TablerIcons::icon(TablerIcons::Glyph::Restore, muted, sx(20), dpr));
@@ -2101,30 +1959,16 @@ void TutorialPane::applyContentTheme()
     {
         if (snippet.codeView)
         {
-            snippet.codeView->setHtml(
-                snippet.commentsAside
-                    ? exampleTableHtml(snippet.code)
-                    : SonicPi::TutorialDocs::highlightCode(snippet.code, m_codeColours));
+            snippet.codeView->setHtml(SonicPi::TutorialDocs::highlightCode(snippet.code, m_codeColours));
             pinCodeViewHeight(snippet.codeView, snippet.code);
         }
-        // The example snippet's play button is the jukebox transport, themed
-        // just below; its stop pointer is null (single toggle button).
-        if (snippet.play && snippet.play != m_examplePlay)
+        if (snippet.play)
             snippet.play->setIcon(m_playIcon);
         if (snippet.stop)
             snippet.stop->setIcon(m_stopIcon);
         if (snippet.copy)
             snippet.copy->setIcon(m_copyIcon);
     }
-    bool examplePlaying = !m_snippets.isEmpty() && m_snippets[0].play == m_examplePlay
-                          && m_snippets[0].jobId >= 0;
-    m_examplePlay->setIcon(examplePlaying ? m_exStopIcon : m_exPlayIcon);
-    if (m_exampleScope)
-        m_exampleScope->setColours(accent, SonicPiTheme::blend(editorBg, fg, 0.22),
-                                   SonicPiTheme::blend(editorBg, fg, 0.05),
-                                   SonicPiTheme::blend(editorBg, fg, 0.22));
-    if (m_exampleEditor)
-        m_exampleEditor->redraw();
 
     QColor dialTrack = SonicPiTheme::blend(editorBg, fg, 0.28);
     for (TutDial* dial : m_dials)

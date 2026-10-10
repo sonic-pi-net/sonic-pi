@@ -20,7 +20,6 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <QApplication>
-#include <QTemporaryDir>
 
 #include <memory>
 #include <string>
@@ -28,6 +27,7 @@
 
 #include "api/osc/osc_pkt.hh"
 #include "api/sonicpi_api.h"
+#include "own_settings.h"
 #include "utils/gui_settings.h"
 #include "widgets/linkaudiostreamswidget.h"
 
@@ -78,15 +78,6 @@ struct ListeningEngine : SonicPiAPI
     }
 
     std::vector<oscpkt::Message> sent;
-};
-
-// A gui.ini of the test's own, put back as it was afterwards.
-struct OwnSettings
-{
-    QTemporaryDir dir;
-    QString before = SonicPi::guiSettingsPath();
-    OwnSettings() { SonicPi::setGuiSettingsPath(dir.filePath("gui.ini")); }
-    ~OwnSettings() { SonicPi::setGuiSettingsPath(before); }
 };
 
 const std::string kPublish = "/clockwork/clock/audio/publish/set";

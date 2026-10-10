@@ -54,7 +54,10 @@ enum class Glyph
     AppWindow,       // tracks: a plugin's own window
     Adjustments,     // tracks: configure a device's face
     Plus,            // tracks: new track / add to track
-    Plug             // Tracks tab
+    Plug,            // Tracks tab
+    Pencil,          // card: edit the code
+    Reset,           // card: back to the code as written
+    ExternalLink     // card: open in the editor
 };
 
 // Solid glyphs are tinted via fill; everything else via stroke.
@@ -201,6 +204,20 @@ inline QString glyphPaths(Glyph glyph)
             "<path d='M16 7a2 2 0 1 0 4 0a2 2 0 0 0 -4 0' /><path d='M18 4v1' /><path d='M18 9v11' />");
     case Glyph::Plus:
         return QStringLiteral("<path d='M12 5l0 14' /><path d='M5 12l14 0' />");
+    // The card's three, as the web draws them (app/web/app/src/icons.js).
+    case Glyph::Pencil:
+        return QStringLiteral(
+            "<path d='M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4' />"
+            "<path d='M13.5 6.5l4 4' />");
+    case Glyph::Reset:
+        return QStringLiteral(
+            "<path d='M4.5 12a7.5 7.5 0 1 0 2.2 -5.3' />"
+            "<path d='M4.5 3.5v4h4' />");
+    case Glyph::ExternalLink:
+        return QStringLiteral(
+            "<path d='M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6' />"
+            "<path d='M11 13l9 -9' />"
+            "<path d='M15 4h5v5' />");
     case Glyph::Plug:
         return QStringLiteral(
             "<path d='M9.785 6l8.215 8.215l-2.054 2.054a5.81 5.81 0 1 1 -8.215 -8.215l2.054 "

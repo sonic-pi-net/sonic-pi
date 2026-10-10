@@ -12,7 +12,6 @@
 
 #include <QHash>
 #include <QIcon>
-#include <QSet>
 #include <QWidget>
 
 #include <memory>
@@ -25,7 +24,6 @@ class SonicPiTheme;
 class QGridLayout;
 class QPushButton;
 class QScrollArea;
-class QTimer;
 class CardScope; // circular stereo mini scope (defined in the .cpp)
 
 namespace SonicPi
@@ -52,7 +50,7 @@ public:
 
     explicit QuickstartPane(SonicPiTheme* theme, QWidget* parent = nullptr);
 
-    void setAudioApi(std::shared_ptr<SonicPi::SonicPiAPI> api) { m_spAPI = api; }
+    void setAudioApi(std::shared_ptr<SonicPi::SonicPiAPI> api);
 
     // Path to the cards file (etc/quickstart/cards.txt or the user override);
     // set by MainWindow. Rebuilds the pane from it.
@@ -93,6 +91,10 @@ public:
     // Editor-style trigger wash on the card's code line. `line` is the
     // 1-based runtime line within the submitted (scope-tap wrapped) code.
     void flashLine(const QString& workspace, int line);
+    // What one of a card's runs puts, and the error that ended one, shown in
+    // the card's footer. `line` is the run's, counted as flashLine's is.
+    void runOutput(int jobId, const QString& text);
+    void runError(int jobId, const QString& message, int line);
 
 signals:
     void runRequested(const QString& title, const QString& code, const QString& workspace,
@@ -114,13 +116,12 @@ signals:
     void announceRequested(const QString& msg);
 
 protected:
-    // The hover poll runs only while the pane is visible.
+    // A theme change while hidden rebuilds the deck on the next show.
     void showEvent(QShowEvent* event) override;
-    void hideEvent(QHideEvent* event) override;
     // As the dock shrinks below one card, shed the header (description, then
     // title) so the card itself is never clipped.
     void resizeEvent(QResizeEvent* event) override;
-    // Drag a card by its header to drop its code on the editor
+    // The carousel's wheel and keys, and the back edge
     bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
@@ -145,8 +146,10 @@ private:
     QWidget* firstVisibleCard() const; // the current page's lead card (focus entry point)
     void scrollCardIntoView(QWidget* frame); // page toward a partly-visible card
     void rebuild();
-    QWidget* addCard(const SonicPi::QuickstartCard& card, const QString& workspace, int scopeSlot);
-    void setCardPlaying(const QString& workspace, bool playing);
+    class CodeCard* addCard(const SonicPi::QuickstartCard& card, const QString& workspace,
+                            int scopeSlot, const QString& key);
+    // Left/Right from a card: the next one in the deck, paged into view.
+    void stepFrom(QWidget* card, int delta);
     // Sizes come from the shared type scale (dpi.h), zoomed. Raw numbers here
     // put the pane on its own ladder — 15 and 17 sat between the scale's steps,
     // so this pane's text never lined up with anything else in the window.
@@ -159,22 +162,6 @@ private:
     // pane via dpi.h) — card geometry and padding grow with the type, so
     // zooming adds room rather than crowding the content that grew.
     UiScale uiScale() const { return UiScale(m_zoomFactor); }
-    // A Tabler-icon glyph rendered in one colour at the given size.
-    QIcon svgIcon(TablerIcons::Glyph glyph, const QColor& colour, int px) const;
-    // A solid accent disc with a centred play/stop glyph; the scope's control.
-    QPixmap playDisc(bool playing, int d, bool hover = false) const;
-    // Rings follow the play glyph's hover colour (the whole scope is the
-    // click target, so it lights up as one control).
-    void setScopeHover(QPushButton* button, bool hover);
-    // The drag projection: a bordered code card with the card's title drawn
-    // straddling the top border (legend style).
-    QPixmap cardDragPixmap(QWidget* frame) const;
-
-    // Hover feedback, driven by polling the cursor rather than Enter/Leave
-    // events: updateHover() hit-tests the pointer against the cards and icon
-    // buttons every tick and restyles only on change, so it can never stick.
-    void updateHover();
-    void setCardHover(QWidget* frame, bool on);
 
     // The A-/A+ zoom controls, shown at the foot of the help's tab rail (see zoomControls()).
     // Persistent across rebuilds; retinted on theme change.
@@ -215,50 +202,12 @@ private:
     int m_blurbW = 0;        // fixed blurb width (so wrap height is deterministic)
     int m_layoutZoom = 999;  // m_userZoom the cached layout was computed for
 
-    // Per-card widgets for the current deck, keyed by workspace; job state
-    // (m_jobs) outlives rebuilds so a playing card survives zoom/theme/deck
-    // changes.
-    QHash<QString, QPushButton*> m_runButtons;
-    QHash<QString, CardScope*> m_scopes;
-    QHash<QString, QVector<class QLabel*>> m_codeLines;
-    // The code body, which scrolls when a snippet overruns the card's fixed
-    // budget; held so a flashed line can be brought back into view.
-    QHash<QString, class QScrollArea*> m_codeScrolls;
-    QHash<QString, QSet<QString>> m_cardLoops; // workspace -> live_loop names in its code
-    // Jobs a card must stop. A card taking over another's live_loop inherits
-    // its jobs: live_loop redefines the running named thread rather than
-    // starting one, so the sound stays with the job that first started it.
-    QHash<QString, QSet<int>> m_jobs;
-    // Card hover: a high-contrast border lights up while the pointer is
-    // anywhere over the card ([cardHover] in app.qss). Poll-driven (see
-    // updateHover) so crossing child widgets never flickers or sticks.
-    struct CardHoverFx
-    {
-        QWidget* footer = nullptr;
-        class QLabel* blurb = nullptr;
-        QWidget* body = nullptr; // code area, grabbed for the drag ghost
-        QString title;
-    };
-    QHash<QWidget*, CardHoverFx> m_cardFx; // keyed by card frame
-    QTimer* m_hoverTimer = nullptr;
+    // The cards' runs, which outlive a rebuild, so a playing card survives a
+    // zoom, a theme or a deck change; and the cards' hover.
+    class CardDeck* m_deck = nullptr;
     // Theme changed while the pane was hidden: the deck rebuild (the
     // expensive part of applyTheme) is deferred to the next showEvent.
     bool m_themeDirty = false;
-    QWidget* m_hoverCard = nullptr;        // card currently under the pointer
-    QPushButton* m_hoverIcon = nullptr;    // icon button currently under the pointer
-    // Icon-button glyph swap on hover (normal white glyph <-> contrasting ink).
-    QHash<QObject*, QIcon> m_iconNormal;
-    QHash<QObject*, QIcon> m_iconHover;
-    QHash<QObject*, QString> m_dragCode;   // drag handle (card header) -> snippet
-    QHash<QObject*, QWidget*> m_dragFrames; // drag handle -> card frame (drag image)
-    QHash<QObject*, QString> m_addCode;    // add button -> snippet (hover preview)
-    QHash<QObject*, QString> m_addTitle;   // add button -> card title
-    QHash<QObject*, QString> m_frameWs;    // card frame -> workspace (keyboard control)
-    QPoint m_dragStart;
-    QObject* m_dragSource = nullptr;
-    // A plain click on a partly-visible card scrolls it fully into view.
-    QWidget* m_clickFrame = nullptr;
-    QPoint m_clickPos;
     // Side-scrolling pages one card per gesture; the cooldown swallows a
     // trackpad swipe's momentum so it doesn't fly through the deck.
     bool m_wheelCooldown = false;

@@ -25,7 +25,6 @@
 
 #include "model/sonicpitheme.h"
 #include "utils/tutorialdocs.h"
-#include "widgets/sonicpilexer.h"
 #include "widgets/tutorialpane.h"
 #include "widgets/tutorialwidgets.h"
 
@@ -40,7 +39,6 @@ TEST_CASE("synth and fx doc pages never clip their prose", "[tutorialpane][clip]
 {
     const QString root = QStringLiteral(SP_ROOT);
     SonicPiTheme* theme = new SonicPiTheme(nullptr, "", root);
-    SonicPiLexer* lexer = new SonicPiLexer(theme);
 
     auto synths = SonicPi::TutorialDocs::instrumentsFromJson(
         readDocJson(root + "/etc/doc/generated/native/reference/synths.json"));
@@ -57,7 +55,7 @@ TEST_CASE("synth and fx doc pages never clip their prose", "[tutorialpane][clip]
                    Case{905, 3}, Case{1244, 3}, Case{1500, 3}, Case{1244, -2}})
     {
         const int paneWidth = c.paneWidth;
-        TutorialPane pane(lexer, theme);
+        TutorialPane pane(theme);
         // Zoom changes the pane stylesheet's font sizes — pages must measure
         // with the zoomed font, not the construction font (a persisted
         // docs-zoom pref means real pages always build under a custom font).

@@ -190,32 +190,39 @@ QString escaped(const QString& text)
     return text.toHtmlEscaped();
 }
 
-QString span(const QString& colour, const QString& text)
+// Where a `/` begins a regex rather than dividing: where a value cannot be,
+// after nothing, an operator, an opening bracket or a keyword such as `if`.
+bool regexMayStart(const QString& line, int i, bool lastWasValue)
 {
-    return "<span style=\"color:" + colour + ";\">" + escaped(text) + "</span>";
+    if (lastWasValue)
+        return false;
+    // `/ ` after nothing at all is still a regex only if it closes on the line
+    return line.indexOf('/', i + 1) > i;
 }
 
-QString highlightLine(const QString& line, const CodeColours& c)
+} // namespace
+
+QVector<CodeToken> TutorialDocs::tokenizeLine(const QString& line)
 {
-    QString out;
-    int i = 0;
+    QVector<CodeToken> out;
     const int n = line.size();
-    int plainStart = 0;
-
-    auto flushPlain = [&](int upTo) {
-        if (upTo > plainStart)
-            out += escaped(line.mid(plainStart, upTo - plainStart));
+    int i = 0;
+    bool lastWasValue = false;   // a value just ended: `/` divides, it does not open a regex
+    bool afterDef = false;       // the next word is a method being defined
+    auto push = [&](int start, int end, CodeTokenKind kind) {
+        out.push_back(CodeToken{ start, end - start, kind });
     };
-
     while (i < n)
     {
         const QChar ch = line[i];
-
+        if (ch.isSpace())
+        {
+            i++;
+            continue;
+        }
         if (ch == '#') // comment to end of line
         {
-            flushPlain(i);
-            out += span(c.comment, line.mid(i));
-            plainStart = n;
+            push(i, n, CodeTokenKind::Comment);
             break;
         }
         if (ch == '"' || ch == '\'') // string literal
@@ -225,10 +232,9 @@ QString highlightLine(const QString& line, const CodeColours& c)
                 end += (line[end] == '\\' && end + 1 < n) ? 2 : 1; // skip escapes
             if (end < n)
                 end++;
-            flushPlain(i);
-            out += span(c.string, line.mid(i, end - i));
+            push(i, end, CodeTokenKind::String);
             i = end;
-            plainStart = i;
+            lastWasValue = true;
             continue;
         }
         if (ch == ':' && i + 1 < n && isIdentStart(line[i + 1])) // :symbol
@@ -236,14 +242,36 @@ QString highlightLine(const QString& line, const CodeColours& c)
             int end = i + 1;
             while (end < n && isIdentChar(line[end]))
                 end++;
-            flushPlain(i);
-            out += span(c.symbol, line.mid(i, end - i));
+            push(i, end, CodeTokenKind::Symbol);
             i = end;
-            plainStart = i;
+            lastWasValue = true;
             continue;
         }
-        if (ch.isDigit()
-            && (i == 0 || !isIdentChar(line[i - 1]))) // number (int or float)
+        if (ch == '@' && i + 1 < n && (isIdentStart(line[i + 1]) || line[i + 1] == '@')) // @ivar
+        {
+            int end = i + 1;
+            while (end < n && (isIdentChar(line[end]) || line[end] == '@'))
+                end++;
+            push(i, end, CodeTokenKind::Ivar);
+            i = end;
+            lastWasValue = true;
+            continue;
+        }
+        if (ch == '/' && regexMayStart(line, i, lastWasValue)) // /regex/flags
+        {
+            int end = i + 1;
+            while (end < n && line[end] != '/')
+                end += (line[end] == '\\' && end + 1 < n) ? 2 : 1;
+            if (end < n)
+                end++;
+            while (end < n && line[end].isLetter())
+                end++;
+            push(i, end, CodeTokenKind::Regex);
+            i = end;
+            lastWasValue = true;
+            continue;
+        }
+        if (ch.isDigit() && (i == 0 || !isIdentChar(line[i - 1]))) // number (int or float)
         {
             int end = i;
             while (end < n && line[end].isDigit())
@@ -254,10 +282,9 @@ QString highlightLine(const QString& line, const CodeColours& c)
                 while (end < n && line[end].isDigit())
                     end++;
             }
-            flushPlain(i);
-            out += span(c.number, line.mid(i, end - i));
+            push(i, end, CodeTokenKind::Number);
             i = end;
-            plainStart = i;
+            lastWasValue = true;
             continue;
         }
         if (isIdentStart(ch) && (i == 0 || !isIdentChar(line[i - 1]))) // word
@@ -266,33 +293,103 @@ QString highlightLine(const QString& line, const CodeColours& c)
             while (end < n && isIdentChar(line[end]))
                 end++;
             const QString word = line.mid(i, end - i);
-            if (end < n && line[end] == ':'
-                && !(end + 1 < n && line[end + 1] == ':')) // opt key `name:`
+            if (end < n && line[end] == ':' && !(end + 1 < n && line[end + 1] == ':')) // opt key `name:`
             {
-                flushPlain(i);
-                out += span(c.symbol, word);
-                i = end;
-                plainStart = i;
-                continue;
+                push(i, end, CodeTokenKind::Symbol);
+                lastWasValue = false;
             }
-            if (rubyKeywords().contains(word))
+            else if (afterDef)
             {
-                flushPlain(i);
-                out += span(c.keyword, word);
-                i = end;
-                plainStart = i;
-                continue;
+                push(i, end, CodeTokenKind::Def);
+                lastWasValue = true;
             }
+            else if (rubyKeywords().contains(word))
+            {
+                push(i, end, CodeTokenKind::Keyword);
+                // true/false/nil are values; if/when/and are where one goes
+                lastWasValue = word == "true" || word == "false" || word == "nil" || word == "end";
+            }
+            else
+            {
+                if (word[0].isUpper())
+                    push(i, end, CodeTokenKind::Constant);
+                lastWasValue = true;
+            }
+            afterDef = word == "def";
             i = end;
             continue;
         }
+        // An operator or a bracket: a value may come next, unless one closed.
+        lastWasValue = ch == ')' || ch == ']' || ch == '}';
+        afterDef = afterDef && ch == '.'; // def self.name
         i++;
     }
-    flushPlain(n);
+    return out;
+}
+
+namespace
+{
+
+QString highlightLine(const QString& line, const CodeColours& c)
+{
+    auto colourOf = [&c](CodeTokenKind k) -> const QString& {
+        switch (k)
+        {
+        case CodeTokenKind::Keyword:  return c.keyword;
+        case CodeTokenKind::Symbol:   return c.symbol;
+        case CodeTokenKind::Number:   return c.number;
+        case CodeTokenKind::String:   return c.string;
+        case CodeTokenKind::Regex:    return c.regex;
+        case CodeTokenKind::Comment:  return c.comment;
+        case CodeTokenKind::Def:      return c.def;
+        case CodeTokenKind::Ivar:     return c.ivar;
+        case CodeTokenKind::Constant: return c.constant;
+        }
+        return c.keyword;
+    };
+    QString out;
+    int at = 0;
+    for (const CodeToken& t : TutorialDocs::tokenizeLine(line))
+    {
+        out += escaped(line.mid(at, t.start - at));
+        const QString text = line.mid(t.start, t.length);
+        const QString& colour = colourOf(t.kind);
+        if (colour.isEmpty())
+            out += escaped(text);
+        else
+            out += "<span style=\"color:" + colour + ";"
+                + (t.kind == CodeTokenKind::Comment ? QStringLiteral("font-style:italic;") : QString())
+                + "\">" + escaped(text) + "</span>";
+        at = t.start + t.length;
+    }
+    out += escaped(line.mid(at));
     return out;
 }
 
 } // namespace
+
+QHash<QString, ExampleCard> TutorialDocs::exampleCardsFromJson(const QByteArray& json)
+{
+    QHash<QString, ExampleCard> cards;
+    const QJsonObject root = QJsonDocument::fromJson(json).object();
+    for (auto it = root.constBegin(); it != root.constEnd(); ++it)
+    {
+        const QJsonObject card = it.value().toObject();
+        cards.insert(it.key(), { card.value("title").toString(), card.value("blurb").toString() });
+    }
+    return cards;
+}
+
+QString TutorialDocs::exampleTitle(const QString& key, const QHash<QString, ExampleCard>& cards)
+{
+    const QString named = cards.value(key).title;
+    if (!named.isEmpty())
+        return named;
+    QStringList words = key.split(QLatin1Char('_'), Qt::SkipEmptyParts);
+    for (QString& word : words)
+        word[0] = word[0].toUpper();
+    return words.join(QLatin1Char(' '));
+}
 
 QString TutorialDocs::highlightCode(const QString& source, const CodeColours& colours)
 {

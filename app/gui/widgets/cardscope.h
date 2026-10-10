@@ -14,17 +14,21 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPen>
+#include <QTimer>
 
 #include <cmath>
 #include <vector>
 
-#include "widgets/tutscope.h"
+#include "utils/reducedmotion.h"
+#include "widgets/scopesampler.h"
 
-// Circular stereo mini scope for a quickstart card or a track's header: the
+// Circular stereo mini scope for a code card or a track's header: the
 // waveform wrapped around a ring (left channel on the outer ring, right on
 // the inner), radius modulated by amplitude. No panel or box: just the
-// rings, which settle back to faint circles when nothing is playing.
-// Decorative: no focus, no accessible role (the Run/Stop button, or the
+// rings, which settle back to faint circles when nothing is playing. A card's
+// transport has one channel round each disc (setChannel): left round Play,
+// right round Stop, as the web's card draws them.
+// Decorative: no focus, no accessible role (the Play/Stop button, or the
 // track's code, says what is running).
 class CardScope : public ScopeSampler
 {
@@ -54,6 +58,40 @@ public:
 
     // The scope-buffer slot this card taps (its own, isolated from others).
     void setSlot(unsigned int slot) { m_slot = slot; }
+
+    // Waiting on the engine: an arc goes round the ring until the run starts,
+    // in `colour`. Under reduced motion the whole ring lights instead.
+    void setBusy(bool busy, const QColor& colour)
+    {
+        m_busyColour = colour;
+        if (busy == m_busy)
+            return;
+        m_busy = busy;
+        if (busy && !SonicPi::prefersReducedMotion())
+        {
+            if (!m_busyTimer)
+            {
+                m_busyTimer = new QTimer(this);
+                m_busyTimer->setInterval(16);
+                connect(m_busyTimer, &QTimer::timeout, this, [this] {
+                    m_busyAngle = std::fmod(m_busyAngle + 7.2, 360.0); // a turn in 0.8 s
+                    update();
+                });
+            }
+            m_busyTimer->start();
+        }
+        else if (m_busyTimer)
+            m_busyTimer->stop();
+        update();
+    }
+
+    // Both channels as two rings, or one channel as one.
+    enum class Channel { Both, Left, Right };
+    void setChannel(Channel channel)
+    {
+        m_channel = channel;
+        update();
+    }
 
     // How far the rings swing, as a fraction of the side, and how hard the
     // signal is pushed to get there (soft-clipped, so a loud passage rounds
@@ -125,8 +163,33 @@ protected:
             }
             p.drawPath(path);
         };
-        ring(m_left, 0.42, m_outer);
-        ring(m_right, 0.30, m_inner);
+        if (m_busy)
+        {
+            const qreal r = 0.42 * side;
+            QColor c = m_busyColour;
+            const bool still = !m_busyTimer || !m_busyTimer->isActive();
+            if (still)
+                c.setAlphaF(0.6);
+            p.setPen(QPen(c, side * 0.028, Qt::SolidLine, Qt::RoundCap));
+            const QRectF box(centre.x() - r, centre.y() - r, 2 * r, 2 * r);
+            if (still)
+                p.drawEllipse(box);
+            else
+                p.drawArc(box, int(-m_busyAngle * 16), 90 * 16);
+        }
+        switch (m_channel)
+        {
+        case Channel::Both:
+            ring(m_left, 0.42, m_outer);
+            ring(m_right, 0.30, m_inner);
+            break;
+        case Channel::Left:
+            ring(m_left, 0.42, m_outer);
+            break;
+        case Channel::Right:
+            ring(m_right, 0.42, m_outer);
+            break;
+        }
     }
 
     // One tap block's worth of the newest audible audio per revolution.
@@ -152,6 +215,11 @@ private:
     bool m_active = false;
     bool m_lit = false;
     unsigned int m_slot = 0;
+    Channel m_channel = Channel::Both;
+    bool m_busy = false;
+    QColor m_busyColour;
+    QTimer* m_busyTimer = nullptr;
+    qreal m_busyAngle = 0.0;
     qreal m_gain = 1.0;
     qreal m_swing = 0.04;
 };

@@ -148,10 +148,12 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/splashwidget.cpp
     ${QTAPP_ROOT}/widgets/splashwidget.h
     ${QTAPP_ROOT}/widgets/quickstartpane.cpp
+    ${QTAPP_ROOT}/widgets/codecard.cpp
+    ${QTAPP_ROOT}/widgets/carddeck.cpp
     ${QTAPP_ROOT}/widgets/quickstartpane.h
     ${QTAPP_ROOT}/widgets/zoombar.cpp
     ${QTAPP_ROOT}/widgets/zoombar.h
-    ${QTAPP_ROOT}/widgets/tutscope.h
+    ${QTAPP_ROOT}/widgets/scopesampler.h
     ${QTAPP_ROOT}/widgets/cardscope.h
     ${QTAPP_ROOT}/widgets/icontabbar.h
     ${QTAPP_ROOT}/utils/flash_style.h

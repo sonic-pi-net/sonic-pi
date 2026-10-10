@@ -13,6 +13,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <QFile>
+
 #include "utils/tutorialdocs.h"
 
 using namespace SonicPi;
@@ -104,7 +106,7 @@ TEST_CASE("code highlighting matches the editor's token colours", "[tutorialdocs
     CHECK(TutorialDocs::highlightCode("rate: 0.5", c)
           == "<span style=\"color:#pink;\">rate</span>: <span style=\"color:#blue;\">0.5</span>");
     CHECK(TutorialDocs::highlightCode("# a < comment", c)
-          == "<span style=\"color:#grey;\"># a &lt; comment</span>");
+          == "<span style=\"color:#grey;font-style:italic;\"># a &lt; comment</span>");
     CHECK(TutorialDocs::highlightCode("sample \"hi # there\"", c)
           == "sample <span style=\"color:#green;\">&quot;hi # there&quot;</span>");
     CHECK(TutorialDocs::highlightCode("live_loop :foo do\n  sleep 1\nend", c)
@@ -116,4 +118,56 @@ TEST_CASE("code highlighting matches the editor's token colours", "[tutorialdocs
     CHECK(TutorialDocs::highlightCode("tb303", c) == "tb303");
     CHECK(TutorialDocs::highlightCode("0.25", c)
           == "<span style=\"color:#blue;\">0.25</span>");
+}
+
+// The web's other kinds (app/web/app/src/highlight.js), coloured from the
+// same theme entries: a method being defined, an instance variable, a
+// constant, a regex — and division, which is not one.
+TEST_CASE("code highlighting has the web's token kinds", "[tutorialdocs]")
+{
+    CodeColours c;
+    c.keyword = "#gold";
+    c.number = "#blue";
+    c.def = "#pink";
+    c.ivar = "#teal";
+    c.constant = "#ink";
+    c.regex = "#lime";
+
+    CHECK(TutorialDocs::highlightCode("def beep", c)
+          == "<span style=\"color:#gold;\">def</span> <span style=\"color:#pink;\">beep</span>");
+    CHECK(TutorialDocs::highlightCode("@count", c)
+          == "<span style=\"color:#teal;\">@count</span>");
+    CHECK(TutorialDocs::highlightCode("Ring.new", c)
+          == "<span style=\"color:#ink;\">Ring</span>.new");
+    CHECK(TutorialDocs::highlightCode("if s =~ /be+p/", c)
+          == "<span style=\"color:#gold;\">if</span> s =~ <span style=\"color:#lime;\">/be+p/</span>");
+    CHECK(TutorialDocs::highlightCode("x = 10 / 2", c)
+          == "x = <span style=\"color:#blue;\">10</span> / <span style=\"color:#blue;\">2</span>");
+
+    // One tokenizer for every rendering: the card's lines, its editor, and
+    // inline code in prose.
+    const auto t = TutorialDocs::tokenizeLine("def beep # hi");
+    REQUIRE(t.size() == 3);
+    CHECK(t[0].kind == CodeTokenKind::Keyword);
+    CHECK((t[1].start == 4 && t[1].length == 4 && t[1].kind == CodeTokenKind::Def));
+    CHECK(t[2].kind == CodeTokenKind::Comment);
+}
+
+TEST_CASE("an example's card is named as the web names it", "[tutorialdocs][examples]")
+{
+    QFile f(QStringLiteral(SP_ROOT) + "/etc/examples/cards.json");
+    REQUIRE(f.open(QIODevice::ReadOnly));
+    const QHash<QString, SonicPi::ExampleCard> cards = SonicPi::TutorialDocs::exampleCardsFromJson(f.readAll());
+
+    // The ones the web's Examples page has its own words for.
+    REQUIRE(cards.contains("haunted"));
+    CHECK(cards["haunted"].title == "Haunted Bells");
+    CHECK(cards["haunted"].blurb == "Listen to the coded bells...");
+    CHECK(cards["acid"].title == "Acid Walk");
+    CHECK(cards["idm_breakbeat"].title == "IDM Breakbeat");
+
+    // Any other is named for its file, a word for each part.
+    CHECK(SonicPi::TutorialDocs::exampleTitle("ambient_experiment", cards) == "Ambient Experiment");
+    CHECK(SonicPi::TutorialDocs::exampleTitle("haunted", cards) == "Haunted Bells");
+    CHECK(SonicPi::TutorialDocs::exampleTitle("tilburg_2", cards) == "Tilburg 2");
 }

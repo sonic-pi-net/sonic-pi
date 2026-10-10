@@ -101,6 +101,10 @@ signals:
     void RunStartedReceived(int jobId, const QString& workspace);
     void RunEndedReceived(int jobId);
     void FlashReceived(const QString& workspace, int line);
+    // What a run puts (puts, print), and the error that ended it, by job: a
+    // card shows its own runs' in its footer.
+    void RunOutputReceived(int jobId, const QString& text);
+    void RunErrorReceived(int jobId, const QString& message, int line);
     void LiveLoopScopeReceived(int jobId, const QString& name, const QString& workspace,
                                int line, int scopeNum);
     void LiveLoopScopeEndedReceived(int jobId, const QString& name);

@@ -1485,8 +1485,11 @@ QFrame#qsCard
 }
 
 /* The selected card: arrow keys move the selection one card at a time and
-   the deck scrolls to keep it in view. */
-QFrame#qsCard:focus
+   the deck scrolls to keep it in view. A card that plays lights under the
+   pointer too, and while it plays; one that only reads does not. */
+QFrame#qsCard:focus,
+QFrame#qsCard[cardHover="true"],
+QFrame#qsCard[playing="true"]
 {
     border-color: windowForegroundColor;
 }
@@ -1559,9 +1562,10 @@ QPushButton#qsCardBtn[device="true"]:focus
     background: focusWashColor;
 }
 
-/* A device's Configure, armed: the bar's colours turned inside out (the glyph
-   takes the accent, in trackspanel.cpp), so a mode the user is in reads from
-   across the room, as Live's lit Configure does. */
+/* A device's Configure, or a card's Edit, armed: the bar's colours turned
+   inside out (the glyph takes the accent, in trackspanel.cpp and
+   codecard.cpp), so a mode the user is in reads from across the room, as
+   Live's lit Configure does. */
 QPushButton#qsCardBtn[armed="true"],
 QPushButton#qsCardBtn[armed="true"]:hover
 {
@@ -1573,18 +1577,13 @@ QWidget#qsCardBody
     background-color: accentTintColor;
 }
 
+/* A card's code (codecard.cpp), and a device's code lines (trackspanel.cpp). */
+TutProseText#qsCode,
 QLabel#qsCodeLine
 {
     color: windowForegroundColor;
     background: transparent;
     font-family: 'Hack';
-    border-radius: radiusSmall;
-}
-
-/* Trigger flash: the same accent wash the editor uses. */
-QLabel#qsCodeLine[flashing="true"]
-{
-    background: flashWashColor;
 }
 
 QWidget#qsCardFooter
@@ -1599,6 +1598,36 @@ QLabel#qsCardBlurb
     color: softForegroundColor;
     background: transparent;
     font-style: italic;
+}
+
+/* A card's code made editable in place: the body's tint and type, so nothing
+   moves when Edit is pressed. */
+QPlainTextEdit#qsCardEditor
+{
+    background-color: accentTintColor;
+    color: windowForegroundColor;
+    border: none;
+    font-family: 'Hack';
+    padding: 6dx 10dx;
+}
+
+/* The program's error, upright, marked down its left edge in the accent. */
+QLabel#qsCardError
+{
+    color: windowForegroundColor;
+    background: transparent;
+    font-family: 'Hack';
+    border-left: 4dx solid highlightedBackgroundColor;
+    padding: 4dx 0 4dx 10dx;
+}
+
+/* What the program puts: the last few lines, the newest in the foreground
+   (codecard.cpp colours it). */
+QLabel#qsCardOutput
+{
+    color: softForegroundColor;
+    background: transparent;
+    font-family: 'Hack';
 }
 
 /* The scope is the play/stop control; the disc icon carries the visuals. */

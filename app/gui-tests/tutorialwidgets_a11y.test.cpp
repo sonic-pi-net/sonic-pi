@@ -470,3 +470,31 @@ TEST_CASE("real newlines are not doubled by the laid-out text",
     CHECK(all.count(QLatin1Char('\n')) == 2);
     CHECK(!all.contains(QStringLiteral("\n\n")));
 }
+
+TEST_CASE("a code block lights one of its lines, as the editor's flash does",
+          "[tutorialwidgets]")
+{
+    TutProseText code(nullptr);
+    code.setHtml("<p>play 60<br>sleep 1<br>play 64</p>");
+    code.resize(600, 400);
+    const QColor wash(255, 0, 0);
+    // Sampled at the right edge, far past the short lines' glyphs, halfway
+    // down each of the three lines as laid out: the wash is the block's width.
+    const qreal lineHeight = code.heightForWidth(code.width()) / 3.0;
+    auto lit = [&](int line) {
+        const QImage shot = code.grab().toImage();
+        const int x = shot.width() - 2;
+        const int y = qRound((line + 0.5) * lineHeight * shot.devicePixelRatio());
+        return shot.pixelColor(x, y).red() > 200 && shot.pixelColor(x, y).green() < 60;
+    };
+
+    CHECK(code.washedLine() == -1);
+    CHECK_FALSE(lit(1));
+    code.setWash(1, wash);
+    CHECK(code.washedLine() == 1);
+    CHECK_FALSE(lit(0));
+    CHECK(lit(1));
+    CHECK_FALSE(lit(2));
+    code.setWash(-1, wash);
+    CHECK_FALSE(lit(1));
+}

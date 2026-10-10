@@ -14,6 +14,7 @@
 #pragma once
 
 #include <QColor>
+#include <QHash>
 #include <QString>
 #include <QStringList>
 #include <QVector>
@@ -107,6 +108,14 @@ struct QuickstartCard
     QString code;
 };
 
+// What an example's card says beside its code: the name and the line the
+// web's Examples page gives it (etc/examples/cards.json, by file name).
+struct ExampleCard
+{
+    QString title;
+    QString blurb;
+};
+
 struct QuickstartGroup
 {
     QString title;
@@ -114,6 +123,18 @@ struct QuickstartGroup
 };
 
 // Colour names for the code token classes, mirroring the editor theme
+// What a piece of code is made of, as the editor and the web colour it.
+enum class CodeTokenKind { Keyword, Symbol, Number, String, Regex, Comment, Def, Ivar, Constant };
+
+struct CodeToken
+{
+    int start = 0;
+    int length = 0;
+    CodeTokenKind kind = CodeTokenKind::Keyword;
+};
+
+// A colour per kind (the theme's: KeywordForeground and friends). An empty
+// one leaves its kind plain. Comments are set in italic, as the web sets them.
 struct CodeColours
 {
     QString keyword;
@@ -121,6 +142,10 @@ struct CodeColours
     QString number;
     QString string;
     QString comment;
+    QString regex;
+    QString def;
+    QString ivar;
+    QString constant;
 };
 
 class TutorialDocs
@@ -130,10 +155,17 @@ public:
     static QVector<InstrumentPage> instrumentsFromJson(const QByteArray& json);
     static QVector<SampleGroup> sampleGroupsFromJson(const QByteArray& json);
     static QVector<LangPage> langPagesFromJson(const QByteArray& json);
+    static QHash<QString, ExampleCard> exampleCardsFromJson(const QByteArray& json);
+    // An example's title: its card's, else its file name a word a part
+    // ("ambient_experiment" is Ambient Experiment).
+    static QString exampleTitle(const QString& key, const QHash<QString, ExampleCard>& cards);
 
     // Syntax-highlight code as label rich text (spans + <br>, leading spaces
     // as &nbsp;). A hand-rolled character scanner — no regular expressions.
     static QString highlightCode(const QString& source, const CodeColours& colours);
+    // The one tokenizer every rendering of code shares: a line's coloured
+    // stretches, in order. Plain text is what lies between them.
+    static QVector<CodeToken> tokenizeLine(const QString& line);
 };
 
 } // namespace SonicPi
