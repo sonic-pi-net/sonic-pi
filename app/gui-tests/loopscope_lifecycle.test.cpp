@@ -114,6 +114,43 @@ TEST_CASE("loop scope: a slot released after it was live takes its scope with it
     CHECK_FALSE(e.scope("t"));
 }
 
+TEST_CASE("loop scope: a loop that came and went while its buffer was hidden takes its scope with it", "[loopscope]")
+{
+    // A hidden buffer polls nothing, so its scope never saw the slot live.
+    // The slot's count says it went live anyway, and the scope goes the way
+    // a released one does.
+    Editor e(kCode);
+    Slot s;
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    QTest::qWait(60);
+    REQUIRE(e.scope("t"));
+    e.ed->hide();
+    s.live();
+    s.release();
+    e.ed->show();
+    QTest::qWait(1000);
+    CHECK(e.scope("t"));       // the same grace a released slot gets
+    QTest::qWait(2400);
+    CHECK_FALSE(e.scope("t"));
+}
+
+TEST_CASE("loop scope: a slot already live when its scope arrives counts as live", "[loopscope]")
+{
+    // The loop claimed its slot before its scope was set up, and was released
+    // before the scope's first poll: it was live, and its scope goes.
+    Editor e(kCode);
+    Slot s;
+    s.live();
+    e.ed->hide();   // no poll until it shows again
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    s.release();
+    e.ed->show();
+    QTest::qWait(1000);
+    CHECK(e.scope("t"));
+    QTest::qWait(2400);
+    CHECK_FALSE(e.scope("t"));
+}
+
 TEST_CASE("loop scope: a scope whose slot is not live yet waits for it", "[loopscope]")
 {
     // a loop with sync: registers at once, and its slot goes live when the cue comes

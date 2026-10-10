@@ -134,7 +134,11 @@ public:
     {
         m_reader = r;
         m_lastEnd = 0;
-        m_wasLive = false;
+        // A slot already live counts; and its count, noted now, says later
+        // whether it went live between two polls, or while this buffer was
+        // hidden and polling nothing.
+        m_wasLive = r.valid();
+        m_activations = r.activations();
         m_released.invalidate();
     }
 
@@ -159,8 +163,9 @@ public:
     {
         if (!m_reader.valid())
         {
-            if (m_wasLive)
+            if (m_wasLive || m_reader.activations() != m_activations)
             {
+                m_wasLive = true;
                 if (!m_released.isValid())
                     m_released.start();
                 else if (m_released.elapsed() >= kReleasedGraceMs)
@@ -452,6 +457,7 @@ private:
     static constexpr int kReleasedGraceMs = 2000;
     bool m_scroll = false;
     bool m_wasLive = false;          // the slot has been live since this reader was set
+    uint32_t m_activations = 0;      // the slot's count of live spells when it was set
     QElapsedTimer m_released;        // how long it has been released, once it was live
     SonicPi::SonicPiAPI* m_api = nullptr;
     uint64_t m_lastEnd = 0;
