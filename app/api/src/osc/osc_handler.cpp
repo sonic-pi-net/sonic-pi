@@ -704,9 +704,9 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             // <count> then per subscription <peerName> <channelName> <busIdx>
             // <sampleRate> <sourceNumChannels> <bufferedMs> <connectionState>
             // <droppedSourceBuffers> <networkGapBuffers>
-            // <totalSourceBufferCalls> <duplicateCountCalls> <latencySeconds>.
-            // The four counters are read so the message parses; nothing
-            // shows them yet.
+            // <totalSourceBufferCalls> <duplicateCountCalls> <latencySeconds>
+            // <underruns> <resyncs> <warps> <driftPpm>. The four counters of
+            // what arrived are read so the message parses; nothing shows them.
             int32_t count = 0;
             auto arg = msg->arg().popInt32(count);
             std::vector<LinkAudioInputInfo> inputs;
@@ -716,11 +716,14 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 LinkAudioInputInfo in;
                 int32_t bus = -1, rate = 0, srcCh = 0, state = 0;
                 int32_t dropped = 0, gaps = 0, total = 0, dup = 0;
+                int32_t underruns = 0, resyncs = 0, warps = 0, drift = 0;
                 arg = arg.popStr(in.peerName).popStr(in.channelName).popInt32(bus).popInt32(rate)
                          .popInt32(srcCh).popFloat(in.bufferedMs).popInt32(state).popInt32(dropped)
-                         .popInt32(gaps).popInt32(total).popInt32(dup).popFloat(in.latencySeconds);
+                         .popInt32(gaps).popInt32(total).popInt32(dup).popFloat(in.latencySeconds)
+                         .popInt32(underruns).popInt32(resyncs).popInt32(warps).popInt32(drift);
                 ok = arg.isOk();
                 in.busIdx = bus; in.sampleRate = rate; in.numChannels = srcCh; in.state = state;
+                in.underruns = underruns; in.resyncs = resyncs; in.warps = warps; in.driftPpm = drift;
                 if (ok) inputs.push_back(in);
             }
             if (ok && arg.isOkNoMoreArgs())

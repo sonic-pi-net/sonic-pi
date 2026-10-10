@@ -238,6 +238,13 @@ struct LinkAudioInputInfo
     float bufferedMs = 0.0f;
     int state = 0;
     float latencySeconds = 0.0f;
+    // What reached the engine's audio thread: frames it found missing since
+    // the audio began, times the stream was lost and found again, renders
+    // that left it a source frame or more off where it belonged, and drift.
+    int underruns = 0;
+    int resyncs = 0;
+    int warps = 0;
+    int driftPpm = 0;
 };
 
 // One plugin installed on this machine, from /clockwork/track/plugins: what

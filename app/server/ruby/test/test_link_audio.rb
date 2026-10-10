@@ -90,13 +90,13 @@ module SonicPi
       reply.drop(1).each_slice(4).any? { |_id, name, _peer_id, peer_name| name == channel && peer_name == peer }
     end
 
-    # /clockwork/clock/audio/inputs.reply: count, then per input twelve fields,
+    # /clockwork/clock/audio/inputs.reply: count, then per input sixteen fields,
     # [peer channel input_channel sample_rate source_channels buffered_ms state
     # ...].
     def input(peer, channel)
       reply = @probe.ask("/clockwork/clock/audio/inputs/get", "/clockwork/clock/audio/inputs.reply")
       return nil unless reply
-      entry = reply.drop(1).each_slice(12).find { |p, c, *| p == peer && c == channel }
+      entry = reply.drop(1).each_slice(16).find { |p, c, *| p == peer && c == channel }
       entry && { channel: entry[2], state: entry[6] }
     end
 

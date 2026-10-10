@@ -122,14 +122,16 @@ TEST_CASE("link audio: active subscriptions reach the client with their status",
     RecordingClient client;
     OscHandler handler(&client);
 
-    // One subscription, connected, on the input pair starting at channel 2,
-    // with the four diagnostic counters the engine appends.
+    // One subscription, in a dropout, on the input pair starting at channel 2:
+    // the four counters of what arrived, the latency, then what reached the
+    // audio thread — underruns, resyncs, warps and drift.
     oscpkt::Message m("/clockwork/clock/audio/inputs.reply");
     m.pushInt32(1);
     m.pushStr("Live").pushStr("Main").pushInt32(2).pushInt32(48000).pushInt32(2)
-     .pushFloat(41.5f).pushInt32(2)
+     .pushFloat(41.5f).pushInt32(3)
      .pushInt32(0).pushInt32(3).pushInt32(999).pushInt32(1)
-     .pushFloat(0.05f);
+     .pushFloat(0.05f)
+     .pushInt32(128).pushInt32(7).pushInt32(5).pushInt32(-91);
     handler.oscMessage(packet(m));
 
     REQUIRE(client.inputReplies == 1);
@@ -141,8 +143,12 @@ TEST_CASE("link audio: active subscriptions reach the client with their status",
     CHECK(in.sampleRate == 48000);
     CHECK(in.numChannels == 2);
     CHECK(in.bufferedMs == Catch::Approx(41.5f));
-    CHECK(in.state == 2);
+    CHECK(in.state == 3);
     CHECK(in.latencySeconds == Catch::Approx(0.05f));
+    CHECK(in.underruns == 128);
+    CHECK(in.resyncs == 7);
+    CHECK(in.warps == 5);
+    CHECK(in.driftPpm == -91);
 
     // Nothing subscribed: an empty list, still delivered.
     oscpkt::Message none("/clockwork/clock/audio/inputs.reply");
@@ -151,11 +157,12 @@ TEST_CASE("link audio: active subscriptions reach the client with their status",
     REQUIRE(client.inputReplies == 2);
     CHECK(client.inputs.empty());
 
-    // A subscription missing its trailing latency is refused whole.
+    // A subscription missing its trailing drift is refused whole.
     oscpkt::Message cut("/clockwork/clock/audio/inputs.reply");
     cut.pushInt32(1);
     cut.pushStr("Live").pushStr("Main").pushInt32(2).pushInt32(48000).pushInt32(2)
-       .pushFloat(41.5f).pushInt32(2).pushInt32(0).pushInt32(3).pushInt32(999).pushInt32(1);
+       .pushFloat(41.5f).pushInt32(2).pushInt32(0).pushInt32(3).pushInt32(999).pushInt32(1)
+       .pushFloat(0.05f).pushInt32(128).pushInt32(7).pushInt32(5);
     handler.oscMessage(packet(cut));
     CHECK(client.inputReplies == 2);
 }
