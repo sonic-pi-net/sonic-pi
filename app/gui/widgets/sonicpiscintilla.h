@@ -348,6 +348,7 @@ public:
     bool m_inReplaceBuffer = false; // suppress incremental tracking during a full replace
     int m_flashAlpha = SonicPi::kFlashWashAlpha; // code-wash indicator alpha (setFlashBrightness)
     void applyFlashMarkerColours();
+    void flashLineNow(int line, bool codeWash, bool gutterDot);   // flashLine, on the tick
     void clearFlashWash(int line);
     void trackEditForFlash(int position, int modificationType, int length);
     int runLineToCurrent(int runLine);

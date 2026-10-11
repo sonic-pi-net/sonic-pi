@@ -26,7 +26,7 @@ FramePacer::FramePacer()
 {
     m_timer.setInterval(33);
     m_timer.setTimerType(Qt::PreciseTimer);  // steady cadence, not coarse-coalesced
-    connect(&m_timer, &QTimer::timeout, this, &FramePacer::tick);
+    connect(&m_timer, &QTimer::timeout, this, &FramePacer::onTimeout);
 }
 
 void FramePacer::retain()
@@ -39,6 +39,33 @@ void FramePacer::release()
 {
     if (m_clients > 0 && --m_clients == 0)
         m_timer.stop();
+}
+
+void FramePacer::defer(QObject* owner, std::function<void()> fn)
+{
+    m_deferred.push_back({ owner, std::move(fn) });
+    if (!m_deferredHolds)
+    {
+        m_deferredHolds = true;
+        retain();
+    }
+}
+
+void FramePacer::onTimeout()
+{
+    // Deferred work first, so what it dirties is painted in this pass with the
+    // tick's own repaints. It may defer again; that lands on the next tick.
+    std::vector<Deferred> due;
+    due.swap(m_deferred);
+    for (Deferred& d : due)
+        if (d.owner)
+            d.fn();
+    if (m_deferredHolds && m_deferred.empty())
+    {
+        m_deferredHolds = false;
+        release();
+    }
+    emit tick();
 }
 
 } // namespace SonicPi

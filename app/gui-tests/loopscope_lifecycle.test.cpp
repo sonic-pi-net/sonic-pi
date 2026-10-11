@@ -13,6 +13,10 @@
 #include <QSettings>
 #include <QTest>
 #include <QImage>
+#include <QElapsedTimer>
+
+#include <cstdio>
+#include <vector>
 
 #include <memory>
 
@@ -256,4 +260,85 @@ TEST_CASE("loop scope: ticks off the shared frame pacer while any scope lives", 
     CHECK(SonicPi::FramePacer::instance()->clients() == before + 1);
     e.ed->endLiveLoopScope("u");
     CHECK(SonicPi::FramePacer::instance()->clients() == before);
+}
+
+namespace {
+
+// A loud square wave, low enough to light the lowest spectrum bar, written to
+// a slot as the engine would: two channels, anchored at frame 0.
+void writeLoudWave(Slot& s, int frames = 16384)
+{
+    std::vector<float> l((size_t)frames), r((size_t)frames);
+    for (int i = 0; i < frames; i++)
+        l[(size_t)i] = r[(size_t)i] = ((i / 256) % 2) ? 0.9f : -0.9f;
+    const float* chans[2] = { l.data(), r.data() };
+    shm_scope_stream_writer(s.mem.get()).write(chans, (uint32_t)frames, 0);
+}
+
+QImage rendered(QWidget* w)
+{
+    QImage img(w->size(), QImage::Format_ARGB32_Premultiplied);
+    img.fill(Qt::transparent);
+    w->render(&img, QPoint(), QRegion(), QWidget::DrawChildren);
+    return img;
+}
+
+} // namespace
+
+// The scope's panel has rounded corners, and what it draws — bars, the wave,
+// the mid line — stays inside them; the corners show the editor's own colour.
+// Pinned so the paint can be reworked for speed without the corners changing.
+TEST_CASE("loop scope: draws only inside its rounded panel", "[loopscope]")
+{
+    Editor e(kCode);
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    QTest::qWait(60);
+    QWidget* w = e.scope("t");
+    REQUIRE(w);
+    const QImage quiet = rendered(w);   // silence: panel on the editor's colour, nothing drawn in it
+
+    writeLoudWave(s);
+    QTest::qWait(60);   // a tick: the scope polls, sees new audio and repaints
+    const QImage loud = rendered(w);
+    REQUIRE(loud.size() == quiet.size());
+    const int W = loud.width(), H = loud.height();
+
+    const QPoint corners[] = { { 0, 0 }, { W - 1, 0 }, { 0, H - 1 }, { W - 1, H - 1 } };
+    for (const QPoint& c : corners)
+    {
+        INFO("corner " << c.x() << "," << c.y());
+        CHECK(loud.pixel(c) == quiet.pixel(c));
+    }
+    int changed = 0;
+    for (int y = 0; y < H; ++y)
+        for (int x = 0; x < W; ++x)
+            if (loud.pixel(x, y) != quiet.pixel(x, y))
+                ++changed;
+    CHECK(changed > W);   // the wave and bars did land inside
+}
+
+// Not a test: how long one paint of a live scope takes. Run by name.
+TEST_CASE("loop scope: paint time", "[.][bench]")
+{
+    Editor e(kCode);
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    writeLoudWave(s);
+    QTest::qWait(60);
+    QWidget* w = e.scope("t");
+    REQUIRE(w);
+    QImage img(w->size() * 2, QImage::Format_ARGB32_Premultiplied);   // as on a 2x display
+    img.setDevicePixelRatio(2.0);
+    for (int i = 0; i < 20; i++)
+        w->render(&img, QPoint(), QRegion(), QWidget::DrawChildren);
+    QElapsedTimer t;
+    t.start();
+    const int n = qEnvironmentVariableIntValue("SP_BENCH_N") > 0 ? qEnvironmentVariableIntValue("SP_BENCH_N") : 300;   // more paints for a profiler
+    for (int i = 0; i < n; i++)
+        w->render(&img, QPoint(), QRegion(), QWidget::DrawChildren);
+    std::fprintf(stderr, "loop scope paint: %.1f us per paint at %dx%d device px\n",
+                 t.nsecsElapsed() / 1000.0 / n, img.width(), img.height());
 }

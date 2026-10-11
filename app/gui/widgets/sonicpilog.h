@@ -56,9 +56,14 @@ public slots:
     void setTextBackgroundColorKey(SonicPiTheme* theme, const QString& bgKey, int bgAlpha = 255);
     void recolour(SonicPiTheme* theme);
     void setFontFamily(QString font_name);
+    // A message is written on the frame pacer's next tick, with everything
+    // else that arrived since the last one, so the log costs one repaint per
+    // tick however busy the runs are. Order is kept across both entry points.
     void handleMultiMessage(SonicPiLog::MultiMessage mm);
     void forceScrollDown(bool force);
     void appendPlainText(QString text);
+    // Drops what is waiting to be written as well as what is shown.
+    void clear();
     void zoomIn();
     void zoomOut();
     void setZoomLevel(int zoom);
@@ -67,6 +72,19 @@ public slots:
 
 protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
+
+private:
+    struct Pending
+    {
+        bool multi;
+        QString text;
+        MultiMessage mm;
+    };
+    void enqueue(Pending p);
+    void writePending();
+    void appendNow(const QString& text);
+    void handleNow(const MultiMessage& mm);
+    std::vector<Pending> m_pending;
 };
 
 Q_DECLARE_METATYPE(SonicPiLog::MultiMessage)

@@ -352,6 +352,8 @@ protected:
                 p.fillPath(band, fill);
                 QPen edgePen(wave);
                 edgePen.setWidthF(1.0);
+                edgePen.setJoinStyle(Qt::BevelJoin);
+                edgePen.setCapStyle(Qt::FlatCap);
                 p.setPen(edgePen);
                 p.drawPath(band);
             }
@@ -377,10 +379,13 @@ protected:
                 fill.setAlpha(60);
                 p.fillPath(body, fill);
 
+                // Bevel joins and flat caps: on a 1.6px line a round join is
+                // invisible, and the stroker has no arc to build at each of
+                // the hundreds of points.
                 QPen wavePen(wave);
                 wavePen.setWidthF(1.6);
-                wavePen.setJoinStyle(Qt::RoundJoin);
-                wavePen.setCapStyle(Qt::RoundCap);
+                wavePen.setJoinStyle(Qt::BevelJoin);
+                wavePen.setCapStyle(Qt::FlatCap);
                 p.setPen(wavePen);
                 p.drawPath(line);
             }
@@ -1430,7 +1435,17 @@ void SonicPiScintilla::applyLoopScopeColours()
 
 void SonicPiScintilla::flashLine(int line, bool codeWash, bool gutterDot)
 {
-    if (line < 0 || line >= lines() || !(codeWash || gutterDot))
+    if (line < 0 || !(codeWash || gutterDot))
+        return;
+    // The pulse is drawn on the frame pacer's tick, and cleared on one, so a
+    // run that flashes many lines costs one repaint per tick, shared with the
+    // scopes', not one per line.
+    SonicPi::FramePacer::instance()->defer(this, [this, line, codeWash, gutterDot] { flashLineNow(line, codeWash, gutterDot); });
+}
+
+void SonicPiScintilla::flashLineNow(int line, bool codeWash, bool gutterDot)
+{
+    if (line >= lines())
         return;
     // Re-flashing within the hold window extends the pulse: bump this line's
     // generation and only clear when the matching timer is still the latest.
@@ -1452,12 +1467,14 @@ void SonicPiScintilla::flashLine(int line, bool codeWash, bool gutterDot)
         }
     }
     QTimer::singleShot(kFlashHoldMs, this, [this, line, gen]() {
-        if (m_flashGen.value(line) == gen)
-        {
-            m_flashGen.remove(line);
-            markerDelete(line, kFlashGutterMarker);
-            clearFlashWash(line);
-        }
+        SonicPi::FramePacer::instance()->defer(this, [this, line, gen] {
+            if (m_flashGen.value(line) == gen)
+            {
+                m_flashGen.remove(line);
+                markerDelete(line, kFlashGutterMarker);
+                clearFlashWash(line);
+            }
+        });
     });
 }
 

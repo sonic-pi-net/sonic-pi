@@ -14,7 +14,11 @@
 #pragma once
 
 #include <QObject>
+#include <QPointer>
 #include <QTimer>
+
+#include <functional>
+#include <vector>
 
 namespace SonicPi
 {
@@ -29,6 +33,11 @@ namespace SonicPi
 //
 // The timer runs only while at least one client holds a retain(); balanced
 // release() calls stop it so an idle app has no 30 Hz wakeup.
+//
+// Work that changes what is on screen but arrives on its own clock — a log
+// message, a run-line flash — is deferred to the next tick with defer(), so
+// its repaint shares the frame the tick's clients are already making instead
+// of costing one of its own. A deferral holds the pacer until it has run.
 class FramePacer : public QObject
 {
     Q_OBJECT
@@ -40,13 +49,26 @@ public:
     // How many animated things hold the pacer running: 0 and it is stopped.
     int clients() const { return m_clients; }
 
+    // Run fn on the next tick, in the same event-loop pass as the tick's
+    // repaints. Dropped unowned if owner has gone by then.
+    void defer(QObject* owner, std::function<void()> fn);
+
 signals:
     void tick();
 
 private:
     FramePacer();
+    void onTimeout();
+
+    struct Deferred
+    {
+        QPointer<QObject> owner;
+        std::function<void()> fn;
+    };
     QTimer m_timer;
     int m_clients = 0;
+    std::vector<Deferred> m_deferred;
+    bool m_deferredHolds = false;   // a retain() taken for m_deferred, released once it has drained
 };
 
 } // namespace SonicPi

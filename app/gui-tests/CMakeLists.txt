@@ -63,6 +63,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/nodetreemotion.test.cpp
     ${GUI_TESTS_ROOT}/nodetreegraph_look.test.cpp
     ${GUI_TESTS_ROOT}/loopscope_lifecycle.test.cpp
+    ${GUI_TESTS_ROOT}/repaint_pacing.test.cpp
     ${GUI_TESTS_ROOT}/linkaudio_engine_ready.test.cpp
     ${GUI_TESTS_ROOT}/plugins.test.cpp
     ${GUI_TESTS_ROOT}/card_deck.test.cpp

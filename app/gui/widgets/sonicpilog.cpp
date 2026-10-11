@@ -12,6 +12,7 @@
 //++
 
 #include "sonicpilog.h"
+#include "utils/framepacer.h"
 
 // Standard stuff
 #include "model/sonicpitheme.h"
@@ -214,6 +215,42 @@ void SonicPiLog::setFontFamily(QString font_name)
 
 void SonicPiLog::appendPlainText(QString text)
 {
+    enqueue({ false, std::move(text), {} });
+}
+
+void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
+{
+    enqueue({ true, {}, std::move(mm) });
+}
+
+void SonicPiLog::clear()
+{
+    m_pending.clear();
+    QPlainTextEdit::clear();
+}
+
+void SonicPiLog::enqueue(Pending p)
+{
+    m_pending.push_back(std::move(p));
+    if (m_pending.size() == 1)
+        SonicPi::FramePacer::instance()->defer(this, [this] { writePending(); });
+}
+
+void SonicPiLog::writePending()
+{
+    std::vector<Pending> due;
+    due.swap(m_pending);
+    for (const Pending& p : due)
+    {
+        if (p.multi)
+            handleNow(p.mm);
+        else
+            appendNow(p.text);
+    }
+}
+
+void SonicPiLog::appendNow(const QString& text)
+{
     QPlainTextEdit::appendPlainText(text);
     if (forceScroll)
     {
@@ -222,7 +259,7 @@ void SonicPiLog::appendPlainText(QString text)
     }
 }
 
-void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
+void SonicPiLog::handleNow(const MultiMessage& mm)
 {
     int msg_count = int(mm.messages.size());
     SonicPiTheme* theme = mm.theme;
@@ -245,7 +282,7 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
         ss.append(", thread: ").append(QString::fromStdString(mm.thread_name));
     }
     ss.append("}");
-    appendPlainText(ss);
+    appendNow(ss);
 
     for (int i = 0; i < msg_count; i++)
     {
@@ -268,7 +305,7 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
             ss.append(QString::fromUtf8(" ├─ "));
         }
 
-        appendPlainText(ss);
+        appendNow(ss);
 
         for (int j = 0; j < lines.size(); ++j)
         {
@@ -298,7 +335,7 @@ void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
         applyRole(tf, theme, "LogForeground", "LogBackground");
         setCurrentCharFormat(tf);
     }
-    appendPlainText(QString::fromStdString(" "));
+    appendNow(QString::fromStdString(" "));
 
     editBlock.endEditBlock();
 
