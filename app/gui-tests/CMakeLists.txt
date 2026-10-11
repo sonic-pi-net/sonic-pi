@@ -63,6 +63,10 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/nodetreemotion.test.cpp
     ${GUI_TESTS_ROOT}/nodetreegraph_look.test.cpp
     ${GUI_TESTS_ROOT}/loopscope_lifecycle.test.cpp
+    ${GUI_TESTS_ROOT}/metricslog.test.cpp
+    ${GUI_TESTS_ROOT}/metricspanel_font.test.cpp
+    ${GUI_TESTS_ROOT}/metricvalue.test.cpp
+    ${GUI_TESTS_ROOT}/opaque_widgets.test.cpp
     ${GUI_TESTS_ROOT}/repaint_pacing.test.cpp
     ${GUI_TESTS_ROOT}/linkaudio_engine_ready.test.cpp
     ${GUI_TESTS_ROOT}/plugins.test.cpp
@@ -70,6 +74,9 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/quickstart_card.test.cpp
     ${GUI_TESTS_ROOT}/tutorial_cards.test.cpp
     ${GUI_ROOT}/widgets/nodetreegraph.cpp
+    ${GUI_ROOT}/widgets/metricslog.cpp
+    ${GUI_ROOT}/widgets/metricspanel.cpp
+    ${GUI_ROOT}/widgets/metricvalue.cpp
     ${GUI_ROOT}/widgets/trackspanel.cpp
     ${GUI_ROOT}/widgets/quickstartpane.cpp
     ${GUI_ROOT}/widgets/codecard.cpp

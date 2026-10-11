@@ -117,6 +117,10 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/linkaudiostreamswidget.h
     ${QTAPP_ROOT}/widgets/linkvisibilitytoggle.cpp
     ${QTAPP_ROOT}/widgets/linkvisibilitytoggle.h
+    ${QTAPP_ROOT}/widgets/metricslog.cpp
+    ${QTAPP_ROOT}/widgets/metricslog.h
+    ${QTAPP_ROOT}/widgets/metricvalue.cpp
+    ${QTAPP_ROOT}/widgets/metricvalue.h
     ${QTAPP_ROOT}/widgets/sonicpitooltip.cpp
     ${QTAPP_ROOT}/widgets/sonicpitooltip.h
     ${QTAPP_ROOT}/mainwindow.cpp
@@ -170,6 +174,7 @@ set(SOURCES
     ${QTAPP_ROOT}/utils/setbundle.h
     ${QTAPP_ROOT}/utils/completion_context.cpp
     ${QTAPP_ROOT}/utils/framepacer.cpp
+    ${QTAPP_ROOT}/utils/opaque.h
     ${QTAPP_ROOT}/utils/framepacer.h
     ${QTAPP_ROOT}/utils/reducedmotion.cpp
     ${QTAPP_ROOT}/utils/reducedmotion.h

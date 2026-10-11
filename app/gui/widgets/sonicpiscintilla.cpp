@@ -32,6 +32,7 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include "utils/framepacer.h"
+#include "utils/opaque.h"
 #include <QElapsedTimer>
 #include <QFocusEvent>
 #include <QMouseEvent>
@@ -96,7 +97,7 @@ static const int kFlashHoldMs = SonicPi::kFlashHoldMs;
 // box colour follows signal level (grey when silent). Mouse-transparent,
 // no focus. SonicPiScintilla owns positioning and polling via its shared
 // timer.
-class LiveLoopScopeWidget : public QWidget
+class LiveLoopScopeWidget : public SonicPi::KeptOpaque<QWidget>
 {
 public:
     // Analysis sizes: last 512 samples of the tap, 20 log-spaced bars.
@@ -118,26 +119,15 @@ public:
         update();
     }
 
+    // Opaque (KeptOpaque): every pixel of the rectangle is painted here,
+    // over what the editor would have drawn (setBase), so Qt never repaints
+    // the editor beneath the scope — a repaint that walked the whole widget
+    // tree on every frame of every live loop.
     explicit LiveLoopScopeWidget(QWidget* parent)
-        : QWidget(parent)
+        : SonicPi::KeptOpaque<QWidget>(parent)
     {
         setAttribute(Qt::WA_TransparentForMouseEvents, true);
-        // Opaque: every pixel of the rectangle is painted here, over what
-        // the editor would have drawn (setBase), so Qt never repaints the
-        // editor beneath the scope — a repaint that walked the whole widget
-        // tree on every frame of every live loop.
-        setAttribute(Qt::WA_OpaquePaintEvent, true);
         setFocusPolicy(Qt::NoFocus);
-    }
-    // A style change (the app's stylesheet applied, a theme switch) has
-    // Qt re-polish every widget, and the stylesheet style clears the
-    // opaque-paint attribute as it goes: it is asserted again after each.
-    bool event(QEvent* e) override
-    {
-        const bool r = QWidget::event(e);
-        if (e->type() == QEvent::StyleChange || e->type() == QEvent::Polish)
-            setAttribute(Qt::WA_OpaquePaintEvent, true);
-        return r;
     }
     // What the editor draws under this rectangle: its paper, or the caret
     // line's colour while the header is the current line. The editor says,

@@ -20,6 +20,8 @@
 #include <QVector>
 #include <QWidget>
 #include <cstdint>
+
+#include "widgets/metricslog.h"   // LogRun
 #include <memory>
 #include <vector>
 
@@ -30,7 +32,6 @@ class QLabel;
 class QTimer;
 class QShowEvent;
 class QHideEvent;
-class QTextEdit;
 class QSplitter;
 class QToolButton;
 class QVBoxLayout;
@@ -45,15 +46,9 @@ class SonicPiTheme;
 namespace SonicPi
 {
 class SonicPiAPI;
+class MetricsLog;
+class MetricValue;
 }
-
-// A coloured text run for the OSC/debug logs. These are built and inserted via
-// QTextCharFormat instead of generating HTML and calling insertHtml(), which
-// skips the rich-text HTML parser on the per-message hot path. An invalid colour
-// means "use the view's default foreground". `role` names how the colour was
-// derived (a theme key, or "kdim"/"kmuted" for the timestamp blends) so the
-// already-inserted text can be re-resolved on a theme change; empty = leave as is.
-struct LogRun { QColor color; QString text; QString role; };
 
 // Live engine performance dashboard: reads the PerformanceMetrics the engine
 // publishes into shared memory (via SonicPiAPI::AudioProcessor_GetMetrics) and
@@ -64,6 +59,7 @@ class MetricsPanel : public QWidget
     Q_OBJECT
 public:
     explicit MetricsPanel(std::shared_ptr<SonicPi::SonicPiAPI> api, QWidget* parent = nullptr);
+    ~MetricsPanel() override;
 
     // Apply the active Sonic Pi theme (log fg/bg + syntax colours for the
     // OSC/node rendering).
@@ -96,8 +92,7 @@ private:
     struct ValueRowUi
     {
         const void* def;     // const RowDef* (opaque to the header)
-        QLabel* value;
-        QString lastHtml;
+        SonicPi::MetricValue* value;
     };
 
     // Private read cursor for passively tailing a transport ring (we never
@@ -204,9 +199,9 @@ private:
     QVector<ValueRowUi> m_valueRows;
     QVector<QLabel*> m_rowLabels; // row labels + card titles, recoloured on theme change
 
-    QTextEdit* m_oscOutView = nullptr;   // OSC host→engine (what Sonic Pi sent)
-    QTextEdit* m_oscInView = nullptr;    // OSC engine→host (replies)
-    QTextEdit* m_debugView = nullptr;    // engine debug/log text
+    SonicPi::MetricsLog* m_oscOutView = nullptr;   // OSC host→engine (what Sonic Pi sent)
+    SonicPi::MetricsLog* m_oscInView = nullptr;    // OSC engine→host (replies)
+    SonicPi::MetricsLog* m_debugView = nullptr;    // engine debug/log text
     NodeTreeGraph* m_nodeGraph = nullptr;
     QLabel* m_treeStats = nullptr;       // node-tree legend + counts
     QToolButton* m_treeLabels = nullptr; // node-tree labels on / off

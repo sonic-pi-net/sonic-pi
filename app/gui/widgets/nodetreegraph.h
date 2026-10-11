@@ -26,7 +26,13 @@
 #include <QString>
 #include <QVector>
 #include <QWaitCondition>
+#include <QPen>
+
+class QPainter;
+class QPainterPath;
 #include <QWidget>
+
+#include "utils/opaque.h"
 
 #include <atomic>
 #include <thread>
@@ -47,7 +53,7 @@ class QMouseEvent;
 // whole widget every frame); the GUI thread only blits the finished frame.
 // Frames coalesce: the worker always renders the newest snapshot, so a slow
 // render degrades to a lower frame rate, never a queue backlog.
-class NodeTreeGraph : public QWidget
+class NodeTreeGraph : public SonicPi::KeptOpaque<QWidget>
 {
     Q_OBJECT
 public:
@@ -73,6 +79,15 @@ public:
                     const QColor& fx, const QColor& sample);
 
     QSize sizeHint() const override;  // sensible default height; min stays small
+
+    // The edges, drawn into `p` at pixel ratio `dpr` over `bg`: as wide and as
+    // bright as a 1.2px line of `text` at 90/255, made of strands of one device
+    // pixel, the width Qt draws on its fast line path (see drawEdges).
+    static void drawEdges(QPainter& p, const QPainterPath& edges, const QColor& text,
+                          const QColor& bg, qreal dpr);
+    // The pen each strand is drawn with: solid, so strands that overlap
+    // saturate at the old tint rather than add.
+    static QPen edgePen(const QColor& text, const QColor& bg, qreal dpr);
 
     // Diagnostic: wall time the worker spent rendering the latest frame.
     int lastRenderMicros() const { return m_lastRenderUs.load(); }

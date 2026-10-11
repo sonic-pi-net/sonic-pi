@@ -47,7 +47,13 @@ struct FrameCounter : QObject
 struct HandDriven
 {
     SonicPi::FramePacer* pacer = SonicPi::FramePacer::instance();
-    HandDriven() { pacer->driveByHand(true); }
+    HandDriven()
+    {
+        // Work an earlier test deferred holds the pacer until its tick has
+        // run; taken by hand first, that tick would never come.
+        REQUIRE(QTest::qWaitFor([this] { return pacer->clients() == 0; }, 1000));
+        pacer->driveByHand(true);
+    }
     ~HandDriven()
     {
         CHECK(pacer->clients() == 0);

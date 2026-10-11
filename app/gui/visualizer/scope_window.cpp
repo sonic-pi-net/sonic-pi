@@ -135,17 +135,15 @@ private:
 QList<ScopeWindow*> ScopeWindow::s_instances;
 
 ScopeWindow::ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<SonicPiAPI> spAPI, QWidget* parent)
-    : QWidget(parent)
+    : SonicPi::KeptOpaque<QWidget>(parent)
     , m_spClient(spClient)
     , m_spAPI(spAPI)
 {
     s_instances.append(this);
-    // Raster widget: we repaint every pixel ourselves and rely on the backing
-    // store being preserved between frames, so the faded background clear in
-    // paintEvent leaves a decaying trace (phosphor persistence). Not a
-    // QOpenGLWidget — a GL widget would force the whole window onto Qt's RHI
-    // texturized-composition flush path (a full backing-store copy per frame).
-    setAttribute(Qt::WA_OpaquePaintEvent);
+    // Raster widget, opaque (KeptOpaque): every pixel is painted from the
+    // trail buffer each frame (see paintEvent). Not a QOpenGLWidget — a GL
+    // widget would force the whole window onto Qt's RHI texturized-composition
+    // flush path (a full backing-store copy per frame).
 
     QVBoxLayout* layout = new QVBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
@@ -750,7 +748,11 @@ void ScopeWindow::paintEvent(QPaintEvent* pEv)
     if (size().isEmpty())
         return;
 
-    auto backColor = m_backColor;
+    // Opaque whatever the theme says: the trail is copied onto the window,
+    // not blended, so every pixel of it must be opaque. The decay below is a
+    // translucent wash over this, which keeps it so.
+    QColor backColor = m_backColor;
+    backColor.setAlpha(255);
     auto textColor = QWidget::palette().color(QWidget::foregroundRole());
     auto shadowColor = QWidget::palette().color(QPalette::ColorRole::AlternateBase);
 
@@ -834,7 +836,7 @@ void ScopeWindow::paintEvent(QPaintEvent* pEv)
 
     painter.end();
     QPainter widgetPainter(this);
-    widgetPainter.drawImage(0, 0, m_trail);
+    SonicPi::drawOpaqueFrame(widgetPainter, QPointF(0, 0), m_trail);   // opaque throughout: see the clear above
 }
 
 void ScopeWindow::Layout()

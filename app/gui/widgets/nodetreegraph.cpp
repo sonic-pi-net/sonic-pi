@@ -17,9 +17,11 @@
 
 #include <algorithm>
 #include <cmath>
+#include <vector>
 #include <unordered_set>
 
 #include <QFontMetricsF>
+#include <QTransform>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
@@ -28,13 +30,11 @@
 
 namespace Motion = SonicPi::NodeTreeMotion;
 
-NodeTreeGraph::NodeTreeGraph(QWidget* parent) : QWidget(parent)
+NodeTreeGraph::NodeTreeGraph(QWidget* parent) : SonicPi::KeptOpaque<QWidget>(parent)
 {
     // Small minimum so the pane can be collapsed; the graph scales to its size.
     setMinimumSize(80, 24);
     setMouseTracking(true);  // hover tooltips without a pressed button
-    // Every paint covers the full rect, so Qt needn't repaint ancestors.
-    setAttribute(Qt::WA_OpaquePaintEvent);
     m_epoch.start();
     // Animation frames ride the shared pacer (see FramePacer) so this widget
     // and the scope dirty the window in the same composite pass. The easing
@@ -334,11 +334,82 @@ void NodeTreeGraph::renderLoop()
     }
 }
 
+// The edges were a 1.2px antialiased line of the text colour at 90/255.
+// Anything wider than one device pixel is stroked into polygons and filled —
+// at 2x, ten times the cost of Qt's fast line path, every frame while the
+// tree moves — so the line is built from strands one device pixel wide, laid
+// side by side along each curve's normal, a strand for every 0.6 device
+// pixels of the old width, spread to span exactly that width. Each is drawn solid in the old line's tint
+// over the background: where strands overlap they saturate at that tint
+// rather than add, so together they have the old line's width and brightness,
+// and their antialiasing averages out the beading a single fast line shows.
+static int edgeStrands(qreal dpr)
+{
+    return std::max(2, int(std::lround(1.2 * dpr / 0.6)));
+}
+
+QPen NodeTreeGraph::edgePen(const QColor& text, const QColor& bg, qreal)
+{
+    const qreal tint = 90.0 / 255.0;
+    const QColor solid = QColor::fromRgbF(bg.redF() + (text.redF() - bg.redF()) * tint,
+                                          bg.greenF() + (text.greenF() - bg.greenF()) * tint,
+                                          bg.blueF() + (text.blueF() - bg.blueF()) * tint);
+    QPen pen(solid);
+    pen.setCosmetic(true);
+    pen.setWidthF(1.0);
+    return pen;
+}
+
+void NodeTreeGraph::drawEdges(QPainter& p, const QPainterPath& edges, const QColor& text,
+                              const QColor& bg, qreal dpr)
+{
+    p.save();
+    p.setPen(edgePen(text, bg, dpr));
+    p.setBrush(Qt::NoBrush);
+    // Flattened in device pixels and drawn in them, so the strands sit the
+    // right number of device pixels apart and the curves are smooth at this
+    // ratio. The ratio's own scale sits under the painter's transform: drawing
+    // in device pixels is a transform of 1/dpr.
+    const QList<QPolygonF> lines = edges.toSubpathPolygons(p.worldTransform() * QTransform::fromScale(dpr, dpr));
+    p.setWorldTransform(QTransform::fromScale(1.0 / dpr, 1.0 / dpr));
+    // Spread so the outer edges of the outermost strands, each a device pixel
+    // wide, fall where the old line's did: 1.2 * dpr device pixels across.
+    const int strands = edgeStrands(dpr);
+    const qreal spacing = std::max(0.0, 1.2 * dpr - 1.0) / (strands - 1);
+    QPolygonF strand;
+    for (const QPolygonF& line : lines)
+    {
+        const int n = line.size();
+        if (n < 2)
+            continue;
+        // A unit normal at each point: the direction across its neighbours.
+        std::vector<QPointF> normals(n);
+        for (int i = 0; i < n; ++i)
+        {
+            const QPointF d = line.at(std::min(i + 1, n - 1)) - line.at(std::max(i - 1, 0));
+            const qreal len = std::hypot(d.x(), d.y());
+            normals[i] = len > 0 ? QPointF(-d.y() / len, d.x() / len) : QPointF(0, 0);
+        }
+        for (int k = 0; k < strands; ++k)
+        {
+            const qreal offset = (k - (strands - 1) / 2.0) * spacing;
+            strand.resize(n);
+            for (int i = 0; i < n; ++i)
+                strand[i] = line.at(i) + normals[i] * offset;
+            p.drawPolyline(strand);
+        }
+    }
+    p.restore();
+}
+
 void NodeTreeGraph::renderFrame(QImage& target, const FrameSnapshot& snap)
 {
     QPainter p(&target);
     p.setRenderHint(QPainter::Antialiasing, true);
-    p.fillRect(QRect(QPoint(0, 0), snap.size), snap.bg);
+    // Opaque whatever the theme says, so the frame can be copied, not blended.
+    QColor bg = snap.bg;
+    bg.setAlpha(255);
+    p.fillRect(QRect(QPoint(0, 0), snap.size), bg);
 
     // Edges first (parent → child), faint. S-curves when sparse, straight when
     // dense. All edges accumulate into one path and stroke in a single drawPath
@@ -357,11 +428,7 @@ void NodeTreeGraph::renderFrame(QImage& target, const FrameSnapshot& snap)
             edges.cubicTo(QPointF(e.a.x(), midY), QPointF(e.b.x(), midY), e.b);
         }
     }
-    QPen edgePen(QColor(snap.text.red(), snap.text.green(), snap.text.blue(), 90));
-    edgePen.setWidthF(1.2);
-    p.setPen(edgePen);
-    p.setBrush(Qt::NoBrush);
-    p.drawPath(edges);
+    drawEdges(p, edges, snap.text, bg, snap.dpr);
 
     // Nodes: groups are circles, fx squares, sounds small diamonds, each in
     // its kind's colour with a thin outline, faded as it ends. Groups come
@@ -417,7 +484,7 @@ void NodeTreeGraph::paintEvent(QPaintEvent*)
 
     if (m_tree.nodes().empty())
     {
-        p.fillRect(rect(), m_bg);
+        p.fillRect(rect(), QColor(m_bg.red(), m_bg.green(), m_bg.blue()));
         p.setPen(QColor(m_text.red(), m_text.green(), m_text.blue(), 110));
         p.drawText(rect(), Qt::AlignCenter, tr("(no active nodes)"));
         return;
@@ -427,9 +494,9 @@ void NodeTreeGraph::paintEvent(QPaintEvent*)
     // A resize can outpace the worker by a frame; backfill so WA_OpaquePaintEvent
     // never leaves stale pixels outside the blit.
     if (m_front.isNull() || m_front.deviceIndependentSize() != size())
-        p.fillRect(rect(), m_bg);
+        p.fillRect(rect(), QColor(m_bg.red(), m_bg.green(), m_bg.blue()));
     if (!m_front.isNull())
-        p.drawImage(QPointF(0, 0), m_front);
+        SonicPi::drawOpaqueFrame(p, QPointF(0, 0), m_front);   // opaque throughout (renderFrame)
 }
 
 void NodeTreeGraph::resizeEvent(QResizeEvent* e)

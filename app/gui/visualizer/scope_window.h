@@ -13,6 +13,8 @@
 #pragma once
  
 #include <QWidget>
+
+#include "utils/opaque.h"
 #include <QPen>
 #include <QLine>
 #include <QImage>
@@ -78,7 +80,7 @@ struct ScopeWindowPanel
 
 class ScopePauseButton;
 
-class ScopeWindow : public QWidget
+class ScopeWindow : public SonicPi::KeptOpaque<QWidget>
 {
     Q_OBJECT
 

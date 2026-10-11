@@ -12,6 +12,8 @@
 //++
 
 #include "metricspanel.h"
+#include "metricslog.h"
+#include "metricvalue.h"
 #include "nodetreegraph.h"
 #include "model/sonicpitheme.h"
 #include "utils/framepacer.h"
@@ -40,7 +42,6 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QHideEvent>
-#include <QHostAddress>
 #include <QLabel>
 #include <QResizeEvent>
 #include <QScrollArea>
@@ -51,13 +52,6 @@
 #include <QSplitter>
 #include <QSplitterHandle>
 #include <QStyle>
-#include <QTextBlock>
-#include <QTextCharFormat>
-#include <QTextCursor>
-#include <QTextDocument>
-#include <QTextEdit>
-#include <QTextFrame>
-#include <QTextFrameFormat>
 #include <QDateTime>
 #include <QTime>
 #include <QTimer>
@@ -71,10 +65,6 @@
 #include "chevronbutton.h"
 #include "dpi.h"
 #include "utils/reducedmotion.h"
-
-// Custom QTextCharFormat property storing a run's colour role, so text already
-// in the OSC/debug views can be re-tinted on a theme change (see recolourLogViews).
-static constexpr int RoleProp = QTextFormat::UserProperty + 1;
 
 // ─── Static layout model ────────────────────────────────────────────────
 //
@@ -393,30 +383,10 @@ QColor MetricsPanel::colorForRole(const QString& role) const
 
 void MetricsPanel::recolourLogViews()
 {
-    QTextEdit* views[] = { m_oscOutView, m_oscInView, m_debugView };
-    for (QTextEdit* v : views)
-    {
-        if (!v) continue;
-        QTextDocument* doc = v->document();
-        QTextCursor edit(doc);
-        edit.beginEditBlock();
-        for (QTextBlock block = doc->begin(); block.isValid(); block = block.next())
-        {
-            for (QTextBlock::iterator it = block.begin(); !it.atEnd(); ++it)
-            {
-                const QTextFragment frag = it.fragment();
-                if (!frag.isValid()) continue;
-                QTextCharFormat f = frag.charFormat();
-                if (!f.hasProperty(RoleProp)) continue;
-                f.setForeground(colorForRole(f.property(RoleProp).toString()));
-                QTextCursor fc(doc);
-                fc.setPosition(frag.position());
-                fc.setPosition(frag.position() + frag.length(), QTextCursor::KeepAnchor);
-                fc.setCharFormat(f);
-            }
-        }
-        edit.endEditBlock();
-    }
+    SonicPi::MetricsLog* views[] = { m_oscOutView, m_oscInView, m_debugView };
+    for (SonicPi::MetricsLog* v : views)
+        if (v)
+            v->recolour([this](const QString& role) { return colorForRole(role); });
 }
 
 void MetricsPanel::buildUi()
@@ -502,16 +472,14 @@ void MetricsPanel::buildUi()
         m_rowLabels.append(lbl);
         rows->addWidget(lbl, r, 0, Qt::AlignLeft);
 
-        auto* val = new QLabel;
+        auto* val = new SonicPi::MetricValue;
         val->setFont(mono);
         applyTip(val);
-        val->setTextFormat(Qt::RichText);
-        val->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         // Don't let the value's width drive the card width — otherwise a digit
         // crossing (e.g. 9→10, or a growing counter) reflows the whole grid.
         val->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-        rows->addWidget(val, r, 1, 1, 2, Qt::AlignRight);
-        m_valueRows.append({ &row, val, QString() });
+        rows->addWidget(val, r, 1, 1, 2);
+        m_valueRows.append({ &row, val });
     };
 
     // Build the cards; their placement in the grid is done by reflowMetricsGrid
@@ -743,102 +711,13 @@ void MetricsPanel::buildNodeColumn(QSplitter* topRow)
 
 namespace
 {
-// Read-only log view that behaves like a terminal: newest lines sit at the
-// bottom. When the text is taller than the view it scrolls and stays pinned to
-// the bottom (unless the user scrolls up); when it's shorter, a top margin
-// pushes it down so the empty space is above, not below.
-class LogView : public QTextEdit
-{
-public:
-    explicit LogView(QWidget* parent = nullptr) : QTextEdit(parent)
-    {
-        QScrollBar* sb = verticalScrollBar();
-        // Track whether the view is parked at the bottom — but only from genuine
-        // scrolls, not our own programmatic setValue()s (guarded by m_adjusting),
-        // so layout churn can't silently un-pin a quiet pane.
-        connect(sb, &QScrollBar::valueChanged, this, [this](int v) {
-            if (m_adjusting) return;
-            m_pinned = v >= verticalScrollBar()->maximum() - 2;
-        });
-        // A large one-shot insert (e.g. the Info pane's boot summary) updates the
-        // scrollbar range asynchronously, so updateBottomFill()'s setValue(maximum)
-        // can land short of the true bottom. A busy pane (To/From) is nudged the
-        // rest of the way by the next line a tick later; a quiet pane (Info) would
-        // sit stranded mid-history. Re-assert the bottom once the range catches up,
-        // while still pinned.
-        connect(sb, &QScrollBar::rangeChanged, this, [this](int, int max) {
-            if (!m_pinned || m_adjusting) return;
-            QScrollBar* s = verticalScrollBar();
-            if (s->value() != max) {
-                const QSignalBlocker block(s);   // re-pin without re-evaluating m_pinned
-                s->setValue(max);
-            }
-        });
-        connect(document(), &QTextDocument::contentsChanged, this,
-                [this]() { updateBottomFill(); });
-    }
-
-protected:
-    void resizeEvent(QResizeEvent* e) override
-    {
-        QTextEdit::resizeEvent(e);
-        updateBottomFill();
-    }
-
-private:
-    void updateBottomFill()
-    {
-        // Mutating the document below re-fires contentsChanged, which re-enters
-        // this slot; without this guard that recursion is unbounded and blows
-        // the stack (a silent crash on startup). The QSignalBlocker is the
-        // primary defence; the bool guards the resizeEvent path too.
-        if (m_adjusting)
-            return;
-        m_adjusting = true;
-
-        QScrollBar* sb = verticalScrollBar();
-        const bool atBottom = m_pinned || sb->value() >= sb->maximum() - 2;
-
-        // Bottom-align short content by pushing it down with a top margin on the
-        // document's root frame (the widget won't reset this, unlike the
-        // viewport margins). Measure the content's natural height with the
-        // margin zeroed first, so the gap can't drift across updates.
-        if (QTextFrame* root = document()->rootFrame())
-        {
-            const QSignalBlocker block(document());
-            QTextFrameFormat fmt = root->frameFormat();
-            if (fmt.topMargin() != 0)
-            {
-                fmt.setTopMargin(0);
-                root->setFrameFormat(fmt);
-            }
-            const int contentH = document()->size().toSize().height();
-            const int gap = qMax(0, viewport()->height() - contentH);
-            if (gap != 0)
-            {
-                fmt.setTopMargin(gap);
-                root->setFrameFormat(fmt);
-            }
-        }
-        if (atBottom)
-        {
-            sb->setValue(sb->maximum());
-            m_pinned = true;   // committed to the bottom; the rangeChanged re-assert relies on this
-        }
-
-        m_adjusting = false;
-    }
-
-    bool m_pinned = true;
-    bool m_adjusting = false;
-};
 } // namespace
 
 void MetricsPanel::buildLogs(QSplitter* col)
 {
     QFont mono = makeMonoFont();
 
-    auto addLogCard = [&](const QString& title) -> QTextEdit* {
+    auto addLogCard = [&](const QString& title) -> SonicPi::MetricsLog* {
         QVBoxLayout* body = nullptr;
         QLabel* t = nullptr;
         QFrame* card = makeCard(title, &body, &t);
@@ -851,12 +730,8 @@ void MetricsPanel::buildLogs(QSplitter* col)
         t->setFont(mono);
         m_rowLabels.append(t);
 
-        auto* view = new LogView(card);
-        view->setReadOnly(true);
+        auto* view = new SonicPi::MetricsLog(card);
         view->setFont(mono);
-        view->setLineWrapMode(QTextEdit::NoWrap);
-        view->setFrameShape(QFrame::NoFrame);
-        view->document()->setMaximumBlockCount(2000);  // bound memory
         body->addWidget(view, 1);
         col->addWidget(card);
         return view;
@@ -917,7 +792,7 @@ QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
                                             uint32_t sourceId)
 {
     // Sonic Pi theme syntax colours (fall back to fixed hues pre-theme). Built as
-    // coloured runs (not HTML) so the log inserts them via QTextCharFormat,
+    // coloured runs (not HTML), which the log draws as they are,
     // skipping the rich-text HTML parser on this per-message hot path.
     auto tc = [&](const char* name, const char* fallback) -> QColor {
         return m_theme ? m_theme->color(name) : QColor(QString::fromLatin1(fallback));
@@ -961,55 +836,10 @@ QVector<LogRun> MetricsPanel::formatOscRuns(const uint8_t* data, uint32_t size,
     return runs;
 }
 
-// Flood cap: under heavy traffic we'd format and insert thousands of lines per
-// refresh that maximumBlockCount(2000) trims away the same frame. Keep only the
-// most recent and note how many were dropped — bounds the per-refresh relayout.
-static constexpr int kMaxLinesPerRefresh = 256;
-
-// Append a whole refresh's worth of log lines in one coalesced edit. Each line
-// stays its own block (so maximumBlockCount still bounds memory), but the
-// expensive QTextDocument relayout + text shaping happens once for the batch
-// instead of once per QTextEdit::append(). Runs are inserted with
-// QTextCharFormat (no HTML parse); '\n' inside a run becomes a soft line break so
-// a multi-line entry stays a single block. Auto-scrolls to the bottom.
-static void appendLogBatch(QTextEdit* view, QVector<QVector<LogRun>>& lines)
-{
-    if (!view || lines.isEmpty()) return;
-    if (lines.size() > kMaxLinesPerRefresh)
-    {
-        const int dropped = lines.size() - kMaxLinesPerRefresh;
-        lines.remove(0, dropped);   // keep the newest
-        lines.prepend({ { QColor(128, 128, 128),
-                          QStringLiteral("… %1 lines suppressed (flood)").arg(dropped) } });
-    }
-    QTextCursor c(view->document());
-    c.movePosition(QTextCursor::End);
-    const bool startEmpty = view->document()->isEmpty();
-    c.beginEditBlock();
-    for (int i = 0; i < lines.size(); ++i)
-    {
-        // append() doesn't prepend an empty block to an empty document.
-        if (!(startEmpty && i == 0)) c.insertBlock();
-        for (const LogRun& r : lines.at(i))
-        {
-            QTextCharFormat fmt;
-            if (r.color.isValid()) fmt.setForeground(r.color);
-            if (!r.role.isEmpty()) fmt.setProperty(RoleProp, r.role);
-            QString t = r.text;
-            t.replace(QLatin1Char('\n'), QChar(QChar::LineSeparator));  // keep multi-line entries in one block
-            c.insertText(t, fmt);
-        }
-    }
-    c.endEditBlock();   // single relayout + maximumBlockCount trim here
-    // No moveCursor/ensureCursorVisible: that scrolls horizontally to the end of
-    // the last line, drifting the view right. LogView::updateBottomFill keeps it
-    // pinned to the bottom-left (and only while the user is already at the bottom).
-}
-
 void MetricsPanel::drainOscRing(bool outgoing)
 {
     if (!m_api) return;
-    QTextEdit* view = outgoing ? m_oscOutView : m_oscInView;
+    SonicPi::MetricsLog* view = outgoing ? m_oscOutView : m_oscInView;
     if (!view) return;
     ring_view rv = outgoing ? m_api->AudioProcessor_GetInRing()
                             : m_api->AudioProcessor_GetOutRing();
@@ -1019,7 +849,7 @@ void MetricsPanel::drainOscRing(bool outgoing)
         [&](uint32_t /*seq*/, uint32_t src, const uint8_t* payload, uint32_t n) {
             lines.append(formatOscRuns(payload, n, src));
         });
-    appendLogBatch(view, lines);
+    view->append(std::move(lines));
 }
 
 // Drain one engine→host ring, splitting by type: /clockwork/debug → Debug pane
@@ -1053,7 +883,7 @@ void MetricsPanel::drainEgressRing(bool nrt)
                         // A leading \x01 marks the engine's boot banner (the
                         // status summary): render it verbatim with no timestamp.
                         // Everything else is a timestamped debug line. Embedded
-                        // '\n' becomes a soft break in appendLogBatch (one block).
+                        // '\n' is a line of its own in the log.
                         const bool banner = text.startsWith(QChar(0x01));
                         if (banner) text.remove(0, 1);
                         if (banner) {
@@ -1071,9 +901,9 @@ void MetricsPanel::drainEgressRing(bool nrt)
             if (m_oscInView)
                 oscInLines.append(formatOscRuns(osc, oscN, src));
         });
-    // One coalesced relayout per view, instead of one per drained message.
-    appendLogBatch(m_debugView, debugLines);
-    appendLogBatch(m_oscInView, oscInLines);
+    // One frame per view for the whole drain, drawn off the GUI thread.
+    if (m_debugView) m_debugView->append(std::move(debugLines));
+    if (m_oscInView) m_oscInView->append(std::move(oscInLines));
 }
 
 void MetricsPanel::updateNodeTree()
@@ -1149,23 +979,13 @@ void MetricsPanel::renderDisconnected()
     for (ValueRowUi& ui : m_valueRows)
     {
         const RowDef* def = static_cast<const RowDef*>(ui.def);
-        QString html;
+        QVector<LogRun> runs;
         if (def->cap > 0 || def->nowField >= 0)   // ring usage % / age row
-            html = QString("<span style=\"color:%1\">-</span>").arg(kindColor(K_Muted).name());
+            runs = { { kindColor(K_Muted), QStringLiteral("-"), QString() } };
         else
             for (const Seg& s : def->segs)
-            {
-                if (s.isText)
-                    html += QString("<span style=\"color:%1\">%2</span>")
-                                .arg(kindColor(s.kind).name(), QString::fromUtf8(s.text).toHtmlEscaped());
-                else
-                    html += QString("<span style=\"color:%1\">-</span>").arg(kindColor(s.kind).name());
-            }
-        if (html != ui.lastHtml)
-        {
-            ui.value->setText(html);
-            ui.lastHtml = html;
-        }
+                runs.append({ kindColor(s.kind), s.isText ? QString::fromUtf8(s.text) : QStringLiteral("-"), QString() });
+        ui.value->setRuns(std::move(runs));
     }
     // Drop ring cursors so a reconnect re-primes at the live head (no replay).
     m_inCursor = RingCursor{};
@@ -1202,33 +1022,24 @@ void MetricsPanel::refresh()
     for (ValueRowUi& ui : m_valueRows)
     {
         const RowDef* def = static_cast<const RowDef*>(ui.def);
-        QString html;
+        QVector<LogRun> runs;
         if (def->cap > 0)   // ring usage % readout: "used% / peak%"
         {
             const uint32_t used = (def->usedField >= 0) ? v[def->usedField] : 0;
             const uint32_t peak = (def->peakField >= 0) ? v[def->peakField] : 0;
             const double cap = double(def->cap);
-            const double usedPct = (used / cap) * 100.0;
-            const double peakPct = (peak / cap) * 100.0;
-            html = QString("<span style=\"color:%1\">%2</span>"
-                           "<span style=\"color:%3\"> / %4%</span>")
-                       .arg(kindColor(K_Normal).name(), QString::number(usedPct, 'f', 1),
-                            kindColor(K_Muted).name(), QString::number(peakPct, 'f', 1));
+            runs = { { kindColor(K_Normal), QString::number((used / cap) * 100.0, 'f', 1), QString() },
+                     { kindColor(K_Muted), QStringLiteral(" / %1%").arg(QString::number((peak / cap) * 100.0, 'f', 1)), QString() } };
         }
         else if (def->nowField >= 0)   // age readout: process calls since an event
         {
             const uint32_t now  = v[def->nowField];
             const uint32_t then = v[def->thenField];
             if (then == 0)   // event never fired this session
-                html = QString("<span style=\"color:%1\">-</span>").arg(kindColor(K_Dim).name());
+                runs = { { kindColor(K_Dim), QStringLiteral("-"), QString() } };
             else
-            {
-                const uint32_t age = now >= then ? now - then : 0;
-                html = QString("<span style=\"color:%1\">%2</span>"
-                               "<span style=\"color:%3\"> ticks</span>")
-                           .arg(kindColor(K_Dim).name(), QString::number(age),
-                                kindColor(K_Muted).name());
-            }
+                runs = { { kindColor(K_Dim), QString::number(now >= then ? now - then : 0), QString() },
+                         { kindColor(K_Muted), QStringLiteral(" ticks"), QString() } };
         }
         else
         {
@@ -1236,22 +1047,17 @@ void MetricsPanel::refresh()
             {
                 QString piece;
                 if (s.isText)
-                    piece = QString::fromUtf8(s.text).toHtmlEscaped();
+                    piece = QString::fromUtf8(s.text);
                 else if (s.na || s.field < 0 || s.field >= kPanelFieldCount)
                     piece = QStringLiteral("-");
                 else if (s.nativeOnly && !nativeOk)
                     piece = QStringLiteral("-");
                 else
                     piece = formatField(v[s.field], s.fmt);
-
-                html += QString("<span style=\"color:%1\">%2</span>").arg(kindColor(s.kind).name(), piece);
+                runs.append({ kindColor(s.kind), piece, QString() });
             }
         }
-        if (html != ui.lastHtml)
-        {
-            ui.value->setText(html);
-            ui.lastHtml = html;
-        }
+        ui.value->setRuns(std::move(runs));   // repaints only if it changed
     }
 
     // Tail the rings. (The node tree is read on the frame tick: startTreeTicks.)
@@ -1303,6 +1109,9 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     m_textColor   = theme->color("LogForeground");
     m_bgColor     = theme->color("LogBackground");
     m_borderColor = theme->color("MarginForeground");
+    for (SonicPi::MetricsLog* v : { m_oscOutView, m_oscInView, m_debugView })
+        if (v)
+            v->setColours(m_bgColor, m_textColor);
 
     // All colours come from the palette; label colours via the
     // ssRole/objectName selectors set once at construction.
@@ -1317,23 +1126,22 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     QString panelQss = QString(
         // Enforce the (small) panel font in the sheet itself — a setStyleSheet()
         // call otherwise resets fonts applied via setFont() back to the default.
-        "MetricsPanel, MetricsPanel * { font-family:'Hack'; font-size:%8px; }"
+        "MetricsPanel, MetricsPanel * { font-family:'Hack'; font-size:%7px; }"
         "MetricsPanel, QScrollArea, QFrame#ssCard, QFrame#ssCardFlat,"
         " QFrame#ssCell { background:%1; }"
         // Border-top/left on the container + border-right/bottom per cell =
         // shared single grid lines, no gaps.
-        "QWidget#ssZones { background:%1; border-top:%7px solid %6; border-left:%7px solid %6; }"
-        "QFrame#ssCell { border-right:%7px solid %6; border-bottom:%7px solid %6; }"
+        "QWidget#ssZones { background:%1; border-top:%6px solid %5; border-left:%6px solid %5; }"
+        "QFrame#ssCell { border-right:%6px solid %5; border-bottom:%6px solid %5; }"
         "QFrame#ssCell[lastrow=\"true\"] { border-bottom:none; }"
         // Rightmost cells drop their right border so the grid doesn't draw a
         // line hard up against the scrollbar.
         "QFrame#ssCell[lastcol=\"true\"] { border-right:none; }"
         // #ssCardFlat is the same card without the border (node tree, logs).
-        "QFrame#ssCard { border:1px solid %3; border-radius:@radiusMedium; }"
-        "QLabel#ssCardTitle { color:%5; padding-bottom:1px; }"
-        "QLabel[ssRole=\"rowlabel\"] { color:%4; }"
-        "QTextEdit { color:%2; background:%1; border:none; }")
-        .arg(bg, fg, border, dim, muted, winBorder).arg(gridW).arg(qMax(6, 11 + m_fontZoom));
+        "QFrame#ssCard { border:1px solid %2; border-radius:@radiusMedium; }"
+        "QLabel#ssCardTitle { color:%4; padding-bottom:1px; }"
+        "QLabel[ssRole=\"rowlabel\"] { color:%3; }")
+        .arg(bg, border, dim, muted, winBorder).arg(gridW).arg(qMax(6, 11 + m_fontZoom));
     // The node tree's Labels switch, as the web's: a small chip with a 2px
     // border in the button colour, lit in the accent while on. Hover and focus
     // take the hover colour, focus last so the keyboard's place always shows.
@@ -1389,9 +1197,10 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     // (scheme + hue) instead of keeping the colours it was inserted with.
     recolourLogViews();
 
-    // Re-render with the new palette on the next tick by clearing the diff cache.
+    // The values paint their cell's colour under their text; their runs take
+    // the new palette on the refresh below.
     for (ValueRowUi& ui : m_valueRows)
-        ui.lastHtml.clear();
+        ui.value->setBackground(m_bgColor);
     m_lastTreeVersion = 0xFFFFFFFFu;  // force legend (colours) to re-render
 
     if (isVisible())
@@ -1444,6 +1253,12 @@ void MetricsPanel::hideEvent(QHideEvent* e)
 {
     QWidget::hideEvent(e);
     m_timer->stop();
+    stopTreeTicks();
+}
+
+// Destroyed while shown, no hide event comes: the pacer is let go here.
+MetricsPanel::~MetricsPanel()
+{
     stopTreeTicks();
 }
 
