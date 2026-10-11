@@ -51,6 +51,7 @@ public:
     // each ctor opens its own when null.
     SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QString fileName, bool autoIndent,
                      QSettings* keyBindings = nullptr);
+    ~SonicPiScintilla() override;
 
     virtual QStringList apiContext(int pos, int& context_start,
         int& last_word_start);
@@ -356,7 +357,9 @@ public:
     bool m_loopScopeScroll = false;
     QHash<QString, int> m_loopScopeLines;
     QHash<QString, int> m_loopScopeSlots;   // name → the scope slot it reads
-    QTimer* m_loopScopeTimer = nullptr;
+    bool m_loopScopesPaced = false;           // holding the FramePacer for the scopes
+    QMetaObject::Connection m_loopScopeTick;  // its tick, while held
+    void unpaceLiveLoopScopes();
     SonicPi::SonicPiAPI* m_audioApi = nullptr;
     void positionLiveLoopScopes();
     void applyLoopScopeColours();

@@ -37,6 +37,8 @@ public:
 
     void retain();
     void release();
+    // How many animated things hold the pacer running: 0 and it is stopped.
+    int clients() const { return m_clients; }
 
 signals:
     void tick();

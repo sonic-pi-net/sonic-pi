@@ -12,6 +12,7 @@
 #include <QApplication>
 #include <QSettings>
 #include <QTest>
+#include <QImage>
 
 #include <memory>
 
@@ -21,6 +22,7 @@
 #include "utils/scintilla_api.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
+#include "utils/framepacer.h"
 
 namespace {
 
@@ -210,4 +212,48 @@ TEST_CASE("loop scope: beside another loop's header it hides; beside a name work
     REQUIRE(e.scope("drums"));
     CHECK_FALSE(e.scope("t")->isVisible());
     CHECK(e.scope("drums")->isVisible());
+}
+
+// What a scope costs the editor every frame. A child widget that is not
+// opaque makes Qt repaint the editor beneath it before it paints, and that
+// repaint walks the whole widget tree: with two loops playing, a third of the
+// main thread went on painting. An opaque widget that paints every pixel of
+// its rectangle leaves the editor alone.
+TEST_CASE("loop scope: is opaque, painting every pixel of its rectangle", "[loopscope]")
+{
+    Editor e(kCode);
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    QTest::qWait(60);
+    QWidget* w = e.scope("t");
+    REQUIRE(w);
+    CHECK(w->testAttribute(Qt::WA_OpaquePaintEvent));
+    QImage img(w->size(), QImage::Format_ARGB32_Premultiplied);
+    img.fill(Qt::transparent);
+    w->render(&img, QPoint(), QRegion(), QWidget::DrawChildren);   // its own paint, no window background
+    int clear = 0;
+    for (int y = 0; y < img.height(); ++y)
+        for (int x = 0; x < img.width(); ++x)
+            if (qAlpha(img.pixel(x, y)) != 255) ++clear;
+    CHECK(clear == 0);
+}
+
+// Every animated thing in the GUI ticks off the one frame pacer, which runs
+// only while something holds it: the loop scopes too, rather than a timer of
+// the editor's own at twice the rate.
+TEST_CASE("loop scope: ticks off the shared frame pacer while any scope lives", "[loopscope]")
+{
+    Editor e(kCode);
+    const int before = SonicPi::FramePacer::instance()->clients();
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    CHECK(SonicPi::FramePacer::instance()->clients() == before + 1);
+    e.ed->setLiveLoopScope("u", 2, 11, s.reader());
+    CHECK(SonicPi::FramePacer::instance()->clients() == before + 1);   // one hold for all of them
+    e.ed->endLiveLoopScope("t");
+    CHECK(SonicPi::FramePacer::instance()->clients() == before + 1);
+    e.ed->endLiveLoopScope("u");
+    CHECK(SonicPi::FramePacer::instance()->clients() == before);
 }
