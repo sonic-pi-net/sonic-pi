@@ -363,6 +363,8 @@ public:
     bool m_loopScopesPaced = false;           // holding the FramePacer for the scopes
     QMetaObject::Connection m_loopScopeTick;  // its tick, while held
     void unpaceLiveLoopScopes();
+    void placeLiveLoopScopesSoon();   // positionLiveLoopScopes, after the current paint
+    bool m_loopScopePlacePending = false;
     SonicPi::SonicPiAPI* m_audioApi = nullptr;
     void positionLiveLoopScopes();
     void applyLoopScopeColours();

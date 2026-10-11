@@ -355,6 +355,48 @@ TEST_CASE("loop scope: shows the editor's background round its panel", "[loopsco
     }
 }
 
+// A scope is placed when the editor says a line moved, and Scintilla says so
+// from inside its paint. Moving an opaque widget there asks Qt to blit its
+// pixels through a backing store that is mid-paint, with no device: that
+// null dereference took the GUI down (2026-10-11). The placing waits for the
+// paint to finish.
+TEST_CASE("loop scope: is never moved from inside the editor's paint", "[loopscope]")
+{
+    Editor e(kCode);
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    QTest::qWait(60);
+    QWidget* w = e.scope("t");
+    REQUIRE(w);
+    REQUIRE(w->isVisible());
+    const int before = w->x();
+
+    struct MoveWatch : QObject
+    {
+        QWidget* viewport = nullptr;
+        int movedInPaint = 0;
+        bool eventFilter(QObject*, QEvent* ev) override
+        {
+            if ((ev->type() == QEvent::Move || ev->type() == QEvent::Resize)
+                && viewport->testAttribute(Qt::WA_WState_InPaintEvent))
+                movedInPaint++;
+            return false;
+        }
+    } watch;
+    watch.viewport = e.ed->viewport();
+    w->installEventFilter(&watch);
+
+    // The header grows, so the scope's place changes; the paint that follows
+    // is where Scintilla reports the change.
+    e.ed->insertAt(QStringLiteral("      "), 0, 13);
+    e.ed->viewport()->repaint();
+    CHECK(watch.movedInPaint == 0);
+    QApplication::processEvents();
+    QApplication::processEvents();
+    CHECK(w->x() > before);   // and it did move, once the paint was over
+}
+
 // Not a test: how long one paint of a live scope takes. Run by name.
 TEST_CASE("loop scope: paint time", "[.][bench]")
 {

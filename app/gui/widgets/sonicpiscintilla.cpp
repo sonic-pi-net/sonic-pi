@@ -739,7 +739,7 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     // changed: SCN_UPDATEUI covers edits and both scroll axes in one hook, and
     // the pill reports its own moves/resizes (zoom, viewport reshapes).
     connect(this, &QsciScintillaBase::SCN_UPDATEUI, this,
-            [this](int) { updateEditorToolbarOcclusion(); positionLiveLoopScopes(); });
+            [this](int) { updateEditorToolbarOcclusion(); placeLiveLoopScopesSoon(); });
     connect(m_editorToolbar, &EditorToolbar::geometryChanged, this,
             &SonicPiScintilla::updateEditorToolbarOcclusion);
     // Keep the highlights and counter live while the buffer is edited — but
@@ -1351,6 +1351,21 @@ static bool isLiveLoopHeader(const QString& line, const QString& name)
     const int end = i + 1 + name.size();
     const QChar next = end < line.size() ? line.at(end) : QChar(' ');
     return !(next.isLetterOrNumber() || next == '_' || next == '?' || next == '!');
+}
+
+// Scintilla reports a moved line from inside its paint. A scope is opaque, and
+// moving one there asks Qt to blit its pixels through a backing store that is
+// mid-paint, with no device: a null dereference that took the GUI down. So the
+// placing waits for the paint to finish, and a burst of reports places once.
+void SonicPiScintilla::placeLiveLoopScopesSoon()
+{
+    if (m_loopScopes.isEmpty() || m_loopScopePlacePending)
+        return;
+    m_loopScopePlacePending = true;
+    QMetaObject::invokeMethod(this, [this] {
+        m_loopScopePlacePending = false;
+        positionLiveLoopScopes();
+    }, Qt::QueuedConnection);
 }
 
 void SonicPiScintilla::positionLiveLoopScopes()
