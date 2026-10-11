@@ -67,6 +67,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/metricspanel_font.test.cpp
     ${GUI_TESTS_ROOT}/metricvalue.test.cpp
     ${GUI_TESTS_ROOT}/opaque_widgets.test.cpp
+    ${GUI_TESTS_ROOT}/window_layout.test.cpp
     ${GUI_TESTS_ROOT}/repaint_pacing.test.cpp
     ${GUI_TESTS_ROOT}/linkaudio_engine_ready.test.cpp
     ${GUI_TESTS_ROOT}/plugins.test.cpp

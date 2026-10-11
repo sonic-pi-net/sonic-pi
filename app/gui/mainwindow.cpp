@@ -83,6 +83,7 @@
 #include "widgets/sonicpitooltip.h"
 #include <QFileOpenEvent>
 
+#include "utils/dockshown.h"
 #include "utils/audiodevicepolicy.h"
 #include "utils/reducedmotion.h"
 #include "utils/gui_settings.h"
@@ -3491,14 +3492,14 @@ void MainWindow::applyHelpPanel()
     m_applyingHelpPanel = true;   // the dock's own signals land back here
     const SonicPi::HelpPanelModel& m = m_helpPanel;
 
-    if (m.panelVisible() && !docWidget->isVisible())
+    if (m.panelVisible() && !SonicPi::dockShown(docWidget))
     {
         docWidget->show();
         const int h = (m_savedDockH > 0) ? m_savedDockH : (height() / 3);
         resizeDocks({ docWidget }, { h }, Qt::Vertical);
         ensureDocsSelection();   // never land on a blank pane
     }
-    else if (!m.panelVisible() && docWidget->isVisible())
+    else if (!m.panelVisible() && SonicPi::dockShown(docWidget))
     {
         m_savedDockH = docWidget->height();   // for the way back
         docWidget->hide();
@@ -4422,9 +4423,13 @@ void MainWindow::toggleHelpIcon()
     // follows the state. Nothing else reads the dock to decide anything.
     if (!docWidget)
         return;
-    if (docWidget->isVisible() != m_helpPanel.panelVisible())
+    // By the dock's own setting (dockShown): this runs straight after the
+    // saved layout is restored, before the window is shown, when isVisible()
+    // says no for every dock.
+    const bool shown = SonicPi::dockShown(docWidget);
+    if (shown != m_helpPanel.panelVisible())
     {
-        if (docWidget->isVisible()) m_helpPanel.show();
+        if (shown) m_helpPanel.show();
         else m_helpPanel.away();
     }
     applyHelpPanel();
@@ -7646,8 +7651,6 @@ void MainWindow::restoreWindows()
     // follows its state, and the grips and dividers follow both.
     toggleHelpIcon();
     applySideColumn();
-
-    auto current_state = saveState();
 
     resize(size);
     move(pos);
