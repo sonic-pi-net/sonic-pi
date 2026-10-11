@@ -20,7 +20,7 @@
 
 #include <memory>
 
-#include <shm_scope_stream.hpp>
+#include <shm_tap_stream.hpp>
 
 #include "model/sonicpitheme.h"
 #include "utils/scintilla_api.h"
@@ -73,11 +73,11 @@ struct Editor
 // A scope-stream slot, as the engine's shared memory holds one.
 struct Slot
 {
-    std::unique_ptr<shm_scope_stream> mem = std::make_unique<shm_scope_stream>();
+    std::unique_ptr<shm_tap_stream> mem = std::make_unique<shm_tap_stream>();
     Slot() { mem->state.store(0); }
-    void live() { shm_scope_stream_writer(mem.get()).activate(2); }
+    void live() { shm_tap_stream_writer(mem.get()).activate(2); }
     void release() { mem->state.store(0); }
-    shm_scope_stream_reader reader() const { return shm_scope_stream_reader(mem.get()); }
+    shm_tap_stream_reader reader() const { return shm_tap_stream_reader(mem.get()); }
 };
 
 const QString kCode = QStringLiteral("live_loop :t do\n  play 60\n  sleep 1\nend\n");
@@ -281,7 +281,7 @@ void writeLoudWave(Slot& s, int frames = 16384)
     for (int i = 0; i < frames; i++)
         l[(size_t)i] = r[(size_t)i] = ((i / 256) % 2) ? 0.9f : -0.9f;
     const float* chans[2] = { l.data(), r.data() };
-    shm_scope_stream_writer(s.mem.get()).write(chans, (uint32_t)frames, 0);
+    shm_tap_stream_writer(s.mem.get()).write(chans, (uint32_t)frames, 0);
 }
 
 QImage rendered(QWidget* w)

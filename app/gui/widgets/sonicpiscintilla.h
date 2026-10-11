@@ -144,7 +144,7 @@ public slots:
     // name updates its line and reader; endLiveLoopScope removes it when the
     // loop dies. A slot belongs to one loop: another loop's scope on the same
     // slot goes.
-    void setLiveLoopScope(const QString& name, int runLine, int scopeNum, const shm_scope_stream_reader& reader);
+    void setLiveLoopScope(const QString& name, int runLine, int scopeNum, const shm_tap_stream_reader& reader);
     // Let go of the scopes for a loop that now lives in another buffer: any
     // named `name`, and any on slot scopeNum.
     void dropLiveLoopScopesFor(int scopeNum, const QString& name);

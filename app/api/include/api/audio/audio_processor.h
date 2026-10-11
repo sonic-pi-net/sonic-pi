@@ -62,7 +62,7 @@ public:
     // (the full mix); slots 1..N are fed by fx_scope_out / ScopeOut2 taps.
     // Invalid reader if the shm client is not connected or the index is out
     // of range. Like the audio tap reader, it keeps its mapping alive.
-    shm_scope_stream_reader GetScopeReader(unsigned int index);
+    shm_tap_stream_reader GetScopeReader(unsigned int index);
 
     // Seqlock snapshot of the engine sample clock (sample position ↔ DAC NTP);
     // invalid when disconnected or before the engine's first publish.
@@ -96,7 +96,7 @@ private:
     void AttachLocked();
 
     std::unique_ptr<shm_segment_client> m_shmClient;
-    shm_scope_stream_reader m_shmReader;
+    shm_tap_stream_reader m_shmReader;
 
     // Rate-limits Run()'s reattach attempts while unattached.
     std::chrono::steady_clock::time_point m_lastAttachAttempt{};

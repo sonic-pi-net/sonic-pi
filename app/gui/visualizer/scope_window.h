@@ -214,7 +214,7 @@ private:
     // reserved scope slot (see etc/synthdefs/designs/supercollider/mixer.scd).
     // How far that input pushes past the ceiling is what the limiter must
     // take off — drawn as the bar's tip crossing into the hot zone.
-    shm_scope_stream_reader m_preLimReader;
+    shm_tap_stream_reader m_preLimReader;
     uint64_t m_preLimLastEnd = 0;
     std::vector<float> m_grScratch;
     float m_grTargetDb = 0.0f;    // latest window's dB past the ceiling

@@ -40,7 +40,7 @@ protected:
     {
         m_api = api;
         m_reader = api ? api->AudioProcessor_GetScopeReader(scopeNum)
-                       : shm_scope_stream_reader();
+                       : shm_tap_stream_reader();
         m_lastEnd = 0;
         // Display frame rate only — the stream is lossless at any poll rate.
         if (!m_timer->isActive())
@@ -50,7 +50,7 @@ protected:
     void stopSampling()
     {
         m_timer->stop();
-        m_reader = shm_scope_stream_reader();
+        m_reader = shm_tap_stream_reader();
     }
 
     // Frames of stream history the subclass renders per tick.
@@ -81,14 +81,14 @@ private:
         // it used (sizing from a separate channels() read would race a slot
         // re-activation).
         const unsigned int frames = windowFrames();
-        m_scratch.resize((size_t)frames * SHM_SCOPE_STREAM_CHANNELS);
+        m_scratch.resize((size_t)frames * SHM_TAP_STREAM_CHANNELS);
         uint32_t ch = 1;
         m_reader.copy_window(end, frames, m_scratch.data(), &ch);
         storeWindow(m_scratch.data(), frames, ch);
         update();
     }
 
-    shm_scope_stream_reader m_reader;
+    shm_tap_stream_reader m_reader;
     SonicPi::SonicPiAPI* m_api = nullptr;
     QTimer* m_timer = nullptr;
     uint64_t m_lastEnd = 0;

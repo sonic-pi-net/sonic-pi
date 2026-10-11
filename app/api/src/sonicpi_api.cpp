@@ -1149,13 +1149,13 @@ shm_audio_buffer_reader SonicPiAPI::AudioProcessor_GetAudioBufferReader(unsigned
     return shm_audio_buffer_reader();
 }
 
-shm_scope_stream_reader SonicPiAPI::AudioProcessor_GetScopeReader(unsigned int scope_num)
+shm_tap_stream_reader SonicPiAPI::AudioProcessor_GetScopeReader(unsigned int scope_num)
 {
     if (m_spAudioProcessor)
     {
         return m_spAudioProcessor->GetScopeReader(scope_num);
     }
-    return shm_scope_stream_reader();
+    return shm_tap_stream_reader();
 }
 
 sample_clock_view SonicPiAPI::AudioProcessor_GetSampleClock()

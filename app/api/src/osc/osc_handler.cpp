@@ -597,8 +597,8 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 ok = arg.isOk();
                 t.id = id; t.slot = slot; t.sendChannel = send; t.returnChannel = ret;
                 t.gain = gain; t.mute = mute != 0;
-                if (slot >= 0 && slot < SHM_SCOPE_TRACK_SLOTS)
-                    t.scopeSlot = SHM_SCOPE_TRACK_SLOT_BASE + slot;
+                if (slot >= 0 && slot < SHM_TAP_TRACK_SLOTS)
+                    t.scopeSlot = SHM_TAP_TRACK_SLOT_BASE + slot;
                 for (int32_t k = 0; ok && k < nodeCount; ++k)
                 {
                     TrackNodeInfo n;

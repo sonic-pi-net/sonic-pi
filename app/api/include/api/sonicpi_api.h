@@ -691,7 +691,7 @@ public:
     // live-loop scopes, cards, the Examples jukebox). Invalid reader if the
     // audio processor hasn't connected. Combine with AudioProcessor_GetSampleClock
     // to window the stream on what the listener is currently hearing.
-    virtual shm_scope_stream_reader AudioProcessor_GetScopeReader(unsigned int scope_num);
+    virtual shm_tap_stream_reader AudioProcessor_GetScopeReader(unsigned int scope_num);
 
     // Seqlock-consistent snapshot of the engine's sample clock (sample
     // position ↔ wall-clock DAC time). `valid` is false until the engine has

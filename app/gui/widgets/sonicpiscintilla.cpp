@@ -146,7 +146,7 @@ public:
             kiss_fftr_free(m_fftCfg);
     }
 
-    void setReader(const shm_scope_stream_reader& r)
+    void setReader(const shm_tap_stream_reader& r)
     {
         m_reader = r;
         m_lastEnd = 0;
@@ -212,7 +212,7 @@ public:
         // it used (sizing from a separate channels() read would race a slot
         // re-activation).
         const int window = m_scroll ? kScrollWindow : kSweepWindow;
-        m_scratch.resize((size_t)window * SHM_SCOPE_STREAM_CHANNELS);
+        m_scratch.resize((size_t)window * SHM_TAP_STREAM_CHANNELS);
         uint32_t ch = 1;
         if (m_scroll)
         {
@@ -485,7 +485,7 @@ private:
     SonicPi::SonicPiAPI* m_api = nullptr;
     uint64_t m_lastEnd = 0;
     std::vector<float> m_scratch;
-    shm_scope_stream_reader m_reader;
+    shm_tap_stream_reader m_reader;
     kiss_fftr_cfg m_fftCfg = nullptr;
     std::vector<kiss_fft_scalar> m_fftIn;
     std::vector<kiss_fft_cpx> m_fftOut;
@@ -1215,7 +1215,7 @@ void SonicPiScintilla::setLiveLoopScopeScroll(bool scroll)
 }
 
 void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine, int scopeNum,
-                                        const shm_scope_stream_reader& reader)
+                                        const shm_tap_stream_reader& reader)
 {
     // A slot belongs to one loop: a scope left on it by a loop that has gone
     // without saying so would otherwise draw this one's audio.

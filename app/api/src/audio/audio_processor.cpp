@@ -283,11 +283,11 @@ shm_audio_buffer_reader AudioProcessor::GetAudioBufferReader(unsigned int slot)
     return m_shmClient->get_audio_buffer_reader(slot);
 }
 
-shm_scope_stream_reader AudioProcessor::GetScopeReader(unsigned int index)
+shm_tap_stream_reader AudioProcessor::GetScopeReader(unsigned int index)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
-    if (!m_shmClient) return shm_scope_stream_reader();
-    return m_shmClient->get_scope_stream_reader(index);
+    if (!m_shmClient) return shm_tap_stream_reader();
+    return m_shmClient->get_tap_stream_reader(index);
 }
 
 sample_clock_view AudioProcessor::GetSampleClock()
@@ -364,7 +364,7 @@ void AudioProcessor::AttachLocked()
         if (!detail_shm_segment::shm_handle_valid(handle))
             throw std::runtime_error("shm attach: " + err);
         m_shmClient.reset(new shm_segment_client(handle));
-        m_shmReader = m_shmClient->get_scope_stream_reader(0);
+        m_shmReader = m_shmClient->get_tap_stream_reader(0);
         m_lastAttachError.clear();   // a later recurrence is worth reporting again
     }
     catch (const std::exception& e)
@@ -391,7 +391,7 @@ void AudioProcessor::AttachLocked()
             m_lastAttachError = what;
         }
         m_shmClient.reset();
-        m_shmReader = shm_scope_stream_reader();
+        m_shmReader = shm_tap_stream_reader();
     }
     m_lastEndCursor = 0;
     m_stalledTicks = 0;
@@ -495,7 +495,7 @@ void AudioProcessor::Run()
             m_lastEndCursor = endCursor;
             // Scratch sized for the max stride; copy_window reports the one
             // it used (a separate channels() read would race re-activation).
-            m_windowScratch.resize(static_cast<size_t>(FrameSamples) * SHM_SCOPE_STREAM_CHANNELS);
+            m_windowScratch.resize(static_cast<size_t>(FrameSamples) * SHM_TAP_STREAM_CHANNELS);
             uint32_t ch = 1;
             m_shmReader.copy_window(endCursor, FrameSamples, m_windowScratch.data(), &ch);
 
