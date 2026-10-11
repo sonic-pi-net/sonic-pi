@@ -136,6 +136,8 @@ public slots:
     // its current line, so flashes stay correct as the code is edited live.
     void snapshotRunLines();
     void flashRunLine(int runLine, bool codeWash = true, bool gutterDot = false);
+    // Whether a flash is showing on line (0-based): drawn and not yet cleared.
+    bool isFlashing(int line) const { return m_flashGen.contains(line); }
     // Pin a mini oscilloscope to a live_loop's header line (runLine is the
     // 0-based line at run time, mapped through the same edit-tracking anchors
     // as the flashes), reading scope slot scopeNum. Re-registering an existing

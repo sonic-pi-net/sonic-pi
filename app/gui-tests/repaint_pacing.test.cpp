@@ -6,12 +6,12 @@
 // editor's run-line flash repainted whenever a message landed, each on its own
 // pass. These hold the rule that they too wait for the tick, so the window
 // assembles one frame per tick however much arrives in between. Headless,
-// offscreen.
+// offscreen, and the pacer driven by hand: a tick is a pulse() here, never a
+// wait on the clock, which a loaded runner once stretched past three ticks.
 
 #include <catch2/catch_test_macros.hpp>
 
 #include <QApplication>
-#include <QElapsedTimer>
 #include <QEvent>
 #include <QObject>
 #include <QSettings>
@@ -29,8 +29,6 @@
 
 namespace {
 
-constexpr int kTickMs = 33;   // the pacer's cadence
-
 // Counts the update requests a top-level widget receives: each one is a frame
 // the window assembles.
 struct FrameCounter : QObject
@@ -44,9 +42,25 @@ struct FrameCounter : QObject
     }
 };
 
-// Frames the pacer alone would produce over a span, with one spare for the
-// tick that straddles its end.
-int ticksIn(qint64 ms) { return int(ms / kTickMs) + 2; }
+// The pacer under the test's hand for the test's duration, and back on its
+// timer afterwards, with nothing left holding it.
+struct HandDriven
+{
+    SonicPi::FramePacer* pacer = SonicPi::FramePacer::instance();
+    HandDriven() { pacer->driveByHand(true); }
+    ~HandDriven()
+    {
+        CHECK(pacer->clients() == 0);
+        pacer->driveByHand(false);
+    }
+    // One tick, and the repaints it asked for.
+    void tick()
+    {
+        pacer->pulse();
+        QApplication::processEvents();
+        QApplication::processEvents();
+    }
+};
 
 struct Editor
 {
@@ -90,7 +104,8 @@ SonicPiLog::MultiMessage message(SonicPiTheme* theme, int n)
 
 TEST_CASE("frame pacer: deferred work runs on the next tick, once, and then the pacer may stop", "[pacing]")
 {
-    auto* pacer = SonicPi::FramePacer::instance();
+    HandDriven hand;
+    auto* pacer = hand.pacer;
     REQUIRE(pacer->clients() == 0);
     QObject owner;
     int ran = 0;
@@ -98,26 +113,43 @@ TEST_CASE("frame pacer: deferred work runs on the next tick, once, and then the 
     pacer->defer(&owner, [&] { ran += 10; });
     CHECK(ran == 0);
     CHECK(pacer->clients() == 1);   // the deferral keeps the pacer ticking until it has run
-    QTest::qWait(kTickMs * 3);
+    hand.tick();
     CHECK(ran == 11);
     CHECK(pacer->clients() == 0);
+    hand.tick();
+    CHECK(ran == 11);
 }
 
 TEST_CASE("frame pacer: work deferred by an owner that has gone is dropped", "[pacing]")
 {
-    auto* pacer = SonicPi::FramePacer::instance();
+    HandDriven hand;
     int ran = 0;
     {
         QObject owner;
-        pacer->defer(&owner, [&] { ran++; });
+        hand.pacer->defer(&owner, [&] { ran++; });
     }
-    QTest::qWait(kTickMs * 3);
+    hand.tick();
     CHECK(ran == 0);
-    CHECK(pacer->clients() == 0);
+    CHECK(hand.pacer->clients() == 0);
+}
+
+TEST_CASE("frame pacer: a client starts the timer and the last one stops it", "[pacing]")
+{
+    auto* pacer = SonicPi::FramePacer::instance();
+    REQUIRE(pacer->clients() == 0);
+    CHECK(!pacer->running());
+    pacer->retain();
+    CHECK(pacer->running());
+    pacer->retain();
+    pacer->release();
+    CHECK(pacer->running());
+    pacer->release();
+    CHECK(!pacer->running());
 }
 
 TEST_CASE("log pane: messages arriving between ticks land in one frame", "[pacing]")
 {
+    HandDriven hand;
     SonicPiTheme theme(nullptr, "", QStringLiteral(SP_ROOT));
     QWidget window;
     auto* layout = new QVBoxLayout(&window);
@@ -130,32 +162,32 @@ TEST_CASE("log pane: messages arriving between ticks land in one frame", "[pacin
 
     FrameCounter frames;
     window.installEventFilter(&frames);
-    QElapsedTimer span;
-    span.start();
     for (int n = 0; n < 12; n++)
     {
         log->handleMultiMessage(message(&theme, n));
-        QTest::qWait(4);
+        QApplication::processEvents();
     }
-    QTest::qWait(kTickMs * 3);   // every message has had its tick
-    const qint64 ms = span.elapsed();
+    CHECK(frames.frames == 0);            // nothing shown before the tick
+    CHECK(log->toPlainText().isEmpty());
 
+    hand.tick();
     const QString text = log->toPlainText();
     for (int n = 0; n < 12; n++)
         CHECK(text.contains(QString("line %1").arg(n)));
-    INFO("frames " << frames.frames << " over " << ms << " ms, pacer alone would make " << ticksIn(ms));
-    CHECK(frames.frames <= ticksIn(ms));
-    CHECK(SonicPi::FramePacer::instance()->clients() == 0);
+    INFO("frames " << frames.frames);
+    CHECK(frames.frames <= 2);   // the tick's frame, and at most one more for the scrollbar it brought
+    CHECK(hand.pacer->clients() == 0);
 }
 
 TEST_CASE("log pane: text appended directly keeps its place among the messages", "[pacing]")
 {
+    HandDriven hand;
     SonicPiTheme theme(nullptr, "", QStringLiteral(SP_ROOT));
     SonicPiLog log;
     log.handleMultiMessage(message(&theme, 1));
     log.appendPlainText("between");
     log.handleMultiMessage(message(&theme, 2));
-    QTest::qWait(kTickMs * 3);
+    hand.tick();
     const QString text = log.toPlainText();
     const int a = text.indexOf("line 1"), b = text.indexOf("between"), c = text.indexOf("line 2");
     REQUIRE(a >= 0);
@@ -167,12 +199,13 @@ TEST_CASE("log pane: text appended directly keeps its place among the messages",
 
 TEST_CASE("log pane: a clear takes what had not been shown yet with it", "[pacing]")
 {
+    HandDriven hand;
     SonicPiTheme theme(nullptr, "", QStringLiteral(SP_ROOT));
     SonicPiLog log;
     log.handleMultiMessage(message(&theme, 1));
     log.clear();
     log.handleMultiMessage(message(&theme, 2));
-    QTest::qWait(kTickMs * 3);
+    hand.tick();
     const QString text = log.toPlainText();
     CHECK(!text.contains("line 1"));
     CHECK(text.contains("line 2"));
@@ -180,29 +213,36 @@ TEST_CASE("log pane: a clear takes what had not been shown yet with it", "[pacin
 
 TEST_CASE("editor: run-line flashes and their clears land on the tick", "[pacing]")
 {
+    HandDriven hand;
     Editor e(QStringLiteral("live_loop :t do\n  play 60\n  sleep 1\nend\n"));
     QTest::qWait(100);
 
     FrameCounter frames;
     e.ed->installEventFilter(&frames);
-    QElapsedTimer span;
-    span.start();
     for (int n = 0; n < 12; n++)
     {
         e.ed->flashRunLine(n % 2, true, true);
-        QTest::qWait(5);
+        QApplication::processEvents();
     }
-    QTest::qWait(kTickMs * 2);   // every flash has had its tick
-    const qint64 burst = span.elapsed();
-    const int burstFrames = frames.frames;
-    INFO("flashes: " << burstFrames << " frames over " << burst << " ms, pacer alone would make " << ticksIn(burst));
-    CHECK(burstFrames <= ticksIn(burst));
+    CHECK(frames.frames == 0);   // nothing drawn before the tick
+    CHECK(!e.ed->isFlashing(0));
+    hand.tick();
+    CHECK(e.ed->isFlashing(0));
+    CHECK(e.ed->isFlashing(1));
+    INFO("flashes: " << frames.frames << " frames");
+    CHECK(frames.frames <= 1);
 
-    span.restart();
+    // The holds end on the clock; each clear then waits for a tick. Ticking
+    // until both lines are clear, every tick's frame is counted against it.
     frames.frames = 0;
-    QTest::qWait(SonicPi::kFlashHoldMs + kTickMs * 3);   // the holds have ended and their clears have had their tick
-    const qint64 clears = span.elapsed();
-    INFO("clears: " << frames.frames << " frames over " << clears << " ms, pacer alone would make " << ticksIn(clears));
-    CHECK(frames.frames <= ticksIn(clears));
-    CHECK(SonicPi::FramePacer::instance()->clients() == 0);
+    int ticks = 0;
+    const bool cleared = QTest::qWaitFor([&] {
+        hand.tick();
+        ticks++;
+        return !e.ed->isFlashing(0) && !e.ed->isFlashing(1);
+    }, SonicPi::kFlashHoldMs * 20);
+    CHECK(cleared);
+    INFO("clears: " << frames.frames << " frames over " << ticks << " ticks");
+    CHECK(frames.frames <= ticks);
+    CHECK(hand.pacer->clients() == 0);
 }

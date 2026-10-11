@@ -1365,8 +1365,11 @@ void SonicPiScintilla::positionLiveLoopScopes()
     int viewH = viewport()->height();
     // What the editor draws beneath a scope, for it to paint over (it is
     // opaque): the paper, or on the current line the caret line's colour,
-    // blended over the paper as Scintilla blends it.
-    const QColor paperColour = paper();
+    // blended over the paper as Scintilla blends it. The paper is the default
+    // style's background, which the lexer set from the theme; QsciScintilla's
+    // paper() is the no-lexer one, white in every theme.
+    const long paperBgr = SendScintilla(SCI_STYLEGETBACK, (unsigned long)STYLE_DEFAULT);
+    const QColor paperColour(paperBgr & 0xff, (paperBgr >> 8) & 0xff, (paperBgr >> 16) & 0xff);
     const int caretLine = (int)SendScintilla(SCI_LINEFROMPOSITION, SendScintilla(SCI_GETCURRENTPOS));
     QColor caretLineColour = paperColour;
     if (SendScintilla(SCI_GETCARETLINEVISIBLE))

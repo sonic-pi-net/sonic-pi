@@ -30,15 +30,24 @@
 
 namespace {
 
+SonicPiTheme* makeTheme(bool dark)
+{
+    auto* theme = new SonicPiTheme(nullptr, "", QStringLiteral(SP_ROOT));
+    if (dark)
+        theme->darkMode();
+    return theme;
+}
+
 struct Editor
 {
-    SonicPiTheme* theme = new SonicPiTheme(nullptr, "", QStringLiteral(SP_ROOT));
+    SonicPiTheme* theme;
     SonicPiLexer* lexer = new SonicPiLexer(theme);
     ScintillaAPI* api = new ScintillaAPI(lexer);
     QSettings keys{ QSettings::IniFormat, QSettings::UserScope, "sonic-pi.net", "gui-tests-keys" };
     SonicPiScintilla* ed = new SonicPiScintilla(lexer, theme, "", true, &keys);
 
-    explicit Editor(const QString& code)
+    explicit Editor(const QString& code, bool dark = false)
+        : theme(makeTheme(dark))
     {
         ed->resize(700, 400);
         ed->setText(code);
@@ -317,6 +326,33 @@ TEST_CASE("loop scope: draws only inside its rounded panel", "[loopscope]")
             if (loud.pixel(x, y) != quiet.pixel(x, y))
                 ++changed;
     CHECK(changed > W);   // the wave and bars did land inside
+}
+
+// The ring between a scope's edge and its rounded panel shows the editor's
+// own background, the one Scintilla draws the code on — not the widget-level
+// paper, which is white whatever the theme and once drew a white border round
+// every scope.
+TEST_CASE("loop scope: shows the editor's background round its panel", "[loopscope]")
+{
+    Editor e(kCode, /*dark=*/true);
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    QTest::qWait(60);
+    QWidget* w = e.scope("t");
+    REQUIRE(w);
+    const long bgr = e.ed->SendScintilla(QsciScintillaBase::SCI_STYLEGETBACK, (unsigned long)QsciScintillaBase::STYLE_DEFAULT);
+    const QColor editor(bgr & 0xff, (bgr >> 8) & 0xff, (bgr >> 16) & 0xff);
+    REQUIRE(editor != QColor(Qt::white));   // dark: the test can tell the theme's background from white paper
+    const QImage img = rendered(w);
+    const int W = img.width(), H = img.height();
+    const QPoint corners[] = { { 0, 0 }, { W - 1, 0 }, { 0, H - 1 }, { W - 1, H - 1 } };
+    for (const QPoint& c : corners)
+    {
+        INFO("corner " << c.x() << "," << c.y() << " is " << QColor(img.pixel(c)).name().toStdString()
+             << ", editor background " << editor.name().toStdString());
+        CHECK(QColor(img.pixel(c)) == editor);
+    }
 }
 
 // Not a test: how long one paint of a live scope takes. Run by name.

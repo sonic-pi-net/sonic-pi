@@ -53,6 +53,14 @@ public:
     // repaints. Dropped unowned if owner has gone by then.
     void defer(QObject* owner, std::function<void()> fn);
 
+    // Whether the timer is ticking.
+    bool running() const { return m_timer.isActive(); }
+
+    // Driven by hand, the pacer ticks only when pulse() says so and the timer
+    // stays off: a test counts ticks instead of waiting on the clock.
+    void driveByHand(bool byHand);
+    void pulse();
+
 signals:
     void tick();
 
@@ -69,6 +77,7 @@ private:
     int m_clients = 0;
     std::vector<Deferred> m_deferred;
     bool m_deferredHolds = false;   // a retain() taken for m_deferred, released once it has drained
+    bool m_byHand = false;
 };
 
 } // namespace SonicPi

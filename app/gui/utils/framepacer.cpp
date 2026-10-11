@@ -31,7 +31,7 @@ FramePacer::FramePacer()
 
 void FramePacer::retain()
 {
-    if (++m_clients == 1)
+    if (++m_clients == 1 && !m_byHand)
         m_timer.start();
 }
 
@@ -39,6 +39,20 @@ void FramePacer::release()
 {
     if (m_clients > 0 && --m_clients == 0)
         m_timer.stop();
+}
+
+void FramePacer::driveByHand(bool byHand)
+{
+    m_byHand = byHand;
+    if (byHand)
+        m_timer.stop();
+    else if (m_clients > 0)
+        m_timer.start();
+}
+
+void FramePacer::pulse()
+{
+    onTimeout();
 }
 
 void FramePacer::defer(QObject* owner, std::function<void()> fn)
