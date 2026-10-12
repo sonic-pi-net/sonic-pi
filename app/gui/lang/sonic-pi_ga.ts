@@ -6,22 +6,22 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1031"/>
         <source>Docs ↗</source>
-        <translation type="unfinished">Docs ↗</translation>
+        <translation>Doiciméid ↗</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1034"/>
         <source>Open the help pane for this entry</source>
-        <translation type="unfinished">Oscail an pána cabhrach don iontráil seo</translation>
+        <translation>Oscail an painéal cabhrach don iontráil seo</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1046"/>
         <source>Close (Esc)</source>
-        <translation type="unfinished">Dún (Esc)</translation>
+        <translation>Dún (Esc)</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1757"/>
         <source>%1 of %2</source>
-        <translation type="unfinished">%1 as %2</translation>
+        <translation>%1 de %2</translation>
     </message>
 </context>
 <context>
@@ -29,7 +29,7 @@
     <message>
         <location filename="../widgets/devicelistwidget.cpp" line="66"/>
         <source>Untick to ignore this device</source>
-        <translation type="unfinished">Díthiceáil chun neamhaird a dhéanamh den ghléas seo</translation>
+        <translation>Díroghnaigh chun neamhaird a dhéanamh den fheiste seo</translation>
     </message>
 </context>
 <context>
@@ -39,179 +39,179 @@
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="199"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="200"/>
         <source>Link Name</source>
-        <translation type="unfinished">Ainm Link</translation>
+        <translation>Ainm an Naisc</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="201"/>
         <source>The name other Link peers see for this Sonic Pi when browsing audio streams on the network.</source>
-        <translation type="unfinished">An t-ainm a fheiceann piaraí Link eile don Sonic Pi seo agus iad ag brabhsáil sruthanna fuaime ar an líonra.</translation>
+        <translation>An t-ainm a fheiceann piaraí Link eile ar an Sonic Pi seo agus iad ag brabhsáil sruthanna fuaime ar an líonra.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="202"/>
         <source>Name visible to other Link peers</source>
-        <translation type="unfinished">Ainm atá le feiceáil ag piaraí Link eile</translation>
+        <translation>Ainm le feiceáil ag piaraí Link eile</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="213"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="216"/>
         <source>Latency</source>
-        <translation type="unfinished">Aga Folaigh</translation>
+        <translation>Moill</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="217"/>
         <source>milliseconds</source>
-        <translation type="unfinished">milleasoicindí</translation>
+        <translation>milleasoicindí</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="221"/>
         <source>Receive Latency</source>
-        <translation type="unfinished">Aga Folaigh Glactha</translation>
+        <translation>Moill Glactha</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="222"/>
         <source>Link Audio receive latency in ms. Smaller = closer to real-time monitoring; larger = more robust against network jitter. Engine-wide (applies to every link_audio subscription).</source>
-        <translation type="unfinished">Aga folaigh glactha Link Audio in ms. Níos lú = níos gaire do mhonatóireacht fíor-ama; níos mó = níos athléimní in aghaidh giodam líonra. Ar fud an innill (baineann sé le gach suibscríbhinn link_audio).</translation>
+        <translation>Moill ghlactha Link Audio i milleasoicindí. Dá laghad í, is ea is gaire don mhonatóireacht fíor-ama í; dá mhéad í, is ea is fearr a sheasann sí i gcoinne luaineachtaí líonra (jitter). Ar leibhéal an innill (baineann sé le gach síntiús link_audio).</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="226"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="518"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="610"/>
         <source>%1 ms</source>
-        <translation type="unfinished">%1 ms</translation>
+        <translation>%1 ms</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>On</source>
-        <translation type="unfinished">Air</translation>
+        <translation>Ar</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>Off</source>
-        <translation type="unfinished">As</translation>
+        <translation>As</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="246"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="251"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="260"/>
         <source>Stream Audio</source>
-        <translation type="unfinished">Sruthaigh Fuaim</translation>
+        <translation>Sruthlaigh Fuaim</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="252"/>
         <source>When on, our audio channels are visible to other Link peers and stream to anyone who subscribes. Preference is remembered between sessions.</source>
-        <translation type="unfinished">Nuair atá sé air, tá ár gcainéil fuaime le feiceáil ag piaraí Link eile agus sruthaítear iad chuig aon duine a shuibscríobhann. Cuimhnítear ar an rogha idir seisiúin.</translation>
+        <translation>Nuair a bhíonn siad casta air, bíonn ár gcainéil fuaime le feiceáil ag piaraí Link eile agus déantar iad a shruthú chuig aon duine a dhéanann síntiús. Cuimhnítear an rogha idir seisiúin.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="296"/>
         <source>Visibility</source>
-        <translation type="unfinished">Infheictheacht</translation>
+        <translation>Infheictheacht</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <source>Peer</source>
-        <translation type="unfinished">Piara</translation>
+        <translation>Comhghleacaí</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Channel</source>
-        <translation type="unfinished">Cainéal</translation>
+        <translation>Cainéal</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Status</source>
-        <translation type="unfinished">Stádas</translation>
+        <translation>Stádas</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Buffered</source>
-        <translation type="unfinished">Maolánaithe</translation>
+        <translation>Maolaithe</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Rate</source>
-        <translation type="unfinished">Ráta</translation>
+        <translation>Rátáil</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Bus</source>
-        <translation type="unfinished">Bus</translation>
+        <translation>Bus</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="324"/>
         <source>Link Audio peers</source>
-        <translation type="unfinished">Piaraí Link Audio</translation>
+        <translation>Comhghleacaithe Link Audio</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="467"/>
         <source>SuperSonic not connected</source>
-        <translation type="unfinished">Níl SuperSonic nasctha</translation>
+        <translation>Níl SuperSonic ceangailte</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Network Peer</source>
-        <translation type="unfinished">Piara Líonra</translation>
+        <translation>Comhpháirtí Líonra</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Local Peer</source>
-        <translation type="unfinished">Piara Logánta</translation>
+        <translation>Comhghleacaí áitiúil</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="580"/>
         <source>on the network</source>
-        <translation type="unfinished">ar an líonra</translation>
+        <translation>ar an líonra</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="581"/>
         <source>on this machine</source>
-        <translation type="unfinished">ar an meaisín seo</translation>
+        <translation>ar an meaisín seo</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="583"/>
         <source>Click Link to find other peers %1</source>
-        <translation type="unfinished">Cliceáil Link chun piaraí eile a aimsiú %1</translation>
+        <translation>Cliceáil ar an nasc chun comhghleacaithe eile a aimsiú %1</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="584"/>
         <source>Waiting for Link Audio peers %1…</source>
-        <translation type="unfinished">Ag fanacht le piaraí Link Audio %1…</translation>
+        <translation>Ag fanacht le piaraí Link Audio %1…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="598"/>
         <source>Available</source>
-        <translation type="unfinished">Ar Fáil</translation>
+        <translation>Ar fáil</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="601"/>
         <source>Connecting…</source>
-        <translation type="unfinished">Ag nascadh…</translation>
+        <translation>Ag nascadh…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="602"/>
         <source>Connected</source>
-        <translation type="unfinished">Nasctha</translation>
+        <translation>Ceangailte</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="603"/>
         <source>Dropout</source>
-        <translation type="unfinished">Titim Amach</translation>
+        <translation>Fág amach</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="604"/>
         <source>Subscribed</source>
-        <translation type="unfinished">Suibscríofa</translation>
+        <translation>Liostáilte</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="613"/>
         <source>%1 kHz</source>
-        <translation type="unfinished">%1 kHz</translation>
+        <translation>%1 kHz</translation>
     </message>
 </context>
 <context>
@@ -219,37 +219,37 @@
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Local</source>
-        <translation type="unfinished">Logánta</translation>
+        <translation>Áitiúil</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Network</source>
-        <translation type="unfinished">Líonra</translation>
+        <translation>Líonra</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="31"/>
         <source>Link visibility</source>
-        <translation type="unfinished">Infheictheacht Link</translation>
+        <translation>Infheictheacht an naisc</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="42"/>
         <source>Link Visibility: Local Network</source>
-        <translation type="unfinished">Infheictheacht Link: Líonra Logánta</translation>
+        <translation>Infheictheacht an Naisc: Líonra Áitiúil</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="43"/>
         <source>Link Visibility: Local Machine Only</source>
-        <translation type="unfinished">Infheictheacht Link: An Meaisín Seo Amháin</translation>
+        <translation>Infheictheacht na Nasc: Meaisín Áitiúil Amháin</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="45"/>
         <source>Link is visible to other devices on your local network. They can sync tempo and stream audio with this Sonic Pi via Link. Click to switch to Local Machine Only mode to hide Link from the network.</source>
-        <translation type="unfinished">Tá Link le feiceáil ag gléasanna eile ar do líonra logánta. Is féidir leo tempo a shioncronú agus fuaim a shruthú leis an Sonic Pi seo trí Link. Cliceáil chun aistriú go mód An Meaisín Seo Amháin chun Link a chur i bhfolach ón líonra.</translation>
+        <translation>Tá Link le feiceáil ag gléasanna eile ar do líonra áitiúil. Is féidir leo an luas (tempo) a shioncronú agus fuaim a shruthú leis an Sonic Pi seo trí Link. Cliceáil chun aistriú go dtí an modh &apos;Meaisín Áitiúil Amháin&apos; (Local Machine Only) chun Link a cheilt ón líonra.</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="46"/>
         <source>Link is hidden from the local network. Link tempo sync and Link Audio only connect to other apps on this machine. Click to switch to Local Network mode to make Link visible to other machines on your local network.</source>
-        <translation type="unfinished">Tá Link i bhfolach ón líonra logánta. Ní nascann sioncronú tempo Link agus Link Audio ach le haipeanna eile ar an meaisín seo. Cliceáil chun aistriú go mód Líonra Logánta chun Link a dhéanamh infheicthe do mheaisíní eile ar do líonra logánta.</translation>
+        <translation>Tá Link i bhfolach ón líonra áitiúil. Ní nascann sioncrónú ama Link ná fuaim Link ach le haipeanna eile ar an meaisín seo. Cliceáil chun aistriú go mód an Líonra Áitiúil ionas go mbeidh Link le feiceáil ag meaisíní eile ar do líonra áitiúil.</translation>
     </message>
 </context>
 <context>
@@ -257,7 +257,7 @@
     <message>
         <location filename="../widgets/logpanel.cpp" line="224"/>
         <source>Logs</source>
-        <translation type="unfinished">Logaí</translation>
+        <translation>Logaí</translation>
     </message>
 </context>
 <context>
@@ -862,12 +862,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="5527"/>
         <source>Windows | Linux Shortcut Mode</source>
-        <translation type="unfinished">Mód Aicearraí Windows | Linux</translation>
+        <translation>Mód Aicearraí Windows | Linux</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5537"/>
         <source>Custom Shortcut Mode</source>
-        <translation type="unfinished">Mód Aicearraí Saincheaptha</translation>
+        <translation>Mód Aicearraí Saincheaptha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5542"/>
@@ -1283,17 +1283,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="510"/>
         <source>Errors</source>
-        <translation type="unfinished">Earráidí</translation>
+        <translation>Earráidí</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="767"/>
         <source>Code Editor Buffer %1</source>
-        <translation type="unfinished">Maolán Eagarthóir Cóid %1</translation>
+        <translation>Maolán Eagarthóir Cóid %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="769"/>
         <source>Run Context</source>
-        <translation type="unfinished">Comhthéacs Rite</translation>
+        <translation>Comhthéacs Rith</translation>
     </message>
     <message>
         <source>Documentation</source>
@@ -1307,255 +1307,255 @@
         <location filename="../mainwindow.cpp" line="1734"/>
         <location filename="../mainwindow.cpp" line="3367"/>
         <source>Debug</source>
-        <translation type="unfinished">Dífhabhtú</translation>
+        <translation>Dífhabhtaigh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1735"/>
         <source>Live metrics, node tree and message logs for the SuperSonic audio engine.</source>
-        <translation type="unfinished">Méadracht bheo, crann nód agus logaí teachtaireachtaí don inneall fuaime SuperSonic.</translation>
+        <translation>Méadrachtaí fíor-ama, crann nóid agus logaí teachtaireachtaí don inneall fuaime SuperSonic.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2280"/>
         <source>Enabling Audio Inputs...</source>
-        <translation type="unfinished">Ionchuir fhuaime á gcumasú...</translation>
+        <translation>Ag cumasú ionchur fuaime...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2284"/>
         <source>Disabling Audio Inputs...</source>
-        <translation type="unfinished">Ionchuir fhuaime á ndíchumasú...</translation>
+        <translation>Ag díghníomhachtú ionchur fuaime...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2427"/>
         <location filename="../mainwindow.cpp" line="8182"/>
         <source>Boot error details</source>
-        <translation type="unfinished">Sonraí earráide tosaithe</translation>
+        <translation>Sonraí faoin earráid tosaithe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2434"/>
         <location filename="../mainwindow.cpp" line="8188"/>
         <source>Quit</source>
-        <translation type="unfinished">Scoir</translation>
+        <translation>Scoir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2663"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cuir ar ceal</translation>
+        <translation>Cuir ar ceal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2695"/>
         <source>Load Sonic Pi Set</source>
-        <translation type="unfinished">Luchtaigh Seit Sonic Pi</translation>
+        <translation>Luchtaigh Tacar Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2696"/>
         <location filename="../mainwindow.cpp" line="2772"/>
         <source>Sonic Pi Sets</source>
-        <translation type="unfinished">Seiteanna Sonic Pi</translation>
+        <translation>Tacair Sonic Pi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2711"/>
         <source>Cannot load set:
 %1.</source>
-        <translation type="unfinished">Ní féidir an seit a luchtú:
+        <translation>Ní féidir an tacar a luchtú:
 %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2728"/>
         <source>Load the set %1?</source>
-        <translation type="unfinished">An seit %1 a luchtú?</translation>
+        <translation>Luchtaigh an tacar %1?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2729"/>
         <source>The current contents of all buffers will be replaced with the buffers stored in this set.</source>
-        <translation type="unfinished">Cuirfear na maoláin atá stóráilte sa seit seo in ionad ábhar reatha gach maoláin.</translation>
+        <translation>Cuirfear na maoláin atá stóráilte sa tacar seo in áit ábhar reatha na maolán go léir.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2730"/>
         <source>Replace</source>
-        <translation type="unfinished">Ionadaigh</translation>
+        <translation>Ionadaigh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2749"/>
         <source>Set %1 loaded...</source>
-        <translation type="unfinished">Luchtaíodh an seit %1...</translation>
+        <translation>Socrú %1 luchtaithe...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2770"/>
         <source>Save Current Set</source>
-        <translation type="unfinished">Sábháil an Seit Reatha</translation>
+        <translation>Sábháil an tacar reatha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2771"/>
         <source>My Set</source>
-        <translation type="unfinished">Mo Sheit</translation>
+        <translation>Mo Thacar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2806"/>
         <source>Cannot save set:
 %1.</source>
-        <translation type="unfinished">Ní féidir an seit a shábháil:
+        <translation>Ní féidir an tacar a shábháil:
 %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2813"/>
         <source>Set saved as %1...</source>
-        <translation type="unfinished">Sábháladh an seit mar %1...</translation>
+        <translation>Tacar sábháilte mar %1...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2831"/>
         <source>Clear all buffers?</source>
-        <translation type="unfinished">Gach maolán a ghlanadh?</translation>
+        <translation>Glan gach maolán?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2832"/>
         <source>The contents of all buffers will be emptied and their text size reset.</source>
-        <translation type="unfinished">Folmhófar ábhar gach maoláin agus athshocrófar méid a dtéacs.</translation>
+        <translation>Folófar ábhar na maolán uile agus athshocrófar méid a gcuid téacs.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2833"/>
         <source>Clear</source>
-        <translation type="unfinished">Glan</translation>
+        <translation>Glan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2849"/>
         <source>All buffers cleared...</source>
-        <translation type="unfinished">Glanadh gach maolán...</translation>
+        <translation>Gach maolán glanta...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2899"/>
         <location filename="../mainwindow.cpp" line="2912"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Earráid: %1</translation>
+        <translation>Earráid: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3058"/>
         <source>Run started</source>
-        <translation type="unfinished">Tosaíodh an rith</translation>
+        <translation>Tosaíodh an rith</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3169"/>
         <source>Quickstart Cards...</source>
-        <translation type="unfinished">Cártaí Tús Tapa...</translation>
+        <translation>Cártaí Tús Tapa...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3173"/>
         <source>Load Card Set...</source>
-        <translation type="unfinished">Luchtaigh Seit Cártaí...</translation>
+        <translation>Luchtaigh an Tacar Cártaí...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3177"/>
         <location filename="../mainwindow.cpp" line="3184"/>
         <source>Load Card Set</source>
-        <translation type="unfinished">Luchtaigh Seit Cártaí</translation>
+        <translation>Luchtaigh an Tacar Cártaí</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3177"/>
         <source>Card sets (*.txt);;All files (*)</source>
-        <translation type="unfinished">Seiteanna cártaí (*.txt);;Gach comhad (*)</translation>
+        <translation>Tacair cártaí (*.txt);;Gach comhad (*)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3185"/>
         <source>&quot;%1&quot; is not a valid card set.
 
 %2</source>
-        <translation type="unfinished">Ní seit cártaí bailí é &quot;%1&quot;.
+        <translation>Ní tacar cártaí bailí é &quot;%1&quot;.
 
 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3192"/>
         <source>Loaded card set: %1</source>
-        <translation type="unfinished">Luchtaíodh seit cártaí: %1</translation>
+        <translation>Tacar cártaí luchtaithe: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3196"/>
         <source>Reset to Default Cards</source>
-        <translation type="unfinished">Athshocraigh go dtí na Cártaí Réamhshocraithe</translation>
+        <translation>Athshocraigh chuig Cártaí Réamhshocraithe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3201"/>
         <source>Reset to the default card set.</source>
-        <translation type="unfinished">Athshocraigh go dtí an seit cártaí réamhshocraithe.</translation>
+        <translation>Athshocraigh go dtí an tacar cártaí réamhshocraithe.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3212"/>
         <source>Apprentice</source>
-        <translation type="unfinished">Printíseach</translation>
+        <translation>Printíseach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3213"/>
         <source>Illusionist</source>
-        <translation type="unfinished">Doilfeoir</translation>
+        <translation>Doilfeoir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3214"/>
         <source>Magician</source>
-        <translation type="unfinished">Draíodóir</translation>
+        <translation>Draíodóir</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3215"/>
         <source>Sorcerer</source>
-        <translation type="unfinished">Asarlaí</translation>
+        <translation>Asarlaí</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3216"/>
         <source>Wizard</source>
-        <translation type="unfinished">Draoi</translation>
+        <translation>Draoi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3217"/>
         <source>Algomancer</source>
-        <translation type="unfinished">Algadraoi</translation>
+        <translation>Algadraoi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3253"/>
         <source>Play When Opened</source>
-        <translation type="unfinished">Seinn ar Oscailt</translation>
+        <translation>Seinn ar Oscailt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3263"/>
         <source>Browse Examples in Help...</source>
-        <translation type="unfinished">Brabhsáil Samplaí sa Chabhair...</translation>
+        <translation>Brabhsáil samplaí sa Chabhair...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3269"/>
         <source>Browse FX in Help...</source>
-        <translation type="unfinished">Brabhsáil FX sa Chabhair...</translation>
+        <translation>Brabhsáil FX sa Chabhair...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3305"/>
         <source>Opened %1 in the Help panel.</source>
-        <translation type="unfinished">Osclaíodh %1 sa phainéal Cabhrach.</translation>
+        <translation>Osclaíodh %1 sa phainéal Cabhrach.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3316"/>
         <source>Unable to load example: %1</source>
-        <translation type="unfinished">Ní féidir an sampla a luchtú: %1</translation>
+        <translation>Ní féidir sampla a luchtú: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3330"/>
         <source>Playing %1 from the Help panel.</source>
-        <translation type="unfinished">%1 á sheinm ón bpainéal Cabhrach.</translation>
+        <translation>%1 á sheinm ón bpainéal Cabhrach.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3365"/>
         <source>Docs</source>
-        <translation type="unfinished">Docs</translation>
+        <translation>Doiciméid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
         <source>Stopped</source>
-        <translation type="unfinished">Stoptha</translation>
+        <translation>Stoptha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4180"/>
         <source>Reduce animations on</source>
-        <translation type="unfinished">Laghdaigh beochan ar</translation>
+        <translation>Laghdaigh beochan ar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4181"/>
         <source>Reduce animations off</source>
-        <translation type="unfinished">Laghdaigh beochan as</translation>
+        <translation>Laghdaigh beochan as</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4629"/>
@@ -1630,12 +1630,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4654"/>
         <source>Move focus to the next visible pane</source>
-        <translation type="unfinished">Bog an fócas go dtí an chéad phána infheicthe eile</translation>
+        <translation>Bog an fócas go dtí an chéad phána infheicthe eile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4655"/>
         <source>Move focus to the previous visible pane</source>
-        <translation type="unfinished">Bog an fócas go dtí an pána infheicthe roimhe seo</translation>
+        <translation>Bog an fócas go dtí an phána infheicthe roimhe seo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4657"/>
@@ -1660,12 +1660,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="4670"/>
         <source>Trigger code completion</source>
-        <translation type="unfinished">Gníomhachtaigh comhlánú an chóid</translation>
+        <translation>Spreag comhlánú cóid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4671"/>
         <source>Show autocomplete documentation for the current context</source>
-        <translation type="unfinished">Taispeáin doiciméadú uathchríochnaithe don chomhthéacs reatha</translation>
+        <translation>Taispeáin doiciméadú uathchríochnaithe don chomhthéacs reatha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4672"/>
@@ -1681,37 +1681,37 @@
         <location filename="../mainwindow.cpp" line="4692"/>
         <location filename="../mainwindow.cpp" line="5061"/>
         <source>Select to Start of Line</source>
-        <translation type="unfinished">Roghnaigh go tús na líne</translation>
+        <translation>Roghnaigh go dtí tús na líne</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4693"/>
         <location filename="../mainwindow.cpp" line="5064"/>
         <source>Select to End of Line</source>
-        <translation type="unfinished">Roghnaigh go deireadh na líne</translation>
+        <translation>Roghnaigh go dtí deireadh na líne</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4694"/>
         <location filename="../mainwindow.cpp" line="5067"/>
         <source>Select Word Right</source>
-        <translation type="unfinished">Roghnaigh focal ar dheis</translation>
+        <translation>Roghnaigh an focal ar dheis</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4695"/>
         <location filename="../mainwindow.cpp" line="5070"/>
         <source>Select Word Left</source>
-        <translation type="unfinished">Roghnaigh focal ar chlé</translation>
+        <translation>Roghnaigh an focal ar chlé</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4696"/>
         <location filename="../mainwindow.cpp" line="5073"/>
         <source>Select to Start of Document</source>
-        <translation type="unfinished">Roghnaigh go tús na cáipéise</translation>
+        <translation>Roghnaigh go dtí tús na cáipéise</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4697"/>
         <location filename="../mainwindow.cpp" line="5076"/>
         <source>Select to End of Document</source>
-        <translation type="unfinished">Roghnaigh go deireadh na cáipéise</translation>
+        <translation>Roghnaigh go dtí deireadh na cáipéise</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4709"/>
@@ -1721,59 +1721,59 @@
     <message>
         <location filename="../mainwindow.cpp" line="4711"/>
         <source>Toggle focus mode (fullscreen editor with all distractions hidden)</source>
-        <translation type="unfinished">Scoránaigh mód fócais (eagarthóir lánscáileáin agus gach seachrán i bhfolach)</translation>
+        <translation>Mód fócais scoránaigh (eagarthóir lánscáileáin agus gach seachrán i bhfolach)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4712"/>
         <source>Pause or resume the audio oscilloscopes</source>
-        <translation type="unfinished">Cuir na hoscilloscopes fuaime ar sos nó atosaigh iad</translation>
+        <translation>Cuir na hoscillascóip fuaime ar sos nó atosaigh iad</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4942"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished">Taifead fuaim amháin</translation>
+        <translation>Taifead Fuaim Amháin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4949"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished">Taifead fuaim + físeán</translation>
+        <translation>Taifead Fuaim + Físeán</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4965"/>
         <location filename="../mainwindow.cpp" line="4966"/>
         <source>Save Buffer As...</source>
-        <translation type="unfinished">Sábháil an Maolán Mar...</translation>
+        <translation>Sábháil an Maolán mar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4970"/>
         <location filename="../mainwindow.cpp" line="4971"/>
         <source>Load into Buffer...</source>
-        <translation type="unfinished">Luchtaigh isteach sa Mhaolán...</translation>
+        <translation>Lódáil isteach sa mhaolán...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4975"/>
         <source>Load Set...</source>
-        <translation type="unfinished">Luchtaigh Seit...</translation>
+        <translation>Luchtaigh an Tacar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4978"/>
         <source>Save Set</source>
-        <translation type="unfinished">Sábháil Seit</translation>
+        <translation>Sábháil an Tacar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4981"/>
         <source>Save Set As...</source>
-        <translation type="unfinished">Sábháil Seit Mar...</translation>
+        <translation>Sábháil an tacar mar...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4984"/>
         <source>Clear All Buffers...</source>
-        <translation type="unfinished">Glan Gach Maolán...</translation>
+        <translation>Glan gach maolán...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4988"/>
         <source>Align Code</source>
-        <translation type="unfinished">Ailínigh an Cód</translation>
+        <translation>Ailínigh an cód</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5000"/>
@@ -1923,22 +1923,22 @@
     <message>
         <location filename="../mainwindow.cpp" line="5121"/>
         <source>Pause or Resume Scopes</source>
-        <translation type="unfinished">Cuir Scóipeanna ar Sos nó Atosaigh Iad</translation>
+        <translation>Cuir Raonta ar Sos nó Atosaigh iad</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5124"/>
         <source>Focus Mode</source>
-        <translation type="unfinished">Mód Fócais</translation>
+        <translation>Modh Fócais</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5129"/>
         <source>Check for Updates on Launch</source>
-        <translation type="unfinished">Seiceáil le haghaidh Nuashonruithe ag Am Tosaithe</translation>
+        <translation>Seiceáil le haghaidh Nuashonruithe ar an Seoladh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5138"/>
         <source>Check for Updates Now</source>
-        <translation type="unfinished">Seiceáil le haghaidh Nuashonruithe Anois</translation>
+        <translation>Seiceáil le haghaidh nuashonruithe anois</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5144"/>
@@ -1948,12 +1948,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="5161"/>
         <source>Close Help</source>
-        <translation type="unfinished">Dún Cabhair</translation>
+        <translation>Dún Cabhair</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5162"/>
         <source>Close Help (%1)</source>
-        <translation type="unfinished">Dún Cabhair (%1)</translation>
+        <translation>Dún Cabhair (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5172"/>
@@ -2018,37 +2018,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="5248"/>
         <source>Show Code Completion Help</source>
-        <translation type="unfinished">Taispeáin cabhair comhlánaithe cóid</translation>
+        <translation>Taispeáin cabhair comhlánaithe cóid</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5258"/>
         <source>Flash Code on Sound Trigger</source>
-        <translation type="unfinished">Splanc an Cód ar Thruicear Fuaime</translation>
+        <translation>Splanc an Cód ar Thruicear Fuaime</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5263"/>
         <source>Flash Gutter on Sound Trigger</source>
-        <translation type="unfinished">Splanc an Gáitéar ar Thruicear Fuaime</translation>
+        <translation>Splanc an Gáitéar ar Thruicear Fuaime</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5268"/>
         <source>Show Live Loop Scopes</source>
-        <translation type="unfinished">Taispeáin Scóipeanna Live Loop</translation>
+        <translation>Taispeáin Scóip Lúibe Beo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5273"/>
         <source>Speak Run and Stop</source>
-        <translation type="unfinished">Fógair Rith agus Stop</translation>
+        <translation>Labhair, Rith agus Stop</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5278"/>
         <source>Reduce Animations</source>
-        <translation type="unfinished">Laghdaigh Beochan</translation>
+        <translation>Laghdaigh beochan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5326"/>
         <source>Enable Incoming Gamepad Cues</source>
-        <translation type="unfinished">Cumasaigh Leideanna Gamepad Isteach</translation>
+        <translation>Cumasaigh Leideanna Gamepad Isteach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5356"/>
@@ -2063,37 +2063,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="5369"/>
         <source>Trigger Autocomplete</source>
-        <translation type="unfinished">Gníomhachtaigh Uathchríochnú</translation>
+        <translation>Spreag an comhlánú uathoibríoch</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5372"/>
         <source>Read Completion Details</source>
-        <translation type="unfinished">Léigh Sonraí an Chomhlánaithe</translation>
+        <translation>Léigh Sonraí na Críochnaithe</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5391"/>
         <source>Load Recent Set</source>
-        <translation type="unfinished">Luchtaigh Seit Le Déanaí</translation>
+        <translation>Luchtaigh an tacar is déanaí</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5481"/>
         <source>Mild Dark</source>
-        <translation type="unfinished">Dorcha Séimh</translation>
+        <translation>Dorcha Éadrom</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5486"/>
         <source>Phosphor</source>
-        <translation type="unfinished">Fosfar</translation>
+        <translation>Fosfar</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5491"/>
         <source>Signal</source>
-        <translation type="unfinished">Comhartha</translation>
+        <translation>Comhartha</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5498"/>
         <source>Pro Icons</source>
-        <translation type="unfinished">Deilbhíní Pro</translation>
+        <translation>Deilbhíní Gairmiúla</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5522"/>
@@ -2103,112 +2103,112 @@
     <message>
         <location filename="../mainwindow.cpp" line="5582"/>
         <source>MIDI</source>
-        <translation type="unfinished">MIDI</translation>
+        <translation>MIDI</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5676"/>
         <source>Game Controllers</source>
-        <translation type="unfinished">Rialtóirí Cluiche</translation>
+        <translation>Rialtóirí Cluiche</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5678"/>
         <source>Connected Controllers</source>
-        <translation type="unfinished">Rialtóirí Nasctha</translation>
+        <translation>Rialtóirí Ceangailte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5679"/>
         <location filename="../mainwindow.cpp" line="7480"/>
         <source>No Connected Controllers</source>
-        <translation type="unfinished">Gan Rialtóirí Nasctha</translation>
+        <translation>Gan aon rialtóirí ceangailte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5681"/>
         <source>OSC</source>
-        <translation type="unfinished">OSC</translation>
+        <translation>OSC</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5741"/>
         <source>Focus Next Pane</source>
-        <translation type="unfinished">Fócas ar an gCéad Phána Eile</translation>
+        <translation>Fócas ar an gCéad Phána Eile</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5744"/>
         <source>Focus Previous Pane</source>
-        <translation type="unfinished">Fócas ar an bPána Roimhe Seo</translation>
+        <translation>Fócas ar an bPána Roimhe Seo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5807"/>
         <source>Recording</source>
-        <translation type="unfinished">Taifeadadh</translation>
+        <translation>Taifeadadh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5815"/>
         <location filename="../mainwindow.cpp" line="5820"/>
         <source>Window Publishing</source>
-        <translation type="unfinished">Foilsiú Fuinneoige</translation>
+        <translation>Foilsiú Fuinneoige</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5886"/>
         <source>Accessibility</source>
-        <translation type="unfinished">Inrochtaineacht</translation>
+        <translation>Inrochtaineacht</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6163"/>
         <source>Stop Recording</source>
-        <translation type="unfinished">Stop an Taifeadadh</translation>
+        <translation>Stop an Taifeadadh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6183"/>
         <source>Recording started</source>
-        <translation type="unfinished">Tosaíodh an taifeadadh</translation>
+        <translation>Tosaíodh an taifeadadh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6183"/>
         <source>Recording stopped</source>
-        <translation type="unfinished">Stopadh an taifeadadh</translation>
+        <translation>Stopadh an taifeadadh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6276"/>
         <location filename="../mainwindow.cpp" line="6277"/>
         <source>Recording failed to start</source>
-        <translation type="unfinished">Theip ar thosú an taifeadta</translation>
+        <translation>Theip ar thosú an taifeadta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6999"/>
         <source>Filter %1...</source>
-        <translation type="unfinished">Scag %1...</translation>
+        <translation>Scag %1...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7000"/>
         <source>Filter %1 help topics</source>
-        <translation type="unfinished">Scag topaicí cabhrach %1</translation>
+        <translation>Scag topaicí cabhrach %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7242"/>
         <source>Enabling gamepad input...</source>
-        <translation type="unfinished">Ionchur gamepad á chumasú...</translation>
+        <translation>Ag cumasú ionchur an rialtáin cluiche...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7250"/>
         <source>Disabling gamepad input...</source>
-        <translation type="unfinished">Ionchur gamepad á dhíchumasú...</translation>
+        <translation>Ag díghníomhachtú ionchur an rialtáin cluiche...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7937"/>
         <location filename="../mainwindow.cpp" line="7992"/>
         <source>-- None --</source>
-        <translation type="unfinished">-- Ceann ar bith --</translation>
+        <translation>-- Ceann ar bith --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7938"/>
         <location filename="../mainwindow.cpp" line="7976"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished">-- DÍCHUMASAITHE --</translation>
+        <translation>-- DÍCHUMASAITHE --</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8098"/>
         <source>Audio device switch failed</source>
-        <translation type="unfinished">Theip ar mhalartú an ghléis fuaime</translation>
+        <translation>Theip ar mhalartú an ghléis fuaime</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8099"/>
@@ -2217,7 +2217,7 @@
   %1
 
 %2</source>
-        <translation type="unfinished">Níorbh fhéidir athrú go:
+        <translation>Níorbh fhéidir athrú go:
 
   %1
 
@@ -2226,7 +2226,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="8114"/>
         <source>Audio input device unavailable</source>
-        <translation type="unfinished">Níl gléas ionchuir fuaime ar fáil</translation>
+        <translation>Níl gléas ionchuir fuaime ar fáil</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8115"/>
@@ -2235,7 +2235,7 @@
   %1
 
 %2</source>
-        <translation type="unfinished">Níorbh fhéidir an gléas ionchuir fuaime a oscailt:
+        <translation>Níorbh fhéidir an gléas ionchuir fuaime a oscailt:
 
   %1
 
@@ -2250,123 +2250,123 @@
         <location filename="../mainwindow.cpp" line="372"/>
         <location filename="../mainwindow.cpp" line="373"/>
         <source>Sonic Pi is ready</source>
-        <translation type="unfinished">Tá Sonic Pi réidh</translation>
+        <translation>Tá Sonic Pi réidh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="706"/>
         <source>Close the preferences panel.</source>
-        <translation type="unfinished">Dún painéal na sainroghanna.</translation>
+        <translation>Dún painéal na sainroghanna.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="749"/>
         <source># Welcome to Sonic Pi
 #
 # Type a line and press Run to hear it. Try:  play 60</source>
-        <translation type="unfinished"># Fáilte go Sonic Pi
+        <translation># Fáilte go Sonic Pi
 #
 # Clóscríobh líne agus brúigh Rith chun í a chloisteáil. Bain triail as:  play 60</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="771"/>
         <source>Code buffer %1. All buffers are saved automatically.</source>
-        <translation type="unfinished">Maolán cóid %1. Sábháiltear gach maolán go huathoibríoch.</translation>
+        <translation>Maolán cóid %1. Sábháiltear gach maolán go huathoibríoch.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="802"/>
         <source>Buffer %1</source>
-        <translation type="unfinished">Maolán %1</translation>
+        <translation>Maolán %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="992"/>
         <source>Loaded example into the current buffer.</source>
-        <translation type="unfinished">Luchtaíodh an sampla isteach sa mhaolán reatha.</translation>
+        <translation>Luchtaíodh an sampla isteach sa mhaolán reatha.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1047"/>
         <source>Playing %1 on the next beat.</source>
-        <translation type="unfinished">%1 á sheinm ar an gcéad bhuille eile.</translation>
+        <translation>%1 á sheinm ar an gcéad bhuille eile.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1048"/>
         <source>Playing %1.</source>
-        <translation type="unfinished">%1 á sheinm.</translation>
+        <translation>Ag seinm %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1087"/>
         <source>Inserted the card&apos;s code at the cursor. Press Run to hear it.</source>
-        <translation type="unfinished">Ionsádh cód an chárta ag an gcúrsóir. Brúigh Rith chun é a chloisteáil.</translation>
+        <translation>Ionsádh cód an chárta ag an gcúrsóir. Brúigh Rith chun é a chloisteáil.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1088"/>
         <source>Inserted %1 at the cursor. Press Run to hear it.</source>
-        <translation type="unfinished">Ionsádh %1 ag an gcúrsóir. Brúigh Rith chun é a chloisteáil.</translation>
+        <translation>Ionsádh %1 ag an gcúrsóir. Brúigh Rith chun é a chloisteáil.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1095"/>
         <source>Copied the card&apos;s code to the clipboard.</source>
-        <translation type="unfinished">Cóipeáladh cód an chárta chuig an ngearrthaisce.</translation>
+        <translation>Cóipeáladh cód an chárta chuig an ngearrthaisce.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1096"/>
         <source>Copied %1 to the clipboard.</source>
-        <translation type="unfinished">Cóipeáladh %1 chuig an ngearrthaisce.</translation>
+        <translation>Cóipeáladh %1 chuig an ngearrthaisce.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1114"/>
         <location filename="../mainwindow.cpp" line="3364"/>
         <source>Cards</source>
-        <translation type="unfinished">Cártaí</translation>
+        <translation>Cártaí</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1115"/>
         <source>Quickstart cards: small runnable snippets to get going.</source>
-        <translation type="unfinished">Cártaí tús tapa: blúirí beaga inrite chun tosú.</translation>
+        <translation>Cártaí tús tapa: blúirí beaga inrite chun tosú.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1117"/>
         <source>Tutorial, examples and reference documentation.</source>
-        <translation type="unfinished">Rang teagaisc, samplaí agus doiciméadú tagartha.</translation>
+        <translation>Rang teagaisc, samplaí agus doiciméadú tagartha.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1133"/>
         <source>Close the help pane</source>
-        <translation type="unfinished">Dún an pána cabhrach</translation>
+        <translation>Dún an painéal cabhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1152"/>
         <source>logs</source>
-        <translation type="unfinished">logaí</translation>
+        <translation>logaí</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1153"/>
         <source>metrics</source>
-        <translation type="unfinished">méadracht</translation>
+        <translation>méadracht</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1410"/>
         <source>Full screen mode on.</source>
-        <translation type="unfinished">Lánscáileán ar.</translation>
+        <translation>Lánscáileán ar.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1476"/>
         <source>Focus mode on. Press %1 to exit.</source>
-        <translation type="unfinished">Mód fócais ar. Brúigh %1 chun scor.</translation>
+        <translation>Mód fócais ar. Brúigh %1 chun scor.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1482"/>
         <source>Focus mode off.</source>
-        <translation type="unfinished">Mód fócais as.</translation>
+        <translation>Mód fócais as.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1732"/>
         <location filename="../mainwindow.cpp" line="3366"/>
         <source>Logs</source>
-        <translation type="unfinished">Logaí</translation>
+        <translation>Logaí</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1733"/>
         <source>A live view of Sonic Pi&apos;s log files.</source>
-        <translation type="unfinished">Amharc beo ar chomhaid logála Sonic Pi.</translation>
+        <translation>Amharc beo ar chomhaid logála Sonic Pi.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5576"/>
@@ -2391,37 +2391,37 @@
     <message>
         <location filename="../mainwindow.cpp" line="5771"/>
         <source>Publish Window via Syphon</source>
-        <translation type="unfinished">Foilsigh an fhuinneog trí Syphon</translation>
+        <translation>Foilsigh an fhuinneog trí Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5776"/>
         <source>Include Mouse Cursor in Syphon Feed</source>
-        <translation type="unfinished">Cuir cúrsóir na luiche san áireamh i bhfotha Syphon</translation>
+        <translation>Cuir cúrsóir na luiche san áireamh i bhfotha Syphon</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5783"/>
         <source>Publish Window via Spout</source>
-        <translation type="unfinished">Foilsigh an fhuinneog trí Spout</translation>
+        <translation>Foilsigh an fhuinneog trí Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5788"/>
         <source>Include Mouse Cursor in Spout Feed</source>
-        <translation type="unfinished">Cuir cúrsóir na luiche san áireamh i bhfotha Spout</translation>
+        <translation>Cuir cúrsóir na luiche san áireamh i bhfotha Spout</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5795"/>
         <source>Include Mouse Cursor in Session Recording</source>
-        <translation type="unfinished">Cuir cúrsóir na luiche san áireamh i dtaifeadadh an tseisiúin</translation>
+        <translation>Cuir cúrsóir na luiche san áireamh i dtaifeadadh an tseisiúin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5800"/>
         <source>Flash Recording Icon</source>
-        <translation type="unfinished">Splanc deilbhín an taifeadta</translation>
+        <translation>Splanc deilbhín an taifeadta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5808"/>
         <source>Recording Mode</source>
-        <translation type="unfinished">Mód Taifeadta</translation>
+        <translation>Mód Taifeadta</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5825"/>
@@ -2461,17 +2461,17 @@
     <message>
         <location filename="../mainwindow.cpp" line="6291"/>
         <source>QuickTime Movie (*.mov)</source>
-        <translation type="unfinished">Scannán QuickTime (*.mov)</translation>
+        <translation>Scannán QuickTime (*.mov)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6294"/>
         <source>MP4 Video (*.mp4)</source>
-        <translation type="unfinished">Físeán MP4 (*.mp4)</translation>
+        <translation>Físeán MP4 (*.mp4)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6302"/>
         <source>Save Session Recording</source>
-        <translation type="unfinished">Sábháil taifeadadh an tseisiúin</translation>
+        <translation>Sábháil taifeadadh an tseisiúin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6325"/>
@@ -2496,7 +2496,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="6981"/>
         <source>Help Topics</source>
-        <translation type="unfinished">Topaicí Cabhrach</translation>
+        <translation>Topaicí Cabhrach</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7175"/>
@@ -2773,46 +2773,46 @@ Faigh Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="705"/>
         <source>Node Tree</source>
-        <translation type="unfinished">Crann Nód</translation>
+        <translation>Crann Nód</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="842"/>
         <source>Info</source>
-        <translation type="unfinished">Eolas</translation>
+        <translation>Eolas</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="851"/>
         <source>To SuperSonic</source>
-        <translation type="unfinished">Chuig SuperSonic</translation>
+        <translation>Chuig SuperSonic</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="852"/>
         <source>From SuperSonic</source>
-        <translation type="unfinished">Ó SuperSonic</translation>
+        <translation>Ó SuperSonic</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1649"/>
         <location filename="../widgets/metricspanel.cpp" line="1650"/>
         <source>Show metrics</source>
-        <translation type="unfinished">Taispeáin méadracht</translation>
+        <translation>Taispeáin méadracht</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1649"/>
         <location filename="../widgets/metricspanel.cpp" line="1650"/>
         <source>Minimise metrics</source>
-        <translation type="unfinished">Íoslaghdaigh méadracht</translation>
+        <translation>Íoslaghdaigh méadrachtaí</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1739"/>
         <location filename="../widgets/metricspanel.cpp" line="1740"/>
         <source>Show logs</source>
-        <translation type="unfinished">Taispeáin logaí</translation>
+        <translation>Taispeáin logaí</translation>
     </message>
     <message>
         <location filename="../widgets/metricspanel.cpp" line="1739"/>
         <location filename="../widgets/metricspanel.cpp" line="1740"/>
         <source>Minimise logs</source>
-        <translation type="unfinished">Íoslaghdaigh logaí</translation>
+        <translation>Íoslaghdaigh logaí</translation>
     </message>
 </context>
 <context>
@@ -2820,7 +2820,7 @@ Faigh Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/nodetreegraph.cpp" line="209"/>
         <source>(no active nodes)</source>
-        <translation type="unfinished">(gan nóid ghníomhacha)</translation>
+        <translation>(gan nóid ghníomhacha)</translation>
     </message>
 </context>
 <context>
@@ -2833,12 +2833,12 @@ Faigh Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1289"/>
         <source>Type shortcut…</source>
-        <translation type="unfinished">Clóscríobh aicearra…</translation>
+        <translation>Clóscríobh aicearra…</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpiscintilla.cpp" line="2110"/>
         <source>defined in this buffer</source>
-        <translation type="unfinished">sainmhínithe sa mhaolán seo</translation>
+        <translation>sainmhínithe sa mhaolán seo</translation>
     </message>
 </context>
 <context>
@@ -2846,123 +2846,123 @@ Faigh Sonic Pi% 1</translation>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="280"/>
         <source>The file could not be opened for reading.</source>
-        <translation type="unfinished">Níorbh fhéidir an comhad a oscailt lena léamh.</translation>
+        <translation>Níorbh fhéidir an comhad a oscailt lena léamh.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="287"/>
         <source>No card decks were found. A card set needs at least one &quot;# Deck: name&quot; line followed by &quot;## Card title&quot; cards.</source>
-        <translation type="unfinished">Níor aimsíodh aon phacaí cártaí. Teastaíonn ar a laghad líne &quot;# Deck: name&quot; amháin ó sheit cártaí agus cártaí &quot;## Card title&quot; ina diaidh.</translation>
+        <translation>Níor aimsíodh aon phacaí cártaí. Teastaíonn ar a laghad líne &quot;# Deck: name&quot; amháin ó sheit cártaí agus cártaí &quot;## Card title&quot; ina diaidh.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="364"/>
         <source>quickstart</source>
-        <translation type="unfinished">tús tapa</translation>
+        <translation>tús tapa</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="901"/>
         <source>Stop this card</source>
-        <translation type="unfinished">Stop an cárta seo</translation>
+        <translation>Stop an cárta seo</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="901"/>
         <source>Run this card</source>
-        <translation type="unfinished">Rith an cárta seo</translation>
+        <translation>Rith an cárta seo</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1028"/>
         <source>%1 card deck</source>
-        <translation type="unfinished">Paca cártaí %1</translation>
+        <translation>Deic cártaí %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1055"/>
         <location filename="../widgets/quickstartpane.cpp" line="1165"/>
         <source>Previous cards</source>
-        <translation type="unfinished">Cártaí roimhe seo</translation>
+        <translation>Cártaí roimhe seo</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1056"/>
         <source>More cards</source>
-        <translation type="unfinished">Tuilleadh cártaí</translation>
+        <translation>Tuilleadh cártaí</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1281"/>
         <source>Scroll to card %1 of %2</source>
-        <translation type="unfinished">Scrollaigh go cárta %1 as %2</translation>
+        <translation>Scrollaigh go cárta %1 as %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1309"/>
         <source>Click to see the previous cards.</source>
-        <translation type="unfinished">Cliceáil chun na cártaí roimhe seo a fheiceáil.</translation>
+        <translation>Cliceáil chun na cártaí roimhe seo a fheiceáil.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1572"/>
         <source>Add %1 to the editor at the cursor</source>
-        <translation type="unfinished">Cuir %1 leis an eagarthóir ag an gcúrsóir</translation>
+        <translation>Cuir %1 leis an eagarthóir ag an gcúrsóir</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1573"/>
         <source>Add this card to your code at the cursor.</source>
-        <translation type="unfinished">Cuir an cárta seo le do chód ag an gcúrsóir.</translation>
+        <translation>Cuir an cárta seo le do chód ag an gcúrsóir.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1589"/>
         <source>Copy %1 to the clipboard</source>
-        <translation type="unfinished">Cóipeáil %1 chuig an ngearrthaisce</translation>
+        <translation>Cóipeáil %1 chuig an ngearrthaisce</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1590"/>
         <source>Copy this card&apos;s code to the clipboard.</source>
-        <translation type="unfinished">Cóipeáil cód an chárta seo chuig an ngearrthaisce.</translation>
+        <translation>Cóipeáil cód an chárta seo chuig an ngearrthaisce.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1621"/>
         <source>Drag %1 into the editor</source>
-        <translation type="unfinished">Tarraing %1 isteach san eagarthóir</translation>
+        <translation>Tarraing %1 isteach san eagarthóir</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1622"/>
         <source>Drag me into your editor.</source>
-        <translation type="unfinished">Tarraing mise isteach i d&apos;eagarthóir.</translation>
+        <translation>Tarraing mise isteach i d&apos;eagarthóir.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1748"/>
         <source>Stop %1</source>
-        <translation type="unfinished">Stop %1</translation>
+        <translation>Stop %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1748"/>
         <source>Run %1</source>
-        <translation type="unfinished">Rith %1</translation>
+        <translation>Rith %1</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1749"/>
         <source>Play this card. Press again to stop.</source>
-        <translation type="unfinished">Seinn an cárta seo. Brúigh arís chun stopadh.</translation>
+        <translation>Seinn an cárta seo. Brúigh arís chun stopadh.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1786"/>
         <source>%1 card. %2</source>
-        <translation type="unfinished">Cárta %1. %2</translation>
+        <translation>Cárta %1. %2</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1788"/>
         <source>Press Space to play or stop, I to insert the code into the editor.</source>
-        <translation type="unfinished">Brúigh an Spásbharra chun seinm nó stopadh, I chun an cód a ionsá san eagarthóir.</translation>
+        <translation>Brúigh an eochair Spáis chun an t-ábhar a sheinm nó a stopadh, agus brúigh I chun an cód a chur isteach san eagarthóir.</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1797"/>
         <source>Stop</source>
-        <translation type="unfinished">Stop</translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1797"/>
         <source>Run</source>
-        <translation type="unfinished">Rith</translation>
+        <translation>Rith</translation>
     </message>
     <message>
         <location filename="../widgets/quickstartpane.cpp" line="1798"/>
         <source>Insert at Cursor in Editor</source>
-        <translation type="unfinished">Ionsáigh ag an gCúrsóir san Eagarthóir</translation>
+        <translation>Ionsáigh ag an gCúrsóir san Eagarthóir</translation>
     </message>
 </context>
 <context>
@@ -3080,47 +3080,47 @@ nach n-aithnítear.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="269"/>
         <source>Audio Device</source>
-        <translation type="unfinished">Gléas Fuaime</translation>
+        <translation>Gléas Fuaime</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="270"/>
         <source>Configure audio driver, device, sample rate and buffer size.</source>
-        <translation type="unfinished">Cumraigh an tiománaí fuaime, an gléas, an ráta samplála agus méid an mhaoláin.</translation>
+        <translation>Cumraigh an tiománaí fuaime, an gléas, an ráta samplála agus méid an mhaoláin.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="275"/>
         <source>Driver</source>
-        <translation type="unfinished">Tiománaí</translation>
+        <translation>Tiománaí</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="283"/>
         <source>Output</source>
-        <translation type="unfinished">Aschur</translation>
+        <translation>Aschur</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="291"/>
         <source>Input</source>
-        <translation type="unfinished">Ionchur</translation>
+        <translation>Ionchur</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="299"/>
         <source>Sample Rate</source>
-        <translation type="unfinished">Ráta Samplála</translation>
+        <translation>Ráta Samplála</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="307"/>
         <source>Buffer Size</source>
-        <translation type="unfinished">Méid an Mhaoláin</translation>
+        <translation>Méid an Mhaoláin</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="347"/>
         <source>Recording</source>
-        <translation type="unfinished">Taifeadadh</translation>
+        <translation>Taifeadadh</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="348"/>
         <source>Choose what the rec button captures.</source>
-        <translation type="unfinished">Roghnaigh cad a ghabhann an cnaipe taifeadta.</translation>
+        <translation>Roghnaigh cad a ghabhann an cnaipe taifeadta.</translation>
     </message>
     <message>
         <source>Audio Only</source>
@@ -3129,7 +3129,7 @@ nach n-aithnítear.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="363"/>
         <source>SuperSonic writes a .wav of the master mix</source>
-        <translation type="unfinished">Scríobhann SuperSonic comhad .wav den mháistirmheascán</translation>
+        <translation>Scríobhann SuperSonic comhad .wav den mháistir-mheascán</translation>
     </message>
     <message>
         <source>Audio + Video</source>
@@ -3139,25 +3139,25 @@ nach n-aithnítear.</translation>
         <location filename="../widgets/settingswidget.cpp" line="372"/>
         <source>Captures the Sonic Pi window plus master mix into a .mov
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished">Gabhann fuinneog Sonic Pi mar aon leis an máistirmheascán i gcomhad .mov
+        <translation>Gabhann fuinneog Sonic Pi mar aon leis an máistirmheascán i gcomhad .mov
 ag baint úsáide as gabháil scáileáin luathaithe ag GPU</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="376"/>
         <source>Captures the Sonic Pi window plus master mix into an .mp4
 using GPU-accelerated screen capture</source>
-        <translation type="unfinished">Gabhann fuinneog Sonic Pi mar aon leis an máistirmheascán i gcomhad .mp4
+        <translation>Gabhann fuinneog Sonic Pi mar aon leis an máistirmheascán i gcomhad .mp4
 ag baint úsáide as gabháil scáileáin luathaithe ag GPU</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="417"/>
         <source>Powered by</source>
-        <translation type="unfinished">Á thiomáint ag</translation>
+        <translation>Cumhachtaithe ag</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="430"/>
         <source>Waiting for SuperSonic...</source>
-        <translation type="unfinished">Ag fanacht le SuperSonic...</translation>
+        <translation>Ag fanacht le SuperSonic...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="436"/>
