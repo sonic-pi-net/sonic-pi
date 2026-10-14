@@ -60,6 +60,37 @@ test("a buffer has a name: its file's, else buffer_<i>", () => {
   assert.equal(ws.bufferName(2), "buffer_2");
 });
 
+test("a set's buffer names travel in its file, so native and every link read them", () => {
+  const ws = make();
+  ws.edit(0, "play 60\n");
+  ws.setBufferName(0, "drums");
+  ws.setBufferName(2, "pads");
+  const load = deserialise(ws.fileText());
+  assert.deepEqual(load.names.slice(0, 3), ["drums", "", "pads"]);
+  // a set opened from a file has its buffers' names
+  ws.openSet(serialise(["a\n", "b\n"], 1, [], { name: "Gig", names: ["kick", "bass"] }));
+  assert.equal(ws.bufferName(0), "kick");
+  assert.equal(ws.bufferName(1), "bass");
+  assert.equal(ws.bufferName(2), "buffer_2");
+});
+
+test("a set with no named buffers writes no names", () => {
+  const ws = make();
+  ws.edit(0, "play 60\n");
+  assert.equal("names" in deserialise(ws.fileText()).meta, false);
+});
+
+test("names kept beside the sets by an earlier version are carried into their files", () => {
+  const storage = memory({
+    "sp-workspace": JSON.stringify({ v: 1, current: "a", sets: [{ id: "a", name: "Gig", size: 8, used: 1, bufferNames: { 1: "bass" } }] }),
+    "sp-set:a": serialise(["x\n", "y\n"], 1, [], { name: "Gig", size: 8 }),
+  });
+  const ws = make(storage);
+  assert.equal(ws.bufferName(1), "bass");
+  ws.edit(0, "z\n");
+  assert.equal(deserialise(storage.get("sp-set:a")).names[1], "bass");
+});
+
 // ── a program arriving: never over code ──────────────────────────────────
 
 test("a program goes into the buffer showing when it is free, the untouched starter counting as free", () => {
@@ -74,7 +105,7 @@ test("a program goes into the next free buffer on from the one showing, wrapping
   fill(ws);
   ws.edit(2, "");
   ws.showBuffer(5);
-  const r = ws.openProgram("play 1\n");
+  const r = ws.openProgram("play 100\n");
   assert.deepEqual(r, { buffer: 2, set: null });
   assert.equal(ws.active, 2);
   assert.equal(ws.text(5), "play 5\n");
@@ -84,11 +115,11 @@ test("with every buffer full a program starts a set of its own, the one it would
   const ws = make();
   fill(ws);
   const first = ws.set().id, before = Array.from({ length: 8 }, (_, i) => ws.text(i));
-  const r = ws.openProgram("play 1\n", { name: "Shared Code" });
+  const r = ws.openProgram("play 100\n", { name: "Shared Code" });
   assert.equal(r.buffer, 0);
   assert.equal(r.set, "Shared Code");
   assert.notEqual(ws.set().id, first);
-  assert.equal(ws.text(0), "play 1\n");
+  assert.equal(ws.text(0), "play 100\n");
   assert.equal(ws.size, 8);
   ws.switchSet(first);
   assert.deepEqual(Array.from({ length: 8 }, (_, i) => ws.text(i)), before);
@@ -98,6 +129,18 @@ test("a program from a file names its buffer after the file", () => {
   const ws = make();
   ws.openProgram("sample :bd_haus\n", { bufferName: "drums" });
   assert.equal(ws.bufferName(0), "drums");
+});
+
+test("the same program arriving again shows the buffer it is in: no second copy (a link's page reloaded, a file loaded twice)", () => {
+  const ws = make();
+  ws.edit(0, "mine\n");
+  ws.edit(3, "play 1\n");
+  const r = ws.openProgram("play 1\n");
+  assert.deepEqual(r, { buffer: 3, set: null });
+  assert.equal(ws.active, 3);
+  assert.equal(Array.from({ length: 8 }, (_, i) => ws.text(i)).filter((t) => t === "play 1\n").length, 1);
+  // a buffer full of code that only looks alike takes no part: the same code, to the character
+  assert.equal(ws.openProgram("play 1").buffer, 4);
 });
 
 // ── a set arriving ────────────────────────────────────────────────────────
@@ -144,6 +187,30 @@ test("a set is never so small its code is cut off", () => {
   ws.openSet(serialise(["a\n", "", "", "", "", "", "c\n"], 0, [], { name: "A", size: 4 }));
   assert.equal(ws.size, 7);
   assert.equal(ws.text(6), "c\n");
+});
+
+test("a set made by hand, with no header, opens as native opens it: its line endings Windows' too", () => {
+  const ws = make();
+  ws.edit(0, "mine\n");
+  const r = ws.openSet("#-- buffer 1\r\nplay 1\r\n", { fallbackName: "hand made" });
+  assert.equal(r.ok, true);
+  assert.equal(ws.set().name, "hand made");
+  assert.equal(ws.text(1), "play 1");
+});
+
+test("a set whose buffers are all empty opens as a set", () => {
+  const ws = make();
+  ws.edit(0, "mine\n");
+  const r = ws.openSet(serialise(new Array(10).fill(""), 2, [], { name: "Blank Slate" }));
+  assert.equal(r.ok, true);
+  assert.equal(ws.set().name, "Blank Slate");
+  assert.equal(ws.sets().length, 2);
+});
+
+test("what is not a set is said to be not one, and nothing changes", () => {
+  const ws = make();
+  assert.deepEqual(ws.openSet("play 60\n"), { ok: false, error: "not a Sonic Pi set file" });
+  assert.equal(ws.sets().length, 1);
 });
 
 test("a set from a newer version is refused, and nothing changes", () => {

@@ -1702,6 +1702,101 @@ QPushButton#confirmPrimary:hover
     background: accentHoverColor;
 }
 
+/* ── Share (widgets/sharedialog.cpp): the web's Share panel (app/web/app/src/style.css .sm-*) in the theme's own
+   roles. The panel, its tabs, its card and the four ways are painted there; their words and fields are here, their
+   sizes there (the house's Small, ApplyFontRole: a stylesheet size would stop the zoom). ── */
+
+QDialog#shareDialog QLabel
+{
+    background: transparent;
+    color: windowForegroundColor;
+}
+
+QLabel#shareStep
+{
+    color: mutedForegroundColor;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+QLabel#shareAbout
+{
+    color: softForegroundColor;
+}
+
+QLabel#shareAbout[said="true"]
+{
+    color: windowForegroundColor;
+    font-weight: 600;
+}
+
+QLabel#shareFieldLabel
+{
+    color: softForegroundColor;
+    font-weight: 600;
+}
+
+QLabel#shareFieldHint, QLabel#shareQrNote, QLabel#shareLinkNote
+{
+    color: mutedForegroundColor;
+}
+
+QLineEdit#shareName, QPlainTextEdit#shareDescription, QTextBrowser#sharePreview
+{
+    padding: 4px 6px;
+    border: 1px solid windowBorderColor;
+    border-radius: 4px;
+    background: editorBackgroundColor;
+    color: windowForegroundColor;
+}
+
+QLineEdit#shareName
+{
+    font-weight: 600;
+}
+
+QLineEdit#shareName:focus, QPlainTextEdit#shareDescription:focus, QTextBrowser#sharePreview:focus
+{
+    border: 1px solid highlightedBackgroundColor;
+}
+
+QTextBrowser#sharePreview
+{
+    font-family: 'Hack';
+}
+
+QPlainTextEdit#shareLinkText
+{
+    padding: 4px 6px;
+    border: 1px solid windowBorderColor;
+    border-radius: 8px;
+    background: subtleFillColor;
+    color: windowForegroundColor;
+    font-family: 'Hack';
+}
+
+QPushButton#shareLarger, QPushButton#shareSaveImage
+{
+    padding: 5px 12px;
+    border: 1px solid windowBorderColor;
+    border-radius: 8px;
+    background: transparent;
+    color: windowForegroundColor;
+}
+
+QPushButton#shareLarger:hover, QPushButton#shareSaveImage:hover
+{
+    border-color: highlightedBackgroundColor;
+    color: highlightedBackgroundColor;
+}
+
+QPushButton#shareLarger[primary="true"], QPushButton#shareLarger[primary="true"]:hover
+{
+    border-color: highlightedBackgroundColor;
+    background: highlightedBackgroundColor;
+    color: accentContrastTextColor;
+}
+
 
 
 /* ── Tracks panel ─────────────────────────────────────────────────────────

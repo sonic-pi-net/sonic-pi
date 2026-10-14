@@ -92,6 +92,11 @@ signals:
     // Right-click menu is being built — MainWindow appends editor-wide actions
     // (Comment/Uncomment, Show Docs, Align) before it's shown.
     void extendContextMenu(QMenu* menu);
+    // A set file was dropped on the code: the window opens it as a set.
+    void setDropped(const QString& path);
+    // A Sonic Pi link (one with #code= in it) was dropped on the code, from a
+    // browser or a chat: the window opens it, as Open Link does.
+    void linkDropped(const QString& link);
 
 public slots:
     void cutLineFromPoint();

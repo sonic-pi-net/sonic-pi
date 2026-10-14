@@ -95,6 +95,10 @@ add_executable(${PROJECT_NAME}
     ${GUI_ROOT}/widgets/chevronbutton.cpp
     ${GUI_TESTS_ROOT}/sampleheaderinfo.test.cpp
     ${GUI_TESTS_ROOT}/setbundle.test.cpp
+    ${GUI_TESTS_ROOT}/editor_files.test.cpp
+    ${GUI_TESTS_ROOT}/sharelink.test.cpp
+    ${GUI_TESTS_ROOT}/sharedialog.test.cpp
+    ${GUI_ROOT}/widgets/sharedialog.cpp
     ${GUI_TESTS_ROOT}/splash_quit_policy.test.cpp
     ${GUI_ROOT}/widgets/splashwidget.cpp
     ${GUI_TESTS_ROOT}/stylesheet_invariants.test.cpp
@@ -123,19 +127,6 @@ if(APPLE)
 endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-# The Objective-C++ guard every system callback block goes through, and the
-# lint that keeps it so: macOS only, with the frameworks the guard test
-# provokes a real exception from. As in gui/, the .mm files go to the C++
-# compiler, which reads Objective-C++ from the extension.
-if(APPLE)
-  target_sources(${PROJECT_NAME} PRIVATE
-      ${GUI_TESTS_ROOT}/objc_guard.test.mm
-      ${GUI_ROOT}/platform/objc_guard.mm)
-  set_source_files_properties(${GUI_TESTS_ROOT}/objc_guard.test.mm ${GUI_ROOT}/platform/objc_guard.mm
-      PROPERTIES COMPILE_FLAGS "-fobjc-arc")
-  target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Foundation" "-framework AVFoundation")
-endif()
-
     ${GUI_ROOT}
     ${GUI_ROOT}/widgets
     ${GUI_ROOT}/QScintilla_src-2.14.1/src   # <Qsci/...> headers (declarations only)
@@ -156,6 +147,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Test
     Catch2::Catch2
     QScintilla
+    sharelink
 )
 
 enable_testing()

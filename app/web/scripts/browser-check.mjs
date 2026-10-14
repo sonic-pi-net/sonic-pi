@@ -6,7 +6,7 @@
 // Audio is not heard (headless), but everything up to the bundles reaching
 // SuperSonic is: boot, run, live loops, redefinition, errors, stop,
 // highlighting, autocomplete, docs, quickstart cards, themes, the share link,
-// and the spec browser's verdicts.
+// files loaded and dropped, links and QR codes, and the spec browser's verdicts.
 //
 //   node scripts/serve.mjs &
 //   node scripts/browser-check.mjs [http://127.0.0.1:8460/web/]
@@ -23,6 +23,10 @@ const RAND_STREAM = fs.readFileSync(path.resolve(path.dirname(new URL(import.met
 const RAND_FIRST = Array.from({ length: 8 }, (_, i) => Math.fround(RAND_STREAM.readInt16LE(44 + 2 * i) / 32768));
 const BASE = process.argv[2] ?? "http://127.0.0.1:8460/web/";
 const { chromium, webkit, devices } = await import(process.env.PLAYWRIGHT ?? "playwright");
+// a QR code read off the page as a phone's camera would, and the link in it read as the app reads one
+const { default: jsQR } = await import("jsqr");
+const { decodeCode, loadShareCodec } = await import("../app/src/share.js");
+await loadShareCodec();
 
 const results = [];
 let engine = "";
@@ -700,6 +704,104 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page2.waitForFunction(() => window.sonicPi?.editor.getCode().includes(":shared"), null, { timeout: 60000 }).catch(() => {});
     check("the share link restores the program", (await page2.evaluate(() => window.sonicPi?.editor.getCode() ?? "")).includes("live_loop :shared"));
     await page2.close();
+
+    // ── files: loaded and dropped, as native's (set-bundle.js isSet, workspace.js, editor.js) ──
+    // A fresh page of its own: what arrives makes sets, which the checks above don't want. Its storage is cleared once,
+    // not on the reload below, which is the point of that check.
+    const fp = await browser.newPage(HTTPS);
+    const fileErrors = [];
+    fp.on("pageerror", (e) => fileErrors.push(e.message));
+    await fp.addInitScript(() => { try { if (!sessionStorage.getItem("sp-check-cleared")) { localStorage.clear(); localStorage.setItem("sp-help-seen", "true"); sessionStorage.setItem("sp-check-cleared", "1"); } } catch {} });
+    await fp.goto(BASE + "#app");
+    await fp.waitForFunction(() => window.sonicPi?.workspace, null, { timeout: 60000 });
+    const ws = () => fp.evaluate(() => { const w = window.sonicPi.workspace; return { set: w.set().name, sets: w.sets().length, active: w.active, name: w.bufferName(w.active), texts: Array.from({ length: w.size }, (_, i) => w.text(i)) }; });
+    const load = async (file, text) => { await fp.setInputFiles("#load-file", { name: file, mimeType: "text/plain", buffer: Buffer.from(text) }); await fp.waitForTimeout(300); };
+    // a file dropped on the code, as the desktop drops one: a DragEvent carrying it, where the code starts
+    const drop = async (file, bytes) => {
+      await fp.evaluate(({ file, bytes }) => {
+        const view = window.sonicPi.editor.view, dt = new DataTransfer();
+        dt.items.add(new File([new Uint8Array(bytes)], file));
+        const r = view.contentDOM.getBoundingClientRect();
+        view.contentDOM.dispatchEvent(new DragEvent("drop", { dataTransfer: dt, clientX: r.left + 2, clientY: r.top + 2, bubbles: true, cancelable: true, composed: true }));
+      }, { file, bytes: [...bytes] });
+      await fp.waitForTimeout(300);
+    };
+    await load("drums.rb", "sample :bd_haus\nsleep 0.5\n");
+    let w = await ws();
+    check("a file of code loads into a free buffer, named after the file", w.texts[w.active] === "sample :bd_haus\nsleep 0.5\n" && w.name === "drums", JSON.stringify({ active: w.active, name: w.name }));
+    await load("drums.rb", "sample :bd_haus\nsleep 0.5\n");
+    w = await ws();
+    check("the same file loaded again shows its buffer: no second copy", w.texts.filter((t) => t.startsWith("sample :bd_haus")).length === 1);
+    await load("hand made.sonicpi", "#-- buffer 2\r\nplay 62\r\n");
+    w = await ws();
+    check("a .sonicpi file opens as a set, header or not, as native opens it", w.set === "hand made" && w.texts[2] === "play 62", JSON.stringify({ set: w.set, b2: w.texts[2] }));
+    await load("gig.txt", "#-- Sonic Pi Set v1\n#-- meta {\"current\":1,\"zooms\":[2,2,2,2,2,2,2,2,2,2]}\n#-- buffer 1\nplay 70\n");
+    w = await ws();
+    check("a set saved under another name opens as a set, told by its header", w.set === "gig" && w.texts[1] === "play 70" && w.active === 1, JSON.stringify({ set: w.set, active: w.active }));
+    await load("blank.sonicpi", "#-- Sonic Pi Set v1\n#-- meta {\"current\":0,\"name\":\"Blank Slate\",\"zooms\":[2,2,2,2,2,2,2,2,2,2]}\n");
+    w = await ws();
+    check("a set whose buffers are all empty opens", w.set === "Blank Slate", w.set);
+    const setsBefore = w.sets;
+    await load("newer.sonicpi", "#-- Sonic Pi Set v9\n#-- buffer 0\nplay 1\n");
+    w = await ws();
+    check("a set from a newer Sonic Pi is refused as a set, not loaded as code", w.sets === setsBefore && !w.texts.some((t) => t.includes("Sonic Pi Set v9")), JSON.stringify({ sets: w.sets }));
+
+    await fp.evaluate(() => window.sonicPi.editor.setCode("play 60\n"));
+    await drop("riff.rb", Buffer.from("play 72\n"));
+    check("a file of code dropped on the code goes in where it is dropped", (await fp.evaluate(() => window.sonicPi.editor.getCode())) === "play 72\nplay 60\n", JSON.stringify(await fp.evaluate(() => window.sonicPi.editor.getCode())));
+    await fp.evaluate(() => window.sonicPi.editor.setCode("play 60\n"));
+    await drop("kick.wav", Buffer.from([0x52, 0x49, 0x46, 0x46, 0, 0, 0, 0, 0x57, 0x41, 0x56, 0x45, 1, 2, 3, 4]));
+    check("a file that isn't text dropped on the code puts nothing in", (await fp.evaluate(() => window.sonicPi.editor.getCode())) === "play 60\n");
+    await drop("dropped.sonicpi", Buffer.from("#-- Sonic Pi Set v1\n#-- buffer 0\nplay 80\n"));
+    w = await ws();
+    check("a set dropped on the code opens as a set, nothing put in the code", w.set === "dropped" && w.texts[0] === "play 80", JSON.stringify({ set: w.set, b0: w.texts[0] }));
+
+    // the share panel puts the link in the address bar: the page reloaded there shows the code once, not twice
+    await fp.evaluate(() => window.sonicPi.editor.setCode("live_loop :once do\n  play 66\n  sleep 1\nend\n"));
+    await fp.click("#btn-share");
+    await fp.waitForFunction(() => location.hash.startsWith("#code="), null, { timeout: 5000 }).catch(() => {});
+    await fp.reload();
+    await fp.waitForFunction(() => window.sonicPi?.workspace, null, { timeout: 60000 });
+    await fp.waitForTimeout(1000);
+    w = await ws();
+    check("a shared link's page reloaded shows its code once", w.texts.filter((t) => t.includes(":once")).length === 1, `${w.texts.filter((t) => t.includes(":once")).length} buffers have it`);
+    // links: the codec is native's own (app/sharelink, here as wasm from runtime/), so the links native writes open
+    // here, and the ones the web wrote before it (on fflate) still do. Each from a page opened on it, as a chat's link
+    // opens one; then one dropped on the code, from another page.
+    const opened = async (link, pred) => {
+      await fp.goto(new URL(`code.html#code=${link}`, BASE).href);
+      return fp.waitForFunction(pred, null, { timeout: 30000 }).then(() => true, () => false);
+    };
+    check("a link the web wrote before the codec was native's (fflate) opens", await opened("1QypHIFdtQYsQAA",
+      () => { const w = window.sonicPi?.workspace; return w && Array.from({ length: w.size }, (_, i) => w.text(i)).includes("live_loop :drums do\n  sample :bd_haus, amp: 2\n  sleep 0.5\nend\n"); }));
+    check("a set's link native wrote opens as a set", await opened("1I9YdRhBrQZYpVSjFIqw2xWt1B2iIB9neOhABOuMmuxIoafzgAQA",
+      () => { const w = window.sonicPi?.workspace; return w && w.text(2) === "#-- tricky\nplay 3\n" && w.active === 2; }));
+    await fp.evaluate(() => {
+      const view = window.sonicPi.editor.view, dt = new DataTransfer();
+      dt.setData("text/uri-list", "https://sonic-pi.net/code.html#code=1Y2ZkZmJmVqhQqAcA");
+      const r = view.contentDOM.getBoundingClientRect();
+      view.contentDOM.dispatchEvent(new DragEvent("drop", { dataTransfer: dt, clientX: r.left + 2, clientY: r.top + 2, bubbles: true, cancelable: true, composed: true }));
+    });
+    const droppedLink = await fp.waitForFunction(() => { const w = window.sonicPi.workspace; return Array.from({ length: w.size }, (_, i) => w.text(i)).includes("\u0001\u0002\u0003 x \u007f"); }, null, { timeout: 10000 }).then(() => true, () => false);
+    check("a Sonic Pi link dropped on the code opens, its URL not put in", droppedLink && !(await fp.evaluate(() => window.sonicPi.editor.getCode().includes("#code="))));
+    // the Share panel's QR code, read off the page by a decoder of its own (as a phone's camera would): the link in
+    // it opens the buffer's code
+    const shared = "live_loop :scanned do\n  play 64\n  sleep 0.5\nend\n";
+    await fp.evaluate((c) => window.sonicPi.editor.setCode(c), shared);
+    await fp.click("#btn-share");
+    await fp.click(".sm-act[data-act=qr]");
+    const pixels = await fp.waitForSelector("canvas.sm-qr", { timeout: 10000 }).then(() => fp.evaluate(() => {
+      const c = document.querySelector("canvas.sm-qr"), d = c.getContext("2d").getImageData(0, 0, c.width, c.height);
+      return { w: c.width, h: c.height, data: Array.from(d.data) };
+    }), () => null);
+    const scannedUrl = pixels && jsQR(Uint8ClampedArray.from(pixels.data), pixels.w, pixels.h)?.data;
+    let scannedCode = null;
+    try { scannedCode = scannedUrl && decodeCode(scannedUrl); } catch {}
+    check("the Share panel's QR code scans as the buffer's link", scannedCode === shared, String(scannedUrl).slice(0, 80));
+    await fp.keyboard.press("Escape");
+    check("no uncaught errors loading and dropping files", fileErrors.filter((m) => !/ResizeObserver loop/.test(m)).length === 0, fileErrors.slice(0, 3).join(" | "));
+    await fp.close();
+
     // the flight recorder: samples every clock, marks moments, reports
     const flight = await page.evaluate(() => {
       const f = window.sonicPi.flight;

@@ -130,6 +130,55 @@ TEST_CASE("file write/read round-trip", "[setbundle]")
     CHECK(load.currentBuffer == 1);
 }
 
+TEST_CASE("a set written to a file is named after it, as the web names the sets it opens", "[setbundle]")
+{
+    QTemporaryDir tmp;
+    const QString path = tmp.path() + "/Tuesday Gig.sonicpi";
+
+    auto buffers = emptyBuffers();
+    buffers[0] = "play 60";
+    // a name it had before, from the web, is the file's now
+    QJsonObject meta;
+    meta["name"] = "Groove";
+    meta["size"] = 8;
+    REQUIRE(SetBundle::write(path, buffers, 0, defaultZooms(), meta).isEmpty());
+
+    const auto load = SetBundle::read(path);
+    REQUIRE(load.ok);
+    CHECK(load.meta.value("name").toString() == "Tuesday Gig");
+    CHECK(load.meta.value("size").toInt() == 8);
+}
+
+TEST_CASE("a set not yet saved keeps the name it came with; a saved one is its file's", "[setbundle]")
+{
+    QJsonObject meta;
+    meta["name"] = "Groove";
+    CHECK(SetBundle::namedAfter(QString(), meta).value("name").toString() == "Groove");
+    CHECK(SetBundle::namedAfter("/Users/me/Music/Tuesday.sonicpi", meta).value("name").toString() == "Tuesday");
+    CHECK_FALSE(SetBundle::namedAfter(QString(), QJsonObject()).contains("name"));
+}
+
+TEST_CASE("a set carries its buffers' names, read as the web reads them", "[setbundle]")
+{
+    auto buffers = emptyBuffers();
+    buffers[0] = "play 60";
+    buffers[3] = "sample :bd_haus";
+    QJsonObject meta;
+    meta["names"] = QJsonArray({ "drums", "", "", "  bass  ", 42, QString(100, 'x') });
+    const auto load = SetBundle::deserialise(SetBundle::serialise(buffers, 0, defaultZooms(), meta));
+    REQUIRE(load.ok);
+    REQUIRE(load.names.size() == SetBundle::MaxBuffers);
+    CHECK(load.names[0] == "drums");
+    CHECK(load.names[1].isEmpty());
+    CHECK(load.names[3] == "bass");                       // trimmed
+    CHECK(load.names[4].isEmpty());                       // not a string: no name
+    CHECK(load.names[5] == QString(80, 'x'));             // at most 80 characters
+    CHECK(load.names[9].isEmpty());
+
+    // and none, when the set says none
+    CHECK(SetBundle::deserialise("#-- buffer 0\nplay 60\n").names == QVector<QString>(SetBundle::MaxBuffers));
+}
+
 TEST_CASE("reading a missing file fails with an error", "[setbundle]")
 {
     QTemporaryDir tmp;
@@ -138,11 +187,57 @@ TEST_CASE("reading a missing file fails with an error", "[setbundle]")
     CHECK_FALSE(load.error.isEmpty());
 }
 
-TEST_CASE("a file with no buffers is rejected", "[setbundle]")
+TEST_CASE("a file with neither a header nor a buffer marker is not a set", "[setbundle]")
 {
     CHECK_FALSE(SetBundle::deserialise("").ok);
     CHECK_FALSE(SetBundle::deserialise("play 60\nsleep 1").ok);
-    CHECK_FALSE(SetBundle::deserialise("#-- Sonic Pi Set v1\n#-- meta {}\n").ok);
+    CHECK(SetBundle::deserialise("play 60\nsleep 1").error == "not a Sonic Pi set file");
+}
+
+TEST_CASE("a set with every buffer empty saves and opens again", "[setbundle]")
+{
+    const QString text = SetBundle::serialise(emptyBuffers(), 4, defaultZooms());
+    const auto load = SetBundle::deserialise(text);
+    REQUIRE(load.ok);
+    CHECK(load.currentBuffer == 4);
+    CHECK(load.buffers == emptyBuffers());
+
+    // the header alone says it is a set, as the first line: code that ends
+    // with it is still not one
+    CHECK(SetBundle::deserialise("#-- Sonic Pi Set v1\n").ok);
+    CHECK_FALSE(SetBundle::deserialise("play 60\n#-- Sonic Pi Set v1\n").ok);
+}
+
+TEST_CASE("a byte order mark before the header is read past", "[setbundle]")
+{
+    const auto load = SetBundle::deserialise(QString(QChar(0xFEFF)) + "#-- Sonic Pi Set v1\n#-- meta {\"current\":2}\n#-- buffer 2\nplay 60\n");
+    REQUIRE(load.ok);
+    CHECK(load.currentBuffer == 2);
+    CHECK(load.buffers[2] == "play 60");
+    CHECK_FALSE(SetBundle::deserialise(QString(QChar(0xFEFF)) + "#-- Sonic Pi Set v2\n#-- buffer 0\nplay 60\n").ok);
+}
+
+TEST_CASE("a set is told from a buffer's code by its header or its name", "[setbundle]")
+{
+    CHECK(SetBundle::isSet("#-- Sonic Pi Set v1\n#-- buffer 0\nplay 60\n"));
+    CHECK(SetBundle::isSet(QString(QChar(0xFEFF)) + "#-- Sonic Pi Set v1\n"));
+    CHECK(SetBundle::isSet("#-- Sonic Pi Set v1\n", "drums.txt"));
+    CHECK(SetBundle::isSet("#-- Sonic Pi Set v1"));
+    CHECK(SetBundle::isSet("#-- Sonic Pi Set v1\r\n#-- buffer 0\r\nplay 60\r\n"));
+    // a newer version's is a set too, so it is refused as one rather than read as code
+    CHECK(SetBundle::isSet("#-- Sonic Pi Set v12\n#-- buffer 0\nplay 60\n", "drums.txt"));
+
+    // a .sonicpi file is a set whatever it holds, so a hand-made one without the header opens as one
+    CHECK(SetBundle::isSet("#-- buffer 0\nplay 60\n", "drums.sonicpi"));
+    CHECK(SetBundle::isSet("", "/Users/me/Music/DRUMS.SONICPI"));
+
+    CHECK_FALSE(SetBundle::isSet("play 60\n"));
+    CHECK_FALSE(SetBundle::isSet("play 60\n", "drums.rb"));
+    CHECK_FALSE(SetBundle::isSet("play 60\n#-- Sonic Pi Set v1\n", "drums.txt"));
+    CHECK_FALSE(SetBundle::isSet("#-- buffer 0\nplay 60\n", "drums.txt"));
+    CHECK_FALSE(SetBundle::isSet("play 60\n", "drums.sonicpi.txt"));
+    CHECK_FALSE(SetBundle::isSet("#-- Sonic Pi Set v1 and more\n"));
+    CHECK_FALSE(SetBundle::isSet(" #-- Sonic Pi Set v1\n"));
 }
 
 TEST_CASE("missing or corrupt meta falls back to defaults", "[setbundle]")
@@ -172,6 +267,9 @@ TEST_CASE("hostile meta values are clamped or ignored", "[setbundle]")
     CHECK(load.zooms[1] == SetBundle::MinZoom);
     CHECK(load.zooms[2] == SetBundle::DefaultZoom);
     CHECK(load.buffers[0] == "play 60");
+
+    // a buffer number too big to count is no buffer, not buffer 0
+    CHECK_FALSE(SetBundle::deserialise("#-- buffer 4294967296\nplay 60\n").ok);
 }
 
 TEST_CASE("a headerless file with buffer markers still loads", "[setbundle]")
@@ -211,6 +309,9 @@ TEST_CASE("a set from a newer version is refused, not misread", "[setbundle]")
     const auto load = SetBundle::deserialise(QString("#-- Sonic Pi Set v%1\n#-- buffer 0\nplay 60\n").arg(SetBundle::Version + 1));
     CHECK_FALSE(load.ok);
     CHECK(load.error.contains("newer version of Sonic Pi"));
+
+    // a version too big to count is newer still
+    CHECK_FALSE(SetBundle::deserialise("#-- Sonic Pi Set v99999999999\n#-- buffer 0\nplay 60\n").ok);
 
     // this version, and the files of versions before it, still open
     CHECK(SetBundle::deserialise(QString("#-- Sonic Pi Set v%1\n#-- buffer 0\nplay 60\n").arg(SetBundle::Version)).ok);

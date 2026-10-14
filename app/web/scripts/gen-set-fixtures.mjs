@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Writes app/test/fixtures/set-bundle.json: sets as native Sonic Pi writes and reads them, from native's own code
-// (oracle/set-bundle/oracle.cpp over app/gui/utils/setbundle.cpp), for app/test/set-bundle.test.mjs to hold the
-// web's set-bundle.js to. Rerun it when native's SetBundle changes. It needs Qt 6 (its QtCore) and clang++:
+// Writes app/test/fixtures/set-bundle.json: sets as native Sonic Pi writes and reads them, and which files it takes for
+// sets, from native's own code (oracle/set-bundle/oracle.cpp over app/gui/utils/setbundle.cpp), for
+// app/test/set-bundle.test.mjs to hold the web's set-bundle.js to. Rerun it when native's SetBundle changes. It needs Qt 6 (its QtCore) and clang++:
 //
 //   node scripts/gen-set-fixtures.mjs                      # Qt from ~/Qt/<newest>/macos
 //   QT=/path/to/Qt/6.x/macos node scripts/gen-set-fixtures.mjs
@@ -25,7 +25,8 @@ const bin = path.join(os.tmpdir(), "sonic-pi-set-oracle");
 execFileSync("clang++", ["-std=c++17", "-O1", `-F${qt}/lib`, `-I${qt}/lib/QtCore.framework/Headers`, `-I${GUI}`,
   path.join(ROOT, "oracle/set-bundle/oracle.cpp"), path.join(GUI, "setbundle.cpp"), "-framework", "QtCore", `-Wl,-rpath,${qt}/lib`, "-o", bin], { stdio: "inherit" });
 
-// the cases: the edges by hand, then a seeded spread of buffers and files built from the lines that matter
+// the cases: the edges by hand (among them numbers too big for an int, which Qt and JavaScript part on unless told),
+// then a seeded spread of buffers and files built from the lines that matter
 const bits = ["play 60", "", " ", "\t", "#--", "#-- buffer 3", "#-- ~x", "#-- meta {}", "# comment", "live_loop :a do", "  sleep 1", "end", "héllo ♪", "\r",
   "#-- Sonic Pi Set v1", "#-- Sonic Pi Set v2", "  #-- not at start", "#--~"];
 let seed = 7;
@@ -37,7 +38,7 @@ const buffer = () => {
   if (rnd(5) === 0) s += "\n\n";
   return s;
 };
-const metas = [{}, { names: ["drums", "bass"], web: { fontSize: 20, b: [1, { z: 1, a: 2 }] } }, { zebra: 1, alpha: "é♪", current: 99, zooms: [0] },
+const metas = [{}, { names: ["drums", "bass"], web: { fontSize: 20, b: [1, { z: 1, a: 2 }] } }, { names: ["", "", "kick", "", "", "", "", "", "", "pads"] }, { zebra: 1, alpha: "é♪", current: 99, zooms: [0] },
   { s: "quote \" backslash \\ tab \t nl \n ctl \u0001 del \u007f" },
   { n: 1.5, big: 1e21, small: 1e-7, tiny: 5e-324, huge: 1.7976931348623157e308, third: 0.3333333333333333, m: -1e-9, neg: -0.25, t: true, f: false, z: null, e: [], o: {} }];
 const writes = [
@@ -52,11 +53,26 @@ const reads = [
   "#-- buffer 1\na\n#-- buffer 1\nb", "#-- buffer 01\nx", "#-- buffer -1\nx", "#-- buffer 2 \nx", "#-- meta {\"current\":2.0}\n#-- buffer 0\nx", "#-- buffer 0\n\n\n",
   "#-- Sonic Pi Set v2\n#-- buffer 0\nx", "#-- Sonic Pi Set v0\n#-- buffer 0\nx", "#-- Sonic Pi Set v10\n#-- buffer 0\nx", "#-- buffer 0\nx\n#-- Sonic Pi Set v2",
   "#-- Sonic Pi Set v01\n#-- buffer 0\nx", "#-- Sonic Pi Set v1 \n#-- buffer 0\nx", "#-- meta {}\n#-- Sonic Pi Set v3\n#-- buffer 0\nx",
+  "#-- meta {\"names\":[\"drums\",\"\",\"  bass \",42,null,{\"a\":1},[\"x\"],\"é♪ 🎹\",\"" + "n".repeat(100) + "\",\"9\",\"ten\"]}\n#-- buffer 0\nx",
+  "#-- meta {\"names\":[\"\\u0085 nel \\u0085\",\"\\ufeff bom \\ufeff\",\"\\u00a0 nbsp \\u3000\",\"\\u2028 ls \\u200b\"]}\n#-- buffer 0\nx",
+  "#-- meta {\"names\":\"drums\"}\n#-- buffer 0\nx", "#-- meta {\"names\":{\"0\":\"drums\"}}\n#-- buffer 0\nx", "#-- meta {\"names\":[\"\\t tab \\n\"]}\n#-- buffer 0\nx",
+  "#-- Sonic Pi Set v99999999999\n#-- buffer 0\nx", "#-- Sonic Pi Set v2147483648\n", "#-- Sonic Pi Set v0000000000001\n#-- buffer 0\nx",
+  "#-- buffer 99999999999\nx", "#-- buffer 4294967296\nx", "#-- buffer 4294967297\nx", "#-- buffer 00000000000000000003\nx",
+  "#-- meta {\"current\":4294967297,\"zooms\":[1e10,-1e10,2147483647,2147483648,-2147483648,-2147483649,4294967298,1e300]}\n#-- buffer 0\nx",
+  "#-- Sonic Pi Set v1", "#-- Sonic Pi Set v1\n#-- meta {\"current\":3}\n", "#-- Sonic Pi Set v0\n", "#-- meta {}\n#-- Sonic Pi Set v1\n", "#-- buffer 10\n#-- Sonic Pi Set v1",
+  "\uFEFF#-- Sonic Pi Set v1\n#-- buffer 0\nx", "\uFEFF#-- buffer 0\nx", "\uFEFF\uFEFF#-- buffer 0\nx", "\uFEFF#-- Sonic Pi Set v2\n#-- buffer 0\nx", "x\n\uFEFF#-- buffer 0\ny",
   ...metas.map((m) => "#-- Sonic Pi Set v1\n#-- meta " + JSON.stringify(m) + "\n#-- buffer 0\nx"),
   ...Array.from({ length: 100 }, () => Array.from({ length: rnd(10) }, () => (rnd(3) ? bits[rnd(bits.length)] : `#-- buffer ${rnd(12)}`)).join(rnd(4) ? "\n" : "\r\n") + (rnd(2) ? "\n" : "")),
 ].map((text) => ({ text }));
 
-const cases = [...writes, ...reads];
+// what is taken for a set: every text with every name
+const sniffTexts = ["", "play 60\n", "#-- Sonic Pi Set v1", "#-- Sonic Pi Set v1\n#-- buffer 0\nx", "#-- Sonic Pi Set v1\r\n#-- buffer 0\r\nx", "\uFEFF#-- Sonic Pi Set v1\n",
+  "\uFEFF\uFEFF#-- Sonic Pi Set v1\n", "#-- Sonic Pi Set v0\n", "#-- Sonic Pi Set v12\n", "#-- Sonic Pi Set v01\n", "#-- Sonic Pi Set v\n", "#-- Sonic Pi Set v1 \n", " #-- Sonic Pi Set v1\n",
+  "#-- Sonic Pi Set v1x\n", "#-- sonic pi set v1\n", "#-- buffer 0\nx", "play 60\n#-- Sonic Pi Set v1\n", "\n#-- Sonic Pi Set v1\n", "#-- Sonic Pi Set v1\r", "#-- Sonic Pi Set v1\r\r\n"];
+const sniffNames = ["", "a.sonicpi", "A.SONICPI", "a.SonicPi", "/Users/me/Music/drums.sonicpi", "a.rb", "a.txt", "a.sonicpi.txt", "sonicpi", ".sonicpi", "a.sonicpi ", "a.sonicpix", "dir.sonicpi/a.rb", "the link"];
+const sniffs = sniffTexts.flatMap((text) => sniffNames.map((name) => ({ isSet: { text, name } })));
+
+const cases = [...writes, ...reads, ...sniffs];
 const native = JSON.parse(execFileSync(bin, { input: JSON.stringify(cases), maxBuffer: 1 << 28 }).toString());
 // every set native wrote, read back by native too: the round trip is native's own
 const trips = native.slice(0, writes.length).map((n) => ({ text: n.text }));

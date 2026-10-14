@@ -39,6 +39,7 @@ struct SetBundle
     static constexpr int DefaultZoom = 2;
     static constexpr int MinZoom = -5;
     static constexpr int MaxZoom = 20;
+    static constexpr int NameMax = 80;   // a name's length, as the web's (workspace.js NAME_MAX)
 
     struct Load
     {
@@ -46,6 +47,9 @@ struct SetBundle
         QString error;
         QVector<QString> buffers;
         QVector<int> zooms;
+        // each buffer's name (meta "names": ten strings, "" for a buffer with no name of its own), as the web's
+        // set-bundle.js reads them: a string, trimmed, at most NameMax characters; anything else, no name
+        QVector<QString> names;
         int currentBuffer = 0;
         // the meta as read, keys this version does not know included: hand it
         // back to serialise/write to keep them
@@ -57,10 +61,22 @@ struct SetBundle
                              const QVector<int>& zooms, const QJsonObject& meta = QJsonObject());
     static Load deserialise(const QString& text);
 
+    // Whether a file holds a set rather than one buffer's code: its text
+    // starts with the header, or its name ends .sonicpi. The one rule for
+    // every way a file arrives (loaded, dropped, opened from the desktop), and
+    // the web's (set-bundle.js isSet).
+    static bool isSet(const QString& text, const QString& fileName = QString());
+
     // File wrappers around serialise/deserialise. write returns an empty
-    // string on success, else a message describing the failure.
+    // string on success, else a message describing the failure. It names the
+    // set after its file (meta "name"): here a set's name is its file's, and
+    // the web shows the one in the file, so a set saved as Tuesday is Tuesday
+    // in both, never a name it had before it was saved under another.
     static QString write(const QString& path, const QVector<QString>& buffers, int currentBuffer,
                          const QVector<int>& zooms, const QJsonObject& meta = QJsonObject());
+    // The meta a set saved at path carries, as write names it (a set not yet
+    // saved, an empty path, keeps the name it came with): for a link to it.
+    static QJsonObject namedAfter(const QString& path, const QJsonObject& meta);
     static Load read(const QString& path);
 };
 

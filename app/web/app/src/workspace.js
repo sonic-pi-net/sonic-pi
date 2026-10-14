@@ -7,21 +7,22 @@
 // A set has a name, a description if it's given one, and its own number of buffers, up to MAX_BUFFERS (native's ten,
 // and the .sonicpi format's): a new set has defaultSize; one whose file doesn't say (native's, and every set from
 // before sets had sizes) has ten; none is so small its code is cut off. Its buffers may have names, each the name its
-// file is saved by: kept with the workspace, not in the file, while what a buffer's name is in the format is open.
+// file is saved by: in the set's file (its meta's "names"), so native and a link carry them as this does.
 //
 // Code arriving never goes over code: a set goes on top as a set of its own (or takes the place of one whose buffers
 // are all free); a buffer's code goes into the buffer showing if it is free, else the next free one on from it,
-// else a set of its own. A free buffer is an empty one, or one holding the first visit's starter untouched.
+// else a set of its own, unless a buffer of the set showing holds it already, which is then shown. A free buffer is
+// an empty one, or one holding the first visit's starter untouched.
 //
 // Kept in storage (the browser's localStorage, or anything with get, set and remove): sp-workspace, the list (each
-// set's id, name, description, size, buffer names, when last used) and which set shows; and sp-set:<id>, each set as
-// its .sonicpi file's text, so what the browser keeps is what a file or a link would carry. Edits are written after
-// a pause (schedule); anything else at once. The storage from before the workspace (sp-buffer:<i>, sp-sets) is read
-// once and carried over.
-import { serialise, deserialise, isSet, MAX_BUFFERS } from "./set-bundle.js";
+// set's id, name, description, size, when last used) and which set shows; and sp-set:<id>, each set as its .sonicpi
+// file's text, so what the browser keeps is what a file or a link would carry. Edits are written after a pause
+// (schedule); anything else at once. The storage from before the workspace (sp-buffer:<i>, sp-sets), and buffer names
+// kept in the list before they were in the files, are read once and carried over.
+import { serialise, deserialise, MAX_BUFFERS, NAME_MAX } from "./set-bundle.js";
 
-export { MAX_BUFFERS };
-export const NAME_MAX = 80, DESCRIPTION_MAX = 500;
+export { MAX_BUFFERS, NAME_MAX };
+export const DESCRIPTION_MAX = 500;
 const LEGACY_SIZE = 10;
 const INDEX_KEY = "sp-workspace", TEXT_KEY = "sp-set:";
 const LEGACY = { list: "sp-sets", current: "sp-set-current", buffer: "sp-buffer:", active: "sp-buffer-active" };
@@ -49,11 +50,15 @@ export function createWorkspace({ storage, starter = "", formerStarters = [], de
   let currentId = null;
 
   const blankSet = (fields) => ({ id: newId(), name: "My Set", description: "", size: clampSize(defaultSize), used: now(), active: 0, buffers: new Array(MAX_BUFFERS).fill(""), zooms: [], meta: {}, bufferNames: {}, ...fields });
-  const fromText = (text, fields) => {
+  // a set's buffer names as the workspace keeps them, { i: name }, from a file's names (ten, "" for none)
+  const namesOf = (names) => Object.fromEntries(names.map((n, i) => [i, n]).filter(([, n]) => n));
+  // a set from its file's text; names a list kept before names were in the files are the fallback, for a file without
+  const fromText = (text, { legacyNames = {}, ...fields } = {}) => {
     const load = deserialise(text ?? "");
     const buffers = load.ok ? load.buffers : new Array(MAX_BUFFERS).fill("");
     const size = sizeFor(load.meta, buffers);
-    return blankSet({ size, active: Math.min(load.current, size - 1), buffers, zooms: load.zooms, meta: load.meta, description: words(load.meta?.description, DESCRIPTION_MAX), ...fields });
+    const named = namesOf(load.names);
+    return blankSet({ size, active: Math.min(load.current, size - 1), buffers, zooms: load.zooms, meta: load.meta, description: words(load.meta?.description, DESCRIPTION_MAX), bufferNames: Object.keys(named).length ? named : legacyNames, ...fields });
   };
   const current = () => sets.get(currentId);
   const uniqueName = (name, self) => {
@@ -70,11 +75,13 @@ export function createWorkspace({ storage, starter = "", formerStarters = [], de
   const fileOf = (s) => {
     const meta = { ...s.meta, name: s.name, size: s.size };
     if (s.description) meta.description = s.description; else delete meta.description;
+    const names = Array.from({ length: MAX_BUFFERS }, (_, i) => s.bufferNames[i] ?? "");
+    if (names.some(Boolean)) meta.names = names; else delete meta.names;
     return serialise(s.buffers.slice(0, s.size), s.active, s.zooms, meta);
   };
   function save() {
     scheduled = false;
-    const index = { v: 1, current: currentId, sets: [...sets.values()].map(({ id, name, description, size, used, bufferNames }) => ({ id, name, description, size, used, bufferNames })) };
+    const index = { v: 1, current: currentId, sets: [...sets.values()].map(({ id, name, description, size, used }) => ({ id, name, description, size, used })) };
     try {
       for (const id of dirty) if (sets.has(id)) storage.set(TEXT_KEY + id, fileOf(sets.get(id)));
       dirty.clear();
@@ -90,7 +97,7 @@ export function createWorkspace({ storage, starter = "", formerStarters = [], de
     try { index = JSON.parse(storage.get(INDEX_KEY)); } catch {}
     if (index?.v === 1 && Array.isArray(index.sets) && index.sets.length) {
       for (const r of index.sets) {
-        const s = fromText(storage.get(TEXT_KEY + r.id), { id: r.id, used: r.used ?? 0, bufferNames: r.bufferNames ?? {} });
+        const s = fromText(storage.get(TEXT_KEY + r.id), { id: r.id, used: r.used ?? 0, legacyNames: r.bufferNames ?? {} });
         s.name = words(r.name, NAME_MAX) || s.name;
         if (r.description != null) s.description = words(r.description, DESCRIPTION_MAX);
         if (Number.isInteger(r.size)) s.size = Math.max(clampSize(r.size), filledUpTo(s.buffers));
@@ -107,10 +114,10 @@ export function createWorkspace({ storage, starter = "", formerStarters = [], de
       // sets from before the workspace: the one showing kept its buffers as the editor did, the rest as their text
       const legacyCurrent = storage.get(LEGACY.current);
       for (const r of list) {
-        const fields = { id: r.id, used: r.used ?? 0, bufferNames: r.bufferNames ?? {} };
+        const fields = { id: r.id, used: r.used ?? 0 };
         const s = r.id === legacyCurrent
-          ? blankSet({ ...fields, buffers: legacyBuffers.map((t) => t ?? ""), active: legacyActive, zooms: r.zooms ?? [], meta: r.meta ?? {} })
-          : fromText(storage.get(TEXT_KEY + r.id), fields);
+          ? blankSet({ ...fields, bufferNames: r.bufferNames ?? {}, buffers: legacyBuffers.map((t) => t ?? ""), active: legacyActive, zooms: r.zooms ?? [], meta: r.meta ?? {} })
+          : fromText(storage.get(TEXT_KEY + r.id), { ...fields, legacyNames: r.bufferNames ?? {} });
         s.name = words(r.name, NAME_MAX) || s.name;
         s.description = words(r.description, DESCRIPTION_MAX) || s.description;
         s.size = Math.max(LEGACY_SIZE, filledUpTo(s.buffers));
@@ -208,6 +215,9 @@ export function createWorkspace({ storage, starter = "", formerStarters = [], de
     /** A buffer's code arriving: where it went, { buffer, set } (set, its name, when a new one). */
     openProgram(code, { name = "Shared Code", bufferName = "" } = {}) {
       const c = current();
+      // already here, to the character (a link's page reloaded, a file loaded twice): that buffer shown, no second copy
+      const here = isBlank(code) ? -1 : c.buffers.slice(0, c.size).indexOf(code);
+      if (here >= 0) { api.showBuffer(here); return { buffer: here, set: null }; }
       for (let k = 0; k < c.size; k++) {
         const i = (c.active + k) % c.size;
         if (!isBlank(c.buffers[i])) continue;
@@ -228,13 +238,12 @@ export function createWorkspace({ storage, starter = "", formerStarters = [], de
     },
     /** A set's file text arriving: { ok, error, name, description }. */
     openSet(text, { fallbackName = "Shared Set" } = {}) {
-      if (!isSet(text) && !/^#-- buffer \d+$/m.test(text)) return { ok: false, error: "not a Sonic Pi set file" };
       const load = deserialise(text);
       if (!load.ok) return { ok: false, error: load.error };
       const size = sizeFor(load.meta, load.buffers);
       const s = push({
         name: words(load.meta.name, NAME_MAX) || words(fallbackName, NAME_MAX) || "Shared Set", description: words(load.meta.description, DESCRIPTION_MAX),
-        size, active: Math.min(load.current, size - 1), buffers: load.buffers, zooms: load.zooms, meta: load.meta,
+        size, active: Math.min(load.current, size - 1), buffers: load.buffers, zooms: load.zooms, meta: load.meta, bufferNames: namesOf(load.names),
       });
       tell("set");
       return { ok: true, name: s.name, description: s.description };

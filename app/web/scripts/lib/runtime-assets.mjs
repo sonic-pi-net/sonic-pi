@@ -212,7 +212,7 @@ export function copyRuntime(ROOT, OUT) {
   const built = path.join(ROOT, "build/runtime");
   if (!fs.existsSync(path.join(built, "sp_runtime.wasm"))) return false;
   fs.mkdirSync(path.join(OUT, "runtime"), { recursive: true });
-  for (const f of ["sp_runtime.mjs", "sp_runtime.wasm"]) fs.copyFileSync(path.join(built, f), path.join(OUT, "runtime", f));
+  for (const f of ["sp_runtime.mjs", "sp_runtime.wasm", "sp_share.mjs", "sp_share.wasm"]) fs.copyFileSync(path.join(built, f), path.join(OUT, "runtime", f));   // the runtime, and the share link's codec
   fs.mkdirSync(path.join(OUT, "buffers"), { recursive: true });
   for (const f of TABLES) fs.writeFileSync(path.join(OUT, "buffers", f), trimTable(fs.readFileSync(path.join(ROOT, "../../etc/buffers", f))));
   fs.writeFileSync(path.join(OUT, "samples.json"), samplesJSON(ROOT));

@@ -702,6 +702,8 @@ const hooks = {
   },
   onBuffer: () => { paintLoopScopes(); paintWaits(); if (shownError) paintFix(); },   // the tabs draw themselves (buffer-tabs.js)
   onCaret: (line, position) => { $("caret-pos").textContent = `Line: ${line},  Position: ${position}`; },
+  onSetDropped: (text, fileName) => arrive(text, fileName.replace(/\.(rb|txt|sonicpi)$/i, ""), fileName),   // a set dropped on the code opens as a set
+  onLinkDropped: (link) => openLink(link),   // a Sonic Pi link dropped on the code opens as the link does
   playNote: (n, { synth, fx } = {}) => {
     if (fx) return play(`${realTime}with_fx :${fx} do\n  synth :prophet, note: ${n}, release: 0.6, cutoff: 90\nend`);   // an FX's keys: a note through it
     const s = synth ?? caretSynth();
@@ -1849,8 +1851,23 @@ $("load-file").addEventListener("change", async () => {
   if (!file) return;
   $("load-file").value = "";
   const base = file.name.replace(/\.(rb|txt|sonicpi)$/i, "");
-  arrive(await file.text(), base, file.name, base);
+  let text;
+  try { text = await file.text(); } catch (e) {
+    toast(`${file.name} could not be read: ${e?.message ?? e}`, true, 8000);
+    logs.add("Host", `${file.name} could not be read: ${describe(e)}`);
+    return;
+  }
+  arrive(text, base, file.name, base);
 });
+// A file dropped beside the code isn't opened by the browser in the app's place: the code takes files dropped on it
+// (editor.js), as native's editor does, and the rest of the page none
+for (const type of ["dragover", "drop"]) {
+  addEventListener(type, (e) => {
+    if (!e.dataTransfer?.types?.includes("Files") || e.composedPath().some((n) => n.isContentEditable)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "none";
+  });
+}
 $("install-overlay").addEventListener("click", (e) => { if (e.target === $("install-overlay")) showDialog("install-overlay", false); });
 
 // ── The on-screen keyboard ────────────────────────────────────────────────
@@ -1921,9 +1938,10 @@ function toast(text, assertive = false, ms = 2000) {
 // ── Code arriving (workspace.js) ────────────────────────────────────────
 // From a link, a file or a card, it never goes over code that is there: a buffer's code takes a free buffer (or a set
 // of its own when every buffer has code), a set goes on top as a set of its own. Where it went is shown, not said: the
-// buffer or set opens under the caret (a toast saying so hid the code it opened, on a phone especially).
+// buffer or set opens under the caret (a toast saying so hid the code it opened, on a phone especially). A set is told
+// as native tells it (set-bundle.js isSet): by its header, or, from a file, by the file's name (`from`).
 function arrive(text, name, from, bufferName = "") {
-  if (isSet(text)) {
+  if (isSet(text, from)) {
     const r = workspace.openSet(text, { fallbackName: name || "Shared Set" });
     if (!r.ok) { toast(`${from} could not be opened: ${r.error}`, true, 8000); logs.add("Host", `${from} could not be opened: ${r.error}`); return false; }
     return true;
@@ -2371,9 +2389,13 @@ function loadFromHash() {
   openDrawer("");
   editorFillsPhone();
   history.replaceState(null, "", location.pathname + location.search);
-  // one that can't be read says so on the error card, as a program's error does, until it's put away: what happened
-  // to it and what to do (friendly.js explainLink), not a line gone before it could be read
-  loadShareCodec().then(() => arrive(decodeCode(m[1]), "", "the link")).catch((e) => {
+  openLink(m[1]);
+}
+// a link's code (or a whole link) opened as the link would open: what it carries arrives (a set as a set, a buffer's
+// code in a free buffer); one that can't be read says so on the error card, as a program's error does, until it's
+// put away: what happened to it and what to do (friendly.js explainLink), not a line gone before it could be read
+function openLink(link) {
+  loadShareCodec().then(() => arrive(decodeCode(link), "", "the link")).catch((e) => {
     showError({ class: "LinkError", title: "Link Error", message: e?.message ?? String(e) });
     logs.add("Host", `the link's code could not be read: ${describe(e)}`);
   });

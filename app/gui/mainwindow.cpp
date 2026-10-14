@@ -89,6 +89,8 @@
 #include "utils/gui_settings.h"
 #include "utils/scintilla_api.h"
 #include "utils/setbundle.h"
+#include "sharelink.h"
+#include "widgets/sharedialog.h"
 #include "utils/plugins.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
@@ -210,7 +212,6 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
 
     updated_dark_mode_for_help = false;
     updated_dark_mode_for_prefs = false;
-    loaded_workspaces = false;
     is_recording = false;
     show_rec_icon_a = false;
     restoreDocPane = false;
@@ -943,6 +944,10 @@ void MainWindow::setupWindowStructure()
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
         connect(workspace, &SonicPiScintilla::zoomLevelChanged, this, &MainWindow::updateErrorCardZoom);
+        // queued: the replace confirm is a modal dialog, which must not run
+        // inside the drop
+        connect(workspace, &SonicPiScintilla::setDropped, this, &MainWindow::loadSetFromFile, Qt::QueuedConnection);
+        connect(workspace, &SonicPiScintilla::linkDropped, this, &MainWindow::openLink, Qt::QueuedConnection);
         connect(workspace, &SonicPiScintilla::docsRequested, this,
                 [this](const QString& name) { showHelpForKeyword(name); });
         connect(workspace, &SonicPiScintilla::announceRequested, this,
@@ -3137,14 +3142,18 @@ QString MainWindow::currentTabLabel()
     return editorTabWidget->tabText(editorTabWidget->currentIndex());
 }
 
+// Load into Buffer, as the web's Load: a buffer's code, or a set (loadFile below
+// tells them apart, SetBundle::isSet), which opens as a set.
 bool MainWindow::loadFile()
 {
-    QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
+    QString selfilter = QString("%1 (*.rb *.txt *.sonicpi)").arg(tr("Sonic Pi files"));
     QString lastBufferDir = gui_settings->value("lastBufferDir", QDir::homePath() + "/Desktop").toString();
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastBufferDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter);
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load Sonic Pi Buffer"), lastBufferDir,
+        QString("%1 (*.rb *.txt *.sonicpi);;%2 (*.rb *.txt);;%3 (*.sonicpi);;%4 (*.txt);;%5 (*.rb);;%6 (*.*)")
+            .arg(tr("Sonic Pi files"), tr("Buffer files"), tr("Sonic Pi Sets"), tr("Text files"), tr("Ruby files"), tr("All files")),
+        &selfilter);
     if (!fileName.isEmpty())
     {
-        gui_settings->setValue("lastBufferDir", QDir(fileName).absolutePath());
         SonicPiScintilla* p = getCurrentWorkspace();
         loadFile(fileName, p);
         return true;
@@ -3155,16 +3164,26 @@ bool MainWindow::loadFile()
     }
 }
 
+// Save Buffer As, as the web's Save: the file named after the buffer, beside the last one loaded or saved (that
+// one itself, the buffer's name its, to save back to it)
 bool MainWindow::saveAs()
 {
     QString selfilter = QString("%1 (*.rb *.txt)").arg(tr("Buffer files"));
-    QString lastBufferDir = gui_settings->value("lastBufferDir", QDir::homePath() + "/Desktop").toString();
+    const QFileInfo last(gui_settings->value("lastBufferDir", QDir::homePath() + "/Desktop").toString());
+    const QString folder = last.isDir() ? last.absoluteFilePath() : last.absolutePath();
+    // what no system allows in a file's name taken out, as the web's fileName()
+    QString name = bufferName(editorTabWidget->currentIndex());
+    name.replace(QRegularExpression("[/\\\\:*?\"<>|\\x00-\\x1f]+"), "-");
+    name.remove(QRegularExpression("^[.\\s]+|[.\\s]+$"));
+    if (name.isEmpty())
+        name = "sonic-pi";
+    const QString lastBufferDir = last.isFile() && last.completeBaseName() == name ? last.absoluteFilePath() : folder + "/" + name + ".txt";
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Buffer"), lastBufferDir, QString("%1 (*.rb *.txt);;%2 (*.txt);;%3 (*.rb);;%4 (*.*)").arg(tr("Buffer files")).arg(tr("Text files")).arg(tr("Ruby files")).arg(tr("All files")), &selfilter);
 
     if (!fileName.isEmpty())
     {
         gui_settings->setValue("lastBufferDir", QDir(fileName).absolutePath());
-        if (!fileName.contains(QRegularExpression("\\.[a-z]+$")))
+        if (!fileName.contains(QRegularExpression("\\.[a-z]+$", QRegularExpression::CaseInsensitiveOption)))
         {
             fileName = fileName + ".txt";
         }
@@ -3176,7 +3195,9 @@ bool MainWindow::saveAs()
     }
 }
 
-bool MainWindow::confirmAction(const QString& text, const QString& informativeText, const QString& confirmLabel)
+// field, if any, is the caller's (Open Link's line for the link): shown under
+// the text, focused, Return confirming, and handed back before the dialog goes.
+bool MainWindow::confirmAction(const QString& text, const QString& informativeText, const QString& confirmLabel, QWidget* field)
 {
     // QMessageBox renders half-native under the app QSS on macOS.
     QDialog dlg(this);
@@ -3210,16 +3231,34 @@ bool MainWindow::confirmAction(const QString& text, const QString& informativeTe
     layout->setSpacing(10);
     layout->addWidget(headline);
     layout->addWidget(body);
+    if (field)
+    {
+        layout->addWidget(field);
+    }
     layout->addSpacing(14);
     layout->addLayout(buttons);
 
     dlg.setMinimumWidth(420);
-    cancelBtn->setDefault(true);
-    cancelBtn->setFocus();
+    if (field)
+    {
+        confirmBtn->setDefault(true);
+        field->setFocus();
+    }
+    else
+    {
+        cancelBtn->setDefault(true);
+        cancelBtn->setFocus();
+    }
     connect(cancelBtn, &QPushButton::clicked, &dlg, &QDialog::reject);
     connect(confirmBtn, &QPushButton::clicked, &dlg, &QDialog::accept);
 
-    return dlg.exec() == QDialog::Accepted;
+    const bool confirmed = dlg.exec() == QDialog::Accepted;
+    if (field)
+    {
+        layout->removeWidget(field);
+        field->setParent(nullptr);
+    }
+    return confirmed;
 }
 
 bool MainWindow::loadSet()
@@ -3245,7 +3284,19 @@ void MainWindow::loadSetFromFile(const QString& path)
         updateColourTheme();
         return;
     }
+    if (!replaceAllBuffers(set, QFileInfo(path).completeBaseName()))
+    {
+        return;
+    }
+    currentSetPath = QFileInfo(path).absoluteFilePath();
+    rememberRecentSet(path);
+    showStatusAndAnnounce(tr("Set %1 loaded...").arg(QFileInfo(path).completeBaseName()), 2000);
+}
 
+// Every buffer replaced by a set's, once asked (when any has code), each one
+// undoable; false when the replace was cancelled.
+bool MainWindow::replaceAllBuffers(const SonicPi::SetBundle::Load& set, const QString& name)
+{
     bool anyContent = false;
     for (int i = 0; i < workspace_max; i++)
     {
@@ -3258,17 +3309,19 @@ void MainWindow::loadSetFromFile(const QString& path)
     if (anyContent)
     {
         if (!confirmAction(
-                tr("Load the set %1?").arg(QFileInfo(path).completeBaseName()),
+                tr("Load the set %1?").arg(name),
                 tr("The current contents of all buffers will be replaced with the buffers stored in this set."),
                 tr("Replace")))
         {
-            return;
+            return false;
         }
     }
 
     for (int i = 0; i < workspace_max && i < set.buffers.size(); i++)
     {
-        workspaces[i]->setText(set.buffers[i]);
+        // one undoable change in each buffer, as Load into Buffer's
+        workspaces[i]->cancelInsertPreview();
+        workspaces[i]->replaceBuffer(set.buffers[i], 0, 0, 0);
         const int zoom = (i < set.zooms.size()) ? set.zooms[i] : SonicPiScintilla::kDefaultZoom;
         workspaces[i]->setProperty("zoom", QVariant(zoom));
         workspaces[i]->zoomTo(zoom);
@@ -3276,11 +3329,202 @@ void MainWindow::loadSetFromFile(const QString& path)
     }
     editorTabWidget->setCurrentIndex(set.currentBuffer);
     saveWorkspaces();
-
-    currentSetPath = QFileInfo(path).absoluteFilePath();
     currentSetMeta = set.meta;
-    rememberRecentSet(path);
-    showStatusAndAnnounce(tr("Set %1 loaded...").arg(QFileInfo(path).completeBaseName()), 2000);
+    setBufferNames(set.names);
+    return true;
+}
+
+// ── Links: a program or a whole set, as Share on the web writes them ──────────
+// One codec for both apps (app/sharelink), so a link either writes the other
+// opens, and both write the same link.
+
+static const char* const shareLinkBase = "https://sonic-pi.net/code.html#code=";
+
+// A link someone shared (here, or from the web's Share): a buffer's code into
+// the buffer showing, one undoable change, as Load into Buffer; a set opens as
+// a set, as Load Set, with no file until Save Set asks for one.
+void MainWindow::openLink(const QString& link)
+{
+    const SonicPi::ShareLink::Read read = SonicPi::ShareLink::decode(link.toStdString());
+    if (!read.ok)
+    {
+        const QString why = QString::fromStdString(read.error);
+        QString said = tr("This link's code could not be read: part of it is missing or changed. Ask for the link again, or for the program as a file.");
+        if (why.contains("cut short"))
+            said = tr("This link is missing part of its code: it was cut short on its way here. Ask for the link again, or for the program as a file.");
+        else if (why.contains("newer Sonic Pi"))
+            said = tr("This link was made by a newer Sonic Pi than this one. Update Sonic Pi, then open the link again.");
+        QMessageBox::warning(this, tr("Sonic Pi"), said);
+        updateColourTheme();
+        return;
+    }
+    const QString code = QString::fromStdString(read.code);
+    if (SonicPi::SetBundle::isSet(code))
+    {
+        const SonicPi::SetBundle::Load set = SonicPi::SetBundle::deserialise(code);
+        if (!set.ok)
+        {
+            QMessageBox::warning(this, tr("Sonic Pi"), tr("Cannot open the link's set:\n%1.").arg(set.error));
+            updateColourTheme();
+            return;
+        }
+        const QString name = set.meta.value("name").toString().trimmed();
+        if (!replaceAllBuffers(set, name.isEmpty() ? tr("Shared Set") : name))
+        {
+            return;
+        }
+        currentSetPath.clear();
+        showStatusAndAnnounce(tr("Set %1 opened from the link...").arg(name.isEmpty() ? tr("Shared Set") : name), 2000);
+        return;
+    }
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->cancelInsertPreview();
+    ws->replaceBuffer(code, 0, 0, 0);
+    setBufferName(editorTabWidget->currentIndex(), QString());
+    showStatusAndAnnounce(tr("Link opened into buffer %1...").arg(editorTabWidget->currentIndex()), 2000);
+}
+
+// Open Link: a link pasted in (the clipboard's, when it holds one)
+void MainWindow::askForLink()
+{
+    const auto field = std::make_unique<QLineEdit>();
+    field->setObjectName("linkField");
+    field->setAccessibleName(tr("Link"));
+    field->setPlaceholderText(shareLinkBase);
+    const QString held = QApplication::clipboard()->text().trimmed();
+    if (held.contains("#code="))
+    {
+        field->setText(held);
+    }
+    if (confirmAction(tr("Open a link"),
+                      tr("A link someone shared, from Sonic Pi or sonic-pi.net. A buffer's code goes into this buffer; a set opens as a set."),
+                      tr("Open"), field.get()))
+    {
+        openLink(field->text());
+    }
+}
+
+// The set's name: its file's once saved, else the one it came with, else My Set
+QString MainWindow::currentSetName() const
+{
+    if (!currentSetPath.isEmpty())
+        return QFileInfo(currentSetPath).completeBaseName();
+    const QString name = currentSetMeta.value("name").toString().trimmed();
+    return name.isEmpty() ? tr("My Set") : name;
+}
+
+QVector<QString> MainWindow::bufferNames() const
+{
+    const QStringList kept = gui_settings->value("bufferNames").toStringList();
+    QVector<QString> names(workspace_max);
+    for (int i = 0; i < workspace_max && i < kept.size(); i++)
+        names[i] = kept[i];
+    return names;
+}
+
+QString MainWindow::bufferName(int i) const
+{
+    const QString name = bufferNames().value(i);
+    return name.isEmpty() ? QString("buffer_%1").arg(i) : name;
+}
+
+void MainWindow::setBufferNames(const QVector<QString>& names)
+{
+    QStringList kept;
+    for (int i = 0; i < workspace_max; i++)
+    {
+        // as a set's file has it (SetBundle): trimmed, within bounds, and buffer_<i> no name of its own
+        QString name = names.value(i).trimmed().left(SonicPi::SetBundle::NameMax);
+        kept << (name == QString("buffer_%1").arg(i) ? QString() : name);
+    }
+    gui_settings->setValue("bufferNames", kept);
+}
+
+void MainWindow::setBufferName(int i, const QString& name)
+{
+    QVector<QString> names = bufferNames();
+    names[i] = name;
+    setBufferNames(names);
+}
+
+QJsonObject MainWindow::setMeta() const
+{
+    QJsonObject meta = currentSetMeta;
+    const QVector<QString> names = bufferNames();
+    if (std::any_of(names.begin(), names.end(), [](const QString& n) { return !n.isEmpty(); }))
+        meta["names"] = QJsonArray::fromStringList(QStringList(names.begin(), names.end()));
+    else
+        meta.remove("names");
+    return meta;
+}
+
+// Share, as the web's Share button: the buffer showing or the whole set, as a link copied, a QR code, the link
+// shown, or a file
+void MainWindow::share()
+{
+    SonicPiScintilla* ws = getCurrentWorkspace();
+    ws->cancelInsertPreview();
+    const int index = editorTabWidget->currentIndex();
+    const QString code = ws->text();
+    const QStringList lines = code.trimmed().isEmpty() ? QStringList() : QString(code).remove(QRegularExpression("\\s+$")).split('\n');
+    // its preview from its first line of code, the comments heading it skipped
+    const auto first = std::find_if(lines.begin(), lines.end(), [](const QString& l) { return !l.trimmed().isEmpty() && !l.trimmed().startsWith('#'); });
+
+    ShareDialog::Scope buffer;
+    buffer.kind = tr("This buffer");
+    buffer.summary = lines.size() == 1 ? tr("1 line") : tr("%1 lines").arg(lines.size());
+    buffer.title = tr("buffer %1").arg(index);
+    buffer.about = tr("Save the current buffer as a single plain text file.");
+    buffer.preview = (first == lines.end() ? lines : lines.mid(first - lines.begin())).join('\n');
+    buffer.code = [code] { return code; };
+    buffer.save = [this] { return saveAs(); };
+    buffer.fileKind = ".txt";
+    buffer.name = bufferName(index);
+    buffer.setFields = [this, index](const QString& name, const QString&) { setBufferName(index, name); };
+
+    ShareDialog::Scope set;
+    set.kind = tr("Whole set");
+    set.summary = tr("%1 buffers").arg(workspace_max);
+    set.title = tr("the set \"%1\"").arg(currentSetName());
+    set.about = tr("Save all buffers together as one set with an optional name and description.");
+    set.code = [this] {
+        QVector<QString> buffers(workspace_max);
+        QVector<int> zooms(workspace_max);
+        for (int i = 0; i < workspace_max; i++)
+        {
+            workspaces[i]->cancelInsertPreview();
+            buffers[i] = workspaces[i]->text();
+            zooms[i] = workspaces[i]->currentZoom();
+        }
+        return SonicPi::SetBundle::serialise(buffers, editorTabWidget->currentIndex(), zooms,
+                                             SonicPi::SetBundle::namedAfter(currentSetPath, setMeta()));
+    };
+    set.save = [this] { return saveSetAs(); };
+    set.fileKind = ".sonicpi";
+    set.described = true;
+    set.nameEditable = currentSetPath.isEmpty();
+    set.name = currentSetName();
+    set.description = currentSetMeta.value("description").toString();
+    set.setFields = [this](const QString& name, const QString& description) {
+        if (currentSetPath.isEmpty())
+            currentSetMeta["name"] = name;
+        if (description.trimmed().isEmpty())
+            currentSetMeta.remove("description");
+        else
+            currentSetMeta["description"] = description;
+    };
+
+    ShareDialog dialog(buffer, set, theme, this);
+    // under the toolbar's Share, as the web's panel is under its button; else where Qt puts a dialog
+    if (QWidget* button = toolBar->widgetForAction(shareAct); button && button->isVisible())
+    {
+        dialog.adjustSize();
+        const QRect room = button->screen()->availableGeometry();
+        QPoint at = button->mapToGlobal(QPoint(0, button->height() + 6));
+        at.setX(std::clamp(at.x(), room.left() + 12, room.right() - dialog.width() - 12));
+        dialog.move(at);
+    }
+    dialog.exec();
 }
 
 void MainWindow::rememberRecentSet(const QString& path)
@@ -3302,7 +3546,7 @@ bool MainWindow::saveSetAs()
 {
     QString lastSetDir = gui_settings->value("lastSetDir", QDir::homePath() + "/Desktop").toString();
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Current Set"),
-        lastSetDir + "/" + tr("My Set") + ".sonicpi",
+        lastSetDir + "/" + currentSetName() + ".sonicpi",
         QString("%1 (*.sonicpi)").arg(tr("Sonic Pi Sets")));
     if (fileName.isEmpty())
     {
@@ -3330,10 +3574,12 @@ bool MainWindow::saveSetToPath(const QString& path)
     QVector<int> zooms(workspace_max);
     for (int i = 0; i < workspace_max; i++)
     {
+        // never an un-committed card hover projection
+        workspaces[i]->cancelInsertPreview();
         buffers[i] = workspaces[i]->text();
         zooms[i] = workspaces[i]->currentZoom();
     }
-    const QString err = SonicPi::SetBundle::write(path, buffers, editorTabWidget->currentIndex(), zooms, currentSetMeta);
+    const QString err = SonicPi::SetBundle::write(path, buffers, editorTabWidget->currentIndex(), zooms, setMeta());
     if (!err.isEmpty())
     {
         QMessageBox::warning(this, tr("Sonic Pi"),
@@ -3381,6 +3627,7 @@ void MainWindow::clearAllBuffers()
     // Detach so a later Save Set can't overwrite the old set with new material.
     currentSetPath.clear();
     currentSetMeta = QJsonObject();
+    setBufferNames({});
     showStatusAndAnnounce(tr("All buffers cleared..."), 2000);
 }
 
@@ -4799,6 +5046,7 @@ void MainWindow::toggleIcons()
     runAct->setIcon(theme->getRunIcon());
     stopAct->setIcon(theme->getStopIcon());
     saveAsAct->setIcon(theme->getSaveAsIcon());
+    shareAct->setIcon(theme->getSaveAsIcon());
     loadFileAct->setIcon(theme->getLoadIcon());
     textIncAct->setIcon(theme->getTextIncIcon());
     textDecAct->setIcon(theme->getTextDecIcon());
@@ -6022,6 +6270,14 @@ void MainWindow::createToolBar()
     clearAllBuffersAct = new QAction(tr("Clear All Buffers..."), this);
     connect(clearAllBuffersAct, SIGNAL(triggered()), this, SLOT(clearAllBuffers()));
 
+    // Share, and links, as the web's
+    shareAct = new QAction(theme->getSaveAsIcon(), tr("Share..."), this);
+    shareAct->setIconText(tr("Share..."));
+    shareAct->setToolTip(tr("Share this buffer: a link to copy, a QR code, or the link to copy by hand"));
+    connect(shareAct, &QAction::triggered, this, &MainWindow::share);
+    openLinkAct = new QAction(tr("Open Link..."), this);
+    connect(openLinkAct, &QAction::triggered, this, &MainWindow::askForLink);
+
     // Align
     textAlignAct = new QAction(QIcon(":/images/align.png"), tr("Align Code"), this);
     connect(textAlignAct, SIGNAL(triggered()), this, SLOT(beautifyCode()));
@@ -6280,7 +6536,9 @@ void MainWindow::createToolBar()
     }
 #endif
     toolBar->addAction(loadFileAct);
-    toolBar->addAction(saveAsAct);
+    // as the web's toolbar: Save's place is Share's, whose Save file saves (the menu's Save Buffer As, and its key,
+    // still save at once)
+    toolBar->addAction(shareAct);
 
     toolBar->addWidget(spacer);
 
@@ -6451,6 +6709,9 @@ void MainWindow::createToolBar()
     liveMenu->addSeparator();
     liveMenu->addAction(saveAsAct);
     liveMenu->addAction(loadFileAct);
+    liveMenu->addSeparator();
+    liveMenu->addAction(shareAct);
+    liveMenu->addAction(openLinkAct);
     liveMenu->addSeparator();
     liveMenu->addAction(loadSetAct);
     liveMenu->addAction(saveSetAct);
@@ -7925,8 +8186,27 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
     // No wait cursor: the read is instant, and building the cursor image can
     // crash in Qt's Cocoa colorspace path (CGImageCreate PAC trap, 2026-07-02)
     QString contents = in.readAll();
-    text->setText(contents);
     file.close();
+
+    // a set (by its header or its name) opens as a set, as the web's Load
+    // opens one, rather than landing in the buffer as text
+    if (SonicPi::SetBundle::isSet(contents, fileName))
+    {
+        // the buffer dialogs open beside it next time, but never offer a
+        // buffer the set's own file to be saved over
+        gui_settings->setValue("lastBufferDir", QFileInfo(fileName).absolutePath());
+        loadSetFromFile(fileName);
+        return;
+    }
+    // the dialogs offer this file next time, Save Buffer As saving back to it
+    gui_settings->setValue("lastBufferDir", QDir(fileName).absolutePath());
+    // one undoable change: Undo puts back what the buffer held
+    text->cancelInsertPreview();
+    text->replaceBuffer(contents, 0, 0, 0);
+    // the buffer named after its file, as the web's Load names it
+    for (int i = 0; i < workspace_max; i++)
+        if (workspaces[i] == text)
+            setBufferName(i, QFileInfo(fileName).completeBaseName());
 
     if (contents.toUtf8().size() > kMaxRunnableBufferBytes)
     {
@@ -7937,6 +8217,7 @@ void MainWindow::loadFile(const QString& fileName, SonicPiScintilla*& text)
 
 bool MainWindow::saveFile(const QString& fileName, SonicPiScintilla* text)
 {
+    text->cancelInsertPreview();   // never an un-committed card hover projection
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly))
     {

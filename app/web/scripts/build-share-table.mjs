@@ -1,27 +1,32 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// The share link's token table (app/src/share-table.js): Sonic Pi's
-// vocabulary ranked by what it saves across Sonic Pi programs, and a 32 KB
-// dictionary for the deflate that follows — the pieces of the token stream the
-// most programs share (COVER, below), trained on the language's own programs
-// (the examples, the quickstart cards, the tutorial, the docs' examples, the
-// specs) and, where scripts/fetch-share-corpus.mjs has fetched them, its
-// players' (in-thread.sonic-pi.net's posts, the Mehackit course). A table, once
-// shipped, is fixed — every link written with it has to read back — so this is
-// run to make a *new* format: bump the version character, run it, and the codec
-// (app/src/share.js) keeps reading the old one too.
+// The share link's token table (app/sharelink/sharelink_table<format>.cpp, compiled into the codec native and the
+// web share): Sonic Pi's vocabulary ranked by what it saves across Sonic Pi programs, and a dictionary for the
+// compression that follows — the pieces of the token stream the most programs share — trained on the language's
+// own programs (the examples, the quickstart cards, the tutorial, the docs' examples, the specs) and, where
+// scripts/fetch-share-corpus.mjs has fetched them, its players' (in-thread.sonic-pi.net's posts, the Mehackit
+// course). Format 1's dictionary is 32 KB for deflate (COVER, below, in this script); format 2's is 512 KB for zstd,
+// trained by zstd's own trainer (zstd --train-fastcover: brew install zstd). A table, once shipped, is fixed — every
+// link written with it has to read back — so this is run to make a *new* format: bump the version character, run
+// it, add the table to the codec's (app/sharelink/sharelink.cpp table()) and to the builds' sources, and it keeps
+// reading the old ones too. It runs on the codec itself (src/share.js over build/runtime/sp_share.mjs:
+// scripts/build-runtime.sh --wasm).
 //
 //   node scripts/fetch-share-corpus.mjs            # the players' programs, into build/share-corpus (not committed)
-//   node scripts/build-share-table.mjs [--version 2] [--out app/src/share-table.js]
+//   node scripts/build-share-table.mjs --version 3 [--compression zstd|deflate] [--dict-size 524288] [--out ../sharelink/sharelink_table3.cpp]
 import fs from "node:fs";
 import path from "node:path";
-import { makeCodec } from "../app/src/share.js";
+import { spawnSync } from "node:child_process";
+import { makeCodec, loadShareCodec } from "../app/src/share.js";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback; };
 const VERSION = arg("--version", "1");
-const OUT = path.resolve(arg("--out", path.join(ROOT, "app/src/share-table.js")));
+const COMPRESSION = arg("--compression", VERSION === "1" ? "deflate" : "zstd");
+const DICT_SIZE = Number(arg("--dict-size", COMPRESSION === "zstd" ? 524288 : 32768));
+const OUT = path.resolve(arg("--out", path.join(ROOT, `../sharelink/sharelink_table${VERSION}.cpp`)));
 if (!/^[0-9A-Za-z]$/.test(VERSION)) throw new Error("the format is one character, a digit or a letter");
+if (!["deflate", "zstd"].includes(COMPRESSION)) throw new Error("--compression is deflate or zstd");
 
 const ref = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, `web/data/reference/${f}.json`), "utf8"));
 
@@ -76,7 +81,7 @@ function vocabulary() {
 // ── ranked: the whole vocabulary tokenises the corpus, then each token's hits × the bytes it saves ──
 export function rank(programs) {
   const all = vocabulary().sort();
-  const probe = makeCodec({ vocab: all, dict: "" });
+  const probe = makeCodec({ vocab: all });
   const hits = new Map(all.map((t) => [t, 0]));
   const count = (k) => hits.set(all[k], hits.get(all[k]) + 1);
   for (const p of programs) {
@@ -108,7 +113,7 @@ class MaxHeap {
 }
 const SET_TAIL = `#-- Sonic Pi Set v1\n#-- meta {"current":0,"description":"","name":"","zooms":[2,2,2,2,2,2,2,2,2,2]}\n#-- buffer 0\n#-- buffer 1\n#-- buffer 2\n#-- buffer 3\n##| `;
 export function dictionary(programs, vocab, { size = 32768, k = 32, d = 6 } = {}) {
-  const codec = makeCodec({ vocab, dict: "" });
+  const codec = makeCodec({ vocab });
   const samples = programs.map((p) => Buffer.from(codec.pack(p.code)));
   const tail = Buffer.from(codec.pack(SET_TAIL));
   const key = (s, j) => s.subarray(j, j + d).toString("latin1");
@@ -130,13 +135,76 @@ export function dictionary(programs, vocab, { size = 32768, k = 32, d = 6 } = {}
   return all.subarray(Math.max(0, all.length - size));
 }
 
+// ── the dictionary for zstd: its own trainer ──
+// zstd's fast COVER over the token stream (the same idea as above, with zstd's entropy tables appended, tuned to
+// the level the codec compresses at), the samples a file each for the command. d=6 and steps=4 as the codec's lab
+// found best; the dictionary's id is the format's, for a reproducible file.
+export function zstdDictionary(programs, vocab, { size = 524288, d = 6, steps = 4 } = {}) {
+  const codec = makeCodec({ vocab });
+  const dir = path.join(ROOT, "build/share-train");
+  fs.rmSync(dir, { recursive: true, force: true });
+  fs.mkdirSync(dir, { recursive: true });
+  const files = programs.map((p, i) => { const f = path.join(dir, `${String(i).padStart(5, "0")}.bin`); fs.writeFileSync(f, codec.pack(p.code)); return f; });
+  const out = path.join(dir, "dictionary");
+  const r = spawnSync("zstd", [`--train-fastcover=d=${d},steps=${steps}`, `--maxdict=${size}`, `--dictID=${VERSION.charCodeAt(0)}`, "-19", "-T4", "-o", out, ...files], { stdio: ["ignore", "ignore", "pipe"] });
+  if (r.status !== 0) throw new Error(`zstd --train failed (brew install zstd): ${r.stderr}`);
+  return fs.readFileSync(out);
+}
+
+// A table as the codec compiles it in (app/sharelink/sharelink_table<format>.cpp): its vocabulary as string
+// literals, its dictionary as bytes (a big dictionary as base64 text was half as big again once the wasm was
+// brotli'd for the wire: bytes compress as bytes do)
+export function tableSource(table, trained) {
+  const lit = (t) => `"${t.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\?/g, "\\?")}"`;
+  const vocab = [];
+  for (let i = 0; i < table.vocab.length; i += 8) vocab.push(`        ${table.vocab.slice(i, i + 8).map(lit).join(", ")},`);
+  const bytes = Buffer.from(table.dictionary, "base64"), dict = [];
+  for (let i = 0; i < bytes.length; i += 32) dict.push(`        ${[...bytes.subarray(i, i + 32)].join(",")},`);
+  const name = table.version === "1" ? "formatOne" : `format_${table.version}`;
+  return `// Generated by app/web/scripts/build-share-table.mjs: the share link's format ${table.version}. Do not edit: links depend on it.
+// Trained on ${trained}. The format: app/web/docs/share-link-format.md.
+
+#include "sharelink.h"
+
+#include <iterator>
+
+namespace SonicPi::ShareLink
+{
+
+const Table& ${name}()
+{
+    static const char* const vocab[] = {
+${vocab.join("\n")}
+    };
+    static const std::uint8_t dictionary[] = {
+${dict.join("\n")}
+    };
+    static const Table table = [] {
+        Table t;
+        t.format = '${table.version}';
+        t.vocab.assign(std::begin(vocab), std::end(vocab));
+        t.compression = Compression::${table.compression === "zstd" ? "Zstd" : "Deflate"};
+        t.dictionary.assign(std::begin(dictionary), std::end(dictionary));
+        return t;
+    }();
+    return table;
+}
+
+} // namespace SonicPi::ShareLink
+`;
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname) {
+  if (VERSION === "1" && fs.existsSync(OUT)) throw new Error("format 1 shipped: its table is fixed for good. A new table is a new format (--version 2)");
+  await loadShareCodec();
   const { programs, players } = await trainingCorpus();
-  const vocab = rank(programs), dict = dictionary(programs, vocab);
-  const table = { version: VERSION, vocab, dictionary: dict.toString("base64") };
+  const vocab = rank(programs);
+  const dict = COMPRESSION === "zstd" ? zstdDictionary(programs, vocab, { size: DICT_SIZE }) : dictionary(programs, vocab, { size: DICT_SIZE });
+  const table = { version: VERSION, vocab, compression: COMPRESSION, dictionary: dict.toString("base64") };
   const codec = makeCodec(table);
   for (const p of programs) if (codec.unpack(codec.pack(p.code)) !== p.code || codec.decode(codec.encode(p.code)) !== p.code) throw new Error(`not lossless: ${p.key}`);
   const trained = `${programs.length} programs (${players} of them players', from build/share-corpus), ${new Date().toISOString().slice(0, 10)}`;
-  fs.writeFileSync(OUT, `// Generated by scripts/build-share-table.mjs — the share link's format ${VERSION}. Do not edit: links depend on it.\n// Trained on ${trained}. The format: docs/share-link-format.md.\nexport default ${JSON.stringify(table)};\n`);
-  console.log(`wrote ${path.relative(ROOT, OUT)}: format ${VERSION}, ${vocab.length} tokens (${vocab.slice(0, 8).join(" ")} …), a ${dict.length} B dictionary; trained on ${trained}; all round-trip. A new table is a new format: its hash is pinned in app/test/share-link.test.mjs`);
+  fs.writeFileSync(OUT, tableSource(table, trained));
+  const chars = programs.map((p) => 1 + Math.ceil(codec.encode(p.code).length * 4 / 3)).sort((a, b) => a - b);
+  console.log(`wrote ${path.relative(ROOT, OUT)}: format ${VERSION}, ${vocab.length} tokens (${vocab.slice(0, 8).join(" ")} …), ${COMPRESSION} against a ${dict.length} B dictionary; trained on ${trained}; all round-trip, the median link ${chars[chars.length >> 1]} characters (on the programs it was trained on). Add it to app/sharelink/sharelink.cpp's table() and the builds' sources; its hash is pinned in app/test/share-link.test.mjs`);
 }

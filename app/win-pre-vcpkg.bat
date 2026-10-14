@@ -30,7 +30,8 @@ if /I "%PROCESSOR_ARCHITECTURE%"=="ARM64" (
 
 cd vcpkg
 echo Installing Libraries (%VCPKG_TRIPLET%)
-.\vcpkg install libsndfile[core,external-libs] --triplet %VCPKG_TRIPLET% --recurse
+REM zlib: the share link's codec (app/sharelink), which macOS and Linux have from the system
+.\vcpkg install libsndfile[core,external-libs] zlib --triplet %VCPKG_TRIPLET% --recurse
 if errorlevel 1 (
     echo vcpkg install failed with errorlevel %errorlevel%
     cd %WORKING_DIR%

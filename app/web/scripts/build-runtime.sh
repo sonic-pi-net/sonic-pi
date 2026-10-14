@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Builds the runtime: mruby for the host and for wasm, the runtime's Ruby
-# compiled to bytecode, the wasm module the page and Node load, and sp-trace,
-# the same runtime as a native command.
+# compiled to bytecode, the wasm module the page and Node load, the share
+# link's codec as a wasm module of its own, and sp-trace, the same runtime as a
+# native command.
 #
 #   scripts/build-runtime.sh            # everything
 #   scripts/build-runtime.sh --wasm     # relink the wasm
@@ -61,6 +62,17 @@ if [ "$MODE" != "--native" ]; then
     -sEXPORTED_FUNCTIONS=_sp_init,_sp_install_table,_sp_install_synth,_sp_set_samples_dir,_sp_install_sample,_sp_trace,_sp_version,_sp_live_boot,_sp_run,_sp_tick,_sp_stop_all,_sp_silence,_sp_engine_lost,_sp_stop_job,_sp_run_group,_sp_stop_group,_sp_group_under,_sp_stop_subtree,_sp_stop_run,_sp_process_table,_sp_process_table_len,_sp_live_stop_after,_sp_set_link_bpm,_sp_set_time_warp,_sp_hold,_sp_sched_ahead,_sp_cue,_sp_out_ptr,_sp_out_len,_sp_buffer_for,_sp_synthdef_for,_malloc,_free \
     -sEXPORTED_RUNTIME_METHODS=ccall,cwrap,UTF8ToString,HEAPU8,HEAPF64
   ls -la "$OUT/sp_runtime.mjs" "$OUT/sp_runtime.wasm"
+
+  # The share link's codec (app/sharelink): the native app's own, so a link either writes the other reads, and both
+  # write the same link. A module of its own, loaded the first time a link is made or read (app/src/share.js).
+  SL="$(cd "$ROOT/../sharelink" && pwd)"
+  emcc -Oz -g0 -c "$SL/zstd/zstd.c" -o "$OUT/sp_share_zstd.o"   # C, so apart from the C++ below
+  emcc -std=c++17 -Oz -g0 -sUSE_ZLIB=1 \
+    "$SL/sharelink.cpp" "$SL/sharelink_table1.cpp" "$SL/sharelink_table2.cpp" "$SL/sharelink_qr.cpp" "$SL/qrcodegen/qrcodegen.cpp" "$SL/sharelink_wasm.cpp" "$OUT/sp_share_zstd.o" -o "$OUT/sp_share.mjs" \
+    -sMODULARIZE=1 -sEXPORT_ES6=1 -sENVIRONMENT=node,web,worker -sALLOW_MEMORY_GROWTH=1 \
+    -sEXPORTED_FUNCTIONS=_sl_out_ptr,_sl_out_len,_sl_encode,_sl_decode,_sl_qr,_sl_to_digits,_sl_from_digits,_sl_table_json,_sl_codec_new,_sl_codec_free,_sl_codec_pack,_sl_codec_encode,_sl_codec_unpack,_sl_codec_decode,_malloc,_free \
+    -sEXPORTED_RUNTIME_METHODS=HEAPU8
+  ls -la "$OUT/sp_share.mjs" "$OUT/sp_share.wasm"
 fi
 
 # The native command: the same host seam and the same bytecode, linked

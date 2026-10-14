@@ -345,7 +345,6 @@ void QtAPIClient::BufferGui(const BufferInfo& info)
     if (info.type == BufferType::Replace)
     {
         m_pMainWindow->replaceBuffer(QString::fromStdString(info.id), QString::fromStdString(info.content), info.line, info.index, info.lineNumber);
-        m_pMainWindow->loaded_workspaces = true; // it's now safe to save the buffers
     }
     else if (info.type == BufferType::ReplaceIndex)
     {

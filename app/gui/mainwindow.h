@@ -21,6 +21,8 @@
 #include <QFuture>
 #include <QIcon>
 #include <QJsonObject>
+
+#include "utils/setbundle.h"
 #include <QMainWindow>
 
 #include "model/helppanelmodel.h"
@@ -214,7 +216,10 @@ public:
     void replaceLines(QString id, QString content, int first_line, int finish_line, int point_line, int point_index);
     void runBufferIdx(int idx);
 
-    bool loaded_workspaces;
+    // every buffer's boot load has landed (replaceBuffer): the workspaces may be
+    // saved, and a set opened. Set before the constructor's first event, which
+    // can be a desktop's request to open a set.
+    bool loaded_workspaces = false;
     QSet<QString> initialWorkspaceLoads;
     QString pendingSetPath;
     QString currentSetPath;
@@ -383,12 +388,24 @@ private slots:
     bool saveSetToPath(const QString& path);
     void clearAllBuffers();
     void loadSetFromFile(const QString& path);
+    bool replaceAllBuffers(const SonicPi::SetBundle::Load& set, const QString& name);
+    void openLink(const QString& link);
+    void askForLink();
+    void share();
+    QString currentSetName() const;
+    // Buffers' names, as the web's: a buffer's own (the file it was loaded from, the set it came in, or the one given
+    // it in Share), else buffer_<i>. Kept with the settings; a set carries them in its file (SetBundle names).
+    QString bufferName(int i) const;
+    QVector<QString> bufferNames() const;   // ten, "" where a buffer has none of its own
+    void setBufferName(int i, const QString& name);
+    void setBufferNames(const QVector<QString>& names);
+    QJsonObject setMeta() const;            // the set's meta as it is written: its buffers' names in it
     void rememberRecentSet(const QString& path);
     void updateRecentSetsMenu();
     // OS open-file requests (Finder double-click, argv); deferred until the
     // workspaces have loaded so the replace confirm can still fire.
     void openSetPath(const QString& path);
-    bool confirmAction(const QString& text, const QString& informativeText, const QString& confirmLabel);
+    bool confirmAction(const QString& text, const QString& informativeText, const QString& confirmLabel, QWidget* field = nullptr);
     void about();
     void scope();
     void toggleScope();
@@ -985,6 +1002,8 @@ private:
     QAction* saveSetAct = nullptr;
     QAction* saveSetAsAct = nullptr;
     QAction* clearAllBuffersAct = nullptr;
+    QAction* shareAct = nullptr;
+    QAction* openLinkAct = nullptr;
     QAction* recAct = nullptr;
     QAction* textAlignAct = nullptr;
     QAction* textCommentAct = nullptr;

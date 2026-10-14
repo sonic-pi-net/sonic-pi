@@ -14,6 +14,7 @@
 #include "setbundle.h"
 
 #include <QFile>
+#include <QFileInfo>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -29,6 +30,7 @@ static const QString metaPrefix = QStringLiteral("#-- meta ");
 // be mistaken for markers; the reader strips exactly one.
 static const QString escapePrefix = QStringLiteral("#-- ~");
 static const QRegularExpression bufferMarker(QStringLiteral("^#-- buffer (\\d+)$"));
+static const QChar byteOrderMark(0xFEFF);
 
 static int clampZoom(int zoom)
 {
@@ -79,8 +81,13 @@ SetBundle::Load SetBundle::deserialise(const QString& text)
     Load load;
     load.buffers = QVector<QString>(MaxBuffers);
     load.zooms = QVector<int>(MaxBuffers, DefaultZoom);
+    load.names = QVector<QString>(MaxBuffers);
 
     QString body = text;
+    if (body.startsWith(byteOrderMark))
+    {
+        body.remove(0, 1);
+    }
     body.replace(QStringLiteral("\r\n"), QStringLiteral("\n"));
     // serialise ends every section with exactly one newline; drop it so the
     // final buffer doesn't grow a phantom trailing line.
@@ -91,10 +98,14 @@ SetBundle::Load SetBundle::deserialise(const QString& text)
 
     int currentBuffer = -1;
     QVector<QStringList> sections(MaxBuffers);
-    bool anyBuffer = false;
+    // a buffer marker, or the header as the first line: a set whose buffers
+    // are all empty has only its header and meta
+    bool found = false;
 
-    for (const QString& line : body.split(QLatin1Char('\n')))
+    const QStringList lines = body.split(QLatin1Char('\n'));
+    for (qsizetype n = 0; n < lines.size(); n++)
     {
+        const QString& line = lines[n];
         if (line.startsWith(escapePrefix) && currentBuffer >= 0)
         {
             sections[currentBuffer].append(line.mid(escapePrefix.size()));
@@ -103,22 +114,29 @@ SetBundle::Load SetBundle::deserialise(const QString& text)
         const auto marker = bufferMarker.match(line);
         if (marker.hasMatch())
         {
-            const int i = marker.captured(1).toInt();
-            currentBuffer = (i >= 0 && i < MaxBuffers) ? i : -1;
+            bool inRange = false;
+            const int i = marker.captured(1).toInt(&inRange);
+            currentBuffer = (inRange && i >= 0 && i < MaxBuffers) ? i : -1;
             if (currentBuffer >= 0)
             {
-                anyBuffer = true;
+                found = true;
             }
             continue;
         }
         if (currentBuffer < 0)
         {
             const auto header = headerMarker.match(line);
-            if (header.hasMatch() && header.captured(1).toInt() > Version)
+            if (header.hasMatch())
             {
-                load.error = QStringLiteral("it was made by a newer version of Sonic Pi (set format v%1, where this one reads up to v%2): update Sonic Pi to open it")
-                    .arg(header.captured(1)).arg(Version);
-                return load;
+                bool inRange = false;
+                const int version = header.captured(1).toInt(&inRange);
+                if (!inRange || version > Version)   // too big for an int is newer still
+                {
+                    load.error = QStringLiteral("it was made by a newer version of Sonic Pi (set format v%1, where this one reads up to v%2): update Sonic Pi to open it")
+                        .arg(header.captured(1)).arg(Version);
+                    return load;
+                }
+                found = found || n == 0;
             }
             if (line.startsWith(metaPrefix))
             {
@@ -134,6 +152,11 @@ SetBundle::Load SetBundle::deserialise(const QString& text)
                     {
                         load.zooms[i] = clampZoom(zooms[i].toInt(DefaultZoom));
                     }
+                    const QJsonArray names = meta[QStringLiteral("names")].toArray();
+                    for (int i = 0; i < MaxBuffers && i < names.size(); i++)
+                    {
+                        load.names[i] = names[i].toString().trimmed().left(NameMax);
+                    }
                 }
             }
             continue;
@@ -141,7 +164,7 @@ SetBundle::Load SetBundle::deserialise(const QString& text)
         sections[currentBuffer].append(line);
     }
 
-    if (!anyBuffer)
+    if (!found)
     {
         load.error = QStringLiteral("not a Sonic Pi set file");
         return load;
@@ -159,16 +182,42 @@ SetBundle::Load SetBundle::deserialise(const QString& text)
     return load;
 }
 
+bool SetBundle::isSet(const QString& text, const QString& fileName)
+{
+    if (fileName.endsWith(QStringLiteral(".sonicpi"), Qt::CaseInsensitive))
+    {
+        return true;
+    }
+    // the header of any version: a newer set is refused as a set, not read as code
+    QStringView first = text.startsWith(byteOrderMark) ? QStringView(text).mid(1) : QStringView(text);
+    first = first.left(first.indexOf(QLatin1Char('\n')));
+    if (first.endsWith(QLatin1Char('\r')))
+    {
+        first.chop(1);
+    }
+    return headerMarker.matchView(first).hasMatch();
+}
+
 QString SetBundle::write(const QString& path, const QVector<QString>& buffers, int currentBuffer,
-                         const QVector<int>& zooms, const QJsonObject& meta)
+                         const QVector<int>& zooms, const QJsonObject& keep)
 {
     QFile f(path);
     if (!f.open(QFile::WriteOnly))
     {
         return QStringLiteral("could not write %1: %2").arg(path, f.errorString());
     }
-    f.write(serialise(buffers, currentBuffer, zooms, meta).toUtf8());
+    f.write(serialise(buffers, currentBuffer, zooms, namedAfter(path, keep)).toUtf8());
     return QString();
+}
+
+QJsonObject SetBundle::namedAfter(const QString& path, const QJsonObject& keep)
+{
+    QJsonObject meta = keep;
+    if (!path.isEmpty())
+    {
+        meta[QStringLiteral("name")] = QFileInfo(path).completeBaseName();
+    }
+    return meta;
 }
 
 SetBundle::Load SetBundle::read(const QString& path)
@@ -179,6 +228,7 @@ SetBundle::Load SetBundle::read(const QString& path)
         Load load;
         load.buffers = QVector<QString>(MaxBuffers);
         load.zooms = QVector<int>(MaxBuffers, DefaultZoom);
+        load.names = QVector<QString>(MaxBuffers);
         load.error = QStringLiteral("could not read %1: %2").arg(path, f.errorString());
         return load;
     }

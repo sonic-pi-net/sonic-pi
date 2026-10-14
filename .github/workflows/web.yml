@@ -9,9 +9,9 @@ name: Web
 
 on:
   push:
-    paths: ["app/web/**", "app/server/ruby/lib/**", "etc/**", ".github/workflows/web.yml"]
+    paths: ["app/web/**", "app/sharelink/**", "app/server/ruby/lib/**", "etc/**", ".github/workflows/web.yml"]
   pull_request:
-    paths: ["app/web/**", "app/server/ruby/lib/**", "etc/**", ".github/workflows/web.yml"]
+    paths: ["app/web/**", "app/sharelink/**", "app/server/ruby/lib/**", "etc/**", ".github/workflows/web.yml"]
 
 env:
   EMSDK_VERSION: "4.0.14"   # what the wasm is built with
@@ -173,6 +173,10 @@ jobs:
           scripts/build-runtime.sh
           node scripts/build-site.mjs
           node scripts/build-app.mjs
+      - name: The app's own tests
+        # app/src a module at a time in Node: the workspace, sets byte for byte as native's own code writes and reads
+        # them (fixtures/set-bundle.json), the share link, the shortcuts, and the live core on the runtime just built
+        run: npm test
       - name: The examples are the specs they say they are
         run: npm run check:examples
       - name: Serve it

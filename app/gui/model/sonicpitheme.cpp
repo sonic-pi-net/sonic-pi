@@ -1456,6 +1456,7 @@ void SonicPiTheme::reloadStylesheet() {
         .replace("highlightedBackgroundColor", highlightedBackgroundColor)
         .replace("accentContrastTextColor", accentContrastTextColor)
         .replace("accentHoverColor", accentHoverColor)
+        .replace("editorBackgroundColor", this->color("Background").name())   // the code's own ground (the web's --Background)
         .replace("accentTintStrongColor", accentTintStrongColor)
         .replace("accentTintColor", accentTintColor)
         .replace("softForegroundColor", softForegroundColor)

@@ -20,6 +20,7 @@
 #include "utils/scintilla_api.h"
 #include "utils/completion_context.h"
 #include "utils/flash_style.h"
+#include "utils/setbundle.h"
 #include "dpi.h"
 #include "kiss_fftr.h"
 #include <algorithm>
@@ -41,6 +42,7 @@
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QFile>
 #include <QRegularExpression>
 #include <QSet>
 #include <QMenu>
@@ -3193,19 +3195,51 @@ void SonicPiScintilla::mouseReleaseEvent(QMouseEvent* e)
         popCompletionOnClick();
 }
 
+// Files dropped on the code, as the web's editor takes them (app/web/app/src/editor.js): a set among them opens as a
+// set (SetBundle::isSet: by its header or its name), nothing put in; so does a Sonic Pi link (#code=) from a browser or
+// a chat, as Open Link opens it; else each file of code (.rb, .txt) goes in as its text and anything else (a sample)
+// as its path in quotes, ready for sample, where they are dropped, as one undoable change, selected.
 void SonicPiScintilla::dropEvent(QDropEvent* dropEvent)
 {
     mutex->lock();
     if (dropEvent->mimeData()->hasFormat("text/uri-list"))
     {
         dropEvent->acceptProposedAction();
-        QList<QUrl> urlList = dropEvent->mimeData()->urls();
+        static const QRegularExpression codeFile(QStringLiteral("\\.(rb|txt|sonicpi)$"), QRegularExpression::CaseInsensitiveOption);
         QString text;
-        for (int i = 0; i < urlList.size(); ++i)
+        for (const QUrl& url : dropEvent->mimeData()->urls())
         {
-            text += "\"" + urlList.at(i).toLocalFile() + "\"" + QLatin1Char('\n');
+            const QString path = url.isLocalFile() ? url.toLocalFile() : url.toString();
+            if (!url.isLocalFile() && path.contains(QStringLiteral("#code=")))
+            {
+                mutex->unlock();
+                emit linkDropped(path);
+                return;
+            }
+            QString code;
+            const bool isCode = url.isLocalFile() && codeFile.match(path).hasMatch();
+            if (isCode)
+            {
+                QFile f(path);
+                if (f.open(QFile::ReadOnly))
+                    code = QString::fromUtf8(f.readAll());
+            }
+            if (SonicPi::SetBundle::isSet(code, isCode ? path : QString()))
+            {
+                mutex->unlock();
+                emit setDropped(path);
+                return;
+            }
+            if (!text.isEmpty() && !text.endsWith(QLatin1Char('\n')))
+                text += QLatin1Char('\n');
+            text += isCode ? code : "\"" + path + "\"\n";
         }
-        insert(text);
+        const QPoint at = dropEvent->position().toPoint();
+        const long pos = SendScintilla(SCI_POSITIONFROMPOINT, (unsigned long)at.x(), (long)at.y());
+        const QByteArray bytes = text.toUtf8();
+        SendScintilla(SCI_INSERTTEXT, pos, bytes.constData());
+        SendScintilla(SCI_SETSEL, pos, pos + (long)bytes.size());
+        setFocus();
     }
     else if (dropEvent->mimeData()->hasFormat(kCardMime))
     {

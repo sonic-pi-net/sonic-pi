@@ -14,22 +14,27 @@
 // The meta is written as Qt writes JSON, its keys sorted, byte for byte.
 //
 // The web's code has one size for every buffer, where native's buffers each
-// have a zoom: a set's zooms are carried through as they came (setZooms), so a
-// set passed through the web keeps them.
+// have a zoom: a set's zooms are carried through as they came (workspace.js
+// keeps them with the set), so a set passed through the web keeps them.
 
 export const MAX_BUFFERS = 10;
 export const VERSION = 1;
 export const DEFAULT_ZOOM = 2, MIN_ZOOM = -5, MAX_ZOOM = 20;   // native's SonicPiScintilla::kDefaultZoom and bounds
+export const NAME_MAX = 80;   // a buffer's name, at most (native's SetBundle::NameMax)
 
 const HEADER = `#-- Sonic Pi Set v${VERSION}`;
 const HEADER_ANY = /^#-- Sonic Pi Set v(\d+)$/;
 const META = "#-- meta ";
 const ESCAPE = "#-- ~";
 const BUFFER = /^#-- buffer (\d+)$/;
+const BOM = "\uFEFF";
 
 const clampZoom = (z) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
-// Qt's QJsonValue::toInt(default): a whole number, else the default
-const toInt = (v, d) => (typeof v === "number" && Number.isInteger(v) ? v : d);
+// Qt's QString::trimmed: the white space QChar::isSpace says is (not JavaScript's trim, which takes U+FEFF and leaves
+// U+0085)
+const trimmed = (s) => s.replace(/^[\t\n\v\f\r \u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\t\n\v\f\r \u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$/g, "");
+// Qt's QJsonValue::toInt(default): a whole number an int can hold, else the default
+const toInt = (v, d) => (Number.isInteger(v) && v >= -2147483648 && v <= 2147483647 ? v : d);
 // QJsonDocument's compact JSON, byte for byte: an object's keys in order, at every depth, and a number's exponent
 // in at least two digits (1e-07, where JSON.stringify writes 1e-7)
 const qtJSON = (v) => Array.isArray(v) ? `[${v.map(qtJSON).join(",")}]`
@@ -49,27 +54,35 @@ export function serialise(buffers, current, zooms = [], keep = {}) {
   return out;
 }
 
-/** A set's text read: { ok, error, buffers (ten strings), zooms (ten), current, meta (as read, every key) }. */
+/**
+ * A set's text read: { ok, error, buffers (ten strings), zooms (ten), names (ten: each buffer's own name, "" for none),
+ * current, meta (as read, every key) }.
+ */
 export function deserialise(text) {
-  const load = { ok: false, error: "", buffers: new Array(MAX_BUFFERS).fill(""), zooms: new Array(MAX_BUFFERS).fill(DEFAULT_ZOOM), current: 0, meta: {} };
-  let body = text.replace(/\r\n/g, "\n");
+  const load = { ok: false, error: "", buffers: new Array(MAX_BUFFERS).fill(""), zooms: new Array(MAX_BUFFERS).fill(DEFAULT_ZOOM), names: new Array(MAX_BUFFERS).fill(""), current: 0, meta: {} };
+  let body = (text.startsWith(BOM) ? text.slice(1) : text).replace(/\r\n/g, "\n");
   if (body.endsWith("\n")) body = body.slice(0, -1);   // every section ends with one newline: the last buffer grows no line of its own
-  let at = -1, any = false;
+  let at = -1, found = false;   // a buffer marker, or the header as the first line: a set of empty buffers has only those
   const sections = Array.from({ length: MAX_BUFFERS }, () => null);
-  for (const line of body.split("\n")) {
+  const lines = body.split("\n");
+  for (let n = 0; n < lines.length; n++) {
+    const line = lines[n];
     if (line.startsWith(ESCAPE) && at >= 0) { sections[at].push(line.slice(ESCAPE.length)); continue; }
     const m = BUFFER.exec(line);
     if (m) {
       const i = parseInt(m[1], 10);
       at = i >= 0 && i < MAX_BUFFERS ? i : -1;
-      if (at >= 0) { any = true; sections[at] ??= []; }
+      if (at >= 0) { found = true; sections[at] ??= []; }
       continue;
     }
     if (at < 0) {
       const h = HEADER_ANY.exec(line);
-      if (h && parseInt(h[1], 10) > VERSION) {
-        load.error = `it was made by a newer version of Sonic Pi (set format v${h[1]}, where this one reads up to v${VERSION}): update Sonic Pi to open it`;
-        return load;
+      if (h) {
+        if (parseInt(h[1], 10) > VERSION) {
+          load.error = `it was made by a newer version of Sonic Pi (set format v${h[1]}, where this one reads up to v${VERSION}): update Sonic Pi to open it`;
+          return load;
+        }
+        found ||= n === 0;
       }
       if (line.startsWith(META)) {
         let meta = null;
@@ -80,17 +93,31 @@ export function deserialise(text) {
           load.current = c >= 0 && c < MAX_BUFFERS ? c : 0;
           const z = Array.isArray(meta.zooms) ? meta.zooms : [];
           for (let i = 0; i < MAX_BUFFERS && i < z.length; i++) load.zooms[i] = clampZoom(toInt(z[i], DEFAULT_ZOOM));
+          // each buffer's name: a string, trimmed, at most NAME_MAX; anything else, none (as QJsonValue::toString)
+          const n = Array.isArray(meta.names) ? meta.names : [];
+          for (let i = 0; i < MAX_BUFFERS && i < n.length; i++) load.names[i] = typeof n[i] === "string" ? trimmed(n[i]).slice(0, NAME_MAX) : "";
         }
       }
       continue;
     }
     sections[at].push(line);
   }
-  if (!any) { load.error = "not a Sonic Pi set file"; return load; }
+  if (!found) { load.error = "not a Sonic Pi set file"; return load; }
   sections.forEach((s, i) => { if (s?.length) load.buffers[i] = s.join("\n"); });
   load.ok = true;
   return load;
 }
 
-/** Whether a file's text is a set rather than a buffer's code. */
-export const isSet = (text) => text.replace(/^﻿/, "").startsWith(HEADER);
+/**
+ * Whether a file holds a set rather than one buffer's code: its text starts with the header (of any version, so a
+ * newer set is refused as a set rather than read as code), or its name ends .sonicpi. The one rule for every way a
+ * file arrives, and native's (SetBundle::isSet).
+ */
+export function isSet(text, fileName = "") {
+  if (/\.sonicpi$/i.test(fileName)) return true;
+  let first = text.startsWith(BOM) ? text.slice(1) : text;
+  const nl = first.indexOf("\n");
+  if (nl >= 0) first = first.slice(0, nl);
+  if (first.endsWith("\r")) first = first.slice(0, -1);
+  return HEADER_ANY.test(first);
+}

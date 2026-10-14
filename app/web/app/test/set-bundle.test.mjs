@@ -10,7 +10,7 @@ import { serialise, deserialise, isSet, VERSION } from "../src/set-bundle.js";
 const { cases } = JSON.parse(fs.readFileSync(new URL("./fixtures/set-bundle.json", import.meta.url), "utf8"));
 
 test("the web writes every set byte for byte as native does", () => {
-  const writes = cases.filter((c) => !("text" in c.in));
+  const writes = cases.filter((c) => "buffers" in c.in);
   assert.ok(writes.length > 100);
   for (const { in: c, out } of writes) assert.equal(serialise(c.buffers, c.current, c.zooms, c.meta), out.text, JSON.stringify(c));
 });
@@ -19,8 +19,8 @@ test("the web reads every file as native does", () => {
   const reads = cases.filter((c) => "text" in c.in);
   assert.ok(reads.length > 100);
   for (const { in: c, out } of reads) {
-    const { ok, error, buffers, zooms, current, meta } = deserialise(c.text);
-    assert.deepEqual({ ok, error, buffers, zooms, current, meta }, out, JSON.stringify(c.text));
+    const { ok, error, buffers, zooms, names, current, meta } = deserialise(c.text);
+    assert.deepEqual({ ok, error, buffers, zooms, names, current, meta }, out, JSON.stringify(c.text));
   }
 });
 
@@ -38,8 +38,14 @@ test("meta the web does not know survives a load and a save", () => {
   assert.equal(again.zooms[0], 4);
 });
 
-test("a set is told from a buffer's code by its header", () => {
-  assert.ok(isSet("#-- Sonic Pi Set v1\n#-- buffer 0\nx"));
-  assert.ok(isSet("﻿#-- Sonic Pi Set v1\n"));
-  assert.ok(!isSet("play 60\n#-- Sonic Pi Set v1"));
+test("the web takes a file for a set exactly when native does: by its header, or its name", () => {
+  const sniffs = cases.filter((c) => "isSet" in c.in);
+  assert.ok(sniffs.length > 100);
+  for (const { in: c, out } of sniffs) assert.equal(isSet(c.isSet.text, c.isSet.name), out.isSet, JSON.stringify(c.isSet));
+});
+
+test("a set with every buffer empty saves and opens again", () => {
+  const load = deserialise(serialise(new Array(10).fill(""), 4));
+  assert.equal(load.ok, true);
+  assert.equal(load.current, 4);
 });

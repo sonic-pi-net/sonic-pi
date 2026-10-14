@@ -57,7 +57,13 @@ enum class Glyph
     Plug,            // Tracks tab
     Pencil,          // card: edit the code
     Reset,           // card: back to the code as written
-    ExternalLink     // card: open in the editor
+    ExternalLink,    // card: open in the editor
+    FileCode,        // share: this buffer
+    Stack2,          // share: the whole set
+    Qrcode,          // share: as a QR code
+    Link,            // share: show the link
+    Download,        // share: save as a file
+    CircleX          // share: close
 };
 
 // Solid glyphs are tinted via fill; everything else via stroke.
@@ -218,6 +224,45 @@ inline QString glyphPaths(Glyph glyph)
             "<path d='M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6' />"
             "<path d='M11 13l9 -9' />"
             "<path d='M15 4h5v5' />");
+    case Glyph::FileCode:
+        return QStringLiteral(
+            "<path d='M14 3v4a1 1 0 0 0 1 1h4' />"
+            "<path d='M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2' />"
+            "<path d='M10 13l-1 2l1 2' />"
+            "<path d='M14 13l1 2l-1 2' />");
+    case Glyph::Stack2:
+        return QStringLiteral(
+            "<path d='M12 4l-8 4l8 4l8 -4l-8 -4' />"
+            "<path d='M4 12l8 4l8 -4' />"
+            "<path d='M4 16l8 4l8 -4' />");
+    case Glyph::Qrcode:
+        return QStringLiteral(
+            "<path d='M4 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4' />"
+            "<path d='M7 17l0 .01' />"
+            "<path d='M14 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4' />"
+            "<path d='M7 7l0 .01' />"
+            "<path d='M4 15a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4' />"
+            "<path d='M17 7l0 .01' />"
+            "<path d='M14 14l3 0' />"
+            "<path d='M20 14l0 .01' />"
+            "<path d='M14 14l0 3' />"
+            "<path d='M14 20l3 0' />"
+            "<path d='M17 17l3 0' />"
+            "<path d='M20 17l0 3' />");
+    case Glyph::Link:
+        return QStringLiteral(
+            "<path d='M9 15l6 -6' />"
+            "<path d='M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464' />"
+            "<path d='M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463' />");
+    case Glyph::Download:
+        return QStringLiteral(
+            "<path d='M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2' />"
+            "<path d='M7 11l5 5l5 -5' />"
+            "<path d='M12 4l0 12' />");
+    case Glyph::CircleX:
+        return QStringLiteral(
+            "<path d='M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0' />"
+            "<path d='M10 10l4 4m0 -4l-4 4' />");
     case Glyph::Plug:
         return QStringLiteral(
             "<path d='M9.785 6l8.215 8.215l-2.054 2.054a5.81 5.81 0 1 1 -8.215 -8.215l2.054 "

@@ -4,7 +4,8 @@
 // app/test/fixtures/set-bundle.json, which app/test/set-bundle.test.mjs holds the web's set-bundle.js to.
 //
 //   a case {buffers, current, zooms, meta} → {text}: the set native writes
-//   a case {text}                          → {ok, error, buffers, zooms, current, meta}: what native reads
+//   a case {text}                          → {ok, error, buffers, zooms, names, current, meta}: what native reads
+//   a case {isSet: {text, name}}           → {isSet}: whether native takes the file for a set
 #include "setbundle.h"
 #include <QCoreApplication>
 #include <QFile>
@@ -21,10 +22,13 @@ int main(int argc, char** argv) {
   QJsonArray cases = QJsonDocument::fromJson(in.readAll()).array(), out;
   for (const auto& c : cases) {
     QJsonObject o = c.toObject(), r;
-    if (o.contains("text")) {
+    if (o.contains("isSet")) {
+      const QJsonObject f = o["isSet"].toObject();
+      r["isSet"] = SetBundle::isSet(f["text"].toString(), f["name"].toString());
+    } else if (o.contains("text")) {
       auto l = SetBundle::deserialise(o["text"].toString());
-      QJsonArray b, z; for (auto& s : l.buffers) b.append(s); for (int v : l.zooms) z.append(v);
-      r["ok"] = l.ok; r["error"] = l.error; r["buffers"] = b; r["zooms"] = z; r["current"] = l.currentBuffer; r["meta"] = l.meta;
+      QJsonArray b, z, n; for (auto& s : l.buffers) b.append(s); for (int v : l.zooms) z.append(v); for (auto& s : l.names) n.append(s);
+      r["ok"] = l.ok; r["error"] = l.error; r["buffers"] = b; r["zooms"] = z; r["names"] = n; r["current"] = l.currentBuffer; r["meta"] = l.meta;
     } else {
       QVector<QString> b; QVector<int> z;
       for (auto v : o["buffers"].toArray()) b.append(v.toString());

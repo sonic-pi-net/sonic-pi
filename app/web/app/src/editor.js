@@ -23,6 +23,7 @@ import { announce, Announcement } from "./announce.js";
 import { LoopScopeState, drawLoopScope, SWEEP_WINDOW, SWEEP_SEARCH, SCROLL_WINDOW } from "./loopscope.js";
 import { animateWhileShown } from "./ui/shown.js";
 import { shadowFor } from "./shadow.js";
+import { isSet } from "./set-bundle.js";
 
 export const NUM_BUFFERS = 10;   // the most a set can have (workspace.js MAX_BUFFERS); each set its own number
 // the first buffer on a first visit (workspace.js puts it there): notes to hear, change and hear again — short lines,
@@ -733,6 +734,34 @@ export function createEditor(mount, { api, hooks, workspace }) {
       ...defaultKeymap,
     ]),
     history(),
+    // Files dropped on the code, as native's editor takes them (SonicPiScintilla::dropEvent): a set among them opens as
+    // a set (isSet: by its header or its name) and nothing is put in; so does a Sonic Pi link (#code=) dropped from
+    // another page or a chat, as the link opens; else each file of code goes in where it is dropped, as one undoable
+    // change. A file that isn't text (a sample) is left out, as CodeMirror leaves it: native puts in its path, which a
+    // page has none of.
+    EditorView.domEventHandlers({
+      drop(event, view) {
+        const files = [...(event.dataTransfer?.files ?? [])];
+        if (!files.length) {
+          const links = event.dataTransfer?.getData("text/uri-list") || event.dataTransfer?.getData("text/plain") || "";
+          const link = links.split(/\r?\n/).find((l) => !l.startsWith("#") && l.includes("#code="));
+          if (!link) return false;
+          hooks.onLinkDropped?.(link.trim());
+          return true;
+        }
+        const at = { x: event.clientX, y: event.clientY };
+        Promise.all(files.map((f) => f.text().then((text) => ({ name: f.name, text }), () => null))).then((read) => {
+          const set = read.find((f) => f && isSet(f.text, f.name));
+          if (set) return hooks.onSetDropped?.(set.text, set.name);
+          const code = read.filter((f) => f && !/[\x00-\x08\x0e-\x1f]{2}/.test(f.text)).map((f) => f.text).join(view.state.lineBreak);
+          if (!code) return;
+          const pos = view.posAtCoords(at, false);
+          view.focus();
+          view.dispatch({ changes: { from: pos, insert: code }, selection: { anchor: pos, head: pos + code.length }, userEvent: "input.drop", scrollIntoView: true });
+        });
+        return true;
+      },
+    }),
     drawSelection(),
     loopScopeField,
     loopScopePlugin(hooks),
