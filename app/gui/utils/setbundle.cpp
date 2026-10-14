@@ -195,7 +195,7 @@ bool SetBundle::isSet(const QString& text, const QString& fileName)
     {
         first.chop(1);
     }
-    return headerMarker.matchView(first).hasMatch();
+    return headerMarker.match(first.toString()).hasMatch();   // not matchView: the i686 build is on Qt 6.4
 }
 
 QString SetBundle::write(const QString& path, const QVector<QString>& buffers, int currentBuffer,
