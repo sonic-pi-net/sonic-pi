@@ -51,6 +51,9 @@
 
 namespace {
 
+using SonicPi::wgc::AllocCropTexture;
+using SonicPi::wgc::ClientBoxOf;
+using SonicPi::wgc::CopyCrop;
 using SonicPi::wgc::CreateDirect3DDevice;
 using SonicPi::wgc::GetFrameTexture;
 
@@ -152,6 +155,7 @@ public:
 
         RECORDER_LOG("recording HWND " << hwnd << " to "
                      << WideToUtf8(m_filePath) << " ("
+                     << m_box.width << "x" << m_box.height << " of the window's "
                      << m_size.Width << "x" << m_size.Height << ")");
         return true;
     }
@@ -322,6 +326,19 @@ private:
             RECORDER_LOG("window has zero size — minimised? aborting");
             return false;
         }
+        // The file shows the app, not the window chrome: the client area's
+        // box of the captured frame (capture_crop.h), at even dimensions as
+        // H.264 wants. The whole frame when there is no client area.
+        m_box = ClientBoxOf(hwnd, m_size);
+        if (m_box.empty()) {
+            m_box = { 0, 0, (unsigned)m_size.Width, (unsigned)m_size.Height };
+        }
+        m_box.width &= ~1u;
+        m_box.height &= ~1u;
+        if (m_box.empty()) {
+            RECORDER_LOG("window has no area to record; aborting");
+            return false;
+        }
 
         m_framePool = winrt::Direct3D11CaptureFramePool::CreateFreeThreaded(
             m_winrtDevice,
@@ -338,8 +355,8 @@ private:
 
     bool BuildVideoOutputType(winrt::com_ptr<IMFMediaType>& out)
     {
-        const UINT32 w = (UINT32)m_size.Width;
-        const UINT32 h = (UINT32)m_size.Height;
+        const UINT32 w = m_box.width;
+        const UINT32 h = m_box.height;
         // Bitrate model copied from recorder.mm: width*height*60*4 / 100
         // — ~4% of raw BGRA bandwidth, which lands around 8 Mbps at
         // 1080p60 and 32 Mbps at 4K60. Good quality without bloating
@@ -444,8 +461,8 @@ private:
 
     bool ConfigureVideoInput()
     {
-        const UINT32 w = (UINT32)m_size.Width;
-        const UINT32 h = (UINT32)m_size.Height;
+        const UINT32 w = m_box.width;
+        const UINT32 h = m_box.height;
         winrt::com_ptr<IMFMediaType> in;
         if (FAILED(MFCreateMediaType(in.put()))) return false;
         in->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Video);
@@ -542,11 +559,12 @@ private:
         if (!wgcTex) return;
 
         // WGC recycles its pool texture when `frame` goes out of scope,
-        // but the encoder MFT may hold the sample for several frames.
-        // CopyResource into our own texture so it survives recycling.
+        // but the encoder MFT may hold the sample for several frames: the
+        // crop is copied into a texture of our own, which survives
+        // recycling.
         winrt::com_ptr<ID3D11Texture2D> ownedTex;
-        if (!AllocFrameTexture(size, ownedTex)) return;
-        m_d3dContext->CopyResource(ownedTex.get(), wgcTex.get());
+        if (!AllocCropTexture(m_d3dDevice.get(), m_box, ownedTex)) return;
+        CopyCrop(m_d3dContext.get(), ownedTex.get(), wgcTex.get(), m_box);
 
         // QPC delivery time. We deliberately avoid frame.SystemRelativeTime
         // here — measured empirically it's ~27ms *ahead* of QPC at the
@@ -599,25 +617,6 @@ private:
             // shouldn't kill the whole recording — log and keep going.
             RECORDER_LOG("WriteSample(video) failed: 0x" << std::hex << hr);
         }
-    }
-
-    bool AllocFrameTexture(const winrt::SizeInt32& size,
-                           winrt::com_ptr<ID3D11Texture2D>& out)
-    {
-        D3D11_TEXTURE2D_DESC desc = {};
-        desc.Width            = (UINT)size.Width;
-        desc.Height           = (UINT)size.Height;
-        desc.MipLevels        = 1;
-        desc.ArraySize        = 1;
-        desc.Format           = DXGI_FORMAT_B8G8R8A8_UNORM;
-        desc.SampleDesc.Count = 1;
-        desc.Usage            = D3D11_USAGE_DEFAULT;
-        desc.BindFlags        = D3D11_BIND_RENDER_TARGET
-                              | D3D11_BIND_SHADER_RESOURCE;
-        // MISC_SHARED would let other processes consume the texture; not
-        // needed here — only MF on our own device sees it.
-        return SUCCEEDED(m_d3dDevice->CreateTexture2D(&desc, nullptr,
-                                                       out.put()));
     }
 
     void OnItemClosed(const winrt::GraphicsCaptureItem&,
@@ -789,7 +788,8 @@ private:
     winrt::GraphicsCaptureSession          m_session{ nullptr };
     winrt::event_token                     m_frameArrivedToken{};
     winrt::event_token                     m_itemClosedToken{};
-    winrt::SizeInt32                       m_size{};
+    winrt::SizeInt32                       m_size{};   // the captured frame: the whole window
+    SonicPi::CaptureBox                    m_box{};    // the client area in it: the file's frame
 
     // Media Foundation
     winrt::com_ptr<IMFSinkWriter>          m_writer;

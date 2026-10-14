@@ -15,6 +15,7 @@
 
 #import "capture_target.h"
 #import "objc_guard.h"
+#include "capture_crop.h"
 
 using namespace SonicPi::objc;
 
@@ -113,15 +114,19 @@ static NSString *const kPluginBridgeBundleID = @"net.sonic-pi.plugins";
                                   exceptingWindows:@[]];
 }
 
-// AppKit's frame is global, bottom-left; SCK wants display-local, top-left.
+// The window's content, not its frame: the title bar is not in the picture.
+// AppKit's rectangle is global, bottom-left; SCK wants display-local,
+// top-left (capture_crop.h).
 - (CGRect)sourceRect
 {
-    NSRect f = [_window frame];
+    NSRect content = [_window convertRectToScreen:[_window contentLayoutRect]];
     CGRect primary = CGDisplayBounds(CGMainDisplayID());
     CGRect display = CGDisplayBounds(_displayID);
-    CGFloat top = primary.size.height - (f.origin.y + f.size.height);
-    return CGRectMake(f.origin.x - display.origin.x, top - display.origin.y,
-                      f.size.width, f.size.height);
+    const SonicPi::CaptureRect crop = SonicPi::captureRectOnDisplay(
+        { content.origin.x, content.origin.y, content.size.width, content.size.height },
+        primary.size.height,
+        { display.origin.x, display.origin.y, display.size.width, display.size.height });
+    return CGRectMake(crop.x, crop.y, crop.width, crop.height);
 }
 
 - (CGFloat)scale

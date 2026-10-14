@@ -37,6 +37,9 @@
 
 namespace {
 
+using SonicPi::wgc::AllocCropTexture;
+using SonicPi::wgc::ClientBoxOf;
+using SonicPi::wgc::CopyCrop;
 using SonicPi::wgc::CreateDirect3DDevice;
 using SonicPi::wgc::GetFrameTexture;
 
@@ -76,9 +79,12 @@ public:
             return false;
         }
         m_item = item;
+        m_hwnd = hwnd;
+        m_d3dDevice->GetImmediateContext(m_d3dContext.put());
 
         winrt::SizeInt32 size = m_item.Size();
         m_lastSize = size;
+        RecomputeCrop();
         m_framePool = winrt::Direct3D11CaptureFramePool::CreateFreeThreaded(
             m_winrtDevice,
             winrt::DirectXPixelFormat::B8G8R8A8UIntNormalized,
@@ -107,7 +113,9 @@ public:
         m_session.StartCapture();
         m_running.store(true);
         SPOUTPUB_LOG("publishing HWND " << hwnd << " as '" << m_name << "' ("
-                     << size.Width << "x" << size.Height << ")");
+                     << size.Width << "x" << size.Height << ", showing "
+                     << m_box.width << "x" << m_box.height << " at "
+                     << m_box.left << "," << m_box.top << ")");
         return true;
     }
 
@@ -126,6 +134,8 @@ public:
         m_spout.ReleaseSender();
         m_spout.CloseDirectX11();
 
+        m_cropTex = nullptr;
+        m_d3dContext = nullptr;
         m_winrtDevice = nullptr;
         m_d3dDevice = nullptr;
         if (wasRunning) SPOUTPUB_LOG("stopped");
@@ -161,6 +171,7 @@ private:
 
         if (size.Width != m_lastSize.Width || size.Height != m_lastSize.Height) {
             m_lastSize = size;
+            RecomputeCrop();
             sender.Recreate(m_winrtDevice,
                             winrt::DirectXPixelFormat::B8G8R8A8UIntNormalized,
                             2, size);
@@ -178,10 +189,31 @@ private:
 
         try {
             auto tex = GetFrameTexture(frame);
-            if (tex) m_spout.SendTexture(tex.get());
+            if (!tex) return;
+            // The app, not the window chrome: the client area's box of the
+            // frame, copied out (capture_crop.h). The whole frame when the
+            // window has no client area to show.
+            if (m_box.empty()) {
+                m_spout.SendTexture(tex.get());
+            } else {
+                CopyCrop(m_d3dContext.get(), m_cropTex.get(), tex.get(), m_box);
+                m_spout.SendTexture(m_cropTex.get());
+            }
         } catch (const winrt::hresult_error&) {
             // Surface vanished mid-frame (window closed); the Closed
             // event handles teardown.
+        }
+    }
+
+    // The crop for the frame size WGC is giving: at the start and whenever
+    // the window's size changes. Empty — the whole frame goes out — when
+    // there is no client area or no texture for its copy.
+    void RecomputeCrop()
+    {
+        m_box = ClientBoxOf(m_hwnd, m_lastSize);
+        if (!m_box.empty() && !AllocCropTexture(m_d3dDevice.get(), m_box, m_cropTex)) {
+            SPOUTPUB_LOG("no texture for the crop; sending the whole window");
+            m_box = {};
         }
     }
 
@@ -191,7 +223,9 @@ private:
         m_running.store(false);
     }
 
+    HWND                              m_hwnd{ nullptr };
     winrt::com_ptr<ID3D11Device>      m_d3dDevice;
+    winrt::com_ptr<ID3D11DeviceContext> m_d3dContext;
     winrt::IDirect3DDevice            m_winrtDevice{ nullptr };
     winrt::GraphicsCaptureItem        m_item{ nullptr };
     winrt::Direct3D11CaptureFramePool m_framePool{ nullptr };
@@ -203,6 +237,8 @@ private:
     spoutDX           m_spout;
     std::string       m_name;
     winrt::SizeInt32  m_lastSize{};
+    SonicPi::CaptureBox m_box{};                 // the client area in the frame; empty: the whole frame
+    winrt::com_ptr<ID3D11Texture2D> m_cropTex;   // m_box big, the frame's crop copied into it
     std::atomic<bool> m_running{ false };
     bool              m_showCursor{ false };
     std::mutex        m_callbackMutex;

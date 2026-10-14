@@ -610,6 +610,8 @@ endif()
 if(WIN32)
     # windowsapp.lib: WinRT runtime for Windows.Graphics.Capture interop.
     # D3D11 / DXGI / IPC libs come in transitively via spout_vendored.
+    # dwmapi: the window's frame bounds, for the capture's crop to its
+    # client area (wgc_d3d_interop.h).
     # mf*: Media Foundation libs used by the session recorder
     # (recorder_win.cpp) to mux H.264 + AAC into .mp4 via IMFSinkWriter.
     # ole32/oleaut32: COM + BSTR for the UIA accessibility self-test
@@ -617,6 +619,7 @@ if(WIN32)
     target_link_libraries(${APP_NAME} PRIVATE
         spout_vendored
         windowsapp
+        dwmapi
         mf
         mfplat
         mfreadwrite

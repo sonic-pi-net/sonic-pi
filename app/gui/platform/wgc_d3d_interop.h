@@ -19,9 +19,12 @@
 
 #include <Windows.h>
 #include <d3d11.h>
+#include <dwmapi.h>
 #include <dxgi1_2.h>
 #include <inspectable.h>
 #include <windows.graphics.directx.direct3d11.interop.h>
+
+#include "capture_crop.h"
 
 #include <winrt/base.h>
 #include <winrt/Windows.Foundation.h>
@@ -72,6 +75,63 @@ GetFrameTexture(const winrt::Direct3D11CaptureFrame& frame)
     winrt::check_hresult(access->GetInterface(
         __uuidof(ID3D11Texture2D), tex.put_void()));
     return tex;
+}
+
+// The window's client area as a box inside its captured frame: what the
+// Spout feed and the recorder show (capture_crop.h). A window capture is
+// the window's extended frame bounds — title bar and borders in — and
+// that is where its texture sits on screen. Empty when the window has no
+// client area inside the frame (minimised), and the caller shows the
+// whole frame.
+inline SonicPi::CaptureBox ClientBoxOf(HWND hwnd, const winrt::SizeInt32& frameSize)
+{
+    RECT frame{};
+    if (FAILED(DwmGetWindowAttribute(hwnd, DWMWA_EXTENDED_FRAME_BOUNDS,
+                                     &frame, sizeof(frame)))
+        && !GetWindowRect(hwnd, &frame)) {
+        return {};
+    }
+    RECT client{};
+    POINT origin{};
+    if (!GetClientRect(hwnd, &client) || !ClientToScreen(hwnd, &origin)) {
+        return {};
+    }
+    auto px = [](LONG v) { return v > 0 ? static_cast<unsigned>(v) : 0u; };
+    return SonicPi::clientBoxInFrame(
+        { frame.left, frame.top, px(frameSize.Width), px(frameSize.Height) },
+        { origin.x, origin.y, px(client.right), px(client.bottom) });
+}
+
+// A texture of our own on `device`, `box` big, for a cropped copy of a
+// capture frame to go in (and to outlive the pool's recycling of it).
+inline bool AllocCropTexture(ID3D11Device* device, const SonicPi::CaptureBox& box,
+                             winrt::com_ptr<ID3D11Texture2D>& out)
+{
+    D3D11_TEXTURE2D_DESC desc = {};
+    desc.Width            = box.width;
+    desc.Height           = box.height;
+    desc.MipLevels        = 1;
+    desc.ArraySize        = 1;
+    desc.Format           = DXGI_FORMAT_B8G8R8A8_UNORM;
+    desc.SampleDesc.Count = 1;
+    desc.Usage            = D3D11_USAGE_DEFAULT;
+    desc.BindFlags        = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+    out = nullptr;
+    return SUCCEEDED(device->CreateTexture2D(&desc, nullptr, out.put()));
+}
+
+// `box` of `from` copied into `to`, which is `box` big.
+inline void CopyCrop(ID3D11DeviceContext* context, ID3D11Texture2D* to,
+                     ID3D11Texture2D* from, const SonicPi::CaptureBox& box)
+{
+    D3D11_BOX src = {};
+    src.left   = box.left;
+    src.top    = box.top;
+    src.right  = box.left + box.width;
+    src.bottom = box.top + box.height;
+    src.front  = 0;
+    src.back   = 1;
+    context->CopySubresourceRegion(to, 0, 0, 0, 0, from, 0, &src);
 }
 
 // Qt's main thread initialises COM as STA via OleInitialize. Calling
