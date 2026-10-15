@@ -266,7 +266,7 @@
         <location filename="../mainwindow.cpp" line="543"/>
         <location filename="../mainwindow.cpp" line="698"/>
         <source>Preferences</source>
-        <translation>Roghanna</translation>
+        <translation>Sainroghanna</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="505"/>
@@ -2043,7 +2043,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="5278"/>
         <source>Reduce Animations</source>
-        <translation>Laghdaigh beochan</translation>
+        <translation>Laghdaigh Beochan</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5326"/>
@@ -3167,7 +3167,7 @@ ag baint úsáide as gabháil scáileáin luathaithe ag GPU</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="440"/>
         <source>Open System Settings</source>
-        <translation type="unfinished">Oscail Socruithe an Chórais</translation>
+        <translation>Oscail Socruithe an Chórais</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="505"/>
@@ -3200,117 +3200,117 @@ chuig agus ó ríomhchláir nó ríomhairí eile
     <message>
         <location filename="../widgets/settingswidget.cpp" line="714"/>
         <source>Mild Dark</source>
-        <translation type="unfinished">Dorcha Séimh</translation>
+        <translation>Dorcha Éadrom</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="715"/>
         <source>Phosphor</source>
-        <translation type="unfinished">Fosfar</translation>
+        <translation>Fosfar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="716"/>
         <source>Signal</source>
-        <translation type="unfinished">Comhartha</translation>
+        <translation>Comhartha</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="724"/>
         <source>Light colour scheme.</source>
-        <translation type="unfinished">Scéim dathanna gheal.</translation>
+        <translation>Scéim dathanna éadrom.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="725"/>
         <source>Dark colour scheme.</source>
-        <translation type="unfinished">Scéim dathanna dhorcha.</translation>
+        <translation>Scéim dathanna dorcha.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="726"/>
         <source>High-contrast colour scheme for maximum legibility.</source>
-        <translation type="unfinished">Scéim dathanna ardchodarsnachta ar mhaithe le hinléiteacht uasta.</translation>
+        <translation>Scéim dathanna ardchodarsnachta chun an inléiteacht a uasmhéadú.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="727"/>
         <source>Mild Dark: a softer, low-contrast dark colour scheme.</source>
-        <translation type="unfinished">Dorcha Séimh: scéim dathanna dhorcha níos boige le codarsnacht íseal.</translation>
+        <translation>Dorcha Séimh: scéim dathanna dorcha atá níos boige agus a bhfuil codarsnacht íseal aici.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="728"/>
         <source>Phosphor: a green-on-black CRT colour scheme.</source>
-        <translation type="unfinished">Fosfar: scéim dathanna CRT glas-ar-dhubh.</translation>
+        <translation>Fosfar: scéim dathanna CRT ina bhfuil dath glas ar chúlra dubh.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="729"/>
         <source>Signal: high-contrast blue-and-gold colour scheme.</source>
-        <translation type="unfinished">Comhartha: scéim dathanna gorm-agus-órga le hardchodarsnacht.</translation>
+        <translation>Comhartha: scéim dathanna gorma agus órga a bhfuil ardchodarsnacht ag baint léi.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="734"/>
         <source>Pro icons</source>
-        <translation type="unfinished">Deilbhíní Pro</translation>
+        <translation>Deilbhíní pro</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="735"/>
         <source>Use the compact Pro toolbar icon set instead of the classic icons.</source>
-        <translation type="unfinished">Úsáid tacar dlúth deilbhíní Pro an bharra uirlisí in ionad na ndeilbhíní clasaiceacha.</translation>
+        <translation>Úsáid an tacar deilbhíní dlúth Pro don bharra uirlisí in áit na ndeilbhíní clasaiceacha.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="739"/>
         <source>Monochrome</source>
-        <translation type="unfinished">Monacróm</translation>
+        <translation>Monacrómach</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="740"/>
         <source>Show the whole interface in greyscale.</source>
-        <translation type="unfinished">Taispeáin an comhéadan ar fad i liathscála.</translation>
+        <translation>Taispeáin an comhéadan ar fad i scála liath.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="743"/>
         <source>Invert colours</source>
-        <translation type="unfinished">Inbhéartaigh dathanna</translation>
+        <translation>Aisiompaigh dathanna</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="744"/>
         <source>Invert every interface colour (photo-negative).</source>
-        <translation type="unfinished">Inbhéartaigh gach dath sa chomhéadan (claonchló).</translation>
+        <translation>Aisiompaigh gach dath comhéadain (diúltach grianghraf).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="878"/>
         <source>Rotate Hue</source>
-        <translation type="unfinished">Rothlaigh Lí</translation>
+        <translation>Rothlaigh an Dath</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="880"/>
         <source>Drag the dial to rotate the hue of every colour in the interface.</source>
-        <translation type="unfinished">Tarraing an diail chun lí gach datha sa chomhéadan a rothlú.</translation>
+        <translation>Tarraing an dhiailiú chun lí gach datha sa chomhéadan a rothlú.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="907"/>
         <source>Accessibility</source>
-        <translation type="unfinished">Inrochtaineacht</translation>
+        <translation>Inrochtaineacht</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="908"/>
         <source>Settings that support screen readers and other assistive tools.</source>
-        <translation type="unfinished">Socruithe a thacaíonn le léitheoirí scáileáin agus le huirlisí cúnta eile.</translation>
+        <translation>Socruithe a thacaíonn le léitheoirí scáileáin agus uirlisí cúnta eile.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="924"/>
         <source>If disabled, activity such as synth and sample triggering will not be printed to the log by default.</source>
-        <translation type="unfinished">Má tá sé díchumasaithe, ní phriontálfar gníomhaíocht ar nós truicear sintéise agus samplaí sa logchomhad de réir réamhshocraithe.</translation>
+        <translation>Má dhéantar é a dhíchumasú, ní dhéanfar gníomhaíocht, ar nós truicearáil sintéiseoirí agus samplaí, a phriontáil chuig an loga de réir réamhshocraithe.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="927"/>
         <source>If enabled, the log is cleared each time the run button is pressed.</source>
-        <translation type="unfinished">Má tá sé cumasaithe, glantar an logchomhad gach uair a bhrúitear an cnaipe rith.</translation>
+        <translation>Má tá sé cumasaithe, glantar an loga gach uair a bhrúitear an cnaipe reatha.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="930"/>
         <source>If disabled, cues will still trigger. However, they will not be visible in the logs.</source>
-        <translation type="unfinished">Má tá sé díchumasaithe, gníomhóidh leideanna fós. Mar sin féin, ní bheidh siad le feiceáil sna logaí.</translation>
+        <translation>Má dhíchumasaítear iad, spreagfar na comharthaí fós. Ní bheidh siad le feiceáil sna logaí, áfach.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="933"/>
         <source>If enabled, the log is scrolled to the bottom after every new message is displayed.</source>
-        <translation type="unfinished">Má tá sé cumasaithe, scrollaítear an logchomhad go dtí an bun tar éis gach teachtaireacht nua a thaispeáint.</translation>
+        <translation>Má tá sé cumasaithe, scrollaítear an loga go dtí an bun tar éis gach teachtaireacht nua a thaispeáint.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="992"/>
@@ -3321,74 +3321,74 @@ Mirror Stereo - simple left/right composite wave, with left on top, right on bot
 Mono - shows a combined view of the left and right channels (using RMS)
 Spectrum - shows the sound frequencies as a spectrum, from low to high frequencies
 Stereo - shows two independent scopes for left and right channels</source>
-        <translation type="unfinished">Tagann an oscilloscope fuaime i roinnt cineálacha ar féidir iad a fheiceáil ina n-aonar nó le chéile:
+        <translation>Tá roinnt leaganacha den oscalascóip fuaime ar fáil, ar féidir iad a fheiceáil ina n-aonar nó le chéile:
 
-Lissajous - léiríonn sé an gaol pas idir na cainéil chlé agus dheas
-Steirió Scáthánach - tonn chomhshuite shimplí clé/deas, leis an gclé ar barr agus an deas ar bun
-Mona - taispeánann sé amharc comhcheangailte ar na cainéil chlé agus dheas (ag úsáid RMS)
-Speictream - taispeánann sé minicíochtaí na fuaime mar speictream, ó mhinicíochtaí ísle go hard
-Steirió - taispeánann sé dhá scóip neamhspleácha do na cainéil chlé agus dheas</translation>
+Lissajous – léiríonn sé an gaol céime idir na cainéil chlé agus dheis
+Scáthán Steiréó (Mirror Stereo) – tonn chomhchodach shimplí chlé/dheas, leis an gcainéal clé ar barr agus an cainéal deas thíos
+Monafónach (Mono) – taispeánann sé na cainéil chlé agus dheis le chéile (ag baint úsáide as RMS)
+Speictream – taispeánann sé minicíochtaí fuaime mar speictream, ó mhinicíochtaí ísle go minicíochtaí arda
+Steiréó – taispeánann sé dhá oscalascóip neamhspleácha, ceann don chainéal clé agus ceann don chainéal deas</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1001"/>
         <source>Editor Visuals</source>
-        <translation type="unfinished">Amharcghnéithe an Eagarthóra</translation>
+        <translation>Eagarthóir Amharc-ábhair</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1004"/>
         <source>Flash code on sound trigger</source>
-        <translation type="unfinished">Splanc an cód ar thruicear fuaime</translation>
+        <translation>Cód a lasadh ar spreagadh fuaime</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1005"/>
         <source>When enabled, the editor briefly washes the code responsible for each sound as it is triggered.</source>
-        <translation type="unfinished">Nuair atá sé cumasaithe, soilsíonn an t-eagarthóir go gairid an cód atá freagrach as gach fuaim agus í á truicearú.</translation>
+        <translation>Nuair a bhíonn sé cumasaithe, déanann an t-eagarthóir an cód atá freagrach as gach fuaim a shoilsiú go hachomair nuair a spreagtar an fhuaim sin.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1007"/>
         <source>Flash gutter on sound trigger</source>
-        <translation type="unfinished">Splanc an gáitéar ar thruicear fuaime</translation>
+        <translation>Splanc a spreagadh trí fhuaim</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1008"/>
         <source>When enabled, the editor briefly shows a dot in the gutter next to the line responsible for each sound as it is triggered.</source>
-        <translation type="unfinished">Nuair atá sé cumasaithe, taispeánann an t-eagarthóir ponc go gairid sa gháitéar in aice na líne atá freagrach as gach fuaim agus í á truicearú.</translation>
+        <translation>Nuair a bhíonn sé cumasaithe, taispeánann an t-eagarthóir ponc go hachomair sa ghautter in aice leis an líne a spreagann gach fuaim, tráth a spreagtar í.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1010"/>
         <source>Show live loop scopes</source>
-        <translation type="unfinished">Taispeáin scóipeanna live loop</translation>
+        <translation>Taispeáin scóip lúibe beo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1011"/>
         <source>When enabled, each running live loop shows a small oscilloscope and spectrum of its own audio next to its line in the editor.</source>
-        <translation type="unfinished">Nuair atá sé cumasaithe, taispeánann gach live loop atá ag rith oscilloscope beag agus speictream dá fhuaim féin in aice lena líne san eagarthóir.</translation>
+        <translation>Nuair a bhíonn sé cumasaithe, taispeánann gach lúb bheo atá ag rith oscalascóp beag agus speictream dá cuid fuaime féin in aice leis an líne a bhaineann léi san eagarthóir.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1021"/>
         <source>Flash brightness</source>
-        <translation type="unfinished">Gile na splaince</translation>
+        <translation>Gile an splancsholais</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1022"/>
         <location filename="../widgets/settingswidget.cpp" line="1025"/>
         <source>Flash Brightness</source>
-        <translation type="unfinished">Gile na Splaince</translation>
+        <translation>Gile an Splancsholais</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1023"/>
         <source>Drag or scroll to change how strongly the code flash washes the line.</source>
-        <translation type="unfinished">Tarraing nó scrollaigh chun a athrú cé chomh láidir is a shoilsíonn splanc an chóid an líne.</translation>
+        <translation>Tarraing nó scrollaigh chun an déine a athrú a mbíonn tionchar ag splanc an chóid ar an líne.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1093"/>
         <source>This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Is éard atá i gceist leis an tseiceáil seo ná faisnéis gan ainm a sheoladh faoi d&apos;ardán agus do leagan.</translation>
+        <translation>Áirítear leis an seiceáil seo faisnéis anaithnid a sheoladh maidir le d’ardán agus do leagan.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1097"/>
         <source>Force a check for updates now. This check involves sending anonymous information about your platform and version.</source>
-        <translation type="unfinished">Cuir seiceáil i bhfeidhm le haghaidh nuashonruithe anois. Is éard atá i gceist leis an tseiceáil seo ná faisnéis gan ainm a sheoladh faoi d&apos;ardán agus do leagan.</translation>
+        <translation>Cuir tús le seiceáil le haghaidh nuashonruithe anois. Áirítear leis an seiceáil seo faisnéis anaithnid a sheoladh maidir le d’ardán agus an leagan atá agat.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1135"/>
@@ -3420,32 +3420,32 @@ ar https://hosted.weblate.org/projects/sonic-pi/. Go raibh maith agat! :)</trans
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1786"/>
         <source>Illustrates the phase relationship between the left and right channels.</source>
-        <translation type="unfinished">Léiríonn sé an gaol pas idir na cainéil chlé agus dheas.</translation>
+        <translation>Léiríonn sé an gaol céime idir na cainéil chlé agus dheas.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1787"/>
         <source>A simple left/right composite wave, with left on top, right on bottom.</source>
-        <translation type="unfinished">Tonn chomhshuite shimplí clé/deas, leis an gclé ar barr agus an deas ar bun.</translation>
+        <translation>Tonn chomhchodach shimplí chlé/dheas, leis an taobh clé ar barr agus an taobh deas thíos.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1788"/>
         <source>A combined view of the left and right channels (using RMS).</source>
-        <translation type="unfinished">Amharc comhcheangailte ar na cainéil chlé agus dheas (ag úsáid RMS).</translation>
+        <translation>Radharc comhcheangailte ar na cainéil chlé agus dheis (ag baint úsáide as RMS).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1789"/>
         <source>The sound frequencies as a spectrum, from low to high.</source>
-        <translation type="unfinished">Minicíochtaí na fuaime mar speictream, ó íseal go hard.</translation>
+        <translation>Na minicíochtaí fuaime mar speictream, ó íseal go hard.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1790"/>
         <source>Two independent scopes for the left and right channels.</source>
-        <translation type="unfinished">Dhá scóip neamhspleácha do na cainéil chlé agus dheas.</translation>
+        <translation>Dá scóip neamhspleácha don chainéal clé agus don chainéal deas.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1795"/>
         <source>Toggle the visibility of the %1 oscilloscope.</source>
-        <translation type="unfinished">Scoránaigh infheictheacht an oscilloscope %1.</translation>
+        <translation>Athraigh infheictheacht an osalascóip %1.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1840"/>
@@ -3507,7 +3507,7 @@ ar https://hosted.weblate.org/projects/sonic-pi/. Go raibh maith agat! :)</trans
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2174"/>
         <source>remote session</source>
-        <translation type="unfinished">seisiún cianda</translation>
+        <translation>seisiún cianda</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2968"/>
@@ -3679,67 +3679,67 @@ chuig an gcainteoir ceart agus vice versa.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="579"/>
         <source>MIDI input ports</source>
-        <translation type="unfinished">Poirt ionchuir MIDI</translation>
+        <translation>Poirt ionchuir MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="581"/>
         <source>MIDI output ports</source>
-        <translation type="unfinished">Poirt aschuir MIDI</translation>
+        <translation>Poirt aschuir MIDI</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="582"/>
         <source>MIDI input devices send MIDI messages directly to Sonic Pi and are received as cue events (similar to incoming OSC messages and internal cues).</source>
-        <translation type="unfinished">Seolann gléasanna ionchuir MIDI teachtaireachtaí MIDI go díreach chuig Sonic Pi agus faightear iad mar imeachtaí leide (cosúil le teachtaireachtaí OSC isteach agus leideanna inmheánacha).</translation>
+        <translation>Seolann feistí ionchuir MIDI teachtaireachtaí MIDI go díreach chuig Sonic Pi, áit a bhfaightear iad mar imeachtaí comhartha (cosúil le teachtaireachtaí OSC a thagann isteach agus comharthaí inmheánacha).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="583"/>
         <source>MIDI output devices receive MIDI messages directly from Sonic Pi which can be sent via the midi_* fns.</source>
-        <translation type="unfinished">Faigheann gléasanna aschuir MIDI teachtaireachtaí MIDI go díreach ó Sonic Pi ar féidir iad a sheoladh trí na midi_* fns.</translation>
+        <translation>Faigheann feistí aschuir MIDI teachtaireachtaí MIDI go díreach ó Sonic Pi, ar féidir iad a sheoladh trí na feidhmeanna `midi_*`.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="585"/>
         <source>Inputs</source>
-        <translation type="unfinished">Ionchuir</translation>
+        <translation>Ionchuir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="586"/>
         <source>Outputs</source>
-        <translation type="unfinished">Aschuir</translation>
+        <translation>Aschuir</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="610"/>
         <source>Game Controllers</source>
-        <translation type="unfinished">Rialtóirí Cluiche</translation>
+        <translation>Rialtóirí Cluiche</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="611"/>
         <source>Configure game controller behaviour</source>
-        <translation type="unfinished">Cumraigh iompar rialtóirí cluiche</translation>
+        <translation>Cumraigh iompar rialtóirí cluiche</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="613"/>
         <source>Enable incoming gamepad cues</source>
-        <translation type="unfinished">Cumasaigh leideanna gamepad isteach</translation>
+        <translation>Cumasaigh comharthaí ó ceap cluiche</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="614"/>
         <source>Enable or disable automatic conversion of game controller button and axis events to cue events.</source>
-        <translation type="unfinished">Cumasaigh nó díchumasaigh tiontú uathoibríoch imeachtaí cnaipí agus aiseanna rialtóra cluiche go himeachtaí leide.</translation>
+        <translation>Cumasaigh nó díchumasaigh tiontú uathoibríoch imeachtaí cnaipí agus aiseanna rialtóra cluiche go himeachtaí leide.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="616"/>
         <source>No connected game controllers</source>
-        <translation type="unfinished">Gan rialtóirí cluiche nasctha</translation>
+        <translation>Gan ceapacha cluiche nasctha</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="618"/>
         <source>Game controllers</source>
-        <translation type="unfinished">Rialtóirí cluiche</translation>
+        <translation>Ceapacha cluiche</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="619"/>
         <source>Connected game controllers send button and axis events to Sonic Pi which are received as cue events.</source>
-        <translation type="unfinished">Seolann rialtóirí cluiche nasctha imeachtaí cnaipí agus aiseanna chuig Sonic Pi agus faightear iad mar imeachtaí leide.</translation>
+        <translation>Seolann ceapacha cluiche nasctha imeachtaí cnaipí agus aiseanna chuig Sonic Pi agus faightear iad mar imeachtaí leide.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="648"/>
@@ -3779,12 +3779,12 @@ chuig an gcainteoir ceart agus vice versa.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="662"/>
         <source>Show code completion help</source>
-        <translation type="unfinished">Taispeáin cabhair comhlánaithe cóid</translation>
+        <translation>Taispeáin cabhair maidir le comhlánú cóid</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="663"/>
         <source>When enabled, the code completion popup includes helper panes - documentation, a note keyboard and value sliders. When disabled, it shows just the list of suggestions.</source>
-        <translation type="unfinished">Nuair atá sé cumasaithe, áirítear i bpreabfhuinneog comhlánaithe an chóid painéil chúnta - doiciméadú, méarchlár nótaí agus sleamhnáin luachanna. Nuair atá sé díchumasaithe, ní thaispeánann sé ach an liosta moltaí.</translation>
+        <translation>Nuair a bhíonn sé cumasaithe, cuimsíonn an fhuinneog aníos um chomhlánú cóid painéil chúnta – doiciméadúchán, méarchlár nótaí, agus sleamhnáin luachanna. Nuair a bhíonn sé díchumasaithe, ní thaispeántar ach an liosta moltaí.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="665"/>
@@ -3799,22 +3799,22 @@ chuig an gcainteoir ceart agus vice versa.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="668"/>
         <source>Speak run and stop</source>
-        <translation type="unfinished">Fógair rith agus stop</translation>
+        <translation>Labhair, rith agus stop</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="669"/>
         <source>When enabled, a screen reader announces &quot;Run started&quot; and &quot;Stopped&quot;. Disable this if you&apos;d rather hear the very start of your audio without it being ducked by the announcement.</source>
-        <translation type="unfinished">Nuair atá sé cumasaithe, fógraíonn léitheoir scáileáin &quot;Tosaíodh an rith&quot; agus &quot;Stoptha&quot;. Díchumasaigh é seo más fearr leat fíorthús d&apos;fhuaime a chloisteáil gan an fógra á maolú.</translation>
+        <translation>Nuair atá sé cumasaithe, fógraíonn léitheoir scáileáin &quot;Tosaíodh an rith&quot; agus &quot;Stoptha&quot;. Díchumasaigh é seo más fearr leat fíorthús d&apos;fhuaime a chloisteáil gan an fógra á maolú.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="671"/>
         <source>Reduce animations</source>
-        <translation type="unfinished">Laghdaigh beochan</translation>
+        <translation>Laghdaigh beochan</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="672"/>
         <source>When enabled, Sonic Pi keeps its interface still: panes and popups appear in place instead of sliding or gliding. Also switched on automatically while your operating system&apos;s reduce-animations accessibility setting is active.</source>
-        <translation type="unfinished">Nuair atá sé cumasaithe, coinníonn Sonic Pi a chomhéadan socair: nochtann pánaí agus preabfhuinneoga ina n-áit in ionad sleamhnú. Cuirtear air go huathoibríoch é freisin fad atá socrú inrochtaineachta do chórais oibriúcháin chun beochan a laghdú gníomhach.</translation>
+        <translation>Nuair atá sé cumasaithe, coinníonn Sonic Pi a chomhéadan socair: nochtann pánaí agus preabfhuinneoga ina n-áit in ionad sleamhnú. Cuirtear air go huathoibríoch é freisin fad atá socrú inrochtaineachta do chórais oibriúcháin chun beochan a laghdú gníomhach.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="674"/>
@@ -3879,7 +3879,7 @@ chuig an gcainteoir ceart agus vice versa.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="703"/>
         <source>Hide menu bar in full screen mode</source>
-        <translation type="unfinished">Folaigh an barra roghchláir sa mhód lánscáileáin</translation>
+        <translation>Folaigh an barra roghchláir sa mhód lánscáileáin</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="711"/>
@@ -3995,130 +3995,130 @@ Ní úsáidtear aon LAP fad atá an painéal i bhfolach.</translation>
         <location filename="../widgets/settingswidget.cpp" line="1388"/>
         <location filename="../widgets/settingswidget.cpp" line="1419"/>
         <source>Mac</source>
-        <translation type="unfinished">Mac</translation>
+        <translation>Mac</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1389"/>
         <location filename="../widgets/settingswidget.cpp" line="1420"/>
         <source>Windows | Linux</source>
-        <translation type="unfinished">Windows | Linux</translation>
+        <translation>Windows | Linux</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1390"/>
         <location filename="../widgets/settingswidget.cpp" line="1421"/>
         <source>Emacs Live</source>
-        <translation type="unfinished">Emacs Live</translation>
+        <translation>Emacs Live</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1391"/>
         <source>Custom</source>
-        <translation type="unfinished">Saincheaptha</translation>
+        <translation>Saincheaptha</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1412"/>
         <source>Mode:</source>
-        <translation type="unfinished">Mód:</translation>
+        <translation>Mód:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1422"/>
         <source>Edit Shortcut</source>
-        <translation type="unfinished">Cuir Aicearra in Eagar</translation>
+        <translation>Cuir Aicearra in Eagar</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1424"/>
         <source>Reset</source>
-        <translation type="unfinished">Athshocraigh</translation>
+        <translation>Athshocraigh</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1427"/>
         <source>Import…</source>
-        <translation type="unfinished">Iompórtáil…</translation>
+        <translation>Iompórtáil…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1428"/>
         <source>Export…</source>
-        <translation type="unfinished">Easpórtáil…</translation>
+        <translation>Easpórtáil…</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1435"/>
         <source>Base:</source>
-        <translation type="unfinished">Bun:</translation>
+        <translation>Bun:</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1585"/>
         <source>Also assigned to: %1</source>
-        <translation type="unfinished">Sannta freisin do: %1</translation>
+        <translation>Sannta freisin do: %1</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1589"/>
         <source>Changed from default (%1)</source>
-        <translation type="unfinished">Athraithe ón réamhshocrú (%1)</translation>
+        <translation>Athraithe ón réamhshocrú (%1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1589"/>
         <source>unset</source>
-        <translation type="unfinished">gan socrú</translation>
+        <translation>gan socrú</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1599"/>
         <source>(no changes)</source>
-        <translation type="unfinished">(gan athruithe)</translation>
+        <translation>(gan athruithe)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1600"/>
         <source>(%1 changed)</source>
-        <translation type="unfinished">(%1 athraithe)</translation>
+        <translation>(%1 athraithe)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1691"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished">Aicearra in úsáid cheana</translation>
+        <translation>Aicearra in úsáid cheana</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1692"/>
         <source>&quot;%1&quot; is already assigned to: %2.</source>
-        <translation type="unfinished">Tá &quot;%1&quot; sannta cheana do: %2.</translation>
+        <translation>Tá &quot;%1&quot; sannta cheana do: %2.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1693"/>
         <source>What would you like to do?</source>
-        <translation type="unfinished">Cad ba mhaith leat a dhéanamh?</translation>
+        <translation>Cad ba mhaith leat a dhéanamh?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1694"/>
         <source>Reassign to this</source>
-        <translation type="unfinished">Athshann don cheann seo</translation>
+        <translation>Athshann don cheann seo</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1695"/>
         <source>Keep both</source>
-        <translation type="unfinished">Coinnigh an dá cheann</translation>
+        <translation>Coinnigh an dá cheann</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1723"/>
         <source>Reset shortcuts?</source>
-        <translation type="unfinished">Athshocraigh na haicearraí?</translation>
+        <translation>Athshocraigh na haicearraí?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1724"/>
         <source>This discards all your custom changes and restores the base preset. Continue?</source>
-        <translation type="unfinished">Caitheann sé seo amach do chuid athruithe saincheaptha go léir agus athchóiríonn sé an réamhshocrú bunúsach. Lean ar aghaidh?</translation>
+        <translation>Caitheann sé seo amach do chuid athruithe saincheaptha go léir agus athchóiríonn sé an réamhshocrú bunúsach. Lean ar aghaidh?</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1733"/>
         <source>Export Shortcuts</source>
-        <translation type="unfinished">Easpórtáil Aicearraí</translation>
+        <translation>Easpórtáil Aicearraí</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1734"/>
         <location filename="../widgets/settingswidget.cpp" line="1749"/>
         <source>Shortcut files (*.ini)</source>
-        <translation type="unfinished">Comhaid aicearraí (*.ini)</translation>
+        <translation>Comhaid aicearraí (*.ini)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1748"/>
         <source>Import Shortcuts</source>
-        <translation type="unfinished">Iompórtáil Aicearraí</translation>
+        <translation>Iompórtáil Aicearraí</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1850"/>
@@ -4129,55 +4129,55 @@ Ní úsáidtear aon LAP fad atá an painéal i bhfolach.</translation>
         <location filename="../widgets/settingswidget.cpp" line="1898"/>
         <location filename="../widgets/settingswidget.cpp" line="2049"/>
         <source>-- DISABLED --</source>
-        <translation type="unfinished">-- DÍCHUMASAITHE --</translation>
+        <translation>-- DÍCHUMASAITHE --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1945"/>
         <source>Switching audio device...</source>
-        <translation type="unfinished">Gléas fuaime á mhalartú...</translation>
+        <translation>Gléas fuaime á mhalartú...</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1983"/>
         <location filename="../widgets/settingswidget.cpp" line="2058"/>
         <location filename="../widgets/settingswidget.cpp" line="2273"/>
         <source>-- None --</source>
-        <translation type="unfinished">-- Ceann ar bith --</translation>
+        <translation>-- Ceann ar bith --</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1985"/>
         <location filename="../widgets/settingswidget.cpp" line="2270"/>
         <source>System Default</source>
-        <translation type="unfinished">Réamhshocrú an Chórais</translation>
+        <translation>Réamhshocrú an Chórais</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="1987"/>
         <source>System Default (→ %1)</source>
-        <translation type="unfinished">Réamhshocrú an Chórais (→ %1)</translation>
+        <translation>Réamhshocrú an Chórais (→ %1)</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2257"/>
         <source>ASIO devices have linked input/output.</source>
-        <translation type="unfinished">Tá ionchur/aschur nasctha ag gléasanna ASIO.</translation>
+        <translation>Tá ionchur/aschur nasctha ag gléasanna ASIO.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2280"/>
         <source>Mirrors Output (ASIO is full-duplex).</source>
-        <translation type="unfinished">Scáthánaíonn sé an t-aschur (tá ASIO lándéphléacsach).</translation>
+        <translation>Scáthánaíonn sé an t-aschur (tá ASIO lándéphléacsach).</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2319"/>
         <source>Sonic Pi doesn&apos;t have microphone access yet, so live_audio and :sound_in will be silent. Click below to grant access in System Settings.</source>
-        <translation type="unfinished">Níl rochtain ar an micreafón ag Sonic Pi go fóill, mar sin beidh live_audio agus :sound_in ina dtost. Cliceáil thíos chun rochtain a dheonú i Socruithe an Chórais.</translation>
+        <translation>Níl rochtain ar an micreafón ag Sonic Pi go fóill, mar sin beidh live_audio agus :sound_in ina dtost. Cliceáil thíos chun rochtain a dheonú i Socruithe an Chórais.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2321"/>
         <source>Microphone access is restricted by system policy, so live_audio and :sound_in will be silent.</source>
-        <translation type="unfinished">Tá rochtain ar an micreafón srianta ag polasaí an chórais, mar sin beidh live_audio agus :sound_in ina dtost.</translation>
+        <translation>Tá rochtain ar an micreafón srianta ag polasaí an chórais, mar sin beidh live_audio agus :sound_in ina dtost.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2323"/>
         <source>Microphone access not yet granted — click below to open System Settings.</source>
-        <translation type="unfinished">Níor deonaíodh rochtain ar an micreafón fós — cliceáil thíos chun Socruithe an Chórais a oscailt.</translation>
+        <translation>Níor deonaíodh rochtain ar an micreafón fós — cliceáil thíos chun Socruithe an Chórais a oscailt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="2735"/>
@@ -4194,125 +4194,125 @@ Ní úsáidtear aon LAP fad atá an painéal i bhfolach.</translation>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="138"/>
         <source>Device switch timed out</source>
-        <translation type="unfinished">Imithe thar am le malartú an ghléis</translation>
+        <translation>Imithe thar am le malartú an ghléis</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="155"/>
         <source>Volume, audio inputs and outputs, safety checks and recording.</source>
-        <translation type="unfinished">Airde fuaime, ionchuir agus aschuir fuaime, seiceálacha sábháilteachta agus taifeadadh.</translation>
+        <translation>Airde fuaime, ionchuir agus aschuir fuaime, seiceálacha sábháilteachta agus taifeadadh.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="159"/>
         <source>OSC networking, MIDI devices and game controllers.</source>
-        <translation type="unfinished">Líonrú OSC, gléasanna MIDI agus rialtóirí cluiche.</translation>
+        <translation>Líonrú OSC, gléasanna MIDI agus rialtóirí cluiche.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="163"/>
         <source>Editor display, code completion, accessibility and pane visibility.</source>
-        <translation type="unfinished">Taispeáint an eagarthóra, comhlánú cóid, inrochtaineacht agus infheictheacht pánaí.</translation>
+        <translation>Taispeáint an eagarthóra, comhlánú cóid, inrochtaineacht agus infheictheacht pánaí.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="167"/>
         <source>Audio oscilloscopes and options useful when performing.</source>
-        <translation type="unfinished">Oscilloscopes fuaime agus roghanna atá úsáideach le linn seinnte.</translation>
+        <translation>Oscilloscopes fuaime agus roghanna atá úsáideach le linn seinnte.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="170"/>
         <source>Shortcuts</source>
-        <translation type="unfinished">Aicearraí</translation>
+        <translation>Aicearraí</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="171"/>
         <source>View and customise the keyboard shortcuts.</source>
-        <translation type="unfinished">Féach ar na haicearraí méarchláir agus saincheap iad.</translation>
+        <translation>Féach ar na haicearraí méarchláir agus saincheap iad.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="175"/>
         <source>Change the language of the interface and tutorial.</source>
-        <translation type="unfinished">Athraigh teanga an chomhéadain agus an teagaisc.</translation>
+        <translation>Athraigh teanga an chomhéadain agus an teagaisc.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="180"/>
         <source>Version information and update checking.</source>
-        <translation type="unfinished">Eolas faoin leagan agus seiceáil nuashonruithe.</translation>
+        <translation>Eolas faoin leagan agus seiceáil nuashonruithe.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="217"/>
         <source>Use this dial to change the system volume.</source>
-        <translation type="unfinished">Úsáid an diail seo chun airde fuaime an chórais a athrú.</translation>
+        <translation>Úsáid an diail seo chun airde fuaime an chórais a athrú.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="224"/>
         <source>Drag or scroll to change Sonic Pi&apos;s overall volume.</source>
-        <translation type="unfinished">Tarraing nó scrollaigh chun airde fuaime iomlán Sonic Pi a athrú.</translation>
+        <translation>Tarraing nó scrollaigh chun airde fuaime iomlán Sonic Pi a athrú.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="229"/>
         <source>ASIO uses one device for both input and output.</source>
-        <translation type="unfinished">Úsáideann ASIO gléas amháin don ionchur agus don aschur araon.</translation>
+        <translation>Úsáideann ASIO gléas amháin don ionchur agus don aschur araon.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="234"/>
         <source>If enabled, audio sent to the left speaker will be routed to the right speaker and vice versa.</source>
-        <translation type="unfinished">Má tá sé cumasaithe, seolfar fuaim atá dírithe ar an gcallaire clé chuig an gcallaire deas agus a mhalairt.</translation>
+        <translation>Má tá sé cumasaithe, seolfar fuaim atá dírithe ar an gcallaire clé chuig an gcallaire deas agus a mhalairt.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="236"/>
         <source>If enabled, right and left audio is mixed and the same signal is sent to both speakers. Useful when working with external systems that can only handle mono.</source>
-        <translation type="unfinished">Má tá sé cumasaithe, measctar an fhuaim chlé agus dheas agus seoltar an comhartha céanna chuig an dá challaire. Úsáideach agus tú ag obair le córais sheachtracha nach láimhseálann ach mona.</translation>
+        <translation>Má tá sé cumasaithe, measctar an fhuaim chlé agus dheas agus seoltar an comhartha céanna chuig an dá challaire. Úsáideach agus tú ag obair le córais sheachtracha nach láimhseálann ach mona.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="239"/>
         <source>Checks synth arguments before triggering. If disabled, certain synth opt values may create unexpectedly loud or uncomfortable sounds.</source>
-        <translation type="unfinished">Seiceálann sé argóintí sintéise roimh thruicear. Má tá sé díchumasaithe, d&apos;fhéadfadh luachanna áirithe opt sintéise fuaimeanna a chruthú atá ard nó míchompordach gan choinne.</translation>
+        <translation>Seiceálann sé argóintí sintéise roimh thruicear. Má tá sé díchumasaithe, d&apos;fhéadfadh luachanna áirithe opt sintéise fuaimeanna a chruthú atá ard nó míchompordach gan choinne.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="242"/>
         <source>When enabled, Sonic Pi will refuse to trigger synths and FX if it is too late to do so.
 
 When disabled, Sonic Pi will always attempt to trigger synths and FX even when a little late.</source>
-        <translation type="unfinished">Nuair atá sé cumasaithe, diúltóidh Sonic Pi sintéisí agus FX a thruicearú má tá sé ródhéanach chun é sin a dhéanamh.
+        <translation>Nuair a bhíonn sé cumasaithe, diúltóidh Sonic Pi sintéiseoirí agus éifeachtaí a spreagadh má bhíonn sé ró-dhéanach chun é sin a dhéanamh.
 
-Nuair atá sé díchumasaithe, déanfaidh Sonic Pi iarracht i gcónaí sintéisí agus FX a thruicearú fiú nuair atá sé beagán déanach.</translation>
+Nuair a bhíonn sé díchumasaithe, déanfaidh Sonic Pi iarracht i gcónaí sintéiseoirí agus éifeachtaí a spreagadh, fiú má bhíonn beagán moille i gceist.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="245"/>
         <source>When enabled, Sonic Pi will allow synths and FX loaded via load_synthdefs to be triggered.
 
 When disabled, Sonic Pi will complain when you attempt to use a synth or FX which isn&apos;t recognised.</source>
-        <translation type="unfinished">Nuair atá sé cumasaithe, ceadóidh Sonic Pi sintéisí agus FX a luchtaíodh trí load_synthdefs a thruicearú.
+        <translation>Nuair atá sé cumasaithe, ceadóidh Sonic Pi sintéisí agus FX a luchtaíodh trí load_synthdefs a thruicearú.
 
 Nuair atá sé díchumasaithe, déanfaidh Sonic Pi gearán nuair a dhéanann tú iarracht sintéis nó FX nach n-aithnítear a úsáid.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="316"/>
         <source>Remote desktop session: local audio hardware is usually unavailable, and ASIO devices may fail to start.</source>
-        <translation type="unfinished">Seisiún deisce cianda: de ghnáth ní bhíonn crua-earraí fuaime logánta ar fáil, agus seans nach dtosóidh gléasanna ASIO.</translation>
+        <translation>Seisiún deisce cianda: de ghnáth ní bhíonn crua-earraí fuaime logánta ar fáil, agus seans nach dtosóidh gléasanna ASIO.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="359"/>
         <source>Record Audio Only</source>
-        <translation type="unfinished">Taifead fuaim amháin</translation>
+        <translation>Taifead fuaim amháin</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="367"/>
         <source>Record Audio + Video</source>
-        <translation type="unfinished">Taifead fuaim + físeán</translation>
+        <translation>Taifead Fuaim + Físeán</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="506"/>
         <source>Sonic Pi can send and receive Open Sound Control messages to and from other programs or computers via the currently connected network.</source>
-        <translation type="unfinished">Is féidir le Sonic Pi teachtaireachtaí Open Sound Control a sheoladh agus a fháil chuig agus ó ríomhchláir nó ríomhairí eile tríd an líonra atá nasctha faoi láthair.</translation>
+        <translation>Is féidir le Sonic Pi teachtaireachtaí Open Sound Control a sheoladh agus a fháil chuig agus ó ríomhchláir nó ríomhairí eile tríd an líonra atá nasctha faoi láthair.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="536"/>
         <source>When checked, Sonic Pi will let you send and receive OSC messages to and from remote machines. When unchecked, only sending and receiving from the local machine will be enabled.</source>
-        <translation type="unfinished">Nuair atá sé ticeáilte, ligfidh Sonic Pi duit teachtaireachtaí OSC a sheoladh chuig agus a fháil ó mheaisíní cianda. Nuair nach bhfuil sé ticeáilte, ní chumasófar ach seoladh agus fáil ón meaisín logánta.</translation>
+        <translation>Nuair atá sé ticeáilte, ligfidh Sonic Pi duit teachtaireachtaí OSC a sheoladh chuig agus a fháil ó mheaisíní cianda. Nuair nach bhfuil sé ticeáilte, ní chumasófar ach seoladh agus fáil ón meaisín logánta.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="539"/>
         <source>When checked, Sonic Pi will listen for OSC messages. When unchecked, no OSC messages will be received.</source>
-        <translation type="unfinished">Nuair atá sé ticeáilte, éistfidh Sonic Pi le teachtaireachtaí OSC. Nuair nach bhfuil sé ticeáilte, ní bhfaighfear aon teachtaireachtaí OSC.</translation>
+        <translation>Nuair atá sé ticeáilte, éistfidh Sonic Pi le teachtaireachtaí OSC. Nuair nach bhfuil sé ticeáilte, ní bhfaighfear aon teachtaireachtaí OSC.</translation>
     </message>
     <message>
         <location filename="../widgets/settingswidget.cpp" line="659"/>
@@ -4430,48 +4430,48 @@ Is éard atá i gceist leis an tseiceáil seo ná faisnéis gan ainm a sheoladh 
     <message>
         <location filename="../visualizer/scope_window.cpp" line="167"/>
         <source>Lissajous</source>
-        <translation type="unfinished">Lissajous</translation>
+        <translation>Lissajous</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="168"/>
         <source>Left</source>
-        <translation type="unfinished">Clé</translation>
+        <translation>Clé</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="169"/>
         <source>Right</source>
-        <translation type="unfinished">Deas</translation>
+        <translation>Deas</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="170"/>
         <source>Mono</source>
-        <translation type="unfinished">Mona</translation>
+        <translation>Mona</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="171"/>
         <source>Mirror Stereo</source>
-        <translation type="unfinished">Steirió Scáthánach</translation>
+        <translation>Steirió Scáthánach</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="173"/>
         <source>Spectrum</source>
-        <translation type="unfinished">Speictream</translation>
+        <translation>Speictream</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="190"/>
         <source>Pause or resume the audio oscilloscopes. Pausing freezes the current image so you can inspect it.</source>
-        <translation type="unfinished">Cuir na hoscilloscopes fuaime ar sos nó atosaigh iad. Reonn cur ar sos an íomhá reatha ionas gur féidir leat í a scrúdú.</translation>
+        <translation>Cuir na hoscalascóip fuaime ar sos nó atosú orthu. Má chuirtear ar sos iad, reoitear an íomhá reatha ionas gur féidir leat scrúdú a dhéanamh uirthi.</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="192"/>
         <location filename="../visualizer/scope_window.cpp" line="196"/>
         <source>Pause scopes</source>
-        <translation type="unfinished">Cuir scóipeanna ar sos</translation>
+        <translation>Scóip a chur ar sos</translation>
     </message>
     <message>
         <location filename="../visualizer/scope_window.cpp" line="196"/>
         <source>Resume scopes</source>
-        <translation type="unfinished">Atosaigh scóipeanna</translation>
+        <translation>Scóip an atosúcháin</translation>
     </message>
 </context>
 <context>
@@ -4479,89 +4479,89 @@ Is éard atá i gceist leis an tseiceáil seo ná faisnéis gan ainm a sheoladh 
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="79"/>
         <source>Close (Esc)</source>
-        <translation type="unfinished">Dún (Esc)</translation>
+        <translation>Dún (Esc)</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="97"/>
         <source>The buffer (tab) and line where the error happened</source>
-        <translation type="unfinished">An maolán (cluaisín) agus an líne inar tharla an earráid</translation>
+        <translation>An maolán (cluaisín) agus an líne inar tharla an earráid</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="112"/>
         <source>The line of your code that caused the error</source>
-        <translation type="unfinished">An líne de do chód ba chúis leis an earráid</translation>
+        <translation>An líne de do chód ba chúis leis an earráid</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="133"/>
         <source>Doc Example:</source>
-        <translation type="unfinished">Sampla Docs:</translation>
+        <translation>Sampla Docs:</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="164"/>
         <location filename="../widgets/sonicpierrorcard.cpp" line="447"/>
         <source>Show details</source>
-        <translation type="unfinished">Taispeáin sonraí</translation>
+        <translation>Taispeáin sonraí</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="173"/>
         <location filename="../widgets/sonicpierrorcard.cpp" line="183"/>
         <source>Copy</source>
-        <translation type="unfinished">Cóipeáil</translation>
+        <translation>Cóipeáil</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="178"/>
         <source>Copy the whole error report (message, location, code and backtrace) to the clipboard</source>
-        <translation type="unfinished">Cóipeáil an tuairisc earráide iomlán (teachtaireacht, suíomh, cód agus cúl-lorg) chuig an ngearrthaisce</translation>
+        <translation>Cóipeáil an tuairisc earráide iomlán (teachtaireacht, suíomh, cód agus cúl-lorg) chuig an ngearrthaisce</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="179"/>
         <source>Copy error report</source>
-        <translation type="unfinished">Cóipeáil tuairisc earráide</translation>
+        <translation>Cóipeáil tuairisc earráide</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="182"/>
         <source>Copied ✓</source>
-        <translation type="unfinished">Cóipeáilte ✓</translation>
+        <translation>Cóipeáilte ✓</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="189"/>
         <source>Move the cursor to the error in your code</source>
-        <translation type="unfinished">Bog an cúrsóir go dtí an earráid i do chód</translation>
+        <translation>Bog an cúrsóir go dtí an earráid i do chód</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="398"/>
         <source>Open the documentation for %1</source>
-        <translation type="unfinished">Oscail an doiciméadú do %1</translation>
+        <translation>Oscail an doiciméadú do %1</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="406"/>
         <source>Usage example</source>
-        <translation type="unfinished">Sampla úsáide</translation>
+        <translation>Sampla úsáide</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="407"/>
         <source>Usage example - opens the %1 documentation</source>
-        <translation type="unfinished">Sampla úsáide - osclaíonn sé doiciméadú %1</translation>
+        <translation>Sampla úsáide - osclaíonn sé doiciméadú %1</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="432"/>
         <source>Jump to error</source>
-        <translation type="unfinished">Léim chuig an earráid</translation>
+        <translation>Léim chuig an earráid</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="447"/>
         <source>Hide details</source>
-        <translation type="unfinished">Folaigh sonraí</translation>
+        <translation>Folaigh sonraí</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="448"/>
         <source>Hide the full technical error and backtrace</source>
-        <translation type="unfinished">Folaigh an earráid theicniúil iomlán agus an cúl-lorg</translation>
+        <translation>Folaigh an earráid theicniúil iomlán agus an cúl-lorg</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpierrorcard.cpp" line="449"/>
         <source>Show the full technical error and backtrace</source>
-        <translation type="unfinished">Taispeáin an earráid theicniúil iomlán agus an cúl-lorg</translation>
+        <translation>Taispeáin an earráid theicniúil iomlán agus an cúl-lorg</translation>
     </message>
 </context>
 <context>
@@ -4569,7 +4569,7 @@ Is éard atá i gceist leis an tseiceáil seo ná faisnéis gan ainm a sheoladh 
     <message>
         <location filename="../widgets/sonicpilog.cpp" line="110"/>
         <source>Clear</source>
-        <translation type="unfinished">Glan</translation>
+        <translation>Glan</translation>
     </message>
 </context>
 <context>
@@ -4578,164 +4578,164 @@ Is éard atá i gceist leis an tseiceáil seo ná faisnéis gan ainm a sheoladh 
         <location filename="../widgets/sonicpimetro.cpp" line="114"/>
         <location filename="../widgets/sonicpimetro.cpp" line="409"/>
         <source>Link</source>
-        <translation type="unfinished">Link</translation>
+        <translation>Nasc</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="124"/>
         <source>Ableton Link</source>
-        <translation type="unfinished">Ableton Link</translation>
+        <translation>Nasc Ableton</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="126"/>
         <source>Share a tempo with other Link-enabled apps and devices, so everyone plays in time. Click to join or leave the shared session.
 
 Link works either on this machine only or across your local network. Switch modes with the ghost / network button at the end of this row.</source>
-        <translation type="unfinished">Comhroinn tempo le haipeanna agus gléasanna eile atá cumasaithe do Link, ionas go seinneann gach duine in am a chéile. Cliceáil chun dul isteach sa seisiún comhroinnte nó é a fhágáil.
+        <translation>Roinn luas (tempo) le aipeanna agus gléasanna eile a bhfuil Link cumasaithe iontu, ionas go mbeidh gach duine ag seinm in am. Cliceáil chun páirt a ghlacadh sa seisiún comhroinnte nó chun imeacht uaidh.
 
-Oibríonn Link ar an meaisín seo amháin nó ar fud do líonra logánta. Athraigh mód leis an gcnaipe taibhse / líonra ag deireadh na sraithe seo.</translation>
+Is féidir le Link feidhmiú ar an meaisín seo amháin nó thar do líonra áitiúil. Athraigh an modh ag baint úsáide as an gcnaipe &apos;taibhse&apos; / líonra ag deireadh an ró seo.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="133"/>
         <source>Tap</source>
-        <translation type="unfinished">Tapáil</translation>
+        <translation>Tapáil</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="139"/>
         <source>Tap tempo</source>
-        <translation type="unfinished">Tapáil tempo</translation>
+        <translation>Tapáil tempo</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="141"/>
         <source>Click repeatedly to the beat to set the BPM manually. Accuracy increases with every additional click.</source>
-        <translation type="unfinished">Cliceáil arís agus arís eile leis an mbuille chun an BPM a shocrú de láimh. Méadaíonn an cruinneas le gach cliceáil bhreise.</translation>
+        <translation>Cliceáil arís agus arís eile leis an mbuille chun an BPM a shocrú de láimh. Méadaíonn an cruinneas le gach cliceáil bhreise.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="150"/>
         <location filename="../widgets/sonicpimetro.cpp" line="151"/>
         <location filename="../widgets/sonicpimetro.cpp" line="164"/>
         <source>Global Time Warp</source>
-        <translation type="unfinished">Dlúth Ama Dhomhanda</translation>
+        <translation>Dlúth Ama Dhomhanda</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="152"/>
         <source>Slide to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. The unit is milliseconds.</source>
-        <translation type="unfinished">Sleamhnaigh chun pas gach sintéise / FX truicearaithe agus gach imeachta MIDI/OSC seolta a bhogadh. Truicearaíonn luachanna diúltacha gach rud níos luaithe, truicearaíonn luachanna deimhneacha rudaí níos déanaí. Is é an milleasoicind an t-aonad.</translation>
+        <translation>Sleamhnaigh chun céim na sintéiseoirí/éifeachtaí spreagtha go léir agus imeachtaí MIDI/OSC seolta a athrú. Spreagann luachanna diúltacha gach rud níos luaithe, spreagann luachanna dearfacha rudaí níos déanaí. Is é an t-aonad milleasoicindí.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="161"/>
         <source>Time Warp Scrubber</source>
-        <translation type="unfinished">Scrubber Dlúth Ama</translation>
+        <translation>Scrobálaí Casadh Ama</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="165"/>
         <source>Adjust to shift the phase of all triggered synths / FX and sent MIDI/OSC events. Negative values trigger everything earlier, positive values trigger things later. Edit, drag or scroll to modify. Double click to reset to 0. The unit is milliseconds.</source>
-        <translation type="unfinished">Coigeartaigh chun pas gach sintéise / FX truicearaithe agus gach imeachta MIDI/OSC seolta a bhogadh. Truicearaíonn luachanna diúltacha gach rud níos luaithe, truicearaíonn luachanna deimhneacha rudaí níos déanaí. Cuir in eagar, tarraing nó scrollaigh chun é a athrú. Déchliceáil chun athshocrú go 0. Is é an milleasoicind an t-aonad.</translation>
+        <translation>Coigeartaigh chun céim na sintéiseoirí/éifeachtaí spreagtha go léir agus imeachtaí MIDI/OSC a sheoltar a athrú. Spreagann luachanna diúltacha gach rud níos luaithe, spreagann luachanna dearfacha rudaí níos déanaí. Cuir in eagar, tarraing nó scrollaigh chun modhnú. Cliceáil faoi dhó chun athshocrú go 0. Is milleasoicindí an t-aonad.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="178"/>
         <source>BPM Scrubber</source>
-        <translation type="unfinished">Scrubber BPM</translation>
+        <translation>Scrobadóir BPM</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="180"/>
         <source>Link Tempo (BPM)</source>
-        <translation type="unfinished">Tempo Link (BPM)</translation>
+        <translation>Tempo Link (BPM)</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="181"/>
         <source>Current Link tempo in beats per minute. Edit, drag or scroll to modify. Double click to reset to 60.</source>
-        <translation type="unfinished">Tempo reatha Link i mbuillí sa nóiméad. Cuir in eagar, tarraing nó scrollaigh chun é a athrú. Déchliceáil chun athshocrú go 60.</translation>
+        <translation>Tempo reatha Link i mbuillí sa nóiméad. Cuir in eagar, tarraing nó scrollaigh chun é a athrú. Déchliceáil chun athshocrú go 60.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="190"/>
         <location filename="../widgets/sonicpimetro.cpp" line="534"/>
         <source>Show Link Audio streams panel</source>
-        <translation type="unfinished">Taispeáin painéal sruthanna Link Audio</translation>
+        <translation>Taispeáin painéal sruthanna Link Audio</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="191"/>
         <source>Link Audio Streams</source>
-        <translation type="unfinished">Sruthanna Link Audio</translation>
+        <translation>Sruthanna Link Audio</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="192"/>
         <source>Show / hide the Link Audio streams panel.</source>
-        <translation type="unfinished">Taispeáin / folaigh painéal sruthanna Link Audio.</translation>
+        <translation>Taispeáin / folaigh painéal sruthanna Link Audio.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="310"/>
         <source>Link visibility: public — visible to other devices on your network</source>
-        <translation type="unfinished">Infheictheacht Link: poiblí — le feiceáil ag gléasanna eile ar do líonra</translation>
+        <translation>Infheictheacht Link: poiblí — le feiceáil ag gléasanna eile ar do líonra</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="311"/>
         <source>Link visibility: local — hidden from the network</source>
-        <translation type="unfinished">Infheictheacht Link: logánta — i bhfolach ón líonra</translation>
+        <translation>Infheictheacht Link: logánta — i bhfolach ón líonra</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="331"/>
         <source>Link Visibility: Local Network</source>
-        <translation type="unfinished">Infheictheacht Link: Líonra Logánta</translation>
+        <translation>Infheictheacht Link: Líonra Logánta</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="332"/>
         <source>Link Visibility: Local Machine Only</source>
-        <translation type="unfinished">Infheictheacht Link: An Meaisín Seo Amháin</translation>
+        <translation>Infheictheacht Link: An Meaisín Seo Amháin</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="334"/>
         <source>Link is visible to other devices on your local network. They can sync tempo and stream audio with this Sonic Pi via Link. Click to switch to Local Machine Only mode to hide Link from the network.</source>
-        <translation type="unfinished">Tá Link le feiceáil ag gléasanna eile ar do líonra logánta. Is féidir leo tempo a shioncronú agus fuaim a shruthú leis an Sonic Pi seo trí Link. Cliceáil chun aistriú go mód An Meaisín Seo Amháin chun Link a chur i bhfolach ón líonra.</translation>
+        <translation>Tá Link le feiceáil ag gléasanna eile ar do líonra logánta. Is féidir leo tempo a shioncronú agus fuaim a shruthú leis an Sonic Pi seo trí Link. Cliceáil chun aistriú go mód An Meaisín Seo Amháin chun Link a chur i bhfolach ón líonra.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="335"/>
         <source>Link is hidden from the local network. Link tempo sync and Link Audio only connect to other apps on this machine. Click to switch to Local Network mode to make Link visible to other machines on your local network.</source>
-        <translation type="unfinished">Tá Link i bhfolach ón líonra logánta. Ní nascann sioncronú tempo Link agus Link Audio ach le haipeanna eile ar an meaisín seo. Cliceáil chun aistriú go mód Líonra Logánta chun Link a dhéanamh infheicthe do mheaisíní eile ar do líonra logánta.</translation>
+        <translation>Tá Link i bhfolach ón líonra logánta. Ní nascann sioncronú tempo Link agus Link Audio ach le haipeanna eile ar an meaisín seo. Cliceáil chun aistriú go mód Líonra Logánta chun Link a dhéanamh infheicthe do mheaisíní eile ar do líonra logánta.</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="337"/>
         <source>Network visibility: public</source>
-        <translation type="unfinished">Infheictheacht líonra: poiblí</translation>
+        <translation>Infheictheacht líonra: poiblí</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="338"/>
         <source>Network visibility: local only</source>
-        <translation type="unfinished">Infheictheacht líonra: logánta amháin</translation>
+        <translation>Infheictheacht líonra: logánta amháin</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="359"/>
         <source>Link on — tempo synced with other devices on your network</source>
-        <translation type="unfinished">Link air — tempo sioncronaithe le gléasanna eile ar do líonra</translation>
+        <translation>Link air — tempo sioncronaithe le gléasanna eile ar do líonra</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="360"/>
         <source>Link on — local only, hidden from the network</source>
-        <translation type="unfinished">Link air — logánta amháin, i bhfolach ón líonra</translation>
+        <translation>Link air — logánta amháin, i bhfolach ón líonra</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="379"/>
         <source>Link off</source>
-        <translation type="unfinished">Link as</translation>
+        <translation>Link as</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="411"/>
         <source>1 Link</source>
-        <translation type="unfinished">1 Link</translation>
+        <translation>1 Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="413"/>
         <source>%1 Links</source>
-        <translation type="unfinished">%1 Link</translation>
+        <translation>%1 Link</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="498"/>
         <source>Tap tempo: %1 BPM</source>
-        <translation type="unfinished">Tapáil tempo: %1 BPM</translation>
+        <translation>Tapáil tempo: %1 BPM</translation>
     </message>
     <message>
         <location filename="../widgets/sonicpimetro.cpp" line="533"/>
         <source>Hide Link Audio streams panel</source>
-        <translation type="unfinished">Folaigh painéal sruthanna Link Audio</translation>
+        <translation>Folaigh painéal sruthanna Link Audio</translation>
     </message>
 </context>
 <context>
@@ -4743,7 +4743,7 @@ Oibríonn Link ar an meaisín seo amháin nó ar fud do líonra logánta. Athrai
     <message>
         <location filename="../utils/sonicpi_i18n.cpp" line="151"/>
         <source>System language</source>
-        <translation type="unfinished">Teanga an chórais</translation>
+        <translation>Teanga an chórais</translation>
     </message>
 </context>
 <context>
@@ -4751,32 +4751,32 @@ Oibríonn Link ar an meaisín seo amháin nó ar fud do líonra logánta. Athrai
     <message>
         <location filename="../widgets/splashwidget.cpp" line="44"/>
         <source>Sonic Pi is starting</source>
-        <translation type="unfinished">Tá Sonic Pi ag tosú</translation>
+        <translation>Tá Sonic Pi ag tosú</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="113"/>
         <source>created by</source>
-        <translation type="unfinished">cruthaithe ag</translation>
+        <translation>cruthaithe ag</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="116"/>
         <source>Sam Aaron</source>
-        <translation type="unfinished">Sam Aaron</translation>
+        <translation>Sam Aaron</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="162"/>
         <source>Love and thanks to all the kind people&lt;br&gt;who supported this release on Patreon:</source>
-        <translation type="unfinished">Grá agus buíochas leis na daoine cineálta go léir&lt;br&gt;a thacaigh leis an eisiúint seo ar Patreon:</translation>
+        <translation>Grá agus buíochas leis na daoine cineálta go léir&lt;br&gt;a thacaigh leis an eisiúint seo ar Patreon:</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="179"/>
         <source>Version</source>
-        <translation type="unfinished">Leagan</translation>
+        <translation>Leagan</translation>
     </message>
     <message>
         <location filename="../widgets/splashwidget.cpp" line="192"/>
         <source>powered by</source>
-        <translation type="unfinished">cumhachtaithe ag</translation>
+        <translation>cumhachtaithe ag</translation>
     </message>
 </context>
 <context>
@@ -4784,7 +4784,7 @@ Oibríonn Link ar an meaisín seo amháin nó ar fud do líonra logánta. Athrai
     <message>
         <location filename="../widgets/tutorialwidgets.h" line="967"/>
         <source>%1 value</source>
-        <translation type="unfinished">luach %1</translation>
+        <translation>luach %1</translation>
     </message>
 </context>
 <context>
@@ -4792,7 +4792,7 @@ Oibríonn Link ar an meaisín seo amháin nó ar fud do líonra logánta. Athrai
     <message>
         <location filename="../widgets/tutorialwidgets.h" line="518"/>
         <source>Piano keyboard — play with your computer keys</source>
-        <translation type="unfinished">Méarchlár pianó — seinn le heochracha do ríomhaire</translation>
+        <translation>Méarchlár pianó — seinn le heochracha do ríomhaire</translation>
     </message>
 </context>
 <context>
@@ -4800,156 +4800,156 @@ Oibríonn Link ar an meaisín seo amháin nó ar fud do líonra logánta. Athrai
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="181"/>
         <source>documentation</source>
-        <translation type="unfinished">doiciméadú</translation>
+        <translation>doiciméadú</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="247"/>
         <location filename="../widgets/tutorialpane.cpp" line="1253"/>
         <location filename="../widgets/tutorialpane.cpp" line="1481"/>
         <source>Run this example</source>
-        <translation type="unfinished">Rith an sampla seo</translation>
+        <translation>Rith an sampla seo</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="248"/>
         <location filename="../widgets/tutorialpane.cpp" line="1482"/>
         <source>Run example</source>
-        <translation type="unfinished">Rith sampla</translation>
+        <translation>Rith sampla</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="251"/>
         <source>Load this example into the current buffer</source>
-        <translation type="unfinished">Luchtaigh an sampla seo isteach sa mhaolán reatha</translation>
+        <translation>Luchtaigh an sampla seo isteach sa mhaolán reatha</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="252"/>
         <source>Load example into buffer</source>
-        <translation type="unfinished">Luchtaigh sampla isteach sa mhaolán</translation>
+        <translation>Luchtaigh sampla isteach sa mhaolán</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="401"/>
         <source>Examples</source>
-        <translation type="unfinished">Samplaí</translation>
+        <translation>Samplaí</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="408"/>
         <source>Example %1</source>
-        <translation type="unfinished">Sampla %1</translation>
+        <translation>Sampla %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="418"/>
         <source>Introduced in %1</source>
-        <translation type="unfinished">Tugadh isteach i %1</translation>
+        <translation>Tabhartha isteach i %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="460"/>
         <source>%1 icon</source>
-        <translation type="unfinished">deilbhín %1</translation>
+        <translation>deilbhín %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="474"/>
         <source>Reset all controls to their defaults</source>
-        <translation type="unfinished">Athshocraigh gach rialtán go dtí a réamhshocruithe</translation>
+        <translation>Athshocraigh gach rialtán go dtí a réamhshocruithe</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="475"/>
         <source>Reset %1 controls</source>
-        <translation type="unfinished">Athshocraigh rialtáin %1</translation>
+        <translation>Athshocraigh rialtáin %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="641"/>
         <source>Octave down (z)</source>
-        <translation type="unfinished">Ochtach síos (z)</translation>
+        <translation>Ochtach síos (z)</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="642"/>
         <source>Octave down</source>
-        <translation type="unfinished">Ochtach síos</translation>
+        <translation>Ochtach síos</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="650"/>
         <source>Octave up (x)</source>
-        <translation type="unfinished">Ochtach suas (x)</translation>
+        <translation>Ochtach suas (x)</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="651"/>
         <source>Octave up</source>
-        <translation type="unfinished">Ochtach suas</translation>
+        <translation>Ochtach suas</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="693"/>
         <source>Jump to documentation for %1</source>
-        <translation type="unfinished">Léim go doiciméadú %1</translation>
+        <translation>Léim go doiciméadú %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="718"/>
         <source>Options</source>
-        <translation type="unfinished">Roghanna</translation>
+        <translation>Roghanna</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="777"/>
         <source>z/x: octave</source>
-        <translation type="unfinished">z/x: ochtach</translation>
+        <translation>z/x: ochtach</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="778"/>
         <source>octave %1%2</source>
-        <translation type="unfinished">ochtach %1%2</translation>
+        <translation>ochtach %1%2</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1037"/>
         <source>Edit %1</source>
-        <translation type="unfinished">Cuir %1 in eagar</translation>
+        <translation>Cuir %1 in eagar</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1254"/>
         <source>Run example %1</source>
-        <translation type="unfinished">Rith sampla %1</translation>
+        <translation>Rith sampla %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1257"/>
         <location filename="../widgets/tutorialpane.cpp" line="1481"/>
         <source>Stop this example</source>
-        <translation type="unfinished">Stop an sampla seo</translation>
+        <translation>Stop an sampla seo</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1258"/>
         <source>Stop example %1</source>
-        <translation type="unfinished">Stop sampla %1</translation>
+        <translation>Stop sampla %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1262"/>
         <source>Copy code to clipboard</source>
-        <translation type="unfinished">Cóipeáil an cód chuig an ngearrthaisce</translation>
+        <translation>Cóipeáil an cód chuig an ngearrthaisce</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1263"/>
         <source>Copy example %1</source>
-        <translation type="unfinished">Cóipeáil sampla %1</translation>
+        <translation>Cóipeáil sampla %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1318"/>
         <source>Copied to clipboard</source>
-        <translation type="unfinished">Cóipeáilte chuig an ngearrthaisce</translation>
+        <translation>Cóipeáilte chuig an ngearrthaisce</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1385"/>
         <source>slidable</source>
-        <translation type="unfinished">insleamhnaithe</translation>
+        <translation>inslaoite</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1414"/>
         <source>Previous chapter: %1</source>
-        <translation type="unfinished">An chaibidil roimhe seo: %1</translation>
+        <translation>An chaibidil roimhe seo: %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1423"/>
         <source>Next chapter: %1</source>
-        <translation type="unfinished">An chéad chaibidil eile: %1</translation>
+        <translation>An chéad chaibidil eile: %1</translation>
     </message>
     <message>
         <location filename="../widgets/tutorialpane.cpp" line="1482"/>
         <source>Stop example</source>
-        <translation type="unfinished">Stop sampla</translation>
+        <translation>Stop sampla</translation>
     </message>
 </context>
 <context>
@@ -4957,27 +4957,27 @@ Oibríonn Link ar an meaisín seo amháin nó ar fud do líonra logánta. Athrai
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="35"/>
         <source>Welcome to Sonic Pi</source>
-        <translation type="unfinished">Fáilte go dtí Pí Sonach</translation>
+        <translation>Fáilte go dtí Pí Sonach</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="84"/>
         <source>Hello, and welcome!</source>
-        <translation type="unfinished">Dia dhuit, agus fáilte!</translation>
+        <translation>Dia dhuit, agus fáilte!</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="94"/>
         <source>Sonic Pi is a musical instrument you play by writing code.</source>
-        <translation type="unfinished">Is uirlis cheoil é Sonic Pi a sheinneann tú trí chód a scríobh.</translation>
+        <translation>Is uirlis cheoil é Sonic Pi a sheinneann tú trí chód a scríobh.</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="104"/>
         <source>Remember, when you code live there are no mistakes, only opportunities...</source>
-        <translation type="unfinished">Cuimhnigh, nuair a chódálann tú beo níl aon bhotúin ann, níl ann ach deiseanna...</translation>
+        <translation>Cuimhnigh, nuair a chódálann tú beo níl aon bhotúin ann, níl ann ach deiseanna...</translation>
     </message>
     <message>
         <location filename="../widgets/welcomewidget.cpp" line="117"/>
         <source>Get Started</source>
-        <translation type="unfinished">Tosaigh</translation>
+        <translation>Cuir tús leis</translation>
     </message>
 </context>
 <context>
@@ -4985,12 +4985,12 @@ Oibríonn Link ar an meaisín seo amháin nó ar fud do líonra logánta. Athrai
     <message>
         <location filename="../widgets/zoombar.cpp" line="36"/>
         <source>Make %1 text smaller</source>
-        <translation type="unfinished">Déan téacs %1 níos lú</translation>
+        <translation>Déan téacs %1 níos lú</translation>
     </message>
     <message>
         <location filename="../widgets/zoombar.cpp" line="37"/>
         <source>Make %1 text larger</source>
-        <translation type="unfinished">Déan téacs %1 níos mó</translation>
+        <translation>Déan téacs %1 níos mó</translation>
     </message>
 </context>
 </TS>
