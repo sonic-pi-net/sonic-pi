@@ -814,6 +814,7 @@ private:
     QWidget* docsPane = nullptr;      // the southTabs page: pill row + docsplit
     QWidget* docsPillRow = nullptr;
     QVector<QPushButton*> docsPills;
+    QWidget* helpPaneHolder = nullptr;
     IconTabWidget* southTabs = nullptr;
 
     SonicPiLog* outputPane = nullptr;
