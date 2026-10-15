@@ -26,6 +26,7 @@
 #include <QMainWindow>
 
 #include "model/helppanelmodel.h"
+#include "widgets/divider.h"
 #include "model/sidecolumnmodel.h"
 #include <QSet>
 #include <QSettings>
@@ -56,7 +57,6 @@ class QSlider;
 class QSplitter;
 class QPushButton;
 class ChevronButton;
-class DividerOverlay;
 class QStackedWidget;
 class ThinSplitter;
 class TutorialPane;
@@ -313,6 +313,7 @@ private slots:
     QString shortcutsConfigPath();
     void updateLogAutoScroll();
     bool eventFilter(QObject* obj, QEvent* evt) override;
+    bool event(QEvent* evt) override;         // the release of Qt's own separator drag (helpDragEnded)
     QString asciiArtLogo();
     void printAsciiArtLogo();
     void runCode();
@@ -837,8 +838,16 @@ private:
     ChevronButton* helpFullButton = nullptr;
     ChevronButton* helpHideButton = nullptr;
     QWidget*     helpChevrons = nullptr;      // the two grips, laid over the dock separator (positionHelpChevrons)
-    QDockWidget* helpAwayDock = nullptr;
-    DividerOverlay* helpAwayDivider = nullptr; // the divider painted over the separator Qt reserves beside it     // a 1px placeholder in the bottom area while the help is away: its separator is the divider, the way back
+    QDockWidget* helpAwayDock = nullptr;      // a 1px placeholder in the bottom area while the help is away: its separator is the divider, the way back
+    // The divider painted where Qt lays none out: over the separator it
+    // reserves beside the placeholder while the panel is away, and along the
+    // top of a full-size panel, which has no separator at all. A drag on it
+    // moves the panel (helpDividerDragged); while that drag runs it stays
+    // over the separator so the pointer is never let go of.
+    DividerOverlay* helpDividerOverlay = nullptr;
+    bool m_helpDividerDrag = false;           // a drag on the overlay has the panel beside the code and is sizing it
+    bool m_helpSeparatorDrag = false;         // Qt's own separator above the panel is being dragged
+    int  m_helpDragFromY = 0;                 // where a drag on the overlay began (global)
     // The help panel's one state (model/helppanelmodel.h): the Help icon, the
     // grips, the menu items and focus mode all move it, and applyHelpPanel
     // puts it on screen. Nothing else shows or hides the dock.
@@ -851,6 +860,11 @@ private:
     void helpFull();                          // the up grip
     void helpShow();                          // a pane asked for: beside the code if it was away
     void applyHelpPanel();                    // the dock, the editor's room, the icon, the grips and the bar, from the state
+    void updateHelpGripLabels();              // the hide grip's tooltip and accessible name, from the state (HelpPanelModel::hideGripAction)
+    void helpDividerDragged(DividerOverlay::Drag phase, const QPoint& global);   // the overlay's drag: reveal, or back beside the code, then size
+    void helpDragEnded();                     // any drag on the divider let go: to the foot puts the panel away
+    int  helpSnapHeight() const;              // the height at or under which a drag let go puts the panel away
+    int  helpHeightFor(const QPoint& global) const;   // the panel height a pointer at `global` asks for
     // The column beside the code (scope, log, cues, metronome): one state
     // (model/sidecolumnmodel.h) moved by the grip on its divider; the panes'
     // own settings stay the View menu's.

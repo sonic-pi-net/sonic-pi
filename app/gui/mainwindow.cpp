@@ -1324,7 +1324,10 @@ void MainWindow::setupWindowStructure()
         return b;
     };
     helpFullButton = makeHelpChevron(ChevronButton::Up, tr("Make the help panel full size"));
-    helpHideButton = makeHelpChevron(ChevronButton::Down, tr("Hide the documentation and information panel"));
+    helpFullButton->setToolTip(helpFullButton->accessibleName());
+    // The hide grip's label says what it does from the panel's state, so it
+    // is set where the state is applied (updateHelpGripLabels), nowhere else.
+    helpHideButton = makeHelpChevron(ChevronButton::Down, QString());
     // The grip on the editor | column divider, at its top (every grip sits
     // at its divider's trailing end: the right of a horizontal one, the top
     // of a vertical one). Right puts the scope, log, cues and metronome
@@ -1440,10 +1443,16 @@ void MainWindow::setupWindowStructure()
     // Qt reserves the separator beside each placeholder but paints nothing
     // there (it is fixed-size): these paint it, the one divider, laid over
     // that rect by positionHelpChevrons / positionSideGrip.
-    helpAwayDivider = new DividerOverlay(Qt::Horizontal, this);
-    helpAwayDivider->setObjectName("helpAwayDivider");
-    helpAwayDivider->hide();
-    helpAwayDivider->installEventFilter(this);
+    helpDividerOverlay = new DividerOverlay(Qt::Horizontal, this);
+    helpDividerOverlay->setObjectName("helpDividerOverlay");
+    helpDividerOverlay->hide();
+    helpDividerOverlay->installEventFilter(this);
+    // The divider is a control in every state, as the web's: dragged up while
+    // the panel is away it brings it back; dragged down from full size it
+    // gives the editor its room back; either way it then sizes the panel.
+    helpDividerOverlay->setDragHandler([this](DividerOverlay::Drag phase, const QPoint& global) {
+        helpDividerDragged(phase, global);
+    });
     sideAwayDivider = new DividerOverlay(Qt::Vertical, this);
     sideAwayDivider->setObjectName("sideAwayDivider");
     sideAwayDivider->hide();
@@ -3748,7 +3757,10 @@ void MainWindow::applyHelpPanel()
     }
     else if (!m.panelVisible() && SonicPi::dockShown(docWidget))
     {
-        m_savedDockH = docWidget->height();   // for the way back
+        // For the way back — but not a height the panel was dragged away
+        // at: it comes back usable, as the web's does.
+        if (docWidget->height() > helpSnapHeight())
+            m_savedDockH = docWidget->height();
         docWidget->hide();
     }
 
@@ -3783,15 +3795,11 @@ void MainWindow::applyHelpPanel()
     }
 
     const bool floating = docWidget->isFloating();
-    const bool wayBack = m.hideGripPointsUp() || floating;
     if (helpAwayDock)
         helpAwayDock->setVisible(m.awayBarVisible() || floating);
     if (helpFullButton)
         helpFullButton->setVisible(m.fullGripVisible() && !floating);
-    if (helpHideButton)
-        helpHideButton->setAccessibleName(wayBack
-            ? tr("Show the documentation and information panel")
-            : tr("Hide the documentation and information panel"));
+    updateHelpGripLabels();
     updateHelpChevronIcons();
     positionHelpChevrons();
     positionSideGrip();
@@ -3799,6 +3807,111 @@ void MainWindow::applyHelpPanel()
     // placed again after it, whatever events that pass does or does not send.
     QTimer::singleShot(0, this, [this] { positionHelpChevrons(); positionSideGrip(); });
     m_applyingHelpPanel = false;
+}
+
+// The hide grip's tooltip and accessible name: one wording, from the state
+// (HelpPanelModel::hideGripAction), with the Help shortcut once it exists.
+// A floating pane's grip brings it back docked, so it says so.
+void MainWindow::updateHelpGripLabels()
+{
+    if (!helpHideButton)
+        return;
+    using Grip = SonicPi::HelpPanelModel::GripAction;
+    const Grip action = (docWidget && docWidget->isFloating()) ? Grip::Show : m_helpPanel.hideGripAction();
+    QString label;
+    switch (action)
+    {
+    case Grip::Show:   label = tr("Show the documentation and information panel"); break;
+    case Grip::Hide:   label = tr("Hide the documentation and information panel"); break;
+    case Grip::Beside: label = tr("Back to the code, with the help panel beside it"); break;
+    }
+    helpHideButton->setAccessibleName(label);
+    const QString ks = helpAct ? helpAct->shortcut().toString(QKeySequence::NativeText) : QString();
+    helpHideButton->setToolTip(ks.isEmpty() ? label : tr("%1 (%2)").arg(label, ks));
+}
+
+// A drag on the overlay divider, as the web's drawer divider takes one: up
+// from away, or down from full size, a few pixels and the panel is beside
+// the code; from there the panel follows the pointer, and let go at the foot
+// it goes away (helpDragEnded). The overlay stays under the pointer for the
+// whole drag (positionHelpChevrons), so the pointer is never let go of.
+void MainWindow::helpDividerDragged(DividerOverlay::Drag phase, const QPoint& global)
+{
+    using Drag = DividerOverlay::Drag;
+    using State = SonicPi::HelpPanelModel::State;
+    if (!docWidget)
+        return;
+    switch (phase)
+    {
+    case Drag::Press:
+        m_helpDragFromY = global.y();
+        m_helpDividerDrag = false;
+        break;
+    case Drag::Move:
+    {
+        if (!m_helpDividerDrag)
+        {
+            const int dy = global.y() - m_helpDragFromY;
+            const int enough = ScaleHeightForDPI(6);
+            const State was = m_helpPanel.state();
+            const bool reveal = was == State::Away && dy <= -enough;   // dragged back up: what it had returns
+            const bool back   = was == State::Full && dy >= enough;    // the editor's room back
+            if (!reveal && !back)
+                return;
+            m_helpDividerDrag = true;
+            m_savedDockH = helpHeightFor(global);
+            m_helpPanel.beside();
+            applyHelpPanel();
+            showStatusAndAnnounce(was == State::Away ? tr("Showing help...") : tr("Help panel beside the code..."), 2000);
+        }
+        resizeDocks({ docWidget }, { helpHeightFor(global) }, Qt::Vertical);
+        positionHelpChevrons();
+        break;
+    }
+    case Drag::Release:
+        if (!m_helpDividerDrag)
+            return;
+        m_helpDividerDrag = false;
+        helpDragEnded();
+        positionHelpChevrons();
+        break;
+    }
+}
+
+// Any drag on the divider let go — the overlay's, or Qt's own separator
+// above the panel: at the foot, the panel goes away, as the web's does
+// within 70px of it.
+void MainWindow::helpDragEnded()
+{
+    if (!docWidget || docWidget->isFloating()
+        || m_helpPanel.state() != SonicPi::HelpPanelModel::State::Beside)
+        return;
+    if (SonicPi::HelpPanelModel::dragEndsAway(docWidget->height(), helpSnapHeight()))
+    {
+        m_helpPanel.away();
+        applyHelpPanel();
+        showStatusAndAnnounce(tr("Hiding help..."), 2000);
+    }
+}
+
+int MainWindow::helpSnapHeight() const
+{
+    return SonicPi::HelpPanelModel::snapHeight(ScaleHeightForDPI(70),
+                                               docWidget ? docWidget->minimumSizeHint().height() : 0);
+}
+
+// The panel's height with its top edge under the pointer: from the pointer
+// to the foot of the bottom area, which is the panel's own foot when it
+// shows, the placeholder's while it is away.
+int MainWindow::helpHeightFor(const QPoint& global) const
+{
+    const QWidget* foot = (docWidget && docWidget->isVisible() && !docWidget->isFloating())
+                              ? static_cast<const QWidget*>(docWidget)
+                              : static_cast<const QWidget*>(helpAwayDock);
+    if (!foot)
+        return 0;
+    const int bottom = foot->geometry().bottom();
+    return qMax(1, bottom - mapFromGlobal(global).y());
 }
 
 // The grips sit on the separator above the help pane, centred on it, 24px in
@@ -3812,33 +3925,57 @@ void MainWindow::positionHelpChevrons()
     if (!helpChevrons || !docWidget)
         return;
     helpChevrons->adjustSize();
+    const int sep = style()->pixelMetric(QStyle::PM_DockWidgetSeparatorExtent, nullptr, this);
+    // The divider the overlay paints, if any, and where the grips sit. The
+    // overlay is placed, never hidden and shown again, while a drag on it
+    // runs: a hide would let go of the pointer.
+    QRect overlay;
     int cy, right;
-    if (helpAwayDivider && !(helpAwayDock && helpAwayDock->isVisible()))
-        helpAwayDivider->hide();
     if (docWidget->isVisible() && !docWidget->isFloating())
     {
         const QRect pane = docWidget->geometry();
-        const int sep = style()->pixelMetric(QStyle::PM_DockWidgetSeparatorExtent, nullptr, this);
-        cy    = pane.top() - sep / 2;
+        if (!m_helpPanel.editorVisible())
+        {
+            // Full size: no separator above the pane, so the divider is
+            // painted along its top, the grip on it as always, and a drag
+            // down brings the editor back.
+            overlay = QRect(pane.left(), pane.top(), pane.width(), sep);
+            cy = overlay.center().y();
+        }
+        else
+        {
+            // Beside the code: Qt's separator. A drag that began on the
+            // overlay keeps it over the separator until the pointer lets go.
+            const QRect bar(pane.left(), pane.top() - sep, pane.width(), sep);
+            if (m_helpDividerDrag)
+                overlay = bar;
+            cy = bar.center().y();
+        }
         right = pane.right();
     }
     else if (helpAwayDock && helpAwayDock->isVisible())
     {
-        const int sep = style()->pixelMetric(QStyle::PM_DockWidgetSeparatorExtent, nullptr, this);
-        const QRect bar = SonicPi::awaySeparatorRect(helpAwayDock, Qt::BottomDockWidgetArea, sep);
-        if (helpAwayDivider)
-        {
-            helpAwayDivider->setGeometry(bar);
-            helpAwayDivider->show();
-            helpAwayDivider->raise();
-        }
-        cy    = bar.center().y();
-        right = bar.right();
+        overlay = SonicPi::awaySeparatorRect(helpAwayDock, Qt::BottomDockWidgetArea, sep);
+        cy    = overlay.center().y();
+        right = overlay.right();
     }
     else
     {
+        if (helpDividerOverlay)
+            helpDividerOverlay->hide();
         helpChevrons->hide();
         return;
+    }
+    if (helpDividerOverlay)
+    {
+        if (overlay.isValid())
+        {
+            helpDividerOverlay->setGeometry(overlay);
+            helpDividerOverlay->show();
+            helpDividerOverlay->raise();
+        }
+        else
+            helpDividerOverlay->hide();
     }
     helpChevrons->move(right - ScaleWidthForDPI(24) - helpChevrons->width(),
                        cy - helpChevrons->height() / 2);
@@ -5193,7 +5330,7 @@ void MainWindow::updateColourTheme()
     DividerProxyStyle::setDividerColors(theme->color("WindowBackground"),
                                         theme->color("WindowBorder"),
                                         theme->color("ScrollBarHover"));
-    for (DividerOverlay* d : { helpAwayDivider, sideAwayDivider })
+    for (DividerOverlay* d : { helpDividerOverlay, sideAwayDivider })
         if (d) d->setColours({ theme->color("WindowBackground"), theme->color("WindowBorder"),
                                theme->color("ScrollBarHover") });
     for (QDockWidget* d : { helpAwayDock, sideAwayDock })
@@ -6465,13 +6602,7 @@ void MainWindow::createToolBar()
     helpAct->setCheckable(true);
     helpAct->setChecked(false);
     connect(helpAct, &QAction::toggled, this, [this](bool) { help(); }); // see scopeAct
-    if (helpHideButton)
-    {
-        const QString ks = helpAct->shortcut().toString(QKeySequence::NativeText);
-        helpHideButton->setToolTip(ks.isEmpty() ? tr("Hide the documentation and information panel")
-                                                : tr("Hide the documentation and information panel (%1)").arg(ks));
-        helpFullButton->setToolTip(tr("Make the help panel full size"));
-    }
+    updateHelpGripLabels();   // the grip's tooltip gains the shortcut now there is one
 
     // Preferences
     prefsAct = new QAction(theme->getPrefsIcon(false), tr("Show Preferences"), this);
@@ -9001,6 +9132,19 @@ void MainWindow::toggleOSCServer(int silent)
     }
 }
 
+// Qt moves its dock separators from the main window's own mouse events: the
+// release that ends a drag of the separator above the help pane lands here.
+bool MainWindow::event(QEvent* event)
+{
+    const bool handled = QMainWindow::event(event);
+    if (event->type() == QEvent::MouseButtonRelease && m_helpSeparatorDrag)
+    {
+        m_helpSeparatorDrag = false;
+        helpDragEnded();
+    }
+    return handled;
+}
+
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
 {
     if (obj == qApp && (event->type() == QEvent::ApplicationActivate))
@@ -9017,9 +9161,17 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
         if (event->type() == QEvent::Show || event->type() == QEvent::Hide)
             toggleHelpIcon();           // the dock moved by Qt's own hand: the state follows it
         else if (event->type() == QEvent::Resize || event->type() == QEvent::Move)
+        {
+            // The pane sized with the button down and no drag of ours
+            // running: Qt's separator is being dragged (event() sees it let go).
+            if (event->type() == QEvent::Resize && !m_helpDividerDrag && !m_applyingHelpPanel
+                && (QApplication::mouseButtons() & Qt::LeftButton)
+                && m_helpPanel.state() == SonicPi::HelpPanelModel::State::Beside)
+                m_helpSeparatorDrag = true;
             positionHelpChevrons();
+        }
     }
-    if (helpAwayDivider && obj == helpAwayDivider)
+    if (helpDividerOverlay && obj == helpDividerOverlay)
     {
         if (event->type() == QEvent::Enter || event->type() == QEvent::HoverEnter) { if (helpHideButton) helpHideButton->setHovering(true); }
         else if (event->type() == QEvent::Leave || event->type() == QEvent::HoverLeave) { if (helpHideButton) helpHideButton->setHovering(false); }

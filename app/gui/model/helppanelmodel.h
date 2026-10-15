@@ -29,6 +29,10 @@ class HelpPanelModel
 public:
     enum class State { Away, Beside, Full };
 
+    // What the divider's hide grip does from here: the one source of its
+    // tooltip and its accessible name, so neither can go stale.
+    enum class GripAction { Hide, Show, Beside };
+
     State state() const { return m_state; }
 
     // The Help icon, the divider's down grip, the shortcut, a double-click on
@@ -69,6 +73,25 @@ public:
         return m_state;
     }
 
+    // A drag on the divider: up while the panel is away reveals it, as the
+    // web's drawer divider does; down from full size gives the editor its
+    // room back. Beside the code either way.
+    State beside()
+    {
+        m_state = State::Beside;
+        return m_state;
+    }
+
+    // The divider dragged to the foot puts the panel away, as the web's does
+    // within 70px of it. The panel is never shorter than its minimum, so the
+    // snap height is that or the 70px, whichever is more: a panel dragged as
+    // short as it goes is being put away, not kept squashed.
+    static int snapHeight(int seventyPx, int minimumHeight)
+    {
+        return seventyPx > minimumHeight ? seventyPx : minimumHeight;
+    }
+    static bool dragEndsAway(int height, int snapHeight) { return height <= snapHeight; }
+
     // Focus mode: the panel goes away for the code, and comes back beside it
     // afterwards — not full size, which is not remembered, as on the web.
     void enterFocus()
@@ -87,6 +110,16 @@ public:
     bool editorVisible() const { return m_state != State::Full; }
     bool iconLit() const { return panelVisible(); }
     bool hideGripPointsUp() const { return m_state == State::Away; }   // the way back
+    GripAction hideGripAction() const
+    {
+        switch (m_state)
+        {
+        case State::Away:   return GripAction::Show;
+        case State::Full:   return GripAction::Beside;
+        case State::Beside: break;
+        }
+        return GripAction::Hide;
+    }
     bool fullGripVisible() const { return m_state == State::Beside; }   // not away, not once full
     bool awayBarVisible() const { return m_state == State::Away; }
 

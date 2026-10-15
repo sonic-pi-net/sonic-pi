@@ -59,6 +59,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/recorder_limits.test.cpp
     ${GUI_TESTS_ROOT}/recorder_audio_mix.test.cpp
     ${GUI_TESTS_ROOT}/capture_crop.test.cpp
+    ${GUI_TESTS_ROOT}/divider_drag.test.cpp
     ${GUI_TESTS_ROOT}/helppanelmodel.test.cpp
     ${GUI_TESTS_ROOT}/sidecolumnmodel.test.cpp
     ${GUI_TESTS_ROOT}/nodetreemotion.test.cpp

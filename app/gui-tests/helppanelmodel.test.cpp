@@ -126,3 +126,46 @@ TEST_CASE("there is always a grip to reach the panel from", "[helppanel]")
         CHECK((m.awayBarVisible() || m.panelVisible()));
     }
 }
+
+// ─── The grip's label and a drag on the divider (issues #3577, #3578) ───
+
+TEST_CASE("the hide grip says what it does from here: hide, show, or back beside the code", "[helppanel]")
+{
+    // The tooltip and the accessible name both come from this, in the one
+    // place that applies the state — no copy to go stale (#3577: the tooltip
+    // said "Hide" while the panel was away).
+    using Grip = HelpPanelModel::GripAction;
+    HelpPanelModel m;
+    CHECK(m.hideGripAction() == Grip::Show);     // away: the way back
+    m.toggle();
+    CHECK(m.hideGripAction() == Grip::Hide);     // beside the code
+    m.full();
+    CHECK(m.hideGripAction() == Grip::Beside);   // full size: back beside the code, as the web's says
+}
+
+TEST_CASE("a drag on the divider brings the panel beside the code from away or from full size", "[helppanel]")
+{
+    // The divider is one control in every state (#3578): dragged up while the
+    // panel is away it reveals it, as the web's drawer divider does; dragged
+    // down from full size it gives the editor its room back.
+    HelpPanelModel away;
+    CHECK(away.beside() == State::Beside);
+    CHECK(away.beside() == State::Beside);   // again: still beside
+
+    HelpPanelModel full;
+    full.toggle();
+    full.full();
+    CHECK(full.beside() == State::Beside);
+}
+
+TEST_CASE("a divider dragged to the foot puts the panel away, as the web's does at 70px", "[helppanel]")
+{
+    // The panel can never be shorter than its minimum, so the snap height is
+    // the web's 70px or the minimum, whichever is more: a panel dragged as
+    // short as it goes is being put away, not kept squashed.
+    CHECK(HelpPanelModel::snapHeight(70, 60) == 70);
+    CHECK(HelpPanelModel::snapHeight(70, 96) == 96);
+    CHECK(HelpPanelModel::dragEndsAway(70, 70));
+    CHECK(HelpPanelModel::dragEndsAway(40, 70));
+    CHECK_FALSE(HelpPanelModel::dragEndsAway(71, 70));
+}
