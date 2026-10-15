@@ -6308,6 +6308,7 @@ void MainWindow::updateShortcuts()
         }
     }
     addMenuBarMnemonics();
+    updateHelpGripLabels();   // the hide grip's tooltip carries the Help shortcut, which may just have changed
     // show code context
     // show metronome
 }
