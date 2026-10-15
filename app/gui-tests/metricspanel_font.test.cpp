@@ -11,8 +11,8 @@
 #include <QLabel>
 #include <QTest>
 
+#include "pacer_by_hand.h"
 #include "model/sonicpitheme.h"
-#include "utils/framepacer.h"
 #include "widgets/metricslog.h"
 #include "widgets/metricspanel.h"
 #include "widgets/metricvalue.h"
@@ -56,18 +56,22 @@ TEST_CASE("metrics panel: its text is the size its zoom asks for", "[metricspane
 
 // Shown, the panel reads the node tree on the frame pacer's tick and holds the
 // pacer running; hidden, it lets go. Destroyed while shown, it let go of
-// nothing, and the pacer ticked on for a panel that was gone.
+// nothing, and the pacer ticked on for a panel that was gone. The pacer is
+// under the test's hand (pacer_by_hand.h): read on the clock, the count raced
+// the logs' render threads, and lost on CI's Debug Mac.
 TEST_CASE("metrics panel: lets go of the frame pacer when it goes, shown or not", "[metricspanel]")
 {
-    auto* pacer = SonicPi::FramePacer::instance();
-    const int before = pacer->clients();
+    HandDriven hand;
     {
         MetricsPanel panel(nullptr);
         panel.show();
-        QTest::qWait(20);
-        CHECK(pacer->clients() > before);
+        CHECK(hand.pacer->clients() >= 1);   // shown: held at once, not on some tick
+        hand.tick();
+        CHECK(hand.pacer->clients() >= 1);   // and still, through a tick
     }
-    // Work the panel deferred to the next tick holds the pacer until that
-    // tick has run and dropped it; then nothing of the panel's is left.
-    CHECK(QTest::qWaitFor([&] { return pacer->clients() == before; }, 500));
+    // Destroyed while shown: let go. Work of its own it deferred to the next
+    // tick holds the pacer until that tick has run and dropped it; then
+    // nothing of the panel's is left (HandDriven's end checks for 0).
+    hand.tick();
+    CHECK(hand.pacer->clients() == 0);
 }

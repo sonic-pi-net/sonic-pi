@@ -19,6 +19,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+#include "pacer_by_hand.h"
 #include "model/sonicpitheme.h"
 #include "utils/flash_style.h"
 #include "utils/framepacer.h"
@@ -39,32 +40,6 @@ struct FrameCounter : QObject
         if (e->type() == QEvent::UpdateRequest)
             frames++;
         return false;
-    }
-};
-
-// The pacer under the test's hand for the test's duration, and back on its
-// timer afterwards, with nothing left holding it.
-struct HandDriven
-{
-    SonicPi::FramePacer* pacer = SonicPi::FramePacer::instance();
-    HandDriven()
-    {
-        // Work an earlier test deferred holds the pacer until its tick has
-        // run; taken by hand first, that tick would never come.
-        REQUIRE(QTest::qWaitFor([this] { return pacer->clients() == 0; }, 1000));
-        pacer->driveByHand(true);
-    }
-    ~HandDriven()
-    {
-        CHECK(pacer->clients() == 0);
-        pacer->driveByHand(false);
-    }
-    // One tick, and the repaints it asked for.
-    void tick()
-    {
-        pacer->pulse();
-        QApplication::processEvents();
-        QApplication::processEvents();
     }
 };
 
