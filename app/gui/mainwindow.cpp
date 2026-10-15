@@ -1361,7 +1361,12 @@ void MainWindow::setupWindowStructure()
     });
     docWidget->setFocusPolicy(Qt::NoFocus);
     docWidget->setAllowedAreas(Qt::BottomDockWidgetArea);
-    docWidget->setWidget(southTabs);
+    helpPaneHolder = new QWidget;
+    auto* holderLayout = new QVBoxLayout(helpPaneHolder);
+    holderLayout->setContentsMargins(0, 0, 0, 0);
+    holderLayout->setSpacing(0);
+    holderLayout->addWidget(southTabs);
+    docWidget->setWidget(helpPaneHolder);
     docWidget->setObjectName("help");
 
     // No title row: the help pane starts right under the dock separator, which
@@ -3786,7 +3791,14 @@ void MainWindow::applyHelpPanel()
         m_hiddenForHelpFull.clear();
     }
     m_helpFullApplied = full;
-
+   // Full size has no Qt separator above the pane, so the divider overlay
+   // sits on the pane's top edge (positionHelpChevrons): leave it a band
+   // of its own rather than painting over the first tab.
+    if (helpPaneHolder)
+    {
+        const int sep = style()->pixelMetric(QStyle::PM_DockWidgetSeparatorExtent, nullptr, this);
+        helpPaneHolder->layout()->setContentsMargins(0, full ? sep : 0, 0, 0);
+    }
     if (helpAct && theme)   // the action and the theme come after the dock in setup
     {
         QSignalBlocker blocker(helpAct);
