@@ -831,6 +831,14 @@ register_api = lambda do |server|
     end
     cold_swap.setup!(generation)
   end
+
+  # A refusal is a reply on Spider's own engine connection, not a daemon
+  # forward: the engine answers "/clockwork/error [address, reason,
+  # generation]" to whoever sent the message. When the reason says the
+  # engine was between instances (SCSynthExternal reads the three), the
+  # reinit hears it, so a pass that could not reach the engine spends no
+  # retry and waits for the setup the engine will send.
+  sp.__on_engine_refusal { |_address, reason, _generation| cold_swap.refused!(reason) }
 end
 
 # Process-stall detector. A heartbeat that notices when this whole Ruby

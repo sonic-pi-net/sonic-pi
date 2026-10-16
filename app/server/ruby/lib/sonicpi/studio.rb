@@ -1217,6 +1217,13 @@ module SonicPi
       true
     end
 
+    # The engine refused something we sent because it was between instances
+    # (Server#on_engine_refusal): the cold-swap reinit listens, so a pass
+    # that could not reach the engine spends no retry (ColdSwapReinit#refused!).
+    def on_engine_refusal(&blk)
+      @server.on_engine_refusal(&blk)
+    end
+
     def pause(silent=true)
       @recording_mutex.synchronize do
         unless recording? || @paused

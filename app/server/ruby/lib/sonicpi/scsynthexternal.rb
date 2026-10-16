@@ -30,6 +30,10 @@ module SonicPi
     class BootError < StandardError ; end
 
     attr_reader :version
+    # Called with (address, reason, generation) when the engine refuses
+    # something we sent because it was between instances; the cold-swap
+    # reinit sets it (Studio#on_engine_refusal).
+    attr_accessor :on_refusal
 
     def initialize(events, scsynth_port, register_cue_event_lambda)
       @events = events
@@ -133,6 +137,22 @@ module SonicPi
         when '/n_move'
           id = args[0].to_i
           @events.async_event ['/n_move/', id], args
+        when '/clockwork/error'
+          # The engine refused something we sent: [address, reason,
+          # generation]. Three reasons say it was between instances —
+          # "rebuilding", "no instance", "stalled" (clockwork's
+          # docs/RESTARTS.md) — and read as "wait for /clockwork/setup",
+          # never as an error to show; the cold-swap reinit hears them
+          # (on_refusal) so a pass that could not reach the engine spends
+          # no retry. Anything else is a verb we got wrong.
+          refused_address, reason, generation = args[0].to_s, args[1].to_s, args[2]
+          if ["rebuilding", "no instance", "stalled"].include?(reason)
+            puts "Spider - engine refused #{refused_address} (#{reason}, gen #{generation}) - waiting for /clockwork/setup"
+            @on_refusal&.call(refused_address, reason, generation)
+          else
+            puts "Spider - engine refused #{refused_address}: #{reason} (gen #{generation})"
+          end
+          @events.async_event address, args
         else
           @events.async_event address, args
         end

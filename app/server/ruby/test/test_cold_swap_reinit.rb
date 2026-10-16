@@ -110,5 +110,62 @@ module SonicPi
       assert_equal 2, kinds.count { |k, _| k == :rebuild }
       assert_equal 2, kinds.count { |k, _| k == :halt }
     end
+
+    # docs/RESTARTS.md, "What a client does": a retry budget is counted
+    # against one generation. A setup that arrives while a pass is under way
+    # opens a new generation, and the passes against it start with a budget
+    # of their own rather than inheriting what the old one spent.
+    def test_retries_are_counted_against_the_generation_not_the_worker
+      r = nil
+      calls = 0
+      r = ColdSwapReinit.new(halt:    -> { @events << [:halt, now] },
+                             rebuild: -> {
+                               @events << [:rebuild, now]
+                               calls += 1
+                               r.setup!(3) if calls == 1   # a new generation, mid-pass
+                               calls >= 3                   # the old one's pass and the new one's first fall short
+                             },
+                             quiet: QUIET, retry_delay: 0.05, retries: 1)
+      r.setup!(2)
+      r.wait_idle
+      kinds = []
+      kinds << @events.pop until @events.empty?
+      # Generation 2: one pass, short. Generation 3: one pass, short, then its
+      # own retry, which lands. Three passes, not two.
+      assert_equal 3, kinds.count { |k, _| k == :rebuild }
+    end
+
+    # A pass that could not reach the engine at all — the engine refused what
+    # it sent, saying it was between instances — is not a failed pass of this
+    # generation: it spends no retry, and the next pass waits for the setup
+    # the engine will send rather than for a timer.
+    def test_a_pass_the_engine_refused_spends_no_retry_and_waits_for_setup
+      logs = []
+      r = nil
+      calls = 0
+      r = ColdSwapReinit.new(halt:    -> { @events << [:halt, now] },
+                             rebuild: -> {
+                               @events << [:rebuild, now]
+                               calls += 1
+                               r.refused!("rebuilding") if calls == 1   # heard mid-pass
+                               calls >= 2
+                             },
+                             quiet: QUIET, retry_delay: 0.05, retries: 0,
+                             log: ->(m) { logs << m })
+      r.setup!(2)
+      r.wait_idle
+      first = []
+      first << @events.pop until @events.empty?
+      assert_equal 1, first.count { |k, _| k == :rebuild }
+      assert logs.any? { |m| m.include?("waiting for /clockwork/setup") }, logs.inspect
+      refute logs.any? { |m| m.include?("still incomplete after") }, logs.inspect
+      # The setup comes, as the engine promised, and the pass against the
+      # new generation lands with no retry spent.
+      r.setup!(3)
+      r.wait_idle
+      second = []
+      second << @events.pop until @events.empty?
+      assert_equal 1, second.count { |k, _| k == :rebuild }
+    end
   end
 end

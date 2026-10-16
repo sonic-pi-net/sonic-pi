@@ -39,11 +39,21 @@ module SonicPi
     def setup!(generation)
       @log.call("received /clockwork/setup gen #{generation}")
       @mutex.synchronize do
+        @generation = generation
         @last_setup = now
         @halt_due = true
         @cv.broadcast
         @worker = Thread.new { work } unless @worker&.alive?
       end
+    end
+
+    # The engine refused something we sent, saying it was between instances
+    # (/clockwork/error with "rebuilding", "no instance" or "stalled",
+    # docs/RESTARTS.md). A pass under way could not reach the engine, so it
+    # is not a failed pass of this generation: it spends no retry, and the
+    # next pass waits for the setup the engine will send.
+    def refused!(reason)
+      @mutex.synchronize { @refused = reason }
     end
 
     # Until the passes asked for so far have run (for tests).
@@ -59,12 +69,21 @@ module SonicPi
     end
 
     def work
+      # The retry budget is one generation's (docs/RESTARTS.md, "What a
+      # client does"): a setup that arrives mid-pass opens a new one, and
+      # the passes against it start with a budget of their own.
       retries = 0
+      budget_for = nil
       loop do
         halt_if_due
         wait_for_quiet
         halt_if_due
         started = now
+        generation = @mutex.synchronize { @refused = nil; @generation }
+        if generation != budget_for
+          budget_for = generation
+          retries = 0
+        end
         @log.call("setup settled, reinitialising...")
         ok = begin
           @rebuild.call
@@ -72,8 +91,15 @@ module SonicPi
           @log.call("cold swap reinit error: #{e.message}\n#{e.backtrace.first(5).join("\n")}")
           false
         end
+        refused = @mutex.synchronize { @refused }
         if ok
           retries = 0
+        elsif refused
+          # The engine was between instances while this pass ran, and said
+          # so: nothing of this pass reached it. Not a failed pass of this
+          # generation, so no retry is spent and none is scheduled — the
+          # engine's setup is what comes next.
+          @log.call("reinit could not reach the engine (#{refused}) - waiting for /clockwork/setup")
         elsif (retries += 1) <= @retries
           # The world has settled, so no further setup is coming to retry
           # for us: queue our own pass.

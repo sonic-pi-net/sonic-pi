@@ -193,6 +193,14 @@ module SonicPi
         STDOUT.flush
       end
 
+      # The engine refused something we sent because it was between
+      # instances (clockwork's docs/RESTARTS.md): the cold-swap reinit
+      # listens through this, so a pass that could not reach the engine
+      # spends no retry and waits for the setup the engine will send.
+      def __on_engine_refusal(&blk)
+        @mod_sound_studio.on_engine_refusal(&blk)
+      end
+
       # The engine rebuilt its world: send nothing more into it. Jobs stop and
       # the bundles already scheduled ahead are dropped, at once — the rebuild
       # (below) waits for the swap to settle.

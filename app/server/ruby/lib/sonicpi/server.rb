@@ -34,6 +34,13 @@ module SonicPi
 
     attr_reader :version
 
+    # The engine refused something we sent because it was between instances
+    # (SCSynthExternal#on_refusal): the cold-swap reinit listens, so a pass
+    # that could not reach the engine spends no retry.
+    def on_engine_refusal(&blk)
+      @scsynth.on_refusal = blk
+    end
+
     def initialize(port, msg_queue, state, register_cue_event_lambda, current_spider_time_lambda)
 
       @current_spider_time_lambda = current_spider_time_lambda
