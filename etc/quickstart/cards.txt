@@ -83,7 +83,7 @@ end
 ```
 
 ## Roll the Dice again
-Different seeds create different random outcoms. All repeatable and re-usable.
+Different seeds create different random outcomes. All repeatable and re-usable.
 ```
 use_random_seed 50
 
