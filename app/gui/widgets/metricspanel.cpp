@@ -26,6 +26,8 @@
 #include <chrono>
 #include <cstdint>
 #include <cstring>
+#include <iterator>
+#include <string>
 #include <vector>
 
 // Generated from the engine's canonical metrics schema
@@ -66,45 +68,23 @@
 #include "dpi.h"
 #include "utils/reducedmotion.h"
 
-// ─── Static layout model ────────────────────────────────────────────────
+// ─── The layout ──────────────────────────────────────────────────────────
 //
-// Transcribed from the canonical web schema (tau-supersonic/harness/js/lib/
-// metrics_offsets.js). Field indices 0-49 are the PerformanceMetrics struct
-// (see tau-supersonic/harness/src/shared_memory.h):
-// 0-8 scsynth, 9-10 OSC out, 11-14 OSC in, 15-16 debug, 17-22 ring usage/peak,
-// 23-25 late timing, 26 direct-write fails, 27-38 Link, 39-45 version/audio
-// config, 46-49 SuperClock readouts. Cells whose source has no native writer
-// are marked `na` and always render "-".
+// The panels, their rows and what each row reads come from clockwork's
+// metrics schema (js/lib/metrics_schema.js, generated into metrics_schema.h):
+// the layout the web panel renders, so the two cannot drift. This panel shows
+// the rows a native engine has data for (Platform Both or Native) and draws
+// them in its own cards and colours.
 
 namespace
 {
-constexpr int kMetricCount = 50; // meaningful PerformanceMetrics fields read (0-49; 50-51 are padding)
-// Cross-platform system-info fields, written into the struct by shared C++.
-constexpr int kFieldVersionMajor   = 39;
-constexpr int kFieldVersionMinor   = 40;
-constexpr int kFieldVersionPatch   = 41;
-constexpr int kFieldSampleRate     = 42;
-constexpr int kFieldBlockSize      = 43;
-constexpr int kFieldOutputChannels = 44;
-constexpr int kFieldInputChannels  = 45;
-constexpr int kFieldProcessCount      = 0;  // audio process() callbacks (tick counter)
-constexpr int kFieldSchedLastLateTick = 25; // process count when the last scsynth late fired
-constexpr int kFieldClockTempo     = 46; // milli-BPM
-constexpr int kFieldClockBeat      = 47; // beat * 100
-constexpr int kFieldClockPhase     = 48; // phase * 100
-constexpr int kFieldClockPlaying   = 49;
-// Native-only live stats appended after the struct fields in the panel's value
-// array (sourced from AudioProcessor_GetNativeStats, not the metrics struct).
-// The harness publishes what the harness measures: synthdef and buffer
-// counts were the engine's nouns and left this region on 2026-09-01.
-constexpr int kFieldNativeFirst = 50;
-constexpr int kFieldCpuAvg      = 50; // DSP load %, centi (native_stats)
-constexpr int kFieldCpuPeak     = 51; // DSP load % peak, centi (native_stats)
-constexpr int kFieldOverruns    = 52; // audio callback overruns (native_stats)
-constexpr int kFieldNrtMaxPass     = 53; // nativeStats[3]: longest control pass, µs
-constexpr int kFieldNrtInFlight    = 54; // nativeStats[4]: control pass blocked now, µs
-constexpr int kFieldNrtRecentWorst = 55; // nativeStats[5]: worst control pass in last ~60 s, µs
-constexpr int kPanelFieldCount     = 56;
+namespace schema = clockwork::metrics_schema;
+
+// Every word of the engine's metrics, as the PerformanceMetrics this panel is
+// built against lays them out (engine and panel come from the same tree).
+constexpr int kMetricWords = static_cast<int>(sizeof(PerformanceMetrics) / sizeof(uint32_t));
+// The device layer's own readings (native_stats, shm_segment.hpp), by slot.
+constexpr int kNativeStatCount = static_cast<int>(std::size(schema::kNativeStats));
 
 // Poll cadence while visible (~6-7 Hz).
 constexpr int kRefreshMs = 150;
@@ -115,12 +95,6 @@ constexpr int kRefreshMs = 150;
 // the two-row layout is preferred until the pane is genuinely wide.
 constexpr int kCardMinW = 112;
 
-// Ring capacities, from the engine's own memory profile (the header the
-// reader in api/ is built against); used to scale the ring usage % readouts.
-constexpr uint32_t kInBufferCap = IN_RING_SIZE;
-constexpr uint32_t kOutBufferCap = RT_OUT_RING_SIZE;
-constexpr uint32_t kNrtOutBufferCap = NRT_OUT_RING_SIZE;
-
 enum Fmt
 {
     F_Plain,
@@ -129,7 +103,8 @@ enum Fmt
     F_Headroom,
     F_MilliBpm,   // raw is milli-BPM (bpm * 1000) → "X.X"
     F_Centi,      // raw is value * 100 → "X.XX"
-    F_MicroMs     // raw is microseconds → ms "X.XX" (control passes are µs-scale)
+    F_MicroMs,    // raw is microseconds → ms "X.X"
+    F_Commit      // raw is a commit's first 8 hex digits
 };
 
 enum Kind
@@ -142,31 +117,24 @@ enum Kind
 
 struct Seg
 {
-    bool isText;       // literal separator/suffix vs a metric value
+    bool isText;       // literal separator/suffix vs a reading
     const char* text;  // literal text when isText
-    int field;         // metric index 0-49, or -1
+    int field;         // the metrics word, or the native stat's slot
+    bool nativeStat;   // field is a native stat (device layer), not a metrics word
     Fmt fmt;
     Kind kind;
-    bool na;           // force "-" (no native writer)
-    bool nativeOnly;   // render "-" when the segment carries no native stats
 };
 
 struct RowDef
 {
     const char* label;
     std::vector<Seg> segs;
-    // Ring usage rows (in/out/nrt) render "used% / peak%" computed from these
-    // fields against the ring capacity, instead of formatting `segs`. cap == 0
-    // marks a plain value row.
+    // A ring's level renders "used% / peak%" against its capacity instead of
+    // formatting `segs`; cap == 0 marks a plain value row.
     int usedField;
     int peakField;
     uint32_t cap;
-    // Age rows render "nowField - thenField ticks" (nowField >= 0); "-" when
-    // thenField is 0 (event has never fired this session).
-    int nowField;
-    int thenField;
-    const char* tip;   // tooltip body explaining the metric (untranslated,
-                       // like the row labels — this is a developer panel)
+    const char* tip;   // the schema's description of the row
 };
 
 struct PanelDef
@@ -175,95 +143,73 @@ struct PanelDef
     std::vector<RowDef> rows;
 };
 
-// Cell factories.
-Seg V(int f, Kind k = K_Normal, Fmt fmt = F_Plain) { return Seg{ false, "", f, fmt, k, false, false }; }
-// Native-only value: renders "-" (not 0) on a segment with no native stats.
-Seg Vn(int f, Kind k = K_Normal, Fmt fmt = F_Plain) { return Seg{ false, "", f, fmt, k, false, true }; }
-Seg T(const char* t, Kind k = K_Muted) { return Seg{ true, t, -1, F_Plain, k, false, false }; }
-
-RowDef ValRow(const char* label, std::vector<Seg> segs, const char* tip = "")
+Fmt fmtOf(const char* format)
 {
-    return RowDef{ label, std::move(segs), -1, -1, 0, -1, -1, tip };
-}
-// Ring usage % readout: "used% / peak%" of the ring capacity (no bar graphic).
-RowDef PctRow(const char* label, int used, int peak, uint32_t cap, const char* tip = "")
-{
-    return RowDef{ label, {}, used, peak, cap, -1, -1, tip };
-}
-// Age readout: "nowField - thenField ticks" (process calls since an event).
-RowDef AgeRow(const char* label, int nowF, int thenF, const char* tip = "")
-{
-    return RowDef{ label, {}, -1, -1, 0, nowF, thenF, tip };
+    const std::string f = format;
+    if (f == "bytes")     return F_Bytes;
+    if (f == "signed")    return F_Signed;
+    if (f == "headroom")  return F_Headroom;
+    if (f == "milliBpm")  return F_MilliBpm;
+    if (f == "centi")     return F_Centi;
+    if (f == "latencyUs") return F_MicroMs;
+    if (f == "commit")    return F_Commit;
+    return F_Plain;
 }
 
-// Field indices match the struct order in shared_memory.h; late-ms fields
-// (23, 24) and Link-audio drift (36) are int32 so they use F_Signed.
-// Browser-only metrics (7 wasm_errors, 13 osc_in_dropped, 26 direct-write
-// fails) are omitted (no native writer).
+Kind kindOf(const char* kind)
+{
+    const std::string k = kind;
+    if (k == "muted") return K_Muted;
+    if (k == "dim")   return K_Dim;
+    if (k == "error") return K_Error;
+    return K_Normal;
+}
+
+// A ring's capacity, named in the schema by key: the sizes this panel's engine
+// was built with.
+uint32_t capacityOf(const char* key)
+{
+    const std::string k = key;
+    if (k == "inBufferCapacity")     return IN_RING_SIZE;
+    if (k == "outBufferCapacity")    return RT_OUT_RING_SIZE;
+    if (k == "nrtOutBufferCapacity") return NRT_OUT_RING_SIZE;
+    return 0;
+}
+
 const std::vector<PanelDef>& panelLayout()
 {
-    // All row tooltips come from the engine's canonical metrics schema (see
-    // harness/js/lib/metrics_schema.js → generated metrics_schema.h): a
-    // row with no tip falls back to the schema description of its first
-    // metric field, and rows combining several fields name a schema
-    // composite — mirroring the <supersonic-metrics> web component.
-    const auto composite = clockwork::metrics_schema::descriptionForComposite;
-    static const std::vector<PanelDef> panels = {
-        { "Engine",
-          { ValRow("version", { V(kFieldVersionMajor), T("."), V(kFieldVersionMinor), T("."), V(kFieldVersionPatch) },
-                   composite("engineVersion")),
-            ValRow("rate", { V(kFieldSampleRate), T(" Hz") }),
-            ValRow("block", { V(kFieldBlockSize), T(" frames") }),
-            ValRow("channels", { V(kFieldOutputChannels), T(" | "), V(kFieldInputChannels, K_Muted) },
-                   composite("busChannelsOutIn")),
-            ValRow("ticks", { V(0, K_Dim) }) } },
-        { "OSC",
-          { ValRow("sent", { V(9), T(" | "), V(10, K_Muted, F_Bytes) },
-                   composite("oscSentCountBytes")),
-            ValRow("recv", { V(11), T(" | "), V(12, K_Muted, F_Bytes) },
-                   composite("oscRecvCountBytes")),
-            PctRow("in", 17, 20, kInBufferCap, composite("inRingUsedPeak")),
-            PctRow("out rt", 18, 21, kOutBufferCap, composite("outRingUsedPeak")),
-            PctRow("out nrt", 19, 22, kNrtOutBufferCap, composite("nrtRingUsedPeak")) } },
-        { "Clock",
-          { ValRow("tempo", { V(kFieldClockTempo, K_Normal, F_MilliBpm), T(" bpm") }),
-            ValRow("beat", { V(kFieldClockBeat, K_Dim, F_Centi) }),
-            ValRow("phase", { V(kFieldClockPhase, K_Dim, F_Centi) }),
-            ValRow("playing", { V(kFieldClockPlaying, K_Muted) }),
-            ValRow("peers", { V(27) },
-                   "Connected Ableton Link peers (0 = local session, not network-synced)") } },
-        { "Performance",
-          { ValRow("load", { Vn(kFieldCpuAvg, K_Normal, F_Centi), T("%") }),
-            ValRow("peak", { Vn(kFieldCpuPeak, K_Dim, F_Centi), T("%") }),
-            ValRow("overruns", { Vn(kFieldOverruns, K_Error) }),
-            ValRow("blocked", { Vn(kFieldNrtInFlight, K_Error, F_MicroMs), T(" ms") }),
-            ValRow("worst", { Vn(kFieldNrtRecentWorst, K_Normal, F_MicroMs), T(" | "), Vn(kFieldNrtMaxPass, K_Muted, F_MicroMs), T(" ms") },
-                   composite("nrtWorstRecentBoot")) } },
-        { "Link Audio",
-          { ValRow("in", { V(32), T(" ch @ "), V(33, K_Muted), T(" Hz") },
-                   composite("linkAudioChannelsRate")),
-            ValRow("underruns", { V(34, K_Error) }),
-            ValRow("buffered", { V(35, K_Dim), T(" ms") }),
-            ValRow("drift", { V(36, K_Dim, F_Signed), T(" ppm") }),
-            ValRow("publish", { V(37), T(" | "), V(38, K_Muted), T(" sinks") },
-                   composite("linkAudioPublishSinks")) } },
-        { "scsynth",
-          { ValRow("msgs", { V(1, K_Muted) }),
-            ValRow("queue", { V(3), T(" | "), V(4, K_Muted) },
-                   composite("schedulerQueueCurrentPeak")),
-            ValRow("max|last", { V(23, K_Error, F_Signed), T(" | "), V(24, K_Dim, F_Signed), T(" ms") },
-                   composite("schedulerLateWorstLast")),
-            AgeRow("late age", kFieldProcessCount, kFieldSchedLastLateTick,
-                   "Process calls since the last scheduler late (larger = longer ago; - = none this session)"),
-            ValRow("debug", { V(15, K_Muted), T(" ("), V(16, K_Muted, F_Bytes), T(")") },
-                   composite("debugCountBytes")) } },
-        { "Errors",
-          { ValRow("dropped", { V(2, K_Error) }),
-            ValRow("q drop", { V(5, K_Error) }),
-            ValRow("seq gaps", { V(6, K_Error) }),
-            ValRow("lates", { V(8, K_Error) }),
-            ValRow("corrupt", { V(14, K_Error) }) } },
-    };
+    static const std::vector<PanelDef> panels = [] {
+        std::vector<PanelDef> out;
+        for (const schema::LayoutPanel& p : schema::kLayoutPanels)
+        {
+            PanelDef panel{ p.title, {} };
+            for (uint32_t r = p.firstRow; r < p.firstRow + p.rowCount; ++r)
+            {
+                const schema::LayoutRow& row = schema::kLayoutRows[r];
+                if (row.platform == schema::Platform::Web)
+                    continue;   // a browser's reading: nothing native writes it
+                RowDef def{ row.label, {}, -1, -1, 0, row.tooltip };
+                if (row.bar)
+                {
+                    def.usedField = static_cast<int>(row.usedOffset);
+                    def.peakField = static_cast<int>(row.peakOffset);
+                    def.cap = capacityOf(row.capacityKey);
+                }
+                for (uint32_t c = row.firstCell; c < row.firstCell + row.cellCount; ++c)
+                {
+                    const schema::LayoutCell& cell = schema::kLayoutCells[c];
+                    const bool literal = cell.type == schema::CellType::Text || cell.type == schema::CellType::Separator;
+                    def.segs.push_back(Seg{ literal, cell.text, literal ? -1 : static_cast<int>(cell.index),
+                                            cell.type == schema::CellType::NativeStat, fmtOf(cell.format),
+                                            literal ? (*cell.kind ? kindOf(cell.kind) : K_Muted) : kindOf(cell.kind) });
+                }
+                panel.rows.push_back(std::move(def));
+            }
+            if (!panel.rows.empty())
+                out.push_back(std::move(panel));
+        }
+        return out;
+    }();
     return panels;
 }
 
@@ -295,7 +241,9 @@ QString formatField(uint32_t raw, Fmt fmt)
     case F_Centi:
         return QString::number(raw / 100.0, 'f', 2);
     case F_MicroMs:
-        return QString::number(raw / 1000.0, 'f', 2);
+        return QString::number(raw / 1000.0, 'f', 1);
+    case F_Commit:
+        return raw ? QStringLiteral("%1").arg(raw, 8, 16, QLatin1Char('0')) : QStringLiteral("unknown");
     case F_Plain:
     default:
         return QString::number(raw);
@@ -428,33 +376,9 @@ void MetricsPanel::buildUi()
     // refresh().
     auto addRow = [&](QGridLayout* rows, int r, const RowDef& row, const char* panelTitle) {
         // Tooltip explaining the metric, applied to every widget in the row.
-        // Title is "card · row" so the popup names the (cryptic) metric.
-        // Body: the row's explicit tip, else the schema description of its
-        // first metric field (fields >= kFieldNativeFirst live in the
-        // NATIVE_STATS segment — see the panel's field remapping above).
-        const char* tip = (row.tip && *row.tip) ? row.tip : nullptr;
-        if (!tip)
-        {
-            int f = -1;
-            if (row.cap > 0)   // ring usage % row
-                f = row.usedField;
-            else if (row.nowField >= 0)   // age row → describe the event field
-                f = row.thenField;
-            else
-                for (const Seg& seg : row.segs)
-                {
-                    if (!seg.isText)
-                    {
-                        f = seg.field;
-                        break;
-                    }
-                }
-            if (f >= kFieldNativeFirst)
-                tip = clockwork::metrics_schema::descriptionForNativeStat(f - kFieldNativeFirst);
-            else if (f >= 0)
-                tip = clockwork::metrics_schema::descriptionForOffset(f);
-        }
-        const QString tipBody = tip ? QString::fromUtf8(tip) : QString();
+        // Title is "card · row" so the popup names the (cryptic) metric; the
+        // body is the schema's description of the row.
+        const QString tipBody = (row.tip && *row.tip) ? QString::fromUtf8(row.tip) : QString();
         const QString tipTitle = QString::fromUtf8(panelTitle)
             + QStringLiteral(" · ") + QString::fromUtf8(row.label);
         auto applyTip = [&](QWidget* w) {
@@ -980,7 +904,7 @@ void MetricsPanel::renderDisconnected()
     {
         const RowDef* def = static_cast<const RowDef*>(ui.def);
         QVector<LogRun> runs;
-        if (def->cap > 0 || def->nowField >= 0)   // ring usage % / age row
+        if (def->cap > 0)   // a ring's level
             runs = { { kindColor(K_Muted), QStringLiteral("-"), QString() } };
         else
             for (const Seg& s : def->segs)
@@ -1003,18 +927,15 @@ void MetricsPanel::refresh()
     }
 
     // Snapshot once per tick; relaxed loads (display-only).
-    uint32_t v[kPanelFieldCount] = {0};
-    for (int i = 0; i < kMetricCount; ++i)
+    uint32_t v[kMetricWords] = {0};
+    for (int i = 0; i < kMetricWords; ++i)
         v[i] = m[i].load(std::memory_order_relaxed);
 
-    // Native stats live in a separate region; appended after the struct fields.
+    // The device layer's readings live in a region of their own, by slot.
     const native_stats ns = m_api->AudioProcessor_GetNativeStats();
-    v[kFieldCpuAvg]      = ns.cpu_load_avg_centi;
-    v[kFieldCpuPeak]     = ns.cpu_load_peak_centi;
-    v[kFieldOverruns]    = ns.callback_overruns;
-    v[kFieldNrtMaxPass]     = ns.nrt_max_pass_us;
-    v[kFieldNrtInFlight]    = ns.nrt_in_flight_us;
-    v[kFieldNrtRecentWorst] = ns.nrt_recent_worst_us;
+    const uint32_t nsv[] = { ns.cpu_load_avg_centi, ns.cpu_load_peak_centi, ns.callback_overruns,
+                             ns.nrt_max_pass_us, ns.nrt_in_flight_us, ns.nrt_recent_worst_us };
+    static_assert(std::size(nsv) == kNativeStatCount, "a native stat the schema names is not read here");
     // Native-only metrics read "-" (not a misleading 0) when this segment
     // doesn't produce them (e.g. a web-origin engine).
     const bool nativeOk = m_api->AudioProcessor_HasNativeStats();
@@ -1031,16 +952,6 @@ void MetricsPanel::refresh()
             runs = { { kindColor(K_Normal), QString::number((used / cap) * 100.0, 'f', 1), QString() },
                      { kindColor(K_Muted), QStringLiteral(" / %1%").arg(QString::number((peak / cap) * 100.0, 'f', 1)), QString() } };
         }
-        else if (def->nowField >= 0)   // age readout: process calls since an event
-        {
-            const uint32_t now  = v[def->nowField];
-            const uint32_t then = v[def->thenField];
-            if (then == 0)   // event never fired this session
-                runs = { { kindColor(K_Dim), QStringLiteral("-"), QString() } };
-            else
-                runs = { { kindColor(K_Dim), QString::number(now >= then ? now - then : 0), QString() },
-                         { kindColor(K_Muted), QStringLiteral(" ticks"), QString() } };
-        }
         else
         {
             for (const Seg& s : def->segs)
@@ -1048,12 +959,12 @@ void MetricsPanel::refresh()
                 QString piece;
                 if (s.isText)
                     piece = QString::fromUtf8(s.text);
-                else if (s.na || s.field < 0 || s.field >= kPanelFieldCount)
-                    piece = QStringLiteral("-");
-                else if (s.nativeOnly && !nativeOk)
-                    piece = QStringLiteral("-");
+                else if (s.nativeStat)
+                    piece = (nativeOk && s.field >= 0 && s.field < kNativeStatCount)
+                          ? formatField(nsv[s.field], s.fmt) : QStringLiteral("-");
                 else
-                    piece = formatField(v[s.field], s.fmt);
+                    piece = (s.field >= 0 && s.field < kMetricWords)
+                          ? formatField(v[s.field], s.fmt) : QStringLiteral("-");
                 runs.append({ kindColor(s.kind), piece, QString() });
             }
         }
