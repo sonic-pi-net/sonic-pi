@@ -108,7 +108,7 @@ void setSyphonShowCursor(bool showCursor);
 // the writer can't be created. Same Screen Recording TCC permission as
 // Syphon — first call may prompt.
 //
-// audio reads the engine's OUT tap (SHM_AUDIO_OUT_SLOT): the
+// audio reads the engine's OUT tap (SCOPE_OUT_SLOT): the
 // master mix, written by the engine from boot, read here for the .mov's
 // audio track from its live position. An invalid reader records video only.
 // The reader keeps its mapping alive, so a recording survives a cold swap.

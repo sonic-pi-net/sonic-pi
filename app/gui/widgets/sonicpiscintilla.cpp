@@ -214,7 +214,7 @@ public:
         // it used (sizing from a separate channels() read would race a slot
         // re-activation).
         const int window = m_scroll ? kScrollWindow : kSweepWindow;
-        m_scratch.resize((size_t)window * SHM_TAP_STREAM_CHANNELS);
+        m_scratch.resize((size_t)window * TAP_STREAM_CHANNELS);
         uint32_t ch = 1;
         if (m_scroll)
         {

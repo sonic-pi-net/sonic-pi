@@ -385,7 +385,7 @@ private:
         out->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
         out->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_AAC);
         out->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
-        out->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, SHM_AUDIO_SAMPLE_RATE);
+        out->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, SCOPE_SAMPLE_RATE);
         out->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_audioChannels);
         out->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, kAacBytesPerSec);
         out->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, 1);
@@ -491,12 +491,12 @@ private:
         in->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
         in->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
         in->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
-        in->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, SHM_AUDIO_SAMPLE_RATE);
+        in->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, SCOPE_SAMPLE_RATE);
         in->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_audioChannels);
         in->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT,
                       m_audioChannels * sizeof(int16_t));
         in->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND,
-                      SHM_AUDIO_SAMPLE_RATE * m_audioChannels * sizeof(int16_t));
+                      SCOPE_SAMPLE_RATE * m_audioChannels * sizeof(int16_t));
         const HRESULT setAudioInHr = m_writer->SetInputMediaType(
             m_audioStreamIdx, in.get(), nullptr);
         if (FAILED(setAudioInHr)) {
@@ -714,7 +714,7 @@ private:
                         kAudioPullFrames * m_audioChannels, 0.0f);
                     constexpr LONGLONG kChunk100ns =
                         (LONGLONG)kAudioPullFrames * 10000000LL
-                        / SHM_AUDIO_SAMPLE_RATE;
+                        / SCOPE_SAMPLE_RATE;
                     LONGLONG silencePts = 0;
                     while (silencePts + kChunk100ns <= anchorRel) {
                         WriteAudioSample(silence.data(), kAudioPullFrames,
@@ -724,7 +724,7 @@ private:
                     const LONGLONG remaining = anchorRel - silencePts;
                     if (remaining > 0) {
                         const uint32_t framesLast = (uint32_t)(
-                            remaining * SHM_AUDIO_SAMPLE_RATE / 10000000LL);
+                            remaining * SCOPE_SAMPLE_RATE / 10000000LL);
                         if (framesLast > 0) {
                             WriteAudioSample(silence.data(), framesLast,
                                               silencePts, remaining);
@@ -735,9 +735,9 @@ private:
 
             const LONGLONG frameOffset = (LONGLONG)(startFrame - m_audioAnchorFrame);
             const LONGLONG pts = anchorRel
-                + (frameOffset * 10000000LL) / SHM_AUDIO_SAMPLE_RATE;
+                + (frameOffset * 10000000LL) / SCOPE_SAMPLE_RATE;
             const LONGLONG duration =
-                ((LONGLONG)got * 10000000LL) / SHM_AUDIO_SAMPLE_RATE;
+                ((LONGLONG)got * 10000000LL) / SCOPE_SAMPLE_RATE;
 
             WriteAudioSample(m_audioPullBuf.data(), got, pts, duration);
         }

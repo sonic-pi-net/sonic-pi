@@ -50,8 +50,8 @@ public:
     // invoke after a cold-swap device change to refresh the stale reader.
     void ResetConnection();
 
-    // Reader onto one of the engine's audio taps: SHM_AUDIO_OUT_SLOT is the
-    // master mix as it left for the device, SHM_AUDIO_IN_SLOT what arrived
+    // Reader onto one of the engine's audio taps: SCOPE_OUT_SLOT is the
+    // master mix as it left for the device, SCOPE_IN_SLOT what arrived
     // from it, both written by the engine from boot. Invalid if the shm
     // client is not attached. The reader keeps the mapping it reads alive,
     // so it outlives a ResetConnection (every cold swap) and this

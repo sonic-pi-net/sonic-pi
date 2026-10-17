@@ -117,9 +117,9 @@ constexpr int kCardMinW = 112;
 
 // Ring capacities, from the engine's own memory profile (the header the
 // reader in api/ is built against); used to scale the ring usage % readouts.
-constexpr uint32_t kInBufferCap = IN_BUFFER_SIZE;
-constexpr uint32_t kOutBufferCap = OUT_BUFFER_SIZE;
-constexpr uint32_t kNrtOutBufferCap = NRT_OUT_BUFFER_SIZE;
+constexpr uint32_t kInBufferCap = IN_RING_SIZE;
+constexpr uint32_t kOutBufferCap = RT_OUT_RING_SIZE;
+constexpr uint32_t kNrtOutBufferCap = NRT_OUT_RING_SIZE;
 
 enum Fmt
 {

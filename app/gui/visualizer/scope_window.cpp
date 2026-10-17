@@ -346,7 +346,7 @@ void ScopeWindow::DrawLevels(const ProcessedAudio& audio, QPainter& painter, Sco
         {
             m_preLimLastEnd = end;
             const uint32_t frames = 1024;
-            m_grScratch.resize(size_t(frames) * SHM_TAP_STREAM_CHANNELS);
+            m_grScratch.resize(size_t(frames) * TAP_STREAM_CHANNELS);
             uint32_t chans = 1;
             const uint32_t got = m_preLimReader.copy_window(end, frames, m_grScratch.data(), &chans);
             float p = 0.0f;

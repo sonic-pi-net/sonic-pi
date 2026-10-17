@@ -7931,7 +7931,7 @@ void MainWindow::startSessionRecordingFlow()
     // The engine's OUT tap: the master mix, flowing since boot. Nothing to
     // ask the engine for; the recorder reads it from its live position.
     shm_audio_buffer_reader audio = m_spAPI
-        ? m_spAPI->AudioProcessor_GetAudioBufferReader(SHM_AUDIO_OUT_SLOT)
+        ? m_spAPI->AudioProcessor_GetAudioBufferReader(SCOPE_OUT_SLOT)
         : shm_audio_buffer_reader();
     if (!audio.valid()) {
         std::cout << "[GUI] - Session recording: no audio tap available — recording video-only" << std::endl;

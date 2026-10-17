@@ -84,7 +84,7 @@ TEST_CASE("an audio tap reader keeps reading after the GUI remaps the engine", "
     SonicPi::AudioProcessor processor(&client, static_cast<int>(port));
     processor.ResetConnection();
 
-    auto reader = processor.GetAudioBufferReader(SHM_AUDIO_OUT_SLOT);
+    auto reader = processor.GetAudioBufferReader(SCOPE_OUT_SLOT);
     REQUIRE(reader.valid());
     const uint64_t before = reader.writer_position();
 
@@ -93,7 +93,7 @@ TEST_CASE("an audio tap reader keeps reading after the GUI remaps the engine", "
 
     // The recorder carries on reading through the reader it was given.
     CHECK(reader.writer_position() == before);
-    std::vector<float> frames(64 * SHM_AUDIO_CHANNELS);
+    std::vector<float> frames(64 * SCOPE_CHANNELS);
     reader.seek_to_live();
     CHECK(reader.pull(frames.data(), 64) == 0);
 }

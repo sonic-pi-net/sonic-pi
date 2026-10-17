@@ -495,7 +495,7 @@ void AudioProcessor::Run()
             m_lastEndCursor = endCursor;
             // Scratch sized for the max stride; copy_window reports the one
             // it used (a separate channels() read would race re-activation).
-            m_windowScratch.resize(static_cast<size_t>(FrameSamples) * SHM_TAP_STREAM_CHANNELS);
+            m_windowScratch.resize(static_cast<size_t>(FrameSamples) * TAP_STREAM_CHANNELS);
             uint32_t ch = 1;
             m_shmReader.copy_window(endCursor, FrameSamples, m_windowScratch.data(), &ch);
 

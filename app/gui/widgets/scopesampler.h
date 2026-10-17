@@ -81,7 +81,7 @@ private:
         // it used (sizing from a separate channels() read would race a slot
         // re-activation).
         const unsigned int frames = windowFrames();
-        m_scratch.resize((size_t)frames * SHM_TAP_STREAM_CHANNELS);
+        m_scratch.resize((size_t)frames * TAP_STREAM_CHANNELS);
         uint32_t ch = 1;
         m_reader.copy_window(end, frames, m_scratch.data(), &ch);
         storeWindow(m_scratch.data(), frames, ch);

@@ -680,7 +680,7 @@ public:
 
     std::vector<LogSource> GetLogSources();
 
-    // Reader onto one of the engine's audio taps (SHM_AUDIO_OUT_SLOT is the
+    // Reader onto one of the engine's audio taps (SCOPE_OUT_SLOT is the
     // master mix, flowing from boot). Used by the session recorder. Keeps
     // the mapping it reads alive across a cold swap; invalid if the audio
     // processor hasn't attached.

@@ -123,7 +123,7 @@ using namespace SonicPi::objc;
     _audioAnchorFrame = 0;
     _powerAssertion = kIOPMNullAssertionID;
     static constexpr uint32_t kPullFrames = 1024;
-    _audioPullBuf.resize((size_t)kPullFrames * SHM_AUDIO_CHANNELS);
+    _audioPullBuf.resize((size_t)kPullFrames * SCOPE_CHANNELS);
     _audioMixBuf.resize((size_t)kPullFrames * SonicPi::kRecordedChannelsMax);
     return self;
 }
@@ -179,7 +179,7 @@ using namespace SonicPi::objc;
     // Audio input — fed from the engine's OUT tap on a dispatch timer. AAC stereo 256kbps is the same default the audio Rec
     // button uses for WAV-equivalent quality after encoding.
     if (_audioReader.valid() && _audioChannels > 0) {
-        NSDictionary *audioSettings = SonicPi::recorderAudioSettings(_audioChannels, SHM_AUDIO_SAMPLE_RATE);
+        NSDictionary *audioSettings = SonicPi::recorderAudioSettings(_audioChannels, SCOPE_SAMPLE_RATE);
         _audioInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio
                                                          outputSettings:audioSettings];
         _audioInput.expectsMediaDataInRealTime = YES;
@@ -189,7 +189,7 @@ using namespace SonicPi::objc;
         } else {
             [_writer addInput:_audioInput];
             AudioStreamBasicDescription asbd = {0};
-            asbd.mSampleRate       = SHM_AUDIO_SAMPLE_RATE;
+            asbd.mSampleRate       = SCOPE_SAMPLE_RATE;
             asbd.mFormatID         = kAudioFormatLinearPCM;
             asbd.mFormatFlags      = kAudioFormatFlagIsFloat |
                                      kAudioFormatFlagIsPacked;
@@ -239,11 +239,11 @@ using namespace SonicPi::objc;
     // PTS = anchor + (frameCount - anchorFrame) / sampleRate. Anchor is
     // set once at first append (host time captured just before this call).
     CMTime offset = CMTimeMake((int64_t)(frameCount - _audioAnchorFrame),
-                               SHM_AUDIO_SAMPLE_RATE);
+                               SCOPE_SAMPLE_RATE);
     CMTime pts = CMTimeAdd(_audioAnchorPTS, offset);
 
     CMSampleTimingInfo timing = {
-        .duration             = CMTimeMake(1, SHM_AUDIO_SAMPLE_RATE),
+        .duration             = CMTimeMake(1, SCOPE_SAMPLE_RATE),
         .presentationTimeStamp = pts,
         .decodeTimeStamp      = kCMTimeInvalid,
     };
@@ -314,7 +314,7 @@ using namespace SonicPi::objc;
 - (void)drainAudio
 {
     if (!_audioInput) return;
-    const uint32_t kPullFrames = (uint32_t)(_audioPullBuf.size() / SHM_AUDIO_CHANNELS);
+    const uint32_t kPullFrames = (uint32_t)(_audioPullBuf.size() / SCOPE_CHANNELS);
     for (int iter = 0; iter < 8; ++iter) {
         uint64_t gap = 0;
         uint32_t got = _audioReader.pull(_audioPullBuf.data(), kPullFrames, &gap);
