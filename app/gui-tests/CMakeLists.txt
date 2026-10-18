@@ -58,6 +58,8 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/chevron_look.test.cpp
     ${GUI_TESTS_ROOT}/recorder_limits.test.cpp
     ${GUI_TESTS_ROOT}/recorder_audio_mix.test.cpp
+    ${GUI_TESTS_ROOT}/recorder_audio_rate.test.cpp
+    ${GUI_ROOT}/platform/recorder_audio_rate.cpp
     ${GUI_TESTS_ROOT}/capture_crop.test.cpp
     ${GUI_TESTS_ROOT}/divider_drag.test.cpp
     ${GUI_TESTS_ROOT}/helppanelmodel.test.cpp
@@ -145,6 +147,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     sonic-pi-api
+    sp_samplerate
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets

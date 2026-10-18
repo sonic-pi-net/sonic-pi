@@ -136,6 +136,8 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/model/sidecolumnmodel.h
     ${QTAPP_ROOT}/widgets/awaydock.h
     ${QTAPP_ROOT}/widgets/overlaypane.h
+    ${QTAPP_ROOT}/platform/recorder_audio_rate.cpp
+    ${QTAPP_ROOT}/platform/recorder_audio_rate.h
     ${QTAPP_ROOT}/widgets/dividerlink.h
     ${QTAPP_ROOT}/widgets/dividerpalette.h
     ${QTAPP_ROOT}/widgets/logpanel.cpp
@@ -636,6 +638,7 @@ target_link_libraries(${APP_NAME}
     SonicPi::API
     QScintilla
     sharelink
+    sp_samplerate   # the session recorder's rate (platform/recorder_audio_rate.cpp)
     Threads::Threads)
 
 # ─── The Tracks tab ──────────────────────────────────────────────────────────

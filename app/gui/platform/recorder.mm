@@ -28,6 +28,7 @@
 #import "capture_target.h"
 #import "objc_guard.h"
 #import "recorder_audio_mix.h"
+#import "recorder_audio_rate.h"
 #import "recorder_limits.h"
 #import "recorder_settings.h"
 
@@ -36,6 +37,7 @@ using namespace SonicPi::objc;
 #include <atomic>
 #include <functional>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <thread>
 #include <vector>
@@ -86,12 +88,16 @@ using namespace SonicPi::objc;
     dispatch_queue_t _audioQueue;
     dispatch_source_t _audioTimer;
     // Audio session anchor — host-time captured at the first non-empty
-    // pull, plus the reader frame count at that moment. Subsequent pulls
-    // compute PTS as anchor_pts + (frame_count_since_anchor) / sampleRate.
+    // pull. Subsequent pulls are stamped anchor_pts + the time _audio gives
+    // their first frame, from the first one pulled.
     // CMTIME_IS_VALID(_audioAnchorPTS) doubles as the "anchor set" flag —
     // all anchor reads/writes happen on _audioQueue so no atomic needed.
     CMTime _audioAnchorPTS;
-    uint64_t _audioAnchorFrame;
+    // The feed at the recording's rate, and on its clock (recorder_audio_rate.h):
+    // the tap runs at the device's rate, which may not be the file's.
+    std::unique_ptr<SonicPi::RecordedAudio> _audio;
+    std::vector<float> _audioOutBuf;    // what _audio gives of a pull, to encode
+    bool _audioRateChanged;             // the device's rate changed: no more audio
     // Scratch buffer for pumpAudioOnce — hoisted out of the 5ms hot path
     // so we don't malloc/free 8KB 200×/sec when there's nothing to drain.
     std::vector<float> _audioPullBuf;   // the tap's frames, every device channel
@@ -120,7 +126,9 @@ using namespace SonicPi::objc;
     // The stereo mix, however wide the device (recorder_audio_mix.h).
     _audioChannels = SonicPi::recordedChannels(_audioReader.channels());
     _audioAnchorPTS = kCMTimeInvalid;
-    _audioAnchorFrame = 0;
+    if (_audioReader.valid() && _audioChannels > 0)
+        _audio = std::make_unique<SonicPi::RecordedAudio>(_audioReader.sample_rate(), _audioChannels);
+    _audioRateChanged = false;
     _powerAssertion = kIOPMNullAssertionID;
     static constexpr uint32_t kPullFrames = 1024;
     _audioPullBuf.resize((size_t)kPullFrames * SCOPE_CHANNELS);
@@ -178,8 +186,8 @@ using namespace SonicPi::objc;
 
     // Audio input — fed from the engine's OUT tap on a dispatch timer. AAC stereo 256kbps is the same default the audio Rec
     // button uses for WAV-equivalent quality after encoding.
-    if (_audioReader.valid() && _audioChannels > 0) {
-        NSDictionary *audioSettings = SonicPi::recorderAudioSettings(_audioChannels, SCOPE_SAMPLE_RATE);
+    if (_audio) {
+        NSDictionary *audioSettings = SonicPi::recorderAudioSettings(_audioChannels, _audio->rate());
         _audioInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio
                                                          outputSettings:audioSettings];
         _audioInput.expectsMediaDataInRealTime = YES;
@@ -189,7 +197,7 @@ using namespace SonicPi::objc;
         } else {
             [_writer addInput:_audioInput];
             AudioStreamBasicDescription asbd = {0};
-            asbd.mSampleRate       = SCOPE_SAMPLE_RATE;
+            asbd.mSampleRate       = _audio->rate();
             asbd.mFormatID         = kAudioFormatLinearPCM;
             asbd.mFormatFlags      = kAudioFormatFlagIsFloat |
                                      kAudioFormatFlagIsPacked;
@@ -210,12 +218,12 @@ using namespace SonicPi::objc;
     return YES;
 }
 
-// Build a CMSampleBuffer wrapping `numFrames` of interleaved float audio
-// at `frameCount` (frames-from-start-of-tap), then append it to the audio
-// input. Returns YES on success.
+// Build a CMSampleBuffer wrapping `numFrames` of interleaved float audio at
+// the recording's rate, its first frame `seconds` after the audio anchor,
+// then append it to the audio input. Returns YES on success.
 - (BOOL)appendAudioFrames:(const float *)data
                    frames:(uint32_t)numFrames
-            startFrameNum:(uint64_t)frameCount
+                       at:(double)seconds
 {
     if (!_audioInput || !_audioFormat || numFrames == 0) return NO;
     if (!_audioInput.isReadyForMoreMediaData) return NO;
@@ -236,14 +244,14 @@ using namespace SonicPi::objc;
         return NO;
     }
 
-    // PTS = anchor + (frameCount - anchorFrame) / sampleRate. Anchor is
-    // set once at first append (host time captured just before this call).
-    CMTime offset = CMTimeMake((int64_t)(frameCount - _audioAnchorFrame),
-                               SCOPE_SAMPLE_RATE);
+    // PTS = anchor + the frames' time from the first pulled. Anchor is set
+    // once at first append (host time captured just before this call).
+    const int32_t rate = (int32_t)_audio->rate();
+    CMTime offset = CMTimeMake((int64_t)llround(seconds * rate), rate);
     CMTime pts = CMTimeAdd(_audioAnchorPTS, offset);
 
     CMSampleTimingInfo timing = {
-        .duration             = CMTimeMake(1, SCOPE_SAMPLE_RATE),
+        .duration             = CMTimeMake(1, rate),
         .presentationTimeStamp = pts,
         .decodeTimeStamp      = kCMTimeInvalid,
     };
@@ -322,22 +330,35 @@ using namespace SonicPi::objc;
             RECORDER_LOG("audio reader gap: " << gap << " frames dropped");
         }
         if (got == 0) break;
+        // The tap runs at the device's rate, and a device switched to another
+        // mid-recording would be recorded at the wrong speed from then on:
+        // the rest of the recording goes without its audio.
+        if (_audioReader.sample_rate() != 0 && _audioReader.sample_rate() != _audio->feedRate()) {
+            if (!_audioRateChanged) {
+                RECORDER_LOG("audio device rate changed from " << _audio->feedRate() << " to "
+                             << _audioReader.sample_rate() << " Hz: no more audio in this recording");
+                _audioRateChanged = true;
+            }
+            return;
+        }
         // The tap is as wide as the device; the recording is its stereo mix.
         SonicPi::pickRecordedChannels(_audioPullBuf.data(), got, _audioReader.channels(),
                                       _audioMixBuf.data());
 
         // First non-empty pull anchors the audio PTS to host-time-now.
         // Aligns audio to the video stream's CMClockHostTime PTS.
-        if (!CMTIME_IS_VALID(_audioAnchorPTS)) {
+        if (!CMTIME_IS_VALID(_audioAnchorPTS))
             _audioAnchorPTS = CMClockGetTime(CMClockGetHostTimeClock());
-            _audioAnchorFrame = _audioReader.last_read_position() - got;
-        }
         // Start the writer session if video hasn't already. Use the audio
         // anchor PTS — both video and audio share CMClockHostTime so the
         // streams will line up regardless of which one starts the session.
         if (![self maybeStartWriterAtPTS:_audioAnchorPTS]) return;
         const uint64_t startFrame = _audioReader.last_read_position() - got;
-        [self appendAudioFrames:_audioMixBuf.data() frames:got startFrameNum:startFrame];
+        _audioOutBuf.clear();
+        const double seconds = _audio->take(_audioMixBuf.data(), got, startFrame, _audioOutBuf);
+        const uint32_t outFrames = (uint32_t)(_audioOutBuf.size() / _audioChannels);
+        if (outFrames > 0)
+            [self appendAudioFrames:_audioOutBuf.data() frames:outFrames at:seconds];
     }
 }
 

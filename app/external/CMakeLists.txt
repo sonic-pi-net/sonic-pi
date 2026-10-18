@@ -83,6 +83,7 @@ set(SUPERSONIC_FORWARD_ARGS "")
 foreach(opt
     CLOCKWORK_SYSTEM_ZLIB
     CLOCKWORK_SYSTEM_STB
+    CLOCKWORK_SYSTEM_SAMPLERATE
     CLOCKWORK_CARGO_OFFLINE
     CLOCKWORK_PLUGIN_BRIDGE_DIR
     FETCHCONTENT_FULLY_DISCONNECTED
@@ -103,6 +104,31 @@ endforeach()
 # The option names are clockwork's: the product name is CLOCKWORK_PRODUCT_NAME
 # and plugin hosting is CLOCKWORK_PLUGINS.
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/supersonic.cmake)
+
+# libsamplerate for the GUI's session recorder (gui/platform/recorder_audio_rate),
+# which brings a fast device's audio down to a rate the AAC encoders take: the
+# copy clockwork vendors (clockwork/src/vendor/libsamplerate, CLOCKWORK.md
+# there), compiled as clockwork compiles it, or the system's under
+# CLOCKWORK_SYSTEM_SAMPLERATE, which the engine's build takes too (forwarded
+# above).
+option(CLOCKWORK_SYSTEM_SAMPLERATE "Use the system libsamplerate (pkg-config: samplerate) instead of clockwork's vendored copy" OFF)
+if(CLOCKWORK_SYSTEM_SAMPLERATE)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(SAMPLERATE REQUIRED IMPORTED_TARGET GLOBAL samplerate)
+    add_library(sp_samplerate INTERFACE)
+    target_link_libraries(sp_samplerate INTERFACE PkgConfig::SAMPLERATE)
+else()
+    set(SP_SAMPLERATE_DIR ${SUPERSONIC_SOURCE_DIR}/clockwork/src/vendor/libsamplerate)
+    add_library(sp_samplerate STATIC
+        ${SP_SAMPLERATE_DIR}/src/samplerate.c
+        ${SP_SAMPLERATE_DIR}/src/src_sinc.c
+        ${SP_SAMPLERATE_DIR}/src/src_linear.c
+        ${SP_SAMPLERATE_DIR}/src/src_zoh.c)
+    target_compile_definitions(sp_samplerate PRIVATE
+        ENABLE_SINC_MEDIUM_CONVERTER HAVE_STDBOOL_H PACKAGE="libsamplerate" VERSION="0.2.2")
+    target_include_directories(sp_samplerate PUBLIC ${SP_SAMPLERATE_DIR}/include)
+    set_target_properties(sp_samplerate PROPERTIES POSITION_INDEPENDENT_CODE ON)
+endif()
 
 # VST3 + CLAP hosting, on plugin tracks: off until Sonic Pi ships it, so a
 # build hosts plugins only when asked (-DCLOCKWORK_PLUGINS=ON). With it go the

@@ -20,6 +20,7 @@
 #include "wgc_d3d_interop.h"
 #include "mp4_soft_remux.h"
 #include "recorder_audio_mix.h"
+#include "recorder_audio_rate.h"
 
 #include <d3d11_4.h>
 #include <windows.graphics.capture.interop.h>
@@ -102,6 +103,10 @@ public:
         m_audioReader     = std::move(audio);
         // The stereo mix, however wide the device (recorder_audio_mix.h).
         m_audioChannels   = SonicPi::recordedChannels(m_audioReader.channels());
+        // At the recording's rate, and on its clock: the tap runs at the
+        // device's rate, which may not be the file's (recorder_audio_rate.h).
+        if (m_audioReader.valid() && m_audioChannels > 0)
+            m_audio = std::make_unique<SonicPi::RecordedAudio>(m_audioReader.sample_rate(), m_audioChannels);
 
         // MFStartup is refcounted; balanced by MFShutdown in Stop().
         HRESULT hr = MFStartup(MF_VERSION, MFSTARTUP_LITE);
@@ -378,14 +383,14 @@ private:
     {
         if (FAILED(MFCreateMediaType(out.put()))) return false;
         // 192 kbps — highest the MS AAC encoder MFT supports for
-        // 2-channel @ 48000 Hz (the documented set is 96/128/160/192).
+        // 2-channel at 44.1 or 48 kHz (the documented set is 96/128/160/192).
         // recorder.mm uses 256 kbps because the macOS AAC encoder
         // accepts a broader range; we can't match that on Windows.
         constexpr UINT32 kAacBytesPerSec = 24000;
         out->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
         out->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_AAC);
         out->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
-        out->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, SCOPE_SAMPLE_RATE);
+        out->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, m_audio->rate());
         out->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_audioChannels);
         out->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, kAacBytesPerSec);
         out->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, 1);
@@ -408,7 +413,7 @@ private:
         if (!BuildVideoOutputType(videoOut)) return false;
 
         winrt::com_ptr<IMFMediaType> audioOut;
-        if (m_audioReader.valid()) {
+        if (m_audio) {
             if (!BuildAudioOutputType(audioOut)) {
                 RECORDER_LOG("audio output type build failed — video-only");
                 audioOut = nullptr;
@@ -491,12 +496,12 @@ private:
         in->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
         in->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
         in->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
-        in->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, SCOPE_SAMPLE_RATE);
+        in->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, m_audio->rate());
         in->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_audioChannels);
         in->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT,
                       m_audioChannels * sizeof(int16_t));
         in->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND,
-                      SCOPE_SAMPLE_RATE * m_audioChannels * sizeof(int16_t));
+                      m_audio->rate() * m_audioChannels * sizeof(int16_t));
         const HRESULT setAudioInHr = m_writer->SetInputMediaType(
             m_audioStreamIdx, in.get(), nullptr);
         if (FAILED(setAudioInHr)) {
@@ -678,15 +683,26 @@ private:
                              << " frames dropped");
             }
             if (got == 0) break;
+            // The tap runs at the device's rate, and a device switched to
+            // another mid-recording would be recorded at the wrong speed from
+            // then on: the rest of the recording goes without its audio.
+            if (m_audioReader.sample_rate() != 0
+                && m_audioReader.sample_rate() != m_audio->feedRate()) {
+                if (!m_audioRateChanged) {
+                    RECORDER_LOG("audio device rate changed from " << m_audio->feedRate()
+                                 << " to " << m_audioReader.sample_rate()
+                                 << " Hz: no more audio in this recording");
+                    m_audioRateChanged = true;
+                }
+                return;
+            }
             // The tap is as wide as the device; the recording is its stereo mix.
             SonicPi::pickRecordedChannels(m_audioTapBuf.data(), got, m_audioReader.channels(),
                                           m_audioPullBuf.data());
 
             const uint64_t readerPos = m_audioReader.last_read_position();
-            if (m_audioAnchor100ns == LLONG_MIN) {
+            if (m_audioAnchor100ns == LLONG_MIN)
                 m_audioAnchor100ns = NowIn100ns();
-                m_audioAnchorFrame = readerPos - got;
-            }
             if (!MaybeStartSessionAt(m_audioAnchor100ns)) return;
 
             const uint64_t startFrame = readerPos - got;
@@ -712,9 +728,9 @@ private:
                 if (anchorRel > 0) {
                     std::vector<float> silence(
                         kAudioPullFrames * m_audioChannels, 0.0f);
-                    constexpr LONGLONG kChunk100ns =
+                    const LONGLONG kChunk100ns =
                         (LONGLONG)kAudioPullFrames * 10000000LL
-                        / SCOPE_SAMPLE_RATE;
+                        / m_audio->rate();
                     LONGLONG silencePts = 0;
                     while (silencePts + kChunk100ns <= anchorRel) {
                         WriteAudioSample(silence.data(), kAudioPullFrames,
@@ -724,7 +740,7 @@ private:
                     const LONGLONG remaining = anchorRel - silencePts;
                     if (remaining > 0) {
                         const uint32_t framesLast = (uint32_t)(
-                            remaining * SCOPE_SAMPLE_RATE / 10000000LL);
+                            remaining * m_audio->rate() / 10000000LL);
                         if (framesLast > 0) {
                             WriteAudioSample(silence.data(), framesLast,
                                               silencePts, remaining);
@@ -733,13 +749,17 @@ private:
                 }
             }
 
-            const LONGLONG frameOffset = (LONGLONG)(startFrame - m_audioAnchorFrame);
-            const LONGLONG pts = anchorRel
-                + (frameOffset * 10000000LL) / SCOPE_SAMPLE_RATE;
+            m_audioOutBuf.clear();
+            const double seconds = m_audio->take(m_audioPullBuf.data(), got,
+                                                 startFrame, m_audioOutBuf);
+            const uint32_t outFrames =
+                (uint32_t)(m_audioOutBuf.size() / m_audioChannels);
+            if (outFrames == 0) continue;
+            const LONGLONG pts = anchorRel + (LONGLONG)std::llround(seconds * 1e7);
             const LONGLONG duration =
-                ((LONGLONG)got * 10000000LL) / SCOPE_SAMPLE_RATE;
+                ((LONGLONG)outFrames * 10000000LL) / m_audio->rate();
 
-            WriteAudioSample(m_audioPullBuf.data(), got, pts, duration);
+            WriteAudioSample(m_audioOutBuf.data(), outFrames, pts, duration);
         }
     }
 
@@ -806,7 +826,10 @@ private:
     std::thread                            m_audioThread;
     std::atomic<bool>                      m_audioThreadStop{ false };
     LONGLONG                               m_audioAnchor100ns{ LLONG_MIN };
-    uint64_t                               m_audioAnchorFrame{ 0 };
+    // The feed at the recording's rate, and on its clock (recorder_audio_rate.h).
+    std::unique_ptr<SonicPi::RecordedAudio> m_audio;
+    std::vector<float>                     m_audioOutBuf;    // what m_audio gives of a pull, to encode
+    bool                                   m_audioRateChanged{ false };   // the device's rate changed: no more audio
     // Allocated once in Start so DrainAudio's 5ms tick doesn't churn.
     static constexpr uint32_t              kAudioPullFrames = 1024;
     std::vector<float>                     m_audioTapBuf;    // the tap's frames, every device channel
