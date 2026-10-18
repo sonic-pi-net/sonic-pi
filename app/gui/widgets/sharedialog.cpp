@@ -32,6 +32,7 @@
 #include <QPushButton>
 #include <QRegularExpression>
 #include <QScreen>
+#include <QScrollBar>
 #include <QStackedWidget>
 #include <QStyle>
 #include <QTextBrowser>
@@ -78,10 +79,12 @@ QPainterPath roundedPath(const QRectF& r, qreal radius, bool tl, bool tr, bool b
     return p;
 }
 
-// the panel's words at the house's Small (dpi.h FontRole), as the web's are at its small sizes
-QFont sized(int weight = QFont::Normal)
+// the panel's words in the house's roles (dpi.h FontRole), as the app's other panes: what is read or typed (what it
+// is, the tabs' names, the fields, the four ways) at Base; its titles, uppercased and muted, and its counts and notes
+// at Small
+QFont sized(int weight = QFont::Normal, FontRole role = FontRole::Base)
 {
-    QFont f = RoleFont(FontRole::Small);
+    QFont f = RoleFont(role);
     f.setWeight(QFont::Weight(weight));
     return f;
 }
@@ -115,7 +118,7 @@ public:
     }
     QSize sizeHint() const override
     {
-        return QSize(150, 18 + std::max(22, QFontMetrics(sized(QFont::Bold)).height() + QFontMetrics(sized()).height()));
+        return QSize(150, 18 + std::max(22, QFontMetrics(sized(QFont::Bold)).height() + QFontMetrics(sized(QFont::Normal, FontRole::Small)).height()));
     }
 
 protected:
@@ -129,12 +132,12 @@ protected:
         p.fillPath(roundedPath(rect(), Radius, true, true, false, false), ground);
         p.drawPixmap(11, (height() - 22) / 2, TablerIcons::pixmap(m_glyph, ink, 22, devicePixelRatioF()));
         const int x = 11 + 22 + 9, w = width() - x - 8;
-        const QFontMetrics nameM(sized(QFont::Bold)), sumM(sized());
+        const QFontMetrics nameM(sized(QFont::Bold)), sumM(sized(QFont::Normal, FontRole::Small));
         const int top = (height() - nameM.height() - sumM.height()) / 2;
         p.setFont(sized(QFont::Bold));
         p.setPen(ink);
         p.drawText(QRect(x, top, w, nameM.height()), Qt::AlignLeft | Qt::AlignVCenter, nameM.elidedText(text(), Qt::ElideRight, w));
-        p.setFont(sized());
+        p.setFont(sized(QFont::Normal, FontRole::Small));
         p.setPen(chosen ? m_theme->accentContrastText() : m_theme->mutedForeground());
         p.drawText(QRect(x, top + nameM.height(), w, sumM.height()), Qt::AlignLeft | Qt::AlignVCenter, sumM.elidedText(m_summary, Qt::ElideRight, w));
         if (hasFocus() && m_ring)
@@ -196,7 +199,7 @@ public:
         m_undo.setSingleShot(true);
         QObject::connect(&m_undo, &QTimer::timeout, this, [this] { m_done = false; setText(m_label); update(); });
     }
-    QSize sizeHint() const override { return QSize(70, 6 + 40 + 5 + QFontMetrics(sized(QFont::DemiBold)).height() + 6); }
+    QSize sizeHint() const override { return QSize(70, 6 + 40 + 5 + QFontMetrics(sized()).height() + 6); }
     // done: the tick and the word for it, for a moment
     void said(const QString& word)
     {
@@ -231,8 +234,8 @@ protected:
         p.drawEllipse(circle);
         p.drawPixmap(QPointF(circle.center().x() - 11, circle.center().y() - 11),
                      TablerIcons::pixmap(m_done ? Glyph::Check : m_glyph, ink, 22, devicePixelRatioF()));
-        const QFontMetrics m(sized(QFont::DemiBold));
-        p.setFont(sized(QFont::DemiBold));
+        const QFontMetrics m(sized());
+        p.setFont(sized());
         p.setPen(word);
         p.drawText(QRect(0, 6 + 40 + 5, width(), m.height()), Qt::AlignHCenter | Qt::AlignVCenter, m.elidedText(text(), Qt::ElideRight, width()));
         if (hasFocus() && m_ring)
@@ -330,8 +333,9 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     aboutLayout->setContentsMargins(0, 0, 0, 0);
     aboutLayout->setSpacing(5);
     // its name, then a buffer's code or a set's description, each labelled (.sm-fields)
-    QLabel* nameLabel = new QLabel(tr("Name"));
+    QLabel* nameLabel = new QLabel(tr("Name").toUpper());
     nameLabel->setObjectName("shareFieldLabel");
+    nameLabel->setAccessibleName(tr("Name"));
     m_name = new QLineEdit();
     m_name->setObjectName("shareName");
     m_name->setAccessibleName(tr("Name"));
@@ -342,23 +346,25 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     QVBoxLayout* previewLayout = new QVBoxLayout(m_previewBox);
     previewLayout->setContentsMargins(0, 2, 0, 0);
     previewLayout->setSpacing(5);
-    QLabel* previewLabel = new QLabel(tr("Preview"));
+    QLabel* previewLabel = new QLabel(tr("Preview").toUpper());
     previewLabel->setObjectName("shareFieldLabel");
+    previewLabel->setAccessibleName(tr("Preview"));
     m_preview = new QTextBrowser();
     m_preview->setObjectName("sharePreview");
     m_preview->setAccessibleName(tr("Preview of the buffer's code"));
     m_preview->setLineWrapMode(QTextEdit::NoWrap);
     m_preview->setOpenLinks(false);
     previewLayout->addWidget(previewLabel);
-    previewLayout->addWidget(m_preview);
+    previewLayout->addWidget(m_preview, 1);
     // a set's: its description
     m_descriptionBox = new QWidget();
     QVBoxLayout* descriptionLayout = new QVBoxLayout(m_descriptionBox);
     descriptionLayout->setContentsMargins(0, 2, 0, 0);
     descriptionLayout->setSpacing(5);
     QHBoxLayout* descriptionHead = new QHBoxLayout();
-    QLabel* descriptionLabel = new QLabel(tr("Description"));
+    QLabel* descriptionLabel = new QLabel(tr("Description").toUpper());
     descriptionLabel->setObjectName("shareFieldLabel");
+    descriptionLabel->setAccessibleName(tr("Description"));
     QLabel* optional = new QLabel(tr("optional"));
     optional->setObjectName("shareFieldHint");
     descriptionHead->addWidget(descriptionLabel);
@@ -371,7 +377,7 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     m_description->setTabChangesFocus(true);
     descriptionLabel->setBuddy(m_description);
     descriptionLayout->addLayout(descriptionHead);
-    descriptionLayout->addWidget(m_description);
+    descriptionLayout->addWidget(m_description, 1);
     // kept as they are typed; a name can't be emptied: it keeps the one it had (as the web's, on leaving it)
     auto keep = [this] {
         Scope& s = m_scopes[m_scope];
@@ -387,15 +393,10 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     connect(m_name, &QLineEdit::textEdited, this, keep);
     connect(m_name, &QLineEdit::editingFinished, this, [this] { if (m_name->text().trimmed().isEmpty()) m_name->setText(m_scopes[m_scope].name); });
     connect(m_description, &QPlainTextEdit::textChanged, this, keep);
-    // the same room either way, a description or a buffer's code: five lines of it
-    const int five = 5 * QFontMetrics(sized()).lineSpacing() + 16;
-    m_preview->setFixedHeight(five);
-    m_description->setFixedHeight(five);
     aboutLayout->addWidget(nameLabel);
     aboutLayout->addWidget(m_name);
-    aboutLayout->addWidget(m_previewBox);
-    aboutLayout->addWidget(m_descriptionBox);
-    aboutLayout->addStretch(1);
+    aboutLayout->addWidget(m_previewBox, 1);
+    aboutLayout->addWidget(m_descriptionBox, 1);
 
     // its QR code: the code, and Larger (a big program's code is too fine to scan at the card's width) and Save
     QWidget* code = new QWidget();
@@ -502,15 +503,27 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     layout->addLayout(cardRow, 1);
     setMinimumWidth(PanelWidth);
 
-    // its words and fields at the house's Small, set here rather than in app.qss, where a size would stop the zoom
+    // its words and fields in sized()'s roles, set here rather than in app.qss, where a size would stop the zoom
+    const QStringList small = { "shareStep", "shareFieldLabel", "shareFieldHint", "shareQrNote", "shareLinkNote" };
     for (QWidget* w : findChildren<QWidget*>())
         if (qobject_cast<QLabel*>(w) || qobject_cast<QLineEdit*>(w) || qobject_cast<QPlainTextEdit*>(w) || qobject_cast<QTextBrowser*>(w) || qobject_cast<QPushButton*>(w))
-            ApplyFontRole(w, FontRole::Small);
+            ApplyFontRole(w, small.contains(w->objectName()) ? FontRole::Small : FontRole::Base);
     {
         QFont code = m_preview->font();
         code.setFamily(QStringLiteral("Hack"));
         m_preview->setFont(code);
         m_linkText->setFont(code);
+    }
+    // the same room either way, a description or a buffer's code: all the card has, and never less than five lines of
+    // the code, clear of its box's border and padding and its scroll bar, which are the stylesheet's
+    m_preview->ensurePolished();
+    const QMargins chrome = m_preview->contentsMargins();
+    const int five = 5 * QFontMetrics(m_preview->font()).lineSpacing() + 2 * int(m_preview->document()->documentMargin())
+                     + chrome.top() + chrome.bottom() + m_preview->horizontalScrollBar()->sizeHint().height();
+    for (QAbstractScrollArea* box : std::initializer_list<QAbstractScrollArea*>{ m_preview, m_description })
+    {
+        box->setMinimumHeight(five);
+        box->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
     }
 
     m_tabs[0]->setChecked(true);

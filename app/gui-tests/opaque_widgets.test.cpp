@@ -15,6 +15,7 @@
 #include <QScrollBar>
 #include <QTest>
 
+#include "app_stylesheet.h"
 #include "model/sonicpitheme.h"
 #include "utils/opaque.h"
 #include "widgets/metricslog.h"
@@ -22,16 +23,6 @@
 #include "widgets/nodetreegraph.h"
 
 namespace {
-
-// The app's stylesheet on for the case, off after it.
-struct AppStylesheet
-{
-    SonicPiTheme theme{ nullptr, "", QStringLiteral(SP_ROOT) };
-    AppStylesheet() { qApp->setStyleSheet(theme.getAppStylesheet()); }
-    ~AppStylesheet() { qApp->setStyleSheet(QString()); }
-    // As a theme switch does: the sheet set again over shown widgets.
-    void again() { qApp->setStyleSheet(QString()); qApp->setStyleSheet(theme.getAppStylesheet()); }
-};
 
 bool opaqueThroughRestyle(QWidget* shown, QWidget* painter, AppStylesheet& sheet)
 {

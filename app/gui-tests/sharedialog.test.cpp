@@ -8,14 +8,18 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QCryptographicHash>
+#include <QFontInfo>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QAbstractButton>
 #include <QPushButton>
+#include <QScrollBar>
 #include <QStackedWidget>
 #include <QTextBrowser>
 
+#include "app_stylesheet.h"
+#include "dpi.h"
 #include "model/sonicpitheme.h"
 #include "sharelink.h"
 #include "widgets/sharedialog.h"
@@ -126,6 +130,71 @@ TEST_CASE("a code's image is its modules, 8 pixels each for printing, inside a q
             wrong += (qGray(image.pixel((c + 4) * 8 + 4, (r + 4) * 8 + 4)) < 128) != qr.isDark(r, c);
     CHECK(wrong == 0);
     CHECK(image.pixel(2, 2) == qRgb(255, 255, 255));
+}
+
+// The native Share was all at the house's Small, 9 px on Windows and 10 on a
+// Mac, and hard to read (#3593); all at Base, it lost its order. It is in the
+// house's roles (dpi.h FontRole), as the app's other panes: what is read or
+// typed at Base, its titles and notes at Small.
+TEST_CASE("Share reads at the house's Base, its titles and notes at Small, as the app's other panes", "[share]")
+{
+    Share s;
+    const QStringList small = { "shareStep", "shareFieldLabel", "shareFieldHint", "shareQrNote", "shareLinkNote" };
+    int bases = 0, smalls = 0;
+    for (QWidget* w : s.dialog->findChildren<QWidget*>())
+    {
+        if (!(qobject_cast<QLabel*>(w) || qobject_cast<QLineEdit*>(w) || qobject_cast<QPlainTextEdit*>(w)
+              || qobject_cast<QTextBrowser*>(w) || qobject_cast<QPushButton*>(w)))
+            continue;
+        INFO(w->metaObject()->className() << " " << w->objectName().toStdString());
+        const bool isSmall = small.contains(w->objectName());
+        CHECK(QFontInfo(w->font()).pixelSize() == FontRolePx(isSmall ? FontRole::Small : FontRole::Base));
+        (isSmall ? smalls : bases)++;
+    }
+    CHECK(bases == 8);    // what it is, its name, preview and description, the code, Larger, Save the image, the link
+    CHECK(smalls == 7);   // SHARE, the three fields' titles, "optional", and the code's and the link's notes
+}
+
+// a title reads as one by being uppercased and muted (dpi.h FontRole::Small), and
+// a screen reader says its word, not its letters
+TEST_CASE("Share's titles are in capitals, and heard as words", "[share]")
+{
+    Share s;
+    QStringList heard;
+    for (QLabel* l : s.dialog->findChildren<QLabel*>())
+        if (l->objectName() == "shareStep" || l->objectName() == "shareFieldLabel")
+        {
+            INFO(l->text().toStdString());
+            CHECK(l->text() == l->text().toUpper());
+            heard << l->accessibleName();
+        }
+    heard.sort();
+    CHECK(heard == QStringList{ "Description", "Name", "Preview", "Share" });
+}
+
+// under the app's stylesheet, as it always is: its box's border and padding, and its scroll bar, are the sheet's
+TEST_CASE("Share's preview takes all the room the card has, and never less than five lines clear of its scroll bar", "[share]")
+{
+    AppStylesheet sheet;
+    QString wide = drums;
+    wide += "sample :bd_haus, amp: 2, rate: 1, cutoff: 100, release: 0.25, attack: 0.01, pan: 0, lpf: 120, hpf: 30\n";
+    Share s(wide);
+    auto* preview = s.find<QTextBrowser>("sharePreview");
+    REQUIRE(preview->horizontalScrollBar()->isVisible());
+    const int lines = QFontMetrics(preview->font()).lineSpacing();
+    CHECK(preview->viewport()->height() >= 5 * lines + 2 * int(preview->document()->documentMargin()));
+
+    const int before = preview->height();
+    s.dialog->resize(s.dialog->width(), s.dialog->height() + 200);
+    QApplication::processEvents();
+    CHECK(preview->height() == before + 200);
+
+    // the same room for a set's description
+    const int grown = preview->height();
+    s.press("shareSet");
+    s.dialog->resize(s.dialog->width(), s.dialog->height() + 200);
+    QApplication::processEvents();
+    CHECK(s.find<QPlainTextEdit>("shareDescription")->height() == grown);
 }
 
 TEST_CASE("Share's link is the web's: copied, it opens the buffer's code", "[share]")

@@ -1700,7 +1700,7 @@ QPushButton#confirmPrimary:hover
 
 /* ── Share (widgets/sharedialog.cpp): the web's Share panel (app/web/app/src/style.css .sm-*) in the theme's own
    roles. The panel, its tabs, its card and the four ways are painted there; their words and fields are here, their
-   sizes there (the house's Small, ApplyFontRole: a stylesheet size would stop the zoom). ── */
+   sizes there (the house's Base and Small, ApplyFontRole: a stylesheet size would stop the zoom). ── */
 
 QDialog#shareDialog QLabel
 {
@@ -1728,8 +1728,9 @@ QLabel#shareAbout[said="true"]
 
 QLabel#shareFieldLabel
 {
-    color: softForegroundColor;
-    font-weight: 600;
+    color: mutedForegroundColor;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 QLabel#shareFieldHint, QLabel#shareQrNote, QLabel#shareLinkNote
