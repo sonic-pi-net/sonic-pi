@@ -105,6 +105,20 @@ const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new 
 // lit as native's code flash: a loop's header, its sound and its end at once, behind just their code, each held 150 ms
 // after its latest flash (flash.js): a card's exactly, the editor's give or take its timer's lateness
 const litAsNative = (w, end) => [1, 2, end].every((n) => w.together.includes(n)) && w.hugs && w.holds.length > 0 && w.holds.every((d) => d >= 140 && d <= 400);
+// what a Run lights over ms, frame by frame (main.js run): the editor's gutter, its code (editor.js flash), the Run
+// button's glyph (flashRunButton)
+const runLit = (pg, ms = 1500) => pg.evaluate((ms) => new Promise((resolve) => {
+  const t0 = performance.now(), seen = new Set();
+  const frame = () => {
+    const root = document.querySelector("#editor-mount").shadowRoot;
+    if (root.querySelector(".cm-editor.sp-run-flash")) seen.add("gutter");
+    if (root.querySelector(".sp-kick-a, .sp-kick-b")) seen.add("code");
+    if (document.querySelector("#btn-run .tb-glyph").getAnimations().some((a) => /^run-flash/.test(a.animationName))) seen.add("run button");
+    if (performance.now() - t0 < ms) requestAnimationFrame(frame);
+    else resolve([...seen].sort().join());
+  };
+  requestAnimationFrame(frame);
+}), ms);
 // what only one engine can be asked: said with its reason, and counted apart from what passed
 const skip = (name, why) => { results.push({ engine, name, ok: true, skipped: true }); say("skip", name, why); };
 // The editor's foot (the caret readout, the buffers) floats over the code's last lines rather than taking a row of its
@@ -453,6 +467,32 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     }
     check("the flash settings, as native's: Flash code off lights no line, Flash gutter on dots each line that sounds, Flash Brightness at 100% washes in the accent itself",
       hasFlashPrefs && codeOff?.ever.length === 0 && dots === "1,2,5" && /,\s*1\)$/.test(wash ?? ""), JSON.stringify({ hasFlashPrefs, codeOff, dots, wash }));
+    // Reduce animations keeps the code still, as native's: no line lights as it plays, and a Run lights nothing. The
+    // same Run without it lights all three, and the same program lights its lines once it is turned off again, so the
+    // watches are seen to see them. Its lines are none the program before lit: a flash of that one, sent before its
+    // Stop, may land after it, and is not this run's
+    const motionSwitch = prefSwitch("Reduce animations");
+    const hasMotion = (await motionSwitch.count()) === 1;
+    const stillLines = [6, 7, 9];
+    let runMoving = null, runStill = null, playStill = null, playMoving = null;
+    if (hasMotion) {
+      const moving = runLit(page);
+      await page.click("#btn-run");
+      runMoving = await moving;
+      await page.click("#btn-stop");
+      await setCode("# 1\n# 2\n# 3\n# 4\n# 5\nlive_loop :still do\n  play 60\n  sleep 0.5\nend");
+      await motionSwitch.click();
+      const still = runLit(page);
+      await page.click("#btn-run");
+      [runStill, playStill] = await Promise.all([still, flashWatch(page, "editor", 1500)]);
+      await motionSwitch.click();
+      playMoving = await flashWatch(page, "editor", 1500);
+      await page.click("#btn-stop");
+      await page.evaluate(() => localStorage.removeItem("sp-reduce-motion"));   // following the system's setting again, as before
+    }
+    check("Reduce animations, as native's: no line lights as it plays, and a Run lights nothing (without it, the gutter, the code and the Run button)",
+      hasMotion && runMoving === "code,gutter,run button" && runStill === "" && !stillLines.some((n) => playStill?.ever.includes(n))
+        && stillLines.every((n) => playMoving?.ever.includes(n)), JSON.stringify({ hasMotion, runMoving, runStill, playStill, playMoving }));
     // live lines, the threads view, and more of the runtime's verbs
     await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend\nlive_loop :bass do\n  use_synth :tb303; use_sched_ahead_time 1\n  play rrand_i(40, 52), release: 0.2\n  sleep 0.25\nend");   // the bass a second ahead: notes on the roll still to sound when Stop is pressed (the default lead is too short to be sure of one)
     await page.click("#btn-run");

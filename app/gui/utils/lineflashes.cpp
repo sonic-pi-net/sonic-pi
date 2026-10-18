@@ -19,6 +19,7 @@
 
 #include "flash_style.h"
 #include "framepacer.h"
+#include "reducedmotion.h"
 
 namespace SonicPi
 {
@@ -37,7 +38,8 @@ LineFlashes::~LineFlashes() { hold(false); }
 
 void LineFlashes::flash(int line)
 {
-    if (line < 0)
+    // Reduce animations keeps the code still: no line lights, as on the web.
+    if (line < 0 || userPrefersReducedMotion())
         return;
     m_waiting.append(line);
     hold(true);

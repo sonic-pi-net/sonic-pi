@@ -4263,10 +4263,7 @@ void MainWindow::runCode()
         beautifyCode();
     }
 
-    ws->highlightCurrentLine();
-    lexer->highlightAll();
-    QTimer::singleShot(500, lexer, SLOT(unhighlightAll()));
-    QTimer::singleShot(500, ws, SLOT(unhighlightCurrentLine()));
+    ws->flashRun();
     ws->clearLineMarkers();
     resetErrorPane();
 

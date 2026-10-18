@@ -29,7 +29,8 @@ namespace SonicPi
 // frame pacer's next tick, and the line stays lit until kFlashHoldMs after
 // its latest flash, cleared on a tick too: a run that flashes many lines
 // costs one repaint a tick. Any number of lines are lit at once, so a loop's
-// header, its end and its sound, flashing together, all show.
+// header, its end and its sound, flashing together, all show. With Reduce
+// animations on, none lights.
 class LineFlashes : public QObject
 {
     Q_OBJECT

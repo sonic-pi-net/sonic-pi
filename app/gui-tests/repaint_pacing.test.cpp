@@ -20,6 +20,7 @@
 #include <QWidget>
 
 #include "pacer_by_hand.h"
+#include "reduced_motion_on.h"
 #include "model/sonicpitheme.h"
 #include "utils/flash_style.h"
 #include "utils/framepacer.h"
@@ -211,6 +212,30 @@ TEST_CASE("editor: a flash washes just a line's code, its indent and the space a
         hand.tick();
         return !e.ed->isFlashing(1);
     }, SonicPi::kFlashHoldMs * 20));
+}
+
+TEST_CASE("editor: a run lights the whole code a moment", "[flash]")
+{
+    Editor e(QStringLiteral("play 60\n"));
+    const QColor lit = e.theme->color("SelectionBackground");
+    auto paper = [&] { return e.lexer->paper(QsciLexerRuby::Default); };
+    REQUIRE(paper() != lit);
+    e.ed->flashRun();
+    CHECK(paper() == lit);
+    CHECK(QTest::qWaitFor([&] { return paper() != lit; }, 2000));
+}
+
+TEST_CASE("editor: with Reduce animations on, nothing flashes, a run nor a sound", "[flash][motion]")
+{
+    HandDriven hand;
+    ReducedMotionOn still;
+    Editor e(QStringLiteral("live_loop :t do\n  play 60\nend\n"));
+    const QColor before = e.lexer->paper(QsciLexerRuby::Default);
+    e.ed->flashRun();
+    CHECK(e.lexer->paper(QsciLexerRuby::Default) == before);
+    e.ed->flashRunLine(1, true, true);
+    hand.tick();
+    CHECK_FALSE(e.ed->isFlashing(1));
 }
 
 TEST_CASE("editor: run-line flashes and their clears land on the tick", "[pacing]")

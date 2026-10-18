@@ -2779,7 +2779,7 @@ function buildPrefs() {
   // native's View > Accessibility
   h("Accessibility");
   box.appendChild(toggle("Speak Run and Stop", a11yPrefs.speakTransport, (on) => { a11yPrefs.speakTransport = on; store.set("sp-speak-transport", on); setSpeakTransport(on); }, "Have your screen reader say \"Run started\" and \"Stopped\". Turn off to hear the very start of your music without the announcement over it", "pref-speak"));
-  box.appendChild(toggle("Reduce animations", motionPrefs.reduce, (on) => setReduceMotion(on, true), "Keep the interface still: panes and popups appear in place instead of sliding. Always on while your system's reduce motion setting is", "pref-motion"));
+  box.appendChild(toggle("Reduce animations", motionPrefs.reduce, (on) => setReduceMotion(on, true), "Keep the interface still: code doesn't flash as it runs and plays, and panes and popups appear in place instead of sliding. On while your system's reduce motion setting is on, unless you set it here", "pref-motion"));
 
   h("Shortcuts");
   shortcutPrefs(box);

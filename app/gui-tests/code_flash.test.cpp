@@ -15,20 +15,25 @@
 // card's alike light every line that sounded, each held from its own latest
 // flash, behind just its code, as bright as Flash Brightness says. A card lit
 // one line at a time, so a loop's header, its end and its sound, flashing
-// together, showed only the last (#3587).
+// together, showed only the last (#3587). With Reduce animations on, none
+// flashes, as on the web.
 
 #include <catch2/catch_test_macros.hpp>
 
 #include <algorithm>
+#include <utility>
 
 #include <QAbstractButton>
 #include <QApplication>
 #include <QImage>
 #include <QPlainTextEdit>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QTest>
 #include <QVBoxLayout>
 
 #include "pacer_by_hand.h"
+#include "reduced_motion_on.h"
 #include "model/sonicpitheme.h"
 #include "utils/flash_style.h"
 #include "utils/lineflashes.h"
@@ -50,7 +55,17 @@ struct FakeClock
 
 const QString kLoop = QStringLiteral("live_loop :a do\n  play 60  \n  sleep 1\nend");   // a space or two after a line's code, as typing leaves
 
-// A deck of one card, shown, its flashes timed by the test's clock.
+// Code a card shows only part of at once, in a short budget.
+QString longCode()
+{
+    QStringList lines;
+    for (int i = 0; i < 20; ++i)
+        lines << QStringLiteral("play %1").arg(60 + i);
+    return lines.join('\n');
+}
+
+// A deck of one card, shown, its flashes timed by the test's clock. Its
+// code is kLoop, as tall as it needs, unless the test says otherwise.
 struct Card
 {
     SonicPiTheme* theme = new SonicPiTheme(nullptr, "", QStringLiteral(SP_ROOT));
@@ -58,9 +73,11 @@ struct Card
     QVBoxLayout* column = new QVBoxLayout(&page);
     CardDeck deck{ &page, CardDeck::Playing::Layered };
     FakeClock t;
+    QString code;
+    int budget;   // the code's height, 0 for as tall as it is
     CodeCard* card = nullptr;
 
-    Card()
+    explicit Card(QString code = kLoop, int budget = 0) : code(std::move(code)), budget(budget)
     {
         page.resize(800, 600);
         card = make();
@@ -73,8 +90,9 @@ struct Card
     {
         CodeCard::Spec spec;
         spec.title = QStringLiteral("Loop");
-        spec.code = kLoop;
+        spec.code = code;
         CodeCard::Metrics m;
+        m.codeBodyHeight = budget;
         m.codeFontPx = 14;
         m.titlePx = 16;
         CodeCard* c = new CodeCard(spec, m, theme, &page);
@@ -221,6 +239,19 @@ TEST_CASE("a line flashed again while lit holds from its latest flash", "[flash]
     CHECK_FALSE(flashes.isLit(2));
 }
 
+TEST_CASE("with Reduce animations on, a flash lights no line", "[flash][motion]")
+{
+    HandDriven hand;
+    ReducedMotionOn still;
+    QObject owner;
+    SonicPi::LineFlashes flashes(&owner);
+    flashes.flash(0);
+    flashes.flash(3);
+    hand.tick();
+    CHECK(flashes.litLines().isEmpty());
+    CHECK(hand.pacer->clients() == 0);   // nor holds the pacer for one
+}
+
 TEST_CASE("a card lights every line that sounds together, as the editor does", "[flash][card]")
 {
     HandDriven hand;
@@ -245,6 +276,39 @@ TEST_CASE("a card lights every line that sounds together, as the editor does", "
     c.t.ms += SonicPi::kFlashHoldMs;
     hand.tick();
     CHECK(c.shot() == unlit);
+}
+
+TEST_CASE("a card too short for its code scrolls to the line that lights", "[flash][card]")
+{
+    HandDriven hand;
+    Card c(longCode(), 60);
+    QScrollBar* bar = c.card->body()->verticalScrollBar();
+    REQUIRE(bar->maximum() > 0);
+    REQUIRE(bar->value() == 0);
+
+    c.deck.flashLine("ws", 2 + 19);   // the last line
+    hand.tick();
+    CHECK(bar->value() > 0);
+
+    c.t.ms += SonicPi::kFlashHoldMs;
+    hand.tick();
+}
+
+TEST_CASE("with Reduce animations on, a card's code stays still as it plays", "[flash][card][motion]")
+{
+    HandDriven hand;
+    ReducedMotionOn still;
+    Card c(longCode(), 60);
+    QScrollBar* bar = c.card->body()->verticalScrollBar();
+    REQUIRE(bar->maximum() > 0);
+    const QImage unlit = c.shot();
+
+    c.deck.flashLine("ws", 2);
+    c.deck.flashLine("ws", 2 + 19);
+    hand.tick();
+    CHECK(c.card->lineFlashes()->isEmpty());
+    CHECK(c.shot() == unlit);
+    CHECK(bar->value() == 0);   // nor scrolls to follow the run
 }
 
 TEST_CASE("a card washes just a line's code, as the editor does", "[flash][card]")

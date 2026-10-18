@@ -1458,7 +1458,7 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
 
     reduce_motion = new QCheckBox(tr("Reduce animations"));
     setCheckIcon(reduce_motion, kReduceMotionSvg);
-    reduce_motion->setToolTip(tr("When enabled, Sonic Pi keeps its interface still: panes and popups appear in place instead of sliding or gliding. Also switched on automatically while your operating system's reduce-animations accessibility setting is active."));
+    reduce_motion->setToolTip(tr("When enabled, Sonic Pi keeps its interface still: code doesn't flash as it runs and plays, and panes and popups appear in place instead of sliding or gliding. Panes and popups also appear in place while your operating system's reduce-animations accessibility setting is active."));
 
     show_log = new QCheckBox(tr("Show log"));
     setCheckIcon(show_log, kShowLogSvg);

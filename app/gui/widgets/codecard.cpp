@@ -874,13 +874,6 @@ void CodeCard::flashLine(int runLine)
     const int line = runLine - 2;
     if (line < 0 || line >= m_code.count(QLatin1Char('\n')) + 1)
         return;
-    // A snippet that overruns the card's budget scrolls, so follow the run and
-    // keep the lit line in view.
-    if (!m_editor)
-    {
-        const int lineHeight = QFontMetrics(m_text->font()).lineSpacing();
-        m_body->ensureVisible(0, m_text->y() + line * lineHeight + lineHeight / 2, 0, lineHeight);
-    }
     m_flashes->flash(line);
 }
 
@@ -906,6 +899,13 @@ void CodeCard::showFlash(int line, bool lit)
 {
     if (m_text)
         m_text->setWashed(line, lit);
+    // A snippet that overruns the card's budget scrolls, so follow the run and
+    // keep the lit line in view.
+    if (lit && !m_editor)
+    {
+        const int lineHeight = QFontMetrics(m_text->font()).lineSpacing();
+        m_body->ensureVisible(0, m_text->y() + line * lineHeight + lineHeight / 2, 0, lineHeight);
+    }
     if (m_editor)
         washEditor();
 }

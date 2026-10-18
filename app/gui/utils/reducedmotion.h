@@ -30,4 +30,11 @@ bool prefersReducedMotion();
 // Set at boot from the saved prefs and again on every prefs change.
 void setReduceMotionPreference(bool on);
 
+// The in-app preference alone, for what moves with the music (the code
+// flashes, as the scope's start in MainWindow::runCode): the OS side is
+// forced on under Remote Desktop, and by users who turned off window
+// animations for other reasons, and would take these away with nothing in
+// Sonic Pi to explain it.
+bool userPrefersReducedMotion();
+
 } // namespace SonicPi

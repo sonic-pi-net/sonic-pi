@@ -16,6 +16,7 @@
 #include "completionpopup.h"
 #include "editortoolbar.h"
 #include "findpopup.h"
+#include "sonicpilexer.h"
 #include <QVariantAnimation>
 #include "utils/scintilla_api.h"
 #include "utils/completion_context.h"
@@ -34,6 +35,7 @@
 #include <QTimer>
 #include "utils/framepacer.h"
 #include "utils/lineflashes.h"
+#include "utils/reducedmotion.h"
 #include "utils/opaque.h"
 #include <QElapsedTimer>
 #include <QFocusEvent>
@@ -1128,6 +1130,20 @@ void SonicPiScintilla::unhighlightCurrentLine()
     mutex->lock();
     setCaretLineBackgroundColor(theme->color("CaretLineBackground"));
     mutex->unlock();
+}
+
+void SonicPiScintilla::flashRun()
+{
+    // Reduce animations keeps the code still, as its line flashes do.
+    if (SonicPi::userPrefersReducedMotion())
+        return;
+    highlightCurrentLine();
+    if (auto* code = qobject_cast<SonicPiLexer*>(lexer()))
+    {
+        code->highlightAll();
+        QTimer::singleShot(500, code, &SonicPiLexer::unhighlightAll);
+    }
+    QTimer::singleShot(500, this, &SonicPiScintilla::unhighlightCurrentLine);
 }
 
 void SonicPiScintilla::snapshotRunLines()

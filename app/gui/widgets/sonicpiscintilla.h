@@ -133,6 +133,8 @@ public slots:
     void downcaseWordOrSelection();
     void highlightCurrentLine();
     void unhighlightCurrentLine();
+    // The whole code lit a moment as it's run (the web's editor.flash).
+    void flashRun();
     // Briefly pulse a line (e.g. the source line of a sound as it plays):
     // a translucent wash behind the line's code text and/or a small dot in
     // the gutter. line is 0-based; re-flashing extends the pulse rather than

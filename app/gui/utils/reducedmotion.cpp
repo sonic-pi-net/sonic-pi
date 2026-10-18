@@ -33,6 +33,11 @@ void setReduceMotionPreference(bool on)
     s_userPrefersReducedMotion = on;
 }
 
+bool userPrefersReducedMotion()
+{
+    return s_userPrefersReducedMotion.load(std::memory_order_relaxed);
+}
+
 static bool osPrefersReducedMotion()
 {
 #ifdef _WIN32
@@ -53,8 +58,7 @@ static bool osPrefersReducedMotion()
 
 bool prefersReducedMotion()
 {
-    return s_userPrefersReducedMotion.load(std::memory_order_relaxed)
-        || osPrefersReducedMotion();
+    return userPrefersReducedMotion() || osPrefersReducedMotion();
 }
 
 } // namespace SonicPi
