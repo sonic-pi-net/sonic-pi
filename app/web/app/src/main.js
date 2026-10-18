@@ -523,15 +523,15 @@ async function ensureSession() {
     const m = await needEngineModule();
     const worker = w && (await w.alive) ? w.worker : null;
     const bytes = await wasmBytes;
-    // SuperSonic reserves its shared memory's whole ceiling up front (maxInboxSize, 768 MB by default, is
+    // SuperSonic reserves its shared memory's whole ceiling up front (maxAssetsSize, 768 MB by default, is
     // most of it). A phone's browser gives a page far less, and iOS says "Out of memory" at the reservation
-    // — a reload, with the last page's memory not yet let go, the more so. The inbox carries loads in
+    // — a reload, with the last page's memory not yet let go, the more so. The assets area carries loads in
     // flight, so a phone reserves a slice of that and still loads any sample it has room to play.
     const phone = window.matchMedia("(max-width: 760px)").matches || (navigator.maxTouchPoints > 1 && /iPhone|iPad|Android/.test(navigator.userAgent));
     const engine = await m.bootEngine({
       ...(bytes ? { wasmBytes: bytes } : {}),   // fetched above, beside the runtime (no bytes: SuperSonic fetches its own)
       ...(audioInGesture() ? { audioContext } : {}),   // the one the press started (above)
-      ...(phone ? { memory: { maxInboxSize: 96 * 1024 * 1024 } } : {}),
+      ...(phone ? { memory: { maxAssetsSize: 96 * 1024 * 1024 } } : {}),
       // a phone's hidden tab is one the system may freeze or kill at any moment: its sound suspends while hidden, and
       // coming back asks for the tap that resumes it (the resume card), rather than playing on with no page to stop it
       ...(phone ? { pageLifecycle: { hidden: "suspend" } } : {}),
