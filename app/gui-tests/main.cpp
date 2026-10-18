@@ -4,8 +4,12 @@
 // the suite runs headless in CI on every OS.
 
 #include <QApplication>
+#include <QFont>
+#include <QStyle>
 #include <QTemporaryDir>
 #include <catch2/catch_session.hpp>
+#include <catch2/reporters/catch_reporter_event_listener.hpp>
+#include <catch2/reporters/catch_reporter_registrars.hpp>
 
 #include <cstdio>
 #include <cstdlib>
@@ -43,6 +47,38 @@ void failOnQtWarning(QtMsgType type, const QMessageLogContext& ctx, const QStrin
                  text.constData(), ctx.file ? ctx.file : "?", ctx.line, ctx.function ? ctx.function : "?");
     std::abort();
 }
+
+// What a test sets for the whole application is put back as the run began after it, so no test sees another's: the
+// app's stylesheet (a styled box's border, padding and scroll bars), its font, and its style. Left on, a case passed
+// alone and failed after one that had set the stylesheet, and the suite's verdict hung on its order.
+class ApplicationState : public Catch::EventListenerBase
+{
+public:
+    using Catch::EventListenerBase::EventListenerBase;
+
+    void testRunStarting(const Catch::TestRunInfo&) override
+    {
+        m_font = QApplication::font();
+        m_style = QApplication::style()->name();
+        m_styleClass = QApplication::style()->metaObject()->className();
+    }
+
+    void testCaseEnded(const Catch::TestCaseStats&) override
+    {
+        if (!qApp->styleSheet().isEmpty())
+            qApp->setStyleSheet(QString());
+        if (QByteArray(QApplication::style()->metaObject()->className()) != m_styleClass)
+            QApplication::setStyle(m_style);
+        if (QApplication::font() != m_font)
+            QApplication::setFont(m_font);
+    }
+
+private:
+    QFont m_font;
+    QString m_style;
+    QByteArray m_styleClass;
+};
+CATCH_REGISTER_LISTENER(ApplicationState)
 } // namespace
 
 #ifdef Q_OS_MACOS
