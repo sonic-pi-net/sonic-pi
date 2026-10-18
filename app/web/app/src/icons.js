@@ -43,6 +43,8 @@ const PATHS = {
   "pref-metro": '<path d="M14.153 8.188l-.72 -3.236a2.493 2.493 0 0 0 -4.867 0l-3.025 13.614a2 2 0 0 0 1.952 2.434h7.014a2 2 0 0 0 1.952 -2.434l-.524 -2.357m-4.935 1.791l9 -13"/><path d="M19 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/>',
   "pref-loop-scopes": '<path d="M3 12h4.5l1.5 -6l4 12l2 -9l1.5 3h4.5"/>',
   "pref-loop-scroll": '<path d="M7 7l5 5l-5 5"/><path d="M13 7l5 5l-5 5"/>',
+  "pref-flash-code": '<path d="M3 19h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/><path d="M12.5 5.5l4 4"/><path d="M4.5 13.5l4 4"/>',
+  "pref-flash-gutter": '<path d="M4 20l0 -16"/><path d="M8 4l0 .01"/><path d="M12 4l0 .01"/><path d="M16 4l0 .01"/><path d="M20 4l0 .01"/><path d="M12 8l0 .01"/><path d="M20 8l0 .01"/><path d="M8 12l0 .01"/><path d="M12 12l0 .01"/><path d="M16 12l0 .01"/><path d="M20 12l0 .01"/><path d="M12 16l0 .01"/><path d="M20 16l0 .01"/><path d="M8 20l0 .01"/><path d="M12 20l0 .01"/><path d="M16 20l0 .01"/><path d="M20 20l0 .01"/>',
   "pref-safe": '<path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3"/>',
   "pref-external": '<path d="M12 21l-8 -4.5v-9l8 -4.5l8 4.5v4.5"/><path d="M12 12l8 -4.5"/><path d="M12 12v9"/><path d="M12 12l-8 -4.5"/><path d="M22 18h-7"/><path d="M18 15l-3 3l3 3"/>',
   "pref-speak": '<path d="M15 8a5 5 0 0 1 0 8"/><path d="M17.7 5a9 9 0 0 1 0 14"/><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5"/>',

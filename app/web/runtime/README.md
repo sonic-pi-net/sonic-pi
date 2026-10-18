@@ -62,8 +62,12 @@ What exists:
   clock and compares what it emits with every spec's recording, so the two
   modes are held to the same answer.
 * `mruby/` — mruby as a shallow submodule, pinned to a commit of its master
-  on the way to 4.1 (c17ead2, 2026-09-15), unpatched; its compiler is Prism,
-  which the build fetches as mruby's own submodule.
+  on the way to 4.1 (c17ead2, 2026-09-15); its compiler is Prism, which the
+  build fetches as mruby's own submodule. `mruby-patches/` is ours over it,
+  each saying why: the build copies the submodule to `build/mruby-src`,
+  applies them there and builds that, so the submodule stays as upstream
+  has it. A body's implicit return on the line of its `end`, as CRuby's, is
+  the one there is: it is how a live_loop knows its end line, to flash it.
   `build_config.rb` builds it twice from one gem set, natively and with
   Emscripten. `mrbgems/sonic-pi-core` is the runtime's own C: exact float
   printing, since mruby's is not.

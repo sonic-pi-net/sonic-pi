@@ -315,9 +315,13 @@ module SonicPi
       delay = args_h[:delay]
       raise ArgumentError, "live_loop's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
       auto_cue = args_h.key?(:auto_cue) ? args_h[:auto_cue] : true
+      # its header and its end lit each time round, as native's: the lines as this Run has them, so a redefinition
+      # lights its own
+      ll_line = @sched.line_of(__p)
+      ll_end = @sched.end_line_of(block, ll_line)
       case block.arity
-      when 0 then define(ll_name) { |a| block.call }
-      when 1 then define(ll_name) { |a| block.call(a) }
+      when 0 then define(ll_name) { |a| @sched.record_flash(__p, ll_line); @sched.record_flash(__p, ll_end); block.call }
+      when 1 then define(ll_name) { |a| @sched.record_flash(__p, ll_line); @sched.record_flash(__p, ll_end); block.call(a) }
       else raise ArgumentError, "Live loop block must only accept 0 or 1 args"
       end
       existing = @sched.named_process(ll_name, __p.wall)
@@ -337,7 +341,7 @@ module SonicPi
         end
         begin
           if scope_num
-            with_fx(:scope_out, scope_num: scope_num) { run_loop.call }   # every live_loop feeds a scope
+            __with_fx(:scope_out, [{ scope_num: scope_num }], false) { run_loop.call }   # every live_loop feeds a scope
           else
             run_loop.call
           end
@@ -654,7 +658,12 @@ module SonicPi
     # An fx around a block (Scheduler's FxFrame): its synth starts, then the
     # block's sounds, and the threads it starts, go into it; it is freed once
     # they have all ended and its kill_delay has passed.
-    def with_fx(fx_name, *args, &block)
+    def with_fx(fx_name, *args, &block) = __with_fx(fx_name, args, true, &block)
+
+    # with_fx, its header and its end lit as it starts (native's __delayed_flash_block_from_caller) when it is the
+    # program's: the scope_out every live_loop plays through is the runtime's, and with_afx's thread holds no line of
+    # the program
+    def __with_fx(fx_name, args, flashed, &block)
       raise ArgumentError, "with_fx must be called with a do/end block" unless block
       raise "with_fx block must only accept 0 or 1 args" unless block.arity == 0 || block.arity == 1
       args_h = resolve_synth_opts_hash_or_array(args)
@@ -674,6 +683,11 @@ module SonicPi
         node = __trigger_fx(fx_name, args_h, frame)
         frame.kill_delay = __fx_kill_delay(fx_name, node.args, info)
         @sched.enter_fx(p, frame, node)
+        if flashed
+          line = @sched.line_of(p)
+          @sched.record_flash(p, line)
+          @sched.record_flash(p, @sched.end_line_of(block, line))
+        end
         reps.times { res = block.arity == 0 ? block.call : block.call(node) }
       ensure
         @sched.close_fx(p, frame)
@@ -826,7 +840,9 @@ module SonicPi
       return BlankNode.new(args_h) if __out_of_time?("synth #{sn.inspect}, #{arg_h_pp(processed)}")
       __log("synth #{sn.inspect}, #{arg_h_pp(processed)}") unless __local(:synth_silent)
       __add_slide_times!(processed, info)
-      __trigger_synth(sn, processed, info)
+      node = __trigger_synth(sn, processed, info)
+      @sched.flash_here(__p) unless node.is_a?(BlankNode)
+      node
     end
 
     def __trigger_chord(sn, notes, args_h)
@@ -842,6 +858,7 @@ module SonicPi
         args_h[:note] = n
         nodes << __trigger_synth(sn, args_h.dup, info)
       end
+      @sched.flash_here(__p) unless nodes.all? { |n| n.is_a?(BlankNode) }   # a chord's line, once
       group = ChordGroup.new(nodes, notes, info)
       __set_local(:last_node, group)
       group
@@ -1226,7 +1243,9 @@ module SonicPi
       end
       __add_slide_times!(args_h, synth_info)
       args_h[:buf] = Samples.basename(path)
-      __trigger_synth(sn, args_h, synth_info, false, true, nil, info)
+      node = __trigger_synth(sn, args_h, synth_info, false, true, nil, info)
+      @sched.flash_here(__p) unless node.is_a?(BlankNode)
+      node
     end
 
     def __normalise_sample_args(path, args_h, info, combine_tls = false)

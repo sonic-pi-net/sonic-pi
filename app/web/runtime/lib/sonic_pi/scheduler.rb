@@ -1157,6 +1157,24 @@ module SonicPi
     def live_time(p) = p.start + p.time + p.sched_ahead + @time_warp
     # the engine's output level as it last said (/sonic-pi/amp: [time, amp]): current_amp; [0.0, 1.0] until it does
     def amp = @amp || [0.0, 1.0]
+    # A line of the program lit as its sound plays, as native's __delayed_flash: the page washes it at the thread's
+    # moment, in the editor or on the card whose run it is (main.js onRecord). Live only: a trace keeps none, as the
+    # oracle's does not.
+    def record_flash(p, line)
+      Native.gui(:flash, p.uid, live_time(p), p.path[0], line, p.time.round(6), p.beat.round(6)) if @live && line
+    end
+
+    # The line the thread is at, lit.
+    def flash_here(p) = record_flash(p, line_of(p))
+
+    # The line a block of the program ends on, when that is after `line`, the one it opens on: the end a live_loop and
+    # a with_fx light with their header, as native's __block_end_line. Nil for a block on one line.
+    def end_line_of(block, line)
+      return nil unless @line_lookup && line
+      last = SonicPi::Native.block_end_line(block)
+      last && last > line ? last : nil
+    end
+
     attr_writer :amp
     # how far a thread's next sound is behind the host's clock, in seconds (negative: in good time), as native's
     # time_diff; a trace has no clock, and is never behind

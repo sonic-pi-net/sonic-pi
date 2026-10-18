@@ -3,7 +3,9 @@
 # interpreter and mrbc for tests and for compiling the runtime to bytecode;
 # `emscripten` is the library the wasm links against.
 #
-#   MRUBY_CONFIG=runtime/build_config.rb MRUBY_BUILD_DIR=build/mruby rake -C runtime/mruby
+#   MRUBY_CONFIG=runtime/build_config.rb MRUBY_BUILD_DIR=build/mruby rake -C build/mruby-src
+#
+# build/mruby-src is the submodule with runtime/mruby-patches over it, as scripts/build-runtime.sh makes it.
 #
 # mruby 4.1's stdlib gembox brings the core Regexp gem. Rational is in for
 # logical time, though the runtime may not keep it.

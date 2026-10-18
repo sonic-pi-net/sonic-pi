@@ -47,7 +47,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/web/build/mruby   # an action's paths are the repository's, not the run steps' working directory
-          key: mruby-${{ runner.os }}-${{ steps.pins.outputs.mruby }}-${{ hashFiles('app/web/runtime/build_config.rb') }}
+          key: mruby-${{ runner.os }}-${{ steps.pins.outputs.mruby }}-${{ hashFiles('app/web/runtime/build_config.rb', 'app/web/runtime/mruby-patches/**') }}
       - name: Build the runtime
         shell: bash
         run: scripts/build-runtime.sh --native
@@ -94,7 +94,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/web/build/mruby   # an action's paths are the repository's, not the run steps' working directory
-          key: mruby-wasm-${{ steps.pins.outputs.mruby }}-${{ env.EMSDK_VERSION }}-${{ hashFiles('app/web/runtime/build_config.rb') }}
+          key: mruby-wasm-${{ steps.pins.outputs.mruby }}-${{ env.EMSDK_VERSION }}-${{ hashFiles('app/web/runtime/build_config.rb', 'app/web/runtime/mruby-patches/**') }}
       - name: Build the runtime
         run: scripts/build-runtime.sh
       - name: The specs, through the module the page loads

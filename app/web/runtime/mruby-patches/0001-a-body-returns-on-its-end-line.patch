@@ -1,0 +1,134 @@
+A body returns on the line of the end that closes it
+
+The implicit return a block, a lambda or a method body closes with is given
+the line of its closing `end` (or `}`), as CRuby's `leave` is. A body's last
+line is then in its debug info, where the runtime reads it: a live_loop and a
+with_fx flash their end lines, as native Sonic Pi's do (scheduler.rb
+end_line_of, sp_host.c native_block_end_line). An endless method has no end,
+and returns where it is. With a test in mrbc's bintest.
+
+Made against the pinned commit in ~/Development/next-gen/mruby; applied to a
+copy of the submodule by scripts/build-runtime.sh, never to the submodule.
+
+diff --git a/mrbgems/mruby-bin-mrbc/bintest/mrbc.rb b/mrbgems/mruby-bin-mrbc/bintest/mrbc.rb
+index 92994ef..1aa0677 100644
+--- a/mrbgems/mruby-bin-mrbc/bintest/mrbc.rb
++++ b/mrbgems/mruby-bin-mrbc/bintest/mrbc.rb
+@@ -261,3 +261,35 @@ assert('a super outside a method forwards no block') do
+   assert_include result, 'SUPER'
+   assert_not_include result, 'GETUPVAR'
+ end
++
++assert('a body returns on the line of the end that closes it') do
++  # The implicit return a block, a lambda or a method body closes with is the
++  # closing `end` (or `}`), as CRuby's `leave` is: the last line of a body is
++  # then in its debug info, where a tool reading a block's lines (where its
++  # code ends) finds it. An endless method has no end, and returns where it is.
++  Dir.mktmpdir do |dir|
++    src = File.join(dir, 'ends.rb')
++    File.write(src, <<~RUBY)
++      proc do
++        1
++
++      end
++      proc {
++        2
++      }
++      l = -> do
++        3
++      end
++      def m
++        4
++      end
++      def e = 5
++    RUBY
++    out = File.join(dir, 'out.mrb')
++    result, status = Open3.capture2e(*(cmd_list('mrbc') + ['-v', '-o', out, src]))
++    assert_equal 0, status.exitstatus, result
++    # each irep's RETURN, by its line; the program's own first, then its bodies in order
++    returns = result.lines.grep(/\sRETURN\s/).map { |l| l[/\A\s*(\d+)/, 1].to_i }
++    assert_equal [4, 7, 10, 13, 14], returns.drop(1)
++  end
++end
+diff --git a/mrbgems/mruby-compiler/src/codegen.c b/mrbgems/mruby-compiler/src/codegen.c
+index 49a6b66..35f5aa0 100644
+--- a/mrbgems/mruby-compiler/src/codegen.c
++++ b/mrbgems/mruby-compiler/src/codegen.c
+@@ -1906,12 +1906,11 @@ nsym(mrc_parser_state *p, const uint8_t *start, size_t length)
+ }
+ 
+ static int32_t
+-node_lineno(mrc_ccontext *c, mrc_node *node)
++loc_lineno(mrc_ccontext *c, const uint8_t *start)
+ {
+-  pm_location_t *loc = &((pm_node_t *)node)->location;
+-  int32_t abs_line = pm_newline_list_line(&c->p->newline_list, loc->start, 1);
++  int32_t abs_line = pm_newline_list_line(&c->p->newline_list, start, 1);
+   int32_t line_offset = c->lineno > 0 ? c->lineno - 1 : 0;
+-  uint32_t node_pos = (uint32_t)(loc->start - c->p->start);
++  uint32_t node_pos = (uint32_t)(start - c->p->start);
+   uint32_t file_start = 0;
+   for (uint16_t i = 1; i < c->filename_table_length; i++) {
+     if (c->filename_table[i].start <= node_pos) {
+@@ -1925,6 +1924,12 @@ node_lineno(mrc_ccontext *c, mrc_node *node)
+   return abs_line - file_start_line + 1 + line_offset;
+ }
+ 
++static int32_t
++node_lineno(mrc_ccontext *c, mrc_node *node)
++{
++  return loc_lineno(c, ((pm_node_t *)node)->location.start);
++}
++
+ /* `alias` and `undef` take compile-time symbol indices, but prism hands them a
+    SymbolNode *or* an InterpolatedSymbolNode (`alias :"#{x}" :y`), plus
+    GlobalVariableReadNode / MissingNode on a parse error. Resolve the ones whose
+@@ -3757,7 +3762,8 @@ mrc_constant_id_list_append(mrc_codegen_scope *s, pm_constant_id_list_t *list, p
+ }
+ 
+ static int
+-lambda_body(mrc_codegen_scope *s, mrc_node *tree, mrc_node *body, pm_constant_id_list_t *locals, int blk)
++lambda_body(mrc_codegen_scope *s, mrc_node *tree, mrc_node *body, pm_constant_id_list_t *locals, int blk,
++            const pm_location_t *closing)
+ {
+   mrc_codegen_scope *parent = s;
+   pm_parameters_node_t *parameters = NULL;
+@@ -4134,6 +4140,11 @@ lambda_body(mrc_codegen_scope *s, mrc_node *tree, mrc_node *body, pm_constant_id
+   codegen(s, body, VAL);
+   pop();
+   if (s->pc > 0) {
++    /* the implicit return is the `end` (or `}`) closing the body, as CRuby's
++       leave is: the body's last line is then in its debug info */
++    if (closing && closing->start) {
++      s->lineno = loc_lineno(s->c, closing->start);
++    }
+     gen_return(s, OP_RETURN, cursp());
+   }
+   if (blk) {
+@@ -6017,7 +6028,7 @@ codegen(mrc_codegen_scope *s, mrc_node *tree, int val)
+     {
+       CAST(def);
+       int sym = new_sym(s, cast->name);
+-      int idx = lambda_body(s, (mrc_node *)cast, cast->body, &cast->locals, 0);
++      int idx = lambda_body(s, (mrc_node *)cast, cast->body, &cast->locals, 0, &cast->end_keyword_loc);
+ 
+       if (cast->receiver == NULL) {
+         if (idx <= 0xff) {
+@@ -6060,7 +6071,7 @@ codegen(mrc_codegen_scope *s, mrc_node *tree, int val)
+         if ((pm_block_parameters_node_t *)cast->parameters) {
+           parameters = (mrc_node *)cast->parameters;
+         }
+-        int idx = lambda_body(s, parameters, cast->body, &cast->locals, 1);
++        int idx = lambda_body(s, parameters, cast->body, &cast->locals, 1, &cast->closing_loc);
+         genop_2(s, OP_LAMBDA, cursp(), idx);
+         push();
+       }
+@@ -6074,7 +6085,7 @@ codegen(mrc_codegen_scope *s, mrc_node *tree, int val)
+         if ((pm_block_parameters_node_t *)cast->parameters) {
+           parameters = (mrc_node *)cast->parameters;
+         }
+-        int idx = lambda_body(s, parameters, cast->body, &cast->locals, 1);
++        int idx = lambda_body(s, parameters, cast->body, &cast->locals, 1, &cast->closing_loc);
+         genop_2(s, OP_BLOCK, cursp(), idx);
+         push();
+       }

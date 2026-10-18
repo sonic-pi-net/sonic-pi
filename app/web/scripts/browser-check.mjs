@@ -43,6 +43,68 @@ const stillness = (pg, ms = 2500) => pg.evaluate((ms) => new Promise((resolve) =
   setTimeout(() => { mo.disconnect(); resolve(by); }, ms);
 }), ms);
 const still = (heard) => !Object.keys(heard).length;
+// The lines lit as a program plays (its flash records, main.js onRecord), watched every frame for `ms`: the most lit
+// at once, every line ever lit, and whether each wash lay behind just its line's code (its indent and the room past
+// its end left unlit). And how long each stayed lit, not by the frames, which come late under load: the editor's from
+// when its wash went into the page and out, which a MutationObserver hears as it happens; a card's its animation's
+// own length. In the editor, or on the quickstart pane's live_loop card.
+const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new Promise((resolve) => {
+  const scope = () => where === "editor" ? document.querySelector("#editor-mount").shadowRoot
+    : [...document.querySelectorAll("#quickstart-pane .qs-card:not(.qs-intro)")].find((c) => c.textContent.includes("live_loop"));
+  const rowsOf = (s) => [...s.querySelectorAll(where === "editor" ? ".cm-content > .cm-line" : ".qs-card-body .cm-line")];
+  const washesOf = (s) => where === "editor" ? [...s.querySelectorAll(".sp-flash, .cm-line.sp-flash-a, .cm-line.sp-flash-b")]
+    : [...s.querySelectorAll(".qs-line-flash")].filter((w) => w.getAnimations().some((a) => a.playState === "running"));
+  // a row's code on screen: its first character to its last
+  const codeRect = (row) => {
+    const text = row.textContent, from = text.search(/\S/), to = text.trimEnd().length;
+    if (from < 0) return null;
+    const r = document.createRange(), walk = document.createTreeWalker(row, NodeFilter.SHOW_TEXT);
+    let at = 0, set = 0;
+    for (let n = walk.nextNode(); n && set !== 3; n = walk.nextNode()) {
+      const len = n.data.length;
+      if (!(set & 1) && from < at + len) { r.setStart(n, from - at); set |= 1; }
+      if (!(set & 2) && to <= at + len) { r.setEnd(n, to - at); set |= 2; }
+      at += len;
+    }
+    return set === 3 ? r.getBoundingClientRect() : null;
+  };
+  let together = [], hugs = true;
+  const ever = new Set(), since = new Map(), holds = [];
+  const t0 = performance.now();
+  const heard = where === "editor" && new MutationObserver(() => {
+    const now = performance.now(), s = scope(), rows = rowsOf(s);
+    const lit = new Set(washesOf(s).map((w) => rows.indexOf(w.closest(".cm-line")) + 1).filter((n) => n > 0));
+    for (const line of lit) if (!since.has(line)) since.set(line, now);
+    for (const [line, t] of since) if (!lit.has(line)) { holds.push(Math.round(now - t)); since.delete(line); }
+  });
+  if (heard) heard.observe(scope(), { subtree: true, childList: true, attributes: true, attributeFilter: ["class"] });
+  const frame = () => {
+    const s = scope(), now = performance.now(), lit = new Map();
+    if (s) {
+      const rows = rowsOf(s);
+      for (const w of washesOf(s)) {
+        const r = w.getBoundingClientRect(), mid = (r.top + r.bottom) / 2;
+        const n = rows.findIndex((row) => { const b = row.getBoundingClientRect(); return mid >= b.top && mid < b.bottom; });
+        if (n < 0 || r.width === 0) continue;
+        const was = lit.get(n + 1);
+        lit.set(n + 1, { left: Math.min(r.left, was?.left ?? Infinity), right: Math.max(r.right, was?.right ?? -Infinity), row: rows[n] });
+      }
+    }
+    for (const [line, w] of lit) {
+      ever.add(line);
+      const code = codeRect(w.row);
+      if (!code || w.left < code.left - 2 || w.right > code.right + 2 || w.right - w.left < (code.right - code.left) * 0.9) hugs = false;
+    }
+    if (s && !heard) for (const w of washesOf(s)) for (const a of w.getAnimations()) holds.push(Math.round(a.effect.getComputedTiming().duration));
+    if (lit.size > together.length) together = [...lit.keys()].sort((a, b) => a - b);
+    if (now - t0 < ms) requestAnimationFrame(frame);
+    else { if (heard) heard.disconnect(); resolve({ together, ever: [...ever].sort((a, b) => a - b), hugs, holds: [...new Set(holds)].sort((a, b) => a - b) }); }
+  };
+  requestAnimationFrame(frame);
+}), { where, ms });
+// lit as native's code flash: a loop's header, its sound and its end at once, behind just their code, each held 150 ms
+// after its latest flash (flash.js): a card's exactly, the editor's give or take its timer's lateness
+const litAsNative = (w, end) => [1, 2, end].every((n) => w.together.includes(n)) && w.hugs && w.holds.length > 0 && w.holds.every((d) => d >= 140 && d <= 400);
 // what only one engine can be asked: said with its reason, and counted apart from what passed
 const skip = (name, why) => { results.push({ engine, name, ok: true, skipped: true }); say("skip", name, why); };
 // The editor's foot (the caret readout, the buffers) floats over the code's last lines rather than taking a row of its
@@ -159,20 +221,26 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.waitForSelector(".cm-tooltip-autocomplete li", { timeout: 5000 }).catch(() => {});
     const sampleRows = await page.locator(".cm-tooltip-autocomplete li").allTextContents();
     check("after sample the popup offers samples", sampleRows.some((t) => t.startsWith(":bd_haus")), `${sampleRows.length} rows`);
+    // each step waits for what it expects, not a while: CodeMirror opens the popup on a timer after a key, which a
+    // busy moment in the page (a load landing) holds back, and a fixed 200 ms read nothing then. A wrong answer never
+    // shows, and the read after the wait says what did
+    const popupShows = (pattern, { first = false } = {}) => page.waitForFunction(({ pattern, first }) => {
+      const rows = [...window.sonicPi.editor.view.root.querySelectorAll(".cm-tooltip-autocomplete li")].map((li) => li.textContent);
+      return (first ? rows.slice(0, 1) : rows).some((t) => new RegExp(pattern).test(t));
+    }, { pattern, first }, { timeout: 5000 }).catch(() => {});
     await page.keyboard.type("amb_dr");
-    await page.waitForTimeout(200);
+    await popupShows("^:ambi_drone", { first: true });
     const fuzzy = await page.locator(".cm-tooltip-autocomplete li").first().textContent();
     check("the popup ranks fuzzily, as native does", fuzzy.startsWith(":ambi_drone"), fuzzy);
     await page.keyboard.press("Tab");
     await page.keyboard.type(", ");
-    await page.waitForTimeout(200);
+    await popupShows("^rate:");
     const optRows = await page.locator(".cm-tooltip-autocomplete li").allTextContents();
     check("after a sample and a comma the popup offers sample opts", optRows.some((t) => t.startsWith("rate:")), `${optRows.length} rows`);
     await page.keyboard.type("amp");
     await page.waitForFunction(() => /^amp:/.test(window.sonicPi.editor.view.root.querySelector(".cm-tooltip-autocomplete li")?.textContent ?? ""), null, { timeout: 3000 }).catch(() => {});
     await page.keyboard.press("Tab");
-    await page.waitForSelector(".cm-tooltip-autocomplete .sp-opt-range", { timeout: 3000 }).catch(() => {});
-    await page.waitForTimeout(200);
+    await popupShows("^\\d", { first: true });
     const range = await page.locator(".cm-tooltip-autocomplete li").first().textContent().catch(() => "");
     const rangeCode = await page.evaluate(() => window.sonicPi.editor.getCode());
     check("a ranged opt offers its default", /^\d/.test(range), `${range} · buffer: ${JSON.stringify(rangeCode)}`);
@@ -353,11 +421,41 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     if (asked) await page.click("#resume-go");
     const resumed = await page.waitForFunction(() => document.getElementById("resume-overlay").hidden && window.sonicPi.engine.audioContext.state === "running", null, { timeout: 15000 }).then(() => true).catch(() => false);
     check("sound paused by the browser: a card asks for the tap, a stray key does not resume, and its button brings the sound back", asked && stillAsked && resumed, JSON.stringify({ asked, stillAsked, resumed }));
+    // the lines the runtime lights as their sounds play, as native's code flash (#3587): a loop's header, its sound and
+    // its end together, each behind just its code, a puts never
+    await setCode("live_loop :lit do\n  play 60\n  puts :hi\n  sleep 0.5\nend");
+    await page.click("#btn-run");
+    const editorLit = await flashWatch(page, "editor");
+    check("a live loop's header, its sound and its end light together in the editor, behind just their code, as native's; a puts never",
+      litAsNative(editorLit, 5) && !editorLit.ever.includes(3), JSON.stringify(editorLit));
+    await page.click("#btn-stop");
+    // native's three flash settings, the web's too (settingswidget.cpp; main.js flashPrefs): Flash code off lights no
+    // line, Flash gutter on puts a dot by each line that sounds, Flash Brightness at 100% washes in the accent itself
+    await page.click("#btn-prefs");
+    await page.waitForSelector("#prefs-pane .pref-group", { timeout: 5000 });
+    const prefSwitch = (words) => page.locator("#prefs-pane button.switch", { hasText: words });
+    const brightness = page.locator('#prefs-pane input[aria-label="Flash brightness"]');
+    const setBrightness = (v) => brightness.evaluate((i, v) => { i.value = v; i.dispatchEvent(new Event("input", { bubbles: true })); }, v);
+    const hasFlashPrefs = (await prefSwitch("Flash code on sound trigger").count()) === 1 && (await prefSwitch("Flash gutter on sound trigger").count()) === 1 && (await brightness.count()) === 1;
+    let codeOff = null, dots = null, wash = null;
+    if (hasFlashPrefs) {
+      await prefSwitch("Flash code on sound trigger").click();
+      await prefSwitch("Flash gutter on sound trigger").click();
+      await setBrightness(100);
+      wash = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--flashWash").trim());
+      await page.click("#btn-run");
+      dots = await page.waitForFunction(() => [...document.querySelector("#editor-mount").shadowRoot.querySelectorAll(".cm-gutterElement.sp-flash-dot")].map((g) => g.textContent.trim()).sort().join() || false, null, { timeout: 5000, polling: "raf" }).then((h) => h.jsonValue(), () => null);
+      codeOff = await flashWatch(page, "editor", 1500);
+      await page.click("#btn-stop");
+      await prefSwitch("Flash code on sound trigger").click();   // back as they were
+      await prefSwitch("Flash gutter on sound trigger").click();
+      await setBrightness(35);
+    }
+    check("the flash settings, as native's: Flash code off lights no line, Flash gutter on dots each line that sounds, Flash Brightness at 100% washes in the accent itself",
+      hasFlashPrefs && codeOff?.ever.length === 0 && dots === "1,2,5" && /,\s*1\)$/.test(wash ?? ""), JSON.stringify({ hasFlashPrefs, codeOff, dots, wash }));
     // live lines, the threads view, and more of the runtime's verbs
     await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend\nlive_loop :bass do\n  use_synth :tb303; use_sched_ahead_time 1\n  play rrand_i(40, 52), release: 0.2\n  sleep 0.25\nend");   // the bass a second ahead: notes on the roll still to sound when Stop is pressed (the default lead is too short to be sure of one)
     await page.click("#btn-run");
-    const flashed = await page.waitForSelector("#editor-mount .cm-line.sp-flash-a, #editor-mount .cm-line.sp-flash-b", { timeout: 10000 }).then(() => true).catch(() => false);
-    check("a sounding line flashes, as native's code flash", flashed);
     // Debug, as native's: the engine's metrics, and under them what went to SuperSonic (the runtime's bundles too) and
     // what came back. The logs listen from the engine's boot, held in memory while the pane is closed: opened now, with
     // the kick and bass playing since before, they already show what went (the bass's s_new) and what came back (the
@@ -667,14 +765,18 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await loopCard.locator(".qs-transport button").first().click({ timeout: 5000 }).catch(() => {});
     const loopScope = await qp.waitForFunction(() => document.querySelector("#quickstart-pane .qs-card:not(.qs-intro) .sp-loop-scope[data-painted]")?.closest(".cm-line")?.textContent.trim() ?? false, null, { timeout: 15000 }).then((h) => h.jsonValue()).catch(() => null);
     const heardCard = await stillness(qp);
+    const cardLit = await flashWatch(qp, "card");   // the Kick: live_loop :kick do / sample :bd_haus / sleep 1 / end
     // and opened to edit as it plays: its lines flash in its editor now, not over its block (ui/card.js flash)
     const editBtn = loopCard.locator(".qs-card-edit");
     const editing = (await editBtn.count()) > 0 && await editBtn.click({ timeout: 2000 }).then(() => true).catch(() => false);
     await qp.waitForTimeout(1000);
     const heardEdited = await stillness(qp);
+    const editedLit = await flashWatch(qp, "card");
     await loopCard.locator(".qs-transport button").nth(1).click({ timeout: 2000 }).catch(() => {});
     await qp.close();
     check("a quickstart card's live loop has its scope on its line while it plays", /^live_loop :\w+ do/.test(loopScope ?? ""), String(loopScope));
+    check("a quickstart card lights its loop's header, its sound and its end together, behind just their code, as the editor does, and so it does as it is edited",
+      litAsNative(cardLit, 4) && litAsNative(editedLit, 4), JSON.stringify({ cardLit, editedLit }));
     check("the page stays still as a quickstart card's live loop plays, and as it is edited playing", still(heardCard) && editing && still(heardEdited), JSON.stringify({ heard: heardCard, editing, heardEdited }));
 
     // themes: the bar's palette, not the preferences

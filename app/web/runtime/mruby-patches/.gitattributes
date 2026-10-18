@@ -1,0 +1,3 @@
+# mruby's own sources are LF on every platform (its .gitattributes), so its patches are too: a Windows checkout
+# turning these to CRLF would leave GNU patch matching CRLF lines against LF ones (scripts/build-runtime.sh).
+*.patch text eol=lf

@@ -16,7 +16,9 @@
 # method mruby lacks would otherwise only show up in the browser.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-MR="$ROOT/runtime/mruby"
+MR="$ROOT/runtime/mruby"                 # mruby as upstream has it: the submodule, never changed in place
+SRC="$ROOT/build/mruby-src"             # the copy the build patches and builds
+PATCHES="$ROOT/runtime/mruby-patches"   # ours, over the pin
 export MRUBY_CONFIG="$ROOT/runtime/build_config.rb"
 export MRUBY_BUILD_DIR="$ROOT/build/mruby"
 OUT="$ROOT/build/runtime"
@@ -26,24 +28,40 @@ mkdir -p "$OUT"
 MODE="${1:-}"
 case "$MODE" in ""|--wasm|--native) ;; *) echo "usage: $(basename "$0") [--wasm|--native]" >&2; exit 1;; esac
 
-# mruby itself. The whole build always rebuilds it; --wasm and --native build whatever is missing, so a fresh
-# checkout can go straight to either, and a checkout that has one can ask for the other. --native needs the host
-# interpreter alone and asks for no Emscripten; --wasm needs the emscripten target too, which a --native build
-# leaves out.
+# mruby itself, from the pin with our patches over it (runtime/mruby-patches), in a copy the build owns: the
+# submodule stays as upstream has it, and nothing that updates submodules can take a patch back out. The whole build
+# always rebuilds it; --wasm and --native build whatever is missing, or was built from another pin or other patches,
+# so a fresh checkout can go straight to either, and a checkout that has one can ask for the other. --native needs
+# the host interpreter alone and asks for no Emscripten; --wasm needs the emscripten target too, which a --native
+# build leaves out.
+FROM="$(git -C "$MR" rev-parse HEAD) $(cat "$PATCHES"/*.patch | { sha256sum 2>/dev/null || shasum -a 256; } | cut -d' ' -f1)"
 HOST_MRBC="$MRUBY_BUILD_DIR/host/bin/mrbc"
 EM_CONFIG="$MRUBY_BUILD_DIR/emscripten/host-bin/mruby-config"
+built() { [ "$(cat "$MRUBY_BUILD_DIR/$1/built-from" 2>/dev/null)" = "$FROM" ]; }   # a target, built from FROM
 NEED_MRUBY=""
 if [ -z "$MODE" ]; then
   NEED_MRUBY="host + emscripten"
-elif [ "$MODE" = "--native" ] && [ ! -x "$HOST_MRBC" ]; then
+elif [ "$MODE" = "--native" ] && { ! built host || [ ! -x "$HOST_MRBC" ]; }; then
   NEED_MRUBY="host"
-elif [ "$MODE" = "--wasm" ] && { [ ! -x "$HOST_MRBC" ] || [ ! -x "$EM_CONFIG" ]; }; then
+elif [ "$MODE" = "--wasm" ] && { ! built host || ! built emscripten || [ ! -x "$HOST_MRBC" ] || [ ! -x "$EM_CONFIG" ]; }; then
   NEED_MRUBY="host + emscripten"
 fi
 if [ -n "$NEED_MRUBY" ]; then
+  if [ "$(cat "$SRC/.patched-from" 2>/dev/null)" != "$FROM" ]; then
+    echo "mruby: the pin, patched…"
+    rm -rf "$SRC"
+    cp -Rp "$MR" "$SRC"   # times kept: what the patches leave alone is not rebuilt
+    find "$SRC" -name .git -prune -exec rm -rf {} +   # the submodules' pointers, which lead nowhere from here
+    for p in "$PATCHES"/*.patch; do
+      patch -s -p1 -N -d "$SRC" < "$p" || { echo "$(basename "$p") does not apply to mruby $(git -C "$MR" rev-parse --short HEAD)" >&2; exit 1; }
+    done
+    echo "$FROM" > "$SRC/.patched-from"
+  fi
   echo "mruby ($NEED_MRUBY)…"
   [ "$NEED_MRUBY" = "host" ] && export SP_HOST_ONLY=1
-  (cd "$MR" && rake -j"$(sysctl -n hw.ncpu 2>/dev/null || nproc)" > "$OUT/mruby-build.log" 2>&1) || { tail -40 "$OUT/mruby-build.log"; exit 1; }
+  (cd "$SRC" && rake -j"$(sysctl -n hw.ncpu 2>/dev/null || nproc)" > "$OUT/mruby-build.log" 2>&1) || { tail -40 "$OUT/mruby-build.log"; exit 1; }
+  echo "$FROM" > "$MRUBY_BUILD_DIR/host/built-from"
+  if [ "$NEED_MRUBY" != "host" ]; then echo "$FROM" > "$MRUBY_BUILD_DIR/emscripten/built-from"; fi
 fi
 
 # The runtime's Ruby, in load order, as one bytecode blob.

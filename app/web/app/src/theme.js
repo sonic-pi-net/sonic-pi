@@ -6,6 +6,8 @@
 // hue rotation, monochrome — and lands as a CSS custom property named after
 // its native key: --Foreground, --SymbolForeground, --Scope ...
 
+import { FLASH_BRIGHTNESS } from "./flash.js";
+
 const PREFS_KEY = "sp-theme";
 const VARS_KEY = "sp-theme-vars";   // the colours last applied, as CSS variables: a page puts them back before its first paint
 const HUE_BUCKET = 15;
@@ -178,6 +180,18 @@ export function set(changes) {
   apply();
 }
 
+// how strongly a flash washes its line: native's Flash Brightness, a percent (main.js flashPrefs)
+let flashBrightness = FLASH_BRIGHTNESS;
+const paintFlashWash = () => {
+  const a = colour("HighlightedBackground");
+  document.documentElement.style.setProperty("--flashWash", `rgba(${a.r}, ${a.g}, ${a.b}, ${flashBrightness / 100})`);
+};
+/** Flash Brightness, a percent: the wash every flash lies in. */
+export function setFlashBrightness(percent) {
+  flashBrightness = percent;
+  if (themes) paintFlashWash();
+}
+
 function apply() {
   const scheme = themes.schemes[state.scheme];
   rebuildHueSpread(scheme.colours);
@@ -229,7 +243,7 @@ function apply() {
   root.setProperty("--selectionWash", `rgba(${sel.r}, ${sel.g}, ${sel.b}, 0.4)`);
   derived = roles;
   for (const [k, v] of Object.entries(roles)) root.setProperty(`--${k}`, cssColour(v));
-  root.setProperty("--flashWash", `rgba(${accent.r}, ${accent.g}, ${accent.b}, 0.35)`);
+  paintFlashWash();
   const bg = colour("Background");
   document.documentElement.style.colorScheme = luma601(bg) < 128 ? "dark" : "light";
   document.documentElement.dataset.scheme = state.scheme;

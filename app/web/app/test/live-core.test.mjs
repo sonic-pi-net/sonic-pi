@@ -9,6 +9,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { decode } from "../../web/osc.js";
 import { LiveCore, retime } from "../../web/live-core.js";
+import { createRecordReader } from "../../web/gui-stream.js";
 import { flacInfo } from "../../scripts/lib/flac-info.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -68,11 +69,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const cores = [];
 test.afterEach(() => { for (const c of cores.splice(0)) c.stop(); });   // a failed test's loops stop too, or node waits on them
 
-async function session(loader) {
+async function session(loader, records = null) {
   const runtime = await RUNTIME;
   let clock = 1000;
   const sent = [];
-  const core = new LiveCore(runtime, { now: () => clock, send: (b) => sent.push({ at: clock, ...unbundle(b) }), loader });
+  const reader = createRecordReader();   // the records, read as the page reads them
+  const record = records && ((b) => records.push(reader.read(decode(b))));
+  const core = new LiveCore(runtime, { now: () => clock, send: (b) => sent.push({ at: clock, ...unbundle(b) }), loader, record });
   cores.push(core);
   return { core, sent, advance: (s) => { clock += s; }, now: () => clock };
 }
@@ -183,4 +186,75 @@ test("a Run after the clock has moved on with nothing playing starts now, not he
   assert.ok(s.length, "the loop's beep went");
   assert.ok(Math.abs(s[0].time - (t + core.schedAhead)) < 1e-6, `the loop's first beep ${(s[0].time - t).toFixed(3)} s after the Run`);
   core.stop();
+});
+
+// ── Flashes: the lines the runtime lights as their sounds play, as native's __delayed_flash ──
+// The runtime says which lines flash, as native's does: a sound's, a control's and a MIDI message's line; a with_fx's
+// header and its end once, as it starts; a live_loop's header and its end each time round. Not a kill, a cue, a puts,
+// a set or a sound that is off. The page lights what it is told (main.js onRecord), the editor and a card alike
+// (#3587). A block's end comes from the compiler, patched to do as CRuby does (runtime/mruby-patches).
+
+// a program run and played on for `seconds`, the clock ticked as the page ticks it, everything it needs loaded
+async function played(code, seconds) {
+  const records = [];
+  const { core, advance } = await session(slowLoader({ has: () => true, add() {} }), records);
+  await core.run(code);
+  for (let t = 0; t < seconds; t += 0.05) { advance(0.05); core.tick(); }
+  core.stop();
+  const errors = records.filter((r) => r.kind === "error");
+  assert.deepEqual(errors, [], "the program ran");
+  return records;
+}
+const flashLines = (records) => records.filter((r) => r.kind === "flash").map((r) => r.line);
+// each moment something flashed, and the lines that flashed then, in order
+const flashesByTime = (records) => {
+  const at = new Map();
+  for (const r of records.filter((x) => x.kind === "flash")) at.set(r.time, [...(at.get(r.time) ?? []), r.line].sort((a, b) => a - b));
+  return [...at.values()];
+};
+
+test("a sound flashes its line as it plays, a chord once", { skip, timeout: 10000 }, async () => {
+  const records = await played("play 60\nsleep 0.5\nsample :bd_haus\nsleep 0.5\nsynth :dsaw, note: 50\nsleep 0.5\nplay chord(:e3, :minor)", 2);
+  assert.deepEqual(flashLines(records), [1, 3, 5, 7]);
+  // each at the moment its sound plays
+  for (const f of records.filter((r) => r.kind === "flash")) {
+    assert.ok(records.some((r) => r.kind === "synth" && r.line === f.line && r.time === f.time), `line ${f.line} flashes with its sound`);
+  }
+});
+
+test("a live_loop flashes its header and its end each time round, with its sound", { skip, timeout: 10000 }, async () => {
+  const records = await played("live_loop :a do\n  play 60\n  sleep 1\nend", 2.5);
+  const rounds = flashesByTime(records);
+  assert.ok(rounds.length >= 2, `${rounds.length} rounds`);
+  for (const lines of rounds) assert.deepEqual(lines, [1, 2, 4]);   // the scope_out every loop plays through is the runtime's, not a line's
+});
+
+test("a with_fx flashes its header and its end once, as it starts", { skip, timeout: 10000 }, async () => {
+  const records = await played("with_fx :reverb do\n  play 60\n  sleep 1\n  play 62\nend", 2);
+  assert.deepEqual(flashLines(records), [1, 5, 2, 4]);
+});
+
+test("a control and a MIDI message flash their lines; a kill, a cue, a puts, a set and a sound that is off do not", { skip, timeout: 10000 }, async () => {
+  const records = await played([
+    "s = synth :dsaw, note: 50, sustain: 4",
+    "sleep 0.25",
+    "control s, note: 52",
+    "sleep 0.25",
+    "kill s",
+    "cue :x",
+    "puts 1",
+    "play 60, on: false",
+    "midi_note_on 60",
+    "set :y, 1",
+  ].join("\n"), 1);
+  assert.deepEqual(flashLines(records), [1, 3, 9]);
+});
+
+test("blocks inside each other light their own ends; a block on one line has no end of its own to light", { skip, timeout: 10000 }, async () => {
+  const nested = await played("live_loop :a do\n  with_fx :reverb do\n    play 60\n    sleep 1\n  end\nend", 2.5);
+  const rounds = flashesByTime(nested);
+  assert.ok(rounds.length >= 2, `${rounds.length} rounds`);
+  for (const lines of rounds) assert.deepEqual(lines, [1, 2, 3, 5, 6]);
+  const oneLine = await played("live_loop :b do play 60; sleep 1 end", 1.5);
+  assert.ok(flashLines(oneLine).length && flashLines(oneLine).every((n) => n === 1), String(flashLines(oneLine)));
 });

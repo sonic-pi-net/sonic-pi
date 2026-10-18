@@ -163,6 +163,20 @@ static mrb_value native_line(mrb_state *m, mrb_value self) {
   return mrb_nil_value();
 }
 
+// The line a block of the program ends on: its end (or }), where the compiler, patched to do as CRuby does
+// (runtime/mruby-patches), puts the body's last instruction, its return. nil for a block of C's, or one with no lines.
+static mrb_value native_block_end_line(mrb_state *m, mrb_value self) {
+  mrb_value block;
+  mrb_get_args(m, "o", &block);
+  if (!mrb_proc_p(block)) return mrb_nil_value();
+  const struct RProc *p = mrb_proc_ptr(block);
+  if (MRB_PROC_CFUNC_P(p)) return mrb_nil_value();
+  const mrb_irep *irep = p->body.irep;
+  if (!irep || !irep->debug_info || irep->ilen == 0) return mrb_nil_value();
+  int32_t line = mrb_debug_get_line(m, irep, irep->ilen - 1);
+  return line > 0 ? mrb_int_value(m, line) : mrb_nil_value();
+}
+
 // ── The audio stream ───────────────────────────────────────────────────────
 //
 // A sound leaves the runtime as the OSC bundle the engine plays, encoded here
@@ -508,6 +522,7 @@ SP_EXPORT int sp_live_boot(void) {
   struct RClass *native = mrb_define_module_under(mrb, sonic_pi, "Native");
   mrb_define_module_function(mrb, native, "gui", native_gui, MRB_ARGS_ANY());
   mrb_define_module_function(mrb, native, "line", native_line, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, native, "block_end_line", native_block_end_line, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, native, "s_new", native_s_new, MRB_ARGS_ARG(6, 2));
   mrb_define_module_function(mrb, native, "n_set", native_n_set, MRB_ARGS_REQ(4));
   mrb_define_module_function(mrb, native, "n_free", native_n_free, MRB_ARGS_REQ(2));

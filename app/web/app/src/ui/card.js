@@ -26,6 +26,7 @@ import { loopScopeField, setLoopScopes, loopScopeCanvas } from "../editor.js";
 import { LoopScopeState, drawLoopScope, SCROLL_WINDOW, SWEEP_WINDOW, SWEEP_SEARCH } from "../loopscope.js";
 import { css, colour, blend, cssColour } from "../theme.js";
 import { createEventStrip } from "./strip.js";
+import { FLASH_HOLD_MS, codeSpan } from "../flash.js";
 import { TRANSPORT, TRANSPORT_STOP } from "./card-html.js";
 
 // The classes CodeMirror puts on an editor in a root (its base theme's, the highlighter's): a still block wears
@@ -57,6 +58,21 @@ export { TRANSPORT, TRANSPORT_STOP } from "./card-html.js";   // the one Play an
 // native's CardScope (widgets/cardscope.h), to the same proportions, on a scope slot of the card's own as
 // native's is; gain is its setDrive's default
 const RING = { radius: 0.42, step: 0.12, swing: 0.04, stroke: 0.028, idle: 0.22, gain: 1, points: 256 };   // step: a second ring's way in (native: 0.42 and 0.3)
+
+// A row's code as a range of its text: its first character to its last (../flash.js codeSpan).
+function codeRange(row) {
+  const span = codeSpan(row.textContent);
+  if (!span) return null;
+  const range = document.createRange(), walk = document.createTreeWalker(row, NodeFilter.SHOW_TEXT);
+  let at = 0, set = 0;
+  for (let n = walk.nextNode(); n && set !== 3; n = walk.nextNode()) {
+    const end = at + n.data.length;
+    if (!(set & 1) && span[0] < end) { range.setStart(n, span[0] - at); set |= 1; }
+    if (!(set & 2) && span[1] <= end) { range.setEnd(n, span[1] - at); set |= 2; }
+    at = end;
+  }
+  return set === 3 ? range : null;
+}
 
 /**
  * The card's rings: the waveform wrapped around a circle on each transport control — the left channel round
@@ -385,11 +401,16 @@ export function createCard(o) {
   }
   if (saved != null && saved !== original) art.classList.add("edited");
 
-  // the line a sound came from flashes: a wash laid on that line, over the block or the editor alike. Animated (Web
-  // Animations), never added, taken out or restyled: a playing card changes nothing in the page, where a page-wide
-  // watcher (an ad blocker's) would hear every note (../shadow.js). A few, laid ready, for lines that flash together.
-  const washes = Array.from({ length: 4 }, () => { const w = el("div", "qs-line-flash"); w.setAttribute("aria-hidden", "true"); body.appendChild(w); return w; });
-  let nextWash = 0;
+  // the lines a sound came from flash, as the editor's do (../flash.js): a wash laid behind each line's code, over the
+  // block or the editor alike, held FLASH_HOLD_MS after its latest flash. Animated (Web Animations), never added, taken
+  // out or restyled as it plays: a playing card changes nothing in the page, where a page-wide watcher (an ad
+  // blocker's) would hear every note (../shadow.js). One a line, laid ready with the code; a line an edit adds gets
+  // its own the first time it flashes.
+  const washes = [];
+  const layWashes = (n) => {
+    while (washes.length < n) { const w = el("div", "qs-line-flash"); w.setAttribute("aria-hidden", "true"); body.appendChild(w); washes.push(w); }
+  };
+  layWashes(code().split("\n").length);
   function flash(line) {
     let row = null;
     if (view && editing) {
@@ -397,16 +418,22 @@ export function createCard(o) {
       const at = view.domAtPos(view.state.doc.line(line).from).node;
       row = (at.nodeType === 1 ? at : at.parentElement)?.closest(".cm-line");
     } else if (block?.isConnected) row = block.querySelectorAll(".cm-line")[line - 1];
-    if (!row) return;
-    // the line's place in the body, in the body's own pixels: where it is on screen, over the body's scale there (a
-    // pane's or a page's zoom). Summed offsetTops would do the same in one engine and not in another: how offsetTop
-    // meets CSS zoom differs between Safari's versions, and in one of them the wash would land half a line off.
-    const b = body.getBoundingClientRect(), r = row.getBoundingClientRect();
-    const scale = body.offsetHeight ? b.height / body.offsetHeight : 1;
-    const top = `${(r.top - b.top) / scale - body.clientTop}px`, height = `${r.height / scale}px`;
-    const wash = washes[nextWash++ % washes.length], lit = getComputedStyle(body).getPropertyValue("--flashWash");
-    for (const a of wash.getAnimations()) a.cancel();
-    wash.animate([{ top, height, backgroundColor: lit }, { top, height, backgroundColor: "transparent" }], { duration: 450, easing: "ease-out" });
+    const code = row && codeRange(row);
+    if (!code) return;
+    // the code's place in the body, in the body's own pixels and scrolled with it: where it is on screen, over the
+    // body's scale there (a pane's or a page's zoom). Summed offsets would do the same in one engine and not in
+    // another: how offsetTop meets CSS zoom differs between Safari's versions, and in one of them the wash would land
+    // half a line off.
+    const b = body.getBoundingClientRect(), r = code.getBoundingClientRect();
+    const sx = body.offsetWidth ? b.width / body.offsetWidth : 1, sy = body.offsetHeight ? b.height / body.offsetHeight : 1;
+    const at = {
+      left: `${(r.left - b.left) / sx - body.clientLeft + body.scrollLeft}px`, width: `${r.width / sx}px`,
+      top: `${(r.top - b.top) / sy - body.clientTop + body.scrollTop}px`, height: `${r.height / sy}px`,
+    };
+    layWashes(line);
+    const wash = washes[line - 1], lit = getComputedStyle(body).getPropertyValue("--flashWash");
+    for (const a of wash.getAnimations()) a.cancel();   // lit again: held on from now
+    wash.animate([{ ...at, backgroundColor: lit }, { ...at, backgroundColor: lit }], { duration: FLASH_HOLD_MS });
   }
 
   // ── the footer: the blurb, the way out, the error strip; the transport — the scope round Play, and Stop beside it ──

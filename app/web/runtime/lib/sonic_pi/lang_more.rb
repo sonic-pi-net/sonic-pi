@@ -362,6 +362,7 @@ module SonicPi
         __normalise_args!(args_h, defaults)
         @sched.record_control(__p, node, __recorded_args(args_h))
       end
+      @sched.flash_here(__p) unless node.is_a?(SynthNode) && node.destroyed?
       __log("control node #{node.id}, #{arg_h_pp(args_h)}") if logged && !__local(:synth_silent)
       node
     end
@@ -553,7 +554,10 @@ module SonicPi
       end
     end
 
-    def __midi_send(path, *args) = @sched.record_midi(__p, path, args)
+    def __midi_send(path, *args)
+      @sched.record_midi(__p, path, args)
+      @sched.flash_here(__p)
+    end
 
     def __midi_send_pc(path, port, chan, a0, a1 = nil)
       chan = -1 if chan == "*"
@@ -1270,7 +1274,7 @@ module SonicPi
     # the engine's output level, as it last reported it (native's studio.amp: [time, amp], and [0.0, 1.0] before)
     def current_amp = @sched.amp
     # with_fx in a thread of its own, so the block's time is not the caller's
-    def with_afx(fx_name, *args, &block) = in_thread { with_fx(fx_name, *args, &block) }
+    def with_afx(fx_name, *args, &block) = in_thread { __with_fx(fx_name, args, false, &block) }
 
     def use_timing_warnings(v, &block)
       raise "use_timing_warnings does not work with a do/end block. Perhaps you meant with_timing_warnings" if block

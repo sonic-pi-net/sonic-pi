@@ -18,6 +18,7 @@ import { bracketMatching, indentUnit } from "@codemirror/language";
 import { search, searchKeymap, highlightSelectionMatches, openSearchPanel, closeSearchPanel, findNext, findPrevious, SearchQuery, setSearchQuery, getSearchQuery } from "@codemirror/search";
 import { acceptCompletion, closeCompletion, completionKeymap, completionStatus, startCompletion, selectedCompletion } from "@codemirror/autocomplete";
 import { highlighting } from "./highlight.js";
+import { FLASH_HOLD_MS, codeSpan } from "./flash.js";
 import { completionExtensions, completionDocText, hideSlider, moveCompletion } from "./completion/cm.js";
 import { announce, Announcement } from "./announce.js";
 import { LoopScopeState, drawLoopScope, SWEEP_WINDOW, SWEEP_SEARCH, SCROLL_WINDOW } from "./loopscope.js";
@@ -230,11 +231,14 @@ const errorLineField = StateField.define({
 });
 const errorGutter = new (class extends GutterMarker { elementClass = "cm-sp-error-gutter"; })();
 
-// ── Live: the line a sound came from ─────────────────────────────────────
+// ── Live: the lines a sound came from ────────────────────────────────────
+// Each lit behind its code, a dot by its number, or both, as native's code flash and gutter flash (./flash.js): a flash
+// on a line already lit holds it on from then.
 
-export const addFlash = StateEffect.define();
-export const dropFlash = StateEffect.define();
+export const addFlash = StateEffect.define();   // { line, id, wash, dot }
+export const dropFlash = StateEffect.define();  // { line, id }: the line goes out, unless a later flash lit it again
 
+const flashMark = Decoration.mark({ class: "sp-flash" });
 export const flashField = StateField.define({
   create: () => ({ lines: new Map(), deco: Decoration.none }),
   update(value, tr) {
@@ -243,27 +247,26 @@ export const flashField = StateField.define({
     const edit = () => { if (!changed) { lines = new Map(lines); changed = true; } };
     if (tr.docChanged && lines.size) { lines = new Map(); changed = true; }   // an edit moves lines: what flashed no longer lines up
     for (const e of tr.effects) {
-      if (e.is(addFlash)) {
-        edit();
-        const prev = lines.get(e.value.line);
-        lines.set(e.value.line, { flip: prev ? !prev.flip : false, id: e.value.id });
-      } else if (e.is(dropFlash)) {
-        const cur = lines.get(e.value.line);
-        if (cur && cur.id === e.value.id) { edit(); lines.delete(e.value.line); }
-      }
+      if (e.is(addFlash)) { edit(); lines.set(e.value.line, e.value); }
+      else if (e.is(dropFlash) && lines.get(e.value.line)?.id === e.value.id) { edit(); lines.delete(e.value.line); }
     }
     if (!changed) return value;
     const doc = tr.state.doc;
-    const ranges = [];
-    for (const [n, f] of lines) {
+    const ranges = [], dots = [];
+    for (const [n, { wash, dot }] of lines) {
       if (n < 1 || n > doc.lines) continue;
-      const line = doc.line(n);
-      ranges.push(Decoration.line({ class: f.flip ? "sp-flash-a" : "sp-flash-b" }).range(line.from));
+      const line = doc.line(n), span = codeSpan(line.text);
+      if (wash && span) ranges.push(flashMark.range(line.from + span[0], line.from + span[1]));
+      if (dot) dots.push(flashDot.range(line.from));
     }
-    return { lines, deco: Decoration.set(ranges, true) };
+    return { lines, deco: Decoration.set(ranges, true), dots: RangeSet.of(dots, true) };
   },
-  provide: (f) => EditorView.decorations.from(f, (value) => value.deco),
+  provide: (f) => [
+    EditorView.decorations.from(f, (value) => value.deco),
+    gutterLineClass.from(f, (value) => value.dots ?? RangeSet.empty),
+  ],
 });
+const flashDot = new (class extends GutterMarker { elementClass = "sp-flash-dot"; })();
 
 // ── Run: the code lit behind its letters, as a highlighter pen would ──────
 // Each line's code, from its first character to its last (no indent, no empty line, nothing past the end), marked
@@ -279,9 +282,8 @@ const kickField = StateField.define({
       if (e.is(kickCode)) {
         const doc = tr.state.doc, mark = Decoration.mark({ class: e.value.flip ? "sp-kick-a" : "sp-kick-b" }), ranges = [];
         for (let n = 1; n <= Math.min(doc.lines, MAX_KICK_LINES); n++) {
-          const line = doc.line(n), text = line.text, start = text.search(/\S/);
-          if (start < 0) continue;
-          ranges.push(mark.range(line.from + start, line.from + text.trimEnd().length));
+          const line = doc.line(n), span = codeSpan(line.text);
+          if (span) ranges.push(mark.range(line.from + span[0], line.from + span[1]));
         }
         value = { id: e.value.id, deco: Decoration.set(ranges) };
       } else if (e.is(dropKick) && e.value === value.id) value = { id: value.id, deco: Decoration.none };
@@ -1043,11 +1045,11 @@ export function createEditor(mount, { api, hooks, workspace }) {
       view.dispatch({ effects: kickCode.of({ id, flip: id % 2 === 0 }) });
       flashTimer = setTimeout(() => { view.dom.classList.remove("sp-run-flash"); view.dispatch({ effects: dropKick.of(id) }); }, 320);
     },
-    /** A line flashes, as native's code flash. */
-    flashLine(line) {
+    /** A line flashes, as native's code flash (./flash.js): its code washed, a dot by its number, or both. */
+    flashLine(line, { wash = true, dot = false } = {}) {
       const id = ++flashSeq;
-      view.dispatch({ effects: addFlash.of({ line, id }) });
-      setTimeout(() => view.dispatch({ effects: dropFlash.of({ line, id }) }), 500);
+      view.dispatch({ effects: addFlash.of({ line, id, wash, dot }) });
+      setTimeout(() => view.dispatch({ effects: dropFlash.of({ line, id }) }), FLASH_HOLD_MS);
     },
     /** The live loops with a scope stream, drawn after their header lines: [{ name, slot }] (./loopscope.js). */
     setLoopScopes(list) { view.dispatch({ effects: setLoopScopes.of(list) }); },

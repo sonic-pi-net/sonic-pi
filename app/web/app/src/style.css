@@ -1487,10 +1487,11 @@ body[data-drawer="logs"] #logs-pane { display: flex; }
 .sp-wait i { width: 7px; height: 7px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px currentColor; animation: sp-wait-breathe 1.6s ease-in-out infinite; }
 @keyframes sp-wait-breathe { 50% { opacity: 0.35; } }
 @media (prefers-reduced-motion: reduce) { .sp-wait i { animation: none; } }
-@keyframes sp-flash-a { from { background-color: var(--flashWash); } to { background-color: transparent; } }
-@keyframes sp-flash-b { from { background-color: var(--flashWash); } to { background-color: transparent; } }
-.cm-line.sp-flash-a { animation: sp-flash-a 0.45s ease-out; }
-.cm-line.sp-flash-b { animation: sp-flash-b 0.45s ease-out; }
+/* the lines a sound came from, lit behind their code as native's code flash (editor.js flashField, flash.js), and a dot
+   by each one's number as native's gutter flash: an accent disc in the gap before the number */
+.cm-editor .sp-flash { background-color: var(--flashWash); }
+.cm-gutterElement.sp-flash-dot { position: relative; }
+.cm-gutterElement.sp-flash-dot::before { content: ""; position: absolute; left: 0.4em; top: 50%; width: 0.4em; height: 0.4em; margin-top: -0.2em; border-radius: 50%; background: var(--HighlightedBackground); }
 /* indentation guides, as native's QScintilla draws them inside blocks */
 .cm-editor { --sp-guide: color-mix(in srgb, var(--IndentationGuidesForeground) 45%, transparent); }
 

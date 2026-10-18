@@ -26,8 +26,8 @@
 /* the body: the still block, or the editor that takes its place — one tree of elements either way (highlight.js
    renderLines draws the block as CodeMirror draws the editor), laid out by these rules alone. CodeMirror's own
    theme lands after this with two-class selectors, so these carry three or four and say everything that sizes. */
-.qs-card-body { position: relative; flex: 1 1 auto; min-height: 0; padding: 6px 8px; overflow: auto; font-size: var(--qs-code-size, var(--t-ui)); }   /* the code's one scroll container, both ways: a thin bar along the bottom for a long line, down the side only when the card cannot grow */
-.qs-card .qs-card-body .cm-editor { position: relative; display: flex; flex-direction: column; box-sizing: border-box; margin: 0; padding: 0; border: none; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; font-family: var(--code-font); font-size: inherit; line-height: 1.5; color: var(--Foreground); }
+.qs-card-body { position: relative; isolation: isolate; flex: 1 1 auto; min-height: 0; padding: 6px 8px; overflow: auto; font-size: var(--qs-code-size, var(--t-ui)); }   /* the code's one scroll container, both ways: a thin bar along the bottom for a long line, down the side only when the card cannot grow */
+.qs-card .qs-card-body .cm-editor { position: relative; z-index: 1; display: flex; flex-direction: column; box-sizing: border-box; margin: 0; padding: 0; border: none; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; font-family: var(--code-font); font-size: inherit; line-height: 1.5; color: var(--Foreground); }
 .qs-card .qs-card-body .cm-editor.cm-focused, .qs-card .qs-card-body .cm-content:focus, .qs-card .qs-card-body .cm-content:focus-visible { outline: none; }
 .qs-card .qs-card-body .cm-editor .cm-scroller { display: flex; align-items: flex-start; position: relative; height: auto; margin: 0; padding: 0; font-family: var(--code-font); font-size: inherit; line-height: 1.5; overflow: visible; }   /* no scroll container of its own: the body scrolls the code both ways, so no bar can ever stand inside the code and size the block and the editor apart (as a browser with bars that take room would) */
 .qs-card .qs-card-body .cm-editor .cm-content { display: block; flex-grow: 2; flex-shrink: 0; box-sizing: border-box; margin: 0; padding: 6px 8px; min-height: 3em; white-space: pre; word-wrap: normal; outline: none; caret-color: var(--HighlightedBackground); }
@@ -48,8 +48,10 @@
 .qs-card-body .sp-def { color: var(--FunctionMethodNameForeground); }
 .qs-card-body .sp-ivar { color: var(--InstanceVariableForeground); }
 .qs-card-body .sp-const { color: var(--ClassNameForeground); }
-/* the line a sound came from: a wash laid on it, over the block or the editor, its flash animated from card.js flash */
-.qs-line-flash { position: absolute; left: 0; right: 0; height: 0; pointer-events: none; }
+/* the lines a sound came from: a wash laid behind each one's code, over the block or the editor, its flash animated
+   from card.js flash. Behind the code, as the editor's: the body a stacking context, the washes at its floor, the code
+   over them */
+.qs-line-flash { position: absolute; top: 0; left: 0; width: 0; height: 0; z-index: 0; pointer-events: none; }
 
 /* the footer: the blurb and the way out, the error strip, the scope that plays */
 .qs-card-foot { position: relative; isolation: isolate; display: flex; align-items: center; gap: 12px; margin: 0; padding: 8px 14px; background: var(--accentTintStrong); }   /* isolated: the strip goes behind what is in it, not behind the card */

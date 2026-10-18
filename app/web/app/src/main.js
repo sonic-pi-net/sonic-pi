@@ -13,6 +13,7 @@ const needEngineModule = () => import("./sonic_pi.js").then((m) => (sp = m));
 import { cardRings } from "./ui/card.js";
 import { createCodeKeyboard } from "./keyboard.js";
 import * as theme from "./theme.js";
+import { FLASH_BRIGHTNESS } from "./flash.js";
 import { LoopScopeState, drawLoopScope, SWEEP_WINDOW, SWEEP_SEARCH } from "./loopscope.js";
 import { Scope } from "./scope.js";
 import { CompletionAPI, synthAt } from "./completion/api.js";
@@ -746,6 +747,10 @@ const tabs = createBufferTabs({ root: $("buffer-tabs"), workspace, title: (i) =>
 
 // native's auto-indent on run (on by default): the buffer is re-indented before it is read
 const editorPrefs = { autoIndent: store.get("sp-auto-indent-on-run", true) };
+// native's flash settings: the code a sound came from washed as it plays, a dot by its number, and how strongly the
+// wash lies (settingswidget.cpp; flash.js)
+const flashPrefs = { code: store.get("sp-flash-code", true), gutter: store.get("sp-flash-gutter", false), brightness: store.get("sp-flash-brightness", FLASH_BRIGHTNESS) };
+theme.setFlashBrightness(flashPrefs.brightness);
 // native's Accessibility menu: "Speak Run and Stop" (announce.js) and "Reduce Animations"
 const a11yPrefs = { speakTransport: store.get("sp-speak-transport", true) };
 setSpeakTransport(a11yPrefs.speakTransport);
@@ -1247,8 +1252,6 @@ const insight = createInsight(shadowPane($("insight-pane")), {   // in its shado
   },
 });
 
-// the records whose line flashes, as native's code flash: a sound, and what acts on one
-const FLASHES = new Set(["synth", "control", "kill", "midi", "output", "cue"]);
 // every deck of cards (ui/deck.js) the session tells of jobs, errors and sounds: the panes' and the site's
 const cardDecks = () => [docs, quickstart, infoApi].filter(Boolean);
 
@@ -1274,21 +1277,21 @@ function onRecord(r, at, stale = false) {
   if (r.kind === "fx_free" && loopScopes.delete(r.node)) paintLoopScopes();
   if (!r.line || r.job == null) return;
   const deck = cardDecks().find((d) => d.owns(r.job) || d.starting);   // a run's first sound is recorded before play returns its job: the flash, due sched-ahead later, finds it known
-  if (deck) {   // a card's run: its strip draws the sound, and its card flashes the line, as the editor would
-    deck.record(r);
-    if (!FLASHES.has(r.kind) || (r.kind === "synth" && r.synth.startsWith("sonic-pi-fx_")) || (r.kind === "cue" && r.address?.startsWith("/live_loop/")) || motionPrefs.reduce) return;   // a loop's own cue each time round is not a flash
-    const delay = Math.max(0, (r.time - session.clockNow()) * 1000);
-    setTimeout(() => deck.flash(r.job, r.line), delay);
-    return;
-  }
+  if (r.kind === "flash") return flashLine(r, deck);
+  if (deck) deck.record(r);   // a card's run: its strip draws the sound
+}
+
+// A line the runtime lights as its sound plays (scheduler.rb record_flash), as native's code flash: in the editor, or
+// on the card whose run it is, at the moment it sounds, not when it was scheduled.
+// A card washes its code or nothing (it has no gutter); the editor its code, a dot by its number, or both.
+function flashLine(r, deck) {
+  if (motionPrefs.reduce) return;
+  const delay = Math.max(0, (r.time - session.clockNow()) * 1000);
+  if (deck) return void (flashPrefs.code && setTimeout(() => deck.flash(r.job, r.line), delay));
+  if (!flashPrefs.code && !flashPrefs.gutter) return;
   const buffer = jobBuffer.get(r.job) ?? startingBuffer;
   if (buffer == null || buffer !== editor.active) return;
-  if (r.kind === "synth" && r.synth.startsWith("sonic-pi-fx_")) return;
-  if (!FLASHES.has(r.kind)) return;
-  // at the moment it sounds, not when it was scheduled
-  const delay = Math.max(0, (r.time - session.clockNow()) * 1000);
-  if (motionPrefs.reduce) return;
-  setTimeout(() => { if (editor.active === buffer) editor.flashLine(r.line); }, delay);
+  setTimeout(() => { if (editor.active === buffer) editor.flashLine(r.line, { wash: flashPrefs.code, dot: flashPrefs.gutter }); }, delay);
 }
 
 async function loadExample(name) {
@@ -2757,6 +2760,9 @@ function buildPrefs() {
   box.appendChild(toggle("Show the metronome", !document.body.classList.contains("no-metro"), (on) => { document.body.classList.toggle("no-metro", !on); store.set("sp-metro-shown", on); }, "Show the metronome controls", "pref-metro"));
   box.appendChild(toggle("Show Loop Scopes", loopScopePrefs.show, (on) => { loopScopePrefs.show = on; store.set("sp-loop-scopes", on); paintLoopScopes(); }, "Show a small scope of its own audio beside each running live loop", "pref-loop-scopes"));
   box.appendChild(toggle("Scroll Loop Scopes", loopScopePrefs.scroll, (on) => { loopScopePrefs.scroll = on; store.set("sp-loop-scope-scroll", on); }, "Scroll the loop scopes sideways, the newest sound on the right. When off, they hold a steady waveform like the main scope", "pref-loop-scroll"));
+  box.appendChild(toggle("Flash code on sound trigger", flashPrefs.code, (on) => { flashPrefs.code = on; store.set("sp-flash-code", on); }, "Briefly wash the code responsible for each sound as it is triggered", "pref-flash-code"));
+  box.appendChild(toggle("Flash gutter on sound trigger", flashPrefs.gutter, (on) => { flashPrefs.gutter = on; store.set("sp-flash-gutter", on); }, "Briefly show a dot in the gutter next to the line responsible for each sound as it is triggered", "pref-flash-gutter"));
+  box.appendChild(slider("Flash brightness", { min: 5, max: 100, value: flashPrefs.brightness, format: (v) => `${v}%`, tip: "How strongly the code flash washes the line", onInput: (v) => { flashPrefs.brightness = v; store.set("sp-flash-brightness", v); theme.setFlashBrightness(v); } }));
 
   // native's Studio > Synths and FX
   h("Synths and FX");
