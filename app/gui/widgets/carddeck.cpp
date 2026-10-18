@@ -34,6 +34,7 @@ void CardDeck::add(CodeCard* card, const QString& workspace)
 {
     m_cards[workspace] = card;
     m_workspaces.insert(workspace);
+    card->setFlashBrightness(m_flashBrightness);
     connect(card, &CodeCard::playRequested, this, [this, workspace] { play(workspace); });
     connect(card, &CodeCard::stopRequested, this, [this, workspace] { stop(workspace); });
     if (m_jobs.contains(workspace))
@@ -159,6 +160,13 @@ void CardDeck::flashLine(const QString& workspace, int line)
 {
     if (CodeCard* card = m_cards.value(workspace))
         card->flashLine(line);
+}
+
+void CardDeck::setFlashBrightness(int percent)
+{
+    m_flashBrightness = percent;
+    for (CodeCard* card : cards())
+        card->setFlashBrightness(percent);
 }
 
 CodeCard* CardDeck::cardOfJob(int jobId) const

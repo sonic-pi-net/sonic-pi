@@ -38,6 +38,7 @@ class QWheelEvent;
 
 namespace SonicPi
 {
+class LineFlashes;
 class SonicPiAPI;
 }
 
@@ -46,6 +47,9 @@ class SonicPiScintilla : public QsciScintilla
     Q_OBJECT
 
 public:
+    // The Scintilla indicator the code wash is drawn with.
+    static constexpr int kFlashIndicator = 21;
+
     // keyBindings: pass a shared QSettings when constructing several editors
     // back-to-back (MainWindow builds ten) so the bindings ini is parsed once;
     // each ctor opens its own when null.
@@ -142,7 +146,7 @@ public slots:
     void snapshotRunLines();
     void flashRunLine(int runLine, bool codeWash = true, bool gutterDot = false);
     // Whether a flash is showing on line (0-based): drawn and not yet cleared.
-    bool isFlashing(int line) const { return m_flashGen.contains(line); }
+    bool isFlashing(int line) const;
     // Pin a mini oscilloscope to a live_loop's header line (runLine is the
     // 0-based line at run time, mapped through the same edit-tracking anchors
     // as the flashes), reading scope slot scopeNum. Re-registering an existing
@@ -345,9 +349,12 @@ public:
     int m_errorColStart = -1;      // exact byte-column span of the token to
     int m_errorColEnd = -1;        // underline (error_highlight); -1 = none
 
-    // Live line-flash: a re-flash bumps the line's generation so only the last
-    // pending timer clears the marker (rapid pulses extend, don't stack).
-    QHash<int, int> m_flashGen;
+    // The lines flashing, the cards' model too: a re-flash extends a line's
+    // pulse rather than stacking. A flash shows as the latest flashLine said:
+    // its wash, its gutter dot, or both.
+    SonicPi::LineFlashes* m_flashes = nullptr;
+    bool m_flashWash = true;
+    bool m_flashDot = false;
     // Edit-tracking anchors captured at run time, indexed by run-time line: the
     // character position of each line's start, nudged on every insert/delete
     // (see the SCN_MODIFIED handler) so a run-time line maps to its current line
@@ -357,7 +364,8 @@ public:
     bool m_inReplaceBuffer = false; // suppress incremental tracking during a full replace
     int m_flashAlpha = SonicPi::kFlashWashAlpha; // code-wash indicator alpha (setFlashBrightness)
     void applyFlashMarkerColours();
-    void flashLineNow(int line, bool codeWash, bool gutterDot);   // flashLine, on the tick
+    void showFlash(int line);
+    void hideFlash(int line);
     void clearFlashWash(int line);
     void trackEditForFlash(int position, int modificationType, int length);
     int runLineToCurrent(int runLine);

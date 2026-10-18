@@ -36,6 +36,7 @@
 #include <QPainterPath>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QSet>
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
@@ -97,16 +98,24 @@ public:
 
     void setGroup(const std::shared_ptr<TutSelectionGroup>& group) { m_group = group; }
 
-    // One line of the text lit behind its glyphs, as the editor's flash
-    // lights the line that sounded; -1 lights none. A line is a line of the
-    // source (a code block's lines are <br>-separated), however it wraps.
-    void setWash(int line, const QColor& colour)
+    // Lines of the text lit behind their code, as the editor's flash lights
+    // the lines that sounded: each from its first character to its last, its
+    // indent left out. A line is a line of the source (a code block's lines
+    // are <br>-separated), however it wraps.
+    void setWashColour(const QColor& colour)
     {
-        m_washLine = line;
         m_washColour = colour;
         update();
     }
-    int washedLine() const { return m_washLine; }
+    void setWashed(int line, bool washed)
+    {
+        if (washed)
+            m_washLines.insert(line);
+        else
+            m_washLines.remove(line);
+        update();
+    }
+    bool isWashed(int line) const { return m_washLines.contains(line); }
 
     void setHtml(const QString& html)
     {
@@ -300,7 +309,7 @@ protected:
         // blocks never shows more than one.
         if (hasFocus())
             ctx.cursorPosition = m_caret;
-        if (m_washLine >= 0)
+        if (!m_washLines.isEmpty())
             paintWash(p);
         if (m_selection.hasSelection())
         {
@@ -372,7 +381,7 @@ private:
     int m_caret = 0;        // keyboard caret, as a document position
     QString m_caretAnchor;  // anchor under the caret (announce on entry)
     std::shared_ptr<TutSelectionGroup> m_group;
-    int m_washLine = -1;
+    QSet<int> m_washLines;
     QColor m_washColour;
     std::function<void(const QString&)> m_linkHandler;
     std::function<void(TutProseText*, int)> m_caretExitHandler;

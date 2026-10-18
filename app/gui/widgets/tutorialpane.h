@@ -109,6 +109,8 @@ public:
     // A card's sounding line, what its run puts and the error that ended it
     // (QtAPIClient's FlashReceived, RunOutputReceived, RunErrorReceived).
     void flashLine(const QString& workspace, int line);
+    // How bright the cards' washes are: Flash Brightness, a percent.
+    void setFlashBrightness(int percent);
     void runOutput(int jobId, const QString& text);
     void runError(int jobId, const QString& message, int line);
 

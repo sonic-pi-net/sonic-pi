@@ -33,6 +33,7 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include "utils/framepacer.h"
+#include "utils/lineflashes.h"
 #include "utils/opaque.h"
 #include <QElapsedTimer>
 #include <QFocusEvent>
@@ -70,7 +71,6 @@ static const int kErrorIndicator = 20;
 // Transient trigger flash (distinct from the error markers/indicator so the
 // two can coexist): indicator 21 washes the line's code text, marker 12 is a
 // small dot in the gutter gap between the line numbers and the code.
-static const int kFlashIndicator = 21;
 static const int kFlashGutterMarker = 12;
 
 // Find-bar match highlights: every match gets a quiet accent tint (23); the
@@ -87,10 +87,6 @@ static const int kFindMatchOutlineAlpha = 170;
 static const int kFindCurrentAlpha = 235;
 // Runaway guard for degenerate queries (e.g. a single space in a big buffer).
 static const int kMaxFindMatches = 10000;
-
-// How long a line stays lit after a flash — shared with every other flash
-// renderer (see utils/flash_style.h).
-static const int kFlashHoldMs = SonicPi::kFlashHoldMs;
 
 // Inline oscilloscope + spectrum pinned to a live_loop's header line, fed
 // by the loop's scope-stream tap (with_fx :scope_out). The display window
@@ -603,6 +599,13 @@ SonicPiScintilla::SonicPiScintilla(SonicPiLexer* lexer, SonicPiTheme* theme, QSt
     SendScintilla(SCI_INDICSETSTYLE, (unsigned long)kFlashIndicator, (long)INDIC_STRAIGHTBOX);
     SendScintilla(SCI_INDICSETUNDER, (unsigned long)kFlashIndicator, (long)1);
     applyFlashMarkerColours();
+    m_flashes = new SonicPi::LineFlashes(this);
+    connect(m_flashes, &SonicPi::LineFlashes::changed, this, [this](int line, bool lit) {
+        if (lit)
+            showFlash(line);
+        else
+            hideFlash(line);
+    });
 
     // Follow insert/delete edits so run-time flash anchors track live edits.
     SendScintilla(SCI_SETMODEVENTMASK,
@@ -1462,57 +1465,55 @@ void SonicPiScintilla::flashLine(int line, bool codeWash, bool gutterDot)
 {
     if (line < 0 || !(codeWash || gutterDot))
         return;
-    // The pulse is drawn on the frame pacer's tick, and cleared on one, so a
-    // run that flashes many lines costs one repaint per tick, shared with the
-    // scopes', not one per line.
-    SonicPi::FramePacer::instance()->defer(this, [this, line, codeWash, gutterDot] { flashLineNow(line, codeWash, gutterDot); });
+    m_flashWash = codeWash;
+    m_flashDot = gutterDot;
+    m_flashes->flash(line);
 }
 
-void SonicPiScintilla::flashLineNow(int line, bool codeWash, bool gutterDot)
+bool SonicPiScintilla::isFlashing(int line) const { return m_flashes->isLit(line); }
+
+void SonicPiScintilla::showFlash(int line)
 {
     if (line >= lines())
         return;
-    // Re-flashing within the hold window extends the pulse: bump this line's
-    // generation and only clear when the matching timer is still the latest.
-    int gen = ++m_flashGen[line];
-    if (gutterDot)
+    if (m_flashDot)
     {
         markerDelete(line, kFlashGutterMarker);
         markerAdd(line, kFlashGutterMarker);
     }
-    if (codeWash)
+    if (m_flashWash)
     {
-        // Wash just the code: first non-blank character to end of text.
+        // Wash just the code: its first non-blank character to its last, as
+        // every renderer does (LineFlashes::codeSpan).
         long start = SendScintilla(SCI_GETLINEINDENTPOSITION, (unsigned long)line);
         long end = SendScintilla(SCI_GETLINEENDPOSITION, (unsigned long)line);
+        while (end > start && (SendScintilla(SCI_GETCHARAT, (unsigned long)(end - 1)) == ' '
+                               || SendScintilla(SCI_GETCHARAT, (unsigned long)(end - 1)) == '\t'))
+            --end;
         if (end > start)
         {
             SendScintilla(SCI_SETINDICATORCURRENT, (unsigned long)kFlashIndicator);
             SendScintilla(SCI_INDICATORFILLRANGE, (unsigned long)start, end - start);
         }
     }
-    QTimer::singleShot(kFlashHoldMs, this, [this, line, gen]() {
-        SonicPi::FramePacer::instance()->defer(this, [this, line, gen] {
-            if (m_flashGen.value(line) == gen)
-            {
-                m_flashGen.remove(line);
-                markerDelete(line, kFlashGutterMarker);
-                clearFlashWash(line);
-            }
-        });
-    });
+}
+
+void SonicPiScintilla::hideFlash(int line)
+{
+    markerDelete(line, kFlashGutterMarker);
+    clearFlashWash(line);
 }
 
 void SonicPiScintilla::setFlashBrightness(int percent)
 {
-    m_flashAlpha = qBound(0, percent * 255 / 100, 255);
+    m_flashAlpha = SonicPi::flashAlpha(percent);
     applyFlashMarkerColours();
 }
 
 void SonicPiScintilla::clearFlashWash(int line)
 {
     SendScintilla(SCI_SETINDICATORCURRENT, (unsigned long)kFlashIndicator);
-    if (m_flashGen.isEmpty())
+    if (m_flashes->isEmpty())
     {
         // No pulse pending anywhere: sweep the whole document, so a wash whose
         // text was moved to another line mid-pulse can't linger.

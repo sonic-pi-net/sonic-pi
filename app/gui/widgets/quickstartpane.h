@@ -91,6 +91,8 @@ public:
     // Editor-style trigger wash on the card's code line. `line` is the
     // 1-based runtime line within the submitted (scope-tap wrapped) code.
     void flashLine(const QString& workspace, int line);
+    // How bright the cards' washes are: Flash Brightness, a percent.
+    void setFlashBrightness(int percent);
     // What one of a card's runs puts, and the error that ended one, shown in
     // the card's footer. `line` is the run's, counted as flashLine's is.
     void runOutput(int jobId, const QString& text);

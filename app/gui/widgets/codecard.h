@@ -24,6 +24,7 @@
 #include <QStringList>
 
 #include "dpi.h"
+#include "utils/flash_style.h"
 #include "utils/tablericons.h"
 
 class QLabel;
@@ -38,6 +39,7 @@ class SonicPiTheme;
 
 namespace SonicPi
 {
+class LineFlashes;
 class SonicPiAPI;
 }
 
@@ -120,6 +122,10 @@ public:
     // A run's line, counted from 1; the first is the with_fx :scope_out the
     // code is wrapped in, so the card's own lines start at 2.
     void flashLine(int runLine);
+    // How bright its washes are: Flash Brightness, a percent.
+    void setFlashBrightness(int percent);
+    // The lines lit, which the code or its editor shows.
+    SonicPi::LineFlashes* lineFlashes() const { return m_flashes; }
 
     // Where the pointer is, and whether the card may light for it at all (on
     // the host, meaningfully visible). Lights the border, swaps the glyph of
@@ -172,6 +178,9 @@ private:
     UiScale uiScale() const { return UiScale(m_m.zoomFactor); }
     QPushButton* makeButton(TablerIcons::Glyph glyph, int iconPx, int w, int h);
     void setButtonGlyph(QPushButton* b, TablerIcons::Glyph glyph);
+    QColor washColour() const;
+    void showFlash(int line, bool lit);
+    void washEditor();
     QWidget* makeScopeBox(QWidget* parent, int side, bool stop);
     QPixmap disc(bool stop, bool hover, bool enabled, int d) const;
     void refreshDiscs();
@@ -204,6 +213,8 @@ private:
     QWidget* m_codeBlock = nullptr;
     TutProseText* m_text = nullptr;
     QPlainTextEdit* m_editor = nullptr;
+    SonicPi::LineFlashes* m_flashes = nullptr;
+    int m_flashBrightness = SonicPi::kFlashBrightness;   // percent
     QWidget* m_footer = nullptr;
     QLabel* m_blurb = nullptr;
     QLabel* m_errorLabel = nullptr;

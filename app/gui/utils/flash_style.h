@@ -16,8 +16,16 @@
 // how long it lingers is decided here, once.
 namespace SonicPi
 {
-constexpr int kFlashHoldMs = 150;    // wash hold before it clears
-constexpr int kFlashWashAlpha = 90;  // default wash intensity (0-255)
+constexpr int kFlashHoldMs = 150;      // wash hold before it clears
+constexpr int kFlashBrightness = 35;   // Flash Brightness's default, percent
+
+// A wash's alpha (0-255) at a Flash Brightness percent.
+constexpr int flashAlpha(int percent)
+{
+    return percent <= 0 ? 0 : percent >= 100 ? 255 : percent * 255 / 100;
+}
+
+constexpr int kFlashWashAlpha = flashAlpha(kFlashBrightness);   // the default wash's alpha
 } // namespace SonicPi
 
 #endif // FLASH_STYLE_H

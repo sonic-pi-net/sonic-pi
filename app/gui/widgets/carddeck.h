@@ -22,6 +22,8 @@
 #include <QString>
 #include <QTimer>
 
+#include "utils/flash_style.h"
+
 class CodeCard;
 class QWidget;
 
@@ -65,6 +67,9 @@ public:
     void runStarted(int jobId, const QString& workspace);
     void runEnded(int jobId);
     void flashLine(const QString& workspace, int line);
+    // How bright the cards' washes are (Flash Brightness, a percent): the
+    // cards made after too.
+    void setFlashBrightness(int percent);
     void runOutput(int jobId, const QString& text);
     void runError(int jobId, const QString& message, int line);
 
@@ -88,6 +93,7 @@ private:
     Playing m_playing;
     SonicPi::SonicPiAPI* m_api = nullptr;
     QHash<QString, QPointer<CodeCard>> m_cards; // by workspace
+    int m_flashBrightness = SonicPi::kFlashBrightness;   // percent
     // Every workspace the deck has had a card for: a run may start after its
     // card has gone (a deck switched while it booted), and is still the
     // deck's, for the card made again to adopt and stop.

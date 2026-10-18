@@ -1559,6 +1559,11 @@ void TutorialPane::flashLine(const QString& workspace, int line)
     m_deck->flashLine(workspace, line);
 }
 
+void TutorialPane::setFlashBrightness(int percent)
+{
+    m_deck->setFlashBrightness(percent);
+}
+
 void TutorialPane::runOutput(int jobId, const QString& text)
 {
     m_deck->runOutput(jobId, text);

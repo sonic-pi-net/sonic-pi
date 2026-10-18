@@ -17,6 +17,10 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "pacer_by_hand.h"
+#include "utils/flash_style.h"
+#include "utils/lineflashes.h"
+
 #include <QAbstractButton>
 #include <QApplication>
 #include <QLabel>
@@ -214,6 +218,7 @@ TEST_CASE("a run that starts after its card went is still the deck's", "[carddec
 
 TEST_CASE("a deck shows a run's output, error and sounding line on its card", "[carddeck]")
 {
+    HandDriven hand;
     Host host;
     host.page.show();
     CardDeck deck(&host.page, CardDeck::Playing::Layered);
@@ -231,7 +236,9 @@ TEST_CASE("a deck shows a run's output, error and sounding line on its card", "[
 
     // A run's lines count the with_fx :scope_out the code is wrapped in.
     deck.flashLine("ws-a", 3);
-    CHECK(a->codeText()->washedLine() == 1);
+    hand.tick();
+    CHECK(a->codeText()->isWashed(1));
+    a->lineFlashes()->clear();
     deck.runError(7, "Unknown function `plya`", 3);
     CHECK(shown(a, "qsCardError") == "Unknown function `plya` (line 2)");
 }

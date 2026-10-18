@@ -473,30 +473,40 @@ TEST_CASE("real newlines are not doubled by the laid-out text",
     CHECK(!all.contains(QStringLiteral("\n\n")));
 }
 
-TEST_CASE("a code block lights one of its lines, as the editor's flash does",
+TEST_CASE("a code block lights its lines behind their code, as the editor's flash does",
           "[tutorialwidgets]")
 {
     TutProseText code(nullptr);
-    code.setHtml("<p>play 60<br>sleep 1<br>play 64</p>");
+    code.setHtml("<p>play 60<br>  sleep 1<br>play 64</p>");
     code.resize(600, 400);
-    const QColor wash(255, 0, 0);
-    // Sampled at the right edge, far past the short lines' glyphs, halfway
-    // down each of the three lines as laid out: the wash is the block's width.
+    code.setWashColour(QColor(255, 0, 0));
+    // Sampled halfway down each of the three lines as laid out: in the gap
+    // after each line's first word, in the second's indent, and at the right
+    // edge, far past the short lines' code.
     const qreal lineHeight = code.heightForWidth(code.width()) / 3.0;
-    auto lit = [&](int line) {
+    const QFontMetricsF fm(code.font());
+    auto red = [&](int line, qreal x) {
         const QImage shot = code.grab().toImage();
-        const int x = shot.width() - 2;
+        const int px = qRound(x * shot.devicePixelRatio());
         const int y = qRound((line + 0.5) * lineHeight * shot.devicePixelRatio());
-        return shot.pixelColor(x, y).red() > 200 && shot.pixelColor(x, y).green() < 60;
+        return shot.pixelColor(px, y).red() > 200 && shot.pixelColor(px, y).green() < 60;
     };
+    const QPointF origin = code.document()->documentLayout()->blockBoundingRect(code.document()->begin()).topLeft();
+    const qreal gap0 = origin.x() + fm.horizontalAdvance("play") + fm.horizontalAdvance(' ') / 2;
+    const qreal gap1 = origin.x() + fm.horizontalAdvance("  sleep") + fm.horizontalAdvance(' ') / 2;
+    const qreal indent1 = origin.x() + fm.horizontalAdvance(' ') / 2;
 
-    CHECK(code.washedLine() == -1);
-    CHECK_FALSE(lit(1));
-    code.setWash(1, wash);
-    CHECK(code.washedLine() == 1);
-    CHECK_FALSE(lit(0));
-    CHECK(lit(1));
-    CHECK_FALSE(lit(2));
-    code.setWash(-1, wash);
-    CHECK_FALSE(lit(1));
+    CHECK_FALSE(code.isWashed(1));
+    code.setWashed(0, true);
+    code.setWashed(1, true);
+    CHECK(code.isWashed(0));
+    CHECK(code.isWashed(1));
+    CHECK(red(0, gap0));
+    CHECK(red(1, gap1));
+    CHECK_FALSE(red(2, gap0));
+    CHECK_FALSE(red(1, indent1));
+    CHECK_FALSE(red(0, code.width() - 2));
+    code.setWashed(0, false);
+    CHECK_FALSE(red(0, gap0));
+    CHECK(red(1, gap1));
 }

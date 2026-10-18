@@ -34,6 +34,7 @@
 #include <QSettings>
 #include <QStyle>
 #include <QSyntaxHighlighter>
+#include <QTextBlock>
 #include <QTextDocumentFragment>
 #include <QTextOption>
 #include <QTimer>
@@ -43,6 +44,7 @@
 #include "dpi.h"
 #include "model/sonicpitheme.h"
 #include "utils/code_colours.h"
+#include "utils/lineflashes.h"
 #include "utils/flash_style.h"
 #include "utils/gui_settings.h"
 #include "utils/tutorialdocs.h"
@@ -171,6 +173,8 @@ CodeCard::CodeCard(const Spec& spec, const Metrics& metrics, SonicPiTheme* theme
     : QFrame(parent), m_spec(spec), m_m(metrics), m_theme(theme), m_code(spec.code)
 {
     registerCodeCardAccessibility();
+    m_flashes = new SonicPi::LineFlashes(this);
+    connect(m_flashes, &SonicPi::LineFlashes::changed, this, &CodeCard::showFlash);
     // An edit is kept until it is reset, as the web keeps it (card.js remember).
     if (!m_spec.key.isEmpty())
     {
@@ -607,6 +611,7 @@ void CodeCard::renderLines()
         codeLayout->setSpacing(0);
         m_text = new TutProseText(m_codeBlock);
         dressCodeText(m_text, m_m.codeFontPx);
+        m_text->setWashColour(washColour());
         m_text->setAccessibleName(tr("%1, code").arg(m_spec.title));
         if (!m_spec.readable)
         {
@@ -867,22 +872,66 @@ void CodeCard::refreshFooter()
 void CodeCard::flashLine(int runLine)
 {
     const int line = runLine - 2;
-    if (line < 0 || line >= m_code.count(QLatin1Char('\n')) + 1 || m_editor)
+    if (line < 0 || line >= m_code.count(QLatin1Char('\n')) + 1)
         return;
     // A snippet that overruns the card's budget scrolls, so follow the run and
     // keep the lit line in view.
-    const int lineHeight = QFontMetrics(m_text->font()).lineSpacing();
-    m_body->ensureVisible(0, m_text->y() + line * lineHeight + lineHeight / 2, 0, lineHeight);
+    if (!m_editor)
+    {
+        const int lineHeight = QFontMetrics(m_text->font()).lineSpacing();
+        m_body->ensureVisible(0, m_text->y() + line * lineHeight + lineHeight / 2, 0, lineHeight);
+    }
+    m_flashes->flash(line);
+}
+
+void CodeCard::setFlashBrightness(int percent)
+{
+    m_flashBrightness = percent;
+    if (m_text)
+        m_text->setWashColour(washColour());
+    if (m_editor)
+        washEditor();
+}
+
+QColor CodeCard::washColour() const
+{
     QColor wash = m_theme->color("HighlightedBackground");
-    wash.setAlpha(SonicPi::kFlashWashAlpha);
-    m_text->setWash(line, wash);
-    // Each flash holds its own line: a later one on another line isn't cut
-    // short by this one's clearing.
-    QPointer<TutProseText> text(m_text);
-    QTimer::singleShot(SonicPi::kFlashHoldMs, this, [text, line] {
-        if (text && text->washedLine() == line)
-            text->setWash(-1, QColor());
-    });
+    wash.setAlpha(SonicPi::flashAlpha(m_flashBrightness));
+    return wash;
+}
+
+// The code as it reads keeps the lit lines while it is being edited too, so
+// it shows them still when the editing is done.
+void CodeCard::showFlash(int line, bool lit)
+{
+    if (m_text)
+        m_text->setWashed(line, lit);
+    if (m_editor)
+        washEditor();
+}
+
+// The editor's washes, as the main editor's: each lit line's code, its indent
+// left out.
+void CodeCard::washEditor()
+{
+    QList<QTextEdit::ExtraSelection> washes;
+    for (int line : m_flashes->litLines())
+    {
+        const QTextBlock block = m_editor->document()->findBlockByNumber(line);
+        if (!block.isValid())
+            continue;
+        const auto [from, to] = SonicPi::LineFlashes::codeSpan(block.text());
+        const int start = block.position() + from, end = block.position() + to;
+        if (start >= end)
+            continue;
+        QTextEdit::ExtraSelection wash;
+        wash.cursor = QTextCursor(m_editor->document());
+        wash.cursor.setPosition(start);
+        wash.cursor.setPosition(end, QTextCursor::KeepAnchor);
+        wash.format.setBackground(washColour());
+        washes << wash;
+    }
+    m_editor->setExtraSelections(washes);
 }
 
 void CodeCard::showHoverIcon(QPushButton* b)

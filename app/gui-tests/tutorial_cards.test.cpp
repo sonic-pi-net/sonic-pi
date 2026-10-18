@@ -18,6 +18,10 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "pacer_by_hand.h"
+#include "utils/flash_style.h"
+#include "utils/lineflashes.h"
+
 #include <QAbstractButton>
 #include <QApplication>
 #include <QDir>
@@ -248,6 +252,7 @@ TEST_CASE("a tutorial card is picked up by its handle and its face, as the Cards
 
 TEST_CASE("a tutorial part plays one card at a time", "[tutorial][cards]")
 {
+    HandDriven hand;
     Docs docs;
     docs.load("02.1-Your-First-Beeps.json");
     QSignalSpy runs(docs.pane, &TutorialPane::runRequested);
@@ -270,7 +275,9 @@ TEST_CASE("a tutorial part plays one card at a time", "[tutorial][cards]")
     docs.pane->runOutput(7, "hello");
     CHECK(shown(first, "qsCardOutput").contains("hello"));
     docs.pane->flashLine(ws, 2);
-    CHECK(first->codeText()->washedLine() == 0);
+    hand.tick();
+    CHECK(first->codeText()->isWashed(0));
+    first->lineFlashes()->clear();
     docs.pane->runError(7, "Something broke", 2);
     CHECK(shown(first, "qsCardError") == "Something broke (line 1)");
 

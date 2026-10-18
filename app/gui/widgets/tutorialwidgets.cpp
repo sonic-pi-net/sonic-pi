@@ -13,6 +13,8 @@
 
 #include "tutorialwidgets.h"
 
+#include "utils/lineflashes.h"
+
 #include <QAccessible>
 #include <QAccessibleWidget>
 #include <QApplication>
@@ -175,45 +177,38 @@ QString TutProseText::anchorAtPosition(int pos) const
     return QString();
 }
 
-// The washed line's rectangle: every visual line the source line wraps to,
-// the whole block wide.
+// Each washed line's code: on every visual line the source line wraps to,
+// from its first non-blank character to the end of its text.
 void TutProseText::paintWash(QPainter& p) const
 {
     // plainText() turns each separator into one '\n', so its offsets are the
     // document's positions.
-    const QString text = plainText();
-    int start = 0;
-    for (int i = 0; i < m_washLine; ++i)
+    const QStringList lines = plainText().split(QLatin1Char('\n'));
+    int lineStart = 0;
+    for (int n = 0; n < lines.size(); lineStart += lines[n].size() + 1, ++n)
     {
-        start = text.indexOf(QLatin1Char('\n'), start);
-        if (start < 0)
-            return;
-        ++start;
-    }
-    int end = text.indexOf(QLatin1Char('\n'), start);
-    if (end < 0)
-        end = text.size();
-    QRectF lit;
-    for (QTextBlock block = m_doc.begin(); block.isValid(); block = block.next())
-    {
-        if (block.position() > end)
-            break;
-        const QTextLayout* layout = block.layout();
-        const QPointF origin = m_doc.documentLayout()->blockBoundingRect(block).topLeft();
-        for (int i = 0; i < layout->lineCount(); ++i)
+        if (!m_washLines.contains(n))
+            continue;
+        const auto [from, to] = SonicPi::LineFlashes::codeSpan(lines[n]);
+        const int start = lineStart + from, end = lineStart + to;
+        if (start >= end)
+            continue;
+        for (QTextBlock block = m_doc.findBlock(start); block.isValid() && block.position() < end; block = block.next())
         {
-            const QTextLine line = layout->lineAt(i);
-            const int from = block.position() + line.textStart();
-            // Half-open: a line ends where the next begins, its separator its own.
-            if (from <= end && from + line.textLength() > start)
-                lit |= line.rect().translated(origin);
+            const QTextLayout* layout = block.layout();
+            const QPointF origin = m_doc.documentLayout()->blockBoundingRect(block).topLeft();
+            for (int i = 0; i < layout->lineCount(); ++i)
+            {
+                const QTextLine line = layout->lineAt(i);
+                const int from = qMax(start, block.position() + line.textStart());
+                const int to = qMin(end, block.position() + line.textStart() + line.textLength());
+                if (from >= to)
+                    continue;
+                const qreal x0 = line.cursorToX(from - block.position()), x1 = line.cursorToX(to - block.position());
+                p.fillRect(QRectF(x0, line.y(), x1 - x0, line.height()).translated(origin), m_washColour);
+            }
         }
     }
-    if (lit.isNull())
-        return;
-    lit.setLeft(0);
-    lit.setRight(width());
-    p.fillRect(lit, m_washColour);
 }
 
 QRect TutProseText::textRectGlobal(int pos, bool thin) const

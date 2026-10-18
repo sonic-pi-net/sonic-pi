@@ -166,6 +166,8 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/cardscope.h
     ${QTAPP_ROOT}/widgets/icontabbar.h
     ${QTAPP_ROOT}/utils/flash_style.h
+    ${QTAPP_ROOT}/utils/lineflashes.cpp
+    ${QTAPP_ROOT}/utils/lineflashes.h
     ${QTAPP_ROOT}/utils/tutorialdocs.cpp
     ${QTAPP_ROOT}/utils/tutorialdocs.h
     )

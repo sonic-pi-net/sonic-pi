@@ -192,6 +192,27 @@ TEST_CASE("log pane: a clear takes what had not been shown yet with it", "[pacin
     CHECK(text.contains("line 2"));
 }
 
+TEST_CASE("editor: a flash washes just a line's code, its indent and the space after it left out", "[flash]")
+{
+    HandDriven hand;
+    Editor e(QStringLiteral("live_loop :t do\n  play 60  \nend\n"));
+    e.ed->flashRunLine(1, true, false);
+    hand.tick();
+    const int line = e.ed->positionFromLineIndex(1, 0);
+    auto washed = [&](int index) {
+        return e.ed->SendScintilla(QsciScintillaBase::SCI_INDICATORVALUEAT, (unsigned long)SonicPiScintilla::kFlashIndicator,
+                                   (long)(line + index)) != 0;
+    };
+    CHECK_FALSE(washed(1));   // the indent
+    CHECK(washed(2));         // p
+    CHECK(washed(8));         // 0
+    CHECK_FALSE(washed(9));   // the space after
+    CHECK(QTest::qWaitFor([&] {
+        hand.tick();
+        return !e.ed->isFlashing(1);
+    }, SonicPi::kFlashHoldMs * 20));
+}
+
 TEST_CASE("editor: run-line flashes and their clears land on the tick", "[pacing]")
 {
     HandDriven hand;

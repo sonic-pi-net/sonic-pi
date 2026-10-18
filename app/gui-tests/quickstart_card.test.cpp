@@ -19,6 +19,10 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "pacer_by_hand.h"
+#include "utils/flash_style.h"
+#include "utils/lineflashes.h"
+
 #include <QAbstractButton>
 #include <QApplication>
 #include <QLabel>
@@ -308,19 +312,24 @@ TEST_CASE("a quickstart card lights under the pointer", "[quickstart][card]")
 
 TEST_CASE("a quickstart card lights the line that sounded", "[quickstart][card]")
 {
+    HandDriven hand;
     Deck deck;
     CodeCard* card = deck.firstCard();
     REQUIRE(card);
     TutProseText* code = card->codeText();
     REQUIRE(code);
-    CHECK(code->washedLine() == -1);
     // A run's lines count from 1, and the first is the with_fx :scope_out
     // the card's code is wrapped in: its own code starts at line 2.
     deck.pane.flashLine(kWorkspace, 1);
-    CHECK(code->washedLine() == -1);
+    hand.tick();
+    CHECK(card->lineFlashes()->isEmpty());
     deck.pane.flashLine(kWorkspace, 2);
-    CHECK(code->washedLine() == 0);
+    hand.tick();
+    CHECK(code->isWashed(0));
     // It clears, as the editor's does.
-    CHECK(QTest::qWaitFor([code] { return code->washedLine() == -1; }, 2000));
+    CHECK(QTest::qWaitFor([&] {
+        hand.tick();
+        return !code->isWashed(0);
+    }, SonicPi::kFlashHoldMs * 20));
 }
 

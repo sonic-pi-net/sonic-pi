@@ -77,6 +77,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/plugins.test.cpp
     ${GUI_TESTS_ROOT}/card_deck.test.cpp
     ${GUI_TESTS_ROOT}/quickstart_card.test.cpp
+    ${GUI_TESTS_ROOT}/code_flash.test.cpp
     ${GUI_TESTS_ROOT}/tutorial_cards.test.cpp
     ${GUI_ROOT}/widgets/nodetreegraph.cpp
     ${GUI_ROOT}/widgets/metricslog.cpp
@@ -114,6 +115,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_ROOT}/utils/completion_context.cpp
     ${GUI_ROOT}/utils/reducedmotion.cpp
     ${GUI_ROOT}/utils/framepacer.cpp
+    ${GUI_ROOT}/utils/lineflashes.cpp
     ${GUI_ROOT}/utils/tutorialdocs.cpp
     ${GUI_ROOT}/widgets/tutorialwidgets.cpp
     ${GUI_ROOT}/utils/setbundle.cpp

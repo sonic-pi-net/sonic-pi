@@ -84,6 +84,7 @@
 #include <QFileOpenEvent>
 
 #include "utils/dockshown.h"
+#include "utils/flash_style.h"
 #include "utils/audiodevicepolicy.h"
 #include "utils/reducedmotion.h"
 #include "utils/gui_settings.h"
@@ -792,30 +793,6 @@ void MainWindow::setupWindowStructure()
     settingsWidget->setLevelScope(levelPrefsScope);
 
 
-    connect(m_spClient.get(), &SonicPi::QtAPIClient::FlashReceived, this,
-            [this](const QString& workspace, int line) {
-                if (!piSettings->flash_code && !piSettings->flash_gutter)
-                    return;
-                // Only flash real editor buffers — tutorial/jukebox runs use
-                // other workspace names and filenameToWorkspace would otherwise
-                // fall back to buffer 0 and flash the wrong tab.
-                if (!workspace.startsWith("workspace_"))
-                    return;
-                // The spider sends flashes at scheduled-render time; delay by
-                // the device output latency so the pulse lands with the sound.
-                auto apply = [this, workspace, line]() {
-                    // Runtime lines are 1-based; Scintilla lines are 0-based.
-                    // flashRunLine maps the run-time line through edit-tracking
-                    // handles so it lands correctly after live edits.
-                    SonicPiScintilla* ws = filenameToWorkspace(workspace.toStdString());
-                    if (ws)
-                        ws->flashRunLine(line - 1, piSettings->flash_code, piSettings->flash_gutter);
-                };
-                if (m_visualLatencyMs > 0)
-                    QTimer::singleShot(m_visualLatencyMs, this, apply);
-                else
-                    apply();
-            });
     connect(m_spClient.get(), &SonicPi::QtAPIClient::LiveLoopScopeReceived, this,
             [this](int, const QString& name, const QString& workspace, int line, int scopeNum) {
                 // Same guard as the flash: only pin scopes to real editor buffers.
@@ -1275,19 +1252,34 @@ void MainWindow::setupWindowStructure()
             quickstartPane, &QuickstartPane::runOutput);
     connect(m_spClient.get(), &SonicPi::QtAPIClient::RunErrorReceived,
             quickstartPane, &QuickstartPane::runError);
+    // A sound's line flashes where its run's code is: a buffer, or a card.
     connect(m_spClient.get(), &SonicPi::QtAPIClient::FlashReceived, this,
             [this](const QString& workspace, int line) {
-                // Same pref gate and output-latency delay as the editor flash.
-                if (!piSettings->flash_code)
+                // A buffer's runs are on workspace_ names. Others (cards,
+                // tutorial, jukebox) are not, and filenameToWorkspace would
+                // fall back to buffer 0 for them and flash the wrong tab.
+                const bool buffer = workspace.startsWith("workspace_");
+                if (!piSettings->flash_code && !(buffer && piSettings->flash_gutter))
                     return;
-                auto flash = [this, workspace, line] {
+                auto apply = [this, workspace, line, buffer] {
+                    if (buffer)
+                    {
+                        // Runtime lines are 1-based; Scintilla lines are 0-based.
+                        // flashRunLine maps the run-time line through edit-tracking
+                        // handles so it lands correctly after live edits.
+                        if (SonicPiScintilla* ws = filenameToWorkspace(workspace.toStdString()))
+                            ws->flashRunLine(line - 1, piSettings->flash_code, piSettings->flash_gutter);
+                        return;
+                    }
                     quickstartPane->flashLine(workspace, line);
                     tutorialPane->flashLine(workspace, line);
                 };
+                // The spider sends flashes at scheduled-render time; delay by
+                // the device output latency so the pulse lands with the sound.
                 if (m_visualLatencyMs > 0)
-                    QTimer::singleShot(m_visualLatencyMs, this, flash);
+                    QTimer::singleShot(m_visualLatencyMs, this, apply);
                 else
-                    flash();
+                    apply();
             });
     southTabs->setTabToolTip(southTabs->addTab(quickstartPane, tr("Cards")),
                              tr("Quickstart cards: small runnable snippets to get going."));
@@ -5582,6 +5574,8 @@ void MainWindow::changeFlashSettings()
         ws->setLiveLoopScopeScroll(piSettings->loop_scope_scroll);
         ws->setLiveLoopScopesShown(piSettings->show_loop_scopes);
     }
+    quickstartPane->setFlashBrightness(piSettings->flash_brightness);
+    tutorialPane->setFlashBrightness(piSettings->flash_brightness);
 }
 
 void MainWindow::speakTransportMenuChanged()
@@ -8205,7 +8199,7 @@ void MainWindow::readSettings()
     piSettings->show_completion_help = gui_settings->value("prefs/show-completion-help", true).toBool();
     piSettings->show_context = gui_settings->value("prefs/show-context", true).toBool();
     piSettings->flash_code = gui_settings->value("prefs/flash-code", true).toBool();
-    piSettings->flash_brightness = gui_settings->value("prefs/flash-brightness", 35).toInt();
+    piSettings->flash_brightness = gui_settings->value("prefs/flash-brightness", SonicPi::kFlashBrightness).toInt();
     piSettings->flash_gutter = gui_settings->value("prefs/flash-gutter", false).toBool();
     piSettings->show_loop_scopes = gui_settings->value("prefs/show-loop-scopes", true).toBool();
     piSettings->loop_scope_scroll = gui_settings->value("prefs/loop-scope-scroll", false).toBool();
