@@ -67,6 +67,7 @@ namespace SonicPi
 class QtAPIClient;
 class SonicPiAPI;
 class ScopeWindow;
+class OverlayPane;
 } // namespace SonicPi
 
 class QShortcut;
@@ -829,7 +830,7 @@ private:
     int m_errorJumpCol = 0;
     QDockWidget* outputWidget = nullptr;
     QDockWidget* incomingWidget = nullptr;
-    QWidget* prefsWidget = nullptr;
+    SonicPi::OverlayPane* prefsWidget = nullptr;
 
     QDockWidget* hudWidget = nullptr;
     QDockWidget* docWidget = nullptr;

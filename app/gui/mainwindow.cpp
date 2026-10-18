@@ -90,6 +90,7 @@
 #include "utils/scintilla_api.h"
 #include "utils/setbundle.h"
 #include "sharelink.h"
+#include "widgets/overlaypane.h"
 #include "widgets/sharedialog.h"
 #include "utils/plugins.h"
 #include "widgets/sonicpilexer.h"
@@ -656,8 +657,7 @@ void MainWindow::setupWindowStructure()
     // create workspaces and add them to the tabs
     // workspace shortcuts
     QVBoxLayout* prefsLayout = new QVBoxLayout;
-    prefsWidget = new QWidget;
-    prefsWidget->setParent(this);
+    prefsWidget = new SonicPi::OverlayPane(this);
     prefsWidget->hide();
 
     settingsWidget = new SettingsWidget(m_spAPI->GetPort(SonicPiPortId::tau_osc_cues), i18n, piSettings, sonicPii18n, shortcutsConfigPath(), this);
@@ -1647,7 +1647,7 @@ void MainWindow::positionSideGrip()
         {
             sideAwayDivider->setGeometry(bar);
             sideAwayDivider->show();
-            sideAwayDivider->raise();
+            prefsWidget->raiseBeneath(sideAwayDivider);
         }
         cx = bar.center().x();
     }
@@ -1666,7 +1666,7 @@ void MainWindow::positionSideGrip()
     }
     sideGrip->move(cx - sideGrip->width() / 2, room.top() + ScaleHeightForDPI(24));
     sideGrip->show();
-    sideGrip->raise();   // above the overlay
+    prefsWidget->raiseBeneath(sideGrip);   // above the divider overlay
 }
 
 void MainWindow::docLinkClicked(const QUrl& url)
@@ -3984,7 +3984,7 @@ void MainWindow::positionHelpChevrons()
         {
             helpDividerOverlay->setGeometry(overlay);
             helpDividerOverlay->show();
-            helpDividerOverlay->raise();
+            prefsWidget->raiseBeneath(helpDividerOverlay);
         }
         else
             helpDividerOverlay->hide();
@@ -3992,7 +3992,7 @@ void MainWindow::positionHelpChevrons()
     helpChevrons->move(right - ScaleWidthForDPI(24) - helpChevrons->width(),
                        cy - helpChevrons->height() / 2);
     helpChevrons->show();
-    helpChevrons->raise();
+    prefsWidget->raiseBeneath(helpChevrons);
 }
 
 
