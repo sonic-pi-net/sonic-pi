@@ -36,7 +36,7 @@ module SonicPi
     def clockwork_header(name)
       file = File.join(CLOCKWORK_SRC, name)
       skip "clockwork's sources are not in this tree (#{file})" unless File.exist?(file)
-      File.read(file)
+      File.read(file, encoding: "UTF-8")   # not the locale's: a C locale reads US-ASCII, and the headers' prose isn't
     end
 
     # Every #define and enum value a header gives a number.
