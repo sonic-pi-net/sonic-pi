@@ -156,11 +156,13 @@ public slots:
     // Roll-mode (scrolling strip) vs the default triggered sweep; applies to
     // current and future loop scopes (preference: loop_scope_scroll).
     void setLiveLoopScopeScroll(bool scroll);
+    // Whether the loops' scopes are shown (preference: show_loop_scopes). Off,
+    // they are kept, hidden and unpolled, to show again at once.
+    void setLiveLoopScopesShown(bool shown);
     // Engine API access for the inline scopes' sample-clock reads (audible-time
     // window alignment). Called once by MainWindow after boot wiring.
     void setAudioApi(SonicPi::SonicPiAPI* api);
     void endLiveLoopScope(const QString& name);
-    void clearLiveLoopScopes();
     void zoomFontIn();
     void zoomFontOut();
     void newLine();
@@ -363,10 +365,12 @@ public:
     // scope buffers and re-pins each widget to its (edit-tracked) header line.
     QHash<QString, class LiveLoopScopeWidget*> m_loopScopes;
     bool m_loopScopeScroll = false;
+    bool m_loopScopesShown = true;
     QHash<QString, int> m_loopScopeLines;
     QHash<QString, int> m_loopScopeSlots;   // name → the scope slot it reads
-    bool m_loopScopesPaced = false;           // holding the FramePacer for the scopes
+    bool m_loopScopesPaced = false;           // holding the FramePacer for the shown scopes
     QMetaObject::Connection m_loopScopeTick;  // its tick, while held
+    void paceLiveLoopScopes();
     void unpaceLiveLoopScopes();
     void placeLiveLoopScopesSoon();   // positionLiveLoopScopes, after the current paint
     bool m_loopScopePlacePending = false;

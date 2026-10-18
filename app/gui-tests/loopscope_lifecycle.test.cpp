@@ -96,6 +96,57 @@ TEST_CASE("loop scope: shows beside its loop's header", "[loopscope]")
     CHECK(w->isVisible());
 }
 
+// Scopes switched off and on again come back at once for the loops still
+// running, as the web's do: they used to wait for the next Run (#3585).
+TEST_CASE("loop scope: a loop that arrived while scopes were off shows once they are on", "[loopscope]")
+{
+    Editor e(kCode);
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScopesShown(false);
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    QTest::qWait(60);
+    CHECK_FALSE((e.scope("t") && e.scope("t")->isVisible()));
+
+    e.ed->setLiveLoopScopesShown(true);
+    QTest::qWait(60);
+    REQUIRE(e.scope("t"));
+    CHECK(e.scope("t")->isVisible());
+}
+
+TEST_CASE("loop scope: switched off and on again, a running loop's scope comes back", "[loopscope]")
+{
+    Editor e(kCode);
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    QTest::qWait(60);
+    REQUIRE(e.scope("t"));
+
+    e.ed->setLiveLoopScopesShown(false);
+    QTest::qWait(60);
+    CHECK_FALSE((e.scope("t") && e.scope("t")->isVisible()));
+
+    e.ed->setLiveLoopScopesShown(true);
+    QTest::qWait(60);
+    REQUIRE(e.scope("t"));
+    CHECK(e.scope("t")->isVisible());
+}
+
+TEST_CASE("loop scope: a loop that ended while scopes were off doesn't come back", "[loopscope]")
+{
+    Editor e(kCode);
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScopesShown(false);
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    e.ed->endLiveLoopScope("t");
+
+    e.ed->setLiveLoopScopesShown(true);
+    QTest::qWait(60);
+    CHECK_FALSE(e.scope("t"));
+}
+
 TEST_CASE("loop scope: pasted over, its line is no longer its loop's header and it hides", "[loopscope]")
 {
     Editor e(kCode);
@@ -269,6 +320,22 @@ TEST_CASE("loop scope: ticks off the shared frame pacer while any scope lives", 
     CHECK(SonicPi::FramePacer::instance()->clients() == before + 1);
     e.ed->endLiveLoopScope("u");
     CHECK(SonicPi::FramePacer::instance()->clients() == before);
+}
+
+TEST_CASE("loop scope: switched off, the scopes let the frame pacer go", "[loopscope]")
+{
+    Editor e(kCode);
+    const int before = SonicPi::FramePacer::instance()->clients();
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    REQUIRE(SonicPi::FramePacer::instance()->clients() == before + 1);
+    e.ed->setLiveLoopScopesShown(false);
+    CHECK(SonicPi::FramePacer::instance()->clients() == before);
+    e.ed->setLiveLoopScope("u", 2, 11, s.reader());   // a loop arriving while they are off
+    CHECK(SonicPi::FramePacer::instance()->clients() == before);
+    e.ed->setLiveLoopScopesShown(true);
+    CHECK(SonicPi::FramePacer::instance()->clients() == before + 1);
 }
 
 namespace {

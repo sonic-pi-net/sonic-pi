@@ -1216,6 +1216,24 @@ void SonicPiScintilla::setLiveLoopScopeScroll(bool scroll)
     }
 }
 
+// Off, the loops' scopes stay, hidden and unpolled as in a hidden buffer, so
+// on again they show at once for the loops still running, as the web's do
+// (#3585), and one whose loop went meanwhile finds out on its first poll.
+void SonicPiScintilla::setLiveLoopScopesShown(bool shown)
+{
+    m_loopScopesShown = shown;
+    if (!shown)
+    {
+        for (LiveLoopScopeWidget* w : m_loopScopes)
+            w->hide();
+        unpaceLiveLoopScopes();
+        return;
+    }
+    if (!m_loopScopes.isEmpty())
+        paceLiveLoopScopes();
+    positionLiveLoopScopes();
+}
+
 void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine, int scopeNum,
                                         const shm_tap_stream_reader& reader)
 {
@@ -1242,30 +1260,37 @@ void SonicPiScintilla::setLiveLoopScope(const QString& name, int runLine, int sc
     m_loopScopeLines[name] = runLine;
     m_loopScopeSlots[name] = scopeNum;
     applyLoopScopeColours();
-
-    // The scopes tick off the one frame pacer every animated thing shares,
-    // held while any scope lives. The stream is lossless at any poll rate,
-    // so the rate is the display's; a tick reads the streams only, and the
-    // scopes are placed when something moves a line (SCN_UPDATEUI), not on
-    // every tick.
-    if (!m_loopScopesPaced)
+    if (!m_loopScopesShown)
     {
-        m_loopScopesPaced = true;
-        SonicPi::FramePacer::instance()->retain();
-        m_loopScopeTick = connect(SonicPi::FramePacer::instance(), &SonicPi::FramePacer::tick, this, [this]() {
-            // Hidden tab / minimized window: skip the stream reads. The ring
-            // overwrites itself, so nothing backs up while polling is skipped.
-            if (!isVisible())
-                return;
-            QStringList gone;
-            for (auto it = m_loopScopes.constBegin(); it != m_loopScopes.constEnd(); ++it)
-                if (it.value()->poll())
-                    gone << it.key();
-            for (const QString& name : gone)
-                endLiveLoopScope(name);
-        });
+        w->hide();
+        return;
     }
+    paceLiveLoopScopes();
     positionLiveLoopScopes();
+}
+
+// The scopes tick off the one frame pacer every animated thing shares, held
+// while any scope is shown. The stream is lossless at any poll rate, so the
+// rate is the display's; a tick reads the streams only, and the scopes are
+// placed when something moves a line (SCN_UPDATEUI), not on every tick.
+void SonicPiScintilla::paceLiveLoopScopes()
+{
+    if (m_loopScopesPaced)
+        return;
+    m_loopScopesPaced = true;
+    SonicPi::FramePacer::instance()->retain();
+    m_loopScopeTick = connect(SonicPi::FramePacer::instance(), &SonicPi::FramePacer::tick, this, [this]() {
+        // Hidden tab / minimized window: skip the stream reads. The ring
+        // overwrites itself, so nothing backs up while polling is skipped.
+        if (!isVisible())
+            return;
+        QStringList gone;
+        for (auto it = m_loopScopes.constBegin(); it != m_loopScopes.constEnd(); ++it)
+            if (it.value()->poll())
+                gone << it.key();
+        for (const QString& name : gone)
+            endLiveLoopScope(name);
+    });
 }
 
 void SonicPiScintilla::setAudioApi(SonicPi::SonicPiAPI* api)
@@ -1293,16 +1318,6 @@ void SonicPiScintilla::endLiveLoopScope(const QString& name)
     m_loopScopeSlots.remove(name);
     if (m_loopScopes.isEmpty())
         unpaceLiveLoopScopes();
-}
-
-void SonicPiScintilla::clearLiveLoopScopes()
-{
-    for (LiveLoopScopeWidget* w : m_loopScopes)
-        w->deleteLater();
-    m_loopScopes.clear();
-    m_loopScopeLines.clear();
-    m_loopScopeSlots.clear();
-    unpaceLiveLoopScopes();
 }
 
 // The last scope gone: the pacer is let go, so it stops when nothing else is
@@ -1362,7 +1377,7 @@ void SonicPiScintilla::placeLiveLoopScopesSoon()
 
 void SonicPiScintilla::positionLiveLoopScopes()
 {
-    if (m_loopScopes.isEmpty())
+    if (m_loopScopes.isEmpty() || !m_loopScopesShown)
         return;
     int lineH = SendScintilla(SCI_TEXTHEIGHT, (unsigned long)0);
     int extraDescent = SendScintilla(SCI_GETEXTRADESCENT);

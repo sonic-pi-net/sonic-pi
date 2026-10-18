@@ -817,7 +817,7 @@ void MainWindow::setupWindowStructure()
     connect(m_spClient.get(), &SonicPi::QtAPIClient::LiveLoopScopeReceived, this,
             [this](int, const QString& name, const QString& workspace, int line, int scopeNum) {
                 // Same guard as the flash: only pin scopes to real editor buffers.
-                if (!piSettings->show_loop_scopes || !workspace.startsWith("workspace_") || !m_spAPI)
+                if (!workspace.startsWith("workspace_") || !m_spAPI)
                     return;
                 SonicPiScintilla* ws = filenameToWorkspace(workspace.toStdString());
                 if (!ws)
@@ -5544,10 +5544,7 @@ void MainWindow::changeFlashSettings()
         SonicPiScintilla* ws = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
         ws->setFlashBrightness(piSettings->flash_brightness);
         ws->setLiveLoopScopeScroll(piSettings->loop_scope_scroll);
-        // Turning loop scopes off removes the widgets right away; turning it
-        // back on shows them again from the next Run (loops re-register on run).
-        if (!piSettings->show_loop_scopes)
-            ws->clearLiveLoopScopes();
+        ws->setLiveLoopScopesShown(piSettings->show_loop_scopes);
     }
 }
 
