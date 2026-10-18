@@ -20,7 +20,8 @@
 
 // A splitter whose handles are the one divider (Divider::paint): a wide grab
 // band with a thin centre line at rest, revealed full width on hover. Colours
-// come from ThinSplitter::setDividerColors.
+// come from ThinSplitter::setDividerColors, which takes them from the one
+// palette (Divider::colours, dividerpalette.h).
 
 class ThinSplitter;
 
@@ -58,11 +59,10 @@ public:
     explicit ThinSplitter(Qt::Orientation o, QWidget* p = nullptr) : QSplitter(o, p) {}
     explicit ThinSplitter(QWidget* p = nullptr) : QSplitter(p) {}
 
-    // bg blends the wide handle with the panes; line is the resting centre line;
-    // hover fills the whole handle when pointed at.
-    void setDividerColors(const QColor& bg, const QColor& line, const QColor& hover)
+    // The divider's colours (Divider::colours, dividerpalette.h).
+    void setDividerColors(const Divider::Colours& c)
     {
-        m_colours = { bg, line, hover };
+        m_colours = c;
         for (int i = 0; i < count(); ++i)
             if (QSplitterHandle* h = handle(i))
                 h->update();

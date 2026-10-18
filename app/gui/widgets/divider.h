@@ -21,6 +21,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QRect>
+#include <QSize>
 #include <QWidget>
 
 #include <functional>
@@ -41,6 +42,21 @@ namespace Divider
 // line on macOS's sub-1.0 display scale.
 constexpr int kExtent = 7;   // the grab band
 constexpr int kLine = 2;     // the resting line
+
+// The grip on a divider: the web's 36x16 pill, in the band's own fixed px,
+// lying along its divider. Display-scaled, its thickness came out different
+// across a vertical divider from a horizontal one (the two axes scale apart)
+// and barely thicker than the band, so lit in the band's colour its shape was
+// lost; at 16 it stands clear of the 7px band either side, as the web's of its
+// 6px one.
+constexpr int kGripLength = 36;
+constexpr int kGripThickness = 16;
+
+// bar is the way the divider runs (Horizontal between stacked panes).
+inline QSize gripSize(Qt::Orientation bar)
+{
+    return bar == Qt::Horizontal ? QSize(kGripLength, kGripThickness) : QSize(kGripThickness, kGripLength);
+}
 
 // bg blends the band with the panes beside it; line is the resting centre
 // line; hover fills the whole band when pointed at.

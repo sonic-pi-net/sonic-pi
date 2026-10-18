@@ -49,6 +49,10 @@ public:
     // Force the hover look so the knob and the divider it overlays can
     // highlight together as one control.
     void setHovering(bool v);
+    bool hovering() const { return m_extHover; }
+
+    QColor gripColor(bool hover) const { return hover ? m_hoverGrip : m_grip; }
+    QColor glyphColor(bool hover) const { return hover ? m_hoverGlyph : m_glyph; }
 
     // The chevron itself, for a control that is not a button (the quickstart's
     // page-back bar): centred on c and pointing d. Every chevron in the GUI is

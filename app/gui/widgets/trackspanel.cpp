@@ -14,6 +14,7 @@
 #include "trackspanel.h"
 
 #include "chevronbutton.h"
+#include "dividerpalette.h"
 
 #include <QButtonGroup>
 #include <QComboBox>
@@ -177,7 +178,7 @@ void TracksPanel::buildUi()
     // rather than the docs' two, because the tracks are a column of their
     // own; the chain takes whatever the columns leave.
     m_split = new ThinSplitter(Qt::Horizontal, this);
-    m_split->setHandleWidth(7);
+    m_split->setHandleWidth(Divider::kExtent);
     m_split->setChildrenCollapsible(false);
     m_split->addWidget(buildBrowserColumn());
     m_split->addWidget(buildTracksColumn());
@@ -2275,10 +2276,9 @@ void TracksPanel::applyTheme(SonicPiTheme* theme)
     for (Device* dev : m_devices) fitDeviceTitle(dev);
     // A theme changes the padding and font the columns are measured under.
     QTimer::singleShot(0, this, [this]() { fitColumns(); });
-    // The dividers take the docs pane's colours: its line at rest, its hover.
+    // The dividers lie on the docs pane's background, as its own do.
     if (m_split)
-        m_split->setDividerColors(theme->color("PaneBackground"), theme->color("WindowBorder"),
-                                  theme->color("ScrollBarHover"));
+        m_split->setDividerColors(Divider::colours(*theme, theme->color("PaneBackground")));
     if (m_ampDial)
         m_ampDial->setColours(fg, SonicPiTheme::blend(fg, bgc, 0.38), accent,
                               SonicPiTheme::blend(bgc, fg, 0.28));

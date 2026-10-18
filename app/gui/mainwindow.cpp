@@ -90,6 +90,8 @@
 #include "utils/scintilla_api.h"
 #include "utils/setbundle.h"
 #include "sharelink.h"
+#include "widgets/dividerlink.h"
+#include "widgets/dividerpalette.h"
 #include "widgets/overlaypane.h"
 #include "widgets/sharedialog.h"
 #include "utils/plugins.h"
@@ -1124,7 +1126,7 @@ void MainWindow::setupWindowStructure()
     tutorialPane->setMinimumHeight(100);
 
     docsplit = new ThinSplitter;
-    docsplit->setHandleWidth(7);
+    docsplit->setHandleWidth(Divider::kExtent);
     docsplit->addWidget(docsNavTabs);
     docsplit->addWidget(tutorialPane);
 
@@ -1317,7 +1319,7 @@ void MainWindow::setupWindowStructure()
     auto makeHelpChevron = [this, gripRow](ChevronButton::Dir dir, const QString& accessible) {
         auto* b = new ChevronButton(helpChevrons);
         b->setObjectName("helpGrip");
-        b->setFixedSize(ScaleForDPI(36, 16));
+        b->setFixedSize(Divider::gripSize(Qt::Horizontal));
         b->setDir(dir);
         b->setAccessibleName(accessible);
         gripRow->addWidget(b);
@@ -1334,7 +1336,7 @@ void MainWindow::setupWindowStructure()
     // away together; left brings them back (SideColumnModel).
     sideGrip = new ChevronButton(this);
     sideGrip->setObjectName("sideGrip");
-    sideGrip->setFixedSize(ScaleForDPI(16, 36));
+    sideGrip->setFixedSize(Divider::gripSize(Qt::Vertical));
     sideGrip->setDir(ChevronButton::Right);
     sideGrip->setAccessibleName(tr("Hide the scope, log and cues"));
     connect(sideGrip, &QToolButton::clicked, this, [this] { sideToggle(); });
@@ -1451,7 +1453,6 @@ void MainWindow::setupWindowStructure()
     helpDividerOverlay = new DividerOverlay(Qt::Horizontal, this);
     helpDividerOverlay->setObjectName("helpDividerOverlay");
     helpDividerOverlay->hide();
-    helpDividerOverlay->installEventFilter(this);
     // The divider is a control in every state, as the web's: dragged up while
     // the panel is away it brings it back; dragged down from full size it
     // gives the editor its room back; either way it then sizes the panel.
@@ -1461,7 +1462,17 @@ void MainWindow::setupWindowStructure()
     sideAwayDivider = new DividerOverlay(Qt::Vertical, this);
     sideAwayDivider->setObjectName("sideAwayDivider");
     sideAwayDivider->hide();
-    sideAwayDivider->installEventFilter(this);
+    // Each divider and the grips on it light as one control, as the web's.
+    m_helpLink = new DividerLink([this](bool on) { lightDivider(m_helpLink, helpDividerOverlay, m_helpBar, on); }, this);
+    m_helpLink->addGrip(helpFullButton);
+    m_helpLink->addGrip(helpHideButton);
+    m_helpLink->watch(helpDividerOverlay);
+    m_sideLink = new DividerLink([this](bool on) { lightDivider(m_sideLink, sideAwayDivider, m_sideBar, on); }, this);
+    m_sideLink->addGrip(sideGrip);
+    m_sideLink->watch(sideAwayDivider);
+    // The pointer gone from a separator straight onto Settings, which keeps its
+    // moves to itself: the separator is no longer pointed at.
+    prefsWidget->installEventFilter(this);
 
     // Currently causes a segfault when dragging doc pane out of main
     // window:
@@ -1627,10 +1638,12 @@ void MainWindow::positionSideGrip()
     QWidget* editorArea = centralWidget();
     if (!editorArea || !editorArea->isVisible())
     {
+        placeDividerBar(m_sideLink, sideAwayDivider, m_sideBar, QRect());
         sideGrip->hide();
         return;
     }
     const QRect room = editorArea->geometry();
+    QRect separator;   // Qt's own, while the column is beside the code
     int cx = -1;
     const int sep = style()->pixelMetric(QStyle::PM_DockWidgetSeparatorExtent, nullptr, this);
     if (sideAwayDivider && !(sideAwayDock && sideAwayDock->isVisible() && m_sideColumn.away()))
@@ -1639,6 +1652,7 @@ void MainWindow::positionSideGrip()
     {
         if (!sideAwayDock || !sideAwayDock->isVisible())
         {
+            placeDividerBar(m_sideLink, sideAwayDivider, m_sideBar, QRect());
             sideGrip->hide();
             return;
         }
@@ -1659,14 +1673,41 @@ void MainWindow::positionSideGrip()
                 anyShown = true;
         if (!anyShown)
         {
+            placeDividerBar(m_sideLink, sideAwayDivider, m_sideBar, QRect());
             sideGrip->hide();
             return;
         }
-        cx = room.right() + 1 + sep / 2;
+        separator = QRect(room.right() + 1, room.top(), sep, room.height());
+        cx = separator.center().x();
     }
+    placeDividerBar(m_sideLink, sideAwayDivider, m_sideBar, separator);
     sideGrip->move(cx - sideGrip->width() / 2, room.top() + ScaleHeightForDPI(24));
     sideGrip->show();
     prefsWidget->raiseBeneath(sideGrip);   // above the divider overlay
+}
+
+// A divider lit with its grips, or put back: the overlay standing in for it,
+// and Qt's own separator, which the proxy style paints.
+void MainWindow::lightDivider(const DividerLink* link, DividerOverlay* overlay, const QRect& bar, bool on)
+{
+    if (overlay)
+        overlay->setForcedHover(on);
+    DividerProxyStyle::setLitBar(link, on ? bar : QRect());
+    if (bar.isValid())
+        update(bar);
+}
+
+// Where Qt's separator under a link now is: empty while it has none. A lit one
+// that moves stays lit where it has gone.
+void MainWindow::placeDividerBar(DividerLink* link, DividerOverlay* overlay, QRect& bar, const QRect& now)
+{
+    if (bar == now)
+        return;
+    if (bar.isValid())
+        update(bar);
+    bar = now;
+    if (link && link->lit())
+        lightDivider(link, overlay, bar, true);
 }
 
 void MainWindow::docLinkClicked(const QUrl& url)
@@ -3722,20 +3763,13 @@ void MainWindow::updateHelpChevronIcons()
 {
     if (!helpFullButton || !helpHideButton)
         return;
-    // The divider grips' palette, the web's: the window border colour at rest
-    // with the muted foreground on it, the accent and its contrast text under
-    // the pointer. ChevronButton draws them; so do the metrics dividers' knobs.
-    const QColor border = theme->color("WindowBorder");
-    const QColor accent = theme->color("HighlightedBackground");
-    const QColor rest   = SonicPiTheme::blend(theme->color("LogForeground"),
-                                              theme->color("LogBackground"), 0.30);
-    const QColor hover  = theme->contrastingText(accent);
     // The hide chevron points the way it acts: down to put the panel away, up
     // to bring it back.
     const bool wayBack = m_helpPanel.hideGripPointsUp() || (docWidget && docWidget->isFloating());
     helpHideButton->setDir(wayBack ? ChevronButton::Up : ChevronButton::Down);
+    const Divider::GripColours grips = Divider::gripColours(*theme);
     for (ChevronButton* b : { helpFullButton, helpHideButton, sideGrip })
-        if (b) b->setColors(border, accent, rest, hover);
+        Divider::colourGrip(b, grips);
     if (helpChevrons)
         helpChevrons->setStyleSheet(QStringLiteral("#helpDividerGrips { background: transparent; }"));
 }
@@ -3942,6 +3976,7 @@ void MainWindow::positionHelpChevrons()
     // overlay is placed, never hidden and shown again, while a drag on it
     // runs: a hide would let go of the pointer.
     QRect overlay;
+    QRect separator;   // Qt's own, while the panel is beside the code
     int cy, right;
     if (docWidget->isVisible() && !docWidget->isFloating())
     {
@@ -3961,6 +3996,8 @@ void MainWindow::positionHelpChevrons()
             const QRect bar(pane.left(), pane.top() - sep, pane.width(), sep);
             if (m_helpDividerDrag)
                 overlay = bar;
+            else
+                separator = bar;
             cy = bar.center().y();
         }
         right = pane.right();
@@ -3973,11 +4010,13 @@ void MainWindow::positionHelpChevrons()
     }
     else
     {
+        placeDividerBar(m_helpLink, helpDividerOverlay, m_helpBar, QRect());
         if (helpDividerOverlay)
             helpDividerOverlay->hide();
         helpChevrons->hide();
         return;
     }
+    placeDividerBar(m_helpLink, helpDividerOverlay, m_helpBar, separator);
     if (helpDividerOverlay)
     {
         if (overlay.isValid())
@@ -5333,18 +5372,14 @@ void MainWindow::updateColourTheme()
 
     // The Docs nav/content divider paints itself (ThinSplitter): a thin centre
     // line at rest, revealed full-width on hover.
-    docsplit->setDividerColors(theme->color("PaneBackground"),
-                               theme->color("WindowBorder"),
-                               theme->color("ScrollBarHover"));
+    docsplit->setDividerColors(Divider::colours(*theme, theme->color("PaneBackground")));
 
     // The same divider for the QMainWindow dock separators (painted by the
     // proxy style) and the bar that stands in for the help's while it is away.
-    DividerProxyStyle::setDividerColors(theme->color("WindowBackground"),
-                                        theme->color("WindowBorder"),
-                                        theme->color("ScrollBarHover"));
+    const Divider::Colours windowDivider = Divider::colours(*theme, theme->color("WindowBackground"));
+    DividerProxyStyle::setDividerColors(windowDivider);
     for (DividerOverlay* d : { helpDividerOverlay, sideAwayDivider })
-        if (d) d->setColours({ theme->color("WindowBackground"), theme->color("WindowBorder"),
-                               theme->color("ScrollBarHover") });
+        if (d) d->setColours(windowDivider);
     for (QDockWidget* d : { helpAwayDock, sideAwayDock })
         if (d) SonicPi::setAwayDockColour(d, theme->color("WindowBackground"));
     updateHelpChevronIcons();   // re-tint the help chevrons for the new theme
@@ -9147,6 +9182,17 @@ void MainWindow::toggleOSCServer(int silent)
 bool MainWindow::event(QEvent* event)
 {
     const bool handled = QMainWindow::event(event);
+    // Qt's own separators have no widget to watch: the window says when the
+    // pointer is on one with grips.
+    if (event->type() == QEvent::HoverEnter || event->type() == QEvent::HoverMove
+        || event->type() == QEvent::HoverLeave)
+    {
+        const QPoint at = event->type() == QEvent::HoverLeave
+                              ? QPoint(-1, -1)
+                              : static_cast<QHoverEvent*>(event)->position().toPoint();
+        if (m_helpLink) m_helpLink->setDividerHovered(m_helpBar.contains(at));
+        if (m_sideLink) m_sideLink->setDividerHovered(m_sideBar.contains(at));
+    }
     if (event->type() == QEvent::MouseButtonRelease && m_helpSeparatorDrag)
     {
         m_helpSeparatorDrag = false;
@@ -9181,15 +9227,10 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
             positionHelpChevrons();
         }
     }
-    if (helpDividerOverlay && obj == helpDividerOverlay)
+    if (obj == prefsWidget && event->type() == QEvent::Enter)
     {
-        if (event->type() == QEvent::Enter || event->type() == QEvent::HoverEnter) { if (helpHideButton) helpHideButton->setHovering(true); }
-        else if (event->type() == QEvent::Leave || event->type() == QEvent::HoverLeave) { if (helpHideButton) helpHideButton->setHovering(false); }
-    }
-    if (sideAwayDivider && obj == sideAwayDivider)
-    {
-        if (event->type() == QEvent::Enter || event->type() == QEvent::HoverEnter) { if (sideGrip) sideGrip->setHovering(true); }
-        else if (event->type() == QEvent::Leave || event->type() == QEvent::HoverLeave) { if (sideGrip) sideGrip->setHovering(false); }
+        if (m_helpLink) m_helpLink->setDividerHovered(false);
+        if (m_sideLink) m_sideLink->setDividerHovered(false);
     }
     if (sideAwayDock && obj == sideAwayDock)
     {

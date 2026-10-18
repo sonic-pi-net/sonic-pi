@@ -1,5 +1,6 @@
 #include "logpanel.h"
 #include "thinsplitter.h"
+#include "dividerpalette.h"
 #include "utils/fontroles.h"
 
 #include <QDir>
@@ -190,7 +191,7 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
     ThinSplitter* splitter = new ThinSplitter(Qt::Horizontal, m_logsTab);
     m_splitter = splitter;
     splitter->setChildrenCollapsible(false);
-    splitter->setHandleWidth(7);
+    splitter->setHandleWidth(Divider::kExtent);
     tabLayout->addWidget(splitter);
 
     for (const Source& src : sources) {
@@ -271,14 +272,12 @@ void LogPanel::applyTheme(const QColor& textColor, const QColor& bgColor)
 
     // Timestamps sit halfway between text and background — readable but
     // clearly secondary to the message.
-    const QColor muted((textColor.red() + bgColor.red()) / 2,
-                       (textColor.green() + bgColor.green()) / 2,
-                       (textColor.blue() + bgColor.blue()) / 2);
-
-    // The dividers stay invisible at rest (line == background, matching the
-    // header-strip design) but reveal a subtle grab handle on hover.
+    // The dividers stay invisible at rest (matching the header-strip design)
+    // but reveal a subtle grab handle on hover, in the timestamps' colour.
+    const Divider::Colours quiet = Divider::quietColours(textColor, bgColor);
+    const QColor muted = quiet.hover;
     if (m_splitter)
-        m_splitter->setDividerColors(bgColor, bgColor, muted);
+        m_splitter->setDividerColors(quiet);
     for (LogTimestampHighlighter* h : m_highlighters) h->setColor(muted);
 }
 

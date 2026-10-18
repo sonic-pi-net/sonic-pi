@@ -100,6 +100,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/editor_files.test.cpp
     ${GUI_TESTS_ROOT}/editor_undo.test.cpp
     ${GUI_TESTS_ROOT}/overlaypane.test.cpp
+    ${GUI_TESTS_ROOT}/divider_unity.test.cpp
     ${GUI_TESTS_ROOT}/sharelink.test.cpp
     ${GUI_TESTS_ROOT}/sharedialog.test.cpp
     ${GUI_ROOT}/widgets/sharedialog.cpp

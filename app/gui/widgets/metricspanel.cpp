@@ -65,6 +65,8 @@
 #include <QMouseEvent>
 
 #include "chevronbutton.h"
+#include "dividerlink.h"
+#include "dividerpalette.h"
 #include "dpi.h"
 #include "utils/reducedmotion.h"
 
@@ -488,27 +490,35 @@ void MetricsPanel::buildUi()
     // web's is. Parented to the panel, not the splitter (a QSplitter would
     // adopt a child widget as a pane), so each floats as an overlay, placed by
     // positionMetricsToggle / positionLogsToggle. The divider line is the
-    // splitter handle's own (Divider::paint); a grip and its handle are
-    // filtered together so hovering either reveals both as one control, and
-    // double-clicking the line does what the grip does.
+    // splitter handle's own (Divider::paint); a grip and its handle light as
+    // one control (DividerLink), and double-clicking the line does what the
+    // grip does.
     // Tree / metrics: a click minimises the metrics and restores them.
     m_metricsToggle = new ChevronButton(this);
-    m_metricsToggle->setFixedSize(ScaleForDPI(36, 16));
+    m_metricsToggle->setFixedSize(Divider::gripSize(Qt::Horizontal));
     connect(m_metricsToggle, &QToolButton::clicked, this, &MetricsPanel::toggleMetrics);
     updateChevron();
+    auto* treeLink = new DividerLink([leftCol](bool on) { leftCol->setForcedHover(on); }, this);
+    treeLink->addGrip(m_metricsToggle);
     if (QSplitterHandle* treeHandle = leftCol->handle(1))
-        treeHandle->installEventFilter(this);
-    m_metricsToggle->installEventFilter(this);
+    {
+        treeLink->watch(treeHandle);
+        treeHandle->installEventFilter(this);   // the double-click
+    }
 
     // Left columns | logs: the rotated sibling, near the top of the divider. A
     // click minimises the logs column off to the right and restores it.
     m_logsToggle = new ChevronButton(this);
-    m_logsToggle->setFixedSize(ScaleForDPI(16, 36));
+    m_logsToggle->setFixedSize(Divider::gripSize(Qt::Vertical));
     connect(m_logsToggle, &QToolButton::clicked, this, &MetricsPanel::toggleLogs);
     updateLogsChevron();
+    auto* logsLink = new DividerLink([mainRow](bool on) { mainRow->setForcedHover(on); }, this);
+    logsLink->addGrip(m_logsToggle);
     if (QSplitterHandle* mainHandle = mainRow->handle(1))
-        mainHandle->installEventFilter(this);
-    m_logsToggle->installEventFilter(this);
+    {
+        logsLink->watch(mainHandle);
+        mainHandle->installEventFilter(this);   // the double-click
+    }
 
     // Dragging a right-column divider takes it out of auto-reveal (so the drag
     // isn't undone on the next dock resize). The left column's metrics pane is
@@ -1069,31 +1079,19 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     panelQss.replace("@radiusMedium", QString::number(ScaleHeightForDPI(kRadiusMediumDx)) + "px");
     setStyleSheet(panelQss);
 
-    // The main/logs dividers paint themselves (ThinSplitter): a thin centre line
-    // at rest, revealed full-width on hover (Qt's QSS can't do this). Push the
-    // theme colours in; bg blends the wide grab area with the panel.
-    const QColor divLine  = theme->color("WindowBorder");
-    const QColor divHover = theme->color("ScrollBarHover");
+    // The main/logs dividers paint themselves (ThinSplitter); bg blends the
+    // wide grab area with the panel.
+    const Divider::Colours divider = Divider::colours(*theme, m_bgColor);
     for (ThinSplitter* s : { m_mainSplit, m_leftSplit, m_rightSplit })
-        if (s) s->setDividerColors(m_bgColor, divLine, divHover);
+        if (s) s->setDividerColors(divider);
     // A divider's line shows while its pane is visible, and goes once the pane
     // is collapsed (setDividerLineVisible toggles it): just the grip remains.
     setDividerLineVisible(m_mainSplit, !m_logsMinimised);
     setDividerLineVisible(m_leftSplit, !m_metricsMinimised);
 
-    // The grips' palette (MainWindow::updateHelpChevronIcons): the window
-    // border colour at rest with the muted foreground on it, the accent and its
-    // contrast text under the pointer. In high-contrast mode LogForeground is
-    // near-black, which vanishes on the grey grip, so the glyph is white there.
-    const QColor glyph = (theme->getColourScheme() == SonicPiTheme::HighContrastScheme)
-                             ? QColor(Qt::white)
-                             : SonicPiTheme::blend(m_textColor, theme->color("LogBackground"), 0.30);
+    const Divider::GripColours grips = Divider::gripColours(*theme);
     for (ChevronButton* grip : { m_metricsToggle, m_logsToggle })
-        if (grip)
-            grip->setColors(theme->color("WindowBorder"),
-                            theme->color("HighlightedBackground"),
-                            glyph,
-                            theme->contrastingText(theme->color("HighlightedBackground")));
+        Divider::colourGrip(grip, grips);
 
     if (m_nodeGraph)
         m_nodeGraph->applyTheme(m_textColor, m_bgColor,
@@ -1196,29 +1194,17 @@ void MetricsPanel::stopTreeTicks()
 
 bool MetricsPanel::eventFilter(QObject* obj, QEvent* e)
 {
-    // A grip and the divider it overlays are one control: double-clicking the
-    // line does what the grip does, and hovering either reveals both.
-    struct GripOnDivider { ThinSplitter* split; ChevronButton* grip; void (MetricsPanel::*toggle)(); };
-    for (const GripOnDivider& d : { GripOnDivider{ m_mainSplit, m_logsToggle, &MetricsPanel::toggleLogs },
-                                    GripOnDivider{ m_leftSplit, m_metricsToggle, &MetricsPanel::toggleMetrics } })
+    // A grip and the divider it overlays are one control (DividerLink):
+    // double-clicking the line does what the grip does.
+    struct GripOnDivider { ThinSplitter* split; void (MetricsPanel::*toggle)(); };
+    for (const GripOnDivider& d : { GripOnDivider{ m_mainSplit, &MetricsPanel::toggleLogs },
+                                    GripOnDivider{ m_leftSplit, &MetricsPanel::toggleMetrics } })
     {
         QSplitterHandle* handle = d.split ? d.split->handle(1) : nullptr;
-        if (!handle || (obj != handle && obj != d.grip))
-            continue;
-        if (obj == handle && e->type() == QEvent::MouseButtonDblClick)
+        if (handle && obj == handle && e->type() == QEvent::MouseButtonDblClick)
         {
             (this->*d.toggle)();
             return true;
-        }
-        if (e->type() == QEvent::Enter || e->type() == QEvent::HoverEnter)
-        {
-            d.split->setForcedHover(true);
-            if (d.grip) d.grip->setHovering(true);
-        }
-        else if (e->type() == QEvent::Leave || e->type() == QEvent::HoverLeave)
-        {
-            d.split->setForcedHover(false);
-            if (d.grip) d.grip->setHovering(false);
         }
     }
     // A minimised logs column must hold at zero width, but a restyle (the main

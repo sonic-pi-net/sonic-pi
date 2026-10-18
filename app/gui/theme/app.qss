@@ -339,16 +339,12 @@ QMenuBar::item:selected {
     color: menuSelectedTextColor;
 }
 
-/* Dock separators: geometry only. DividerProxyStyle (dividerproxystyle.h) paints
-   them — a thin centre line at rest, full thickness on hover — to match the
-   custom QSplitter handles (thinsplitter.h). Declare no background, border or
-   image here: any drawable property makes Qt's stylesheet style claim the
-   separator and paint it flat, and the base style is then never reached. */
-QMainWindow::separator
-{
-    width: 7dx;    /* vertical separators */
-    height: 7dx;   /* horizontal separators */
-}
+/* Dock separators: no rule here. DividerProxyStyle (dividerproxystyle.h) gives
+   them their thickness, Divider::kExtent as every divider's, and paints them —
+   a thin centre line at rest, full thickness on hover — as the custom QSplitter
+   handles (thinsplitter.h). A width here would be a second thickness (a dx one
+   came out a pixel wider than the splitters'), and any drawable property makes
+   Qt's stylesheet style claim the separator and paint it flat. */
 
 QMainWindow
 {

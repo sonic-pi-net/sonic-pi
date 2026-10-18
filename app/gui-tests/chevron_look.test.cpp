@@ -139,7 +139,7 @@ QImage splitterHandle(bool hover)
     split.addWidget(new QWidget);
     split.addWidget(new QWidget);
     split.setHandleWidth(Divider::kExtent);
-    split.setDividerColors(kDividerColours.bg, kDividerColours.line, kDividerColours.hover);
+    split.setDividerColors(kDividerColours);
     split.setForcedHover(hover);
     split.resize(120, 80);
     QSplitterHandle* handle = split.handle(1);
@@ -152,7 +152,7 @@ QImage splitterHandle(bool hover)
 QImage dockSeparator(bool hover)
 {
     DividerProxyStyle style;
-    DividerProxyStyle::setDividerColors(kDividerColours.bg, kDividerColours.line, kDividerColours.hover);
+    DividerProxyStyle::setDividerColors(kDividerColours);
     QImage im = blank(QSize(120, Divider::kExtent));
     QPainter p(&im);
     QStyleOption opt;
@@ -237,12 +237,13 @@ TEST_CASE("no chevron in the GUI is drawn any other way than ChevronButton's", "
 #include <QLayout>
 
 #include "widgets/awaydock.h"
+#include "widgets/dividerpalette.h"
 
 TEST_CASE("a panel away leaves only the one divider at the window's edge", "[divider][style]")
 {
     const QColor window("#101010"), line("#808080"), hover("#ff00aa"), editor("#000000");
     const Divider::Colours colours{ window, line, hover };
-    DividerProxyStyle::setDividerColors(window, line, hover);
+    DividerProxyStyle::setDividerColors(colours);
     // A test before this one may have left the app stylesheet applied, which
     // repaints the window and the editor: this test's pixels are its own.
     qApp->setStyleSheet(QString());
@@ -332,9 +333,9 @@ TEST_CASE("a panel away under the app's theme and stylesheet leaves one divider"
         theme.applyTheme(scheme, false);
         qApp->setStyleSheet(theme.getAppStylesheet());
         QApplication::setStyle(new DividerProxyStyle);
-        const QColor window = theme.color("WindowBackground"), line = theme.color("WindowBorder"),
-                     hover = theme.color("ScrollBarHover"), editor("#123456");
-        DividerProxyStyle::setDividerColors(window, line, hover);
+        const Divider::Colours colours = Divider::colours(theme, theme.color("WindowBackground"));
+        const QColor window = colours.bg, line = colours.line, hover = colours.hover, editor("#123456");
+        DividerProxyStyle::setDividerColors(colours);
         QMainWindow w;
         auto* central = new QWidget;
         central->setObjectName("probeEditor");

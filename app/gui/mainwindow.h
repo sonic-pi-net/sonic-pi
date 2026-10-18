@@ -57,6 +57,7 @@ class QSlider;
 class QSplitter;
 class QPushButton;
 class ChevronButton;
+class DividerLink;
 class QStackedWidget;
 class ThinSplitter;
 class TutorialPane;
@@ -877,6 +878,15 @@ private:
     void sideToggle();
     void applySideColumn();                   // the panes, the grip and the bar, from the state and the settings
     void positionSideGrip();                  // over the divider at its top, or over the bar
+    // Each divider with grips lights with them as one control: the overlay
+    // standing in for it, or Qt's own separator, at m_helpBar / m_sideBar
+    // (empty while it has none), which the window watches for the pointer.
+    DividerLink* m_helpLink = nullptr;
+    DividerLink* m_sideLink = nullptr;
+    QRect m_helpBar;
+    QRect m_sideBar;
+    void lightDivider(const DividerLink* link, DividerOverlay* overlay, const QRect& bar, bool on);
+    void placeDividerBar(DividerLink* link, DividerOverlay* overlay, QRect& bar, const QRect& now);
 
     ZoomBar* logsZoom = nullptr;             // Logs/Debug tab text-size controls in the title row
     ZoomBar* debugZoom = nullptr;
