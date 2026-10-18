@@ -2644,18 +2644,22 @@ bool SonicPiScintilla::event(QEvent* evt)
             return true;
         }
 
-        // Coalesce preview-restore + the edit + re-preview into one undo step, so
-        // a single Cmd-Z removes the whole keystroke (not each preview edit).
+        // A key over a live preview is one undo step with the preview it drops, so
+        // a single Cmd-Z takes the whole keystroke back. Any other key is left to
+        // Scintilla, which runs typing (or deleting) into one step until the caret
+        // moves: a step per key would split it. Decided once, before clearPreview()
+        // takes the preview down, so the step that opens here also closes.
+        const bool overPreview = m_pvLive;
         // The backstop below would otherwise run the full completion pipeline a
         // second time off this edit's textChanged, before the caret settles.
         m_keyEditGuard = true;
-        if (m_pvLive)
+        if (overPreview)
         {
             SendScintilla(SCI_BEGINUNDOACTION);
             // Drop the preview first so the keystroke edits the user's typed text
             // (or, for a slider, leaves its committed value), then let the editor
             // process it.
-            if (m_pvStart >= 0) clearPreview();
+            clearPreview();
         }
 
         // Let the editor insert/delete the character, then refresh the popup. This
@@ -2696,10 +2700,8 @@ bool SonicPiScintilla::event(QEvent* evt)
                 break;
             }
         }
-        if (m_pvLive)
-        {
+        if (overPreview)
             SendScintilla(SCI_ENDUNDOACTION);
-        }
         m_keyEditGuard = false;
         return res;
     }

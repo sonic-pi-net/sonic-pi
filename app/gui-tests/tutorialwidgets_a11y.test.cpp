@@ -24,18 +24,18 @@
 #include <QLineEdit>
 #include <QTest>
 
+#include "accessibility_on.h"
 #include "widgets/tutorialwidgets.h"
 
 namespace {
 // Whether QAccessible::updateAccessibility routes events to a test update
 // handler varies by Qt version and platform: older Qt requires accessibility
-// to be active first, and setActive(true) only sticks where the platform has
-// an accessibility backend (offscreen grew one in Qt 6.5; bookworm's 6.4.2 on
-// the i686 CI has none), while newer Qt calls the handler unconditionally.
-// Probe with a real event instead of pinning versions.
+// to be active first (the caller's AccessibilityOn), and that only sticks where
+// the platform has an accessibility backend (offscreen grew one in Qt 6.5;
+// bookworm's 6.4.2 on the i686 CI has none), while newer Qt calls the handler
+// unconditionally. Probe with a real event instead of pinning versions.
 bool a11yUpdateHandlerReceivesEvents()
 {
-    QAccessible::setActive(true);
     static bool delivered;
     delivered = false;
     QAccessible::UpdateHandler prev =
@@ -95,6 +95,7 @@ TEST_CASE("arrow keys walk the prose caret and hand off at the edges",
           "[tutorialwidgets][a11y]")
 {
     registerTutorialWidgetAccessibility();
+    AccessibilityOn a11y;
     const bool a11yEventsDeliverable = a11yUpdateHandlerReceivesEvents();
     TutProseText prose(nullptr);
     prose.resize(400, 60);
@@ -183,6 +184,7 @@ TEST_CASE("Return follows the link under the caret", "[tutorialwidgets][a11y]")
 TEST_CASE("dials expose the value interface", "[tutorialwidgets][a11y]")
 {
     registerTutorialWidgetAccessibility();
+    AccessibilityOn a11y;
     const bool a11yEventsDeliverable = a11yUpdateHandlerReceivesEvents();
     TutDial dial("cutoff", 30, 130, 110, nullptr, nullptr);
 

@@ -18,6 +18,7 @@
 #include <QPoint>
 #include <QSignalSpy>
 
+#include "accessibility_on.h"
 #include "completionpopup.h"
 #include "utils/scintilla_api.h"
 
@@ -50,7 +51,7 @@ struct ShownPopup
 
 TEST_CASE("popup is pruned from the accessibility tree", "[a11y][completion]")
 {
-    QAccessible::setActive(true);
+    AccessibilityOn a11y;
 
     CompletionPopup popup;   // constructor installs the accessibility-ignore factory
 
