@@ -80,12 +80,13 @@ module SonicPi
     end
 
     def test_an_arena_unpublished_at_snapshot_time_yields_no_snapshot
-      # Published at attach, then the engine re-lays it out: the header's
-      # state says so, and the reader answers nothing rather than a torn grid.
+      # Published at attach, then the engine writes the table again, as it
+      # does when it takes the arena at boot: the header's state says so, and
+      # the reader answers nothing rather than a torn grid.
       serve
       @reader.attach!
       refute_nil @reader.snapshot
-      state_off = 64 + 10 * 4      # arena header word 10: state
+      state_off = 64 + 12 * 4      # arena header word 12: state
       @served.file.seek(state_off); @served.file.write([0].pack("L<")); @served.file.flush
       assert_nil @reader.snapshot
       @served.file.seek(state_off); @served.file.write([1].pack("L<")); @served.file.flush

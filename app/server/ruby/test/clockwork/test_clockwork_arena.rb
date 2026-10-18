@@ -26,19 +26,97 @@ module SonicPi
       ClockworkArena::StringMemory.new(bytes)
     end
 
-    # ── layout pins: the numbers mirrored from clockwork_arena.h ──────────
-    # If clockwork changes any of these, this test is where it should surface
-    # (and the integration test against a real engine will fail with it).
+    # ── the layout is clockwork's, as its headers in this tree say ────────
+    # The reader's numbers and field lists against clockwork_arena.h and
+    # clockwork_clock_state.h themselves, so a change there fails here, with
+    # no engine built (the integration test needs one).
 
-    def test_layout_constants_mirror_clockwork
-      assert_equal 0x5C09E00C, ClockworkArena::SEGMENT_MAGIC
-      assert_equal 0x43574152, ClockworkArena::ARENA_MAGIC       # 'CWAR'
-      assert_equal 1,          ClockworkArena::ARENA_VERSION
-      assert_equal 4096,       ClockworkArena::ARENA_HEADER_BYTES
-      assert_equal 48,         ClockworkArena::ARENA_MAX_ENTRIES
-      assert_equal 64,         ClockworkArena::ARENA_ENTRY_BYTES
-      assert_equal 4,          ClockworkArena::REGION_CLOCK_STATE
-      assert_equal 40,         ClockworkArena::CLOCK_STATE_BYTES
+    CLOCKWORK_SRC = File.expand_path("../../../../external/supersonic/clockwork/src", __dir__)
+
+    def clockwork_header(name)
+      file = File.join(CLOCKWORK_SRC, name)
+      skip "clockwork's sources are not in this tree (#{file})" unless File.exist?(file)
+      File.read(file)
+    end
+
+    # Every #define and enum value a header gives a number.
+    def c_numbers(src)
+      defines = src.scan(/^#define\s+(CLOCKWORK_\w+)\s+(0x\h+|\d+)u?\b/)
+      enums   = src.scan(/\b(CLOCKWORK_\w+)\s*=\s*(\d+)\b/)
+      (defines + enums).to_h { |name, v| [name, Integer(v)] }
+    end
+
+    # A C struct's members in order: [type, name, count], count 1 for a scalar.
+    def c_members(src, struct, numbers)
+      body = src[/typedef struct #{struct} \{(.*?)\} #{struct};/m, 1]
+      flunk "no struct #{struct} in clockwork_arena.h" unless body
+      body.scan(/^\s*(\w+)\s+(\w+)(?:\[(\w+)\])?;/).map do |type, name, n|
+        [type, name.to_sym, n ? numbers.fetch(n) { Integer(n) } : 1]
+      end
+    end
+
+    # The leading u32 fields as a reader lists them: an array once per element.
+    def u32_fields(members)
+      members.take_while { |type, _, _| type == "uint32_t" }.flat_map { |_, name, n| [name] * n }
+    end
+
+    def test_the_numbers_are_clockwork_arena_h_s
+      n = c_numbers(clockwork_header("clockwork_arena.h"))
+      a = ClockworkArena
+      assert_equal n.fetch("CLOCKWORK_ARENA_MAGIC"),        a::ARENA_MAGIC
+      assert_equal n.fetch("CLOCKWORK_ARENA_VERSION"),      a::ARENA_VERSION
+      assert_equal n.fetch("CLOCKWORK_ARENA_HEADER_BYTES"), a::ARENA_HEADER_BYTES
+      assert_equal n.fetch("CLOCKWORK_ARENA_PUBLISHED"),    a::ARENA_PUBLISHED
+      assert_equal n.fetch("CLOCKWORK_ARENA_MAX_AREAS"),    a::ARENA_MAX_AREAS
+      assert_equal n.fetch("CLOCKWORK_ARENA_MAX_ENTRIES"),  a::ARENA_MAX_ENTRIES
+      assert_equal n.fetch("CLOCKWORK_ARENA_GEOM_WORDS"),   a::ARENA_GEOM_WORDS
+      assert_equal n.fetch("CLOCKWORK_ARENA_CLOCKWORK_CLOCK_STATE"), a::REGION_CLOCK_STATE
+      assert_equal n.fetch("CLOCKWORK_AREA_CLOCKWORK_STATE"),     a::AREA_CLOCKWORK_STATE
+      assert_equal n.fetch("CLOCKWORK_AREA_CLOCKWORK_AUDIO"),     a::AREA_CLOCKWORK_AUDIO
+      assert_equal n.fetch("CLOCKWORK_AREA_CLOCKWORK_TRANSPORT"), a::AREA_CLOCKWORK_TRANSPORT
+      assert_equal n.fetch("CLOCKWORK_AREA_GUEST_PUBLIC"),        a::AREA_GUEST_PUBLIC
+      assert_equal n.fetch("CLOCKWORK_AREA_GUEST_PRIVATE"),       a::AREA_GUEST_PRIVATE
+      assert_equal n.fetch("CLOCKWORK_SPACE_ARENA"),        a::SPACE_ARENA
+      assert_equal n.fetch("CLOCKWORK_AUDIENCE_PUBLIC"),    a::AUDIENCE_PUBLIC
+      assert_equal n.fetch("CLOCKWORK_AUDIENCE_TRANSPORT"), a::AUDIENCE_TRANSPORT
+      # The five facts, as the ranges clockwork_arena_check allows.
+      assert_equal n.fetch("CLOCKWORK_OWNER_CLOCKWORK")..n.fetch("CLOCKWORK_OWNER_HOST"), a::FACTS[:owner]
+      audiences = %w[PUBLIC GUEST HOST TRANSPORT].sum { |w| n.fetch("CLOCKWORK_AUDIENCE_#{w}") }
+      assert_equal 1..audiences, a::FACTS[:audience]
+      assert_equal n.fetch("CLOCKWORK_CADENCE_BLOCK")..n.fetch("CLOCKWORK_CADENCE_BOOT"), a::FACTS[:cadence]
+      assert_equal n.fetch("CLOCKWORK_TIER_FAST")..n.fetch("CLOCKWORK_TIER_BULK"), a::FACTS[:tier]
+      assert_equal n.fetch("CLOCKWORK_LIFETIME_ARENA")..n.fetch("CLOCKWORK_LIFETIME_REBUILD"), a::FACTS[:lifetime]
+    end
+
+    def test_the_tables_are_clockwork_arena_h_s_structs_field_for_field
+      src = clockwork_header("clockwork_arena.h")
+      n = c_numbers(src)
+      a = ClockworkArena
+      header = c_members(src, "ClockworkArenaHeader", n)
+      assert_equal a::HEADER_FIELDS, u32_fields(header)
+      assert_equal [["ClockworkArenaAreaEntry", :areas, a::ARENA_MAX_AREAS],
+                    ["ClockworkArenaEntry", :entries, a::ARENA_MAX_ENTRIES]],
+                   header.drop_while { |type, _, _| type == "uint32_t" }
+      area = c_members(src, "ClockworkArenaAreaEntry", n)
+      assert_equal a::AREA_FIELDS, u32_fields(area)
+      assert_equal area.sum { |_, _, c| c }, a::AREA_FIELDS.size     # nothing but u32s
+      entry = c_members(src, "ClockworkArenaEntry", n)
+      assert_equal a::ENTRY_FIELDS, u32_fields(entry)
+      assert_equal entry.sum { |_, _, c| c }, a::ENTRY_FIELDS.size
+    end
+
+    def test_the_clock_state_is_clockwork_clock_state_h_s
+      src = clockwork_header("clockwork_clock_state.h")
+      body = src[/^struct alignas\(8\) ClockworkClockState \{\n(.*?)^\};/m, 1]
+      flunk "no struct ClockworkClockState in clockwork_clock_state.h" unless body
+      at = 0
+      fields = body.scan(/^\s*std::atomic<uint(64|32)_t>\s+(\w+)\{/).to_h do |bits, name|
+        field = [name.to_sym, at]
+        at += Integer(bits) / 8
+        field
+      end
+      assert_equal ClockworkArena::CLOCK_STATE_FIELDS, fields
+      assert_equal ClockworkArena::CLOCK_STATE_BYTES, at
     end
 
     # ── finding the clock state ───────────────────────────────────────────
@@ -52,7 +130,8 @@ module SonicPi
 
     def test_finds_the_region_by_id_not_by_position
       # Two other regions in the table beside the clock state, at other ids.
-      others = [[1, 4096 + 40, 16, 1, F::AUDIENCE_TRANSPORT], [2, 4096 + 56, 8, 1, 0]]
+      others = [{ id: 1, offset: F.state_spare, bytes: 16 },
+                { id: 9, offset: F.transport_base, bytes: 8, audience: F::AUDIENCE_TRANSPORT }]
       seg = F.build(extra_entries: others)
       arena = ClockworkArena.parse(mem(seg))
       assert_equal 64 + 4096, arena.clock_state_offset
@@ -73,9 +152,11 @@ module SonicPi
     end
 
     def test_rejects_an_arena_version_it_does_not_know
-      seg = F.build(version: 2)
-      err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
-      assert_match(/version/, err.message)
+      [1, 3].each do |version|      # the one before, and one to come
+        seg = F.build(version: version)
+        err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
+        assert_match(/arena version #{version} this reader does not know/, err.message)
+      end
     end
 
     def test_rejects_an_unpublished_arena
@@ -83,6 +164,12 @@ module SonicPi
       seg = F.build(published: false)
       err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
       assert_match(/not yet published/, err.message)
+    end
+
+    def test_rejects_an_area_shape_it_does_not_know
+      seg = F.build(area_bytes: 16)
+      err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
+      assert_match(/area shape/, err.message)
     end
 
     def test_rejects_an_entry_shape_it_does_not_know
@@ -98,10 +185,9 @@ module SonicPi
     end
 
     def test_rejects_a_clock_state_region_of_the_wrong_size
-      seg = F.build(extra_entries: [])
+      seg = F.build
       # Patch the entry's byte count in place: 40 -> 24.
-      entry_at = 64 + 16 * 4
-      seg[entry_at + 8, 4] = [24].pack("L<")
+      seg[F.entry_at(0) + 8, 4] = [24].pack("L<")
       err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
       assert_match(/clock state region/, err.message)
     end
@@ -111,48 +197,78 @@ module SonicPi
       assert_match(/too small/, err.message)
     end
 
-    # ── audiences: the table says who a region is for ─────────────────────
+    # ── areas and facts: the table says what each region is ───────────────
 
-    def test_reads_the_audience_word_of_every_region
-      seg = F.build(extra_entries: [[9, 4096 + 40, 16, 3, F::AUDIENCE_TRANSPORT]])
+    def test_reads_where_every_region_lies_and_who_it_is_for
+      seg = F.build(extra_entries: [{ id: 9, offset: F.transport_base, bytes: 16, owner: 3,
+                                      audience: F::AUDIENCE_TRANSPORT }])
       arena = ClockworkArena.parse(mem(seg))
-      assert_equal ClockworkArena::AUDIENCE_PUBLISHED, arena.audience(ClockworkArena::REGION_CLOCK_STATE)
-      assert_equal ClockworkArena::AUDIENCE_TRANSPORT, arena.audience(9)
-      assert_equal 0, arena.audience(42)                      # absent: nobody's
+      clock = arena.region(ClockworkArena::REGION_CLOCK_STATE)
+      assert_equal ClockworkArena::AREA_CLOCKWORK_STATE, clock[:area]
+      assert_equal ClockworkArena::AUDIENCE_PUBLIC, clock[:audience]
+      assert_equal ClockworkArena::AREA_CLOCKWORK_TRANSPORT, arena.region(9)[:area]
+      assert_equal ClockworkArena::AUDIENCE_TRANSPORT, arena.region(9)[:audience]
+      assert_equal 3, arena.region(9)[:owner]
     end
 
-    def test_refuses_a_clock_state_the_table_does_not_publish
-      # A future layout that moved the clock into the transport run would be
-      # read as garbage by a reader that ignored the word. This one refuses.
+    def test_refuses_a_clock_state_that_is_not_public
+      # A layout that made the clock transport would be read as garbage by a
+      # reader that ignored the word. This one refuses.
       seg = F.build(clock_audience: F::AUDIENCE_TRANSPORT)
       err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
-      assert_match(/not published for clients/, err.message)
+      assert_match(/region 4 is in a public area but not public/, err.message)
     end
 
-    def test_a_writer_from_before_the_audience_word_is_still_read
-      # audience 0: the engine that wrote this table never said. Not a refusal.
-      seg = F.build(clock_audience: 0)
-      arena = ClockworkArena.parse(mem(seg))
-      assert_equal 0, arena.audience(ClockworkArena::REGION_CLOCK_STATE)
-      assert_equal 120.0, arena.read_clock_state.bpm
+    def test_refuses_a_clock_state_outside_clockworks_state_area
+      # Public, so the table is sound, but in the audio area: not the clock.
+      areas = [[F::AREA_CLOCKWORK_AUDIO, F::SPACE_ARENA, 4096, 256]]
+      seg = F.build(areas: areas)
+      err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
+      assert_match(/clock state lies in area 2/, err.message)
     end
 
-    def test_the_header_states_where_the_published_runs_end
-      seg = F.build
-      arena = ClockworkArena.parse(mem(seg))
-      assert_equal [4096 + 40, 4096 + 40], arena.published_ends
-      assert arena.states_audiences?
-      # A writer from before: both words zero, nothing stated.
-      seg[64 + 11 * 4, 8] = [0, 0].pack("L<2")
-      arena = ClockworkArena.parse(mem(seg))
-      assert_equal [0, 0], arena.published_ends
-      refute arena.states_audiences?
+    def test_refuses_a_region_that_does_not_state_its_five_facts
+      %i[owner audience cadence tier lifetime].each do |fact|
+        seg = F.build(clock_facts: { fact => 0 })
+        err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
+        assert_match(/region 4 has no #{fact}/, err.message)
+      end
     end
 
-    def test_audience_constants_mirror_clockwork
-      assert_equal 11, ClockworkArena::GEOM_AUDIENCE       # the last of 12 geometry words
-      assert_equal 1,  ClockworkArena::AUDIENCE_PUBLISHED
-      assert_equal 8,  ClockworkArena::AUDIENCE_TRANSPORT
+    def test_refuses_a_region_in_no_area
+      # Across the line between the state and the transport areas.
+      seg = F.build(extra_entries: [{ id: 1, offset: F.transport_base - 8, bytes: 16 }])
+      err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
+      assert_match(/region 1 is in no area/, err.message)
+    end
+
+    def test_refuses_a_public_region_outside_the_public_areas
+      seg = F.build(extra_entries: [{ id: 9, offset: F.transport_base, bytes: 8,
+                                      audience: F::AUDIENCE_PUBLIC | F::AUDIENCE_TRANSPORT }])
+      err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
+      assert_match(/region 9 is public but outside the public areas/, err.message)
+    end
+
+    def test_refuses_a_transport_area_region_that_is_not_transport
+      seg = F.build(extra_entries: [{ id: 9, offset: F.transport_base, bytes: 8, audience: 4 }])
+      err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
+      assert_match(/region 9 is in the transport area but not transport/, err.message)
+    end
+
+    def test_refuses_areas_that_overlap
+      areas = F.areas
+      areas << [F::AREA_CLOCKWORK_AUDIO, F::SPACE_ARENA, areas[0][2] + 8, 64]
+      seg = F.build(areas: areas)
+      err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
+      assert_match(/two areas overlap/, err.message)
+    end
+
+    def test_refuses_an_area_in_the_wrong_half
+      # A guest area inside clockwork's half (the fake's guest half is empty).
+      areas = F.areas + [[ClockworkArena::AREA_GUEST_PUBLIC, F::SPACE_ARENA, 4096 + 1024, 64]]
+      seg = F.build(areas: areas)
+      err = assert_raises(ClockworkArena::LayoutError) { ClockworkArena.parse(mem(seg)) }
+      assert_match(/an area in the wrong half/, err.message)
     end
 
     # ── reading the clock state ───────────────────────────────────────────

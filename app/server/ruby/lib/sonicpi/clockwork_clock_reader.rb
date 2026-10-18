@@ -21,11 +21,11 @@ module SonicPi
   # transport; LinkAPI turns every beat <-> time question into arithmetic on
   # it, where it used to ask the engine.
   #
-  # The segment lives for the engine's life, so one attach serves a session;
-  # a swap re-lays the arena out under the same mapping and the header's
-  # published flag says when the table may be trusted again. A new engine
-  # process is a new segment: re-attach (reattach!) when the engine comes
-  # back. Every failure is reported, never raised — the caller's answer to
+  # The segment lives for the engine's life, so one attach serves a session:
+  # the arena's offsets never move, a device change included, and the
+  # header's published flag says when the table may be trusted (the engine
+  # writes it again as it takes the arena at boot). A new engine process is
+  # a new segment: re-attach (reattach!) when the engine comes back. Every failure is reported, never raised — the caller's answer to
   # "no snapshot" is the RPC it always had.
   class ClockworkClockReader
     attr_reader :endpoint, :last_error
@@ -82,8 +82,8 @@ module SonicPi
       end
     end
 
-    # A coherent ClockworkArena::ClockState, or nil: not attached, the arena
-    # being re-laid-out, or a read that would not settle.
+    # A coherent ClockworkArena::ClockState, or nil: not attached, the table
+    # being written, or a read that would not settle.
     def snapshot
       arena = @arena
       return nil unless arena

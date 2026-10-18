@@ -101,16 +101,11 @@ module SonicPi
     end
 
     def test_the_engine_publishes_the_clock_state_for_clients
-      arena = @reader.instance_variable_get(:@arena)
-      # An engine from before the audience words says nothing about who a
-      # region is for, and is not judged. One that does say must say this.
-      skip "engine's table predates audience words (clockwork < 0.81)" unless arena.states_audiences?
-      audience = arena.audience(ClockworkArena::REGION_CLOCK_STATE)
-      assert_equal ClockworkArena::AUDIENCE_PUBLISHED, audience & ClockworkArena::AUDIENCE_PUBLISHED,
-                   "the engine's table must mark the clock state as a published contract (got #{audience})"
-      block_end, = arena.published_ends
-      assert arena.clock_state_offset - 64 + ClockworkArena::CLOCK_STATE_BYTES <= block_end + 64,
-             "the clock state must lie inside the block's published run"
+      clock = @reader.instance_variable_get(:@arena).region(ClockworkArena::REGION_CLOCK_STATE)
+      assert_equal ClockworkArena::AREA_CLOCKWORK_STATE, clock[:area],
+                   "the clock state must lie in clockwork's state area, which clients read"
+      assert_equal ClockworkArena::AUDIENCE_PUBLIC, clock[:audience] & ClockworkArena::AUDIENCE_PUBLIC,
+                   "the engine's table must mark the clock state public (got #{clock[:audience]})"
     end
 
     def test_time_at_beat_agrees_with_the_engine_to_the_microsecond

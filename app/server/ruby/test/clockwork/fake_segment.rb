@@ -24,43 +24,83 @@ module SonicPi
   module FakeClockworkSegment
     SEGMENT_MAGIC = 0x5C09E00C
     ARENA_MAGIC   = 0x43574152   # 'CWAR'
-    ARENA_VERSION = 1
+    ARENA_VERSION = 2
     HEADER_BYTES  = 4096
-    ENTRY_BYTES   = 64
+    HEADER_WORDS  = 16
+    MAX_AREAS     = 16
+    AREA_BYTES    = 24
     MAX_ENTRIES   = 48
+    ENTRY_BYTES   = 64
+    ENTRIES_AT    = HEADER_WORDS * 4 + MAX_AREAS * AREA_BYTES   # from the arena base
     CLOCK_STATE_REGION = 4
     PUBLISHED     = 1
     CLOCK_STATE_BYTES = 40
 
-    # Options mirror the fields; the defaults are a plausible live engine.
-    AUDIENCE_PUBLISHED = 1
+    AREA_CLOCKWORK_STATE     = 1
+    AREA_CLOCKWORK_AUDIO     = 2
+    AREA_CLOCKWORK_TRANSPORT = 3
+    SPACE_ARENA        = 1
+    AUDIENCE_PUBLIC    = 1
     AUDIENCE_TRANSPORT = 8
-    GEOM_AUDIENCE      = 11
+    # What a region states besides where it is: written by clockwork, read
+    # by clients, touched on a change, fast RAM, kept for the arena's life.
+    FACTS = { owner: 1, audience: AUDIENCE_PUBLIC, cadence: 2, tier: 1, lifetime: 1 }.freeze
 
-    # Entries are [id, offset, bytes, owner, audience]; a four-element entry
-    # is a writer from before the audience word (0). The clock state is
-    # published unless `clock_audience` says otherwise.
+    AREA_SPAN = 256   # each of the fake's areas
+
+    # The fake's areas, clockwork's half only: its state area from the end of
+    # the header to past the clock state, then a transport area. Each is
+    # [area, space, base, bytes].
+    def self.areas(clock_offset: HEADER_BYTES)
+      state_end = clock_offset + AREA_SPAN
+      [[AREA_CLOCKWORK_STATE, SPACE_ARENA, HEADER_BYTES, state_end - HEADER_BYTES],
+       [AREA_CLOCKWORK_TRANSPORT, SPACE_ARENA, state_end, AREA_SPAN]]
+    end
+
+    # Room in the state area beside the clock state, and the transport area's
+    # base: where a test puts the regions it adds.
+    def self.state_spare(clock_offset: HEADER_BYTES)
+      clock_offset + CLOCK_STATE_BYTES
+    end
+
+    def self.transport_base(clock_offset: HEADER_BYTES)
+      clock_offset + AREA_SPAN
+    end
+
+    # Where entry `i` of the region table is in a segment built with the defaults.
+    def self.entry_at(i, blob_offset: 64)
+      blob_offset + ENTRIES_AT + i * ENTRY_BYTES
+    end
+
+    # Options mirror the fields; the defaults are a plausible live engine.
+    # A region is a hash of id, offset, bytes and any of the five facts that
+    # differ from FACTS. The clock state is public unless `clock_audience`
+    # says otherwise, and `clock_facts` overrides any of its facts.
     def self.build(bpm: 120.0, origin_ntp: 3_900_000_000.25, playing: false,
                    playing_at_ntp: 0.0, flags: 0, meter: [4, 4],
                    blob_offset: 64, published: true, version: ARENA_VERSION,
                    segment_magic: SEGMENT_MAGIC, arena_magic: ARENA_MAGIC,
-                   entry_bytes: ENTRY_BYTES, clock_region: CLOCK_STATE_REGION,
-                   clock_offset: HEADER_BYTES, clock_audience: AUDIENCE_PUBLISHED,
-                   extra_entries: [])
-      arena_bytes = clock_offset + CLOCK_STATE_BYTES + 64
-      entries = [[clock_region, clock_offset, CLOCK_STATE_BYTES, 1, clock_audience]] + extra_entries
+                   area_bytes: AREA_BYTES, entry_bytes: ENTRY_BYTES,
+                   clock_region: CLOCK_STATE_REGION, clock_offset: HEADER_BYTES,
+                   clock_audience: AUDIENCE_PUBLIC, clock_facts: {},
+                   areas: self.areas(clock_offset: clock_offset), extra_entries: [])
+      arena_bytes = areas.map { |_, _, base, bytes| base + bytes }.max
+      clock = { id: clock_region, offset: clock_offset, bytes: CLOCK_STATE_BYTES,
+                audience: clock_audience }.merge(clock_facts)
+      entries = [clock] + extra_entries
       raise ArgumentError, "too many entries" if entries.size > MAX_ENTRIES
-      # The published run of the (single-half) fake: everything up to the end
-      # of the clock state; stated in the header like the engine states it.
-      published_end = clock_offset + CLOCK_STATE_BYTES
+      raise ArgumentError, "too many areas" if areas.size > MAX_AREAS
 
+      # Clockwork's half is the whole of the fake; the guest's is empty.
       arena = [arena_magic, version, HEADER_BYTES, 0, arena_bytes, arena_bytes,
-               arena_bytes, 0, entries.size, entry_bytes,
-               published ? PUBLISHED : 0, published_end, published_end].pack("L<13") + ("\0" * 4 * 3)
-      entries.each do |id, off, bytes, owner, audience|
-        geom = [0] * 12
-        geom[GEOM_AUDIENCE] = audience || 0
-        arena << [id, off, bytes, owner].pack("L<4") << geom.pack("L<12")
+               arena_bytes, 0, areas.size, area_bytes, entries.size, entry_bytes,
+               published ? PUBLISHED : 0, 1, 0, 0].pack("L<#{HEADER_WORDS}")
+      areas.each { |area, space, base, bytes| arena << [area, space, base, 0, bytes, 0].pack("L<6") }
+      arena << "\0" * ((MAX_AREAS - areas.size) * AREA_BYTES)
+      entries.each do |e|
+        f = FACTS.merge(e)
+        arena << [f[:id], f[:offset], f[:bytes], f[:owner], f[:audience], f[:cadence],
+                  f[:tier], f[:lifetime]].pack("L<8") << ([0] * 8).pack("L<8")
       end
       arena << "\0" * (clock_offset - arena.bytesize)
       arena << clock_state_bytes(bpm: bpm, origin_ntp: origin_ntp, playing: playing,
