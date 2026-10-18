@@ -124,6 +124,28 @@ TEST_CASE("the pane shows its own cursor, not the one a separator left on the wi
     CHECK(w.pane->cursor().shape() == Qt::ArrowCursor);
 }
 
+// Closed, the pane lies where it was made, under panels made after it, as
+// MainWindow's Settings lies under its docks: a grip stacked under it went
+// under the docks too, showing only through the separator's gap.
+TEST_CASE("with the pane closed, a grip raised beneath it is on top of the panels", "[overlaypane]")
+{
+    QWidget window;
+    window.resize(400, 300);
+    auto* pane = new SonicPi::OverlayPane(&window);   // made first, as Settings is
+    pane->hide();
+    auto* panel = new QWidget(&window);   // a dock, made after it
+    panel->setGeometry(0, 0, 400, 300);
+    auto* grip = new QWidget(&window);
+    grip->setGeometry(190, 140, 20, 20);
+    window.show();
+    settle();
+    panel->raise();   // a dock is above the grip to begin with
+
+    pane->raiseBeneath(grip);
+    settle();
+    CHECK(window.childAt(200, 150) == grip);
+}
+
 TEST_CASE("a grip raised beneath the pane stays under it, and over the panels", "[overlaypane]")
 {
     Window w;

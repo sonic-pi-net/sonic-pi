@@ -36,11 +36,15 @@ public:
 
     // The window's own overlays (grips, dividers) go as high as they go beneath
     // the pane, so one placed again while the pane is open stays under it. w is
-    // the pane's sibling.
+    // the pane's sibling. Closed, the pane lies wherever it was last raised,
+    // under the docks made after it, so w just goes to the top: stacked under
+    // the closed pane it went under the docks too, and showed only through the
+    // separator's gap. The pane raises itself over everything when it opens.
     void raiseBeneath(QWidget* w)
     {
         w->raise();
-        w->stackUnder(this);
+        if (isVisible())
+            w->stackUnder(this);
     }
 };
 } // namespace SonicPi
