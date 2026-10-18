@@ -147,6 +147,44 @@ TEST_CASE("a help dock too short for the rail's foot keeps it off the tabs", "[h
     CHECK(h.foot().top() == h.rail().bottom() + 1);
 }
 
+// MainWindow builds the help dock before the app's stylesheet first arrives
+// (onServerReady), so a rail shown at launch first fits a foot measured without
+// it, whose buttons are wider, and then the foot narrows. The rail narrows with
+// it, to the width of one built with the narrow foot: it used to stay wide
+// until a theme change happened to lay its tabs out again (#3582). Here the
+// foot is narrowed directly, as the stylesheet narrows it.
+TEST_CASE("a rail narrows with its foot", "[helprail][style]")
+{
+    int narrow = 0;
+    {
+        HelpRail h;
+        h.tabs.resize(480, 360);
+        h.tabs.show();
+        settle();
+        narrow = h.rail().width();
+    }
+
+    HelpRail h;
+    QWidget* wider = new QWidget;   // in the foot, widening it as unstyled buttons do
+    wider->setFixedSize(narrow + ScaleHeightForDPI(14), 1);
+    h.tabs.footWidget()->layout()->addWidget(wider);
+    h.tabs.resize(480, 360);
+    h.tabs.show();
+    settle();
+    const int wide = h.rail().width();
+
+    wider->hide();
+    settle();
+
+    INFO("rail " << narrow << " wide with the narrow foot, " << wide << " with the wide one, "
+                 << h.rail().width() << " once it narrows; foot " << h.foot().left() << ".."
+                 << h.foot().right());
+    REQUIRE(wide > narrow);   // the wider foot did widen the rail, or this tests nothing
+    CHECK(h.rail().width() == narrow);
+    CHECK(h.foot().left() >= h.rail().left());
+    CHECK(h.foot().right() <= h.rail().right());
+}
+
 TEST_CASE("another tab's text-size controls take the same place at the rail's foot",
           "[helprail][style]")
 {

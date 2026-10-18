@@ -32,7 +32,7 @@ public:
     void setSquareSide(int px)
     {
         m_side = px;
-        updateGeometry();
+        relayTabs();
     }
 
     // A vertical rail is never narrower than what sits at its foot
@@ -43,7 +43,7 @@ public:
     {
         if (px == m_railMin) return;
         m_railMin = px;
-        updateGeometry();
+        relayTabs();
     }
 
 protected:
@@ -63,6 +63,13 @@ protected:
 private:
     int m_side = 0;
     int m_railMin = 0;
+
+    // QTabBar sizes itself from the tabs as it last laid them out, and lays them
+    // out again only when something of its own changes (its tabs, icon size or
+    // style), so updateGeometry() alone left the rail as wide as an earlier foot
+    // until a theme change happened to (#3582). Setting the icon size it already
+    // has is the public way to ask.
+    void relayTabs() { setIconSize(iconSize()); }
 
     void paintEvent(QPaintEvent*) override
     {
