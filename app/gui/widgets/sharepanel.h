@@ -13,12 +13,13 @@
 
 #pragma once
 
-#include <QDialog>
 #include <QImage>
+#include <QPointer>
 
 #include <functional>
 
 #include "sharelink.h"
+#include "widgets/overlaypane.h"
 
 class QAbstractButton;
 class QLabel;
@@ -34,7 +35,10 @@ class SonicPiTheme;
 // card's foot: its link copied, as a QR code for a phone to scan or to save as an image, the link shown to copy by
 // hand, or saved as a file, a buffer as .txt and a set as .sonicpi. The links are the web's own (app/sharelink), so
 // a phone that scans the code opens the program on sonic-pi.net, and the web opens them all.
-class ShareDialog : public QDialog
+//
+// A panel over its window under its button, as the web's over the page: the window's shortcuts and menus work while
+// it is open, and it closes as the web's does, on its close, Escape or Ctrl-G, or a press anywhere else in the window.
+class SharePanel : public SonicPi::OverlayPane
 {
     Q_OBJECT
 
@@ -60,7 +64,11 @@ public:
 
     static constexpr const char* LinkBase = "https://sonic-pi.net/code.html#code=";
 
-    ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* parent = nullptr);
+    SharePanel(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* window);
+    ~SharePanel() override;
+    // shown under button (the toolbar's Share), or in the middle of the window without one, with the focus; closed,
+    // the focus goes back where it was. The button opens and closes it itself: a press on it is not one outside.
+    void openUnder(QWidget* button);
 
     // the chosen one's link, and its link for a QR code (the program as digits, which a code holds a third more of)
     QString link() const;
@@ -71,7 +79,9 @@ public:
 
 protected:
     void paintEvent(QPaintEvent* event) override;                  // the panel: the editor's ground, the controls' outline
-    bool eventFilter(QObject* watched, QEvent* event) override;   // a click on the code makes it larger, or smaller
+    // a click on the code makes it larger, or smaller; and while it is open, the window's keys and presses that close it
+    bool eventFilter(QObject* watched, QEvent* event) override;
+    void closeEvent(QCloseEvent* event) override;
 
 private:
     void choose(int scope);
@@ -85,6 +95,8 @@ private:
     void done(QAbstractButton* action, const QString& word, const QString& said);
     void showPage(int page);
     void fit();
+    void place();
+    void stopWatching();
 
     SonicPiTheme* m_theme;
     Scope m_scopes[2];
@@ -111,4 +123,6 @@ private:
     QAbstractButton* m_qrAct = nullptr;
     QAbstractButton* m_linkAct = nullptr;
     QAbstractButton* m_fileAct = nullptr;
+    QPointer<QWidget> m_button;        // what it opened under
+    QPointer<QWidget> m_focusBefore;   // where the focus goes back to
 };

@@ -93,7 +93,7 @@
 #include "widgets/dividerlink.h"
 #include "widgets/dividerpalette.h"
 #include "widgets/overlaypane.h"
-#include "widgets/sharedialog.h"
+#include "widgets/sharepanel.h"
 #include "utils/plugins.h"
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
@@ -1661,7 +1661,7 @@ void MainWindow::positionSideGrip()
         {
             sideAwayDivider->setGeometry(bar);
             sideAwayDivider->show();
-            prefsWidget->raiseBeneath(sideAwayDivider);
+            SonicPi::OverlayPane::raiseBeneathOpen(sideAwayDivider);
         }
         cx = bar.center().x();
     }
@@ -1683,7 +1683,7 @@ void MainWindow::positionSideGrip()
     placeDividerBar(m_sideLink, sideAwayDivider, m_sideBar, separator);
     sideGrip->move(cx - sideGrip->width() / 2, room.top() + ScaleHeightForDPI(24));
     sideGrip->show();
-    prefsWidget->raiseBeneath(sideGrip);   // above the divider overlay
+    SonicPi::OverlayPane::raiseBeneathOpen(sideGrip);   // above the divider overlay
 }
 
 // A divider lit with its grips, or put back: the overlay standing in for it,
@@ -3517,6 +3517,12 @@ QJsonObject MainWindow::setMeta() const
 // shown, or a file
 void MainWindow::share()
 {
+    // its button opens it and closes it, as the web's
+    if (sharePanel)
+    {
+        sharePanel->close();
+        return;
+    }
     SonicPiScintilla* ws = getCurrentWorkspace();
     ws->cancelInsertPreview();
     const int index = editorTabWidget->currentIndex();
@@ -3525,7 +3531,7 @@ void MainWindow::share()
     // its preview from its first line of code, the comments heading it skipped
     const auto first = std::find_if(lines.begin(), lines.end(), [](const QString& l) { return !l.trimmed().isEmpty() && !l.trimmed().startsWith('#'); });
 
-    ShareDialog::Scope buffer;
+    SharePanel::Scope buffer;
     buffer.kind = tr("This buffer");
     buffer.summary = lines.size() == 1 ? tr("1 line") : tr("%1 lines").arg(lines.size());
     buffer.title = tr("buffer %1").arg(index);
@@ -3537,7 +3543,7 @@ void MainWindow::share()
     buffer.name = bufferName(index);
     buffer.setFields = [this, index](const QString& name, const QString&) { setBufferName(index, name); };
 
-    ShareDialog::Scope set;
+    SharePanel::Scope set;
     set.kind = tr("Whole set");
     set.summary = tr("%1 buffers").arg(workspace_max);
     set.title = tr("the set \"%1\"").arg(currentSetName());
@@ -3569,17 +3575,12 @@ void MainWindow::share()
             currentSetMeta["description"] = description;
     };
 
-    ShareDialog dialog(buffer, set, theme, this);
-    // under the toolbar's Share, as the web's panel is under its button; else where Qt puts a dialog
-    if (QWidget* button = toolBar->widgetForAction(shareAct); button && button->isVisible())
-    {
-        dialog.adjustSize();
-        const QRect room = button->screen()->availableGeometry();
-        QPoint at = button->mapToGlobal(QPoint(0, button->height() + 6));
-        at.setX(std::clamp(at.x(), room.left() + 12, room.right() - dialog.width() - 12));
-        dialog.move(at);
-    }
-    dialog.exec();
+    // a panel over the window, the window's shortcuts working while it is open; another buffer chosen closes it, as
+    // what it shows and shares is the one it opened on
+    sharePanel = new SharePanel(buffer, set, theme, this);
+    connect(editorTabWidget, &QTabWidget::currentChanged, sharePanel, &QWidget::close);
+    QWidget* button = toolBar->widgetForAction(shareAct);
+    sharePanel->openUnder(button && button->isVisible() ? button : nullptr);
 }
 
 void MainWindow::rememberRecentSet(const QString& path)
@@ -4023,7 +4024,7 @@ void MainWindow::positionHelpChevrons()
         {
             helpDividerOverlay->setGeometry(overlay);
             helpDividerOverlay->show();
-            prefsWidget->raiseBeneath(helpDividerOverlay);
+            SonicPi::OverlayPane::raiseBeneathOpen(helpDividerOverlay);
         }
         else
             helpDividerOverlay->hide();
@@ -4031,7 +4032,7 @@ void MainWindow::positionHelpChevrons()
     helpChevrons->move(right - ScaleWidthForDPI(24) - helpChevrons->width(),
                        cy - helpChevrons->height() / 2);
     helpChevrons->show();
-    prefsWidget->raiseBeneath(helpChevrons);
+    SonicPi::OverlayPane::raiseBeneathOpen(helpChevrons);
 }
 
 

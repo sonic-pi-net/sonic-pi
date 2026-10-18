@@ -18,8 +18,8 @@
 
 namespace SonicPi
 {
-// A pane laid over the main window's own panels, as Settings is: nothing under
-// it can be worked through it (#3584). Mouse input the pane doesn't take itself
+// A pane laid over the main window's own panels, as Settings and Share are:
+// nothing under it can be worked through it (#3584). Mouse input the pane doesn't take itself
 // stops here instead of passing on to the window, which would drag a dock
 // separator the pane covers, and give it the separator's cursor on hover. The
 // pane has a cursor of its own too: the window keeps a separator's after a
@@ -40,11 +40,20 @@ public:
     // under the docks made after it, so w just goes to the top: stacked under
     // the closed pane it went under the docks too, and showed only through the
     // separator's gap. The pane raises itself over everything when it opens.
-    void raiseBeneath(QWidget* w)
+    // The window's own overlays (grips, dividers) go as high as they go beneath every pane open over the window
+    // (Settings, Share), so one placed again while a pane is open stays under it. w is the panes' sibling. With none
+    // open, w just goes to the top: a closed pane lies wherever it was last raised, under the docks made after it,
+    // and stacked under one w went under the docks too, showing only through the separator's gap. A pane raises
+    // itself over everything when it opens.
+    static void raiseBeneathOpen(QWidget* w)
     {
         w->raise();
-        if (isVisible())
-            w->stackUnder(this);
+        for (QObject* sibling : w->parentWidget()->children())   // in their stacking order, the lowest first
+            if (auto* pane = dynamic_cast<OverlayPane*>(sibling); pane && pane->isVisible())
+            {
+                w->stackUnder(pane);
+                return;
+            }
     }
 };
 } // namespace SonicPi

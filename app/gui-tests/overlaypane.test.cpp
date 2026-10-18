@@ -141,7 +141,7 @@ TEST_CASE("with the pane closed, a grip raised beneath it is on top of the panel
     settle();
     panel->raise();   // a dock is above the grip to begin with
 
-    pane->raiseBeneath(grip);
+    SonicPi::OverlayPane::raiseBeneathOpen(grip);
     settle();
     CHECK(window.childAt(200, 150) == grip);
 }
@@ -153,11 +153,41 @@ TEST_CASE("a grip raised beneath the pane stays under it, and over the panels", 
     grip->setGeometry(QRect(w.separator() - QPoint(5, 5), QSize(10, 10)));
     grip->show();
 
-    w.pane->raiseBeneath(grip);
+    SonicPi::OverlayPane::raiseBeneathOpen(grip);
     settle();
     CHECK(w.win.childAt(w.separator()) == w.pane);
 
     w.pane->hide();   // Settings closed: the grip is the top of what is there
     settle();
     CHECK(w.win.childAt(w.separator()) == grip);
+}
+
+// Share lies over the window too, opened over Settings or with it closed: a grip the window raises while Share is open
+// (a shortcut works through it) stays under it, and under Settings while that is open
+TEST_CASE("a grip raised while another pane is open stays under every open pane", "[overlaypane]")
+{
+    Window w;
+    SonicPi::OverlayPane* share = new SonicPi::OverlayPane(&w.win);
+    share->setGeometry(QRect(w.separator() - QPoint(40, 40), QSize(80, 80)));
+    share->show();
+    share->raise();
+    QWidget* grip = new QWidget(&w.win);
+    grip->setGeometry(QRect(w.separator() - QPoint(5, 5), QSize(10, 10)));
+    grip->show();
+
+    w.pane->hide();   // Settings closed, Share open
+    settle();
+    SonicPi::OverlayPane::raiseBeneathOpen(grip);
+    settle();
+    CHECK(w.win.childAt(w.separator()) == share);
+
+    w.pane->show();   // both open, Share over Settings
+    w.pane->raise();
+    share->raise();
+    settle();
+    SonicPi::OverlayPane::raiseBeneathOpen(grip);
+    settle();
+    share->hide();
+    settle();
+    CHECK(w.win.childAt(w.separator()) == w.pane);
 }

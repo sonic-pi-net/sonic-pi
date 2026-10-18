@@ -704,6 +704,15 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page2.waitForFunction(() => window.sonicPi?.editor.getCode().includes(":shared"), null, { timeout: 60000 }).catch(() => {});
     check("the share link restores the program", (await page2.evaluate(() => window.sonicPi?.editor.getCode() ?? "")).includes("live_loop :shared"));
     await page2.close();
+    // another buffer shown while the panel is open closes it, as native's: what it shows, and what its name field names,
+    // is the buffer it opened on; the focus stays with the code the buffer is shown in
+    const shareOpen = () => page.evaluate(() => !document.getElementById("link-menu").hidden);
+    const wasOpen = await shareOpen();
+    const from = await page.evaluate(() => window.sonicPi.workspace.active);
+    await page.evaluate((i) => window.sonicPi.workspace.showBuffer((i + 1) % window.sonicPi.workspace.size), from);
+    check("another buffer shown closes the Share panel, the focus left in the code", wasOpen && !(await shareOpen())
+      && await page.evaluate(() => window.sonicPi.editor.view.hasFocus), `open before: ${wasOpen}`);
+    await page.evaluate((i) => window.sonicPi.workspace.showBuffer(i), from);
 
     // ── files: loaded and dropped, as native's (set-bundle.js isSet, workspace.js, editor.js) ──
     // A fresh page of its own: what arrives makes sets, which the checks above don't want. Its storage is cleared once,

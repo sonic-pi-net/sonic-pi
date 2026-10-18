@@ -17,6 +17,7 @@
 #include <memory>
 #include <vector>
 
+#include <QPointer>
 #include <QDate>
 #include <QFuture>
 #include <QIcon>
@@ -62,6 +63,7 @@ class QStackedWidget;
 class ThinSplitter;
 class TutorialPane;
 class IconTabWidget;
+class SharePanel;
 
 namespace SonicPi
 {
@@ -832,6 +834,7 @@ private:
     QDockWidget* outputWidget = nullptr;
     QDockWidget* incomingWidget = nullptr;
     SonicPi::OverlayPane* prefsWidget = nullptr;
+    QPointer<SharePanel> sharePanel;   // while it is open
 
     QDockWidget* hudWidget = nullptr;
     QDockWidget* docWidget = nullptr;

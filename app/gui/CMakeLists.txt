@@ -194,8 +194,8 @@ set(SOURCES
     ${QTAPP_ROOT}/widgets/timewarpedit.cpp
     ${QTAPP_ROOT}/widgets/sonicpieditor.cpp
     ${QTAPP_ROOT}/widgets/sonicpieditor.h
-    ${QTAPP_ROOT}/widgets/sharedialog.cpp
-    ${QTAPP_ROOT}/widgets/sharedialog.h
+    ${QTAPP_ROOT}/widgets/sharepanel.cpp
+    ${QTAPP_ROOT}/widgets/sharepanel.h
     ${QTAPP_ROOT}/utils/scintilla_api.h
     ${QTAPP_ROOT}/utils/completion_optowners.h
     ${QTAPP_ROOT}/utils/sonicpi_i18n.h

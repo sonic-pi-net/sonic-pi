@@ -175,10 +175,11 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
   function close() {
     unlarge();
     if (menu.hidden) return;
+    const focused = menu.contains(document.activeElement);
     menu.hidden = true;
     backdrop.hidden = true;
     button.setAttribute("aria-expanded", "false");
-    button.focus();
+    if (focused) button.focus();   // back where it was; focus that has moved on (another buffer shown, its editor) stays
   }
   async function copy() {
     const s = scopes[scope], url = s.link();

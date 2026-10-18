@@ -11,7 +11,7 @@
 // notice is included.
 //++
 
-#include "sharedialog.h"
+#include "sharepanel.h"
 
 #include <QAbstractButton>
 #include <QApplication>
@@ -20,7 +20,6 @@
 #include <QEvent>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QGuiApplication>
 #include <QFocusEvent>
 #include <QHBoxLayout>
 #include <QKeyEvent>
@@ -31,7 +30,6 @@
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QRegularExpression>
-#include <QScreen>
 #include <QScrollBar>
 #include <QStackedWidget>
 #include <QStyle>
@@ -286,13 +284,13 @@ private:
 
 } // namespace
 
-ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* parent)
-    : QDialog(parent, Qt::Dialog | Qt::FramelessWindowHint), m_theme(theme), m_scopes{ std::move(buffer), std::move(set) }
+SharePanel::SharePanel(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* window)
+    : SonicPi::OverlayPane(window), m_theme(theme), m_scopes{ std::move(buffer), std::move(set) }
 {
-    setObjectName("shareDialog");   // its words', fields' and buttons' look: app.qss, as the web's style.css .sm-*
-    setWindowTitle(tr("Share"));
-    setModal(true);
-    setAttribute(Qt::WA_TranslucentBackground);
+    setObjectName("sharePanel");   // its words', fields' and buttons' look: app.qss, as the web's style.css .sm-*
+    setAccessibleName(tr("Share"));
+    setAttribute(Qt::WA_DeleteOnClose);
+    hide();
 
     // its head: the word, and a close
     QLabel* step = new QLabel(tr("SHARE"));
@@ -300,7 +298,7 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     step->setAccessibleName(tr("Share"));
     Close* close = new Close(theme);
     close->setObjectName("shareClose");
-    connect(close, &QAbstractButton::clicked, this, &QDialog::accept);
+    connect(close, &QAbstractButton::clicked, this, &QWidget::close);
     QHBoxLayout* top = new QHBoxLayout();
     top->setContentsMargins(8, 2, 2, 2);
     top->addWidget(step);
@@ -420,7 +418,7 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     m_saveImage->setObjectName("shareSaveImage");
     m_saveImage->setToolTip(tr("Save the code as an image, for printing"));
     connect(m_larger, &QPushButton::clicked, this, [this] { m_large = !m_large; drawQr(); });
-    connect(m_saveImage, &QPushButton::clicked, this, &ShareDialog::saveImage);
+    connect(m_saveImage, &QPushButton::clicked, this, &SharePanel::saveImage);
     QHBoxLayout* codeButtons = new QHBoxLayout();
     codeButtons->setSpacing(8);
     codeButtons->addStretch(1);
@@ -467,10 +465,10 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     m_fileAct->setObjectName("shareSaveFile");
     m_qrAct->setCheckable(true);
     m_linkAct->setCheckable(true);
-    connect(m_copyAct, &QAbstractButton::clicked, this, &ShareDialog::copyLink);
-    connect(m_qrAct, &QAbstractButton::clicked, this, &ShareDialog::toggleQr);
-    connect(m_linkAct, &QAbstractButton::clicked, this, &ShareDialog::toggleLink);
-    connect(m_fileAct, &QAbstractButton::clicked, this, &ShareDialog::saveFile);
+    connect(m_copyAct, &QAbstractButton::clicked, this, &SharePanel::copyLink);
+    connect(m_qrAct, &QAbstractButton::clicked, this, &SharePanel::toggleQr);
+    connect(m_linkAct, &QAbstractButton::clicked, this, &SharePanel::toggleLink);
+    connect(m_fileAct, &QAbstractButton::clicked, this, &SharePanel::saveFile);
     for (QAbstractButton* b : { m_copyAct, m_qrAct, m_linkAct, m_fileAct })
         how->addWidget(b, 1);
 
@@ -489,8 +487,7 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     cardLayout->addWidget(foot);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
-    // never smaller than all of it: adjustSize alone stops at two thirds of the screen, and a code cut short
-    // doesn't scan
+    // never smaller than all of it: a code cut short doesn't scan
     layout->setSizeConstraint(QLayout::SetMinimumSize);
     layout->setContentsMargins(8, 8, 8, 8);
     layout->setSpacing(0);
@@ -527,20 +524,50 @@ ShareDialog::ShareDialog(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* 
     }
 
     m_tabs[0]->setChecked(true);
-    m_tabs[0]->setFocus();
 }
 
-QString ShareDialog::link() const
+SharePanel::~SharePanel()
+{
+    stopWatching();
+}
+
+void SharePanel::openUnder(QWidget* button)
+{
+    m_button = button;
+    m_focusBefore = QApplication::focusWidget();
+    // the window's keys and presses, to close on as the web's (share-menu.js), and its resizes, to stay in it
+    qApp->installEventFilter(this);
+    show();
+    raise();
+    fit();
+    m_tabs[m_scope]->setFocus();
+}
+
+void SharePanel::stopWatching()
+{
+    qApp->removeEventFilter(this);
+}
+
+// closed, the focus goes back where it was, as the web's goes back to its button
+void SharePanel::closeEvent(QCloseEvent* event)
+{
+    stopWatching();
+    if (m_focusBefore && (!QApplication::focusWidget() || isAncestorOf(QApplication::focusWidget())))
+        m_focusBefore->setFocus();
+    SonicPi::OverlayPane::closeEvent(event);
+}
+
+QString SharePanel::link() const
 {
     return LinkBase + QString::fromStdString(ShareLink::encode(m_scopes[m_scope].code().toStdString()));
 }
 
-QString ShareDialog::qrLink() const
+QString SharePanel::qrLink() const
 {
     return LinkBase + QString::fromStdString(ShareLink::encodeDigits(m_scopes[m_scope].code().toStdString()));
 }
 
-QImage ShareDialog::qrImage(const ShareLink::Qr& qr, int modulePx)
+QImage SharePanel::qrImage(const ShareLink::Qr& qr, int modulePx)
 {
     const int side = modulePx * (qr.size + 2 * Quiet);
     QImage image(side, side, QImage::Format_RGB32);
@@ -554,7 +581,7 @@ QImage ShareDialog::qrImage(const ShareLink::Qr& qr, int modulePx)
 }
 
 // the panel: the editor's own ground inside the controls' outline, as the web's popups and native's chips
-void ShareDialog::paintEvent(QPaintEvent*)
+void SharePanel::paintEvent(QPaintEvent*)
 {
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
@@ -563,7 +590,7 @@ void ShareDialog::paintEvent(QPaintEvent*)
     p.drawRoundedRect(QRectF(rect()).adjusted(1, 1, -1, -1), Radius + 2, Radius + 2);
 }
 
-void ShareDialog::choose(int scope)
+void SharePanel::choose(int scope)
 {
     m_scope = scope;
     static_cast<Card*>(m_card)->chosen = scope;
@@ -572,7 +599,7 @@ void ShareDialog::choose(int scope)
 }
 
 // the chosen one: what it is, and its code or its name and description
-void ShareDialog::render()
+void SharePanel::render()
 {
     const Scope& s = m_scopes[m_scope];
     m_about->setText(s.about);
@@ -596,7 +623,7 @@ void ShareDialog::render()
     fit();
 }
 
-void ShareDialog::showPage(int page)
+void SharePanel::showPage(int page)
 {
     // the views are the size of the one showing: what it is keeps its one height, a QR code grows the card under it
     for (int i = 0; i < m_pages->count(); i++)
@@ -608,7 +635,7 @@ void ShareDialog::showPage(int page)
 }
 
 // what was just done: the action a tick with the word for it, and a line saying it in the card's own line
-void ShareDialog::done(QAbstractButton* action, const QString& word, const QString& said)
+void SharePanel::done(QAbstractButton* action, const QString& word, const QString& said)
 {
     static_cast<Action*>(action)->said(word);
     showPage(About);
@@ -619,14 +646,14 @@ void ShareDialog::done(QAbstractButton* action, const QString& word, const QStri
     m_about->style()->polish(m_about);
 }
 
-void ShareDialog::copyLink()
+void SharePanel::copyLink()
 {
     QApplication::clipboard()->setText(link());
     done(m_copyAct, tr("Copied"), tr("Link copied"));
 }
 
 // pressed again, the code puts back what it is
-void ShareDialog::toggleQr()
+void SharePanel::toggleQr()
 {
     if (m_pages->currentIndex() == Code)
     {
@@ -640,7 +667,7 @@ void ShareDialog::toggleQr()
     drawQr();
 }
 
-void ShareDialog::drawQr()
+void SharePanel::drawQr()
 {
     const bool fits = m_qr.version > 0;
     m_qrImage->setVisible(fits);
@@ -657,11 +684,11 @@ void ShareDialog::drawQr()
     }
     // drawn at a whole number of the screen's pixels a module: scaled, a module comes out a pixel wider or narrower
     // here and there, an uneven grid a camera reads badly
-    // larger: what the screen leaves once the rest of the panel has its own, as the web's
+    // larger: what the window leaves once the rest of the panel has its own, as the web's what the page leaves
     int side = QrSide;
     if (m_large)
     {
-        const QRect room = (screen() ? screen() : QGuiApplication::primaryScreen())->availableGeometry();
+        const QRect room = parentWidget()->rect();
         const int aroundW = width() - m_qrImage->width(), aroundH = height() - m_qrImage->height();
         side = std::max(QrSide, (int)std::min(room.height() * 0.96 - aroundH, room.width() * 0.96 - aroundW));
     }
@@ -693,7 +720,7 @@ void ShareDialog::drawQr()
 
 // the size it needs now, at once: left to the event loop, a new size climbs a layout a pass, and the panel is drawn
 // round what it held before
-void ShareDialog::fit()
+void SharePanel::fit()
 {
     // what Qt does a layer a pass, done now from the deepest up: each widget laid out afresh, then its new size told
     // to the layout it sits in (which keeps its old one till then)
@@ -712,9 +739,28 @@ void ShareDialog::fit()
     layout()->invalidate();
     layout()->activate();
     adjustSize();
+    place();
 }
 
-bool ShareDialog::eventFilter(QObject* watched, QEvent* event)
+// under its button, kept 12 pixels inside the window, as the web's (share-menu.js open); a larger QR code, or with no
+// button, in the middle of the window (style.css #link-menu.sm-large)
+void SharePanel::place()
+{
+    constexpr int Edge = 12;
+    const QSize room = parentWidget()->size();
+    if (!m_button || m_large)
+    {
+        move((room.width() - width()) / 2, (room.height() - height()) / 2);
+        return;
+    }
+    QPoint at = m_button->mapTo(parentWidget(), QPoint(0, m_button->height() + 6));
+    at.setX(std::clamp(at.x(), Edge, std::max(Edge, room.width() - width() - Edge)));
+    if (at.y() + height() > room.height() - Edge)   // too long for the room under its button: up, as far as the edge
+        at.setY(std::max(Edge, room.height() - height() - Edge));
+    move(at);
+}
+
+bool SharePanel::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == m_qrImage && event->type() == QEvent::MouseButtonRelease)
     {
@@ -722,10 +768,34 @@ bool ShareDialog::eventFilter(QObject* watched, QEvent* event)
         drawQr();
         return true;
     }
-    return QDialog::eventFilter(watched, event);
+    // the rest is the window's, while it is open: as the web's, Escape or Ctrl-G anywhere in it closes the panel, ahead
+    // of the window's own Escape (escapeWorkspaces), and a press anywhere in it but the panel and its button closes it,
+    // going on to what it was on. Every other key is the window's, its shortcuts too.
+    QWidget* w = qobject_cast<QWidget*>(watched);
+    if (!w || w->window() != window() || !isVisible())
+        return false;
+    if (watched == parentWidget() && event->type() == QEvent::Resize)
+        place();
+    else if (event->type() == QEvent::ShortcutOverride || event->type() == QEvent::KeyPress)
+    {
+        // Qt on a Mac gives the Command key as Control and the Control key as Meta: either, as the find popup's
+        auto* key = static_cast<QKeyEvent*>(event);
+        const bool ctrlish = key->modifiers() & (Qt::ControlModifier | Qt::MetaModifier);
+        if (key->key() == Qt::Key_Escape || (ctrlish && key->key() == Qt::Key_G))
+        {
+            event->accept();
+            if (event->type() == QEvent::KeyPress)
+                close();
+            return true;
+        }
+    }
+    else if (event->type() == QEvent::MouseButtonPress && w != this && !isAncestorOf(w)
+             && !(m_button && (w == m_button || m_button->isAncestorOf(w))))
+        close();
+    return false;
 }
 
-void ShareDialog::toggleLink()
+void SharePanel::toggleLink()
 {
     if (m_pages->currentIndex() == Link)
     {
@@ -742,14 +812,14 @@ void ShareDialog::toggleLink()
     m_linkText->selectAll();
 }
 
-void ShareDialog::saveFile()
+void SharePanel::saveFile()
 {
     if (m_scopes[m_scope].save && m_scopes[m_scope].save())
         done(m_fileAct, tr("Saved"), tr("Saved"));
 }
 
 // for printing: 8 pixels a module, whatever the screen
-void ShareDialog::saveImage()
+void SharePanel::saveImage()
 {
     const QString name = QStringLiteral("sonic-pi-%1.png").arg(QString(m_scopes[m_scope].title).replace(QRegularExpression("[^\\w-]+"), "-"));
     const QString path = QFileDialog::getSaveFileName(this, tr("Save the QR code"), QDir::homePath() + "/Desktop/" + name,

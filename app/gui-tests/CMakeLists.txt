@@ -104,8 +104,8 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/overlaypane.test.cpp
     ${GUI_TESTS_ROOT}/divider_unity.test.cpp
     ${GUI_TESTS_ROOT}/sharelink.test.cpp
-    ${GUI_TESTS_ROOT}/sharedialog.test.cpp
-    ${GUI_ROOT}/widgets/sharedialog.cpp
+    ${GUI_TESTS_ROOT}/sharepanel.test.cpp
+    ${GUI_ROOT}/widgets/sharepanel.cpp
     ${GUI_TESTS_ROOT}/splash_quit_policy.test.cpp
     ${GUI_ROOT}/widgets/splashwidget.cpp
     ${GUI_TESTS_ROOT}/stylesheet_invariants.test.cpp

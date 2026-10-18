@@ -1698,11 +1698,11 @@ QPushButton#confirmPrimary:hover
     background: accentHoverColor;
 }
 
-/* ── Share (widgets/sharedialog.cpp): the web's Share panel (app/web/app/src/style.css .sm-*) in the theme's own
+/* ── Share (widgets/sharepanel.cpp): the web's Share panel (app/web/app/src/style.css .sm-*) in the theme's own
    roles. The panel, its tabs, its card and the four ways are painted there; their words and fields are here, their
    sizes there (the house's Base and Small, ApplyFontRole: a stylesheet size would stop the zoom). ── */
 
-QDialog#shareDialog QLabel
+#sharePanel QLabel
 {
     background: transparent;
     color: windowForegroundColor;

@@ -1952,7 +1952,7 @@ function arrive(text, name, from, bufferName = "") {
 
 // Share or save (share-menu.js): the buffer showing or the whole set, as a link, a QR code or a file
 const linkTo = (code) => new URL(`${infoApi?.code.file ?? "code.html"}#code=${code}`, location.href).href;
-createShareMenu({
+const shareMenu = createShareMenu({
   button: $("btn-share"), menu: $("link-menu"), clipboard, ready: loadShareCodec,
   scopes: {
     buffer: {
@@ -1987,6 +1987,8 @@ createShareMenu({
     },
   },
 });
+// another buffer or set shown closes it, as native's: what it shows, and what its name names, is the one it opened on
+workspace.subscribe((e) => { if (e.kind === "buffer" || e.kind === "set") shareMenu.close(); });
 
 // the sets' chip, in the tabs' slot, and the list it opens (sets-view.js)
 createSetsView({ slot: tabs.slot, menu: $("sets-menu"), workspace, toast });
