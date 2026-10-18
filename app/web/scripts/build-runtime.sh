@@ -49,9 +49,13 @@ fi
 if [ -n "$NEED_MRUBY" ]; then
   if [ "$(cat "$SRC/.patched-from" 2>/dev/null)" != "$FROM" ]; then
     echo "mruby: the pin, patched…"
-    rm -rf "$SRC"
-    cp -Rp "$MR" "$SRC"   # times kept: what the patches leave alone is not rebuilt
-    find "$SRC" -name .git -prune -exec rm -rf {} +   # the submodules' pointers, which lead nowhere from here
+    rm -rf "$SRC" && mkdir -p "$SRC"
+    # The pin's files, its own submodule's (Prism's) too, times kept: what the patches leave alone is not rebuilt.
+    # Only what git tracks, so nothing an earlier build left in the submodule; and no symbolic link, which Windows'
+    # bash makes by copying what it points to and so cannot make before that is there (Prism's fuzz corpus, a link to
+    # its fixtures, copied first, failed the build there). The build needs none.
+    git -C "$MR" -c core.quotePath=false ls-files -s --recurse-submodules | awk -F'\t' '$1 !~ /^120000 / { print $2 }' \
+      | tar -C "$MR" -cf - -T - | tar -C "$SRC" -xf -
     for p in "$PATCHES"/*.patch; do
       patch -s -p1 -N -d "$SRC" < "$p" || { echo "$(basename "$p") does not apply to mruby $(git -C "$MR" rev-parse --short HEAD)" >&2; exit 1; }
     done
