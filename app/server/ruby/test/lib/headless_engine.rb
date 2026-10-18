@@ -11,9 +11,9 @@
 # notice is included.
 #++
 
-require 'socket'
 require 'tmpdir'
 require 'timeout'
+require_relative "./engine_ports"
 require_relative "../mix/lib/mix_engine"
 
 module SonicPi
@@ -29,7 +29,7 @@ module SonicPi
     end
 
     def initialize(name)
-      @port = free_port
+      @port = EnginePorts.claim
       @log = File.join(Dir.tmpdir, "sonic-pi-#{name}-#{@port}.log")
       @pid = Process.spawn(MixEngine::ENGINE, "--headless", "-u", @port.to_s, "--tcp", @port.to_s,
                            "-o", "2", "-i", "0", "-a", "1024", "-b", "4096", "-B", "127.0.0.1",
@@ -58,18 +58,6 @@ module SonicPi
       def sched_ahead_time_at(_t)
         0.5
       end
-    end
-
-    private
-
-    def free_port
-      tcp = TCPServer.new("127.0.0.1", 0)
-      port = tcp.addr[1]
-      tcp.close
-      udp = UDPSocket.new
-      udp.bind("127.0.0.1", port)
-      udp.close
-      port
     end
   end
 end

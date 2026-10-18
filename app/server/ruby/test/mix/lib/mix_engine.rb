@@ -15,6 +15,7 @@ require 'fileutils'
 require 'tmpdir'
 
 require_relative "../../../lib/sonicpi/osc/osc"
+require_relative "../../lib/engine_ports"
 
 module SonicPi
   # Renders audio through a real mixer synthdef in a headless SuperSonic and
@@ -81,42 +82,16 @@ module SonicPi
 
     attr_reader :port
 
-    def initialize(port: nil, log: nil)
-      # No fixed default: 57190 lives inside the Windows ephemeral port
-      # range, so any transient socket on a CI runner can land on it and
-      # fail every test in the suite with "port already in use".
-      @port = port || MixEngine.free_port_pair
+    def initialize(log: nil)
+      # the engine's port and, one above it, the harness's for its replies
+      @port = EnginePorts.claim(2)
       @log_path = log || File.join(Dir.tmpdir, "sonic-pi-mix-harness-#{@port}.log")
       @replies = Queue.new
       @loaded_mixer = nil
     end
 
-    # First base port from 57190 (stepping by 2: engine + reply) where both
-    # ports bind cleanly.
-    def self.free_port_pair(base = 57_190, tries = 64)
-      tries.times do |i|
-        candidate = base + (i * 2)
-        return candidate if [candidate, candidate + 1].all? do |p|
-          begin
-            probe = UDPSocket.new
-            probe.bind("127.0.0.1", p)
-            probe.close
-            true
-          rescue Errno::EADDRINUSE, SystemCallError
-            probe.close rescue nil
-            false
-          end
-        end
-      end
-      raise EngineError, "no free port pair found from #{base}"
-    end
-
     def start
       raise EngineError, "engine not built: #{ENGINE}" unless File.executable?(ENGINE)
-      # An engine left over from an aborted run still holds the port. The new
-      # one boots, silently fails to bind, and then every await times out
-      # with nothing to suggest why, so check first and say so plainly.
-      check_port_free
       @pid = Process.spawn(ENGINE, "--headless", "-u", @port.to_s, "-o", "2", "-i", "0",
                            out: @log_path, err: [:child, :out])
       @server = OSC::UDPServer.new(@port + 1) { |addr, *args| @replies << [addr, args] }
@@ -248,22 +223,6 @@ module SonicPi
         s
       end
       @raw.send(packet, 0)
-    end
-
-    # Both the engine's control port and the harness's reply port have to be free.
-    def check_port_free
-      [@port, @port + 1].each do |p|
-        begin
-          probe = UDPSocket.new
-          probe.bind("127.0.0.1", p)
-          probe.close
-        rescue Errno::EADDRINUSE, SystemCallError
-          probe.close rescue nil
-          raise EngineError,
-                "port #{p} is already in use: an engine from an earlier run is " \
-                "probably still alive. Check for stray 'supersonic' processes."
-        end
-      end
     end
 
     def drain_replies

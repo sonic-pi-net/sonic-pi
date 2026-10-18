@@ -12,6 +12,7 @@ require 'timeout'
 require_relative '../lib/sonicpi/osc/tcp_osc_client'
 require_relative '../lib/sonicpi/osc/osc_types'
 require_relative '../lib/sonicpi/promise'
+require_relative './lib/engine_ports'
 
 class TcpOscClientIntegrationTest < Minitest::Test
   DEFAULT_ENGINE_CANDIDATES = [
@@ -28,17 +29,10 @@ class TcpOscClientIntegrationTest < Minitest::Test
              .find { |p| File.exist?(p) } ||
            File.expand_path(DEFAULT_ENGINE_CANDIDATES.first, __dir__)
 
-  def free_port
-    s = TCPServer.new('127.0.0.1', 0)
-    p = s.addr[1]
-    s.close
-    p
-  end
-
   def setup
     skip "no engine binary at #{ENGINE} (set SUPERSONIC_BIN)" unless File.exist?(ENGINE)
-    @tcp_port = free_port
-    @shm_port = free_port
+    @tcp_port = SonicPi::EnginePorts.claim
+    @shm_port = SonicPi::EnginePorts.claim
     @pid = spawn(ENGINE, '--headless', '-u', @shm_port.to_s,
                  '--tcp', @tcp_port.to_s, '--max-connections', '16',
                  %i[out err] => File::NULL)

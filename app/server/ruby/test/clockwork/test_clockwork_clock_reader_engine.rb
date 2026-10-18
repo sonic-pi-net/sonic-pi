@@ -44,7 +44,7 @@ module SonicPi
       attr_reader :port, :api
 
       def start
-        @port = MixEngine.free_port_pair
+        @port = EnginePorts.claim
         @log = File.join(Dir.tmpdir, "sonic-pi-clock-reader-#{@port}.log")
         # -u and --tcp on one port, as the daemon starts it: the command plane
         # is TCP (LinkAPI's transport), the attach endpoint derives from -u.
