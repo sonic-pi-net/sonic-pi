@@ -614,5 +614,18 @@ module SonicPi
       v = history.get(1496358140.6955268, -100, i1, 0, 0.2, m, n)
       assert_equal 5, v.val
     end
+
+    # The next event a sync waits for is the earliest after it that its arg
+    # matcher matches, even when every event is still to come and the
+    # earliest is not one it matches.
+    def test_get_next_finds_the_earliest_match_when_all_events_are_later
+      history = EventHistory.new
+      i = ThreadId.new(7)
+      history.set(11, 0, i, 0, 0, 60, "/cue/foo", 1)
+      history.set(12, 0, i, 0, 0, 60, "/cue/foo", 2)
+      history.set(13, 0, i, 0, 0, 60, "/cue/foo", 3)
+      v = history.get_next(10, 0, i, 0, 0, 60, "/cue/foo", lambda { |val| val >= 2 })
+      assert_equal 2, v.val
+    end
   end
 end

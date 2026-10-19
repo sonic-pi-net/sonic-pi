@@ -518,46 +518,24 @@ module SonicPi
       return res
     end
 
+    # Any event, if val_matcher is nil, else one whose val the lambda matches.
+    def val_matches?(val_matcher, e)
+      val_matcher.nil? || safe_matcher_call(val_matcher, e.val)
+    end
+
     def find_most_recent_event(ge, val_matcher, events)
-      if val_matcher
-        events.find { |e|  e <= ge  && safe_matcher_call(val_matcher, e.val) }
-      else
-        events.find { |e|  e <= ge }
-      end
+      events.find { |e| e <= ge && val_matches?(val_matcher, e) }
     end
 
     def find_next_event(ge, val_matcher, events)
-      return nil if events.empty?
-
-      # events are ordered with events[0] > events[max] later events are
-      # therefore closer to the start of the list
-
-      # Find the first match where time is greater than time t, d events
-      # are ordered largest t ... smallest t so actually find the first
-      # match where event's time is same or lt t, d
-      #
-      # Additionally if val_matcher is not nil, it is assumed to be a
-      # lambda representing an arg matching fn. This will then be used
-      # asqo a constraint over the val when finding a given event.
-
-      # Find the first event that's less than the time t, d.
-
-      idx = events.find_index { |e| e <= ge }
-      if idx && idx > 0
-        return events[idx - 1] unless val_matcher
-        while idx > 0
-          idx -= 1
-          return events[idx] if safe_matcher_call(val_matcher, events[idx].val)
-        end
+      # events are ordered with events[0] > events[max]: later events are
+      # closer to the start of the list. Those after ge are the ones before
+      # the first that is not; the next is the earliest of them that matches.
+      idx = events.find_index { |e| e <= ge } || events.size
+      (idx - 1).downto(0) do |j|
+        return events[j] if val_matches?(val_matcher, events[j])
       end
-
-      last = events.last
-      if val_matcher
-        return last if last && (last > ge) && safe_matcher_call(val_matcher, last.val)
-      else
-        return last if last && (last > ge)
-      end
-      return nil
+      nil
     end
 
     def matcher?(p)
