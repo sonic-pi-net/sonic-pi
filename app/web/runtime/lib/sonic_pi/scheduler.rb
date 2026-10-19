@@ -38,7 +38,8 @@ module SonicPi
                   :parent, :members, :fx, :nodes, :body_end, :subtree_at,
                   :reset_to,
                   :spawn_line,  # the line it was started from: its own when its fiber holds no frame of the program's (a sample's loading thread)
-                  :group        # the group its run belongs to (a card's, a buffer's): a thread is born into its parent's, and a live loop follows the run that redefines it
+                  :group,       # the group its run belongs to (a card's, a buffer's): a thread is born into its parent's, and a live loop follows the run that redefines it
+                  :code_job     # the run whose code it runs, as its file is that code's: its own run's, or in a live loop the run that last defined it (Language#live_loop); what it records names that run, with that code's line
     # Where the thread is on the wall clock, on the session's clock (its job's
     # start plus logical time, so threads of different runs compare; a trace's
     # one job starts at 0). Sonic Pi's sleep
@@ -76,6 +77,7 @@ module SonicPi
         @file = "run"
       end
       @group = parent ? parent.group : 0
+      @code_job = parent ? parent.code_job : path[0]
       @spawned = 0
       @delta = 0
       @slept = false
@@ -859,7 +861,7 @@ module SonicPi
       child.spawn_line = line_of(child)   # asked in the parent's fiber: the line the thread starts from
       # the last field: 1 for a thread the runtime starts for itself (a sample's loading, a play's block), which a
       # view shows as part of its parent, not as a thread of the program's
-      Native.gui(:thread_start, child.uid, live_time(child), child.path[0], line_of(child), child.time.round(6), child.beat.round(6), child.id, child.name, parent.id, opts[:internal] ? 1 : 0) if @live
+      Native.gui(:thread_start, child.uid, live_time(child), child.code_job, line_of(child), child.time.round(6), child.beat.round(6), child.id, child.name, parent.id, opts[:internal] ? 1 : 0) if @live
       delay = opts[:delay]
       sync_sym = opts[:sync_bpm] ? nil : opts[:sync]
       sync_bpm_sym = opts[:sync_bpm]
@@ -875,7 +877,7 @@ module SonicPi
           child.errored = true
           record_error(child, e, child.file)
         end
-        Native.gui(:thread_end, child.uid, live_time(child), child.path[0], 0, child.time.round(6), child.beat.round(6)) if @live
+        Native.gui(:thread_end, child.uid, live_time(child), child.code_job, 0, child.time.round(6), child.beat.round(6)) if @live
         [:done]
       end
       if opts[:defer]
@@ -1002,7 +1004,7 @@ module SonicPi
       ev.wall = p.wall
       @history.add(ev)
       # every cue to the GUI's cue log, a live loop's each time round included, as native lists them
-      Native.gui(:cue, p.uid, live_time(p), p.path[0], line_of(p), p.time.round(6), p.beat.round(6), address, SonicPi.log_inspect(val)) if @live
+      Native.gui(:cue, p.uid, live_time(p), p.code_job, line_of(p), p.time.round(6), p.beat.round(6), address, SonicPi.log_inspect(val)) if @live
       woken = @waiters.select { |(_, key, addresses)| address_hit?(addresses, address) && CueEvent.compare(ev.key, key) > 0 }
       @waiters -= woken
       @pending ||= {}
@@ -1080,7 +1082,7 @@ module SonicPi
       into = p.fx && p.fx.ref
       if @live
         # the last field: a real-time thread's sound, which goes immediately (audio_time)
-        Native.gui(:synth, p.uid, live_time(p), p.path[0], line_of(p), p.time.round(6), p.beat.round(6), h[:synth], h[:now], node, h[:args],
+        Native.gui(:synth, p.uid, live_time(p), p.code_job, line_of(p), p.time.round(6), p.beat.round(6), h[:synth], h[:now], node, h[:args],
                    into && into[:t], into && into[:thread], into && into[:synth], p.sched_ahead.zero?)
         audio_s_new(p, h, node, frame) if node
       else
@@ -1097,7 +1099,7 @@ module SonicPi
     # its logical time and thread (and, live, its node id).
     def record_control(p, node, args)
       if @live
-        Native.gui(:control, p.uid, live_time(p), p.path[0], line_of(p), p.time.round(6), p.beat.round(6), node.name, node.ref[:t], node.ref[:thread], node.id, args, p.sched_ahead.zero?)
+        Native.gui(:control, p.uid, live_time(p), p.code_job, line_of(p), p.time.round(6), p.beat.round(6), node.name, node.ref[:t], node.ref[:thread], node.id, args, p.sched_ahead.zero?)
         audio_n_set(p, node, args)
       else
         @events << { kind: "control", t: trace_t(p), beat: p.beat.round(6), thread: p.id, name: p.name.to_s, synth: node.name, of: trace_ref(node.ref), args: args }
@@ -1110,7 +1112,7 @@ module SonicPi
       at = p.start + p.time + p.sched_ahead
       node.ends_at = at if node.ends_at && at < node.ends_at
       if @live
-        Native.gui(:kill, p.uid, live_time(p), p.path[0], line_of(p), p.time.round(6), p.beat.round(6), node.name, node.ref[:t], node.ref[:thread], node.id, p.sched_ahead.zero?)
+        Native.gui(:kill, p.uid, live_time(p), p.code_job, line_of(p), p.time.round(6), p.beat.round(6), node.name, node.ref[:t], node.ref[:thread], node.id, p.sched_ahead.zero?)
         audio_n_free(p, node)
       else
         @events << { kind: "kill", t: trace_t(p), beat: p.beat.round(6), thread: p.id, name: p.name.to_s, synth: node.name, of: trace_ref(node.ref) }
@@ -1126,7 +1128,7 @@ module SonicPi
     def record_midi(p, path, args)
       p.events += 1
       if @live
-        Native.gui(:midi, p.uid, live_time(p), p.path[0], line_of(p), p.time.round(6), p.beat.round(6), path, args)
+        Native.gui(:midi, p.uid, live_time(p), p.code_job, line_of(p), p.time.round(6), p.beat.round(6), path, args)
       else
         @events << { kind: "midi", t: trace_t(p), beat: p.beat.round(6), thread: p.id, name: p.name.to_s, path: path, args: args }
       end
@@ -1138,19 +1140,19 @@ module SonicPi
     # does not keep these.
     def rt_record(p, h)
       return unless @live
-      Native.gui(:record, p.uid, live_time(p), p.path[0], line_of(p), p.time.round(6), p.beat.round(6), h)
+      Native.gui(:record, p.uid, live_time(p), p.code_job, line_of(p), p.time.round(6), p.beat.round(6), h)
     end
 
     def rt_sleep(p, from, beats)
       return unless @live
       p.wait_line = line_of(p)
-      Native.gui(:sleep, p.uid, p.start + from + p.sched_ahead + @time_warp, p.path[0], p.wait_line, from.round(6), p.beat.round(6), beats, p.time.round(6))
+      Native.gui(:sleep, p.uid, p.start + from + p.sched_ahead + @time_warp, p.code_job, p.wait_line, from.round(6), p.beat.round(6), beats, p.time.round(6))
     end
 
     def rt_sync(p, addresses)
       return unless @live
       p.wait_line = line_of(p)
-      Native.gui(:sync, p.uid, live_time(p), p.path[0], p.wait_line, p.time.round(6), p.beat.round(6), addresses)
+      Native.gui(:sync, p.uid, live_time(p), p.code_job, p.wait_line, p.time.round(6), p.beat.round(6), addresses)
     end
 
     # A record's time on the host's clock: when it sounds.
@@ -1161,7 +1163,7 @@ module SonicPi
     # moment, in the editor or on the card whose run it is (main.js onRecord). Live only: a trace keeps none, as the
     # oracle's does not.
     def record_flash(p, line)
-      Native.gui(:flash, p.uid, live_time(p), p.path[0], line, p.time.round(6), p.beat.round(6)) if @live && line
+      Native.gui(:flash, p.uid, live_time(p), p.code_job, line, p.time.round(6), p.beat.round(6)) if @live && line
     end
 
     # The line the thread is at, lit.
@@ -1276,7 +1278,7 @@ module SonicPi
         @fx_frees << [at, f] if f.group
         @fx_gone << f if f.uid
         # in the trace's frame, as the NRT event below: the page times it by `at`; t and of are the trace's own
-        Native.gui(:fx_free, o.uid, at, o.path[0], nil, (t - DEFAULT_SCHED_AHEAD).round(6), trace_ref(f.ref)[:t], f.ref[:thread], f.ref[:synth], f.first_node || f.node.id) if shown
+        Native.gui(:fx_free, o.uid, at, o.code_job, nil, (t - DEFAULT_SCHED_AHEAD).round(6), trace_ref(f.ref)[:t], f.ref[:thread], f.ref[:synth], f.first_node || f.node.id) if shown
       elsif shown
         # heard at its wall-clock moment: in the trace's frame, less the default schedule-ahead (trace_t)
         @events << { kind: "fx_free", t: (t - DEFAULT_SCHED_AHEAD).round(6), thread: o.id, name: o.name.to_s, synth: f.ref[:synth], of: trace_ref(f.ref) }
@@ -1331,7 +1333,7 @@ module SonicPi
         # are scheduled sched_ahead out, and moved at once the loop would play
         # into a bus nothing reads until then (a hit cut, the next one lost).
         handover_fx(own, into, live_time(caller), job_place(loop, caller.start + caller.time)) if own && own.bus && own.node
-        Native.gui(:loop_move, caller.uid, live_time(caller), caller.path[0], line_of(caller), caller.time.round(6), caller.beat.round(6), loop.id,
+        Native.gui(:loop_move, caller.uid, live_time(caller), caller.code_job, line_of(caller), caller.time.round(6), caller.beat.round(6), loop.id,
                    to && to.ref && to.ref[:t], to && to.ref && to.ref[:thread], to && to.ref && to.ref[:synth], loop.uid)
       else
         ev = { kind: "loop_move", t: caller.time.round(6), beat: caller.beat.round(6), thread: caller.id, name: caller.name.to_s, loop: loop.id }
@@ -1625,7 +1627,7 @@ module SonicPi
 
     def record_load(p, path)
       if @live
-        Native.gui(:sample_load, p.uid, live_time(p), p.path[0], line_of(p), p.time.round(6), p.beat.round(6), path)
+        Native.gui(:sample_load, p.uid, live_time(p), p.code_job, line_of(p), p.time.round(6), p.beat.round(6), path)
         EngineIds.buffer(path)
       else
         @events << { kind: "sample_load", t: p.time.round(6), beat: p.beat.round(6), thread: p.id, name: p.name.to_s, path: path }
@@ -1668,7 +1670,7 @@ module SonicPi
     # rounded to four places for the GUI.
     def output_line(p, text)
       if @live
-        Native.gui(:output, p.uid, live_time(p), p.path[0], line_of(p), p.time.round(4), text)
+        Native.gui(:output, p.uid, live_time(p), p.code_job, line_of(p), p.time.round(4), text)
       else
         @output << { t: p.time.round(4), thread: p.id, name: p.name.to_s, text: text }
       end
@@ -1676,7 +1678,7 @@ module SonicPi
 
     def log_line(p, text)
       if @live
-        Native.gui(:log, p.uid, live_time(p), p.path[0], line_of(p), p.time.round(4), text)
+        Native.gui(:log, p.uid, live_time(p), p.code_job, line_of(p), p.time.round(4), text)
       else
         @log << { t: p.time.round(4), thread: p.id, name: p.name.to_s, text: text }
       end
@@ -1716,7 +1718,7 @@ module SonicPi
       if @live
         # an opt that broke a rule carries the rule itself (SonicPi::OptError): the error card says it in its own
         # words and can offer a value that would do, rather than reading this sentence back apart
-        Native.gui(:error, p.uid, live_time(p), p.path[0], line, e.class.name, message,
+        Native.gui(:error, p.uid, live_time(p), p.code_job, line, e.class.name, message,
                    e.is_a?(SonicPi::OptError) ? e.fault : nil)
       else
         @errors << { class: e.class.name, message: message, line: line, thread: p.id, name: p.name.to_s }

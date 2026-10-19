@@ -316,13 +316,20 @@ module SonicPi
       raise ArgumentError, "live_loop's delay: opt must be a number, got #{delay.inspect}" if delay && !delay.is_a?(Numeric)
       auto_cue = args_h.key?(:auto_cue) ? args_h[:auto_cue] : true
       # its header and its end lit each time round, as native's: the lines as this Run has them, so a redefinition
-      # lights its own
+      # lights its own. Each time round its code is this Run's, whichever run started the loop's thread (another
+      # buffer, another card): what it plays is this code's line, and this Run's (Process#code_job).
       ll_line = @sched.line_of(__p)
       ll_end = @sched.end_line_of(block, ll_line)
-      case block.arity
-      when 0 then define(ll_name) { |a| @sched.record_flash(__p, ll_line); @sched.record_flash(__p, ll_end); block.call }
-      when 1 then define(ll_name) { |a| @sched.record_flash(__p, ll_line); @sched.record_flash(__p, ll_end); block.call(a) }
-      else raise ArgumentError, "Live loop block must only accept 0 or 1 args"
+      ll_file = __p.file
+      ll_job = __p.code_job
+      raise ArgumentError, "Live loop block must only accept 0 or 1 args" unless block.arity == 0 || block.arity == 1
+      define(ll_name) do |a|
+        p = __p
+        p.file = ll_file
+        p.code_job = ll_job
+        @sched.record_flash(p, ll_line)
+        @sched.record_flash(p, ll_end)
+        block.arity == 0 ? block.call : block.call(a)
       end
       existing = @sched.named_process(ll_name, __p.wall)
       if existing

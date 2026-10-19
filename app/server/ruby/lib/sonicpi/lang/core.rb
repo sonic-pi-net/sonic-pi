@@ -2406,25 +2406,18 @@ play 80      # This is *never* played as the program is trapped in the loop abov
 
         # Flash the loop's header and matching end lines each time round.
         # Captured at (re-)definition time, not per-cycle from the stack, so
-        # they always reflect the latest Run's code.
+        # they always reflect the latest Run's code. That Run's code is where
+        # the loop's sounds flash too: the loop's thread may be another
+        # buffer's or card's, which started it (__caller_workspace_line).
         ll_ws, ll_line = __caller_workspace_line
         ll_end_line = ll_ws ? __block_end_line(block) : nil
 
-        case block.arity
-        when 0
-          define(ll_name) do |a|
-            __delayed_flash(ll_ws, ll_line) if ll_ws
-            __delayed_flash(ll_ws, ll_end_line) if ll_end_line
-            block.call
-          end
-        when 1
-          define(ll_name) do |a|
-            __delayed_flash(ll_ws, ll_line) if ll_ws
-            __delayed_flash(ll_ws, ll_end_line) if ll_end_line
-            block.call(a)
-          end
-        else
-          raise ArgumentError, "Live loop block must only accept 0 or 1 args"
+        raise ArgumentError, "Live loop block must only accept 0 or 1 args" unless block.arity == 0 || block.arity == 1
+        define(ll_name) do |a|
+          __system_thread_locals.set(:sonic_pi_spider_code_workspace, ll_ws)
+          __delayed_flash(ll_ws, ll_line) if ll_ws
+          __delayed_flash(ll_ws, ll_end_line) if ll_end_line
+          block.arity == 0 ? block.call : block.call(a)
         end
 
         # Mini-scope support: tap the loop's audio into its own scope-buffer

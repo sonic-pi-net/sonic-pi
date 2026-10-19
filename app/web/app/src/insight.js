@@ -9,6 +9,7 @@
 import { css } from "./theme.js";
 import { animateWhileShown } from "./ui/shown.js";
 import { createProcessTree } from "./process-tree.js";
+import { loopName } from "./loop-name.js";
 import { createPianoRoll } from "./piano-roll.js";
 import { perfAdd } from "./perf.js";
 import { icon } from "./icons.js";
@@ -26,7 +27,7 @@ const el = (tag, cls, text) => {
 
 /**
  * A thread's name as a musician reads it. A named thread is its name (a live
- * loop's without the live_loop_ the runtime puts on it); a run's main thread
+ * loop's as written, loopName); a run's main thread
  * is main; any other is whose it is and which: ":song › 256" for the 257th
  * thread the loop :song started, "main › 7", and a thread started inside an
  * unnamed thread shows that thread's number, "256 › 1". A thread's id is its
@@ -34,8 +35,7 @@ const el = (tag, cls, text) => {
  * `lookup(id)` gives a known thread ({ name }) or null, for the parent's name.
  */
 export function threadLabel(id, name, lookup = () => null) {
-  if (name && name.startsWith("live_loop_")) return `:${name.slice(10)}`;
-  if (name) return `:${name}`;
+  if (name) return `:${loopName(name) ?? name}`;
   const path = String(id).split(".");
   if (path.length <= 2) return "main";
   const parentId = path.slice(0, -1).join(".");

@@ -31,6 +31,7 @@
 import { css } from "./theme.js";
 import { animateWhileShown } from "./ui/shown.js";
 import { perfAdd } from "./perf.js";
+import { loopName } from "./loop-name.js";
 
 export const KIND = { run: 0, main: 1, liveLoop: 2, named: 3, thread: 4, session: 5, fx: 6, synth: 7, sample: 8, group: 9 };   // group: a container the runs hang from (Scheduler#stop_group)
 const SOUND_LINGER = 1.0;
@@ -113,7 +114,8 @@ export function processLabel(row) {
   if (row.kind === KIND.fx) return `with_fx :${(row.name ?? "").replace(/^sonic-pi-fx_/, "")}`;
   if (row.kind === KIND.sample) return `sample :${(row.sample || row.name || "").replace(/\.(flac|wav|wave|aiff?|ogg|oga|mp3)$/i, "")}`;
   if (row.kind === KIND.synth) return `synth :${(row.name ?? "").replace(/^sonic-pi-/, "")}`;
-  if (row.name?.startsWith("live_loop_")) return `live_loop :${row.name.slice(10)}`;
+  const loop = loopName(row.name);
+  if (loop != null) return `live_loop :${loop}`;
   if (row.name) return `in_thread :${row.name}`;
   // an unnamed thread: its number under its parent, which the tree draws above it (the whole id is in its tip)
   return `in_thread ${String(row.id).split(".").pop()}`;

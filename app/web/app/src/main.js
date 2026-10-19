@@ -28,6 +28,7 @@ import { createDeck } from "./ui/deck.js";
 import { pageFromMeta, pageFromSynthdef } from "./synth-meta.js";
 import { createQuickstart } from "./quickstart.js";
 import { createInsight, threadLabel } from "./insight.js";
+import { loopName } from "./loop-name.js";
 import { createFlightRecorder } from "./flight.js";
 import { createAudioTrail, trailText } from "./audio-trail.js";
 import { createLogs } from "./logs.js";
@@ -662,13 +663,28 @@ const caretSynth = () => synthAt(editor.getCode(), editor.view.state.selection.m
 // getScope, in SAB mode) and the editor draws after the loop's header line.
 // The fx record says which loop got which slot; its fx_free, or the job
 // ending, takes the scope down again.
-const loopScopes = new Map();        // fx node → { name, slot, job }
+const loopScopes = new Map();        // fx node → { name, slot, job, buffer, code }
 const loopScopePrefs = { show: store.get("sp-loop-scopes", true), scroll: store.get("sp-loop-scope-scroll", false) };
 const scopeFrame = (slot, frames) => engineRef?.getScope?.(slot, frames) ?? null;
 function paintLoopScopes() {
   editor.setLoopScopes(loopScopePrefs.show
-    ? [...loopScopes.values()].filter((s) => (s.buffer ?? jobBuffer.get(s.job)) === editor.active).map(({ name, slot }) => ({ name, slot }))
+    ? [...loopScopes.values()].filter((s) => (s.buffer ?? jobBuffer.get(s.code ?? s.job)) === editor.active).map(({ name, slot }) => ({ name, slot }))
     : []);
+}
+// A loop taken over (another buffer's Run, or a card's) runs on in its thread, but with the code of the run that took
+// it: what it records names that run (scheduler.rb Process#code_job), and its scope goes with it, to that run's buffer
+// or, for a card's, out of them all. Its job stays the thread's run, whose end takes the scope down.
+function followLoop(r) {
+  const name = loopName(r.name);
+  if (name == null || r.job == null) return;
+  let moved = false;
+  for (const s of loopScopes.values()) {
+    if (s.name !== name || (s.code ?? s.job) === r.job) continue;
+    s.code = r.job;
+    s.buffer = jobBuffer.get(r.job) ?? startingBuffer;   // as the fx record's: the run's head may not have said its buffer yet
+    moved = true;
+  }
+  if (moved) paintLoopScopes();
 }
 
 // Threads held on a sync, marked at the line they wait on (editor.js waitField):
@@ -956,7 +972,7 @@ function logRow(r, out = false) {
   let text = String(r.text).replace(/\s+/g, " ").trim();
   text = text.replace(/^sample "<samples>", "([^"]+)\.\w+"(?:, \{(.*)\})?$/, (_, name, opts) => `sample :${name}${opts ? `, ${opts}` : ""}`);
   text = text.replace(/^(synth :\S+|control \S+|kill \S+), \{(.*)\}$/, "$1, $2");
-  const t = fmtTime(r.t ?? 0), who = r.name ? `[${r.name.replace(/^live_loop_/, "")}]` : "";
+  const t = fmtTime(r.t ?? 0), who = r.name ? `[${loopName(r.name) ?? r.name}]` : "";
   append(logBox, { make: () => {
     const row = el("div", `log-row${out ? " log-row-out" : ""}`);
     row.appendChild(el("span", "log-t", t));
@@ -1185,7 +1201,7 @@ function showJobs(s) {
   if (key === lastJobs) return;
   lastJobs = key;
   // the runs going, as their ids ([1, 3]); the live loops they have going, on hover
-  const loops = s.named.filter((n) => n.startsWith("live_loop_")).map((n) => `:${n.slice(10)}`);
+  const loops = s.named.map(loopName).filter((n) => n != null).map((n) => `:${n}`);
   const el = $("status-jobs");
   el.textContent = s.jobs.length ? `[${s.jobs.join(", ")}]` : "";
   el.title = s.jobs.length ? `Runs going: ${s.jobs.join(", ")}${loops.length ? ` · live loops: ${loops.join(" ")}` : ""}` : "";
@@ -1269,12 +1285,13 @@ function onRecord(r, at, stale = false) {
   if (r.kind === "studio" && r.op === "link_bpm") setLinkBpm(r.value, true);      // a program's set_link_bpm!
   if (r.kind === "load_example") return loadExample(r.name);
   if (r.kind === "cue") addCue(r.address, r.val, r.t);   // every cue as the runtime sends it (gui-stream.js): a live loop's each time round, cue's, set's
-  if (r.kind === "synth" && r.synth === "sonic-pi-fx_scope_out" && r.node != null && r.args?.scope_num != null && /^live_loop_/.test(r.name)) {
+  if (r.kind === "synth" && r.synth === "sonic-pi-fx_scope_out" && r.node != null && r.args?.scope_num != null && loopName(r.name) != null) {
     // the fx record can land before run() has said which buffer the job is: the run starting says
-    loopScopes.set(r.node, { name: r.name.slice(10), slot: r.args.scope_num, job: r.job, buffer: jobBuffer.get(r.job) ?? startingBuffer });
+    loopScopes.set(r.node, { name: loopName(r.name), slot: r.args.scope_num, job: r.job, buffer: jobBuffer.get(r.job) ?? startingBuffer });
     paintLoopScopes();
   }
   if (r.kind === "fx_free" && loopScopes.delete(r.node)) paintLoopScopes();
+  followLoop(r);
   if (!r.line || r.job == null) return;
   const deck = cardDecks().find((d) => d.owns(r.job) || d.starting);   // a run's first sound is recorded before play returns its job: the flash, due sched-ahead later, finds it known
   if (r.kind === "flash") return flashLine(r, deck);

@@ -1329,6 +1329,14 @@ void SonicPiScintilla::dropLiveLoopScopesFor(int scopeNum, const QString& name)
         endLiveLoopScope(n);
 }
 
+void SonicPiScintilla::releaseLiveLoopScopeElsewhere(const QList<SonicPiScintilla*>& buffers, const SonicPiScintilla* home,
+                                                     int scopeNum, const QString& name)
+{
+    for (SonicPiScintilla* other : buffers)
+        if (other != home)
+            other->dropLiveLoopScopesFor(scopeNum, name);
+}
+
 void SonicPiScintilla::endLiveLoopScope(const QString& name)
 {
     if (LiveLoopScopeWidget* w = m_loopScopes.take(name))

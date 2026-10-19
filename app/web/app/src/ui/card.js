@@ -26,6 +26,7 @@ import { loopScopeField, setLoopScopes, loopScopeCanvas } from "../editor.js";
 import { LoopScopeState, drawLoopScope, SCROLL_WINDOW, SWEEP_WINDOW, SWEEP_SEARCH } from "../loopscope.js";
 import { css, colour, blend, cssColour } from "../theme.js";
 import { createEventStrip } from "./strip.js";
+import { loopName } from "../loop-name.js";
 import { FLASH_HOLD_MS, codeSpan } from "../flash.js";
 import { TRANSPORT, TRANSPORT_STOP } from "./card-html.js";
 
@@ -287,8 +288,8 @@ function cardLoopScopes(body, hooks) {
   return {
     paint,
     record(r) {
-      if (r.kind === "synth" && r.synth === "sonic-pi-fx_scope_out" && r.node != null && r.args?.scope_num != null && /^live_loop_/.test(r.name ?? "")) {
-        loops.set(r.node, { name: r.name.slice(10), slot: r.args.scope_num });
+      if (r.kind === "synth" && r.synth === "sonic-pi-fx_scope_out" && r.node != null && r.args?.scope_num != null && loopName(r.name) != null) {
+        loops.set(r.node, { name: loopName(r.name), slot: r.args.scope_num });
         paint();
       } else if (r.kind === "fx_free" && loops.delete(r.node)) paint();
     },

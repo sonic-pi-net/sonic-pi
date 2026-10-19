@@ -254,13 +254,29 @@ TEST_CASE("loop scope: a loop run from another buffer leaves no scope behind in 
     a.ed->setLiveLoopScope("t", 0, 10, s.reader());
     a.ed->setLiveLoopScope("v", 0, 11, other.reader());
     QTest::qWait(30);
-    // :t now lives in b (MainWindow tells every other buffer to let go of it)
-    a.ed->dropLiveLoopScopesFor(10, "t");
+    // :t now lives in b: every other buffer lets go of it (MainWindow, on its scope from b)
+    SonicPiScintilla::releaseLiveLoopScopeElsewhere({ a.ed, b.ed }, b.ed, 10, "t");
     b.ed->setLiveLoopScope("t", 0, 10, s.reader());
     QTest::qWait(30);
     CHECK_FALSE(a.scope("t"));
     CHECK(a.scope("v"));       // another loop's scope stays
     CHECK(b.scope("t"));
+}
+
+TEST_CASE("loop scope: a loop a card takes over leaves no scope behind in any buffer", "[loopscope]")
+{
+    Editor a(kCode);
+    Slot s, other;
+    s.live();
+    other.live();
+    a.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    a.ed->setLiveLoopScope("v", 0, 11, other.reader());
+    QTest::qWait(30);
+    // a card runs :t now: its scope comes from the card, which is no buffer
+    SonicPiScintilla::releaseLiveLoopScopeElsewhere({ a.ed }, nullptr, 10, "t");
+    QTest::qWait(30);
+    CHECK_FALSE(a.scope("t"));
+    CHECK(a.scope("v"));       // another loop's scope stays
 }
 
 TEST_CASE("loop scope: beside another loop's header it hides; beside a name worked out at run time it shows", "[loopscope]")

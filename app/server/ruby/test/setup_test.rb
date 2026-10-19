@@ -14,6 +14,10 @@ require 'minitest'
 def (Minitest).load_plugins; end
 require 'minitest/autorun'
 
+# As bin/spider-server.rb does: the runtime's helper classes (Jobs, stopping a
+# run) call Util's thread-local accessors as though they were their own.
+include SonicPi::Util
+
 # Mocha renamed its Minitest integration entry point in 1.5. The vendored copy
 # predates the rename; distribution builds run against a system gem that has
 # since dropped the old name, so accept whichever is present. The two must not
@@ -92,6 +96,16 @@ module SonicPi
       @named_subthreads = {}
       @job_subthread_mutex = Mutex.new
       @osc_cue_server_mutex = Mutex.new
+      # As the server's runtime has them, so a test can run code through
+      # __spider_eval: the module user functions are defined on (the server
+      # includes it in the runtime's class), the live loops' scope slots and
+      # the blocks' end lines.
+      @user_methods = Module.new
+      singleton_class.include(@user_methods)
+      @live_loop_scope_slots = {}
+      @live_loop_scope_slots_mutex = Mutex.new
+      @block_end_lines = {}
+      @block_end_lines_mutex = Mutex.new
       @user_jobs = Jobs.new
       @session_id = SecureRandom.uuid
       @snippets = {}

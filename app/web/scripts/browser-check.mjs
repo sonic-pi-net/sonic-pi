@@ -334,6 +334,28 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.waitForFunction(() => /redefined/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(() => {});
     const jobs2 = await page.locator("#status-jobs").getAttribute("title");
     check("a second Run redefines a live loop in place", (await logText()).includes("redefined") && /:hat/.test(jobs2), jobs2);
+    // A loop another buffer takes over runs that buffer's code: its scope goes there with it, and from here, where
+    // another loop's stays (main.js followLoop; native's SonicPiScintilla::releaseLiveLoopScopeElsewhere). A card that
+    // takes a loop over is a run with no buffer: the scope goes from every buffer.
+    const scopedLoops = () => page.evaluate(() => [...document.querySelector("#editor-mount").shadowRoot.querySelectorAll(".sp-loop-scope")]
+      .map((c) => /^live_loop :(\w+)/.exec(c.closest(".cm-line")?.textContent.trim() ?? "")?.[1]).filter(Boolean).sort().join(" "));
+    await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend\nlive_loop :hat do\n  sample :drum_cymbal_closed\n  sleep 0.25\nend");
+    await page.click("#btn-run");   // both loops' headers in this buffer again, for both scopes to show
+    await page.waitForFunction(() => document.querySelector("#editor-mount").shadowRoot.querySelectorAll(".sp-loop-scope").length >= 2, null, { timeout: 10000 }).catch(() => {});
+    const home = await page.evaluate(() => window.sonicPi.editor.active);
+    const scopedHere = await scopedLoops();
+    await page.evaluate((i) => window.sonicPi.workspace.showBuffer((i + 1) % window.sonicPi.workspace.size), home);
+    const otherCode = await page.evaluate(() => window.sonicPi.editor.getCode());
+    await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend");
+    await page.click("#btn-run");
+    await page.waitForTimeout(2000);
+    const scopedThere = await scopedLoops();
+    await setCode(otherCode);
+    await page.evaluate((i) => window.sonicPi.workspace.showBuffer(i), home);
+    await page.waitForTimeout(500);
+    const scopedBack = await scopedLoops();
+    check("a loop another buffer takes over takes its scope there, and the one it left keeps only its own loops'",
+      scopedHere === "hat kick" && scopedThere === "kick" && scopedBack === "hat", JSON.stringify({ scopedHere, scopedThere, scopedBack }));
     // The synths are this repo's build of each one (web/sonic_pi.js bootEngine), from the CDN only where its copy is
     // this one: SuperSonic's set drifts, and a stale one plays differently or not at all. The autotuner is what this
     // listens to — 0.85.0's copy predates the fix for the pitch tracker's first reading, and makes no sound at all — so

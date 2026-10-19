@@ -496,6 +496,20 @@ for (const spec of specs) {
     if (after) t.problems.push(`:flibble still triggered ${after} times after group 2's stop`);
   });
 
+  // A loop taken over runs on in the thread the first run started, but its code is the run's that took it over: a
+  // sound of that code is that run's line, as its header and end are, so the page lights it in that run's buffer or
+  // card (the Hotswap deck: the second card's lines light).
+  scenario("a loop another run takes over sounds from that run's lines", (t) => {
+    const first = t.run("live_loop :flibble do\n  play 60, release: 0.1\n  sleep 0.5\nend\n", t.now, 2);
+    t.tickUntil(t.now + 1);
+    const second = t.run("live_loop :flibble do\n  sleep 0.5\n  play 64, release: 0.1\nend\n", t.now, 3);
+    t.tickUntil(t.now + 2);
+    const sounds = records.filter((r) => r.kind === "synth" && r.args?.note === 64);
+    const wrong = sounds.filter((r) => r.line !== 3 || r.job !== second).map((r) => `line ${r.line} of run ${r.job}`);
+    if (!sounds.length) t.problems.push("the second run's code should play");
+    if (wrong.length) t.problems.push(`the second run's sounds should be its line 3 (run ${second}; the first was run ${first}): ${[...new Set(wrong)].join(", ")}`);
+  });
+
   scenario("a stop with a fade turns the group's fx down first and frees them as the fade ends", (t) => {
     t.run(LOOP, t.now, 1);
     t.tickUntil(t.now + 2);

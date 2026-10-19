@@ -22,8 +22,7 @@ const lookup = (id) => known.get(id) ?? null;
 
 test("a named thread is called by its name, a live loop by its loop name", () => {
   assert.equal(threadLabel("0.0.0", "live_loop_song", lookup), ":song");
-  assert.equal(threadLabel("0.0.1", "drums", lookup), ":drums");
-});
+  assert.equal(threadLabel("0.0.1", "drums", lookup), ":drums");});
 
 test("a run's main thread is main, and a thread of it is main › its number", () => {
   assert.equal(threadLabel("0.0", "", lookup), "main");

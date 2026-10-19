@@ -56,6 +56,10 @@ test("an fx and a sound are named as a program says them", () => {
   assert.equal(processLabel({ kind: KIND.sample, name: "sonic-pi-basic_stereo_player", sample: "bd_haus.flac" }), "sample :bd_haus");
 });
 
+test("a live loop is named as a program says it", () => {
+  assert.equal(processLabel({ kind: KIND.liveLoop, name: "live_loop_groove" }), "live_loop :groove");
+});
+
 test("a live loop moved into an fx hangs from it, under the thread that moved it", () => {
   // run 1 → main 2 → with_fx 7 → loop 3; the loop's old parent was main 5 of an earlier run
   const t = layoutTargets([

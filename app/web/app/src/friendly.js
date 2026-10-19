@@ -7,6 +7,7 @@
 // headline and hint mark code with backticks (the card sets them as code); line is 1-based, from/to 0-based columns in
 // it (from === to: a point, drawn as a caret); a fix is { line, from, to, insert, label } in the same terms, only when
 // the change is certain enough to offer as one tap. known (makeKnown) is what the docs say exists.
+import { loopName } from "./loop-name.js";
 
 export function makeKnown(completion) {
   const entries = completion.entries ?? {};
@@ -556,7 +557,8 @@ function explainRuntime(cls, raw, code, line, thread, known, fault) {
     });
   }
   if (/ZeroTimeLoopError|did not sleep or sync/.test(cls + raw)) {
-    const name = /^live_loop_(\w+)$/.exec(thread ?? "")?.[1] ?? /:(\w+)/.exec(thread ?? "")?.[1];
+    const loop = loopName(thread);
+    const name = (/^\w+$/.test(loop ?? "") ? loop : null) ?? /:(\w+)/.exec(thread ?? "")?.[1];
     const start = name ? lines.findIndex((s) => new RegExp(`\\blive_loop\\s+:${name}\\b`).test(s)) + 1 : 0;
     let fix;
     if (start) {

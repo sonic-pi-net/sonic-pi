@@ -518,11 +518,12 @@ module SonicPi
     end
 
     # The user's source location responsible for the current call: the nearest
-    # frame in the running buffer (the eval filename is the workspace), so it
-    # lands on the actual user line whatever the call depth. [workspace, line]
-    # or nil.
+    # frame in the code running (the eval filename is the workspace), so it
+    # lands on the actual user line whatever the call depth. The code is the
+    # run's, or in a live loop that of the run that last defined it, which
+    # may be another buffer's or card's (live_loop). [workspace, line] or nil.
     def __caller_workspace_line
-      ws = __current_job_info && __current_job_info[:workspace]
+      ws = __system_thread_locals.get(:sonic_pi_spider_code_workspace) || (__current_job_info && __current_job_info[:workspace])
       return nil unless ws
       frame = caller_locations(2, 50)&.find { |l| l.path == ws }
       frame ? [ws, frame.lineno] : nil

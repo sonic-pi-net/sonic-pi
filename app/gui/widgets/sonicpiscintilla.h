@@ -159,6 +159,11 @@ public slots:
     // Let go of the scopes for a loop that now lives in another buffer: any
     // named `name`, and any on slot scopeNum.
     void dropLiveLoopScopesFor(int scopeNum, const QString& name);
+    // A live loop now runs from home, the buffer it was last run from, or from
+    // no buffer at all (nullptr: a card took it over): every other buffer lets
+    // go of its scope and of its slot (dropLiveLoopScopesFor).
+    static void releaseLiveLoopScopeElsewhere(const QList<SonicPiScintilla*>& buffers, const SonicPiScintilla* home,
+                                              int scopeNum, const QString& name);
     // Roll-mode (scrolling strip) vs the default triggered sweep; applies to
     // current and future loop scopes (preference: loop_scope_scroll).
     void setLiveLoopScopeScroll(bool scroll);

@@ -795,22 +795,17 @@ void MainWindow::setupWindowStructure()
 
     connect(m_spClient.get(), &SonicPi::QtAPIClient::LiveLoopScopeReceived, this,
             [this](int, const QString& name, const QString& workspace, int line, int scopeNum) {
+                if (!m_spAPI)
+                    return;
                 // Same guard as the flash: only pin scopes to real editor buffers.
-                if (!workspace.startsWith("workspace_") || !m_spAPI)
-                    return;
-                SonicPiScintilla* ws = filenameToWorkspace(workspace.toStdString());
-                if (!ws)
-                    return;
-                // The loop lives in this buffer now: no other buffer keeps a
-                // scope for it, or for its slot.
+                SonicPiScintilla* home = workspace.startsWith("workspace_") ? filenameToWorkspace(workspace.toStdString()) : nullptr;
+                QList<SonicPiScintilla*> buffers;
                 for (int i = 0; i < editorTabWidget->count(); i++)
-                {
-                    SonicPiScintilla* other = ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
-                    if (other != ws)
-                        other->dropLiveLoopScopesFor(scopeNum, name);
-                }
-                ws->setLiveLoopScope(name, line - 1, scopeNum,
-                                     m_spAPI->AudioProcessor_GetScopeReader((unsigned int)scopeNum));
+                    buffers << ((SonicPiEditor*)editorTabWidget->widget(i))->getWorkspace();
+                SonicPiScintilla::releaseLiveLoopScopeElsewhere(buffers, home, scopeNum, name);
+                if (home)
+                    home->setLiveLoopScope(name, line - 1, scopeNum,
+                                           m_spAPI->AudioProcessor_GetScopeReader((unsigned int)scopeNum));
             });
     connect(m_spClient.get(), &SonicPi::QtAPIClient::LiveLoopScopeEndedReceived, this,
             [this](int, const QString& name) {
