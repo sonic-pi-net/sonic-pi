@@ -27,6 +27,7 @@
 
 #include "api/osc/osc_pkt.hh"
 #include "api/sonicpi_api.h"
+#include "no_client.h"
 #include "own_settings.h"
 #include "utils/gui_settings.h"
 #include "widgets/linkaudiostreamswidget.h"
@@ -34,25 +35,6 @@
 namespace {
 
 using namespace SonicPi;
-
-struct NoClient : IAPIClient
-{
-    void Report(const MessageInfo&) override {}
-    void Status(const StatusInfo&) override {}
-    void Cue(const CueInfo&) override {}
-    void Midi(const MidiInfo&) override {}
-    void Version(const VersionInfo&) override {}
-    void AudioDataAvailable(ProcessedAudioPtr) override {}
-    void Buffer(const BufferInfo&) override {}
-    void ActiveLinks(const int) override {}
-    void BPM(const double) override {}
-    void Scsynth(const ScsynthInfo&) override {}
-    void AudioDevices(const AudioDevicesInfo&) override {}
-    void AudioInputDevices(const AudioInputDevicesInfo&) override {}
-    void AudioDeviceConfig(const AudioDeviceConfigInfo&) override {}
-    void SupersonicSetup(int, int) override {}
-    void SpiderReady() override {}
-};
 
 // An engine that only listens: every message the GUI sends it, in order.
 struct ListeningEngine : SonicPiAPI

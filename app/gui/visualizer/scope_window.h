@@ -29,7 +29,7 @@
 
 class QTimer;
 
-#include <qt_api_client.h>
+#include <api/sonicpi_api.h>
 
 #include "config.h"
 
@@ -85,19 +85,18 @@ class ScopeWindow : public SonicPi::KeptOpaque<QWidget>
     Q_OBJECT
 
 public:
-    ScopeWindow(std::shared_ptr<QtAPIClient> spClient, std::shared_ptr<SonicPiAPI> spAPI, QWidget* parent = nullptr);
+    ScopeWindow(std::shared_ptr<SonicPiAPI> spAPI, QWidget* parent = nullptr);
     virtual ~ScopeWindow();
 
     std::vector<QString> GetScopeCategories() const;
     bool EnableScope(const QString& name, bool on);
     bool SetScopeLabels(bool on);
     void TogglePause();
+    // Pausing is the user's: the pause button, F12, the Visuals menu, or
+    // "Reduce animations" turned on. Nothing else pauses or resumes the
+    // scopes. Silence needs no pause: repaints stop once the trace has
+    // faded, and frames stop once the engine idles.
     void Pause();
-    // Deferred pause: keep consuming until the audio is silent and the
-    // spectrum ballistics have decayed, then Pause(). Lets tails ring
-    // out visually instead of freezing the scope mid-image.
-    void PauseWhenSilent();
-    void Resume();
     bool IsPaused() const { return m_paused; }
     // Dock hidden/minimized: stop the engine-side audio processor entirely
     // (sample copies, FFT, ~60Hz cross-thread frames) without touching the
@@ -132,13 +131,12 @@ public:
 
 signals:
     // Emitted whenever the running/frozen state actually flips, from any
-    // path: F12, the Visuals menu, the overlay button, or pause-when-silent.
+    // path: F12, the Visuals menu, the pause button, or Reduce animations.
     void PausedChanged(bool paused);
 
-private slots:
-    void OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio);
-
 public slots :
+    // Each frame from the audio processor (QtAPIClient::ConsumeAudioData).
+    void OnConsumeAudioData(SonicPi::ProcessedAudioPtr audio);
     void Refresh();
 
 protected:
@@ -186,10 +184,8 @@ private:
 
 private:
     std::shared_ptr<SonicPiAPI> m_spAPI;
-    std::shared_ptr<QtAPIClient> m_spClient;
     std::vector<ScopeWindowPanel> m_panels;
     bool m_paused = false;
-    bool m_pendingPause = false;
     bool m_suspended = false;
     // This instance's FFT resolution ask, set by Layout() from its panel
     // width; ApplyFFTSettings takes the max across instances.
@@ -197,7 +193,7 @@ private:
 
     // Levels panel: stereo RMS/peak ballistics state, advanced each paint
     // (the pane repaints per audio frame; the settle window animates the
-    // final decay before pause-when-silent freezes it).
+    // final decay once the frames stop).
     struct LevelChannel
     {
         float rmsDb = -60.0f;

@@ -57,6 +57,7 @@ QtAPIClient::QtAPIClient(MainWindow* pMainWindow)
     qRegisterMetaType<SonicPi::AudioDeviceTableInfo>("SonicPi::AudioDeviceTableInfo");
     qRegisterMetaType<SonicPi::AudioDeviceConfigInfo>("SonicPi::AudioDeviceConfigInfo");
     qRegisterMetaType<SonicPi::AudioSwitchOutcome>("SonicPi::AudioSwitchOutcome");
+    qRegisterMetaType<SonicPi::ProcessedAudioPtr>("SonicPi::ProcessedAudioPtr");
 }
 
 QtAPIClient::~QtAPIClient()

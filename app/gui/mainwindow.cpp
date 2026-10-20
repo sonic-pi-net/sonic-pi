@@ -771,14 +771,16 @@ void MainWindow::setupWindowStructure()
             this, SLOT(setWindowPublishing(bool)));
 #endif
 
-    scopeWindow = new ScopeWindow(m_spClient, m_spAPI, this);
+    scopeWindow = new ScopeWindow(m_spAPI, this);
+    connect(m_spClient.get(), &QtAPIClient::ConsumeAudioData, scopeWindow, &ScopeWindow::OnConsumeAudioData);
 
     // A second ScopeWindow showing only Levels, placed beside Drive in audio
     // preferences. An actual instance rather than a lookalike, so it is the
     // same meter with the same ballistics and overdrive tip. Drive lives in
     // preferences and preferences covers the scope dock, so without this the
     // reading you set Drive by is hidden exactly when you need it.
-    levelPrefsScope = new ScopeWindow(m_spClient, m_spAPI, this);
+    levelPrefsScope = new ScopeWindow(m_spAPI, this);
+    connect(m_spClient.get(), &QtAPIClient::ConsumeAudioData, levelPrefsScope, &ScopeWindow::OnConsumeAudioData);
     levelPrefsScope->setObjectName("prefsLevelScope");
     for (const auto& cat : levelPrefsScope->GetScopeCategories())
         levelPrefsScope->EnableScope(cat, cat == QStringLiteral("Levels"));
@@ -832,7 +834,14 @@ void MainWindow::setupWindowStructure()
     connect(m_spClient.get(), &SonicPi::QtAPIClient::AudioDeviceReopenReplyReceived,
             this, &MainWindow::onAudioDeviceReopenReply);
 
-    scopeWindow->Pause();
+    // With "Reduce animations" on the scope starts still; the user sets it
+    // moving with F12, the Visuals menu, or the scope button. The in-app
+    // preference alone, not prefersReducedMotion(): that also folds in the
+    // OS animation setting, which is force-disabled under RDP (and by users
+    // who turned off window animations for unrelated reasons), so gating on
+    // it would freeze the scope for them with no in-app setting to explain it.
+    if (piSettings->reduce_motion)
+        scopeWindow->Pause();
     scopeWindow->setObjectName("scopes");
     // Scope chrome sits a step below body text (was `*#scopes { font-size: small }`).
     ApplyFontRole(scopeWindow, FontRole::Small);
@@ -1141,8 +1150,6 @@ void MainWindow::setupWindowStructure()
 
     connect(tutorialPane, &TutorialPane::runRequested, this,
             [this](const QString& code, const QString& workspace, bool silent, bool scopeTap) {
-                if (!piSettings->reduce_motion)
-                    scopeWindow->Resume();
                 // Jukebox runs are wrapped in an fx_scope_out tap (scope_num 1,
                 // matching kJukeboxScopeSlot) so the Examples scope shows only
                 // this run's audio while the main scope keeps showing the mix.
@@ -1206,8 +1213,6 @@ void MainWindow::setupWindowStructure()
     connect(quickstartPane, &QuickstartPane::runRequested, this,
             [this](const QString& title, const QString& code, const QString& workspace,
                    int scopeSlot) {
-                if (!piSettings->reduce_motion)
-                    scopeWindow->Resume();
                 // Only live_loop cards are beat-synced: `link 1` quantises their
                 // start to the next Link beat so loops drop in together and in
                 // time. One-shot cards fire immediately (no wait). The `link 1;`
@@ -1976,10 +1981,6 @@ void MainWindow::toggleScopePaused()
 
 void MainWindow::allJobsCompleted()
 {
-    // Deferred: the scope keeps drawing until tails ring out and the
-    // spectrum decays, then pauses itself (no idle CPU while silent).
-    scopeWindow->PauseWhenSilent();
-
     // re-enable log text selection
     // Keyboard-selectable too, so a screen reader can move a caret through the
     // log and read it (mouse-only selection isn't navigable by keyboard).
@@ -4215,15 +4216,6 @@ void MainWindow::showBufferCapacityError()
 
 void MainWindow::runCode()
 {
-    // The scope is on screen by default, so with "Reduce animations" set it
-    // must not start moving on its own; the user resumes it deliberately via
-    // F12, the Visuals menu, or the scope button. This gates on the in-app
-    // preference alone, not prefersReducedMotion(): that also folds in the OS
-    // animation setting, which is force-disabled under RDP (and by users who
-    // turned off window animations for unrelated reasons), so gating on it
-    // would freeze the scope for them with no in-app setting to explain it.
-    if (!piSettings->reduce_motion)
-        scopeWindow->Resume();
     announce(tr("Run started"), false, SonicPi::Announcement::Transport);
 
     // move log cursors to the end of the logs. Keep them read-only but
@@ -4524,8 +4516,6 @@ void MainWindow::openExample(const QString& path, const QString& title, int help
         return;
     }
 
-    if (!piSettings->reduce_motion)
-        scopeWindow->Resume();
     if (!(tutorialPane && tutorialPane->isVisible() && tutorialPane->playFirstSnippet()))
     {
         QFile file(path);
@@ -4749,9 +4739,7 @@ void MainWindow::scopeVisibilityChanged()
     // is the user's, the dock follows both.
     if (!m_sideColumn.away() && !m_restoringLayout)
         piSettings->show_scopes = scopeWidget->isVisible();
-    // A hidden dock must suspend the audio processor: the deferred
-    // pause-when-silent cannot resolve inside OnConsumeAudioData's
-    // isVisible() gate.
+    // A hidden dock must suspend the audio processor.
     scopeWindow->SetSuspended(!scopeWidget->isVisible());
     scopeAct->setIcon(theme->getScopeIcon(piSettings->show_scopes));
     QSignalBlocker blocker(scopeAct);
@@ -4785,8 +4773,7 @@ void MainWindow::scope()
     positionSideGrip();
     // Explicit sync: a dock hidden before its first show emits no
     // visibilityChanged, so the boot path (honourPrefs → scope()) must set
-    // the suspend state directly or Resume() at run start re-enables the
-    // audio processor behind a closed dock.
+    // the suspend state directly.
     scopeWindow->SetSuspended(!piSettings->show_scopes);
 
     if (scopeAct)
@@ -5577,9 +5564,9 @@ void MainWindow::reduceMotionMenuChanged()
 {
     piSettings->reduce_motion = reduceMotionAct->isChecked();
     SonicPi::setReduceMotionPreference(piSettings->reduce_motion);
-    // Enabling should still the scope right away, not at the next silence
-    // (it's on screen by default). Turning it off never auto-resumes —
-    // motion only restarts on a deliberate act (Run, F12, the scope button).
+    // Enabling stills the scope right away (it's on screen by default).
+    // Turning it off never auto-resumes: motion restarts only when the user
+    // resumes it (F12, the Visuals menu, the scope button).
     if (piSettings->reduce_motion)
         scopeWindow->Pause();
     emit settingsChanged();
