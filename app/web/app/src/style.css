@@ -257,11 +257,9 @@ body.sounding #site-nav .sn-stop::before { border-color: color-mix(in srgb, var(
 .sm-field-label { color: var(--softForeground); font: 600 var(--t-tiny) var(--prose-font); }
 .sm-field-hint { color: var(--mutedForeground); font: var(--t-tiny) var(--prose-font); }
 .sm-field { box-sizing: border-box; width: 100%; margin: 0; padding: 7px 9px; border: 1px solid var(--WindowBorder); border-radius: var(--r-s); background: var(--pop-bg); color: var(--WindowForeground); font: 600 var(--t-small) var(--prose-font); }
-.sm-field-about, .sm-preview { height: calc(5 * 1.4 * var(--t-small) + 16px); line-height: 1.4; }   /* the same room, a description or a buffer's code */
+.sm-field-about { height: calc(5 * 1.4 * var(--t-small) + 16px); line-height: 1.4; }   /* five lines of a set's description */
 .sm-field-about { resize: none; overflow-x: hidden; overflow-y: auto; font-weight: 400; }
 .sm-field::placeholder { color: var(--mutedForeground); font-style: italic; opacity: 1; }   /* a prompt, not a value: grey and italic */
-#link-menu .sm-preview { overflow: auto; background: var(--Background); color: var(--DefaultForeground, var(--Foreground)); font: var(--t-small) / 1.4 var(--code-font); white-space: pre; }   /* the editor's own colours; scrolls for the rest */
-.sm-preview:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: -1px; }
 .sm-field:focus { outline: 2px solid var(--HighlightedBackground); outline-offset: -1px; }
 /* done: the button a tick in the theme's own green (its strings'), readable on light and dark alike, and a line saying what happened */
 #link-menu { --done: color-mix(in srgb, var(--DoubleQuotedStringForeground) 70%, var(--WindowForeground)); }

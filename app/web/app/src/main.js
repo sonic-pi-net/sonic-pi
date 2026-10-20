@@ -1979,7 +1979,6 @@ const shareMenu = createShareMenu({
       icon: "file-code", fileKind: ".txt",
       kind: "This buffer", get title() { return `buffer ${workspace.active}`; },
       get summary() { const n = editor.getCode().replace(/\n$/, "").split("\n").length; return `${n} ${n === 1 ? "line" : "lines"}`; },   // its name is in the panel
-      get preview() { const lines = editor.getCode().replace(/\s+$/, "").split("\n"), at = lines.findIndex((l) => l.trim() && !l.trim().startsWith("#")); return (at < 0 ? lines : lines.slice(at)).join("\n"); },   // from its first line of code
       link: () => { history.replaceState(null, "", `${infoApi?.code.file ?? "code.html"}#code=${encodeCode(editor.getCode())}`); return location.href; },
       qrLink: () => linkTo(encodeDigits(editor.getCode())),
       about: "Save the current buffer as a single plain text file.",

@@ -3515,15 +3515,12 @@ void MainWindow::share()
     const int index = editorTabWidget->currentIndex();
     const QString code = ws->text();
     const QStringList lines = code.trimmed().isEmpty() ? QStringList() : QString(code).remove(QRegularExpression("\\s+$")).split('\n');
-    // its preview from its first line of code, the comments heading it skipped
-    const auto first = std::find_if(lines.begin(), lines.end(), [](const QString& l) { return !l.trimmed().isEmpty() && !l.trimmed().startsWith('#'); });
 
     SharePanel::Scope buffer;
     buffer.kind = tr("This buffer");
     buffer.summary = lines.size() == 1 ? tr("1 line") : tr("%1 lines").arg(lines.size());
     buffer.title = tr("buffer %1").arg(index);
     buffer.about = tr("Save the current buffer as a single plain text file.");
-    buffer.preview = (first == lines.end() ? lines : lines.mid(first - lines.begin())).join('\n');
     buffer.code = [code] { return code; };
     buffer.save = [this] { return saveAs(); };
     buffer.fileKind = ".txt";
@@ -6439,10 +6436,10 @@ void MainWindow::createToolBar()
     clearAllBuffersAct = new QAction(tr("Clear All Buffers..."), this);
     connect(clearAllBuffersAct, SIGNAL(triggered()), this, SLOT(clearAllBuffers()));
 
-    // Share, and links, as the web's
-    shareAct = new QAction(theme->getSaveAsIcon(), tr("Share..."), this);
-    shareAct->setIconText(tr("Share..."));
-    shareAct->setToolTip(tr("Share this buffer: a link to copy, a QR code, or the link to copy by hand"));
+    // Save and Share, and links, as the web's
+    shareAct = new QAction(theme->getSaveAsIcon(), tr("Save and Share..."), this);
+    shareAct->setIconText(tr("Save and Share..."));
+    shareAct->setToolTip(tr("Save or share this buffer or the whole set: a link to copy or show, a QR code, or a file"));
     connect(shareAct, &QAction::triggered, this, &MainWindow::share);
     openLinkAct = new QAction(tr("Open Link..."), this);
     connect(openLinkAct, &QAction::triggered, this, &MainWindow::askForLink);

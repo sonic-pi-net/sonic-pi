@@ -1,5 +1,5 @@
-// Share, as the web's Share panel: the buffer or the whole set, its link copied, as a QR code (scan or save), the
-// link shown, or saved as a file; a panel over the window under its button, as the web's over the page, with the
+// Save and Share, as the web's: the buffer or the whole set, its link copied or shown, as a QR code (scan or save),
+// or saved as a file; a panel over the window under its button, as the web's over the page, with the
 // window's shortcuts working while it is open. The links and codes are the shared codec's (app/sharelink), the one the web's page
 // runs: the web's tests read its codes back with a decoder of their own (share-link.test.mjs), and both pin the same
 // code for the same link. Headless, offscreen.
@@ -69,7 +69,6 @@ struct Share
         buffer.summary = "4 lines";
         buffer.title = "buffer 3";
         buffer.about = "Save the current buffer as a single plain text file.";
-        buffer.preview = code;
         buffer.code = [code] { return code; };
         buffer.save = [this] { saved++; return true; };
         buffer.fileKind = ".txt";
@@ -176,8 +175,8 @@ TEST_CASE("Share reads at the house's Base, its titles and notes at Small, as th
         CHECK(QFontInfo(w->font()).pixelSize() == FontRolePx(isSmall ? FontRole::Small : FontRole::Base));
         (isSmall ? smalls : bases)++;
     }
-    CHECK(bases == 8);    // what it is, its name, preview and description, the code, Larger, Save the image, the link
-    CHECK(smalls == 7);   // SHARE, the three fields' titles, "optional", and the code's and the link's notes
+    CHECK(bases == 7);    // what it is, its name and description, the code, Larger, Save the image, the link
+    CHECK(smalls == 6);   // SAVE AND SHARE, the two fields' titles, "optional", and the code's and the link's notes
 }
 
 // a title reads as one by being uppercased and muted (dpi.h FontRole::Small), and
@@ -194,32 +193,25 @@ TEST_CASE("Share's titles are in capitals, and heard as words", "[share]")
             heard << l->accessibleName();
         }
     heard.sort();
-    CHECK(heard == QStringList{ "Description", "Name", "Preview", "Share" });
+    CHECK(heard == QStringList{ "Description", "Name", "Save and Share" });
+    CHECK(s.find<QLabel>("shareStep")->text() == "SAVE AND SHARE");
+    CHECK(s.panel->accessibleName() == "Save and Share");
 }
 
-// under the app's stylesheet, as it always is: its box's border and padding, and its scroll bar, are the sheet's
-TEST_CASE("Share's preview takes all the room the card has, and never less than five lines clear of its scroll bar", "[share]")
+// under the app's stylesheet, as it always is: its box's border and padding are the sheet's
+TEST_CASE("a set's description takes all the room the card has, and never less than five lines", "[share]")
 {
     AppStylesheet sheet;
-    QString wide = drums;
-    wide += "sample :bd_haus, amp: 2, rate: 1, cutoff: 100, release: 0.25, attack: 0.01, pan: 0, lpf: 120, hpf: 30\n";
-    Share s(wide);
-    auto* preview = s.find<QTextBrowser>("sharePreview");
-    REQUIRE(preview->horizontalScrollBar()->isVisible());
-    const int lines = QFontMetrics(preview->font()).lineSpacing();
-    CHECK(preview->viewport()->height() >= 5 * lines + 2 * int(preview->document()->documentMargin()));
-
-    const int before = preview->height();
-    s.panel->resize(s.panel->width(), s.panel->height() + 200);
-    QApplication::processEvents();
-    CHECK(preview->height() == before + 200);
-
-    // the same room for a set's description
-    const int grown = preview->height();
+    Share s;
     s.press("shareSet");
+    auto* description = s.find<QPlainTextEdit>("shareDescription");
+    const int lines = QFontMetrics(description->font()).lineSpacing();
+    CHECK(description->viewport()->height() >= 5 * lines + 2 * int(description->document()->documentMargin()));
+
+    const int before = description->height();
     s.panel->resize(s.panel->width(), s.panel->height() + 200);
     QApplication::processEvents();
-    CHECK(s.find<QPlainTextEdit>("shareDescription")->height() == grown);
+    CHECK(description->height() == before + 200);
 }
 
 TEST_CASE("Share's link is the web's: copied, it opens the buffer's code", "[share]")
@@ -278,6 +270,29 @@ TEST_CASE("Share shows the link to copy by hand, its length under it", "[share]"
     CHECK(s.find<QPlainTextEdit>("shareLinkText")->toPlainText() == s.panel->link());
 }
 
+// Copy link copies; Show link only shows: nothing selected, as though it had been copied
+TEST_CASE("Show link shows the link, nothing in it selected", "[share]")
+{
+    Share s;
+    s.press("shareShowLink");
+    CHECK_FALSE(s.find<QPlainTextEdit>("shareLinkText")->textCursor().hasSelection());
+}
+
+// the link's two ways side by side, then its QR code, then its file
+TEST_CASE("the ways to share read Copy link, Show link, QR code, Save file", "[share]")
+{
+    Share s;
+    QList<QAbstractButton*> ways;
+    for (const char* name : { "shareCopy", "shareShowLink", "shareQr", "shareSaveFile" })
+        ways << s.find<QAbstractButton>(name);
+    QList<QAbstractButton*> byPlace = ways;
+    std::sort(byPlace.begin(), byPlace.end(), [](QAbstractButton* a, QAbstractButton* b) { return a->x() < b->x(); });
+    QStringList read;
+    for (QAbstractButton* b : byPlace)
+        read << b->objectName();
+    CHECK(read == QStringList{ "shareCopy", "shareShowLink", "shareQr", "shareSaveFile" });
+}
+
 TEST_CASE("Share saves a file as Save As does", "[share]")
 {
     Share s;
@@ -295,7 +310,6 @@ TEST_CASE("the whole set: its name and description given where it's shared, its 
     CHECK_FALSE(s.find<QAbstractButton>("shareBuffer")->isChecked());
     CHECK(s.find<QLineEdit>("shareName")->isVisible());
     CHECK(s.find<QLineEdit>("shareName")->text() == "Tuesday");
-    CHECK_FALSE(s.find<QWidget>("sharePreview")->isVisible());
     CHECK(s.find<QWidget>("shareDescription")->isVisible());
     s.find<QPlainTextEdit>("shareDescription")->setPlainText("for the gig");
     s.find<QLineEdit>("shareName")->setText("Gig");
@@ -307,13 +321,14 @@ TEST_CASE("the whole set: its name and description given where it's shared, its 
     CHECK(back.code == "#-- Sonic Pi Set v1\n#-- buffer 0\nplay 60\n#-- for the gig");
 }
 
-TEST_CASE("the buffer's name is given where it's shared, its code previewed under it", "[share]")
+TEST_CASE("the buffer's name is given where it's shared, and that is all: no preview of its code", "[share]")
 {
     Share s;
     QLineEdit* name = s.find<QLineEdit>("shareName");
     CHECK(name->isVisible());
     CHECK(name->text() == "drums");
     CHECK_FALSE(s.find<QWidget>("shareDescription")->isVisible());
+    CHECK(s.panel->findChild<QTextBrowser*>() == nullptr);
     name->setText("kick");
     emit name->textEdited("kick");
     CHECK(s.bufferName == "kick");
@@ -321,13 +336,6 @@ TEST_CASE("the buffer's name is given where it's shared, its code previewed unde
     name->setText("");
     emit name->editingFinished();
     CHECK(name->text() == "kick");
-}
-
-TEST_CASE("the buffer's preview is its code, highlighted as the editor has it", "[share]")
-{
-    Share s;
-    CHECK(s.find<QWidget>("sharePreview")->isVisible());
-    CHECK(s.panel->findChild<QTextBrowser*>("sharePreview")->toPlainText().trimmed() == QString(drums).trimmed());
 }
 
 // The web's panel is a popover over the page (share-menu.js): the page's shortcuts work while it is open. Native's was a

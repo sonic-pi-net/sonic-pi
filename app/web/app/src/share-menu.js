@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// The Share button's panel: what to share, then how. What: the buffer showing, or the whole set (sets.js), the
-// buffer by default. How: its link (share.js) copied to the clipboard, as a QR code to scan or save, or shown to
-// copy by hand where the clipboard is out of reach; or saved as a file, a buffer as .txt and a set as .sonicpi,
+// Save and Share, the panel of its button: what to share, then how. What: the buffer showing, or the whole set
+// (sets.js), the buffer by default. How: its link (share.js) copied to the clipboard, or shown to copy by hand where
+// the clipboard is out of reach, as a QR code to scan or save; or saved as a file, a buffer as .txt and a set as .sonicpi,
 // which native Sonic Pi opens too. A buffer's link is in the address bar as well. The panel stays open: what was
 // done is said in place (the button a tick, and a line under it), and what each kind of thing is, under the choice.
 //
@@ -9,23 +9,23 @@
 // the text link would hold, and stops at a size a phone reads off a screen (share.js qrCode, native's own: past it,
 // it says so and points at the link or the file, rather than show a code too dense to scan.
 import { icon } from "./icons.js";
-import { renderCode } from "./highlight.js";
 import { qrCode } from "./share.js";
 
 const SCAN_MIN = 3;  // CSS px a module needs to be read off a screen by a phone's camera: finer, the panel says to make it larger
 
 /**
  * scopes: { buffer: {...}, set: {...} }, each { icon, kind (its tile's words, e.g. "This buffer"), summary (its name
- * and what it holds, e.g. "drums · 12 lines"), preview (a buffer's first lines), title (the words for it, e.g. "buffer 3"), link() (its text link), qrLink() (its link for
+ * and what it holds, e.g. "drums · 12 lines"), title (the words for it, e.g. "buffer 3"), link() (its text link), qrLink() (its link for
  * a QR code), save() (saves it as a file: its name, or null when put off), fileKind (".txt", ".sonicpi"), about (what
  * it is and what its file opens in), fields ({ name, nameMax, set(name,
  * description) }, and a set's description and descriptionMax: given in the panel above the actions; the name is its
  * file's) }.
  */
+// the link's two ways side by side, then its QR code, then its file
 const ACTS = [
   ["copy", "copy", "Copy link", "Copy its link to the clipboard, ready to paste"],
-  ["qr", "qrcode", "QR code", "Show a QR code, for a phone to scan or to save as an image"],
   ["show", "link", "Show link", "Show the link, to copy by hand"],
+  ["qr", "qrcode", "QR code", "Show a QR code, for a phone to scan or to save as an image"],
   ["file", "download", "Save file", (s) => `Save it as a ${s.fileKind} file`],
 ];
 
@@ -64,7 +64,7 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
     shut.type = "button"; shut.title = "Close"; shut.setAttribute("aria-label", "Close");
     shut.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 10l4 4m0 -4l-4 4"/></svg>';
     shut.addEventListener("click", close);
-    top.append(el("div", "sm-step", "Share"), shut);
+    top.append(el("div", "sm-step", "Save and Share"), shut);
     menu.append(top);
     const what = el("div", "sm-what");
     what.setAttribute("role", "radiogroup");
@@ -122,9 +122,8 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
     }
     card.append(how);
   }
-  // what it's called, and a set's description or a buffer's first lines, in a box of their own: each labelled, with
-  // what it's for beside the label. Saved as they are typed, the tile's line following the name. The second slot
-  // is the same height either way, so the actions under it stay put.
+  // what it's called, and a set's description, in a box of their own: each labelled, with what it's for beside the
+  // label. Saved as they are typed, the tile's line following the name.
   function fields(f, tileSum, s) {
     const box = el("div", "sm-fields");
     const row = (label, hint, id) => { const r = el("div", "sm-field-head"), l = el("label", "sm-field-label", label); l.htmlFor = id; r.append(l); if (hint) r.append(el("span", "sm-field-hint", hint)); return r; };
@@ -138,16 +137,6 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
       about.value = f.description; about.maxLength = f.descriptionMax;
       about.placeholder = "Describe this set...";
       box.append(row("Description", "optional", about.id), about);
-    } else {
-      // a buffer: its code, highlighted as the editor has it, from its first line of code (the comments heading it
-      // skipped), scrolling for the rest: what is being shared, at a glance
-      const pre = renderCode(s.preview, el("pre", "sm-field sm-preview"));
-      pre.tabIndex = 0;
-      pre.setAttribute("role", "region");
-      pre.setAttribute("aria-label", "Preview of the buffer's code");
-      const head = el("div", "sm-field-head");
-      head.append(el("span", "sm-field-label", "Preview"));
-      box.append(head, pre);
     }
     let timer = 0;
     const keep = () => { clearTimeout(timer); timer = setTimeout(() => { f.set(name.value, about?.value); tileSum.textContent = s.summary; }, 300); };
@@ -210,7 +199,6 @@ export function createShareMenu({ button, menu, scopes, clipboard, ready = null 
       field.value = url;
       field.rows = 3;
       field.setAttribute("aria-label", "The link");
-      field.addEventListener("focus", () => field.select());
       detailOf.append(field, el("div", "sm-note", `${url.length} characters${scope === "buffer" ? " · the address bar has it too" : ""}`));
       field.focus();
       return;

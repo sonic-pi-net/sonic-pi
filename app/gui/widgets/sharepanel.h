@@ -27,13 +27,12 @@ class QLineEdit;
 class QPlainTextEdit;
 class QPushButton;
 class QStackedWidget;
-class QTextBrowser;
 class SonicPiTheme;
 
-// Share, as the web's Share panel (app/web/app/src/share-menu.js, and its look: style.css .sm-*): what to share, the
+// Save and Share, as the web's (app/web/app/src/share-menu.js, and its look: style.css .sm-*): what to share, the
 // buffer showing or the whole set, as two tabs, the chosen one joined to the card below in the accent; then how, the
-// card's foot: its link copied, as a QR code for a phone to scan or to save as an image, the link shown to copy by
-// hand, or saved as a file, a buffer as .txt and a set as .sonicpi. The links are the web's own (app/sharelink), so
+// card's foot: its link copied or shown to copy by hand, side by side, as a QR code for a phone to scan or to save as
+// an image, or saved as a file, a buffer as .txt and a set as .sonicpi. The links are the web's own (app/sharelink), so
 // a phone that scans the code opens the program on sonic-pi.net, and the web opens them all.
 //
 // A panel over its window under its button, as the web's over the page: the window's shortcuts and menus work while
@@ -49,11 +48,10 @@ public:
         QString summary;                 // what it holds: "12 lines"
         QString title;                   // the words for it, and the saved image's name: "buffer 3"
         QString about;                   // what it is, and what its file opens in
-        QString preview;                 // a buffer's code from its first line of code, shown under its name
         std::function<QString()> code;   // what its link carries (a set's: its .sonicpi text), asked as it is shared
         std::function<bool()> save;      // saves it as a file: false when put off
         QString fileKind;                // ".txt", ".sonicpi"
-        // its name, and a set's description in the preview's place, given here where it is shared and kept with it
+        // its name, and a set's its description too, given here where it is shared and kept with it
         // as they are typed (setFields); a saved set's name is its file's, not to be typed here (nameEditable)
         bool described = false;
         bool nameEditable = true;
@@ -107,9 +105,7 @@ private:
     QAbstractButton* m_tabs[2] = {};
     QWidget* m_card = nullptr;
     QLabel* m_about = nullptr;
-    QStackedWidget* m_pages = nullptr;   // what it is (its code, or its name and description), its QR code, its link
-    QWidget* m_previewBox = nullptr;
-    QTextBrowser* m_preview = nullptr;
+    QStackedWidget* m_pages = nullptr;   // what it is (its name, and a set's description), its QR code, its link
     QWidget* m_descriptionBox = nullptr;
     QLineEdit* m_name = nullptr;
     QPlainTextEdit* m_description = nullptr;

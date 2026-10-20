@@ -30,10 +30,8 @@
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QRegularExpression>
-#include <QScrollBar>
 #include <QStackedWidget>
 #include <QStyle>
-#include <QTextBrowser>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -42,9 +40,7 @@
 #include "model/sonicpitheme.h"
 #include "utils/setbundle.h"
 #include "utils/fontroles.h"
-#include "utils/code_colours.h"
 #include "utils/tablericons.h"
-#include "utils/tutorialdocs.h"
 
 namespace ShareLink = SonicPi::ShareLink;
 using TablerIcons::Glyph;
@@ -288,14 +284,14 @@ SharePanel::SharePanel(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* wi
     : SonicPi::OverlayPane(window), m_theme(theme), m_scopes{ std::move(buffer), std::move(set) }
 {
     setObjectName("sharePanel");   // its words', fields' and buttons' look: app.qss, as the web's style.css .sm-*
-    setAccessibleName(tr("Share"));
+    setAccessibleName(tr("Save and Share"));
     setAttribute(Qt::WA_DeleteOnClose);
     hide();
 
-    // its head: the word, and a close
-    QLabel* step = new QLabel(tr("SHARE"));
+    // its head: the words, and a close
+    QLabel* step = new QLabel(tr("Save and Share").toUpper());
     step->setObjectName("shareStep");
-    step->setAccessibleName(tr("Share"));
+    step->setAccessibleName(tr("Save and Share"));
     Close* close = new Close(theme);
     close->setObjectName("shareClose");
     connect(close, &QAbstractButton::clicked, this, &QWidget::close);
@@ -318,7 +314,7 @@ SharePanel::SharePanel(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* wi
         what->addWidget(m_tabs[i], 1);
     }
 
-    // the card's body: what it is (a line, which says what was just done too), then its code, or its name and
+    // the card's body: what it is (a line, which says what was just done too), then its name, and a set's
     // description; in their place, its QR code or its link
     m_about = new QLabel();
     m_about->setObjectName("shareAbout");
@@ -330,7 +326,7 @@ SharePanel::SharePanel(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* wi
     QVBoxLayout* aboutLayout = new QVBoxLayout(about);
     aboutLayout->setContentsMargins(0, 0, 0, 0);
     aboutLayout->setSpacing(5);
-    // its name, then a buffer's code or a set's description, each labelled (.sm-fields)
+    // its name, and a set's description, each labelled (.sm-fields)
     QLabel* nameLabel = new QLabel(tr("Name").toUpper());
     nameLabel->setObjectName("shareFieldLabel");
     nameLabel->setAccessibleName(tr("Name"));
@@ -339,21 +335,6 @@ SharePanel::SharePanel(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* wi
     m_name->setAccessibleName(tr("Name"));
     m_name->setMaxLength(SonicPi::SetBundle::NameMax);
     nameLabel->setBuddy(m_name);
-    // a buffer's: its code, highlighted as the editor has it, from its first line of code
-    m_previewBox = new QWidget();
-    QVBoxLayout* previewLayout = new QVBoxLayout(m_previewBox);
-    previewLayout->setContentsMargins(0, 2, 0, 0);
-    previewLayout->setSpacing(5);
-    QLabel* previewLabel = new QLabel(tr("Preview").toUpper());
-    previewLabel->setObjectName("shareFieldLabel");
-    previewLabel->setAccessibleName(tr("Preview"));
-    m_preview = new QTextBrowser();
-    m_preview->setObjectName("sharePreview");
-    m_preview->setAccessibleName(tr("Preview of the buffer's code"));
-    m_preview->setLineWrapMode(QTextEdit::NoWrap);
-    m_preview->setOpenLinks(false);
-    previewLayout->addWidget(previewLabel);
-    previewLayout->addWidget(m_preview, 1);
     // a set's: its description
     m_descriptionBox = new QWidget();
     QVBoxLayout* descriptionLayout = new QVBoxLayout(m_descriptionBox);
@@ -393,7 +374,6 @@ SharePanel::SharePanel(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* wi
     connect(m_description, &QPlainTextEdit::textChanged, this, keep);
     aboutLayout->addWidget(nameLabel);
     aboutLayout->addWidget(m_name);
-    aboutLayout->addWidget(m_previewBox, 1);
     aboutLayout->addWidget(m_descriptionBox, 1);
 
     // its QR code: the code, and Larger (a big program's code is too fine to scan at the card's width) and Save
@@ -469,7 +449,8 @@ SharePanel::SharePanel(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* wi
     connect(m_qrAct, &QAbstractButton::clicked, this, &SharePanel::toggleQr);
     connect(m_linkAct, &QAbstractButton::clicked, this, &SharePanel::toggleLink);
     connect(m_fileAct, &QAbstractButton::clicked, this, &SharePanel::saveFile);
-    for (QAbstractButton* b : { m_copyAct, m_qrAct, m_linkAct, m_fileAct })
+    // the link's two ways side by side, then its QR code, then its file
+    for (QAbstractButton* b : { m_copyAct, m_linkAct, m_qrAct, m_fileAct })
         how->addWidget(b, 1);
 
     Card* card = new Card(theme, foot);
@@ -503,25 +484,20 @@ SharePanel::SharePanel(Scope buffer, Scope set, SonicPiTheme* theme, QWidget* wi
     // its words and fields in sized()'s roles, set here rather than in app.qss, where a size would stop the zoom
     const QStringList small = { "shareStep", "shareFieldLabel", "shareFieldHint", "shareQrNote", "shareLinkNote" };
     for (QWidget* w : findChildren<QWidget*>())
-        if (qobject_cast<QLabel*>(w) || qobject_cast<QLineEdit*>(w) || qobject_cast<QPlainTextEdit*>(w) || qobject_cast<QTextBrowser*>(w) || qobject_cast<QPushButton*>(w))
+        if (qobject_cast<QLabel*>(w) || qobject_cast<QLineEdit*>(w) || qobject_cast<QPlainTextEdit*>(w) || qobject_cast<QPushButton*>(w))
             ApplyFontRole(w, small.contains(w->objectName()) ? FontRole::Small : FontRole::Base);
     {
-        QFont code = m_preview->font();
+        QFont code = m_linkText->font();
         code.setFamily(QStringLiteral("Hack"));
-        m_preview->setFont(code);
         m_linkText->setFont(code);
     }
-    // the same room either way, a description or a buffer's code: all the card has, and never less than five lines of
-    // the code, clear of its box's border and padding and its scroll bar, which are the stylesheet's
-    m_preview->ensurePolished();
-    const QMargins chrome = m_preview->contentsMargins();
-    const int five = 5 * QFontMetrics(m_preview->font()).lineSpacing() + 2 * int(m_preview->document()->documentMargin())
-                     + chrome.top() + chrome.bottom() + m_preview->horizontalScrollBar()->sizeHint().height();
-    for (QAbstractScrollArea* box : std::initializer_list<QAbstractScrollArea*>{ m_preview, m_description })
-    {
-        box->setMinimumHeight(five);
-        box->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
-    }
+    // a set's description: all the room the card has, and never less than five lines, clear of its box's border and
+    // padding, which are the stylesheet's
+    m_description->ensurePolished();
+    const QMargins chrome = m_description->contentsMargins();
+    m_description->setMinimumHeight(5 * QFontMetrics(m_description->font()).lineSpacing()
+                                    + 2 * int(m_description->document()->documentMargin()) + chrome.top() + chrome.bottom());
+    m_description->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
 
     m_tabs[0]->setChecked(true);
 }
@@ -598,7 +574,7 @@ void SharePanel::choose(int scope)
     render();
 }
 
-// the chosen one: what it is, and its code or its name and description
+// the chosen one: what it is, its name, and a set's description
 void SharePanel::render()
 {
     const Scope& s = m_scopes[m_scope];
@@ -606,9 +582,7 @@ void SharePanel::render()
     m_about->setProperty("said", false);
     m_about->style()->unpolish(m_about);
     m_about->style()->polish(m_about);
-    m_previewBox->setVisible(!s.described);
     m_descriptionBox->setVisible(s.described);
-    m_preview->setHtml(SonicPi::TutorialDocs::highlightCode(s.preview, SonicPi::codeColours(m_theme)));
     m_name->setText(s.name);
     m_name->setReadOnly(!s.nameEditable);
     m_name->setToolTip(s.nameEditable ? tr("Its name, and its file's") : tr("A saved set is called what its file is: Save Set As gives it another name"));
@@ -809,7 +783,6 @@ void SharePanel::toggleLink()
     showPage(Link);
     fit();
     m_linkText->setFocus();
-    m_linkText->selectAll();
 }
 
 void SharePanel::saveFile()

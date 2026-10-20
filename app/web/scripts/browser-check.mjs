@@ -862,6 +862,21 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.context().grantPermissions(["clipboard-read", "clipboard-write"]).catch(() => {});
     await page.click("#btn-share");
     await page.waitForFunction(() => location.hash.startsWith("#code="), null, { timeout: 5000 }).catch(() => {});
+    // Save and Share, as native's: a buffer is its name and nothing else; the link's two ways side by side, then its
+    // QR code, then its file; and Show link only shows it, nothing selected, Copy link being the copy
+    const panelSays = await page.evaluate(() => ({
+      step: document.querySelector("#link-menu .sm-step")?.textContent,
+      label: document.getElementById("link-menu").getAttribute("aria-label"),
+      preview: !!document.querySelector("#link-menu .sm-preview"),
+      name: !!document.querySelector("#link-menu #sm-name"),
+      acts: [...document.querySelectorAll("#link-menu .sm-act")].map((b) => b.dataset.act).join(" "),
+    }));
+    check("the panel is Save and Share: a buffer's name and no preview, the link's two ways side by side",
+      panelSays.step === "Save and Share" && panelSays.label === "Save and Share" && !panelSays.preview && panelSays.name && panelSays.acts === "copy show qr file", JSON.stringify(panelSays));
+    await page.click("#link-menu .sm-act[data-act=show]");
+    const shown = await page.evaluate(() => { const f = document.querySelector("#link-menu .sm-url"); return f ? { focused: document.activeElement === f, selected: f.selectionEnd - f.selectionStart } : null; });
+    check("Show link shows the link, focused and nothing in it selected", shown?.focused && shown.selected === 0, JSON.stringify(shown));
+    await page.click("#link-menu .sm-act[data-act=show]");   // pressed again: what it is, back
     const url = await page.evaluate(() => location.href);
     const page2 = await browser.newPage(HTTPS);
     await page2.goto(url);

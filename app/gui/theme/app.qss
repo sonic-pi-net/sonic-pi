@@ -1738,7 +1738,7 @@ QLabel#shareFieldHint, QLabel#shareQrNote, QLabel#shareLinkNote
     color: mutedForegroundColor;
 }
 
-QLineEdit#shareName, QPlainTextEdit#shareDescription, QTextBrowser#sharePreview
+QLineEdit#shareName, QPlainTextEdit#shareDescription
 {
     padding: 4px 6px;
     border: 1px solid windowBorderColor;
@@ -1752,14 +1752,9 @@ QLineEdit#shareName
     font-weight: 600;
 }
 
-QLineEdit#shareName:focus, QPlainTextEdit#shareDescription:focus, QTextBrowser#sharePreview:focus
+QLineEdit#shareName:focus, QPlainTextEdit#shareDescription:focus
 {
     border: 1px solid highlightedBackgroundColor;
-}
-
-QTextBrowser#sharePreview
-{
-    font-family: 'Hack';
 }
 
 QPlainTextEdit#shareLinkText
