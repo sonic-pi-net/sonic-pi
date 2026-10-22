@@ -4,16 +4,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic Pi\n"
-"PO-Revision-Date: 2024-10-20 19:19+0000\n"
-"Last-Translator: thomas <counter202@gmail.com>\n"
-"Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/d"
-"a/>\n"
+"PO-Revision-Date: 2026-10-23 19:51+0000\n"
+"Last-Translator: Anders Eskildsen "
+"<aeskildsen@users.noreply.hosted.weblate.org>\n"
+"Language-Team: Danish <https://hosted.weblate.org/projects/sonic-pi/tutorial/"
+"da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8-rc\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: 01-Welcome-to-Sonic-Pi.md:1
 msgid "1 Welcome to Sonic Pi"
@@ -24,17 +25,16 @@ msgid "Welcome friend :-)"
 msgstr "Velkommen min ven :-)"
 
 #: 01-Welcome-to-Sonic-Pi.md:5
-#, fuzzy
 msgid ""
 "Welcome to Sonic Pi. Hopefully you're as excited to get started making your ow"
 "n sounds as I am to show you. It's going to be a really *fun* ride where you'l"
 "l learn all about music, synthesis, programming, composition, performance and "
 "more."
 msgstr ""
-"Velkommen til Sonic Pi. Forhåbentligt glæder du dig lige så meget til at lave "
-"seje nye lyde, som jeg gør til at vise dig hvordan. Det bliver en rigtig *sjov"
-"* rejse, hvor du vil lære alt om musik, programmering, komposition, optræden o"
-"g meget mere."
+"Velkommen til Sonic Pi. Forhåbentligt glæder du dig lige så meget til at "
+"lave seje nye lyde, som jeg gør til at vise dig hvordan. Det bliver en "
+"rigtig *sjov* rejse, hvor du vil lære en masse om musik, programmering, "
+"komposition, optræden og meget andet."
 
 #: 01-Welcome-to-Sonic-Pi.md:10
 msgid ""
@@ -45,12 +45,12 @@ msgid ""
 "ve Coding Performances](https://youtube.com/samaaron) where I code with Sonic "
 "Pi live in front of audiences."
 msgstr ""
-"Men lad mig først introducere mig selv: Jeg hedder [Sam Aaron](http://twitter."
-"com/samaaron) - ham fyren der har lavet Sonic Pi. Du kan finde mig på Twitter "
-"under navnet [@samaaron](http://twitter.com/samaaron), hvor jeg med glæde vil "
-"hilse på dig. Det kan også være at du vil synes det er spændende at at se mere"
-" om mine [live-kodnings-optrædener](https://youtube.com/samaaron) , hvor jeg k"
-"oder i Sonic Pi foran publikum."
+"Men lad mig først introducere mig selv: Jeg hedder [Sam Aaron](http://"
+"twitter.com/samaaron) - ham fyren der har lavet Sonic Pi. Du kan finde mig "
+"på Twitter under navnet [@samaaron](http://twitter.com/samaaron), hvor jeg "
+"med glæde vil hilse på dig. Det kan også være du vil synes det er spændende "
+"at se mere om mine [live-kodnings-optrædener](https://youtube.com/samaaron) "
+", hvor jeg koder i Sonic Pi foran publikum."
 
 #: 01-Welcome-to-Sonic-Pi.md:18
 msgid ""
@@ -543,19 +543,19 @@ msgid ""
 " you to draw pretty pictures with sound (https://en.wikipedia.org/wiki/Lissajo"
 "us_curve)."
 msgstr ""
-"Oscilloskopet viser den lyd du hører. Her kan du se at en `saw`-synth ligner e"
-"n sav, og at det grundlæggende bip er en sinusbølge. Du kan også se forskellen"
-" mellem larmende og stille lyde fra størrelsen af linjerne. Der er tre oscillo"
-"skoper at lege med. Standard-oscilloskopet viser venstre og højre lydudgange k"
-"ombineret. Der er også en stereo-visning som tegner separate oscilloskoper for"
-" hver kanal. Endelig er der et Lissajous-kurve-skop som viser fase-afhængighed"
-"erne mellem venstre og højre kanal og giver mulighed for at tegne flotte bille"
-"der med lyd (https://en.wikipedia.org/wiki/Lissajous_curve)."
+"Oscilloskopet viser den lyd du hører. Her kan du se at en saw-bølge ligner "
+"en sav, og at det grundlæggende bip er en sinusbølge. Du kan også se "
+"forskellen mellem larmende og stille lyde fra størrelsen af linjerne. Der er "
+"tre oscilloskoper at lege med. Standard-oscilloskopet viser venstre og højre "
+"lydudgange kombineret. Der er også en stereo-visning som tegner separate "
+"oscilloskoper for hver kanal. Endelig er der et Lissajous-kurve-skop som "
+"viser fase-afhængighederne mellem venstre og højre kanal og giver mulighed "
+"for at tegne flotte billeder med lyd (https://en.wikipedia.org/wiki/"
+"Lissajous_curve)."
 
 #: 01.2-Exploring-the-Interface.md:93
-#, fuzzy
 msgid "I. Cue Viewer"
-msgstr "F. Logfremviser"
+msgstr "I. Cue-viser"
 
 #: 01.2-Exploring-the-Interface.md:95
 msgid ""
@@ -574,6 +574,19 @@ msgid ""
 "ng happening. This is covered in more detail in Sections 10 to 12 of this tuto"
 "rial."
 msgstr ""
+"Alle interne og eksterne begivenheder (kaldet cues i Sonic Pi) bliver "
+"automatisk vist i Cue-viseren. Hvis du for eksempel har en MIDI controller "
+"sluttet til og trykker på en af dens knapper, vil du se en cue-begivenhed i "
+"Cue-viseren med navnet på controlleren og den knap, du trykkede på. Når du "
+"på grundlæggende niveau har lært hvordan man laver lyde, vil du snart få "
+"lyst til at starte lyde eller forløb af lyde baseret på cues som disse. En "
+"cue-begivenhed er bare et tegn på, at noget er sket. For eksempel sender et "
+"live loop en cue-begivenhed som kan ses i Cue-viseren, hver gang den starter "
+"forfra. Eksterne begivenheder som MIDI-beskeder fra tilsluttet MIDI-udstyr "
+"og OSC-meddelelser fra andre programmer eller computere vises også i Cue-"
+"viseren. Det er også muligt at skabe cue-begivenheder direkte ved hjælp af "
+"`cue`-funktionen. Alt hvad du kan se i Cue-viseren kan bruges til at starte "
+"noget. Dette forklares nærmere i sektion 10-12 af denne guide."
 
 #: 01.3-Learning-through-Play.md:1
 msgid "1.3 Learning through Play"
@@ -721,14 +734,13 @@ msgid "Intense. Press it again. And again. *And again...*"
 msgstr "Vildt. Tryk på knappen igen. Og igen. *Og igen...*"
 
 #: 02.1-Your-First-Beeps.md:19
-#, fuzzy
 msgid ""
 "Woah, fun! I'm sure you could keep doing that all day. But wait, before you lo"
 "se yourself in an infinite stream of beeps, try changing the number:"
 msgstr ""
-"Wow, skørt. Jeg er sikker på at du vil kunne gøre det dagen lang. Men lige et "
-"øjeblik - før du bliver helt væk i en uendelig strøm af bip, så prøv at ændre "
-"tallet:"
+"Wow, skørt. Jeg er sikker på at du kunne gøre det dagen lang. Men lige et "
+"øjeblik - før du bliver helt væk i en uendelig strøm af bip, så prøv at "
+"ændre tallet:"
 
 #: 02.1-Your-First-Beeps.md:23
 #, no-wrap
@@ -957,11 +969,12 @@ msgid ""
 "There's also a handy shortcut for a rest (a musical way of saying not to play "
 "anything instead of a note) using `:r`, `:rest` or `nil`."
 msgstr ""
+"Der findes også en smart genvej til at skrive en pause, nemlig `:r`, `:rest` "
+"eller `nil`."
 
 #: 02.1-Your-First-Beeps.md:128
-#, fuzzy
 msgid "Now go *wild* and have fun making your own tunes."
-msgstr "*Slå dig løs* og hav det sjovt med at lave dine egne melodier."
+msgstr "*Slå dig løs* og hav det sjovt med at lave din egen musik."
 
 #: 02.2-Synth-Params.md:1
 msgid "2.2 Synth Options"
@@ -1601,9 +1614,9 @@ msgid ""
 "You can therefore change the duration of your sound by changing the release ti"
 "me. Have a play adding release times to your music."
 msgstr ""
-"På den måde kan du ændre varigheden af dine lyde ved at ændre på `release:`-pa"
-"rameteren. Prøv at have lidt sjov med at tilføje release-varigheder til din mu"
-"sik."
+"Du kan derfor ændre varigheden af dine lyde ved at ændre på release-"
+"varigheden. Prøv at have lidt sjov med at tilføje release-varigheder til din "
+"musik."
 
 #: 02.4-Durations-with-Envelopes.md:91
 msgid "Attack Phase"
@@ -2422,20 +2435,21 @@ msgid ""
 "*halving the rate will halve the frequency*. Other rates will affect the frequ"
 "ency accordingly."
 msgstr ""
-"Hvis du tager en bølgeform og krypmer den, vil den flytte sig op og ned flere "
-"gange pr. sekund. Det vil give den en højere tone. Når man fordobler antallet "
-"af bevægelser op og ned (oscillationer/svingninger) pr. sekund, fordobler man "
-"frekvensen. Så *afspiller du din sample med dobbelt hastighed, fordobler du fr"
-"ekvensen*. På samme måde vil du *halvere frekvensen ved at halvere hastigheden"
-"*. Andre ændringer i hastigheden vil på tilsvarende vis ændre frekvensen."
+"Hvis du tager en bølgeform og krymper den, vil den flytte sig op og ned "
+"flere gange pr. sekund. Det vil give den en højere tone. Når man fordobler "
+"antallet af bevægelser op og ned (oscillationer/svingninger) pr. sekund, "
+"fordobler man frekvensen. Så *afspiller du dit sample med dobbelt hastighed, "
+"fordobler du frekvensen*. På samme måde vil du *halvere frekvensen ved at "
+"halvere hastigheden*. Andre ændringer i hastigheden vil på tilsvarende vis "
+"ændre frekvensen."
 
 #: 03.4-Enveloped-Samples.md:1
 msgid "3.4 Enveloped Samples"
-msgstr ""
+msgstr "3.4 Samples med envelopes"
 
 #: 03.4-Enveloped-Samples.md:3
 msgid "Enveloped Samples"
-msgstr ""
+msgstr "Samples med envelopes"
 
 #: 03.4-Enveloped-Samples.md:5
 msgid ""
@@ -2447,25 +2461,34 @@ msgid ""
 "hever is first. So, if you use a very long `release:`, it won't extend the dur"
 "ation of the sample."
 msgstr ""
+"Det er også muligt at ændre *varigheden* og *lydstyrken* af et sample ved "
+"hjælp af en ADSR-envelope. Det virker imidlertid lidt anderledes end en ADSR-"
+"envelope på en synthesizer. Sample-envelopes gør det kun muligt at reducere "
+"lydstyrken og varigheden af et sample - aldrig at øge dem. Samplet stopper "
+"når enten samplet er afsluttet eller når envelopen slutter - hvad end der "
+"sker først. Så hvis du bruger en meget lang `release:`, vil den ikke "
+"forlænge samplets varighed."
 
 #: 03.4-Enveloped-Samples.md:13
 msgid "Amen Envelopes"
-msgstr ""
+msgstr "Amen-envelopes"
 
 #: 03.4-Enveloped-Samples.md:15
 msgid "Let's return to our trusty friend the Amen Break:"
-msgstr ""
+msgstr "Lad os vende tilbage til vores gamle ven, Amen Break'et:"
 
 #: 03.4-Enveloped-Samples.md:21
 msgid ""
 "With no opts, we hear the full sample at full amplitude. If we want to fade th"
 "is in over 1 second we can use the `attack:` param:"
 msgstr ""
+"Uden parametre hører vi det fulde sample ved fuld lydstyrke. Hvis vi ønsker "
+"at fade det ind over 1 sekund, kan vi bruge `attack:`-parameteren:"
 
 #: 03.4-Enveloped-Samples.md:24
 #, no-wrap
 msgid "sample :loop_amen, attack: 1"
-msgstr ""
+msgstr "sample :loop_amen, attack: 1"
 
 #: 03.4-Enveloped-Samples.md:28
 msgid "For a shorter fade in, choose a shorter attack value:"
@@ -8921,7 +8944,6 @@ msgid "A.2 Live Coding"
 msgstr ""
 
 #: A.02-live-coding.md:5
-#, fuzzy
 msgid ""
 "The laser beams sliced through the wafts of smoke as the subwoofer pumped bass"
 " deep into the bodies of the crowd. The atmosphere was ripe with a heady mix o"
@@ -8930,7 +8952,15 @@ msgid ""
 "ncing, flashing. This wasn't fancy visuals, it was merely a projection of Soni"
 "c Pi running on a Raspberry Pi. The occupant of the DJ booth wasn't spinning d"
 "isks, they wrote, edited and evaluated code. Live. This is Live Coding."
-msgstr "Live-kodning"
+msgstr ""
+"Laserstrålerne skar gennem røgskyerne, mens subwooferen pumpede bastoner "
+"dybt ind i publikum. Atmosfæren var fyldt med en berusende blanding af "
+"synthesizere og dans. Men noget ved denne natklub var ikke helt som det "
+"plejede. Projiceret i kraftige farver over DJ-pulten sås futuristisk tekst, "
+"der bevægede sig, dansede og blinkede. Der var ikke tale om fancy visuelle "
+"effekter. Det var blot en projektion af Sonic Pi, der kørte på en Raspberry "
+"Pi. Brugeren af DJ-pulten drejede ikke vinylplader, de skrev, redigerede og "
+"kørte kode. Live. Dette er Live Coding."
 
 #: A.02-live-coding.md:14
 msgid ""
@@ -9874,14 +9904,19 @@ msgid ""
 msgstr ""
 
 #: A.05-acid-bass.md:138
-#, fuzzy
 msgid ""
 "For each standard envelope opt, there's a `cutoff_` equivalent opt in the `:tb"
 "303` synth. So, to change the cutoff attack time we can use the `cutoff_attack"
 ":` opt. Copy the code above into an empty buffer and hit Run. You'll hear a st"
 "range sound warble in and out. Now start to play. Try changing the `cutoff_att"
 "ack:` time to `1` and then `0.5`. Now try `8`."
-msgstr "`:tb303`"
+msgstr ""
+"For hver standard envelope-parameter er der en `cutoff_`-ækvivalent "
+"parameter i `:tb303`-synthen. Så for at ændre cutoff-attack-tiden kan vi "
+"bruge `cutoff_attack:`-parameteren. Kopier koden ovenfor til en tom buffer "
+"og tryk på Kør. Du vil høre en mærkelig lyd, der vibrerer ind og ud. Begynd "
+"nu at lege. Prøv at ændre `cutoff_attack:`-tiden til `1` og derefter `0.5`. "
+"Prøv derefter '8'."
 
 #: A.05-acid-bass.md:144
 msgid ""
