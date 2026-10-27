@@ -10,10 +10,11 @@
 //   site/media/               the images the pages use
 //   app/src/index.html        the app: each page is it, with the page's content in its Info card
 //
-// A page is its sections, each one shape: a <div class="wrapper …"> holding an <article id> whose header's <h1>
-// names it (data-title says otherwise), data-icon its icon in the page's list, data-group the list's group it
-// starts; then an optional <footer>. The page's list is made from them here, and a section that breaks the shape
-// stops the build. The tutorial is pages of its own, a page a chapter (tutorial.html, tutorial-02.html …), reached by the bar's book icon.
+// A page is its sections, each one shape: a <div class="wrapper …"> holding an <article id> whose header's
+// .sec-title names it (data-title says otherwise), data-icon its icon in the page's list, data-group the list's group
+// it starts; then an optional <footer>. A page has one <h1>, its first section's title, and every other section's
+// title is an <h2>, its headings within an <h3>: a screen reader's list of headings, and a search engine's, reads as
+// the page's outline. The page's list is made from them here, and a section that breaks the shape stops the build. The tutorial is pages of its own, a page a chapter (tutorial.html, tutorial-02.html …), reached by the bar's book icon.
 //
 // Out: web/<page>.html (index.html is Home, code.html the editor), and web/site/ with what they use: css/, media/.
 //
@@ -44,7 +45,9 @@ const RELEASE = "5.0.0";
 
 // ── the pages, in the order of the bar's tabs ──
 const PAGES = [
-  { key: "about", title: "Home", tip: "Discover Sonic Pi", file: "index.html", lead: "Discover", description: "Your free code-based music creation and performance tool." },
+  // Home's own title and words: what a search result shows for sonic-pi.net
+  { key: "about", title: "Home", tip: "Discover Sonic Pi", file: "index.html", lead: "Discover", docTitle: "Sonic Pi - Code. Music. Live.",
+    description: "Sonic Pi - Code. Music. Live." },
   { key: "examples", title: "Examples", tip: "Pieces of music to play, change and learn from", file: "examples.html", list: "All examples", description: "Explore some of the different ways to work with Sonic Pi" },
   { key: "learn", title: "Learn", tip: "The tutorial, lessons, books and talks", file: "learn.html", lead: "Start here", description: "Learn Sonic Pi: the tutorial, the video course, the book, and Sonic Pi in the classroom." },
   { key: "support", title: "Support", tip: "Help keep Sonic Pi free for everyone", file: "support.html", lead: "Support", description: "Sonic Pi is free because it is supported by the community." },
@@ -103,10 +106,14 @@ const inlineCode = (html) => html.replace(/<code>([^<]*)<\/code>/g, (_, c) => `<
 // Every <pre class="sp-card"> of a page written as the card it becomes (app/src/ui/card-html.js), so the page looks as
 // it will before its script has run and nothing moves when the script's card takes its place. The script reads it as
 // it read the <pre>: its data-* and its code (app/src/site.js). An example (data-kind="example") is named as it is; a
-// page's code block is numbered within its section, the page through, as site.js mountSnippets numbers it.
+// page's code block is numbered within its section, the page through, as site.js mountSnippets numbers it. A card's
+// title is a heading a level under the one it sits under (a section's h2, a level's, a tutorial part's), and site.js
+// keeps the level the build gave it.
 function staticCards(html) {
   const counts = new Map();
-  return html.replace(/<pre class="sp-card"([^>]*)><code>([\s\S]*?)<\/code><\/pre>/g, (_, attrText, body) => {
+  const heads = [...html.matchAll(/<h([1-6])\b/g)].map((m) => [m.index, Number(m[1])]);
+  const under = (at) => heads.findLast(([i]) => i < at)?.[1] ?? 1;
+  return html.replace(/<pre class="sp-card"([^>]*)><code>([\s\S]*?)<\/code><\/pre>/g, (_, attrText, body, at) => {
     const a = {};
     for (const m of attrText.matchAll(/\s([\w-]+)(?:="([^"]*)")?/g)) a[m[1]] = m[2] != null ? unescape(m[2]) : true;
     const code = unescape(body.replace(/<[^>]+>/g, "")).replace(/^\n/, "").replace(/\n$/, "");
@@ -114,15 +121,16 @@ function staticCards(html) {
     let title = section;
     if (a["data-kind"] !== "example") { const n = (counts.get(section) ?? 0) + 1; counts.set(section, n); if (n > 1) title = `${section} · ${n}`; }
     const wide = "data-wide" in a, still = "data-still" in a;
-    return cardHTML({ title, code, id: a.id ?? null, blurb: a["data-blurb"] ?? "", wide, playable: !still,
+    return cardHTML({ title, code, id: a.id ?? null, blurb: a["data-blurb"] ?? "", wide, playable: !still, level: Math.min(under(at) + 1, 6),
       attrs: { key: a["data-key"], title: section, blurb: a["data-blurb"], wide, still, kind: a["data-kind"] } });
   });
 }
 
-function tutorialBlocks(part) {
+// top: the level of the part's own title, an h1 for the chapter's opening part and an h2 for the rest
+function tutorialBlocks(part, top) {
   let n = 0, heading = part.title.replace(/^\S+ /, "");   // a card is named for the heading over it, the part's own at first
   return tutorialPart(part.key).blocks.map((b, i) => {
-    if (b.type === "heading") { if (i === 0 && b.level === 1) return ""; heading = b.text; const h = `h${Math.min(Math.max(b.level, 2), 4)}`; return `<${h}>${esc(b.text)}</${h}>`; }   // its first heading is the part's own (its h1, numbered); the rest step down from it, ## an h2
+    if (b.type === "heading") { if (i === 0 && b.level === 1) return ""; heading = b.text; const h = `h${Math.min(Math.max(b.level, 2), 4) + top - 1}`; return `<${h}>${esc(b.text)}</${h}>`; }   // its first heading is the part's own (its title, numbered); the rest step down from it, ## a level under the title
     if (b.type === "prose") return inlineCode(b.html).replace(/(<img\b[^>]*\ssrc=")([^"]+)"/g, (_, pre, src) => `${pre}${tutImage(src)}" loading="lazy"`);
     if (b.type === "list") return `<${b.ordered ? "ol" : "ul"}>${b.items.map((x) => `<li>${inlineCode(x)}</li>`).join("")}</${b.ordered ? "ol" : "ul"}>`;
     if (b.type === "image") return `<img class="doc-image" src="data/images/${esc(b.path)}" alt="${esc(b.alt ?? "")}" loading="lazy">`;
@@ -145,7 +153,8 @@ function tutorialBody(page) {
   }
   // the page bar: this chapter's parts
   bars.set(page.key, pageBar([{ group: `${page.n} ${page.name}` }, ...page.parts.map((part) => ({ id: part.id, title: part.title }))]));
-  const main = page.parts.map((part) => `<div class="wrapper style1 tut-wrap"><article class="container tut-part" id="${part.id}" data-icon="book">\n<header><h1>${esc(part.title)}</h1></header>\n${WEB_NOTES[part.key] ? `<p class="tut-note"><strong>On the web:</strong> ${WEB_NOTES[part.key]}</p>\n` : ""}${tutorialBlocks(part)}\n</article></div>`).join("\n");
+  // the chapter's opening part is the page's h1 (it IS the chapter), its other parts h2s
+  const main = page.parts.map((part, i) => `<div class="wrapper style1 tut-wrap"><article class="container tut-part" id="${part.id}" data-icon="book">\n<header><h${i ? 2 : 1} class="sec-title">${esc(part.title)}</h${i ? 2 : 1}></header>\n${WEB_NOTES[part.key] ? `<p class="tut-note"><strong>On the web:</strong> ${WEB_NOTES[part.key]}</p>\n` : ""}${tutorialBlocks(part, i ? 2 : 1)}\n</article></div>`).join("\n");
   // the way on, as a book's: the chapter before and the one after
   const at = TUTORIAL.indexOf(page), step = (t, cls, label) => (t ? `<a class="tut-step ${cls}" href="${t.file}"><span class="tut-step-k">${label}</span><span>${esc(`${t.n} ${t.name}`)}</span></a>` : "<span></span>");
   const way = `<nav class="tut-next" aria-label="The tutorial, before and after this chapter">${step(TUTORIAL[at - 1], "prev", "Previous chapter")}${step(TUTORIAL[at + 1], "next", "Next chapter")}</nav>`;
@@ -211,7 +220,7 @@ const helpers = {
   },
   // the hero's example: Pentatonic Bleeps, the site's own first card
   "hero-example": () => example({ ...exampleLevels.flatMap((g) => g.examples).find((e) => e.key === "pentatonicbleeps"), wide: true }, { id: false }),
-  examples: () => exampleLevels.filter((g) => g.examples.length).map((g) => `<h3 class="qs-level" id="${levelId(g.title)}">${g.title}</h3>\n<div class="qs-grid">\n${g.examples.map((e) => example(e)).join("\n")}\n</div>`).join("\n"),
+  examples: () => exampleLevels.filter((g) => g.examples.length).map((g) => `<h2 class="qs-level" id="${levelId(g.title)}">${g.title}</h2>\n<div class="qs-grid">\n${g.examples.map((e) => example(e)).join("\n")}\n</div>`).join("\n"),
   // the App and Browser columns of the feature table
   yes: `<span class="conn-yes">${tick}<span class="sr-only">yes</span></span>`,
   no: `<span class="conn-no">${icon("minus")}<span class="sr-only">no</span></span>`,
@@ -231,12 +240,17 @@ const helpers = {
 const attr = (tag, name) => { const m = new RegExp(`\\s${name}(?:="([^"]*)")?[\\s>]`).exec(tag); return m ? m[1] ?? "" : null; };
 function sections(html, where) {
   const found = [];
-  for (const m of html.matchAll(/<article\b[^>]*>/g)) {
+  const articles = [...html.matchAll(/<article\b[^>]*>/g)];
+  for (const [k, m] of articles.entries()) {
     const tag = m[0], id = attr(tag, "id");
     if (!id) throw new Error(`${where}: a section with no id — ${tag}`);
-    const h1 = /<h1[^>]*>([\s\S]*?)<\/h1>/.exec(html.slice(m.index))?.[1];
-    const title = attr(tag, "data-title") ?? h1?.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
-    if (!title) throw new Error(`${where}: #${id} has no <h1> (or data-title) to name it`);
+    const own = html.slice(m.index, articles[k + 1]?.index);
+    const [, level, words] = /<(h[1-6])\b[^>]*\sclass="(?:[^"]*\s)?sec-title[\s"][^>]*>([\s\S]*?)<\/\1>/.exec(own) ?? [];
+    if (!level) throw new Error(`${where}: #${id} has no title, an <h1 class="sec-title"> or <h2 class="sec-title">`);
+    const want = k === 0 ? "h1" : "h2";
+    if (level !== want) throw new Error(`${where}: #${id}'s title is an <${level}>: a page's first section's title is its one <h1>, every other section's an <h2>`);
+    const title = attr(tag, "data-title") ?? words.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+    if (!title) throw new Error(`${where}: #${id}'s title has no words (or data-title) to name it`);
     const icon = attr(tag, "data-icon");
     if (!icon) throw new Error(`${where}: #${id} has no data-icon`);
     found.push({ id, title, icon, group: attr(tag, "data-group") });
@@ -331,14 +345,14 @@ function tabs(current) {
 function document(page, { code = false } = {}) {
   const swap = (html, from, to) => { if (!html.includes(from)) throw new Error(`app/src/index.html has no ${from}`); return html.replace(from, () => to); };
   let html = shell;
-  html = swap(html, "<title>Sonic Pi</title>", `<title>${esc(code ? CODE.title : page.key === "about" ? "Sonic Pi" : `${page.title} · Sonic Pi`)}</title>`);
+  html = swap(html, "<title>Sonic Pi</title>", `<title>${esc(code ? CODE.title : page.docTitle ?? `${page.title} · Sonic Pi`)}</title>`);
   html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(code ? CODE.description : page.description)}">`);
   // what a link to the page shows where it is shared (Open Graph, and X's twitter: tags): the page's own title and
   // words, and the one picture every Sonic Pi link carries (site/media/images/social-card.png, from
   // scripts/build-social-card.mjs) — a shared program's too, whose code is after the # where no crawler looks.
   // Absolute, as the networks' crawlers need them.
   {
-    const title = code ? CODE.shared.title : page.key === "about" ? "Sonic Pi" : `${page.title} · Sonic Pi`;
+    const title = code ? CODE.shared.title : page.docTitle ?? `${page.title} · Sonic Pi`;
     const words = code ? CODE.shared.description : page.description;
     const file = code ? CODE.file : page.file;
     const url = SITE_ORIGIN + (file === "index.html" ? "" : file);
@@ -372,8 +386,11 @@ function document(page, { code = false } = {}) {
     // lifts this as the editor comes forward)
     for (const part of ['<div id="toolbar"', '<div id="main"', '<footer id="statusbar"']) html = swap(html, part, `${part} inert`);
     html = swap(html, '<div id="info-card" hidden>', '<div id="info-card">');
+    // and its heading a part of the page's: the page's own title is the document's one <h1>
+    html = swap(html, '<h1 class="sr-only">Sonic Pi: the code editor</h1>', '<h2 class="sr-only">Sonic Pi: the code editor</h2>');
   }
   html = swap(html, '<div id="info-body" class="ic-body"></div>', `<div id="info-body" class="ic-body"><div class="site-body">${bodies.get(page.key)}</div></div>`);
+  if (!code) { const h1s = html.match(/<h1\b/g)?.length ?? 0; if (h1s !== 1) throw new Error(`${page.file}: ${h1s} <h1>s, where a page has one, its first section's title`); }
   return html;
 }
 

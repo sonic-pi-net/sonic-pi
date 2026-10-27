@@ -837,8 +837,8 @@ iframe {
   display: block;
 }
 
-.course-card h2,
-.wrapper.style4 .course-card h2 {
+.course-card h3,
+.wrapper.style4 .course-card h3 {
   font-weight: 400;
   font-size: 32px;
   letter-spacing: 0;

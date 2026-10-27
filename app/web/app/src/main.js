@@ -2129,7 +2129,7 @@ function ensureInfo() {
       page.then((p) => {
         if (!p) return;
         if (!synthOpts.has(p.key)) synthOpts.set(p.key, Object.fromEntries((p.opts || []).map((o) => [o.name, o.default])));
-        const inst = createInstrument(p, false, paneHooks, deck, { fit: true, place: "home", heading: 2, open: openFromInfo });   // an h2, under the home page's section
+        const inst = createInstrument(p, false, paneHooks, deck, { fit: true, place: "home", heading: Number(host.closest("article")?.querySelector(".sec-title")?.tagName.slice(1) || 1) + 1, open: openFromInfo });   // a level under its section's title (an h3 under Synths as Code's h2)
         host.replaceChildren(inst.face);
         host.classList.add("live");
         host.addEventListener("keydown", inst.keyHandler);

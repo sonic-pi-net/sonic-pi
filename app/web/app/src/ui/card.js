@@ -319,7 +319,7 @@ export function createCard(o) {
 
   // ── the bar: the title, then the actions in native's order — reset (when edited), copy, insert, the drag handle ──
   const head = el("header", "qs-card-head");
-  const h = el(`h${level}`, "qs-card-title", title);   // under its section's h1 (a card that is its page's own subject: the h1)
+  const h = el(`h${level}`, "qs-card-title", title);   // a level under its section's heading (a card that is its page's own subject: the h1)
   h.id = titleId;
   head.appendChild(h);
   const buttons = {};

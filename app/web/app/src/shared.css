@@ -75,7 +75,7 @@ button, a, [role="button"], .hg-button, label, summary { touch-action: manipulat
   --pop-bg: var(--Background); --pop-border: 2px solid var(--Button); --pop-shadow: none; }   /* a popup as native's and as every chip: the editor's own ground inside the controls' outline, no shadow to float it */
 /* a thing floating over the page (a menu, a tooltip, a dropdown list): --pop-* above, one surface */
 /* the one voice for a title, wherever it stands (a section's, a poster's, the hero's): heavy, tight, close-set */
-.site-body .ic-main header h1, .site-body .course-cover h2, .site-body #intro .hero-title { font-weight: 800; letter-spacing: -0.015em; line-height: 1.1; color: var(--WindowForeground); }   /* in the text's own colour: the accent marks where you are and what you can press, the hover colour what is under the pointer, and a title is neither */
+.site-body .ic-main header .sec-title, .site-body .course-cover h3, .site-body #intro .hero-title { font-weight: 800; letter-spacing: -0.015em; line-height: 1.1; color: var(--WindowForeground); }   /* in the text's own colour: the accent marks where you are and what you can press, the hover colour what is under the pointer, and a title is neither */
 
 /* A kicker: the small uppercase label over a title, a group's name in a list, a table's column heads, a pane's
    name — one voice, in the accent unless a site says otherwise (--kicker-color). */
@@ -98,9 +98,9 @@ button, a, [role="button"], .hg-button, label, summary { touch-action: manipulat
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
 /* Headings, the docs pane's: the accent, a rule under an h1 (--heading-color: a place's own) */
-.sp-doc h1, .ic-main h1 { background: none; color: var(--heading-color, var(--HighlightedBackground)); border-bottom: 2px solid var(--heading-color, var(--HighlightedBackground)); padding: 0 0 6px; margin: 16px 0 14px; font: 700 var(--t-heading) var(--prose-font); }
-/* a heading inside a section — a video's title, a panel's — in the one voice the docs have too */
-:is(.sp-doc, .ic-main) h2:not(.qs-card-title) {   /* a card's title is its bar's (ui/card.css) */
+.sp-doc h1, .ic-main h1, .ic-main .sec-title { background: none; color: var(--heading-color, var(--HighlightedBackground)); border-bottom: 2px solid var(--heading-color, var(--HighlightedBackground)); padding: 0 0 6px; margin: 16px 0 14px; font: 700 var(--t-heading) var(--prose-font); }
+/* a heading inside a section — a video's title, a panel's (the site's h3.sub) — in the one voice the docs have too */
+:is(.sp-doc, .ic-main) h2:not(.qs-card-title, .sec-title, .qs-level), .ic-main h3.sub {   /* a card's title is its bar's (ui/card.css), a section's or a level's its own (site.css) */
  background: none; color: var(--heading-color, var(--HighlightedBackground)); padding: 0; margin: 22px 0 10px; font: 700 var(--t-lead) var(--prose-font); }
 
 /* a search's matches in the text: the app's find colours, the current one the accent */

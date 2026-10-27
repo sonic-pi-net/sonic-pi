@@ -16,8 +16,8 @@
 .site-body { height: 100%; }
 .ic-page.ic-split { display: grid; grid-template-columns: 320px minmax(0, 1fr); height: 100%; }
 .ic-main { min-width: 0; min-height: 0; overflow: auto; scroll-behavior: smooth; }
-.ic-main header h1 { border: none; padding: 0; margin: 0.35em 0 0.3em; font-size: var(--t-title); color: var(--WindowForeground); }   /* the site's section titles in the app's scale */
-.ic-main header:not(.qs-card-head) h2:not(.sub) { margin: 0; font-weight: 400; font-size: var(--t-lead); color: var(--softForeground); }
+.ic-main header .sec-title { border: none; padding: 0; margin: 0.35em 0 0.3em; font-size: var(--t-title); color: var(--WindowForeground); }   /* the site's section titles in the app's scale */
+.ic-main header .sec-kicker { margin: 0; font-weight: 400; font-size: var(--t-lead); line-height: normal; letter-spacing: -0.015em; color: var(--softForeground); }   /* the words over a section's title (Learn's "Sonic Pi in the") */
 /* the site's kickers (shared.css), and its groups' names in the lists, in the second colour: the detail over a title */
 .ic-page { --kicker-color: var(--second); }
 .ic-main #intro header .hero-title { font-size: var(--t-display); color: var(--WindowForeground); }
@@ -57,7 +57,7 @@
 .course-media .yt-play { top: 40%; }   /* over the picture, clear of the title at its foot */
 .course-cover { position: absolute; left: 0; right: 0; bottom: 0; padding: 64px 20px 16px; background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.55) 45%, rgba(0, 0, 0, 0) 100%); pointer-events: none; text-align: left; }
 .course-cover .course-kicker { display: block; margin: 0 0 10px; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7); }   /* a kicker (shared.css), over the picture */
-.course-cover h2 { margin: 0; font-size: var(--t-title); color: #fff; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7); text-align: left; }   /* the title voice (shared.css), over the picture */
+.course-cover h3 { margin: 0; font-size: var(--t-title); color: #fff; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7); text-align: left; }   /* the title voice (shared.css), over the picture */
 .course-copy { flex: 1; max-height: none; overflow: visible; padding: 14px 20px 10px; }
 .site-body .course-copy p, .site-body .course-card .qs-blurb { margin: 0; padding: 0; }   /* landing.css pads every p: these line up with the poster's title */
 .course-copy p { font-size: var(--t-body); line-height: 1.5; color: var(--softForeground); text-shadow: none; }
@@ -78,7 +78,7 @@
 #intro .row { align-items: center; }
 #intro .hero-title { font-size: var(--t-display); margin-top: 0; margin-bottom: 0.5em; }
 #intro .hero-title strong { font-weight: 500; }   /* the site's strong weight (not h1 strong's 400) */
-#intro .hero-title br { display: block; }   /* the two lines as written: "Experience the", then "sound of code." */
+#intro .hero-title br { display: block; }   /* the two lines as written: "Express yourself", then "with code." */
 #intro .u8 > p.tagline { font-size: var(--t-lead); font-weight: 400; line-height: 1.45; margin-bottom: 1.2em; color: var(--softForeground); max-width: 34em; }
 #intro .facets { font-size: var(--t-body); }
 #intro .credit { margin: 0 0 1.4em; }
@@ -109,7 +109,7 @@
 #intro .u8 > p.credit { margin: 1.4em auto 0; font-size: var(--t-small); color: var(--mutedForeground); text-align: center; }
 #intro, #intro .u8, #intro header { text-align: center; }
 #intro .u8 > p.tagline { margin-left: auto; margin-right: auto; }
-.ic-main > .wrapper.style1.first { display: block; min-height: 0; padding: 2.5em 0 3em !important; }   /* the hero starts at the top; the page flows on */
+.ic-main > .wrapper.style1.first { display: block; min-height: 0; padding: 1em 0 3em !important; }   /* the hero starts at the top, close under the page bar; the page flows on */
 /* the four words in a row, all in view: the one whose turn it is takes the accent and a bar fills beneath it for the
    length of its turn — the timing you can see, an invitation to watch the next — while its line shows below the row;
    a word pressed takes its turn at once (info.js runs it) */
@@ -208,9 +208,11 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 #examples:has(.flip) > header { display: none; }   /* the bar says where you are; words that folded away past the first card would change the column's size under a scroll, and the snap would jump */
 #examples .flip .qs-card { width: 100%; max-width: 820px; margin-inline: auto; }   /* a wide column: the card a readable width, centred */
 
-/* a wide screen: the page bar (main.js) stands over the page's column; the column starts under it */
+/* a wide screen: the page bar (main.js) stands over the page's column; the column starts under it. The bar's height is
+   the screen's (main.js measures it) and the column is under the pages' zoom (.site-body), so the zoom is taken back out:
+   left in, the column started (zoom − 1) × the bar's height below it, 7px at the pages' first step and more at each one up */
 @container (min-width: 821px) {
-  .ic-main { padding-top: var(--strip-h, 0px); scroll-padding-top: var(--strip-h, 0px); }
+  .ic-main { padding-top: calc(var(--strip-h, 0px) / var(--site-zoom, 1)); scroll-padding-top: calc(var(--strip-h, 0px) / var(--site-zoom, 1)); }
 }
 /* a phone: one column; the page's list folds behind a chip above the page (info.js adds it), About's mark and ways stack on top */
 @container (max-width: 820px) {   /* the fold itself: shared.css */
@@ -287,7 +289,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .container.dl { width: auto; max-width: 44em; box-sizing: border-box; text-align: left; }   /* the site's .container is a fixed width: a phone's would overflow */
 .dl > header { display: flex; align-items: center; gap: 16px; margin: 0 0 14px; text-align: left; }
 .dl-platform { flex: none; width: 56px; height: 56px; color: var(--second); fill: none; stroke: currentColor; stroke-width: 1.5; }   /* the platform's own mark, as the list beside names it */
-.dl > header h1 { margin: 0; font-size: var(--t-heading); line-height: 1.2; }
+.dl > header .sec-title { margin: 0; font-size: var(--t-heading); line-height: 1.2; }
 .dl > header p { margin: 4px 0 0; font-size: var(--t-body); line-height: 1.4; color: var(--mutedForeground); }
 .dl-rows { display: flex; flex-direction: column; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); overflow: hidden; }
 .dl-row { display: flex; align-items: center; gap: 14px; padding: 12px 14px; color: var(--Foreground); text-decoration: none; border: none; }
@@ -308,7 +310,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
   .container.dl { padding: 0 16px; }
   .dl-chiptag { width: 3.9em; }
   .dl-hint code { white-space: normal; overflow-wrap: anywhere; }
-  .dl > header h1 { font-size: var(--t-lead); }
+  .dl > header .sec-title { font-size: var(--t-lead); }
   .dl > header { gap: 12px; }
   .dl-platform { width: 40px; height: 40px; }
   .dl > header p { font-size: var(--t-small); }
@@ -326,7 +328,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .os-stats dd { margin: 4px 0 0; font-size: var(--t-small); line-height: 1.35; color: var(--mutedForeground); }
 .os-ways { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .os-ways a { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1.5px solid var(--HighlightedBackground); border-radius: var(--r-m); color: var(--HighlightedBackground); font: 600 var(--t-small) var(--prose-font); text-decoration: none; }
-.os-ways a:hover, .os-ways a:focus-visible { filter: brightness(1.1); outline: none; }
+.os-ways a:hover, .os-ways a:focus-visible { filter: brightness(1.1); }   /* and the site's focus ring (shared.css) where the keyboard is */
 .os-ways .tb-icon { width: 1.2em; height: 1.2em; }
 @media (max-width: 760px) { .os-stats { gap: 8px; } .os-stats dt { font-size: var(--t-lead); } }
 /* the code behind each part (site/pages/home.html): the download rows' shape, a repo to a row */
@@ -350,6 +352,8 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
    for the docs pane's hundreds), standing in at a guess, and a page's few dozen cards would grow as a scroll passed them —
    an anchor scrolled to from the top would land short of it (Learn's course cards: 260px guessed, 700 real) */
 .site-body .qs-card { content-visibility: visible; }
+/* a card's title set as the site sets its headings, whatever level it is (a level under the heading it sits under) */
+.site-body .qs-card-title { letter-spacing: -0.015em; }
 /* ── the tutorial's pages (scripts/build-site.mjs tutorialBody): a book's to read, not a landing page's — left-aligned
    at a reading width, the prose face at body size, each part's parts stepping down from its title, every program a
    card, and the chapter before and after at the foot ── */
@@ -357,8 +361,8 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .tut-page .tut-part { width: auto; max-width: 46em; margin: 0 auto; padding: 0 24px; text-align: left; }   /* width: landing.css's .container sets one, fixed */
 .tut-page .tut-part header { margin: 0 0 0.9em; text-align: left; }
 .tut-page .tut-part p.tut-note { padding: 0.7em 1em; border-left: 3px solid var(--HighlightedBackground); border-radius: var(--r-s); background: var(--accentTint); }
-.tut-page .tut-part h1 { margin: 0; font-size: var(--t-title); text-align: left; }
-.tut-page .tut-part > :is(h2, h3, h4) { margin: 1.3em 0 0.4em; font: 700 var(--t-body) var(--prose-font); color: var(--Foreground); text-align: left; }
+.tut-page .tut-part .sec-title { margin: 0; font-size: var(--t-title); text-align: left; }
+.tut-page .tut-part > :is(h2, h3, h4, h5) { margin: 1.3em 0 0.4em; font: 700 var(--t-body) var(--prose-font); color: var(--Foreground); text-align: left; }
 .tut-page .tut-part > p, .tut-page .tut-part > :is(ul, ol) > li { margin: 0 0 0.9em; font: var(--t-body)/1.6 var(--prose-font); color: var(--Foreground); text-align: left; }
 .tut-page .tut-part > :is(ul, ol) { margin: 0 0 1em; padding-left: 1.4em; text-align: left; }
 .tut-page .tut-part > :is(ul, ol) > li { margin-bottom: 0.35em; }
@@ -376,7 +380,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .site-body #course .course-card { padding-bottom: 0; border: 1px solid var(--WindowBorder); background: var(--PaneBackground); }
 .site-body #course .course-card .qs-card-foot { background: none; border-top: 1px solid var(--WindowBorder); }
 .site-body #course .course-copy p { padding: 0; font-size: var(--t-body); color: var(--Foreground); }
-.site-body #course .course-cover h2 { padding: 0; font-weight: 700; color: #fff; }
+.site-body #course .course-cover h3 { padding: 0; font-weight: 700; color: #fff; }
 .site-body #course .course-media img { height: 100%; border-radius: 0; }
 
 /* The home page's highlights (#story): a thumbnail, a name and a line each, every one a link out. The thumbnails

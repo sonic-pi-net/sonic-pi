@@ -222,7 +222,7 @@ export function createInfo(card, hooks) {
     if (heroPre) p.mounts.push(mountExamples([heroPre], hooks, host, document));
     const grid = page.querySelector("#sp-live-cards");
     if (grid) {
-      const levels = [...grid.querySelectorAll(":scope > h3.qs-level")].map((h) => ({ title: h.textContent, keys: [...h.nextElementSibling.querySelectorAll(".sp-card")].map((e) => e.dataset.key) }));
+      const levels = [...grid.querySelectorAll(":scope > .qs-level")].map((h) => ({ title: h.textContent, keys: [...h.nextElementSibling.querySelectorAll(".sp-card")].map((e) => e.dataset.key) }));
       const examples = mountExamples([...grid.querySelectorAll(".sp-card")], hooks, host, document);
       p.mounts.push(examples);
       // a phone's width: one card at a time, swiped or stepped through (ui/flip.js), the list lit with the card at the front
