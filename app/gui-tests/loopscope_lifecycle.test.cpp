@@ -20,6 +20,7 @@
 
 #include <memory>
 
+#include <shared_memory.h>
 #include <shm_tap_stream.hpp>
 
 #include "model/sonicpitheme.h"
@@ -70,14 +71,17 @@ struct Editor
     }
 };
 
-// A scope-stream slot, as the engine's shared memory holds one.
+// A scope-stream slot as the engine's shared memory holds one: the header,
+// then a ring of the native layout's frames. Zeroed, as the arena hands it
+// over.
+constexpr uint32_t kRing = clockwork::kDefaultLayout.profile.tap_ring_frames;
 struct Slot
 {
-    std::unique_ptr<shm_tap_stream> mem = std::make_unique<shm_tap_stream>();
-    Slot() { mem->state.store(0); }
-    void live() { shm_tap_stream_writer(mem.get()).activate(2); }
-    void release() { mem->state.store(0); }
-    shm_tap_stream_reader reader() const { return shm_tap_stream_reader(mem.get()); }
+    std::unique_ptr<uint8_t[]> bytes{ new uint8_t[tap_slot_bytes(kRing)]() };
+    shm_tap_stream* mem() const { return reinterpret_cast<shm_tap_stream*>(bytes.get()); }
+    void live() { shm_tap_stream_writer(mem(), kRing).activate(2); }
+    void release() { mem()->state.store(0); }
+    shm_tap_stream_reader reader() const { return shm_tap_stream_reader(mem(), kRing); }
 };
 
 const QString kCode = QStringLiteral("live_loop :t do\n  play 60\n  sleep 1\nend\n");
@@ -364,7 +368,7 @@ void writeLoudWave(Slot& s, int frames = 16384)
     for (int i = 0; i < frames; i++)
         l[(size_t)i] = r[(size_t)i] = ((i / 256) % 2) ? 0.9f : -0.9f;
     const float* chans[2] = { l.data(), r.data() };
-    shm_tap_stream_writer(s.mem.get()).write(chans, (uint32_t)frames, 0);
+    shm_tap_stream_writer(s.mem(), kRing).write(chans, (uint32_t)frames, 0);
 }
 
 QImage rendered(QWidget* w)
