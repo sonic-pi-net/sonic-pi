@@ -159,6 +159,9 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC
     _CRT_SECURE_NO_WARNINGS
     _WINSOCK_DEPRECATED_NO_WARNINGS
     WIN32_LEAN_AND_MEAN
+    # No min/max macros from windows.h: the engine's headers use std::min and
+    # std::max, and build with this themselves.
+    NOMINMAX
 )
 
 # Organize source groups (optional)
