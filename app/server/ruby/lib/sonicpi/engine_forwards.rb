@@ -12,12 +12,17 @@
 #++
 
 module SonicPi
-  # What the daemon relays from the engine, and to whom.
+  # What Spider relays between the engine and the GUI, and to whom.
+  #
+  # SuperSonic serves one client on its command port, and Spider is it
+  # (EngineConnection): the daemon and the GUI have no connection of their
+  # own, so every engine message the GUI hears comes through Spider, and
+  # every one it sends goes through Spider, with its token first.
   #
   # CLOSED LISTS, and anything on neither is dropped without a trace. The
   # engine broadcasts to its notify targets, and answers a request on the
-  # connection that made it; the daemon's connection is the registered one,
-  # and the GUI and Spider only ever see what is relayed from here. The first
+  # connection that made it; Spider's connection is the registered one, and
+  # the GUI only ever sees what is relayed from here. The first
   # plugin broadcasts were sent correctly by the engine and died here, which
   # looked from the GUI exactly like a plugin that never loaded; the GUI's
   # switch.done handler went unheard from May to October 2026, so no audio
@@ -51,12 +56,10 @@ module SonicPi
     "/clockwork/track/error",
   ].freeze
 
-  # The GUI's requests the daemon asks the engine on its own connection
-  # (/daemon/... → /clockwork/...), with the GUI's token first. The engine
-  # answers a request on the connection it came in on, and the GUI's own
-  # engine connection discards whatever comes back on it: a request whose
-  # answer the GUI wants goes through here, and its answer through
-  # ENGINE_TO_GUI_FORWARDS.
+  # The GUI's requests to the daemon that Spider asks the engine
+  # (/daemon/... → /clockwork/...): the daemon passes each to Spider, token
+  # and all, and Spider sends it on its connection, so the answer comes back
+  # there and reaches the GUI through ENGINE_TO_GUI_FORWARDS.
   GUI_TO_ENGINE_REQUESTS = {
     "/daemon/audio/switch-device"   => "/clockwork/devices/switch",
     "/daemon/audio/switch-driver"   => "/clockwork/drivers/switch",
@@ -70,8 +73,35 @@ module SonicPi
     "/daemon/clock/audio/inputs"    => "/clockwork/clock/audio/inputs/get",
   }.freeze
 
-  # Spider rebuilds the studio after every cold swap.
-  ENGINE_TO_SPIDER_FORWARDS = [
-    "/clockwork/setup",
+  # What the GUI sends the engine itself (SonicPiAPI::SupersonicSendOSC):
+  # sent to Spider with the GUI's token first, and sent on by address.
+  GUI_TO_ENGINE_DIRECT = [
+    "/clockwork/summary",
+    "/clockwork/inputs/enable",
+    "/clockwork/clock/visibility",
+    "/clockwork/clock/tempo/set",
+    "/clockwork/clock/audio/publish/set",
+    "/clockwork/clock/peer_name/set",
+    "/clockwork/clock/audio/input/latency/set",
+    "/clockwork/track/list",
+    "/clockwork/track/folders",
+    "/clockwork/track/folders/add",
+    "/clockwork/track/folders/remove",
+    "/clockwork/track/scan",
+    "/clockwork/track/create",
+    "/clockwork/track/remove",
+    "/clockwork/track/rename",
+    "/clockwork/track/gain",
+    "/clockwork/track/mute",
+    "/clockwork/track/rig/load",
+    "/clockwork/track/rig/save",
+    "/clockwork/track/plugin/add",
+    "/clockwork/track/plugin/remove",
+    "/clockwork/track/plugin/move",
+    "/clockwork/track/plugin/bypass",
+    "/clockwork/track/plugin/channel",
+    "/clockwork/track/plugin/params",
+    "/clockwork/track/plugin/param",
+    "/clockwork/track/plugin/editor",
   ].freeze
 end

@@ -13,6 +13,7 @@ require_relative '../lib/sonicpi/osc/tcp_osc_client'
 require_relative '../lib/sonicpi/osc/osc_types'
 require_relative '../lib/sonicpi/promise'
 require_relative './lib/engine_ports'
+require_relative '../lib/sonicpi/engine_secret'
 
 class TcpOscClientIntegrationTest < Minitest::Test
   DEFAULT_ENGINE_CANDIDATES = [
@@ -33,11 +34,18 @@ class TcpOscClientIntegrationTest < Minitest::Test
     skip "no engine binary at #{ENGINE} (set SUPERSONIC_BIN)" unless File.exist?(ENGINE)
     @tcp_port = SonicPi::EnginePorts.claim
     @shm_port = SonicPi::EnginePorts.claim
+    # The engine's per-boot secret: on its stdin as the daemon writes it,
+    # and presented by the client.
+    @secret = SonicPi::EngineSecret.generate
+    stdin_r, stdin_w = IO.pipe
     @pid = spawn(ENGINE, '--headless', '-u', @shm_port.to_s,
-                 '--tcp', @tcp_port.to_s, '--max-connections', '16',
-                 %i[out err] => File::NULL)
+                 '--tcp', @tcp_port.to_s,
+                 in: stdin_r, %i[out err] => File::NULL)
+    stdin_r.close
+    stdin_w.write(SonicPi::EngineSecret.stdin_line(@secret))
+    stdin_w.close
     @client = SonicPi::OSC::TcpOscClient.new('127.0.0.1', @tcp_port,
-                                             name: 'test-client', connect_timeout: 30)
+                                             name: 'test-client', connect_timeout: 30, secret: @secret)
   end
 
   def teardown

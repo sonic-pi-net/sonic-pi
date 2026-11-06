@@ -51,7 +51,32 @@ module SonicPi
                    "The GUI handles these, but nothing delivers them to it. " \
                    "An engine broadcast goes in ENGINE_TO_GUI_FORWARDS " \
                    "(lib/sonicpi/engine_forwards.rb); an engine reply has to " \
-                   "be asked for on the daemon's connection to come back."
+                   "be asked for on Spider's connection to come back."
+    end
+
+    # Spider holds the one connection to the engine, so it relays each list:
+    # the engine's broadcasts and replies to the GUI, and the GUI's requests,
+    # by way of the daemon or straight from the GUI, to the engine.
+    def test_spider_relays_every_table
+      spider = source(SPIDER)
+      %w[ENGINE_TO_GUI_FORWARDS GUI_TO_ENGINE_REQUESTS GUI_TO_ENGINE_DIRECT].each do |table|
+        assert_includes spider, "SonicPi::#{table}", "spider-server.rb does not relay #{table}"
+      end
+      refute_includes source(File.join(ROOT, "app/server/ruby/bin/daemon.rb")), "TcpOscClient",
+                      "the daemon has no connection to the engine: Spider holds the one there is"
+    end
+
+    # What the GUI sends the engine itself (SupersonicSendOSC) goes through
+    # Spider by address, so the list and the GUI's sends must be the same:
+    # every /clockwork/ message a sending file builds. Some it also hears
+    # back under the same address (track/list); those stay in the list.
+    def test_the_gui_direct_sends_are_the_listed_ones
+      files = Dir[File.join(ROOT, "app/gui/**/*.cpp"), File.join(ROOT, "app/api/src/**/*.cpp")]
+                .reject { |p| p.end_with?(".test.cpp") }
+                .select { |p| source(p).include?("SupersonicSendOSC") }
+      sent = files.flat_map { |p| source(p).scan(%r{Message\s*\w*\s*\(\s*"(/clockwork/[^"]+)"}).flatten }.uniq
+      assert_includes sent, "/clockwork/track/list"
+      assert_equal sent.sort, GUI_TO_ENGINE_DIRECT.sort
     end
 
     def test_every_forward_is_handled_by_the_gui
@@ -65,7 +90,7 @@ module SonicPi
         request = reply.delete_suffix(".reply")
         asked = GUI_TO_ENGINE_REQUESTS.value?(request) ||
                 GUI_TO_ENGINE_REQUESTS.value?("#{request}/get")
-        assert asked, "#{reply}: its request is not asked through the daemon"
+        assert asked, "#{reply}: its request is not asked through the daemon and Spider"
       end
     end
 
@@ -80,7 +105,7 @@ module SonicPi
     end
 
     def test_spider_still_hears_every_setup
-      assert_includes ENGINE_TO_SPIDER_FORWARDS, "/clockwork/setup"
+      assert_includes source(SPIDER), 'add_listener("/clockwork/setup")'
     end
 
     # The GUI re-attaches its scope, refreshes its device list and readies the

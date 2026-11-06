@@ -13,6 +13,7 @@
 
 require_relative "promise"
 require_relative "osc/tcp_osc_client"
+require_relative "engine_connection"
 
 module SonicPi
   # OSC client for one SuperSonic subsystem (an address space such as /midi,
@@ -25,12 +26,11 @@ module SonicPi
       @host = supersonic_host.freeze
       @port = Integer(supersonic_port)
       @address_space = address_space.freeze
-      # TCP: reliable, connection-oriented — no silent datagram loss (the
-      # cause of sporadic 1s rpc timeouts convoying into scheduler LATEs;
-      # see the 2026-08-05 investigation), and on Windows MRI ~100x lower
-      # receive latency than the UDP path. Engine-side subscriptions are
-      # per-connection, so a reconnect must resubscribe (idempotent).
-      @udp_server = SonicPi::OSC::TcpOscClient.new(@host, @port, name: name)
+      # Spider's one TCP connection to the engine (EngineConnection), shared
+      # with the scsynth link and the other comms: reliable, and on Windows
+      # MRI ~100x lower receive latency than UDP. Engine-side subscriptions
+      # are per-connection, so a reconnect must resubscribe (idempotent).
+      @udp_server = SonicPi::EngineConnection.client(@host, @port, name: name)
       @udp_server.on_reconnect do
         subscribe_to_notifications! if @subscribed
       end

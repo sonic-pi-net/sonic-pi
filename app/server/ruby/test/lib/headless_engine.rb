@@ -14,14 +14,21 @@
 require 'tmpdir'
 require 'timeout'
 require_relative "./engine_ports"
+require_relative "../../lib/sonicpi/engine_secret"
+require_relative "../../lib/sonicpi/engine_connection"
 require_relative "../mix/lib/mix_engine"
 
 module SonicPi
   # A headless SuperSonic for a test that needs the real engine: its own port
-  # (UDP and TCP, the same number, as Sonic Pi starts it), no audio device, and
-  # its log kept so a failing test can say what the engine saw. The binary is
-  # the one the mix tests find (MixEngine::ENGINE).
+  # (the shm segment and TCP, the same number, as Sonic Pi starts it), no
+  # audio device, and its log kept so a failing test can say what the engine
+  # saw. The binary is the one the mix tests find (MixEngine::ENGINE). Every
+  # engine a test process starts gets the one SECRET, written to its stdin as
+  # the daemon writes it, and set on EngineConnection so the test's clients
+  # present it.
   class HeadlessEngine
+    SECRET = EngineSecret.generate
+
     attr_reader :port, :log
 
     def self.available?
@@ -31,9 +38,14 @@ module SonicPi
     def initialize(name)
       @port = EnginePorts.claim
       @log = File.join(Dir.tmpdir, "sonic-pi-#{name}-#{@port}.log")
+      EngineConnection.secret = SECRET
+      stdin_r, stdin_w = IO.pipe
       @pid = Process.spawn(MixEngine::ENGINE, "--headless", "-u", @port.to_s, "--tcp", @port.to_s,
                            "-o", "2", "-i", "0", "-a", "1024", "-b", "4096", "-B", "127.0.0.1",
-                           out: @log, err: [:child, :out])
+                           in: stdin_r, out: @log, err: [:child, :out])
+      stdin_r.close
+      stdin_w.write(EngineSecret.stdin_line(SECRET))
+      stdin_w.close
     end
 
     def log_tail(lines = 80)

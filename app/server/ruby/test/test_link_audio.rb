@@ -58,6 +58,7 @@ module SonicPi
       @studio&.server&.shutdown rescue nil
       @engine&.stop
       @peer&.stop
+      EngineConnection.reset!
     end
 
     def test_link_audio_takes_a_peers_channel_on_the_bus_it_arrives_on
@@ -107,7 +108,8 @@ module SonicPi
         @port = port
         @replies = Queue.new
         @heard = {}
-        @client = OSC::TcpOscClient.new("127.0.0.1", port, name: "link_audio test probe")
+        # The engine serves one client: the probe asks on the test's connection.
+        @client = EngineConnection.client("127.0.0.1", port, name: "link_audio test probe")
       end
 
       def ask(address, reply_address, timeout = 1)

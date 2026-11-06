@@ -597,8 +597,10 @@ void OscHandler::oscMessage(std::vector<char> buffer)
                 ok = arg.isOk();
                 t.id = id; t.slot = slot; t.sendChannel = send; t.returnChannel = ret;
                 t.gain = gain; t.mute = mute != 0;
+                // The track slots follow the guest's in the one tap index space
+                // (memory_profile.h).
                 if (slot >= 0 && slot < TAP_TRACK_SLOTS)
-                    t.scopeSlot = TAP_TRACK_SLOT_BASE + slot;
+                    t.scopeSlot = TAPS_SLOTS + slot;
                 for (int32_t k = 0; ok && k < nodeCount; ++k)
                 {
                     TrackNodeInfo n;

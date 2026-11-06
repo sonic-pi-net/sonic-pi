@@ -19,6 +19,7 @@
 require_relative "../setup_test"
 require_relative "../../lib/sonicpi/link_api"
 require_relative "../../lib/sonicpi/clockwork_arena"
+require_relative "../../lib/sonicpi/engine_connection"
 
 module SonicPi
   class LinkAPILocalClockTester < Minitest::Test
@@ -199,6 +200,17 @@ module SonicPi
     def test_the_default_reader_is_the_shared_memory_one
       a = LinkAPI.new("127.0.0.1", 4556, {}, comms: FakeComms.new)
       assert_kind_of ClockworkClockReader, a.instance_variable_get(:@clock_reader)
+    end
+
+    # The engine's attach endpoint asks the same secret as its command port:
+    # the default reader presents the one Spider was given.
+    def test_the_default_reader_presents_spiders_engine_secret
+      secret = SonicPi::EngineSecret.generate
+      SonicPi::EngineConnection.secret = secret
+      a = LinkAPI.new("127.0.0.1", 4556, {}, comms: FakeComms.new)
+      assert_equal secret, a.instance_variable_get(:@clock_reader).secret
+    ensure
+      SonicPi::EngineConnection.reset!
     end
 
     def test_the_environment_can_force_the_rpc_path

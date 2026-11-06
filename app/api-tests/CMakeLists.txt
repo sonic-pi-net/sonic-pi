@@ -24,6 +24,17 @@ endif()
 
 if(TEST_SOURCES)
   add_executable(${PROJECT_NAME} ${TEST_SOURCES})
+  # The engine the audio processor test attaches to: the binary the external
+  # build stages for the app (external/CMakeLists.txt), under its platform name.
+  if(WIN32)
+    set(API_TESTS_ENGINE_NAME "Sonic Pi - SuperSonic.exe")
+  elseif(APPLE)
+    set(API_TESTS_ENGINE_NAME "Sonic Pi - SuperSonic")
+  else()
+    set(API_TESTS_ENGINE_NAME "sonic-pi-supersonic")
+  endif()
+  target_compile_definitions(${PROJECT_NAME} PRIVATE
+      SONIC_PI_ENGINE_BIN="${CMAKE_SOURCE_DIR}/server/native/${API_TESTS_ENGINE_NAME}")
 
   target_include_directories(${PROJECT_NAME} PRIVATE
       ${CMAKE_BINARY_DIR}

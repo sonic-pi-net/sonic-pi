@@ -48,7 +48,6 @@ namespace SonicPi
 class AudioProcessor;
 struct ProcessedAudio;
 class OscSender;
-class TcpOscSender;
 class OscServer;
 
 enum class APIInitResult
@@ -790,9 +789,11 @@ private:
     std::shared_ptr<OscServer> m_spOscSpiderServer;
     std::shared_ptr<OscSender> m_spOscSpiderSender;
     std::shared_ptr<OscSender> m_spOscDaemonSender;
-    std::shared_ptr<TcpOscSender> m_spOscSupersonicSender;
     std::shared_ptr<AudioProcessor> m_spAudioProcessor;
     int m_token;
+    // SuperSonic's per-boot secret, from the daemon: presented when the
+    // engine's shared memory is attached (AudioProcessor).
+    std::array<uint8_t, 32> m_engineSecret{};
 
     IAPIClient* m_pClient = nullptr;
     APIProtocol m_protocol = APIProtocol::UDP;

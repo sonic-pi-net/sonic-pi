@@ -25,14 +25,17 @@ module SonicPi
   # the arena's offsets never move, a device change included, and the
   # header's published flag says when the table may be trusted (the engine
   # writes it again as it takes the arena at boot). A new engine process is
-  # a new segment: re-attach (reattach!) when the engine comes back. Every failure is reported, never raised — the caller's answer to
-  # "no snapshot" is the RPC it always had.
+  # a new segment: re-attach (reattach!) when the engine comes back. The
+  # attach endpoint asks the engine's per-boot secret, the one Spider's
+  # command connection presents. Every failure is reported, never raised —
+  # the caller's answer to "no snapshot" is the RPC it always had.
   class ClockworkClockReader
-    attr_reader :endpoint, :last_error
+    attr_reader :endpoint, :secret, :last_error
 
-    def initialize(port: nil, endpoint: nil)
+    def initialize(port: nil, endpoint: nil, secret: nil)
       raise ArgumentError, "port or endpoint" unless port || endpoint
       @endpoint = endpoint || ClockworkShmAttach.default_endpoint(port)
+      @secret = secret
       @mutex = Mutex.new
       @memory = nil
       @arena = nil
@@ -47,7 +50,7 @@ module SonicPi
     def attach!
       memory = nil
       begin
-        io, size = ClockworkShmAttach.receive(@endpoint)
+        io, size = ClockworkShmAttach.receive(@endpoint, secret: @secret)
         begin
           memory = ClockworkShmAttach.map(io, size)
         ensure

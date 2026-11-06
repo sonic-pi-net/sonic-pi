@@ -36,11 +36,14 @@ module SonicPi
   # How a Ruby process gets the engine's anonymous shared-memory segment.
   #
   # The segment has no name, so it cannot be opened: the engine serves it on
-  # an attach endpoint (clockwork's shm_attach.hpp). Connect, receive one
-  # 24-byte hello with the descriptor riding alongside as SCM_RIGHTS, map it
+  # an attach endpoint (clockwork's shm_attach.hpp). Connect, present the
+  # engine's per-boot secret (EngineSecret) as the first frame and then the
+  # role asked for (a reader: the published segment, read-only), receive one
+  # 40-byte hello with the descriptor riding alongside as SCM_RIGHTS, map it
   # read-only. On Windows the hello carries a handle the engine duplicated
-  # into this process and the channel is a named pipe. No request, no state:
-  # attaching is the connection.
+  # into this process and the channel is a named pipe. A refused secret is a
+  # connection closed without a hello; a declined role is a hello whose
+  # status says why, with nothing handed over.
   #
   # Nothing here is compiled. Ruby's socket library receives descriptors, and
   # Fiddle reaches mmap (or MapViewOfFile) in the C library, which is what
@@ -48,8 +51,22 @@ module SonicPi
   # extensions.
   module ClockworkShmAttach
     HELLO_MAGIC   = 0x43574154   # 'CWAT'
-    HELLO_VERSION = 1
-    HELLO_BYTES   = 24           # u32 magic, u32 version, u64 size, u64 handle
+    HELLO_VERSION = 4            # 4: the request is the auth frame then a role; the hello carries role and status
+    HELLO_BYTES   = 40           # u32 magic, u32 version, u64 size, u64 handle, u32 role, u32 status, u64 wake event
+    AUTH_PACKET_BYTES = 56       # OSC /clockwork/auth with a 32-byte blob
+    REQUEST_BYTES = 4 + AUTH_PACKET_BYTES + 4   # the framed packet, then the role
+
+    # The roles a client asks for (shm_attach.hpp). A Ruby process is only
+    # ever a reader; the peer, handed the command segment read-write, is the
+    # GUI's.
+    ROLE_READER = 1
+    ROLE_PEER   = 2
+
+    # The statuses a hello carries.
+    STATUS_OK                 = 0
+    STATUS_NO_COMMAND_SEGMENT = 1
+    STATUS_HELD               = 2
+    STATUS_UNKNOWN_ROLE       = 3
 
     class AttachError < StandardError; end
 
@@ -75,9 +92,51 @@ module SonicPi
     end
     private_class_method :dir_from
 
-    # Connect and take the hand-off. Returns [io_or_handle, size].
-    def self.receive(endpoint, timeout: 2.0)
-      windows? ? Win32.receive(endpoint) : Posix.receive(endpoint, timeout)
+    # The first frame on a connection, as shm_attach::auth_frame lays it out:
+    # a 4-byte big-endian length, then OSC /clockwork/auth with the secret as
+    # its one blob argument.
+    def self.auth_frame(secret)
+      [AUTH_PACKET_BYTES].pack("N") + "/clockwork/auth\0".b + ",b\0\0".b + [32].pack("N") + secret.b
+    end
+
+    # The whole request, as shm_attach::request lays it out: the auth frame,
+    # then the role as a 4-byte big-endian word.
+    def self.request(secret, role)
+      auth_frame(secret) + [role].pack("N")
+    end
+
+    # Connect, present the secret and the reader's role, and take the
+    # hand-off. Returns [io_or_handle, size].
+    def self.receive(endpoint, secret:, timeout: 2.0)
+      raise AttachError, "no secret to present" unless secret
+      request = request(secret, ROLE_READER)
+      windows? ? Win32.receive(endpoint, request) : Posix.receive(endpoint, request, timeout)
+    end
+
+    # The hello's fields, checked as shm_attach's client checks them: a
+    # hand-off this build understands, for the role asked, with STATUS_OK.
+    # Returns [size, handle]; raises otherwise.
+    def self.accept_hello(data, endpoint)
+      magic, version, size, handle, role, status, _wake = data.unpack("L<2Q<2L<2Q<")
+      if magic != HELLO_MAGIC || version != HELLO_VERSION || role != ROLE_READER
+        raise AttachError, "malformed hand-off from #{endpoint}"
+      end
+      raise AttachError, status_text(status, endpoint) unless status == STATUS_OK
+      [size, handle]
+    end
+
+    # The reason a status is, in shm_attach::status_text's words.
+    def self.status_text(status, endpoint)
+      case status
+      when STATUS_NO_COMMAND_SEGMENT
+        "no shared-memory command plane at #{endpoint}: the host did not enable one"
+      when STATUS_HELD
+        "another peer holds the command plane at #{endpoint}"
+      when STATUS_UNKNOWN_ROLE
+        "the engine at #{endpoint} does not know the role asked for"
+      else
+        "the engine at #{endpoint} declined the attach (status #{status})"
+      end
     end
 
     # Map the received segment read-only. The descriptor may be closed after.
@@ -117,7 +176,7 @@ module SonicPi
       PROT_READ  = 1
       MAP_SHARED = 1
 
-      def self.receive(endpoint, timeout)
+      def self.receive(endpoint, request, timeout)
         sock = begin
           UNIXSocket.new(endpoint)
         rescue SystemCallError => e
@@ -127,6 +186,13 @@ module SonicPi
           # Both ends check the peer's uid: memory goes only to its own user.
           uid, = sock.getpeereid
           raise AttachError, "the engine at #{endpoint} is not running as this user" unless uid == Process.euid
+          # The secret and the role first; a server that refuses the secret
+          # closes without a hello.
+          begin
+            sock.write(request)
+          rescue SystemCallError => e
+            raise AttachError, "could not present the secret to #{endpoint}: #{e.message}"
+          end
           # Bound the wait: a server that accepted but never speaks must not
           # hang the caller.
           unless IO.select([sock], nil, nil, timeout)
@@ -138,14 +204,22 @@ module SonicPi
             raise AttachError, "malformed hand-off from #{endpoint}: #{e.message}"
           end
           ios = controls.flat_map { |c| c.unix_rights || [] rescue [] }
+          if data.to_s.empty?
+            ios.each { |io| io.close rescue nil }
+            raise AttachError, "refused by #{endpoint}: the secret was not accepted"
+          end
           unless data && data.bytesize == HELLO_BYTES
             ios.each { |io| io.close rescue nil }
             raise AttachError, "malformed hand-off from #{endpoint} (#{data.to_s.bytesize} bytes)"
           end
-          magic, version, size, _handle = data.unpack("L<2Q<2")
-          if magic != HELLO_MAGIC || version != HELLO_VERSION || ios.empty?
+          begin
+            size, = ClockworkShmAttach.accept_hello(data, endpoint)
+          rescue AttachError
             ios.each { |io| io.close rescue nil }
-            raise AttachError, "malformed hand-off from #{endpoint}"
+            raise
+          end
+          if ios.empty?
+            raise AttachError, "malformed hand-off from #{endpoint}: no descriptor"
           end
           ios[1..].each { |io| io.close rescue nil }
           [ios[0], size]
@@ -176,6 +250,7 @@ module SonicPi
     # shm_attach::receive's Windows branch, one call per line.
     module Win32
       GENERIC_READ  = 0x80000000   # a DWORD past a signed int: passed as TYPE_UINT, or Fiddle raises on Windows
+      GENERIC_WRITE = 0x40000000
       OPEN_EXISTING = 3
       FILE_MAP_READ = 4
       ERROR_PIPE_BUSY = 231
@@ -188,33 +263,43 @@ module SonicPi
         Fiddle::Function.new(kernel32[name], args, ret)
       end
 
-      def self.receive(endpoint)
+      def self.receive(endpoint, request)
         name = endpoint.start_with?("\\\\.\\pipe\\") ? endpoint : "\\\\.\\pipe\\#{endpoint}"
         wide = (name + "\0").encode("UTF-16LE")
         create = fn("CreateFileW", [Fiddle::TYPE_VOIDP, Fiddle::TYPE_UINT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP,
                                     Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_VOIDP)
         wait   = fn("WaitNamedPipeW", [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
         last   = fn("GetLastError", [], Fiddle::TYPE_INT)
+        write  = fn("WriteFile", [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP,
+                                  Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
         read   = fn("ReadFile", [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP,
                                  Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
         close  = fn("CloseHandle", [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
         invalid = 2**64 - 1
         pipe = invalid
         3.times do
-          pipe = create.call(wide, GENERIC_READ, 0, nil, OPEN_EXISTING, 0, nil).to_i
+          pipe = create.call(wide, GENERIC_READ | GENERIC_WRITE, 0, nil, OPEN_EXISTING, 0, nil).to_i
           break if pipe != invalid && pipe != -1
           break unless last.call == ERROR_PIPE_BUSY
           wait.call(wide, 1000)
         end
         raise AttachError, "open #{endpoint}: error #{last.call}" if pipe == invalid || pipe == -1
+        # The secret and the role first; a server that refuses the secret
+        # closes without a hello.
+        sent = Fiddle::Pointer.malloc(4)
+        ok = write.call(pipe, request, request.bytesize, sent, nil)
+        if ok == 0 || sent[0, 4].unpack1("L<") != request.bytesize
+          close.call(pipe)
+          raise AttachError, "could not present the secret to #{endpoint}"
+        end
         buf = Fiddle::Pointer.malloc(HELLO_BYTES)
         got = Fiddle::Pointer.malloc(4)
         ok = read.call(pipe, buf, HELLO_BYTES, got, nil)
         close.call(pipe)
         n = got[0, 4].unpack1("L<")
-        raise AttachError, "malformed hand-off from #{endpoint}" if ok == 0 || n != HELLO_BYTES
-        magic, version, size, handle = buf[0, HELLO_BYTES].unpack("L<2Q<2")
-        raise AttachError, "malformed hand-off from #{endpoint}" if magic != HELLO_MAGIC || version != HELLO_VERSION
+        raise AttachError, "refused by #{endpoint}: the secret was not accepted" if ok == 0 || n == 0
+        raise AttachError, "malformed hand-off from #{endpoint}" if n != HELLO_BYTES
+        size, handle = ClockworkShmAttach.accept_hello(buf[0, HELLO_BYTES], endpoint)
         raise AttachError, "the engine could not duplicate its segment into this process" if handle == 0
         [handle, size]
       end

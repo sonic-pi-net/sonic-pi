@@ -14,6 +14,7 @@
 require 'socket'
 require 'tempfile'
 require 'tmpdir'
+require_relative "../../lib/sonicpi/engine_secret"
 
 module SonicPi
   # A clockwork shared-memory segment, built in Ruby, byte for byte the shape
@@ -22,7 +23,7 @@ module SonicPi
   # parses the real thing. If the two ever disagree, the integration test is
   # the one that is right and this builder is what to fix.
   module FakeClockworkSegment
-    SEGMENT_MAGIC = 0x5C09E00C
+    SEGMENT_MAGIC = 0x5C09E00D
     ARENA_MAGIC   = 0x43574152   # 'CWAR'
     ARENA_VERSION = 2
     HEADER_BYTES  = 4096
@@ -127,23 +128,41 @@ module SonicPi
       blob_offset + clock_offset
     end
 
-    # A fake attach endpoint: a Unix socket that, per connection, sends the
-    # 24-byte hello and passes the descriptor of `file` — exactly what the
-    # engine's shm_attach::server does. Serves until stopped.
+    # The secret every fake endpoint asks for unless given another.
+    SECRET = SonicPi::EngineSecret.generate
+
+    # A fake attach endpoint: a Unix socket that, per connection, reads the
+    # client's request (the auth frame, then the role it asks for) and, if
+    # the frame carries `secret`, sends the 40-byte hello and passes the
+    # descriptor of `file` — exactly what the engine's shm_attach::server
+    # does. A refused connection is closed without a hello and counted. A
+    # role other than the reader's is answered with STATUS_UNKNOWN_ROLE and no
+    # descriptor; `status:` forces the status, `granted_role:` the role the
+    # hello names. Serves until stopped.
     class Endpoint
       HELLO_MAGIC   = 0x43574154   # 'CWAT'
-      HELLO_VERSION = 1
+      HELLO_VERSION = 4
+      AUTH_FRAME_BYTES = 60
+      REQUEST_BYTES = AUTH_FRAME_BYTES + 4
+      ROLE_READER = 1
+      STATUS_OK = 0
+      STATUS_UNKNOWN_ROLE = 3
 
-      attr_reader :path, :connections
+      attr_reader :path, :connections, :refused, :roles
 
       def initialize(file, dir: Dir.mktmpdir("cw-attach"), magic: HELLO_MAGIC,
-                     version: HELLO_VERSION, size: nil, silent: false, short: false)
+                     version: HELLO_VERSION, size: nil, silent: false, short: false,
+                     secret: SECRET, status: nil, granted_role: nil)
         @file = file
+        @secret = secret
+        @refused = 0
+        @roles = []
         @path = File.join(dir, "clockwork-shm-test.sock")
         @server = UNIXServer.new(@path)
         @magic, @version = magic, version
         @size = size || File.size(file.path)
         @silent, @short = silent, short
+        @status, @granted_role = status, granted_role
         @connections = 0
         @thread = Thread.new { serve }
       end
@@ -161,16 +180,27 @@ module SonicPi
           client = @server.accept
           @connections += 1
           begin
+            role = admitted_role(client)
+            unless role
+              @refused += 1
+              next
+            end
+            @roles << role
+            status = @status || (role == ROLE_READER ? STATUS_OK : STATUS_UNKNOWN_ROLE)
+            granted = @granted_role || role
             if @silent
               sleep 0.5
             elsif @short
               # A truncated hello with no descriptor: what a reader must refuse.
               client.sendmsg([@magic, @version].pack("L<2") + "\0\0")
+            elsif status != STATUS_OK
+              # The role was declined: the hello says why and hands over nothing.
+              client.sendmsg(hello(0, granted, status))
             else
-              # One sendmsg: the 24-byte hello with the descriptor riding
+              # One sendmsg: the 40-byte hello with the descriptor riding
               # alongside as SCM_RIGHTS, exactly as shm_attach::server sends it.
-              hello = [@magic, @version, @size, 0].pack("L<2Q<2")
-              client.sendmsg(hello, 0, nil, Socket::AncillaryData.unix_rights(@file.to_io))
+              client.sendmsg(hello(@size, granted, status), 0, nil,
+                             Socket::AncillaryData.unix_rights(@file.to_io))
             end
           ensure
             client.close rescue nil
@@ -178,6 +208,29 @@ module SonicPi
         end
       rescue IOError, Errno::EBADF, Errno::ENOTCONN
         nil
+      end
+
+      # magic, version, u64 size, u64 handle (0: the descriptor rides
+      # alongside), u32 role, u32 status, u64 wake event (0 off Windows).
+      def hello(size, role, status)
+        [@magic, @version, size, 0, role, status, 0].pack("L<2Q<2L<2Q<")
+      end
+
+      # The client's request, within 2 s: /clockwork/auth with our secret,
+      # then the role it asks for. Nil when the secret is not ours.
+      def admitted_role(client)
+        return nil unless IO.select([client], nil, nil, 2)
+        request = client.read(REQUEST_BYTES)
+        return nil unless request && request[0, AUTH_FRAME_BYTES] == expected_auth_frame
+        request[AUTH_FRAME_BYTES, 4].unpack1("N")
+      rescue IOError, SystemCallError
+        nil
+      end
+
+      # Built here, not borrowed from the reader: a framed OSC /clockwork/auth
+      # with the secret as a 32-byte blob, as shm_attach::auth_frame lays it out.
+      def expected_auth_frame
+        [56].pack("N") + "/clockwork/auth\0".b + ",b\0\0".b + [32].pack("N") + @secret.b
       end
     end
 

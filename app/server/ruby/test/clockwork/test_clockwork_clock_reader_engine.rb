@@ -18,21 +18,19 @@
 # the engine is not built, like the mix tests.
 
 require_relative "../setup_test"
-require_relative "../mix/lib/mix_engine"
+require_relative "../lib/headless_engine"
 require_relative "../../lib/sonicpi/link_api"
 require_relative "../../lib/sonicpi/clockwork_clock_reader"
 
 module SonicPi
   class ClockworkClockReaderEngineTester < Minitest::Test
-    ENGINE = MixEngine::ENGINE
-
     @@engine = nil
     @@unavailable = nil
 
     def self.engine
       return @@engine if @@engine
-      unless File.executable?(ENGINE)
-        @@unavailable = "engine not built at #{ENGINE}"
+      unless HeadlessEngine.available?
+        @@unavailable = "engine not built at #{MixEngine::ENGINE}"
         return nil
       end
       @@engine = EngineProcess.new.start
@@ -40,16 +38,15 @@ module SonicPi
       @@engine
     end
 
+    # The headless engine plus a LinkAPI on its command port (TCP, the
+    # transport Spider uses); the attach endpoint derives from the same port.
     class EngineProcess
       attr_reader :port, :api
 
       def start
-        @port = EnginePorts.claim
-        @log = File.join(Dir.tmpdir, "sonic-pi-clock-reader-#{@port}.log")
-        # -u and --tcp on one port, as the daemon starts it: the command plane
-        # is TCP (LinkAPI's transport), the attach endpoint derives from -u.
-        @pid = Process.spawn(ENGINE, "--headless", "-u", @port.to_s, "--tcp", @port.to_s,
-                             "-o", "2", "-i", "0", out: @log, err: [:child, :out])
+        @engine = HeadlessEngine.new("clock-reader")
+        @port = @engine.port
+        @log = @engine.log
         deadline = Time.now + 20
         begin
           @api = LinkAPI.new("127.0.0.1", @port, {}, clock_reader: nil)
@@ -67,15 +64,9 @@ module SonicPi
       end
 
       def stop
-        return unless @pid
-        Process.kill("TERM", @pid) rescue nil
-        begin
-          Timeout.timeout(3) { Process.wait(@pid) }
-        rescue StandardError
-          Process.kill("KILL", @pid) rescue nil
-          Process.wait(@pid) rescue nil
-        end
-        @pid = nil
+        @engine&.stop
+        @engine = nil
+        EngineConnection.reset!
       end
     end
 
@@ -83,7 +74,7 @@ module SonicPi
       @engine = self.class.engine
       skip @@unavailable unless @engine
       @rpc = @engine.api                                  # answers from the engine
-      @reader = ClockworkClockReader.new(port: @engine.port)
+      @reader = ClockworkClockReader.new(port: @engine.port, secret: HeadlessEngine::SECRET)
       assert @reader.attach!, "attach failed: #{@reader.last_error}"
     end
 

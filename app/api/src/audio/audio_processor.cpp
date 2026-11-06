@@ -56,8 +56,9 @@ inline std::vector<float> createWindow(uint32_t size)
 namespace SonicPi
 {
 
-AudioProcessor::AudioProcessor(SonicPi::IAPIClient* pClient, int synthPort)
+AudioProcessor::AudioProcessor(SonicPi::IAPIClient* pClient, int synthPort, const std::array<uint8_t, 32>& secret)
     : m_scSynthPort(synthPort)
+    , m_secret(secret)
     , m_pClient(pClient)
 {
     SetupFFT();
@@ -356,11 +357,12 @@ void AudioProcessor::AttachLocked()
     {
         // The segment is anonymous; the engine hands it over on its attach
         // endpoint, derived from the port it was booted on (the daemon passes
-        // no --shm-endpoint). A refused connect is the boot race — the engine
-        // is not serving yet — and reads as retryable below.
+        // no --shm-endpoint), to a client that presents its secret. A refused
+        // connect is the boot race — the engine is not serving yet — and reads
+        // as retryable below.
         std::string err;
         const auto handle = shm_attach::receive(
-            shm_attach::default_endpoint(static_cast<unsigned>(m_scSynthPort)), &err);
+            shm_attach::default_endpoint(static_cast<unsigned>(m_scSynthPort)), m_secret.data(), &err);
         if (!detail_shm_segment::shm_handle_valid(handle))
             throw std::runtime_error("shm attach: " + err);
         m_shmClient.reset(new shm_segment_client(handle));

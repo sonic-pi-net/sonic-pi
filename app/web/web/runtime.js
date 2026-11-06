@@ -57,7 +57,7 @@ export function workerSettled(worker) {
 // (a local build). Null if it could not be fetched: the engine then fetches its own.
 let engineWasmBytes = null;
 export const engineWasm = () => (engineWasmBytes ??= supersonicInfo()
-  .then((v) => fetch(`${v.core ? `${v.core}wasm/` : `${v.base ?? SUPERSONIC_BASE}wasm/`}scsynth-nrt.wasm`))
+  .then((v) => fetch(`${v.core ? `${v.core}wasm/` : `${v.base ?? SUPERSONIC_BASE}wasm/`}clockwork-scsynth.wasm`))
   .then((r) => (r.ok ? r.arrayBuffer() : null))
   .catch(() => null));
 export const SAMPLES_DIR = "/samples";

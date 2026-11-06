@@ -33,7 +33,7 @@ module SonicPi
 
     def serve(**fields)
       @served = F::Served.new(F.build(**fields))
-      @reader = ClockworkClockReader.new(endpoint: @served.path)
+      @reader = ClockworkClockReader.new(endpoint: @served.path, secret: F::SECRET)
     end
 
     def test_is_detached_until_attached
@@ -65,16 +65,24 @@ module SonicPi
     end
 
     def test_attach_failure_is_reported_not_raised
-      @reader = ClockworkClockReader.new(endpoint: "/nonexistent/clockwork-shm-9.sock")
+      @reader = ClockworkClockReader.new(endpoint: "/nonexistent/clockwork-shm-9.sock", secret: F::SECRET)
       refute @reader.attach!
       refute @reader.attached?
       assert_match(/connect/, @reader.last_error)
       assert_nil @reader.snapshot
     end
 
+    def test_a_refused_secret_is_an_attach_failure_the_caller_can_read
+      serve
+      @reader = ClockworkClockReader.new(endpoint: @served.path, secret: SonicPi::EngineSecret.generate)
+      refute @reader.attach!
+      assert_match(/secret was not accepted/, @reader.last_error)
+      assert_equal 1, @served.endpoint.refused
+    end
+
     def test_a_segment_that_is_not_an_arena_is_an_attach_failure
       @served = F::Served.new(F.build(arena_magic: 0x0BADF00D))
-      @reader = ClockworkClockReader.new(endpoint: @served.path)
+      @reader = ClockworkClockReader.new(endpoint: @served.path, secret: F::SECRET)
       refute @reader.attach!
       assert_match(/not a clockwork arena/, @reader.last_error)
     end

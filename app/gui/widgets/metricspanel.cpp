@@ -34,7 +34,7 @@
 // (tau-supersonic/harness/js/lib/metrics_schema.js) — metric descriptions
 // shared by every GUI. Found on the api target's include path.
 #include <metrics_schema.h>
-#include <shared_memory.h>   // ring sizes
+#include <memory_profile.h>  // ring sizes
 
 #include <QBrush>
 #include <QEasingCurve>
@@ -167,14 +167,14 @@ Kind kindOf(const char* kind)
     return K_Normal;
 }
 
-// A ring's capacity, named in the schema by key: the sizes this panel's engine
-// was built with.
+// A ring's capacity, named in the schema by key: the native profile's sizes
+// (memory_profile.h), which the engine this panel reads is laid out from.
 uint32_t capacityOf(const char* key)
 {
     const std::string k = key;
-    if (k == "inBufferCapacity")     return IN_RING_SIZE;
-    if (k == "outBufferCapacity")    return RT_OUT_RING_SIZE;
-    if (k == "nrtOutBufferCapacity") return NRT_OUT_RING_SIZE;
+    if (k == "inBufferCapacity")     return CLOCKWORK_IN_RING_SIZE;
+    if (k == "outBufferCapacity")    return CLOCKWORK_RT_OUT_RING_SIZE;
+    if (k == "nrtOutBufferCapacity") return CLOCKWORK_NRT_OUT_RING_SIZE;
     return 0;
 }
 

@@ -32,6 +32,9 @@ require_relative "../lib/sonicpi/lang/midi"
 require_relative "../lib/sonicpi/lang/sound"
 #require_relative "../lib/sonicpi/lang/pattern"
 require_relative "../lib/sonicpi/runtime"
+require_relative "../lib/sonicpi/engine_forwards"
+require_relative "../lib/sonicpi/engine_connection"
+require_relative "../lib/sonicpi/engine_secret"
 
 require 'multi_json'
 require 'memoist'
@@ -134,6 +137,13 @@ scsynth_send_port = ARGV[4] ? ARGV[4].to_i : scsynth_port
 osc_cues_port = ARGV[5] ? ARGV[5].to_i : 4560
 
 token = ARGV[6] ? ARGV[6].to_i : 0
+
+# The engine's per-boot secret, which every connection to it presents
+# first. The daemon writes it to this process's stdin, a pipe only it holds,
+# as it writes it to the engine's.
+if ARGV[7] == "--secret-on-stdin"
+  SonicPi::EngineConnection.secret = SonicPi::EngineSecret.from_hex(STDIN.gets.to_s.chomp)
+end
 
 # Create a frozen map of the ports so that this can
 # essentially be treated as a global constant to the
@@ -822,15 +832,51 @@ register_api = lambda do |server|
   cold_swap = SonicPi::ColdSwapReinit.new(halt:    -> { sp.__cold_swap_halt! },
                                           rebuild: -> { sp.__cold_swap_reinit! })
 
-  server.add_method("/clockwork/setup") do |args|
+  # Spider holds the one connection to the engine (EngineConnection, made as
+  # the runtime booted; the engine serves one client). What the engine
+  # broadcasts and answers on it that the GUI listens for goes to the GUI
+  # from here (engine_forwards.rb); a /clockwork/setup is this process's own.
+  engine = SonicPi::EngineConnection.client("127.0.0.1", scsynth_send_port)
+  SonicPi::ENGINE_TO_GUI_FORWARDS.each do |path|
+    engine.add_listener(path) { |args| gui.send(path, *args) }
+  end
+  engine.add_listener("/clockwork/setup") do |args|
     generation = args[2]
-    unless spider_boot_complete
+    if spider_boot_complete
+      cold_swap.setup!(generation)
+    else
       STDOUT.puts "Spider - received /clockwork/setup gen #{generation} (boot) - skipping"
       STDOUT.flush
-      next
     end
-    cold_swap.setup!(generation)
   end
+  # The GUI's requests the daemon passes on, and what the GUI sends the
+  # engine itself: the token first, then sent on this connection, so the
+  # answers come back here and reach the GUI above.
+  engine_send = lambda do |path, args|
+    engine.send(nil, nil, path, *args)
+  end
+  SonicPi::GUI_TO_ENGINE_REQUESTS.each do |daemon_path, engine_path|
+    server.add_method(daemon_path) do |args|
+      if args[0] == token
+        engine_send.call(engine_path, args[1..-1])
+      else
+        STDOUT.puts "Invalid token: #{args[0]} - ignoring #{daemon_path}"
+      end
+    end
+  end
+  SonicPi::GUI_TO_ENGINE_DIRECT.each do |path|
+    server.add_method(path) do |args|
+      if args[0] == token
+        engine_send.call(path, args[1..-1])
+      else
+        STDOUT.puts "Invalid token: #{args[0]} - ignoring #{path}"
+      end
+    end
+  end
+  # The device table for the GUI, which asked the daemon for it as it
+  # started: asked here instead, once this connection is up, so it arrives
+  # whenever the GUI is ready for it.
+  engine.send(nil, nil, "/clockwork/devices/report")
 
   # A refusal is a reply on Spider's own engine connection, not a daemon
   # forward: the engine answers "/clockwork/error [address, reason,

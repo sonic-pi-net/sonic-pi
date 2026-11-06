@@ -13,6 +13,7 @@
 require_relative "util"
 require_relative "promise"
 require_relative "osc/osc"
+require_relative "engine_connection"
 require_relative "thread_id"
 require_relative "../../paths"
 
@@ -91,13 +92,13 @@ module SonicPi
     end
 
     def shutdown
-      # Just unregister — the daemon owns SuperSonic's lifecycle
+      # Just unregister — the daemon owns SuperSonic's lifecycle, and the
+      # connection is shared with the subsystem comms, so it stays open.
       begin
         @osc_server.send(@hostname, @send_port, "/clockwork/notify/unregister")
       rescue => e
         puts "Error unregistering from SuperSonic: #{e.message}"
       end
-      @osc_server.stop
     end
 
     private
@@ -247,12 +248,12 @@ module SonicPi
         "See #{Paths.log_path}/supersonic.log for what the audio server was doing."
     end
 
+    # Spider's one connection to the engine, shared with the subsystem comms
+    # (EngineConnection): made here if this is the first ask.
     def connect_to_server(timeout)
-      OSC::TcpOscClient.new(@hostname, @send_port,
-                            use_decoder_cache: true,
-                            use_encoder_cache: true,
-                            name: "Scsynth Comms Server",
-                            connect_timeout: timeout)
+      EngineConnection.client(@hostname, @send_port,
+                              name: "Scsynth Comms Server",
+                              connect_timeout: timeout)
     rescue StandardError
       raise BootError, boot_timeout_message(timeout)
     end

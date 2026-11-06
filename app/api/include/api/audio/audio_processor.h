@@ -13,6 +13,7 @@
 
 #pragma once
 
+#include <array>
 #include <complex>
 #include <memory>
 #include <string>
@@ -34,7 +35,8 @@ struct IAPIClient;
 class AudioProcessor
 {
 public:
-    AudioProcessor(IAPIClient* pAPI, int synthPort);
+    // secret: the engine's per-boot secret, presented to attach its shared memory.
+    AudioProcessor(IAPIClient* pAPI, int synthPort, const std::array<uint8_t, 32>& secret);
     ~AudioProcessor();
 
     void Run();
@@ -111,6 +113,7 @@ private:
     std::vector<float> m_windowScratch;
 
     int m_scSynthPort = 0;
+    std::array<uint8_t, 32> m_secret{};
 
     std::atomic<bool> m_calculateFFT = { false };
     std::atomic<bool> m_running = { false };

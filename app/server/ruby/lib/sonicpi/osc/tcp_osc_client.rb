@@ -14,6 +14,8 @@ require 'socket'
 require_relative "../util"
 require_relative "oscencode"
 require_relative "oscdecode"
+require_relative "osc_types"
+require_relative "../engine_secret"
 
 module SonicPi
   module OSC
@@ -40,13 +42,17 @@ module SonicPi
     #
     # Reconnects: subscriptions/notify registrations at the engine are
     # per-connection, so after a reconnect the owning layer must
-    # re-subscribe. Register an on_reconnect callback for that; it runs on
-    # the reader thread after the connection is re-established.
+    # re-subscribe. Register an on_reconnect callback for that; each one
+    # registered runs, in order, on the reader thread after the connection
+    # is re-established and the secret presented.
     class TcpOscClient
       attr_reader :encoder, :host, :port
 
       include Util
 
+      # secret: the engine's per-boot secret (EngineSecret): presented as the
+      # first packet on every connection, the reconnects included. Without
+      # one nothing is presented, for a server that asks for none.
       # connect_timeout: total seconds to keep retrying the initial connect.
       # The engine binds its stream transport only after device init, which
       # can take >10s on Windows (ASIO device open) — be patient by default.
@@ -57,18 +63,24 @@ module SonicPi
         @decoder = OscDecode.new(opts.fetch(:use_decoder_cache, true))
         @encoder = OscEncode.new(opts.fetch(:use_encoder_cache, true))
         @connect_timeout = opts.fetch(:connect_timeout, 60)
+        @secret = opts[:secret]
+        if @secret && @secret.bytesize != EngineSecret::BYTES
+          raise ArgumentError, "#{@name}: a secret is #{EngineSecret::BYTES} bytes"
+        end
         @matchers = {}
+        @listeners = Hash.new { |h, k| h[k] = [] }
         @global_matcher = nil
         @send_mut = Mutex.new
-        @on_reconnect = nil
+        @on_reconnect = []
         @running = true
         @socket = connect_with_retry!(@connect_timeout)
+        present_secret(@socket)
         @reader_thread = Thread.new { reader_loop }
         @reader_thread.name = "tcp-osc-reader: #{@name}"
       end
 
       def on_reconnect(&blk)
-        @on_reconnect = blk
+        @on_reconnect << blk
       end
 
       # UDPServer-compatible: (address, port) accepted and ignored — the
@@ -96,8 +108,21 @@ module SonicPi
                                                      SonicPi::OSC::Blob.new(inner)]))
       end
 
+      # An OSC packet already encoded, framed and sent as it is: a bundle of
+      # several messages, which the encoder does not build.
+      def send_packet(packet)
+        write_framed(packet)
+      end
+
       def add_method(address_pattern, &proc)
         @matchers[address_pattern] = proc
+      end
+
+      # Beside the address's handler, not in its place: a relay that passes
+      # what arrives on to another process listens here, and the handler
+      # the owning layer re-binds on each registration is untouched.
+      def add_listener(address_pattern, &proc)
+        @listeners[address_pattern] << proc
       end
 
       def add_global_method(&proc)
@@ -147,6 +172,14 @@ module SonicPi
       # dropped connection would take every subsystem down with it.
       MAX_FRAME_BYTES = 256 * 1024
 
+      # The secret, first on a new connection. Written straight to the socket:
+      # the reconnect holds @send_mut, and nothing else may go first.
+      def present_secret(sock)
+        return unless @secret
+        payload = @encoder.encode_single_message(EngineSecret::AUTH_ADDRESS, [SonicPi::OSC::Blob.new(@secret)])
+        sock.write([payload.bytesize].pack("N") + payload)
+      end
+
       def write_framed(payload)
         if payload.bytesize > MAX_FRAME_BYTES
           raise "#{@name}: OSC message too large for stream transport " \
@@ -195,9 +228,10 @@ module SonicPi
                 rescue StandardError
                 end
                 @socket = connect_with_retry!(@connect_timeout)
+                present_secret(@socket)
               end
               STDERR.puts "#{@name}: reconnected"
-              @on_reconnect&.call
+              @on_reconnect.each { |blk| blk.call }
             rescue Exception => e2
               break unless @running
               STDERR.puts "#{@name}: reconnect failed permanently (#{e2.message})"
@@ -211,6 +245,7 @@ module SonicPi
         log "TCP OSC <----- #{address} #{args.inspect}" if incoming_osc_debug_mode
         p = @matchers[address]
         p.call(args) if p
+        @listeners[address].each { |l| l.call(args) } if @listeners.key?(address)
         @global_matcher&.call(address, args, nil)
       end
     end

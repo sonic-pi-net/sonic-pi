@@ -31,7 +31,6 @@
 #include <api/string_utils.h>
 
 #include <api/osc/osc_sender.h>
-#include <api/osc/tcp_osc_sender.h>
 #include <api/osc/udp.hh>
 #include <api/osc/udp_osc_server.h>
 
@@ -387,12 +386,14 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs,
     auto daemon_stdout = string_split(input_str, " ");
     std::transform(daemon_stdout.begin(), daemon_stdout.end(), daemon_stdout.begin(), [](std::string& val) { return string_trim(val); });
 
-    for(int i = 0 ; i < daemon_stdout.size() ; i ++) {
+    // The ports are logged; the token and the engine's secret are not, as
+    // gui.log is a file other users may read.
+    for (size_t i = 0; i < daemon_stdout.size() && i < 5; i++) {
       LOG(INFO, "daemon_stdout: " + daemon_stdout[i]);
     }
 
-    if(daemon_stdout.size() != 6) {
-      LOG(ERR, "\nError. Was expecting 5 port numbers and a token from the Daemon Booter. Got: " + input_str + "\n");
+    if(daemon_stdout.size() != 7) {
+      LOG(ERR, "\nError. Was expecting 5 port numbers, a token and the engine's secret from the Daemon Booter. Got " + std::to_string(daemon_stdout.size()) + " fields\n");
       return BootDaemonInitResult::TerminalError;
     }
 
@@ -402,6 +403,15 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs,
     m_ports[SonicPiPortId::scsynth] = std::stoi(daemon_stdout[3]);
     m_ports[SonicPiPortId::tau_osc_cues] = std::stoi(daemon_stdout[4]);
     m_token = std::stoi(daemon_stdout[5]);
+    // The engine's secret: 64 hex digits, the 32 bytes every client of the
+    // engine presents first (SuperSonic's docs/NATIVE.md, "The secret").
+    const std::string& hex = daemon_stdout[6];
+    if (hex.size() != 64 || hex.find_first_not_of("0123456789abcdefABCDEF") != std::string::npos) {
+      LOG(ERR, "\nError. The engine's secret from the Daemon Booter is not 64 hex digits (" + std::to_string(hex.size()) + " characters)\n");
+      return BootDaemonInitResult::TerminalError;
+    }
+    for (size_t i = 0; i < 32; ++i)
+      m_engineSecret[i] = static_cast<uint8_t>(std::stoul(hex.substr(i * 2, 2), nullptr, 16));
 
     LOG(INFO, "Setting up OSC sender to Spider on port " << m_ports[SonicPiPortId::gui_send_to_spider]);
     m_spOscSpiderSender    = std::make_shared<OscSender>(m_ports[SonicPiPortId::gui_send_to_spider]);
@@ -409,10 +419,6 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs,
     LOG(INFO, "Setting up OSC sender to Daemon on port " << m_ports[SonicPiPortId::daemon]);
     m_spOscDaemonSender = std::make_shared<OscSender>(m_ports[SonicPiPortId::daemon]);
 
-    LOG(INFO, "Setting up TCP OSC sender to SuperSonic on port " << m_ports[SonicPiPortId::scsynth]);
-    // TCP (framed): connects lazily on first send — the engine only binds
-    // its stream transport once device init completes.
-    m_spOscSupersonicSender   = std::make_shared<TcpOscSender>(m_ports[SonicPiPortId::scsynth]);
     LOG(INFO, "Setting up Boot Daemon keep alive loop");
     m_bootDaemonSockPingLoopThread = std::thread([&]() {
       while(m_keep_alive.load())
@@ -637,14 +643,36 @@ int SonicPiAPI::GetToken() const
     return m_token;
 }
 
+// The engine serves one client, Spider, so a message for the engine goes
+// to Spider with our token first, and Spider sends it on by address
+// (engine_forwards.rb, GUI_TO_ENGINE_DIRECT). The engine answers Spider,
+// which relays what we listen for to our gui_listen_to_spider port.
 bool SonicPiAPI::SupersonicSendOSC(oscpkt::Message m)
 {
-    if (m_spOscSupersonicSender)
+    if (m_spOscSpiderSender)
     {
-        bool res = m_spOscSupersonicSender->sendOSC(m);
+        oscpkt::Message viaSpider(m.addressPattern());
+        viaSpider.pushInt32(m_token);
+        oscpkt::Message::ArgReader args = m.arg();
+        while (args.nbArgRemaining())
+        {
+            if (args.isInt32())       { int32_t v = 0;    args.popInt32(v);  viaSpider.pushInt32(v); }
+            else if (args.isInt64())  { int64_t v = 0;    args.popInt64(v);  viaSpider.pushInt64(v); }
+            else if (args.isFloat())  { float v = 0;      args.popFloat(v);  viaSpider.pushFloat(v); }
+            else if (args.isDouble()) { double v = 0;     args.popDouble(v); viaSpider.pushDouble(v); }
+            else if (args.isStr())    { std::string v;    args.popStr(v);    viaSpider.pushStr(v); }
+            else if (args.isBlob())   { std::vector<char> v; args.popBlob(v); viaSpider.pushBlob(v.data(), v.size()); }
+            else if (args.isBool())   { bool v = false;   args.popBool(v);   viaSpider.pushBool(v); }
+            else
+            {
+                LOG(ERR, "Could Not Send OSC to SuperSonic: " << m.addressPattern() << " has an argument of a type Spider does not carry");
+                return false;
+            }
+        }
+        bool res = m_spOscSpiderSender->sendOSC(viaSpider);
         if (!res)
         {
-            LOG(ERR, "Could Not Send OSC to SuperSonic");
+            LOG(ERR, "Could Not Send OSC to SuperSonic via Spider");
             return false;
         }
         return true;
@@ -654,11 +682,9 @@ bool SonicPiAPI::SupersonicSendOSC(oscpkt::Message m)
 
 void SonicPiAPI::RequestAudioDevices()
 {
-    // Routed via the daemon: its TCP connection to the engine is the
-    // registered notify target, and it forwards /clockwork/devices etc.
-    // onward to our gui_listen_to_spider port. (Registering our own
-    // engine connection instead would leave pushes unread on a socket
-    // nothing drains for replies — see TcpOscSender.)
+    // Routed via the daemon to Spider, whose connection to the engine is
+    // the registered notify target: Spider relays /clockwork/devices etc.
+    // to our gui_listen_to_spider port (engine_forwards.rb).
     if (m_spOscDaemonSender)
     {
         oscpkt::Message msg("/daemon/audio/request-devices");
@@ -776,7 +802,7 @@ bool SonicPiAPI::PingUntilServerCreated()
         LOG(INFO, "Sonic Pi Server connection established in " << time << "s");
 
         // Create the audio processor
-        m_spAudioProcessor = std::make_shared<AudioProcessor>(m_pClient, GetPort(SonicPiPortId::scsynth));
+        m_spAudioProcessor = std::make_shared<AudioProcessor>(m_pClient, GetPort(SonicPiPortId::scsynth), m_engineSecret);
 
         // Attach to the shm segment here rather than relying solely on the
         // GUI's /spider/ready handler: spider announces itself as soon as it

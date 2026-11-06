@@ -14,6 +14,7 @@
 require_relative "util"
 require_relative "supersonic_link_comms"
 require_relative "clockwork_clock_reader"
+require_relative "engine_connection"
 # OSC::Int64 — the comms chain pulls in the codec but not the wrapper types.
 require_relative "osc/osc_types"
 
@@ -47,7 +48,7 @@ module SonicPi
 
       @link_comms = comms || SonicPi::SupersonicLinkComms.new(supersonic_host, supersonic_port)
       if clock_reader == :default
-        clock_reader = ENV["SONIC_PI_LINK_CLOCK_RPC"] == "1" ? nil : ClockworkClockReader.new(port: supersonic_port)
+        clock_reader = ENV["SONIC_PI_LINK_CLOCK_RPC"] == "1" ? nil : ClockworkClockReader.new(port: supersonic_port, secret: EngineConnection.secret)
       end
       @clock_reader = clock_reader
       @clock_attach_attempted_at = nil

@@ -41,6 +41,7 @@ module SonicPi
       puts "\n--- #{name}: the engine's log, #{@engine.log} ---", @engine.log_tail unless passed? || @engine.nil?
       @server&.shutdown rescue nil
       @engine&.stop
+      EngineConnection.reset!
     end
 
     def test_a_rebuild_comes_through_a_pause_that_reached_the_new_world_first

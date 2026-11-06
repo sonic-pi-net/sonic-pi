@@ -12,9 +12,12 @@
 #++
 
 require 'fileutils'
+require 'timeout'
 require 'tmpdir'
 
 require_relative "../../../lib/sonicpi/osc/osc"
+require_relative "../../../lib/sonicpi/osc/tcp_osc_client"
+require_relative "../../../lib/sonicpi/engine_secret"
 require_relative "../../lib/engine_ports"
 
 module SonicPi
@@ -22,6 +25,9 @@ module SonicPi
   # captures the result exactly, so mix changes can be measured rather than
   # argued about. No audio device is involved: the engine runs on its own
   # timer and the capture is a RecordBuf written straight to disk.
+  #
+  # The harness is the engine's one TCP client, with the per-boot secret it
+  # wrote to the engine's stdin (EngineSecret), as the daemon starts it.
   class MixEngine
     SAMPLE_RATE = 48_000
 
@@ -83,19 +89,30 @@ module SonicPi
     attr_reader :port
 
     def initialize(log: nil)
-      # the engine's port and, one above it, the harness's for its replies
-      @port = EnginePorts.claim(2)
+      # The engine's port: its segment and its TCP command port, one number,
+      # as Sonic Pi starts it.
+      @port = EnginePorts.claim
       @log_path = log || File.join(Dir.tmpdir, "sonic-pi-mix-harness-#{@port}.log")
+      @secret = EngineSecret.generate
+      @encoder = OSC::OscEncode.new(false)
       @replies = Queue.new
       @loaded_mixer = nil
     end
 
     def start
       raise EngineError, "engine not built: #{ENGINE}" unless File.executable?(ENGINE)
-      @pid = Process.spawn(ENGINE, "--headless", "-u", @port.to_s, "-o", "2", "-i", "0",
-                           out: @log_path, err: [:child, :out])
-      @server = OSC::UDPServer.new(@port + 1) { |addr, *args| @replies << [addr, args] }
+      stdin_r, stdin_w = IO.pipe
+      @pid = Process.spawn(ENGINE, "--headless", "-u", @port.to_s, "--tcp", @port.to_s, "-o", "2", "-i", "0",
+                           in: stdin_r, out: @log_path, err: [:child, :out])
+      stdin_r.close
+      stdin_w.write(EngineSecret.stdin_line(@secret))
+      stdin_w.close
       begin
+        # The engine opens its command port once it has booted: the connect
+        # itself is the wait for boot.
+        @client = OSC::TcpOscClient.new("127.0.0.1", @port, name: "mix harness",
+                                        connect_timeout: 15, secret: @secret)
+        @client.add_global_method { |address, args, _| @replies << [address, args] }
         wait_for_boot
         enable_notifications
         load_synthdefs
@@ -110,7 +127,15 @@ module SonicPi
 
     def stop
       return unless @pid
-      send_osc("/quit")
+      begin
+        send_osc("/quit") if @client&.connected?
+      rescue StandardError
+        nil
+      end
+      # The client goes first: it would otherwise reconnect to the port the
+      # engine is closing.
+      @client&.stop
+      @client = nil
       begin
         Timeout.timeout(3) { Process.wait(@pid) }
       rescue StandardError
@@ -146,9 +171,11 @@ module SonicPi
       send_osc("/b_free", SOURCE_BUF)
       send_osc("/b_free", CAPTURE_BUF)
       await("/done"); await("/done")
+      # The server decodes the file into the assets area and answers /done
+      # once the engine has the buffer; /b_alloc is answered by the engine.
       send_osc("/b_allocRead", SOURCE_BUF, wav_path, 0, 0)
       send_osc("/b_alloc", CAPTURE_BUF, frames, 2)
-      await("/done")
+      await("/done"); await("/done")
       confirm_buffer(SOURCE_BUF)
 
       mixer_args = { "in_bus" => SOURCE_BUS, "out_bus" => 0.0 }.merge(
@@ -203,7 +230,7 @@ module SonicPi
     end
 
     def send_osc(*msg)
-      @server.send("127.0.0.1", @port, *msg)
+      @client.send(nil, nil, *msg)
     end
 
     # Multi-message bundle with an immediate timetag. The OSC encoder only
@@ -211,18 +238,11 @@ module SonicPi
     IMMEDIATE = [0, 1].pack("N2").freeze
 
     def send_bundle(*messages)
-      encoder = @server.encoder
       body = messages.map do |address, *args|
-        encoded = encoder.encode_single_message(address, args)
+        encoded = @encoder.encode_single_message(address, args)
         [encoded.bytesize].pack("N") + encoded
       end.join
-      packet = "#bundle\0".b + IMMEDIATE + body.b
-      @raw ||= begin
-        s = UDPSocket.new
-        s.connect("127.0.0.1", @port)
-        s
-      end
-      @raw.send(packet, 0)
+      @client.send_packet("#bundle\0".b + IMMEDIATE + body.b)
     end
 
     def drain_replies
@@ -252,7 +272,7 @@ module SonicPi
         end
         raise EngineError, "engine reported #{reply.inspect}" if reply.first == "/fail"
         next unless reply.first == "/n_end"
-        return if reply.last.first.first == node_id
+        return if reply.last.first == node_id
       end
     end
 
@@ -271,24 +291,16 @@ module SonicPi
       end
     end
 
+    # Connected, so booted: one /status round trip confirms the engine answers.
     def wait_for_boot(timeout: 15)
-      deadline = Time.now + timeout
-      loop do
-        raise EngineError, "engine did not boot; see #{@log_path}" if Time.now > deadline
-        send_osc("/status")
-        begin
-          Timeout.timeout(0.5) do
-            loop { break if @replies.pop.first == "/status.reply" }
-          end
-          return
-        rescue Timeout::Error
-          next
-        end
-      end
+      send_osc("/status")
+      await("/status.reply", timeout: timeout)
+    rescue EngineError
+      raise EngineError, "engine did not boot; see #{@log_path}"
     end
 
-    # /b_allocRead is served by the sample loader, which sends no /done, so
-    # the only way to know the buffer arrived is to ask.
+    # The /done for a /b_allocRead says the buffer is in; /b_query says how
+    # many frames it holds, which is what a render needs to be true.
     def confirm_buffer(bufnum, timeout: 5)
       deadline = Time.now + timeout
       loop do
@@ -300,7 +312,7 @@ module SonicPi
           next
         end
         next unless reply.first == "/b_info"
-        frames = reply.last.first[1]
+        frames = reply.last[1]
         return if frames && frames > 0
       end
     end
@@ -314,5 +326,3 @@ module SonicPi
     end
   end
 end
-
-require 'timeout'

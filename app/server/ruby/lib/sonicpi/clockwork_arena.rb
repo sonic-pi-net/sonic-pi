@@ -30,8 +30,8 @@ module SonicPi
   # test_clockwork_clock_reader_engine.rb with the real engine: if clockwork
   # moves, those fail before a user hears a wrong beat.
   module ClockworkArena
-    SEGMENT_MAGIC        = 0x5C09E00C   # shm_segment_header::MAGIC
-    SEGMENT_HEADER_BYTES = 12           # magic, blob_offset, blob_size (the rest is not ours)
+    SEGMENT_MAGIC        = 0x5C09E00D   # shm_segment_header::MAGIC, the published segment
+    SEGMENT_HEADER_BYTES = 12           # magic, blob_offset, blob_size
 
     ARENA_MAGIC          = 0x43574152   # 'CWAR'
     ARENA_VERSION        = 2

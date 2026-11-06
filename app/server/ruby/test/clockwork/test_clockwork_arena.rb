@@ -16,6 +16,7 @@
 
 require_relative "../setup_test"
 require_relative "fake_segment"
+require_relative "clockwork_headers"
 require_relative "../../lib/sonicpi/clockwork_arena"
 
 module SonicPi
@@ -31,12 +32,17 @@ module SonicPi
     # clockwork_clock_state.h themselves, so a change there fails here, with
     # no engine built (the integration test needs one).
 
-    CLOCKWORK_SRC = File.expand_path("../../../../external/supersonic/clockwork/src", __dir__)
-
     def clockwork_header(name)
-      file = File.join(CLOCKWORK_SRC, name)
-      skip "clockwork's sources are not in this tree (#{file})" unless File.exist?(file)
-      File.read(file, encoding: "UTF-8")   # not the locale's: a C locale reads US-ASCII, and the headers' prose isn't
+      ClockworkHeaders.read(name) || skip("clockwork's sources are not in this tree (#{ClockworkHeaders::SRC}/#{name})")
+    end
+
+    def test_the_segment_header_is_shm_segment_hpp_s
+      body = clockwork_header("shm_segment.hpp")[/struct shm_segment_header \{(.*?)\};/m, 1]
+      flunk "no struct shm_segment_header in shm_segment.hpp" unless body
+      assert_equal ClockworkHeaders.number(body, "MAGIC"), ClockworkArena::SEGMENT_MAGIC
+      # The reader takes the first three words and nothing after them.
+      assert_equal %w[magic blob_offset blob_size], body.scan(/^\s*uint32_t\s+(\w+);/).flatten
+      assert_equal 12, ClockworkArena::SEGMENT_HEADER_BYTES
     end
 
     # Every #define and enum value a header gives a number.

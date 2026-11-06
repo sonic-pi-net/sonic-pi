@@ -27,6 +27,7 @@ ENV.delete("GEM_HOME")
 require_relative "../lib/sonicpi/osc/osc"
 require_relative "../lib/sonicpi/promise"
 require_relative "../lib/sonicpi/engine_forwards"
+require_relative "../lib/sonicpi/engine_secret"
 require_relative "../lib/sonicpi/plugins"
 
 
@@ -103,7 +104,7 @@ Thread::abort_on_exception = true
 # The current allocations of these external port numbers are printed to
 # STDOUT in the following order:
 #
-# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues token
+# daemon-keep-alive gui-listen-to-server gui-send-to-server scsynth osc-cues token engine-secret
 #
 #
 # Stdout Parameter Descriptions
@@ -128,6 +129,11 @@ Thread::abort_on_exception = true
 # token:                32 bit signed integer used as a token to authenticate
 #                       OSC messages.  All OSC messages sent from the GUI
 #                       must include this token as the first argument
+#
+# engine-secret:        SuperSonic's per-boot secret, 64 hex digits (32
+#                       bytes). The GUI presents it to attach the engine's
+#                       shared memory. Spider, which holds the one connection
+#                       to the engine's command port, is given it on its stdin.
 
 
 module SonicPi
@@ -145,6 +151,9 @@ module SonicPi
         @exit_prom = Promise.new
         # use a value within the valid range for a 32 bit signed complement integer
         @daemon_token =  rand(-2147483647..2147483647)
+        # SuperSonic's per-boot secret (EngineSecret): written to its stdin
+        # as it boots, and handed to the GUI (stdout) and Spider (stdin).
+        @engine_secret = SonicPi::EngineSecret.generate
 
         # Uncomment for debugging purposes
         # Util.log "Daemon token: #{@daemon_token}"
@@ -214,37 +223,19 @@ module SonicPi
           end
         end
 
-        # The engine connection is TCP and can only be established once
-        # SuperSonic has finished init and bound its stream transport —
-        # created in connect_to_supersonic! after wait_for_boot succeeds.
-        # Until then it is nil and engine-bound forwards are dropped with a
-        # log line (the GUI can't meaningfully drive the engine pre-boot).
-        @engine_conn = nil
-
-        # GUI → engine forwards. All engine traffic rides the daemon's TCP
-        # connection (@engine_conn); replies and notifies come back on that
-        # same connection and are forwarded onward by the handlers wired in
-        # connect_to_supersonic!. Requests arriving before the engine has
-        # booted (no connection yet) are queued, bounded.
-        SonicPi::GUI_TO_ENGINE_REQUESTS.each do |daemon_path, supersonic_path|
+        # The GUI's requests for the engine (engine_forwards.rb): passed to
+        # Spider, token and all, which holds the one connection to the engine
+        # and sends them on. A request that arrives before Spider listens is
+        # lost, as a UDP message is; the device table the GUI asks for at
+        # start is sent to it by Spider unasked once its connection is up.
+        SonicPi::GUI_TO_ENGINE_REQUESTS.each_key do |daemon_path|
           @api_server.add_method(daemon_path) do |args|
             if args[0] && args[0] == @daemon_token
               begin
-                if @engine_conn
-                  Util.log "Forwarding #{daemon_path} to SuperSonic" unless quiet_forward?(daemon_path)
-                  @engine_conn.send(nil, nil, supersonic_path, *args[1..-1])
-                else
-                  # Engine still booting (TCP connects only after init).
-                  # Queue bounded; flushed by connect_to_supersonic! — e.g.
-                  # the GUI requests the device list before the engine is up.
-                  Util.log "Queueing #{daemon_path} until SuperSonic is connected"
-                  @pending_engine_forwards ||= []
-                  if @pending_engine_forwards.size < 64
-                    @pending_engine_forwards << [supersonic_path, args[1..-1]]
-                  end
-                end
+                Util.log "Passing #{daemon_path} to Spider" unless quiet_forward?(daemon_path)
+                @api_server.send("localhost", @ports["gui-send-to-spider"], daemon_path, *args)
               rescue => e
-                Util.log "Error forwarding #{daemon_path}: #{e.message}"
+                Util.log "Error passing #{daemon_path} to Spider: #{e.message}"
               end
             end
           end
@@ -256,21 +247,20 @@ module SonicPi
         # and Spider have booted, so send them now - this unblocks the
         # GUI to construct its UI concurrently with the server boot.
         # Boot failures are reported via /exited-with-boot-error OSC.
-        puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@daemon_token}"
+        puts "#{@ports["daemon"]} #{@ports["gui-listen-to-spider"]} #{@ports["gui-send-to-spider"]} #{@ports["scsynth"]} #{@ports["osc-cues"]} #{@daemon_token} #{SonicPi::EngineSecret.hex(@engine_secret)}"
         STDOUT.flush
 
         Util.log "Booting SuperSonic"
-        @supersonic_booter = SupersonicBooter.new(@ports, @no_scsynth_inputs, @audio_prefs)
+        @supersonic_booter = SupersonicBooter.new(@ports, @no_scsynth_inputs, @audio_prefs, @engine_secret)
 
         # Spider boots concurrently — it self-syncs against SuperSonic
         # via its own /clockwork/notify ping loop.
         Util.log "Booting Spider Server"
-        @spider_booter = SpiderBooter.new(@ports, @daemon_token)
+        @spider_booter = SpiderBooter.new(@ports, @daemon_token, @engine_secret)
 
         success = @supersonic_booter.wait_for_boot
         if success
           Util.log "SuperSonic booted successfully"
-          connect_to_supersonic!
           @supersonic_booter.on_unexpected_exit { handle_supersonic_death }
         else
           Util.log "sending ERROR to gui"
@@ -315,67 +305,8 @@ module SonicPi
                          "/daemon/clock/audio/")
       end
 
-      # Establish the daemon's TCP connection to SuperSonic and wire the
-      # engine → GUI / Spider forwarders onto it. Engine-side notify
-      # registration is per-connection, so on_reconnect re-registers (the
-      # TcpOscClient reconnects by itself if the engine is restarted on the
-      # same port, e.g. by handle_supersonic_death).
-      def connect_to_supersonic!
-        conn = SonicPi::OSC::TcpOscClient.new('localhost', @ports["scsynth"],
-                                              name: "Daemon SuperSonic Conn",
-                                              connect_timeout: 15)
-
-        # Closed lists: anything on neither is dropped here without a trace.
-        # One handler per address (a second add_method replaces the first), so
-        # an address both hear is sent to each from the same one. See
-        # ENGINE_TO_GUI_FORWARDS.
-        (SonicPi::ENGINE_TO_GUI_FORWARDS | SonicPi::ENGINE_TO_SPIDER_FORWARDS).each do |path|
-          audiences = []
-          audiences << ["Spider", @ports["gui-send-to-spider"]] if SonicPi::ENGINE_TO_SPIDER_FORWARDS.include?(path)
-          audiences << ["GUI", @ports["gui-listen-to-spider"]] if SonicPi::ENGINE_TO_GUI_FORWARDS.include?(path)
-          conn.add_method(path) do |args|
-            audiences.each do |name, port|
-              Util.log "Forwarding #{path} to #{name}" unless quiet_forward?(path)
-              begin
-                @api_server.send("localhost", port, path, *args)
-              rescue => e
-                Util.log "Error forwarding #{path} to #{name}: #{e.message}"
-              end
-            end
-          end
-        end
-
-        conn.on_reconnect do
-          Util.log "SuperSonic connection re-established - re-registering daemon notify"
-          conn.send(nil, nil, "/clockwork/notify")
-        end
-
-        conn.send(nil, nil, "/clockwork/notify")
-        Util.log "Sent /clockwork/notify to SuperSonic over TCP, registering daemon connection"
-        @engine_conn = conn
-
-        # Flush forwards that arrived while the engine was still booting.
-        (@pending_engine_forwards || []).each do |path, fargs|
-          Util.log "Flushing queued forward #{path} to SuperSonic"
-          begin
-            conn.send(nil, nil, path, *fargs)
-          rescue => e
-            Util.log "Error flushing queued forward #{path}: #{e.message}"
-          end
-        end
-        @pending_engine_forwards = nil
-      end
-
       def cleanup_any_running_processes
         @exiting = true
-        if @engine_conn && @supersonic_booter && @supersonic_booter.process_running?
-          begin
-            Util.log "Sending /quit to SuperSonic"
-            @engine_conn.send(nil, nil, "/quit")
-          rescue => e
-            Util.log "Error sending /quit: #{e.message}"
-          end
-        end
 
         [@spider_booter, @supersonic_booter].map do |p|
           Thread.new do
@@ -615,6 +546,11 @@ module SonicPi
           @stdin, @stdout_and_err, @wait_thr = Open3.popen2e @cmd, *@args
         end
         @pid = @wait_thr.pid
+        # What the process reads from its stdin before anything else: the
+        # engine's secret, for SuperSonic and for Spider. Closed after, so a
+        # process that reads to the end of its stdin is not held.
+        @stdin.write(@stdin_line) if @stdin_line
+        @stdin.close
         if @log_file
           @io_thr = Thread.new do
             @stdout_and_err.each do |line|
@@ -753,7 +689,7 @@ module SonicPi
     end
 
     class SpiderBooter < ProcessBooter
-      def initialize(ports, token)
+      def initialize(ports, token, engine_secret)
         # RubyGems is not needed on the boot path (all deps are stdlib
         # or vendored) and skipping it shaves several hundred ms off
         # boot. Spider restores it before running any user code.
@@ -767,9 +703,12 @@ module SonicPi
           ports["scsynth"],
           ports["scsynth-send"],
           ports["osc-cues"],
-          token
+          token,
+          "--secret-on-stdin"
         ]
 
+        # ProcessBooter boots in its initialize, so the stdin line is set first.
+        @stdin_line = SonicPi::EngineSecret.stdin_line(engine_secret)
         # Spider's output is shown live in the GUI (OSC) and kept in spider.log;
         # don't also mirror it into the daemon log.
         super(Paths.ruby_path, args, Paths.spider_log_path, false, nil, false)
@@ -835,7 +774,7 @@ module SonicPi
         :linux_pipewire_samplerate
       ].freeze
 
-      def initialize(ports, no_scsynth_inputs=false, audio_prefs={})
+      def initialize(ports, no_scsynth_inputs=false, audio_prefs={}, engine_secret=nil)
         @port = ports["scsynth"]
 
         if no_scsynth_inputs
@@ -882,11 +821,10 @@ module SonicPi
         # (reliable — no silent datagram loss, see the 2026-08-05 LATE
         # investigation) while -u still names the shm segment
         # (SuperSonic_<port>) that the GUI attaches for metrics/scope; the
-        # UDP command port itself is left unbound. --max-conns covers
-        # Spider (scsynth comms + 4 subsystem comms) + daemon + GUI + slack.
+        # UDP command port itself is left unbound. The engine serves one
+        # client there, Spider; the daemon and the GUI go through Spider.
         opts = {"-u" => @port,
-                "--tcp" => @port,
-                "--max-connections" => "16"}.merge(DEFAULT_OPTS).merge(opts).merge(cli_opts)
+                "--tcp" => @port}.merge(DEFAULT_OPTS).merge(opts).merge(cli_opts)
 
         sound_card_name = opts.delete("-H")
         input_sound_card_name = opts.delete("__HI__")
@@ -924,6 +862,8 @@ module SonicPi
         end
 
         @success = Promise.new
+        # ProcessBooter boots in its initialize, so the stdin line is set first.
+        @stdin_line = SonicPi::EngineSecret.stdin_line(engine_secret) if engine_secret
         # SuperSonic's output is shown live in the GUI (shm debug ring) and kept
         # in supersonic.log; don't also mirror it into the daemon log.
         super(cmd, args, Paths.supersonic_log_path, false, env, false)
@@ -956,8 +896,8 @@ module SonicPi
 
           # The engine binds its TCP command port only after init completes
           # (device open included), so a successful connect IS the boot ack.
-          # Probe with short-lived connects; the daemon's real connection is
-          # established afterwards by Daemon#connect_to_supersonic!.
+          # Probe with short-lived connects that send nothing; Spider makes the
+          # one real connection.
           t = Thread.new do
             while continue_pinging
               begin
