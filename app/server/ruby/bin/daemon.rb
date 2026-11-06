@@ -836,7 +836,10 @@ module SonicPi
         elsif input_sound_card_name && sound_card_name
           args << "-H" << input_sound_card_name << sound_card_name
         elsif input_sound_card_name
-          args << "-H" << input_sound_card_name
+          # -H's one name is the input AND the output. Only an input was
+          # chosen, so the output follows the system's: alone, a microphone
+          # became the output the engine kept trying to switch to.
+          args << "-H" << input_sound_card_name << "__system__"
         elsif output_sound_card_name
           args << "-H" << output_sound_card_name
         elsif sound_card_name
