@@ -55,6 +55,11 @@ module SonicPi
       wait_for_prom
     end
 
+    # True once the server has said this buffer will never be there. Does
+    # not wait: a buffer still loading is not failed.
+    def failed?
+      @prom.delivered? && @prom.get.is_a?(Exception)
+    end
 
     private
 

@@ -320,7 +320,8 @@ module SonicPi
     def sample_loaded?(path)
       return true if path.is_a?(Buffer)
       path = File.expand_path(path)
-      return @samples.has_key?(path)
+      sample = @samples[path]
+      !!sample && !sample.failed?
     end
 
     def load_sample(path, server=@server)
@@ -1378,18 +1379,22 @@ module SonicPi
 
     def internal_load_sample(path, server=@server)
       path = File.expand_path(path)
-      return [@samples[path], true] if @samples[path]
-      #message "Loading full sample path: #{path}"
-      sample_info = nil
+      cached = @samples[path]
+      return [cached, true] if cached && !cached.failed?
       @sample_sem.synchronize do
-        return @samples[path] if @samples[path]
+        cached = @samples[path]
+        if cached
+          return [cached, true] unless cached.failed?
+          # A load that failed is forgotten, so this one reads the file again.
+          @samples.delete(path)
+          server.buffer_free(cached)
+        end
         raise "No sample exists with path:\n  #{unify_tilde_dir(path).inspect}" unless File.exist?(path) && !File.directory?(path)
         buf_info = server.buffer_alloc_read(path)
         sample_info = SampleBuffer.new(buf_info, path)
         @samples[path] = sample_info
+        [sample_info, false]
       end
-
-      [sample_info, false]
     end
 
     def internal_load_synthdefs(path, server=@server)

@@ -30,6 +30,9 @@ module SonicPi
   class Server
     include Util
 
+    # How long a command waits for its /done (or /fail) before it gives up.
+    DONE_TIMEOUT = 5
+
     attr_accessor :current_node_id,  :debug, :mouse_y, :mouse_x, :control_delta, :scsynth_info
 
     attr_reader :version
@@ -591,9 +594,15 @@ module SonicPi
         (args[0] == @osc_path_b_allocread ) && (args[2] == buffer_id)
       end
       buffer_info(buffer_id) do
-        with_done_sync [@osc_path_b_allocread, buffer_id], detect_fail do
-          osc @osc_path_b_allocread, buffer_id, path, start, n_frames
+        begin
+          res = with_done_sync [@osc_path_b_allocread, buffer_id], detect_fail do
+            osc @osc_path_b_allocread, buffer_id, path, start, n_frames
+          end
+          why = res.message if res.is_a?(Exception)
+        rescue PromiseTimeoutError
+          why = "It did not finish loading within #{DONE_TIMEOUT} seconds."
         end
+        why ? RuntimeError.new("Could not load sample:\n  #{unify_tilde_dir(path).inspect}\n#{why}") : res
       end
     end
 
@@ -661,8 +670,14 @@ module SonicPi
       end
 
       if blk
+        # Whatever ends the block is the buffer's answer: a thread that died
+        # here would leave every reader of the buffer waiting for good.
         Thread.new do
-          res = blk.call
+          res = begin
+            blk.call
+          rescue StandardError => e
+            e
+          end
           if res.is_a? Exception
             prom.deliver! res
             @osc_events.rm_handler @osc_path_b_info, handle_key
@@ -715,7 +730,13 @@ module SonicPi
         end
       end
       res = block.yield
-      pres = prom.get(5)
+      begin
+        pres = prom.get(DONE_TIMEOUT)
+      rescue PromiseTimeoutError
+        @osc_events.rm_handler(@osc_path_done, handle)
+        @osc_events.rm_handler("/fail", fail_handle) if fail_handle
+        raise
+      end
       return pres if pres.is_a? Exception
       res
     end

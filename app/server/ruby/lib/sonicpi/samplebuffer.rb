@@ -55,6 +55,10 @@ module SonicPi
       @buffer.state
     end
 
+    def failed?
+      @buffer.failed?
+    end
+
     def path
       @path
     end
