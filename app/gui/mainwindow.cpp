@@ -9260,6 +9260,9 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
         && docWidget->isVisible() && !docWidget->isFloating())
     {
         const QPoint g = static_cast<QMouseEvent*>(event)->globalPosition().toPoint();
+        // ...and not through Settings, Share or a popup lying over the divider.
+        if (OverlayPane::covers(this, g))
+            return QMainWindow::eventFilter(obj, event);
         const int sepTop = mainWidget->mapToGlobal(QPoint(0, mainWidget->height())).y();
         const int sepBot = docWidget->mapToGlobal(QPoint(0, 0)).y();
         const int dockL = docWidget->mapToGlobal(QPoint(0, 0)).x();

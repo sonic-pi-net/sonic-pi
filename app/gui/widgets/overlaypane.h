@@ -14,6 +14,7 @@
 #ifndef OVERLAYPANE_H
 #define OVERLAYPANE_H
 
+#include <QApplication>
 #include <QWidget>
 
 namespace SonicPi
@@ -34,12 +35,6 @@ public:
         setCursor(Qt::ArrowCursor);
     }
 
-    // The window's own overlays (grips, dividers) go as high as they go beneath
-    // the pane, so one placed again while the pane is open stays under it. w is
-    // the pane's sibling. Closed, the pane lies wherever it was last raised,
-    // under the docks made after it, so w just goes to the top: stacked under
-    // the closed pane it went under the docks too, and showed only through the
-    // separator's gap. The pane raises itself over everything when it opens.
     // The window's own overlays (grips, dividers) go as high as they go beneath every pane open over the window
     // (Settings, Share), so one placed again while a pane is open stays under it. w is the panes' sibling. With none
     // open, w just goes to the top: a closed pane lies wherever it was last raised, under the docks made after it,
@@ -54,6 +49,22 @@ public:
                 w->stackUnder(pane);
                 return;
             }
+    }
+
+    // Whether what is at `globalPos` lies over `window`'s own chrome: an open pane,
+    // or another window (a popup, a dialog). A double-click there is theirs, not
+    // the chrome's beneath (#3602).
+    static bool covers(const QWidget* window, const QPoint& globalPos)
+    {
+        const QWidget* at = QApplication::widgetAt(globalPos);
+        if (!at)
+            return false;
+        if (at->window() != window)
+            return true;
+        for (const QWidget* w = at; w && w != window; w = w->parentWidget())
+            if (dynamic_cast<const OverlayPane*>(w))
+                return true;
+        return false;
     }
 };
 } // namespace SonicPi

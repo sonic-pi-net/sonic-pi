@@ -191,3 +191,24 @@ TEST_CASE("a grip raised while another pane is open stays under every open pane"
     settle();
     CHECK(w.win.childAt(w.separator()) == w.pane);
 }
+
+// The window toggles its help panel on a double-click along the divider, by
+// position. Through an open pane, or a popup window lying there, the
+// double-click is theirs (#3602).
+TEST_CASE("a point under an open pane, or another window, is covered", "[overlaypane]")
+{
+    Window w;
+    const QPoint g = w.win.mapToGlobal(w.separator());
+    CHECK(SonicPi::OverlayPane::covers(&w.win, g));
+
+    w.pane->hide();
+    settle();
+    CHECK_FALSE(SonicPi::OverlayPane::covers(&w.win, g));
+
+    QWidget popup(nullptr, Qt::Tool);   // the Info window, over the divider
+    popup.setGeometry(QRect(g - QPoint(40, 40), QSize(80, 80)));
+    popup.show();
+    popup.raise();
+    settle();
+    CHECK(SonicPi::OverlayPane::covers(&w.win, g));
+}
