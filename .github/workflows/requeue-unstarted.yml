@@ -1,0 +1,22 @@
+# A job GitHub cancels before it runs a step is one no runner took, not a
+# verdict on the code. When such jobs fail a run, queue them again, three
+# times at most. Clockwork's action does the looking and the asking.
+name: Requeue unstarted jobs
+
+on:
+  workflow_run:
+    workflows: [Build, Debian Package, Web]
+    types: [completed]
+
+permissions:
+  actions: write
+
+jobs:
+  requeue:
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: samaaron/clockwork/.github/actions/requeue-unstarted@main
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
