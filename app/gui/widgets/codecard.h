@@ -111,6 +111,11 @@ public:
     // slot from the api.
     void setPlaying(bool playing, SonicPi::SonicPiAPI* api);
     bool isPlaying() const { return m_playing; }
+    // The slot the rings draw: the card's own, or the slot of a run it took
+    // over from another card, whose with_fx :scope_out the sound still goes
+    // through (#3558). Its own again once it stops.
+    void setScopeSlot(unsigned int slot, SonicPi::SonicPiAPI* api);
+    unsigned int scopeSlot() const { return m_scopeSlot; }
     // Waiting on the engine to start the run: an arc goes round Play.
     void setBooting(bool booting);
     // The program's error, in the footer; empty clears it.
@@ -138,6 +143,7 @@ public:
 
     QPushButton* playButton() const { return m_play; }
     QPushButton* stopButton() const { return m_stop; }
+    QPushButton* editButton() const { return m_edit; }
     QScrollArea* body() const { return m_body; }
     // The code as it reads, while it isn't being edited.
     TutProseText* codeText() const { return m_text; }
@@ -203,6 +209,7 @@ private:
     SonicPiTheme* m_theme;
     QString m_code;
     bool m_playing = false;
+    unsigned int m_scopeSlot = 0;   // what the rings draw; m_spec.scopeSlot unless a run was taken over
     bool m_booting = false;
     bool m_hover = false;
     QString m_error;

@@ -27,6 +27,7 @@
 #include <QPushButton>
 #include <QSignalSpy>
 #include <QTest>
+#include <QPlainTextEdit>
 #include <QVBoxLayout>
 
 #include <memory>
@@ -47,15 +48,18 @@ struct Host
     Host() { page.resize(800, 900); }
     ~Host() { delete theme; }
 
-    CodeCard* card(const QString& title, const QString& code, unsigned int scopeSlot = 1)
+    CodeCard* card(const QString& title, const QString& code, unsigned int scopeSlot = 1, const QString& blurb = {},
+                   int footerHeight = 0)
     {
         CodeCard::Spec spec;
         spec.title = title;
         spec.code = code;
         spec.scopeSlot = scopeSlot;
+        spec.blurb = blurb;
         CodeCard::Metrics m;
         m.codeFontPx = 14;
         m.titlePx = 16;
+        m.footerHeight = footerHeight;
         CodeCard* c = new CodeCard(spec, m, theme, &page);
         column->addWidget(c);
         return c;
@@ -241,4 +245,90 @@ TEST_CASE("a deck shows a run's output, error and sounding line on its card", "[
     a->lineFlashes()->clear();
     deck.runError(7, "Unknown function `plya`", 3);
     CHECK(shown(a, "qsCardError") == "Unknown function `plya` (line 2)");
+}
+
+// The sound of a run taken over still goes through the with_fx :scope_out of
+// the card that started it, so the card that took it over draws that slot
+// (#3558), and its own again once it stops.
+TEST_CASE("a card that takes over another's live_loops draws its rings from that card's slot", "[carddeck]")
+{
+    Host host;
+    CardDeck deck(&host.page, CardDeck::Playing::Layered);
+    CodeCard* first = host.card("Beat", "live_loop :beat do\n  sample :bd_haus\n  sleep 1\nend", 1);
+    CodeCard* second = host.card("Beat, faster", "live_loop :beat do\n  sample :bd_haus\n  sleep 0.5\nend", 2);
+    deck.add(first, "ws-1");
+    deck.add(second, "ws-2");
+
+    play(first);
+    deck.runStarted(7, "ws-1");
+    play(second);
+    deck.runStarted(8, "ws-2");
+    CHECK(second->scopeSlot() == 1);
+    deck.runEnded(8);
+    CHECK(second->scopeSlot() == 1);
+
+    stop(second);
+    deck.runEnded(7);
+    CHECK_FALSE(second->isPlaying());
+    CHECK(second->scopeSlot() == 2);
+}
+
+// A quick start card's footer is a fixed height, so the grid lines up. An
+// error is shown whole in the description's place, and the footer grows for
+// it (#3600).
+TEST_CASE("a card's error shows whole, in place of its description", "[carddeck]")
+{
+    Host host;
+    host.page.show();
+    CardDeck deck(&host.page, CardDeck::Playing::Layered);
+    CodeCard* a = host.card("A", "sleep -1", 1, "Pick random slices from any sample.", 44);
+    deck.add(a, "ws-a");
+    play(a);
+    deck.runStarted(7, "ws-a");
+    for (int i = 0; i < 8; i++) QApplication::processEvents();
+    QWidget* footer = a->findChild<QWidget*>(QStringLiteral("qsCardFooter"));
+    REQUIRE(footer);
+    CHECK(footer->height() == 44);
+
+    const QString message = QStringLiteral("Timing Exception: thread got too far behind time.\n"
+                                           "Sleep durations must be positive; this one was -1.\n"
+                                           "Use a positive duration, or a rest.");
+    deck.runError(7, message, 3);
+    for (int i = 0; i < 8; i++) QApplication::processEvents();
+    QLabel* error = a->findChild<QLabel*>(QStringLiteral("qsCardError"));
+    REQUIRE(error);
+    CHECK(error->isVisible());
+    CHECK(shown(a, "qsCardBlurb").isEmpty());
+    CHECK(error->height() >= error->heightForWidth(error->width()));
+    CHECK(footer->height() > 44);
+    CHECK(footer->rect().contains(error->geometry()));
+
+    a->setError(QString());
+    for (int i = 0; i < 8; i++) QApplication::processEvents();
+    CHECK(footer->height() == 44);
+    CHECK_FALSE(shown(a, "qsCardBlurb").isEmpty());
+}
+
+// Edit swaps the rendered code for an editor in the same place: the first
+// character stays where it was, so nothing jumps.
+TEST_CASE("a card's code keeps its place when edited", "[carddeck]")
+{
+    Host host;
+    host.page.show();
+    CodeCard* a = host.card("A", "use_synth :tb303\nplay :e2, cutoff: 60");
+    for (int i = 0; i < 8; i++) QApplication::processEvents();
+    QWidget* text = a->codeText();
+    REQUIRE(text);
+    const QPoint read = text->mapTo(a, QPoint(0, 0)) + QPoint(qRound(a->codeText()->document()->documentMargin()),
+                                                              qRound(a->codeText()->document()->documentMargin()));
+
+    REQUIRE(a->editButton());
+    a->editButton()->click();
+    for (int i = 0; i < 8; i++) QApplication::processEvents();
+    QPlainTextEdit* editor = a->findChild<QPlainTextEdit*>(QStringLiteral("qsCardEditor"));
+    REQUIRE(editor);
+    const QPoint edited = editor->viewport()->mapTo(a, QPoint(0, 0)) + QPoint(qRound(editor->document()->documentMargin()),
+                                                                                qRound(editor->document()->documentMargin()));
+    CHECK(edited.x() == read.x());
+    CHECK(edited.y() == read.y());
 }

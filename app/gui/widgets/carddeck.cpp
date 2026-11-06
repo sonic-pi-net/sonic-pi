@@ -115,7 +115,7 @@ void CardDeck::runStarted(int jobId, const QString& workspace)
     // from any other card that runs it: release those cards, so their
     // transport and rings follow the handover. (Cards with loops of their
     // own, as in a layering deck, keep playing.)
-    const CodeCard* card = m_cards.value(workspace);
+    CodeCard* card = m_cards.value(workspace);
     if (!card || card->loopNames().isEmpty())
         return;
     const QSet<QString> mine = card->loopNames();
@@ -131,8 +131,11 @@ void CardDeck::runStarted(int jobId, const QString& workspace)
         if (left.isEmpty()) // every loop that card ran is now this card's
         {
             // Inherited rather than dropped: their run still owns the running
-            // thread, so it is the one this card's Stop has to end.
+            // thread, so it is the one this card's Stop has to end, and the
+            // sound still goes through their with_fx :scope_out, so it is
+            // their slot this card's rings draw.
             m_jobs[workspace].unite(m_jobs.take(other));
+            card->setScopeSlot(theirs->scopeSlot(), m_api);
             setPlaying(other, false);
         }
     }

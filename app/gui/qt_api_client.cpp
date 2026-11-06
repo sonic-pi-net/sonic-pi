@@ -30,14 +30,19 @@ static void splitErrorText(const QString& full, const QString& fallbackPrefix,
 // A card's footer has room for one line of an error: its headline without the
 // tag the error card already wears, or the raw reason when there is no
 // friendlier one.
-static QString cardErrorLine(const QString& header, const QString& reason)
+// The error as a card shows it: the headline without its "Runtime Error"
+// tag, then the reason, whole. A card's run reports on its card alone
+// (#3600): the error card under the editor is for editor runs.
+static QString cardErrorText(const QString& header, const QString& reason)
 {
-    static const QRegularExpression kTag(QStringLiteral("^\\s*(Runtime|Syntax) Error:?\\s*"));
+    static const QRegularExpression kTag(QStringLiteral("^\s*(Runtime|Syntax) Error:?\s*"));
     QString line = header.section(QLatin1Char('\n'), 0, 0);
     line.remove(kTag);
-    if (line.trimmed().isEmpty())
-        line = reason.trimmed().section(QLatin1Char('\n'), 0, 0);
-    return line.trimmed();
+    line = line.trimmed();
+    const QString why = reason.trimmed();
+    if (line.isEmpty())
+        return why;
+    return why.isEmpty() || why == line ? line : line + QLatin1Char('\n') + why;
 }
 
 QtAPIClient::QtAPIClient(MainWindow* pMainWindow)
@@ -166,12 +171,13 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
             }
         }
 
-        emit RunErrorReceived(info.jobId, cardErrorLine(header, reason), info.line);
-        m_pMainWindow->showErrorCard(false, header, location, reason,
-                                     QString::fromStdString(info.errorLineString), info.line,
-                                     colStart, colEnd,
-                                     QString::fromStdString(info.backtrace),
-                                     fromEditor && info.line > 0);
+        emit RunErrorReceived(info.jobId, cardErrorText(header, reason), info.line);
+        if (fromEditor)
+            m_pMainWindow->showErrorCard(false, header, location, reason,
+                                         QString::fromStdString(info.errorLineString), info.line,
+                                         colStart, colEnd,
+                                         QString::fromStdString(info.backtrace),
+                                         info.line > 0);
     }
     else if (info.type == MessageType::SyntaxError)
     {
@@ -193,11 +199,12 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
             header = QStringLiteral("Syntax Error ") + msg;
             reason.clear();
         }
-        emit RunErrorReceived(info.jobId, cardErrorLine(header, reason), info.line);
-        m_pMainWindow->showErrorCard(true, header, location, reason,
-                                     QString::fromStdString(info.errorLineString), info.line,
-                                     info.errorColStart, info.errorColEnd,
-                                     QString(), fromEditor && info.line > 0);
+        emit RunErrorReceived(info.jobId, cardErrorText(header, reason), info.line);
+        if (fromEditor)
+            m_pMainWindow->showErrorCard(true, header, location, reason,
+                                         QString::fromStdString(info.errorLineString), info.line,
+                                         info.errorColStart, info.errorColEnd,
+                                         QString(), info.line > 0);
     }
     else if (info.type == MessageType::StartupError)
     {

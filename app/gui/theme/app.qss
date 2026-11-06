@@ -1596,15 +1596,14 @@ QLabel#qsCardBlurb
     font-style: italic;
 }
 
-/* A card's code made editable in place: the body's tint and type, so nothing
-   moves when Edit is pressed. */
+/* A card's code made editable in place: the body's tint and type. Its padding
+   is the rendered block's, set with it in codecard.cpp. */
 QPlainTextEdit#qsCardEditor
 {
     background-color: accentTintColor;
     color: windowForegroundColor;
     border: none;
     font-family: 'Hack';
-    padding: 6dx 10dx;
 }
 
 /* The program's error, upright, marked down its left edge in the accent. */

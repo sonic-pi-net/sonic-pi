@@ -516,6 +516,7 @@ QWidget* CodeCard::makeScopeBox(QWidget* parent, int side, bool stop)
     CardScope* scope = new CardScope(box);
     scope->setFixedSize(side, side);
     scope->setSlot(m_spec.scopeSlot);
+    m_scopeSlot = m_spec.scopeSlot;
     scope->setChannel(stop ? CardScope::Channel::Right : CardScope::Channel::Left);
     lay->addWidget(scope, 0, 0, Qt::AlignCenter);
     QPushButton* b = new QPushButton(box);
@@ -707,7 +708,11 @@ void CodeCard::setEditing(bool editing)
         QFont f(QStringLiteral("Hack"));
         f.setPixelSize(m_m.codeFontPx);
         m_editor->setFont(f);
-        m_editor->setStyleSheet(QString("font-size: %1px;").arg(m_m.codeFontPx));
+        // Padded as the rendered block is (renderLines), so the code keeps its
+        // place when Edit is pressed.
+        m_editor->setStyleSheet(QString("font-size: %1px; padding: %2px %3px;")
+                                    .arg(m_m.codeFontPx).arg(uiScale().y(10)).arg(uiScale().y(14)));
+        m_editor->document()->setDocumentMargin(m_text ? m_text->document()->documentMargin() : 0);
         m_editor->setPlainText(m_code);
         new CodeHighlighter(m_editor->document(), SonicPi::codeColours(m_theme));
         m_editor->installEventFilter(this);
@@ -784,6 +789,24 @@ QSet<QString> CodeCard::loopNames() const
     return loops;
 }
 
+void CodeCard::setScopeSlot(unsigned int slot, SonicPi::SonicPiAPI* api)
+{
+    if (slot == m_scopeSlot)
+        return;
+    m_scopeSlot = slot;
+    for (CardScope* s : { m_playScope, m_stopScope })
+    {
+        if (!s)
+            continue;
+        s->setSlot(slot);
+        if (m_playing)
+        {
+            s->stop();
+            s->start(api);
+        }
+    }
+}
+
 void CodeCard::setPlaying(bool playing, SonicPi::SonicPiAPI* api)
 {
     // A run again while one plays is still playing: the rings carry on
@@ -792,6 +815,8 @@ void CodeCard::setPlaying(bool playing, SonicPi::SonicPiAPI* api)
     m_playing = playing;
     if (playing)
         m_booting = false;
+    else
+        setScopeSlot(m_spec.scopeSlot, api);   // a slot taken over goes back with the run
     if (m_stop)
     {
         m_stop->setEnabled(playing);
@@ -851,9 +876,23 @@ void CodeCard::clearOutput()
 
 void CodeCard::refreshFooter()
 {
-    m_blurb->setVisible(!m_spec.blurb.isEmpty());
+    // An error takes the description's place, whole: a host's fixed footer
+    // (the quick start grid's) is let grow for it, and is fixed again once
+    // the error clears (#3600).
+    const bool errored = !m_error.isEmpty();
+    m_blurb->setVisible(!m_spec.blurb.isEmpty() && !errored);
     m_errorLabel->setText(m_error);
-    m_errorLabel->setVisible(!m_error.isEmpty());
+    m_errorLabel->setVisible(errored);
+    if (m_m.footerHeight > 0)
+    {
+        if (errored)
+        {
+            m_footer->setMinimumHeight(m_m.footerHeight);
+            m_footer->setMaximumHeight(QWIDGETSIZE_MAX);
+        }
+        else
+            m_footer->setFixedHeight(m_m.footerHeight);
+    }
     QStringList html;
     for (int i = 0; i < m_output.size(); ++i)
     {
