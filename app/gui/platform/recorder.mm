@@ -131,7 +131,7 @@ using namespace SonicPi::objc;
     _audioRateChanged = false;
     _powerAssertion = kIOPMNullAssertionID;
     static constexpr uint32_t kPullFrames = 1024;
-    _audioPullBuf.resize((size_t)kPullFrames * SCOPE_CHANNELS);
+    _audioPullBuf.resize((size_t)kPullFrames * _audioReader.channels());
     _audioMixBuf.resize((size_t)kPullFrames * SonicPi::kRecordedChannelsMax);
     return self;
 }
@@ -322,7 +322,9 @@ using namespace SonicPi::objc;
 - (void)drainAudio
 {
     if (!_audioInput) return;
-    const uint32_t kPullFrames = (uint32_t)(_audioPullBuf.size() / SCOPE_CHANNELS);
+    const uint32_t channels = _audioReader.channels();
+    if (channels == 0) return;
+    const uint32_t kPullFrames = (uint32_t)(_audioPullBuf.size() / channels);
     for (int iter = 0; iter < 8; ++iter) {
         uint64_t gap = 0;
         uint32_t got = _audioReader.pull(_audioPullBuf.data(), kPullFrames, &gap);
