@@ -28,6 +28,7 @@
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpiscintilla.h"
 #include "utils/framepacer.h"
+#include "pacer_by_hand.h"
 
 namespace {
 
@@ -386,17 +387,18 @@ QImage rendered(QWidget* w)
 // Pinned so the paint can be reworked for speed without the corners changing.
 TEST_CASE("loop scope: draws only inside its rounded panel", "[loopscope]")
 {
+    HandDriven hand;   // the scope polls on the pacer's tick: ticked here, not waited for
     Editor e(kCode);
     Slot s;
     s.live();
     e.ed->setLiveLoopScope("t", 0, 10, s.reader());
-    QTest::qWait(60);
+    hand.tick();
     QWidget* w = e.scope("t");
     REQUIRE(w);
     const QImage quiet = rendered(w);   // silence: panel on the editor's colour, nothing drawn in it
 
     writeLoudWave(s);
-    QTest::qWait(60);   // a tick: the scope polls, sees new audio and repaints
+    hand.tick();   // the scope polls, sees new audio and repaints
     const QImage loud = rendered(w);
     REQUIRE(loud.size() == quiet.size());
     const int W = loud.width(), H = loud.height();

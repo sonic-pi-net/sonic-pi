@@ -10,8 +10,8 @@
 #ifndef SCOPESAMPLER_H
 #define SCOPESAMPLER_H
 
-#include <QTimer>
 #include <QWidget>
+#include "utils/framepacer.h"
 
 #include <vector>
 
@@ -31,9 +31,9 @@ public:
     explicit ScopeSampler(QWidget* parent = nullptr)
         : QWidget(parent)
     {
-        m_timer = new QTimer(this);
-        connect(m_timer, &QTimer::timeout, this, [this]() { poll(); });
     }
+
+    ~ScopeSampler() override { stopSampling(); }
 
 protected:
     void startSampling(SonicPi::SonicPiAPI* api, unsigned int scopeNum)
@@ -42,14 +42,27 @@ protected:
         m_reader = api ? api->AudioProcessor_GetScopeReader(scopeNum)
                        : shm_tap_stream_reader();
         m_lastEnd = 0;
-        // Display frame rate only — the stream is lossless at any poll rate.
-        if (!m_timer->isActive())
-            m_timer->start(16);
+        // Polled on the frame pacer's tick, with every other animated widget:
+        // one composite a frame, and a test drives the ticks by hand
+        // (pacer_by_hand.h) instead of waiting on a clock. The stream is
+        // lossless at any poll rate.
+        if (!m_sampling)
+        {
+            m_sampling = true;
+            auto* pacer = SonicPi::FramePacer::instance();
+            m_tick = connect(pacer, &SonicPi::FramePacer::tick, this, [this]() { poll(); });
+            pacer->retain();
+        }
     }
 
     void stopSampling()
     {
-        m_timer->stop();
+        if (m_sampling)
+        {
+            m_sampling = false;
+            disconnect(m_tick);
+            SonicPi::FramePacer::instance()->release();
+        }
         m_reader = shm_tap_stream_reader();
     }
 
@@ -90,7 +103,8 @@ private:
 
     shm_tap_stream_reader m_reader;
     SonicPi::SonicPiAPI* m_api = nullptr;
-    QTimer* m_timer = nullptr;
+    bool m_sampling = false;
+    QMetaObject::Connection m_tick;
     uint64_t m_lastEnd = 0;
     std::vector<float> m_scratch;
 };
