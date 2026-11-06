@@ -43,8 +43,9 @@ module SonicPi
     # Reconnects: subscriptions/notify registrations at the engine are
     # per-connection, so after a reconnect the owning layer must
     # re-subscribe. Register an on_reconnect callback for that; each one
-    # registered runs, in order, on the reader thread after the connection
-    # is re-established and the secret presented.
+    # registered runs, in order, on a thread of its own once the connection
+    # is re-established and the secret presented. The hooks wait for the
+    # engine's answers, and the reader thread is what delivers them.
     class TcpOscClient
       attr_reader :encoder, :host, :port
 
@@ -214,10 +215,11 @@ module SonicPi
             packet = read_exact(sock, len)
             begin
               address, args = @decoder.decode_single_message(packet)
-              handle_data(address, args)
             rescue StandardError => e
-              STDERR.puts "#{@name}: dropping undecodable/failed frame (#{e.class}: #{e.message})"
+              STDERR.puts "#{@name}: dropping undecodable frame (#{e.class}: #{e.message})"
+              next
             end
+            handle_data(address, args)
           rescue Exception => e
             break unless @running
             STDERR.puts "#{@name}: connection lost (#{e.class}: #{e.message}) - reconnecting"
@@ -231,7 +233,7 @@ module SonicPi
                 present_secret(@socket)
               end
               STDERR.puts "#{@name}: reconnected"
-              @on_reconnect.each { |blk| blk.call }
+              run_reconnect_hooks
             rescue Exception => e2
               break unless @running
               STDERR.puts "#{@name}: reconnect failed permanently (#{e2.message})"
@@ -241,12 +243,38 @@ module SonicPi
         end
       end
 
+      # The hooks register with the engine again and wait for its answers,
+      # which only the reader thread delivers: they run on a thread of their
+      # own, in order, and the reader goes back to reading.
+      def run_reconnect_hooks
+        hooks = @on_reconnect.dup
+        t = Thread.new do
+          hooks.each do |blk|
+            begin
+              blk.call
+            rescue StandardError => e
+              STDERR.puts "#{@name}: reconnect hook failed (#{e.class}: #{e.message})"
+            end
+          end
+        end
+        t.name = "tcp-osc-reconnect: #{@name}"
+      end
+
+      # The owner's handler, the listeners and the global handler all hear
+      # the message. One that fails is its own problem: the rest still run.
       def handle_data(address, args)
         log "TCP OSC <----- #{address} #{args.inspect}" if incoming_osc_debug_mode
-        p = @matchers[address]
-        p.call(args) if p
-        @listeners[address].each { |l| l.call(args) } if @listeners.key?(address)
-        @global_matcher&.call(address, args, nil)
+        if (p = @matchers[address])
+          guarded(address, "handler") { p.call(args) }
+        end
+        @listeners[address].each { |l| guarded(address, "listener") { l.call(args) } } if @listeners.key?(address)
+        guarded(address, "global handler") { @global_matcher&.call(address, args, nil) }
+      end
+
+      def guarded(address, what)
+        yield
+      rescue StandardError => e
+        STDERR.puts "#{@name}: #{what} for #{address} failed (#{e.class}: #{e.message})"
       end
     end
   end
