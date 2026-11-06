@@ -925,6 +925,7 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme() {
   t["MatchedBraceForeground"]=accent; t["CaretForeground"]=accent;
   t["FunctionMethodNameForeground"]=accent; t["SymbolForeground"]=accent;
   t["CuePathBackground"]=accent; t["LogInfoBackground_1"]=accent; t["LogBackground_4"]=accent;
+  t["CuePathForeground"]=bg;     t["LogInfoForeground_1"]=bg;     t["LogForeground_4"]=bg;
   t["NumberForeground"]=blue; t["Scope_2"]=blue; t["IndentationGuidesForeground"]=blue; t["StatusBarText"]=blue;
   t["KeywordForeground"]=gold; t["DemotedKeywordForeground"]=gold;
   t["DoubleQuotedStringForeground"]=green; t["SingleQuotedStringForeground"]=green;
@@ -943,9 +944,10 @@ QMap<QString, QString> SonicPiTheme::mildDarkTheme() {
   t["Tab"]=ctrl;               t["TabText"]=fg;
   t["LogInfoBackground"]=ctrl; t["LogInfoForeground"]=fg;
   t["BackticksForeground"]=rose; t["BackticksBackground"]=roseDim;
-  t["PODBackground"]=roseDim;    t["LogForeground_3"]=rose;
+  t["PODBackground"]=roseDim;    t["LogForeground_3"]=rose;  t["LogBackground_3"]=ctrl;
   t["CueDataBackground"]=amber;  t["LogBackground_2"]=amber; t["LogBackground_6"]=amber;
-  t["LogBackground_5"]=blue;     t["LogForeground_1"]=blue;
+  t["CueDataForeground"]=bg;     t["LogForeground_2"]=bg;    t["LogForeground_6"]=bg;
+  t["LogBackground_5"]=blue;     t["LogForeground_5"]=bg;    t["LogForeground_1"]=blue;
   return t;
 }
 
@@ -998,7 +1000,7 @@ QMap<QString, QString> SonicPiTheme::phosphorTheme() {
   t["DataSectionForeground"]=fg; t["HereDocumentDelimiterForeground"]=string;
   t["PercentStringwForeground"]=string; t["PercentStringxForeground"]=string;
   t["PODForeground"]=number;
-  t["LogForeground_2"]=fg; t["LogForeground_5"]=fg; t["LogForeground_6"]=bg;
+  t["LogForeground_2"]="#eaffdf"; t["LogForeground_5"]="#eaffdf"; t["LogForeground_6"]=bg;
   t["LogBackground_3"]=greenDim;
   // Hover/reveal accent (scrollbar + tab hover, divider-hover reveal, prefs
   // border): the phosphor green, not Dark's inherited blue.
@@ -1058,17 +1060,18 @@ QMap<QString, QString> SonicPiTheme::signalTheme() {
 
   // Log accent lines: blue primary, gold secondary (black text on the gold fill).
   t["LogInfoBackground"]=ctrl;  t["LogInfoForeground"]=fg;
-  t["LogInfoBackground_1"]=blue;
+  t["LogInfoBackground_1"]=blue;  t["LogInfoForeground_1"]=fg;
   t["LogForeground_1"]=blue;
-  t["LogBackground_4"]=blue;
-  t["LogBackground_5"]=gold;     t["LogForeground_5"]=bg;
-  t["CuePathBackground"]=blue;
+  t["LogBackground_4"]=blue;      t["LogForeground_4"]=fg;
+  t["LogBackground_5"]=gold;      t["LogForeground_5"]=bg;
+  t["CuePathBackground"]=blue;    t["CuePathForeground"]=fg;
   t["CueDataBackground"]=gold;    t["CueDataForeground"]=bg;
   // Slots otherwise inherited from Dark as red, orange or gold.
   t["BackticksForeground"]=gold;  t["BackticksBackground"]=ctrl;
   t["PODBackground"]=ctrl;        t["PODForeground"]=gold;
-  t["LogForeground_3"]=gold;
-  t["LogBackground_2"]=blue;      t["LogBackground_6"]=gold;
+  t["LogForeground_3"]=gold;      t["LogBackground_3"]=ctrl;
+  t["LogBackground_2"]=blue;      t["LogForeground_2"]=fg;
+  t["LogBackground_6"]=gold;      t["LogForeground_6"]=bg;
   return t;
 }
 
