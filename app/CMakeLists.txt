@@ -45,7 +45,8 @@ if(APPLE)
   # and the MACOSX_DEPLOYMENT_TARGET export in mac-build-all.sh. The release
   # pipeline's stage 08 compat audit fails if any bundled Mach-O's minos
   # exceeds this floor.
-  set(CMAKE_OSX_DEPLOYMENT_TARGET "14")
+  # 14.4: the floor of Clockwork's Apple builds (its address wait is public from there).
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4")
 endif()
 
 

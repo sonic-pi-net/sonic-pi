@@ -16,7 +16,7 @@ trap cleanup_function EXIT
 # LSMinimumSystemVersion baked into the .app's Info.plist by
 # mac-release-03-info-plist.sh — mac-release-08-compat-audit.sh fails the
 # release if it doesn't.
-export MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-14.0}"
+export MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-14.4}"
 
 "${SCRIPT_DIR}"/mac-prebuild.sh "$@"
 "${SCRIPT_DIR}"/mac-config.sh "$@"
