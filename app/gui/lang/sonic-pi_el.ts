@@ -6,7 +6,7 @@
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1031"/>
         <source>Docs ↗</source>
-        <translation type="unfinished"></translation>
+        <translation>Τεκμηρίωση ↗</translation>
     </message>
     <message>
         <location filename="../widgets/completionpopup.cpp" line="1034"/>
@@ -39,17 +39,17 @@
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="199"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="200"/>
         <source>Link Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα Link</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="201"/>
         <source>The name other Link peers see for this Sonic Pi when browsing audio streams on the network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το όνομα με το οποίο οι άλλες συσκευές που χρησιμοποιούν το Link βλέπουν αυτό το Sonic Pi κατά την αναζήτηση ροών ήχου στο δίκτυο.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="202"/>
         <source>Name visible to other Link peers</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα ορατό σε άλλες συσκευές Link</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="213"/>
@@ -70,148 +70,148 @@
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="222"/>
         <source>Link Audio receive latency in ms. Smaller = closer to real-time monitoring; larger = more robust against network jitter. Engine-wide (applies to every link_audio subscription).</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθυστέρηση λήψης ήχου μέσω Link σε χιλιοστά του δευτερολέπτου. Μικρότερη τιμή = παρακολούθηση ήχου πιο κοντά στον πραγματικό χρόνο. Μεγαλύτερη τιμή = μεγαλύτερη ανθεκτικότητα στις διακυμάνσεις της καθυστέρησης του δικτύου. Η ρύθμιση ισχύει για ολόκληρη τη μηχανή ήχου (εφαρμόζεται σε κάθε συνδρομή link_audio).</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="226"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="518"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="610"/>
         <source>%1 ms</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 χιλιοστά του δευτερολέπτου</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργό</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="244"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="258"/>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανενεργό</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="246"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="251"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="260"/>
         <source>Stream Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετάδοση Ήχου</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="252"/>
         <source>When on, our audio channels are visible to other Link peers and stream to anyone who subscribes. Preference is remembered between sessions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Όταν είναι ενεργοποιημένη, τα κανάλια ήχου μας είναι ορατά σε άλλες συσκευές που χρησιμοποιούν το Link και ο ήχος μεταδίδεται σε όποια συσκευή εγγράφεται στη ροή. Η ρύθμιση αποθηκεύεται και διατηρείται μεταξύ των συνεδριών.</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="296"/>
         <source>Visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορατότητα</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <source>Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Ομότιμος κόμβος</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Κανάλι</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="314"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Κατάσταση</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Buffered</source>
-        <translation type="unfinished"></translation>
+        <translation>Σε προσωρινή μνήμη</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμός</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="315"/>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="559"/>
         <source>Bus</source>
-        <translation type="unfinished"></translation>
+        <translation>Δίαυλος</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="324"/>
         <source>Link Audio peers</source>
-        <translation type="unfinished"></translation>
+        <translation>Ομότιμοι κόμβοι Ήχου Link</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="467"/>
         <source>SuperSonic not connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Το SuperSonic δεν είναι συνδεδεμένο</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Network Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Ομότιμος Κόμβος Δικτύου</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="558"/>
         <source>Local Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Local Peer → Τοπικός Ομότιμος Κόμβος</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="580"/>
         <source>on the network</source>
-        <translation type="unfinished"></translation>
+        <translation>στο δίκτυο</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="581"/>
         <source>on this machine</source>
-        <translation type="unfinished"></translation>
+        <translation>σε αυτόν τον υπολογιστή</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="583"/>
         <source>Click Link to find other peers %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάντε κλικ στο Link για να εντοπίσετε άλλους ομότιμους κόμβους %1</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="584"/>
         <source>Waiting for Link Audio peers %1…</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναμονή για ομότιμους κόμβους Ήχου Link %1…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="598"/>
         <source>Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαθέσιμο</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="601"/>
         <source>Connecting…</source>
-        <translation type="unfinished"></translation>
+        <translation>Σύνδεση…</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="602"/>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνδεδεμένο</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="603"/>
         <source>Dropout</source>
-        <translation type="unfinished"></translation>
+        <translation>Διακοπή Ήχου</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="604"/>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation>Εγγεγραμμένο</translation>
     </message>
     <message>
         <location filename="../widgets/linkaudiostreamswidget.cpp" line="613"/>
         <source>%1 kHz</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 κιλοχέρτζ</translation>
     </message>
 </context>
 <context>
@@ -219,37 +219,37 @@
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Local</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοπικό</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="16"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Δίκτυο</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="31"/>
         <source>Link visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορατότητα Link</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="42"/>
         <source>Link Visibility: Local Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορατότητα Link: Τοπικό δίκτυο</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="43"/>
         <source>Link Visibility: Local Machine Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορατότητα Link: Μόνο σε αυτόν τον υπολογιστή</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="45"/>
         <source>Link is visible to other devices on your local network. They can sync tempo and stream audio with this Sonic Pi via Link. Click to switch to Local Machine Only mode to hide Link from the network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το Link είναι ορατό σε άλλες συσκευές στο τοπικό σας δίκτυο. Οι συσκευές αυτές μπορούν να συγχρονίζουν τον ρυθμό και να μεταδίδουν ήχο με αυτό το Sonic Pi μέσω του Link. Κάντε κλικ για να μεταβείτε στη λειτουργία «Μόνο σε αυτόν τον υπολογιστή» και να αποκρύψετε το Link από το δίκτυο.</translation>
     </message>
     <message>
         <location filename="../widgets/linkvisibilitytoggle.cpp" line="46"/>
         <source>Link is hidden from the local network. Link tempo sync and Link Audio only connect to other apps on this machine. Click to switch to Local Network mode to make Link visible to other machines on your local network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το Link είναι κρυφό από το τοπικό δίκτυο. Ο συγχρονισμός ρυθμού μέσω Link και το Link Audio συνδέονται μόνο με άλλες εφαρμογές σε αυτόν τον υπολογιστή. Κάντε κλικ για να μεταβείτε στη λειτουργία «Τοπικό δίκτυο» και να κάνετε το Link ορατό σε άλλους υπολογιστές στο τοπικό σας δίκτυο.</translation>
     </message>
 </context>
 <context>
@@ -257,7 +257,7 @@
     <message>
         <location filename="../widgets/logpanel.cpp" line="224"/>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία καταγραφής</translation>
     </message>
 </context>
 <context>
@@ -348,12 +348,12 @@
         <location filename="../mainwindow.cpp" line="2627"/>
         <location filename="../mainwindow.cpp" line="2629"/>
         <source>Buffer files</source>
-        <translation>Αρχεία Bufer</translation>
+        <translation>Αρχεία περιοχών κώδικα</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="891"/>
         <source>Link Metronome &amp; Global Time Warp</source>
-        <translation type="unfinished">Link Μετρονόμος &amp; Καθολική Χρονική Στρέβλωση</translation>
+        <translation>Μετρονόμος Link &amp; Καθολική Χρονική Στρέβλωση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2611"/>
@@ -1296,7 +1296,7 @@
         <location filename="../mainwindow.cpp" line="2434"/>
         <location filename="../mainwindow.cpp" line="8188"/>
         <source>Quit</source>
-        <translation>Έξοδος</translation>
+        <translation>Τερματισμός</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2663"/>
@@ -1502,7 +1502,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="3365"/>
         <source>Docs</source>
-        <translation type="unfinished"></translation>
+        <translation>Τεκμηρίωση</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3521"/>
@@ -2748,12 +2748,12 @@ Get Sonic Pi %1</source>
     <message>
         <location filename="../utils/ruby_help.h" line="3165"/>
         <source>Synths</source>
-        <translation type="unfinished">Synths</translation>
+        <translation>Συνθεσάιζερ</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3215"/>
         <source>Fx</source>
-        <translation type="unfinished">Fx</translation>
+        <translation>Εφέ</translation>
     </message>
     <message>
         <location filename="../utils/ruby_help.h" line="3240"/>
