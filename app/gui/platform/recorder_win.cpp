@@ -21,6 +21,7 @@
 #include "mp4_soft_remux.h"
 #include "recorder_audio_mix.h"
 #include "recorder_audio_rate.h"
+#include "recorder_frames.h"
 
 #include <d3d11_4.h>
 #include <windows.graphics.capture.interop.h>
@@ -90,7 +91,7 @@ class SonicPiSessionRecorder
 public:
     SonicPiSessionRecorder() = default;
 
-    // Static-storage tear-down would otherwise leave the audio-pump
+    // Static-storage tear-down would otherwise leave the pump
     // std::thread joinable → std::terminate. Stop() is idempotent.
     ~SonicPiSessionRecorder() { Stop(); }
 
@@ -153,10 +154,9 @@ public:
             m_audioPullBuf.assign(kAudioPullFrames * m_audioChannels, 0.0f);
             // Discard any pre-roll written between /s_new and now.
             m_audioReader.seek_to_live();
-            m_audioThreadStop.store(false);
-            m_audioThread = std::thread(
-                &SonicPiSessionRecorder::AudioPumpLoop, this);
         }
+        m_pumpStop.store(false);
+        m_pumpThread = std::thread(&SonicPiSessionRecorder::PumpLoop, this);
 
         RECORDER_LOG("recording HWND " << hwnd << " to "
                      << WideToUtf8(m_filePath) << " ("
@@ -177,9 +177,9 @@ public:
             m_powerStateSet = false;
         }
 
-        // Stop the audio pump first so no more samples land after Finalize.
-        m_audioThreadStop.store(true);
-        if (m_audioThread.joinable()) m_audioThread.join();
+        // Stop the pump first so no more samples land after Finalize.
+        m_pumpStop.store(true);
+        if (m_pumpThread.joinable()) m_pumpThread.join();
 
         if (m_framePool) m_framePool.FrameArrived(m_frameArrivedToken);
         if (m_item)      m_item.Closed(m_itemClosedToken);
@@ -187,6 +187,12 @@ public:
         // Wait for any in-flight OnFrameArrived (WGC thread pool) to
         // unwind before tearing down the sink writer / D3D device.
         { std::lock_guard<std::mutex> lk(m_callbackMutex); }
+
+        // The last frame shows until now, so the video ends with the sound.
+        if (m_writer && m_writerState.load() == kStarted)
+            m_grid.stopped(NowIn100ns() - m_sessionStart100ns,
+                           [&](int64_t slot) { WriteVideoSlot(slot); });
+        m_waitingTex = nullptr;
 
         if (m_session)   { m_session.Close();   m_session = nullptr; }
         if (m_framePool) { m_framePool.Close(); m_framePool = nullptr; }
@@ -512,7 +518,7 @@ private:
         return true;
     }
 
-    // Elects one of the WGC video callback and the audio-pump thread
+    // Elects one of the WGC video callback and the pump thread
     // to stamp m_sessionStart100ns; the loser spins on yield until the
     // winner publishes kStarted.
     bool MaybeStartSessionAt(LONGLONG ts100ns)
@@ -564,9 +570,9 @@ private:
         if (!wgcTex) return;
 
         // WGC recycles its pool texture when `frame` goes out of scope,
-        // but the encoder MFT may hold the sample for several frames: the
-        // crop is copied into a texture of our own, which survives
-        // recycling.
+        // but the frame is written for every slot it shows, and the
+        // encoder MFT may hold each sample for several frames: the crop
+        // is copied into a texture of our own, which survives recycling.
         winrt::com_ptr<ID3D11Texture2D> ownedTex;
         if (!AllocCropTexture(m_d3dDevice.get(), m_box, ownedTex)) return;
         CopyCrop(m_d3dContext.get(), ownedTex.get(), wgcTex.get(), m_box);
@@ -585,13 +591,33 @@ private:
                          << " ptsMs=" << (nowQpc - m_sessionStart100ns) / 10000);
             m_videoFirstPtsLogged = true;
         }
-        const LONGLONG pts = nowQpc - m_sessionStart100ns;
-        // 60fps fixed-cadence duration (~16.67ms).
-        constexpr LONGLONG kFrameDuration100ns = 10000000LL / 60LL;
 
+        // The slots ended by now show the frame before this one, which
+        // waits for its own (recorder_frames.h).
+        m_grid.arrived(nowQpc - m_sessionStart100ns,
+                       [&](int64_t slot) { WriteVideoSlot(slot); });
+        m_waitingTex = std::move(ownedTex);
+    }
+
+    // A window left unchanged sends no frames: the slots showing it are
+    // written as their time passes, not all at once when it next changes.
+    // A callback holding the lock is advancing the grid itself, so it is
+    // not waited on and the audio is never held up behind an encode.
+    void TickVideo()
+    {
+        std::unique_lock<std::mutex> lk(m_callbackMutex, std::try_to_lock);
+        if (!lk.owns_lock() || !m_grid.hasFrame()) return;
+        m_grid.elapsed(NowIn100ns() - m_sessionStart100ns,
+                       [&](int64_t slot) { WriteVideoSlot(slot); });
+    }
+
+    // Writes the waiting frame as one slot of the video's 60 fps grid.
+    // Called with m_callbackMutex held, or after the callbacks have stopped.
+    void WriteVideoSlot(int64_t slot)
+    {
         winrt::com_ptr<IMFMediaBuffer> buf;
         HRESULT hr = MFCreateDXGISurfaceBuffer(
-            __uuidof(ID3D11Texture2D), ownedTex.get(), 0, FALSE, buf.put());
+            __uuidof(ID3D11Texture2D), m_waitingTex.get(), 0, FALSE, buf.put());
         if (FAILED(hr)) {
             RECORDER_LOG("MFCreateDXGISurfaceBuffer failed: 0x"
                          << std::hex << hr);
@@ -612,8 +638,8 @@ private:
         winrt::com_ptr<IMFSample> sample;
         if (FAILED(MFCreateSample(sample.put()))) return;
         sample->AddBuffer(buf.get());
-        sample->SetSampleTime(pts);
-        sample->SetSampleDuration(kFrameDuration100ns);
+        sample->SetSampleTime(SonicPi::VideoFrameGrid::slotStart(slot));
+        sample->SetSampleDuration(SonicPi::VideoFrameGrid::slotLength(slot));
 
         std::lock_guard<std::mutex> wlk(m_writerMutex);
         hr = m_writer->WriteSample(m_videoStreamIdx, sample.get());
@@ -631,9 +657,10 @@ private:
         m_running.store(false);
     }
 
-    // ─── Audio path ───────────────────────────────────────────────────
+    // ─── Pump ─────────────────────────────────────────────────────────
 
-    void AudioPumpLoop()
+    // Drains the audio and writes the video's elapsed slots.
+    void PumpLoop()
     {
         // 5ms cadence via a high-resolution waitable timer. Plain
         // sleep_for is at the mercy of the system timer (15.6 ms default
@@ -652,8 +679,9 @@ private:
             SetWaitableTimer(timer, &due, 5 /*ms period*/,
                              nullptr, nullptr, FALSE);
         }
-        while (!m_audioThreadStop.load()) {
+        while (!m_pumpStop.load()) {
             DrainAudio();
+            TickVideo();
             if (timer) {
                 WaitForSingleObject(timer, 5);
             } else {
@@ -669,6 +697,8 @@ private:
         // frames between the final tick and join.
         DrainAudio();
     }
+
+    // ─── Audio path ───────────────────────────────────────────────────
 
     void DrainAudio()
     {
@@ -811,6 +841,10 @@ private:
     winrt::SizeInt32                       m_size{};   // the captured frame: the whole window
     SonicPi::CaptureBox                    m_box{};    // the client area in it: the file's frame
 
+    // Video: the frame waiting for its slots (recorder_frames.h)
+    SonicPi::VideoFrameGrid                m_grid;
+    winrt::com_ptr<ID3D11Texture2D>        m_waitingTex;
+
     // Media Foundation
     winrt::com_ptr<IMFSinkWriter>          m_writer;
     DWORD                                  m_videoStreamIdx{ 0 };
@@ -823,8 +857,6 @@ private:
     // The tap's live channel count (the device's, up to the ring's ceiling):
     // the recording's channels and the stride of every pulled frame.
     uint32_t                               m_audioChannels = 0;
-    std::thread                            m_audioThread;
-    std::atomic<bool>                      m_audioThreadStop{ false };
     LONGLONG                               m_audioAnchor100ns{ LLONG_MIN };
     // The feed at the recording's rate, and on its clock (recorder_audio_rate.h).
     std::unique_ptr<SonicPi::RecordedAudio> m_audio;
@@ -837,6 +869,8 @@ private:
 
     // Lifecycle / synchronisation
     std::atomic<bool>                      m_running{ false };
+    std::thread                            m_pumpThread;
+    std::atomic<bool>                      m_pumpStop{ false };
     std::atomic<uint8_t>                   m_writerState{ kIdle };
     LONGLONG                               m_sessionStart100ns{ 0 };
     std::mutex                             m_writerMutex;   // sink writer

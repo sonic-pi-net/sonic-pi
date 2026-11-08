@@ -12,6 +12,7 @@
 //++
 
 #include "mp4_soft_remux.h"
+#include "remux_ends.h"
 
 #include <Windows.h>
 #include <mfapi.h>
@@ -24,6 +25,7 @@
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <vector>
 
 #define REMUX_LOG(expr) do {                                          \
     std::ostringstream _ss; _ss << "[remux] " << expr << "\n";        \
@@ -109,6 +111,11 @@ bool remuxToStandardMp4(const std::wstring& inputPath,
     struct StreamStats { DWORD count = 0; LONGLONG first = -1, last = -1; };
     std::map<DWORD, StreamStats> stats;
 
+    // The audio and the video end at different times (remux_ends.h).
+    std::vector<uint32_t> copied;
+    for (const auto& stream : streamMap) copied.push_back(stream.first);
+    RemuxEnds ends{ std::move(copied) };
+
     for (;;) {
         DWORD readerIdx = 0;
         DWORD flags = 0;
@@ -121,7 +128,10 @@ bool remuxToStandardMp4(const std::wstring& inputPath,
             REMUX_LOG("ReadSample failed: 0x" << std::hex << hr);
             break;
         }
-        if (flags & MF_SOURCE_READERF_ENDOFSTREAM) break;
+        if (flags & MF_SOURCE_READERF_ENDOFSTREAM) {
+            if (ends.ended(readerIdx)) break;
+            continue;
+        }
         if (!sample) continue;
 
         auto it = streamMap.find(readerIdx);
