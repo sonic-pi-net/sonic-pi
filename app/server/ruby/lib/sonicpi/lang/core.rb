@@ -4814,7 +4814,6 @@ puts current_sched_ahead_time # Prints 0.5"]
         __system_thread_locals.set_local(:sonic_pi_spider_time_state_cache, [])
 
         bpm_sync = truthy?(opts[:bpm_sync])
-        arg_matcher = opts[:arg_matcher]
 
         cue_id = __sync_path(k)
 
@@ -4844,7 +4843,7 @@ puts current_sched_ahead_time # Prints 0.5"]
           m = current_bpm_mode
         end
 
-        se = @event_history.sync(t, p, i, d, b, m, cue_id, arg_matcher)
+        se = @event_history.sync(t, p, i, d, b, m, cue_id)
 
         __system_thread_locals.set_local :sonic_pi_local_last_sync, se
 

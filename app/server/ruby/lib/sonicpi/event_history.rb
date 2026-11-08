@@ -15,17 +15,6 @@ require_relative "cueevent"
 
 module SonicPi
 
-  module EventMatcherUtil
-    def safe_matcher_call(matcher, event)
-      return true unless matcher
-      begin
-        return matcher.call(event)
-      rescue Exception
-        return false
-      end
-    end
-  end
-
   class EventHistoryNode
     attr_accessor :children, :events
 
@@ -50,11 +39,9 @@ module SonicPi
   end
 
   class EventMatcher
-    include EventMatcherUtil
-
     attr_reader :handle, :prom, :ce
 
-    def initialize(ce, val_matcher=nil, handle=nil, prom=nil)
+    def initialize(ce, handle=nil, prom=nil)
       path = String.new(ce.path)
 
       # get rid of white space
@@ -95,7 +82,6 @@ module SonicPi
 
       @matcher = Regexp.new(matcher_str)
 
-      @val_matcher = val_matcher
       @alive = true
       @prom = prom
       @handle = handle
@@ -110,13 +96,8 @@ module SonicPi
       !@alive
     end
 
-    def path_match(path, val=:sonic_pi_no_match_val)
-
-      if @val_matcher && (val != :sonic_pi_no_match_val)
-        @matcher.match(path) && safe_matcher_call(@val_matcher, val)
-      else
-        @matcher.match(path)
-      end
+    def path_match(path)
+      @matcher.match(path)
     end
   end
 
@@ -128,15 +109,15 @@ module SonicPi
       @matchers = []
     end
 
-    def put(ce, val_matcher, thread_id, prom)
-      matcher = EventMatcher.new(ce, val_matcher, thread_id, prom)
+    def put(ce, thread_id, prom)
+      matcher = EventMatcher.new(ce, thread_id, prom)
       @matchers << matcher
       return matcher
     end
 
     def match(ce)
       @matchers.delete_if do |matcher|
-        if matcher.path_match(ce.path, ce.val) && ce > matcher.ce
+        if matcher.path_match(ce.path) && ce > matcher.ce
           matcher.prom.deliver! true if matcher.prom
           matched = true
         else
@@ -154,7 +135,6 @@ module SonicPi
 
 
   class EventHistory
-    include EventMatcherUtil
     include Util
 
     # The session's schedule-ahead (set_sched_ahead_time!): a plain global, not an event on the timeline. Read by
@@ -194,18 +174,18 @@ module SonicPi
     end
 
     # Get the last seen version (at or before the current time)
-    def get(t, p, i, d, b, m, path, val_matcher=nil, get_next=false)
+    def get(t, p, i, d, b, m, path, get_next=false)
       wait_for_threads(t)
       res = nil
       get_event = CueEvent.new(t, p, i, d, b, m, path, [])
-      res = get_w_mutex(get_event, val_matcher, get_next)
+      res = get_w_mutex(get_event, get_next)
       return res
     end
 
     # Get next version (after current time)
     # return nil if nothing found
-    def get_next(t, p, i, d, b, m, path, val_matcher=nil)
-      get(t, p, i, d, b, m, path, val_matcher, true)
+    def get_next(t, p, i, d, b, m, path)
+      get(t, p, i, d, b, m, path, true)
     end
 
     # Register cue event for time t
@@ -223,40 +203,27 @@ module SonicPi
     # Get the next version (after the current time)
     # Set time to time of cue
 
-    def sync(t, p, i, d, b, m, path, val_matcher=nil)
+    def sync(t, p, i, d, b, m, path)
 
       wait_for_threads(t)
       prom = nil
       ge = CueEvent.new(t, p, i, d, b, m, path, [])
-      res = get_w_mutex(ge, val_matcher, true)
+      res = get_w_mutex(ge, true)
       return res if res
       prom = Promise.new
       @matcher_mut.synchronize do
-        @event_matchers.put ge, val_matcher, i, prom
+        @event_matchers.put ge, i, prom
       end
       prom.get
       # have to do a get_next again in case
       # an event with an earlier timestamp arrived
       # after this one
       wait_for_threads(t)
-      res = get_w_mutex(ge, val_matcher, true)
+      res = get_w_mutex(ge, true)
       if res
         return res
       end
       raise "sync error - couldn't find result for #{[t.to_f, i, p, d, b, path]}"
-    end
-
-    # Wait for the first out of the list of cues to arrive
-    # Set time to time of first cue
-    # Once first cue has arrived - no longer wait for other cues
-    def sync_first(t, p, i, d, b, m, paths, val_matcher, timeout=nil)
-
-    end
-
-    # Wait for all cues to arrive (after the current time)
-    # Set time to time of last cue
-    def sync_all(t, p, i, d, b, m, paths, val_matcher, timeout=nil)
-
     end
 
     def prune(thread_id)
@@ -267,7 +234,7 @@ module SonicPi
 
     @@split_path_cache = Hash.new
     private
-    def get_w_mutex(ge, val_matcher, get_next=false)
+    def get_w_mutex(ge, get_next=false)
       # get value or return default
       if ge.path.start_with? '/'
         if ge.path.include?('/**/**')
@@ -307,19 +274,19 @@ module SonicPi
         end
       end
       @process_mut.synchronize do
-        return __get(ge, split_path, 0, val_matcher, @state, nil, get_next)
+        return __get(ge, split_path, 0, @state, nil, get_next)
       end
 
     end
 
-    def __get(ge, split_path, idx, val_matcher, sn, res, get_next)
+    def __get(ge, split_path, idx, sn, res, get_next)
       if idx == split_path.size
         # we are at the leaf node
         # see if we can find a result!
         if get_next
-          return find_next_event(ge, val_matcher, sn.events)
+          return find_next_event(ge, sn.events)
         else
-          return find_most_recent_event(ge, val_matcher, sn.events)
+          return find_most_recent_event(ge, sn.events)
         end
       end
 
@@ -330,7 +297,7 @@ module SonicPi
       if path_segment.is_a?(Regexp)
         sn.children.each do |k, v|
           if path_segment.match(k)
-            res2 = __get(ge, split_path, idx+1, val_matcher, v, res, get_next)
+            res2 = __get(ge, split_path, idx+1, v, res, get_next)
             if res2
               if res
                 if get_next
@@ -351,9 +318,9 @@ module SonicPi
           # first logically timed event
 
           if get_next
-            return next_ancestor_event(ge, val_matcher, sn, res)
+            return next_ancestor_event(ge, sn, res)
           else
-            return most_recent_ancestor_event(ge, val_matcher, sn, res)
+            return most_recent_ancestor_event(ge, sn, res)
           end
         else
           # if there is a next path segment then do a search
@@ -361,7 +328,7 @@ module SonicPi
           # ones with grand children matching the next segment
           # then continue as normal
           matching_ancestors(split_path[idx + 1], sn).each do |an|
-            res2 = __get(ge, split_path, idx+2, val_matcher, an, res, get_next)
+            res2 = __get(ge, split_path, idx+2, an, res, get_next)
             if res2
               if res
                 if get_next
@@ -378,7 +345,7 @@ module SonicPi
       else
         v = sn.children[path_segment]
         if v
-          res2 = __get(ge, split_path, idx+1, val_matcher, v, res, get_next)
+          res2 = __get(ge, split_path, idx+1, v, res, get_next)
           if res2
             if res
               if get_next
@@ -472,9 +439,9 @@ module SonicPi
     end
 
 
-    def most_recent_ancestor_event(ge, val_matcher, n, res)
+    def most_recent_ancestor_event(ge, n, res)
       n.children.values.each do |c|
-        candidate = find_most_recent_event(ge, val_matcher, c.events)
+        candidate = find_most_recent_event(ge, c.events)
         if candidate
           if res
             res = candidate if candidate > res
@@ -483,7 +450,7 @@ module SonicPi
           end
         end
 
-        ancestor_candidate = most_recent_ancestor_event(ge, val_matcher, c, res)
+        ancestor_candidate = most_recent_ancestor_event(ge, c, res)
         if ancestor_candidate
           if res
             res = ancestor_candidate if ancestor_candidate > res
@@ -495,9 +462,9 @@ module SonicPi
       return res
     end
 
-    def next_ancestor_event(ge, val_matcher, n, res)
+    def next_ancestor_event(ge, n, res)
       n.children.values.each do |c|
-        candidate = find_next_event(ge, val_matcher, c.events)
+        candidate = find_next_event(ge, c.events)
         if candidate
           if res
             res = candidate if candidate < res
@@ -506,7 +473,7 @@ module SonicPi
           end
         end
 
-        ancestor_candidate = next_ancestor_event(ge, val_matcher, c, res)
+        ancestor_candidate = next_ancestor_event(ge, c, res)
         if ancestor_candidate
           if res
             res = ancestor_candidate if ancestor_candidate < res
@@ -518,24 +485,16 @@ module SonicPi
       return res
     end
 
-    # Any event, if val_matcher is nil, else one whose val the lambda matches.
-    def val_matches?(val_matcher, e)
-      val_matcher.nil? || safe_matcher_call(val_matcher, e.val)
+    def find_most_recent_event(ge, events)
+      events.find { |e| e <= ge }
     end
 
-    def find_most_recent_event(ge, val_matcher, events)
-      events.find { |e| e <= ge && val_matches?(val_matcher, e) }
-    end
-
-    def find_next_event(ge, val_matcher, events)
+    def find_next_event(ge, events)
       # events are ordered with events[0] > events[max]: later events are
       # closer to the start of the list. Those after ge are the ones before
-      # the first that is not; the next is the earliest of them that matches.
+      # the first that is not; the next is the last of them.
       idx = events.find_index { |e| e <= ge } || events.size
-      (idx - 1).downto(0) do |j|
-        return events[j] if val_matches?(val_matcher, events[j])
-      end
-      nil
+      idx > 0 ? events[idx - 1] : nil
     end
 
     def matcher?(p)

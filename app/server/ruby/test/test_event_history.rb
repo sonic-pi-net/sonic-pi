@@ -57,42 +57,25 @@ module SonicPi
       assert_equal :foo, v.val
     end
 
-    def test_basic_set_get_with_arg_matcher
+    # Among events at one moment, get takes the latest at or before its
+    # place in that moment's order and get_next the first after it.
+    def test_get_and_get_next_among_events_at_the_same_time
       history = EventHistory.new
       t = 0
       n = "/foo/bar"
 
       i = ThreadId.new(5)
 
-      tm = lambda { |_| true }
-
-      m = lambda do |args|
-        args.size == 2 && args.first != :foo
-      end
-
-      m2 = lambda do |args|
-        args.size == 3 && args.first == :baz
-      end
-
       history.set(t, 0, i, 0, 0, 60, n, [:baz, :bar])
       history.set(t, 0, i, 1, 0, 60, n, [:foo, :bar])
       history.set(t, 0, i, 2, 0, 60, n, [:boz, :boz, :boz])
-      history.set(t, 0, i, 3, 0, 60, n, [:boz, :boz])
-      history.set(t, 0, i, 3, 0, 60, n, [:baz, :boz])
-      history.set(t, 0, i, 4, 0, 60, n, [:baz, :bar, :foo])
       history.set(t, 0, i, 5, 0, 60, n, [:bar])
-###sdlkfjsdlfjdslkfj
-      v = history.get(t, 0, i, 6, 0, 60, n, m)
-      assert_equal [:baz, :boz], v.val
 
-      v = history.get_next(t, 0, i, 0, 0, 60, n, tm)
-      assert_equal [:foo, :bar], v.val
-
-      v = history.get_next(t, 0, i, 0, 0, 60, n, m)
-      assert_equal [:boz, :boz], v.val
-
-      v = history.get_next(t, 0, i, 0, 0, 60, n, m2)
-      assert_equal [:baz, :bar, :foo], v.val
+      assert_equal [:bar], history.get(t, 0, i, 6, 0, 60, n).val
+      assert_equal [:boz, :boz, :boz], history.get(t, 0, i, 4, 0, 60, n).val
+      assert_equal [:foo, :bar], history.get_next(t, 0, i, 0, 0, 60, n).val
+      assert_equal [:bar], history.get_next(t, 0, i, 2, 0, 60, n).val
+      assert_nil history.get_next(t, 0, i, 5, 0, 60, n)
     end
 
 
@@ -369,38 +352,38 @@ module SonicPi
     end
 
     def test_event_matcher
-      m = EventMatcher.new(make_cue_event("/foo/bar/baz"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/foo/bar/baz", nil)
-      assert  m.path_match("/foo/bar/baz/", nil)
-      assert  m.path_match("foo/bar/baz", nil)
-      assert_nil m.path_match("/foo/bar/bazz", nil)
+      m = EventMatcher.new(make_cue_event("/foo/bar/baz"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/foo/bar/baz")
+      assert  m.path_match("/foo/bar/baz/")
+      assert  m.path_match("foo/bar/baz")
+      assert_nil m.path_match("/foo/bar/bazz")
     end
 
 
 
 
     def test_event_matcher_glob_star
-      m = EventMatcher.new(make_cue_event("/foo/**/baz"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/foo/bar/baz", nil)
-      assert  m.path_match("/foo/bar/baz/", nil)
-      assert  m.path_match("/foo/bar/beans/quux/baz/", nil)
-      assert  m.path_match("foo/bar/baz", nil)
-      assert_nil  m.path_match("/foo/bar/beans/quux/bazz/", nil)
-      assert_nil  m.path_match("foo333//bar/eggsbaz", nil)
-      assert_nil  m.path_match("foo333/beans/bar/eggsbaz", nil)
-      assert_nil m.path_match("/foo/bar/bazz", nil)
+      m = EventMatcher.new(make_cue_event("/foo/**/baz"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/foo/bar/baz")
+      assert  m.path_match("/foo/bar/baz/")
+      assert  m.path_match("/foo/bar/beans/quux/baz/")
+      assert  m.path_match("foo/bar/baz")
+      assert_nil  m.path_match("/foo/bar/beans/quux/bazz/")
+      assert_nil  m.path_match("foo333//bar/eggsbaz")
+      assert_nil  m.path_match("foo333/beans/bar/eggsbaz")
+      assert_nil m.path_match("/foo/bar/bazz")
     end
 
     def test_event_matcher_glob_star_at_end
-      m = EventMatcher.new(make_cue_event("/foo/**"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/foo/bar/baz", nil)
-      assert  m.path_match("/foo/bar/baz/", nil)
-      assert  m.path_match("/foo/bar/beans/quux/baz/", nil)
-      assert  m.path_match("foo/bar/baz", nil)
-      assert  m.path_match("/foo/bar/beans/quux/bazz/", nil)
-      assert_nil  m.path_match("foo333//bar/eggsbaz", nil)
-      assert_nil  m.path_match("foo333/beans/bar/eggsbaz", nil)
-      assert m.path_match("/foo/bar/bazz", nil)
+      m = EventMatcher.new(make_cue_event("/foo/**"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/foo/bar/baz")
+      assert  m.path_match("/foo/bar/baz/")
+      assert  m.path_match("/foo/bar/beans/quux/baz/")
+      assert  m.path_match("foo/bar/baz")
+      assert  m.path_match("/foo/bar/beans/quux/bazz/")
+      assert_nil  m.path_match("foo333//bar/eggsbaz")
+      assert_nil  m.path_match("foo333/beans/bar/eggsbaz")
+      assert m.path_match("/foo/bar/bazz")
     end
 
     def test_sync_with_existing_event
@@ -528,73 +511,73 @@ module SonicPi
     end
 
     def test_event_matcher_star
-      m = EventMatcher.new(make_cue_event("/foo*/*/*baz"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/foo/bar/baz", nil)
-      assert  m.path_match("/foo/bar/baz/", nil)
-      assert  m.path_match("foo/bar/baz", nil)
-      assert  m.path_match("foo/bar/eggsbaz", nil)
-      assert  m.path_match("foo333/bar/eggsbaz", nil)
-      assert_nil  m.path_match("foo333//bar/eggsbaz", nil)
-      assert_nil  m.path_match("foo333/beans/bar/eggsbaz", nil)
-      assert_nil m.path_match("/foo/bar/bazz", nil)
+      m = EventMatcher.new(make_cue_event("/foo*/*/*baz"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/foo/bar/baz")
+      assert  m.path_match("/foo/bar/baz/")
+      assert  m.path_match("foo/bar/baz")
+      assert  m.path_match("foo/bar/eggsbaz")
+      assert  m.path_match("foo333/bar/eggsbaz")
+      assert_nil  m.path_match("foo333//bar/eggsbaz")
+      assert_nil  m.path_match("foo333/beans/bar/eggsbaz")
+      assert_nil m.path_match("/foo/bar/bazz")
     end
 
     def test_event_matcher_multi_squares
-      m = EventMatcher.new(make_cue_event("/[a-c]ue/[d-g]az/[!w]uux"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/cue/daz/quux/", nil)
-      assert_nil  m.path_match("/cue/daz/wuux/", nil)
+      m = EventMatcher.new(make_cue_event("/[a-c]ue/[d-g]az/[!w]uux"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/cue/daz/quux/")
+      assert_nil  m.path_match("/cue/daz/wuux/")
     end
 
     def test_event_matcher_square_neg_range
-      m = EventMatcher.new(make_cue_event("/[a-c]ue/[d-g]az/[!a-w]uux"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/cue/daz/zuux/", nil)
-      assert_nil  m.path_match("/cue/daz/wuux/", nil)
+      m = EventMatcher.new(make_cue_event("/[a-c]ue/[d-g]az/[!a-w]uux"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/cue/daz/zuux/")
+      assert_nil  m.path_match("/cue/daz/wuux/")
     end
 
 
     def test_event_matcher_broken_squares
-      m = EventMatcher.new(make_cue_event("/[cue/caz]"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/[cue/caz]/", nil)
+      m = EventMatcher.new(make_cue_event("/[cue/caz]"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/[cue/caz]/")
     end
 
     def test_event_matcher_squiggles
-      m = EventMatcher.new(make_cue_event("/{cue,set}/[a-c]az"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/cue/baz", nil)
-      assert  m.path_match("/set/aaz/", nil)
-      assert  m.path_match("/set/baz/", nil)
-      assert  m.path_match("/set/caz/", nil)
-      assert  m.path_match("/cue/caz/", nil)
-      assert_nil  m.path_match("/cue/daz/", nil)
+      m = EventMatcher.new(make_cue_event("/{cue,set}/[a-c]az"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/cue/baz")
+      assert  m.path_match("/set/aaz/")
+      assert  m.path_match("/set/baz/")
+      assert  m.path_match("/set/caz/")
+      assert  m.path_match("/cue/caz/")
+      assert_nil  m.path_match("/cue/daz/")
     end
 
     def test_event_matcher_broken_squiggles
-      m = EventMatcher.new(make_cue_event("/{cue/caz}"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/{cue/caz}/", nil)
+      m = EventMatcher.new(make_cue_event("/{cue/caz}"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/{cue/caz}/")
     end
 
     def test_event_matcher_multi_squiggles
-      m = EventMatcher.new(make_cue_event("/{a,c}ue/{baz,boz}/[!w]uux"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/cue/baz/quux/", nil)
-      assert  m.path_match("/cue/boz/quux/", nil)
-      assert_nil  m.path_match("/due/baz/quux/", nil)
+      m = EventMatcher.new(make_cue_event("/{a,c}ue/{baz,boz}/[!w]uux"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/cue/baz/quux/")
+      assert  m.path_match("/cue/boz/quux/")
+      assert_nil  m.path_match("/due/baz/quux/")
     end
 
     def test_event_matcher_with_single_char
-      m = EventMatcher.new(make_cue_event("/?ue/{baz,boz}/[!w]uux"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/cue/baz/quux/", nil)
-      assert  m.path_match("/cue/boz/quux/", nil)
-      assert  m.path_match("/due/baz/quux/", nil)
+      m = EventMatcher.new(make_cue_event("/?ue/{baz,boz}/[!w]uux"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/cue/baz/quux/")
+      assert  m.path_match("/cue/boz/quux/")
+      assert  m.path_match("/due/baz/quux/")
     end
 
     def test_event_matcher_with_single_char_at_end
-      m = EventMatcher.new(make_cue_event("/?ue/{baz,boz}/quux[!12]"), nil, ThreadId.new(5), Promise.new)
-      assert  m.path_match("/cue/baz/quux3/", nil)
-      assert_nil  m.path_match("/cue/baz/quux34/", nil)
+      m = EventMatcher.new(make_cue_event("/?ue/{baz,boz}/quux[!12]"), ThreadId.new(5), Promise.new)
+      assert  m.path_match("/cue/baz/quux3/")
+      assert_nil  m.path_match("/cue/baz/quux34/")
     end
 
     def test_event_matcher_with_single_char_at_end2
-      m = EventMatcher.new(make_cue_event("/push[!1]"), nil, ThreadId.new(5), Promise.new)
-      assert_nil  m.path_match("/push40", nil)
+      m = EventMatcher.new(make_cue_event("/push[!1]"), ThreadId.new(5), Promise.new)
+      assert_nil  m.path_match("/push40")
     end
 
     def test_foo
@@ -615,17 +598,16 @@ module SonicPi
       assert_equal 5, v.val
     end
 
-    # The next event a sync waits for is the earliest after it that its arg
-    # matcher matches, even when every event is still to come and the
-    # earliest is not one it matches.
-    def test_get_next_finds_the_earliest_match_when_all_events_are_later
+    # The next event a sync waits for is the earliest after it, even when
+    # every event is still to come.
+    def test_get_next_finds_the_earliest_event_when_all_events_are_later
       history = EventHistory.new
       i = ThreadId.new(7)
       history.set(11, 0, i, 0, 0, 60, "/cue/foo", 1)
       history.set(12, 0, i, 0, 0, 60, "/cue/foo", 2)
       history.set(13, 0, i, 0, 0, 60, "/cue/foo", 3)
-      v = history.get_next(10, 0, i, 0, 0, 60, "/cue/foo", lambda { |val| val >= 2 })
-      assert_equal 2, v.val
+      v = history.get_next(10, 0, i, 0, 0, 60, "/cue/foo")
+      assert_equal 1, v.val
     end
   end
 end
