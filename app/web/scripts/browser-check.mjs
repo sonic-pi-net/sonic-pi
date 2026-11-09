@@ -532,6 +532,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.waitForFunction(() => { const [to, from] = document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source"); return to?.textContent.includes("/s_new") && from?.querySelector(".logs-line"); }, null, { timeout: 8000 }).catch(() => {});
     const osc = await page.evaluate(() => [...document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source")].map((s) => ({ title: s.querySelector(".logs-title").textContent, lines: s.querySelectorAll(".logs-line").length, s_new: /\+\d+\.\d+s \/s_new "sonic-pi-/.test(s.textContent) })));
     check("the Debug pane logs the OSC to SuperSonic (the runtime's bundles, when each is due) and from it", osc.length === 2 && osc[0].s_new && osc[1].lines > 0, JSON.stringify(osc));
+    // each timed bundle marked with how far ahead of the engine's now it arrived, on the engine's clock (logs.js
+    // oscText): "+0.045s", or "-0.010s" when it came after its time, the sign written once
+    const marks = await page.evaluate(() => { const to = document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelector(".logs-source"); const text = [...to.querySelectorAll(".logs-line")].map((l) => l.textContent).join("\n"); return { marked: (text.match(/[+-]\d+\.\d{3}s \//g) ?? []).length, doubled: text.includes("+-") }; });
+    check("each timed bundle to SuperSonic is marked with how far ahead it arrived, its sign written once", marks.marked > 0 && !marks.doubled, JSON.stringify(marks));
     await openPane("insight");
     await page.waitForTimeout(1500);
     const heardThreads = await stillness(page);

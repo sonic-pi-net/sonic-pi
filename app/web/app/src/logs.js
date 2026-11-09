@@ -34,6 +34,18 @@ const stamp = (d) => `[${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSe
  *   hidden: the pane is hidden, so from here its lines wait;
  *   recent: a source's last n lines, each with its time, as text (what a restart carries over: audio-trail.js)
  */
+// A message as SuperSonic writes one (/s_new "sonic-pi-beep", 1001, …; a blob by its size); a bundle its messages,
+// one a line, the first marked with how far ahead of `now` it is to sound, on the clock its time stamp is on (the
+// engine's): "+0.045s", "-0.010s" when it came after its time, nothing for one to play at once. A hair either side of
+// now reads +0.000s.
+export function oscText(p, now = 0) {
+  const arg = (a) => (typeof a === "string" ? JSON.stringify(a) : a instanceof Uint8Array ? `<${a.length} bytes>` : Array.isArray(a) ? `[${a.map(arg).join(", ")}]` : typeof a === "number" && !Number.isInteger(a) ? String(Math.round(a * 1e4) / 1e4) : String(a));
+  if (Array.isArray(p)) return `${p[0]}${p.length > 1 ? " " + p.slice(1).map(arg).join(", ") : ""}`;
+  const lead = p.timeTag - now, shown = Math.abs(lead).toFixed(3);
+  const ahead = p.timeTag > 1 && now ? `${lead < 0 && Number(shown) > 0 ? "-" : "+"}${shown}s ` : "";
+  return p.packets.map((q, i) => (i === 0 ? ahead : " ".repeat(ahead.length)) + oscText(q, now)).join("\n");
+}
+
 export function createLogs(root, names, { shown = true } = {}) {
   const sources = new Map();
   let frame = 0;

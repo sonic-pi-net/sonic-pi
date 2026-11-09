@@ -31,7 +31,7 @@ import { createInsight, threadLabel } from "./insight.js";
 import { loopName } from "./loop-name.js";
 import { createFlightRecorder } from "./flight.js";
 import { createAudioTrail, trailText } from "./audio-trail.js";
-import { createLogs } from "./logs.js";
+import { createLogs, oscText } from "./logs.js";
 import { createShortcuts, DEF, MODES, parseChord } from "./shortcuts.js";
 import { createShortcutEditor } from "./shortcuts-ui.js";
 import { createPageBar } from "./ui/pagebar.js";
@@ -1464,18 +1464,13 @@ async function logOsc(engine) {
   const { decode } = await import(new URL("osc.js", location.href).href);
   engine.on?.("out:osc", (d) => {
     if (oscLogged !== engine) return;
-    try { oscLogs.add("To SuperSonic", oscText(decode(d.oscData), d.timestamp)); }
+    // how far ahead it is measured on the engine's clock, the one its time stamp is on, as it arrives here: Clockwork's
+    // d.timestamp is the wall clock, which drifts from the audio clock (by the length of a stall, until Clockwork's
+    // offset is back on the wall), and read against it a bundle in good time showed as late ("+-0.010s")
+    try { oscLogs.add("To SuperSonic", oscText(decode(d.oscData), engine.clock?.now?.() ?? 0)); }
     catch (e) { oscLogs.add("To SuperSonic", `<${d.oscData?.length ?? "?"} bytes: ${describe(e)}>`); }
   });
   engine.on?.("in", (m) => { if (oscLogged === engine) oscLogs.add("From SuperSonic", Array.isArray(m) ? oscText(m) : String(m)); });
-}
-// a message as SuperSonic writes one (/s_new "sonic-pi-beep", 1001, …; a blob by its size); a bundle its messages,
-// one a line, the first marked with how far ahead of its sending it is to sound (none: immediately)
-function oscText(p, sentAt) {
-  const arg = (a) => (typeof a === "string" ? JSON.stringify(a) : a instanceof Uint8Array ? `<${a.length} bytes>` : Array.isArray(a) ? `[${a.map(arg).join(", ")}]` : typeof a === "number" && !Number.isInteger(a) ? String(Math.round(a * 1e4) / 1e4) : String(a));
-  if (Array.isArray(p)) return `${p[0]}${p.length > 1 ? " " + p.slice(1).map(arg).join(", ") : ""}`;
-  const ahead = p.timeTag > 1 && sentAt ? `+${(p.timeTag - sentAt).toFixed(3)}s ` : "";
-  return p.packets.map((q, i) => (i === 0 ? ahead : " ".repeat(ahead.length)) + oscText(q, sentAt)).join("\n");
 }
 // the metrics' counts of trouble marked while they are 0, so the CSS lights only the ones that are not (the element
 // writes its numbers in place, a few times a second)
