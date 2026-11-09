@@ -56,9 +56,14 @@ class SonicPiAPI;
 // card is next, what Play and Stop do to the runs the host keeps. Hover is the
 // host's to drive (hoverAt), because a card can slide beneath a pointer that
 // never moved.
-// The cards read as named groups, and a widget whose a11yIgnored property is set (words drawn inside a button that
-// is named for them, a pointer-only handle) is left out of the accessibility tree. Every host of cards calls it once.
+// The cards read as named groups, and a widget hidden from screen readers (hideFromScreenReaders) is left out of the
+// accessibility tree. Every host of cards calls it once.
 void registerCodeCardAccessibility();
+
+// Out of the accessibility tree: words drawn inside a button that is named for them, a pointer-only handle. Safe at
+// any point in the widget's making: with a screen reader running, a widget tells it about itself as its text or its
+// parent is set, and the interface made then would be kept, read out after all.
+void hideFromScreenReaders(QWidget* widget);
 
 class CodeCard : public QFrame
 {

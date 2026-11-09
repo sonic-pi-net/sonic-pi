@@ -110,6 +110,16 @@ QAccessibleInterface* codeCardAccessibleFactory(const QString& className, QObjec
 
 } // namespace
 
+void hideFromScreenReaders(QWidget* widget)
+{
+    widget->setProperty("a11yIgnored", true);
+    // Whatever was made before the property is let go, so the next is made through the factory, hidden. Its state is
+    // no guide to which it is: a widget not yet shown reads as invisible either way.
+    if (QAccessible::isActive())
+        if (QAccessibleInterface* made = QAccessible::queryAccessibleInterface(widget))
+            QAccessible::deleteAccessibleInterface(QAccessible::uniqueId(made));
+}
+
 void registerCodeCardAccessibility()
 {
     static bool installed = false;
@@ -421,7 +431,7 @@ CodeCard::CodeCard(const Spec& spec, const Metrics& metrics, SonicPiTheme* theme
         // (the I shortcut, and the Add button where there is one, are its
         // keyboard equivalents).
         drag->setFocusPolicy(Qt::NoFocus);
-        drag->setProperty("a11yIgnored", true);
+        hideFromScreenReaders(drag);
         // Buttons accept the press, so the card's filter never sees it; the
         // handle needs its own filter to start drags.
         drag->installEventFilter(this);

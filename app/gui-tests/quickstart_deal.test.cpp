@@ -27,6 +27,7 @@
 
 #include "model/quickstartprogress.h"
 #include "model/sonicpitheme.h"
+#include "accessibility_on.h"
 #include "own_settings.h"
 #include "utils/fontroles.h"
 #include "widgets/quickstartpane.h"
@@ -591,4 +592,20 @@ TEST_CASE("the arrows and the page dots name what they do and say which page is 
     QTest::keyClick(p.start(), Qt::Key_Left);   // already at the first page: it says so
     settle();
     CHECK(said(spy) == QStringList{ "First card." });
+}
+
+TEST_CASE("with a screen reader running, the words inside Start and the tile are still read once", "[quickstart][deal][a11y]")
+{
+    // Accessibility on from the start, as a screen reader has it: a widget's interface can be made as the widget is,
+    // before anything is set on it afterwards.
+    AccessibilityOn on;
+    OwnSettings settings;
+    Pane p;
+    REQUIRE(p.start());
+    for (QLabel* l : p.start()->findChildren<QLabel*>())
+        CHECK(a11y(l)->state().invisible);
+    p.click(p.start());
+    REQUIRE(p.tile());
+    for (QLabel* l : p.tile()->findChildren<QLabel*>())
+        CHECK(a11y(l)->state().invisible);
 }

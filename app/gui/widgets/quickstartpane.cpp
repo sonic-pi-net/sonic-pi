@@ -231,7 +231,7 @@ QLabel* innerLabel(const QString& text, const char* name, QWidget* parent)
 {
     QLabel* l = new QLabel(text, parent);
     l->setObjectName(QString::fromLatin1(name));
-    l->setProperty("a11yIgnored", true);
+    hideFromScreenReaders(l);
     l->setAttribute(Qt::WA_TransparentForMouseEvents);
     return l;
 }

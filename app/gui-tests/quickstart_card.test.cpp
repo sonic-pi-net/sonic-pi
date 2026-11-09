@@ -24,6 +24,7 @@
 #include "utils/lineflashes.h"
 
 #include <QAbstractButton>
+#include <QAccessible>
 #include <QApplication>
 #include <QLabel>
 #include <QPlainTextEdit>
@@ -32,6 +33,7 @@
 #include <QTest>
 
 #include "model/sonicpitheme.h"
+#include "accessibility_on.h"
 #include "own_settings.h"
 #include "utils/fontroles.h"
 #include "widgets/cardscope.h"
@@ -346,3 +348,21 @@ TEST_CASE("a quickstart card lights the line that sounded", "[quickstart][card]"
     }, SonicPi::kFlashHoldMs * 20));
 }
 
+
+TEST_CASE("with a screen reader running, a card's drag handle stays out of its way", "[quickstart][card][a11y]")
+{
+    // Accessibility on from the start, as a screen reader has it: a widget's interface can be made as the widget is
+    // (its tooltip, its parent), before anything is set on it afterwards.
+    AccessibilityOn on;
+    Deck deck;
+    CodeCard* card = deck.firstCard();
+    REQUIRE(card);
+    QAbstractButton* drag = nullptr;
+    for (QAbstractButton* b : card->findChildren<QAbstractButton*>())
+        if (b->toolTip() == "Drag me into your editor.")
+            drag = b;
+    REQUIRE(drag);
+    QAccessibleInterface* handle = QAccessible::queryAccessibleInterface(drag);
+    REQUIRE(handle);
+    CHECK(handle->state().invisible);
+}

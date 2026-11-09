@@ -16,6 +16,7 @@
 // letters that play them at 4.5:1 on their key. Signal's buttons are its ground's own black, and the web's keyboard,
 // drawn in them, went missing there.
 
+#include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 #include <QColor>
@@ -25,9 +26,10 @@
 
 TEST_CASE("WCAG's contrast ratio, as the web's theme.js works it out", "[theme]")
 {
-    CHECK(SonicPiTheme::contrastRatio(Qt::black, Qt::white) == 21.0);
-    CHECK(SonicPiTheme::contrastRatio(Qt::white, Qt::black) == 21.0);
-    CHECK(SonicPiTheme::contrastRatio(QColor("#777777"), QColor("#777777")) == 1.0);
+    // within a rounding: a 32-bit x87 build carries the sums at its own precision (20.99999999999999645)
+    CHECK(SonicPiTheme::contrastRatio(Qt::black, Qt::white) == Catch::Approx(21.0));
+    CHECK(SonicPiTheme::contrastRatio(Qt::white, Qt::black) == Catch::Approx(21.0));
+    CHECK(SonicPiTheme::contrastRatio(QColor("#777777"), QColor("#777777")) == Catch::Approx(1.0));
     // #767676 on white: the lightest grey that reaches 4.5:1
     CHECK(SonicPiTheme::contrastRatio(QColor("#767676"), Qt::white) >= 4.5);
     CHECK(SonicPiTheme::contrastRatio(QColor("#777777"), Qt::white) < 4.5);
