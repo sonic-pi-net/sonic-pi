@@ -862,32 +862,35 @@ const WINDOW = 150;          // lines in the document at once: a tall pane shows
 // The window is drawn in the box's shadow root (shadow.js: lines arriving as a program plays are out of sight of a
 // page-wide watcher's), and the box itself scrolls. It says when it has nothing to show (data-empty); an empty
 // pane stays blank.
-const panes = new Map();     // box → { rows, first, pending, following, built, inner }
+const panes = new Map();     // box → { rows, first, pending, following, shown, inner }
 const paneOf = (box) => {
   let pane = panes.get(box);
-  if (!pane) panes.set(box, (pane = { rows: [], first: 0, pending: [], following: true, built: new Set(), inner: shadowPane(box) }));
+  if (!pane) panes.set(box, (pane = { rows: [], first: 0, pending: [], following: true, shown: [], inner: shadowPane(box) }));
   return pane;
 };
 let painting = false;
 
 // The window is the last WINDOW lines while the pane follows the end, else the ones around where it was left.
+// What is in the page (pane.shown) and the window are each a run of the buffer's lines, so a change moves their ends:
+// lines that left come out, new ones go in before or after those that stay, and those stay where they are. Putting a
+// line back that is already in the page would have the browser lay out every line in the window again; a busy
+// program's log did that for every line it sent.
 function drawPane(box, pane) {
   const rows = pane.rows;
   const first = pane.following ? Math.max(0, rows.length - WINDOW) : Math.min(pane.first, Math.max(0, rows.length - WINDOW));
   pane.first = first;
   const want = rows.slice(first, first + WINDOW);
   box.toggleAttribute("data-empty", !rows.length);   // only as it changes: the same state is no change to the page
-  const have = pane.inner.children;
-  let same = have.length === want.length;
-  for (let i = 0; same && i < want.length; i++) same = have[i] === want[i].node;
-  if (same) return;
-  const batch = document.createDocumentFragment();
-  for (const e of want) batch.appendChild(e.node ??= e.make());
-  pane.inner.replaceChildren(batch);
-  // a line that has left the window gives its node back; the buffer keeps only what the line says
   const keep = new Set(want);
-  for (const e of pane.built) if (!keep.has(e)) e.node = null;
-  pane.built = keep;
+  // a line that has left the window comes out, and gives its node back: the buffer keeps only what the line says
+  for (const e of pane.shown) if (!keep.has(e)) { e.node.remove(); e.node = null; }
+  // those that stay are a run of the window (two runs of the buffer share one), from `at`
+  const stay = pane.shown.filter((e) => keep.has(e));
+  const at = stay.length ? want.indexOf(stay[0]) : want.length;
+  const make = (list) => { const batch = document.createDocumentFragment(); for (const e of list) batch.appendChild(e.node = e.make()); return batch; };
+  if (at) pane.inner.insertBefore(make(want.slice(0, at)), pane.inner.firstChild);
+  if (at + stay.length < want.length) pane.inner.appendChild(make(want.slice(at + stay.length)));
+  pane.shown = want;
   if (pane.following) box.scrollTop = box.scrollHeight;
 }
 
@@ -899,7 +902,7 @@ function paintPanes() {
     pane.pending.length = 0;
     if (pane.rows.length > MAX_LOG) {
       const drop = pane.rows.length - MAX_LOG;
-      for (const e of pane.rows.splice(0, drop)) e.node = null;
+      pane.rows.splice(0, drop);   // any of them in the page come out as it is drawn
       pane.first = Math.max(0, pane.first - drop);
     }
     drawPane(box, pane);
@@ -920,6 +923,9 @@ function append(box, entry) {
 // around it or shown again), and taking that for the player reading back would freeze the pane at its first lines
 // while the lines go on arriving underneath.
 const USER_SCROLL_MS = 1000;
+// Where a line is in its pane, in the pane's own pixels (as its scrollTop is: the pane is zoomed to the log's size, and
+// a line's place on the screen is not): a cue's row lays out as its cells (style.css), so by the first that has a box.
+const lineTop = (node) => ((node.getClientRects().length ? node : [...node.children].find((c) => c.getClientRects().length)) ?? node).offsetTop;
 for (const box of [logBox, cueBox]) {
   paneOf(box);   // its shadow root, from the start
   let userAt = -Infinity;
@@ -931,18 +937,26 @@ for (const box of [logBox, cueBox]) {
     const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 40;
     const user = performance.now() - userAt < USER_SCROLL_MS;
     if (!atBottom && pane.following && !user) { box.scrollTop = box.scrollHeight; return; }   // not the player: back to the end
-    if (atBottom !== pane.following) { pane.following = atBottom; if (atBottom) drawPane(box, pane); return; }
+    if (atBottom !== pane.following) {
+      pane.following = atBottom;
+      if (atBottom) { drawPane(box, pane); return; }
+      // let go of the end: scrolled straight to the top (a fling, Home), the older lines come in now, as no scroll
+      // follows to ask for them
+    }
     if (!pane.following && box.scrollTop < 60 && pane.first > 0) {
-      const was = box.scrollHeight;
+      // the older lines go above, and what is seen stays where it is: the window's first line stays in it, and the
+      // view moves down by as far as that line did
+      const mark = pane.shown[0]?.node, was = mark ? lineTop(mark) : 0;
       pane.first = Math.max(0, pane.first - Math.floor(WINDOW / 2));
       drawPane(box, pane);
-      box.scrollTop += box.scrollHeight - was;    // the older lines go above: stay where the eye is
+      if (mark?.isConnected) box.scrollTop += lineTop(mark) - was;
     }
   }, { passive: true });
 }
 
+
 // Clearing a pane drops its buffer too, or what it was keeping would come back on the next line.
-const clearPane = (box) => { const p = paneOf(box); p.rows.length = 0; p.pending.length = 0; p.first = 0; p.following = true; p.built.clear(); drawPane(box, p); };
+const clearPane = (box) => { const p = paneOf(box); p.rows.length = 0; p.pending.length = 0; p.first = 0; p.following = true; drawPane(box, p); };
 
 // Native's times: to four places, trimmed, a whole second as 270.0
 const fmtTime = (t) => { const x = Math.round(t * 10000) / 10000; return Number.isInteger(x) ? x.toFixed(1) : String(x); };

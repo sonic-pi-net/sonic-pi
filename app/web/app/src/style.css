@@ -745,6 +745,7 @@ body.no-log #log-section, body.no-cues #cue-section { display: none; }
    (data-empty); an empty pane is left blank, with no line of prose to read before the first sound */
 body.no-buttons #toolbar > .tb-icon, body.no-buttons #toolbar > .tb-spacer { display: none; }
 #log, #cues { font-size: var(--log-font-base); zoom: var(--log-scale, 1); }   /* the code's size less the px chosen in Preferences (editor.js applyLogSize) */
+#log, #cues { overflow-anchor: none; }   /* a pane keeps its own place as its window moves (main.js drawPane): the browser's scroll anchoring would move it a second time */
 body.focus-mode #toolbar, body.focus-mode #statusbar, body.focus-mode #editor-foot, body.focus-mode #sidebar,
 body.focus-mode #panel-divider, body.focus-mode #drawer-divider, body.focus-mode #drawer { display: none !important; }
 body.focus-mode #main { grid-template-columns: 1fr 0 0 !important; grid-template-rows: minmax(0, 1fr) 0 0 !important; }

@@ -47,6 +47,36 @@ const still = (heard) => !Object.keys(heard).length;
 // still. iOS Safari takes a tap that sees an element appear in editable text for a hover and sends it no click (WebKit's
 // ContentChangeObserver counts anything in editable text as clickable): flashes put into the code as a program played
 // left a phone's buttons all but unpressable. They are painted over its text instead (editor.js codeHighlights).
+// The log and the cues as lines arrive (main.js drawPane), watched for ms: the rows put into each, those put in again
+// (a row already shown, taken out and put back: the browser lays every row it holds out again for that), and those
+// taken out. Each line should go in once, as it arrives, and none already shown go back in: a window redrawn whole
+// for every line was about 1,500 rows a second on a phone as a busy program played.
+const paneWatch = (pg, ms) => pg.evaluate((ms) => new Promise((resolve) => {
+  const out = {}, watchers = [];
+  for (const sel of ["#log", "#cues"]) {
+    const root = document.querySelector(sel).shadowRoot, seen = new WeakSet(), r = { added: 0, again: 0, removed: 0 };
+    for (const n of root.querySelectorAll(".shadow-pane > *")) seen.add(n);
+    const mo = new MutationObserver((list) => {
+      for (const m of list) {
+        for (const n of m.addedNodes) if (n.nodeType === 1) { if (seen.has(n)) r.again++; else { seen.add(n); r.added++; } }
+        for (const n of m.removedNodes) if (n.nodeType === 1) r.removed++;
+      }
+    });
+    mo.observe(root, { childList: true, subtree: true });
+    out[sel] = r;
+    watchers.push(mo);
+  }
+  setTimeout(() => { for (const mo of watchers) mo.disconnect(); resolve(out); }, ms);
+}), ms);
+// the cues pane's window as the numbers its /cue/fill rows carry (a program cueing :fill with its tick), top to bottom,
+// how many rows it holds, the number at the top of what can be seen, and whether it is scrolled to its end
+const cueWindow = (pg) => pg.evaluate(() => {
+  const box = document.querySelector("#cues"), rows = [...box.shadowRoot.querySelectorAll(".cue-row")], top = box.getBoundingClientRect().top;
+  const n = (r) => +(r.textContent.match(/\/cue\/fill\[(\d+)\]$/)?.[1] ?? NaN);
+  return { ns: rows.map(n).filter((x) => !Number.isNaN(x)), rows: rows.length, seen: rows.filter((r) => r.querySelector(".cue-path").getBoundingClientRect().bottom > top + 1).map(n).find((x) => !Number.isNaN(x)),   // a row lays out as its cells (style.css)
+    atEnd: box.scrollHeight - box.scrollTop - box.clientHeight < 40 };
+});
+const runsOn = (ns) => ns.length > 1 && ns.every((n, i) => !i || n === ns[i - 1] + 1);   // one by one, none missing
 const codeStillness = (pg, ms = 2500) => pg.evaluate((ms) => new Promise((resolve) => {
   const by = {};
   const mo = new MutationObserver((list) => { for (const m of list) for (const n of m.addedNodes) if (n.nodeType === 1) { const k = n.tagName.toLowerCase() + (n.className ? "." + n.className : ""); by[k] = (by[k] ?? 0) + 1; } });
@@ -492,6 +522,47 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("a live loop's header, its sound and its end light together in the editor, behind just their code, as native's; a puts never",
       litAsNative(editorLit, 5) && !editorLit.ever.includes(3), JSON.stringify(editorLit));
     await page.click("#btn-stop");
+    // The log and the cues as a program fills them fast (50 lines a second each, their windows full): each line goes in
+    // once as it arrives and no row already shown goes back in, the cues' window runs on one by one to its end, and it
+    // follows the end. Scrolled back by the player to its top, all the way at once from the end (a fling, or Home), and
+    // again from where that left it, a pane brings older lines in above what is seen, which stays where it is (the
+    // line that was at the top of the view still is), holds there while lines go on arriving, and follows again from
+    // the newest once scrolled back down. Cleared, both are empty. The buffer is put back as it was after.
+    const paneCodeWas = await page.evaluate(() => window.sonicPi.editor.getCode());
+    await setCode("live_loop :fill do\n  cue :fill, tick\n  puts look\n  sleep 0.02\nend");
+    await page.click("#btn-run");
+    await page.waitForFunction(() => document.querySelector("#cues").shadowRoot.querySelectorAll(".cue-row").length >= 150, null, { timeout: 30000 }).catch(() => {});
+    const paneFilling = await paneWatch(page, 2000);
+    const paneFollowing = await cueWindow(page);
+    check("the log and the cues put each line into the page once as it arrives, and never put back a row already shown",
+      ["#log", "#cues"].every((k) => paneFilling[k].added >= 50 && paneFilling[k].again === 0) && runsOn(paneFollowing.ns) && paneFollowing.rows === 150 && paneFollowing.atEnd,
+      JSON.stringify({ filling: paneFilling, following: { ...paneFollowing, ns: `${paneFollowing.ns[0]}…${paneFollowing.ns.at(-1)} (${paneFollowing.ns.length})` } }));
+    await page.locator("#cues").hover();
+    const paneBefore = await cueWindow(page);
+    await page.mouse.wheel(0, -100000);   // the player scrolls back to the top at once: the pane lets go of the end
+    await page.waitForTimeout(300);
+    const paneLeft = await cueWindow(page);
+    await page.waitForTimeout(600);       // lines go on arriving
+    const paneHeld = await cueWindow(page);
+    await page.mouse.wheel(0, -100000);   // to the top again: the line there is the held window's first
+    await page.waitForTimeout(300);
+    const paneOlder = await cueWindow(page);
+    for (let i = 0; i < 6; i++) { await page.mouse.wheel(0, 100000); await page.waitForTimeout(150); }   // back down to the end
+    await page.waitForTimeout(400);
+    const paneCaughtUp = await cueWindow(page);
+    const paneSpan = (w) => `${w.ns[0]}…${w.ns.at(-1)} (${w.rows} rows, ${w.seen} at the top of the view${w.atEnd ? ", at its end" : ""})`;
+    check("a pane scrolled back to its top brings older lines in above what is seen, which stays where it is, holds there as lines arrive, and follows again from the newest once scrolled down",
+      !paneLeft.atEnd && runsOn(paneLeft.ns) && paneLeft.ns[0] < paneBefore.ns[0] && paneLeft.seen > paneLeft.ns[0] && paneHeld.ns.join() === paneLeft.ns.join()
+        && runsOn(paneOlder.ns) && paneOlder.ns[0] < paneHeld.ns[0] && paneOlder.seen === paneHeld.ns[0]
+        && runsOn(paneCaughtUp.ns) && paneCaughtUp.atEnd && paneCaughtUp.rows === 150 && paneCaughtUp.ns.at(-1) > paneHeld.ns.at(-1),
+      JSON.stringify({ before: paneSpan(paneBefore), left: paneSpan(paneLeft), held: paneSpan(paneHeld), older: paneSpan(paneOlder), caughtUp: paneSpan(paneCaughtUp) }));
+    await page.click("#btn-stop");
+    await page.waitForTimeout(800);       // what the run sent before its Stop, in
+    await page.click("#log-clear");
+    await page.click("#cue-clear");
+    const paneCleared = await page.evaluate(() => ["#log", "#cues"].map((s) => { const b = document.querySelector(s); return { rows: b.shadowRoot.querySelector(".shadow-pane").children.length, empty: b.hasAttribute("data-empty") }; }));
+    check("Clear empties the log and the cues", paneCleared.every((c) => c.rows === 0 && c.empty), JSON.stringify(paneCleared));
+    await setCode(paneCodeWas);
     // native's three flash settings, the web's too (settingswidget.cpp; main.js flashPrefs): Flash code off lights no
     // line, Flash gutter on puts a dot by each line that sounds, Flash Brightness at 100% washes in the accent itself
     await page.click("#btn-prefs");
