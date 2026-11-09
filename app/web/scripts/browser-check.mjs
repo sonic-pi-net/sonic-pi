@@ -900,6 +900,48 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       await siteCard.locator(".qs-transport button").nth(1).click({ timeout: 2000 }).catch(() => {});
       await sp.close();
       check("the page stays still as a site page's card plays its live loop", sounding && still(heardSite), JSON.stringify({ sounding, heard: heardSite }));
+      // The tutorial fills a wide reading area (site.css: the whole of it bigger, 19 of 15, and wider where there is the
+      // room), a narrower one's as it was; its cards' Play and Stop smaller than a quickstart card's, with no words
+      // beside them; and a click in a zoomed card's code lands where it is made (CodeMirror allows for the zoom)
+      const tutAt = async (width, height) => {
+        const ctx = await browser.newContext({ ...HTTPS, viewport: { width, height } });
+        const tp = await ctx.newPage();
+        await tp.goto(BASE + "tutorial-02.html");
+        await tp.waitForSelector(".site-body:not([hidden]) .tut-page .qs-card .qs-transport", { timeout: 30000 }).catch(() => {});
+        const got = await tp.evaluate(() => {
+          const card = [...document.querySelectorAll(".tut-part .qs-card")].find((c) => c.querySelector(".qs-card-title")?.textContent === "Release Phase");
+          if (!card) return null;
+          card.id = "tut-probe";
+          card.scrollIntoView({ block: "center", behavior: "instant" });
+          const part = card.closest(".tut-part"), area = card.closest(".tut-page").getBoundingClientRect();
+          return { zoom: Number(getComputedStyle(part).zoom), fills: Math.round((100 * part.getBoundingClientRect().width) / area.width), ring: parseFloat(getComputedStyle(card.querySelector(".qs-transport")).getPropertyValue("--qs-scope")) };
+        });
+        return { ctx, tp, got };
+      };
+      const wide = await tutAt(1480, 790);
+      let typed = null;
+      if (wide.got) {
+        await wide.tp.locator("#tut-probe .qs-card-action").first().click({ timeout: 5000 }).catch(() => {});
+        const at = await wide.tp.waitForFunction(() => {
+          const content = document.querySelector("#tut-probe .cm-content"), walk = content && document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+          for (let n = walk?.nextNode(); n; n = walk.nextNode()) {
+            const i = n.data.indexOf("70");
+            if (i >= 0) { const r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + 1); const b = r.getBoundingClientRect(); return { x: b.left + 1, y: b.top + b.height / 2 }; }
+          }
+          return false;
+        }, null, { timeout: 5000 }).then((h) => h.jsonValue(), () => null);
+        if (at) {
+          await wide.tp.mouse.click(at.x, at.y);
+          await wide.tp.keyboard.type("X");
+          typed = await wide.tp.evaluate(() => document.querySelector("#tut-probe .cm-content").textContent);
+        }
+      }
+      await wide.ctx.close();
+      const narrow = await tutAt(1152, 720);
+      await narrow.ctx.close();
+      check("the tutorial fills a wide reading area, bigger and wider, and a narrower one's as it was; its Play and Stop smaller than a quickstart card's; a click in a zoomed card's code lands where it is made",
+        Math.abs((wide.got?.zoom ?? 0) - 19 / 15) < 0.01 && wide.got.fills >= 85 && narrow.got?.zoom === 1 && wide.got.ring === 52 && typed === "play X70",
+        JSON.stringify({ wide: wide.got, narrow: narrow.got, typed }));
     }
 
     // quickstart cards

@@ -368,10 +368,16 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
    word of code reads as the code under it does */
 .tut-page .tut-part > p code, .tut-page .tut-part > :is(ul, ol) > li code { padding: 0.12em 0.4em; border-radius: var(--r-s); background: var(--accentTint); color: var(--Foreground); font: 500 1em var(--code-font); white-space: nowrap; }
 .tut-page .tut-part .qs-card { margin: 1em 0 1.4em; }
+.tut-page .qs-transport { --qs-scope: 52px; }   /* no words beside it, unlike a quickstart card's: Play and Stop in proportion to the code above them */
 .tut-page .tut-part img { display: block; max-width: 100%; height: auto; margin: 1.2em auto; border-radius: var(--r-m); }
 .tut-page .tut-next { max-width: 46em; margin: 2.4em auto 3em; padding: 0 24px; }
 .tut-page a.tut-step { text-decoration: none; }
 @media (max-width: 760px) { .tut-page .tut-part, .tut-page .tut-next { padding: 0 16px; } .tut-page .tut-wrap { padding-top: 1.6em; } }
+/* a wide reading area fills with the tutorial rather than leaving a strip down its middle: the whole of it bigger (its
+   prose at the lead size, 19 of 15, the cards with it), and wider too where there is the room. Asked of the page's
+   container (#info-body): the reading area is that less the chapter list's 320px */
+@container (min-width: 1280px) { .tut-page .tut-part, .tut-page .tut-next { zoom: calc(19 / 15); } }
+@container (min-width: 1470px) { .tut-page .tut-part, .tut-page .tut-next { max-width: 56em; } }
 /* the course's cards crisp in either theme: the page's own ground inside a clean edge (the card's tint would wash the light
    theme's out), the words full strength, the poster's title white on its shade. Its #id: landing.css's course card
    pads and colours every p and h2 in one, and its rules would otherwise win. */
