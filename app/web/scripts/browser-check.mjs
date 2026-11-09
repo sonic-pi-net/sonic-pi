@@ -77,6 +77,18 @@ const cueWindow = (pg) => pg.evaluate(() => {
     atEnd: box.scrollHeight - box.scrollTop - box.clientHeight < 40 };
 });
 const runsOn = (ns) => ns.length > 1 && ns.every((n, i) => !i || n === ns[i - 1] + 1);   // one by one, none missing
+// Preferences opened from the bar and its groups waited for: null once they show, else what the page was doing (the
+// body's states, the drawer, the preferences pane, what is at the button's centre), for the check to say. Once (the
+// live site, Chromium, 2026-11-09) they did not show and the run stopped there; not seen since in 40 tries.
+const openPrefs = async (pg) => {
+  await pg.click("#btn-prefs");
+  return pg.waitForSelector("#prefs-pane .pref-group", { timeout: 5000 }).then(() => null, () => pg.evaluate(() => {
+    const b = document.getElementById("btn-prefs").getBoundingClientRect(), at = document.elementFromPoint(b.left + b.width / 2, b.top + b.height / 2);
+    const pane = document.getElementById("prefs-pane");
+    return { body: document.body.className, drawer: document.body.dataset.drawer, pane: pane && { display: getComputedStyle(pane).display, groups: pane.querySelectorAll(".pref-group").length },
+      atButton: at && (at.id || String(at.className) || at.tagName) };
+  }));
+};
 const codeStillness = (pg, ms = 2500) => pg.evaluate((ms) => new Promise((resolve) => {
   const by = {};
   const mo = new MutationObserver((list) => { for (const m of list) for (const n of m.addedNodes) if (n.nodeType === 1) { const k = n.tagName.toLowerCase() + (n.className ? "." + n.className : ""); by[k] = (by[k] ?? 0) + 1; } });
@@ -557,16 +569,17 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
         && runsOn(paneCaughtUp.ns) && paneCaughtUp.atEnd && paneCaughtUp.rows === 150 && paneCaughtUp.ns.at(-1) > paneHeld.ns.at(-1),
       JSON.stringify({ before: paneSpan(paneBefore), left: paneSpan(paneLeft), held: paneSpan(paneHeld), older: paneSpan(paneOlder), caughtUp: paneSpan(paneCaughtUp) }));
     await page.click("#btn-stop");
-    await page.waitForTimeout(800);       // what the run sent before its Stop, in
-    await page.click("#log-clear");
-    await page.click("#cue-clear");
-    const paneCleared = await page.evaluate(() => ["#log", "#cues"].map((s) => { const b = document.querySelector(s); return { rows: b.shadowRoot.querySelector(".shadow-pane").children.length, empty: b.hasAttribute("data-empty") }; }));
+    // both Clears pressed and the panes read in the one moment: what the run sent before its Stop goes on arriving a
+    // while after it (each line at its own time), and would be counted otherwise
+    const paneCleared = await page.evaluate(() => {
+      for (const id of ["log-clear", "cue-clear"]) document.getElementById(id).click();
+      return ["#log", "#cues"].map((s) => { const b = document.querySelector(s); return { rows: b.shadowRoot.querySelector(".shadow-pane").children.length, empty: b.hasAttribute("data-empty") }; });
+    });
     check("Clear empties the log and the cues", paneCleared.every((c) => c.rows === 0 && c.empty), JSON.stringify(paneCleared));
     await setCode(paneCodeWas);
     // native's three flash settings, the web's too (settingswidget.cpp; main.js flashPrefs): Flash code off lights no
     // line, Flash gutter on puts a dot by each line that sounds, Flash Brightness at 100% washes in the accent itself
-    await page.click("#btn-prefs");
-    await page.waitForSelector("#prefs-pane .pref-group", { timeout: 5000 });
+    const prefsShut = await openPrefs(page);
     const prefSwitch = (words) => page.locator("#prefs-pane button.switch", { hasText: words });
     const brightness = page.locator('#prefs-pane input[aria-label="Flash brightness"]');
     const setBrightness = (v) => brightness.evaluate((i, v) => { i.value = v; i.dispatchEvent(new Event("input", { bubbles: true })); }, v);
@@ -586,7 +599,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       await setBrightness(35);
     }
     check("the flash settings, as native's: Flash code off lights no line, Flash gutter on dots each line that sounds, Flash Brightness at 100% washes in the accent itself",
-      hasFlashPrefs && codeOff?.ever.length === 0 && dots === "1,2,5" && /,\s*1\)$/.test(wash ?? ""), JSON.stringify({ hasFlashPrefs, codeOff, dots, wash }));
+      !prefsShut && hasFlashPrefs && codeOff?.ever.length === 0 && dots === "1,2,5" && /,\s*1\)$/.test(wash ?? ""), JSON.stringify({ prefsShut, hasFlashPrefs, codeOff, dots, wash }));
     // Reduce animations keeps the code still, as native's: no line lights as it plays, and a Run lights nothing. The
     // same Run without it lights all three, and the same program lights its lines once it is turned off again, so the
     // watches are seen to see them. Its lines are none the program before lit: a flash of that one, sent before its
@@ -944,9 +957,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("the page stays still as a quickstart card's live loop plays, and as it is edited playing", still(heardCard) && editing && still(heardEdited), JSON.stringify({ heard: heardCard, editing, heardEdited }));
 
     // themes: the bar's palette, not the preferences
-    await page.click("#btn-prefs");
-    await page.waitForSelector("#prefs-pane .pref-group", { timeout: 5000 });
-    check("the preferences leave the colour theme to the bar's palette", await page.evaluate(() => ![...document.querySelectorAll("#prefs-pane h3")].some((h) => /theme/i.test(h.textContent)) && !document.querySelector("#prefs-pane .scheme-btn")));
+    const themePrefsShut = await openPrefs(page);
+    check("the preferences leave the colour theme to the bar's palette", !themePrefsShut && await page.evaluate(() => ![...document.querySelectorAll("#prefs-pane h3")].some((h) => /theme/i.test(h.textContent)) && !document.querySelector("#prefs-pane .scheme-btn")), JSON.stringify(themePrefsShut ?? ""));
     await page.click("#site-nav .sn-theme");
     await page.waitForSelector("#theme-menu:not([hidden]) .scheme-btn", { timeout: 5000 });
     // the theme follows the OS until a scheme is picked (theme.js), and headless is a light OS: the scheme to click is
