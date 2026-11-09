@@ -556,7 +556,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const paneLeft = await cueWindow(page);
     await page.waitForTimeout(600);       // lines go on arriving
     const paneHeld = await cueWindow(page);
-    await page.mouse.wheel(0, -100000);   // to the top again: the line there is the held window's first
+    // to the top again, exactly: the older lines come in once the view is within 60 px of the top, keeping what is
+    // seen then, and a wheel's scroll can be animated (WebKit on Linux) and get there part way; the pane has let go of
+    // the end already, so the scroll need not be the player's
+    await page.evaluate(() => document.querySelector("#cues").scrollTo({ top: 0, behavior: "instant" }));
     await page.waitForTimeout(300);
     const paneOlder = await cueWindow(page);
     for (let i = 0; i < 6; i++) { await page.mouse.wheel(0, 100000); await page.waitForTimeout(150); }   // back down to the end
