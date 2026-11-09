@@ -22,6 +22,7 @@
 #include <QSet>
 #include <QSvgRenderer>
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <QtGlobal>
 
@@ -1224,6 +1225,52 @@ QColor SonicPiTheme::color(QString key){
     // Applied here so it reaches every consumer (palette, stylesheet, syntax,
     // icons) uniformly.
     return applyGlobalTransforms(theme[key]);
+}
+
+// WCAG's contrast ratio (its relative luminance, 1.4.3), as the web's theme.js contrastRatio
+double SonicPiTheme::contrastRatio(const QColor& a, const QColor& b)
+{
+    const auto lum = [](const QColor& c) {
+        const auto f = [](int v) {
+            const double x = v / 255.0;
+            return x <= 0.03928 ? x / 12.92 : std::pow((x + 0.055) / 1.055, 2.4);
+        };
+        return 0.2126 * f(c.red()) + 0.7152 * f(c.green()) + 0.0722 * f(c.blue());
+    };
+    const double x = lum(a), y = lum(b);
+    return (std::max(x, y) + 0.05) / (std::min(x, y) + 0.05);
+}
+
+// As the web's theme.js legible: unchanged where it already reads, so a scheme that passes looks as it did
+QColor SonicPiTheme::legible(const QColor& c, const QColor& toward, const QList<QColor>& grounds, double ratio)
+{
+    for (int step = 0; step <= 50; ++step)
+    {
+        const QColor x = blend(c, toward, step * 0.02);
+        if (std::all_of(grounds.begin(), grounds.end(), [&](const QColor& g) { return contrastRatio(x, g) >= ratio; }))
+            return x;
+    }
+    return toward;
+}
+
+// The keyboard's colours, as the web's theme.js works them out (keyWhite …): stepped, where they need it, towards the
+// scheme's far end (white on a dark ground, black on a light one) rather than its text, which in some schemes is a mid
+// grey no step towards could reach; the letters on the black keys towards whichever of white and black stands out
+// more on them (one of the two always reaches 4.5:1).
+SonicPiTheme::KeyColours SonicPiTheme::keyColours(const QColor& fg, const QColor& bg)
+{
+    const bool darkGround = 0.299 * bg.red() + 0.587 * bg.green() + 0.114 * bg.blue() < 128;
+    const QColor white(255, 255, 255), black(0, 0, 0);
+    const QColor far = darkGround ? white : black;
+    KeyColours k;
+    k.white = blend(bg, fg, 0.05);
+    k.edge = legible(blend(bg, fg, 0.3), far, { k.white }, 3.0);
+    k.black = legible(blend(bg, fg, darkGround ? 0.22 : 0.75), far, { k.white }, 3.0);
+    k.blackEdge = blend(bg, fg, 0.6);
+    k.whiteLabel = legible(blend(bg, fg, 0.55), far, { k.white }, 4.5);
+    const QColor onBlack = contrastRatio(white, k.black) >= contrastRatio(black, k.black) ? white : black;
+    k.blackLabel = legible(blend(bg, fg, darkGround ? 0.8 : 0.1), onBlack, { k.black }, 4.5);
+    return k;
 }
 
 QColor SonicPiTheme::contrastingText(const QColor& bg) const {

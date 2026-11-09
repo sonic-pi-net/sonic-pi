@@ -5,6 +5,7 @@
 // it changes. Also copies native's three doc stylesheets.
 //
 //   node scripts/gen-themes.mjs [path/to/sonic-pi]     # default: the checkout this directory is in
+//   node scripts/gen-themes.mjs --check                # writes nothing: fails if what is written is not native's now
 //
 // What it reads, from app/gui/model/sonicpitheme.cpp:
 //   lightTheme, darkTheme, highContrastTheme   `QString x = "..."` palettes and
@@ -21,7 +22,8 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const SP = path.resolve(process.argv[2] ?? path.join(ROOT, "../.."));
+const CHECK = process.argv.includes("--check");
+const SP = path.resolve(process.argv.slice(2).find((a) => !a.startsWith("--")) ?? path.join(ROOT, "../.."));
 const GUI = path.join(SP, "app/gui");
 const src = fs.readFileSync(path.join(GUI, "model/sonicpitheme.cpp"), "utf8");
 
@@ -138,8 +140,36 @@ const schemes = {
 
 const git = (...args) => { try { return execFileSync("git", ["-C", SP, ...args], { encoding: "utf8" }).trim(); } catch { return null; } };
 const out = path.join(ROOT, "web/theme");
+const DOCS = ["light", "dark", "high_contrast"];
+
+// --check: the schemes and the doc stylesheets written are what native has now, each difference named
+if (CHECK) {
+  const stale = [];
+  let kept = {};
+  try { kept = JSON.parse(fs.readFileSync(path.join(out, "themes.json"), "utf8")).schemes ?? {}; } catch { stale.push("web/theme/themes.json is missing or unreadable"); }
+  for (const id of new Set([...Object.keys(schemes), ...Object.keys(kept)])) {
+    const now = schemes[id]?.colours, was = kept[id]?.colours;
+    if (!now || !was) { stale.push(`${id}: ${now ? "not in themes.json" : "no longer native's"}`); continue; }
+    const keys = [...new Set([...Object.keys(now), ...Object.keys(was)])].filter((k) => now[k] !== was[k]);
+    if (keys.length) stale.push(`${id}: ${keys.slice(0, 6).map((k) => `${k} ${was[k] ?? "-"} → ${now[k] ?? "-"}`).join(", ")}${keys.length > 6 ? ` and ${keys.length - 6} more` : ""}`);
+    if (now && was && (schemes[id].name !== kept[id].name || schemes[id].doc !== kept[id].doc)) stale.push(`${id}: name or doc style differs`);
+  }
+  for (const d of DOCS) {
+    const a = fs.readFileSync(path.join(GUI, "theme", d, "doc-styles.css"), "utf8");
+    let b = null;
+    try { b = fs.readFileSync(path.join(out, "doc", d, "doc-styles.css"), "utf8"); } catch {}
+    if (a !== b) stale.push(`doc/${d}/doc-styles.css differs from native's`);
+  }
+  if (stale.length) {
+    console.error(`web/theme is behind native's themes (run node scripts/gen-themes.mjs):\n  ${stale.join("\n  ")}`);
+    process.exit(1);
+  }
+  console.log(`themes.json: ${Object.keys(schemes).length} schemes and ${DOCS.length} doc stylesheets, native's as they are now`);
+  process.exit(0);
+}
+
 fs.mkdirSync(path.join(out, "doc"), { recursive: true });
-for (const d of ["light", "dark", "high_contrast"]) {
+for (const d of DOCS) {
   fs.mkdirSync(path.join(out, "doc", d), { recursive: true });
   fs.copyFileSync(path.join(GUI, "theme", d, "doc-styles.css"), path.join(out, "doc", d, "doc-styles.css"));
 }

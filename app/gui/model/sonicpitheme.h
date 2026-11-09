@@ -73,6 +73,19 @@ public:
                       qRound(a.green() * (1 - t) + b.green() * t),
                       qRound(a.blue() * (1 - t) + b.blue() * t));
     }
+    // WCAG's contrast ratio between two colours (1 to 21).
+    static double contrastRatio(const QColor& a, const QColor& b);
+    // `c` stepped towards `toward` (2% at a time, as the web's theme.js legible) until it reaches `ratio` against every
+    // one of `grounds`; `toward` itself if no step does.
+    static QColor legible(const QColor& c, const QColor& toward, const QList<QColor>& grounds, double ratio);
+    // A keyboard's colours on a ground in a text colour, the same on the web (theme.js keyWhite …): the white keys a
+    // step from the ground; their edges and the black keys at least WCAG's 3:1 against the white keys; the letters on
+    // them 4.5:1 on their key.
+    struct KeyColours
+    {
+        QColor white, edge, black, blackEdge, whiteLabel, blackLabel;
+    };
+    static KeyColours keyColours(const QColor& fg, const QColor& bg);
     // Derived colour roles: one definition each, shared by the QSS tokens
     // (reloadStylesheet) and any C++ painting that needs the same tone.
     QColor softForeground();     // foreground -> pane emphasis ramp: 10%

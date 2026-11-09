@@ -1796,13 +1796,13 @@ body.reduce-motion .sp-mini-btn.loading::after { animation: qs-busy-show 0.2s ea
 .sp-piano { touch-action: none; user-select: none; -webkit-user-select: none; }   /* a finger drawn across the keys plays them, not scrolls */
 .sp-key-label { position: absolute; bottom: 2px; left: 0; right: 0; font: var(--t-label) var(--code-font); color: #555; text-align: center; pointer-events: none; }
 .sp-key-black .sp-key-label { color: #bbb; bottom: 3px; }
-/* the instrument page's keyboard, in the theme's colours as native's is */
+/* the instrument page's keyboard, in the theme's colours as native's is (theme.js keyWhite …, TutPiano) */
 .sp-piano-large { height: var(--key-h, 78px); margin: 0; }
-.sp-piano-large .sp-key-white { height: var(--key-h, 78px); background: var(--Background); border-color: var(--Button); }
-.sp-piano-large .sp-key-black { height: calc(var(--key-h, 78px) * 0.62); background: var(--Button); border-color: var(--Button); }
+.sp-piano-large .sp-key-white { height: var(--key-h, 78px); background: var(--keyWhite); border-color: var(--keyEdge); }
+.sp-piano-large .sp-key-black { height: calc(var(--key-h, 78px) * 0.62); background: var(--keyBlack); border-color: var(--keyBlackEdge); }
 .sp-piano-large .sp-key.lit { background: var(--HighlightedBackground); }
-.sp-piano-large .sp-key-label { font: var(--t-small) var(--code-font); color: var(--mutedForeground); bottom: 5px; }
-.sp-piano-large .sp-key-black .sp-key-label { color: var(--ButtonText); bottom: 5px; }
+.sp-piano-large .sp-key-label { font: var(--t-small) var(--code-font); color: var(--keyWhiteLabel); bottom: 5px; }
+.sp-piano-large .sp-key-black .sp-key-label { color: var(--keyBlackLabel); bottom: 5px; }
 
 /* ── Completion popup: native's list and detail pane ──
  * (under .cm-editor, to outrank CodeMirror's own theme: a 10em list, a 400px pane) */
@@ -1872,13 +1872,13 @@ li[aria-selected] .cm-completionDetail { color: inherit; opacity: 0.8; }
 .sp-cpiano { display: flex; align-items: center; gap: 4px; padding: 8px 6px 4px; border-top: 1px solid var(--WindowBorder); user-select: none; }
 .sp-cpiano-board { flex: 1; display: flex; flex-direction: column; align-items: center; min-width: 0; }
 .sp-cpiano .sp-piano, .sp-cpiano .sp-piano-large { margin: 0; height: 58px; }
-.sp-cpiano .sp-key-white { height: 58px; background: var(--Background); border-color: var(--Button); }
-.sp-cpiano .sp-key-black { height: 36px; background: var(--Button); border-color: var(--Button); }
+.sp-cpiano .sp-key-white { height: 58px; background: var(--keyWhite); border-color: var(--keyEdge); }
+.sp-cpiano .sp-key-black { height: 36px; background: var(--keyBlack); border-color: var(--keyBlackEdge); }
 .sp-cpiano .sp-key { border-radius: 0 0 var(--r-s) var(--r-s); }
-.sp-cpiano .sp-key.in-list:not(.lit) { background: color-mix(in srgb, var(--HighlightedBackground) 16%, var(--Background)); }
-.sp-cpiano .sp-key-black.in-list:not(.lit) { background: color-mix(in srgb, var(--HighlightedBackground) 35%, var(--Button)); }
+.sp-cpiano .sp-key.in-list:not(.lit) { background: color-mix(in srgb, var(--HighlightedBackground) 16%, var(--keyWhite)); }
+.sp-cpiano .sp-key-black.in-list:not(.lit) { background: color-mix(in srgb, var(--HighlightedBackground) 35%, var(--keyBlack)); }
 .sp-cpiano .sp-key.lit, .sp-cpiano .sp-key.root { background: var(--HighlightedBackground); border-color: var(--HighlightedBackground); }
-@media (hover: hover) { .sp-cpiano .sp-key:not(.lit):hover { background: color-mix(in srgb, var(--HighlightedBackground) 40%, var(--Background)); } }
+@media (hover: hover) { .sp-cpiano .sp-key:not(.lit):hover { background: color-mix(in srgb, var(--HighlightedBackground) 40%, var(--keyWhite)); } }
 .sp-cpiano-labels { position: relative; height: 16px; margin-top: 2px; }
 .sp-cpiano-labels span { position: absolute; top: 0; transform: translateX(-50%); font: var(--t-small) var(--code-font); color: var(--mutedForeground); }
 .sp-cpiano-labels span.here { color: var(--Foreground); }

@@ -854,6 +854,32 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     if (other >= 0) await page.locator(".scheme-btn").nth(other).click();
     const after = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
     check("choosing a native scheme in the bar's palette repaints the page", other >= 0 && before !== after, `${before} → ${after}`);
+    // a keyboard's keys stand out in every scheme, as native's do (TutPiano, keyColours): the instrument pages' and the
+    // completion popup's, their edges and black keys at WCAG's 3:1 for what tells a control apart, against the white keys
+    const unseenKeys = await page.evaluate(() => {
+      const t = window.sonicPi.theme, was = t.settings().scheme;
+      const host = document.createElement("div");
+      host.innerHTML = '<div class="sp-piano sp-piano-large"><button class="sp-key sp-key-white"><span class="sp-key-label">a</span></button><button class="sp-key sp-key-black"><span class="sp-key-label">w</span></button></div>'
+        + '<div class="sp-cpiano"><div class="sp-piano"><button class="sp-key sp-key-white"></button><button class="sp-key sp-key-black"></button></div></div>';
+      document.body.append(host);
+      const out = [];
+      for (const { id } of t.schemes()) {
+        t.set({ scheme: id });
+        for (const [name, sel] of [["instrument", ".sp-piano-large"], ["popup", ".sp-cpiano"]]) {
+          const w = getComputedStyle(host.querySelector(`${sel} .sp-key-white`)), b = getComputedStyle(host.querySelector(`${sel} .sp-key-black`));
+          const white = t.parseColour(w.backgroundColor), blackFill = t.parseColour(b.backgroundColor);
+          const edge = t.contrastRatio(t.parseColour(w.borderTopColor), white), black = t.contrastRatio(blackFill, white);
+          if (edge < 3 || black < 3) out.push(`${id} ${name}: edges ${edge.toFixed(2)}, black keys ${black.toFixed(2)}`);
+          // the instrument's keys carry the QWERTY letters that play them: text, so 4.5:1 on their key
+          const labels = [...host.querySelectorAll(`${sel} .sp-key-label`)].map((l) => t.contrastRatio(t.parseColour(getComputedStyle(l).color), t.parseColour(getComputedStyle(l.parentElement).backgroundColor)));
+          if (labels.some((r) => r < 4.5)) out.push(`${id} ${name}: letters ${labels.map((r) => r.toFixed(2)).join(", ")}`);
+        }
+      }
+      host.remove();
+      t.set({ scheme: was });
+      return out;
+    });
+    check("a keyboard's keys can be seen in every colour scheme, on the instrument pages and in the completion popup", unseenKeys.length === 0, unseenKeys.join(" | "));
     await page.keyboard.press("Escape");
     check("Escape puts the palette's menu away, the focus back on its button", await page.evaluate(() => document.getElementById("theme-menu").hidden && document.activeElement?.classList.contains("sn-theme")));
 

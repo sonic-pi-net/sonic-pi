@@ -838,16 +838,15 @@ protected:
         // Tron-style: translucent key bodies traced with neutral light-lines —
         // dim traces on the whites, brighter on the blacks. Colour is reserved
         // for the struck key, which floods with the accent and casts a glow.
-        const bool darkGround = m_bg.lightness() < 128;
-        const QColor traceDim = SonicPiTheme::blend(m_bg, m_fg, 0.3);
-        const QColor traceHot = SonicPiTheme::blend(m_bg, m_fg, 0.6);
-        const QColor whiteFill = SonicPiTheme::blend(m_bg, m_fg, 0.05);
-        const QColor blackFill = SonicPiTheme::blend(m_bg, m_fg, darkGround ? 0.22 : 0.75);
-        const QColor whiteLabel = SonicPiTheme::blend(m_bg, m_fg, 0.55);
-        // Black-key labels must contrast the key FILL (always darker than the
-        // ground in light mode): near-ground light text on both grounds.
-        const QColor blackLabel = darkGround ? SonicPiTheme::blend(m_bg, m_fg, 0.8)
-                                             : SonicPiTheme::blend(m_bg, m_fg, 0.1);
+        // The keys' colours, the web's too (SonicPiTheme::keyColours): edges and black keys that stand out from the
+        // white keys, and letters that read on their key, in every scheme.
+        const SonicPiTheme::KeyColours colours = SonicPiTheme::keyColours(m_fg, m_bg);
+        const QColor& traceDim = colours.edge;
+        const QColor& traceHot = colours.blackEdge;
+        const QColor& whiteFill = colours.white;
+        const QColor& blackFill = colours.black;
+        const QColor& whiteLabel = colours.whiteLabel;
+        const QColor& blackLabel = colours.blackLabel;
 
         auto glow = [&p, this](const QRectF& r) {
             p.setBrush(Qt::NoBrush);

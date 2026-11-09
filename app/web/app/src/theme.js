@@ -250,6 +250,24 @@ function apply() {
   roles.subtleFill = roles.surface1;
   roles.CaretLineBackground = roles.surface1;
   roles.WindowBorder = roles.surface2;
+  // A keyboard's keys, as native's (SonicPiTheme::keyColours): the white keys a step from the ground towards the text;
+  // their edges and the black keys further, at least WCAG's 3:1 against the white keys (what tells one key from the
+  // next), and the letters on them 4.5:1 on their key. Taken from the ground and the text, not the buttons, so the keys
+  // stand out in every scheme however it colours its buttons (Signal's are the ground's own black)
+  // Stepped, where they need it, towards the scheme's far end (white on a dark ground, black on a light one) rather than
+  // its text, which in some schemes is a mid grey no step towards could reach; the letters on the black keys towards
+  // whichever of white and black stands out more on them (one of the two always reaches 4.5:1).
+  const ground = colour("Background"), ink = colour("Foreground");
+  const darkGround = luma601(ground) < 128;
+  const white = { r: 255, g: 255, b: 255, a: 1 }, black = { r: 0, g: 0, b: 0, a: 1 };
+  const far = darkGround ? white : black;
+  roles.keyWhite = blend(ground, ink, 0.05);
+  roles.keyEdge = legible(blend(ground, ink, 0.3), far, [roles.keyWhite], 3);
+  roles.keyBlack = legible(blend(ground, ink, darkGround ? 0.22 : 0.75), far, [roles.keyWhite], 3);
+  roles.keyBlackEdge = blend(ground, ink, 0.6);
+  roles.keyWhiteLabel = legible(blend(ground, ink, 0.55), far, [roles.keyWhite], 4.5);
+  const onBlack = contrastRatio(white, roles.keyBlack) >= contrastRatio(black, roles.keyBlack) ? white : black;
+  roles.keyBlackLabel = legible(blend(ground, ink, darkGround ? 0.8 : 0.1), onBlack, [roles.keyBlack], 4.5);
   const sel = colour("SelectionBackground");
   root.setProperty("--selectionWash", `rgba(${sel.r}, ${sel.g}, ${sel.b}, 0.4)`);
   derived = roles;
