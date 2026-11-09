@@ -56,6 +56,10 @@ class SonicPiAPI;
 // card is next, what Play and Stop do to the runs the host keeps. Hover is the
 // host's to drive (hoverAt), because a card can slide beneath a pointer that
 // never moved.
+// The cards read as named groups, and a widget whose a11yIgnored property is set (words drawn inside a button that
+// is named for them, a pointer-only handle) is left out of the accessibility tree. Every host of cards calls it once.
+void registerCodeCardAccessibility();
+
 class CodeCard : public QFrame
 {
     Q_OBJECT

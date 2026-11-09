@@ -11,57 +11,44 @@
 
 #include "chevronbutton.h"
 
-#include <QApplication>
-#include <QCursor>
+#include <QAccessible>
+#include <QAccessibleWidget>
+#include <QBuffer>
 #include <QDateTime>
 #include <QFile>
 #include <QFileInfo>
-#include <QRegularExpression>
-#include <QDrag>
-#include <QFrame>
-#include <QGridLayout>
-#include <QIcon>
 #include <QFontMetrics>
 #include <QFontMetricsF>
-#include <QPainter>
-#include <QPainterPath>
-#include <QPen>
-#include <QTransform>
+#include <QFrame>
 #include <QHBoxLayout>
+#include <QImage>
 #include <QKeyEvent>
 #include <QLabel>
-#include <QMenu>
-#include <QMimeData>
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QPropertyAnimation>
-#include <QVariantAnimation>
-#include <QAccessible>
-#include <QAccessibleWidget>
+#include <QPainter>
+#include <QPainterPath>
+#include <QPair>
+#include <QPen>
 #include <QPushButton>
-#include <QTextDocumentFragment>
+#include <QRegularExpression>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QSettings>
 #include <QStyle>
+#include <QSvgRenderer>
+#include <QTextDocumentFragment>
 #include <QTimer>
 #include <QVBoxLayout>
-
-#include <QPointer>
-
-#include <cmath>
-
-#include <QSvgRenderer>
+#include <QWheelEvent>
 
 #include "dpi.h"
-#include "utils/fontroles.h"
 #include "model/sonicpitheme.h"
+#include "utils/fontroles.h"
+#include "utils/gui_settings.h"
 #include "utils/tablericons.h"
-#include "widgets/tutorialwidgets.h" // TutHeading (accessible section titles)
+#include "utils/tutorialdocs.h"
 #include "widgets/carddeck.h"
 #include "widgets/codecard.h"
-#include "utils/flash_style.h"
-#include "utils/reducedmotion.h"
-#include "utils/tutorialdocs.h"
+#include "widgets/tutorialwidgets.h" // TutHeading (accessible section titles)
 
 #include "api/sonicpi_api.h"
 
@@ -79,7 +66,7 @@ void repolish(QWidget* w)
 struct Deck
 {
     QString title;
-    QString description; // one-line intro shown at the top of the deck
+    QString description; // the deck's words, on its welcome card
     QVector<SonicPi::QuickstartCard> cards;
 };
 } // namespace
@@ -199,24 +186,359 @@ static const QVector<Deck>& quickstartDecks(const QString& path)
     return cached;
 }
 
+namespace
+{
+using SonicPi::QuickstartProgress;
+
+// The welcome card reads as a group named for its deck, as a card does (CodeCardAccessible): a QFrame's own role,
+// Border, is pruned from the tree by the platform bridges, and its name would never be spoken.
+QAccessibleInterface* quickstartAccessibleFactory(const QString&, QObject* object)
+{
+    QWidget* w = qobject_cast<QWidget*>(object);
+    if (w && w->objectName() == QLatin1String("qsWelcome"))
+        return new QAccessibleWidget(w, QAccessible::Grouping);
+    return nullptr;
+}
+
+// A button that Return and Enter press, as Space does: on macOS a QPushButton outside a dialog takes Space alone.
+// Left and Right are left to the pane (the next card, the previous one), not a move to the next control.
+class KeyButton : public QPushButton
+{
+public:
+    using QPushButton::QPushButton;
+
+protected:
+    void keyPressEvent(QKeyEvent* e) override
+    {
+        const bool plain = !(e->modifiers() & (Qt::ControlModifier | Qt::AltModifier | Qt::MetaModifier));
+        if (plain && (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter))
+        {
+            click();
+            return;
+        }
+        if (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right)
+        {
+            e->ignore();
+            return;
+        }
+        QPushButton::keyPressEvent(e);
+    }
+};
+
+// Words drawn inside a button. The button is named for them, so a screen reader is not read them a second time, and
+// a click on them is the button's.
+QLabel* innerLabel(const QString& text, const char* name, QWidget* parent)
+{
+    QLabel* l = new QLabel(text, parent);
+    l->setObjectName(QString::fromLatin1(name));
+    l->setProperty("a11yIgnored", true);
+    l->setAttribute(Qt::WA_TransparentForMouseEvents);
+    return l;
+}
+
+QColor withAlpha(QColor c, qreal alpha)
+{
+    c.setAlphaF(alpha);
+    return c;
+}
+
+// The dashed outline the welcome card and the tile share (the web's: 2px, dashed, in the accent over a wash of it),
+// lit while the way in is under the pointer or has the focus.
+void paintDashed(QPainter& p, const QRectF& r, const QColor& accent, bool lit, qreal width, qreal radius)
+{
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPen pen(withAlpha(accent, lit ? 1.0 : 0.55), width);
+    pen.setStyle(Qt::CustomDashLine);
+    pen.setDashPattern({ 3, 2 });
+    p.setPen(pen);
+    p.setBrush(withAlpha(accent, lit ? 0.12 : 0.06));
+    const qreal inset = width / 2;
+    p.drawRoundedRect(r.adjusted(inset, inset, -inset, -inset), radius, radius);
+}
+
+// The deck's first card, drawn as the tile is: not a program, the way in to them. As big as the cards beside it.
+class WelcomeCard : public QFrame
+{
+public:
+    QColor accent;
+    qreal border = 2;
+    qreal radius = 8;
+    QWidget* way = nullptr;   // Start: the card lights with it
+
+    explicit WelcomeCard(QWidget* parent)
+        : QFrame(parent)
+    {
+        setObjectName(QStringLiteral("qsWelcome"));
+    }
+
+protected:
+    void paintEvent(QPaintEvent*) override
+    {
+        QPainter p(this);
+        paintDashed(p, rect(), accent, way && (way->underMouse() || way->hasFocus()), border, radius);
+    }
+};
+
+// The welcome card's call (Start deck, Carry on, Play through again): the accent disc in its halo, a little larger
+// and with a wider halo under the pointer or the focus, and its words beside it.
+class StartButton : public KeyButton
+{
+public:
+    QColor accent;
+    QColor glyph;
+    int disc = 72;
+    QWidget* card = nullptr;   // lights with it
+
+    explicit StartButton(QWidget* parent)
+        : KeyButton(parent)
+    {
+        setObjectName(QStringLiteral("qsStart"));
+        setCursor(Qt::PointingHandCursor);
+    }
+    // room for the halo at its widest (lit: the disc grown 6%, the ring a tenth of the disc)
+    int halo() const { return qRound(disc * 0.14); }
+
+protected:
+    void paintEvent(QPaintEvent*) override
+    {
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing, true);
+        const bool lit = underMouse() || hasFocus();
+        const qreal d = disc * (lit ? 1.06 : 1.0);
+        const qreal ring = disc * (lit ? 0.1 : 0.06);
+        const QPointF c(halo() + disc / 2.0, height() / 2.0);
+        p.setPen(Qt::NoPen);
+        p.setBrush(withAlpha(accent, lit ? 0.32 : 0.22));
+        p.drawEllipse(c, d / 2 + ring, d / 2 + ring);
+        p.setBrush(accent);
+        p.drawEllipse(c, d / 2, d / 2);
+        // the triangle a little right of centre, where it looks centred
+        const qreal t = d * 0.14;
+        const qreal x = c.x() + d * 0.03;
+        QPainterPath tri;
+        tri.moveTo(x - t * 0.8, c.y() - t);
+        tri.lineTo(x - t * 0.8, c.y() + t);
+        tri.lineTo(x + t, c.y());
+        tri.closeSubpath();
+        p.setBrush(glyph);
+        p.drawPath(tri);
+    }
+    void enterEvent(QEnterEvent* e) override
+    {
+        KeyButton::enterEvent(e);
+        relight();
+    }
+    void leaveEvent(QEvent* e) override
+    {
+        KeyButton::leaveEvent(e);
+        relight();
+    }
+    void focusInEvent(QFocusEvent* e) override
+    {
+        KeyButton::focusInEvent(e);
+        relight();
+    }
+    void focusOutEvent(QFocusEvent* e) override
+    {
+        KeyButton::focusOutEvent(e);
+        relight();
+    }
+
+private:
+    void relight()
+    {
+        update();
+        if (card)
+            card->update();
+    }
+};
+
+// The tile after the newest card: what comes next (the next card, or the deck done, the next deck) and a press to
+// deal it. The disc sits over its words.
+class NextTile : public KeyButton
+{
+public:
+    QColor accent;
+    QColor glyph;
+    int disc = 64;
+    int gap = 12;
+    qreal border = 2;
+    qreal radius = 8;
+    QWidget* below = nullptr;   // the words the disc sits over
+
+    explicit NextTile(QWidget* parent)
+        : KeyButton(parent)
+    {
+        setObjectName(QStringLiteral("qsNextTile"));
+        setCursor(Qt::PointingHandCursor);
+    }
+
+protected:
+    void paintEvent(QPaintEvent*) override
+    {
+        QPainter p(this);
+        paintDashed(p, rect(), accent, underMouse() || hasFocus(), border, radius);
+        if (!below)
+            return;
+        const QPointF c(width() / 2.0, below->geometry().top() - gap - disc / 2.0);
+        p.setPen(Qt::NoPen);
+        p.setBrush(accent);
+        p.drawEllipse(c, disc / 2.0, disc / 2.0);
+        // tabler's chevron-right (M9 6l6 6l-6 6), at the web's 34 of the disc's 64
+        const qreal s = disc * 34.0 / 64.0 / 24.0;
+        QPainterPath chev;
+        chev.moveTo(c.x() + (9 - 12) * s, c.y() + (6 - 12) * s);
+        chev.lineTo(c.x() + (15 - 12) * s, c.y());
+        chev.lineTo(c.x() + (9 - 12) * s, c.y() + (18 - 12) * s);
+        QPen pen(glyph, 2.5 * s);
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setJoinStyle(Qt::RoundJoin);
+        p.setPen(pen);
+        p.setBrush(Qt::NoBrush);
+        p.drawPath(chev);
+    }
+    void enterEvent(QEnterEvent* e) override
+    {
+        KeyButton::enterEvent(e);
+        update();
+    }
+    void leaveEvent(QEvent* e) override
+    {
+        KeyButton::leaveEvent(e);
+        update();
+    }
+    void focusInEvent(QFocusEvent* e) override
+    {
+        KeyButton::focusInEvent(e);
+        update();
+    }
+    void focusOutEvent(QFocusEvent* e) override
+    {
+        KeyButton::focusOutEvent(e);
+        update();
+    }
+};
+
+// A deck's words, read at a glance: the first sentence the lead (to a full stop, a ! or a ?, or a smiley: Basics'
+// "Welcome friend :-)"), the rest under it. As the web's paintDesc.
+QPair<QString, QString> splitLead(const QString& text)
+{
+    static const QRegularExpression lead(QStringLiteral(R"(^(.+?(?:[.!?]|[:;]-?[)D]))(?:\s+(.*))?$)"),
+                                         QRegularExpression::DotMatchesEverythingOption);
+    const QRegularExpressionMatch m = lead.match(text.trimmed());
+    if (!m.hasMatch())
+        return { text.trimmed(), QString() };
+    return { m.captured(1), m.captured(2).trimmed() };
+}
+
+// Where the deck's words name a card's control (Press play, drag it, insert at point), that control's glyph beside
+// the words, as the web shows it: the glyph in the accent's square. The words stay as they are, so a screen reader
+// reads them and nothing for the glyph.
+QString withGlyphs(const QString& text, const QColor& accent, const QColor& ink, int px, qreal dpr)
+{
+    using TablerIcons::Glyph;
+    QString html = text.toHtmlEscaped();
+    const struct { const char* words; Glyph glyph; } named[] = {
+        { "Press play", Glyph::Play },
+        { "drag it", Glyph::Texture },
+        { "insert at point", Glyph::SquareChevronsUp },
+    };
+    for (const auto& n : named)
+    {
+        const QString words = QString::fromLatin1(n.words);
+        const int at = html.indexOf(words);
+        if (at < 0)
+            continue;
+        const int dev = qRound(px * dpr);
+        QImage img(dev, dev, QImage::Format_ARGB32_Premultiplied);
+        img.fill(Qt::transparent);
+        QPainter p(&img);
+        p.setRenderHint(QPainter::Antialiasing, true);
+        p.setPen(Qt::NoPen);
+        p.setBrush(accent);
+        p.drawRoundedRect(QRectF(0, 0, dev, dev), dev * 0.22, dev * 0.22);
+        QSvgRenderer svg(TablerIcons::svgMarkup(n.glyph, ink).toUtf8());
+        const qreal g = dev * 0.66;
+        svg.render(&p, QRectF((dev - g) / 2, (dev - g) / 2, g, g));
+        p.end();
+        QByteArray png;
+        QBuffer buf(&png);
+        buf.open(QIODevice::WriteOnly);
+        img.save(&buf, "PNG");
+        html.insert(at + words.size(),
+                    QStringLiteral(" <img src=\"data:image/png;base64,%1\" width=\"%2\" height=\"%2\" "
+                                   "style=\"vertical-align: middle\">")
+                        .arg(QString::fromLatin1(png.toBase64()))
+                        .arg(px));
+    }
+    return html;
+}
+} // namespace
+
 QuickstartPane::QuickstartPane(SonicPiTheme* theme, QWidget* parent)
     : QWidget(parent), m_theme(theme)
 {
-    registerTutorialWidgetAccessibility(); // deck titles are TutHeadings
+    registerTutorialWidgetAccessibility(); // the deck's name is a TutHeading
+    registerCodeCardAccessibility();       // the cards' groups, and the words inside a button left unread
+    static bool installed = false;
+    if (!installed)
+    {
+        installed = true;
+        QAccessible::installFactory(quickstartAccessibleFactory);
+    }
     setAttribute(Qt::WA_StyledBackground, true);
-    // Deck switcher runs down the left as a side column, so it costs no
-    // vertical space and more card rows are visible.
-    QHBoxLayout* layout = new QHBoxLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
-    // The cards' runs: layered, as a performance deck's loops stack. Their
-    // hover too, polled only while the pane shows.
+    // The cards' runs: layered, as a performance deck's loops stack. Their hover too, polled only while the pane shows.
     m_deck = new CardDeck(this, CardDeck::Playing::Layered);
     connect(m_deck, &CardDeck::runRequested, this, &QuickstartPane::runRequested);
     connect(m_deck, &CardDeck::stopJobRequested, this, &QuickstartPane::stopJobRequested);
 
+    loadProgress();
     rebuild();
+}
+
+void QuickstartPane::setCardsFile(const QString& path)
+{
+    m_cardsPath = path;
+    loadProgress();
+    rebuild();
+}
+
+// The progress kept is for the set it was kept with: another set starts afresh.
+void QuickstartPane::loadProgress()
+{
+    const QVector<Deck>& decks = quickstartDecks(m_cardsPath);
+    QVector<int> sizes;
+    for (const Deck& d : decks)
+        sizes << d.cards.size();
+    m_progress.setDecks(sizes);
+    if (m_cardsPath.isEmpty())
+        return;
+    QSettings s = SonicPi::guiSettings();
+    if (s.value(QStringLiteral("quickstart/set")).toString() != m_cardsPath)
+        return;
+    QVector<int> dealt;
+    for (const QString& n : s.value(QStringLiteral("quickstart/dealt")).toString().split(',', Qt::SkipEmptyParts))
+        dealt << n.toInt();
+    m_progress.restore(s.value(QStringLiteral("quickstart/deck")).toInt(), dealt,
+                       s.value(QStringLiteral("quickstart/reached")).toInt());
+}
+
+void QuickstartPane::saveProgress() const
+{
+    if (m_cardsPath.isEmpty())
+        return;
+    QStringList dealt;
+    for (int n : m_progress.dealtAll())
+        dealt << QString::number(n);
+    QSettings s = SonicPi::guiSettings();
+    s.setValue(QStringLiteral("quickstart/set"), m_cardsPath);
+    s.setValue(QStringLiteral("quickstart/deck"), m_progress.deck());
+    s.setValue(QStringLiteral("quickstart/dealt"), dealt.join(','));
+    s.setValue(QStringLiteral("quickstart/reached"), m_progress.reached());
 }
 
 void QuickstartPane::setAudioApi(std::shared_ptr<SonicPi::SonicPiAPI> api)
@@ -233,13 +555,14 @@ void QuickstartPane::showEvent(QShowEvent* event)
         m_themeDirty = false;
         rebuild();
     }
+    else if (m_row && perPage() != m_laidOut)
+        render();
 }
 
 void QuickstartPane::applyTheme()
 {
-    // The deck rebuild re-creates every card widget, so it's by far the
-    // heaviest single step of a whole-app re-theme. A hidden Cards tab can
-    // take it lazily on next show instead of on every theme/hue change.
+    // The rebuild re-creates the page's cards, a heavy step of a whole-app re-theme: a hidden Cards tab takes it
+    // lazily on its next show instead of on every theme or hue change.
     if (isVisible())
         rebuild();
     else
@@ -248,25 +571,17 @@ void QuickstartPane::applyTheme()
 
 int QuickstartPane::preferredDockHeight() const
 {
-    // Start tall enough for the deck bar, the description and one full card.
-    int chrome = uiScale().y(24); // grid margins around the card
-    if (m_topBar)
-        chrome += m_topBar->sizeHint().height();
-    if (m_navRow)
-        chrome += m_navRow->sizeHint().height();
-    if (m_deckDesc)
-    {
-        QFont descFont;
-        descFont.setPixelSize(rolePx(FontRole::Base));
-        chrome += 2 * QFontMetrics(descFont).height() + uiScale().y(12); // two lines
-    }
-    return m_cardHeight + chrome;
+    // The bar (kept room for, so the cards don't move when dealing starts) and one row of cards.
+    int h = m_cardHeight + uiScale().y(8) + uiScale().y(14);
+    if (m_head)
+        h += m_head->sizeHint().height();
+    return h;
 }
 
 int QuickstartPane::cardWidth() const
 {
-    // Sized so kMaxCols monospace columns fit without shrinking the code font
-    // (grown in step with kMaxCols: 41 cols needs ~441).
+    // Sized so kMaxCols monospace columns fit without shrinking the code font (grown in step with kMaxCols: 41 cols
+    // needs ~441).
     return qRound(ScaleHeightForDPI(441) * m_zoomFactor);
 }
 
@@ -276,250 +591,59 @@ void QuickstartPane::computeGlobalLayout()
         return; // only the (width-independent) zoom invalidates these
     m_layoutZoom = m_userZoom;
 
-    // The card is a fixed-size format; content is authored to fit these
-    // budgets rather than the card growing to fit content.
+    // The card is a fixed-size format; content is authored to fit these budgets rather than the card growing to fit
+    // content.
     const int kMaxCols = 41;   // widest code line a card is designed to hold
     const int kCodeLines = 6;  // tallest snippet a card is designed to hold
     const int kBlurbLines = 2; // blurb runs full width, so it wraps in fewer lines
 
     const int pad = uiScale().y(14);
-    // The frame's fixed width includes the 2dx #qsCard border (app.qss), so
-    // the body gets less than cardWidth() to lay out in.
+    // The frame's fixed width includes the 2dx #qsCard border (app.qss), so the body gets less than cardWidth() to
+    // lay out in.
     const int border = ResolveDxToPx(2);
     const int codeAvail = cardWidth() - 2 * pad - 2 * border;
-    m_blurbW = codeAvail; // the description now spans the full card width
 
-    // Code font: the requested (zoomed) size, capped so kMaxCols monospace
-    // columns fit the card width. An authored line wider than that is still
-    // reachable (the body scrolls), but sizing to the budget is what keeps
-    // scrolling the exception rather than the reading experience.
+    // Code font: the requested (zoomed) size, capped so kMaxCols monospace columns fit the card width. An authored
+    // line wider than that is still reachable (the body scrolls), but sizing to the budget is what keeps scrolling
+    // the exception rather than the reading experience.
     int codePx = qMax(8, qRound(ScaleHeightForDPI(15) * m_zoomFactor));
     QFont hack(QStringLiteral("Hack"));
     hack.setPixelSize(codePx);
     const qreal colW = QFontMetricsF(hack).horizontalAdvance(QLatin1Char('m'));
     if (colW * kMaxCols > codeAvail)
-        // Floor stays unscaled: it is the "fit an authored line" backstop, so
-        // letting it rise with zoom would defeat the shrink-to-fit it guards.
+        // Floor stays unscaled: it is the "fit an authored line" backstop, so letting it rise with zoom would defeat
+        // the shrink-to-fit it guards.
         codePx = qMax(ScaleHeightForDPI(9), int(codePx * codeAvail / (colW * kMaxCols)));
     m_codeFontPx = codePx;
 
-    // The code lays out through a QTextDocument, which at some font sizes
-    // rounds a pixel taller than QFontMetrics::height(); a 1px/line
-    // underestimate overflows the fixed body. Measured as a card lays it out.
+    // The code lays out through a QTextDocument, which at some font sizes rounds a pixel taller than
+    // QFontMetrics::height(); a 1px/line underestimate overflows the fixed body. Measured as a card lays it out.
     m_codeBodyH = 2 * uiScale().y(10) + CodeCard::codeLinesHeight(kCodeLines, m_codeFontPx);
 
-    // Footer: a full-height scope on the left, and to its right the
-    // description (two lines) over the Run/Add buttons.
+    // Footer: the description (two lines) beside the scope, which is the play/stop control. The scope is inset from
+    // the footer's inner height so its rings never touch (get clipped by) the edges.
     QFont sans;
     sans.setPixelSize(m_codeFontPx); // the blurb renders at the code's size
     const int blurbLineH = QFontMetrics(sans).height();
-    // The footer holds the description (two lines) and, on the right, the scope
-    // which is the play/stop control. The scope is inset from the footer's
-    // inner height so its rings never touch (get clipped by) the edges.
     const int innerH = kBlurbLines * blurbLineH + uiScale().y(58);
     m_footerH = 2 * uiScale().y(8) + innerH;
     m_scopeSide = innerH - uiScale().y(16);
-    // The blurb yields the full hit-box width (scope + its surrounding
-    // margin), not just the scope square — see the scopeHit box in addCard.
+    // The blurb yields the full hit-box width (scope + its surrounding margin), not just the scope square.
     m_blurbW = codeAvail - innerH - uiScale().y(12);
 }
 
-bool QuickstartPane::eventFilter(QObject* obj, QEvent* event)
+int QuickstartPane::perPage() const
 {
-    // The viewport's Resize is the only reliable "the layout gave me my real
-    // size" signal: rebuild() runs while a fresh scroll area is still at its
-    // 100px default, and even a singleShot(0) can lose the race with the
-    // posted layout pass.
-    if (event->type() == QEvent::Resize && m_scroll && obj == m_scroll->viewport())
-        updateCarousel();
-    // The invisible left-margin strip pages back (see updateBackEdge for its
-    // enabled/cursor state).
-    if (obj == m_backEdge && event->type() == QEvent::MouseButtonPress
-        && m_backEdge->isEnabled()
-        && static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton)
-    {
-        goToPage(m_pageIndex - 1);
-        return true;
-    }
-    // A card's code body only claims the wheel along an axis it can actually
-    // scroll; otherwise the gesture falls through to the carousel below, so a
-    // snippet that fits (almost all of them) still pages the deck from
-    // anywhere on the card.
-    if (event->type() == QEvent::Wheel && m_scroll)
-    {
-        if (QWidget* vp = qobject_cast<QWidget*>(obj))
-        {
-            QScrollArea* sa = qobject_cast<QScrollArea*>(vp->parentWidget());
-            if (sa && sa->objectName() == QLatin1String("qsCardBody")
-                && vp == sa->viewport())
-            {
-                QWheelEvent* we = static_cast<QWheelEvent*>(event);
-                const bool horizontal
-                    = qAbs(we->angleDelta().x()) > qAbs(we->angleDelta().y());
-                const QScrollBar* bar
-                    = horizontal ? sa->horizontalScrollBar() : sa->verticalScrollBar();
-                if (bar && bar->minimum() != bar->maximum())
-                    return false; // the body scrolls it
-                // Nothing to scroll along that axis: re-aim at the carousel.
-                obj = m_scroll;
-            }
-        }
-    }
-    // Side-scrolling pages the carousel one card at a time (never free-scrolls).
-    // A cooldown absorbs a trackpad swipe's momentum so one gesture = one card.
-    if (event->type() == QEvent::Wheel && m_scroll
-        && (obj == m_scroll || obj == m_scroll->viewport()))
-    {
-        QWheelEvent* we = static_cast<QWheelEvent*>(event);
-        const int dx = we->angleDelta().x();
-        const int dy = we->angleDelta().y();
-        bool act = true, next = false;
-        // angleDelta folds in the system's natural-scrolling setting, so read it
-        // as a scrollbar delta (same as dy below): negative x scrolls the content
-        // rightward; i.e. a macOS natural swipe left advances to the next cards.
-        if (qAbs(dx) > qAbs(dy) && qAbs(dx) > 2)
-            next = dx < 0;
-        else if (qAbs(dy) > 2)
-            next = dy < 0; // vertical wheel: down = forward
-        else
-            act = false;
-        if (act && !m_wheelCooldown)
-        {
-            goToPage(m_pageIndex + (next ? 1 : -1));
-            m_wheelCooldown = true;
-            QTimer::singleShot(320, this, [this] { m_wheelCooldown = false; });
-        }
-        return true;
-    }
-    // Left/Right with focus on the scroll area drop the selection onto the
-    // leading visible card; from there each press moves the selection one
-    // card at a time (the selected-card branch below) and the deck scrolls
-    // to keep it in view — the nav bar follows the selection, not the other
-    // way round.
-    if (event->type() == QEvent::KeyPress && m_scroll
-        && (obj == m_scroll || obj == m_scroll->viewport()))
-    {
-        const int key = static_cast<QKeyEvent*>(event)->key();
-        if (key == Qt::Key_Left || key == Qt::Key_Right)
-        {
-            if (QWidget* card = firstVisibleCard())
-            {
-                card->setFocus(Qt::OtherFocusReason);
-                return true;
-            }
-            goToPage(m_pageIndex + (key == Qt::Key_Right ? 1 : -1));
-            return true;
-        }
-    }
-    // Everything else about a card — a click, its keys, being dragged — is
-    // the card's own (CodeCard).
-    return QWidget::eventFilter(obj, event);
+    const int gap = uiScale().y(14);
+    const int pad = uiScale().y(14);
+    return qMax(1, (width() - 2 * pad + gap) / (cardWidth() + gap));
 }
-
-namespace
-{
-// The left "page back" zone: invisible at rest; entering it fades in a slim
-// header-green bar with a ‹ chevron, centred in the margin. The click target
-// is the whole margin (lane reaches the first card's edge, no dead gap);
-// only the painted bar is slim. Clicks are handled by
-// QuickstartPane::eventFilter.
-class BackZone : public QWidget
-{
-public:
-    QColor fill, chev;
-    int contentTop = 0;    // the card row's top offset, so the bar aligns with the cards
-    int contentHeight = 0; // the shared card height (0 = span the whole strip)
-
-    explicit BackZone(QWidget* parent)
-        : QWidget(parent)
-    {
-        m_fade = new QVariantAnimation(this);
-        // Linear: an eased curve front-loads the opacity ramp so hard the
-        // fade-in reads as a snap.
-        m_fade->setEasingCurve(QEasingCurve::Linear);
-        connect(m_fade, &QVariantAnimation::valueChanged, this, [this](const QVariant& v) {
-            m_opacity = v.toReal();
-            update();
-        });
-    }
-
-protected:
-    void enterEvent(QEnterEvent*) override { fadeTo(1.0); }
-    void leaveEvent(QEvent*) override { fadeTo(0.0); }
-    void paintEvent(QPaintEvent*) override
-    {
-        if (!isEnabled() || m_opacity <= 0.01)
-            return; // invisible until hovered (and inert on page one)
-        QPainter p(this);
-        p.setRenderHint(QPainter::Antialiasing, true);
-        p.setOpacity(m_opacity);
-        const int top = contentTop;
-        const int h = contentHeight > 0 ? qMin(contentHeight, height() - top) : height() - top;
-        const qreal w = ScaleWidthForDPI(16); // slim bar; the click zone stays full-width
-        // Snug against the first card's edge (its 2px transparent border sits
-        // just past the lane), keeping the breathing room on the tab side.
-        const QRectF r(width() - w - ScaleWidthForDPI(3), top, w, h);
-        p.setPen(Qt::NoPen);
-        p.setBrush(fill);
-        const qreal rad = ScaleHeightForDPI(6);
-        p.drawRoundedRect(r, rad, rad);
-        // The one chevron design (ChevronButton), on the bar.
-        ChevronButton::paintChevron(p, r.center(), ChevronButton::Left, chev);
-    }
-
-private:
-    void fadeTo(qreal target)
-    {
-        if (SonicPi::prefersReducedMotion())
-        {
-            m_opacity = target;
-            update();
-            return;
-        }
-        m_fade->stop();
-        if (target < m_opacity)
-        {
-            // Leaving: snap out.
-            m_opacity = target;
-            update();
-            return;
-        }
-        m_fade->setDuration(500);
-        m_fade->setStartValue(m_opacity);
-        m_fade->setEndValue(target);
-        m_fade->start();
-    }
-
-    QVariantAnimation* m_fade;
-    qreal m_opacity = 0.0;
-};
-} // namespace
 
 void QuickstartPane::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
-    updateHeaderForHeight();
-    updateCarousel(); // a width change alters how many whole cards fit per page
-}
-
-void QuickstartPane::updateHeaderForHeight()
-{
-    if (!m_deckDesc)
-        return;
-    // Keep the deck bar and a whole card visible; spend any height left over on
-    // the description row, hiding it (and its accent rail) when it won't fit.
-    // Reserve a fixed two lines (not the per-deck text height) so every deck's
-    // description shows or hides at the same pane height; otherwise a longer,
-    // two-line blurb (Basics) would hide while a one-line one (FX) stayed.
-    const int deckBarH = m_topBar ? m_topBar->sizeHint().height() : 0;
-    const int cardRow = m_cardHeight + uiScale().y(20);
-    QFont descFont;
-    descFont.setPixelSize(rolePx(FontRole::Base));
-    const int descH = 2 * QFontMetrics(descFont).height() + uiScale().y(12);
-    const bool showDesc = height() - deckBarH - cardRow >= descH;
-    m_deckDesc->setVisible(showDesc);
-    if (m_headerRail)
-        m_headerRail->setVisible(showDesc);
+    if (m_row && perPage() != m_laidOut)
+        render(); // a width that fits more or fewer cards
 }
 
 void QuickstartPane::runStarted(int jobId, const QString& workspace)
@@ -552,24 +676,6 @@ void QuickstartPane::runError(int jobId, const QString& message, int line)
     m_deck->runError(jobId, message, line);
 }
 
-void QuickstartPane::stepFrom(QWidget* card, int delta)
-{
-    const int idx = m_cardFrames.indexOf(card);
-    if (idx < 0)
-        return;
-    const int next = idx + delta;
-    if (next < 0 || next >= m_cardFrames.size())
-    {
-        emit announceRequested(next < 0 ? tr("First card.") : tr("Last card."));
-        return;
-    }
-    QWidget* to = m_cardFrames.value(next);
-    if (!to)
-        return;
-    scrollCardIntoView(to);
-    to->setFocus(Qt::OtherFocusReason);
-}
-
 void QuickstartPane::setUserZoom(int zoom)
 {
     m_userZoom = qBound(kFontZoomMin, zoom, kFontZoomMax);
@@ -577,10 +683,7 @@ void QuickstartPane::setUserZoom(int zoom)
     rebuild();
 }
 
-// Shared curve (utils/fontroles.h): multiplicative, so the card's type
-// hierarchy holds its proportions as it zooms. The old `base + m_userZoom`
-// added the same pixel to every size, which pulled a 17px heading down
-// toward a 13px pill the further you zoomed in.
+// Shared curve (utils/fontroles.h): multiplicative, so the card's type hierarchy holds its proportions as it zooms.
 int QuickstartPane::rolePx(FontRole role) const
 {
     return qMax(8, qRound(FontRolePx(role) * m_zoomFactor));
@@ -588,10 +691,7 @@ int QuickstartPane::rolePx(FontRole role) const
 
 void QuickstartPane::rebuild()
 {
-    // Clear the whole layout: rebuild() is called from the deck pills / zoom
-    // buttons, so deleteLater (not delete) avoids destroying the widget whose
-    // click we are still handling. Takes the side column and the right
-    // container (header + scroll) so nothing accumulates.
+    // deleteLater, not delete: rebuild runs from clicks on the widgets it replaces.
     if (QLayout* lay = layout())
     {
         while (QLayoutItem* item = lay->takeAt(0))
@@ -604,580 +704,546 @@ void QuickstartPane::rebuild()
             delete item;
         }
     }
-    m_topBar = nullptr;
-    m_navRow = nullptr;
-    m_scroll = nullptr;
-    m_cardRow = nullptr;
-    m_cardGrid = nullptr;
-    m_cardFrames.clear();
-    m_gridSpacer = nullptr;
-    m_gridRows = 0;
+    m_head = nullptr;
+    m_decks = nullptr;
+    m_deckPills.clear();
+    m_bar = nullptr;
+    m_exit = nullptr;
+    m_barTitle = nullptr;
     m_prevArrow = nullptr;
     m_nextArrow = nullptr;
-    m_backEdge = nullptr;
     m_dotsHost = nullptr;
     m_dotsLayout = nullptr;
-    m_headerRail = nullptr;
-    m_deckTitle = nullptr;
-    m_deckDesc = nullptr;
+    m_count = nullptr;
+    m_row = nullptr;
+    m_rowLayout = nullptr;
+    m_items.clear();
+    m_cardFrames.clear();
+    m_start = nullptr;
+    m_tile = nullptr;
+    m_laidOut = 0;
     m_deck->clear();
 
     const QVector<Deck>& decks = quickstartDecks(m_cardsPath);
     if (decks.isEmpty())
         return;
-    if (m_deckIdx >= decks.size())
-        m_deckIdx = 0;
+    // a set edited on disk since its progress was read: read it again, within the set as it is now
+    bool same = m_progress.dealtAll().size() == decks.size();
+    for (int i = 0; same && i < decks.size(); ++i)
+        same = m_progress.dealt(i) <= decks[i].cards.size();
+    if (!same)
+        loadProgress();
+
+    computeGlobalLayout();
+    // the cards' one height, a card's own at this zoom
+    {
+        CodeCard::Spec spec;
+        spec.title = decks[0].cards.value(0).title;
+        spec.code = decks[0].cards.value(0).code;
+        CodeCard::Metrics metrics;
+        metrics.width = cardWidth();
+        metrics.codeBodyHeight = m_codeBodyH;
+        metrics.footerHeight = m_footerH;
+        metrics.scopeSide = m_scopeSide;
+        metrics.blurbWidth = m_blurbW;
+        metrics.codeFontPx = m_codeFontPx;
+        metrics.titlePx = rolePx(FontRole::Large);
+        metrics.zoomFactor = m_zoomFactor;
+        CodeCard probe(spec, metrics, m_theme);
+        m_cardHeight = probe.sizeHint().height();
+    }
 
     const QColor accent = m_theme->color("HighlightedBackground");
 
-    // A single vertical stack: a full-width deck bar (the deck selector) over
-    // the deck description over the cards.
-    QWidget* rightSide = new QWidget(this);
-    QVBoxLayout* rightCol = new QVBoxLayout(rightSide);
-    rightCol->setContentsMargins(0, 0, 0, 0);
-    rightCol->setSpacing(0);
+    // ── the head: the deck buttons, or in a deck its bar ──
+    m_head = new QWidget(this);
+    QVBoxLayout* headLay = new QVBoxLayout(m_head);
+    headLay->setContentsMargins(uiScale().y(14), uiScale().y(8), uiScale().y(12), uiScale().y(3));
+    headLay->setSpacing(0);
 
-    // Deck bar: selector pills on the left, the carousel pill centred, zoom on
-    // the right. The highlighted pill is the current deck (it doubles as title).
-    m_topBar = new QWidget(rightSide);
-    // Containers a screen reader walks through get names — an anonymous
+    // The decks reached, to choose between: containers a screen reader walks through get names, or an anonymous
     // "group" stop tells the user nothing about where they are.
-    m_topBar->setAccessibleName(tr("Deck selector"));
-    QHBoxLayout* deckBar = new QHBoxLayout(m_topBar);
-    deckBar->setContentsMargins(uiScale().y(14), uiScale().y(8),
-                                uiScale().y(12), uiScale().y(3));
-    deckBar->setSpacing(uiScale().y(6));
+    m_decks = new QWidget(m_head);
+    m_decks->setAccessibleName(tr("Card decks"));
+    QHBoxLayout* decksLay = new QHBoxLayout(m_decks);
+    decksLay->setContentsMargins(0, 0, 0, 0);
+    decksLay->setSpacing(uiScale().y(6));
     for (int i = 0; i < decks.size(); ++i)
     {
-        QPushButton* pill = new QPushButton(decks[i].title, m_topBar);
+        QPushButton* pill = new KeyButton(decks[i].title, m_decks);
         pill->setObjectName(QStringLiteral("qsDeckPill"));
-        pill->setProperty("current", i == m_deckIdx);
         pill->setCursor(Qt::PointingHandCursor);
         pill->setAccessibleName(tr("%1 card deck").arg(decks[i].title));
-        // Follows this pane's zoom, as the docs pills follow theirs.
         pill->setStyleSheet(QString("font-size: %1px;").arg(rolePx(FontRole::Base)));
-        connect(pill, &QPushButton::clicked, this, [this, i] {
-            // Each deck keeps its own carousel position: stash where this deck
-            // was, restore where the target deck last was (first card if new).
-            m_deckPages[m_deckIdx] = m_pageIndex;
-            m_deckIdx = i;
-            m_pageIndex = m_deckPages.value(i, 0);
-            rebuild();
-            // Hand focus to the carousel so the Left/Right keys drive it
-            // straight away after choosing a deck, and say what arrived.
-            if (m_scroll)
-                m_scroll->setFocus(Qt::OtherFocusReason);
-            const QVector<Deck>& d = quickstartDecks(m_cardsPath);
-            if (m_deckIdx < d.size())
-                emit announceRequested(tr("%1 deck, %2 cards")
-                                           .arg(d[m_deckIdx].title)
-                                           .arg(d[m_deckIdx].cards.size()));
-        });
-        deckBar->addWidget(pill);
+        connect(pill, &QPushButton::clicked, this, [this, i] { chooseDeck(i); });
+        decksLay->addWidget(pill);
+        m_deckPills << pill;
     }
-    deckBar->addStretch(1);
+    decksLay->addStretch(1);
+    headLay->addWidget(m_decks);
 
-    // Carousel controls: prev chevron, page dots and next chevron in one
-    // grouped pill. The chevrons are the one chevron control (ChevronButton),
-    // as every chevron is: no knob of their own inside the pill, the muted
-    // ink at rest and the accent under the pointer.
-    const QColor arrowInk = SonicPiTheme::blend(m_theme->color("Foreground"),
-                                                m_theme->color("PaneBackground"), 0.45);
-    auto makeArrow = [&](ChevronButton::Dir dir, const QString& a11y) {
-        auto* b = new ChevronButton(m_topBar);
-        b->setObjectName(QStringLiteral("qsArrow"));
+    // In a deck: the way back to the decks and the deck's name at the left, its pages (‹ dots ›) at the centre.
+    m_bar = new QWidget(m_head);
+    m_bar->setAccessibleName(tr("Card navigation"));
+    QHBoxLayout* barLay = new QHBoxLayout(m_bar);
+    barLay->setContentsMargins(0, 0, 0, 0);
+    barLay->setSpacing(uiScale().y(12));
+    QWidget* barStart = new QWidget(m_bar);
+    QHBoxLayout* barStartLay = new QHBoxLayout(barStart);
+    barStartLay->setContentsMargins(0, 0, 0, 0);
+    barStartLay->setSpacing(uiScale().y(12));
+    m_exit = new KeyButton(tr("Decks"), barStart);
+    m_exit->setObjectName(QStringLiteral("qsExit"));
+    m_exit->setCursor(Qt::PointingHandCursor);
+    m_exit->setIcon(TablerIcons::icon(TablerIcons::Glyph::X, m_theme->color("Foreground"), uiScale().y(16),
+                                      devicePixelRatioF()));
+    m_exit->setIconSize(uiScale().size(16, 16));
+    m_exit->setAccessibleName(tr("Back to the decks"));
+    m_exit->setToolTip(tr("Back to the decks"));
+    m_exit->setStyleSheet(QString("font-size: %1px;").arg(rolePx(FontRole::Small)));
+    connect(m_exit, &QPushButton::clicked, this, &QuickstartPane::leave);
+    m_barTitle = new QLabel(barStart);
+    m_barTitle->setObjectName(QStringLiteral("qsBarTitle"));
+    QFont titleFont = font();
+    titleFont.setPixelSize(rolePx(FontRole::Large));
+    titleFont.setWeight(QFont::Bold);
+    m_barTitle->setFont(titleFont);
+    barStartLay->addWidget(m_exit);
+    barStartLay->addWidget(m_barTitle, 1);
+
+    // The pages: the one chevron control (ChevronButton) each side of the dots, in one soft pill.
+    const QColor arrowInk = SonicPiTheme::blend(m_theme->color("Foreground"), m_theme->color("PaneBackground"), 0.45);
+    auto makeArrow = [&](ChevronButton::Dir dir, const char* name, const QString& a11y) {
+        auto* b = new ChevronButton(m_bar);
+        b->setObjectName(QString::fromLatin1(name));
         b->setDir(dir);
-        b->setColors(Qt::transparent, Qt::transparent, arrowInk, m_theme->color("HighlightedBackground"));
+        b->setColors(Qt::transparent, Qt::transparent, arrowInk, accent);
         b->setAccessibleName(a11y);
+        b->setToolTip(a11y);
         b->setFixedSize(uiScale().size(30, 30));
         return b;
     };
-    m_prevArrow = makeArrow(ChevronButton::Left, tr("Previous cards"));
-    m_nextArrow = makeArrow(ChevronButton::Right, tr("More cards"));
-    connect(m_prevArrow, &QAbstractButton::clicked, this, [this] { goToPage(m_pageIndex - 1); });
-    connect(m_nextArrow, &QAbstractButton::clicked, this, [this] { goToPage(m_pageIndex + 1); });
-
-    m_dotsHost = new QWidget(m_topBar);
+    m_prevArrow = makeArrow(ChevronButton::Left, "qsPrev", tr("Previous cards"));
+    m_nextArrow = makeArrow(ChevronButton::Right, "qsNext", tr("Next cards"));
+    connect(m_prevArrow, &QAbstractButton::clicked, this, [this] { turn(-1); });
+    connect(m_nextArrow, &QAbstractButton::clicked, this, &QuickstartPane::forward);
+    m_dotsHost = new QWidget(m_bar);
     m_dotsLayout = new QHBoxLayout(m_dotsHost);
     m_dotsLayout->setContentsMargins(uiScale().y(6), 0, uiScale().y(6), 0);
     m_dotsLayout->setSpacing(uiScale().y(8));
-
-    QWidget* nav = new QWidget(m_topBar);
+    m_count = new QLabel(m_bar);
+    m_count->setObjectName(QStringLiteral("qsCount"));
+    QWidget* nav = new QWidget(m_bar);
     nav->setObjectName(QStringLiteral("qsNav"));
-    nav->setAccessibleName(tr("Card navigation"));
+    nav->setAccessibleName(tr("Pages"));
     QHBoxLayout* navLay = new QHBoxLayout(nav);
-    navLay->setContentsMargins(uiScale().y(4), uiScale().y(2),
-                               uiScale().y(4), uiScale().y(2));
+    navLay->setContentsMargins(uiScale().y(4), uiScale().y(2), uiScale().y(4), uiScale().y(2));
     navLay->setSpacing(uiScale().y(2));
-    // Pin the height rather than deriving it: the radius has to be exactly half
-    // of what the widget ACTUALLY ends up as, and the layout was giving this
-    // row 30px where the contents-plus-margins calculation said 27 — leaving
-    // the pill a pixel-and-a-half short of round. Fixing the height makes the
-    // two agree by construction. Even, so the halving is exact.
+    // The height pinned, and even, so the radius is exactly half of it: a radius Qt is given above half paints
+    // artifacts, below it visible corners.
     int navH = uiScale().y(30) + 2 * uiScale().y(2);
     navH += navH % 2;
     nav->setFixedHeight(navH);
-    nav->setStyleSheet(
-        QStringLiteral("QWidget#qsNav { border-radius: %1px; }").arg(navH / 2));
+    nav->setStyleSheet(QStringLiteral("QWidget#qsNav { border-radius: %1px; }").arg(navH / 2));
     navLay->addWidget(m_prevArrow);
     navLay->addWidget(m_dotsHost);
+    navLay->addWidget(m_count);
     navLay->addWidget(m_nextArrow);
-    // nav is added to its own centred row below the cards (see below).
-    rightCol->addWidget(m_topBar);
+    // the name's side and the other side share the room evenly, so the pages sit at the bar's centre
+    barLay->addWidget(barStart, 1);
+    barLay->addWidget(nav, 0, Qt::AlignVCenter);
+    barLay->addStretch(1);
+    headLay->addWidget(m_bar);
+    layout()->addWidget(m_head);
 
-    // Description row: a small accent rail and the deck's one-line description.
-    // Hidden first as the pane shrinks (updateHeaderForHeight).
-    m_deckTitle = nullptr;
-    m_deckDesc = nullptr;
-    m_headerRail = nullptr;
-    const QString desc = decks[m_deckIdx].description;
-    if (!desc.isEmpty())
-    {
-        QWidget* descRow = new QWidget(rightSide);
-        QHBoxLayout* descLay = new QHBoxLayout(descRow);
-        descLay->setContentsMargins(uiScale().y(14), uiScale().y(4), uiScale().y(14),
-                                    uiScale().y(9));
-        descLay->setSpacing(uiScale().y(10));
-        QWidget* rail = new QWidget(descRow);
-        rail->setObjectName(QStringLiteral("qsHeaderRail"));
-        int railW = uiScale().y(4);
-        railW += railW % 2;   // even: the radius must be exactly half (see rebuildDots)
-        rail->setFixedWidth(railW);
-        rail->setStyleSheet(
-            QStringLiteral("QWidget#qsHeaderRail { border-radius: %1px; }").arg(railW / 2));
-        descLay->addWidget(rail);
-        m_headerRail = rail;
-        QLabel* descLabel = new QLabel(desc, descRow);
-        descLabel->setObjectName(QStringLiteral("qsDeckDesc"));
-        descLabel->setWordWrap(true);
-        descLabel->setStyleSheet(QString("font-size: %1px;").arg(rolePx(FontRole::Base)));
-        descLay->addWidget(descLabel, 1);
-        m_deckDesc = descLabel;
-        rightCol->addWidget(descRow);
-    }
+    // ── the page: the welcome card, the cards dealt, the tile ──
+    m_row = new QWidget(this);
+    m_rowLayout = new QHBoxLayout(m_row);
+    m_rowLayout->setContentsMargins(uiScale().y(14), uiScale().y(8), uiScale().y(14), uiScale().y(14));
+    m_rowLayout->setSpacing(uiScale().y(14));
+    layout()->addWidget(m_row);
+    static_cast<QVBoxLayout*>(layout())->addStretch(1);
 
-    // Cards live on a single horizontal row with no scrollbar and no wheel
-    // scrolling. You move through the deck a whole page at a time (all the
-    // cards that fit), snapping to card boundaries so a card is never left
-    // half on screen. The header arrows and dots drive it.
-    m_scroll = new QScrollArea(rightSide);
-    m_scroll->setWidgetResizable(false); // content keeps its natural width so it can overflow
-    m_scroll->setFrameShape(QFrame::NoFrame);
-    m_scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_scroll->setFocusPolicy(Qt::StrongFocus); // hold focus so Left/Right page it
-    m_scroll->setAccessibleName(tr("%1 cards").arg(decks[m_deckIdx].title));
-    m_scroll->setAccessibleDescription(
-        tr("Left and Right arrow keys move through the cards."));
-    // Focusing the pane (F6 cycling, focusPane) lands on the current card —
-    // rebuildDots keeps the proxy pointing at the page's first card.
-    setFocusProxy(m_scroll);
-    QWidget* content = new QWidget(m_scroll);
-    content->setAccessibleName(tr("Cards"));
-    m_cardRow = content;
-    m_cardGrid = new QGridLayout(content);
-    const int pad = uiScale().y(14);
-    // No left margin: the back zone's lane provides the left pad, so the whole
-    // margin up to the first card is one contiguous click target.
-    m_cardGrid->setContentsMargins(0, uiScale().y(8), pad, pad);
-    m_cardGrid->setHorizontalSpacing(uiScale().y(14));
-    m_cardGrid->setVerticalSpacing(uiScale().y(14));
-
-    // One set of dimensions for every card in every deck.
-    computeGlobalLayout();
-
-    const QVector<SonicPi::QuickstartCard>& cards = decks[m_deckIdx].cards;
-    m_cardCount = cards.size();
-    m_cardFrames.clear();
-    for (int i = 0; i < cards.size(); ++i)
-    {
-        // Each card gets its own scope slot, wrapping within the cards' slot
-        // budget so a user-authored deck with more cards than slots shares
-        // slots between cards rather than colliding with the live_loop range.
-        // An edit is kept by the deck's and the card's names, so it follows
-        // the card when a set is reordered.
-        QWidget* f = addCard(cards[i],
-                             QString("sonic-pi-quickstart-%1-%2").arg(m_deckIdx).arg(i),
-                             kFirstScopeSlot + (i % kCardScopeSlots),
-                             QStringLiteral("quickstart/%1/%2").arg(decks[m_deckIdx].title, cards[i].title));
-        // The name carries the blurb: a screen reader always speaks the name
-        // on focus, whereas the description (AXHelp) is at the mercy of the
-        // user's hint-verbosity settings.
-        const QString plainBlurb =
-            QTextDocumentFragment::fromHtml(cards[i].blurb).toPlainText().simplified();
-        f->setAccessibleName(tr("%1 card, %2 of %3. %4")
-                                 .arg(cards[i].title)
-                                 .arg(i + 1)
-                                 .arg(cards.size())
-                                 .arg(plainBlurb));
-        m_cardFrames << f;
-    }
-    // Trailing spacer: sits in the grid column after the last card and holds
-    // the right-hand pad so the final page still snaps to a card boundary
-    // (no half cards) without the grid spreading the cards apart.
-    m_gridSpacer = new QWidget(content);
-    m_gridSpacer->setFixedWidth(0);
-    m_gridRows = 0; // force the first updateCarousel to place the grid
-    m_cardHeight = m_cardFrames.isEmpty() ? 0 : m_cardFrames.first()->sizeHint().height();
-
-    m_scroll->setWidget(content);
-    m_scroll->installEventFilter(this);
-    m_scroll->viewport()->installEventFilter(this);
-
-    // Left-edge "page back" affordance: the right side is easy (click the card
-    // peeking in), but a full page snaps flush-left with nothing to click going
-    // back. The whole left margin is the click target, right up to the first
-    // card's edge (the grid's left pad lives in this lane, not the grid).
-    // Invisible at rest; hovering reveals a soft wash + chevron (see
-    // BackZone). Click handled in eventFilter.
-    BackZone* backZone = new BackZone(rightSide);
-    backZone->fill = accent; // the card headers' green
-    backZone->chev = m_theme->accentContrastText();
-    m_backEdge = backZone;
-    m_backEdge->setFixedWidth(uiScale().x(26) + uiScale().y(14));
-    m_backEdge->setFocusPolicy(Qt::NoFocus);
-    // No accessible name: unnamed, it's pruned from the accessibility tree.
-    // It's a mouse-only convenience that duplicates the Previous arrow — to
-    // a screen reader it was just one more mystery stop.
-    m_backEdge->installEventFilter(this);
-
-    QHBoxLayout* scrollRow = new QHBoxLayout;
-    scrollRow->setContentsMargins(0, 0, 0, 0);
-    scrollRow->setSpacing(0);
-    scrollRow->addWidget(m_backEdge);
-    scrollRow->addWidget(m_scroll, 1);
-    rightCol->addLayout(scrollRow, 1);
-
-    // The row must always rest with a full card flush left. Qt scrolls the
-    // area behind our back (e.g. auto-revealing a clicked button inside a
-    // partly-visible card), so once the scrollbar settles anywhere off a card
-    // boundary, snap to the nearest page.
-    QTimer* settle = new QTimer(m_scroll);
-    settle->setSingleShot(true);
-    settle->setInterval(160);
-    connect(m_scroll->horizontalScrollBar(), &QScrollBar::valueChanged, settle,
-            [settle] { settle->start(); });
-    connect(settle, &QTimer::timeout, this, [this] {
-        if (!m_scroll)
-            return;
-        const int step = cardWidth() + uiScale().y(14);
-        QScrollBar* sb = m_scroll->horizontalScrollBar();
-        const int p = qBound(0, qRound(double(sb->value()) / step), pageCount() - 1);
-        // Same clamp goToPage applies, so an unreachable boundary can't make
-        // this re-fire forever.
-        const int target = qBound(sb->minimum(), p * step, sb->maximum());
-        if (sb->value() != target)
-            goToPage(p);
-        else if (p != m_pageIndex)
-        {
-            m_pageIndex = p; // keep the dots honest if something scrolled silently
-            rebuildDots();
-        }
+    render();
+    // the pane's width is not final until it is laid out
+    QTimer::singleShot(0, this, [this] {
+        if (m_row && perPage() != m_laidOut)
+            render();
     });
-
-    // Carousel control on its own full-width row beneath the cards, centred.
-    QWidget* navRow = new QWidget(rightSide);
-    QHBoxLayout* navRowLay = new QHBoxLayout(navRow);
-    navRowLay->setContentsMargins(0, uiScale().y(4), 0, uiScale().y(6));
-    navRowLay->addStretch(1);
-    navRowLay->addWidget(nav);
-    navRowLay->addStretch(1);
-    rightCol->addWidget(navRow);
-    m_navRow = navRow;
-
-    m_pageIndex = qBound(0, m_pageIndex, qMax(0, pageCount() - 1));
-    static_cast<QHBoxLayout*>(layout())->addWidget(rightSide, 1);
-    // The viewport size (and so rows/columns per page) isn't final until the
-    // pane is laid out; compute it now and again once the geometry settles.
-    updateCarousel();
-    QTimer::singleShot(0, this, [this] { updateCarousel(); });
-    updateHeaderForHeight();
 }
 
-int QuickstartPane::rowsThatFit() const
+void QuickstartPane::render(FocusTo focus, int card)
 {
-    if (!m_scroll || m_cardHeight <= 0)
-        return 1;
-    const int gap = uiScale().y(14);
-    const int marginsV = uiScale().y(8) + uiScale().y(14);
-    const int vh = m_scroll->viewport()->height() - marginsV;
-    int rows = qMax(1, (vh + gap) / (m_cardHeight + gap));
-    if (m_cardCount > 0)
-        rows = qMin(rows, m_cardCount);
-    return rows;
-}
-
-int QuickstartPane::cardsPerView() const
-{
-    if (!m_scroll)
-        return 1;
-    const int step = cardWidth() + uiScale().y(14);
-    const int vw = m_scroll->viewport()->width();
-    return qMax(1, (vw + uiScale().y(14)) / step);
-}
-
-int QuickstartPane::pageCount() const
-{
-    // The carousel moves one card (column) at a time, so the number of scroll
-    // stops is the columns that don't fit, plus one (each stop shows a full
-    // set of whole cards, shifted along by one).
-    const int rows = rowsThatFit();
-    const int totalCols = m_cardCount > 0 ? (m_cardCount + rows - 1) / rows : 1;
-    const int cpv = cardsPerView();
-    return qMax(1, totalCols - cpv + 1);
-}
-
-void QuickstartPane::rebuildDots()
-{
-    if (!m_dotsLayout || !m_dotsHost || !m_prevArrow || !m_nextArrow)
+    if (!m_row)
         return;
-    const int pages = pageCount();
-    m_pageIndex = qBound(0, m_pageIndex, pages - 1);
-    const int rows = rowsThatFit();
-    const int cpv = cardsPerView();
+    const QVector<Deck>& decks = quickstartDecks(m_cardsPath);
+    const int deckIdx = m_progress.deck();
+    if (deckIdx >= decks.size())
+        return;
+    const Deck& d = decks[deckIdx];
+    const int per = perPage();
+    m_laidOut = per;
+    QWidget* had = window() ? window()->focusWidget() : nullptr;
+    const bool hadIn = had && isAncestorOf(had);
+    const bool hadOnPage = hadIn && m_row->isAncestorOf(had);
 
-    // One dot per card; every card currently on screen lights accent, so the
-    // lit run of dots shows how many cards are visible and where you are.
-    // The dots are created once per rebuild and restyled in place on page
-    // changes: destroying them would yank the very button a keyboard or
-    // screen-reader user just pressed out from under their focus (which then
-    // falls all the way back to the window).
-    if (m_dotsLayout->count() != m_cardCount)
+    // the head: the decks reached out of a deck, the bar in one
+    for (int i = 0; i < m_deckPills.size(); ++i)
+    {
+        QPushButton* pill = m_deckPills[i];
+        pill->setVisible(m_progress.deckShown(i));
+        if (pill->property("current").toBool() != (i == deckIdx))
+        {
+            pill->setProperty("current", i == deckIdx);
+            repolish(pill);
+        }
+    }
+    m_decks->setVisible(m_progress.decksShown());
+    m_bar->setVisible(m_progress.inDeck());
+    m_head->setVisible(m_progress.decksShown() || m_progress.inDeck());
+    m_barTitle->setText(d.title);
+    rebuildDots(m_progress.pages(per));
+    m_prevArrow->setEnabled(m_progress.canBack());
+    m_nextArrow->setEnabled(m_progress.canForward(per));
+
+    // What is on the page now comes, shown at once, and takes the focus; only then does what was there go (a playing
+    // card's run carries on: CardDeck). The other way round, hiding the focused item first hands the focus to the
+    // next control for a moment, and a screen reader reads that control out on the way.
+    m_deck->clear();
+    QList<QWidget*> old;
+    while (QLayoutItem* item = m_rowLayout->takeAt(0))
+    {
+        if (QWidget* w = item->widget())
+            old << w;
+        delete item;
+    }
+    m_items.clear();
+    m_cardFrames.clear();
+    m_start = nullptr;
+    m_tile = nullptr;
+    const QuickstartProgress::Page shown = m_progress.shown(per);
+    if (shown.welcome)
+        m_items << welcomeCard();
+    for (int i = shown.from; i < shown.to; ++i)
+    {
+        CodeCard* c = addCard(i);
+        m_items << c;
+        m_cardFrames << c;
+    }
+    if (shown.tile != QuickstartProgress::Tile::None)
+        m_items << nextTile();
+    for (QWidget* w : m_items)
+    {
+        m_rowLayout->addWidget(w, 0, Qt::AlignTop);
+        w->show();
+    }
+    m_rowLayout->addStretch(1);
+    m_row->setAccessibleName(tr("%1 cards").arg(d.title));
+    const auto dropOld = [&old] {
+        for (QWidget* w : old)
+        {
+            w->hide();
+            w->deleteLater();
+        }
+    };
+
+    // the pane's way in (F6, the Focus menu): the page's first item
+    QWidget* entry = m_items.isEmpty() ? nullptr : focusTarget(m_items.first());
+    setFocusProxy(entry);
+    saveProgress();
+
+    if (!hadIn)
+    {
+        dropOld();
+        return;   // the focus was elsewhere: it stays there
+    }
+    QWidget* target = nullptr;
+    switch (focus)
+    {
+    case FocusTo::Card:
+        for (QWidget* f : m_cardFrames)
+            if (f->property("cardIndex").toInt() == card)
+                target = f;
+        break;
+    case FocusTo::Start:
+        target = m_start;
+        break;
+    case FocusTo::Tile:
+        target = m_tile;
+        break;
+    case FocusTo::Keep:
+        // what had it went with the page, or is hidden (a deck button) or spent (an arrow at its end): the nearest
+        // thing that does the same
+        if (hadOnPage)
+            target = entry;
+        else if (!had->isVisible() || !had->isEnabled())
+            target = m_bar->isVisible() && m_nextArrow->isEnabled() ? static_cast<QWidget*>(m_nextArrow) : entry;
+        break;
+    }
+    if (!target && focus != FocusTo::Keep)
+        target = entry;
+    if (target)
+        target->setFocus(Qt::OtherFocusReason);
+    dropOld();
+}
+
+void QuickstartPane::rebuildDots(int pages)
+{
+    const int page = m_progress.page(m_laidOut);
+    const QVector<Deck>& decks = quickstartDecks(m_cardsPath);
+    const int len = decks.value(m_progress.deck()).cards.size();
+    // a dot a page while they fit at a glance; past that, where you are in words (the welcome card, or the cards on
+    // show of the deck's), as the web's
+    const bool asWords = pages > 6;
+    m_dotsHost->setVisible(!asWords);
+    m_count->setVisible(asWords);
+    if (asWords)
+    {
+        const int a = m_progress.first(page, m_laidOut);
+        const int b = qMin(m_progress.dealt(), a + m_laidOut - 1);
+        m_count->setText(a == 0 ? tr("Intro") : a >= b ? tr("%1 of %2").arg(a).arg(len) : tr("%1–%2 of %3").arg(a).arg(b).arg(len));
+        return;
+    }
+    // Made again only when the page count changes: a dot pressed stays, with the focus a keyboard or screen reader
+    // user has on it.
+    if (m_dotsLayout->count() != pages)
     {
         while (QLayoutItem* it = m_dotsLayout->takeAt(0))
         {
             if (QWidget* w = it->widget())
+            {
+                w->hide();
                 w->deleteLater();
+            }
             delete it;
         }
-        // Even, so the radius below is exactly half. Qt does not clamp a
-        // radius to half the box — it paints artifacts above that and visible
-        // corners below (see the scale in dpi.h) — so only an exact half
-        // renders a true circle. An odd box makes that impossible in integer
-        // pixels, which is why rounding either way alternated circle/square
-        // as zoom nudged the size.
+        // Even, so the radius below is exactly half: only an exact half renders a true circle.
         int dot = uiScale().y(10);
         dot += dot % 2;
-        for (int i = 0; i < m_cardCount; ++i)
+        for (int i = 0; i < pages; ++i)
         {
-            QPushButton* d = new QPushButton(m_dotsHost);
-            d->setObjectName(QStringLiteral("qsDot"));
-            d->setCursor(Qt::PointingHandCursor);
-            d->setFixedSize(dot, dot);
-            // Exactly half the (even) box — see the size calculation above.
-            d->setStyleSheet(
-                QStringLiteral("QPushButton#qsDot { border-radius: %1px; }").arg(dot / 2));
-            d->setAccessibleName(tr("Scroll to card %1 of %2").arg(i + 1).arg(m_cardCount));
-            // Row count (and so this card's column) can change between
-            // presses; resolve at click time.
-            connect(d, &QPushButton::clicked, this, [this, i] {
-                goToPage(qBound(0, i / qMax(1, rowsThatFit()), pageCount() - 1));
-            });
-            m_dotsLayout->addWidget(d);
+            QPushButton* b = new KeyButton(m_dotsHost);
+            b->setObjectName(QStringLiteral("qsDot"));
+            b->setCheckable(true);
+            b->setCursor(Qt::PointingHandCursor);
+            b->setFixedSize(dot, dot);
+            b->setStyleSheet(QStringLiteral("QPushButton#qsDot { border-radius: %1px; }").arg(dot / 2));
+            b->setAccessibleName(tr("Page %1 of %2").arg(i + 1).arg(pages));
+            b->setToolTip(tr("Page %1").arg(i + 1));
+            connect(b, &QPushButton::clicked, this, [this, i] { goToPage(i); });
+            m_dotsLayout->addWidget(b);
         }
     }
     for (int i = 0; i < m_dotsLayout->count(); ++i)
     {
-        QWidget* d = m_dotsLayout->itemAt(i)->widget();
-        if (!d)
+        QPushButton* b = qobject_cast<QPushButton*>(m_dotsLayout->itemAt(i)->widget());
+        if (!b)
             continue;
-        const int col = rows > 0 ? i / rows : i;
-        const bool visible = col >= m_pageIndex && col < m_pageIndex + cpv;
-        if (d->property("lit").toBool() != visible)
+        b->setChecked(i == page);
+        if (b->property("seen").toBool() != (i < page))
         {
-            d->setProperty("lit", visible);
-            repolish(d);
+            b->setProperty("seen", i < page);
+            repolish(b);
         }
     }
-    m_dotsHost->setVisible(pages > 1);
-    m_prevArrow->setVisible(pages > 1);
-    m_nextArrow->setVisible(pages > 1);
-    m_prevArrow->setEnabled(m_pageIndex > 0);
-    m_nextArrow->setEnabled(m_pageIndex < pages - 1);
-    // Keep the pane's focus entry point on the page's current card (see
-    // focusCarousel for why a card, not the scroll area).
-    QWidget* entry = firstVisibleCard();
-    setFocusProxy(entry ? entry : static_cast<QWidget*>(m_scroll));
-    updateBackEdge();
 }
 
-void QuickstartPane::updateBackEdge()
+QWidget* QuickstartPane::welcomeCard()
 {
-    if (!m_backEdge)
-        return;
-    // The margin keeps its slot (fixed width, no layout shift); only its
-    // clickability and hover-reveal come and go with the page.
-    const bool canBack = m_pageIndex > 0;
-    BackZone* bz = static_cast<BackZone*>(m_backEdge);
-    // Wash aligns with the cards' PAINTED extent: the frame reserves a 2px
-    // transparent hover border top and bottom, so inset past it.
-    const int borderW = uiScale().y(2);
-    bz->contentTop = uiScale().y(8) + borderW;
-    bz->contentHeight = qMax(0, m_cardHeight - 2 * borderW);
-    bz->setEnabled(canBack);
-    bz->setCursor(canBack ? Qt::PointingHandCursor : Qt::ArrowCursor);
-    bz->setToolTip(canBack ? tr("Click to see the previous cards.") : QString());
-    bz->update();
-}
+    const Deck& d = quickstartDecks(m_cardsPath)[m_progress.deck()];
+    const QColor accent = m_theme->color("HighlightedBackground");
+    WelcomeCard* card = new WelcomeCard(m_row);
+    card->accent = accent;
+    card->border = ResolveDxToPx(2);
+    card->radius = uiScale().y(8);
+    card->setFixedSize(cardWidth(), m_cardHeight);
+    card->setAccessibleName(tr("%1: the deck's introduction").arg(d.title));
+    QVBoxLayout* lay = new QVBoxLayout(card);
+    lay->setContentsMargins(uiScale().y(18), uiScale().y(16), uiScale().y(18), uiScale().y(16));
+    lay->setSpacing(0);
 
-void QuickstartPane::relayoutGrid(int rows)
-{
-    if (!m_cardGrid)
-        return;
-    // Take every card out of the grid (the card widgets survive; only the
-    // layout items are freed) and re-place them column-major, so paging left
-    // and right moves through whole columns.
-    while (QLayoutItem* it = m_cardGrid->takeAt(0))
-        delete it;
-    for (int i = 0; i < m_cardFrames.size(); ++i)
-        m_cardGrid->addWidget(m_cardFrames[i], i % rows, i / rows,
-                              Qt::AlignTop | Qt::AlignLeft);
-    const int totalCols = m_cardFrames.isEmpty() ? 1 : (m_cardFrames.size() + rows - 1) / rows;
-    if (m_gridSpacer)
-        m_cardGrid->addWidget(m_gridSpacer, 0, totalCols, qMax(1, rows), 1);
-}
+    // the deck's name, its heading: drawn in capitals, read as the word
+    TutHeading* name = new TutHeading(d.title, 2, card);
+    name->setObjectName(QStringLiteral("qsWelcomeDeck"));
+    QFont nameFont = font();
+    nameFont.setPixelSize(rolePx(FontRole::Small));
+    nameFont.setWeight(QFont::DemiBold);
+    nameFont.setCapitalization(QFont::AllUppercase);
+    nameFont.setLetterSpacing(QFont::PercentageSpacing, 110);
+    name->setFont(nameFont);
+    lay->addWidget(name);
+    lay->addSpacing(uiScale().y(8));
 
-void QuickstartPane::updateCarousel()
-{
-    if (!m_scroll || !m_cardGrid || !m_cardRow)
-        return;
-    const int gap = uiScale().y(14);
-    const int pad = uiScale().y(14);
-    const int step = cardWidth() + gap;
-
-    // Use as many rows as fit the height, then page horizontally by columns.
-    const int rows = rowsThatFit();
-    if (rows != m_gridRows)
+    const auto [lead, rest] = splitLead(d.description);
+    if (!lead.isEmpty())
     {
-        relayoutGrid(rows);
-        m_gridRows = rows;
+        QLabel* leadLabel = new QLabel(lead, card);
+        leadLabel->setObjectName(QStringLiteral("qsWelcomeLead"));
+        leadLabel->setWordWrap(true);
+        QFont leadFont = font();
+        leadFont.setPixelSize(rolePx(FontRole::Large));
+        leadFont.setWeight(QFont::Bold);
+        leadLabel->setFont(leadFont);
+        lay->addWidget(leadLabel);
+        lay->addSpacing(uiScale().y(4));
     }
-    const int totalCols = m_cardCount > 0 ? (m_cardCount + rows - 1) / rows : 1;
-    const int pages = pageCount();
-    m_pageIndex = qBound(0, m_pageIndex, pages - 1);
-
-    // Pad the trailing spacer so the last stop still lands on a card boundary
-    // (no half cards). The spacer absorbs the slack so the cards themselves
-    // stay tightly packed rather than the grid spreading them apart.
-    const int vw = m_scroll->viewport()->width();
-    // Right margin only; the left pad lives in the back zone's lane.
-    const int gridW = totalCols > 0 ? totalCols * cardWidth() + (totalCols - 1) * gap + pad : 0;
-    const int lastOffset = (pages - 1) * step;
-    if (m_gridSpacer)
-        m_gridSpacer->setFixedWidth(qMax(0, lastOffset + vw - gridW));
-    // Recompute the grid immediately: adjustSize() otherwise reads a stale
-    // size hint from before the spacer resize, leaving the content too narrow
-    // for the last page to land on a card boundary.
-    m_cardGrid->invalidate();
-    m_cardGrid->activate();
-    m_cardRow->adjustSize();
-
-    rebuildDots();
-    // Snap straight to the current stop (no animation; this is a relayout).
-    m_scroll->horizontalScrollBar()->setValue(m_pageIndex * step);
-}
-
-QWidget* QuickstartPane::firstVisibleCard() const
-{
-    const int rows = qMax(1, rowsThatFit());
-    return m_cardFrames.value(m_pageIndex * rows, nullptr);
-}
-
-void QuickstartPane::focusCarousel()
-{
-    // Land on the current card, not the scroll area: the card is a named
-    // group ("Play a note card, 1 of 31") with the Space/I actions, whereas
-    // the scroll area reads as an anonymous container a screen-reader user
-    // has to dig into.
-    if (QWidget* card = firstVisibleCard())
+    if (!rest.isEmpty())
     {
-        card->setFocus(Qt::OtherFocusReason);
-        return; // the card's accessible name already carries its position
+        QLabel* body = new QLabel(card);
+        body->setObjectName(QStringLiteral("qsWelcomeBody"));
+        body->setTextFormat(Qt::RichText);
+        body->setWordWrap(true);
+        QFont bodyFont = font();
+        bodyFont.setPixelSize(rolePx(FontRole::Base));
+        body->setFont(bodyFont);
+        body->setText(withGlyphs(rest, accent, m_theme->accentContrastText(),
+                                 QFontMetrics(bodyFont).height() - 2, devicePixelRatioF()));   // no taller than its line
+        lay->addWidget(body);
     }
-    if (m_scroll)
+    lay->addStretch(1);
+
+    // the call to it: Start deals the first card; part-way, Carry on goes to the newest; all dealt, Play through again
+    const int len = d.cards.size();
+    const int n = m_progress.dealt();
+    QString say, sub, tip;
+    switch (m_progress.start())
     {
-        m_scroll->setFocus(Qt::OtherFocusReason);
-        announcePage();
+    case QuickstartProgress::Start::Start:
+        say = tr("Start deck");
+        sub = tr("%n cards", nullptr, len);
+        tip = tr("Deal the first card: %1").arg(d.cards.value(0).title);
+        break;
+    case QuickstartProgress::Start::CarryOn:
+        say = tr("Carry on");
+        sub = tr("%1 of %n cards dealt", nullptr, len).arg(n);
+        tip = tr("To the newest card: %1").arg(d.cards.value(n - 1).title);
+        break;
+    case QuickstartProgress::Start::Again:
+        say = tr("Play through again");
+        sub = tr("all %n cards dealt", nullptr, len);
+        tip = tr("Back to the first card: %1").arg(d.cards.value(0).title);
+        break;
     }
+    StartButton* start = new StartButton(card);
+    start->accent = accent;
+    start->glyph = m_theme->accentContrastText();
+    start->disc = uiScale().y(72);
+    start->card = card;
+    card->way = start;
+    start->setAccessibleName(tr("%1, %2").arg(say, sub));
+    start->setAccessibleDescription(tip);
+    start->setToolTip(tip);
+    QHBoxLayout* startLay = new QHBoxLayout(start);
+    startLay->setContentsMargins(start->disc + 2 * start->halo() + uiScale().y(8), 0, 0, 0);
+    QVBoxLayout* words = new QVBoxLayout;
+    words->setSpacing(uiScale().y(2));
+    QLabel* sayLabel = innerLabel(say, "qsStartSay", start);
+    QFont sayFont = font();
+    sayFont.setPixelSize(rolePx(FontRole::Large));
+    sayFont.setWeight(QFont::Bold);
+    sayLabel->setFont(sayFont);
+    QLabel* subLabel = innerLabel(sub, "qsStartSub", start);
+    QFont mono(QStringLiteral("Hack"));
+    mono.setPixelSize(rolePx(FontRole::Small));
+    subLabel->setFont(mono);
+    words->addStretch(1);
+    words->addWidget(sayLabel);
+    words->addWidget(subLabel);
+    words->addStretch(1);
+    startLay->addLayout(words);
+    start->setFixedHeight(start->disc + 2 * start->halo());
+    start->setMinimumWidth(start->disc + 2 * start->halo() + uiScale().y(8)
+                           + qMax(QFontMetrics(sayFont).horizontalAdvance(say), QFontMetrics(mono).horizontalAdvance(sub)));
+    connect(start, &QPushButton::clicked, this, &QuickstartPane::startDeck);
+    lay->addWidget(start, 0, Qt::AlignLeft);
+    m_start = start;
+    return card;
 }
 
-void QuickstartPane::goToPage(int page)
+QWidget* QuickstartPane::nextTile()
 {
-    if (!m_scroll)
-        return;
-    const int step = cardWidth() + uiScale().y(14);
-    const int pages = pageCount();
-    // Linear deck: the ends are hard stops.
-    const int prevIndex = m_pageIndex;
-    m_pageIndex = qBound(0, page, pages - 1);
-
-    QScrollBar* sb = m_scroll->horizontalScrollBar();
-    const int target = qBound(sb->minimum(), m_pageIndex * step, sb->maximum());
-    // With a screen reader connected, snap instead of glide: focus moves to
-    // the new page's card immediately, and an animation would leave the
-    // reader's focus rectangle drawn where the card was mid-slide.
-    if (SonicPi::prefersReducedMotion() || QAccessible::isActive())
+    const QVector<Deck>& decks = quickstartDecks(m_cardsPath);
+    const Deck& d = decks[m_progress.deck()];
+    const int n = m_progress.dealt();
+    const bool aCard = n < d.cards.size();   // else the deck is done: the next deck
+    QString label, title, count, tip;
+    if (aCard)
     {
-        sb->setValue(target);
+        label = tr("Next card");
+        title = d.cards[n].title;
+        count = tr("%1 of %2").arg(n + 1).arg(d.cards.size());
+        tip = tr("Show the next card: %1").arg(title);
     }
     else
     {
-        QPropertyAnimation* anim = new QPropertyAnimation(sb, "value", sb);
-        anim->setDuration(240);
-        anim->setStartValue(sb->value());
-        anim->setEndValue(target);
-        anim->setEasingCurve(QEasingCurve::OutCubic);
-        anim->start(QAbstractAnimation::DeleteWhenStopped);
+        const Deck& next = decks[m_progress.deck() + 1];
+        label = tr("Next deck");
+        title = next.title;
+        count = tr("%n cards", nullptr, next.cards.size());
+        tip = tr("On to the next deck: %1").arg(title);
     }
-    rebuildDots(); // recolour dots + arrow state for the page we moved to
-    if (m_pageIndex != prevIndex)
-        announcePage();
+    NextTile* tile = new NextTile(m_row);
+    tile->accent = m_theme->color("HighlightedBackground");
+    tile->glyph = m_theme->accentContrastText();
+    tile->disc = uiScale().y(64);
+    tile->gap = uiScale().y(12);
+    tile->border = ResolveDxToPx(2);
+    tile->radius = uiScale().y(8);
+    tile->setFixedSize(cardWidth(), m_cardHeight);
+    tile->setAccessibleName(tr("%1: %2, %3").arg(label, title, count));
+    tile->setAccessibleDescription(tip);
+    tile->setToolTip(tip);
+
+    QVBoxLayout* lay = new QVBoxLayout(tile);
+    lay->setContentsMargins(uiScale().y(16), uiScale().y(16), uiScale().y(16), uiScale().y(16));
+    lay->setSpacing(uiScale().y(4));
+    lay->addStretch(1);
+    lay->addSpacing(tile->disc + tile->gap);
+    QLabel* labelLabel = innerLabel(label, "qsTileLabel", tile);
+    QFont labelFont = font();
+    labelFont.setPixelSize(rolePx(FontRole::Small));
+    labelFont.setWeight(QFont::DemiBold);
+    labelFont.setCapitalization(QFont::AllUppercase);
+    labelFont.setLetterSpacing(QFont::PercentageSpacing, 110);
+    labelLabel->setFont(labelFont);
+    QLabel* titleLabel = innerLabel(title, "qsTileTitle", tile);
+    QFont titleFont = font();
+    titleFont.setPixelSize(rolePx(FontRole::Large));
+    titleFont.setWeight(QFont::Bold);
+    titleLabel->setFont(titleFont);
+    titleLabel->setWordWrap(true);
+    QLabel* countLabel = innerLabel(count, "qsTileCount", tile);
+    QFont mono(QStringLiteral("Hack"));
+    mono.setPixelSize(rolePx(FontRole::Small));
+    countLabel->setFont(mono);
+    for (QLabel* l : { labelLabel, titleLabel, countLabel })
+    {
+        l->setAlignment(Qt::AlignHCenter);
+        lay->addWidget(l);
+    }
+    lay->addStretch(1);
+    tile->below = labelLabel;
+    if (aCard)
+        connect(tile, &QPushButton::clicked, this, &QuickstartPane::deal);
+    else
+        connect(tile, &QPushButton::clicked, this, &QuickstartPane::nextDeck);
+    m_tile = tile;
+    return tile;
 }
 
-// Tell a screen reader where paging landed. Always speaks per-card ("Card 6
-// of 10") — a screen reader experiences one card at a time, so the visual
-// page range ("cards 6 to 10") is meaningless to it.
-void QuickstartPane::announcePage()
+CodeCard* QuickstartPane::addCard(int i)
 {
-    if (m_cardCount <= 0)
-        return;
-    // When focus is riding the cards (keyboard/screen-reader paging), the
-    // newly focused card announces itself.
-    QWidget* focused = QApplication::focusWidget();
-    if (focused && m_cardFrames.contains(focused))
-        return;
-    const int lead = m_pageIndex * qMax(1, rowsThatFit());
-    if (lead >= m_cardCount)
-        return;
-    emit announceRequested(tr("Card %1 of %2").arg(lead + 1).arg(m_cardCount));
-}
-
-void QuickstartPane::scrollCardIntoView(QWidget* frame)
-{
-    const int idx = m_cardFrames.indexOf(frame);
-    if (idx < 0)
-        return;
-    const int rows = qMax(1, rowsThatFit());
-    const int col = idx / rows;
-    const int cpv = cardsPerView();
-    // The card sits in column `col`; the fully-visible columns are
-    // [m_pageIndex, m_pageIndex + cpv). If it's outside (only peeking), page so
-    // it becomes flush at the near edge.
-    if (col < m_pageIndex)
-        goToPage(col);
-    else if (col >= m_pageIndex + cpv)
-        goToPage(col - cpv + 1);
-}
-
-CodeCard* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QString& workspace,
-                                  int scopeSlot, const QString& key)
-{
+    const Deck& d = quickstartDecks(m_cardsPath)[m_progress.deck()];
+    const SonicPi::QuickstartCard& card = d.cards[i];
     CodeCard::Spec spec;
     spec.title = card.title;
     spec.code = card.code;
     spec.blurb = card.blurb;
-    spec.scopeSlot = static_cast<unsigned int>(scopeSlot);
-    spec.key = key;
+    // Each card gets its own scope slot, wrapping within the cards' slot budget so a user-authored deck with more
+    // cards than slots shares slots between cards rather than colliding with the live_loop range.
+    spec.scopeSlot = kFirstScopeSlot + (unsigned(i) % kCardScopeSlots);
+    // An edit is kept by the deck's and the card's names, so it follows the card when a set is reordered.
+    spec.key = QStringLiteral("quickstart/%1/%2").arg(d.title, card.title);
     // One card size for every deck: the sizes computeGlobalLayout settled on.
     CodeCard::Metrics metrics;
     metrics.width = cardWidth();
@@ -1188,8 +1254,13 @@ CodeCard* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QSt
     metrics.codeFontPx = m_codeFontPx;
     metrics.titlePx = rolePx(FontRole::Large);
     metrics.zoomFactor = m_zoomFactor;
-    CodeCard* c = new CodeCard(spec, metrics, m_theme);
-    m_deck->add(c, workspace);
+    CodeCard* c = new CodeCard(spec, metrics, m_theme, m_row);
+    c->setProperty("cardIndex", i);
+    m_deck->add(c, QString("sonic-pi-quickstart-%1-%2").arg(m_progress.deck()).arg(i));
+    // The name carries the blurb: a screen reader always speaks the name on focus, whereas the description (AXHelp)
+    // is at the mercy of the user's hint-verbosity settings.
+    const QString plainBlurb = QTextDocumentFragment::fromHtml(card.blurb).toPlainText().simplified();
+    c->setAccessibleName(tr("%1 card, %2 of %3. %4").arg(card.title).arg(i + 1).arg(d.cards.size()).arg(plainBlurb));
     connect(c, &CodeCard::insertRequested, this, &QuickstartPane::insertRequested);
     connect(c, &CodeCard::copyRequested, this, &QuickstartPane::copyRequested);
     connect(c, &CodeCard::insertPreviewRequested, this, &QuickstartPane::insertPreviewRequested);
@@ -1197,11 +1268,271 @@ CodeCard* QuickstartPane::addCard(const SonicPi::QuickstartCard& card, const QSt
     connect(c, &CodeCard::announceRequested, this, &QuickstartPane::announceRequested);
     connect(c, &CodeCard::dragEnded, this, &QuickstartPane::dragEnded);
     connect(c, &CodeCard::stepRequested, this, [this, c](int delta) { stepFrom(c, delta); });
-    // A plain click on a partly-visible card scrolls it fully into view; the
-    // same as pressing the arrow toward it.
-    connect(c, &CodeCard::clicked, this, [this, c] { scrollCardIntoView(c); });
-    // The wheel over a card's code is shared with the carousel (eventFilter).
+    // The wheel over a card's code is shared with the pages (eventFilter).
     c->body()->viewport()->installEventFilter(this);
-
     return c;
+}
+
+QWidget* QuickstartPane::focusTarget(QWidget* item) const
+{
+    if (item && item->objectName() == QLatin1String("qsWelcome"))
+        return m_start;
+    return item;
+}
+
+bool QuickstartPane::focusOnCard() const
+{
+    QWidget* f = window() ? window()->focusWidget() : nullptr;
+    return f && m_cardFrames.contains(f);
+}
+
+void QuickstartPane::focusCarousel()
+{
+    // Land on the page's first card, or the welcome card's Start, not a container: the card is a named group with
+    // its keys, and says where it is; Start is told the deck it opens.
+    if (m_items.isEmpty())
+        return;
+    if (QWidget* target = focusTarget(m_items.first()))
+        target->setFocus(Qt::OtherFocusReason);
+    sayPage(true);
+}
+
+// ── the controls ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+void QuickstartPane::chooseDeck(int deck)
+{
+    m_progress.choose(deck);
+    render();
+    const Deck& d = quickstartDecks(m_cardsPath)[m_progress.deck()];
+    emit announceRequested(tr("%1 deck, %n cards", nullptr, d.cards.size()).arg(d.title));
+}
+
+void QuickstartPane::startDeck()
+{
+    const int n = m_progress.dealt();
+    if (n == 0)
+    {
+        deal();
+        return;
+    }
+    const int len = m_progress.cards();
+    m_progress.startDeck(perPage());
+    render(FocusTo::Card, n < len ? n - 1 : 0);   // the newest card, or all dealt the first
+    sayPage(true);
+}
+
+void QuickstartPane::deal()
+{
+    const int n = m_progress.dealt();
+    m_progress.deal(perPage());
+    if (m_progress.dealt() > n)
+        showDealt(n);
+}
+
+// Card n just dealt: the focus on it, which says which card it is; said, if the focus was elsewhere.
+void QuickstartPane::showDealt(int n)
+{
+    render(FocusTo::Card, n);
+    if (focusOnCard())
+        return;
+    const Deck& d = quickstartDecks(m_cardsPath)[m_progress.deck()];
+    emit announceRequested(tr("Card %1 of %2: %3").arg(n + 1).arg(d.cards.size()).arg(d.cards[n].title));
+}
+
+void QuickstartPane::nextDeck()
+{
+    m_progress.nextDeck();
+    showNewDeck();
+}
+
+// The next deck reached: its welcome card, the focus on its Start, and its name said.
+void QuickstartPane::showNewDeck()
+{
+    render(FocusTo::Start);
+    const Deck& d = quickstartDecks(m_cardsPath)[m_progress.deck()];
+    emit announceRequested(tr("New deck: %1, %n cards", nullptr, d.cards.size()).arg(d.title));
+}
+
+void QuickstartPane::leave()
+{
+    m_progress.leave();
+    render(FocusTo::Start);
+    const Deck& d = quickstartDecks(m_cardsPath)[m_progress.deck()];
+    emit announceRequested(tr("Decks. %1: the deck's introduction").arg(d.title));
+}
+
+void QuickstartPane::turn(int by)
+{
+    const bool moved = m_progress.turn(by, perPage());
+    render();
+    sayPage(moved);
+}
+
+void QuickstartPane::forward()
+{
+    const int n = m_progress.dealt();
+    switch (m_progress.forward(perPage()))
+    {
+    case QuickstartProgress::Moved::Page:
+        render();
+        sayPage(true);
+        break;
+    case QuickstartProgress::Moved::Dealt:
+        showDealt(n);
+        break;
+    case QuickstartProgress::Moved::NewDeck:
+        showNewDeck();
+        break;
+    case QuickstartProgress::Moved::None:
+        sayPage(false);
+        break;
+    }
+}
+
+void QuickstartPane::goToPage(int page)
+{
+    const bool moved = m_progress.goTo(page, perPage());
+    render();
+    sayPage(moved);
+}
+
+// Where a page landed, unless a card has the focus: the card's own name says which card it is.
+void QuickstartPane::sayPage(bool moved)
+{
+    if (focusOnCard())
+        return;
+    const Deck& d = quickstartDecks(m_cardsPath)[m_progress.deck()];
+    const int per = perPage();
+    if (!moved)
+    {
+        emit announceRequested(m_progress.page(per) == 0 ? tr("First card.") : tr("Last card."));
+        return;
+    }
+    const int first = m_progress.first(m_progress.page(per), per);
+    emit announceRequested(first == 0 ? tr("%1: the deck's introduction").arg(d.title)
+                                      : tr("Card %1 of %2").arg(first).arg(d.cards.size()));
+}
+
+void QuickstartPane::stepFrom(QWidget* item, int delta)
+{
+    const int at = m_items.indexOf(item);
+    const int to = at + delta;
+    if (at >= 0 && to >= 0 && to < m_items.size())
+    {
+        if (QWidget* target = focusTarget(m_items[to]))
+            target->setFocus(Qt::OtherFocusReason);
+        return;
+    }
+    // off the page's end: the page before, on the item before this one, or the next (or the next card dealt)
+    const int per = perPage();
+    const int firstItem = m_progress.first(m_progress.page(per), per);
+    if (delta < 0)
+    {
+        if (!m_progress.turn(-1, per))
+        {
+            sayPage(false);
+            return;
+        }
+        render();
+        const int want = firstItem - 1;   // item 0 is the welcome card, item k card k - 1
+        QWidget* target = want <= 0 ? m_start : nullptr;
+        for (QWidget* f : m_cardFrames)
+            if (f->property("cardIndex").toInt() == want - 1)
+                target = f;
+        if (target)
+            target->setFocus(Qt::OtherFocusReason);
+        sayPage(true);
+        return;
+    }
+    const int lastItem = firstItem + int(m_items.size()) - 1;
+    if (m_progress.page(per) < m_progress.pages(per) - 1)
+    {
+        m_progress.turn(1, per);
+        render();
+        QWidget* target = m_tile;
+        for (QWidget* f : m_cardFrames)
+            if (f->property("cardIndex").toInt() == lastItem)   // item lastItem + 1 is card lastItem
+                target = f;
+        if (target)
+            target->setFocus(Qt::OtherFocusReason);
+        sayPage(true);
+        return;
+    }
+    forward();
+}
+
+void QuickstartPane::keyPressEvent(QKeyEvent* event)
+{
+    if (event->key() != Qt::Key_Left && event->key() != Qt::Key_Right)
+    {
+        QWidget::keyPressEvent(event);
+        return;
+    }
+    const int delta = event->key() == Qt::Key_Right ? 1 : -1;
+    // from an item on the page (the welcome card's Start, the tile): the item beside it; from anywhere else, a page
+    QWidget* f = window() ? window()->focusWidget() : nullptr;
+    for (QWidget* item : m_items)
+    {
+        if (f && (f == item || item->isAncestorOf(f)))
+        {
+            stepFrom(item, delta);
+            return;
+        }
+    }
+    if (delta > 0)
+        forward();
+    else
+        turn(-1);
+}
+
+// The wheel turns the pages, one a gesture: the cooldown absorbs a trackpad swipe's momentum. It never deals a
+// card: that is a press, of the tile or of Next.
+void QuickstartPane::pageByWheel(const QWheelEvent* we)
+{
+    const int dx = we->angleDelta().x();
+    const int dy = we->angleDelta().y();
+    bool next = false;
+    // angleDelta folds in the system's natural-scrolling setting, so read it as a scrollbar delta: negative x scrolls
+    // the content rightward, i.e. a macOS natural swipe left goes on to the next cards.
+    if (qAbs(dx) > qAbs(dy) && qAbs(dx) > 2)
+        next = dx < 0;
+    else if (qAbs(dy) > 2)
+        next = dy < 0; // vertical wheel: down = forward
+    else
+        return;
+    if (m_wheelCooldown)
+        return;
+    m_wheelCooldown = true;
+    QTimer::singleShot(320, this, [this] { m_wheelCooldown = false; });
+    turn(next ? 1 : -1);
+}
+
+void QuickstartPane::wheelEvent(QWheelEvent* event)
+{
+    pageByWheel(event);
+    event->accept();
+}
+
+bool QuickstartPane::eventFilter(QObject* obj, QEvent* event)
+{
+    // A card's code only claims the wheel along an axis it can scroll; otherwise the gesture turns the pages, so a
+    // snippet that fits (almost all of them) still turns them from anywhere on the card.
+    if (event->type() == QEvent::Wheel)
+    {
+        if (QWidget* vp = qobject_cast<QWidget*>(obj))
+        {
+            QScrollArea* sa = qobject_cast<QScrollArea*>(vp->parentWidget());
+            if (sa && sa->objectName() == QLatin1String("qsCardBody") && vp == sa->viewport())
+            {
+                QWheelEvent* we = static_cast<QWheelEvent*>(event);
+                const bool horizontal = qAbs(we->angleDelta().x()) > qAbs(we->angleDelta().y());
+                const QScrollBar* bar = horizontal ? sa->horizontalScrollBar() : sa->verticalScrollBar();
+                if (bar && bar->minimum() != bar->maximum())
+                    return false; // the code scrolls it
+                pageByWheel(we);
+                return true;
+            }
+        }
+    }
+    return QWidget::eventFilter(obj, event);
 }

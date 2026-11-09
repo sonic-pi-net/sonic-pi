@@ -56,14 +56,27 @@ struct Deck
     {
         QApplication::setFont(RoleFont(FontRole::Base));
         qApp->setStyleSheet(theme->getAppStylesheet());
-        load();
         pane.resize(1400, 520);
         pane.show();
         settle();
+        load();
     }
     ~Deck() { delete theme; }
 
-    void load() { pane.setCardsFile(QStringLiteral(SP_ROOT) + "/etc/quickstart/cards.txt"); }
+    // The set, at its first card: a deck opens on its welcome card, whose Start deals the first card (and once it is
+    // dealt, Carry on goes back to it), as someone opening the pane does (quickstart_deal.test.cpp).
+    void load()
+    {
+        pane.setCardsFile(QStringLiteral(SP_ROOT) + "/etc/quickstart/cards.txt");
+        settle();
+        for (QAbstractButton* b : pane.findChildren<QAbstractButton*>(QStringLiteral("qsStart")))
+            if (b->isVisible())
+            {
+                b->click();
+                break;
+            }
+        settle();
+    }
 
     // The first card of the first deck: "Your First Note", play 60.
     CodeCard* firstCard() const

@@ -1425,7 +1425,75 @@ QuickstartPane QScrollArea
 }
 
 /* Deck selector pills are styled with the docs/info nav chips under the
-   house "pill" rule above — `current` marks the active deck. */
+   house "pill" rule above — `current` marks the active deck. Only the decks
+   reached are shown (quickstartpane.cpp). */
+
+/* In a deck: the way back to the decks, its name, and its pages. */
+QPushButton#qsExit
+{
+    background: transparent;
+    color: windowForegroundColor;
+    border: 1dx solid faintForegroundColor;
+    border-radius: radiusLarge;
+    font-weight: 600;
+    padding-top: 4dx;
+    padding-bottom: 4dx;
+    padding-left: 8dx;
+    padding-right: 12dx;
+}
+
+QPushButton#qsExit:hover,
+QPushButton#qsExit:focus
+{
+    border-color: hoverButtonColor;
+    color: hoverButtonColor;
+}
+
+QLabel#qsBarTitle
+{
+    color: windowForegroundColor;
+    background: transparent;
+}
+
+/* The welcome card and the tile are painted (dashed, in the accent); their
+   words take the house colours: the accent for the labels, the foreground for
+   what you read first, soft for the deck's words, muted for counts. */
+QLabel#qsWelcomeDeck,
+QLabel#qsTileLabel
+{
+    color: highlightedBackgroundColor;
+    background: transparent;
+}
+
+QLabel#qsWelcomeLead,
+QLabel#qsStartSay,
+QLabel#qsTileTitle
+{
+    color: windowForegroundColor;
+    background: transparent;
+}
+
+QLabel#qsWelcomeBody
+{
+    color: softForegroundColor;
+    background: transparent;
+}
+
+QLabel#qsStartSub,
+QLabel#qsTileCount,
+QLabel#qsCount
+{
+    color: mutedForegroundColor;
+    background: transparent;
+}
+
+QPushButton#qsStart,
+QPushButton#qsNextTile
+{
+    background: transparent;
+    border: none;
+    padding: 0;
+}
 
 /* Carousel nav: ‹ dots › grouped in a soft pill. */
 /* Radius set in code alongside the row's scaled height — see qsDot above. */
@@ -1434,10 +1502,10 @@ QWidget#qsNav
     background: subtleFillColor;
 }
 
-/* One dot per card; the lit run is the cards currently on screen. */
-/* Radius is set per-dot in quickstartpane.cpp (rebuildDots): it must be half
-   the dot's size, and the size scales with the pane's A-/A+ zoom. A fixed
-   radius here would snap the dot from circle to square as it grew. */
+/* One dot per page: the pages seen in the accent, the page on show ringed.
+   Radius is set per-dot in quickstartpane.cpp (rebuildDots): it must be half
+   the dot's size, and the size scales with the pane's. A fixed radius here
+   would snap the dot from circle to square as it grew. */
 QPushButton#qsDot
 {
     border: none;
@@ -1450,23 +1518,22 @@ QPushButton#qsDot:hover
     background: mutedForegroundColor;
 }
 
-QPushButton#qsDot[lit="true"],
-QPushButton#qsDot[lit="true"]:hover
+QPushButton#qsDot[seen="true"],
+QPushButton#qsDot[seen="true"]:hover
 {
     background: highlightedBackgroundColor;
 }
 
-/* Deck description row: accent rail + muted one-liner. */
-/* Radius set in code alongside the rail's scaled width — see qsDot above. */
-QWidget#qsHeaderRail
+QPushButton#qsDot:checked,
+QPushButton#qsDot:checked:hover
 {
     background: highlightedBackgroundColor;
+    border: 2dx solid windowForegroundColor;
 }
 
-QLabel#qsDeckDesc
+QPushButton#qsDot:focus
 {
-    color: softForegroundColor;
-    background: transparent;
+    border: 2dx solid hoverButtonColor;
 }
 
 /* The card. A 2dx border is always reserved (transparent when idle) so the

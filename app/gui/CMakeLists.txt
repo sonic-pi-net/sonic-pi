@@ -134,6 +134,7 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/chevronbutton.h
     ${QTAPP_ROOT}/model/helppanelmodel.h
     ${QTAPP_ROOT}/model/sidecolumnmodel.h
+    ${QTAPP_ROOT}/model/quickstartprogress.h
     ${QTAPP_ROOT}/widgets/awaydock.h
     ${QTAPP_ROOT}/widgets/overlaypane.h
     ${QTAPP_ROOT}/platform/recorder_audio_rate.cpp

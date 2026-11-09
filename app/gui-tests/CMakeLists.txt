@@ -80,6 +80,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/plugins.test.cpp
     ${GUI_TESTS_ROOT}/card_deck.test.cpp
     ${GUI_TESTS_ROOT}/quickstart_card.test.cpp
+    ${GUI_TESTS_ROOT}/quickstart_deal.test.cpp
     ${GUI_TESTS_ROOT}/code_flash.test.cpp
     ${GUI_TESTS_ROOT}/tutorial_cards.test.cpp
     ${GUI_ROOT}/widgets/nodetreegraph.cpp

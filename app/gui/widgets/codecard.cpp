@@ -108,6 +108,8 @@ QAccessibleInterface* codeCardAccessibleFactory(const QString& className, QObjec
     return nullptr;
 }
 
+} // namespace
+
 void registerCodeCardAccessibility()
 {
     static bool installed = false;
@@ -118,6 +120,8 @@ void registerCodeCardAccessibility()
     registerTutorialWidgetAccessibility(); // titles are TutHeadings
 }
 
+namespace
+{
 // The editor's colours, from the one tokenizer the card's still lines use
 // (TutorialDocs::tokenizeLine): editing a line changes nothing about how it
 // is coloured.
