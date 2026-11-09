@@ -300,6 +300,9 @@ struct Pane
                 return w;
         return nullptr;
     }
+    // the words a button draws on itself (QuickstartPane sets them as its properties: say and sub on Start; label,
+    // title and count on the tile)
+    QString words(QWidget* button, const char* which) const { return button ? button->property(which).toString() : QString(); }
     QString text(const char* name) const
     {
         QLabel* l = shown<QLabel>(name);
@@ -340,8 +343,8 @@ TEST_CASE("the pane opens on the deck's welcome card: its name, its first senten
     CHECK(p.text("qsWelcomeDeck") == "Basics");
     CHECK(p.text("qsWelcomeLead") == "Welcome friend :-)");
     CHECK(QTextDocumentFragment::fromHtml(p.text("qsWelcomeBody")).toPlainText().startsWith("This is a deck of QuickStart cards."));
-    CHECK(p.text("qsStartSay") == "Start deck");
-    CHECK(p.text("qsStartSub") == "10 cards");
+    CHECK(p.words(p.start(), "say") == "Start deck");
+    CHECK(p.words(p.start(), "sub") == "10 cards");
     CHECK(p.cards().isEmpty());
     CHECK(!p.tile());
     CHECK(!p.leave());
@@ -357,8 +360,8 @@ TEST_CASE("Start deals the first card, with focus on it and the next card's tile
     p.click(p.start());
     CHECK(p.cards() == QStringList{ "Your First Note" });
     REQUIRE(p.tile());
-    CHECK(p.text("qsTileTitle") == "Change Synth");
-    CHECK(p.text("qsTileCount") == "2 of 10");
+    CHECK(p.words(p.tile(), "title") == "Change Synth");
+    CHECK(p.words(p.tile(), "count") == "2 of 10");
     QWidget* focused = p.pane->window()->focusWidget();
     REQUIRE(focused);
     CHECK(focused->objectName() == "qsCard");
@@ -376,8 +379,8 @@ TEST_CASE("the tile deals the next card, and Decks goes back to the welcome card
     p.click(p.leave());
     CHECK(p.welcome());
     CHECK(p.cards().isEmpty());
-    CHECK(p.text("qsStartSay") == "Carry on");
-    CHECK(p.text("qsStartSub") == "2 of 10 cards dealt");
+    CHECK(p.words(p.start(), "say") == "Carry on");
+    CHECK(p.words(p.start(), "sub") == "2 of 10 cards dealt");
 }
 
 TEST_CASE("the decks reached are the ones to choose between", "[quickstart][deal]")
@@ -388,8 +391,8 @@ TEST_CASE("the decks reached are the ones to choose between", "[quickstart][deal
     for (int i = 1; i < 10; ++i)
         p.click(p.tile());
     REQUIRE(p.tile());
-    CHECK(p.text("qsTileLabel") == "Next deck");
-    CHECK(p.text("qsTileTitle") == "Synths");
+    CHECK(p.words(p.tile(), "label") == "Next deck");
+    CHECK(p.words(p.tile(), "title") == "Synths");
     p.click(p.tile());
     CHECK(p.text("qsWelcomeDeck") == "Synths");
     CHECK(p.decks() == QStringList{ "Basics", "Synths" });
@@ -404,8 +407,8 @@ TEST_CASE("how far the decks are dealt is kept for next time", "[quickstart][dea
         p.click(p.tile());
     }
     Pane again;
-    CHECK(again.text("qsStartSay") == "Carry on");
-    CHECK(again.text("qsStartSub") == "2 of 10 cards dealt");
+    CHECK(again.words(again.start(), "say") == "Carry on");
+    CHECK(again.words(again.start(), "sub") == "2 of 10 cards dealt");
 }
 
 // ── what a screen reader meets ───────────────────────────────────────────────────────────────────────────────────
@@ -455,16 +458,16 @@ TEST_CASE("Start, the tile and Decks each say what they do, once", "[quickstart]
     REQUIRE(p.start());
     CHECK(spoken(p.start()) == "Start deck, 10 cards");
     CHECK(a11y(p.start())->text(QAccessible::Description) == "Deal the first card: Your First Note");
-    // the words drawn inside are the name already: not read again
-    for (QLabel* l : p.start()->findChildren<QLabel*>())
-        CHECK(a11y(l)->state().invisible);
+    // the words are the button's own, drawn on it: nothing inside it to be read a second time
+    CHECK(p.start()->findChildren<QWidget*>().isEmpty());
+    CHECK(a11y(p.start())->childCount() == 0);
 
     p.click(p.start());
     REQUIRE(p.tile());
     CHECK(spoken(p.tile()) == "Next card: Change Synth, 2 of 10");
     CHECK(a11y(p.tile())->text(QAccessible::Description) == "Show the next card: Change Synth");
-    for (QLabel* l : p.tile()->findChildren<QLabel*>())
-        CHECK(a11y(l)->state().invisible);
+    CHECK(p.tile()->findChildren<QWidget*>().isEmpty());
+    CHECK(a11y(p.tile())->childCount() == 0);
     REQUIRE(p.leave());
     CHECK(spoken(p.leave()) == "Back to the decks");
 }
@@ -513,7 +516,7 @@ TEST_CASE("focus stays in the pane: on the card dealt, then on Start back at the
     CHECK(focused() == p.start());
 
     p.click(p.start());
-    while (p.text("qsTileLabel") != "Next deck")
+    while (p.words(p.tile(), "label") != "Next deck")
     {
         REQUIRE(p.tile());
         REQUIRE(p.tile());
@@ -547,7 +550,7 @@ TEST_CASE("a screen reader is told where it is whenever the focus does not say i
     spy.clear();
 
     p.click(p.start());
-    while (p.text("qsTileLabel") != "Next deck")
+    while (p.words(p.tile(), "label") != "Next deck")
     {
         REQUIRE(p.tile());
         p.tile()->setFocus();
@@ -594,18 +597,18 @@ TEST_CASE("the arrows and the page dots name what they do and say which page is 
     CHECK(said(spy) == QStringList{ "First card." });
 }
 
-TEST_CASE("with a screen reader running, the words inside Start and the tile are still read once", "[quickstart][deal][a11y]")
+TEST_CASE("with a screen reader running, Start and the tile are each read once, by their name", "[quickstart][deal][a11y]")
 {
-    // Accessibility on from the start, as a screen reader has it: a widget's interface can be made as the widget is,
-    // before anything is set on it afterwards.
+    // Accessibility on from the start, as a screen reader has it: the buttons draw their words, so there is nothing
+    // inside them to read, however early a widget's interface is made.
     AccessibilityOn on;
     OwnSettings settings;
     Pane p;
     REQUIRE(p.start());
-    for (QLabel* l : p.start()->findChildren<QLabel*>())
-        CHECK(a11y(l)->state().invisible);
+    CHECK(a11y(p.start())->childCount() == 0);
+    CHECK(spoken(p.start()) == "Start deck, 10 cards");
     p.click(p.start());
     REQUIRE(p.tile());
-    for (QLabel* l : p.tile()->findChildren<QLabel*>())
-        CHECK(a11y(l)->state().invisible);
+    CHECK(a11y(p.tile())->childCount() == 0);
+    CHECK(spoken(p.tile()) == "Next card: Change Synth, 2 of 10");
 }

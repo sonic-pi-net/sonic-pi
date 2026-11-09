@@ -306,12 +306,14 @@ jobs:
         run: ctest --verbose
         if: matrix.os == 'ubuntu-latest'
 
+      # A Visual Studio build has a configuration a test runs from: ctest is told
+      # which, or it runs nothing ("Test not available without configuration").
       - name: GUI Tests - Windows
         shell: cmd
         working-directory: ${{ github.workspace }}\app\build\gui-tests
         env:
           QT_QPA_PLATFORM: offscreen
-        run: ctest --verbose
+        run: ctest -C ${{ matrix.build_type }} --verbose
         if: startsWith(matrix.os, 'windows')
 
 

@@ -366,3 +366,20 @@ TEST_CASE("with a screen reader running, a card's drag handle stays out of its w
     REQUIRE(handle);
     CHECK(handle->state().invisible);
 }
+
+TEST_CASE("a widget hidden from screen readers after its record was made is hidden all the same", "[quickstart][card][a11y]")
+{
+    // Qt 6.4 makes a widget's accessibility record as its text is set, a screen reader running or not
+    // (QAccessible::updateAccessibility asks for it first), and keeps it: here it is asked for before the widget is
+    // hidden, as Qt 6.4 would have, on any Qt.
+    Deck deck;
+    QLabel words(QStringLiteral("Start deck"));
+    QAccessibleInterface* made = QAccessible::queryAccessibleInterface(&words);
+    REQUIRE(made);
+    REQUIRE(made->role() == QAccessible::StaticText);
+    hideFromScreenReaders(&words);
+    QAccessibleInterface* now = QAccessible::queryAccessibleInterface(&words);
+    REQUIRE(now);
+    CHECK(now->role() == QAccessible::NoRole);
+    CHECK(now->state().invisible);
+}

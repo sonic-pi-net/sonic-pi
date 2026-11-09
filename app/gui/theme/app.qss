@@ -1455,19 +1455,17 @@ QLabel#qsBarTitle
     background: transparent;
 }
 
-/* The welcome card and the tile are painted (dashed, in the accent); their
-   words take the house colours: the accent for the labels, the foreground for
-   what you read first, soft for the deck's words, muted for counts. */
-QLabel#qsWelcomeDeck,
-QLabel#qsTileLabel
+/* The welcome card is painted (dashed, in the accent); its words take the
+   house colours: the accent for the deck's name, the foreground for what you
+   read first, soft for the deck's words, muted for counts. Start and the tile
+   draw their own words in the same colours. */
+QLabel#qsWelcomeDeck
 {
     color: highlightedBackgroundColor;
     background: transparent;
 }
 
-QLabel#qsWelcomeLead,
-QLabel#qsStartSay,
-QLabel#qsTileTitle
+QLabel#qsWelcomeLead
 {
     color: windowForegroundColor;
     background: transparent;
@@ -1479,8 +1477,6 @@ QLabel#qsWelcomeBody
     background: transparent;
 }
 
-QLabel#qsStartSub,
-QLabel#qsTileCount,
 QLabel#qsCount
 {
     color: mutedForegroundColor;

@@ -113,11 +113,12 @@ QAccessibleInterface* codeCardAccessibleFactory(const QString& className, QObjec
 void hideFromScreenReaders(QWidget* widget)
 {
     widget->setProperty("a11yIgnored", true);
-    // Whatever was made before the property is let go, so the next is made through the factory, hidden. Its state is
-    // no guide to which it is: a widget not yet shown reads as invisible either way.
-    if (QAccessible::isActive())
-        if (QAccessibleInterface* made = QAccessible::queryAccessibleInterface(widget))
-            QAccessible::deleteAccessibleInterface(QAccessible::uniqueId(made));
+    // Whatever was made before the property is let go, so the next is made through the factory, hidden. Made it may
+    // have been whether a screen reader runs or not: Qt 6.4 makes a widget's record as its text is set, before it
+    // asks whether accessibility is on (QAccessible::updateAccessibility). Its state is no guide to which it is: a
+    // widget not yet shown reads as invisible either way.
+    if (QAccessibleInterface* made = QAccessible::queryAccessibleInterface(widget))
+        QAccessible::deleteAccessibleInterface(QAccessible::uniqueId(made));
 }
 
 void registerCodeCardAccessibility()

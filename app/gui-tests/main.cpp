@@ -103,7 +103,8 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
     // SONIC_PI_TEST_SCREEN_READER: accessibility on for the whole run, as a running screen reader has it from before
     // any widget is made. A widget's interface is then made as the widget is, ahead of what is set on it afterwards,
-    // which a run with accessibility off never sees (CMakeLists.txt runs the [a11y] cases a second time so).
+    // which a run with accessibility off never sees (CMakeLists.txt runs the [a11y] cases a second time so). Qt 6.4's
+    // setActive only tells its observers, and there the run is as the first; that Qt makes the interface early anyway.
     if (!qEnvironmentVariableIsEmpty("SONIC_PI_TEST_SCREEN_READER"))
         QAccessible::setActive(true);
     return Catch::Session().run(argc, argv);

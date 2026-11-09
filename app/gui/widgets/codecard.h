@@ -60,9 +60,9 @@ class SonicPiAPI;
 // accessibility tree. Every host of cards calls it once.
 void registerCodeCardAccessibility();
 
-// Out of the accessibility tree: words drawn inside a button that is named for them, a pointer-only handle. Safe at
-// any point in the widget's making: with a screen reader running, a widget tells it about itself as its text or its
-// parent is set, and the interface made then would be kept, read out after all.
+// Out of the accessibility tree, for a pointer-only control such as a card's drag handle. Safe at any point in the
+// widget's making: a widget's record can be made as its text or its parent is set (with a screen reader running, or
+// on Qt 6.4 always), and the one made then would be kept, read out after all.
 void hideFromScreenReaders(QWidget* widget);
 
 class CodeCard : public QFrame

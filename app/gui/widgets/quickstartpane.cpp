@@ -225,17 +225,6 @@ protected:
     }
 };
 
-// Words drawn inside a button. The button is named for them, so a screen reader is not read them a second time, and
-// a click on them is the button's.
-QLabel* innerLabel(const QString& text, const char* name, QWidget* parent)
-{
-    QLabel* l = new QLabel(text, parent);
-    l->setObjectName(QString::fromLatin1(name));
-    hideFromScreenReaders(l);
-    l->setAttribute(Qt::WA_TransparentForMouseEvents);
-    return l;
-}
-
 QColor withAlpha(QColor c, qreal alpha)
 {
     c.setAlphaF(alpha);
@@ -280,13 +269,20 @@ protected:
 };
 
 // The welcome card's call (Start deck, Carry on, Play through again): the accent disc in its halo, a little larger
-// and with a wider halo under the pointer or the focus, and its words beside it.
+// and with a wider halo under the pointer or the focus, and its words beside it. The words are drawn, so a screen
+// reader meets the button alone, by its name. They are kept as its say and sub properties.
 class StartButton : public KeyButton
 {
 public:
     QColor accent;
     QColor glyph;
+    QColor ink;     // say
+    QColor muted;   // sub
+    QFont sayFont;
+    QFont subFont;
     int disc = 72;
+    int space = 8;   // from the halo to the words
+    int lead = 2;    // between the two lines
     QWidget* card = nullptr;   // lights with it
 
     explicit StartButton(QWidget* parent)
@@ -294,9 +290,24 @@ public:
     {
         setObjectName(QStringLiteral("qsStart"));
         setCursor(Qt::PointingHandCursor);
+        setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     }
     // room for the halo at its widest (lit: the disc grown 6%, the ring a tenth of the disc)
     int halo() const { return qRound(disc * 0.14); }
+    void setWords(const QString& say, const QString& sub)
+    {
+        setProperty("say", say);
+        setProperty("sub", sub);
+        updateGeometry();
+        update();
+    }
+    QSize sizeHint() const override
+    {
+        const QFontMetrics s(sayFont), m(subFont);
+        return QSize(disc + 2 * halo() + space + qMax(s.horizontalAdvance(words("say")), m.horizontalAdvance(words("sub"))),
+                     qMax(disc + 2 * halo(), s.height() + lead + m.height()));
+    }
+    QSize minimumSizeHint() const override { return sizeHint(); }
 
 protected:
     void paintEvent(QPaintEvent*) override
@@ -322,6 +333,18 @@ protected:
         tri.closeSubpath();
         p.setBrush(glyph);
         p.drawPath(tri);
+
+        // the words beside it, the pair centred on the disc
+        const QFontMetrics s(sayFont), m(subFont);
+        const int left = disc + 2 * halo() + space;
+        int top = (height() - (s.height() + lead + m.height())) / 2;
+        p.setFont(sayFont);
+        p.setPen(ink);
+        p.drawText(QRect(left, top, width() - left, s.height()), Qt::AlignLeft | Qt::AlignVCenter, words("say"));
+        top += s.height() + lead;
+        p.setFont(subFont);
+        p.setPen(muted);
+        p.drawText(QRect(left, top, width() - left, m.height()), Qt::AlignLeft | Qt::AlignVCenter, words("sub"));
     }
     void enterEvent(QEnterEvent* e) override
     {
@@ -345,6 +368,7 @@ protected:
     }
 
 private:
+    QString words(const char* which) const { return property(which).toString(); }
     void relight()
     {
         update();
@@ -354,17 +378,24 @@ private:
 };
 
 // The tile after the newest card: what comes next (the next card, or the deck done, the next deck) and a press to
-// deal it. The disc sits over its words.
+// deal it. The disc sits over its words, the whole centred in the tile. The words are drawn, as Start's are, and kept
+// as its label, title and count properties.
 class NextTile : public KeyButton
 {
 public:
-    QColor accent;
+    QColor accent;   // and the label
     QColor glyph;
+    QColor ink;     // title
+    QColor muted;   // count
+    QFont labelFont;
+    QFont titleFont;
+    QFont countFont;
     int disc = 64;
-    int gap = 12;
+    int gap = 12;      // from the disc to the words
+    int lead = 4;      // between the lines
+    int margin = 16;
     qreal border = 2;
     qreal radius = 8;
-    QWidget* below = nullptr;   // the words the disc sits over
 
     explicit NextTile(QWidget* parent)
         : KeyButton(parent)
@@ -372,15 +403,42 @@ public:
         setObjectName(QStringLiteral("qsNextTile"));
         setCursor(Qt::PointingHandCursor);
     }
+    void setWords(const QString& label, const QString& title, const QString& count)
+    {
+        setProperty("label", label);
+        setProperty("title", title);
+        setProperty("count", count);
+        update();
+    }
 
 protected:
     void paintEvent(QPaintEvent*) override
     {
         QPainter p(this);
         paintDashed(p, rect(), accent, underMouse() || hasFocus(), border, radius);
-        if (!below)
-            return;
-        const QPointF c(width() / 2.0, below->geometry().top() - gap - disc / 2.0);
+
+        // each line centred and wrapped to the tile's width
+        const QRect area = rect().adjusted(margin, margin, -margin, -margin);
+        const int flags = Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap;
+        struct Line
+        {
+            const QFont& font;
+            QColor colour;
+            QString text;
+            int height;
+        };
+        Line lines[] = { { labelFont, accent, words("label"), 0 },
+                         { titleFont, ink, words("title"), 0 },
+                         { countFont, muted, words("count"), 0 } };
+        int block = disc + gap + 2 * lead;
+        for (Line& l : lines)
+        {
+            l.height = QFontMetrics(l.font).boundingRect(QRect(0, 0, area.width(), area.height()), flags, l.text).height();
+            block += l.height;
+        }
+        int y = area.top() + qMax(0, (area.height() - block) / 2);
+
+        const QPointF c(width() / 2.0, y + disc / 2.0);
         p.setPen(Qt::NoPen);
         p.setBrush(accent);
         p.drawEllipse(c, disc / 2.0, disc / 2.0);
@@ -396,6 +454,15 @@ protected:
         p.setPen(pen);
         p.setBrush(Qt::NoBrush);
         p.drawPath(chev);
+
+        y += disc + gap;
+        for (const Line& l : lines)
+        {
+            p.setFont(l.font);
+            p.setPen(l.colour);
+            p.drawText(QRect(area.left(), y, area.width(), l.height), flags, l.text);
+            y += l.height + lead;
+        }
     }
     void enterEvent(QEnterEvent* e) override
     {
@@ -417,6 +484,9 @@ protected:
         KeyButton::focusOutEvent(e);
         update();
     }
+
+private:
+    QString words(const char* which) const { return property(which).toString(); }
 };
 
 // A deck's words, read at a glance: the first sentence the lead (to a full stop, a ! or a ?, or a smiley: Basics'
@@ -1127,33 +1197,22 @@ QWidget* QuickstartPane::welcomeCard()
     StartButton* start = new StartButton(card);
     start->accent = accent;
     start->glyph = m_theme->accentContrastText();
+    start->ink = m_theme->color("WindowForeground");
+    start->muted = m_theme->mutedForeground();
     start->disc = uiScale().y(72);
+    start->space = uiScale().y(8);
+    start->lead = uiScale().y(2);
+    start->sayFont = font();
+    start->sayFont.setPixelSize(rolePx(FontRole::Large));
+    start->sayFont.setWeight(QFont::Bold);
+    start->subFont = QFont(QStringLiteral("Hack"));
+    start->subFont.setPixelSize(rolePx(FontRole::Small));
+    start->setWords(say, sub);
     start->card = card;
     card->way = start;
     start->setAccessibleName(tr("%1, %2").arg(say, sub));
     start->setAccessibleDescription(tip);
     start->setToolTip(tip);
-    QHBoxLayout* startLay = new QHBoxLayout(start);
-    startLay->setContentsMargins(start->disc + 2 * start->halo() + uiScale().y(8), 0, 0, 0);
-    QVBoxLayout* words = new QVBoxLayout;
-    words->setSpacing(uiScale().y(2));
-    QLabel* sayLabel = innerLabel(say, "qsStartSay", start);
-    QFont sayFont = font();
-    sayFont.setPixelSize(rolePx(FontRole::Large));
-    sayFont.setWeight(QFont::Bold);
-    sayLabel->setFont(sayFont);
-    QLabel* subLabel = innerLabel(sub, "qsStartSub", start);
-    QFont mono(QStringLiteral("Hack"));
-    mono.setPixelSize(rolePx(FontRole::Small));
-    subLabel->setFont(mono);
-    words->addStretch(1);
-    words->addWidget(sayLabel);
-    words->addWidget(subLabel);
-    words->addStretch(1);
-    startLay->addLayout(words);
-    start->setFixedHeight(start->disc + 2 * start->halo());
-    start->setMinimumWidth(start->disc + 2 * start->halo() + uiScale().y(8)
-                           + qMax(QFontMetrics(sayFont).horizontalAdvance(say), QFontMetrics(mono).horizontalAdvance(sub)));
     connect(start, &QPushButton::clicked, this, &QuickstartPane::startDeck);
     lay->addWidget(start, 0, Qt::AlignLeft);
     m_start = start;
@@ -1185,44 +1244,29 @@ QWidget* QuickstartPane::nextTile()
     NextTile* tile = new NextTile(m_row);
     tile->accent = m_theme->color("HighlightedBackground");
     tile->glyph = m_theme->accentContrastText();
+    tile->ink = m_theme->color("WindowForeground");
+    tile->muted = m_theme->mutedForeground();
     tile->disc = uiScale().y(64);
     tile->gap = uiScale().y(12);
+    tile->lead = uiScale().y(4);
+    tile->margin = uiScale().y(16);
     tile->border = ResolveDxToPx(2);
     tile->radius = uiScale().y(8);
+    tile->labelFont = font();
+    tile->labelFont.setPixelSize(rolePx(FontRole::Small));
+    tile->labelFont.setWeight(QFont::DemiBold);
+    tile->labelFont.setCapitalization(QFont::AllUppercase);
+    tile->labelFont.setLetterSpacing(QFont::PercentageSpacing, 110);
+    tile->titleFont = font();
+    tile->titleFont.setPixelSize(rolePx(FontRole::Large));
+    tile->titleFont.setWeight(QFont::Bold);
+    tile->countFont = QFont(QStringLiteral("Hack"));
+    tile->countFont.setPixelSize(rolePx(FontRole::Small));
+    tile->setWords(label, title, count);
     tile->setFixedSize(cardWidth(), m_cardHeight);
     tile->setAccessibleName(tr("%1: %2, %3").arg(label, title, count));
     tile->setAccessibleDescription(tip);
     tile->setToolTip(tip);
-
-    QVBoxLayout* lay = new QVBoxLayout(tile);
-    lay->setContentsMargins(uiScale().y(16), uiScale().y(16), uiScale().y(16), uiScale().y(16));
-    lay->setSpacing(uiScale().y(4));
-    lay->addStretch(1);
-    lay->addSpacing(tile->disc + tile->gap);
-    QLabel* labelLabel = innerLabel(label, "qsTileLabel", tile);
-    QFont labelFont = font();
-    labelFont.setPixelSize(rolePx(FontRole::Small));
-    labelFont.setWeight(QFont::DemiBold);
-    labelFont.setCapitalization(QFont::AllUppercase);
-    labelFont.setLetterSpacing(QFont::PercentageSpacing, 110);
-    labelLabel->setFont(labelFont);
-    QLabel* titleLabel = innerLabel(title, "qsTileTitle", tile);
-    QFont titleFont = font();
-    titleFont.setPixelSize(rolePx(FontRole::Large));
-    titleFont.setWeight(QFont::Bold);
-    titleLabel->setFont(titleFont);
-    titleLabel->setWordWrap(true);
-    QLabel* countLabel = innerLabel(count, "qsTileCount", tile);
-    QFont mono(QStringLiteral("Hack"));
-    mono.setPixelSize(rolePx(FontRole::Small));
-    countLabel->setFont(mono);
-    for (QLabel* l : { labelLabel, titleLabel, countLabel })
-    {
-        l->setAlignment(Qt::AlignHCenter);
-        lay->addWidget(l);
-    }
-    lay->addStretch(1);
-    tile->below = labelLabel;
     if (aCard)
         connect(tile, &QPushButton::clicked, this, &QuickstartPane::deal);
     else
