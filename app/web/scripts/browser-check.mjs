@@ -43,17 +43,30 @@ const stillness = (pg, ms = 2500) => pg.evaluate((ms) => new Promise((resolve) =
   setTimeout(() => { mo.disconnect(); resolve(by); }, ms);
 }), ms);
 const still = (heard) => !Object.keys(heard).length;
+// What appears in the editor's code (its .cm-content, editable) in ms, each kind counted: nothing, where the code stays
+// still. iOS Safari takes a tap that sees an element appear in editable text for a hover and sends it no click (WebKit's
+// ContentChangeObserver counts anything in editable text as clickable): flashes put into the code as a program played
+// left a phone's buttons all but unpressable. They are painted over its text instead (editor.js codeHighlights).
+const codeStillness = (pg, ms = 2500) => pg.evaluate((ms) => new Promise((resolve) => {
+  const by = {};
+  const mo = new MutationObserver((list) => { for (const m of list) for (const n of m.addedNodes) if (n.nodeType === 1) { const k = n.tagName.toLowerCase() + (n.className ? "." + n.className : ""); by[k] = (by[k] ?? 0) + 1; } });
+  mo.observe(document.querySelector("#editor-mount").shadowRoot.querySelector(".cm-content"), { childList: true, subtree: true });
+  setTimeout(() => { mo.disconnect(); resolve(by); }, ms);
+}), ms);
 // The lines lit as a program plays (its flash records, main.js onRecord), watched every frame for `ms`: the most lit
 // at once, every line ever lit, and whether each wash lay behind just its line's code (its indent and the room past
 // its end left unlit). And how long each stayed lit, not by the frames, which come late under load: the editor's from
-// when its wash went into the page and out, which a MutationObserver hears as it happens; a card's its animation's
-// own length. In the editor, or on the quickstart pane's live_loop card.
+// when its wash was painted and taken off (its washes are the ranges of the sp-flash highlight, editor.js
+// codeHighlights, each change to it heard as it is made); a card's its animation's own length. In the editor, or on
+// the quickstart pane's live_loop card.
 const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new Promise((resolve) => {
   const scope = () => where === "editor" ? document.querySelector("#editor-mount").shadowRoot
     : [...document.querySelectorAll("#quickstart-pane .qs-card:not(.qs-intro)")].find((c) => c.textContent.includes("live_loop"));
   const rowsOf = (s) => [...s.querySelectorAll(where === "editor" ? ".cm-content > .cm-line" : ".qs-card-body .cm-line")];
-  const washesOf = (s) => where === "editor" ? [...s.querySelectorAll(".sp-flash, .cm-line.sp-flash-a, .cm-line.sp-flash-b")]
+  const painted = where === "editor" ? CSS.highlights?.get("sp-flash") : null;
+  const washesOf = (s) => where === "editor" ? [...(painted ?? [])]
     : [...s.querySelectorAll(".qs-line-flash")].filter((w) => w.getAnimations().some((a) => a.playState === "running"));
+  const lineOf = (w) => (w instanceof Range ? (w.startContainer.nodeType === 1 ? w.startContainer : w.startContainer.parentElement) : w).closest(".cm-line");
   // a row's code on screen: its first character to its last
   const codeRect = (row) => {
     const text = row.textContent, from = text.search(/\S/), to = text.trimEnd().length;
@@ -71,13 +84,18 @@ const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new 
   let together = [], hugs = true;
   const ever = new Set(), since = new Map(), holds = [];
   const t0 = performance.now();
-  const heard = where === "editor" && new MutationObserver(() => {
+  const heard = () => {
     const now = performance.now(), s = scope(), rows = rowsOf(s);
-    const lit = new Set(washesOf(s).map((w) => rows.indexOf(w.closest(".cm-line")) + 1).filter((n) => n > 0));
+    const lit = new Set(washesOf(s).map((w) => rows.indexOf(lineOf(w)) + 1).filter((n) => n > 0));
     for (const line of lit) if (!since.has(line)) since.set(line, now);
     for (const [line, t] of since) if (!lit.has(line)) { holds.push(Math.round(now - t)); since.delete(line); }
-  });
-  if (heard) heard.observe(scope(), { subtree: true, childList: true, attributes: true, attributeFilter: ["class"] });
+  };
+  // each change to the highlight heard once its update is done (a repaint clears it and adds the lines lit)
+  let queued = false;
+  if (painted) for (const k of ["add", "delete", "clear"]) {
+    const own = painted[k];
+    painted[k] = function (...args) { const r = own.apply(this, args); if (!queued) { queued = true; queueMicrotask(() => { queued = false; heard(); }); } return r; };
+  }
   const frame = () => {
     const s = scope(), now = performance.now(), lit = new Map();
     if (s) {
@@ -95,10 +113,13 @@ const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new 
       const code = codeRect(w.row);
       if (!code || w.left < code.left - 2 || w.right > code.right + 2 || w.right - w.left < (code.right - code.left) * 0.9) hugs = false;
     }
-    if (s && !heard) for (const w of washesOf(s)) for (const a of w.getAnimations()) holds.push(Math.round(a.effect.getComputedTiming().duration));
+    if (s && where !== "editor") for (const w of washesOf(s)) for (const a of w.getAnimations()) holds.push(Math.round(a.effect.getComputedTiming().duration));
     if (lit.size > together.length) together = [...lit.keys()].sort((a, b) => a - b);
     if (now - t0 < ms) requestAnimationFrame(frame);
-    else { if (heard) heard.disconnect(); resolve({ together, ever: [...ever].sort((a, b) => a - b), hugs, holds: [...new Set(holds)].sort((a, b) => a - b) }); }
+    else {
+      if (painted) for (const k of ["add", "delete", "clear"]) delete painted[k];
+      resolve({ together, ever: [...ever].sort((a, b) => a - b), hugs, holds: [...new Set(holds)].sort((a, b) => a - b) });
+    }
   };
   requestAnimationFrame(frame);
 }), { where, ms });
@@ -112,7 +133,7 @@ const runLit = (pg, ms = 1500) => pg.evaluate((ms) => new Promise((resolve) => {
   const frame = () => {
     const root = document.querySelector("#editor-mount").shadowRoot;
     if (root.querySelector(".cm-editor.sp-run-flash")) seen.add("gutter");
-    if (root.querySelector(".sp-kick-a, .sp-kick-b")) seen.add("code");
+    if (CSS.highlights?.get("sp-kick")?.size) seen.add("code");   // painted over the code (editor.js codeHighlights)
     if (document.querySelector("#btn-run .tb-glyph").getAnimations().some((a) => /^run-flash/.test(a.animationName))) seen.add("run button");
     if (performance.now() - t0 < ms) requestAnimationFrame(frame);
     else resolve([...seen].sort().join());
@@ -315,6 +336,12 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     // below, the Threads pane open, a docs card, a quickstart card, a site page's card and the phone's page.
     const heard = await stillness(page);
     check("the page stays still as a program plays: a page-wide watcher (an ad blocker's) hears nothing", still(heard), JSON.stringify(heard));
+    // and the editor's code stays still, as it plays and as Run is pressed again: its flashes are painted over its text
+    const codeWatch = codeStillness(page);
+    await page.waitForTimeout(1000);
+    await page.click("#btn-run");
+    const heardCode = await codeWatch;
+    check("the editor's code stays still as a program plays and as Run is pressed again (on iOS, an element appearing in it under a tap takes the tap's click)", still(heardCode), JSON.stringify(heardCode));
     const runs = await page.locator("#status-jobs").textContent();
     check("the status bar says the runs going as their ids alone", /^\[\d+(, \d+)*\]$/.test(runs), runs);
     check("the log shows what played", (await page.locator("#log .log-line").count()) > 3);

@@ -237,14 +237,13 @@ const errorGutter = new (class extends GutterMarker { elementClass = "cm-sp-erro
 
 // ── Live: the lines a sound came from ────────────────────────────────────
 // Each lit behind its code, a dot by its number, or both, as native's code flash and gutter flash (./flash.js): a flash
-// on a line already lit holds it on from then.
+// on a line already lit holds it on from then. The wash is painted over the code's text (codeHighlights, below).
 
 export const addFlash = StateEffect.define();   // { line, id, wash, dot }
 export const dropFlash = StateEffect.define();  // { line, id }: the line goes out, unless a later flash lit it again
 
-const flashMark = Decoration.mark({ class: "sp-flash" });
 export const flashField = StateField.define({
-  create: () => ({ lines: new Map(), deco: Decoration.none }),
+  create: () => ({ lines: new Map() }),
   update(value, tr) {
     let lines = value.lines;
     let changed = false;
@@ -255,48 +254,66 @@ export const flashField = StateField.define({
       else if (e.is(dropFlash) && lines.get(e.value.line)?.id === e.value.id) { edit(); lines.delete(e.value.line); }
     }
     if (!changed) return value;
-    const doc = tr.state.doc;
-    const ranges = [], dots = [];
-    for (const [n, { wash, dot }] of lines) {
-      if (n < 1 || n > doc.lines) continue;
-      const line = doc.line(n), span = codeSpan(line.text);
-      if (wash && span) ranges.push(flashMark.range(line.from + span[0], line.from + span[1]));
-      if (dot) dots.push(flashDot.range(line.from));
-    }
-    return { lines, deco: Decoration.set(ranges, true), dots: RangeSet.of(dots, true) };
+    const doc = tr.state.doc, dots = [];
+    for (const [n, { dot }] of lines) if (dot && n >= 1 && n <= doc.lines) dots.push(flashDot.range(doc.line(n).from));
+    return { lines, dots: RangeSet.of(dots, true) };
   },
-  provide: (f) => [
-    EditorView.decorations.from(f, (value) => value.deco),
-    gutterLineClass.from(f, (value) => value.dots ?? RangeSet.empty),
-  ],
+  provide: (f) => gutterLineClass.from(f, (value) => value.dots ?? RangeSet.empty),
 });
 const flashDot = new (class extends GutterMarker { elementClass = "sp-flash-dot"; })();
 
 // ── Run: the code lit behind its letters, as a highlighter pen would ──────
-// Each line's code, from its first character to its last (no indent, no empty line, nothing past the end), marked
-// a moment when Run is pressed (editor.js flash, style.css sp-kick-a/b); the class alternates, so a Run straight after
-// another starts it again rather than carrying on the one before.
-const kickCode = StateEffect.define();   // { id, flip }
+// Each line's code, from its first character to its last (no indent, no empty line, nothing past the end), lit a
+// moment when Run is pressed (flash, below): painted over the text (codeHighlights), faded by style.css's sp-kick.
+const kickCode = StateEffect.define();   // id
 const dropKick = StateEffect.define();   // id
-const MAX_KICK_LINES = 2000;             // a buffer longer than this lights its first lines only
 const kickField = StateField.define({
-  create: () => ({ id: 0, deco: Decoration.none }),
+  create: () => 0,   // the lit kick's id, 0 for none
   update(value, tr) {
     for (const e of tr.effects) {
-      if (e.is(kickCode)) {
-        const doc = tr.state.doc, mark = Decoration.mark({ class: e.value.flip ? "sp-kick-a" : "sp-kick-b" }), ranges = [];
-        for (let n = 1; n <= Math.min(doc.lines, MAX_KICK_LINES); n++) {
-          const line = doc.line(n), span = codeSpan(line.text);
-          if (span) ranges.push(mark.range(line.from + span[0], line.from + span[1]));
-        }
-        value = { id: e.value.id, deco: Decoration.set(ranges) };
-      } else if (e.is(dropKick) && e.value === value.id) value = { id: value.id, deco: Decoration.none };
+      if (e.is(kickCode)) value = e.value;
+      else if (e.is(dropKick) && e.value === value) value = 0;
     }
-    if (tr.docChanged && value.deco !== Decoration.none) value = { id: value.id, deco: Decoration.none };   // an edit: it lets go
-    return value;
+    return tr.docChanged ? 0 : value;   // an edit: it lets go
   },
-  provide: (f) => EditorView.decorations.from(f, (value) => value.deco),
 });
+
+// ── Painted over the code's text, never put into it ──────────────────────
+// The flashes and the kick are CSS highlights (style.css ::highlight(sp-flash), ::highlight(sp-kick)): ranges of the
+// text CodeMirror has drawn, so the code's elements stay as they are while they come and go. A mark would wrap the
+// text in new elements, and iOS Safari takes a tap that sees an element appear in editable text for a hover and sends
+// it no click: with a program playing, a phone's buttons all but stopped answering. Repainted after every update while
+// anything is lit, as a redraw replaces the text the ranges were in.
+function codeHighlights() {
+  if (typeof CSS === "undefined" || !CSS.highlights) return [];
+  const flash = new Highlight(), kick = new Highlight();
+  CSS.highlights.set("sp-flash", flash);
+  CSS.highlights.set("sp-kick", kick);
+  const paint = (view, highlight, lineNumbers) => {
+    highlight.clear();
+    const doc = view.state.doc, { from, to } = view.viewport;   // the lines drawn
+    for (const n of lineNumbers) {
+      if (n < 1 || n > doc.lines) continue;
+      const line = doc.line(n), span = codeSpan(line.text);
+      if (!span || line.to < from || line.from > to) continue;
+      const a = view.domAtPos(line.from + span[0]), b = view.domAtPos(line.from + span[1]), range = new Range();
+      range.setStart(a.node, a.offset);
+      range.setEnd(b.node, b.offset);
+      highlight.add(range);
+    }
+  };
+  const drawnLines = (view) => {
+    const doc = view.state.doc, first = doc.lineAt(view.viewport.from).number, last = doc.lineAt(view.viewport.to).number;
+    return Array.from({ length: last - first + 1 }, (_, i) => first + i);
+  };
+  return EditorView.updateListener.of((u) => {
+    const lit = u.state.field(flashField).lines;
+    if (lit.size || u.startState.field(flashField).lines.size)
+      paint(u.view, flash, [...lit].filter(([, f]) => f.wash).map(([n]) => n));
+    if (u.state.field(kickField) || u.startState.field(kickField))
+      paint(u.view, kick, u.state.field(kickField) ? drawnLines(u.view) : []);
+  });
+}
 
 // ── Waits: a thread held on a sync, marked at the line it waits on ────────
 // main.js says which lines of the buffer have a thread parked on a sync
@@ -786,6 +803,7 @@ export function createEditor(mount, { api, hooks, workspace }) {
     errorLineField,
     flashField,
     kickField,
+    codeHighlights(),
     completionExtensions(api, { ...hooks, registerNudge: (f) => { nudgeSlider = f; } }),
     EditorView.updateListener.of((u) => {
       if (u.docChanged || u.viewportChanged || u.geometryChanged) toolbarCheck?.();
@@ -1075,7 +1093,7 @@ export function createEditor(mount, { api, hooks, workspace }) {
       void view.dom.offsetWidth;
       view.dom.classList.add("sp-run-flash");
       const id = ++kickSeq;
-      view.dispatch({ effects: kickCode.of({ id, flip: id % 2 === 0 }) });
+      view.dispatch({ effects: kickCode.of(id) });
       flashTimer = setTimeout(() => { view.dom.classList.remove("sp-run-flash"); view.dispatch({ effects: dropKick.of(id) }); }, 320);
     },
     /** A line flashes, as native's code flash (./flash.js): its code washed, a dot by its number, or both. */
