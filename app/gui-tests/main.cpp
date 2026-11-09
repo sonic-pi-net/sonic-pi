@@ -3,6 +3,7 @@
 // Catch session after constructing the app. Forces the offscreen Qt platform so
 // the suite runs headless in CI on every OS.
 
+#include <QAccessible>
 #include <QApplication>
 #include <QFont>
 #include <QStyle>
@@ -100,5 +101,10 @@ int main(int argc, char** argv)
         qputenv("XDG_RUNTIME_DIR", runtimeDir.path().toLocal8Bit());
     qInstallMessageHandler(failOnQtWarning);
     QApplication app(argc, argv);
+    // SONIC_PI_TEST_SCREEN_READER: accessibility on for the whole run, as a running screen reader has it from before
+    // any widget is made. A widget's interface is then made as the widget is, ahead of what is set on it afterwards,
+    // which a run with accessibility off never sees (CMakeLists.txt runs the [a11y] cases a second time so).
+    if (!qEnvironmentVariableIsEmpty("SONIC_PI_TEST_SCREEN_READER"))
+        QAccessible::setActive(true);
     return Catch::Session().run(argc, argv);
 }

@@ -168,3 +168,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 enable_testing()
 add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
+# The screen reader cases again, with accessibility on from the start as a running screen reader has it (main.cpp):
+# a run with it off passed a label read out twice on every platform but the one whose Qt had it on.
+add_test(NAME ${PROJECT_NAME}-screen-reader COMMAND ${PROJECT_NAME} "[a11y]")
+set_tests_properties(${PROJECT_NAME}-screen-reader PROPERTIES ENVIRONMENT "SONIC_PI_TEST_SCREEN_READER=1")
