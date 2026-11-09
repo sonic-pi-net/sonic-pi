@@ -28,7 +28,7 @@
 // to the line it is at. It changes nothing that plays — nothing here stops a
 // thread, a block or a run (a shift-click once did), so nothing here can be
 // done by accident. Stopping is the transport's, and a card's own buttons'.
-import { css } from "./theme.js";
+import { css, typeSize } from "./theme.js";
 import { animateWhileShown } from "./ui/shown.js";
 import { perfAdd } from "./perf.js";
 import { loopName } from "./loop-name.js";
@@ -230,7 +230,7 @@ export function createProcessTree(root, hooks) {
     renderStats(rows);
     if (!rows || !rows.length) {
       ctx.fillStyle = css("faintForeground");
-      ctx.font = "12px ui-monospace, Menlo, monospace";
+      ctx.font = `${typeSize("small")} ui-monospace, Menlo, monospace`;
       ctx.textAlign = "center";
       ctx.fillText("(no running threads)", w / 2, h / 2);
       ctx.textAlign = "left";
@@ -284,7 +284,7 @@ export function createProcessTree(root, hooks) {
     // nodes: runs under threads, as native paints groups first
     screen.clear();
     const ordered = [...nodes].sort((a, b) => (a.kind === KIND.run || a.kind === KIND.session ? 0 : 1) - (b.kind === KIND.run || b.kind === KIND.session ? 0 : 1));
-    ctx.font = "10px ui-monospace, Menlo, monospace";
+    ctx.font = `${typeSize("label")} ui-monospace, Menlo, monospace`;
     for (const n of ordered) {
       const l = layout.get(n.uid);
       const x = px(l.cx), y = py(l.cy);

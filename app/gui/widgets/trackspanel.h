@@ -98,9 +98,8 @@ public:
 
     void applyTheme(SonicPiTheme* theme);
 
-    // Pane-local text zoom, the A-/A+ steps every help tab offers. The
-    // buttons are at the foot of the help's tab rail (MainWindow's ZoomBar,
-    // where the other tabs' pairs are); the level is a pref MainWindow persists.
+    // The pane's text and layout this many 1.1× steps from its own size (UiScale). The app leaves it at 0: the
+    // interface's size is the platform's; the tests lay the pane out at other sizes through it.
     int userZoom() const { return m_userZoom; }
     void setUserZoom(int zoom);
 

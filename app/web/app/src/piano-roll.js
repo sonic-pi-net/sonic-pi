@@ -5,7 +5,7 @@
 // while held and fading through its release; a slide bends the bar to its
 // new pitch and a kill cuts it short. Samples get drum-map rows beneath.
 // Keys light as their notes sound, in the colour of the thread playing them.
-import { css } from "./theme.js";
+import { css, typeSize } from "./theme.js";
 import { animateWhileShown } from "./ui/shown.js";
 import { perfAdd } from "./perf.js";
 
@@ -439,7 +439,7 @@ export function createPianoRoll(root, hooks) {
     ctx.globalAlpha = 1;
     ctx.fillStyle = css("Background");
     ctx.fillRect(0, 0, w, h);
-    ctx.font = "11px ui-monospace, Menlo, monospace";
+    ctx.font = `${typeSize("label")} ui-monospace, Menlo, monospace`;
     const now = hooks.now();
     const next = { notes: [], hits: [], rows: [], lit: [], range: [lo, hi], bpm: null };
     if (now == null) {
@@ -578,9 +578,9 @@ export function createPianoRoll(root, hooks) {
       ctx.fillRect(x0, y0 - thick / 2, 2, thick);
       if (x1 - x0 > 34 && thick >= 11) {
         ctx.fillStyle = css("Foreground");
-        ctx.font = "9px ui-monospace, Menlo, monospace";
+        ctx.font = `${typeSize("label")} ui-monospace, Menlo, monospace`;
         ctx.fillText(noteName(pts[0].n), x0 + 5, y0 + 3);
-        ctx.font = "11px ui-monospace, Menlo, monospace";
+        ctx.font = `${typeSize("label")} ui-monospace, Menlo, monospace`;
       }
       ctx.globalAlpha = 1;
       if (sp.start <= now && now < sp.end) {
@@ -604,7 +604,7 @@ export function createPianoRoll(root, hooks) {
     const KEY = keyColours();
     ctx.fillStyle = KEY.white;
     ctx.fillRect(0, TOP, KEYS_W, rollBottom - TOP);
-    ctx.font = "9px ui-monospace, Menlo, monospace";
+    ctx.font = `${typeSize("label")} ui-monospace, Menlo, monospace`;
     ctx.textAlign = "right";
     for (let n = Math.floor(lo) - 1; n <= Math.ceil(hi) + 1; n++) {
       const y = yOf(n) - rowH / 2;
@@ -671,7 +671,7 @@ export function createPianoRoll(root, hooks) {
         next.hits.push({ thread: hh.thread, label: hooks.label(hh.thread, hh.name), job: hh.job, line: hh.line, sample: hh.sample, amp: hh.amp, time: hh.time, x0: hx, x1: hx + width, y: ry + DRUM_ROW_H / 2 });
       }
       ctx.restore();
-      ctx.font = "9px ui-monospace, Menlo, monospace";
+      ctx.font = `${typeSize("label")} ui-monospace, Menlo, monospace`;
       rows.forEach((name, i) => {
         const ry = y0 + i * DRUM_ROW_H;
         if (flash.has(i)) {
@@ -681,7 +681,7 @@ export function createPianoRoll(root, hooks) {
         ctx.fillStyle = flash.has(i) ? css("Background") : css("faintForeground");
         ctx.fillText(name.length > 9 ? `${name.slice(0, 8)}…` : name, 4, ry + DRUM_ROW_H / 2 + 3);
       });
-      ctx.font = "11px ui-monospace, Menlo, monospace";
+      ctx.font = `${typeSize("label")} ui-monospace, Menlo, monospace`;
     }
 
     if (!shown.length && !hits.length) {

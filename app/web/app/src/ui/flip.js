@@ -129,13 +129,15 @@ export function createFlip(track, { levels, card, title, onChange = null, onJump
     if (["ArrowDown", "ArrowRight", "PageDown"].includes(e.key)) { e.preventDefault(); step(1); }
   });
   // a width that starts or stops the flip: the front card put back at the top. A change of height is the snap's to
-  // keep: re-placing on it, mid-change, would measure the wrong card
+  // keep: re-placing on it, mid-change, would measure the wrong card. The placing waits for the next frame: done in the
+  // observer's own delivery it changes the layout the observers are still being told about (a page swapped in moves
+  // the column's width twice in one frame, its list and then its scrollbar arriving)
   let width = 0;
-  new ResizeObserver(() => {
+  new ResizeObserver(() => requestAnimationFrame(() => {
     if (track.clientWidth === width) return;
     width = track.clientWidth;
     if (on()) { const i = at < 0 ? 0 : at; at = -1; place(keys[i], false); }
-  }).observe(track);
+  })).observe(track);
 
   return {
     el: bar,

@@ -73,17 +73,14 @@ public:
     // sets *error to a human-readable reason (used by the Load Card Set menu).
     static bool validateCardsFile(const QString& path, QString* error);
 
-    // Pane-local zoom steps (A-/A+), persisted as a pref by MainWindow
+    // The pane's text and layout this many 1.1× steps from its own size (UiScale). The app leaves it at 0: the
+    // interface's size is the platform's; the tests lay the pane out at other sizes through it.
     int userZoom() const { return m_userZoom; }
     void setUserZoom(int zoom);
 
     // Dock height that shows the header plus one full card row (first-boot
     // sizing); cards carousel horizontally, so no more height is needed.
     int preferredDockHeight() const;
-
-    // The A-/A+ zoom controls (circle -/+), created once and displayed at the
-    // foot of the help's tab rail (like the Docs tab), where every tab's are.
-    QWidget* zoomControls();
 
     // Wire to QtAPIClient's RunStartedReceived/RunEndedReceived/FlashReceived
     void runStarted(int jobId, const QString& workspace);
@@ -165,9 +162,6 @@ private:
     // zooming adds room rather than crowding the content that grew.
     UiScale uiScale() const { return UiScale(m_zoomFactor); }
 
-    // The A-/A+ zoom controls, shown at the foot of the help's tab rail (see zoomControls()).
-    // Persistent across rebuilds; retinted on theme change.
-    class ZoomBar* m_zoomBar = nullptr;
 
     SonicPiTheme* m_theme;
     std::shared_ptr<SonicPi::SonicPiAPI> m_spAPI;

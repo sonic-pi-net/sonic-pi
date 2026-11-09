@@ -211,7 +211,7 @@ QFont SonicPiLexer::defaultFont(int style) const
     switch (style)
     {
     case Comment:
-      f = QFont(activeFont, 15, -1, true);
+      f = QFont(activeFont, kPointSize, -1, true);
 	  break;
 
     case POD:
@@ -226,7 +226,7 @@ QFont SonicPiLexer::defaultFont(int style) const
     case ModuleName:
     case DemotedKeyword:
     default:
-        f = QFont(activeFont, 15);
+        f = QFont(activeFont, kPointSize);
     }
 
     return f;

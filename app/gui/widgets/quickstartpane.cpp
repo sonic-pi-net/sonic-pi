@@ -59,7 +59,6 @@
 #include "widgets/tutorialwidgets.h" // TutHeading (accessible section titles)
 #include "widgets/carddeck.h"
 #include "widgets/codecard.h"
-#include "widgets/zoombar.h"
 #include "utils/flash_style.h"
 #include "utils/reducedmotion.h"
 #include "utils/tutorialdocs.h"
@@ -245,19 +244,6 @@ void QuickstartPane::applyTheme()
         rebuild();
     else
         m_themeDirty = true;
-    if (m_zoomBar)
-        m_zoomBar->applyTheme();
-}
-
-QWidget* QuickstartPane::zoomControls()
-{
-    if (!m_zoomBar)
-    {
-        m_zoomBar = new ZoomBar(m_theme, tr("quickstart"), this);
-        connect(m_zoomBar, &ZoomBar::zoomStep, this,
-                [this](int delta) { setUserZoom(m_userZoom + delta); });
-    }
-    return m_zoomBar;
 }
 
 int QuickstartPane::preferredDockHeight() const
@@ -737,7 +723,6 @@ void QuickstartPane::rebuild()
     navLay->addWidget(m_dotsHost);
     navLay->addWidget(m_nextArrow);
     // nav is added to its own centred row below the cards (see below).
-    // A-/A+ zoom lives at the foot of the help's tab rail (zoomControls()), not here.
     rightCol->addWidget(m_topBar);
 
     // Description row: a small accent rail and the deck's one-line description.

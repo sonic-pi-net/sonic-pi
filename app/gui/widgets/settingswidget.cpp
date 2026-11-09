@@ -1,5 +1,8 @@
 #include "settingswidget.h"
 #include "devicelistwidget.h"
+#include "sonicpilog.h"
+#include "sonicpiscintilla.h"
+#include "textsizes.h"
 #include "mainwindow.h"
 #include "utils/reducedmotion.h"
 #include "utils/sonicpi_i18n.h"
@@ -1423,6 +1426,7 @@ QGroupBox* SettingsWidget::createIoPrefsTab() {
 /**
  * create Editor Tab of Preferences Widget
  */
+
 QGroupBox* SettingsWidget::createEditorPrefsTab() {
     QGroupBox *editor_box = new QGroupBox();
     QGroupBox *editor_show_panels_box = new QGroupBox(tr("Show Panels"));
@@ -1581,7 +1585,25 @@ QGroupBox* SettingsWidget::createEditorPrefsTab() {
     leftEditorPrefs->addStretch(1);
     leftEditorPrefs->addWidget(automation_box);
 
+    // The code's size and the log's, as the View menu has them. The log's is drawn the other way round, so right is
+    // bigger and its right end is the code's own size.
+    QGroupBox *text_size_box = new QGroupBox(tr("Text Size"));
+    code_size_row = new SizeRow(tr("Code size"), SonicPiScintilla::kMinZoom, SonicPiScintilla::kMaxZoom, &TextSizes::codeSizeText, false, this);
+    code_size_row->slider()->setObjectName("codeSizeSlider");
+    code_size_row->slider()->setToolTip(tr("The size of the code in every buffer."));
+    code_size_row->addReset(SonicPiScintilla::kDefaultZoom, tr("Reset code size"))->setToolTip(tr("Put the code back to its usual size."));
+    log_size_row = new SizeRow(tr("Log text size"), 0, SonicPiLog::kMaxSmaller, &TextSizes::logSizeText, true, this);
+    log_size_row->slider()->setObjectName("logSizeSlider");
+    log_size_row->slider()->setToolTip(tr("How much smaller than the code the log and the cue log are."));
+    SizeRow::lineUp({ code_size_row, log_size_row });
+    QVBoxLayout *text_size_box_layout = new QVBoxLayout;
+    text_size_box_layout->addWidget(code_size_row);
+    text_size_box_layout->addWidget(log_size_row);
+    text_size_box->setLayout(text_size_box_layout);
+
     QVBoxLayout *rightEditorPrefs = new QVBoxLayout;
+    rightEditorPrefs->addWidget(text_size_box);
+    rightEditorPrefs->addStretch(1);
     rightEditorPrefs->addWidget(debug_box);
     rightEditorPrefs->addStretch(1);
     rightEditorPrefs->addWidget(editor_show_panels_box);
@@ -4115,6 +4137,8 @@ void SettingsWidget::settingsChanged() {
     show_line_numbers->setChecked(piSettings->show_line_numbers);
     show_log->setChecked(piSettings->show_log);
     show_cues->setChecked(piSettings->show_cues);
+    code_size_row->setValue(piSettings->code_zoom);
+    log_size_row->setValue(piSettings->log_smaller);
     show_metro->setChecked(piSettings->show_metro);
     show_buttons->setChecked(piSettings->show_buttons);
     show_editor_toolbar->setChecked(piSettings->show_editor_toolbar);
@@ -4197,6 +4221,8 @@ void SettingsWidget::connectAll() {
     connect(show_line_numbers, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_log, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_cues, SIGNAL(clicked()), this, SLOT(updateSettings()));
+    connect(code_size_row, &SizeRow::chosen, this, &SettingsWidget::codeSizeChosen);
+    connect(log_size_row, &SizeRow::chosen, this, &SettingsWidget::logSizeChosen);
     connect(show_metro, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_buttons, SIGNAL(clicked()), this, SLOT(updateSettings()));
     connect(show_editor_toolbar, SIGNAL(clicked()), this, SLOT(updateSettings()));

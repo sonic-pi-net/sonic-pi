@@ -45,6 +45,9 @@ play 52
 play 72
 `;
 const FONT_KEY = "sp-font-size";
+const LOG_KEY = "sp-log-smaller";
+/** The log and the cues are the code's size less this many px, chosen in Preferences (native's SonicPiLog::kDefaultSmaller, kMaxSmaller, kMinPointSize). */
+export const LOG_SMALLER = { initial: 3, max: 8, least: 6 };
 /** Whether a buffer's text is free for code arriving: nothing in it, or the first visit's starter as it came. */
 // (and a starter an earlier version gave, still untouched in a buffer: as free as today's)
 export const FORMER_STARTERS = [`# Welcome to Sonic Pi!
@@ -66,6 +69,7 @@ export const isBlankBuffer = (text) => !text.trim() || text === STARTER || FORME
 const store = {
   get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
   set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
+  remove: (k) => { try { localStorage.removeItem(k); } catch {} },
 };
 
 // ── Ruby block structure, for Enter and Alt+M ──────────────────────────────
@@ -830,15 +834,44 @@ export function createEditor(mount, { api, hooks, workspace }) {
   workspace.subscribe((e) => { if (e.kind === "buffer" || e.kind === "set") show(); });
   const switchBuffer = (i) => workspace.showBuffer(i);
 
-  const fontSize = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue("--editor-font-size"), 10) || 18;
+  const rootPx = (name) => parseInt(getComputedStyle(document.documentElement).getPropertyValue(name), 10);
+  const fontSize = () => rootPx("--editor-font-size") || 18;
+  const clampSmaller = (n) => (Number.isFinite(n) ? Math.max(0, Math.min(LOG_SMALLER.max, Math.round(n))) : LOG_SMALLER.initial);
+  let smaller = clampSmaller(parseInt(store.get(LOG_KEY) ?? "", 10));
+  // the log and the cues at the code's size less the chosen px: a zoom of what the stylesheet draws at --log-font-base,
+  // so all of a line grows with its text. A phone's stylesheet draws both at sizes of its own, so it is redone there
+  function applyLogSize() {
+    const px = Math.max(LOG_SMALLER.least, fontSize() - smaller);
+    document.documentElement.style.setProperty("--log-scale", String(px / (rootPx("--log-font-base") || 13)));
+  }
+  // whoever shows the code's size (Preferences), told when it changes
+  const sizeShown = new Set();
+  function sized() {
+    applyLogSize();
+    view.requestMeasure();
+    for (const show of sizeShown) show();
+  }
   function setFontSize(px) {
     px = Math.max(8, Math.min(40, Math.round(px)));
     document.documentElement.style.setProperty("--editor-font-size", `${px}px`);
     store.set(FONT_KEY, String(px));
-    view.requestMeasure();
+    sized();
+  }
+  // back to the stylesheet's own size, a phone's or a desktop's, and nothing kept
+  function resetFontSize() {
+    document.documentElement.style.removeProperty("--editor-font-size");
+    store.remove(FONT_KEY);
+    sized();
+  }
+  function setLogSmaller(n) {
+    smaller = clampSmaller(n);
+    store.set(LOG_KEY, String(smaller));
+    applyLogSize();
   }
   const saved = parseInt(store.get(FONT_KEY) ?? "", 10);
   if (saved) setFontSize(saved);
+  else applyLogSize();
+  globalThis.matchMedia?.("(max-width: 760px)").addEventListener("change", applyLogSize);
 
   // ── Native's editing commands, by their shortcut ids (./shortcuts.js) ──
 
@@ -1063,6 +1096,10 @@ export function createEditor(mount, { api, hooks, workspace }) {
     },
     fontSize,
     setFontSize,
+    resetFontSize,
+    onFontSize: (show) => { sizeShown.add(show); return () => sizeShown.delete(show); },
+    logSmaller: () => smaller,
+    setLogSmaller,
     focus: () => view.focus(),
   };
 }

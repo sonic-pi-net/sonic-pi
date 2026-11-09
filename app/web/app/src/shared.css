@@ -13,7 +13,7 @@
 button, a, [role="button"], .hg-button, label, summary { touch-action: manipulation; }
 /* the chips' one size: the docs pane's tabs, the bar's, the cards' (the big site buttons and mini buttons size themselves) */
 .seg button, .ic-tab { padding: 4px 12px; font: 600 var(--t-ui) var(--prose-font); white-space: nowrap; }   /* font: its line-height normal too */
-.sp-mini-btn { padding: 3px 10px; font: 600 var(--t-tiny) var(--prose-font); white-space: nowrap; }   /* the same chip, small: the docs pane's play, insert and copy */
+.sp-mini-btn { padding: 3px 10px; font: 600 var(--t-small) var(--prose-font); white-space: nowrap; }   /* the same chip, small: the docs pane's play, insert and copy */
 .seg button, .ic-tab, .sp-mini-btn, .site-body .button {
   border: 2px solid var(--Button); border-radius: var(--r-m); background: none; color: var(--WindowForeground);
   font-weight: 600; text-decoration: none; cursor: pointer; box-shadow: none; text-shadow: none;
@@ -67,7 +67,7 @@ button, a, [role="button"], .hg-button, label, summary { touch-action: manipulat
    detail: the small labels over things, the highlighted words, the figures and facts, the marks beside them. Only the
    palette's own colour, never a mix of it: --secondTint is a wash of it behind a figure. */
 :root, .site-body { --second: var(--NumberForeground); --secondTint: color-mix(in srgb, var(--NumberForeground) 14%, transparent); }
-:root, .site-body { --t-display: 40px; --t-title: 30px; --t-heading: 22px; --t-lead: 19px; --t-body: 16px; --t-ui: 15px; --t-small: 13px; --t-tiny: 12px; --t-label: 11px; --t-micro: 9px; --t-code: var(--t-small);
+:root, .site-body { --t-display: 40px; --t-title: 30px; --t-heading: 22px; --t-lead: 19px; --t-ui: 15px; --t-small: 13px; --t-label: 11px; --t-code: var(--t-small);
   /* corners, three and no more: s for the small and dense (keys, tags, marks, a dial, a dense chip), m for every
      other thing with a corner (buttons, chips, tabs, rows, cards, panels, popups, dialogs), pill for round ends
      (a toggle, a switch, the find bar, a bar or an underline); a circle is 50% */

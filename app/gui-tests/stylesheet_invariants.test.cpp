@@ -15,7 +15,7 @@
 // carries no font-size.
 //
 // A Qt stylesheet font-size silently overrides setFont(), so a single rule
-// added here re-breaks A-/A+ for every widget it matches — with no error,
+// added here re-breaks a pane's scale for every widget it matches — with no error,
 // no warning, and no failing test. That is exactly how the docs pane's
 // lists, filter fields and sub-tab chips each ended up needing a different
 // scaling mechanism. Sizes belong in dpi.h's FontRole table instead.
@@ -87,7 +87,7 @@ TEST_CASE("the surviving font-size token is actually present", "[stylesheet][zoo
 
 TEST_CASE("the zoom curve is shared, multiplicative and clamped", "[zoom]")
 {
-    // Docs and Cards both drive their A-/A+ through this, so a step means the
+    // Docs and Cards both drive their scale through this, so a step means the
     // same thing in each. Multiplicative keeps a type hierarchy's proportions
     // as it grows; the additive step it replaced pulled large and small sizes
     // together the further you zoomed.

@@ -21,7 +21,6 @@
 #include "model/sonicpitheme.h"
 #include "utils/instrument_icons.h"
 #include "utils/tablericons.h"
-#include "widgets/zoombar.h"
 #include "api/sonicpi_api.h"
 
 #include <QAbstractTextDocumentLayout>
@@ -190,16 +189,6 @@ TutorialPane::TutorialPane(SonicPiTheme* theme, QWidget* parent)
     outer->setContentsMargins(0, 0, 0, 0);
     outer->setSpacing(0);
 
-    // Docs text-size controls (A- / A+): the shared ZoomBar, displayed at the
-    // foot of the help's tab rail (MainWindow places the widget), like the
-    // Cards/Logs/Debug tabs' bars.
-    m_zoomBar = new ZoomBar(m_theme, tr("documentation"), this);
-    // Through setUserZoom, not around it: it owns the clamp and the
-    // already-at-that-zoom guard, so pressing A+ at the ceiling is a no-op
-    // instead of rebuilding the page and resetting the scroll every time.
-    connect(m_zoomBar, &ZoomBar::zoomStep, this,
-            [this](int delta) { setUserZoom(m_userZoom + delta); });
-
     m_scroll = new QScrollArea(this);
     m_scroll->setWidgetResizable(true);
     m_scroll->setFrameShape(QFrame::NoFrame);
@@ -298,9 +287,8 @@ void TutorialPane::resizeEvent(QResizeEvent* event)
     fitExampleCard();
 }
 
-// Page titles are announced on navigation only. A zoom step rebuilds the
-// same page, and re-reading the title each time A+ is pressed would bury the
-// zoom feedback the ZoomBar itself announces.
+// Page titles are announced on navigation only, not each time the same page
+// is rebuilt (a theme change, a new size).
 void TutorialPane::announcePage(const QString& title)
 {
     if (!m_redisplaying)
@@ -1595,11 +1583,6 @@ void TutorialPane::copySelection()
         m_selGroup->copy();
 }
 
-QWidget* TutorialPane::zoomControls() const
-{
-    return m_zoomBar;
-}
-
 bool TutorialPane::eventFilter(QObject* obj, QEvent* event)
 {
     // Escape cancels an inline opt editor without committing.
@@ -1646,7 +1629,6 @@ void TutorialPane::applySizing()
     // page is being built, so restyling alone leaves them at the old zoom's
     // measurements — rebuild the page to pick the new ones up.
     redisplayCurrentPage();
-    emit zoomChanged(m_userZoom);
 }
 
 // Margins and spacing on the long-lived containers (built once in the ctor,
@@ -1788,9 +1770,6 @@ void TutorialPane::applyTheme()
     QColor sigColour = SonicPiTheme::blend(fg, editorBg, 0.18);
     QColor zebraTint = SonicPiTheme::blend(bg, fg, 0.10);
     QColor zebraHover = SonicPiTheme::blend(bg, fg, 0.16);
-
-    if (m_zoomBar)
-        m_zoomBar->applyTheme();
 
     // Design sizes at the default editor zoom, scaled to track it
     auto pt = [this](int base) {

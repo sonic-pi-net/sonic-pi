@@ -171,6 +171,17 @@ export function css(key) {
   return derived[key] ? cssColour(derived[key]) : "#808080";
 }
 
+/** A size of the house type scale (shared.css --t-*), for what a canvas draws, which the stylesheet cannot reach. */
+const typeSizes = new Map();
+export function typeSize(role) {
+  let px = typeSizes.get(role);
+  if (!px) {
+    px = getComputedStyle(document.documentElement).getPropertyValue(`--t-${role}`).trim();
+    if (px) typeSizes.set(role, px);
+  }
+  return px || "13px";
+}
+
 export function set(changes) {
   chosen = true;   // a choice made in the preferences: kept from here on, the OS's mode no longer followed
   Object.assign(state, changes);

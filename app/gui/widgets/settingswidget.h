@@ -12,6 +12,7 @@
 
 class QDial;
 class QSlider;
+class SizeRow;
 class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
@@ -192,6 +193,9 @@ signals:
     void showCompletionHelpChanged();
     void showLogChanged();
     void showCuesChanged();
+    // a size chosen here (MainWindow::setCodeZoom, setLogSmaller)
+    void codeSizeChosen(int zoom);
+    void logSizeChosen(int smaller);
     void showMetroChanged();
     void showButtonsChanged();
     void showEditorToolbarChanged();
@@ -293,6 +297,8 @@ private:
     QCheckBox *clear_output_on_run;
     QCheckBox *log_cues;
     QCheckBox *log_auto_scroll;
+    SizeRow *code_size_row = nullptr;
+    SizeRow *log_size_row = nullptr;
     QCheckBox *enable_external_synths_cb;
     QCheckBox *synth_trigger_timing_guarantees_cb;
     QCheckBox *show_line_numbers;

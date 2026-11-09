@@ -57,8 +57,8 @@ public:
                      QSettings* keyBindings = nullptr);
     ~SonicPiScintilla() override;
 
-    virtual QStringList apiContext(int pos, int& context_start,
-        int& last_word_start);
+    QStringList apiContext(int pos, int& context_start,
+        int& last_word_start) override;
     SonicPiTheme* theme;
     QString fileName;
     bool selectionMode;
@@ -77,12 +77,17 @@ public:
 
     // The live Scintilla zoom level (points added on top of the base font size).
     int currentZoom();
+    // The size the code is drawn at, in points: its text's style plus the zoom.
+    int codePointSize();
     // The zoom level a fresh workspace starts at; dependent UI (error card,
     // docs example editor) sizes its designs against this.
     static constexpr int kDefaultZoom = 2;
+    // The code's size's range, in the same steps (MainWindow::setCodeZoom).
+    static constexpr int kMinZoom = -5;
+    static constexpr int kMaxZoom = 20;
 
 signals:
-    // Zoom changed via zoomFontIn/Out or Ctrl+wheel, so dependent UI (e.g. the
+    // Zoom changed via setZoomLevel or Ctrl+wheel, so dependent UI (e.g. the
     // error card) can track the editor's effective font size.
     void zoomLevelChanged();
     void bufferNewlineAndIndent(int point_line, int point_index, int first_line, const std::string& code, const std::string& fileName);
@@ -174,8 +179,8 @@ public slots:
     // window alignment). Called once by MainWindow after boot wiring.
     void setAudioApi(SonicPi::SonicPiAPI* api);
     void endLiveLoopScope(const QString& name);
-    void zoomFontIn();
-    void zoomFontOut();
+    // The code at this zoom, its gap and error markers with it (MainWindow::setCodeZoom gives every buffer the one).
+    void setZoomLevel(int zoom);
     void newLine();
     void replaceBuffer(QString content, int line, int index, int first_line);
     void newlineAndIndent();
@@ -201,8 +206,8 @@ public slots:
     void selectDocStart();
     void selectDocEnd();
     void centerCaret();
-    void undo();
-    void redo();
+    void undo() override;
+    void redo() override;
     void selectAll();
     void deleteWordRight();
     void deleteWordLeft();
@@ -234,7 +239,7 @@ public slots:
     void setText(const QString& text);
 
     // Re-lay the empty-buffer welcome overlay (size tracks the zoom, so call
-    // this after any zoomTo that doesn't route through zoomFontIn/Out).
+    // this after any zoomTo that doesn't route through setZoomLevel).
     void updatePlaceholder();
 
 private:

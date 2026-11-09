@@ -29,6 +29,14 @@ const WEB_SECONDARY_MAC = {
   ...Object.fromEntries([..."1234567890"].map((n) => [`Tab${n}`, [`Ctrl+${n}`]])),
 };
 
+// The browser's zoom is the interface's size, and the page has no zoom of its own: Cmd (Ctrl elsewhere) with =, +, -
+// and 0 reach the page, and it leaves them to the browser in every keymap, Custom too (buildBindings). The code's size
+// is native's own keys for it, Control = and - on a Mac and Alt elsewhere; the log and the cues follow it (main.js).
+const BROWSER_ZOOM = {
+  mac: ["Meta+=", "Meta++", "ShiftMeta+=", "Meta+-", "Meta+_", "Meta+0"],
+  other: ["Ctrl+=", "Ctrl++", "CtrlShift+=", "Ctrl+-", "Ctrl+_", "Ctrl+0"],
+};
+
 export const DEFS = [...SHORTCUT_DEFS, ...WEB_DEFS].map((d) => ({
   ...d,
   secondary: {
@@ -142,6 +150,12 @@ export function buildBindings({ mode, custom = {}, platform }) {
     for (const d of DEFS) if (!overridden.has(d.id) && taken.has(primary.get(d.id))) primary.set(d.id, null);
   }
   if (platform !== "mac" && primary.get("FocusMode") === "F10") primary.set("FocusMode", "Ctrl-F10");
+  // a key that is the browser's zoom gives way to the command's first secondary that is not (a buffer's: Cmd 0 to
+  // Control 0 on a Mac), as the menu bar's F10 gives way above
+  const zoom = browserZoom(platform), side = platform === "mac" ? "mac" : "other";
+  for (const d of DEFS) {
+    if (zoom.has(primary.get(d.id))) primary.set(d.id, d.secondary[side].map((k) => resolve(k, platform)).find((c) => c && !zoom.has(c)) ?? null);
+  }
   const primaries = new Set([...primary.values()].filter(Boolean));
   const chords = new Map(), byChord = new Map();
   for (const d of DEFS) {
@@ -149,7 +163,7 @@ export function buildBindings({ mode, custom = {}, platform }) {
     const list = own ? [own] : [];
     for (const key of d.secondary[platform === "mac" ? "mac" : "other"]) {
       const c = resolve(key, platform);
-      if (c && (c === own || !primaries.has(c)) && !list.includes(c)) list.push(c);
+      if (c && !zoom.has(c) && (c === own || !primaries.has(c)) && !list.includes(c)) list.push(c);
     }
     chords.set(d.id, list);
     for (const c of list) byChord.set(c, [...(byChord.get(c) ?? []), d.id]);
@@ -276,11 +290,16 @@ const RESERVED = {
 // Safari's menus say.
 const SAFARI_RESERVED = ["Meta+l", "Meta+r", "Meta+Alt+r", "Meta+Alt+l", "Meta+m", "Meta+,", "Meta+h", ...Array.from({ length: 9 }, (_, i) => `Meta+${i + 1}`)];
 const isSafari = (nav = globalThis.navigator) => !!nav && /safari/i.test(nav.userAgent ?? "") && !/chrome|chromium|crios|fxios|edg\//i.test(nav.userAgent ?? "");
-const reservedSets = {};
+const reservedSets = {}, zoomSets = {};
+// the browser's zoom keys as chords (BROWSER_ZOOM): they reach the page, which leaves them to the browser
+function browserZoom(platform) {
+  const p = platform === "mac" ? "mac" : "other";
+  return (zoomSets[p] ??= new Set(BROWSER_ZOOM[p].map((k) => resolve(k, platform))));
+}
 export function isReserved(chord, platform, safari = isSafari()) {
   const p = platform === "mac" ? "mac" : "other";
   const key = `${p}${safari ? "-safari" : ""}`;
-  reservedSets[key] ??= new Set([...RESERVED[p], ...(safari && p === "mac" ? SAFARI_RESERVED : [])].map((k) => resolve(k, platform)));
+  reservedSets[key] ??= new Set([...RESERVED[p], ...BROWSER_ZOOM[p], ...(safari && p === "mac" ? SAFARI_RESERVED : [])].map((k) => resolve(k, platform)));
   return !!chord && reservedSets[key].has(chord);
 }
 
@@ -399,6 +418,7 @@ export function createShortcuts({ store = null, platform = hostPlatform() } = {}
     words: (chord) => chordWords(chord, platform),
     notation: (e) => notationFromEvent(e, platform),
     reserved: (chord) => isReserved(chord, platform),
+    browserZoom: (chord) => browserZoom(platform).has(chord),
     onChange: (fn) => (listeners.add(fn), () => listeners.delete(fn)),
   };
 }

@@ -17,6 +17,8 @@
 // Standard stuff
 #include "model/sonicpitheme.h"
 #include <QScrollBar>
+#include <algorithm>
+#include <QWheelEvent>
 #include <QMenu>
 #include <QContextMenuEvent>
 #include <QTextBlock>
@@ -61,44 +63,25 @@ SonicPiLog::SonicPiLog(QWidget* parent)
     : QPlainTextEdit(parent)
 {
     forceScroll = true;
-    zoomLevel = 0;
 }
 
-void SonicPiLog::zoomIn()
+void SonicPiLog::followCode(int codePointSize, int smaller)
 {
-    setZoomLevel(zoomLevel + 1);
+    m_pointSize = std::max(kMinPointSize, codePointSize - smaller);
+    QFont f = font();
+    f.setPointSize(m_pointSize);
+    setFont(f);
 }
 
-void SonicPiLog::zoomOut()
+void SonicPiLog::wheelEvent(QWheelEvent* event)
 {
-    setZoomLevel(zoomLevel - 1);
-}
-
-void SonicPiLog::setZoomLevel(int zoom)
-{
-    const int MIN_ZOOM = -10;
-    const int MAX_ZOOM = 10;
-
-    // Clamp the desired zoom to your range
-    int targetZoom = std::clamp(zoom, MIN_ZOOM, MAX_ZOOM);
-
-    int delta = targetZoom - zoomLevel;
-
-    if (delta > 0)
+    // A read-only QPlainTextEdit zooms itself on a Control-scroll; the log's size is the code's (followCode).
+    if (event->modifiers() & Qt::ControlModifier)
     {
-        QPlainTextEdit::zoomIn(delta);
+        event->ignore();
+        return;
     }
-    else if (delta < 0)
-    {
-
-        QPlainTextEdit::zoomOut(-delta);
-    }
-    zoomLevel = targetZoom;
-}
-
-int SonicPiLog::currentZoomLevel() const
-{
-    return zoomLevel;
+    QPlainTextEdit::wheelEvent(event);
 }
 
 void SonicPiLog::contextMenuEvent(QContextMenuEvent* event)
@@ -204,13 +187,7 @@ void SonicPiLog::recolour(SonicPiTheme* theme)
 
 void SonicPiLog::setFontFamily(QString font_name)
 {
-#ifdef __APPLE__
-    setFont(QFont(font_name, 14, -1, false));
-#elif __linux__
-    setFont(QFont(font_name, 12, -1, false));
-#else
-    setFont(QFont(font_name, 8, -1, false));
-#endif
+    setFont(QFont(font_name, m_pointSize, -1, false));
 }
 
 void SonicPiLog::appendPlainText(QString text)

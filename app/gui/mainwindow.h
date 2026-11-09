@@ -64,6 +64,7 @@ class ThinSplitter;
 class TutorialPane;
 class IconTabWidget;
 class SharePanel;
+class LogSizeMenu;
 
 namespace SonicPi
 {
@@ -105,7 +106,6 @@ class LogPanel;
 class MetricsPanel;
 class TracksPanel;
 class QuickstartPane;
-class ZoomBar;
 
 struct help_page
 {
@@ -310,8 +310,6 @@ private slots:
     void updateContextWithCurrentWs();
     void docLinkClicked(const QUrl& url);
     void handleCustomUrl(const QUrl& url);
-    void zoomInLogs();
-    void zoomOutLogs();
     QString sonicPiHomePath();
     QString sonicPiConfigPath();
     QString shortcutsConfigPath();
@@ -811,6 +809,12 @@ private:
     bool i18n;
     static const int workspace_max = 10;
     SonicPiScintilla* workspaces[workspace_max];
+    // The code's size, every buffer's one, and how far under it the log and the cues are: changed only here, from the
+    // keys, the View menu or Preferences, which then show it (piSettings->code_zoom, log_smaller).
+    void setCodeZoom(int zoom);
+    void setLogSmaller(int smaller);
+    void applyLogSize();
+    LogSizeMenu* logSizeMenu = nullptr;
     QTabWidget* docsNavTabs = nullptr;
     // The section selector lives outside the splitter's nav column so it can run
     // the full width of the pane, like the Cards deck bar. docsNavTabs keeps the
@@ -891,14 +895,11 @@ private:
     void lightDivider(const DividerLink* link, DividerOverlay* overlay, const QRect& bar, bool on);
     void placeDividerBar(DividerLink* link, DividerOverlay* overlay, QRect& bar, const QRect& now);
 
-    ZoomBar* logsZoom = nullptr;             // Logs/Debug tab text-size controls in the title row
-    ZoomBar* debugZoom = nullptr;
-    ZoomBar* tracksZoom = nullptr;
     void updateHelpChevronIcons();            // (re)renders the chevrons for the current theme
     void positionHelpChevrons();              // over the separator above the help pane, at its right
     QList<QAction*> docsFilterSearchActions;  // leading magnifier glyph in each docs filter field
     void updateDocsFilterIcons();             // (re)tints the magnifiers for the current theme
-    void applyDocsNavZoom();                  // scales the topic lists/filters to the docs A-/A+ step
+    void applyDocsNavZoom();                  // sizes the topic lists/filters to the docs pane's scale
     void updateDocsNavMinWidth();             // nav column minimum, independent of the pill row
     void buildDocsPills();                    // one pill per docs section, built once tabs exist
     void syncDocsPills();                     // marks the current pill after an index change
@@ -1000,8 +1001,6 @@ private:
     QAction* textUpAct = nullptr;
     QAction* textDownTenAct = nullptr;
     QAction* textUpTenAct = nullptr;
-    QAction* logZoomInAct = nullptr;
-    QAction* logZoomOutAct = nullptr;
     QAction* textSetMarkAct = nullptr;
     QAction* triggerAutocompleteAct = nullptr;
     QAction* readCompletionDetailsAct = nullptr;
@@ -1042,6 +1041,7 @@ private:
     QAction* contextHelpAct = nullptr;
     QAction* textIncAct = nullptr;
     QAction* textDecAct = nullptr;
+    QAction* textResetAct = nullptr;
     QAction* scopeAct = nullptr;
     QAction* infoAct = nullptr;
     QAction* helpAct = nullptr;

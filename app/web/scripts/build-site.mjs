@@ -369,8 +369,6 @@ function document(page, { code = false } = {}) {
   // a card's Play pressed before the page's script has run (a phone on a slow first load): which card is remembered
   // for the script to play once it has made the card (app/src/site.js), and it shows busy meanwhile, as a card starting
   // does. A few bytes, on the page itself, so it is there from the first paint.
-  // and the site's zoom, if it has been changed from its step up (main.js zooms), before the first paint
-  if (!code) head.push(`<script>try{var z=JSON.parse(localStorage.getItem("sp-zooms")||"{}").site;if(z!=null)document.documentElement.style.setProperty("--site-zoom",String(Math.min(3,Math.max(.5,Math.pow(1.1,z)))))}catch(e){}</script>`);
   // and the audio context started in that press: iOS allows it only inside one, and the play itself runs once the
   // script has arrived (app/src/main.js audioInGesture takes this one); its options are SuperSonic's (48 kHz, the
   // latency preference, low unless the player turned it off)

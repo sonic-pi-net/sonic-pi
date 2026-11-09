@@ -1176,6 +1176,117 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       await site.close();
     }
 
+    // ── sizes: the interface's size is the browser's zoom and the page has none of its own (shortcuts.js BROWSER_ZOOM);
+    // the code's size has keys of its own, the log and the cues a few px under it (Preferences); the splits are shares of the room
+    // (main.js sizes), so a zoom never leaves the code under its least or a control past the window's foot. 960×600
+    // is a 1440×900 window at 150% ──
+    {
+      const sz = await browser.newPage({ ...HTTPS, viewport: { width: 1440, height: 900 } });
+      const szErrors = [];
+      sz.on("pageerror", (e) => szErrors.push(e.message));
+      await sz.addInitScript(() => { try { if (!sessionStorage.getItem("sz")) { sessionStorage.setItem("sz", "1"); localStorage.clear(); localStorage.setItem("sp-help-seen", "true"); } } catch {} });
+      const open = async () => { await sz.goto(BASE + "#app"); await sz.waitForFunction(() => !!window.sonicPi?.editor); await sz.waitForTimeout(300); };
+      await open();
+      const mac = await sz.evaluate(() => /mac|iphone|ipad|ipod/i.test(navigator.userAgentData?.platform || navigator.platform || ""));
+      const codeSize = () => sz.evaluate(() => parseInt(getComputedStyle(document.documentElement).getPropertyValue("--editor-font-size"), 10));
+      const before = await codeSize();
+      await sz.evaluate(() => { document.activeElement?.blur(); window.__taken = []; addEventListener("keydown", (e) => { if (!["Meta", "Control", "Alt", "Shift"].includes(e.key)) window.__taken.push(e.defaultPrevented); }); });
+      for (const k of mac ? ["Meta+Equal", "Meta+Minus", "Meta+0"] : ["Control+Equal", "Control+Minus", "Control+0"]) await sz.keyboard.press(k);
+      const taken = await sz.evaluate(() => window.__taken), afterZoomKeys = await codeSize();
+      check("the browser's zoom keys are left to the browser", taken.length === 3 && !taken.some(Boolean) && afterZoomKeys === before, JSON.stringify({ taken, before, after: afterZoomKeys }));
+      // the log's text as drawn: what the stylesheet draws it at, zoomed to the code's size less the px chosen (editor.js applyLogSize)
+      const logPx = () => sz.evaluate(() => {
+        const base = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--log-font-base"));
+        const sizes = ["log", "cues"].map((id) => Math.round(base * Number(getComputedStyle(document.getElementById(id)).zoom) * 100) / 100);
+        return sizes[0] === sizes[1] ? sizes[0] : sizes;
+      });
+      const zoomTo = async (width, height) => { await sz.setViewportSize({ width, height }); await sz.waitForTimeout(300); };
+      const firstLog = await logPx();
+      for (let i = 0; i < 4; i++) await sz.keyboard.press(mac ? "Control+Equal" : "Alt+Equal");
+      const grown = await codeSize(), grownLog = await logPx();
+      check("the code's size has keys of its own, and the log and the cues are 3px under it", grown === before + 4 && firstLog === before - 3 && grownLog === grown - 3, JSON.stringify({ before, firstLog, grown, grownLog }));
+      check("the page has no zoom buttons of its own", await sz.evaluate(() => !document.getElementById("rail-bigger") && !document.getElementById("site-bigger")));
+
+      // how far under the code's size the log is, in Preferences, kept across a reload and on a phone's layout
+      await sz.click("#btn-prefs");
+      const logSlider = sz.locator('#prefs-pane input[aria-label="Log text size"]');
+      const slideTo = (v) => logSlider.evaluate((i, v) => { i.value = String(v); i.dispatchEvent(new Event("input", { bubbles: true })); }, v);
+      await slideTo(0);
+      const sameLog = await logPx(), sameSaid = await logSlider.getAttribute("aria-valuetext");
+      await slideTo(-8);
+      const leastLog = await logPx(), leastSaid = await logSlider.getAttribute("aria-valuetext");
+      check("Preferences set how far under the code's size the log is, and say so", sameLog === grown && leastLog === grown - 8 && sameSaid === "Same as the code" && leastSaid === "8px smaller", JSON.stringify({ grown, sameLog, sameSaid, leastLog, leastSaid }));
+      // the code's size in Preferences follows its keys, and its Reset puts the stylesheet's own back, the log with it
+      const codeSlider = sz.locator('#prefs-pane input[aria-label="Code size"]');
+      await sz.evaluate(() => document.activeElement?.blur());
+      await sz.keyboard.press(mac ? "Control+Equal" : "Alt+Equal");
+      const keyed = await codeSize(), keyedSaid = await codeSlider.getAttribute("aria-valuetext"), keyedAt = Number(await codeSlider.inputValue());
+      check("the code's size in Preferences follows its keys", keyed === grown + 1 && keyedSaid === `${keyed}px` && keyedAt === keyed, JSON.stringify({ grown, keyed, keyedSaid, keyedAt }));
+      await sz.click('#prefs-pane button[aria-label="Reset code size"]');
+      const resetCode = await codeSize(), resetLog = await logPx(), resetSaid = await codeSlider.getAttribute("aria-valuetext"), resetAt = Number(await codeSlider.inputValue());
+      check("Preferences' Reset puts the code back to its usual size, the log with it, and says so", resetCode === before && resetLog === Math.max(6, before - 8) && resetSaid === `${before}px` && resetAt === before, JSON.stringify({ before, resetCode, resetLog, resetSaid, resetAt }));
+      await sz.click("#btn-prefs");
+      await open();
+      const keptLog = await logPx(), keptCode = await codeSize();
+      check("the code's usual size is kept across a reload once reset", keptCode === before, JSON.stringify({ before, keptCode }));
+      await zoomTo(700, 900);
+      const phoneLog = await logPx(), phoneCode = await codeSize();
+      await zoomTo(1440, 900);
+      check("the log's size is kept across a reload, and on a phone's layout too", keptLog === keptCode - 8 && phoneLog === phoneCode - 8, JSON.stringify({ keptCode, keptLog, phoneCode, phoneLog }));
+      await sz.evaluate(() => window.sonicPi.editor.setLogSmaller(3));
+
+      const layout = () => sz.evaluate(() => {
+        const r = (id) => { const b = document.getElementById(id).getBoundingClientRect(); return { top: Math.round(b.top), bottom: Math.round(b.bottom), h: Math.round(b.height) }; };
+        const railBottom = Math.max(0, ...[...document.querySelectorAll("#drawer-rail button")].map((b) => Math.round(b.getBoundingClientRect().bottom)));
+        return { innerH: innerHeight, main: r("main"), editor: r("editor-column"), drawer: r("drawer-column"), statusbar: r("statusbar"), sidebar: r("sidebar"), scope: r("scope-divider"), log: r("log-section"), cues: r("cue-section"), railBottom };
+      });
+      const onScreen = (l) => l.main.bottom <= l.innerH && l.statusbar.bottom <= l.innerH && l.railBottom <= l.innerH && l.drawer.bottom <= l.main.bottom + 1 && l.editor.h >= 80;
+      const drag = async (sel, dy) => {
+        const b = await sz.locator(sel).boundingBox();
+        await sz.mouse.move(b.x + 12, b.y + b.height / 2);
+        await sz.mouse.down();
+        await sz.mouse.move(b.x + 12, b.y + b.height / 2 + dy, { steps: 8 });
+        await sz.mouse.up();
+        await sz.waitForTimeout(200);
+      };
+
+      // the scope dragged as tall as it goes, then the page zoomed: the log and the cues keep their heads
+      await drag("#scope-divider", 800);
+      const scopeWide = await layout();
+      await zoomTo(960, 600);
+      const scopeZoomed = await layout();
+      await zoomTo(1440, 900);
+      const scopeBack = await layout();
+      const heads = (l) => l.log.h >= 30 && l.cues.h >= 30 && l.cues.bottom <= l.sidebar.bottom + 1;
+      check("a scope dragged tall leaves the log and the cues their room when the page is zoomed", heads(scopeWide) && heads(scopeZoomed), JSON.stringify({ wide: [scopeWide.scope, scopeWide.log, scopeWide.cues], zoomed: [scopeZoomed.scope, scopeZoomed.log, scopeZoomed.cues, scopeZoomed.sidebar] }));
+      check("the scope comes back to its height when the zoom does", Math.abs(scopeBack.scope.top - scopeWide.scope.top) <= 2, JSON.stringify({ wide: scopeWide.scope, back: scopeBack.scope }));
+
+      // the help panel's threads dragged nearly to the top, then the page zoomed
+      await sz.click("#btn-help");
+      await sz.evaluate(() => document.querySelector("#drawer-rail [data-drawer=insight]").click());
+      await sz.waitForFunction(() => document.body.dataset.drawer === "insight");
+      await drag("#drawer-divider", -800);
+      const drawerWide = await layout();
+      await zoomTo(960, 600);
+      const drawerZoomed = await layout();
+      await zoomTo(1440, 900);
+      const drawerBack = await layout();
+      check("a drawer dragged tall leaves the code its room and every control on screen when the page is zoomed", onScreen(drawerWide) && onScreen(drawerZoomed), JSON.stringify({ wide: drawerWide, zoomed: drawerZoomed }));
+      check("the drawer comes back to its height when the zoom does", Math.abs(drawerBack.drawer.h - drawerWide.drawer.h) <= 2, JSON.stringify({ wide: drawerWide.drawer, back: drawerBack.drawer }));
+
+      // sizes saved in pixels before they were shares, opened zoomed
+      await sz.evaluate(() => { localStorage.setItem("sp-sizes", JSON.stringify({ drawer: 700, editor: 1300, scope: 600 })); localStorage.setItem("sp-drawer", JSON.stringify("insight")); });
+      await zoomTo(960, 600);
+      await open();
+      const oldPixels = await layout();
+      check("sizes saved in pixels leave the code its room and every control on screen", onScreen(oldPixels) && heads(oldPixels), JSON.stringify(oldPixels));
+      await sz.evaluate(() => window.sonicPi.shortcuts.open());
+      const sizeKey = await (await sz.waitForSelector(".sc-row[data-id='TextZoomIn'] .sc-key")).evaluate((e) => ({ text: e.textContent, off: e.classList.contains("off") }));
+      check("the shortcut editor shows the code's size on the key that works", sizeKey.text === (mac ? "⌃=" : "Alt+=") && !sizeKey.off, JSON.stringify(sizeKey));
+      check("no uncaught errors as the sizes change", szErrors.length === 0, szErrors.slice(0, 3).join(" | "));
+      await sz.close();
+    }
+
     // ── a phone: the completion popup over the code keyboard (completion/cm.js positionInfo, keyboard.js) ──
     // ── a first visit's pointer to Help (main.js showHelpHint): shown with the editor, the Δ swelling out of itself, gone for good once
     // Help is opened ──
@@ -1363,16 +1474,6 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
         }
       }
     }
-    // the rail's zoom pair (the drawer head, with native's ZoomBar, is hidden on a phone) zooms the pane and leaves it open
-    await ph.evaluate(() => document.querySelector("#drawer-rail [data-drawer=docs]").click());   // Help would toggle whatever pane is open
-    await ph.waitForFunction(() => document.body.dataset.drawer === "docs");
-    // the help panel's tabs zoom as one (main.js zoomPane): --help-zoom, not a variable per pane
-    const railZoom = () => ph.evaluate(() => Number(getComputedStyle(document.documentElement).getPropertyValue("--help-zoom")));
-    const rz0 = await railZoom();
-    await ph.click("#rail-smaller");
-    await ph.waitForTimeout(100);
-    const rz1 = await railZoom(), railDrawer = await ph.evaluate(() => document.body.dataset.drawer);
-    check("on a phone the rail's zoom buttons zoom the docs and keep the drawer open", railDrawer === "docs" && rz1 < rz0, `drawer ${railDrawer}, zoom ${rz0} → ${rz1}`);
     if (await ph.evaluate(() => !!document.body.dataset.drawer)) await ph.click("#btn-help");
     await ph.evaluate(() => window.sonicPi.editor.setCode("live_loop :still do\n  play 60, release: 0.1\n  sleep 0.25\nend"));
     await ph.click("#btn-run");

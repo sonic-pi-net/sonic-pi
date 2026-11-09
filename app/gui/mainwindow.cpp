@@ -121,6 +121,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/sonicpicontext.h"
 #include "widgets/sonicpieditor.h"
 #include "widgets/sonicpilog.h"
+#include "widgets/textsizes.h"
 #include "widgets/sonicpimetro.h"
 #include "widgets/linkaudiostreamswidget.h"
 #include "widgets/logpanel.h"
@@ -130,7 +131,6 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/chevronbutton.h"
 #include "widgets/divider.h"
 #include "widgets/awaydock.h"
-#include "widgets/zoombar.h"
 #include "widgets/thinsplitter.h"
 #include "utils/dividerproxystyle.h"
 #include "utils/tablericons.h"
@@ -694,6 +694,8 @@ void MainWindow::setupWindowStructure()
                 });
     }
     connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
+    connect(settingsWidget, &SettingsWidget::codeSizeChosen, this, &MainWindow::setCodeZoom);
+    connect(settingsWidget, &SettingsWidget::logSizeChosen, this, &MainWindow::setLogSmaller);
     connect(settingsWidget, SIGNAL(showAutoCompletionChanged()), this, SLOT(changeShowAutoCompletion()));
     connect(settingsWidget, SIGNAL(showCompletionHelpChanged()), this, SLOT(changeShowCompletionHelp()));
     connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
@@ -927,6 +929,11 @@ void MainWindow::setupWindowStructure()
 
         connect(workspace, SIGNAL(cursorPositionChanged(int, int)), this, SLOT(updateContext(int, int)));
         connect(workspace, &SonicPiScintilla::zoomLevelChanged, this, &MainWindow::updateErrorCardZoom);
+        // a buffer zoomed on its own (Ctrl and the wheel): every buffer takes its size, as the code has the one
+        connect(workspace, &SonicPiScintilla::zoomLevelChanged, this, [this, workspace] {
+            if (workspace->currentZoom() != piSettings->code_zoom)
+                setCodeZoom(workspace->currentZoom());
+        });
         // queued: the replace confirm is a modal dialog, which must not run
         // inside the drop
         connect(workspace, &SonicPiScintilla::setDropped, this, &MainWindow::loadSetFromFile, Qt::QueuedConnection);
@@ -1090,14 +1097,6 @@ void MainWindow::setupWindowStructure()
 
     tutorialPane = new TutorialPane(theme);
     tutorialPane->setAudioApi(m_spAPI);
-    // The A-/A+ bar governs the whole help tab, not just the content pane:
-    // the topic lists and their filter fields scale with it too, so someone
-    // who needs larger text can actually read the list they navigate with.
-    connect(tutorialPane, &TutorialPane::zoomChanged, this, [this](int zoom) {
-        gui_settings->setValue("prefs/docs-zoom", zoom);
-        applyDocsNavZoom();
-    });
-    tutorialPane->setUserZoom(gui_settings->value("prefs/docs-zoom", 0).toInt());
 
     // Stack rather than a third splitter pane: QSplitter restores persisted
     // sizes, which can leave a late-added widget at zero width.
@@ -1207,7 +1206,6 @@ void MainWindow::setupWindowStructure()
     southTabs->setMovable(false);
     quickstartPane = new QuickstartPane(theme);
     quickstartPane->setAudioApi(m_spAPI);
-    quickstartPane->setUserZoom(gui_settings->value("prefs/quickstart-zoom", 2).toInt());
     // Cards come from an editable text file (see cardsFileToLoad).
     quickstartPane->setCardsFile(cardsFileToLoad());
     connect(quickstartPane, &QuickstartPane::runRequested, this,
@@ -1380,32 +1378,8 @@ void MainWindow::setupWindowStructure()
         connect(docWidget, &QDockWidget::topLevelChanged, this, [this](bool) { applyHelpPanel(); });
     }
 
-    // Every help tab has A-/A+ text-size controls, at the foot of the tab rail
-    // as the web has them at the foot of its: only the current tab's pair is
-    // shown. (The Logs/Debug panels are built further down, so their bars are
-    // wired to the panels once those exist.)
-    QWidget* docZoomControls = tutorialPane->zoomControls();
-    QWidget* cardsZoomControls = quickstartPane->zoomControls();
-    logsZoom = new ZoomBar(theme, tr("logs"), this);
-    debugZoom = new ZoomBar(theme, tr("metrics"), this);
-    if (SonicPi::kPluginsBuilt)
-        tracksZoom = new ZoomBar(theme, tr("tracks"), this);
-    QWidget* helpZoomFoot = new QWidget;
-    QVBoxLayout* helpZoomLayout = new QVBoxLayout(helpZoomFoot);
-    helpZoomLayout->setContentsMargins(0, 0, 0, ScaleHeightForDPI(6));
-    helpZoomLayout->setSpacing(0);
-    for (QWidget* zoom : { docZoomControls, cardsZoomControls,
-                           static_cast<QWidget*>(logsZoom), static_cast<QWidget*>(debugZoom),
-                           static_cast<QWidget*>(tracksZoom) })
-        if (zoom) helpZoomLayout->addWidget(zoom, 0, Qt::AlignHCenter);
-    southTabs->setFootWidget(helpZoomFoot);
-    auto syncDocZoomVisible = [this, docZoomControls, cardsZoomControls]() {
+    auto syncHelpTitle = [this]() {
         QWidget* current = southTabs->currentWidget();
-        docZoomControls->setVisible(current == docsPane);
-        cardsZoomControls->setVisible(current == quickstartPane);
-        logsZoom->setVisible(current == debugLogPanel);
-        debugZoom->setVisible(current == metricsPanel);
-        if (tracksZoom) tracksZoom->setVisible(tracksPanel && current == tracksPanel);
         // The title names the current tab so the row reads as a heading for
         // what's actually on screen, not just the dock.
         QString suffix;
@@ -1424,8 +1398,8 @@ void MainWindow::setupWindowStructure()
                                  : (docWidget->windowTitle() + " - " + suffix).toUpper());
     };
     connect(southTabs, &QTabWidget::currentChanged, this,
-            [syncDocZoomVisible](int) { syncDocZoomVisible(); });
-    syncDocZoomVisible();
+            [syncHelpTitle](int) { syncHelpTitle(); });
+    syncHelpTitle();
 
     addDockWidget(Qt::BottomDockWidgetArea, docWidget);
     docWidget->hide();
@@ -1509,8 +1483,6 @@ void MainWindow::setupWindowStructure()
 
     setCentralWidget(mainWidget);
 
-    incomingPane->setZoomLevel(gui_settings->value("prefs/cue-zoom", 0).toInt());
-    outputPane->setZoomLevel(gui_settings->value("prefs/log-zoom", 0).toInt());
 
     // The help panel on screen from its state (away: its placeholder's
     // separator is the divider at the editor's foot). The column's panes
@@ -1803,7 +1775,7 @@ void MainWindow::blankTitleBars()
     incomingWidget->setTitleBarWidget(blankWidgetIncoming);
     metroWidget->setTitleBarWidget(blankWidgetMetro);
     // Scope & Help keep their persistent control rows; hide just the label so
-    // the pause / A-/A+ / close controls stay reachable.
+    // the pause and close controls stay reachable.
     if (titleBarScope) titleBarScope->hide();
     if (titleBarDoc)   titleBarDoc->hide();
     if (metricsPanel) metricsPanel->setTitlesVisible(false);
@@ -2211,9 +2183,6 @@ void MainWindow::createDebugAndLogTabs()
         // (live_track, with_send, use_track and track_midi).
         tracksPanel = new TracksPanel(m_spAPI, this);
         tracksPanel->applyTheme(theme);
-        tracksPanel->setUserZoom(gui_settings->value("prefs/tracks-zoom", 0).toInt());
-        connect(tracksZoom, &ZoomBar::zoomStep, this,
-                [this](int delta) { tracksPanel->setUserZoom(tracksPanel->userZoom() + delta); });
         southTabs->setTabToolTip(southTabs->addTab(tracksPanel, tr("Tracks")),
                                  tr("VST3 and CLAP plugins hosted by the SuperSonic audio engine, "
                                     "on tracks your code plays by name."));
@@ -2256,20 +2225,6 @@ void MainWindow::createDebugAndLogTabs()
         southTabs->setCurrentIndex((saved >= 0 && saved < southTabs->count()) ? saved : fallback);
     }
 
-    // Wire the title-row A-/A+ bars (built earlier) to the Logs/Debug panels,
-    // restoring the saved level and persisting each step.
-    debugLogPanel->setFontZoom(gui_settings->value("prefs/logs-text-zoom", 0).toInt());
-    connect(logsZoom, &ZoomBar::zoomStep, this, [this](int delta) {
-        const int lvl = qBound(-3, gui_settings->value("prefs/logs-text-zoom", 0).toInt() + delta, 12);
-        gui_settings->setValue("prefs/logs-text-zoom", lvl);
-        debugLogPanel->setFontZoom(lvl);
-    });
-    metricsPanel->setFontZoom(gui_settings->value("prefs/debug-text-zoom", 0).toInt());
-    connect(debugZoom, &ZoomBar::zoomStep, this, [this](int delta) {
-        const int lvl = qBound(-4, gui_settings->value("prefs/debug-text-zoom", 0).toInt() + delta, 20);
-        gui_settings->setValue("prefs/debug-text-zoom", lvl);
-        metricsPanel->setFontZoom(lvl);
-    });
 }
 
 void MainWindow::updateMetroVisibility()
@@ -3365,9 +3320,6 @@ bool MainWindow::replaceAllBuffers(const SonicPi::SetBundle::Load& set, const QS
         // one undoable change in each buffer, as Load into Buffer's
         workspaces[i]->cancelInsertPreview();
         workspaces[i]->replaceBuffer(set.buffers[i], 0, 0, 0);
-        const int zoom = (i < set.zooms.size()) ? set.zooms[i] : SonicPiScintilla::kDefaultZoom;
-        workspaces[i]->setProperty("zoom", QVariant(zoom));
-        workspaces[i]->zoomTo(zoom);
         workspaces[i]->updatePlaceholder();
     }
     editorTabWidget->setCurrentIndex(set.currentBuffer);
@@ -3660,8 +3612,6 @@ void MainWindow::clearAllBuffers()
     for (int i = 0; i < workspace_max; i++)
     {
         workspaces[i]->setText("");
-        workspaces[i]->setProperty("zoom", QVariant(SonicPiScintilla::kDefaultZoom));
-        workspaces[i]->zoomTo(SonicPiScintilla::kDefaultZoom);
         workspaces[i]->updatePlaceholder();
     }
     saveWorkspaces();
@@ -4036,7 +3986,7 @@ void MainWindow::updateDocsFilterIcons()
 }
 
 // Scale the whole docs nav column — topic lists, filter fields and the
-// Tutorial / Examples / Synths / … chips — to the pane's A-/A+ step. The
+// Tutorial / Examples / Synths / … chips — to the pane's scale. The
 // lists are the primary way round the help, so leaving them at the resting
 // size while the content pane grows makes large-text users navigate with text
 // they can't read.
@@ -4588,15 +4538,49 @@ void MainWindow::showQuickstartCards()
 void MainWindow::zoomCurrentWorkspaceIn()
 {
     statusBar()->showMessage(tr("Zooming In..."), 2000);
-    SonicPiScintilla* ws = getCurrentWorkspace();
-    ws->zoomFontIn();
+    setCodeZoom(piSettings->code_zoom + 1);
 }
 
 void MainWindow::zoomCurrentWorkspaceOut()
 {
     statusBar()->showMessage(tr("Zooming Out..."), 2000);
-    SonicPiScintilla* ws = getCurrentWorkspace();
-    ws->zoomFontOut();
+    setCodeZoom(piSettings->code_zoom - 1);
+}
+
+// The code's one size, every buffer's, and the log and the cues with it; Preferences shows it.
+void MainWindow::setCodeZoom(int zoom)
+{
+    piSettings->code_zoom = std::clamp(zoom, SonicPiScintilla::kMinZoom, SonicPiScintilla::kMaxZoom);
+    for (SonicPiScintilla* ws : workspaces)
+    {
+        if (ws && ws->currentZoom() != piSettings->code_zoom)
+            ws->setZoomLevel(piSettings->code_zoom);
+    }
+    applyLogSize();
+    emit settingsChanged();
+}
+
+void MainWindow::setLogSmaller(int smaller)
+{
+    piSettings->log_smaller = std::clamp(smaller, 0, SonicPiLog::kMaxSmaller);
+    applyLogSize();
+    emit settingsChanged();
+}
+
+// The log and the cues are the code's size less the points chosen (Preferences, the View menu), which the menu ticks.
+void MainWindow::applyLogSize()
+{
+    if (logSizeMenu)
+        logSizeMenu->setSmaller(piSettings->log_smaller);
+    SonicPiScintilla* ws = workspaces[0];
+    if (!ws)
+        return;
+    const int code = ws->codePointSize();
+    for (SonicPiLog* pane : { outputPane, incomingPane })
+    {
+        if (pane)
+            pane->followCode(code, piSettings->log_smaller);
+    }
 }
 
 void MainWindow::updateErrorCardZoom()
@@ -5388,12 +5372,6 @@ void MainWindow::updateColourTheme()
     if (tracksPanel)
         tracksPanel->applyTheme(theme);
 
-    if (logsZoom)
-        logsZoom->applyTheme();
-    if (tracksZoom)
-        tracksZoom->applyTheme();
-    if (debugZoom)
-        debugZoom->applyTheme();
 }
 
 void MainWindow::runThemeBench()
@@ -5841,13 +5819,7 @@ void MainWindow::wheelEvent(QWheelEvent* event)
 {
 #if defined(Q_OS_WIN)
     if (event->modifiers() & Qt::ControlModifier)
-    {
-        SonicPiScintilla* ws = getCurrentWorkspace();
-        if (event->angleDelta().y() > 0)
-            ws->zoomFontIn();
-        else
-            ws->zoomFontOut();
-    }
+        setCodeZoom(piSettings->code_zoom + (event->angleDelta().y() > 0 ? 1 : -1));
 #else
     (void)event;
 #endif
@@ -6043,11 +6015,16 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "ShiftUp", QT_TR_NOOP("Shift Line or Selection Up"), "Alt+Up", "Alt+Up", "CtrlMeta+P", "Code", &MainWindow::textShiftLineUpAct },
     { "ShiftDown", QT_TR_NOOP("Shift Line or Selection Down"), "Alt+Down", "Alt+Down", "CtrlMeta+N", "Code", &MainWindow::textShiftLineDownAct },
     { "ContextualDocs", QT_TR_NOOP("Look up documentation for the current word"), "CtrlMeta+i", "Shift+F1", "CtrlMeta+i", "Focus", &MainWindow::contextHelpAct, "Shift+F1" },
-    { "TextZoomIn", QT_TR_NOOP("Increase Text Size"), "Meta+=", "Ctrl++", "Meta+=", "View", &MainWindow::textIncAct },
-    // Win text-zoom mirrors zoom-in's shifted symbol (Ctrl++), so out is Ctrl+_
-    // (Ctrl+Shift+-). Plain Ctrl+- is the log zoom-out; sharing it here made both
-    // an ambiguous shortcut that fired neither.
-    { "TextZoomOut", QT_TR_NOOP("Decrease Text Size"), "Meta+-", "Ctrl+_", "Meta+-", "View", &MainWindow::textDecAct },
+    // The code's size, which the log and the cues follow, on each keymap's own zoom keys. The web leaves those to the
+    // browser's zoom (shortcuts.js BROWSER_ZOOM) and takes the secondary instead: Control = and - on a Mac, Alt = and -
+    // elsewhere.
+#if defined(Q_OS_MAC)
+    { "TextZoomIn", QT_TR_NOOP("Increase Text Size"), "Meta+=", "Ctrl++", "Meta+=", "View", &MainWindow::textIncAct, "Ctrl+=" },
+    { "TextZoomOut", QT_TR_NOOP("Decrease Text Size"), "Meta+-", "Ctrl+_", "Meta+-", "View", &MainWindow::textDecAct, "Ctrl+-" },
+#else
+    { "TextZoomIn", QT_TR_NOOP("Increase Text Size"), "Meta+=", "Ctrl++", "Meta+=", "View", &MainWindow::textIncAct, "Meta+=" },
+    { "TextZoomOut", QT_TR_NOOP("Decrease Text Size"), "Meta+-", "Ctrl+_", "Meta+-", "View", &MainWindow::textDecAct, "Meta+-" },
+#endif
     { "Scope", QT_TR_NOOP("Toggle visibility of audio oscilloscope"), "Meta+O", "Meta+O", "Meta+O", "Visuals", &MainWindow::scopeAct },
     { "CycleThemes", QT_TR_NOOP("Cycle through the available colour themes"), "ShiftMeta+M", "ShiftMeta+M", "ShiftMeta+M", "Visuals", &MainWindow::cycleThemesAct },
     { "Info", QT_TR_NOOP("Toggle information about Sonic Pi"), "Meta+n", "Meta+1", "Meta+1", "View", &MainWindow::infoAct },
@@ -6094,8 +6071,6 @@ const QList<ShortcutDef>& MainWindow::shortcutDefs()
     { "SetMark", QT_TR_NOOP("Set a mark in the text"), "CtrlShift+Space", "CtrlShift+Space", "Ctrl+Space", "Code", &MainWindow::textSetMarkAct },
     { "TriggerAutocomplete", QT_TR_NOOP("Trigger code completion"), "Ctrl+Space", "Ctrl+Space", "CtrlMeta+Space", "Code", &MainWindow::triggerAutocompleteAct },
     { "ReadCompletionDetails", QT_TR_NOOP("Show autocomplete documentation for the current context"), "Ctrl+i", "Ctrl+i", "Ctrl+i", "Accessibility", &MainWindow::readCompletionDetailsAct },
-    { "LogZoomIn", QT_TR_NOOP("Zoom in the log"), "Ctrl+=", "Ctrl+=", "Ctrl+=", "View", &MainWindow::logZoomInAct },
-    { "LogZoomOut", QT_TR_NOOP("Zoom out the log"), "Ctrl+-", "Ctrl+-", "Ctrl+-", "View", &MainWindow::logZoomOutAct },
     { "Down", QT_TR_NOOP("Move Cursor Down"), "Ctrl+n", "Ctrl+n", "Ctrl+n", "Code", &MainWindow::textDownAct },
     { "Up", QT_TR_NOOP("Move Cursor Up"), "Ctrl+p", "Ctrl+p", "Ctrl+p", "Code", &MainWindow::textUpAct },
     { "UpTen", QT_TR_NOOP("Move Cursor Up 10 Lines"), "Meta+up", "PgUp", "ShiftMeta+u", "Code", &MainWindow::textUpTenAct },
@@ -6567,6 +6542,9 @@ void MainWindow::createToolBar()
     // Font Size Decrease
     textDecAct = new QAction(theme->getTextDecIcon(), tr("Code Size Down"), this);
     connect(textDecAct, SIGNAL(triggered()), this, SLOT(zoomCurrentWorkspaceOut()));
+
+    textResetAct = new QAction(tr("Reset Code Size"), this);
+    connect(textResetAct, &QAction::triggered, this, [this] { setCodeZoom(SonicPiScintilla::kDefaultZoom); });
 
     // The checkable toolbar toggles connect to toggled(), not triggered():
     // assistive technology activates a checkable button by flipping its
@@ -7330,20 +7308,16 @@ void MainWindow::createToolBar()
     fullScreenAct->setChecked(piSettings->full_screen);
     connect(fullScreenAct, SIGNAL(triggered()), this, SLOT(fullScreenMenuChanged()));
 
-    logZoomInAct = new QAction(tr("Zoom In Logs"), this);
-    connect(logZoomInAct, SIGNAL(triggered()), this, SLOT(zoomInLogs()));
-
-    logZoomOutAct = new QAction(tr("Zoom Out Logs"), this);
-    connect(logZoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutLogs()));
-
     viewMenu->addAction(fullScreenAct);
     viewMenu->addAction(focusModeAct);
     viewMenu->addSeparator();
     viewMenu->addAction(textIncAct);
     viewMenu->addAction(textDecAct);
-    viewMenu->addSeparator();
-    viewMenu->addAction(logZoomInAct);
-    viewMenu->addAction(logZoomOutAct);
+    viewMenu->addAction(textResetAct);
+    logSizeMenu = new LogSizeMenu(this);
+    logSizeMenu->setSmaller(piSettings->log_smaller);
+    connect(logSizeMenu, &LogSizeMenu::chosen, this, &MainWindow::setLogSmaller);
+    viewMenu->addMenu(logSizeMenu);
     viewMenu->addSeparator();
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
@@ -8032,20 +8006,9 @@ void MainWindow::restoreWindows()
     if (index < editorTabWidget->count())
         editorTabWidget->setCurrentIndex(index);
 
+    setCodeZoom(piSettings->code_zoom);
     for (int w = 0; w < workspace_max; w++)
-    {
-        // default zoom is 13
-        int zoom = gui_settings->value(QString("workspace%1zoom").arg(w), 2)
-                       .toInt();
-        if (zoom < -5)
-            zoom = -5;
-        if (zoom > 20)
-            zoom = 20;
-
-        workspaces[w]->setProperty("zoom", QVariant(zoom));
-        workspaces[w]->zoomTo(zoom);
         workspaces[w]->updatePlaceholder();
-    }
 
     const QByteArray savedWindowState = gui_settings->value("windowState").toByteArray();
     m_restoringLayout = true;   // the scope dock's visibility is not the user's setting while this runs
@@ -8105,6 +8068,13 @@ void MainWindow::readSettings()
     piSettings->log_cues = gui_settings->value("prefs/log-cues", false).toBool();
     piSettings->log_auto_scroll = gui_settings->value("prefs/log-auto-scroll", true).toBool();
     piSettings->show_line_numbers = gui_settings->value("prefs/show-line-numbers", true).toBool();
+    // the code's size: before there was one, the saved buffer's own
+    piSettings->code_zoom = std::clamp(gui_settings->value("prefs/code-zoom",
+                                           gui_settings->value(QString("workspace%1zoom").arg(gui_settings->value("workspace", 0).toInt()),
+                                                               SonicPiScintilla::kDefaultZoom)).toInt(),
+                                       SonicPiScintilla::kMinZoom, SonicPiScintilla::kMaxZoom);
+    piSettings->log_smaller = std::clamp(gui_settings->value("prefs/log-smaller", SonicPiLog::kDefaultSmaller).toInt(),
+                                         0, SonicPiLog::kMaxSmaller);
     piSettings->enable_external_synths = gui_settings->value("prefs/enable-external-synths", false).toBool();
     piSettings->synth_trigger_timing_guarantees = gui_settings->value("prefs/synth-trigger-timing-guarantees", false).toBool();
 
@@ -8229,6 +8199,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/log-cues", piSettings->log_cues);
     gui_settings->setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);
     gui_settings->setValue("prefs/show-line-numbers", piSettings->show_line_numbers);
+    gui_settings->setValue("prefs/log-smaller", piSettings->log_smaller);
     gui_settings->setValue("prefs/enable-external-synths", piSettings->enable_external_synths);
     gui_settings->setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);
     gui_settings->setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);
@@ -8277,17 +8248,9 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/loop-scope-scroll", piSettings->loop_scope_scroll);
     gui_settings->setValue("prefs/speak-transport", piSettings->speak_transport);
     gui_settings->setValue("prefs/example-play-on-open", piSettings->example_play_on_open);
-    if (tutorialPane)
-        gui_settings->setValue("prefs/docs-zoom", tutorialPane->userZoom());
-    if (quickstartPane)
-        gui_settings->setValue("prefs/quickstart-zoom", quickstartPane->userZoom());
-    if (tracksPanel)
-        gui_settings->setValue("prefs/tracks-zoom", tracksPanel->userZoom());
     gui_settings->setValue("prefs/reduce-motion", piSettings->reduce_motion);
     gui_settings->setValue("prefs/shortcut-mode", piSettings->shortcut_mode);
-    gui_settings->setValue("prefs/log-zoom", outputPane->currentZoomLevel());
-    gui_settings->setValue("prefs/cue-zoom", incomingPane->currentZoomLevel());
-    std::cout << "[GUI] - writing zoom values " << outputPane->currentZoomLevel() << " " << incomingPane->currentZoomLevel() << std::endl;
+    gui_settings->setValue("prefs/code-zoom", piSettings->code_zoom);
     for (auto name : piSettings->scope_names)
     {
         gui_settings->setValue("prefs/scope/show-" + name.toLower(), piSettings->isScopeActive(name));
@@ -8295,11 +8258,7 @@ void MainWindow::writeSettings()
 
     gui_settings->setValue("workspace", editorTabWidget->currentIndex());
 
-    for (int w = 0; w < workspace_max; w++)
-    {
-        gui_settings->setValue(QString("workspace%1zoom").arg(w),
-            workspaces[w]->property("zoom"));
-    }
+
 
     gui_settings->setValue("docsplitState", docsplit->saveState());
     gui_settings->setValue("windowState", saveState());
@@ -9269,7 +9228,7 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
         const int dockR = dockL + docWidget->width();
         // ...but not when the pointer is on one of the title row's buttons. The
         // band has to stay generous enough to catch the separator itself, which
-        // means it reaches a few pixels into the dock, where the A-/A+ and close
+        // means it reaches a few pixels into the dock, where the close
         // controls sit centred in a short row. Excluding just the buttons keeps
         // the whole divider toggling while leaving those controls alone.
         bool onButton = false;
@@ -9299,18 +9258,6 @@ QString MainWindow::sonicPiConfigPath()
 QString MainWindow::shortcutsConfigPath()
 {
     return sonicPiConfigPath() + QDir::separator() + "v5-keyboard-shortcuts.ini";
-}
-
-void MainWindow::zoomInLogs()
-{
-    outputPane->zoomIn();
-    incomingPane->zoomIn();
-}
-
-void MainWindow::zoomOutLogs()
-{
-    outputPane->zoomOut();
-    incomingPane->zoomOut();
 }
 
 // Parse "enabled<TAB>name" device lines (bare names = enabled).

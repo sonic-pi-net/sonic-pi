@@ -18,6 +18,7 @@
 
 class SonicPiTheme;
 class QContextMenuEvent;
+class QWheelEvent;
 
 class SonicPiLog : public QPlainTextEdit
 {
@@ -25,7 +26,12 @@ class SonicPiLog : public QPlainTextEdit
 public:
     explicit SonicPiLog(QWidget *parent = 0);
     bool forceScroll;
-    int zoomLevel;
+
+    // The log's text is the code's point size less the points chosen in Preferences, never under kMinPointSize.
+    static constexpr int kDefaultSmaller = 3;
+    static constexpr int kMaxSmaller = 8;
+    static constexpr int kMinPointSize = 6;
+    void followCode(int codePointSize, int smaller);
 
     struct Message
     {
@@ -64,16 +70,14 @@ public slots:
     void appendPlainText(QString text);
     // Drops what is waiting to be written as well as what is shown.
     void clear();
-    void zoomIn();
-    void zoomOut();
-    void setZoomLevel(int zoom);
-    int currentZoomLevel() const;
 
 
 protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
+    void wheelEvent(QWheelEvent* event) override;
 
 private:
+    int m_pointSize = 14;   // until the code's size reaches it (MainWindow::applyLogSize)
     struct Pending
     {
         bool multi;

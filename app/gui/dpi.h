@@ -108,7 +108,7 @@ inline int ScaleWidthForDPI(int x)
 }
 
 // ── Type scale ───────────────────────────────────────────────────────────
-// The GUI's font sizes, and the one zoom curve every A-/A+ control uses.
+// The GUI's font sizes, and the one curve every pane's scale follows.
 //
 // These live here rather than in app.qss because a stylesheet `font-size`
 // silently beats setFont(), which made per-pane text zoom undiscoverable: a
@@ -129,7 +129,7 @@ enum class FontRole
     XXLarge,
 };
 
-// One curve for every pane that offers A-/A+ (docs, cards, …). Multiplicative
+// One curve for every pane's scale (docs, cards, …). Multiplicative
 // so a type hierarchy keeps its proportions as it grows — the cards pane's
 // old additive step (base + zoom) added the same pixel to every size, which
 // flattened a 17px heading toward a 13px pill the further you zoomed in.
@@ -266,7 +266,7 @@ inline int ResolveDxToPx(int dx)
 // Resolve a stylesheet's `dx` lengths and font-size keywords to real pixels.
 //
 // extraScale is an additional multiplier for panes that carry their own text
-// zoom on top of the display DPI (the docs pane's A-/A+) — padding, radii and
+// scale on top of the display DPI (the docs pane's) — padding, radii and
 // rule weights then grow with the type instead of pinching it. One function
 // rather than two overloads so a value can't resolve differently depending on
 // which one happened to see it.

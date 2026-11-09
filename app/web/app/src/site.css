@@ -8,9 +8,9 @@
 /* the site's type is the app's, and its pages sit beside a sub-navigation of their sections (.ic-side, in the docs
    pane's list) — the same two columns as the docs pane */
 .site-body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }   /* the pages too: iOS inflates text it judges hard to read, block by block */
-.site-body { --qs-code-size: var(--t-code); zoom: var(--site-zoom, 1); }   /* the pages a couple of steps up on a wide screen (style.css sets --site-zoom), as the docs pane starts two steps up */
+.site-body { --qs-code-size: var(--t-code); }
 .site-body, .site-body h1, .site-body h2, .site-body h3, .site-body h4, .site-body .button, .qs-level { font-family: var(--prose-font); }
-.site-body { font-size: var(--t-body); line-height: 1.55; }
+.site-body { font-size: var(--t-ui); line-height: 1.55; }
 .site-body em, .site-body h1, .site-body h2, .site-body h3 { font-style: normal; }   /* the app does not italicise */
 /* two columns as the docs pane has them: the list stands still on the left, the page scrolls on the right */
 .site-body { height: 100%; }
@@ -60,16 +60,16 @@
 .course-cover h3 { margin: 0; font-size: var(--t-title); color: #fff; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7); text-align: left; }   /* the title voice (shared.css), over the picture */
 .course-copy { flex: 1; max-height: none; overflow: visible; padding: 14px 20px 10px; }
 .site-body .course-copy p, .site-body .course-card .qs-blurb { margin: 0; padding: 0; }   /* landing.css pads every p: these line up with the poster's title */
-.course-copy p { font-size: var(--t-body); line-height: 1.5; color: var(--softForeground); text-shadow: none; }
+.course-copy p { font-size: var(--t-ui); line-height: 1.5; color: var(--softForeground); text-shadow: none; }
 .course-card .qs-card-foot { flex-wrap: wrap; justify-content: space-between; gap: 10px 14px; padding: 10px 20px 14px; }   /* on a phone the line and the button take a row each */
-.course-card .qs-card-foot .button { flex: none; margin: 0; padding: 0.6em 1.2em; font-size: var(--t-body); }   /* two filled calls: watch, then buy */
+.course-card .qs-card-foot .button { flex: none; margin: 0; padding: 0.6em 1.2em; font-size: var(--t-ui); }   /* two filled calls: watch, then buy */
 .ic-main [id] { scroll-margin-top: 40px; }   /* a jump from the list lands with room above the section's title, as the page's top has */
 .funding { max-width: 40em; margin: 0 auto 2.4em; text-align: center; }
 .funding p { margin: 0 0 1em; font-size: var(--t-lead); line-height: 1.55; color: var(--softForeground); }
 .funding strong, .funding a { font-weight: 600; text-decoration: none; }
 .funding a { color: var(--HighlightedBackground); }   /* its links in the accent; its highlighted words the second colour, as everywhere (landing.css) */
 .funding a:hover { text-decoration: underline; }
-.funding .funding-sign { font-size: var(--t-body); color: var(--mutedForeground); }
+.funding .funding-sign { font-size: var(--t-ui); color: var(--mutedForeground); }
 .patreon-word { display: inline-flex; align-items: center; justify-content: center; gap: 0.3em; height: 100px; margin: 0 auto 1em; color: var(--Foreground); font: 800 var(--t-display) var(--prose-font); letter-spacing: 0.18em; text-transform: uppercase; }
 .patreon-word .tb-icon { width: 40px; height: 40px; stroke-width: 2.4; }
 .ic-support p { max-width: 34em; margin: 0 auto; font-size: var(--t-lead); line-height: 1.5; color: var(--softForeground); }
@@ -80,7 +80,7 @@
 #intro .hero-title strong { font-weight: 500; }   /* the site's strong weight (not h1 strong's 400) */
 #intro .hero-title br { display: block; }   /* the two lines as written: "Express yourself", then "with code." */
 #intro .u8 > p.tagline { font-size: var(--t-lead); font-weight: 400; line-height: 1.45; margin-bottom: 1.2em; color: var(--softForeground); max-width: 34em; }
-#intro .facets { font-size: var(--t-body); }
+#intro .facets { font-size: var(--t-ui); }
 #intro .credit { margin: 0 0 1.4em; }
 .ic-page[hidden] { display: none !important; }   /* whatever layout a page takes, hidden is hidden */
 /* the hero's mark, native's splash treatment: the tile in the accent, the glyphs punched through to the page behind
@@ -97,12 +97,12 @@
    list vocabulary (the docs pane's, the other pages' sub-navigation), a brand icon by each platform */
 .ways { display: flex; flex-direction: column; gap: 8px; margin-top: 0; text-align: left; }
 .browser-list { display: none; }   /* the button to play is in the hero (info.js moves it) */
-.ways .launch { display: block; width: calc(100% - 24px); box-sizing: border-box; margin: 2px 12px 8px; text-align: center; font-size: var(--t-body); padding: 0.75em 1em; }
-.launch-note { margin: 0 0 10px; font-size: 0.92em; line-height: 1.4; color: var(--softForeground); text-align: center; }
+.ways .launch { display: block; width: calc(100% - 24px); box-sizing: border-box; margin: 2px 12px 8px; text-align: center; font-size: var(--t-ui); padding: 0.75em 1em; }
+.launch-note { margin: 0 0 10px; font-size: var(--t-small); line-height: 1.4; color: var(--softForeground); text-align: center; }
 .desktop-list { flex: none; padding: 0; }
 .desktop-list .docs-group .short { display: inline; }
 .desktop-list .docs-group .long { display: none; }
-.desktop-list .docs-item { display: flex; align-items: center; gap: 10px; font-size: var(--t-body); padding: 7px 12px; }
+.desktop-list .docs-item { display: flex; align-items: center; gap: 10px; font-size: var(--t-ui); padding: 7px 12px; }
 .desktop-list .docs-item.sub { padding-left: 42px; }   /* a chapter's section, unmarked, its words under the chapter's (12 + the icon's 20 + the gap's 10) */
 .desktop-list .docs-item .tb-icon { margin: 0; width: 20px; height: 20px; color: var(--mutedForeground); vertical-align: middle; }
 .desktop-list .docs-item:hover .tb-icon { color: inherit; }
@@ -122,9 +122,9 @@
 .facet-word.on .sp-glyph { background: var(--HighlightedBackground); }
 /* the bar as far under its word as the bar's tabs' underline is under theirs (style.css #site-nav .ic-tab): 11px from the
    baseline, 3px thick, on screen at every width. The word's box is its font's height, whose foot is 0.125em below the
-   baseline; the bar comes after the word's gap (0.25em), and the page's zoom (--site-zoom) is taken back out */
+   baseline; the bar comes after the word's gap (0.25em) */
 .facet-word > span { line-height: 1; }
-.facet-bar { position: relative; align-self: stretch; flex: none; height: calc(3px / var(--site-zoom, 1)); margin-top: calc(11px / var(--site-zoom, 1) - 0.375em); border-radius: var(--r-pill); background: var(--subtleFill); overflow: hidden; }
+.facet-bar { position: relative; align-self: stretch; flex: none; height: 3px; margin-top: calc(11px - 0.375em); border-radius: var(--r-pill); background: var(--subtleFill); overflow: hidden; }
 .facet-bar::after { content: ""; position: absolute; inset: 0; transform: scaleX(0); transform-origin: left; background: var(--HighlightedBackground); }   /* grown by a transform, not its width: the compositor's alone, no layout a frame */
 .facet-word.on .facet-bar::after { animation: facet-fill var(--facet-turn, 4.2s) linear forwards; }
 .facets.paused .facet-word.on .facet-bar::after { animation-play-state: paused; }   /* the turn holds where it is while the keyboard's focus is on the words */
@@ -149,7 +149,7 @@
 .hero-after .hero-launch .button { margin: 0; }
 .hero-after .credit { margin-top: 1.4em; }
 /* beside Launch: the ask, outlined, with Tabler's heart */
-.hero-support { display: inline-flex; align-items: center; gap: 7px; padding: 0.55em 1em; border: 2px solid var(--Button); border-radius: var(--r-m); color: var(--WindowForeground); font: 600 var(--t-body) var(--prose-font); text-decoration: none; }
+.hero-support { display: inline-flex; align-items: center; gap: 7px; padding: 0.55em 1em; border: 2px solid var(--Button); border-radius: var(--r-m); color: var(--WindowForeground); font: 600 var(--t-ui) var(--prose-font); text-decoration: none; }
 .hero-support .tb-icon { width: 18px; height: 18px; color: var(--HighlightedBackground); }
 .hero-support:hover, .hero-support:focus-visible { border-color: var(--HoverButton); color: var(--HoverButton); outline: none; }
 #intro .facets { margin-bottom: 0; }
@@ -165,22 +165,22 @@
 /* the supporters' strip at a page's foot: a title, the line, the button */
 .ic-support h2 { margin: 0 0 0.4em; font-size: var(--t-title); font-weight: 700; color: var(--WindowForeground); }
 .ic-support .button { display: inline-block; margin-top: 1.2em; }
-.hero-launch .button.medium { font-size: var(--t-body); padding: 0.75em 2em; }
+.hero-launch .button.medium { font-size: var(--t-ui); padding: 0.75em 2em; }
 /* the live example under the hero: a quickstart card, as the Examples tab has them, one card wide */
 #hear { text-align: center; }
 .hero-example { max-width: 760px; margin: 0 auto; text-align: left; }
 .hero-example .qs-grid { grid-template-columns: minmax(0, 1fr); }
 .hero-example .qs-card { margin: 0; }
-#intro .qs-card-title, #hear .qs-card-title { margin: 0; padding: 0.6em 0; font-size: var(--t-body); font-weight: 700; color: var(--accentContrastText); text-align: left; max-width: none; }
+#intro .qs-card-title, #hear .qs-card-title { margin: 0; padding: 0.6em 0; font-size: var(--t-ui); font-weight: 700; color: var(--accentContrastText); text-align: left; max-width: none; }
 /* the list items' icons: ui/submenu.css */
 .way-web { border-color: var(--HighlightedBackground); }
 a.way-web:hover, a.way-web:focus-visible { border-color: var(--HoverButton); }
 a.way-web:hover .button { background: var(--HoverButton); border-color: var(--HoverButton); }
 .way-kicker { }   /* a kicker (shared.css) */
-.way-title { font-size: 1.2em; font-weight: 600; color: var(--WindowForeground); }
+.way-title { font-size: var(--t-lead); font-weight: 600; color: var(--WindowForeground); }
 .way-note { color: var(--softForeground); }
 .way-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
-.way .button.medium { font-size: 0.95em; padding: 0.6em 1.1em; }
+.way .button.medium { font-size: var(--t-ui); padding: 0.6em 1.1em; }
 /* the buttons: shared.css, the app's and the site's one language, loaded after this */
 
 
@@ -198,7 +198,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
    have the room */
 /* one screen: the bar, the words, the card — the download prompt and the support section are the other pages'
    (Home has both), not a scroll below the examples */
-.wrapper:has(> #examples .flip) { display: flex; flex-direction: column; box-sizing: border-box; height: calc(100cqh / var(--site-zoom, 1)); padding: 0 0 12px; }   /* the screen's height, under the pages' zoom (.site-body) */   /* the screen, no more: a long card scrolls inside itself */
+.wrapper:has(> #examples .flip) { display: flex; flex-direction: column; box-sizing: border-box; height: 100cqh; padding: 0 0 12px; }   /* the screen, no more: a long card scrolls inside itself */
 .wrapper:has(> #examples .flip) > #examples { display: flex; flex: 1 1 0; min-height: 0; flex-direction: column; }
 #examples:has(.flip) > .container { display: contents; }
 #examples .flip-bar { order: -1; }   /* the bar first, right under the tabs; the words under it; the cards */
@@ -208,11 +208,9 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 #examples:has(.flip) > header { display: none; }   /* the bar says where you are; words that folded away past the first card would change the column's size under a scroll, and the snap would jump */
 #examples .flip .qs-card { width: 100%; max-width: 820px; margin-inline: auto; }   /* a wide column: the card a readable width, centred */
 
-/* a wide screen: the page bar (main.js) stands over the page's column; the column starts under it. The bar's height is
-   the screen's (main.js measures it) and the column is under the pages' zoom (.site-body), so the zoom is taken back out:
-   left in, the column started (zoom − 1) × the bar's height below it, 7px at the pages' first step and more at each one up */
+/* a wide screen: the page bar (main.js) stands over the page's column; the column starts under it (main.js measures the bar) */
 @container (min-width: 821px) {
-  .ic-main { padding-top: calc(var(--strip-h, 0px) / var(--site-zoom, 1)); scroll-padding-top: calc(var(--strip-h, 0px) / var(--site-zoom, 1)); }
+  .ic-main { padding-top: var(--strip-h, 0px); scroll-padding-top: var(--strip-h, 0px); }
 }
 /* a phone: one column; the page's list folds behind a chip above the page (info.js adds it), About's mark and ways stack on top */
 @container (max-width: 820px) {   /* the fold itself: shared.css */
@@ -238,16 +236,16 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
   :is(#connectivity, #web-or-app) .conn-table tbody th { font-size: inherit; letter-spacing: normal; }
   :is(#connectivity, #web-or-app) .conn-note { white-space: normal; }
   #intro .hero-title { font-size: var(--t-title); line-height: 1.15; margin: 0.2em 0 0.45em; }
-  #intro .u8 > p.tagline { font-size: var(--t-body); line-height: 1.4; margin: 0 auto 0.6em; max-width: 30ch; }
+  #intro .u8 > p.tagline { font-size: var(--t-ui); line-height: 1.4; margin: 0 auto 0.6em; max-width: 30ch; }
   #intro .facets { --facet-gap: 14px; margin: 1.2em 0; padding: 0.9em 0.6em var(--facet-gap); }
   .facet-words { gap: 0.2em 0.9em; }   /* the four words on one row at a phone's width */
   .facet-word { font-size: var(--t-ui); }
   .facet-word .sp-glyph { width: 26px; height: 26px; }
-  .facet-lines { font-size: var(--t-body); }
+  .facet-lines { font-size: var(--t-ui); }
   #intro .facet-words { justify-content: center; gap: 0 0.9em; }
-  #intro .facet-word { font-size: var(--t-body); }
+  #intro .facet-word { font-size: var(--t-ui); }
   #intro .facet-word .sp-glyph { width: 26px; height: 26px; }
-  #intro .facet-lines { font-size: var(--t-body); }   /* as tall as its longest line (the lines share one cell), each centred in it: the same room above a short one as below */
+  #intro .facet-lines { font-size: var(--t-ui); }   /* as tall as its longest line (the lines share one cell), each centred in it: the same room above a short one as below */
   #intro .credit { display: none; }
   #intro header .image.logo { width: 110px; margin: 0 auto 0.8em; }
   .ways { margin-top: 10px; }
@@ -255,7 +253,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 
 .connectivity-diagram { display: block; width: 100%; height: auto; color: var(--Foreground); }
 /* what each build has, beside the diagram: the app's column and the browser's */
-.conn-table { width: 100%; margin: 0.8em 0 0; border-collapse: collapse; table-layout: fixed; font-size: var(--t-body); line-height: 1.35; text-align: left; }   /* the list's size, not the prose's; a long row wraps, the columns hold */
+.conn-table { width: 100%; margin: 0.8em 0 0; border-collapse: collapse; table-layout: fixed; font-size: var(--t-ui); line-height: 1.35; text-align: left; }   /* the list's size, not the prose's; a long row wraps, the columns hold */
 #connectivity .row > .u6 { min-width: 0; }
 .conn-table th, .conn-table td { padding: 0.55em 0.5em; border: none; border-bottom: 1px solid var(--WindowBorder); vertical-align: middle; }
 .conn-table th:not(:first-child), .conn-table td:not(:first-child) { white-space: nowrap; }
@@ -274,7 +272,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 /* the Patreon page's supporters (site/pages/support.html): the names plain, in columns, as credits roll */
 /* small and close-set, as a film's credits: as many columns as fit (two on a phone), the block centred under the title */
 #supporters header { margin-bottom: 1.6em; }
-#supporters header p { font-size: var(--t-body); line-height: 1.55; }   /* a paragraph, not a strapline: the body's size */
+#supporters header p { font-size: var(--t-ui); line-height: 1.55; }   /* a paragraph, not a strapline: the body's size */
 .supporter-names { columns: 4 9.5em; column-gap: 1.5em; max-width: 54em; margin: 0 auto; padding: 0 18px; list-style: none; text-align: left; font-size: var(--t-small); line-height: 1.35; color: var(--softForeground); }
 .supporter-names li { break-inside: avoid; margin: 0; padding: 0 0 0.5em; }
 
@@ -290,7 +288,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .dl > header { display: flex; align-items: center; gap: 16px; margin: 0 0 14px; text-align: left; }
 .dl-platform { flex: none; width: 56px; height: 56px; color: var(--second); fill: none; stroke: currentColor; stroke-width: 1.5; }   /* the platform's own mark, as the list beside names it */
 .dl > header .sec-title { margin: 0; font-size: var(--t-heading); line-height: 1.2; }
-.dl > header p { margin: 4px 0 0; font-size: var(--t-body); line-height: 1.4; color: var(--mutedForeground); }
+.dl > header p { margin: 4px 0 0; font-size: var(--t-ui); line-height: 1.4; color: var(--mutedForeground); }
 .dl-rows { display: flex; flex-direction: column; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); overflow: hidden; }
 .dl-row { display: flex; align-items: center; gap: 14px; padding: 12px 14px; color: var(--Foreground); text-decoration: none; border: none; }
 .dl-row + .dl-row { border-top: 1px solid var(--WindowBorder); }
@@ -298,7 +296,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .dl-chiptag { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 4.4em; box-sizing: border-box; height: 2.2em; padding: 0 6px; border: 1.5px solid var(--WindowBorder); border-radius: var(--r-s); font: 600 var(--t-small) var(--code-font); color: var(--softForeground, var(--Foreground)); }
 .dl-chiptag .dl-glyph { width: 1.4em; height: 1.4em; color: var(--second); fill: none; stroke: currentColor; stroke-width: 2; }
 .dl-what { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-.dl-what strong { font: 600 var(--t-body)/1.3 var(--prose-font); color: var(--Foreground); }
+.dl-what strong { font: 600 var(--t-ui)/1.3 var(--prose-font); color: var(--Foreground); }
 .dl-meta { font-size: var(--t-small); line-height: 1.35; color: var(--mutedForeground); overflow-wrap: anywhere; }
 .dl-go { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1.5px solid var(--HighlightedBackground); border-radius: var(--r-m); font: 600 var(--t-small) var(--prose-font); color: var(--HighlightedBackground); white-space: nowrap; }
 .dl-row.main .dl-go { background: var(--HighlightedBackground); color: var(--accentContrastText, #fff); }
@@ -362,13 +360,13 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .tut-page .tut-part header { margin: 0 0 0.9em; text-align: left; }
 .tut-page .tut-part p.tut-note { padding: 0.7em 1em; border-left: 3px solid var(--HighlightedBackground); border-radius: var(--r-s); background: var(--accentTint); }
 .tut-page .tut-part .sec-title { margin: 0; font-size: var(--t-title); text-align: left; }
-.tut-page .tut-part > :is(h2, h3, h4, h5) { margin: 1.3em 0 0.4em; font: 700 var(--t-body) var(--prose-font); color: var(--Foreground); text-align: left; }
-.tut-page .tut-part > p, .tut-page .tut-part > :is(ul, ol) > li { margin: 0 0 0.9em; font: var(--t-body)/1.6 var(--prose-font); color: var(--Foreground); text-align: left; }
+.tut-page .tut-part > :is(h2, h3, h4, h5) { margin: 1.3em 0 0.4em; font: 700 var(--t-ui) var(--prose-font); color: var(--Foreground); text-align: left; }
+.tut-page .tut-part > p, .tut-page .tut-part > :is(ul, ol) > li { margin: 0 0 0.9em; font: var(--t-ui)/1.6 var(--prose-font); color: var(--Foreground); text-align: left; }
 .tut-page .tut-part > :is(ul, ol) { margin: 0 0 1em; padding-left: 1.4em; text-align: left; }
 .tut-page .tut-part > :is(ul, ol) > li { margin-bottom: 0.35em; }
 /* the code in a sentence: the editor's face and colours (build-site.mjs highlights it), on the code cards' own tint, so a
    word of code reads as the code under it does */
-.tut-page .tut-part > p code, .tut-page .tut-part > :is(ul, ol) > li code { padding: 0.12em 0.4em; border-radius: var(--r-s); background: var(--accentTint); color: var(--Foreground); font: 500 0.88em var(--code-font); white-space: nowrap; }
+.tut-page .tut-part > p code, .tut-page .tut-part > :is(ul, ol) > li code { padding: 0.12em 0.4em; border-radius: var(--r-s); background: var(--accentTint); color: var(--Foreground); font: 500 1em var(--code-font); white-space: nowrap; }
 .tut-page .tut-part .qs-card { margin: 1em 0 1.4em; }
 .tut-page .tut-part img { display: block; max-width: 100%; height: auto; margin: 1.2em auto; border-radius: var(--r-m); }
 .tut-page .tut-next { max-width: 46em; margin: 2.4em auto 3em; padding: 0 24px; }
@@ -379,7 +377,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
    pads and colours every p and h2 in one, and its rules would otherwise win. */
 .site-body #course .course-card { padding-bottom: 0; border: 1px solid var(--WindowBorder); background: var(--PaneBackground); }
 .site-body #course .course-card .qs-card-foot { background: none; border-top: 1px solid var(--WindowBorder); }
-.site-body #course .course-copy p { padding: 0; font-size: var(--t-body); color: var(--Foreground); }
+.site-body #course .course-copy p { padding: 0; font-size: var(--t-ui); color: var(--Foreground); }
 .site-body #course .course-cover h3 { padding: 0; font-weight: 700; color: #fff; }
 .site-body #course .course-media img { height: 100%; border-radius: 0; }
 
@@ -389,8 +387,8 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .highlights a { display: flex; flex-direction: column; gap: 6px; color: inherit; text-decoration: none; border-radius: var(--r-m); }
 .highlights img { display: block; width: 100%; height: auto; aspect-ratio: 480 / 354; object-fit: cover; border-radius: var(--r-m);
   border: 1px solid var(--WindowBorder); margin-bottom: 4px; }
-.highlights strong { font: 600 var(--t-body) var(--prose-font); color: var(--Foreground); }
+.highlights strong { font: 600 var(--t-ui) var(--prose-font); color: var(--Foreground); }
 .highlights span { font: var(--t-small)/1.45 var(--prose-font); color: var(--softForeground); }
 .highlights a:hover strong { text-decoration: underline; text-decoration-color: var(--HighlightedBackground); text-underline-offset: 3px; }
 .highlights a:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: 6px; }
-.highlights-more { margin-top: 28px; font: var(--t-body) var(--prose-font); color: var(--softForeground); }
+.highlights-more { margin-top: 28px; font: var(--t-ui) var(--prose-font); color: var(--softForeground); }

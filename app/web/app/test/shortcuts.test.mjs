@@ -13,8 +13,10 @@ import {
 const key = (key, keyCode, mods = {}) => ({ key, keyCode, ctrlKey: false, altKey: false, shiftKey: false, metaKey: false, ...mods });
 
 test("the catalogue is native's, with the web's own commands after it", () => {
-  assert.equal(SHORTCUT_DEFS.length, 93);
+  assert.equal(SHORTCUT_DEFS.length, 91);
   assert.equal(DEFS.length, SHORTCUT_DEFS.length + 2);
+  assert.equal(DEF.has("LogZoomIn"), false);
+  assert.equal(DEF.has("LogZoomOut"), false);
   assert.equal(GROUPS[0], "Live");
   assert.deepEqual(DEF.get("Help").secondary.mac, ["F1", "Meta+i"]);
   assert.deepEqual(DEF.get("Help").secondary.other, ["F1"]);
@@ -120,8 +122,7 @@ test("key presses match as native's keys do", () => {
   assert.deepEqual(on(key("ArrowUp", 38, { altKey: true }), mac), ["ShiftUp"]);
   assert.deepEqual(on(key("z", 90, { metaKey: true, shiftKey: true }), mac), ["Redo"]);
   const win = buildBindings({ mode: "win", platform: "other" });
-  assert.deepEqual(on(key("+", 187, { ctrlKey: true, shiftKey: true }), win, "other"), ["TextZoomIn"]);
-  assert.deepEqual(on(key("=", 187, { ctrlKey: true }), win, "other"), ["LogZoomIn"]);
+  assert.deepEqual(on(key("!", 49, { altKey: true, shiftKey: true }), win, "other"), ["Tab1"]);
   const emacs = buildBindings({ mode: "emacs", platform: "other" });
   assert.deepEqual(on(key("!", 49, { altKey: true, shiftKey: true }), emacs, "other"), ["Tab1"]);
   assert.deepEqual(on(key("p", 80, { ctrlKey: true, altKey: true }), emacs, "other"), ["ShiftUp"]);
@@ -226,4 +227,46 @@ test("a Mac's buffers have keys a browser tab gets: Control-1…0, and Opt-Cmd-[
   const other = buildBindings({ mode: "win", platform: "other" });
   assert.deepEqual(other.chords.get("TabNext"), ["Shift-Alt-]"]);
   assert.deepEqual(other.chords.get("Tab1"), ["Shift-Alt-1"]);
+});
+
+// The browser's zoom is the interface's size: the page never takes its keys, whatever the keymap, and the code's
+// size has keys of its own, which the log and the cues follow.
+const ZOOM_KEYS = {
+  mac: [key("=", 187, { metaKey: true }), key("+", 187, { metaKey: true, shiftKey: true }), key("-", 189, { metaKey: true }), key("0", 48, { metaKey: true })],
+  other: [key("=", 187, { ctrlKey: true }), key("+", 187, { ctrlKey: true, shiftKey: true }), key("-", 189, { ctrlKey: true }), key("0", 48, { ctrlKey: true })],
+};
+const everyKeymap = (platform) => [...PRESETS.map(([mode]) => buildBindings({ mode, platform })),
+  buildBindings({ mode: "custom", custom: { base: platform === "mac" ? "mac" : "win", keys: { Scope: platform === "mac" ? "Meta+=" : "Ctrl+=", Tab0: platform === "mac" ? "Meta+0" : "Ctrl+0" } }, platform })];
+
+test("the browser's zoom keys are left to the browser in every keymap, Custom too", () => {
+  for (const platform of ["mac", "other"]) {
+    for (const b of everyKeymap(platform)) {
+      for (const e of ZOOM_KEYS[platform]) assert.equal(matchEvent(e, b, platform), null, `${b.base} on ${platform}: ${JSON.stringify(e)}`);
+    }
+  }
+});
+
+test("the code's size has keys of its own: Control = and - on a Mac, Alt = and - elsewhere", () => {
+  for (const b of everyKeymap("mac")) {
+    assert.deepEqual(matchEvent(key("=", 187, { ctrlKey: true }), b, "mac")?.ids, ["TextZoomIn"], b.base);
+    assert.deepEqual(matchEvent(key("-", 189, { ctrlKey: true }), b, "mac")?.ids, ["TextZoomOut"], b.base);
+  }
+  for (const b of everyKeymap("other")) {
+    assert.deepEqual(matchEvent(key("=", 187, { altKey: true }), b, "other")?.ids, ["TextZoomIn"], b.base);
+    assert.deepEqual(matchEvent(key("-", 189, { altKey: true }), b, "other")?.ids, ["TextZoomOut"], b.base);
+  }
+});
+
+test("a command whose key is the browser's zoom has the key it does have as its own", () => {
+  const mac = buildBindings({ mode: "mac", platform: "mac" }), win = buildBindings({ mode: "win", platform: "other" });
+  assert.equal(mac.primary.get("TextZoomIn"), resolve("Ctrl+=", "mac"));
+  assert.equal(mac.primary.get("Tab0"), resolve("Ctrl+0", "mac"));
+  assert.equal(win.primary.get("TextZoomIn"), resolve("Meta+=", "other"));
+  assert.equal(win.primary.get("TextZoomOut"), resolve("Meta+-", "other"));
+  assert.equal(createShortcuts({ store: null, platform: "mac" }).browserZoom(resolve("Meta+=", "mac")), true);
+  assert.equal(createShortcuts({ store: null, platform: "mac" }).browserZoom(resolve("Ctrl+=", "mac")), false);
+
+  const keys = createShortcuts({ store: null, platform: "mac" });
+  assert.equal(keys.title("Code size up", "TextZoomIn"), "Code size up (⌃=)");
+  assert.equal(createShortcuts({ store: null, platform: "other" }).title("Code size up", "TextZoomIn"), "Code size up (Alt+=)");
 });

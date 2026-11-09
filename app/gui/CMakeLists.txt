@@ -160,8 +160,6 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/codecard.cpp
     ${QTAPP_ROOT}/widgets/carddeck.cpp
     ${QTAPP_ROOT}/widgets/quickstartpane.h
-    ${QTAPP_ROOT}/widgets/zoombar.cpp
-    ${QTAPP_ROOT}/widgets/zoombar.h
     ${QTAPP_ROOT}/widgets/scopesampler.h
     ${QTAPP_ROOT}/widgets/cardscope.h
     ${QTAPP_ROOT}/widgets/icontabbar.h
@@ -187,7 +185,9 @@ set(SOURCES
     ${QTAPP_ROOT}/utils/reducedmotion.h
     ${QTAPP_ROOT}/utils/sonicpi_i18n.cpp
     ${QTAPP_ROOT}/widgets/sonicpilog.cpp
+    ${QTAPP_ROOT}/widgets/textsizes.cpp
     ${QTAPP_ROOT}/widgets/sonicpilog.h
+    ${QTAPP_ROOT}/widgets/textsizes.h
     ${QTAPP_ROOT}/widgets/sonicpicontext.cpp
     ${QTAPP_ROOT}/widgets/sonicpicontext.h
     ${QTAPP_ROOT}/widgets/sonicpimetro.cpp

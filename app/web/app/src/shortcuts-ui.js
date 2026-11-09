@@ -251,7 +251,7 @@ export function createShortcutEditor({ keys, unavailable = {}, standalone = fals
     const tips = [];
     if (r.clash.length) tips.push(`Also on ${r.clash.map(name).join(", ")}. A key on two commands runs neither, as in native Sonic Pi.`);
     if (r.takenBy.length) tips.push(`Not in force: ${fmt(r.configured)} is on ${r.takenBy.map(name).join(", ")}, which you set.`);
-    if (r.moved) tips.push(`${fmt(r.configured)} is the menu bar's key here, so this is ${fmt(r.chord)}.`);
+    if (r.moved) tips.push(keys.browserZoom(r.configured) ? `${fmt(r.configured)} is the browser's zoom, so this is ${fmt(r.chord)}.` : `${fmt(r.configured)} is the menu bar's key here, so this is ${fmt(r.chord)}.`);
     if (r.own) tips.push(`Changed from ${r.base ? fmt(r.base) : "none"}.`);
     if (r.reserved) tips.push(`The browser keeps ${fmt(r.chord)} for itself (its tabs, windows or address bar): it reaches Sonic Pi installed as an app.`);
     if (r.unavailable) tips.push(r.unavailable);

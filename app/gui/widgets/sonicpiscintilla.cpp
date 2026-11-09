@@ -2129,30 +2129,10 @@ int SonicPiScintilla::updateErrorMarginWidth()
     return gapW;
 }
 
-void SonicPiScintilla::zoomFontIn()
+void SonicPiScintilla::setZoomLevel(int zoom)
 {
     mutex->lock();
-    int zoom = property("zoom").toInt();
-    zoom++;
-    if (zoom > 20)
-        zoom = 20;
-    setProperty("zoom", QVariant(zoom));
-    zoomTo(zoom);
-    updateErrorMarginWidth();
-    mutex->unlock();
-    refreshErrorMarkers();
-    emit zoomLevelChanged();
-}
-
-void SonicPiScintilla::zoomFontOut()
-{
-    mutex->lock();
-    int zoom = property("zoom").toInt();
-    zoom--;
-    if (zoom < -10)
-        zoom = -10;
-    setProperty("zoom", QVariant(zoom));
-    zoomTo(zoom);
+    zoomTo(std::clamp(zoom, kMinZoom, kMaxZoom));
     updateErrorMarginWidth();
     mutex->unlock();
     refreshErrorMarkers();
@@ -2162,6 +2142,11 @@ void SonicPiScintilla::zoomFontOut()
 int SonicPiScintilla::currentZoom()
 {
     return (int)SendScintilla(SCI_GETZOOM);
+}
+
+int SonicPiScintilla::codePointSize()
+{
+    return qRound(SendScintilla(SCI_STYLEGETSIZEFRACTIONAL, 0UL) / 100.0) + currentZoom();
 }
 
 void SonicPiScintilla::wheelEvent(QWheelEvent* event)

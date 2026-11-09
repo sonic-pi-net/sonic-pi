@@ -21,6 +21,9 @@ class SonicPiLexer : public QsciLexerRuby
   Q_OBJECT
 
 public:
+  // the code's point size before its zoom (SonicPiScintilla::codePointSize)
+  static constexpr int kPointSize = 15;
+
   SonicPiLexer(SonicPiTheme *customTheme);
   QColor defaultColor(int style) const;
   QColor defaultPaper(int style) const;

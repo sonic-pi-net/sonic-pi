@@ -1049,7 +1049,7 @@ public:
         update();
     }
 
-    // The docs pane's text zoom (A-/A+). The dial is painted, not styled, so
+    // The docs pane's scale. The dial is painted, not styled, so
     // it takes no font-size from the pane stylesheet — it has to be told.
     // Ring, value and name all key off this together: scaling the label alone
     // would push the name out of the widget's fixed height.

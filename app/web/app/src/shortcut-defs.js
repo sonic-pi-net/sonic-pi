@@ -4,7 +4,7 @@
 // command: its id, description and menu group, its key in each of native's
 // keymaps in native's notation (mac, win, emacs), the QAction it drives, and
 // its undocumented secondary keys on a Mac and elsewhere.
-export const SOURCE = {"sonic_pi":"v5.0.0-14-gaaaef6978","commit":"aaaef697834c044b52e0005d31213430834ea48f","file":"app/gui/mainwindow.cpp"};
+export const SOURCE = {"sonic_pi":"v5.0.0-186-g287319768","commit":"287319768b3797f708e644d031cf435765715da5","file":"app/gui/mainwindow.cpp"};
 
 export const SHORTCUT_DEFS = [
   {"id":"Run","desc":"Run the code in the current buffer","group":"Live","mac":"Meta+Return","win":"Meta+Return","emacs":"Meta+Return","act":"runAct","secondary":{"mac":["Meta+R"],"other":["Meta+R"]}},
@@ -21,8 +21,8 @@ export const SHORTCUT_DEFS = [
   {"id":"ShiftUp","desc":"Shift Line or Selection Up","group":"Code","mac":"Alt+Up","win":"Alt+Up","emacs":"CtrlMeta+P","act":"textShiftLineUpAct","secondary":{"mac":[],"other":[]}},
   {"id":"ShiftDown","desc":"Shift Line or Selection Down","group":"Code","mac":"Alt+Down","win":"Alt+Down","emacs":"CtrlMeta+N","act":"textShiftLineDownAct","secondary":{"mac":[],"other":[]}},
   {"id":"ContextualDocs","desc":"Look up documentation for the current word","group":"Focus","mac":"CtrlMeta+i","win":"Shift+F1","emacs":"CtrlMeta+i","act":"contextHelpAct","secondary":{"mac":["Shift+F1"],"other":["Shift+F1"]}},
-  {"id":"TextZoomIn","desc":"Increase Text Size","group":"View","mac":"Meta+=","win":"Ctrl++","emacs":"Meta+=","act":"textIncAct","secondary":{"mac":[],"other":[]}},
-  {"id":"TextZoomOut","desc":"Decrease Text Size","group":"View","mac":"Meta+-","win":"Ctrl+_","emacs":"Meta+-","act":"textDecAct","secondary":{"mac":[],"other":[]}},
+  {"id":"TextZoomIn","desc":"Increase Text Size","group":"View","mac":"Meta+=","win":"Ctrl++","emacs":"Meta+=","act":"textIncAct","secondary":{"mac":["Ctrl+="],"other":["Meta+="]}},
+  {"id":"TextZoomOut","desc":"Decrease Text Size","group":"View","mac":"Meta+-","win":"Ctrl+_","emacs":"Meta+-","act":"textDecAct","secondary":{"mac":["Ctrl+-"],"other":["Meta+-"]}},
   {"id":"Scope","desc":"Toggle visibility of audio oscilloscope","group":"Visuals","mac":"Meta+O","win":"Meta+O","emacs":"Meta+O","act":"scopeAct","secondary":{"mac":[],"other":[]}},
   {"id":"CycleThemes","desc":"Cycle through the available colour themes","group":"Visuals","mac":"ShiftMeta+M","win":"ShiftMeta+M","emacs":"ShiftMeta+M","act":"cycleThemesAct","secondary":{"mac":[],"other":[]}},
   {"id":"Info","desc":"Toggle information about Sonic Pi","group":"View","mac":"Meta+n","win":"Meta+1","emacs":"Meta+1","act":"infoAct","secondary":{"mac":[],"other":[]}},
@@ -63,8 +63,6 @@ export const SHORTCUT_DEFS = [
   {"id":"SetMark","desc":"Set a mark in the text","group":"Code","mac":"CtrlShift+Space","win":"CtrlShift+Space","emacs":"Ctrl+Space","act":"textSetMarkAct","secondary":{"mac":[],"other":[]}},
   {"id":"TriggerAutocomplete","desc":"Trigger code completion","group":"Code","mac":"Ctrl+Space","win":"Ctrl+Space","emacs":"CtrlMeta+Space","act":"triggerAutocompleteAct","secondary":{"mac":[],"other":[]}},
   {"id":"ReadCompletionDetails","desc":"Show autocomplete documentation for the current context","group":"Accessibility","mac":"Ctrl+i","win":"Ctrl+i","emacs":"Ctrl+i","act":"readCompletionDetailsAct","secondary":{"mac":[],"other":[]}},
-  {"id":"LogZoomIn","desc":"Zoom in the log","group":"View","mac":"Ctrl+=","win":"Ctrl+=","emacs":"Ctrl+=","act":"logZoomInAct","secondary":{"mac":[],"other":[]}},
-  {"id":"LogZoomOut","desc":"Zoom out the log","group":"View","mac":"Ctrl+-","win":"Ctrl+-","emacs":"Ctrl+-","act":"logZoomOutAct","secondary":{"mac":[],"other":[]}},
   {"id":"Down","desc":"Move Cursor Down","group":"Code","mac":"Ctrl+n","win":"Ctrl+n","emacs":"Ctrl+n","act":"textDownAct","secondary":{"mac":[],"other":[]}},
   {"id":"Up","desc":"Move Cursor Up","group":"Code","mac":"Ctrl+p","win":"Ctrl+p","emacs":"Ctrl+p","act":"textUpAct","secondary":{"mac":[],"other":[]}},
   {"id":"UpTen","desc":"Move Cursor Up 10 Lines","group":"Code","mac":"Meta+up","win":"PgUp","emacs":"ShiftMeta+u","act":"textUpTenAct","secondary":{"mac":[],"other":[]}},

@@ -17,7 +17,7 @@ import { FLASH_BRIGHTNESS } from "./flash.js";
 import { LoopScopeState, drawLoopScope, SWEEP_WINDOW, SWEEP_SEARCH } from "./loopscope.js";
 import { Scope } from "./scope.js";
 import { CompletionAPI, synthAt } from "./completion/api.js";
-import { createEditor, NUM_BUFFERS, STARTER, FORMER_STARTERS } from "./editor.js";
+import { createEditor, NUM_BUFFERS, STARTER, FORMER_STARTERS, LOG_SMALLER } from "./editor.js";
 import { createWorkspace, NAME_MAX, DESCRIPTION_MAX } from "./workspace.js";
 import { createBufferTabs } from "./buffer-tabs.js";
 import { createSetsView } from "./sets-view.js";
@@ -1602,13 +1602,20 @@ function dragDivider(handle, onMove, onDone, onTap) {
 }
 
 const mainGrid = $("main");
+// The splits are shares of the room, not pixels: the browser's zoom and the window change the room, and pixels saved
+// in a bigger one would push the code under its least and the panes past the window's foot. Each is drawn within
+// what leaves the others theirs (style.css #main, scopeMax), so no size a split was given can hide a control.
 const sizes = store.get("sp-sizes", {});
-if (sizes.editor) mainGrid.style.setProperty("--editor-size", `${sizes.editor}px`);
-if (sizes.drawer) document.documentElement.style.setProperty("--drawer-size", `${sizes.drawer}px`);
+delete sizes.editor; delete sizes.drawer; delete sizes.scope;   // what were pixels: gone at the next save
+const share = (f) => Math.round(Math.max(0, Math.min(1, f)) * 1000) / 1000;
+const showEditorShare = () => { if (sizes.editorShare) mainGrid.style.setProperty("--editor-size", `min(max(200px, ${sizes.editorShare * 100}%), calc(100% - 266px))`); };
+const showDrawerShare = () => { if (sizes.drawerShare) document.documentElement.style.setProperty("--drawer-size", `${sizes.drawerShare * 100}%`); };
+showEditorShare();
+showDrawerShare();
 dragDivider($("panel-divider"), (m) => {
   const box = mainGrid.getBoundingClientRect();
-  sizes.editor = Math.max(200, Math.min(box.width - 246, m.clientX - box.left));
-  mainGrid.style.setProperty("--editor-size", `${sizes.editor}px`);
+  sizes.editorShare = share((m.clientX - box.left) / Math.max(1, box.width));
+  showEditorShare();
 }, () => store.set("sp-sizes", sizes));
 // dragged down to within 70px of the bottom, the panel hides; dragged back up, it shows
 let belowDivider = Infinity;
@@ -1616,8 +1623,8 @@ dragDivider($("drawer-divider"), (m) => {
   const box = mainGrid.getBoundingClientRect();
   belowDivider = box.bottom - m.clientY;
   if (belowDivider > 70 && !panelNow()) setPanel(lastPanel || lastPane);   // dragged back up: what it had returns
-  sizes.drawer = Math.max(120, Math.min(box.height - 90, belowDivider));
-  document.documentElement.style.setProperty("--drawer-size", `${sizes.drawer}px`);
+  sizes.drawerShare = share(Math.max(120, Math.min(box.height - 90, belowDivider)) / Math.max(1, box.height));
+  showDrawerShare();
 }, () => {
   if (belowDivider <= 70) setPanel("");   // dragged to the foot: away, as the chevron puts it
   store.set("sp-sizes", sizes);
@@ -1630,16 +1637,21 @@ const laidOut = (id) => $(id).offsetHeight > 0;
 // the scope as tall as leaves the panes under it their heads: the metronome's whole height, the log's and cues' least
 const scopeMax = () => sidebar.clientHeight - ($("scope-section").offsetHeight - scopeBox.offsetHeight) - $("link-section").offsetHeight
   - (laidOut("log-section") ? 30 : 0) - (laidOut("cue-section") ? 30 : 0) - 2;
-function setScopeHeight(px) {
-  const max = Math.max(40, scopeMax());
-  sizes.scope = Math.round(Math.max(40, Math.min(max, px)));
-  scopeBox.classList.remove("half");   // a height of its own, not the tap's half (the tap halves it again)
-  scopeBox.setAttribute("aria-pressed", "false");
-  sidebar.style.setProperty("--scope-height", `${sizes.scope}px`);
+// the scope drawn at a height, no taller than leaves the panes under it their heads; the height it was drawn at
+function showScopeHeight(px) {
+  const max = Math.max(40, scopeMax()), h = Math.round(Math.max(40, Math.min(max, px)));
+  sidebar.style.setProperty("--scope-height", `${h}px`);
   scopeDivider.setAttribute("aria-valuemin", "40");
   scopeDivider.setAttribute("aria-valuemax", String(Math.round(max)));
-  scopeDivider.setAttribute("aria-valuenow", String(sizes.scope));
-  scopeDivider.setAttribute("aria-valuetext", `Scope ${sizes.scope} pixels high`);
+  scopeDivider.setAttribute("aria-valuenow", String(h));
+  scopeDivider.setAttribute("aria-valuetext", `Scope ${h} pixels high`);
+  return h;
+}
+// the scope given a height: kept as its share of the side column's
+function setScopeHeight(px) {
+  scopeBox.classList.remove("half");   // a height of its own, not the tap's half (the tap halves it again)
+  scopeBox.setAttribute("aria-pressed", "false");
+  sizes.scopeShare = share(showScopeHeight(px) / Math.max(1, sidebar.clientHeight));
 }
 function setLogShare(f) {
   sizes.logShare = Math.round(Math.max(0.05, Math.min(0.95, f)) * 100) / 100;
@@ -1650,7 +1662,8 @@ function setLogShare(f) {
   logDivider.setAttribute("aria-valuenow", String(Math.round(sizes.logShare * 100)));
   logDivider.setAttribute("aria-valuetext", `Log ${Math.round(sizes.logShare * 100)}%, cues ${Math.round((1 - sizes.logShare) * 100)}%`);
 }
-if (sizes.scope) sidebar.style.setProperty("--scope-height", `${sizes.scope}px`);
+// on load, and whenever the side column's height changes (a zoom, the window), the scope at its share of it
+new ResizeObserver(() => { if (sizes.scopeShare && sidebar.clientHeight > 0) showScopeHeight(sizes.scopeShare * sidebar.clientHeight); }).observe(sidebar);
 if (sizes.logShare) setLogShare(sizes.logShare);
 const logShareAt = (y) => { const a = $("log-section").getBoundingClientRect(), b = $("cue-section").getBoundingClientRect(); return (y - a.top) / Math.max(1, b.bottom - a.top); };
 dragDivider(scopeDivider, (m) => setScopeHeight(m.clientY - scopeBox.getBoundingClientRect().top), () => store.set("sp-sizes", sizes));
@@ -1667,32 +1680,6 @@ for (const [divider, nudge] of [
     store.set("sp-sizes", sizes);
   });
 }
-// The help pane's − and +, as native's ZoomBar: the open pane's text a step
-// smaller or larger, 1.1× a step from −4 to +8 (dpi.h FontZoomFactor), each
-// panel one zoom for all its tabs, remembered.
-const ZOOM_MIN = -4, ZOOM_MAX = 8;
-const zooms = { help: -2, site: 1, ...store.get("sp-zooms", {}) };   // help starts two steps out: its cards and docs beside the code at a glance; the site's pages a step up, to read on a wide screen (a phone has them at their own size) (index.html's head applies these before the first paint: keep the two in step)
-zooms.help ??= zooms.docs ?? -1;
-const zoomFactor = (step) => Math.min(3, Math.max(0.5, 1.1 ** step));
-const applyZoom = (pane) => document.documentElement.style.setProperty(`--${pane}-zoom`, String(zoomFactor(zooms[pane] ?? 0)));
-function zoomPane(delta, pane = document.body.dataset.drawer) {
-  if (["docs", "quickstart", "logs", "insight", "debug"].includes(pane)) pane = "help";   // the help panel's tabs zoom as one
-  if (!["help", "site"].includes(pane)) return;
-  zooms[pane] = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, (zooms[pane] ?? 0) + delta));
-  store.set("sp-zooms", zooms);
-  applyZoom(pane);
-  if (pane === "help") requestAnimationFrame(() => { quickstart?.render(); window.dispatchEvent(new Event("resize")); });   // the cards' pages, and the threads' canvases, size themselves to the pane
-}
-applyZoom("help");
-applyZoom("site");
-$("site-smaller").addEventListener("click", () => zoomPane(-1, "site"));
-$("site-bigger").addEventListener("click", () => zoomPane(1, "site"));
-// the help panel's − and +: every one of its tabs a step together, each keeping its own size against the others (the
-// cards start smaller than the docs), so what the panel shows grows or shrinks as one whatever tab is up
-const zoomHelp = (delta) => zoomPane(delta, "help");
-$("rail-smaller").addEventListener("click", () => zoomHelp(-1));
-$("rail-bigger").addEventListener("click", () => zoomHelp(1));
-
 // ── Scope ─────────────────────────────────────────────────────────────────
 
 // each view: its id, its name, native's glyph for it, and what it shows (native's descriptions where it has one)
@@ -2616,17 +2603,30 @@ if (recordingUnavailable()) { recBtn.disabled = true; recBtn.title = recordingUn
 // ── Preferences ───────────────────────────────────────────────────────────
 
 
-function slider(label, { min, max, step = 1, value, format = (v) => v, onInput, tip = null }) {
-  const row = el("label", "pref-row");
+// a slider, its value as shown and, given `reset`, a Reset after it (native's SizeRow). row.setValue shows a value set
+// elsewhere without choosing it again
+function slider(label, { min, max, step = 1, value, format = (v) => v, onInput, tip = null, reset = null }) {
+  // a label around the slider, but a div once it holds a button too: a label holds no control but its own
+  const row = el(reset ? "div" : "label", "pref-row");
   if (tip) row.title = tip;   // what it does, on hover, as native's preferences say it
   const input = el("input");
   Object.assign(input, { type: "range", min, max, step, value });
   // named by its words alone (the label around it holds the value too), and its value as shown: "25%", "18px"
   input.setAttribute("aria-label", label);
-  input.setAttribute("aria-valuetext", String(format(value)));
-  const out = el("span", "pref-val", format(value));
-  input.addEventListener("input", () => { out.textContent = format(Number(input.value)); input.setAttribute("aria-valuetext", String(format(Number(input.value)))); onInput(Number(input.value)); });
+  const out = el("span", "pref-val");
+  const show = (v) => { out.textContent = format(v); input.setAttribute("aria-valuetext", String(format(v))); };
+  show(value);
+  input.addEventListener("input", () => { show(Number(input.value)); onInput(Number(input.value)); });
   row.append(el("span", "", label), input, out);
+  row.setValue = (v) => { input.value = String(v); show(Number(input.value)); };
+  if (reset) {
+    const b = el("button", "sp-mini-btn", "Reset");
+    b.type = "button";
+    b.setAttribute("aria-label", reset.label);
+    if (reset.tip) b.title = reset.tip;
+    b.addEventListener("click", reset.onReset);
+    row.append(b);
+  }
   return row;
 }
 // a switch: its track, the preference's glyph (native v5's, icons.js pref-…, lit while on as native tints it), its words
@@ -2736,6 +2736,9 @@ document.addEventListener("pointerdown", (e) => { if (!themeMenu.hidden && !them
 window.addEventListener("keydown", (e) => { if (e.key === "Escape" && !themeMenu.hidden) { e.stopPropagation(); e.preventDefault(); showThemeMenu(false); themeButton.focus(); } }, true);   // the keyboard's way out, before the page's own Escape (window's capture is first); back where it came in (Safari does not focus a clicked button)
 window.addEventListener("resize", () => showThemeMenu(false));
 
+// the Code size slider showing, kept to the code's size however it changes (its keys, Reset), as native's Preferences
+let showCodeSize = () => {};
+editor.onFontSize(() => showCodeSize());
 function buildPrefs() {
   const pane = $("prefs-pane");
   if (!document.body.classList.contains("prefs-open")) return;
@@ -2766,9 +2769,12 @@ function buildPrefs() {
   box.appendChild(slider("Trail", { min: 0, max: 95, value: Math.round(scope.trail * 100), format: (v) => `${v}%`, tip: "How long the scope's lines linger as they fade", onInput: (v) => { scope.trail = v / 100; saveScope(); } }));
 
   h("Editor");
-  box.appendChild(slider("Code size", { min: 8, max: 40, value: editor.fontSize(), format: (v) => `${v}px`, tip: sizeTitle("Change the size of the code", "TextZoomOut", "TextZoomIn"), onInput: (v) => editor.setFontSize(v) }));
-  // the log's text, and the cues': the same zoom as the log's ZoomBar and native's Log Zoom In and Out
-  box.appendChild(slider("Log text size", { min: ZOOM_MIN, max: ZOOM_MAX, value: zooms.sidebar ?? 0, format: (v) => `${Math.round(zoomFactor(v) * 100)}%`, tip: sizeTitle("Change the size of the log's and the cues' text", "LogZoomOut", "LogZoomIn"), onInput: (v) => zoomLogs(v - (zooms.sidebar ?? 0), false) }));
+  const codeSize = slider("Code size", { min: 8, max: 40, value: editor.fontSize(), format: (v) => `${v}px`, tip: sizeTitle("Change the size of the code", "TextZoomOut", "TextZoomIn"), onInput: (v) => editor.setFontSize(v),
+    reset: { label: "Reset code size", tip: "Put the code back to its usual size", onReset: () => editor.resetFontSize() } });
+  showCodeSize = () => codeSize.setValue(editor.fontSize());
+  box.appendChild(codeSize);
+  // right is bigger, its end the code's own size (native's Preferences > Logging)
+  box.appendChild(slider("Log text size", { min: -LOG_SMALLER.max, max: 0, value: -editor.logSmaller(), format: (v) => (v ? `${-v}px smaller` : "Same as the code"), tip: "How much smaller than the code the log and the cue log are", onInput: (v) => editor.setLogSmaller(-v) }));
   box.appendChild(toggle("Virtual keyboard", codeKeyboard.virtual, (on) => { codeKeyboard.setVirtual(on); buildPrefs(); }, "Use Sonic Pi's live coding keyboard in place of the system keyboard", "pref-keyboard"));
   box.appendChild(slider("Keyboard delay", { min: 0, max: 500, step: 50, value: codeKeyboard.delay, format: (v) => `${v} ms`, tip: "Length of time needed to hold before a touch summons the keyboard", onInput: (v) => codeKeyboard.setDelay(v) }));
   box.appendChild(toggle("Auto-indent on run", editorPrefs.autoIndent, (on) => { editorPrefs.autoIndent = on; store.set("sp-auto-indent-on-run", on); }, keys.title("Align the code every time you run it. When off, use Align Code", "Align"), "pref-auto-indent"));
@@ -2881,14 +2887,6 @@ const toggleShown = (k, on = !shown[k]) => {
 };
 paintShown();
 
-// native's log zoom: the log and the cues together, a step as the help pane's panes step
-applyZoom("sidebar");
-function zoomLogs(delta, repaintPrefs = true) {
-  zooms.sidebar = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, (zooms.sidebar ?? 0) + delta));
-  store.set("sp-zooms", zooms);
-  applyZoom("sidebar");
-  if (repaintPrefs && document.body.classList.contains("prefs-open")) buildPrefs();   // its slider in the preferences follows the buttons and keys
-}
 // a size's slider in the preferences, titled with both its keys, smaller and larger, as a menu item would show them
 const sizeTitle = (text, smaller, larger) => { const a = keys.label(smaller), b = keys.label(larger); return a && b ? `${text} (${a} / ${b})` : text; };
 
@@ -3041,8 +3039,6 @@ const COMMANDS = {
   ShowButtons: () => toggleShown("buttons"),
   ShowCueLog: () => toggleShown("cues"),
   ShowLog: () => toggleShown("log"),
-  LogZoomIn: () => zoomLogs(1),
-  LogZoomOut: () => zoomLogs(-1),
   FullScreen: () => $("btn-zen").click(),
   FocusMode: () => toggleFocusMode(),
   ScopePaused: () => { scope.paused = !scope.paused; toast(scope.paused ? "scope paused" : "scope running"); },
@@ -3055,7 +3051,7 @@ const COMMANDS = {
 // the platform's own clipboard, undo and select-all keys stay the browser's and the editor's, so a paste needs no permission
 const PLATFORM_KEYS = { Copy: "Native+c", Cut: "Native+x", Paste: "Native+v", Undo: "Native+z", Redo: "Native+Shift+z", SelectAll: "Native+a" };
 // held down, these repeat; a toggle does not
-const REPEATS = new Set(["TextZoomIn", "TextZoomOut", "LogZoomIn", "LogZoomOut", "TabPrev", "TabNext", "CycleFocusForward", "CycleFocusBack"]);
+const REPEATS = new Set(["TextZoomIn", "TextZoomOut", "TabPrev", "TabNext", "CycleFocusForward", "CycleFocusBack"]);
 
 const TEXT_INPUTS = /^(text|search|url|email|password|number|tel)$/;
 function entryKind(t) {

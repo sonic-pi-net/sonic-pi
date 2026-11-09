@@ -6,7 +6,7 @@
 // the cues passing between threads. Beside it, a table of each thread's
 // state, the line it is at, its beat, tempo and rate of sounds. And a piano
 // roll: the notes themselves.
-import { css } from "./theme.js";
+import { css, typeSize } from "./theme.js";
 import { animateWhileShown } from "./ui/shown.js";
 import { createProcessTree } from "./process-tree.js";
 import { loopName } from "./loop-name.js";
@@ -448,7 +448,7 @@ export function createInsight(root, hooks) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = css("Background");
     ctx.fillRect(0, 0, w, h);
-    ctx.font = "11px ui-monospace, Menlo, monospace";
+    ctx.font = `${typeSize("label")} ui-monospace, Menlo, monospace`;
     if (now == null) {
       ctx.fillStyle = css("faintForeground");
       ctx.fillText("Press Run: each thread will get a lane here.", 110, 30);

@@ -82,17 +82,13 @@ public:
     void focusContent();
 
     void applyTheme();
-    // The pane owns its zoom (A-/A+, persisted) — deliberately independent
-    // of the per-buffer editor zoom
+    // The pane's text and layout this many 1.1× steps from its own size (UiScale). The app leaves it at 0: the
+    // interface's size is the platform's; the tests lay the pane out at other sizes through it.
     int userZoom() const { return m_userZoom; }
     void setUserZoom(int zoom);
     // Font multiplier the current zoom step works out to; the docs nav lists
     // track the same figure so the whole help tab scales as one.
     double fontScale() const { return m_fontScale; }
-
-    // The A-/A+ text-size buttons, packed in a standalone widget so the help
-    // dock can host them at the foot of its tab rail.
-    QWidget* zoomControls() const;
 
     // Keyboard scrolling (docScrollUp/Down shortcuts): one scroll step
     void scrollStep(int direction);
@@ -141,9 +137,6 @@ signals:
     void announceRequested(QString msg);
     void navigateRequested(int delta); // -1 previous chapter, +1 next
     void linkClicked(const QUrl& url);
-    // A-/A+ moved the pane's zoom: the help dock's nav lists follow it, and
-    // MainWindow persists the new step.
-    void zoomChanged(int zoom);
 
 private:
     struct Snippet
@@ -283,7 +276,6 @@ private:
     QString m_cardSection;            // the heading the next card is named for
     QHash<QString, int> m_cardCounts; // cards so far under each heading
     int m_cardIndex = 0;              // cards so far on the page
-    class ZoomBar* m_zoomBar = nullptr; // shared A-/A+ bar, hosted at the foot of the help's tab rail
     SonicPi::CodeColours m_codeColours;
     QIcon m_playIcon;
     QIcon m_stopIcon;
@@ -293,7 +285,7 @@ private:
     QWidget* m_optIndex = nullptr;      // the quick-index panel; row names jump back to it
     int m_pianoBaseNote = 52; // page-default note the QWERTY keys offset from
     int m_demoNote = 50;      // FX demo's played note; follows the piano
-    int m_userZoom = 0;      // pane zoom steps from A-/A+ (persisted as a pref)
+    int m_userZoom = 0;      // the pane's scale, in steps (setUserZoom)
     double m_fontScale = 1.0;
     // Scroll position held across a zoom rebuild, restored once the layout has
     // settled. Kept as pane state rather than captured per-rebuild: a second
