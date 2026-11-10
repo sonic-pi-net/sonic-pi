@@ -15,7 +15,7 @@
 /* two columns as the docs pane has them: the list stands still on the left, the page scrolls on the right */
 .site-body { height: 100%; }
 .ic-page.ic-split { display: grid; grid-template-columns: 320px minmax(0, 1fr); height: 100%; }
-.ic-main { min-width: 0; min-height: 0; overflow: auto; scroll-behavior: smooth; }
+.ic-main { min-width: 0; min-height: 0; overflow: auto; }   /* no scroll-behavior: what scrolls on purpose says how (info.js toSection), and a scroll put back by other code stays instant (CodeMirror, after a focus on Safari 26+) */
 .ic-main header .sec-title { border: none; padding: 0; margin: 0.35em 0 0.3em; font-size: var(--t-title); color: var(--WindowForeground); }   /* the site's section titles in the app's scale */
 .ic-main header .sec-kicker { margin: 0; font-weight: 400; font-size: var(--t-lead); line-height: normal; letter-spacing: -0.015em; color: var(--softForeground); }   /* the words over a section's title (Learn's "Sonic Pi in the") */
 /* the site's kickers (shared.css), and its groups' names in the lists, in the second colour: the detail over a title */

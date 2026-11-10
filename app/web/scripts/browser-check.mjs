@@ -999,8 +999,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
         tipCase.drifting = false;
         for (let i = 0; i < 12 && !tipCase.drifting; i++) { const [x, y] = i % 2 ? spots.on : spots.off; await tp.mouse.move(x, y); await tp.waitForTimeout(90); tipCase.drifting = await tipUp(); }
         await tp.mouse.down(); await tp.mouse.up();   // Edit: the card's editor
-        await tp.waitForTimeout(1000);
-        tipCase.afterClick = await tipUp();
+        tipCase.afterClick = await tp.waitForFunction(() => [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden), null, { timeout: 3000 }).then(() => true, () => false);
         await tp.mouse.down(); await tp.mouse.up();   // and back to its code
       }
       const palette = tp.locator("#site-nav .sn-theme");
@@ -1015,6 +1014,66 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       await tips.close();
       check("a tip comes to a pointer drifting over its control's icon, comes back to one resting there after a click, and stays off a menu the click opened",
         tipCase.drifting === true && tipCase.afterClick === true && tipCase.menuOpened?.open === "true" && tipCase.menuOpened.tip === false, JSON.stringify(tipCase));
+      // A card's Edit, pressed with the card at the window's foot and its code out of view below, leaves the page where
+      // it is. On Safari 26 and later CodeMirror focuses without preventScroll and puts back by hand what the focus
+      // scrolled (@codemirror/view 6.38.5): a scroller whose CSS scrolls smoothly glides back, the page lurching down
+      // and up again under the pointer. What scrolls on purpose says how (info.js toSection), so no scroller does
+      const pressed = await (async () => {
+        const ctx = await browser.newContext({ ...HTTPS, viewport: { width: 1440, height: 900 } });
+        const ep = await ctx.newPage();
+        await ep.goto(BASE + "tutorial-02.html");
+        await ep.waitForSelector(".tut-part section.qs-card:not(.sp-card) .qs-card-head button", { timeout: 30000 }).catch(() => {});
+        const card = ep.locator(".tut-part section.qs-card:not(.sp-card)").first();
+        const at = await card.evaluate((c) => {
+          const s = c.closest(".ic-main");
+          s.scrollTo({ top: s.scrollTop + c.getBoundingClientRect().top - (innerHeight - 140), behavior: "instant" });
+          return { head: Math.round(c.getBoundingClientRect().top), scrollTop: Math.round(s.scrollTop) };
+        }).catch(() => null);
+        const box = at && await card.getByRole("button", { name: "Edit", exact: true }).boundingBox().catch(() => null);
+        if (!box) { await ctx.close(); return { at, box: null }; }
+        await ep.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        await ep.waitForTimeout(300);
+        const watch = ep.evaluate(() => new Promise((resolve) => {
+          const s = document.querySelector(".tut-part section.qs-card:not(.sp-card)").closest(".ic-main"), from = s.scrollTop, t0 = performance.now();
+          let moved = 0;
+          const look = () => { moved = Math.max(moved, Math.abs(s.scrollTop - from)); if (performance.now() - t0 < 600) requestAnimationFrame(look); else resolve(Math.round(moved)); };
+          requestAnimationFrame(look);
+        }));
+        await ep.mouse.down(); await ep.mouse.up();
+        const moved = await watch;
+        const focused = await card.evaluate((c) => !!document.activeElement?.closest(".cm-content") && c.contains(document.activeElement));
+        await ctx.close();
+        return { at, moved, focused };
+      })();
+      check("a tutorial card's Edit, pressed with its code below the window, leaves the page where it is as its editor takes the focus",
+        pressed.moved === 0 && pressed.focused === true, JSON.stringify(pressed));
+      // A scroll puts a tip away when it moves the control the tip is for, and not when it comes back to where it was in
+      // one go, as CodeMirror's focus does on Safari 26 and later (tooltip.js): there and back again in one task, the
+      // scroll event a browser fires for it finds the control where it was
+      const scrolled = await (async () => {
+        const ctx = await browser.newContext({ ...HTTPS, viewport: { width: 1440, height: 900 } });
+        const sp2 = await ctx.newPage();
+        await sp2.goto(BASE + "tutorial-02.html");
+        await sp2.waitForSelector(".tut-part section.qs-card:not(.sp-card) .qs-card-head button", { timeout: 30000 }).catch(() => {});
+        const edit = sp2.locator(".tut-part section.qs-card:not(.sp-card)").first().getByRole("button", { name: "Edit", exact: true });
+        await edit.scrollIntoViewIfNeeded().catch(() => {});
+        const box = await edit.boundingBox().catch(() => null);
+        if (!box) { await ctx.close(); return { box: null }; }
+        await sp2.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        const r = { shown: await sp2.waitForFunction(() => [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden), null, { timeout: 3000 }).then(() => true, () => false) };
+        const after = (move) => sp2.evaluate((move) => new Promise((done) => {
+          const s = document.querySelector(".tut-part section.qs-card:not(.sp-card)").closest(".ic-main"), was = s.scrollTop;
+          s.scrollTo({ top: was + 300, behavior: "instant" });
+          if (!move) s.scrollTo({ top: was, behavior: "instant" });
+          requestAnimationFrame(() => requestAnimationFrame(() => done([...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden))));
+        }), move);
+        r.upAfterThereAndBack = await after(false);
+        r.upAfterAMove = await after(true);
+        await ctx.close();
+        return r;
+      })();
+      check("a scroll puts a tip away when it moves the tip's control, and leaves it when it comes back to where it was in one go",
+        scrolled.shown === true && scrolled.upAfterThereAndBack === true && scrolled.upAfterAMove === false, JSON.stringify(scrolled));
     }
 
     // quickstart cards

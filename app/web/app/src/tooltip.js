@@ -36,10 +36,13 @@ export function installTooltips(root = document.body) {
   root.appendChild(tip);
 
   let pointerX = null;   // where the pointer is along a wide control, which the tip points at rather than its middle (place)
+  let heldAt = null;   // where the control the tip is for (up, or on its way) was when it was armed or shown: a scroll moved it, or not
   let byFocus = false;   // the tip (up, or on its way) is the keyboard's, focus leaving puts it away; the pointer's stays (focus may move as a click is acted on: Edit, into the card's code)
   let anchor = null, pending = null, timer = 0, hiddenAt = -Infinity, down = false;   // down: a control is being worked (a dial turned), and no tip is to open over it   // pending: the control a tip is on its way to   // when the last tip went: a page can boot in under the warm window
 
   // the tip a control carries: its title, moved out of the browser's reach the first time it is asked for
+  const spot = (el) => { const r = el.getBoundingClientRect(); return [r.left, r.top]; };
+
   function tipOf(node) {
     const t = node.closest?.("[title], [data-tip]");
     if (!t || t.closest(".cm-tooltip, .roll-tip, .sp-tip")) return null;
@@ -64,6 +67,7 @@ export function installTooltips(root = document.body) {
 
   function show(target, parts) {
     anchor = target;
+    heldAt = spot(target);
     title.textContent = parts.title;
     title.hidden = !parts.title;
     body.textContent = parts.body;
@@ -134,6 +138,7 @@ export function installTooltips(root = document.body) {
     // the tip cancels it — so the pointer can get to the link past the controls between
     const crossing = !!anchor && !tip.hidden && tip.classList.contains("interactive");
     pending = parts.target;
+    heldAt = spot(parts.target);
     byFocus = focus;
     timer = setTimeout(() => {
       pending = null;
@@ -199,12 +204,16 @@ export function installTooltips(root = document.body) {
   // A scroll puts the tip away only when it moves what the tip is for: the page, or a box the control is in. Every
   // other box scrolling is nothing to it — the log and the cues scroll themselves to each new line while a program
   // plays, and a tip that went (or never came) with each of those was a tip never seen while anything ran.
+  // A scroll that comes back to where it was in one go moved nothing: CodeMirror, focusing on Safari 26 and later,
+  // scrolls the page and puts it back by hand (@codemirror/view 6.38.5) as a press on a card's Edit is acted on
   const holds = (box, node) => { for (let n = node; n; n = n.parentNode ?? n.host) if (n === box) return true; return false; };
   window.addEventListener("scroll", (e) => {
     const t = anchor ?? pending;
     if (!t) return;
     const box = e.target === document ? document.documentElement : e.target;
-    if (holds(box, t)) hide();
+    if (!holds(box, t)) return;
+    const [x, y] = spot(t);
+    if (!heldAt || Math.abs(x - heldAt[0]) > 1 || Math.abs(y - heldAt[1]) > 1) hide();
   }, { capture: true, passive: true });
   window.addEventListener("resize", hide);
   window.addEventListener("blur", hide);

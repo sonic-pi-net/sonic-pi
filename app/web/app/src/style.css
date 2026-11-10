@@ -143,7 +143,7 @@ body.info-open .sn-close { display: none; }
 .ic-tabs { display: flex; flex: 1; min-width: 0; gap: 6px; overflow-x: auto; scrollbar-width: none; }   /* the .seg's gap */
 .ic-tabs::-webkit-scrollbar { display: none; }
 .ic-tab { flex-shrink: 0; }   /* the shared chip (shared.css): its size, colours and states are the docs pane's tabs' */
-.ic-body { flex: 1; min-height: 0; overflow: auto; background: var(--PaneBackground); isolation: isolate; container-type: size; scroll-behavior: smooth; overscroll-behavior: contain; }
+.ic-body { flex: 1; min-height: 0; overflow: auto; background: var(--PaneBackground); isolation: isolate; container-type: size; overscroll-behavior: contain; }   /* no scroll-behavior, as .ic-main (site.css) */
 .ic-foot { padding: 4px 12px; border-top: 1px solid var(--WindowBorder); background: var(--raisedSurface); font: var(--t-label) var(--code-font); color: var(--mutedForeground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; }
 .ic-foot { display: flex; align-items: center; gap: 2px; }
 .ic-foot #info-versions { margin-left: auto; }   /* the version at the right */
