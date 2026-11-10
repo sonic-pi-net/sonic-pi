@@ -897,9 +897,21 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       const sounding = await sp.waitForFunction(() => document.querySelector(".site-body:not([hidden]) .qs-card .qs-transport.playing"), null, { timeout: 30000 }).then(() => true).catch(() => false);
       await sp.waitForTimeout(1000);
       const heardSite = await stillness(sp);
+      // edited as it plays, its loop's scope stays on its live_loop line, as in the still code: the page's rule for its own
+      // pictures (site.css .tut-part) must not reach the img CodeMirror puts beside a widget
+      await siteCard.getByRole("button", { name: "Edit", exact: true }).click({ timeout: 2000 }).catch(() => {});
+      await siteCard.locator("[contenteditable=true] .sp-loop-scope").first().waitFor({ timeout: 5000 }).catch(() => {});
+      const scopeLine = await siteCard.evaluate((card) => {
+        const scope = card.querySelector("[contenteditable=true] .sp-loop-scope"), head = scope?.closest(".cm-line");
+        const row = [...card.querySelectorAll("[contenteditable=true] .cm-line")].find((l) => l !== head && l.textContent.trim())?.getBoundingClientRect().height;
+        if (!head || !row) return null;
+        const h = head.getBoundingClientRect(), s = scope.getBoundingClientRect();
+        return { loop: /^\s*live_loop\b/.test(head.textContent), row: Math.round(row), line: Math.round(h.height), scopeAt: Math.round(s.top - h.top) };
+      }).catch(() => null);
       await siteCard.locator(".qs-transport button").nth(1).click({ timeout: 2000 }).catch(() => {});
       await sp.close();
       check("the page stays still as a site page's card plays its live loop", sounding && still(heardSite), JSON.stringify({ sounding, heard: heardSite }));
+      check("a site page's card, edited as it plays, keeps its loop's scope on the live_loop line, as in its still code", !!scopeLine?.loop && scopeLine.line < 1.5 * scopeLine.row && scopeLine.scopeAt < scopeLine.row, JSON.stringify(scopeLine));
       // The tutorial fills a wide reading area (site.css: the whole of it bigger, 19 of 15, and wider where there is the
       // room), a narrower one's as it was; its cards' Play and Stop smaller than a quickstart card's, with no words
       // beside them; and a click in a zoomed card's code lands where it is made (CodeMirror allows for the zoom)
