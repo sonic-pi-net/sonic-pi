@@ -57,6 +57,10 @@ jobs:
       - name: Safe mode plays the music
         shell: bash
         run: ADAPTER="$PWD/build/runtime/sp-trace" ruby scripts/check-corpus.rb
+      - name: The runtime in a native host
+        # as a plugin or an app runs it: samples by path and from folders (native.rb), several runtimes at once
+        shell: bash
+        run: scripts/check-runtime-host.sh
       - name: The runtime needs no interpreter beside it
         # what the app will be asked to prove: it carries its own language, so there is nothing to find on the
         # machine it is installed on, and nothing to launch

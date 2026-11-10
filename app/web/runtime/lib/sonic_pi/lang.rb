@@ -100,6 +100,10 @@ module SonicPi
 
     def __log(text) = @sched.log_line(__p, text)
 
+    # A sample's buffer as its host loads it: by its name, which the web's engine serves from its sample base. A host
+    # with files names it by its path instead (native.rb).
+    def __buffer_file(path) = Samples.basename(path)
+
     # ── Time ──────────────────────────────────────────────────────────────
 
     def sleep(beats)
@@ -1087,7 +1091,7 @@ module SonicPi
       info = Samples.info(path) or raise "Could not find sample: #{path}"
       unless Samples.loaded?(path)
         Samples.mark_loaded(path)
-        @sched.record_load(__p, Samples.basename(path))
+        @sched.record_load(__p, __buffer_file(path))
       end
       info
     end
@@ -1249,7 +1253,7 @@ module SonicPi
         __log("sample #{dir.inspect},\n           #{Samples.basename(path).inspect}, #{arg_h_pp(args_h)}") unless __local(:synth_silent)
       end
       __add_slide_times!(args_h, synth_info)
-      args_h[:buf] = Samples.basename(path)
+      args_h[:buf] = __buffer_file(path)
       node = __trigger_synth(sn, args_h, synth_info, false, true, nil, info)
       @sched.flash_here(__p) unless node.is_a?(BlankNode)
       node

@@ -74,6 +74,10 @@ LIB="$ROOT/runtime/lib/sonic_pi"
 SERVER_LIB="$(cd "$ROOT/../../app/server/ruby/lib/sonicpi" && pwd)"
 cat "$LIB/errors.rb" "$LIB/defaults.rb" "$SERVER_LIB/validation.rb" "$LIB/float_format.rb" "$LIB/ring.rb" "$LIB/rand.rb" "$LIB/rand_verbs.rb" "$LIB/note.rb" "$LIB/time_state.rb" "$LIB/preparser.rb" "$ROOT/runtime/data/synths.rb" "$ROOT/runtime/data/theory.rb" "$ROOT/runtime/data/lang.rb" "$ROOT/runtime/data/samples.rb" "$LIB/theory.rb" "$LIB/samples.rb" "$LIB/cue_history.rb" "$LIB/scheduler.rb" "$LIB/lang.rb" "$LIB/lang_more.rb" "$LIB/synth_meta.rb" "$LIB/adapter.rb" > "$OUT/runtime.rb"
 "$MRUBY_BUILD_DIR/host/bin/mrbc" -B sp_runtime_irep -o "$OUT/runtime_irep.c" "$OUT/runtime.rb"
+# A native host's runtime (runtime/host/runtime_host.h, in a plugin or an app): the same, with what a program can do
+# where there are files (native.rb). The web's, and sp-trace's, carry none of it.
+cat "$OUT/runtime.rb" "$LIB/native.rb" > "$OUT/runtime_native.rb"
+"$MRUBY_BUILD_DIR/host/bin/mrbc" -B sp_runtime_irep -o "$OUT/runtime_native_irep.c" "$OUT/runtime_native.rb"
 
 if [ "$MODE" != "--native" ]; then
   CONFIG="$MRUBY_BUILD_DIR/emscripten/host-bin/mruby-config"

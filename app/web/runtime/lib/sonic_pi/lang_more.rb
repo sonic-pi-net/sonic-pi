@@ -1456,14 +1456,14 @@ module SonicPi
         resolve_sample_paths(filts).each do |p|
           next unless Samples.loaded?(p)
           Samples.unload(p)
-          @sched.sample_freed(__p, Samples.basename(p))
+          @sched.sample_freed(__p, __buffer_file(p))
         end
       end
       nil
     end
 
     def sample_free_all
-      Samples.loaded_paths.each { |p| @sched.sample_freed(__p, Samples.basename(p)) }
+      Samples.loaded_paths.each { |p| @sched.sample_freed(__p, __buffer_file(p)) }
       Samples.unload_all
       nil
     end
