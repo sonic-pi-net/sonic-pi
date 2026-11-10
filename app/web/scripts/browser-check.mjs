@@ -912,6 +912,26 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       await sp.close();
       check("the page stays still as a site page's card plays its live loop", sounding && still(heardSite), JSON.stringify({ sounding, heard: heardSite }));
       check("a site page's card, edited as it plays, keeps its loop's scope on the live_loop line, as in its still code", !!scopeLine?.loop && scopeLine.line < 1.5 * scopeLine.row && scopeLine.scopeAt < scopeLine.row, JSON.stringify(scopeLine));
+      // The tutorial is a page of its own (site.css .tut-page), out of the old site stylesheet's reach (landing.css, whose
+      // inline code was 0.6em and each coloured part of it 1.2em of that: the tutorial's code, put back to its words' size,
+      // had its coloured parts a fifth bigger than its plain ones). A link and a highlighted word are the site's, as on
+      // every page of it
+      const words = await (async () => {
+        const tp = await page.context().newPage();
+        await tp.goto(BASE + "tutorial-a.html");
+        await tp.waitForSelector(".site-body:not([hidden]) .tut-part p > code span", { timeout: 30000 }).catch(() => {});
+        const got = await tp.evaluate(() => {
+          const body = document.querySelector(".site-body:not([hidden])");
+          const size = (e) => getComputedStyle(e).fontSize;
+          const spans = [...body.querySelectorAll(".tut-part :is(p, li) > code span")], off = spans.filter((s) => size(s) !== size(s.closest("code")));
+          const colour = (v) => { const d = document.createElement("span"); d.style.color = `var(${v})`; body.append(d); const c = getComputedStyle(d).color; d.remove(); return c; };
+          const a = body.querySelector(".tut-part p > a"), strong = body.querySelector(".tut-part p > strong");
+          return { spans: spans.length, off: off.length, sizes: [...new Set(off.map((s) => `${size(s)} in ${size(s.closest("code"))}`))], link: !!a && getComputedStyle(a).color === colour("--Link"), strong: !!strong && getComputedStyle(strong).color === colour("--second") };
+        }).catch(() => null);
+        await tp.close();
+        return got;
+      })();
+      check("a tutorial's inline code is one size, its coloured parts its words' as its plain ones are; its links and highlighted words the site's colours", words?.spans > 0 && words.off === 0 && words.link && words.strong, JSON.stringify(words));
       // The tutorial fills a wide reading area (site.css: the whole of it bigger, 19 of 15, and wider where there is the
       // room), a narrower one's as it was; its cards' Play and Stop smaller than a quickstart card's, with no words
       // beside them; and a click in a zoomed card's code lands where it is made (CodeMirror allows for the zoom)

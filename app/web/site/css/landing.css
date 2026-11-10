@@ -1,8 +1,33 @@
 @charset "UTF-8";
 
-/* The site's stylesheet reaches the site alone: the pages share their document with the app (build-site.mjs), and
-   the tutorial, a page of its own, has its own stylesheet. Nested under :where(), which adds nothing to a rule's
-   specificity, so the app's stylesheets, linked after this one, win a tie. */
+/* The site's stylesheet reaches the site alone: the pages share their document with the app (build-site.mjs). Nested
+   under :where(), which adds nothing to a rule's specificity, so the app's stylesheets, linked after this one, win a
+   tie. A link and a highlighted word are the same on every page of the site; the rest is its pages' alone, not the
+   tutorial's: a page of its own (build-site.mjs marks it .site-tutorial), with its own stylesheet (site.css .tut-page). */
+:where(.site-body) {
+
+a {
+  color: var(--Link);
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--HighlightedBackground);
+}
+
+/* a highlighted word: the second colour (shared.css), apart from a link's accent */
+b,
+strong {
+  font-weight: 500;
+  color: var(--second);
+}
+
+a b,
+a strong {
+  color: inherit;
+}
+}
+
 :where(.site-body:not(.site-tutorial)) {
 
 /*
@@ -35,29 +60,8 @@
   font-weight: 300;
 }
 
-a {
-  color: var(--Link);
-  transition: color 0.2s ease-in-out;
-}
-
-a:hover {
-  color: var(--HighlightedBackground);
-}
-
 a img {
   border: 0;
-}
-
-/* a highlighted word: the second colour (shared.css), apart from a link's accent */
-b,
-strong {
-  font-weight: 500;
-  color: var(--second);
-}
-
-a b,
-a strong {
-  color: inherit;
 }
 
 i,

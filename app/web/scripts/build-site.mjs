@@ -387,7 +387,9 @@ function document(page, { code = false } = {}) {
     // and its heading a part of the page's: the page's own title is the document's one <h1>
     html = swap(html, '<h1 class="sr-only">Sonic Pi: the code editor</h1>', '<h2 class="sr-only">Sonic Pi: the code editor</h2>');
   }
-  html = swap(html, '<div id="info-body" class="ic-body"></div>', `<div id="info-body" class="ic-body"><div class="site-body">${bodies.get(page.key)}</div></div>`);
+  // a tutorial chapter marked as one: the site's stylesheet (landing.css) is the other pages', the tutorial has its own
+  // (site.css .tut-page)
+  html = swap(html, '<div id="info-body" class="ic-body"></div>', `<div id="info-body" class="ic-body"><div class="site-body${page.chapter ? " site-tutorial" : ""}">${bodies.get(page.key)}</div></div>`);
   if (!code) { const h1s = html.match(/<h1\b/g)?.length ?? 0; if (h1s !== 1) throw new Error(`${page.file}: ${h1s} <h1>s, where a page has one, its first section's title`); }
   return html;
 }
