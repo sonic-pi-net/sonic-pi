@@ -974,6 +974,32 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       check("the tutorial fills a wide reading area, bigger and wider, and a narrower one's as it was; its Play and Stop smaller than a quickstart card's; a click in a zoomed card's code lands where it is made",
         Math.abs((wide.got?.zoom ?? 0) - 19 / 15) < 0.01 && wide.got.fills >= 85 && narrow.got?.zoom === 1 && wide.got.ring === 52 && typed === "play X70",
         JSON.stringify({ wide: wide.got, narrow: narrow.got, typed }));
+      // A short side column (a laptop with the Debug panel open): the scope gives up its height first,
+      // to its least (40px), so that the log and the cues have a head and five lines each where the room allows, and
+      // share what is left where it does not; in a column too short even for their heads at that, the scope gives up the
+      // rest, and nothing is cut off at the foot. With the room, the scope is the height it always was.
+      const side = async (width, height, debug) => {
+        const ctx = await browser.newContext({ ...HTTPS, viewport: { width, height } });
+        const sp = await ctx.newPage();
+        await sp.goto(BASE + "code.html");
+        await sp.waitForSelector("#log-section", { timeout: 30000 });
+        await sp.waitForTimeout(800);
+        if (debug) { await sp.evaluate(() => document.querySelector('[data-drawer="debug"]')?.click()); await sp.waitForTimeout(800); }
+        const got = await sp.evaluate(() => {
+          const h = (id) => Math.round(document.getElementById(id).getBoundingClientRect().height);
+          const col = document.getElementById("sidebar").getBoundingClientRect(), link = document.getElementById("link-section").getBoundingClientRect();
+          const line = parseFloat(getComputedStyle(document.getElementById("log")).lineHeight);
+          return { column: Math.round(col.height), scope: h("scope-container"), log: h("log-section"), cues: h("cue-section"), floor: Math.floor(30 + 14 + 5 * line), cut: Math.round(link.bottom - col.bottom) };
+        });
+        await ctx.close();
+        return got;
+      };
+      const roomy = await side(1440, 900, false), laptop = await side(1440, 900, true), tiny = await side(817, 566, true);
+      check("a short side column gives the log its five lines before the scope its height, a tiny one cuts nothing off, and a tall one is as it was",
+        roomy.scope === 198 && roomy.log > roomy.floor && roomy.cues > roomy.floor
+          && laptop.scope === 40 && laptop.log >= laptop.floor && laptop.cues > 30 && laptop.cut <= 0
+          && tiny.scope <= 40 && tiny.log >= 30 && tiny.cues >= 30 && tiny.cut <= 0,
+        JSON.stringify({ roomy, laptop, tiny }));
       // A tip waits for the pointer to come to rest on its control (tooltip.js). Crossing the control's own parts on the
       // way (the lines of its icon: a pointer drifting on a trackpad) keeps the wait going rather than starting it again;
       // a click puts the tip away, and the pointer still resting there has it back after the wait, as native re-arms on

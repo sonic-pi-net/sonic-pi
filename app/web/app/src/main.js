@@ -1643,14 +1643,25 @@ dragDivider($("drawer-divider"), (m) => {
 // remembered. Dragged, or from the keyboard, its arrows a step at a time (each a separator a screen reader can move).
 const sidebar = $("sidebar"), scopeDivider = $("scope-divider"), logDivider = $("log-divider");
 const laidOut = (id) => $(id).offsetHeight > 0;
-// the scope as tall as leaves the panes under it their heads: the metronome's whole height, the log's and cues' least
-const scopeMax = () => sidebar.clientHeight - ($("scope-section").offsetHeight - scopeBox.offsetHeight) - $("link-section").offsetHeight
-  - (laidOut("log-section") ? 30 : 0) - (laidOut("cue-section") ? 30 : 0) - 2;
-// the scope drawn at a height, no taller than leaves the panes under it their heads; the height it was drawn at
+// The scope gives up its height before the log and the cues give up theirs, as native keeps its log readable beside a
+// scope that has a least: the panes under it keep a head and five lines each (PANE_HEAD, their body's padding, five of
+// its lines) where the room allows; where it does not, the scope is at its least and they share the rest; and where
+// even their heads would not fit beside that, the scope gives up the rest of its height before anything is cut off.
+const SCOPE_LEAST = 40, PANE_HEAD = 30;
+const paneFloor = () => PANE_HEAD + 14 + 5 * (parseFloat(getComputedStyle($("log")).lineHeight) || 18);
+function scopeMax() {
+  const panes = ["log-section", "cue-section"].filter(laidOut).length;
+  // what the column holds besides the scope and the two panes: the scope's head, the dividers, the metronome
+  const fixed = [...sidebar.children].reduce((sum, el) => sum + (/^(scope|log|cue)-section$/.test(el.id) ? 0 : el.offsetHeight), 0);
+  const room = sidebar.clientHeight - fixed - $("scope-section").querySelector(".pane-head").offsetHeight;
+  const roomy = room - panes * paneFloor();
+  return Math.max(0, roomy >= SCOPE_LEAST ? roomy : Math.min(SCOPE_LEAST, room - panes * PANE_HEAD));
+}
+// the scope drawn at a height, no taller than scopeMax allows; the height it was drawn at
 function showScopeHeight(px) {
-  const max = Math.max(40, scopeMax()), h = Math.round(Math.max(40, Math.min(max, px)));
+  const max = scopeMax(), least = Math.min(SCOPE_LEAST, max), h = Math.round(Math.min(max, Math.max(SCOPE_LEAST, px)));
   sidebar.style.setProperty("--scope-height", `${h}px`);
-  scopeDivider.setAttribute("aria-valuemin", "40");
+  scopeDivider.setAttribute("aria-valuemin", String(Math.round(least)));
   scopeDivider.setAttribute("aria-valuemax", String(Math.round(max)));
   scopeDivider.setAttribute("aria-valuenow", String(h));
   scopeDivider.setAttribute("aria-valuetext", `Scope ${h} pixels high`);
@@ -1671,8 +1682,14 @@ function setLogShare(f) {
   logDivider.setAttribute("aria-valuenow", String(Math.round(sizes.logShare * 100)));
   logDivider.setAttribute("aria-valuetext", `Log ${Math.round(sizes.logShare * 100)}%, cues ${Math.round((1 - sizes.logShare) * 100)}%`);
 }
-// on load, and whenever the side column's height changes (a zoom, the window), the scope at its share of it
-new ResizeObserver(() => { if (sizes.scopeShare && sidebar.clientHeight > 0) showScopeHeight(sizes.scopeShare * sidebar.clientHeight); }).observe(sidebar);
+// The height the scope would have: the tap's half, its share of the side column once dragged, else a fifth of the
+// window's or so (60 to 230px, as style.css draws it before this has run)
+const scopeWanted = () => scopeBox.classList.contains("half") ? 110
+  : sizes.scopeShare ? sizes.scopeShare * sidebar.clientHeight : Math.min(230, Math.max(60, 0.22 * innerHeight));
+// the side column laid out again: on load, whenever its height changes (a zoom, the window, a panel opening below it),
+// and when what is in it changes (the log or the cues shown or hidden, the scope's half)
+function layOutSide() { if (sidebar.clientHeight > 0) showScopeHeight(scopeWanted()); }
+new ResizeObserver(layOutSide).observe(sidebar);
 if (sizes.logShare) setLogShare(sizes.logShare);
 const logShareAt = (y) => { const a = $("log-section").getBoundingClientRect(), b = $("cue-section").getBoundingClientRect(); return (y - a.top) / Math.max(1, b.bottom - a.top); };
 dragDivider(scopeDivider, (m) => setScopeHeight(m.clientY - scopeBox.getBoundingClientRect().top), () => store.set("sp-sizes", sizes));
@@ -1721,7 +1738,7 @@ $("btn-scope-mode").addEventListener("click", () => {
 });
 paintScopeMode();
 // the scope's size, a tap or Enter or Space: full, or half height
-const toggleScopeSize = () => scopeBox.setAttribute("aria-pressed", String(scopeBox.classList.toggle("half")));
+const toggleScopeSize = () => { scopeBox.setAttribute("aria-pressed", String(scopeBox.classList.toggle("half"))); layOutSide(); };
 scopeBox.addEventListener("click", toggleScopeSize);
 scopeBox.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleScopeSize(); } });
 theme.onChange(() => { if (!scope.running) scope.drawSilent(); });
@@ -2888,7 +2905,7 @@ const UNAVAILABLE = {
 
 // the log, the cues and the toolbar's buttons, shown or hidden as native's View menu has them
 const shown = { log: true, cues: true, buttons: true, ...store.get("sp-shown", {}) };
-const paintShown = () => { for (const k of Object.keys(shown)) document.body.classList.toggle(`no-${k}`, !shown[k]); };
+const paintShown = () => { for (const k of Object.keys(shown)) document.body.classList.toggle(`no-${k}`, !shown[k]); layOutSide(); };
 const SHOWN_NAMES = { log: "log", cues: "cue log", buttons: "buttons" };
 const toggleShown = (k, on = !shown[k]) => {
   if (shown[k] !== on) status(`${on ? "Showing" : "Hiding"} ${SHOWN_NAMES[k] ?? k}...`);
