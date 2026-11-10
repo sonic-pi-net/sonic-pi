@@ -954,6 +954,47 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       check("the tutorial fills a wide reading area, bigger and wider, and a narrower one's as it was; its Play and Stop smaller than a quickstart card's; a click in a zoomed card's code lands where it is made",
         Math.abs((wide.got?.zoom ?? 0) - 19 / 15) < 0.01 && wide.got.fills >= 85 && narrow.got?.zoom === 1 && wide.got.ring === 52 && typed === "play X70",
         JSON.stringify({ wide: wide.got, narrow: narrow.got, typed }));
+      // A tip waits for the pointer to come to rest on its control (tooltip.js). Crossing the control's own parts on the
+      // way (the lines of its icon: a pointer drifting on a trackpad) keeps the wait going rather than starting it again;
+      // a click puts the tip away, and the pointer still resting there has it back after the wait, as native re-arms on
+      // release (sonicpitooltip.cpp) — though not on a control whose menu the click opened, the menu being what is read
+      const tips = await browser.newContext({ ...HTTPS, viewport: { width: 1440, height: 900 } });
+      const tp = await tips.newPage();
+      await tp.goto(BASE + "tutorial-02.html");
+      await tp.waitForSelector(".tut-part section.qs-card:not(.sp-card) .qs-card-head button", { timeout: 30000 }).catch(() => {});
+      const tipUp = () => tp.evaluate(() => [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden));
+      const edit = tp.locator(".tut-part section.qs-card:not(.sp-card)").first().getByRole("button", { name: "Edit", exact: true });
+      await edit.scrollIntoViewIfNeeded().catch(() => {});
+      // two points in the button: on a line of its icon (the path itself under the pointer), and beside the icon
+      const spots = await edit.evaluate((b) => {
+        const r = b.getBoundingClientRect(), hit = (want) => {
+          for (let x = r.left + 1; x < r.right - 1; x += 0.5) for (let y = r.top + 1; y < r.bottom - 1; y += 0.5) if (want(document.elementFromPoint(x, y))) return [x, y];
+          return null;
+        };
+        return { on: hit((e) => e?.tagName === "path"), off: hit((e) => e === b) };
+      }).catch(() => null);
+      const tipCase = { spots: !!(spots?.on && spots?.off), drifting: null, afterClick: null, menuOpened: null };
+      if (tipCase.spots) {
+        await tp.mouse.move(5, 5); await tp.waitForTimeout(300);
+        tipCase.drifting = false;
+        for (let i = 0; i < 12 && !tipCase.drifting; i++) { const [x, y] = i % 2 ? spots.on : spots.off; await tp.mouse.move(x, y); await tp.waitForTimeout(90); tipCase.drifting = await tipUp(); }
+        await tp.mouse.down(); await tp.mouse.up();   // Edit: the card's editor
+        await tp.waitForTimeout(1000);
+        tipCase.afterClick = await tipUp();
+        await tp.mouse.down(); await tp.mouse.up();   // and back to its code
+      }
+      const palette = tp.locator("#site-nav .sn-theme");
+      if (await palette.count()) {
+        await tp.mouse.move(5, 5); await tp.waitForTimeout(300);
+        const pb = await palette.boundingBox();
+        await tp.mouse.move(pb.x + pb.width / 2, pb.y + pb.height / 2);
+        await tp.mouse.down(); await tp.mouse.up();   // its menu opens
+        await tp.waitForTimeout(1000);
+        tipCase.menuOpened = await tp.evaluate(() => ({ open: document.querySelector("#site-nav .sn-theme").getAttribute("aria-expanded"), tip: [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden) }));
+      }
+      await tips.close();
+      check("a tip comes to a pointer drifting over its control's icon, comes back to one resting there after a click, and stays off a menu the click opened",
+        tipCase.drifting === true && tipCase.afterClick === true && tipCase.menuOpened?.open === "true" && tipCase.menuOpened.tip === false, JSON.stringify(tipCase));
     }
 
     // quickstart cards

@@ -6,7 +6,9 @@
 // chip — the one spot of theme colour. Placed wholly below or above the
 // control with the caret at its centre, a short fade in, and, as native's
 // manager does for WCAG 1.4.13, shown on keyboard focus after a moment too;
-// gone on a click, a key, a scroll or a blur.
+// gone on a click, a key or a scroll (and, one keyboard focus brought, when
+// that focus moves on). A control clicked, the pointer still resting on it,
+// has its tip back after the wait, as native's does.
 //
 // A control says what its tip is the way it always has: title="…". The first
 // time it is pointed at, the title moves to data-tip so the browser's own
@@ -34,6 +36,7 @@ export function installTooltips(root = document.body) {
   root.appendChild(tip);
 
   let pointerX = null;   // where the pointer is along a wide control, which the tip points at rather than its middle (place)
+  let byFocus = false;   // the tip (up, or on its way) is the keyboard's, focus leaving puts it away; the pointer's stays (focus may move as a click is acted on: Edit, into the card's code)
   let anchor = null, pending = null, timer = 0, hiddenAt = -Infinity, down = false;   // down: a control is being worked (a dial turned), and no tip is to open over it   // pending: the control a tip is on its way to   // when the last tip went: a page can boot in under the warm window
 
   // the tip a control carries: its title, moved out of the browser's reach the first time it is asked for
@@ -104,13 +107,14 @@ export function installTooltips(root = document.body) {
     leaving = 0;
     timer = 0;
     pending = null;
+    byFocus = false;
     if (!tip.hidden) hiddenAt = performance.now();
     tip.hidden = true;
     tip.classList.remove("in");
     anchor = null;
   }
 
-  function arm(node, delay) {
+  function arm(node, delay, focus = false) {
     if (down) return;                 // mid-drag: a dial focuses itself as it is turned, and its tip would cover the panel
     if (tip.contains(node)) return;   // over the tip itself (an interactive one): it stays as it is
     const parts = tipOf(node);
@@ -122,7 +126,7 @@ export function installTooltips(root = document.body) {
       return;
     }
     clearTimeout(leaving); leaving = 0;
-    if (parts.target === anchor) return;
+    if (parts.target === anchor || parts.target === pending) return;   // up already, or on its way: the pointer crossing the control's own parts (its icon's lines) neither restarts the wait nor blinks the tip
     clearTimeout(timer);
     // a tip that has just gone (the pointer moved to the next control) comes back at once, as native's does
     const warm = performance.now() - hiddenAt < WARM_WINDOW;
@@ -130,7 +134,13 @@ export function installTooltips(root = document.body) {
     // the tip cancels it — so the pointer can get to the link past the controls between
     const crossing = !!anchor && !tip.hidden && tip.classList.contains("interactive");
     pending = parts.target;
-    timer = setTimeout(() => { pending = null; show(parts.target, parts); }, crossing ? Math.max(250, warm ? 0 : delay) : warm ? 0 : delay);
+    byFocus = focus;
+    timer = setTimeout(() => {
+      pending = null;
+      // gone by now, or its menu open (a click opened it after the release armed this): the menu is what is read
+      if (!parts.target.isConnected || parts.target.getAttribute("aria-expanded") === "true") return;
+      show(parts.target, parts);
+    }, crossing ? Math.max(250, warm ? 0 : delay) : warm ? 0 : delay);
   }
 
   // A root watched: the document's body, and each shadow root (the editor's and the panes': shadow.js, main.js). An event
@@ -154,14 +164,22 @@ export function installTooltips(root = document.body) {
         else if (timer) { clearTimeout(timer); timer = 0; }
       }
     });
-    r.addEventListener("focusin", (e) => { if (own(e) && e.target.matches?.(":focus-visible")) { pointerX = null; arm(e.target, FOCUS_DELAY); } });
-    r.addEventListener("focusout", (e) => { if (own(e) && !(e.relatedTarget && tip.contains(e.relatedTarget))) hide(); });   // focus into the tip (its link, pressed) is not away
+    r.addEventListener("focusin", (e) => { if (own(e) && e.target.matches?.(":focus-visible")) { pointerX = null; arm(e.target, FOCUS_DELAY, true); } });
+    r.addEventListener("focusout", (e) => { if (own(e) && byFocus && !(e.relatedTarget && tip.contains(e.relatedTarget))) hide(); });   // focus into the tip (its link, pressed) is not away
     for (const type of ["pointerdown", "keydown", "wheel"]) r.addEventListener(type, (e) => { if (!tip.contains(e.target)) { hide(); hiddenAt = 0; } }, { capture: true, passive: true });   // hiddenAt: a tip put away to get on with something waits the full delay to come back, rather than the warm window's none
     r.addEventListener("pointerdown", (e) => { if (!tip.contains(e.target)) down = true; }, { capture: true, passive: true });   // down: a control is being worked, and no tip opens over it
   }
   watch(root);
-  // the drag is over wherever it ends, pointer capture or not
-  for (const type of ["pointerup", "pointercancel"]) window.addEventListener(type, () => { down = false; }, { capture: true, passive: true });
+  // the drag is over wherever it ends, pointer capture or not. A press let go on a control with a tip has it back if the
+  // pointer is still resting there after the wait, as native re-arms on release: no pointerover comes until it moves
+  window.addEventListener("pointercancel", () => { down = false; }, { capture: true, passive: true });
+  window.addEventListener("pointerup", (e) => {
+    down = false;
+    const at = e.composedPath()[0];
+    if (e.pointerType === "touch" || !(at instanceof Element) || tip.contains(at)) return;
+    pointerX = e.clientX;
+    arm(at, HOVER_DELAY);
+  }, { capture: true, passive: true });
   // an interactive tip: kept while the pointer is on it, gone when it leaves (unless back to its control)
   tip.addEventListener("pointerenter", () => { clearTimeout(leaving); leaving = 0; clearTimeout(timer); timer = 0; pending = null; });
   tip.addEventListener("pointerleave", (e) => { if (!(e.relatedTarget && anchor?.contains(e.relatedTarget))) hide(); });
