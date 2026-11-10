@@ -1,0 +1,182 @@
+Compiles on several threads at once
+
+Interpreters on different threads may compile at the same time: a DAW holds
+several instances of a plugin, each with its own interpreter on a thread of
+its own, and every run compiles (instance_eval of a string). Two things the
+compiler kept for the whole process were shared between them: the arena
+Prism allocates a parse from, with the state its blocks came from
+(global_mrb, written by every mrc_ccontext_new), and the constant pool's ids
+of the parse under way (presym_ids, rewritten by every compile). Two compiles
+at once took blocks from each other's arena, freed each other's trees, and
+read each other's symbol ids: Prism's assertions fired, or the process
+crashed (sp_instances_check.c, 2026-11-10).
+
+A compile runs on one thread from start to end, so both are now the calling
+thread's (MRC_THREAD_LOCAL), and each arena block records the state it was
+allocated on, so giving the arena back needs no global. global_mrb stays
+defined for the front-ends and mruby-test, which assign it; nothing in the
+arena build reads it.
+
+Made against the pinned commit in ~/Development/next-gen/mruby; applied to a
+copy of the submodule by scripts/build-runtime.sh, never to the submodule.
+
+diff --git a/mrbgems/mruby-compiler/include/mrc_common.h b/mrbgems/mruby-compiler/include/mrc_common.h
+index 734f33a..2e73d88 100644
+--- a/mrbgems/mruby-compiler/include/mrc_common.h
++++ b/mrbgems/mruby-compiler/include/mrc_common.h
+@@ -38,6 +38,22 @@
+ 
+ #include <stdint.h>
+ 
++/* A variable of the calling thread's own.  A compile runs on one thread from
++   start to end, and what it keeps outside its context (Prism's allocator is
++   handed none) is kept per thread, so two interpreters compiling at once on
++   two threads never share it. */
++#if defined(__cplusplus)
++  #define MRC_THREAD_LOCAL thread_local
++#elif defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
++  #define MRC_THREAD_LOCAL _Thread_local
++#elif defined(__GNUC__) || defined(__clang__)
++  #define MRC_THREAD_LOCAL __thread
++#elif defined(_MSC_VER)
++  #define MRC_THREAD_LOCAL __declspec(thread)
++#else
++  #error "mruby-compiler: no thread-local storage qualifier known for this compiler"
++#endif
++
+ #if !defined(PRISM_XALLOCATOR)
+   #define PRISM_XALLOCATOR
+ #endif
+diff --git a/mrbgems/mruby-compiler/include/prism_xallocator.h b/mrbgems/mruby-compiler/include/prism_xallocator.h
+index a6506db..91d0695 100644
+--- a/mrbgems/mruby-compiler/include/prism_xallocator.h
++++ b/mrbgems/mruby-compiler/include/prism_xallocator.h
+@@ -51,7 +51,6 @@
+     struct mrc_prism_arena_block {
+       struct mrc_prism_arena_block *prev;
+     };
+-    extern struct mrc_prism_arena_block *mrc_prism_arena;
+ 
+     void *mrc_prism_arena_alloc(size_t size);
+     void *mrc_prism_arena_realloc(void *ptr, size_t size);
+diff --git a/mrbgems/mruby-compiler/src/ccontext.c b/mrbgems/mruby-compiler/src/ccontext.c
+index 926fbf2..d92261e 100644
+--- a/mrbgems/mruby-compiler/src/ccontext.c
++++ b/mrbgems/mruby-compiler/src/ccontext.c
+@@ -18,21 +18,25 @@ mrb_state *global_mrb = NULL;
+    tree, so a tree of any depth costs one loop and no C stack.  See
+    prism_xallocator.h for why the tree is not walked.
+ 
+-   The blocks come from mrb_malloc(), so that a parse is on the allocator the
+-   state was opened with, except where Prism is compiled as C beside a C++
+-   core: mrb_malloc() raises on failure and the throw would pass through
+-   Prism's frames, so the blocks come from libc there.  See the gem's
+-   mrbgem.rake. */
++   The open arena is the calling thread's: Prism's allocator is handed no
++   context, and a compile runs on one thread, so interpreters compiling at
++   once on several threads each take from their own.
++
++   The blocks come from mrb_malloc() on the state the context was made for,
++   which each block records, so that a parse is on the allocator that state
++   was opened with; except where Prism is compiled as C beside a C++ core:
++   mrb_malloc() raises on failure and the throw would pass through Prism's
++   frames, so the blocks come from libc there.  See the gem's mrbgem.rake. */
+ #if defined(MRC_PRISM_ARENA_LIBC)
+ # include <stdlib.h>
+-# define arena_block_alloc(size)  malloc(size)
+-# define arena_block_free(ptr)    free(ptr)
++# define arena_block_alloc(mrb, size)  malloc(size)
++# define arena_block_free(mrb, ptr)    free(ptr)
+ #else
+-# define arena_block_alloc(size)  mrb_malloc(global_mrb, size)
+-# define arena_block_free(ptr)    mrb_free(global_mrb, ptr)
++# define arena_block_alloc(mrb, size)  mrb_malloc(mrb, size)
++# define arena_block_free(mrb, ptr)    mrb_free(mrb, ptr)
+ #endif
+ 
+-struct mrc_prism_arena_block *mrc_prism_arena = NULL;
++static MRC_THREAD_LOCAL struct mrc_prism_arena_block *mrc_prism_arena = NULL;
+ 
+ #ifndef MRC_PRISM_ARENA_BLOCK
+ #define MRC_PRISM_ARENA_BLOCK (64 * 1024)
+@@ -40,6 +44,7 @@ struct mrc_prism_arena_block *mrc_prism_arena = NULL;
+ 
+ struct arena_block {
+   struct mrc_prism_arena_block head;   /* must be first: the public view */
++  mrb_state *mrb;                      /* the state it was allocated on */
+   size_t used, size;
+ };
+ 
+@@ -51,12 +56,13 @@ struct arena_chunk {
+ };
+ 
+ static struct arena_block *
+-arena_block_new(size_t need)
++arena_block_new(mrb_state *mrb, size_t need)
+ {
+   size_t size = MRC_PRISM_ARENA_BLOCK;
+   while (size - sizeof(struct arena_block) < need) size *= 2;
+-  struct arena_block *b = (struct arena_block *)arena_block_alloc(size);
++  struct arena_block *b = (struct arena_block *)arena_block_alloc(mrb, size);
+   b->head.prev = mrc_prism_arena;
++  b->mrb = mrb;
+   b->used = sizeof(struct arena_block);
+   b->size = size;
+   mrc_prism_arena = &b->head;
+@@ -72,7 +78,7 @@ arena_open(mrc_ccontext *c)
+ {
+   c->prism_arena_outer = mrc_prism_arena;
+   mrc_prism_arena = NULL;
+-  arena_block_new(0);
++  arena_block_new(c->mrb, 0);
+   c->prism_arena = mrc_prism_arena;
+ }
+ 
+@@ -82,8 +88,9 @@ mrc_prism_arena_alloc(size_t size)
+   size_t need = (sizeof(struct arena_chunk) + size + 7u) & ~(size_t)7;
+   struct arena_block *b = (struct arena_block *)mrc_prism_arena;
+ 
+-  if (b == NULL || b->size - b->used < need) {
+-    b = arena_block_new(need);
++  mrc_assert(b != NULL);   /* opened with the context, before Prism is asked for anything */
++  if (b->size - b->used < need) {
++    b = arena_block_new(b->mrb, need);
+   }
+   struct arena_chunk *chunk = (struct arena_chunk *)((char *)b + b->used);
+   b->used += need;
+@@ -116,7 +123,7 @@ arena_close(mrc_ccontext *c)
+ 
+   while (b != NULL) {
+     struct mrc_prism_arena_block *prev = b->prev;
+-    arena_block_free(b);
++    arena_block_free(((struct arena_block *)b)->mrb, b);
+     b = prev;
+   }
+   c->prism_arena = NULL;
+@@ -130,9 +137,6 @@ MRC_API mrc_ccontext *
+ mrc_ccontext_new(mrb_state *mrb)
+ {
+   mrc_ccontext temp_c = {0};
+-#if defined(MRC_TARGET_MRUBY) && defined(MRC_PRISM_ARENA)
+-  global_mrb = mrb;
+-#endif
+   temp_c.mrb = mrb;
+   mrc_ccontext *c = (mrc_ccontext *)mrc_calloc((&temp_c), 1, sizeof(mrc_ccontext));
+   c->p = (mrc_parser_state *)mrc_calloc((&temp_c), 1, sizeof(mrc_parser_state));
+diff --git a/mrbgems/mruby-compiler/src/mrc_presym.c b/mrbgems/mruby-compiler/src/mrc_presym.c
+index 994f413..96eed00 100644
+--- a/mrbgems/mruby-compiler/src/mrc_presym.c
++++ b/mrbgems/mruby-compiler/src/mrc_presym.c
+@@ -23,8 +23,10 @@ static mrc_sym_entry symTable[] = {
+ };
+ 
+ /* mrc_presym.inc numbers its literals from 1 in table order, which is what
+-   lets the enum in mrc_presym.h index this array; slot 0 stays unused. */
+-static mrc_sym presym_ids[sizeof(symTable) / sizeof(symTable[0])];
++   lets the enum in mrc_presym.h index this array; slot 0 stays unused.  The
++   ids are the constant pool's of the parse under way, which is the calling
++   thread's: each compile records them afresh (mrc_init_presym). */
++static MRC_THREAD_LOCAL mrc_sym presym_ids[sizeof(symTable) / sizeof(symTable[0])];
+ 
+ mrc_sym
+ mrc_presym_id(mrc_sym sym)

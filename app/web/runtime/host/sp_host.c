@@ -28,46 +28,102 @@
 
 extern const uint8_t sp_runtime_irep[];
 
-static mrb_state *mrb;
-static char *last_result;   // what sp_trace last returned; freed on the next call
+// Bytes gathered for the host: the outbox, and the pieces a message is built from (see "The audio stream").
+typedef struct { uint8_t *p; size_t len, cap; } sp_bytes;
 
-static void report_exception(const char *where) {
+// One runtime: its interpreter, and everything the calls below leave for the host to read. A process may hold
+// several (a DAW holds a plugin's instances), each driven by one thread: the calls below act on the calling thread's
+// runtime (sp_open, sp_use), and what the interpreter calls back finds its own through mrb->ud.
+typedef struct sp_host {
+  mrb_state *mrb;
+  char *last_result;                                // what sp_trace last returned; freed on the next call
+  sp_bytes outbox, tags, data, message, bundle, packet;
+  double *table_buf;                                // the process table (sp_process_table)
+  mrb_int table_cap, table_len;
+  char said[512];                                   // sp_install_synth's answer
+  char synthdef[128];                               // sp_synthdef_for's answer
+  void *user;                                       // the host's own, for what it adds to SonicPi::Native
+} sp_host;
+
+static _Thread_local sp_host *current;
+
+static sp_host *host_of(mrb_state *m) { return (sp_host *)m->ud; }
+
+static void report_exception(mrb_state *mrb, const char *where) {
   if (!mrb->exc) return;
   mrb_value msg = mrb_funcall(mrb, mrb_obj_value(mrb->exc), "inspect", 0);
   fprintf(stderr, "sp_host: %s: %s\n", where, mrb_str_to_cstr(mrb, msg));
   mrb->exc = NULL;
 }
 
-static mrb_value rand_module(void) {
+static mrb_value rand_module(mrb_state *mrb) {
   struct RClass *sonic_pi = mrb_module_get(mrb, "SonicPi");
   return mrb_obj_value(mrb_module_get_under(mrb, sonic_pi, "Rand"));
 }
 
-// Boots the interpreter and loads the runtime. Returns 0 when it is ready.
-SP_EXPORT int sp_init(void) {
-  mrb = mrb_open();
-  if (!mrb) return 1;
-  mrb_load_irep(mrb, sp_runtime_irep);
-  if (mrb->exc) { report_exception("loading the runtime"); return 2; }
-  return 0;
+// Boots an interpreter, loads the runtime into it, and makes it the calling thread's: the calls below act on it
+// from that thread until sp_use names another. NULL when it did not boot.
+SP_EXPORT sp_host *sp_open(void) {
+  sp_host *h = calloc(1, sizeof *h);
+  if (!h) return NULL;
+  h->mrb = mrb_open();
+  if (!h->mrb) { free(h); return NULL; }
+  h->mrb->ud = h;
+  mrb_load_irep(h->mrb, sp_runtime_irep);
+  if (h->mrb->exc) {
+    report_exception(h->mrb, "loading the runtime");
+    mrb_close(h->mrb);
+    free(h);
+    return NULL;
+  }
+  current = h;
+  return h;
 }
+
+// The calling thread's calls act on `h` from now (NULL: on none).
+SP_EXPORT void sp_use(sp_host *h) { current = h; }
+
+// A runtime ends: its interpreter and everything it held. Not the calling thread's any more if it was.
+SP_EXPORT void sp_close(sp_host *h) {
+  if (!h) return;
+  if (current == h) current = NULL;
+  mrb_close(h->mrb);
+  sp_bytes *all[] = { &h->outbox, &h->tags, &h->data, &h->message, &h->bundle, &h->packet };
+  for (size_t i = 0; i < sizeof all / sizeof *all; i++) free(all[i]->p);
+  free(h->table_buf);
+  free(h->last_result);
+  free(h);
+}
+
+// A runtime for the calling thread, as sp_open: 0 when it is ready. The page's (and Node's) one runtime.
+SP_EXPORT int sp_init(void) { return sp_open() ? 0 : 1; }
+
+// The calling thread's interpreter, for a native host that adds to SonicPi::Native (the desktop app's files and
+// tracks), and what it keeps beside it to find itself from there (sp_user). The web never asks.
+SP_EXPORT void *sp_mrb_state(void) { return current ? current->mrb : NULL; }
+SP_EXPORT void sp_set_user(void *user) { if (current) current->user = user; }
+SP_EXPORT void *sp_user(void *mrb) { return mrb ? host_of((mrb_state *)mrb)->user : NULL; }
 
 // Hands one random table over as the bytes of its wav file.
 SP_EXPORT int sp_install_table(const char *source, const uint8_t *bytes, int len) {
+  if (!current) return 1;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_value tables = mrb_funcall(mrb, rand_module(), "tables", 0);
+  mrb_value tables = mrb_funcall(mrb, rand_module(mrb), "tables", 0);
   mrb_value wav = mrb_str_new(mrb, (const char *)bytes, len);
   mrb_value chunk = mrb_funcall(mrb, tables, "data_chunk", 1, wav);
   mrb_funcall(mrb, tables, "install", 2, mrb_symbol_value(mrb_intern_cstr(mrb, source)), chunk);
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) { report_exception("installing a table"); return 1; }
+  if (mrb->exc) { report_exception(mrb, "installing a table"); return 1; }
   return 0;
 }
 
 // A synth's metadata (the .json beside its .scsyndef; runtime/lib/sonic_pi/synth_meta.rb): installed as a synth the
 // runtime knows, played and checked as a built-in is. "" when it is, else why not, in words for whoever wrote the file.
 SP_EXPORT const char *sp_install_synth(const char *json) {
-  static char said[512];
+  if (!current) return "no runtime";
+  mrb_state *mrb = current->mrb;
+  char *said = current->said;
   int ai = mrb_gc_arena_save(mrb);
   struct RClass *sonic_pi = mrb_module_get(mrb, "SonicPi");
   mrb_value meta = mrb_obj_value(mrb_module_get_under(mrb, sonic_pi, "SynthMeta"));
@@ -75,7 +131,7 @@ SP_EXPORT const char *sp_install_synth(const char *json) {
   said[0] = 0;
   if (mrb->exc) {
     mrb_value msg = mrb_funcall(mrb, mrb_obj_value(mrb->exc), "message", 0);
-    snprintf(said, sizeof said, "%s", mrb_str_to_cstr(mrb, msg));
+    snprintf(said, sizeof current->said, "%s", mrb_str_to_cstr(mrb, msg));
     mrb->exc = NULL;
   }
   mrb_gc_arena_restore(mrb, ai);
@@ -86,17 +142,21 @@ SP_EXPORT const char *sp_install_synth(const char *json) {
 // as SAMPLES_DIR) and describes one sound file the host knows about. The
 // onsets are in seconds; pass none when unknown.
 SP_EXPORT int sp_set_samples_dir(const char *dir) {
+  if (!current) return 1;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
   struct RClass *sonic_pi = mrb_module_get(mrb, "SonicPi");
   mrb_value samples = mrb_obj_value(mrb_module_get_under(mrb, sonic_pi, "Samples"));
   mrb_funcall(mrb, samples, "builtin_dir=", 1, mrb_str_new_cstr(mrb, dir));
   mrb_const_set(mrb, mrb_obj_value(mrb->object_class), mrb_intern_cstr(mrb, "SAMPLES_DIR"), mrb_str_new_cstr(mrb, dir));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) { report_exception("setting the samples dir"); return 1; }
+  if (mrb->exc) { report_exception(mrb, "setting the samples dir"); return 1; }
   return 0;
 }
 
 SP_EXPORT int sp_install_sample(const char *path, int num_frames, int num_chans, int sample_rate, const double *onsets, int num_onsets) {
+  if (!current) return 1;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
   struct RClass *sonic_pi = mrb_module_get(mrb, "SonicPi");
   mrb_value samples = mrb_obj_value(mrb_module_get_under(mrb, sonic_pi, "Samples"));
@@ -108,29 +168,32 @@ SP_EXPORT int sp_install_sample(const char *path, int num_frames, int num_chans,
     mrb_funcall(mrb, samples, "install_onsets", 2, p, list);
   }
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) { report_exception("installing a sample"); return 1; }
+  if (mrb->exc) { report_exception(mrb, "installing a sample"); return 1; }
   return 0;
 }
 
 // Runs a program and returns its trace as JSON. The string is the host's to
 // read until the next call.
 SP_EXPORT const char *sp_trace(const char *code, const char *file) {
+  if (!current) return NULL;
+  sp_host *h = current;
+  mrb_state *mrb = h->mrb;
   int ai = mrb_gc_arena_save(mrb);
   struct RClass *sonic_pi = mrb_module_get(mrb, "SonicPi");
   mrb_value adapter = mrb_obj_value(mrb_class_get_under(mrb, sonic_pi, "Adapter"));
   mrb_value json = mrb_funcall(mrb, adapter, "trace", 2, mrb_str_new_cstr(mrb, code), mrb_str_new_cstr(mrb, file));
-  free(last_result);
+  free(h->last_result);
   if (mrb->exc) {
     mrb_value msg = mrb_funcall(mrb, mrb_obj_value(mrb->exc), "inspect", 0);
     const char *m = mrb_str_to_cstr(mrb, msg);
-    last_result = malloc(strlen(m) + 64);
-    sprintf(last_result, "{\"host_error\":\"%s\"}", m);
+    h->last_result = malloc(strlen(m) + 64);
+    sprintf(h->last_result, "{\"host_error\":\"%s\"}", m);
     mrb->exc = NULL;
   } else {
-    last_result = strdup(mrb_str_to_cstr(mrb, json));
+    h->last_result = strdup(mrb_str_to_cstr(mrb, json));
   }
   mrb_gc_arena_restore(mrb, ai);
-  return last_result;
+  return h->last_result;
 }
 
 SP_EXPORT const char *sp_version(void) { return MRUBY_VERSION; }
@@ -196,9 +259,6 @@ static mrb_value native_block_end_line(mrb_state *m, mrb_value self) {
 //
 // Numbers are typed as Sonic Pi types them: an Integer as int32 (float32 when
 // it does not fit), a Float as float32. web/osc.js reads all of this.
-typedef struct { uint8_t *p; size_t len, cap; } sp_bytes;
-static sp_bytes outbox, tags, data, message, bundle, packet;
-
 static void put(sp_bytes *b, const void *src, size_t n) {
   if (b->len + n > b->cap) {
     size_t cap = b->cap ? b->cap : 1024;
@@ -230,19 +290,20 @@ static void put_str(sp_bytes *b, const char *s, size_t n) {
   put(b, nul, 4 - n % 4);
 }
 
-static void put_tag(char t) { put(&tags, &t, 1); }
+static void put_tag(sp_host *h, char t) { put(&h->tags, &t, 1); }
 
-static void begin_message(const char *fixed_tags) {
-  tags.len = 0;
-  data.len = 0;
-  put_tag(',');
-  put(&tags, fixed_tags, strlen(fixed_tags));
+static void begin_message(sp_host *h, const char *fixed_tags) {
+  h->tags.len = 0;
+  h->data.len = 0;
+  put_tag(h, ',');
+  put(&h->tags, fixed_tags, strlen(fixed_tags));
 }
 
 // A synth's opt as its name and its number (buf, and rand_buf named by its
 // file, as the buffer's number: Scheduler#audio_buffer); anything that is
 // not a number has no place in the message.
 static int put_opt(mrb_state *m, mrb_value key, mrb_value val, void *ud) {
+  sp_host *h = host_of(m);
   mrb_int bufnum = *(mrb_int *)ud;
   const char *name;
   mrb_int len;
@@ -251,52 +312,53 @@ static int put_opt(mrb_state *m, mrb_value key, mrb_value val, void *ud) {
   else return 0;
   if ((len == 3 && memcmp(name, "buf", 3) == 0) || (len == 8 && memcmp(name, "rand_buf", 8) == 0 && mrb_string_p(val))) {
     if (bufnum < 0) return 0;
-    put_tag('s'); put_str(&data, name, (size_t)len);
-    put_tag('i'); put_i32(&data, bufnum);
+    put_tag(h, 's'); put_str(&h->data, name, (size_t)len);
+    put_tag(h, 'i'); put_i32(&h->data, bufnum);
   } else if (mrb_float_p(val)) {
-    put_tag('s'); put_str(&data, name, (size_t)len);
-    put_tag('f'); put_f32(&data, (float)mrb_float(val));
+    put_tag(h, 's'); put_str(&h->data, name, (size_t)len);
+    put_tag(h, 'f'); put_f32(&h->data, (float)mrb_float(val));
   } else if (mrb_integer_p(val)) {
     mrb_int v = mrb_integer(val);
-    put_tag('s'); put_str(&data, name, (size_t)len);
-    if (v >= INT32_MIN && v <= INT32_MAX) { put_tag('i'); put_i32(&data, v); }
-    else { put_tag('f'); put_f32(&data, (float)v); }
+    put_tag(h, 's'); put_str(&h->data, name, (size_t)len);
+    if (v >= INT32_MIN && v <= INT32_MAX) { put_tag(h, 'i'); put_i32(&h->data, v); }
+    else { put_tag(h, 'f'); put_f32(&h->data, (float)v); }
   }
   return 0;
 }
 
-static void frame(uint32_t kind, const sp_bytes *b) {
+static void frame(sp_host *h, uint32_t kind, const sp_bytes *b) {
   uint32_t head[2] = { (uint32_t)b->len, kind };
-  put(&outbox, head, 8);
-  put(&outbox, b->p, b->len);
+  put(&h->outbox, head, 8);
+  put(&h->outbox, b->p, b->len);
 }
 
 // The message gathered, as a bundle for its time, framed as a sound.
-static void send_sound(double time, const char *address, mrb_int synthdef, mrb_int bufnum) {
-  message.len = 0;
-  put_str(&message, address, strlen(address));
-  put_str(&message, (const char *)tags.p, tags.len);
-  put(&message, data.p, data.len);
-  bundle.len = 0;
-  put(&bundle, "#bundle", 8);                 // with its NUL
+static void send_sound(sp_host *h, double time, const char *address, mrb_int synthdef, mrb_int bufnum) {
+  sp_bytes *message = &h->message, *bundle = &h->bundle, *packet = &h->packet;
+  message->len = 0;
+  put_str(message, address, strlen(address));
+  put_str(message, (const char *)h->tags.p, h->tags.len);
+  put(message, h->data.p, h->data.len);
+  bundle->len = 0;
+  put(bundle, "#bundle", 8);                  // with its NUL
   if (time <= 0) {                            // OSC's "immediately" (Scheduler::IMMEDIATE)
-    put_u32(&bundle, 0);
-    put_u32(&bundle, 1);
+    put_u32(bundle, 0);
+    put_u32(bundle, 1);
   } else {
     double secs = floor(time);
-    put_u32(&bundle, (uint32_t)secs);         // NTP: seconds, and a fraction of 2^32
-    put_u32(&bundle, (uint32_t)((time - secs) * 4294967296.0));
+    put_u32(bundle, (uint32_t)secs);          // NTP: seconds, and a fraction of 2^32
+    put_u32(bundle, (uint32_t)((time - secs) * 4294967296.0));
   }
-  put_u32(&bundle, (uint32_t)message.len);
-  put(&bundle, message.p, message.len);
-  packet.len = 0;
-  put_str(&packet, "/sonic-pi/sound", 15);
-  put_str(&packet, ",iib", 4);
-  put_i32(&packet, synthdef);
-  put_i32(&packet, bufnum);
-  put_u32(&packet, (uint32_t)bundle.len);
-  put(&packet, bundle.p, bundle.len);         // a bundle is a multiple of four already
-  frame(1, &packet);
+  put_u32(bundle, (uint32_t)message->len);
+  put(bundle, message->p, message->len);
+  packet->len = 0;
+  put_str(packet, "/sonic-pi/sound", 15);
+  put_str(packet, ",iib", 4);
+  put_i32(packet, synthdef);
+  put_i32(packet, bufnum);
+  put_u32(packet, (uint32_t)bundle->len);
+  put(packet, bundle->p, bundle->len);        // a bundle is a multiple of four already
+  frame(h, 1, packet);
 }
 
 // Native.s_new(time, synthdef, bufnum, synth, node, opts[, action, target]):
@@ -307,13 +369,14 @@ static mrb_value native_s_new(mrb_state *m, mrb_value self) {
   const char *synth;
   mrb_value opts;
   mrb_get_args(m, "fiiziH|ii", &time, &synthdef, &bufnum, &synth, &node, &opts, &action, &target);
-  begin_message("siii");
-  put_str(&data, synth, strlen(synth));
-  put_i32(&data, node);
-  put_i32(&data, action);
-  put_i32(&data, target);
+  sp_host *h = host_of(m);
+  begin_message(h, "siii");
+  put_str(&h->data, synth, strlen(synth));
+  put_i32(&h->data, node);
+  put_i32(&h->data, action);
+  put_i32(&h->data, target);
   mrb_hash_foreach(m, mrb_hash_ptr(opts), put_opt, &bufnum);
-  send_sound(time, "/s_new", synthdef, bufnum);
+  send_sound(h, time, "/s_new", synthdef, bufnum);
   return mrb_nil_value();
 }
 
@@ -324,11 +387,12 @@ static mrb_value native_n_set(mrb_state *m, mrb_value self) {
   mrb_int bufnum, node;
   mrb_value opts;
   mrb_get_args(m, "fiiH", &time, &bufnum, &node, &opts);
-  begin_message("i");
-  put_i32(&data, node);
+  sp_host *h = host_of(m);
+  begin_message(h, "i");
+  put_i32(&h->data, node);
   mrb_hash_foreach(m, mrb_hash_ptr(opts), put_opt, &bufnum);
-  if (tags.len == 2) return mrb_false_value();
-  send_sound(time, "/n_set", -1, bufnum);
+  if (h->tags.len == 2) return mrb_false_value();
+  send_sound(h, time, "/n_set", -1, bufnum);
   return mrb_true_value();
 }
 
@@ -337,9 +401,10 @@ static mrb_value native_n_free(mrb_state *m, mrb_value self) {
   mrb_float time;
   mrb_int node;
   mrb_get_args(m, "fi", &time, &node);
-  begin_message("i");
-  put_i32(&data, node);
-  send_sound(time, "/n_free", -1, -1);
+  sp_host *h = host_of(m);
+  begin_message(h, "i");
+  put_i32(&h->data, node);
+  send_sound(h, time, "/n_free", -1, -1);
   return mrb_nil_value();
 }
 
@@ -348,9 +413,10 @@ static mrb_value native_g_free_all(mrb_state *m, mrb_value self) {
   mrb_float time;
   mrb_int group;
   mrb_get_args(m, "fi", &time, &group);
-  begin_message("i");
-  put_i32(&data, group);
-  send_sound(time, "/g_freeAll", -1, -1);
+  sp_host *h = host_of(m);
+  begin_message(h, "i");
+  put_i32(&h->data, group);
+  send_sound(h, time, "/g_freeAll", -1, -1);
   return mrb_nil_value();
 }
 
@@ -359,10 +425,11 @@ static mrb_value native_n_run(mrb_state *m, mrb_value self) {
   mrb_float time;
   mrb_int node, flag;
   mrb_get_args(m, "fii", &time, &node, &flag);
-  begin_message("ii");
-  put_i32(&data, node);
-  put_i32(&data, flag);
-  send_sound(time, "/n_run", -1, -1);
+  sp_host *h = host_of(m);
+  begin_message(h, "ii");
+  put_i32(&h->data, node);
+  put_i32(&h->data, flag);
+  send_sound(h, time, "/n_run", -1, -1);
   return mrb_nil_value();
 }
 
@@ -371,11 +438,12 @@ static mrb_value native_g_new(mrb_state *m, mrb_value self) {
   mrb_float time;
   mrb_int group, action, target;
   mrb_get_args(m, "fiii", &time, &group, &action, &target);
-  begin_message("iii");
-  put_i32(&data, group);
-  put_i32(&data, action);
-  put_i32(&data, target);
-  send_sound(time, "/g_new", -1, -1);
+  sp_host *h = host_of(m);
+  begin_message(h, "iii");
+  put_i32(&h->data, group);
+  put_i32(&h->data, action);
+  put_i32(&h->data, target);
+  send_sound(h, time, "/g_new", -1, -1);
   return mrb_nil_value();
 }
 
@@ -385,11 +453,12 @@ static mrb_value native_n_order(mrb_state *m, mrb_value self) {
   mrb_float time;
   mrb_int action, target, node;
   mrb_get_args(m, "fiii", &time, &action, &target, &node);
-  begin_message("iii");
-  put_i32(&data, action);
-  put_i32(&data, target);
-  put_i32(&data, node);
-  send_sound(time, "/n_order", -1, -1);
+  sp_host *h = host_of(m);
+  begin_message(h, "iii");
+  put_i32(&h->data, action);
+  put_i32(&h->data, target);
+  put_i32(&h->data, node);
+  send_sound(h, time, "/n_order", -1, -1);
   return mrb_nil_value();
 }
 
@@ -398,12 +467,14 @@ static mrb_value native_host(mrb_state *m, mrb_value self) {
   const char *address, *name;
   mrb_int number;
   mrb_get_args(m, "ziz", &address, &number, &name);
-  packet.len = 0;
-  put_str(&packet, address, strlen(address));
-  put_str(&packet, ",is", 3);
-  put_i32(&packet, number);
-  put_str(&packet, name, strlen(name));
-  frame(2, &packet);
+  sp_host *h = host_of(m);
+  sp_bytes *packet = &h->packet;
+  packet->len = 0;
+  put_str(packet, address, strlen(address));
+  put_str(packet, ",is", 3);
+  put_i32(packet, number);
+  put_str(packet, name, strlen(name));
+  frame(h, 2, packet);
   return mrb_nil_value();
 }
 
@@ -437,46 +508,47 @@ static int put_pair(mrb_state *m, mrb_value key, mrb_value val, void *ud) {
 }
 
 // a string up to any NUL in it: OSC strings end at the first
-static void put_string_value(const char *s, mrb_int len) {
-  put_tag('s');
-  put_str(&data, s, strnlen(s, (size_t)len));
+static void put_string_value(sp_host *h, const char *s, mrb_int len) {
+  put_tag(h, 's');
+  put_str(&h->data, s, strnlen(s, (size_t)len));
 }
 
 static void put_value(mrb_state *m, mrb_value v, int depth) {
-  if (mrb_nil_p(v)) put_tag('N');
-  else if (mrb_type(v) == MRB_TT_FALSE) put_tag('F');
-  else if (mrb_type(v) == MRB_TT_TRUE) put_tag('T');
+  sp_host *h = host_of(m);
+  if (mrb_nil_p(v)) put_tag(h, 'N');
+  else if (mrb_type(v) == MRB_TT_FALSE) put_tag(h, 'F');
+  else if (mrb_type(v) == MRB_TT_TRUE) put_tag(h, 'T');
   else if (mrb_float_p(v)) {
     double d = mrb_float(v);
-    if (isfinite(d)) { put_tag('d'); put_f64(&data, d); }
-    else put_tag('N');
+    if (isfinite(d)) { put_tag(h, 'd'); put_f64(&h->data, d); }
+    else put_tag(h, 'N');
   } else if (mrb_integer_p(v)) {
     mrb_int i = mrb_integer(v);
-    if (i >= INT32_MIN && i <= INT32_MAX) { put_tag('i'); put_i32(&data, i); }
+    if (i >= INT32_MIN && i <= INT32_MAX) { put_tag(h, 'i'); put_i32(&h->data, i); }
     else {
       uint64_t u = (uint64_t)(int64_t)i;
-      put_tag('h');
-      put_u32(&data, (uint32_t)(u >> 32));
-      put_u32(&data, (uint32_t)u);
+      put_tag(h, 'h');
+      put_u32(&h->data, (uint32_t)(u >> 32));
+      put_u32(&h->data, (uint32_t)u);
     }
   } else if (mrb_string_p(v)) {
-    put_string_value(RSTRING_PTR(v), RSTRING_LEN(v));
+    put_string_value(h, RSTRING_PTR(v), RSTRING_LEN(v));
   } else if (mrb_symbol_p(v)) {
     mrb_int len;
     const char *s = mrb_sym_name_len(m, mrb_symbol(v), &len);
-    put_string_value(s, len);
+    put_string_value(h, s, len);
   } else if (depth < 8 && mrb_array_p(v)) {
-    put_tag('[');
+    put_tag(h, '[');
     for (mrb_int i = 0; i < RARRAY_LEN(v); i++) put_value(m, RARRAY_PTR(v)[i], depth + 1);
-    put_tag(']');
+    put_tag(h, ']');
   } else if (depth < 8 && mrb_hash_p(v)) {
     int next = depth + 1;
-    put_tag('[');
+    put_tag(h, '[');
     mrb_hash_foreach(m, mrb_hash_ptr(v), put_pair, &next);
-    put_tag(']');
+    put_tag(h, ']');
   } else {
     mrb_value s = mrb_obj_as_string(m, v);
-    put_string_value(RSTRING_PTR(s), RSTRING_LEN(s));
+    put_string_value(h, RSTRING_PTR(s), RSTRING_LEN(s));
   }
 }
 
@@ -489,35 +561,39 @@ static mrb_value native_gui(mrb_state *m, mrb_value self) {
   mrb_value line;
   const mrb_value *fields;
   mrb_get_args(m, "nifio*!", &kind, &uid, &time, &job, &line, &fields, &n);
-  tags.len = 0;
-  data.len = 0;
-  put_tag(',');
-  put_tag('i'); put_i32(&data, uid);
-  put_tag('d'); put_f64(&data, time);
-  put_tag('i'); put_i32(&data, job);
-  if (mrb_integer_p(line)) { put_tag('i'); put_i32(&data, mrb_integer(line)); }
-  else put_tag('N');
+  sp_host *h = host_of(m);
+  h->tags.len = 0;
+  h->data.len = 0;
+  put_tag(h, ',');
+  put_tag(h, 'i'); put_i32(&h->data, uid);
+  put_tag(h, 'd'); put_f64(&h->data, time);
+  put_tag(h, 'i'); put_i32(&h->data, job);
+  if (mrb_integer_p(line)) { put_tag(h, 'i'); put_i32(&h->data, mrb_integer(line)); }
+  else put_tag(h, 'N');
   for (mrb_int i = 0; i < n; i++) put_value(m, fields[i], 0);
   mrb_int len;
   const char *name = mrb_sym_name_len(m, kind, &len);
-  packet.len = 0;
-  put(&packet, "/sonic-pi/", 10);
-  put(&packet, name, (size_t)len);
-  put(&packet, nul, 4 - (10 + (size_t)len) % 4);
-  put_str(&packet, (const char *)tags.p, tags.len);
-  put(&packet, data.p, data.len);
-  frame(3, &packet);
+  sp_bytes *packet = &h->packet;
+  packet->len = 0;
+  put(packet, "/sonic-pi/", 10);
+  put(packet, name, (size_t)len);
+  put(packet, nul, 4 - (10 + (size_t)len) % 4);
+  put_str(packet, (const char *)h->tags.p, h->tags.len);
+  put(packet, h->data.p, h->data.len);
+  frame(h, 3, packet);
   return mrb_nil_value();
 }
 
-static mrb_value live_module(void) {
+static mrb_value live_module(mrb_state *mrb) {
   struct RClass *sonic_pi = mrb_module_get(mrb, "SonicPi");
   return mrb_obj_value(mrb_module_get_under(mrb, sonic_pi, "Live"));
 }
 
 // Starts (or restarts) a live session. Returns 0 when ready.
 SP_EXPORT int sp_live_boot(void) {
-  outbox.len = 0;
+  if (!current) return 1;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   struct RClass *sonic_pi = mrb_module_get(mrb, "SonicPi");
   struct RClass *native = mrb_define_module_under(mrb, sonic_pi, "Native");
   mrb_define_module_function(mrb, native, "gui", native_gui, MRB_ARGS_ANY());
@@ -532,76 +608,90 @@ SP_EXPORT int sp_live_boot(void) {
   mrb_define_module_function(mrb, native, "n_order", native_n_order, MRB_ARGS_REQ(4));
   mrb_define_module_function(mrb, native, "host", native_host, MRB_ARGS_REQ(3));
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "boot_native", 0);
+  mrb_funcall(mrb, live_module(mrb), "boot_native", 0);
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) { report_exception("booting live"); return 1; }
+  if (mrb->exc) { report_exception(mrb, "booting live"); return 1; }
   return 0;
 }
 
 // Runs a program as a new job starting at now (the host's clock, seconds).
 // Its head runs at once, up to its first sleep. Returns the job id, or -1.
 SP_EXPORT int sp_run(const char *code, double now) {
-  outbox.len = 0;
+  if (!current) return -1;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_value id = mrb_funcall(mrb, live_module(), "run", 2, mrb_str_new_cstr(mrb, code), mrb_float_value(mrb, now));
+  mrb_value id = mrb_funcall(mrb, live_module(mrb), "run", 2, mrb_str_new_cstr(mrb, code), mrb_float_value(mrb, now));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) { report_exception("running"); return -1; }
+  if (mrb->exc) { report_exception(mrb, "running"); return -1; }
   return (int)mrb_integer(id);
 }
 
 // A run in a group (Scheduler#stop_group stops a group as one): the job's id, or -1.
 SP_EXPORT int sp_run_group(const char *code, double now, int group) {
-  outbox.len = 0;
+  if (!current) return -1;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_value id = mrb_funcall(mrb, live_module(), "run", 3, mrb_str_new_cstr(mrb, code), mrb_float_value(mrb, now), mrb_int_value(mrb, group));
+  mrb_value id = mrb_funcall(mrb, live_module(mrb), "run", 3, mrb_str_new_cstr(mrb, code), mrb_float_value(mrb, now), mrb_int_value(mrb, group));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) { report_exception("running"); return -1; }
+  if (mrb->exc) { report_exception(mrb, "running"); return -1; }
   return (int)mrb_integer(id);
 }
 
 // A group stops: its threads now, its sounds turned down over `fade` seconds and freed as the fade ends.
 SP_EXPORT void sp_stop_group(int group, double fade, double now) {
-  outbox.len = 0;
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "stop_group", 3, mrb_int_value(mrb, group), mrb_float_value(mrb, fade), mrb_float_value(mrb, now));
+  mrb_funcall(mrb, live_module(mrb), "stop_group", 3, mrb_int_value(mrb, group), mrb_float_value(mrb, fade), mrb_float_value(mrb, now));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("stopping a group");
+  if (mrb->exc) report_exception(mrb, "stopping a group");
 }
 
 // A subtree stops: a thread (a run's, a live loop's) with everything under it, or an fx block's threads and sounds.
 SP_EXPORT void sp_stop_subtree(int uid, double fade, double now) {
-  outbox.len = 0;
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "stop_subtree", 3, mrb_int_value(mrb, uid), mrb_float_value(mrb, fade), mrb_float_value(mrb, now));
+  mrb_funcall(mrb, live_module(mrb), "stop_subtree", 3, mrb_int_value(mrb, uid), mrb_float_value(mrb, fade), mrb_float_value(mrb, now));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("stopping a subtree");
+  if (mrb->exc) report_exception(mrb, "stopping a subtree");
 }
 
 // A run stops, by its job, as a subtree: what is under it in the tree now, a loop it redefined among it.
 SP_EXPORT void sp_stop_run(int job, double fade, double now) {
-  outbox.len = 0;
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "stop_run", 3, mrb_int_value(mrb, job), mrb_float_value(mrb, fade), mrb_float_value(mrb, now));
+  mrb_funcall(mrb, live_module(mrb), "stop_run", 3, mrb_int_value(mrb, job), mrb_float_value(mrb, fade), mrb_float_value(mrb, now));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("stopping a run");
+  if (mrb->exc) report_exception(mrb, "stopping a run");
 }
 
 // A group sits under another: stopping the parent stops it too.
 SP_EXPORT void sp_group_under(int group, int parent) {
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "group_under", 2, mrb_int_value(mrb, group), mrb_int_value(mrb, parent));
+  mrb_funcall(mrb, live_module(mrb), "group_under", 2, mrb_int_value(mrb, group), mrb_int_value(mrb, parent));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("nesting a group");
+  if (mrb->exc) report_exception(mrb, "nesting a group");
 }
 
 // Runs every thread due by now. Returns when to call again on the same
 // clock, or -1 when nothing is waiting.
 SP_EXPORT double sp_tick(double now) {
-  outbox.len = 0;
+  if (!current) return -1;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_value next = mrb_funcall(mrb, live_module(), "tick", 1, mrb_float_value(mrb, now));
+  mrb_value next = mrb_funcall(mrb, live_module(mrb), "tick", 1, mrb_float_value(mrb, now));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) { report_exception("ticking"); return -1; }
+  if (mrb->exc) { report_exception(mrb, "ticking"); return -1; }
   if (mrb_nil_p(next)) return -1;
   return mrb_float_p(next) ? mrb_float(next) : (double)mrb_integer(next);
 }
@@ -610,58 +700,70 @@ SP_EXPORT double sp_tick(double now) {
 // whose sleep takes it past this many seconds of its run's logical time
 // stops there, as in a trace. Negative clears it; the app never sets one.
 SP_EXPORT void sp_live_stop_after(double seconds) {
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "stop_after=", 1, seconds < 0 ? mrb_nil_value() : mrb_float_value(mrb, seconds));
+  mrb_funcall(mrb, live_module(mrb), "stop_after=", 1, seconds < 0 ? mrb_nil_value() : mrb_float_value(mrb, seconds));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("setting the horizon");
+  if (mrb->exc) report_exception(mrb, "setting the horizon");
 }
 
 // Link's tempo, from the page (its Link strip, tap tempo): it changes at `at`
 // on the host's clock (as it sounds), as a program's set_link_bpm! does.
 SP_EXPORT void sp_set_link_bpm(double bpm, double at) {
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "set_link_bpm", 2, mrb_float_value(mrb, bpm), mrb_float_value(mrb, at));
+  mrb_funcall(mrb, live_module(mrb), "set_link_bpm", 2, mrb_float_value(mrb, bpm), mrb_float_value(mrb, at));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("setting Link's tempo");
+  if (mrb->exc) report_exception(mrb, "setting Link's tempo");
 }
 
 // A cue from outside the program (MIDI in, a game controller, from the page): its address, its values each
 // tagged with its kind ("i60\x1fi100", "sfake_pad"; adapter.rb host_values), at `now` on the session's clock
 // (Scheduler#external_cue); the syncs waiting on it wake at the next tick.
 SP_EXPORT void sp_cue(const char *address, const char *nums, double now) {
-  outbox.len = 0;   // this call records the cue, so it empties the outbox first, as every filling call does
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;   // this call records the cue, so it empties the outbox first, as every filling call does
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "external_cue", 3, mrb_str_new_cstr(mrb, address), mrb_str_new_cstr(mrb, nums), mrb_float_value(mrb, now));
+  mrb_funcall(mrb, live_module(mrb), "external_cue", 3, mrb_str_new_cstr(mrb, address), mrb_str_new_cstr(mrb, nums), mrb_float_value(mrb, now));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("an incoming cue");
+  if (mrb->exc) report_exception(mrb, "an incoming cue");
 }
 
 // The global time warp, in seconds: every message to the engine that much
 // later, or earlier when negative.
 SP_EXPORT void sp_set_time_warp(double seconds) {
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "time_warp=", 1, mrb_float_value(mrb, seconds));
+  mrb_funcall(mrb, live_module(mrb), "time_warp=", 1, mrb_float_value(mrb, seconds));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("setting the time warp");
+  if (mrb->exc) report_exception(mrb, "setting the time warp");
 }
 
 // The session's schedule-ahead (SonicPi.sched_ahead: DEFAULT_SCHED_AHEAD until set_sched_ahead_time! sets it), for the
 // host to time itself by (live-core.js) without a number of its own that could drift from it.
 SP_EXPORT double sp_sched_ahead(void) {
+  if (!current) return 0.05;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
   mrb_value v = mrb_funcall(mrb, mrb_obj_value(mrb_module_get(mrb, "SonicPi")), "sched_ahead", 0);
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) { report_exception("reading the schedule-ahead"); return 0.05; }
+  if (mrb->exc) { report_exception(mrb, "reading the schedule-ahead"); return 0.05; }
   return mrb_float_p(v) ? mrb_float(v) : mrb_integer_p(v) ? (double)mrb_integer(v) : 0.05;
 }
 
 // The host lost this many seconds (a held page, suspended audio, a clock jump):
 // every pending event moves that much later, as a pause would.
 SP_EXPORT void sp_hold(double seconds) {
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "hold", 1, mrb_float_value(mrb, seconds));
+  mrb_funcall(mrb, live_module(mrb), "hold", 1, mrb_float_value(mrb, seconds));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("holding the schedule");
+  if (mrb->exc) report_exception(mrb, "holding the schedule");
 }
 
 // The process table: every live (or just finished) thread as a fixed row of
@@ -669,78 +771,98 @@ SP_EXPORT void sp_hold(double seconds) {
 // array. Row layout is web/sonic_pi.js's PROCESS_FIELDS. Returns the buffer;
 // sp_process_table_len says how many doubles it holds. Valid until the next
 // call.
-static double *table_buf;
-static mrb_int table_cap, table_len;
 SP_EXPORT const double *sp_process_table(double now) {
+  if (!current) return NULL;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_value rows = mrb_funcall(mrb, live_module(), "process_table", 1, mrb_float_value(mrb, now));
-  table_len = 0;
+  mrb_value rows = mrb_funcall(mrb, live_module(mrb), "process_table", 1, mrb_float_value(mrb, now));
+  sp_host *h = current;
+  h->table_len = 0;
   if (mrb->exc) {
-    report_exception("process table");
+    report_exception(mrb, "process table");
   } else if (mrb_array_p(rows)) {
     mrb_int n = RARRAY_LEN(rows);
-    if (n > table_cap) {
-      table_cap = n * 2;
-      table_buf = realloc(table_buf, sizeof(double) * (size_t)table_cap);
+    if (n > h->table_cap) {
+      h->table_cap = n * 2;
+      h->table_buf = realloc(h->table_buf, sizeof(double) * (size_t)h->table_cap);
     }
     for (mrb_int i = 0; i < n; i++) {
       mrb_value v = RARRAY_PTR(rows)[i];
-      table_buf[i] = mrb_float_p(v) ? mrb_float(v) : mrb_integer_p(v) ? (double)mrb_integer(v) : -1.0;
+      h->table_buf[i] = mrb_float_p(v) ? mrb_float(v) : mrb_integer_p(v) ? (double)mrb_integer(v) : -1.0;
     }
-    table_len = n;
+    h->table_len = n;
   }
   mrb_gc_arena_restore(mrb, ai);
-  return table_buf;
+  return h->table_buf;
 }
 
-SP_EXPORT int sp_process_table_len(void) { return (int)table_len; }
+SP_EXPORT int sp_process_table_len(void) {
+  if (!current) return 0;
+  return (int)current->table_len;
+}
 
 // One job stops where it stands; the others carry on.
 SP_EXPORT void sp_stop_job(int job) {
-  outbox.len = 0;
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "stop_job", 1, mrb_int_value(mrb, job));
+  mrb_funcall(mrb, live_module(mrb), "stop_job", 1, mrb_int_value(mrb, job));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("stopping a job");
+  if (mrb->exc) report_exception(mrb, "stopping a job");
 }
 
 // Every job stops where it stands. Nothing goes to the engine: the host empties its schedule, then sp_silence.
 SP_EXPORT void sp_stop_all(void) {
-  outbox.len = 0;
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "stop_all", 0);
+  mrb_funcall(mrb, live_module(mrb), "stop_all", 0);
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("stopping");
+  if (mrb->exc) report_exception(mrb, "stopping");
 }
 
 // After a Stop, once the host has emptied the engine's schedule: what the runs are sounding fades out over `fade`
 // seconds and goes, and the studio stays. `since`: the engine's clock before the schedule was emptied.
 SP_EXPORT void sp_silence(double fade, double since, double now) {
-  outbox.len = 0;
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
+  current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "silence", 3, mrb_float_value(mrb, fade), mrb_float_value(mrb, since), mrb_float_value(mrb, now));
+  mrb_funcall(mrb, live_module(mrb), "silence", 3, mrb_float_value(mrb, fade), mrb_float_value(mrb, since), mrb_float_value(mrb, now));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("silencing");
+  if (mrb->exc) report_exception(mrb, "silencing");
 }
 
 // The engine was made again (a recovery rebuilt it): nothing the runtime made in the old one is in it.
 SP_EXPORT void sp_engine_lost(void) {
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
-  mrb_funcall(mrb, live_module(), "engine_lost", 0);
+  mrb_funcall(mrb, live_module(mrb), "engine_lost", 0);
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) report_exception("forgetting the engine");
+  if (mrb->exc) report_exception(mrb, "forgetting the engine");
 }
 
 // The audio stream the last call left (see "The audio stream"): where it
 // starts on the heap, and how many bytes it holds.
-SP_EXPORT const uint8_t *sp_out_ptr(void) { return outbox.p; }
-SP_EXPORT int sp_out_len(void) { return (int)outbox.len; }
+SP_EXPORT const uint8_t *sp_out_ptr(void) {
+  if (!current) return NULL;
+  return current->outbox.p;
+}
+SP_EXPORT int sp_out_len(void) {
+  if (!current) return 0;
+  return (int)current->outbox.len;
+}
 
 // The synthdef a built-in synth (fx = 0) or fx (fx = 1) plays, by the name a program uses for it: what the runtime
 // itself asks the engine for, so a host preloading a program's synths loads those and not a guess (:sine plays
 // sonic-pi-beep). "" for a name that is not built in: a program's own synths are loaded from where it says.
 SP_EXPORT const char *sp_synthdef_for(const char *name, int fx) {
-  static char out[128];
+  if (!current) return "";
+  mrb_state *mrb = current->mrb;
+  char *out = current->synthdef;
   out[0] = 0;
   int ai = mrb_gc_arena_save(mrb);
   struct RClass *data = mrb_module_get_under(mrb, mrb_module_get(mrb, "SonicPi"), "Data");
@@ -750,7 +872,7 @@ SP_EXPORT const char *sp_synthdef_for(const char *name, int fx) {
       && !mrb_test(mrb_hash_get(mrb, info, mrb_symbol_value(mrb_intern_lit(mrb, "metadata"))))
       && !mrb_test(mrb_hash_get(mrb, info, mrb_symbol_value(mrb_intern_lit(mrb, "external"))))) {
     mrb_value n = mrb_hash_get(mrb, info, mrb_symbol_value(mrb_intern_lit(mrb, "scsynth_name")));
-    if (mrb_string_p(n)) snprintf(out, sizeof out, "%s", mrb_str_to_cstr(mrb, n));
+    if (mrb_string_p(n)) snprintf(out, sizeof current->synthdef, "%s", mrb_str_to_cstr(mrb, n));
   }
   mrb_gc_arena_restore(mrb, ai);
   return out;
@@ -759,11 +881,13 @@ SP_EXPORT const char *sp_synthdef_for(const char *name, int fx) {
 // A sample file's engine buffer number, numbering it if it has none: for a
 // host that loads samples before a program asks for them. -1 on failure.
 SP_EXPORT int sp_buffer_for(const char *file) {
+  if (!current) return -1;
+  mrb_state *mrb = current->mrb;
   int ai = mrb_gc_arena_save(mrb);
   struct RClass *sonic_pi = mrb_module_get(mrb, "SonicPi");
   mrb_value ids = mrb_obj_value(mrb_module_get_under(mrb, sonic_pi, "EngineIds"));
   mrb_value n = mrb_funcall(mrb, ids, "claim_buffer", 1, mrb_str_new_cstr(mrb, file));
   mrb_gc_arena_restore(mrb, ai);
-  if (mrb->exc) { report_exception("numbering a buffer"); return -1; }
+  if (mrb->exc) { report_exception(mrb, "numbering a buffer"); return -1; }
   return (int)mrb_integer(n);
 }
