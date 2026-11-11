@@ -12,13 +12,15 @@
 //++
 
 // The code has one size, every buffer's, and the log and the cues are that size less the points chosen in Preferences
-// (MainWindow::applyLogSize). These pin the editor's side of it, one range for every way it is set, the log's, and the
-// controls Preferences and the View menu both offer for them (textsizes.h).
+// (MainWindow::applyLogSize). These pin the editor's side of it, one range for every way it is set, the log's, the
+// help's text size (MainWindow::setHelpZoom), and the controls Preferences and the View menu offer for them
+// (textsizes.h).
 
 #include <catch2/catch_test_macros.hpp>
 
 #include <QAction>
 #include <QApplication>
+#include <QPlainTextEdit>
 #include <QPushButton>
 #include <QSettings>
 #include <QSlider>
@@ -33,7 +35,12 @@
 #include "widgets/sonicpilexer.h"
 #include "widgets/sonicpilog.h"
 #include "widgets/sonicpiscintilla.h"
+#include "dpi.h"
+#include "utils/tutorialdocs.h"
+#include "widgets/logpanel.h"
 #include "widgets/textsizes.h"
+#include "widgets/tutorialpane.h"
+#include "widgets/tutorialwidgets.h"
 
 namespace {
 
@@ -223,4 +230,52 @@ TEST_CASE("a size row's slider keeps its length and place whatever its reading s
     QApplication::processEvents();
     CHECK(at(log) == wide);
     CHECK(at(code).left() == at(log).left());
+}
+
+TEST_CASE("the help's text size reads in points, as the help's text is drawn", "[codesize][helpsize]")
+{
+    SonicPiTheme theme(nullptr, "", QStringLiteral(SP_ROOT));
+    qApp->setStyleSheet(theme.getAppStylesheet());
+    TutorialPane pane(&theme);
+    pane.resize(800, 600);
+    pane.loadChapter(SonicPi::TutorialDocs::chapterFromJson(R"({"title":"1 Words","blocks":[{"type":"prose","html":"<p>Words.</p>"}]})"),
+                     QString(), "Before", "After");
+    pane.show();
+    for (int zoom : { kFontZoomMin, 0, 3, kFontZoomMax })
+    {
+        pane.setUserZoom(zoom);
+        QApplication::processEvents();
+        QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);   // the page before the rebuild
+        TutProseText* words = pane.findChild<TutProseText*>("tutProse");
+        REQUIRE(words);
+        words->ensurePolished();
+        CHECK(TextSizes::helpSizeText(zoom) == QString("%1 pt").arg(words->font().pointSize()));
+    }
+    CHECK(TextSizes::helpSizeText(0) == "13 pt");
+}
+
+TEST_CASE("the help's Reset in Preferences puts its text back to its usual size", "[codesize][helpsize]")
+{
+    SizeRow row(QStringLiteral("Help text size"), kFontZoomMin, kFontZoomMax, &TextSizes::helpSizeText);
+    QPushButton* reset = row.addReset(TutorialPane::kDefaultZoom, QStringLiteral("Reset help text size"));
+    std::vector<int> chosen;
+    QObject::connect(&row, &SizeRow::chosen, [&](int v) { chosen.push_back(v); });
+    row.setValue(kFontZoomMax);
+    reset->click();
+    CHECK(chosen == std::vector<int>{ TutorialPane::kDefaultZoom });
+    CHECK(row.reading() == "13 pt");
+}
+
+TEST_CASE("the help's Logs tab follows the help's text size, on the panes' one curve", "[codesize][helpsize]")
+{
+    LogPanel panel({ { QStringLiteral("GUI"), QStringLiteral("/nonexistent/gui.log") },
+                     { QStringLiteral("Server"), QStringLiteral("/nonexistent/server.log") } });
+    const auto edits = panel.findChildren<QPlainTextEdit*>();
+    REQUIRE(edits.size() == 2);
+    for (int zoom : { kFontZoomMin, 0, 3, kFontZoomMax })
+    {
+        panel.setUserZoom(zoom);
+        for (QPlainTextEdit* e : edits)
+            CHECK(e->font().pointSize() == std::max(5, qRound(7 * FontZoomFactor(zoom))));   // 7 pt at the usual size
+    }
 }

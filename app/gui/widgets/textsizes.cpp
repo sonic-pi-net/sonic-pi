@@ -25,6 +25,7 @@
 
 #include "sonicpilexer.h"
 #include "sonicpilog.h"
+#include "tutorialpane.h"
 
 QString TextSizes::codeSizeText(int zoom)
 {
@@ -34,6 +35,11 @@ QString TextSizes::codeSizeText(int zoom)
 QString TextSizes::logSizeText(int smaller)
 {
     return smaller == 0 ? QObject::tr("Same as the code") : QObject::tr("%n pt smaller", nullptr, smaller);
+}
+
+QString TextSizes::helpSizeText(int zoom)
+{
+    return QObject::tr("%1 pt").arg(TutorialPane::textPt(zoom));
 }
 
 SizeRow::SizeRow(const QString& name, int min, int max, QString (*reading)(int), bool inverted, QWidget* parent)

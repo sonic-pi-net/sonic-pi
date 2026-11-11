@@ -71,8 +71,8 @@ public:
 
     void applyTheme(const QColor& textColor, const QColor& bgColor);
 
-    // Text size: a point-size offset from the 7pt base. The app leaves it at 0; the tests set other sizes.
-    void setFontZoom(int level);
+    // The text this many 1.1× steps (FontZoomFactor) from its usual 7 pt: the help's text size (MainWindow::setHelpZoom)
+    void setUserZoom(int zoom);
 
     // Add a non-log tab (e.g. the live metrics panel). It is not backed by
     // LogTailers, so all tailers are stopped while it is shown.

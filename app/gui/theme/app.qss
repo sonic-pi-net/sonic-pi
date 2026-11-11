@@ -1356,7 +1356,7 @@ QTableWidget#linkPeersTable::item
     padding: 1dx 8dx;
 }
 
-QSlider#timeWarpSlider, QSlider#logSizeSlider, QSlider#codeSizeSlider
+QSlider#timeWarpSlider, QSlider#logSizeSlider, QSlider#codeSizeSlider, QSlider#helpSizeSlider
 {
 min-height: 20dx;
 min-width: 80dx;
@@ -1385,14 +1385,14 @@ QSlider#driveSlider::groove:horizontal {
     border-radius: radiusSmall;
 }
 
-QSlider#timeWarpSlider::groove:horizontal, QSlider#logSizeSlider::groove:horizontal, QSlider#codeSizeSlider::groove:horizontal {
+QSlider#timeWarpSlider::groove:horizontal, QSlider#logSizeSlider::groove:horizontal, QSlider#codeSizeSlider::groove:horizontal, QSlider#helpSizeSlider::groove:horizontal {
     height: 4dx; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
     background: windowBorderColor;
     margin: 2dx 0;
 
 }
 
-QSlider#timeWarpSlider::handle:horizontal, QSlider#driveSlider::handle:horizontal, QSlider#logSizeSlider::handle:horizontal, QSlider#codeSizeSlider::handle:horizontal {
+QSlider#timeWarpSlider::handle:horizontal, QSlider#driveSlider::handle:horizontal, QSlider#logSizeSlider::handle:horizontal, QSlider#codeSizeSlider::handle:horizontal, QSlider#helpSizeSlider::handle:horizontal {
     background: highlightedBackgroundColor;
     width: 18dx;
     height: 25dx;
@@ -1401,11 +1401,11 @@ QSlider#timeWarpSlider::handle:horizontal, QSlider#driveSlider::handle:horizonta
     border-radius: radiusSmall;
 }
 
-QSlider#timeWarpSlider::handle:horizontal:hover, QSlider#driveSlider::handle:horizontal:hover, QSlider#logSizeSlider::handle:horizontal:hover, QSlider#codeSizeSlider::handle:horizontal:hover {
+QSlider#timeWarpSlider::handle:horizontal:hover, QSlider#driveSlider::handle:horizontal:hover, QSlider#logSizeSlider::handle:horizontal:hover, QSlider#codeSizeSlider::handle:horizontal:hover, QSlider#helpSizeSlider::handle:horizontal:hover {
     background: hoverButtonColor;
 }
 
-QSlider#timeWarpSlider::handle:horizontal:focus, QSlider#driveSlider::handle:horizontal:focus, QSlider#logSizeSlider::handle:horizontal:focus, QSlider#codeSizeSlider::handle:horizontal:focus {
+QSlider#timeWarpSlider::handle:horizontal:focus, QSlider#driveSlider::handle:horizontal:focus, QSlider#logSizeSlider::handle:horizontal:focus, QSlider#codeSizeSlider::handle:horizontal:focus, QSlider#helpSizeSlider::handle:horizontal:focus {
     background: hoverButtonColor;
 }
 

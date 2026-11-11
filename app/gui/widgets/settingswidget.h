@@ -193,9 +193,10 @@ signals:
     void showCompletionHelpChanged();
     void showLogChanged();
     void showCuesChanged();
-    // a size chosen here (MainWindow::setCodeZoom, setLogSmaller)
+    // a size chosen here (MainWindow::setCodeZoom, setLogSmaller, setHelpZoom)
     void codeSizeChosen(int zoom);
     void logSizeChosen(int smaller);
+    void helpSizeChosen(int zoom);
     void showMetroChanged();
     void showButtonsChanged();
     void showEditorToolbarChanged();
@@ -299,6 +300,7 @@ private:
     QCheckBox *log_auto_scroll;
     SizeRow *code_size_row = nullptr;
     SizeRow *log_size_row = nullptr;
+    SizeRow *help_size_row = nullptr;
     QCheckBox *enable_external_synths_cb;
     QCheckBox *synth_trigger_timing_guarantees_cb;
     QCheckBox *show_line_numbers;

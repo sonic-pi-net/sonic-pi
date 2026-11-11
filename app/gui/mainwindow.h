@@ -65,6 +65,7 @@ class TutorialPane;
 class IconTabWidget;
 class SharePanel;
 class LogSizeMenu;
+class ZoomBar;
 
 namespace SonicPi
 {
@@ -809,10 +810,13 @@ private:
     bool i18n;
     static const int workspace_max = 10;
     SonicPiScintilla* workspaces[workspace_max];
-    // The code's size, every buffer's one, and how far under it the log and the cues are: changed only here, from the
-    // keys, the View menu or Preferences, which then show it (piSettings->code_zoom, log_smaller).
+    // The code's size, every buffer's one, how far under it the log and the cues are, and the help's text size:
+    // changed only here, from the keys, the help's buttons, the View menu or Preferences, which then show it
+    // (piSettings->code_zoom, log_smaller, help_zoom).
     void setCodeZoom(int zoom);
     void setLogSmaller(int smaller);
+    void setHelpZoom(int zoom);
+    ZoomBar* helpZoomBar = nullptr;   // the help's text-size buttons, at the foot of its tab rail on the Docs tab
     void applyLogSize();
     LogSizeMenu* logSizeMenu = nullptr;
     QTabWidget* docsNavTabs = nullptr;
@@ -1042,6 +1046,9 @@ private:
     QAction* textIncAct = nullptr;
     QAction* textDecAct = nullptr;
     QAction* textResetAct = nullptr;
+    QAction* helpTextIncAct = nullptr;
+    QAction* helpTextDecAct = nullptr;
+    QAction* helpTextResetAct = nullptr;
     QAction* scopeAct = nullptr;
     QAction* infoAct = nullptr;
     QAction* helpAct = nullptr;

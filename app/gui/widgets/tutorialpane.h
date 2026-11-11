@@ -82,10 +82,14 @@ public:
     void focusContent();
 
     void applyTheme();
-    // The pane's text and layout this many 1.1× steps from its own size (UiScale). The app leaves it at 0: the
-    // interface's size is the platform's; the tests lay the pane out at other sizes through it.
+    // The pane's text and layout this many 1.1× steps from its own size (UiScale), kFontZoomMin to kFontZoomMax: the
+    // help's text size (MainWindow::setHelpZoom).
+    static constexpr int kDefaultZoom = 0;
     int userZoom() const { return m_userZoom; }
     void setUserZoom(int zoom);
+    // The point size of the help's text at a zoom: what Preferences reads it as (TextSizes::helpSizeText)
+    static constexpr int kTextPt = 13;
+    static int textPt(int zoom);
     // Font multiplier the current zoom step works out to; the docs nav lists
     // track the same figure so the whole help tab scales as one.
     double fontScale() const { return m_fontScale; }

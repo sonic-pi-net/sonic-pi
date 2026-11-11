@@ -122,6 +122,7 @@ using namespace oscpkt; // OSC specific stuff
 #include "widgets/sonicpieditor.h"
 #include "widgets/sonicpilog.h"
 #include "widgets/textsizes.h"
+#include "widgets/zoombar.h"
 #include "widgets/sonicpimetro.h"
 #include "widgets/linkaudiostreamswidget.h"
 #include "widgets/logpanel.h"
@@ -696,6 +697,7 @@ void MainWindow::setupWindowStructure()
     connect(settingsWidget, SIGNAL(showLineNumbersChanged()), this, SLOT(changeShowLineNumbers()));
     connect(settingsWidget, &SettingsWidget::codeSizeChosen, this, &MainWindow::setCodeZoom);
     connect(settingsWidget, &SettingsWidget::logSizeChosen, this, &MainWindow::setLogSmaller);
+    connect(settingsWidget, &SettingsWidget::helpSizeChosen, this, &MainWindow::setHelpZoom);
     connect(settingsWidget, SIGNAL(showAutoCompletionChanged()), this, SLOT(changeShowAutoCompletion()));
     connect(settingsWidget, SIGNAL(showCompletionHelpChanged()), this, SLOT(changeShowCompletionHelp()));
     connect(settingsWidget, SIGNAL(showLogChanged()), this, SLOT(updateLogVisibility()));
@@ -1400,6 +1402,16 @@ void MainWindow::setupWindowStructure()
     connect(southTabs, &QTabWidget::currentChanged, this,
             [syncHelpTitle](int) { syncHelpTitle(); });
     syncHelpTitle();
+
+    // The help's text size, every tab's, has its buttons at the foot of the rail
+    helpZoomBar = new ZoomBar(theme, tr("Help Text Size Up"), tr("Help Text Size Down"), this);
+    connect(helpZoomBar, &ZoomBar::zoomStep, this, [this](int delta) { setHelpZoom(piSettings->help_zoom + delta); });
+    QWidget* helpZoomFoot = new QWidget;
+    QVBoxLayout* helpZoomLayout = new QVBoxLayout(helpZoomFoot);
+    helpZoomLayout->setContentsMargins(0, 0, 0, ScaleHeightForDPI(6));
+    helpZoomLayout->setSpacing(0);
+    helpZoomLayout->addWidget(helpZoomBar, 0, Qt::AlignHCenter);
+    southTabs->setFootWidget(helpZoomFoot);
 
     addDockWidget(Qt::BottomDockWidgetArea, docWidget);
     docWidget->hide();
@@ -4567,6 +4579,22 @@ void MainWindow::setLogSmaller(int smaller)
     emit settingsChanged();
 }
 
+// The help's text size: every tab's, Cards, Docs (its topic lists with it), Logs, Debug and Tracks, on the one curve
+// (FontZoomFactor). The web has none: there the browser's own zoom sizes the whole page, and native has no whole-app
+// size.
+void MainWindow::setHelpZoom(int zoom)
+{
+    piSettings->help_zoom = std::clamp(zoom, kFontZoomMin, kFontZoomMax);
+    quickstartPane->setUserZoom(piSettings->help_zoom);
+    tutorialPane->setUserZoom(piSettings->help_zoom);
+    applyDocsNavZoom();
+    debugLogPanel->setUserZoom(piSettings->help_zoom);
+    metricsPanel->setUserZoom(piSettings->help_zoom);
+    if (tracksPanel)
+        tracksPanel->setUserZoom(piSettings->help_zoom);
+    emit settingsChanged();
+}
+
 // The log and the cues are the code's size less the points chosen (Preferences, the View menu), which the menu ticks.
 void MainWindow::applyLogSize()
 {
@@ -5338,6 +5366,8 @@ void MainWindow::updateColourTheme()
     updateHelpChevronIcons();   // re-tint the help chevrons for the new theme
     updateDocsFilterIcons(); // re-tint the docs filter magnifiers too
     applyDocsNavZoom();      // reassert the zoom over the freshly applied qss
+    if (helpZoomBar)
+        helpZoomBar->applyTheme();
     updateDocsNavMinWidth(); // chip metrics may have changed with the theme
     update();   // repaint separators with the new colours
 
@@ -6546,6 +6576,13 @@ void MainWindow::createToolBar()
     textResetAct = new QAction(tr("Reset Code Size"), this);
     connect(textResetAct, &QAction::triggered, this, [this] { setCodeZoom(SonicPiScintilla::kDefaultZoom); });
 
+    helpTextIncAct = new QAction(tr("Help Text Size Up"), this);
+    connect(helpTextIncAct, &QAction::triggered, this, [this] { setHelpZoom(piSettings->help_zoom + 1); });
+    helpTextDecAct = new QAction(tr("Help Text Size Down"), this);
+    connect(helpTextDecAct, &QAction::triggered, this, [this] { setHelpZoom(piSettings->help_zoom - 1); });
+    helpTextResetAct = new QAction(tr("Reset Help Text Size"), this);
+    connect(helpTextResetAct, &QAction::triggered, this, [this] { setHelpZoom(TutorialPane::kDefaultZoom); });
+
     // The checkable toolbar toggles connect to toggled(), not triggered():
     // assistive technology activates a checkable button by flipping its
     // checked state, which emits toggled but not necessarily triggered — on
@@ -7318,6 +7355,9 @@ void MainWindow::createToolBar()
     logSizeMenu->setSmaller(piSettings->log_smaller);
     connect(logSizeMenu, &LogSizeMenu::chosen, this, &MainWindow::setLogSmaller);
     viewMenu->addMenu(logSizeMenu);
+    viewMenu->addAction(helpTextIncAct);
+    viewMenu->addAction(helpTextDecAct);
+    viewMenu->addAction(helpTextResetAct);
     viewMenu->addSeparator();
     viewMenu->addAction(showLogAct);
     viewMenu->addAction(showCuesAct);
@@ -8007,6 +8047,7 @@ void MainWindow::restoreWindows()
         editorTabWidget->setCurrentIndex(index);
 
     setCodeZoom(piSettings->code_zoom);
+    setHelpZoom(piSettings->help_zoom);
     for (int w = 0; w < workspace_max; w++)
         workspaces[w]->updatePlaceholder();
 
@@ -8075,6 +8116,8 @@ void MainWindow::readSettings()
                                        SonicPiScintilla::kMinZoom, SonicPiScintilla::kMaxZoom);
     piSettings->log_smaller = std::clamp(gui_settings->value("prefs/log-smaller", SonicPiLog::kDefaultSmaller).toInt(),
                                          0, SonicPiLog::kMaxSmaller);
+    piSettings->help_zoom = std::clamp(gui_settings->value("prefs/help-zoom", TutorialPane::kDefaultZoom).toInt(),
+                                       kFontZoomMin, kFontZoomMax);
     piSettings->enable_external_synths = gui_settings->value("prefs/enable-external-synths", false).toBool();
     piSettings->synth_trigger_timing_guarantees = gui_settings->value("prefs/synth-trigger-timing-guarantees", false).toBool();
 
@@ -8200,6 +8243,7 @@ void MainWindow::writeSettings()
     gui_settings->setValue("prefs/log-auto-scroll", piSettings->log_auto_scroll);
     gui_settings->setValue("prefs/show-line-numbers", piSettings->show_line_numbers);
     gui_settings->setValue("prefs/log-smaller", piSettings->log_smaller);
+    gui_settings->setValue("prefs/help-zoom", piSettings->help_zoom);
     gui_settings->setValue("prefs/enable-external-synths", piSettings->enable_external_synths);
     gui_settings->setValue("prefs/synth-trigger-timing-guarantees", piSettings->synth_trigger_timing_guarantees);
     gui_settings->setValue("prefs/mixer-force-mono", piSettings->mixer_force_mono);

@@ -13,8 +13,9 @@
 
 #pragma once
 
-// The code's size and the log's, as Preferences and the View menu both offer them: the same words and the same
-// choices in each. MainWindow::setCodeZoom and setLogSmaller are where either changes; these only show and choose.
+// The code's size, the log's and the help's, as Preferences and the View menu both offer them: the same words and the
+// same choices in each. MainWindow::setCodeZoom, setLogSmaller and setHelpZoom are where they change; these only show
+// and choose.
 
 #include <QList>
 #include <QMenu>
@@ -32,6 +33,8 @@ namespace TextSizes {
 QString codeSizeText(int zoom);
 // "Same as the code", "3 pt smaller": how far under the code's size the log and the cues are
 QString logSizeText(int smaller);
+// "13 pt": the help's text at a zoom (TutorialPane::textPt)
+QString helpSizeText(int zoom);
 }
 
 // A size in Preferences: its name, a slider, the size it reads, and optionally a Reset.

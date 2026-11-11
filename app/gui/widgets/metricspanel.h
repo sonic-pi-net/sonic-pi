@@ -65,9 +65,10 @@ public:
     // OSC/node rendering).
     void applyTheme(SonicPiTheme* theme);
 
-    // Text-size zoom (level is a pixel offset from the 11px base). The whole
-    // panel's font is set by one stylesheet rule, so this just re-themes.
-    void setFontZoom(int level);
+    // The text this many 1.1× steps (FontZoomFactor) from its usual 11px: the
+    // help's text size (MainWindow::setHelpZoom). The whole panel's font is
+    // set by one stylesheet rule, so this just re-themes.
+    void setUserZoom(int zoom);
 
     // Show/hide the card titles (DEBUG / scsynth / Link / …), following the
     // "show pane titles" preference like the dock titles do.
@@ -170,7 +171,7 @@ private:
     SonicPiTheme* m_theme = nullptr;  // active theme, for syntax colours
     // Theme changed while hidden: applyTheme deferred to the next showEvent.
     bool m_themeDirty = false;
-    int m_fontZoom = 0;               // px offset from the 11px base font
+    int m_userZoom = 0;               // steps from the usual 11px font (setUserZoom)
 
     ThinSplitter* m_mainSplit = nullptr; // left (tree + metrics) | right (logs)
     ThinSplitter* m_leftSplit = nullptr; // node tree / metrics

@@ -1005,9 +1005,9 @@ void MetricsPanel::requestSupersonicSummary()
         m_summaryRequested = true;
 }
 
-void MetricsPanel::setFontZoom(int level)
+void MetricsPanel::setUserZoom(int zoom)
 {
-    m_fontZoom = level;
+    m_userZoom = zoom;
     if (m_theme)
         applyTheme(m_theme); // the font size lives in the stylesheet
     // Bigger/smaller text means taller/shorter metric cards: re-pin the metrics
@@ -1062,7 +1062,7 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
         "QFrame#ssCard { border:1px solid %2; border-radius:@radiusMedium; }"
         "QLabel#ssCardTitle { color:%4; padding-bottom:1px; }"
         "QLabel[ssRole=\"rowlabel\"] { color:%3; }")
-        .arg(bg, border, dim, muted, winBorder).arg(gridW).arg(qMax(6, 11 + m_fontZoom));
+        .arg(bg, border, dim, muted, winBorder).arg(gridW).arg(qMax(6, qRound(11 * FontZoomFactor(m_userZoom))));
     // The node tree's Labels switch, as the web's: a small chip with a 2px
     // border in the button colour, lit in the accent while on. Hover and focus
     // take the hover colour, focus last so the keyboard's place always shows.

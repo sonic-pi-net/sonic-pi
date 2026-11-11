@@ -12,23 +12,26 @@
 #include <QTest>
 
 #include "pacer_by_hand.h"
+#include "dpi.h"
 #include "model/sonicpitheme.h"
 #include "widgets/metricslog.h"
 #include "widgets/metricspanel.h"
 #include "widgets/metricvalue.h"
 
-TEST_CASE("metrics panel: its text is the size its zoom asks for", "[metricspanel]")
+TEST_CASE("metrics panel: its text is the size its zoom asks for, on the panes' one curve", "[metricspanel][helpsize]")
 {
     SonicPiTheme theme(nullptr, "", QStringLiteral(SP_ROOT));
     MetricsPanel panel(nullptr);
     panel.resize(900, 600);
     panel.show();
     panel.applyTheme(&theme);
-    const int zoom = -1;
-    panel.setFontZoom(zoom);
+    for (int zoom : { -2, 0, 3 })
+    {
+    panel.setUserZoom(zoom);
     QTest::qWait(50);
 
-    const int wantPx = 11 + zoom;
+    const int wantPx = qRound(11 * FontZoomFactor(zoom));   // 11px at the usual size
+    INFO("zoom " << zoom);
     const auto titles = panel.findChildren<QLabel*>(QStringLiteral("ssCardTitle"));
     REQUIRE(!titles.isEmpty());
     for (QLabel* t : titles)
@@ -51,6 +54,7 @@ TEST_CASE("metrics panel: its text is the size its zoom asks for", "[metricspane
     {
         l->ensurePolished();
         CHECK(QFontInfo(l->font()).pixelSize() == wantPx);
+    }
     }
 }
 

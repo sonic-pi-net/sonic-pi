@@ -1674,6 +1674,11 @@ bool TutorialPane::eventFilter(QObject* obj, QEvent* event)
     return QFrame::eventFilter(obj, event);
 }
 
+int TutorialPane::textPt(int zoom)
+{
+    return qMax(6, qRound(kTextPt * FontZoomFactor(zoom)));   // as the stylesheet's pt() has it
+}
+
 void TutorialPane::setUserZoom(int zoom)
 {
     zoom = qBound(kFontZoomMin, zoom, kFontZoomMax);
@@ -1945,7 +1950,7 @@ void TutorialPane::applyTheme()
         { "@zebraTint", zebraTint.name() },
         { "@zebraHover", zebraHover.name() },
         { "@sigColour", sigColour.name() },
-        { "@proseSize", pt(13) },
+        { "@proseSize", pt(kTextPt) },
         { "@leadSize", pt(16) },
         { "@labelSize", pt(10) },
         { "@boxTint", boxTint.name() },

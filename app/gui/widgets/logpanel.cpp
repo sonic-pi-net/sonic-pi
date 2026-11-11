@@ -2,6 +2,7 @@
 #include "thinsplitter.h"
 #include "dividerpalette.h"
 #include "utils/fontroles.h"
+#include "dpi.h"
 
 #include <QDir>
 #include <QFile>
@@ -232,9 +233,9 @@ LogPanel::LogPanel(const QVector<Source>& sources, QWidget* parent)
     connect(this, &QTabWidget::currentChanged, this, &LogPanel::onCurrentChanged);
 }
 
-void LogPanel::setFontZoom(int level)
+void LogPanel::setUserZoom(int zoom)
 {
-    QFont mono("Hack", qMax(5, 7 + level), -1, false);
+    QFont mono("Hack", qMax(5, qRound(7 * FontZoomFactor(zoom))), -1, false);
     mono.setStyleHint(QFont::Monospace);
     mono.setFixedPitch(true);
     for (QPlainTextEdit* edit : m_edits)

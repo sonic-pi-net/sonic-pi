@@ -54,6 +54,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/tutorialwidgets_a11y.test.cpp
     ${GUI_TESTS_ROOT}/tutorialpane_clip.test.cpp
     ${GUI_TESTS_ROOT}/trackspanel_look.test.cpp
+    ${GUI_TESTS_ROOT}/helprail_look.test.cpp
     ${GUI_TESTS_ROOT}/chevron_look.test.cpp
     ${GUI_TESTS_ROOT}/recorder_limits.test.cpp
     ${GUI_TESTS_ROOT}/recorder_audio_mix.test.cpp
@@ -98,6 +99,8 @@ add_executable(${PROJECT_NAME}
     ${GUI_ROOT}/widgets/sonicpilexer.cpp
     ${GUI_ROOT}/widgets/sonicpilog.cpp
     ${GUI_ROOT}/widgets/textsizes.cpp
+    ${GUI_ROOT}/widgets/zoombar.cpp
+    ${GUI_ROOT}/widgets/logpanel.cpp
     ${GUI_ROOT}/model/sonicpitheme.cpp
     ${GUI_ROOT}/widgets/editortoolbar.cpp
     ${GUI_ROOT}/widgets/findpopup.cpp

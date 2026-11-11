@@ -161,6 +161,8 @@ set(QT_SOURCES
     ${QTAPP_ROOT}/widgets/codecard.cpp
     ${QTAPP_ROOT}/widgets/carddeck.cpp
     ${QTAPP_ROOT}/widgets/quickstartpane.h
+    ${QTAPP_ROOT}/widgets/zoombar.cpp
+    ${QTAPP_ROOT}/widgets/zoombar.h
     ${QTAPP_ROOT}/widgets/scopesampler.h
     ${QTAPP_ROOT}/widgets/cardscope.h
     ${QTAPP_ROOT}/widgets/icontabbar.h

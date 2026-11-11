@@ -98,8 +98,8 @@ public:
 
     void applyTheme(SonicPiTheme* theme);
 
-    // The pane's text and layout this many 1.1× steps from its own size (UiScale). The app leaves it at 0: the
-    // interface's size is the platform's; the tests lay the pane out at other sizes through it.
+    // The pane's text and layout this many 1.1× steps from its own size (UiScale): the help's text size
+    // (MainWindow::setHelpZoom).
     int userZoom() const { return m_userZoom; }
     void setUserZoom(int zoom);
 

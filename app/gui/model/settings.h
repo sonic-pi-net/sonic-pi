@@ -52,6 +52,7 @@ public:
     bool show_cues;
     int code_zoom;     // the code's zoom, every buffer's (MainWindow::setCodeZoom)
     int log_smaller;   // points under the code's size the log and the cues are drawn at (SonicPiLog::followCode)
+    int help_zoom;     // the help's text size, in TutorialPane::setUserZoom's steps (MainWindow::setHelpZoom)
     bool show_buttons;
     bool show_editor_toolbar;
     bool show_tabs;
