@@ -1,0 +1,81 @@
+name: A problem with compiling Sonic Pi
+description: I had a problem when compiling my own build of Sonic Pi from the source code.
+labels: ["triage", "developer experience"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hello! Thank you for wanting to raise an issue for us, so that we know what's not working for you.
+
+        Sorry you're having issues compiling Sonic Pi! We're always working to improve the build experience.
+
+        The core Sonic Pi development team is fairly small and made up of volunteers (with the exception of Sam Aaron, who relies much on crowd-funding) so the more help we can receive to manage, troubleshoot and hopefully fix your issues for you the better - help us to help you! Please follow the checklist below - that way you might not even need to raise an issue after all :smile:
+  - type: checkboxes
+    id: read-troubleshooting-guide
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I've read the [Sonic Pi troubleshooting guide](https://github.com/sonic-pi-net/sonic-pi/wiki/Troubleshooting-Issues) and followed its suggestions where relevant
+          required: true
+  - type: input
+    id: dev-commit
+    attributes:
+      label: Git commit id
+      description: "What was the Git commit id of the code you were trying to compile from?"
+      placeholder: "Example: 00f737e"
+    validations:
+      required: true
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating System
+      description: "What Operating System (and which version) were you using?"
+      placeholder: "Example: Windows 10"
+    validations:
+      required: true
+  - type: textarea
+    id: build-steps
+    attributes:
+      label: What steps did you take to set up and to try to compile Sonic Pi?
+      description: |
+        You can drag related images into the description if you like.
+        When attempting to compile Sonic Pi, what steps did you take?
+        Provide as much detail as possible - such as:
+        - Software dependencies you set up for the build - versions, places they were downloaded from, etc
+        - Any build steps you took that were different to those described in the build guides ([BUILD-LINUX.md](https://github.com/sonic-pi-net/sonic-pi/blob/dev/BUILD-LINUX.md), [BUILD-MAC.md](https://github.com/sonic-pi-net/sonic-pi/blob/dev/BUILD-MAC.md), [BUILD-RASPBERRY-PI.md](https://github.com/sonic-pi-net/sonic-pi/blob/dev/BUILD-RASPBERRY-PI.md) or [BUILD-WINDOWS.md](https://github.com/sonic-pi-net/sonic-pi/blob/dev/BUILD-WINDOWS.md)) - including the order you performed them 
+        For any steps you ran in the command line terminal, write or copy them here. Please use code formatting when you do so - if you're not sure how, please see GitHub's guide: [Quoting code](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#quoting-code).
+
+      placeholder: "Example: I followed BUILD-LINUX.md, installing Qt 6.2.3 from https://www.qt.io/download-thank-you?os=linux&hsLang=en ..."
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: |
+        You can drag related images into the description if you like.
+        Copy the results of the build process here, including errors. If there is an error message that you feel has a clear cause or explanation, you can paste just the error plus a small amount of the messages around it for context. If in doubt however, the more information you can give us the better - such as the entire build process output, in case more detailed investigation is necessary.
+      placeholder: |
+        Example: When I run `cmake --build . --config Release` I get the following result:
+        ```
+        c++: fatal error: Killed signal terminated program cc1plus
+        compilation terminated.
+        make[2]: *** [gui/qt/CMakeFiles/sonic-pi.dir/build.make:3658: gui/qt/CMakeFiles/sonic-pi.dir/sonic-pi_autogen/EWIEGA46WW/qrc_SonicPi.cpp.o] Error 1
+        make[1]: *** [CMakeFiles/Makefile2:184: gui/qt/CMakeFiles/sonic-pi.dir/all] Error 2
+        make: *** [Makefile:84: all] Error 2
+        ```
+    validations:
+      required: true
+  - type: textarea
+    id: other-details
+    attributes:
+      label: Other Details
+      description: |
+        You can drag related images into the description if you like.
+        Feel free to provide any other relevant information about the issue if you have it, or can get it:
+        - Ideas about possible root causes
+        - Workarounds or potential solutions (or even better, send us a pull request!)
+        - Etc...
+      placeholder: "Example: Could this be related to X? Maybe we could add the foo software package as a dependency in BUILD-LINUX.md?"
+    validations:
+      required: false
