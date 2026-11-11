@@ -18,7 +18,6 @@
 #   tutorial/<lang>/         chapters as typed blocks, and an index
 require "json"
 require "fileutils"
-require "ripper"
 
 ROOT = File.expand_path("..", __dir__)
 SP_ROOT = File.join(ROOT, "../..")
@@ -27,7 +26,7 @@ OUT = File.join(ROOT, "web/data")
 
 require File.join(SP, "core.rb")
 require File.join(SP, "paths")
-%w[synths/synthinfo util runtime lang/core lang/sound lang/midi lang/western_theory note chord scale markdown_converter].each do |f|
+%w[synths/synthinfo util runtime lang/core lang/sound lang/midi lang/western_theory note chord scale markdown_converter doc_blocks].each do |f|
   require File.join(SP, "lib/sonicpi", f)
 end
 require "kramdown"
@@ -66,26 +65,6 @@ md_html = ->(s) { Kramdown::Document.new(s.to_s.strip).to_html.strip }
 # One-line summary for the completion popup (qt-doc's summary_clean, minus
 # the C++ escaping).
 summary_clean = ->(s) { s.to_s.gsub(/\s+/, " ").strip[0, 90] }
-
-# ── From qt-doc.rb: runnable snippets ─────────────────────────────────────
-
-# A snippet is runnable if Ripper parses it and it isn't a comment-only,
-# absolute-path, printed-result (#=>) or bare-expression demo.
-code_runnable = lambda do |src|
-  s = src.to_s
-  lines = s.lines.map(&:strip)
-  return false unless lines.any? { |l| !l.empty? && !l.start_with?("#") }
-  return false if s.include?("#=>")
-  return false if s.include?("\"/")
-  return false if (("A".."Z").to_a + ("a".."z").to_a).any? { |d| s.include?("\"#{d}:/") }
-  first = lines.find { |l| !l.empty? }
-  return false if first.start_with?("(") || first.start_with?("[")
-  begin
-    !Ripper.sexp(s).nil?
-  rescue StandardError
-    false
-  end
-end
 
 # ── From qt-doc.rb: opts, defaults, ranges ────────────────────────────────
 
@@ -329,7 +308,7 @@ SonicPi::Lang::Core.docs.each do |k, v|
     "usage" => usage,
     "doc_html" => md_html.call(v[:doc]),
     "introduced" => v[:introduced].to_s,
-    "examples" => (v[:examples] || []).map { |e| code = e.to_s.strip; { "code" => code, "runnable" => code_runnable.call(code) } },
+    "examples" => (v[:examples] || []).map { |e| code = e.to_s.strip; { "code" => code, "runnable" => SonicPi::DocBlocks.runnable?(code) } },
   }
 end
 lang_pages.sort_by! { |p| p["key"] }
@@ -346,73 +325,13 @@ example_groups = %w[Apprentice Illusionist Magician Sorcerer Wizard Algomancer].
     # so the line only asks a reader to wonder what it is for. Kept where the example puts or prints.
     code = code.sub(/^use_debug false\n(\n(?=\n))?/, "") unless code =~ /\b(puts|print)\b/
     key = File.basename(path, ".rb")
-    { "key" => key, "title" => key.split("_").map(&:capitalize).join(" "), "code" => code, "runnable" => code_runnable.call(code) }
+    { "key" => key, "title" => key.split("_").map(&:capitalize).join(" "), "code" => code, "runnable" => SonicPi::DocBlocks.runnable?(code) }
   end
   { "title" => dir, "examples" => examples }
 end.reject { |g| g["examples"].empty? }
 write.call("reference/examples.json", { "groups" => example_groups })
 
 # ── Tutorial ──────────────────────────────────────────────────────────────
-
-render_elements = lambda do |els|
-  root = Kramdown::Element.new(:root, nil, nil, encoding: "UTF-8", location: 1, options: {}, abbrev_defs: {}, abbrev_attr: {})
-  root.children = els
-  Kramdown::Converter::Html.convert(root)[0].to_s
-end
-
-image_path = lambda do |src|
-  if src.include?("etc/doc/images/") then src.split("etc/doc/images/").last
-  elsif src.include?("images/") then src.split("images/").last
-  else src
-  end
-end
-
-only_img = lambda do |el|
-  imgs = el.children.select { |c| c.type == :img }
-  return nil unless imgs.length == 1
-  rest = el.children - imgs
-  return nil unless rest.all? { |c| c.type == :text && c.value.to_s.strip.empty? }
-  imgs.first
-end
-
-li_html = lambda do |li|
-  html = render_elements.call(li.children).strip
-  if li.children.length == 1 && li.children[0].type == :p && html.start_with?("<p>") && html.end_with?("</p>")
-    html = html[3...-4].strip
-  end
-  html
-end
-
-tutorial_blocks = lambda do |markdown|
-  md = markdown.to_s.gsub(/\`\`\`\`*/, "~~~~")
-  blocks = []
-  Kramdown::Document.new(md).root.children.each do |el|
-    case el.type
-    when :blank
-      next
-    when :header
-      blocks << { "type" => "heading", "level" => el.options[:level], "text" => el.options[:raw_text].to_s.strip }
-    when :codeblock
-      source = el.value.to_s
-      source = source[0...-1] while source.end_with?("\n")
-      blocks << { "type" => "code", "source" => source, "runnable" => code_runnable.call(source) }
-    when :ul, :ol
-      items = el.children.select { |c| c.type == :li }.map { |li| li_html.call(li) }
-      blocks << { "type" => "list", "ordered" => el.type == :ol, "items" => items }
-    when :p
-      if (img = only_img.call(el))
-        blocks << { "type" => "image", "path" => image_path.call(img.attr["src"].to_s), "alt" => img.attr["alt"].to_s }
-      else
-        html = render_elements.call([el]).strip
-        blocks << { "type" => "prose", "html" => html } unless html.empty?
-      end
-    else
-      html = render_elements.call([el]).strip
-      blocks << { "type" => "prose", "html" => html } unless html.empty?
-    end
-  end
-  blocks
-end
 
 tutorial_langs = ["en"]
 if all_langs
@@ -422,12 +341,10 @@ tutorial_langs.each do |lang|
   src_dir = lang == "en" ? SonicPi::Paths.tutorial_path : File.expand_path("../generated/#{lang}/tutorial", SonicPi::Paths.tutorial_path)
   chapters = []
   Dir["#{src_dir}/*.md"].sort.each do |path|
-    lines = File.read(path, encoding: "utf-8").lines
-    title = lines.first.to_s.strip
-    body = lines.length > 1 ? lines[1..].join : ""
+    page = SonicPi::DocBlocks.chapter(path)
     key = File.basename(path, ".md")
-    write.call("tutorial/#{lang}/#{key}.json", { "title" => title, "blocks" => tutorial_blocks.call(body) })
-    chapters << { "key" => key, "title" => title }
+    write.call("tutorial/#{lang}/#{key}.json", page)
+    chapters << { "key" => key, "title" => page["title"] }
   end
   write.call("tutorial/#{lang}/index.json", { "chapters" => chapters })
 end
@@ -473,7 +390,7 @@ if File.exist?(cards_path)
       end
     end
   end
-  decks.each { |d| d["cards"].each { |c| c["code"] = c["code"].chomp; c["runnable"] = code_runnable.call(c["code"]) } }
+  decks.each { |d| d["cards"].each { |c| c["code"] = c["code"].chomp; c["runnable"] = SonicPi::DocBlocks.runnable?(c["code"]) } }
 end
 write.call("reference/quickstart.json", { "decks" => decks })
 

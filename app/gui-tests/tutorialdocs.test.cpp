@@ -46,6 +46,37 @@ TEST_CASE("chapter json loads typed blocks in order", "[tutorialdocs]")
     CHECK(ch.blocks[5].text == "Interface");
 }
 
+TEST_CASE("a lead line and a box load, the box holding its own blocks", "[tutorialdocs]")
+{
+    const QByteArray json = R"({
+      "title": "1 Welcome to Sonic Pi",
+      "blocks": [
+        {"type":"lead","html":"Welcome <em>friend</em>."},
+        {"type":"box","label":"How this <code>tutorial</code> works","blocks":[
+          {"type":"prose","html":"<p>Dip in and out.</p>"},
+          {"type":"list","ordered":false,"items":["one","two"]}]},
+        {"type":"box","label":"","blocks":[{"type":"prose","html":"<p>Unnamed.</p>"}]},
+        {"type":"prose","html":"<p>After.</p>"}
+      ]})";
+    TutorialChapter ch = TutorialDocs::chapterFromJson(json);
+    REQUIRE(ch.blocks.size() == 4);
+    CHECK(ch.blocks[0].type == TutorialBlock::Lead);
+    CHECK(ch.blocks[0].text == "Welcome <em>friend</em>.");
+    const TutorialBlock& box = ch.blocks[1];
+    CHECK(box.type == TutorialBlock::Box);
+    CHECK(box.text == "How this <code>tutorial</code> works");
+    REQUIRE(box.blocks.size() == 2);
+    CHECK(box.blocks[0].type == TutorialBlock::Prose);
+    CHECK(box.blocks[0].text == "<p>Dip in and out.</p>");
+    CHECK(box.blocks[1].type == TutorialBlock::List);
+    CHECK(box.blocks[1].items == QStringList({ "one", "two" }));
+    CHECK(ch.blocks[2].type == TutorialBlock::Box);
+    CHECK(ch.blocks[2].text.isEmpty());
+    REQUIRE(ch.blocks[2].blocks.size() == 1);
+    CHECK(ch.blocks[3].type == TutorialBlock::Prose);
+    CHECK(ch.blocks[3].blocks.isEmpty());
+}
+
 TEST_CASE("instrument pages load true defaults and ranges", "[tutorialdocs]")
 {
     const QByteArray json = R"({"pages":[

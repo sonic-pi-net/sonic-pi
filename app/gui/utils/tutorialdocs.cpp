@@ -54,14 +54,11 @@ InstrumentOpt optFromJson(const QJsonObject& o)
     return opt;
 }
 
-} // namespace
-
-TutorialChapter TutorialDocs::chapterFromJson(const QByteArray& json)
+// The blocks of a chapter, or of a box in one, in order. A type this build
+// does not know is passed over.
+QVector<TutorialBlock> blocksFromJson(const QJsonArray& blocks)
 {
-    TutorialChapter chapter;
-    const QJsonObject root = QJsonDocument::fromJson(json).object();
-    chapter.title = root.value("title").toString();
-    const QJsonArray blocks = root.value("blocks").toArray();
+    QVector<TutorialBlock> out;
     for (const QJsonValue& v : blocks)
     {
         const QJsonObject b = v.toObject();
@@ -97,12 +94,34 @@ TutorialChapter TutorialDocs::chapterFromJson(const QByteArray& json)
             block.path = b.value("path").toString();
             block.text = b.value("alt").toString();
         }
+        else if (type == "lead")
+        {
+            block.type = TutorialBlock::Lead;
+            block.text = b.value("html").toString();
+        }
+        else if (type == "box")
+        {
+            block.type = TutorialBlock::Box;
+            block.text = b.value("label").toString();
+            block.blocks = blocksFromJson(b.value("blocks").toArray());
+        }
         else
         {
             continue;
         }
-        chapter.blocks.append(block);
+        out.append(block);
     }
+    return out;
+}
+
+} // namespace
+
+TutorialChapter TutorialDocs::chapterFromJson(const QByteArray& json)
+{
+    TutorialChapter chapter;
+    const QJsonObject root = QJsonDocument::fromJson(json).object();
+    chapter.title = root.value("title").toString();
+    chapter.blocks = blocksFromJson(root.value("blocks").toArray());
     return chapter;
 }
 

@@ -183,8 +183,9 @@ private:
     // Inline editor for one opt value, wired to its dial (from code anchors).
     void openOptEditor(const QString& optName, const QPoint& globalPos);
     void addHeading(int level, const QString& text);
-    void addProse(const QString& richText);
+    void addProse(const QString& richText, const char* name = "tutProse");
     void addList(const SonicPi::TutorialBlock& block);
+    void addBox(const SonicPi::TutorialBlock& block);
     void addImage(const SonicPi::TutorialBlock& block);
     // `into` nests the snippet inside another card (the instrument playground)
     // instead of appending it to the page column. `transportInto` relocates

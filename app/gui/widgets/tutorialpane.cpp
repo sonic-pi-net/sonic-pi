@@ -990,12 +990,19 @@ void TutorialPane::rebuild()
     clearContent();
     m_pageId = QStringLiteral("chapter:") + m_chapter.title;
 
+    // The page's one top heading is its title, numbered, as the web's is (the
+    // chapter's own # is left out of its blocks: DocBlocks.chapter). The
+    // cards above its first ## are named for the title less its number.
+    addHeading(1, m_chapter.title);
+    m_cardSection = QString(m_chapter.title).remove(QRegularExpression(QStringLiteral("^\\S+ ")));
+
     for (const SonicPi::TutorialBlock& block : m_chapter.blocks)
     {
         switch (block.type)
         {
         case SonicPi::TutorialBlock::Heading:
-            addHeading(block.level, block.text);
+            // a # further on reads a level under the title, with the ##s
+            addHeading(qMax(block.level, 2), block.text);
             break;
         case SonicPi::TutorialBlock::Prose:
             addProse(block.text);
@@ -1010,6 +1017,12 @@ void TutorialPane::rebuild()
             break;
         case SonicPi::TutorialBlock::Image:
             addImage(block);
+            break;
+        case SonicPi::TutorialBlock::Lead:
+            addProse(block.text, "tutLead");
+            break;
+        case SonicPi::TutorialBlock::Box:
+            addBox(block);
             break;
         }
     }
@@ -1054,12 +1067,17 @@ void TutorialPane::clearContent()
     m_pageName.clear();
     m_pageIsFx = false;
     m_exampleCard = nullptr;
-    while (QLayoutItem* item = m_column->takeAt(0))
-    {
+    // a row in the column (a box's: addBox) is a layout, its widgets in it
+    std::function<void(QLayoutItem*)> drop = [&drop](QLayoutItem* item) {
         if (QWidget* w = item->widget())
             w->deleteLater();
+        else if (QLayout* row = item->layout())
+            while (QLayoutItem* inner = row->takeAt(0))
+                drop(inner);
         delete item;
-    }
+    };
+    while (QLayoutItem* item = m_column->takeAt(0))
+        drop(item);
 }
 
 void TutorialPane::addHeading(int level, const QString& text)
@@ -1081,13 +1099,14 @@ void TutorialPane::addHeading(int level, const QString& text)
     m_column->addWidget(label);
 }
 
-void TutorialPane::addProse(const QString& richText)
+// name: tutProse for the text, tutLead for a lead line (the text set larger)
+void TutorialPane::addProse(const QString& richText, const char* name)
 {
     TutProseText* label = new TutProseText(m_content);
     // Readable measure: prose wraps at a comfortable line length even when
     // the pane (and the interactive cards) run much wider.
     label->setMaximumWidth(sx(1200));
-    label->setObjectName("tutProse");
+    label->setObjectName(QLatin1String(name));
     label->setProperty("mdtext", richText);
     label->setHtml(proseColoured(richText));
     label->setLinkHandler([this](const QString& link) { emit linkClicked(QUrl(link)); });
@@ -1163,6 +1182,63 @@ void TutorialPane::addList(const SonicPi::TutorialBlock& block)
         html += "<li>" + item + "</li>";
     html += "</" + tag + ">";
     addProse(html);
+}
+
+// A box: words set apart, on a tint with an accent edge as the web's tutorial
+// draws it (site.css .tut-box), its label in capitals over its paragraphs and
+// lists. They are the page's own text, in its reading order; the frame has no
+// name to say, so a screen reader says the label once and reads on.
+void TutorialPane::addBox(const SonicPi::TutorialBlock& block)
+{
+    QFrame* box = new QFrame(m_content);
+    box->setObjectName("tutBox");
+    box->setMaximumWidth(sx(1200));
+    QVBoxLayout* inside = new QVBoxLayout(box);
+    inside->setContentsMargins(sx(16), sy(12), sx(16), sy(12));
+    inside->setSpacing(0);
+    if (!block.text.isEmpty())
+    {
+        QLabel* label = new QLabel(block.text, box);
+        label->setObjectName("tutBoxLabel");
+        label->setTextFormat(Qt::RichText);
+        label->setWordWrap(true);
+        // drawn in capitals, said as written, as the Cards tab's deck names
+        QFont f = label->font();
+        f.setCapitalization(QFont::AllUppercase);
+        f.setLetterSpacing(QFont::PercentageSpacing, 110);
+        label->setFont(f);
+        inside->addWidget(label);
+        inside->addSpacing(sy(6));
+    }
+    // Its blocks go in as the page's do, a page's gap apart
+    QVBoxLayout* words = new QVBoxLayout();
+    words->setContentsMargins(0, 0, 0, 0);
+    words->setSpacing(m_column->spacing());
+    inside->addLayout(words);
+    QVBoxLayout* page = m_column;
+    m_column = words;
+    for (const SonicPi::TutorialBlock& b : block.blocks)
+    {
+        if (b.type == SonicPi::TutorialBlock::Prose)
+            addProse(b.text);
+        else if (b.type == SonicPi::TutorialBlock::List)
+            addList(b);
+    }
+    m_column = page;
+    // The box sits in a row beside a stretch, as the column does in the pane,
+    // so it is measured at the width it's drawn at. A column asks each widget
+    // its height at the column's whole width, which a box capped narrower
+    // than the column would answer for words wrapped wider than they're drawn
+    // (a prose block caps itself: TutProseText::heightForWidth), cutting off
+    // their ends.
+    QHBoxLayout* row = new QHBoxLayout();
+    row->setContentsMargins(0, 0, 0, 0);
+    row->addWidget(box, 1);
+    row->addStretch(0);
+    // more air round it than between paragraphs, as the web's has
+    m_column->addSpacing(sy(6));
+    m_column->addLayout(row);
+    m_column->addSpacing(sy(6));
 }
 
 void TutorialPane::addImage(const SonicPi::TutorialBlock& block)
@@ -1770,6 +1846,7 @@ void TutorialPane::applyTheme()
     QColor sigColour = SonicPiTheme::blend(fg, editorBg, 0.18);
     QColor zebraTint = SonicPiTheme::blend(bg, fg, 0.10);
     QColor zebraHover = SonicPiTheme::blend(bg, fg, 0.16);
+    QColor boxTint = SonicPiTheme::blend(bg, accent, 0.06);   // the web's accentTint (theme.js)
 
     // Design sizes at the default editor zoom, scaled to track it
     auto pt = [this](int base) {
@@ -1783,6 +1860,12 @@ void TutorialPane::applyTheme()
     QString qss = QStringLiteral(
         "#tutorialPane, #tutorialContent { background:@bg; }"
         "#tutProse { color:@fg; font-size:@proseSize; background:transparent; }"
+        "#tutLead { color:@fg; font-size:@leadSize; background:transparent; }"
+        // A box (addBox): the web tutorial's, a tint with an accent edge, its
+        // label a kicker in the second colour
+        "#tutBox { background:@boxTint; border:none; border-left:3dx solid @accent;"
+        " border-radius:@radiusSmall; }"
+        "#tutBoxLabel { color:@h2; font-size:@labelSize; font-weight:bold; background:transparent; }"
         "#tutH1 { background:transparent; color:@accent; font-size:@h1Size; font-weight:bold;"
         " padding-bottom:6dx; border-bottom:2dx solid @h1Rule; }"
         "#tutH2 { background:transparent; color:@h2; font-size:@h2Size; font-weight:bold; }"
@@ -1863,6 +1946,9 @@ void TutorialPane::applyTheme()
         { "@zebraHover", zebraHover.name() },
         { "@sigColour", sigColour.name() },
         { "@proseSize", pt(13) },
+        { "@leadSize", pt(16) },
+        { "@labelSize", pt(10) },
+        { "@boxTint", boxTint.name() },
         { "@buttonSize", pt(10) },
         { "@optNameSize", pt(12) },
         { "@codeSmall", pt(9) },

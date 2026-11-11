@@ -34,17 +34,20 @@ struct TutorialBlock
         Prose,   // html: inline-formatted rich text
         List,    // items: per-item rich text; ordered flag
         Code,    // source verbatim; runnable decided by the generator
-        Image    // path relative to etc/doc/images; alt text
+        Image,   // path relative to etc/doc/images; alt text
+        Lead,    // html: a line set larger than the text, a part's opening
+        Box      // label (may be empty) over blocks: words set apart
     };
 
     Type type = Prose;
     int level = 1;
-    QString text;       // Heading text / Prose+Image: html / alt
+    QString text;       // Heading text / Prose+Lead: html / Image: alt / Box: label html
     QString source;     // Code
     QStringList items;  // List
     bool ordered = false;
     bool runnable = false;
     QString path;       // Image
+    QVector<TutorialBlock> blocks;   // Box: its paragraphs and lists
 };
 
 struct TutorialChapter

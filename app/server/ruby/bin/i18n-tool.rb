@@ -104,6 +104,15 @@ def convert_element(filename, el, bullet = nil)
     end
 
   when :p
+    # A paragraph's mark ({: .lead}, lib/sonicpi/doc_blocks.rb) is not words to
+    # translate: the words alone are the entry, and the mark is put back under
+    # the translation.
+    classes = el.attr['class'].to_s.split
+    unless (el.attr.keys - ['class']).empty?
+      raise "Error #{filename}: Please implement conversion for a paragraph's attributes #{el.attr.inspect} in line #{el.options[:location]}"
+    end
+    words = Kramdown::Element.new(:p, nil, nil, el.options)
+    words.children = el.children
     root = Kramdown::Element.new(
       :root, nil, nil,
       :encoding => "UTF-8",
@@ -111,7 +120,7 @@ def convert_element(filename, el, bullet = nil)
       :options => {},
       :abbrev_defs => {}, :abbrev_attr => {}
     )
-    root.children = [el]
+    root.children = [words]
     output, warnings = KramdownToOurMarkdown.convert(root)
     output.gsub!(/\n/, ' ').strip!
 
@@ -122,6 +131,19 @@ def convert_element(filename, el, bullet = nil)
         $translated[filename] += bullet + " "
       end
       $translated[filename] += t + "\n"
+      $translated[filename] += "{: #{classes.map { |c| ".#{c}" }.join(' ')}}\n" unless classes.empty?
+    end
+
+  when :blockquote
+    # A box (lib/sonicpi/doc_blocks.rb): its paragraphs and lists translated as
+    # any others, each line of the translation then quoted again
+    outside = $translated[filename]
+    $translated[filename] = ""
+    el.children.each { |c| convert_element(filename, c) }
+    inside = $translated[filename]
+    $translated[filename] = outside
+    if $task == :translate then
+      $translated[filename] += inside.lines.map { |l| l.strip.empty? ? ">\n" : "> " + l }.join
     end
 
   when :codeblock

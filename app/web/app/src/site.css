@@ -358,15 +358,23 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .tut-page .tut-wrap { padding: 2.2em 0 0.6em; text-align: left; background: none; box-shadow: none; }
 .tut-page .tut-part { width: auto; max-width: 46em; margin: 0 auto; padding: 0 24px; text-align: left; }   /* width: landing.css's .container sets one, fixed */
 .tut-page .tut-part header { margin: 0 0 0.9em; text-align: left; }
-.tut-page .tut-part p.tut-note { padding: 0.7em 1em; border-left: 3px solid var(--HighlightedBackground); border-radius: var(--r-s); background: var(--accentTint); }
+/* words set apart: the web's own note (build-site.mjs WEB_NOTES), and a box (> in the tutorial's source) */
+.tut-page .tut-part > :is(p.tut-note, .tut-box) { padding: 0.8em 1.1em; border-left: 3px solid var(--HighlightedBackground); border-radius: var(--r-s); background: var(--accentTint); }
 .tut-page .tut-part .sec-title { margin: 0; font-size: var(--t-title); text-align: left; }
 .tut-page .tut-part > :is(h2, h3, h4, h5) { margin: 1.3em 0 0.4em; font: 700 var(--t-ui) var(--prose-font); color: var(--Foreground); text-align: left; }
-.tut-page .tut-part > p, .tut-page .tut-part > :is(ul, ol) > li { margin: 0 0 0.9em; font: var(--t-ui)/1.6 var(--prose-font); color: var(--Foreground); text-align: left; }
-.tut-page .tut-part > :is(ul, ol) { margin: 0 0 1em; padding-left: 1.4em; text-align: left; }
-.tut-page .tut-part > :is(ul, ol) > li { margin-bottom: 0.35em; }
+.tut-page :is(.tut-part, .tut-box) > p:not(.kicker), .tut-page :is(.tut-part, .tut-box) > :is(ul, ol) > li { margin: 0 0 0.9em; font: var(--t-ui)/1.6 var(--prose-font); color: var(--Foreground); text-align: left; }
+.tut-page :is(.tut-part, .tut-box) > :is(ul, ol) { margin: 0 0 1em; padding-left: 1.4em; text-align: left; }
+.tut-page :is(.tut-part, .tut-box) > :is(ul, ol) > li { margin-bottom: 0.35em; }
+/* a lead line ({: .lead} in the tutorial's source): a part's opening, at the lead size */
+.tut-page .tut-part > p.tut-lead { font-size: var(--t-lead); line-height: 1.5; color: var(--WindowForeground); }
+/* a box: its label a kicker over its words */
+.tut-page .tut-part > .tut-box { margin: 1.4em 0; }
+.tut-page .tut-box > .kicker { margin: 0 0 0.3em; }
+.tut-page .tut-box > :is(p, ul, ol):last-child, .tut-page .tut-box > :is(ul, ol):last-child > li:last-child { margin-bottom: 0; }
 /* the code in a sentence: the editor's face and colours (build-site.mjs highlights it), on the code cards' own tint, so a
    word of code reads as the code under it does */
-.tut-page .tut-part > p code, .tut-page .tut-part > :is(ul, ol) > li code { padding: 0.12em 0.4em; border-radius: var(--r-s); background: var(--accentTint); color: var(--Foreground); font: 500 1em var(--code-font); white-space: nowrap; }
+.tut-page :is(.tut-part, .tut-box) > p code, .tut-page :is(.tut-part, .tut-box) > :is(ul, ol) > li code { padding: 0.12em 0.4em; border-radius: var(--r-s); background: var(--accentTint); color: var(--Foreground); font: 500 1em var(--code-font); white-space: nowrap; }
+.tut-page .tut-box > :is(p, ul, ol) code { background: var(--accentTintStrong); }   /* on the box's own tint */
 .tut-page .tut-part .qs-card { margin: 1em 0 1.4em; }
 .tut-page .qs-transport { --qs-scope: 52px; }   /* no words beside it, unlike a quickstart card's: Play and Stop in proportion to the code above them */
 /* the tutorial's pictures: a part's own, or in its prose; not a card's (CodeMirror puts an img beside a loop's scope) */

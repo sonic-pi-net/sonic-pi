@@ -70,7 +70,7 @@ if (!mark) throw new Error(`no logo at ${NATIVE}/app/gui/images/logo-square.svg 
 const tutorialIndex = JSON.parse(read(ROOT, "web/data/tutorial/en/index.json")).chapters;
 
 // ── the tutorial: a page a chapter, its sections the chapter's parts (scripts/gen-editor-data.rb writes each part's
-// blocks: headings, prose, code, lists, pictures) ──
+// blocks: headings, prose, code, lists, pictures, lead lines and boxes) ──
 // a part's chapter is its key's first word (02.1-Your-First-Beeps: 02; A.03-coded-beats: A); chapter 1 is tutorial.html
 const chapterOf = (key) => key.split(/[.-]/)[0];
 const tutId = (key) => `tut-${key.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;   // main.js makes the same, for the old #docs/tutorial/<key> links
@@ -129,14 +129,19 @@ function staticCards(html) {
 // top: the level of the part's own title, an h1 for the chapter's opening part and an h2 for the rest
 function tutorialBlocks(part, top) {
   let n = 0, heading = part.title.replace(/^\S+ /, "");   // a card is named for the heading over it, the part's own at first
-  return tutorialPart(part.key).blocks.map((b, i) => {
-    if (b.type === "heading") { if (i === 0 && b.level === 1) return ""; heading = b.text; const h = `h${Math.min(Math.max(b.level, 2), 4) + top - 1}`; return `<${h}>${esc(b.text)}</${h}>`; }   // its first heading is the part's own (its title, numbered); the rest step down from it, ## a level under the title
+  const block = (b) => {
+    if (b.type === "lead") return `<p class="tut-lead">${inlineCode(b.html)}</p>`;
+    // a box: its label a kicker, then its paragraphs and lists, read straight through as the desktop's are (an aside
+    // would be a landmark, three to a page inside its main)
+    if (b.type === "box") return `<div class="tut-box">${b.label ? `<p class="kicker">${inlineCode(b.label)}</p>` : ""}${b.blocks.map(block).join("")}</div>`;
+    if (b.type === "heading") { heading = b.text; const h = `h${Math.min(Math.max(b.level, 2), 4) + top - 1}`; return `<${h}>${esc(b.text)}</${h}>`; }   // under the part's title (its own # left out by DocBlocks.chapter): ## a level under it, and a # further on with them
     if (b.type === "prose") return inlineCode(b.html).replace(/(<img\b[^>]*\ssrc=")([^"]+)"/g, (_, pre, src) => `${pre}${tutImage(src)}" loading="lazy"`);
     if (b.type === "list") return `<${b.ordered ? "ol" : "ul"}>${b.items.map((x) => `<li>${inlineCode(x)}</li>`).join("")}</${b.ordered ? "ol" : "ul"}>`;
     if (b.type === "image") return `<img class="doc-image" src="data/images/${esc(b.path)}" alt="${esc(b.alt ?? "")}" loading="lazy">`;
     if (b.type === "code") return `<pre class="sp-card" data-key="${part.id}-${++n}" data-title="${esc(heading)}"${b.runnable ? "" : " data-still"}><code>${esc(b.source.replace(/\n$/, ""))}</code></pre>`;
     return "";
-  }).join("\n");
+  };
+  return tutorialPart(part.key).blocks.map(block).join("\n");
 }
 function tutorialBody(page) {
   // the list: every chapter and its parts, the other chapters' on their own pages

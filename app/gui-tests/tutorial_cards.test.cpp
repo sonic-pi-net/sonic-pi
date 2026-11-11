@@ -13,7 +13,7 @@
 
 // The tutorial's examples, as the pane draws them: cards, as the web's
 // tutorial has (app/web/scripts/build-site.mjs tutorialBlocks, site.js
-// mountSnippets). With SP_GUI_SHOT_DIR set the [.shots] case renders a part
+// mountSnippets); and the lead lines and boxes in the words around them. With SP_GUI_SHOT_DIR set the [.shots] case renders a part
 // offscreen to PNGs, to set beside the web's tutorial page.
 
 #include <catch2/catch_test_macros.hpp>
@@ -26,8 +26,13 @@
 #include <QApplication>
 #include <QDir>
 #include <QFile>
+#include <QFrame>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QLabel>
 #include <QPushButton>
+#include <QRegularExpression>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSignalSpy>
@@ -161,6 +166,50 @@ TEST_CASE("a tutorial part's code is cards, named for the heading over them", "[
     CHECK(button(first, "Reset Your First Beeps")->isHidden());
 }
 
+// The page's headings, top to bottom.
+static QList<TutHeading*> headings(QWidget* pane)
+{
+    QList<TutHeading*> all = pane->findChildren<TutHeading*>();
+    std::sort(all.begin(), all.end(), [pane](TutHeading* a, TutHeading* b) {
+        return a->mapTo(pane, QPoint()).y() < b->mapTo(pane, QPoint()).y();
+    });
+    return all;
+}
+
+TEST_CASE("a tutorial part opens with its title, numbered, as the web's does", "[tutorial][headings]")
+{
+    // the title in place of the part's own # (its name unnumbered, here
+    // worded otherwise): the page's one top heading
+    {
+        Docs docs;
+        docs.load("01-Welcome-to-Sonic-Pi.json");
+        const QList<TutHeading*> hs = headings(docs.pane);
+        REQUIRE(hs.size() == 1);
+        CHECK(hs[0]->text() == "1 Welcome to Sonic Pi");
+        CHECK(hs[0]->headingLevel() == 1);
+        CHECK(hs[0]->objectName() == "tutH1");
+    }
+    // the cards above the part's first ## named for the title less its
+    // number, as the web names them (the part's own # says "Sliding Opts")
+    {
+        Docs docs;
+        docs.load("07.3-Sliding-Parameters.json");
+        REQUIRE(docs.cards().size() >= 2);
+        CHECK(docs.cards()[0]->title() == "Sliding Options");
+        CHECK(docs.cards()[1]->title() == "Sliding Options · 2");
+    }
+    // a # further on reads a level under the title, as the web's <h2>
+    {
+        Docs docs;
+        docs.load("A.20-creative-coding-in-the-classroom.json");
+        const QList<TutHeading*> hs = headings(docs.pane);
+        auto later = std::find_if(hs.begin(), hs.end(), [](TutHeading* h) { return h->text() == "Some fun capabilities"; });
+        REQUIRE(later != hs.end());
+        CHECK((*later)->headingLevel() == 2);
+        CHECK(std::count_if(hs.begin(), hs.end(), [](TutHeading* h) { return h->headingLevel() == 1; }) == 1);
+    }
+}
+
 TEST_CASE("a fragment of a tutorial part to read is a still card", "[tutorial][cards]")
 {
     Docs docs;
@@ -201,6 +250,157 @@ TEST_CASE("a tutorial card's code reads on with the page", "[tutorial][cards][a1
     QTest::keyClick(above, Qt::Key_Right);
     CHECK(QApplication::focusWidget() == code);
     CHECK(code->caretPosition() == 0);
+}
+
+namespace {
+// The page's words that read top to bottom, in that order.
+QList<TutProseText*> texts(QWidget* pane)
+{
+    QList<TutProseText*> all = pane->findChildren<TutProseText*>();
+    std::sort(all.begin(), all.end(), [pane](TutProseText* a, TutProseText* b) {
+        return a->mapTo(pane, QPoint()).y() < b->mapTo(pane, QPoint()).y();
+    });
+    return all;
+}
+
+QString plain(TutProseText* t) { return t->property("mdtext").toString().remove(QRegularExpression("<[^>]*>")).trimmed(); }
+
+// Off the end of `from`, as an arrow key steps: where the caret lands.
+QWidget* stepOn(TutProseText* from)
+{
+    from->setFocus();
+    from->setCaretPosition(from->endPosition());
+    QTest::keyClick(from, Qt::Key_Right);
+    return QApplication::focusWidget();
+}
+} // namespace
+
+TEST_CASE("a tutorial part's lead line is its words set larger, read first", "[tutorial][blocks][a11y]")
+{
+    Docs docs;
+    docs.load("01-Welcome-to-Sonic-Pi.json");
+    const QList<TutProseText*> all = texts(docs.pane);
+    REQUIRE(all.size() >= 2);
+    TutProseText* lead = all[0];
+    CHECK(lead->objectName() == "tutLead");
+    CHECK(plain(lead) == "Welcome friend. Today is the perfect day to learn how to live code!");
+    TutProseText* next = all[1];
+    CHECK(next->objectName() == "tutProse");
+    CHECK(lead->font().pointSizeF() > next->font().pointSizeF());
+    CHECK(stepOn(lead) == next);
+}
+
+TEST_CASE("a tutorial part's box is its label over its words, read straight through", "[tutorial][blocks][a11y]")
+{
+    Docs docs;
+    docs.load("01-Welcome-to-Sonic-Pi.json");
+    const QList<QFrame*> boxes = docs.pane->findChildren<QFrame*>("tutBox");
+    REQUIRE(boxes.size() == 1);
+    QFrame* box = boxes[0];
+
+    // Its label: drawn in capitals, said as written, and said once (the box
+    // itself has no name of its own to say over it).
+    QLabel* label = box->findChild<QLabel*>("tutBoxLabel");
+    REQUIRE(label);
+    CHECK(label->text() == "How this tutorial works");
+    CHECK(label->font().capitalization() == QFont::AllUppercase);
+    CHECK(box->accessibleName().isEmpty());
+    CHECK(box->maximumWidth() == docs.pane->findChild<TutProseText*>("tutProse")->maximumWidth());
+
+    // Its words, inside it, read on from the words before it and on into the
+    // words after it.
+    QList<TutProseText*> inside, all = texts(docs.pane);
+    for (TutProseText* t : all)
+        if (box->isAncestorOf(t))
+            inside << t;
+    REQUIRE(inside.size() == 2);
+    CHECK(plain(inside[0]).startsWith("This tutorial is divided up into sections"));
+    CHECK(plain(inside[1]).startsWith("Also, if you have any thoughts"));
+    const int first = all.indexOf(inside[0]);
+    REQUIRE(first > 0);
+    CHECK(plain(all[first - 1]).startsWith("Watching others live code"));
+    CHECK(stepOn(all[first - 1]) == inside[0]);
+    CHECK(stepOn(inside[0]) == inside[1]);
+    REQUIRE(first + 2 < all.size());
+    CHECK(stepOn(inside[1]) == all[first + 2]);
+    CHECK(plain(all[first + 2]).startsWith("OK, let"));
+}
+
+TEST_CASE("a box with no label is its words alone", "[tutorial][blocks]")
+{
+    SonicPi::TutorialChapter ch = SonicPi::TutorialDocs::chapterFromJson(R"({"title":"t","blocks":[
+        {"type":"prose","html":"<p>Before.</p>"},
+        {"type":"box","label":"","blocks":[{"type":"prose","html":"<p>Inside.</p>"},
+          {"type":"list","ordered":true,"items":["one","two"]}]}]})");
+    Docs docs;
+    docs.pane->loadChapter(ch, QString(), "Before", "After");
+    docs.pane->show();
+    settle();
+    QFrame* box = docs.pane->findChild<QFrame*>("tutBox");
+    REQUIRE(box);
+    CHECK_FALSE(box->findChild<QLabel*>("tutBoxLabel"));
+    QList<TutProseText*> inside;
+    for (TutProseText* t : texts(docs.pane))
+        if (box->isAncestorOf(t))
+            inside << t;
+    REQUIRE(inside.size() == 2);
+    CHECK(plain(inside[0]) == "Inside.");
+    CHECK(plain(inside[1]).contains("one"));
+}
+
+TEST_CASE("a box's words show whole at any width of the pane", "[tutorial][blocks]")
+{
+    // A box is capped at the prose's measure, and its words sit inside its
+    // edge and padding. Wider than the cap, the column must still measure
+    // them at the width they're drawn at: measured at the cap, a paragraph
+    // a few words over a line is given a line too few and its end is cut
+    // off. Paragraphs of every length from 1 word to 150 put some in that
+    // window whatever the fonts.
+    QJsonArray paragraphs;
+    QStringList words;
+    for (int n = 1; n <= 150; n++)
+    {
+        words << QStringLiteral("word%1").arg(n % 10);
+        paragraphs.append(QJsonObject{ { "type", "prose" }, { "html", "<p>" + words.join(' ') + "</p>" } });
+    }
+    const QJsonObject json{ { "title", "1 Boxes" },
+                            { "blocks", QJsonArray{ QJsonObject{ { "type", "box" }, { "label", "A box" }, { "blocks", paragraphs } } } } };
+    Docs docs;
+    docs.pane->loadChapter(SonicPi::TutorialDocs::chapterFromJson(QJsonDocument(json).toJson()), QString(), "Before", "After");
+    docs.pane->show();
+    settle();
+    QFrame* box = docs.pane->findChild<QFrame*>("tutBox");
+    REQUIRE(box);
+    QStringList cut;
+    bool capped = false;
+    for (int w = 600; w <= 2 * box->maximumWidth(); w += 7)
+    {
+        docs.pane->resize(w, 900);
+        QApplication::processEvents();
+        capped = capped || box->width() == box->maximumWidth();
+        for (TutProseText* t : texts(docs.pane))
+            if (t->height() < t->heightForWidth(t->width()))
+                cut << QStringLiteral("%1 wide: %2 words, %3 high of %4")
+                           .arg(w).arg(plain(t).count(' ') + 1).arg(t->height()).arg(t->heightForWidth(t->width()));
+    }
+    CHECK(capped); // the sweep reached past the cap
+    QStringList widths;
+    for (const QString& c : cut)
+        if (!widths.contains(c.section(' ', 0, 0)))
+            widths << c.section(' ', 0, 0);
+    INFO("cut at " << widths.join(' ').toStdString() << " wide; first:\n" << cut.mid(0, 4).join(QLatin1Char('\n')).toStdString());
+    CHECK(cut.isEmpty());
+}
+
+TEST_CASE("a box goes with its page", "[tutorial][blocks]")
+{
+    Docs docs;
+    docs.load("01-Welcome-to-Sonic-Pi.json");
+    REQUIRE(docs.pane->findChildren<QFrame*>("tutBox").size() == 1);
+    docs.load("02.1-Your-First-Beeps.json");
+    CHECK(docs.pane->findChildren<QFrame*>("tutBox").isEmpty());
+    for (TutProseText* t : texts(docs.pane))
+        CHECK_FALSE(plain(t).startsWith("This tutorial is divided"));
 }
 
 namespace {
@@ -424,6 +624,15 @@ TEST_CASE("the tutorial's examples, rendered for a look", "[tutorial][cards][.sh
     pane.show();
     settle();
     shoot(pane, "native-tutorial-02.1");
+    // the opening parts, their lead lines and boxes: the whole page, as the web's is seen scrolled through
+    for (const QString part : { QStringLiteral("01-Welcome-to-Sonic-Pi"), QStringLiteral("01.1-Live-Coding") })
+    {
+        pane.loadChapter(chapter(part + ".json"), root + "/etc/doc/images", "Before", "After");
+        settle();
+        QWidget* page = pane.findChild<QWidget*>("tutorialContent");
+        REQUIRE(page);
+        shoot(*page, "native-tutorial-" + part);
+    }
     pane.showExamplePage("acid", "Acid Walk", exampleCode("magician/acid.rb"),
                          "Start producing longer tracks...");
     settle();
