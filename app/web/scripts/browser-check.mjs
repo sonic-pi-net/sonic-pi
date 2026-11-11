@@ -670,6 +670,12 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     }, null, { timeout: 5000 }).then((h) => h.jsonValue()).catch(() => null);
     const unplaced = drawn != null ? [] : await page.evaluate(() => window.sonicPi.processTree().filter((n) => n.x == null && n.state < 3).map((n) => `${n.label} (state ${n.state})`));
     check("the process tree draws its nodes", drawn != null, drawn != null ? `${drawn} nodes` : `live and unplaced: ${unplaced.join(", ")}`);
+    // on a wide window its counts are a row above it (a phone's are a box over it: below, on the phone)
+    const countsRow = await page.evaluate(() => {
+      const root = document.getElementById("insight-pane").shadowRoot, c = root.querySelector(".ptree-head").getBoundingClientRect(), t = root.querySelector(".ptree-canvas canvas").getBoundingClientRect();
+      return { above: c.bottom <= t.top + 1, width: Math.round(c.width), tree: Math.round(t.width) };
+    });
+    check("on a wide window the process tree's counts are a row above it, across it", countsRow.above && countsRow.width >= countsRow.tree - 2, JSON.stringify(countsRow));
     // A thread waking is a ring growing out of it, and reduce motion keeps the tree still: the system's setting, or
     // the app's own Reduce animations (body.reduce-motion). The loops wake several times a second; a ring lasts 0.35 s.
     const pulses = async () => {
@@ -1825,6 +1831,43 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const heardPhone = await stillness(ph);
     await ph.click("#btn-stop");
     check("the phone's page stays still as a program plays", phonePlays && still(heardPhone), JSON.stringify({ plays: phonePlays, heard: heardPhone }));
+    // The Threads pane's Processes view on a phone: its tabs and Pause on one row, Pause by its icon and still named;
+    // its counts a table in a box over the tree's top left corner, the tree with the pane's room, and nothing of the
+    // tree drawn under the box, as it plays (process-tree.js drawFrame: a row level with the box is drawn beside it).
+    // Four quiet loops before a busy one put the tree's root, and its run, where the box stands
+    {
+      await ph.evaluate(() => window.sonicPi.editor.setCode("live_loop :a do\n  sleep 1\nend\nlive_loop :b do\n  sleep 1\nend\nlive_loop :c do\n  sleep 1\nend\nlive_loop :d do\n  sleep 1\nend\nlive_loop :e do\n  play_chord [60, 64, 67], release: 1\n  sleep 0.5\nend"));
+      await ph.click("#btn-run");
+      await ph.evaluate(() => document.querySelector("#drawer-rail [data-drawer=insight]").click());
+      await ph.waitForFunction(() => window.sonicPi.processTree().some((n) => n.label === "live_loop :e" && n.x != null), null, { timeout: 15000 }).catch(() => {});
+      await ph.waitForTimeout(1500);   // the tree eased into its places
+      const looks = [];
+      for (let i = 0; i < 10; i++) {
+        looks.push(await ph.evaluate(() => {
+          const host = document.getElementById("insight-pane"), root = host.shadowRoot, rect = (el) => el.getBoundingClientRect();
+          const tabs = rect(root.querySelector(".insight-views")), pause = rect(root.querySelector(".insight-pause")), head = rect(root.querySelector(".insight-head"));
+          const box = rect(root.querySelector(".ptree-head")), canvas = rect(root.querySelector(".ptree-canvas canvas")), pane = rect(host);
+          const counts = [...root.querySelectorAll(".ptree-n")].map((n) => Math.round(rect(n).right));
+          // what is drawn: each node, and its label under it as wide as the tree draws it
+          const c = document.createElement("canvas").getContext("2d");
+          c.font = `${getComputedStyle(document.documentElement).getPropertyValue("--t-label").trim()} ui-monospace, Menlo, monospace`;
+          const b = { x0: box.left - canvas.left, y0: box.top - canvas.top, x1: box.right - canvas.left, y1: box.bottom - canvas.top };
+          const tree = window.sonicPi.processTree().filter((n) => n.x != null);
+          const under = tree.filter((n) => {
+            const sound = n.kind === 7 || n.kind === 8, half = Math.max(n.r + 1, sound ? 0 : c.measureText(n.label.replace(/^(live_loop|in_thread|with_fx) /, "")).width / 2);
+            return n.x + half > b.x0 && n.x - half < b.x1 && n.y - n.r < b.y1 && n.y + n.r + (sound ? 0 : 15) > b.y0;
+          }).map((n) => n.label);
+          return { oneRow: pause.top < tabs.bottom && pause.bottom > tabs.top, sameHeight: Math.abs(pause.height - tabs.height) < 1.5, boxOver: box.top >= canvas.top - 1,
+            treeShare: Math.round((100 * canvas.height) / (pane.bottom - head.bottom)), table: counts.length === 7 && counts.every((r) => r === counts[0]), nodes: tree.length, under };
+        }));
+        await ph.waitForTimeout(150);
+      }
+      const pauseNamed = await ph.getByRole("button", { name: "Pause", exact: true }).isVisible().catch(() => false);
+      await ph.click("#btn-stop");
+      const last = looks.at(-1), under = [...new Set(looks.flatMap((l) => l.under))];
+      check("on a phone the Processes view has its tabs and Pause on one row, its counts a table in a box over the tree, and draws nothing of the tree under the box",
+        pauseNamed && last.oneRow && last.sameHeight && last.boxOver && last.treeShare >= 95 && last.table && last.nodes >= 10 && under.length === 0, JSON.stringify({ pauseNamed, ...last, under }));
+    }
     check("no uncaught errors on the phone page", phoneErrors.length === 0, phoneErrors.slice(0, 3).join(" | "));
     await phone.close();
   } finally {

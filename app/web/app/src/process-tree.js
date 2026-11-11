@@ -42,6 +42,17 @@ const MAX_ANIMATED = 200;
 // and go on every beat), off past the most, back only below fewer, so a count at the edge does not flash them
 const LABELS_OFF = 60, LABELS_ON = 48;
 const LINGER = 2.5;
+// the tree is drawn round the counts' box where that stands over it (drawFrame): the room kept round the box,
+// how far down past it a node comes before it has the full width again, and the least share of the width the rows
+// beside the box may have (with less, they are drawn as though the box were not there)
+const BOX_PAD = 6, BOX_EASE = 24, BESIDE_LEAST = 0.25;
+const labelFont = () => `${typeSize("label")} ui-monospace, Menlo, monospace`;
+// a node's radius as drawn (an ended thread's then shrinks), and its label as drawn
+const radius = (n, dense) => {
+  const group = n.kind === KIND.run || n.kind === KIND.session, fx = n.kind === KIND.fx, sound = isSound(n);
+  return dense ? (group ? 4 : sound ? 2 : 3) : (group ? 6 : fx ? 5 : sound ? 2.5 : 4.5);
+};
+const shortLabel = (n) => processLabel(n).replace(/^(live_loop|in_thread|with_fx) /, "");
 
 // Native's colours by kind: groups NumberForeground, synths
 // FunctionMethodNameForeground, fx KeywordForeground, samples
@@ -136,6 +147,7 @@ export function createProcessTree(root, hooks) {
   let crowded = false;   // too many to label (LABELS_OFF, LABELS_ON)
   let hover = null;
   const screen = new Map();   // id → {x, y, r}
+  const labelWidths = new Map();   // uid → [font, label, its width]
   const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
   // the system's setting, or the app's Reduce animations (main.js setReduceMotion: body.reduce-motion)
   const still = () => !!reduceMotion?.matches || document.body.classList.contains("reduce-motion");
@@ -171,7 +183,7 @@ export function createProcessTree(root, hooks) {
     if (key === lastKey) return;
     lastKey = key;
     const targets = layoutTargets(nodes.map((n) => ({ id: n.uid, parent: n.uid === 0 ? null : n.parent })));
-    for (const id of [...layout.keys()]) if (!targets.has(id)) layout.delete(id);
+    for (const id of [...layout.keys()]) if (!targets.has(id)) { layout.delete(id); labelWidths.delete(id); }
     const snap = nodes.length > MAX_ANIMATED || still();
     for (const n of nodes) {
       const t = targets.get(n.uid);
@@ -203,6 +215,21 @@ export function createProcessTree(root, hooks) {
     }
   }
 
+  // the counts' box, where it stands over the tree (style.css: a narrow pane's), its far corner in the canvas's
+  // coordinates; null where the counts are a row above the tree
+  function boxOver() {
+    const b = head.getBoundingClientRect(), c = wrap.getBoundingClientRect();
+    return b.width && b.bottom > c.top ? { x1: b.right - c.left, y1: b.bottom - c.top } : null;
+  }
+
+  function labelWidth(ctx, n) {
+    const text = shortLabel(n), had = labelWidths.get(n.uid);
+    if (had && had[0] === ctx.font && had[1] === text) return had[2];
+    const width = ctx.measureText(text).width;
+    labelWidths.set(n.uid, [ctx.font, text, width]);
+    return width;
+  }
+
   // drawn each frame while the tree is on screen, and not at all otherwise (ui/shown.js); its easing starts afresh
   function draw() {
     const t0 = performance.now();
@@ -228,11 +255,12 @@ export function createProcessTree(root, hooks) {
     ctx.fillStyle = css("PaneBackground");
     ctx.fillRect(0, 0, w, h);
     renderStats(rows);
+    const box = boxOver();   // after the counts are written: the box as they make it
     if (!rows || !rows.length) {
       ctx.fillStyle = css("faintForeground");
       ctx.font = `${typeSize("small")} ui-monospace, Menlo, monospace`;
       ctx.textAlign = "center";
-      ctx.fillText("(no running threads)", w / 2, h / 2);
+      ctx.fillText("(no running threads)", w / 2, box && box.y1 + 12 > h / 2 ? (box.y1 + h) / 2 : h / 2);   // under the counts' box, where that stands over the tree
       ctx.textAlign = "left";
       screen.clear();
       tip.hidden = true;
@@ -245,6 +273,22 @@ export function createProcessTree(root, hooks) {
     const margin = 26;
     const pw = Math.max(1, w - 2 * margin), ph = Math.max(1, h - 2 * margin - (labels ? 12 : 0));
     const px = (nx) => margin + nx * pw, py = (ny) => margin + ny * ph;
+    // Where each node is drawn. Where the counts' box stands over the tree, a node level with the box is drawn in the
+    // room beside it (its place across mapped onto what is right of the box, with room for its label), and one below
+    // the box across the full width, the room widening over BOX_EASE as it comes down past the box: a node moving
+    // between the two glides, and nothing moves for the box but what would be under it
+    ctx.font = labelFont();
+    const named = labels && !dense && !crowded;
+    const beside = box && (margin + pw - box.x1 - BOX_PAD) / pw >= BESIDE_LEAST ? box : null;
+    const at = new Map();   // uid → [x, y]
+    for (const n of nodes) {
+      const l = layout.get(n.uid), x = px(l.cx), y = py(l.cy);
+      if (!beside) { at.set(n.uid, [x, y]); continue; }
+      const r = radius(n, dense), half = Math.max(r + 1, named && !isSound(n) ? labelWidth(ctx, n) / 2 : 0);
+      const from = Math.min(margin + pw, beside.x1 + BOX_PAD + half);   // the least x that has it, and its label, right of the box
+      const level = Math.min(1, Math.max(0, 1 - (y - r - beside.y1 - BOX_PAD) / BOX_EASE));   // 1 level with the box, 0 clear below it
+      at.set(n.uid, [x + level * Math.max(0, from - margin) * (1 - l.cx), y]);
+    }
     const byId = new Map(nodes.map((n) => [n.uid, n]));
     // A finished thread whose children still run stays in the tree, dimmed:
     // a run's main thread ends as soon as it has started its live loops.
@@ -266,8 +310,7 @@ export function createProcessTree(root, hooks) {
     for (const n of nodes) {
       const p = byId.get(n.parent);
       if (!p || n.uid === 0) continue;
-      const a = layout.get(p.uid), b = layout.get(n.uid);
-      const ax = px(a.cx), ay = py(a.cy), bx = px(b.cx), by = py(b.cy);
+      const [ax, ay] = at.get(p.uid), [bx, by] = at.get(n.uid);
       ctx.moveTo(ax, ay);
       if (dense) ctx.lineTo(bx, by);
       else {
@@ -284,13 +327,11 @@ export function createProcessTree(root, hooks) {
     // nodes: runs under threads, as native paints groups first
     screen.clear();
     const ordered = [...nodes].sort((a, b) => (a.kind === KIND.run || a.kind === KIND.session ? 0 : 1) - (b.kind === KIND.run || b.kind === KIND.session ? 0 : 1));
-    ctx.font = `${typeSize("label")} ui-monospace, Menlo, monospace`;
     for (const n of ordered) {
-      const l = layout.get(n.uid);
-      const x = px(l.cx), y = py(l.cy);
+      const [x, y] = at.get(n.uid);
       const group = n.kind === KIND.run || n.kind === KIND.session;
       const fx = n.kind === KIND.fx, sound = isSound(n);
-      let r = dense ? (group ? 4 : sound ? 2 : 3) : (group ? 6 : fx ? 5 : sound ? 2.5 : 4.5);
+      let r = radius(n, dense);
       const alpha = fade(n);
       if (alpha <= 0) continue;
       if (n.ended >= 0 && !sound && !parentOfLive.has(n.uid)) r *= 0.6 + 0.4 * alpha;
@@ -343,7 +384,7 @@ export function createProcessTree(root, hooks) {
       if (labels && !dense && !sound && !crowded) {
         ctx.fillStyle = css("mutedForeground");
         ctx.textAlign = "center";
-        ctx.fillText(processLabel(n).replace(/^(live_loop|in_thread|with_fx) /, ""), x, y + r + 12);
+        ctx.fillText(shortLabel(n), x, y + r + 12);
         ctx.textAlign = "left";
       }
       ctx.globalAlpha = 1;

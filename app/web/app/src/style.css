@@ -2163,6 +2163,22 @@ body.reduce-motion .cm-tooltip.sp-slider, :host([data-page~="reduce-motion"]) .c
   #quickstart-pane { --qs-code-size: 15px; }
   .qs-carousel { padding: 8px 10px 4px; }
   #quickstart-pane { --qs-title-size: 17px; }
+
+  /* the Threads pane: Pause by its icon (its name is still said: insight.js), and the Processes view's tabs and Pause
+     on one row, the tabs scrolling when they must; its counts a table in a box over the tree's top left corner, Labels
+     in it, and the tree's rows level with the box drawn beside it (process-tree.js drawFrame) */
+  .insight-pause .seg-label { display: none; }
+  .seg > button.insight-pause { padding-inline: 8px; }
+  .insight-pause-seg { align-self: stretch; }   /* as tall as the tabs beside it, without its word */
+  .insight[data-view="processes"] .insight-head { flex-wrap: nowrap; }
+  .insight[data-view="processes"] .insight-views { min-width: 0; }
+  .insight-processes { position: relative; }
+  .ptree-head { position: absolute; top: 6px; left: 10px; z-index: 1; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 6px; padding: 6px 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-s); background: var(--PaneBackground); }
+  .ptree-stats { flex: none; flex-direction: column; flex-wrap: nowrap; gap: 1px; font-size: var(--t-label); line-height: 1.35; }
+  .ptree-stat { display: flex; align-items: center; }
+  .ptree-stat i { flex: none; width: 6px; height: 6px; margin-right: 4px; }
+  .ptree-n { margin-left: auto; padding-left: 8px; text-align: right; }
+  .ptree-labels { align-self: flex-start; }
 }
 
 /* The page bar (ui/pagebar.js) under the tabs, while a page shows: over the page's column, from its list's edge (a wide

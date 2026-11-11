@@ -203,12 +203,14 @@ export function createInsight(root, hooks) {
     windows.appendChild(b);
   }
   // Pause holds every view where it is — the tree's rows, the timeline's clock, the roll — to explore it. A toggle,
-  // the size of the chips beside it: lit while it holds, its name the same either way
+  // the size of the chips beside it: lit while it holds, its name the same either way. A phone shows its icon alone
+  // (style.css), and its name is still said
   let frozenRows = null;
-  const pauseSeg = el("div", "seg");
+  const pauseSeg = el("div", "seg insight-pause-seg");
   const pause = el("button", "insight-pause");
   pause.type = "button";
-  pause.innerHTML = `${icon("player-pause")}Pause`;
+  pause.innerHTML = `${icon("player-pause")}<span class="seg-label">Pause</span>`;
+  pause.setAttribute("aria-label", "Pause");
   pause.setAttribute("aria-pressed", "false");
   pause.title = "Hold every view where it is, to look around it";
   pause.addEventListener("click", () => {
