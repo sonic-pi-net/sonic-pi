@@ -846,6 +846,16 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.click("#docs-pane .pg-card .qs-card-foot .qs-run:not(.qs-stop)");
     await page.waitForFunction(() => /synth :prophet, \{note: 52\.0, cutoff: 115/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 5000 }).catch(() => {});
     check("the instrument page plays its program", /synth :prophet, \{note: 52\.0, cutoff: 115/.test(await logText()));
+    // A note played on the page's keyboard is the card's sound, as Play's is: the card plays while it sounds, and its
+    // Stop stops it, well before the note's one-second release would end it (#3610: native's TutorialPane does the same)
+    const docsPlaying = () => page.evaluate(() => !!document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"));
+    await page.click("#docs-pane .pg-card .qs-transport .qs-stop").catch(() => {});
+    await page.waitForFunction(() => !document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"), null, { timeout: 5000 }).catch(() => {});
+    await page.locator("#docs-pane .pg-piano [data-note]").nth(7).click();
+    const keyPlays = await page.waitForFunction(() => document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"), null, { timeout: 5000 }).then(() => true, () => false);
+    await page.click("#docs-pane .pg-card .qs-transport .qs-stop").catch(() => {});
+    const keyStops = await page.waitForFunction(() => !document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"), null, { timeout: 400 }).then(() => true, () => false);
+    check("Stop on a synth page stops a note played on its keyboard", keyPlays && keyStops, JSON.stringify({ keyPlays, keyStops, playing: await docsPlaying() }));
     // an FX's live demo keeps its FX node in Time State for the knobs to steer (set :docs_fx, fx): a node is thread safe,
     // as native has it, so the demo runs with no error, and one that fails says so on its own card, not over the code
     await page.click(".docs-tabs button:has-text('FX')");

@@ -17,6 +17,7 @@
 #include <QFrame>
 #include <QIcon>
 #include <QUrl>
+#include <QSet>
 #include <QVector>
 
 #include <memory>
@@ -220,6 +221,10 @@ private:
     void setSnippetPlaying(Snippet& snippet, bool playing);
     void renderFxIcon(QLabel* iconLabel);
     void toggleDemo();
+    // The page's demo, its first snippet, plays while its own run or a run the keyboard started sounds, and its
+    // Stop stops all of them (#3610, as the web's card does).
+    void refreshDemoPlaying();
+    void stopDemo();
     void playKeyboardNote(int semitoneOffset);
     void shiftOctave(int delta);
     QString instrumentOpts() const; // ", opt: val" for the non-default dials (excl. note)
@@ -274,6 +279,7 @@ private:
     QString m_prevTitle;
     QString m_nextTitle;
     QVector<Snippet> m_snippets;
+    QSet<int> m_keyJobs;   // runs the keyboard started that are still going
     // The page's cards' runs, one card at a time; a run outlives its card, so
     // a zoom's rebuild finds it playing.
     class CardDeck* m_deck = nullptr;

@@ -60,6 +60,8 @@
 
 namespace
 {
+// The workspace the docs keyboard's notes run in (playKeyboardNote, runStarted).
+const QString kKeysWorkspace = QStringLiteral("sonic-pi-tutorial-keys");
 
 void repolish(QWidget* w)
 {
@@ -775,10 +777,26 @@ void TutorialPane::toggleDemo()
     if (m_snippets.isEmpty())
         return;
     Snippet& snippet = m_snippets[0];
-    if (snippet.jobId >= 0)
-        emit stopJobRequested(snippet.jobId);
+    if (snippet.jobId >= 0 || !m_keyJobs.isEmpty())
+        stopDemo();
     else
         snippet.play->click();
+}
+
+void TutorialPane::refreshDemoPlaying()
+{
+    if (m_snippets.isEmpty() || m_pageName.isEmpty())
+        return;
+    Snippet& demo = m_snippets[0];
+    setSnippetPlaying(demo, demo.jobId >= 0 || !m_keyJobs.isEmpty());
+}
+
+void TutorialPane::stopDemo()
+{
+    if (!m_snippets.isEmpty() && m_snippets[0].jobId >= 0)
+        emit stopJobRequested(m_snippets[0].jobId);
+    for (int jobId : m_keyJobs)
+        emit stopJobRequested(jobId);
 }
 
 void TutorialPane::playKeyboardNote(int semitoneOffset)
@@ -808,8 +826,9 @@ void TutorialPane::playKeyboardNote(int semitoneOffset)
         code += "use_synth :" + m_pageName + "\n"
                 "play " + note + instrumentOpts();
     }
-    // Untracked workspace: key notes shouldn't drive the demo's playing state
-    emit runRequested(code, "sonic-pi-tutorial-keys", true);
+    // A workspace of the keyboard's own: runStarted counts its runs as the demo's sound, without lighting the
+    // dial's note on the piano as a Play does
+    emit runRequested(code, kKeysWorkspace, true);
     if (m_piano)
         m_piano->flash(semitoneOffset, qRound(release * 1000));
     // Dial/code sync happens AFTER the note is dispatched: setValue triggers
@@ -1386,6 +1405,11 @@ void TutorialPane::addSnippet(const QString& code, bool runnable, QVBoxLayout* i
     connect(snippet.stop, &QPushButton::clicked, this, [this, index]() {
         if (index >= m_snippets.size())
             return;
+        if (index == 0 && !m_pageName.isEmpty())
+        {
+            stopDemo();   // and the notes the keyboard played
+            return;
+        }
         Snippet& s = m_snippets[index];
         if (s.jobId >= 0)
             emit stopJobRequested(s.jobId);
@@ -1579,6 +1603,12 @@ void TutorialPane::addNavFooter()
 void TutorialPane::runStarted(int jobId, const QString& workspace)
 {
     m_deck->runStarted(jobId, workspace);
+    if (workspace == kKeysWorkspace)
+    {
+        m_keyJobs.insert(jobId);
+        refreshDemoPlaying();
+        return;
+    }
     for (Snippet& snippet : m_snippets)
     {
         if (snippet.workspace == workspace)
@@ -1608,12 +1638,18 @@ void TutorialPane::runStarted(int jobId, const QString& workspace)
 void TutorialPane::runEnded(int jobId)
 {
     m_deck->runEnded(jobId);
+    if (m_keyJobs.remove(jobId))
+    {
+        refreshDemoPlaying();
+        return;
+    }
     for (Snippet& snippet : m_snippets)
     {
         if (snippet.jobId == jobId)
         {
             snippet.jobId = -1;
             setSnippetPlaying(snippet, false);
+            refreshDemoPlaying();   // the demo plays on while a key's note sounds
             return;
         }
     }

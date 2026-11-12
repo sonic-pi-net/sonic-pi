@@ -22,6 +22,8 @@
 
 #include <QApplication>
 #include <QFile>
+#include <QTest>
+#include <QPushButton>
 
 #include "model/sonicpitheme.h"
 #include "utils/tutorialdocs.h"
@@ -151,4 +153,60 @@ TEST_CASE("synth and fx doc pages never clip their prose", "[tutorialpane][clip]
     }
     INFO(worst.toStdString());
     CHECK(worstShort == 0);
+}
+
+// #3610: notes played on a synth page's keyboard kept sounding through the card's Stop, which stopped only the run
+// its Play button started. A key's run is the card's sound, as on the web (docs.js: "Stop stops it"): Stop stops
+// every run the card's Play and keys started, and the card shows playing while any of them sounds.
+TEST_CASE("a synth page's Stop stops the notes played on its keyboard as well as Play's", "[tutorialpane]")
+{
+    const QString root = QStringLiteral(SP_ROOT);
+    SonicPiTheme theme(nullptr, "", root);
+    const auto synths = SonicPi::TutorialDocs::instrumentsFromJson(
+        readDocJson(root + "/etc/doc/generated/native/reference/synths.json"));
+    const SonicPi::InstrumentPage* beep = nullptr;
+    for (const auto& p : synths)
+        if (p.key == "beep")
+            beep = &p;
+    REQUIRE(beep);
+
+    TutorialPane pane(&theme);
+    pane.resize(1000, 800);
+    pane.showInstrumentPage(false, *beep);
+    pane.show();
+    QApplication::processEvents();
+    QStringList ranIn;
+    QList<int> stopped;
+    QObject::connect(&pane, &TutorialPane::runRequested, &pane,
+                     [&](const QString&, const QString& workspace, bool, bool) { ranIn << workspace; });
+    QObject::connect(&pane, &TutorialPane::stopJobRequested, &pane, [&](int jobId) { stopped << jobId; });
+    QPushButton* stop = pane.findChild<QPushButton*>("tutStop");
+    REQUIRE(stop);
+    REQUIRE(!stop->isEnabled());
+
+    QTest::keyClick(&pane, Qt::Key_A);   // a key on the piano
+    REQUIRE(ranIn.size() == 1);
+    pane.runStarted(41, ranIn[0]);       // the engine starts its run
+    CHECK(stop->isEnabled());            // the card is playing
+    QTest::keyClick(&pane, Qt::Key_S);
+    REQUIRE(ranIn.size() == 2);
+    pane.runStarted(42, ranIn[1]);
+    QPushButton* play = pane.findChild<QPushButton*>("tutPlay");
+    REQUIRE(play);
+    play->click();                       // and the card's Play
+    REQUIRE(ranIn.size() == 3);
+    pane.runStarted(43, ranIn[2]);
+
+    stop->click();
+    QStringList ids;
+    for (int id : stopped)
+        ids << QString::number(id);
+    INFO("stopped: " << ids.join(",").toStdString());
+    CHECK(stopped.contains(41));
+    CHECK(stopped.contains(42));
+    CHECK(stopped.contains(43));
+
+    for (int id : { 41, 42, 43 })
+        pane.runEnded(id);
+    CHECK(!stop->isEnabled());
 }
