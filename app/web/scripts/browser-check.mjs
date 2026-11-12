@@ -1027,10 +1027,12 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       const tipUp = () => tp.evaluate(() => [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden));
       const edit = tp.locator(".tut-part section.qs-card:not(.sp-card)").first().getByRole("button", { name: "Edit", exact: true });
       await edit.scrollIntoViewIfNeeded().catch(() => {});
-      // two points in the button: on a line of its icon (the path itself under the pointer), and beside the icon
+      // two points in the button: on a line of its icon (the path itself under the pointer), and beside the icon. Whole
+      // pixels, 2 px inside the edges: WebKit on Linux moves the pointer to whole pixels, so a point 1 px inside the
+      // corner found at a fraction of a pixel landed on the card head, outside the button's rounded corner
       const spots = await edit.evaluate((b) => {
         const r = b.getBoundingClientRect(), hit = (want) => {
-          for (let x = r.left + 1; x < r.right - 1; x += 0.5) for (let y = r.top + 1; y < r.bottom - 1; y += 0.5) if (want(document.elementFromPoint(x, y))) return [x, y];
+          for (let x = Math.ceil(r.left) + 2; x < r.right - 2; x++) for (let y = Math.ceil(r.top) + 2; y < r.bottom - 2; y++) if (want(document.elementFromPoint(x, y))) return [x, y];
           return null;
         };
         return { on: hit((e) => e?.tagName === "path"), off: hit((e) => e === b) };
@@ -1051,7 +1053,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
         const away = await edit.evaluate((b) => {   // a point left of the button with no tooltip under it
           const r = b.getBoundingClientRect();
           for (let dx = 40; dx < 400; dx += 10) {
-            const x = r.left - dx, y = r.top + r.height / 2, e = document.elementFromPoint(x, y);
+            const x = Math.round(r.left - dx), y = Math.round(r.top + r.height / 2), e = document.elementFromPoint(x, y);
             if (x > 0 && e && !e.closest("button, a, [data-tip], [title]")) return [x, y];
           }
           return null;
