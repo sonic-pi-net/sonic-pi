@@ -23,12 +23,14 @@
 #include <QKeyEvent>
 #include <QKeySequence>
 #include <QMenu>
+#include <QMouseEvent>
 #include <QPainter>
 #include <QTextLayout>
 #include <QPaintEvent>
 #include <QScrollBar>
 
 #include <algorithm>
+#include <cmath>
 #include <map>
 #include <memory>
 
@@ -38,6 +40,14 @@ namespace SonicPi
 namespace
 {
 constexpr int kLeftPad = 2;   // logical px before the first glyph
+
+QString textOf(const QVector<LogRun>& runs)
+{
+    QString text;
+    for (const LogRun& r : runs)
+        text += r.text;
+    return text;
+}
 } // namespace
 
 MetricsLog::MetricsLog(QWidget* parent)
@@ -48,6 +58,9 @@ MetricsLog::MetricsLog(QWidget* parent)
     viewport()->setAttribute(Qt::WA_OpaquePaintEvent, true);
     m_background = palette().base().color();
     m_text = palette().text().color();
+    m_selBackground = palette().highlight().color();
+    m_selText = palette().highlightedText().color();
+    viewport()->setCursor(Qt::IBeamCursor);
     horizontalScrollBar()->setSingleStep(16);
     // Pinned to the bottom while the user leaves it there; a scroll up by the
     // user unpins, a scroll back to the end pins again. Our own moves are
@@ -126,6 +139,17 @@ void MetricsLog::append(QVector<QVector<LogRun>> lines)
         const int gone = m_lines.size() - kKeptLines;
         m_lines.remove(0, gone);   // the widest may be gone: the range shrinks on the next clear
         m_firstSeq += gone;
+        // A view that isn't following the newest keeps the same lines on view.
+        if (!m_pinned || m_selecting)
+        {
+            m_adjusting = true;
+            verticalScrollBar()->setValue(std::max(0, verticalScrollBar()->value() - gone));
+            m_adjusting = false;
+        }
+        // A selection keeps what is left of its lines.
+        const Pos first{ m_firstSeq, 0 };
+        for (Pos* p : { &m_anchor, &m_caret, &m_unitFrom, &m_unitTo })
+            *p = std::max(*p, first);
     }
     updateScrollRange();
     requestFrame();
@@ -136,6 +160,7 @@ void MetricsLog::setPlainText(const QString& text)
     m_firstSeq += m_lines.size();
     m_lines.clear();
     m_widest = 0.0;
+    resetSelection();
     QVector<QVector<LogRun>> lines;
     for (const QString& l : text.split(QLatin1Char('\n')))
         lines.append({ { QColor(), l, QString() } });
@@ -147,6 +172,7 @@ void MetricsLog::clear()
     m_firstSeq += m_lines.size();
     m_lines.clear();
     m_widest = 0.0;
+    resetSelection();
     m_pinned = true;
     updateScrollRange();
     requestFrame();
@@ -175,12 +201,7 @@ QString MetricsLog::plainText() const
     QStringList out;
     out.reserve(m_lines.size());
     for (const QVector<LogRun>& runs : m_lines)
-    {
-        QString l;
-        for (const LogRun& r : runs)
-            l += r.text;
-        out << l;
-    }
+        out << textOf(runs);
     return out.join(QLatin1Char('\n'));
 }
 
@@ -191,12 +212,21 @@ void MetricsLog::updateScrollRange()
     m_adjusting = true;
     verticalScrollBar()->setRange(0, maxTop);
     verticalScrollBar()->setPageStep(visible);
-    if (m_pinned)
+    if (m_pinned && !m_selecting)
         verticalScrollBar()->setValue(maxTop);
     const int maxX = std::max(0, int(m_widest) + kLeftPad - viewport()->width());
     horizontalScrollBar()->setRange(0, maxX);
     horizontalScrollBar()->setPageStep(viewport()->width());
     m_adjusting = false;
+}
+
+// Short content sits at the bottom, this far down.
+int MetricsLog::topGap() const
+{
+    const qreal lineH = lineHeight();
+    const int visible = std::max(1, int(viewport()->height() / lineH)) + 1;   // a part line at the bottom
+    const int shown = std::min(int(m_lines.size()), visible);
+    return m_lines.size() < visible - 1 ? std::max(0, int(viewport()->height() - shown * lineH)) : 0;
 }
 
 void MetricsLog::requestFrame()
@@ -209,13 +239,16 @@ void MetricsLog::requestFrame()
     f.firstSeq = m_firstSeq + top;
     f.look = m_look;
     f.xOffset = horizontalScrollBar()->value();
-    const int shown = std::min(int(m_lines.size()), visible);
-    f.topGap = m_lines.size() < visible - 1 ? std::max(0, int(viewport()->height() - shown * lineH)) : 0;
+    f.topGap = topGap();
     f.size = viewport()->size();
     f.dpr = devicePixelRatioF();
     f.font = font();
     f.background = m_background;
     f.text = m_text;
+    f.selFrom = selFrom();
+    f.selTo = selTo();
+    f.selBackground = m_selBackground;
+    f.selText = m_selText;
     f.valid = true;
     QMutexLocker lock(&m_frameMutex);
     m_pending = std::move(f);   // a frame not yet drawn is replaced: only the newest is worth drawing
@@ -327,13 +360,38 @@ void MetricsLog::renderFrame(QImage& image, const Frame& frame, Layouts& layouts
     QColor background = frame.background;
     background.setAlpha(255);
     p.fillRect(QRectF(QPointF(0, 0), QSizeF(frame.size)), background);
-    const qreal lineH = QFontMetricsF(frame.font).height();
+    const QFontMetricsF fm(frame.font);
+    const qreal lineH = fm.height();
     const qreal x = kLeftPad - frame.xOffset;
+    const bool selection = frame.selFrom < frame.selTo;
     qreal y = frame.topGap;
     quint64 seq = frame.firstSeq;
     for (const QVector<LogRun>& runs : frame.lines)
     {
-        layouts.of(seq, runs, frame, m_linesShaped).draw(&p, QPointF(x, y));
+        QTextLayout& layout = layouts.of(seq, runs, frame, m_linesShaped);
+        QList<QTextLayout::FormatRange> selected;
+        if (selection && seq >= frame.selFrom.seq && seq <= frame.selTo.seq)
+        {
+            const int from = seq == frame.selFrom.seq ? frame.selFrom.at : 0;
+            const int to = seq == frame.selTo.seq ? frame.selTo.at : int(layout.text().size());
+            if (to > from)
+            {
+                QTextLayout::FormatRange r;
+                r.start = from;
+                r.length = to - from;
+                r.format.setBackground(frame.selBackground);
+                r.format.setForeground(frame.selText);
+                selected.append(r);
+            }
+            // A line whose break is selected shows it, a space wide past its
+            // end, as a text edit does.
+            if (seq < frame.selTo.seq)
+            {
+                const qreal end = layout.lineCount() ? layout.lineAt(0).naturalTextWidth() : 0.0;
+                p.fillRect(QRectF(x + end, y, fm.horizontalAdvance(QLatin1Char(' ')), lineH), frame.selBackground);
+            }
+        }
+        layout.draw(&p, QPointF(x, y), selected);
         ++seq;
         y += lineH;
         if (y > frame.size.height())
@@ -392,23 +450,247 @@ void MetricsLog::copyAll()
     QApplication::clipboard()->setText(plainText());
 }
 
+void MetricsLog::copy()
+{
+    QApplication::clipboard()->setText(hasSelection() ? selectedText() : plainText());
+}
+
 void MetricsLog::contextMenuEvent(QContextMenuEvent* e)
 {
     QMenu menu(this);
-    QAction* copy = menu.addAction(tr("Copy all"));
-    copy->setEnabled(!m_lines.isEmpty());
-    if (menu.exec(e->globalPos()) == copy)
+    QAction* copySelected = menu.addAction(tr("Copy"));
+    copySelected->setEnabled(hasSelection());
+    QAction* copyEvery = menu.addAction(tr("Copy all"));
+    copyEvery->setEnabled(!m_lines.isEmpty());
+    menu.addSeparator();
+    QAction* all = menu.addAction(tr("Select all"));
+    all->setEnabled(!m_lines.isEmpty());
+    QAction* chosen = menu.exec(e->globalPos());
+    if (chosen == copySelected)
+        copy();
+    else if (chosen == copyEvery)
         copyAll();
+    else if (chosen == all)
+        selectAll();
+}
+
+// The window binds Copy and Select All to the code editor; in the log they
+// are the log's.
+bool MetricsLog::event(QEvent* e)
+{
+    if (e->type() == QEvent::ShortcutOverride)
+    {
+        auto* ke = static_cast<QKeyEvent*>(e);
+        if (ke->matches(QKeySequence::Copy) || ke->matches(QKeySequence::SelectAll))
+        {
+            e->accept();
+            return true;
+        }
+    }
+    return QAbstractScrollArea::event(e);
 }
 
 void MetricsLog::keyPressEvent(QKeyEvent* e)
 {
     if (e->matches(QKeySequence::Copy))
     {
-        copyAll();
+        copy();
+        return;
+    }
+    if (e->matches(QKeySequence::SelectAll))
+    {
+        selectAll();
         return;
     }
     QAbstractScrollArea::keyPressEvent(e);
+}
+
+// The place in the text under a point of the view: before the first line,
+// its start; past the last, its end.
+MetricsLog::Pos MetricsLog::posAt(const QPointF& p) const
+{
+    if (m_lines.isEmpty())
+        return { m_firstSeq, 0 };
+    const int row = verticalScrollBar()->value() + int(std::floor((p.y() - topGap()) / lineHeight()));
+    if (row < 0)
+        return { m_firstSeq, 0 };
+    if (row >= m_lines.size())
+        return { m_firstSeq + quint64(m_lines.size() - 1), int(textOf(m_lines.last()).size()) };
+    // The line under the pointer, laid out here once an event: the lines on
+    // view are laid out by the worker that draws them.
+    QTextLayout layout(textOf(m_lines.at(row)), font());
+    layout.beginLayout();
+    QTextLine line = layout.createLine();
+    layout.endLayout();
+    const qreal x = p.x() - kLeftPad + horizontalScrollBar()->value();
+    return { m_firstSeq + quint64(row), line.isValid() ? line.xToCursor(x) : 0 };
+}
+
+// The character, word or line at a place: from and to either side of it.
+void MetricsLog::unitAt(const Pos& p, Unit unit, Pos& from, Pos& to) const
+{
+    from = to = p;
+    if (unit == Unit::Chars || p.seq < m_firstSeq || p.seq - m_firstSeq >= quint64(m_lines.size()))
+        return;
+    const QString text = textOf(m_lines.at(int(p.seq - m_firstSeq)));
+    if (unit == Unit::Lines)
+    {
+        from.at = 0;
+        to.at = text.size();
+        return;
+    }
+    auto inWord = [&](int i) { return text.at(i).isLetterOrNumber() || text.at(i) == QLatin1Char('_'); };
+    int a = p.at, b = p.at;
+    while (a > 0 && inWord(a - 1))
+        --a;
+    while (b < text.size() && inWord(b))
+        ++b;
+    if (a == b && b < text.size())
+        ++b;   // between words: the character there
+    from.at = a;
+    to.at = b;
+}
+
+// The selection runs from what the press took to what is under the point,
+// whole words or lines when the press took a word or a line.
+void MetricsLog::selectTo(const QPointF& p)
+{
+    Pos from, to;
+    unitAt(posAt(p), m_unit, from, to);
+    if (from < m_unitFrom)
+    {
+        m_anchor = m_unitTo;
+        m_caret = from;
+    }
+    else
+    {
+        m_anchor = m_unitFrom;
+        m_caret = std::max(to, m_unitTo);
+    }
+    requestFrame();
+}
+
+void MetricsLog::mousePressEvent(QMouseEvent* e)
+{
+    if (e->button() != Qt::LeftButton)
+    {
+        QAbstractScrollArea::mousePressEvent(e);
+        return;
+    }
+    const bool third = m_sinceDoubleClick.isValid() && m_sinceDoubleClick.elapsed() < QApplication::doubleClickInterval();
+    m_sinceDoubleClick.invalidate();
+    m_selecting = true;
+    if (e->modifiers() & Qt::ShiftModifier)
+    {
+        // From where the selection began, which stays put.
+        m_unit = Unit::Chars;
+        m_unitFrom = m_unitTo = m_anchor;
+        selectTo(e->position());
+        return;
+    }
+    m_unit = third ? Unit::Lines : Unit::Chars;
+    unitAt(posAt(e->position()), m_unit, m_unitFrom, m_unitTo);
+    m_anchor = m_unitFrom;
+    m_caret = m_unitTo;
+    requestFrame();
+}
+
+void MetricsLog::mouseDoubleClickEvent(QMouseEvent* e)
+{
+    if (e->button() != Qt::LeftButton)
+    {
+        QAbstractScrollArea::mouseDoubleClickEvent(e);
+        return;
+    }
+    m_selecting = true;
+    m_unit = Unit::Words;
+    unitAt(posAt(e->position()), m_unit, m_unitFrom, m_unitTo);
+    m_anchor = m_unitFrom;
+    m_caret = m_unitTo;
+    m_sinceDoubleClick.start();
+    requestFrame();
+}
+
+void MetricsLog::mouseMoveEvent(QMouseEvent* e)
+{
+    if (!m_selecting || !(e->buttons() & Qt::LeftButton))
+    {
+        QAbstractScrollArea::mouseMoveEvent(e);
+        return;
+    }
+    // Past an edge, the view moves on towards it.
+    const QPointF p = e->position();
+    QScrollBar* v = verticalScrollBar();
+    QScrollBar* h = horizontalScrollBar();
+    if (p.y() < 0)
+        v->setValue(v->value() - 1);
+    else if (p.y() > viewport()->height())
+        v->setValue(v->value() + 1);
+    if (p.x() < 0)
+        h->setValue(h->value() - h->singleStep());
+    else if (p.x() > viewport()->width())
+        h->setValue(h->value() + h->singleStep());
+    selectTo(p);
+}
+
+void MetricsLog::mouseReleaseEvent(QMouseEvent* e)
+{
+    if (e->button() != Qt::LeftButton)
+    {
+        QAbstractScrollArea::mouseReleaseEvent(e);
+        return;
+    }
+    m_selecting = false;
+    updateScrollRange();   // following the newest again, if it was
+    requestFrame();
+}
+
+bool MetricsLog::hasSelection() const
+{
+    return !(m_anchor == m_caret);
+}
+
+QString MetricsLog::selectedText() const
+{
+    if (!hasSelection())
+        return QString();
+    const Pos from = selFrom(), to = selTo();
+    QStringList out;
+    for (quint64 seq = from.seq; seq <= to.seq; ++seq)
+    {
+        const QString text = textOf(m_lines.at(int(seq - m_firstSeq)));
+        const int a = seq == from.seq ? from.at : 0;
+        const int b = seq == to.seq ? to.at : int(text.size());
+        out << text.mid(a, b - a);
+    }
+    return out.join(QLatin1Char('\n'));
+}
+
+void MetricsLog::selectAll()
+{
+    if (m_lines.isEmpty())
+        return;
+    m_anchor = { m_firstSeq, 0 };
+    m_caret = { m_firstSeq + quint64(m_lines.size() - 1), int(textOf(m_lines.last()).size()) };
+    requestFrame();
+}
+
+void MetricsLog::clearSelection()
+{
+    m_anchor = m_caret;
+    requestFrame();
+}
+
+void MetricsLog::resetSelection()
+{
+    m_anchor = m_caret = m_unitFrom = m_unitTo = Pos{ m_firstSeq, 0 };
+}
+
+void MetricsLog::setSelectionColours(const QColor& background, const QColor& text)
+{
+    m_selBackground = background;
+    m_selText = text;
+    requestFrame();
 }
 
 } // namespace SonicPi

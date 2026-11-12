@@ -1030,9 +1030,13 @@ void MetricsPanel::applyTheme(SonicPiTheme* theme)
     m_textColor   = theme->color("LogForeground");
     m_bgColor     = theme->color("LogBackground");
     m_borderColor = theme->color("MarginForeground");
+    const QColor selection = theme->color("SelectionBackground");   // the editor's
     for (SonicPi::MetricsLog* v : { m_oscOutView, m_oscInView, m_debugView })
         if (v)
+        {
             v->setColours(m_bgColor, m_textColor);
+            v->setSelectionColours(selection, theme->contrastingText(selection));
+        }
 
     // All colours come from the palette; label colours via the
     // ssRole/objectName selectors set once at construction.
