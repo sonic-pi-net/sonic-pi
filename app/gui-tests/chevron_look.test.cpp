@@ -283,6 +283,7 @@ TEST_CASE("a panel away leaves only the one divider at the window's edge", "[div
     QTest::mouseMove(central, QPoint(20, 20));
     settle();
     const QImage im = w.grab().toImage();
+    const qreal dpr = im.devicePixelRatio();   // the image is in device pixels: 2 per logical pixel at 2x
     shoot(w, "away-docks");
 
     // The placeholders span their area, a pixel across it.
@@ -305,8 +306,8 @@ TEST_CASE("a panel away leaves only the one divider at the window's edge", "[div
         INFO((rightEdge ? "right" : "bottom") << " edge, last 14 pixels: " << last.join(" ").toStdString());
         REQUIRE(firstNonEditor > 0);
         const int band = n - firstNonEditor;
-        INFO((rightEdge ? "right" : "bottom") << " edge band is " << band << "px; expected " << Divider::kExtent << " + 1");
-        CHECK(band == Divider::kExtent + 1);
+        INFO((rightEdge ? "right" : "bottom") << " edge band is " << band << " device px; expected (" << Divider::kExtent << " + 1) x " << dpr);
+        CHECK(band == qRound((Divider::kExtent + 1) * dpr));
         int lineN = 0;
         for (int i = firstNonEditor; i < n; i++)
         {
@@ -315,7 +316,7 @@ TEST_CASE("a panel away leaves only the one divider at the window's edge", "[div
             CHECK((c == window || c == line));
             if (c == line) lineN++;
         }
-        CHECK(lineN == Divider::kLine);
+        CHECK(lineN == qRound(Divider::kLine * dpr));
     };
     checkEdge(true);
     checkEdge(false);
@@ -364,12 +365,15 @@ TEST_CASE("a panel away under the app's theme and stylesheet leaves one divider"
         QTest::mouseMove(central, QPoint(20, 20));
         settle();
         const QImage im = w.grab().toImage();
+        const qreal dpr = im.devicePixelRatio();   // the image is in device pixels: 2 per logical pixel at 2x
         shoot(w, scheme == SonicPiTheme::DarkScheme ? "away-docks-dark" : "away-docks-light");
 
         const QRect c = central->geometry();
+        // the first device pixel past the editor's right and bottom edges
+        const int pastRight = qRound((c.right() + 1) * dpr), pastBottom = qRound((c.bottom() + 1) * dpr);
         QStringList right, bottomPx;
-        for (int x = c.right() - 2; x < im.width(); x++) right << im.pixelColor(x, im.height() / 2).name();
-        for (int y = c.bottom() - 2; y < im.height(); y++) bottomPx << im.pixelColor(im.width() / 2, y).name();
+        for (int x = pastRight - qRound(2 * dpr); x < im.width(); x++) right << im.pixelColor(x, im.height() / 2).name();
+        for (int y = pastBottom - qRound(2 * dpr); y < im.height(); y++) bottomPx << im.pixelColor(im.width() / 2, y).name();
         INFO((scheme == SonicPiTheme::DarkScheme ? "dark" : "light") << ": separator extent via the stylesheet " << sep
              << "; window " << window.name().toStdString() << " line " << line.name().toStdString()
              << "\n  right from the editor's last 2px: " << right.join(" ").toStdString()
@@ -381,9 +385,9 @@ TEST_CASE("a panel away under the app's theme and stylesheet leaves one divider"
         // and exactly kLine of the line, on both edges.
         auto across = [&](bool rightEdge) {
             int lineN = 0, other = 0;
-            if (rightEdge) for (int x = c.right() + 1; x < im.width(); x++) { const QColor px = im.pixelColor(x, im.height() / 2); if (px == line) lineN++; else if (px != window) other++; }
-            else           for (int y = c.bottom() + 1; y < im.height(); y++) { const QColor px = im.pixelColor(im.width() / 2, y); if (px == line) lineN++; else if (px != window) other++; }
-            CHECK(lineN == Divider::kLine);
+            if (rightEdge) for (int x = pastRight; x < im.width(); x++) { const QColor px = im.pixelColor(x, im.height() / 2); if (px == line) lineN++; else if (px != window) other++; }
+            else           for (int y = pastBottom; y < im.height(); y++) { const QColor px = im.pixelColor(im.width() / 2, y); if (px == line) lineN++; else if (px != window) other++; }
+            CHECK(lineN == qRound(Divider::kLine * dpr));
             CHECK(other == 0);
         };
         across(true);

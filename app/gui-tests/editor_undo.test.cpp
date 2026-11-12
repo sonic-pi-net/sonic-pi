@@ -17,6 +17,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <QAccessible>
 #include <QApplication>
 #include <QSettings>
 #include <QTest>
@@ -103,8 +104,13 @@ TEST_CASE("a key pressed over a preview closes its step behind it", "[editor][un
     Editor e;
     e.type("sync ");
     REQUIRE(e.ed->completionActive());
-    e.key(Qt::Key_Down);   // a path previewed in the code
-    REQUIRE(e.code() != "sync ");
+    e.key(Qt::Key_Down);
+    // The selected path is previewed in the code, except with a screen reader on: applyPreview leaves list
+    // previews out so the edit isn't spoken over the popup's announcement
+    if (QAccessible::isActive())
+        REQUIRE(e.code() == "sync ");
+    else
+        REQUIRE(e.code() != "sync ");
     e.type("x");           // typed over the preview, which goes
     e.key(Qt::Key_Escape);
     REQUIRE(e.code() == "sync x");
