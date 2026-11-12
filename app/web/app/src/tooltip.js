@@ -166,7 +166,7 @@ export function installTooltips(root = document.body) {
       if (t && !(to && t.contains(to))) {
         if (anchor === t && tip.classList.contains("interactive")) { clearTimeout(leaving); leaving = setTimeout(hide, 250); }   // time to reach it (arm below keeps to it, too)
         else if (anchor === t) hide();
-        else if (timer) { clearTimeout(timer); timer = 0; }
+        else if (timer) { clearTimeout(timer); timer = 0; pending = null; }   // otherwise arm() skips this control when the pointer comes back
       }
     });
     r.addEventListener("focusin", (e) => { if (own(e) && e.target.matches?.(":focus-visible")) { pointerX = null; arm(e.target, FOCUS_DELAY, true); } });

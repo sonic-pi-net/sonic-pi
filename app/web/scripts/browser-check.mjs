@@ -1034,6 +1034,26 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
         tipCase.afterClick = await tp.waitForFunction(() => [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden), null, { timeout: 3000 }).then(() => true, () => false);
         await tp.mouse.down(); await tp.mouse.up();   // and back to its code
       }
+      // Moving off a button before its tooltip shows and back onto it starts the 500 ms wait again. tooltip.js used to
+      // leave `pending` set when pointerout cleared the timer, so arm() skipped the button and the tooltip never showed
+      let cameBack = null;
+      if (tipCase.spots) {
+        const away = await edit.evaluate((b) => {   // a point left of the button with no tooltip under it
+          const r = b.getBoundingClientRect();
+          for (let dx = 40; dx < 400; dx += 10) {
+            const x = r.left - dx, y = r.top + r.height / 2, e = document.elementFromPoint(x, y);
+            if (x > 0 && e && !e.closest("button, a, [data-tip], [title]")) return [x, y];
+          }
+          return null;
+        });
+        if (away) {
+          await tp.mouse.move(...away); await tp.waitForTimeout(400);
+          await tp.mouse.move(...spots.off); await tp.waitForTimeout(200);
+          await tp.mouse.move(...away); await tp.waitForTimeout(150);
+          await tp.mouse.move(...spots.off);
+          cameBack = await tp.waitForFunction(() => [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden), null, { timeout: 3000 }).then(() => true, () => false);
+        }
+      }
       const palette = tp.locator("#site-nav .sn-theme");
       if (await palette.count()) {
         await tp.mouse.move(5, 5); await tp.waitForTimeout(300);
@@ -1046,6 +1066,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
       await tips.close();
       check("a tip comes to a pointer drifting over its control's icon, comes back to one resting there after a click, and stays off a menu the click opened",
         tipCase.drifting === true && tipCase.afterClick === true && tipCase.menuOpened?.open === "true" && tipCase.menuOpened.tip === false, JSON.stringify(tipCase));
+      check("tooltip shows after moving off its button and back before the wait ends",
+        cameBack === true, JSON.stringify({ cameBack }));
       // A card's Edit, pressed with the card at the window's foot and its code out of view below, leaves the page where
       // it is. On Safari 26 and later CodeMirror focuses without preventScroll and puts back by hand what the focus
       // scrolled (@codemirror/view 6.38.5): a scroller whose CSS scrolls smoothly glides back, the page lurching down
