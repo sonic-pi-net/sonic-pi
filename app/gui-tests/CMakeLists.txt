@@ -75,6 +75,7 @@ add_executable(${PROJECT_NAME}
     ${GUI_TESTS_ROOT}/opaque_widgets.test.cpp
     ${GUI_TESTS_ROOT}/window_layout.test.cpp
     ${GUI_TESTS_ROOT}/repaint_pacing.test.cpp
+    ${GUI_TESTS_ROOT}/log_panes.test.cpp
     ${GUI_TESTS_ROOT}/scope_pause.test.cpp
     ${GUI_ROOT}/visualizer/scope_window.cpp
     ${GUI_TESTS_ROOT}/linkaudio_engine_ready.test.cpp

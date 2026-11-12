@@ -101,50 +101,6 @@ void SonicPiLog::forceScrollDown(bool force)
     forceScroll = force;
 }
 
-void SonicPiLog::setTextColor(QColor c)
-{
-    QTextCharFormat tf;
-    tf.setForeground(c);
-    setCurrentCharFormat(tf);
-}
-
-void SonicPiLog::setTextBgFgColors(QColor bg, QColor fg)
-{
-    QTextCharFormat tf;
-    tf.setBackground(bg);
-    tf.setForeground(fg);
-    setCurrentCharFormat(tf);
-}
-
-void SonicPiLog::setTextBackgroundColor(QColor c)
-{
-    QTextCharFormat tf;
-    tf.setBackground(c);
-    setCurrentCharFormat(tf);
-}
-
-void SonicPiLog::setTextColorKey(SonicPiTheme* theme, const QString& fgKey)
-{
-    QTextCharFormat tf;
-    applyRole(tf, theme, fgKey, QString());
-    setCurrentCharFormat(tf);
-}
-
-void SonicPiLog::setTextBgFgColorKeys(SonicPiTheme* theme, const QString& bgKey,
-                                      const QString& fgKey, int bgAlpha)
-{
-    QTextCharFormat tf;
-    applyRole(tf, theme, fgKey, bgKey, bgAlpha);
-    setCurrentCharFormat(tf);
-}
-
-void SonicPiLog::setTextBackgroundColorKey(SonicPiTheme* theme, const QString& bgKey, int bgAlpha)
-{
-    QTextCharFormat tf;
-    applyRole(tf, theme, QString(), bgKey, bgAlpha);
-    setCurrentCharFormat(tf);
-}
-
 // Re-resolve every fragment's recorded theme roles against the current theme
 // (scheme + hue rotation + monochrome), so log history already on screen tracks
 // the theme instead of keeping the colours it was written with.
@@ -192,12 +148,17 @@ void SonicPiLog::setFontFamily(QString font_name)
 
 void SonicPiLog::appendPlainText(QString text)
 {
-    enqueue({ false, std::move(text), {} });
+    enqueue(Line{ nullptr, { { std::move(text) } } });
+}
+
+void SonicPiLog::appendLine(SonicPiTheme* theme, std::vector<Run> runs)
+{
+    enqueue(Line{ theme, std::move(runs) });
 }
 
 void SonicPiLog::handleMultiMessage(SonicPiLog::MultiMessage mm)
 {
-    enqueue({ true, {}, std::move(mm) });
+    enqueue(std::move(mm));
 }
 
 void SonicPiLog::clear()
@@ -208,27 +169,31 @@ void SonicPiLog::clear()
 
 void SonicPiLog::enqueue(Pending p)
 {
+    const bool first = m_pending.empty();
     m_pending.push_back(std::move(p));
-    if (m_pending.size() == 1)
+    // Each write is a line at least, so past the log's cap the oldest waiting
+    // would be trimmed as soon as it was written.
+    const int cap = document()->maximumBlockCount();
+    if (cap > 0 && m_pending.size() > size_t(cap))
+        m_pending.pop_front();
+    if (first)
         SonicPi::FramePacer::instance()->defer(this, [this] { writePending(); });
 }
 
 void SonicPiLog::writePending()
 {
-    std::vector<Pending> due;
+    std::deque<Pending> due;
     due.swap(m_pending);
     for (const Pending& p : due)
     {
-        if (p.multi)
-            handleNow(p.mm);
+        QTextCursor edit(document());
+        edit.beginEditBlock();   // one layout per write, however many lines
+        if (const MultiMessage* mm = std::get_if<MultiMessage>(&p))
+            writeMessage(*mm);
         else
-            appendNow(p.text);
+            writeLine(std::get<Line>(p));
+        edit.endEditBlock();
     }
-}
-
-void SonicPiLog::appendNow(const QString& text)
-{
-    QPlainTextEdit::appendPlainText(text);
     if (forceScroll)
     {
         QScrollBar* sb = verticalScrollBar();
@@ -236,89 +201,47 @@ void SonicPiLog::appendNow(const QString& text)
     }
 }
 
-void SonicPiLog::handleNow(const MultiMessage& mm)
+// A new line at the end, started as QPlainTextEdit appends one (kept to the
+// cap, the view held), its runs written through a cursor of its own.
+void SonicPiLog::writeLine(const Line& line)
 {
-    int msg_count = int(mm.messages.size());
-    SonicPiTheme* theme = mm.theme;
+    QPlainTextEdit::appendPlainText(QString());
+    QTextCursor end(document());
+    end.movePosition(QTextCursor::End);
+    for (const Run& r : line.runs)
+    {
+        QTextCharFormat f;
+        applyRole(f, line.theme, r.fgKey, r.bgKey, r.bgAlpha);
+        end.insertText(r.text, f);
+    }
+}
 
-    QTextCharFormat tf;
-    QString ss;
-
-    // Coalesce every insert below (one message can be many lines) into a single
-    // document edit block, so the layout/relayout runs once instead of per line.
-    QTextCursor editBlock = textCursor();
-    editBlock.beginEditBlock();
-
-    applyRole(tf, theme, "LogForeground", "LogBackground");
-    setCurrentCharFormat(tf);
-
-    ss.append("{run: ").append(QString::number(mm.job_id));
-    ss.append(", time: ").append(QString::fromStdString(mm.runtime));
+// A run's messages under a header line: each message's first line led by a
+// branch (" ├─ ", the last " └─ ", an empty one " │"), the lines after it by
+// the branch's continuation on the message's own background, then a line of
+// one space to close the block.
+void SonicPiLog::writeMessage(const MultiMessage& mm)
+{
+    QString head = "{run: " + QString::number(mm.job_id) + ", time: " + QString::fromStdString(mm.runtime);
     if (!(mm.thread_name == "\"\""))
+        head += ", thread: " + QString::fromStdString(mm.thread_name);
+    head += "}";
+    writeLine({ mm.theme, { { head, "LogBackground", "LogForeground" } } });
+
+    for (size_t i = 0; i < mm.messages.size(); i++)
     {
-        ss.append(", thread: ").append(QString::fromStdString(mm.thread_name));
+        const Message& m = mm.messages[i];
+        const bool last = i + 1 == mm.messages.size();
+        // msg_type 1-6 map to the numbered log-stream roles; 0/other use the default log role.
+        const QString sfx = (m.msg_type >= 1 && m.msg_type <= 6) ? QString("_%1").arg(m.msg_type) : QString();
+        const QStringList parts = QString::fromUtf8(m.s.c_str()).split('\n');
+        for (qsizetype j = 0; j < parts.size(); j++)
+        {
+            const Run lead = j > 0      ? Run{ last ? "  " : " │", "LogBackground" + sfx, "LogForeground" }
+                             : m.s.empty() ? Run{ " │", "LogBackground", "LogForeground" }
+                             : Run{ last ? " └─ " : " ├─ ", "LogBackground", "LogForeground" };
+            writeLine({ mm.theme, { lead, { parts[j], "LogBackground" + sfx, "LogForeground" + sfx } } });
+        }
     }
-    ss.append("}");
-    appendNow(ss);
-
-    for (int i = 0; i < msg_count; i++)
-    {
-        ss = "";
-        int msg_type = mm.messages[i].msg_type;
-        std::string s = mm.messages[i].s;
-
-        QStringList lines = QString::fromUtf8(s.c_str()).split(QRegularExpression("\\n"));
-
-        if (s.empty())
-        {
-            ss.append(QString::fromUtf8(" │"));
-        }
-        else if (i == (msg_count - 1))
-        {
-            ss.append(QString::fromUtf8(" └─ "));
-        }
-        else
-        {
-            ss.append(QString::fromUtf8(" ├─ "));
-        }
-
-        appendNow(ss);
-
-        for (int j = 0; j < lines.size(); ++j)
-        {
-            // msg_type 1-6 map to the numbered log-stream roles; 0/other use the
-            // default log role. The role is recorded on the format for recolour().
-            const QString sfx = (msg_type >= 1 && msg_type <= 6) ? QString("_%1").arg(msg_type) : QString();
-            applyRole(tf, theme, "LogForeground" + sfx, "LogBackground" + sfx);
-            setCurrentCharFormat(tf);
-            insertPlainText(lines.at(j));
-            if ((j + 1) < lines.size())
-            {
-                applyRole(tf, theme, "LogForeground", QString());
-                setCurrentCharFormat(tf);
-                if (i == (msg_count - 1))
-                {
-                    // we are the last message
-                    // so don't print joining lines
-                    insertPlainText("\n  ");
-                }
-                else
-                {
-                    insertPlainText("\n │");
-                }
-            }
-        }
-
-        applyRole(tf, theme, "LogForeground", "LogBackground");
-        setCurrentCharFormat(tf);
-    }
-    appendNow(QString::fromStdString(" "));
-
-    editBlock.endEditBlock();
-
-    if (forceScroll)
-    {
-        QScrollBar* sb = verticalScrollBar();
-        sb->setValue(sb->maximum());
-    }
+    writeLine({ mm.theme, { { " ", "LogBackground", "LogForeground" } } });
 }

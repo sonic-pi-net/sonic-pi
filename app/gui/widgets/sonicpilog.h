@@ -16,10 +16,17 @@
 
 #include <QPlainTextEdit>
 
+#include <deque>
+#include <variant>
+#include <vector>
+
 class SonicPiTheme;
 class QContextMenuEvent;
 class QWheelEvent;
 
+// A log, read-only: each write goes in at the end on the frame pacer's tick,
+// in colours of its own, never through the reader's cursor, so a click or a
+// selection in the log is the reader's alone.
 class SonicPiLog : public QPlainTextEdit
 {
     Q_OBJECT
@@ -49,24 +56,33 @@ public:
         Messages messages;
     };
 
+    // A run of a line, coloured by theme roles (recorded for recolour()).
+    struct Run
+    {
+        QString text;
+        QString bgKey;
+        QString fgKey;
+        int bgAlpha = 255;
+    };
+    // One line in coloured runs, such as a cue: its address, then its arguments.
+    void appendLine(SonicPiTheme* theme, std::vector<Run> runs);
+
+    // Write at the reader's cursor: never for a log.
+    void insertPlainText(const QString&) = delete;
+    void setCurrentCharFormat(const QTextCharFormat&) = delete;
+
 signals:
 
 public slots:
-    void setTextColor(QColor c);
-    void setTextBackgroundColor(QColor c);
-    void setTextBgFgColors(QColor fg, QColor bg);
-    // Role-aware variants: record the theme keys used so recolour() can
-    // re-derive the colours after a theme change (scheme / hue / monochrome).
-    void setTextColorKey(SonicPiTheme* theme, const QString& fgKey);
-    void setTextBgFgColorKeys(SonicPiTheme* theme, const QString& bgKey, const QString& fgKey, int bgAlpha = 255);
-    void setTextBackgroundColorKey(SonicPiTheme* theme, const QString& bgKey, int bgAlpha = 255);
     void recolour(SonicPiTheme* theme);
     void setFontFamily(QString font_name);
-    // A message is written on the frame pacer's next tick, with everything
-    // else that arrived since the last one, so the log costs one repaint per
-    // tick however busy the runs are. Order is kept across both entry points.
+    // Each write waits for the frame pacer's next tick, with everything else
+    // that arrived since the last one, so the log costs one repaint per tick
+    // however busy the runs are. Order is kept across every entry point, and
+    // of a burst only what the log keeps is written.
     void handleMultiMessage(SonicPiLog::MultiMessage mm);
     void forceScrollDown(bool force);
+    // A line in the log's own colours.
     void appendPlainText(QString text);
     // Drops what is waiting to be written as well as what is shown.
     void clear();
@@ -78,17 +94,18 @@ protected:
 
 private:
     int m_pointSize = 14;   // until the code's size reaches it (MainWindow::applyLogSize)
-    struct Pending
+    struct Line
     {
-        bool multi;
-        QString text;
-        MultiMessage mm;
+        SonicPiTheme* theme;
+        std::vector<Run> runs;
     };
+    // What waits for the tick, in order: a run's message, or a line in runs.
+    using Pending = std::variant<MultiMessage, Line>;
     void enqueue(Pending p);
     void writePending();
-    void appendNow(const QString& text);
-    void handleNow(const MultiMessage& mm);
-    std::vector<Pending> m_pending;
+    void writeMessage(const MultiMessage& mm);
+    void writeLine(const Line& line);
+    std::deque<Pending> m_pending;
 };
 
 Q_DECLARE_METATYPE(SonicPiLog::MultiMessage)

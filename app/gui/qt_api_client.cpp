@@ -92,22 +92,10 @@ void QtAPIClient::ReportGui(const MessageInfo& info)
     }
     else if (info.type == MessageType::Info)
     {
-        auto pOutput = m_pMainWindow->GetOutputPane();
-        auto pTheme = m_pMainWindow->GetTheme();
-
-        if (info.style == 1)
-        {
-            pOutput->setTextBgFgColorKeys(pTheme, "LogInfoBackground_1", "LogInfoForeground_1");
-        }
-        else
-        {
-            pOutput->setTextBgFgColorKeys(pTheme, "LogInfoBackground", "LogInfoForeground");
-        }
-
-        pOutput->appendPlainText(QString::fromStdString("=> " + info.text + "\n"));
-
-        pOutput->setTextColorKey(pTheme, "LogForeground");
-        pOutput->setTextBackgroundColorKey(pTheme, "LogBackground");
+        const QString sfx = info.style == 1 ? "_1" : "";
+        m_pMainWindow->GetOutputPane()->appendLine(m_pMainWindow->GetTheme(), {
+            { QString::fromStdString("=> " + info.text + "\n"), "LogInfoBackground" + sfx, "LogInfoForeground" + sfx },
+        });
     }
     else if (info.type == MessageType::RuntimeError)
     {
@@ -241,17 +229,13 @@ void QtAPIClient::CueGui(const CueInfo& cue)
     QString qs_address = QString::fromStdString(cue.address);
     if (!qs_address.startsWith(":"))
     {
-        auto pIncoming = m_pMainWindow->GetIncomingPane();
-        auto pTheme = m_pMainWindow->GetTheme();
         // idmod is a per-cue alpha (id-striping); stored with the role so the
         // stripe survives a recolour.
-        pIncoming->setTextBgFgColorKeys(pTheme, "CuePathBackground", "@contrast", idmod);
-        pIncoming->appendPlainText(QString(" ") + QString::fromStdString(cue.address));
-        pIncoming->insertPlainText(QString::fromStdString(std::string(len_diff, ' ')));
-        pIncoming->setTextBgFgColorKeys(pTheme, "LogBackground", "LogForeground");
-        pIncoming->insertPlainText(QString::fromStdString(" "));
-        pIncoming->setTextBgFgColorKeys(pTheme, "CueDataBackground", "@contrast", idmod);
-        pIncoming->insertPlainText(QString::fromStdString(cue.args));
+        m_pMainWindow->GetIncomingPane()->appendLine(m_pMainWindow->GetTheme(), {
+            { " " + qs_address + QString(len_diff, ' '), "CuePathBackground", "@contrast", idmod },
+            { " ", "LogBackground", "LogForeground" },
+            { QString::fromStdString(cue.args), "CueDataBackground", "@contrast", idmod },
+        });
         last_incoming_path_lens[cue.id % last_incoming_path_lens.size()] = int(cue.address.length());
     }
     m_pMainWindow->addCuePath(qs_address, QString::fromStdString(cue.args));

@@ -1009,10 +1009,8 @@ void MainWindow::setupWindowStructure()
     incomingPane->document()->setMaximumBlockCount(1000);
     errorPane->document()->setMaximumBlockCount(1000);
 
-    outputPane->setTextColorKey(theme, "LogForeground");
     outputPane->appendPlainText("\n");
 
-    incomingPane->setTextColor(QColor(theme->color("LogForeground")));
     incomingPane->appendPlainText("\n");
 
     errorPane->zoomIn(1);
