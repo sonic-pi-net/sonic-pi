@@ -1150,6 +1150,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const loopCard = qp.locator("#quickstart-pane .qs-card:not(.qs-intro)", { hasText: "live_loop" }).first();
     await loopCard.locator(".qs-transport button").first().click({ timeout: 5000 }).catch(() => {});
     const loopScope = await qp.waitForFunction(() => document.querySelector("#quickstart-pane .qs-card:not(.qs-intro) .sp-loop-scope[data-painted]")?.closest(".cm-line")?.textContent.trim() ?? false, null, { timeout: 15000 }).then((h) => h.jsonValue()).catch(() => null);
+    // the pointer moves on from Play, onto the card's code: one left resting on a control has its tip back after the
+    // wait, by design (tooltip.js), and what is watched here is the page as the loop plays
+    const cardCode = await loopCard.locator(".cm-content").first().boundingBox();
+    if (cardCode) await qp.mouse.move(cardCode.x + cardCode.width - 4, cardCode.y + cardCode.height - 4);
     const heardCard = await stillness(qp);
     const cardLit = await flashWatch(qp, "card");   // the Kick: live_loop :kick do / sample :bd_haus / sleep 1 / end
     // and opened to edit as it plays: its lines flash in its editor now, not over its block (ui/card.js flash)
