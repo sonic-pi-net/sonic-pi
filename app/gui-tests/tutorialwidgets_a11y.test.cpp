@@ -23,6 +23,10 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QTest>
+#include <QEnterEvent>
+#include <QWheelEvent>
+#include <QScrollBar>
+#include <QScrollArea>
 
 #include "accessibility_on.h"
 #include "widgets/tutorialwidgets.h"
@@ -281,6 +285,82 @@ TEST_CASE("the dial's value editor edits in place and closes on focus-out", "[tu
     QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
     CHECK(dial.findChild<QLineEdit*>() == nullptr);
     CHECK(dial.value() == 2.5);
+}
+
+// #3609: scrolling the docs pane with the mouse wheel turned every dial that came under the pointer. A run of wheel
+// events now stays with what it began on (TutWheelRun): the pane, or a dial the pointer rested on.
+namespace {
+struct DocsScroll
+{
+    QScrollArea area;
+    TutDial* dial = nullptr;
+    DocsScroll()
+    {
+        auto* content = new QWidget;
+        dial = new TutDial("cutoff", 0, 130, 100, nullptr, content);
+        dial->move(20, 20);
+        content->resize(300, 2000);
+        area.setWidget(content);
+        area.resize(300, 300);
+        TutWheelRun::watch(area.viewport());
+        area.show();
+        QApplication::processEvents();
+        QTest::qWait(TutWheelRun::kEndAfterMs + 100);   // no run left from an earlier case
+    }
+    // One notch down at the middle of `at` (a wheel mouse's: no scroll phase, unless one is given). Whether `at`
+    // took it: one left unaccepted, Qt passes to the parent.
+    static bool wheel(QWidget* at, Qt::ScrollPhase phase = Qt::NoScrollPhase)
+    {
+        const QPointF p(at->width() / 2.0, at->height() / 2.0);
+        QWheelEvent e(p, at->mapToGlobal(p), QPoint(), QPoint(0, -120), Qt::NoButton, Qt::NoModifier, phase, false);
+        QApplication::sendEvent(at, &e);
+        return e.isAccepted();
+    }
+    void pointerEntersDial()
+    {
+        const QPointF p(5, 5);
+        QEnterEvent e(p, p, dial->mapToGlobal(p));
+        QApplication::sendEvent(dial, &e);
+    }
+    int scroll() const { return area.verticalScrollBar()->value(); }
+};
+} // namespace
+
+TEST_CASE("a wheel run that began on the docs pane doesn't turn a dial that comes under the pointer", "[tutorialwidgets]")
+{
+    DocsScroll d;
+    CHECK(DocsScroll::wheel(d.area.viewport()));   // the pane scrolling
+    REQUIRE(d.scroll() > 0);
+    CHECK_FALSE(DocsScroll::wheel(d.dial));          // the next notch lands on the dial
+    CHECK(d.dial->value() == 100);
+
+    d.pointerEntersDial();                           // mid-scroll: the run is still the pane's
+    CHECK_FALSE(DocsScroll::wheel(d.dial));
+    CHECK(d.dial->value() == 100);
+
+    QTest::qWait(TutWheelRun::kMovedAfterMs + 50);   // the scroll stops, and the pointer moves onto the dial
+    d.pointerEntersDial();
+    CHECK(DocsScroll::wheel(d.dial));
+    CHECK(d.dial->value() == 99);
+}
+
+TEST_CASE("a trackpad gesture on a dial turns it whatever the wheel run, as Qt sends a gesture to what it began on", "[tutorialwidgets]")
+{
+    DocsScroll d;
+    CHECK(DocsScroll::wheel(d.area.viewport()));   // a wheel mouse scrolling the pane
+    CHECK(DocsScroll::wheel(d.dial, Qt::ScrollUpdate));
+    CHECK(d.dial->value() == 99);
+}
+
+TEST_CASE("the wheel turns a dial the pointer rests on, and the run stays with it if the pointer drifts off", "[tutorialwidgets]")
+{
+    DocsScroll d;
+    CHECK(DocsScroll::wheel(d.dial));
+    CHECK(d.dial->value() == 99);
+    const int top = d.scroll();
+    DocsScroll::wheel(d.area.viewport());            // the pointer on the pane, mid-run
+    CHECK(d.dial->value() == 98);
+    CHECK(d.scroll() == top);
 }
 
 TEST_CASE("the piano advertises its keyboard mapping", "[tutorialwidgets][a11y]")

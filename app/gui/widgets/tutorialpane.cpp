@@ -196,6 +196,7 @@ TutorialPane::TutorialPane(SonicPiTheme* theme, QWidget* parent)
     m_selGroup->setScrollArea(m_scroll);
     // Clicking into the page focuses it, so Space/QWERTY reach keyPressEvent
     m_scroll->setFocusPolicy(Qt::ClickFocus);
+    TutWheelRun::watch(m_scroll->viewport());   // a scroll of the page carries on past its dials
 
     m_content = new QWidget(m_scroll);
     m_content->setObjectName("tutorialContent");

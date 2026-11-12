@@ -26,6 +26,8 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QColor>
+#include <QElapsedTimer>
+#include <QEnterEvent>
 #include <QHash>
 #include <QLabel>
 #include <QLineEdit>
@@ -34,6 +36,7 @@
 #include <QRegularExpression>
 #include <QPainter>
 #include <QPainterPath>
+#include <QPointer>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSet>
@@ -41,6 +44,7 @@
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QTimer>
+#include <QWheelEvent>
 #include <QWidget>
 #include <QtMath>
 
@@ -940,6 +944,69 @@ private:
 // A painted rotary control for one numeric opt: 270-degree arc, vertical
 // drag to change, double-click to reset, arrows/wheel to step. Reports
 // changes through a callback so it needs no moc.
+// Which control a run of mouse-wheel notches belongs to, as browsers' wheel transactions decide it (#3609). A run
+// belongs to what the pointer was on when it began: a scroll of the docs pane carries on when a dial comes under the
+// pointer, and a dial the pointer rests on turns. A run ends 1500 ms after its last notch, or when the pointer enters
+// a dial 100 ms or more after it (Firefox's mousewheel.transaction timings). Only for events with no scroll phase
+// (a wheel mouse's notches, on Windows and Linux): Qt already sends a trackpad gesture, which has phases, to what it
+// began on.
+class TutWheelRun
+{
+public:
+    static constexpr qint64 kEndAfterMs = 1500;
+    static constexpr qint64 kMovedAfterMs = 100;
+
+    // A wheel event at `target` (a dial, or the docs pane's viewport). Starts a run there if none is going, and
+    // returns what the run belongs to.
+    static QObject* take(QObject* target)
+    {
+        const qint64 now = clock().elapsed();
+        if (!s_owner || now - s_last > kEndAfterMs)
+            s_owner = target;
+        s_last = now;
+        return s_owner;
+    }
+
+    // The pointer moved onto a dial: a run that has gone quiet ends, so that dial takes the next wheel event.
+    static void pointerEntered()
+    {
+        if (clock().elapsed() - s_last >= kMovedAfterMs)
+            s_owner = nullptr;
+    }
+
+    // The docs pane's viewport: wheel events that reach it scroll the pane in a run of its own, and turn the
+    // dial whose run it is otherwise (the pointer drifted off the dial while turning it).
+    static void watch(QWidget* viewport)
+    {
+        viewport->installEventFilter(new ViewportFilter(viewport));
+    }
+
+private:
+    class ViewportFilter : public QObject
+    {
+    public:
+        using QObject::QObject;
+        bool eventFilter(QObject* obj, QEvent* e) override
+        {
+            if (e->type() != QEvent::Wheel || static_cast<QWheelEvent*>(e)->phase() != Qt::NoScrollPhase)
+                return false;
+            QObject* owner = take(obj);
+            if (owner == obj)
+                return false;   // the pane's run: it scrolls
+            QCoreApplication::sendEvent(owner, e);
+            return true;
+        }
+    };
+
+    static QElapsedTimer& clock()
+    {
+        static QElapsedTimer timer = [] { QElapsedTimer t; t.start(); return t; }();
+        return timer;
+    }
+    static inline QPointer<QObject> s_owner;
+    static inline qint64 s_last = 0;
+};
+
 class TutDial : public QWidget
 {
     Q_OBJECT
@@ -1210,11 +1277,24 @@ protected:
         QWidget::changeEvent(e);
     }
 
+    // A wheel notch turns the dial only in a run that began on it (TutWheelRun): otherwise the event goes on to the
+    // docs pane, which carries on scrolling.
     void wheelEvent(QWheelEvent* e) override
     {
+        if (e->phase() == Qt::NoScrollPhase && TutWheelRun::take(this) != this)
+        {
+            e->ignore();
+            return;
+        }
         closeEditor();
         setValue(m_value + (e->angleDelta().y() > 0 ? m_step : -m_step));
         e->accept();
+    }
+
+    void enterEvent(QEnterEvent* e) override
+    {
+        TutWheelRun::pointerEntered();
+        QWidget::enterEvent(e);
     }
 
     void keyPressEvent(QKeyEvent* e) override
