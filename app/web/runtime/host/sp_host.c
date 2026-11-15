@@ -719,6 +719,18 @@ SP_EXPORT void sp_set_link_bpm(double bpm, double at) {
   if (mrb->exc) report_exception(mrb, "setting Link's tempo");
 }
 
+// The session's timeline as the host keeps it (a plugin's DAW, through the
+// engine's clock): `beat` sounds at `at` on the host's clock, at `bpm` from
+// there on.
+SP_EXPORT void sp_set_link_grid(double bpm, double at, double beat) {
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
+  int ai = mrb_gc_arena_save(mrb);
+  mrb_funcall(mrb, live_module(mrb), "set_link_grid", 3, mrb_float_value(mrb, bpm), mrb_float_value(mrb, at), mrb_float_value(mrb, beat));
+  mrb_gc_arena_restore(mrb, ai);
+  if (mrb->exc) report_exception(mrb, "setting the host's timeline");
+}
+
 // A cue from outside the program (MIDI in, a game controller, from the page): its address, its values each
 // tagged with its kind ("i60\x1fi100", "sfake_pad"; adapter.rb host_values), at `now` on the session's clock
 // (Scheduler#external_cue); the syncs waiting on it wake at the next tick.

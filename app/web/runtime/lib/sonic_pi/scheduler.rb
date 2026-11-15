@@ -16,11 +16,16 @@
 module SonicPi
   class << self
     attr_accessor :current_process
-    # Link's timeline, the session's: beat 0 sounds the default schedule-ahead
-    # after the first run's start (link_origin), until the tempo changes; then
-    # it runs on from link_anchor, [the session's time the tempo last changed
-    # (as it sounds), the beat then].
+    # Link's timeline, the session's: beat 0 sounds a schedule-ahead after the
+    # first run's start (link_origin), until the tempo changes; then it runs
+    # on from link_anchor, [the session's time the tempo last changed (as it
+    # sounds), the beat then]. That schedule-ahead is the session's when the
+    # first run started (link_ahead), which is when that run's first sound
+    # went out: the default on the web and in a trace, and a host's own where
+    # it sets one before the first run (a plugin's).
     attr_accessor :link_origin, :link_anchor
+    attr_writer :link_ahead
+    def link_ahead = @link_ahead || DEFAULT_SCHED_AHEAD
     # The session's schedule-ahead (set_sched_ahead_time!): every thread's, but one that has set its own
     # (use_sched_ahead_time, with_sched_ahead_time, use_real_time). A plain global: set, it holds from then on, for
     # the threads already running as for the runs to come.
@@ -102,9 +107,10 @@ module SonicPi
 
     # Logical time and beat after a sleep of beat_delta beats. On the Link
     # timeline (the default, a steady 60 bpm in the oracle) time is the
-    # beat's clock time less the sched-ahead, measured from a start that
-    # was itself computed with the default sched-ahead (DEFAULT_SCHED_AHEAD); on a numeric
-    # tempo it moves by beats times the beat length.
+    # beat's clock time less the sched-ahead, measured from a start whose
+    # own first sound went out the session's sched-ahead of then after it
+    # (SonicPi.link_ahead); on a numeric tempo it moves by beats times the
+    # beat length.
     def advance!(beat_delta)
       new_beat = @beat + (beat_delta / @density)
       if @bpm == :link
@@ -126,9 +132,9 @@ module SonicPi
       if anchor
         (anchor[0] - @start + (beat - anchor[1]) * 60.0 / link - sched_ahead).to_f
       elsif @start == origin
-        ((link == 60.0 ? beat : beat * 60.0 / link) - sched_ahead + DEFAULT_SCHED_AHEAD).to_f
+        ((link == 60.0 ? beat : beat * 60.0 / link) - sched_ahead + SonicPi.link_ahead).to_f
       else
-        (origin - @start + beat * 60.0 / link - sched_ahead + DEFAULT_SCHED_AHEAD).to_f
+        (origin - @start + beat * 60.0 / link - sched_ahead + SonicPi.link_ahead).to_f
       end
     end
 
@@ -137,7 +143,7 @@ module SonicPi
       anchor = SonicPi.link_anchor
       heard = @start + time + sched_ahead
       return anchor[1] + (heard - anchor[0]) * link / 60.0 if anchor
-      (heard - (SonicPi.link_origin || @start) - DEFAULT_SCHED_AHEAD) * link / 60.0
+      (heard - (SonicPi.link_origin || @start) - SonicPi.link_ahead) * link / 60.0
     end
 
     # On the plain arithmetic: the session's first run, before any tempo change.
@@ -385,7 +391,10 @@ module SonicPi
       # Link's timeline is the session's: its first run starts on beat 0, and a
       # later run at the beat Link has when it starts, as a Run in Sonic Pi
       # takes Link's beat; so a sync across runs keeps both on one beat grid.
-      SonicPi.link_origin ||= start
+      unless SonicPi.link_origin
+        SonicPi.link_origin = start
+        SonicPi.link_ahead = SonicPi.sched_ahead
+      end
       job.beat = job.link_beat_at_time(0.0) unless job.link_plain?
       @current = job
       SonicPi.current_process = job
@@ -429,10 +438,26 @@ module SonicPi
       old = SonicPi.link_bpm
       if SonicPi.link_origin || SonicPi.link_anchor
         anchor = SonicPi.link_anchor
-        beat = anchor ? anchor[1] + (at - anchor[0]) * old / 60.0 : (at - SonicPi.link_origin - DEFAULT_SCHED_AHEAD) * old / 60.0
+        beat = anchor ? anchor[1] + (at - anchor[0]) * old / 60.0 : (at - SonicPi.link_origin - SonicPi.link_ahead) * old / 60.0
         SonicPi.link_anchor = [at, beat]
       end
       SonicPi.link_bpm = bpm.to_f
+      retime_link_sleepers
+    end
+
+    # The session's timeline as its host keeps it (a plugin's DAW, through the
+    # engine's clock): `beat` sounds at `at` on the session's clock, at `bpm`
+    # from there on. The host says it before the first run, so every job's
+    # beats are the host's, and again whenever it moves: a new tempo, or its
+    # bars (the beat at `at` is then another, by under a bar). A thread
+    # sleeping on the timeline wakes at its beat's new time.
+    def set_link_grid(bpm, at, beat)
+      SonicPi.link_bpm = bpm.to_f
+      SonicPi.link_anchor = [at.to_f, beat.to_f]
+      retime_link_sleepers
+    end
+
+    def retime_link_sleepers
       return nil unless SonicPi.link_anchor
       @queue.each do |entry|
         q = entry[2]

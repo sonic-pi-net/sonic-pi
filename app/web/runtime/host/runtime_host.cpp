@@ -49,6 +49,7 @@ void sp_stop_run(int job, double fade, double now);
 void sp_group_under(int group, int parent);
 double sp_tick(double now);
 void sp_set_link_bpm(double bpm, double at);
+void sp_set_link_grid(double bpm, double at, double beat);
 void sp_cue(const char* address, const char* nums, double now);
 void sp_set_time_warp(double seconds);
 double sp_sched_ahead(void);
@@ -528,6 +529,16 @@ void RuntimeHost::setLinkBpm(double bpm)
 {
     post([this, bpm] {
         sp_set_link_bpm(bpm, m_deps.now() + schedAhead());
+        if (m_running) tick();   // a sleeping thread may now be due sooner
+    });
+}
+
+void RuntimeHost::setLinkGrid(double bpm, double beatOrigin)
+{
+    post([this, bpm, beatOrigin] {
+        // from a schedule-ahead after now, as a tempo change is: what is already on its way sounds as it was
+        const double at = m_deps.now() + schedAhead();
+        sp_set_link_grid(bpm, at, (at - beatOrigin) * bpm / 60.0);
         if (m_running) tick();   // a sleeping thread may now be due sooner
     });
 }

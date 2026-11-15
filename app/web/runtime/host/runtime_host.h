@@ -145,6 +145,9 @@ public:
     void groupUnder(int group, int parent);
     void cue(std::string address, std::vector<osc::Value> args);
     void setLinkBpm(double bpm);
+    // The session's timeline as the host keeps it (a plugin's DAW, through the engine's clock): its tempo, and when
+    // its beat 0 was, on the engine's clock. Said before the first run and whenever it moves.
+    void setLinkGrid(double bpm, double beatOrigin);
     void setTimeWarp(double ms);
     void hold(double seconds);
     void engineLost();

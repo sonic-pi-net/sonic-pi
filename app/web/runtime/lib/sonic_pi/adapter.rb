@@ -23,6 +23,7 @@ module SonicPi
       SonicPi.link_bpm = 60.0
       SonicPi.link_origin = nil
       SonicPi.link_anchor = nil
+      SonicPi.link_ahead = nil
       SonicPi.sched_ahead = nil
       sched = SonicPi::Scheduler.new
       sched.max_time = max_time
@@ -62,6 +63,7 @@ module SonicPi
         SonicPi.link_bpm = 60.0
         SonicPi.link_origin = nil
         SonicPi.link_anchor = nil
+        SonicPi.link_ahead = nil
         SonicPi.sched_ahead = nil
         @sched = SonicPi::Scheduler.new
         @sched.live = true
@@ -80,6 +82,8 @@ module SonicPi
       def tick(now) = @sched.step(now)
       # the page's Link strip: the tempo (changing at `at`, as it sounds) and the global time warp (seconds)
       def set_link_bpm(bpm, at) = @sched.set_link_bpm(bpm, at)
+      # the session's timeline as the host keeps it (a plugin's DAW): `beat` sounds at `at`, at `bpm` from there on
+      def set_link_grid(bpm, at, beat) = @sched.set_link_grid(bpm, at, beat)
       # a cue from outside (MIDI in): its address, its values as "60,100", at `now` on the session's clock
       def external_cue(address, vals, now) = @sched.external_cue(address, host_values(vals), now)
       # a host cue's values, each tagged with its kind (web/live-core.js cue): i an integer, f a float, b a boolean,

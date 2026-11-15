@@ -345,6 +345,84 @@ for (const spec of specs) {
   console.log(`${ok ? "pass" : "FAIL"} Link's tempo changed mid-run: a loop carries on from its beat at the new tempo${ok ? ` (gaps ${gaps.map((g) => g.toFixed(2)).join(" ")})` : ": " + problems.join("; ")}`);
   if (ok) pass++; else fail++;
 }
+// The session's timeline as a host keeps it (a plugin's DAW, through the engine's clock): the host says which beat
+// sounds when, and at what tempo. A loop keeps to it, `link` waits for its bar line, and when the host moves its
+// bars or its tempo a sleeping thread wakes at its beat's new time: no sound goes back, none is lost or doubled.
+{
+  records = [];
+  audio = [];
+  m._sp_live_boot();
+  m._sp_live_stop_after(-1);
+  let now = 2000;
+  const tickUntil = (until) => {
+    for (let i = 0; i < 100000 && now < until; i++) {
+      const next = m._sp_tick(now);
+      drain();
+      now = next < 0 ? until : Math.min(Math.max(now, next), until);
+    }
+  };
+  // The grid as the host last gave it, and the beat it has at a time.
+  let grid = null;
+  const give = (bpm, at, beat) => { grid = { bpm, at, beat }; m._sp_set_link_grid(bpm, at, beat); };
+  const beatAt = (t, g = grid) => g.beat + (t - g.at) * g.bpm / 60;
+  const problems = [];
+
+  // Before any run: beat 10.25 sounds at 2000.5, at 120.
+  give(120, now + 0.5, 10.25);
+  const first = grid;
+  m.ccall("sp_run", "number", ["string", "number"], ["live_loop :t do\n  play 60, release: 0.1\n  sleep 1\nend\n", now]);
+  drain();
+  tickUntil(2003.2);
+  const beeps = () => records.filter((r) => r.kind === "synth" && r.synth === "sonic-pi-beep").map((r) => r.time);
+  let times = beeps();
+  const gapsOf = (ts) => ts.slice(1).map((t, i) => t - ts[i]);
+  if (times.length < 5 || gapsOf(times).some((g) => Math.abs(g - 0.5) > 1e-6)) problems.push(`at the host's 120 the loop's sounds are not 0.5 s apart: ${gapsOf(times).map((g) => g.toFixed(3)).join(" ")}`);
+  const place = (t, g) => ((beatAt(t, g) % 1) + 1) % 1;                 // where in a beat of the grid a sound falls
+  const where = times.length ? place(times[0], first) : 0;
+
+  // `link` waits for the host's bar line: the next beat that is a multiple of four.
+  const asked = now;
+  m.ccall("sp_run", "number", ["string", "number"], ["link\nsynth :saw, note: 72, release: 0.1\n", now]);
+  drain();
+  tickUntil(asked + 3);
+  const saw = records.filter((r) => r.kind === "synth" && r.synth === "sonic-pi-saw").map((r) => r.time);
+  if (saw.length !== 1) problems.push(`link's sound played ${saw.length} times`);
+  else {
+    const b = beatAt(saw[0], first);
+    if (Math.abs(b - Math.round(b)) > 1e-6 || Math.round(b) % 4 !== 0) problems.push(`link's sound is at the grid's beat ${b.toFixed(4)}, not on a bar line`);
+    if (beatAt(saw[0], first) - beatAt(asked, first) > 4 + 1.01) problems.push(`link waited more than a bar: asked at beat ${beatAt(asked, first).toFixed(3)}, sounded at ${b.toFixed(3)}`);
+  }
+
+  // The host's bars move back by a beat and a quarter (its playhead jumped): the loop's next beat is that much later.
+  records = [];
+  const moved = { bpm: 120, at: now + 0.5, beat: beatAt(now + 0.5, first) - 1.25 };
+  give(moved.bpm, moved.at, moved.beat);
+  tickUntil(now + 3);
+  times = beeps();
+  let gaps = gapsOf(times);
+  if (gaps.some((g) => g <= 0)) problems.push(`a sound went back in time when the bars moved: ${times.map((t) => (t - 2000).toFixed(3)).join(" ")}`);
+  const after = times.filter((t) => t > moved.at + 0.7);
+  if (after.length < 3) problems.push(`the loop played ${after.length} times after the bars moved`);
+  if (after.some((t) => Math.abs(place(t, moved) - where) > 1e-6 && Math.abs(place(t, moved) - where) < 1 - 1e-6)) problems.push(`after the bars moved the loop is not on its beats of the new grid: ${after.map((t) => beatAt(t, moved).toFixed(4)).join(" ")} (it was ${where.toFixed(4)} into each beat)`);
+  if (gapsOf(after).some((g) => Math.abs(g - 0.5) > 1e-6)) problems.push(`after the bars moved the loop's sounds are not 0.5 s apart: ${gapsOf(after).map((g) => g.toFixed(3)).join(" ")}`);
+
+  // The host slows to 90, the beat playing held: the loop's beats are two thirds of a second apart.
+  records = [];
+  const slower = { bpm: 90, at: now + 0.5, beat: beatAt(now + 0.5, moved) };
+  give(slower.bpm, slower.at, slower.beat);
+  tickUntil(now + 4);
+  m._sp_stop_all();
+  drain();
+  times = beeps();
+  gaps = gapsOf(times);
+  if (gaps.some((g) => g <= 0)) problems.push(`a sound went back in time when the tempo changed: ${times.map((t) => (t - 2000).toFixed(3)).join(" ")}`);
+  const last = gaps.slice(-3);
+  if (last.length < 3 || last.some((g) => Math.abs(g - 60 / 90) > 1e-6)) problems.push(`at the host's 90 the loop's sounds are not 0.667 s apart: ${gaps.map((g) => g.toFixed(3)).join(" ")}`);
+
+  const ok = problems.length === 0;
+  console.log(`${ok ? "pass" : "FAIL"} a host's timeline: a loop keeps its tempo, link waits for its bar, and moved bars and tempo are followed${ok ? "" : ": " + problems.join("; ")}`);
+  if (ok) pass++; else fail++;
+}
 // The global time warp: every sound, and its record, that much later.
 {
   const soundTimes = (warpMs) => {
