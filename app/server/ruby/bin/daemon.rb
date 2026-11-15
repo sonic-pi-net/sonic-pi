@@ -29,6 +29,8 @@ require_relative "../lib/sonicpi/promise"
 require_relative "../lib/sonicpi/engine_forwards"
 require_relative "../lib/sonicpi/engine_secret"
 require_relative "../lib/sonicpi/plugins"
+require_relative "../lib/sonicpi/daemon/kill_switch"
+require_relative "../lib/sonicpi/stall_monitor"
 
 
 # Make sure vendored tomlrb lib is on the Ruby path so it can be required
@@ -66,18 +68,21 @@ Thread::abort_on_exception = true
 # stick around continuing to accidentally run on your computer consuming
 # resources.
 #
-# This is achieved via a "Zombie Kill Switch" - a UDP connection with an
-# external process (such as the GUI) to monitor its status by
-# continually receiving keep_alive messages. If these messages stop
-# being received (for example, if the GUI process exited normally or
-# even crashed) then the Daemon will ensure all the processes it spawned
-# (Spider and Scsynth) are terminated.
+# This is achieved via a "Zombie Kill Switch" (lib/sonicpi/daemon/
+# kill_switch.rb), which watches the process that launched the Daemon in
+# two ways.
 #
-# The port number of this kill switch UDP connection is printed to
-# STDOUT. A external process (such as the GUI) must connect promptly and
-# periodically send an OSC message with the path /daemon/keep-alive (more
-# frequently than every 3s) otherwise a timeout will trigger the kill
-# switch and kill all the spawned processes.
+# Launched with --exit-when-stdin-closes, the Daemon treats its stdin as a
+# pipe held only by its launcher (the GUI launches it so), and exits -
+# terminating Spider and SuperSonic - the moment that pipe closes, which
+# is the moment the launcher's process ends, however it ends.
+#
+# Launched without it, the Daemon has only the keep-alives to go on: the
+# launcher must periodically send an OSC message with the path
+# /daemon/keep-alive to the port printed to STDOUT (more frequently than
+# every 3s), and a silence of ~50s triggers the kill switch. With the
+# pipe watched, the keep-alives are still expected, but a silence is
+# logged rather than acted on: a stalled launcher is not a gone one.
 #
 # If the client wants to explicitly trigger the kill switch directly
 # rather than via a timeout it can send an OSC message with path
@@ -142,6 +147,7 @@ module SonicPi
 
       def initialize(opts={})
         @no_scsynth_inputs = opts[:no_scsynth_inputs]
+        @exit_when_stdin_closes = opts[:exit_when_stdin_closes]
         # GUI-saved device prefs, handed to SuperSonic's spawn args so its
         # first open is already the user's device (no post-boot cold swap).
         @audio_prefs = opts.slice(:audio_output, :audio_input,
@@ -198,7 +204,11 @@ module SonicPi
         # Uncomment for debugging purposes
         # Util.log "Ports: #{@ports.inspect}"
 
-        @kill_switch = KillSwitch.new(@safe_exit)
+        # The daemon's own stalls, in its log, so a silence from the GUI can
+        # be told from the daemon not being there to hear it.
+        StallMonitor.new("Daemon", out: Util.method(:log)).start
+
+        @kill_switch = KillSwitch.new(@safe_exit, log: Util.method(:log), gui_pipe: gui_pipe)
 
         @api_server = SonicPi::OSC::UDPServer.new(@ports["daemon"], suppress_errors: false, name: "Daemon API Server")
         # For debugging purposes:
@@ -300,6 +310,22 @@ module SonicPi
       # Traffic too frequent to log each time: the plugin parameter pages and
       # knob edits come by the hundred, and the Link Audio panel polls its
       # channels and inputs every 2 s while it is open.
+      # The pipe whose closing means the GUI has gone, when the GUI asked for
+      # it to be watched and stdin is one. Anything else - a terminal, /dev/null,
+      # a launcher that did not ask - leaves the keep-alive timeout in charge.
+      def gui_pipe
+        unless @exit_when_stdin_closes
+          Util.log "No pipe to watch: the keep-alive timeout decides when the GUI has gone"
+          return nil
+        end
+        unless STDIN.stat.pipe?
+          Util.log "Asked to watch stdin, but it is not a pipe: the keep-alive timeout decides when the GUI has gone"
+          return nil
+        end
+        Util.log "Watching stdin: the daemon exits when the GUI's end of the pipe closes"
+        STDIN
+      end
+
       def quiet_forward?(path)
         path.start_with?("/clockwork/track/plugin/param", "/clockwork/clock/audio/",
                          "/daemon/clock/audio/")
@@ -384,57 +410,6 @@ module SonicPi
       def self.pipewire?
         `which pw-link`
         $?.success?
-      end
-    end
-
-    class KillSwitch
-      def initialize(safe_exit)
-        @safe_exit = safe_exit
-        @kill_switch_prom = Promise.new
-        @queue = Queue.new
-
-        activate
-
-        @timer_thread = Thread.new do
-          attempts = 0
-          max_attempts = 4
-          Kernel.sleep 40
-          loop do
-            Kernel.sleep 10
-            if @queue.empty?
-              attempts += 1
-            else
-              attempts = 0
-              @queue.clear
-            end
-
-            break if attempts > max_attempts
-          end
-          Util.log "Kill switch timed out..."
-          @kill_switch_prom.deliver!(true)
-        end
-      end
-
-      def keep_alive!
-        @queue << true
-      end
-
-      def wait
-        @kill_switch_prom.get
-      end
-
-      def activate
-        return if @armed_thread
-        @armed_thread = Thread.new do
-          wait
-          Util.log "[EXIT] Daemon kill switch triggered. Exiting..."
-          @timer_thread.kill
-          @safe_exit.exit
-        end
-      end
-
-      def deactivate
-        @armed_thread.kill
       end
     end
 
@@ -1179,6 +1154,7 @@ begin
   until argv.empty?
     case (arg = argv.shift)
     when "--no-scsynth-inputs" then opts[:no_scsynth_inputs] = true
+    when "--exit-when-stdin-closes" then opts[:exit_when_stdin_closes] = true
     when "--audio-output"      then opts[:audio_output]      = argv.shift
     when "--audio-input"       then opts[:audio_input]       = argv.shift
     when "--audio-sample-rate" then opts[:audio_sample_rate] = argv.shift.to_i
