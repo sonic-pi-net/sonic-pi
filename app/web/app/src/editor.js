@@ -621,7 +621,7 @@ function findPanel(view) {
   aa.setAttribute("aria-pressed", String(forceCase));
   const prev = make("button", "sp-find-nav"), next = make("button", "sp-find-nav"), close = make("button", "sp-find-close");
   prev.innerHTML = icon("chevron-up"); next.innerHTML = icon("chevron-down"); close.innerHTML = icon("x");   // native's: up for the previous match, down for the next
-  for (const [b, t] of [[prev, "Previous match (Shift+Enter)"], [next, "Next match (Enter)"], [close, "Close (Escape)"]]) { b.type = "button"; b.title = t; b.setAttribute("aria-label", t); }
+  for (const [b, t] of [[prev, "Previous match (Shift+Enter)"], [next, "Next match (Enter)"], [close, "Close find (Escape)"]]) { b.type = "button"; b.title = t; b.setAttribute("aria-label", t); }
   dom.append(glass, input, count, aa, prev, next, close);
 
   const query = () => new SearchQuery({ search: input.value, caseSensitive: forceCase || /[A-Z]/.test(input.value) });

@@ -596,6 +596,7 @@ export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = tr
   // Stop its transport, on press as the keys are
   const card = createCard({
     title: name, key: `instrument/${p.key}`, code: programFor(null), actions: open ? ["reset", "copy"] : ["reset", "copy", "insert"], still: true, onPress: true, level: heading,
+    tips: { reset: "Reset all controls to their defaults" },   // native's instrument page: the dials go back, not code that was written
     // the synth's one-sentence summary (its metadata's), else its description's first sentence — but not on its own
     // docs page, where its full description is the next thing under the card and the summary only says it again
     blurb: place === "docs" ? "" : (p.summary || firstSentence(p.doc_html)),

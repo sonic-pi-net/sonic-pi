@@ -15,7 +15,10 @@
 // bubble never shows; what it said to a screen reader moves to aria-label
 // (a control with no words of its own) or aria-description, and an
 // aria-label already there is untouched. A trailing "(⌘R)" is the
-// shortcut chip; data-tip-title adds a heading.
+// shortcut chip; data-tip-title adds a heading. Without one, the control's
+// own name is the heading (a button's words, a preference row's label), as
+// native's manager gives every tip the same shape (resolveTip); a heading
+// that only repeats the body is dropped.
 import { settings } from "./theme.js";
 
 const HOVER_DELAY = 500, FOCUS_DELAY = 650, WARM_WINDOW = 300, GAP = 4, MARGIN = 6, CARET_W = 14, CARET_H = 7, RADIUS = 8;
@@ -62,7 +65,23 @@ export function installTooltips(root = document.body) {
     const m = /^(.*?)\s*\(([^()]+)\)$/.exec(text);
     // its key, or a pair of them (a size's smaller and larger: "⌃- / ⌃="), in the chip
     if (m && m[2].split(" / ").every((k) => CHORD.test(k.trim()))) { bodyText = m[1]; shortcut = m[2].trim(); }
-    return { target: t, title: t.dataset.tipTitle ?? "", body: bodyText, shortcut, link: t.dataset.tipLink ?? "", linkText: t.dataset.tipLinkText ?? "Docs" };
+    return { target: t, title: heading(t, bodyText), body: bodyText, shortcut, link: t.dataset.tipLink ?? "", linkText: t.dataset.tipLinkText ?? "Docs" };
+  }
+
+  // the heading: data-tip-title, else the control's own name as it shows — a button's visible words, a row's label
+  // (the first span of a .pref-row) — and none when that only repeats the body (native's resolveTip, cleanTitle)
+  function heading(t, bodyText) {
+    let name = t.dataset.tipTitle;
+    if (name == null) {
+      const named = t.matches("button, [role=switch], [role=tab], [role=radio]") ? t : t.matches(".pref-row") ? t.firstElementChild : null;
+      if (named) {
+        const copy = named.cloneNode(true);
+        for (const hidden of copy.querySelectorAll(".sr-only, [aria-hidden=true], .pref-val, input")) hidden.remove();
+        name = copy.textContent.replace(/\s+/g, " ").trim().replace(/:$/, "");
+      }
+    }
+    if (!name || !/[\p{L}\p{N}]/u.test(name) || name.localeCompare(bodyText, undefined, { sensitivity: "accent" }) === 0) return "";
+    return name;
   }
 
   function show(target, parts) {

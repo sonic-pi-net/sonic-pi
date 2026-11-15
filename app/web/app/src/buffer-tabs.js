@@ -54,6 +54,7 @@ export function createBufferTabs({ root, workspace, title, onPick, store }) {
       b.title = title(i);
       b.setAttribute("role", "tab");
       b.setAttribute("aria-label", `Buffer ${i}`);
+      b.dataset.tipTitle = "";   // its number is no heading for "Code buffer N": the tip is the one line, as native's tab's
       // a pad: with jam on it fires as the finger lands (a drum pad's feel); otherwise on the lift, unless it was a drag
       let x0 = 0, y0 = 0, dragged = false, firedOnDown = false;
       const fire = () => {

@@ -183,7 +183,7 @@ export function createTransport({ onRun = null, onStop = null, onPress = false }
   const left = scope("qs-scope-play"), right = scope("qs-scope-stop");
   const run = el("button", "qs-run");
   run.type = "button";
-  run.title = "Play";
+  run.title = "Play this card. Play again while it plays and your change takes over.";   // native's CodeCard
   run.innerHTML = `${TRANSPORT}<span class="sr-only">Play</span>`;
   // onPress (an instrument's, beside its keys): Play and Stop act as the pointer goes down, as a key does, not when it
   // comes up; a click from the keyboard (Enter, Space) still acts, and the press's own click is not taken twice
@@ -196,7 +196,7 @@ export function createTransport({ onRun = null, onStop = null, onPress = false }
   left.box.appendChild(run);
   const halt = el("button", "qs-run qs-stop");
   halt.type = "button";
-  halt.title = "Stop";
+  halt.title = "Stop this card.";
   halt.innerHTML = `${TRANSPORT_STOP}<span class="sr-only">Stop</span>`;
   halt.disabled = true;
   act(halt, () => onStop?.());
@@ -224,11 +224,11 @@ export function createTransport({ onRun = null, onStop = null, onPress = false }
   };
 }
 
-// an icon button that still says what it does, to a screen reader and to text lookups
-function action(name, label, onClick) {
+// an icon button that still says what it does, to a screen reader (its label) and on hover (its tip, native's CodeCard's)
+function action(name, label, tip, onClick) {
   const b = el("button", `qs-card-action qs-card-${name}`);
   b.type = "button";
-  b.title = label;
+  b.title = tip;
   b.setAttribute("aria-label", label);
   b.innerHTML = icon(name, "");
   if (onClick) b.addEventListener("click", onClick);
@@ -302,7 +302,7 @@ function cardLoopScopes(body, hooks) {
 }
 
 export function createCard(o) {
-  const { title, blurb = "", key = title, actions = [], open = null, hooks = {}, remember = null, root = document, wide = false, playable = true } = o;
+  const { title, blurb = "", key = title, actions = [], open = null, hooks = {}, remember = null, root = document, wide = false, playable = true, tips = {} } = o;   // tips: a button's words on hover in place of the card's own (an instrument's Reset)
   // a card with more to it (the synth, docs.js createInstrument): `panel` between the bar and the code, `extra` in the
   // bar after the title, the code `still` (made, not typed: no editor), `level` its heading's, Play `onPress`
   const { panel = null, extra = null, still = false, level = 2, onPress = false } = o;
@@ -327,25 +327,25 @@ export function createCard(o) {
   head.appendChild(h);
   const buttons = {};
   if (actions.includes("edit")) {
-    buttons.edit = action("edit", "Edit", () => setEditing(!editing));
+    buttons.edit = action("edit", "Edit", "Change this card's code. Play it to hear your change.", () => setEditing(!editing));
     buttons.edit.setAttribute("aria-pressed", "false");
   }
-  if (actions.includes("reset")) buttons.reset = action("reset", "Reset", () => { setCode(original); store.set(storeKey, null); api.onReset?.(); });
+  if (actions.includes("reset")) buttons.reset = action("reset", "Reset", tips.reset ?? "Put this card's code back as it was written.", () => { setCode(original); store.set(storeKey, null); api.onReset?.(); });
   if (actions.includes("copy")) {
-    buttons.copy = action("copy", "Copy", async () => {
+    buttons.copy = action("copy", "Copy", "Copy this card's code to the clipboard.", async () => {
       try { await (hooks.copy ? hooks.copy(code()) : navigator.clipboard.writeText(code())); } catch {}
       buttons.copy.classList.add("done");
       buttons.copy.querySelector("svg").innerHTML = paths("check");
       setTimeout(() => { buttons.copy.classList.remove("done"); buttons.copy.querySelector("svg").innerHTML = paths("copy"); }, 1200);
     });
   }
-  if (actions.includes("insert")) buttons.insert = action("insert", "Insert into the editor", () => hooks.insert?.(code()));
+  if (actions.includes("insert")) buttons.insert = action("insert", "Insert into the editor", "Add this card to your code at the cursor.", () => hooks.insert?.(code()));
   if (actions.includes("drag")) {
-    buttons.drag = action("drag", "Drag into the editor");
+    buttons.drag = action("drag", "Drag into the editor", "Drag me into your editor.");
     buttons.drag.draggable = true;
     buttons.drag.addEventListener("dragstart", (e) => { e.dataTransfer.setData("text/plain", code().replace(/\n?$/, "\n")); e.dataTransfer.effectAllowed = "copy"; });
   }
-  if (open) buttons.open = action("open", "Open in Sonic Pi", (ev) => { ev.stopPropagation(); open(code(), api.job); });
+  if (open) buttons.open = action("open", "Open in Sonic Pi", "Open this card's code in the editor.", (ev) => { ev.stopPropagation(); open(code(), api.job); });
   if (extra) head.append(...[extra].flat());
   head.append(...["edit", "reset", "copy", "insert", "drag", "open"].map((k) => buttons[k]).filter(Boolean));
 

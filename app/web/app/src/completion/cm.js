@@ -131,9 +131,10 @@ const el = (tag, cls, text) => {
   return e;
 };
 
-const miniButton = (label, onClick) => {
+const miniButton = (label, onClick, tip = null) => {
   const b = el("button", "sp-mini-btn", label);
   b.type = "button";
+  if (tip) b.title = tip;   // native's completion popup's words on hover
   b.addEventListener("mousedown", (e) => { e.preventDefault(); onClick(); });
   return b;
 };
@@ -186,14 +187,14 @@ function detailFor(it, hooks) {
     // its keys are how it is heard: pressed, or swept across
     const name = it.text.replace(/^:/, "");
     root.appendChild(piano({ from: 48, to: 71, onKey: (n) => hooks.playNote?.(n, { synth: name }) }));
-    actions.appendChild(miniButton("Docs", () => hooks.showDocs?.(it.text, "synths")));
+    actions.appendChild(miniButton("Docs", () => hooks.showDocs?.(it.text, "synths"), "Open the help pane for this entry"));
   } else if (it.kind === "fx") {
     // and an FX's, a note played through it
     const name = it.text.replace(/^:/, "");
     root.appendChild(piano({ from: 48, to: 71, onKey: (n) => hooks.playNote?.(n, { fx: name }) }));
-    actions.appendChild(miniButton("Docs", () => hooks.showDocs?.(it.text, "fx")));
+    actions.appendChild(miniButton("Docs", () => hooks.showDocs?.(it.text, "fx"), "Open the help pane for this entry"));
   } else if (it.kind === "sample") {
-    actions.appendChild(miniButton("▶ Play", () => hooks.playSample?.(it.text.replace(/^:/, ""))));
+    actions.appendChild(miniButton("▶ Play", () => hooks.playSample?.(it.text.replace(/^:/, "")), "Play this sample"));
   } else if (it.kind === "range") {
     const bar = el("div", "sp-rangebar");
     const mark = el("i");
@@ -202,7 +203,7 @@ function detailFor(it, hooks) {
     root.appendChild(el("div", "sp-cinfo-range", `${formatValue(it.rmin, it.rmin, it.rmax)} … ${formatValue(it.rmax, it.rmin, it.rmax)}`));
     root.appendChild(bar);
   } else if (it.kind === "fn") {
-    actions.appendChild(miniButton("Docs ↗", () => hooks.showDocs?.(it.text, "lang")));
+    actions.appendChild(miniButton("Docs ↗", () => hooks.showDocs?.(it.text, "lang"), "Open the help pane for this entry"));
   }
   if (it.doc) {
     const doc = el("div", "sp-doc sp-cinfo-doc");

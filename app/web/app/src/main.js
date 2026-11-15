@@ -759,7 +759,7 @@ function pickBuffer(i) {
   if (tabs.jam.mode === "run") run();
   else if (tabs.jam.mode === "exec") stopAndRun();
 }
-const tabs = createBufferTabs({ root: $("buffer-tabs"), workspace, title: (i) => keys.title(`Buffer ${i}`, `Tab${i}`), onPick: pickBuffer, store });
+const tabs = createBufferTabs({ root: $("buffer-tabs"), workspace, title: (i) => keys.title(`Code buffer ${i}`, `Tab${i}`), onPick: pickBuffer, store });
 
 // native's auto-indent on run (on by default): the buffer is re-indented before it is read
 const editorPrefs = { autoIndent: store.get("sp-auto-indent-on-run", true) };
@@ -1400,7 +1400,7 @@ const paneHooks = {
   loadSynth: async (key) => (await ensureSession()).bridge?.synthDef(`sonic-pi-${key}`),
 };
 
-const DRAWER_TITLES = { docs: "Help - Documentation", quickstart: "Help - Quickstart cards", logs: "System log", insight: "Threads", debug: "Debug - SuperSonic", output: "Scope, log and cues" };
+const DRAWER_TITLES = { docs: "Help - Documentation", quickstart: "Help - Quickstart cards", logs: "Logs", insight: "Threads", debug: "Debug - SuperSonic", output: "Scope, log and cues" };
 const phoneMedia = window.matchMedia("(max-width: 760px)");
 // On a phone the scope, log and cues are a pane of the drawer's ("output"), so the rail stays with them:
 // the sidebar moves into the drawer's panes for it, and back to its place for anything else.
@@ -1450,8 +1450,7 @@ function setPanel(next) {
   $("btn-prefs").classList.toggle("on", next === "prefs");
   for (const b of $("drawer-rail").querySelectorAll("[data-drawer]")) b.classList.toggle("on", b.dataset.drawer === next);
   $("drawer-title").textContent = DRAWER_TITLES[next] ?? "";
-  const say = next ? "Hide the panel" : "Show the panel";
-  { const el = $("divider-grip"); el.title = say; el.setAttribute("aria-label", say); }
+  paintGripTitles();
   if (!isPane(next)) setPanelFull(false);   // full size is a help pane's: gone with it
   if (now !== next) status(next ? `Showing ${DRAWER_TITLES[next] ?? "the panel"}...` : "Hiding the panel...");
   if (next === "prefs") buildPrefs();
@@ -1558,6 +1557,13 @@ function showHelpHint() {
 
 $("btn-prefs").addEventListener("click", () => setPanel(panelNow() === "prefs" ? "" : "prefs"));
 for (const b of $("drawer-rail").querySelectorAll("[data-drawer]")) b.addEventListener("click", () => toggleDrawer(b.dataset.drawer));
+// the hide grip says what it does from the panel's state, with the Help key after it, as native's does (updateHelpGripLabels)
+function paintGripTitles() {
+  const say = panelFull ? "Back to the code, with the help panel beside it" : panelNow() ? "Hide the documentation and information panel" : "Show the documentation and information panel";
+  const grip = $("divider-grip");
+  grip.title = keys.title(say, "Help");
+  grip.setAttribute("aria-label", say);
+}
 // The panel full size: the help pane over the whole of the code's room (the editor and the scope, log and cues
 // beside it), for reading the docs or the cards at length. Up makes it so; down steps back, to beside the code, and
 // from there (as before) away. Not remembered: a reload comes back to the code.
@@ -1567,8 +1573,7 @@ function setPanelFull(on) {
   if (on === panelFull) return;
   panelFull = on;
   document.body.classList.toggle("panel-full", on);
-  const hide = $("divider-grip"), say = on ? "Back to the code, the panel beside it" : "Hide the panel";
-  hide.title = say; hide.setAttribute("aria-label", say);
+  paintGripTitles();
   status(on ? "Help panel full size..." : "Help panel beside the code...");
   requestAnimationFrame(() => { quickstart?.render(); window.dispatchEvent(new Event("resize")); });   // the cards and the threads' canvases size themselves to the room
 }
@@ -2579,7 +2584,8 @@ async function toggleRecording() {
   try { engineRef.startCapture(); } catch (e) { return toast(`Recording: ${describe(e)}`, true); }   // assertive, as native's
   recording = { chunks: [], frames: 0, sampleRate: 0, channels: 2, tick: 0 };
   recBtn.classList.add("on");
-  recBtn.title = "Stop recording and save the WAV";
+  recBtn.dataset.tipTitle = "Stop Recording";
+  recBtn.title = keys.title("Stop recording and save the WAV", "Record");
   toast("Recording");   // said once (toast speaks it)
   recording.tick = setInterval(() => { drainCapture(); if (recording && recording.frames / (recording.sampleRate || 48000) >= REC_MAX_SECS) { toast("Recording stopped after an hour"); stopRecording(); } }, 250);
 }
@@ -2600,7 +2606,7 @@ function stopRecording() {
   const r = recording;
   recording = null;
   recBtn.classList.remove("on");
-  recBtn.title = "Start recording to a WAV audio file (Shift+Cmd/Ctrl+R)";
+  paintRecordTitle();
   try { recording = r; drainCapture(true); } catch (e) { toast(`Recording: ${describe(e)}`); } finally { recording = null; }
   status("Stop recording...");
   if (!r.frames) return toast("Nothing was recorded");
@@ -2624,6 +2630,8 @@ function wavBlob({ chunks, frames, sampleRate, channels }) {
   return new Blob([head, ...chunks], { type: "audio/wav" });   // little-endian Int16Arrays, as the platform lays them
 }
 recBtn.addEventListener("click", toggleRecording);
+// native's Start Recording action: its name, and its shortcut table's words
+function paintRecordTitle() { recBtn.dataset.tipTitle = "Start Recording"; recBtn.title = keys.title("Start recording to a WAV audio file", "Record"); }
 if (recordingUnavailable()) { recBtn.disabled = true; recBtn.title = recordingUnavailable(); }
 
 // ── Preferences ───────────────────────────────────────────────────────────
@@ -2678,7 +2686,7 @@ function segmented(options, current, onPick) {
   for (const [id, label, glyph, tip] of options) {
     const b = el("button", id === current ? "active" : "", glyph ? null : label);
     if (glyph) { seg.classList.add("seg-glyphs"); b.innerHTML = icon(glyph); b.append(el("span", "seg-label", label)); b.setAttribute("aria-label", label); }
-    if (tip) b.title = `${label}: ${tip}`;
+    if (tip) { b.dataset.tipTitle = label; b.title = tip; }   // the option's name as the tip's heading, as native's radio buttons
     b.type = "button";
     b.setAttribute("aria-pressed", String(id === current));
     b.addEventListener("click", () => { [...seg.children].forEach((c) => { c.classList.toggle("active", c === b); c.setAttribute("aria-pressed", String(c === b)); }); onPick(id); });
@@ -2721,14 +2729,14 @@ function buildThemeMenu() {
     grid.appendChild(b);
   }
   themeMenu.appendChild(grid);
-  themeMenu.appendChild(slider("Hue", { min: 0, max: 359, value: st.hue, format: (v) => `${v}°`, tip: "Rotate the colour wheel", onInput: (v) => theme.set({ hue: v }) }));
-  themeMenu.appendChild(slider("Hue spread", { min: 0, max: 100, value: st.spread, format: (v) => `${v}%`, tip: "Spread the colours apart on the spectrum", onInput: (v) => theme.set({ spread: v }) }));
+  themeMenu.appendChild(slider("Rotate hue", { min: 0, max: 359, value: st.hue, format: (v) => `${v}°`, tip: "Drag or scroll to rotate the hue of every colour in the interface.", onInput: (v) => theme.set({ hue: v }) }));
+  themeMenu.appendChild(slider("Spread hue", { min: 0, max: 100, value: st.spread, format: (v) => `${v}%`, tip: "Drag or scroll to spread the interface's colours away from the main colour. 0 is the theme as designed, 100 spaces every colour evenly around the wheel.", onInput: (v) => theme.set({ spread: v }) }));
   const foot = el("div", "tm-foot"), switches = el("div", "tm-switches");
-  switches.append(toggle("Monochrome", st.monochrome, (on) => theme.set({ monochrome: on }), "Switch to black and white / greyscale mode", "pref-monochrome"),
-    toggle("Invert", st.invert, (on) => theme.set({ invert: on }), "Switch to colour inversion mode", "pref-invert"));
+  switches.append(toggle("Monochrome", st.monochrome, (on) => theme.set({ monochrome: on }), "Show the whole interface in greyscale.", "pref-monochrome"),
+    toggle("Invert colours", st.invert, (on) => theme.set({ invert: on }), "Invert every interface colour (photo-negative).", "pref-invert"));
   const reset = el("button", "sp-mini-btn tm-reset", "Reset theme");
   reset.type = "button";
-  reset.title = "Reset theme to defaults";
+  reset.title = "Return hue rotation, hue spread, monochrome and invert to their defaults. The chosen scheme is kept.";
   reset.addEventListener("click", () => { theme.resetMods(); buildThemeMenu(); themeMenu.querySelector(".tm-reset")?.focus(); status("Theme reset"); });
   foot.append(switches, reset);
   themeMenu.appendChild(foot);
@@ -2795,30 +2803,30 @@ function buildPrefs() {
   box.appendChild(slider("Trail", { min: 0, max: 95, value: Math.round(scope.trail * 100), format: (v) => `${v}%`, tip: "How long the scope's lines linger as they fade", onInput: (v) => { scope.trail = v / 100; saveScope(); } }));
 
   h("Editor");
-  const codeSize = slider("Code size", { min: 8, max: 40, value: editor.fontSize(), format: (v) => `${v}px`, tip: sizeTitle("Change the size of the code", "TextZoomOut", "TextZoomIn"), onInput: (v) => editor.setFontSize(v),
-    reset: { label: "Reset code size", tip: "Put the code back to its usual size", onReset: () => editor.resetFontSize() } });
+  const codeSize = slider("Code size", { min: 8, max: 40, value: editor.fontSize(), format: (v) => `${v}px`, tip: sizeTitle("The size of the code in every buffer.", "TextZoomOut", "TextZoomIn"), onInput: (v) => editor.setFontSize(v),
+    reset: { label: "Reset code size", tip: "Put the code back to its usual size.", onReset: () => editor.resetFontSize() } });
   showCodeSize = () => codeSize.setValue(editor.fontSize());
   box.appendChild(codeSize);
   // right is bigger, its end the code's own size (native's Preferences > Logging)
-  box.appendChild(slider("Log text size", { min: -LOG_SMALLER.max, max: 0, value: -editor.logSmaller(), format: (v) => (v ? `${-v}px smaller` : "Same as the code"), tip: "How much smaller than the code the log and the cue log are", onInput: (v) => editor.setLogSmaller(-v) }));
+  box.appendChild(slider("Log text size", { min: -LOG_SMALLER.max, max: 0, value: -editor.logSmaller(), format: (v) => (v ? `${-v}px smaller` : "Same as the code"), tip: "How much smaller than the code the log and the cue log are.", onInput: (v) => editor.setLogSmaller(-v) }));
   box.appendChild(toggle("Virtual keyboard", codeKeyboard.virtual, (on) => { codeKeyboard.setVirtual(on); buildPrefs(); }, "Use Sonic Pi's live coding keyboard in place of the system keyboard", "pref-keyboard"));
   box.appendChild(slider("Keyboard delay", { min: 0, max: 500, step: 50, value: codeKeyboard.delay, format: (v) => `${v} ms`, tip: "Length of time needed to hold before a touch summons the keyboard", onInput: (v) => codeKeyboard.setDelay(v) }));
   box.appendChild(toggle("Auto-indent on run", editorPrefs.autoIndent, (on) => { editorPrefs.autoIndent = on; store.set("sp-auto-indent-on-run", on); }, keys.title("Align the code every time you run it. When off, use Align Code", "Align"), "pref-auto-indent"));
-  box.appendChild(toggle("Show the line and position", !document.body.classList.contains("no-caret-pos"), (on) => { document.body.classList.toggle("no-caret-pos", !on); store.set("sp-caret-pos-shown", on); }, "Show the cursor's line and position", "pref-context"));
-  box.appendChild(toggle("Show the metronome", !document.body.classList.contains("no-metro"), (on) => { document.body.classList.toggle("no-metro", !on); store.set("sp-metro-shown", on); }, "Show the metronome controls", "pref-metro"));
-  box.appendChild(toggle("Show Loop Scopes", loopScopePrefs.show, (on) => { loopScopePrefs.show = on; store.set("sp-loop-scopes", on); paintLoopScopes(); }, "Show a small scope of its own audio beside each running live loop", "pref-loop-scopes"));
-  box.appendChild(toggle("Scroll Loop Scopes", loopScopePrefs.scroll, (on) => { loopScopePrefs.scroll = on; store.set("sp-loop-scope-scroll", on); }, "Scroll the loop scopes sideways, the newest sound on the right. When off, they hold a steady waveform like the main scope", "pref-loop-scroll"));
-  box.appendChild(toggle("Flash code on sound trigger", flashPrefs.code, (on) => { flashPrefs.code = on; store.set("sp-flash-code", on); }, "Briefly wash the code responsible for each sound as it is triggered", "pref-flash-code"));
-  box.appendChild(toggle("Flash gutter on sound trigger", flashPrefs.gutter, (on) => { flashPrefs.gutter = on; store.set("sp-flash-gutter", on); }, "Briefly show a dot in the gutter next to the line responsible for each sound as it is triggered", "pref-flash-gutter"));
-  box.appendChild(slider("Flash brightness", { min: 5, max: 100, value: flashPrefs.brightness, format: (v) => `${v}%`, tip: "How strongly the code flash washes the line", onInput: (v) => { flashPrefs.brightness = v; store.set("sp-flash-brightness", v); theme.setFlashBrightness(v); } }));
+  box.appendChild(toggle("Show code context", !document.body.classList.contains("no-caret-pos"), (on) => { document.body.classList.toggle("no-caret-pos", !on); store.set("sp-caret-pos-shown", on); }, "When enabled, Sonic Pi's editor will show a pane which will display context-specific information for the code such as the current line and position of the cursor.", "pref-context"));
+  box.appendChild(toggle("Show metronome controls", !document.body.classList.contains("no-metro"), (on) => { document.body.classList.toggle("no-metro", !on); store.set("sp-metro-shown", on); }, "Toggle visibility of the metronome controls.", "pref-metro"));
+  box.appendChild(toggle("Show live loop scopes", loopScopePrefs.show, (on) => { loopScopePrefs.show = on; store.set("sp-loop-scopes", on); paintLoopScopes(); }, "When enabled, each running live loop shows a small oscilloscope of its own audio next to its line in the editor.", "pref-loop-scopes"));
+  box.appendChild(toggle("Scrolling live loop scopes", loopScopePrefs.scroll, (on) => { loopScopePrefs.scroll = on; store.set("sp-loop-scope-scroll", on); }, "When enabled, live loop scopes scroll their recent audio like a strip chart. When disabled, they hold a steady waveform like the main scope.", "pref-loop-scroll"));
+  box.appendChild(toggle("Flash code on sound trigger", flashPrefs.code, (on) => { flashPrefs.code = on; store.set("sp-flash-code", on); }, "When enabled, the editor briefly washes the code responsible for each sound as it is triggered.", "pref-flash-code"));
+  box.appendChild(toggle("Flash gutter on sound trigger", flashPrefs.gutter, (on) => { flashPrefs.gutter = on; store.set("sp-flash-gutter", on); }, "When enabled, the editor briefly shows a dot in the gutter next to the line responsible for each sound as it is triggered.", "pref-flash-gutter"));
+  box.appendChild(slider("Flash brightness", { min: 5, max: 100, value: flashPrefs.brightness, format: (v) => `${v}%`, tip: "Drag or scroll to change how strongly the code flash washes the line.", onInput: (v) => { flashPrefs.brightness = v; store.set("sp-flash-brightness", v); theme.setFlashBrightness(v); } }));
 
   // native's Studio > Synths and FX
   h("Synths and FX");
-  box.appendChild(toggle("Safe mode", safeMode.on, (on) => { safeMode.on = on; store.set("sp-safe-mode", on); }, "Check synth and FX opts before playing. When off, some values can make unexpectedly loud or harsh sounds", "pref-safe"));
+  box.appendChild(toggle("Safe mode", safeMode.on, (on) => { safeMode.on = on; store.set("sp-safe-mode", on); }, "Checks synth arguments before triggering. If disabled, certain synth opt values may create unexpectedly loud or uncomfortable sounds.", "pref-safe"));
   box.appendChild(toggle("Warn about unknown opts", unknownOpts.warn, (on) => { unknownOpts.warn = on; store.set("sp-warn-unknown-opts", on); },
     "Warn about an opt a synth, FX or sample doesn't have, which is usually a typo. When off, a misspelt opt silently does nothing", "pref-warn"));
-  box.appendChild(toggle("Enable external synths", externalSynths.on, (on) => { externalSynths.on = on; store.set("sp-external-synths", on); },
-    "Play synths and FX loaded with load_synthdef. When off, Sonic Pi complains about any synth or FX it doesn't recognise", "pref-external"));
+  box.appendChild(toggle("Enable external synths/FX", externalSynths.on, (on) => { externalSynths.on = on; store.set("sp-external-synths", on); },
+    "When enabled, Sonic Pi will allow synths and FX loaded via load_synthdefs to be triggered.\n\nWhen disabled, Sonic Pi will complain when you attempt to use a synth or FX which isn't recognised.", "pref-external"));
 
   h("Audio");
   box.appendChild(toggle("Low latency", lowLatency.on, (on) => { lowLatency.on = on; store.set("sp-low-latency", on); },
@@ -2826,8 +2834,8 @@ function buildPrefs() {
 
   // native's View > Accessibility
   h("Accessibility");
-  box.appendChild(toggle("Speak Run and Stop", a11yPrefs.speakTransport, (on) => { a11yPrefs.speakTransport = on; store.set("sp-speak-transport", on); setSpeakTransport(on); }, "Have your screen reader say \"Run started\" and \"Stopped\". Turn off to hear the very start of your music without the announcement over it", "pref-speak"));
-  box.appendChild(toggle("Reduce animations", motionPrefs.reduce, (on) => setReduceMotion(on, true), "Keep the interface still: code doesn't flash as it runs and plays, and panes and popups appear in place instead of sliding. On while your system's reduce motion setting is on, unless you set it here", "pref-motion"));
+  box.appendChild(toggle("Speak run and stop", a11yPrefs.speakTransport, (on) => { a11yPrefs.speakTransport = on; store.set("sp-speak-transport", on); setSpeakTransport(on); }, "When enabled, a screen reader announces \"Run started\" and \"Stopped\". Disable this if you'd rather hear the very start of your audio without it being ducked by the announcement.", "pref-speak"));
+  box.appendChild(toggle("Reduce animations", motionPrefs.reduce, (on) => setReduceMotion(on, true), "When enabled, Sonic Pi keeps its interface still: code doesn't flash as it runs and plays, and panes and popups appear in place instead of sliding or gliding. It is on while your operating system's reduce-animations accessibility setting is active, unless you set it here.", "pref-motion"));
 
   h("Shortcuts");
   shortcutPrefs(box);
@@ -3145,12 +3153,15 @@ const shortcutEditor = createShortcutEditor({ keys, unavailable: UNAVAILABLE, st
 // native's tooltips name each action's key, in the keymap in force
 function paintKeyTitles() {
   for (const [id, text, command] of [
-    ["btn-run", "Run", "Run"], ["btn-stop", "Stop everything", "Stop"], ["btn-load", "Load a file: a buffer's code into a free buffer, or a set (.sonicpi) as a set of its own", "Load"],
-    ["btn-size-down", "Code size down", "TextZoomOut"], ["btn-size-up", "Code size up", "TextZoomIn"],
-    ["btn-scope", "Show or hide the scope", "Scope"], ["btn-info", "Info about Sonic Pi", "Info"],
-    ["btn-help", "Help: cards, docs and threads", "Help"], ["btn-prefs", "Preferences", "Prefs"], ["btn-zen", "Full screen", "FullScreen"],
-    ["lk-tap", "Tap tempo", "TapTempo"],
+    ["btn-run", "Run the code in the current buffer", "Run"], ["btn-stop", "Stop all running code", "Stop"],
+    ["btn-load", "Load a file: a buffer's code into a free buffer, or a set (.sonicpi) as a set of its own", "Load"],
+    ["btn-size-down", "Decrease Text Size", "TextZoomOut"], ["btn-size-up", "Increase Text Size", "TextZoomIn"],
+    ["btn-scope", "Toggle visibility of audio oscilloscope", "Scope"], ["btn-info", "Toggle information about Sonic Pi", "Info"],
+    ["btn-help", "Toggle the visibility of the help pane", "Help"], ["btn-prefs", "Toggle the visibility of the preferences pane", "Prefs"], ["btn-zen", "Toggle fullscreen mode", "FullScreen"],
+    ["lk-tap", "Click repeatedly to the beat to set the BPM manually. Accuracy increases with every additional click.", "TapTempo"],
   ]) $(id).title = keys.title(text, command);
+  if (!recording && !recordingUnavailable()) paintRecordTitle();
+  paintGripTitles();
   tabs.retitle();
   editor.titleKeys((text, command) => keys.title(text, command));
 }

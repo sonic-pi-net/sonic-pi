@@ -978,7 +978,7 @@ body.focus-mode #main { grid-template-columns: 1fr 0 0 !important; grid-template
 .sp-tip-link:hover, .sp-tip-link:focus-visible { text-decoration: underline; }
 .sp-tip-chip + .sp-tip-link { margin-left: 10px; }
 .sp-tip.high-contrast { --tip-bg: var(--ToolTipBase); --tip-border: var(--tip-fg); border-width: 2px; box-shadow: none; }
-.sp-tip-title { margin-bottom: 5px; font-size: var(--t-lead); font-weight: 700; }   /* a control's name, readable (a dial's panel label is small) */
+.sp-tip-title { margin-bottom: 5px; font-size: var(--t-ui); font-weight: 700; }   /* a control's name, one step up from the body as native draws it */
 .sp-tip-body { color: color-mix(in srgb, var(--tip-fg) 78%, var(--tip-bg)); white-space: pre-line; }
 .sp-tip.high-contrast .sp-tip-body { color: var(--tip-fg); }
 .sp-tip-chip {
