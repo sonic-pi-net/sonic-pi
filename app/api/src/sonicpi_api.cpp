@@ -26,9 +26,11 @@
 #endif
 
 #include <api/file_utils.h>
+#include <api/keep_alive_watch.h>
 #include <api/logger.h>
 #include <api/process_utils.h>
 #include <api/string_utils.h>
+#include <api/timestamp_line_buf.h>
 
 #include <api/osc/osc_sender.h>
 #include <api/osc/udp.hh>
@@ -73,58 +75,6 @@ std::map<T, T> vector_convert_to_pairs(const std::vector<T>& vals)
     };
     return pairs;
 }
-
-// Prefixes every line with "[HH:MM:SS.mmm] " so gui.log shares the unified
-// format of the daemon/spider/supersonic logs (which are stamped by the
-// daemon's ProcessBooter). Wraps the gui.log filebuf in the cout redirect.
-class TimestampLineBuf : public std::streambuf
-{
-public:
-    explicit TimestampLineBuf(std::streambuf* dest)
-        : m_dest(dest)
-    {
-    }
-
-protected:
-    int overflow(int ch) override
-    {
-        if (ch == traits_type::eof())
-            return m_dest->pubsync();
-        if (m_atLineStart && ch != '\n')
-            writeStamp();
-        m_atLineStart = (ch == '\n');
-        return m_dest->sputc(static_cast<char>(ch));
-    }
-
-    int sync() override
-    {
-        return m_dest->pubsync();
-    }
-
-private:
-    void writeStamp()
-    {
-        using namespace std::chrono;
-        const auto now = system_clock::now();
-        const auto ms = duration_cast<milliseconds>(now.time_since_epoch()) % 1000;
-        const std::time_t t = system_clock::to_time_t(now);
-        std::tm tmBuf;
-#ifdef WIN32
-        localtime_s(&tmBuf, &t);
-#else
-        localtime_r(&t, &tmBuf);
-#endif
-        char buf[24];
-        const int len = snprintf(buf, sizeof(buf), "[%02d:%02d:%02d.%03d] ",
-                                 tmBuf.tm_hour, tmBuf.tm_min, tmBuf.tm_sec,
-                                 static_cast<int>(ms.count()));
-        if (len > 0)
-            m_dest->sputn(buf, len);
-    }
-
-    std::streambuf* m_dest;
-    bool m_atLineStart = true;
-};
 
 } // namespace
 
@@ -308,6 +258,11 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs,
 
     args.push_back(GetPath(SonicPiPath::RubyPath).string());
     args.push_back(GetPath(SonicPiPath::BootDaemonPath).string());
+    // The daemon reads its stdin as the pipe reproc gives it, held by this
+    // process alone: it closes when this process ends, however it ends, and
+    // the daemon takes the session down then - not on a silence in the
+    // keep-alives, which a stalled GUI also produces.
+    args.push_back("--exit-when-stdin-closes");
 
     if(noScsynthInputs) {
       args.push_back("--no-scsynth-inputs");
@@ -421,14 +376,34 @@ BootDaemonInitResult SonicPiAPI::StartBootDaemon(bool noScsynthInputs,
 
     LOG(INFO, "Setting up Boot Daemon keep alive loop");
     m_bootDaemonSockPingLoopThread = std::thread([&]() {
+      // One message every 4 s. The daemon logs the gaps it hears; this side
+      // logs what only the sender can know: a send that failed, once per
+      // streak and once more when it ends, and a sleep that overran by a
+      // second or more, which means this whole process was not being run.
+      KeepAliveWatch watch(4s);
       while(m_keep_alive.load())
       {
-        LOG(DBG, "SND keep_alive");
         oscpkt::Message msg("/daemon/keep-alive");
         msg.pushInt32(m_token);
-        m_spOscDaemonSender->sendOSC(msg);
-        LOG(DBG, "SND keep_alive sent");
+        switch (watch.sent(m_spOscDaemonSender->sendOSC(msg)))
+        {
+        case KeepAliveWatch::Send::Failed:
+          LOG(ERR, "Keep-alive to the daemon could not be sent (port " << m_ports[SonicPiPortId::daemon] << ")");
+          break;
+        case KeepAliveWatch::Send::Recovered:
+          LOG(INFO, "Keep-alive to the daemon sent again, after " << watch.lastStreak() << " that could not be");
+          break;
+        case KeepAliveWatch::Send::Quiet:
+          break;
+        }
+        const auto before = std::chrono::steady_clock::now();
         std::this_thread::sleep_for(4s);
+        const auto slept = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - before);
+        const auto late = watch.lateBy(slept);
+        if (late.count() > 0)
+        {
+          LOG(INFO, "Keep-alive loop woke " << late.count() << " ms late: this process was not being run for that long");
+        }
       }
       LOG(INFO, "Keep Alive Thread Loop has completed.");
     });
@@ -441,6 +416,13 @@ SonicPiAPI::~SonicPiAPI()
 {
     LOG(INFO, "API deconstructor initiating shutdown... ");
     Shutdown();
+
+    if (m_coutbuf)
+    {
+        std::cout.rdbuf(m_coutbuf); // reset to stdout before exiting
+        m_coutbuf = nullptr;
+        m_stampbuf.reset();
+    }
 }
 
 bool SonicPiAPI::LinkEnable()
@@ -563,16 +545,37 @@ void SonicPiAPI::Shutdown()
         }
     }
 
+    // The daemon goes on /daemon/exit, and on its stdin closing, taking
+    // Spider and SuperSonic with it: a few seconds. Waited for here, bounded,
+    // so a session started again (MainWindow::onServerExited) never starts a
+    // second daemon beside one still going, and a quit never waits on one
+    // that will not go - the process object's destructor would have waited
+    // for it without limit.
+    if (m_bootDaemonProcess)
+    {
+        m_bootDaemonProcess->close(reproc::stream::in);
+        reproc::stop_actions stop = {
+            { reproc::stop::wait, reproc::milliseconds(8000) },
+            { reproc::stop::terminate, reproc::milliseconds(2000) },
+            { reproc::stop::kill, reproc::milliseconds(1000) }
+        };
+        auto [status, ec] = m_bootDaemonProcess->stop(stop);
+        if (ec)
+        {
+            LOG(ERR, "Daemon did not exit cleanly: " << ec.message());
+        }
+        else
+        {
+            LOG(INFO, "Daemon exited with status " << status);
+        }
+        m_bootDaemonProcess.reset();
+    }
+
     m_state = State::Reset;
 
     LOG(INFO, "API Shutdown complete...");
-
-    if (m_coutbuf)
-    {
-        std::cout.rdbuf(m_coutbuf); // reset to stdout before exiting
-        m_coutbuf = nullptr;
-        m_stampbuf.reset();
-    }
+    // The log stays redirected to gui.log until this object goes: a session
+    // started again after this shutdown carries on in the same file.
 }
 
 bool SonicPiAPI::StartOscServer()
@@ -896,20 +899,31 @@ APIBootResult SonicPiAPI::Boot(bool noScsynthInputs, const AudioBootPrefs& audio
     std::unique_lock<std::mutex> lock(m_osc_mtx);
 
     // Rotate logs before opening gui.log below so the previous
-    // session's gui.log makes it into the history dir intact.
-    CycleLogs();
-
-    // Setup redirection of log from this app to our log file
-    // stdout into ~/.sonic-pi/log/gui.log
-    if (m_homeDirWriteable && (m_logOption == LogOption::File))
+    // session's gui.log makes it into the history dir intact. Once per run
+    // of this process: a session started again after the back end went
+    // (MainWindow::onServerExited) carries on in the same gui.log, after
+    // what led to it.
+    if (!m_logsCycled)
     {
-        m_coutbuf = std::cout.rdbuf();
-        m_stdlog.open(m_paths[SonicPiPath::GUILogPath].string().c_str());
-        m_stampbuf = std::make_unique<TimestampLineBuf>(m_stdlog.rdbuf());
-        std::cout.rdbuf(m_stampbuf.get());
+        m_logsCycled = true;
+        CycleLogs();
+
+        // Setup redirection of log from this app to our log file
+        // stdout into ~/.sonic-pi/log/gui.log
+        if (m_homeDirWriteable && (m_logOption == LogOption::File))
+        {
+            m_coutbuf = std::cout.rdbuf();
+            m_stdlog.open(m_paths[SonicPiPath::GUILogPath].string().c_str());
+            m_stampbuf = std::make_unique<TimestampLineBuf>(m_stdlog.rdbuf());
+            std::cout.rdbuf(m_stampbuf.get());
+        }
     }
 
     LOG(INFO, "Starting...");
+
+    // What the previous session's shutdown left set, if there was one.
+    m_shutdown_engaged = false;
+    m_keep_alive.store(true);
 
     // Start again, shutdown if we fail init
     m_state = State::Invalid;

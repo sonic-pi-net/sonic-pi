@@ -780,6 +780,8 @@ private:
     bool m_shutdown_engaged = false;
     std::atomic<bool> m_keep_alive = { true };
     LogOption m_logOption;
+    // The log files are rotated by the first Boot() only (see there).
+    bool m_logsCycled = false;
 
 
     std::thread m_oscServerThread;
