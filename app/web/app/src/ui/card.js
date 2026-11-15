@@ -60,11 +60,14 @@ export { TRANSPORT, TRANSPORT_STOP } from "./card-html.js";   // the one Play an
 // native's is; gain is its setDrive's default
 const RING = { radius: 0.42, step: 0.12, swing: 0.04, stroke: 0.028, idle: 0.22, gain: 1, points: 256 };   // step: a second ring's way in (native: 0.42 and 0.3)
 
-// A row's code as a range of its text: its first character to its last (../flash.js codeSpan).
+// A row's code as a range of its text: its first character to its last (../flash.js codeSpan). One Range, set to
+// each row asked about: a live Range is kept up to date by the browser on every change to the page, so one made
+// for every flash and left to the collector taxed every change until it went (editor.js codeHighlights).
+let probe = null;
 function codeRange(row) {
   const span = codeSpan(row.textContent);
   if (!span) return null;
-  const range = document.createRange(), walk = document.createTreeWalker(row, NodeFilter.SHOW_TEXT);
+  const range = (probe ??= document.createRange()), walk = document.createTreeWalker(row, NodeFilter.SHOW_TEXT);
   let at = 0, set = 0;
   for (let n = walk.nextNode(); n && set !== 3; n = walk.nextNode()) {
     const end = at + n.data.length;

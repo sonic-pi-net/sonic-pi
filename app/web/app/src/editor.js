@@ -284,6 +284,10 @@ const kickField = StateField.define({
 // text in new elements, and iOS Safari takes a tap that sees an element appear in editable text for a hover and sends
 // it no click: with a program playing, a phone's buttons all but stopped answering. Repainted after every update while
 // anything is lit, as a redraw replaces the text the ranges were in.
+// The ranges are StaticRanges. A live Range is kept up to date by the browser on every change to the page, and the
+// thousands a playing program's flashes made between collections (a new set at every update) had every change to
+// the page pay for all of them: WebKit was at 5 fps after two minutes of a piece flashing 60 lines a second, its
+// buttons answering late (2026-11-15). A StaticRange costs nothing once made, and the next update makes new ones.
 function codeHighlights() {
   if (typeof CSS === "undefined" || !CSS.highlights) return [];
   const flash = new Highlight(), kick = new Highlight();
@@ -296,10 +300,8 @@ function codeHighlights() {
       if (n < 1 || n > doc.lines) continue;
       const line = doc.line(n), span = codeSpan(line.text);
       if (!span || line.to < from || line.from > to) continue;
-      const a = view.domAtPos(line.from + span[0]), b = view.domAtPos(line.from + span[1]), range = new Range();
-      range.setStart(a.node, a.offset);
-      range.setEnd(b.node, b.offset);
-      highlight.add(range);
+      const a = view.domAtPos(line.from + span[0]), b = view.domAtPos(line.from + span[1]);
+      highlight.add(new StaticRange({ startContainer: a.node, startOffset: a.offset, endContainer: b.node, endOffset: b.offset }));
     }
   };
   const drawnLines = (view) => {

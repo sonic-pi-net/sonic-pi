@@ -108,7 +108,7 @@ const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new 
   const painted = where === "editor" ? CSS.highlights?.get("sp-flash") : null;
   const washesOf = (s) => where === "editor" ? [...(painted ?? [])]
     : [...s.querySelectorAll(".qs-line-flash")].filter((w) => w.getAnimations().some((a) => a.playState === "running"));
-  const lineOf = (w) => (w instanceof Range ? (w.startContainer.nodeType === 1 ? w.startContainer : w.startContainer.parentElement) : w).closest(".cm-line");
+  const lineOf = (w) => (w.startContainer ? (w.startContainer.nodeType === 1 ? w.startContainer : w.startContainer.parentElement) : w).closest(".cm-line");   // a range (the editor's, StaticRange) or an element (a card's)
   // a row's code on screen: its first character to its last
   const codeRect = (row) => {
     const text = row.textContent, from = text.search(/\S/), to = text.trimEnd().length;
@@ -138,12 +138,21 @@ const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new 
     const own = painted[k];
     painted[k] = function (...args) { const r = own.apply(this, args); if (!queued) { queued = true; queueMicrotask(() => { queued = false; heard(); }); } return r; };
   }
+  // where a wash is on screen: an element's or a Range's own box; a StaticRange (the editor's) has none, so a Range
+  // set to its ends is measured in its place
+  const rectOf = (w) => {
+    if (w.getBoundingClientRect) return w.getBoundingClientRect();
+    const r = document.createRange();
+    r.setStart(w.startContainer, w.startOffset);
+    r.setEnd(w.endContainer, w.endOffset);
+    return r.getBoundingClientRect();
+  };
   const frame = () => {
     const s = scope(), now = performance.now(), lit = new Map();
     if (s) {
       const rows = rowsOf(s);
       for (const w of washesOf(s)) {
-        const r = w.getBoundingClientRect(), mid = (r.top + r.bottom) / 2;
+        const r = rectOf(w), mid = (r.top + r.bottom) / 2;
         const n = rows.findIndex((row) => { const b = row.getBoundingClientRect(); return mid >= b.top && mid < b.bottom; });
         if (n < 0 || r.width === 0) continue;
         const was = lit.get(n + 1);
@@ -534,6 +543,28 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("a live loop's header, its sound and its end light together in the editor, behind just their code, as native's; a puts never",
       litAsNative(editorLit, 5) && !editorLit.ever.includes(3), JSON.stringify(editorLit));
     await page.click("#btn-stop");
+    // The washes are StaticRanges, which the browser leaves alone. A live Range is kept up to date on every change to
+    // the page, and the thousands a playing program's flashes made between collections had WebKit spend most of each
+    // frame on them (2026-11-15: a piece flashing 60 lines a second was at 5 fps after two minutes, its buttons
+    // answering late). Flashed hard, a change to the page costs what it did before.
+    const flashCost = await page.evaluate(() => new Promise((resolve) => {
+      const ed = window.sonicPi.editor, scratch = document.body.appendChild(document.createElement("div"));
+      scratch.hidden = true;
+      const mutate = () => {   // 300 changes elsewhere in the page: a line in, the oldest out, as the log's pane does
+        const t0 = performance.now();
+        for (let i = 0; i < 300; i++) { const d = document.createElement("div"); d.textContent = `line ${i}`; scratch.appendChild(d); if (scratch.childElementCount > 150) scratch.firstElementChild.remove(); }
+        return performance.now() - t0;
+      };
+      const before = mutate();
+      const lines = ed.getCode().split("\n").length;
+      for (let i = 0; i < 4000; i++) ed.flashLine(1 + (i % lines));
+      const kinds = [...new Set([...(CSS.highlights?.get("sp-flash") ?? [])].map((r) => r.constructor.name))];
+      const after = mutate();
+      scratch.remove();
+      setTimeout(() => resolve({ before: Math.round(before * 10) / 10, after: Math.round(after * 10) / 10, kinds }), 300);   // the flashes' timers run out before the next check
+    }));
+    check("flashed 4000 times, the editor holds its washes as StaticRanges and a change to the page costs what it did before",
+      flashCost.kinds.every((k) => k === "StaticRange") && flashCost.after < Math.max(15, 5 * flashCost.before), JSON.stringify(flashCost));
     // The log and the cues as a program fills them fast (50 lines a second each, their windows full): each line goes in
     // once as it arrives and no row already shown goes back in, the cues' window runs on one by one to its end, and it
     // follows the end. Scrolled back by the player to its top, all the way at once from the end (a fling, or Home), and
