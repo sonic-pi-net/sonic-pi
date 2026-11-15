@@ -86,6 +86,7 @@
 #include "utils/dockshown.h"
 #include "utils/flash_style.h"
 #include "utils/audiodevicepolicy.h"
+#include "utils/serverexit.h"
 #include "utils/reducedmotion.h"
 #include "utils/gui_settings.h"
 #include "utils/scintilla_api.h"
@@ -245,50 +246,7 @@ MainWindow::MainWindow(QApplication& app, SplashWidget* splash)
     const bool themeBench = !qgetenv("SONIC_PI_THEME_BENCH").isEmpty();
     if (!themeBench)
     {
-        bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
-        // Saved device prefs travel to the engine's first open via the
-        // daemon's spawn args; maybeRestoreAudioIntent stays as the
-        // reconciler for genuine drift (e.g. the device no longer exists).
-        // A marker written before the saved prefs are used and cleared once
-        // startup completes. Finding it still set means the previous attempt
-        // with these prefs never finished — so skip them this once and come
-        // up on whatever the engine chooses, rather than repeating a startup
-        // the user cannot escape without hand-editing the settings file.
-        // See audioBootDecision.
-        const bool bootMarker =
-            gui_settings->value("prefs/audio-boot-pending", false).toBool();
-        const auto bootDecision = SonicPi::audioBootDecision(bootMarker);
-        m_audioPrefsSkippedAtBoot = bootDecision.previousAttemptIncomplete;
-
-        SonicPi::SonicPiAPI::AudioBootPrefs audioPrefs;
-        if (bootDecision.useSavedPrefs) {
-            audioPrefs.outputDevice = piSettings->audio_output_device.toStdString();
-            audioPrefs.inputDevice  = piSettings->audio_input_device.toStdString();
-            audioPrefs.sampleRate   = piSettings->audio_sample_rate;
-            audioPrefs.bufferSize   = piSettings->audio_buffer_size;
-            audioPrefs.audioDriver  = piSettings->audio_driver.toStdString();
-        } else {
-            std::cout << "[gui-audio] previous startup did not complete — "
-                         "ignoring saved audio device prefs for this launch"
-                      << std::endl;
-        }
-
-        // Armed for the whole of startup, not just the engine's open: the
-        // failures worth catching include ones later than that (a device that
-        // opens and is then found broken, taking Spider's handshake with it).
-        gui_settings->setValue("prefs/audio-boot-pending", true);
-        gui_settings->sync();
-
-        APIBootResult boot_success = m_spAPI->Boot(noScsynthInputs, audioPrefs);
-
-        if (boot_success == APIBootResult::Successful)
-        {
-            std::cout << "[GUI] - API Boot successful" << std::endl;
-        }
-        else
-        {
-            std::cout << "[GUI] - API Boot failed" << std::endl;
-        }
+        bootServer();
     }
 
     const QRect rect = this->geometry();
@@ -507,6 +465,174 @@ void MainWindow::onServerReady()
     mirrorToolTipsToAccessibleDescriptions();
 
     std::cout << "[GUI] - MainWindow initialisation completed." << std::endl;
+}
+
+// Starts the daemon, and with it SuperSonic and Spider, with the saved audio
+// prefs where they are safe to use. From the constructor the first time, and
+// from onServerExited when the session went while the window stayed.
+bool MainWindow::bootServer()
+{
+    bool noScsynthInputs = !piSettings->enable_scsynth_inputs;
+    // Saved device prefs travel to the engine's first open via the
+    // daemon's spawn args; maybeRestoreAudioIntent stays as the
+    // reconciler for genuine drift (e.g. the device no longer exists).
+    // A marker written before the saved prefs are used and cleared once
+    // startup completes. Finding it still set means the previous attempt
+    // with these prefs never finished — so skip them this once and come
+    // up on whatever the engine chooses, rather than repeating a startup
+    // the user cannot escape without hand-editing the settings file.
+    // See audioBootDecision.
+    const bool bootMarker =
+        gui_settings->value("prefs/audio-boot-pending", false).toBool();
+    const auto bootDecision = SonicPi::audioBootDecision(bootMarker);
+    m_audioPrefsSkippedAtBoot = bootDecision.previousAttemptIncomplete;
+
+    SonicPi::SonicPiAPI::AudioBootPrefs audioPrefs;
+    if (bootDecision.useSavedPrefs) {
+        audioPrefs.outputDevice = piSettings->audio_output_device.toStdString();
+        audioPrefs.inputDevice  = piSettings->audio_input_device.toStdString();
+        audioPrefs.sampleRate   = piSettings->audio_sample_rate;
+        audioPrefs.bufferSize   = piSettings->audio_buffer_size;
+        audioPrefs.audioDriver  = piSettings->audio_driver.toStdString();
+    } else {
+        std::cout << "[gui-audio] previous startup did not complete — "
+                     "ignoring saved audio device prefs for this launch"
+                  << std::endl;
+    }
+
+    // Armed for the whole of startup, not just the engine's open: the
+    // failures worth catching include ones later than that (a device that
+    // opens and is then found broken, taking Spider's handshake with it).
+    gui_settings->setValue("prefs/audio-boot-pending", true);
+    gui_settings->sync();
+
+    APIBootResult boot_success = m_spAPI->Boot(noScsynthInputs, audioPrefs);
+
+    if (boot_success == APIBootResult::Successful)
+    {
+        std::cout << "[GUI] - API Boot successful" << std::endl;
+        return true;
+    }
+    std::cout << "[GUI] - API Boot failed" << std::endl;
+    return false;
+}
+
+// Spider has exited (/exited): the daemon took the session down, or Spider
+// died. The one exit that is this window's doing is its own quitting; any
+// other leaves a live window with nothing behind it, and the session is
+// started again here, in place. The editors keep their text, and the new
+// Spider is given it (onServerBack) rather than the other way round.
+void MainWindow::onServerExited()
+{
+    SonicPi::ServerExitState state;
+    state.booted = bootAnnouncementsReady;
+    state.closing = m_closing;
+    state.restartUnderway = m_serverRestartUnderway;
+    state.restartsSoFar = m_serverRestarts;
+    switch (SonicPi::serverExitAction(state))
+    {
+    case SonicPi::ServerExitAction::Ignore:
+        std::cout << "[GUI] - the server exited; nothing to do (booted="
+                  << bootAnnouncementsReady << " closing=" << m_closing
+                  << " restarting=" << m_serverRestartUnderway << ")" << std::endl;
+        return;
+    case SonicPi::ServerExitAction::GiveUp:
+        std::cout << "[GUI] - the server exited again, after " << m_serverRestarts
+                  << " restarts this session: not starting it again" << std::endl;
+        serverGone(tr("Sonic Pi's sound and code processes stopped again. Save your work, then quit and reopen Sonic Pi."));
+        return;
+    case SonicPi::ServerExitAction::Restart:
+        break;
+    }
+
+    ++m_serverRestarts;
+    m_serverRestartUnderway = true;
+    std::cout << "[GUI] - the server exited with the window open: starting it again (restart "
+              << m_serverRestarts << " this session)" << std::endl;
+    const QString starting = tr("Sonic Pi's sound and code processes stopped. Starting them again...");
+    showStatusAndAnnounce(starting, 0);
+    if (settingsWidget) settingsWidget->setAudioStatus(starting, true);
+
+    m_spAPI->Shutdown();
+    m_spClient->ClearStartupErrorText();
+    const APIInitResult init = m_spAPI->Init(rootPath().toStdString());
+    if (init != APIInitResult::Successful || !bootServer())
+    {
+        std::cout << "[GUI] - the server could not be started again" << std::endl;
+        m_serverRestartUnderway = false;
+        serverGone(tr("Sonic Pi's sound and code processes could not be started again. Save your work, then quit and reopen Sonic Pi."));
+        return;
+    }
+
+    // The same poll as the first boot's, with the window's pick-up at the end
+    // of it instead of the window's construction. Same 60 s budget.
+    boot_poll_tries = 600;
+    boot_error_grace_ticks = 0;
+    boot_poll_timer->disconnect();
+    connect(boot_poll_timer, &QTimer::timeout, this, &MainWindow::pollServerBack);
+    boot_poll_timer->start(100);
+}
+
+void MainWindow::pollServerBack()
+{
+    if (m_spAPI->IsServerReady())
+    {
+        boot_poll_timer->stop();
+        onServerBack();
+        return;
+    }
+
+    if (m_spAPI->HasServerErrored() || --boot_poll_tries <= 0)
+    {
+        // As pollServerReady: the daemon's own report of why, if it sent one,
+        // can trail the error flag by a few ticks.
+        QString serverError = m_spClient->GetStartupErrorText();
+        if (serverError.isEmpty() && boot_poll_tries > 0 && ++boot_error_grace_ticks <= 5)
+            return;
+        boot_poll_timer->stop();
+        std::cout << "[GUI] - the server did not come back: "
+                  << (serverError.isEmpty() ? "no reply within the time allowed" : serverError.toStdString())
+                  << std::endl;
+        m_serverRestartUnderway = false;
+        serverGone(tr("Sonic Pi's sound and code processes could not be started again. Save your work, then quit and reopen Sonic Pi."));
+    }
+}
+
+// The session is up again: the window picks up where it was. What the first
+// boot's onServerReady did to the window itself (its layout, theme, menus,
+// splash, welcome screen) stands; this is the part that spoke to the server.
+void MainWindow::onServerBack()
+{
+    // The new daemon's token: every message to Spider carries it.
+    guiID = m_spAPI->GetGuid();
+
+    scopeWindow->Booted();
+    if (levelPrefsScope) levelPrefsScope->Booted();
+
+    // The editors' text is the session's; the new Spider gets it, rather than
+    // the window loading whatever the old one last saved.
+    saveWorkspaces();
+    changeSystemVolume(piSettings->main_volume, 1);
+    changeSystemDrive(piSettings->main_drive, 1);
+    m_spAPI->RequestAudioDevices();
+    emit settingsChanged();
+    toggleOSCServer(1);
+
+    gui_settings->setValue("prefs/audio-boot-pending", false);
+    gui_settings->sync();
+
+    m_serverRestartUnderway = false;
+    std::cout << "[GUI] - the server is back." << std::endl;
+    showStatusAndAnnounce(tr("Sonic Pi is ready"), 5000);
+    if (settingsWidget) settingsWidget->setAudioStatus(tr("Sonic Pi is ready"), false);
+}
+
+// The session is gone and is not coming back by itself: say so where the
+// user will see it, and leave the window up with their code in it.
+void MainWindow::serverGone(const QString& message)
+{
+    showStatusAndAnnounce(message, 0);
+    if (settingsWidget) settingsWidget->setAudioStatus(message, true);
 }
 
 void MainWindow::initPaths()
@@ -3141,6 +3267,7 @@ void MainWindow::saveWorkspaces()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
+    m_closing = true;
     writeSettings();
     event->accept();
 }
@@ -8415,6 +8542,7 @@ SonicPiScintilla* MainWindow::filenameToWorkspace(std::string filename)
 
 void MainWindow::onExitCleanup()
 {
+    m_closing = true;
     hide();
     std::cout << "[GUI] - initiating Shutdown..." << std::endl;
 

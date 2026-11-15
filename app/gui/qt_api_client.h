@@ -116,6 +116,9 @@ public:
     // instead of the generic "unable to connect to the Ruby server".
     // GUI-thread only (written by the marshalled ReportGui slot).
     QString GetStartupErrorText() const { return m_startupErrorText; }
+    // Before the session is started again: the last session's cause is not
+    // the next one's.
+    void ClearStartupErrorText() { m_startupErrorText.clear(); }
 
 public slots:
     virtual void ReportGui(const SonicPi::MessageInfo& message);

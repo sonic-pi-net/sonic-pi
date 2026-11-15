@@ -245,8 +245,9 @@ void QtAPIClient::StatusGui(const StatusInfo& info)
 {
     if (info.type == StatusType::Exited)
     {
-        // This informs us the server exited
-        // Nothing to do here, handled by the osc_handler
+        // Spider has exited. The API has stopped listening to it; what the
+        // window does about it is MainWindow's (utils/serverexit.h).
+        m_pMainWindow->onServerExited();
     }
     else if (info.type == StatusType::AllComplete)
     {

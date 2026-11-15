@@ -193,6 +193,9 @@ public:
     void replaceBufferIdx(int buf_idx, QString content, int line, int index, int first_line);
     void setUpdateInfoText(QString t);
     void allJobsCompleted();
+    // Spider has exited under a live window (QtAPIClient): start the session
+    // again, in place (utils/serverexit.h).
+    void onServerExited();
     void updateVersionNumber(QString version, int version_num, QString latest_version, int latest_version_num, QDate last_checked_date, QString platform);
     void updateMIDIInPorts(QString port_info);
     void updateMIDIOutPorts(QString port_info);
@@ -305,6 +308,10 @@ private slots:
     void pollServerReady();
     // Finalisation once the daemon has reached the ready state.
     void onServerReady();
+    // The poll for a session started again by onServerExited, and the
+    // window's pick-up once it is back.
+    void pollServerBack();
+    void onServerBack();
 
     void updateSelectedUILanguageAction(QString lang);
     void updateContext(int line, int index);
@@ -806,6 +813,13 @@ private:
     // /exited-with-boot-error report (which trails the flag by a few ms) can
     // land and its specific message beat the generic connect error.
     int boot_error_grace_ticks = 0;
+    // Starts the daemon with the saved audio prefs; see utils/serverexit.h
+    // for when it is started again.
+    bool bootServer();
+    void serverGone(const QString& message);
+    bool m_closing = false;               // the window is on its way out
+    bool m_serverRestartUnderway = false; // onServerExited is bringing it back
+    int m_serverRestarts = 0;             // this run of the window
 
     bool i18n;
     static const int workspace_max = 10;
