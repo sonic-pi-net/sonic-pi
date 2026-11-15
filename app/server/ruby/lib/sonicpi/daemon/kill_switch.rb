@@ -35,7 +35,8 @@ module SonicPi
     # stall leaves its length in the daemon log.
     class KillSwitch
       def initialize(safe_exit, log:, gui_pipe: nil, warmup: 40, window: 10, silent_windows: 4,
-                     clock: -> { Process.clock_gettime(Process::CLOCK_MONOTONIC) })
+                     clock: -> { Process.clock_gettime(Process::CLOCK_MONOTONIC) },
+                     sleeper: Kernel.method(:sleep))
         @safe_exit = safe_exit
         @log       = log
         @gui_pipe  = gui_pipe
@@ -52,9 +53,9 @@ module SonicPi
         activate
 
         @timer_thread = Thread.new do
-          Kernel.sleep warmup
+          sleeper.call warmup
           loop do
-            Kernel.sleep window
+            sleeper.call window
             check_silence
           end
         end

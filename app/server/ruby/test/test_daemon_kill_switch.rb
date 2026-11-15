@@ -95,18 +95,34 @@ module SonicPi
       assert @lines.any? { |l| l.include?("pipe") && l.include?("closed") }, @lines.inspect
     end
 
+    # The log's lines are about how long it has been since a keep-alive, so
+    # this case keeps the time itself: the clock is a number it moves, and the
+    # switch's wait for a window ends when it says so. Real sleeps here made
+    # the case fail on a busy machine, where a feeder's short sleep overran a
+    # window and the switch rightly logged the gap.
     def test_a_steady_gui_fires_nothing_and_a_gap_is_recorded_when_it_ends
-      # A timeout the gap below stays well inside: the firing is the other
-      # cases' business; this one is about what the log says.
-      ks = kill_switch(silent_windows: 10)
-      feeder = Thread.new do
-        10.times { ks.keep_alive!; sleep WINDOW / 4 }
+      now = 0.0
+      waiting, go = Queue.new, Queue.new
+      ks = Daemon::KillSwitch.new(@exit, log: ->(m) { @lines << m },
+                                  warmup: WARMUP, window: WINDOW, silent_windows: 10,
+                                  clock: -> { now },
+                                  sleeper: ->(_) { waiting << true; go.pop })
+      @switches << ks
+      # One window passes and the switch has looked at it.
+      window_passes = -> { now += WINDOW; go << true; waiting.pop }
+      waiting.pop                 # the switch is in its warm-up
+      go << true; waiting.pop     # ... and now in its first window
+
+      10.times do                 # a keep-alive in every window
+        now += WINDOW / 2
+        ks.keep_alive!
+        now -= WINDOW / 2
+        window_passes.call
       end
-      feeder.join
       refute ks.fired?
       refute @lines.any? { |l| l.include?("No keep-alive") }, @lines.inspect
 
-      sleep WINDOW * 3            # a gap three windows long
+      3.times { window_passes.call }   # a gap three windows long
       ks.keep_alive!
       assert @lines.any? { |l| l.include?("No keep-alive from the GUI") }, @lines.inspect
       assert @lines.any? { |l| l =~ /resumed after ~[\d.]+s/ }, @lines.inspect
