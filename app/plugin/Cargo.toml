@@ -1,0 +1,45 @@
+[package]
+name = "sonic-pi-plugin"
+version = "0.1.0"
+edition = "2024"
+# It links Sonic Pi's runtime (AGPL), SuperSonic's front and scsynth (GPL) and
+# Clockwork (AGPL or commercial).
+license = "AGPL-3.0-or-later"
+publish = false
+
+[lib]
+path = "core/lib.rs"
+# cdylib: the VST3 binary. rlib: the tests (test/), which drive an instance
+# offline, rendering by hand as a host does.
+crate-type = ["cdylib", "rlib"]
+
+[[test]]
+name = "sound"
+path = "test/sound.rs"
+
+[dependencies]
+raw-window-handle = "0.6"
+wry = "0.57"
+serde_json = "1"
+# The engine in this process. clockwork-sys builds SuperSonic's CMake tree
+# (.cargo/config.toml) and links the C++: Clockwork and the scsynth guest.
+# clockwork-native is the Rust half; the DAW is the device, the MIDI and the
+# clock, so its subsystems for those are left out (and off in the CMake).
+clockwork-native = { path = "../external/supersonic/clockwork/rust/clockwork-native", default-features = false, features = ["schedule"] }
+clockwork-sys = { path = "../external/supersonic/clockwork/rust/clockwork-sys" }
+
+[build-dependencies]
+cc = "1"
+serde_json = "1"
+
+[patch.crates-io]
+# Clockwork's decoder rides a patched FLAC bundle (clockwork/rust/Cargo.toml).
+symphonia-bundle-flac = { path = "../external/supersonic/clockwork/external/symphonia-bundle-flac" }
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+
+# A stripped proc-macro dylib has lost the metadata rustc loads it by.
+[profile.release.build-override]
+strip = false

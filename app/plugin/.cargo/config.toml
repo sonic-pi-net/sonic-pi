@@ -1,0 +1,11 @@
+# The engine's CMake tree, for clockwork-sys: SuperSonic's root, which adds
+# Clockwork beneath it and chooses the scsynth guest. Relative, so a clean
+# checkout builds from Sonic Pi's own SuperSonic (app/external/supersonic); CLOCKWORK_SYS_SOURCE in the shell wins.
+#
+# The DAW is the audio device, the MIDI ports and the clock, so the plugin's
+# engine has no device layer, no MIDI or OSC subsystem and no Link.
+[env]
+CLOCKWORK_SYS_SOURCE = { value = "../external/supersonic", relative = true }
+CLOCKWORK_SYS_CMAKE_ARGS = "-DCLOCKWORK_DEVICE=OFF -DCLOCKWORK_MIDI=OFF -DCLOCKWORK_GAMEPAD=OFF -DCLOCKWORK_OSC=OFF -DCLOCKWORK_LINK=OFF -DCLOCKWORK_LINK_AUDIO=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+# Clockwork's macOS floor, so the C++ and the Rust agree.
+MACOSX_DEPLOYMENT_TARGET = "14.4"
