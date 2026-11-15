@@ -51,12 +51,19 @@ export function workerSettled(worker) {
     worker.addEventListener("error", broke);
   });
 }
+/**
+ * Whether this page is Sonic Pi inside a plugin: the plugin's bridge (sonic-pi-plugin's bridge.js) is there before the
+ * page runs. The plugin's own runtime and engine play then, rendered by the host it is in, and the page has no audio
+ * of its own: it shows, and asks the plugin (sonic_pi.js PluginSession).
+ */
+export const inPlugin = typeof globalThis.__sonicPiPlugin === "object" && globalThis.__sonicPiPlugin !== null;
+
 // The engine's wasm (SuperSonic's scsynth, 1.6 MB): fetched by the page as soon as sound is wanted, beside the runtime,
 // and handed to the engine as its bytes (bootEngine's wasmBytes) rather than asked for once SuperSonic's own code has
 // arrived and started. Where SuperSonic would look for it itself: the core package's wasm/ (the CDN), else the dist's
 // (a local build). Null if it could not be fetched: the engine then fetches its own.
 let engineWasmBytes = null;
-export const engineWasm = () => (engineWasmBytes ??= supersonicInfo()
+export const engineWasm = () => (engineWasmBytes ??= inPlugin ? Promise.resolve(null) : supersonicInfo()
   .then((v) => fetch(`${v.core ? `${v.core}wasm/` : `${v.base ?? SUPERSONIC_BASE}wasm/`}clockwork-scsynth.wasm`))
   .then((r) => (r.ok ? r.arrayBuffer() : null))
   .catch(() => null));

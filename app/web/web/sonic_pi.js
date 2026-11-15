@@ -19,7 +19,7 @@
 import { SuperSonic } from "./engine/supersonic.js";   // SUPERSONIC_BASE (runtime.js)
 import { decode } from "./osc.js";
 import { createRecordReader } from "./gui-stream.js";
-import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, liveRuns, programNeeds, workerSettled, TABLES } from "./runtime.js";
+import { SUPERSONIC_BASE, supersonicInfo, PROCESS_FIELDS, liveRuns, programNeeds, workerSettled, TABLES, inPlugin } from "./runtime.js";
 import { LiveCore, freshPerf, addPerf, countHeadroom } from "./live-core.js";
 
 const STOP_FADE = 1;           // seconds a Stop fades over (Scheduler#silence)
@@ -56,6 +56,7 @@ const sampleName = (file) => String(file).split("/").pop().replace(/\.[^.]+$/, "
 /** SuperSonic, from where version.json says it is (runtime.js supersonicInfo), playing Sonic Pi's own synthdefs. */
 /** beforeInit(engine): listen before it boots, to hear what it says while booting. */
 export async function bootEngine(opts = {}, { beforeInit, runtime } = {}) {
+  if (inPlugin) return bootPluginEngine(beforeInit);
   const info = await supersonicInfo();
   // The synths are Sonic Pi's own (etc/synthdefs/compiled), always: what the desktop app plays, the web plays. From
   // the CDN where its copy is that one byte for byte, which the build checked (scripts/lib/runtime-assets.mjs); the
@@ -480,6 +481,7 @@ const clampBpm = (bpm) => Math.min(999, Math.max(20, bpm));   // native's BPMScr
  * the runtime's module for createLiveSession.
  */
 export async function loadLiveRuntime(base = "./", { worker: started = null, settled = null } = {}) {
+  if (inPlugin) return { worker: null, version: "in the plugin", samples: [] };   // the plugin's runtime, not the page's
   if (started || typeof Worker === "function") {
     let worker = started;
     try {
@@ -501,6 +503,7 @@ export async function loadLiveRuntime(base = "./", { worker: started = null, set
 
 /** A live session for loadLiveRuntime's runtime: in its worker when it has one, else on the page. */
 export function createLiveSession(runtime, engine, on = {}, bridge = null) {
+  if (inPlugin) return new PluginSession(on);
   return runtime.worker && typeof engine.createOscChannel === "function"
     ? new WorkerSession(runtime, engine, on, bridge)
     : new LiveSession(runtime, engine, on, bridge);
@@ -874,6 +877,179 @@ export class WorkerSession {
   setTimeWarp(ms) { this.#worker.postMessage({ type: "timeWarp", ms }); }
   /** The page lost this many seconds: the schedule moves on by them. */
   hold(seconds) { this.#worker.postMessage({ type: "hold", seconds }); }
+
+  /** Seconds since the session's first run, for a record's time. */
+  at(r) { return r.time - (this.#t0 ?? r.time); }
+}
+
+// ── In a plugin ───────────────────────────────────────────────────────────
+
+// What the plugin says (sonic-pi-plugin's instance.h, and its editor's hello)
+const PLUGIN_SAYS = { hello: 0, record: 1, log: 2, state: 3, run: 4, error: 5, table: 6, earlier: 7, engine: 8, runtime: 9, loads: 10, tempo: 11 };
+// the kinds whose messages start with their number in what the instance has said (a little-endian u64; instance.h)
+const NUMBERED = new Set([PLUGIN_SAYS.record, PLUGIN_SAYS.log, PLUGIN_SAYS.engine, PLUGIN_SAYS.runtime, PLUGIN_SAYS.loads]);
+const numberOf = (b) => { const v = new DataView(b.buffer, b.byteOffset, 8); return v.getUint32(0, true) + v.getUint32(4, true) * 2 ** 32; };
+const utf8 = new TextDecoder();
+// The plugin's engine keeps time on the wall clock, in NTP seconds, as a native engine does
+const wallNtp = () => (performance.timeOrigin + performance.now()) / 1000 + 2208988800;
+
+/**
+ * The plugin's engine as the page sees it: a clock and nothing to tap. Its sound is rendered by the host the plugin is
+ * in, from the plugin's own runtime; the page has no audio context, no node and no metrics of its own. Ready once the
+ * plugin says it has an instance: a host that has not set up its audio yet has none.
+ */
+async function bootPluginEngine(beforeInit) {
+  const plugin = globalThis.__sonicPiPlugin;
+  // asked each time the page boots its engine: a boot that failed asks again
+  const hello = await new Promise((resolve) => {
+    const stop = plugin.listen((kind, bytes) => {
+      if (kind !== PLUGIN_SAYS.hello) return;
+      stop();
+      resolve(JSON.parse(utf8.decode(bytes)));
+    });
+    plugin.post({ t: "hello" });
+  });
+  if (!hello.ready) throw new Error(hello.why ?? "the plugin has no engine");
+  // The engine is the plugin's, in the host's process: SuperSonic reads it from copies the plugin hands over
+  // (Clockwork's copies mode), so the scopes and the metrics are read as they are on the web
+  const engine = new SuperSonic({ mode: "copies", copies: { fetch: pluginCopy } });
+  beforeInit?.(engine);
+  await engine.init();
+  return engine;
+}
+
+// A copy of the plugin's engine (lib.rs engine_copy): the parts, and three numbers a window the page reads
+async function pluginCopy(parts, wants) {
+  const r = await fetch(`/__engine/copy?parts=${parts}&wants=${wants.join(",")}`);
+  if (!r.ok) throw new Error(`the plugin gave no copy (${r.status})`);
+  return r.arrayBuffer();
+}
+
+/**
+ * A live session whose runtime is the plugin's own, with the same face as LiveSession: runs and stops go to the
+ * plugin, and its records and process table come back as the worker's do.
+ */
+export class PluginSession {
+  #on; #plugin = globalThis.__sonicPiPlugin; #records = createRecordReader(); #lastStatus = "";
+  #table = new Float64Array(0);
+  #runs = [];          // what each run waits on: its job id, in the order the runs were asked for
+  #firstLive = null;   // the number of the first numbered message heard as it was said: what came before it is earlier's
+  #t0 = null;
+  perf = freshPerf();
+  failures = 0;
+  bridge = null;
+  running = false;
+  linkBpm = 60;
+
+  /**
+   * As LiveSession's, plus note(text, tab): a line from the plugin for the System log's tab (Host, SuperSonic,
+   * Runtime), and earlier(r): a record from before this page, its line for the Log pane or its cue.
+   */
+  constructor(on = {}) {
+    this.#on = on;
+    this.#plugin.listen((kind, bytes) => this.#heard(kind, bytes));
+    this.#plugin.post({ t: "earlier" });   // what the instance said before this page: the plugin's log and its cues
+  }
+
+  #heard(kind, bytes) {
+    if (NUMBERED.has(kind)) {
+      this.#firstLive ??= numberOf(bytes);
+      this.#take(kind, bytes.subarray(8), false);
+    } else if (kind === PLUGIN_SAYS.earlier) {
+      // said before this page and heard live as well: shown once
+      if (this.#firstLive == null || numberOf(bytes.subarray(1)) < this.#firstLive) this.#take(bytes[0], bytes.subarray(9), true);
+    } else if (kind === PLUGIN_SAYS.error) {
+      this.#on.error?.({ class: "LoadError", message: utf8.decode(bytes) });
+    } else if (kind === PLUGIN_SAYS.state) {
+      const running = bytes[0] === 1;
+      if (running !== this.running) { this.running = running; this.#on.state?.(running); }
+    } else if (kind === PLUGIN_SAYS.run) {
+      this.#runs.shift()?.(new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength).getInt32(0, true));
+    } else if (kind === PLUGIN_SAYS.table) {
+      this.#table = new Float64Array(bytes.slice().buffer);   // a copy, aligned for doubles
+      this.#report();
+    } else if (kind === PLUGIN_SAYS.tempo) {
+      // the host's tempo, which the plugin's runtime keeps: two doubles, the tempo and whether the host plays
+      const said = new Float64Array(bytes.slice().buffer);
+      this.linkBpm = said[0];
+      this.#on.tempo?.(said[0], said[1] === 1);
+    }
+  }
+
+  // A numbered message, as it was said, or from earlier: a record to the views (from earlier, its line or cue
+  // alone), a line to its tab of the System log, what the runtime loaded as the web's runtime says it (on.host)
+  #take(kind, body, earlier) {
+    if (kind === PLUGIN_SAYS.record) {
+      const r = this.#records.read(decode(body));
+      if (!r) return;
+      if (earlier) this.#on.earlier?.(r);
+      else deliver(r, this.perf, this.#on, () => this.clockNow(), (x) => this.at(x));
+    } else if (kind === PLUGIN_SAYS.loads) {
+      const [address, number, name] = utf8.decode(body).split("\t");
+      this.#on.host?.(address, Number(number), name);
+    } else {
+      const tab = { [PLUGIN_SAYS.engine]: "SuperSonic", [PLUGIN_SAYS.runtime]: "Runtime" }[kind] ?? "Host";
+      this.#on.note?.(utf8.decode(body), tab);
+    }
+  }
+
+  #report() {
+    const s = this.status();
+    const key = JSON.stringify(s);
+    if (key === this.#lastStatus) return;
+    this.#lastStatus = key;
+    this.#on.status?.(s);
+  }
+
+  /** Runs a program as a new job in the plugin; the job id. */
+  async run(code, { group = 0 } = {}) {
+    this.#t0 ??= this.clockNow();
+    const job = await new Promise((resolve) => {
+      this.#runs.push(resolve);
+      this.#plugin.post({ t: "run", code, group });
+    });
+    if (job < 0) throw new Error("the program did not start");
+    if (!this.running) { this.running = true; this.#on.state?.(true); }
+    return job;
+  }
+
+  status() { return statusFrom(this.#table, this.#records); }
+
+  takePerf() {
+    const p = this.perf;
+    this.perf = freshPerf();
+    return p;
+  }
+
+  engineMetrics() { return null; }
+  get audioContext() { return null; }
+  runtimeHeapBytes() { return 0; }
+
+  stopJob(job) { this.stopRun(job, 0); }
+  stopRun(job, fade = 0) { this.#plugin.post({ t: "stopRun", job, fade }); }
+  stopGroup(group, fade = 0) { this.#plugin.post({ t: "stopGroup", group, fade }); }
+  groupUnder(group, parent) { this.#plugin.post({ t: "groupUnder", group, parent }); }
+  /** Cues from outside a program reach the plugin through its host (not yet). */
+  cue() {}
+
+  /** Every job stops where it stands, and what is sounding fades out, as native's Stop. */
+  stop() {
+    if (this.running) { this.running = false; this.#on.state?.(false); }
+    this.#plugin.post({ t: "stop" });
+  }
+
+  engineLost() {}
+  /** The process table as the plugin last said it: PROCESS_FIELDS.length doubles per row. */
+  processTable() { return this.#table; }
+  threadName(uid) { return this.#records.thread(uid); }
+  nodeName(node) { return this.#records.node(node); }
+  clockNow() { return wallNtp(); }
+
+  /** In a plugin the host's tempo leads: what the page sets is not sent, and the host's comes as on.tempo. */
+  setLinkBpm(bpm) { this.linkBpm = clampBpm(bpm); }
+  followLinkBpm(bpm) { this.linkBpm = bpm; }
+  setTimeWarp() {}
+  hold() {}
 
   /** Seconds since the session's first run, for a record's time. */
   at(r) { return r.time - (this.#t0 ?? r.time); }

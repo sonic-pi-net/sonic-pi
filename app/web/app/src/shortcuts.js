@@ -303,6 +303,24 @@ export function isReserved(chord, platform, safari = isSafari()) {
   return !!chord && reservedSets[key].has(chord);
 }
 
+// ── Keys a plugin's host keeps ────────────────────────────────────────────
+// In a plugin the host's own commands stay the host's while Sonic Pi has the
+// keys: saving, opening and starting a project, its settings, quitting,
+// hiding and closing its windows, as any plugin leaves them. The plugin hands
+// these to the host without showing them to the page (the list goes to it,
+// main.js); nothing of Sonic Pi's runs on them there. There is no browser, so
+// a browser's own keys are Sonic Pi's; its zoom keys are the interface's size,
+// which the plugin does as a browser does.
+const HOST_KEEPS = {
+  mac: ["Meta+s", "ShiftMeta+s", "Meta+o", "Meta+n", "Meta+,", "Meta+q", "Meta+w", "Meta+h", "Meta+Alt+h", "Meta+`"],
+  other: ["Ctrl+s", "CtrlShift+s", "Ctrl+o", "Ctrl+n", "Ctrl+q", "Ctrl+w", "Alt+F4"],
+};
+const hostSets = {};
+function hostKept(platform) {
+  const p = platform === "mac" ? "mac" : "other";
+  return (hostSets[p] ??= new Set(HOST_KEEPS[p].map((k) => resolve(k, platform))));
+}
+
 // ── Native's keyboard-shortcuts .ini ──────────────────────────────────────
 // QSettings' IniFormat: [General], base=<keymap>, then <id>=<notation> for
 // each key changed from the base. A value with , ; or = is quoted, \ and "
@@ -369,10 +387,16 @@ const CUSTOM_KEY = "sp-shortcuts-custom";
  * The shortcuts in force, remembered in the browser: the keymap (native's
  * prefs/shortcut-mode) and Custom's base and keys (native's .ini), which are
  * kept while another keymap is chosen, as native keeps its file.
- * store: { get(key, default), set(key, value) }.
+ * store: { get(key, default), set(key, value) }. holder: what has the page,
+ * which keeps keys of its own: "browser" (installed as an app, it keeps none)
+ * or "plugin" (its host keeps its own commands).
  */
-export function createShortcuts({ store = null, platform = hostPlatform() } = {}) {
+export function createShortcuts({ store = null, platform = hostPlatform(), holder = "browser" } = {}) {
   const installed = () => globalThis.navigator?.standalone === true || !!globalThis.matchMedia?.("(display-mode: standalone)").matches;
+  const plugin = holder === "plugin";
+  const hostKeeps = (chord) => plugin && !!chord && hostKept(platform).has(chord);
+  /** a key whatever holds the page keeps for itself, which never reaches a command */
+  const reserved = (chord) => (plugin ? hostKeeps(chord) || browserZoom(platform).has(chord) : !installed() && isReserved(chord, platform));
   const sanitize = (c) => {
     const keys = {};
     for (const [id, v] of Object.entries(c?.keys ?? {})) if (DEF.has(id) && typeof v === "string") keys[id] = v;
@@ -390,6 +414,7 @@ export function createShortcuts({ store = null, platform = hostPlatform() } = {}
   const label = (id) => formatChord(bindings.primary.get(id) ?? bindings.chords.get(id)?.[0], platform);
   return {
     platform,
+    holder,
     get mode() { return mode; },
     get custom() { return { base: custom.base, keys: { ...custom.keys } }; },
     get bindings() { return bindings; },
@@ -405,19 +430,23 @@ export function createShortcuts({ store = null, platform = hostPlatform() } = {}
       changed();
     },
     label,
-    /** text with the command's key after it, as native's tooltips have it — not a key the browser keeps for itself
-     * (Safari's Cmd-M minimises), which would never reach the command; installed as an app, the page has them all */
+    /** text with the command's key after it, as native's tooltips have it — not a key whatever holds the page keeps
+     * for itself (Safari's Cmd-M minimises, a host's Cmd-S saves its project), which would never reach the command */
     title: (text, id) => {
       const chord = bindings.primary.get(id) ?? bindings.chords.get(id)?.[0];
-      const kept = !installed() && isReserved(chord, platform);
-      return label(id) && !kept ? `${text} (${label(id)})` : text;
+      return label(id) && !reserved(chord) ? `${text} (${label(id)})` : text;
     },
     match: (e) => matchEvent(e, bindings, platform),
+    /** the chord a key press most likely is, bound or not; null for a modifier alone */
+    chord: (e) => eventChords(e, platform)[0] ?? null,
     resolve: (notation) => resolve(notation, platform),
     format: (chord) => formatChord(chord, platform),
     words: (chord) => chordWords(chord, platform),
     notation: (e) => notationFromEvent(e, platform),
-    reserved: (chord) => isReserved(chord, platform),
+    reserved,
+    hostKeeps,
+    /** the chords the host keeps, for the plugin to hand it; none on the web */
+    hostKeys: () => (plugin ? [...hostKept(platform)] : []),
     browserZoom: (chord) => browserZoom(platform).has(chord),
     onChange: (fn) => (listeners.add(fn), () => listeners.delete(fn)),
   };

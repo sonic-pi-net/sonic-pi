@@ -5,7 +5,7 @@
 //
 // The web build has no OSC in or out. MIDI comes in through Web MIDI and
 // shows as cues. Time is one global timeline every thread shares.
-import { SUPERSONIC_BASE, SUPERSONIC_VERSION, supersonicVersion, PROCESS_FIELDS, engineWasm, workerSettled } from "./runtime.js";
+import { SUPERSONIC_BASE, SUPERSONIC_VERSION, supersonicVersion, PROCESS_FIELDS, engineWasm, workerSettled, inPlugin } from "./runtime.js";
 // the engine's side (sonic_pi.js, and with it SuperSonic): loaded with the runtime (startRuntime), so a page only read
 // never fetches it; `sp` is the module once it has arrived, for what runs only with an engine (oscSchedule)
 let sp = null;
@@ -55,8 +55,10 @@ for (const t of [window, document.body]) t.addEventListener("scroll", () => { if
 // native's tooltips, in place of the browser's, for every control with a title (tooltip.js)
 const tips = installTooltips(document.body);
 eachShadowRoot((root) => tips.watch(root));   // and in the editor's and the panes' shadow roots (shadow.js)
-// native's keyboard shortcuts, in the keymap the player picked (shortcuts.js; the keys, at the end)
-const keys = createShortcuts({ store });
+// native's keyboard shortcuts, in the keymap the player picked (shortcuts.js; the keys, at the end); in a plugin its host
+// keeps its own commands' keys, and is told which, so it has them without the page seeing them
+const keys = createShortcuts({ store, holder: inPlugin ? "plugin" : "browser" });
+if (inPlugin) window.__sonicPiPlugin?.post({ t: "hostKeys", keys: keys.hostKeys() });
 const json = async (path) => {
   const r = await fetch(path);
   if (!r.ok) throw new Error(`${path}: ${r.status}`);
@@ -158,7 +160,9 @@ const status = (text, assertive = false) => { if (bootAnnouncementsReady) announ
 const versions = { runtime: null };
 // what this build is made of: the Info overlay says (native's λ), the status bar does not
 // the foot, as native's status bar says it ("Sonic Pi v5.0 on Mac"): the version and where it runs, the rest in About
-const paintVersions = () => { $("info-versions").textContent = "Sonic Pi v5.0 on Web"; };
+const VERSION_LINE = inPlugin ? "Sonic Pi v5.0 VST" : "Sonic Pi v5.0 on Web";
+$("status-version").textContent = VERSION_LINE;   // index.html says the web's, for the moment before this runs
+const paintVersions = () => { $("info-versions").textContent = VERSION_LINE; };
 paintVersions();
 supersonicVersion().then(paintVersions, () => {});   // the local build's version.json (unreadable: the engine's boot says so)
 
@@ -179,7 +183,7 @@ let liveWorker;
 function startWorker() {
   if (liveWorker !== undefined) return liveWorker;
   liveWorker = null;
-  if (typeof Worker !== "function") return null;
+  if (inPlugin || typeof Worker !== "function") return null;   // in a plugin the runtime is the plugin's
   try {
     const worker = new Worker(new URL("live-worker.js", location.href), { type: "module", name: "sonic-pi runtime" });
     const alive = new Promise((ok) => {
@@ -383,12 +387,11 @@ function audioReloading() {
 }
 // The engine reloaded. Its own state came back through restoreClientState
 // (synthdefs, buffers, the piano table); the shared memory and the worker's
-// channel into it survive a reload. What is the page's: the scope tapped the
-// old worklet node, so it taps the new one.
+// channel into it survive a reload, and the scopes read the engine, not its
+// node. What is the page's: live_audio's input went into the old worklet
+// node, so it goes into the new one.
 function audioReloaded() {
-  scope.attach(engineRef);
-  attachNavScope(engineRef);   // the reload made a new audio context: the bar's scope and the stop's rings tap it
-  audioIn.reconnect();          // and live_audio's input goes into the new engine
+  audioIn.reconnect();
   if (recovering) return;   // a reload the tap's recovery asked for: its answer puts the card away, or not
   // a context made without a gesture (iOS) starts suspended and says nothing: the card asks for the tap
   if (engineRef.audioContext?.state !== "running") { audioLost("suspended"); return; }
@@ -408,7 +411,7 @@ function sayRestarted() {
 // would be refused, or build a context born suspended.
 document.addEventListener("visibilitychange", async () => {
   audioTrail.note(document.hidden ? "hidden" : "shown", engineRef ? audioState() : {});
-  if (document.hidden || !engineRef || resumeCard.shown) return;
+  if (document.hidden || !engineRef || resumeCard.shown || inPlugin) return;
   if (engineRef.audioContext && engineRef.audioContext.state !== "running") { audioLost(engineRef.audioContext.state); return; }
   const alive = await audioThreadAlive();
   audioTrail.note("thread check", { alive, ...audioState() });
@@ -484,6 +487,7 @@ const audioIn = (() => {
 // window.spAudioContext). Its options are the ones SuperSonic's own would have (48 kHz, the latency preference).
 let audioContext = null;
 function audioInGesture() {
+  if (inPlugin) return null;   // the host the plugin is in makes the sound
   if (audioContext?.state === "closed") audioContext = null;
   try { audioContext ??= window.spAudioContext ?? new AudioContext({ latencyHint: lowLatency.on ? 0 : "interactive", sampleRate: 48000 }); }
   catch (e) { logs.add("Host", `no audio context: ${describe(e)}`); return null; }
@@ -558,6 +562,10 @@ async function ensureSession() {
         logs.add("Runtime", { "/sonic-pi/synthdef": `load synthdef ${name}`, "/sonic-pi/sample": `load sample ${name} into buffer ${number}`, "/sonic-pi/sample_free": `free buffer ${number} (${name})` }[address] ?? `${address} ${number} ${name}`);
       },
       fail: (msg) => logs.add("SuperSonic", `/fail ${msg.slice(1).map(describe).join(" ")}`),     // a message the engine refused, as it said it
+      note: (text, tab = "Host") => logs.add(tab, text),   // a line from the plugin, under its tab (PluginSession)
+      tempo: (bpm) => setLinkBpm(bpm, true),                 // the plugin's host's tempo, which its runtime keeps
+      // a record from before the page (a plugin's editor opened after it ran): its line in the log, its cue
+      earlier: (r) => { if (r.kind === "output") output(r); else if (r.kind === "log") log(r); else if (r.kind === "cue") addCue(r.address, r.val, r.t); },
       synthMeta: registerSynths,   // a program's own synths (load_synthdef), as the runtime now knows them
       // Which names are Sonic Pi's own. A program's `synth :whoosh` has the preloader ask for `sonic-pi-whoosh`
       // before load_synthdef has said where that synth comes from, and that 404 is expected — only a synth this
@@ -1389,7 +1397,7 @@ const paneHooks = {
   copy: clipboard,
   playSample: hooks.playSample,
   play: (code, opts) => play(code, opts),
-  scope: () => (scope.analysers ? scope : null),
+  scope: () => (scope.engine ? scope : null),
   scopeFrame,
   now: () => session?.clockNow() ?? null,
   synthDefaults: (synth) => synthOpts.get(synth.replace(/^sonic-pi-/, "")) ?? null,
@@ -2251,29 +2259,20 @@ for (const b of $("strip-head").querySelectorAll("[data-strip]")) b.addEventList
 });
 $("strip-clear").addEventListener("click", () => $(document.body.classList.contains("strip-cues") ? "cue-clear" : "log-clear").click());
 // The bar's scope: everything playing, as one of the editor's live loop scopes (loopscope.js), across
-// the room the wordmark leaves. A tap on the engine's output feeds it; it draws only while it shows.
-const navScope = { canvas: siteNav.querySelector(".sn-scope"), state: new LoopScopeState(), analyser: null, buf: null, cursor: 0 };
+// the room the wordmark leaves. What the engine sent to the audio output feeds it (its device scope); it draws only
+// while it shows.
+const NAV_FRAMES = 4096;
+const navScope = { canvas: siteNav.querySelector(".sn-scope"), state: new LoopScopeState(), engine: null };
 // The bar's stop wears the card's rings (ui/card.js cardRings), the mix's left channel outside and right inside,
-// read off a stereo pair of analysers on the engine's output while anything sounds.
+// read off the engine's device scope while anything sounds.
 const stopRings = (() => {
   const box = document.querySelector("#site-nav .sn-stop"), canvas = box.querySelector(".sn-stop-rings");
   const rings = cardRings([{ box, canvas, channels: [0, 1] }], { gain: 3, swing: 0.1 });   // small, so it bends further: alive at a glance
-  let taps = null, live = false;
-  const read = () => {
-    if (!taps) return null;
-    taps.l.getFloatTimeDomainData(taps.bufL); taps.r.getFloatTimeDomainData(taps.bufR);
-    const frames = taps.bufL.length;
-    for (let i = 0; i < frames; i++) { taps.out[i * 2] = taps.bufL[i]; taps.out[i * 2 + 1] = taps.bufR[i]; }
-    return { frames, channels: 2, interleaved: taps.out };
-  };
+  let engine = null, live = false;
+  const read = () => engine?.getDeviceScope(0, 1024) ?? null;
   return {
     get live() { return live; },
-    attach(ac, node) {
-      const split = ac.createChannelSplitter(2);
-      node.connect(split);
-      const tap = (ch) => { const a = Object.assign(ac.createAnalyser(), { fftSize: 1024, smoothingTimeConstant: 0 }); split.connect(a, ch); return a; };
-      taps = { l: tap(0), r: tap(1), bufL: new Float32Array(1024), bufR: new Float32Array(1024), out: new Float32Array(2048) };
-    },
+    attach(e) { engine = e; },
     set(on) { live = on; if (on) rings.play(read); else rings.stop(); },
     repaint: () => rings.repaint(),
   };
@@ -2285,24 +2284,20 @@ loadingStop = createLoadingStop({
   after: () => { const on = document.body.classList.contains("sounding"); if (on !== stopRings.live) stopRings.set(on); else if (!on) stopRings.repaint(); },
 });
 function attachNavScope(engine) {
-  const ac = engine.audioContext ?? engine.node?.context;
-  if (!ac || !engine.node || navScope.analyser?.context === ac) return;   // tapped already, unless a reload made the context new
-  const first = !navScope.analyser;
-  navScope.analyser = Object.assign(ac.createAnalyser(), { fftSize: 4096, smoothingTimeConstant: 0 });
-  navScope.buf = new Float32Array(navScope.analyser.fftSize);
-  engine.node.connect(navScope.analyser);
-  stopRings.attach(ac, engine.node);
-  if (!first) return;   // the draw loop reads navScope.analyser as it stands: one loop, whatever context
+  stopRings.attach(engine);
+  const first = !navScope.engine;
+  navScope.engine = engine;
+  if (!first) return;   // the draw loop reads navScope.engine as it stands: one loop, whatever engine
   // drawn while the bar's scope is on screen (ui/shown.js), and resting once it has drawn half a second of silence: a
   // sound starting wakes it (onRecord)
   let quiet = 0;
   navScope.loop = animateWhileShown(navScope.canvas, () => {
-    const c = navScope.canvas, buf = navScope.buf;
-    navScope.analyser.getFloatTimeDomainData(buf);
-    const frame = { frames: buf.length, channels: 1, interleaved: buf, writePosition: ++navScope.cursor };
+    const c = navScope.canvas;
+    const frame = navScope.engine.getDeviceScope(0, NAV_FRAMES);   // the state mixes its channels, and holds still while it does not move
+    const buf = frame?.interleaved ?? [];
     if (navScope.state.feed(frame, false) || !c.dataset.painted) { drawLoopScope(c, navScope.state); c.dataset.painted ||= "1"; }   // said once: a write is a change to the page, even of the same value
     let loud = false;
-    for (let i = 0; i < buf.length; i += 8) if (Math.abs(buf[i]) > 1e-4) { loud = true; break; }
+    for (let i = 0; i < buf.length; i += 7) if (Math.abs(buf[i]) > 1e-4) { loud = true; break; }   // odd: both channels
     quiet = loud ? 0 : quiet + 1;
     if (quiet > 30) navScope.loop.rest();
   });
@@ -2497,6 +2492,7 @@ function disableMidi() {
 }
 async function enableMidi() {
   if (midi) { store.set("sp-midi", true); midiPorts_(true); buildPrefs(); return midi; }
+  if (inPlugin) { toast("MIDI is not available in the plugin yet"); return null; }
   if (!navigator.requestMIDIAccess) { toast("this browser has no Web MIDI"); return null; }
   if (!engineRef) await ensureSession().catch(() => {});      // MIDI hangs off the engine's front
   if (!engineRef) { toast("MIDI error - audio engine isn't available"); return null; }
@@ -2573,6 +2569,7 @@ let recording = null;   // { chunks: Int16Array[], frames, sampleRate, channels,
 const recBtn = $("btn-record");
 const REC_MAX_SECS = 60 * 60;
 function recordingUnavailable() {
+  if (inPlugin) return "Recording is not available in the plugin yet: record the track in the host";
   if (globalThis.crossOriginIsolated) return null;
   return "Recording needs the site's cross-origin isolation (the headers scripts/serve.mjs sends): not on this host";
 }
@@ -3126,6 +3123,7 @@ document.addEventListener("keydown", (e) => {
   if (infoOpen()) return;     // the Info card is up: its cards have their own keys
   const hit = keys.match(e);
   if (!hit) return;
+  if (keys.hostKeeps(hit.chord)) return;   // a plugin's host keeps it (its Cmd-S saves the project)
   const began = origin(e);   // inside the editor's shadow root, not its mount (shadow.js)
   const target = began instanceof Element ? began : null;
   const kind = entryKind(target);
@@ -3187,5 +3185,8 @@ function shortcutPrefs(pane) {
 // the site wakes the runtime once a card is reached for, so a Play is not kept waiting on it
 editor.focus();
 if (!infoOpen()) wakeEditor();
+// In a plugin the engine is the plugin's, and may be playing already (what an editor closed earlier ran plays on): the
+// session starts with the page, so its Stop reaches what plays, and the first Run waits for nothing
+if (inPlugin) ensureSession().catch(() => {});
 else for (const type of ["pointerover", "pointerdown", "focusin"]) infoCard.addEventListener(type, (e) => { if (e.target.closest?.(".qs-card, .home-synth")) startRuntime().catch(() => {}); }, { passive: true });
-window.sonicPi = { editor, workspace, keyboard: codeKeyboard, api, theme, get session() { return session; }, get runtimeVersion() { return versions.runtime; }, docs: () => docs, quickstart: () => quickstart, scope, processTree: () => insight.tree.snapshot(), pianoRoll: () => insight.roll.snapshot(), flight, keys, shortcuts: shortcutEditor, get engine() { return engineRef; } };
+window.sonicPi = { editor, workspace, keyboard: codeKeyboard, api, theme, get session() { return session; }, get runtimeVersion() { return versions.runtime; }, docs: () => docs, quickstart: () => quickstart, scope, logs, processTree: () => insight.tree.snapshot(), pianoRoll: () => insight.roll.snapshot(), flight, keys, shortcuts: shortcutEditor, get engine() { return engineRef; } };

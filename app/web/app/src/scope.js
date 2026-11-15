@@ -2,17 +2,21 @@
 // Scopes: the engine's output drawn with a glow and a trail,
 // in the theme's Scope colours. Three views, as native has them: the mono
 // wave, both channels, and Lissajous (left across, right up), which the
-// quickstart "Scope Art" cards draw with. The main scope taps the engine;
-// a card's scope mirrors the main one's analysers.
+// quickstart "Scope Art" cards draw with. The main scope reads what the engine
+// sent to the audio output (its device scope), on the web as in the plugin;
+// a card's scope mirrors it, reading the same.
 import { css } from "./theme.js";
 import { perfAdd } from "./perf.js";
+
+// The frames a scope draws: about 43 ms at 48 kHz, as the analysers it once read gave
+const WINDOW = 2048;
 
 export class Scope {
   constructor(canvas, { mode = "wave", lineWidth = 2, glow = 12, trail = 0.25 } = {}) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     Object.assign(this, { mode, lineWidth, glow, trail });
-    this.analysers = null;
+    this.engine = null;
     this.source = null;
     this.w = 0;
     this.h = 0;
@@ -33,16 +37,9 @@ export class Scope {
     if (!this.running) this.drawSilent();
   }
 
-  /** Taps the engine's output: a splitter into one analyser per channel. */
+  /** Reads the engine's output: the newest WINDOW frames of what it sent to the device, each frame drawn. */
   attach(engine) {
-    const ac = engine.audioContext;
-    const splitter = ac.createChannelSplitter(2);
-    const make = () => Object.assign(ac.createAnalyser(), { fftSize: 2048, smoothingTimeConstant: 0 });
-    const left = make(), right = make();
-    engine.node.connect(splitter);
-    splitter.connect(left, 0);
-    splitter.connect(right, 1);
-    this.analysers = { left, right, l: new Float32Array(2048), r: new Float32Array(2048) };
+    this.engine = engine;
     this.start();
   }
 
@@ -105,19 +102,26 @@ export class Scope {
     ctx.stroke();
   }
 
-  draw() {
-    const a = this.analysers ?? this.source?.analysers;
-    const { ctx, w, h } = this;
-    if (!a || !w || !h) return;
-    if (this.source) {
-      // the source reads the analysers each frame; a mirror reads its own copy
-      a.left.getFloatTimeDomainData(this.l ??= new Float32Array(2048));
-      a.right.getFloatTimeDomainData(this.r ??= new Float32Array(2048));
-    } else {
-      a.left.getFloatTimeDomainData(a.l);
-      a.right.getFloatTimeDomainData(a.r);
+  // The engine's output into L and R: a mono output is drawn as both, and nothing yet as silence
+  read(engine) {
+    const L = (this.L ??= new Float32Array(WINDOW)), R = (this.R ??= new Float32Array(WINDOW));
+    const got = engine.getDeviceScope(0, WINDOW);
+    if (!got) { L.fill(0); R.fill(0); return; }
+    const { frames, channels, interleaved } = got, lead = WINDOW - frames;
+    L.fill(0, 0, lead);
+    R.fill(0, 0, lead);
+    for (let i = 0; i < frames; i++) {
+      L[lead + i] = interleaved[i * channels];
+      R[lead + i] = interleaved[i * channels + (channels > 1 ? 1 : 0)];
     }
-    const L = this.source ? this.l : a.l, R = this.source ? this.r : a.r;
+  }
+
+  draw() {
+    const engine = this.engine ?? this.source?.engine;
+    const { ctx, w, h } = this;
+    if (!engine || !w || !h) return;
+    this.read(engine);   // a mirror reads for itself, so it moves while the main scope is paused
+    const { L, R } = this;
     ctx.globalAlpha = this.trail > 0 && this.mode !== "bars" ? 1 - this.trail : 1;
     ctx.fillStyle = css("PaneBackground");
     ctx.fillRect(0, 0, w, h);

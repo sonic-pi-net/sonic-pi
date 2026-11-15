@@ -270,3 +270,40 @@ test("a command whose key is the browser's zoom has the key it does have as its 
   assert.equal(keys.title("Code size up", "TextZoomIn"), "Code size up (⌃=)");
   assert.equal(createShortcuts({ store: null, platform: "other" }).title("Code size up", "TextZoomIn"), "Code size up (Alt+=)");
 });
+
+test("in a plugin the host keeps its own commands: saving, opening and starting a project, its settings, its windows", () => {
+  const keys = createShortcuts({ store: null, platform: "mac", holder: "plugin" });
+  const mac = ["Meta+s", "ShiftMeta+s", "Meta+o", "Meta+n", "Meta+,", "Meta+q", "Meta+w", "Meta+h", "Meta+Alt+h", "Meta+`"];
+  assert.deepEqual(new Set(keys.hostKeys()), new Set(mac.map((k) => resolve(k, "mac"))));
+  for (const k of mac) assert.ok(keys.hostKeeps(resolve(k, "mac")) && keys.reserved(resolve(k, "mac")), k);
+  // so a command on one of them shows the key it does have (Stop's own ⌘.), or none (Info's ⌘N)
+  assert.equal(keys.title("Stop", "Stop"), "Stop (⌘.)");
+  assert.equal(keys.title("Info", "Info"), "Info");
+  // the zoom keys are the interface's size, as a browser's are
+  assert.ok(keys.reserved(resolve("Meta+=", "mac")) && !keys.hostKeeps(resolve("Meta+=", "mac")));
+  const other = createShortcuts({ store: null, platform: "other", holder: "plugin" });
+  assert.ok(other.hostKeeps(resolve("Ctrl+s", "other")) && other.hostKeeps(resolve("Alt+F4", "other")));
+});
+
+test("in a plugin the keys a browser tab never gets are Sonic Pi's", () => {
+  const keys = createShortcuts({ store: null, platform: "mac", holder: "plugin" });
+  for (const k of ["Meta+t", "ShiftMeta+[", "ShiftMeta+]", "Meta+1", "Meta+m", "Meta+p", "Meta+r", "Meta+?", "Meta+l"]) {
+    assert.ok(!keys.reserved(resolve(k, "mac")) && !keys.hostKeeps(resolve(k, "mac")), k);
+  }
+  assert.equal(keys.title("Next buffer", "TabNext"), "Next buffer (⇧⌘])");
+});
+
+test("on the web no host keeps a key", () => {
+  const keys = createShortcuts({ store: null, platform: "mac" });
+  assert.deepEqual(keys.hostKeys(), []);
+  assert.ok(!keys.hostKeeps(resolve("Meta+s", "mac")));
+  assert.ok(keys.reserved(resolve("Meta+n", "mac")), "the browser's own new window");
+  assert.equal(keys.title("Next buffer", "TabNext"), "Next buffer");
+});
+
+test("a key press is named by the chord it most likely is, bound or not", () => {
+  const keys = createShortcuts({ store: null, platform: "mac" });
+  assert.equal(keys.chord(key("j", 74, { metaKey: true })), "Meta-j");
+  assert.equal(keys.chord(key("?", 191, { metaKey: true, shiftKey: true })), "Shift-Meta-/");
+  assert.equal(keys.chord(key("Shift", 16, { shiftKey: true })), null);
+});

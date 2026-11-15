@@ -34,6 +34,7 @@ export function createShortcutEditor({ keys, unavailable = {}, standalone = fals
   const fmt = (chord) => keys.format(chord);
   const name = (id) => DEF.get(id).desc;
   const presetName = (id) => PRESETS.find(([p]) => p === id)?.[1] ?? id;
+  const inHost = keys.holder === "plugin";   // a plugin's host keeps the keys, not a browser
   let lastFocus = null;
 
   // ── The sheet ──
@@ -209,7 +210,7 @@ export function createShortcutEditor({ keys, unavailable = {}, standalone = fals
       : custom
         ? `Custom, on ${presetName(keys.custom.base)}. Click a key, then press the new one; Backspace leaves none.`
         : `${presetName(keys.mode)} is native's keymap, read only. Click a key to customise it.`;
-    if (reserved && !state.listening) hint.appendChild(el("span", "sc-warn", `  !  ${reserved} ${reserved === 1 ? "key is" : "keys are"} the browser's own until Sonic Pi is installed as an app`));
+    if (reserved && !state.listening) hint.appendChild(el("span", "sc-warn", `  !  ${reserved} ${reserved === 1 ? "key is" : "keys are"} ${inHost ? "the host's own" : "the browser's own until Sonic Pi is installed as an app"}`));
 
     const had = list.contains(document.activeElement) ? document.activeElement : null;
     const hadId = had?.closest("[data-id]")?.dataset.id, hadRole = had?.dataset.role;
@@ -251,9 +252,9 @@ export function createShortcutEditor({ keys, unavailable = {}, standalone = fals
     const tips = [];
     if (r.clash.length) tips.push(`Also on ${r.clash.map(name).join(", ")}. A key on two commands runs neither, as in native Sonic Pi.`);
     if (r.takenBy.length) tips.push(`Not in force: ${fmt(r.configured)} is on ${r.takenBy.map(name).join(", ")}, which you set.`);
-    if (r.moved) tips.push(keys.browserZoom(r.configured) ? `${fmt(r.configured)} is the browser's zoom, so this is ${fmt(r.chord)}.` : `${fmt(r.configured)} is the menu bar's key here, so this is ${fmt(r.chord)}.`);
+    if (r.moved) tips.push(keys.browserZoom(r.configured) ? `${fmt(r.configured)} is ${inHost ? "the interface's size" : "the browser's zoom"}, so this is ${fmt(r.chord)}.` : `${fmt(r.configured)} is the menu bar's key here, so this is ${fmt(r.chord)}.`);
     if (r.own) tips.push(`Changed from ${r.base ? fmt(r.base) : "none"}.`);
-    if (r.reserved) tips.push(`The browser keeps ${fmt(r.chord)} for itself (its tabs, windows or address bar): it reaches Sonic Pi installed as an app.`);
+    if (r.reserved) tips.push(inHost ? `The host keeps ${fmt(r.chord)} for itself (its project, its settings, its windows).` : `The browser keeps ${fmt(r.chord)} for itself (its tabs, windows or address bar): it reaches Sonic Pi installed as an app.`);
     if (r.unavailable) tips.push(r.unavailable);
     if (r.secondaries.length) tips.push(`Also works: ${r.secondaries.map(fmt).join(", ")}.`);
 
@@ -329,7 +330,7 @@ export function createShortcutEditor({ keys, unavailable = {}, standalone = fals
     setCustomKeys({ [id]: notation });
     focusIn(id);
     say(chord ? `${name(id)}: ${fmt(chord)}` : `${name(id)}: no shortcut`);
-    if (chord && !standalone && keys.reserved(chord)) toast(`${fmt(chord)} is a browser-owned combination and is unavailable for use`);
+    if (chord && !standalone && keys.reserved(chord)) toast(`${fmt(chord)} is ${inHost ? "the host's own" : "a browser-owned combination"} and is unavailable for use`);
   }
 
   // The recorder and the key search take every key first, before any shortcut sees it

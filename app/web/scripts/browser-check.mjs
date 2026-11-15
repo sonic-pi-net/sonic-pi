@@ -396,6 +396,19 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const runs = await page.locator("#status-jobs").textContent();
     check("the status bar says the runs going as their ids alone", /^\[\d+(, \d+)*\]$/.test(runs), runs);
     check("the log shows what played", (await page.locator("#log .log-line").count()) > 3);
+    // the main scope draws what the engine sent to the audio output (its device scope, which a plugin's page reads
+    // too): the kick and the hats as they play, not a flat line
+    const scopeLevel = await page.evaluate(() => new Promise((resolve) => {
+      let peak = 0, frames = 0;
+      const look = () => {
+        const { L, R } = window.sonicPi.scope;
+        for (let i = 0; L && i < L.length; i++) peak = Math.max(peak, Math.abs(L[i]), Math.abs(R[i]));
+        if (++frames < 90) requestAnimationFrame(look);
+        else resolve({ peak: Math.round(peak * 1000) / 1000, frames });
+      };
+      requestAnimationFrame(look);
+    }));
+    check("the main scope draws what is playing, read from the engine's output", scopeLevel.peak > 0.01, JSON.stringify(scopeLevel));
     const audio = await page.evaluate(() => ({ sent: window.sonicPi.session.bridge.sent, failures: window.sonicPi.session.failures }));
     check("sounds reach the engine as the runtime's own OSC, and scsynth refuses none", audio.sent > 3 && audio.failures === 0, JSON.stringify(audio));
     // the pool every node is made from is the 64 MB the page boots the engine with (web/sonic_pi.js bootEngine), not
