@@ -1325,7 +1325,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // and opened to edit as it plays: its lines flash in its editor now, not over its block (ui/card.js flash)
     const editBtn = loopCard.locator(".qs-card-edit");
     const editing = (await editBtn.count()) > 0 && await editBtn.click({ timeout: 2000 }).then(() => true).catch(() => false);
-    await qp.waitForTimeout(1000);
+    // The card's editor is mounted and its loop scope has painted once (ui/card.js setEditing), before stillness().
+    if (editing) await qp.waitForFunction(() => document.querySelector("[contenteditable=true] .sp-loop-scope[data-painted]") || [...document.querySelectorAll("*")].some((e) => e.shadowRoot?.querySelector("[contenteditable=true] .sp-loop-scope[data-painted]")), null, { timeout: 30000 }).catch(timedOut);
     const heardEdited = await stillness(qp);
     const editedLit = await flashWatch(qp, "card");
     await loopCard.locator(".qs-transport button").nth(1).click({ timeout: 2000 }).catch(() => {});
@@ -1469,7 +1470,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await fp.waitForFunction(() => location.hash.startsWith("#code="), null, { timeout: 5000 }).catch(timedOut);
     await fp.reload();
     await fp.waitForFunction(() => window.sonicPi?.workspace, null, { timeout: 60000 });
-    await fp.waitForTimeout(1000);
+    // loadFromHash removes "#code=" from the address once it has taken the program in (main.js)
+    await fp.waitForFunction(() => !location.hash.startsWith("#code="), null, { timeout: 30000 }).catch(timedOut);
     w = await ws();
     check("a shared link's page reloaded shows its code once", w.texts.filter((t) => t.includes(":once")).length === 1, `${w.texts.filter((t) => t.includes(":once")).length} buffers have it`);
     // links: the codec is native's own (app/sharelink, here as wasm from runtime/), so the links native writes open
@@ -1615,9 +1617,13 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       let loads = 0;
       site.on("load", () => loads++);
       const where = () => site.evaluate(() => ({ at: location.pathname.split("/").pop() + location.hash, lit: document.querySelector(".site-body:not([hidden]) .ic-side .docs-item.active")?.dataset.key }));
+      // Waits until the site page is at `file` + `hash` and, if `lit` is given, that entry is the active one in the
+      // side list. Used after navigation and Back instead of a fixed sleep.
+      const arrived = (file, hash, lit = null) => site.waitForFunction(([f, h, l]) => location.pathname.endsWith(f) && location.hash === h
+        && (l == null || document.querySelector(".site-body:not([hidden]) .ic-side .docs-item.active")?.dataset.key === l), [file, hash, lit], { timeout: 30000 }).catch(timedOut);
       await site.goto(BASE + "learn.html#talks");
-      await site.waitForFunction(() => document.querySelector(".site-body:not([hidden]) .ic-side .docs-item.active"), null, { timeout: 30000 });
-      await site.waitForTimeout(1500);
+      await arrived("learn.html", "#talks", "talks");
+      await twoFrames(site);
       let w = await where();
       check("a page opened at an anchor stays there, its address kept and its list lit", w.at === "learn.html#talks" && w.lit === "talks", JSON.stringify(w));
       const loadsBefore = loads;
@@ -1626,7 +1632,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       w = await where();
       check("a tab goes to its page in the same document: the address the page's, nothing reloaded", w.at === "examples.html" && loads === loadsBefore, `${JSON.stringify(w)}, ${loads - loadsBefore} loads`);
       await site.goBack();
-      await site.waitForTimeout(1500);
+      await arrived("learn.html", "#talks", "talks");
       w = await where();
       check("Back returns to the page before, at the section it was at", w.at === "learn.html#talks" && w.lit === "talks", JSON.stringify(w));
       // Code: the editor at its own address, in the same document, and Back the page again
@@ -1639,7 +1645,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         card: !document.getElementById("info-card").hidden, inert: document.getElementById("main").inert })`);
       check("Code is the editor at its own address (code.html), nothing reloaded, the Code word lit and the code icon folded to ^", ed.at === "code.html" && ed.title === "Code · Sonic Pi" && ed.lit === "code" && ed.word && !ed.icon && ed.fold && !ed.card && !ed.inert && loads === loadsCode, `${JSON.stringify(ed)}, ${loads - loadsCode} loads`);
       await site.goBack();
-      await site.waitForTimeout(1500);
+      await arrived("learn.html", "#talks", "talks");
+      await site.waitForFunction(() => !document.getElementById("info-card").hidden, null, { timeout: 30000 }).catch(timedOut);
       w = await where();
       check("Back from the editor is the page again, where it was", w.at === "learn.html#talks" && w.lit === "talks" && (await site.evaluate(() => !document.getElementById("info-card").hidden)), JSON.stringify(w));
       // the bar's words in order, Support among them before Code, and the palette last
@@ -1653,9 +1660,9 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const byIcon = await site.evaluate(() => ({ at: location.pathname.split("/").pop(), word: document.querySelector("#site-nav .ic-tab-code").classList.contains("active") }));
       check("the code icon beside the palette is the editor too, the Code word lit", byIcon.at === "code.html" && byIcon.word, JSON.stringify(byIcon));
       await site.goBack();
-      await site.waitForTimeout(1500);
+      await arrived("support.html", "");
       await site.goBack();
-      await site.waitForTimeout(1500);
+      await arrived("learn.html", "#talks", "talks");
       // a page gone back to by its tab opens at its top, wherever it was left: WebKit keeps a hidden column's scroll
       // (a smooth scroll to the top is dropped), and Safari paints nothing there
       await site.evaluate(() => document.getElementById("teachers").scrollIntoView({ behavior: "instant" }));
@@ -1663,8 +1670,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       await site.click('#site-nav .ic-tab[data-tab="support"]');
       await site.waitForFunction(() => location.pathname.endsWith("support.html"), null, { timeout: 10000 }).catch(timedOut);
       await site.click('#site-nav .ic-tab[data-tab="learn"]');
-      await site.waitForFunction(() => location.pathname.endsWith("learn.html"), null, { timeout: 10000 }).catch(timedOut);
-      await site.waitForTimeout(1200);
+      await site.waitForFunction(() => location.pathname.endsWith("learn.html") && document.querySelector(".site-body:not([hidden]) .ic-main")?.scrollTop === 0, null, { timeout: 30000 }).catch(timedOut);
+      await twoFrames(site);
       const top = await site.evaluate(() => ({ at: location.pathname.split("/").pop() + location.hash, top: document.querySelector(".site-body:not([hidden]) .ic-main").scrollTop }));
       check("a page gone back to by its tab opens at its top", top.at === "learn.html" && top.top === 0, JSON.stringify(top));
       await site.evaluate(() => document.getElementById("community").scrollIntoView());
@@ -1898,7 +1905,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       await gp.waitForFunction(() => window.sonicPi.engine?.gamepad, null, { timeout: 60000 }).catch(timedOut);
       await gp.waitForTimeout(1000);
       await gp.evaluate(() => { Object.assign(__pad.buttons[0], { pressed: true, value: 1 }); __pad.timestamp++; });
-      await gp.waitForTimeout(300);
+      // hold the button until the press has been seen (its cue is in the cues pane), then release
+      await gp.waitForFunction(() => /\/button\/south\/down/.test(document.getElementById("cues").shadowRoot.textContent), null, { timeout: 30000 }).catch(timedOut);
       await gp.evaluate(() => { Object.assign(__pad.buttons[0], { pressed: false, value: 0 }); __pad.axes[0] = 0.8; __pad.timestamp++; });
       await gp.waitForFunction(() => /pressed/.test(document.getElementById("log").shadowRoot.textContent) && /\/axis\/left_x/.test(document.getElementById("cues").shadowRoot.textContent) && /\/south\/up/.test(document.getElementById("cues").shadowRoot.textContent), null, { timeout: 5000 }).catch(timedOut);
       const pad = await gp.evaluate(() => ({ cues: [...document.getElementById("cues").shadowRoot.querySelectorAll(".shadow-pane > *")].map((e) => e.textContent.trim()).filter((t) => t.startsWith("/gamepad:")).map((t) => t.replace(/\[.*$/, "")), synced: /pressed/.test(document.getElementById("log").shadowRoot.textContent) }));
