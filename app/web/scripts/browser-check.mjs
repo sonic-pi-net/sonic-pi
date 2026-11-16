@@ -39,13 +39,53 @@ const checkBefore = (at) => results.filter((r) => r.engine === engine && r.at <=
 // then every hiding rule tried against the whole page a second after any change), which a page changing as a program
 // plays keeps scanning back to back, the page frozen through each. Each change by the nearest element with an id, and
 // its kind, counted: nothing, where the page is still (app/src/shadow.js says what may change, and where).
-const stillness = (pg, ms = 2500) => pg.evaluate((ms) => new Promise((resolve) => {
+// Call before stillness(). Two unrelated things mutate the DOM and would be counted: the tooltip of the button the
+// test just clicked (shown 500 ms after hover) and a status bar message being cleared by its timer. This moves the
+// mouse to an empty corner and waits until no tooltip is visible and no status message is pending.
+const calm = async (pg) => {
+  await pg.mouse.move(5, 5);
+  await pg.waitForFunction(() => !window.sonicPi?.statusMessageShowing && !document.querySelector(".sp-tip.in"), null, { timeout: 30000 }).catch(timedOut);
+};
+const stillness = async (pg, ms = 2500) => { await calm(pg); return watchForChanges(pg, ms); };
+const watchForChanges = (pg, ms) => pg.evaluate((ms) => new Promise((resolve) => {
   const by = {};
   const mo = new MutationObserver((list) => { for (const m of list) { let e = m.target.nodeType === 1 ? m.target : m.target.parentElement; while (e && !e.id) e = e.parentElement; const t = m.target.nodeType === 1 ? m.target : m.target.parentElement; const what = t ? `<${t.localName}${t.className && typeof t.className === "string" ? "." + t.className.trim().split(/\s+/).join(".") : ""}>` : ""; const k = `${e ? "#" + e.id : "the page"} ${what} ${m.type}${m.attributeName ? ":" + m.attributeName : ""}`; by[k] = (by[k] ?? 0) + 1; } });
   mo.observe(document, { childList: true, attributes: true, subtree: true, characterData: true });
   setTimeout(() => { mo.disconnect(); resolve(by); }, ms);
 }), ms);
 const still = (heard) => !Object.keys(heard).length;
+// Error handler for waits: `.catch(timedOut)`. A TimeoutError is ignored, because the check after the wait reports
+// the missing state. Any other error means the wait's predicate threw (for example on a null), so it never waited;
+// that is recorded as a failed check. Do not use `.catch(() => {})` on a wait: it hides a throwing predicate.
+const timedOut = (e) => { if (e?.name !== "TimeoutError") check("a wait's condition ran without an error of its own", false, String(e?.message ?? e).split("\n")[0].slice(0, 200)); };
+// Polls the async function `probe` every 50 ms until it returns a truthy value, and returns that value. Use it when
+// the state can only be read from Node (through a locator, which pierces shadow roots). After `ms` it gives up and
+// returns the last value; the timeout is a hang guard, not part of what is tested.
+const until = async (probe, ms = 30000) => {
+  const end = Date.now() + ms;
+  for (;;) {
+    const answer = await probe();
+    if (answer || Date.now() > end) return answer;
+    await new Promise((r) => setTimeout(r, 50));
+  }
+};
+// Waits two animation frames in the page, so a change made just before has been rendered.
+const twoFrames = (pg) => pg.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+// Waits for layout to finish after a resize, a drawer opening or a divider drag. A size change is handled one frame
+// later by ResizeObservers, which can then start a CSS transition, so one look at document.getAnimations() is not
+// enough. Loop: wait two frames, await every running finite animation, and stop after two consecutive passes with
+// none running. Infinite animations (spinners) are ignored. The 200-pass limit is a hang guard.
+const settled = (pg) => pg.evaluate(async () => {
+  const frames = (n) => new Promise((r) => { const step = () => (n-- > 0 ? requestAnimationFrame(step) : r()); step(); });
+  const running = () => document.getAnimations().filter((a) => a.playState !== "finished" && Number.isFinite(a.effect?.getComputedTiming().endTime ?? Infinity));
+  for (let quiet = 0, looks = 0; quiet < 2 && looks < 200; looks++) {
+    await frames(2);
+    const now = running();
+    if (!now.length) { quiet++; continue; }
+    quiet = 0;
+    await Promise.all(now.map((a) => a.finished.catch(() => {})));
+  }
+});
 // What appears in the editor's code (its .cm-content, editable) in ms, each kind counted: nothing, where the code stays
 // still. iOS Safari takes a tap that sees an element appear in editable text for a hover and sends it no click (WebKit's
 // ContentChangeObserver counts anything in editable text as clickable): flashes put into the code as a program played
@@ -315,7 +355,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await setCode("");
     await caretToEnd();
     await page.keyboard.type("sample ");
-    await page.waitForSelector(".cm-tooltip-autocomplete li", { timeout: 5000 }).catch(() => {});
+    await page.waitForSelector(".cm-tooltip-autocomplete li", { timeout: 5000 }).catch(timedOut);
     const sampleRows = await page.locator(".cm-tooltip-autocomplete li").allTextContents();
     check("after sample the popup offers samples", sampleRows.some((t) => t.startsWith(":bd_haus")), `${sampleRows.length} rows`);
     // each step waits for what it expects, not a while: CodeMirror opens the popup on a timer after a key, which a
@@ -335,14 +375,14 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const optRows = await page.locator(".cm-tooltip-autocomplete li").allTextContents();
     check("after a sample and a comma the popup offers sample opts", optRows.some((t) => t.startsWith("rate:")), `${optRows.length} rows`);
     await page.keyboard.type("amp");
-    await page.waitForFunction(() => /^amp:/.test(window.sonicPi.editor.view.root.querySelector(".cm-tooltip-autocomplete li")?.textContent ?? ""), null, { timeout: 3000 }).catch(() => {});
+    await page.waitForFunction(() => /^amp:/.test(window.sonicPi.editor.view.root.querySelector(".cm-tooltip-autocomplete li")?.textContent ?? ""), null, { timeout: 3000 }).catch(timedOut);
     await page.keyboard.press("Tab");
     await popupShows("^\\d", { first: true });
     const range = await page.locator(".cm-tooltip-autocomplete li").first().textContent().catch(() => "");
     const rangeCode = await page.evaluate(() => window.sonicPi.editor.getCode());
     check("a ranged opt offers its default", /^\d/.test(range), `${range} · buffer: ${JSON.stringify(rangeCode)}`);
     await page.keyboard.press("Tab");
-    await page.waitForSelector(".sp-slider", { timeout: 3000 }).catch(() => {});
+    await page.waitForSelector(".sp-slider", { timeout: 3000 }).catch(timedOut);
     const slider = page.locator(".sp-slider input");
     const hasSlider = await slider.count();
     let slid = "";
@@ -354,7 +394,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // Escape and Ctrl-G put it away, and it stays away while the caret stays on that value
     await page.evaluate(() => window.sonicPi.editor.view.focus());
     await page.keyboard.press("Escape");
-    await page.waitForTimeout(150);
+    await page.waitForFunction(() => !window.sonicPi.editor.view.root.querySelector(".sp-slider"), null, { timeout: 30000 }).catch(timedOut);
     const gone = await page.evaluate(() => !window.sonicPi.editor.view.root.querySelector(".sp-slider"));
     await page.keyboard.press("ArrowLeft");
     await page.waitForTimeout(150);
@@ -363,7 +403,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await setCode("use_synth :prophet\nplay 60, ");
     await caretToEnd();
     await page.keyboard.type("res");
-    await page.waitForFunction(() => [...window.sonicPi.editor.view.root.querySelectorAll(".cm-tooltip-autocomplete li")].some((li) => li.textContent.startsWith("res:")), null, { timeout: 3000 }).catch(() => {});
+    await page.waitForFunction(() => [...window.sonicPi.editor.view.root.querySelectorAll(".cm-tooltip-autocomplete li")].some((li) => li.textContent.startsWith("res:")), null, { timeout: 3000 }).catch(timedOut);
     const synthOpts = await page.locator(".cm-tooltip-autocomplete li").allTextContents();
     check("play offers the current synth's opts", synthOpts.some((t) => t.startsWith("res:")), `${synthOpts.length} rows`);
     // a screen reader, as native: the list is not in the accessibility tree (the code keeps the reader), and each
@@ -371,7 +411,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await page.evaluate(() => { window.__said = []; new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => { if (n.parentElement?.closest?.("[aria-live=assertive]")) window.__said.push(n.textContent); }))).observe(document.body, { childList: true, subtree: true }); });
     await page.keyboard.press("ArrowUp");
     await page.keyboard.press("ArrowDown");
-    await page.waitForTimeout(150);
+    await page.waitForFunction(() => (window.__said ?? []).length >= 1, null, { timeout: 30000 }).catch(timedOut);
     const speech = await page.evaluate(() => ({ said: window.__said, hidden: window.sonicPi.editor.view.root.querySelector(".cm-tooltip-autocomplete")?.getAttribute("aria-hidden"), combobox: window.sonicPi.editor.view.contentDOM.hasAttribute("aria-activedescendant") }));
     check("the completion list speaks each move (name, kind, summary, place), silent at its ends, out of the accessibility tree",
       speech.said.length === 1 && / 2 of \d+$/.test(speech.said[0]) && speech.said[0].split(", ").length >= 3 && speech.hidden === "true" && !speech.combobox, JSON.stringify(speech));
@@ -380,15 +420,17 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await caretToEnd();
     await page.keyboard.type("play ");
     // a list that is all notes gets native's NotePiano: one keyboard under the rows, in the popup itself, not in a row's detail pane
-    await page.waitForSelector(".cm-tooltip-autocomplete .sp-cpiano .sp-piano", { timeout: 3000 }).catch(() => {});
+    await page.waitForSelector(".cm-tooltip-autocomplete .sp-cpiano .sp-piano", { timeout: 3000 }).catch(timedOut);
     check("play offers notes with a piano", (await page.locator(".cm-tooltip-autocomplete .sp-cpiano .sp-piano").count()) === 1);
     await page.keyboard.press("Escape");
 
     // Run, live loops, redefinition, errors, Stop
     await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend\nlive_loop :hat do\n  sample :drum_cymbal_closed\n  sleep 0.25\nend");
     await page.click("#btn-run");
-    await page.waitForFunction(() => /:kick/.test(document.getElementById("status-jobs").title), null, { timeout: 90000 }).catch(() => {});
-    await page.waitForTimeout(1200);
+    // Wait for start-up to finish before stillness() below: both loops listed in the status bar, body.sounding set,
+    // and both loop scopes painted once (data-painted).
+    await page.waitForFunction(() => { const t = document.getElementById("status-jobs").title; return /:kick/.test(t) && /:hat/.test(t) && document.body.classList.contains("sounding")
+      && document.querySelector("#editor-mount").shadowRoot.querySelectorAll(".sp-loop-scope[data-painted]").length >= 2; }, null, { timeout: 90000 }).catch(timedOut);
     const jobs = await page.locator("#status-jobs").getAttribute("title");
     check("Run plays both live loops", /:kick/.test(jobs) && /:hat/.test(jobs), jobs);
     // every refusal from scsynth from here on, in its own words, for the check that there are none (all session long)
@@ -433,7 +475,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     check("the engine's real-time pool is the 64 MB it is booted with", pool.freeMB > 56 && pool.freeMB <= 64, JSON.stringify(pool));
     await setCode("live_loop :kick do\n  sample :bd_haus\n  puts :redefined\n  sleep 0.5\nend");
     await page.click("#btn-run");
-    await page.waitForFunction(() => /redefined/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(() => {});
+    await page.waitForFunction(() => /redefined/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(timedOut);
     const jobs2 = await page.locator("#status-jobs").getAttribute("title");
     check("a second Run redefines a live loop in place", (await logText()).includes("redefined") && /:hat/.test(jobs2), jobs2);
     // A loop another buffer takes over runs that buffer's code: its scope goes there with it, and from here, where
@@ -443,18 +485,20 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       .map((c) => /^live_loop :(\w+)/.exec(c.closest(".cm-line")?.textContent.trim() ?? "")?.[1]).filter(Boolean).sort().join(" "));
     await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend\nlive_loop :hat do\n  sample :drum_cymbal_closed\n  sleep 0.25\nend");
     await page.click("#btn-run");   // both loops' headers in this buffer again, for both scopes to show
-    await page.waitForFunction(() => document.querySelector("#editor-mount").shadowRoot.querySelectorAll(".sp-loop-scope").length >= 2, null, { timeout: 10000 }).catch(() => {});
+    await page.waitForFunction(() => document.querySelector("#editor-mount").shadowRoot.querySelectorAll(".sp-loop-scope").length >= 2, null, { timeout: 10000 }).catch(timedOut);
     const home = await page.evaluate(() => window.sonicPi.editor.active);
     const scopedHere = await scopedLoops();
     await page.evaluate((i) => window.sonicPi.workspace.showBuffer((i + 1) % window.sonicPi.workspace.size), home);
     const otherCode = await page.evaluate(() => window.sonicPi.editor.getCode());
     await setCode("live_loop :kick do\n  sample :bd_haus\n  sleep 0.5\nend");
     await page.click("#btn-run");
-    await page.waitForTimeout(2000);
+    await page.waitForFunction(() => [...document.querySelector("#editor-mount").shadowRoot.querySelectorAll(".sp-loop-scope")]
+      .map((c) => /^live_loop :(\w+)/.exec(c.closest(".cm-line")?.textContent.trim() ?? "")?.[1]).filter(Boolean).join(" ") === "kick", null, { timeout: 30000 }).catch(() => {});
     const scopedThere = await scopedLoops();
     await setCode(otherCode);
     await page.evaluate((i) => window.sonicPi.workspace.showBuffer(i), home);
-    await page.waitForTimeout(500);
+    await page.waitForFunction(() => [...document.querySelector("#editor-mount").shadowRoot.querySelectorAll(".sp-loop-scope")]
+      .map((c) => /^live_loop :(\w+)/.exec(c.closest(".cm-line")?.textContent.trim() ?? "")?.[1]).filter(Boolean).join(" ") === "hat", null, { timeout: 30000 }).catch(() => {});
     const scopedBack = await scopedLoops();
     check("a loop another buffer takes over takes its scope there, and the one it left keeps only its own loops'",
       scopedHere === "hat kick" && scopedThere === "kick" && scopedBack === "hat", JSON.stringify({ scopedHere, scopedThere, scopedBack }));
@@ -485,12 +529,12 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await page.click("#btn-stop");
     await setCode("live_loop :broken do\n  play [60, 64].tock\n  sleep 0.25\nend");
     await page.click("#btn-run");
-    await page.waitForSelector("#error-pane:not([hidden])", { timeout: 10000 }).catch(() => {});
+    await page.waitForSelector("#error-pane:not([hidden])", { timeout: 10000 }).catch(timedOut);
     const errors = await page.locator("#error-pane").textContent();
     check("an error in a thread shows in the error pane with its line", /NoMethodError/.test(errors) && /line 2/.test(errors), errors.trim());
     check("the error's line is marked in the editor", (await page.locator("#editor-mount .cm-sp-error-line").count()) === 1);
     await page.click("#btn-stop");
-    await page.waitForTimeout(800);
+    await page.waitForFunction(() => document.getElementById("status-jobs").textContent === "", null, { timeout: 30000 }).catch(timedOut);
     check("Stop stops everything", (await page.locator("#status-jobs").textContent()) === "");
 
     // an alias plays another synth's synthdef (:sine is sonic-pi-beep): what is loaded ahead of a run is what the
@@ -598,7 +642,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const paneCodeWas = await page.evaluate(() => window.sonicPi.editor.getCode());
     await setCode("live_loop :fill do\n  cue :fill, tick\n  puts look\n  sleep 0.02\nend");
     await page.click("#btn-run");
-    await page.waitForFunction(() => document.querySelector("#cues").shadowRoot.querySelectorAll(".cue-row").length >= 150, null, { timeout: 30000 }).catch(() => {});
+    await page.waitForFunction(() => document.querySelector("#cues").shadowRoot.querySelectorAll(".cue-row").length >= 150, null, { timeout: 30000 }).catch(timedOut);
     const paneFilling = await paneWatch(page, 2000);
     const paneFollowing = await cueWindow(page);
     check("the log and the cues put each line into the page once as it arrives, and never put back a row already shown",
@@ -698,7 +742,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // a synth not heard yet: its synthdef loads, and the engine's answer to that comes back
     await setCode("use_synth :zawa\nplay 60, release: 0.1");
     await page.click("#btn-run");
-    await page.waitForFunction(() => { const [to, from] = document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source"); return to?.textContent.includes("/s_new") && from?.querySelector(".logs-line"); }, null, { timeout: 8000 }).catch(() => {});
+    await page.waitForFunction(() => { const [to, from] = document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source"); return to?.textContent.includes("/s_new") && from?.querySelector(".logs-line"); }, null, { timeout: 8000 }).catch(timedOut);
     const osc = await page.evaluate(() => [...document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source")].map((s) => ({ title: s.querySelector(".logs-title").textContent, lines: s.querySelectorAll(".logs-line").length, s_new: /\+\d+\.\d+s \/s_new "sonic-pi-/.test(s.textContent) })));
     check("the Debug pane logs the OSC to SuperSonic (the runtime's bundles, when each is due) and from it", osc.length === 2 && osc[0].s_new && osc[1].lines > 0, JSON.stringify(osc));
     // each timed bundle marked with how far ahead of the engine's now it arrived, on the engine's clock (logs.js
@@ -748,12 +792,12 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const pulsing = await pulses();
     await page.emulateMedia({ reducedMotion: "reduce" });
     const heardOs = await reduceClass(true);
-    await page.waitForTimeout(100);
+    await twoFrames(page);   // the snapshot is the last frame drawn: let one draw with the setting on
     const stillOs = await pulses();
     await page.emulateMedia({ reducedMotion: "no-preference" });
     const heardOff = await reduceClass(false);
     await page.evaluate(() => document.body.classList.add("reduce-motion"));   // the app's Reduce animations, as setReduceMotion sets it
-    await page.waitForTimeout(100);
+    await twoFrames(page);
     const stillApp = await pulses();
     const appHeld = await page.evaluate(() => document.body.classList.contains("reduce-motion"));
     await page.evaluate(() => document.body.classList.remove("reduce-motion"));
@@ -776,7 +820,9 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const held = await page.waitForSelector("#editor-mount .sp-wait", { timeout: 10000 }).then((h) => h.evaluate((el) => `${el.title} @ line ${[...el.closest(".cm-content").querySelectorAll(".cm-line")].indexOf(el.closest(".cm-line")) + 1}`)).catch(() => null);
     check("a thread held on a sync is marked at its sync line", held != null && /waiting on sync :never_cued @ line 6$/.test(held), String(held));
     await page.click(".insight-views button[data-view='timeline']");
-    await page.waitForTimeout(800);
+    // The table is redrawn on a 500 ms interval, so poll for the rows the check needs, then let the canvas render.
+    await until(async () => { const rows = await page.locator(".insight-table tbody tr").allTextContents(); return rows.some((t) => t.includes(":kick") && /sleeping/.test(t)) && rows.some((t) => t.includes(":bass")); });
+    await twoFrames(page);
     const threadRows = await page.locator(".insight-table tbody tr").allTextContents();
     check("the Threads view has a row per thread with its state", threadRows.some((t) => t.includes(":kick") && /sleeping/.test(t)) && threadRows.some((t) => t.includes(":bass")), threadRows.slice(0, 3).join(" | "));
     const painted = await page.evaluate(() => {
@@ -789,7 +835,23 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     check("the Threads timeline draws", painted > 3, `${painted} colours`);
     // the piano roll: paused, so what it drew holds still to be read and pointed at
     await page.click(".insight-views button[data-view='roll']");
-    await page.waitForTimeout(2000);
+    // The piano roll opens with pitch range 48-72 and eases it towards the range of its notes over a couple of
+    // seconds. Pausing freezes the range wherever it is, so pausing too early cuts notes off. Wait until there are
+    // at least 3 bass notes, the drawn range contains all of them, and the range is identical on two consecutive
+    // frames. pianoRoll() returns null before the first frame. The 3000-frame limit is a hang guard.
+    await page.evaluate(() => new Promise((resolve) => {
+      let last = "", frames = 0;
+      const look = () => {
+        const r = window.sonicPi.pianoRoll();
+        const bass = r ? r.notes.filter((n) => n.label === ":bass" && n.start <= n.end) : [];
+        const range = r ? r.range.join() : "";
+        if (bass.length >= 3 && bass.every((n) => r.range[0] <= n.note && r.range[1] >= n.note) && range === last) return resolve();
+        last = range;
+        if (++frames > 3000) return resolve();
+        requestAnimationFrame(look);
+      };
+      requestAnimationFrame(look);
+    }));
     // Pause is the head's own button, beside the view picker, and holds every view — the tree, the timeline and the roll
     const pause = page.locator(".insight-pause");
     await pause.click();
@@ -797,14 +859,14 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const roll = await page.evaluate(() => window.sonicPi.pianoRoll());
     const bass = roll.notes.filter((n) => n.label === ":bass" && n.start <= n.end);
     const sorted = [...bass].sort((a, b) => a.note - b.note);
-    check("the piano roll draws the bass line's notes on their rows, higher notes higher", bass.length >= 3 && bass.every((n) => n.note >= 40 && n.note <= 52 && n.x1 > n.x0) && roll.range[0] <= 40 && roll.range[1] >= 52 && sorted.every((n, i) => i === 0 || n.note === sorted[i - 1].note || n.y < sorted[i - 1].y), `${bass.length} notes, rows ${roll.range}`);
+    check("the piano roll draws the bass line's notes on their rows, higher notes higher", bass.length >= 3 && bass.every((n) => n.note >= 40 && n.note <= 52 && n.x1 > n.x0) && bass.every((n) => roll.range[0] <= n.note && roll.range[1] >= n.note) && sorted.every((n, i) => i === 0 || n.note === sorted[i - 1].note || n.y < sorted[i - 1].y), `${bass.length} notes, rows ${roll.range}`);
     check("a note lasts the release it was given", bass.every((n) => Math.abs(n.end - n.start - 0.2) < 1e-6), bass.map((n) => (n.end - n.start).toFixed(3)).slice(0, 4).join(","));
     check("the piano roll gives samples a drum row", roll.rows.includes("bd_haus") && roll.hits.some((h) => h.sample === "bd_haus" && h.label === ":kick"), roll.rows.join(","));
     check("the piano roll's grid follows a thread's beats", roll.bpm === 60, String(roll.bpm));
     const target = bass.find((n) => n.x1 - n.x0 >= 4 && n.x0 > 60);
     const box = await page.locator(".roll-canvas canvas").boundingBox();
     if (target) await page.mouse.move(box.x + (target.x0 + target.x1) / 2, box.y + target.y);
-    await page.waitForTimeout(100);
+    if (target) await until(async () => (await page.locator(".roll-tip:not([hidden])").count()) > 0, 10000);
     const tipText = (await page.locator(".roll-tip:not([hidden])").textContent().catch(() => "")) ?? "";
     check("pointing at a note names it, its synth and its line", /^[A-G][♯♭]?\d \(\d+\) · :tb303 · amp 1 · 0\.2 s · :bass · line 7$/.test(tipText), tipText);
     await page.mouse.move(0, 0);
@@ -815,7 +877,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // the roll has notes still to sound (the bass is a second ahead) once it has drawn again after the resume: waited
     // for, not a fixed pause, which a slow machine's drawing can outlast
     const aheadNow = () => { const now = window.sonicPi.session.clockNow(); return window.sonicPi.pianoRoll().notes.filter((n) => n.start > now).length; };
-    await page.waitForFunction(aheadNow, null, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(aheadNow, null, { timeout: 5000 }).catch(timedOut);
     const ahead = await page.evaluate(aheadNow);
     const stoppedAt = await page.evaluate(() => { document.getElementById("btn-stop").click(); return window.sonicPi.session.clockNow(); });
     await page.waitForTimeout(300);
@@ -832,7 +894,9 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const before = await rows();
       await clearBtn.click();
       const armed = await state(), keptArmed = await rows();
-      await page.waitForTimeout(3300);   // a finished thread may leave the table meanwhile, as it would anyway
+      // The button disarms itself after 3 s. Poll for that instead of sleeping 3.3 s. (A finished thread may leave
+      // the table in the meantime; the row counts below allow for it.)
+      await until(async () => !(await state()).armed);
       const settled = await state(), keptSettled = await rows();
       // the two presses and the count in one task: a record arriving a moment later is the next one's, not the cleared
       const after = await clearBtn.evaluate((b) => { b.click(); b.click(); return b.getRootNode().querySelectorAll(".insight-table tbody .insight-chip").length; });
@@ -842,7 +906,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     }
     await setCode("n = play 60, release: 2\nsleep 0.25\ncontrol n, note: 72\nset :answer, 42\nputs get(:answer)\nputs spread(3, 8)\nmidi_note_on 60\nputs chord_invert(chord(:c4, :major), 1)");
     await page.click("#btn-run");
-    await page.waitForFunction(() => /\(ring 64, 67, 72\)/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(() => {});
+    await page.waitForFunction(() => /\(ring 64, 67, 72\)/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 10000 }).catch(timedOut);
     const newVerbs = await logText();
     check("control, set and get, spread, MIDI and chord_invert run", /control node/.test(newVerbs) && /42/.test(newVerbs) && /\(ring true, false, false, true/.test(newVerbs) && /\(ring 64, 67, 72\)/.test(newVerbs), newVerbs.slice(-200));
     const refused = await page.evaluate(() => ({ failures: window.sonicPi.session.failures, said: window.__refused ?? [] }));
@@ -855,11 +919,11 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const refusedBefore = await page.evaluate(() => window.sonicPi.session.failures);
     await setCode("n = play 60, release: 0.05\nsleep 0.5\ncontrol n, note: 72");
     await page.click("#btn-run");
-    await page.waitForFunction((b) => window.sonicPi.session.failures > b, refusedBefore, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction((b) => window.sonicPi.session.failures > b, refusedBefore, { timeout: 5000 }).catch(timedOut);
     check("a message scsynth refuses is counted", (await page.evaluate(() => window.sonicPi.session.failures)) > refusedBefore);
     await setCode("load_example :haunted");
     await page.click("#btn-run");
-    await page.waitForFunction(() => window.sonicPi.editor.getCode().startsWith("# Haunted"), null, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(() => window.sonicPi.editor.getCode().startsWith("# Haunted"), null, { timeout: 5000 }).catch(timedOut);
     check("load_example puts the example in the buffer", (await page.evaluate(() => window.sonicPi.editor.getCode())).startsWith("# Haunted"));
     await page.click("#btn-stop");
 
@@ -871,16 +935,16 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     else {
       await setCode(`load_synthdef "${whoosh}"\nsynth :whoosh, note: 64, release: 0.2`);
       await page.click("#btn-run");
-      await page.waitForFunction(() => /synth :whoosh/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 15000 }).catch(() => {});
+      await page.waitForFunction(() => /synth :whoosh/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 15000 }).catch(timedOut);
       const played = await page.evaluate(() => ({ log: /synth :whoosh, \{note: 64\.0, release: 0\.2\}/.test(document.getElementById("log").shadowRoot.textContent), err: !document.getElementById("error-pane").hidden }));
       await setCode("synth :whoosh, release: -1");
       await page.click("#btn-run");
-      await page.waitForSelector("#error-pane:not([hidden])", { timeout: 5000 }).catch(() => {});
+      await page.waitForSelector("#error-pane:not([hidden])", { timeout: 5000 }).catch(timedOut);
       const refused = /release/.test(await page.locator("#error-pane").textContent());
       await page.click("#btn-stop");
       await openPane("docs");
       await page.click(".docs-tabs button:has-text('Synths')");
-      await page.waitForSelector("#docs-pane .docs-item[data-key='whoosh']", { timeout: 5000 }).catch(() => {});
+      await page.waitForSelector("#docs-pane .docs-item[data-key='whoosh']", { timeout: 5000 }).catch(timedOut);
       const listed = await page.evaluate(() => ({ group: document.querySelector("#docs-pane .docs-list > .docs-group")?.textContent, whoosh: !!document.querySelector("#docs-pane .docs-item[data-key='whoosh']") }));
       if (listed.whoosh) await page.click("#docs-pane .docs-item[data-key='whoosh']");
       const spare = await page.evaluate(() => [...document.querySelectorAll("#docs-pane .dial.pg-spare")].map((d) => d.getAttribute("aria-label")).join(","));
@@ -901,13 +965,13 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     check("turning a dial writes the program", /use_synth :prophet\nplay \d+, cutoff: \d+/.test(program), program);
     // the page's demo runs on the quickstart card's transport (ui/card.js): Play is its first button, Stop the second
     await page.click("#docs-pane .pg-card .qs-card-foot .qs-run:not(.qs-stop)");
-    await page.waitForFunction(() => /synth :prophet, \{note: 52\.0, cutoff: 115/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(() => /synth :prophet, \{note: 52\.0, cutoff: 115/.test(document.getElementById("log").shadowRoot.textContent), null, { timeout: 5000 }).catch(timedOut);
     check("the instrument page plays its program", /synth :prophet, \{note: 52\.0, cutoff: 115/.test(await logText()));
     // A note played on the page's keyboard is the card's sound, as Play's is: the card plays while it sounds, and its
     // Stop stops it, well before the note's one-second release would end it (#3610: native's TutorialPane does the same)
     const docsPlaying = () => page.evaluate(() => !!document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"));
     await page.click("#docs-pane .pg-card .qs-transport .qs-stop").catch(() => {});
-    await page.waitForFunction(() => !document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"), null, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(() => !document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"), null, { timeout: 5000 }).catch(timedOut);
     await page.locator("#docs-pane .pg-piano [data-note]").nth(7).click();
     const keyPlays = await page.waitForFunction(() => document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"), null, { timeout: 5000 }).then(() => true, () => false);
     await page.click("#docs-pane .pg-card .qs-transport .qs-stop").catch(() => {});
@@ -921,7 +985,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // Wait for the demo itself, not for an amount of time: its card showing it plays, and its loop's scope drawn
     // with a moving trace. How long that takes depends on the machine (the FX and its sample have to load). The
     // timeouts only end a run where it never happens; the checks below then say what was missing.
-    await page.waitForFunction(() => document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"), null, { timeout: 30000 }).catch(() => {});
+    await page.waitForFunction(() => document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"), null, { timeout: 30000 }).catch(timedOut);
     await page.waitForFunction(() => {
       const c = document.querySelector("#docs-pane .pg-card .sp-loop-scope");
       if (!c) return false;
@@ -929,12 +993,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       let lit = 0;
       for (let i = 3; i < d.length; i += 4) if (d[i] > 8) lit++;
       return lit > c.width * 1.4;
-    }, null, { timeout: 30000 }).catch(() => {});
-    // Two things would change the page during the watch below and are not the demo's doing: the tooltip of the
-    // button the pointer was left on, and a status bar message timing out. Move the pointer off, and wait for any
-    // message to go.
-    await page.mouse.move(5, 5);
-    await page.waitForFunction(() => !window.sonicPi.statusMessageShowing && !document.querySelector(".sp-tip.in"), null, { timeout: 30000 }).catch(() => {});
+    }, null, { timeout: 30000 }).catch(timedOut);
     const heardDocs = await stillness(page);
     check("the page stays still as a docs card's live demo plays", still(heardDocs), JSON.stringify(heardDocs));
     const fxDemo = await page.evaluate(() => ({ pane: /thread safe|docs_fx/.test(document.getElementById("error-pane").hidden ? "" : document.getElementById("error-pane").textContent), card: document.querySelector("#docs-pane .pg-card.errored .qs-state")?.textContent ?? null }));   // the pane may hold an earlier check's error: only this demo's counts
@@ -960,7 +1019,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     });
     const cardPlaying = await cardNow();
     await page.locator("#docs-pane .pg-card .qs-card-foot .qs-transport button").nth(1).click();
-    await page.waitForFunction(() => (window.sonicPi.session.status().runs ?? [0]).length === 0, null, { timeout: 8000 }).catch(() => {});
+    await page.waitForFunction(() => (window.sonicPi.session.status().runs ?? [0]).length === 0, null, { timeout: 8000 }).catch(timedOut);
     const cardStopped = await cardNow();
     check("a card plays as a run in the cards' group with no group of its own, and its Stop stops that run",
       cardPlaying.playing && cardPlaying.groups.includes(2000) && !cardPlaying.groups.some((g) => g > 2000) && cardPlaying.runs?.length === 1
@@ -973,11 +1032,11 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // been built the site's checks have nothing to look at, and saying so is better than failing
     const siteBuilt = await page.evaluate(async () => (await fetch("learn.html").catch(() => ({ ok: false }))).ok);
     await page.evaluate(() => { location.hash = "#docs/tutorial/02.1-Your-First-Beeps"; });
-    await page.waitForFunction(() => location.pathname.endsWith("tutorial-02.html") && document.querySelector(".site-body:not([hidden]) .tut-page .qs-card .qs-transport"), null, { timeout: 30000 }).catch(() => {});
+    await page.waitForFunction(() => location.pathname.endsWith("tutorial-02.html") && document.querySelector(".site-body:not([hidden]) .tut-page .qs-card .qs-transport"), null, { timeout: 30000 }).catch(timedOut);
     const tut = await page.evaluate(() => { const b = document.querySelector(".site-body:not([hidden]) .tut-page"); return { at: location.pathname.split("/").pop() + location.hash, cards: b?.querySelectorAll(".qs-card .qs-transport").length ?? 0, title: document.getElementById("tut-02-1-your-first-beeps")?.querySelector(".sec-title")?.textContent, book: document.querySelector('#site-nav .ic-tab[data-tab="tutorial"]')?.classList.contains("active"), inHelp: [...document.querySelectorAll("#docs-pane .docs-tabs button")].some((t) => /tutorial/i.test(t.textContent)), next: b?.querySelector(".tut-step.next")?.textContent }; });
     check("the tutorial is the site's, a page a chapter: an old link lands at its part, runnable cards, the Tutorial tab lit, the next chapter on, and none in the help pane", tut.at === "tutorial-02.html#tut-02-1-your-first-beeps" && tut.cards > 0 && tut.title === "2.1 Your First Beeps" && tut.book && !tut.inHelp && /3 Samples/.test(tut.next ?? ""), JSON.stringify(tut));
     await page.evaluate(() => { location.hash = "#app"; });
-    await page.waitForFunction(() => document.getElementById("info-card").hidden, null, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(() => document.getElementById("info-card").hidden, null, { timeout: 5000 }).catch(timedOut);
     if (siteBuilt) {
       const sp = await page.context().newPage();
       await sp.goto(BASE + "tutorial-09.html");
@@ -1008,7 +1067,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const words = await (async () => {
         const tp = await page.context().newPage();
         await tp.goto(BASE + "tutorial-a.html");
-        await tp.waitForSelector(".site-body:not([hidden]) .tut-part p > code span", { timeout: 30000 }).catch(() => {});
+        await tp.waitForSelector(".site-body:not([hidden]) .tut-part p > code span", { timeout: 30000 }).catch(timedOut);
         const got = await tp.evaluate(() => {
           const body = document.querySelector(".site-body:not([hidden])");
           const size = (e) => getComputedStyle(e).fontSize;
@@ -1028,7 +1087,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         const ctx = await browser.newContext({ ...HTTPS, viewport: { width, height } });
         const tp = await ctx.newPage();
         await tp.goto(BASE + "tutorial-02.html");
-        await tp.waitForSelector(".site-body:not([hidden]) .tut-page .qs-card .qs-transport", { timeout: 30000 }).catch(() => {});
+        await tp.waitForSelector(".site-body:not([hidden]) .tut-page .qs-card .qs-transport", { timeout: 30000 }).catch(timedOut);
         const got = await tp.evaluate(() => {
           const card = [...document.querySelectorAll(".tut-part .qs-card")].find((c) => c.querySelector(".qs-card-title")?.textContent === "Release Phase");
           if (!card) return null;
@@ -1072,8 +1131,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         const sp = await ctx.newPage();
         await sp.goto(BASE + "code.html");
         await sp.waitForSelector("#log-section", { timeout: 30000 });
-        await sp.waitForTimeout(800);
-        if (debug) { await sp.evaluate(() => document.querySelector('[data-drawer="debug"]')?.click()); await sp.waitForTimeout(800); }
+        await settled(sp);
+        if (debug) { await sp.evaluate(() => document.querySelector('[data-drawer="debug"]')?.click()); await settled(sp); }
         const got = await sp.evaluate(() => {
           const h = (id) => Math.round(document.getElementById(id).getBoundingClientRect().height);
           const col = document.getElementById("sidebar").getBoundingClientRect(), link = document.getElementById("link-section").getBoundingClientRect();
@@ -1096,7 +1155,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const tips = await browser.newContext({ ...HTTPS, viewport: { width: 1440, height: 900 } });
       const tp = await tips.newPage();
       await tp.goto(BASE + "tutorial-02.html");
-      await tp.waitForSelector(".tut-part section.qs-card:not(.sp-card) .qs-card-head button", { timeout: 30000 }).catch(() => {});
+      await tp.waitForSelector(".tut-part section.qs-card:not(.sp-card) .qs-card-head button", { timeout: 30000 }).catch(timedOut);
       const tipUp = () => tp.evaluate(() => [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden));
       const edit = tp.locator(".tut-part section.qs-card:not(.sp-card)").first().getByRole("button", { name: "Edit", exact: true });
       await edit.scrollIntoViewIfNeeded().catch(() => {});
@@ -1161,7 +1220,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         const ctx = await browser.newContext({ ...HTTPS, viewport: { width: 1440, height: 900 } });
         const ep = await ctx.newPage();
         await ep.goto(BASE + "tutorial-02.html");
-        await ep.waitForSelector(".tut-part section.qs-card:not(.sp-card) .qs-card-head button", { timeout: 30000 }).catch(() => {});
+        await ep.waitForSelector(".tut-part section.qs-card:not(.sp-card) .qs-card-head button", { timeout: 30000 }).catch(timedOut);
         const card = ep.locator(".tut-part section.qs-card:not(.sp-card)").first();
         const at = await card.evaluate((c) => {
           const s = c.closest(".ic-main");
@@ -1193,7 +1252,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         const ctx = await browser.newContext({ ...HTTPS, viewport: { width: 1440, height: 900 } });
         const sp2 = await ctx.newPage();
         await sp2.goto(BASE + "tutorial-02.html");
-        await sp2.waitForSelector(".tut-part section.qs-card:not(.sp-card) .qs-card-head button", { timeout: 30000 }).catch(() => {});
+        await sp2.waitForSelector(".tut-part section.qs-card:not(.sp-card) .qs-card-head button", { timeout: 30000 }).catch(timedOut);
         const edit = sp2.locator(".tut-part section.qs-card:not(.sp-card)").first().getByRole("button", { name: "Edit", exact: true });
         await edit.scrollIntoViewIfNeeded().catch(() => {});
         const box = await edit.boundingBox().catch(() => null);
@@ -1224,7 +1283,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // (the pane settles first: opening it can hand focus back to the editor a moment later)
     await page.waitForTimeout(400);
     if (intro.start) await page.locator("#quickstart-pane .qs-start").press("Enter");
-    await page.waitForSelector("#quickstart-pane .qs-card .qs-run", { timeout: 5000 }).catch(() => {});
+    await page.waitForSelector("#quickstart-pane .qs-card .qs-run", { timeout: 5000 }).catch(timedOut);
     check("a deck opens on its intro card, its words and Start, which deals the first card", intro.words.length > 0 && intro.start && (await page.locator("#quickstart-pane .qs-card .qs-run").count()) > 0, JSON.stringify(intro));
     const dealtFocus = await page.evaluate(() => { const a = document.activeElement, id = a?.getAttribute("aria-labelledby"); return { group: a?.getAttribute("role"), name: id ? document.getElementById(id)?.textContent : null, first: document.querySelector("#quickstart-pane .qs-card:not(.qs-intro) .qs-card-title")?.textContent }; });
     check("Start keeps focus in the cards: on the card it dealt, a group named by its title", dealtFocus.group === "group" && dealtFocus.name && dealtFocus.name === dealtFocus.first, JSON.stringify(dealtFocus));
@@ -1235,7 +1294,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const t = document.querySelector("#quickstart-pane .qs-card .qs-transport");
       return `${t.classList.contains("playing")}/${!t.querySelector(".qs-stop").disabled}`;
     });
-    const isPlaying = (want) => page.waitForFunction((w) => document.querySelector("#quickstart-pane .qs-card .qs-transport")?.classList.contains("playing") === w, want, { timeout: want ? 30000 : 10000 }).catch(() => {});
+    const isPlaying = (want) => page.waitForFunction((w) => document.querySelector("#quickstart-pane .qs-card .qs-transport")?.classList.contains("playing") === w, want, { timeout: want ? 30000 : 10000 }).catch(timedOut);
     const cardStates = [];
     await isPlaying(true);
     cardStates.push(await playing());
@@ -1321,7 +1380,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await setCode("live_loop :shared do\n  play 72\n  sleep 1\nend");
     await page.context().grantPermissions(["clipboard-read", "clipboard-write"]).catch(() => {});
     await page.click("#btn-share");
-    await page.waitForFunction(() => location.hash.startsWith("#code="), null, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(() => location.hash.startsWith("#code="), null, { timeout: 5000 }).catch(timedOut);
     // Save and Share, as native's: a buffer is its name and nothing else; the link's two ways side by side, then its
     // QR code, then its file; and Show link only shows it, nothing selected, Copy link being the copy
     const panelSays = await page.evaluate(() => ({
@@ -1340,7 +1399,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const url = await page.evaluate(() => location.href);
     const page2 = await browser.newPage(HTTPS);
     await page2.goto(url);
-    await page2.waitForFunction(() => window.sonicPi?.editor.getCode().includes(":shared"), null, { timeout: 60000 }).catch(() => {});
+    await page2.waitForFunction(() => window.sonicPi?.editor.getCode().includes(":shared"), null, { timeout: 60000 }).catch(timedOut);
     check("the share link restores the program", (await page2.evaluate(() => window.sonicPi?.editor.getCode() ?? "")).includes("live_loop :shared"));
     await page2.close();
     // another buffer shown while the panel is open closes it, as native's: what it shows, and what its name field names,
@@ -1407,7 +1466,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // the share panel puts the link in the address bar: the page reloaded there shows the code once, not twice
     await fp.evaluate(() => window.sonicPi.editor.setCode("live_loop :once do\n  play 66\n  sleep 1\nend\n"));
     await fp.click("#btn-share");
-    await fp.waitForFunction(() => location.hash.startsWith("#code="), null, { timeout: 5000 }).catch(() => {});
+    await fp.waitForFunction(() => location.hash.startsWith("#code="), null, { timeout: 5000 }).catch(timedOut);
     await fp.reload();
     await fp.waitForFunction(() => window.sonicPi?.workspace, null, { timeout: 60000 });
     await fp.waitForTimeout(1000);
@@ -1456,7 +1515,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await setCode("live_loop :flight do\n  play 60, amp: 0.1\n  sleep 0.25\nend");
     const sentBeforeFlight = await page.evaluate(() => window.sonicPi.session.bridge.sent);
     await page.click("#btn-run");
-    await page.waitForFunction((b) => window.sonicPi.session.bridge.sent >= b + 3, sentBeforeFlight, { timeout: 30000 }).catch(() => {});
+    await page.waitForFunction((b) => window.sonicPi.session.bridge.sent >= b + 3, sentBeforeFlight, { timeout: 30000 }).catch(timedOut);
     const flight = await page.evaluate(() => {
       const f = window.sonicPi.flight;
       f.mark("heard", "check");
@@ -1487,7 +1546,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await page.keyboard.press(`${meta}+k`);
     await page.click(".sc-row[data-id='Stop'] .sc-key");
     await page.keyboard.press(`${meta}+k`);
-    await page.waitForSelector(".sc-clash", { timeout: 3000 }).catch(() => {});
+    await page.waitForSelector(".sc-clash", { timeout: 3000 }).catch(timedOut);
     const clashChoices = await page.locator(".sc-clash button").allTextContents();
     await page.click("[data-role='reassign']").catch(() => {});
     const custom = await page.evaluate(() => ({ mode: window.sonicPi.keys.mode, ...window.sonicPi.keys.custom }));
@@ -1497,7 +1556,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const ini = await (await import("node:fs/promises")).readFile(await download.path(), "utf8");
     check("the shortcut editor exports native's .ini", ini === "[General]\nbase=emacs\nRun=\nStop=Meta+K\n", JSON.stringify(ini));
     await page.setInputFiles(".sc-foot input[type=file]", { name: "v5-keyboard-shortcuts.ini", mimeType: "text/plain", buffer: Buffer.from("[General]\nbase=win\nScope=CtrlShift+O\n") });
-    await page.waitForFunction(() => window.sonicPi.keys.custom.base === "win", null, { timeout: 3000 }).catch(() => {});
+    await page.waitForFunction(() => window.sonicPi.keys.custom.base === "win", null, { timeout: 3000 }).catch(timedOut);
     check("the shortcut editor imports native's .ini", (await page.evaluate(() => window.sonicPi.keys.custom.keys.Scope)) === "CtrlShift+O");
     await page.keyboard.press("Escape");
     check("Escape closes the shortcut editor", !(await page.evaluate(() => window.sonicPi.shortcuts.isOpen)));
@@ -1545,7 +1604,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const home = await browser.newPage({ ...HTTPS, viewport: { width: 1280, height: 900 } });
       await home.addInitScript(() => { try { localStorage.setItem("sp-help-seen", "true"); } catch {} });
       await home.goto(BASE + "index.html#synths-to-code");
-      await home.waitForSelector(".home-synth.live .sp-key", { timeout: 30000 }).catch(() => {});
+      await home.waitForSelector(".home-synth.live .sp-key", { timeout: 30000 }).catch(timedOut);
       const synth = await home.evaluate(() => { const h = document.querySelector(".home-synth"), box = h?.querySelector(".pg-piano"); return { live: !!h?.classList.contains("live"), synth: /use_synth (:\w+)/.exec(h?.querySelector(".qs-card-body")?.innerText ?? "")?.[1], dials: h?.querySelectorAll(".dial").length ?? 0, fits: !!box && box.scrollWidth <= box.clientWidth + 1 }; });
       check("the home page has a live synth in its own section, Synths as Code: keys that fit, and its dials", synth.live && synth.synth === ":pluck" && synth.dials > 4 && synth.fits, JSON.stringify(synth));
       await home.close();
@@ -1563,7 +1622,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       check("a page opened at an anchor stays there, its address kept and its list lit", w.at === "learn.html#talks" && w.lit === "talks", JSON.stringify(w));
       const loadsBefore = loads;
       await site.click('#site-nav .ic-tab[data-tab="examples"]');
-      await site.waitForFunction(() => location.pathname.endsWith("examples.html") && document.querySelector(".site-body:not([hidden]) #sp-live-cards .qs-card"), null, { timeout: 30000 }).catch(() => {});
+      await site.waitForFunction(() => location.pathname.endsWith("examples.html") && document.querySelector(".site-body:not([hidden]) #sp-live-cards .qs-card"), null, { timeout: 30000 }).catch(timedOut);
       w = await where();
       check("a tab goes to its page in the same document: the address the page's, nothing reloaded", w.at === "examples.html" && loads === loadsBefore, `${JSON.stringify(w)}, ${loads - loadsBefore} loads`);
       await site.goBack();
@@ -1573,7 +1632,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       // Code: the editor at its own address, in the same document, and Back the page again
       const loadsCode = loads;
       await site.click("#site-nav .ic-tab-code");   // Code, the word after the site's (a wide screen's)
-      await site.waitForFunction(() => location.pathname.endsWith("code.html"), null, { timeout: 5000 }).catch(() => {});
+      await site.waitForFunction(() => location.pathname.endsWith("code.html"), null, { timeout: 5000 }).catch(timedOut);
       const shown = (sel) => `(() => { const e = document.querySelector("${sel}"); return !!e && e.offsetParent !== null; })()`;
       const ed = await site.evaluate(`({ at: location.pathname.split("/").pop() + location.hash, title: document.title, lit: document.querySelector('#site-nav [aria-current="page"]')?.dataset.tab,
         word: document.querySelector("#site-nav .ic-tab-code").classList.contains("active"), icon: ${shown("#site-nav .sn-code")}, fold: ${shown("#site-nav .sn-close")},
@@ -1585,12 +1644,12 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       check("Back from the editor is the page again, where it was", w.at === "learn.html#talks" && w.lit === "talks" && (await site.evaluate(() => !document.getElementById("info-card").hidden)), JSON.stringify(w));
       // the bar's words in order, Support among them before Code, and the palette last
       await site.click('#site-nav .ic-tab[data-tab="support"]');
-      await site.waitForFunction(() => location.pathname.endsWith("support.html"), null, { timeout: 10000 }).catch(() => {});
+      await site.waitForFunction(() => location.pathname.endsWith("support.html"), null, { timeout: 10000 }).catch(timedOut);
       const sup = await site.evaluate(() => ({ at: location.pathname.split("/").pop(), lit: document.querySelector('#site-nav [aria-current="page"]')?.dataset.tab, order: [...document.querySelectorAll("#site-nav .sn-brand, #site-nav .ic-tab, #site-nav .sn-code, #site-nav .sn-theme")].filter((e) => e.offsetParent).map((e) => (e.classList.contains("sn-code") ? "code-icon" : e.dataset.tab ?? (e.classList.contains("sn-brand") ? "brand" : "palette"))).join(" ") }));
       check("the bar reads the wordmark (Home), Examples, Learn, Tutorial, Support, Code, then the code icon and the palette; Support lit on its page", sup.at === "support.html" && sup.lit === "support" && sup.order === "brand examples learn tutorial support code code-icon palette", JSON.stringify(sup));
       // the code icon: the editor too, the way in at every width
       await site.click("#site-nav .sn-code");
-      await site.waitForFunction(() => location.pathname.endsWith("code.html"), null, { timeout: 5000 }).catch(() => {});
+      await site.waitForFunction(() => location.pathname.endsWith("code.html"), null, { timeout: 5000 }).catch(timedOut);
       const byIcon = await site.evaluate(() => ({ at: location.pathname.split("/").pop(), word: document.querySelector("#site-nav .ic-tab-code").classList.contains("active") }));
       check("the code icon beside the palette is the editor too, the Code word lit", byIcon.at === "code.html" && byIcon.word, JSON.stringify(byIcon));
       await site.goBack();
@@ -1602,14 +1661,14 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       await site.evaluate(() => document.getElementById("teachers").scrollIntoView({ behavior: "instant" }));
       await site.waitForTimeout(800);
       await site.click('#site-nav .ic-tab[data-tab="support"]');
-      await site.waitForFunction(() => location.pathname.endsWith("support.html"), null, { timeout: 10000 }).catch(() => {});
+      await site.waitForFunction(() => location.pathname.endsWith("support.html"), null, { timeout: 10000 }).catch(timedOut);
       await site.click('#site-nav .ic-tab[data-tab="learn"]');
-      await site.waitForFunction(() => location.pathname.endsWith("learn.html"), null, { timeout: 10000 }).catch(() => {});
+      await site.waitForFunction(() => location.pathname.endsWith("learn.html"), null, { timeout: 10000 }).catch(timedOut);
       await site.waitForTimeout(1200);
       const top = await site.evaluate(() => ({ at: location.pathname.split("/").pop() + location.hash, top: document.querySelector(".site-body:not([hidden]) .ic-main").scrollTop }));
       check("a page gone back to by its tab opens at its top", top.at === "learn.html" && top.top === 0, JSON.stringify(top));
       await site.evaluate(() => document.getElementById("community").scrollIntoView());
-      await site.waitForFunction(() => location.hash === "#community", null, { timeout: 5000 }).catch(() => {});
+      await site.waitForFunction(() => location.hash === "#community", null, { timeout: 5000 }).catch(timedOut);
       w = await where();
       check("the address follows the section being read", w.at === "learn.html#community", JSON.stringify(w));
       const old = [];
@@ -1619,7 +1678,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         const pg = await browser.newPage({ ...HTTPS, viewport: { width: 1280, height: 900 } });
         pg.on("pageerror", (e) => siteErrors.push(e.message));
         await pg.goto(BASE + from);
-        await pg.waitForFunction((to) => location.href.endsWith(to), to, { timeout: 15000 }).catch(() => {});
+        await pg.waitForFunction((to) => location.href.endsWith(to), to, { timeout: 15000 }).catch(timedOut);
         await pg.waitForLoadState("networkidle").catch(() => {});
         const at = await pg.evaluate(() => location.pathname.split("/").pop() + location.hash);
         if (at !== to) old.push(`${from} → ${at}, not ${to}`);
@@ -1632,7 +1691,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const found = [];
       for (const f of PAGES) {
         await site.goto(BASE + f);
-        await site.waitForFunction(() => document.querySelector(".site-body:not([hidden]) .qs-card") || !document.querySelector("pre.sp-card"), null, { timeout: 30000 }).catch(() => {});
+        await site.waitForFunction(() => document.querySelector(".site-body:not([hidden]) .qs-card") || !document.querySelector("pre.sp-card"), null, { timeout: 30000 }).catch(timedOut);
         await site.waitForTimeout(800);
         await site.addScriptTag({ content: axe });
         const v = await site.evaluate(async () => (await window.axe.run(document, { rules: { "color-contrast": { enabled: false }, "meta-viewport": { enabled: false } } })).violations.map((x) => `${x.id} ×${x.nodes.length} (${x.nodes[0].target.join(" ").slice(0, 60)})`));
@@ -1652,7 +1711,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const szErrors = [];
       sz.on("pageerror", (e) => szErrors.push(e.message));
       await sz.addInitScript(() => { try { if (!sessionStorage.getItem("sz")) { sessionStorage.setItem("sz", "1"); localStorage.clear(); localStorage.setItem("sp-help-seen", "true"); } } catch {} });
-      const open = async () => { await sz.goto(BASE + "#app"); await sz.waitForFunction(() => !!window.sonicPi?.editor); await sz.waitForTimeout(300); };
+      const open = async () => { await sz.goto(BASE + "#app"); await sz.waitForFunction(() => !!window.sonicPi?.editor); await settled(sz); };
       await open();
       const mac = await sz.evaluate(() => /mac|iphone|ipad|ipod/i.test(navigator.userAgentData?.platform || navigator.platform || ""));
       const codeSize = () => sz.evaluate(() => parseInt(getComputedStyle(document.documentElement).getPropertyValue("--editor-font-size"), 10));
@@ -1667,7 +1726,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         const sizes = ["log", "cues"].map((id) => Math.round(base * Number(getComputedStyle(document.getElementById(id)).zoom) * 100) / 100);
         return sizes[0] === sizes[1] ? sizes[0] : sizes;
       });
-      const zoomTo = async (width, height) => { await sz.setViewportSize({ width, height }); await sz.waitForTimeout(300); };
+      const zoomTo = async (width, height) => { await sz.setViewportSize({ width, height }); await sz.waitForFunction((w) => innerWidth === w, width, { timeout: 30000 }).catch(timedOut); await settled(sz); };
       const firstLog = await logPx();
       for (let i = 0; i < 4; i++) await sz.keyboard.press(mac ? "Control+Equal" : "Alt+Equal");
       const grown = await codeSize(), grownLog = await logPx();
@@ -1714,7 +1773,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         await sz.mouse.down();
         await sz.mouse.move(b.x + 12, b.y + b.height / 2 + dy, { steps: 8 });
         await sz.mouse.up();
-        await sz.waitForTimeout(200);
+        await settled(sz);
       };
 
       // the scope dragged as tall as it goes, then the page zoomed: the log and the cues keep their heads
@@ -1760,7 +1819,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     {
       const first = await browser.newPage({ ...HTTPS, viewport: { width: 1280, height: 800 } });
       await first.goto(BASE + "#app");
-      await first.waitForSelector("#help-hint:not([hidden]) .hh-note", { timeout: 20000 }).catch(() => {});
+      await first.waitForSelector("#help-hint:not([hidden]) .hh-note", { timeout: 20000 }).catch(timedOut);
       const hint = await first.evaluate(() => {
         const el = document.getElementById("help-hint");
         if (!el || el.hidden) return null;
@@ -1770,7 +1829,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       check("a first visit points at Help: the Δ's echo centred on it and a note beneath it", hint && hint.off < 1 && /Toggle the documentation/.test(hint.says), JSON.stringify(hint));
       await first.click("#btn-help");
       await first.reload();
-      await first.waitForFunction(() => window.sonicPi?.editor, null, { timeout: 20000 }).catch(() => {});
+      await first.waitForFunction(() => window.sonicPi?.editor, null, { timeout: 20000 }).catch(timedOut);
       check("once Help has been opened, the pointer to it is gone for good", await first.evaluate(() => !document.getElementById("help-hint")));
       await first.close();
     }
@@ -1799,10 +1858,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         await pg.waitForFunction(() => window.sonicPi?.editor, null, { timeout: 30000 });
         await pg.evaluate(() => window.sonicPi.editor.setCode("play 60, release: 0.1\nputs :engine_up"));
         await pg.click("#btn-run");
-        await pg.waitForFunction(() => /engine_up/.test(document.getElementById("log").shadowRoot.textContent) || /Error/.test(document.getElementById("status-engine").textContent), null, { timeout: 60000 }).catch(() => {});
+        await pg.waitForFunction(() => /engine_up/.test(document.getElementById("log").shadowRoot.textContent) || /Error/.test(document.getElementById("status-engine").textContent), null, { timeout: 60000 }).catch(timedOut);
         if (runtimeAfter) {
           release();
-          await pg.waitForFunction(() => window.sonicPi.runtimeVersion, null, { timeout: 60000 }).catch(() => {});
+          await pg.waitForFunction(() => window.sonicPi.runtimeVersion, null, { timeout: 60000 }).catch(timedOut);
         }
         const out = await pg.evaluate(() => ({
           played: /engine_up/.test(document.getElementById("log").shadowRoot.textContent),
@@ -1833,15 +1892,15 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       });
       const gp = await ctx.newPage();
       await gp.goto(BASE + "code.html");
-      await gp.waitForFunction(() => window.sonicPi?.editor, null, { timeout: 30000 }).catch(() => {});
+      await gp.waitForFunction(() => window.sonicPi?.editor, null, { timeout: 30000 }).catch(timedOut);
       await gp.evaluate(() => window.sonicPi.editor.setCode('live_loop :pad do\n  sync "/gamepad:*/button/south/down"\n  puts :pressed\nend'));
       await gp.click("#btn-run");
-      await gp.waitForFunction(() => window.sonicPi.engine?.gamepad, null, { timeout: 60000 }).catch(() => {});
+      await gp.waitForFunction(() => window.sonicPi.engine?.gamepad, null, { timeout: 60000 }).catch(timedOut);
       await gp.waitForTimeout(1000);
       await gp.evaluate(() => { Object.assign(__pad.buttons[0], { pressed: true, value: 1 }); __pad.timestamp++; });
       await gp.waitForTimeout(300);
       await gp.evaluate(() => { Object.assign(__pad.buttons[0], { pressed: false, value: 0 }); __pad.axes[0] = 0.8; __pad.timestamp++; });
-      await gp.waitForFunction(() => /pressed/.test(document.getElementById("log").shadowRoot.textContent) && /\/axis\/left_x/.test(document.getElementById("cues").shadowRoot.textContent) && /\/south\/up/.test(document.getElementById("cues").shadowRoot.textContent), null, { timeout: 5000 }).catch(() => {});
+      await gp.waitForFunction(() => /pressed/.test(document.getElementById("log").shadowRoot.textContent) && /\/axis\/left_x/.test(document.getElementById("cues").shadowRoot.textContent) && /\/south\/up/.test(document.getElementById("cues").shadowRoot.textContent), null, { timeout: 5000 }).catch(timedOut);
       const pad = await gp.evaluate(() => ({ cues: [...document.getElementById("cues").shadowRoot.querySelectorAll(".shadow-pane > *")].map((e) => e.textContent.trim()).filter((t) => t.startsWith("/gamepad:")).map((t) => t.replace(/\[.*$/, "")), synced: /pressed/.test(document.getElementById("log").shadowRoot.textContent) }));
       const want = ["button/south", "button/south/down", "button/south/up", "axis/left_x"].every((w) => pad.cues.some((c) => c.endsWith(`/${w}`)));
       check("a game controller's buttons and sticks are cues, as native's, and a sync on a press wakes", want && pad.synced, JSON.stringify(pad));
@@ -1885,10 +1944,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await ph.waitForTimeout(300);
     const selected = () => ph.evaluate(() => window.sonicPi.editor.view.root.querySelector(".cm-tooltip-autocomplete li[aria-selected]")?.textContent);
     const s0 = await selected();
-    await ph.click('#input-dock .hg-button[data-skbtn="{down}"]'); await ph.waitForTimeout(120);
-    const s1 = await selected();
-    await ph.click('#input-dock .hg-button[data-skbtn="{up}"]'); await ph.waitForTimeout(120);
-    const s2 = await selected();
+    await ph.click('#input-dock .hg-button[data-skbtn="{down}"]');
+    const s1 = await until(async () => { const s = await selected(); return s !== s0 && s; }) || await selected();
+    await ph.click('#input-dock .hg-button[data-skbtn="{up}"]');
+    const s2 = await until(async () => { const s = await selected(); return s === s0 && s; }) || await selected();
     check("on a phone the code keyboard's ↓ and ↑ walk the completion list", !!s0 && s1 !== s0 && s2 === s0, `${s0} → ${s1} → ${s2}`);
     // Δ with the code keyboard up: the keyboard makes way, and the help pane shows
     await ph.keyboard.press("Escape");
@@ -1908,7 +1967,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const caretShown = await ph.evaluate(() => getComputedStyle(document.getElementById("caret-pos")).display !== "none");
     const pads = await ph.locator("#buffer-tabs .buffer-tab").count(), size = await ph.evaluate(() => window.sonicPi.workspace.size);
     await ph.click("#buffer-tabs .buffer-tab[data-idx='2']");
-    await ph.waitForTimeout(100);
+    await ph.waitForFunction(() => window.sonicPi.editor.active === 2 && document.querySelector("#buffer-tabs .buffer-tab.active")?.dataset.idx === "2", null, { timeout: 30000 }).catch(timedOut);
     const activeBuffer = await ph.evaluate(() => window.sonicPi.editor.active);
     const lit = await ph.locator("#buffer-tabs .buffer-tab.active").getAttribute("data-idx");
     check("on a phone the buffers are pads across the foot, and a tap switches",
@@ -1925,7 +1984,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         if (!shown) skip(name, "no divider shows on a phone");
         else {
           await ph.tap("#divider-grip");
-          await ph.waitForTimeout(300);
+          await settled(ph);
           const lit = await ph.evaluate(() => {
             const probe = document.createElement("div");
             probe.style.background = "var(--HighlightedBackground)";
@@ -1937,7 +1996,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
           });
           check(name, lit.bar !== lit.hi && lit.grip !== lit.hi, JSON.stringify(lit));
           await ph.tap("#divider-grip");   // the panel back, as it was
-          await ph.waitForTimeout(300);
+          await settled(ph);
         }
       }
     }
@@ -1957,7 +2016,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       await ph.evaluate(() => window.sonicPi.editor.setCode("live_loop :a do\n  sleep 1\nend\nlive_loop :b do\n  sleep 1\nend\nlive_loop :c do\n  sleep 1\nend\nlive_loop :d do\n  sleep 1\nend\nlive_loop :e do\n  play_chord [60, 64, 67], release: 1\n  sleep 0.5\nend"));
       await ph.click("#btn-run");
       await ph.evaluate(() => document.querySelector("#drawer-rail [data-drawer=insight]").click());
-      await ph.waitForFunction(() => window.sonicPi.processTree().some((n) => n.label === "live_loop :e" && n.x != null), null, { timeout: 15000 }).catch(() => {});
+      await ph.waitForFunction(() => window.sonicPi.processTree().some((n) => n.label === "live_loop :e" && n.x != null), null, { timeout: 15000 }).catch(timedOut);
       await ph.waitForTimeout(1500);   // the tree eased into its places
       const looks = [];
       for (let i = 0; i < 10; i++) {

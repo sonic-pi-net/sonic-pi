@@ -486,7 +486,7 @@ export function createPianoRoll(root, hooks) {
     hi += (thi - hi) * (thi > hi ? 0.15 : 0.04);
     if (Math.abs(tlo - lo) < 0.01) lo = tlo;
     if (Math.abs(thi - hi) < 0.01) hi = thi;
-    next.range = [tlo, thi];
+    next.range = [lo, hi];   // the range drawn this frame (still easing towards [tlo, thi] after a change), not the target
     const rowH = (rollBottom - TOP) / (hi - lo + 1);
     const yOf = (n) => TOP + (hi + 0.5 - n) * rowH;
 
