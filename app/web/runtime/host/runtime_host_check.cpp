@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Sonic Pi's runtime in a native host (runtime_host.h), driven as a plugin or an app drives it, with no engine:
-// what it hands the engine and asks to have loaded is kept and checked. Samples by name, by path and from a folder,
-// as native Sonic Pi has always taken them (lib/sonic_pi/native.rb), and several runtimes at once, each on its own
-// thread, each hearing only its own program.
+// Sonic Pi's runtime in a native host (runtime_host.h) with no engine: what it sends and what it asks to have loaded
+// are kept and checked. Every runtime here is in stepped mode, so the check moves time itself and never waits on a
+// clock. Covers samples by name, by path and from a folder (lib/sonic_pi/native.rb), several runtimes at once on
+// their own threads, and the timing of what a stepped runtime sends.
 //
 //   runtime-host-check <app/web>     (scripts/check-runtime-host.sh builds and runs it)
 #include "osc_codec.h"
 #include "runtime_host.h"
 
-#include <chrono>
 #include <cmath>
 #include <cstdio>
 #include <filesystem>
@@ -35,12 +34,6 @@ void check(const std::string& what, bool ok, const std::string& detail = "")
     std::fflush(stdout);
 }
 
-double ntpNow()
-{
-    using namespace std::chrono;
-    return duration<double>(system_clock::now().time_since_epoch()).count() + 2208988800.0;
-}
-
 // An /s_new's value for `key`, or -1.
 double opt(const osc::Message& m, const std::string& key)
 {
@@ -58,7 +51,7 @@ struct Host final : AssetLoader
     std::vector<std::string> errors;                      // the runtime's error records
     std::vector<std::pair<double, osc::Message>> timed;   // each bundled message with its bundle's time (NTP seconds)
     std::vector<std::vector<uint8_t>> raw;                // every packet sent, as bytes
-    double steppedFrom = 0.0;                             // non-zero: a stepped runtime whose time starts here
+    double steppedFrom = 0.0;                             // the runtime's starting time (NTP seconds)
     RuntimeHost runtime;
 
     void loadSynthDef(const std::string&) override {}
@@ -77,12 +70,8 @@ struct Host final : AssetLoader
     bool start(const std::string& etc, std::string* why)
     {
         RuntimeHost::Deps deps;
-        deps.now = ntpNow;
-        if (steppedFrom != 0.0)
-        {
-            deps.stepped = true;
-            deps.now = [from = steppedFrom] { return from; };
-        }
+        deps.stepped = true;
+        deps.now = [from = steppedFrom] { return from; };
         deps.loader = this;
         deps.send = [this](const std::vector<uint8_t>& bytes) {
             osc::Packet p;
@@ -111,46 +100,28 @@ struct Host final : AssetLoader
         return runtime.start({ etc + "/buffers", etc + "/samples" }, std::move(deps), why);
     }
 
-    // Until a sent message passes `test`, or two seconds have gone by.
+    // Whether a message that was sent passes `test`.
     template <typename Test>
-    bool sends(Test test)
+    bool sent_one(Test test)
     {
-        for (int i = 0; i < 200; ++i)
-        {
-            {
-                std::lock_guard<std::mutex> lk(mutex);
-                for (const auto& m : sent)
-                    if (test(m)) return true;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
+        std::lock_guard<std::mutex> lk(mutex);
+        for (const auto& m : sent)
+            if (test(m)) return true;
         return false;
     }
 
-    bool asked(const std::string& file)
-    {
-        for (int i = 0; i < 200; ++i)
-        {
-            {
-                std::lock_guard<std::mutex> lk(mutex);
-                for (const auto& b : buffers)
-                    if (b.second == file) return true;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
-        return false;
-    }
-
-    // Until a sound plays from a buffer that was asked for by `file`, its full path: what the engine can load.
+    // Whether a sound was played from a buffer loaded from `file` (its full path, which is what the engine can load).
     bool playsFrom(const std::string& file)
     {
-        return sends([&](const osc::Message& m) {
-            if (m.address != "/s_new") return false;
+        std::lock_guard<std::mutex> lk(mutex);
+        for (const auto& m : sent)
+        {
+            if (m.address != "/s_new") continue;
             const double buf = opt(m, "buf");
-            for (const auto& b : buffers)   // under the lock sends() holds
+            for (const auto& b : buffers)
                 if (b.second == file && b.first == int(buf)) return true;
-            return false;
-        });
+        }
+        return false;
     }
 
     std::string askedFor()
@@ -247,74 +218,64 @@ int main(int argc, char** argv)
         check("a record too short for a sound's parts is none", !readSoundRecord(fits.data(), 35));
     }
 
-    Host host;
-    std::string why;
-    check("the runtime starts in a native host", host.start(etc, &why), why);
-    if (failures) return 1;
-
-    host.runtime.run("play 60\n", 0, nullptr);
-    check("a run's sound reaches the host", host.sends([](const osc::Message& m) {
-        return m.address == "/s_new" && m.strArg(0) == "sonic-pi-beep" && opt(m, "note") == 60;
-    }));
-
-    // what each sound plays from: a buffer asked for by its file's path, which is what the engine can load
-    host.runtime.run("sample :loop_amen\n", 0, nullptr);
-    check("a built-in sample plays from its file", host.playsFrom(etc + "/samples/loop_amen.flac"), host.askedFor());
-
-    host.runtime.run("sample " + quoted(ownDir + "/kick.flac") + "\n", 0, nullptr);
-    check("a sample of the player's own plays from its file", host.playsFrom(ownDir + "/kick.flac"), host.askedFor());
-
-    host.runtime.run("sample " + quoted(ownDir) + ", 1\n", 0, nullptr);
-    check("a sample is taken from a folder by its place", host.playsFrom(ownDir + "/snare.flac"), host.askedFor());
-
-    host.runtime.run("sample " + quoted(ownDir + "/") + ", \"kick\"\n", 0, nullptr);
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    // Every check below uses stepped runtimes: the check moves their time itself, so nothing waits on a clock and
+    // the result does not depend on the machine's speed.
     {
-        std::lock_guard<std::mutex> lk(host.mutex);
+        const auto played = stepped(etc, "play 60\n", 1.0);
+        check("a run's sound reaches the host", played->sent_one([](const osc::Message& m) {
+            return m.address == "/s_new" && m.strArg(0) == "sonic-pi-beep" && opt(m, "note") == 60;
+        }));
+
+        // what each sound plays from: a buffer asked for by its file's path, which is what the engine can load
+        const auto builtIn = stepped(etc, "sample :loop_amen\n", 1.0);
+        check("a built-in sample plays from its file", builtIn->playsFrom(etc + "/samples/loop_amen.flac"), builtIn->askedFor());
+
+        const auto byPath = stepped(etc, "sample " + quoted(ownDir + "/kick.flac") + "\n", 1.0);
+        check("a sample of the player's own plays from its file", byPath->playsFrom(ownDir + "/kick.flac"), byPath->askedFor());
+
+        const auto byPlace = stepped(etc, "sample " + quoted(ownDir) + ", 1\n", 1.0);
+        check("a sample is taken from a folder by its place", byPlace->playsFrom(ownDir + "/snare.flac"), byPlace->askedFor());
+
+        const auto byName = stepped(etc, "sample " + quoted(ownDir + "/") + ", \"kick\"\n", 1.0);
+        check("a sample is taken from a folder by a name", byName->playsFrom(ownDir + "/kick.flac"), byName->askedFor());
+
         std::string all;
-        for (const auto& e : host.errors) all += e;
-        check("none of these runs raised an error", host.errors.empty(), all);
+        for (const Host* h : { played.get(), builtIn.get(), byPath.get(), byPlace.get(), byName.get() })
+            for (const auto& e : h->errors) all += e;
+        check("none of these runs raised an error", all.empty(), all);
     }
-    host.runtime.stop();
 
-    // Several at once, each on its own thread: each plays its own note, and none hears another's.
-    constexpr int kRuntimes = 4;
-    std::vector<std::unique_ptr<Host>> hosts;
-    for (int i = 0; i < kRuntimes; ++i) hosts.push_back(std::make_unique<Host>());
-    std::vector<std::thread> starting;
-    std::vector<std::string> whys(kRuntimes);
-    std::vector<char> started(kRuntimes, 0);
-    for (int i = 0; i < kRuntimes; ++i)
-        starting.emplace_back([&, i] { started[i] = hosts[i]->start(etc, &whys[i]) ? 1 : 0; });
-    for (auto& t : starting) t.join();
-    bool allStarted = true;
-    for (int i = 0; i < kRuntimes; ++i) allStarted = allStarted && started[i];
-    check("four runtimes start at once, each on its own thread", allStarted, whys[0]);
-    if (!allStarted) return 1;
-    for (int round = 0; round < 3; ++round)
-        for (int i = 0; i < kRuntimes; ++i)
-            hosts[size_t(i)]->runtime.run("4.times { play " + std::to_string(60 + i) + "; sleep 0.05 }\nsample " +
-                                          quoted(ownDir + "/kick.flac") + "\n", 0, nullptr);
-    bool ownNotes = true, others = false;
-    std::string detail;
-    for (int i = 0; i < kRuntimes; ++i)
+    // Several at once, each started, run and stepped on a thread of its own: each plays its own note, and none
+    // sends another's.
     {
-        ownNotes = ownNotes && hosts[size_t(i)]->sends([i](const osc::Message& m) { return m.address == "/s_new" && opt(m, "note") == 60 + i; });
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        std::lock_guard<std::mutex> lk(hosts[size_t(i)]->mutex);
-        for (const auto& m : hosts[size_t(i)]->sent)
+        constexpr int kRuntimes = 4;
+        std::vector<std::unique_ptr<Host>> hosts(kRuntimes);
+        std::vector<std::thread> threads;
+        for (int i = 0; i < kRuntimes; ++i)
+            threads.emplace_back([&, i] {
+                hosts[size_t(i)] = stepped(etc, "4.times { play " + std::to_string(60 + i) + "; sleep 0.05 }\nsample " +
+                                                quoted(ownDir + "/kick.flac") + "\n", 1.0);
+            });
+        for (auto& th : threads) th.join();
+        bool ownNotes = true, others = false;
+        std::string detail;
+        for (int i = 0; i < kRuntimes; ++i)
         {
-            const double note = m.address == "/s_new" ? opt(m, "note") : -1;
-            if (note >= 0 && note != 60 + i)
+            Host& h = *hosts[size_t(i)];
+            ownNotes = ownNotes && timesOf(h, 60 + i).size() == 4;
+            for (const auto& m : h.sent)
             {
-                others = true;
-                detail = "runtime " + std::to_string(i) + " sent note " + std::to_string(note);
+                const double note = m.address == "/s_new" ? opt(m, "note") : -1;
+                if (note >= 0 && note != 60 + i)
+                {
+                    others = true;
+                    detail = "runtime " + std::to_string(i) + " sent note " + std::to_string(note);
+                }
             }
         }
+        check("four runtimes at once, each on its own thread, each play their own four notes", ownNotes);
+        check("and none sends another's", !others, detail);
     }
-    check("each plays its own notes", ownNotes);
-    check("and none plays another's", !others, detail);
-    for (auto& h : hosts) h->runtime.stop();
 
     // ── Stepped mode: the caller moves time with advanceTo, and nothing waits on a clock ──
     {
