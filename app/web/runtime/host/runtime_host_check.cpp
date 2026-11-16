@@ -9,6 +9,7 @@
 #include "runtime_host.h"
 
 #include <chrono>
+#include <cmath>
 #include <cstdio>
 #include <filesystem>
 #include <memory>
@@ -55,6 +56,9 @@ struct Host final : AssetLoader
     std::vector<osc::Message> sent;                       // every message of every bundle
     std::vector<std::pair<int, std::string>> buffers;     // what loadBuffer was asked for
     std::vector<std::string> errors;                      // the runtime's error records
+    std::vector<std::pair<double, osc::Message>> timed;   // each bundled message with its bundle's time (NTP seconds)
+    std::vector<std::vector<uint8_t>> raw;                // every packet sent, as bytes
+    double steppedFrom = 0.0;                             // non-zero: a stepped runtime whose time starts here
     RuntimeHost runtime;
 
     void loadSynthDef(const std::string&) override {}
@@ -74,11 +78,18 @@ struct Host final : AssetLoader
     {
         RuntimeHost::Deps deps;
         deps.now = ntpNow;
+        if (steppedFrom != 0.0)
+        {
+            deps.stepped = true;
+            deps.now = [from = steppedFrom] { return from; };
+        }
         deps.loader = this;
         deps.send = [this](const std::vector<uint8_t>& bytes) {
             osc::Packet p;
             if (!osc::decode(bytes.data(), bytes.size(), p)) return;
             std::lock_guard<std::mutex> lk(mutex);
+            raw.push_back(bytes);
+            for (const auto& m : p.messages) timed.emplace_back(p.timeTag, m);
             for (auto& m : p.messages) sent.push_back(std::move(m));
         };
         deps.record = [this](const osc::Message& m) {
@@ -156,6 +167,43 @@ struct Host final : AssetLoader
 
 
 std::string quoted(const std::string& s) { return "\"" + s + "\""; }
+
+// A stepped runtime: `code` run at kSteppedFrom, then time moved on a block at a time for `seconds`, with no waiting.
+// What it sent is in the returned host.
+constexpr double kSteppedFrom = 1000.0;          // NTP seconds; no real clock reads this
+constexpr double kBlockSeconds = 512.0 / 48000.0;
+std::unique_ptr<Host> stepped(const std::string& etc, const std::string& code, double seconds)
+{
+    auto host = std::make_unique<Host>();
+    host->steppedFrom = kSteppedFrom;
+    std::string why;
+    if (!host->start(etc, &why))
+    {
+        check("a stepped runtime starts", false, why);
+        return host;
+    }
+    host->runtime.run(code, 0, nullptr);
+    for (int block = 1; block * kBlockSeconds <= seconds; ++block)
+        host->runtime.advanceTo(kSteppedFrom + block * kBlockSeconds);
+    host->runtime.stop();
+    return host;
+}
+
+// The bundle times of every /s_new playing `note`, in the order sent.
+std::vector<double> timesOf(const Host& host, double note)
+{
+    std::vector<double> times;
+    for (const auto& [time, m] : host.timed)
+        if (m.address == "/s_new" && opt(m, "note") == note) times.push_back(time);
+    return times;
+}
+
+std::string listed(const std::vector<double>& v)
+{
+    std::string out;
+    for (double x : v) out += std::to_string(x) + " ";
+    return out;
+}
 
 } // namespace
 
@@ -267,6 +315,38 @@ int main(int argc, char** argv)
     check("each plays its own notes", ownNotes);
     check("and none plays another's", !others, detail);
     for (auto& h : hosts) h->runtime.stop();
+
+    // ── Stepped mode: the caller moves time with advanceTo, and nothing waits on a clock ──
+    {
+        const auto near = [](double a, double b) { return std::abs(a - b) < 1e-6; };
+
+        const auto beats = stepped(etc, "10.times { play 60; sleep 1 }\n", 12.0);
+        const auto t60 = timesOf(*beats, 60);
+        bool spaced = t60.size() == 10;
+        for (size_t i = 1; spaced && i < t60.size(); ++i) spaced = near(t60[i] - t60[i - 1], 1.0);
+        check("stepped: ten notes a second apart are sent with bundle times exactly 1 s apart", spaced, listed(t60));
+        check("stepped: the first note's time is at or after the start time", !t60.empty() && t60[0] >= kSteppedFrom, listed(t60));
+
+        const auto again = stepped(etc, "10.times { play 60; sleep 1 }\n", 12.0);
+        check("stepped: the same code run twice sends byte-identical packets", !beats->raw.empty() && beats->raw == again->raw,
+              std::to_string(beats->raw.size()) + " packets, then " + std::to_string(again->raw.size()));
+
+        const auto fast = stepped(etc, "use_bpm 120\n4.times { play 62; sleep 1 }\n", 4.0);
+        const auto t62 = timesOf(*fast, 62);
+        bool halves = t62.size() == 4;
+        for (size_t i = 1; halves && i < t62.size(); ++i) halves = near(t62[i] - t62[i - 1], 0.5);
+        check("stepped: at 120 bpm a beat is 0.5 s", halves, listed(t62));
+
+        const auto cued = stepped(etc, "in_thread { sync :go; play 72 }\nplay 60\nsleep 2\ncue :go\n", 4.0);
+        const auto first = timesOf(*cued, 60), synced = timesOf(*cued, 72);
+        check("stepped: a thread waiting on sync plays at the time of the cue, 2 s after the first note",
+              first.size() == 1 && synced.size() == 1 && near(synced[0] - first[0], 2.0), listed(first) + "| " + listed(synced));
+
+        std::string all;
+        for (const Host* h : { beats.get(), again.get(), fast.get(), cued.get() })
+            for (const auto& e : h->errors) all += e;
+        check("stepped: none of these runs raised an error", all.empty(), all);
+    }
 
     std::printf("%d of %d checks failed\n", failures, checks);
     return failures ? 1 : 0;

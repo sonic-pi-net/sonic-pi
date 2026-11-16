@@ -275,9 +275,16 @@ RuntimeHost::~RuntimeHost()
     stop();
 }
 
+// The current time, NTP seconds: the engine's clock, or in stepped mode the time last advanced to.
+double RuntimeHost::now() const
+{
+    return m_deps.stepped ? m_steppedNow : m_deps.now();
+}
+
 bool RuntimeHost::start(const Paths& paths, Deps deps, std::string* err)
 {
     m_deps = std::move(deps);
+    if (m_deps.stepped && m_deps.now) m_steppedNow = m_deps.now();
     m_samplesDir = files::runtimePath(paths.samples);
     while (!m_samplesDir.empty() && m_samplesDir.back() == '/') m_samplesDir.pop_back();
     std::promise<std::string> booted;
@@ -423,7 +430,7 @@ void RuntimeHost::run(std::string code, int group, std::function<void(int)> repl
 void RuntimeHost::doRun(const std::string& code, int group, std::function<void(int)> reply)
 {
     preload(code);
-    const double now = m_deps.now();
+    const double now = this->now();
     if (!m_t0) m_t0 = now;
     const int job = sp_run_group(code.c_str(), now, group);
     // the job is known before its first records are read: a record of the run's head (an error, a load_example) names it
@@ -433,6 +440,43 @@ void RuntimeHost::doRun(const std::string& code, int group, std::function<void(i
     m_running = true;
     if (m_deps.state) m_deps.state(true);
     tick();
+}
+
+void RuntimeHost::advanceTo(double time)
+{
+    if (!m_deps.stepped) return;
+    std::promise<void> done;
+    post([this, time, &done] {
+        runDue(time);
+        if (time > m_steppedNow) m_steppedNow = time;
+        pump();
+        done.set_value();
+    });
+    done.get_future().wait();
+}
+
+// Stepped mode, on the runtime's thread: tick the runtime at each of its wake times up to `until`, in order. Each
+// tick is given the wake time itself, so what a thread does is stamped with the time it asked for and not the time
+// the caller happened to advance to.
+void RuntimeHost::runDue(double until)
+{
+    while (m_running)
+    {
+        const double at = std::max(m_nextWake.value_or(m_steppedNow), m_steppedNow);
+        if (at > until) return;
+        m_steppedNow = at;
+        const double next = sp_tick(at);
+        drain();
+        if (m_deps.ticked) m_deps.ticked();
+        if (next < 0)
+        {
+            m_running = false;
+            m_nextWake.reset();
+            if (m_deps.state) m_deps.state(false);
+            return;
+        }
+        m_nextWake = next;
+    }
 }
 
 void RuntimeHost::stopAll(std::function<void()> done)
@@ -455,7 +499,7 @@ void RuntimeHost::stopAll(std::function<void()> done)
 void RuntimeHost::silence(double fade, double since)
 {
     post([this, fade, since] {
-        sp_silence(fade, since, m_deps.now());
+        sp_silence(fade, since, now());
         drain();
     });
 }
@@ -463,7 +507,7 @@ void RuntimeHost::silence(double fade, double since)
 void RuntimeHost::stopJob(int job)
 {
     post([this, job] {
-        sp_stop_run(job, 0.0, m_deps.now());
+        sp_stop_run(job, 0.0, now());
         drain();
         if (m_deps.ticked) m_deps.ticked();
         if (!m_running)
@@ -478,7 +522,7 @@ void RuntimeHost::stopJob(int job)
 void RuntimeHost::stopRun(int job, double fade)
 {
     post([this, job, fade] {
-        sp_stop_run(job, fade, m_deps.now());
+        sp_stop_run(job, fade, now());
         drain();
         if (m_deps.ticked) m_deps.ticked();
         if (!m_running)
@@ -493,7 +537,7 @@ void RuntimeHost::stopRun(int job, double fade)
 void RuntimeHost::stopGroup(int group, double fade)
 {
     post([this, group, fade] {
-        sp_stop_group(group, fade, m_deps.now());
+        sp_stop_group(group, fade, now());
         drain();
         if (m_deps.ticked) m_deps.ticked();
         if (!m_running)
@@ -513,7 +557,7 @@ void RuntimeHost::groupUnder(int group, int parent)
 void RuntimeHost::cue(std::string address, std::vector<osc::Value> args)
 {
     post([this, address = std::move(address), args = std::move(args)] {
-        sp_cue(address.c_str(), cueValues(args).c_str(), m_deps.now());
+        sp_cue(address.c_str(), cueValues(args).c_str(), now());
         drain();   // the cue's own record, before the tick empties the outbox to fill it again
         // a woken sync runs now; a program whose threads all wait on syncs has stopped ticking
         if (!m_running)
@@ -528,7 +572,7 @@ void RuntimeHost::cue(std::string address, std::vector<osc::Value> args)
 void RuntimeHost::setLinkBpm(double bpm)
 {
     post([this, bpm] {
-        sp_set_link_bpm(bpm, m_deps.now() + schedAhead());
+        sp_set_link_bpm(bpm, now() + schedAhead());
         if (m_running) tick();   // a sleeping thread may now be due sooner
     });
 }
@@ -537,7 +581,7 @@ void RuntimeHost::setLinkGrid(double bpm, double beatOrigin)
 {
     post([this, bpm, beatOrigin] {
         // from a schedule-ahead after now, as a tempo change is: what is already on its way sounds as it was
-        const double at = m_deps.now() + schedAhead();
+        const double at = now() + schedAhead();
         sp_set_link_grid(bpm, at, (at - beatOrigin) * bpm / 60.0);
         if (m_running) tick();   // a sleeping thread may now be due sooner
     });
@@ -579,11 +623,18 @@ void RuntimeHost::synthdefLoaded(const std::string&, bool)
 void RuntimeHost::tick()
 {
     if (!m_running) return;
+    if (m_deps.stepped)
+    {
+        // Something changed what is due (a run started, a cue arrived, the tempo moved): ask the runtime again now.
+        m_nextWake.reset();
+        runDue(m_steppedNow);
+        return;
+    }
     disarm();
     const double t0 = steadySeconds();
     const double late = m_expectedWake ? t0 - *m_expectedWake : 0.0;
     m_expectedWake.reset();
-    const double now = m_deps.now();
+    const double now = this->now();
     // time lost since the last tick — this thread held, or the engine's clock
     // jumped — over a second of it moves the schedule on by that much, so the
     // music carries on from where it was instead of racing through what it missed
@@ -736,7 +787,7 @@ void RuntimeHost::sendSound(Sound& q)
         if (secs != 0)
         {
             const double time = double(secs) + double(uint32_t(be32(&q.bundle[12]))) / 4294967296.0;
-            const double now = m_deps.now();
+            const double now = this->now();
             if (time < now) m_deps.late(now - time, q.buf >= 0 ? "buffer " + std::to_string(q.buf) : "synthdef " + q.name);
         }
     }
@@ -813,7 +864,7 @@ void RuntimeHost::preload(const std::string& code)
 
 std::vector<double> RuntimeHost::processTable()
 {
-    const double* p = sp_process_table(m_deps.now ? m_deps.now() : 0.0);
+    const double* p = sp_process_table(m_deps.now ? now() : 0.0);
     const int n = sp_process_table_len();
     if (!p || n <= 0) return {};
     return std::vector<double>(p, p + n);

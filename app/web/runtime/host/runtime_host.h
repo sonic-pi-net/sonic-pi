@@ -92,6 +92,10 @@ public:
     struct Deps
     {
         std::function<double()> now;                                     // the engine's clock, NTP seconds
+        // Stepped mode. The runtime thread never waits on a clock: time moves only when the caller calls advanceTo,
+        // and `now` is read once, at start, for the starting time. For offline rendering and tests, where the result
+        // must not depend on how fast the machine runs.
+        bool stepped = false;
         std::function<void(const std::vector<uint8_t>&)> send;          // a sound's bundle, for the engine
         AssetLoader* loader = nullptr;
         std::function<void(const osc::Message&)> record;                // a record for the GUI (/sonic-pi/<kind>)
@@ -159,6 +163,10 @@ public:
 
     // ── On the runtime's thread only ──────────────────────────────────────
     // The process table as it stands: FieldCount doubles per row.
+    // Stepped mode only: run everything due at or before `time` (NTP seconds), in order, each thread at its own wake
+    // time, and return once it has all run and its sounds have been sent. Later calls must not go back in time.
+    void advanceTo(double time);
+
     std::vector<double> processTable();
     // The runs with something of theirs live (web/runtime.js liveRuns).
     static std::vector<int> liveRuns(const std::vector<double>& table);
@@ -191,6 +199,8 @@ private:
     void threadMain(Paths paths, std::promise<std::string>* booted);
     void doRun(const std::string& code, int group, std::function<void(int)> reply);
     void tick();
+    double now() const;
+    void runDue(double until);
     void drain();
     bool ready(const Sound& q);
     bool loaded(const Sound& q, bool& failed);
@@ -226,6 +236,8 @@ private:
     bool m_running = false;
     std::optional<double> m_t0;
     std::optional<double> m_expectedWake;             // seconds on the steady clock
+    double m_steppedNow = 0.0;                        // stepped mode: the time advanced to
+    std::optional<double> m_nextWake;                 // stepped mode: when the runtime next wants a tick; none: now
     std::optional<double> m_lastNow, m_lastWall;
     int m_stops = 0;
     std::deque<Sound> m_queue;
