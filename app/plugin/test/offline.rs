@@ -7,7 +7,7 @@
 use sonic_pi_plugin::instance::{Instance, Transport};
 
 mod common;
-use common::{frequency, onsets, own_samples, peak, resources, BLOCK, RATE};
+use common::{frequency, keep, logged, onsets, own_samples, peak, resources, Heard, BLOCK, RATE};
 
 /// NTP seconds. Arbitrary, and nowhere near the real time, so a clock read by mistake shows up.
 const ORIGIN: f64 = 1000.0;
@@ -272,4 +272,69 @@ fn the_hosts_input_is_heard_through_live_audio_and_only_while_it_is_asked_for() 
     render_stereo(&instance, seconds(1.0), Some(330.0));
     let after = render_stereo(&instance, seconds(0.5), Some(330.0)).0;
     assert!(peak(&after) < 1e-3, "stopped, the input is not heard, peak {}", peak(&after));
+}
+
+/// Starts listening to `instance`. The returned Heard must outlive the listening: call `deaf` before it is dropped.
+fn listening(instance: &Instance) -> Box<Heard> {
+    let heard = Box::new(Heard(std::sync::Mutex::new(Vec::new())));
+    // SAFETY: the box is not moved or dropped until `deaf` has stopped the listening.
+    unsafe { instance.listen(Some(keep), (&*heard as *const Heard).cast_mut().cast()) };
+    heard
+}
+
+fn deaf(instance: &Instance) {
+    // SAFETY: no listener and no context.
+    unsafe { instance.listen(None, std::ptr::null_mut()) };
+}
+
+/// The job number of the first run the instance reported.
+fn job_of(heard: &Heard) -> i32 {
+    heard.0.lock().unwrap().iter()
+        .find_map(|(k, b)| (*k == sonic_pi_plugin::instance::SAYS_RUN).then(|| i32::from_le_bytes([b[0], b[1], b[2], b[3]])))
+        .expect("the run reported its job")
+}
+
+/// Runs `code` as a card's run (group 2000), checks it sounds, stops it by its job with a 0.25 s fade, and checks
+/// the last half second of the 2.5 s after that is silent.
+fn runs_then_stops_by_its_job(code: &str, warm_up: f64) {
+    let instance = offline();
+    render_until_loaded(&instance);
+    let heard = listening(&instance);
+    instance.run_in(code, 2000);
+    let playing = render(&instance, seconds(warm_up));
+    let job = job_of(&heard);
+    instance.stop_run(job, 0.25);
+    let after = render(&instance, seconds(2.5));
+    deaf(&instance);
+    assert!(peak(&playing) > 0.05, "it sounds: peak {}", peak(&playing));
+    let tail = &after[after.len() - 24_000..];
+    assert!(peak(tail) < 1e-4, "stopped by its job (run {job}), it is silent: peak {}", peak(tail));
+}
+
+#[test]
+fn a_cards_loop_stops_when_its_run_is_stopped_by_job() {
+    runs_then_stops_by_its_job(
+        "use_arg_checks true; __warn_unknown_opts true; with_fx :scope_out, scope_num: 1 do\n\
+         live_loop :drone do\n  synth :saw, note: 50, sustain: 1, release: 0.1, amp: 0.4\n  sleep 1\nend\nend\n",
+        1.5,
+    );
+}
+
+#[test]
+fn an_example_piece_stops_when_its_run_is_stopped_by_job() {
+    let manifest = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let example = std::fs::read_to_string(manifest.join("../../etc/examples/wizard/tilburg_2.rb")).unwrap();
+    runs_then_stops_by_its_job(&format!("use_arg_checks true; __warn_unknown_opts true; with_fx :scope_out, scope_num: 1 do\n{example}\nend\n"), 3.0);
+}
+
+#[test]
+fn a_hundred_reverbs_at_once_are_not_refused_by_the_engine() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    let heard = listening(&instance);
+    instance.run("100.times do\n  with_fx :reverb, room: 0.9 do\n    play 60, release: 0.5, amp: 0.05\n  end\nend\n");
+    let sound = render(&instance, seconds(1.5));
+    deaf(&instance);
+    assert_eq!(logged(&heard, "/fail"), None, "the engine refused nothing");
+    assert!(peak(&sound) > 0.01, "they sound: peak {}", peak(&sound));
 }

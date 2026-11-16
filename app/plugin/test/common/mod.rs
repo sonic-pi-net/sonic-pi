@@ -81,3 +81,26 @@ pub fn own_samples() -> PathBuf {
     }
     dir
 }
+
+/// What an instance has said to its listener (Instance::listen): each message's kind and bytes, in order.
+pub struct Heard(pub std::sync::Mutex<Vec<(u32, Vec<u8>)>>);
+
+/// The listener that fills a Heard.
+pub unsafe extern "C" fn keep(ctx: *mut std::ffi::c_void, kind: u32, bytes: *const u8, size: u32) {
+    // SAFETY: the Heard the test handed over, alive until it stops listening; `size` bytes for the call.
+    let heard = unsafe { &*ctx.cast::<Heard>() };
+    let bytes = if size == 0 { Vec::new() } else { unsafe { std::slice::from_raw_parts(bytes, size as usize) }.to_vec() };
+    // what these tests look in: a numbered message without its number, and every line for the System log as one kind
+    use sonic_pi_plugin::instance::{NUMBERED, SAYS_ENGINE, SAYS_LOADS, SAYS_LOG, SAYS_RUNTIME};
+    let bytes = if NUMBERED.contains(&kind) { bytes[8..].to_vec() } else { bytes };
+    let kind = if [SAYS_ENGINE, SAYS_RUNTIME, SAYS_LOADS].contains(&kind) { SAYS_LOG } else { kind };
+    heard.0.lock().unwrap().push((kind, bytes));
+}
+
+
+pub fn logged(heard: &Heard, needle: &str) -> Option<String> {
+    heard.0.lock().unwrap().iter().find_map(|(kind, b)| {
+        let text = String::from_utf8_lossy(b);
+        (*kind == sonic_pi_plugin::instance::SAYS_LOG && text.contains(needle)).then(|| text.into_owned())
+    })
+}
