@@ -64,10 +64,13 @@ module SonicPi
                                      flags: 0, meter_num: 4, meter_den: 4)
     end
 
+    # The wall clock the API reads, in Unix seconds: fixed, so a reading of "now" is exact.
+    WALL = 1_700_000_000.25
+
     def api(snap = snapshot, replies = {})
       @comms = FakeComms.new(replies)
       @reader = FakeReader.new(snap)
-      LinkAPI.new("127.0.0.1", 4556, {}, comms: @comms, clock_reader: @reader)
+      LinkAPI.new("127.0.0.1", 4556, {}, comms: @comms, clock_reader: @reader, wall_clock: -> { WALL })
     end
 
     # ── the Link timeline is answered locally ─────────────────────────────
@@ -110,30 +113,25 @@ module SonicPi
     end
 
     def test_now_beat_and_phase_reads_the_wall_clock
-      origin = Time.now.to_f + NTP - 10.0        # beat 0 was ten seconds ago
-      a = api(snapshot(bpm: 60.0, origin_ntp: origin))
-      before = ((Time.now.to_f + NTP) * 1e6).round
+      a = api(snapshot(bpm: 60.0, origin_ntp: WALL + NTP - 10.0))   # beat 0 was ten seconds ago
       t, beat, phase = a.link_get_now_beat_and_phase(4)
-      after = ((Time.now.to_f + NTP) * 1e6).round
-      assert t.between?(before, after), "now #{t} not within [#{before}, #{after}]"
-      assert_in_delta 10.0, beat, 0.05
-      assert_in_delta 2.0, phase, 0.05
+      assert_equal ((WALL + NTP) * 1e6).round, t
+      assert_in_delta 10.0, beat, 1e-6
+      assert_in_delta 2.0, phase, 1e-6
       assert_empty @comms.rpcs
     end
 
     def test_current_time_is_local
       a = api
-      before = ((Time.now.to_f + NTP) * 1e6).round
-      t = a.link_current_time
-      assert t >= before
+      assert_equal ((WALL + NTP) * 1e6).round, a.link_current_time
       assert_empty @comms.rpcs
     end
 
     def test_current_time_and_beat_quantises_locally
-      a = api(snapshot(bpm: 60.0, origin_ntp: Time.now.to_f + NTP - 10.4))
+      a = api(snapshot(bpm: 60.0, origin_ntp: WALL + NTP - 10.4))
       clock_time, beat = a.link_current_time_and_beat
       assert_equal 11, beat
-      assert_in_delta Time.now.to_f + 0.6, clock_time, 0.05
+      assert_in_delta WALL + 0.6, clock_time, 1e-6
       assert_empty @comms.rpcs
     end
 
@@ -154,10 +152,10 @@ module SonicPi
     end
 
     def test_next_beat_at_phase_needs_no_rpc
-      a = api(snapshot(bpm: 120.0, origin_ntp: Time.now.to_f + NTP))
+      a = api(snapshot(bpm: 120.0, origin_ntp: WALL + NTP))   # beat 0 is now
       beat, time = a.link_get_next_beat_and_clock_time_at_phase(0, 4, 0.5)
-      assert_equal 0, beat % 4
-      assert time > Time.now.to_f + 0.4
+      assert_in_delta 4.0, beat, 1e-9            # the next bar
+      assert_in_delta WALL + 2.0, time, 1e-6      # two seconds on at 120
       assert_empty @comms.rpcs
     end
 

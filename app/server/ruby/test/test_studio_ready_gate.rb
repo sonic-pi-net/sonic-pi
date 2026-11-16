@@ -58,6 +58,16 @@ module SonicPi
       @gate = StudioReadyGate.new
     end
 
+    # Waits until `thread` is blocked (Ruby reports a thread waiting on a lock as "sleep") or has finished. The
+    # limit is a hang guard, not part of what is tested.
+    def blocked_or_done(thread, secs = 30)
+      deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + secs
+      until thread.status == "sleep" || !thread.status
+        flunk "the thread neither blocked nor finished in #{secs}s" if Process.clock_gettime(Process::CLOCK_MONOTONIC) > deadline
+        sleep 0.001
+      end
+    end
+
     def test_concurrent_readers_do_not_block_each_other
       # Prove parallelism deterministically. Each reader thread
       # acquires the read lock then rendezvous at a barrier requiring
@@ -83,17 +93,18 @@ module SonicPi
     end
 
     def test_writer_blocks_new_readers_until_release
+      held, release = Queue.new, Queue.new
       writer_done = false
       reader_started_after_writer = false
 
       writer = Thread.new do
         @gate.with_studio_writer do
-          sleep 0.15
+          held << true
+          release.pop
           writer_done = true
         end
       end
-
-      sleep 0.05  # ensure writer has acquired
+      held.pop   # the writer has the lock
 
       reader = Thread.new do
         @gate.with_studio_ready(:test_op) do
@@ -101,23 +112,26 @@ module SonicPi
           reader_started_after_writer = writer_done
         end
       end
+      blocked_or_done(reader)   # a working gate has it waiting; a broken one has let it through
+      release << true
 
       [writer, reader].each(&:join)
       assert reader_started_after_writer, "Reader proceeded while writer held the lock"
     end
 
     def test_writer_waits_for_in_flight_reader_to_finish
+      held, release = Queue.new, Queue.new
       reader_done = false
       writer_started_after_reader = false
 
       reader = Thread.new do
         @gate.with_studio_ready(:test_op) do
-          sleep 0.15
+          held << true
+          release.pop
           reader_done = true
         end
       end
-
-      sleep 0.05  # ensure reader has acquired
+      held.pop   # the reader has the lock
 
       writer = Thread.new do
         @gate.with_studio_writer do
@@ -125,6 +139,8 @@ module SonicPi
           writer_started_after_reader = reader_done
         end
       end
+      blocked_or_done(writer)   # a working gate has it waiting; a broken one has let it through
+      release << true
 
       [reader, writer].each(&:join)
       assert writer_started_after_reader,
@@ -157,13 +173,22 @@ module SonicPi
     end
 
     def test_permanently_broken_raises_immediately_without_blocking
+      # a writer holds the lock, so a caller that waited for it would block
+      held, release = Queue.new, Queue.new
+      writer = Thread.new { @gate.with_studio_writer { held << true; release.pop } }
+      held.pop
       @gate.mark_permanently_broken!("supersonic crashed during cold-swap")
-      start = Time.now
-      assert_raises(StudioCurrentlyRebootingError) do
-        @gate.with_studio_ready(:test_op) { flunk "should not have entered block" }
+      caller = Thread.new do
+        @gate.with_studio_ready(:test_op) { :entered }
+      rescue StudioCurrentlyRebootingError => e
+        e
       end
-      elapsed = Time.now - start
-      assert elapsed < 0.1, "took #{elapsed}s — should raise immediately, not wait"
+      blocked_or_done(caller)
+      finished = !caller.status
+      release << true
+      [writer, caller].each(&:join)
+      assert finished, "it waited for the writer: it should raise without waiting"
+      assert_kind_of StudioCurrentlyRebootingError, caller.value
     end
 
     def test_op_name_appears_in_broken_error_message

@@ -42,7 +42,12 @@ module SonicPi
     # SONIC_PI_LINK_CLOCK_RPC=1 in the environment turns the shared-memory
     # clock off for the session, so a wrong beat in the field can be laid at
     # the door of the reader or of the engine rather than argued about.
-    def initialize(supersonic_host, supersonic_port, handlers, comms: nil, clock_reader: :default)
+    #
+    # wall_clock: what "now" is read from, in Unix seconds. A test gives one
+    # that does not move.
+    def initialize(supersonic_host, supersonic_port, handlers, comms: nil, clock_reader: :default,
+                   wall_clock: -> { Time.now.to_f })
+      @wall_clock = wall_clock
       @incoming_tempo_change_cv = ConditionVariable.new
       @incoming_tempo_change_mut = Mutex.new
 
@@ -429,7 +434,7 @@ module SonicPi
 
     # Wall-clock now in NTP microseconds, as the engine measures it.
     def now_ntp_micros
-      ((Time.now.to_f + NTP_EPOCH_OFFSET) * 1_000_000).round
+      ((@wall_clock.call + NTP_EPOCH_OFFSET) * 1_000_000).round
     end
 
     # The engine answers time queries in the NTP (wall-clock) domain, so the only
