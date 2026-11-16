@@ -81,15 +81,17 @@ class TcpOscClientIntegrationTest < Minitest::Test
 
   def test_timestamped_bundle_schedules
     p = SonicPi::Promise.new
-    @client.add_method('/synced') { |args| p.deliver!(args) unless p.delivered? }
+    @client.add_method('/synced') { |args| p.deliver!([args, Time.now]) unless p.delivered? }
     # /sync inside a near-future timestamped bundle: engine must hold it
-    # until due, then reply /synced with our id.
+    # until due, then reply /synced with our id. Measured from the bundle's
+    # own time, so a slow test thread only makes the reply look later. The
+    # engine runs a bundle in the audio block that holds its time, which it
+    # renders a little before that time, so 50 ms early is allowed.
     ts = Time.now + 0.2
     @client.send_ts(ts, nil, nil, '/sync', 77)
-    t0 = Time.now
-    args = await(p)
+    args, arrived = await(p)
     assert_equal 77, args[0]
-    assert_operator (Time.now - t0), :>=, 0.1, 'reply must not arrive before the bundle is due'
+    assert_operator arrived - ts, :>=, -0.05, 'reply must not arrive before the bundle is due'
   end
 
   def test_notify_subscribe_receives_reply_on_connection

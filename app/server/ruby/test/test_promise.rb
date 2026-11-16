@@ -90,8 +90,8 @@ module SonicPi
           p.get
         end
 
-        Kernel.sleep 0.5
-        assert_equal "sleep", t.status
+        # blocked waiting for a value: Ruby reports that as "sleep". If get returned, the thread would have finished
+        assert wait_until { t.status == "sleep" }, "get did not block: the thread is #{t.status.inspect}"
         t.kill
       end
     end
