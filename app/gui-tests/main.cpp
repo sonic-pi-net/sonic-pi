@@ -9,12 +9,19 @@
 #include <QStyle>
 #include <QTemporaryDir>
 #include <catch2/catch_session.hpp>
+#include <catch2/catch_test_case_info.hpp>
 #include <catch2/reporters/catch_reporter_event_listener.hpp>
 #include <catch2/reporters/catch_reporter_registrars.hpp>
 
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
+#ifdef Q_OS_WIN
+#define NOMINMAX
+#include <crtdbg.h>
+#include <windows.h>
+#endif
 
 // A Qt warning is a fault in the app — a layout asked of a widget that has none,
 // a signal connected to nothing, a painter opened on a dead device — and every
@@ -80,6 +87,23 @@ private:
     QByteArray m_styleClass;
 };
 CATCH_REGISTER_LISTENER(ApplicationState)
+
+// SONIC_PI_TEST_NAMES: each case's name as it starts, on stderr. Catch2 says nothing of a case that passes, so a run
+// that stops part-way (a hang, a crash with no message) otherwise leaves no word of where: CI sets it.
+class CaseNames : public Catch::EventListenerBase
+{
+public:
+    using Catch::EventListenerBase::EventListenerBase;
+
+    void testCaseStarting(const Catch::TestCaseInfo& info) override
+    {
+        if (qEnvironmentVariableIsEmpty("SONIC_PI_TEST_NAMES"))
+            return;
+        std::fprintf(stderr, "case: %s\n", info.name.c_str());
+        std::fflush(stderr);
+    }
+};
+CATCH_REGISTER_LISTENER(CaseNames)
 } // namespace
 
 #ifdef Q_OS_MACOS
@@ -91,6 +115,18 @@ namespace SonicPi { void setPopupBelowSwitcher(void*) {} void setWindowAccessibi
 
 int main(int argc, char** argv)
 {
+#ifdef Q_OS_WIN
+    // On Windows a failure that ends the process (abort, a failed assertion in the C runtime, a crash) first asks
+    // about it in a dialog, and a run with nobody to answer waits on it for ever: CI's did, for six hours a time.
+    // The report goes to stderr and the process ends, as on every other platform.
+    SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX | SEM_NOOPENFILEERRORBOX);
+    _set_abort_behavior(0, _WRITE_ABORT_MSG | _CALL_REPORTFAULT);
+    for (int kind : { _CRT_WARN, _CRT_ERROR, _CRT_ASSERT })
+    {
+        _CrtSetReportMode(kind, _CRTDBG_MODE_FILE);
+        _CrtSetReportFile(kind, _CRTDBG_FILE_STDERR);
+    }
+#endif
     if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM"))
         qputenv("QT_QPA_PLATFORM", "offscreen");
     // Qt wants a private runtime directory and warns when it has to make one

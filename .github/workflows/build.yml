@@ -296,6 +296,7 @@ jobs:
         working-directory: ${{github.workspace}}/app/build/gui-tests
         env:
           QT_QPA_PLATFORM: offscreen
+          SONIC_PI_TEST_NAMES: 1    # each case named as it starts, so a run that stops says where
         run: ctest --verbose
         if: matrix.os == 'macos-latest'
 
@@ -303,6 +304,7 @@ jobs:
         working-directory: ${{github.workspace}}/app/build/gui-tests
         env:
           QT_QPA_PLATFORM: offscreen
+          SONIC_PI_TEST_NAMES: 1    # each case named as it starts, so a run that stops says where
         run: ctest --verbose
         if: matrix.os == 'ubuntu-latest'
 
@@ -313,6 +315,7 @@ jobs:
         working-directory: ${{ github.workspace }}\app\build\gui-tests
         env:
           QT_QPA_PLATFORM: offscreen
+          SONIC_PI_TEST_NAMES: 1    # each case named as it starts, so a run that stops says where
         run: ctest -C ${{ matrix.build_type }} --verbose
         if: startsWith(matrix.os, 'windows')
 

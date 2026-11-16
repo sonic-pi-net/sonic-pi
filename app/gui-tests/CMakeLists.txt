@@ -177,3 +177,6 @@ add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 # a run with it off passed a label read out twice on every platform but the one whose Qt had it on.
 add_test(NAME ${PROJECT_NAME}-screen-reader COMMAND ${PROJECT_NAME} "[a11y]")
 set_tests_properties(${PROJECT_NAME}-screen-reader PROPERTIES ENVIRONMENT "SONIC_PI_TEST_SCREEN_READER=1")
+# A run that stops is a failure in minutes, not whenever CI gives the job up (six hours): the whole suite takes
+# about a minute on a developer's machine.
+set_tests_properties(${PROJECT_NAME} ${PROJECT_NAME}-screen-reader PROPERTIES TIMEOUT 1200)
