@@ -263,11 +263,11 @@ public:
     tresult PLUGIN_API getControllerClassId (TUID) override { return kNotImplemented; }
     tresult PLUGIN_API setIoMode (IoMode) override { return kResultOk; }
 
-    int32 PLUGIN_API getBusCount (MediaType type, BusDirection dir) override
+    int32 PLUGIN_API getBusCount (MediaType type, BusDirection) override
     {
-        if (type == kAudio) return 1;   // a stereo output, and a stereo input for live_audio
-        if (type == kEvent) return dir == kInput ? 1 : 0;
-        return 0;
+        // A stereo output, and a stereo input for live_audio. No event bus: the plugin takes and sends no MIDI yet,
+        // and tells its host of nothing it does not have.
+        return type == kAudio ? 1 : 0;
     }
 
     tresult PLUGIN_API getBusInfo (MediaType type, BusDirection dir, int32 index, BusInfo& bus) override
@@ -288,11 +288,6 @@ public:
             bus.channelCount = 2;
             bus.busType = kAux;
             toStr128 ("In", bus.name);
-            return kResultOk;
-        }
-        if (type == kEvent && dir == kInput) {
-            bus.channelCount = 1;
-            toStr128 ("Event In", bus.name);
             return kResultOk;
         }
         return kInvalidArgument;

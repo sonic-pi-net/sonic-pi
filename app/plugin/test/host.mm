@@ -851,6 +851,10 @@ int main (int argc, char** argv)
     Plugin a;
     check ("the plugin starts when the host sets up processing", start (a));
     check ("it is silent before anything runs", peakOver (a, 0.5) < 1e-6);
+    check ("it tells the host of the audio it has, and of no MIDI: it has none yet",
+           a.component->getBusCount (kAudio, kOutput) == 1 && a.component->getBusCount (kAudio, kInput) == 1
+           && a.component->getBusCount (kEvent, kInput) == 0 && a.component->getBusCount (kEvent, kOutput) == 0,
+           [NSString stringWithFormat:@"event in %d, out %d", a.component->getBusCount (kEvent, kInput), a.component->getBusCount (kEvent, kOutput)]);
     const bool ready = openEditor (a, 0);
     NSString* readyLine = lines (a.editor, @"\"t\":\"ready\"").lastObject;
     check ("the editor loads the page", ready && [readyLine containsString:@"Sonic Pi"], readyLine);
